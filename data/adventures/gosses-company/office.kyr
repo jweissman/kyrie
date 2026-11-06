@@ -207,7 +207,7 @@ Module pentrice "Gosse's Company" {
   Action bribe_tunstall(actor: group, site: place) "Put ten coin on Tunstall's desk and ask him to read the book again" {
     Speaker tunstall. Time 2.
     Requires able(actor) and company(actor) and at(actor, site) and at(tunstall, site) and at(actor, office_hall) and state(book, copy_struck)
-      and quantity(actor, gold) >= 10 and not tunstallBought(pentrice) and not tunstallMourned(pentrice) and not triedBribe(actor).
+      and quantity(actor, gold) >= 10 and not tunstallBought(pentrice) and not tunstallMourned(pentrice) and not tunstallShaken(pentrice) and not triedBribe(actor).
     Resolve check(actor, deception, dc_fair).
     On success { Decrease quantity(actor, gold) by 10. Increase quantity(tunstall, gold) by 10. Assert tunstallBought(pentrice). Assert ghostRestored(pentrice). Assert state(book, copy_licensed). }
     On failure { Assert triedBribe(actor). }

@@ -129,7 +129,7 @@ describe('The Book of Faces, the vigil and the hour before', () => {
     await j.play('>ombra__collegium_hall', 'Ask what the Collegium of Measures does', 'Pay the Bursar the three-coin fee', '>ombra__rv_landing', 'Show the Counterpoise the Bursar', '^To the assay cellar', '=21:00');
     expect(j.matches('Sit the night watch').length).toBe(1);
     await j.play('Sit the night watch');
-    expect(j.page).toContain('thanked');
+    expect(j.page).toContain('holds the door');
     await j.play('=day 9 22:30');
     expect(j.page).toContain('it weighed the night');
   }, 600000);

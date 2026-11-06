@@ -26,4 +26,27 @@ Module dorothea "The Dorothea" {
     says "{?m} listens to the Gull's kitchen for a while: the range, the ledger, the sheep through the wall. 'This is how a place like this sings,' {?m} says. 'The sum of what it owes. If you wrote it down it would scan.'" {
     Assert vGull(party).
   }
+
+  // ── The archipelago ─────────────────────────────────────────────────────────────────────────────────────────────
+  Relation vLock(group). Relation vBirds(group). Relation vTide(group). Relation vLadder(group). Relation vRim(group).
+  Rule voice_lock at counting_room when memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and at(party, counting_room) and houseHolds(lamp_ness) and not vLock(party)
+    says "{?m} does not look at the clerk. {?m} looks at the strongbox, and at the keyhole, and at the way the brass about it is worn on the left only. 'Two levers,' {?m} says, low. 'The second one is set back under the first. Somebody who didn't trust his Factor put it there. It would take a quiet hour.'" {
+    Assert vLock(party).
+  }
+  Rule voice_birds at stack_top when memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and at(party, stack_top) and houseHolds(lamp_antlers) and not vBirds(party)
+    says "{?m} walks to the edge of the turf with the wind in the face and watches the gannets for a time. 'They're on the lee side,' {?m} says. 'Thickest. The board is on the windward, where they're thin. Whoever wrote that clause never stood here. A fire on the lee side would not put these off, it would warm them.'" {
+    Assert vBirds(party).
+  }
+  Rule voice_tide at ness_strand when memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and at(party, ness_strand) and not vTide(party)
+    says "{?m} crouches by the tide-gauge and puts a hand on the weed-line. 'Low water at about this hour,' {?m} says, 'and five hours of road, no more. After that the road drowns. Weed lies on it a handsbreadth deep by the next high. Whoever goes out should come back with the ebb still running.'" {
+    Assert vTide(party).
+  }
+  Rule voice_ladder at stack_foot when memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and at(party, stack_foot) and not ladderSound(party) and not vLadder(party)
+    says "{?m} takes the ladder in both fists and leans back on it, and a rung comes away in the hand. 'No,' {?m} says. 'I have seen men go up worse. I have seen them come down faster.' {?m} looks at the hoist-basket and the boy at the winch. 'I will go in the basket, and I will not say that I like it.'" {
+    Assert vLadder(party).
+  }
+  Rule voice_rim at ashkeld_rim when memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and at(party, ashkeld_rim) and not vRim(party)
+    says "{?m} stands on the lip with a wet cloth over the face and listens, as one listens to a sleeping animal. 'It breathes,' {?m} says. 'Slow. In, hold, out. There is a gap in it. If I had a clock I could use it. If I had the bath-keeper I could ask.'" {
+    Assert vRim(party).
+  }
 }

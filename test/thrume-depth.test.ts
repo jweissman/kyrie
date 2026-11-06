@@ -214,17 +214,35 @@ describe('Thrume: what it reads of the world, and the payoffs at the Mouth', () 
     expect(await j.play('^To the Gauge')).toContain('twelfth is not blank');
   }, 120000);
 
-  it('sings the smiths\' names after the old ones\', and finishes the line a child began, only for a company that has them', async () => {
+  // The knowledge is gained by play in the hold (Wenna's hall) and at the pay-window (the office); the walk from there to
+  // the Mouth is ~500 steps through the Hush and the Tomb, so the company is *put* at the edge and handed the keepers'
+  // song (Rememberer's topic, tested in thrume.test.ts). Those two are asserted; the rhyme and the names are not.
+  it('sings the smiths\' names after the old ones\' only for a company that read the office at the pay-window', async () => {
     const plain = await T.start(mouth);
     const sung = await plain.j.play('Sing the keepers');
     expect(sung).toContain('the Mouth closes');
     expect(sung).not.toContain('count it fast');
     expect(sung).not.toContain('Ysolt Fenn');
-    const rich = await T.start(mouth);
-    const c = rich.s.campaign as unknown as { world: { apply(c: unknown[]): unknown }; commit(w: unknown): void };
-    for (const f of ['smith_names', 'wenna_rhyme']) { c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('knows', 'party', `thrume__${f}`) }])); }
-    const said = await rich.j.play('Sing the keepers');
+    const { s, j } = await T.start(depth);
+    await j.play('?a torch: Light', '^To the cold forge', '^To the Paymasters', 'Read the pay-roll', 'Say the office');
+    expect(T.holds(s, 'knows', 'party', 'thrume__smith_names')).toBe(true);
+    expect(T.holds(s, 'knows', 'party', 'thrume__wenna_rhyme')).toBe(false);
+    j.put('party', 'thrume__mouth_edge');
+    j.assert('knows', 'party', 'thrume__song_known');
+    const said = await j.play('Sing the keepers');
     expect(said).toContain('Ysolt Fenn, and a hundred and six more');
+    expect(said).not.toContain('count it, count it, count it fast');
+  }, 180000);
+
+  it('finishes the line a child began, only for a company that sat in Wenna\'s hall', async () => {
+    const { s, j } = await T.start(hold);
+    await j.play('Strike', '^To the long hall', '^To the mothers', 'Let Wenna put the company to bed');
+    expect(T.holds(s, 'knows', 'party', 'thrume__wenna_rhyme')).toBe(true);
+    expect(T.holds(s, 'knows', 'party', 'thrume__smith_names')).toBe(false);
+    j.put('party', 'thrume__mouth_edge');
+    j.assert('knows', 'party', 'thrume__song_known');
+    const said = await j.play('Sing the keepers');
     expect(said).toContain('count it, count it, count it fast');
-  }, 120000);
+    expect(said).not.toContain('Ysolt Fenn');
+  }, 180000);
 });

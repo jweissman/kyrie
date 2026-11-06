@@ -95,6 +95,33 @@ describe("Gosse's Company: the requiem", () => {
     expect(t.j.offers('the office for Abel Tunstall')).toBe(false);
   }, 120000);
 
+  it('the shipped bard, alone, walked from Wending Cross: no office to say, but the couplet can be sung, to a smaller end', async () => {
+    const j = await Journey.start('data/campaigns/gosses-company.campaign.json', 'g1');
+    await j.play('Ask Gosse what has happened', 'Ask Hepzibah about Lem', 'Ask Pudding about the bear', 'Into the chapel',
+      'Ask Mother Ivy about the players', 'To the green at Wending', 'To the old lime-kiln', 'Ask Lem why he took the hat',
+      'Pay Lem his four months', "players' hat: Take", 'To the green at Wending', "Absalom Gosse.*Give the players' hat",
+      'Ask Gosse what he will do now', 'Tell Gosse you will take service', 'To the west road out',
+      'To the West Road above Pentrice', 'To the Westgate', 'To the Chepe', 'To Guildhall Square', 'To the Minster Close',
+      'Into the minster', '=132');
+    // He has no priest in him: neither office is offered, but the song is.
+    expect(j.offers('the office for Abel Tunstall the lamplighter, aloud')).toBe(false);
+    expect(j.offers('the office for Abel Tunstall the lamplighter at the plate, alone')).toBe(false);
+    expect(j.offers('Sing the couplet on the plate to Tunstall')).toBe(true);
+    const trust = j.measure(p('clemTrust'), p('clemency'));
+    await j.play('Sing the couplet on the plate to Tunstall');
+    const page = j.taken.map(x => `${x.page} ${x.told}`).join('\n');
+    expect(page).toMatch(/Not that fast/);
+    // What the priest gets for nothing he gets by asking, and the Ordinance is his; but no seal, no warmth in the Master,
+    // and a man who cannot afterwards be bought.
+    expect(j.holds('knows', 'party', p('ordinance_dead'))).toBe(true);
+    expect(j.holds(p('requiemSung'), 'party')).toBe(true);
+    expect(j.holds(p('tunstallShaken'), p('pentrice'))).toBe(true);
+    expect(j.holds(p('tunstallMourned'), p('pentrice'))).toBe(false);
+    expect(j.measure(p('clemTrust'), p('clemency'))).toBe(trust);
+    expect(j.holds('holding', 'party', 'lamplighter_seal')).toBe(false);
+    expect(j.offers('Sing the couplet on the plate to Tunstall')).toBe(false);
+  }, 240000);
+
   it('Tunstall polishes the plate at six of a morning', async () => {
     const g = await Pent.start(build('cleric'));
     await g.play('=132');

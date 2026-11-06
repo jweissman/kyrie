@@ -16,13 +16,13 @@ describe('The Holm', () => {
     const j = await Journey.start(campaign, 's1');
     j.assert(k('seaQuiet'), k('hull'));
     await j.play('^To Tolleth quay', 'Ask Captain Bascom for passage', 'Ask Captain Bascom where else', 'Ask Captain Bascom to put in at Port Ness',
-      'Pay Captain Bascom four', "^To the Dorothea's waist");
+      'Pay Captain Bascom four', "^To the Dorothea's waist", 'Ask her to come with you');
     await toHolm(j);
     const phase = () => j.measure(k('phase'), k('tide'));
     if (phase() < 30 || phase() >= 60) { expect(j.matches("^To the Holm").length).toBe(0); }
     await j.play('=until phase(tide) >= 30 and phase(tide) < 60');
     expect(j.matches("^To the Holm").length).toBe(1);
-    await j.play("^To the Holm.s beach", 'Ask Marit Oake what the House pays', '^To the lamp-stump');
+    await j.play("^To the Holm.s beach", '^To the lamp-stump', 'Ask Marit Oake what the House pays');
     expect(party(j)).toBe(k('holm_stump'));
     expect(j.page).toContain('fish with a flame');
     await j.play('Ask Odile Quint to read the device');

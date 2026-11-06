@@ -60,6 +60,20 @@ Module pentrice "Gosse's Company" {
     On success { Assert requiemAloud(actor). Assert tunstallMourned(pentrice). Assert knows(actor, ordinance_dead). Assert knows(actor, lamplighter_known). Increase clemTrust(clemency) by 1. Give abel_seal to actor. }
     Result "Your priest goes down on the stone beside him, and says it. Tunstall does not move. At the first versicle the rag stops. At the second his shoulders go, once, and he does not make a sound, and the office does not stop. When the last response has been given he sits back on his heels with the rag in his lap and does not look at either of you. 'Nobody has said that,' he says. 'In forty years. I did not know it could be said.' He reaches into his narrow coat and brings out a brass seal on a chain, a lamp with a hand closed round it. 'His,' he says. 'The Lamplighters' seal. It is no use to me.' He closes your hand over it. 'The Eighth Ordinance is on a chained page in the Office. I wrote the ruling beneath it myself.' You will not, you think, be putting ten coin on this man's desk. You would not want to.".
   }
+  // The company of one has no priest in it. A player who has the song can do a poorer thing: sing the plate's couplet to
+  // the son, who has not heard it sung since the night it was sung under his father's ladder. It is the right tune
+  // in the wrong mouth. He will tell what he knows, but no seal, no warmth in the Master, and a man who has been
+  // made to hear it cannot afterwards be bought.
+  Relation requiemSung(group). Relation tunstallShaken(place).
+  Action requiem_sung(actor: group, site: place) "Sing the couplet on the plate to Tunstall, softly, as a song and not an office" {
+    Description "Tunstall is at the plate. It is his father's song. You know the tune; you are not a priest.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, nave) and at(tunstall, nave) and knows(actor, plate_read)
+      and capable(actor, performance) and not capable(actor, rites)
+      and not requiemAlone(actor) and not requiemAloud(actor) and not requiemSung(actor).
+    Time 20 minutes.
+    On success { Assert requiemSung(actor). Assert tunstallShaken(pentrice). Assert knows(actor, ordinance_dead). Assert knows(actor, lamplighter_known). }
+    Result "You kneel two yards off and sing it, the two lines on the brass, to the tune they came up the Chepe with, and you sing it slowly, which is wrong. The rag stops. Tunstall's face does not change, and then it does. 'That is the song,' he says. 'You have got it from the plate.' You say you have it from a hundred taverns. He takes a while. 'Not that fast,' he says, 'and not on the third beat,' and he gets up off his knee, and takes you to the Office through the cold nave with a hand under his own elbow, and shows you the Eighth Ordinance, and the ruling under it, and says what it was made for. He gives you nothing else. When you leave he is writing something in the ledger, and has not offered you the door. You think that you could not now put ten coin on his desk and be answered.".
+  }
   Item abel_seal "Abel Tunstall's lamplighter seal" is lamplighter_seal at gosse_limbo.
   Rule tunstall_incorruptible_told at office_hall when tunstallMourned(pentrice) and at(tunstall, office_hall) and state(book, copy_struck) and not spread(mourned_fact)
     says "Tunstall looks up from the desk as you come in, and nods, once, and goes back to the ledger. There is a new ruling in his handwriting beside the Eighth Ordinance in the chained book. It is only two words long: SEE PLATE." {
