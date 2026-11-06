@@ -21,7 +21,10 @@ export interface Held { id: string; name: string; note?: string; seen: string[];
 export class AtHand {
   static View({ app, draw }: { app: ReaderApp; draw: Draw }) {
     const held = AtHand.of(app), chosen = held.find(h => h.id === app.state.hovered) ?? AtHand.led(app, held) ?? held[0];
-    if (!chosen) { return null; }
+    // What was done may have used up the thing it was done to (a notice read, a bill taken down): what came of it is
+    // still told here.
+    if (!chosen) { return <div className="at-hand"><AtHand.Pane app={app} draw={draw}
+      held={{ id: 'gone', name: app.state.frame!.screen.place.name, seen: [], choices: [], opens: [] }} /></div>; }
     return (
       <div className="at-hand" data-region="at-hand">
         <nav className="ah-list" aria-label="What is at hand">
@@ -56,7 +59,8 @@ export class AtHand {
   static of(app: ReaderApp): Held[] {
     const frame = app.state.frame!, scene = app.menu.scene, situation = frame.leaf.situation;
     if (!scene) { return []; }
-    const things = scene.subjects.filter(x => x.kind === 'thing' && !x.danger && x.choices.length).map(x => {
+    // A thing stays at hand when nothing is left to do with it (a notice read): it is still there to be looked at.
+    const things = scene.subjects.filter(x => x.kind === 'thing' && !x.danger).map(x => {
       const opener = x.choices.find(c => /#look$/.test(c.id));
       return { id: x.id, name: x.name, ...x.note ? { note: x.note } : {}, seen: ThingStage.seen(situation, x.name, x.about),
         choices: opener?.children ?? x.choices, opens: opener ? [opener.id] : [] };

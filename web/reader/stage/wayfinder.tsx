@@ -8,7 +8,8 @@ import { GlanceStage } from './glance';
 import { PlaceStage } from './place-stage';
 import { SceneSurface } from './scene-surface';
 
-export interface Way { c: Choice; exit?: ExitRow; whither: string; name: string; aim: boolean; group: string }
+// A way: what goes by it (c), and the way's own choice where that is a group of its acts (a door to listen at).
+export interface Way { c: Choice; way: Choice; exit?: ExitRow; whither: string; name: string; aim: boolean; group: string }
 
 // Go…: where you are, where you can go from here, how those places lie, and what choosing one would mean, and nothing
 // else (the owner, 5 November, late: the explorer had become a catalogue of everything the place at rest left out;
@@ -34,7 +35,7 @@ export class Wayfinder {
             <h3>{Typography.curl(g)}</h3>
             <ul>{ways.filter(w => w.group === g).map(w => <li key={w.c.id}>
               <button type="button" className={`wf-row${w.c.id === chosen?.c.id ? ' chosen' : ''}${w.c.disabled ? ' shut' : ''}`
-                + `${w.aim ? ' aimed' : ''}`} data-pick={w.c.id} data-pick-index={draw.index.get(w.c.id) ?? -1}
+                + `${w.aim ? ' aimed' : ''}`} data-pick={w.c.id} data-pick-index={draw.index.get(w.way.id) ?? draw.index.get(w.c.id) ?? -1}
                 aria-pressed={w.c.id === chosen?.c.id} onClick={() => Wayfinder.pick(app, w)}
                 onDoubleClick={() => { if (!w.c.disabled) { app.choose(w.c); } }}>
                 <span className={`glyph whither-${w.whither.toLowerCase()}`} aria-hidden="true">
@@ -97,7 +98,7 @@ export class Wayfinder {
       const c = !way.command && !way.disabled ? way.children?.find(k => k.moves) ?? way : way;
       const whither = SceneSurface.whither(exit);
       const group = ['Out', 'Away'].includes(whither) && !exit?.local ? out : exit ? near : about;
-      return { c, exit, whither, group, name: exit?.destination.name ?? c.label.replace(/^To /, ''),
+      return { c, way, exit, whither, group, name: exit?.destination.name ?? c.label.replace(/^To /, ''),
         aim: aimed.some(id => id === c.id || id.startsWith(`${exit?.id}/`)) };
     });
     // By how they lie, and by name within each, to be found as in a gazetteer.

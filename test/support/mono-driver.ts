@@ -93,10 +93,22 @@ export class MonoDriver {
   private async opened(index: number, raised: string): Promise<boolean> {
     const has = async (s: string) => (await this.page.locator(s).count()) > 0;
     const shut = '.intentions [aria-modal="true"] [data-action="explore-shut"]';
+    // What is done about someone or something on the picture is done from its own page, opened by its likeness.
+    const id = (await this.inspect()).choices[index]?.id ?? '', subject = id.split(/[/#]/)[0] ?? '';
+    const likeness = `.surface .portraits [data-subject="${subject}"] .portrait`;
+    if (subject && await has(likeness)) {
+      await this.click(likeness);
+      // Its page is a menu of its own: the choice is found there by what it is, not where it was.
+      const shown = `.intentions [data-action="choice"][data-choice="${id}"] >> visible=true`;
+      if (await has(shown)) { await this.click(shown); return true; }
+    }
     for (const part of ['go', 'look', 'wait'] as const) {
       const opener = `.opens-${part}`;
       if (!await has(opener)) { continue; }
       await this.click(opener);
+      // Waiting, opened, is Wait… itself: its lengths are what it shows.
+      if (part === 'wait' && (await this.inspect()).choices.find(c => c.id === id)?.children
+        && await has('.pastime .pt-length')) { return true; }
       if (part === 'go' && await has(`[data-pick-index="${index}"]`)) {
         await this.click(`[data-pick-index="${index}"]`);
         await this.click('.wf-go');
@@ -140,7 +152,12 @@ export class MonoDriver {
   // reach it only through a pane chosen first (a thing at hand), for a touch to do.
   private async keyed(state: Awaited<ReturnType<MonoDriver['inspect']>>, index: number): Promise<boolean> {
     const id = state.choices[index]!.id, has = async (s: string) => (await this.page.locator(s).count()) > 0;
-    const rest = state.glance && !await has('.intentions [aria-modal="true"]');
+    // What is opened over the place that does not hold it is put away first, as a player would.
+    const modal = '.intentions [aria-modal="true"]';
+    if (await has(modal) && !await has(`${modal} [data-choice="${id}"], ${modal} [data-pick="${id}"]`)) {
+      await this.key('Escape');
+    }
+    const rest = state.glance && !await has(modal);
     if (rest && !await has(`.intentions [data-choice="${id}"]`)) {
       if (!await has('.opens-go')) { return false; }
       await this.key('g');

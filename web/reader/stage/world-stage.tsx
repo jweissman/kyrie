@@ -94,7 +94,7 @@ export class WorldStage {
   static readonly room = 10;
   // Those who mean harm last, so that they stand apart at the right of the picture.
   static present(app: ReaderApp): SceneSubject[] {
-    return (app.menu.scene?.subjects ?? []).filter(x => ['companion', 'person', 'animal'].includes(x.kind))
+    return (app.menu.scene?.subjects ?? []).filter(x => ['companion', 'person', 'animal', 'creature'].includes(x.kind))
       .sort((a, b) => Number(!!a.danger) - Number(!!b.danger));
   }
   // As they are drawn: whoever the glance leads with first, so that they are on the picture however many are here.
@@ -119,9 +119,10 @@ export class WorldStage {
       : <button type="button" className="act portrait" data-action="look-at" data-choice={into.id}
         onClick={() => draw.app.choose(into)}>{body}</button>;
   }
-  // What touching a likeness opens: talking to a person; an animal's own page, with what can be done with it.
+  // What touching a likeness opens: talking to a person; an animal's or a creature's own page, with what can be done
+  // with it (meeting a danger, fighting it, among it).
   static into(x: SceneSubject): Choice | undefined {
-    if (x.kind === 'animal' && x.choices.length && !x.choices.some(c => /#look$/.test(c.id))) {
+    if (['animal', 'creature'].includes(x.kind) && x.choices.length && !x.choices.some(c => /#(look|talk)$/.test(c.id))) {
       return { id: `${x.id}#look`, label: `Look at ${x.name}`, tone: 'thing' };
     }
     return PlaceStage.into(x);

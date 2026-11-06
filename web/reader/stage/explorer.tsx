@@ -43,7 +43,7 @@ export class Explorer {
   }
   // Which of these holds a choice, so that the keys coming to it, or automation, open it there.
   static holder(app: ReaderApp, id: string): Part | undefined {
-    if (Wayfinder.ways(app).some(w => w.c.id === id)) { return 'go'; }
+    if (Wayfinder.ways(app).some(w => w.c.id === id || w.way.id === id)) { return 'go'; }
     if (AtHand.of(app).some(h => h.opens.includes(id) || h.choices.some(c => c.id === id))) { return 'look'; }
     const wait = Pastime.wait(app);
     if (wait?.id === id || wait?.children?.some(c => c.id === id) || Pastime.also(app).some(c => c.id === id)) { return 'wait'; }

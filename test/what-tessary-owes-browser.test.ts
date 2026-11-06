@@ -46,7 +46,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('What Tessary Owes in the browser', 
     await act(d, 'notice', '^Read');
     expect(await page.evaluate(() => document.body.innerText)).toContain('Nan Teazle');
     await shot('landgate');
-    await act(d, '^Back');
+    // Turning away from what was read is putting Look away (what is opened over the place: see Explorer).
+    await d.lookAbout();
     await act(d, '^To the Withies');
     const withies = await page.evaluate(() => document.body.innerText);
     expect(withies).toContain('Withies');
