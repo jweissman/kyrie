@@ -61,8 +61,8 @@ Module dorothea "The Dorothea" {
 
   // ── (c) A black lugger on the coast, and the House's price for protection ───────────────────────────────────────
   Person raiders "the Gannet's Widow's boarders" at nowhere {
-    Role "two men and a woman off the lugger Gannet's Widow, with cutlasses and a sack". Ancestry human. Calling warrior. Level 1. Numbers 3. Temperament territorial.
-    Warns "Three people are standing on the pier in a loose half-circle with their backs to the sea. The nearest has a cutlass hanging from her wrist and a face like a clean plate. 'Don't make it a thing,' she says. 'It's only salt.'".
+    Role "a man and a woman off the lugger Gannet's Widow, with cutlasses and a sack". Ancestry human. Calling warrior. Level 1. Numbers 2. Temperament territorial.
+    Warns "Two people are standing on the pier in a loose half-circle with their backs to the sea. The nearest has a cutlass hanging from her wrist and a face like a clean plate. 'Don't make it a thing,' she says. 'It's only salt.'".
     Comes "The woman with the cutlass lifts it, almost lazily, from her wrist.".
   }
   Topic latch_raid with latch "Ask Corwin Latch about the black lugger the pilots are talking about" when true once {
