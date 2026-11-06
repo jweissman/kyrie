@@ -1,7 +1,8 @@
 # Mission 19 register
 
 Findings with stable ids, as [brief.md](brief.md) §XIII asks: evidence, source, priority, resolution, verification.
-Mission 18's 138 carried rows are in [../mission-18/wishlist.md](../mission-18/wishlist.md) under their own ids; a
+Mission 18's 138 carried rows (138 distinct ids, checked against the wishlist on 6 November; their closures classed
+by kind in [inherited.md](inherited.md)) are in [../mission-18/wishlist.md](../mission-18/wishlist.md) under their own ids; a
 row of this register that answers one names it. Classes, as the brief distinguishes them:
 
 - **A** blocking correctness or action-integrity defect
