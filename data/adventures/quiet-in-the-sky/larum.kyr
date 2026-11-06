@@ -90,7 +90,7 @@ Module larum "The Quiet in the Sky" {
     Greets again "Nance Pellett waves a floury hand without turning from the oven.".
   }
   Topic nance_mother with nance "Ask Nance Pellett about the crock in the shawl" when true once {
-    Says "'The Mother,' says Nance. 'Sourdough. Flour and water and the air of this kitchen, kept going two hundred years: you feed her every day and take a cup out for the bread and she makes it rise. She's alive, you see. That's what rises a loaf, something alive in it, working.' She touches the shawl. 'Let her get cold and she dies, and then your bread's a brick. In a hard winter my gran used to sleep with her in the bed.'".
+    Says "'The Mother,' says Nance. 'Sourdough. Flour and water and the air of this kitchen, kept going since before the road was cobbled: you feed her every day and take a cup out for the bread and she makes it rise. She's alive, you see. That's what rises a loaf, something alive in it, working.' She touches the shawl. 'Let her get cold and she dies, and then your bread's a brick. In a hard winter my gran used to sleep with her in the bed.'".
     On discuss { Assert knows(actor, mother_alive). }
   }
   Discovery mother_alive "Nance Pellett's sourdough Mother is alive: it is what makes bread rise. Let it get cold and it dies, and the bread is a brick; in a hard winter Nance's grandmother slept with it in the bed.".

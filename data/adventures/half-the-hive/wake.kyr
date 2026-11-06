@@ -33,7 +33,7 @@ Module hume "Half the Hive" {
 
   // ── The seventh run, on the wall of the Dancing Hall ───────────────────────────────────────────────────────────────
   // Foreshadow, in plain sight; and its payoff, for whoever has been to the Gallowtree and comes back to look.
-  Observe seventh_run at dancing_hall as feature when not leavingBegun() and not knows(party, lost_leaving) "Low by the door, where the wax is smoothed by two hundred years of children's hands, the oldest dances are cut. Seven long runs, each ending in a place: you can read the Far Brow in the sixth, by its handprints. The seventh runs out east, farther than all the rest, and ends in a smear, as if someone wiped it out with a thumb while it was still soft.".
+  Observe seventh_run at dancing_hall as feature when not leavingBegun() and not knows(party, lost_leaving) "Low by the door, where the wax is smoothed by children's hands, the oldest dances are cut. Seven long runs, each ending in a place: you can read the Far Brow in the sixth, by its handprints. The seventh runs out east, farther than all the rest, and ends in a smear, as if someone wiped it out with a thumb while it was still soft.".
   Observe seventh_run_read at dancing_hall as feature when knows(party, lost_leaving) "Low by the door, the seventh run. Knowing where to look you can read under the smear: the line did not go east at all. It was cut west, two hours, a short run to a tree, and a hand has turned it round and dragged it out long, east, with a thumb, and then wiped the end. The hand that did that knew exactly what the first line said.".
 
   // ── The Cappers' board ─────────────────────────────────────────────────────────────────────────────────────────────

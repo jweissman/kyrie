@@ -411,7 +411,7 @@ Module pentrice "Gosse's Company" {
     Says "'A penny,' says Ferriby. 'Fixed by the Bridge Wardens before the Office was thought of. In Trial week we row three thousand people over and back, all night, for a penny, and the Wardens' fare-roll says we may not ask tuppence.' He spits in the Arle. 'One of these years we'll sit on the Stairs on a Trial night and see how they like walking.' He looks at you sideways. 'A man in a good coat asked me that very thing yesterday. How much it'd take, for one night.'".
     On discuss { Assert knows(actor, watermen_grievance). }
   }
-  Discovery watermen_grievance "The watermen of the Water Stairs row the whole City to the Soke in Trial week for the penny fare the Bridge Wardens fixed two hundred years ago, and are ripe to strike for one night if anybody makes it worth their while." { Known by ferriby. }
+  Discovery watermen_grievance "The watermen of the Water Stairs row the whole City to the Soke in Trial week for the penny fare the Bridge Wardens fixed in a cold winter nobody can date, and are ripe to strike for one night if anybody makes it worth their while." { Known by ferriby. }
   Relation watermenPaid(group). Relation watermenOurs(group). Relation crowdLed(place).
   Action pay_watermen(actor: group, site: place) "Pay the watermen the second penny for Gosse's night yourself, eight coin to Ferriby" {
     Speaker ferriby. Time 2 minutes.

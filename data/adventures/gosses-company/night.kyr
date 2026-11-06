@@ -108,7 +108,7 @@ Module pentrice "Gosse's Company" {
   Initially Assert state(pump, leaking).
   Rule pump_mended when state(pump, sound) and not pumpMended(pentrice) { Assert pumpMended(pentrice). }
   Topic tam_fountain with tam "Ask Tam about the fountain in the third act" when bookCome(pentrice) once {
-    Says "'There's a pump under the Wheel's stage,' says Tam, 'and a lead tank, and a pipe up through the boards, for fountains and such. Put in for a masque two hundred years back.' He planes. 'The tank's split and the leather's gone. And the trap's jammed with two hundred years of grit. Somebody who can mend could have both going in an afternoon.' He looks at you. 'Not me. I'm all thumbs below stairs. I'm afraid of the dark.'".
+    Says "'There's a pump under the Wheel's stage,' says Tam, 'and a lead tank, and a pipe up through the boards, for fountains and such. Put in for a masque in the third Bishop's time.' He planes. 'The tank's split and the leather's gone. And the trap's jammed with two hundred years of grit. Somebody who can mend could have both going in an afternoon.' He looks at you. 'Not me. I'm all thumbs below stairs. I'm afraid of the dark.'".
   }
   Action rig_lantern(actor: group, site: place) "Climb into the heavens over the Wheel's stage and rig a lantern and a mirror to light the Ghost's rising" {
     Time 3.
