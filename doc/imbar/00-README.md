@@ -1,82 +1,53 @@
-# Imbar: deep history, selective connection, and a workbook
+# Imbar: deep history, selective connection, a voyage, and a ship in the pause between counts
 
-*Branch `adventure/imbar-deep-time`, from `main` at `fb24f94` (the M19 builder's HEAD at the time). 5 November 2026.*
+*Branch `adventure/imbar-deep-time`, from `main` at `fb24f94`. Two passes. Read `13-critique-and-status.md` for the
+honest account; this file is the map.*
 
-This commission asked for improved adventures first, and documents second. What follows is a short map of what was
-done, where it is, how it was checked, and — at the end, without cushioning — what was not done.
+## First pass (charter, keeper, Exchange)
 
-## What changed in the game
-
-| What | Where | Played evidence |
-|---|---|---|
-| **The Long Man**: the Hall's charter (an Aenean writ of *keeping*, not of holding), the reeve of the waters as the dale's auditor of the Hall, the sheaf in forty, Venn in a widow's debt, Dunnet as a prospective warden, and the parish bell given to the keeper as it was once before | `data/adventures/the-long-man/charter.kyr` (+ `module.json`, `placed.json`) | `test/the-long-man-charter.test.ts` (3 tests); transcripts `playtests/long-man-charter.md`, `playtests/long-man-bell.md` |
-| **Fair Weather**: the hermit's cell is the Light's keeper's bench, a tally in three notations; "neither man nor dog nor cat" is the keeper's column; the Court cannot relieve what it did not appoint | `data/adventures/skeel/keeper.kyr` (+ `module.json`, `placed.json`) | `test/skeel-keeper.test.ts` (1 test); `test/fixtures/skeel/keeper.json`; `playtests/fair-weather-keeper.md` |
-| **The Founders' Exchange**: a Deem-cast factor, carter and hands, placed as a herald to two countries; the Long Man's bronze goes to the factor; the carter ships it south while the company is away; Low Water's Halm has it on a cloth and says so | `data/goings-on/factors/*`, `data/scenarios/factors.scenario.json`, `data/adventures/countries.json` (heralds), `the-long-man/placed.kyr`, `low-water/placed.{kyr,json}`; 3-line change `src/world/world-assembler.ts` | `test/factors-handoff.test.ts` (3 tests: binding, the full handoff, the control); `playtests/factor-handoff.md` |
-| **Reconciliations**: the Grand Tour's tide-engine is *Aenean-kept*, not *Aenean-built* (matching Low Water); Hollins is one family (Whitbread) | `the-grand-tour/{whelm,undertow}.kyr`, `hollins/*.kyr` | `test/the-grand-tour*.test.ts`, `test/hollins*.test.ts` pass |
-
-Original forms are preserved as patches in `diffs/` (`git diff fb24f94..HEAD -- <dir>`) and in git history.
-
-## The deliverables, by the brief's numbering
-
-| # | Deliverable | Where |
-|---|---|---|
-| 1 | Comparative literary and setting-coherence audit | `01-audit.md` |
-| 2 | Working historical treatment with epistemic status | `02-history.md` |
-| 3 | Substantive implemented revisions | the table above; `diffs/` |
-| 4 | Cross-campaign relationship and duplication audit; reconciliations; preserved differences | `01-audit.md` §1.2, §1.4, §1.5 |
-| 5 | Character and companion dossiers | `05-dossiers.md` |
-| 6 | The Imbar Campaign-Scenario Workbook, with a register and four causation chains | `06-workbook.md` |
-| 7 | Kyr/Deem authorability report | `04-authorability.md` |
-| 8 | One bounded authored/generated handoff | `04-authorability.md` §4.3; `playtests/factor-handoff.md`; `test/factors-handoff.test.ts` |
-| 9 | Playthrough and editorial evidence | `playtests/`; `03-editorial-review.md` |
-| 10 | Branch-integration report and honest assessment | this file, below |
-
-## Branch integration report
-
-**Compatibility with the M19 builder.** The branch touches one engine file (`src/world/world-assembler.ts`, 6 lines
-including a comment): it places each distinct herald scenario once instead of once per country. It adds no engine
-type or rule. All other changes are in `data/` (adventures, one scenario module, `countries.json`), `test/`, and
-`doc/imbar/`. No existing file in `doc/architecture/` or `doc/design/` is edited. Merge conflicts are possible in
-`data/adventures/countries.json` (the herald blocks on the `longman` and `lowwater` entries; I also re-serialised the
-file with 1-space indent, matching the file's existing style, which should minimise the diff but is worth checking).
-
-**Checks run.**
-
-| Check | Result |
+| What | Where |
 |---|---|
-| `bin/kyrie lint` (every recommended campaign) | 0 errors. Warnings remain in four campaigns this branch does not touch (Quittance 9, The Book of Faces 3, The Liberty of the Ice 1, Thrume 1); Quittance's 9 were counted identical at `fb24f94` in a clean worktree, the others I did not re-baseline |
-| `eslint . --max-warnings=0` and `tsc --noEmit` (both configs) | clean after fixing three style errors in my own files |
-| The seven new tests | pass |
-| Regression: `the-long-man`, `skeel`, `skeel-placed`, `low-water`, `low-water-placed`, `merrow-to-ammerlin`, `frontier`, `goings-on`, `countries`, `world-assembly`, `hollins`, `the-grand-tour`, `the-grand-tour-outcomes` | pass (42 + 16 + 54 tests across the three batches) |
-| Full `bun run check` | **see the end of this file**, written after the run completed |
+| The Long Man: an Aenean writ of keeping, the reeve as the dale's auditor, the sheaf in forty, the bell given as it was once before | `the-long-man/charter.kyr` |
+| Fair Weather: the keeper's bench, a tally in three notations | `skeel/keeper.kyr` |
+| The Founders' Exchange: a Deem-cast factor, carter and hands as a herald to two countries | `data/goings-on/factors/`, `data/scenarios/factors.scenario.json` |
+| Audit, working history, editorial review, dossiers, workbook, authorability | `01`–`06` |
 
-**On the branch name.** The session was configured to develop on `claude/adoring-heisenberg-htfdt4`, and the brief
-asked for an independent `adventure/...` branch. I developed on `adventure/imbar-deep-time`. The same commits are
-available on whichever branch the owner chooses to merge; nothing was pushed to `main`.
+## Second pass
 
-## Honest assessment of what is unfinished
+| What | Where | Read | Tests |
+|---|---|---|---|
+| **The Dorothea**: a playable passage Tolleth → Skerrow → home on the existing travel system (a ship is a thing that is somewhere; the company walks her decks) | `data/adventures/the-dorothea/` | `07-voyage.md` | `the-dorothea` (12) |
+| **The black square, the Slack, the Remainder**: a portal in the House of Doors opened by a reading, a measure and a standing from four adventures or costly alternatives; a ship in the pause between counts; a surety; a voyage to the threshold of Mechanus | `the-grand-tour/hours.kyr`, `remainder.kyr` | `08-treatment-the-slack.md`, `09-the-slack-as-adventure.md` | `the-slack` (8) |
+| **The Exchange as an opponent**: six answers, by what it knows and has; effects read by Low Water and by Skerrow | `data/goings-on/factors/` | `10-exchange.md` | `exchange-responds` (6), `factors-handoff` (3) |
+| **Cross-adventure consequences**, twelve, tested | the evidence gifts in the Long Man, Fair Weather, Low Water, What Tessary Owes, the Dorothea | `12-relationships.md` | as above |
+| **Companions**: calling-keyed voices and a company-splitting choice | `the-long-man/voices.kyr`, `the-dorothea/voices.kyr` | `11-technical-report.md` §11.6 | `the-long-man-charter`, `the-dorothea` |
+| **Every province in one world**: two species clashes that had made some pairs impossible to visit are fixed | `what-tessary-owes/ways.kyr`, `the-lull/*.kyr` | `11` §11.1 | `all-in-one-world` (1) |
+| Technical blockers, exactly | | `11-technical-report.md` | |
+| Critique and status | | `13-critique-and-status.md` | |
+| Playthroughs beginning in an ordinary generated world | `playtests/ordinary-world-voyage.md`, `ordinary-world-slack.md`, `factor-handoff.md` | | |
 
-**Literary.**
-- Two adventures were deeply revised, and one more (Low Water) received a scene; twenty were not touched. The
-  corpus is not "Imbar-integrated"; two small works and one handoff are.
-- The charter exposition is still a dump (`charter_read`, about 120 words). The editorial review names it as the
-  first thing to change.
-- The bell's cost is narrative, not mechanical. A hard-headed player loses nothing by giving it.
-- Both revisions turn on the same device (a keeping whose reason was lost). The next author should choose a history
-  that does *not* help.
-- Companions: unchanged. The preset party cannot take authored lines (a tooling gap, not a literary choice).
-- No cold-player pass; the playing was by labels, one build per route, mostly the preset cleric/warrior/ranger.
-- The Third Night's bridge penny, Carth's missing Bishop, the Hive's Seventh Leaving, the Quiet's chronology and the
-  Collegium naming are *recorded* as proposals, not done.
+## The brief's list of deliverables, second pass
 
-**Technical.**
-- The Exchange's carter moves by rule, not by plan; no strategic antagonist was demonstrated (§4.4 of the report).
-- Save/resume was not exercised.
-- Kits cannot be requested from inside an adventure; I did not build that.
-- Deem generation inside an *adventure* module (as opposed to a town scenario) was not tested.
+1. Additional adventures revised, with before/after: `diffs/` (first pass) and `git log fb24f94..HEAD` (both). Honest count in `13` §13.1.
+2. Relationship map: `12-relationships.md`.
+3. A playable ordinary voyage: `07-voyage.md`.
+4. A creative treatment: `08-treatment-the-slack.md`.
+5. A playable meta-adventure with alternate pathways: `09-the-slack-as-adventure.md`, `the-slack` tests.
+6. An improved handoff: `10-exchange.md`.
+7. Technical report: `11-technical-report.md`.
+8. Playthrough evidence from the ordinary world: `playtests/`.
+9. Persistence and reload tests: `11` §11.7.
+10. Critique: `13-critique-and-status.md`.
 
-**What I'm confident of.** The handoff is real: a thing taken from a dale by a barge is held by a person a generator
-made, carried on by that person's own clock while the player is in another country, and found on a cloth in a third
-adventure, and the control shows the same chain breaking when the player buys the lot back. The re-readings in
-*The Long Man* and *Fair Weather* change what the player can do, not just what they know. The Aenean mystery is
-neither explained nor shrunk.
+## Integration
+
+The branch touches **one engine file** (`src/world/world-assembler.ts`, 3 lines, heralds placed once per distinct
+scenario) and otherwise adds data, tests and docs. `data/catalog/items.json` gains five item kinds;
+`data/imbar/events.kyr` gains four world events. `11` §11.9 lists everything shared, for the merge. The work is
+independent of the M19 consolidation and assumes only that `herald`, `canon`, `Kind` and `memberOf/hasCalling` keep
+their meaning.
+
+## Whole-suite verification
+
+See the foot of `13-critique-and-status.md` (§13.5) for the state of the full `bun run check`. Targeted tests are
+named in `13`; they are not a substitute.

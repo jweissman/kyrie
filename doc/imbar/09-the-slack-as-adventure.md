@@ -48,8 +48,7 @@ stranger who comes down a stair and is asked to be a surety. The decisions are t
 
 ## 9.4 What it is not
 
-It is not a supermodule. There are two Kyr files of about 230 lines each (`hours.kyr`, `remainder.kyr`) inside the
-Grand Tour, one new scenario of the same size in the Dorothea, one in the Exchange; the rest is gifts in existing
-adventures. It is not a campaign with a chain of flags, and nothing reads three flags to unlock a fourth. And the
+It is not a supermodule. There are two Kyr files (`hours.kyr` 138 lines, `remainder.kyr` 181) inside the Grand Tour, a voyage module of
+~590 lines (the Dorothea), the Exchange's module, and a handful of gifts in existing adventures. It is not a campaign with a chain of flags, and nothing reads three flags to unlock a fourth. And the
 transition is made in a House that was already there, by a company that was already there, with a stair they had
 only to be able to read.
