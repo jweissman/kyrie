@@ -15,6 +15,10 @@
   letter-spacing: 0; }
 .fight > .status .standing.grave, .fight > .status .standing.deadly { color: var(--ember); }
 .fight > .status .standing.slight { color: var(--faint, var(--dim)); }
+/* On a phone the company's cards have the room: the danger line from a tablet up (on a phone the moment before a fight
+   closes still says how it is reckoned). */
+@media (max-width: 600px) { .fight > .status .standing { display: none; } }
+
 .fight > .status span:first-child::before { content: ''; display: inline-block; width: 7px; height: 7px; margin-right: 10px;
   background: var(--ember); transform: rotate(45deg); box-shadow: 0 0 10px var(--ember); }
 .fight > .law { flex: none; margin: 10px clamp(20px, 3.4vw, 44px) 0; font: 400 14px/1.45 var(--do); color: var(--dim); }
