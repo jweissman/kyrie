@@ -604,6 +604,42 @@
       "source": {
         "kyr": true
       }
+    },
+    "pharos_rubbing": {
+      "name": "A rubbing of the Prefect's table",
+      "category": "treasure",
+      "description": "A long strip of rag paper rubbed black with charcoal, taken from a table of bronze in the lamp room of the Pharos on Skerrow: columns of Aenean numerals, and beside them, in a second column that was scrubbed and never quite cleared, a series of strokes that are not Aenean. The rubbing is faithful, and says nothing of what it means.",
+      "value": 8,
+      "source": {
+        "kyr": true
+      }
+    },
+    "prefects_writ": {
+      "name": "A copy of a Prefect's writ of keeping",
+      "category": "treasure",
+      "description": "A monk's copy, in a clerkly hand, of a writ of the Prefect of the Marches giving a House the keeping of a wall it did not build: CUSTODIA, NON DOMINIUM. The Latin is plain. The reading of it has been disputed for eight hundred years.",
+      "value": 10,
+      "source": {
+        "kyr": true
+      }
+    },
+    "tally_rubbing": {
+      "name": "A rubbing of a keeper's tally",
+      "category": "treasure",
+      "description": "A wax-and-cloth rubbing of the underside of a stone bench, three notations deep: a long stroke for a ship, short ones under it, a flame cut into some, a paw into others; the oldest rows in marks no one reads, the middle in Aenean numerals, the last in an island's own. It is a bilingual, of a kind: the numerals gloss the strokes.",
+      "value": 8,
+      "source": {
+        "kyr": true
+      }
+    },
+    "collegium_letter": {
+      "name": "A letter of the Collegium of Lesser Instruments",
+      "category": "treasure",
+      "description": "A folded letter in a cramped, delighted hand, bearing the seal of the Collegium of Lesser Instruments at Corran: the bearer is a friend of the Collegium and of working things, and is to be admitted where the Collegium's name opens doors, which is fewer places than the Collegium believes.",
+      "value": 5,
+      "source": {
+        "kyr": true
+      }
     }
   }
 }

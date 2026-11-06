@@ -1,0 +1,6 @@
+Module dorothea "The Dorothea" {
+  // Tolleth as a country: the company that comes down the coast road is the world's own.
+  Entity party: group "Your company".
+  Entity word: fact "What is said of Tolleth and the Skerrow passage in the country behind it.".
+  Rule word_old when arrived(hull) and not stale(word) { Assert stale(word). }
+}

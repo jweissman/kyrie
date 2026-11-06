@@ -1,0 +1,52 @@
+Module dorothea "The Dorothea" {
+  Description "The Combs: a mile of rock between the open sea and Skerrow, one gap in it, and four ways to meet it.".
+
+  // At first light the Dorothea is at the Combs. The gap is a quarter-mile wide and runs like a mill-race on the ebb;
+  // on the slack, at the turn of the tide, it is merely hard. Bascom wants the gap now, because she is a day behind her
+  // debt. The mate has the helm when she does not. The company chooses what it is party to.
+  Measure combsAt(entity).
+  Relation combsMet(entity). Relation waitedFlood(entity). Relation ranGap(entity). Relation lightened(entity). Relation wheelTaken(group).
+  Rule combs_trouble when at(hull, teeth) and not combsMet(hull)
+    says "'Slack's in five hours,' says Rune, at the wheel. 'The gap's running now at six knots. We can lie off and wait, which is safe and loses us the morning and the Orsett man's patience, or we can run it, which is not.' Nobody says anything. Bascom looks at the rocks as if they owed her money." {
+    Assert combsMet(hull). Assert troubled(hull). Set combsAt(hull) to watch(clock).
+  }
+  Observe combs_choice at deck when combsMet(hull) and troubled(hull) and at(hull, teeth) "The Dorothea lies off the Combs with her sails shivering. Every face on deck is turned to the gap, and every one of them is doing a different sum.".
+  Action lie_off(actor: group, site: place) "Ask Bascom to lie off and wait for the slack" {
+    Description "Five hours. The Orsett man's patience is a thing a ship can run out of faster than a tide.".
+    Requires able(actor) and company(actor) and at(actor, site) and (at(actor, helm) or at(actor, deck)) and combsMet(hull) and troubled(hull) and not waitedFlood(hull) and not ranGap(hull) and not lightened(hull).
+    Time 1.
+    On success { Assert waitedFlood(hull). Assert decidedCombs(hull). }
+    Result "'Aye,' says Bascom, after a long moment, as if the word cost her a coin. 'We'll lie off.' She takes the pipe out of her mouth, looks at it, and puts it back. 'Mind what I owe the man,' she says. 'It goes up every hour.'".
+  }
+  Relation decidedCombs(entity).
+  Rule slack_comes when waitedFlood(hull) and troubled(hull) and watch(clock) >= combsAt(hull) + 30
+    says "The roar in the gap dies by degrees, like a crowd leaving, until it is a lane of dark water between white lines. 'Now,' says Bascom, and the Dorothea goes through it under bare poles with her keel a foot above the rock, and nobody breathes." {
+    Retract troubled(hull). Retract waitedFlood(hull).
+  }
+  Action take_the_wheel(actor: group, site: place) "Take the wheel and run the gap on the ebb" {
+    Description "A ship goes through the gap at six knots or does not go at all. Whoever steers has nothing to do but be right.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, helm) and combsMet(hull) and troubled(hull) and not waitedFlood(hull) and not ranGap(hull) and not decidedCombs(hull).
+    Time 2.
+    Resolve check(actor, wayfinding, dc_hard).
+    On success { Assert ranGap(hull). Assert decidedCombs(hull). Retract troubled(hull). Assert wheelTaken(actor). }
+    On failure { Assert ranGap(hull). Assert decidedCombs(hull). Retract troubled(hull). Increase water(hull) by 14. Assert holed(hull). }
+    Result "Bascom gives up the wheel with a face like a locked door, and you have the Dorothea under your hands, alive, trembling, wanting to go. The gap opens in front of you like a door in a wall, and the sea runs through it, and the keel scrapes nothing, and then you are through, in green water, in sun, and behind you the Combs go on roaring at nobody. Bascom takes the pipe out of her mouth. 'Aye,' she says. It is all she says.".
+    Otherwise "The wheel bucks in your hands, and the Dorothea takes a rock on the larboard quarter with a sound like a door slammed in a cathedral. Bascom takes the wheel away from you without a word. She gets the ship through, a hand's breadth at a time, but there is water coming in forward, and the pumps are going before the Combs are out of sight.".
+  }
+  Action rune_at_the_wheel(actor: group, site: place) "Ask Rune to take her through, as he can" {
+    Description "Rune has run the gap eleven times. He has not run it with a company to answer to since he took the Orsett man's money.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, helm) and combsMet(hull) and troubled(hull) and indebted(rune, actor) and not decidedCombs(hull) and not disgraced(rune).
+    Time 2.
+    On success { Assert ranGap(hull). Assert decidedCombs(hull). Retract troubled(hull). }
+    Result "Rune takes the wheel as a man takes a hand that has been offered to him once in his life. He does not look at the Captain. 'Slack's not for an hour,' he says, 'but I've never needed it.' He takes the Dorothea through the gap with her sails drawing and the whole Atlantic of the afternoon pushing at her stern, and at the far end of it Bascom puts down the pipe and says: 'Mr Rune.' Rune says: 'Captain.' That is all. It is enough.".
+  }
+  Action jettison_cargo(actor: group, site: place) "Cut away cargo to lighten her through the gap" {
+    Description "A ship rides higher in the water with fewer casks in her. Every cask is a day of the Captain's debt.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, deck) and combsMet(hull) and troubled(hull) and not decidedCombs(hull) and cargo(hull) >= 12.
+    Time 3.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert lightened(hull). Assert decidedCombs(hull). Retract troubled(hull). Decrease cargo(hull) by 12. }
+    Result "Bascom's face works. She has not said she will lose her ship, and she says it now with her hands, by taking the knife off her belt and cutting the first lashing herself. Twelve casks go over the side one after another, and each one makes the same small sound. The Dorothea rises, and rises, and slides through the gap as if the sea had opened her a door.".
+    Otherwise "'My cargo,' says Bascom, very low, 'is the only thing on this ship that's mine,' and that is the end of that.".
+  }
+}

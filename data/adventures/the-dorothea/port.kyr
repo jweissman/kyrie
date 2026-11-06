@@ -1,0 +1,88 @@
+Module dorothea "The Dorothea" {
+  Description "Tolleth, a salt-and-herring port at the end of a long road; the ketch Dorothea at her quay; and a passage to the island of Skerrow, a night and a morning out, where a lamp has burned since before the roads.".
+
+  // The port, the ship and the island are three places with no way between them on foot. The ship is a thing that is
+  // at a place: the quay, then the Sound, open water, the Combs, the roads of Skerrow. The company, aboard, goes about
+  // her deck and does not leave her; where she is, is a fact of the world, and the clock moves her.
+  Place tolleth "Tolleth" is region.
+  Place harbour "Tolleth harbour" is settlement within tolleth at 0, 0.
+  Place road_wild "the coast road" is wilderness within tolleth at 0, 1.
+  Place road_end "the end of the coast road" is room within road_wild at 0, 0.
+  Place anchor_inn "the Anchor and Hope" is building within harbour.
+  Place chandlery "Garrick's chandlery" is building within harbour.
+  Place office "the harbourmaster's office" is building within harbour.
+  Place quay "Tolleth quay" is room within harbour at 1, 1.
+  Place taproom "the Anchor and Hope" is room within anchor_inn at 0, 1.
+  Place shop "Garrick's chandlery" is room within chandlery at 2, 1.
+  Place harbourmaster "the harbourmaster's office" is room within office at 1, 0.
+  Place nowhere "nowhere" is room within road_wild at 9, 9.
+
+  Passage coast_road "the coast road" is road between road_end and quay taking 30 minutes.
+  Passage inn_door "the Anchor's door" is door between quay and taproom.
+  Passage shop_door "Garrick's door" is door between quay and shop.
+  Passage office_door "the harbourmaster's door" is door between quay and harbourmaster.
+
+  Observe road_scene at road_end when true "The coast road comes down off the moor to a harbour the colour of slate, with a smell of tar and herring on the wind. Masts stand in it close as reeds, and beyond the harbour mouth a grey line that might be cloud or might be an island.".
+  Observe quay_scene at quay when not state(hull, afloat_out) "Tolleth quay: a curved stone wall, bollards worn to the shape of ropes, barrels in rows, gulls. A notice board outside the harbourmaster's door gives the tides and the sailings in chalk.".
+  Observe taproom_scene at taproom when true "A low taproom full of men with salt in their hair, and a fire that smokes when the wind is in the west. A slate by the door has names on it, and sums.".
+  Observe shop_scene at shop when true "Garrick's: rope in coils like sleeping snakes, tar in kegs, oilskins on pegs, a rack of lead-lines. The smell is enough to give a landsman a headache and a seaman a sentimental turn.".
+  Observe office_scene at harbourmaster when true "A narrow room with a tide-table on the wall as long as a man, a barometer that has not been believed since it was hung, and a ledger of sailings in a neat hand.".
+
+  Person bascom "Captain Ingrith Bascom" at quay {
+    Role "master of the ketch Dorothea". Ancestry human. Calling ranger. Level 4. Peaceable. Pronouns she. Manner stoic.
+    Likeness "sailor".
+    Greets "A broad woman in a man's coat, a clay pipe unlit between her teeth, stands with her arms folded at the foot of the Dorothea's gangway, counting casks as they go up. She counts them again as you speak to her. 'Passage to Skerrow,' she says. 'A night and a morning if the wind holds, two days if it doesn't, and I don't discuss the other thing.'".
+  }
+  Person pellow "Wat Garrick" at shop {
+    Role "chandler". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Sells rope for 1 coin from 4. Sells rations for 2 coin from 6. Sells torch for 1 coin from 6.
+    Greets "Wat Garrick looks up from a coil he is whipping, and at your boots, and says that nobody goes to Skerrow in those, and then sells you something.".
+  }
+  Person harbourman "Dacey Hoe" at harbourmaster {
+    Role "harbourmaster". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
+    Greets "Dacey Hoe does not look up from the ledger. 'Sailings are chalked on the board,' she says. 'The Dorothea goes on the noon ebb, Bascom's never missed a tide in her life and has no intention of starting on yours.'".
+  }
+  Person drinkers "the Anchor's regulars" at taproom {
+    Role "seamen and pilots' men". Ancestry human. Numbers 4. Peaceable.
+  }
+  Topic drinkers_skerrow with drinkers "Ask the regulars about Skerrow" when true once {
+    Says "'A night out, and nothing on it but sheep and a lamp,' says a man with one eye. 'The lamp's the Aeneans'. It's been lit since before there was a Tolleth, and the Kestles have trimmed it, father to son, and never once been thanked.' 'The Combs are what you want to mind,' says another. 'Not the sea, the Combs. They've a name for a ship that doesn't make the passage on the morning flood.' He doesn't say what the name is.".
+  }
+  Topic drinkers_bascom with drinkers "Ask the regulars about Captain Bascom" when true once {
+    Says "'Honest,' says the one-eyed man, in the tone of a man giving a bad report. 'Owes the salt-factor in Orsett sixty crowns for the Dorothea's new keel, and the factor's wife's brother has the island lease. She'll make the passage if it kills her.' He drinks. 'It might.'".
+  }
+
+  // ── Booking a passage ───────────────────────────────────────────────────────────────────────────────────────────
+  // Six coin, or the company's backs at the casks, or neither and a quiet hour in the dark. Whichever it is, the
+  // Dorothea goes on the noon ebb and does not wait.
+  Relation booked(group). Relation workedPassage(group). Relation stowedAway(group). Relation paidFare(group). Relation asked(group).
+  Topic bascom_passage with bascom "Ask Captain Bascom for passage to Skerrow" when not booked(actor) once {
+    Says "'Six coin a head, in coin,' says Bascom, 'or a back at the casks till the tide, which I'll count as three. Cargo's salt for the island's pickling and lamp oil for the Pharos, and I'm forty casks short of a full hold and a day behind my debt.' She takes the pipe out. 'Noon. I go on the noon ebb. If you are not on my deck at noon you are on my quay, and I'll be sorry for you in a general way.'".
+    On discuss { Assert asked(actor). }
+  }
+  Topic bascom_why with bascom "Ask Captain Bascom why she sails to Skerrow" when asked(actor) once {
+    Says "'To sell salt, and to buy fish, and because the lease on the island's landing is the Orsett factor's and the Orsett factor will have my keel for his brother-in-law by Michaelmas if I miss a call.' She looks past you at the grey line beyond the harbour mouth. 'And because someone has to. The Pharos is lit. Do you know how many lights are lit on this coast that no one pays for? One. A lamp that was lit before Tolleth had a name.'".
+  }
+  Action pay_fare(actor: group, site: place) "Pay Captain Bascom six coin for a passage to Skerrow" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(bascom, site) and at(actor, quay) and asked(actor) and not booked(actor) and quantity(actor, gold) >= 6.
+    Time 1.
+    On success { Decrease quantity(actor, gold) by 6. Increase quantity(bascom, gold) by 6. Assert booked(actor). Assert paidFare(actor). }
+    Result "Bascom counts the coin twice into her palm and puts it away in a pocket that has seen it before. 'Gangway's down,' she says. 'Mind the third rung.'".
+  }
+  Action carry_casks(actor: group, site: place) "Work your passage: carry casks up the gangway until the tide" {
+    Description "Forty casks short of a full hold, and the whole company's backs.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(bascom, site) and at(actor, quay) and asked(actor) and not booked(actor) and capable(actor, brawn) and watch(clock) < 22.
+    Time 8.
+    On success { Assert booked(actor). Assert workedPassage(actor). }
+    Result "You carry casks for an hour and a half, and the quay learns your name. Bascom says nothing, which from her is warmth. Her mate, a long man called Rune who has been watching from the rail, says you've a good back, for a landsman, and goes below.".
+  }
+  Action slip_aboard(actor: group, site: place) "Slip aboard unseen among the casks" {
+    Description "The tide is near. The gangway is not watched all the time.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, quay) and not booked(actor) and capable(actor, stealth).
+    Time 2.
+    Resolve check(actor, stealth, dc_fair).
+    On success { Assert booked(actor). Assert stowedAway(actor). }
+    Result "You go up with the casks, and you are a cask. Below, in the dark of the hold, nobody asks you anything.".
+    Otherwise "You go up behind a cask and a gull screams at you. Bascom does not look round. 'Six coin,' she says, 'or the quay.'".
+  }
+}

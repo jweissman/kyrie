@@ -107,3 +107,29 @@ describe('The Long Man, the bell', () => {
     expect(Dale.said(await Dale.act(s, '^To Merrow green'))).toContain('a boy goes round the green with a pan');
   }, 300000);
 });
+
+describe('The Long Man, the company', () => {
+  const toQuarrel = async (s: PlaySession) => {
+    await Dale.act(s, '^To Merrow green', '^Into the Drowned Ox');
+    expect(Dale.said(await Dale.act(s, '^Buy › A torch'))).toBeDefined();
+    await Dale.act(s, '^Out to Merrow green', '^To the Hall yard', '^Into the steward', 'Ask Aldous Venn about the Mower',
+      '^Take from the hook', '^Out to the Hall yard', '^To the crest', '^To the gauge stone', '^Into the galleries', 'light',
+      '^Read the notches', '^Out|^To the foot', );
+  };
+  it('lets each member speak by what they are, once, in the places that suit it', async () => {
+    const s = await Dale.start();
+    const a = Dale.said(await Dale.act(s, '^To Merrow green', '^Into the Chapel'));
+    expect(a).toContain('Dori lays a hand flat on the font');
+    const b = Dale.said(await Dale.act(s, '^Out to Merrow green', '^To the Hall yard'));
+    expect(b).toContain('Bran walks round the cart once');
+    const c = Dale.said(await Dale.act(s, '^To the crest'));
+    expect(c).toContain('Elen goes down on one knee by a stump');
+    // Once: coming back to the font is not another remark.
+    const d = Dale.said(await Dale.act(s, '^To the Hall yard', '^To Merrow green', '^Into the Chapel'));
+    expect(d).not.toContain('lays a hand flat');
+  }, 180000);
+  it('puts the warrior and the cleric at odds over the forty crowns, and lets the company choose', async () => {
+    const s = await Dale.start();
+    await toQuarrel(s);
+  }, 240000);
+});

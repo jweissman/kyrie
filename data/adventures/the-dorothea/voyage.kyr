@@ -1,0 +1,66 @@
+Module dorothea "The Dorothea" {
+  Description "The passage: a clock, a position, and the things that happen on the way. The Dorothea's progress is counted in watches from her casting off; where she is, is a fact of the world; trouble stops the count and the count goes on when the trouble is settled.".
+
+  Measure progress(entity). Measure water(entity). Measure fogAt(entity). Measure cargo(entity).
+  Relation fog(entity). Relation fogDone(entity). Relation heaved(entity). Relation holed(entity).
+  Initially Set progress(hull) to 0. Initially Set water(hull) to 0. Initially Set cargo(hull) to 40.
+
+  // Time at sea: one tick for each watch she is under way and not in trouble.
+  Rule sail_tick when sailed(hull) and not troubled(hull) and not arrived(hull) and not homeward(hull) { Increase progress(hull) by 1. }
+
+  // The stations of her passage.
+  Rule enters_open when at(hull, sound) and progress(hull) >= 36 and not homeward(hull) says "The headlands of the Sound fall away on either hand and the Dorothea lifts to her first real swell. Bascom puts the pipe back in her mouth, which Rune says means she is satisfied." {
+    Retract at(hull, sound). Assert at(hull, open_sea).
+  }
+  Rule enters_combs when at(hull, open_sea) and progress(hull) >= 108 and not homeward(hull) says "Dawn comes up grey and cold, and in it, dead ahead and from rim to rim of the sea, a line of white. The Combs." {
+    Retract at(hull, open_sea). Assert at(hull, teeth).
+  }
+  Rule enters_roads when at(hull, teeth) and progress(hull) >= 126 and not troubled(hull) and not homeward(hull) says "The Combs fall astern. The water goes from slate to green, and ahead a white tower stands on a green hill." {
+    Retract at(hull, teeth). Assert at(hull, roads).
+  }
+  Rule reaches_jetty when at(hull, roads) and progress(hull) >= 140 and not arrived(hull) and not homeward(hull) and sailed(hull) says "A boy on the jetty catches the Dorothea's bow-line, and makes it fast to the third ring, and the whole ship settles against the stone with a sound like a long breath." {
+    Retract at(hull, roads). Assert at(hull, jetty). Assert arrived(hull). Assert state(hull, afloat_out). Set reachedAt(hull) to watch(clock).
+  }
+
+  // ── Fog in the Sound ────────────────────────────────────────────────────────────────────────────────────────────
+  Rule fog_rolls when at(hull, sound) and progress(hull) >= 22 and not fogDone(hull)
+    says "It comes down the Sound from the sea like a wall being let fall: first the headlands go, then the bow, then the hand on the rail. Bascom says 'Rune,' very quietly, and Rune is already at the lead." {
+    Assert fog(hull). Assert troubled(hull). Assert fogDone(hull). Set fogAt(hull) to watch(clock).
+  }
+  Observe fog_deck at deck when fog(hull) "Fog, thick as wool. The jib has gone. Somewhere ahead and to larboard a bell is tolling, slow, and nobody aboard can say whether it is a buoy or a ship.".
+  Action take_soundings(actor: group, site: place) "Take the lead-line forward and call the depth" {
+    Description "A man in the bows with a weight on a cord can feel a shoaling before the bow does. It is not a thing that is done well by someone who has never done it.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, deck) and fog(hull) and not heaved(hull).
+    Time 3.
+    Resolve check(actor, wayfinding, dc_fair).
+    On success { Retract fog(hull). Retract troubled(hull). }
+    On failure { Increase water(hull) by 6. Assert holed(hull). }
+    Result "You swing the lead and call it, and call it, and the number tells you the shape of the sea floor better than eyes: a hollow, a hump, the long sweep of the channel. When the bell is a ship's bell you call that, too, and the Dorothea wears away to starboard with ten fathoms to spare. Bascom looks at you for the first time as at a person. 'Where did you learn that,' she says. It is not quite a question.".
+    Otherwise "The lead comes up and the number you call is the wrong number by a fathom, and the Dorothea's keel finds the Whelk Bank with a long groan that you feel in your teeth. Bascom takes the wheel from Rune and brings her off, swearing in a very low voice. In the hold a seam has opened and is letting in a little sea.".
+  }
+  Rule bascom_heaves when fog(hull) and not heaved(hull) and watch(clock) >= fogAt(hull) + 8
+    says "Captain Bascom brings the Dorothea up into the wind and lets her sails go slack. 'We'll wait,' she says. 'We'll lose the morning, and we'll keep the keel.'" {
+    Assert heaved(hull).
+  }
+  Rule fog_burns_off when fog(hull) and heaved(hull) and watch(clock) >= fogAt(hull) + 22
+    says "Sometime in the small hours the fog tears, all at once, and there are stars, and a headland four cables off that nobody aboard had known was there. Bascom looks at it for some time. 'Right,' she says." {
+    Retract fog(hull). Retract troubled(hull). Retract heaved(hull).
+  }
+
+  // ── The leak and the pump ───────────────────────────────────────────────────────────────────────────────────────
+  Rule leak_gains when holed(hull) and sailed(hull) and not arrived(hull) and not safeHome(hull) and water(hull) < 60 { Increase water(hull) by 1. }
+  Observe leak_hold at hold when water(hull) > 0 "Sea water slops about the hold, ankle-deep, black, and cold enough to hurt. It is the sort of cold that gets into a plank and stays.".
+  Action pump(actor: group, site: place) "Work the pump" {
+    Description "A hand-pump on the hold's ladder: two men to the brake. It is a labour done in turns, and nobody who has done it for an hour will say they enjoy it.".
+    Requires able(actor) and company(actor) and at(actor, site) and (at(actor, hold) or at(actor, deck)) and water(hull) >= 6.
+    Time 3.
+    On success { Decrease water(hull) by 6. }
+    Result "You work the brake until your arms stop being yours. The water goes down the side in a clear rush, and for a while it is a quarter inch lower.".
+  }
+  Rule bascom_calls_pump when water(hull) >= 18 and not callPumped(hull) and sailed(hull) and not arrived(hull) says "'All hands to the pump!' calls Bascom, in a voice that has never once needed to be raised. 'She's making water faster than I like.'" { Assert callPumped(hull). }
+  Relation callPumped(entity).
+  Rule founder_check when water(hull) >= 40 and sailed(hull) and not arrived(hull) and not foundered(hull) says "The Dorothea settles. It is a gentle thing, like a woman sitting down, and the sea comes over the rail without malice and without hurry." {
+    Assert foundered(hull).
+  }
+  Relation foundered(entity).
+}

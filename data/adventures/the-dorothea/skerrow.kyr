@@ -1,0 +1,87 @@
+Module dorothea "The Dorothea" {
+  Description "Skerrow: forty-one souls, a winter coming, a lease held by a factor who wants a different thing from the Pharos than the island does, and a keeper who will not say what she will take for it.".
+
+  Person gull "Hester Gull" at gull_room {
+    Role "keeper of the Gull". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
+    Sells rations for 2 coin from 6.
+    Greets "Hester Gull has kept the Gull for thirty years and the debts of the island for thirty-one, and she keeps both with the same flat hand. 'You came on the Dorothea,' she says. 'Then you'll want to know who owes what. Everybody owes everything. It's how an island holds together.'".
+  }
+  Person kestle_jory "Jory Kestle" at green {
+    Role "fisherman, the keeper's brother". Ancestry human. Peaceable. Pronouns he. Manner stoic.
+    Greets "A big man mending a net on the green, with three children under it and a fourth on his shoulders. He does not stop mending. 'You'll have been told about the Pharos,' he says. 'You'll have been told my sister keeps it. You'll not have been told what a family eats on in a winter when the cod don't come.'".
+  }
+  Person marl "Silas Quillon" at gull_room {
+    Role "agent of the Orsett factor". Ancestry human. Calling bard. Level 3. Pronouns he. Manner jovial.
+    Likeness "merchant".
+    Greets "A neat man in a neat coat, with a ledger open before him on the Gull's long table and a cup of the Gull's tea untouched at his elbow. He rises for you, which nobody else has. 'Silas Quillon, of Orsett. Agent. I'm here for the lease, and a matter of old metal. I'm told I'm not liked. I find it never matters.'".
+  }
+  Person islanders "the people of Skerrow" at green {
+    Role "islanders". Ancestry human. Numbers 5. Peaceable.
+  }
+  Initially Set quantity(marl, gold) to 60. Initially Set quantity(gull, gold) to 24.
+
+  // ── What the island needs, and what the factor offers ──────────────────────────────────────────────────────────
+  Relation marlOffered(group). Relation marlSold(group). Relation jorySways(group). Relation keptLamp(group). Relation tableSold(group). Relation lampOut(group).
+  Topic gull_island with gull "Ask Hester Gull how Skerrow lives" when true once {
+    Says "'On fish, sheep and the Dorothea,' says Hester Gull. 'The Dorothea brings salt, lamp-oil and news, and takes our dried cod. The lease on the landing is the Orsett factor's, so a third of every landing goes to Orsett. And the Pharos...' She snorts. 'The Pharos earns us nothing. A ship that sees it doesn't pay, a ship that doesn't, can't. It's a lamp. We keep it because a lamp is a thing you keep.'".
+  }
+  Topic marl_offer with marl "Ask Silas Quillon what he wants with old metal" when true once {
+    Says "'The bronze in the Pharos,' says Silas Quillon, pleasantly. 'A plate in the wall that no one can read, and a lens-frame, and a reflector that's worth, I'm told, a hundred and forty crowns to a foundry. The island gets sixty down, and the lease waived for ten years. Winter, you see, comes.' He turns a page. 'I'm not your enemy. Think of me as a man who can count.'".
+    On discuss { Assert marlOffered(actor). }
+  }
+  Topic jory_winter with kestle_jory "Ask Jory Kestle about the winter" when true once {
+    Says "'It's the sixth bad cod season in nine,' says Jory. 'Hester's got every house in the book. Marren thinks I want to sell the Pharos. I want to sell it as a man wants to cut his hand off: I'd rather have a hand, and I'd rather eat.' He looks up the hill at the tower. 'My children have never once been warm in a room with that light in it. They don't know what it's for. I don't, either.'".
+  }
+  Topic kestle_lamp with kestle "Ask Marren Kestle what the Pharos is for" when true once {
+    Says "She sits back on her heels. 'The first night my father let me trim it I asked him that. He said: it is for whoever is out there tonight. And I said: who is out there? And he said, you won't know till they're not.' She puts the rag down. 'I have been asked what I'll take for it nine times in twenty years. I have never once been asked what it's for, except by a child.'".
+  }
+  Topic kestle_table with kestle "Ask Marren Kestle about the bronze table in the lamp room" when true once {
+    Says "'The Prefect's Table,' she says. 'That's what my family calls it. I've never known what it says. It's been scrubbed so many times by so many Kestles that half of it's polish. One column is Aenean numbers, and I can count in those. The other...' She shakes her head. 'My mother said the other column is the part the Prefect didn't write. She said somebody else wrote it first.'".
+    On discuss { Assert knows(actor, table_seen). }
+  }
+  Discovery table_seen "In the lamp room of the Pharos is a bronze table: a column of Aenean numerals, and beside it a second column, in marks that have been scrubbed and polished by generations of keepers, which nobody on Skerrow can read.".
+
+  // ── The rubbing, and the table ─────────────────────────────────────────────────────────────────────────────────
+  Item rubbing_source "a clean sheet of rag paper" is rag_paper at gull_room.
+  Kind rag_paper "a sheet of rag paper" is gear worth 1 weighing 0 described "A sheet of rag paper from the Gull's ledgers, with a stick of charcoal rolled in it.".
+  Action rub_the_table(actor: group, site: place) "Take a rubbing of the Prefect's Table" {
+    Description "Charcoal, a sheet of paper, and an hour with the lamp turned low. A rubbing keeps what a table says even when the table is sold.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, pharos_lamp) and holding(actor, rag_paper) and not rubbed(actor) and not tableSold(party).
+    Time 6.
+    On success { Assert rubbed(actor). Assert knows(actor, rubbing_made). Spend rag_paper from actor. }
+    Result "Marren Kestle holds the sheet flat while you pass the charcoal over it, and the table comes up out of the bronze by degrees, a column at a time: the Aenean numerals in a clean row, and beside them, ghostly, scrubbed to a shadow, a second column of strokes in a different hand. Marren looks at it for a long time over your shoulder. 'I did not know it had that many,' she says. 'Thirty years I've been polishing it. Do you know, I never once looked.'".
+  }
+  Relation rubbed(group).
+  Discovery rubbing_made "You have a rubbing of the Prefect's Table, taken on Skerrow.".
+  Item rubbing "a rubbing of the Prefect's table" is pharos_rubbing at nowhere.
+  Rule rubbing_given when rubbed(party) and not given(rubbing) { Assert lends(kestle, rubbing, party). Assert given(rubbing). }
+  Relation given(item).
+
+  // ── The factor's offer: who decides ────────────────────────────────────────────────────────────────────────────
+  // The island decides on the second evening, at the Gull. Marren Kestle will not sell; Jory Kestle will; the island
+  // listens to whoever it trusts. The company can pay for a winter, argue, or watch.
+  Action pay_winter(actor: group, site: place) "Offer to stand Jory Kestle's winter debts at the Gull" {
+    Description "Twenty coin, against the Gull's ledger. It will not buy the island a winter. It will buy a family one.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, green) and at(kestle_jory, site) and marlOffered(actor) and not jorySways(party) and quantity(actor, gold) >= 20.
+    Time 2.
+    On success { Decrease quantity(actor, gold) by 20. Increase quantity(gull, gold) by 20. Assert jorySways(party). }
+    Result "Jory puts the net down. He looks at the coin as if it were an unusual fish, and at you, and at his children, and at last at the hill. 'I'll not take it as a gift,' he says. 'I'll take it as a loan against the cod, and I'll have it written at the Gull, in front of her, so it's a thing that's been done.' He holds out a hand the size of a spade. 'And my sister's to be told by me. Not by you.'".
+  }
+  Action argue_winter(actor: group, site: place) "Argue the island out of selling the Pharos" {
+    Description "Not an argument that will feed anyone. An argument that might give a hungry place a reason to want to be what it is.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, green) and marlOffered(actor) and not jorySways(party).
+    Time 2.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert jorySways(party). }
+    Result "You tell them, on the green, in the evening, with the sheep eating the grass round your boots: that a lamp is a promise, and a promise lets a place be forgiven for being nowhere. You are not eloquent. You say it plainly. Jory Kestle listens with the baby on his shoulder, and when you have finished he says: 'That's all very well. It's still February.' But he says it more quietly.".
+    Otherwise "They hear you out, kindly. The sheep are more interested.".
+  }
+  Rule marl_buys when watch(clock) >= reachedAt(hull) + 70 and arrived(hull) and not marlSold(party) and not jorySways(party) and marlOffered(party)
+    says "On the second evening, at the Gull, Jory Kestle puts his name to Silas Quillon's paper. Nobody looks at him. The next morning two of Quillon's men are on the hill with a barrow and a bar, and Marren Kestle is standing at the tower door with the trimming-knife in her hand, and does not use it." {
+    Assert marlSold(party). Assert tableSold(party). Assert lampOut(party).
+  }
+  Rule marl_leaves when jorySways(party) and not keptLamp(party) and arrived(hull) says "Silas Quillon closes his ledger, rises, and shakes the company's hands one by one. 'I count,' he says. 'I counted wrong. I'll be back when the lease is up, and the island will have a different winter.' He takes the Dorothea's last place home." {
+    Assert keptLamp(party). Retract at(marl, gull_room).
+  }
+  Observe lamp_out_scene at green when lampOut(party) and watch(clock) >= reachedAt(hull) + 80 "The Pharos hill is dark. Where the lamp-room window was, a rectangle of darker dark; and at the foot of the hill a barrow with a plate in it, green-black, polished. Marren Kestle is sitting on the wall with her knees up and her back to the sea.".
+}

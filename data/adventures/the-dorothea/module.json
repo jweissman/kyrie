@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "source": [
+    "port.kyr",
+    "ship.kyr",
+    "isle.kyr",
+    "voyage.kyr",
+    "crew.kyr",
+    "combs.kyr",
+    "skerrow.kyr",
+    "return.kyr",
+    "company.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "canon": [
+    "imbar"
+  ],
+  "exports": {
+    "party": "party",
+    "region": "tolleth",
+    "green": "green"
+  },
+  "experience": 1000
+}

@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "source": [
+    "port.kyr",
+    "ship.kyr",
+    "isle.kyr",
+    "voyage.kyr",
+    "crew.kyr",
+    "combs.kyr",
+    "skerrow.kyr",
+    "return.kyr",
+    "placed.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "canon": [
+    "imbar"
+  ],
+  "exports": {
+    "party": "party",
+    "region": "tolleth",
+    "green": "green",
+    "road_end": "road_end"
+  },
+  "experience": 1000,
+  "imports": [
+    "party",
+    "word"
+  ],
+  "optional": [
+    "word"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    }
+  }
+}
