@@ -7,6 +7,8 @@ import { MenuModel } from '../web/reader/menu-model';
 import { Attending } from '../src/ui/attention';
 import { Wares } from '../web/reader/wares';
 import { Glanced } from './support/glanced';
+import { MapView } from '../web/reader/map-view';
+import { Itineraries } from '../src/ui/itinerary';
 
 // What the page shows is what the engine can do (the architecture review's P0): every choice drawn either executes, its
 // command one the engine offers now, or is an explicit refusal, saying why; each says what kind of act it is, and the
@@ -36,5 +38,18 @@ describe('the choices on the page', () => {
     const talk = menus[1]!.talk!, counter = frame.screen.trade.find(c => c.id === 'region__s2_merchant')!;
     const { wares } = Wares.of(counter, talk.replies);
     expect(wares.filter(x => x.stock > 0).every(x => x.buy && x.buy.targets?.includes(x.kind))).toBe(true);
+  }, 120000);
+  // A hex of the map is gone to as the land says (LandModel.goes), never as the page makes an id of it: each one the
+  // map offers to set out for is a place the engine plans a journey to.
+  it('on the map go where the engine can plan a journey', async () => {
+    const w = await WorldAssembler.assemble('a1', NodeBundleSource.shared, {});
+    const s = await PlaySession.start(w.path, 'a1', w.source);
+    const screen = Glanced.of(s).frame().screen, land = screen.region!.land!;
+    const offered = land.known.map(cell => MapView.way(screen, `hex:${cell}`).go).filter(c => c?.command);
+    expect(offered.length).toBeGreaterThan(0);
+    for (const go of offered) {
+      const to = go!.command!.slice('travel:'.length);
+      expect([to, !!Itineraries.plan(s.campaign, to)]).toEqual([to, true]);
+    }
   }, 120000);
 });

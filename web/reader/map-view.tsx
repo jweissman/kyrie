@@ -197,7 +197,8 @@ export class MapView {
     if (!land.tracts || cell === undefined || !(land.known.includes(n) || near) || !MapView.walkable(land, n)) {
       return undefined;
     }
-    const id = `${land.tracts}${cell}`;
+    const id = land.goes?.[n];
+    if (!id) { return undefined; }
     return { id: `travel:${id}`, label: `Go across country to ${name}`, tone: 'way', command: `travel:${id}` };
   }
   // What a hex chosen is gone to as: the stretch of open country on it; on an authored country's land, which has no
@@ -207,13 +208,7 @@ export class MapView {
   // the way the page plans (Itineraries.mapped), never for the hex it stands on: the map had stopped beside it, and
   // from beside a march-stone the country beyond was never drawn (the navigation review).
   static on(land: NonNullable<RegionChart['land']>, cell: number): string {
-    if (land.tracts) { return `${land.tracts}${cell}`; }
-    const blocks = Object.entries(land.blocks ?? {}).filter(([, cells]) => cells.length)
-      .map(([id, cells]) => ({ id, by: Math.min(...cells.map(c => MapView.apart(land.width, c, cell))) }));
-    return blocks.sort((a, b) => a.by - b.by)[0]?.id ?? `hex:${cell}`;
-  }
-  private static apart(width: number, a: number, b: number): number {
-    return Math.hypot(a % width - b % width, Math.floor(a / width) - Math.floor(b / width));
+    return land.goes?.[cell] ?? `hex:${cell}`;
   }
   // Whether a hex is land to walk: the sea and the lakes have no stretch of country (see RegionTracts.cells).
   private static walkable(land: NonNullable<RegionChart['land']>, cell: number): boolean {
@@ -247,6 +242,9 @@ export class MapView {
       .map(a => ({ a, by: MapView.apart(W, a.y * W + a.x, cell) })).sort((x, y) => x.by - y.by)[0];
     if (!near || near.by === 0 || near.by > 5) { return ground ?? 'open country'; }
     return `${ground ?? 'open country'} ${MapView.bearing(cell % W - near.a.x, Math.floor(cell / W) - near.a.y)} of ${near.a.name}`;
+  }
+  private static apart(width: number, a: number, b: number): number {
+    return Math.hypot(a % width - b % width, Math.floor(a / width) - Math.floor(b / width));
   }
   private static bearing(dx: number, dy: number): string {
     const ways = ['east', 'south-east', 'south', 'south-west', 'west', 'north-west', 'north', 'north-east'];

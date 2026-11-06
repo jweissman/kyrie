@@ -236,7 +236,9 @@ export interface RegionChart {
     // the company is in are drawn on it.
     blocks?: Record<string, number[]>;
     // The id of a generated country's stretches of open country, but for each one's cell (region__t), to go to one.
-    tracts?: string };
+    tracts?: string;
+    // Where a journey to each cell goes (a stretch of open country; an authored place), by cell: the engine's own.
+    goes?: Record<number, string> };
 }
 export interface CombatScreen {
   turn: number; actor: string; actorName: string; ours: boolean; outcome: string | null;

@@ -74,8 +74,9 @@ export class BoardField {
   static whither(region: RegionChart, id?: string): string | undefined {
     const land = region.land;
     if (!id || !land) { return undefined; }
-    const tract = land.tracts && id.startsWith(land.tracts) ? id.slice(land.tracts.length) : undefined;
-    if (tract && /^\d+$/.test(tract)) { return `hex:${tract}`; }
+    // A stretch of open country by the cell the land says a journey to it goes to (see LandModel.goes).
+    const tract = Object.entries(land.goes ?? {}).find(([, goes]) => goes === id && land.tracts)?.[0];
+    if (tract !== undefined) { return `hex:${tract}`; }
     const area = region.within[id] ?? id, a = region.areas.find(x => x.id === area);
     const marked = [id, area].find(x => land.marks.some(m => m.id === x)
       || region.areas.some(t => t.id === x && t.kind === 'settlement'));

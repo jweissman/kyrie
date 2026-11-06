@@ -95,7 +95,7 @@ export class LandModel {
       rivers: chart.rivers.map((r, i) => LandModel.drawn(chart, r, i)), roads,
       known: [...known].sort((a, b) => a - b), ...this.at(here), marks, towns, zones: this.zones(areas, known),
       glosses: Object.fromEntries(Object.entries(chart.glosses ?? {}).filter(([id]) => named.has(id))),
-      ...chart.blocks ? { blocks: chart.blocks } : {}, ...this.tracts() };
+      ...chart.blocks ? { blocks: chart.blocks } : {}, ...this.tracts(), goes: this.goes() };
   }
   // The land about a place been to: the six stretches about a settlement, a road's or a wild country's either side
   // of it, an authored area's own stretch. One ring, not three: the rest is found by going there or looking out from
@@ -133,6 +133,25 @@ export class LandModel {
     const walked = new Set([...visited].filter(v => LandModel.tract.test(v)).map(v => this.chart.places[v]));
     return Object.entries(this.chart.places).filter(([id, c]) => walked.has(c) && !LandModel.tract.test(id)
       && ['room', 'site'].includes(this.entities.get(id)?.space?.kind ?? '')).map(([id]) => id);
+  }
+  // Where a journey to each cell goes, as the engine knows its places (the map reads it, and builds no id and projects
+  // nothing of its own: the architecture review's P0): the stretch of open country on it; on an authored land, the
+  // place whose block it lies in, or between the author's places the nearest of them.
+  private goes(): Record<number, string> {
+    const chart = this.chart, out: Record<number, string> = {};
+    for (const [id, cell] of Object.entries(chart.places)) { if (LandModel.tract.test(id)) { out[cell] = id; } }
+    const blocks = Object.entries(chart.blocks ?? {}).filter(([, cells]) => cells.length);
+    if (!blocks.length) { return out; }
+    for (let cell = 0; cell < chart.width * chart.height; cell++) {
+      if (out[cell] !== undefined) { continue; }
+      const by = blocks.map(([id, cells]) => ({ id,
+        d: Math.min(...cells.map(c => LandModel.apart(chart.width, c, cell))) }));
+      out[cell] = by.sort((a, b) => a.d - b.d)[0]!.id;
+    }
+    return out;
+  }
+  private static apart(width: number, a: number, b: number): number {
+    return Math.hypot(a % width - b % width, Math.floor(a / width) - Math.floor(b / width));
   }
   // The id each stretch of open country is known by, but for its cell, for the map to go to one.
   private tracts(): { tracts?: string } {
