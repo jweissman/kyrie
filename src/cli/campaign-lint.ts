@@ -263,11 +263,11 @@ export class CampaignLint {
   domain() {
     for (const c of this.session.campaign.state.creatures) {
       const where = c.id;
-      if (Canon.isSpecies(c.raceId)) {
+      if (Canon.isBody(c.raceId)) {
         if (c.classId !== undefined) { this.add('error', 'category', `${where}: species ${c.raceId} cannot take the class ${c.classId}`); }
       } else if (Canon.isAncestry(c.raceId)) {
         if (!c.classId) { this.add('error', 'category', `${where}: a ${c.raceId} needs a class`); }
-        else if (Canon.isSpecies(c.classId)) { this.add('error', 'category', `${where}: ${c.classId} is a species, not a class`); }
+        else if (Canon.isBody(c.classId)) { this.add('error', 'category', `${where}: ${c.classId} is a species, not a class`); }
         else if (!Canon.ancestries[c.raceId]!.classes.includes(c.classId)) {
           this.add('error', 'category', `${where}: a ${c.raceId} cannot be a ${c.classId}`);
         }

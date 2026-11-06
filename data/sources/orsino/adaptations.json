@@ -1724,7 +1724,7 @@
     {
       "orsino": "combatEntity:antimagic_ward",
       "kyr": [
-        "species:antimagic_ward"
+        "device:antimagic_ward"
       ],
       "support": "executable",
       "fidelity": "adapted",
@@ -1736,7 +1736,7 @@
     {
       "orsino": "combatEntity:barrier",
       "kyr": [
-        "species:barrier"
+        "device:barrier"
       ],
       "support": "executable",
       "fidelity": "adapted",
@@ -1748,7 +1748,7 @@
     {
       "orsino": "combatEntity:bomb",
       "kyr": [
-        "species:bomb"
+        "device:bomb"
       ],
       "support": "executable",
       "fidelity": "adapted",
@@ -1760,7 +1760,7 @@
     {
       "orsino": "combatEntity:phylactery",
       "kyr": [
-        "species:phylactery"
+        "device:phylactery"
       ],
       "support": "executable",
       "fidelity": "adapted",
@@ -1772,7 +1772,7 @@
     {
       "orsino": "combatEntity:turret",
       "kyr": [
-        "species:turret"
+        "device:turret"
       ],
       "support": "executable",
       "fidelity": "adapted",

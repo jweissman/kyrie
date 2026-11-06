@@ -82,7 +82,7 @@ export class Overlays {
   // candle that weighs nothing (a ranger went down into a pitch-dark barrow with none, and found none to buy: the
   // cold evaluation); a torch too was a load that slowed a companion carrying weight-stones.
   static classGear(c: { raceId?: string; classId?: string }): string[] {
-    if (!c.classId || (c.raceId && Canon.isSpecies(c.raceId))) { return []; }
+    if (!c.classId || (c.raceId && Canon.isBody(c.raceId))) { return []; }
     const klass = Canon.classes[Canon.resolve('classes', c.classId)];
     const light = klass && klass.adventuring !== false ? ['candle'] : [];
     return [...new Set([...klass?.startingGear ?? [], ...light])].filter(k => Canon.items[k]);
@@ -90,7 +90,7 @@ export class Overlays {
   // The weapons and armour a person might start with: Orsino draws them from the class's tables during creation, so
   // every candidate is declared and only the drawn ones are ever owned.
   static startingCandidates(c: { raceId?: string; classId?: string; weapon?: string; armor?: string }): string[] {
-    if (c.raceId && Canon.isSpecies(c.raceId)) { return []; }
+    if (c.raceId && Canon.isBody(c.raceId)) { return []; }
     const named = c.classId ? Canon.classes[Canon.resolve('classes', c.classId)] : undefined;
     if (c.classId && !named) { throw new Error(`No calling ${c.classId}: it is none of ${Object.keys(Canon.classes).join(', ')}`); }
     const classes = named ? [named] : Object.values(Canon.classes).filter(k => k.adventuring !== false);

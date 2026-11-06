@@ -42,7 +42,7 @@ export class CreatureVariants {
   static refused(ids: string[], species?: string): string | undefined {
     const unknown = ids.find(id => !this.variations[id]);
     if (unknown) { return `no variation ${unknown}`; }
-    const of = species && Canon.isSpecies(species) ? Canon.creature(species) : undefined;
+    const of = species && Canon.isBody(species) ? Canon.creature(species) : undefined;
     const unfit = of && ids.find(id => { const v = this.variations[id]!;
       return !v.kinds.includes(of.kind ?? 'animal') || (v.types && !v.types.includes(of.type ?? '')); });
     if (unfit) { return `${this.variations[unfit]!.word || unfit} is not for ${Creation.a(species!)}`; }

@@ -23,7 +23,7 @@ export class Creation {
   // A person's chassis comes from its ancestry, its class and the class's features to its level; a species
   // creature's from its own statistics.
   static chassis(raceId: string, classId?: string, level = 1): Chassis {
-    if (Canon.isSpecies(raceId)) {
+    if (Canon.isBody(raceId)) {
       const s = Canon.creature(raceId), st = s.statistics!;
       const grow = st.growth ? Math.round(level / 8) : 0;
       return { hitDie: st.hitDie ?? 0, attributes: {}, abilities: s.abilities ?? [], traits: s.traits ?? [],

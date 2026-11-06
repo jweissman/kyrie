@@ -26,7 +26,7 @@ export class MonsterManual {
       'A species acts as many times a turn as its kind does: most once, an owlbear or an angel twice, a dragon three '
         + 'times. Most of the bestiary is composed from Orsino\'s monster template and grows with level as the template '
         + 'does: every quality rises by one at levels 4, 12 and 20, and hit points by three a level.'],
-    sections: [this.species(), this.variations(), this.natural(), this.traits(), this.orsino()] };
+    sections: [this.species(), this.devices(), this.variations(), this.natural(), this.traits(), this.orsino()] };
   }
   species(): Section {
     const types = [...new Set(Object.keys(Canon.species).map(id => Canon.creature(id).type ?? 'monster'))].sort();
@@ -37,6 +37,13 @@ export class MonsterManual {
       + 'it is met. Temperament says how it meets a company that comes where it lives (the inhabitants rules in the '
       + 'Dungeon Master\'s Guide): it warns, bargains, keeps its post, strikes from hiding, falls on you at once, or '
       + 'slinks away, in the words the place gives it.'], sections };
+  }
+  // What fights without being a creature (data/catalog/devices.json).
+  devices(): Section {
+    return { id: 'devices', title: 'Devices', intro: ['Engines, wards, barriers, charges and vessels: things that take part '
+      + 'in a fight without being creatures. Each is set where it stands (Device turret.) and does what it was made to do '
+      + 'whenever it can; nothing summons one, and none is met in a den.'],
+    entries: Object.keys(Canon.devices).sort().map(id => this.creature(id)) };
   }
   static hitPoints(st: NonNullable<ReturnType<typeof Canon.creature>['statistics']>): string {
     if (st.hitPoints) { return `${st.hitPoints}`; }

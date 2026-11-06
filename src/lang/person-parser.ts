@@ -60,6 +60,7 @@ export class PersonParser {
         if (!authored.includes(part.field)) { authored.push(part.field); }
         continue;
       }
+      if (part.field === 'device') { p.device = true; part.field = 'species'; }
       if (part.field === 'species' || part.field === 'creature') {
         if (seen.has('raceId') || seen.has('classId')) { throw new Error(`${p.id}: a species has no ancestry or calling`); }
         if (part.field === 'creature') {
@@ -217,7 +218,10 @@ export class PersonParser {
   static PersonRace(_r: Node, id: Node, _dot: Node): Field { return { field: 'raceId', value: id.sourceString }; }
   static PersonClass(_c: Node, id: Node, _dot: Node): Field { return { field: 'classId', value: id.sourceString }; }
   static PersonLevel(_l: Node, n: Node, _dot: Node): Field { return { field: 'level', value: Number(n.sourceString) }; }
-  static PersonSpecies(_s: Node, id: Node, _dot: Node): Field { return { field: 'species', value: id.sourceString }; }
+  // A creature's kind (Species wolf), or a device set where it stands (Device turret): one body, made the same way.
+  static PersonSpecies(word: Node, id: Node, _dot: Node): Field {
+    return { field: word.sourceString === 'Device' ? 'device' : 'species', value: id.sourceString };
+  }
   // Whom they are seen by: only a viewer for whom the condition holds (viewer is whoever is looking).
   static PersonSeen(_s: Node, _w: Node, predicate: Node, _dot: Node): Field {
     return { field: 'seen', value: PersonParser.viewer(ModuleParser.ast(predicate) as Predicate) };

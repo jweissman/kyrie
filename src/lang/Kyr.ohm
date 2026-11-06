@@ -117,7 +117,7 @@ Kyr {
   PersonKnown = "Known as" string RoleWhen "."
   RoleWhen = "when" Predicate
   PersonRace = ("Race" | "Ancestry") ident "."
-  PersonSpecies = "Species" ident "."
+  PersonSpecies = ("Species" | "Device") ident "."
   PersonVariant = ("Aspect" | "Undead" | "Variant") ident "."
   PersonSeen = "Seen" "when" Predicate "."
   PersonCreature = "Creature" NonemptyListOf<CreatureParam, ","> "."

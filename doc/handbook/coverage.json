@@ -799,10 +799,10 @@
    "title": "Player's Handbook",
    "counts": {
     "faithful": 764,
-    "adapted": 364,
+    "adapted": 365,
     "represented": 4,
     "kyr": 506,
-    "unsupported": 85,
+    "unsupported": 84,
     "unreachable": 4,
     "data-only": 12
    },
@@ -929,10 +929,10 @@
      "title": "Techniques",
      "counts": {
       "faithful": 52,
-      "adapted": 2,
+      "adapted": 3,
       "represented": 0,
       "kyr": 5,
-      "unsupported": 4,
+      "unsupported": 3,
       "unreachable": 0,
       "data-only": 0
      }
@@ -1074,9 +1074,22 @@
      "title": "Creatures",
      "counts": {
       "faithful": 56,
-      "adapted": 54,
+      "adapted": 49,
       "represented": 0,
       "kyr": 17,
+      "unsupported": 0,
+      "unreachable": 0,
+      "data-only": 0
+     }
+    },
+    {
+     "id": "devices",
+     "title": "Devices",
+     "counts": {
+      "faithful": 0,
+      "adapted": 5,
+      "represented": 0,
+      "kyr": 0,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -10892,7 +10905,7 @@
   {
    "id": "ability:detonation",
    "title": "Detonation",
-   "status": "unsupported",
+   "status": "adapted",
    "book": "phb",
    "section": "techniques"
   },
@@ -19192,29 +19205,8 @@
    "section": "species/species-celestial"
   },
   {
-   "id": "species:antimagic_ward",
-   "title": "Antimagic ward",
-   "status": "adapted",
-   "book": "mm",
-   "section": "species/species-construct"
-  },
-  {
    "id": "species:automaton",
    "title": "Automaton",
-   "status": "adapted",
-   "book": "mm",
-   "section": "species/species-construct"
-  },
-  {
-   "id": "species:barrier",
-   "title": "Barrier",
-   "status": "adapted",
-   "book": "mm",
-   "section": "species/species-construct"
-  },
-  {
-   "id": "species:bomb",
-   "title": "Bomb",
    "status": "adapted",
    "book": "mm",
    "section": "species/species-construct"
@@ -19244,20 +19236,6 @@
    "id": "species:iron_golem",
    "title": "Iron golem",
    "status": "faithful",
-   "book": "mm",
-   "section": "species/species-construct"
-  },
-  {
-   "id": "species:phylactery",
-   "title": "Phylactery",
-   "status": "adapted",
-   "book": "mm",
-   "section": "species/species-construct"
-  },
-  {
-   "id": "species:turret",
-   "title": "Turret",
-   "status": "adapted",
    "book": "mm",
    "section": "species/species-construct"
   },
@@ -19589,6 +19567,41 @@
    "status": "adapted",
    "book": "mm",
    "section": "species/species-undead"
+  },
+  {
+   "id": "species:antimagic_ward",
+   "title": "Antimagic ward",
+   "status": "adapted",
+   "book": "mm",
+   "section": "devices"
+  },
+  {
+   "id": "species:barrier",
+   "title": "Barrier",
+   "status": "adapted",
+   "book": "mm",
+   "section": "devices"
+  },
+  {
+   "id": "species:bomb",
+   "title": "Bomb",
+   "status": "adapted",
+   "book": "mm",
+   "section": "devices"
+  },
+  {
+   "id": "species:phylactery",
+   "title": "Phylactery",
+   "status": "adapted",
+   "book": "mm",
+   "section": "devices"
+  },
+  {
+   "id": "species:turret",
+   "title": "Turret",
+   "status": "adapted",
+   "book": "mm",
+   "section": "devices"
   },
   {
    "id": "ability:breathe_acid",

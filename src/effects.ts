@@ -58,7 +58,7 @@ export class Effects {
   // Orsino's gatherEffects: conditions held, the traits the creature has, its equipment and its kind's resistances.
   static modifiers(fighter: Fighter): Modifiers {
     const conditions = [...new Set(fighter.statuses.map(s => s.id))].map(id => Effects.status(id).modifiers);
-    const kind = Canon.isSpecies(fighter.raceId) ? Canon.creature(fighter.raceId).resistances : undefined;
+    const kind = Canon.isBody(fighter.raceId) ? Canon.creature(fighter.raceId).resistances : undefined;
     const at = { ...fighter.environment ? { environment: fighter.environment } : {},
       ...fighter.equipment?.weapon ? { weapon: fighter.equipment.weapon } : {} };
     return ModifierSet.sum([...conditions, ...CanonRuntime.passives(fighter.traits, at).modifiers,

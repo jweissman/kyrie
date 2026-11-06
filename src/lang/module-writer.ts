@@ -129,7 +129,7 @@ export class ModuleWriter {
     const authored = new Set(p.authored ?? []);
     // A species person has a kind and no class; every person of an ancestry has one (commoner by default).
     const species = authored.has('raceId') && p.classId === undefined;
-    return [p.role ? `Role ${JSON.stringify(p.role)}.` : '', species ? `Species ${p.raceId}.` : '',
+    return [p.role ? `Role ${JSON.stringify(p.role)}.` : '', species ? `${p.device ? 'Device' : 'Species'} ${p.raceId}.` : '',
       p.aspect ? `Aspect ${p.aspect}.` : '', p.template ? `Undead ${p.template}.` : '',
       ...(p.variations ?? []).map(v => `Variant ${v}.`),
       p.creature ? `Creature ${Object.entries(p.creature).map(([k, v]) => `${k} ${v}`).join(', ')}.` : '',

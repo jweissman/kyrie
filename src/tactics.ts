@@ -1,3 +1,4 @@
+import { Canon } from './canon/canon';
 import { Content } from './content';
 import { Effects } from './effects';
 import { ItemCatalog } from './item-catalog';
@@ -54,8 +55,12 @@ export class Tactics {
   // Ties broken by the targets' ids as written, not as the host's language sorts them (a reader in Tallinn saw another
   // enemy struck: the architecture review's H6).
   static order(a: string, b: string): number { return a < b ? -1 : a > b ? 1 : 0; }
-  static choose(state: BattleState, legal: Command[]): Command {
+  static choose(state: BattleState, all: Command[]): Command {
     const actor = state.combatants.find(f => f.id === state.actor)!;
+    // A device does what it was made to do whenever it can (a bomb's fuse, a ward's silence), as Orsino's do; it has
+    // no judgement to weigh a blow against it.
+    const powers = Canon.isDevice(actor.raceId) ? all.filter(c => !['melee', 'ranged', 'wait'].includes(c.ability)) : [];
+    const legal = powers.length ? powers : all;
     const order = [...actor.abilities, 'melee', 'ranged'];
     const ranked = legal.map(command => ({ command, score: Tactics.score(state, command) }))
       .sort((a, b) => b.score - a.score || Tactics.rank(order, a.command) - Tactics.rank(order, b.command)

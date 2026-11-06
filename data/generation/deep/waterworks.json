@@ -271,5 +271,6 @@
       { "role": "mouth", "scene": "Raiders from over the sea came for the Wardens' silver one summer and found the doorway: there is a raiders' mark hacked in the lintel, and the stream runs over a broken oar." }
     ]
   },
-  "rest": ["wardens_hall"]
+  "rest": ["wardens_hall"],
+  "devices": [{"id": "barrier", "label": "a barricade", "role": "beams and stakes the last wardens set across the gallery"}]
 }

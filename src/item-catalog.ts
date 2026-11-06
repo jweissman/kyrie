@@ -55,7 +55,7 @@ export class ItemCatalog {
   // effectiveWeapon), the body armour's ac (else its natural armour), and the modifiers and hooks of equipped items.
   static equipment(creature: Creature): Equipment {
     const equipped = (creature.state.inventory ?? []).filter(i => i.equipped);
-    const natural = Canon.isSpecies(creature.raceId) ? Canon.creature(creature.raceId).statistics : undefined;
+    const natural = Canon.isBody(creature.raceId) ? Canon.creature(creature.raceId).statistics : undefined;
     const wielded = equipped.find(i => this.get(i.definition).weapon);
     const worn = equipped.find(i => this.get(i.definition).armor);
     const hooks: Hooks = {};

@@ -100,7 +100,9 @@ export interface Statistics {
   growth?: { hitPoints?: { base: number; perLevel: number } };
 }
 export interface Species {
-  name: string; description: string; variantOf?: string; type?: string; kind?: 'animal' | 'monster' | 'spirit';
+  name: string; description: string; variantOf?: string; type?: string; kind?: 'animal' | 'monster' | 'spirit' | 'device';
+  // What it looks like, for whoever paints it; and what it is made of (data/catalog/materials.json), for a device.
+  looks?: string; material?: string;
   // The axis of variation it is never made without (an elemental is always of an element): its kinds that name one
   // are what is called up and met, never it bare.
   requires?: string;
@@ -109,7 +111,7 @@ export interface Species {
   // A kind named for what varies it (a great rat, a cave spider): its base (variantOf) with these variations
   // (variations.json), which every creature of it is made with, as an author's Variant would make it.
   variations?: string[];
-  // The painting it is shown by, where its kind has one other than a painting named for it (see CreaturePortraits).
+  // The painting it is shown by (a concept of data/paintings/registry.json), if it has one (see CreaturePortraits).
   portrait?: string;
   // Experience for defeating one (Orsino's monsterXp + 50 × level, an animal's 10 × level); else by type.
   worth?: { base: number; perLevel: number };

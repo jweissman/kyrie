@@ -6,6 +6,7 @@ import blessings from '../../data/catalog/orsino/blessings.json';
 import animals from '../../data/catalog/animals.json';
 import monsters from '../../data/catalog/monsters.json';
 import variations from '../../data/catalog/variations.json';
+import devices from '../../data/catalog/devices.json';
 import variants from '../../data/catalog/orsino/variants.json';
 import type { AdaptationRecord, Ledger } from './orsino-registry';
 import { Canon } from '../canon/canon';
@@ -27,6 +28,7 @@ export class CatalogLedger {
     // Orsino's kinds are authored records now (animals.json, monsters.json), and its overlays variations.
     ['species', { ...animals.species, ...monsters.species } as unknown as Record<string, Generated>],
     ['variation', variations.variations as unknown as Record<string, Generated>],
+    ['device', devices.devices as unknown as Record<string, Generated>],
   ];
   static records(): AdaptationRecord[] {
     // Backgrounds are compiled from Orsino's rows and Kyr's kind tables at load; the compiled catalog is the record.

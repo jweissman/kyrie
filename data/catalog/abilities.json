@@ -341,6 +341,32 @@
         "fidelity": "adapted",
         "notes": "Orsino's Maul without its slow (which Kyr cannot execute), given to bears as a blow they gather for a turn first: stun the bear in between and it is lost."
       }
+    },
+    "detonation": {
+      "name": "Detonation",
+      "kind": "technique",
+      "description": "A fiery explosion: fire over everyone it is set against, and nothing left of it.",
+      "effects": [
+        {
+          "kind": "damage",
+          "amount": {
+            "kind": "deem",
+            "expression": "2d6"
+          },
+          "damageType": "fire",
+          "target": "enemies",
+          "onResist": "half"
+        },
+        {
+          "kind": "kill",
+          "target": "self"
+        }
+      ],
+      "source": {
+        "orsino": "ability:detonation",
+        "fidelity": "adapted",
+        "notes": "Orsino's 2d6 fire on the enemies, then the charge gone; its damage to the enemies is the shape Arrow Volley plays, which the generated record had not."
+      }
     }
   }
 }

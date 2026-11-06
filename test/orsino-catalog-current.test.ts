@@ -12,9 +12,8 @@ const read = (path: string): unknown => JSON.parse(readFileSync(path, 'utf8'));
 describe('the generated Orsino catalog', () => {
   const entries = (read('data/sources/orsino/registry.json') as { entries: RegistryEntry[] }).entries;
   it('summons creatures, never a fighting object', () => {
-    const hand = (read('data/catalog/monsters.json') as { species: Record<string, { source: { orsino?: string } }> })
-      .species;
-    const objects = Object.keys(hand).filter(id => hand[id]!.source.orsino?.startsWith('combatEntity:'));
+    // The fighting objects are devices now (data/catalog/devices.json), not monsters.
+    const objects = Object.keys((read('data/catalog/devices.json') as { devices: Record<string, unknown> }).devices);
     expect(objects.length).toBeGreaterThan(3);
     const called = Object.values(OrsinoBestiary.vocabulary(entries).byType).flat();
     expect(called.filter(id => objects.includes(id))).toEqual([]);

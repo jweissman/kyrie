@@ -7351,13 +7351,15 @@ You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
 
 ### Detonation
 
-*Not playable · technique* · `ability:detonation`
+*Adapted · technique* · `ability:detonation`
 
 - Again after: 3 turns
 
-> A fiery explosion.
+2d6 (2–12) fire damage to every enemy (halved if resisted; may cause burning: a Constitution save against 15 avoids it); slay yourself. Burning: takes 1d3 (1–3) fire damage each turn. Again after 3 turns.
 
-*Not playable — effect:damage: Effect target enemies is not supported.*
+> A fiery explosion: fire over everyone it is set against, and nothing left of it.
+
+*Adapted: Orsino's 2d6 fire on the enemies, then the charge gone; its damage to the enemies is the shape Arrow Volley plays, which the generated record had not.*
 
 ### Dig In
 

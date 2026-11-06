@@ -126,6 +126,8 @@ export interface Observation {
 export interface Objective { id: string; when: Predicate; text: string }
 // A role while something holds; whole, what they are called instead of their name and role ("Known as").
 export interface Person { role?: string; roles?: { role: string; when: Predicate; whole?: boolean }[];
+  // Set where it stands as a device (Device turret.), not met as a creature of a kind (Species wolf.).
+  device?: boolean;
   id: string; name: string;
   place?: string; raceId?: string; classId?: string;
   // Where and when one declared nowhere comes into the story (Arrives at … when …).

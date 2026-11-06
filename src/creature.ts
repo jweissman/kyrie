@@ -64,7 +64,7 @@ export class CreatureSchema {
     if (creature.likeness !== undefined && (typeof creature.likeness !== 'string' || !creature.likeness)) {
       throw new Error(`${creature.id}: a likeness is a painting's id`);
     }
-    if (Canon.isSpecies(creature.raceId) ? creature.classId !== undefined
+    if (Canon.isBody(creature.raceId) ? creature.classId !== undefined
       : !Canon.isAncestry(creature.raceId) || typeof creature.classId !== 'string' || !Canon.classes[creature.classId]) {
       throw new Error(`${creature.id}: a person has an ancestry and a class; a species creature has no class`);
     }

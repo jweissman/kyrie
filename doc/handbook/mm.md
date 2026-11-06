@@ -1437,33 +1437,6 @@ Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, 
 
 ### Constructs
 
-#### Antimagic ward
-
-*Adapted · construct* · `species:antimagic_ward`
-
-- Type: construct (monster)
-- Hit points: d10 a level
-- Qualities: +10 strength, +3 dexterity, +16 constitution, +1 intelligence, +10 wisdom, +1 charisma
-- Attack: slam, 1d6 piercing
-- Temperament: obedient
-- Worth: 350 experience a level
-
-Silence: Every enemy gains silence for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Silence: cannot cast spells. An arcane spell of the third level. Takes a third-level slot.
-
-Pure Beam: 1d4 (1–4) radiant damage to one enemy (halved if resisted; may cause blinded: a Dexterity save against 15 avoids it); 3d4 (3–12) radiant damage to it (only undead creatures; halved if resisted; may cause blinded: a Dexterity save against 15 avoids it). Blinded: −4 to hit, −10 evasion, −2 to every roll. A divine spell of the first level. Takes a first-level slot.
-
-Dispel Magic (not playable): no mechanics
-
-Magebane: You are magebane for 3 turns. Magebane: against an enemy who casts, 2d6 (2–12) true damage to that enemy. An arcane spell of the second level. Takes a second-level slot.
-
-Arcane Ward: +3 against magic, resists 10% of all.
-
-Defender: 2 harder to hit, resists 20% of bludgeoning, resists 20% of piercing, resists 20% of slashing.
-
-> A circle of cut stones that hums when magic is near, and silences it.
-
-*Adapted: A fighting object: in Kyr a creature of the construct type that takes its turn in a fight like any other, with Orsino's abilities and traits for it. It does not move or answer; where it stands is where it was put.*
-
 #### Automaton
 
 *Adapted · construct* · `species:automaton`
@@ -1492,42 +1465,6 @@ Constructed Resilience: Resists 50% of bludgeoning, resists 50% of piercing, res
 *Left out — field:monsterGold: Orsino's 2d10 gold for the kill is not carried.*
 
 *Adapted: Composed by OrsinoMonsters (construct class, Automaton type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
-
-#### Barrier
-
-*Adapted · construct* · `species:barrier`
-
-- Type: construct (monster)
-- Hit points: d10 a level
-- Qualities: +10 strength, +3 dexterity, +16 constitution, +1 intelligence, +10 wisdom, +1 charisma
-- Attack: slam, 1d6 piercing
-- Temperament: obedient
-- Worth: 350 experience a level
-
-Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
-
-Defender: 2 harder to hit, resists 20% of bludgeoning, resists 20% of piercing, resists 20% of slashing.
-
-> A wall of force or of stone set across the way, which does nothing but stand there and be in it.
-
-*Adapted: A fighting object: in Kyr a creature of the construct type that takes its turn in a fight like any other, with Orsino's abilities and traits for it. It does not move or answer; where it stands is where it was put.*
-
-#### Bomb
-
-*Adapted · construct* · `species:bomb`
-
-- Type: construct (monster)
-- Hit points: d10 a level
-- Qualities: +10 strength, +3 dexterity, +16 constitution, +1 intelligence, +10 wisdom, +1 charisma
-- Attack: slam, 1d6 piercing
-- Temperament: obedient
-- Worth: 350 experience a level
-
-Countdown: You are ticking for 3 turns. Ticking: when it ends, Detonation, at no cost. Again after 3 turns.
-
-> A thing that ticks, and will not tick for long.
-
-*Adapted: A fighting object: in Kyr a creature of the construct type that takes its turn in a fight like any other, with Orsino's abilities and traits for it. It does not move or answer; where it stands is where it was put.*
 
 #### Clockwork Soldier
 
@@ -1625,46 +1562,6 @@ Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 
 Constructed Resilience: Resists 50% of bludgeoning, resists 50% of piercing, resists 50% of slashing, immune to poison, immune to disease, immune to sleep, immune to bleed.
 
 > A golem of riveted iron plates: slow, and very hard to break.
-
-#### Phylactery
-
-*Adapted · construct* · `species:phylactery`
-
-- Type: construct (monster)
-- Hit points: d10 a level
-- Qualities: +10 strength, +3 dexterity, +16 constitution, +1 intelligence, +10 wisdom, +1 charisma
-- Attack: slam, 1d6 piercing
-- Temperament: obedient
-- Worth: 350 experience a level
-
-Animate Dead: Raise a fallen ally with 40% of their health, undead nature now. An arcane spell of the third level. Takes a third-level slot.
-
-Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may cause diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the second level. Takes a second-level slot.
-
-Black Ritual: You are summoning for 3 turns. Summoning: when it ends, Summon Lich, at no cost. Again after 3 turns.
-
-Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm.
-
-> A small dark vessel that holds what keeps something from staying dead.
-
-*Adapted: A fighting object: in Kyr a creature of the construct type that takes its turn in a fight like any other, with Orsino's abilities and traits for it. It does not move or answer; where it stands is where it was put.*
-
-#### Turret
-
-*Adapted · construct* · `species:turret`
-
-- Type: construct (monster)
-- Hit points: d10 a level
-- Qualities: +10 strength, +3 dexterity, +16 constitution, +1 intelligence, +10 wisdom, +1 charisma
-- Attack: slam, 1d6 piercing
-- Temperament: obedient
-- Worth: 350 experience a level
-
-Arrow Volley: 3d4 (3–12) piercing damage to every enemy (halved if resisted; may cause bleeding: a Constitution save against 15 avoids it). Bleeding: takes 1d2 (1–2) bleed damage each turn. Again after 3 turns.
-
-> An engine of the makers that looses bolts at whatever moves in front of it.
-
-*Adapted: A fighting object: in Kyr a creature of the construct type that takes its turn in a fight like any other, with Orsino's abilities and traits for it. It does not move or answer; where it stands is where it was put.*
 
 ### Demons
 
@@ -2798,6 +2695,133 @@ Ethereal Form: +5 evasion, resists 50% of bludgeoning, resists 50% of piercing, 
 *Left out — field:monsterGold: Orsino's 2d10 gold for the kill is not carried.*
 
 *Adapted: Composed by OrsinoMonsters (undead class, Wraith type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+## Devices
+
+Engines, wards, barriers, charges and vessels: things that take part in a fight without being creatures. Each is set where it stands (Device turret.) and does what it was made to do whenever it can; nothing summons one, and none is met in a den.
+
+### Antimagic ward
+
+*Adapted · ward* · `species:antimagic_ward`
+
+- Type: ward (device)
+- Hit points: 8
+- Qualities: +3 strength, +3 dexterity, +3 constitution, +3 intelligence, +3 wisdom, +3 charisma
+- Attack: slam, 1d6 piercing
+- Temperament: obedient
+- Worth: 200 experience a level
+
+Wait: .
+
+Dispel Magic (not playable): no mechanics
+
+Magebane: You are magebane for 3 turns. Magebane: against an enemy who casts, 2d6 (2–12) true damage to that enemy. An arcane spell of the second level. Takes a second-level slot.
+
+Pure Beam: 1d4 (1–4) radiant damage to one enemy (halved if resisted; may cause blinded: a Dexterity save against 15 avoids it); 3d4 (3–12) radiant damage to it (only undead creatures; halved if resisted; may cause blinded: a Dexterity save against 15 avoids it). Blinded: −4 to hit, −10 evasion, −2 to every roll. A divine spell of the first level. Takes a first-level slot.
+
+Silence: Every enemy gains silence for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Silence: cannot cast spells. An arcane spell of the third level. Takes a third-level slot.
+
+Inanimate Nature: Immune to charm, immune to fear, immune to stun, immune to sleep, immune to poison, immune to disease, immune to bleed.
+
+Arcane Ward: +3 against magic, resists 10% of all.
+
+Defender: 2 harder to hit, resists 20% of bludgeoning, resists 20% of piercing, resists 20% of slashing.
+
+> A circle of cut stones that hums when magic is near, and silences it.
+
+*Adapted: Orsino's device: every quality 3, eight hit points, inanimate, waiting when it has nothing to do, and its own powers; it fights where it was set and is never a creature (Kyr strikes with a slam where Orsino's strikes for 1d2 true damage). Its material is Kyr's.*
+
+### Barrier
+
+*Adapted · barrier* · `species:barrier`
+
+- Type: barrier (device)
+- Hit points: 8
+- Qualities: +3 strength, +3 dexterity, +3 constitution, +3 intelligence, +3 wisdom, +3 charisma
+- Attack: slam, 1d6 piercing
+- Temperament: obedient
+- Worth: 200 experience a level
+
+Wait: .
+
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
+
+Inanimate Nature: Immune to charm, immune to fear, immune to stun, immune to sleep, immune to poison, immune to disease, immune to bleed.
+
+Defender: 2 harder to hit, resists 20% of bludgeoning, resists 20% of piercing, resists 20% of slashing.
+
+> A wall of force or of stone set across the way, which does nothing but stand there and be in it.
+
+*Adapted: Orsino's device: every quality 3, eight hit points, inanimate, waiting when it has nothing to do, and its own powers; it fights where it was set and is never a creature (Kyr strikes with a slam where Orsino's strikes for 1d2 true damage). Its material is Kyr's.*
+
+### Bomb
+
+*Adapted · charge* · `species:bomb`
+
+- Type: charge (device)
+- Hit points: 8
+- Qualities: +3 strength, +3 dexterity, +3 constitution, +3 intelligence, +3 wisdom, +3 charisma
+- Attack: slam, 1d6 piercing
+- Temperament: obedient
+- Worth: 200 experience a level
+
+Wait: .
+
+Countdown: You are ticking for 3 turns. Ticking: when it ends, Detonation, at no cost. Again after 3 turns.
+
+Inanimate Nature: Immune to charm, immune to fear, immune to stun, immune to sleep, immune to poison, immune to disease, immune to bleed.
+
+> A thing that ticks, and will not tick for long.
+
+*Adapted: Orsino's device: every quality 3, eight hit points, inanimate, waiting when it has nothing to do, and its own powers; it fights where it was set and is never a creature (Kyr strikes with a slam where Orsino's strikes for 1d2 true damage). Its material is Kyr's.*
+
+### Phylactery
+
+*Adapted · vessel* · `species:phylactery`
+
+- Type: vessel (device)
+- Hit points: 8
+- Qualities: +3 strength, +3 dexterity, +3 constitution, +3 intelligence, +3 wisdom, +3 charisma
+- Attack: slam, 1d6 piercing
+- Temperament: obedient
+- Worth: 200 experience a level
+
+Wait: .
+
+Animate Dead: Raise a fallen ally with 40% of their health, undead nature now. An arcane spell of the third level. Takes a third-level slot.
+
+Black Ritual: You are summoning for 3 turns. Summoning: when it ends, Summon Lich, at no cost. Again after 3 turns.
+
+Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may cause diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the second level. Takes a second-level slot.
+
+Inanimate Nature: Immune to charm, immune to fear, immune to stun, immune to sleep, immune to poison, immune to disease, immune to bleed.
+
+Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm.
+
+> A small dark vessel that holds what keeps something from staying dead.
+
+*Adapted: Orsino's device: every quality 3, eight hit points, inanimate, waiting when it has nothing to do, and its own powers; it fights where it was set and is never a creature (Kyr strikes with a slam where Orsino's strikes for 1d2 true damage). Its material is Kyr's.*
+
+### Turret
+
+*Adapted · engine* · `species:turret`
+
+- Type: engine (device)
+- Hit points: 8
+- Qualities: +3 strength, +3 dexterity, +3 constitution, +3 intelligence, +3 wisdom, +3 charisma
+- Attack: slam, 1d6 piercing
+- Temperament: obedient
+- Worth: 200 experience a level
+
+Wait: .
+
+Arrow Volley: 3d4 (3–12) piercing damage to every enemy (halved if resisted; may cause bleeding: a Constitution save against 15 avoids it). Bleeding: takes 1d2 (1–2) bleed damage each turn. Again after 3 turns.
+
+Inanimate Nature: Immune to charm, immune to fear, immune to stun, immune to sleep, immune to poison, immune to disease, immune to bleed.
+
+> An engine of the makers that looses bolts at whatever moves in front of it.
+
+*Adapted: Orsino's device: every quality 3, eight hit points, inanimate, waiting when it has nothing to do, and its own powers; it fights where it was set and is never a creature (Kyr strikes with a slam where Orsino's strikes for 1d2 true damage). Its material is Kyr's.*
 
 ## Variations
 

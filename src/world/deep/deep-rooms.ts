@@ -32,6 +32,7 @@ export class DeepRooms {
   static lines(c: DeepContent, at: { site: string; purpose: DeepPurpose; first?: string }): string[] {
     const r = c.room;
     return [...c.dwellers ? this.dwellers(c.dwellers, r.id) : [],
+      ...c.dwellers ? this.device(r.id, c.dwellers.level, at.purpose) : [],
       ...c.trap ? RegionMarvels.snare({ id: c.room.id, way: c.trap.way.id, trap: c.trap.trap, under: !c.room.open })
         : [],
       ...c.riddle ? this.casket(r.id, { difficulty: c.riddle, purpose: at.purpose }) : [],
@@ -51,6 +52,15 @@ export class DeepRooms {
     const who = g.species ? `Species ${g.species}.` : `Ancestry ${g.ancestry}. Calling ${g.calling ?? 'warrior'}.`;
     return [`  Person ${d.id} ${q(label)} at ${room} { Role ${q(g.role)}. ${who} Numbers ${g.count}. Level ${d.level}.`
       + ` Temperament ${g.temperament}.${d.aspect && g.species ? ` Aspect ${d.aspect}.` : ''} Lair ${room}. }`];
+  }
+  // A device among the dwellers, as Orsino sets one in a fifth of its encounters, of the kind the place keeps (a tomb's
+  // charge, a temple's ward): set where it stands, and never a creature (data/catalog/devices.json).
+  private static device(room: string, level: number, purpose: DeepPurpose): string[] {
+    const kinds = purpose.devices ?? [], draw = new Draw(`${room}:device`);
+    if (!kinds.length || !draw.chance(0.2)) { return []; }
+    const d = kinds[Math.floor(draw.next() * kinds.length)]!, q = this.q;
+    return [`  Person ${room}_device ${q(d.label)} at ${room} { Role ${q(d.role)}. Device ${d.id}. Level ${level}.`
+      + ` Temperament obedient. Lair ${room}. }`];
   }
   // A casket with a riddle on its lid and four words with a hollow beside each; the right one opens it.
   private static casket(room: string, at: { difficulty: string; purpose: DeepPurpose }): string[] {

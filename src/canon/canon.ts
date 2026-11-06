@@ -12,6 +12,7 @@ import skills from '../../data/catalog/skills.json';
 import animals from '../../data/catalog/animals.json';
 import monsters from '../../data/catalog/monsters.json';
 import materials from '../../data/catalog/materials.json';
+import devices from '../../data/catalog/devices.json';
 import traits from '../../data/catalog/traits.json';
 import orsinoAbilities from '../../data/catalog/orsino/abilities.json';
 import orsinoConditions from '../../data/catalog/orsino/conditions.json';
@@ -70,6 +71,8 @@ export class Canon {
   // The base creatures, every one in one of two authored files (animals.json, monsters.json): Orsino's kinds among
   // them by provenance (source.orsino), none generated beside them (the owner, 5 November: one authoritative record).
   static readonly species = { ...animals.species, ...monsters.species } as unknown as Record<string, Species>;
+  // The devices that fight without being creatures (data/catalog/devices.json): a turret, a ward, a bomb.
+  static readonly devices = devices.devices as unknown as Record<string, Species>;
   // The stuff things are made of (data/catalog/materials.json): named once, and by its id wherever something is of it.
   static readonly materials = materials.materials as unknown as Record<string, Material>;
   static readonly classes = classes.classes as unknown as Record<string, CharacterClass>;
@@ -104,9 +107,12 @@ export class Canon {
     backgrounds as unknown as BackgroundTables, id => Object.hasOwn(Canon.items, Canon.resolve('items', id)),
     professions.professions as unknown as Record<string, KyrProfession>);
   static readonly backgroundKinds = (backgrounds as unknown as BackgroundTables).backgroundKindMeaning.groups;
-  // A species with variantOf is its base with the variant's declared fields laid over it. Cycles are errors.
+  // A body's record (a species', a device's); one with variantOf is its base with the variant's declared fields laid
+  // over it. Cycles are errors.
   static creature(id: string, seen: string[] = []): Species {
-    const own = this.species[id];
+    // Every body the one chassis makes, a creature's (with a module's own kinds, installed as it loads) or a
+    // device's: the contract they share (qualities, hit points, a natural strike, powers, nature).
+    const own = this.species[id] ?? this.devices[id];
     if (!own) { throw new Error(`Unknown species ${id}`); }
     if (!own.variantOf) { return own; }
     if (seen.includes(id)) { throw new Error(`Species variant cycle: ${[...seen, id].join(' > ')}`); }
@@ -122,6 +128,9 @@ export class Canon {
   }
   static isAncestry(id: string): boolean { return Object.hasOwn(this.ancestries, id); }
   static isSpecies(id: string): boolean { return Object.hasOwn(this.species, id); }
+  // A body made from its own record, not a person of a people: a creature or a device.
+  static isBody(id: string): boolean { return this.isSpecies(id) || this.isDevice(id); }
+  static isDevice(id: string): boolean { return Object.hasOwn(this.devices, id); }
   // One of the dead or a spirit who is a he or a she (pron_she), not an it: someone, if they keep the peace (a drowned
   // girl, a captain kneeling in his chapel), where a peaceable beast is an animal.
   static soul(id: string, pronoun?: string): boolean {

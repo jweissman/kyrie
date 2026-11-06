@@ -237,7 +237,7 @@ export class ModuleAssembly {
   // (an imported innkeeper) is said to talk by the module that has them.
   private static talkers(module: Module, imported: string[]) {
     if (!module.relations.some(r => r.name === 'talks')) { return; }
-    const ids = new Set([...(module.people ?? []).filter(p => !p.creature && !(p.raceId && Canon.isSpecies(p.raceId)))
+    const ids = new Set([...(module.people ?? []).filter(p => !p.creature && !(p.raceId && Canon.isBody(p.raceId)))
       .map(p => p.id), ...module.actions.flatMap(a => a.topic && a.speaker && !imported.includes(a.speaker)
       ? [a.speaker] : [])]);
     for (const id of ids) { module.initial.push({ kind: 'assert', call: ModuleWriter.call('talks', id) }); }

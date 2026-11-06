@@ -237,5 +237,6 @@
       { "role": "mouth", "scene": "Raiders from over the sea came for the singers' stones one summer: there is a raiders' mark hacked in the smooth rim of the cave mouth, the only mark on it." }
     ]
   },
-  "rest": ["cantors"]
+  "rest": ["cantors"],
+  "devices": [{"id": "antimagic_ward", "label": "a warding stone", "role": "a stone the singers cut to still any voice but theirs"}, {"id": "barrier", "label": "a barricade", "role": "a wall of beams braced across the hall"}]
 }

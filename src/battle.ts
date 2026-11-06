@@ -390,7 +390,7 @@ export class Battle {
   // Combat.turn's start: cooldowns tick; a creature with noActions loses the turn.
   // A kind's own actions a turn (Orsino's monsterAttacksPerTurn: an owlbear's two, a dragon's three); one for people.
   static actionsOf(f: Fighter): number {
-    return Canon.isSpecies(f.raceId) ? Canon.creature(f.raceId).statistics?.actions ?? 1 : 1;
+    return Canon.isBody(f.raceId) ? Canon.creature(f.raceId).statistics?.actions ?? 1 : 1;
   }
   private startTurn() {
     while (!this.outcome) {

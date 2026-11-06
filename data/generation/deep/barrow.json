@@ -235,5 +235,6 @@
       { "role": "mouth", "scene": "Raiders from over the sea dug into the forecourt one summer looking for gold, and gave up: there is a trench half across it, and a broken spade in the bottom." }
     ]
   },
-  "rest": ["mourners"]
+  "rest": ["mourners"],
+  "devices": [{"id": "bomb", "label": "a ticking charge", "role": "a charge the grave-robbers left lit against whoever came after them"}, {"id": "phylactery", "label": "a dark vessel", "role": "a vessel of silver and old glass set on the dead king's stone, that does not let what it keeps stay dead"}]
 }

@@ -18,6 +18,7 @@ export class KyrLinks {
       case 'trait': return Object.hasOwn(Canon.traits, id);
       case 'ancestry': return Canon.isAncestry(id);
       case 'species': return Canon.isSpecies(id);
+      case 'device': return Canon.isDevice(id);
       case 'class': return Object.hasOwn(Canon.classes, id);
       case 'save': return Object.hasOwn(Canon.rules.saveKinds, id);
       case 'damage': return Canon.rules.damageTypes.includes(id);

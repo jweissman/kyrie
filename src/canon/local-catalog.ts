@@ -51,7 +51,7 @@ export class LocalKinds {
   }
   // A kind of creature like one the bestiary has: its statistics and abilities, with its own name and temperament.
   static species(module: string, spec: LocalSpeciesSpec): Species {
-    if (!Canon.isSpecies(spec.like)) { throw new Error(`Species ${spec.id} is like ${spec.like}, which is no species`); }
+    if (!Canon.isBody(spec.like)) { throw new Error(`Species ${spec.id} is like ${spec.like}, which is no species`); }
     return { name: spec.name, description: spec.description ?? Canon.creature(spec.like).description,
       variantOf: spec.like, ...spec.temperament ? { temperament: spec.temperament } : {},
       ...spec.habitats ? { habitats: spec.habitats } : {},

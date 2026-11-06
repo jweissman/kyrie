@@ -66,6 +66,9 @@ export interface DeepPurpose {
   hook: { topic: string; trade?: { topic: string; says: string }; home?: string };
   levels: DeepLevelSpec[]; connectors: DeepConnector[]; roles: Record<string, DeepRole>;
   dwellers: { depth: number; groups: DeepGroup[] }[];
+  // The devices set among those who live here, by what the place was (Orsino's: a tomb's charge, a temple's ward):
+  // one in a fifth of the rooms with dwellers (see DeepRooms.device).
+  devices?: { id: string; label: string; role: string }[];
   // Who leads at a depth, or is worse than the rest: what an elite room holds.
   elites?: { depth: number; groups: DeepGroup[] }[];
   // What keeps the bottom, too strong to fight when the site is first found: where it shrinks back to, and what it

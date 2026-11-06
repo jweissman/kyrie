@@ -1,0 +1,185 @@
+{
+  "about": "The devices that take part in a fight without being creatures (the owner, 5 November: taking part in a fight does not make a thing a monster): engines, wards, barriers, charges and vessels, from Orsino's combatEntity template (its class \"device\"). Each is made by the one chassis that makes creatures, from its own record: its qualities, hit points, natural strike, powers and nature; it is set where it stands by an author (Device turret.) or by a site that has one, never called up by a summoning, never met in a den.",
+  "devices": {
+    "turret": {
+      "name": "Turret",
+      "kind": "device",
+      "type": "engine",
+      "description": "An engine of the makers that looses bolts at whatever moves in front of it.",
+      "looks": "A squat engine of iron on a swivel, bolts racked in its throat, that looses at whatever moves before it.",
+      "material": "iron",
+      "statistics": {
+        "attributes": {
+          "strength": 3,
+          "dexterity": 3,
+          "constitution": 3,
+          "intelligence": 3,
+          "wisdom": 3,
+          "charisma": 3
+        },
+        "hitPoints": 8,
+        "primary": "strength",
+        "weapon": "slam"
+      },
+      "abilities": [
+        "wait",
+        "arrow_volley"
+      ],
+      "traits": [
+        "inanimate",
+        "automatic_fire"
+      ],
+      "temperament": "obedient",
+      "source": {
+        "orsino": "combatEntity:turret",
+        "fidelity": "adapted",
+        "notes": "Orsino's device: every quality 3, eight hit points, inanimate, waiting when it has nothing to do, and its own powers; it fights where it was set and is never a creature (Kyr strikes with a slam where Orsino's strikes for 1d2 true damage). Its material is Kyr's."
+      }
+    },
+    "antimagic_ward": {
+      "name": "Antimagic ward",
+      "kind": "device",
+      "type": "ward",
+      "description": "A circle of cut stones that hums when magic is near, and silences it.",
+      "looks": "A standing stone cut with interlocking marks, cold to the hand, that makes the air dull around it.",
+      "material": "stone",
+      "statistics": {
+        "attributes": {
+          "strength": 3,
+          "dexterity": 3,
+          "constitution": 3,
+          "intelligence": 3,
+          "wisdom": 3,
+          "charisma": 3
+        },
+        "hitPoints": 8,
+        "primary": "strength",
+        "weapon": "slam"
+      },
+      "abilities": [
+        "wait",
+        "dispel_magic",
+        "magebane",
+        "pure_beam",
+        "silence"
+      ],
+      "traits": [
+        "inanimate",
+        "counter_arcane",
+        "wall"
+      ],
+      "temperament": "obedient",
+      "source": {
+        "orsino": "combatEntity:antimagic_ward",
+        "fidelity": "adapted",
+        "notes": "Orsino's device: every quality 3, eight hit points, inanimate, waiting when it has nothing to do, and its own powers; it fights where it was set and is never a creature (Kyr strikes with a slam where Orsino's strikes for 1d2 true damage). Its material is Kyr's."
+      }
+    },
+    "barrier": {
+      "name": "Barrier",
+      "kind": "device",
+      "type": "barrier",
+      "description": "A wall of force or of stone set across the way, which does nothing but stand there and be in it.",
+      "looks": "A wall of beams and stakes set across the way, braced to take a blow.",
+      "material": "wood",
+      "statistics": {
+        "attributes": {
+          "strength": 3,
+          "dexterity": 3,
+          "constitution": 3,
+          "intelligence": 3,
+          "wisdom": 3,
+          "charisma": 3
+        },
+        "hitPoints": 8,
+        "primary": "strength",
+        "weapon": "slam"
+      },
+      "abilities": [
+        "wait",
+        "defend"
+      ],
+      "traits": [
+        "inanimate",
+        "wall"
+      ],
+      "temperament": "obedient",
+      "source": {
+        "orsino": "combatEntity:barrier",
+        "fidelity": "adapted",
+        "notes": "Orsino's device: every quality 3, eight hit points, inanimate, waiting when it has nothing to do, and its own powers; it fights where it was set and is never a creature (Kyr strikes with a slam where Orsino's strikes for 1d2 true damage). Its material is Kyr's."
+      }
+    },
+    "bomb": {
+      "name": "Bomb",
+      "kind": "device",
+      "type": "charge",
+      "description": "A thing that ticks, and will not tick for long.",
+      "looks": "A round iron belly with a hissing fuse: it ticks, and will not tick for long.",
+      "material": "iron",
+      "statistics": {
+        "attributes": {
+          "strength": 3,
+          "dexterity": 3,
+          "constitution": 3,
+          "intelligence": 3,
+          "wisdom": 3,
+          "charisma": 3
+        },
+        "hitPoints": 8,
+        "primary": "strength",
+        "weapon": "slam"
+      },
+      "abilities": [
+        "wait",
+        "countdown"
+      ],
+      "traits": [
+        "inanimate"
+      ],
+      "temperament": "obedient",
+      "source": {
+        "orsino": "combatEntity:bomb",
+        "fidelity": "adapted",
+        "notes": "Orsino's device: every quality 3, eight hit points, inanimate, waiting when it has nothing to do, and its own powers; it fights where it was set and is never a creature (Kyr strikes with a slam where Orsino's strikes for 1d2 true damage). Its material is Kyr's."
+      }
+    },
+    "phylactery": {
+      "name": "Phylactery",
+      "kind": "device",
+      "type": "vessel",
+      "description": "A small dark vessel that holds what keeps something from staying dead.",
+      "looks": "A small dark vessel of silver and old glass that holds what keeps something from staying dead.",
+      "material": "silver",
+      "statistics": {
+        "attributes": {
+          "strength": 3,
+          "dexterity": 3,
+          "constitution": 3,
+          "intelligence": 3,
+          "wisdom": 3,
+          "charisma": 3
+        },
+        "hitPoints": 8,
+        "primary": "strength",
+        "weapon": "slam"
+      },
+      "abilities": [
+        "wait",
+        "animate_dead",
+        "black_ritual",
+        "life_drain"
+      ],
+      "traits": [
+        "inanimate",
+        "fiendish"
+      ],
+      "temperament": "obedient",
+      "source": {
+        "orsino": "combatEntity:phylactery",
+        "fidelity": "adapted",
+        "notes": "Orsino's device: every quality 3, eight hit points, inanimate, waiting when it has nothing to do, and its own powers; it fights where it was set and is never a creature (Kyr strikes with a slam where Orsino's strikes for 1d2 true damage). Its material is Kyr's."
+      }
+    }
+  }
+}

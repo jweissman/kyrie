@@ -49,7 +49,7 @@ export class Content {
   static readonly classes: Record<string, { name: string; playable?: boolean }> = { ...Canon.classes };
   // A people or a kind of creature by its id, as the catalogs have it now (an adventure's own species among them).
   static race(id: string): { name: string; classes?: string[]; playable?: boolean } | undefined {
-    return Canon.ancestries[id] ?? (Canon.isSpecies(id) ? Canon.creature(id) : undefined);
+    return Canon.ancestries[id] ?? (Canon.isBody(id) ? Canon.creature(id) : undefined);
   }
   static readonly playableClasses = Object.entries(Canon.classes).filter(([, c]) => c.playable).map(([id]) => id);
   static readonly playableRaces = Object.entries(Canon.ancestries).filter(([, a]) => a.playable).map(([id]) => id);
@@ -105,7 +105,7 @@ export class Content {
   // A kind named for what varies it is its base with those variations (see Species.variations), before any the author
   // gives, each once.
   private static implied(raceId: string, context: CreatureGenerationContext): CreatureGenerationContext {
-    const own = Canon.isSpecies(raceId) ? Canon.creature(raceId).variations ?? [] : [];
+    const own = Canon.isBody(raceId) ? Canon.creature(raceId).variations ?? [] : [];
     return own.length ? { ...context, variations: [...new Set([...own, ...context.variations ?? []])] } : context;
   }
   private static invalid(context: CreatureGenerationContext): boolean {
@@ -124,7 +124,7 @@ export class Content {
   // derive hit points and spell slots. A species creature takes its own statistics, natural weapon and nature traits.
   createCreature(id: string, context: CreatureGenerationContext = {}, randomIdentity = id): Creature {
     if (Content.invalid(context)) { throw new Error(`Invalid creature generation context for ${id}`); }
-    const speciesFamily = context.raceId && Canon.isSpecies(context.raceId)
+    const speciesFamily = context.raceId && Canon.isBody(context.raceId)
       ? context.raceId : undefined;
     if (speciesFamily && context.classId !== undefined) {
       throw new Error(`${id}: ${Creation.a(speciesFamily)} is a species and takes no class`);
@@ -134,7 +134,7 @@ export class Content {
     const stream = this.stream.bind(this, randomIdentity);
     const raceId = context.raceId ?? stream('population').generate('population', context.population ? { population: context.population } : {})
       .raceId as string;
-    const species = Canon.isSpecies(raceId);
+    const species = Canon.isBody(raceId);
     if (species && context.classId !== undefined) { throw new Error(`${id}: ${Creation.a(raceId)} is a species and takes no class`); }
     const ancestry = Canon.ancestries[raceId];
     const classId = species ? undefined : Creation.classId(context.classId

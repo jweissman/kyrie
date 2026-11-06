@@ -5895,7 +5895,7 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
-    "species:antimagic_ward"
+    "device:antimagic_ward"
    ]
   },
   {
@@ -5903,7 +5903,7 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
-    "species:barrier"
+    "device:barrier"
    ]
   },
   {
@@ -5911,7 +5911,7 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
-    "species:bomb"
+    "device:bomb"
    ]
   },
   {
@@ -5919,7 +5919,7 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
-    "species:phylactery"
+    "device:phylactery"
    ]
   },
   {
@@ -5927,7 +5927,7 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
-    "species:turret"
+    "device:turret"
    ]
   },
   {
