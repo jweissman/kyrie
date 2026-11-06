@@ -8,6 +8,7 @@
     "voices.kyr",
     "company.kyr",
     "lore.kyr",
+    "trimmer.kyr",
     "kin.kyr"
   ],
   "rules": [

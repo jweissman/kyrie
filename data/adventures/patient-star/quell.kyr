@@ -29,6 +29,7 @@ Module season "Hold One Season" {
   Passage east_gate "the old east gate" is gate between square and old_quell.
 
   Observe square_scene at square when not dark() "The square is umber brick on every side, the colour of dried blood, and not one window looks east. Sledges hiss on the cobbles between the shifts. At the weighing-yard gate a clerk calls the grades: 'One. One. Three. Reject.'".
+  Observe square_hook at square when not dark() and kin(party, garret) and not offered(dagny, party) "Across the square the Mutual's yard gate stands open, and Dagny Ferrow's chalk-board inside has your name on it with twenty-eight crowns beside. She has sent for you twice. Your uncle Garret has stood eleven months in the light at Tamaun, and the Mutual means to go down for him in three days or four.".
   Observe square_night at square when dark() "The square is empty but for the dusk crew coming in, hoods back, grey in the face. Somebody coughs, dry and short, and does not stop for a while.".
   Observe yard_scene at mutual_yard when true "The Mutual's yard: sledges up on their ends against the wall, grit-sacks, coils of rope, and a trough of grey water where the cutters wash the glitter off their hands.".
   Observe hall_scene at mutual_hall when true "A long room with a hearth at one end and the Mutual's tally-boards along the wall: crews, shifts, debts, chalked and rubbed out and chalked again. Your own name is up there, with a number beside it.".
@@ -65,7 +66,7 @@ Module season "Hold One Season" {
     Sells rope for 1 coin from 2.
   }
   Person barrow_boy "a boy with a barrow" at square {
-    Role "selling felt cloaks off a barrow, cheap". Ancestry human. Peaceable. Pronouns he.
+    Role "a hawker of felt cloaks off a barrow, cheap". Ancestry human. Peaceable. Pronouns he.
     Sells madder_felt for 1 coin from 4.
   }
   Person honey_seller "Ezh's aunt" at square {

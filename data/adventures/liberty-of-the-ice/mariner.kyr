@@ -1,0 +1,36 @@
+Module pellam "The Liberty of the Ice" {
+  Description "A mariner's wife at the head of Hay Stairs, who has had no word from the Tolleth packet since the river froze, and a letter she would have carried.".
+
+  // ── Jennet Fosdyke, at the head of Hay Stairs ──────────────────────────────────────────────────────────────────────
+  // Her want: a letter to her husband, who is mate in the Tolleth packet Dorothea, to go down to the sea by anyone who is
+  // going. Her fear: that the river has stopped more than the boats, and that the packet is a thing she wrote to as a
+  // habit. The lie: that she is not waiting, only passing the time at the top of the stairs. Said sparingly, because
+  // she has said it to everyone on Bankside and nobody has been going that way.
+  Person fosdyke "Jennet Fosdyke" at hay_stairs {
+    Role "a mariner's wife, in a boat-cloak that is not hers, watching the ice from the head of Hay Stairs". Ancestry human. Peaceable. Pronouns she. Manner stoic.
+    Greets "A woman in a man's boat-cloak stands at the rail of Hay Stairs with her back to the Fair, looking the other way, downstream, where the river goes under the last arch and out of the town. 'I am not waiting,' she says, before you have asked. 'I have the air to take. It is a wonderful air.'".
+    Greets again "Jennet Fosdyke does not turn from the downstream view. 'Still frozen,' she says. 'I looked.'".
+  }
+  Item fosdyke_letter "Jennet Fosdyke's letter to Tolleth, sealed with a thimble" is map at limbo owned by fosdyke.
+  Relation fosdykeLetter(group). Relation fosdykeEased(group).
+  Discovery fosdyke_packet "Jennet Fosdyke's husband is mate in the Tolleth packet, a ketch called the Dorothea, and the river has been frozen on her since the packet last called at Pellam.".
+
+  Topic fosdyke_who with fosdyke "Ask Jennet Fosdyke what she is looking at" when true once {
+    Says "'Downstream.' She pulls the cloak across. 'My man's mate in a ketch out of Tolleth, the Dorothea, Captain Bascom, salt south and oil to a rock. She used to run up to Pellam on the spring tide with a hold of herring, and he would come up these stairs two at a time and I would pretend not to have been looking.' The ice creaks. 'The river has shut since Martinmas. The packet will be in Tolleth, or at the rock, or wherever packets are. I know that. I know it the way you know your own front step.' She does not look round. 'He has not been sent for. Nobody sends for a mate.'".
+    On discuss { Assert knows(actor, fosdyke_packet). }
+  }
+  Topic fosdyke_letter_ask with fosdyke "Ask Jennet Fosdyke whether she has a letter to go south" when knows(actor, fosdyke_packet) and not fosdykeLetter(actor) once {
+    Says "She is quiet so long you think you have not been heard. Then she reaches into the cloak and brings out a letter folded small, sealed with the end of a thimble, in the way women of Bankside seal things that are not meant to be read aloud. 'Tolleth,' she says. 'The quay. There is a board there that gives her sailings in chalk, they tell me. Captain Bascom will have it for Fosdyke, and if Fosdyke is not aboard he will have it kept.' A breath. 'Do not tell Bascom what is in it. It is nothing. It is a list of what I have been doing. It is very short.' She turns, at last, and looks at you instead of the river. 'If you are going that way. I am not asking.'".
+    On discuss { Give fosdyke_letter to actor. Assert fosdykeLetter(actor). }
+  }
+
+  // ── Her reaction: the company has been where the packet goes ──────────────────────────────────────────────────────
+  // The rubbing of the Prefect's table and the lens of the lamp at Skerrow are brought away from the rock the Dorothea
+  // lights. A company that carries either has been where Fosdyke's packet calls; she reads it from them, not from a flag.
+  Topic fosdyke_news with fosdyke "Tell Jennet Fosdyke you have been to the rock where the Tolleth packet calls" when (holding(actor, pharos_rubbing) or holding(actor, pharos_lens)) and not fosdykeEased(fosdyke) once {
+    Says "Her hands come out of the cloak. 'The rock,' she says. 'Skerrow. The one with the lamp that burns for nobody.' She takes a step toward you and stops, as if the ice might take it back. 'Was she in? A ketch, brown sail, a patch on the topsail the size of a door. Did you see her at the quay, or only the lamp? Did anyone,' and she hears herself and stops, and begins again in the voice for the market. 'Did anyone say how the crew did. I am not asking after one of them.' Whatever you answer, she hears it with her mouth shut and her eyes on yours. Then she nods once, twice, and the boat-cloak slides off one shoulder. 'Thank you,' she says. 'I will go in now. The stairs will keep.'".
+    On discuss { Assert fosdykeEased(fosdyke). }
+  }
+  Observe fosdyke_light at hay_stairs when befell(remainder_steadied) and not fosdykeEased(fosdyke) "Jennet Fosdyke is at the rail with a cup of something hot she has not drunk. 'They say a lens went from a rock to a ship in a bad sea,' she says, to the river. 'A ketch's mate would know that rock. A ketch's mate would have carried it.' She stops. 'Not the lens. The news of it. He is good at news.'".
+  Observe fosdyke_eased at hay_stairs when fosdykeEased(fosdyke) "The head of Hay Stairs is empty but for the bailiffs, and a cup on the rail with the ice already skinning it. Someone has written, with a finger in the snow of the rail, a short list. It is very short.".
+}
