@@ -93,8 +93,10 @@ export class DangerSense {
     // November). One won some of the time and not nearly always is played six more times before it is said (M16's
     // free play heard "you would likely beat them" of a fight won less than half the time, from four wins in six).
     for (let trial = 0; trial < this.trials; trial++) { played.push(this.trial(ours, foes, `${key}:${trial}`, place)); }
-    const first = played.filter(t => t.won).length / this.trials;
-    for (let trial = this.trials; first > 0 && first < 0.9 && trial < this.trials * 2; trial++) {
+    // And one won every time but only just (a lone cleric left at a hit point by the corn-store's rats, which kill one
+    // in four: told "You should beat them", she died: M19-87) is played six more times too.
+    const first = played.filter(t => t.won).length / this.trials, near = played.some(t => t.won && t.hurt > 0.6);
+    for (let trial = this.trials; first > 0 && (first < 0.9 || near) && trial < this.trials * 2; trial++) {
       played.push(this.trial(ours, foes, `${key}:${trial}`, place));
     }
     const won = played.filter(t => t.won), falls = new Map<string, number>();

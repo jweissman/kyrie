@@ -80,6 +80,9 @@ export class EncyclopediaHtml {
     const see = [...new Set(e.refs ?? [])].filter(id => id !== e.id).map(id => this.link(id)).filter(Boolean);
     return `<article class="item entry" id="${HandbookHtml.anchor(e.id)}"><h3>${EncyclopediaHtml.emblem(e.id)}${
       EncyclopediaHtml.esc(e.title)}</h3>`
+      // A creature by its painting, as play shows it (the owner, 6 November: the bestiary and the menagerie).
+      + (e.painting ? `<img class="painting" src="../paintings/${EncyclopediaHtml.esc(e.painting)}.webp" alt="" loading="lazy">`
+        : '')
       + (e.kind ? `<p class="kind">${EncyclopediaHtml.esc(e.kind)}</p>` : '')
       + (e.text ?? []).map(p => `<p class="text">${EncyclopediaHtml.esc(p)}</p>`).join('')
       + (e.facts?.length ? `<dl>${e.facts.map(([k, v]) => `<dt>${EncyclopediaHtml.esc(k)}</dt><dd>${
@@ -133,6 +136,9 @@ h3 { font: 500 20px/1.3 var(--do); margin: 0 0 4px; } h4 { font: 500 16px/1.3 va
 .entries { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 12px; }
 .entry { padding: 16px 18px; background: var(--surface); border: 1px solid var(--edge); }
 .entry:target { border-color: var(--gold); }
+.entry .painting { float: right; width: 168px; height: 168px; object-fit: cover; margin: 0 0 10px 16px;
+  border: 1px solid var(--edge); } .entry::after { content: ''; display: block; clear: both; }
+@media (max-width: 560px) { .entry .painting { width: 108px; height: 108px; } }
 .entry h3 { display: flex; align-items: center; gap: 10px; } .entry { scroll-margin-top: 104px; }
 .emblem.inline { width: 1.05em; height: 1.05em; margin-right: .25em; vertical-align: -.15em; stroke-width: 1.6; }
 .emblem { width: 28px; height: 28px; flex: none; fill: none; stroke: var(--gold); stroke-width: 1.4; stroke-linecap: round;

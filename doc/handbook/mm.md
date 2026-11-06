@@ -1909,7 +1909,7 @@ Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm
 - Type: dragon (monster)
 - Hit points: 99
 - Qualities: +35 strength, +28 dexterity, +32 constitution, +29 intelligence, +27 wisdom, +31 charisma
-- Attack: bite, 1d6 piercing
+- Attack: claws, 1d4 slashing; claws, 1d4 slashing; bite, 1d6 piercing, in one round
 - Hide: Scale Mail, armour 4
 - Temperament: proud
 - Found in: heights, cave

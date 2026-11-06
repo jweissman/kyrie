@@ -53,15 +53,14 @@ export class MonsterManual {
   }
   creature(id: string): Entry {
     const s = Canon.creature(id), st = s.statistics;
-    const weapon = st ? Canon.items[st.weapon] : undefined, armor = st?.armor ? Canon.items[st.armor] : undefined;
+    const armor = st?.armor ? Canon.items[st.armor] : undefined;
     const worth = s.worth ? `${s.worth.base ? `${s.worth.base} + ` : ''}${s.worth.perLevel} experience a level`
       : `${Advancement.table.species[s.type ?? ''] ?? Advancement.table.species.monster!} experience a level`;
     const facts: [string, string][] = [['Type', `${s.type ?? '—'} (${s.kind ?? 'monster'})`],
       ...st ? [['Hit points', MonsterManual.hitPoints(st)] as [string, string],
         ...st.actions && st.actions > 1 ? [['Actions a turn', String(st.actions)] as [string, string]] : [],
         ['Qualities', st.attributes === 'rolled' ? 'rolled (3d6 each)' : HandbookText.attributes(st.attributes)] as [string, string],
-        ['Attack', `${weapon?.name ?? st.weapon}${weapon?.weapon ? `, ${weapon.weapon.damage} ${weapon.weapon.type}` : ''}`] as
-          [string, string]] : [],
+        ['Attack', MonsterManual.attacks(st.attacks?.length ? st.attacks : [st.weapon])] as [string, string]] : [],
       ...armor?.armor ? [['Hide', `${armor.name}, armour ${armor.armor.ac}`] as [string, string]] : [],
       ...s.resistances && Object.keys(s.resistances).length ? [['Resists', MonsterManual.resistances(s.resistances)] as
         [string, string]] : [],
@@ -75,6 +74,14 @@ export class MonsterManual {
       text: [s.description], notes: HandbookStatus.notes(s as Parameters<typeof HandbookStatus.notes>[0]),
       refs: [...(s.abilities ?? []).map(a => `ability:${a}`), ...s.variantOf ? [`species:${Canon.resolve('species', s.variantOf).split('/')[0]}`] : []],
       ...this.painted(id) };
+  }
+  // Its blow, or each of the blows of its round, one roll each (a dragon's claws, claws and bite: see AttackRoutine).
+  static attacks(weapons: string[]): string {
+    const said = weapons.map(id => {
+      const w = Canon.items[id];
+      return `${w?.name ?? id}${w?.weapon ? `, ${w.weapon.damage} ${w.weapon.type}` : ''}`;
+    });
+    return said.length > 1 ? `${said.join('; ')}, in one round` : said[0]!;
   }
   // A kind's painting, as play shows it (see CreaturePortraits); a device has none.
   private painted(id: string): Pick<Entry, 'painting'> {

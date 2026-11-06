@@ -88,7 +88,7 @@
   Entity {t}_u_rats_job: fact "Clear the rats out of the corn-store cellar, under the old corn-store at {town}.".
   Entity {t}_u_rats_source: fact "The rats come up into the cellar by a run of their own from their nest below, over the old drain.".
   Topic {t}_u_rats_job_ask with {t}_merchant "Ask {{t}_merchant} about the rats in the corn-store" when not {t}_u_given({t}_u_rats_job) once {
-    Says "'They've got into the old corn-store from underneath,' says {{t}_merchant}. 'Rats the size of cats. I've lost a third of the grain.' A key comes off a nail behind the counter. 'There's a trapdoor in the floor. Kill them, and find where they're getting in, or they'll be back by harvest. Ten coin, and I'll see you right for a lantern besides.'".
+    Says "'They've got into the old corn-store from underneath,' says {{t}_merchant}. 'Rats the size of cats. I've lost a third of the grain.' A key comes off a nail behind the counter. 'There's a trapdoor in the floor. Kill them, and find where they're getting in, or they'll be back by harvest. Ten coin, and I'll see you right for a lantern besides.' And, looking you over: 'Or lay ratsbane where they come up, if you'd sooner not be bitten. It wants a night.'".
     On discuss { Assert knows(actor, {t}_u_rats_job). Assert {t}_u_given({t}_u_rats_job). Give corn_store_key to actor. Assert keyholder(actor, {t}_u_store_lock). }
   }
   Observe {t}_u_rats_run_seen at {t}_u_warren as sign when not knows(party, {t}_u_rats_source) "Along the back wall of the runs the rats have worn a path in the dirt, and it goes down through the old brickwork, toward the smell of the drain." teaches {t}_u_rats_source.
