@@ -84,7 +84,7 @@ export class WorldStage {
     return (
       <ul className="portraits" aria-label="Who is here">
         {shown.map(x => <li key={x.id} data-subject={x.id} className={`${x.kind}${x.danger ? ' danger' : ''}`
-          + `${WorldStage.led(app, x) ? ' led' : ''}`}><WorldStage.Portrait subject={x} draw={draw} /></li>)}
+          + `${WorldStage.led(app, x) ? ' led' : ''}${x.stake ? ' stake' : ''}`}><WorldStage.Portrait subject={x} draw={draw} /></li>)}
         {more > 0 && <li><button type="button" className="portrait more" data-action="explore" data-part="who"
           aria-label={`${more} more here`} onClick={() => app.explore('who')}>{`+${more}`}</button></li>}
       </ul>

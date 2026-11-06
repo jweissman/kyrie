@@ -44,7 +44,8 @@ describe('the people on a page', () => {
       const rooms = c.module.entities.filter(e => /^region__s\d+_/.test(e.id) && e.type === 'place');
       for (const room of rooms) {
         GeneratedWorld.put(s, room.id.replace(/^region__/, ''));
-        const shown = ScreenModel.build(c).people.flatMap(p => p.portrait ? [p.portrait.src] : []);
+        // People, that is: an animal is painted as its kind, and two dogs are both dogs (the menagerie, 6 November).
+        const shown = ScreenModel.build(c).people.flatMap(p => p.kind === 'person' && p.portrait ? [p.portrait.src] : []);
         expect([room.id, shown.length - new Set(shown).size]).toEqual([room.id, 0]);
       }
     }

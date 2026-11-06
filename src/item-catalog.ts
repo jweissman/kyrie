@@ -72,6 +72,7 @@ export class ItemCatalog {
       weapon: wielded ? this.weapon(wielded.definition)
         : this.weapon(CreatureVariants.weapon(creature, natural?.weapon) ?? 'fist'),
       armorAc: worn ? this.get(worn.definition).armor!.ac : natural?.armor ? this.get(natural.armor).armor!.ac : 0,
-      ...!wielded && natural?.attacks?.length ? { routine: natural.attacks.map(id => this.weapon(id)) } : {} };
+      ...!wielded && natural?.attacks?.length ? { routine: natural.attacks.map(id => id === natural.weapon
+        ? this.weapon(id) : { ...this.weapon(id), lesser: true }) } : {} };
   }
 }

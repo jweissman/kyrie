@@ -122,7 +122,7 @@ export class Glance {
       .filter(([k]) => !['actor', 'site'].includes(k)).map(([, v]) => v)]));
     const touches = new Map(rows.map(r => [r.choice.id,
       new Set((r.action.success ?? []).flatMap(c => c.call?.args ?? []))]));
-    const named = this.named(campaign);
+    const named = this.whereabouts(campaign, screen, this.named(campaign));
     const held = new Set([...screen.aimed ?? []].filter(id => !named.has(id) && id !== campaign.playerActor));
     const idle = new Set([...screen.around ?? [], ...screen.destinations ?? []].map(d => d.id)
       .concat(screen.exits.map(e => e.destination.id), [...named], [...held]).filter(id => recall.idle(id)));
@@ -172,6 +172,18 @@ export class Glance {
     const def = Undertakings.followed(campaign);
     // Not the company itself, which an aim's condition names as whoever must get somewhere.
     return new Set([...def ? this.names(campaign, def) : []].filter(id => id !== campaign.playerActor));
+  }
+  // Whom the aim followed names leads to where they stand, where the company knows the place: the merchant with the
+  // corn-store's key, in his shop off the green, had been one face among many, and nothing on the green led to him
+  // (the owner's play, 6 November: M19-86).
+  private static whereabouts(campaign: Campaign, screen: Screen, ids: Set<string>): Set<string> {
+    const w = campaign.world, known = new Set([...screen.map.map(p => p.id),
+      ...screen.exits.map(e => e.destination.id)]);
+    const at = [...ids].flatMap(id => {
+      const place = w.one('at', id);
+      return place && known.has(place) && !ids.has(place) ? [place] : [];
+    });
+    return at.length ? new Set([...ids, ...at]) : ids;
   }
   private static names(campaign: Campaign, def: Objective): Set<string> {
     let kept = this.namings.get(campaign.module);

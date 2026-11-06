@@ -5,6 +5,9 @@ export interface WeaponProfile {
   id: string; name: string; damage: string; type: string; missile?: boolean; intercept?: boolean; natural?: boolean;
   // Light, medium or heavy: what a perk for a kind of weapon (a knight's heavy hand) reads.
   weight?: string;
+  // A lesser blow of a kind's routine (a dragon's claws beside its bite): its own dice, without the strength behind
+  // the kind's own weapon, as the old games give a dragon's claws a die and its bite the weight.
+  lesser?: boolean;
 }
 // What the attack roll reads about one combatant: level, effective scores, equipment and gathered modifiers.
 export interface Combatant {
@@ -70,7 +73,8 @@ export class Fighting {
     meleeBonus = 0): { amount: number; critical: number } {
     const bonus = critical ? Math.max(1, Math.round(rolled * 0.2 * Math.max(1, Math.floor(attacker.level / 5)))) : 0;
     const missile = attacker.weapon.missile === true;
-    const stat = Math.max(0, this.statMod(missile ? attacker.dexterity : attacker.strength));
+    const stat = attacker.weapon.lesser ? 0
+      : Math.max(0, this.statMod(missile ? attacker.dexterity : attacker.strength));
     const melee = missile ? 0 : Math.max(0, meleeBonus);
     return { amount: rolled + bonus + stat + melee, critical: bonus };
   }

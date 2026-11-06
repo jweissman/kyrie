@@ -62,7 +62,7 @@ class Glancing {
       keys: await page.locator('.glance-keys').count() };
     await page.click('.opens-go');
     const go = { ways: await at('.wayfinder .wf-row') > 0,
-      others: await at('.explorer :is(.portrait, .chip, .plate, .yours-here, .led, .at-ways, .about-here)') };
+      others: await at('.explorer :is(.portrait, .chip, .plate, .yours-here, .led:not(.wf-row), .at-ways, .about-here)') };
     await page.click('[data-action="explore-shut"]');
     await page.click('.opens-wait');
     const wait = { waits: await at('.pastime .pt-length') > 0 };
