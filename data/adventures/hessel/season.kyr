@@ -1,0 +1,132 @@
+Module hessel "The Banns at Hessel" {
+  // ── The Season's slate, the King's Hesitation, and the Colonel ────────────────────────────────────────────────────
+  // The count: the Season's dead, chalked on a slate at the urn, a stroke each; eleven so far, and a space. The keeper:
+  // the pumper. The first page: nobody now living knows why the Rooms rule that the music stops at eleven; the answer
+  // (the old King's minuet, left unfinished when he sat down) is in the peal of Saint Ebba's, called wrong in the fourth
+  // change by the ringers of Orm for two hundred years. The price of reading it: Mr Twiss's Rule, which is his life.
+
+  // ── Depth: things everyone does and no one can explain ────────────────────────────────────────────────────────────
+  Observe slate_scene at pump_room when true "By the urn, hung on a nail, a school slate in a frame, and on it in the pumper's chalk eleven upright strokes and a space left for the twelfth. Nobody looks at it. Everybody, going out, touches the frame.".
+  Topic pumper_slate with pumper "Ask the pumper what the strokes on the slate are" when true once {
+    Says "The pumper does not look at the slate. 'One a Season for each who doesn't go home,' he says. 'My father kept it and his father. We don't call it anything. We chalk it when the sexton comes in with the name.' He wipes a glass. 'Eleven this Season. There's always a twelfth by the coaches. That's the way of it. You'll see, if you're about.'".
+    On discuss { Assert knows(actor, roll_eleven). }
+  }
+  Discovery roll_eleven "The pumper chalks a stroke on a slate by the urn for each of the Season's visitors who does not go home. There are eleven this Season and a space for the twelfth, which the pumper says there always is.".
+  Topic pumper_gloves with pumper "Ask the pumper why the lost-property box holds only left-hand gloves" when true once {
+    Says "'Right hands go home with their owners,' says the pumper. 'It is for luck. Nobody could tell you whose luck, or why the right. A gentleman from Orm left a dozen left hands once and said it was the other way about in his county.' He lifts the lid so you can see: forty gloves, all for the hand that holds a glass.".
+  }
+  Topic pyne_peal with pyne "Ask Mr Pyne why the ringers of Orm call the peal wrong in the fourth change" when true once {
+    Says "Mr Pyne closes the bell-book on his finger. 'Because it is wrong,' he says. 'And because it has been wrong since the abbey was a sty, and the ringers of Orm say they will ring it right the day Saint Ebba's does. We say we will the day they stop saying it.' He laughs, and stops. 'The odd thing is that the wrong change is what everyone hums afterwards. A change that was right would be forgotten by dinner.'".
+  }
+  Observe cross_custom at cross_bath when true "Everyone who comes down to the Cross Bath turns once, at the north pillar, before going in: a quarter-turn on the left heel, like a man remembering something. Nobody can say why. The attendant says it was done when she came and she does it in her sleep.".
+  Observe candle_ends at vestibule when true "In a basket by the cloak-stand, tied in bunches of eleven, the candle-ends of the Rooms: the chairboys' by custom, and called, for no reason anyone can give, king's ends.".
+
+  // ── The peal on the third morning: heard by everyone, understood by a bard ────────────────────────────────────────
+  // Foreshadowed in the Sunday chapter ("a peal the ringers of Orm have called wrong in the fourth change"); paid at the Ball.
+  Observe peal_heard at abbey_yard when thirdDay() and hour(clock) >= 6 and hour(clock) < 11 "The ringers are at it from first light on the third morning, and by now all eight bells of Saint Ebba's are going over the Yard in the long rolling peal, and at the fourth change the sixth bell falls a half-beat behind the rest and the peal stumbles, exactly where it always has, and goes on as if nothing had happened.".
+  Observe peal_understood at abbey_yard as revelation when thirdDay() and hour(clock) >= 6 and hour(clock) < 11 and memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m)
+    "The stumble in the fourth change is not a fault. Heard as a musician hears it, it is the last bar of a tune: eleven bars played and a twelfth rung wrong, which is what a bar sounds like when the people who learned it have forgotten the tune it ended." teaches fourth_change.
+  Discovery fourth_change "The fourth change of the peal of Saint Ebba's, that the ringers of Orm have called wrong for two hundred years, is the missing twelfth bar of an old minuet.".
+
+  // ── Voices by calling: what each of the company makes of the Season ──────────────────────────────────────────────
+  Relation hrdPump(group). Relation hrdPumpB(group). Relation hrdStall(group). Relation hrdStallB(group). Relation hrdNave(group).
+  Relation hrdNaveB(group). Relation hrdHall(group). Relation hrdHallB(group). Relation hrdBeacon(group). Relation hrdBath(group).
+  Rule hv_bard_pump at pump_room when memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m) and at(party, pump_room) and not hrdPump(party)
+    says "{?m} listens to the room for a minute with the pleased attention of a person at a rehearsal. 'Do you hear it?' {?m} says. 'Four conversations, and every one of them has the same rhythm. They all say a sentence, and then a name, and then 'dear.' The whole room is a chorus, and nobody has told it.'" {
+    Assert hrdPump(party).
+  }
+  Rule hv_thief_pump at pump_room when memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and at(party, pump_room) and not hrdPumpB(party)
+    says "{?m} lets a hand brush the frame of the little slate by the urn, and takes it away. 'Everyone touches it,' {?m} says. 'Nobody looks. It is the only thing in the room nobody is pretending about.'" {
+    Assert hrdPumpB(party).
+  }
+  Rule hv_warrior_stall at stall_street when memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and at(party, stall_street) and not hrdStall(party)
+    says "{?m} watches two chairmen swing a lady off the kerb between them, and nods slowly, the way one soldier nods to another. 'Left pole and right pole, in step, and the one at the back calls it,' {?m} says. 'That is a drill. I have seen worse in a regiment.'" {
+    Assert hrdStall(party).
+  }
+  Rule hv_bard_stall at stall_street when memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m) and at(party, stall_street) and not hrdStallB(party)
+    says "{?m} stands with a thumb under the chin. 'They are calling the Parade,' {?m} says. 'Not out loud. In the knees. Seventeen steps up, a rest at the Abbey Yard, and a hitch at the seventh step where the paving is wrong. I could set that to a tune in an afternoon.'" {
+    Assert hrdStallB(party).
+  }
+  Rule hv_cleric_nave at ebba_nave when memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and at(party, ebba_nave) and not hrdNave(party)
+    says "{?m} stops at the foot of the west window and looks at the two tablets side by side, the white one and the slate. 'One of those is a memorial to a person who is still alive,' {?m} says. 'I know the look of a lie cut in marble. It is always a little deeper than the truth.'" {
+    Assert hrdNave(party).
+  }
+  Rule hv_thief_nave at ebba_nave when memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and at(party, ebba_nave) and not hrdNaveB(party)
+    says "{?m} runs a thumbnail down the edge of the poor-box. 'Nobody has ever tried this,' {?m} says, a little sadly. 'It is a church in a town where everyone is watching everyone else, and the box is as safe as the Bank.'" {
+    Assert hrdNaveB(party).
+  }
+  Rule hv_mage_hall at hospital when memberOf(?m, party) and hasCalling(?m, calling_mage) and awake(?m) and at(party, hospital) and not hrdHall(party)
+    says "{?m} stands at the end of the ward and counts, lips moving. 'Twenty beds,' {?m} says. 'Eleven vinegar jugs. One window in four is shut, and it is always the same four. Somebody has built a method into this room and forgotten to write it down.'" {
+    Assert hrdHall(party).
+  }
+  Rule hv_monk_hall at hospital when memberOf(?m, party) and hasCalling(?m, calling_monk) and awake(?m) and at(party, hospital) and not hrdHallB(party)
+    says "{?m} stands very still among the beds and does not speak. After a time someone coughs, and then someone sleeps. 'They can feel it,' {?m} says, low. 'A person standing quietly in a room is a kind of medicine. It is the only kind that wants nothing.'" {
+    Assert hrdHallB(party).
+  }
+  Rule hv_ranger_beacon at beacon when memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and at(party, beacon) and not hrdBeacon(party)
+    says "{?m} crouches by a trodden patch of turf and picks up a pinch of it. 'Everyone walks the Beacon in pairs,' {?m} says. 'I can see which ones were not on speaking terms. The path is wider where they kept apart.'" {
+    Assert hrdBeacon(party).
+  }
+  Rule hv_bard_bath at cross_bath when memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m) and at(party, cross_bath) and not hrdBath(party)
+    says "{?m} turns once, at the north pillar, without deciding to, and laughs at {?m}self. 'I caught it,' {?m} says. 'That is how a custom travels. You do it for three seconds and the body thinks it is a thing you have always done.'" {
+    Assert hrdBath(party).
+  }
+
+  // ── The King's Hesitation: the bard's way through the Rule, and a choice that costs ──────────────────────────────
+  // Mr Twiss's Rule (no dancing after eleven, "though the King himself should ask") is why the Closing Ball stops. A bard
+  // who heard the peal on Sunday can hum the twelfth bar into the stopped band. Done to Mr Twiss alone it earns him
+  // back his dignity and a debt; done aloud it ends the Rule and the Ball goes on, and he loses the one law he has kept.
+  Relation barHummed(group). Relation ruleBroken(group). Relation barPrivate(group).
+  Action hum_bar_privately(actor: group, site: place, m: member) "Hum the missing twelfth bar to Mr Twiss, under your breath, as the band stops" {
+    Description "{m} heard it in the peal. It is the bar that ends the King's minuet.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ballroom) and at(twiss, ballroom) and afterEleven() and knows(actor, fourth_change)
+      and memberOf(m, actor) and hasCalling(m, calling_bard) and awake(m) and not barHummed(party).
+    Time 2 minutes.
+    On success { Assert barHummed(party). Assert barPrivate(party). Increase twissFavour(twiss) by 2. }
+    Result "{m} hums it, close, to Mr Twiss's collar: eleven bars he knows, and a twelfth that he has always heard as a mistake in the bells. He goes still. 'Again,' he says, very low, and {m} does. His eyes are shut, and his foot, in its dove-grey shoe, is beating the bar. 'I was seven,' he says. 'My father hummed it, wrong, to put me to sleep.' He opens his eyes. 'I shall remember that you did not do it aloud.'".
+  }
+  Action hum_bar_aloud(actor: group, site: place, m: member) "Hum the missing twelfth bar aloud, to the stopped band, and let the Rooms hear the minuet end" {
+    Description "It finishes the tune. It also finishes the reason for the Rule.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ballroom) and at(twiss, ballroom) and afterEleven() and knows(actor, fourth_change)
+      and memberOf(m, actor) and hasCalling(m, calling_bard) and awake(m) and not barHummed(party).
+    Time 2 minutes.
+    On success { Assert barHummed(party). Assert ruleBroken(party). Increase twissFavour(twiss) by 3. Assert cherrettDanced(cherrett). }
+    Result "{m} sings it, out, across the emptying floor, the twelfth bar, which is a falling third and a held note. The first violin takes it, and the second, and the band comes in under it as a person comes in at a door they had forgotten was a door. The Season, with its shawls, stops. Mr Twiss stands in the middle of the floor with his hand still lifted to stop the music, and does not lower it, and the minuet finishes, for the first time in a hundred and twenty years, at the bar it was always meant to. He turns slowly to Mrs Cherrett's chair. 'Madam,' he says, in a voice nobody in the Rooms has heard. 'I think we are going to have to dance.'".
+  }
+  Observe ruleBroken_seen at ballroom when ruleBroken(party) and afterEleven() "The band is playing the King's minuet to the end, again, and again, and nobody has told the Master of the Ceremonies the hour. Candles are going out one by one in the five chandeliers, and nobody is leaving.".
+
+  // ── Colonel Ede, and the twelfth stroke: a grave scene in a comic book ─────────────────────────────────────────────
+  Person ede "Colonel Ormerod Ede" at hospital {
+    Role "a dying colonel of foot, on the end bed, who came for the waters and has had them". Ancestry human. Peaceable. Pronouns he. Manner stoic.
+    Greets "A very old gentleman with a clipped white moustache lies on the end bed with his boots still on, which the ward sister has given up arguing about. 'Don't get up,' he says, though you were not. 'Don't be told I'm dying. I'm not. I'm being very slow.'".
+  }
+  Relation satWithEde(group). Relation edeGone(group).
+  Rule ede_dies when fourthDay() and hour(clock) >= 2 and hour(clock) < 5 and not edeGone(ede) { Assert edeGone(ede). Assert at(ede, limbo). }
+  Topic ede_regiment with ede "Ask Colonel Ede about his regiment" when not edeGone(ede) once {
+    Says "'The Fusiliers,' says the Colonel. 'We held a bridge once, at a place I will not pronounce, for a night and a day, against nine times our number, and I have forgotten the name of everyone who held it with me.' He studies the ceiling. 'Isn't it extraordinary? I can tell you the number of buttons on every man's coat.'".
+  }
+  Action sit_with_ede(actor: group, site: place) "Sit up with Colonel Ede through the night watches" {
+    Description "Nobody has sat up with him. The ward sister has twenty beds and one night.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hospital) and not edeGone(ede) and (hour(clock) >= 21 or hour(clock) < 5) and not satWithEde(party).
+    Time 6.
+    On success { Assert satWithEde(party). }
+    Result "You sit by the end bed through the small hours with a candle shaded, and he talks for a while, and then is quiet, and then talks again about nothing: a dog, a dance, a girl whose name he does not remember, only that she hummed. Towards four he says 'Is it my watch?' and you say it is not, and he says 'Good,' and sleeps; and you are still there at six when the sister brings the vinegar.".
+  }
+  Rule ede_ottery_sits at hospital when satWithEde(party) and following(ottery, party) and not spread(ede_ottery_told)
+    says "Ottery, at the foot of the bed, takes his spectacles off. 'He won't see Thursday,' he says. He does not lower his voice; the Colonel is asleep. 'I never say it in front of them while they wake. It is my one piece of tact.' He looks at you. 'You sat. Good. Most don't.'" { Assert spread(ede_ottery_told). }
+  Entity ede_ottery_told: fact "Ottery on the Colonel".
+  Rule fate_ede_kept when accounting() and satWithEde(party) and not spread(fate_ede) says "Colonel Ede died on the ward in the small hours of the last night with a stranger beside him, and the pumper, told it by the sexton, went to the slate by the urn and stood a long time with the chalk in his hand. He did not make the twelfth stroke. 'Not lost,' he is said to have told his boy, 'kept.' The space is there still, and when the new Season comes they do not wipe it." { Assert spread(fate_ede). }
+  Rule fate_ede_alone when accounting() and not satWithEde(party) and not spread(fate_ede) and cameToHessel(party) says "Colonel Ede died on the ward in the small hours of the last night with the ward sister at the other end of it, and the pumper chalked the twelfth stroke on the slate by the urn, as he does, and wiped the nail, and hung the frame back." { Assert spread(fate_ede). }
+  Entity fate_ede: fact "the Colonel".
+
+  // ── A world event, read: Mrs Scrope hears a thing from the coast ──────────────────────────────────────────────────
+  Observe scrope_slack_news at pump_room when befell(slack_opened) and at(scrope, pump_room) "Mrs Scrope has a new story and is telling it for the third time to the same lady: that at Sennet, on the coast, under a college, a black stair was found in a floor, and a ship came up it. 'In a floor,' she says. 'I had it from a milliner who had it from a sea-captain's widow. I never repeat anything.'".
+  Observe scrope_ship_news at pump_room when befell(remainder_harboured) and at(scrope, pump_room) "Mrs Scrope has put the ship into her story, with a crew. 'They are said to be very pale,' she says, 'and to keep their own hours.'".
+  // Where the Season comes from, and what would bring a stranger up the south road.
+  Topic scrope_south with scrope "Ask Mrs Scrope who comes to Hessel for the waters, and from where" when true once {
+    Says "'Everyone,' says Mrs Scrope, delighted to be asked. 'The gouty from Corran, with their lawyers, and the nervous from the coast, with their doctors, and anyone at all with an inheritance and no one to leave it to. Mrs Cherrett's husband came with a compass and a canal and never went home. That is the way of the Season. You arrive for a week and a thing happens, and you are here for the rest of your life.'".
+  }
+  Topic mopsa_delve with mopsa "Ask Mopsa about the Delve Cut and the three canals" when true once {
+    Says "'Josiah dug it with his own hands for the first mile,' says Mopsa. 'Then he hired navvies, and then he hired the navvies' wives to cook for the navvies, and that is where she started. It joins the cut at Corran, and somebody there, at the Lesser Instruments, bought the first of the pumps.' She laughs. 'She says the water goes where she told it. I have never been sure which of them was joking.'".
+  }
+}

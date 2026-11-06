@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "name": "The Road the Star Came Down: Act II, the Grey Country",
+  "calendar": { "year": 2731, "month": 12, "day": 21 },
+  "modules": [ { "id": "corrow", "bundle": "module.json" } ],
+  "party": [
+    { "name": "Elen", "raceId": "elf", "classId": "ranger", "backgroundId": "hunter", "level": 6 },
+    { "name": "Bran", "raceId": "human", "classId": "warrior", "backgroundId": "locksmith", "traits": ["toughness"], "level": 6 },
+    { "name": "Dori", "raceId": "dwarf", "classId": "cleric", "backgroundId": "medic", "traits": ["vitalist"], "level": 6 }
+  ]
+}

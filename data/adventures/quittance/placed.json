@@ -29,7 +29,9 @@
     "tithe.kyr",
     "lore.kyr",
     "endings.kyr",
-    "placed.kyr"
+    "placed.kyr",
+    "voices.kyr",
+    "depth.kyr"
   ],
   "rules": [
     "world"
@@ -38,7 +40,8 @@
     "party"
   ],
   "canon": [
-    "imbar"
+    "imbar",
+    "slack_opened"
   ],
   "exports": {
     "party": "party",

@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "name": "Half the Hive: a company of five",
+  "calendar": { "year": 1312, "month": 6, "day": 9 },
+  "modules": [ { "id": "hume", "bundle": "company5/module.json" } ],
+  "party": [
+    { "name": "Elen", "raceId": "elf", "classId": "ranger", "backgroundId": "hunter" },
+    { "name": "Dori", "raceId": "dwarf", "classId": "cleric", "backgroundId": "medic" },
+    { "name": "Tamsin", "raceId": "human", "classId": "thief" },
+    { "name": "Bran", "raceId": "human", "classId": "warrior" },
+    { "name": "Ode", "raceId": "human", "classId": "bard" }
+  ]
+}

@@ -17,6 +17,7 @@
     "builds.kyr",
     "endings.kyr",
     "after.kyr",
+    "fellowship.kyr",
     "placed.kyr"
   ],
   "rules": [

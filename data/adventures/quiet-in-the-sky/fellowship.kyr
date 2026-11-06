@@ -1,0 +1,83 @@
+Module larum "The Quiet in the Sky" {
+  // ── The Account, kept: what each of a company sees at Larum and on the Field, and the one grave that must be chosen ───
+  // The count is the Daily, kept by two halls and a bell; the first page is the Quarrel over whether noon moves first
+  // or last, which the Sitters hold and nobody has asked for; the price of reading it is a man who stays dead. Nine
+  // hundred, seven hundred and three hundred years are all said on this Field, and none of what follows reconciles them.
+
+  // ── Voices ────────────────────────────────────────────────────────────────────────────────────────────────────────
+  Relation heardBellOffice(group). Relation heardHarness(group). Relation heardLocks(group). Relation heardWatch(group). Relation heardBallads(group).
+
+  Rule voice_bell_office at larum_chapel when memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and at(party, larum_chapel) and not heardBellOffice(party)
+    says "{?m} takes the rope in both hands without ringing it, and feels the weight of the bell come down it. 'Three and three,' {?m} says, to the board over the door. 'That is not a mending bell. That is a passing bell: three for the one, three for the road. We ring it for the dying, in the parishes I know, and for nobody else.' {?m} lets the rope go up. 'Somebody changed one word in the founder's will, and was kind about it. It was never for the living. It was for whoever was going.'" teaches bell_is_passing {
+    Assert heardBellOffice(party).
+  }
+  Discovery bell_is_passing "The Mending Bell of Larum rings three and three, which is the form of a passing bell, rung for the dying and not for the living; someone long ago changed its name to something kinder.".
+  Rule voice_harness at ice_stair when memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and at(party, ice_stair) and not heardHarness(party)
+    says "{?m} stays where {?m} is, and looks at the white shape on the shelf for a long time before looking at anything else. 'A war-bear,' {?m} says, very low. 'Dwarvish. That is a bridle-ring on the harness, and those are brass studs where the girths went. It was trained to guard a stair and to be fed by one hand.' {?m} lets out a breath. 'It is not angry. It is on duty. It has been on duty for nine hundred years and has not once been relieved. Do not run. Do not throw anything but food. I can talk to it, if you let me, and it may let us by on the strength of that.'" {
+    Assert heardHarness(party).
+  }
+  Rule voice_locks at halt_cross when memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and at(party, halt_cross) and not heardLocks(party)
+    says "{?m} walks the length of Trophy Row with a hand trailing along the pegs, and slows, and goes back. 'There isn't a lock,' {?m} says. 'Not on a door, not on a chest, not on a purse. Nine hundred years of the dead and nobody has ever needed one.' {?m} takes a bronze cup off a peg, looks at it, and puts it back exactly where it was. 'I find that harder to be in than a street full of thieves,' {?m} says. 'It means nothing here is anybody's but what they are standing in.'" {
+    Assert heardLocks(party).
+  }
+  Rule voice_watch at the_ring when memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and at(party, the_ring) and state(halvard, lying) and not heardWatch(party)
+    says "{?m} stands at the edge of the ring and watches the watch for a quarter of an hour, the way a sergeant would. 'Forty days,' {?m} says. 'Nobody has sat down. They changed the guard four times a night for the first week, and then stopped changing, and just stood. That is a watch that has forgotten what it is watching for.' {?m} nods at Torold Hame, whose hands have not left the sword-hilt. 'Do not give that man an order. Give him a reason to put it down. A man who has stood that long wants relieving, and does not know it.'" {
+    Assert heardWatch(party).
+  }
+  Rule voice_ballads at hark when memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m) and at(party, hark) and not heardBallads(party)
+    says "{?m} runs an eye along the beams, lips moving, and stops under the woodcut of Halvard Eld. 'Look,' {?m} says. 'Every ballad on the wall is in the same metre, the penny-press metre, because old Habakkuk sets them all himself. Except this one. The first verse and the last are one man's work, and the middle is a patch by another, with a worse ear. Somebody put a middle in a ballad that did not have one.' {?m} taps the beam. 'I would very much like to hear the version without it.'" {
+    Assert heardBallads(party).
+  }
+
+  // ── A ranger's way through: the bear on the Sitters' stair ─────────────────────────────────────────────────────────
+  // Meat will do, and a climb will do; a ranger has a third thing, which asks for nothing the bear does not already want.
+  Action calm_bear(actor: group, site: place, r: member) "Have {r} speak to the bear, low, from where {r} stands, as to a guard on duty" {
+    Description "It has been on watch nine hundred years. It may be glad to be spoken to by someone who knows what a watch is.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(bear, site) and able(bear) and not tolerates(bear, actor)
+      and memberOf(r, actor) and hasCalling(r, calling_ranger).
+    Time 3.
+    On success { Assert tolerates(bear, actor). Retract warned(bear, actor). }
+    Result "{r} goes down on one knee in the trodden snow, palms out, and talks, in the flat even voice of someone reporting to a superior: no names, no hurry, a list of who is on the stair and why and when they will go. The bear listens with its head on one side, and its breath, which does not steam, goes in and out. At the end {r} says, quietly, 'Relieved.' The great head dips. It lies down on the shelf, crosswise, so that you may pass behind it, and puts its chin on its paws like a dog in a doorway.".
+  }
+
+  // ── Where the grave is: the warrior and the cleric disagree, and are both right ───────────────────────────────────────
+  // Torold Hame will bury Halvard up in the Old Ice among his own, or down at Larum under the bell. A company that has a
+  // warrior and a cleric and has learned of both graves hears each of them say so; siding with one chooses the grave, and
+  // the other keeps their silence all the way to the end of the carrying.
+  Relation quarrelledGrave(group). Relation sidedUp(group). Relation sidedDown(group).
+  Rule grave_quarrel at the_ring when memberOf(?w, party) and hasCalling(?w, calling_warrior) and awake(?w)
+    and memberOf(?c, party) and hasCalling(?c, calling_cleric) and awake(?c) and at(party, the_ring) and state(halvard, lying) and toroldConsents(torold)
+    and knows(party, ice_burial) and knows(party, bell_heard) and not iceChosen(torold) and not larumChosen(torold) and not quarrelledGrave(party)
+    says "{?w} says it first, because somebody must. 'Up. The Hour is up there; the Sitters are up there; it is the only grave in Ysgard, and he is a man of the Field. You bury a soldier in his own country.' {?c} does not raise a voice. 'He cut WENDMERE into a cairn for twelve years,' {?c} says. 'There is a bell down there that rings three and three. I would put him where somebody rings for him, and has ever since the founder, and did not know whom.' Neither of them looks at you, and Torold Hame, who is listening to both, is waiting to be told." {
+    Assert quarrelledGrave(party).
+  }
+  Action side_up(actor: group, site: place, w: member, c: member) "Tell {c} that {w} is right, and carry Halvard up to the Old Ice" {
+    Description "Among his own, under the blue, beside the one grave there has ever been. {c} will say the office all the same.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, the_ring) and quarrelledGrave(party) and not sidedUp(party) and not sidedDown(party) and not iceChosen(torold) and not larumChosen(torold)
+      and memberOf(w, actor) and hasCalling(w, calling_warrior) and memberOf(c, actor) and hasCalling(c, calling_cleric).
+    Time 1.
+    On success { Assert sidedUp(party). Assert iceChosen(torold). Increase toroldTrust(torold) by 1. }
+    Result "{c} says nothing for a long moment, and then inclines the head, and goes and stands at the foot of the bier with a hand on the shields. 'Then I will say it there,' {c} says. {w} lets out a breath and goes to take a pole. Torold looks from one to the other, and takes his hands from the sword at last, and says to the watch, not loudly, 'Up. We carry him up.'".
+  }
+  Action side_down(actor: group, site: place, w: member, c: member) "Tell {w} that {c} is right, and carry Halvard down to Larum churchyard" {
+    Description "Under the bell, in ground with a name. {w} will take the front pole all the way down through the White.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, the_ring) and quarrelledGrave(party) and not sidedUp(party) and not sidedDown(party) and not iceChosen(torold) and not larumChosen(torold)
+      and memberOf(w, actor) and hasCalling(w, calling_warrior) and memberOf(c, actor) and hasCalling(c, calling_cleric).
+    Time 1.
+    On success { Assert sidedDown(party). Assert larumChosen(torold). Increase toroldTrust(torold) by 1. }
+    Result "{w} says nothing against it, which is not agreeing, and takes up the front pole as if it were a spear, and shifts the weight of it onto a shoulder. 'Down, then,' {w} says, to nobody, in the voice of a soldier giving up a hill. {c} puts a hand on the dead man's chest, briefly. Torold watches them both, and takes his hands from the sword at last, and says, 'Down. To the white. We carry him as far as we can.'".
+  }
+  Observe grave_up_after at ice_foot as feature when buriedIce(torold) and sidedUp(party) "At the foot of the Old Ice, by the two cairns, a pair of footprints go up to the new grave and stop, and a third pair, smaller, are drawn up beside them, side by side. Whoever stood here at the Hour said the lowland office over a man of the Field, in the Field's own snow, and it is the first time in nine hundred years that the sound of it has carried there.".
+  Observe grave_down_after at larum_chapel as feature when buriedLarum(torold) and sidedDown(party) "In the corner of the chapel yard, by the new grave, someone has laid a soldier's spear flat on the turf, point to the Pass, where a mourner would put a stone. The parson rings the bell at dusk, three and three, and Bet Garside says it is the first time in forty days it has sounded like it was for somebody.".
+
+  // ── The Whitlocks' lintel ──────────────────────────────────────────────────────────────────────────────────────────
+  // Eleven notches and a blank: a foreshadow for anyone who looks, and its payoff when Jory has found his son.
+  Observe guide_lintel at guide_house as feature when not joryMet(jory) "Over the guide's door, cut into the black beam, are eleven notches in a row: one for each Whitlock who has taken the living up through the White, back to the first. The twelfth place has been marked out with a knife, square, and left blank. Jory does not look at it going out. The second cup on the table is turned the right way up.".
+  Observe guide_lintel_cut at guide_house as feature when joryMet(jory) "Over the guide's door, the eleven notches of the Whitlocks, and the twelfth cut fresh in the black beam beside them, small and square and a little crooked, as if by a man whose hand was not steady. Nobody has said whose it is. The second cup on the table has been drunk from.".
+
+  // ── Material culture and the kept light ────────────────────────────────────────────────────────────────────────────
+  Observe chapel_hollows at larum_chapel as feature when true "The hollows worn in the stone floor are not a crowd's, which would be shallow and wide. They are two, a left foot and a right, deep as a bowl, side by side, in front of the rope, and a third pair behind them for a second ringer. Whoever stood there stood the way a smith stands at an anvil, with the left foot forward and the weight on the heel, for three hundred years. Every parson since has put his feet in them without knowing why.".
+  Observe chapel_candles at larum_chapel as feature when true "On the ledge under the window stands a bundle of tall white fluted candles tied with red wool, and a ticket in the sexton's hand: HUME CART, NINE, FOR THE VIGIL, UNLIT. The parson burns one at the Hour and one at dawn when someone is dying, and says they last three nights and nobody in Larum has ever made one that would.".
+  Observe lamp_at_gate at snow_gate as feature when true "In the window of the Teller's booth a small lamp is kept lit, facing the Field. Cleeve says the Runners left it, and that he trims it every day, and that it has no oil in it and burns anyway; and when asked who it is for, says nobody who is coming. Beside it, on a nail, hangs a grey-gold curtain-cloth that does not frost, a carter's gift from the north, that he says is the only thing in the booth that keeps its heat.".
+  Observe larum_cloth at larum_street as feature when not dark() "The doors of the better houses have a curtain of grey-gold cloth hung with the right edge turned in. The women of Larum say it comes up the west road from a hamlet called Sixways, in exchange for the winter wool and lamp-oil, and that it must be given, never bought; the parson has a coat made of it that has never needed mending.".
+}

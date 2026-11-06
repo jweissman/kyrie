@@ -1,0 +1,5 @@
+Module thrume "Thrume" {
+  // The Shoulder Hall's yard on its own: the company starts at the gate-yard.
+  Company party "Your company" of 3 at gate_yard.
+  Initially Set quantity(party, gold) to 30. Initially Set quantity(party, rations) to 3.
+}

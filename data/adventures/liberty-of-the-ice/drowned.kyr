@@ -45,20 +45,20 @@ Module pellam "The Liberty of the Ice" {
   Observe lantern_on_reach at black_reach when at(saffery, black_reach) and dark() and not knows(party, saffery_lantern) "Out on the Black Reach a lantern is moving, low down, very slowly, the way a person walks who is looking at the ice. It goes to the black hole by the bank and stops there a long time. When you come nearer you see an old woman holding it, very straight, in a shawl." teaches saffery_lantern.
   Observe lantern_again at black_reach when at(saffery, black_reach) and dark() and knows(party, saffery_lantern) "Widow Saffery is out on the Reach with her lantern, by the black hole.".
   Discovery saffery_lantern "Every night of the ice the rope-maker on the bridge, Widow Saffery, walks the Black Reach with a lantern and stands by the hole that never freezes. The watermen call her the Lisk Wife.".
-  Topic saffery_son with saffery "Ask Widow Saffery why she walks the Reach at night" when knows(actor, saffery_lantern) once {
+  Topic saffery_son with saffery "Ask Widow Saffery why she walks the Reach at night" when knows(actor, saffery_lantern) and not safferyAffronted(saffery) once {
     Says "She stops the wheel. 'Davy,' she says. 'Nine. The last ice, the last night, off the Reach, with a bone skate on one foot. They never found him. It went out the same night and took the whole bottom of the Fair with it.' She starts the wheel again. 'The watermen call me the Lisk Wife, and leave me pennies. I let them. A widow can use a penny.' She walks backward down the room. 'I'm looking for him. That's all it is. Don't make it into anything.'".
     On discuss { Assert knows(actor, saffery_davy). }
   }
   // What the work does not explain: once, a second light.
   Observe second_light at black_reach when at(saffery, black_reach) and dark() and knows(party, saffery_davy) and not iceGone() "Out past Widow Saffery's lantern, further down the Reach where there is nobody, there is for a moment a second light on the ice, small and low down, the height of a child's hand. When you look again there is only the dark, and the old woman with her back to you, who has not turned round.".
   Discovery saffery_davy "Widow Saffery's son Davy went through the ice off the Black Reach at the last Frost Fair, at nine years old, and was never found. She walks the Reach every night of this ice with a lantern.".
-  Topic saffery_hats with saffery "Ask Widow Saffery who hangs the hats on the stake" when knows(actor, saffery_lantern) and knows(actor, not_drowned) once {
+  Topic saffery_hats with saffery "Ask Widow Saffery who hangs the hats on the stake" when knows(actor, saffery_lantern) and knows(actor, not_drowned) and not safferyAffronted(saffery) once {
     Says "The wheel goes round. 'The river,' she says. Then, without turning: 'A drowned child's mother can hang a hat on a stake and be believed. Nobody looks at an old woman by that hole at night; they look away.' She stops. 'If you're Harker's, I'll have you off my bridge. If you're not, you've seen nothing.' She looks at you then, a long look. 'Well?'".
     On discuss { Assert knows(actor, saffery_hangs). Assert safferyAsked(saffery). }
   }
   Relation safferyAsked(group). Relation safferyTrusts(group).
   Discovery saffery_hangs "Widow Saffery hangs the drowned's hats on the stake by the Black Reach, so that they will be believed dead.".
-  Topic saffery_not_harker with saffery "Tell her you are not Harker's, and why" when safferyAsked(saffery) and not safferyTrusts(saffery) and (knows(actor, hired_sold) or urselConfessed(actor) or hiredHand(actor)) once {
+  Topic saffery_not_harker with saffery "Tell her you are not Harker's, and why" when safferyAsked(saffery) and not safferyTrusts(saffery) and not safferyAffronted(saffery) and (knows(actor, hired_sold) or urselConfessed(actor) or hiredHand(actor)) once {
     Says "She hears you out at the wheel. Then she goes to the far end of the room, to a hatch in the floor you had taken for a trap for the rope-ends, and knocks on it twice with her heel, and lifts it, and below in the dark a face looks up, a girl's, with straw in her hair. 'You can come up, Polly,' says Widow Saffery. 'It's not him.'".
     On discuss { Assert safferyTrusts(saffery). Assert knows(actor, starling_known). }
   }

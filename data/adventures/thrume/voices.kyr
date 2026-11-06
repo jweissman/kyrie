@@ -1,0 +1,69 @@
+Module thrume "Thrume" {
+  Description "What each of the company makes of the country, by what they are: the ranger on the snow of the hold-yard, the cleric among the sleepers and over the Smith-Master's bones, the warrior in a hall that was never built for war.".
+
+  // The preset party is not a set of declared people, so it has no Remarks of its own. What a rule can ask of a member is
+  // their calling, and print their name (doc/imbar/11-technical-report.md, 11.6). Each is said once, by whoever the
+  // company has of the calling; a company without one has nobody to notice, and must notice it itself.
+  Relation heardTracks(group). Relation heardBreath(group). Relation heardWalls(group). Relation heardPulse(group).
+  Relation heardTongs(group). Relation heardBones(group). Relation heardMeadow(group). Relation heardInn(group).
+  Relation heardPegs(group). Relation heardDial(group).
+  Relation quarrelPaid(group).
+
+  // Act II: the Shoulder. The ranger reads the ground the giants left.
+  Rule voice_tracks at gate_yard when memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and at(party, gate_yard) and not heardTracks(party)
+    says "{?m} crouches at the edge of the trodden snow and lays two fingers in a print the size of a bread-board. 'Forty men went up this road,' {?m} says, 'and not one of them was dragged. Look: the big prints go slow and wide, the way you walk with something in each hand that you do not want to spill.' A little further on {?m} lifts a bone out of the snow with the meat still on it, split down the middle, as if to be handed through a gap. 'Nobody feeds hostages off their own plate,' {?m} says. 'Whatever these people are, they did not think they were stealing.'" {
+    Assert heardTracks(party).
+  }
+  Rule voice_walls at long_hall when memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and at(party, long_hall) and not heardWalls(party)
+    says "{?m} walks the length of the hall with a hand on the nearest bench, which is level with {?m}'s chin, and looks up for a long time at the roof-trees. 'No wall-walk,' {?m} says at last. 'No second door. No place a man could put a bowman or a bar. Every hold I have seen was built to be held. This was built to be sat in, by something that was never once afraid of a visitor.' {?m} lowers the voice without knowing it. 'Whatever they want of the Margravine, it is not a fight they planned.'" {
+    Assert heardWalls(party).
+  }
+
+  // Act I: the Red Lantern. The cleric among the sleepers.
+  Rule voice_breath at smoke_room when memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and at(party, smoke_room) and not heardBreath(party)
+    says "{?m} kneels by the nearest pallet, a hand light on a sleeper's chest, and counts under the breath with the other hand on a wrist. 'It is wrong,' {?m} says. 'A sleeper's breath wanders. These do not. Every one is breathing in the same time, and it is a great deal slower than a body's: six hours in and six hours out, if I have it, and I do not have it, because nobody breathes like that.' {?m} takes the hand away. 'I would very much like to know whose breath they are keeping.'" {
+    Assert heardBreath(party).
+  }
+
+  // Act III: the inward roads. The cleric at the Wound; the warrior at the cold forge; the thief at the shut Lantern.
+  Rule voice_pulse at red_gallery when memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and at(party, red_gallery) and not heardPulse(party)
+    says "{?m} stops in the middle of the gallery with a hand flat to the red crystal and a face gone quite still. 'That is the beat I counted in the Lantern,' {?m} says. 'The same, to the breath. I have been trained to know a wound when I stand in one.' {?m} takes the hand away slowly, as if it hurt. 'I do not like the idea that we are walking about in somebody's flesh.'" {
+    Assert heardPulse(party).
+  }
+  Rule voice_tongs at cold_forge when memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and at(party, cold_forge) and not heardTongs(party)
+    says "{?m} takes down the nearest hammer and turns it in the torchlight, and puts a thumb on the face. 'Worn on the heel,' {?m} says. 'Not the face. The man who held this flinched at the top of every swing, for years, and kept swinging. You wear a hammer like that when you are paid to do a thing you are sorry for.' {?m} hangs it on its peg and wipes the hand on a coat, as if it had not come clean. 'Smiths. Not soldiers. They were afraid every day they worked.'" {
+    Assert heardTongs(party).
+  }
+  Rule voice_bones at master_cell when memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and at(party, master_cell) and not heardBones(party)
+    says "{?m} stands in the doorway of the cell a good while before coming in. 'He died sitting up,' {?m} says. 'Hands folded on a hammer, back to the wall, facing the door. That is not how a man dies. It is how a man waits.' {?m} looks at the bare floor, the unscorched shelf, the cot never slept in. 'And nobody has said a word over him. Not once, not in all that time. There is a form for the unpaid, and the unburied, and the dead who are still on duty. I know it. I have never had a use for it.'" {
+    Assert heardBones(party).
+  }
+  Rule voice_pegs at wage_hall when memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and at(party, wage_hall) and not heardPegs(party)
+    says "{?m} counts the pegs on the wall with one finger, lips moving, and then counts them again, because the answer was not the one wanted. 'A hundred and eight,' {?m} says. 'A hundred and seven names, and one peg with nothing. The paymaster kept a place for himself, or for a man who was never quite on the roll, and I would very much like to know which.'" {
+    Assert heardPegs(party).
+  }
+
+  // Act V: the Dream. The ranger in a meadow with no shadows.
+  Rule voice_meadow at dream_field when memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and at(party, dream_field) and not heardMeadow(party)
+    says "{?m} stands in the middle of the grass turning slowly, with the look of someone who has lost the thing they most trust. 'There is no wind,' {?m} says, 'and the grass is leaning. Nothing here has a shadow, and every blade has a different light on it, as if each were remembered from a different afternoon. This place was not made. It was kept.' {?m} bends to pluck a stem and does not. 'I would sooner not pick anything. I think every one of them is somebody's.'" {
+    Assert heardMeadow(party).
+  }
+
+  // Act I: any company with a bard has an ear for the inn; any with a mage, for the dial.
+  Rule voice_inn at inn_room when memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m) and at(party, inn_room) and not heardInn(party)
+    says "{?m} listens to the room for a minute with eyes half shut. 'Forty miners and nobody is talking about the giants,' {?m} says. 'They are talking about sleep. In every corner. It is the one subject in the room.'" {
+    Assert heardInn(party).
+  }
+  Rule voice_dial at gauge_room when memberOf(?m, party) and hasCalling(?m, calling_mage) and awake(?m) and at(party, gauge_room) and not heardDial(party)
+    says "{?m} puts a palm an inch from the brass of the dial and takes it away quickly. 'It is not a machine,' {?m} says. 'There is a working in this and the working is a tide. Whatever it measures is alive, and is a very long way off, and is going the wrong way.'" {
+    Assert heardDial(party).
+  }
+
+  // A disagreement the company has with itself, in the Paymasters' hall: only a company with both a warrior and a cleric
+  // has it, and each is right. One answer closes the other (wages.kyr).
+  Rule quarrel_over_wage at wage_hall when memberOf(?w, party) and hasCalling(?w, calling_warrior) and awake(?w)
+    and memberOf(?c, party) and hasCalling(?c, calling_cleric) and awake(?c) and at(party, wage_hall) and knows(party, gods_wage) and not paidSettled(paid) and not paidLaid(paid) and not quarrelPaid(party)
+    says "{?w} says it first, because somebody must. 'It is a wage, owed, and it was never paid. Pay it. They are only standing here to be paid, and twelve crowns is cheap against a fight in a room with no back door.' {?c} does not raise a voice. 'A thousand years of wages is not paid in crowns,' says {?c}. 'It is read out. Every name, over the roll, in the office for those who died at their work. It takes the afternoon, and it is the only thing that has ever closed an account like this.' Neither looks at you. Both are waiting for you to say whose way it is." {
+    Assert quarrelPaid(party).
+  }
+}

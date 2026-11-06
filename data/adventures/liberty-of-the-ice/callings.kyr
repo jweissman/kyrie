@@ -1,0 +1,88 @@
+Module pellam "The Liberty of the Ice" {
+  Description "What each member of the company makes of the Fair by what they are: the cleric at the Saint's scales, the warrior at the Ring, the thief on the rope-walk's boards, the ranger on the tracks at the Reach, the mage under the Glove, the bard on the Liars' Bench; and two things only a particular calling can do: lift the Lisk Wife's lantern, or lift her floor.".
+
+  // The preset party is not a set of declared people, so it has no Remarks of its own. What a rule can ask of a member
+  // is their calling, and print their name. Said once for the company by whoever it has of the calling; a company
+  // without a ranger has no one to read the tracks, and must read them itself (frosts.kyr, `wolf_tracks`).
+  Relation heardCandle(group). Relation heardRing(group). Relation heardGlove(group). Relation heardHatch(group).
+  Relation heardTracks(group). Relation heardBench(group).
+
+  // ── The cleric: the pound of wax ──────────────────────────────────────────────────────────────────────────────────
+  // Any company can be told by the verger that Harker pays for a pound of wax every spring, "for the weight". Only a
+  // cleric knows what office that is. It is not a pardon. It is what is lit for a thing that cannot be put back.
+  Discovery candle_office "The pound of wax Master Harker burns each spring before the Saint's scales is the office called the Weight, which is lit for a thing that cannot be put back, and which asks for no pardon.".
+  Rule voice_candle at evenhands when memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and at(party, evenhands) and knows(party, harker_candle) and not heardCandle(party)
+    says "{?m} stands a while before the Saint's scales with a hand flat on the cold beam. 'A pound of wax, a week, every spring after the hiring,' {?m} says. 'I know that office. A fault you confess and are given a weight to carry. This is what you light for a thing you cannot put back. It is called the Weight, because that is what it says: here is a weight I cannot lay down.' The hand comes away. 'He is not asking to be forgiven. He is paying rent.'" teaches candle_office {
+    Assert heardCandle(party).
+  }
+  Relation harkerWeighed(group).
+  Topic harker_weight with harker "Tell Master Harker that you know what a pound of wax before the Saint's scales is for" when knows(actor, candle_office) and not harkerWeighed(harker) once {
+    Says "He does not turn his ring. It is the first time you have seen his hands do nothing. 'The verger talks,' says Master Harker, 'because nobody has asked him not to.' He looks, for a moment, not at you but at the brass scales on his own wall. 'Rent,' he says. 'Yes. It would be paid in a different coin if I knew to whom it was owed.' The quarter-inch of his bow is back. 'Do not tell me the price of a thing you cannot refund. I have heard it at every hiring for nineteen years, from the other side of the rope.'".
+    On discuss { Assert harkerWeighed(harker). }
+  }
+
+  // ── The warrior: the Ring ─────────────────────────────────────────────────────────────────────────────────────────
+  Rule voice_ring at hiring_ring when memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and at(party, hiring_ring) and hiringOn() and not heardRing(party)
+    says "{?m} watches Harker go round the rope, and what he passes over. 'The lame girl,' {?m} says, low. 'The clever-looking boy with the spectacles on a string. He wants shoulders, wrists, backs that will not argue.' A long breath. 'I have been picked like that. By a sergeant filling a rank. That is not a man hiring for a farm.'" {
+    Assert heardRing(party).
+  }
+
+  // ── The mage: the Glove ───────────────────────────────────────────────────────────────────────────────────────────
+  Rule voice_glove at freezeland when memberOf(?m, party) and hasCalling(?m, calling_mage) and awake(?m) and at(party, freezeland) and not iceGone() and not heardGlove(party)
+    says "{?m} stands under the Glove Post for a long time with the great leather fingers turning slowly overhead. 'It is a left glove,' {?m} says. 'I have watched the Reeve shake with her right all morning.' A pause. 'Somebody decided, once, that the thing which keeps the law should be the hand you do not use.'" {
+    Assert heardGlove(party).
+  }
+
+  // ── The bard: the bench ───────────────────────────────────────────────────────────────────────────────────────────
+  Rule voice_bench at lamb when memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m) and at(party, lamb) and not iceGone() and not heardBench(party)
+    says "{?m} sits with an ear turned to the room for a quarter of an hour, and a smile that comes and goes. 'They are all after the stone in the plum,' {?m} says. 'One small true thing in the middle of the lie, and do not look at it. Broom is not listening for the lie. She is listening for where you flinch.'" {
+    Assert heardBench(party).
+  }
+
+  // ── The ranger: the road the wolves keep to ───────────────────────────────────────────────────────────────────────
+  // Said, and not explained. The Book of Frosts has the wolves in four frosts of seven and nobody has ever written down
+  // why; a ranger can say only what is wrong with the ground.
+  Rule voice_tracks at reach_head when memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and at(party, reach_head) and secondDay() and not dark() and not heardTracks(party)
+    says "{?m} goes down on one knee at the edge of the sledge road and lays a bare palm in a print. 'Four,' {?m} says. 'Each one put its foot in the track of the one before. Hounds do that behind a huntsman. Wolves, in my experience, do not.' A moment. 'And they have kept to the sledge marks, on the ice, in the dark, down a road they could not have seen from the downs.' {?m} wipes the hand on the snow. 'I do not like it. I should dearly like to know who has been teaching them the way.'" {
+    Assert heardTracks(party).
+  }
+
+  // ── The thief: the board that is not nailed ───────────────────────────────────────────────────────────────────────
+  Discovery hatch_suspected "At the end of the rope-walk house on the bridge one board is worn at the edge by a thumb, and the rope-ends are swept away from it: it is not nailed.".
+  Rule voice_hatch at saffery_shop when memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and at(party, saffery_shop) and not heardHatch(party)
+    says "{?m} walks the length of the rope-walk heel and toe, eyes down, and stops at the far end by a board that is no different from the rest. 'Boards,' {?m} says, very low, 'are nailed or they aren't. That one has a thumb-worn edge and the hemp swept off it. She has walked backward the length of this room twelve hundred times and never once across it.' {?m} straightens. 'There is a hatch. I could have it up before her wheel has turned twice.'" teaches hatch_suspected {
+    Assert heardHatch(party).
+  }
+  // The company is offered two doors to the same cellar. The thief's is quick, and it is a door nobody asked about.
+  Relation safferyAffronted(group).
+  Action thief_lifts_hatch(actor: group, site: place, m: member) "Have {m} lift the loose board at the end of the rope-walk while Widow Saffery's wheel is turning" {
+    Description "A quick way to a cellar you were not shown. The widow has not been asked, and will know it.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, saffery_shop) and at(saffery, saffery_shop) and memberOf(m, actor) and hasCalling(m, calling_thief) and awake(m)
+      and knows(actor, hatch_suspected) and not knows(actor, starling_known) and not safferyTrusts(saffery) and not safferyAffronted(saffery).
+    Time 1.
+    On success { Assert knows(actor, starling_known). Assert safferyAffronted(saffery). }
+    Result "{m} is on one knee at the far end before the wheel has gone the length of the room and back. The board comes up with a sound like a held breath: a ladder, straw, a smell of river, and a girl's face with straw in her hair looking up. 'You'll not tell,' says Polly Sneath, and this time it is not quite a question. The wheel has stopped. Widow Saffery stands at the other end of her room with the cord hanging from her hands, and looks at you for as long as it takes the cord to stop swinging, and then goes on spinning, backward, away from you, and does not speak. {m} puts the board back. It does not lie as flat as it did.".
+  }
+
+  // ── The cleric, again: the Lisk Wife's office ─────────────────────────────────────────────────────────────────────
+  // THE calling-unique way through the searchers. Gold buys them, a lie to Kemble sends them, a fight breaks them; but
+  // the watermen who walk for Harker are watermen, and every one of them has left the Lisk Wife a penny. A cleric can
+  // give her what she has walked the Reach for thirty-one winters to be given: the words for her son, said at the hole.
+  // She does not stop looking. She stops looking alone. And the lanterns that come down the Reach stop at the edge of
+  // hers. This is the grave scene of a farce.
+  Relation officeRead(place).
+  Discovery saffery_office "The office for the drowned has been said for Davy Saffery at the hole on the Black Reach, by someone with the right to say it, and the Lisk Wife has asked the company to walk with her.".
+  Action read_office(actor: group, site: place, m: member) "Have {m} say the office for the drowned at the black hole, for Davy Saffery, with his mother holding the lantern" {
+    Description "Thirty-one winters, and nobody has said the words. They are not long. It will take an hour in the cold, and it cannot be hurried.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, black_reach) and at(saffery, black_reach) and dark() and knows(actor, saffery_davy)
+      and memberOf(m, actor) and hasCalling(m, calling_cleric) and awake(m) and not officeRead(lisk) and not safferyAffronted(saffery) and not safferyTaken(saffery) and not iceGone().
+    Time 6.
+    On success { Assert officeRead(lisk). Assert knows(actor, saffery_office). }
+    Result "Widow Saffery does not turn the lantern down. She holds it out over the black water at the length of her arm, and {m} kneels on the ice at the rope with no book, and says the office for the drowned in the plain voice of someone who has said it for strangers before, and means it for this one. Davy. Nine. A bone skate on one foot. In the middle, where the words ask the water to give up what it holds or else to keep it kindly, a second light comes up beside the lantern, small and low, the height of a child's hand; and stays; and at the last word is not there. Widow Saffery has not moved. 'Well,' she says, after a long time, in the voice of the rope-walk. 'He was always slow to go to bed.' She does not stop walking the Reach. She says, 'Tomorrow night, if you are going down it, come with me.'".
+  }
+  // Said, she walks the Reach by the lantern and not alone; Harker's men are watermen's sons, and stop at the edge of her light.
+  Rule lisk_wife_walks when officeRead(lisk) and searchNight() and not searchersDiverted(lisk) and not iceGone() and able(searchers) {
+    Assert searchersDiverted(lisk).
+  }
+  Observe lisk_wife_light at black_reach when officeRead(lisk) and searchNight() and at(saffery, black_reach) and dark() and not iceGone() "Down the Reach three lanterns come on in a line, walking slowly, and a dog. They come as far as the rim of the old woman's light and stop there as men stop at the edge of a church floor. One of them takes off his cap. A penny is laid on the ice. Without a word the lanterns turn about, and go back the way they came, and the dog goes with them, looking over its shoulder. Widow Saffery has not looked up.".
+}

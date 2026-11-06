@@ -1,0 +1,252 @@
+Module ombra "The Book of Faces" {
+  // ── The Pound's first page (the broad pass, doc/imbar/adventures/book-of-faces.md) ─────────────────────────────────
+  // The Account, in Ombra: the count is the Standard Pound; its keeper is the Collegium of Measures (which WEIGHS: assay and
+  // standards) and, under it, an office of eleven Assayers and a twelfth hook left empty; its first page is missing (the
+  // Collegium has always said the Pound is a measure, and the Standard Room's own card says it is a promise); the price of
+  // reading it is that a standard which was kept becomes a standard which is owed. Prefix rv_. Reads counting.kyr, mage.kyr.
+  //
+  // Added here: the Bursar of the Collegium; a stair behind the Fitting-frame to the assay cellar, guarded by a Counterpoise
+  // (a fight is possible and costly; the chit, a short loaf and Thole's recitative are the ways round); a case with a second
+  // lock which only a thief of the company sees; a company quarrel with a consequence; the companions' voices across the
+  // city; three small pieces of the Row's own history; links outward by item and by world event.
+
+  // ── Places ────────────────────────────────────────────────────────────────────────────────────────────────────────
+  Place rv_cellars "the Collegium's cellars" is level within collegium.
+  Place rv_landing "the foot of the assay stair" is room within rv_cellars at 0, 0 underground.
+  Place rv_assay "the assay cellar" is room within rv_cellars at 1, 0 underground.
+  Passage rv_stair_way "the assay stair behind the Frame" is steps between collegium_study and rv_landing taking 3 minutes.
+  Passage rv_pound_door "the Pound's door" is door between rv_landing and rv_assay.
+
+  Observe rv_hooks_scene at collegium_hall when true "By the door, over the pegs of wooden hands, a rail of twelve brass hooks, each with a brass tag. Eleven tags are engraved with a name and a number, and the hooks under them are polished by thumbs; the twelfth hook is bare, has no tag, and is the only thing in the hall that somebody has oiled. The hall smells of iron-gall ink, wet wool and the tallow of a hundred slates being wiped. Every student, going out, presses a wet thumb to the slate by the door before the rain can take them; asked why, they say it is the custom, and one of them said it was to prove that the thumb was theirs.".
+  Observe rv_row_plates at row_street when publicHours() "Passing the brass plates on the Row, almost everyone touches the lowest corner of one, a flick of two fingers, without looking, as a sailor touches a rail. The corners have worn bright and thin. Ask why and the answer is a shrug and 'for the rain', though it does not stop the rain, and the rain has never been said to mind.".
+  Observe rv_landing_scene at rv_landing when true "A square brick landing under the workroom, dry, with iron-gall in the air and a lamp-niche that nobody has had to fill: it is lit from somewhere. Against the far wall stands the Counterpoise, a bronze figure twice the height of a man whose arms end in two flat pans, one empty, the other holding a single grey pebble. The pans are exactly level. They have been level a very long time. A door of black oak is let into the wall behind it.".
+  Observe rv_assay_scene at rv_assay when publicHours() "A vault of dressed stone with a drain in the middle of the floor and a table of black stone beside it, older than the vault. On the table, in a glass-fronted case, stands a drum of bronze the colour of strong tea: not the Standard Pound, the Pound's mould. Above the door, cut into the lintel, a row of eleven names and numbers, the last ISAURA HEXHAM, ASSAYER, XI; and after the eleventh a twelfth place, planed smooth and left blank, as one leaves a place at a table.".
+  Observe rv_assay_night at rv_assay when privateHours() "One lamp, lit by nobody, under the lintel of eleven names. The bronze in the case gives back the light in a slow brown pulse. The stillness is the stillness of a room that has been waited in, by one person after another, for two hundred years, and has been kind about it.".
+
+  // ── The Bursar ────────────────────────────────────────────────────────────────────────────────────────────────────
+  // Perpetua Gaunt keeps the Collegium's purse, its rail of hooks and its door. WANTS the quarter's assay of the Pound to
+  // come out even. FEARS that it will not, by a grain, and that she is the only one who has weighed it honestly. Her LIE
+  // is that a measure has no opinion. Pressed, she SURPRISES: she is the twelfth, the only Assayer alive, and has been
+  // keeping a hook oiled for a successor she is not allowed to appoint.
+  Person rv_bursar "Bursar Perpetua Gaunt" at collegium_hall {
+    Role "the Bursar of the Collegium of Measures". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
+    Greets "A woman in an ink-coloured gown sits at a counting-table inside the door with a ledger open, a pen in one hand and the other hand flat on the page as if the page might leave. She does not look up until the column has been added twice. 'Fees are by the Collegium's schedule,' she says to the ledger. 'Visitors are owed courtesy. Which are you?'".
+    Greets again "'Bare,' says the Bursar, and moves her hand a finger's breadth from the column. It is as close as she comes to a welcome.".
+  }
+  Relation rv_met(group). Relation rv_twelfth_asked(group). Relation rv_chit_given(group). Relation rv_stair_told(group).
+  Discovery rv_owed_kept "The Collegium of Measures says everything is OWED: a weight is owed to the buyer, a pound to the city. The old writs, the Bursar admits, say KEPT, and the Collegium is no longer sure that there is a difference.".
+  Discovery rv_hook_twelfth "The Collegium of Measures has twelve Assayers' hooks by its door, eleven tagged and polished and one oiled and bare. The Bursar does not say who the twelfth is.".
+  Discovery rv_stair_known "There is an assay stair behind the Fitting-frame, down to a vault under the Collegium that is not on any plan; a Counterpoise stands at its foot.".
+  Topic rv_b_work with rv_bursar "Ask what the Collegium of Measures does" when true once {
+    Says "'We weigh,' says the Bursar. 'Not for money: for the city. A cheese, a coin, a sluice-gate, a claim. The Hall of Weights keeps the Pound, and we keep the Hall.' She says it as a thing learnt by heart. 'Between the Collegium of Veyra, which teaches, and the Lesser Instruments at Corran, which collects, we are the one that is trusted to say what a thing comes to.' She turns a page. 'Two hundred and eleven years ago we sued the Hall over a cheese. Neither of us has been sure who won. We still send the cheese a card at midwinter.'".
+    On discuss { Assert rv_met(actor). }
+  }
+  Topic rv_b_owed with rv_bursar "Ask why she says everything is owed" when rv_met(actor) once {
+    Says "'Because it is,' says the Bursar. 'A weight is owed. A fee is owed. A pound is owed to the city by whoever holds it.' She stops. 'There is a writ in the cellar-press, an old one, from the Marches, that says KEPT. Keeping, not owing. The Collegium has never been able to decide whether that is a difference or only a way of speaking.' She puts the pen down. 'A measure has no opinion, Bare. That is its whole use. I would be obliged if you did not put one in it.'".
+    On discuss { Assert knows(actor, rv_owed_kept). }
+  }
+  Topic rv_b_letter with rv_bursar "Show her the letter of the Collegium of Lesser Instruments" when holding(actor, collegium_letter) and rv_met(actor) and not rv_chit_given(actor) once {
+    Says "She reads it with her lips moving, and then reads it again, and her face goes through three expressions that you could not have predicted. 'Collects,' she says. 'They collect. They have a letter-head with a spanner on it.' A sound escapes her, a short dry bark that might be a laugh, and she covers her mouth with the ledger. 'Corran sends us a letter every ten years to ask whether we will lend them a standard. We write back to say a standard is not lent but kept, and they write again.' She wipes an eye with the back of a wrist. 'Here. A chit of assay, signed. It opens the stair for any Collegium friend, and you are plainly one of Corran's, which is the next best.'".
+    On discuss { Give rv_chit to actor. Assert rv_chit_given(actor). }
+  }
+  Kind rv_chit_kind "the Bursar's chit of assay" is gear worth 0 weighing 0 described "A slip of grey card with the Collegium's scale stamped in blue and a signature in a small, hard hand: BEARER MAY GO DOWN. It is not a key. It is a statement that somebody who has the right to refuse has chosen not to.".
+  Item rv_chit "the Bursar's chit of assay" is rv_chit_kind at offstage.
+  Action rv_b_fee(actor: group, site: place) "Pay the Bursar the three-coin fee for a chit of assay" {
+    Speaker rv_bursar.
+    Requires able(actor) and company(actor) and at(actor, site) and at(rv_bursar, site) and rv_met(actor) and not rv_chit_given(actor) and quantity(actor, gold) >= 3.
+    Time 5.
+    On success { Decrease quantity(actor, gold) by 3. Give rv_chit to actor. Assert rv_chit_given(actor). }
+    Result "She counts the coin on the table with the tip of her pen, then writes the chit with her other hand, never looking at either. 'Three, by the schedule,' she says. 'Not a favour, and not owed. A fee.' She blows on the ink. 'The Counterpoise has been given no instructions in my time except to keep the cellar level. It will read this as an instruction. I would be careful what you ask it to weigh.'".
+  }
+  Topic rv_b_twelfth with rv_bursar "Ask about the eleven hooks and the twelfth, bare and oiled" when rv_met(actor) and not rv_twelfth_asked(actor) and not rv_cp_broken(actor) once {
+    Says "Her hand comes off the page. For the first time she looks at you and not at the column, and the look is that of a woman who has been waiting for someone to ask and hoped, until this moment, that no one would. 'Eleven Assayers of the Pound, since the Pound was fixed,' she says. 'Each appointed by the one before, each at the end of a quarter, in the cellar, with no other present. The eleventh was Isaura Hexham, who was my teacher.' She lays the pen straight. 'A twelfth is appointed by the eleventh. I was. I am the only one living who has weighed it, and it comes out light by a grain, and I am forbidden by the form of my office to say so to anyone I have not appointed.' She breathes out. 'There. It is not a lie not to say a thing. It is only a very long habit.'".
+    On discuss { Assert rv_twelfth_asked(actor). Assert knows(actor, rv_hook_twelfth). }
+  }
+
+  // ── The stair and the Counterpoise: a danger with three ways round ───────────────────────────────────────────────
+  // Thole knows the stair is there, and has not gone down it in thirty years. The Counterpoise is a Weight of the old
+  // Collegium: it stands at the Pound's door and keeps the cellar level. It does not hate; it is exact. A fight is
+  // possible, and costly: it is bronze, and it is not hurried. Without a fight the way is by the Bursar's chit (an
+  // instruction it reads), by a short loaf of the Drip (it weighs it, and is satisfied), or by the Master's recitative
+  // (a witness it still obeys).
+  Species rv_counterpoise_kind "a Counterpoise" like bronze_construct temperament territorial described "A bronze figure twice the height of a man, whose arms end in two flat pans and whose face is a pointer on a scale that has not moved in two hundred years. It does not strike so much as set down.".
+  Person rv_counterpoise "the Counterpoise" at rv_landing {
+    Role "a bronze Weight at the Pound's door". Species rv_counterpoise_kind. Level 6. Temperament territorial. Pronouns it.
+    Lair rv_landing.
+    State rv_cp_watching blocking "The Counterpoise stands before the black door with its pans held level, and nothing goes by it that has not been weighed.".
+    Guards rv_pound_door.
+    Warns "The pointer in the Counterpoise's face swings to you and stops. Both pans tilt, very slightly, toward the nearest of you, and the grey pebble in the left one rolls to the edge and does not fall.".
+    Comes "The Counterpoise steps off its mark. The sound is that of a very heavy thing being exact.".
+  }
+  // A fight is a way down, and it is paid for in the Collegium's coin: the Weight broken, the Bursar will not speak of the
+  // hook, the chit is waste, and the vigil is not to be sat with a Weight in pieces on the floor.
+  Relation rv_cp_broken(group).
+  Rule rv_cp_down when (dead(rv_counterpoise) or routed(rv_counterpoise)) and not rv_cp_broken(party) says "The Counterpoise goes down in pieces, pan after pan, and the grey pebble rolls out across the landing and stops against a boot. The note of a cracked bell goes up the stair and does not come down. Somewhere above, in the hall, a woman has stopped writing." {
+    Assert rv_cp_broken(party).
+  }
+  Topic rv_thole_stair with thole "Ask what is down the stair behind the Frame" when mg_audience(actor) and not rv_stair_told(actor) once {
+    Says "He does not write a word for a time, and then writes, in a hand that is slightly less steady than usual: THE CELLAR. NOT ENTERED SINCE TOLLEMACHE. 'A Weight,' he says aloud, forgetting the volume, 'a Counterpoise. Set to keep the level. It listens, it is said, for the recitative, though I do not know that I remember the part that it listens for.' He looks at his own hands. 'It would be in the older measures. I should be glad to try.'".
+    On discuss { Assert rv_stair_told(actor). Assert knows(actor, rv_stair_known). }
+  }
+  Action rv_thole_calls(actor: group, site: place) "Ask Dr Thole to call down the stair in the old recitative" {
+    Speaker thole.
+    Requires able(actor) and company(actor) and at(actor, site) and at(thole, site) and at(actor, collegium_study) and rv_stair_told(actor) and not tolerates(rv_counterpoise, actor).
+    Time 6.
+    On success { Assert tolerates(rv_counterpoise, actor). }
+    Result "Thole goes to the head of the stair on your arm and takes a breath that costs him something, and says it down into the dark, not in speech but in the old figures, on a note, each number held a beat longer than the last. Far below, something sets down a very small weight and picks it up again. He listens, as the deaf do, with the whole of his face. 'It has heard,' he says, in a voice quite unlike a lecturer's. 'It says: let them go down, and let them be weighed.' He sits back, a little grey, and he is smiling.".
+  }
+  Action rv_show_chit(actor: group, site: place) "Show the Counterpoise the Bursar's chit of assay" {
+    Description "It will read the card as an instruction. Whether it will like what it reads is another matter.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, rv_landing) and at(rv_counterpoise, site) and holding(actor, rv_chit_kind) and not tolerates(rv_counterpoise, actor).
+    Time 2.
+    On success { Assert tolerates(rv_counterpoise, actor). }
+    Result "The pointer in its face turns, and turns back. It takes the card in the left pan, where the pebble was, and the pebble goes into the right one; both pans level, and the card lies there, weightless, a statement. It hands it back. It steps one pace to the left, which is, you gather, the first time it has stepped in a very long while.".
+  }
+  Action rv_offer_loaf(actor: group, site: place) "Set a penny-loaf of the Drip on the Counterpoise's pan" {
+    Description "The Counterpoise weighs. It has had nothing to weigh for two hundred years but a pebble.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, rv_landing) and at(rv_counterpoise, site) and holding(actor, ct_loaf_kind) and not tolerates(rv_counterpoise, actor).
+    Time 3.
+    On success { Assert tolerates(rv_counterpoise, actor). Spend ct_loaf_kind from actor. }
+    Result "It takes the loaf as if it had been waiting for it. The right pan sinks, rocks, settles. It tilts its pointer to the fifteenth ounce, and holds it there, and you have the clear impression, for the first time, that something in the Collegium of Measures is pleased. 'Light,' it says, in a voice like a spoon in a bowl, 'by the exact amount the Hall allows.' It sets the loaf in the niche behind its pans, where a lamp might go, and steps aside as if a great weight had been taken off it. It had.".
+  }
+
+  // ── The case with the second lock: a thief's, and a thief's only ──────────────────────────────────────────────────
+  // The Pound's mould stands in its case with one plain lock, which is open, and nothing in the case but the mould.
+  // The leaf is under the pan of the case's floor, behind a lock that has no keyhole on the face and is felt from below.
+  Kind rv_page_kind "the first leaf of the Pound's book" is gear worth 0 weighing 0 granting lore described "A single leaf of rag paper, folded in four and dry as bone, in the hand of the first Assayer: a list of seven weights and a drawing of a drum, and under it, in a larger hand: THIS IS NOT A WEIGHT. IT IS KEPT. WHOEVER HOLDS IT KEEPS IT FOR THE REST, AND IS NOT ITS OWNER. The Collegium has never copied it; it would have had to say who was keeping.".
+  Item rv_page "the first leaf of the Pound's book" is rv_page_kind at offstage.
+  Relation rv_page_taken(group). Relation rv_page_returned(group). Relation rv_page_kept(group). Relation rv_quarrelled(group).
+  Discovery rv_first_page "The first page of the Pound's book says: THIS IS NOT A WEIGHT. IT IS KEPT. WHOEVER HOLDS IT KEEPS IT FOR THE REST, AND IS NOT ITS OWNER.".
+  Action rv_search_case(actor: group, site: place) "Look the Pound's case over for another way in" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, rv_assay) and not rv_page_taken(actor).
+    Time 6.
+    Result "It is a good plain case with one lock, which is open, and there is nothing in it but the print of a drum. You tap the base, the glass, the table: all honest, all what they seem. If there is a second thing here, you have not the eye for it.".
+  }
+  Action rv_open_case(actor: group, who: member, site: place) "Have {who} feel under the pan of the Pound's case for a lock without a keyhole" {
+    Description "A case with one open lock is an invitation to look no further. A thief does not accept invitations.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, rv_assay) and memberOf(who, actor) and awake(who) and hasCalling(who, calling_thief) and not rv_page_taken(actor).
+    Time 12.
+    On success { Assert rv_page_taken(actor). Assert knows(actor, rv_first_page). Give rv_page to actor. }
+    Result "{who} lies on the cold floor with an ear against the plinth, and runs a thumb along the underside of the table until it finds a seam in the black stone that is too clean to be wear. A second lock, felt from below, with a pin no thicker than a hair. It takes the better part of the hour and a piece of wire from {who}'s boot; the tumblers are old and civil, and give, one by one, as if they had been waiting to be asked in order. A drawer the width of a hand slides out. In it is one leaf, folded in four.".
+  }
+  // The company has two minds, and each is right: the thief took what was never anyone's, and the cleric knows that
+  // something kept is not something taken.
+  Rule rv_page_quarrel at rv_assay when at(party, rv_assay) and memberOf(?t, party) and hasCalling(?t, calling_thief) and awake(?t) and memberOf(?c, party) and hasCalling(?c, calling_cleric) and awake(?c) and rv_page_taken(party) and not rv_quarrelled(party) and not rv_page_returned(party) and not rv_page_kept(party)
+    says "{?t} unfolds the leaf and reads it aloud, once, in the lamp. {?c} has gone very still. 'It says kept,' says {?c}, quietly. 'It says whoever holds it is not its owner.' {?t} turns the leaf over; the back is blank. 'Then whoever holds it keeps it for the rest,' says {?t}. 'And the rest are upstairs, being told it is owed.' Neither is wrong, and both are looking at you." {
+    Assert rv_quarrelled(party).
+  }
+  Action rv_side_thief(actor: group, t: member, c: member, site: place) "Tell {c} that {t} is right, and keep the leaf for the rest" {
+    Description "Take the leaf out of the cellar. The Bursar will not forgive it. The city may.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, rv_assay) and rv_quarrelled(actor) and not rv_page_kept(actor) and not rv_page_returned(actor) and memberOf(t, actor) and hasCalling(t, calling_thief) and memberOf(c, actor) and hasCalling(c, calling_cleric).
+    Time 2.
+    On success { Assert rv_page_kept(actor). }
+    Result "{c} looks at the lintel of eleven names and the blank place, a long time, and then helps {t} close the drawer so that it will not be seen to have been opened. 'I will not say a word against it,' {c} says, 'but I will remember that I did not.' The leaf goes inside {t}'s coat. The lamp, which nobody lit, gutters, and steadies.".
+  }
+  Action rv_side_cleric(actor: group, t: member, c: member, site: place) "Tell {t} that {c} is right, and return the leaf to the drawer" {
+    Description "Put it back, and tell the Bursar where it is. She will know what to do with the fact of it, which is more than the leaf could.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, rv_assay) and rv_quarrelled(actor) and not rv_page_kept(actor) and not rv_page_returned(actor) and memberOf(t, actor) and hasCalling(t, calling_thief) and memberOf(c, actor) and hasCalling(c, calling_cleric) and holding(actor, rv_page_kind).
+    Time 2.
+    On success { Assert rv_page_returned(actor). Spend rv_page_kind from actor. }
+    Result "{t} says nothing, folds the leaf along its old creases and lays it back in the drawer, and slides the stone shut until the seam is gone. {c} puts a hand briefly on the glass, as on a font. 'It is kept,' {c} says, to the room. 'That is what it said.' {t}'s mouth is a flat line, and then it is not. 'I knew what it said,' {t} says. 'I wanted someone else to say it.'".
+  }
+  Action rv_tell_bursar(actor: group, site: place) "Tell the Bursar where the leaf is, and that it is kept" {
+    Speaker rv_bursar.
+    Requires able(actor) and company(actor) and at(actor, site) and at(rv_bursar, site) and rv_page_returned(actor) and rv_twelfth_asked(actor) and not rv_told_bursar(actor).
+    Time 4.
+    On success { Assert rv_told_bursar(actor). Increase quantity(actor, gold) by 8. }
+    Result "She does not ask how you know. She goes white, then red, then sits down on the bench by the door with the ledger in her lap. 'The first leaf,' she says. 'Hexham said it was there. I never could find where.' She is silent for a time. 'I shall enter that the Pound is kept,' she says. 'Not owed. I shall enter it in my own hand and sign it, and let them make what they like of it.' She presses eight coin into your hand from the Collegium's purse, which is not allowed, and does not look at it. 'It is not a fee,' she says. 'It is what is left over when a fee is taken out.'".
+  }
+  Relation rv_told_bursar(group).
+
+  // ── The Master's mask ────────────────────────────────────────────────────────────────────────────────────────────
+  // The leaf is the Measure source of the mage's research made plain: a pound fits because it is not a measure, it is a
+  // promise held by whoever carries it. Thole WANTS a mask that stays on; FEARS it is the rule, not the Frame; LIES that
+  // the Frame is warped. Shown the leaf he does arithmetic in a mask, which the Collegium forbids.
+  Topic rv_thole_leaf with thole "Show Dr Thole the first leaf of the Pound's book" when mg_audience(actor) and holding(actor, rv_page_kind) and not rv_thole_masked(actor) once {
+    Says "He reads it with his lips, then with his fingers, then holds it up to the lamp and reads the water-mark. When he has done he lays it very gently on the rug and takes one of the hundred and four masks from its hook on the wall, with the carefulness of a man picking up something sleeping, and puts it on. It sits on his face like a thing at home. 'KEPT,' he says, in the big voice, 'not measured. A shape that is held is held by someone. The Frame was never in error. We were asking it the wrong question.' He puts his hands on his knees and begins, under the mask, in the dark of the workroom, to do a sum. It is the first arithmetic he has done in a mask in sixty years, and it comes out.".
+    On discuss { Assert rv_thole_masked(actor). }
+  }
+  Relation rv_thole_masked(group).
+  Observe rv_thole_masked_scene near thole when rv_thole_masked(party) and at(thole, collegium_study) "The Master of Measures sits in a mask with a pen in his hand and nobody has told him to take it off. The pen goes steadily. The slate on its string says, in new chalk: HELD BY WHOM.".
+
+  // ── A grave scene: the vigil of the Counterpoise ─────────────────────────────────────────────────────────────────
+  // After a city of masks and a satire of Offices, a still room. The Counterpoise has weighed nothing for two hundred
+  // years but a pebble; one night's company changes the pebble.
+  Relation rv_vigil(group).
+  Action rv_sit_vigil(actor: group, site: place) "Sit the night watch in the assay cellar, as the eleven did" {
+    Description "Eleven names on a lintel, and a place left blank. Each of them sat here on the last night of a quarter.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, rv_assay) and privateHours() and tolerates(rv_counterpoise, actor) and not rv_vigil(actor).
+    Time 6.
+    On success { Assert rv_vigil(actor). Assert knows(actor, rv_vigil_known). }
+    Result "You sit on the cold floor with your backs against the black table. Nobody speaks, and after a time the silence is a thing the room was made to hold. The bronze gives back the lamp. The Counterpoise comes in from the landing and stands by the door and sets down its pebble in the dust; it is the first time it has put it down. Somewhere above, the Collegium's ten thousand clocks and slates and students are asleep, and you are, for an hour, the only ones keeping anything. At the end of it the lamp has not changed. You feel, absurdly, thanked.".
+  }
+  Discovery rv_vigil_known "The assay cellar's Assayers sat a night's vigil at the end of each quarter, and the twelfth hook is oiled against the day someone sits it again.".
+
+  // ── What the others in the company see ───────────────────────────────────────────────────────────────────────────
+  // Said once, by whoever the company has of the calling; a company without the calling has nobody to notice it.
+  Relation heardNave(group). Relation heardLocks(group). Relation heardDrip(group). Relation heardStair(group).
+  Relation heardStage(group). Relation heardFrame(group). Relation heardCellar(group).
+  Rule rv_voice_nave at nave when memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and at(party, nave) and not heardNave(party)
+    says "{?m} stands at the foot of the bier-room door and does not go in. 'They have not said her name,' {?m} says. 'So no office has been read. A funeral without a name is a tally with the number scratched out. She is dead and nothing in this place has been told so.' {?m} touches the lintel. 'Somebody ought to.'" {
+    Assert heardNave(party).
+  }
+  Rule rv_voice_locks at locks_office when memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and at(party, locks_office) and not heardLocks(party)
+    says "{?m} walks once round the room and stops at the door they came in by. 'No handle on the outside,' {?m} says. 'The hinges are on the inside too. That is not a door, that is a wall with an opinion.' {?m} glances at the strongroom. 'The joke of this house is that it has no lock. The lock is that you were let in.'" {
+    Assert heardLocks(party).
+  }
+  Rule rv_voice_drip at drip_landing when memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and at(party, drip_landing) and not heardDrip(party)
+    says "{?m} crouches by the nearest piling and runs a thumb along a line of green on the timber, a hand above the water. 'Rain does not wash this,' {?m} says. 'This is the Flood of nine years ago, and there is another, higher, and a third higher than that. They are measuring the sluice by the damp.' {?m} stands. 'You could read the Drip's whole history from the pilings, if you could stand to.'" {
+    Assert heardDrip(party).
+  }
+  Rule rv_voice_stair at hill_foot when memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and at(party, hill_foot) and not heardStair(party)
+    says "{?m} looks up the Duelling Stair and then down at the bottom step. 'Worn on the left,' {?m} says. 'Every one of them led with the same foot. A hundred years of Seconds, and not one has thought to change.' {?m} rolls a shoulder. 'Whoever has the left foot at the top has the stair. It is not a fight, it is a habit in armour.'" {
+    Assert heardStair(party).
+  }
+  Rule rv_voice_stage at stage_pit when memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m) and at(party, stage_pit) and not heardStage(party)
+    says "{?m} stands with a head cocked at the boards. 'The Cuff slaps under the stage on every beat,' {?m} says, 'and the Moths time their laughs to it. They do not know they do.' {?m} grins. 'Give me a month under this floor and I could make them laugh at anything by leaving a gap where the water goes.'" {
+    Assert heardStage(party).
+  }
+  Rule rv_voice_frame at collegium_study when memberOf(?m, party) and hasCalling(?m, calling_mage) and awake(?m) and at(party, collegium_study) and not heardFrame(party)
+    says "{?m} holds a hand over the sheeted Frame and takes it away again. 'It is warm,' {?m} says. 'Not from the lamp. From the arithmetic. Something has been going on in here for sixty years and has not stopped for the sheet.' {?m} looks at the back wall, where a dark stair goes down behind the crab, and says nothing more about it at all." {
+    Assert heardFrame(party).
+  }
+  Rule rv_voice_cellar at rv_assay when memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and at(party, rv_assay) and not heardCellar(party) and not rv_page_taken(party)
+    says "{?m} walks round the black table slowly, and stops, and looks at its underside and then at its legs. 'One lock on the case,' {?m} says. 'Open. A thing this old and this careful does not have one lock.' {?m} gets down on one knee. 'I will be a moment.'" {
+    Assert heardCellar(party).
+  }
+
+  // ── The others who are pressed ───────────────────────────────────────────────────────────────────────────────────
+  // Vail WANTS to be a person for a little while. FEARS she is only the hound. LIES that she is procedure. Pressed, she
+  // takes the domino off in the Gatehouse for the length of a kettle.
+  Relation rv_vail_kettle(group).
+  Topic rv_vail_kettle_t with vail "Ask her what she does with the Gatehouse kettle at night" when warrantHeld(actor) and not rv_vail_kettle(actor) once {
+    Says "'It is procedure,' says the Watch, and then, as you wait, with the patience of a stranger who has no mask to hide it, 'It is a kettle. I put it on at the third hour and stand by it, and it boils, and I take off the domino.' She does it, now, with one hand, and the face under it is a plain tired woman of forty, not unlike a baker. 'Nobody is in the Gatehouse. It is the only place in Ombra where I am not looked at by a hound.' She puts the domino back on, quite deliberately. 'You may tell no one,' she says, 'which is, you will note, the whole of the Concord's law in a sentence.'".
+    On discuss { Assert rv_vail_kettle(actor). Increase vailTrust(actor) by 1. }
+  }
+  // Hart WANTS a name on a lock. FEARS the Book's names are small. LIES that she wants the city to be less safe, not hurt.
+  // Pressed with the Pound's first leaf she asks not to be given it.
+  Topic rv_vane_leaf with vane "Show Orsolya Hart the first leaf of the Pound's book" when holding(actor, rv_page_kind) and not rv_vane_leaf_t(actor) once {
+    Says "She reads it standing, and then sits. 'KEPT,' she says. 'Not owned.' She turns it over to the blank back, as every reader does. When she looks up, her long furious face is the face of someone who has been offered, for the first time in eleven years, a thing she wanted and found she could not use. 'Do not give it to me,' she says. 'I shall print it. Everybody will have it. And then it will be owed, by the third edition, because a thing in a pamphlet is a thing the city must have.' She folds the leaf and gives it back. 'Keep it,' she says. 'Hand it on. It is the only thing I have ever been shown that is made to be handed on and not read out.'".
+    On discuss { Assert rv_vane_leaf_t(actor). }
+  }
+  Relation rv_vane_leaf_t(group).
+
+  // ── Links outward ────────────────────────────────────────────────────────────────────────────────────────────────
+  // By item: a keeper's tally from the Marches is read at the Tally Coffee-house; the Corran letter opens the Bursar
+  // (above). By world event: the coffee-house's board changes when the Rose of the Winds is made whole, wherever that
+  // was: Ombra sees only that a price has moved. A visitor from elsewhere would come to Ombra by the Watch's notice in
+  // any town, for the Drawing, or with a standard to be sealed against the Pound.
+  Topic rv_tally_read with ct_tally "Show the tallyman the rubbing of a keeper's tally" when holding(actor, tally_rubbing) and not rv_tally_read_t(actor) once {
+    Says "He takes the rubbing, wipes his slate, and reads it as a man reads a menu he used to know. 'Stroke for a ship, strokes beneath for the dead on her,' he says. 'This long one at the head, then three, then a flame. And here, the oldest, a hand I cannot read, though the notation is a tally, not a letter.' He taps the margin. 'The Row keeps its tallies in three notations. We have lost the oldest. I should be glad of the loan of your bench.' It is the first time in your hearing that a Magpie has said I.".
+    On discuss { Assert rv_tally_read_t(actor). }
+  }
+  Relation rv_tally_read_t(group).
+  Observe rv_board_rose at coffee_room when befell(rose_made_whole) and publicHours() "On the long blackboard a new price has been chalked, in an unfamiliar hand, for a commodity nobody can name. Under it a boy has written, in a child's capitals: CARRIED BY SEA. The Magpies are being careful not to be seen to look at it.".
+
+  // ── What the Row says, the hour before ───────────────────────────────────────────────────────────────────────────
+  Rule rv_news_kept when newsHour() and rv_told_bursar(party) once says "Of the Collegium of Measures: the Bursar entered in her own hand, in the quarter's book and signed, that the Pound is KEPT. The Hall of Weights has not replied. The twelfth hook has been seen to have a tag on it, with a name that is not yet engraved." { }
+  Rule rv_news_leaf_taken when newsHour() and rv_page_kept(party) once says "Of the Pound: the Bursar has found the drawer in the Pound's table empty, and the seam in the stone as clean as it was, and has said nothing to anyone. She has sat the quarter's vigil with the Counterpoise, and when she came up the pebble in its pan was in the other pan." { }
+  Rule rv_news_broken when newsHour() and rv_cp_broken(party) once says "Of the Collegium of Measures: a Counterpoise was found in the cellar in pieces, and the Bursar has entered it in the book as OWED, and has not said to whom. The twelfth hook is polished, and has been seen to have a tag on it with nothing engraved." { }
+  Rule rv_news_thole_masked when newsHour() and rv_thole_masked(party) once says "Of Dr Thole: he does his arithmetic in a mask now, and has been seen to correct a student's slate in one. The Collegium is said to be considering a rule." { }
+  Rule rv_news_vigil when newsHour() and rv_vigil(party) once says "Of the assay cellar: a lamp was seen to burn there all the ninth night that nobody had trimmed, and the Counterpoise, on being asked in the morning what it weighed, said it weighed the night." { }
+}

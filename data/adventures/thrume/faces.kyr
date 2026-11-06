@@ -1,0 +1,108 @@
+Module thrume "Thrume" {
+  Description "The faces of Thrume that do not stand on the road to the Mouth: a clerk, a child who is a giant, a provost with a daughter, a young blood with a thane he carried to bed; and what the country does and no one can say why.".
+
+  // ── Saltgrave: the clerk, the provost, the sister, the landlord ────────────────────────────────────────────────
+  Person pell "Tamsin Quarrow" at office_floor {
+    Role "clerk of the Salt Office, who crossed out CLOSED and was told to cross it back". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
+    Greets "A woman of forty behind the long counter, with ink to the second knuckle, who has been weighing salt for the Office for nineteen years and has not been thanked for it once. 'If it is the Number Four,' she says, 'it is open. If it is a complaint, it is the provost. If it is a funeral, it is Sister Agathe.'".
+  }
+  Discovery orsett_buys "A factor of the Founders' Exchange at Orsett sends a carter to the Salt Office every spring, asking for unmarked red salt at three times the Margravine's price, and has been refused every year by an Office that did not know what it was refusing.".
+  Topic pell_closed with pell "Ask Tamsin Quarrow who crossed out CLOSED on the Number Four" when true once {
+    Says "'I wrote it,' says Quarrow. 'In red, the morning after the roof fell in on Brannoc's predecessor. The provost crossed it out the same afternoon, on a rider's word from Ebb, and I wrote it again, and he crossed it out. We did it nine times.' She shows you the map. The red has been scraped to a pink bruise. 'I stopped the tenth. It is the only thing in this Office I ever lost an argument about, and I have not been right so often in my life.'".
+  }
+  Topic pell_orsett with pell "Ask Tamsin Quarrow who else buys the red salt" when true once {
+    Says "'Everyone has a use for salt that is red,' says Quarrow. 'The Margravine for the silver. The Hearth-Mother for the pinch on the doorstep. And once a spring a carter with a good coat comes up the road from Orsett on the river, from a Founders' Exchange, with a purse and no questions, and asks for it unmarked, unweighed, and unrecorded.' She sniffs. 'I say no. I say no in writing. I should like to know what a river factor wants with a thing that is warm.'".
+    On discuss { Assert knows(actor, orsett_buys). }
+  }
+  Relation hauksTurned(group).
+  Topic hauk_turn with hauk "Tell Provost Hauk that one of the carts' sleepers is Col Dunmore, who is sixteen" when knows(actor, carts_known) and knows(actor, col_gone) and not hauksTurned(hauk) once {
+    Says "Hauk does not say that he has not asked. He opens his mouth to, and he looks at the open ledger, and at the three entries in his own hand, and shuts it. He gets up. He unlocks the strongbox, which makes a noise like a small door, and counts out twenty crowns on to the blotter, in coin the colour of the Lantern's salt. 'The Lantern's quiet,' he says. 'For the weeks I have kept it. It is the one thing in this room that I did not earn.' He pushes it across. 'Buy him back. I have a daughter in Ebb who is fourteen, and I would not like to be told what I did to a boy of sixteen with the price in my desk.'".
+    On discuss { Assert hauksTurned(hauk). Increase quantity(actor, gold) by 20. }
+  }
+  Topic agathe_tithe with agathe "Ask Sister Agathe why the Salt Office leaves a pinch at her door" when true once {
+    Says "'The first salt out of every cart,' says Agathe. 'A pinch of white for the sill, since before there was an Office or a town. The Office has twice tried to end it, once in my predecessor's day and once in her predecessor's, and each time the carts broke an axle on the road up. Nobody has said why. Nobody has tried a third time.' She smiles. 'I do not say it is the Hearth-Mother. I say that Sorrow at the Saltcellar lost a wagon of hams the week the provost drew up the paper, and the paper was burnt.'".
+  }
+  Topic agathe_fire with agathe "Ask Sister Agathe about the fire that never goes out" when true once {
+    Says "'Nobody lit it,' says Agathe, and then, at the way you look: 'Somebody lit it. Nobody in this town knows who, and the Office has no record, and I have not asked the fire.' She turns a splinter over in her fingers. 'Pilgrims come through in summer from the west with ash on their sleeves. They say there is a lamp on a rock out beyond the Combs that is kept the same way, by a family that has forgotten what for. A lamp for no one living. They say it is the same kind of fire as ours.' She shrugs. 'They always say that. But they came all this way to sit by ours.'".
+  }
+  Topic sorrow_ham with landlord "Ask Gil Sorrow about the hams on the beams" when true once {
+    Says "'Cured in red,' says Gil Sorrow. 'You can't hang a ham in a town with salt like ours and not. It keeps forever, and it is the only ham I know of that you cannot eat a second time.' He cuts you a curl of it. It is dark, and sweet, and tastes of something you cannot quite put a name to: a summer, perhaps, not one of yours. 'The first slice, it's pork,' he says. 'The second, it's the pig's own last dream. Nobody orders it twice.'".
+  }
+
+  // ── The workings: the boots, and the man who lies badly ────────────────────────────────────────────────────────
+  Observe adit_boots at adit_head when true "Hung from the props at head height, boot after boot, pairs knotted by the laces: a hundred and twelve, by the count of anyone who counts. A boot for every man the Number Four has taken, in the way of the miners. Nobody can say who began it, and nobody takes one down.".
+  Relation brannocLies(group).
+  Topic brannoc_after with brannoc "Ask Overseer Brannoc what he will tell the Margravine" when stopped(brannoc) and not brannocLies(brannoc) once {
+    Says "Brannoc takes a long time over the answer. He is not a man who tells lies; he has built his life on the ground being where the chalk says it is. 'That the Number Four has run dry,' he says. 'That the red was a pocket. That I am a good judge of ground and the roof is bad and I will lose no more men to it.' He looks at the clean board. 'My brother was under the Ebb roof in the spring. I told the Margravine it would hold. It is the second time I have been wrong about her mountain, and I would like not to be right about the third.' He spits. 'I will tell it badly. You will find I am no use at it.'".
+    On discuss { Assert brannocLies(brannoc). }
+  }
+  Observe brannoc_lying at market when brannocLies(brannoc) and not dark() "Overseer Brannoc has come up from the adit with six men in a file behind him, each with his own pick, and is standing at the Salt Office door telling the clerk that the Number Four has run dry. He is explaining it with his hands, and he is quite plainly the worst liar in the Margravine's service.".
+
+  // ── The Shoulder Hall: the wolves, the child, the young blood, the thane ───────────────────────────────────────
+  Kind thrume_whistle "Skarn's wolf-whistle, a pipe of yellow bone" is treasure worth 0 weighing 0 described "A whistle of bone as long as your finger, bored with three holes, yellow with handling. The frost wolves of the Shoulder Hall come to it, and lie down.".
+  Observe kennel_lamps at kennels when true "Hung on the wall of the wolf-pens, forty miners' lanterns, tin and horn, each with a twist of black wool through the handle where the giants' fingers could not manage the knot. They have been brought up the scree road carefully and hung where the wolves cannot reach them, as a child keeps a thing it has been told is not its own.".
+  Item kennel_lantern "a miner's lantern from the wolf-pens" is lantern at kennels.
+  Relation wolvesCalmed(group). Relation wolvesWhistled(group).
+  Action calm_wolves(actor: group, site: place, r: member) "Let the ranger go in among the wolves, hands open" {
+    Description "{r} has never been afraid of a thing in its own country. The wolves of the Shoulder Hall are in theirs.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, kennels) and at(wolves, kennels) and memberOf(r, actor) and hasCalling(r, calling_ranger) and awake(r) and not wolvesCalmed(actor) and not wolvesWhistled(actor).
+    Time 2.
+    On success { Assert wolvesCalmed(actor). Assert tolerates(wolves, actor). }
+    Result "{r} goes in alone, slowly, with the hands low and the eyes down and a noise in the throat that is not a word. The nearer wolf puts its head over {r}'s shoulder as a horse does, and breathes. 'They were pups when they came up the scree,' {r} says quietly, with the wolf's weight against one hip. 'Orphans. Nobody has touched one of them in a year but the girl.' The other wolf sits. The straw settles.".
+  }
+  Action whistle_wolves(actor: group, site: place) "Blow Skarn's bone whistle at the wolves" {
+    Description "Skarn gave it for the asking of an honest question. The wolves know the sound better than the name.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, kennels) and at(wolves, kennels) and holding(actor, thrume_whistle) and not wolvesCalmed(actor) and not wolvesWhistled(actor).
+    Time 1.
+    On success { Assert wolvesWhistled(actor). Assert tolerates(wolves, actor). }
+    Result "Three notes, falling. The wolves look at one another, and then at you, with an expression of deep and personal betrayal, and lie down in the straw with their chins on their paws to be scratched.".
+  }
+
+  Person wenna "Wenna" at hearth {
+    Role "the thane's granddaughter, who is eight, which is about the height of a barn door". Species shoulder_giant. Level 1. Peaceable. Pronouns she. Manner jovial.
+    Greets "A very large child with a very small braid sits in the ashes of the mothers' hearth with a wooden hall in her lap, as long as a coffin, with doors that open. She looks at the company the way a cat looks at a mouse that has just walked in on its own. 'You are the right size,' she says, with deep satisfaction.".
+  }
+  Discovery wenna_rhyme "The giants' skipping rhyme, as an eight-year-old counts it out on the hearth-stones: 'Hollin, Orrab, Gur-and-Gwen, Bellow walks and will not stop, Marl lies down and Thrume lies last: count it, count it, count it fast.'".
+  Discovery morrach_weeps "Thane Mórrach sits the high seat after the hall has gone to bed with a hand on the stone, and the stone hums back, and he weeps. Wenna has watched him from under a bench every night for a year.".
+  Relation wennaPlayed(group).
+  Action play_house(actor: group, site: place) "Let Wenna put the company to bed in her wooden hall" {
+    Description "It is not a request.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hearth) and at(wenna, hearth) and guest(actor) and not wennaPlayed(actor).
+    Time 3.
+    On success { Assert wennaPlayed(actor). Assert knows(actor, wenna_rhyme). Assert knows(actor, morrach_weeps). }
+    Result "You are lifted, one at a time, by the belt, and set down in a wooden hall that smells of resin, and put to bed on a pillow stuffed with sheepswool. Wenna sits over you like a roof. 'You are the guests,' she says. 'You have to be quiet and not be eaten. Grandfather is the thane and he sits in the chair and cries.' A pause. 'Not really. He pretends he is looking at the ceiling.' She counts you off on one finger the size of a loaf, singing under her breath, and gets it wrong, and begins again: 'Hollin, Orrab, Gur-and-Gwen, Bellow walks and will not stop, Marl lies down and Thrume lies last: count it, count it, count it fast.' The Rememberer, at the pillar, says without turning, in a voice like wind in a flue: 'Wenna. Put them down.' You are put down. Wenna is not sorry. 'Come back tomorrow,' she says. 'You can be the dragon.'".
+  }
+  Topic morrach_seat with morrach "Tell Thane Mórrach that Wenna says the seat hums back" when knows(actor, morrach_weeps) and state(morrach, presiding) once {
+    Says "For a long time he does not answer. The great hand on his knee opens and closes once. 'She is eight,' he says at last. 'She tells everything. It is the best thing about her.' He looks at the stone arm of the seat. 'It hums when he turns over. It has hummed since the red salt came up. I sit here at night because it is the only place in the hold where I can hear whether he is still asleep.' A pause as long as a tide. 'Do not say so to Skarn.'".
+  }
+  Relation skarnAsked(group).
+  Topic skarn_why with skarn "Ask Skarn why the young bloods want a war" when tolerates(skarn, actor) and not skarnAsked(skarn) once {
+    Says "'Honour,' says Skarn. He says it at once, and loudly, and looks at the young bloods behind him to see that they heard. 'The old women keep the song. We keep the doors. A door that has been cut into, that is not a thing you talk about with a ring and a cup.' The great jaw works. 'The Margravine took a hand's breadth of the thane's belly and the thane has asked us to be patient. I have been patient for a year.'".
+    On discuss { Assert skarnAsked(skarn). }
+  }
+  Topic skarn_pressed with skarn "Tell Skarn that his thane weeps at the high seat, and that Wenna told you" when knows(actor, morrach_weeps) and tolerates(skarn, actor) and skarnAsked(skarn) once {
+    Says "Skarn goes quite still. The young bloods behind him, who have been playing at not listening, stop. 'The child,' he says. It is not a question. He sits down on a bench like a man sitting down on his own hand. 'I carry him to bed,' he says, very low. 'Every night, after. Eleven winters now he has been too heavy for the stair, and I have carried him, and I am the only one he lets. That is why I want the war. Because when the old ones go there is no one to carry me.' He is a long time silent. He takes a pipe of yellow bone from his belt and puts it on the floor in front of you. 'For the wolves,' he says. 'They are not mine to give, and they are the only thing in this hold that likes you. Do not say I gave you anything.'".
+    On discuss { Give thrume_whistle to actor. }
+  }
+  Observe hearth_pebbles at hearth when true "At the foot of each pillar, in sockets cut in the floor-stone, a row of small round pebbles: grey for the most part, a few white, three of them red. The last socket in the row nearest the Rememberer's hand is empty, and has been kept clean.".
+  Topic rememberer_stones with rememberer "Ask the Rememberer why every pillar has a row of pebbles at its foot" when true once {
+    Says "'A pebble for each of us who has died,' says the Rememberer. 'The size of the life, not the person. Grey for the quiet ones, white for the angry, and red for the three who were cut down by smiths.' Her long hand goes over the lowest hand's breadth of the pillar, where the sockets run like a row of teeth. 'There is one socket that is empty. It is for the one the song has not named yet. We are the only people I know who set a place at the table for the dead we have not met.'".
+  }
+
+  // ── Outward: what Thrume reads of the world ─────────────────────────────────────────────────────────────────────
+  Observe gauge_slack at gauge_room when befell(slack_opened) "Round the rim of the dial the smiths scored eleven hours, and left the twelfth blank. Tonight the twelfth is not blank. A stroke has appeared in it, fine as a hair, as though a count somewhere very far away had paused and this one, in sympathy, had marked the pause.".
+  Observe landing_cloudgate at cloud_landing when befell(cloudgate_fell) "The cloud is thinner at one edge than it was, as if a great piece of the sky had been taken from the dream. Far off, in the white, something the size of a city has come down out of the weather and is lying on the water with its lamps on, and Thrume has noticed it, and cannot decide whether to dream it.".
+
+  // ── Where the story is read, once it is over ───────────────────────────────────────────────────────────────────
+  Relation smithsSung(place). Relation rhymeSung(place).
+  Rule smiths_sung when sungClean(fells) and at(party, mouth_edge) and knows(party, smith_names) and not smithsSung(fells)
+    says "Between the names of the old ones the song takes in a smaller list, one you did not know you were singing: Ysolt Fenn, and a hundred and six more, the Hollow Smiths of the delving, who climbed the hill and wept and died in dozens. The Mouth cannot swallow them either. Somewhere above, in a low cold room that smells of tallow, a hundred and seven pegs creak, as if every hammer had been set down at once." {
+    Assert smithsSung(fells).
+  }
+  Rule rhyme_sung when sungClean(fells) and at(party, mouth_edge) and knows(party, wenna_rhyme) and not rhymeSung(fells)
+    says "As you reach the last name, a child's voice, a long way off and very high, takes the line out of your mouth and finishes it, too fast and a little flat, the way it is done on the hearth-stones: 'Thrume lies last: count it, count it, count it fast.' The grey does not know what to do with a child counting. It goes very still, and listens." {
+    Assert rhymeSung(fells).
+  }
+
+  Objective settle_wage when knows(party, gods_wage) and not paidSettled(paid) and not paidLaid(paid) "The Paid stand at the pay-window in the Delving, waiting for a wage that was never handed over.".
+}

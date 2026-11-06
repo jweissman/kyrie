@@ -1,0 +1,70 @@
+Module gaunt "A Winter in Carth" {
+  Description "The seam in Gaunt's history, kept open: an empty lantern-hook on the north tower, a tower drawn under a tower, five lines planed off a plinth, a lintel worn smooth where a hand goes, a thirty-second loop on a ring of keys; and the trades and customs round it: the Last Inch, the chestnut man who sells indulgences, the Fat King stuck in Bow Gate, a Doctor who tells of the Veyran with the notebook.".
+
+  // The count here is the Register of Gaunt: forty books on forty lecterns, two hundred and eleven years of every fault
+  // in the city and who paid for it. Its keeper is the Lady Penitentiary, who holds thirty-one keys. Its first page is
+  // the one the clerks copy and no one reads: nine lines in a rubric nobody teaches (voices.kyr, `first_leaf`). What
+  // reading it costs is that the Lady must decide what her keys are for. Nothing here says where the Bishop went, who
+  // is to ask for the keys, or what a second tower was to carry: those stay open on purpose, and every new piece below
+  // is a thing a person has seen and not understood.
+
+  // ── The lantern-hook, the early detail whose last act is Ash Day's dusk ───────────────────────────────────────────
+  Observe hook_seen at tower_foot when not nightfall() "High on the stump of the north tower, on the face that looks out over the Levels, an iron bracket stands a yard out of the stone with a lantern-hook at its end: the only ironwork on all the scaffold that is not rusted red. Nothing hangs from it. The masons walk under it every day and nobody looks up.".
+  Observe lantern_hung at tower_foot when courseSet(joby) and ashDay() and nightfall() "Somebody has hung a horn lantern from the bracket at the head of the north tower, and nobody has taken it down. It burns there steady, high over the Close, in the first dark since the Commerce began in which no Fabric man has put it out. Joby Thwaite stands under it with his hat in his hands. He does not know why he did it, he says. The hook was there.".
+  Rule fate_lantern when accounting() and courseSet(joby) and not spread(fate_lantern_told)
+    says "Of the lantern: it was still burning at dawn on the north tower, and nobody has said whose it is. The lodge has taken to trimming it. From the fold on the Levels, they say, it can be seen all the way, a small yellow point at the head of a tower and a half, and the put-out sit facing it when they are not at work." {
+    Assert spread(fate_lantern_told).
+  }
+  Entity fate_lantern_told: fact "the lantern".
+  Observe lantern_hung_under at tower_foot when courseSet(joby) and ashDay() and nightfall() and knows(party, lodge_under) "You have seen the other drawing, under the finished tower, on the lodge floor: slimmer, with a small room at its head and a flame in a box in every window. The lantern on the bracket sits just where that room would stand.".
+
+  // ── The lodge: a tower under a tower, and a mark struck out ───────────────────────────────────────────────────────
+  Discovery lodge_under "Under the finished north tower drawn on the lodge's tracing floor, much fainter and much older, another tower is scratched full size: slimmer, with no bell-chamber, and a small room at its head with a window on every face and a flame in a box in each. The masons walk on it. Joby says it is a prentice's sketch." {
+    Found by searching masons_lodge with lore "You go down on your knees on the tracing floor and put a lamp low to it, and the finished tower stands up out of the scratches in the plaster as it has for two hundred years. Under it, where the plaster has worn to the lath, is another set of lines, thinner, not a mason's: a tower with no bell-chamber and a small room at the head of it, with windows. In each window a little drawn thing like a flame inside a box.".
+  }
+  Observe lodge_lintel at masons_lodge when true "Over the lodge door, cut into the lintel in a row, are the marks of every master since the Commerce: a square, a fork, a pair of compasses, an arrow. One place in the row has been chiselled out clean, nineteen years ago by the look of the edges, and the arris of it is bright where a thumb goes, every morning, on the way in.".
+
+  // ── The gate: a custom nobody can explain ─────────────────────────────────────────────────────────────────────────
+  Observe gate_lintel at close_gate_street when true "Everyone who climbs the Bearer's Steps to the Close Gate puts a hand up at the top, without looking, and touches the lintel on the right-hand side, where a place a hand's breadth wide is worn pale and smooth as a pebble. Canons do it. Serjeants do it. The porter does it as he opens the grille. Ask why and they say it is for luck, or for the fault of the stone. Nobody remembers anything cut there. Nobody has ever wished to cut anything there again.".
+
+  // ── The Last Inch ─────────────────────────────────────────────────────────────────────────────────────────────────
+  Discovery last_inch "The candles sold in the Minster to be burned for another's sins are bought back by the chandler's boy at a halfpenny when they are an inch from the end, and sold again whole: the same wax, forty times, so that a grandfather is prayed for with what a stranger was prayed for yesterday. The trade is called the Last Inch.".
+  Topic dent_inch with landlord "Ask Matthias Dent why every candle in the Fat Lamb is burned down to the same inch and no further" when true once {
+    Says "'The Last Inch.' He wipes the knife on his apron with a kind of professional pride. 'A burgess buys a candle in the Minster to burn for his grandfather. It burns. At the last inch, a chandler's boy comes round with a basket and buys the stub for a halfpenny, and it goes back to the seller, and the seller sells it whole.' He holds up a candle: an inch of stump in a dish. 'Same wax. Forty times, they say. I light one at every table, and I take it back at the inch, and it is the lawfullest thing in the Fat Lamb.' He sets the dish down gently. 'Merit is what's left when the wax is gone,' says Matthias Dent. 'It is my own observation. The wax goes round.'".
+    On discuss { Assert knows(actor, last_inch). }
+  }
+
+  // ── Doctor Ploughwright and the Veyran ────────────────────────────────────────────────────────────────────────────
+  Topic ploughwright_veyra with ploughwright "Ask Doctor Ploughwright where the Faculty had its Determinations from" when true once {
+    Says "'From Veyra, in the north, which teaches.' He says it as a man names a poor relation. 'A chapel and a school, and a Grand Tour of its own that goes round the whole country asking to be told things.' The quarter-inch of his bow returns. 'We do not need to be taught in Gaunt. We are told. Once a generation a Veyran comes down the fell road with a notebook and asks to see the Register's first book. The Lady Penitentiary shows him the first line. He asks to see the second. The Lady Penitentiary tells him that there is no second.' Doctor Ploughwright smooths his hood. 'He goes home, I understand, very thoughtful.'".
+  }
+
+  // ── The contrast: the chestnut man, the indulgence, and the Fat King in Bow Gate ──────────────────────────────────
+  // A grave adventure, one scene of plain comedy. It is also the satire in one image: a man selling hot chestnuts and
+  // indulgences from the same brazier, and a paper that is good in exactly the street he stands in.
+  Person hodge "Hodge Peasegood" at shambles {
+    Role "a man with a brazier of chestnuts in one hand and a stack of printed indulgences under the other arm". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Greets "'Hot!' cries Hodge Peasegood, to nobody, to everybody. 'Hot chestnuts! Hot indulgences! A penny the pair!' He lowers his voice to the pitch of a confidence. 'You'll be wanting both. Everybody wants both. It is the Shambles. We have a feeling for it.'".
+    Greets again "Hodge Peasegood waves a chestnut at you like a man blessing a crowd.".
+  }
+  Kind gaunt_chestnuts "a paper of hot chestnuts" is gear worth 0 weighing 0 described "Twelve chestnuts in a twist of printed paper, hot enough to hold in a pocket against the cold.".
+  Item chestnuts "a paper of hot chestnuts" is gaunt_chestnuts at limbo.
+  Kind gaunt_indulgence "a printed indulgence" is gear worth 0 weighing 0 described "A handbill, thumb-black, in two colours: GOOD FOR ONE PAIN. SEE OVERLEAF. On the back, in smaller type: VALID IN THE SHAMBLES, BETWEEN BOW GATE AND THE BEARER'S STEPS, FOR THE DAY OF PURCHASE. NOT TO BE PRESENTED AT THE CLOSE.".
+  Item indulgence "a printed indulgence" is gaunt_indulgence at limbo.
+  Topic hodge_trade with hodge "Ask Hodge Peasegood how an indulgence differs from a chestnut" when true once {
+    Says "'The chestnut,' says Hodge, with the patience of a man explaining the sea, 'you eat. The indulgence you hold. They are both warm when you buy them.' He turns a handbill in the brazier's light. 'The Penitentiary has a price for the pain, a shilling. The Stand has a price for the proxy, a shilling. I have a price for the paper, a halfpenny, and I do not pretend it is a pain. It is a feeling. It is the feeling of having done something at the right end of the street.' He eats a chestnut. 'It is the only honest article in the Commerce. I have never once been assessed.'".
+  }
+  Topic hodge_buy with hodge "Buy a paper of hot chestnuts and an indulgence, a penny the pair" when quantity(actor, gold) >= 1 and not hodgeSold(hodge) once {
+    Says "He fishes the penny out of your palm as if it were a coal. 'There.' He puts the chestnuts in your hands and the handbill on top of them. 'Read the back,' says Hodge Peasegood. 'Everybody reads the front. The back is where the law lives.'".
+    On discuss { Decrease quantity(actor, gold) by 1. Give chestnuts to actor. Give indulgence to actor. Assert hodgeSold(hodge). }
+  }
+  Relation hodgeSold(group).
+  Observe fat_king_stuck at shambles when licence() "At the foot of Bow Gate the Fat King has stuck. The giant's belly, being a barrel, has jammed in the arch, and eight apprentices on the door beneath him are conducting an argument about whether to take his head off or put his belly on a diet. The crowd is giving advice. The Fat King, from above, with his pig's face fixed in a smile, is saying nothing at all, and is, by general agreement, the most dignified party present.".
+
+  // ── The Rector at Sennet ──────────────────────────────────────────────────────────────────────────────────────────
+  // Read only in a world where the Watch of the House of Doors has taken up its Rector.
+  Observe rector_letter at penitentiary when befell(rector_taken) and not masked(hawise) "On the corner of the Lady Penitentiary's desk, under an ink-pot in the shape of a key, lies a letter from a brother house on the coast, opened and not flattened, that a clerk has been told not to read aloud: that at Sennet the Watch has taken up the Rector of the House of Doors, and that his keys, every one of them, are being counted before a magistrate. Dame Hawise has read it twice. She has put the ink-pot on it, and she is not looking at it.".
+
+  // ── The Gate of Ash, for those who went looking ───────────────────────────────────────────────────────────────────
+  Observe ash_loop at gate_of_ash when gateOfAshOpen() and knows(party, first_leaf) "A serjeant works the old lock with the Penitentiary's billet of keys, and as the ring swings in his hand you count them without meaning to: thirty-one. At the end of the ring, where a thirty-second would hang, there is a bare loop of iron, worn bright by a thumb. Somebody has been running the keys through his fingers for two hundred years and has always stopped at the same empty loop.".
+}

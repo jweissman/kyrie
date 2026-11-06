@@ -143,7 +143,7 @@ Module season "Hold One Season" {
   }
   // They do not come at a company that can run. They come at one that cannot.
   Initially Assert tolerates(wolves, party).
-  Rule wolves_close when dark() and at(party, cord) and slowedCompany(party) and tolerates(wolves, party) says "The wolves have stopped keeping level. They are coming in." {
+  Rule wolves_close when dark() and at(party, cord) and slowedCompany(party) and tolerates(wolves, party) and not cairnLit(party) and not travelsWith(mirel, party) says "The wolves have stopped keeping level. They are coming in." {
     Retract tolerates(wolves, party). Assert assails(wolves, party). }
   Rule wolves_wait when not dark() and not tolerates(wolves, party) and not assails(wolves, party) { Assert tolerates(wolves, party). }
 

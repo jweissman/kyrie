@@ -1,0 +1,127 @@
+Module season "Hold One Season" {
+  Description "The twelfth word: a vault with no number, a clerk kept at his board, a man held forty years who may be called back, a lamp in a cairn, a post on the shore of the present, and what each calling makes of the places between.".
+
+  // ── The Account, here ────────────────────────────────────────────────────────────────────────────────────────────
+  // Count: the held, by seasons. Keeper: the Holdfolk, who say eleven words over each laying and stop where they were taught
+  // to stop. First page: the twelfth word, which the Seridane clerk said over every jar and which was never the Holdfolk's
+  // to say, because it was an order and not a prayer. Price of reading: the word, said over a held man, works; and what it
+  // works is that he is a man of eighty again, and in a world that has gone on.
+
+  // ── Voices ───────────────────────────────────────────────────────────────────────────────────────────────────────
+  Relation kvCleat(group). Relation kvDoran(group). Relation kvCord(group). Relation kvPit(group). Relation kvLintel(group). Relation kvTide(group).
+  Relation sawSecondBolt(group).
+
+  // The thief sees what the vault doors do not say. This one beat is a way in that nobody else has.
+  Rule voice_cleat at ring when memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and at(party, ring) and not benighted(party) and not kvCleat(party)
+    says "{?m} runs a thumb round the bronze cleat by the ninth vault and then along the wall, doorway by doorway, counting under {?m}'s breath. 'Every cleat is polished on the near side,' {?m} says. 'Pulled by a left hand, season after season. Somebody did this as a job.' The thumb stops. 'Eleven doors with a cleat, and a twelfth cleat with no door. And there,' {?m} says, very quietly, 'is the door: it has been plastered over with the same lime as the wall, and the second bolt is up in the lintel, where a man who is looking for a door would never look.'" {
+    Assert kvCleat(party). Assert sawSecondBolt(party).
+  }
+  Rule voice_doran at doran_place when memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and at(party, doran_place) and not kvDoran(party)
+    says "{?m} kneels by the brick for a time. 'I have said the office for a hundred people,' {?m} says. 'A rite has a last word. It tells the dead they may go, or tells the living they may stop. The thing they say over him has neither. It is not a prayer. It is waiting for somebody to answer it.'" {
+    Assert kvDoran(party).
+  }
+  Rule voice_cord at cord when memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and at(party, cord) and not kvCord(party)
+    says "{?m} goes along the red rope in the last of the light and stops at the cairn. 'Wolf-sign, all along the outside of the cord,' {?m} says. 'Not one print inside it, three hundred years of it. They do not cross because the holders do not, and they wait where the slow ones come back.' {?m} looks at the cairn's niche. 'That lamp is not for a path. It is for them.'" {
+    Assert kvCord(party).
+  }
+  Rule voice_pit at pit_floor when memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and at(party, pit_floor) and not kvPit(party)
+    says "{?m} looks up the shaft of light at the thing hung in the cloud, and then at the ground, and does a sum with a thumb. 'Two metres a day,' {?m} says. 'It is not hunting us. It is a siege, and the engine is the calendar. All the Warden can do is count, and be seen counting.'" {
+    Assert kvPit(party).
+  }
+  Rule voice_lintel at lintel_room when memberOf(?m, party) and hasCalling(?m, calling_mage) and awake(?m) and at(party, lintel_room) and not kvLintel(party)
+    says "{?m} stands with the flat of a hand toward the black wall. 'No spell has ever been laid on this,' {?m} says. 'It is not cast. It is built: a courser laid a course, and then a courser laid the next. You cannot dispel a masonry. You can only unlay it from the other end.'" {
+    Assert kvLintel(party).
+  }
+
+  // ── The twelfth vault ───────────────────────────────────────────────────────────────────────────────────────────
+  Place twelfth_vault "the twelfth vault" is room within granaries at 3, 1 underground.
+  Passage twelfth_door "a vault door with no number" is doorway between ring and twelfth_vault
+    opening when sawSecondBolt(party) "A door of lime-washed stone with no number over it, and the second bolt up in the lintel.".
+  Observe twelfth_scene at twelfth_vault when true "A vault like the others and not like them: no jars, no beam, no shutter. A stool, a tally-board the length of a man's arm with eleven strokes cut in a row and a twelfth place left smooth, and a clerk in a belted Seridane coat sitting on the stool with a bronze stick lifted in his right hand, one word from the end of a sentence. He is not held in the light. He is kept, like the dog in the First Course, and he has no temperature.".
+  Thing clerk_held "the clerk at the twelfth vault" at twelfth_vault {
+    State kept_clerk "A man in a clerk's belted coat on a stool, a bronze stick lifted over a tally-board, mid-word.".
+  }
+  Initially Assert kept(clerk_held).
+  Observe clerk_plays near clerk_held when touched(clerk_held) "Under your hand the clerk finishes his sentence. It is the line you have heard on the plates and over the held at Ennick, word for word, eleven words, said quickly, the way a thing is said that has been said a thousand times a day; and then he lays the stick against the twelfth place on the board, which is smooth, and says one word more, flat, to the jars that are not there: 'Venn.' The word does not sound like a prayer. It sounds like a man telling a porter to open the door. When you take your hand away he is mid-word again, with the stick lifted, and the room is very quiet." teaches twelfth_word.
+  Discovery twelfth_word "The Seridane clerk's granary line has twelve words, not eleven. He said 'Venn' after the eleventh, on the board's twelfth stroke, as an order: hold this one season, then give it out. The Holdfolk have said eleven words over their dying for three hundred years and stopped where they were taught to stop.".
+
+  // ── Doran: the choice ───────────────────────────────────────────────────────────────────────────────────────────
+  // Nobody held is woken without their own word, Bren says, and a held man cannot give it. The twelfth word is not his. It
+  // is the keeper's, the one who laid him, and it was never said. A company that has it may say it over Doran, or not.
+  Person doran "Doran of Ennick" at doran_place {
+    Role "Bren's father and Ilis's husband, held forty years". Ancestry human. Peaceable. Pronouns he. Manner stoic.
+  }
+  Initially Assert asleep(doran).
+  Relation twelfthSaid(place). Relation twelfthKept(place). Relation doranGone(place). Measure doranTime(place).
+  Action say_the_twelfth(actor: group, site: place) "Say the twelfth word over Doran's brick" {
+    Description "It is not a prayer. It may be an order. Whatever it does, the Holdfolk have never done it.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, doran_place) and knows(actor, twelfth_word)
+      and asleep(doran) and not twelfthSaid(ennick) and not twelfthKept(ennick).
+    Time 5.
+    On success { Assert twelfthSaid(ennick). Retract asleep(doran). Retract at(doran, doran_place). Assert at(doran, holders_room). Retract at(ilis, ilis_room). Assert at(ilis, holders_room). Set doranTime(ennick) to watch(clock). }
+    Result "You say it flat, as the clerk did: one word, to a man. For a long while nothing. Then the fan of bright lines in the glass in front of his face goes grey, and clear, and his chest goes down and comes up in the time it takes you to breathe twice. He sits up out of the trench like a man getting out of a bath. He looks at his hands. He looks at you. 'Is the fire kept?' he says, in a voice that has not been used for forty years, and gets up, and is walking before you can stop him, and each step is quicker than the last. By the time you reach the cord he is a long way ahead, walking home.".
+  }
+  Action keep_the_twelfth(actor: group, site: place) "Lay a hand on Doran's brick, and say nothing" {
+    Description "You know the word. You do not have to use it.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, doran_place) and knows(actor, twelfth_word)
+      and asleep(doran) and not twelfthSaid(ennick) and not twelfthKept(ennick).
+    Time 2.
+    On success { Assert twelfthKept(ennick). }
+    Result "You lay a hand on the brick, over the knot a holder cut there, and keep the word in your mouth. Under your hand the glass is neither warm nor cold. In the time you stand there Doran draws one breath, and you cannot say whether you are glad of it.".
+  }
+  Rule mirel_will_not when twelfthSaid(ennick) and travelsWith(mirel, party)
+    says "Mirel has stood at the cord with her hood in her hand since you came out. 'I carry for the held,' she says. 'Not against them.' She does not say you were wrong. She says it plainly, as a statement of her trade. 'I will go to the holder's house now, and I will see what you have done.' She goes, and does not look back." {
+    Retract travelsWith(mirel, party). Retract willing(mirel, party). Assert at(mirel, holders_room).
+  }
+  Observe mirel_keeps near party when twelfthKept(ennick) and travelsWith(mirel, party) "Mirel has been watching your face since the brick. She asks nothing. 'Whatever you know,' she says at last, 'you keep it carefully. That is what a carrier does.'".
+  Observe doran_home at holders_room when twelfthSaid(ennick) and not doranGone(ennick) "Doran sits at the table in the holder's house with a bowl he has not touched. Bren stands behind his chair with both hands on its back, as if it might get up. Ilis is in the doorway of the back room. Nobody is speaking. The kitchen smells of walnut oil and wet felt and a man who has been a long time in the cold.".
+  Topic doran_asks with doran "Ask Doran what the forty years were like" when twelfthSaid(ennick) and not doranGone(ennick) once {
+    Says "'A long afternoon,' says Doran. 'I was laying a course of brick on the Weeping Wall terrace and the light came up. I thought: I will finish this one. I thought it for a long time.' He looks at the bowl. 'Who is the grey woman?' Ilis, in the doorway, says nothing. 'Oh,' says Doran.".
+  }
+  Topic bren_after with bren "Speak to Bren after his father is home" when twelfthSaid(ennick) and not doranGone(ennick) once {
+    Says "Bren does not turn round. 'I said a held man cannot give his word,' he says. 'I have said it for thirty years so that I need not find out if he could.' His hands tighten on the chair. 'Do not say it to anyone. Not to Mirel. Not to the carriers. There are a hundred and forty on that glass, and I know which of them I would say it over, and I will not.' A pause. 'Not yet.' He says it as if it were a very large number.".
+  }
+  Topic ilis_after with ilis "Speak to Ilis in the doorway" when twelfthSaid(ennick) and not doranGone(ennick) once {
+    Says "'The prior at Stairhead told me the line, forty years ago,' says Ilis. 'He said the last word was the clerk's. I took that for the Office's. I said eleven and stopped, as I was taught, and I kept the fire.' She looks into the kitchen. 'He asked me if the fire was kept. Do you know I did not know what to say? It was.' She wipes her hands on her apron, which is clean. 'Tonight I am going to sit by him and not be sensible.'".
+  }
+  Rule doran_dies when twelfthSaid(ennick) and not doranGone(ennick) and watch(clock) >= doranTime(ennick) + 144
+    says "In Ennick, at dusk, the lamp in the holder's kitchen is lit and the shutters are closed. Doran of Ennick died an hour before, sitting up, with his wife's hand in one of his and his son's in the other and a bowl of soup gone cold on the table. He had eaten none of it. Ilis told the carriers at the door that she would say it herself, over him, and she did: twelve words." {
+    Assert doranGone(ennick). Retract at(doran, holders_room). Assert at(doran, shrine).
+  }
+  Topic ilis_kept with ilis "Tell Ilis what the clerk said after the eleventh word" when twelfthKept(ennick) and knows(actor, twelfth_word) once {
+    Says "She does not move for a time. 'So it had a last word.' She sits down, which she does not do in front of guests. 'I have said that line over half this village. I have never once said anything to the other half.' Her hand goes to the old cloak by the door. 'Do not tell Bren. Not now. Tell him when I am laid, and let him decide whether to say it over me.' She looks at you with eyes that are very tired and very exact. 'You will tell him? Yes. You are the kind who tells.'".
+  }
+
+  // ── The cairn lamp: a light kept for no one now living ───────────────────────────────────────────────────────────
+  // At the cord, a niche in the cairn holds a horn lantern that the Holdfolk relight at dusk, whoever sits down by it. The
+  // wolves do not come in at its light. A company with no lantern, or one that is slowed and caught outside it, has the
+  // old three ways: be home before dark, go with a carrier who knows the cord, or fight in the dark.
+  Relation cairnLit(group).
+  Observe cairn_lamp at cord when not cairnLit(party) "In the cairn where the path comes up there is a niche with a horn lantern in it, a thumb of oil in the bowl, the wick trimmed. Somebody trims it. Nobody in Ennick will say who.".
+  Observe cairn_burning at cord when cairnLit(party) "The cairn's lantern is burning, small and yellow, and on the far side of the cord the dark has pulled back to the edge of its reach and stopped.".
+  Action light_cairn_lamp(actor: group, site: place) "Light the lantern in the cairn, as the holders do at dusk" {
+    Description "It is not for the path. The holders say it is for the ones who are still out there.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cord) and dark() and not cairnLit(actor) and capable(actor, light).
+    Time 1.
+    On success { Assert cairnLit(actor). Retract assails(wolves, actor). Assert tolerates(wolves, actor). }
+    Result "You set a flame to the wick in the niche and the little bowl takes it. The light does not reach as far as you thought. It does not need to. Out on the far side of the cord, in the juniper, four pairs of eyes that had been coming in level with you stop, and turn, and one by one are gone, as dogs go at a door they know.".
+  }
+  Rule cairn_gutters when cairnLit(party) and not dark() { Retract cairnLit(party). }
+  Observe mirel_sings near party when dark() and at(party, cord) and travelsWith(mirel, party) and slowedCompany(party) "Mirel walks the cord before you in the dark, singing the names of the held in a low carrier's chant, one to a step. Out in the juniper the four wolves keep level for a while and then stop keeping level. They know the song. They have been refused by it for three hundred years.".
+
+  // ── The post on the shore: eleven strokes and a blank ────────────────────────────────────────────────────────────
+  Observe tide_post at tideline when true "At the head of the shore, above the soft part, stands a post of black wood with eleven notches cut down its face in a row, and under the eleventh a smooth place where a twelfth would go. The notches are old. The smooth place is not worn.".
+  Topic remembrancer_post with shore_remembrancer "Ask the Remembrancer about the post at the head of the shore" when true once {
+    Says "'ELEVEN,' says the Remembrancer, in bells. 'THE TWELFTH IS NOT LOST. THE TWELFTH IS NOT YET. WE KEEP THE PLACE.' A long note, falling. 'IT IS THE STROKE YOU ARE STANDING IN. WHEN IT IS CUT YOU WILL NOT SEE IT BEING CUT.' You ask who cut the other eleven. 'THE ONES BEFORE THE ONES WHO KEPT US,' it says, and will say no more.".
+  }
+
+  // ── Kerra's book: a contrast ────────────────────────────────────────────────────────────────────────────────────
+  // The Lower Inn keeps a book for the Office. It is, by the evidence, the funniest document in the Uplands.
+  Topic kerra_book with kerra "Ask Kerra Lowe to show you the Office's book" when true once {
+    Says "Kerra Lowe opens the book on the walnut bar with the air of a woman bringing out a sick relative. Forty years of travellers, in a clean round hand, and every one of them, without exception, a turnip merchant. 'The Office paid by the merchant,' she says, 'in 340, and nothing for anyone else, so.' A Veyra schoolmaster on his way to the Corbel in 361: turnips, northern. A man from the Lesser Instruments at Corran, who collects brass and keeps his own scales: turnips, Corran. An Arbitral sister who stayed three nights and was sick in the yard: turnips, devout. 'And the Office men sign it off,' says Kerra, shutting the book, 'every quarter, and none of them has once asked where all the turnips go.' She considers. 'I sell a very good turnip soup.'".
+  }
+  Topic kerra_quarrel with kerra "Ask Kerra why nobody from the upper terraces drinks in the Lower Inn" when true once {
+    Says "'The cat,' says Kerra. 'In 176 an upper family said a lower family's cat had been seen on their wall on a laying-day. The lower family said it was not their cat. There was a vote at the shrine. It was a draw.' She polishes the bar. 'No Upper has come in by the front door since. They come in at the yard, and they sit under the pump, and I bring them their drink there as a favour. The cat died in 190. It was, I am told, a very ordinary cat.'".
+  }
+  Observe walnuts_heap at shrine when true "At the foot of the chant-wall the heap of walnut shells is as high as a table, the lowest shells fused into a brown stone: one for every laying, the shell cracked and the kernel left. It smells of cold stone and oil. The village has no census. This is it.".
+}

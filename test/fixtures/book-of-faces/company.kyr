@@ -1,0 +1,5 @@
+Module ombra "The Book of Faces" {
+  // A test fixture: the Bare as a company of four, as a generated world's own company would be (placed.kyr).
+  Company party "Your company" of 4 at road_end.
+  Initially Set quantity(party, gold) to 20. Initially Set quantity(party, rations) to 4.
+}

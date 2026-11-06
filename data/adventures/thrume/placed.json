@@ -9,6 +9,9 @@
     "tomb.kyr",
     "dream.kyr",
     "between.kyr",
+    "wages.kyr",
+    "voices.kyr",
+    "faces.kyr",
     "placed.kyr"
   ],
   "rules": [
@@ -16,6 +19,11 @@
   ],
   "globals": [
     "party"
+  ],
+  "canon": [
+    "imbar",
+    "slack_opened",
+    "cloudgate_fell"
   ],
   "imports": [
     "party"

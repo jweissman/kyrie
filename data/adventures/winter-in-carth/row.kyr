@@ -88,7 +88,7 @@ Module gaunt "A Winter in Carth" {
     Temperament territorial.
     Warns "At the edge of the clearing five grey wolves stand up out of the snow, one after another, as if the snow had made them, and look at you, and the biggest drops its head. It is dusk. It is their wood at dusk.".
   }
-  Rule wolves_come when (hour(clock) >= 16 or hour(clock) < 7) and at(wolves, limbo) and able(wolves) and not routed(wolves) { Assert at(wolves, deadfall). }
+  Rule wolves_come when (hour(clock) >= 16 or hour(clock) < 7) and at(wolves, limbo) and able(wolves) and not routed(wolves) and not wolvesTurned(deadfall) { Assert at(wolves, deadfall). }
   Rule wolves_go when hour(clock) >= 7 and hour(clock) < 16 and at(wolves, deadfall) { Assert at(wolves, limbo). }
   Action load_sledge(actor: group, site: place) "Cut and load a sledge with dead wood from the deadfall" {
     Description "Three hours' work with an axe borrowed from nobody, and a sledge made of two boughs and your belt.".

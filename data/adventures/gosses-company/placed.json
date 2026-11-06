@@ -13,6 +13,7 @@
     "history.kyr",
     "combat.kyr",
     "verdict.kyr",
+    "voices.kyr",
     "placed.kyr"
   ],
   "rules": [
@@ -46,5 +47,9 @@
     "region": "vale",
     "road_end": "road_end"
   },
-  "experience": 1000
+  "experience": 1000,
+  "canon": [
+    "imbar",
+    "remainder_harboured"
+  ]
 }

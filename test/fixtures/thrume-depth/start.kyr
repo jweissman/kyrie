@@ -1,0 +1,6 @@
+Module thrume "Thrume" {
+  // The Delving's wage-hall, the Hold's hearth and kennels on their own: the company starts at the Smiths' gate with
+  // some coin; each test walks the rest as a player would.
+  Company party "Your company" of 3 at delving_gate.
+  Initially Set quantity(party, gold) to 30. Initially Set quantity(party, rations) to 3.
+}

@@ -1,0 +1,113 @@
+Module corrow "Let One Remember" {
+  Description "What the company makes of the Corrow by what it is, a niche at Keld that is marked with how it is known, a way past the Old Silver that only a ranger reads, and a Finder who has never found anyone's.".
+
+  // ── The count in this module ──────────────────────────────────────────────────────────────────────────────────────
+  // Count: who is held in mind (a mountain's weight by its people, a hollow by its anchors, a man by a lamp). Keeper: the
+  // Keld, who cannot forget, and a Registry that enters whatever is brought it. First page: the Lettings' Long Rite of
+  // 412, what it was paid to let go. Price of reading: whoever says a name at the Seam is, a little, said back.
+
+  // ── Voices: what each calling makes of the place ─────────────────────────────────────────────────────────────────
+  Relation remChapel(group). Relation remField(group). Relation remTail(group). Relation remDesk(group).
+  Relation remPlace(group). Relation remLedge(group).
+
+  Rule voice_niche at keld_chapel when memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and at(party, keld_chapel) and not remChapel(party)
+    says "{?m} goes round the wall as one goes round a roll, lips moving over the scratched names. 'A skull for each,' {?m} says, 'and a sprig for each. And that one has a sprig and a lamp and no skull. Somebody has been burying nobody for a very long time, with great care.'" {
+    Assert remChapel(party).
+  }
+  Rule voice_field at west_field when memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and at(party, west_field) and not remField(party)
+    says "{?m} walks the length of the wall and comes back. 'No track in, no track out,' {?m} says. 'Whatever stands here at dawn is not walking here. The grass has not been pressed in the middle in a hundred years, and the sheep go round the place the way sheep go round a grave.'" {
+    Assert remField(party).
+  }
+  Rule voice_files at tail when memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and at(party, tail) and not remTail(party)
+    says "{?m} runs a thumb down the bright face of the newest cut. 'All from the east side,' {?m} says. 'Every stroke, from the shoulder of a right-handed man who is tired. They leave the west face to the last, and they leave it thin, so that it goes of itself. Nobody here is going to say they cut it.'" {
+    Assert remTail(party).
+  }
+  Rule voice_desk at consulate when memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and at(party, consulate) and not remDesk(party)
+    says "{?m} squats and looks at the legs of the secretary's chair, and then at the legs of the desk. 'The chair has been sawn down two fingers,' {?m} says, 'to suit a shorter man than the desk was made for. And the blotter is worn at the left, where a tall man's cuff would drag. Whoever drew this wage, it was not the one who sits here now.'" {
+    Assert remDesk(party).
+  }
+  Rule voice_place at mountain_place when memberOf(?m, party) and hasCalling(?m, calling_mage) and awake(?m) and at(party, mountain_place) and not remPlace(party)
+    says "{?m} holds a palm out over the lip and takes it back. 'It is not a hole,' {?m} says. 'A hole is made by taking something out, and you can feel where it went. This was never put in. It is the exact shape of a thing that was lifted, and the shape remembers the weight.'" {
+    Assert remPlace(party).
+  }
+  Rule voice_ledge at silver_sump when memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and at(party, silver_sump) and not remLedge(party) and not fed(old_silver)
+    says "{?m} goes down on one knee at the ledge and looks at the bones. 'Dog at the mouth, sheep behind it, and the small ones all along the wall,' {?m} says. 'It strikes where the water moves and nowhere else. It is blind. The dry shelf on the far side is wider than it looks, and the stones on it have never been wet.'" {
+    Assert remLedge(party).
+  }
+
+  // ── A thing only a ranger reads: the dry shelf ───────────────────────────────────────────────────────────────────
+  // The Old Silver hunts the water. A company that has rations can feed it; a company with a ranger can go round it on the
+  // shelf it does not feel, with no rations spent and nothing thrown. Anyone else may still fight, or pay with food.
+  Action round_the_silver(actor: group, site: place, r: member) "Have {r} lead the company along the dry shelf, round the Old Silver" {
+    Description "It strikes where the water moves. The shelf on the far side has never been wet, and does not carry the sound of feet.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, silver_sump) and at(old_silver, site) and not fed(old_silver)
+      and memberOf(r, actor) and hasCalling(r, calling_ranger).
+    Time 2.
+    On success { Assert tolerates(old_silver, actor). }
+    Result "{r} goes first, one hand flat to the wall, and you put your feet where {r} puts them. The water beside you is black and perfectly still; in it, a long pale shape turns its blind face toward the sound of the river, and toward the river only. You are past it before it has finished deciding. Behind you {r} lets out a breath. 'Eighty years in the dark,' {r} says. 'You would think it would be quicker.'".
+  }
+
+  // ── The niche: marked with how it is known ───────────────────────────────────────────────────────────────────────
+  // At Keld a skull in a niche has a name scratched over it and a sprig of juniper. One niche has no skull. The mark over
+  // it is aun: let, the thing as it is said. The Keld did not see Corin die, and they will not write that they did.
+  Discovery corin_niche "In the Hold chapel at Keld one niche has no skull in it. Over it is scratched CORIN, and a word, aun. There is a sprig of juniper in it, and a lamp that has not been let go out." {
+    Source niche_mark "the empty niche in the Hold chapel" at keld_chapel readable by party.
+  }
+  Observe niche_plain at keld_chapel when not knows(party, evidential_known) and not webbNamed(webb) and not nicheClosed(keld) "Among the skulls, one niche is empty. Over it, scratched as deep as any: CORIN, aun. A sprig of juniper lies in it, fresh, and beside the sprig a small lamp is burning, with a thumb-width of oil left in it, as it has every time anyone has looked.".
+  Observe niche_read at keld_chapel when knows(party, evidential_known) and not webbNamed(webb) and not nicheClosed(keld) "Among the skulls, one niche is empty. Over it: CORIN, aun. Let: told, not seen. They did not see him go, and they will not write that they did, and they have kept a lamp at his niche for two hundred and twenty-five years in case the mark is wrong.".
+  Observe niche_home at keld_chapel when webbNamed(webb) "Over the empty niche, someone has gone up with a chisel in the night and re-cut the last word of the mark. It now reads CORIN, calve: kept, seen with her own eyes. The sprig is still fresh. The lamp has been put out, the way it is when a thing is finished. Nobody at Keld will say who held the ladder.".
+  Observe niche_closed at keld_chapel when nicheClosed(keld) "Over the empty niche the mark is the same, aun, and the lamp is out. The sprig has not been changed. Somebody has said an office here, and the chapel has the stillness of a room that has stopped waiting.".
+
+  // The choice. A cleric may say the office for the dead and close it; or trim the lamp and let it be. The Keld cannot forget
+  // Corin, and so they cannot mourn him. Closing it lets them. It also ends the vigil the reeve's house is built on.
+  Relation nicheClosed(place). Relation nicheKept(place).
+  Action close_the_niche(actor: group, site: place, c: member) "Have {c} say the office for the dead over the empty niche, and close it" {
+    Description "The Keld do not close a niche while anyone could still be looked for. {c} could close this one, and it would be an act of mercy and of ending.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, keld_chapel) and knows(actor, hollow_missing)
+      and memberOf(c, actor) and hasCalling(c, calling_cleric) and not nicheClosed(keld) and not nicheKept(keld) and not webbNamed(webb).
+    Time 4.
+    On success { Assert nicheClosed(keld). Set hire(teshen) to 0. }
+    Result "{c} says it plainly, without the Keld's careful grammar, and when it is done puts out the lamp with a wetted finger. Nobody is in the chapel. By the time you are out on the green the whole of Keld knows, the way Keld knows things: every face that turns to you has been told. Mother Saska, at her door, does not speak. Teshen takes her hands out of her pockets and looks at them. 'Nobody is waiting,' she says. 'Nobody is waiting for anything. I do not know what I am for.' She says she will walk with you for nothing, and for the first time since you met her she looks like a girl of nineteen.".
+  }
+  Action keep_the_niche(actor: group, site: place, c: member) "Have {c} trim the lamp, lay a fresh sprig, and say nothing" {
+    Description "The lamp is not for the dead. It is for the chance that the mark is wrong.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, keld_chapel) and knows(actor, hollow_missing)
+      and memberOf(c, actor) and hasCalling(c, calling_cleric) and not nicheClosed(keld) and not nicheKept(keld) and not webbNamed(webb).
+    Time 1.
+    On success { Assert nicheKept(keld). }
+    Result "{c} turns the wick up with a thumbnail, tops the oil from the little can on the sill, and lays the sprig. Mother Saska is in the doorway; nobody heard her come. 'The last who did that wanted something,' she says. 'What do you want?' {c} says, truthfully, that {c} does not know. She considers this for a good while. 'Then it is a clean one,' she says, and goes away across the green without another word.".
+  }
+  Topic saska_niche with saska "Ask Mother Saska whom the empty niche is kept for" when knows(actor, corin_niche) and not knows(actor, saska_saw) once {
+    Says "'Corin,' says Saska. 'The Hollow's reeve's son. I told you that.' She is looking at the fire, not at you. 'I told you my grandmother was over there. That is let. I will say a thing kept, since you ask me to the face.' She sets her hands on the chair-arms. 'I was eight. I stood on the drove road with the other children and I saw the smoke go up straight from every chimney of the Hollow, nine days, when there was no Hollow to go up from. I saw it. Calve.' She does not look at the niche, which is on the north wall behind her. 'A person who cannot forget does not say that to a stranger. I have never said it to Teshen. She will think I have been afraid all her life.' A pause. 'I have.'".
+    On discuss { Assert knows(actor, saska_saw). }
+  }
+  Discovery saska_saw "Mother Saska saw, at eight, the smoke of the Hollow go up for nine days when there was nothing to burn. She calls it calve. She has not told Teshen.".
+
+  // ── The Finder of Wendmouth: a contrast ─────────────────────────────────────────────────────────────────────────
+  // Things come home in the Corrow now, and by an old by-law of Wendmouth every thing that comes home must be offered to
+  // whoever lost it. Nobody wants any of it. The Finder has spent forty years being refused.
+  Person finder "Odo Pannick, Finder of Wendmouth" at well_square {
+    Role "the town's Finder, by a by-law of 1840 that nobody has repealed". Ancestry human. Peaceable. Pronouns he. Manner acerbic.
+    Greets "A stout man in a coat with eleven pockets, each with a label, who looks up from a ledger as if you were a thing that had come home. 'Lost anything?' he says, with no hope in it whatever.".
+  }
+  Topic finder_nail with finder "Ask Odo Pannick what is hung on the great nail" when true once {
+    Says "'Property,' says the Finder, with enormous weariness. 'Property returned. It is my duty to offer each piece to the person who lost it, with a receipt in triplicate.' He takes a doll with one eye off a peg. 'This came back in March. I took it to Mrs Dunstan, who lost it. Mrs Dunstan said it was not hers. Hers had two eyes.' He hangs the doll on the peg. 'I have offered her this doll nine times. She says it is gaining weight.'".
+  }
+  Topic finder_refusals with finder "Ask the Finder whether anybody ever takes anything back" when true once {
+    Says "'One man,' says Pannick. 'A glove. He claimed it with enormous dignity, signed in three places, and went out of the square wearing it on the wrong hand. He came back next morning to say it had been the wrong glove.' He looks at the nail, which is hung with coats and doors and a gravestone name. 'It is not that they do not want it. It is that it has come back changed, and so have they. What I deal in, sir, is not property. It is people's opinion of what they used to be.'".
+  }
+  Topic finder_bell with finder "Ask the Finder about the little bell in his drawer" when knows(actor, origin_known) or knows(actor, method_known) once {
+    Says "He is, for the first time, slightly embarrassed. 'A hand-bell,' he says. 'Brass, the size of a sheaf-measure, with a long figure cut into the side of it, like a man lying on a hill, and under the figure eleven strokes in a row, and a space. It came home to the bar the winter before last. Nobody here ever lost it.' He opens the drawer a finger's width and shuts it. 'A tinker of the Lesser Instruments, up from Corran, offered me a crown for the brass. I said it was held for the owner. The owner is the reeve of some dale in the south, I am told, who has not written.' He frowns at the drawer. 'I find I do not want to be the one it is returned to.'".
+  }
+  Topic finder_tinker with finder "Ask about the tinker from Corran" when true once {
+    Says "'Collects,' says the Finder, with distaste. 'That is the verb. Not buys; they say collects. Brass buttons by the pound, and keys, and anything with a notch in it. He will not say what for. A man who will not say what for is the only kind of customer this town has not yet refused.'".
+  }
+
+  // ── Calvessan, and a woman who got it wrong ──────────────────────────────────────────────────────────────────────
+  // The low road's marks are only the first place the grammar bites: it is how Keld talk to this day. A cleric hears it.
+  Rule voice_grammar at keld_green when memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and at(party, keld_green) and knows(party, evidential_known) and not remGrammar(party)
+    says "{?m} has been listening to the green for some time. 'They all do it,' {?m} says, surprised. 'Every sentence. The child with the ball said her ball was lost, and then said let, not kept. She did not see it go. Somebody told her.' {?m} watches the children play. 'It must be dreadful to be lied to, in that grammar. It is written in the verb.'" {
+    Assert remGrammar(party).
+  }
+  Relation remGrammar(group).
+}

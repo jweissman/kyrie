@@ -12,6 +12,7 @@
     "act3_kin.kyr",
     "act4_voyage.kyr",
     "act5_road.kyr",
+    "witness.kyr",
     "company.kyr"
   ],
   "rules": [
