@@ -2,9 +2,9 @@ import { describe, expect, it } from 'bun:test';
 import { readFileSync } from 'node:fs';
 import { Hessel, build } from './support/hessel';
 
-// The Banns at Hessel: the layer added in the broad pass (doc/imbar/adventures/hessel.md): the Season's slate, the
+// The Banns at Hessel: the layer added in the broad pass (doc/imbar/adventures/hessel.md): the Season's bill, the
 // peal on
-// Sunday, the King's Hesitation at the Ball, the Colonel on the end bed, and calling voices.
+// the third morning, the King's Hesitation at the Ball, the Colonel on the end bed, and calling voices.
 const phases = JSON.parse(readFileSync('test/fixtures/hessel/rooms.json', 'utf8')) as Record<string, string[]>;
 const upTo = ['arrive', 'up', 'twiss', 'noon', 'dusk', 'sleep', 'day2', 'afternoon2', 'night2', 'day3'];
 const asked = 'Ask Mr Twiss for one dance more';
@@ -18,16 +18,16 @@ async function toTheLastDance(): Promise<Hessel> {
   return g;
 }
 
-describe('The Banns at Hessel: voices, the peal, the slate and the Colonel', () => {
-  it('speaks to a bard on Stall Street and in the Pump Room, and shows the Season\'s slate to anyone', async () => {
+describe('The Banns at Hessel: voices, the peal, the bill and the Colonel', () => {
+  it('speaks to a bard on Stall Street and in the Pump Room, and shows the Season\'s bill to anyone', async () => {
     const g = await Hessel.start();
     await g.play('Lim Bridge', 'Quay Lane', 'Stall Street');
     expect(g.page).toMatch(/They are calling the Parade/);
     await g.play('To the Abbey Yard', 'Into the Pump Room');
     expect(g.page).toMatch(/Four conversations, and every one of them has the same rhythm/);
-    expect(g.page).toMatch(/eleven upright strokes and a space/);
-    await g.play('Ask the pumper what the strokes on the slate are');
-    expect(g.knows('roll_eleven')).toBe(true);
+    // The bill signposts the peal and the Ball before either is reached.
+    expect(g.page).toMatch(/Saint Ebba.s rings the Season.s peal on the third morning/);
+    expect(g.page).toMatch(/THE BAND TO STOP AT ELEVEN/);
   }, 120000);
 
   it('lets a bard hear the twelfth bar in the Sunday peal, and keeps it from a thief', async () => {
@@ -64,7 +64,7 @@ describe('The Banns at Hessel: voices, the peal, the slate and the Colonel', () 
     expect(g.page).toMatch(/I was seven/);
   }, 300000);
 
-  it('sits up with Colonel Ede through the night, and the pumper keeps the twelfth stroke blank', async () => {
+  it('sits up with Colonel Ede through the night, and the sister lets the stranger sleep', async () => {
     const g = await Hessel.start();
     await g.play('Lim Bridge', 'Quay Lane', 'Stall Street', 'Into the Hospital');
     await g.play('Ask Colonel Ede about his regiment');
@@ -73,14 +73,14 @@ describe('The Banns at Hessel: voices, the peal, the slate and the Colonel', () 
     await g.play('Sit up with Colonel Ede');
     expect(g.holds('satWithEde', 'party')).toBe(true);
     await g.until();
-    expect(g.page).toMatch(/He did not make the twelfth stroke/);
+    expect(g.page).toMatch(/let the stranger sleep another hour/);
   }, 300000);
 
-  it('leaves the stroke chalked if nobody sat with him', async () => {
+  it('buries him in his boots if nobody sat with him', async () => {
     const g = await Hessel.start();
     await g.fixture('alone');
     await g.until();
-    expect(g.page).toMatch(/the pumper chalked the twelfth stroke on the slate/);
+    expect(g.page).toMatch(/was buried on the Tuesday in his boots/);
   }, 240000);
 
   it('lets Mrs Scrope hear of a stair under a college only in a world where it was found', async () => {

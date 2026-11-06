@@ -8,9 +8,8 @@ Module calamy "A Parliament of Books" {
   Kind post_stamp "the die of the post-house at the Ford" is gear worth 5 weighing 1 described "A bronze die the size of a fist, with a handle worn smooth, cut in reverse with twelve small marks round a rim, eleven filled and the twelfth blank. Pressed into wax, it says RECEIVED, in the courier script, and the stage.".
   Species post_runner_kind "the Undelivered" like dog temperament territorial described "A courier of the House of the Posts: a man-shape of wet paper and wax-seals standing in a black leather satchel, with a staff, whose face is a letter franked and folded, with neither name nor town.".
 
-  // ── Early: the ferry-stairs, a hook, and a lamp lit for the mail ────────────────────────────────────────────────
+  // ── Early: the ferry-stairs, a hook ────────────────────────────────────────────────
   Observe hook_scene at ferry_stairs when true "On the third pile, driven in at the height of a man's hand, a great iron hook, black with age, hung with letters: dozens, paper gone to felt, sealed, unopened, tied on with twine. Nobody in the Hithe has ever thrown a letter away. They nail it to the hook.".
-  Observe hook_lamp at ferry_stairs when dark() "At the foot of the steps a stable lantern burns on a post, lit for nothing: no boat is expected and none has been for sixty years. Jonah Pellow lights it every dusk. His father lit it for the mail-packet.".
   Observe hook_slack at ferry_stairs when befell(slack_opened) "On the hook, among the felted old letters, hangs a new one: crisp, white, unsealed, addressed in no hand to no one, and postmarked from no town in a stamp that is a circle with the ring broken at one point. Jonah Pellow does not touch it. 'It came in with the tide,' he says. 'No boat. I'll nail it up with the others.'".
   Discovery hook_known "The Hithe ferry-stairs keep a great iron hook for the letters nobody came for. The Hithe has never thrown one away.".
   Topic jonah_hook with jonah "Ask the ferryman about the hook on the pile" when true once {
@@ -120,7 +119,7 @@ Module calamy "A Parliament of Books" {
     Says "'Not Ys,' says Ottoline Quarles, without looking up. 'Crake's Ys is a philosophy. The Road ran a thing it called the Post; no more than that; it did not have a name for itself, because the people who ran it were the ones who did the carrying, and the people who named it were the ones who took it afterwards, and left nothing but the law.' She turns a page. 'I do not know what it was called. I know what it did. It carried a thing, and it was received, and it went on. If you need a name, call it the Receiving. I should be glad if you did not write that down.'".
   }
 
-  // ── After: the hook, the lamp and the first letter ──────────────────────────────────────────────────────────────
+  // ── After: the hook and the first letter ──────────────────────────────────────────────────────────────
   Query postKept() means runnerEased(runner) and knows(party, post_known).
   Observe after_hook at ferry_stairs when after() and postKept() "The hook on the third pile is bare. Jonah Pellow has taken the felted letters down in an armful, one afternoon, and read them aloud on the steps to whoever would listen, and delivered those he could. On the board over his boat, under NIGHTS ALSO, in chalk: LETTERS TAKEN.".
   Observe after_posted at taproom when after() and almanackPosted(almanack) "On the nail by the chimney the almanack goes on reading the tides, and now and then, at the end of a sentence, adds a small thing it did not used to say: 'Received.' Moll Garrow has stopped telling it to hush.".

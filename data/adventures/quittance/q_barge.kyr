@@ -68,10 +68,10 @@ Module quittance "Quittance" {
     Pleads "The largest of Skell's sons lets his hook go on the stones. 'Enough,' he says. 'Enough. Take your jars. Take your look. Skell can pay for his own tarpaulin.'".
     Refuge skell_loft.
   }
-  Person bg_grindle "Hester Grindle" at salvor_yard {
+  Person bg_grindle "Nan Grindle" at salvor_yard {
     Role "who keeps the Salvors' Yard". Ancestry human. Calling warrior. Level 3. Peaceable. Manner grim. Pronouns she.
     Greets "A woman built like a bollard is mending a block-and-tackle with a marlinspike, and has the air of someone who has been right in public for thirty years. 'Grindle,' she says. 'Master of the Yard. You are here about the Margaret. Everybody is. Stand there; that is where they stand.'".
-    Greets again "'The Margaret,' says Hester Grindle. 'Still ours.'".
+    Greets again "'The Margaret,' says Nan Grindle. 'Still ours.'".
   }
   Person bg_jessop "Cob Jessop" at sluice_room {
     Role "who keeps the Sluice-tap, and was a lighterman". Ancestry human. Calling warrior. Level 2. Peaceable. Manner grim. Pronouns he.
@@ -100,14 +100,14 @@ Module quittance "Quittance" {
   Observe bg_board_read at salvor_yard when tried(bg_board, looking) and capable(party, lore) and not knows(party, bg_tariff_known) "You read the board as a clerk would, not as a salvor. The third clause is not a price. It is a procedure: where the crews, the owner and the adjuster agree, the Lamprey's captain signs, and the one third and the one half are whatever they have agreed. Nobody has ever posted what that has been."
     teaches bg_tariff_known.
   Observe bg_board_plain at salvor_yard when tried(bg_board, looking) and not capable(party, lore) "The board is clear about the first two clauses and says of the third only AS AGREED, in the voice of a clause that does not want to be asked.".
-  Topic bg_grindle_claim with bg_grindle "Ask Hester Grindle for the Yard's claim to the Margaret" when true once {
-    Says "'We had a line on her within the hour,' says Hester Grindle. 'First on the wreck, first with a grapple, first at the Lamprey's door. A salvage, one half, to the Yard. If she is called a Total Loss, the Yard gets a third of nothing, because there is nothing to raise.' She takes a pull on her marlinspike, as other people take on a pipe. 'It is not a Total Loss. A Total Loss does not float her bow up at the turn of the tide.'".
+  Topic bg_grindle_claim with bg_grindle "Ask Nan Grindle for the Yard's claim to the Margaret" when true once {
+    Says "'We had a line on her within the hour,' says Nan Grindle. 'First on the wreck, first with a grapple, first at the Lamprey's door. A salvage, one half, to the Yard. If she is called a Total Loss, the Yard gets a third of nothing, because there is nothing to raise.' She takes a pull on her marlinspike, as other people take on a pipe. 'It is not a Total Loss. A Total Loss does not float her bow up at the turn of the tide.'".
   }
   Topic bg_grindle_skell with bg_grindle "Ask Grindle why Skell's crew sleeps by day" when true once {
-    Says "'Because they work by night,' says Hester Grindle. 'Nobody sleeps like a man who has been under a barge. They think I do not hear the pump. I hear the pump.' She hammers the pin home. 'If you want to know what he has, ask it at night. If you want to ask it politely, bring a good reason.'".
+    Says "'Because they work by night,' says Nan Grindle. 'Nobody sleeps like a man who has been under a barge. They think I do not hear the pump. I hear the pump.' She hammers the pin home. 'If you want to know what he has, ask it at night. If you want to ask it politely, bring a good reason.'".
   }
-  Topic bg_grindle_after with bg_grindle "Ask Hester Grindle how the Yard is faring" when bg_settled() once {
-    Says "'The Yard,' says Hester Grindle, and considers. 'Is paid as the Lamprey called it. I have asked the lightermen what they say. They say what lightermen say.' It is not clear that she is displeased.".
+  Topic bg_grindle_after with bg_grindle "Ask Nan Grindle how the Yard is faring" when bg_settled() once {
+    Says "'The Yard,' says Nan Grindle, and considers. 'Is paid as the Lamprey called it. I have asked the lightermen what they say. They say what lightermen say.' It is not clear that she is displeased.".
   }
 
   // ── Skell's yard, and the fight ─────────────────────────────────────────────────────────────────────────

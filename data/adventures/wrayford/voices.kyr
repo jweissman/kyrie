@@ -1,5 +1,5 @@
 Module wrayford "The Third Night" {
-  Description "What each of the company makes of Wrayford by what they are, a lamp kept for no one living, the swallows, a tale from the south, and two ways to put a pike at its ease, one loud and one quiet.".
+  Description "What each of the company makes of Wrayford by what they are, the swallows, a tale from the south, and two ways to put a pike at its ease, one loud and one quiet.".
 
   // The company is not a set of declared people, so it has no Remarks of its own. What a rule can ask of a member is
   // their calling, and print their name. Each voice is said once for the company, by whoever has the calling; a

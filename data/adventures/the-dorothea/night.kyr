@@ -2,20 +2,18 @@ Module dorothea "The Dorothea" {
   Description "The second night on Skerrow: the men who come for the bronze, the paper on the Gull's wall that nobody has read, the lens, and the boy who is out in the weather when the lamp is dark.".
 
   // ── The paper nobody has read ───────────────────────────────────────────────────────────────────────────────────
-  // The Gull's framed paper is the island's oldest document and its least consulted. It is not a lease, whatever the
-  // Kestles say. It is a receipt, in two hands, one of them a steward's, and what it receipts is the lamp. It does not
-  // say who is to ask, or how. It says that someone will.
+  // The Gull's framed paper is the island's oldest document and its least consulted. It is in two hands and a dead
+  // language, and the module never translates it: the company is told what Quint will say of it and no more. The device
+  // in its corner is a mark of keeping and is never glossed here.
   Discovery receipt_seen "On the wall of the Gull's kitchen hangs a framed paper nobody on Skerrow has read in living memory: two hands, one of them very formal, and in the corner a small device, a fish with a flame over it." {
     }
-  Discovery receipt_read "The Gull's framed paper is a receipt: RECEIVED OF LUCANUS, STEWARD OF THE PREFECT'S HOUSEHOLD, ONE LAMP, TO BE KEPT BY THE KEEPERS OF THIS ROCK UNTIL IT BE ASKED FOR. Beneath it a row of eleven strokes and a blank, and the device of a fish and a flame." {
-    Found by searching gull_room with lore "The upper hand is a clerk's Aenean, and says what a receipt says. RECEPI A LUCANO PRAEFECTI DOMUS PROCURATORE LUCERNAM UNAM, SERVANDAM CUSTODIBUS HUIUS SCOPULI DONEC POSCATUR: received of Lucanus, steward of the Prefect's household, one lamp, to be kept by the keepers of this rock until it be asked for. Under it, in a hand that is not a clerk's, are eleven strokes and a space, and a fish with a flame over it, cut with a knife. A receipt is a small and sad thing. It means that someone expected to come back.".
-  }
+  Discovery receipt_read "Odile Quint has read the Gull's framed paper aloud, and will say of it only that it is not a lease, that the upper hand is a clerk's and the lower is not, and that she would not hang it where the kitchen steam reaches.".
   Topic gull_paper with gull "Ask Hester Gull about the framed paper on the wall" when true once {
-    Says "'The lease,' says Hester Gull. 'Or the charter. Or the will of somebody. Marren says it's a lease and Jory says it's a joke and my mother said it was the first thing the island ever owned, and that's why it's framed.' She wipes the glass with her apron, which has not been done in years. 'Nobody's ever been able to read it. I'm told it's foreign.'".
+    Says "'The lease,' says Hester Gull. 'Or the charter. Or the will of somebody. Marren says it's a lease and Jory says it's a joke and my mother said it was the first thing the island ever owned, and that's why it's framed.' She wipes the glass with her apron, which has not been done in years. 'Foreign, I'm told. My mother thought it was Aenean and my father thought it was a joke, and the glass has outlived the pair of them.'".
     On discuss { Assert knows(actor, receipt_seen). }
   }
   Topic quint_receipt with quint "Ask Odile Quint to read the paper on the Gull's wall" when knows(actor, receipt_seen) once {
-    Says "She stands in front of it with her hands behind her back for a time that Hester Gull plainly finds improper, and then she reads it aloud, plainly, a line at a time, as a surveyor reads a boundary. When she has finished she says nothing at all. Then: 'It is a receipt,' she says. 'For the lamp. It does not say what lamp.' She looks at the row of strokes at the foot. 'Eleven and a blank. I have seen that arrangement on a table in a lamp room an hour ago, and I did not know it was a number.'".
+    Says "She stands in front of it with her hands behind her back for a time that Hester Gull plainly finds improper, and then she reads it aloud, a line at a time, in a language the kitchen has not heard since the frame was bought. Hester Gull sits down. When Quint has finished she is quiet. 'It is not a lease,' she says. 'It is not a charter either. I will not give you a translation, because I would be improving it, and the one thing I am sure of is that it was not written to be improved.' She looks a moment longer at the small device in the corner. 'Hang it where the steam does not reach.'".
     On discuss { Assert knows(actor, receipt_read). }
   }
   Observe device_seen at pharos_foot when true "Cut small into the keystone of the arch, worn almost smooth by two thousand winters of salt: a fish, and over it a flame. You have seen it before, you think, or something very like it, on the iron foot of a lamp-stand in a place you cannot at once name." teaches device_known.
@@ -23,7 +21,7 @@ Module dorothea "The Dorothea" {
 
   // ── The lens ────────────────────────────────────────────────────────────────────────────────────────────────────
   // The reflector is bronze and is Quillon's to buy. The lens is something else: green, heavy, set in a ring that is
-  // marked, with eleven stones round its rim and a socket for a twelfth. It is the thing on the receipt. Marren will
+  // marked, with eleven stones round its rim and a socket for a twelfth. Marren will
   // not give it to a stranger who asks, because a stranger is not who was foretold. She will give it to a Watch's
   // tally, which she has never seen and will know.
   Topic kestle_lens with kestle "Ask Marren Kestle about the green lens" when true once {
@@ -132,9 +130,9 @@ Module dorothea "The Dorothea" {
     Otherwise "The sea takes the oar, and the boat, and a good part of your afternoon. You come back to the jetty on your hands and knees, with someone else's lantern and no boy.".
   }
   Rule wen_lost when stormOn(party) and wenOut(party) and not wenSafe(party) and not wenLost(party) and watch(clock) >= reachedAt(hull) + 200
-    says "At the end of the jetty Jory Kestle lowers the lantern. It is not a decision. His arm is tired. Nobody on Skerrow says anything at all, and presently Marren Kestle goes up the hill in her oilskins to the dark tower, and the dark tower swallows her." {
+    says "At the end of the jetty Jory Kestle lowers the lantern. It is not a decision. His arm is tired. The island has gone indoors with its lanterns, and presently Marren Kestle goes up the hill in her oilskins to the dark tower, and the dark tower swallows her." {
     Assert wenLost(party). Retract wenOut(party). Retract at(wen, off_skerrow). Assert at(wen, nowhere).
   }
-  Observe grief_green at green when wenLost(party) "The island is very quiet. Jory Kestle sits on the sea-wall with his hands between his knees. Nobody has touched the net that is spread over his table.".
-  Observe saved_green at green when wenSafe(party) and stormOn(party) "In the grey of the morning Jory Kestle is asleep on the jetty bench with a boy's head in his lap and an old man's coat over them both. The rain has stopped. Nobody is going to wake them.".
+  Observe grief_green at green when wenLost(party) "The island is very quiet. Jory Kestle sits on the sea-wall with his hands between his knees. The net is still spread over his table, half mended, as the boy left it.".
+  Observe saved_green at green when wenSafe(party) and stormOn(party) "In the grey of the morning Jory Kestle is asleep on the jetty bench with a boy's head in his lap and an old man's coat over them both. The rain has stopped. The bench is too short for either of them, and neither moves.".
 }

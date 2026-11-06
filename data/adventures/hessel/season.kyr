@@ -1,25 +1,20 @@
 Module hessel "The Banns at Hessel" {
   // ── The Season's slate, the King's Hesitation, and the Colonel ────────────────────────────────────────────────────
-  // The count: the Season's dead, chalked on a slate at the urn, a stroke each; eleven so far, and a space. The keeper:
+  // The count: the Season's dead, tallied in the sexton's book and the pumper's head. The keeper:
   // the pumper. The first page: nobody now living knows why the Rooms rule that the music stops at eleven; the answer
   // (the old King's minuet, left unfinished when he sat down) is in the peal of Saint Ebba's, called wrong in the fourth
   // change by the ringers of Orm for two hundred years. The price of reading it: Mr Twiss's Rule, which is his life.
 
   // ── Depth: things everyone does and no one can explain ────────────────────────────────────────────────────────────
-  Observe slate_scene at pump_room when true "By the urn, hung on a nail, a school slate in a frame, and on it in the pumper's chalk eleven upright strokes and a space left for the twelfth. Nobody looks at it. Everybody, going out, touches the frame.".
-  Topic pumper_slate with pumper "Ask the pumper what the strokes on the slate are" when true once {
-    Says "The pumper does not look at the slate. 'One a Season for each who doesn't go home,' he says. 'My father kept it and his father. We don't call it anything. We chalk it when the sexton comes in with the name.' He wipes a glass. 'Eleven this Season. There's always a twelfth by the coaches. That's the way of it. You'll see, if you're about.'".
-    On discuss { Assert knows(actor, roll_eleven). }
-  }
-  Discovery roll_eleven "The pumper chalks a stroke on a slate by the urn for each of the Season's visitors who does not go home. There are eleven this Season and a space for the twelfth, which the pumper says there always is.".
+  // The signpost: the bill on the board by the door, which a visitor reads whether or not they mean to.
+  Observe season_bill at pump_room when true "On the board by the door, under the notice about the waters, the Season's bill is pinned in the Master of the Ceremonies' hand: THE CLOSING BALL ON THE FOURTH NIGHT, THE BAND TO STOP AT ELEVEN. Beneath it, in the pumper's pencil, as a courtesy to the visitors: Saint Ebba's rings the Season's peal on the third morning from first light, and the ringers of Orm will tell you it is wrong in the fourth change.".
   Topic pumper_gloves with pumper "Ask the pumper why the lost-property box holds only left-hand gloves" when true once {
-    Says "'Right hands go home with their owners,' says the pumper. 'It is for luck. Nobody could tell you whose luck, or why the right. A gentleman from Orm left a dozen left hands once and said it was the other way about in his county.' He lifts the lid so you can see: forty gloves, all for the hand that holds a glass.".
+    Says "'Because the right is the hand a gentleman drinks with,' says the pumper, 'and he keeps it bare for the glass, so it has nothing to lose.' He lifts the lid so you can see: forty gloves, all of them left, and every one worn through at the thumb of the hand that holds a glass.".
   }
   Topic pyne_peal with pyne "Ask Mr Pyne why the ringers of Orm call the peal wrong in the fourth change" when true once {
     Says "Mr Pyne closes the bell-book on his finger. 'Because it is wrong,' he says. 'And because it has been wrong since the abbey was a sty, and the ringers of Orm say they will ring it right the day Saint Ebba's does. We say we will the day they stop saying it.' He laughs, and stops. 'The odd thing is that the wrong change is what everyone hums afterwards. A change that was right would be forgotten by dinner.'".
   }
-  Observe cross_custom at cross_bath when true "Everyone who comes down to the Cross Bath turns once, at the north pillar, before going in: a quarter-turn on the left heel, like a man remembering something. Nobody can say why. The attendant says it was done when she came and she does it in her sleep.".
-  Observe candle_ends at vestibule when true "In a basket by the cloak-stand, tied in bunches of eleven, the candle-ends of the Rooms: the chairboys' by custom, and called, for no reason anyone can give, king's ends.".
+  Observe cross_custom at cross_bath when true "Everyone who comes down to the Cross Bath turns once, at the north pillar, before going in: a quarter-turn on the left heel, like a man remembering something. A boy sitting on the step with his boots in his lap says it is so you don't hit your head on the pillar going in, and that he has told them, and that there is no pillar there to hit, and that they do it anyway.".
 
   // ── The peal on the third morning: heard by everyone, understood by a bard ────────────────────────────────────────
   // Foreshadowed in the Sunday chapter ("a peal the ringers of Orm have called wrong in the fourth change"); paid at the Ball.
@@ -95,7 +90,7 @@ Module hessel "The Banns at Hessel" {
   }
   Observe ruleBroken_seen at ballroom when ruleBroken(party) and afterEleven() "The band is playing the King's minuet to the end, again, and again, and nobody has told the Master of the Ceremonies the hour. Candles are going out one by one in the five chandeliers, and nobody is leaving.".
 
-  // ── Colonel Ede, and the twelfth stroke: a grave scene in a comic book ─────────────────────────────────────────────
+  // ── Colonel Ede, on the end bed: a grave scene in a comic book ─────────────────────────────────────────────
   Person ede "Colonel Ormerod Ede" at hospital {
     Role "a dying colonel of foot, on the end bed, who came for the waters and has had them". Ancestry human. Peaceable. Pronouns he. Manner stoic.
     Greets "A very old gentleman with a clipped white moustache lies on the end bed with his boots still on, which the ward sister has given up arguing about. 'Don't get up,' he says, though you were not. 'Don't be told I'm dying. I'm not. I'm being very slow.'".
@@ -115,8 +110,8 @@ Module hessel "The Banns at Hessel" {
   Rule ede_ottery_sits at hospital when satWithEde(party) and following(ottery, party) and not spread(ede_ottery_told)
     says "Ottery, at the foot of the bed, takes his spectacles off. 'He won't see Thursday,' he says. He does not lower his voice; the Colonel is asleep. 'I never say it in front of them while they wake. It is my one piece of tact.' He looks at you. 'You sat. Good. Most don't.'" { Assert spread(ede_ottery_told). }
   Entity ede_ottery_told: fact "Ottery on the Colonel".
-  Rule fate_ede_kept when accounting() and satWithEde(party) and not spread(fate_ede) says "Colonel Ede died on the ward in the small hours of the last night with a stranger beside him, and the pumper, told it by the sexton, went to the slate by the urn and stood a long time with the chalk in his hand. He did not make the twelfth stroke. 'Not lost,' he is said to have told his boy, 'kept.' The space is there still, and when the new Season comes they do not wipe it." { Assert spread(fate_ede). }
-  Rule fate_ede_alone when accounting() and not satWithEde(party) and not spread(fate_ede) and cameToHessel(party) says "Colonel Ede died on the ward in the small hours of the last night with the ward sister at the other end of it, and the pumper chalked the twelfth stroke on the slate by the urn, as he does, and wiped the nail, and hung the frame back." { Assert spread(fate_ede). }
+  Rule fate_ede_kept when accounting() and satWithEde(party) and not spread(fate_ede) says "Colonel Ede died on the ward in the small hours of the last night with a stranger beside him, and the ward sister, who found them at six, let the stranger sleep another hour in the chair. The Colonel had his boots on. It is said on the ward that this was the only argument she ever lost to him." { Assert spread(fate_ede). }
+  Rule fate_ede_alone when accounting() and not satWithEde(party) and not spread(fate_ede) and cameToHessel(party) says "Colonel Ede died on the ward in the small hours of the last night with the ward sister at the other end of it, and was buried on the Tuesday in his boots, which she had given up arguing about." { Assert spread(fate_ede). }
   Entity fate_ede: fact "the Colonel".
 
   // ── A world event, read: Mrs Scrope hears a thing from the coast ──────────────────────────────────────────────────

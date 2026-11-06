@@ -1,12 +1,5 @@
 Module hessel "The Banns at Hessel" {
-  Description "Links outward from the Lim valley: the pumper shown a rubbing of a keeper's bench, a rumour of raiders on the coast, a letter-carrying commission, and the almanack woman's visit.".
-
-  // ── A visitor from elsewhere: eleven and a blank, somewhere else ────────────────────────────────────────────────
-  Discovery lore_pumper_kin "A wax rubbing of a keeper's bench shown to the pumper has the Season's count on it: eleven strokes and a space, in three hands, over two thousand years.".
-  Topic lore_pumper_rubbing with pumper "Show the pumper the wax rubbing of a keeper's bench" when holding(actor, tally_rubbing) once {
-    Says "The pumper wipes his hands on his apron, which makes them no cleaner, and takes the wax with two fingers. He holds it up against the slate by the urn. 'Eleven,' he says, 'and the space. My father said the space was for whoever came next, and I said, there is always somebody next, in Hessel, it is the whole point of the Season.' He turns the wax over, and back. 'Three hands,' he says. 'Mine only goes back to my grandfather. Who is this?' You tell him. 'A church by the sea. A parson.' He shakes his head slowly. 'Somebody else is chalking a slate, then, and nobody told them they were not alone.' He hands it back and says nothing for a moment. 'Do not tell Mr Twiss. He will want it in the Rule.'".
-    On discuss { Assert knows(actor, lore_pumper_kin). }
-  }
+  Description "Links outward from the Lim valley: a rumour of raiders on the coast, a letter-carrying commission, and the almanack woman's visit.".
 
   // ── An entry point: raiders, and a Tolleth packet delayed ───────────────────────────────────────────────────────
   Discovery lore_raiders_rumour "It is said in the Pump Room that raiders have been taking salt-boats off the western coast, and that the Tolleth packet, the Dorothea, is a week behind and her owners are not saying why.".

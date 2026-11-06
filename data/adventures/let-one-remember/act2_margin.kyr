@@ -136,7 +136,7 @@ Module corrow "The Road the Star Came Down" {
   // The blue bucket, which Sabeth Coyle lost on an elver morning in 2601.
   Kind blue_bucket "a blue bucket, a good one, with an old chalk tally on its side" is treasure worth 0 weighing 2.
   Item bucket "a blue bucket" is blue_bucket at drifts.
-  Event bucket_home near bram when keeps(bram, bucket) "Bram turns the bucket round in his hands and reads the chalk on its side, which has not rubbed off in a hundred and thirty years: eleven strokes, in his great-great-grandmother's hand. 'Gran said there was a blue bucket,' he says. 'Her gran's. It went in the fog one elver morning.' He sets it on the bench by the lens-grinder's lap, and it looks as if it had always been there." then {
+  Event bucket_home near bram when keeps(bram, bucket) "Bram turns the bucket round in his hands and reads the chalk on its side, which has not rubbed off in a hundred and thirty years: a row of tally strokes, in his great-great-grandmother's hand. 'Gran said there was a blue bucket,' he says. 'Her gran's. It went in the fog one elver morning.' He sets it on the bench by the lens-grinder's lap, and it looks as if it had always been there." then {
     Assert bucketHome(bram).
   }
   Relation bucketHome(group).

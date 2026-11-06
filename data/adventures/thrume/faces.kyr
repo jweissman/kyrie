@@ -2,15 +2,15 @@ Module thrume "Thrume" {
   Description "The faces of Thrume that do not stand on the road to the Mouth: a clerk, a child who is a giant, a provost with a daughter, a young blood with a thane he carried to bed; and what the country does and no one can say why.".
 
   // ── Saltgrave: the clerk, the provost, the sister, the landlord ────────────────────────────────────────────────
-  Person pell "Tamsin Quarrow" at office_floor {
+  Person pell "Maud Quarrow" at office_floor {
     Role "clerk of the Salt Office, who crossed out CLOSED and was told to cross it back". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
     Greets "A woman of forty behind the long counter, with ink to the second knuckle, who has been weighing salt for the Office for nineteen years and has not been thanked for it once. 'If it is the Number Four,' she says, 'it is open. If it is a complaint, it is the provost. If it is a funeral, it is Sister Agathe.'".
   }
   Discovery orsett_buys "A factor of the Founders' Exchange at Orsett sends a carter to the Salt Office every spring, asking for unmarked red salt at three times the Margravine's price, and has been refused every year by an Office that did not know what it was refusing.".
-  Topic pell_closed with pell "Ask Tamsin Quarrow who crossed out CLOSED on the Number Four" when true once {
+  Topic pell_closed with pell "Ask Maud Quarrow who crossed out CLOSED on the Number Four" when true once {
     Says "'I wrote it,' says Quarrow. 'In red, the morning after the roof fell in on Brannoc's predecessor. The provost crossed it out the same afternoon, on a rider's word from Ebb, and I wrote it again, and he crossed it out. We did it nine times.' She shows you the map. The red has been scraped to a pink bruise. 'I stopped the tenth. It is the only thing in this Office I ever lost an argument about, and I have not been right so often in my life.'".
   }
-  Topic pell_orsett with pell "Ask Tamsin Quarrow who else buys the red salt" when true once {
+  Topic pell_orsett with pell "Ask Maud Quarrow who else buys the red salt" when true once {
     Says "'Everyone has a use for salt that is red,' says Quarrow. 'The Margravine for the silver. The Hearth-Mother for the pinch on the doorstep. And once a spring a carter with a good coat comes up the road from Orsett on the river, from a Founders' Exchange, with a purse and no questions, and asks for it unmarked, unweighed, and unrecorded.' She sniffs. 'I say no. I say no in writing. I should like to know what a river factor wants with a thing that is warm.'".
     On discuss { Assert knows(actor, orsett_buys). }
   }
