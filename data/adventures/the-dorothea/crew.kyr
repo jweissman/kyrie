@@ -54,7 +54,7 @@ Module dorothea "The Dorothea" {
   }
   Measure hailAt(entity).
   // Left alone, Pendry takes what Rune sells and goes: the casks are the Captain's loss by morning.
-  Rule jago_leaves when at(jago, deck) and watch(clock) >= hailAt(hull) + 10 and not sold(hull)
+  Rule jago_leaves when at(jago, deck) and watch(clock) >= hailAt(hull) + 24 and not sold(hull)
     says "Jago Pendry finishes his business with the mate, nods to the company as to old acquaintances, and goes back over the rail with two casks on a line. The cutter slides off to leeward. It is not mentioned again." {
     Retract at(jago, deck). Assert sold(hull). Decrease cargo(hull) by 4. Assert quiet(hull).
   }

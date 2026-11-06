@@ -93,6 +93,36 @@ describe('The Dorothea', () => {
   }, 300000);
 });
 
+describe('The Dorothea, the company aboard', () => {
+  it('lets each member say what they see by what they are: the ranger at the weather, the thief at the hatch, the warrior at the Combs', async () => {
+    const j = await Sea.start();
+    await Sea.board(j);
+    await j.play('=100');
+    expect(j.page).toContain('Glass is falling');
+    await j.play('=125');
+    expect(j.page).toContain('He does this twice a month');
+    await j.play('=180');
+    expect(j.page).toContain('I would wait the five hours');
+  }, 300000);
+  it('lets a shamed mate take the wheel through the Combs and be the Captain\'s man again', async () => {
+    const j = await Sea.start();
+    await Sea.board(j);
+    await j.play('=115', 'Watch what passes at the after hatch', 'Take Rune aside and say what you saw', '=180', '^To the quarterdeck');
+    await j.play('Ask Rune to take her through');
+    expect(Sea.at(j, 'hull')).toBeDefined();
+    expect(j.holds(k('ranGap'), k('hull'))).toBe(true);
+    expect(j.measure(k('water'), k('hull'))).toBe(0);
+  }, 300000);
+  it('puts a mate who is reported ashore with his bag, and the Combs are then the Captain\'s alone', async () => {
+    const j = await Sea.start();
+    await Sea.board(j);
+    await j.play('=115', 'Watch what passes at the after hatch', '^To the quarterdeck', 'Tell Captain Bascom what you saw');
+    expect(j.holds(k('disgraced'), k('rune'))).toBe(true);
+    await j.play('=180');
+    expect(j.matches('Ask Rune to take her through').length).toBe(0);
+  }, 300000);
+});
+
 describe('The Dorothea, Skerrow and the way home', () => {
   const reachIsle = async (j: Journey, way = 'lie off') => {
     await Sea.board(j);
