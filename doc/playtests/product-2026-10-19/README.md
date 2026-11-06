@@ -5,7 +5,7 @@
 - [97 screenshots and exact visible text](evidence-index.md)
 - [Evidence hashes](evidence-manifest.json)
 - [Browser action record](browser-actions.jsonl) — individual UI operations, including technical retries; not a scripted journey.
-- [Product specification](../../design/kyr-player-experience/README.md)
+- [Product specification](../../archive/2026-10-20-kyr-player-experience/README.md)
 
 ## Method
 

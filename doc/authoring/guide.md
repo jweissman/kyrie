@@ -97,6 +97,11 @@ The company is declared once, where it starts. Its members come from character c
 default `party` if the player skips creation. Coin and rations given to the company go into its members' purses and
 packs.
 
+> **6 November 2026.** This is the shape of an adventure played *on its own*. In the shared world an adventure never
+> supplies the company: its `placed.json` leaves `company.kyr` out and imports the player's own (§"Your adventure in a
+> generated world"; the authoring trail's [page 4](trail/04-adventure-in-the-world.md)). Write nothing that names a
+> member of the default `party`; bind whoever qualifies instead (M19-75).
+
 ```kyr
   Company party "Your company" of 3 at green.
   Initially Set quantity(party, gold) to 8. Initially Set quantity(party, rations) to 1.

@@ -78,6 +78,15 @@ See [the living world](../doc/architecture/living-world.md) for how the March's 
 
 ## Current composition
 
+> **Obsolete, 6 November 2026** (the documentation reconciliation; the text below is kept as it was). The campaigns
+> this section names (`serewater-march`, `silkholme`, `skellfold`, `red-crag`) are no longer in `data/campaigns`: the
+> Serewater March and its modules are test beds under `test/fixtures`, and a game is now played in a generated world,
+> with every authored adventure (`data/adventures/*`) installed as a province of its first country
+> (`data/adventures/countries.json`). The standalone `*.campaign.json` files that remain are each adventure played on
+> its own with a preset company (legacy; see M19-75). `catalog/` no longer has `organisms`: plants are
+> `plants.json`, creatures `animals.json` and `monsters.json`. For how to write and place content today, see
+> [doc/authoring/README.md](../doc/authoring/README.md).
+
 - `campaigns/serewater-march.campaign.json`, the recommended campaign and the testbed for play across expeditions:
   `regions/serewater-march` (Reedwake, Chalkcross, the downs) → `institutions/keepers-of-names` →
   `sites/censer-hill` → `situations/caught-below` + `situations/salvage-rights` → `regions/brackenholt` (the far
