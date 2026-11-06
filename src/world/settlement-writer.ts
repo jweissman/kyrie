@@ -7,6 +7,7 @@ import { Communities } from './community/community';
 import { CommunityWriter } from './community/community-writer';
 import { Foundings, type Founding } from './founding';
 import { RegionShops } from './region-shops';
+import { Herbals } from './herbals';
 import { RegionMarket } from './region-market';
 import { Outfitters } from './outfitters';
 import type { Region, Settlement } from './region-writer';
@@ -137,7 +138,9 @@ export class SettlementWriter {
     const have = t.stock.map(([w]) => w);
     const wares = [...t.stock, ...RegionShops.wares(region, s, { trades: t.trades ?? [], have })];
     const sells = wares.map(([what, fee, n]) => `Sells ${what} for ${fee} coin from ${n}.`).join(' ');
-    const buys = t.buys.map(([what, fee]) => `Buys ${what} for ${fee} coin.`).join(' ');
+    // A herbalist buys what is gathered wild besides (see Herbals).
+    const buys = [...t.buys, ...t.profession === 'herbalist' ? Herbals.buys() : []]
+      .map(([what, fee]) => `Buys ${what} for ${fee} coin.`).join(' ');
     // Every merchant deals in valuables too, as far as their purse goes: a town's goes further than a hamlet's.
     const purse = ({ town: 600, village: 120 } as Record<string, number>)[s.size] ?? 60;
     const role = f.selling === 'shop' ? t.role : Foundings.fill(Foundings.table.selling.door.role, { role: t.role });

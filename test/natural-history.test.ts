@@ -9,6 +9,8 @@ import { RegionEcology } from '../src/world/region-ecology';
 import { RegionGrowth } from '../src/world/region-growth';
 import { RegionAnimals } from '../src/world/region-animals';
 import { WorldAssembler } from '../src/world/world-assembler';
+import { RegionWriter } from '../src/world/region-writer';
+import { Herbals } from '../src/world/herbals';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import type { Region } from '../src/world/region-writer';
 import type { Plant, Species } from '../src/canon/schema';
@@ -110,5 +112,15 @@ describe('natural history', () => {
       expect(grown.length).toBeLessThanOrEqual(RegionGrowth.gardens);
       expect(grown.every(id => Canon.plants[id]!.habitats.includes('settlement'))).toBe(true);
     }
+  });
+  // What is gathered wild is worth something to a herbalist (the owner, 6 November: the herb-wife pays you to collect
+  // the rare ones): every plant's yield, a coin for the common, more for the scarce.
+  it('has a herbalist who pays for what is gathered, more for the rare', () => {
+    const buys = new Map(Herbals.buys());
+    expect(Object.values(Canon.plants).filter(p => p.yields && !buys.has(p.yields)).map(p => p.name)).toEqual([]);
+    expect([Herbals.price(undefined), Herbals.price(6), Herbals.price(3), Herbals.price(2), Herbals.price(1)])
+      .toEqual([1, 1, 2, 3, 6]);
+    const region = WorldAssembler.region('a1', [0, 0]);
+    expect(RegionWriter.source(region).includes('Buys hazel_gathered for 3 coin.')).toBe(true);
   });
 });
