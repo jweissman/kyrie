@@ -54,12 +54,12 @@ export class Interruption {
     if (went.length) { return this.moved(world, went, 'goes'); }
     return LocalObservations.read(world, player).find(o => !watch.seen!.includes(o.id))?.text;
   }
-  // Who has come, as they are seen coming (the Mower walking the crest, stooping), where something new here says
-  // so; else by name without the role: "The Mower comes where you are."
+  // Who has come, as they are seen coming (the Mower walking the crest, stooping), where something new here is about
+  // them (by the observation's own subject, never by finding their name in its words: the architecture review's P0);
+  // else by name without the role: "The Mower comes where you are."
   private static arrival(world: World, player: string, ids: string[], looked: string[]): string {
-    const names = ids.map(id => this.bare(world, id).replace(/^(the|a|an) /i, '').toLowerCase());
-    const seen = LocalObservations.read(world, player).find(o => !looked.includes(o.id)
-      && names.some(n => o.text.toLowerCase().includes(n)));
+    const seen = LocalObservations.read(world, player)
+      .find(o => !looked.includes(o.id) && !!o.about && ids.includes(o.about));
     return seen?.text ?? this.moved(world, ids, 'comes');
   }
   private static bare(world: World, id: string): string {

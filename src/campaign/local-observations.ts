@@ -77,7 +77,7 @@ export class LocalObservations {
   // one observation for each entity its condition binds that the company is near, known as id@entity. In the dark,
   // only what is heard or felt (`as sound`, `as felt`: the Patient Star's 4 and the Road's F5, a shore with every light
   // out told nothing, and a man waking in the same small vault).
-  static read(world: World, actor: string, dark = false): { id: string; text: string }[] {
+  static read(world: World, actor: string, dark = false): { id: string; text: string; about?: string }[] {
     // Most observations are of a place: only this one's need a closer look.
     const here = world.one('at', actor), all = (world.module.observations ?? [])
       .filter(o => !dark || ['sound', 'felt'].includes(o.aspect ?? ''));
@@ -87,7 +87,8 @@ export class LocalObservations {
       && world.test(o.when) && this.noticed(world, o.about ?? (o.anchor === 'near' ? o.place : undefined), actor)
       && this.brings(world, actor, o.by));
     const told = [...seen.filter(o => (o.anchor ?? 'at') === 'at'), ...seen.filter(o => (o.anchor ?? 'at') !== 'at')]
-      .map(o => ({ id: o.id, text: ObservationText.render(o.text, world, true, this.found(world, o)) }))
+      .map(o => ({ id: o.id, text: ObservationText.render(o.text, world, true, this.found(world, o)),
+        ...o.about ? { about: o.about } : {} }))
       .concat(all.filter(o => o.place.startsWith('?') && this.brings(world, actor, o.by)).flatMap(o => this.each(world, actor, o)));
     // What two things say alike is said once: the follow-up review read "The Nûrrant runs knee-deep and clear over
     // the ford stones" twice over, at a town with a ford of it on each of two roads.
