@@ -36,9 +36,18 @@ describe('the bestiary', () => {
     expect(base('great_pike')).toEqual(['pike', ['great', 'elder']]);
     expect(base('frost_wolf')).toEqual(['wolf', ['frost', 'great']]);
     expect(base('bronze_construct')).toEqual(['golem', ['bronze']]);
-    expect(base('iron_golem')).toEqual(['golem', ['iron']]);
-    expect(base('red_dragon')).toEqual(['dragon', ['red_lineage']]);
-    expect(base('fire_elemental')).toEqual(['elemental', ['fire_element']]);
+    // One archetype each for the Elemental, the Golem and the Dragon: their elements, materials and lineages are
+    // variations, and a kind of them is the base with one (golem/glass), never a record; the old names are aliases.
+    for (const [old, kind] of [['iron_golem', 'golem/iron'], ['red_dragon', 'dragon/red_lineage'],
+      ['fire_elemental', 'elemental/fire_element']] as const) {
+      expect([Canon.resolve('species', old), Object.hasOwn(Canon.species, old)]).toEqual([kind, false]);
+      expect(base(old)).toEqual([kind.split('/')[0], kind.split('/').slice(1)]);
+    }
+    const monsters = JSON.parse(readFileSync('data/catalog/monsters.json', 'utf8')) as { species: Record<string, unknown> };
+    expect(Object.keys(monsters.species).filter(k => /_(elemental|golem|dragon)$/.test(k))).toEqual([]);
+    // A glass golem by data alone: the Golem, made with the glass of materials.json, called and made as any.
+    const glass = made('golem/glass');
+    expect([Canon.creature('golem/glass').name, glass.variations, glass.raceId]).toEqual(['Glass golem', ['glass'], 'golem/glass']);
     // Orsino's small animal wyrm is a dragon of the animal template, not the great Wyrm; its old id still means it.
     expect([Canon.creature('wyrmling').type, Canon.resolve('species', 'wyrm_animal')]).toEqual(['dragon', 'wyrmling']);
     // No body's ability is a spell: the dragon-class types fly by their trait.
@@ -65,10 +74,11 @@ describe('the bestiary', () => {
     const kinds = new Set<string>();
     for (let i = 0; i < 400; i++) {
       const party = Parties.compose({ habitats: ['cave'], challenge: 2, draw: new Draw(`party:${i}`) })!;
-      party.members.forEach(m => kinds.add(m.species));
+      party.members.forEach(m => kinds.add([m.species, ...m.variations ?? []].join('/')));
       if (party.overwhelming) { beyond++; expect(party.members).toHaveLength(1); continue; }
       if (party.members.length > 1) { mixed++; }
-      const spent = party.members.reduce((n, m) => n + m.count * Challenge.of(m.species, m.level), 0);
+      const spent = party.members.reduce((n, m) =>
+        n + m.count * Challenge.of([m.species, ...m.variations ?? []].join('/'), m.level), 0);
       expect(spent).toBeLessThanOrEqual(4 + 1e-9);
     }
     expect(beyond).toBeGreaterThan(10);
@@ -105,6 +115,14 @@ describe('the bestiary', () => {
     expect(met.size).toBeGreaterThan(15);
     expect(beyondWritten.length).toBeGreaterThan(8);
   }, 600000);
+  it('meets the kinds of a variation written into variations.json alone, with no record (a new element)', () => {
+    (CreatureVariants.variations as Record<string, unknown>).moss_element = { axis: 'element', word: 'moss',
+      says: 'made of wet moss and the dark', kinds: ['monster'], types: ['elemental'], habitats: ['cave'], abundance: 3 };
+    try {
+      expect(Parties.eligible(['cave']).map(([id]) => id)).toContain('elemental/moss_element');
+      expect(Canon.creature('elemental/moss_element').name).toBe('Moss elemental');
+    } finally { delete (CreatureVariants.variations as Record<string, unknown>).moss_element; }
+  });
   it('takes a kind written into monsters.json alone into a generated deep site (the hollow-stalker)', async () => {
     // Its record says it lives in caves, how common it is, and how it fights; nothing else names it.
     expect(Parties.eligible(['cave']).map(([id]) => id)).toContain('hollow_stalker');

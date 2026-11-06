@@ -1131,6 +1131,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Attack: bite, 1d6 piercing
 - Hide: Hide Armor, armour 1
 - Temperament: ambush
+- Found in: river, lake
 - Worth: 150 experience a level
 
 Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
@@ -1669,27 +1670,6 @@ Constructed Resilience: Resists 50% of bludgeoning, resists 50% of piercing, res
 
 *Adapted: Orsino's Golem type; what it is made of is its material (data/catalog/variations.json, axis material, from Orsino's golemSubstances). Thirteen hit points at the first level, three more a level, as the construct line.*
 
-#### Iron golem
-
-*Faithful · a golem, altered* · `species:iron_golem`
-
-- Type: construct (monster)
-- Hit points: 6 + Constitution modifier + 3 a level
-- Qualities: +17 strength, +7 dexterity, +17 constitution, +9 intelligence, +9 wisdom, +8 charisma
-- Attack: slam, 1d6 piercing
-- Hide: Plate Mail, armour 7
-- Temperament: obedient
-- Found in: cave
-- Worth: 350 experience a level
-
-Smash: 2d6 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act. Again after 3 turns.
-
-Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
-
-Constructed Resilience: Resists 50% of bludgeoning, resists 50% of piercing, resists 50% of slashing, immune to poison, immune to disease, immune to sleep, immune to bleed.
-
-> A golem of riveted iron plates: slow, and very hard to break.
-
 ### Demons
 
 #### Balor
@@ -1868,27 +1848,6 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A small dragon-like creature with keen intelligence and magical resistance.
 
-#### Red dragon
-
-*Adapted · a dragon, altered* · `species:red_dragon`
-
-- Type: dragon (monster)
-- Hit points: 99
-- Qualities: +35 strength, +28 dexterity, +32 constitution, +29 intelligence, +27 wisdom, +31 charisma
-- Attack: bite, 1d6 piercing
-- Hide: Scale Mail, armour 4
-- Temperament: proud
-- Found in: heights, cave
-- Worth: 800 experience a level
-
-Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, resists 10% of piercing, resists 10% of slashing.
-
-Aerial Mobility: +1 to hit, +5 evasion.
-
-> Its crimson scales shimmer like molten lava.
-
-*Adapted: The Dragon of the red lineage; Kyr keeps its fire breath as a power too, for when it is in reach.*
-
 #### Wyrm
 
 *Adapted · dragon* · `species:wyrm`
@@ -1959,103 +1918,6 @@ Aerial Mobility: +1 to hit, +5 evasion.
 
 ### Elementals
 
-#### Air elemental
-
-*Faithful · a elemental, altered* · `species:air_elemental`
-
-- Type: elemental (monster)
-- Hit points: 16 + Constitution modifier + 3 a level
-- Qualities: +16 strength, +19 dexterity, +16 constitution, +12 intelligence, +13 wisdom, +12 charisma
-- Attack: slam, 1d6 piercing
-- Hide: Scale Mail, armour 4
-- Found in: heights
-- Worth: 200 + 50 experience a level
-
-Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
-
-Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
-
-> An elemental of air.
-
-*Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
-
-#### Ash elemental
-
-*Faithful · a elemental, altered* · `species:ash_elemental`
-
-- Type: elemental (monster)
-- Hit points: 16 + Constitution modifier + 3 a level
-- Qualities: +16 strength, +19 dexterity, +16 constitution, +12 intelligence, +13 wisdom, +12 charisma
-- Attack: slam, 1d6 piercing
-- Hide: Scale Mail, armour 4
-- Worth: 200 + 50 experience a level
-
-Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
-
-Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
-
-> An elemental of ash.
-
-*Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
-
-#### Crystal elemental
-
-*Faithful · a elemental, altered* · `species:crystal_elemental`
-
-- Type: elemental (monster)
-- Hit points: 16 + Constitution modifier + 3 a level
-- Qualities: +16 strength, +19 dexterity, +16 constitution, +12 intelligence, +13 wisdom, +12 charisma
-- Attack: slam, 1d6 piercing
-- Hide: Scale Mail, armour 4
-- Worth: 200 + 50 experience a level
-
-Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
-
-Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
-
-> An elemental of crystal.
-
-*Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
-
-#### Dust elemental
-
-*Faithful · a elemental, altered* · `species:dust_elemental`
-
-- Type: elemental (monster)
-- Hit points: 16 + Constitution modifier + 3 a level
-- Qualities: +16 strength, +19 dexterity, +16 constitution, +12 intelligence, +13 wisdom, +12 charisma
-- Attack: slam, 1d6 piercing
-- Hide: Scale Mail, armour 4
-- Worth: 200 + 50 experience a level
-
-Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
-
-Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
-
-> An elemental of dust.
-
-*Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
-
-#### Earth elemental
-
-*Faithful · a elemental, altered* · `species:earth_elemental`
-
-- Type: elemental (monster)
-- Hit points: 16 + Constitution modifier + 3 a level
-- Qualities: +16 strength, +19 dexterity, +16 constitution, +12 intelligence, +13 wisdom, +12 charisma
-- Attack: slam, 1d6 piercing
-- Hide: Scale Mail, armour 4
-- Found in: cave
-- Worth: 200 + 50 experience a level
-
-Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
-
-Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
-
-> An elemental of earth.
-
-*Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
-
 #### Elemental
 
 *Adapted · elemental* · `species:elemental`
@@ -2076,83 +1938,6 @@ Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of fo
 *Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
 
 *Adapted: Orsino's Elemental type (elemental class), composed at the wildtype aspect, any terrain, level 1; what each element gives (an affinity, a weakness and a gift) is its element overlay (data/catalog/variations.json, axis element).*
-
-#### Fire elemental
-
-*Faithful · a elemental, altered* · `species:fire_elemental`
-
-- Type: elemental (monster)
-- Hit points: 16 + Constitution modifier + 3 a level
-- Qualities: +16 strength, +19 dexterity, +16 constitution, +12 intelligence, +13 wisdom, +12 charisma
-- Attack: slam, 1d6 piercing
-- Hide: Scale Mail, armour 4
-- Worth: 200 + 50 experience a level
-
-Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
-
-Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
-
-> An elemental of fire.
-
-*Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
-
-#### Ice elemental
-
-*Faithful · a elemental, altered* · `species:ice_elemental`
-
-- Type: elemental (monster)
-- Hit points: 16 + Constitution modifier + 3 a level
-- Qualities: +16 strength, +19 dexterity, +16 constitution, +12 intelligence, +13 wisdom, +12 charisma
-- Attack: slam, 1d6 piercing
-- Hide: Scale Mail, armour 4
-- Found in: snow
-- Worth: 200 + 50 experience a level
-
-Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
-
-Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
-
-> An elemental of ice.
-
-*Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
-
-#### Jewel elemental
-
-*Faithful · a elemental, altered* · `species:jewel_elemental`
-
-- Type: elemental (monster)
-- Hit points: 16 + Constitution modifier + 3 a level
-- Qualities: +16 strength, +19 dexterity, +16 constitution, +12 intelligence, +13 wisdom, +12 charisma
-- Attack: slam, 1d6 piercing
-- Hide: Scale Mail, armour 4
-- Worth: 200 + 50 experience a level
-
-Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
-
-Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
-
-> An elemental of jewel.
-
-*Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
-
-#### Lava elemental
-
-*Faithful · a elemental, altered* · `species:lava_elemental`
-
-- Type: elemental (monster)
-- Hit points: 16 + Constitution modifier + 3 a level
-- Qualities: +16 strength, +19 dexterity, +16 constitution, +12 intelligence, +13 wisdom, +12 charisma
-- Attack: slam, 1d6 piercing
-- Hide: Scale Mail, armour 4
-- Worth: 200 + 50 experience a level
-
-Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
-
-Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
-
-> An elemental of lava.
-
-*Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
 
 #### Mephit
 
@@ -2175,65 +1960,6 @@ Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of fo
 
 *Adapted: Composed by OrsinoMonsters (elemental class, Mephit type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
 
-#### Mud elemental
-
-*Faithful · a elemental, altered* · `species:mud_elemental`
-
-- Type: elemental (monster)
-- Hit points: 16 + Constitution modifier + 3 a level
-- Qualities: +16 strength, +19 dexterity, +16 constitution, +12 intelligence, +13 wisdom, +12 charisma
-- Attack: slam, 1d6 piercing
-- Hide: Scale Mail, armour 4
-- Found in: fen
-- Worth: 200 + 50 experience a level
-
-Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
-
-Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
-
-> An elemental of mud.
-
-*Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
-
-#### Salt elemental
-
-*Faithful · a elemental, altered* · `species:salt_elemental`
-
-- Type: elemental (monster)
-- Hit points: 16 + Constitution modifier + 3 a level
-- Qualities: +16 strength, +19 dexterity, +16 constitution, +12 intelligence, +13 wisdom, +12 charisma
-- Attack: slam, 1d6 piercing
-- Hide: Scale Mail, armour 4
-- Worth: 200 + 50 experience a level
-
-Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
-
-Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
-
-> An elemental of salt.
-
-*Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
-
-#### Sand elemental
-
-*Faithful · a elemental, altered* · `species:sand_elemental`
-
-- Type: elemental (monster)
-- Hit points: 16 + Constitution modifier + 3 a level
-- Qualities: +16 strength, +19 dexterity, +16 constitution, +12 intelligence, +13 wisdom, +12 charisma
-- Attack: slam, 1d6 piercing
-- Hide: Scale Mail, armour 4
-- Found in: desert
-- Worth: 200 + 50 experience a level
-
-Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
-
-Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
-
-> An elemental of sand.
-
-*Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
-
 #### Slump
 
 *Kyr · elemental* · `species:slump`
@@ -2253,104 +1979,6 @@ Slow: Every enemy gains slow for 4 turns (a Dexterity save against 14 + level + 
 Earth Affinity: Resists 50% of bludgeoning, takes 100% more lightning, immune to stun.
 
 > Clay that water has worked loose and set moving: slow, heavy, and hard to hurt with a blunt blow. It holds its ground, and falls back into mud when the water leaves it.
-
-#### Smoke elemental
-
-*Faithful · a elemental, altered* · `species:smoke_elemental`
-
-- Type: elemental (monster)
-- Hit points: 16 + Constitution modifier + 3 a level
-- Qualities: +16 strength, +19 dexterity, +16 constitution, +12 intelligence, +13 wisdom, +12 charisma
-- Attack: slam, 1d6 piercing
-- Hide: Scale Mail, armour 4
-- Worth: 200 + 50 experience a level
-
-Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
-
-Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
-
-> An elemental of smoke.
-
-*Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
-
-#### Steam elemental
-
-*Faithful · a elemental, altered* · `species:steam_elemental`
-
-- Type: elemental (monster)
-- Hit points: 16 + Constitution modifier + 3 a level
-- Qualities: +16 strength, +19 dexterity, +16 constitution, +12 intelligence, +13 wisdom, +12 charisma
-- Attack: slam, 1d6 piercing
-- Hide: Scale Mail, armour 4
-- Worth: 200 + 50 experience a level
-
-Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
-
-Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
-
-> An elemental of steam.
-
-*Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
-
-#### Storm elemental
-
-*Faithful · a elemental, altered* · `species:storm_elemental`
-
-- Type: elemental (monster)
-- Hit points: 16 + Constitution modifier + 3 a level
-- Qualities: +16 strength, +19 dexterity, +16 constitution, +12 intelligence, +13 wisdom, +12 charisma
-- Attack: slam, 1d6 piercing
-- Hide: Scale Mail, armour 4
-- Found in: heights
-- Worth: 200 + 50 experience a level
-
-Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
-
-Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
-
-> An elemental of storm.
-
-*Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
-
-#### Water elemental
-
-*Faithful · a elemental, altered* · `species:water_elemental`
-
-- Type: elemental (monster)
-- Hit points: 16 + Constitution modifier + 3 a level
-- Qualities: +16 strength, +19 dexterity, +16 constitution, +12 intelligence, +13 wisdom, +12 charisma
-- Attack: slam, 1d6 piercing
-- Hide: Scale Mail, armour 4
-- Found in: lake
-- Worth: 200 + 50 experience a level
-
-Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
-
-Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
-
-> An elemental of water.
-
-*Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
-
-#### Wood elemental
-
-*Faithful · a elemental, altered* · `species:wood_elemental`
-
-- Type: elemental (monster)
-- Hit points: 16 + Constitution modifier + 3 a level
-- Qualities: +16 strength, +19 dexterity, +16 constitution, +12 intelligence, +13 wisdom, +12 charisma
-- Attack: slam, 1d6 piercing
-- Hide: Scale Mail, armour 4
-- Found in: grove
-- Worth: 200 + 50 experience a level
-
-Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
-
-Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of force, resists 10% of psychic.
-
-> An elemental of wood.
-
-*Left out — field:monsterGold: Orsino's 1d10 gold for the kill is not carried.*
 
 ### Feys
 

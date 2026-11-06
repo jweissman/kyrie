@@ -99,6 +99,12 @@ export interface Statistics {
   // and a monster's hit points are base + Constitution modifier + perLevel × level (an animal's stay fixed).
   growth?: { hitPoints?: { base: number; perLevel: number } };
 }
+// What a variation says of itself in the canon (data/catalog/variations.json; CreatureVariants reads the rest): its
+// axis, its word, what is seen of it, the kinds and types it is for, and where a kind made with it lives and how
+// commonly.
+export interface Overlay {
+  axis: string; word: string; says: string; kinds: string[]; types?: string[]; habitats?: string[]; abundance?: number;
+}
 export interface Species {
   name: string; description: string; variantOf?: string; type?: string; kind?: 'animal' | 'monster' | 'spirit' | 'device';
   // What it looks like, for whoever paints it; and what it is made of (data/catalog/materials.json), for a device.

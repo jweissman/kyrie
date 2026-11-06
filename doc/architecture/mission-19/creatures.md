@@ -190,12 +190,40 @@ the parties fought together, the hollow-stalker in a generated deep site, self-h
 `natural-history`, `creature-pipeline`, `creature-variation`, `devices`. Coverage: `bin/kyrie bestiary report`
 ([bestiary.md](bestiary.md)); the inventory of Orsino's entries: [bestiary-inventory.md](bestiary-inventory.md).
 
+## One archetype, its overlays (6 November, late: the owner's question answered)
+
+Before: `fire_elemental` and its sixteen siblings, `iron_golem` and `red_dragon` were records in monsters.json. Each
+held only a name, a description, its source and `variantOf` its base with one variation: no chassis of its own (its
+mechanics were the base's with the variation's), but a literal kind, which generation and the summons reached by its
+name, so that an element, a material or a lineage without such a record was never met.
+
+Now:
+
+- **One id for any composition**: a base and its variations, `golem/glass`, `elemental/fire_element`,
+  `dragon/red_lineage` (`Canon.creature`, `Canon.isSpecies`): the base, called by the variations' words ("Glass golem"),
+  living where the base and the variations say, the variations made with it. An author writes `Species golem.
+  Variant glass.`; generation, the summons and the measures write `golem/glass`.
+- **The old names are aliases** (`data/catalog/aliases.json`, species): `fire_elemental` is `elemental/fire_element`, and
+  so for every one removed; content (`Species earth_elemental`, the deep purposes' `"species": "crystal_elemental"`) and
+  a save holding `raceId: fire_elemental` read as before.
+- **A base always of something says so** (`requires`): the Elemental an element, the Golem a material, the Dragon a
+  lineage. Generation offers each such base as every kind of it there is (`Parties.kinds`), each living where its
+  variation says (sand in the desert, ice in the snows, earth and crystal in caves), as common as its variation says or
+  its base's commonness shared among its kinds; the summons call them by the variation's own Orsino source
+  (`elemental:fire` is `elemental/fire_element`).
+- **Measured each**: the golem in each of its eleven materials (clay 6 at its first level, stone, glass and platinum 4),
+  the dragon in its ten lineages, the seventeen elementals (`data/catalog/challenge.json`).
+- **By data alone**: a glass golem is `golem/glass` with nothing written; a new element written into variations.json
+  (axis element, types elemental, its habitats) is met in generation with no record and no engine change (the
+  `bestiary` spec adds one, moss, and finds it eligible in caves).
+
+Kept as records, because each has what is its own beyond its base and variations: the dog (tame), the cave hound (its
+rending bite), the bone hound (a necromancer's watchdog, undead), the cave spider (its web), the great rat, centipede,
+snake and pike, the frost wolf (its rime bite and howl), the stag, the bronze custodian (its sweep and chain). Each has
+`variantOf` its base and no chassis of its own.
+
 ## Not yet
 
-- **Named compositions still literal**: `fire_elemental` and its sixteen siblings, `iron_golem`, `red_dragon` are records
-  that name a base and its variation (no chassis of their own, but generation reaches them by their names, not by
-  composition). Next: aliases to `base/variation` ids, generation drawing the base with its structural variation, the
-  summons by the variation's Orsino source (the owner, 6 November, late).
 - **Ranks** (Orsino's eight) are not carried: in Orsino they changed only the name (see above); Kyr's measured challenge
   and level do their work.
 - **Authored adjective-kinds** in adventures (`pantry_rat` like cave_hound; the eels like great_pike; `umber_wolf`,

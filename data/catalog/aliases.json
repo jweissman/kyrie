@@ -14,6 +14,25 @@
   "species": {
     "red_deer": "deer",
     "grey_wolf": "wolf",
-    "wyrm_animal": "wyrmling"
+    "wyrm_animal": "wyrmling",
+    "air_elemental": "elemental/air_element",
+    "ash_elemental": "elemental/ash_element",
+    "crystal_elemental": "elemental/crystal_element",
+    "dust_elemental": "elemental/dust_element",
+    "earth_elemental": "elemental/earth_element",
+    "fire_elemental": "elemental/fire_element",
+    "ice_elemental": "elemental/ice_element",
+    "iron_golem": "golem/iron",
+    "jewel_elemental": "elemental/jewel_element",
+    "lava_elemental": "elemental/lava_element",
+    "mud_elemental": "elemental/mud_element",
+    "red_dragon": "dragon/red_lineage",
+    "salt_elemental": "elemental/salt_element",
+    "sand_elemental": "elemental/sand_element",
+    "smoke_elemental": "elemental/smoke_element",
+    "steam_elemental": "elemental/steam_element",
+    "storm_elemental": "elemental/storm_element",
+    "water_elemental": "elemental/water_element",
+    "wood_elemental": "elemental/wood_element"
   }
 }

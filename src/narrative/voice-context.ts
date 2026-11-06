@@ -108,7 +108,7 @@ export class VoiceContext {
     let at: string | undefined = species;
     for (let n = 0; at && n < 6; n++) {
       if (this.kinds.includes(at)) { return at; }
-      at = Canon.species[at]?.variantOf;
+      at = Canon.isSpecies(at) ? Canon.creature(at).variantOf : undefined;
     }
     return species;
   }

@@ -237,7 +237,9 @@ export class MechanicsText {
   static inner(effects: Effect[], actor?: Record<string, number>): string {
     return effects.map(x => this.effect(x, actor, x.target === 'self' ? 'yourself' : 'it')).join(' / ');
   }
-  static species(ids: string[]): string[] { return ids.map(id => Canon.species[id]?.name.toLowerCase() ?? id); }
+  static species(ids: string[]): string[] {
+    return ids.map(id => Canon.isSpecies(id) ? Canon.creature(id).name.toLowerCase() : id);
+  }
   static amount(amount: Amount, actor?: Record<string, number>): string {
     if (amount.kind === 'literal') { return String(amount.value); }
     const result = this.preview.partialEvaluate(amount.expression, actor ?? {});

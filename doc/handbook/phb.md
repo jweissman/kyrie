@@ -5369,7 +5369,7 @@ Every enemy is asleep for 3 turns (a Wisdom save against 16 + level + the caster
 
 *Faithful · level 3 arcane spell, conjuration* · `ability:summon_monster_ii`
 
-Call one of: automaton, clockwork soldier, golem, behemoth, colossus, titan, balor, fiend, ifrit, marilith, of level 5, to fight for you until the fight ends. An arcane spell of the third level. Takes a third-level slot.
+Call one of: automaton, funerary bronze construct, clockwork soldier, clay golem, stone golem, iron golem, wood golem, gold golem, bone golem, crystal golem, silver golem, glass golem, platinum golem, bronze golem, behemoth, colossus, titan, balor, fiend, ifrit, marilith, of level 5, to fight for you until the fight ends. An arcane spell of the third level. Takes a third-level slot.
 
 > Summon a more powerful random monster (construct, giant, or demon) to fight for you.
 
@@ -5713,7 +5713,7 @@ End petrified on one ally. An arcane spell of the sixth level. Takes a sixth-lev
 
 *Faithful · level 6 arcane spell, conjuration* · `ability:summon_greater_elemental`
 
-Call one of: air elemental, ash elemental, crystal elemental, dust elemental, earth elemental, fire elemental, ice elemental, jewel elemental, lava elemental, mephit, mud elemental, salt elemental, sand elemental, slump, smoke elemental, steam elemental, storm elemental, water elemental, wood elemental, of level 10, to fight for you until the fight ends. An arcane spell of the sixth level. Takes a sixth-level slot.
+Call one of: mephit, slump, air elemental, ash elemental, crystal elemental, dust elemental, earth elemental, fire elemental, ice elemental, jewel elemental, lava elemental, mud elemental, salt elemental, sand elemental, smoke elemental, steam elemental, storm elemental, water elemental, wood elemental, of level 10, to fight for you until the fight ends. An arcane spell of the sixth level. Takes a sixth-level slot.
 
 > Summon a powerful elemental to fight for you.
 
@@ -5721,7 +5721,7 @@ Call one of: air elemental, ash elemental, crystal elemental, dust elemental, ea
 
 *Faithful · level 6 arcane spell, conjuration* · `ability:summon_monster_iv`
 
-Call one of: discerner, hollow-stalker, mind destroyer, mouther, ooze, automaton, clockwork soldier, golem, of level 12, to fight for you until the fight ends. An arcane spell of the sixth level. Takes a sixth-level slot.
+Call one of: discerner, hollow-stalker, mind destroyer, mouther, ooze, automaton, funerary bronze construct, clockwork soldier, clay golem, stone golem, iron golem, wood golem, gold golem, bone golem, crystal golem, silver golem, glass golem, platinum golem, bronze golem, of level 12, to fight for you until the fight ends. An arcane spell of the sixth level. Takes a sixth-level slot.
 
 > Summon a mighty random construct or aberration to fight for you.
 
@@ -5801,7 +5801,7 @@ Every enemy is confused for 3 turns (a Wisdom save against 18 + level + the cast
 
 *Faithful · level 7 arcane spell, conjuration* · `ability:summon_monster_v`
 
-Call one of: dragon, drake, wyrm, wyvern, behemoth, colossus, titan, angel, archon, deva, solar, balor, fiend, ifrit, marilith, discerner, hollow-stalker, mind destroyer, mouther, ooze, of level 15, to fight for you until the fight ends. An arcane spell of the seventh level. Takes a seventh-level slot.
+Call one of: drake, wyrm, wyvern, black dragon, blue dragon, brass dragon, bronze dragon, copper dragon, gold dragon, green dragon, red dragon, silver dragon, white dragon, behemoth, colossus, titan, angel, archon, deva, solar, balor, fiend, ifrit, marilith, discerner, hollow-stalker, mind destroyer, mouther, ooze, of level 15, to fight for you until the fight ends. An arcane spell of the seventh level. Takes a seventh-level slot.
 
 > Summon a champion random creature to fight for you.
 
@@ -5885,7 +5885,7 @@ Every ally gains mind blank for 20 turns. Mind Blank: +2 to will saves, resists 
 
 *Faithful · level 8 arcane spell, conjuration* · `ability:summon_monster_vi`
 
-Call one of: dragon, drake, wyrm, wyvern, behemoth, colossus, titan, angel, archon, deva, solar, balor, fiend, ifrit, marilith, discerner, hollow-stalker, mind destroyer, mouther, ooze, of level 20, to fight for you until the fight ends. An arcane spell of the eighth level. Takes an eighth-level slot.
+Call one of: drake, wyrm, wyvern, black dragon, blue dragon, brass dragon, bronze dragon, copper dragon, gold dragon, green dragon, red dragon, silver dragon, white dragon, behemoth, colossus, titan, angel, archon, deva, solar, balor, fiend, ifrit, marilith, discerner, hollow-stalker, mind destroyer, mouther, ooze, of level 20, to fight for you until the fight ends. An arcane spell of the eighth level. Takes an eighth-level slot.
 
 > Summon a epic random creature to fight for you.
 
@@ -5961,7 +5961,7 @@ Every enemy is dominated for 3 turns (only humanoid creatures). Dominated: fight
 
 *Faithful · level 9 arcane spell, conjuration* · `ability:summon_monster_vii`
 
-Call one of: dragon, drake, wyrm, wyvern, behemoth, colossus, titan, angel, archon, deva, solar, balor, fiend, ifrit, marilith, discerner, hollow-stalker, mind destroyer, mouther, ooze, of level 25, to fight for you until the fight ends. An arcane spell of the ninth level. Takes a ninth-level slot.
+Call one of: drake, wyrm, wyvern, black dragon, blue dragon, brass dragon, bronze dragon, copper dragon, gold dragon, green dragon, red dragon, silver dragon, white dragon, behemoth, colossus, titan, angel, archon, deva, solar, balor, fiend, ifrit, marilith, discerner, hollow-stalker, mind destroyer, mouther, ooze, of level 25, to fight for you until the fight ends. An arcane spell of the ninth level. Takes a ninth-level slot.
 
 > Summon a legendary random creature to fight for you.
 

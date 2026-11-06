@@ -13,6 +13,7 @@ import skills from '../../data/catalog/skills.json';
 import animals from '../../data/catalog/animals.json';
 import monsters from '../../data/catalog/monsters.json';
 import materials from '../../data/catalog/materials.json';
+import variations from '../../data/catalog/variations.json';
 import devices from '../../data/catalog/devices.json';
 import traits from '../../data/catalog/traits.json';
 import orsinoAbilities from '../../data/catalog/orsino/abilities.json';
@@ -25,7 +26,7 @@ import professions from '../../data/catalog/professions.json';
 import { BackgroundCatalog, type BackgroundTables, type CompiledBackground, type KyrProfession } from './background-catalog';
 import type {
   Ability, Ancestry, CharacterClass, Combat, Condition, Deity, Domain, Habitat, ItemKind, Plant, Procedure, Skill,
-  Material, Source, Species, Trait,
+  Material, Overlay, Source, Species, Trait,
 } from './schema';
 
 export type Family = 'abilities' | 'conditions' | 'traits' | 'items' | 'plants' | 'species' | 'classes';
@@ -110,12 +111,17 @@ export class Canon {
     backgrounds as unknown as BackgroundTables, id => Object.hasOwn(Canon.items, Canon.resolve('items', id)),
     professions.professions as unknown as Record<string, KyrProfession>);
   static readonly backgroundKinds = (backgrounds as unknown as BackgroundTables).backgroundKindMeaning.groups;
-  // A body's record (a species', a device's); one with variantOf is its base with the variant's declared fields laid
-  // over it. Cycles are errors.
+  // A body's record (a species', a device's), by its id or an old name for it (aliases.json: fire_elemental is
+  // elemental/fire_element), or a kind composed of a base and what varies it (golem/glass): the base, called by the
+  // variations' words, living where the base and they say, the variations made with it (the owner, 6 November: one
+  // archetype, its elements, materials and lineages overlays, never a chassis each). One with variantOf is its base
+  // with the variant's declared fields laid over it. Cycles are errors.
   static creature(id: string, seen: string[] = []): Species {
+    const named = this.resolve('species', id);
+    if (named.includes('/')) { return this.composed(named); }
     // Every body the one chassis makes, a creature's (with a module's own kinds, installed as it loads) or a
     // device's: the contract they share (qualities, hit points, a natural strike, powers, nature).
-    const own = this.species[id] ?? this.devices[id];
+    const own = this.species[named] ?? this.devices[named];
     if (!own) { throw new Error(`Unknown species ${id}`); }
     if (!own.variantOf) { return own; }
     if (seen.includes(id)) { throw new Error(`Species variant cycle: ${[...seen, id].join(' > ')}`); }
@@ -130,7 +136,26 @@ export class Canon {
     return s.temperament ?? (s.kind === 'monster' ? byType[s.type ?? ''] : undefined);
   }
   static isAncestry(id: string): boolean { return Object.hasOwn(this.ancestries, id); }
-  static isSpecies(id: string): boolean { return Object.hasOwn(this.species, id); }
+  static isSpecies(id: string): boolean {
+    if (!id) { return false; }
+    const named = this.resolve('species', id);
+    if (!named.includes('/')) { return Object.hasOwn(this.species, named); }
+    const [base, ...ids] = named.split('/');
+    return Object.hasOwn(this.species, base!) && ids.every(v => Object.hasOwn(this.variations, v));
+  }
+  static readonly variations = variations.variations as unknown as Record<string, Overlay>;
+  // A base and its variations as one kind (see creature).
+  private static composed(id: string): Species {
+    const [base, ...ids] = id.split('/'), b = this.creature(base!), over = ids.map(v => this.variations[v]);
+    if (over.some(v => !v)) { throw new Error(`Unknown species ${id}`); }
+    const words = over.map(v => v!.word).filter(Boolean).join(' '), name = b.name.toLowerCase();
+    const habitats = [...new Set([...b.habitats ?? [], ...over.flatMap(v => v!.habitats ?? [])])];
+    const abundance = over.map(v => v!.abundance).find(a => a !== undefined) ?? b.abundance;
+    return { ...b, name: words ? `${words.charAt(0).toUpperCase()}${words.slice(1)} ${name}` : b.name, variantOf: base!,
+      variations: [...b.variations ?? [], ...ids], ...habitats.length ? { habitats } : {},
+      ...abundance !== undefined ? { abundance } : {},
+      description: `${b.description} This one is ${over.map(v => v!.says).join(', and ')}.` };
+  }
   // A body made from its own record, not a person of a people: a creature or a device.
   static isBody(id: string): boolean { return this.isSpecies(id) || this.isDevice(id); }
   static isDevice(id: string): boolean { return Object.hasOwn(this.devices, id); }

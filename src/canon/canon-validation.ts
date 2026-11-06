@@ -46,7 +46,10 @@ export class CanonValidation {
     for (const [family, entries] of Object.entries(families)) {
       for (const [alias, target] of Object.entries(Canon.aliases[family as keyof typeof families] ?? {})) {
         if (Object.hasOwn(entries, alias)) { this.fail(`alias ${alias}`, `shadows a canonical ${family} identifier`); }
-        if (!Object.hasOwn(entries, target)) { this.fail(`alias ${alias}`, `names unknown ${family} ${target}`); }
+        // A species' alias may name a kind composed of a base and its variations (fire_elemental is
+        // elemental/fire_element).
+        const known = family === 'species' ? Canon.isSpecies(target) : Object.hasOwn(entries, target);
+        if (!known) { this.fail(`alias ${alias}`, `names unknown ${family} ${target}`); }
       }
     }
   }

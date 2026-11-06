@@ -11,11 +11,12 @@ export class Challenge {
   // A kind's challenge at a level: unmeasured kinds (an author's own, not yet measured) by their base's, else a
   // first-level warrior's.
   static of(kind: string, level = 1): number {
-    const [first, fifth] = this.kinds[kind] ?? this.kinds[Canon.isBody(kind) ? Canon.creature(kind).variantOf ?? '' : '']
+    const id = Canon.resolve('species', kind);
+    const [first, fifth] = this.kinds[id] ?? this.kinds[Canon.isBody(id) ? Canon.creature(id).variantOf ?? '' : '']
       ?? [1, 5];
     return Math.max(first / 4, first + (fifth - first) * (level - 1) / 4);
   }
-  static measured(kind: string): boolean { return Object.hasOwn(this.kinds, kind); }
+  static measured(kind: string): boolean { return Object.hasOwn(this.kinds, Canon.resolve('species', kind)); }
   // The highest level, up to a ceiling, at which one of the kind is still within a budget; none if not even its first.
   static level(kind: string, budget: number, most = 20): number | undefined {
     if (this.of(kind, 1) > budget) { return undefined; }

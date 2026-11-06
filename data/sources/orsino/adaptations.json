@@ -515,7 +515,7 @@
     {
       "orsino": "monsterClass:dragon",
       "kyr": [
-        "species:red_dragon",
+        "variation:red_lineage",
         "species:dragon"
       ],
       "support": "represented",
@@ -535,7 +535,7 @@
     {
       "orsino": "monsterType:Dragon",
       "kyr": [
-        "species:red_dragon",
+        "variation:red_lineage",
         "species:dragon"
       ],
       "support": "represented",
@@ -548,7 +548,7 @@
     {
       "orsino": "dragonColor:red",
       "kyr": [
-        "species:red_dragon",
+        "variation:red_lineage",
         "ability:breathe_fire"
       ],
       "support": "play-validated",
@@ -1366,7 +1366,7 @@
     {
       "orsino": "golemSubstance:iron",
       "kyr": [
-        "species:iron_golem"
+        "variation:iron"
       ],
       "support": "executable",
       "fidelity": "faithful",

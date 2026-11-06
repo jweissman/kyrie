@@ -1060,8 +1060,8 @@
   "mm": {
    "title": "Monster Manual",
    "counts": {
-    "faithful": 145,
-    "adapted": 139,
+    "faithful": 127,
+    "adapted": 138,
     "represented": 9,
     "kyr": 40,
     "unsupported": 4,
@@ -1073,8 +1073,8 @@
      "id": "species",
      "title": "Creatures",
      "counts": {
-      "faithful": 51,
-      "adapted": 54,
+      "faithful": 33,
+      "adapted": 53,
       "represented": 0,
       "kyr": 23,
       "unsupported": 0,
@@ -19275,13 +19275,6 @@
    "section": "species/species-construct"
   },
   {
-   "id": "species:iron_golem",
-   "title": "Iron golem",
-   "status": "faithful",
-   "book": "mm",
-   "section": "species/species-construct"
-  },
-  {
    "id": "species:balor",
    "title": "Balor",
    "status": "adapted",
@@ -19331,13 +19324,6 @@
    "section": "species/species-dragon"
   },
   {
-   "id": "species:red_dragon",
-   "title": "Red dragon",
-   "status": "adapted",
-   "book": "mm",
-   "section": "species/species-dragon"
-  },
-  {
    "id": "species:wyrm",
    "title": "Wyrm",
    "status": "adapted",
@@ -19359,72 +19345,9 @@
    "section": "species/species-dragon"
   },
   {
-   "id": "species:air_elemental",
-   "title": "Air elemental",
-   "status": "faithful",
-   "book": "mm",
-   "section": "species/species-elemental"
-  },
-  {
-   "id": "species:ash_elemental",
-   "title": "Ash elemental",
-   "status": "faithful",
-   "book": "mm",
-   "section": "species/species-elemental"
-  },
-  {
-   "id": "species:crystal_elemental",
-   "title": "Crystal elemental",
-   "status": "faithful",
-   "book": "mm",
-   "section": "species/species-elemental"
-  },
-  {
-   "id": "species:dust_elemental",
-   "title": "Dust elemental",
-   "status": "faithful",
-   "book": "mm",
-   "section": "species/species-elemental"
-  },
-  {
-   "id": "species:earth_elemental",
-   "title": "Earth elemental",
-   "status": "faithful",
-   "book": "mm",
-   "section": "species/species-elemental"
-  },
-  {
    "id": "species:elemental",
    "title": "Elemental",
    "status": "adapted",
-   "book": "mm",
-   "section": "species/species-elemental"
-  },
-  {
-   "id": "species:fire_elemental",
-   "title": "Fire elemental",
-   "status": "faithful",
-   "book": "mm",
-   "section": "species/species-elemental"
-  },
-  {
-   "id": "species:ice_elemental",
-   "title": "Ice elemental",
-   "status": "faithful",
-   "book": "mm",
-   "section": "species/species-elemental"
-  },
-  {
-   "id": "species:jewel_elemental",
-   "title": "Jewel elemental",
-   "status": "faithful",
-   "book": "mm",
-   "section": "species/species-elemental"
-  },
-  {
-   "id": "species:lava_elemental",
-   "title": "Lava elemental",
-   "status": "faithful",
    "book": "mm",
    "section": "species/species-elemental"
   },
@@ -19436,65 +19359,9 @@
    "section": "species/species-elemental"
   },
   {
-   "id": "species:mud_elemental",
-   "title": "Mud elemental",
-   "status": "faithful",
-   "book": "mm",
-   "section": "species/species-elemental"
-  },
-  {
-   "id": "species:salt_elemental",
-   "title": "Salt elemental",
-   "status": "faithful",
-   "book": "mm",
-   "section": "species/species-elemental"
-  },
-  {
-   "id": "species:sand_elemental",
-   "title": "Sand elemental",
-   "status": "faithful",
-   "book": "mm",
-   "section": "species/species-elemental"
-  },
-  {
    "id": "species:slump",
    "title": "Slump",
    "status": "kyr",
-   "book": "mm",
-   "section": "species/species-elemental"
-  },
-  {
-   "id": "species:smoke_elemental",
-   "title": "Smoke elemental",
-   "status": "faithful",
-   "book": "mm",
-   "section": "species/species-elemental"
-  },
-  {
-   "id": "species:steam_elemental",
-   "title": "Steam elemental",
-   "status": "faithful",
-   "book": "mm",
-   "section": "species/species-elemental"
-  },
-  {
-   "id": "species:storm_elemental",
-   "title": "Storm elemental",
-   "status": "faithful",
-   "book": "mm",
-   "section": "species/species-elemental"
-  },
-  {
-   "id": "species:water_elemental",
-   "title": "Water elemental",
-   "status": "faithful",
-   "book": "mm",
-   "section": "species/species-elemental"
-  },
-  {
-   "id": "species:wood_elemental",
-   "title": "Wood elemental",
-   "status": "faithful",
    "book": "mm",
    "section": "species/species-elemental"
   },

@@ -11,6 +11,8 @@ import { Creation } from './rules/creation';
 export interface Variation {
   axis: string; word: string; says: string; kinds: string[]; attributes?: Record<string, number>; health?: number;
   abilities?: string[]; traits?: string[]; hint?: string;
+  // Where a kind made with it lives, and how commonly (an elemental of sand in the desert), beside its base's.
+  habitats?: string[]; abundance?: number;
   // What it makes the creature proof against (a fraction) or hurt by (a negative one), as its kind's are.
   resistances?: Record<string, number>;
   // The types of creature it can be laid on (a material on a construct, an element on an elemental, a lineage on a
@@ -76,18 +78,13 @@ export class CreatureVariants {
     const s = Canon.creature(kind);
     return !!s.requires && !(s.variations ?? []).some(id => this.variations[id]?.axis === s.requires);
   }
-  // What a kind is always made of or descended from, where its record does not say (a golem's material, a dragon's
-  // lineage): one variation of each axis laid only on its type and never by where it is met, drawn.
-  static structural(kind: string, draw: { pick<T>(list: readonly T[]): T }): string[] {
-    const s = Canon.creature(kind), had = new Set((s.variations ?? []).map(id => this.variations[id]!.axis));
-    const axes = new Map<string, string[]>();
-    for (const [id, v] of Object.entries(this.variations)) {
-      if (!v.types?.includes(s.type ?? '') || v.hint || had.has(v.axis) || !v.kinds.includes(s.kind ?? 'animal')) {
-        continue;
-      }
-      axes.set(v.axis, [...axes.get(v.axis) ?? [], id]);
-    }
-    return [...axes.values()].map(ids => draw.pick(ids));
+  // What a base is always made of or descended from (its record's requires: an elemental's element, a golem's
+  // material, a dragon's lineage): the variations of that axis that fit it, each a kind of it.
+  static structurals(kind: string): string[] {
+    const s = Canon.creature(kind);
+    if (s.variantOf || !s.requires) { return []; }
+    return Object.entries(this.variations).filter(([, v]) => v.axis === s.requires && v.kinds.includes(s.kind ?? 'animal')
+      && (!v.types || v.types.includes(s.type ?? ''))).map(([id]) => id);
   }
   // What a creature is called with its variations: "a wolf", old and frost, is "an old frost wolf".
   static called(role: string, ids: string[]): string {

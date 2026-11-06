@@ -45,7 +45,10 @@ export class BestiaryTool {
   // Every creature of the catalog's own files that fights: not a device, nor a kind only ever met with what it requires
   // (an elemental's element); not a module's own kinds, installed as it loads.
   static measurable(): string[] {
-    return Object.keys({ ...animals.species, ...monsters.species }).filter(id => !CreatureVariants.wanting(id));
+    return Object.keys({ ...animals.species, ...monsters.species }).flatMap(id => {
+      const of = CreatureVariants.structurals(id);
+      return of.length ? of.map(v => `${id}/${v}`) : CreatureVariants.wanting(id) ? [] : [id];
+    });
   }
   private static readonly content = new Content('bestiary');
   // The challenge of one of a kind at a level.

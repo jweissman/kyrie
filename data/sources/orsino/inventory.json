@@ -9137,9 +9137,8 @@
    "status": "integrated",
    "mechanics": "play-validated",
    "kyr": [
-    "species:red_dragon",
-    "ability:breathe_fire",
-    "variation:red_lineage"
+    "variation:red_lineage",
+    "ability:breathe_fire"
    ]
   },
   {
@@ -9198,7 +9197,6 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
-    "species:air_elemental",
     "variation:air_element"
    ]
   },
@@ -9207,7 +9205,6 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
-    "species:ash_elemental",
     "variation:ash_element"
    ]
   },
@@ -9216,7 +9213,6 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
-    "species:crystal_elemental",
     "variation:crystal_element"
    ]
   },
@@ -9225,7 +9221,6 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
-    "species:dust_elemental",
     "variation:dust_element"
    ]
   },
@@ -9234,7 +9229,6 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
-    "species:earth_elemental",
     "variation:earth_element"
    ]
   },
@@ -9243,7 +9237,6 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
-    "species:fire_elemental",
     "variation:fire_element"
    ]
   },
@@ -9252,7 +9245,6 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
-    "species:ice_elemental",
     "variation:ice_element"
    ]
   },
@@ -9261,7 +9253,6 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
-    "species:jewel_elemental",
     "variation:jewel_element"
    ]
   },
@@ -9270,7 +9261,6 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
-    "species:lava_elemental",
     "variation:lava_element"
    ]
   },
@@ -9279,7 +9269,6 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
-    "species:mud_elemental",
     "variation:mud_element"
    ]
   },
@@ -9288,7 +9277,6 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
-    "species:salt_elemental",
     "variation:salt_element"
    ]
   },
@@ -9297,7 +9285,6 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
-    "species:sand_elemental",
     "variation:sand_element"
    ]
   },
@@ -9306,7 +9293,6 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
-    "species:smoke_elemental",
     "variation:smoke_element"
    ]
   },
@@ -9315,7 +9301,6 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
-    "species:steam_elemental",
     "variation:steam_element"
    ]
   },
@@ -9324,7 +9309,6 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
-    "species:storm_elemental",
     "variation:storm_element"
    ]
   },
@@ -9333,7 +9317,6 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
-    "species:water_elemental",
     "variation:water_element"
    ]
   },
@@ -9342,7 +9325,6 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
-    "species:wood_elemental",
     "variation:wood_element"
    ]
   },
@@ -10429,7 +10411,6 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
-    "species:iron_golem",
     "variation:iron"
    ]
   },
@@ -11243,7 +11224,7 @@
    "status": "represented",
    "mechanics": "represented",
    "kyr": [
-    "species:red_dragon",
+    "variation:red_lineage",
     "species:dragon"
    ],
    "blockers": [
@@ -11451,7 +11432,7 @@
    "status": "represented",
    "mechanics": "represented",
    "kyr": [
-    "species:red_dragon",
+    "variation:red_lineage",
     "species:dragon"
    ],
    "blockers": [

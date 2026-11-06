@@ -82,7 +82,6 @@ describe('natural history', () => {
     const said = Object.entries(Canon.species).filter(([, s]) => s.abundance).map(([id]) => id);
     expect(said.filter(id => !placed.has(id))).toEqual([]);
     // The kinds of Orsino's that were met only when summoned are among them: the deer, the otter, the dryad.
-    expect(['deer', 'otter', 'rabbit', 'dryad', 'vampire', 'drake', 'sand_elemental'].filter(id => !placed.has(id)))
-      .toEqual([]);
+    expect(['deer', 'otter', 'rabbit', 'dryad', 'vampire', 'drake'].filter(id => !placed.has(id))).toEqual([]);
   });
 });

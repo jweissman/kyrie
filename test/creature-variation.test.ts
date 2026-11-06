@@ -47,12 +47,14 @@ describe('a creature and its variations', () => {
   });
   it('makes each of Orsino\'s seventeen elementals the Elemental of an element, and calls them up by that', () => {
     const fire = make('fire_elemental'), water = make('water_elemental');
-    expect([fire.raceId, fire.variations, water.variations]).toEqual(['fire_elemental', ['fire_element'], ['water_element']]);
+    // The old name is the Elemental of fire: one archetype, the element its variation.
+    expect([fire.raceId, fire.variations, water.variations])
+      .toEqual(['elemental/fire_element', ['fire_element'], ['water_element']]);
     expect(fire.base.abilities).toContain('burning_hands');
     expect([fire.traits, water.traits]).toEqual([expect.arrayContaining(['fire_affinity', 'water_vulnerability']),
       expect.arrayContaining(['water_affinity', 'earth_vulnerability'])]);
     const called = OrsinoBestiary.vocabulary(registry.entries as unknown as RegistryEntry[]).byType.elemental!;
-    expect(called).toEqual(expect.arrayContaining(['fire_elemental', 'water_elemental']));
+    expect(called).toEqual(expect.arrayContaining(['elemental/fire_element', 'elemental/water_element']));
     expect(called).not.toContain('elemental');
   });
   it('refuses what does not fit: a material on a wolf, a lineage on a golem, two of one axis', () => {

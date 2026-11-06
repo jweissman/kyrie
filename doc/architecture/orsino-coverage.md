@@ -235,9 +235,9 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `consumable:antidote` | `item:antidote` | play-validated | adapted | Orsino removes the status named Poison; Kyr removes its poisoned condition. |
 | `divineSpell:luminous_touch` | `ability:luminous_touch` | executable | adapted | Exact 1d2 + level healing to self or ally. Kyr mana cost replaces Orsino spell slots. |
 | `divineSpell:cure_minor` | `ability:cure_minor` | executable | adapted | Kyr mana cost replaces Orsino spell slots. |
-| `monsterClass:dragon` | `species:red_dragon` `species:dragon` | represented | adapted | Stat line, stat base, terrain, aspect and type overlays and hit points are composed by OrsinoMonsters exactly as the monster template computes them (red, Dragon type, wildtype, mountain, minor rank, level 1): Str 35, Dex 28, Con 32, Int 29, Wis 27, Cha 31, 99 HP. Kyr's statMod reads those scores. |
-| `monsterType:Dragon` | `species:red_dragon` `species:dragon` | represented | adapted | The type's attribute overlay (+6 Str, +4 Dex, +5 Con, +4 Int, +3 Wis, +5 Cha) is part of the composed stat line. |
-| `dragonColor:red` | `species:red_dragon` `ability:breathe_fire` | play-validated | adapted | The red colour's fire_breath replaces the bite, as the template's overlay does. Its description is the kind's description. |
+| `monsterClass:dragon` | `variation:red_lineage` `species:dragon` | represented | adapted | Stat line, stat base, terrain, aspect and type overlays and hit points are composed by OrsinoMonsters exactly as the monster template computes them (red, Dragon type, wildtype, mountain, minor rank, level 1): Str 35, Dex 28, Con 32, Int 29, Wis 27, Cha 31, 99 HP. Kyr's statMod reads those scores. |
+| `monsterType:Dragon` | `variation:red_lineage` `species:dragon` | represented | adapted | The type's attribute overlay (+6 Str, +4 Dex, +5 Con, +4 Int, +3 Wis, +5 Cha) is part of the composed stat line. |
+| `dragonColor:red` | `variation:red_lineage` `ability:breathe_fire` | play-validated | adapted | The red colour's fire_breath replaces the bite, as the template's overlay does. Its description is the kind's description. |
 | `weapon:fire_breath` | `ability:breathe_fire` | play-validated | adapted | Exact 4d6 fire. Orsino fires it at one target through melee with an attack roll and no save. Kyr breathes it over every opponent with one shared roll, a breath-category save (Orsino's Constitution-based category, its modifiers and immunity) against 15 + the dragon's level (Orsino's default debuff difficulty) for half, and a three-turn recharge. Fire released this way exposes the place to fire. |
 | `weapon:bite` | `item:bite` | executable | faithful | A species' natural weapon: its melee attack rolls THAC0 against armour class and deals the weapon die plus the positive STR modifier. No longer exercised in recorded play: the re-recorded fire history ends before the dragon bites. |
 | `trait:formidable` | `trait:formidable` | represented | adapted | Translated by OrsinoStatuses: +2 will saves, 10% bludgeoning, piercing and slashing resistance, bonusDamage 3 as Kyr power. The resistances apply to those typed subtypes; legacy untyped physical damage is not resisted. |
@@ -315,7 +315,7 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `trait:piety` | `trait:piety` | represented | adapted | Kyr trait piety. |
 | `trait:fellowship` | `trait:fellowship` | represented | adapted | Kyr trait fellowship. |
 | `trait:knight` | `trait:knight` | represented | adapted | Orsino requires a level-3 warrior; Kyr maps warrior to fighter. |
-| `golemSubstance:iron` | `species:iron_golem` | executable | faithful | The iron substance overlay (+1 Str, −3 Dex, +4 Con) applied by OrsinoMonsters before hit points, as in the template. |
+| `golemSubstance:iron` | `variation:iron` | executable | faithful | The iron substance overlay (+1 Str, −3 Dex, +4 Con) applied by OrsinoMonsters before hit points, as in the template. |
 | `deity:chaos` | `domain:chaos` `deity:cailleach` `deity:morrigan` | represented | adapted | Blessing translated from deityBlessings; alignment from the deity template. No shrine grants an Orsino domain blessing yet: only deities with an authored blessing effect (Veyra) can bless. |
 | `deity:darkness` | `domain:darkness` `deity:balor` | represented | adapted | Blessing translated from deityBlessings; alignment from the deity template. No shrine grants an Orsino domain blessing yet: only deities with an authored blessing effect (Veyra) can bless. |
 | `deity:death` | `domain:death` `deity:arawn` `deity:donn` `deity:gwyn_ap_nudd` | represented | adapted | Blessing translated from deityBlessings; alignment from the deity template. No shrine grants an Orsino domain blessing yet: only deities with an authored blessing effect (Veyra) can bless. |
@@ -1357,30 +1357,12 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `monsterType:Wraith` | `species:wraith` | executable | adapted | Generated by the Orsino translator. |
 | `monsterType:Wyrm` | `species:wyrm` | executable | adapted | Generated by the Orsino translator. |
 | `monsterType:Wyvern` | `species:wyvern` | executable | adapted | Generated by the Orsino translator. |
-| `elemental:air` | `species:air_elemental` | executable | faithful | Generated by the Orsino translator. |
-| `elemental:ash` | `species:ash_elemental` | executable | faithful | Generated by the Orsino translator. |
-| `elemental:crystal` | `species:crystal_elemental` | executable | faithful | Generated by the Orsino translator. |
-| `elemental:dust` | `species:dust_elemental` | executable | faithful | Generated by the Orsino translator. |
-| `elemental:earth` | `species:earth_elemental` | executable | faithful | Generated by the Orsino translator. |
-| `elemental:fire` | `species:fire_elemental` | executable | faithful | Generated by the Orsino translator. |
-| `elemental:ice` | `species:ice_elemental` | executable | faithful | Generated by the Orsino translator. |
-| `elemental:jewel` | `species:jewel_elemental` | executable | faithful | Generated by the Orsino translator. |
-| `elemental:lava` | `species:lava_elemental` | executable | faithful | Generated by the Orsino translator. |
-| `elemental:mud` | `species:mud_elemental` | executable | faithful | Generated by the Orsino translator. |
-| `elemental:salt` | `species:salt_elemental` | executable | faithful | Generated by the Orsino translator. |
-| `elemental:sand` | `species:sand_elemental` | executable | faithful | Generated by the Orsino translator. |
-| `elemental:smoke` | `species:smoke_elemental` | executable | faithful | Generated by the Orsino translator. |
-| `elemental:steam` | `species:steam_elemental` | executable | faithful | Generated by the Orsino translator. |
-| `elemental:storm` | `species:storm_elemental` | executable | faithful | Generated by the Orsino translator. |
-| `elemental:water` | `species:water_elemental` | executable | faithful | Generated by the Orsino translator. |
-| `elemental:wood` | `species:wood_elemental` | executable | faithful | Generated by the Orsino translator. |
 | `creatureTemplate:skeletal` | `variation:skeletal` | executable | faithful | Generated by the Orsino translator. |
 | `creatureTemplate:spectral` | `variation:spectral` | executable | faithful | Generated by the Orsino translator. |
 | `creatureTemplate:vampiric` | `variation:vampiric` | executable | faithful | Generated by the Orsino translator. |
 | `creatureTemplate:zombie` | `variation:zombie` | executable | faithful | Generated by the Orsino translator. |
 | `golemSubstance:clay` | `variation:clay` | executable | faithful | Generated by the Orsino translator. |
 | `golemSubstance:stone` | `variation:stone` | executable | faithful | Generated by the Orsino translator. |
-| `golemSubstance:iron` | `variation:iron` | executable | faithful | Generated by the Orsino translator. |
 | `golemSubstance:wood` | `variation:wood` | executable | faithful | Generated by the Orsino translator. |
 | `golemSubstance:gold` | `variation:gold` | executable | faithful | Generated by the Orsino translator. |
 | `golemSubstance:bone` | `variation:bone` | executable | faithful | Generated by the Orsino translator. |
@@ -1395,7 +1377,6 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `dragonColor:copper` | `variation:copper_lineage` | executable | faithful | Generated by the Orsino translator. |
 | `dragonColor:gold` | `variation:gold_lineage` | executable | faithful | Generated by the Orsino translator. |
 | `dragonColor:green` | `variation:green_lineage` | executable | faithful | Generated by the Orsino translator. |
-| `dragonColor:red` | `variation:red_lineage` | executable | faithful | Generated by the Orsino translator. |
 | `dragonColor:silver` | `variation:silver_lineage` | executable | faithful | Generated by the Orsino translator. |
 | `dragonColor:white` | `variation:white_lineage` | executable | faithful | Generated by the Orsino translator. |
 | `elemental:air` | `variation:air_element` | executable | faithful | Generated by the Orsino translator. |

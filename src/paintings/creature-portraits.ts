@@ -7,8 +7,9 @@ import { Likeness } from './likeness';
 export class CreaturePortraits {
   static painting(raceId: string): string | undefined {
     const seen = new Set<string>();
-    for (let id: string | undefined = raceId; id && !seen.has(id) && Canon.isSpecies(id);
-      id = Canon.species[id]!.variantOf) {
+    // An old name or a composed kind (golem/glass) by what it is: a composed kind by its base's.
+    for (let id: string | undefined = Canon.resolve('species', raceId).split('/')[0]; id && !seen.has(id)
+      && Canon.isSpecies(id); id = Canon.species[id]!.variantOf) {
       seen.add(id);
       const own = Canon.species[id]!;
       if (own.portrait) { return own.portrait; }

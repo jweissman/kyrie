@@ -1,4 +1,5 @@
 import { Canon } from '../canon/canon';
+import { CreatureVariants } from '../creature-variants';
 import { Creation } from '../rules/creation';
 import type { Attribute, Omissions, Species } from '../canon/schema';
 import type { RegistryEntry } from './orsino-extract';
@@ -113,6 +114,11 @@ export class OrsinoBestiary {
     const ids = Object.keys(all).sort();
     const byOrsino = Object.fromEntries(ids.filter(id => all[id]!.source.orsino)
       .map(id => [all[id]!.source.orsino!, id]));
+    // A base always of something (the Elemental, the Golem, the Dragon) is each of the things it can be of, by that
+    // variation's own Orsino source (elemental:fire is elemental/fire_element), never a record of its own.
+    const composed = ids.filter(id => all[id]!.requires).flatMap(id =>
+      CreatureVariants.structurals(id).map(v => [id, `${id}/${v}`, CreatureVariants.variations[v] as { source?: { orsino?: string } }] as const));
+    for (const [, kind, v] of composed) { if (v.source?.orsino) { byOrsino[v.source.orsino] = kind; } }
     // What a summoning calls is a creature, of the beasts, the magical kinds or another plane; a fighting object (a
     // bomb, a turret, a barrier, a phylactery) is set where it stands by an ability of its own, and is not called by a
     // summoning of its type (COR-20: regenerated, a summoning of constructs would have called up bombs and turrets).
@@ -121,6 +127,7 @@ export class OrsinoBestiary {
       && !all[id]!.source.orsino?.startsWith('combatEntity:'))) {
       (byType[OrsinoBestiary.of(all, id, 'type') ?? 'monster'] ??= []).push(id);
     }
+    for (const [base, kind] of composed) { (byType[all[base]!.type ?? 'monster'] ??= []).push(kind); }
     const companions = Object.fromEntries(entries.filter(e => e.family === 'companion').map(e =>
       [e.key, (e.definition as string[]).map(k => byOrsino[`animal:${k}`]).filter((x): x is string => !!x)]));
     return { byOrsino, byType, companions };
