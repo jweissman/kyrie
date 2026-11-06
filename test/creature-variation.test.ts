@@ -38,7 +38,8 @@ describe('a creature and its variations', () => {
   it('gives a dragon its lineage\'s breath and its proof against what it breathes', () => {
     const red = CombatProjection.fighter(make('dragon', ['red_lineage']), 'goblins');
     const white = CombatProjection.fighter(make('dragon', ['white_lineage']), 'goblins');
-    expect([red.equipment.weapon.id, white.equipment.weapon.id]).toEqual(['fire_breath', 'ice_breath']);
+    expect([red.equipment.weapon.id, white.equipment.weapon.id, red.abilities.includes('breathe_fire')])
+      .toEqual(['bite', 'ice_breath', true]);
     expect([Effects.modifiers(red).resistances?.fire, Effects.modifiers(white).resistances?.cold])
       .toEqual([0.75, 0.75]);
     expect(make('red_dragon').variations).toEqual(['red_lineage']);

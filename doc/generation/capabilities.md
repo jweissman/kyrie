@@ -1,5 +1,7 @@
 # Generative kernel recovery
 
+> **Superseded, 5 November 2026.** Deem's creature grammar described here (creature families, bodies, lineages, materials, adaptations, `dragons.json`, the choice-space smoke test) is retired: every creature is made from its one record in `data/catalog/animals.json` or `monsters.json`, with what varies it as variations (`data/catalog/variations.json`). See `doc/architecture/mission-19/creatures.md`. Kept as history.
+
 The comparison uses `/home/jweissman/work/orsino/settings/fantasy/templates.json` (26 templates), its tables, Kyr's shared Deem setting, ModuleBundle/ModuleAssembly, Cast, Creation, WorldConstructs, and the actual combat executor. Repository changes present at takeover are the baseline, not results of this mission.
 
 | Family | Orsino evidence | Kyr baseline: generative / static / executable | Recovery priority |

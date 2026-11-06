@@ -1,5 +1,7 @@
 # Public-generator verification
 
+> **Superseded, 5 November 2026.** Deem's creature grammar described here (creature families, bodies, lineages, materials, adaptations, `dragons.json`, the choice-space smoke test) is retired: every creature is made from its one record in `data/catalog/animals.json` or `monsters.json`, with what varies it as variations (`data/catalog/variations.json`). See `doc/architecture/mission-19/creatures.md`. Kept as history.
+
 Finalized source verified on 2026-10-20. [Per-file results and exact serial retry commands](verification-results.json) retain both the initial timing failures and successful retries.
 
 ## Kyr

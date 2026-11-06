@@ -238,5 +238,5 @@
     ]
   },
   "rest": ["cantors"],
-  "devices": [{"id": "antimagic_ward", "label": "a warding stone", "role": "a stone the singers cut to still any voice but theirs"}, {"id": "barrier", "label": "a barricade", "role": "a wall of beams braced across the hall"}]
+  "devices": [{"id": "antimagic_ward", "label": "a warding stone", "role": "a warding stone"}, {"id": "barrier", "label": "a barricade", "role": "a barricade"}]
 }

@@ -69,7 +69,9 @@ describe('1-3: peoples, species, variants and aspects', () => {
     expect(frost.abilities).toContain('rime_bite');
     const red = Canon.creature('red_dragon'), dragon = Canon.creature('dragon');
     expect(red.statistics).toEqual(dragon.statistics);
-    expect(red.abilities).toEqual(['breathe_fire']);
+    // Its fire is its lineage's, laid on as it is made (data/catalog/variations.json, red_lineage).
+    expect([red.variations, Probe.creature('red', { raceId: 'red_dragon' }).base.abilities])
+      .toEqual([['red_lineage'], expect.arrayContaining(['breathe_fire'])]);
     expect(dragon.statistics!.weapon).toBe('bite');
   });
 
@@ -169,7 +171,7 @@ describe('7-11: equipment, monsters, theology, ecology and local mechanisms', ()
 
   it('gives a monster its special abilities as natural abilities, not as a class', () => {
     expect(Canon.abilities.breathe_fire!.kind).toBe('natural');
-    expect(Canon.creature('red_dragon').abilities).toEqual(['breathe_fire']);
+    expect(Probe.creature('red2', { raceId: 'red_dragon' }).base.abilities).toContain('breathe_fire');
     expect(Canon.classes.red_dragon).toBeUndefined();
   });
 

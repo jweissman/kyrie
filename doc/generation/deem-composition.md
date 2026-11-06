@@ -1,5 +1,7 @@
 # Independently invocable creature grammar
 
+> **Superseded, 5 November 2026.** Deem's creature grammar described here (creature families, bodies, lineages, materials, adaptations, `dragons.json`, the choice-space smoke test) is retired: every creature is made from its one record in `data/catalog/animals.json` or `monsters.json`, with what varies it as variations (`data/catalog/variations.json`). See `doc/architecture/mission-19/creatures.md`. Kept as history.
+
 Read [the public grammar](choice-grammar.md) for the current decomposition, scoped parameters, selection semantics and authoring costs.
 
 ```sh

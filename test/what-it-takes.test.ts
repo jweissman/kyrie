@@ -78,7 +78,9 @@ describe('what it takes, as the page tells it', () => {
   it('says the bats are here, as it says the goblins are', async () => {
     const s = await Barrow.start();
     Barrow.put(s, 'w8_barrow_chamber');
-    expect(Narrator.leaf(s.campaign, ScreenModel.build(s.campaign)).presence).toContain('The bats are here.');
+    // The bats are told of with whatever else is there (the barrow keeps a phylactery among them, some countries).
+    const presence = Narrator.leaf(s.campaign, ScreenModel.build(s.campaign)).presence;
+    expect(presence.some(l => /\bthe bats\b/i.test(l))).toBe(true);
   }, 60000);
   it('tells a sale as a sale, not as setting the thing down', async () => {
     const s = await Barrow.start();

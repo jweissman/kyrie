@@ -932,5 +932,5 @@
     "winze_foot",
     "forge"
   ],
-  "devices": [{"id": "bomb", "label": "a blasting charge", "role": "a charge the miners left with its fuse still in it"}]
+  "devices": [{"id": "bomb", "label": "a blasting charge", "role": "a charge"}]
 }

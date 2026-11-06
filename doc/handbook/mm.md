@@ -1730,7 +1730,7 @@ Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm
 *Adapted · dragon* · `species:dragon`
 
 - Type: dragon (monster)
-- Hit points: 85 + Constitution modifier + 3 a level
+- Hit points: 99
 - Qualities: +35 strength, +28 dexterity, +32 constitution, +29 intelligence, +27 wisdom, +31 charisma
 - Attack: bite, 1d6 piercing
 - Hide: Scale Mail, armour 4
@@ -1738,17 +1738,13 @@ Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm
 - Found in: heights, cave
 - Worth: 800 experience a level
 
-Fly: One ally gains flight for 3 turns. Flight: 5 harder to hit, +20 evasion. An arcane spell of the third level. Takes a third-level slot.
-
-Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to it (may cause stunned: a Constitution save against 15 avoids it); it is bleeding for 3 turns (a Constitution save against 15 + level + the caster's spell bonus avoids it). Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn. Again after 2 turns.
-
 Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, resists 10% of piercing, resists 10% of slashing.
 
 Aerial Mobility: +1 to hit, +5 evasion.
 
 > A great winged reptile: scaled, clawed, cunning and proud.
 
-*Adapted: Orsino's dragon class (85 hit points, three a level more, flight and maul); its colour is its lineage (data/catalog/variations.json, axis lineage, from Orsino's dragonColors), which gives its breath.*
+*Adapted: Orsino's dragon class; Kyr keeps ninety-nine hit points at any level, which the fights with dragons were written for (Orsino's grow from eighty-five by three a level). Its flying is its trait; its colour is its lineage (data/catalog/variations.json, axis lineage, from Orsino's dragonColors), which gives its breath. Orsino's maul is left out: a dragon of Kyr fights by its bite and its lineage's breath.*
 
 #### Drake
 
@@ -1781,15 +1777,13 @@ Aerial Mobility: +1 to hit, +5 evasion.
 *Adapted · a dragon, altered* · `species:red_dragon`
 
 - Type: dragon (monster)
-- Hit points: 85 + Constitution modifier + 3 a level
+- Hit points: 99
 - Qualities: +35 strength, +28 dexterity, +32 constitution, +29 intelligence, +27 wisdom, +31 charisma
 - Attack: bite, 1d6 piercing
 - Hide: Scale Mail, armour 4
 - Temperament: proud
 - Found in: heights, cave
 - Worth: 800 experience a level
-
-Fire breath: 2d6 + 2 × level fire damage to every enemy (a Constitution save against 15 + level halves it; may cause burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. Again after 3 turns.
 
 Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, resists 10% of piercing, resists 10% of slashing.
 
@@ -2907,7 +2901,7 @@ A creature is its kind with any of these laid over it, one of each axis: an old 
 | copper_lineage | lineage | copper | its scales glow like embers in a fire | — | only by an author |
 | gold_lineage | lineage | gold | its shimmering scales shine like the midday sun | — | only by an author |
 | green_lineage | lineage | green | its green and brown scales blend seamlessly with the forest foliage | Poison lineage | only by an author |
-| red_lineage | lineage | red | its crimson scales shimmer like molten lava | Fire lineage | only by an author |
+| red_lineage | lineage | red | its crimson scales shimmer like molten lava | Fire lineage, Fire breath | only by an author |
 | silver_lineage | lineage | silver | its glowing scales shimmer like moonlight on water | — | only by an author |
 | white_lineage | lineage | white | its opalescent scales glisten like freshly fallen snow | Cold lineage | only by an author |
 | air_element | element | air | made of air | Air Affinity, Fire Vulnerability, Lightning Bolt | only by an author |

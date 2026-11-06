@@ -956,7 +956,7 @@
    "generative": "every roll",
    "tests": [
     "test/effects.test.ts",
-    "test/deem-choice-space.test.ts"
+    "test/deem-cli.test.ts"
    ],
    "status": "integrated",
    "rule": "family",

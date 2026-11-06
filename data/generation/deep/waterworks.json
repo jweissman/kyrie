@@ -272,5 +272,5 @@
     ]
   },
   "rest": ["wardens_hall"],
-  "devices": [{"id": "barrier", "label": "a barricade", "role": "beams and stakes the last wardens set across the gallery"}]
+  "devices": [{"id": "barrier", "label": "a barricade", "role": "a barricade"}]
 }

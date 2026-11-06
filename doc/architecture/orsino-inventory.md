@@ -69,7 +69,7 @@ a generated country draws for wonders and traps, the voice tables for barks.
 | magic | divineSpell | 154 | 139 | 15 | 0 | 0 | data/catalog/orsino/abilities.json | callings' spell lists | `test/spellcasting.test.ts` `test/devotion.test.ts` |
 | rule | rule.damageKind | 15 | 14 | 0 | 0 | 1 | data/catalog/vocabulary.json#damageTypes | every damaging effect | `test/effects.test.ts` |
 | rule | rule.effectType | 23 | 23 | 0 | 0 | 0 | src/effects.ts, src/registry/orsino-effects.ts | every effect | `test/effects.test.ts` |
-| rule | rule.formula | 8 | 8 | 0 | 0 | 0 | src/expressions.ts | every roll | `test/effects.test.ts` `test/deem-choice-space.test.ts` |
+| rule | rule.formula | 8 | 8 | 0 | 0 | 0 | src/expressions.ts | every roll | `test/effects.test.ts` `test/deem-cli.test.ts` |
 | rule | rule.saveKind | 15 | 15 | 0 | 0 | 0 | data/catalog/vocabulary.json#saveKinds | every save | `test/effects.test.ts` |
 | rule | rule.statusModifier | 149 | 149 | 0 | 0 | 0 | src/effects.ts (Modifiers), data/sources/orsino/kyr-support.json | conditions, traits, equipment | `test/effects.test.ts` `test/orsino-registry.test.ts` |
 | rule | rule.targetKind | 9 | 9 | 0 | 0 | 0 | src/lang/parse.ts (targets) | every effect | `test/effects.test.ts` |

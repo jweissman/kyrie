@@ -1,5 +1,7 @@
 # Authoring cost: construction and selection
 
+> **Superseded, 5 November 2026.** Deem's creature grammar described here (creature families, bodies, lineages, materials, adaptations, `dragons.json`, the choice-space smoke test) is retired: every creature is made from its one record in `data/catalog/animals.json` or `monsters.json`, with what varies it as variations (`data/catalog/variations.json`). See `doc/architecture/mission-19/creatures.md`. Kept as history.
+
 See [the public grammar](choice-grammar.md) for standalone category generators and native scoped `gen(type, parameters)` calls. Missing parameters select compatible variants; category templates express assembly rules rather than species presets.
 
 | Request | Declarative additions | Public generator |

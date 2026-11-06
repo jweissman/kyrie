@@ -634,25 +634,17 @@
           "wisdom": 27,
           "charisma": 31
         },
+        "hitPoints": 99,
         "hitDie": 20,
         "primary": "strength",
         "weapon": "bite",
-        "armor": "scale",
-        "growth": {
-          "hitPoints": {
-            "base": 85,
-            "perLevel": 3
-          }
-        }
+        "armor": "scale"
       },
       "traits": [
         "formidable",
         "flying"
       ],
-      "abilities": [
-        "flight",
-        "maul"
-      ],
+      "abilities": [],
       "temperament": "proud",
       "habitats": [
         "heights",
@@ -661,7 +653,7 @@
       "source": {
         "orsino": "monsterClass:dragon",
         "fidelity": "adapted",
-        "notes": "Orsino's dragon class (85 hit points, three a level more, flight and maul); its colour is its lineage (data/catalog/variations.json, axis lineage, from Orsino's dragonColors), which gives its breath."
+        "notes": "Orsino's dragon class; Kyr keeps ninety-nine hit points at any level, which the fights with dragons were written for (Orsino's grow from eighty-five by three a level). Its flying is its trait; its colour is its lineage (data/catalog/variations.json, axis lineage, from Orsino's dragonColors), which gives its breath. Orsino's maul is left out: a dragon of Kyr fights by its bite and its lineage's breath."
       }
     },
     "drake": {
@@ -2241,9 +2233,6 @@
       ],
       "name": "Red dragon",
       "description": "Its crimson scales shimmer like molten lava.",
-      "abilities": [
-        "breathe_fire"
-      ],
       "source": {
         "orsino": "dragonColor:red",
         "fidelity": "adapted",

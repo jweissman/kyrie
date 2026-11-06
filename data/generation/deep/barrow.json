@@ -236,5 +236,5 @@
     ]
   },
   "rest": ["mourners"],
-  "devices": [{"id": "bomb", "label": "a ticking charge", "role": "a charge the grave-robbers left lit against whoever came after them"}, {"id": "phylactery", "label": "a dark vessel", "role": "a vessel of silver and old glass set on the dead king's stone, that does not let what it keeps stay dead"}]
+  "devices": [{"id": "bomb", "label": "a ticking charge", "role": "a charge"}, {"id": "phylactery", "label": "a dark vessel", "role": "a phylactery"}]
 }
