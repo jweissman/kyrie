@@ -6,3 +6,4 @@
 4. **A rule cannot assert knowledge** (`teaches` is the way). See Hive friction 1.
 5. **Topic labels cannot name a companion; action labels can** (`{c}`). The Office is therefore an action, which also lets the page show "Have Dori say the Office…".
 6. **No hook for "she asks again".** I wanted the clear-minded Hester to put the phial question a second time at the Watching as a real choice. A `Topic … once` with `hesterAsksAgain(hester)` would do it; I stopped at the Observe. Cost: one topic and its branches.
+7. **Lone-company route:** `capable(actor, rites)` was the only gate the cleric's Office could be swapped for; the sitting-up is gated `not capable(actor, rites)`. A fresh `Time 300 minutes.` runs past ten without trouble.

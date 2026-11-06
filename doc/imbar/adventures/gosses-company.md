@@ -34,6 +34,8 @@ The preset party is one traveller; the arc is therefore by calling and by the tr
 
 **The way only a cleric has, and its price.** The Eighth Ordinance (the dead's words may not be struck) can be found by a roll in the Office. A cleric finds it at the plate without a roll, in two ways that exclude each other: **say the office alone** (an hour; no price; the Ordinance and the lamplighter's story) or **say it aloud before Tunstall at six in the morning** (he gives the seal; the Master's trust rises by one; and he can no longer be bribed, so the ten-coin way through the licence is shut). The choice is between a safe, private kindness and a gift that costs a shortcut.
 
+**The lone-company route (review pass).** The shipped party is one bard, who cannot say the office. A bard (`capable(performance)`, no `rites`) can instead **sing the couplet on the plate to Tunstall** (`requiem_sung`, twenty minutes, only while he kneels there at six). He takes the bard to the Office and shows the Eighth Ordinance and what it was made for (`ordinance_dead`, `lamplighter_known`), and he can no longer be bribed (`tunstallShaken`, same price as the aloud office). There is no seal, no warmth in the Master, and no 'SEE PLATE'. The cleric's aloud office stays the best version. Played by the shipped campaign in `gosses-company-voices.test.ts`.
+
 ## Danger with two noncombat exits
 
 Already present: Bowle's mastiffs (hush, pay, torch, plead, or the Liberty), the weir-rats (pay, talk, face down, name the Gullet, cross before dark). I checked each has two noncombat exits.
@@ -47,7 +49,7 @@ Already present: Bowle's mastiffs (hush, pay, torch, plead, or the Liberty), the
 
 ## Links
 
-- **Out**: `befell(remainder_harboured)` read by Inchbald: a bill has come up the roads for a play, *The Ship That Came Late, or, The Mariners of No Weather*, by the Lord Warden's Men late of Sennet. Pudding wants machinery. The catalog `lamplighter_seal` is the reward of the aloud requiem (a Lamplighters' seal; the Dorothea's `watch_tally` is the same family of thing).
+- **Out**: `befell(remainder_harboured)` read by Inchbald: a bill has come up the roads for a play, *The Ship That Came Late, or, The Mariners of No Weather*, by the Lord Warden's Men late of Sennet. Pudding wants machinery. The catalog `lamplighter_seal` is the reward of the aloud requiem (a Lamplighters' seal; the Grand Tour's `watch_tally` is the same family of thing, not the Dorothea's).
 - **In**: players are the first to hear and the first to put on any prodigy; a visitor from elsewhere comes with the Trial of the Wheel's bills.
 
 ## Tone, foreshadow, payoff
@@ -57,10 +59,10 @@ Already present: Bowle's mastiffs (hush, pay, torch, plead, or the Liberty), the
 
 ## Tests
 
-`bun test test/gosses-company-voices.test.ts` (7): lint; six callings in six places; the requiem alone and aloud (the seal, the Master's trust, no bribe, nothing offered to a thief); Tunstall at the plate at six; Inchbald's bill only once the event has befallen. `gosses-company.test.ts` and `gosses-company-wander.test.ts` were re-run.
+`test/gosses-company-voices.test.ts` (7 `it`s): lint; six callings in six places (each placed by `stage`, a test aid); the requiem alone and aloud (the cleric fixture, with the plate read and Tunstall placed by `stage`); Tunstall at the plate at six; **the shipped bard** (`data/campaigns/gosses-company.campaign.json`, walked from Wending Cross by the labels a player sees, no `give` and no `stage`), who is offered neither office but the sung couplet, and gets the Ordinance, no seal, no trust and no bribe; Inchbald's bill only once the event has befallen (the `befell` fact is staged). `gosses-company.test.ts` and `gosses-company-wander.test.ts` were not re-run in the review pass.
 
 ## Shortfalls
 
-- One-person party; no roster of preset companions to hold a quarrel (the Long Man's `quarrelled` needs two callings).
+- One-person party; no roster of preset companions to hold a quarrel (the Long Man's `quarrelled` needs two callings). The sung couplet is a partial route, not the full one; the seal and the Master's trust are still the cleric's.
 - The ranger voice and the weir fixture's background are mine; no other build was exercised in the full journeys.
 - The lint says the playbill topic has "no possible target": true until the event has befallen.

@@ -8,3 +8,5 @@
 | `Hum the bar` as a one-time tune choice | the Ball's `afterEleven()` and `twissFavour` were enough | none | none |
 | A second ending line after `last_dance` | Journey prints "last_dance and morning_after held at once" (existing) | none | an `Ending` ordering note, already given |
 | Testing the peal for a non-bard | had to wait to watch 282 at the Abbey Yard in the thief's campaign | slow | a `=day 3 06:00` step as in Hollins' `Journey` (Hessel's fixtures use raw watches) |
+| Signposting the peal and the Ball | An Observe `when true` on the Pump Room board is enough; it needs no new fact. | One Observe. | None. |
+| Cutting the slate | The pumper's rubbing reaction in `lore.kyr` and three test lines read it. | Removed both. | None. |

@@ -5,3 +5,4 @@
 3. **Rules cannot assert knowledge** (`teaches`); two voices use it.
 4. **Topic labels cannot name a companion; action labels can.** The grave quarrel is therefore two actions, `side_up` and `side_down`, whose labels read "Tell Dori that Bran is right…".
 5. **Quarrel guard.** The quarrel fires only when both graves are known (the ice from the Sitters, the bell from Bet), so a company that learned only one never hears the argument. Intended; noted.
+6. **'Is there a ranger in the company?' in a `Requires`:** no negated member query, so a one-line `Rule` asserts `companyHasRanger(party)`. The shipped-party test needs one coat, not five (`?Buy` five times spends the purse and `Pay Jory six coin` is then not offered).

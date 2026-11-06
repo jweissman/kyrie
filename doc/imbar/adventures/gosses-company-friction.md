@@ -8,3 +8,5 @@
 | `bin/kyrie lint` on a rule reading an unfired event | Warning *applicability: no possible target in this world* (two). | Two permanent warnings. | A lint exemption for canon events that another module may assert. |
 | Staging a world event in a test | `ModuleWriter.call('befell', 'remainder_harboured')` through `world.apply` works; the canon id is unprefixed. | None. | A `Journey.assert` helper. |
 | Tunstall's schedule (westgate, office, wheel) | A new 17:00 stop at the nave needed its own return rule for days before the Trial. | Two rules. | None. |
+| Giving the shipped (lone bard) party the requiem | `capable(actor, rites)` is false for a bard, and the 'alone' office is gated the same way. A third action keyed to `performance` and `not rites` did it. | One action, one relation, one condition on the bribe. | None. |
+| Playing the shipped campaign to the minster | The road module needs the hat from the kiln; `Pay Lem his four months` is the dice-free way (the persuasion check can fail on a seed). | A longer test path. | None. |

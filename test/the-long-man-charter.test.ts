@@ -58,7 +58,7 @@ describe('The Long Man, the charter', () => {
     expect(Dale.said(await Dale.act(s, 'Ask Dunnet whether he would keep the wall'))).toContain('Not own it');
     expect(Dale.holds(s, 'longman__wardenChosen', 'longman__dunnet')).toBe(true);
     // The steward, met with the reeve behind him, gives up the key, and the Hall's own letter goes to Marlow.
-    expect(Dale.said(await Dale.act(s, '^Into the steward', 'Tell Aldous Venn the reeve'))).toContain('That is what a card is for');
+    expect(Dale.said(await Dale.act(s, '^Into the steward', 'Tell Aldous Venn the reeve'))).toContain('None of you did');
     expect(Dale.holds(s, 'longman__exposed', 'longman__venn')).toBe(true);
     // The wall is then mended as ever: the bronze from the cellar chest back to its keeper.
     await Dale.until(s, 100);

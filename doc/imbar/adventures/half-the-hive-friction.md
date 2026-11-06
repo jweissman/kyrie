@@ -7,3 +7,4 @@
 5. **Calling is visible; race and background are not.** The thief sees the pan; "the dwarf" cannot see the stonework. Known (11.6). **Blocked** for any race-keyed beat.
 6. **Wax (Kyr kinds) behaves.** `holding(actor, white_wax)` and `Spend white_wax from actor` work on the group, and the Eben exchange (`keeps(eben, white_slab)`) really does remove the choice: tried, passes.
 7. **Hint, not a bug:** `Observe … as feature` must come after `at <place>` (`Observe name at place as feature when …`); I wrote it the other way round once. The error was clear.
+8. **No way to ask 'has the company a cleric?' in an Action's `Requires`.** `not hasCalling(?m, …)` needs a bound member; I used a one-line `Rule` that asserts `companyHasCleric(party)` and read that. *Cost:* one rule and one relation. *Repair:* a negated member query in `Requires`.

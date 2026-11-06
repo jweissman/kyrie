@@ -8,3 +8,4 @@
 | `Discovery ... { Found by searching place "..." }` | works and teaches only when the player does `Search here` | none | none (used for the notches) |
 | Testing "the twelfth notch" fate | needs the Lady alive and `ladyKnows`; reached by `freehold` fixture phases through `answer` | slow (about 10 s each) | none |
 | Chart of the northern coast as an outward item | no catalog kind fits; made a local `Kind ... like map` | minor | a shared `chart` kind in the catalog |
+| Signposting the quiet minute | An `Observe … as sign when true` at the Skirting is enough. The minute itself is an Observe on the hour, not an action, so there is no unique action to hide. | One Observe. | None. |
