@@ -10,7 +10,7 @@ Module dorothea "The Dorothea" {
   // The window: open water, outward, not in other trouble, and not so near the Kestrel's hail that the two crowd.
   // The table, by the ship's die for the watch (1-100):  1-5 squall  6-10 raft  11-15 fever  16-20 calm  21-25 fleet.
 
-  Rule sea_squall when at(hull, open_sea) and sailed(hull) and not homeward(hull) and not troubled(hull) and progress(hull) >= 40 and progress(hull) <= 100 and seaDrawn(hull) < 2 and not seaQuiet(hull) and not squallDone(hull) and dice(hull) <= 5
+  Rule sea_squall when at(hull, open_sea) and sailed(hull) and not troubled(hull) and seaWindow(hull) and seaDrawn(hull) < 2 and not seaQuiet(hull) and not squallDone(hull) and dice(hull) <= 5
     says "The horizon to windward has gone the colour of a bruise, and the swell, which was long and idle, shortens. Bascom looks at it, and at the sky over it, and then at Rune. 'Reef,' she says. 'Now.'" {
     Assert squall(hull). Assert squallDone(hull). Assert troubled(hull). Increase seaDrawn(hull) by 1.
   }
@@ -33,7 +33,7 @@ Module dorothea "The Dorothea" {
     Result "Bascom puts the wind on her quarter and lets the Dorothea go, and for an hour the sea goes under her like a road. When the sky lightens you are a long way to leeward of where you meant to be, and a little wetter, and the hold has a quarter-inch more in it than it had.".
   }
 
-  Rule sea_raft when at(hull, open_sea) and sailed(hull) and not homeward(hull) and not troubled(hull) and progress(hull) >= 40 and progress(hull) <= 100 and seaDrawn(hull) < 2 and not seaQuiet(hull) and not raftDone(hull) and dice(hull) > 5 and dice(hull) <= 10
+  Rule sea_raft when at(hull, open_sea) and sailed(hull) and not troubled(hull) and seaWindow(hull) and seaDrawn(hull) < 2 and not seaQuiet(hull) and not raftDone(hull) and dice(hull) > 5 and dice(hull) <= 10
     says "A speck on the water, to larboard, in the last of the light, and the speck is a light. Not a ship's: lower, steadier, riding on something flat. Mab, who sees it first, makes the sign against nothing in particular." {
     Assert raft(hull). Assert raftDone(hull). Assert troubled(hull). Increase seaDrawn(hull) by 1. Set seaAt(hull) to watch(clock).
   }
@@ -53,7 +53,7 @@ Module dorothea "The Dorothea" {
     Result "The raft draws astern. For a long time the lantern is the one steady point in the whole dark, and then it is a spark, and then it is Bascom's pipe, glowing, as she lights it from the binnacle and says nothing.".
   }
 
-  Rule sea_fever when at(hull, open_sea) and sailed(hull) and not homeward(hull) and not troubled(hull) and progress(hull) >= 40 and progress(hull) <= 100 and seaDrawn(hull) < 2 and not seaQuiet(hull) and not feverDone(hull) and dice(hull) > 10 and dice(hull) <= 15
+  Rule sea_fever when at(hull, open_sea) and sailed(hull) and not troubled(hull) and seaWindow(hull) and seaDrawn(hull) < 2 and not seaQuiet(hull) and not feverDone(hull) and dice(hull) > 10 and dice(hull) <= 15
     says "Nipper does not come up for the morning watch. Mab goes down for him, and comes back up faster than she went, and says to nobody: 'He's burning.'" {
     Assert fever(hull). Assert feverDone(hull). Assert troubled(hull). Increase seaDrawn(hull) by 1.
   }
@@ -76,7 +76,7 @@ Module dorothea "The Dorothea" {
     Result "The office is eleven lines and a blank, and you say the blank as one says a name. The fever lets go of him as a hand lets go of a rail. Mab, who has not prayed since her husband, holds the lamp very still.".
   }
 
-  Rule sea_calm when at(hull, open_sea) and sailed(hull) and not homeward(hull) and not troubled(hull) and progress(hull) >= 40 and progress(hull) <= 100 and seaDrawn(hull) < 2 and not seaQuiet(hull) and not calmDone(hull) and dice(hull) > 15 and dice(hull) <= 20
+  Rule sea_calm when at(hull, open_sea) and sailed(hull) and not troubled(hull) and seaWindow(hull) and seaDrawn(hull) < 2 and not seaQuiet(hull) and not calmDone(hull) and dice(hull) > 15 and dice(hull) <= 20
     says "The wind goes out of the afternoon like a held breath. The sails hang. The sea becomes a plate, a green one, with the Dorothea set down on it for someone to look at." {
     Assert calm(hull). Assert calmDone(hull). Assert troubled(hull). Increase seaDrawn(hull) by 1. Set seaAt(hull) to watch(clock).
   }
@@ -93,8 +93,8 @@ Module dorothea "The Dorothea" {
   }
 
   // A fleet is not a trouble: it is the sea being inhabited. It does not stop the count.
-  Rule sea_fleet when at(hull, open_sea) and sailed(hull) and not homeward(hull) and not troubled(hull) and progress(hull) >= 40 and progress(hull) <= 100 and seaDrawn(hull) < 2 and not seaQuiet(hull) and not fleetDone(hull) and dice(hull) > 20 and dice(hull) <= 25
-    says "Sails, a dozen of them, tan and patched, working the swell in a loose line: a Port Ness salt-fleet at its drift-nets, with gulls over it like a second sky. A boat comes alongside with a basket of herring and a hail across the water: 'Where bound?' — 'Skerrow.' — 'Ah. The lamp.' The man crosses himself, or something near it. 'Mind the Combs. We lost the Mary Ann there at Lammas, and the lamp never missed a night.'" {
+  Rule sea_fleet when at(hull, open_sea) and sailed(hull) and not troubled(hull) and seaWindow(hull) and seaDrawn(hull) < 2 and not seaQuiet(hull) and not fleetDone(hull) and dice(hull) > 20 and dice(hull) <= 25
+    says "Sails, a dozen of them, tan and patched, working the swell in a loose line: a Port Ness salt-fleet at its drift-nets, with gulls over it like a second sky. A boat comes alongside with a basket of herring and a hail across the water, and Bascom answers it with a word and an arm. 'Ah,' says the man, and looks at her sails, and at the sea. 'Mind the lights, then. There are fewer of them every year. We lost the Mary Ann on the Combs at Lammas, and there was a night the Pharos was the only one of the lot of them showing.'" {
     Assert fleetDone(hull). Increase seaDrawn(hull) by 1.
   }
 }

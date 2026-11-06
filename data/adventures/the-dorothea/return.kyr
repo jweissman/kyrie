@@ -5,26 +5,63 @@ Module dorothea "The Dorothea" {
   // not aboard when she goes is on Skerrow; the next sail is the Mary Ann's, twelve days after, and a crown dearer.
   Measure back(entity). Measure leftAt(entity).
   Relation homeward(entity). Relation stranded(group).
-  Rule hull_returns when arrived(hull) and not homeward(hull) and not safeHome(hull) and watch(clock) >= reachedAt(hull) + 217
+  // The stay at each island is stayFor(hull): Skerrow a day and a half, Port Ness a long afternoon and a night, the Antlers
+  // a day. What she does on turning is the same: her bow comes round, the count of the way home begins at nothing.
+  Rule hull_returns when arrived(hull) and not homeward(hull) and not safeHome(hull) and at(hull, jetty) and watch(clock) >= reachedAt(hull) + stayFor(hull)
     says "At the top of the morning ebb Bascom comes down the jetty with the pipe unlit, and the lines come off the rings, and the Dorothea goes out of Skerrow roads with her bow turned east." {
     Assert homeward(hull). Retract at(hull, jetty). Assert at(hull, roads). Set back(hull) to 0. Set leftAt(hull) to watch(clock). Retract arrived(hull). Retract troubled(hull). Assert state(hull, underway).
-    Retract at(bascom, jetty). Assert at(bascom, helm).
+    Retract at(bascom, jetty). Assert at(bascom, helm). Set seaDrawn(hull) to 0. Retract squallDone(hull). Retract raftDone(hull). Retract feverDone(hull). Retract calmDone(hull). Retract fleetDone(hull).
   }
-  Rule home_tick when homeward(hull) and not troubled(hull) and at(hull, roads) or homeward(hull) and not troubled(hull) and at(hull, teeth) or homeward(hull) and not troubled(hull) and at(hull, open_sea) or homeward(hull) and not troubled(hull) and at(hull, sound) { Increase back(hull) by 1. }
-  Rule home_combs when homeward(hull) and at(hull, roads) and back(hull) >= 14 says "Ahead, the Combs: lower on the flood, the sea going over them in long white lines. Bascom takes the wheel herself. 'Not a word,' she says." {
+  Rule hull_returns_ness when arrived(hull) and not homeward(hull) and not safeHome(hull) and at(hull, ness_quay) and watch(clock) >= reachedAt(hull) + stayFor(hull)
+    says "Bascom comes down Port Ness pier with a bill of lading under her arm and the pipe lit, and the lighters either side lean out of the way. The lines come off the posts. The Dorothea goes out between the salt barges with her bow to the north." {
+    Assert homeward(hull). Retract at(hull, ness_quay). Assert at(hull, ness_roads). Set back(hull) to 0. Set leftAt(hull) to watch(clock). Retract arrived(hull). Retract troubled(hull). Assert state(hull, underway).
+    Retract at(bascom, ness_quay). Assert at(bascom, helm). Set seaDrawn(hull) to 0. Retract squallDone(hull). Retract raftDone(hull). Retract feverDone(hull). Retract calmDone(hull). Retract fleetDone(hull).
+  }
+  Rule hull_returns_antlers when arrived(hull) and not homeward(hull) and not safeHome(hull) and at(hull, antler_ledge) and watch(clock) >= reachedAt(hull) + stayFor(hull)
+    says "The plank is hauled in with a bird still on it. Bascom shouts down the wind, and the anchors come up, one and then the other, black with weed, and the Dorothea falls away from the rock on the ebb with the whole roaring face of the stack going by her rail." {
+    Assert homeward(hull). Retract at(hull, antler_ledge). Assert at(hull, antler_race). Set back(hull) to 0. Set leftAt(hull) to watch(clock). Retract arrived(hull). Retract troubled(hull). Assert state(hull, underway).
+    Retract at(bascom, antler_ledge). Assert at(bascom, helm). Set seaDrawn(hull) to 0. Retract squallDone(hull). Retract raftDone(hull). Retract feverDone(hull). Retract calmDone(hull). Retract fleetDone(hull).
+  }
+  Rule home_tick when homeward(hull) and not troubled(hull) and not safeHome(hull) { Increase back(hull) by 1. }
+  Rule home_open_ness when homeward(hull) and bound(hull) == 2 and at(hull, ness_roads) and back(hull) >= 6 says "The salt shore sinks into its own steam. Ahead, nothing but the grey road home." {
+    Retract at(hull, ness_roads). Assert at(hull, open_sea).
+  }
+  Rule home_open_antlers when homeward(hull) and bound(hull) == 3 and at(hull, antler_race) and back(hull) >= 8 says "The last stack goes by, and the birds fall back to a murmur, and then to a rumour. The swell takes her under the quarter and she begins to lift." {
+    Retract at(hull, antler_race). Assert at(hull, open_sea).
+  }
+  Rule home_combs when homeward(hull) and bound(hull) == 1 and at(hull, roads) and back(hull) >= 14 says "Ahead, the Combs: lower on the flood, the sea going over them in long white lines. Bascom takes the wheel herself. 'Not a word,' she says." {
     Retract at(hull, roads). Assert at(hull, teeth).
   }
-  Rule home_open when homeward(hull) and at(hull, teeth) and back(hull) >= 32 says "The Combs are astern. The sea opens its long shoulders, and there is a smell in the wind of a place with chimneys." {
+  Rule home_open when homeward(hull) and bound(hull) == 1 and at(hull, teeth) and back(hull) >= 32 says "The Combs are astern. The sea opens its long shoulders, and there is a smell in the wind of a place with chimneys." {
     Retract at(hull, teeth). Assert at(hull, open_sea).
   }
-  Rule home_sound when homeward(hull) and at(hull, open_sea) and back(hull) >= 120 says "The first headland of the Sound stands up out of the haze, and a tern goes by with something silver in its beak, and Nipper, who has not been out of sight of land for two days, says it is the best thing he has ever seen." {
+  Rule home_sound when homeward(hull) and at(hull, open_sea) and back(hull) >= homeSoundAt(hull) says "The first headland of the Sound stands up out of the haze, and a tern goes by with something silver in its beak, and Nipper, who has not been out of sight of land for two days, says it is the best thing he has ever seen." {
     Retract at(hull, open_sea). Assert at(hull, sound).
   }
-  Rule home_quay when homeward(hull) and at(hull, sound) and back(hull) >= 160 and not safeHome(hull) says "Tolleth takes the Dorothea in with the sea going out of her like a great held breath. A woman on the quay shouts a name, and Mab Hallam answers it with a word that is not a name." {
-    Retract at(hull, sound). Assert at(hull, quay). Assert safeHome(hull). Assert state(hull, alongside). Retract homeward(hull). Assert arrived(hull).
+  Rule home_quay when homeward(hull) and at(hull, sound) and back(hull) >= homeQuayAt(hull) and not safeHome(hull) says "Tolleth takes the Dorothea in with the sea going out of her like a great held breath. A woman on the quay shouts a name, and Mab Hallam answers it with a word that is not a name." {
+    Retract at(hull, sound). Assert at(hull, quay). Assert safeHome(hull). Assert state(hull, alongside). Retract homeward(hull). Assert arrived(hull). Set homeAt(hull) to watch(clock).
   }
   Relation safeHome(entity).
   Rule left_behind_isle when homeward(hull) and not aboardNow(party) and at(party, green) and not stranded(party) { Assert stranded(party). }
   Observe stranded_scene at jetty when stranded(party) and not arrived(hull) "The jetty is bare. Out on the roads a brown sail is getting small. Someone has chalked on the Gull's wall: MARY ANN, THE 24TH.".
   Observe tied_up_back at quay when safeHome(hull) "The Dorothea lies against Tolleth quay with her gangway down and her crew carrying casks of dried cod up the quay as though they had never left. Bascom is counting.".
+
+  // ── Turning round ───────────────────────────────────────────────────────────────────────────────────────────────
+  // A day after she is home, with the company not aboard, she is made ready for her next call: the hold re-laden, the
+  // pump dry, the count at nothing, and the sailing fixed for the next noon. The call is what she last made unless the
+  // company has arranged another with Bascom; a company that was left abroad finds her coming back to where it is.
+  Rule hull_turns_round when safeHome(hull) and at(hull, quay) and not aboardNow(party) and watch(clock) >= homeAt(hull) + 30 {
+    Retract sailed(hull). Retract safeHome(hull). Retract arrived(hull). Retract homeward(hull). Retract booked(party). Retract troubled(hull).
+    Retract combsMet(hull). Retract waitedFlood(hull). Retract ranGap(hull). Retract lightened(hull). Retract decidedCombs(hull). Retract raceMet(hull). Retract towCalled(hull). Retract pilotAboard(hull).
+    Retract holed(hull). Retract callPumped(hull). Retract at(rudd, helm). Assert at(rudd, quay). Retract ruddSober(party). Retract fog(hull). Retract heaved(hull).
+    Retract squall(hull). Retract raft(hull). Retract fever(hull). Retract calm(hull).
+    Retract squallDone(hull). Retract raftDone(hull). Retract feverDone(hull). Retract calmDone(hull). Retract fleetDone(hull).
+    Set progress(hull) to 0. Set back(hull) to 0. Set water(hull) to 0. Set cargo(hull) to 40. Set seaDrawn(hull) to 0.
+    Assert state(hull, alongside). Retract at(bascom, helm). Assert at(bascom, quay).
+    Set sailAfter(hull) to (watch(clock) / 144 + 1) * 144 + 24. Increase voyages(hull) by 1.
+  }
+  // Left on the other islands: Port Ness has a lighter that goes with the tide; the Antlers has the Dorothea's next call.
+  Relation strandedNess(group). Relation strandedAntlers(group).
+  Rule left_behind_ness when homeward(hull) and bound(hull) == 2 and not aboardNow(party) and onNess(party) and not strandedNess(party) { Assert strandedNess(party). }
+  Rule left_behind_antlers when homeward(hull) and bound(hull) == 3 and not aboardNow(party) and onAntlers(party) and not strandedAntlers(party) { Assert strandedAntlers(party). }
 }
