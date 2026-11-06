@@ -423,7 +423,7 @@ export class WorldAssembler {
     return `${placement.rid}.${part ? `${bound}_${part}` : bound}`;
   }
   static requests(entry: Entry, placement: Placement, base: BundleSource,
-    at: { context: Record<string, DeemValue>; region: Region }): BundleRequest[] {
+    at: { context: Record<string, DeemValue>; region?: Region }): BundleRequest[] {
     const context = at.context;
     return entry.manifest.modules.filter(m => !m.when || placement.bindings[m.when]).map((m, i) => ({
       id: placement.modules[i]!, bundle: base.resolve(m.bundle, entry.path),

@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "id": "quarrel",
+  "name": "The boundary stones",
+  "kind": "town",
+  "places": {
+    "town": { "settlement": "city:hessel" }
+  },
+  "modules": [
+    {
+      "id": "quarrel",
+      "bundle": "../goings-on/quarrel/module.json",
+      "imports": { "party": "@party", "town": "@town", "taproom": "@town.taproom", "shop": "@town.shop",
+        "shrine": "@town.shrine", "keeper": "@town.innkeeper", "trader": "@town.merchant", "priest": "@town.priest" }
+    }
+  ]
+}

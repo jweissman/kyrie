@@ -49,8 +49,10 @@ export class Quarters {
         ?? this.placed(world, e, { town: town.id, chain, own });
       if (q) { places.set(q, [...places.get(q) ?? [], e.id]); }
     }
+    // Standing in a place another module set here (a garden behind the inn), the quarter it was placed in.
+    const here = mine ?? [...places].find(([, held]) => held.includes(at))?.[0];
     return [...places].map(([id, held]) => ({ id, name: byId.get(id)?.name ?? id, heart: world.one('heartOf', id) ?? '',
-      places: held, here: id === mine }))
+      places: held, here: id === here }))
       .sort((a, b) => Number(b.here) - Number(a.here));
   }
 }

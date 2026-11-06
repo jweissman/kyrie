@@ -79,6 +79,29 @@ Module hessel "The Banns at Hessel" {
   // Where what is not yet anywhere waits: a note not yet written, a ring not yet bought.
   Place limbo "nowhere" is room within lim_vale at 9, 9.
 
+  // The town by its quarters (the shared inQuarter and heartOf: Go… sets the town out by them, and what another
+  // adventure sets here, a garden behind the Two Poles, is in the quarter of the place it opens off).
+  Entity upper_hessel: quarter "Upper Hessel". Initially Assert heartOf(upper_hessel, parade_top).
+  Initially Assert inQuarter(carth_drawing, upper_hessel). Initially Assert inQuarter(carth_study, upper_hessel).
+  Initially Assert inQuarter(wenlock_room, upper_hessel). Initially Assert inQuarter(carth_hall, upper_hessel).
+  Initially Assert inQuarter(crescent, upper_hessel). Initially Assert inQuarter(parade_top, upper_hessel).
+  Initially Assert inQuarter(circus, upper_hessel). Initially Assert inQuarter(cherrett_parlour, upper_hessel).
+  Initially Assert inQuarter(cherrett_bedroom, upper_hessel). Initially Assert inQuarter(carth_area, upper_hessel).
+  Initially Assert inQuarter(carth_kitchen, upper_hessel). Initially Assert inQuarter(twiss_parlour, upper_hessel).
+  Initially Assert inQuarter(vestibule, upper_hessel). Initially Assert inQuarter(ballroom, upper_hessel).
+  Initially Assert inQuarter(card_room, upper_hessel).
+  Entity the_baths: quarter "the Baths". Initially Assert heartOf(the_baths, abbey_yard).
+  Initially Assert inQuarter(ebba_nave, the_baths). Initially Assert inQuarter(vestry, the_baths).
+  Initially Assert inQuarter(abbey_yard, the_baths). Initially Assert inQuarter(pump_room, the_baths).
+  Initially Assert inQuarter(kings_bath, the_baths). Initially Assert inQuarter(doctors_walk, the_baths).
+  Initially Assert inQuarter(hartopp_room, the_baths). Initially Assert inQuarter(apothecary, the_baths).
+  Initially Assert inQuarter(cross_bath, the_baths).
+  Entity old_town: quarter "the Old Town". Initially Assert heartOf(old_town, stall_street).
+  Initially Assert inQuarter(stall_street, old_town). Initially Assert inQuarter(two_poles, old_town).
+  Initially Assert inQuarter(hospital, old_town). Initially Assert inQuarter(laundry_yard, old_town).
+  Initially Assert inQuarter(quay_lane, old_town). Initially Assert inQuarter(hetty_shop, old_town).
+  Initially Assert inQuarter(no_four, old_town). Initially Assert inQuarter(bridge_foot, old_town).
+
   Initially Assert townRoom(carth_drawing). Initially Assert townRoom(carth_study). Initially Assert townRoom(wenlock_room).
   Initially Assert townRoom(carth_hall). Initially Assert townRoom(crescent). Initially Assert townRoom(parade_top).
   Initially Assert townRoom(circus). Initially Assert townRoom(cherrett_parlour). Initially Assert townRoom(cherrett_bedroom).

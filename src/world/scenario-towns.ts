@@ -22,6 +22,10 @@ export class ScenarioTowns {
   static town(need: string, at: { region: Region; bindings: Record<string, string>; claimed: Set<string>;
     key: string; parts: ('taproom' | 'shrine' | 'shop')[] }): string {
     const { region, bindings, claimed } = at;
+    // A city an author built is no settlement of a generated country: what is set there is installed with it.
+    if (need.startsWith('city:')) {
+      throw new Error(`A city need '${need}' is placed in its city when its country is (data/scenarios/cities.json)`);
+    }
     // A need of no known form is refused, not quietly taken for the first town (Wapshott's Circus friction 17).
     if (!this.forms.some(f => f.endsWith(':') ? need.startsWith(f) : need === f)) {
       throw new Error(`Unknown settlement need '${need}': it is one of ${this.forms.map(f => f === 'toward:' ? `${f}side`

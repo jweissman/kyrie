@@ -26,7 +26,14 @@
   "exports": {
     "party": "party",
     "region": "hessel",
-    "south_road": "south_road"
+    "south_road": "south_road",
+    "town": "hessel_town",
+    "town_taproom": "two_poles",
+    "town_shop": "hetty_shop",
+    "town_shrine": "ebba_nave",
+    "town_innkeeper": "gully",
+    "town_merchant": "hetty",
+    "town_priest": "pyne"
   },
   "imports": [
     "party"

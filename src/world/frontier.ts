@@ -8,6 +8,7 @@ import { WorldGrid } from './world-grid';
 import { RegionWriter, type Region } from './region-writer';
 import { Countries, type Country } from './countries';
 import { Provinces } from './provinces';
+import { CityResidents } from './city-residents';
 import { Renewal } from './renewal';
 import { Sittings } from '../paintings/sittings';
 import type { DeemValue } from 'deem';
@@ -82,7 +83,14 @@ export class Frontier {
   // places begin.
   private async province(campaign: Campaign, id: string) {
     const country = Countries.provinces.find(c => c.id === id), install = Provinces.install(id);
-    if (!country || campaign.installed.includes(install)) { return; }
+    if (!country) { return; }
+    if (!campaign.installed.includes(install)) { await this.author(campaign, country, install); }
+    // And what other adventures are set in its city, in a world saved before they were (see CityResidents).
+    await CityResidents.install(campaign, this.base, id, install);
+  }
+  // The adventure itself, and the road on from its way in.
+  private async author(campaign: Campaign, country: Country, install: string) {
+    const id = country.id;
     const word = Frontier.word(country, `${RegionWriter.id}.${Provinces.room(id)}_beyond`);
     await campaign.install({ id: install, bundle: this.base.resolve(`data/adventures/${country.bundle}`),
       imports: { party: `${RegionWriter.id}.party`, ...word, ...await this.herald(campaign, country) }, chapter: true,
