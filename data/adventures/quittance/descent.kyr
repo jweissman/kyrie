@@ -442,7 +442,7 @@ Module quittance "Quittance" {
       and ds_termsAsked(actor) and ds_accord(actor) >= 5 and not fireTermNight(actor) and witnessCount(city) < 2.
     Time 10 minutes.
     On success { Assert fireTermNight(actor). Assert fireTerms(actor). }
-    Result "'Every year,' says the Fire. 'The city to come to me, and bring its coals, and sit.' It looks at the three of you. 'On your word. It is what I was given the last time, and I am a patient creditor.'".
+    Result "'Every year,' says the Fire. 'The city to come to me, and bring its coals, and sit.' It looks at you. 'On your word. It is what I was given the last time, and I am a patient creditor.'".
   }
   Action ds_term_night_witnessed(actor: group, site: place) "Promise the Fire a Night, and give it the names of those who have said they will keep it" {
     Grave "A promise made to the Fire is a debt to it. It will be collected from whoever lives in the city.".

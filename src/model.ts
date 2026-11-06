@@ -35,6 +35,8 @@ export interface Fighter {
   // What it is beside its kind (data/catalog/variations.json): frost, skeletal, of iron; what each makes it proof
   // against or hurt by is its own.
   variations?: string[];
+  // A creature's own powers by its kind, cast without slots (see Spellcasting).
+  innate?: string[];
   // Where it fights (urban, forest, cave...), for perks that hold only there.
   environment?: string;
   // Successful category saves in this encounter; Orsino fails a fourth success of one category automatically.

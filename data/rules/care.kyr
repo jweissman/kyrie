@@ -17,6 +17,10 @@ Module care "Rest, mending and lessons" {
   Kind degree. Entity by_one: degree "by one". Entity by_two: degree "by two". Entity by_three: degree "by three".
   Kind feat. Relation featOpen(member, feat).
   Relation memberOf(member, group).
+  // One of the player's company who is not the one who plays: a fellow, a recruit, a hireling (kept by the engine). An
+  // authored line given to whoever of the company qualifies binds a companion by it, never a slot of a ready-made
+  // party: Rule … when memberOf(?m, party) and companion(?m) and awake(?m) and brings(?m, lore) says "{?m} …".
+  Relation companion(member).
   Relation fieldUsable(ability).
   // One who falls lies senseless (fallen) until a rest, when they come round or die where they fell (slain).
   Relation awake(member). Relation fallen(member). Relation slain(member). Relation needsCare(member). Relation canCast(member, ability). Relation treatable(member, ability).

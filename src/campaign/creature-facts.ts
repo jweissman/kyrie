@@ -30,7 +30,7 @@ interface Scope extends Declared { world: World; at?: PerkContext }
 // A materialized planning view. CreatureStore remains authoritative for health and personal currency.
 export class CreatureFacts {
   // Every relation or measure `project` writes.
-  static readonly written = ['capable', 'memberOf', 'awake', 'needsCare', 'ownedItem', 'wearing', 'proficient', 'canTrain',
+  static readonly written = ['capable', 'memberOf', 'companion', 'awake', 'needsCare', 'ownedItem', 'wearing', 'proficient', 'canTrain',
     'treatable', 'relieves', 'canCast', 'able', 'dead', 'quantity', 'swappable', 'company', 'improvable', 'learnable',
     'brings', 'featOpen', 'skillOpen', 'temperament', 'fallen', 'slain', 'craft', 'levelOf', 'hasCalling', 'learned'];
   static readonly crafts = ['wild', 'roads', 'mechanisms', 'shadows', 'healing', 'faith', 'learning', 'earth', 'arms',
@@ -44,6 +44,8 @@ export class CreatureFacts {
       const members = actor.members.map(id => store.peek(id)), environment = Environment.of(world, actor.id);
       changes.push(...this.group(actor, members, { ...scope, ...environment ? { at: { environment } } : {} }));
       if (scope.has.has('memberOf')) { for (const c of members) { changes.push(...this.member(c, actor.id, scope)); } }
+      // The player's company, the one who plays first: everyone else in it a companion.
+      if (actor.player && scope.has.has('companion')) { changes.push(...this.companions(world, members, scope)); }
       if (scope.has.has('swappable')) { changes.push(...this.swaps(world, members, scope.references, scope.abilityIds)); }
       if (scope.has.has('learnable')) { changes.push(...this.lessons(world, members, scope.references)); }
       if (scope.has.has('featOpen')) { changes.push(...this.feats(world, members, scope.references)); }
@@ -158,6 +160,14 @@ export class CreatureFacts {
     changes.push({ kind: 'set', call: ModuleWriter.call('quantity', actor.id, 'gold'),
       value: ModuleWriter.number(members.reduce((sum, c) => sum + c.state.gold, 0)) });
     return changes;
+  }
+  // Who of the player's company is a companion: everyone but the one who plays (the first); one who has left is not.
+  private static companions(world: World, members: Creature[], scope: Scope): Change[] {
+    const refs = members.map(c => scope.references.get(c.id)).filter((r): r is string => !!r);
+    return [...refs.map((ref, i) => ({ kind: i ? 'assert' as const : 'retract' as const,
+      call: ModuleWriter.call('companion', ref) })),
+    ...world.related('companion').filter(r => !refs.includes(r.args[0]!))
+      .map(r => ({ kind: 'retract' as const, call: ModuleWriter.call('companion', r.args[0]!) }))];
   }
   // One companion: whose they are, whether awake or hurt, what they own and wear and can wield, and what they could
   // be taught, could treat, and could cast now.

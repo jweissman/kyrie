@@ -274,8 +274,8 @@ export class Battle {
     delete actor.windup;
     const context = this.context(actor);
     if (actor.abilitySources?.[ability.id]) { context.source = actor.abilitySources[ability.id]; }
-    AttackRoutine.strike(actor, ability.id, this.history, { perform: () => AbilityUse.perform(ability, command.target,
-      this.expressions, context), down: () => (this.fighters.find(f => f.id === command.target)?.hp ?? 0) <= 0 });
+    AttackRoutine.strike(actor, ability.id, this.history, () => { AbilityUse.perform(ability, command.target,
+      this.expressions, context); return (this.fighters.find(f => f.id === command.target)?.hp ?? 0) <= 0; });
     this.spend(actor, ability.id);
     if (actor.team === 'fighters' && ability.effects.some(e => e.kind === 'flee') && !context.retreat) { this.held++; }
     // One foe of several getting away leaves the fight alone, and the rest fight on; the last, or the company, ends
@@ -326,9 +326,9 @@ export class Battle {
       expressions: this.expressions, hook: AbilityUse.hooks.bind(AbilityUse),
       lapse: AbilityUse.lapse.bind(AbilityUse) };
   }
-  // Combat.turn's onTurnEnd hooks: the turn-end effects of the conditions the actor holds.
+  // Combat.turn's onTurnEnd hooks: the turn-end effects of the conditions the actor holds, and of what it is.
   private endTurn(actor: Fighter) {
-    for (const s of actor.statuses.filter(c => !c.clock)) { Effects.periodic(actor, s.id, s.source, this.context()); }
+    Effects.turnEnd(actor, this.context());
     this.finishIfEliminated();
   }
   // Combat.round: initiative for every living creature, then every untimed condition ticks down and expires at zero.

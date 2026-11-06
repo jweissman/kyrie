@@ -1,3 +1,4 @@
+import { Canon } from './canon/canon';
 import { ItemCatalog } from './item-catalog';
 import type { Creature } from './creature';
 import type { EncounterParticipant, Fighter, Team } from './model';
@@ -57,6 +58,8 @@ export class CombatProjection {
       statuses: structuredClone(creature.state.conditions), equipment: ItemCatalog.equipment(creature),
       ...(creature.traits ? { traits: [...creature.traits] } : {}),
       ...(creature.variations ? { variations: [...creature.variations] } : {}),
+      // A creature of a kind with no calling: its kind's powers are its own, spells among them cast without slots.
+      ...(Canon.isBody(creature.raceId) && !creature.classId ? { innate: [...creature.base.abilities] } : {}),
       team, cooldowns: {} };
   }
   // The uses left in each charged thing it carries into the fight (a wand): its own count, or its kind's when new.

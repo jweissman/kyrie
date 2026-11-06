@@ -83,7 +83,9 @@ export class AbilityUse {
       Spellcasting.spend(actor, ability);
       // Not again this turn, or for its cooldown after; but a weapon strikes as often as its bearer has actions.
       if (ability.cooldown || !AbilityUse.weapon.includes(ability.id)) {
-        actor.cooldowns[ability.id] = (ability.cooldown ?? 0) + 1;
+        // A creature's innate spell, with no slot to spend, rests twice its level in turns before it is cast again.
+        const rests = ability.spell && actor.innate?.includes(ability.id) ? ability.spell.level * 2 : 0;
+        actor.cooldowns[ability.id] = Math.max(ability.cooldown ?? 0, rests) + 1;
       }
     }
     context.spell = !!ability.spell;

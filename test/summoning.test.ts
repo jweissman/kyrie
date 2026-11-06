@@ -100,7 +100,8 @@ describe('random targets and many actions', () => {
     const battle = Field.battle([CombatProjection.fighter(owlbear, 'goblins'),
       ...Array.from({ length: 2 }, (_, i) => ({ ...new Content('c').character('warrior', `w-${i}`, 'fighters'), hp: 90, maxHp: 90 }))], 'owlbear');
     Field.until(battle, 'owlbear');
-    battle.step(battle.chosen());
+    // A plain blow (its maul is wound up, and takes the turn).
+    battle.step({ actor: 'owlbear', ability: 'melee', target: 'w-0' });
     expect(battle.state.actor).toBe('owlbear');
   });
 });

@@ -82,10 +82,10 @@ describe('a companion steps in front of a frail one', () => {
     expect(fought(seeds[0]!)).toEqual(fought(seeds[0]!));
     const intercepted = seeds.filter(s => fought(s).some(e => e.type === 'intercept' && e.target === 'mage'));
     expect(intercepted.length).toBeGreaterThan(0);
-    // The first blows of every fight are aimed at the one in front.
+    // What a ghoul first does in every fight, a blow or its own curse, is aimed at the one in front.
     for (const seed of seeds) {
-      const first = fought(seed).find(e => e.type === 'attack' && e.actor.startsWith('ghoul'));
-      expect(first?.type === 'attack' && first.target).toBe('warrior');
+      const first = fought(seed).find(e => e.type === 'action' && e.command.actor.startsWith('ghoul'));
+      expect(first?.type === 'action' && first.command.target).toBe('warrior');
     }
   });
 });

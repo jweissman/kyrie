@@ -288,13 +288,24 @@ export class Effects {
     const effects = Effects.status(id).hooks?.onExpire ?? [];
     if (effects.length && holder.hp > 0) { context.lapse?.(holder, effects, context); }
   }
+  // What tells on a creature at the end of its turn: the conditions it holds, and what it is by nature (a troll's
+  // regeneration, Orsino's trait onTurnEnd: it had been kept and never run; the owner, 6 November, OSR mechanics).
+  static turnEnd(actor: Fighter, context: EffectContext) {
+    for (const s of actor.statuses.filter(c => !c.clock)) { Effects.periodic(actor, s.id, s.source, context); }
+    for (const t of actor.traits ?? []) {
+      Effects.periodicOf(actor, Canon.traits[t]?.modifiers?.onTurnEnd ?? [], t, context);
+    }
+  }
   // Orsino's onTurnEnd hooks of one condition: periodic damage or healing, rolled from the seeded stream.
   static periodic(target: Fighter, id: string, source: string | undefined, context: EffectContext) {
-    for (const p of Effects.status(id).modifiers.onTurnEnd ?? []) {
+    Effects.periodicOf(target, Effects.status(id).modifiers.onTurnEnd ?? [], source ?? id, context);
+  }
+  static periodicOf(target: Fighter, ticks: NonNullable<Modifiers['onTurnEnd']>, source: string, context: EffectContext) {
+    for (const p of ticks) {
       if (target.hp === 0) { return; }
       const amount = /^\d+$/.test(p.amount) ? Number(p.amount)
         : context.expressions!.number(p.amount, Effects.context(target));
-      const tick = { ...context, actor: undefined, source: { id: source ?? id, kind: 'ability' as const } };
+      const tick = { ...context, actor: undefined, source: { id: source, kind: 'ability' as const } };
       if (p.kind === 'damage') { Effects.damage(target, { amount, type: p.damageType! }, tick); }
       else { Effects.hp(target, amount, tick, true); }
     }

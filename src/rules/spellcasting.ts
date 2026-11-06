@@ -4,7 +4,8 @@ import { Content } from '../content';
 import type { Attribute } from '../creature';
 
 // What a caster carries for spells: slots by spell level, the spell prepared in each, and which are still ready.
-interface Caster { slots?: number[]; mana: number; prepared?: string[][]; ready?: string[][] }
+// innate: a creature's own powers by its kind (a ghoul's paralysing touch, a vampire's drain), cast without slots.
+interface Caster { slots?: number[]; mana: number; prepared?: string[][]; ready?: string[][]; innate?: string[] }
 interface Spell { id?: string; cost?: number; spell?: { level: number } }
 
 // Old-school spellcasting. A caster has slots for each spell level, from its class table and level, and prepares a
@@ -64,12 +65,13 @@ export class Spellcasting {
     return undefined;
   }
   static affordable(caster: Caster, ability: Spell): boolean {
+    if (ability.spell && caster.innate?.includes(ability.id ?? '')) { return true; }
     if (ability.spell) { return !this.needsSlot(ability) || this.slotFor(caster, ability) !== undefined; }
     return (ability.cost ?? 0) <= caster.mana;
   }
   static spend(caster: Caster, ability: Spell) {
     if (!ability.spell) { caster.mana -= ability.cost ?? 0; return; }
-    if (!this.needsSlot(ability)) { return; }
+    if (!this.needsSlot(ability) || caster.innate?.includes(ability.id ?? '')) { return; }
     const i = this.slotFor(caster, ability);
     if (i === undefined) { throw new Error(`No ready slot holds ${ability.id}`); }
     caster.ready![i]!.splice(caster.ready![i]!.indexOf(ability.id!), 1);

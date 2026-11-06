@@ -77,7 +77,9 @@ export class WorldAssembler {
   static readonly heard: Record<Carrier['channel'], string> = { road: 'News from the roads reaches them first.',
     tavern: 'They hear everything said across their tables.', temple: 'The faithful bring them their troubles.',
     market: 'Traders tell them what they have seen.' };
-  static readonly party: CreatureGenerationContext[] = [
+  // A company for the tests and tools that pass none: never a player's (Begin makes one life through creation, and an
+  // origin takes only the first of a company it is given; the owner, 6 November: an adventure never supplies a party).
+  static readonly fixture: CreatureGenerationContext[] = [
     { name: 'Elen', raceId: 'elf', classId: 'ranger', backgroundId: 'hunter' },
     { name: 'Bran', raceId: 'human', classId: 'warrior', backgroundId: 'locksmith', traits: ['toughness'] },
     { name: 'Dori', raceId: 'dwarf', classId: 'cleric', backgroundId: 'medic', traits: ['vitalist'],
@@ -100,8 +102,8 @@ export class WorldAssembler {
     region.provinces = await Provinces.regions(Provinces.situate(region), base);
     // One protagonist, with an origin in this world; or a company, each with an old acquaintance somewhere in it.
     const origin = options.origin ? (await Origins.load(base)).find(o => o.manifest.id === options.origin) : undefined;
-    const party = origin ? [Origins.member(origin.manifest, (options.party ?? this.party)[0]!, !!options.party)]
-      : options.party ?? this.party;
+    const party = origin ? [Origins.member(origin.manifest, (options.party ?? this.fixture)[0]!, !!options.party)]
+      : options.party ?? this.fixture;
     const contacts = origin ? [] : this.contacts(region, party, seed);
     const slug = seed.replace(/[^A-Za-z0-9]/g, '').slice(0, 24) || 'world', root = `world-${slug}`;
     const files: Record<string, string> = {};

@@ -39,9 +39,11 @@ export class Tactics {
         case 'remove': score += target.statuses.some(s => s.id === effect.status) ? 20 : 0; break;
         case 'apply':
           // Standing in front of a frail companion something means to strike comes before a blow of one's own.
-          if (Effects.status(effect.status).guard) { score += Quarry.cover(state, actor, target); }
-          else if (Effects.skips(effect.status)) { score += 18; }
+          if (Effects.status(effect.status).guard) { score += Quarry.cover(state, actor, target); break; }
+          if (Effects.skips(effect.status)) { score += 18; }
           else if (!target.statuses.some(s => s.id === effect.status)) { score += 6; }
+          // A foe's own power (a ghoul's touch) falls on whom its kind goes for, as its blows do.
+          if (actor.team !== 'fighters' && target.team !== actor.team && Quarry.of(state, actor) === target.id) { score += 8; }
           break;
         default: break;
       }
@@ -55,6 +57,9 @@ export class Tactics {
   // Ties broken by the targets' ids as written, not as the host's language sorts them (a reader in Tallinn saw another
   // enemy struck: the architecture review's H6).
   static order(a: string, b: string): number { return a < b ? -1 : a > b ? 1 : 0; }
+  private static own(actor: Fighter, c: Command): number {
+    return actor.innate?.includes(c.ability) && Content.abilities.find(a => a.id === c.ability)?.spell ? 12 : 0;
+  }
   static choose(state: BattleState, all: Command[]): Command {
     const actor = state.combatants.find(f => f.id === state.actor)!;
     // A device does what it was made to do whenever it can (a bomb's fuse, a ward's silence), as Orsino's do; it has
@@ -62,7 +67,10 @@ export class Tactics {
     const powers = Canon.isDevice(actor.raceId) ? all.filter(c => !['melee', 'ranged', 'wait'].includes(c.ability)) : [];
     const legal = powers.length ? powers : all;
     const order = [...actor.abilities, 'melee', 'ranged'];
-    const ranked = legal.map(command => ({ command, score: Tactics.score(state, command) }))
+    // A creature's own powers (a ghoul's paralysing touch, a vampire's charm) are what makes it what it is: used when
+    // they are ready, before a plain blow; their rest keeps them from every turn (see AbilityUse).
+    const ranked = legal.map(command => ({ command,
+      score: Tactics.score(state, command) + Tactics.own(actor, command) }))
       .sort((a, b) => b.score - a.score || Tactics.rank(order, a.command) - Tactics.rank(order, b.command)
         || Tactics.order(a.command.target, b.command.target));
     if (!ranked[0]) { throw new Error('No legal tactical command'); }
