@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "name": "The Dorothea, learned",
+  "calendar": {
+    "year": 1312,
+    "month": 9,
+    "day": 3
+  },
+  "pitch": {
+    "heading": "Learned",
+    "text": "A mage, a cleric and a bard went down to Skerrow."
+  },
+  "modules": [
+    {
+      "id": "dorothea",
+      "bundle": "../../../data/adventures/the-dorothea/module.json"
+    }
+  ],
+  "party": [
+    {
+      "name": "Quint",
+      "raceId": "human",
+      "classId": "mage"
+    },
+    {
+      "name": "Ansel",
+      "raceId": "human",
+      "classId": "cleric"
+    },
+    {
+      "name": "Verity",
+      "raceId": "elf",
+      "classId": "bard"
+    }
+  ]
+}

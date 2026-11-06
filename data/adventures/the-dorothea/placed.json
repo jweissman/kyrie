@@ -18,6 +18,8 @@
     "house.kyr",
     "entries.kyr",
     "return.kyr",
+    "ring.kyr",
+    "lamp.kyr",
     "voices.kyr",
     "placed.kyr"
   ],
@@ -40,11 +42,27 @@
   "imports": [
     "party",
     "word",
-    "ring"
+    "ring",
+    "ring_coast",
+    "ring_head",
+    "abroad",
+    "ledger_read",
+    "lieutenant_named",
+    "principal_traced",
+    "seal_seen",
+    "waybill_read"
   ],
   "optional": [
     "word",
-    "ring"
+    "ring",
+    "ring_coast",
+    "ring_head",
+    "abroad",
+    "ledger_read",
+    "lieutenant_named",
+    "principal_traced",
+    "seal_seen",
+    "waybill_read"
   ],
   "roles": {
     "party": {

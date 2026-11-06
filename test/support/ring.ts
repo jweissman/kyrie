@@ -4,6 +4,7 @@ import { PlaySession } from '../../src/session/play-session';
 import { PlayerView } from '../../src/presentation/player-view';
 import { Journey } from '../../src/session/journey';
 import { Frontier } from '../../src/world/frontier';
+import { ModuleWriter } from '../../src/lang/module-writer';
 import { GeneratedWorld } from './generated';
 
 // The Ring (doc/imbar/17-the-ring.md): a Deem-cast smuggling ring in the largest town, whose lieutenant sits in a store
@@ -29,5 +30,10 @@ export class Ring {
     const c = PlayerView.choices(s.campaign).find(x => pattern.test(x.choice.name));
     if (!c) { throw new Error(`No ${pattern}`); }
     return s.perform(c.choice.id);
+  }
+  // A measure made so, for a branch of the Deem table a test wants to walk whichever world it was drawn in.
+  static set(j: Journey, name: string, who: string, value: number) {
+    const world = j.campaign.world, call = ModuleWriter.call(name.includes('__') ? name : `factors__${name}`, who);
+    j.campaign.commitWorld(world.apply([{ kind: 'set', call, value: ModuleWriter.number(value) }]));
   }
 }

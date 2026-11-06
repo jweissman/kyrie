@@ -7,7 +7,7 @@ Module factors "The factor who buys old bronze" {
   // lieutenant's temper and his secret.
   Measure stay(entity). Measure away(entity). Measure temper(entity). Measure secret(entity). Measure nerve(entity).
   Measure leaveAt(entity). Measure seenAbroad(entity). Measure hireAt(entity). Measure burnAt(entity).
-  Relation turned(group). Relation pressed(group). Relation toldPrincipal(group). Relation hired(group). Relation seenSearch(group).
+  Relation turned(group). Relation cellLooked(group). Relation pressed(group). Relation toldPrincipal(group). Relation hired(group). Relation seenSearch(group).
   Relation fenceSeen(group). Relation talkedLieutenant(group). Relation lieutenantCut(group). Relation burnt(group). Relation offered(group).
 
   Place counting_room "The counting-room over the taproom" is room.
@@ -25,7 +25,7 @@ Module factors "The factor who buys old bronze" {
 
   // ── The rank of muscle: the cellar-men ───────────────────────────────────────────────────────────────────────────
   Person cell "the cellar-men" at cellar {
-    Role "who keep the Exchange's lots". Calling warrior. Temperament territorial. Refuge gone.
+    Role "who keep the Exchange's lots". Calling commoner. Temperament territorial. Refuge gone.
     Warns "Three or four men in leather aprons turn from the barrels with the unhurried look of men who are paid by the week to be looked at. 'Cellar's private,' says the biggest. 'Six coin to have not seen it, or the word of the one upstairs. Or the stairs.'".
     Comes "The cellar-men put down what they are carrying and come across the flags with their sleeves back.".
     Flinches "The cellar-men look at each other, and one of them says, quite quietly, that there is no money in this.".
@@ -51,12 +51,12 @@ Module factors "The factor who buys old bronze" {
     Otherwise "'Funny,' says the big one. 'She counts it herself.' He does not hurry. He has all day to be unconvinced.".
   }
   Action search_cellar(actor: group, site: place) "Look through the cellar for the lot's waybill" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cellar) and not holding(actor, ring_waybill) and not searched(actor) and (tolerates(cell, actor) or routed(cell) or dead(cell)).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cellar) and not holding(actor, ring_waybill) and not cellLooked(actor) and (tolerates(cell, actor) or routed(cell) or dead(cell)).
     Time 6.
-    On success { Give waybill to actor. Assert searched(actor). Assert seenSearch(cell). }
+    On success { Give waybill to actor. Assert cellLooked(actor). Assert seenSearch(cell). }
     Result "On the trestle, under the scale, is the waybill: twelve teeth of green bronze, a hundredweight of weir-metal, fifty pounds of 'old fittings', every line carried over to 'the book, up'. The last column is a consignee, and it is not a name but an initial, R., and a place: the bonded store at Tolleth.".
   }
-  Relation searched(group).
+  
   Topic cell_who with cell "Ask the cellar-men whom they answer to" when tolerates(cell, actor) once {
     Says "'The factor,' says the big one, 'and the factor's book, which is upstairs and which I have never seen open. The lots go out with the carter. They come in with a mark.' He shows it, on a sack: a key, and a ring. 'Somebody on the coast sends the mark. I don't say who. I don't know who. If I did I'd be paid more.'".
     On discuss { Assert knows(actor, seal_seen). Assert knows(actor, counting_known). }
@@ -101,7 +101,7 @@ Module factors "The factor who buys old bronze" {
   // the ring's money, 2 he has a child at a school in Orsett the Principal could reach, 3 he sells the ring to the Watch).
   // The Dorothea puts him in a store in Tolleth; until then he is abroad.
   Person lieutenant "R., the coast lieutenant" at abroad {
-    Role "the ring's man on the coast". Calling thief. Temperament territorial. Refuge abroad. Manner jovial.
+    Role "the ring's man on the coast". Calling thief. Temperament territorial. Manner jovial.
     Known as "a man in a good coat behind the chandler's back-table" when not knows(party, lieutenant_named).
     Greets "The man at the back-table stands as you come in, and does not offer a hand. 'I am told I am called R.,' he says. 'It is the only thing about me that the ring has ever got right.'".
     Warns "R. closes the day-book on a finger. 'This is a bonded store,' he says, 'and I am bonded to it. I should hate to have you hurt on the House's account. Say what you have to say, or the door is behind you.'".
@@ -160,7 +160,7 @@ Module factors "The factor who buys old bronze" {
 
   // ── The rank at the top: the Principal (Deem-cast), who goes round the world ───────────────────────────────────────
   Person principal "the Principal" at abroad {
-    Role "the ring's Principal, who keeps the black book". Calling warrior. Temperament territorial. Refuge abroad. Manner stoic.
+    Role "the ring's Principal, who keeps the black book". Calling warrior. Temperament territorial. Manner stoic.
     Known as "a tall man in a black coat, who is not called anything" when not knows(party, principal_traced).
     Greets "A tall person in a black coat is writing in a black book, and does not stop. When the pen has reached the end of the line they put it down. 'The ring,' they say, 'does not have a Principal. It has a book, and I am who keeps it. You have been counting in other people's ledgers.'".
     Warns "The Principal closes the black book with a flat hand. 'Whatever you have read,' they say, 'you have read in pieces. Put it down, and go out the way you came in, and nothing is written. Or do not.'".
@@ -214,9 +214,9 @@ Module factors "The factor who buys old bronze" {
   // The ring knows only what its people see. The cellar-men saw you in the cellar, the factor heard you at her table,
   // the lieutenant sees who comes to his store. Nothing here is told it by magic.
   // R-A: the cellar is beaten or bought and searched. The Principal hires muscle for the counting-room.
-  Rule muscle_hired when seenSearch(cell) and not hired(principal) and not routed(principal) and not dead(principal)
+  Rule muscle_hired when (seenSearch(cell) or routed(cell) or dead(cell)) and not hired(principal) and not routed(principal) and not dead(principal)
     says "In the Anchor's yard, after dark, a boat's lantern goes out, and a cart comes in under a tarpaulin. There are more men in the Exchange's yard in the morning than there were, and they are not here for the bronze." {
-    Assert hired(principal). Set hireAt(principal) to watch(clock). Increase hireAt(principal) by 18.
+    Assert hired(principal). Set hireAt(principal) to watch(clock). Increase hireAt(principal) by 18. Set burnAt(principal) to watch(clock). Increase burnAt(principal) by 144.
   }
   Person bravos "the hired men" at abroad {
     Role "hired for the winter by the ring". Calling warrior. Temperament territorial. Refuge abroad.
@@ -240,7 +240,7 @@ Module factors "The factor who buys old bronze" {
     Result "The hired men take it without looking at it. 'Might be cold on the stair,' says one, and they sit down on it.".
   }
   // R-C: the evidence is burned if the cellar was searched and the leaf is still in the box; and the book goes with it.
-  Rule evidence_burned when seenSearch(cell) and hired(principal) and not burnt(principal) and inside(leaf, strongbox) and not holding(party, ring_leaf) {
+  Rule evidence_burned when hired(principal) and watch(clock) >= burnAt(principal) and not burnt(principal) and inside(leaf, strongbox) and not holding(party, ring_leaf) {
     Retract inside(leaf, strongbox). Assert burnt(principal).
   }
   Observe ash_scene at counting_room when burnt(principal) "The grate is full of fresh ash, still faintly warm, and a corner of ruled red paper has curled up out of it. The strongbox is open and has nothing in it.".

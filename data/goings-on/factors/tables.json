@@ -83,7 +83,7 @@
    ],
    "mountain": [
     "human",
-    "dwarf",
+    "gnome",
     {
      "__weight": 2,
      "__value": "half_orc"
@@ -96,7 +96,7 @@
    ],
    "frost": [
     "human",
-    "dwarf",
+    "gnome",
     "half_orc"
    ],
    "desert": [
@@ -108,7 +108,7 @@
     "human",
     "half_elf",
     "half_orc",
-    "dwarf"
+    "gnome"
    ]
   }
  },

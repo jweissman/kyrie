@@ -1,0 +1,213 @@
+Module dorothea "The Dorothea" {
+  Description "The Lamp Below: what the Pharos is the chimney of. A stair under the oil store, a keepers' gate, a hall of turning brass, a gallery where two centuries of argument are chalked on the wall, and a well at the bottom with an engine in it that has been counting since before the roads. Three acts, a Governor, five ways past it. Level five to seven in its dangers, and a way round each.".
+
+  // The Pharos is the chimney of a lamp-engine of the Mathematical Age; the Aeneans found it, learned to start it, fenced it
+  // and wrote law about it. Its plaque is their claim to have built it, and is to be read as their claim.
+  // ── The way down: shut by a seal while the ring stood ──────────────────────────────────────────────────────────────
+  Place oil_store "the oil store under the tower" is room within pharos_site at 0, 1.
+  Place lamp_below "the Lamp Below" is site within skerrow at 3, 0.
+  Place lb_head "the foot of the trap stair" is room within lamp_below at 0, 0.
+  Place lb_stair "the black stair" is room within lamp_below at 0, 1.
+  Place lb_gate "the keepers' gate" is room within lamp_below at 0, 2.
+  Place lb_ledge "the ledge over the wheel-floor" is room within lamp_below at 1, 2.
+  Place lb_far "the far side of the wheel-floor" is room within lamp_below at 2, 2.
+  Place lb_crawl "the tally-crawl" is room within lamp_below at 1, 3.
+  Place lb_gallery "the keepers' gallery" is room within lamp_below at 2, 3.
+  Place lb_well "the lens-well" is room within lamp_below at 3, 3.
+  Passage oil_door "the oil store door" is door between pharos_foot and oil_store.
+  Passage trap_stair "the trap in the oil store floor" is stair between oil_store and lb_head
+    opening when ringFallen(party) "A trap, two planks wide, in the oil store's floor, under a hasp and a House padlock with a key and a ring cut in it. Marren Kestle will not so much as look at it. 'A seal is a thing everyone has agreed to be afraid of,' she said when you asked. 'The House's hands are the ring's, and the ring is a long way from being a thing a Kestle crosses.'".
+  Passage lb_down "the black stair" is passage between lb_head and lb_stair.
+  Passage lb_gateway "the last turns of the stair" is passage between lb_stair and lb_gate.
+  Passage lb_wheel_way "across the wheel-floor" is bridge between lb_ledge and lb_far
+    opening when crossed(party) "Between the ledge and the far side, brass wheels the width of cartwheels turn in the dark, edge to edge, each tooth as long as a forearm. There is no floor that does not move.".
+  Passage lb_to_ledge "through the gate" is gate between lb_gate and lb_ledge
+    opening when gateWays() "The keepers' gate is shut: two leaves of black bronze, closed on a lock of their own.".
+  Passage lb_crawl_in "the tally-crawl" is crawl between lb_gate and lb_crawl
+    opening when count(memberOf(?m, party)) == 1 "A crawl-hole, a hand high at the knee and no wider than a pair of shoulders, goes in at the foot of the gate-wall. A company would not fit it, nor all of one.".
+  Passage lb_crawl_out "the tally-crawl, out" is crawl between lb_crawl and lb_gallery.
+  Passage lb_far_gallery "the gallery arch" is arch between lb_far and lb_gallery.
+  Passage lb_gallery_well "down to the lens-well" is passage between lb_gallery and lb_well.
+
+  Observe lb_oil_scene at oil_store when not ringFallen(party) "Kegs on their sides in cradles, a lead pipe as thick as a wrist going down through the floor, and in the floor a trap, bolted, with a House padlock on the hasp. The oil in the kegs smells of nothing at all.".
+  Observe lb_oil_open at oil_store when ringFallen(party) "Kegs in their cradles, a lead pipe as thick as a wrist going down through the floor, and in the floor a trap with its hasp cut. The padlock lies on the boards, key and ring uppermost, with a dent in it from the trimming-knife. A smell of cold air comes up, and under it a smell of warm brass.".
+  Rule seal_cut at oil_store when ringFallen(party) and at(party, oil_store) and not sealCut(party)
+    says "Marren Kestle has come down behind you with her grandfather's grandfather's trimming-knife, and she does not say anything. She puts the point under the hasp and leans, and the House's padlock goes into the dust. 'A seal is brass,' she says, 'when the one who made it is afraid. There is a stair under this tower I was told about when I was nine. I have never been down it. I have been feeding it for thirty years.'" {
+    Assert sealCut(party).
+  }
+  Relation sealCut(group). Relation crossed(group). Relation gateRead(group). Relation brakeThrown(group). Relation governorRests(group). Relation pilotLit(group). Relation oswinOut(group).
+  Relation stopSaid(group). Relation lbDone(group).
+
+  // ── Act I: the stair and the gate ─────────────────────────────────────────────────────────────────────────────────
+  Observe lb_head_scene at lb_head when true "A stair-head cut out of the living rock, no wider than the trap, warm: warmer than a cellar has any right to be. Whale oil and brass and, under it, a very slow tick, one to a breath, like a clock that is not hurrying. A lead pipe comes down through the ceiling and goes on down with the stair.".
+  Observe lb_stair_scene at lb_stair when true "The stair goes down in a left-hand spiral cut from black stone, each step worn into a shallow dish on the inner edge and not on the outer: the whole of it has been walked down by people who did not much mind where they put their feet, and up by people who did. On the wall, scratched at the height of a hand, names. They go all the way down. The last one is a girl's.".
+  Observe stair_coins at lb_stair when true "In a niche on the third turn, a drift of small copper has built up the way snow drifts: coins of nine reigns, a button, a milk-tooth, a ribbon. Everyone who has gone down has left one. Nobody on Skerrow can say why, and nobody has ever not.".
+  Observe lb_gate_scene at lb_gate when true "The keepers' gate: two leaves of black bronze, closed. A fish and over it a flame are inlaid in the leaves in a green metal that has not tarnished, and under them a plate of numerals in two columns, one of them scrubbed to a shadow. A draught comes out from under the gate, smelling of warm oil.".
+  Rule voice_stair at lb_stair when at(party, lb_stair) and memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and not vStair(party)
+    says "{?m} goes down three turns and stops with a hand on the wall. 'The steps are worn on the inside edge,' {?m} says. 'That is somebody going down quickly with a load on the outer arm. Oil, in a can. Every year.' {?m} looks up the stair. 'And up on the outside, slowly. Somebody whose knees were going. The same pair of knees, I think. Thirty years of them.'" {
+    Assert vStair(party).
+  }
+  Relation vStair(group). Relation vGate(group). Relation vTeeth(group). Relation vOffice(group). Relation vHip(group). Relation vTally(group).
+  Rule voice_gate at lb_gate when at(party, lb_gate) and memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and not vGate(party)
+    says "{?m} runs a thumb down the left leaf and stops at the seam. 'Two locks,' {?m} says. 'The one on the face is for show: it takes a number, and people will stand here an hour with a number. The real one is under the plate. A tumbler, here, and a click you could miss. Quiet, if you take your time.'" {
+    Assert vGate(party).
+  }
+  Thing keepers_gate "the keepers' gate" at lb_gate {
+    State locked "The keepers' gate is shut, its numerals unread.".
+    State open "The keepers' gate stands open on a dark that ticks.".
+    State broken "The keepers' gate hangs from one leaf, its lock sheared, and the tick beyond it has quickened.".
+    Change read_open "Set the gate's numerals from the rubbing of the Prefect's Table" from locked to open needing pharos_rubbing.
+    Change pick_open "Take the gate's tumbler, quietly" from locked to open needing lockwork.
+    Change force_open "Break the gate's lock with a bar" from locked to broken needing brawn.
+    Tries listening.
+  }
+  Query gateWays() means state(keepers_gate, open) or state(keepers_gate, broken).
+  Rule gate_force_costs when state(keepers_gate, broken) and not stirred(party) and at(party, lb_gate) says "The bronze shrieks, and somewhere below a great many small things stop turning and begin again, faster." {
+    Assert stirred(party).
+  }
+  Relation stirred(group).
+  Action count_the_gate(actor: group, site: place) "Ask Marren Kestle's counting of the numerals out loud" {
+    Description "Aenean numerals in a row, and Marren's habit of counting under her breath on the stair behind you.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lb_gate) and sealCut(party) and not gateRead(actor) and state(keepers_gate, locked).
+    Time 2.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert gateRead(actor). Assert state(keepers_gate, open). }
+    Result "Marren has come down as far as the last turn and stopped, with her knife in her belt. You say the numerals back to her in the order they stand, and she counts them under her breath, as she has counted the lamp's wicks all her life, and at the ninth she says 'No,' quite kindly, and gives you the right one. The gate leans inward on its own weight.".
+    Otherwise "Marren listens to the numerals, and her lips move, and she says that she can count to forty in the Aenean way but not backwards.".
+  }
+
+  // ── Act II: the engine hall and the gallery ────────────────────────────────────────────────────────────────────────
+  Thing engine "the engine under the Pharos" at lb_ledge {
+    State running "Under the ledge a floor of brass wheels the width of cartwheels turns in the dark, edge to edge, each tooth as long as a forearm, ticking.".
+    State stilled "Under the ledge the brass wheels stand with their teeth locked, and the tick has stopped for the first time in two thousand years.".
+    Change throw_brake "Throw the keepers' brake" from running to stilled needing brawn.
+    Change pick_brake "Ease the keepers' brake's pawl" from running to stilled needing lockwork.
+  }
+  Thing keepers_brake "the keepers' brake" at lb_ledge { State free "A black iron lever as long as an arm, set in a slot in the ledge wall, with a pawl the size of a thumb. It has not moved in a very long time.". }
+  Observe lb_ledge_scene at lb_ledge when true "A ledge of black stone over a hall the size of a barn. Below, in the dark, brass: wheels, hundreds of them, each as wide as a cartwheel, meshed edge to edge and turning, on a floor that is also wheels. Every one carries numerals. The tick is the sound of them. The whole hall hangs on a taut flat steadiness, as a heart does in a body asleep.".
+  Observe lb_far_scene at lb_far when true "The far side of the wheel-floor: a landing, a rail, an arch into lamplight. The brass goes on turning behind you with the sound of someone counting to himself.".
+  Rule voice_teeth at lb_ledge when at(party, lb_ledge) and memberOf(?m, party) and hasCalling(?m, calling_mage) and awake(?m) and not vTeeth(party)
+    says "{?m} watches the wheels for a full minute with the stillness of someone doing a sum. 'They are not random,' {?m} says. 'Every tooth has a number and the numbers are in step. If you cross on the evens as they come up, and wait out the odds, there is a path of about thirty paces. I could do it. I'd rather not have to say how.'" {
+    Assert vTeeth(party).
+  }
+  Action cipher_the_wheels(actor: group, site: place) "Read the wheel-floor's numbers, and give the company the path across" {
+    Description "Only someone who has been taught to see a number in a toothed wheel can do it unaided.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lb_ledge) and not crossed(party) and state(engine, running) and memberOf(?m, party) and hasCalling(?m, calling_mage).
+    Time 4.
+    On success { Assert crossed(party). }
+    Result "{?m} walks you over in the order the teeth allow, a pace at a time, with a hand flat on each of your backs, saying the numbers aloud. It takes eleven minutes, and nobody is touched by a wheel. On the far side {?m} sits down on the landing and says that was the most tiresome thing that has ever been done with a pencil.".
+  }
+  Action walk_the_lines(actor: group, site: place) "Cross on the lines the rubbing of the Prefect's Table shows" {
+    Description "The second column of the Prefect's Table is not a list of keepers. It is a tread.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lb_ledge) and not crossed(party) and state(engine, running) and holding(actor, pharos_rubbing).
+    Time 4.
+    On success { Assert crossed(party). }
+    Result "You hold the rubbing up to the lamp-glow, and the ghost column that nobody on Skerrow could read is a tread: strokes where a foot may go, in the order the teeth come round. You walk it with the paper held out in front of you like a map in a gale. At the end the wheels are behind you, and you find that you have been counting.".
+  }
+  Action run_the_wheels(actor: group, site: place) "Run the wheel-floor, and trust the dark" {
+    Description "Thirty paces across brass that moves. A hard climb at the best, and a bad end at the worst.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lb_ledge) and not crossed(party) and state(engine, running).
+    Time 2.
+    Resolve check(actor, climbing, dc_hard).
+    On success { Assert crossed(party). }
+    On failure { Assert strikes(lb_teeth, party). Assert crossed(party). }
+    Result "You go over the brass in a series of bad ideas that happen to work. At the far rail you discover that you are all still the right number.".
+    Otherwise "You are across. You are not across all in one piece: a wheel has taken you and passed you on, the way a mill-race passes a stick.".
+  }
+  Hazard lb_teeth "The turning teeth" means "Deal (3d6) bludgeoning damage to ally unless dexterity save against (15).".
+  Rule ledge_stilled_crossed when state(engine, stilled) and not crossed(party) { Assert crossed(party). }
+  Rule brake_thrown_cost when state(engine, stilled) and not brakeThrown(party)
+    says "Above you, through a hundred feet of rock, the Pharos goes out. You do not see it. There is simply a place in the dark above the stair where the glow was, and a silence in the oil pipe." {
+    Assert brakeThrown(party).
+  }
+  Observe lamp_dims at pharos_lamp when brakeThrown(party) and not pilotLit(party) "The lamp room is dark. The wicks are trimmed, the oil is in, and the great bronze reflector has nothing to throw. Marren Kestle sits on the floor with her back to it, saying nothing, and the Dorothea's captain is the only one on the Reach who has noticed.".
+  Observe lb_crawl_scene at lb_crawl when true "A crawl as narrow as a chimney, polished on the floor to a trough by the knees and elbows of keepers one at a time, the one who tends and the one who counts. Every yard or so, scratched at the height of a cheek, a name and a year, in the hand of whoever was crawling.".
+  Observe lb_gallery_scene at lb_gallery when true "A long low gallery in the rock with a table down the middle, a lamp on it, benches on both sides, and on the walls, chalked and re-chalked in four hands over two hundred years, two columns of argument. The left column is headed OWED, and the right KEPT, and where the chalk of one reaches the other there is a smear where a hand has wiped it. At the end a man in a surveyor's coat sits with his back against the wall, pretending to take a reading.".
+  Observe lb_well_scene at lb_well when true "The bottom of the Lamp Below: a round well in the rock, a hundred feet across and as deep as the stair, with a cage of bronze in the middle of it, hung from nothing. In the cage a lens of green glass the size of a house turns on its axis at the pace of a slow walk, and under the lens a small pilot flame burns in a bronze cup, fed by a lead pipe that comes down the wall out of the dark.".
+  Observe well_pilot at lb_well when pilotLit(party) "The pilot burns steady in its cup, fed, and the lens above it turns at the pace of a slow breath. Far above, through a hundred feet of rock, there is a green that was not there.".
+
+  Person oswin "Oswin Tarn" at lb_gallery {
+    Role "a surveyor of the Collegium of Measures, nine days below". Ancestry human. Calling mage. Level 2. Peaceable. Pronouns he. Manner proud.
+    Likeness "scholar".
+    Greets "'Oswin Tarn,' says the man in the surveyor's coat, getting to his feet with a great effort at ease. 'Measures. I am taking readings. I am entirely well, and the readings are very good, and there is nothing at all to be done about the thing in the well.' He sits down again, rather quickly.".
+  }
+  Topic oswin_why with oswin "Ask Oswin Tarn how he came down" when true once {
+    Says "'By the sea-door,' says Tarn. 'Which is under the cliff, and was a dry cave at low water, and is not now. The House sent me. A survey of the Pharos for the lease, they said. To weigh the bronze.' He lifts a notebook: 'It is not bronze. It is the chimney of a thing. I have been nine days with the readings and I am a happy man and I have not eaten since the tide went.'".
+  }
+  Topic oswin_governor with oswin "Ask Oswin Tarn about the Governor" when true once {
+    Says "'The Governor counts,' says Tarn. 'It was built to count whoever is below. One keeper below at a time, tending; one at the gate, counting. It reads the company on the stair. If there are more than two, it concludes the lamp is being taken.' He looks at his notebook. 'It has a word. The keepers had a word, to stand it down. I have it in my book, and I am not going to read it to anyone who plans to leave me here.'".
+    On discuss { Assert oswinWord(oswin). }
+  }
+  Relation oswinWord(group).
+  Topic oswin_leave with oswin "Promise Oswin Tarn the way out, and ask for the word" when oswinWord(oswin) and not stopSaid(actor) once {
+    Says "'You are very kind,' says Tarn, faintly, and then, in a rush: 'It is nine characters, read as one, three times, the third time lower. Say it from the lip of the well. It will lie down. It has been waiting for someone to say it for longer than there has been a Tolleth.' He closes the book. 'It is the only thing I own. I should like it back, in a printed form, with my name.'".
+    On discuss { Assert knows(actor, lb_stopword). Assert stopSaid(actor). }
+  }
+  Discovery lb_stopword "Tarn's notebook has the Governor's word: nine characters, read as one, three times, the third time lower; said from the lip of the well, it lies down.".
+  Topic oswin_heart with oswin "Ask Oswin Tarn what he is afraid of" when true once {
+    Says "'That I shall be told I was wrong,' says Tarn, at once, and without any pride at all. 'Everyone is afraid of the thing in the well. I am afraid that the Collegium will say my reading of the second column is a copyist's slip. If I take the book out and I am wrong, I have wasted two Collegia. If I leave it here and I am right, I have wasted the only true thing I ever found.' He laughs, once. 'Choose one of us to carry, if you have to.'".
+  }
+  Action carry_oswin(actor: group, site: place) "Take Oswin Tarn back up the stair with you" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(oswin, site) and not oswinOut(actor).
+    Time 1.
+    On success { Assert oswinOut(actor). Retract at(oswin, lb_gallery). Assert at(oswin, lb_head). }
+    Result "Tarn takes your arm like a man on a ship's deck. He climbs the stair on it, one dish-worn step at a time, saying the numbers he can see in the wall, and at the trap he stops and looks up at the sky he has not seen in nine days. 'Oh,' he says. 'It's still there.'".
+  }
+  Rule voice_office at lb_gallery when at(party, lb_gallery) and memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and not vOffice(party)
+    says "{?m} reads the chalk columns end to end. 'Owed, and kept,' {?m} says. 'Somebody at the Collegium wrote OWED against every year's oil, and somebody on the island wrote KEPT, and neither would give in to the other. They have been correcting each other's totals for two hundred years.' {?m} smiles. 'There is a funeral office that says the same thing. We say the dead are kept and not owed. The Governor was built to keep the count of the living and the lost together. It is, in a sense, a sexton.'" {
+    Assert vOffice(party).
+  }
+  Action read_the_office(actor: group, site: place) "Read the office for the dead over the tally, aloud, from the lip of the well" {
+    Description "The Governor keeps the count of the living and the lost. A cleric has a form of words for closing a count.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lb_well) and at(governor, lb_well) and not tolerates(governor, actor) and memberOf(?m, party) and hasCalling(?m, calling_cleric) and not governorRests(actor).
+    Time 4.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert tolerates(governor, actor). Assert governorRests(actor). }
+    Result "{?m} says the office from the lip of the well in the plain voice of someone who has said it for strangers, naming no one. At the word 'kept' the lens stops. For the space of a long breath nothing in the Lamp Below moves. Then the Governor, which has stood at the pilot for two thousand years, folds its hands, and its eyes, which were two green stones, are only stone.".
+    Otherwise "{?m} begins, and the Governor turns its head at the first line and does not find it agreeable. The patience of the thing has shortened.".
+  }
+
+  // ── Act III: the lens-well and the Governor ───────────────────────────────────────────────────────────────────────
+  Species lb_governor "the Governor of the Lamp Below" like golem temperament territorial described "A body of black bronze nine feet tall, jointed at the knee and hip with plates that overlap like a lobster's, and for a face a round green lens; it holds a trimming-knife the length of a spear.".
+  Person governor "the Governor" at lb_well {
+    Role "the engine's keeper, set to count whoever is below". Species lb_governor. Level 6. Temperament territorial. Pronouns it.
+    Warns "In the cage of bronze the lens stops, and a figure beside the pilot turns its round green face on you with the whole of a slow body. It counts you. You can see it do it: a finger of black bronze lifting once for each of you. A voice like a hinge says a number. The number is not the number of the company. 'One keeper,' it says. 'One counter. All others are removal.'".
+    Comes "The Governor takes its trimming-knife from the cage with an unhurried hand, and the number it says is yours.".
+    Flinches "The Governor's head tilts. For a moment it seems to count someone who is not there.".
+    Pleads "The Governor stops with one arm raised, and the lens in its face goes from green to a very pale amber. 'Count,' it says. 'Count. Count.'".
+  }
+  Rule governor_counts_one at lb_well when at(party, lb_well) and count(memberOf(?m, party)) == 1 and at(governor, lb_well) and not tolerates(governor, party) and not governorRests(party) and not stirred(party)
+    says "The Governor counts the company, one finger of black bronze. Then it counts again. 'One,' it says, in the hinge of its voice. 'One keeper. Tend.' It steps aside from the pilot as if from a table it has been told to lay for a guest, and the lens goes on turning." {
+    Assert tolerates(governor, party). Assert governorRests(party).
+  }
+  Rule voice_hip at lb_well when at(party, lb_well) and memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and at(governor, lb_well) and not vHip(party)
+    says "{?m} looks at the Governor's hip for as long as it takes to be afraid of it, and then at the plate above the left knee. 'Overlap's worn on that side,' {?m} says, low. 'Two hundred years of the same stroke with the same knife. You'd get a blade into that gap, but you'd be in reach to do it.' A breath. 'I'd rather talk to it.'" {
+    Assert vHip(party).
+  }
+  Action say_the_word(actor: group, site: place) "Say the keepers' word from the lip of the well, three times, the third lower" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lb_well) and at(governor, lb_well) and knows(actor, lb_stopword) and not tolerates(governor, actor) and not governorRests(actor).
+    Time 1.
+    On success { Assert tolerates(governor, actor). Assert governorRests(actor). }
+    Result "Nine characters, as one, three times, the third time lower. At the first the Governor's finger stops. At the second it lowers the knife. At the third it kneels, and sets its hand flat on the lip of the well, and the green lens in its face goes slowly dark. 'Counted,' it says.".
+  }
+  Action feed_the_pilot(actor: group, site: place) "Pour a keg of the Pharos's oil into the pilot's cup" {
+    Description "The oil comes down the pipe from the island's store, by hand, every autumn. Nobody has taken it the rest of the way.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lb_well) and holding(actor, dorothea_oil_keg) and not pilotLit(party).
+    Time 2.
+    On success { Spend dorothea_oil_keg from actor. Assert pilotLit(party). Assert tolerates(governor, actor). Assert governorRests(actor). }
+    Result "The cup was a thumb's depth from dry. You pour, slowly, and the flame, which had been the size of a fingernail, stands up. The lens above you picks up its turn; the tick in the hall behind you steadies; the Governor, which came to its feet at the first sign of the keg, stops with the trimming-knife half raised and looks at the flame with the whole of its round green face. 'Fed,' it says. It is the first word it has said that sounds like anything but a count.".
+  }
+  Action take_gauge(actor: group, site: place) "Take the engine-keeper's gauge from the cage" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lb_well) and governorRests(actor) and not lbDone(actor).
+    Time 2.
+    On success { Give lb_gauge to actor. Assert lbDone(actor). }
+    Result "The gauge hangs on a hook by the pilot: a dial of black bronze with a needle the length of a finger, and across its face the Aenean numerals in the first column, and in the second the strokes of the tread. It is lighter than it looks. The Governor watches you take it, and does not count.".
+  }
+  Kind lb_gauge "the engine-keeper's gauge" is treasure worth 60 weighing 1 described "A dial of black bronze with a needle the length of a finger, taken from the cage of the Lamp Below. On its back, in a green metal that has not tarnished, a fish and over it a flame.".
+
+  // What the Lamp Below leaves in the world. The Pharos above is the chimney of this; nothing here is a world event, and
+  // only this module reads it.
+  Rule lamp_known_by_fall when governorRests(party) and not engineKnown(party) { Assert engineKnown(party). }
+  Relation engineKnown(group).
+  Observe plaque_scene at lb_well when governorRests(party) "On the lip of the well, a plaque in the Aeneans' numerals and the Aeneans' Latin says that this was made by the Prefect's order, for the keeping of the lights. It is the Aeneans' claim, and a good plain one. The engine is older than the wall it is set in by about two thousand years, and the wall is Aenean.".
+}
