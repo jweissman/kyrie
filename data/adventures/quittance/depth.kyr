@@ -41,7 +41,7 @@ Module quittance "Quittance" {
   }
   Relation qv_pigeonHeard(group). Relation qv_pigeonSettled(group).
   Topic qv_spode_claim with qv_spode "Ask Mr Spode what the claim is" when true once {
-    Says "'Ambrose,' says Mr Spode. He opens the shoe-box a crack, not enough for you to see anything but a blue-grey gleam and a smell of camphor. 'Insured by the Hen Mutual at four coin the quarter against hawks, drains and the common cat. Ambrose was lost on Tuesday.' He lowers his voice. 'To the cat. The cat was the Phoenix's, so I was told it would not be a covered peril, but I put it to Mrs Pudsey that a cat is a common cat whatever it wears on its collar. We have a difference of opinion.'".
+    Says "'Ambrose,' says Mr Spode. He opens the shoe-box a crack, not enough for you to see anything but a blue-grey gleam and a smell of camphor. 'Insured by the Hen Mutual at four coin the quarter against hawks, drains and the common cat. Ambrose was lost on Tuesday.' He lowers his voice. 'To the cat. The cat was the Phoenix's, so I was told it would not be a covered peril, but I put it to Mrs Pudsey that a cat is a common cat whatever it wears on its collar.'".
     On discuss { Assert qv_pigeonHeard(actor). }
   }
   Topic qv_pudsey_mutual with pudsey "Ask Mrs Pudsey about the Wayward Hen Mutual" when true once {
@@ -78,7 +78,7 @@ Module quittance "Quittance" {
     On discuss { Increase ds_accord(actor) by 1. }
   }
   Topic qv_t_salt with ds_fire "Ask the Fire what the saucers of salt on the Row are for" when fireHeard(actor) and knows(actor, qv_saucers) and not fireWrathful(actor) once {
-    Says "'Salt,' says the Fire, and for the first time its voice is not a form. 'It was set out for a guest who might come late. I have not been late.' The coal brightens. 'They did it on the first of the month, the whole Row, after the doors were walled. Nobody told them to. I think they were afraid. Fear is a very good host. It never sleeps.'".
+    Says "'Salt,' says the Fire, and for the first time its voice is not a form. 'It was set out for a guest who might come late. I have not been late.' The coal brightens. 'They did it on the first of the month, the whole Row, after the doors were walled. Nobody told them to. I think they were afraid. Fear is a very good host.'".
     On discuss { Increase ds_accord(actor) by 1. }
   }
   Action qv_lay_salt(actor: group, site: place) "Lay the twist of guest-salt on the ash, and say whose sill it came from" {
@@ -107,7 +107,7 @@ Module quittance "Quittance" {
     Says "'Others,' says the Fire. 'Hearths, who keep a count? There are always others. There was an Auditor, once, a long way from any hearth, who counted the tide and was thanked by nobody, and I am told he thinks it is a mercy.' The coal brightens a little. 'I do not envy him. I have a stair.'".
   }
   Topic qv_t_slack with ds_fire "Tell the Fire a door has been opened, a long way off, under a college" when fireHeard(actor) and befell(slack_opened) and not fireWrathful(actor) once {
-    Says "The heat turns, as a face turns toward a draught. 'Yes,' says the Fire. 'I felt it come under my own door, three nights ago, with the smell of a place that has no weather. Someone there has been keeping a house that was not theirs, for a very long time, with no one to tell them they might stop.' It is quiet. 'I hope they have been left a place at the table. I hope someone has said so.'".
+    Says "The heat turns, as a face turns toward a draught. 'Yes,' says the Fire. 'I felt it come under my own door, three nights ago, with the smell of a place that has no weather. Someone there has been keeping a house that was not theirs, for a very long time, with no one to tell them they might stop.' It is quiet. 'I hope they have been left a place at the table.'".
     On discuss { Increase ds_accord(actor) by 1. }
   }
 }

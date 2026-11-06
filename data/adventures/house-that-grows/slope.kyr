@@ -24,7 +24,7 @@ Module hhg "The House That Grows" {
   Person sabe "Sabe Orrel" at slope {
     Role "keeper of the Slope, a Lifted woman of seventy who minds a lamp". Ancestry human. Peaceable. Pronouns she. Manner stoic.
     Likeness "midwife".
-    Greets "A small old woman in a Netters' harness gone grey with age sits on an upturned bucket with a lamp on the floor between her feet and her back against the gate. She does not look round. 'Don't open it,' she says. 'And don't sit on the floor, it slides. There's tea in the can, if the can's still hot, and if it isn't it's been a long day.'".
+    Greets "A small old woman in a Netters' harness gone grey with age sits on an upturned bucket with a lamp on the floor between her feet and her back against the gate. She does not look round. 'Don't open it,' she says. 'And don't sit on the floor, it slides. There's tea in the can, if the can's still hot.'".
   }
   Thing sabe_lamp "the keeper's lamp" at slope {
     State lit "A lamp of selm-glass the size of a pear burns on the floor beside the bucket: a small steady flame the colour of pond-ice, that does not move when the knocking comes. Under the foot, scratched small, a name: WENN.".
@@ -33,7 +33,7 @@ Module hhg "The House That Grows" {
   // She wants the knocking to stop in her lifetime; she is afraid of being the one who stopped it; she says she only minds
   // the lamp; pressed, she will put the lamp out for you.
   Topic sabe_lamp_why with sabe "Ask Sabe whom the lamp is lit for" when true once {
-    Says "'Wenn,' says Sabe. 'He had the night-watch on this stair when I was a girl. They said he came off it in the morning and I said I'd see.' She turns the lamp a quarter with her foot, the way you turn a pot to the fire. 'I have not seen. Seventy years of not seeing is a long time to mind a lamp. I mind it.'".
+    Says "'Wenn,' says Sabe. 'He had the night-watch on this stair when I was a girl. They said he came off it in the morning and I said I'd see.' She turns the lamp a quarter with her foot, the way you turn a pot to the fire. 'I have not seen. Seventy years of not seeing is a long time to mind a lamp.'".
   }
   Topic sabe_knock with sabe "Ask Sabe about the knocking" when true once {
     Says "'Eleven,' says Sabe, 'and a gap for the twelfth. Always has been, in my time and my mother's. If you count it out loud somebody counts the twelfth with you, so I don't.' She looks at her knuckles. 'It is a girl, and she is on the inside, and she thinks she is knocking to come in. There is a difference between wanting in and wanting out, and from the inside you can't tell, and from the outside you can't either. Don't you open that gate for the first one you think it is.'".
@@ -69,7 +69,7 @@ Module hhg "The House That Grows" {
   Relation heardShelf(group). Relation heardLamps(group). Relation heardHall(group). Relation heardSlope(group).
   Relation heardSlopeB(group). Relation heardHallB(group). Relation heardGate(group). Relation heardGateB(group).
   Rule voice_monk_shelf at cup_shelf when memberOf(?m, party) and hasCalling(?m, calling_monk) and awake(?m) and at(party, cup_shelf) and not heardShelf(party)
-    says "{?m} stands with feet apart and lets the room come to {?m} instead of going to it. 'Twelve cups, and one has the wrong number of cracks,' {?m} says, after a while. 'Don't tell me it's a trick of the light. You learn what a room does when you have looked at it for a long time.'" {
+    says "{?m} stands with feet apart and lets the room come to {?m} instead of going to it. 'Twelve cups, and one has the wrong number of cracks,' {?m} says, after a while. 'Don't tell me it's a trick of the light.'" {
     Assert heardShelf(party).
   }
   Rule voice_thief_lamps at lamp_store when memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and at(party, lamp_store) and not heardLamps(party)
@@ -242,11 +242,11 @@ Module hhg "The House That Grows" {
 
   // ---- Two further links outward, and a comic scene in a grave house ----
   Topic dace_exchange with dace "Ask Dace where the Company sends what falls out of the city" when true once {
-    Says "'The Founders' Exchange sells it on at Corran,' says Dace, 'and the Lesser Instruments there buy anything that still ticks, and a few things that only used to.' He rolls his cord. 'Mister Lisle sells dreg to lens-grinders at Low Water by the pound. He says it takes the edge off a lens. He does not say off what.'".
+    Says "'The Founders' Exchange sells it on at Corran,' says Dace, 'and the Lesser Instruments there buy anything that still ticks, and a few things that only used to.' He rolls his cord. 'Mister Lisle sells dreg to lens-grinders at Low Water by the pound. He says it takes the edge off a lens.'".
   }
   Relation heardBeams(group).
   Topic wenu_beams with wenu "Ask Wenu about the chalk numbers on the roof beams" when true once {
-    Says "'Eleven hundred and nine, and every one counted forty times,' says Wenu. 'Apprentices do it to stay awake. We keep a book on who finishes first. It is called the Beams Book and I have never lost a penny by it.' She lowers her voice. 'There is a beam in the middle, number six hundred and six, that has never been counted by the same person twice. Everyone gets a different number. Nobody will say what happens to the ones who count it right.'".
+    Says "'Eleven hundred and nine, and every one counted forty times,' says Wenu. 'Apprentices do it to stay awake. We keep a book on who finishes first. It is called the Beams Book and I have never lost a penny by it.' She lowers her voice. 'There is a beam in the middle, number six hundred and six, that has never been counted by the same person twice. Everyone gets a different number.'".
     On discuss { Assert heardBeams(party). }
   }
 

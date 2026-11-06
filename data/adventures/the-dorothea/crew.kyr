@@ -55,8 +55,8 @@ Module dorothea "The Dorothea" {
   Measure hailAt(entity).
   // Left alone, Pendry takes what Rune sells and goes: the casks are the Captain's loss by morning.
   Rule jago_leaves when at(jago, deck) and watch(clock) >= hailAt(hull) + 24 and not sold(hull)
-    says "Jago Pendry finishes his business with the mate, nods to the company as to old acquaintances, and goes back over the rail with two casks on a line. The cutter slides off to leeward. It is not mentioned again." {
-    Retract at(jago, deck). Assert sold(hull). Decrease cargo(hull) by 4. Assert quiet(hull).
+    says "Jago Pendry finishes his business with the mate, nods to the company as to old acquaintances, and goes back over the rail with two casks on a line. The cutter slides off to leeward, and Rune goes below to count something." {
+    Retract at(jago, deck). Assert sold(hull). Decrease cargo(hull) by 4 or to nothing. Assert quiet(hull).
   }
   Relation quiet(entity).
   Observe jago_deck at deck when at(jago, deck) and not sold(hull) "Jago Pendry and Tobias Rune stand together at the after hatch, talking low. Two casks are on the hatch-cover between them, and neither is looking at the casks.".
@@ -75,11 +75,11 @@ Module dorothea "The Dorothea" {
   }
   Relation offered(entity).
   Topic take_cut with jago "Take Jago Pendry's eight coin" when offered(jago) and not bribed(actor) and not shamed(actor) and not told(actor) once {
-    Says "He puts the coin in your hand, and for a moment you are in the same trade. 'Sensible,' he says, and goes back over the rail as lightly as he came, with two casks on a line behind him, and the cutter slides back into the dark. Nobody on the Dorothea says a word of it, then or after. In the morning the hold is a little lighter and the Captain does not look at the tally.".
-    On discuss { Assert bribed(actor). Increase quantity(actor, gold) by 8. Assert sold(hull). Retract at(jago, deck). Decrease cargo(hull) by 4. }
+    Says "He puts the coin in your hand, and for a moment you are in the same trade. 'Sensible,' he says, and goes back over the rail as lightly as he came, with two casks on a line behind him, and the cutter slides back into the dark. In the morning the hold is a little lighter and the Captain, counting, stops one tier short.".
+    On discuss { Assert bribed(actor). Increase quantity(actor, gold) by 8. Assert sold(hull). Retract at(jago, deck). Decrease cargo(hull) by 4 or to nothing. }
   }
   Topic tell_bascom with bascom "Tell Captain Bascom what you saw at the after hatch" when (looked(actor) or knows(actor, rune_sells)) and not told(actor) and not shamed(actor) and not bribed(actor) once {
-    Says "She hears you out without a word. Then she takes the pipe out and walks aft along the deck with the unhurried step of a woman who has decided to do the thing she has been putting off. 'Mr Pendry,' she says. 'Mr Rune.' Her voice does not change. Jago is over the rail before she reaches the hatch, with a flourish and no casks. Rune stands where he is. 'Eleven casks,' she says. 'In the spring I made it fourteen. I told myself I'd counted wrong.' She looks at him a long time. 'You will stand your watch. You will not touch the wheel. When we raise Skerrow you will go ashore with your bag.' Rune opens his mouth. 'Don't,' says Bascom, gently, and that is the worst of it.".
+    Says "She hears you out without a word. Then she takes the pipe out and walks aft along the deck with the unhurried step of a woman who has decided to do the thing she has been putting off. 'Mr Pendry,' she says. 'Mr Rune.' Her voice does not change. Jago is over the rail before she reaches the hatch, with a flourish and no casks. Rune stands where he is. 'Eleven casks,' she says. 'In the spring I made it fourteen. I told myself I'd counted wrong.' She looks at him a long time. 'You will stand your watch. You will not touch the wheel. When we raise Skerrow you will go ashore with your bag.' Rune opens his mouth. 'Don't,' says Bascom, gently, and puts her pipe back between her teeth.".
     On discuss { Assert told(actor). Retract at(jago, deck). Assert disgraced(rune). }
   }
   Relation disgraced(group).
@@ -112,7 +112,7 @@ Module dorothea "The Dorothea" {
     Description "It is cheaper than a head. It is also eight coin that will be spent on drink by the next watch.".
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, deck) and at(kestrel_hands, site) and quantity(actor, gold) >= 8 and not handsPaid(actor).
     Time 1.
-    On success { Decrease quantity(actor, gold) by 8. Assert handsPaid(actor). Retract at(kestrel_hands, deck). Assert at(kestrel_hands, nowhere). Retract at(jago, deck). Assert sold(hull). Decrease cargo(hull) by 4. }
+    On success { Decrease quantity(actor, gold) by 8. Assert handsPaid(actor). Retract at(kestrel_hands, deck). Assert at(kestrel_hands, nowhere). Retract at(jago, deck). Assert sold(hull). Decrease cargo(hull) by 4 or to nothing. }
     Result "The tallest looks at the coin, and at the company, and does a sum his face is not used to doing. 'Eight,' he says. 'For the trouble.' He pockets it with the dignity of a man being paid a fee. They go back over the rail one at a time, and the cutter takes her boat in, and four casks are not in the hold in the morning.".
   }
   Action rune_speaks(actor: group, site: place) "Have Rune speak to the Kestrel's hands, who drank with him in Orsett" {

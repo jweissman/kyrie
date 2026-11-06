@@ -26,7 +26,7 @@ Module calamy "A Parliament of Books" {
   }
   // Act III: the Lamp. The cleric at the church.
   Rule voice_lamp at nave when memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and at(party, nave) and not heardLamp(party)
-    says "{?m} stands with a hand on the nearest pew-end and looks at the great lamp for a long time. 'Nine hundred years,' {?m} says. 'It has never once gone out. That is not a miracle. It is a duty. Somebody has trimmed that wick every night of nine hundred years, and the last of them did not know why.' {?m} crosses the nave, slowly, as if not to wake anything. 'I have known orders that kept less faithfully for better reasons.'" {
+    says "{?m} stands with a hand on the nearest pew-end and looks at the great lamp for a long time. 'Nine hundred years,' {?m} says. 'It has never once gone out. That is not a miracle. It is a duty. Somebody has trimmed that wick every night of nine hundred years, and the last of them did not know why.' {?m} crosses the nave, slowly, as if not to wake anything. ''" {
     Assert heardLamp(party).
   }
   // Act IV: the Commonplace. The ranger on the flats; the mage at the chained book; the bard on the floor of the Roll.
@@ -44,7 +44,7 @@ Module calamy "A Parliament of Books" {
     Assert heardPyre(party).
   }
   Rule voice_crowd at ashpit when memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m) and at(party, ashpit) and kindlingBegun(ashpit) and not heardCrowd(party)
-    says "{?m} listens to the Ashpit breathe. 'Four thousand,' {?m} says, quietly. 'And not one of them is speaking. It is the quiet before the first note.' {?m} tilts a head at the great pile, unlit, and the ladder against it. 'Do not shout. They have all done that. Wait for the front rows to notice you, and then the next. Let the quiet do it. It will, if you are sure of the room.'" {
+    says "{?m} listens to the Ashpit breathe. 'Four thousand,' {?m} says, quietly. 'And not one of them is speaking. It is the quiet before the first note.' {?m} tilts a head at the great pile, unlit, and the ladder against it. 'Do not shout. They have all done that. Wait for the front rows to notice you, and then the next. Let the quiet do it.'" {
     Assert heardCrowd(party).
   }
 }

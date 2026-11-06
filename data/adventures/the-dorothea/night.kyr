@@ -21,7 +21,7 @@ Module dorothea "The Dorothea" {
 
   // ── The lens ────────────────────────────────────────────────────────────────────────────────────────────────────
   // The reflector is bronze and is Quillon's to buy. The lens is something else: green, heavy, set in a ring that is
-  // marked, with eleven stones round its rim and a socket for a twelfth. Marren will
+  // marked, with stones round its rim and an empty socket among them. Marren will
   // not give it to a stranger who asks, because a stranger is not who was foretold. She will give it to a Watch's
   // tally, which she has never seen and will know.
   Topic kestle_lens with kestle "Ask Marren Kestle about the green lens" when true once {
@@ -114,7 +114,7 @@ Module dorothea "The Dorothea" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, helm) and at(bascom, helm) and stormOn(party) and wenOut(party) and lampOut(party) and not beaconLit(actor) and not shipLit(actor).
     Time 2.
     Resolve check(actor, persuasion, dc_fair).
-    On success { Assert shipLit(actor). Assert wenSafe(actor). Retract wenOut(actor). Retract at(wen, off_skerrow). Assert at(wen, jetty). Decrease cargo(hull) by 3. }
+    On success { Assert shipLit(actor). Assert wenSafe(actor). Retract wenOut(actor). Retract at(wen, off_skerrow). Assert at(wen, jetty). Decrease cargo(hull) by 3 or to nothing. }
     Result "'It's lamp-oil,' says Captain Bascom, 'and the Orsett man counts it,' and then she looks at Jory Kestle at the end of the jetty with the lantern and says a word you will not repeat. She goes up the shrouds like a girl. In ten minutes the Dorothea is lit from deck to truck like a church at Easter, and Rune fires the gun, and the sound goes out over the black water, and in the wake of it a small voice a long way off, a boy shouting, cracked with cold, is answered. Bascom comes down, wet through. 'Three casks,' she says. 'I'll have it off somebody.'".
     Otherwise "'My oil,' says Bascom, 'is the only thing between me and the Orsett man's attorney.' She looks at the water. She does not look at you.".
   }

@@ -8,7 +8,7 @@ const five = 'test/fixtures/quiet-in-the-sky/revised.campaign.json';
 const k = (id: string) => `larum__${id}`;
 const coats = ['?Buy a sheepskin coat', '?Buy a sheepskin coat', '?Buy a sheepskin coat', '?Buy a sheepskin coat', '?Buy a sheepskin coat'];
 describe('The Quiet in the Sky: the Account, kept', () => {
-  it('Larum: the hollows a smith made, the passing bell, the ballad with a patch in its middle, the eleven notches and a blank', async () => {
+  it('Larum: the hollows a smith made, the passing bell, the ballad with a patch in its middle, the second cup', async () => {
     const j = await Journey.start(five, 'q1');
     await j.play('^To Larum street', 'Into the Hark');
     expect(j.page).toMatch(/Somebody put a middle in a ballad/);
@@ -18,7 +18,7 @@ describe('The Quiet in the Sky: the Account, kept', () => {
     expect(j.page).toMatch(/left foot forward/);
     expect(j.holds('knows', 'party', k('bell_is_passing'))).toBe(true);
     await j.play('Out to Larum street', "Into the guide's house");
-    expect(j.page).toMatch(/eleven notches in a row/);
+    expect(j.page).toMatch(/turned the right way up/);
     await j.play('Out to Larum street');
     expect(j.page).toMatch(/Sixways/);
   }, 300000);

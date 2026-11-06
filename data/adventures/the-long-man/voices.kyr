@@ -29,7 +29,7 @@ Module longman "The Long Man" {
     Assert heardOx(party).
   }
   Rule voice_wheel at sluice when memberOf(?m, party) and hasCalling(?m, calling_mage) and awake(?m) and at(party, sluice) and not heardWheel(party)
-    says "{?m} stands with a palm held an inch from the nearest tooth of green bronze. 'No working in it,' {?m} says, puzzled. 'Nothing I could name. It does not do a thing. It counts, and the counting does the thing, and I could not tell you where the difference lies.'" {
+    says "{?m} stands with a palm held an inch from the nearest tooth of green bronze. 'No working in it,' {?m} says, puzzled. 'Nothing I could name. It does not do a thing. It counts, and the counting does the thing.'" {
     Assert heardWheel(party).
   }
 

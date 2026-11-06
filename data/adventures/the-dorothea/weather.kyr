@@ -37,20 +37,20 @@ Module dorothea "The Dorothea" {
     says "A speck on the water, to larboard, in the last of the light, and the speck is a light. Not a ship's: lower, steadier, riding on something flat. Mab, who sees it first, makes the sign against nothing in particular." {
     Assert raft(hull). Assert raftDone(hull). Assert troubled(hull). Increase seaDrawn(hull) by 1. Set seaAt(hull) to watch(clock).
   }
-  Observe raft_deck at deck when raft(hull) "A raft of lashed casks, black with weed, with a stable lantern wired to a post at its middle. The lantern is lit. On the post, in a hand a century out of fashion, is nailed a board: FOR THE ONES COMING HOME.".
+  Observe raft_deck at deck when raft(hull) "A raft of lashed casks, black with weed, with a stable lantern wired to a post at its middle. The lantern is lit, and has been filled this week, which is the odd part. On the post, in a hand a century out of fashion, is nailed a board with one word on it: HOLM.".
   Action take_the_lantern(actor: group, site: place) "Fish the lantern off the raft with a boat-hook" {
-    Description "It is warm. It has been burning some while, and its oil, which should have been done a long time ago, is not.".
+    Description "It is warm and nearly full. Whoever lit it did not mean it for the ship.".
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, deck) and raft(hull).
     Time 2.
     On success { Give lantern to actor. Assert raftLantern(actor). Retract raft(hull). Retract troubled(hull). }
-    Result "Rune gets the hook through the ring, and you bring it over the rail. The flame does not lean to the wind. Nobody aboard says a word about it for the rest of the watch. Mab sets it on a cask in the galley, where it is lit when she goes to bed, and lit when she wakes.".
+    Result "Rune gets the hook through the ring, and you bring it over the rail. Mab trims the wick, sniffs the oil, and says it is lamp-oil like any other, which she seems to find the worst of it. She sets it on a cask in the galley, where she can see it.".
   }
   Action leave_the_raft(actor: group, site: place) "Sail on, and leave it burning" {
     Description "There are lights in the world that are for someone else.".
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, deck) and raft(hull).
     Time 1.
     On success { Retract raft(hull). Retract troubled(hull). }
-    Result "The raft draws astern. For a long time the lantern is the one steady point in the whole dark, and then it is a spark, and then it is Bascom's pipe, glowing, as she lights it from the binnacle and says nothing.".
+    Result "The raft draws astern, and the lantern is a spark, and then it is Bascom's pipe, as she lights it from the binnacle and looks the other way.".
   }
 
   Rule sea_fever when at(hull, open_sea) and sailed(hull) and not troubled(hull) and seaWindow(hull) and seaDrawn(hull) < 2 and not seaQuiet(hull) and not feverDone(hull) and dice(hull) > 10 and dice(hull) <= 15
@@ -64,7 +64,7 @@ Module dorothea "The Dorothea" {
     Time 4.
     Resolve check(actor, insight, dc_easy).
     On success { Retract fever(hull). Retract troubled(hull). }
-    On failure { Retract fever(hull). Retract troubled(hull). Decrease cargo(hull) by 2. }
+    On failure { Retract fever(hull). Retract troubled(hull). Decrease cargo(hull) by 2 or to nothing. }
     Result "You keep the cloth cold and the boy talking, and sometime before light his fever breaks like a plate. 'Mother,' he says, quite clearly, 'the Combs.' Then he sleeps.".
     Otherwise "You do what you can, and what you can is not quite it. He lives; but Mab spends two casks of the Pharos oil on a poultice, and does not say sorry, and does not look at the Captain.".
   }
@@ -73,7 +73,7 @@ Module dorothea "The Dorothea" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, deck) and fever(hull) and capable(actor, rites).
     Time 2.
     On success { Retract fever(hull). Retract troubled(hull). }
-    Result "The office is eleven lines and a blank, and you say the blank as one says a name. The fever lets go of him as a hand lets go of a rail. Mab, who has not prayed since her husband, holds the lamp very still.".
+    Result "The office is short and has a gap in it for the sick person's name. You do not know the boy's second name and say 'Nipper', and Mab, at the door, nods as at a thing correctly entered. The fever lets go of him as a hand lets go of a rail.".
   }
 
   Rule sea_calm when at(hull, open_sea) and sailed(hull) and not troubled(hull) and seaWindow(hull) and seaDrawn(hull) < 2 and not seaQuiet(hull) and not calmDone(hull) and dice(hull) > 15 and dice(hull) <= 20

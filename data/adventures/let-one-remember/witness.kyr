@@ -19,7 +19,7 @@ Module corrow "Let One Remember" {
     Assert remField(party).
   }
   Rule voice_files at tail when memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and at(party, tail) and not remTail(party)
-    says "{?m} runs a thumb down the bright face of the newest cut. 'All from the east side,' {?m} says. 'Every stroke, from the shoulder of a right-handed man who is tired. They leave the west face to the last, and they leave it thin, so that it goes of itself. Nobody here is going to say they cut it.'" {
+    says "{?m} runs a thumb down the bright face of the newest cut. 'All from the east side,' {?m} says. 'Every stroke, from the shoulder of a right-handed man who is tired. They leave the west face to the last, and they leave it thin, so that it goes of itself.'" {
     Assert remTail(party).
   }
   Rule voice_desk at consulate when memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and at(party, consulate) and not remDesk(party)
@@ -27,7 +27,7 @@ Module corrow "Let One Remember" {
     Assert remDesk(party).
   }
   Rule voice_place at mountain_place when memberOf(?m, party) and hasCalling(?m, calling_mage) and awake(?m) and at(party, mountain_place) and not remPlace(party)
-    says "{?m} holds a palm out over the lip and takes it back. 'It is not a hole,' {?m} says. 'A hole is made by taking something out, and you can feel where it went. This was never put in. It is the exact shape of a thing that was lifted, and the shape remembers the weight.'" {
+    says "{?m} holds a palm out over the lip and takes it back. 'It is not a hole,' {?m} says. 'A hole is made by taking something out, and you can feel where it went. This was never put in. It is the exact shape of a thing that was lifted.'" {
     Assert remPlace(party).
   }
   Rule voice_ledge at silver_sump when memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and at(party, silver_sump) and not remLedge(party) and not fed(old_silver)
@@ -97,7 +97,7 @@ Module corrow "Let One Remember" {
     Says "'One man,' says Pannick. 'A glove. He claimed it with enormous dignity, signed in three places, and went out of the square wearing it on the wrong hand. He came back next morning to say it had been the wrong glove.' He looks at the nail, which is hung with coats and doors and a gravestone name. 'It is not that they do not want it. It is that it has come back changed, and so have they. What I deal in, sir, is not property. It is people's opinion of what they used to be.'".
   }
   Topic finder_bell with finder "Ask the Finder about the little bell in his drawer" when knows(actor, origin_known) or knows(actor, method_known) once {
-    Says "He is, for the first time, slightly embarrassed. 'A hand-bell,' he says. 'Brass, the size of a sheaf-measure, with a long figure cut into the side of it, like a man lying on a hill. It came home to the bar the winter before last. Nobody here ever lost it.' He opens the drawer a finger's width and shuts it. 'A tinker of the Lesser Instruments, up from Corran, offered me a crown for the brass. I said it was held for the owner. The owner is the reeve of some dale in the south, I am told, who has not written.' He frowns at the drawer. 'I find I do not want to be the one it is returned to.'".
+    Says "He is, for the first time, slightly embarrassed. 'A hand-bell,' he says. 'Brass, the size of a sheaf-measure, with a long figure cut into the side of it, like a man lying on a hill. It came home to the bar the winter before last. Nobody here ever lost it.' He opens the drawer a finger's width and shuts it. 'A tinker of the Lesser Instruments, up from Corran, offered me a crown for the brass. I said it was held for the owner. The owner is the reeve of some dale in the south, I am told, who has not written.' He frowns at the drawer. ''".
   }
   Topic finder_tinker with finder "Ask about the tinker from Corran" when true once {
     Says "'Collects,' says the Finder, with distaste. 'That is the verb. Not buys; they say collects. Brass buttons by the pound, and keys, and anything with a notch in it. He will not say what for. A man who will not say what for is the only kind of customer this town has not yet refused.'".
@@ -106,7 +106,7 @@ Module corrow "Let One Remember" {
   // ── Calvessan, and a woman who got it wrong ──────────────────────────────────────────────────────────────────────
   // The low road's marks are only the first place the grammar bites: it is how Keld talk to this day. A cleric hears it.
   Rule voice_grammar at keld_green when memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and at(party, keld_green) and knows(party, evidential_known) and not remGrammar(party)
-    says "{?m} has been listening to the green for some time. 'They all do it,' {?m} says, surprised. 'Every sentence. The child with the ball said her ball was lost, and then said let, not kept. She did not see it go. Somebody told her.' {?m} watches the children play. 'It must be dreadful to be lied to, in that grammar. It is written in the verb.'" {
+    says "{?m} has been listening to the green for some time. 'They all do it,' {?m} says, surprised. 'Every sentence. The child with the ball said her ball was lost, and then said let, not kept. She did not see it go. Somebody told her.' {?m} watches the children play. 'It must be dreadful to be lied to, in that grammar.'" {
     Assert remGrammar(party).
   }
   Relation remGrammar(group).

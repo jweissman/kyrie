@@ -58,10 +58,10 @@ Module sennet "The Grand Tour" {
   }
   Discovery roll_two "The Remainder keeps two rolls: one in marks nobody reads, one in a hand that is not the Watch's, forty names, thirty-eight struck through. The Captain believes it was written by someone who was there. The Reckoner thinks the Watch wrote it to explain the names on the bulkhead.".
   Topic sabe_want with sabe "Ask Captain Sabe what the Watch wants" when counted(actor) once {
-    Says "'Nothing,' says Sabe. 'We keep the hours. We keep the remainders. I was born on this deck and my mother before me, and each of us has said to the next, as the Watch is passed, that nothing is required but that the count be kept.' His hands are folded on the slate. 'My Reckoner thinks otherwise. She is young.'".
+    Says "'Nothing,' says Sabe. 'We keep the hours. We keep the remainders. I was born on this deck and my mother before me, and each of us has said to the next, as the Watch is passed, that nothing is required but that the count be kept.' His hands are folded on the slate. 'My Reckoner thinks otherwise.'".
   }
   Topic tamsin_count with tamsin "Ask Tamsin Quaye what she is trying to break" when secondBell(actor) once {
-    Says "'The count,' she says. 'Ours. The ship's.' She puts down a bead. 'For nine hundred of our years the pin on that chart has been in the same place. Last year it moved. A hair.' She looks at it. 'The Captain says it is a cold week. When the slack ends the count has us, and everything in the hold, and it will not be unkind about it. It will simply divide.'".
+    Says "'The count,' she says. 'Ours. The ship's.' She puts down a bead. 'For nine hundred of our years the pin on that chart has been in the same place. Last year it moved. A hair.' She looks at it. 'The Captain says it is a cold week. When the slack ends the count has us, and everything in the hold, and it will not be unkind about it.'".
     On discuss { Assert counted(actor). Assert knows(actor, slack_thin). }
   }
   Discovery slack_thin "The Reckoner of the Remainder says the Slack is thinning: the pin on the chart has moved by a hair, and when the slack ends the count will take the ship and everything in her hold, and her Watch.".
@@ -124,7 +124,7 @@ Module sennet "The Grand Tour" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, rem_count) and knows(actor, surety_asked) and holding(actor, prefects_writ) and not surety(actor) and not boarded(actor).
     Time 3.
     On success { Assert surety(actor). Assert harboured(remainder). Assert befell(remainder_harboured). }
-    Result "You unfold the monk's copy on the table of the count-room and read the Latin aloud, and then your own plain English, line for line, as Mother Ysolt wrote it. 'To keep and not to own,' you say. 'Whoever is given it is a keeper, and may not sell. The House that stands behind it may be replaced if it neglects the keeping.' Tamsin Quaye has gone very still. 'That is a law,' she says. 'Somebody made that for exactly this.' She looks at Orrel Sabe, who has not said anything. 'Captain,' she says. 'It is not a harbour. It is a custody. I could live in a custody.'".
+    Result "You unfold the monk's copy on the table of the count-room and read the Latin aloud, and then your own plain English, line for line, as Mother Ysolt wrote it. 'To keep and not to own,' you say. 'Whoever is given it is a keeper, and may not sell. The House that stands behind it may be replaced if it neglects the keeping.' Tamsin Quaye has gone very still. 'That is a law,' she says. 'Somebody made that for exactly this.' She looks at Orrel Sabe, who has not said anything. 'Captain,' she says. 'It is not a harbour. It is a custody.'".
   }
   Action surety_none(actor: group, site: place) "Tell Tamsin Quaye you cannot stand surety for what you cannot count" {
     Description "It is a hard thing to say to a young woman who has waited her whole life for someone to come down the stair.".
@@ -169,7 +169,7 @@ Module sennet "The Grand Tour" {
   // A company that stood surety blind answers for everything the Watch holds, and the Watch holds a good deal, and eats.
   Relation liable(group). Relation calledToday(group).
   Rule surety_binds when harboured(remainder) and surety(party) and not holding(party, surety_terms) and not liable(party)
-    says "Orrel Sabe has set down his slate, and is looking at you with an apology that is entirely sincere. 'I have to tell you,' he says, 'what our roll says about a surety who does not name the keeping. It says they answer for all of it. I do not think you knew.'" {
+    says "Orrel Sabe has set down his slate, and is looking at you with an apology that is entirely sincere. 'I have to tell you,' he says, 'what our roll says about a surety who does not name the keeping. It says they answer for all of it.'" {
     Assert liable(party).
   }
   Rule watch_calls when liable(party) and hour(clock) == 9 and not calledToday(party) and harboured(remainder)

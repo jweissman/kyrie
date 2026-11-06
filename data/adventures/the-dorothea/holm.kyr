@@ -31,7 +31,7 @@ Module dorothea "The Dorothea" {
     Says "'Older than the tower, they say. Older than the stump, I'd say, if you've a mind to say. There was a lantern on that iron once. It went out on the tide one winter on a raft of casks, with a board nailed to it, and a good many people have claimed to see it since.' She shrugs. 'People claim a lot, near the Wrack Road.'".
   }
   Topic quint_holm with quint "Ask Odile Quint to read the device on the lamp-stand" when at(actor, holm_stump) once {
-    Says "Quint kneels with her ell-rod across her knees and wipes the rust with a thumb. 'The same mark,' she says. 'As the Pharos keystone. As the Gull's paper. A fish, and a flame over it.' She is quiet for a moment. 'There is a line round the foot, in the old imperial. It reads, roughly: KEPT, FOR THEM THAT COME HOME. They do not say who by.' She stands up and puts her knees back where they belong. 'I would not have it taken for scrap.'".
+    Says "Quint kneels with her ell-rod across her knees and wipes the rust with a thumb. 'The same mark,' she says. 'As the Pharos keystone. As the Gull's paper. A fish, and a flame over it.' She is quiet for a moment. 'There is a line cut round the foot, in the old imperial, and the salt has had most of it. I can give you two words and I would not swear to the second.' She stands up and puts her knees back where they belong. 'I would not have it taken for scrap.'".
   }
   // The Holm's problem: a light, a widow, and a rent. Marit must be willing, and the stump must be fuelled.
   Action argue_marit(actor: group, site: place) "Tell Marit Oake what the stump was for, and ask her to let it be lit" {
@@ -52,7 +52,7 @@ Module dorothea "The Dorothea" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, holm_stump) and houseHolds(lamp_holm) and not maritWilling(actor) and holding(actor, lantern) and raftLantern(actor).
     Time 1.
     On success { Assert maritWilling(actor). }
-    Result "She takes it in both hands, and the flame does not lean. She turns it, and finds the ring on its top, worn bright by a hand she cannot have known. 'That is the Holm's,' she says. 'It is the Holm's.' The gull moves to the other shoulder. 'Don't ask me how it came to be on a raft. Put it back.'".
+    Result "She takes it in both hands. She turns it, and finds the ring on its top, worn bright by a hand she cannot have known. 'That is the Holm's,' she says. 'It is the Holm's.' The gull moves to the other shoulder. 'Don't ask me how it came to be on a raft. Put it back.'".
   }
   Action oil_the_holm(actor: group, site: place) "Fill the stump's lamp-stand from a keg of the Pharos's oil, and light it" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, holm_stump) and houseHolds(lamp_holm) and maritWilling(actor) and holding(actor, dorothea_oil_keg).
@@ -64,6 +64,6 @@ Module dorothea "The Dorothea" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, holm_stump) and houseHolds(lamp_holm) and maritWilling(actor) and holding(actor, lantern) and raftLantern(actor).
     Time 2.
     On success { Spend lantern from actor. Retract houseHolds(lamp_holm). Assert lampLit(lamp_holm). Increase freed(actor) by 1. }
-    Result "The lantern sits on the iron as if it had never been off. The flame stands up and does not lean to the draught from the door. Marit says nothing at all, and presently the gull begins, quietly, to preen.".
+    Result "The lantern sits on the iron as if it had never been off. The flame stands up straight in the draught from the door. Marit says nothing at all, and presently the gull begins, quietly, to preen.".
   }
 }
