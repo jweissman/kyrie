@@ -13,6 +13,7 @@ Module dorothea "The Dorothea" {
   Place ness_roads "Port Ness roads" is room within lane at 5, 0.
   Place antler_race "the Antlers' race" is room within lane at 6, 0.
   Place ashkeld_roads "Ashkeld roads" is room within lane at 7, 0.
+  Place mangrow_roads "Mangrow roads" is room within lane at 8, 0.
 
   Place ship_region "the ketch Dorothea" is region.
   Place hull_site "the Dorothea" is site within ship_region at 0, 0.
@@ -31,6 +32,7 @@ Module dorothea "The Dorothea" {
   Passage gangway_isle "the gangway to the jetty" is steps between deck and jetty opening when at(hull, jetty) "".
   Passage gangway_ness "the gangway to Port Ness pier" is steps between deck and ness_quay opening when at(hull, ness_quay) "".
   Passage gangway_ashkeld "the boat to the black beach" is steps between deck and ashkeld_beach opening when at(hull, ashkeld_beach) "".
+  Passage gangway_mangrow "the plank to the Mangrow pier" is steps between deck and mangrow_pier opening when at(hull, mangrow_pier) "".
   Passage gangway_antlers "the plank to the Antlers' ledge" is steps between deck and antler_ledge opening when at(hull, antler_ledge) "".
 
   Thing hull "the Dorothea" at quay {
@@ -39,10 +41,11 @@ Module dorothea "The Dorothea" {
     State moored_isle "The ketch Dorothea lies against Skerrow's jetty, lines out, her gangway down, her crew rolling casks along the stone.".
     State moored_ness "The ketch Dorothea lies against Port Ness pier among the salt lighters, lines out, her gangway down.".
     State moored_ashkeld "The ketch Dorothea lies off Ashkeld's black beach with her boat in the surf, and a plume of steam going straight up from the hill behind.".
+    State moored_mangrow "The ketch Dorothea lies off the Mangrow pier on two anchors, a plank run out to the black piles, the green coming down to the water on either hand.".
     State moored_antlers "The ketch Dorothea lies off the Antlers' ledge on two anchors, a plank run out to the rock.".
   }
   Initially Assert state(hull, alongside).
-  // bound(hull) is the call she is making: 1 Skerrow, 2 Port Ness, 3 the Antlers (set with the fare, port.kyr).
+  // bound(hull) is the call she is making: 1 Skerrow, 2 Port Ness, 3 the Antlers, 4 Ashkeld, 5 Mangrow (set with the fare, port.kyr).
   Measure departedAt(entity). Measure delay(entity). Measure reachedAt(entity). Measure bound(entity).
   Relation sailed(entity). Relation arrived(entity). Relation troubled(entity).
   Initially Set departedAt(hull) to 0. Initially Set delay(hull) to 0. Initially Set bound(hull) to 1.

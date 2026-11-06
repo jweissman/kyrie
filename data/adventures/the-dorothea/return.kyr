@@ -27,6 +27,14 @@ Module dorothea "The Dorothea" {
     Assert homeward(hull). Retract at(hull, ashkeld_beach). Assert at(hull, ashkeld_roads). Set back(hull) to 0. Set leftAt(hull) to watch(clock). Retract arrived(hull). Retract troubled(hull). Assert state(hull, underway).
     Retract at(bascom, ashkeld_beach). Assert at(bascom, helm). Set seaDrawn(hull) to 0. Retract squallDone(hull). Retract raftDone(hull). Retract feverDone(hull). Retract calmDone(hull). Retract fleetDone(hull).
   }
+  Rule hull_returns_mangrow when arrived(hull) and not homeward(hull) and not safeHome(hull) and at(hull, mangrow_pier) and watch(clock) >= reachedAt(hull) + stayFor(hull)
+    says "The plank comes in dripping. Bascom shouts down the wind, though there is none, and the anchors come up black and heavy with leaf-mould, and the Dorothea backs out of the tea-coloured water with the green closing behind her like a door." {
+    Assert homeward(hull). Retract at(hull, mangrow_pier). Assert at(hull, mangrow_roads). Set back(hull) to 0. Set leftAt(hull) to watch(clock). Retract arrived(hull). Retract troubled(hull). Assert state(hull, underway).
+    Retract at(bascom, mangrow_pier). Assert at(bascom, helm). Set seaDrawn(hull) to 0. Retract squallDone(hull). Retract raftDone(hull). Retract feverDone(hull). Retract calmDone(hull). Retract fleetDone(hull).
+  }
+  Rule home_open_mangrow when homeward(hull) and bound(hull) == 5 and at(hull, mangrow_roads) and back(hull) >= 8 says "The green wall sinks until it is a line, and then a smudge, and the air loses its weight. You find you have been breathing shallow for a week." {
+    Retract at(hull, mangrow_roads). Assert at(hull, open_sea).
+  }
   Rule home_open_ashkeld when homeward(hull) and bound(hull) == 4 and at(hull, ashkeld_roads) and back(hull) >= 8 says "The cone goes down the sea by degrees until it is a smudge, and then a darker place in the sky, and then a thing you remember." {
     Retract at(hull, ashkeld_roads). Assert at(hull, open_sea).
   }
@@ -63,6 +71,7 @@ Module dorothea "The Dorothea" {
     Retract combsMet(hull). Retract waitedFlood(hull). Retract ranGap(hull). Retract lightened(hull). Retract decidedCombs(hull). Retract raceMet(hull). Retract towCalled(hull). Retract pilotAboard(hull).
     Retract holed(hull). Retract callPumped(hull). Retract at(rudd, helm). Assert at(rudd, quay). Retract ruddSober(party). Retract fog(hull). Retract heaved(hull).
     Retract squall(hull). Retract raft(hull). Retract fever(hull). Retract calm(hull).
+    Retract ferried(party). Retract netted(party). Retract barked(party). Retract fevered(party). Retract felt2(party). Retract felt6(party). Set swelter(party) to 0.
     Retract squallDone(hull). Retract raftDone(hull). Retract feverDone(hull). Retract calmDone(hull). Retract fleetDone(hull).
     Set progress(hull) to 0. Set back(hull) to 0. Set water(hull) to 0. Set cargo(hull) to 40. Set seaDrawn(hull) to 0.
     Assert state(hull, alongside). Retract at(bascom, helm). Assert at(bascom, quay).

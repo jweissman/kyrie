@@ -122,7 +122,7 @@ Module dorothea "The Dorothea" {
     Requires able(actor) and company(actor) and at(actor, site) and holding(actor, dorothea_bark) and not barked(actor).
     Time 1.
     On success { Spend dorothea_bark from actor. Assert barked(actor). Set swelter(actor) to 0. Set barkEnds(actor) to watch(clock) + 90. }
-    Result "The pannikin goes round. Hale, who has drunk worse in the army, says she has not. By the second round the cane has gone quiet, and the ringing is a sound you remember from somewhere else.".
+    Result "The pannikin goes round. The one who has drunk worse in the army says they have not. By the second round the cane has gone quiet, and the ringing is a sound you remember from somewhere else.".
   }
   Action brew_for_the_boy(actor: group, site: place) "Steep the Mangrow bark for the boy" {
     Description "A fever on a ship is a fever on a ship. This one the bark was made for.".

@@ -23,7 +23,7 @@ Module dorothea "The Dorothea" {
   Passage office_door "the harbourmaster's door" is door between quay and harbourmaster.
 
   Observe road_scene at road_end when true "The coast road comes down off the moor to a harbour the colour of slate, with a smell of tar and herring on the wind. Masts stand in it close as reeds, and beyond the harbour mouth a grey line that might be cloud or might be an island.".
-  Observe quay_scene at quay when true "Tolleth quay: a curved stone wall, bollards worn to the shape of ropes, barrels in rows, gulls. A notice board outside the harbourmaster's door gives the tides and the sailings in chalk: ORSETT, WED. PORT NESS (SALT), SAT. THE ANTLERS, WHEN THE PILOT IS SOBER. SKERROW, THE NOON EBB (DOROTHEA). Under it, in another hand and a different chalk, a column of names with a cross against each, and the heading LOST THIS YEAR: MARY ANN, THE COMBS, LAMMAS. ROSA LIND, THE HOLM BAR. TERN, THE ANTLERS RACE. A fourth line has been begun, and rubbed out, and begun again. Each sailing is chalked with a small key-and-ring at the end of its line, the way a brewer brands a cask.".
+  Observe quay_scene at quay when true "Tolleth quay: a curved stone wall, bollards worn to the shape of ropes, barrels in rows, gulls. A notice board outside the harbourmaster's door gives the tides and the sailings in chalk: ORSETT, WED. PORT NESS (SALT), SAT. THE ANTLERS, WHEN THE PILOT IS SOBER. SKERROW, THE NOON EBB (DOROTHEA). ASHKELD (STONE), THREE DAYS, WHEN THE HOUSE REMEMBERS. MANGROW (BARK), FIVE DAYS SOUTH, FEVER ALLOWING. Under it, in another hand and a different chalk, a column of names with a cross against each, and the heading LOST THIS YEAR: MARY ANN, THE COMBS, LAMMAS. ROSA LIND, THE HOLM BAR. TERN, THE ANTLERS RACE. A fourth line has been begun, and rubbed out, and begun again. Each sailing is chalked with a small key-and-ring at the end of its line, the way a brewer brands a cask.".
   Observe taproom_scene at taproom when true "A low taproom full of men with salt in their hair, and a fire that smokes when the wind is in the west. A slate by the door has names on it, and sums.".
   Observe shop_scene at shop when true "Garrick's: rope in coils like sleeping snakes, tar in kegs, oilskins on pegs, a rack of lead-lines. The smell is enough to give a landsman a headache and a seaman a sentimental turn.".
   Observe office_scene at harbourmaster when true "A narrow room with a tide-table on the wall as long as a man, a barometer that has not been believed since it was hung, and a ledger of sailings in a neat hand, ruled in two columns, the right-hand one headed in small capitals W.R. and not read.".
@@ -36,6 +36,7 @@ Module dorothea "The Dorothea" {
   Person pellow "Wat Garrick" at shop {
     Role "chandler". Ancestry human. Peaceable. Pronouns he. Manner jovial.
     Sells rope for 1 coin from 4. Sells rations for 2 coin from 6. Sells torch for 1 coin from 6.
+    Sells dorothea_netting for 2 coin from 4.
     Greets "Wat Garrick looks up from a coil he is whipping, and at your boots, and says that nobody goes to Skerrow in those, and then sells you something.".
   }
   Person harbourman "Dacey Hoe" at harbourmaster {
@@ -92,7 +93,7 @@ Module dorothea "The Dorothea" {
   // and the way home follow it (voyage.kyr, return.kyr). A company left abroad finds her coming back to where it is.
   Relation askedCalls(group).
   Topic bascom_calls with bascom "Ask Captain Bascom where else she calls" when asked(actor) once {
-    Says "'Skerrow, six coin; you know it. Port Ness, four: the salt. A long afternoon out, a night in the barn if you like, and back with the lighters' leavings. The Antlers, eight, on account of the race, and on account of the pilot, who is a man that has to be found sober.' She shifts the pipe. 'All three are the House's paper, as it happens, the House of Marchbank, Orsett. You'll find a man of the House on each of them. You'll know them by the colour of their books.'".
+    Says "'Skerrow, six coin; you know it. Port Ness, four: the salt. A long afternoon out, a night in the barn if you like, and back with the lighters' leavings. The Antlers, eight, on account of the race, and on account of the pilot, who is a man that has to be found sober.' She shifts the pipe. 'There is Ashkeld, twelve, three days south-west, if you like your supper warm. And Mangrow, sixteen, five days south, up a river: bark, and a fever for those who go in without netting. Most of them are the House's paper, as it happens, the House of Marchbank, Orsett. You'll find a man of the House on most of them. You'll know them by the colour of their books.'".
     On discuss { Assert askedCalls(actor). }
   }
   Action course_skerrow(actor: group, site: place) "Ask Captain Bascom to make her call Skerrow after all" {
@@ -114,7 +115,7 @@ Module dorothea "The Dorothea" {
     Result "'The Antlers.' Bascom takes the pipe out and looks at it. 'Eight coin. There's a pilot, if he's sober. If he isn't I'll be asking you for a favour at the race.'".
   }
   Action course_ashkeld(actor: group, site: place) "Ask Captain Bascom to put in at Ashkeld, the burning island (twelve coin)" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(bascom, site) and at(actor, quay) and asked(actor) and not booked(actor) and not sailed(hull) and askedCalls(actor) and bound(hull) < 4.
+    Requires able(actor) and company(actor) and at(actor, site) and at(bascom, site) and at(actor, quay) and asked(actor) and not booked(actor) and not sailed(hull) and askedCalls(actor) and (bound(hull) < 4 or bound(hull) > 4).
     Time 0.
     On success { Set bound(hull) to 4. Set seaEnd(hull) to 370. Set stayFor(hull) to 150. Set homeOpenAt(hull) to 8. Set homeSoundAt(hull) to 352. Set homeQuayAt(hull) to 388. }
     Result "'Ashkeld.' Bascom says it the way people say the name of a relative who has been in prison. 'Three days out and three back, and the House has not called there in two seasons. Twelve coin. I will not tell you it is a pretty place.'".

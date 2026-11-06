@@ -71,6 +71,19 @@ Module dorothea "The Dorothea" {
   Observe deck_race_trouble at deck when at(hull, antler_race) and troubled(hull) "The Dorothea lies hove-to at the mouth of the race with her sails shaking. The cross-sea runs up the lane and breaks on the stacks, and the stacks do not mind.".
   Observe deck_antlers at deck when at(hull, antler_ledge) "The Antlers' ledge: a wet shelf of rock, a plank, a hoist-rope going up a stack into cloud, and down the sheer wall of the biggest stack, a rope-ladder of such an age that the sea-birds have nested in it.".
 
+  // ── Mangrow: five days south, and the green ────────────────────────────────────────────────────────────────────
+  Rule enters_mangrow when at(hull, open_sea) and bound(hull) == 5 and progress(hull) >= 680 and not homeward(hull) says "On the fifth morning the sea changes colour from slate to tea, and a smell comes across it that is not the sea: wet leaf, rot, something sweet beyond the rot. Then a green wall rises from the water and goes on rising, and in it a single brown mouth. Rune says it is the only place he knows where the land has the weather." {
+    Retract at(hull, open_sea). Assert at(hull, mangrow_roads).
+  }
+  Rule reaches_mangrow when at(hull, mangrow_roads) and progress(hull) >= 700 and not arrived(hull) and not homeward(hull) and sailed(hull) says "Bascom will not trust a line to the pier. Two anchors go down in the tea-coloured water and a plank is run out to the black piles, and at the end of it, with a cheroot, a thin dark woman is waiting to be paid." {
+    Retract at(hull, mangrow_roads). Assert at(hull, mangrow_pier). Assert arrived(hull). Assert state(hull, moored_mangrow). Set reachedAt(hull) to watch(clock). Set stingAt(party) to watch(clock) + 6.
+  }
+  // The long legs read as days: Ashkeld's third and Mangrow's fifth.
+  Observe deck_day_two at deck when at(hull, open_sea) and bound(hull) >= 4 and progress(hull) >= 150 and progress(hull) < 290 and not homeward(hull) and not troubled(hull) "The second day out. The wind has gone round to the south and there is warmth in it that was not there yesterday. The gulls have turned back. Nipper has stopped asking how far.".
+  Observe deck_day_three at deck when at(hull, open_sea) and bound(hull) >= 4 and progress(hull) >= 290 and progress(hull) < 430 and not homeward(hull) and not troubled(hull) "The third day, and the sea is the same sea. The ship's sounds have settled into a drone. Mab has stopped serving the fresh bread, and the biscuit has become a subject.".
+  Observe deck_day_four at deck when at(hull, open_sea) and bound(hull) == 5 and progress(hull) >= 430 and progress(hull) < 570 and not homeward(hull) and not troubled(hull) "The fourth day. Flying fish go across the bow in sheets. The water has begun to smell of something that is not salt. Bascom, at the wheel, has not said a word since breakfast, and when she does it is to ask for the lead.".
+  Observe deck_day_five at deck when at(hull, open_sea) and bound(hull) == 5 and progress(hull) >= 570 and not homeward(hull) and not troubled(hull) "The fifth day, towards dusk. A drift of leaves goes by, and then a whole bough, and a bird of a colour you have no word for sits on the rail and looks at the company with deep disapproval.".
+
   // ── Fog in the Sound ────────────────────────────────────────────────────────────────────────────────────────────
   Rule fog_rolls when at(hull, sound) and progress(hull) >= 22 and not fogDone(hull)
     says "It comes down the Sound from the sea like a wall being let fall: first the headlands go, then the bow, then the hand on the rail. Bascom says 'Rune,' very quietly, and Rune is already at the lead." {
