@@ -81,4 +81,15 @@ Module longman "The Long Man" {
   Observe after_warden at green when calm(long_man) and wardenChosen(dunnet) and not broke(long_man) "On the green a board has been nailed to the lime tree. It is headed THE KEEPING, and under it, in two hands, Mother Ysolt's and Gammer Coller's, the dale's sheaf in forty is entered against a name: Dunnet, warden. Hob Teller has put his name under it. Dunnet goes by the well with the reeve's rod across his shoulder and Gammer Coller three steps behind correcting how he carries it.".
   Observe after_bell at green when calm(long_man) and bellSpent() and not broke(long_man) "Nobody has hung another bell. At the hours a boy goes round the green with a pan and a spoon, and the children follow, banging, and Mother Ysolt says in a year or two the dale will find the pennies.".
   Observe after_hall_cold at yard when calm(long_man) and exposed(venn) and not wardenChosen(dunnet) "The Hall is quiet. Venn's study door stands open on a table with one long letter on it, half written, to Marlow.".
+
+  // A fair copy of the writ, for a parish that has learnt to want one. Mother Ysolt writes it out in the vestry, in the
+  // clerkly hand of her nuns, the Latin above and her own plain English below; it is hers to give or to keep.
+  Place beyond_map "beyond the map" is wilderness within dale at 9, 9.
+  Place nowhere "nowhere" is room within beyond_map at 0, 0.
+  Item writ_copy "a fair copy of the Prefect's writ" is prefects_writ at nowhere.
+  Topic ysolt_copy with ysolt "Ask Mother Ysolt for a fair copy of the charter" when knows(actor, charter_read) and valeTold(ysolt) and not copied(ysolt) once {
+    Says "She looks at you for a while, over the top of the register. 'It is the Hall's,' she says. 'It is also the dale's, which is what it says. I would sooner it were in two houses than one.' She takes a clean leaf from the back of the register, and ink, and writes it out in the vestry without sitting down, the Latin above and her own plain English under, line for line, in the hand the nuns gave her. When she has sanded it she folds it in three. 'Do not let anyone burn it,' she says, 'in either house.'".
+    On discuss { Assert lends(ysolt, writ_copy, actor). Assert copied(ysolt). }
+  }
+  Relation copied(group).
 }

@@ -1,0 +1,138 @@
+Module sennet "The Grand Tour" {
+  Description "The black square in the Nexus floor, which three keys open; the shaft under it; the Slack, where the count has a pause; and the ship that lies in the pause.".
+
+  // ── What this is ────────────────────────────────────────────────────────────────────────────────────────────────
+  // The Aeneans' House of Doors was built over the top of something they found: a square of black metal, flush with the
+  // Nexus floor, that hums, and has no handle. Nobody in the House has opened it, and the House has had no wish to ask
+  // what is under it. It opens to three things, none of which the House has: a reading, a measure, and a standing. Each
+  // is a thing a company can have got elsewhere, in more than one form; and each has a costly form for a company that
+  // has not.
+  Thing black_square "the black square" at nexus {
+    State sealed "A square of black metal, flush with the Nexus floor, humming faintly under the sole of the foot. It is cold. Along its four edges are tiny notches, and across its face a line of marks.".
+    State unsealed "The black square has swung down on a hinge nobody saw, and under it a stair of the same black metal goes down into a light the colour of old paper.".
+  }
+  Initially Assert state(black_square, sealed).
+  Relation squareRead(group). Relation squareMeasured(group). Relation squareVouched(group).
+  Relation squareTalk(place). Measure inkDay(place).
+
+  // 1. The reading. A line of Aenean capitals, cut in later, and under it a longer row of marks that are not Aenean.
+  Action read_by_lore(actor: group, site: place) "Read the line cut on the black square" {
+    Description "Aenean capitals, much worn, and under them a row of marks older than the Aeneans' letters.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, nexus) and state(black_square, sealed) and not squareRead(actor) and capable(actor, lore).
+    Time 6.
+    On success { Assert squareRead(actor). }
+    Result "The Aenean is easy: HORARIUM, it says, and under it QUOD RESTAT CUSTODITUR. The hour-place. What remains is kept. It is an Aenean's gloss, a clerk's: it does not say who made the plate, only what the Aeneans thought it was for. The row beneath it is longer, and you cannot read it, but you can see how it is arranged: eleven strokes and a space, eleven and a space, as if a very patient hand had been counting to eleven for a very long time and never reached twelve.".
+  }
+  Action read_by_rubbings(actor: group, site: place) "Lay a keeper's tally and a Prefect's table against the black square" {
+    Description "Two rubbings of two notations. A bilingual is a bilingual wherever it is laid.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, nexus) and state(black_square, sealed) and not squareRead(actor) and holding(actor, tally_rubbing) and holding(actor, pharos_rubbing).
+    Time 8.
+    On success { Assert squareRead(actor). }
+    Result "You spread them on the floor of the Nexus, one beside the other, the cloth from a stone bench on a headland and the paper from a bronze table on an island, and lay the black square's row of marks beside them. They are three copies of one thing. The keepers' strokes on the cloth are the marks on the square. The Prefect's numerals on the paper are the numerals the keepers used where they had them. Between them a person who has neither lore nor luck can read the square: HORARIUM, says the third notation; and what it says after is the number twelve, in a way you did not know a number could be said.".
+  }
+  Action hire_scribes(actor: group, site: place) "Pay the Collegium of Measures' scribes to copy and read the square" {
+    Description "Thirty coin, a day, and the Collegium of Measures knowing that something in the Nexus floor can be read.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, nexus) and state(black_square, sealed) and not squareRead(actor) and quantity(actor, gold) >= 30.
+    Time 144.
+    On success { Decrease quantity(actor, gold) by 30. Assert squareRead(actor). Assert squareTalk(sennet_bay). }
+    Result "Two young Fellows with ink on their cuffs and a manner of enormous tact copy the plate on their knees for a day and a night, and read it out to you at dawn in a way that shows they have read it to each other all night. HORARIUM. They do not say what they think it is. They look at you as people look at the person who has just told them that a door in their own house leads somewhere.".
+  }
+  Observe fellows_at_square at nexus when squareTalk(sennet_bay) and state(black_square, sealed) "Two Fellows of the Collegium of Measures are sitting on the floor of the Nexus a respectful distance from the black square, not touching it, and not leaving.".
+
+  // 2. The measure. The square is cut with a scale along its edges: a unit the House has never used.
+  Action measure_by_rod(actor: group, site: place) "Lay the dyke-reeve's rod along the edge of the black square" {
+    Description "A rod of black wood shod in notched bronze, from a dale in the north.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, nexus) and state(black_square, sealed) and not squareMeasured(actor) and holding(actor, sluice_rod).
+    Time 2.
+    On success { Assert squareMeasured(actor). }
+    Result "The rod's bronze shoe fits the notches along the square's edge as a key fits a lock. You did not expect that it would, and what you feel is not triumph, it is a kind of vertigo: that a reeve's rod in a village with a lime tree and a lake behind it is a measure in use on this floor, in this room, two hundred miles from the dale. The notches match to the last. Whoever cut them did not stop at a dale.".
+  }
+  Action measure_by_table(actor: group, site: place) "Read the black square's scale against the Prefect's table" {
+    Description "The Aeneans wrote the unit down, in numerals, in a lamp-room on an island.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, nexus) and state(black_square, sealed) and not squareMeasured(actor) and holding(actor, pharos_rubbing).
+    Time 4.
+    On success { Assert squareMeasured(actor). }
+    Result "The Prefect's numerals are the unit's length in the Aeneans' own foot, to nine places, and you divide, carefully, by the notches along the square's edge, and the answer is a whole number, and the whole number is twelve. You check it twice. A measure like this exists for one reason: so that two people who have never met can build the same thing.".
+  }
+  Hazard plate_cold "The cold of the black square" means "Deal (1d6) cold damage to ally unless constitution save against (12).".
+  Action measure_by_pacing(actor: group, site: place) "Pace out the notches and trust your hands" {
+    Description "No rod, no table: only a patient eye and a steady hand, and a plate that is cold enough to bite.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, nexus) and state(black_square, sealed) and not squareMeasured(actor).
+    Time 36.
+    Resolve check(actor, wayfinding, dc_hard).
+    On success { Assert squareMeasured(actor). }
+    On failure { Assert strikes(plate_cold, party). }
+    Result "You go along the edge a notch at a time, with your fingers, and your breath smoking, for the better part of a day, and come at the end to a number you can trust.".
+    Otherwise "The plate bites. You come away with your hands white to the wrist and a number you do not believe.".
+  }
+
+  // 3. The standing. The square will open to a keeper, or to anyone a keeper's House vouches for. It does not care which House.
+  Action vouch_by_writ(actor: group, site: place) "Say the keeper's formula over the black square, from the Prefect's writ" {
+    Description "NON DOMINIUM SED CUSTODIA. A keeping is not an ownership; whoever claims one in the formula is heard.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, nexus) and state(black_square, sealed) and not squareVouched(actor) and holding(actor, prefects_writ).
+    Time 3.
+    On success { Assert squareVouched(actor). }
+    Result "You read it aloud from the monk's copy, in the dead tongue, in the voice of someone who does not believe in what they are doing: NON DOMINIUM SED CUSTODIA. NE QUIS CUSTODEM IMPEDIAT. The black square hums on, and then the hum changes pitch, once, as if it had been addressed correctly by someone it had given up expecting.".
+  }
+  Action vouch_by_mask(actor: group, site: place) "Hold a keeper's grey face to the black square" {
+    Description "A face of fired clay without eyes or mouth, which rings when it is struck.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, nexus) and state(black_square, sealed) and not squareVouched(actor) and holding(actor, keeper_mask).
+    Time 2.
+    On success { Assert squareVouched(actor). }
+    Result "The grey face rings against the black metal like a bell struck underwater. The square answers it, a note lower, and then the two notes beat together and are one, and you know that you are standing in the presence of two parts of the same kind of thing, and that one of them has been taken from something that is now lying quite still in a niche under a hill.".
+  }
+  Action vouch_by_letter(actor: group, site: place) "Show the black square a Fellow's letter of introduction" {
+    Description "A folded letter with a seal on it, from a man who believes it will open fewer doors than it does.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, nexus) and state(black_square, sealed) and not squareVouched(actor) and holding(actor, collegium_letter).
+    Time 2.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert squareVouched(actor). }
+    Result "It is a ridiculous thing to do, and you do it with a straight face: you unfold the letter and read it out to a plate of black metal. 'To all who keep working things,' it says, 'greeting.' The square listens with its whole cold weight, and the hum drops by a tone, and stays.".
+    Otherwise "You read it out. The square does not care. Somewhere in the House a door slams.".
+  }
+  Action vouch_by_perrin(actor: group, site: place) "Ask Perrin Halyard to speak for the House" {
+    Description "A student of the House, who has read the Aenean plaque more often than anyone alive.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, nexus) and state(black_square, sealed) and not squareVouched(actor) and perrinHere().
+    Time 3.
+    On success { Assert squareVouched(actor). }
+    Result "Perrin Halyard kneels by the black square on his one good knee and lays his hand flat on it, and says in the tone of someone introducing a friend: 'It's all right. They're with me.' The hum changes, so that for a moment you hear it as music. 'I've been saying that to the plaque in the Undercroft for a week,' Perrin says. 'I think it's the right grammar.'".
+  }
+
+  Action open_the_square(actor: group, site: place) "Open the black square" {
+    Description "A reading, a measure, and a standing. All three, and the plate will turn.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, nexus) and state(black_square, sealed) and squareRead(actor) and squareMeasured(actor) and squareVouched(actor).
+    Time 3.
+    On success { Assert state(black_square, unsealed). Assert befell(slack_opened). }
+    Result "You lay your hands on the square where the notches meet. It does not open as a door opens. It stops being a floor. A line of light runs round its four edges like the line round a page when the page is held up to a lamp, and the square swings down and away, and under it a black stair goes down into a pale and level light. The hum has stopped. In the quiet you can hear, from a very long way below, the sound of a ship's bell being struck, once, and then again, exactly eleven times.".
+  }
+  Passage square_way "the black stair" is shaft between nexus and shaft_head opening when state(black_square, unsealed) "".
+  Observe nexus_open at nexus when state(black_square, unsealed) "The black square stands open in the Nexus floor, and a pale light comes up out of it onto the Door of Doors, which does not seem to mind.".
+
+  // ── The Slack ────────────────────────────────────────────────────────────────────────────────────────────────────
+  Place slack "the Slack" is plane.
+  Place slack_region "the Slack" is region within slack.
+  Place descent "the black stair" is wilderness within slack_region at 0, 0.
+  Place berth "the Quay of Hours" is site within slack_region at 1, 0.
+  Place remainder_site "the Remainder" is site within slack_region at 2, 0.
+  Place shaft_head "the foot of the black stair" is room within descent at 0, 0.
+  Place hours_quay "the Quay of Hours" is room within berth at 0, 0 outdoors.
+  Place rem_deck "the Remainder's deck" is room within remainder_site at 0, 0 outdoors.
+  Place rem_count "the count-room" is room within remainder_site at 1, 0 indoors.
+  Place rem_watch "the watch-room" is room within remainder_site at 0, 1 indoors.
+  Place rem_hold "the hold of remainders" is room within remainder_site at 1, 1 indoors.
+  Passage slack_descend "the way down to the quay" is steps between shaft_head and hours_quay taking 20 minutes.
+  Passage rem_stair "the count-room stair" is passage between rem_deck and rem_count.
+  Passage rem_hatch "the watch-room hatch" is door between rem_deck and rem_watch.
+  Passage rem_hold_way "the hold hatch" is ladder between rem_deck and rem_hold.
+  Passage rem_gangway "the Remainder's gangway" is steps between rem_deck and hours_quay opening when at(remainder, hours_quay) "".
+  Passage rem_gangway_out "the Remainder's gangway on Mechanus" is steps between rem_deck and outer_mechanus_threshold opening when at(remainder, outer_mechanus_threshold) "".
+
+  Observe slack_shaft_scene at shaft_head when true "The foot of a very long stair. The light here has no source: it is level, pale and shadowless, like the light inside a page. The walls are the black metal of the square, ruled with fine lines at a spacing that your eye keeps trying to read as writing, and above, a great way up, a square of ordinary gold lamplight.".
+  Observe slack_quay_scene at hours_quay when true "A quay of black metal under a ruled sky: not stars, lines, pale on pale, ruling the dome from edge to edge and very slowly sliding. There is no water. Where the water should be there is a level surface of something like slack tide, still, bright and without depth, in which the ruled sky is reflected exactly, so that you seem to stand on the lip of a second sky.".
+  Observe quay_ship at hours_quay when at(remainder, hours_quay) "A ship lies against the quay. She is long and low and the colour of old paper, with a single mast and sails that are not cloth; and along her side, in marks no one reads, and under them in Aenean capitals, a name: RELIQUA.".
+  Observe quay_gone at hours_quay when not at(remainder, hours_quay) "The quay is bare. A ring in it, big as a wheel, has had a rope on it recently.".
+  Observe rem_deck_scene at rem_deck when true "The deck is level metal, scoured, with a round-edged mast rising from the middle of it and a deck-bell hanging from the mast by a cord of something that is not rope. The rail is waist high and warm. There are marks on it, notches, rows and rows, and the rows are in elevens.".
+  Observe rem_count_scene at rem_count when true "A round room, low, with a table in the middle of it, and on the table a set of rods and beads and slates, arranged by hand and re-arranged, with the drudged patience of something that is always being corrected. On the wall a great ruled chart, and on the chart a single pin, and the pin is not moving.".
+  Observe rem_watch_scene at rem_watch when true "The crew live here: twenty-odd bunks in tiers, the bedding patched and patched, a long table, a stove that does not burn anything, a slate on which each day's tally is chalked and then wiped to chalk again. There are children's drawings pinned over one bunk, of people on a shore. Nobody in the drawings has a face.".
+  Observe rem_hold_scene at rem_hold when true "The hold is lit from the floor. It is not a large hold, and it is not full: it is, you think, the right size for what is in it. Racks and cages and sealed jars and long locked chests, each with a card. The cards are in a hand that has been copied and copied. REMAINDER, each says, and a number.".
+}

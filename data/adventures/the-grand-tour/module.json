@@ -4,7 +4,12 @@
     "inner_fire",
     "inner_earth",
     "inner_air",
-    "house_of_doors"
+    "house_of_doors",
+    "outer_mechanus",
+    "slack_opened",
+    "remainder_harboured",
+    "remainder_kept",
+    "mechanus_seen"
   ],
   "source": [
     "clock.kyr",
@@ -29,6 +34,8 @@
     "lanterns.kyr",
     "fall.kyr",
     "undertow.kyr",
+    "hours.kyr",
+    "remainder.kyr",
     "endings.kyr",
     "aftermath.kyr",
     "history.kyr",

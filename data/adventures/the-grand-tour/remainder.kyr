@@ -1,0 +1,166 @@
+Module sennet "The Grand Tour" {
+  Description "The Remainder: a ship that lies in the pause between counts, her Watch, her hold of things that did not divide, and a choice about what is to be done with her.".
+
+  Thing remainder "the Remainder" at hours_quay {
+    State berthed "The Remainder lies at the Quay of Hours.".
+    State out "The Remainder is away from the quay.".
+  }
+  Initially Assert state(remainder, berthed).
+  Measure slackWatches(group). Measure mechAt(entity). Measure trust(group).
+  Relation allowed(group). Relation counted(group). Relation tariffed(group). Relation surety(group). Relation faceGiven(group).
+  Relation harboured(entity). Relation keptInSlack(entity). Relation mechanusSeen(entity). Relation boarded(group).
+
+  // ── The Slack keeps its own interest ───────────────────────────────────────────────────────────────────────────
+  // Hours spent below are paid twice: once as they pass, and again as a fee of the same size, six times over, when the
+  // company climbs the stair. The Count keeps its books. (The world's clock goes on all the while.)
+  Query inSlack(g: group) means at(g, shaft_head) or at(g, hours_quay) or at(g, rem_deck) or at(g, rem_count) or at(g, rem_watch) or at(g, rem_hold).
+  Rule slack_tick when company(party) and inSlack(party) { Increase slackWatches(party) by 1. }
+  Action climb_out(actor: group, site: place) "Climb the black stair back to the Nexus" {
+    Description "A long stair, and the light at the top growing gold. The Count will have its interest.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, shaft_head).
+    Time 12.
+    On success { Retract at(actor, shaft_head). Assert at(actor, nexus). Assert tariffed(actor). }
+    Result "You climb. It is a very long stair and it takes the whole of the afternoon, and when you come out into the Nexus there are lamps lit that were not lit when you went down, and Mr Threlkeld is sitting on the stair of the tower with his hat in his lap, looking at the black square as if it had been rude to him.".
+  }
+  Rule slack_interest when tariffed(party) and at(party, nexus) and slackWatches(party) > 0 and not interestPaid(party)
+    says "The lamps are lit in the House, and the porter says it is the third morning since you went in. He is not entirely sure what he means by it. In the Nexus the cold of the black square comes up through your boots, and you have the feeling of having been tallied." {
+    Assert interestPaid(party).
+  }
+  Relation interestPaid(group).
+
+  // ── The Watch ──────────────────────────────────────────────────────────────────────────────────────────────────
+  Person sabe "Orrel Sabe" at rem_deck {
+    Role "Captain of the Slow Watch of the Remainder". Ancestry human. Calling cleric. Level 6. Peaceable. Pronouns he. Manner stoic.
+    Likeness "abbess".
+    Greets "A very old man is seated on a coil of something at the foot of the mast with a slate on his knee and a stylus in his hand, counting. He counts to eleven, and stops, and begins again. 'A moment,' he says. 'A hand cannot be lifted off the count in the middle. I will be with you at the eleventh.' He finishes. 'Welcome,' says Orrel Sabe, 'to the Remainder. You will not have been expected, which is unusual. We have been expecting someone for a long time.'".
+  }
+  Person tamsin "Tamsin Quaye" at rem_count {
+    Role "Reckoner of the Second Watch". Ancestry human. Calling mage. Level 4. Peaceable. Pronouns she. Manner jovial.
+    Likeness "scholar".
+    Greets "A young woman with ink to the elbows has the rods and beads of the count-room spread across the table in a pattern she is plainly trying to break. 'Don't touch,' she says. 'No. Do touch. Touch something else. I need the table to be wrong.' She looks up properly, and is silent for a moment. 'You are real,' she says. 'Good. I had decided to be disappointed.'".
+  }
+  Person quartermaster "the Quartermaster" at hours_quay {
+    Role "a tall grey figure at the foot of the gangway, with a smooth blank face". Species automaton. Level 8.
+    Wants keeper_face.
+  }
+  Person watch "the Watch of the Remainder" at rem_watch {
+    Role "the Watch". Ancestry human. Numbers 22. Peaceable.
+  }
+  Initially Assert allowed(sabe).
+  Observe quartermaster_scene at hours_quay when not faceGiven(party) "At the head of the gangway stands a tall grey figure with its long arms at its sides and a smooth blank oval where a face should be. It does not move. It has been waiting a very long time and gives no sign of having minded.".
+  Topic sabe_slack with sabe "Ask Captain Sabe where the ship is" when true once {
+    Says "'Between,' says Sabe. 'There is a count, and it is very large, and everything that is, is counted in it. A count is a division. When you divide, there is what comes out, and there is what is left over.' He holds up the stylus. 'We are what is left over. The ship was built to carry what is left over: what would not divide. She has been carrying it since before there was anyone to ask what for.' He smiles, very slightly. 'The slack is the place where the count is not looking.'".
+    On discuss { Assert counted(actor). }
+  }
+  Topic sabe_roll with sabe "Ask Captain Sabe about the names on the ship's roll" when counted(actor) once {
+    Says "'There are two rolls,' says Sabe. 'The first is in the marks we do not read. We keep it, and copy it, and we have copied it so many times that no one can say what it was.' He pauses. 'The second is in the Aenean hand, and has forty names, and a date I cannot read, and against thirty-eight of them a line has been drawn. It is the second roll that says a Prefect came aboard with his household at the Counting and was lost. It is in a hand a thousand years younger than the ship.' He looks at the slate. 'Tamsin says the Watch wrote it to explain the names painted on the bulkhead. I say it was written by someone who was there. We have agreed to count it either way. Do you know,' he says, 'what is most remarkable? That nobody ever came to ask.'".
+    On discuss { Assert knows(actor, roll_two). }
+  }
+  Discovery roll_two "The Remainder keeps two rolls: one in marks nobody reads, one in the Aeneans' hand, forty names, thirty-eight struck through, saying a Prefect's household came aboard and was lost. The Captain believes it was written by someone who was there. The Reckoner thinks the Watch wrote it to explain the Aenean names on the bulkhead. Nobody knows which.".
+  Topic sabe_want with sabe "Ask Captain Sabe what the Watch wants" when counted(actor) once {
+    Says "'Nothing,' says Sabe. 'We keep the hours. We keep the remainders. I was born on this deck and my mother before me, and each of us has said to the next, as the Watch is passed, that nothing is required but that the count be kept.' His hands are folded on the slate. 'My Reckoner thinks otherwise. She is young.'".
+  }
+  Topic tamsin_count with tamsin "Ask Tamsin Quaye what she is trying to break" when true once {
+    Says "'The count,' she says. 'Ours. The ship's. Every Watch the pin on the chart has been in the same place. For nine hundred of our years it has not moved. Eleven strokes and a space.' She puts down a bead. 'Last year it moved. Not far. A hair. I have been up for eleven nights checking it. The slack is getting thin, Captain Sabe says it is only a cold week.' She looks at you. 'When the slack ends, the count has us. Everything in the hold. Every one of us. It will not be unkind about it. It will simply divide.'".
+    On discuss { Assert counted(actor). Assert knows(actor, slack_thin). }
+  }
+  Discovery slack_thin "The Reckoner of the Remainder says the Slack is thinning: the pin on the chart has moved by a hair, and when the slack ends the count will take the ship and everything in her hold, and her Watch.".
+  Topic tamsin_harbour with tamsin "Ask Tamsin Quaye what she wants done" when knows(actor, slack_thin) once {
+    Says "'Harbour,' says Tamsin. 'A real one. A place with a quay that stays where it is. Over our heads there is a stair, and at the top of it a House with a lamp in it. The Aeneans must have meant it for us; they built the stair. We have had it in the log for eleven generations that the Prefect's household went up it and did not come down. I mean to go up it. I will not take the remainders into the dark and I will not leave them to be counted.' She leans on the table. 'But a harbour wants a surety. In every language, in every age: someone to say, these are ours to keep. I thought: whoever comes down that stair. And here you are.'".
+    On discuss { Assert knows(actor, surety_asked). }
+  }
+  Discovery surety_asked "Tamsin Quaye asks the company to stand surety for the Remainder's Watch and her hold, so that they may be harboured in the House above.".
+
+  // ── The hold of remainders ──────────────────────────────────────────────────────────────────────────────────────
+  Thing jar_bend "a stoppered jar the size of a boat" at rem_hold {
+    Tries looking.
+    State standing "A big stoppered jar on a rack. Its card says REMAINDER 4, and under it a name in the old marks, and under that in a later hand, in Aenean letters: LUNAE FLEXUS. A bend of the Lune. Through the glass something moves, slowly, wet.".
+  }
+  Observe bend_looked near jar_bend when tried(jar_bend, looking) "It is a river's bend. Not water: a bend, the shape of a bend, with the willows still on the outside of it and a heron standing on one leg in the shallows, every detail present, nothing for it to be attached to. The heron turns its head. The card says that the Lune was straightened, in a year the card does not give, and that this is what the straightening left.".
+  Thing winter_chest "a long locked chest, white with frost" at rem_hold {
+    Tries looking.
+    State shut "A long iron chest with frost on its lid and frost on the floor round it, in a warm hold.".
+    State opened dangerous "The lid of the iron chest stands open, and out of it comes a cold like a hand on the back of the neck.".
+    Change lift "Lift the lid of the frosted chest" from shut to opened at rem_hold.
+  }
+  Observe chest_looked near winter_chest when tried(winter_chest, looking) "REMAINDER 7, says the card. A winter. Not weather, not a season: the last week of a winter in a year when winter did not end, boxed and sealed. The Watch have never opened it. Orrel Sabe says it is the only remainder he has ever been afraid of.".
+  Rule chest_bites at rem_hold when state(winter_chest, opened) and not chestBit(party) says "The cold goes through you like a thought. You smell snow that fell nine hundred years ago, and hear a bell, and a dog barking at a door, and then the lid is on and Mab—someone—has put a knee on it, and your hands are blue to the wrist." {
+    Assert strikes(chest_cold, party). Assert chestBit(party).
+  }
+  Hazard chest_cold "The cold of a boxed winter" means "Deal (2d6) cold damage to ally unless constitution save against (14).".
+  Relation chestBit(group).
+  Person tern "a grey tern in a wicker cage" at rem_hold {
+    Role "a bird that speaks a dead language". Species raven. Level 1. Peaceable.
+    Greets "The tern puts its head on one side, and says, clearly, in a human voice, a short sentence in a tongue you do not know, in the manner of a bird that has said it a hundred thousand times and has never once been answered.".
+  }
+  Topic tern_listen with tern "Listen to the tern, and write down what it says" when true once {
+    Says "The tern says it again. And again. It says: a word, a space, the same word, a space, and eleven times, and then a sentence of eight syllables, which ends in a rising sound that is, in every language you have ever heard, a question. Odile Quint, if she were here, would weep. You write it down phonetically on the back of your hand. It is the only remainder on the ship that can be taken away by a person with a pen.".
+    On discuss { Assert knows(actor, tern_sentence). }
+  }
+  Discovery tern_sentence "The tern in the hold speaks a dead tongue, eleven repetitions and a question, which you have written down by sound.".
+
+  // ── The Quartermaster ──────────────────────────────────────────────────────────────────────────────────────────
+  Kind keeper_face "a keeper's face" like keeper_mask described "A smooth face of grey fired clay, without eyes or mouth, with a single notch where a brow would be.".
+  Action fit_face(actor: group, site: place, carrier: member) "Fit {carrier}'s grey face to the Quartermaster" {
+    Description "A keeper wakes when it is given its face, and stops when it loses it.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hours_quay) and at(quartermaster, site) and memberOf(carrier, actor) and awake(carrier) and (holding(actor, keeper_mask) or holding(actor, keeper_face)) and not faceGiven(actor).
+    Time 3.
+    On success { Assert faceGiven(actor). Assert at(quartermaster, rem_deck). Increase trust(actor) by 3. }
+    Result "The Quartermaster does not move as you lift the grey face to it. Then it takes the face in both hands as one takes a sleeping child, and sets it where a face goes, and there is a sound like a very small bell, and the figure straightens by an inch, and turns its head, and sees the ship it has been standing at the foot of since before there was a Watch. Orrel Sabe, who has come down the gangway without being noticed, says: 'Ah.' He says it again. 'I had forgotten that sound.' The Quartermaster goes up the gangway and takes the deck.".
+  }
+
+  // ── The surety ──────────────────────────────────────────────────────────────────────────────────────────────────
+  // Whoever stands surety is binding the House above, or a House, to keep. There are three kinds a company may have, and
+  // a fourth that is not to stand surety at all.
+  Action surety_collegium(actor: group, site: place) "Stand surety for the Remainder in the name of the Collegium of Lesser Instruments" {
+    Description "The Collegium collects working things, and has a letter that says it keeps them. It will be delighted, and it will not be gentle.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, rem_count) and knows(actor, surety_asked) and holding(actor, collegium_letter) and not surety(actor) and not boarded(actor).
+    Time 3.
+    On success { Assert surety(actor). Assert harboured(remainder). Assert befell(remainder_harboured). }
+    Result "You read Halm's letter aloud to the Reckoner of the Remainder, and she listens with her chin on her hands, and at the end says: 'It says a friend of working things. It does not say he can feed twenty-two people for a winter.' 'No,' you say. 'But it says he will try.' Tamsin Quaye laughs, once, and picks up a bead, and puts it down in a different place. The pin on the chart moves.".
+  }
+  Action surety_writ(actor: group, site: place) "Stand surety for the Remainder in the Prefect's formula: custodia, not dominium" {
+    Description "A keeping and not an ownership: the House above will keep what the Watch keeps, and not claim it.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, rem_count) and knows(actor, surety_asked) and holding(actor, prefects_writ) and not surety(actor) and not boarded(actor).
+    Time 3.
+    On success { Assert surety(actor). Assert harboured(remainder). Assert befell(remainder_harboured). }
+    Result "You unfold the monk's copy on the table of the count-room and read the Latin aloud, and then your own plain English, line for line, as Mother Ysolt wrote it. 'To keep and not to own,' you say. 'Whoever is given it is a keeper, and may not sell. The House that stands behind it may be replaced if it neglects the keeping.' Tamsin Quaye has gone very still. 'That is a law,' she says. 'Somebody made that for exactly this.' She looks at Orrel Sabe, who has not said anything. 'Captain,' she says. 'It is not a harbour. It is a custody. I could live in a custody.'".
+  }
+  Action surety_none(actor: group, site: place) "Tell Tamsin Quaye you cannot stand surety for what you cannot count" {
+    Description "It is a hard thing to say to a young woman who has waited her whole life for someone to come down the stair.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, rem_count) and knows(actor, surety_asked) and not surety(actor).
+    Time 2.
+    On success { Assert surety(actor). Assert keptInSlack(remainder). Assert befell(remainder_kept). }
+    Result "'I understand,' says Tamsin Quaye, in the voice of someone who has understood nothing. She puts down the rod. 'Captain Sabe was right. He generally is. It is a terrible habit.' She looks at the pin on the chart for a long time. 'I will tell him he may count the day a success,' she says. 'Go up your stair. I would take it as a kindness if you did not say what we looked like.'".
+  }
+  Observe harbour_scene at rem_count when harboured(remainder) "The count-room is full of the Watch, packing: twenty-two people with seven years' bedding apiece, and children asking whether it is true that there is a sky. The pin on the chart has moved a hand's breadth and nobody has said so.".
+  Observe kept_scene at rem_count when keptInSlack(remainder) "Tamsin Quaye has taken the pin off the chart and is holding it. 'It will last my time,' she says, to nobody. 'It will not last theirs.'".
+
+  // ── Putting out ────────────────────────────────────────────────────────────────────────────────────────────────
+  // The Remainder is a ship, and ships go. In the slack her one voyage is to the berth of Mechanus (the set square,
+  // turning in its time, like the inside of a great clock), which she has visited since before the Watch, because the
+  // pin on the chart has always pointed that way. She lies there twelve watches, by her own hours, and goes back to the
+  // Quay; a company that is ashore when she casts off is on the threshold of Mechanus until she comes again, which she
+  // does every forty-eight. Her Captain will take a company who asks, once he is sure what it has come down for.
+  Measure leftAt(entity).
+  Action put_to_mechanus(actor: group, site: place) "Ask Captain Sabe to put out for Mechanus" {
+    Description "Twelve watches at the berth, by the ship's reckoning, and not a minute longer. The ship will come again in forty-eight. Whoever is ashore when she goes waits for her.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, rem_deck) and at(sabe, rem_deck) and at(remainder, hours_quay) and counted(actor) and not boarded(actor).
+    Time 6.
+    On success { Retract at(remainder, hours_quay). Assert at(remainder, outer_mechanus_threshold). Assert state(remainder, out). Set mechAt(remainder) to watch(clock). }
+    Result "'It is a long time since anyone asked me that,' says Orrel Sabe. He puts the stylus down. 'The Watch has been telling the story of the other berth for eleven generations. None of us has set a foot on it. We keep the ship at the oar.' He gets to his feet, which takes him time. 'Hands to the lines,' he says, in a voice that has not been used for orders, and twenty-two people come out of the watch-room, one at a time, blinking. The Remainder leaves the Quay of Hours the way a ship leaves a slip with its keel greased, without a sound. The ruled sky slides. Ahead, where the level surface meets the ruled sky, a vertical line of light appears, and widens, and is a place.".
+  }
+  Rule mechanus_arrives when at(remainder, outer_mechanus_threshold) and not mechanusSeen(remainder) and at(party, rem_deck)
+    says "She slides into a berth she has been to a thousand times and never landed at. The air smells of oil and brass. Beyond the rail is a floor ruled in squares each the size of a cottage, and, as far as the eye goes, wheels: set square, turning in their time, each with its tooth in the next. Somewhere very far away something strikes the hour. It is a different hour from the one you were in, and it is in no hurry." {
+    Assert mechanusSeen(remainder). Assert befell(mechanus_seen).
+  }
+  Rule remainder_returns when state(remainder, out) and at(remainder, outer_mechanus_threshold) and watch(clock) >= mechAt(remainder) + 12
+    says "Orrel Sabe takes the bell-cord in his hand, and says, to nobody, 'The twelfth.' The deck-bell rings eleven times, and then, for the first time in your hearing, a twelfth. The lines come in. The Remainder goes off the berth like a leaf off a stone." {
+    Retract at(remainder, outer_mechanus_threshold). Assert at(remainder, hours_quay). Set leftAt(remainder) to watch(clock).
+  }
+  Rule remainder_comes_again when state(remainder, out) and at(remainder, hours_quay) and watch(clock) >= leftAt(remainder) + 48 and at(party, outer_mechanus_threshold)
+    says "A long way off, across the squares, a bell strikes eleven, and a twelfth, and a ship is coming in over a floor that has no water, at the speed of a thought being remembered." {
+    Retract at(remainder, hours_quay). Assert at(remainder, outer_mechanus_threshold). Set mechAt(remainder) to watch(clock).
+  }
+  Observe stranded_mech at outer_mechanus_threshold when not at(remainder, outer_mechanus_threshold) and mechanusSeen(remainder) and at(party, outer_mechanus_threshold) "The Remainder is gone. The quay she lay at is a square of black metal in a floor of squares, and on it an eleven of notches has been cut, fresh. Eleven, and then a blank, as if for a twelfth.".
+}

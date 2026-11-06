@@ -108,7 +108,11 @@
     "rector_fled",
     "rector_barred",
     "perrin_lives",
-    "perrin_lost"
+    "perrin_lost",
+    "slack_opened",
+    "remainder_harboured",
+    "remainder_kept",
+    "mechanus_seen"
   ],
   "exports": {
     "imbar": "imbar",
@@ -209,6 +213,10 @@
     "rector_fled": "rector_fled",
     "rector_barred": "rector_barred",
     "perrin_lives": "perrin_lives",
-    "perrin_lost": "perrin_lost"
+    "perrin_lost": "perrin_lost",
+    "slack_opened": "slack_opened",
+    "remainder_harboured": "remainder_harboured",
+    "remainder_kept": "remainder_kept",
+    "mechanus_seen": "mechanus_seen"
   }
 }
