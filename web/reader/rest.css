@@ -1,0 +1,116 @@
+/* A place at rest and what is opened over it (the owner, 5 November, late). The place is the picture, its name, its
+   telling whole and who is here; a few quiet touches under the telling open one thing for one purpose: Go… (the
+   wayfinder), Look… (what is at hand), Wait…, and Search. Nothing of the browser's own grammar: no folds, no grids of
+   bordered buttons, no catalogue. */
+
+/* The telling has the column; the touches stay at its foot. */
+.world-page.scale-scene .focus > .glance > .told-col { flex: 1 1 auto; min-height: 0; max-height: none;
+  padding: clamp(18px, 3vh, 28px) clamp(18px, 2.2vw, 30px) 8px; mask-image: none; }
+.world-page.scale-scene .focus > .glance > .do-col { flex: none; }
+.world-page.scale-scene .focus > .glance .do-list { padding: 4px clamp(18px, 2.2vw, 30px) clamp(14px, 2.4vh, 22px); }
+.setting { margin: 0; }
+@media (min-width: 900px) and (orientation: landscape) {
+  .world-page.scale-scene .world-body { grid-template-columns: minmax(0, 1.6fr) minmax(22rem, 1fr); }
+}
+.setting > p { margin: 0 0 .6em; font: 400 15.5px/1.55 var(--told); color: var(--ivory); text-wrap: pretty; }
+.setting > p.lead { font-size: 17.5px; line-height: 1.5; }
+.setting .presence { margin: 0; }
+.setting .presence p { margin: 0 0 .6em; font: 400 14.5px/1.55 var(--told); color: var(--dim); }
+.told-col .life { font-size: 15px; }
+.told-col .came { margin: 0 0 .7em; font: italic 400 15px/1.5 var(--told); color: var(--dim); }
+
+.openers { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 22px; margin: 6px 0 0; padding-top: 12px;
+  border-top: 1px solid var(--edge); }
+.openers .opener, .openers .act.opener { all: unset; box-sizing: border-box; cursor: pointer; padding: 6px 0;
+  font: 500 13px/1 var(--do); letter-spacing: .16em; text-transform: uppercase; color: var(--ivory);
+  border-bottom: 1px solid transparent; transition: color var(--quick), border-color var(--quick); }
+.openers .opener::before, .openers .act.opener::before { display: none; }
+.openers .opens-go { color: var(--gold); }
+.openers .opener:hover, .openers .opener:focus-visible, .openers .act.opener.sel { border-bottom-color: var(--gold); }
+.openers .opener.led::after { content: ''; display: inline-block; width: 5px; height: 5px; margin: 0 0 2px 7px;
+  border-radius: 50%; background: var(--gold); vertical-align: middle; }
+
+/* Who is here: one row along the foot of the picture, the likeness the glance leads with ringed in gold. */
+.world-page .surface .portraits:not(.who) { flex-wrap: nowrap; gap: 4px; }
+.world-page .surface .portraits .portrait { width: 70px; }
+.portraits li.led .portrait .face { border-color: var(--gold); box-shadow: 0 0 0 2px rgba(214, 178, 94, .35); }
+.portraits.who { position: static; display: flex; flex-wrap: wrap; gap: 18px; list-style: none; margin: 0; padding: 8px 0; }
+
+/* What is opened: over the whole stage under the place bar, one purpose, put away by its cross or Esc. */
+.world-page .explorer { grid-template-rows: auto minmax(0, 1fr); background: rgb(17, 18, 23); backdrop-filter: none; }
+.explorer-head { padding: 14px clamp(18px, 3vw, 40px) 4px; }
+.explorer-head .part { margin: 0; }
+.explorer-body { display: block; overflow: hidden; padding: 0 clamp(18px, 3vw, 40px) 18px; }
+
+/* Go…: where you are over the list; the list of where to go by how the places lie; the one chosen said beside it. */
+.wayfinder { height: 100%; min-height: 0; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(16rem, 1fr);
+  grid-template-rows: auto minmax(0, 1fr); gap: 4px clamp(24px, 4vw, 56px); }
+.wf-where { grid-column: 1 / -1; padding: 0 0 10px; border-bottom: 1px solid var(--edge); }
+.wf-where .kicker { margin: 0; font: 500 11px/1.4 var(--do); letter-spacing: .2em; text-transform: uppercase; color: var(--dim); }
+.wf-where h2 { margin: 2px 0 0; font: 300 clamp(24px, 2.4vw, 32px)/1.15 var(--do); color: var(--ivory); }
+.wf-where .in { margin: 2px 0 0; font: italic 400 15px/1.4 var(--told); color: var(--dim); }
+.wf-where .aim { margin: 8px 0 0; font-size: 14px; }
+.wf-list { min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 10px 0 0; display: flex;
+  flex-wrap: wrap; align-content: flex-start; gap: 0 clamp(18px, 3vw, 40px); }
+.wf-group { flex: 1 1 15rem; min-width: 0; margin: 0 0 14px; }
+.wf-group h3 { margin: 0 0 4px; font: 500 11px/1.4 var(--do); letter-spacing: .2em; text-transform: uppercase; color: var(--gold); }
+.wf-group ul { list-style: none; margin: 0; padding: 0; }
+.wf-row { all: unset; box-sizing: border-box; width: 100%; display: grid; grid-template-columns: 16px minmax(0, 1fr) auto;
+  align-items: baseline; gap: 8px; padding: 5px 8px 5px 6px; cursor: pointer; border-left: 2px solid transparent;
+  font: 400 15.5px/1.3 var(--told); color: var(--ivory); }
+.wf-row .n { display: block; min-width: 0; }
+.wf-row .glyph { font: 400 12px/1 var(--do); color: var(--faint); text-align: center; }
+.wf-row .t { font: 400 12px/1 var(--do); color: var(--faint); letter-spacing: .04em; }
+.wf-row:hover, .wf-row:focus-visible { background: rgba(236, 230, 217, .05); }
+.wf-row.chosen { border-left-color: var(--gold); background: rgba(236, 230, 217, .07); }
+.wf-row.aimed .n::after { content: ' ◆'; font-size: 9px; color: var(--gold); vertical-align: 2px; }
+.wf-row.shut { color: var(--dim); }
+.wf-preview { min-height: 0; overflow-y: auto; padding: 14px 0 0; display: flex; flex-direction: column; gap: 6px; }
+.wf-preview h3 { margin: 0; font: 400 clamp(22px, 2.2vw, 28px)/1.2 var(--told); color: var(--ivory); }
+.wf-preview p { margin: 0; }
+.wf-preview .wf-aim { font: 500 11px/1.4 var(--do); letter-spacing: .2em; text-transform: uppercase; color: var(--gold); }
+.wf-preview .wf-how { font: 500 12.5px/1.5 var(--do); letter-spacing: .08em; color: var(--dim); }
+.wf-preview .wf-been, .wf-preview .wf-keeps { font: italic 400 15px/1.45 var(--told); color: var(--dim); }
+.wf-preview .wf-shut { font: 400 15px/1.45 var(--told); color: var(--ember, #c4552e); }
+.wf-preview .wf-risk { font: 400 14px/1.45 var(--told); color: var(--gold); }
+.wf-preview .act.wf-go { margin: 12px 0 0; align-self: flex-start; min-width: 11rem; justify-content: center;
+  border-color: var(--gold-line); }
+.wf-preview .act.wf-go::before { display: none; }
+
+/* Look…: the things at hand down the side, the one chosen in its pane: what it is, what is said of it, what came of
+   what was done to it, and what can be done. */
+.at-hand { height: 100%; min-height: 0; display: grid; grid-template-columns: minmax(12rem, .8fr) minmax(0, 1.6fr);
+  gap: 0 clamp(24px, 4vw, 56px); }
+.ah-list { min-height: 0; overflow-y: auto; padding: 8px 0 0; border-right: 1px solid var(--edge); }
+.ah-list ul { list-style: none; margin: 0; padding: 0; }
+.ah-row { all: unset; box-sizing: border-box; width: 100%; padding: 7px 10px; cursor: pointer; border-left: 2px solid transparent;
+  font: 400 16px/1.35 var(--told); color: var(--ivory); }
+.ah-row:hover, .ah-row:focus-visible { background: rgba(236, 230, 217, .05); }
+.ah-row.chosen { border-left-color: var(--gold); background: rgba(236, 230, 217, .07); }
+.ah-pane { min-height: 0; overflow-y: auto; padding: 8px 0 0; max-width: 40rem; }
+.ah-pane h3 { margin: 0 0 6px; font: 400 clamp(22px, 2.2vw, 28px)/1.2 var(--told); color: var(--ivory); }
+.ah-pane .ah-note { margin: 0 0 8px; font: 500 12.5px/1.5 var(--do); letter-spacing: .06em; color: var(--dim); }
+.ah-pane .ah-seen { margin: 0 0 .7em; font: 400 16.5px/1.6 var(--told); color: var(--ivory); }
+.ah-pane .acts.column { margin: 14px 0 0; }
+
+/* Wait…: how long, as a few words in a row; what came of it under them; what else the company does, quietly. */
+.pastime { max-width: 40rem; padding: 8px 0 0; display: grid; gap: 14px; align-content: start; }
+.pastime h3 { margin: 0 0 8px; font: 400 clamp(22px, 2.2vw, 28px)/1.2 var(--told); color: var(--ivory); }
+.pt-lengths { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.pt-told:empty { display: none; }
+.pt-also { padding-top: 10px; border-top: 1px solid var(--edge); }
+
+@media (max-width: 899px), (orientation: portrait) {
+  .wayfinder { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr) auto; }
+  .wf-preview { border-top: 1px solid var(--gold-line); padding: 10px 0 0; max-height: 40vh; }
+  .at-hand { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); }
+  .ah-list { border-right: 0; border-bottom: 1px solid var(--edge); max-height: 30vh; }
+}
+
+/* A creature looked at, by its likeness where it has one. */
+.thing .face .likeness { display: block; width: clamp(140px, 16vw, 220px); aspect-ratio: 4 / 5; overflow: hidden;
+  margin: 0 0 18px; border: 1px solid var(--edge-strong); }
+.thing .face .likeness img { width: 100%; height: 100%; object-fit: cover; }
+@media (max-width: 599px) {
+  .world-page .surface .portraits:not(.who) { overflow-x: auto; pointer-events: auto; scrollbar-width: none; }
+}

@@ -1,4 +1,3 @@
-import { GlanceStage } from './glance';
 import { MenuModel, type Menu } from '../menu-model';
 import type { ReaderApp } from '../reader-app';
 
@@ -45,12 +44,9 @@ export class Raised {
   // The keys come to a choice: the sheet that holds it is raised, and any other put away.
   static follow(app: ReaderApp, cursor: number) {
     const id = app.menu.choices[cursor]?.id, up = this.up(app);
-    // At a place at rest, the keys on something not drawn there open the explorer, and on what is drawn put it away.
-    if (id && app.state.frame?.leaf.glance && !app.state.outdoors) {
-      const resting = GlanceStage.atRest(app).has(id);
-      if (resting !== !app.state.exploring) { app.explore(resting ? undefined : 'here'); }
-      return;
-    }
+    // At a place at rest the keys go only through what is drawn there (see ReaderKeys), and what is opened over it
+    // has keys of its own (see Explorer.key).
+    if (id && app.state.frame?.leaf.glance && !app.state.outdoors) { return; }
     if (!id || !app.menu.sheets) { return; }
     const sheet = this.holding(app.menu, id, { ...up ? { up } : {}, glanced: this.glanced(app) });
     if (sheet !== up) { this.raise(app, sheet); }

@@ -15,6 +15,10 @@ import { PlaceStage } from './place-stage';
 import { Told } from './told';
 import { SceneSurface } from './scene-surface';
 import { SceneModel } from '../../../src/ui/scene';
+import { AtHand } from './at-hand';
+import { Explorer } from './explorer';
+import { Pastime } from './pastime';
+import { Wayfinder } from './wayfinder';
 
 // A place at a glance (OWN-18, OWN-19), as the engine decides it (see Glance), under the place's head: what is told in
 // one column, and what can be done held in view beside it (under it on a screen held upright), never a scroll away.
@@ -48,7 +52,7 @@ export class GlanceStage {
     return (
       <div className={`glance arrival-${g.arrival}${GlanceStage.sparse(app, acts, g) ? ' sparse' : ''}`} data-region="glance"
         data-arrival={g.arrival}>
-        <div className="told-col" data-region="told">
+        {apart ? <GlanceStage.Rest app={app} glance={g} /> : <div className="told-col" data-region="told">
           {s.pending ? <Told.Working pending={{ ...s.pending, stage: s.stage }} />
             : (stayed || struck) && <Told.Happened exchange={told!} said={stayed} ready={ready} app={app} />}
           {g.came && <GlanceStage.Came app={app} came={g.came} />}
@@ -66,7 +70,7 @@ export class GlanceStage {
           {/* Not on a place at rest, which names no act (the owner, 5 November): what it opened is in the explorer. */}
           {!apart && !s.pending && told && g.after?.next && !g.after.next.choice && <p className="opened-now" data-id="next">
             <span className="label">Now open</span>{` ${Typography.curl(g.after.next.label)}`}</p>}
-        </div>
+        </div>}
         {/* What can be done here, held in view beside what is told (the owner, 4 November: never a scroll away). */}
         <div className="do-col" data-region="do">
           <div className="do-list">
@@ -106,17 +110,40 @@ export class GlanceStage {
       </div>
     );
   }
-  // At rest in a place (the owner, 4 November, late, and 5 November: a settled contract): only what will not wait — a
-  // danger, an answer owed, a warning, the dark — each one line, never a way; then Explore…, which opens the explorer
-  // (see Explorer): the ways and what can be done here, together. Go… beside it had opened the same (the owner, 5
-  // November: one control, not two that mean one thing). The rest of what can be done is there, not here.
+  // At rest in a place (the owner, 4 November, late, and 5 November: a settled contract), what is told: the place
+  // whole, always (5 November, late: never folded away), how the company came, and what came of what was last done
+  // here, under it; a danger in its own block.
+  static Rest({ app, glance: g }: { app: ReaderApp; glance: Glance }) {
+    const s = app.state, leaf = s.frame!.leaf, exchange = leaf.exchange, screen = s.frame!.screen;
+    const told = exchange && (exchange.lines.length || exchange.notes.length) && !s.kept ? exchange : undefined;
+    const struck = !leaf.moved ? false : !!told && told.lines.some(l => Told.harm.test(l.text));
+    return <div className="told-col" data-region="told">
+      {s.pending && !s.exploring && <Told.Working pending={{ ...s.pending, stage: s.stage }} />}
+      {struck && told && <Told.Happened exchange={told} ready={Moments.ready(screen)} app={app} />}
+      {g.came && <GlanceStage.Came app={app} came={g.came} />}
+      {screen.dark && <p className="dark-note">It is dark here. You have no light to see by.</p>}
+      <Told.Setting app={app} />
+      <GlanceStage.Life app={app} glance={g} />
+      {g.changed.length > 0 && <div className="changed">
+        <p className="label">Since you were last here</p>
+        {g.changed.map((l, i) => <p key={i}>{Typography.curl(l)}</p>)}
+      </div>}
+      {!s.pending && told && !struck && <Told.Happened exchange={told} said={!leaf.moved} ready={Moments.ready(screen)}
+        app={app} />}
+    </div>;
+  }
+  // And what can be done from it: only what will not wait (a danger, an answer owed, a warning, the dark), each one
+  // line, never a way; then a few quiet touches, each opening one thing for one purpose (see Explorer): Go… (where to
+  // go), Look… (the things at hand, where there are any), Wait… and Search. Who is here is on the picture.
   static Resting({ app, draw, acts, top }: { app: ReaderApp; draw: Draw; acts: Promoted[]; top?: string }) {
-    const shown = GlanceStage.pressing(acts);
+    const shown = GlanceStage.pressing(acts), search = Pastime.search(app), hand = AtHand.of(app);
     return <>
       {shown.length > 0 && <GlanceStage.Acts app={app} draw={draw} acts={shown} top={top} />}
-      <p className="explore-keys">
-        <button type="button" className="explore-open" data-action="explore" data-part="here"
-          onClick={() => app.explore('here')}>Explore…</button>
+      <p className="openers">
+        <Explorer.Opener app={app} part="go" label="Go…" led={Wayfinder.ways(app).some(w => w.aim)} />
+        {hand.length > 0 && <Explorer.Opener app={app} part="look" label="Look…" led={!!AtHand.led(app, hand)} />}
+        {Pastime.wait(app) && <Explorer.Opener app={app} part="wait" label="Wait…" />}
+        {search && <Act.View choice={search} draw={draw} quiet className="opener search">Search</Act.View>}
       </p>
     </>;
   }
@@ -131,8 +158,8 @@ export class GlanceStage {
   static atRest(app: ReaderApp): Set<string> {
     const g = app.state.frame?.leaf.glance, subjects = app.menu.scene?.subjects ?? [];
     const pressing = g ? GlanceStage.pressing(app.menu.leads ?? g.acts).flatMap(a => GlanceStage.choice(app, a.choice)?.id ?? []) : [];
-    return new Set([...pressing, ...subjects.filter(x => ['companion', 'person', 'animal'].includes(x.kind)).slice(0, 7)
-      .flatMap(x => PlaceStage.into(x)?.id ?? [])]);
+    return new Set([...pressing, ...Pastime.search(app)?.id ?? [], ...subjects.filter(x => ['companion', 'person'].includes(x.kind))
+      .slice(0, 10).flatMap(x => PlaceStage.into(x)?.id ?? [])]);
   }
   // Four: two rows of the rail, so that the ways under them are in view too.
   static readonly most = 10;

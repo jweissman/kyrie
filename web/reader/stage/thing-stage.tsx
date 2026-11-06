@@ -22,6 +22,8 @@ export class ThingStage {
     return (
       <div className="thing" id="page">
         <div className="face">
+          {thing.portrait && <span className="likeness" aria-hidden="true"><img src={thing.portrait.src} alt="" decoding="async"
+            style={{ objectPosition: `50% ${thing.portrait.focus}%` }} /></span>}
           <p className="kicker">Looking at</p>
           <h1 className="n">{Typography.curl(Words.upper(thing.name))}</h1>
           <Stage.When frame={frame} extra={frame.screen.place.name} />

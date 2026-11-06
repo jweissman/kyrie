@@ -1,84 +1,91 @@
 import type { ReaderApp } from '../reader-app';
 import { Typography } from '../../../src/presentation/typography';
-import { MenuModel } from '../menu-model';
 import { Words } from '../words';
-import { Act, type Draw } from './act';
-import { GlanceStage } from './glance';
-import { SceneSurface } from './scene-surface';
-import { PlaceStage } from './place-stage';
-import { Told } from './told';
+import type { Draw } from './act';
+import { AtHand } from './at-hand';
+import { Pastime } from './pastime';
+import { Wayfinder } from './wayfinder';
+import { WorldStage } from './world-stage';
 
-// What can be done in and beyond a place, opened over it when the player means to do something, and gone again when
-// they have (the owner, 4 November, late: a settled principle — the place at rest, its apparatus when wanted). Two
-// parts side by side: where to go (the ways within the place and out of it, each a short name, what more there is to
-// say of one in a line under them), and what to do here (what is worth doing, the animals and things to look at,
-// what the company can do of itself), and everyone here, those on the picture and any it has no room for.
+export type Part = 'go' | 'look' | 'wait' | 'who';
+
+// What is opened over a place at rest, one at a time, for one purpose, and put away again (Esc, the cross): Go…, the
+// wayfinder (where to go, and nothing else); Look…, the things at hand, each in its own pane; Wait…, letting time pass
+// and what came of it; and everyone here the picture has no room for (the owner, 5 November, late: a place is the
+// scene's, a way the wayfinder's, a thing its own; none a catalogue of everything the engine permits).
 export class Explorer {
+  static readonly titles: Record<Part, string> = { go: 'Go', look: 'Look', wait: 'Wait', who: 'Also here' };
   static View({ app, draw }: { app: ReaderApp; draw: Draw }) {
-    const frame = app.state.frame!, g = frame.leaf.glance, screen = frame.screen, part = app.state.exploring;
-    if (!g || !part) { return null; }
-    const going = new Set(SceneSurface.open(screen, SceneSurface.choices(app), []).map(x => x.c.id));
-    // What is done at a way is drawn at it (At the ways), not again among what to do here.
-    const atWays = new Set(Explorer.atWays(app).flatMap(w => w.choices.flatMap(c => [c.id, ...(c.children ?? []).map(k => k.id)])));
-    const acts = (app.menu.leads ?? g.acts).filter(a => {
-      const c = GlanceStage.choice(app, a.choice);
-      return c?.id !== MenuModel.country.id && !going.has(c?.id ?? '') && !atWays.has(c?.id ?? '');
-    });
-    const led = new Set(acts.map(a => GlanceStage.choice(app, a.choice)?.id));
+    const frame = app.state.frame!, part = app.state.exploring;
+    if (!frame.leaf.glance || !part) { return null; }
     return (
-      <div className="explorer" role="dialog" aria-modal="true" aria-label={`Explore ${screen.place.name}`}
-        data-region="explorer" data-part={part}>
+      <div className={`explorer part-${part}`} role="dialog" aria-modal="true"
+        aria-label={`${Explorer.titles[part]}: ${frame.screen.place.name}`} data-region="explorer" data-part={part}>
         <header className="explorer-head">
+          <p className="part">{Explorer.titles[part]}</p>
           <button type="button" className="explorer-shut" data-action="explore-shut" aria-label="Back to the place"
             onClick={() => app.explore()}>✕</button>
         </header>
         <div className="explorer-body">
-          <section className={`explorer-go${part === 'go' ? ' first' : ''}`} aria-label="Where to go">
-            <p className="part">Go</p>
-            {/* The aim followed, with where to go: not on the place at rest (the owner, 5 November). */}
-            <GlanceStage.Aim app={app} said={g.aim} />
-            <GlanceStage.Row app={app} draw={draw} glance={g} />
-            <Explorer.AtWays app={app} draw={draw} />
-          </section>
-          <section className={`explorer-here${part === 'here' ? ' first' : ''}`} aria-label="What to do here">
-            <p className="part">Here</p>
-            <GlanceStage.Acts app={app} draw={draw} acts={acts} />
-            {/* The place told whole, as at rest it is told only in brief (nothing written is lost: OWN-18). */}
-            <details className="about-here" data-region="about">
-              <summary>{`About ${Typography.curl(screen.place.name.replace(/^The /, 'the '))}`}</summary>
-              <div className="telling"><Told.Place app={app} headed={false} whole here={null} /></div>
-            </details>
-            <Explorer.People app={app} draw={draw} />
-            <GlanceStage.Around app={app} draw={draw} led={led} apart />
-            <GlanceStage.Yours app={app} draw={draw} />
-          </section>
+          {part === 'go' && <Wayfinder.View app={app} draw={draw} />}
+          {part === 'look' && <AtHand.View app={app} draw={draw} />}
+          {part === 'wait' && <Pastime.View app={app} draw={draw} />}
+          {part === 'who' && <Explorer.Who app={app} draw={draw} />}
         </div>
       </div>
     );
   }
-  // The ways with something on them besides going (a lock to pick, a tripwire, a thing to look at closer), each its
-  // name and what can be done there: the rest are their names above, and nothing more.
-  static AtWays({ app, draw }: { app: ReaderApp; draw: Draw }) {
-    const ways = Explorer.atWays(app);
-    return ways.length > 0 && <div className="at-ways" data-line="At the ways">
-      <p className="label">At the ways</p>
-      <ul className="ways">{ways.map(w => <li key={w.exit.id} data-exit={w.exit.id}>
-        <p className="at-way">{GlanceStage.short(w.exit.destination.name)}</p>
-        {w.exit.blocked && <p className="at-why">{Typography.curl(w.exit.blocked)}</p>}
-        {w.choices.slice(1).map(c => c.children?.length ? <PlaceStage.Hazard key={c.id} choice={c} draw={draw} />
-          : <Act.View key={c.id} choice={c} draw={draw} className="way also" marked>
-            {Typography.curl(Words.upper(PlaceStage.also(c.label)))}</Act.View>)}</li>)}</ul></div>;
+  // Everyone here the picture has no room for, each by their likeness, each the way to them.
+  static Who({ app, draw }: { app: ReaderApp; draw: Draw }) {
+    const rest = WorldStage.ordered(app).slice(WorldStage.room - 1);
+    return <ul className="portraits who">{rest.map(x => <li key={x.id} data-subject={x.id}
+      className={`${x.kind}${x.danger ? ' danger' : ''}`}><WorldStage.Portrait subject={x} draw={draw} /></li>)}</ul>;
   }
-  static atWays(app: ReaderApp) {
-    return PlaceStage.ways(app.state.frame!.screen, SceneSurface.choices(app)).filter(w => w.choices.length > 1);
+  // Which of these holds a choice, so that the keys coming to it, or automation, open it there.
+  static holder(app: ReaderApp, id: string): Part | undefined {
+    if (Wayfinder.ways(app).some(w => w.c.id === id)) { return 'go'; }
+    if (AtHand.of(app).some(h => h.opens.includes(id) || h.choices.some(c => c.id === id))) { return 'look'; }
+    const wait = Pastime.wait(app);
+    if (wait?.id === id || wait?.children?.some(c => c.id === id) || Pastime.also(app).some(c => c.id === id)) { return 'wait'; }
+    return undefined;
   }
-  // Everyone here by name and what they are, each the way to them.
-  static People({ app, draw }: { app: ReaderApp; draw: Draw }) {
-    // Whoever is with the company first, then the people of the place.
-    const people = [...(app.menu.scene?.subjects ?? []).filter(x => x.kind === 'companion'), ...GlanceStage.people(app)];
-    return people.length > 0 && <div className="also-here people-here" data-line="People here">
-      <p className="label">{people.length === 1 ? 'Someone here' : 'People here'}</p>
-      <ul className="chips">{people.map(x => <li key={x.id} data-subject={x.id}>
-        <PlaceStage.Chip subject={x} draw={draw} /></li>)}</ul></div>;
+  // One opened: what it shows opened in the menu with it (the lengths of a wait, the acts of the thing led with).
+  static open(app: ReaderApp, part?: Part) {
+    const wait = part === 'wait' ? Pastime.wait(app)?.id : undefined;
+    const held = part === 'look' ? AtHand.led(app, AtHand.of(app)) ?? AtHand.of(app)[0] : undefined;
+    // Put away, what was told in it stays told (not said again on the place at rest); opened, it begins afresh.
+    app.setState({ exploring: part, hovered: held?.id, kept: part ? false : app.state.kept, keyed: false,
+      open: wait ? [wait] : held ? held.opens : app.state.open });
+  }
+  // The keys while one is open: up and down through its own choices only, Enter on the one they are on (or the way
+  // chosen), Esc to put it away. Nothing under it is done unseen.
+  static key(app: ReaderApp, key: string): boolean {
+    const part = app.state.exploring, menu = app.menu;
+    if (!part) { return false; }
+    const ids = part === 'go' ? Wayfinder.ways(app).map(w => w.c.id)
+      : [...document.querySelectorAll<HTMLElement>('.explorer [data-action="choice"]')].map(e => e.dataset.choice!);
+    // In the order they are drawn.
+    const at = ids.flatMap(id => { const i = menu.choices.findIndex(c => c.id === id); return i < 0 ? [] : [{ c: menu.choices[i]!, i }]; });
+    if (key === 'ArrowDown' || key === 'ArrowUp') {
+      if (!at.length) { return true; }
+      const now = at.findIndex(x => x.i === app.state.cursor), step = key === 'ArrowDown' ? 1 : -1;
+      const next = at[now < 0 ? (step > 0 ? 0 : at.length - 1) : (now + step + at.length) % at.length]!;
+      app.setState({ cursor: next.i, keyed: true, ...part === 'go' ? { hovered: next.c.id } : {} });
+      return true;
+    }
+    if (key === 'Enter' || key === ' ') {
+      const chosen = part === 'go' ? Wayfinder.chosen(app, Wayfinder.ways(app))?.c
+        : app.state.keyed ? at.find(x => x.i === app.state.cursor)?.c : undefined;
+      if (chosen) { app.choose(chosen); }
+      return true;
+    }
+    if (key === 'Escape' || key === 'Backspace') { app.explore(); return true; }
+    return /^[1-9]$/.test(key);
+  }
+  // The touch on the place at rest that opens one, said as it is and marked when what is led with is in it.
+  static Opener({ app, part, label, led }: { app: ReaderApp; part: Part; label: string; led?: boolean }) {
+    return <button type="button" className={`opener opens-${part}${led ? ' led' : ''}`} data-action="explore"
+      data-part={part} aria-haspopup="dialog" onClick={() => Explorer.open(app, part)}>
+      {Typography.curl(Words.upper(label))}</button>;
   }
 }

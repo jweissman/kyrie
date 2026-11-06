@@ -101,6 +101,19 @@ export class Told {
   // doing is told once, with them, where they are turned to; the animals and the things stay in the telling (a town square named each of its people
   // twice, once in the telling and once among the people here: the play-structure investigation's PT-09). A line
   // that only names who is here ("Here are Fargrim, the innkeeper; and Thoradin.") is left to the names.
+  // The place as it is, whole, wherever the company is at rest in it (the owner, 5 November, late: a place's telling is
+  // never folded away, nor cut to its first sentence once something has been done there): what is said of it, then
+  // who and what is about it, what someone here is doing told with them, not again.
+  static Setting({ app }: { app: ReaderApp }) {
+    const leaf = app.state.frame!.leaf, subjects = app.menu.scene?.subjects ?? [];
+    const beside = new Set(subjects.flatMap(x => PlaceStage.danger(x) ? x.says?.slice(0, 1) ?? []
+      : x.kind === 'person' ? x.says ?? [] : []).map(Typography.curl));
+    const situation = leaf.situation.filter(p => !beside.has(Typography.curl(p)));
+    return <div className="setting" data-region="setting">
+      {situation.map((p, i) => <p key={i} className={i ? undefined : 'lead'}>{Typography.curl(p)}</p>)}
+      <Told.Presence app={app} lines={leaf.presence} subjects={subjects} quiet={false} />
+    </div>;
+  }
   static Presence({ lines, subjects, quiet }: { app: ReaderApp; lines: string[]; subjects: SceneSubject[];
     quiet: boolean }) {
     // A danger's first line is told in its own block, with how a fight would go ("A boar has rooted up the low path"

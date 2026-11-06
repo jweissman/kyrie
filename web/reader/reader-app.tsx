@@ -6,6 +6,7 @@ import { EngineClient } from './engine-client';
 import { JourneyCourse } from './journey-course';
 import { MenuModel, type Menu, type View } from './menu-model';
 import { WorldStage } from './stage/world-stage';
+import { Explorer, type Part } from './stage/explorer';
 import { Conversation, type TalkLine } from './conversation';
 import type { Attention } from '../../src/ui/attention';
 import { ReaderStore, type SavedGame } from './reader-store';
@@ -51,9 +52,10 @@ export interface AppState {
   // entering a place, or doing anything where the company is, puts it away (the owner, 4 November, late: one map,
   // never a second view of it with a sidebar).
   outdoors?: boolean;
-  // Whether the explorer is open over a place, and on which part of it first: where to go, or what to do here (the
-  // owner, 4 November, late: the place at rest, its apparatus opened when wanted).
-  exploring?: 'go' | 'here';
+  // What is opened over a place at rest, if anything (see Explorer): the wayfinder, what is at hand, a wait, or
+  // everyone here the picture has no room for; and whether what is told in it is what came of something done there
+  // (it stays open over what was done to a thing or a wait, and closes on going anywhere).
+  exploring?: Part; kept?: boolean;
   // A journey made on the map: the way it went, to the hex it came to (the town, or where on the road it was stopped),
   // your mark walking it before what came of it is told, and told when it has (see JourneyCourse).
   walking?: { way: number[]; done: () => void };
@@ -261,7 +263,9 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
       const attention = aside ? Conversation.place : Conversation.holds(turning ?? this.state.attention, frame, next);
       const person = attention.kind === 'person';
       const talk = person ? [...this.state.talk, ...Conversation.lines(next, choice, said)] : [];
-      this.setState({ frame: next, pending: undefined, cursor: 0, open: this.kept(next, attention), hovered: undefined,
+      const keeps = ReaderApp.keeps(this.state.exploring, frame, next);
+      this.setState({ frame: next, pending: undefined, cursor: 0,
+        open: keeps ? this.state.open : this.kept(next, attention), hovered: keeps ? this.state.hovered : undefined,
         // Set out from the map, the journey is told where it arrives; anything else done from the map or the company
         // leaves it open.
         view: !journey && ['map', 'company'].includes(this.state.view) ? this.state.view : 'here', stage: '', attention, talk,
@@ -271,7 +275,8 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
         // A journey across the land (from one hex to another) is told on the map, and come to a town the company is at
         // its gate, not yet in it: entering is the player's. A walk within a town or a site never raises the map (the
         // owner, 5 November: the inn to the smithy had gone by way of the whole country's map).
-        outdoors: walked ? !next.combat : ReaderApp.outdoors(frame, next), exploring: undefined, walking: undefined,
+        outdoors: walked ? !next.combat : ReaderApp.outdoors(frame, next), walking: undefined,
+        exploring: keeps ? this.state.exploring : undefined, kept: keeps,
         acted: this.state.attention.kind === 'thing' ? this.state.attention.id : undefined });
     } catch (error) { this.failed(error); }
   }
@@ -282,8 +287,13 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   }
   // The trading opened in a conversation, or shut (back to what is said).
   readonly trade = (open: boolean) => { this.setState({ trading: open || undefined, cursor: 0, hovered: undefined }); };
-  // The explorer opened over the place, on one of its parts, or shut.
-  readonly explore = (part?: 'go' | 'here') => { this.setState({ exploring: part, hovered: undefined }); };
+  // What is opened over the place (see Explorer), or put away.
+  readonly explore = (part?: Part) => { Explorer.open(this, part); };
+  // What stays open over what was done in it: a thing's pane, a wait, while the company is where it was and no fight
+  // has come.
+  static keeps(part: Part | undefined, before: Frame, after: Frame): boolean {
+    return (part === 'look' || part === 'wait') && !after.combat && after.screen.place.id === before.screen.place.id;
+  }
   // The map up, or put away (entering where the company stands, or backing out of it to the map).
   readonly outdoor = (up: boolean) => { this.setState({ outdoors: up, view: 'here', attention: Conversation.place, cursor: 0,
     open: [], hovered: undefined, exploring: undefined }); };

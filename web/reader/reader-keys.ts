@@ -4,6 +4,7 @@ import { Stage } from './stage/stage';
 import { PrologueStage } from './stage/prologue-stage';
 import { Raised, type Sheet } from './stage/raised';
 import { GlanceStage } from './stage/glance';
+import { Explorer, type Part } from './stage/explorer';
 
 // The keyboard. In play, arrows move the highlight through what can be done now (raising the sheet a choice is on, at
 // a place: see Raised), Enter does it, a digit does one at once (at a place, 1 to 3 what the glance leads with), Esc
@@ -14,6 +15,8 @@ import { GlanceStage } from './stage/glance';
 export class ReaderKeys {
   static readonly views: Record<string, View> = { e: 'here', c: 'company', i: 'pack', j: 'journal', m: 'map', h: 'story' };
   static readonly sheets: Record<string, Sheet> = { l: 'look', w: 'ways' };
+  // At a place at rest: Go… (G, or W for the ways), Look… (L), Wait… (Z, a while).
+  static readonly parts: Record<string, Part> = { g: 'go', w: 'go', l: 'look', z: 'wait' };
   constructor(private readonly app: ReaderApp) {}
   readonly press = (e: KeyboardEvent) => {
     const target = e.target as HTMLElement | null;
@@ -31,12 +34,19 @@ export class ReaderKeys {
     // The map open over the page: its buttons pressed and its land moved over by these keys, not the place's choices
     // hidden under it done unseen. Esc still closes it, and the letters open the books.
     if (Stage.mapped(app) && /^(ArrowUp|ArrowDown|Enter| |[1-9])$/.test(key)) { return false; }
+    // What is opened over a place at rest has the keys while it is up (see Explorer).
+    if (s.exploring && Stage.mode(app) === 'explore' && Explorer.key(app, key)) { return true; }
     if (key === 'ArrowDown' || key === 'ArrowUp') {
       if (!menu.choices.length) { return false; }
+      // At a place at rest, only what is drawn there: who is here, what will not wait, searching.
+      const resting = Stage.mode(app) === 'explore' && !s.outdoors && s.frame?.leaf.glance ? GlanceStage.atRest(app) : undefined;
+      const among = menu.choices.map((c, i) => ({ c, i })).filter(x => !resting || resting.has(x.c.id)).map(x => x.i);
+      if (!among.length) { return false; }
       // The first press shows where the keys are, on what the page marks first (or the last, going up), rather than
       // passing over one the player never saw it on.
-      const n = menu.choices.length, step = key === 'ArrowDown' ? 1 : -1;
-      const cursor = s.keyed ? (s.cursor + step + n) % n : step > 0 ? Math.max(0, GlanceStage.top(app)) : n - 1;
+      const n = among.length, step = key === 'ArrowDown' ? 1 : -1, at = among.indexOf(s.cursor);
+      const top = among.indexOf(GlanceStage.top(app));
+      const cursor = among[s.keyed && at >= 0 ? (at + step + n) % n : step > 0 ? Math.max(0, top) : n - 1]!;
       app.setState({ cursor, hovered: undefined, keyed: true });
       if (Stage.mode(app) === 'explore') { Raised.follow(app, cursor); }
       return true;
@@ -77,6 +87,11 @@ export class ReaderKeys {
     const app = this.app;
     if (key === 't' && app.state.frame?.combat) { app.auto(); return true; }
     if (ReaderKeys.views[key]) { app.show(ReaderKeys.views[key]); return true; }
+    const part = ReaderKeys.parts[key];
+    if (part && app.state.frame?.leaf.glance && !app.state.outdoors && Stage.mode(app) === 'explore') {
+      app.explore(app.state.exploring === part ? undefined : part);
+      return true;
+    }
     const sheet = ReaderKeys.sheets[key];
     if (sheet && app.state.frame && Stage.mode(app) === 'explore') {
       Raised.toggle(app, sheet);

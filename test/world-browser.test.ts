@@ -82,7 +82,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a generated world in the browser', 
     expect(errors).toEqual([]);
     await page.close();
   }, 240000);
-  // On a phone each way from a place, in the explorer, has its name whole ("To the market-place of Karashilgab" had
+  // On a phone each way from a place, in Go…, has its name whole ("To the market-place of Karashilgab" had
   // wrapped over three lines in half the width: play 11) and none runs off the side of the screen.
   it('gives each way about a place its whole name on a phone', async () => {
     const { page, errors, driver } = await MonoBrowser.page(browser, { width: 390, height: 844 },
@@ -91,8 +91,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a generated world in the browser', 
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
     await driver.pick(c => /^To the market-place/.test(c.label), 'the market-place');
-    await page.click('.explore-open');
-    const names = await page.$$eval('.explorer .ways-here .way-tile', tiles => tiles.map(t => {
+    await page.click('.opens-go');
+    const names = await page.$$eval('.wayfinder .wf-row', tiles => tiles.map(t => {
       const n = t.querySelector('.n')!, box = t.getBoundingClientRect();
       return n.scrollWidth <= n.clientWidth + 1 && box.right <= innerWidth && box.left >= 0;
     }));

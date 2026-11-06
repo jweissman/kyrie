@@ -252,7 +252,7 @@ export class PlaceStage {
   // fold under the way, "…" and then underlined words (play 7, the enchanted object on the long stair).
   static Hazard({ choice: c, draw }: { choice: Choice; draw: Draw }) {
     return <>
-      <p className="way-thing">{Typography.curl(Words.upper(PlaceStage.also(c.label).replace(/^(Look at|Examine) /i, '')))}</p>
+      <p className="way-thing">{Typography.curl(PlaceStage.thing(c.label))}</p>
       {c.children!.map(k => <Fragment key={k.id}><Act.View choice={k} draw={draw} className="way also" marked>
         {Typography.curl(Words.upper(k.label))}</Act.View><PlaceStage.Opened choice={k} draw={draw} /></Fragment>)}
     </>;
@@ -320,6 +320,9 @@ export class PlaceStage {
     return /^(To|Into|Out|Up|Down|Back|Across|Over|Through|Along) /.test(said) ? said : exit.destination.name;
   }
   static also(label: string): string { return / — (.+)$/.exec(label)?.[1] ?? label; }
+  // What is at a way, by its own name: the corn-store padlock, not "To the old corn-store — look at the corn-store
+  // padlock".
+  static thing(label: string): string { return Words.upper(PlaceStage.also(label).replace(/^(Look at|Examine) /i, '')); }
   static route(way: string, to: string): string {
     const m = /^(.+?)\s+(?:out into|out onto|up onto|into|onto|to|across|over|through)\s+(.+)$/.exec(way);
     const place = m?.[2]!.replace(/^(the|a|an) /i, '');

@@ -26,10 +26,10 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a thing on a way', () => {
     await page.waitForSelector('[data-action="start"]');
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
-    // Go…: the explorer's ways, and at the ways with something on them, what can be done there.
-    await page.click('.explore-open');
-    const way = page.locator('.at-ways .ways [data-exit]', { has: page.locator('.way-thing', { hasText: /tripwire/i }) });
-    await way.locator('.also', { hasText: 'Look closely' }).click();
+    // Look…: what is on a way off this place is a thing at hand, looked at in its own pane (never a way's in Go…).
+    await page.click('.opens-look');
+    await page.locator('.ah-row', { hasText: /tripwire/i }).click();
+    await page.locator('.ah-pane .act', { hasText: 'Look closely' }).click();
     await driver.settle();
     expect(await page.evaluate(() => document.body.innerText)).toContain('A wire is strung across the gateway');
     expect(errors).toEqual([]);
@@ -42,8 +42,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a thing on a way', () => {
     await page.waitForSelector('[data-action="start"]');
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
-    await page.click('.explore-open');
-    await page.locator('.at-ways .ways .also', { hasText: 'Push and pull at it' }).click();
+    await page.click('.opens-look');
+    await page.locator('.ah-pane .act', { hasText: 'Push and pull at it' }).click();
     await driver.settle();
     expect(await page.evaluate(() => document.body.innerText)).toContain('shifts an inch in its grooves');
     expect(errors).toEqual([]);
@@ -56,9 +56,10 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a thing on a way', () => {
     await page.waitForSelector('[data-action="start"]');
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
-    await page.click('.explore-open');
+    await page.click('.opens-go');
     // A way with a risk on it asks first (the owner's play, 31 October: nothing that may hurt is done unasked).
-    const way = page.locator('.explorer .ways-here .way-tile').first();
+    await page.locator('.wf-row').first().click();
+    const way = page.locator('.wf-go');
     await way.click();
     await driver.settle();
     expect(await page.locator('.grave-said').count()).toBeGreaterThan(0);

@@ -24,9 +24,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('preparing spells', () => {
     await page.waitForSelector('[data-action="start"]');
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
-    // What you can do of yourself is in the place's explorer (Explore…), with what to do there.
+    // What you can do of yourself is with waiting (Wait…).
     await driver.enter();
-    await page.click('.explore-open');
+    await page.click('.opens-wait');
     await page.locator('.explorer .act', { hasText: /Dori: prepare/ }).first().click();
     await driver.settle();
     const prepared = page.locator('.character .prepared');

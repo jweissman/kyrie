@@ -8,10 +8,10 @@ import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
 
 class Grave {
-  // A thing turned to by a touch: where the place at rest draws it, else in its explorer (Explore…).
-  static async touch(page: Page, selector: string) {
-    if (!(await page.locator(selector).count())) { await page.click('.explore-open'); }
-    await page.click(selector);
+  // A thing turned to as a player turns to it: Look…, then the thing by its name, in its own pane.
+  static async touch(page: Page, name: RegExp) {
+    await page.click('.opens-look');
+    await page.locator('.ah-row', { hasText: name }).first().click();
   }
 }
 
@@ -33,7 +33,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a grave act on the page', () => {
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
     // Looked at, the statue shows what can be done to it.
-    await Grave.touch(page, '[data-choice="p__statue#look"]');
+    await Grave.touch(page, /statue/i);
     await driver.settle();
     const act = () => page.locator('[data-choice^="p__statue/"][data-choice*=":Break"]').first();
     await act().click();
@@ -53,11 +53,11 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a grave act on the page', () => {
     await page.waitForSelector('[data-action="start"]');
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
-    await Grave.touch(page, '[data-choice="p__sluice#look"]');
+    await Grave.touch(page, /sluice|gate/i);
     await driver.settle();
     await page.locator('[data-choice^="p__sluice/"][data-choice*=":Wind"]').first().click();
     await driver.settle();
-    expect(await page.locator('.thing').innerText()).toContain('The water in the basin goes down');
+    expect(await page.locator('.ah-pane').innerText()).toContain('The water in the basin goes down');
     expect(errors).toEqual([]);
   }, 120000);
   // Low Water's 5 and the Liberty of the Ice's 10 (AUT-03, ICE-10): a question put to the company is answered by its

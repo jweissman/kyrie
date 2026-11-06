@@ -52,17 +52,22 @@ class Glancing {
     for (const hop of p.route('freezeland')) { await p.play(hop); }
     return p.j.session.campaign.history.map(e => e.action);
   }
-  // A place at rest (the owner, 4 November, late: a settled principle): the picture with whoever is here over its foot,
-  // and Go… / Explore…; no ways, no list of what can be done. Opened, the explorer has the ways and what the company
-  // can do of itself.
+  // A place at rest (the owner, 4 November, late, and 5 November, late): the picture with whoever is here over its
+  // foot, the place told whole and never folded away, and a few quiet touches; no ways, no list of what can be done.
+  // Go… opens the ways and nothing else (no one to talk to, no acts on things, no waiting); Wait… opens waiting.
   static async atRest(page: Page) {
     const at = (s: string) => page.locator(`.world-page ${s}`).count();
-    const rest = { portraits: await at('.surface .portraits .portrait') > 0, explore: await at('.explore-open'),
-      listed: await at('.focus .ways-here'), keys: await page.locator('.glance-keys').count() };
-    await page.click('.explore-open');
-    const opened = { ways: await at('.explorer .ways-here .way-tile') > 0, yourself: await at('.explorer .yours-here .act') > 0 };
+    const rest = { portraits: await at('.surface .portraits .portrait') > 0, go: await at('.opens-go'),
+      told: await at('.focus .setting p') > 0, folds: await at('details'), listed: await at('.focus .ways-here'),
+      keys: await page.locator('.glance-keys').count() };
+    await page.click('.opens-go');
+    const go = { ways: await at('.wayfinder .wf-row') > 0,
+      others: await at('.explorer :is(.portrait, .chip, .plate, .yours-here, .led, .at-ways, .about-here)') };
     await page.click('[data-action="explore-shut"]');
-    return { ...rest, ...opened };
+    await page.click('.opens-wait');
+    const wait = { waits: await at('.pastime .pt-length') > 0 };
+    await page.click('[data-action="explore-shut"]');
+    return { ...rest, ...go, ...wait };
   }
 }
 
@@ -87,9 +92,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a place at a glance', () => {
       expect(await Glancing.quiet(page)).toEqual({ scroll: false, panes: 0, led: true });
       expect((await d.inspect()).glance?.arrival).toBe('first');
       await Glancing.shot(page, 'first-arrival');
-      // One control opens the explorer (the owner, 5 November: Go… and Explore… had opened the same).
-      expect(await Glancing.atRest(page)).toEqual({ portraits: true, explore: 1, listed: 0, keys: 0, ways: true,
-        yourself: true });
+      // Go… is for going, and only for going (the owner, 5 November, late).
+      expect(await Glancing.atRest(page)).toEqual({ portraits: true, go: 1, told: true, folds: 0, listed: 0, keys: 0,
+        ways: true, others: 0, waits: true });
       // A digit beyond what it leads with does nothing out of sight.
       if (!pointer) {
         const at = (await d.inspect()).place?.id;
@@ -118,15 +123,14 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a place at a glance', () => {
     await page.waitForSelector('[data-action="start"]');
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
-    // Among the ways in the explorer, the way says what it risks in its line, and asks before it is taken.
-    await page.click('.explore-open');
-    const drop = '.explorer .ways-here [data-choice^="exit:"][data-choice*="pool"]';
-    await page.hover(`${drop} >> nth=0`);
-    expect(await page.locator('.explorer .way-detail').innerText()).toMatch(/no coming back/i);
-    await d.click(`${drop} >> nth=0`);
-    expect(await page.locator(`${drop} .grave-said`).first().innerText()).toMatch(/no coming back.+Choose it again/);
+    // Chosen in Go…, the way says what it risks, and its Go asks before it is taken.
+    await page.click('.opens-go');
+    await page.click('.wf-row[data-pick^="exit:"][data-pick*="pool"] >> nth=0');
+    expect(await page.locator('.wf-preview').innerText()).toMatch(/no coming back/i);
+    await d.click('.wf-go');
+    expect(await page.locator('.wf-go .grave-said').innerText()).toMatch(/no coming back.+Choose it again/);
     expect((await d.inspect()).place?.id).toBe('p__ledge');
-    await d.click(`${drop} >> nth=0`);
+    await d.click('.wf-go');
     expect((await d.inspect()).place?.id).toBe('p__pool');
     expect(errors).toEqual([]);
     await page.close();

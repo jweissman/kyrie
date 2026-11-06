@@ -53,11 +53,11 @@ export class MonoDriver {
   async enter() {
     if (await this.page.locator('[data-action="enter-hex"]').count()) { await this.click('[data-action="enter-hex"]'); }
   }
-  // The place told whole: its explorer opened, and what is said about it there (at rest it is told in brief).
+  // The place told whole: at rest it always is (the owner, 5 November, late), so only what is opened over it is put
+  // away.
   async lookAbout() {
-    const explore = '.explore-open';
-    if (await this.page.locator(explore).count()) { await this.click(explore); }
-    if (await this.page.locator('.about-here:not([open]) > summary').count()) { await this.click('.about-here > summary'); }
+    const shut = '[data-action="explore-shut"]';
+    if (await this.page.locator(shut).count()) { await this.click(shut); }
   }
   // A choice touched where it is on show, as a finger would: on the sheet raised over a place when it is there; else
   // on the place's glance, the sheet put away first; else the sheet that holds it raised first (Look about, Every way
@@ -75,13 +75,9 @@ export class MonoDriver {
     // An explorer (or an old sheet) up that does not hold it is put away, and the place at rest looked at again.
     if (await has(sheet)) { await this.click(`${sheet} :is(.sheet-shut, [data-action="explore-shut"])`); }
     if (await has(shown)) { await this.click(shown); return; }
-    // A place at rest draws only who is here and what is pressing: anything else is in its explorer.
-    const explore = '.explore-open';
-    if (await has(explore)) {
-      await this.click(explore);
-      if (await has(raised)) { await this.click(raised); return; }
-      await this.click(`${sheet} [data-action="explore-shut"]`);
-    }
+    // A place at rest draws only who is here, what is pressing and searching: a way is gone by from Go… (chosen there,
+    // then gone), a thing's acts are in its pane under Look…, waiting under Wait….
+    if (await this.opened(index, raised)) { return; }
     // Where there is no explorer (a road, a book), the old sheets that hold it, or every way.
     const state = await this.inspect(), id = state.choices[index]?.id ?? '';
     const glanced = !!state.glance && [...state.glance.acts.map(a => a.choice), ...state.glance.ways].includes(id);
@@ -91,6 +87,37 @@ export class MonoDriver {
     if (opener && await has(opener)) { await this.click(opener); }
     else if (!await has(shown) && await has('.all-ways')) { await this.click('.all-ways'); }
     await this.click(await has(raised) ? raised : shown);
+  }
+  // A choice found in what a place at rest opens: the way chosen in Go… and gone by; the thing whose pane holds it in
+  // Look…; or Wait….
+  private async opened(index: number, raised: string): Promise<boolean> {
+    const has = async (s: string) => (await this.page.locator(s).count()) > 0;
+    const shut = '.intentions [aria-modal="true"] [data-action="explore-shut"]';
+    for (const part of ['go', 'look', 'wait'] as const) {
+      const opener = `.opens-${part}`;
+      if (!await has(opener)) { continue; }
+      await this.click(opener);
+      if (part === 'go' && await has(`[data-pick-index="${index}"]`)) {
+        await this.click(`[data-pick-index="${index}"]`);
+        await this.click('.wf-go');
+        return true;
+      }
+      if (await has(raised)) { await this.click(raised); return true; }
+      // Turning to a thing is choosing it among what is at hand: its pane is its own view.
+      const thing = /^(.+)#look$/.exec((await this.inspect()).choices[index]?.id ?? '')?.[1];
+      if (part === 'look' && thing && await has(`.ah-row[data-pick="${thing}"]`)) {
+        await this.click(`.ah-row[data-pick="${thing}"]`);
+        return true;
+      }
+      if (part === 'look') {
+        for (const row of await this.page.locator('.ah-row').all()) {
+          await row.click();
+          if (await has(raised)) { await this.click(raised); return true; }
+        }
+      }
+      await this.click(shut);
+    }
+    return false;
   }
   // Does a choice on show, found by a predicate; arrows bring the highlight to it, then Enter does it.
   // A choice that asks again before it is done (what cannot be undone, a fight that could be lost) is chosen again,
@@ -104,18 +131,25 @@ export class MonoDriver {
     }
     if (index < 0) { throw new Error(`No choice ${what}: ${state.choices.map(c => `${c.id} "${c.label}"`).join(' | ')}`); }
     for (let again = 0; again < 2; again++) {
-      if (this.pointer) { await this.tap(index); }
-      else {
-        // The first press shows where the keys are (on what the page marks first); the player moves from there.
-        let now = again ? await this.inspect() : state;
-        if (now.selected === undefined) { await this.key('ArrowDown'); now = await this.inspect(); }
-        const current = Math.max(0, now.choices.findIndex(c => c.id === (now.selected ?? now.choices[0]?.id)));
-        const delta = index - current;
-        for (let i = 0; i < Math.abs(delta); i++) { await this.key(delta > 0 ? 'ArrowDown' : 'ArrowUp'); }
-        await this.key('Enter');
-      }
+      if (this.pointer || !await this.keyed(state, index)) { await this.tap(index); }
       if ((await this.inspect()).confirming !== state.choices[index]!.id) { return; }
     }
+  }
+  // A choice done by the keys, as a player at a keyboard does it: where the arrows reach it (on the page; at a place at
+  // rest, what is drawn there; a way, in Go…, opened by G), the arrows brought to it and Enter. False where the keys
+  // reach it only through a pane chosen first (a thing at hand), for a touch to do.
+  private async keyed(state: Awaited<ReturnType<MonoDriver['inspect']>>, index: number): Promise<boolean> {
+    const id = state.choices[index]!.id, has = async (s: string) => (await this.page.locator(s).count()) > 0;
+    const rest = state.glance && !await has('.intentions [aria-modal="true"]');
+    if (rest && !await has(`.intentions [data-choice="${id}"]`)) {
+      if (!await has('.opens-go')) { return false; }
+      await this.key('g');
+      if (!await has(`[data-pick="${id}"]`)) { await this.key('Escape'); return false; }
+    }
+    for (let i = 0; i <= state.choices.length && (await this.inspect()).selected !== id; i++) { await this.key('ArrowDown'); }
+    if ((await this.inspect()).selected !== id) { return false; }
+    await this.key('Enter');
+    return true;
   }
   // A choice about a subject (its id, or the id without the installation prefix), by the start of its label; then
   // any further labels pick from the list it opens. A subject with several things to do is one choice that opens them

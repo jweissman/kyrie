@@ -38,14 +38,14 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('Low Water in the browser', () => {
     await page.waitForSelector('[data-action="start"]');
     await d.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
-    // The Rim at rest is its first lines; told whole, a look about, in its explorer.
+    // The Rim at rest is told whole (nothing of a place's telling is folded away).
     await d.enter();
     await d.lookAbout();
     expect(await Page_.text(page)).toContain('the ring is mud');
     await d.key('Escape');
     await Page_.act(d, '^To the head of the Stair', '^Talk to Isaura', 'waiting for you', 'join the company');
     await d.away();
-    await Page_.act(d, '^To the Rim Gauge', 'the channel head$', 'Gauge the Fulling', '^Back', '^Talk to Isaura', 'what is troubling');
+    await Page_.act(d, '^To the Rim Gauge', 'the channel head$', 'Gauge the Fulling', '^Talk to Isaura', 'what is troubling');
     expect(await Page_.text(page)).toContain('Forty ells a day');
     await d.away();
     await Page_.act(d, '^To the head of the Stair', '^To Measures Square', "^To the Dyers' Walk", "^To the edge of the Dyers' Basin",

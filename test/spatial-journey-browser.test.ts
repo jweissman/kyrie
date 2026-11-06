@@ -17,11 +17,11 @@ import type { MonoDriver } from './support/mono-driver';
 class Walk {
   constructor(readonly page: Page, readonly d: MonoDriver) {}
   async here(): Promise<string | undefined> { return (await this.d.inspect()).place?.id; }
-  // A way from here, taken as a player takes it: Go…, then its name in the explorer (its own going, or the first of
-  // its acts).
+  // A way from here, taken as a player takes it: Go…, its name chosen in the wayfinder, then its Go.
   async to(place: string) {
-    await this.page.click('.explore-open');
-    await this.page.click(`.explorer .ways-here :is([data-choice="exit:${place}"], [data-choice^="exit:${place}/"])`);
+    await this.page.click('.opens-go');
+    await this.page.click(`.wayfinder :is([data-pick="exit:${place}"], [data-pick^="exit:${place}/"])`);
+    await this.page.click('.wf-go');
     await this.d.settle();
     expect(await this.here()).toBe(place);
   }
@@ -64,8 +64,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a journey through the world, laid o
     expect(await page.locator('[data-id="depth"]').textContent()).toBe('One storey down');
     await driver.pick(c => /light|Light/.test(c.label), 'a light');
     expect(await page.locator('.scene-surface .scenery img').count()).toBe(1);
-    await page.click('.explore-open');
-    expect(await page.locator('.explorer .ways-here .glyph.whither-up').count()).toBe(1);
+    await page.click('.opens-go');
+    expect(await page.locator('.wayfinder .wf-row .glyph.whither-up').count()).toBe(1);
     await page.click('[data-action="explore-shut"]');
     await w.to('region__s2_u_warren');
     await driver.pick(c => c.id === 'region__s2_u_rats/0:Attack', 'the rats');

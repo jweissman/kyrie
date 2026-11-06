@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Glyphs } from '../creation/glyphs';
 import type { Screen } from '../../../src/ui/screen-types';
+import type { Choice } from '../../../src/ui/choice-list';
+import type { SceneSubject } from '../../../src/ui/scene';
 import { Typography } from '../../../src/presentation/typography';
 import { Scenery } from '../../../src/ui/scenery';
 import { Canon } from '../../../src/canon/canon';
@@ -72,30 +74,57 @@ export class WorldStage {
     );
   }
   // Who is here, as small likenesses over the foot of the picture (the owner, 4 November, late: not where they stand
-  // in it, but restrained, and each the way to them): touched, the person is talked to, the animal turned to. Those
-  // dangerous are ringed; more than seven, and the rest are in the explorer.
+  // in it, but restrained, and each the way to them): touched, a person is talked to, an animal looked at in its own
+  // page (5 November, late: a creature-focused interaction, not its one act done at a touch). Those dangerous are
+  // ringed; more than the picture has room for, and the rest are a touch away (see Explorer.Who).
   static Portraits({ app, draw }: { app: ReaderApp; draw: Draw }) {
-    // Those who mean harm last, so that they stand apart at the right of the picture.
-    const here = (app.menu.scene?.subjects ?? []).filter(x => ['companion', 'person', 'animal'].includes(x.kind))
-      .sort((a, b) => Number(!!a.danger) - Number(!!b.danger));
+    const here = WorldStage.ordered(app);
     if (!here.length) { return null; }
-    const shown = here.slice(0, 7), more = here.length - shown.length;
+    const shown = here.slice(0, here.length > WorldStage.room ? WorldStage.room - 1 : here.length);
+    const more = here.length - shown.length;
     return (
       <ul className="portraits" aria-label="Who is here">
-        {shown.map(x => {
-          const into = PlaceStage.into(x), face = x.portrait
-            ? <img src={x.portrait.src} alt="" decoding="async" style={{ objectPosition: `50% ${x.portrait.focus}%` }} />
-            : <Glyphs.View id={x.emblem ?? (x.kind === 'animal' ? 'animal' : 'someone')} className="emblem" />;
-          const body = <><span className="face" aria-hidden="true">{face}</span>
-            <span className="pn">{Typography.curl(Words.upper(x.name))}</span></>;
-          return <li key={x.id} data-subject={x.id} className={`${x.kind}${x.danger ? ' danger' : ''}`}>
-            {into ? <Act.View choice={into} draw={draw} quiet className="portrait">{body}</Act.View>
-              : <span className="portrait still">{body}</span>}</li>;
-        })}
-        {more > 0 && <li><button type="button" className="portrait more" data-action="explore"
-          onClick={() => app.explore('here')}>{`+${more}`}</button></li>}
+        {shown.map(x => <li key={x.id} data-subject={x.id} className={`${x.kind}${x.danger ? ' danger' : ''}`
+          + `${WorldStage.led(app, x) ? ' led' : ''}`}><WorldStage.Portrait subject={x} draw={draw} /></li>)}
+        {more > 0 && <li><button type="button" className="portrait more" data-action="explore" data-part="who"
+          aria-label={`${more} more here`} onClick={() => app.explore('who')}>{`+${more}`}</button></li>}
       </ul>
     );
+  }
+  static readonly room = 10;
+  // Those who mean harm last, so that they stand apart at the right of the picture.
+  static present(app: ReaderApp): SceneSubject[] {
+    return (app.menu.scene?.subjects ?? []).filter(x => ['companion', 'person', 'animal'].includes(x.kind))
+      .sort((a, b) => Number(!!a.danger) - Number(!!b.danger));
+  }
+  // As they are drawn: whoever the glance leads with first, so that they are on the picture however many are here.
+  static ordered(app: ReaderApp): SceneSubject[] {
+    const all = WorldStage.present(app);
+    return [...all.filter(x => WorldStage.led(app, x)), ...all.filter(x => !WorldStage.led(app, x))];
+  }
+  // Whether what the glance leads with is about them.
+  static led(app: ReaderApp, x: SceneSubject): boolean {
+    const g = app.state.frame?.leaf.glance;
+    return (app.menu.leads ?? g?.acts ?? []).some(a => a.subject === x.id);
+  }
+  static Portrait({ subject: x, draw }: { subject: SceneSubject; draw: Draw }) {
+    const into = WorldStage.into(x), face = x.portrait
+      ? <img src={x.portrait.src} alt="" decoding="async" style={{ objectPosition: `50% ${x.portrait.focus}%` }} />
+      : <Glyphs.View id={x.emblem ?? (x.kind === 'animal' ? 'animal' : 'someone')} className="emblem" />;
+    const body = <><span className="face" aria-hidden="true">{face}</span>
+      <span className="pn">{Typography.curl(Words.upper(x.name))}</span></>;
+    if (!into) { return <span className="portrait still">{body}</span>; }
+    // An animal's own page is the page's to open (no command of the engine's), and is opened as one.
+    return draw.index.has(into.id) ? <Act.View choice={into} draw={draw} quiet className="portrait">{body}</Act.View>
+      : <button type="button" className="act portrait" data-action="look-at" data-choice={into.id}
+        onClick={() => draw.app.choose(into)}>{body}</button>;
+  }
+  // What touching a likeness opens: talking to a person; an animal's own page, with what can be done with it.
+  static into(x: SceneSubject): Choice | undefined {
+    if (x.kind === 'animal' && x.choices.length && !x.choices.some(c => /#look$/.test(c.id))) {
+      return { id: `${x.id}#look`, label: `Look at ${x.name}`, tone: 'thing' };
+    }
+    return PlaceStage.into(x);
   }
   // Whether the company stands in the open country, where the world map is the surface.
   static wild(screen: Screen): boolean {
