@@ -39,7 +39,7 @@ Module corrow "The Road the Star Came Down" {
   }
   Rule open_hand_short when watch(clock) >= 5616 and gathered(margin) < 7 and not turned(ferran) and not unsaidCrossed(margin) and not riteFailed(margin)
     and not unsaidHoused(margin) and not unsaidSent(margin) and not unsaidSlain(margin)
-    says "On the fortieth day the Open Hand go down to the Seam and say what they have, all of it, in the dark, for a night and a day. The lake steams. The grey shore comes so close you could step onto it. Nothing crosses. Ferran Cosk comes up the stair with his book and sits on the rim for a long time." {
+    says "On the fortieth day the Open Hand go down to the Seam and say what they have, all of it, in the dark, for a night and a day. The lake steams. The grey shore comes so close you could step onto it. Nothing crosses. Ferran Cosk comes up the stair with his book and sits on the rim until the lamps are lit." {
     Assert riteFailed(margin).
   }
   Relation riteFailed(place).
@@ -81,7 +81,7 @@ Module corrow "The Road the Star Came Down" {
   Passage place_court "toward what is gathering" is path between mountain_place and unsaid_court taking 1 hour.
 
   Topic rook_anchor with rook "Ask Prioress Rook to anchor the company across the lake at the Seam" when knows(actor, seam_found) and not riteArranged(rook) {
-    Says "The prioress is quiet for a long time. 'Thirty years nobody has asked,' she says. 'My sisters will go down with you to the chamber and forget you there: that is how you cross. Then they will come up, and we will say your names here, all of us, in turns, day and night, until you walk back out of the lake.' She takes your hands one by one and looks at each face in turn, slowly, learning it. 'We are only nurses. We can hold you two days. If you want longer, ask the people who owe you, or who love you. Ask a Keld if you can find one who will; a Keld cannot forget, and will hold you as long as you need.'".
+    Says "The prioress turns her ring once round her finger. 'Thirty years nobody has asked,' she says. 'My sisters will go down with you to the chamber and forget you there: that is how you cross. Then they will come up, and we will say your names here, all of us, in turns, day and night, until you walk back out of the lake.' She takes your hands one by one and looks at each face in turn, slowly, learning it. 'We are only nurses. We can hold you two days. If you want longer, ask the people who owe you, or who love you. Ask a Keld if you can find one who will; a Keld cannot forget, and will hold you as long as you need.'".
     On discuss { Assert riteArranged(rook). Set anchorDays(margin) to 2. }
   }
   Relation anchoring(group).
@@ -98,7 +98,7 @@ Module corrow "The Road the Star Came Down" {
     On discuss { Assert anchoring(bram). Increase anchorDays(margin) by 2. }
   }
   Topic saska_anchor with saska "Ask Mother Saska to stand anchor for the company" when riteArranged(rook) and not anchoring(saska) {
-    Says "Mother Saska looks at you for a long time. 'My grandmother was over there,' she says. 'The anchors who brought her back were Marra Coyle and her daughter, and they said her name for nine days.' She settles in her chair. 'I will not forget you. I cannot. Go and come back.'".
+    Says "Mother Saska lays her hands flat on the chair-arms. 'My grandmother was over there,' she says. 'The anchors who brought her back were Marra Coyle and her daughter, and they said her name for nine days.' She settles in her chair. 'I will not forget you. I cannot. Go and come back.'".
     On discuss { Assert anchoring(saska). Increase anchorDays(margin) by 100. }
   }
   Relation lensHome(group).

@@ -76,7 +76,7 @@ Module pellam "The Liberty of the Ice" {
   // A middle answer, which only someone who has seen a bargain shaken on a lie can give.
   Topic answer_knowing with callow "Tell Callow: a hand binds the one who shook it, if he knew what he was shaking on; a hand shaken on a lie about the thing itself binds nobody" when callowAsks(actor) and not saidBinds(actor) and not saidChanges(actor) and not saidKnowing(actor)
     and (knows(actor, hired_sold) or knows(actor, tansy_hired) or knows(actor, gant_altered)) once {
-    Says "He stops walking. For a while he does not say anything at all, which you have not seen him do. 'That is not the Flow,' he says at last. 'And it is not the Reeve.' He coughs. 'It is a third thing. Nothing stays, but what a man knew when he gave his hand, that stays: it is the one thing that was really there.' He looks at you. 'You have been somewhere, to think of that. Somebody shook on a lie in front of you.' He takes your arm again. 'I'll come to your Landing,' says Edrin Callow. 'I'll argue that. It is better than mine.'".
+    Says "He stops walking. For a while he does not say anything at all, which you have not seen him do. 'That is not the Flow,' he says at last. 'And it is not the Reeve.' He takes his arm back and looks at it. 'It is a third thing. Nothing stays, but what a man knew when he gave his hand, that stays: it is the one thing that was really there.' He looks at you. 'You have been somewhere, to think of that. Somebody shook on a lie in front of you.' He takes your arm again. 'I'll come to your Landing,' says Edrin Callow. 'I'll argue that. It is better than mine.'".
     On discuss { Assert saidKnowing(actor). }
   }
   // On the second night, a man who has been told nothing binds him goes where he likes.
@@ -85,7 +85,7 @@ Module pellam "The Liberty of the Ice" {
     Assert callowSlipped(callow). Retract following(callow, party). Retract acceptsEscort(callow, party). Assert at(callow, black_reach). }
   Observe callow_on_reach at black_reach when callowSlipped(callow) and at(callow, black_reach) and not iceGone() "Out on the Black Reach, by the hole that never freezes, Magister Callow is preaching the Flow to the river, in his gown, with his arms out, and the river is listening.".
   Topic callow_come_back with callow "Ask Callow to come back to the Landing, for your hand's sake" when callowSlipped(callow) and at(callow, black_reach) and not callowReturned(callow) once {
-    Says "'For your hand.' He looks at the black water. 'Not for mine. Mine is gone.' He coughs. 'Very well. The one who left you a note was a hypocrite, and the one standing here is a different man, and he will come.' He takes your arm. 'You see? It cuts both ways. That is the beauty of it.'".
+    Says "'For your hand.' He looks at the black water. 'Not for mine. Mine is gone.' He pulls his scarf up over his mouth. 'Very well. The one who left you a note was a hypocrite, and the one standing here is a different man, and he will come.' He takes your arm. 'You see? It cuts both ways. That is the beauty of it.'".
     On discuss { Assert callowReturned(callow). Retract callowSlipped(callow). Assert following(callow, party). Assert acceptsEscort(callow, party). }
   }
   Relation callowReturned(group).

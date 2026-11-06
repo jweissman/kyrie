@@ -182,7 +182,7 @@ Module corrow "Let One Remember" {
   Kind letting_key "the prioress's iron key" like cell_key worth 0 weighing 0.
   Item cellar_key "the prioress's iron key" is letting_key at limbo owned by rook.
   Topic rook_door with rook "Ask Prioress Rook where the road under the water begins" when (knows(actor, low_road_known) or knows(actor, letting_prayer)) and state(commonplace_door, locked) {
-    Says "The prioress looks at you for a long time. 'The Commonplace is going dark,' she says. 'The bright galleries are blank already. Past them it is faint, and past that, at the Root, it is still clear, and from the Root the old road goes down to where the jewel lay.' She takes a key from her belt. 'The Lettings have kept that door for nine hundred years so that nobody goes down it by accident. You are not going by accident.' She gives it to you. 'Bring it back.'".
+    Says "The prioress looks at your boots, and then at your faces. 'The Commonplace is going dark,' she says. 'The bright galleries are blank already. Past them it is faint, and past that, at the Root, it is still clear, and from the Root the old road goes down to where the jewel lay.' She takes a key from her belt. 'The Lettings have kept that door for nine hundred years so that nobody goes down it by accident. You are not going by accident.' She gives it to you. 'Bring it back.'".
     On discuss { Assert lends(rook, cellar_key, actor). Assert at(cellar_key, hospice_hall). }
   }
 

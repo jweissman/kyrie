@@ -109,7 +109,7 @@ Module calamy "A Parliament of Books" {
   // Who told the company about the Cupboard, if Rhule asks: the truth, or a lie.
   Relation askedSource(group).
   Topic rhule_who with rhule "Tell Hester Rhule how you knew about the Cupboard" when cupboardShown(rhule) and knows(actor, almanack_secret) and not askedSource(rhule) once {
-    Says "You tell her: the almanack on the nail in her kitchen. Rhule turns and looks through the open door, down the cold passage, toward the kitchen, for a long time. 'It heard me,' she says. 'Every night.' She does not seem angry. She seems like someone who has put a hand out in the dark and found another hand. 'Every night for eight weeks something was listening to me read what nobody was meant to read, and it did not tell anyone until it had a reason.' She is quiet. 'I would not have been so careful.'".
+    Says "You tell her: the almanack on the nail in her kitchen. Rhule turns and looks through the open door, down the cold passage, toward the kitchen. 'It heard me,' she says. 'Every night.' She does not seem angry. She seems like someone who has put a hand out in the dark and found another hand. 'Every night for eight weeks something was listening to me read what nobody was meant to read, and it did not tell anyone until it had a reason.' She is quiet. 'I would not have been so careful.'".
     On discuss { Assert askedSource(rhule). Increase doubt(rhule) by 1. }
   }
   Topic rhule_who_lie with rhule "Tell Hester Rhule that Absalom Crake told you about the Cupboard" when cupboardShown(rhule) and knows(actor, almanack_secret) and not askedSource(rhule) once {
@@ -124,7 +124,7 @@ Module calamy "A Parliament of Books" {
   }
   Relation toldRuling(group).
   Topic rhule_colophon with rhule "Tell Hester Rhule the first term of the Colophon: no book burned in Calamy save by its own leave" when knows(actor, kindling_is_rite) and not toldColophon(rhule) once {
-    Says "Hester Rhule listens to all of it without moving: Ambery, the books that asked to sleep, the bargain, the year-book that went to the fire of its own will, the almanacks that have not. When you have done she sits for a long time with her square hands flat on the table. 'Save by its own leave,' she says at last. 'It is in the Imprimatur's charter. The first line. I thought it meant the author's leave. Everyone always has.' She stands up and goes to the window and looks out at the Kindling pile going up in the Ashpit. 'Nine hundred years,' she says, 'and I am the one holding the torch.'".
+    Says "Hester Rhule listens to all of it without moving: Ambery, the books that asked to sleep, the bargain, the year-book that went to the fire of its own will, the almanacks that have not. When you have done she sits with her square hands flat on the table through the quarter-chime. 'Save by its own leave,' she says at last. 'It is in the Imprimatur's charter. The first line. I thought it meant the author's leave. Everyone always has.' She stands up and goes to the window and looks out at the Kindling pile going up in the Ashpit. 'Nine hundred years,' she says, 'and I am the one holding the torch.'".
     On discuss { Assert toldColophon(rhule). Increase doubt(rhule) by 2. }
   }
   Relation toldColophon(group).

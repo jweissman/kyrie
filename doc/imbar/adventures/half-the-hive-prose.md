@@ -37,7 +37,7 @@ Comb *is*, and the pair "I am not cruel / I am the door" which were aphorisms sp
 | "to nobody" | 4 | 3 |
 | "as if" | 41 | 38 |
 | aphorism closer in a non-sage's mouth | 3 | 0 |
-| "does not say anything" (announced silence) | 6 | 3 |
+| "does not say anything" (announced silence) | 6 | 2 |
 | bare-list room given a concrete unguessable detail | - | 1 |
 
 ## Speaking habits (kept)

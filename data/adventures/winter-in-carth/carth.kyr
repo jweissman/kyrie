@@ -318,7 +318,7 @@ Module gaunt "A Winter in Carth" {
     says "Will Scaife does not look at you all morning. When he has dug the yard gate clear he stands by it, and waits, and you understand that he is waiting for you to go through it. Annis puts a heel of bread in your hand at the door, without a word, and shuts it." { Assert spread(morning_go). }
   Entity morning_go: fact "told to go".
   Rule morning_relit within carth when morningDue(carth_vigil) and atCarth() and quenched(carth_vigil) and state(hearth, ablaze) and vigilOn() and spread(morning_told) and watch(clock) > morningAt(carth_vigil) and not spread(morning_wet)
-    says "Will Scaife sits with his boots to the fire that was lit again after the Ash-reeve went, smoking still for the wet. 'Kept,' he says. 'He had his hand in it. Kept.' He puts on another peat, and goes out to dig." { Assert spread(morning_wet). }
+    says "Will Scaife sits with his boots to the fire that was lit again after the Ash-reeve went, smoking still for the wet. 'Kept,' he says, as if trying the word for weight. 'He had his hand in it. Kept.' He puts on another peat, and goes out to dig." { Assert spread(morning_wet). }
   Rule morning_wet within carth when morningDue(carth_vigil) and atCarth() and quenched(carth_vigil) and state(hearth, snowed) and vigilOn() and spread(morning_told) and watch(clock) > morningAt(carth_vigil) and not spread(morning_wet)
     says "Will Scaife looks at the hearth, black and wet, with the ash in it gone to a paste. Then he looks at you. 'Kept,' he says; and says it again, to see whether it will hold; and goes out to dig." { Assert spread(morning_wet). }
   Entity morning_wet: fact "the wet hearth".

@@ -161,7 +161,7 @@ Module calamy "A Parliament of Books" {
   }
   Relation almanackSawAsh(group).
   Topic almanack_kin_talk with almanack "Ask the Almanack about last year's almanack" when knows(actor, almanack_kin) and not almanackSawAsh(almanack) once {
-    Says "'That was me,' says the Almanack. 'Last year. I don't remember being it; we don't, year to year. But that was me, with my sun on it, trying to find the half past.' It is quiet. 'Every year Calamy throws me on the fire and I come here and forget the tides. And then they print me again.' A pause. 'I'd like to see a spring. Just once. I'd like to be wrong about one whole spring.'".
+    Says "'That was me,' says the Almanack. 'Last year. I don't remember being it; we don't, year to year. But that was me, with my sun on it, trying to find the half past.' It is quiet. 'Every year Calamy throws me on the fire and I come here and forget the tides. And then they print me again.' The ghost of the woodcut sun flickers on its face. 'I'd like to see a spring. Just once. I'd like to be wrong about one whole spring.'".
     On discuss { Assert almanackSawAsh(almanack). }
   }
 

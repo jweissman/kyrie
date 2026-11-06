@@ -111,7 +111,7 @@ Module corrow "Let One Remember" {
   Kind wenna_lens_kind "Wenna Coyle's lens, wrapped in chamois" is treasure worth 20 weighing 0.
   Item wenna_lens "Wenna Coyle's lens" is wenna_lens_kind at limbo owned by bram.
   Topic bram_lend with bram "Ask Bram Coyle for the loan of Wenna's lens" when knows(actor, lens_known) and not lends(bram, wenna_lens, actor) {
-    Says "Bram turns the lens in his fingers for a long time. 'She kept it in the drawer with her mother's ring,' he says. 'Where she kept things so they'd stay.' He wraps it and holds it out. 'It went away once already. Bring it back.'".
+    Says "Bram turns the lens in his fingers, once over and once back. 'She kept it in the drawer with her mother's ring,' he says. 'Where she kept things so they'd stay.' He wraps it and holds it out. 'It went away once already. Bring it back.'".
     On discuss { Assert lends(bram, wenna_lens, actor). Assert at(wenna_lens, coyle_kitchen). }
   }
   // Through the lens, from Hornwake, the ribs of Hightown's underside; beside the Socket chart, the same ribs.

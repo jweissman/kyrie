@@ -79,7 +79,7 @@ Module corrow "The Road the Star Came Down" {
     On discuss { Assert joinedRite(ferran). Increase riteMinds(corrow) by 30. }
   }
   Topic lene_rite_minds with lene "Ask Lene Tallow to bring Hornwake to sit in the Forgetting of the Way Home" when starFell(corrow) and knows(actor, way_home_rite) and not joinedRite(lene) and (ballasting(lene) or not filing(ruth)) {
-    Says "Lene looks at you a long time. 'You told us the number, when nobody else had,' she says. 'And it was right.' She puts two fingers in her mouth the way Ruth does and whistles up the Wake-moot. 'A hundred and fifty of us. We can forget anything you like. We forget the price of oatcakes every Thursday.'".
+    Says "Lene counts the three of you with her eyes, one, two, three. 'You told us the number, when nobody else had,' she says. 'And it was right.' She puts two fingers in her mouth the way Ruth does and whistles up the Wake-moot. 'A hundred and fifty of us. We can forget anything you like. We forget the price of oatcakes every Thursday.'".
     On discuss { Assert joinedRite(lene). Increase riteMinds(corrow) by 150. }
   }
   Topic amberly_rite_minds with amberly "Ask Speaker Vane to bring the Unaskers down to sit in the Forgetting of the Way Home" when starFell(corrow) and knows(actor, way_home_rite) and not joinedRite(amberly) and not crashed(hightown) and not lost(hightown) {

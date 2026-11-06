@@ -61,7 +61,7 @@ Module corrow "Let One Remember" {
   }
   Discovery hollow_missing "Of the hundred and forty-one people of Keld Hollow, the 2606 expedition brought back a hundred and forty. The one left in the grey was Corin, son of the Hollow's reeve, who had gone out to the far field when the fog came.".
   Topic saska_lift with saska "Tell Mother Saska what you know of where Hightown came from" when knows(actor, origin_known) and not knows(actor, method_known) once {
-    Says "Saska is quiet a long time. 'So you know,' she says. 'Then you had better know the rest, or you will do harm with it.' She speaks in the flat voice of a thing learned by heart. 'It was kept, by my grandmother's grandmother, who had it from hers, who lived in 412, when the Lift was three lifetimes back and the Concord Warden's engineers still walked the Drag: if ever the mountain must come down, it comes down as its people come to know their place. Not all at once. Let one remember at a time.' She lets out her breath. 'Kept, not let.'".
+    Says "Saska is quiet while the peat settles in the grate. 'So you know,' she says. 'Then you had better know the rest, or you will do harm with it.' She speaks in the flat voice of a thing learned by heart. 'It was kept, by my grandmother's grandmother, who had it from hers, who lived in 412, when the Lift was three lifetimes back and the Concord Warden's engineers still walked the Drag: if ever the mountain must come down, it comes down as its people come to know their place. Not all at once. Let one remember at a time.' She lets out her breath. 'Kept, not let.'".
     On discuss { Assert knows(actor, method_known). }
   }
 
