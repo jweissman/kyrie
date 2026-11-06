@@ -411,4 +411,15 @@ Module tessary "What Tessary Owes" {
     On discuss { Assert willing(tally, actor). Assert promisedTally(actor). }
   }
   Relation promisedTally(group).
+
+  // The Valuer cannot lie and will not volunteer. Asked what a surety owes, it writes the answer down, which is the
+  // only way it knows to be of use to a stranger.
+  Place beyond_ledger "beyond the ledger" is wilderness within ossel at 9, 9.
+  Place nowhere "nowhere" is room within beyond_ledger at 0, 0.
+  Item surety_note "the Valuer's note on the terms of a surety" is surety_terms at nowhere.
+  Topic tally_surety with tally "Ask the Valuer what a surety owes" when knows(actor, release_law) and not suretyNoted(tally) once {
+    Says "'A surety answers for the keeping named,' says the Valuer, 'and for no more. Where the keeping is named, the surety is bounded. Where it is not named, the surety answers for everything the principal holds, to the last coin and the last day.' A small pause. 'This is the whole of the law, and it is why I am so seldom asked. People sign what they are given.' The pen is moving. The strip of paper that comes away is ruled in lines as fine as hairs, and says in a hand like type what the Valuer has just said. 'Receipt,' says the Valuer. 'I never give a thing without one.'".
+    On discuss { Assert lends(tally, surety_note, actor). Assert suretyNoted(tally). }
+  }
+  Relation suretyNoted(group).
 }

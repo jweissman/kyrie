@@ -640,6 +640,15 @@
       "source": {
         "kyr": true
       }
+    },
+    "surety_terms": {
+      "name": "The Ninth Valuer's note on a surety",
+      "category": "treasure",
+      "description": "A strip of ruled paper in a hand like type: A SURETY ANSWERS FOR THE KEEPING NAMED. WHERE NO KEEPING IS NAMED, FOR ALL. Under it, a small exact mark where a name would be, and the word RECEIVED.",
+      "value": 6,
+      "source": {
+        "kyr": true
+      }
     }
   }
 }

@@ -114,10 +114,10 @@ Module tessary "What Tessary Owes" {
   // foot of the stair. By day she is out in the deep channel. Ways past her: by day; by the Factor's cistern; quietly,
   // while she is turned to the channel; or with what the Withies always give her, hot eels with vinegar, which she
   // likes better than anyone has ever been able to explain.
-  Species conger_kind "a great conger" like great_snake temperament territorial
+  Species tessary_conger "a great conger" like great_snake temperament territorial
     described "An eel as long as a boat and as thick as a horse, grey-black, with a head like a ram and a mouth full of back-curved teeth. The Withies call her the eel-mother and say she was old when their grandmothers were girls.".
   Person eelmother "the eel-mother" at throat_foot {
-    Role "a conger as long as a boat, lying in the channel at the stair-foot". Species conger_kind. Level 5. Pronouns she.
+    Role "a conger as long as a boat, lying in the channel at the stair-foot". Species tessary_conger. Level 5. Pronouns she.
     Seen when dark() and lowWater().
     Warns "The black water at the foot of the stair humps up, and a head as big as a ram's comes out of it on a neck that keeps coming, and turns, slowly, toward your light. Her mouth is open. She does not want you on her stair.".
     Comes "The eel-mother comes up out of the channel all at once, the whole grey length of her, faster than anything that size should move.".

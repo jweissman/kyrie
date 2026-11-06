@@ -163,4 +163,19 @@ Module sennet "The Grand Tour" {
     Retract at(remainder, hours_quay). Assert at(remainder, outer_mechanus_threshold). Set mechAt(remainder) to watch(clock).
   }
   Observe stranded_mech at outer_mechanus_threshold when not at(remainder, outer_mechanus_threshold) and mechanusSeen(remainder) and at(party, outer_mechanus_threshold) "The Remainder is gone. The quay she lay at is a square of black metal in a floor of squares, and on it an eleven of notches has been cut, fresh. Eleven, and then a blank, as if for a twelfth.".
+
+  // The cost of a harbour. A surety named in the Prefect's formula or in the Collegium's keeping is bounded by it, if the
+  // company has taken the trouble to learn what a surety is: a clerk of the Balance wrote it down for anyone who asked.
+  // A company that stood surety blind answers for everything the Watch holds, and the Watch holds a good deal, and eats.
+  Relation liable(group). Relation calledToday(group).
+  Rule surety_binds when harboured(remainder) and surety(party) and not holding(party, surety_terms) and not liable(party)
+    says "Orrel Sabe has set down his slate, and is looking at you with an apology that is entirely sincere. 'I have to tell you,' he says, 'what our roll says about a surety who does not name the keeping. It says they answer for all of it. I do not think you knew.'" {
+    Assert liable(party).
+  }
+  Rule watch_calls when liable(party) and hour(clock) == 9 and not calledToday(party) and harboured(remainder)
+    says "A boy from the House comes at nine with a slate: the Watch's bread, the Watch's lamp-oil, the Watch's winter coats. The account is in your name, in a hand as exact as the Valuer's. It is not large. It is every day." {
+    Decrease quantity(party, gold) by 3 or to nothing. Assert calledToday(party).
+  }
+  Rule watch_calls_resets when hour(clock) != 9 and calledToday(party) { Retract calledToday(party). }
+  Observe note_pinned at rem_count when harboured(remainder) and holding(party, surety_terms) "Over the great chart, held with a pin from the old count, a strip of ruled paper has been fixed: A SURETY ANSWERS FOR THE KEEPING NAMED. Tamsin has underlined KEEPING twice.".
 }

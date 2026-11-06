@@ -104,4 +104,32 @@ describe('the Remainder', () => {
     await j.play(`=${now + 14 + 50}`);
     expect(j.holds('at', 'psennet__remainder', 'outer_mechanus_threshold')).toBe(true);
   }, 900000);
+
+  const harbour = async (withNote: boolean) => {
+    const world = await Slack.world(['sennet', 'longman', 'lowwater', 'tolleth', 'skeel', 'tessary']);
+    const { j } = world;
+    j.put('party', 'psennet__nexus');
+    j.give('pskeel__bench_rubbing'); j.give('ptolleth__rubbing'); j.give('plongman__rod'); j.give('plongman__writ_copy');
+    if (withNote) { j.give('ptessary__surety_note'); }
+    await j.play('Lay a keeper\'s tally and a Prefect\'s table', 'Lay the dyke-reeve\'s rod', 'Say the keeper\'s formula', 'Open the black square',
+      'Through to the foot of the black stair', 'the Quay of Hours', '^Into the Remainder', 'Ask Captain Sabe where the ship is', 'count-room',
+      'Ask Tamsin Quaye what she is trying to break', 'Ask Tamsin Quaye what she wants done', 'Stand surety for the Remainder in the Prefect');
+    j.coin(40);
+    return world;
+  };
+  it('binds a company that stood surety blind to the Watch\'s bread, every morning', async () => {
+    const { j } = await harbour(false);
+    await j.play('^Wait › An hour');
+    expect(j.holds('psennet__liable', 'party')).toBe(true);
+    const before = j.campaign.state.elapsed;
+    await j.play(`=${Math.ceil(before / 144) * 144 + 60}`);
+    expect(j.campaign.world.one('at', 'party')).toBeDefined();
+    const gold = j.measure('quantity', 'party', 'gold') as number;
+    expect(gold).toBeLessThan(40);
+  }, 900000);
+  it('does not bind one that had the Valuer\'s note on what a surety owes', async () => {
+    const { j } = await harbour(true);
+    await j.play('^Wait › An hour');
+    expect(j.holds('psennet__liable', 'party')).toBe(false);
+  }, 900000);
 });
