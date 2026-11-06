@@ -15,5 +15,5 @@ it('explore', async () => {
   await j.play('^To the counting-room');
   console.log('N3', Ring.names(j).filter(n => /strongbox|leaf|key|Open|Pick|Take/i.test(n)).slice(0,12));
   await j.play('Open the strongbox');
-  console.log('N4', Ring.names(j).filter(n => /strongbox|leaf|key|Open|Pick|Take/i.test(n)).slice(0,12));
+  console.log('N4', Ring.names(j).filter(n => /day-book|Take|Look|Search|Examine/i.test(n)).slice(0,12), j.at('factors__leaf'), j.holds('inside','factors__leaf','factors__strongbox'));
 }, 120000);
