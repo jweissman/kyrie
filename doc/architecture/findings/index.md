@@ -92,10 +92,10 @@ there is **Open risk**.
 |---|---|---|
 | defect | 32 | 21 |
 | foundational architecture obligation | 31 | 8 |
-| gameplay requirement | 58 | 12 |
-| authorability blocker | 35 | 22 |
+| gameplay requirement | 59 | 12 |
+| authorability blocker | 61 | 22 |
 | aesthetic/UX problem | 12 | 6 |
-| creative aspiration | 62 | 5 |
+| creative aspiration | 35 | 5 |
 | **all** | **230** | **74** |
 
 ### Defect (32)
@@ -171,7 +171,7 @@ there is **Open risk**.
 | UNT-130 | [gaps](gaps.md) | Open risk (unregistered) | Fixed rows contradicted or not re-proved after a redesign: PT-09, PRE-03, PT-42, NAV-12 still read Fixed though the 45-command arrival contradicted them; M17's fixed UI rows not re… |
 | UNT-201 | [gaps](gaps.md) | Open risk (unregistered) | M18's register says the Parliament of Books' friction was "Carried in earlier missions ... (Mission 17's register; their open rows inherited above)", but no register (M16-M19) cite… |
 
-### Gameplay requirement (58)
+### Gameplay requirement (59)
 
 | ID | Where | Status | Finding |
 |---|---|---|---|
@@ -216,6 +216,7 @@ there is **Open risk**.
 | REV-17 | [M19 inherited](../mission-19/inherited.md) | Partial | Known travel is insufficiently compressed; itineraries lost to interruptions |
 | REV-21 | [M19 inherited](../mission-19/inherited.md) | Partial | Adversarial-order quest-path tests |
 | REV-24 | [M19 inherited](../mission-19/inherited.md) | Partial | Notes in layers; NPC rumour menus curated; HP growth flattened; treasure with several destinations |
+| SYS-01 | [M19 inherited](../mission-19/inherited.md) | Deferred | Situation/affordance projection from the legal set |
 | SYS-04 | [M19 inherited](../mission-19/inherited.md) | Deferred | Balance one expedition across money, experience and capability |
 | SYS-05 | [M19 inherited](../mission-19/inherited.md) | Partial | Novice danger covenant by calling |
 | SYS-06 | [M19 inherited](../mission-19/inherited.md) | Deferred | Operational professions in generated situations |
@@ -234,23 +235,49 @@ there is **Open risk**.
 | UNT-241 | [gaps](gaps.md) | Open risk (unregistered) | "The engine's dark is nine to six in every season. A winter fair is dusk at four." |
 | UNT-242 | [gaps](gaps.md) | Open risk (unregistered) | "A won fight kills. `Human 1 falls` is `dead`, not `routed`; `Pleads` never fires"; hill: "No mercy for the beaten (the severe one)" |
 
-### Authorability blocker (35)
+### Authorability blocker (61)
 
 | ID | Where | Status | Finding |
 |---|---|---|---|
 | AUT-07 | [M19 inherited](../mission-19/inherited.md) | Open risk | State names share the module namespace |
 | AUT-25 | [M19 inherited](../mission-19/inherited.md) | Open risk | Deem: module-local tables and templates, weighted and conditional selection, generated families, naming |
+| BOF-08 | [M19 inherited](../mission-19/inherited.md) | Open risk | A rule's words come a pass after the action's Result, and a fact a later rule sets is read the next watch |
+| BOF-09 | [M19 inherited](../mission-19/inherited.md) | Open risk | A failed check costs nothing, so every author built a one try per hour or day by hand |
+| BOF-16 | [M19 inherited](../mission-19/inherited.md) | Open risk | Two files placing one person at the same hour fight every pass, and no lint catches it |
+| BOF-30 | [M19 inherited](../mission-19/inherited.md) | Open risk | Several authors' tests cannot load until the others' people exist; everyone kept stub campaigns uncommitted |
+| CTH-05 | [M19 inherited](../mission-19/inherited.md) | Open risk | A person cannot be spoken to through a window, or be called otherwise while masked: every topic about Hern's mind is written twice |
 | CTH-09 | [M19 inherited](../mission-19/inherited.md) | Open risk | The generic voice is chosen by facts a module must know to state: "dew still on the grass" on a frozen fell; a masked Lady's cheerful farewell |
 | FWR-08 | [M19 inherited](../mission-19/inherited.md) | Partial | In a crowded room every person's every topic is offered at once, burying the scene's own few acts |
+| GTR-21 | [M19 inherited](../mission-19/inherited.md) | Open risk | For every person a rule or action moves, lint advises that a role which seems to put them somewhere is told wherever they are. |
+| IFR-01 | [M19 inherited](../mission-19/inherited.md) | Deferred | `why` and a causal trace: why an action is not offered, down to an effect that would be refused; what each watch ran and why |
+| IFR-02 | [M19 inherited](../mission-19/inherited.md) | Deferred | Typed transformations: move, place, pay (strict), raise/lower (clamped), give or spend a particular item, create from stock |
+| IFR-03 | [M19 inherited](../mission-19/inherited.md) | Deferred | Observations that afford: perceived evidence names the kinds of attention it opens (track, treat, ask, examine), with the reason a choice is staged (i |
+| IFR-04 | [M19 inherited](../mission-19/inherited.md) | Deferred | `Occasion` grown to a whole activity: participants, an opening, visible pressure, its matters' answers, resolution and aftermath |
+| IFR-05 | [M19 inherited](../mission-19/inherited.md) | Deferred | Named rule phases (reactions, consequences, defaults), rare `after`, and `otherwise` fallbacks; derived constructs settled before telling |
+| IFR-06 | [M19 inherited](../mission-19/inherited.md) | Deferred | One knowledge and perception model: what is learned keeps its source, channel and moment; one viewer-relative projection for presence, name and role e |
+| IFR-07 | [M19 inherited](../mission-19/inherited.md) | Deferred | Dynamic identity: offices assigned and deposed; portable places (a circus pitched and moved); people offstage (`nowhere`) |
+| IFR-08 | [M19 inherited](../mission-19/inherited.md) | Deferred | Each command told as one transaction in causal order (act, result, reactions, discoveries, changed scene, later news); interruption policy per event; |
+| IFR-09 | [M19 inherited](../mission-19/inherited.md) | Deferred | Proven patterns only: warning with grace, dates and recurrence, directional passages, containers, typed verdicts, offscreen conflict |
+| IFR-10 | [M19 inherited](../mission-19/inherited.md) | Deferred | Scale: state names scoped to their thing, typed relation roles, a names tool, coverage and prose reports, journeys by semantic id, one transcript comm |
+| LOR-16 | [M19 inherited](../mission-19/inherited.md) | Open risk | Crowd size; level containment; shelter not inherited; collisions reported one load at a time |
 | M19-20 | [M19](../mission-19/register.md) | Partial | Ruins, barrows and towers are named in the makers' old tongue, transparently descriptive to a Latin reader (Tenebraetumulo, the dark barrow) |
 | M19-40 | [M19](../mission-19/register.md) | Partial | The undertown should be one connected place: the rats' run toward the catacombs |
 | M19-68 | [M19](../mission-19/register.md) | Partial | No geology: deposits, rock and the minerals a country holds did not exist; a settlement by the fells mined tin wherever it stood |
 | M19-76 | M19 (pending) | Partial | The bestiary imported, not operational (measured danger, composed parties: landing on main) |
 | OWN-51 | [M19 inherited](../mission-19/inherited.md) | Partial | Common the default tongue of ordinary generated settlements, through the `languages` library's Common passthrough (its real API and version); elven an |
+| QTC-19 | [M19 inherited](../mission-19/inherited.md) | Open risk | A recruited companion has `at` retracted, so every rule about where they are must ask `travelsWith`; `memberOf` is engine-owned |
 | QTC-21 | [M19 inherited](../mission-19/inherited.md) | Open risk | `Level` does not scale a fixed-stat species; the catalogue has no elemental and no talking bird |
+| QTC-A04 | [M19 inherited](../mission-19/inherited.md) | Open risk | Write-only / no-target advice is permanent noise for relations other modules read; there is no Exports declaration (an 13, bg 13, ll 12, ms 15, ds 11) |
+| QTC-A10 | [M19 inherited](../mission-19/inherited.md) | Open risk | A won fight against a Person leaves them dead, never routed, so Pleads never fires; the guide does not say when Pleads applies (bg 10) |
+| QTC-A24 | [M19 inherited](../mission-19/inherited.md) | Open risk | A `Known as` alias holds although its teaching topic was not taken; `Greets` cannot teach (ll 17) |
+| TTN-02 | [M19 inherited](../mission-19/inherited.md) | Open risk | Ending coverage is invisible: nothing tells an author that a reachable state reaches no ending |
 | WPC-06 | [M19 inherited](../mission-19/inherited.md) | Open risk | Naming a room for its town ("Wapshott's ground by {town_a}") is neither documented nor tested, and the circus's author took it to be impossible, so on |
 | WPC-14 | [M19 inherited](../mission-19/inherited.md) | Open risk | A module's own kinds of thing share one namespace with the catalog and with every other module, so an author must invent long names (`wonders_list_kin |
+| WPC-18 | [M19 inherited](../mission-19/inherited.md) | Open risk | A going-on placed in 'any' settlement claims that town for itself alone, so something that visits towns already busy, like a circus, cannot share one |
 | WPC-X04 | [M19 inherited](../mission-19/inherited.md) | Open risk | A module cannot declare its own techniques. The circus put Pratfall and Feint into the shared abilities.json, so every world and the generated handboo |
+| WPC-X05 | [M19 inherited](../mission-19/inherited.md) | Open risk | A rule that sends a module's people to their places pulls a recruit out of the company unless it adds `and not travelsWith(?p, party)`. |
+| WPC-X06 | [M19 inherited](../mission-19/inherited.md) | Open risk | A story placed in the shared country (a going-on or a standing scenario) cannot use an Ending, because a placed module's ending closes the whole book. |
+| WPC-X08 | [M19 inherited](../mission-19/inherited.md) | Open risk | The circus has been played only by its author, at the command line. |
 | UNT-114 | [gaps](gaps.md) | Open risk (unregistered) | Things made in play, conditional destinations, counted offers and rule tracing (M13 authorability :48-52; Orsino :68-80) were to become D1 examples ("counted offers first") and wer… |
 | UNT-120 | [gaps](gaps.md) | Open risk (unregistered) | The M17 authoring commitments the audit found slipped have no row: "`kyrie new table` and `kyrie new generator` (M17 X) were never built"; "the character lab's nine runnable exampl… |
 | UNT-129 | [gaps](gaps.md) | Open risk (unregistered) | "Wren's first greeting cannot happen before the first action": rules do not run at time 0 (left Open, first in the report's "next language work"), never carried into a register |
@@ -291,43 +318,26 @@ there is **Open risk**.
 | UNT-211 | [gaps](gaps.md) | Verify (unregistered) | "A room with one thing in it labels the thing's examination generically (\"Examine — Look closely\"), so a journey cannot name *which* book it reads" |
 | UNT-218 | [gaps](gaps.md) | Open risk (unregistered) | "What it found in the shared interface and navigation (M18) ... the title and creation screens do not answer the keyboard; ... no clock shown except while moving, and no \"wait unt… |
 
-### Creative aspiration (62)
+### Creative aspiration (35)
 
 | ID | Where | Status | Finding |
 |---|---|---|---|
 | ARV-M2 | [M19 inherited](../mission-19/inherited.md) | Deferred | Kyr too large at the leaves, too small in the middle (no once-only rule, money, timers; dead Exit and Budget) |
 | ARV-M5 | [M19 inherited](../mission-19/inherited.md) | Deferred | Combat has exactly two teams |
 | AUT-09 | [M19 inherited](../mission-19/inherited.md) | Deferred | Counters against the clock; dates, periods, a module calendar |
-| BOF-08 | [M19 inherited](../mission-19/inherited.md) | Open risk | A rule's words come a pass after the action's Result, and a fact a later rule sets is read the next watch |
-| BOF-09 | [M19 inherited](../mission-19/inherited.md) | Open risk | A failed check costs nothing, so every author built a one try per hour or day by hand |
 | BOF-10 | [M19 inherited](../mission-19/inherited.md) | Deferred | A check's difficulty is a constant and cannot read a measure (trust) |
 | BOF-11 | [M19 inherited](../mission-19/inherited.md) | Deferred | A file cannot add a condition to another file's declaration, and nothing says a company came by a passage |
-| BOF-16 | [M19 inherited](../mission-19/inherited.md) | Open risk | Two files placing one person at the same hour fight every pass, and no lint catches it |
 | BOF-24 | [M19 inherited](../mission-19/inherited.md) | Deferred | A topic is one turn; there is no talk of several exchanges |
-| BOF-30 | [M19 inherited](../mission-19/inherited.md) | Open risk | Several authors' tests cannot load until the others' people exist; everyone kept stub campaigns uncommitted |
 | BOF-33 | [M19 inherited](../mission-19/inherited.md) | Deferred | A per-entity table of measures needs a line each, and an entity cannot be offered on a condition |
 | BOF-34 | [M19 inherited](../mission-19/inherited.md) | Deferred | No hour-by-hour search of a container |
 | BTW-11 | [M19 inherited](../mission-19/inherited.md) | Deferred | Giant gentry are new canon |
-| CTH-05 | [M19 inherited](../mission-19/inherited.md) | Open risk | A person cannot be spoken to through a window, or be called otherwise while masked: every topic about Hern's mind is written twice |
 | FWR-05 | [M19 inherited](../mission-19/inherited.md) | Deferred | No cycles: tides built by hand from the hour, a lag measure and arithmetic |
-| GTR-21 | [M19 inherited](../mission-19/inherited.md) | Open risk | For every person a rule or action moves, lint advises that a role which seems to put them somewhere is told wherever they are. |
 | GTR-26 | [M19 inherited](../mission-19/inherited.md) | Deferred | A person's daily round (Aubrey's rooms by day, the Promenade in the evening, abed at night) is written as one rule for each part of the day. |
 | GTR-27 | [M19 inherited](../mission-19/inherited.md) | Deferred | A number the player should feel, such as how fond Fabian has grown of the company, lives only in the world's state. |
 | GTR-X20 | [M19 inherited](../mission-19/inherited.md) | Deferred | Kyr cannot hold an accusation that the player puts together. |
 | GTR-X21 | [M19 inherited](../mission-19/inherited.md) | Deferred | The highest reward goes unused in the campaign. The Door of Doors 'will open for you on anywhere you have stood', and the book closes at nine the next |
-| IFR-01 | [M19 inherited](../mission-19/inherited.md) | Deferred | `why` and a causal trace: why an action is not offered, down to an effect that would be refused; what each watch ran and why |
-| IFR-02 | [M19 inherited](../mission-19/inherited.md) | Deferred | Typed transformations: move, place, pay (strict), raise/lower (clamped), give or spend a particular item, create from stock |
-| IFR-03 | [M19 inherited](../mission-19/inherited.md) | Deferred | Observations that afford: perceived evidence names the kinds of attention it opens (track, treat, ask, examine), with the reason a choice is staged (i |
-| IFR-04 | [M19 inherited](../mission-19/inherited.md) | Deferred | `Occasion` grown to a whole activity: participants, an opening, visible pressure, its matters' answers, resolution and aftermath |
-| IFR-05 | [M19 inherited](../mission-19/inherited.md) | Deferred | Named rule phases (reactions, consequences, defaults), rare `after`, and `otherwise` fallbacks; derived constructs settled before telling |
-| IFR-06 | [M19 inherited](../mission-19/inherited.md) | Deferred | One knowledge and perception model: what is learned keeps its source, channel and moment; one viewer-relative projection for presence, name and role e |
-| IFR-07 | [M19 inherited](../mission-19/inherited.md) | Deferred | Dynamic identity: offices assigned and deposed; portable places (a circus pitched and moved); people offstage (`nowhere`) |
-| IFR-08 | [M19 inherited](../mission-19/inherited.md) | Deferred | Each command told as one transaction in causal order (act, result, reactions, discoveries, changed scene, later news); interruption policy per event; |
-| IFR-09 | [M19 inherited](../mission-19/inherited.md) | Deferred | Proven patterns only: warning with grace, dates and recurrence, directional passages, containers, typed verdicts, offscreen conflict |
-| IFR-10 | [M19 inherited](../mission-19/inherited.md) | Deferred | Scale: state names scoped to their thing, typed relation roles, a names tool, coverage and prose reports, journeys by semantic id, one transcript comm |
 | LOR-09 | [M19 inherited](../mission-19/inherited.md) | Deferred | No computed measure; text cannot carry a measure |
 | LOR-13 | [M19 inherited](../mission-19/inherited.md) | Deferred | Inference phrased as an observation; news at a speed |
-| LOR-16 | [M19 inherited](../mission-19/inherited.md) | Open risk | Crowd size; level containment; shelter not inherited; collisions reported one load at a time |
 | NAR-18 | [M19 inherited](../mission-19/inherited.md) | Deferred | One substantial companion, with a perspective, a memory and people of his own |
 | NVR-20 | [M19 inherited](../mission-19/inherited.md) | Deferred | No vertical order and no single grid convention: an interior render would draw towers upside down and stairs going the wrong way |
 | NVR-21 | [M19 inherited](../mission-19/inherited.md) | Deferred | What an interior map needs and what the model has: plans and way kinds yes, room kinds no |
@@ -337,20 +347,10 @@ there is **Open risk**.
 | OWN-38 | [M19 inherited](../mission-19/inherited.md) | Deferred | Demonstrations: two adventures extending and visiting one Plane of Fire; two extending one Infinite Library (or its diagnosis and correction); the Gra |
 | QIS-01 | [M19 inherited](../mission-19/inherited.md) | Deferred | No temperature: cold is a module's own measure, warnings and hazard, reinvented by every winter country (the Lull, Carth, Pellam, here) |
 | QTC-14 | [M19 inherited](../mission-19/inherited.md) | Deferred | `Promise … kept when` takes no effect block; `Grave` cannot be conditional; a `Rule` cannot branch |
-| QTC-19 | [M19 inherited](../mission-19/inherited.md) | Open risk | A recruited companion has `at` retracted, so every rule about where they are must ask `travelsWith`; `memberOf` is engine-owned |
 | QTC-A02 | [M19 inherited](../mission-19/inherited.md) | Deferred | A `Change` cannot carry an author's condition, and a Rule cannot tell which Change opened a Thing (an 6) |
-| QTC-A04 | [M19 inherited](../mission-19/inherited.md) | Open risk | Write-only / no-target advice is permanent noise for relations other modules read; there is no Exports declaration (an 13, bg 13, ll 12, ms 15, ds 11) |
-| QTC-A10 | [M19 inherited](../mission-19/inherited.md) | Open risk | A won fight against a Person leaves them dead, never routed, so Pleads never fires; the guide does not say when Pleads applies (bg 10) |
 | QTC-A20 | [M19 inherited](../mission-19/inherited.md) | Deferred | No schedule construct: each person needs three or four Retract/Assert `at` rules (ll 9) |
-| QTC-A24 | [M19 inherited](../mission-19/inherited.md) | Open risk | A `Known as` alias holds although its teaching topic was not taken; `Greets` cannot teach (ll 17) |
-| SYS-01 | [M19 inherited](../mission-19/inherited.md) | Deferred | Situation/affordance projection from the legal set |
-| TTN-02 | [M19 inherited](../mission-19/inherited.md) | Open risk | Ending coverage is invisible: nothing tells an author that a reachable state reaches no ending |
 | WPC-01 | [M19 inherited](../mission-19/inherited.md) | Deferred | A place cannot move: a travelling circus has to be written as five rooms in each of three towns (fifteen rooms), with a hand-written rule that moves i |
-| WPC-18 | [M19 inherited](../mission-19/inherited.md) | Open risk | A going-on placed in 'any' settlement claims that town for itself alone, so something that visits towns already busy, like a circus, cannot share one |
 | WPC-X02 | [M19 inherited](../mission-19/inherited.md) | Deferred | A contest of words (a heckler's composure against the answerer's poise, over three jabs) has to be built by hand from relations, measures and rules: e |
-| WPC-X05 | [M19 inherited](../mission-19/inherited.md) | Open risk | A rule that sends a module's people to their places pulls a recruit out of the company unless it adds `and not travelsWith(?p, party)`. |
-| WPC-X06 | [M19 inherited](../mission-19/inherited.md) | Open risk | A story placed in the shared country (a going-on or a standing scenario) cannot use an Ending, because a placed module's ending closes the whole book. |
-| WPC-X08 | [M19 inherited](../mission-19/inherited.md) | Open risk | The circus has been played only by its author, at the command line. |
 | WPC-X09 | [M19 inherited](../mission-19/inherited.md) | Deferred | A module can name places beyond its towns only as fixed words in its prose (the circus's Dunmere, Marlow, Wakeham and Oster), the same in every world. |
 | UNT-115 | [gaps](gaps.md) | Wishlist (unregistered) | Two long-promised aspirations slipped with no row: "a sky purpose for the deep sites (the Star-Readers' tower)" (M14 :885), and "a world that changes on its own: ecology, a settlem… |
 | UNT-126 | [gaps](gaps.md) | Wishlist (unregistered) | The IF review's "Overworld, epistemic and social abilities" section and its six acceptance demonstrations were never registered: "weather is chiefly descriptive" (to be "a phenomen… |

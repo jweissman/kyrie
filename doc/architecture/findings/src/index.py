@@ -88,7 +88,9 @@ def category(i, cls):
         return OVERRIDE[i]
     kind = KIND.get(i, ('', ''))[0]
     prefix = re.sub(r'-.*', '', i)
-    if kind == 'ambition' or cls == 'D':
+    # Class D (a larger ambition) is the register's scope, not what the row is (the process audit, §3): a D row the
+    # audit calls a defect or an obligation is sorted as one; only an ambition, or a D row of no kind, is a wish.
+    if kind == 'ambition' or (cls == 'D' and kind not in ('defect', 'obligation', 'recommendation')):
         return 'creative aspiration'
     if prefix in AUTHOR:
         return 'authorability blocker'
