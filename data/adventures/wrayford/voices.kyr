@@ -48,7 +48,7 @@ Module wrayford "The Third Night" {
   Discovery hook_known "Corbin the sexton lights a lantern every dusk on the pier's foot under the first arch, for the drowned at Wade's Step who were never carried over, as his father and grandfather did.".
   Entity hook_fact: fact "Corbin's light seen from the Step".
   Rule hook_payoff at tanyards when bearingAny(party) and knows(party, hook_known) and lowWater() and spread(weight_fact) and not spread(hook_fact)
-    says "Half out of the water on the far bank, with the weight on your back, you look behind you, because you cannot help it, across the black of the Step; and there under the arch is a small yellow light, steady, on its hook. It has been burning for every one of the ones who were not carried, for longer than the Company has had a bridge. You are, you realise, the first it has ever lit the way for. You do not feel any lighter. You go on a good deal less alone." {
+    says "Half out of the water on the far bank, with the weight on your back, you look behind you, because you cannot help it, across the black of the Step; and there under the arch is a small yellow light, steady, on its hook. It has been burning for every one of the ones who were not carried, for longer than the Company has had a bridge. You are, you realise, the first it has ever lit the way for. You do not feel lighter. You go on." {
     Assert spread(hook_fact).
   }
 
@@ -56,7 +56,7 @@ Module wrayford "The Third Night" {
   // The drovers carry news across the fells. If, in the world, the black square in the House of Doors at Sennet has been
   // opened (the Grand Tour's), the story has come up the drove road by now, as such stories do: garbled, and admired.
   Topic pell_south with pell "Ask Pell what the carters are saying from the south" when befell(slack_opened) once {
-    Says "'There's a tale come up with the Harbury salt,' says Pell, drawing a pint she was not asked for. 'Some great house in a town on the sea has a black square let into its floor, and a stair under it that goes down to a place with no weather. They say a ship came up out of it.' She sets the pint down. 'A ship out of a cellar. And I thought we had troubles. The old carters say it will be a Company matter: if there is a stair under a floor, somebody will want a penny for it.'".
+    Says "'There's a tale come up with the Harbury salt,' says Pell, drawing a pint she was not asked for. 'Some great house in a town on the sea has a black square let into its floor. The servants step round it, and the cook swears the kettle in the room above comes to the boil by itself.' She sets the pint down. 'Something came up out of it, they say, that was not weather. The old carters say it will be a Company matter: if there is a stair under a floor, somebody will want a penny for it.'".
     On discuss { Assert knows(actor, south_tale). }
   }
   Discovery south_tale "A tale has come up the drove road from the south: a house on the sea has a black square in its floor, and a stair beneath it to a place with no weather.".

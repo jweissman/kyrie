@@ -9,7 +9,7 @@ Module tessary "What Tessary Owes" {
     Says "For the first time the Factor doesn't answer straight away. 'My father,' she says. 'Third rank, First Muster, the Salt War. They promised them the south bank. Good land, the south bank. They gave them that plaque, at knee height so you'd have to kneel to read it, and the right to rake salt for the Board at the Board's price, for ever.' She turns the paper cone in her hands. 'He raked for twenty-two years and died owing the company store four marks. I was fourteen. I raked it off. Then I bought the store. Then I bought the pans.' She looks out at the Pans steaming in the dusk. 'So when you tell me the city will keep its promise to the Long Muster, I'll laugh, and you'll forgive me. I've seen this city keep a promise. It's green, and it's at knee height.'".
   }
   Topic sault_designed with sault "Tell the Factor that the War Note was drawn to fail" when knows(actor, note_designed) and not saultShaken(ossel) once {
-    Says "Factor Sault hears you out without eating anything. Then she laughs, once, a short bark that makes the fishermen along the parapet look round. 'Rigged,' she says. 'From the start. The Board too stupid to see it, and me too clever by half.' She is quiet a long time. 'Ten years I carried that silver down a tunnel and never once asked what the other side wanted with it.' She turns to you. 'It changes nothing. A rigged game is still the only game in town, and I'll still be at the table when the note falls in.' And then, much lower: 'It changes what I'd be buying. Tell me what you'd have me do instead, and I'll listen. Once.'".
+    Says "Factor Sault hears you out without eating anything. Then she laughs, once, a short bark that makes the fishermen along the parapet look round. 'Rigged,' she says. 'From the start. The Board too stupid to see it, and me too clever by half.' She picks a crust of salt off her sleeve. 'Ten years I carried that silver down a tunnel and never once asked what the other side wanted with it.' She turns to you. 'It changes nothing. A rigged game is still the only game in town, and I'll still be at the table when the note falls in.' And then, much lower: 'It changes what I'd be buying. Tell me what you'd have me do instead, and I'll listen. Once.'".
     On discuss { Assert saultShaken(ossel). }
   }
 
@@ -46,7 +46,7 @@ Module tessary "What Tessary Owes" {
       and memberOf(recipient, actor) and awake(recipient) and at(kept_weight, chapel).
     Resolve acquire(kept_weight, votive_weight, recipient).
     On success { Assert knows(actor, weight_given). Retract at(kept_weight, chapel). }
-    Result "Ancel stands on the altar-step and reaches up among the weights for a long time, reading the little paper tags, and comes down with a lead one rubbed smooth as a pebble. 'Forty years,' he says. 'A sailor's wife. He came home. She died last winter, and he the winter before, and it has hung here kept all that while.' He puts it in your hand and closes your fingers over it. 'Bring the cord back, if you can. I like to know where they go.'".
+    Result "Ancel stands on the altar-step and reaches up among the weights, turning the little paper tags to the light, and comes down with a lead one rubbed smooth as a pebble. 'Forty years,' he says. 'A sailor's wife. He came home. She died last winter, and he the winter before, and it has hung here kept all that while.' He puts it in your hand and closes your fingers over it. 'Bring the cord back, if you can. I like to know where they go.'".
   }
   Action give_weight(actor: group, giver: member, site: place) "Hold out the weight of a kept promise to the Forsworn" {
     Time 1 minute.
@@ -157,7 +157,7 @@ Module tessary "What Tessary Owes" {
     Resolve check(actor, stealth, dc_hard).
     On success { Assert tolerates(eelmother, actor). }
     On failure { Assert triedEel(actor). Assert assails(eelmother, actor). }
-    Result "You stand pressed against the wet wall of the stair-foot for a long time, while the great head swings slowly back and forth over the channel, and when it is turned away you go, along the wall, one step and then another, close enough to smell her. She does not turn.".
+    Result "You stand pressed against the wet wall of the stair-foot for the count of a hundred, while the great head swings slowly back and forth over the channel, and when it is turned away you go, along the wall, one step and then another, close enough to smell her. She does not turn.".
     Otherwise "A stone turns under your boot. The head comes round.".
   }
   Relation triedEel(group).

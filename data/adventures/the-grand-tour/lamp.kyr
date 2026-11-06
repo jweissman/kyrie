@@ -88,7 +88,7 @@ Module sennet "The Grand Tour" {
       and knows(actor, made_possible) and not furnaceCold(glasshouse) and not making(prue) and not madeReady(prue).
     Time 1.
     On success { Spend north_wind_kind from actor. Assert making(prue). Set madeSince(prue) to watch(clock). }
-    Result "Prue takes the jar in both hands, and the frost on the inside of it ferns up toward her fingers, and she sucks in her breath. She holds the real petal up to the furnace light for a long time, turning it, the way a jeweller looks at a stone. 'Right,' she says, and bars the door. 'Go away. Come back in the morning. Don't let anybody in this street open a window.'".
+    Result "Prue takes the jar in both hands, and the frost on the inside of it ferns up toward her fingers, and she sucks in her breath. She holds the real petal to the furnace light and turns it, once, twice, the way a jeweller turns a stone she wants to be wrong about. 'Right,' she says, and bars the door. 'Go away. Come back in the morning. Don't let anybody in this street open a window.'".
   }
   Rule made_done when making(prue) and watch(clock) >= madeSince(prue) + 60 and hour(clock) >= 7 and hour(clock) < 19 {
     Retract making(prue). Assert madeReady(prue). }

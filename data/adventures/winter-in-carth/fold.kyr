@@ -31,7 +31,7 @@ Module gaunt "A Winter in Carth" {
     On discuss { Assert cuthbertKnows(cuthbert). }
   }
   Topic cuthbert_joby with cuthbert "Tell Cuthbert Thwaite that his father knows the truth now" when jobyKnows(joby) and knows(actor, cuthbert_story) and not cuthbertTold(cuthbert) once {
-    Says "Cuthbert Thwaite does not say anything. He goes to the gap in the wall of the fold and stands in it, looking at the city, for a long time. When he comes back he has been crying and is not ashamed of it. 'Don't tell him where I am,' he says. 'If he wants to know, the lantern's on the tower every night, and I'm at the other end of it.'".
+    Says "Cuthbert Thwaite does not say anything. He goes to the gap in the wall of the fold and stands in it with his back to the fold, looking at the city. When he comes back he has been crying and is not ashamed of it. 'Don't tell him where I am,' he says. 'If he wants to know, the lantern's on the tower every night, and I'm at the other end of it.'".
     On discuss { Assert cuthbertTold(cuthbert). Assert cuthbertKnows(cuthbert). }
   }
   // Hern brought to the fold himself, on the way in to his trial: the after, seen.

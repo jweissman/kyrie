@@ -71,7 +71,7 @@ Module hessel "The Banns at Hessel" {
   // Ismay's opinion, said aloud in church, makes Rupert ashamed to be less brave than she was, if he has confessed to
   // anyone at all.
   Rule rupert_shamed at ebba_nave when ismayObjected(ebbas) and inPause() and rupertConfessed(rupert) and at(rupert, ebba_nave) and not bannsStopped(ebbas)
-    says "Rupert Wenlock looks at the girl standing scarlet in the Cherrett pew, and stands up too, as if pulled. 'It's not an opinion,' he says. 'It's not only an opinion. I have a wife.'" {
+    says "Rupert Wenlock looks at the girl standing scarlet in the Cherrett pew, and stands up too, hauled up by something. 'It's not an opinion,' he says. 'It's not only an opinion. I have a wife.'" {
     Assert bannsStopped(ebbas). Assert bannsWithdrawn(ebbas). Assert stoppedByRupert(ebbas). Assert rupertSpoke(rupert). }
   // Nobody speaks: the pause ends, and the banns are good.
   Rule pause_ends at ebba_nave when readingBegun(ebbas) and not bannsStopped(ebbas) and not bannsWithdrawn(ebbas) and watch(clock) > readingWatch(ebbas) + 2 and not bannsDone(ebbas)
@@ -90,7 +90,7 @@ Module hessel "The Banns at Hessel" {
   Rule wedding_on_steps when weddingNow() and bannsDone(ebbas) and not bannsWithdrawn(ebbas) and not weddingBroken(ebbas) {
     Assert weddingBroken(ebbas). Assert bannsWithdrawn(ebbas). Assert scandal(wenlock). Assert ismayJilted(ismay). Assert at(hetty, abbey_yard). }
   Relation ismayJilted(group).
-  Rule wedding_told at abbey_yard when weddingBroken(ebbas) and weddingNow() and not spread(wedding_told) says "At ten o'clock the Abbey Yard is full of the Season come to see the canal money marry the peerage. On the steps of Saint Ebba's a young woman in a good bonnet is standing with a baby on her hip, not making a scene; only standing. Rupert Wenlock comes across the yard in a blue coat with a flower in it, and sees her, and stops. He stands there in front of the whole Season for what feels like a long time. Then he goes up the steps, past the church door, to her, and takes the baby, and stands beside her; and the Season understands, all at once, the way a crowd does. Inside the church Ismay Cherrett is waiting at the altar on her grandmother's arm, and Mr Pyne has to go and tell her." { Assert spread(wedding_told). }
+  Rule wedding_told at abbey_yard when weddingBroken(ebbas) and weddingNow() and not spread(wedding_told) says "At ten o'clock the Abbey Yard is full of the Season come to see the canal money marry the peerage. On the steps of Saint Ebba's a young woman in a good bonnet is standing with a baby on her hip, not making a scene; only standing. Rupert Wenlock comes across the yard in a blue coat with a flower in it, and sees her, and stops. He stands there in front of the whole Season until the sexton coughs. Then he goes up the steps, past the church door, to her, and takes the baby, and stands beside her; and the Season understands, all at once, the way a crowd does. Inside the church Ismay Cherrett is waiting at the altar on her grandmother's arm, and Mr Pyne has to go and tell her." { Assert spread(wedding_told). }
   Entity wedding_told: fact "the wedding at Saint Ebba's".
 
   // ── A licence from Orm ────────────────────────────────────────────────────────────────────────────────────────────

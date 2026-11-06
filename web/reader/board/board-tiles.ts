@@ -34,7 +34,8 @@ export class BoardTiles {
     '.': ['#86704e', '#ad9469'], h: ['#b48c55', '#ddb97f'], f: ['#8a5a3b', '#b07a50'], p: ['#744c33', '#a26c4a'],
     w: ['#47502a', '#7d8244'], ',': ['#9a9478', '#cfc8a8'] }).map(([k, v]) => [k, v.map(c => new Color(c))]));
   // Terrains an authored region may say and no generator draws (a sea of islands, a burning isle): volcanic ash and
-  // black basalt, red cone and sulphur; jungle's deep greens; a salt flat's white crust and brine; a reef's pale shoals.
+  // black basalt, red cone and sulphur; jungle's deep greens; a salt flat's white crust and brine;
+  // a reef's pale shoals.
   private static readonly more: Record<string, Record<string, Color[]>> = Object.fromEntries(Object.entries({
     volcanic: { '.': ['#3a3735', '#58534f'], h: ['#2f2c2b', '#4a4543'], f: ['#1f1d1d', '#3b3736'], p: ['#7a2e1c', '#c4501f'],
       w: ['#262a22', '#49523a'], ',': ['#6b6120', '#b3a336'] },

@@ -29,7 +29,7 @@ Module lull "The Lull" {
     On discuss { Increase hesterTrust(hester) by 1. }
   }
   Topic hester_monday_ask with hester "Ask Hester Lindsell what she wants" when lullOpen() and not hesterDead(hester) and hesterTrust(hester) >= 1 and not knows(actor, hester_monday) {
-    Says "Hester looks at you a long time. 'A Monday,' she says. 'Do you know what that means, here? It means a day that never comes. When a child says they'll tidy their room, you say, on Monday. When a man says he'll forgive his brother: Monday.' She moves her hand on the sheet. 'I want mine. I've had the Lull fifty-seven years and I've loved every day of it and I want it to stop now, and it won't, not for years.' She is quite calm. 'There's a woman in Sixways, Ruth Coll, keeps a phial with a black thread round its neck. Tobias won't fetch it. He'd sooner do it with his own two hands, and he would, God help him, and then he'd carry it, the rest of his life, which here is a very long time.' She looks at you. 'You'd not carry it so far. You'd be out of here by midnight.'".
+    Says "Hester looks at you with her head on one side. 'A Monday,' she says. 'Do you know what that means, here? It means a day that never comes. When a child says they'll tidy their room, you say, on Monday. When a man says he'll forgive his brother: Monday.' She moves her hand on the sheet. 'I want mine. I've had the Lull fifty-seven years and I've loved every day of it and I want it to stop now, and it won't, not for years.' She is quite calm. 'There's a woman in Sixways, Ruth Coll, keeps a phial with a black thread round its neck. Tobias won't fetch it. He'd sooner do it with his own two hands, and he would, God help him, and then he'd carry it, the rest of his life, which here is a very long time.' She looks at you. 'You'd not carry it so far. You'd be out of here by midnight.'".
     On discuss { Assert knows(actor, hester_monday). Increase hesterTrust(hester) by 1. }
   }
   Discovery hester_monday "Hester Lindsell has asked for her Monday: the phial with the black thread that Ruth Coll keeps in Sixways. Tobias will not fetch it, and she is afraid that he will do it himself, and carry it.".
@@ -45,7 +45,7 @@ Module lull "The Lull" {
   Relation hesterAsksSimeon(group).
 
   // Poppy: she sleeps, and is eased, and lives on into the Working Day. Tobias minds that it was bought.
-  Event hester_poppy near hester when keeps(hester, ?p) and itemKind(?p, poppy_kind) and not hesterEased(hester) "Hester turns the twist of paper over and reads Ruth Coll's writing on it, and snorts. 'Don't boil it,' she says. 'As if I'd boil it.' She has you steep it in the cup on the sill, and drinks it, and makes a face, and in a little while her face changes, all of it, the way a field changes when the cloud goes off it. 'Oh,' she says. 'Oh, that's.' She sleeps. When Tobias comes in he looks at her for a long time, and at the paper, and at you, and he does not say anything at all." then {
+  Event hester_poppy near hester when keeps(hester, ?p) and itemKind(?p, poppy_kind) and not hesterEased(hester) "Hester turns the twist of paper over and reads Ruth Coll's writing on it, and snorts. 'Don't boil it,' she says. 'As if I'd boil it.' She has you steep it in the cup on the sill, and drinks it, and makes a face, and in a little while her face loosens, all of it, like a fist let go. 'Oh,' she says. 'Oh, that's.' She sleeps. When Tobias comes in he looks at her, and at the twist of paper, and at you, and takes the cup off the sill and rinses it in the basin without a word." then {
     Assert hesterEased(hester). Assert tobiasSawPoppy(tobias).
   }
   Relation tobiasSawPoppy(group).
@@ -57,13 +57,13 @@ Module lull "The Lull" {
   Relation hesterHasPhial(group).
   // Simeon, there when she has it, gives it her himself.
   Rule simeon_gives at hester_room when hesterHasPhial(hester) and following(simeon, party) and at(party, hester_room) and not hesterDead(hester) and not simeonWith(hester)
-    says "Simeon has not said a word since he came in. He sits on the end of the bed, where Hester pats, and they look at each other, and she says, 'Gloss forty,' and he says, 'Held,' and his voice goes. Then she shows him what is under her pillow, and he looks at it for a long time, and at her, and he says, 'I'll stay. I'll sit with you. Tobias can have the Table.' She says, 'You always did want to be in at the end of things.' He says, 'Only yours.'" {
+    says "Simeon has not said a word since he came in. He sits on the end of the bed, where Hester pats, and they look at each other, and she says, 'Gloss forty,' and he says, 'Held,' and his voice goes. Then she shows him what is under her pillow, and he looks at it, and at her, and he says, 'I'll stay. I'll sit with you. Tobias can have the Table.' She says, 'You always did want to be in at the end of things.' He says, 'Only yours.'" {
     Assert simeonWith(hester). Retract following(simeon, party). Assert at(simeon, hester_room). Assert simeonHome(simeon).
   }
   Relation simeonWith(group).
   Rule hester_drinks when hesterHasPhial(hester) and lullOpen() and hour(clock) >= 20 and not hesterDead(hester) { Assert hesterDead(hester). Assert diedBy(hester, party). Assert at(hester, limbo). }
   Rule hester_drinks_told at green when hesterDead(hester) and diedBy(hester, party) and at(party, green) and not spreadFact(hester_death_told)
-    says "In the middle of the Watching Tobias Lindsell comes out of his house and stands at the end of the Long Table, and the table goes quiet from that end to the other, the way a field goes quiet when a hawk goes over. He does not say anything. He does not need to. Somebody gets up and gives him their place, and he sits in it, and puts his hands on the table, open." { Assert spreadFact(hester_death_told). }
+    says "In the middle of the Watching Tobias Lindsell comes out of his house and stands at the end of the Long Table, and the table goes quiet from that end to the other, the way a field goes quiet when a hawk goes over. Somebody gets up and gives him their place, and he sits in it, and puts his hands on the table, open." { Assert spreadFact(hester_death_told). }
   Entity hester_death_told: fact "Hester's death, told".
   Relation spreadFact(fact).
 
@@ -162,7 +162,7 @@ Module lull "The Lull" {
   // What Corin hears from the company, of what it learned.
   Topic corin_window with corin "Tell Corin Lindsell which side of the window her grandfather was on" when lullOpen() and knows(actor, tobias_inside) and not corinKnowsWindow(corin) once {
     Grave "This is Tobias's to tell, and he has not told her.".
-    Says "Corin listens with her jaw set. When you have finished she does not say anything for a long time. Then: 'He timed the strike,' she says. 'On his watch. He told me he timed it from the Tump.' She stands up. 'He was inside.' And she goes to the very end of the broken pier and stands there with her back to you, looking across the leat at the dark mill, so still that people on the green stop to look.".
+    Says "Corin listens with her jaw set. When you have finished she winds a loose thread from her cuff round one finger, tighter and tighter. Then: 'He timed the strike,' she says. 'On his watch. He told me he timed it from the Tump.' She stands up. 'He was inside.' And she goes to the very end of the broken pier and stands there with her back to you, looking across the leat at the dark mill, so still that people on the green stop to look.".
     On discuss { Assert corinKnowsWindow(corin). Assert corinBetrayed(corin). }
   }
   Relation corinBetrayed(group).

@@ -157,7 +157,7 @@ Module pellam "The Liberty of the Ice" {
   Rule wool_given when abelWool(abel) and at(fell_wool, limbo) and at(party, ?p) { Retract at(fell_wool, limbo). Assert at(fell_wool, ?p). }
   // Keeping him from Harker: a lie he will believe, because he believes everything.
   Topic abel_divert with abel "Tell Abel that Harker has bought all he wants, and the man to see now is at the Wool Exchange" when knows(actor, abel_flock_known) and posedSquire(actor) and not abelDiverted(abel) and not abelMetHarker(abel) once {
-    Says "'Is that so.' Abel looks at you with perfect trust. 'Then I'll go to the Exchange in the morning. Thank you kindly.' He puts his hat on. 'You're the first person in this town has told me anything I didn't want to hear. That's how I know it's true.'".
+    Says "'Aye?' Abel looks at you with perfect trust. 'Exchange, then. I'll be stood at the door before it's open.' He puts his hat on. 'You're the first in this town that's told me something I didn't want. It'll be true, then.'".
     On discuss { Assert abelDiverted(abel). }
   }
   // Or bringing him into it: not by asking him to lie, which he cannot, but by making him believe.

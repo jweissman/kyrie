@@ -40,7 +40,7 @@ Module pentrice "Gosse's Company" {
     On success { Assert knows(actor, parcel_freed). Assert lieWorked(actor). }
     On failure { Assert triedLie(actor). }
     Result "You tell it so well, the night of the riot, the line, the gallery, the Lord Mayor's face, that Merriman's mouth falls open. 'You must have been a baby,' he says. 'You must have been a prodigy.' He goes and fetches the parcel. You have the strong impression he is giving it to you for the story.".
-    Otherwise "Merriman looks at you for a long moment. 'The riot,' he says, 'was forty years ago.' He goes back to his horse.".
+    Otherwise "Merriman scratches the mare's neck. 'The riot,' he says, 'was forty years ago.' He goes back to his horse.".
   }
   Relation triedLie(group). Relation lieWorked(group).
   Action take_parcel(actor: group, recipient: member, site: place) "Take the parcel in oilcloth" {
@@ -211,7 +211,7 @@ Module pentrice "Gosse's Company" {
     Resolve check(actor, deception, dc_fair).
     On success { Decrease quantity(actor, gold) by 10. Increase quantity(tunstall, gold) by 10. Assert tunstallBought(pentrice). Assert ghostRestored(pentrice). Assert state(book, copy_licensed). }
     On failure { Assert triedBribe(actor). }
-    Result "Tunstall looks at the coins for a long time without touching them. Then he opens a drawer and they are not on the desk any more. He reads the book again, slowly, with a red pen that ticks instead of striking. When he gives it back thirty lines have come back to life and the Tallyman's part is still struck through. 'Not that,' he says. 'Not this Office. I have my price, it seems, but I have a floor.' He seals the last page.".
+    Result "Tunstall does not touch the coins; he squares them with the edge of the ruler, a pile, and then a tidier pile. Then he opens a drawer and they are not on the desk any more. He reads the book again, slowly, with a red pen that ticks instead of striking. When he gives it back thirty lines have come back to life and the Tallyman's part is still struck through. 'Not that,' he says. 'Not this Office. I have my price, it seems, but I have a floor.' He seals the last page.".
     Otherwise "Tunstall looks at the coins, and at you, and pushes them back across the desk with the end of his ruler. 'I will forget you did that,' he says, 'by the Ordinances, which oblige me to remember everything else.'".
   }
   Relation triedBribe(group).
@@ -247,7 +247,7 @@ Module pentrice "Gosse's Company" {
   Query trialNight() means tday(pentrice) >= 2 and tday(pentrice) <= 4.
 
   Topic clem_office with clemency "Ask the Master about the Office of Plain Speech" when true once {
-    Says "'What is said is done,' says the Master. 'That is the First Ordinance, and my father's. A word in public is an act in public. A city that does not believe that will believe anything.' She turns a pen in her fingers. 'You think it absurd. It is absurd. So is a city wall, until the night you need one.'".
+    Says "'What is said is done,' says the Master. 'That is the First Ordinance, and my father's. A word in public is an act in public. A city that does not believe that will believe anything.' She turns a pen in her fingers. 'You think it absurd. It is absurd; I have never said otherwise.' She caps the ink-bottle. 'Is there something you want struck?'".
   }
   Topic clem_trial with clemency "Ask the Master about the Trial" when true once {
     Says "'The City has sat on a bench at the Wheel in Trial week for two hundred years,' says the Master, 'by a charter older than the Ordinances; the Office took the bench forty years ago. We license nothing in the Soke. We count.' A pause. 'I sit on the grey bench myself, each night. It is the only time in the year anybody in Pentrice is obliged to watch a play.' She does not say that she would watch them anyway. She does not need to.".
@@ -274,7 +274,7 @@ Module pentrice "Gosse's Company" {
   }
   Relation triedThreat(group).
   Topic clem_warrant with clemency "Ask the Master, as its author, to warrant her play to be spoken as it is written" when clemTold(clemency) and not clemCold(clemency) and (state(book, copy_struck) or state(book, copy_fair)) and week() once {
-    Says "The Master looks at the struck book for a long time, at her own lines with her own Office's red ink through them. 'Tunstall applied the Ordinances correctly,' she says. 'He always does. I trained him.' She turns a page. 'If the Master overrules the Office, there is no Office. There is a woman with a seal who does as she likes.' Then she takes a sheet of paper, and dips her pen, and sits with it over the paper so long that a drop of ink falls and spreads. 'Once,' she says. 'For my father. Because it is true, and because he would have laughed.' She writes it. THIS PLAY TO BE SPOKEN AS IT IS WRITTEN. C. ORDE. 'Do not thank me. I shall be on the grey bench, and I shall count.'".
+    Says "The Master turns the struck book to the light, page by page, at her own lines with her own Office's red ink through them. 'Tunstall applied the Ordinances correctly,' she says. 'He always does. I trained him.' She turns a page. 'If the Master overrules the Office, there is no Office. There is a woman with a seal who does as she likes.' Then she takes a sheet of paper, and dips her pen, and sits with it over the paper so long that a drop of ink falls and spreads. 'Once,' she says. 'For my father. Because it is true, and because he would have laughed.' She writes it. THIS PLAY TO BE SPOKEN AS IT IS WRITTEN. C. ORDE. 'Do not thank me. I shall be on the grey bench, and I shall count.'".
     On discuss { Assert state(book, copy_warranted). Assert submitted(pentrice). Increase clemTrust(clemency) by 1. }
   }
   Topic clem_sorry with clemency "Tell the Master that Gosse knows now what the riot was to her, and is sorry" when gosseSorry(gosse) and clemTold(clemency) and not clemCold(clemency) once {

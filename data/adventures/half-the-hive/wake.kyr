@@ -128,7 +128,7 @@ Module hume "Half the Hive" {
     On discuss { Assert beamHushed(actor). Increase quantity(actor, gold) by 4. }
   }
   Topic drewes_beam with drewes "Tell the mother of the Drewes about the filed pan" when knows(actor, beam_filed) and not drewesTold(actor) and not beamHushed(actor) once {
-    Says "She does not say anything. She puts a finger under the near pan, the way you did, and takes it away. 'Thirty years of my mother's moulds,' she says. 'I have been selling them a sixth short to the Company for six years, and I thought it was me.' She picks up the bundle of fluted candles, and then the next, and begins, without hurry, to pack them in the cloth. 'We'll carry them ourselves,' she says to the girls. 'They'll sell new, where we go.' Crispin Polglaze looks up from his slate, and sees the table empty, and does not ask.".
+    Says "She puts a finger under the near pan, the way you did, and takes it away. 'Thirty years of my mother's moulds,' she says. 'I have been selling them a sixth short to the Company for six years, and I thought it was me.' She picks up the bundle of fluted candles, and then the next, and begins, without hurry, to pack them in the cloth. 'We'll carry them ourselves,' she says to the girls. 'They'll sell new, where we go.' Crispin Polglaze looks up from his slate, and sees the table empty, and does not ask.".
     On discuss { Assert drewesTold(actor). }
   }
   Observe drewes_gone at leavers_yard as sign when drewesTold(party) and not leavingBegun() "The Drewes' table is bare, and the family sits by their bundles at the end of the row, in the sun, not selling.".

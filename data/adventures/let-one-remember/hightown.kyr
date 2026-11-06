@@ -111,7 +111,7 @@ Module corrow "Let One Remember" {
   }
   Relation roster(group). Measure nextRoster(place).
   Topic aron_method with aron "Tell Aron Fennimore what the Concord Warden's engineers cut in the Drag: let one remember at a time" when knows(actor, method_known) and not roster(aron) and not crashed(hightown) and not lost(hightown) {
-    Says "Aron sits down on a bench as if his knees had gone. 'One at a time,' he says. 'Not the hall. Not a sermon from the rim. One, and then wait, and then one more.' He laughs, once, without much breath. 'I was going to tell them all. When the lake came under us. I had the speech written.' He gets up. 'A roster, then. One a day. Who first? Not me; I'm done. My sister's done. Someone who'll keep it.' He is already writing names. Then he remembers, and digs twenty silver out of the hall's box for you, and will not hear a word against it.".
+    Says "Aron sits down on a bench as if his knees had gone. 'One at a time,' he says. 'Not the hall. Not a sermon from the rim.' He laughs, once, with no breath in it. 'I had the speech written. I was going to tell them all, the day the lake came under us.' He gets up and finds a pencil. 'A roster, then. One a day. Who first? Not me, I'm done, and not my sister. Someone who'll keep it.' He is already writing names. Then he remembers, and digs twenty silver out of the hall's box for you, and will not hear a word against it.".
     On discuss { Assert roster(aron). Set nextRoster(hightown) to watch(clock) + 144. Increase quantity(actor, gold) by 20. }
   }
   Rule roster_turns when roster(aron) and watch(clock) >= nextRoster(hightown) and heard(hightown) < 150 and not crashed(hightown) and not lost(hightown) {

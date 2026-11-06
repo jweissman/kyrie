@@ -39,7 +39,7 @@ Module dorothea "The Dorothea" {
   Person dilys "Dilys Ketteridge" at quay {
     Role "a mariner's wife, whose husband is on the Antlers". Ancestry human. Level 1. Peaceable. Pronouns she. Manner proud.
     Likeness "farmer".
-    Greets "A woman in a good shawl gone thin at the edges stands at the end of the quay with her back very straight, reading the notice board though she has plainly read it. She has the look of someone who has been polite to a number of people about a boat. 'Dilys Ketteridge,' she says. 'You're not sailing for the Antlers. No. You look like you might.'".
+    Greets "A woman in a good shawl gone thin at the edges stands at the end of the quay with her back very straight, reading the notice board though she has plainly read it. She has the look of someone who has been polite to a number of people about a boat. 'You're not sailing for the Antlers,' she says. 'No. You look as though you might. I am Dilys Ketteridge.'".
   }
   Topic dilys_letter with dilys "Ask Dilys Ketteridge what she is waiting for" when true once {
     Says "'My husband went up the Antlers for the eggs in March,' she says. 'Joss. He's a stack-man; he does a rope that frightens most men. He wrote by the Dorothea at Whitsun. At Lammas, nothing. Since then, nothing.' She takes a folded paper out of the shawl and holds it in both hands. 'I've written him eleven. The House's clerk says the boat is full. Bascom says she will call at the Antlers when she is asked, and nobody has asked, and I am not a woman who asks.' She looks at you. 'I am asking.'".

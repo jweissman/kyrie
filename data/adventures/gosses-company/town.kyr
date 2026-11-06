@@ -49,7 +49,7 @@ Module pentrice "Gosse's Company" {
   Rule bear_out_told when bearLoose(the_bear) and at(the_bear, gullet) and not spread(bear_loose_known) and inCity() and not at(party, gullet)
     says "The Moon's pot-boy comes running, scarlet, shouting before he has got his breath: 'Patience is out! She's in the Gullet, at the honey! The fishwives have got knives and a man from the bear-garden's coming!'" { Assert spread(bear_loose_known). }
   Discovery bear_loose_known "Patience has got out of her stall at the Moon and gone to the honey stall in the Gullet; the bear-ward of the Soke is coming for her.".
-  Observe bear_in_gullet at gullet when at(the_bear, gullet) and not following(the_bear, party) "In the middle of the Gullet, sitting on her haunches with her nose in Ma Tolly's honey-pots and bees all over her face, is Patience. The fishwives stand round her at a distance with gutting knives, shouting. Patience is ignoring them with great dignity.".
+  Observe bear_in_gullet at gullet when at(the_bear, gullet) and not following(the_bear, party) "In the middle of the Gullet, sitting on her haunches with her nose in Ma Tolly's honey-pots and bees all over her face, is Patience. The fishwives stand round her at a distance with gutting knives, shouting. Patience is ignoring them, with a honey-pot on one paw, like a woman at a funeral who has found the cake.".
   Action honey_bear(actor: group, site: place) "Hold out a pot of honey to Patience, and walk backward toward home" {
     Time 1 minute.
     Requires able(actor) and company(actor) and at(actor, site) and at(the_bear, site) and quantity(actor, honey) >= 1 and not following(the_bear, actor)
@@ -311,7 +311,7 @@ Module pentrice "Gosse's Company" {
     Resolve check(actor, persuasion, dc_fair).
     On success { Assert knows(actor, key_lent). }
     On failure { Assert triedKey(actor). }
-    Result "Cundy looks at you a long time with the apple-core in his hand. Then he throws it in the dry basin. 'He dines at the Guildhall every day and hangs his waistcoat on the chair,' he says. 'Come back in an hour.' In an hour there is a big iron key on the Fountain's rim beside him, and he is not looking at it.".
+    Result "Cundy weighs the apple-core in his hand. Then he throws it in the dry basin. 'He dines at the Guildhall every day and hangs his waistcoat on the chair,' he says. 'Come back in an hour.' In an hour there is a big iron key on the Fountain's rim beside him, and he is not looking at it.".
     Otherwise "'Lose my place for you?' says Cundy. 'I've only got the one.'".
   }
   Relation triedKey(group).
@@ -431,7 +431,7 @@ Module pentrice "Gosse's Company" {
   }
   Relation triedFerriby(group).
   Topic ferriby_water with ferriby "Tell Ferriby you are of the water yourself" when craft(actor, craft_water) and not watermenOurs(ferriby) once {
-    Says "Ferriby looks at your hands, and the way you stand on the wet step without thinking about it. 'So you are,' he says. 'Barges? Boats?' You tell him. He nods, slowly. 'Then you know what a penny is.' He spits in the river. 'Tell Gosse the Stairs row for him. One of ours asked.'".
+    Says "Ferriby looks at your hands, and the way you stand on the wet step without thinking about it. 'So you are,' he says. 'Barges? Boats?' You tell him. He nods, slowly. 'Then you know what a penny is.' He moves his oar across to make room for you on the step. 'Tell Gosse the Stairs row for him. One of ours asked.'".
     On discuss { Assert watermenOurs(ferriby). Retract watermenPaid(ferriby). Retract watermenStrike(pentrice). }
   }
   // They mean to strike on the last night of the Trial, when the most people cross; Corin Fallow has encouraged it with

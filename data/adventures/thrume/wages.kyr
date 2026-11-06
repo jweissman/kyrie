@@ -11,7 +11,7 @@ Module thrume "Thrume" {
 
   Observe wage_scene at wage_hall when true "A low room, cold, long as a barracks, with a pay-window at the far end: a slot in a wall of grey stone, a counter, and on the counter a row of wooden trays. In the trays lie bars of dull pale metal, seven to a tray, each stamped with a star, light as cork to look at. Along the wall a hundred and eight pegs, and on each peg a hammer, and under each hammer a name scratched in the stone. Over the window, a tallow dip burns a finger high, steady in dead air. It is the only flame under the mountain that nobody lit.".
   Observe wage_lintel at wage_hall when true "Cut over the window, in the square hand of the delving, in letters that have been gone over with a knife many times: YSOLT FENN, PAYMASTER, MADE THIS WINDOW AND WAS PAID BY IT. Someone, long after, has added in a rougher hand: SHE WAS NOT.".
-  Observe wage_dip at wage_hall when true "The tallow dip over the window has not burned down. Beside it on the sill is a flint, a snuffer, and a scrap of leaf with one word on it, the same word seven times: stay, stay, stay.".
+  Observe wage_dip at wage_hall when true "The tallow dip over the window has not burned down. Beside it on the sill is a flint, a snuffer, and a scrap of leaf with one word on it, written seven times down the page: stay.".
 
   Discovery gods_wage "The Hollow Smiths' contract with the Young Court of the Sky: a hundred and eight hands, paid daily in starmetal, seven bars a day, and the last day's wage on the day the hill was down. The hill was never brought down; the last wage stands in the trays at the pay-window, kept and not owed, and has stood there a thousand years." {
     Source wage_roll "the pay-roll of the delving" at wage_hall readable by party.
@@ -21,7 +21,7 @@ Module thrume "Thrume" {
   Item star_bar "a bar of starmetal from the tray" is thrume_starbar at wage_hall hidden until gods_wage.
 
   // ── The Paid ────────────────────────────────────────────────────────────────────────────────────────────────────
-  Species thrume_paid "one of the Paid" like revenant temperament territorial described "A Hollow Smith in a leather apron gone to black leather, hands like tongs, who has stood at the window for a thousand years waiting to be handed what he is owed, and will not have anyone else take it.".
+  Species thrume_paid "one of the Paid" like revenant temperament territorial described "A Hollow Smith in a leather apron gone to black leather, hands like tongs, who has stood at the window waiting to be handed what he is owed, and will not have anyone else take it.".
   Relation paidSettled(group). Relation paidLaid(group). Relation ringsOut(place).
   Person paid "the Paid" at wage_hall {
     Role "two Hollow Smiths, standing in line at the pay-window since the day the hill did not fall". Species thrume_paid. Level 3. Numbers 2.
@@ -55,7 +55,7 @@ Module thrume "Thrume" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, wage_hall) and at(paid, wage_hall) and quantity(actor, gold) >= 12 and not paidSettled(paid) and not paidLaid(paid) and not dead(paid).
     Time 2.
     On success { Decrease quantity(actor, gold) by 12. Assert paidSettled(paid). Assert tolerates(paid, actor). }
-    Result "You count the coin into the slot one crown at a time, aloud, and the taller of the two bends his head to listen to it as to a clock. At twelve he straightens. 'Short,' he says, but not as a quarrel; as a man says a day is short. 'Short, and in a coin I do not know. It will do for tonight.' He takes his hammer from the wall and hangs it back on its peg, and they stand again at the window with their backs to you, and are only men in a queue.".
+    Result "You count the coin into the slot one crown at a time, aloud, and the taller of the two bends his head to listen to it as to a clock. At twelve he straightens. He counts it again with his lips. 'Short,' he says, with no quarrel in it, the way a carter says a load is short. 'Short, and in a coin I do not know. It will do for tonight.' He takes his hammer from the wall and hangs it back on its peg, and they stand again at the window with their backs to you, and are only men in a queue.".
   }
   Action hand_over_bars(actor: group, site: place) "Hand the Paid the bars from the tray, which are their own last wage" {
     Description "It was laid out for them a thousand years ago and has not been touched.".
@@ -77,7 +77,7 @@ Module thrume "Thrume" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, wage_hall) and at(paid, wage_hall) and memberOf(c, actor) and hasCalling(c, calling_cleric) and awake(c) and knows(actor, gods_wage) and not paidSettled(paid) and not paidLaid(paid) and not dead(paid).
     Time 18.
     On success { Assert paidLaid(paid). Retract at(paid, wage_hall). Assert at(paid, limbo). Assert knows(actor, smith_names). }
-    Result "{c} takes the roll from the counter and reads it out. Not the contract: the names. A hundred and seven, one after the other, in the plain voice of someone who has said the office over a good many beds and never once for so many. At each name the taller of the Paid says, quietly, 'Here,' and then, after a while, 'Paid.' At the hundred and seventh the line is thin, the hammers are still on their pegs, and the tallow dip over the window gutters for the first time in a thousand years. {c} does not read the hundred and eighth. There is no name against it; {c} puts a hand on the empty peg instead, and says nothing. When you look up, the window is empty, and the dip is burning again, and the bars lie in their trays, and nobody is waiting for them.".
+    Result "{c} takes the roll from the counter and reads it out. Not the contract: the names. A hundred and seven, one after the other, in the plain voice of someone who has said the office over a good many beds and never once for so many. At each name the taller of the Paid says, quietly, 'Here,' and then, after a while, 'Paid.' At the hundred and seventh the line is thin, the hammers are still on their pegs, and the tallow dip over the window gutters, which it has not done since it was lit. {c} does not read the hundred and eighth. There is no name against it; {c} puts a hand on the empty peg instead, and says nothing. When you look up, the window is empty, and the dip is burning again, and the bars lie in their trays, and nobody is waiting for them.".
   }
   Discovery smith_names "The names of the Hollow Smiths of the delving, a hundred and seven of them, read out in full over the roll; and a hundred and eighth peg with no name against it.".
   Observe wage_empty at wage_hall when paidLaid(paid) "The window is empty. The hammers hang on their pegs under their names. The dip burns on the sill. It is quite a warm room, now.".

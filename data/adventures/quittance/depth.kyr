@@ -52,7 +52,7 @@ Module quittance "Quittance" {
     Requires able(actor) and company(actor) and at(actor, site) and at(qv_spode, site) and at(pudsey, site) and qv_pigeonHeard(actor) and not qv_pigeonSettled(actor).
     Time 20 minutes.
     On success { Assert qv_pigeonSettled(actor). Increase quantity(actor, gold) by 2. Give qv_salt to actor. Increase regard(wardsfolk) by 1. }
-    Result "You ask for the policy, which is a beer-mat; for the proof of loss, which is a pigeon, and is produced with ceremony, and has clearly been dead since a year before the Tuesday in question; for the cause, which is a cat. You write all of it down in a hand that the Phoenix would admire. You find the loss real, the peril common, and the cat's collar immaterial. Mrs Pudsey pays the claim in coin and a round, the whole bar rises, and Mr Spode weeps with great dignity into a napkin. Mrs Pudsey, who has not once in your acquaintance been quiet, takes a screw of paper from under the bar and presses it into your hand. 'Guest-salt,' she says. 'From the Row. My mother kept a saucer too. Don't ask me what it's for, I couldn't tell you. It's for a guest.' The bar sings the policy to the tune of a hymn. It is the first time in nine days that anyone in the city has been happy for the right reasons.".
+    Result "You ask for the policy, which is a beer-mat; for the proof of loss, which is a pigeon, and is produced with ceremony, and has clearly been dead since a year before the Tuesday in question; for the cause, which is a cat. You write all of it down in a hand that the Phoenix would admire. You find the loss real, the peril common, and the cat's collar immaterial. Mrs Pudsey pays the claim in coin and a round, the whole bar rises, and Mr Spode weeps with great dignity into a napkin. Mrs Pudsey, who has not once in your acquaintance been quiet, takes a screw of paper from under the bar and presses it into your hand. 'Guest-salt, my duck,' she says. 'From the Row. My mother kept a saucer too. Don't ask me what it's for. It's for a guest.' The bar sings the policy to the tune of a hymn, and a man at the back, who has no policy and no pigeon, asks the landlady how one makes a claim.".
   }
 
   // ── Persons, seen in play ───────────────────────────────────────────────────────────────────────────────
@@ -78,7 +78,7 @@ Module quittance "Quittance" {
     On discuss { Increase ds_accord(actor) by 1. }
   }
   Topic qv_t_salt with ds_fire "Ask the Fire what the saucers of salt on the Row are for" when fireHeard(actor) and knows(actor, qv_saucers) and not fireWrathful(actor) once {
-    Says "'Salt,' says the Fire, and for the first time its voice is not a form. 'It was set out for a guest who might come late. I have not been late.' The coal brightens. 'They did it on the first of the month, the whole Row, after the doors were walled. Nobody told them to. I think they were afraid. Fear is a very good host.'".
+    Says "'Salt,' says the Fire, and the form drops out of its voice like a coin through a hole. 'It was set out for a guest who might come late. I have not been late.' The coal brightens. 'They did it on the first of the month, the whole Row, after the doors were walled. Nobody told them to. I think they were afraid. Fear is a very good host.'".
     On discuss { Increase ds_accord(actor) by 1. }
   }
   Action qv_lay_salt(actor: group, site: place) "Lay the twist of guest-salt on the ash, and say whose sill it came from" {

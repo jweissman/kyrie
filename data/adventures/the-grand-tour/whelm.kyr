@@ -98,7 +98,7 @@ Module sennet "The Grand Tour" {
   // granddaughter when Mercy asked her blessing on the dry man she caught.
   Relation matchBlessed(group). Relation mercyAsks(group).
   Topic admittance_petal with admittance "Ask No Admittance for the Water petal of the Rose" when admittanceTrusts(admittance) and not petalTaken(water_petal) and not stepTold(admittance) and not matchBlessed(admittance) once {
-    Says "'For a door.' She does not raise her voice. 'Every dry child with a bear-leader wants it for a door. Keeping is the whole of it.' She looks at you a long time. 'Bring me a reason that is not a door, and I will think about it.'".
+    Says "'For a door.' She does not raise her voice. 'Every dry child with a bear-leader wants it for a door. Keeping is the whole of it.' She breathes out a thread of bubbles that goes straight up and does not break. 'Bring me a reason that is not a door, and I will think about it.'".
     On discuss { Assert knows(actor, admittance_reason). }
   }
   Discovery admittance_reason "No Admittance will not give the Water petal for a door. She asks for a reason that is not a door.".

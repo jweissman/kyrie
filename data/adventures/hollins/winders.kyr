@@ -44,7 +44,7 @@ Module hollins "Behind the Wainscot" {
     Assert hvHallA(party).
   }
   Rule hv_ranger_hall at hall_flags when memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and at(party, hall_flags) and not hvHallB(party)
-    says "{?m} breathes in, slowly, and turns toward the drift. 'Fish, and old fur, and a smell like warm bread,' {?m} says. 'It likes it here. It has been coming for a year without being fed.'" {
+    says "'Fish, and old fur, and something like warm bread,' {?m} says, breathing in, turning toward the drift. 'It likes it here. A year it has been coming, and nobody has fed it.'" {
     Assert hvHallB(party).
   }
   Rule hv_warrior_fort at fort when memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and at(party, fort) and not hvFortA(party)
@@ -64,11 +64,11 @@ Module hollins "Behind the Wainscot" {
     Assert hvKitchenB(party).
   }
   Rule hv_warrior_bed at counterpane when memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and at(party, counterpane) and not hvBedA(party)
-    says "{?m} stands at the foot of the counterpane with hands folded, as at a deathbed in a field. 'I have stood watch like this over people in worse places,' {?m} says, very low. 'You do not talk. You stay on your feet. You let her see someone is standing.'" {
+    says "'You do not talk,' {?m} says, very low, hands folded at the foot of the counterpane. 'You stay on your feet. You let her see someone is standing.'" {
     Assert hvBedA(party).
   }
   Rule hv_bard_bed at counterpane when memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m) and at(party, counterpane) and not hvBedB(party)
-    says "{?m} listens to the room: the breath, the clock below, the faint clear note from the piano through the floor. 'It is nearly in tune,' {?m} says. 'The house, I mean. The clock and the keys and her breath. They are all keeping the same time.'" {
+    says "'Hush.' {?m} lifts a finger: the breath, the clock below, the faint clear note from the piano through the floor. 'The clock, the keys and her breath,' {?m} says, under all three. 'Same beat. Don't move.'" {
     Assert hvBedB(party).
   }
   Rule hv_nan_clock at clock_foot when following(nan, party) and at(party, clock_foot) and not hvNan(party)
@@ -91,7 +91,7 @@ Module hollins "Behind the Wainscot" {
     Result "{m} comes to attention at the edge of the courtyard, feet together, and says it plainly, in the voice of someone who has said it to better men: 'Regiment. The war is over. The Colonel is home. Stand easy.' Every head in the Fort turns. The Captain's sword comes down, very slowly, a degree at a time, until the point rests on the boards. 'THE COLONEL,' he says. A long whirr. 'IS HOME.' Then, to the ranks, in a smaller voice: 'REGIMENT. STAND EASY.' One by one they sit down on the courtyard floor with their muskets across their knees, and the drummer, uncertain, puts his sticks away in his belt as if he were putting away a toy.".
   }
   Observe skirting_no_drum at skirting as feature when orderedEasy(party) "In the Skirting the children, who have gone to sleep for three hundred years to a faint drum through the floor of the nursery, lie awake. Nobody has told them. A mother stands in a doorway with a lamp and listens, and does not know what she is missing.".
-  Rule fate_regiment_word when accounting() and orderedEasy(party) and not fateTold(f_regiment) says "The Tin Regiment sits in its Fort with its keys still, by an order given in the form it had waited three hundred years to hear, and the children of the Wainscot, who liked the drum, have made one of their own out of a cotton-reel and play it at the Quiet. The Captain has been heard, on warm days, to whirr a word that sounds like home." { Assert fateTold(f_regiment). }
+  Rule fate_regiment_word when accounting() and orderedEasy(party) and not fateTold(f_regiment) says "The Tin Regiment sits in its Fort with its keys still, by an order given in the one form it had waited for, and the children of the Wainscot, who liked the drum, have made one of their own out of a cotton-reel and play it at the Quiet. The Captain has been heard, on warm days, to whirr a word that sounds like home." { Assert fateTold(f_regiment). }
 
   // ── The Lady, told of the notches: the first page, and a chart lent ─────────────────────────────────────────────────
   Relation notchesTold(group).

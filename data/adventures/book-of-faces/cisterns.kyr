@@ -452,7 +452,7 @@ Module ombra "The Book of Faces" {
     Time 6.
     On success { Assert ci_candle(actor). Increase ci_trust(pip) by 1. Assert restful(lamp_boys_den). }
     On failure { Set ci_closed_until(pip) to watch(clock) + 6. }
-    Result "He gives it to you with both hands, as one gives up a bird. You melt it in the kettle's lid with the wax-ends from the plank, a hundred small soldiers, and stir in a twist of the sail-cloth's thread for a wick, and roll the lot between your palms on the slate until it is whole and long and your hands are burning, and set it to stand. It is lopsided. It is the finest candle in the cisterns. Pip stands it in front of him and looks at it for a long time. 'That's mine,' he says. 'Out of mine.'".
+    Result "He gives it to you with both hands, as one gives up a bird. You melt it in the kettle's lid with the wax-ends from the plank, a hundred small soldiers, and stir in a twist of the sail-cloth's thread for a wick, and roll the lot between your palms on the slate until it is whole and long and your hands are burning, and set it to stand. It is lopsided. It is the finest candle in the cisterns. Pip stands it in front of him and holds his hand round the flame, to keep off a draught that is not there. 'That's mine,' he says. 'Out of mine.'".
     Otherwise "The wick drowns in its own wax and the whole thing guts and slumps, and there is nothing in the kettle but a grey sticky smear where the stub was. Pip looks at it. 'That was a good stub,' he says, in a very small voice, and goes behind the sacking, and does not say another word for an hour.".
   }
   Action ci_tell_nobody(actor: group, site: place) "Tell him a Bare is no one, and what is told to no one has not been Said" {
@@ -497,7 +497,7 @@ Module ombra "The Book of Faces" {
     Says "'No,' says Nell. It is not an answer to anything you said. It is the whole of her policy, said once.".
   }
   Topic ci_nell_hint with ci_nell "Ask Nell how the boy might be got to talk" when ci_found(actor) and not ci_asked(actor) and (privateHours() or wears(actor, face_owl) or masked(actor)) and not ci_pip_taken(actor) once {
-    Says "Nell looks at you for a long time with her knife across her knees. 'Everybody tells him,' she says. 'The Watch told him. The steward told him. The Chaplain told him on the steps, I saw. Told him he's to come in, told him he's to be good, told him he's safe.' She spits, neatly, into the oil. 'I tell him. I'm worse than any of them. *Nobody asks him.* Nobody's ever asked him a thing in his life, that wasn't what's he done. If you want him out, ask him something. That's all I know.'".
+    Says "Nell does not get up; she turns her knife over on her knees, point and then handle. 'Everybody tells him,' she says. 'The Watch told him. The steward told him. The Chaplain told him on the steps, I saw. Told him he's to come in, told him he's to be good, told him he's safe.' She spits, neatly, into the oil. 'I tell him. I'm worse than any of them. *Nobody asks him.* Nobody's ever asked him a thing in his life, that wasn't what's he done. If you want him out, ask him something. That's all I know.'".
     On discuss { Assert knows(actor, ci_pip_named). }
   }
   Topic ci_nell_heads with ci_nell "Ask Nell what the boys feed the eel" when ci_found(actor) and (privateHours() or masked(actor)) and not ci_pip_taken(actor) once {

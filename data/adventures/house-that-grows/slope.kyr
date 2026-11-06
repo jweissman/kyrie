@@ -33,10 +33,10 @@ Module hhg "The House That Grows" {
   // She wants the knocking to stop in her lifetime; she is afraid of being the one who stopped it; she says she only minds
   // the lamp; pressed, she will put the lamp out for you.
   Topic sabe_lamp_why with sabe "Ask Sabe whom the lamp is lit for" when true once {
-    Says "'Wenn,' says Sabe. 'He had the night-watch on this stair when I was a girl. They said he came off it in the morning and I said I'd see.' She turns the lamp a quarter with her foot, the way you turn a pot to the fire. 'I have not seen. Seventy years of not seeing is a long time to mind a lamp.'".
+    Says "'Wenn,' says Sabe. 'He had the night-watch on this stair when I was a girl. They said he came off it in the morning and I said I'd see.' She turns the lamp a quarter with her foot, the way you turn a pot to the fire. 'I have not seen. The oil is a mark a month.'".
   }
   Topic sabe_knock with sabe "Ask Sabe about the knocking" when true once {
-    Says "'Eleven,' says Sabe, 'and a gap for the twelfth. Always has been, in my time and my mother's. If you count it out loud somebody counts the twelfth with you, so I don't.' She looks at her knuckles. 'It is a girl, and she is on the inside, and she thinks she is knocking to come in. There is a difference between wanting in and wanting out, and from the inside you can't tell, and from the outside you can't either. Don't you open that gate for the first one you think it is.'".
+    Says "'Eleven,' says Sabe, 'and a gap for the twelfth. Always has been, in my time and my mother's. If you count it out loud somebody counts the twelfth with you, so I don't.' She looks at her knuckles. 'It is a girl, and she is on the inside, and she thinks she is knocking to come in. Might be she is knocking to get out; from this side it sounds the same. Don't open that gate on a guess.'".
     On discuss { Assert knows(actor, eleven_strokes). }
   }
   Discovery eleven_strokes "The knocking at the front door of the house is eleven knocks and a gap of the same length where the twelfth should be. Whoever is inside has never been answered with the twelfth.".
@@ -69,7 +69,7 @@ Module hhg "The House That Grows" {
   Relation heardShelf(group). Relation heardLamps(group). Relation heardHall(group). Relation heardSlope(group).
   Relation heardSlopeB(group). Relation heardHallB(group). Relation heardGate(group). Relation heardGateB(group).
   Rule voice_monk_shelf at cup_shelf when memberOf(?m, party) and hasCalling(?m, calling_monk) and awake(?m) and at(party, cup_shelf) and not heardShelf(party)
-    says "{?m} stands with feet apart and lets the room come to {?m} instead of going to it. 'Twelve cups, and one has the wrong number of cracks,' {?m} says, after a while. 'Don't tell me it's a trick of the light.'" {
+    says "{?m} stands with feet apart and lets the room come to {?m} instead of going to it. 'Count them again,' {?m} says, after a while. 'I'll wait. I would like to be wrong.'" {
     Assert heardShelf(party).
   }
   Rule voice_thief_lamps at lamp_store when memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and at(party, lamp_store) and not heardLamps(party)
@@ -81,7 +81,7 @@ Module hhg "The House That Grows" {
     Assert heardHall(party).
   }
   Rule voice_bard_hall at long_hall when memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m) and at(party, long_hall) and not heardHallB(party)
-    says "{?m} hums, half a bar, and stops. 'That knocking is in six-eight,' {?m} says. 'Eleven beats and a rest, and the tune wants the rest. I could finish that phrase in my sleep, and I think that is what has been said to everyone who ever stood here.'" {
+    says "{?m} hums, half a bar, and stops. 'That knocking is in six-eight,' {?m} says. 'Eleven beats and a rest, and the tune wants the rest. I could finish that phrase.' {?m} opens a mouth to supply the twelfth beat, and shuts it again." {
     Assert heardHallB(party).
   }
   Rule voice_cleric_slope at slope when memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and at(party, slope) and not heardSlope(party)
@@ -93,11 +93,11 @@ Module hhg "The House That Grows" {
     Assert heardSlopeB(party).
   }
   Rule voice_thief_gate at slope when memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and at(party, slope) and not heardGate(party)
-    says "{?m} goes down on a knee to the gate's lock and looks at it sideways. 'Two locks,' {?m} says. 'The old one is glass and means to be asked. The brass one is newer, and a thing that is newer than the lock beside it was put on by somebody who was frightened.'" {
+    says "{?m} goes down on a knee to the gate's lock and looks at it sideways. 'Two locks,' {?m} says. 'The old one is glass and means to be asked. The brass one is newer, and anything newer than the lock beside it was put on by somebody frightened.'" {
     Assert heardGate(party).
   }
   Rule voice_monk_gate at slope when memberOf(?m, party) and hasCalling(?m, calling_monk) and awake(?m) and at(party, slope) and not heardGateB(party)
-    says "{?m} stands before the gate with the arms hung loose and does not blink. Behind the glass the knocking slows. 'She is not looking away either,' {?m} says, very quietly. 'We have been staring at each other through a door for as long as you have been here. One of us has to blink, and it will not be her.'" {
+    says "{?m} stands before the gate with the arms hung loose and does not blink. Behind the glass the knocking slows. 'She is not looking away either,' {?m} says, very quietly. 'My eyes are watering. Don't talk to me for a minute.'" {
     Assert heardGateB(party).
   }
 
@@ -148,7 +148,7 @@ Module hhg "The House That Grows" {
   Rule neme_there when state(gate_leaf, open) and at(neme, nowhere) { Retract at(neme, nowhere). Assert at(neme, front_hall). }
   Relation nemeTrusts(group). Relation nemeFree(group). Relation nemeSits(group). Relation nemeLeft(group).
   Topic neme_who with neme "Ask Neme who she is" when true once {
-    Says "'Neme,' she says, 'and the Seventh, they say, but I can't count that high.' She scuffs a toe along the threshold. 'I asked a woman to look away once, in a field. She did. I didn't think she would, and then I couldn't stop looking at what she'd let go of. I don't want anyone to be sorry. I only want one person to come in the way a person comes in. By the door.'".
+    Says "'Neme,' she says, 'and the Seventh, they say, but I can't count that high.' She scuffs a toe along the threshold. 'I asked a woman to look away once, in a field. She did. I didn't think she would, and then I couldn't stop looking at what she'd let go of. I only want one person to come in the way a person comes in. By the door.'".
     On discuss { Assert knows(actor, neme_asked). }
   }
   Discovery neme_asked "Neme asked Kezu, across a night of staring, to look away and let the little door open, because no one has ever come into her house by the front door.".
@@ -162,7 +162,7 @@ Module hhg "The House That Grows" {
   Action give_marble(actor: group, site: place) "Give Neme the orange-glass marble from her coat" {
     Requires able(actor) and company(actor) and at(actor, site) and at(neme, site) and carries(actor, marble) and not nemeTrusts(party).
     On success { Spend marble from actor. Assert nemeTrusts(party). Assert marbleBack(party). }
-    Result "She holds it up to the grey light and squints through it, and for a moment the whole front hall is the colour of weak tea. 'There,' she says. 'Now I know where I am.' She does not say thank you. She puts it in her pocket with a kind of savagery, and stands a little straighter, and you understand that you have just been trusted with something.".
+    Result "She holds it up to the grey light and squints through it, and for a moment the whole front hall is the colour of weak tea. 'There,' she says. 'Now I know where I am.' She does not say thank you. She puts it in her pocket with a kind of savagery, and stands a little straighter.".
   }
   Rule neme_trusts_by_answer when gateAnswered(party) and at(neme, front_hall) and not nemeTrusts(party) { Assert nemeTrusts(party). }
 
@@ -235,10 +235,10 @@ Module hhg "The House That Grows" {
   Milestone m_riggers "settled the Knot House's riggers without a blow" worth 100 when riggersSettled(party).
 
   // ---- The four acts, told as chapters ----
-  Chapter ch_ring "I. Cobble Ring" when at(party, ?p) and within(party, ring) and not knows(party, door_opened) "Cobble Ring keeps itself awake. Every house on the rim has a loft with a shutter, and in every loft someone is sitting up with something: a sick cow, a sleeping sister, a hole in the barley. It is how the town has lived on this plain since before the Veil came down, and it has never once been asked what the watching is for.".
-  Chapter ch_barley "II. The House in the Barley" when at(party, ?p) and houseRoom(?p) and not keelSide(?p) "Here the law is plain: what is watched is fixed, and what is not, grows. The house is a country with a bedroom the size of a barn, and the town sits round it on stools, afraid of its own yawns.".
-  Chapter ch_keel "III. The Keel" when at(party, ?p) and keelSide(?p) "Up here the house is not a room but a city's underside, and the Long Hall has been dreamed for two and a half thousand years by someone who is not tired.".
-  Chapter ch_slope "IV. The Slope" when at(party, slope) or at(party, front_hall) "At the foot of the Long Hall the floor tilts, the knocking is loud, and an old woman minds a lamp for someone who is not coming. There is only one door left, and the whole house is built to keep you from using it.".
+  Chapter ch_ring "I. Cobble Ring" when at(party, ?p) and within(party, ring) and not knows(party, door_opened) "Cobble Ring keeps itself awake. Every house on the rim has a loft with a shutter, and in every loft someone is sitting up with something: a sick cow, a sleeping sister, a hole in the barley. The lamp-oil is the biggest line on the reeve's slates.".
+  Chapter ch_barley "II. The House in the Barley" when at(party, ?p) and houseRoom(?p) and not keelSide(?p) "What is watched stays as it is; what is not, grows. The house is a bedroom the size of a barn, and the town sits round it on stools, trying not to yawn.".
+  Chapter ch_keel "III. The Keel" when at(party, ?p) and keelSide(?p) "Up here the house hangs from the underside of the city, and the Long Hall is a little longer every time you look down it.".
+  Chapter ch_slope "IV. The Slope" when at(party, slope) or at(party, front_hall) "At the foot of the Long Hall the floor tilts, the knocking is loud, and an old woman minds a lamp for someone who is not coming. There is one door left, and every other door in the house leads away from it.".
 
   // ---- Two further links outward, and a comic scene in a grave house ----
   Topic dace_exchange with dace "Ask Dace where the Company sends what falls out of the city" when true once {
@@ -251,7 +251,7 @@ Module hhg "The House That Grows" {
   }
 
   // ---- The endings ----
-  Ending the_front_door "The Front Door" when nemeFree(party) "Nobody in Cobble Ring was watching the sky, and so nobody saw a girl in a torn coat come down the last long stair of the Keel into Haddo's barley on the morning after the third night. The house in the field is glass now and nothing more; the doors are only doors, and they open where they are looked at. Kezu sleeps through the night and wakes at dawn like anyone, and the first thing she does is climb to the loft, and sit in the seat that has been Hanu's, and look at the room in the barley, and at the girl on the stool beside it with a dreg marble in her fist, and not look away. The council kept or sold the house as it did. It does not matter now. In the Keel, a lamp has gone out on the Slope, and an old woman has gone up the stair to see whether Wenn is in his bunk.".
-  Ending the_chair "The Chair" when nemeSits(party) "Tobu sits in the child's chair in the middle of the Long Hall and counts forty doors, and the house does not grow. Neme goes down the stair into the Strewnfield with her coat buttoned wrong, and is looked after by Hanu, who has been a week without a patient and is glad of one. Kezu sleeps, and wakes, and goes to the hall every noon with a cup of something hot, and sits on the glass beside her sister's boy for an hour, not speaking, and goes home again. Cobble Ring does not speak of it, as a town does not speak of the stool it keeps empty for someone.".
-  Ending the_gate_shut "The Knocking Goes On" when nemeLeft(party) "You went back up the Slope, as you had said you would, to see to your own affairs, and the gate shut behind you. The house goes on as it did. Kezu is walked back to her bed by Hanu every morning; the council meets; the barley is not sown. At the foot of the Slope an old woman minds a lamp for a boy called Wenn, and the knocking comes up the glass, and stops, and comes again. Some night it will be answered. Whether by someone who has been told is only a matter of who comes by.".
+  Ending the_front_door "The Front Door" when nemeFree(party) "Nobody in Cobble Ring was watching the sky, and so nobody saw a girl in a torn coat come down the last long stair of the Keel into Haddo's barley on the morning after the third night. The house in the field is glass now and nothing more; the doors are only doors, and they open where they are looked at. Kezu sleeps through the night and wakes at dawn like anyone, and the first thing she does is climb to the loft, and sit in the seat that has been Hanu's, and look at the room in the barley, and at the girl on the stool beside it with a dreg marble in her fist, and not look away. In the Keel, a lamp has gone out on the Slope, and an old woman has gone up the stair to see whether Wenn is in his bunk.".
+  Ending the_chair "The Chair" when nemeSits(party) "Tobu sits in the child's chair in the middle of the Long Hall and counts forty doors, and the house does not grow. Neme goes down the stair into the Strewnfield with her coat buttoned wrong, and is looked after by Hanu, who has been a week without a patient and is glad of one. Kezu sleeps, and wakes, and goes to the hall every noon with a cup of something hot, and sits on the glass beside her sister's boy for an hour, not speaking, and goes home again. The widows on the rim have knitted Neme a cap, too big, which she wears over her eyes.".
+  Ending the_gate_shut "The Knocking Goes On" when nemeLeft(party) "You went back up the Slope, as you had said you would, to see to your own affairs, and the gate shut behind you. The house goes on as it did. Kezu is walked back to her bed by Hanu every morning; the council meets; the barley is not sown. At the foot of the Slope an old woman minds a lamp for a boy called Wenn, and the knocking comes up the glass, and stops, and comes again. Some night it will be answered, by whoever happens to come by.".
 }

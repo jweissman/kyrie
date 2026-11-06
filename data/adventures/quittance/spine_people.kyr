@@ -7,7 +7,7 @@ Module quittance "Quittance" {
 
   // ── Ottoline Prewitt ────────────────────────────────────────────────────────────────────────────────────
   Topic ottoline_work with ottoline "Ask Ottoline what the Phoenix wants of an adjuster" when true once {
-    Says "'Everything,' says Ottoline Prewitt, 'and nothing it can say aloud.' She pushes a ledger across. 'Mark Street, this morning, is the sort of thing the Phoenix can't help being late for: two brigades and a plate. And my father would like someone from outside to look at our losses. He says that a pair of fresh eyes is cheaper than a pair of tired ones. He does not say why.'".
+    Says "'Everything,' says Ottoline Prewitt, 'and nothing it can say aloud.' She pushes a ledger across. 'Mark Street, this morning, is the sort of thing the Phoenix can't help being late for: two brigades and a plate. And my father would like someone from outside to look at our losses. He says that a pair of fresh eyes is cheaper than a pair of tired ones. I think he means that tired ones have seen it.'".
     On discuss { Increase ottolineTrust(ottoline) by 1. }
   }
   Topic ottoline_employ with ottoline "Accept the Phoenix's commission" when not employed(actor) and ottolineTrust(ottoline) >= 1 once {
@@ -77,7 +77,7 @@ Module quittance "Quittance" {
     Requires able(actor) and company(actor) and at(actor, site) and at(prewitt, site) and knows(actor, d_tables_paradox) and arc(pettifer) >= 1 and not sumUsed(actor) and arc(prewitt) < 3 and not prewittHardened(actor).
     Time 20 minutes.
     On success { Assert sumUsed(actor). Increase arc(prewitt) by 1. }
-    Result "It is one sheet in Cornelia Pettifer's small hand, with a column of the Offices down the left side. Prewitt reads it standing up. When he comes to the foot of it he sits down, and reads it again, from the top, with his pencil. 'It is,' he says at last, 'a better sum.' He sounds, for the first time, faintly aggrieved. 'The Cinder Ward evacuated, burned in daylight, the loss shared by all five Offices pro rata. Nobody dies. The Fire is paid.' He taps the page. 'This is cheaper. I would have found it in three years if I had not been so certain.'".
+    Result "It is one sheet in Cornelia Pettifer's small hand, with a column of the Offices down the left side. Prewitt reads it standing up. When he comes to the foot of it he sits down, and reads it again, from the top, with his pencil. 'It is,' he says at last, 'a better sum.' He sounds faintly aggrieved. 'The Cinder Ward evacuated, burned in daylight, the loss shared by all five Offices pro rata. Nobody dies. The Fire is paid.' He taps the page. 'This is cheaper. I would have found it in three years if I had not been so certain.'".
   }
   Action threaten_prewitt(actor: group, site: place) "Tell Prewitt you will put his list on the Slate" {
     Speaker prewitt.
@@ -179,7 +179,7 @@ Module quittance "Quittance" {
   // ── A kindness, so that a turn is a return (second review C5) ───────────────────────────────────────────
   Relation prewittBed(group).
   Topic prewitt_bed with prewitt "Ask whether the Phoenix keeps a bed for the adjusters it sends for" when knows(actor, d_prewitt_met) and not prewittBed(actor) once {
-    Says "Prewitt looks at you for rather a long time. 'It does not,' he says. 'It ought. A guest is owed a bed; it is the oldest rule of the trade, older than the marks.' He takes eight coin from a drawer, counts it twice, and pushes it across the desk with one finger, as if it might be hot. 'Mrs Pudsey at the Hen will not ask you for a reference. Do not tell Ottoline I did this. She would think I was ill.'".
+    Says "Prewitt looks at you, and at the shawl, and at you. 'It does not,' he says. 'It ought. A guest is owed a bed; it is the oldest rule of the trade, older than the marks.' He takes eight coin from a drawer, counts it twice, and pushes it across the desk with one finger, as if it might be hot. 'Mrs Pudsey at the Hen will not ask you for a reference. Do not tell Ottoline I did this. She would think I was ill.'".
     On discuss { Assert prewittBed(actor). Increase quantity(actor, gold) by 8. }
   }
 }

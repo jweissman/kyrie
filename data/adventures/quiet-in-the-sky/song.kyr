@@ -51,7 +51,7 @@ Module larum "The Quiet in the Sky" {
   }
   // Two things told, and the lullaby: he can make it, and sings it at the Hour the next day.
   Topic wystan_make with wystan "Ask Wystan Hollins whether that is enough to make a song of" when knows(actor, lullaby_known) and verses(wystan) >= 2 and not songPromised(wystan) and not elegyMade(wystan) once {
-    Says "Wystan looks at the table, where the mead has dried in streaks of what you told him. He is quiet a long time. 'A sheep went over the hill,' he says under his breath, 'to see what was there.' He looks up. 'Tomorrow. At the Hour. Here. If it's any good I'll sing it and if it isn't I'll break the cup over your head.' He drinks off the cup. 'Go away. I'm working.'".
+    Says "Wystan looks at the table, where the mead has dried in streaks of what you told him. He drums two fingers on the cup. 'A sheep went over the hill,' he says under his breath, 'to see what was there.' He looks up. 'Tomorrow. At the Hour. Here. If it's any good I'll sing it and if it isn't I'll break the cup over your head.' He drinks off the cup. 'Go away. I'm working.'".
     On discuss { Assert songPromised(wystan). Set songDay(wystan) to day(clock). }
   }
   Rule song_made when songPromised(wystan) and day(clock) > songDay(wystan) and hour(clock) >= 18 and not songMade(wystan) { Assert songMade(wystan). }

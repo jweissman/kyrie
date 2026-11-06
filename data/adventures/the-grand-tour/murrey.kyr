@@ -69,7 +69,7 @@ Module sennet "The Grand Tour" {
     On discuss { Assert fabianAsked(fabian). }
   }
   Topic fabian_told_through with fabian "Tell Fabian Murrey what it was really like, through the door" when fabianAsked(fabian) and beenThrough() and not fabianTold(fabian) once {
-    Says "He listens to all of it with his pencil stopped over his notebook and does not write a word. When you have finished he looks at the portrait for a long time. 'She never said it smelt like that,' he says. 'She never said anything was frightening. She said the Hour Court was vulgar.' He puts the pencil down. 'If I came,' he says, very quietly, 'would you bring me back? Not her way. Your way. Would you promise?'".
+    Says "He listens to all of it with his pencil stopped over his notebook and does not write a word. When you have finished he looks at the portrait until the lamp needs trimming. 'She never said it smelt like that,' he says. 'She never said anything was frightening. She said the Hour Court was vulgar.' He puts the pencil down. 'If I came,' he says, very quietly, 'would you bring me back? Not her way. Your way. Would you promise?'".
     On discuss { Assert fabianTold(fabian). Increase fondness(fabian) by 1. }
   }
   Topic fabian_promise with fabian "Promise Fabian Murrey you will bring him home" answering fabian_told_through when fabianTold(fabian) and not fabianWilling(fabian) once {

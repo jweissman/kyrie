@@ -59,6 +59,6 @@ Module longman "The Long Man" {
       and memberOf(w, actor) and hasCalling(w, calling_warrior) and memberOf(c, actor) and hasCalling(c, calling_cleric) and knows(actor, notches_known).
     Time 3.
     On success { Assert sidedCleric(party). Assert convinced(ysolt). }
-    Result "{w} says nothing against it, which is not the same as agreeing, and stands at the chapel door with arms folded while {c} puts a hand on the font and says what the notches are, in the plain voice of someone who has done it before. Mother Ysolt listens to the end. When {c} has finished she looks up at the roof-beam, and then at {w}, and says: 'Ring the bell, if it comes. I will see it rung.' {w} unfolds arms. 'Forty crowns,' {w} says, to nobody, and goes out to see to the weather.".
+    Result "{w} says nothing against it, which is not the same as agreeing, and stands at the chapel door with arms folded while {c} puts a hand on the font and says what the notches are, in the plain voice of someone who has done it before. Mother Ysolt listens to the end. When {c} has finished she looks up at the roof-beam, and then at {w}, and says: 'Ring the bell, if it comes. I will see it rung.' {w} unfolds arms. 'Forty crowns,' {w} says, to the doorpost, and goes out to see to the weather.".
   }
 }

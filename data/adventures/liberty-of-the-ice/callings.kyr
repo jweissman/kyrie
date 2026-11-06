@@ -29,13 +29,13 @@ Module pellam "The Liberty of the Ice" {
 
   // ── The mage: the Glove ───────────────────────────────────────────────────────────────────────────────────────────
   Rule voice_glove at freezeland when memberOf(?m, party) and hasCalling(?m, calling_mage) and awake(?m) and at(party, freezeland) and not iceGone() and not heardGlove(party)
-    says "{?m} stands under the Glove Post for a long time with the great leather fingers turning slowly overhead. 'It is a left glove,' {?m} says. 'I have watched the Reeve shake with her right all morning.' A pause. 'Somebody decided, once, that the thing which keeps the law should be the hand you do not use.'" {
+    says "{?m} walks once round the foot of the mast with head back, watching the great leather fingers turn. 'Left glove,' {?m} says. 'And the Reeve has shaken with her right all morning. The sign and the hand do not match. I should like to know which of them is older.'" {
     Assert heardGlove(party).
   }
 
   // ── The bard: the bench ───────────────────────────────────────────────────────────────────────────────────────────
   Rule voice_bench at lamb when memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m) and at(party, lamb) and not iceGone() and not heardBench(party)
-    says "{?m} sits with an ear turned to the room for a quarter of an hour, and a smile that comes and goes. 'They are all after the stone in the plum,' {?m} says. 'One small true thing in the middle of the lie, and do not look at it. Broom is not listening for the lie. She is listening for where you flinch.'" {
+    says "{?m} sits with an ear turned to the room for a quarter of an hour, counting on one finger under the table. 'Eleven lies since we sat down,' {?m} says. 'Nine of them end on something small and true, a name or a price, set at the back where you would trip on it. Broom is not listening for the lie. Her eyes are shut for the flinch.'" {
     Assert heardBench(party).
   }
 
@@ -43,7 +43,7 @@ Module pellam "The Liberty of the Ice" {
   // Said, and not explained. The Book of Frosts has the wolves in four frosts of seven and nobody has ever written down
   // why; a ranger can say only what is wrong with the ground.
   Rule voice_tracks at reach_head when memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and at(party, reach_head) and secondDay() and not dark() and not heardTracks(party)
-    says "{?m} goes down on one knee at the edge of the sledge road and lays a bare palm in a print. 'Four,' {?m} says. 'Each one put its foot in the track of the one before. Hounds do that behind a huntsman. Wolves, in my experience, do not.' A moment. 'And they have kept to the sledge marks, on the ice, in the dark, down a road they could not have seen from the downs.' {?m} wipes the hand on the snow. 'I do not like it. I should dearly like to know who has been teaching them the way.'" {
+    says "{?m} goes down on one knee at the edge of the sledge road and lays a bare palm in a print. 'Four,' {?m} says. 'Each one put its foot in the track of the one before. Hounds do that behind a huntsman. Wolves, in my experience, do not.' {?m} lifts the hand and wipes it on the snow. 'And they have kept to the sledge marks, on the ice, in the dark, down a road they could not have seen from the downs. Somebody has been teaching them the way.'" {
     Assert heardTracks(party).
   }
 

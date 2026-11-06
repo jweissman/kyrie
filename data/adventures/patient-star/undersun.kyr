@@ -215,7 +215,7 @@ Module season "The Patient Star" {
   Query addressedAny(c: group) means addressed(?p, c).
 
   // The Bathhouse: steam so dense that light takes ten minutes to cross it. Gleaners nest here.
-  Observe bath_scene at bathhouse when true "A Seridane bathhouse full of steam that stands like milk. When you hold up a light, its glow does not reach the far side for a long time; what you see across the room is ten minutes old.".
+  Observe bath_scene at bathhouse when true "A Seridane bathhouse full of steam that stands like milk. When you hold up a light, its glow crawls: what you see across the room is ten minutes old.".
   Species gleaner "a gleaner" like great_centipede temperament defensive
     described "A thing the size of a hand, many-legged, of stopped iron: one of a swarm from another world, given work by the Masons. They gather what falls, and lay it.".
   Person gleaners "gleaners" at bathhouse {

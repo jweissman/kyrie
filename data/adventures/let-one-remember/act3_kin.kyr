@@ -47,7 +47,7 @@ Module corrow "The Road the Star Came Down" {
   Rule kin_move when starFell(corrow) and not kinLost(corrow) and kinRoute(?p) and routeStage(?p) == kinStage(corrow) and not at(kin, ?p) and able(kin) { Assert at(kin, ?p). }
   Observe unsaid_leads near kin when unsaidCrossed(margin) and starFell(corrow) and not kinLost(corrow) "At the head of the column walks something smaller than the rest, wearing a hundred lost coats, and the Unfolded keep pace with it as if it were telling them the way.".
   Rule hornwake_flees when kinStage(corrow) >= 3 and not hornwakeFled(corrow) and not kinLost(corrow)
-    says "The Unfolded come into Hornwake at dawn, walking in step, and do not stop. They walk through the wagons and the hoist-towers as if they were not there, to the horn, and stand round it a long time with their closed-hand heads bowed toward it, and then walk on south along the furrow. Hornwake runs to the Stake ruins with what it can carry." {
+    says "The Unfolded come into Hornwake at dawn, walking in step, and do not stop. They walk through the wagons and the hoist-towers without turning aside, over a hen coop and across a cook's table, to the horn, and stand round it a long time with their closed-hand heads bowed toward it, and then walk on south along the furrow. Hornwake runs to the Stake ruins with what it can carry." {
     Assert hornwakeFled(corrow). Assert at(wakefolk, chimneys). Assert at(lene, chimneys). Assert at(ruth, chimneys).
   }
   Rule stake_flees when kinStage(corrow) >= 6 and not stakeFled(corrow) and not kinLost(corrow)

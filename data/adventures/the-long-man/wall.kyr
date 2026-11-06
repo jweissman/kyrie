@@ -49,8 +49,8 @@ Module longman "The Long Man" {
   Observe sinkhole_scene at crest when true "Halfway along, the turf has fallen into a raw hole a cart wide. Water drips somewhere far down in it.".
   Observe gauge_scene at gauge_head when true "At the north end of the crest a square grey stone stands over a square shaft going down into the hill. Notches are cut down every edge of the shaft, deeper than the light goes.".
   Observe gallery_scene at gallery when true "A tunnel lined with smooth grey stone, tall and narrow, as if cut for something taller than a man. The air is dry and still. Ways go off to either hand.".
-  Observe sluice_scene at sluice when true "A chamber over the culvert, where the beck runs loud below an iron grating. Two great wheels of grey stone stand on their edges, set round with teeth of green bronze, and a third, smaller, works the shutter of the bottom sluice.".
-  Observe rest_scene at rest when true "A niche in the gallery wall, taller than two men, with a ledge of grey stone at the back and tools laid on it in order: blades, hooks, a stone trowel, all of the same grey. Notches run in close rows up the walls.".
+  Observe sluice_scene at sluice when true "A chamber over the culvert, where the beck runs loud below an iron grating. Two great wheels, pale as old tallow, stand on their edges, set round with teeth of green bronze, and a third, smaller, works the shutter of the bottom sluice.".
+  Observe rest_scene at rest when true "A niche in the gallery wall, taller than two men, with a ledge at the back and tools laid on it in order: blades, hooks, a stone trowel, each lying exactly where a hand would put it down. Notches run in close rows up the walls.".
   Observe leak_scene at leak when not state(leak_gate, mended) "Water comes through a crack in the inner face of the gallery, a sheet of it, and runs away under the floor.".
   Observe leak_mended at leak when state(leak_gate, mended) "The wall of the gallery is wet, and no more.".
   Observe shaft_scene at shaft_foot when true "The bottom of a square shaft. Notches climb its four edges up into the dark, and the stone of the shaft-side toward the lake sweats.".
@@ -79,7 +79,7 @@ Module longman "The Long Man" {
   Discovery mower_keeps "The Mower keeps the Long Man: it cuts every sapling on the crest before its roots can crack the wall, and it goes after bronze taken from its wheels.".
   // Given back its bronze, it fits the teeth to the leak gate's wheel that night, and closes the gate. The company
   // that gave them sees it go into the hill (near the company, since it is the Mower that goes).
-  Event mower_mends near party when keeps(mower, teeth) and not state(leak_gate, mended) "The Mower takes the sack of teeth in both hands, turns, and walks away into the hill. Some time later, deep inside the Long Man, something heavy closes with a sound like a bell." then {
+  Event mower_mends near party when keeps(mower, teeth) and not state(leak_gate, mended) "The Mower takes the sack of teeth in both hands, turns, and walks away into the hill. Some time later, deep inside the Long Man, something heavy closes, and the note comes up through the dale, and every dog in Merrow lifts its head." then {
     Assert state(leak_gate, mended). Assert at(mower, leak).
   }
   Item mask "the Mower's mask" is keeper_mask at core.
@@ -105,7 +105,7 @@ Module longman "The Long Man" {
   Observe shutter_looked near leak_gate when tried(leak_gate, looking) and state(leak_gate, jammed) "Each of the twelve sockets is shaped for one of the bell-teeth, and each is bright at its edges where a bar went in and levered the tooth out. Water beads along the crack behind the shutter and runs down into the clay.".
   Observe shutter_seen near leak_gate when tried(leak_gate, looking) and not state(leak_gate, jammed) "Bronze, green with age, on a wheel of twelve sockets; behind it, the crack in the clay core, darker than the clay round it.".
   Action fit_teeth(actor: group, carrier: member, site: place) "Fit the bell-teeth back into the shutter's wheel" {
-    Description "Twelve sockets, twelve teeth. They go in with a sound like a bell.".
+    Description "Twelve sockets, twelve teeth. Each seats a little lower in pitch than the one before.".
     Requires able(actor) and company(actor) and at(actor, site) and at(leak_gate, site) and state(leak_gate, jammed)
       and memberOf(carrier, actor) and awake(carrier) and ownedItem(teeth, carrier).
     Time 6.

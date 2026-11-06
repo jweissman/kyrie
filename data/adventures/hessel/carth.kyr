@@ -71,7 +71,7 @@ Module hessel "The Banns at Hessel" {
     On discuss { Increase brannaghTrust(brannagh) by 1. }
   }
   Topic brannagh_knock with brannagh "Ask Mrs Brannagh who knocks at two in the morning" when brannaghTrust(brannagh) >= 2 and not knows(actor, nan_is_lady) once {
-    Says "Mrs Brannagh is quiet for a long time. Then she takes off her spectacles. 'Her ladyship,' she says. 'Who else? He shut her out in the snow in her nightgown because a man had written her a letter, and the letter was from her brother. She walked down the hill to the laundries and they took her in. Nine years she's washed the Season's sheets under his windows, and every Thursday I've gone down with the linen and told her how Miss Celia does. What she reads. How tall she is.' She puts the spectacles back. 'And every night at two she comes up and knocks once, so that he'll know. And he sits there and doesn't open it. And she goes away.' She looks at you hard. 'She'll come in if he opens it himself. She's told me so. Not if I do, nor you. Him.'".
+    Says "Mrs Brannagh takes off her spectacles, which she has never done in front of you. 'Her ladyship,' she says. 'Who else? He shut her out in the snow in her nightgown because a man had written her a letter, and the letter was from her brother. She walked down the hill to the laundries and they took her in. Nine years she's washed the Season's sheets under his windows, and every Thursday I've gone down with the linen and told her how Miss Celia does. What she reads. How tall she is.' She puts the spectacles back. 'And every night at two she comes up and knocks once, so that he'll know. And he sits there and doesn't open it. And she goes away.' She looks at you hard. 'She'll come in if he opens it himself. She's told me so. Not if I do, nor you. Him.'".
     On discuss { Assert knows(actor, nan_is_lady). Assert knows(actor, nan_terms). }
   }
   Discovery nan_is_lady "Nan Bellamy, the laundress, is Lady Carth. Sir Gervase shut her out of Carth House in the great snow nine years ago over a letter that was from her brother; she was taken in at the laundries, and has knocked at the door once every night since, at two.".
@@ -140,7 +140,7 @@ Module hessel "The Banns at Hessel" {
     On discuss { Assert lineBook(rob). Increase poemLines(rob) by 2. }
   }
   Topic rob_finish with rob "Tell Rob the poem is finished; write it fair" when knows(actor, rob_loves_window) and not poemMade(rob) and poemLines(rob) >= 1 once {
-    Says "Rob writes it fair on a clean leaf of his pocket-book, tears it out, folds it, and holds it for a moment as if it were warm. Then he puts it on the grass at your feet, like a dog with a bird. 'You take it,' he says. 'I can't. I'd die.'".
+    Says "Rob writes it fair on a clean leaf of his pocket-book, tears it out, folds it, and holds it a moment against his chest. Then he puts it on the grass at your feet, like a dog with a bird. 'You take it,' he says. 'I can't. I'd die.'".
     On discuss { Assert poemMade(rob). Assert poemGood(rob). Assert at(rob_poem, crescent). }
   }
   Topic rob_finish_bad with rob "Tell Rob to send the Lady of the Lattice as it is" when knows(actor, rob_loves_window) and not poemMade(rob) and poemLines(rob) == 0 once {
@@ -359,7 +359,7 @@ Module hessel "The Banns at Hessel" {
   // In the morning after, the shutters come down the whole length of the house.
   Rule shutters_down when carthReunited(carth) and not carthOpened(carth) and hour(clock) >= 7 and hour(clock) < 12 { Assert carthOpened(carth). }
   Relation carthOpened(group).
-  Observe shutters_open at crescent when carthOpened(carth) and not dark() "At the end of the Crescent the shutters of Carth House are open, every one, for the first time in nine years, and men are carrying coal out of it in sacks, and in the drawing-room window a girl without a fur cap is leaning out on her elbows, looking at the lawn.".
+  Observe shutters_open at crescent when carthOpened(carth) and not dark() "At the end of the Crescent the shutters of Carth House are open, every one, after nine years, and men are carrying coal out of it in sacks, and in the drawing-room window a girl without a fur cap is leaning out on her elbows, looking at the lawn.".
   Rule celia_free_after when carthOpened(carth) and not celiaOut(celia) { Assert celiaOut(celia). }
 
   // ── Taking Celia out ──────────────────────────────────────────────────────────────────────────────────────────────
@@ -371,7 +371,7 @@ Module hessel "The Banns at Hessel" {
       and at(celia, carth_drawing) and celiaWants(celia) and not celiaOut(celia) and not carthReunited(carth) and (hour(clock) >= 21 or hour(clock) < 5).
     Time 2.
     On success { Assert celiaOut(celia). Assert celiaTaken(celia). Assert at(celia, cherrett_parlour). Retract at(actor, site). Assert at(actor, cherrett_parlour). }
-    Result "She comes over the sill in her fur cap and a cloak over her nightgown and a pair of Brannagh's boots, with Ovid under her arm, and down the railings after you, with your hands to guide her feet, and stands on the pavement of the Crescent in the warm dark and breathes, and breathes. 'It smells of grass,' she says. 'It smells of grass and horses.' You take her up the hill to the Circus, where Mrs Cherrett, roused out of her first sleep in her nightcap, looks at the girl in the fur cap for a long moment and says, 'Well, you'll want feeding,' and does not ask a single question.".
+    Result "She comes over the sill in her fur cap and a cloak over her nightgown and a pair of Brannagh's boots, with Ovid under her arm, and down the railings after you, with your hands to guide her feet, and stands on the pavement of the Crescent in the warm dark and breathes, and breathes. 'It smells of grass,' she says. 'It smells of grass and horses.' You take her up the hill to the Circus, where Mrs Cherrett, roused out of her first sleep in her nightcap, looks the girl in the fur cap up and down, nightcap and all, and says, 'Well, you'll want feeding,' and does not ask a single question.".
   }
   Action celia_by_kitchen(actor: group, site: place) "Take Celia down the back stair and out through the kitchen, with Mrs Brannagh's leave" {
     Grave "Sir Gervase will find his daughter gone, and know who let her go.".

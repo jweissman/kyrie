@@ -135,7 +135,7 @@ Module season "Hold One Season" {
     Says "'She came in last Frost, walking, from the east,' says Wenda. 'No fever, no cough, nothing I can treat. She eats, a little. She learns.' She lowers her voice. 'She does not warm. I have held her hands in mine for an hour by the stove and they are no warmer at the end than at the start, and no colder. The others have started to notice.'".
     On discuss { Assert knows(actor, saro_cold). }
   }
-  Event wenda_honey near wenda when keeps(wenda, ?j) and itemKind(?j, night_honey) "Sister Wenda turns the jar to the window and smiles for the first time. 'For the coughers,' she says. 'A spoon at night, and they sleep.' She puts it on the shelf with the other two." then { Assert thanked(wenda, party). }
+  Event wenda_honey near wenda when keeps(wenda, ?j) and itemKind(?j, night_honey) "Sister Wenda turns the jar to the window and smiles, which she has not done since you came in. 'For the coughers,' she says. 'A spoon at night, and they sleep.' She puts it on the shelf with the other two." then { Assert thanked(wenda, party). }
   Relation thanked(group, group).
   Topic saro_stone with saro "Ask Saro what she wants" when true once {
     Says "Saro answers in a Tovashi a month old and already good. 'To go back into the glass. Down, where it is being built.' She looks at you with great attention. 'Do you know of a stone that sings? Under here. It sings once in each hour. Everyone I ask says no.'".

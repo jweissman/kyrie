@@ -37,7 +37,7 @@ Module corrow "The Road the Star Came Down" {
   Person wenna "the old woman at the end of the road" at wennas_stop {
     Role "an old woman holding something that lights her hands". Ancestry human. Peaceable.
     State keeping "An old woman stands at the very end of the road, where it stops at nothing, with her two hands cupped round something that lights them from inside: something the size of a child's fist, with nine faces. She is very old, older than anyone should be, and she is not looking at you, or at anything. Her lips are moving. She is saying, over and over, the way the Strays say their syllables: elsewhere, elsewhere, elsewhere.".
-    State herself "Wenna Coyle stands at the end of the road with the Hush in her hands and her lens in her pocket, and looks at you as if she had been waiting for somebody, and is not sure, yet, that she is glad.".
+    State herself "Wenna Coyle stands at the end of the road with the Hush in her hands and her lens in her pocket, and looks at you, and her face goes through hope, and then through caution, and stops there.".
   }
   Observe wenna_ringed at wennas_stop when bandRead(corrow) and state(wenna, keeping) "Round her, at a distance, the Unfolded kneel in a ring with their heads bowed, waiting. They cannot come nearer than she lets them. She has not noticed them.".
   Topic wenna_who with wenna "Ask the old woman who she is" when state(wenna, keeping) once {

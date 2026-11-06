@@ -53,7 +53,7 @@ Module quittance "Quittance" {
     Resolve check(actor, persuasion, dc_fair).
     On success { Assert gauntSwayed(city). Increase arc(gaunt) by 1. Assert decided(h_ordinance). }
     On failure { Assert gauntSwayed(city). Assert decided(h_ordinance). }
-    Result "Lord Gaunt-Halloran stops mid-sentence. 'The first hearth,' he says. 'In the Company's name.' His eye goes distant. 'On Policy Row.' It is as if someone had offered him a statue. 'I confess,' he says, 'that I had not thought the Ordinance admitted of ceremony.' He sits, with a look of enormous private satisfaction.".
+    Result "Lord Gaunt-Halloran stops mid-sentence. 'The first hearth,' he says. 'In the Company's name.' His eye goes distant. 'On Policy Row.' He has the look of a man being measured for a statue. 'I confess,' he says, 'that I had not thought the Ordinance admitted of ceremony.' He sits, with a look of enormous private satisfaction.".
     Otherwise "'The Company,' says Lord Gaunt-Halloran, 'takes the suggestion as a kindness, and declines it as a precedent.' He sits down. He has a look of someone who has been right on principle and wrong on the facts.".
   }
   Action leave_ordinance(actor: group, site: place) "Let the Ordinance pass without a word from you" {
@@ -84,7 +84,7 @@ Module quittance "Quittance" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, hall_five) and matterOpen(h_losses) and witnessCount(city) >= 1 and not witnessesCalled(city).
     Time 30 minutes.
     On success { Assert witnessesCalled(city). Increase argued(city) by witnessCount(city). Assert decided(h_losses). }
-    Result "They come in by ones and twos and are asked to stand at a rail, and they do. Nobody has told them what to say. A clerk who has been taking things down for twenty years stops writing for the first time; a woman says the name of a street; a child says nothing at all, with great force. By the time the last has sat down, the Hall has the look of a room in which a number has been said aloud and cannot be unsaid.".
+    Result "They come in by ones and twos and are asked to stand at a rail, and they do. A clerk who has been taking things down for twenty years puts down his pen in the middle of a word; a woman says the name of a street; a child says nothing at all, with great force. By the time the last has sat down, the Hall has the look of a room in which a number has been said aloud and cannot be unsaid.".
   }
   Action rest_the_case(actor: group, site: place) "Rest your case" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, hall_five) and matterOpen(h_losses).
@@ -128,9 +128,9 @@ Module quittance "Quittance" {
     Says "The small bald gentleman puts down his sandwich. 'The Residuary,' he says, 'is the Office for what the others will not cover. It was a joke. We have had it a hundred years.' He looks at the stool. 'Dame Honora left a seat for the Guest. We dust it on Thursdays. I am afraid it is the only part of my duties that I have ever understood.'".
   }
   Topic chair_lamprey with chairmen "Ask the Chairman of the Lamprey how his fish is" when true once {
-    Says "The wet-coated man looks up from his hands. 'Dree says it is the best brigade in the city,' he says. 'Dree is wrong. It is the second best. The best is whichever one is not the Phoenix. I have found that this is a very restful thing to have decided.'".
+    Says "The wet-coated man looks up from his hands. 'Dree says it is the best brigade in the city,' he says. 'Dree is wrong. It is the second best. The best is whichever one is not the Phoenix. It saves a great deal of arguing.'".
   }
   Topic chair_providence with chairmen "Ask the Chairman of the Providence whether he is ever frightened" when true once {
-    Says "The plump rosy Chairman beams. 'I insure against falling off ladders,' he says. 'Every day. For people who then do not fall off them, because they are insured, and are careful, because they have paid.' The beam falters for a moment. 'It is the great secret of my Office that nobody has ever been able to tell whether it works.'".
+    Says "The plump rosy Chairman beams. 'I insure against falling off ladders,' he says. 'Every day. For people who then do not fall off them, because they are insured, and are careful, because they have paid.' The beam falters for a moment. 'Twice a week somebody falls off one anyway, and I pay, and the week after there are two more people on ladders.'".
   }
 }

@@ -90,6 +90,6 @@ Module pentrice "Gosse's Company" {
   }
   Discovery ship_bill "A bill has come up from the south for a play called The Ship That Came Late, about a ship out of a cellar that has been sailing since before anyone's grandmother.".
   Topic pudding_ship with pudding "Show Pudding the bill for The Ship That Came Late" when knows(actor, ship_bill) and inCompany(actor) once {
-    Says "Pudding reads it standing on one foot, and then the other. 'A ship in a cellar,' he says. 'Full of ghosts who can't get home.' He lowers the paper. 'We have a Ghost who can't get home. We have a bear. Why have we not got machinery?' Hepzibah, from the prompt-corner, without looking up: 'Because it is not licensed.' 'Neither is the ship,' says Pudding, with great dignity, and goes to practise being seasick.".
+    Says "Pudding reads it standing on one foot, and then the other. 'A ship in a cellar,' he says. 'Full of ghosts who can't get home.' He lowers the paper. 'We have a Ghost who can't get home. We have a bear. Why have we not got machinery?' Hepzibah, from the prompt-corner, without looking up: 'Because it is not licensed.' 'Neither is the ship,' says Pudding, one foot on a hamper, and goes to practise being seasick.".
   }
 }

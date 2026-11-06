@@ -62,23 +62,23 @@ Module longman "The Long Man" {
   Observe green_drowned at green when drowned(green) "Brown water stands over the green to the height of a man's waist, and moves. The lime tree is full of thatch.".
   Observe taproom_scene at taproom when true "A low taproom smelling of peat and wet wool. A sign over the hearth shows an ox up to its horns in water, which the landlord says is a joke.".
   Observe nave_scene at nave when true "A plain chapel with a floor of flagstones worn into hollows. By the door stands the font: a square grey pillar, smooth as soap, notched all the way up one edge. The highest notch is level with the roof-beam.".
-  Observe vestry_scene at vestry when true "A cupboard of a room, with the parish register chained to a shelf and a basin of cold water.".
-  Observe millhouse_scene at millhouse when not drowned(millhouse) "The millhouse shakes with the wheel. Flour hangs in the air like smoke.".
+  Observe vestry_scene at vestry when true "A cupboard of a room that smells of candle-ends and damp wool. The parish register is chained to a shelf by a chain too long for it, so that it lies on the floor between visits like a tired dog. A basin of cold water; a surplice on a nail, mended in a thread of a different white.".
+  Observe millhouse_scene at millhouse when not drowned(millhouse) "The whole millhouse shakes with the wheel, and the shake gets into your teeth. Flour hangs so thick that the lamp has a halo, and the cat asleep on the sacks is white to the whiskers.".
   Observe race_scene at race when true "The mill race runs full and loud along its stone channel to the wheel, fuller than a beck this size has any right to.".
-  Observe reeve_scene at reeve_room when true "A kitchen with a peat fire, a cat, and on pegs by the door a row of tools for ditches: spades, a slasher, a long hook.".
-  Observe yard_scene at yard when true "A cobbled yard under the north end of the Long Man, where the ridge rises behind the Hall like a wall behind a house.".
+  Observe reeve_scene at reeve_room when true "A kitchen with a peat fire and a cat, and on pegs by the door the tools of forty years of ditching: spades, a slasher, a long hook, every handle worn to the dent of one pair of hands. The room smells of wet dog and boiled onions, and the clock is eleven minutes slow and always has been.".
+  Observe yard_scene at yard when true "A cobbled yard under the north end of the Long Man, where the ridge rises behind the Hall like a wall behind a house. The hill is so close that the sun leaves the yard an hour before it leaves the green. A pump with a rag tied round its handle; a mounting-block; a kennel with no dog.".
   Observe yard_smashed at yard when state(cart, smashed) "Something walked through the yard gate without opening it.".
-  Observe study_scene at study when true "A steward's study: a fire, a desk heaped with bills, and the Hall's accounts in a row of ledgers.".
-  Observe chamber_scene at chamber when true "A narrow bedchamber over the yard, with a cold grate, a washstand, and a bed with curtains of faded green.".
+  Observe study_scene at study when true "A steward's study: a fire banked to last the night, and a desk heaped with bills, each weighted down with a different thing from the Hall, a pestle, a horse-brass, a stone egg. The accounts stand in a row of ledgers whose spines have been re-lettered so often that the leather has gone to felt.".
+  Observe chamber_scene at chamber when true "A narrow bedchamber over the yard. The grate is cold, the jug on the washstand has a crack mended with wax, and the bed-curtains are the green of a pond in October. The window looks straight up at the hill, so that whoever sleeps here wakes to it.".
   Observe cellar_scene at cellar when true "The Hall cellar is old at the back, older than the Hall: walls of smooth grey stone, fitted without mortar. Barrels stand along them, and the air at the back is colder than a cellar's should be.".
   Item bar "an iron bar" is crowbar at cellar.
   Observe bar_seen at cellar when at(bar, cellar) "An iron bar leans against the barrels, one end bright with scraped bronze.".
   Observe field_scene at low_field when not drowned(low_field) "A low field of black earth under the Long Man. The furrows hold water, and the grass is the bright green of a meadow that is turning into a bog.".
   Observe field_drowned at low_field when drowned(low_field) "The low field is under a hand's depth of water. The furrows are gone; reeds are coming up through it.".
   Observe springs_scene at springs when true "At the foot of the Long Man a row of small springs comes out of the turf, clear and very cold. They run into a ditch that runs to the mill.".
-  Observe landing_scene at landing when true "A stone landing where the beck widens below the mill, with rings for mooring.".
-  Observe hollow_door_scene at hollow_door when true "At the south end of the Long Man the beck comes out of the hill through a great round arch of grey stone, smooth and pale, glazed blue-green where the water runs. An iron grate closes it, newer than the arch by a thousand years.".
-  Observe downriver_scene at downriver when true "The beck goes on south toward the river and the towns.".
+  Observe landing_scene at landing when true "A stone landing where the beck widens below the mill, with iron rings for mooring, worn bright on the downstream side only, where every rope that was ever tied here has pulled to be gone.".
+  Observe hollow_door_scene at hollow_door when true "At the south end of the Long Man the beck comes out of the hill through a great round arch, smooth and pale as a tooth, glazed blue-green where the water runs. An iron grate closes it, newer than the arch by a thousand years.".
+  Observe downriver_scene at downriver when true "Below the landing the beck slides away south between pollard willows, their heads cut off for firewood, toward the river and the towns.".
 
   // The people of Merrow, and what they want.
   Person venn "Aldous Venn" at study {

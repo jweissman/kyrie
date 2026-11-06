@@ -169,5 +169,5 @@ Module hhg "The House That Grows" {
   Relation knotBroken(place).
   Rule knot_known when state(knot_door, undone) and not knotBroken(rigging_foot) { Assert knotBroken(rigging_foot). }
   Observe rigging_scene at rigging_foot as fixture when true "You come up through a hatch into wind and rigging: a street of houses hung in caul-cable between two terraces of garden, its floor a net. Somewhere along it a bell is ringing, and people are coming, roped, along the net toward the hatch you came through.".
-  Observe rigging_angry at rigging_foot as event when knotBroken(rigging_foot) "A Netter in a harness reaches the hatch first and looks at the undone knot, and then at you, as if you had cut her rope. 'From the wrong side,' she says. 'That's theft, floor-dirt. The Knot House will hear of it.'".
+  Observe rigging_angry at rigging_foot as event when knotBroken(rigging_foot) "A Netter in a harness reaches the hatch first and looks at the undone knot, and then at you. 'From the wrong side,' she says. 'That's theft, floor-dirt. The Knot House will hear of it.'".
 }

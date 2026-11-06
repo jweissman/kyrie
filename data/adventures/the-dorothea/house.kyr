@@ -41,7 +41,7 @@ Module dorothea "The Dorothea" {
     Requires able(actor) and company(actor) and at(actor, site) and leaves(actor) >= 3 and not reckoned(actor).
     Time 4.
     On success { Assert reckoned(actor). Give dorothea_copy to actor. Assert knows(actor, house_plan). }
-    Result "You lay them out on whatever is flat, and it is not a puzzle at all, only a sum. Every light the House leases is dark. Under every dark light there is a column of wrecks, and the wrecks are the House's. Nobody wrecked a ship. They only held the lease on the light that would have saved her, and did not trim it. And where a light is still lit, there is a pin on a chart in Port Ness, loose on the sill, waiting. You copy it out fair, because there will be a day when somebody asks.".
+    Result "You lay them on the hatch-cover and weigh the corners with a belaying-pin, a boot and a mug. The columns do not agree: one says SALT, one EGGS, one SULPHUR, one the price of a keel. The margins agree. LUM., LUM., LUM., and beside each a W.R. with a sum, and when you run a thumb down the W.R. column every figure is dated the week its light went dark. Nobody wrecked a ship. Somebody held the lease on the lamp that would have saved her, and left the wick as it was. Under the last leaf, in pencil, a pin on a chart at Port Ness, loose on the sill, has been marked WAITING. You copy the lot out fair on the back of a sailing bill, because the pencil is going to be wanted.".
   }
 
   // ── Ranks, as a Prentice tells them ─────────────────────────────────────────────────────────────────────────────
@@ -73,16 +73,16 @@ Module dorothea "The Dorothea" {
     Assert principalMet(party). Retract at(principal, nowhere). Assert at(principal, quay).
   }
   Topic marchbank_lights with principal "Ask Josselin Marchbank why the House leases lights it does not light" when true once {
-    Says "'Because a light is a free service,' he says, 'and a free service is a hole in a market. A lit coast needs no pilot, no assurance, no salvage. A dark one needs all three, and is, in my experience, entirely natural.' He turns the seal on its chain. 'I have never wrecked a ship. I have only declined to be the reason one was not.'".
+    Says "'A lit coast needs no pilot,' he says. 'No assurance. No salvage. A free light is a hole in a market, and I have been filling it for thirty-one years.' He turns the seal on its chain, once round, as another man turns a ring. 'I have never wrecked a ship. Put that in your copy, if you must have a line of mine.'".
   }
   Topic marchbank_offer with principal "Hear what Josselin Marchbank offers for the copy" when true once {
-    Says "'Forty crowns,' he says, 'and a clerkship in Orsett for whoever writes the fairest hand. Or the Dorothea's note struck off, if you prefer. I find that loyalty to a lamp is chiefly a matter of what else is on offer.'".
+    Says "'Forty crowns,' he says. 'Or the Dorothea's note struck off. Or a clerkship at Orsett for whichever of you writes the fairest hand.' He does not raise his voice for any of the three. 'Choose before the tide turns.'".
   }
   Action take_silver(actor: group, site: place) "Take the Principal's forty crowns for the copy" {
     Requires able(actor) and company(actor) and at(actor, site) and at(principal, site) and holding(actor, dorothea_copy) and not silenced(actor).
     Time 1.
     On success { Increase quantity(actor, gold) by 40. Spend dorothea_copy from actor. Assert silenced(actor). Retract at(principal, quay). Assert at(principal, nowhere). }
-    Result "Marchbank counts it out himself, forty crowns, as a man pays a debt he does not think he owes. He folds the copy into his coat. 'You are sensible,' he says, 'and the Reach will be ever so quiet.'".
+    Result "Marchbank counts it out himself, forty crowns, as a man pays a debt he does not think he owes. He folds the copy into his coat. 'Forty,' he says. 'Counted twice.' He does not say thank you; the House does not.".
   }
   Action press_principal(actor: group, site: place) "Tell him the copy is also with Dacey Hoe, and the Pilots' Bench" {
     Requires able(actor) and company(actor) and at(actor, site) and at(principal, site) and houseExposed(actor) and not silenced(actor) and not principalLeft(actor).

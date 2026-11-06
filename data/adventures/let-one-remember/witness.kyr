@@ -11,27 +11,27 @@ Module corrow "Let One Remember" {
   Relation remPlace(group). Relation remLedge(group).
 
   Rule voice_niche at keld_chapel when memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and at(party, keld_chapel) and not remChapel(party)
-    says "{?m} goes round the wall as one goes round a roll, lips moving over the scratched names. 'A skull for each,' {?m} says, 'and a sprig for each. And that one has a sprig and a lamp and no skull. Somebody has been burying nobody for a very long time, with great care.'" {
+    says "{?m} goes round the wall as one goes round a roll, lips moving over the scratched names, and touches each sprig in passing. 'A skull for each, and a sprig for each,' {?m} says. 'And this one has a sprig and a lamp and no skull.' A stop. 'Somebody has been burying nobody for a very long time, with great care. I know the form for it. It is not an easy one to keep.'" {
     Assert remChapel(party).
   }
   Rule voice_field at west_field when memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and at(party, west_field) and not remField(party)
-    says "{?m} walks the length of the wall and comes back. 'No track in, no track out,' {?m} says. 'Whatever stands here at dawn is not walking here. The grass has not been pressed in the middle in a hundred years, and the sheep go round the place the way sheep go round a grave.'" {
+    says "{?m} walks the length of the wall and comes back. 'No track in, no track out,' {?m} says. 'Grass not pressed in the middle in a hundred years. The sheep go round the place the way sheep go round a grave.' {?m} looks at the fork standing upright in the turf. 'Whatever stands here at dawn, it is not walking here.'" {
     Assert remField(party).
   }
   Rule voice_files at tail when memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and at(party, tail) and not remTail(party)
-    says "{?m} runs a thumb down the bright face of the newest cut. 'All from the east side,' {?m} says. 'Every stroke, from the shoulder of a right-handed man who is tired. They leave the west face to the last, and they leave it thin, so that it goes of itself.'" {
+    says "{?m} runs a thumb down the bright face of the newest cut. 'All from the east side,' {?m} says. 'Every stroke from the shoulder of a right-handed man who is tired.' A grunt. 'They leave the west face to last, and thin, so the link goes of itself. That is how I would drop a wall, if I had been told not to.'" {
     Assert remTail(party).
   }
   Rule voice_desk at consulate when memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and at(party, consulate) and not remDesk(party)
-    says "{?m} squats and looks at the legs of the secretary's chair, and then at the legs of the desk. 'The chair has been sawn down two fingers,' {?m} says, 'to suit a shorter man than the desk was made for. And the blotter is worn at the left, where a tall man's cuff would drag. Whoever drew this wage, it was not the one who sits here now.'" {
+    says "{?m} squats and looks at the legs of the secretary's chair, then at the legs of the desk. 'Chair's been sawn down two fingers,' {?m} says. 'Short man. The desk was made for a tall one.' A thumb goes to the blotter. 'Worn at the left, where a tall man's cuff drags. So whoever draws this wage is not the one who sits here.' {?m} straightens. 'Nicely done, whoever did it. I would have liked to meet him.'" {
     Assert remDesk(party).
   }
   Rule voice_place at mountain_place when memberOf(?m, party) and hasCalling(?m, calling_mage) and awake(?m) and at(party, mountain_place) and not remPlace(party)
-    says "{?m} holds a palm out over the lip and takes it back. 'It is not a hole,' {?m} says. 'A hole is made by taking something out, and you can feel where it went. This was never put in. It is the exact shape of a thing that was lifted.'" {
+    says "{?m} holds a palm out over the lip and takes it back. 'I would not call it a hole,' {?m} says. 'A hole is made by taking something out, and one can feel where it went. This has no edge of removal. It was never put in. It is the exact shape of a thing that was lifted, and I have no instrument for that.'" {
     Assert remPlace(party).
   }
   Rule voice_ledge at silver_sump when memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and at(party, silver_sump) and not remLedge(party) and not fed(old_silver)
-    says "{?m} goes down on one knee at the ledge and looks at the bones. 'Dog at the mouth, sheep behind it, and the small ones all along the wall,' {?m} says. 'It strikes where the water moves and nowhere else. It is blind. The dry shelf on the far side is wider than it looks, and the stones on it have never been wet.'" {
+    says "{?m} goes down on one knee at the ledge and looks at the bones. 'Dog at the mouth, sheep behind it, the small ones along the wall,' {?m} says. 'It strikes where the water moves and nowhere else. It is blind.' Knuckles rap the rock on the far side. 'That dry shelf is wider than it looks. The stones on it have never been wet.'" {
     Assert remLedge(party).
   }
 
@@ -67,7 +67,7 @@ Module corrow "Let One Remember" {
       and memberOf(c, actor) and hasCalling(c, calling_cleric) and not nicheClosed(keld) and not nicheKept(keld) and not webbNamed(webb).
     Time 4.
     On success { Assert nicheClosed(keld). Set hire(teshen) to 0. }
-    Result "{c} says it plainly, without the Keld's careful grammar, and when it is done puts out the lamp with a wetted finger. Nobody is in the chapel. By the time you are out on the green the whole of Keld knows, the way Keld knows things: every face that turns to you has been told. Mother Saska, at her door, does not speak. Teshen takes her hands out of her pockets and looks at them. 'Nobody is waiting,' she says. 'Nobody is waiting for anything. I do not know what I am for.' She says she will walk with you for nothing, and for the first time since you met her she looks like a girl of nineteen.".
+    Result "{c} says it plainly, without the Keld's careful grammar, and when it is done puts out the lamp with a wetted finger. Nobody is in the chapel. By the time you are out on the green the whole of Keld knows, the way Keld knows things: every face that turns to you has been told. Mother Saska, at her door, does not speak. Teshen takes her hands out of her pockets and looks at them. 'Nobody is waiting,' she says. 'Nobody is waiting for anything. I do not know what I am for.' She says she will walk with you for nothing, and she looks, just then, nineteen.".
   }
   Action keep_the_niche(actor: group, site: place, c: member) "Have {c} trim the lamp, lay a fresh sprig, and say nothing" {
     Description "The lamp is not for the dead. It is for the chance that the mark is wrong.".
@@ -97,7 +97,7 @@ Module corrow "Let One Remember" {
     Says "'One man,' says Pannick. 'A glove. He claimed it with enormous dignity, signed in three places, and went out of the square wearing it on the wrong hand. He came back next morning to say it had been the wrong glove.' He looks at the nail, which is hung with coats and doors and a gravestone name. 'It is not that they do not want it. It is that it has come back changed, and so have they. What I deal in, sir, is not property. It is people's opinion of what they used to be.'".
   }
   Topic finder_bell with finder "Ask the Finder about the little bell in his drawer" when knows(actor, origin_known) or knows(actor, method_known) once {
-    Says "He is, for the first time, slightly embarrassed. 'A hand-bell,' he says. 'Brass, the size of a sheaf-measure, with a long figure cut into the side of it, like a man lying on a hill. It came home to the bar the winter before last. Nobody here ever lost it.' He opens the drawer a finger's width and shuts it. 'A tinker of the Lesser Instruments, up from Corran, offered me a crown for the brass. I said it was held for the owner. The owner is the reeve of some dale in the south, I am told, who has not written.' He frowns at the drawer. ''".
+    Says "He is slightly embarrassed, which in him is a visible event. 'A hand-bell,' he says. 'Brass, the size of a sheaf-measure, with a long figure cut into the side of it, like a man lying on a hill. It came home to the bar the winter before last. Nobody here ever lost it.' He opens the drawer a finger's width and shuts it. 'A tinker of the Lesser Instruments, up from Corran, offered me a crown for the brass. I said it was held for the owner. The owner is the reeve of some dale in the south, I am told, who has not written.' He frowns at the drawer.".
   }
   Topic finder_tinker with finder "Ask about the tinker from Corran" when true once {
     Says "'Collects,' says the Finder, with distaste. 'That is the verb. Not buys; they say collects. Brass buttons by the pound, and keys, and anything with a notch in it. He will not say what for. A man who will not say what for is the only kind of customer this town has not yet refused.'".

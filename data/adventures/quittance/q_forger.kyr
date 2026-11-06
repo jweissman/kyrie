@@ -163,7 +163,7 @@ Module quittance "Quittance" {
 
   // ── The complication: why the marks work ───────────────────────────────────────────────────────────────
   Topic fg_tob_plates with tobias "Ask Tobias Pargeter whether he has ever turned out for a plate he knew was false" when knows(actor, fg_plates) once {
-    Says "Tobias Pargeter takes a long time to answer. 'Not knew,' he says. 'Wondered.' He looks at the black fish nailed backwards on his sideboard. 'There's a bird up in Candlewick that hasn't got the right feathers. We turned out for the house two years ago. Captain Garrity said nothing at all about it. She stood beside the pump and looked at the plate, and I thought, she knows, she knows, she's going to say it. And she said, Water.' He sets the fish straight, and then back. 'Half the lads are from the Wards. We don't look hard. It's a thing you can not-see, if you're brought up to it. You'd be surprised how often.'".
+    Says "Tobias Pargeter turns his helmet round once before he answers. 'Not knew,' he says. 'Wondered.' He looks at the black fish nailed backwards on his sideboard. 'There's a bird up in Candlewick that hasn't got the right feathers. We turned out for the house two years ago. Captain Garrity said nothing at all about it. She stood beside the pump and looked at the plate, and I thought, she knows, she knows, she's going to say it. And she said, Water.' He sets the fish straight, and then back. 'Half the lads are from the Wards. We don't look hard. It's a thing you can not-see, if you're brought up to it. You'd be surprised how often.'".
     On discuss { Assert knows(actor, d_marks_work). }
   }
 

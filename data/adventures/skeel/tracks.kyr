@@ -35,7 +35,7 @@ Module skeel "Fair Weather" {
     Assert heardHolmShore(party).
   }
   Rule ranger_haulout at haulout when memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and at(party, haulout) and not heardHaulout(party)
-    says "{?m} lies flat on the rock a good way off and watches the seals without moving a hand. 'Cows to the middle, bulls to the edge, pups where it is dry,' {?m} says. 'Somebody has counted these a long time and never driven them. If I were selling oil I would never have thought to leave the pups.'" {
+    says "{?m} lies flat on the rock a good way off and watches the seals without moving a hand. 'Cows to the middle, bulls to the edge, pups where it is dry,' {?m} says. 'Somebody has counted these for years and never driven them. If I were selling oil I would never have thought to leave the pups.'" {
     Assert heardHaulout(party).
   }
 }

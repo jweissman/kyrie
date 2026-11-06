@@ -52,7 +52,7 @@ Module hollins "Behind the Wainscot" {
   }
   Discovery letter_kept "In the Letterdrift, under a bell-jar, the Post has kept a letter to Miss Whitbread with a black C on its seal, which came the week she went away, marked TO BE GIVEN HER WHEN SHE COMES HOME. Faith Penny is sworn to deliver it, and cannot make herself go near the Lady.".
   Topic faith_give_letter with faith "Offer to deliver the Lady's letter for the Post" when knows(actor, letter_kept) and not letterDelivered(party) once {
-    Says "Faith Penny looks at you for a long time. Then she takes off her green cap, and puts it on the counter, and then puts it back on, because it is not a thing she can give. 'Not on the floor,' she says. 'Where she'll find it. Her table in the Library, where she works of a morning; or by her bed.' She pushes the letter across the counter with both hands, and you have to brace to take the weight. 'The Post is obliged to you,' she says, and enters it in the register, and her pen shakes. 'Delivered by hand.'".
+    Says "Faith Penny takes off her green cap, puts it on the counter, and puts it back on, because the cap is not hers to give. 'Not on the floor,' she says. 'Where she'll find it. Her table in the Library, where she works of a morning; or by her bed.' She pushes the letter across the counter with both hands, and you have to brace to take the weight. 'The Post is obliged to you,' she says, and enters it in the register, and her pen shakes. 'Delivered by hand.'".
     On discuss { Give c_letter to actor. }
   }
   Kind c_letter_kind "the letter with the black seal" is gear worth 0 weighing 3 described "A giant's letter folded to the size of a door, the paper brown with age, sealed with a black wax disc a foot across stamped with a C. The address is in a big slanting hand that leaned on the pen: Miss Ermengarde Whitbread, Hollins. Under it, in another, shakier hand: TO BE GIVEN HER WHEN SHE COMES HOME.".
@@ -120,7 +120,7 @@ Module hollins "Behind the Wainscot" {
     On discuss { Assert knows(actor, tobit_wants). }
   }
   Topic tobit_told with tobit "Tell Prior Tobit what the Lady said about her clock" when tobitHonored(tobit) once {
-    Says "The Prior listens with his eyes shut. It is today. When you have finished he sits for a long while on his bench under the swinging brass sun. 'Two hundred years,' he says, 'we said it was still the day. And she says it is today.' He opens his eyes. 'That is not the same thing, you know. It is better.' He gets up, stiffly, and takes a coil of rope from under the bench, which you realise is for the weights. 'Every Sunday,' he says. 'Forty turns. I shall need a team.'".
+    Says "The Prior listens with his eyes shut. It is today. When you have finished he sits on his bench under the swinging brass sun until the pendulum has gone over twice. 'Two hundred years,' he says, 'we said it was still the day. And she says it is today.' He opens his eyes. 'That is not the same thing, you know. It is better.' He gets up, stiffly, and takes a coil of rope from under the bench, which you realise is for the weights. 'Every Sunday,' he says. 'Forty turns. I shall need a team.'".
   }
   Discovery tobit_wants "Prior Tobit Hale wants only that the Lady should know the Winders kept her clock clean for two hundred years.".
 

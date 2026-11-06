@@ -50,7 +50,7 @@ Module hume "Half the Hive" {
   }
   // Reports: a cake of wax for each, and what she makes of it.
   Topic report_gallow with kestrel "Tell Kestrel what you found at the Gallowtree" when searcher(actor) and hasSeen(gallowtree) and not reported(actor, gallowtree) and not leavingBegun() once {
-    Says "She hears you out. When you tell her about the people in the comb inside the tree she is quiet a long time. 'The seventh Leaving,' she says. 'We say they went on east.' She gives you a cake of wax and does not look at you. 'Don't tell Hannet. Or do. I don't know. Her aunt went with them.'".
+    Says "She hears you out. When you tell her about the people in the comb inside the tree she wipes the dance-slate clean, though it is clean. 'The seventh Leaving,' she says. 'We say they went on east.' She gives you a cake of wax and does not look at you. 'Don't tell Hannet. Or do. I don't know. Her aunt went with them.'".
     On discuss { Assert reported(actor, gallowtree). Give cake_gallow to actor. Assert knows(actor, merrit_aunt). }
   }
   Topic report_dell with kestrel "Tell Kestrel what you found in the Chalk Dell" when searcher(actor) and hasSeen(chalk_dell) and not reported(actor, chalk_dell) and not leavingBegun() once {
@@ -110,7 +110,7 @@ Module hume "Half the Hive" {
     On discuss { Assert hannetToldRot(actor). }
   }
   Topic hannet_merrit with hannet "Tell Hannet what is inside the Gallowtree" when knows(actor, lost_leaving) and dancesFor(hannet, gallowtree) and not holding(actor, wax_bee) once {
-    Says "You tell her: the comb gone grey, the people standing in it, the children. And the one by the door, uncapped, who capped all the others and then had nobody to do it for her. Hannet listens without moving. When you have finished she says, 'Merrit,' and then nothing for a long time. 'My aunt Merrit went with the seventh. She was the Capper's girl. She gave me a wax bee when I was four and said she'd send for me.' She puts her hand flat on the slope, on the line she has been dancing all week, as if to stop it. 'They didn't go on east, then.' After a while she gets up, very slowly, with her stick, and goes and sits by the wall, and does not dance any more.".
+    Says "You tell her: the comb gone grey, the people standing in it, the children. And the one by the door, uncapped, who capped all the others and then had nobody to do it for her. Hannet listens without moving. When you have finished she says, 'Merrit,' and then nothing, her mouth working. 'My aunt Merrit went with the seventh. She was the Capper's girl. She gave me a wax bee when I was four and said she'd send for me.' She puts her hand flat on the slope, on the line she has been dancing all week, as if to stop it. 'They didn't go on east, then.' After a while she gets up, very slowly, with her stick, and goes and sits by the wall, and does not dance any more.".
     On discuss { Assert hannetStopped(hannet). Retract dancesFor(hannet, gallowtree). Decrease tally(gallowtree) by 1. Assert knows(actor, merrit_aunt). }
   }
   Promise carry_hannet "to see Hannet Coke carried wherever the Mother goes" to hannet

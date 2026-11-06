@@ -40,7 +40,7 @@ Module dorothea "The Dorothea" {
   Person weir "Sula Weir" at mangrow_pier {
     Role "ferrywoman of the Mangrow creek". Ancestry human. Level 2. Peaceable. Pronouns she. Manner acerbic.
     Likeness "sailor".
-    Greets "A woman as thin and dark as a pole leans on the pier's last good bollard, a cheroot unlit in one hand and a slapping-cloth in the other. 'Sula Weir. I pole the creek. You will have come about the Agent, or the bark, or because Bascom said it was an adventure.' She slaps her neck and looks at the palm. 'Three coin and I take you up it. Walk and you pay the cane instead.'".
+    Greets "A woman as thin and dark as a pole leans on the pier's last good bollard, a cheroot unlit in one hand and a slapping-cloth in the other. She slaps her neck and looks at the palm before she speaks. 'I pole the creek. Sula Weir, in case you want it for the complaint. You will have come about the Agent, or the bark, or because Bascom said it was an adventure.' She wipes the palm on her skirt. 'Three coin and I take you up it. Walk and you pay the cane instead.'".
   }
   Person ennis_vail "Ennis Vail" at mangrow_hide {
     Role "naturalist, struck off the rolls of the Collegium of Measures, and counting". Ancestry human. Level 2. Peaceable. Pronouns he. Manner stoic.
@@ -50,7 +50,7 @@ Module dorothea "The Dorothea" {
   Person osk "Perrin Osk" at mangrow_hide {
     Role "the House's Agent at Mangrow, who went up the creek eleven months ago and has been ill since". Ancestry human. Level 1. Peaceable. Pronouns he. Manner jovial.
     Likeness "merchant".
-    Greets "Behind the cloth a man in a once-good waistcoat lies with his boots on and a sheet to the chin, yellow as a candle, and turns his head with great care. 'Agent Osk,' he says, 'Perrin, of the House of Marchbank, at Mangrow, at your service, and you may see how I am serving.' He tries a laugh and thinks better of it.".
+    Greets "Behind the cloth a man in a once-good waistcoat lies with his boots on and a sheet to the chin, yellow as a candle, and turns his head with great care. 'You will forgive the waistcoat,' he says. 'Osk, Perrin, the House of Marchbank's Agent at Mangrow, at your service, and you may see how I am serving.' He tries a laugh and thinks better of it.".
   }
 
   // ── Getting there and what the green does ───────────────────────────────────────────────────────────────────────

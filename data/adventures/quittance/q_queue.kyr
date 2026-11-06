@@ -56,7 +56,7 @@ Module quittance "Quittance" {
     Otherwise "Tench goes pink, and tucks the book further up his sleeve, and says that it is nothing and that he is sorry, and you can see that he will go on saying so until you go away.".
   }
   Topic qu_tench_roll with tench "Ask Tench to call the roll aloud, as the first clerk of the Exchange would have" when knows(actor, d_unpaid_ledger) and qu_nerve(party) == 0 and not qu_pushed(party) and not qu_ledger_stolen(party) once {
-    Says "'I couldn't,' says Tench. 'I'm only a junior.' He looks at you; you wait. He goes to the arch, and takes the book from his sleeve, and stands there with it for a time that is rather longer than you had expected. 'Abbott, Thomas,' he calls, in a small clear voice. 'Abbott, Mary. Abbott, Samuel.' And from the hall beyond, from eleven hundred throats, one after another, patient, a little hoarse with disuse, each in turn: 'Present.' It goes on for a long time. At the end of it Tench is standing a little straighter than at the start, though not, perhaps, as much as he thinks.".
+    Says "'I couldn't,' says Tench. 'I'm only a junior.' He looks at you; you wait. He goes to the arch, and takes the book from his sleeve, and stands there with it for a time that is rather longer than you had expected. 'Abbott, Thomas,' he calls, in a small clear voice. 'Abbott, Mary. Abbott, Samuel.' And from the hall beyond, from eleven hundred throats, one after another, patient, a little hoarse with disuse, each in turn: 'Present.' It goes on past the first hundred, and the second. At the end of it Tench is standing a little straighter than at the start, though not, perhaps, as much as he thinks.".
     On discuss { Set qu_nerve(party) to 1. Assert qu_rolled(actor). }
   }
   Topic qu_tench_register with tench "Give Tench the sexton's register of the unclaimed" when holding(actor, an_register_k) once {
@@ -160,7 +160,7 @@ Module quittance "Quittance" {
     On discuss { Assert qu_done(qu_gorringe). Assert qu_slighted_dead(actor). Decrease qu_regard(actor) by 1 or to nothing. }
   }
   Topic qu_gor_name with qu_gorringe "Enter her as the householder of record, and allow the claim in her own name" when qu_asked(qu_gorringe) and not qu_done(qu_gorringe) once {
-    Says "You write it, in the margin of her claim, in your own hand: LETTICE GORRINGE, HOUSEHOLDER. The ink takes. 'Ah,' says Mrs Gorringe. Her mouth moves, once, as a mouth does that has been shut on a word for a long time. 'I shall not want the forty pounds,' she says. 'A shilling for the table, if you would. For the principle.' You pay it, and she folds the claim into her glove with a look of rather terrible satisfaction.".
+    Says "You write it, in the margin of her claim, in your own hand: LETTICE GORRINGE, HOUSEHOLDER. The ink takes. 'Ah,' says Mrs Gorringe. Her mouth moves, once, as a mouth does that has been shut on a word since the Burning. 'I shall not want the forty pounds,' she says. 'A shilling for the table, if you would. For the principle.' You pay it, and she folds the claim into her glove with a look of rather terrible satisfaction.".
     On discuss { Assert qu_done(qu_gorringe). Assert qu_fair(qu_gorringe). Increase qu_fairs(actor) by 1. Increase qu_regard(actor) by 1. }
   }
   Topic qu_gor_kin with qu_gorringe "Tell Mrs Gorringe that her great-granddaughter, Mother Mawdsley, keeps the almshouse day-room at Mortmain, and has not forgotten her" when knows(actor, qu_descendant) and not qu_done(qu_gorringe) once {
@@ -228,7 +228,7 @@ Module quittance "Quittance" {
 
   // The Creditor: the Fire files a claim, as a creditor, for hospitality given and not repaid.
   Topic qu_fire_read with qu_creditor "Take the claim the Creditor holds out, and read it" when knows(actor, d_unpaid_ledger) once {
-    Says "The paper is warm, and the hand is a clerk's hand, round and wasting nothing. FOR HOSPITALITY GIVEN AND NOT REPAID: ONE HEARTH, THROUGH NINETY-FOUR WINTERS; TO THE HOUSE OF THE FOUNDERS, AND THE CITY THAT WAS BUILT ON IT, AND THE POLICY THAT SAYS SO. THE SUM IS LEFT TO THE DEBTOR. A hot thumb-print, as for a seal, sits at the foot of it. It is a policy, you see now, in reverse: not what is owed to the burned, but by whom. The Founders' Policy was not insurance. It was a receipt for a debt of hospitality, and the debt has not been paid.".
+    Says "The paper is warm, and the hand is a clerk's hand, round and wasting nothing. FOR HOSPITALITY GIVEN AND NOT REPAID: ONE HEARTH, THROUGH NINETY-FOUR WINTERS; TO THE HOUSE OF THE FOUNDERS, AND THE CITY THAT WAS BUILT ON IT, AND THE POLICY THAT SAYS SO. THE SUM IS LEFT TO THE DEBTOR. A hot thumb-print, as for a seal, sits at the foot of it. It reads like a policy turned inside out: not what is owed to the burned, but by whom.".
     On discuss { Assert qu_fire_read(actor). Assert knows(actor, d_tithe_debt). }
   }
   Topic qu_fire_refuse with qu_creditor "Refuse the claim as ninety-four years out of time" when qu_fire_read(actor) and not qu_done(qu_creditor) once {

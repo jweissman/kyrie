@@ -30,7 +30,7 @@ Module dorothea "The Dorothea" {
     Resolve check(actor, wayfinding, dc_hard).
     On success { Assert ranGap(hull). Assert decidedCombs(hull). Retract troubled(hull). Assert wheelTaken(actor). }
     On failure { Assert ranGap(hull). Assert decidedCombs(hull). Retract troubled(hull). Increase water(hull) by 14. Assert holed(hull). }
-    Result "Bascom gives up the wheel with a face like a locked door, and you have the Dorothea under your hands, alive, trembling, wanting to go. The gap opens in front of you like a door in a wall, and the sea runs through it, and the keel scrapes nothing, and then you are through, in green water, in sun, and behind you the Combs go on roaring at nobody. Bascom looks at the pipe in her hand as at something she once agreed to. 'Aye,' she says. It is all she says.".
+    Result "Bascom gives up the wheel with a face gone to wood, and you have the Dorothea under your hands, alive, trembling, wanting to go. The gap opens in front of you like a door in a wall, and the sea runs through it, and the keel scrapes nothing, and then you are through, in green water, in sun, and behind you the Combs go on roaring at nobody. Bascom looks at the pipe in her hand as at something she once agreed to. 'Aye,' she says. It is all she says.".
     Otherwise "The wheel bucks in your hands, and the Dorothea takes a rock on the larboard quarter, and the noise goes up through the soles of your feet. Bascom takes the wheel away from you without a word. She gets the ship through, a hand's breadth at a time, but there is water coming in forward, and the pumps are going before the Combs are out of sight.".
   }
   Action rune_at_the_wheel(actor: group, site: place) "Ask Rune to take her through, as he can" {
@@ -38,7 +38,7 @@ Module dorothea "The Dorothea" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, helm) and combsMet(hull) and troubled(hull) and indebted(rune, actor) and not decidedCombs(hull) and not disgraced(rune).
     Time 2.
     On success { Assert ranGap(hull). Assert decidedCombs(hull). Retract troubled(hull). }
-    Result "Rune takes the wheel as a man takes a hand that has been offered to him once in his life. He does not look at the Captain. 'Slack's not for an hour,' he says, 'but I've never needed it.' He takes the Dorothea through the gap with her sails drawing and the whole Atlantic of the afternoon pushing at her stern, and at the far end of it Bascom puts down the pipe and says: 'Mr Rune.' Rune says: 'Captain.' That is all. It is enough.".
+    Result "Rune takes the wheel as a man takes a hand that has been offered to him once in his life. He does not look at the Captain. 'Slack's not for an hour,' he says, 'but I've never needed it.' He takes the Dorothea through the gap with her sails drawing and the whole Atlantic of the afternoon pushing at her stern, and at the far end of it Bascom puts down the pipe and says: 'Mr Rune.' Rune says: 'Captain.' Nobody speaks again until the Combs are a white line astern.".
   }
   Action jettison_cargo(actor: group, site: place) "Cut away cargo to lighten her through the gap" {
     Description "A ship rides higher in the water with fewer casks in her. Every cask is a day of the Captain's debt.".

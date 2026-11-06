@@ -55,7 +55,7 @@ describe('The Third Night: a tale from the south', () => {
     await g.play('Wait › A while');
     expect(g.j.offers('what the carters are saying from the south')).toBe(true);
     await g.play('what the carters are saying from the south');
-    expect(g.page).toMatch(/A ship out of a cellar/);
+    expect(g.page).toMatch(/kettle in the room above comes to the boil by itself/);
     expect(g.knows('south_tale')).toBe(true);
   }, 120000);
 });

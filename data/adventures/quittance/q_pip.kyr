@@ -82,7 +82,7 @@ Module quittance "Quittance" {
 
   // ── Gran ────────────────────────────────────────────────────────────────────────────────────────────────
   Topic gran_tin with pt_gran "Ask Hester Tamsett what is in the tin" when true once {
-    Says "'What it looks like,' says Hester Tamsett. 'A coal. It came out of my mother's grate, and hers, and it goes back to a grate in a cellar I have never seen, and I am told on good authority that it is older than the Cinderwall. We keep it in. That is the whole of the art. You keep it in, and you do not sell it, and you do not let the Gas Company put a stove in the room.' She smiles, thinly. 'They have called twice.'".
+    Says "'What it looks like,' says Hester Tamsett. 'A coal. It came out of my mother's grate, and hers, and it goes back to a grate in a cellar I have never seen. We keep it in. That is the whole of the art: you do not sell it, and you do not let the Gas Company put a stove in the room.' She smiles, thinly. 'They have called twice. The second time they brought a man with a tape.'".
   }
   Topic gran_lent with pt_gran "Ask Hester Tamsett why she calls it a lent coal" when tried(pt_tin, looking) and not knows(actor, d_lent_coal) once {
     Says "'Because it is,' she says. 'Somebody lent it. You do not light a coal like that, child, you cannot; there is nothing in it you could light. It is given into a house to be kept, and a house that keeps it is not burned. That is what lent means. It means there is a lender.' She looks at the open door. 'My mother never said who. She said you were not to ask, it was rude, and that you were to be kind to it.'".
@@ -97,7 +97,7 @@ Module quittance "Quittance" {
     On discuss { Assert pt_clock_known(actor). }
   }
   Topic gran_carry with pt_gran "Ask Hester Tamsett where else it could be kept" when pt_clock_known(actor) once {
-    Says "'Not by me, and not in this stair,' she says. 'It must be a hearth that loves it. The Penny Mutual keeps one in Salt Lane, and the Mutual is poor and proud, which is the right sort. There was an old man on the Hill, Auberon Hearn, who knew about these things, and I suppose he still has his. There is the glass that Wynne woman makes, which does not let a thing go out; I do not say it lets it be. The Gas Company has furnaces that have not been out in thirty years, and a good deal of coke, and no manners.' She tucks her hands in her blanket. 'I would not choose. I would ask the coal.'".
+    Says "'Not by me, and not in this stair.' Hester Tamsett counts them off on the blanket with one bent finger, like a woman laying out cards. 'The Penny Mutual, in Salt Lane: poor and proud, which is the right sort. Old Hearn on the Hill, who knew about these things and has his own, if he still knows he has. The Wynne woman's glass, that does not let a thing go out. I do not say it lets it be.' The finger lifts. 'The Gas Company has furnaces that have not been out in thirty years, and no manners. I would not choose. Ask the coal.'".
     On discuss { Assert pt_options_known(actor). }
   }
   Topic gran_name_q with pt_gran "Ask Hester Tamsett what the coal wants" when pt_clock_known(actor) and not pt_named(actor) once {
@@ -226,6 +226,6 @@ Module quittance "Quittance" {
     Time 10 minutes.
     Grave "A child at the Five is a hard thing, and she will not be at her coal on the Night.".
     On success { Assert pt_witnessing(actor). Assert witness(pt_pip). }
-    Result "Pip is a long time answering. 'All right,' she says. 'But you sit next to me. And Gran has to be carried, she'll want to see.' She has gone very white, and very dignified. 'And you're to mind the coal,' she says, 'since I'll not be here to.'".
+    Result "Pip takes the lid off the tin, looks in, and puts it back before she answers. 'All right,' she says. 'But you sit next to me. And Gran has to be carried, she'll want to see.' She has gone very white, and very dignified. 'And you're to mind the coal,' she says, 'since I'll not be here to.'".
   }
 }

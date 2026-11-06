@@ -63,7 +63,7 @@ Module dorothea "The Dorothea" {
 
   // Seen at the bonded store or the loft only if they are there. The Principal at the loft is the end of the circuit's
   // reach: a company that comes by the Dorothea finds him by the lamp in the gable.
-  Observe lamp_gable at ness_row when at(ring_head, ring_loft) and not routed(ring_head) "Over the boiling-house a gable window is lit, in daylight, with a lamp that nobody on the Row looks at.".
+  Observe lamp_gable at ness_row when at(ring_head, ring_loft) and not routed(ring_head) "Over the boiling-house a gable window is lit in broad day. The Row's washing hangs in a line under it, and every woman pegging it out has her back to the window.".
   Observe lamp_gable_dark at ness_row when not at(ring_head, ring_loft) "Over the boiling-house the gable window is dark.".
 
   // ── What the ring's fall opens ──────────────────────────────────────────────────────────────────────────────────────

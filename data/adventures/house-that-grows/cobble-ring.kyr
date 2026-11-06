@@ -43,7 +43,7 @@ Module hhg "The House That Grows" {
   Observe pond_scene at pond_side as fixture when true "A stone causeway runs across the crater pond to the sleeping-hall. Reed thatch, flat roofs, an anchor-stone at the causeway's end where the market is held. Kezu's door, the reeve's door and the hall's open off it.".
   Observe kitchen_scene at kezu_kitchen as fixture when true "Kezu's kitchen: a peat fire, a bench, a ladder to the watch-loft, and a curtain across the door of the sleeping-room. A knitted cover on the loft seat, worn through where she sits.".
   Observe loft_scene at kezu_loft as fixture when true "The watch-loft: a seat and a hand-bell, and a shutter that opens onto the sleeping-room below, so whoever sits here can see the bed.".
-  Observe bed_scene at kezu_bed as fixture when true "A narrow sleeping-room with a reed bed, a chest, and one window onto the pond.".
+  Observe bed_scene at kezu_bed as fixture when true "A narrow sleeping-room: a reed bed with the blanket kicked to the foot, a chest, one window onto the pond, and on the sill a tin cup of tea gone cold with a skin on it.".
   Observe hall_scene at hall_floor as fixture when true "Thirty beds in rows, and four stools between them. The roof beams are numbered in chalk, for apprentices who count them to keep awake.".
   Observe reeve_scene at reeve_room as fixture when true "The reeve's room is also the council's: a long table, nine chairs for the nine arcs, and the town's tax-slates on a rack.".
   Observe lip_scene at east_lip as fixture when true "From the east lip the barley falls away outside the rim. In it, at the end of a line of flattened stalks, a room of green glass stands in the field as if someone had set it down there.".
@@ -64,7 +64,7 @@ Module hhg "The House That Grows" {
   }
   Initially Assert watcher(hanu). Initially Assert post(hanu, kezu_loft). Initially Assert overlooks(hanu, kezu_bed).
   Topic hanu_sitting with hanu "Ask Hanu why she is sitting up over her sister" when true once {
-    Says "Hanu does not take her eyes off the shutter. 'Because she sleeps too much, and in Cobble Ring a thing nobody watches is a thing that changes.' Her hand rests by the bell. 'Since the barley she's down all morning and all night, and up grey for the afternoon. She's sat up for this town since she was Tobu's age. Somebody can sit up for her for a week.'".
+    Says "Hanu does not take her eyes off the shutter. 'Because she sleeps too much, and in Cobble Ring what nobody watches changes.' Her hand rests by the bell. 'Since the barley she's down all morning and all night, and up grey for the afternoon. She's sat up for this town since she was Tobu's age. Somebody can sit up for her for a week.'".
   }
   Topic hanu_tobu with hanu "Ask Hanu about Tobu" when true once {
     Says "'Sleeps like an ox,' says Hanu fondly, to the shutter. 'Seventeen, and he'd sleep through the hall bell. That's why she's teaching him. She says a boy who can sleep can learn to stay awake; it's the ones who can't sleep who see things that aren't there.' The corner of her mouth goes up and comes down again. 'He was with her in the barley. He won't tell me what she did. He might tell you.'".
@@ -111,7 +111,7 @@ Module hhg "The House That Grows" {
   }
   Relation confessed(group).
   Topic kezu_why with kezu "Ask Kezu why she shut her eyes" when state(kezu, waking) and knows(actor, door_opened) and not told(kezu, night) {
-    Says "Kezu looks at the fire a long time. 'She asked,' she says. 'She was fourteen and she'd been fourteen a long time, and there's always a room behind her, she said. I had a daughter.' She turns the ox on its cord. 'Nineteen years I never looked away from anything I was paid to watch. That's the Watch. You'll tell me I broke it, and I did.'".
+    Says "Kezu looks at the fire. 'She asked,' she says. 'She was fourteen and she'd been fourteen a long time, and there's always a room behind her, she said. I had a daughter.' She turns the ox on its cord. 'Nineteen years I never looked away from anything I was paid to watch. That's the Watch. You'll tell me I broke it, and I did.'".
     On discuss { Assert told(kezu, night). }
   }
   Topic kezu_cup with kezu "Tell Kezu her cracked cup has a twin on a shelf in the house" when state(kezu, waking) and knows(actor, cups_match) and not confessed(kezu) {
@@ -179,7 +179,7 @@ Module hhg "The House That Grows" {
   Discovery vote_due "Cobble Ring's council votes at noon on the third day on whether to sell the house in the barley to the Lantern Company for two thousand marks. If it sells, the Company's own guards take the stools.".
   Relation voted(group). Relation persuaded(group, fact).
   Topic tessa_house with tessa "Tell the reeve the house is one house with rooms up in the Keel" when knows(actor, house_one) and not persuaded(tessa, house_one) and not voted(tessa) {
-    Says "The reeve puts down her stylus. 'Up there.' She looks at the ceiling as if she could see through it. 'Then what the Company is buying is a door into the city.' She makes a mark on a slate. 'That's a different vote.'".
+    Says "The reeve puts down her stylus. 'Up there.' She looks at the ceiling, and then, ceilings telling her nothing, at the slates. 'Then what the Company is buying is a door into the city.' She makes a mark on a slate. 'That's a different vote.'".
     On discuss { Assert persuaded(tessa, house_one). Decrease sellVotes(tessa) by 2. }
   }
   Topic tessa_well with tessa "Tell the reeve the house is growing a cellar toward Haddo's well" when knows(actor, well_reached) and not persuaded(tessa, well_reached) and not voted(tessa) {
@@ -187,7 +187,7 @@ Module hhg "The House That Grows" {
     On discuss { Assert persuaded(tessa, well_reached). Decrease sellVotes(tessa) by 2. }
   }
   Topic tessa_sell with tessa "Tell the reeve you think the town should sell" when not voted(tessa) and not persuaded(tessa, sale_backed) {
-    Says "'Do you.' The reeve looks at you a long moment. 'Your teacher opened its door. I'd have thought you'd want it kept.' But she makes a mark.".
+    Says "'Do you.' The reeve counts something on her fingers. 'Your teacher opened its door. I'd have thought you'd want it kept.' She makes a mark anyway.".
     On discuss { Assert persuaded(tessa, sale_backed). Increase sellVotes(tessa) by 1. }
   }
   Entity sale_backed: fact "that the town should sell".
@@ -199,7 +199,7 @@ Module hhg "The House That Grows" {
     Says "'Kept.' Ammu Tessa squares the stack of slates. 'And Haddo voted a mark a week for his barley, which he'll spend complaining.' She looks toward the east lip as if she could see the green glass through the wall. 'So it's ours to watch, the way it always was. Four on the stools, day and night, and nobody yawns.'".
   }
   Topic tessa_sold with tessa "Ask the reeve what the council decided" when sold(annex) once {
-    Says "'Sold.' The reeve turns the Company draft face down on the slates, as if it might be watching her. 'Two thousand marks. The Company's guards take the stools at dusk.' She is quiet a moment. 'They don't know how to sit up. They'll learn, or the house will teach them.'".
+    Says "'Sold.' The reeve turns the Company draft face down on the slates. 'Two thousand marks. The Company's guards take the stools at dusk.' She taps the draft. 'They don't know how to sit up. I told Dace. He wrote it down.'".
   }
   Observe vote_kept at reeve_room as event when voted(tessa) and not sold(annex) "The council's slates are stacked on the table. The house stays Cobble Ring's to watch, and Haddo has been voted a mark a week for his barley.".
   Observe vote_sold at reeve_room as event when sold(annex) "The council's slates are stacked on the table, and on top of them a Company draft for two thousand marks.".

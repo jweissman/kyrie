@@ -195,7 +195,7 @@ Module hessel "The Banns at Hessel" {
   Relation swapped(group).
   // Done under her nose, it wants a quick hand; without one, she sees, and it is to do again when she is out of the room.
   Rule drops_seen at cherrett_bedroom when state(drops_bottle, watered) and not swapped(cherrett) and at(cherrett, cherrett_bedroom) and not gone(cherrett) and not capable(party, stealth) and not mopsaSwapping(mopsa)
-    says "Mrs Cherrett opens one eye. 'What,' she says, 'are you doing with my drops?' You tell her it is water now. She looks at you for a long moment. 'Mopsa,' she says, not loudly, 'send down to Hartopp's for another bottle,' and shuts the eye. You will have to do it again, when she is not in the room." {
+    says "Mrs Cherrett opens one eye. 'What,' she says, 'are you doing with my drops?' You tell her it is water now. She looks at the bottle, and at you. 'Mopsa,' she says, not loudly, 'send down to Hartopp's for another bottle,' and shuts the eye. You will have to do it again, when she is not in the room." {
     Assert state(drops_bottle, full). Assert swapCaught(party). }
   Rule drops_watered when state(drops_bottle, watered) and not swapped(cherrett) and (not at(cherrett, cherrett_bedroom) or capable(party, stealth) or mopsaSwapping(mopsa) or gone(cherrett)) { Assert swapped(cherrett). Retract dosed(cherrett). Retract doubled(cherrett). }
   Relation mopsaSwapping(group).
@@ -231,7 +231,7 @@ Module hessel "The Banns at Hessel" {
     Resolve check(actor, insight, dc_fair).
     On success { Assert knows(actor, ismay_loves_kit). }
     On failure { Assert triedReadIsmay(actor). }
-    Result "You watch her for a quarter of an hour. Every time the young chairman below turns a page, Ismay stops writing. Every time he looks up at the windows, she looks down at the ledger. When he laughs at something one of the others says, she smiles, and does not know she has. It is not a puzzle. It is the plainest thing in the room.".
+    Result "You watch her for a quarter of an hour. Every time the young chairman below turns a page, Ismay stops writing. Every time he looks up at the windows, she looks down at the ledger. When he laughs at something one of the others says, she smiles, and does not know she has. Below, the young chairman turns his page again, and she loses her place in the column.".
     Otherwise "You watch her for a quarter of an hour, and she does her accounts, and you learn a great deal about the price of candles.".
   }
   Relation triedReadIsmay(group).
@@ -279,7 +279,7 @@ Module hessel "The Banns at Hessel" {
       and ismayKnowsDrops(ismay) and ismayBrave(ismay) and dosed(cherrett) and not gone(cherrett).
     Time 2.
     On success { Assert stoppedBy(cherrett, ismay). Increase softened(cherrett) by 1. }
-    Result "Ismay goes and kneels by her grandmother's chair, which nobody has seen her do since she was six, and says, 'Grandmother, I want you to stop taking Dr Hartopp's drops. He's doubled them. I don't want you to die asleep.' Mrs Cherrett looks at her granddaughter as if she had come into the room for the first time. 'You've never asked me for anything,' she says. 'Not a ribbon.' 'I'm asking now.' The old woman puts her great hand on Ismay's head. 'Then you can have it,' she says. 'God knows you can have it. Fetch me a hot brick for my feet instead, and tell that man he's dismissed.'".
+    Result "Ismay goes and kneels by her grandmother's chair, which nobody has seen her do since she was six, and says, 'Grandmother, I want you to stop taking Dr Hartopp's drops. He's doubled them. I don't want you to die asleep.' Mrs Cherrett looks at her granddaughter. 'You've never asked me for anything,' she says. 'Not a ribbon.' 'I'm asking now.' The old woman puts her great hand on Ismay's head. 'Then you can have it,' she says. 'God knows you can have it. Fetch me a hot brick for my feet instead, and tell that man he's dismissed.'".
   }
 
   // ── Rob ───────────────────────────────────────────────────────────────────────────────────────────────────────────

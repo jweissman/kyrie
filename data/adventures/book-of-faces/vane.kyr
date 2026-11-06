@@ -4,7 +4,7 @@ Module ombra "The Book of Faces" {
   // Ombra where a bare face is spoken to by day. She leads the Candid, a few hundred who go unmasked by vow and are
   // despised for it; and she is right about nearly everything except what a name is for. She wants the Book of Faces read
   // aloud at the Drawing. She is moved not by evidence but by being refused, as an equal, by someone who stays.
-  Observe candid_scene at candid_room when publicHours() "A long room over a printer's, with a hand-press at one end that is never still and a table at the other covered in galleys that are all, if you look, the same page. A hundred bare faces on the wall in pencil, each with a number and no name. The Candid do not hide in here. They work in the open and look at each other: it is the oddest thing in the whole of Ombra, and it is a little like being cold.".
+  Observe candid_scene at candid_room when publicHours() "A long room over a printer's, with a hand-press at one end that is never still and a table at the other covered in galleys that are all, if you look, the same page. A hundred bare faces on the wall in pencil, each with a number and no name. The Candid do not hide in here. They work in the open and look at each other: it is the oddest thing in the whole of Ombra, and you catch yourself, twice, looking away from someone only to be polite.".
   Observe candid_night at candid_room when privateHours() "At night the press is covered and the room has the look of a house where a meeting has just broken up. Somebody has left a lamp lit under a drawing of a face with its mask in its hand.".
   Person vane "Orsolya Hart" at candid_room {
     Role "the Candid, who has not worn a mask in eleven years".

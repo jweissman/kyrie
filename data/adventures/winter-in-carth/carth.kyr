@@ -27,7 +27,7 @@ Module gaunt "A Winter in Carth" {
   // A light with no fire in it (a mage's conjuring) is no breach of a cold vigil, and the house knows it at once.
   Rule cold_light at house_place when nightfall() and capable(party, light) and not capable(party, flame) and not state(hearth, ablaze)
     and vigilOn() and stayingAtCarth(party) and not spread(cold_light)
-    says "The light that comes off your hand is white, and gives no heat, and makes no smoke, and the whole house-place stands up out of the dark at once: the beams, the dresser, the box-bed, five faces turned toward you. Annis Scaife looks at it for a long time. 'Is that a fire?' she says. Nobody can say it is. Old Mother Scaife leans over and holds her hands to it, out of habit, and takes them back. 'Cold,' she says, satisfied. 'He'll not mind that.' In the box-bed the child sits up to look at it, and for a while forgets to cough; and then remembers." { Assert spread(cold_light). }
+    says "The light that comes off your hand is white, and gives no heat, and makes no smoke, and the whole house-place stands up out of the dark at once: the beams, the dresser, the box-bed, five faces turned toward you. Annis Scaife looks at it without blinking. 'Is that a fire?' she says. Nobody can say it is. Old Mother Scaife leans over and holds her hands to it, out of habit, and takes them back. 'Cold,' she says, satisfied. 'He'll not mind that.' In the box-bed the child sits up to look at it, and for a while forgets to cough; and then remembers." { Assert spread(cold_light). }
   Entity cold_light: fact "a cold light at Carth".
   Rule byre_lit when (byreFire(carth_vigil) or not nightfall()) and unlit(carth_byre) { Retract unlit(carth_byre). }
   Rule byre_dark when not byreFire(carth_vigil) and nightfall() and not unlit(carth_byre) { Assert unlit(carth_byre). }
@@ -286,11 +286,11 @@ Module gaunt "A Winter in Carth" {
   Rule reeve_broken within carth_house when reeveFoundWarm(carth_vigil) and inHouse() and not spread(reeve_kept)
     says "Raistrick takes his hand out of the warm ash and looks at it in the firelight as if it had told him something about himself. 'Broken,' he says. He does not say it unkindly. He takes a stick out of his coat and a knife, and cuts a mark on it, and goes out into the snow, and the door shuts." { Assert spread(reeve_kept). }
   Rule reeve_kept_cold within carth_house when reeveFoundCold(carth_vigil) and not byreFire(carth_vigil) and not reeveDeceived(raistrick) and inHouse() and not spread(reeve_kept)
-    says "He takes his hand out of the ash. He stands, and you hear him wipe it on his coat. 'Kept,' he says, to nobody, and goes out, and the cold air goes along the floor after him." { Assert spread(reeve_kept). }
+    says "He takes his hand out of the ash. He stands, and you hear him wipe it on his coat. 'Kept,' he says, and goes out, and the cold air goes along the floor after him." { Assert spread(reeve_kept). }
   Rule reeve_kept_wet within carth_house when reeveFoundWet(carth_vigil) and inHouse() and not spread(reeve_kept)
-    says "He takes his hand out of the hearth and holds it up. It drips. For a long time he says nothing at all; you can hear him thinking, which is a sound like a man very slowly turning over a stone. 'Wet,' he says. 'Cold.' He wipes his hand. 'Kept,' he says, and goes out." { Assert spread(reeve_kept). }
+    says "He takes his hand out of the hearth and holds it up. It drips. He says nothing; you can hear him thinking, a sound like a stone being turned over in a field. 'Wet,' he says. 'Cold.' He wipes his hand. 'Kept,' he says, and goes out." { Assert spread(reeve_kept). }
   Rule reeve_kept_byre within carth_house when reeveFoundCold(carth_vigil) and byreFire(carth_vigil) and inHouse() and not spread(reeve_kept)
-    says "From the byre, where the whole household lies in the straw by the fire-pit, you can hear him kneeling at the dead hearth, and nothing else, for a long time. Then he sniffs. Smoke: the whole house smells of it. You hear him stand up. Then you hear him kneel down again, and put his hand back in the ash, and hold it there; and stand; and say 'Kept,' in a voice like a man putting down something heavy; and go." { Assert spread(reeve_kept). }
+    says "From the byre, where the whole household lies in the straw by the fire-pit, you can hear him kneeling at the dead hearth, and nothing else but the cow shifting her feet. Then he sniffs. Smoke: the whole house smells of it. You hear him stand up. Then you hear him kneel down again, and put his hand back in the ash, and hold it there; and stand; and say 'Kept,' in a voice like a man putting down something heavy; and go." { Assert spread(reeve_kept). }
   Entity reeve_kept: fact "kept".
 
   // ── Morning ───────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -318,9 +318,9 @@ Module gaunt "A Winter in Carth" {
     says "Will Scaife does not look at you all morning. When he has dug the yard gate clear he stands by it, and waits, and you understand that he is waiting for you to go through it. Annis puts a heel of bread in your hand at the door, without a word, and shuts it." { Assert spread(morning_go). }
   Entity morning_go: fact "told to go".
   Rule morning_relit within carth when morningDue(carth_vigil) and atCarth() and quenched(carth_vigil) and state(hearth, ablaze) and vigilOn() and spread(morning_told) and watch(clock) > morningAt(carth_vigil) and not spread(morning_wet)
-    says "Will Scaife sits a long time looking at the fire on the hearth, lit again after the Ash-reeve went, smoking still for the wet. 'Kept,' he says, as if trying the word for weight. 'He had his hand in it. Kept.' He puts on another peat, and goes out to dig." { Assert spread(morning_wet). }
+    says "Will Scaife sits with his boots to the fire that was lit again after the Ash-reeve went, smoking still for the wet. 'Kept,' he says. 'He had his hand in it. Kept.' He puts on another peat, and goes out to dig." { Assert spread(morning_wet). }
   Rule morning_wet within carth when morningDue(carth_vigil) and atCarth() and quenched(carth_vigil) and state(hearth, snowed) and vigilOn() and spread(morning_told) and watch(clock) > morningAt(carth_vigil) and not spread(morning_wet)
-    says "Will Scaife stands a long time looking at the hearth, black and wet, with the ash in it gone to a paste. Then he looks at you. 'Kept,' he says, as if trying the word for weight; and goes out to dig." { Assert spread(morning_wet). }
+    says "Will Scaife looks at the hearth, black and wet, with the ash in it gone to a paste. Then he looks at you. 'Kept,' he says; and says it again, to see whether it will hold; and goes out to dig." { Assert spread(morning_wet). }
   Entity morning_wet: fact "the wet hearth".
   // Whoever lit the hearth without leave and broke the vigil has taken its debt: seventeen nights, in the Register.
   Rule debt_taken when vigilBroken(carth_vigil) and litWithoutLeave(party) and not brokeVigil(party) { Assert brokeVigil(party). }

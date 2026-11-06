@@ -26,12 +26,12 @@ describe('A Winter in Carth: the calling voices', () => {
     expect(thief.page).toMatch(/smoked, rubbed with ash and mutton fat/);
   }, 600000);
 
-  it('a mage at the plinth reads that it was edited and not defaced; a bard at the Fat Lamb on Fastens\' Eve hears a stair that is not there; a warrior hears nothing', async () => {
+  it('a mage at the plinth reads that it was edited and not defaced; a bard at the Fat Lamb on Fastens\' Eve hears the gap in every tune; a warrior hears nothing', async () => {
     const mage = await at(build('mage'), 'minster_nave', 12);
     expect(mage.page).toMatch(/It was not defaced\. It was edited/);
     expect(mage.knows('plinth_lines')).toBe(true);
     const bard = await at(undefined, 'fat_lamb', 360);
-    expect(bard.page).toMatch(/like a stair that is not there/);
+    expect(bard.page).toMatch(/all four tunes stopped at the same place/);
     const warrior = await at(build('warrior'), 'minster_nave', 12);
     expect(warrior.page).not.toMatch(/edited/);
   }, 600000);
@@ -152,7 +152,7 @@ describe('A Winter in Carth: the seam, kept open, and the one scene of plain com
     expect(seen(eve)).toMatch(/the Fat King has stuck/);
     const lamb = await at(undefined, 'fat_lamb', 12);
     await lamb.play('Ask Matthias Dent why every candle');
-    expect(lamb.page).toMatch(/Merit is what.s left when the wax is gone/);
+    expect(lamb.page).toMatch(/lawfullest thing in the Fat Lamb/);
     const schools = await at(undefined, 'schools', 12);
     await schools.play('Ask Doctor Ploughwright where the Faculty had');
     expect(schools.page).toMatch(/very thoughtful/);

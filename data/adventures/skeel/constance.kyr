@@ -37,7 +37,7 @@ Module skeel "Fair Weather" {
     On discuss { Spend mate_ring_kind from actor. Assert constanceMoved(constance). }
   }
   Topic constance_light with constance "Tell Constance Ferrar what you know of how the Constancy came onto the bank" when knows(actor, hender_did) and constanceCome(constance) once {
-    Says "She listens without moving, the ledger shut on her knee. When you have finished she sits a long time. 'So it was not the sea,' she says. 'It was a man. A Reeve. With an oil can and a horn lantern.' She stands up. 'I came here to take my brother home. I will do that. And then I will go to the Admiral's court, in the south, and I will lay an information, and they will hang him, and it will not bring Matthew back, and I will do it anyway.' She looks at you. 'Unless there is some other thing to be done. Is there?'".
+    Says "She listens without moving, the ledger shut on her knee. When you have finished she sits with her thumb in the ledger, holding the place. 'So it was not the sea,' she says. 'It was a man. A Reeve. With an oil can and a horn lantern.' She stands up. 'I came here to take my brother home. I will do that. And then I will go to the Admiral's court, in the south, and I will lay an information, and they will hang him, and it will not bring Matthew back, and I will do it anyway.' She looks at you. 'Unless there is some other thing to be done. Is there?'".
     On discuss { Assert constanceKnows(constance). }
   }
   Relation constanceKnows(group).

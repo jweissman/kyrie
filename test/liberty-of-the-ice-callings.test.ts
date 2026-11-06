@@ -27,7 +27,7 @@ describe('The Liberty of the Ice: the calling voices', () => {
     const mage = await solo('mage', 'scholar');
     mage.j.put('party', 'freezeland');
     await mage.play('=1');
-    expect(mage.page).toMatch(/the thing which keeps the law should be the hand you do not use/);
+    expect(mage.page).toMatch(/The sign and the hand do not match/);
     const warrior = await solo('warrior', 'laborer');
     warrior.j.put('party', 'hiring_ring');
     await warrior.play('=12');
@@ -35,7 +35,7 @@ describe('The Liberty of the Ice: the calling voices', () => {
     const bard = await Pellam.start();
     bard.j.put('party', 'lamb');
     await bard.play('=84');
-    expect(bard.page).toMatch(/They are all after the stone in the plum/);
+    expect(bard.page).toMatch(/Eleven lies since we sat down/);
   }, 600000);
 
   it('a ranger on the second morning reads the wolves\' tracks as something that has been taught, and says no more', async () => {
@@ -44,7 +44,7 @@ describe('The Liberty of the Ice: the calling voices', () => {
     g.j.put('party', 'reach_head');
     await g.play('=142');
     expect(g.page).toMatch(/Each one put its foot in the track of the one before/);
-    expect(g.page).toMatch(/who has been teaching them the way/);
+    expect(g.page).toMatch(/Somebody has been teaching them the way/);
   }, 300000);
 
   it('the candle, told to Harker, weighs on him and does not make him wary', async () => {

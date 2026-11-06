@@ -16,7 +16,7 @@ Module wrayford "The Third Night" {
   Observe row_scene at wain_row when not dark() and not visitedBefore(wain_row) "Wain Row is a lane of carters' houses, each with its yard and its cart-shed behind, the doors painted the colours carters paint them, red and green and a blue that was once expensive. Four doors along, the Pardoes' is red. Its step has been scrubbed this morning, hard. Two women talking on the next step stop talking when they see you, and go in.".
   Observe row_scene_again at wain_row when not dark() and visitedBefore(wain_row) "Wain Row: cart-sheds, painted doors, the Pardoes' red one with its scrubbed step.".
   Observe row_night at wain_row when dark() "Wain Row in the dark. A lamp in the Pardoes' kitchen, and in no other window.".
-  Observe kitchen_home at pardoe_kitchen when homecomer(party) and not visitedBefore(pardoe_kitchen) and at(maudie, pardoe_kitchen) and not verdictGiven(wray) "The kitchen is as it was: the long table, the settle, the bread oven, the hook by the door where your father's coat hangs, which is the first thing you look at and the last thing you will be able to stop looking at. It smells of bread. It always smelled of bread. Your mother is at the table with her sleeves up and flour to the elbow, and she looks at you in the doorway for a long moment, and then goes on kneading.".
+  Observe kitchen_home at pardoe_kitchen when homecomer(party) and not visitedBefore(pardoe_kitchen) and at(maudie, pardoe_kitchen) and not verdictGiven(wray) "The kitchen is as it was: the long table, the settle, the bread oven, the hook by the door where your father's coat hangs, which you look at first, and then take care not to. It smells of bread. It always smelled of bread. Your mother is at the table with her sleeves up and flour to the elbow, and she looks at you in the doorway for a long moment, and then goes on kneading.".
   Observe kitchen_strange at pardoe_kitchen when stranger(party) and not visitedBefore(pardoe_kitchen) and at(maudie, pardoe_kitchen) and not verdictGiven(wray) "A carter's kitchen: a long table, a settle, a bread oven, a man's coat on a hook by the door. A woman in her fifties is kneading bread at the table with her sleeves up, and she does not stop when you come in, and she does not ask you to sit.".
   Observe kitchen_again at pardoe_kitchen when visitedBefore(pardoe_kitchen) and not verdictGiven(wray) "The Pardoe kitchen: the table, the oven, the bread proving under a cloth.".
   Observe kitchen_coat at pardoe_kitchen when homecomer(party) and visitedBefore(pardoe_kitchen) and not coatGiven(maudie) "On the hook by the door, Wat Pardoe's coat: brown frieze, the pockets pulled out of shape by thirty years of hands.".
@@ -96,7 +96,7 @@ Module wrayford "The Third Night" {
   Relation maudieAsked(group). Relation promisedMaudie(group). Relation maudieWaits(group).
   Event maudie_asks at pardoe_kitchen when homecomer(party) and vigils(maudie) >= 1 and not dark() and knows(party, maudie_resolve) "Your mother wipes her hands, and sits down across the table from you, which she does not do. 'I'll ask you once,' she says. 'Will you see to it, or must I?'" then { Assert maudieAsked(party). }
   Topic answer_will with maudie "Tell your mother you will see him buried before the third night is out" when maudieAsked(actor) and not promisedMaudie(actor) and not maudieWaits(actor) once {
-    Says "She looks at you for a long time. 'Then I'll stop at home,' she says. 'I'll stop at home and make bread, and if you don't, I'll know you couldn't, and not that you wouldn't.' She gets up. 'Don't get yourself hanged. I couldn't bury two.'".
+    Says "She wipes her hands down her apron, one and then the other. 'Then I'll stop at home,' she says. 'I'll stop at home and make bread, and if you don't, I'll know you couldn't, and not that you wouldn't.' She gets up. 'Don't get yourself hanged. I couldn't bury two.'".
     On discuss { Assert promisedMaudie(actor). }
   }
   Topic answer_wait with maudie "Ask your mother to wait for the reeve to come round" when maudieAsked(actor) and not promisedMaudie(actor) and not maudieWaits(actor) once {
@@ -183,7 +183,7 @@ Module wrayford "The Third Night" {
       and quantity(actor, rations) >= 1.
     Time 2 minutes.
     On success { Decrease quantity(actor, rations) by 1. Assert brambleAte(bramble). }
-    Result "You put it down by his nose. For a long time he does nothing. Then, without getting up, as if it were a thing he were doing for you, he eats it.".
+    Result "You put it down by his nose. He does nothing. The drovers step over the pair of you. Then, without getting up, as if it were a thing he were doing for you, he eats it.".
   }
   Action coat_bramble(actor: group, giver: member, site: place) "Lay Wat's coat down by Bramble" {
     Requires able(actor) and company(actor) and at(actor, site) and at(bramble, site) and memberOf(giver, actor)

@@ -82,7 +82,7 @@ Module quittance "Quittance" {
 
   // ── Gwen, and the old woman ─────────────────────────────────────────────────────────────────────────────
   Topic bk_g_trouble with bk_gwen "Ask Gwen Tolliver what the matter is" when true once {
-    Says "'The Ordinance,' says Gwen Tolliver, sliding a tray into the rack. 'No open flue within the marked wards that isn't fitted to the pattern, and mine isn't. Hal had the inspector in in nineteen and nobody's been since, which is why the certificate says what it says, I put the date right myself. The man comes the second day at noon, and if he says it doesn't pass I'm uncovered the day after, and a bakery with a fire in it and no mark on the door is not a thing anyone in this lane would stand next to.' She straightens. 'It draws, you see. That's what he'll say is wrong. It draws too well.'".
+    Says "'The Ordinance,' says Gwen Tolliver, and slaps a tray into the rack. 'No flue in the marked wards that isn't fitted to the pattern. Mine isn't. Hal had it passed in nineteen and nobody's been since; I put the date right on the certificate myself. Twice.' Another tray. 'The man comes the second day at noon. If he says no, I'm uncovered the day after, and a bakery with a fire in it and no bird on the door, nobody in this lane will stand next to.' She straightens, floury to the elbow. 'It draws, you see. That's what he'll say is wrong. It draws too well.'".
     On discuss { Assert knows(actor, bk_survey). }
   }
   Topic bk_g_draws with bk_gwen "Ask Gwen Tolliver why the oven draws so well" when knows(actor, bk_survey) once {

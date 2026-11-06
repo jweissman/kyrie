@@ -7,8 +7,8 @@ Module wrayford "The Third Night" {
   Observe stair_scene at south_stair when true "The south ferry-stair: worn steps going down into the river, a post for tying up, and the Acre wall above, with the tops of the gravestones showing over it.".
   Observe tanyards_scene at tanyards when not dark() "The tan-yards: pits of lime and bark and worse, hides on frames, men with their arms stained to the elbow, and a smell that takes the breath out of you. Nobody comes here who need not.".
   Observe tanyards_night at tanyards when dark() "The tan-yards at night: the pits black, the hides on their frames like people standing.".
-  Observe ferry_inn_scene at ferry_taproom when true "The Ferry Inn: low, smoky, full of watermen and tanners and people who have business in the Liberty that they would not have in the city.".
-  Observe south_road_scene at south_road when not dark() "The south road leaves Overbridge between hedges, toward the lord's country. A milestone: HARBURY XII.".
+  Observe ferry_inn_scene at ferry_taproom when true "The Ferry Inn: a low room that smells of wet wool and pipe-ash, with the floor sloping to the river so that every pot has to be put down on purpose. Watermen at one table, tanners at another, and by the window two men in good coats drinking slowly, who have business in the Liberty that they would not have in the city.".
+  Observe south_road_scene at south_road when not dark() "The south road leaves Overbridge between hedges, already white with dust, toward the lord's country. A drover's dog is asleep in the only shade. A milestone: HARBURY XII.".
 
   // ── Saint Wade's and the Acre ─────────────────────────────────────────────────────────────────────────────────────
   Observe nave_again at nave when visitedBefore(nave) "Saint Wade's: whitewash, the cheerful saint, the carved wheels on the pews.".
@@ -39,7 +39,7 @@ Module wrayford "The Third Night" {
     Resolve check(actor, deception, dc_fair).
     On success { Assert corbinLied(actor). }
     On failure { Assert triedCorbinLie(actor). }
-    Result "'Asked after me.' He takes his pipe out. 'What did she ask?' You tell him something. He looks across the water at the ferry-stage for a long time, and puts the pipe back without lighting it. 'Did she,' he says.".
+    Result "'Asked after me.' He takes his pipe out. 'What did she ask?' You tell him something. He looks across the water at the ferry-stage until the pipe has gone cold in his hand, and puts it back without lighting it. 'Did she,' he says.".
     Otherwise "Corbin laughs until he coughs. 'Dorcas Mudd,' he says, 'would ask after the Devil's health before mine. Go on with you.'".
   }
   // The graves: three, by the church door. Corbin digs them by the next morning once he has a reason; or anyone can.

@@ -262,7 +262,7 @@ Module season "Hold One Season" {
   // an event would be spent unseen, so it is an observation that teaches its own having been seen (ledger, 4).
   Rule garret_willing when not asleep(garret) and not willing(garret, party) and not travelsWith(garret, party) and not cameUp(garret) { Assert willing(garret, party). }
   Entity garret_woke: fact "Garret has come round from eleven months in the light.".
-  Observe garret_comes_round near garret as event when not asleep(garret) and not cameUp(garret) and not knows(party, garret_woke) "Garret finishes the reach he began eleven months ago, closes his hand on nothing, and sits down hard. 'Where's the light gone?' he says. 'Ness was just there.' He looks at you a long time. 'You were never this tall. What month is it?' Told, he says nothing for a while. 'I'm hungry,' he says at last, as if that settled it." teaches garret_woke.
+  Observe garret_comes_round near garret as event when not asleep(garret) and not cameUp(garret) and not knows(party, garret_woke) "Garret finishes the reach he began eleven months ago, closes his hand on nothing, and sits down hard. 'Where's the light gone?' he says. 'Ness was just there.' He looks at you as at a stranger's child. 'You were never this tall. What month is it?' Told, he says nothing for a while. 'I'm hungry,' he says at last, as if that settled it." teaches garret_woke.
   Topic garret_month with garret "Tell Garret how long he stood there" when not asleep(garret) once {
     Says "'Eleven months,' Garret says after you, as if trying the words for size. 'It was Harvest. I had my hand out.' He looks at his hand. 'Ness said the light would not reach past the door. Ness said a lot of things.'".
   }

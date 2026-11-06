@@ -92,7 +92,7 @@ Module factors "The factor who buys old bronze" {
     Resolve check(actor, persuasion, dc_fair).
     On success { Assert pressed(factor). Give box_key to actor. Assert knows(actor, counting_known). Assert knows(actor, lieutenant_named). Assert seenSearch(cell). }
     On failure { Assert suspects(factor, actor). }
-    Result "{factor} reads it to the end, and puts it down square on the blotter. 'You have been in my cellar,' she says. 'It is only a waybill.' A long breath. 'The key is on a string, on a nail, behind the chair. And the man at the end of it is called R. because that is the only name he has ever given me, and the House he serves is the House you think.' She does not look pleased. She looks like someone who has done sums.".
+    Result "{factor} reads it to the end and squares it on the blotter. 'You have been in my cellar,' she says. 'Nine pound of weir-metal short on that sheet, by my book, and I should like to know how.' She reaches behind the chair without turning, and a key on a string swings from her finger. 'R. is the only name he ever gave me. The House he serves is the House you are thinking of.' She drops the key in your palm, takes up the pen, and writes nothing with it.".
     Otherwise "'Cellars,' says {factor}, 'are damp.' The pen goes down. She is writing your description in the margin.".
   }
 
@@ -128,7 +128,7 @@ Module factors "The factor who buys old bronze" {
     Requires able(actor) and company(actor) and at(actor, site) and at(lieutenant, site) and temper(lieutenant) == 3 and holding(actor, ring_leaf) and not toldPrincipal(lieutenant) and able(lieutenant).
     Time 1.
     On success { Assert tolerates(lieutenant, actor). Assert toldPrincipal(lieutenant). Assert talkedLieutenant(lieutenant). Assert knows(actor, principal_traced). }
-    Result "R. reads the second hand in the margin, and sits down on a crate as if the crate had been pulled from under him. 'That is mine,' he says. 'That is my hand. He will see that. He sees everything that has a sum in it.' His mouth works. 'I will tell you where he is. I will tell you every night he is. And you will say, afterward, that I was frightened into it, which is true.'".
+    Result "R. reads the second hand in the margin, and sits down on a crate as if the crate had been pulled from under him. 'That is mine,' he says. 'That is my hand. He will see that. He sees everything that has a sum in it.' His mouth works. 'I will tell you where he is. Every night he is. Put it down that I was frightened. I should like it on record that I was.'".
   }
   Action lt_secret_skim(actor: group, site: place) "Put the margin of the leaf to {lieutenant}, line by line" {
     Requires able(actor) and company(actor) and at(actor, site) and at(lieutenant, site) and secret(lieutenant) == 1 and holding(actor, ring_leaf) and not turned(lieutenant) and able(lieutenant).
@@ -155,7 +155,7 @@ Module factors "The factor who buys old bronze" {
     Says "'On the road,' says R. 'Between the town and the coast, on one of the House's boats, or between the Ness and the town on another. Nobody has ever seen him on a road. He is a rumour, between.'".
   }
   Topic lt_secret_flavour with lieutenant "Ask {lieutenant} what the ring is for" when tolerates(lieutenant, actor) once {
-    Says "'Lamps,' says R. 'The House leases the lights and does not light them. A dark light is a wreck. A wreck is a right. The ring brings what the wrecks put ashore up the coast to the one man who can sell it on, and who is not a man you want to be the last to speak to.' He scratches his jaw. 'I work for him. I have not said I like it.'".
+    Says "'Lamps,' says R. He lifts the lid of a crate and lets it fall. 'Whatever a wreck puts ashore on this coast comes through this room on its way to a man who pays by the hundredweight. I do not ask what put it ashore.' He runs a finger round the inside of his collar. 'It is a good coat. It is the House's.'".
   }
 
   // ── The rank at the top: the Principal (Deem-cast), who goes round the world ───────────────────────────────────────
@@ -169,7 +169,7 @@ Module factors "The factor who buys old bronze" {
     Pleads "'Enough,' says the Principal. 'The book is yours. Take it. The seal is in the lining.'".
   }
   Topic principal_what with principal "Ask the Principal what the ring is" when tolerates(principal, actor) once {
-    Says "'A convenience,' says the Principal. 'A House with a lamp it will not light and a coast with a wreck it will not weep for needs a way to turn the second into money without the first being on the bill. A ring. It goes from hand to hand, and nobody holds it long. It is very efficient. It is not at all a crime if you look at it by the pound.'".
+    Says "'A convenience,' says the Principal. They turn the black book a quarter, so that you may see a column and not read it. 'Goods come ashore. They are not to be seen coming. One does not hold them long, one passes them, and the passing is the ring. There is no step in it that a magistrate could weigh.' A pause. 'One does not call it a crime if one has weighed it.'".
     On discuss { Assert knows(actor, seal_seen). }
   }
   Topic principal_marchbank with principal "Ask the Principal whether Josselin Marchbank knows" when tolerates(principal, actor) once {
@@ -186,7 +186,7 @@ Module factors "The factor who buys old bronze" {
   }
   Relation principalMet(group).
   Rule principal_nerve_flees when principalMet(party) and at(principal, ?p) and nerve(principal) == 1 and not routed(principal) and not dead(principal)
-    says "'Well,' says the Principal. 'That is what happens when one has too many ranks.' They close the black book, and stand, and pick up their hat. 'I have a boat.' They go out by the way you came in, quite calmly, and you do not stop them, because nothing has been done that anyone could point to. By the next tide the Principal's name is a thing the ring has never owned." {
+    says "'Well,' says the Principal. 'That is what happens when one has too many ranks.' They close the black book, and stand, and pick up their hat. 'I have a boat.' They go out by the way you came in, quite calmly, and you do not stop them, because nothing has been done that anyone could point to. By the next tide nobody on the coast will own to having heard the name." {
     Assert routed(principal). Retract at(principal, ?p). Assert at(principal, abroad). Retract principalMet(party).
   }
   Rule principal_nerve_buys when principalMet(party) and nerve(principal) == 3 and not offered(principal) and not routed(principal) and not dead(principal)

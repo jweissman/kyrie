@@ -58,7 +58,7 @@ Module thrume "Thrume" {
   Hazard stays_behind "The one who stays" means "Kill ally.".
 
   Observe tmouth_scene at tomb_mouth when true "The long throat ends on a floor of red stone, smooth as the inside of a cheek. Ahead, a passage. Cut over it, very small, in the smiths' square hand: TURN BACK. HE IS ONLY SLEEPING.".
-  Observe landing_scene at salt_landing when true "A stair of white salt goes down into the dark, each tread cut sharp and unworn. Nobody has walked on it for a thousand years.".
+  Observe landing_scene at salt_landing when true "A stair of white salt goes down into the dark, each tread cut sharp and unworn. There is no footprint in the dust on the treads, not even a mouse's.".
 
   // 1. The salt stair: the third tread is no tread.
   Thing false_tread "the third tread of the salt stair" on salt_stair {
@@ -218,7 +218,7 @@ Module thrume "Thrume" {
   }
   Discovery plinth_known "Behind the plinth of the false heart, a way goes on, for those the crowned figure lets pass.".
   Topic ardath_doctrine with ardath "Say the doctrine of the Hollow Smiths to the crowned figure" when knows(actor, doctrine_known) and not hostile(ardath, actor) once {
-    Says "'What wakes, kills,' you say. The crowned figure answers, in a voice like old iron: 'What kills, wakes.' It is quiet a long time. 'You are not ours. But you have our words.' It turns, and lays a hand on the plinth. 'This is a lie. I keep it so that thieves stop here. I have kept it for a thousand years. I do not remember why.' The plinth slides aside. 'The true heart is beyond. He is sleeping. Do not wake him. Do not kill him.' Its hand stays on the plinth. 'I was paid to kill him, once. We all were. I am sorry. Tell him I am sorry.'".
+    Says "'What wakes, kills,' you say. The crowned figure answers, in a voice like old iron: 'What kills, wakes.' Its jaw works on nothing. 'You are not ours. But you have our words.' It turns, and lays a hand on the plinth. 'This is a lie. I keep it so that thieves stop here. I have kept it since the roof was new, and I do not remember who told me to.' The plinth slides aside. 'The true heart is beyond. He is sleeping. Do not wake him. Do not kill him.' Its hand stays on the plinth. 'I was paid to kill him, once. We all were. Tell him I am sorry.'".
     On discuss { Assert knows(actor, plinth_known). }
   }
 
@@ -261,7 +261,7 @@ Module thrume "Thrume" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, heart_chamber) and capable(actor, digging) and not cutOut(fells) and not woken(fells).
     Time 12.
     On success { Assert cutOut(fells). Set stirring(fells) to 0. Increase quantity(actor, gold) by 400. }
-    Result "It takes a long time. The heart does not wake. It beats slower, and slower, and the red that comes out of it goes hard and glittering in the air as it runs, and you fill sack after sack. At the end it beats once more, and then it does not, and the whole mountain is very still, and very cold.".
+    Result "It takes the rest of the day. The heart does not wake. It beats slower, and slower, and the red that comes out of it goes hard and glittering in the air as it runs, and you fill sack after sack. At the end it beats once more, and then it does not, and the whole mountain is very still, and very cold.".
   }
   Action wake_heart(actor: group, site: place) "Strike the heart of Thrume, and wake him" {
     Description "What kills, wakes.".

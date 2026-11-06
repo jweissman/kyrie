@@ -10,7 +10,7 @@ Module lull "The Lull" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, hester_room) and at(hester, hester_room) and lullOpen() and capable(actor, rites) and knows(actor, hester_sick) and not hesterEased(hester) and not hesterDead(hester).
     Time 6.
     On success { Assert hesterEased(hester). Assert hesterBlessed(hester). Assert tobiasSoftened(tobias). Increase tobiasTrust(tobias) by 1. }
-    Result "You sit on the end of the bed and say them, the old words, the ones every priest in Imbar knows in some tongue or other, about rest and about letting go and about the birds. Hester listens with her eyes shut. Halfway through she says, 'Again, that bit,' and you say it again. When you have finished her hands are lying open on the sheet and her face has gone smooth, the way a field does when the cloud goes off it, and she is asleep, properly asleep, for the first time, Tobias says afterwards, in a month. He does not thank you. He brings you a cup of something, and sits with you, and that is the same thing.".
+    Result "You sit on the end of the bed and say them, the old words, the ones every priest in Imbar knows in some tongue or other, about rest and about letting go and about the birds. Hester listens with her eyes shut. Halfway through she says, 'Again, that bit,' and you say it again. When you have finished her hands are lying open on the sheet and her face has gone smooth as a plate, and she is asleep, properly asleep, for the first time, Tobias says afterwards, in a month. He does not thank you. He brings you a cup of something, and sits with you, and that is the same thing.".
   }
   Relation hesterBlessed(group).
 

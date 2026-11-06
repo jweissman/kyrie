@@ -186,7 +186,7 @@ Module quittance "Quittance" {
     Result "'Tea,' says Cray. 'I have been in that parlour fifty times and I have never once been offered the tea.' He puts his hat on, and takes it off again, and carries it in his hand the whole length of the Row.".
   }
   Topic an_shawls_off with an_oakes "Ask Mrs Oakes to put the ear-trumpet down, with Cray there to see" when at(cray, oakes_room) and arc(cray) == 1 and an_trust(actor) once {
-    Says "Mrs Oakes puts down the ear-trumpet. She takes off the cap, and the first shawl, and the second, and the third, and she is nineteen, with a long plait and an expression of enormous steadiness. 'I am the sixth,' says Tamsin Oakes. 'I am sorry about the trumpet. It was my great-aunt's.' Cray looks at her for a long time. Then he sits down in the chair that is not the great chair, and she pours him tea in the second cup, which is the one that has always been poured for whoever came before. 'Miss Oakes,' he says, 'the policy says living in her name.' 'Yes,' says Tamsin. 'We read it every quarter-day.' 'Then I do not see,' says Pennington Cray, 'that there is anything whatever to stop.'".
+    Says "Mrs Oakes puts down the ear-trumpet. She takes off the cap, and the first shawl, and the second, and the third, and she is nineteen, with a long plait and an expression of enormous steadiness. 'I am the sixth,' says Tamsin Oakes. 'I am sorry about the trumpet. It was my great-aunt's.' Cray looks at her over the top of a form he has not yet torn. Then he sits down in the chair that is not the great chair, and she pours him tea in the second cup, which is the one that has always been poured for whoever came before. 'Miss Oakes,' he says, 'the policy says living in her name.' 'Yes,' says Tamsin. 'We read it every quarter-day.' 'Then I do not see,' says Pennington Cray, 'that there is anything whatever to stop.'".
     On discuss { Set arc(cray) to 2. Assert an_win(actor). Assert witness(cray). Assert an_tea_taken(actor). Increase regard(sovereign) by 2. }
   }
 
@@ -250,7 +250,7 @@ Module quittance "Quittance" {
     On discuss { Assert knows(actor, qu_descendant). }
   }
   Topic an_mawd_hearth with an_mawdsley "Ask Mother Mawdsley whether the almshouse would keep a hearth lit for the Night" when an_status(party) == 2 or an_status(party) == 5 once {
-    Says "'We have a coal,' says Mother Mawdsley, 'in the stove, which has not been let out since the Burning, and nobody has ever said so, because the Sovereign would say it was a fire risk.' She looks round at the six. 'There's none of us can carry it far. But there's seven of us here, and we can keep a stove. Send us a coal on the night and we shall sit by it until it's done.'".
+    Says "'We have a coal,' says Mother Mawdsley, 'in the stove, which has not been let out since the Burning, and which we have never mentioned to the Sovereign, who would say it was a fire risk.' She looks round at the six. 'There's none of us can carry it far. But there's seven of us here, and we can keep a stove. Send us a coal on the night and we shall sit by it until it's done.'".
     On discuss { Assert keeper(mort). }
   }
   Topic an_mawd_refuse with an_mawdsley "Ask Mother Mawdsley whether the almshouse would keep a hearth lit for the Night" when an_status(party) != 2 and an_status(party) != 5 once {
@@ -264,7 +264,7 @@ Module quittance "Quittance" {
     Greets again "'Still lost,' says Josiah Wragg, not unkindly.".
   }
   Topic an_wragg_stair with an_wragg "Ask the sexton about the stair" when true once {
-    Says "'It goes where the unclaimed go,' says Wragg. 'Under the stair, there's a vault, and the vault's full of the Burning's dead that nobody called for, stacked by year. Ninety-four years, and every label says UNCLAIMED. I take them flowers on the day.' He looks at the grating. 'I'd sooner it stayed shut. I'd sooner still it was visited by somebody who'd say their names. There's a clerk at the bottom, so they tell me, with a book. I have a register. Nobody has ever taken it to him.'".
+    Says "'It goes where the unclaimed go,' says Wragg. 'Under the stair, there's a vault, and the vault's full of the Burning's dead that nobody called for, stacked by year. Ninety-four years, and every label says UNCLAIMED. I take them flowers on the day.' He looks at the grating. 'I'd sooner it stayed shut. I'd sooner still it was visited by somebody who'd say their names. There's a clerk at the bottom, so they tell me, with a book. I have a register. It has never gone down the stair.'".
   }
   Topic an_wragg_register with an_wragg "Promise Wragg you will carry his register of the unclaimed to the clerk below, and bring it back marked" when not an_wragg_cross(actor) and not promiseMade(an_wragg_promise) once {
     Says "Wragg wipes his hands on his smock, and reaches into the barrow, and brings out a narrow book wrapped in a Sovereign leaflet. 'Forty-one names with no claimant,' he says. 'He'll know them or he won't. Bring it back with a mark against the ones he knows. And mind the grating; it's older than the stair.' He turns the key on his belt in the lock, and does not look to see if you have gone down.".

@@ -44,11 +44,11 @@ Module thrume "Thrume" {
   Observe office_scene at office_floor when true "Scales, sacks, a long counter and a clerk behind it. On the wall a map of the workings, Number One to Number Four, and on Number Four someone has written CLOSED in red, and someone else has crossed it out.".
   Observe provost_scene at provost_room when true "A good room for a raw town: a carpet, a decanter, a strongbox. A ledger lies open on the desk.".
   Observe inn_scene at inn_room when true "Low beams, salt-cured hams, and miners drinking without talking. In the best corner a man in the Margravine's blue and silver eats alone, with a sword across the bench beside him.".
-  Observe front_scene at lantern_front when true "A dim room hung with red cloth, warm and sweet-smelling, very quiet. A little table, and a chair behind it.".
+  Observe front_scene at lantern_front when true "A dim room hung with red cloth, warm and sweet as a bakery. The rushes have been swept to the walls so that no boot will scrape. A little table, a bell with its clapper bound in wool, and a chair behind them.".
   Observe smoke_scene at smoke_room when true "Pallets in a row, and on them people asleep with their eyes moving under the lids: miners, a girl in a good dress, an old man. A brazier burns something red that smells of iron and rain. Every sleeper's lips are moving, and they are all saying the same thing.".
   Observe back_scene at lantern_back when true "A storeroom: sacks of red salt, blankets, rope. A row of pegs by the yard gate, and on them the coats of people who are not wearing them.".
   Observe shrine_scene at shrine_room when true "A whitewashed room with a hearth for an altar. The fire on it is the only one in Saltgrave that never goes out. Prayers are nailed on the wall on scraps: for the men in the Number Four, for a son, for sleep.".
-  Observe chandlery_scene at chandlery_shop when true "Candles, rope, lamp-oil, picks. Everything a mine needs, and too much of it, now the mine is shut.".
+  Observe chandlery_scene at chandlery_shop when true "Candles, rope, lamp-oil, picks, stacked to the rafters for a mine that is shut. Candles are sold singly now, each in a twist of paper, and the men who buy them say they are for sleeping by.".
   Observe row_scene at miners_row when true "A double row of salt-white cottages. Forty doors have a twist of black wool on the latch: the families of the men the giants took.".
   Observe yard_scene at carters_yard when not dark() "A yard of salt-carts with their shafts down, and the stable smell. The carts have stood idle since the mine was shut; their axles are freshly greased.".
   Observe cart_road_scene at cart_road when true "The cart road climbs the fellside in long loops toward the black mouths of the workings. The turf on either side is warm to the hand.".
@@ -64,7 +64,7 @@ Module thrume "Thrume" {
     Known by varne.
   }
   Topic varne_bounty with varne "Ask Sir Odo Varne about the giants" when true once {
-    Says "'They came down off the fells four months ago,' says Varne, 'and smashed every mine-head we have, and carried off forty men, and burned the overseer in his house.' He wipes his knife. 'The Margravine must have the salt by the new moon. Harle's host will be at the Ebb by then, and the companies she means to hire want paying in something heavier than promises. Bring me the thane's head and you are lords. Overseer Brannoc has gone down the old adit with a crew to keep the salt coming meanwhile. He is not a man who stops.'".
+    Says "'Four months back they came off the fells,' says Varne. 'Smashed every mine-head. Took forty men. Burned the overseer in his house.' He wipes his knife and does not look up. 'The Margravine wants salt by the new moon. Harle's host is at the Ebb by then, and the companies she means to hire want something heavier than promises. Bring me the thane's head and you are lords.' The knife goes home in its sheath. 'Brannoc is down the old adit with a crew to keep the salt coming. He does not stop. Do not ask him to.'".
     On discuss { Assert knows(actor, bounty_known). Assert knows(actor, brannoc_below). }
   }
   Discovery brannoc_below "Overseer Brannoc has gone down the old adit of the Number Four with a crew, to keep cutting red salt for the Margravine.".
@@ -124,7 +124,7 @@ Module thrume "Thrume" {
     Seen when dreamt(viewer).
   }
   Topic watcher_speaks with watcher "Look the grey thing in its soft face" when true once {
-    Says "It has no mouth. It speaks anyway, inside your head, in the kindest voice you have ever heard: 'You slept so well. Come down and sleep with us. It is so quiet in Hush.' Mother Quietly, in front of it, smiles a little wider, as if she had said it.".
+    Says "It has no mouth. It speaks anyway, inside your head, in a voice as warm as a bed: 'You slept so well. Come down and sleep with us. It is so quiet in Hush.' Mother Quietly, in front of it, smiles a little wider, as if she had said it.".
     On discuss { Assert knows(actor, hush_named). }
   }
   Topic watcher_hush with watcher "Ask the grey thing what Hush is" when knows(actor, hush_named) once {

@@ -18,7 +18,7 @@ Module gaunt "A Winter in Carth" {
   Rule reason_dowsie when nightOver(party) and dowsieSafe(dowsie) and not hernCoat(hern) and at(hern, house_place) and not spread(reason_dowsie) { Increase hernReasons(hern) by 1. Assert spread(reason_dowsie). }
   Entity reason_dowsie: fact "the child saved".
   Topic gaol_word with hern "Ask Hern if there is anything he would say to the Lady Penitentiary" when hernGaoled(hern) and not carryingHern(actor) once {
-    Says "Hern thinks for a long time, with his feet to the fire. 'Tell her,' he says, 'the soup was always too salt.' He grins at the fire. 'She'll know. Nobody else in Gaunt would.' Then, not grinning: 'Don't tell her anything else. Not that I'm ill. She'd send a physician and I'd have to be polite to him.'".
+    Says "Hern thinks, with his feet to the fire, and scratches one. 'Tell her,' he says, 'the soup was always too salt.' He grins at the fire. 'She'll know. Nobody else in Gaunt would.' Then, not grinning: 'Don't tell her anything else. Not that I'm ill. She'd send a physician and I'd have to be polite to him.'".
     On discuss { Assert carryingHern(actor). }
   }
   Topic window_word with hern_window "Ask Hern if there is anything he would say to the Lady Penitentiary" when not carryingHern(actor) once {
@@ -34,7 +34,7 @@ Module gaunt "A Winter in Carth" {
     On discuss { Assert hernHeardBess(hern). Increase hernReasons(hern) by 1. }
   }
   Topic gaol_hawise with hern "Give Hern the Lady Penitentiary's words: that he was sorry once, really, for one of them" when hernGaoled(hern) and carryingHawise(actor) and not hernHeardHawise(hern) once {
-    Says "Hern sits up on the bed. 'She said that.' He looks at the fire for a long time. 'Once,' he says. 'Aye. A fishmonger's wife. Her husband beat her, and she put rat-bane in his ale, and he lived, and she came to the Penitentiary shaking, and they set it at a week's fast, and I fasted it. Fifteen, I was.' He rubs his face. 'I was sorry. All week. For her. It was the only time.' He laughs, and it hurts him. 'Hawise was in the next pen eating the cat's dinner. She'd remember that.' He looks at you. 'It's not giving in, then?' he says. 'If it's true?'".
+    Says "Hern sits up on the bed. 'She said that.' He looks at the fire. 'Once,' he says. 'Aye. A fishmonger's wife. Her husband beat her, and she put rat-bane in his ale, and he lived, and she came to the Penitentiary shaking, and they set it at a week's fast, and I fasted it. Fifteen, I was.' He rubs his face. 'I was sorry. All week. For her. It was the only time.' He laughs, and it hurts him. 'Hawise was in the next pen eating the cat's dinner. She'd remember that.' He looks at you. 'It's not giving in, then?' he says. 'If it's true?'".
     On discuss { Assert hernHeardHawise(hern). Increase hernReasons(hern) by 1. }
   }
   Topic window_hawise with hern_window "Give Hern the Lady Penitentiary's words: that he was sorry once, really, for one of them" when carryingHawise(actor) and not hernHeardHawise(hern) once {
@@ -42,15 +42,15 @@ Module gaunt "A Winter in Carth" {
     On discuss { Assert hernHeardHawise(hern). Increase hernReasons(hern) by 1. }
   }
   Topic gaol_live_love with hern "Tell Hern you would rather he lived, because one man can be sorry for another, and you are" when hernGaoled(hern) and saidLove(actor) and not toldToLive(hern) once {
-    Says "Hern looks at you a long time. 'You said on the road that one man being sorry for another is what love is,' he says. 'I've had that in my head ever since, and I can't get it out, and I've tried.' 'Well,' he says, when he has done, 'you're a dangerous person to walk forty miles with.' He scratches his foot. 'I'd thought I'd go out of the Gate of Ash like a man in a story. I'd thought that was the end of it.' He coughs. 'I've not thought about after. There's never been an after, for a proxy. You finish, you're paid, you go and stand in the next pen.'".
+    Says "Hern looks at you over his knees. 'You said on the road that one man being sorry for another is what love is,' he says. 'I've had that in my head ever since, and I can't get it out, and I've tried.' 'Well,' he says, when he has done, 'you're a dangerous person to walk forty miles with.' He scratches his foot. 'I'd thought I'd go out of the Gate of Ash like a man in a story. I'd thought that was the end of it.' He coughs. 'I've not thought about after. There's never been an after, for a proxy. You finish, you're paid, you go and stand in the next pen.'".
     On discuss { Assert toldToLive(hern). Increase hernReasons(hern) by 1. }
   }
   Topic gaol_live_finish with hern "Tell Hern you would rather he lived, and finish what he was doing, as the dead would" when hernGaoled(hern) and saidFinish(actor) and not saidLove(actor) and not toldToLive(hern) once {
-    Says "Hern looks at you a long time. 'You said on the road we owe the dead the finishing of what they were doing,' he says. 'Kell was kneeling. I'm walking. You'd have me finish walking, would you, and not stop at a gate.' 'Well,' he says, when he has done, 'you're a dangerous person to walk forty miles with.' He scratches his foot. 'I'd thought I'd go out of the Gate of Ash like a man in a story. I'd thought that was the end of it.' He coughs. 'I've not thought about after. There's never been an after, for a proxy. You finish, you're paid, you go and stand in the next pen.'".
+    Says "Hern looks at you over his knees. 'You said on the road we owe the dead the finishing of what they were doing,' he says. 'Kell was kneeling. I'm walking. You'd have me finish walking, would you, and not stop at a gate.' 'Well,' he says, when he has done, 'you're a dangerous person to walk forty miles with.' He scratches his foot. 'I'd thought I'd go out of the Gate of Ash like a man in a story. I'd thought that was the end of it.' He coughs. 'I've not thought about after. There's never been an after, for a proxy. You finish, you're paid, you go and stand in the next pen.'".
     On discuss { Assert toldToLive(hern). Increase hernReasons(hern) by 1. }
   }
   Topic gaol_live_chosen with hern "Tell Hern you would rather he lived, since neither of you is who you were on the road" when hernGaoled(hern) and saidChosen(actor) and not saidLove(actor) and not saidFinish(actor) and not toldToLive(hern) once {
-    Says "Hern looks at you a long time. 'Not who I was that morning, you said, at the Fork,' he says. 'And keep it anyway. I've been turning that over on this bed like a stone in my pocket.' 'Well,' he says, when he has done, 'you're a dangerous person to walk forty miles with.' He scratches his foot. 'I'd thought I'd go out of the Gate of Ash like a man in a story. I'd thought that was the end of it.' He coughs. 'I've not thought about after. There's never been an after, for a proxy. You finish, you're paid, you go and stand in the next pen.'".
+    Says "Hern looks at you over his knees. 'Not who I was that morning, you said, at the Fork,' he says. 'And keep it anyway. I've been turning that over on this bed like a stone in my pocket.' 'Well,' he says, when he has done, 'you're a dangerous person to walk forty miles with.' He scratches his foot. 'I'd thought I'd go out of the Gate of Ash like a man in a story. I'd thought that was the end of it.' He coughs. 'I've not thought about after. There's never been an after, for a proxy. You finish, you're paid, you go and stand in the next pen.'".
     On discuss { Assert toldToLive(hern). Increase hernReasons(hern) by 1. }
   }
   Topic window_live_love with hern_window "Tell Hern you would rather he lived, because one man can be sorry for another, and you are" when saidLove(actor) and not toldToLive(hern) once {
@@ -142,7 +142,7 @@ Module gaunt "A Winter in Carth" {
   Relation halHere(group).
   Rule hal_routine when not halHere(hal) and not halTaken(hal) and daytime() and not at(hal, gaol_lane) { Assert at(hal, gaol_lane). }
   Rule hal_taken at gaol_lane when halHere(hal) and at(serjeants, gaol_lane) and able(serjeants) and not tolerates(serjeants, party) and not halTaken(hal) and not barsOut(hern)
-    says "Hal Metcalfe comes down Gaol Lane at eleven with a ladder on his shoulder, masked, whistling, and the serjeants step out and take him by both arms, ladder and all, quite gently, and walk him away up the Bearer's Steps. 'Pru,' he says to nobody, over his shoulder. 'Pru?'" {
+    says "Hal Metcalfe comes down Gaol Lane at eleven with a ladder on his shoulder, masked, whistling, and the serjeants step out and take him by both arms, ladder and all, quite gently, and walk him away up the Bearer's Steps. 'Pru,' he says, over his shoulder. 'Pru?'" {
     Assert halTaken(hal). Retract halHere(hal). Assert at(hal, limbo). }
   Action file_bars(actor: group, site: place) "Help Hal Metcalfe up the ladder and get the bars out of the gaol window" {
     Description "Two bars, set in lead; a file and a strong arm, or a lockworker's patience.".

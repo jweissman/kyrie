@@ -89,7 +89,7 @@ Module lowwater "Low Water" {
     says "It comes together like two halves of a broken plate: the autumn the Short Hymn was first sung, and the autumn the Mere began to fall; the Seventh Remainder that the Short Hymn left out, and the nights since then in the keeper's book, every one of them the same. Deep did not come down." teaches hymn_cause { }
   Relation orrKnows(group).
   Topic orr_told with orr "Tell Cantor Orr what the Seventh Remainder did" when knows(actor, hymn_cause) and not orrKnows(orr) once {
-    Says "She stops you before you have finished. 'Say it plainly. I'm seventy-one. I haven't time for you to be kind.' You say it plainly. She sits for a long time with her hands in her lap, looking at nothing. 'Then it wasn't silt,' she says. 'Then somebody wrote it seven times because it was meant seven times.' She looks at her hands. 'And I thought it was ugly. I thought it was the ugliest thing in the hymn, those four bars. Like somebody counting.' A breath. 'It was somebody counting, wasn't it.'".
+    Says "She stops you before you have finished. 'Say it plainly. I'm seventy-one. I haven't time for you to be kind.' You say it plainly. She sits with her hands in her lap and her eyes on the lid of the clavichord. 'Then it wasn't silt,' she says. 'Then somebody wrote it seven times because it was meant seven times.' She looks at her hands. 'And I thought it was ugly. I thought it was the ugliest thing in the hymn, those four bars. Like somebody counting.' A breath. 'It was somebody counting, wasn't it.'".
     On discuss { Assert orrKnows(orr). }
   }
   Relation trialSung(place).

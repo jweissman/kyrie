@@ -179,7 +179,7 @@ Module season "The Patient Star" {
   // K5: an absence. Saro, at the last moment she still had; around her, nothing.
   Observe absence_scene at absence when true "A mountain hall, ages ago, and a woman standing in it with a jewel at her throat. Around her, in every direction, the Keeping is empty: a hole shaped like a life.".
   Discovery saro_remembers "Saro has seen herself: a woman who wore a Kiritarun, and spent her whole past using it, and was taken. She remembers her name.".
-  Observe saro_sees at absence when travelsWith(saro, party) and not knows(party, saro_remembers) "Saro stands in front of the woman with the jewel for a long time. 'That is mine,' she says, the way she said it of the niche. Then, very quietly, she says a name, and it is not Saro, and she weeps, which she did not know how to do." teaches saro_remembers.
+  Observe saro_sees at absence when travelsWith(saro, party) and not knows(party, saro_remembers) "Saro does not move from in front of the woman with the jewel. 'That is mine,' she says, the way she said it of the niche. Then, very quietly, she says a name, and it is not Saro, and she weeps, which she did not know how to do." teaches saro_remembers.
 
   // K6: the Outer Wall: the quarry face, and the road to the Masonry.
   Observe wall_scene_k at outer_wall when true "At the far inland edge, before the beginning, a wall. Through it, moments are being carried out on long tendrils of course-work into black.".

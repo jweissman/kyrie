@@ -24,17 +24,17 @@ Module dorothea "The Dorothea" {
   Person deane "Osric Deane" at hut_room {
     Role "agent of the House at the Antlers". Ancestry human. Level 2. Peaceable. Pronouns he. Manner jovial.
     Likeness "merchant".
-    Greets "A big soft man in a green waistcoat is lying in a hammock in the harvest hut with a green-bound ledger on his chest, rising and falling with his breath. He does not get up. 'Osric Deane,' he says. 'Agent. Post of the House. Excuse my not rising. I am not well, in the way of a man who has been well too long.' He lifts one finger from the green book. 'You'll want to see the Prentice. Everyone does. I just have the title.'".
+    Greets "A big soft man in a green waistcoat is lying in a hammock in the harvest hut with a green-bound ledger on his chest, rising and falling with his breath. He does not get up. 'Excuse my not rising,' he says. 'Deane. The House's agent, here, and not well, in the way of a man who has been well too long.' He lifts one finger from the green book. 'You'll want to see the Prentice. Everyone does. I just have the title.'".
   }
   Person wick "Wick Bligh" at hut_room {
     Role "prentice of the House, keeper of the Antlers' day-book". Ancestry human. Level 1. Peaceable. Pronouns she. Manner jovial.
     Likeness "scholar".
-    Greets "A girl of twelve in a sack apron, grey cuffs to the elbow, sits cross-legged on the egg-tray with a grey-bound book on her knee and a pencil behind each ear. 'Wick Bligh,' she says. 'Prentice. Bound for seven years, four to go. I do the day-book. Mr Deane does the other book, which has a green cover, and a different number in it.'".
+    Greets "A girl of twelve in a sack apron, grey cuffs to the elbow, sits cross-legged on the egg-tray with a grey-bound book on her knee and a pencil behind each ear. 'Prentice,' she says, 'bound seven years, four to go. Wick. I do the day-book. Mr Deane does the other book, which has a green cover, and a different number in it.'".
   }
   Person hob "Hob Sedge" at stack_foot {
     Role "headman of the Antlers' harvest". Ancestry human. Level 3. Peaceable. Pronouns he. Manner stoic.
     Likeness "sailor".
-    Greets "A man with a face like a shut door and a rope round his waist coiled six times looks up from splicing. He has a missing finger on each hand. 'Hob Sedge,' he says. 'Stack-man. We go up for the eggs in the dark, and down for the down in the day, and never up the same way twice. You'll want the hoist. Everyone does, the first time. Most of them only the once.'".
+    Greets "A man with a face like a shut door and a rope round his waist coiled six times looks up from splicing. He has a missing finger on each hand. 'Sedge,' he says, to the splice. 'Stack-man. We go up for the eggs in the dark, and down for the down in the day, and never up the same way twice. You'll want the hoist. Everyone does, the first time. Most of them only the once.'".
   }
   Initially Set quantity(deane, gold) to 12.
 

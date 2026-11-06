@@ -29,8 +29,8 @@ Module season "Hold One Season" {
 
   Observe road_scene at lower_road when not washedOut(lower_road) "Terraces, walnut trees and the river. Carts go through here or not at all: the gorge floor is the only grade a wagon can climb.".
   Observe road_washed at lower_road when washedOut(lower_road) "The lower road is gone under a skin of red mud and gravel where the Weeping Wall's spring came down it in spate. A cart stands axle-deep in it, abandoned.".
-  Observe taproom_scene at taproom when true "A low room with a walnut-wood bar and very few people in it. A Glass Office notice is nailed beside the door: THIS HOUSE IS THE OFFICE'S POST ON THE GORGE ROAD.".
-  Observe holders_scene at holders_room when true "A holder's house: tally cords hung on pegs by the door, felt hoods, sacks of clean sieved sand, and a map of the glass above the village drawn in charcoal on the wall, with knots for marks.".
+  Observe taproom_scene at taproom when true "A low room with a walnut-wood bar and three customers, none of whom has spoken since you came in. The Glass Office notice nailed beside the door has been lettered over twice, by someone who minded the spelling: THIS HOUSE IS THE OFFICE'S POST ON THE GORGE ROAD.".
+  Observe holders_scene at holders_room when true "A holder's house: tally cords hung on pegs by the door, felt hoods, sacks of clean sieved sand, and on the wall a map of the glass above the village in charcoal, with a knot of cord pinned for each of the held. The knots are grey with handling. One has been tied and untied so often that the cord has gone to fluff.".
   Observe ilis_scene at ilis_room when true "A kitchen with a walnut fire and two chairs. An old felt cloak, stiff at the shoulders from years of folding, hangs by the door.".
   Observe terraces_scene at terraces when true "The upper terraces are glass. Apricot trees stand in it to the knee, held, in the light coming up from under their roots, with the leaves of the year 370 still on them. Ennick's children dare each other to touch them.".
   Initially Assert litGround(terraces).
@@ -105,7 +105,7 @@ Module season "Hold One Season" {
     Known by ilis.
   }
   Topic ilis_jars with ilis "Tell Ilis about the words on the granary jars" when (knows(actor, jars_painted) or knows(actor, tally_words)) and knows(actor, prayer_heard) and not knows(actor, prayer_label) once {
-    Says "Ilis looks at you for a long time. 'So you have seen the jars,' she says. 'The prior at Stairhead read them for me forty years ago. Hold one season, then issue. A grain jar's label.' She looks at the old cloak by the door. 'I said it over my husband. I have said it over half this village. I have never told Bren.'".
+    Says "Ilis puts down what she is holding. 'So you have seen the jars,' she says. 'The prior at Stairhead read them for me forty years ago. Hold one season, then issue. A grain jar's label.' She looks at the old cloak by the door. 'I said it over my husband. I have said it over half this village. I have never told Bren.'".
     On discuss { Assert knows(actor, prayer_label). }
   }
   // Or the company puts the two together itself: the clerk's line on the plate is the prayer.

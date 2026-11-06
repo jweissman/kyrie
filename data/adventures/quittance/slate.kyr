@@ -14,13 +14,13 @@ Module quittance "Quittance" {
     Greets again "'Total loss!' the chalk boy cries, to no-one.".
   }
   Topic sprack_slate with sprack "Ask Master Sprack how the Slate works" when true once {
-    Says "'Claims,' says Master Sprack. 'Somebody loses a thing, an Office is asked to pay for it, and the Office, which would rather not, hangs the claim on the Slate for any adjuster to take. We pay by the settlement: a third of what the Office saves by your report, or a flat fee in the poorer cases. You are free to take any claim; you are free to be wrong about it. You are not free to be dishonest, which is a privilege of the Offices.'".
+    Says "'Three things,' says Master Sprack, and counts them off on ink-black fingers. 'One. Someone loses. The Office is asked to pay and would rather not, so it hangs the claim here. Two. You take it. Three. You are paid a third of what the Office saves by your report, or a flat fee where it saves nothing. You may be wrong. You may not be dishonest.' He lowers the hand. 'That is reserved.'".
   }
   Topic sprack_licence with sprack "Ask about a licence" when not holding(actor, adjuster_licence) once {
-    Says "'A licence is six coin, or three if the Arch has your name in its Roll,' says Master Sprack. 'It lets you take claims, enter the premises named in them, and certify a mark. It does not let you do anything else. It is the only thing in the city that is exactly what it says it is.'".
+    Says "'Six coin. Three if the Arch has your name in its Roll,' says Master Sprack. 'Take claims. Enter the premises named in them. Certify a mark. Nothing else. Do not ask me for anything else.'".
   }
   Topic sprack_nolicence with sprack "Ask whether a claim can be taken without a licence" when not holding(actor, adjuster_licence) once {
-    Says "'Of course,' says Master Sprack. 'But nobody will believe you. A licence is a thing that makes people believe you for six coin.'".
+    Says "'Of course,' says Master Sprack. 'Nobody will let you in. Six coin.'".
   }
   Action buy_licence(actor: group, site: place) "Take out an adjuster's licence (6 coin)" {
     Speaker sprack.
@@ -34,7 +34,7 @@ Module quittance "Quittance" {
     Requires able(actor) and company(actor) and at(actor, site) and at(sprack, site) and not holding(actor, adjuster_licence) and onTheRoll(actor) and quantity(actor, gold) >= 3.
     Time 10 minutes.
     On success { Decrease quantity(actor, gold) by 3. Give licence_card to actor. }
-    Result "'The Roll of Entrances,' says Master Sprack, 'is a very useful document. It tells me that you are who you said you were. I find that restful.' He writes the card.".
+    Result "'The Roll of Entrances,' says Master Sprack. 'Says you are who you said you were. Three coin.' He writes the card.".
   }
 
   // ── The Slate ───────────────────────────────────────────────────────────────────────────────────────────
@@ -57,10 +57,10 @@ Module quittance "Quittance" {
     Sells rations for 2 coin from 8.
   }
   Topic pudsey_hen with pudsey "Ask Mrs Pudsey about the Hen's three burnt policies" when true once {
-    Says "'The first was an accident,' says Mrs Pudsey. 'The second was my husband. The third is on the wall because it is the only one I have ever been sorry about. I have been insured by the Phoenix, the Lamprey and the Providence in my time, and I will tell you what I tell everyone: they are all the same Office, in different hats.'".
+    Says "'The first was an accident, my duck,' says Mrs Pudsey. 'The second was Pudsey. The third's on the wall because it's the only one I was sorry about, and he'd left by then, so it was just the beams.' She wipes a tankard that is dry. 'Phoenix, Lamprey, Providence, I've paid them all a tuppence a week in my time, and I'll tell you for nothing, which is what it's worth: same Office, different hats. Mind the step, it's been a quarrel since Michaelmas.'".
   }
   Topic pudsey_gossip with pudsey "Ask what the city is saying" when true once {
-    Says "'What it always says,' says Mrs Pudsey. 'That the premiums are too high. That the fires are too few. That's a new one. Last year they said the fires were too many. Everyone's agreed it was better when it was worse.'".
+    Says "'Same as ever, my duck,' says Mrs Pudsey. 'Premiums too high, that's one. Fires too few, that's two, and new: last year it was too many. The Gas Company's going to be the death of us, that's three, and nobody's said how. And Mr Skell's boys have been in for ham two nights running, which is four, and I've not liked it.'".
   }
 
   Kind steel_pencil "a steel pencil" is gear worth 1 weighing 0 described "A pencil with a steel point that does not break, which will draw a line exactly as fine as you mean it to. The Booths sell them to clerks who have been told that they will not need another.".

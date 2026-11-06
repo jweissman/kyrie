@@ -156,7 +156,7 @@ Module wrayford "The Third Night" {
     On success { Assert state(rail, cut). Assert cutBy(actor). Assert takenDown(wray).
       Retract at(wat_dead, limbo). Assert at(wat_dead, gate_leads). Retract at(dunstan_dead, limbo). Assert at(dunstan_dead, gate_leads).
       Retract at(joss_dead, limbo). Assert at(joss_dead, gate_leads). }
-    Result "You cut them down one by one, and take each one's weight as the rope goes, and lay them on the leads. They are lighter and heavier than you thought. Nobody in Wrayford will ever look at you the same way, if they know.".
+    Result "You cut them down one by one, and take each one's weight as the rope goes, and lay them on the leads. They are lighter than you thought, and heavier. The sacking has set stiff in the sun, like board.".
   }
   // Whoever is seen at it by an awake rider is seized. The riders take prisoners.
   Rule seen_at_rail when cutBy(?c) and perceives(riders, ?c) and not seenAtRail(?c) and not riderPeace(riders) says "A rider is on his feet by the brazier. 'Sergeant! Sergeant, they're at the rail!' Then they are all up, and coming." {

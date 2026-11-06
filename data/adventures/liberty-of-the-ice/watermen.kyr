@@ -1,6 +1,6 @@
 Module pellam "The Liberty of the Ice" {
   // ── Bankside ──────────────────────────────────────────────────────────────────────────────────────────────────────
-  Observe bankside_scene at bankside_street when not visitedBefore(bankside_street) "Bankside: the other Pellam, across the river from the respectable one. Inns, a shut playhouse with snow on its roof, cookshops, a chandler's, the Watermen's Hall with its oars crossed over the door, and the long wall of the Clink, which is a prison for debtors and a liberty of its own, so that a man inside it owes nobody anything until he comes out.".
+  Observe bankside_scene at bankside_street when not visitedBefore(bankside_street) "Bankside: the other Pellam, across the river from the respectable one, and it smells of frying. The shut playhouse has snow on its roof and a boy asleep in its doorway; the Watermen's Hall has its oars crossed over the door like a coat of arms; and the long wall of the Clink runs half the length of the street with washing hung over the top. The Clink is a prison for debtors and a liberty of its own, so that a man inside it owes nobody anything until he comes out.".
   Observe bankside_again at bankside_street when visitedBefore(bankside_street) "Bankside: inns and cookshops, the Watermen's Hall, the long wall of the Clink.".
   Observe calf_scene at calf_taproom when true "The Spotted Calf: low beams, a fire you could roast a calf at, drovers and watermen and people who are neither, and a landlord who looks as if he has heard every lie told in Bankside and preferred most of them to the truth.".
   Person nab "Nab Pollard" at calf_taproom {
@@ -10,7 +10,7 @@ Module pellam "The Liberty of the Ice" {
     Sells rations for 1 coin from 20.
   }
   Topic nab_fair with nab "Ask Nab Pollard about the Frost Fair" when true once {
-    Says "'First in thirty-one winters, and the last one there's still men in this house remember.' He pours. 'River froze solid in a night, a month back, and the watermen lost their living in the same night, and the next morning there was a gingerbread stall on it and old Clemmy Broom sat in a tent with her trumpet crying the Liberty, like her mother did.' He wipes the counter. 'Everybody's got a scheme. The factors are buying sheep they can't see, the debtors are living on the ice, Harker's hiring on it. You'll have a scheme by tonight. Everyone does.'".
+    Says "'First in thirty-one winters. Beer's up a farthing and gin's up a penny, and I've watered neither, so I'm for the frost.' He pours. 'River froze solid in a night, a month back. The watermen lost their living by breakfast, and by dinner there was a gingerbread stall on it, and old Clemmy Broom in a tent with her trumpet, crying the Liberty like her mother did.' He wipes the counter. 'Everybody's got a scheme. Factors buying sheep they can't see, debtors living out on the ice, Harker hiring on it. You'll have yours by tonight. Everyone does.'".
     On discuss { Assert knows(actor, roads_shut). Assert knows(actor, liberty_known). }
   }
 

@@ -234,7 +234,7 @@ Module ombra "The Book of Faces" {
     Result "'She may look,' says {rill} at last, with the air of a woman who is paying for something in advance. 'A Guild loan is a loan. It comes out of the fares and it is in a book, and I can read a book.'".
   }
   Topic dr_rill_may_refuse with rill "Ask {rill} what she would let anyone do for the boat, and say that she may refuse" when dr_rill_open(party) and knows(actor, dr_gulls_penny) and not dr_rill_consents(party) and not dr_boat_sound(party) once {
-    Says "{rill} puts the cup down, which she has not done all night. 'Asked,' she says. 'Not told.' She looks at you for a long time. 'Then I will say it, since you ask and do not tell. You may mend her. By night, when the Guild is asleep and the surveyor's yard cannot see: oak, and your own hands, and I will have her bought off you for a penny on the thwart in the morning, and no word to a soul that it was charity, because it was not. It was a job.' A pause. 'Ask me for more and I will tell you no.'".
+    Says "{rill} puts the cup down, which she has not done all night. 'Asked,' she says. 'Not told.' She puts the pen down in its groove. 'Then I will say it, since you ask and do not tell. You may mend her. By night, when the Guild is asleep and the surveyor's yard cannot see: oak, and your own hands, and I will have her bought off you for a penny on the thwart in the morning, and no word to a soul that it was charity, because it was not. It was a job.' A pause. 'Ask me for more and I will tell you no.'".
     On discuss { Assert dr_rill_consents(party). }
   }
 
@@ -769,7 +769,7 @@ Module ombra "The Book of Faces" {
 
   // Breaking it: the Hospice's Bare light the lamps in the Owl's domino. Only an Owl may touch a street lamp.
   Topic dr_tibb_lodgers with tibb "Ask Mother Tibb whether any of the Hospice's lodgers could be lent, for an evening, to light a street of lamps" when knows(actor, dr_arrears_known) and (dr_strike_on(party) or day(clock) >= 7) and not dr_lodgers_lent(party) and not dr_strike_settled(party) once {
-    Says "'Eleven strangers and nine beds,' says Mother Tibb, as one reading a figure off a wall. 'Two of them I would be glad to see go out for an evening and I need not enter where.' She looks at you for a long time. 'The Owls will not like it. A Bare lighting an Owl's lamp is a Bare touching what is not his, and he does it in a domino that is not his either. You will be wanting the Owl on your face, and the Owls will want your head.' She writes something in the margin of the sheet. 'I should not do it, if I were you. I should do it at the last possible hour.'".
+    Says "'Eleven strangers and nine beds,' says Mother Tibb, as one reading a figure off a wall. 'Two of them I would be glad to see go out for an evening and I need not enter where.' She taps the ledger once, on the page that is not open. 'The Owls will not like it. A Bare lighting an Owl's lamp is a Bare touching what is not his, and he does it in a domino that is not his either. You will be wanting the Owl on your face, and the Owls will want your head.' She writes something in the margin of the sheet. 'I should not do it, if I were you. I should do it at the last possible hour.'".
     On discuss { Assert dr_lodgers_lent(party). }
   }
   Action dr_light_with_lodgers(actor: group, site: place) "Light the Drip's lamps in the Owl, with the Hospice's lodgers, while the Owls stand in the yard" {

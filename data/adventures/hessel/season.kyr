@@ -20,7 +20,7 @@ Module hessel "The Banns at Hessel" {
   // Foreshadowed in the Sunday chapter ("a peal the ringers of Orm have called wrong in the fourth change"); paid at the Ball.
   Observe peal_heard at abbey_yard when thirdDay() and hour(clock) >= 6 and hour(clock) < 11 "The ringers are at it from first light on the third morning, and by now all eight bells of Saint Ebba's are going over the Yard in the long rolling peal, and at the fourth change the sixth bell falls a half-beat behind the rest and the peal stumbles, exactly where it always has, and goes on as if nothing had happened.".
   Observe peal_understood at abbey_yard as revelation when thirdDay() and hour(clock) >= 6 and hour(clock) < 11 and memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m)
-    "The stumble in the fourth change is not a fault. Heard as a musician hears it, it is the last bar of a tune: eleven bars played and a twelfth rung wrong, which is what a bar sounds like when the people who learned it have forgotten the tune it ended." teaches fourth_change.
+    "The stumble in the fourth change is not a fault. Heard as a musician hears it, it is the last bar of a tune: eleven bars played and a twelfth rung wrong." teaches fourth_change.
   Discovery fourth_change "The fourth change of the peal of Saint Ebba's, that the ringers of Orm have called wrong for two hundred years, is the missing twelfth bar of an old minuet.".
 
   // ── Voices by calling: what each of the company makes of the Season ──────────────────────────────────────────────

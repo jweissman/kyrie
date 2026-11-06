@@ -167,7 +167,7 @@ Module ombra "The Book of Faces" {
     Grave "A child who says a thing in public in Ombra is a person afterwards, whether he wishes it or not.".
     Time 6.
     On success { Assert rg_pip_asked(actor). Assert following(pip, actor). }
-    Result "He thinks about it, with the whole of his face, for a long time. Nell does not say a word, which is, you understand, a very great effort. 'Will they say my name?' he asks. 'No.' 'Will I be Faced?' 'Not by me.' A pause. 'And I'll not have to say hers.' 'No.' Pip looks at his candle. 'Then I'll say it,' he says. 'That the man with the keys said it. That it was said, and I heard. I'll say it to everyone.' His hand finds your coat. 'You'll stand by me?'".
+    Result "He thinks about it, with the whole of his face, for a long time. Nell does not say a word, which costs her. 'Will they say my name?' he asks. 'No.' 'Will I be Faced?' 'Not by me.' A pause. 'And I'll not have to say hers.' 'No.' Pip looks at his candle. 'Then I'll say it,' he says. 'That the man with the keys said it. That it was said, and I heard. I'll say it to everyone.' His hand finds your coat. 'You'll stand by me?'".
   }
   Action rg_pip_speaks(actor: group, site: place) "Stand beside Pip while he says what he heard" {
     Speaker pip.

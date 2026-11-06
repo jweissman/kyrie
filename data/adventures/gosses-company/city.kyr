@@ -97,7 +97,7 @@ Module pentrice "Gosse's Company" {
   Place bell_loft "the minster bell-loft" is room within minster_tower at 0, 0.
   Passage west_door "the minster's west door" is doorway between close and nave.
   Passage tower_stair "the tower stair" is stair between nave and bell_loft.
-  Observe nave_scene at nave when true "The nave is long and grey and cool, and smells of stone and candles. Down the north aisle the Book of Precedence lies open on a brass eagle, four hundred pages of who walks before whom, with a verger standing over it. From high in the tower comes the sound of two men arguing about bells.".
+  Observe nave_scene at nave when true "The nave is long and grey and cool, and smells of stone and wet wool, though it has not rained for a week. Down the north aisle the Book of Precedence lies open on a brass eagle, four hundred pages of who walks before whom, with a verger standing over it. From high in the tower comes the sound of two men arguing about bells.".
   Observe bell_loft_scene at bell_loft when true "The ringing chamber, under the bells: a square room with eight ropes coming down through holes in the ceiling, each with a red-and-white woollen grip, and painted boards on the walls recording great peals rung, with the names of the ringers in gold. It is very dusty, and full of jackdaws' noise.".
   Place choir_school "the choir school" is building within pentrice.
   Place school_yard "the choir school yard" is room within choir_school at 0, 0 outdoors.

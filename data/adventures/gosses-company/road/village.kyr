@@ -20,9 +20,9 @@ Module wending "Wending Cross" {
   Observe green_day at cross_green when not dark() "A triangle of rough grass where the west road crosses a brook by a stone bridge, with a pump, a horse-trough, a chapel with a squat bell-cote, the Wheatsheaf, and Cobbet's shop, which sells everything badly.".
   Observe green_night at cross_green when dark() "The green at Wending Cross in the dark: the brook loud under the bridge, a light in the Wheatsheaf, a dog barking somewhere and then thinking better of it.".
   Observe sheaf_scene at sheaf_taproom when true "A low taproom with a sanded floor, a settle by the fire and a sheaf of last year's wheat nailed up over the door for luck.".
-  Observe chapel_scene at chapel_room when true "A whitewashed chapel with six benches and a window of plain glass, very clean.".
+  Observe chapel_scene at chapel_room when true "A whitewashed chapel with six benches and a window of plain glass, very clean, and a collection-plate by the door with a hole in the middle mended with a button.".
   Observe shop_scene at cobbet_room when true "Cobbet's shop: candles, string, pots, nails, a cheese, a coffin standing on end in the corner with a price on it.".
-  Observe road_out_scene at road_out when true "The west road out of Wending Cross goes on between hedges toward the march, and beyond it, the folk say, the vale of the Arle.".
+  Observe road_out_scene at road_out when true "The west road out of Wending Cross goes on between hedges toward the march, rutted deep by carts that did not stop here; beyond the march, the folk say, lies the vale of the Arle, where they fine you for the words.".
   Person thackeray "Mistress Thackeray" at sheaf_taproom {
     Role "who keeps the Wheatsheaf". Ancestry human. Profession innkeeper. Peaceable. Pronouns she. Manner jovial.
     Greets "Mistress Thackeray is a square red-faced woman with flour to the elbows. 'Bed, beer or both?' she says.".

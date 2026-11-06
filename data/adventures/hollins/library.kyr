@@ -166,7 +166,7 @@ Module hollins "Behind the Wainscot" {
     Sells rations for 1 coin from 10.
   }
   Topic pennock_thaw with pennock "Ask Granny Pennock about the warm" when true once {
-    Says "'The glass is warm,' says Granny Pennock, and lays her palm on it, flat, like a child on a window. 'Three hundred years it was cold. We grew cress, because cress'll grow in anything, and radishes, and that's what the Wainscot's eaten, cress and radishes and her honey.' She points down the trough at the lettuces, pale and wide as umbrellas. 'Lettuce. Real lettuce. My gran had seeds from outside she'd never got to come. I planted them Friday for a joke.' She laughs. 'Whatever else she does, she's warmed the glass.'".
+    Says "'The glass is warm,' says Granny Pennock, and lays her palm on it, flat, like a child on a window. 'It was cold all my life, and my gran's. We grew cress, because cress'll grow in anything, and radishes, and that's what the Wainscot's eaten, cress and radishes and her honey.' She points down the trough at the lettuces, pale and wide as umbrellas. 'Lettuce. Real lettuce. My gran had seeds from outside she'd never got to come. I planted them Friday for a joke.' She laughs. 'Whatever else she does, she's warmed the glass.'".
   }
   Relation pickedToday(group).
   Action pick_sill(actor: group, site: place) "Work a morning in the window-boxes for Granny Pennock" {

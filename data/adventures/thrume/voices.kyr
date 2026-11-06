@@ -11,65 +11,65 @@ Module thrume "Thrume" {
 
   // Act II: the Shoulder. The ranger reads the ground the giants left.
   Rule voice_tracks at gate_yard when memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and at(party, gate_yard) and not heardTracks(party)
-    says "{?m} crouches at the edge of the trodden snow and lays two fingers in a print the size of a bread-board. 'Forty men went up this road,' {?m} says, 'and not one of them was dragged. Look: the big prints go slow and wide, the way you walk with something in each hand that you do not want to spill.' A little further on {?m} lifts a bone out of the snow with the meat still on it, split down the middle, as if to be handed through a gap. 'Nobody feeds hostages off their own plate,' {?m} says. 'Whatever these people are, they did not think they were stealing.'" {
+    says "{?m} crouches at the edge of the trodden snow and lays two fingers in a print the size of a bread-board. 'Forty men went up this road,' {?m} says. 'Walking. Not one dragged.' The big prints beside them are slow and wide, set down like feet carrying a full bowl. Further on {?m} lifts a bone out of the snow, meat still on it, split down the middle to be shared. 'Nobody feeds hostages off their own plate,' {?m} says, and puts it back where it lay. 'Whatever these people are, they did not think they were stealing.'" {
     Assert heardTracks(party).
   }
   Rule voice_walls at long_hall when memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and at(party, long_hall) and not heardWalls(party)
-    says "{?m} walks the length of the hall with a hand on the nearest bench, which is level with {?m}'s chin, and looks up for a long time at the roof-trees. 'No wall-walk,' {?m} says at last. 'No second door. No place a man could put a bowman or a bar. Every hold I have seen was built to be held. This was built to be sat in, by something that was never once afraid of a visitor.' {?m} lowers the voice without knowing it. 'Whatever they want of the Margravine, it is not a fight they planned.'" {
+    says "{?m} walks the length of the hall with a hand on the nearest bench, which is level with {?m}'s chin, and counts the doors. There is one. 'No wall-walk. No loft for a bowman, no bar to drop.' {?m} kicks a roof-post, which does not notice. 'I have held halls and I have taken them, and you build a hall for the day you lose it. This was built to sit in, by people who never once expected company they did not want.' {?m} lowers the voice without knowing it. 'Whatever they want of the Margravine, it is not a fight they planned.'" {
     Assert heardWalls(party).
   }
 
   // Act I: the Red Lantern. The cleric among the sleepers.
   Rule voice_breath at smoke_room when memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and at(party, smoke_room) and not heardBreath(party)
-    says "{?m} kneels by the nearest pallet, a hand light on a sleeper's chest, and counts under the breath with the other hand on a wrist. 'It is wrong,' {?m} says. 'A sleeper's breath wanders. These do not. Every one is breathing in the same time, and it is a great deal slower than a body's: six hours in and six hours out, if I have it, and I do not have it, because nobody breathes like that.' {?m} takes the hand away. 'I would very much like to know whose breath they are keeping.'" {
+    says "{?m} kneels by the nearest pallet, a hand light on a sleeper's chest and two fingers on the wrist, and says the short form for a bedside before saying anything else. 'A sleeper's breath wanders,' {?m} says. 'These do not. Every one is breathing in the same time, six hours in and six out, if I have it right, and I cannot have it right, because nobody breathes so.' {?m} takes the hand away and does not stand at once. 'I would very much like to know whose breath they are keeping.'" {
     Assert heardBreath(party).
   }
 
   // Act III: the inward roads. The cleric at the Wound; the warrior at the cold forge; the thief at the shut Lantern.
   Rule voice_pulse at red_gallery when memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and at(party, red_gallery) and not heardPulse(party)
-    says "{?m} stops in the middle of the gallery with a hand flat to the red crystal and a face gone quite still. 'That is the beat I counted in the Lantern,' {?m} says. 'The same, to the breath. I have been trained to know a wound when I stand in one.' {?m} takes the hand away slowly, as if it hurt. ''" {
+    says "{?m} stops in the middle of the gallery with a hand flat to the red crystal and a face gone quite still. 'That is the beat I counted in the Lantern,' {?m} says. 'The same, to the breath.' The hand comes away slowly. 'I have sat by a great many wounds. I did not expect to be standing in one.'" {
     Assert heardPulse(party).
   }
   Rule voice_tongs at cold_forge when memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and at(party, cold_forge) and not heardTongs(party)
-    says "{?m} takes down the nearest hammer and turns it in the torchlight, and puts a thumb on the face. 'Worn on the heel,' {?m} says. 'Not the face. The man who held this flinched at the top of every swing, for years, and kept swinging. You wear a hammer like that when you are paid to do a thing you are sorry for.' {?m} hangs it on its peg and wipes the hand on a coat, as if it had not come clean. 'Smiths. Not soldiers. They were afraid every day they worked.'" {
+    says "{?m} takes down the nearest hammer, turns it in the torchlight and puts a thumb to the face. 'Worn on the heel, not the face. Whoever swung this flinched at the top of every stroke, for years, and kept swinging.' {?m} hangs it back on its peg and wipes the hand on a coat, though the hand is clean. 'That is how you wear a hammer when you are paid to do a thing you are sorry for. Smiths. Not soldiers.'" {
     Assert heardTongs(party).
   }
   Rule voice_bones at master_cell when memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and at(party, master_cell) and not heardBones(party)
-    says "{?m} stands in the doorway of the cell a good while before coming in. 'He died sitting up,' {?m} says. 'Hands folded on a hammer, back to the wall, facing the door. That is not how a man dies. It is how a man waits.' {?m} looks at the bare floor, the unscorched shelf, the cot never slept in. 'And nobody has said a word over him. Not once, not in all that time. There is a form for the unpaid, and the unburied, and the dead who are still on duty. I know it.'" {
+    says "{?m} stands in the doorway of the cell a good while before coming in, and says under the breath the form for entering a room where someone sleeps. 'He died sitting up,' {?m} says. 'Hands folded on a hammer, back to the wall, facing the door. That is how a man waits.' {?m} looks at the bare floor, the unscorched shelf, the cot never slept in. 'And nobody has said a word over him. There is an office for the unpaid, and one for the unburied, and a short one for the dead who are still on duty.' A pause. 'I know the third by heart. It is very short.'" {
     Assert heardBones(party).
   }
   Rule voice_pegs at wage_hall when memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and at(party, wage_hall) and not heardPegs(party)
-    says "{?m} counts the pegs on the wall with one finger, lips moving, and then counts them again, because the answer was not the one wanted. 'A hundred and eight,' {?m} says. 'A hundred and seven names, and one peg with nothing. The paymaster kept a place for himself, or for a man who was never quite on the roll.'" {
+    says "{?m} runs a finger down the pegs, lips moving, and counts again from the other end, because the sum was not the one wanted. 'A hundred and eight pegs,' {?m} says, 'and a hundred and seven names. One peg with no name and no hammer, and swept clean.' The finger taps it. 'That is the peg for the man who is paid and is not on the roll. Every house has one. It is always the best-kept thing in the house.'" {
     Assert heardPegs(party).
   }
 
   // Act IV: the Hush and the Tomb. The ranger in the Street of Hands, the cleric at the Thrall-Market, the warrior among the hammers.
   Rule voice_street at hand_street when memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and at(party, hand_street) and not heardStreet(party)
-    says "{?m} looks down before looking along the street. There is dust on the grey stone and nobody has left a print in it: the Court's feet do not touch it, or do not weigh. The only tracks are small, round and shallow, always at a Court-walker's heel, and they stop at every doorway and begin again on the far side. 'Thralls walk where they are walked,' {?m} says. 'Not one of them has turned left on his own.'" {
+    says "{?m} looks down before looking along the street. There is dust on the grey stone and nobody has left a print in it: the Court's feet do not touch it, or do not weigh. The only tracks are small, round and shallow, always at a Court-walker's heel, and they stop at every doorway and begin again on the far side. 'Thralls walk where they are walked,' {?m} says. 'Not one has turned left on his own.'" {
     Assert heardStreet(party).
   }
   Rule voice_niches at thrall_market when memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and at(party, thrall_market) and not heardNiches(party)
-    says "{?m} goes along the niches with a thumb on one eyelid after another and does not find what was looked for. 'They are not sick and they are not dying,' {?m} says. 'They are being drunk a little at a time, and fed so that there will be more. I have sat with the dying. This is the other thing, and there is no office for it.'" {
+    says "{?m} goes along the niches with a thumb on one eyelid after another and does not find what was looked for. 'Not sick,' {?m} says. 'Not dying.' The thumb comes away from the last lid as if burned. 'They are being drunk, a sip at a time, and fed so that there will be more. I have sat with the dying and I know what is asked of them. This is the other thing, and there is no office for it.'" {
     Assert heardNiches(party).
   }
   Rule voice_hammers at hammer_hall when memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and at(party, hammer_hall) and not heardHammers(party)
-    says "{?m} stops under the first of the hammers and measures the swing of it with an arm held out, then the height of the door. 'Cut to the width of a man's shoulders,' {?m} says, 'not an inch to spare either side. Whoever made this knew exactly how big the thing coming in would be, and that it would come alone.'" {
+    says "{?m} stops under the first of the hammers and measures the swing of it with an arm held out, then the height of the door. 'Door cut to a man's shoulders, not an inch to spare,' {?m} says. 'Hammers hung where one man can reach them, and only one man at a time.' A grunt. 'Whoever built this knew how big the visitor would be, and that it would come alone. I do not like being expected.'" {
     Assert heardHammers(party).
   }
 
   // Act V: the Dream. The ranger in a meadow with no shadows.
   Rule voice_meadow at dream_field when memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and at(party, dream_field) and not heardMeadow(party)
-    says "{?m} stands in the middle of the grass turning slowly, with the look of someone who has lost the thing they most trust. 'There is no wind,' {?m} says, 'and the grass is leaning. Nothing here has a shadow, and every blade has a different light on it, as if each were remembered from a different afternoon. This place was not made. It was kept.' {?m} bends to pluck a stem and does not. 'I would sooner not pick anything.'" {
+    says "{?m} stands in the middle of the grass, turning slowly. 'No wind,' {?m} says. 'The grass leans anyway.' {?m} crouches. 'No shadow under a single sheep. Every blade has a different light on it, each from a different afternoon.' A hand goes to a stem, and stops short of it. 'Not made. Kept. I would sooner take nothing out of here.'" {
     Assert heardMeadow(party).
   }
 
   // Act I: any company with a bard has an ear for the inn; any with a mage, for the dial.
   Rule voice_inn at inn_room when memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m) and at(party, inn_room) and not heardInn(party)
-    says "{?m} listens to the room for a minute with eyes half shut. 'Forty miners and nobody is talking about the giants,' {?m} says. 'They are talking about sleep. In every corner.'" {
+    says "{?m} listens to the room for a minute with eyes half shut, the way one listens to a lute being tuned. 'Forty miners and not a word about the giants,' {?m} says. 'Hear it? Sleep. The man by the door, the pair at the fire, the boy with the pot. Every table has the same song, and not one of them knows he is singing it.'" {
     Assert heardInn(party).
   }
   Rule voice_dial at gauge_room when memberOf(?m, party) and hasCalling(?m, calling_mage) and awake(?m) and at(party, gauge_room) and not heardDial(party)
-    says "{?m} puts a palm an inch from the brass of the dial and takes it away quickly. 'It is not a machine,' {?m} says. 'There is a working in this and the working is a tide. Whatever it measures is alive, and is a very long way off, and is going the wrong way.'" {
+    says "{?m} puts a palm an inch from the brass of the dial and takes it away quickly. 'I would say this is not a machine,' {?m} says, 'though I would not swear to it. There is a working in it, and the working has a tide. Whatever it measures is alive, and a long way off, and the needle is going the wrong way.' A glance at the glass tube. 'One tick, in the time I have stood here. I should like to be wrong.'" {
     Assert heardDial(party).
   }
 

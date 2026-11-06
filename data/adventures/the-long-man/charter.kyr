@@ -66,7 +66,7 @@ Module longman "The Long Man" {
   }
   Discovery bell_gift_made "Mother Ysolt has had the parish bell taken down for the Mower; the bronze of it is the old pour, and will serve as the teeth did.".
   Item bell_bronze "the bell of the Chapel of the Ford" is bell_teeth at nave hidden until bell_gift_made.
-  Event mower_mends_bell near party when keeps(mower, bell_bronze) and not state(leak_gate, mended) "The Mower takes the bell from you in both arms as a man takes a sleeping child, and stands a moment with its blank face bent over the green bronze. Then it turns and carries it into the hill, and you hear it ring once, a long way down, in a note a good deal deeper than the one the parish has been using; and after it something heavy closing, as it closed at the weeping, with a sound like a bell." then {
+  Event mower_mends_bell near party when keeps(mower, bell_bronze) and not state(leak_gate, mended) "The Mower takes the bell from you in both arms as a man takes a sleeping child, and stands a moment with its blank face bent over the green bronze. Then it turns and carries it into the hill, and you hear it ring once, a long way down, in a note a good deal deeper than the one the parish has been using; and after it something heavy closing, as it closed at the weeping: one low note that you feel in the soles of your feet." then {
     Assert state(leak_gate, mended). Assert at(mower, leak). Assert bellSpent().
   }
   Relation bellSpent().

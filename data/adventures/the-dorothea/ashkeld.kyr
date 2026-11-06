@@ -22,12 +22,12 @@ Module dorothea "The Dorothea" {
   Person merrow "Merrow Gantry" at ashkeld_works {
     Role "headwoman of the Ashkeld gatherers". Ancestry human. Level 3. Peaceable. Pronouns she. Manner acerbic.
     Likeness "farmer".
-    Greets "A broad woman in a leather apron stands on a stool, nailing a lid onto a crate with a hammer, and not looking up. 'Merrow Gantry. I gather, I don't sell. The House sells. The House hasn't sent an Agent in two seasons and I'd as soon it didn't send one now. You came on the Dorothea? Then you have come a long way to pay for the stone I have been sitting on.'".
+    Greets "A broad woman in a leather apron stands on a stool, nailing a lid onto a crate with a hammer, and not looking up. 'I gather, I don't sell,' she says. 'Gantry. Merrow. The House sells. The House hasn't sent an Agent in two seasons and I'd as soon it didn't send one now. You came on the Dorothea? Then you have come a long way to pay for the stone I have been sitting on.'".
   }
   Person ansel "Ansel Hallow" at ashkeld_springs {
     Role "bath-keeper, who reads the cone". Ancestry human. Level 2. Peaceable. Pronouns he. Manner stoic.
     Likeness "abbess".
-    Greets "A very thin man sits on the lip of a milk-white pool with his eyes shut, his feet in it, and a stick of charcoal in his hand with which he is, you see, keeping a tally on his knee of something that is not time. 'Ansel Hallow,' he says without opening his eyes. 'I keep the baths. I keep a count of the mountain's breaths. You'll want to know when it breathes in.'".
+    Greets "A very thin man sits on the lip of a milk-white pool with his eyes shut, his feet in it, and a stick of charcoal in his hand with which he is, you see, keeping a tally on his knee of something that is not time. 'You are standing in my light,' he says, without opening his eyes, and there is no light to stand in. 'Hallow. I keep the baths, and a count of the mountain's breaths. You'll want to know when it breathes in.'".
   }
   Relation anselTip(group). Relation belled(group). Relation crateGiven(group).
   Hazard vent_gas "The breath of the vents" means "Deal (2d6) physical damage to ally unless constitution save against (13).".

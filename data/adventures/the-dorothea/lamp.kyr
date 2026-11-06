@@ -16,7 +16,7 @@ Module dorothea "The Dorothea" {
   Place lb_well "the lens-well" is room within lamp_below at 3, 3.
   Passage oil_door "the oil store door" is door between pharos_foot and oil_store.
   Passage trap_stair "the trap in the oil store floor" is stair between oil_store and lb_head
-    opening when ringFallen(party) "A trap, two planks wide, in the oil store's floor, under a hasp and a House padlock with a key and a ring cut in it. Marren Kestle will not so much as look at it. 'A seal is a thing everyone has agreed to be afraid of,' she said when you asked. 'The House's hands are the ring's, and the ring is a long way from being a thing a Kestle crosses.'".
+    opening when ringFallen(party) "A trap, two planks wide, in the oil store's floor, under a hasp and a House padlock with a key and a ring cut in it. Marren Kestle will not so much as look at it. 'A seal is only brass that everyone has agreed to be afraid of,' she said when you asked. 'And that one is the ring's. A Kestle doesn't cross the ring.'".
   Passage lb_down "the black stair" is passage between lb_head and lb_stair.
   Passage lb_gateway "the last turns of the stair" is passage between lb_stair and lb_gate.
   Passage lb_wheel_way "across the wheel-floor" is bridge between lb_ledge and lb_far
@@ -32,7 +32,7 @@ Module dorothea "The Dorothea" {
   Observe lb_oil_scene at oil_store when not ringFallen(party) "Kegs on their sides in cradles, a lead pipe as thick as a wrist going down through the floor, and in the floor a trap, bolted, with a House padlock on the hasp. The oil in the kegs smells of nothing at all.".
   Observe lb_oil_open at oil_store when ringFallen(party) "Kegs in their cradles, a lead pipe as thick as a wrist going down through the floor, and in the floor a trap with its hasp cut. The padlock lies on the boards, key and ring uppermost, with a dent in it from the trimming-knife. A smell of cold air comes up, and under it a smell of warm brass.".
   Rule seal_cut at oil_store when ringFallen(party) and at(party, oil_store) and not sealCut(party)
-    says "Marren Kestle has come down behind you with her grandfather's grandfather's trimming-knife, and she does not say anything. She puts the point under the hasp and leans, and the House's padlock goes into the dust. 'A seal is brass,' she says, 'when the one who made it is afraid. There is a stair under this tower I was told about when I was nine. I have never been down it. I have been feeding it for thirty years.'" {
+    says "Marren Kestle has come down behind you with her grandfather's grandfather's trimming-knife. She puts the point under the hasp and leans, and the House's padlock drops into the dust like a dead bird. 'There's a stair under this tower,' she says, to the hole and not to you. 'I was told about it when I was nine. Every autumn for thirty years I've carried oil to the top of it, and I have never once gone down to see what I was feeding.'" {
     Assert sealCut(party).
   }
   Relation sealCut(group). Relation crossed(group). Relation gateRead(group). Relation brakeThrown(group). Relation governorRests(group). Relation pilotLit(group). Relation oswinOut(group).
@@ -41,8 +41,9 @@ Module dorothea "The Dorothea" {
   // ── Act I: the stair and the gate ─────────────────────────────────────────────────────────────────────────────────
   Observe lb_head_scene at lb_head when true "A stair-head cut out of the living rock, no wider than the trap, warm: warmer than a cellar has any right to be. Whale oil and brass and, under it, a very slow tick, one to a breath, like a clock that is not hurrying. A lead pipe comes down through the ceiling and goes on down with the stair.".
   Observe lb_stair_scene at lb_stair when true "The stair goes down in a left-hand spiral cut from black stone, each step worn into a shallow dish on the inner edge and not on the outer: the whole of it has been walked down by people who did not much mind where they put their feet, and up by people who did. On the wall, scratched at the height of a hand, names. They go all the way down. The last one is a girl's.".
-  Observe stair_coins at lb_stair when true "In a niche on the third turn, a drift of small copper has built up the way snow drifts: coins of nine reigns, a button, a milk-tooth, a ribbon. Everyone who has gone down has left one. Nobody on Skerrow can say why, and nobody has ever not.".
-  Observe lb_gate_scene at lb_gate when true "The keepers' gate: two leaves of black bronze, closed. A fish and over it a flame are inlaid in the leaves in a green metal that has not tarnished, and under them a plate of numerals in two columns, one of them scrubbed to a shadow. A draught comes out from under the gate, smelling of warm oil.".
+  Observe stair_coins at lb_stair when true "In a niche on the third turn, a drift of small copper has built up the way snow drifts: coins of nine reigns, a button, a milk-tooth, a ribbon. Everyone who has gone down has left one. The drift has a hollow in its crown where the last coin went in, and the hollow is still bright.".
+  Observe lb_gate_tick at lb_gate when true "Here the tick is loud enough to count by, and slower than your pulse. After a minute you notice that you have begun to breathe to it.".
+  Observe lb_gate_scene at lb_gate when true "The keepers' gate: two leaves, closed, the bronze gone black as an old pan. A fish and over it a flame are inlaid in the leaves in a green metal that has not tarnished, and under them a plate of numerals in two columns, one of them scrubbed to a shadow. A draught comes out from under the gate, smelling of warm oil.".
   Rule voice_stair at lb_stair when at(party, lb_stair) and memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and not vStair(party)
     says "{?m} goes down three turns and stops with a hand on the wall. 'The steps are worn on the inside edge,' {?m} says. 'That is somebody going down quickly with a load on the outer arm. Oil, in a can. Every year.' {?m} looks up the stair. 'And up on the outside, slowly. Somebody whose knees were going. The same pair of knees, I think. Thirty years of them.'" {
     Assert vStair(party).
@@ -122,14 +123,16 @@ Module dorothea "The Dorothea" {
   }
   Observe lamp_dims at pharos_lamp when brakeThrown(party) and not pilotLit(party) "The lamp room is dark. The wicks are trimmed, the oil is in, and the great bronze reflector has nothing to throw. Marren Kestle sits on the floor with her back to it, saying nothing, and the Dorothea's captain is the only one on the Reach who has noticed.".
   Observe lb_crawl_scene at lb_crawl when true "A crawl as narrow as a chimney, polished on the floor to a trough by the knees and elbows of keepers one at a time, the one who tends and the one who counts. Every yard or so, scratched at the height of a cheek, a name and a year, in the hand of whoever was crawling.".
+  Observe lb_gallery_air at lb_gallery when true "The tick has thinned to a murmur behind the rock. The air has the dry sweetness of a room where a fire has been banked for longer than the room has had a roof.".
   Observe lb_gallery_scene at lb_gallery when true "A long low gallery in the rock with a table down the middle, a lamp on it, benches on both sides, and on the walls, chalked and re-chalked in four hands over two hundred years, two columns of argument. The left column is headed OWED, and the right KEPT, and where the chalk of one reaches the other there is a smear where a hand has wiped it. At the end a man in a surveyor's coat sits with his back against the wall, pretending to take a reading.".
+  Observe lb_well_heat at lb_well when true "It is hot at the bottom, a dry heat like the back of a baker's oven, and it smells of scorched brass and of nothing else. Green light moves on the curve of the rock overhead as light moves on the ceiling above a pond.".
   Observe lb_well_scene at lb_well when true "The bottom of the Lamp Below: a round well in the rock, a hundred feet across and as deep as the stair, with a cage of bronze in the middle of it, hung from nothing. In the cage a lens of green glass the size of a house turns on its axis at the pace of a slow walk, and under the lens a small pilot flame burns in a bronze cup, fed by a lead pipe that comes down the wall out of the dark.".
   Observe well_pilot at lb_well when pilotLit(party) "The pilot burns steady in its cup, fed, and the lens above it turns at the pace of a slow breath. Far above, through a hundred feet of rock, there is a green that was not there.".
 
   Person oswin "Oswin Tarn" at lb_gallery {
     Role "a surveyor of the Collegium of Measures, nine days below". Ancestry human. Calling mage. Level 2. Peaceable. Pronouns he. Manner proud.
     Likeness "scholar".
-    Greets "'Oswin Tarn,' says the man in the surveyor's coat, getting to his feet with a great effort at ease. 'Measures. I am taking readings. I am entirely well, and the readings are very good, and there is nothing at all to be done about the thing in the well.' He sits down again, rather quickly.".
+    Greets "The man in the surveyor's coat gets to his feet with a great effort at ease, and a pencil falls out of his hair. 'Tarn. Oswin. Measures. I am taking readings. I am entirely well, and the readings are very good, and there is nothing at all to be done about the thing in the well.' He sits down again, rather quickly.".
   }
   Topic oswin_why with oswin "Ask Oswin Tarn how he came down" when true once {
     Says "'By the sea-door,' says Tarn. 'Which is under the cliff, and was a dry cave at low water, and is not now. The House sent me. A survey of the Pharos for the lease, they said. To weigh the bronze.' He lifts a notebook: 'It is not bronze. It is the chimney of a thing. I have been nine days with the readings and I am a happy man and I have not eaten since the tide went.'".
@@ -154,7 +157,7 @@ Module dorothea "The Dorothea" {
     Result "Tarn takes your arm like a man on a ship's deck. He climbs the stair on it, one dish-worn step at a time, saying the numbers he can see in the wall, and at the trap he stops and looks up at the sky he has not seen in nine days. 'Oh,' he says. 'It's still there.'".
   }
   Rule voice_office at lb_gallery when at(party, lb_gallery) and memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and not vOffice(party)
-    says "{?m} reads the chalk columns end to end. 'Owed, and kept,' {?m} says. 'Somebody at the Collegium wrote OWED against every year's oil, and somebody on the island wrote KEPT, and neither would give in to the other. They have been correcting each other's totals for two hundred years.' {?m} smiles. 'There is a funeral office that says the same thing. We say the dead are kept and not owed. The Governor was built to keep the count of the living and the lost together. It is, in a sense, a sexton.'" {
+    says "{?m} reads the chalk columns end to end, lips moving, and stops where the two hands meet in a smear. 'Somebody at the Collegium wrote OWED against every year's oil,' {?m} says. 'Somebody on the island wrote KEPT over it. Two hundred years of rubbing out each other's totals.' {?m} puts a thumb in the smear and takes it away grey. 'We have an office for the dead that argues the same point, and we settle it the island's way. I know what to say to this. I'm not sure it will like being said to.'" {
     Assert vOffice(party).
   }
   Action read_the_office(actor: group, site: place) "Read the office for the dead over the tally, aloud, from the lip of the well" {
@@ -163,7 +166,7 @@ Module dorothea "The Dorothea" {
     Time 4.
     Resolve check(actor, persuasion, dc_fair).
     On success { Assert tolerates(governor, actor). Assert governorRests(actor). }
-    Result "{?m} says the office from the lip of the well in the plain voice of someone who has said it for strangers, naming no one. At the word 'kept' the lens stops. For the space of a long breath nothing in the Lamp Below moves. Then the Governor, which has stood at the pilot for two thousand years, folds its hands, and its eyes, which were two green stones, are only stone.".
+    Result "{?m} says the office at the well's edge in the plain voice of someone who has said it for strangers, naming no one. At the word 'kept' the lens stops. For the length of a breath nothing in the Lamp Below moves, not a wheel, not the tick. Then the Governor folds its hands over the knife, and the round green lens of its face dulls like a pebble taken out of water.".
     Otherwise "{?m} begins, and the Governor turns its head at the first line and does not find it agreeable. The patience of the thing has shortened.".
   }
 
@@ -171,13 +174,13 @@ Module dorothea "The Dorothea" {
   Species lb_governor "the Governor of the Lamp Below" like golem temperament territorial described "A body of black bronze nine feet tall, jointed at the knee and hip with plates that overlap like a lobster's, and for a face a round green lens; it holds a trimming-knife the length of a spear.".
   Person governor "the Governor" at lb_well {
     Role "the engine's keeper, set to count whoever is below". Species lb_governor. Level 6. Temperament territorial. Pronouns it.
-    Warns "In the cage of bronze the lens stops, and a figure beside the pilot turns its round green face on you with the whole of a slow body. It counts you. You can see it do it: a finger of black bronze lifting once for each of you. A voice like a hinge says a number. The number is not the number of the company. 'One keeper,' it says. 'One counter. All others are removal.'".
+    Warns "In the cage of bronze the lens stops, and a figure beside the pilot turns its round green face on you with the whole of a slow body. It counts you. You can see it do it: a finger lifting once for each of you. A voice like a hinge says a number. The number is not the number of the company. 'One keeper,' it says. 'One counter. All others are removal.'".
     Comes "The Governor takes its trimming-knife from the cage with an unhurried hand, and the number it says is yours.".
     Flinches "The Governor's head tilts. For a moment it seems to count someone who is not there.".
     Pleads "The Governor stops with one arm raised, and the lens in its face goes from green to a very pale amber. 'Count,' it says. 'Count. Count.'".
   }
   Rule governor_counts_one at lb_well when at(party, lb_well) and count(memberOf(?m, party)) == 1 and at(governor, lb_well) and not tolerates(governor, party) and not governorRests(party) and not stirred(party)
-    says "The Governor counts the company, one finger of black bronze. Then it counts again. 'One,' it says, in the hinge of its voice. 'One keeper. Tend.' It steps aside from the pilot as if from a table it has been told to lay for a guest, and the lens goes on turning." {
+    says "The Governor counts the company, one finger at a time. Then it counts again. 'One,' it says, in the hinge of its voice. 'One keeper. Tend.' It steps aside from the pilot as if from a table it has been told to lay for a guest, and the lens goes on turning." {
     Assert tolerates(governor, party). Assert governorRests(party).
   }
   Rule voice_hip at lb_well when at(party, lb_well) and memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and at(governor, lb_well) and not vHip(party)
@@ -188,7 +191,7 @@ Module dorothea "The Dorothea" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, lb_well) and at(governor, lb_well) and knows(actor, lb_stopword) and not tolerates(governor, actor) and not governorRests(actor).
     Time 1.
     On success { Assert tolerates(governor, actor). Assert governorRests(actor). }
-    Result "Nine characters, as one, three times, the third time lower. At the first the Governor's finger stops. At the second it lowers the knife. At the third it kneels, and sets its hand flat on the lip of the well, and the green lens in its face goes slowly dark. 'Counted,' it says.".
+    Result "Nine characters, as one, three times, the third time lower. At the first the Governor's finger stops. At the second it lowers the knife. At the third it kneels, and sets its hand flat on the coping, and the green lens in its face goes slowly dark. 'Counted,' it says.".
   }
   Action feed_the_pilot(actor: group, site: place) "Pour a keg of the Pharos's oil into the pilot's cup" {
     Description "The oil comes down the pipe from the island's store, by hand, every autumn. Nobody has taken it the rest of the way.".
@@ -201,7 +204,7 @@ Module dorothea "The Dorothea" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, lb_well) and governorRests(actor) and not lbDone(actor).
     Time 2.
     On success { Give lb_gauge to actor. Assert lbDone(actor). }
-    Result "The gauge hangs on a hook by the pilot: a dial of black bronze with a needle the length of a finger, and across its face the Aenean numerals in the first column, and in the second the strokes of the tread. It is lighter than it looks. The Governor watches you take it, and does not count.".
+    Result "The gauge hangs on a hook by the pilot: a dial gone black with age, with a needle the length of a finger, and across its face the Aenean numerals in the first column, and in the second the strokes of the tread. It is lighter than it looks. The Governor watches you take it, and does not count.".
   }
   Kind lb_gauge "the engine-keeper's gauge" is treasure worth 60 weighing 1 described "A dial of black bronze with a needle the length of a finger, taken from the cage of the Lamp Below. On its back, in a green metal that has not tarnished, a fish and over it a flame.".
 
@@ -209,5 +212,5 @@ Module dorothea "The Dorothea" {
   // only this module reads it.
   Rule lamp_known_by_fall when governorRests(party) and not engineKnown(party) { Assert engineKnown(party). }
   Relation engineKnown(group).
-  Observe plaque_scene at lb_well when governorRests(party) "On the lip of the well, a plaque in the Aeneans' numerals and the Aeneans' Latin says that this was made by the Prefect's order, for the keeping of the lights. It is the Aeneans' claim, and a good plain one. The engine is older than the wall it is set in by about two thousand years, and the wall is Aenean.".
+  Observe plaque_scene at lb_well when governorRests(party) "Cut into the well's coping, a plaque in the Aeneans' numerals and the Aeneans' Latin says that this was made by the Prefect's order, for the keeping of the lights. It is the Aeneans' claim, and a good plain one. The engine is older than the wall it is set in by about two thousand years, and the wall is Aenean.".
 }

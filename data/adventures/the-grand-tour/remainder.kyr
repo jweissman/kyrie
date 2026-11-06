@@ -55,12 +55,12 @@ Module sennet "The Grand Tour" {
     On discuss { Assert counted(actor). }
   }
   Topic sabe_roll with sabe "Ask Captain Sabe about the names on the ship's roll" when counted(actor) once {
-    Says "'There are two rolls,' says Sabe. 'The first is in the marks we do not read. We copy it, and we have copied it so many times that no one can say what it was.' He turns the slate over. 'The second is in a hand that is not the Watch's. Forty names; against thirty-eight of them a line has been drawn. Tamsin says the Watch wrote it to explain the names painted on the bulkhead. I say someone was there. We have agreed to count it either way.'".
+    Says "'Two rolls,' says Sabe. 'One. Two.' He lifts a finger for each, as if you might lose count. 'The first is in the marks we do not read. We copy it out every Watch, and each copy is a little less like the one before, and no one can say now what it was a copy of. The second was never in the Watch's hand. Forty names. Thirty-eight with a line through.' He lays the slate face down on his knee. 'Tamsin says the Watch wrote it to account for the names painted on the bulkhead. I say someone was here. We have agreed to count it either way.'".
     On discuss { Assert knows(actor, roll_two). }
   }
   Discovery roll_two "The Remainder keeps two rolls: one in marks nobody reads, one in a hand that is not the Watch's, forty names, thirty-eight struck through. The Captain believes it was written by someone who was there. The Reckoner thinks the Watch wrote it to explain the names on the bulkhead.".
   Topic sabe_want with sabe "Ask Captain Sabe what the Watch wants" when counted(actor) once {
-    Says "'Nothing,' says Sabe. 'We keep the hours. We keep the remainders. I was born on this deck and my mother before me, and each of us has said to the next, as the Watch is passed, that nothing is required but that the count be kept.' His hands are folded on the slate. 'My Reckoner thinks otherwise.'".
+    Says "'Nothing,' says Sabe. 'One. We keep the hours. Two. We keep the remainders. Three.' He seems to look for a third, and to be content without it. 'My mother said it to me by that rail, and her mother to her: nothing is required but that the count be kept.' His hands are folded on the slate. 'My Reckoner thinks otherwise. She is young, and the pin has moved.'".
   }
   Topic tamsin_count with tamsin "Ask Tamsin Quaye what she is trying to break" when secondBell(actor) once {
     Says "'The count,' she says. 'Ours. The ship's.' She puts down a bead. 'For nine hundred of our years the pin on that chart has been in the same place. Last year it moved. A hair.' She looks at it. 'The Captain says it is a cold week. When the slack ends the count has us, and everything in the hold, and it will not be unkind about it.'".
@@ -68,7 +68,7 @@ Module sennet "The Grand Tour" {
   }
   Discovery slack_thin "The Reckoner of the Remainder says the Slack is thinning: the pin on the chart has moved by a hair, and when the slack ends the count will take the ship and everything in her hold, and her Watch.".
   Topic tamsin_harbour with tamsin "Ask Tamsin Quaye what she wants done" when knows(actor, slack_thin) once {
-    Says "'Harbour,' says Tamsin. 'A real one. A place with a quay that stays where it is. Over our heads there is a stair, and at the top of it a House with a lamp in it. The Aeneans must have meant it for us; they built the stair. We have had it in the log for eleven generations that the Prefect's household went up it and did not come down. I mean to go up it. I will not take the remainders into the dark and I will not leave them to be counted.' She leans on the table. 'But a harbour wants a surety. In every language, in every age: someone to say, these are ours to keep. I thought: whoever comes down that stair. And here you are.'".
+    Says "'Harbour,' says Tamsin. 'A real one, with a quay that stays where you tie to it.' She taps the ceiling with the end of a rod, twice, as you knock on a neighbour's wall. 'There's a stair over our heads and a House with a lamp at the top. The log says the Prefect's household went up it eleven generations ago and did not come down. I mean to go up it myself, with twenty-two people and seven years' bedding, and I won't take them into a dark I haven't seen.' She sets the rod down. 'A harbour wants a surety. Somebody to say these are ours to keep, and sign. I'd thought: whoever comes down the stair. And here you are, with wet boots.'".
     On discuss { Assert knows(actor, surety_asked). }
   }
   Discovery surety_asked "Tamsin Quaye asks the company to stand surety for the Remainder's Watch and her hold, so that they may be harboured in the House above.".
@@ -86,7 +86,7 @@ Module sennet "The Grand Tour" {
     Change lift "Lift the lid of the frosted chest" from shut to opened at rem_hold.
   }
   Observe chest_looked near winter_chest when tried(winter_chest, looking) "REMAINDER 7, says the card. A winter. Not weather, not a season: the last week of a winter in a year when winter did not end, boxed and sealed. The Watch have never opened it. Orrel Sabe says it is the only remainder he has ever been afraid of.".
-  Rule chest_bites at rem_hold when state(winter_chest, opened) and not chestBit(party) says "The cold goes through you like a thought. You smell snow that fell nine hundred years ago, and hear a bell, and a dog barking at a door, and then the lid is on and Mab—someone—has put a knee on it, and your hands are blue to the wrist." {
+  Rule chest_bites at rem_hold when state(winter_chest, opened) and not chestBit(party) says "The cold goes through you like a thought. You smell snow that fell nine hundred years ago, and hear a bell, and a dog barking at a door, and then the lid is down and somebody has put a knee on it, and your hands are blue to the wrist." {
     Assert strikes(chest_cold, party). Assert chestBit(party).
   }
   Hazard chest_cold "The cold of a boxed winter" means "Deal (2d6) cold damage to ally unless constitution save against (14).".
@@ -136,7 +136,7 @@ Module sennet "The Grand Tour" {
     Result "'I understand,' says Tamsin Quaye, in the voice of someone who has understood nothing. She puts down the rod. 'Captain Sabe was right. He generally is. It is a terrible habit.' She looks at the pin on the chart for a long time. 'I will tell him he may count the day a success,' she says. 'Go up your stair. I would take it as a kindness if you did not say what we looked like.'".
   }
   Observe harbour_scene at rem_count when harboured(remainder) "The count-room is full of the Watch, packing: twenty-two people with seven years' bedding apiece, and children asking whether it is true that there is a sky. The pin on the chart has moved a hand's breadth and nobody has said so.".
-  Observe kept_scene at rem_count when keptInSlack(remainder) "Tamsin Quaye has taken the pin off the chart and is holding it. 'It will last my time,' she says, to nobody. 'It will not last theirs.'".
+  Observe kept_scene at rem_count when keptInSlack(remainder) "Tamsin Quaye has taken the pin off the chart and is holding it in her fist. She does not turn round. 'It'll see me out,' she says. 'It won't see out the children.'".
 
   // ── Putting out ────────────────────────────────────────────────────────────────────────────────────────────────
   // The Remainder is a ship, and ships go. In the slack her one voyage is to the berth of Mechanus (the set square,

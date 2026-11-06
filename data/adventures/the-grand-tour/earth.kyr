@@ -19,7 +19,7 @@ Module sennet "The Grand Tour" {
   Person delegates "the Slow Assembly" at assembly {
     Role "a hundred shapes of stone in tiers, listening". Species earth_elemental. Numbers 9. Level 5. Peaceable. Pronouns they.
   }
-  Observe speaker_word0 at assembly when words(assembly) == 0 "The Speaker is in the middle of a word. You listen for a long time before you understand that the word, when it is finished, will be OF.".
+  Observe speaker_word0 at assembly when words(assembly) == 0 "The Speaker is in the middle of a word. You listen through two breaths of the whole Assembly before you understand that the word, when it is finished, will be OF.".
   Observe speaker_word1 at assembly when words(assembly) == 1 and not motionCarried(assembly) "The Speaker is in the middle of a word. It will be DOORS.".
   Topic speaker_asked with speaker "Ask the Speaker of the Slow Assembly what it is saying" when true once {
     Says "The Speaker does not stop. Nothing stops in the Assembly. But after a while, a long while, a small pebble on the bottom tier rolls down to your feet and says, in a voice like gravel in a bucket, very fast: 'It's reading the motion. The second reading. That the Assembly consider whether to consider the return of the petal to the House of Doors. It's got to the petal to the House.' The pebble sighs. 'It started the second reading in your year Ten-Ninety. It'll say of tomorrow, by your sun. Doors the day after. Then it puts the question, and they'll say yes, they always say yes, they're only careful.' It looks up at you. 'If you sat through it, you'd be the petitioner. They'd give it you. Two days.' It looks round at the tiers. 'Two days! I can't bear it. I'm Chert.'".

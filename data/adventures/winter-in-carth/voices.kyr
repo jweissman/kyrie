@@ -32,7 +32,7 @@ Module gaunt "A Winter in Carth" {
 
   // ── Act IV, Fastens' Eve: the bard and the missing verse ──────────────────────────────────────────────────────────
   Rule voice_lamb at fat_lamb when memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m) and at(party, fat_lamb) and licence() and not heardLamb(party)
-    says "{?m} sits with a cup untouched and an ear turned to the fiddle and the drum. 'Every song in this room has had the same verse taken out of it,' {?m} says. 'You can hear the gap. It is like a stair that is not there: everyone puts a foot down for it and takes a half-step.' A smile that does not stay. 'Somebody a long time ago asked the whole city to stop singing the same eight bars, and it did.'" {
+    says "{?m} sits with a cup untouched and an ear turned to the fiddle and the drum. 'Listen to the fiddler,' {?m} says. 'Eight bars into every tune he takes a breath, and the drum takes it with him, and not one of these people has noticed that all four tunes stopped at the same place.' {?m} taps the table at the gap, once, and the man across the table taps it too, looking puzzled. 'Somebody asked the whole city to stop singing the same eight bars. It did, and then it forgot it had been asked.'" {
     Assert heardLamb(party).
   }
 
@@ -69,7 +69,7 @@ Module gaunt "A Winter in Carth" {
     Result "You give them what you have, as it came to you, in the tune it came in. The biggest woodman listens with his billhook on his shoulder, and at 'a year and a day' he shakes his head. 'Ever, my father said,' he says. 'Not a year.' He looks at the board on its post for some time. 'But you've the right of it, near enough, and I'll not be the one to say the Reeve's is better.' The three go back into the holly. In the morning, you suppose, they will be cutting.".
   }
   Rule leaf_known at penitentiary when at(party, penitentiary) and knows(party, first_leaf) and not leafHeard(party)
-    says "The clerks have stopped copying. Nobody in the Penitentiary has ever heard the rubric read aloud, and the sound of it in the long room, with forty books standing in the quiet, is like a step on a stair someone had forgotten was there." {
+    says "The clerks have stopped copying. Nobody in the Penitentiary has ever heard the rubric read aloud. In the long room a pen is put down, and then another, and a young clerk at the back lays both hands flat on his desk and leaves them there." {
     Assert leafHeard(party).
   }
   Relation leafHeard(group). Relation leafUsed(group). Relation grantShown(group). Relation hawiseReadLeaf(group).
@@ -117,7 +117,7 @@ Module gaunt "A Winter in Carth" {
     Resolve check(actor, woodcraft, dc_fair).
     On success { Assert wolvesRounded(actor). Assert wolvesTurned(deadfall). Assert at(wolves, limbo). Retract assails(wolves, actor). Retract warned(wolves, actor). }
     On failure { Assert wolvesRounded(actor). }
-    Result "You wet a finger and hold it up, and go off the woodmen's path onto the bank of the beck where the hazel stands in the snow, with the wind coming at you off the wolves, rank, like a wet dog in a hot room. You go slowly. The biggest lifts her head as you pass, and holds it there, and you do not look at her. Half a mile on you come out on the track with the sledge and everyone you started with, and behind you in the dusk five grey shapes are going in single file along the other bank, in the same prints, toward Gaunt, and then not toward it.".
+    Result "You go off the woodmen's path onto the bank of the beck, where the hazel stands up through the snow, and keep the wind on your cheek so that it carries your smell away from them and not to them; theirs comes down on you, rank and warm. You go slowly. The biggest lifts her head as you pass, and holds it there, and you do not look at her. Half a mile on you come out on the track with the sledge and everyone you started with, and behind you in the dusk five grey shapes are going in single file along the other bank, in the same prints, toward Gaunt, and then not toward it.".
     Otherwise "Halfway round, the wind goes round, as it does in a wood at dusk, and the biggest lifts her head, and stands, and turns to look at you; and the rest stand up one after another, as if the snow had made them.".
   }
   Action sing_the_wolves(actor: group, site: place) "Sing the Row's sliding rhyme at them, to the end: loud, slow, and walking out" {

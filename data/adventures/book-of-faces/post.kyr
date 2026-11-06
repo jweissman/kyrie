@@ -492,7 +492,7 @@ Module ombra "The Book of Faces" {
     Requires able(actor) and company(actor) and at(actor, site) and at(dunnage, site) and ps_flue_choked(actor) and not ps_boy_dismissed(ps_corbin) and not ps_own_up(actor).
     Time 2 minutes.
     On success { Assert ps_own_up(actor). Increase heat(actor) by 1. }
-    Result "Mistress Dunnage looks at you for a long time. 'The Rule,' she says at last, 'does not say who may be wrong.' She does not tell you to leave; she does not need to. 'The boy keeps his place,' she says. 'You will not come into this Office again with that face.' It is, you gather, as near to a courtesy as the Postmaster has.".
+    Result "Mistress Dunnage squares a stack of forms that is already square. 'The Rule,' she says at last, 'does not say who may be wrong.' She does not tell you to leave; she does not need to. 'The boy keeps his place,' she says. 'You will not come into this Office again with that face.' It is, you gather, as near to a courtesy as the Postmaster has.".
   }
 
   // ── Taking the Book: stealing, snatching, burning ─────────────────────────────────────────────────────────────────
@@ -599,7 +599,7 @@ Module ombra "The Book of Faces" {
     Resolve check(actor, deception, dc_hard).
     On success { Assert ps_pell_admits(actor). Assert knows(actor, pell_hid_book). Assert knows(actor, ps_rack_told). Assert ps_rack_known(actor). Assert ps_pell_lied_to(actor). }
     On failure { Set ps_pellDay(actor) to day(clock). }
-    Result "The clerk looks at you for a long time, and you watch him decide to believe it, which is a different thing from believing it. 'Father Ansel would have written,' he says. 'He writes to everyone.' But he has put the forms down. 'The third sack of the seventh line. If the Chaplain wants it, the Chaplain may come and take it out of the sack himself, and I will stand beside him.' It is a sentence he has been waiting a week to be asked to say, and you have taken it with a lie.".
+    Result "The clerk reads your face as he would a bill of lading, and you watch him decide to believe it, which is a different thing from believing it. 'Father Ansel would have written,' he says. 'He writes to everyone.' But he has put the forms down. 'The third sack of the seventh line. If the Chaplain wants it, the Chaplain may come and take it out of the sack himself, and I will stand beside him.' It is a sentence he has been waiting a week to be asked to say, and you have taken it with a lie.".
     Otherwise "'The Chaplain,' says the clerk, 'does not send people to a counter.' He says it with real regret, as a man tells a boy that the trick is not going to work. 'Good day.'".
   }
   Action ps_pell_threaten(actor: group, site: place) "Tell him you will say his name aloud in the Wet Post, at noon, from the bridge" {
@@ -919,7 +919,7 @@ Module ombra "The Book of Faces" {
     Requires able(actor) and company(actor) and at(actor, site) and at(ps_odile, site) and carries(actor, ps_parcel) and masked(actor) and publicHours() and not ps_parcel_delivered(actor).
     Time 2 minutes.
     On success { Spend ps_parcel from actor. Assert ps_parcel_delivered(actor). }
-    Result "She wipes her hands on her apron one at a time, left and then right, and takes it as one takes a thing that has not been asked for and has been expected. She does not read the direction. She holds it flat against her apron and looks at the oven. 'It is for the Cockle,' she says, in a voice that has no weather in it. 'That is not a person. Nobody will say who it was for, and nobody is going to ask.' She puts it under the table with the flour. At the Ninth Bell it will go home under her coat. You are, for the first time since you came to the bakehouse, quite sure that you have done a thing right and have not been thanked for it, and that she will think of you, if at all, as a Crow.".
+    Result "She wipes her hands on her apron one at a time, left and then right, and takes it the way she would take a bill she had been expecting. She does not read the direction. She holds it flat against her apron and looks at the oven. 'It is for the Cockle,' she says, in a voice that has no weather in it. 'That is not a person. Nobody will say who it was for, and nobody is going to ask.' She puts it under the table with the flour. At the Ninth Bell it will go home under her coat. You are, for the first time since you came to the bakehouse, quite sure that you have done a thing right and have not been thanked for it, and that she will think of you, if at all, as a Crow.".
   }
   // By night, on her own stair, with a bare face, it is a different delivery.
   Action ps_give_odile_night(actor: group, site: place) "Knock at the garret, bare-faced, and give her the parcel" {
@@ -931,7 +931,7 @@ Module ombra "The Book of Faces" {
     Result "She opens the garret with her hair down and the mask hung on its nail, bare-faced, smaller than by day, and sees a stranger on her landing with something in brown paper. 'Michaelmas Eve,' you say. 'The Cockle, at the fifth bell.' She puts a hand on the doorframe. She opens it there, under the stair-lamp, the cedar and the tissue and the wool, and she reads the note, which does not take long, and stands. 'I married Hobart Ollerton at the Annunciation,' she says. 'He is a chandler and he is kind and he does not know that anything was ever said.' She holds the dress against her nightgown in the lamp, and it is short in the hem, so as to keep out of the flour. 'It fits,' she says. 'He took it by looking.' She does not cry. 'I waited as long as the Post would let me. Tell nobody. No: tell nobody who is not him.' She folds it away into the tissue. 'It is nobody's fault,' she says, 'which is the worst sort.'".
   }
   Topic ps_wick_tells with ps_wick "Ask Wick, who has had a letter from you, who wore the Cockle that Michaelmas Eve" when ps_wick_delivered(actor) and ps_speaks(actor) and knows(actor, ps_clue_blue) once {
-    Says "He looks at you for a long time, the way a man looks at a person to whom he owes forty crowns that have been forgiven. 'A blue thread, a left hand,' he says. 'That is Odile. Over my head, on the garret. She does not say it and I have not said it, and what you heard was a man blowing his nose.' He puts a hot roll in your hand, and looks at it, and at you. 'I owed for that, as well,' he says. 'Take it.'".
+    Says "He gives you a smile with some strain at the corners, the way a man smiles at a person to whom he owes forty crowns that have been forgiven. 'A blue thread, a left hand,' he says. 'That is Odile. Over my head, on the garret. She does not say it and I have not said it, and what you heard was a man blowing his nose.' He puts a hot roll in your hand, and looks at it, and at you. 'I owed for that, as well,' he says. 'Take it.'".
     On discuss { Assert knows(actor, ps_odile_is_she). }
   }
   // Working a morning beside the trade, as a Cockle, and being told by the Cockles what the Cockles know.

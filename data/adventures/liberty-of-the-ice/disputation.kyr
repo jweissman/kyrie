@@ -36,7 +36,7 @@ Module pellam "The Liberty of the Ice" {
     On discuss { Assert callowPressed(actor). Assert knows(actor, gant_bond). }
   }
   Topic callow_press_reeve with callow "Ask Callow what the Reeve will say to a convert" when publicChanges(actor) and callowOnKeg() and not callowPressed(actor) once {
-    Says "'To you? Nothing. You have not preached it.' He looks over at the Court's patched tent beside the Glove Post. 'To me she will say it at four, I think. The watermen have been counting how many of their pennies I have talked off them.' He coughs, and laughs, and coughs. 'Come and watch. Nobody on the ice will shake to be my hand, and you will see what a hand is worth when there is none.'".
+    Says "'To you? Nothing. You have not preached it.' He looks over at the Court's patched tent beside the Glove Post. 'To me she will say it at four, I think. The watermen have been counting how many of their pennies I have talked off them.' He laughs until it hurts him. 'Come and watch. Nobody on the ice will shake to be my hand, and you will see what a hand is worth when there is none.'".
     On discuss { Assert callowPressed(actor). Assert knows(actor, court_at_four). }
   }
   Discovery court_at_four "Magister Callow expects to be charged at the Court of the Ice at four on the first day, for teaching that a hand binds nobody; and that nobody on the ice will shake to be his hand." {

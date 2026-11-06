@@ -144,7 +144,7 @@ Module lull "The Lull" {
     Buys wrought_shillings_kind for 15 coin.
   }
   Topic haskett_shift with haskett "Show Mercer Haskett the grey cloth you wove in the Mill" when carries(party, shift_bolt) once {
-    Says "Haskett takes the bolt to the window and does not say anything for a long time, which for him is a great deal of not saying. He rubs it, smells it, holds it to the light. 'Perfect,' he says at last. 'Perfect, and the colour of nothing.' He gives it back to you, not quite at once. 'I'll give you twenty for it. I'll give you twenty and I'll put it at the back of the rack where I don't have to look at it.' He wipes his hands on his waistcoat. 'Who wove that? No. Don't tell me.'".
+    Says "Haskett takes the bolt to the window and says nothing for as long as it takes to count to twenty, which for him is a great deal of not saying. He rubs it, smells it, holds it to the light. 'Perfect,' he says at last. 'Perfect, and the colour of nothing.' He gives it back to you, not quite at once. 'I'll give you twenty for it. I'll give you twenty and I'll put it at the back of the rack where I don't have to look at it.' He wipes his hands on his waistcoat. 'Who wove that? No. Don't tell me.'".
   }
   Topic haskett_trade with haskett "Ask Mercer Haskett how he comes by Lull-cloth" when true once {
     Says "'Gifts,' says Haskett. 'Every scrap of it. A Lull weaver weaves a length for her sister in Sixways because she loves her sister and loves the loom, and the sister, who has a roof to mend, brings it to me. Forty years my father did it and thirty I have.' He strokes the bolt. 'Do you know what it would be worth, if they wove for wages and it held? They have four hundred people in there who have done nothing for fifty years but get good at things they love.' He sighs like a man looking at an orchard over a wall. 'And they won't take a penny. Their law, they say. Their custom, I say.'".
@@ -205,7 +205,7 @@ Module lull "The Lull" {
   }
   Relation simeonToldHester(group).
   Topic simeon_join_offer with simeon "Ask Simeon Eddowes to come into the Lull with you" when knows(actor, simeon_banned) and not simeonToldHester(simeon) and not acceptsEscort(simeon, actor) once {
-    Says "Simeon looks at you over his spectacles for a long time. 'The wardens would turn me back at the Tump,' he says. 'And I would stand there and let them, because I am old and I have nothing in there worth the shame of it.' He goes back to his pen. 'Ask me again if that changes.'".
+    Says "Simeon looks at you over his spectacles. 'The wardens would turn me back at the Tump,' he says. 'And I would stand there and let them, because I am old and I have nothing in there worth the shame of it.' He goes back to his pen. 'Ask me again if that changes.'".
   }
   // He will come with the company once there is something in the Lull worth the shame of being turned back.
   Rule simeon_sets_out when following(simeon, party) and not simeonSetOut(simeon)

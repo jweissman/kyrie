@@ -45,7 +45,7 @@ Module corrow "Let One Remember" {
   Relation webbNamed(group). Measure syllables(group).
   Initially Set syllables(webb) to 1.
   Topic webb_talk with webb "Ask Corin Webb about his work" when not webbNamed(webb) once {
-    Says "'Letters,' says Webb, with a pleasant, forgettable smile. 'The consul writes to Lusk, Lusk writes to the consul, and I write it all down so it stays.' He tidies a stack that is already tidy. 'I take an interest in old things. The Short Grey. The Keld. The grey country they came back from.' He says the last words as if tasting them. 'Eleven years I've been here. You'd think I'd be bored of it.'".
+    Says "'Letters,' says Webb, with a pleasant, forgettable smile. 'The consul writes to Lusk, Lusk writes to the consul, and I write it all down so it stays.' He tidies a stack that is already tidy. 'I take an interest in old things. The Short Grey. The Keld. The grey country they came back from.' He says the last words slowly, tasting them. 'Eleven years I've been here. You'd think I'd be bored of it.'".
   }
   Action name_webb(actor: group, site: place) "Ask Teshen to give Corin Webb his own name and his own place, aloud" {
     Description "He is Corin, son of the reeve of Keld Hollow, who was in the far field when the fog came, and was never found.".
@@ -115,7 +115,7 @@ Module corrow "Let One Remember" {
     On discuss { Assert lends(bram, wenna_lens, actor). Assert at(wenna_lens, coyle_kitchen). }
   }
   // Through the lens, from Hornwake, the ribs of Hightown's underside; beside the Socket chart, the same ribs.
-  Observe lens_and_chart near party when carries(party, wenna_lens) and carries(party, chart) and at(party, ?p) and inHornwake(?p) and not crashed(hightown) and not lost(hightown) and not knows(party, origin_known) "You hold Wenna's lens to your eye and find Hightown's underside, two and a half kilometres up: not a dark blot through this glass but granite, ribbed, rib after rib curving away like the inside of a bowl turned over. You count them. You unroll the Lusk chart of the Socket on a wagon-tail and count the ribs of the lake's bowl. Same count; same spacing; the same broken rib on the eastern side. The lake is the mountain's place." teaches origin_known.
+  Observe lens_and_chart near party when carries(party, wenna_lens) and carries(party, chart) and at(party, ?p) and inHornwake(?p) and not crashed(hightown) and not lost(hightown) and not knows(party, origin_known) "You hold Wenna's lens to your eye and find Hightown's underside, two and a half kilometres up: not a dark blot through this glass but granite, ribbed, rib after rib curving away like the inside of a bowl turned over. You count them. You unroll the Lusk chart of the Socket on a wagon-tail and count the ribs of the lake's bowl. Same count; same spacing; the same broken rib on the eastern side. The mountain was cut from that bowl." teaches origin_known.
   Relation inHornwake(place).
   Initially Assert inHornwake(horn_foot). Initially Assert inHornwake(hoist_feet). Initially Assert inHornwake(wagons). Initially Assert inHornwake(tail).
 

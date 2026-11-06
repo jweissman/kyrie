@@ -31,7 +31,7 @@ Module season "The Patient Star" {
 
   Observe stair_top_scene at stair_top when true "The Stair road comes up beside the falls to a walled house of grey stone on the lip of the Scarp. Bells mark the offices. Below, four falls stand one above another, and the lowland goes off green to the edge of the sky.".
   Observe chapel_scene_sh at chapel_sh when true "A plain Arbitral chapel. The brothers sing seven offices a day; at the night office the cellarer hangs his keys in the vestry, and every man of them is in here.".
-  Observe vestry_scene at vestry_sh when true "A narrow vestry of copes and candles, with a row of iron hooks by the door.".
+  Observe vestry_scene at vestry_sh when true "A narrow vestry that smells of wet wool and beeswax, copes hung in a row, and by the door a row of iron hooks worn bright where seven offices a day have hung seven kinds of key.".
   Observe platform_scene at platform when true "An old stone platform older than the House, set with bronze fittings in a ring. The brothers dry washing on it. The fittings are mirror mounts, though nobody here knows it.".
   Discovery way_found "Under the platform's centre flagstones a stair goes down into rock that has not changed since it was cut: the Way's door is the House's own platform." {
     Found by searching platform "The centre flagstones ring hollow. Under them, a stair of white stone goes down into rock that has the look of something that has never once been touched by weather.".
@@ -46,7 +46,7 @@ Module season "The Patient Star" {
   }
   Initially Assert serves(tam, mance).
   Topic mance_stone with mance "Ask the prior what the mother-church wants" when true once {
-    Says "'The Long Hour, which the old king keeps below,' says Mance, 'and whatever comes up the Plumb.' He folds his hands. 'The mother-church believes there is a relic of the Virina under this plateau. A stone that sings. I am to have it before the Crown does.'".
+    Says "'The Long Hour, which the old king keeps below,' says Mance, 'and whatever comes up the Plumb.' He folds his hands over a letter he has plainly read many times. 'The mother-church holds that a relic of the Virina lies under this plateau. A stone that sings. I am instructed to have it before the Crown does, and to be seen praying while I do.'".
   }
   // Buys reads only the shared catalog, so a kind of this module's own cannot be bought by Buys (ledger, 24).
   Action sell_plates(actor: group, carrier: member, site: place) "Sell the Long Hour to the prior for six hundred crowns" {

@@ -59,7 +59,7 @@ Module skeel "Fair Weather" {
   }
   Relation piranPlans(group). Relation piranStopped(group). Relation piranWaits(group). Relation piranUp(group). Relation piranFell(group).
   Topic tell_ebrel with ebrel "Tell Ebrel Penhallow that Piran means to climb the Pulpit" when piranPlans(piran) and not piranStopped(piran) and not piranUp(piran) and not piranFell(piran) once {
-    Says "She goes white under the weather. Then she gets up and walks over to the boy at the cliff edge and takes him by the collar and the seat of his breeches and lifts him back from the edge like a sack, and sets him down in the grass, and holds him there, and does not say anything at all for a long time. He does not fight her. Over her shoulder he looks at you, once, the way you look at someone you will not forgive.".
+    Says "She goes white under the weather. Then she gets up and walks over to the boy at the cliff edge and takes him by the collar and the seat of his breeches and lifts him back from the edge like a sack, and sets him down in the grass, and holds him there, and does not say anything at all, while the gannets go on shouting over them both. He does not fight her. Over her shoulder he looks at you, once, the way you look at someone you will not forgive.".
     On discuss { Assert piranStopped(piran). Assert piranHatesYou(piran). }
   }
   Relation piranHatesYou(group).

@@ -65,7 +65,7 @@ Module larum "The Quiet in the Sky" {
     Resolve check(actor, persuasion, dc_fair).
     On success { Assert plainWritten(ansel). Spend challenge from actor. Give plain_letter to actor. }
     On failure { Assert anselBalked(ansel). }
-    Result "Ansel looks at you as if you had suggested he go into battle naked. Then he looks at the challenge in your hand for a long time, and takes it, and holds it over Evenhall's hearth until the corner catches, and lets it go. He sits down at the end of a bench with a scrap of lining and a stub of charcoal, and writes, with his tongue between his teeth like a schoolboy, and crosses out, and writes. When he gives it you he will not meet your eye.".
+    Result "Ansel looks at you as if you had suggested he go into battle naked. Then he looks at the challenge in your hand, and turns it over to see whether the back is any better, and takes it, and holds it over Evenhall's hearth until the corner catches, and lets it go. He sits down at the end of a bench with a scrap of lining and a stub of charcoal, and writes, with his tongue between his teeth like a schoolboy, and crosses out, and writes. When he gives it you he will not meet your eye.".
     Otherwise "'Plainly,' says Ansel, as though you had said barefoot. 'There is no plainly. There is the form, or there is nothing.' He turns away. 'Carry the challenge, if you will. Or don't.'".
   }
   Relation plainWritten(group). Relation anselBalked(group). Relation mabInsulted(group). Relation mabGoes(group). Measure mabGoesDay(group).
