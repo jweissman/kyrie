@@ -72,7 +72,7 @@ Module lowwater "Low Water" {
     Says "'Because she cut the Remainders.' He says it with a terrible satisfaction. 'Three autumns ago she cut them, and three autumns ago the Mere began to fall. Seven Remainders, as it was given to the Aeneans and by them to us, and she took a knife to it like a tailor to a coat.' He folds his hands. 'The Mere is the dead, Assessor. Every soul a drop. When the hymn is broken the dead do not rest, and they go down, and away. I have said so at three Councils. They laugh.'".
   }
   Topic fisk_why with fisk "Ask Penhale how he knows it was the Remainders and not something else" when knows(actor, short_hymn) once {
-    Says "'Because I have faith,' he says, and then, seeing your face, rather less grandly: 'And because I can count. The Mere stood still two hundred years. Then it moved. The only thing that changed in the Bowl that autumn was the hymn.' He looks at you sidelong. 'The Guild's Channel was the next year. Nobody remembers that. Everybody remembers the Channel.'".
+    Says "'Because I have faith,' he says, and then, seeing your face, rather less grandly: 'And because I can count. The Mere stood still for as long as there has been a Cantor. Then it moved. The only thing that changed in the Bowl that autumn was the hymn.' He looks at you sidelong. 'The Guild's Channel was the next year. Nobody remembers that. Everybody remembers the Channel.'".
   }
 
   // Tamsin, who came because of the reform.

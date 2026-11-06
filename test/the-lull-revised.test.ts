@@ -13,7 +13,7 @@ describe('The Lull: the Account, kept', () => {
     await g.play('>lull__hanger_path');
     expect(g.page).toMatch(/He remembers being killed/);
     await g.play('>lull__chapel');
-    expect(g.page).toMatch(/Fifty-seven years of starlings/);
+    expect(g.page).toMatch(/Somebody taught them and they never forgot/);
     await g.play('>lull__strike_post');
     expect(g.page).toMatch(/NELL/);
     await g.play('>lull__spurling_shop');

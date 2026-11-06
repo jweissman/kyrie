@@ -120,7 +120,7 @@ Module hhg "The House That Grows" {
   }
   // The monk's way (and the stare-trained's): look at the gate until it blinks. It is the one door that opens in front of its watcher.
   Action stare_gate(actor: group, site: place, m: member) "Stare at the gate with {m} until the brass bar lets go" {
-    Description "A Watch-trained eye can outhold a girl who has had two and a half thousand years to practise. It takes an hour, and nobody must look away.".
+    Description "A Watch-trained eye can outhold a girl who has had longer than the Watch to practise. It takes an hour, and nobody must look away.".
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, slope) and state(gate_leaf, barred) and stareTrained(actor)
       and memberOf(m, actor) and hasCalling(m, calling_monk) and awake(m) and companyLooks(actor, site).
     Time 6. Interrupted when not companyLooks(actor, site).

@@ -9,7 +9,11 @@ const k = (id: string) => `dorothea__${id}`;
 const at = (j: Journey) => j.campaign.world.one('at', 'party');
 const hull = (j: Journey) => j.campaign.world.one('at', k('hull'));
 const swelter = (j: Journey) => j.measure(k('swelter'), 'party');
-const bales = (j: Journey) => j.choices().filter(c => /^Pack › A bale of Mangrow bark › Set down here/.test(c.label)).length;
+// How many bales the pack says it holds ("A bale", "Two bales").
+const bales = (j: Journey) => {
+  const word = j.choices().map(c => /^Pack › (\w+) bales? of Mangrow bark › Set down here/.exec(c.label)?.[1]).find(Boolean);
+  return word ? ['', 'A', 'Two', 'Three', 'Four'].indexOf(word) : 0;
+};
 const start = async () => {
   const j = await Journey.start(campaign, 's1');
   j.assert(k('seaQuiet'), k('hull'));
@@ -41,24 +45,27 @@ describe('Mangrow: the call, and the way there', () => {
     expect(j.measure(k('bound'), k('hull'))).toBe(4);
     await j.play('Ask Captain Bascom to put in at Mangrow', 'Pay Captain Bascom sixteen', "^To the Dorothea's waist", '=100');
     expect(hull(j)).toBe(k('open_sea'));
-    await j.play('=300');
+    await j.play('=350');
     expect(hull(j)).toBe(k('open_sea'));
     expect(j.page).toContain('The third day');
+    await j.play('=520');
+    expect(hull(j)).toBe(k('open_sea'));
+    expect(j.page).toContain('The fourth day');
     await j.play('=until at(dorothea__hull, dorothea__mangrow_pier)');
     expect(j.watch()).toBeGreaterThan(144 * 4);
-    expect(j.page).toContain('The fourth day');
   }, 600000);
 
   it('draws the sea table on the long leg and answers a fever with the bark', async () => {
     const j = await start();
-    j.give(k('dorothea_bark'));
+    j.give('dorothea_bark');
     await j.play('^To Tolleth quay', 'Ask Captain Bascom for passage', 'Ask Captain Bascom where else', 'Ask Captain Bascom to put in at Mangrow', 'Pay Captain Bascom sixteen', "^To the Dorothea's waist", '=40');
     j.assert(k('fever'), k('hull'));
     j.assert(k('troubled'), k('hull'));
+    await j.play('=+1');
     expect(j.matches('Steep the Mangrow bark for the boy').length).toBe(1);
     await j.play('Steep the Mangrow bark for the boy');
     expect(j.holds(k('fever'), k('hull'))).toBe(false);
-    expect(j.holds('holding', 'party', k('dorothea_bark'))).toBe(false);
+    expect(j.holds('holding', 'party', 'dorothea_bark')).toBe(false);
   }, 600000);
 });
 
@@ -79,7 +86,7 @@ describe('Mangrow: the green', () => {
     await j.play('=+2');
     expect(at(j)).toBe(k('mangrow_pier'));
     expect(swelter(j)).toBeLessThan(8);
-    expect(j.page).toContain('a woman\'s voice saying, to the mud, that she had told them');
+    expect(j.page).toContain('that she had told them');
   }, 600000);
 
   it('halves the stings under netting, and lets the pier\'s breeze ease them', async () => {
@@ -103,12 +110,12 @@ describe('Mangrow: the strong-room, three ways', () => {
     await j.play('Put on the netting', 'Pay Sula Weir three', '^To the creek mouth', "^To Vail's hide");
     expect(j.matches('Carry Vail.s pannikin').length).toBe(0);
     await j.play('Ask Ennis Vail what he is counting', 'Ask Ennis Vail for a pannikin', 'Carry Vail.s pannikin behind the cloth', 'Ask Perrin Osk for the strong-room key');
-    expect(j.holds('holding', 'party', k('dorothea_strong_key'))).toBe(true);
+    expect(j.holds('holding', 'party', 'dorothea_strong_key')).toBe(true);
     expect(swelter(j)).toBe(0);
-    await j.play('^To the creek mouth', '^To the outstation yard', 'Cut the roots from the lock', '^To the strong-room', 'Carry two bales');
+    await j.play('^To the creek mouth', '^To the outstation yard', 'Cut the roots from the lock', '^To the strong-room', 'Carry a bale out', 'Carry a second bale out');
     expect(j.holds(k('storeOpen'), 'party')).toBe(true);
     expect(bales(j)).toBe(2);
-    expect(j.matches('Carry two bales').length).toBe(0);
+    expect(j.matches('Carry a second bale').length).toBe(0);
   }, 900000);
 
   it('has Quint, who knew Vail\'s note on the unequal wings, bring the tea without a coin', async () => {
@@ -134,7 +141,7 @@ describe('Mangrow: the strong-room, three ways', () => {
     await j.play('Work the strong-room lock free');
     j.roll();
     expect(j.holds(k('storeOpen'), 'party')).toBe(true);
-    await j.play('^To the strong-room', 'Carry two bales');
+    await j.play('^To the strong-room', 'Carry a bale out', 'Carry a second bale out');
     expect(bales(j)).toBe(2);
     const v = await start();
     await landed(v);
@@ -146,7 +153,7 @@ describe('Mangrow: the strong-room, three ways', () => {
     const j = await start();
     await landed(j);
     await j.play('^To the outstation yard', 'Burn the fig off the strong-room door', '^To the strong-room');
-    expect(j.matches('Carry two bales').length).toBe(0);
+    expect(j.matches('Carry a second bale').length).toBe(0);
     await j.play('Carry out the one bale the fire spared');
     expect(bales(j)).toBe(1);
     const r = await start();
@@ -163,8 +170,8 @@ describe('Mangrow: the strong-room, three ways', () => {
 describe('Mangrow: home, and left behind', () => {
   it('sells a bale to Garrick for ten coin, and drinks one to clear the fever', async () => {
     const j = await start();
-    j.give(k('dorothea_bark'));
-    j.give(k('dorothea_bark'));
+    j.give('dorothea_bark');
+    j.give('dorothea_bark');
     await j.play('^To Tolleth quay', '^Into Garrick');
     const gold = j.measure('quantity', 'party', 'gold');
     await j.play('Sell Wat Garrick a bale');
@@ -176,11 +183,8 @@ describe('Mangrow: home, and left behind', () => {
   it('leaves a company on the pier when the ketch goes, and the Hesper takes it home for nine', async () => {
     const j = await start();
     await landed(j);
-    await j.play('^To the outstation yard');
     await j.play("=until at(dorothea__hull, dorothea__mangrow_roads)");
     expect(j.holds(k('homeward'), k('hull'))).toBe(true);
-    await j.play('^To the rotting pier|=+4');
-    j.put('party', k('mangrow_pier'));
     await j.play('=+2');
     expect(j.holds(k('strandedMangrow'), 'party')).toBe(true);
     expect(j.page).toContain('Hesper');

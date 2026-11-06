@@ -107,7 +107,12 @@ Module dorothea "The Dorothea" {
     Warns "Three men are over the rail and on the deck of the Dorothea before anyone saw the cutter's boat. The nearest hefts a belaying-pin, not as a threat but as a sort of punctuation.".
     Comes "The nearest says, 'Don't make it into a thing,' and the belaying-pin comes round in a flat, practised arc.".
   }
-  Relation handsPaid(group). Relation handsSent(group).
+  Relation handsPaid(group). Relation handsSent(group). Relation handsBeaten(group).
+  // Beaten on the deck, the hands go over the rail with their wounded, and Pendry with them; the casks stay.
+  Rule hands_beaten when at(kestrel_hands, deck) and not able(kestrel_hands) and not handsBeaten(party)
+    says "The last of them sits down on the hatch-cover with a hand to his head and says, with great fairness, that he has had enough. Jago Pendry steps over the rail without his coat, which Rune picks up, and the cutter's boat takes them off into the dark. The casks are where they were." {
+    Assert handsBeaten(party). Assert sold(hull). Retract at(jago, deck). Retract at(kestrel_hands, deck). Assert at(kestrel_hands, nowhere).
+  }
   Action pay_the_hands(actor: group, site: place) "Pay the Kestrel's hands eight coin to go back over the rail" {
     Description "It is cheaper than a head. It is also eight coin that will be spent on drink by the next watch.".
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, deck) and at(kestrel_hands, site) and quantity(actor, gold) >= 8 and not handsPaid(actor).

@@ -7,3 +7,4 @@
 | `Item ... owned by X` then `Give` | The recipient is shown "X sees ... 'That is mine.'" as if stolen. | Dropped `owned by`. | Make `Give` clear ownership, or document. |
 | `says "…" teaches fact` | Needed to teach a Discovery from a rule; `Assert knows(…)` is refused. | One line. | None; worth putting in the Kyr guide. |
 | Test fixtures `traveller` and `seasoned` carry their own `module.json` source lists | A new file must be added to each. | Two edits. | None. |
+| Review item 8: "a lamp kept for no one living" in the voices module description | Cut from the description of `voices.kyr`. Corbin's lamp for the drowned (`lore.kyr`) is the adventure's one kept light. | trivial | none | fixed |

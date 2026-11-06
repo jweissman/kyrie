@@ -95,7 +95,7 @@ Module sennet "The Grand Tour" {
   Item north_feather "a feather of the North Wind" is feather_kind at offstage.
   Item north_jar "a jar of the North Wind" is north_wind_kind at offstage.
   Topic tramontane_jar with tramontane "Ask the North Wind for a breath of himself in a jar, for a glass-blower in Lamp Street" when tramontaneHeard(tramontane) and holding(actor, wind_jar_kind) and at(north_jar, offstage) once {
-    Says "'For a glass-blower.' Something that might once have been a smile goes over the North Wind's face. 'To make another petal. To set in her hill in place of mine, so that mine can come home and her house stay up.' He considers the idea as if he had never met one before. 'That is the first new thing anybody has said to me in two hundred years.' He breathes into the jar. Frost grows inside the glass in ferns. He stops it himself, with one cold finger.".
+    Says "'For a glass-blower.' Something that might once have been a smile goes over the North Wind's face. 'To make another petal. To set in her hill in place of mine, so that mine can come home and her house stay up.' He considers the idea as if he had never met one before. 'That is the first new thing anybody has said to me since the jar.' He breathes into the jar. Frost grows inside the glass in ferns. He stops it himself, with one cold finger.".
     On discuss { Spend wind_jar_kind from actor. Give north_jar to actor. }
   }
   Action catch_wind(actor: group, site: place) "Unstop the empty wind-jar and hold it up into the North Wind" {

@@ -89,5 +89,5 @@ Module tessary "What Tessary Owes" {
     State unstoppered "The jar by the folded lake stands unstoppered, and very faintly, if you bend close, someone is still singing in it.".
     Change listen "Take the stopper out of the jar and listen" from stoppered to unstoppered.
   }
-  Event jar_sings at folded_lake when state(voice_jar, unstoppered) "Out of the jar comes a woman's voice, small and clear and far away, singing to nobody in particular, the way people sing over washing. It is 'Sally of the Withies', the old ballad of the girl who waited for a sailor, that Pitch sells in a penny chapbook and that the Copyist under the sea has read two hundred and eleven times. In the jar she has got to the third verse, where he comes home. She sings it twice. Then she starts again from the beginning.".
+  Event jar_sings at folded_lake when state(voice_jar, unstoppered) "Out of the jar comes a woman's voice, small and clear and far away, singing to nobody in particular, the way people sing over washing. It is 'Sally of the Withies', the old ballad of the girl who waited for a sailor, that Pitch sells in a penny chapbook and that the Copyist under the sea has read until she stopped counting. In the jar she has got to the third verse, where he comes home. She sings it twice. Then she starts again from the beginning.".
 }

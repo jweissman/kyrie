@@ -81,7 +81,11 @@ describe('the Remainder', () => {
     expect(j.campaign.world.one('at', 'party')).toBe('psennet__rem_deck');
     // Nobody speaks to a stranger before the second bell.
     expect(j.matches('Ask Captain Sabe where the ship is').length).toBe(0);
-    await j.play('=+7', 'Ask Captain Sabe where the ship is', 'Ask Captain Sabe about the names on the ship\'s roll');
+    // The hour with nobody to ask: the company sees the dishes on the lee rail and is told nothing.
+    await j.play('=+3');
+    expect(j.holds('psennet__railSeen', 'party')).toBe(true);
+    expect(j.taken.map(t => t.told + ' ' + t.page).join(' ')).toContain('Whatever it is, you will have to look at it without being told');
+    await j.play('=+4', 'Ask Captain Sabe where the ship is', 'Ask Captain Sabe about the names on the ship\'s roll');
     expect(j.holds('knows', 'party', 'psennet__roll_two')).toBe(true);
     await j.play('count-room', 'Ask Tamsin Quaye what she is trying to break', 'Ask Tamsin Quaye what she wants done');
     expect(j.holds('knows', 'party', 'psennet__surety_asked')).toBe(true);

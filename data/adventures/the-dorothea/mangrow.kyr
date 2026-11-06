@@ -195,16 +195,23 @@ Module dorothea "The Dorothea" {
     On success { Spend torch from actor. Assert storeOpen(actor). Assert burntOpen(actor). }
     Result "The fig goes up with a noise like a bolt of wet cloth being torn, and a smell of burnt sugar, and the veranda behind it takes a share. When the roots have shrivelled the door falls open. The inside stops short of burning, but the nearest tier is black and the air is full of cloves, roasted.".
   }
-  Action take_bark(actor: group, site: place) "Carry two bales out of the strong-room" {
+  Relation barkTaken2(group).
+  Action take_bark(actor: group, site: place) "Carry a bale out of the strong-room" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, mangrow_store) and storeOpen(actor) and not burntOpen(actor) and not barkTaken(actor).
     Time 3.
-    On success { Give dorothea_bark to actor. Give dorothea_bark to actor. Assert barkTaken(actor). }
-    Result "You take the two nearest, which weigh as much as drowned men, and carry them out into the heat with your teeth set. Behind you twenty more tiers go on waiting, in order, as the House left them.".
+    On success { Give dorothea_bark to actor. Assert barkTaken(actor). }
+    Result "You take the nearest, which weighs as much as a drowned man, and carry it out into the heat with your teeth set. Behind you twenty more tiers go on waiting, in order, as the House left them.".
+  }
+  Action take_second_bark(actor: group, site: place) "Carry a second bale out" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, mangrow_store) and storeOpen(actor) and not burntOpen(actor) and barkTaken(actor) and not barkTaken2(actor).
+    Time 3.
+    On success { Give dorothea_bark to actor. Assert barkTaken2(actor). }
+    Result "A second, because a company of three can carry two and a half. The stencil on it says HELD; you hold it.".
   }
   Action take_scorched_bark(actor: group, site: place) "Carry out the one bale the fire spared" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, mangrow_store) and burntOpen(actor) and not barkTaken(actor).
     Time 3.
-    On success { Give dorothea_bark to actor. Assert barkTaken(actor). }
+    On success { Give dorothea_bark to actor. Assert barkTaken(actor). Assert barkTaken2(actor). }
     Result "The outer tiers are cinders. You find one bale in the back that the smoke has only browned, and carry it out under your arm, coughing, past the smouldering veranda.".
   }
   Action cut_bark(actor: group, site: place) "Find the white fig-leaf tree and cut your own bark" {
