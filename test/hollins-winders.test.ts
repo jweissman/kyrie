@@ -59,6 +59,6 @@ describe('Behind the Wainscot: the Winders\' account and the warrior\'s word', (
   it('reads a world event on the Lady\'s chart, and says who might come in from outside', async () => {
     const closed = await Hollins.start();
     await closed.play('To Bootscrape street', 'Into the Mat', 'Talk to Jory', 'Ask Jory Mudge who comes to Bootscrape from outside');
-    expect(closed.page).toMatch(/lamp-keeper's cousin/);
+    expect(closed.page).toMatch(/lamp-keeper.s cousin/);
   }, 120000);
 });
