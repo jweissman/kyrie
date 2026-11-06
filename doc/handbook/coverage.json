@@ -801,7 +801,7 @@
     "faithful": 777,
     "adapted": 366,
     "represented": 4,
-    "kyr": 539,
+    "kyr": 547,
     "unsupported": 70,
     "unreachable": 4,
     "data-only": 12
@@ -892,7 +892,7 @@
       "faithful": 249,
       "adapted": 73,
       "represented": 0,
-      "kyr": 89,
+      "kyr": 97,
       "unsupported": 9,
       "unreachable": 0,
       "data-only": 0
@@ -1063,7 +1063,7 @@
     "faithful": 126,
     "adapted": 143,
     "represented": 10,
-    "kyr": 80,
+    "kyr": 88,
     "unsupported": 4,
     "unreachable": 0,
     "data-only": 104
@@ -1141,7 +1141,7 @@
       "faithful": 0,
       "adapted": 7,
       "represented": 0,
-      "kyr": 39,
+      "kyr": 47,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -9063,6 +9063,62 @@
   {
    "id": "item:dropberry_gathered",
    "title": "Dropberry",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:cherry_gathered",
+   "title": "Cherry",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:starwort_gathered",
+   "title": "Starwort",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:cinnamon_gathered",
+   "title": "Cinnamon",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:carenfil_gathered",
+   "title": "Carenfil",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:actaea_gathered",
+   "title": "Actaea",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:bruisewort_gathered",
+   "title": "Bruisewort",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:groundbread_gathered",
+   "title": "Groundbread",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:ofbit_gathered",
+   "title": "Ofbit",
    "status": "kyr",
    "book": "phb",
    "section": "equipment/gear"
@@ -20114,6 +20170,13 @@
    "section": "creature-traits"
   },
   {
+   "id": "plant:actaea",
+   "title": "Actaea",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
    "id": "plant:alder",
    "title": "Alder",
    "status": "kyr",
@@ -20170,6 +20233,20 @@
    "section": "plants"
   },
   {
+   "id": "plant:bruisewort",
+   "title": "Bruisewort",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:carenfil",
+   "title": "Carenfil",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
    "id": "plant:cedron",
    "title": "Cedron",
    "status": "kyr",
@@ -20179,6 +20256,20 @@
   {
    "id": "plant:celandine",
    "title": "Celandine",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:cherry",
+   "title": "Cherry",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:cinnamon",
+   "title": "Cinnamon",
    "status": "kyr",
    "book": "mm",
    "section": "plants"
@@ -20289,6 +20380,13 @@
    "section": "plants"
   },
   {
+   "id": "plant:groundbread",
+   "title": "Groundbread",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
    "id": "plant:hazel",
    "title": "Hazel",
    "status": "kyr",
@@ -20319,6 +20417,13 @@
   {
    "id": "plant:meadowsweet",
    "title": "Meadowsweet",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:ofbit",
+   "title": "Ofbit",
    "status": "kyr",
    "book": "mm",
    "section": "plants"
@@ -20375,6 +20480,13 @@
   {
    "id": "plant:staggerweed",
    "title": "Staggerweed",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:starwort",
+   "title": "Starwort",
    "status": "kyr",
    "book": "mm",
    "section": "plants"

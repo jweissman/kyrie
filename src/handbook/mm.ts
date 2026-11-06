@@ -1,4 +1,5 @@
 import { Canon } from '../canon/canon';
+import { CanonValidation } from '../canon/canon-validation';
 import { Advancement } from '../rules/advancement';
 import { HandbookStatus, type Book, type Entry, type Problem, type Section } from './model';
 import { HandbookText } from './text';
@@ -124,7 +125,7 @@ export class MonsterManual {
           ['Found', !p.abundance ? 'wherever it can grow' : p.abundance >= 5 ? 'often' : p.abundance >= 3 ? 'here and there'
             : 'seldom']];
         return { id: `plant:${id}`, title: p.name, status: HandbookStatus.of(p), kind: 'plant', facts,
-          text: [p.looks], ...p.portrait ? { painting: p.portrait } : {},
+          text: [p.looks], ...p.portrait && CanonValidation.paintings.has(p.portrait) ? { painting: p.portrait } : {},
           ...p.yields && gives?.use ? { rules: [`${gives.name}: ${HandbookText.mechanics(`item:${p.yields}`) ?? gives.use}`] }
             : {} };
       });

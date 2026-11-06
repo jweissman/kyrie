@@ -1,5 +1,5 @@
 {
- "about": "The plates of plants, cut from the botanical sheets in assets/plants (five sheets, each three by three, unframed: the first nine of the plants written before 6 November in alphabetical order, the next three the owner's new plants in the order plants.json gives them, woodbine not among them, and the fifth the four older plants missed and five more). Each was looked at before use: the plant is what the plate shows. A record of data/catalog/plants.json names its plate as portrait (plants/<id>). Cut by scripts/animal-portraits.py plants.",
+ "about": "The plates of plants, cut from the botanical sheets in assets/plants (five sheets, each three by three, unframed: the first nine of the plants written before 6 November in alphabetical order, the next three the owner's new plants in the order plants.json gives them, and the fifth the four older plants missed and five more, and the sixth honeysuckle (woodbine) and the owner's next eight). Each was looked at before use: the plant is what the plate shows. A record of data/catalog/plants.json names its plate as portrait (plants/<id>). Cut by scripts/animal-portraits.py plants.",
  "portraits": [
  {"id": "alder", "kind": "alder", "source": "botany i.png", "cell": [0, 0], "file": "paintings/plants/alder.webp", "large": "paintings/large/plants/alder.webp", "crop": [0, 0, 390, 373]},
  {"id": "cloudberry", "kind": "cloudberry_plant", "source": "botany i.png", "cell": [0, 1], "file": "paintings/plants/cloudberry.webp", "large": "paintings/large/plants/cloudberry.webp", "crop": [390, 0, 828, 373]},
@@ -45,6 +45,15 @@
  {"id": "thyme", "kind": "thyme", "source": "botany v.png", "cell": [1, 2], "file": "paintings/plants/thyme.webp", "large": "paintings/large/plants/thyme.webp", "crop": [868, 398, 1312, 788]},
  {"id": "tansy", "kind": "tansy", "source": "botany v.png", "cell": [2, 0], "file": "paintings/plants/tansy.webp", "large": "paintings/large/plants/tansy.webp", "crop": [0, 788, 436, 1199]},
  {"id": "sweetgrass", "kind": "sweetgrass", "source": "botany v.png", "cell": [2, 1], "file": "paintings/plants/sweetgrass.webp", "large": "paintings/large/plants/sweetgrass.webp", "crop": [436, 788, 868, 1199]},
- {"id": "dropberry", "kind": "dropberry", "source": "botany v.png", "cell": [2, 2], "file": "paintings/plants/dropberry.webp", "large": "paintings/large/plants/dropberry.webp", "crop": [868, 788, 1312, 1199]}
+ {"id": "dropberry", "kind": "dropberry", "source": "botany v.png", "cell": [2, 2], "file": "paintings/plants/dropberry.webp", "large": "paintings/large/plants/dropberry.webp", "crop": [868, 788, 1312, 1199]},
+ {"id": "woodbine", "kind": "woodbine", "source": "botany vi.png", "cell": [0, 0], "file": "paintings/plants/woodbine.webp", "large": "paintings/large/plants/woodbine.webp", "crop": [0, 0, 429, 379]},
+ {"id": "cherry", "kind": "cherry", "source": "botany vi.png", "cell": [0, 1], "file": "paintings/plants/cherry.webp", "large": "paintings/large/plants/cherry.webp", "crop": [429, 0, 867, 379]},
+ {"id": "starwort", "kind": "starwort", "source": "botany vi.png", "cell": [0, 2], "file": "paintings/plants/starwort.webp", "large": "paintings/large/plants/starwort.webp", "crop": [867, 0, 1312, 379]},
+ {"id": "cinnamon", "kind": "cinnamon", "source": "botany vi.png", "cell": [1, 0], "file": "paintings/plants/cinnamon.webp", "large": "paintings/large/plants/cinnamon.webp", "crop": [0, 379, 429, 774]},
+ {"id": "carenfil", "kind": "carenfil", "source": "botany vi.png", "cell": [1, 1], "file": "paintings/plants/carenfil.webp", "large": "paintings/large/plants/carenfil.webp", "crop": [429, 379, 867, 774]},
+ {"id": "actaea", "kind": "actaea", "source": "botany vi.png", "cell": [1, 2], "file": "paintings/plants/actaea.webp", "large": "paintings/large/plants/actaea.webp", "crop": [867, 379, 1312, 774]},
+ {"id": "bruisewort", "kind": "bruisewort", "source": "botany vi.png", "cell": [2, 0], "file": "paintings/plants/bruisewort.webp", "large": "paintings/large/plants/bruisewort.webp", "crop": [0, 774, 429, 1199]},
+ {"id": "groundbread", "kind": "groundbread", "source": "botany vi.png", "cell": [2, 1], "file": "paintings/plants/groundbread.webp", "large": "paintings/large/plants/groundbread.webp", "crop": [429, 774, 867, 1199]},
+ {"id": "ofbit", "kind": "ofbit", "source": "botany vi.png", "cell": [2, 2], "file": "paintings/plants/ofbit.webp", "large": "paintings/large/plants/ofbit.webp", "crop": [867, 774, 1312, 1199]}
  ]
 }

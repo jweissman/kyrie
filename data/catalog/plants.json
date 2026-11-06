@@ -738,6 +738,7 @@
     "woodbine": {
       "name": "Woodbine",
       "looks": "A climbing plant with clusters of fragrant flowers.",
+      "portrait": "plants/woodbine",
       "habitats": [
         "forest",
         "garden"
@@ -1107,8 +1108,196 @@
         "kyr": true,
         "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, dropberry)."
       }
+    },
+    "cherry": {
+      "name": "Cherry",
+      "looks": "A small tree with pink blossoms and red fruit.",
+      "portrait": "plants/cherry",
+      "habitats": [
+        "garden",
+        "meadow"
+      ],
+      "grounds": ["loam", "clay_vale"],
+      "abundance": 2,
+      "yields": "cherry",
+      "gathered": "a handful of cherries",
+      "count": 1,
+      "stand": "Cherry grows here with its pink blossoms and red fruit.",
+      "uses": [
+        "divination",
+        "love"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, cherry)."
+      }
+    },
+    "starwort": {
+      "name": "Starwort",
+      "looks": "A low-growing plant with star-shaped white flowers.",
+      "portrait": "plants/starwort",
+      "habitats": [
+        "garden",
+        "meadow"
+      ],
+      "grounds": ["loam", "clay_vale"],
+      "abundance": 2,
+      "yields": "starwort",
+      "gathered": "a handful of starwort flowers",
+      "count": 1,
+      "stand": "Starwort grows here with its star-shaped white flowers.",
+      "uses": [
+        "fidelity",
+        "love"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, starwort)."
+      }
+    },
+    "cinnamon": {
+      "name": "Cinnamon",
+      "looks": "A small tree with aromatic bark and green leaves.",
+      "portrait": "plants/cinnamon",
+      "habitats": [
+        "garden",
+        "forest"
+      ],
+      "grounds": ["loam", "clay_vale"],
+      "abundance": 2,
+      "yields": "cinnamon",
+      "gathered": "a stick of cinnamon bark",
+      "count": 1,
+      "stand": "Cinnamon grows here with its aromatic bark and green leaves.",
+      "uses": [
+        "protection",
+        "love",
+        "healing",
+        "magic"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, cinnamon)."
+      }
+    },
+    "carenfil": {
+      "name": "Carenfil",
+      "looks": "A fragrant flowering plant with delicate petals.",
+      "portrait": "plants/carenfil",
+      "habitats": [
+        "garden",
+        "meadow"
+      ],
+      "grounds": ["loam", "clay_vale"],
+      "abundance": 2,
+      "yields": "carenfil",
+      "gathered": "a handful of carenfil flowers",
+      "count": 1,
+      "stand": "Carenfil grows here with its delicate petals and fragrant aroma.",
+      "uses": [
+        "protection",
+        "love"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, carenfil)."
+      }
+    },
+    "actaea": {
+      "name": "Actaea",
+      "looks": "A perennial plant with clusters of small white flowers and dark berries.",
+      "portrait": "plants/actaea",
+      "habitats": [
+        "forest",
+        "meadow"
+      ],
+      "grounds": ["loam", "clay_vale"],
+      "abundance": 2,
+      "yields": "actaea",
+      "gathered": "a handful of actaea flowers",
+      "count": 1,
+      "stand": "Actaea grows here with its clusters of small white flowers and dark berries.",
+      "uses": [
+        "love",
+        "courage",
+        "protection"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, actaea)."
+      }
+    },
+    "bruisewort": {
+      "name": "Bruisewort",
+      "looks": "A hardy plant with thick leaves and small purple flowers.",
+      "portrait": "plants/bruisewort",
+      "habitats": [
+        "forest",
+        "meadow"
+      ],
+      "grounds": ["loam", "clay_vale"],
+      "abundance": 2,
+      "yields": "bruisewort",
+      "gathered": "a handful of bruisewort leaves",
+      "count": 1,
+      "stand": "Bruisewort grows here with its thick leaves and small purple flowers.",
+      "uses": [
+        "safety",
+        "healing",
+        "protection"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, bruisewort)."
+      }
+    },
+    "groundbread": {
+      "name": "Groundbread",
+      "looks": "A low-growing plant with broad leaves and small white flowers.",
+      "portrait": "plants/groundbread",
+      "habitats": [
+        "meadow",
+        "garden"
+      ],
+      "grounds": ["loam", "clay_vale"],
+      "abundance": 2,
+      "yields": "groundbread",
+      "gathered": "a handful of groundbread leaves",
+      "count": 1,
+      "stand": "Groundbread grows here with its broad leaves and small white flowers.",
+      "uses": [
+        "fertility",
+        "protection",
+        "happiness"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, groundbread)."
+      }
+    },
+    "ofbit": {
+      "name": "Ofbit",
+      "looks": "A small plant with delicate blue flowers and thin stems.",
+      "portrait": "plants/ofbit",
+      "habitats": [
+        "forest",
+        "meadow"
+      ],
+      "grounds": ["loam", "clay_vale"],
+      "abundance": 2,
+      "yields": "ofbit",
+      "gathered": "a handful of ofbit flowers",
+      "count": 1,
+      "stand": "Ofbit grows here with its delicate blue flowers and thin stems.",
+      "uses": [
+        "love",
+        "protection",
+        "luck"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, ofbit)."
+      }
     }
-
-
   }
 }

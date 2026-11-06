@@ -5019,6 +5019,70 @@ Brings The singers' knell to whoever carries it equipped.
 
 > A small shrub with red berries that hang down from the branches. Gathered where it grows.
 
+#### Cherry
+
+*Kyr · gear* · `item:cherry_gathered`
+
+- Worth: 1
+
+> A small tree with pink blossoms and red fruit. Gathered where it grows.
+
+#### Starwort
+
+*Kyr · gear* · `item:starwort_gathered`
+
+- Worth: 1
+
+> A low-growing plant with star-shaped white flowers. Gathered where it grows.
+
+#### Cinnamon
+
+*Kyr · gear* · `item:cinnamon_gathered`
+
+- Worth: 1
+
+> A small tree with aromatic bark and green leaves. Gathered where it grows.
+
+#### Carenfil
+
+*Kyr · gear* · `item:carenfil_gathered`
+
+- Worth: 1
+
+> A fragrant flowering plant with delicate petals. Gathered where it grows.
+
+#### Actaea
+
+*Kyr · gear* · `item:actaea_gathered`
+
+- Worth: 1
+
+> A perennial plant with clusters of small white flowers and dark berries. Gathered where it grows.
+
+#### Bruisewort
+
+*Kyr · gear* · `item:bruisewort_gathered`
+
+- Worth: 1
+
+> A hardy plant with thick leaves and small purple flowers. Gathered where it grows.
+
+#### Groundbread
+
+*Kyr · gear* · `item:groundbread_gathered`
+
+- Worth: 1
+
+> A low-growing plant with broad leaves and small white flowers. Gathered where it grows.
+
+#### Ofbit
+
+*Kyr · gear* · `item:ofbit_gathered`
+
+- Worth: 1
+
+> A small plant with delicate blue flowers and thin stems. Gathered where it grows.
+
 ## Combat
 
 A fight begins when someone sets on someone else: the company, or anything it meets. Each round every creature still standing rolls initiative (d20, plus its Dexterity modifier and any initiative bonus), and acts in that order. Conditions without a clock tick down as each round begins.

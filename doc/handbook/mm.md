@@ -3259,6 +3259,20 @@ Resists 75% of poison.
 
 What grows wild in Imbar, and where: each is met where its country is, and more often on the rock it likes; what is gathered from it is carried away.
 
+### Actaea
+
+*Kyr · plant* · `plant:actaea`
+
+<img src="../../web/reader/paintings/plants/actaea.webp" alt="" width="128">
+
+- Grows in: wood, meadow
+- Does best on: loam, clay_vale
+- Gathered: a handful of actaea flowers
+- Good for: love, courage, protection
+- Found: seldom
+
+> A perennial plant with clusters of small white flowers and dark berries.
+
 ### Alder
 
 *Kyr · plant* · `plant:alder`
@@ -3369,6 +3383,34 @@ What grows wild in Imbar, and where: each is met where its country is, and more 
 
 > A perennial plant with large leaves and clusters of white flowers.
 
+### Bruisewort
+
+*Kyr · plant* · `plant:bruisewort`
+
+<img src="../../web/reader/paintings/plants/bruisewort.webp" alt="" width="128">
+
+- Grows in: wood, meadow
+- Does best on: loam, clay_vale
+- Gathered: a handful of bruisewort leaves
+- Good for: safety, healing, protection
+- Found: seldom
+
+> A hardy plant with thick leaves and small purple flowers.
+
+### Carenfil
+
+*Kyr · plant* · `plant:carenfil`
+
+<img src="../../web/reader/paintings/plants/carenfil.webp" alt="" width="128">
+
+- Grows in: farm and settlement, meadow
+- Does best on: loam, clay_vale
+- Gathered: a handful of carenfil flowers
+- Good for: protection, love
+- Found: seldom
+
+> A fragrant flowering plant with delicate petals.
+
 ### Cedron
 
 *Kyr · plant* · `plant:cedron`
@@ -3396,6 +3438,34 @@ What grows wild in Imbar, and where: each is met where its country is, and more 
 - Found: seldom
 
 > A small plant with bright yellow flowers and lobed leaves.
+
+### Cherry
+
+*Kyr · plant* · `plant:cherry`
+
+<img src="../../web/reader/paintings/plants/cherry.webp" alt="" width="128">
+
+- Grows in: farm and settlement, meadow
+- Does best on: loam, clay_vale
+- Gathered: a handful of cherries
+- Good for: divination, love
+- Found: seldom
+
+> A small tree with pink blossoms and red fruit.
+
+### Cinnamon
+
+*Kyr · plant* · `plant:cinnamon`
+
+<img src="../../web/reader/paintings/plants/cinnamon.webp" alt="" width="128">
+
+- Grows in: farm and settlement, wood
+- Does best on: loam, clay_vale
+- Gathered: a stick of cinnamon bark
+- Good for: protection, love, healing, magic
+- Found: seldom
+
+> A small tree with aromatic bark and green leaves.
 
 ### Cinquefoil
 
@@ -3617,6 +3687,20 @@ Goodberry: Heal (1d4+1) health to ally.
 
 > A bramble with small, glossy red berries that ripen sweet.
 
+### Groundbread
+
+*Kyr · plant* · `plant:groundbread`
+
+<img src="../../web/reader/paintings/plants/groundbread.webp" alt="" width="128">
+
+- Grows in: meadow, farm and settlement
+- Does best on: loam, clay_vale
+- Gathered: a handful of groundbread leaves
+- Good for: fertility, protection, happiness
+- Found: seldom
+
+> A low-growing plant with broad leaves and small white flowers.
+
 ### Hazel
 
 *Kyr · plant* · `plant:hazel`
@@ -3690,6 +3774,20 @@ Kingsfoil: Heal (2d4+2) health to ally. Remove poison from ally.
 Healing herbs: Heal (1d6) health to ally.
 
 > Froth of cream flowers, smelling of almonds.
+
+### Ofbit
+
+*Kyr · plant* · `plant:ofbit`
+
+<img src="../../web/reader/paintings/plants/ofbit.webp" alt="" width="128">
+
+- Grows in: wood, meadow
+- Does best on: loam, clay_vale
+- Gathered: a handful of ofbit flowers
+- Good for: love, protection, luck
+- Found: seldom
+
+> A small plant with delicate blue flowers and thin stems.
 
 ### Pennyroyal
 
@@ -3804,6 +3902,20 @@ Bandages: Heal (1d4 + 1) health to ally.
 
 > A low-growing herb with small, inconspicuous flowers.
 
+### Starwort
+
+*Kyr · plant* · `plant:starwort`
+
+<img src="../../web/reader/paintings/plants/starwort.webp" alt="" width="128">
+
+- Grows in: farm and settlement, meadow
+- Does best on: loam, clay_vale
+- Gathered: a handful of starwort flowers
+- Good for: fidelity, love
+- Found: seldom
+
+> A low-growing plant with star-shaped white flowers.
+
 ### Stellaria
 
 *Kyr · plant* · `plant:stellaria`
@@ -3892,6 +4004,8 @@ Willow bark: Heal (1d6) health to ally.
 ### Woodbine
 
 *Kyr · plant* · `plant:woodbine`
+
+<img src="../../web/reader/paintings/plants/woodbine.webp" alt="" width="128">
 
 - Grows in: wood, farm and settlement
 - Does best on: loam, clay_vale

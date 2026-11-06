@@ -37,6 +37,12 @@ export class CanonValidation {
     v.backgrounds(); v.religion(); v.plants(); v.sources();
     return [...Canon.conflicts, ...v.problems];
   }
+  // What is not wrong but not yet finished: a plant written ahead of its plate (it is shown without one until the plate
+  // is cut). Said by lint, never refused at load (the owner writes plants before their sheet is drawn).
+  static warnings(): string[] {
+    return Object.entries(Canon.plants).filter(([, o]) => o.portrait && !CanonValidation.paintings.has(o.portrait))
+      .map(([id, o]) => `plant ${id}: no plate ${o.portrait} cut yet (data/paintings/plants.json)`);
+  }
   static assert() {
     const problems = this.problems();
     if (problems.length) { throw new Error(`Canonical content is inconsistent:\n${problems.join('\n')}`); }
@@ -247,7 +253,6 @@ export class CanonValidation {
       }
       if (o.stand && (!o.yields || !o.gathered)) { this.fail(where, 'a stand gathers something it yields'); }
       for (const h of o.habitats.filter(h => !Canon.habitats[h])) { this.fail(where, `unknown habitat ${h}`); }
-      if (o.portrait && !CanonValidation.paintings.has(o.portrait)) { this.fail(where, `no painting ${o.portrait}`); }
       for (const g of (o.grounds ?? []).filter(g => !CanonValidation.grounds.has(g))) { this.fail(where, `unknown ground ${g}`); }
     }
   }
