@@ -109,15 +109,46 @@ the eels "like great_pike", and more (the audit's list).
    in rivers and lakes), made by an author's Person and by generation's casting alike, with its record's abilities,
    kept across a save and its reading again; portraits by kind.
 
+## The inherited corpus, counted (5 November, late; the owner's audit)
+
+Read-only audit against the Orsino checkout at the revision `data/sources/orsino/registry.json` pins (working notes and
+tables in `/var/tmp/kyrie/creature-audit2/`). The registry matches Orsino's tables one for one: 44 animals, 40 monster
+types in 10 classes, 17 elements, 10 dragon colours, 10 golem substances, 4 undead templates, 31 aspects, 8 ranks,
+5 fighting objects. Nothing was lost in extraction; every loss was in conversion or placement.
+
+| Before (5 November) | Count |
+|---|---|
+| Orsino bases with a Kyrie record | 84 of 84 (38 animals and 54 monster kinds generated beside the hand files) |
+| Reached in play under their own name | 12 of 44 animals, 18 of 40 types |
+| Reached only through a summon spell | 21 animals, 13 types (and 5 elementals) |
+| Unconsumed | the vampire; antimagic ward, barrier, bomb, phylactery; organisms' three animals |
+| Overlays carried | dragon colours 1 of 10, golem substances 1 of 10 (each made a species), ranks 0 of 8, templates 2 of 4 reachable |
+| Generated animals | fixed 2–3 hit points at every level |
+| Parallel paths | Deem's creature grammar (families, bodies, lineages, materials, adaptations, `dragons.json`), `organisms.json` |
+| Visual text | Orsino has it for the 44 animals and 10 colours only; 18 kinds matched to a painting by name, the bear's showing no bear |
+
+| After (6 November) | Where |
+|---|---|
+| One record per base kind: 54 animals, 45 monsters (105 records name their Orsino source), each with what it looks like | `animals.json`, `monsters.json`; the generated species file is gone and `bin/kyrie orsino bestiary` only says what Orsino has that no record stands for |
+| What varies a kind as structure: 17 elements, 11 materials, 10 lineages, the stag's sex, beside age, size, role, region, haunt, disposition, corruption | `variations.json`; kept with each creature made (`Creature.variations`), refused where they do not fit its kind or type |
+| A golem of any of Orsino's ten substances (and bronze), by one pathway; the materials named once | `materials.json` |
+| Every dragon colour, with its breath and proof (the red's as Kyr's fire power) | lineage variations |
+| The seventeen elementals the Elemental with an element; summons call them, never the bare base | `Species.requires` |
+| Orsino's animals grow from their first-level hit points | animal records' `growth` |
+| All four undead templates reachable in barrow and ruin dens | `RegionEcology.variant` |
+| The fighting objects are devices, never creatures, placed by the deep sites as Orsino's encounters | `devices.json`, `Device turret.` |
+| Portraits by record: 22 kinds name their painting; the rest name none, and so say they need one | `portrait` in each record |
+| One way to make a body; the grammar retired, an author's `Creature` words read onto it | `Cast.creature` |
+
+Specs: `creature-pipeline`, `creature-variation`, `devices`, `natural-history`, `geology`.
+
 ## Not yet
 
-- Deem's creature grammar (`creatureFamilies`, `creatureKinds`, `creatureBody`, `creatureAncestry`, `creatureClass`,
-  `constructMaterial`, `creatureRole`, `environmentAdaptation`, `creatureFamilyPool`; `dragons.json`) is reached
-  only when a creature is asked for by its dimensions (`Creature family …`, the Deem CLI, the handbook's "Generated
-  creatures"); no content asks. To retire with that handbook section, its lineages and maturities made variations.
-- One habitat vocabulary (step 4): species `habitats` still in the organisms' words, dens and variation hints in the
-  ecology's.
-- Authored kinds that are adjectives of another (`pantry_rat` like cave_hound; five giant eels like great_pike, now
-  that `eel` exists; `umber_wolf`, `young_owlbear`): to reconcile in their adventures, fight by fight.
-- `organisms.json`'s three animals (red_deer, otter, grey_wolf) are still read only by validation: Orsino's `deer` and
-  `otter` and the hand `wolf` are their creatures.
+- **Placement of the summon-only kinds.** 34 bases (the deer, the otter, the hare, the angels, the vampire…) are made
+  correctly but met only by summoning; the ecology places by record only what declares an abundance, and none of them
+  does yet. To give them habitats and abundance kind by kind, as play wants them.
+- **Ranks** (Orsino's eight, by hit points and armour) are not carried: Kyr has no armour-class delta for a variation.
+- **Authored adjective-kinds** (`pantry_rat` like cave_hound; the eels like great_pike; `umber_wolf`, `young_owlbear`):
+  to reconcile in their adventures, fight by fight.
+- **The dragon** keeps Kyr's 99 hit points and no maul: the fights with dragons were written for it.
+- The great snake and centipede, the frost wolf, the ram and the pony keep their own statistics beside their bases.
