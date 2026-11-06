@@ -1,0 +1,159 @@
+{
+  "about": "What the land is made of under what covers it (the owner, 5 November, late: geology complements the hex geography, it does not compete with it): the formations a country's ground can be, each by the land covers it lies under and the region terrains it is found in, the rock it is (a material), the soil it makes, and the deposits it carries, each a material of data/catalog/materials.json with how often a cell of the formation holds it (in the fells and on the peaks, where it shows, more often). A generated country lays its formations in broad tracts and its deposits where they fall; settlements live by what they can dig, mines go where the ore is, and places are named for it.",
+  "formations": {
+    "granite": {
+      "name": "Granite",
+      "rock": "stone",
+      "soil": "thin and sour",
+      "covers": [
+        "peak",
+        "fell",
+        "heath"
+      ],
+      "terrains": [
+        "mountain",
+        "frost"
+      ],
+      "deposits": {
+        "tin": 3,
+        "copper": 1
+      },
+      "looks": "grey crags and tors, boulders strewn on the moor"
+    },
+    "slate": {
+      "name": "Slate country",
+      "rock": "slate",
+      "soil": "thin, over broken rock",
+      "covers": [
+        "fell",
+        "peak",
+        "wood"
+      ],
+      "terrains": [
+        "mountain",
+        "forest",
+        "frost"
+      ],
+      "deposits": {
+        "slate": 4,
+        "lead": 1
+      },
+      "looks": "blue-grey edges and scree, walls built of the same stone"
+    },
+    "ironstone": {
+      "name": "Ironstone",
+      "rock": "stone",
+      "soil": "red and heavy",
+      "covers": [
+        "fell",
+        "heath",
+        "wood"
+      ],
+      "terrains": [
+        "forest",
+        "mountain",
+        "marsh"
+      ],
+      "deposits": {
+        "iron": 4
+      },
+      "looks": "red-brown rock that stains the streams orange"
+    },
+    "limestone": {
+      "name": "Limestone",
+      "rock": "stone",
+      "soil": "sweet and thin, good for sheep",
+      "covers": [
+        "fell",
+        "heath",
+        "meadow"
+      ],
+      "terrains": [
+        "mountain",
+        "forest",
+        "desert"
+      ],
+      "deposits": {
+        "stone": 3,
+        "lead": 1,
+        "silver": 1
+      },
+      "looks": "pale scars and pavements, streams that go underground"
+    },
+    "sandstone": {
+      "name": "Sandstone",
+      "rock": "stone",
+      "soil": "light and dry",
+      "covers": [
+        "heath",
+        "wood",
+        "meadow",
+        "fell"
+      ],
+      "terrains": [
+        "desert",
+        "forest",
+        "mountain"
+      ],
+      "deposits": {
+        "stone": 2,
+        "copper": 1
+      },
+      "looks": "red and buff edges, soft rock that weathers into hollows"
+    },
+    "clay_vale": {
+      "name": "Clay vale",
+      "rock": "clay",
+      "soil": "heavy and wet, rich when it is drained",
+      "covers": [
+        "meadow",
+        "wood",
+        "fen"
+      ],
+      "terrains": [
+        "forest",
+        "marsh"
+      ],
+      "deposits": {
+        "clay": 2
+      },
+      "looks": "low wet fields, sticky lanes, brick-red where it is dug"
+    },
+    "peat_moor": {
+      "name": "Peat moor",
+      "rock": "peat",
+      "soil": "black and sodden",
+      "covers": [
+        "fen",
+        "heath"
+      ],
+      "terrains": [
+        "marsh",
+        "frost",
+        "mountain"
+      ],
+      "deposits": {
+        "peat": 3
+      },
+      "looks": "black hags and bog-pools, cotton-grass blowing"
+    },
+    "salt_flats": {
+      "name": "Salt ground",
+      "rock": "salt",
+      "soil": "bitter",
+      "covers": [
+        "fen",
+        "heath",
+        "meadow"
+      ],
+      "terrains": [
+        "desert",
+        "marsh"
+      ],
+      "deposits": {
+        "salt": 3
+      },
+      "looks": "white crusts and brackish pools"
+    }
+  }
+}

@@ -36,7 +36,7 @@
     "shared": ["white", "black", "red", "grey", "green", "long", "broad", "deep", "low", "high", "old", "new", "fair",
       "still", "dusk", "wind", "rain", "mist", "cold", "bright"]
   },
-  "trades": { "salt": ["salt"], "tin": ["tin"], "slate": ["slate"], "wool": ["shep", "wool"], "honey": ["honey", "bee"],
+  "trades": { "salt": ["salt"], "tin": ["tin"], "iron": ["iron"], "slate": ["slate"], "wool": ["shep", "wool"], "honey": ["honey", "bee"],
     "timber": ["oak"], "charcoal": ["coal"], "eels": ["eel"], "reed": ["reed"], "peat": ["turf"], "furs": ["fox"],
     "whale oil": ["whale"] },
   "said": { "swans": "swan", "gray": "grey", "quick": "swift", "wide": "broad", "eagles": "eagle", "wolves": "wolf",

@@ -48,6 +48,8 @@ export class Atlases {
   static readonly grounds: Record<string, Cover[]> = { cave: ['fell', 'wood', 'heath'], barrow: ['heath', 'meadow', 'fell'],
     ruin: ['meadow', 'wood', 'heath', 'fell'], tower: ['fell', 'peak', 'heath'], grove: ['wood'], bog: ['fen'],
     mine: ['fell', 'peak'], sinkhole: ['heath', 'meadow', 'wood'] };
+  // What a mine is sunk for, where the ground holds it (see Geology).
+  static readonly ores = new Set(['iron', 'tin', 'copper', 'lead', 'silver', 'gold']);
   static place(atlas: Atlas, kind: string, at: { key: string; taken: number[] }): Spot | undefined {
     const { land } = atlas, grounds = this.grounds[kind] ?? ['meadow'], draw = new Draw(at.key);
     const blocked = [...atlas.seats.map(s => s.cell), ...at.taken];
@@ -57,6 +59,7 @@ export class Atlases {
     const open = land.cover.map((cover, c) => ({ c, rank: grounds.indexOf(cover) }))
       .filter(({ c, rank }) => rank >= 0 && blocked.every(b => Terrain.distance(land, b, c) >= 2))
       .map(({ c, rank }) => ({ c, score: -rank * 2 + this.depth(atlas, c) + draw.next() * 1.5
+        + (kind === 'mine' && Atlases.ores.has(land.ground?.deposits[c] ?? '') ? 3 : 0)
         - 1.5 * ((this.within(atlas, c).zone && crowd.get(this.within(atlas, c).zone)) || 0) }))
       .sort((a, b) => b.score - a.score || a.c - b.c);
     // Where no ground of its kind is free, a site stands on any dry ground there is (a tower on the meadow).

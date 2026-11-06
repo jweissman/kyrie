@@ -1,19 +1,24 @@
 import { Drainage, type Water } from './drainage';
 import { Heights, type Side } from './heights';
 import { LandCover, type Cover } from './land-cover';
+import { Geology, type Ground } from './geology';
 
 // A region's country as cells: how high each stands, what covers it, and where its water runs. A cell is about three
 // miles across, an hour's walk by road.
 export interface Land {
   width: number; height: number; heights: number[]; cover: Cover[]; water: Water; coast?: Side;
+  // What the ground is made of under its cover, and what is deposited in it (see Geology): a generated country's.
+  ground?: Ground;
 }
 
 export class Terrain {
   static readonly size = { width: 20, height: 14 };
   static make(key: string, terrain: string, size = this.size): Land {
     const relief = Heights.make(key, terrain, size), water = Drainage.make(relief, terrain);
-    return { width: relief.width, height: relief.height, heights: relief.heights,
-      cover: LandCover.make(key, terrain, relief, water), water, ...relief.coast ? { coast: relief.coast } : {} };
+    const cover = LandCover.make(key, terrain, relief, water);
+    return { width: relief.width, height: relief.height, heights: relief.heights, cover, water,
+      ground: Geology.make(key, terrain, { width: relief.width, cover }),
+      ...relief.coast ? { coast: relief.coast } : {} };
   }
   static x(land: Land, c: number): number { return c % land.width; }
   static y(land: Land, c: number): number { return Math.floor(c / land.width); }

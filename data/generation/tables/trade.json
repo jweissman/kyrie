@@ -10,7 +10,7 @@
       "salt": ["salter"],
       "slate": ["smith"],
       "wool": ["chandler"],
-      "tin": ["smith"],
+      "tin": ["smith"], "iron": ["smith"],
       "furs": ["furrier"],
       "whale oil": ["chandler"],
       "peat": ["herbwife", "chandler"]

@@ -24,12 +24,18 @@ export class Livelihoods {
     marsh: { harbour: 'salt', coast: 'salt', fen: 'eels', fells: 'slate', woods: 'charcoal', meadows: 'reed' },
     mountain: { harbour: 'salt', coast: 'salt', fen: 'peat', fells: 'tin', woods: 'charcoal', heath: 'wool', meadows: 'wool' },
     frost: { harbour: 'whale oil', coast: 'whale oil', fen: 'peat', fells: 'slate', woods: 'furs', heath: 'furs' } };
+  // A deposit as the trade that digs it.
+  static readonly dug: Record<string, string> = { iron: 'iron', tin: 'tin', slate: 'slate', salt: 'salt', peat: 'peat' };
   // The most telling of what lies around it (the sea before the fen, the fen before the fells, the fells before the
   // woods), and one its neighbours do not already live by when it can.
   private static livelihood(region: Region, seat: Seated, at: { drawn: Settlement; used: Set<string> }):
     Pick<Settlement, 'trade' | 'merchantType'> {
     const table = this.livelihoods[region.terrain] ?? {};
-    const fits = (Object.keys(table) as Seated['lie'][number][]).filter(l => seat.lie.includes(l)).map(l => table[l]!);
+    // A settlement that lives by the fells digs what the ground there holds (see Geology): the iron, tin or slate in
+    // its reach, where there are words for that trade, else what its country's fells are worked for.
+    const dug = (seat.dug ?? []).map(m => this.dug[m]).find((t): t is string => !!t);
+    const fits = (Object.keys(table) as Seated['lie'][number][]).filter(l => seat.lie.includes(l))
+      .map(l => l === 'fells' && dug ? dug : table[l]!);
     const trade = fits.find(t => !at.used.has(t)) ?? fits[0] ?? at.drawn.trade;
     at.used.add(trade);
     const merchants = (GenerationSetting.tables as unknown as { tradeMerchant: { groups: Record<string, string[]> } })

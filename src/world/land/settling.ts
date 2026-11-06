@@ -7,7 +7,8 @@ export type SeatSize = 'town' | 'village' | 'hamlet';
 // with a sheltered landing, by a lake, under fells with stone and ore, by woods, amid meadows, on heath, by a fen.
 export type Lie = 'river' | 'confluence' | 'coast' | 'harbour' | 'lake' | 'fells' | 'woods' | 'meadows' | 'heath'
   | 'fen';
-export interface Seat { cell: number; size: SeatSize; lie: Lie[] }
+// What a settlement lies beside, and what can be dug within its reach (the ground's deposits: see Geology).
+export interface Seat { cell: number; size: SeatSize; lie: Lie[]; dug?: string[] }
 
 // Where people have settled: the best ground first, and each place far enough from the others to have its own
 // fields. Good ground is open and level, with water at hand (a river, better where two meet; a lake; the sea, best
@@ -31,7 +32,8 @@ export class Settling {
           .filter(({ c }) => this.room(land, seats, c, size) && (!reach || reach.has(c)))
           .sort((a, b) => b.s - a.s || a.c - b.c);
         if (!open[0] || open[0].s < 0.5) { break; }
-        seats.push({ cell: open[0].c, size, lie: this.lie(land, open[0].c) });
+        const dug = this.dug(land, open[0].c);
+        seats.push({ cell: open[0].c, size, lie: this.lie(land, open[0].c), ...dug.length ? { dug } : {} });
         reach ??= this.land(land, open[0].c);
       }
     }
@@ -84,6 +86,12 @@ export class Settling {
         && land.cover[n] === 'peak'))) { lie.push(said); }
     }
     return lie;
+  }
+  // The deposits within a settlement's reach, nearest first, each once.
+  static dug(land: Land, c: number): string[] {
+    const deposits = land.ground?.deposits ?? {};
+    return [...new Set([c, ...this.around(land, c, 2)].sort((a, b) => Terrain.distance(land, c, a)
+      - Terrain.distance(land, c, b) || a - b).flatMap(n => deposits[n] ?? []))];
   }
   // The cells within a few steps of this one, not counting it.
   static around(land: Land, c: number, reach: number): number[] {
