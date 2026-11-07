@@ -96,7 +96,7 @@ Module muster "The Long Muster's Road" {
   Item eyrie_ward "a wardstone in a nest of bracken" is wardstone at eyrie.
   Item eyrie_tooth "a shed tooth, long as a finger" is dragons_tooth at eyrie.
   Item eyrie_tag "a courier's tag of lead, pierced, on a rotted cord" is courier_tag at eyrie.
-  Kind courier_tag "a courier's lead tag" is document teaching cato_read described "A lead tag stamped with a wheel and a name, hung on the neck of a man who went north once a year and did not come back from the year 503.".
+  Kind courier_tag "a courier's lead tag" is document teaching cato_read described "A lead tag stamped with a wheel and a name, hung on the neck of the courier of the year 503, who went north and did not come back.".
   Discovery cato_read "The tag reads: CATO, COURIER, THE SENDING OF THE YEAR 503. The Annals say that he was lost at the Eagle, and that his pouch was not found.".
 
   // ── Deserters at the head of the Descent ───────────────────────────────────────────────────────────────────────
@@ -104,7 +104,7 @@ Module muster "The Long Muster's Road" {
   // nothing, one spring of nothing is enough for some, and they have gone round it. They hold the end of the road and take a
   // toll of anyone who comes down it, in the name of a Cohort they have walked out on.
   Person deserters "the deserters of the Descent" at pass_s {
-    Role "three deserters of the Last Cohort in patched red, spears across their knees". Ancestry human. Calling warrior. Level 3. Numbers 3. Temperament territorial.
+    Role "three of the seven deserters of the Last Cohort in patched red, spears across their knees". Ancestry human. Calling warrior. Level 3. Numbers 3. Temperament territorial.
     Warns "Three men in cloaks that were red come out of the rocks on both sides of the road with their spears down. 'Toll,' says the tallest. 'Ten.' He considers it. 'Or a word from the north.'".
     Comes "The deserters come off the rock together, spears level.".
     Lair pass_s.
@@ -128,7 +128,7 @@ Module muster "The Long Muster's Road" {
     Result "Marcus Merula comes down off the boulder faster than he meant to. He looks at the superscription, in his own hand, nine years old. 'Where was that?' he says. 'The Eagle. I left it on the stack the spring I went over.' He takes it. 'They never touch another man's. It was a rule.' The spears go up.".
   }
   Topic marcus_why with marcus "Ask Marcus why he left the Cohort" when marcusMet(party) or tolerates(deserters, party) {
-    Says "'The lot fell on me,' says Marcus. 'Twenty-six. I went to the Eagle. Nine days at the stack. I came home and said no answer.' He looks at the road. 'I couldn't do it twice. So I went over the parapet on a rope. There is a village. Thirty houses and a trough. A woman on a stone, goats.' He rubs his jaw. 'I stood in the willows till dark. Didn't call. I couldn't tell it to my mother. She's a Centurion.'".
+    Says "'The lot fell on me,' says Marcus. 'Twenty-six. I took the pouch to the Eagle and wrote my mother a letter and left it on the stack. Then I went over the parapet on a rope.' He rubs his jaw. 'There's a village. Thirty houses and a trough. A woman on a stone, goats. I stood in the willows till dark. Didn't call.' He looks at the road. 'I came back over. Couldn't go home and say. I came here.'".
     On discuss { Assert marcusMet(party). Assert knows(actor, marcus_known). }
   }
   Entity marcus_known: fact "Marcus Merula, who deserted the Sending, crossed the Viaduct by its parapet and saw a village of thirty houses round a trough on the north bank. He has never been able to tell his mother, the Centurion.".
@@ -136,6 +136,6 @@ Module muster "The Long Muster's Road" {
     Says "'That the boots held,' says Marcus, and does not seem to know why he said it. He turns the pouch over. 'She'll be on the wall at the evening call. She won't ask. Don't tell her unless she asks.'".
   }
   Kind marcus_letter_kind "a courier's pouch addressed to Lucilla Merula" is document teaching marcus_letter_read described "A leather pouch, sealed with a wheel, addressed in a young man's square hand: TO THE CENTURION LUCILLA MERULA, FIRST CENTURY, FROM HER SON M. It has waited at the Eagle for nine springs.".
-  Discovery marcus_letter_read "The pouch is a son's letter to his mother, left on the Eagle's stack nine springs ago: he is alive, he is in the Pass, he has seen what is north of the Viaduct, and he cannot come home.".
+  Discovery marcus_letter_read "The pouch is a son's letter to his mother, left on the Eagle's stack nine springs ago: he means to cross the fifth arch to see what is there, and if he lives he will be in the Pass.".
   Item marcus_letter_item "a courier's pouch addressed to Lucilla Merula" is marcus_letter_kind at eagle.
 }

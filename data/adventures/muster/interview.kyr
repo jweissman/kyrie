@@ -84,7 +84,7 @@ Module muster "The Long Muster's Road" {
 
   // The apothecary's question.
   Topic orsa_asks with orsa "Let Dame Orsa ask what herbs you carried over the Fells" when true once {
-    Says "She sets down the pestle and looks at you very straight. 'Tell me honestly,' she says. 'You carried herbs over two hundred miles of fell to sell to a woman you hadn't met. What did you think they were worth?'".
+    Says "She sets down the pestle and looks at you very straight. 'Tell me honestly,' she says. 'You carried herbs over thirty miles of fell to sell to a woman you hadn't met. What did you think they were worth?'".
   }
   Topic orsa_ans_fair with orsa "Say that you asked a fair price, and would take a fair one" answering orsa_asks when true {
     Says "'Fair,' she says, pleased. 'Then I shall be fair.' She opens a drawer. 'Kingsfoil, ninety. Is that fair?'".

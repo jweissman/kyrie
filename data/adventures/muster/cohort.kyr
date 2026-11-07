@@ -11,7 +11,7 @@ Module muster "The Long Muster's Road" {
   Discovery empire_gone "The empire the Cohort serves has been dust for eleven hundred years.".
   Discovery cohort_law "The Muster's law holds the valley: the Prefect rules by the last emperor's regnal year, a courier goes north every spring, and no answer has come.".
   Discovery cohort_factions "The Last Cohort keeps its faith in three parties: the Eagles, who hold the standard; the Hearth, who hold the fields and doubt; and the Archive, who count the springs.".
-  Relation received(group). Relation foundPouch(group). Relation merulaFull(group). Relation admitted(group). Relation claimedRelief(group). Relation dispatchTaken(group).
+  Relation received(group). Relation gateRebuffed(group). Relation foundPouch(group). Relation merulaFull(group). Relation admitted(group). Relation claimedRelief(group). Relation dispatchTaken(group).
   Relation told_prefect(group). Relation told_moll(group). Relation told_merula(group). Relation told_elpis(group). Relation traded_only(group).
   Relation valleyTold(group). Measure toldAt(group). Relation scoutGiven(group). Relation pardoned(group). Relation merulaKnowsSon(group).
   Relation goldReturned(group). Relation brassShown(group). Relation prefectReadSeal(group). Relation forgeryKnown(group).
@@ -29,35 +29,37 @@ Module muster "The Long Muster's Road" {
   Observe sentry_gloss at gate when holding(party, old_glossary) "With the scribe's glossary open in your hand the song resolves into words: QUIS VENIT, who comes; DA TESSERAM, give the watchword; ET SI NON, and if not.".
   Action answer_challenge(actor: group, site: place) "Answer the sentries' challenge in the old script, out of the glossary" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, gate) and at(sentries, gate) and able(sentries)
-      and holding(actor, old_glossary) and not tolerates(sentries, actor).
+      and holding(actor, old_glossary) and not tolerates(sentries, actor) and not gateRebuffed(actor).
     Time 0.
     On success { Assert tolerates(sentries, actor). Assert admitted(actor). }
     Result "You read the answer off the glossary's page, falling over every second syllable: VENIMUS A SEPTENTRIONE, we come from the north; NON HOSTES, not enemies; NUNTIUM FERIMUS, we bring word. The captain on the wall listens with his head down, and then lifts it. 'He speaks like a clerk from the schools,' he says. 'Admit them.'".
   }
   Action plead_without_glossary(actor: group, site: place) "Make signs and shout the little Aenean you have, and hold up your empty hands" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, gate) and at(sentries, gate) and able(sentries)
-      and not holding(actor, old_glossary) and not tolerates(sentries, actor).
+      and not holding(actor, old_glossary) and not tolerates(sentries, actor) and not gateRebuffed(actor).
     Time 0.
     Resolve check(actor, lore, dc_formidable).
     On success { Assert tolerates(sentries, actor). Assert admitted(actor). }
+    On failure { Assert gateRebuffed(actor). }
     Result "Somewhere between the roadside inscriptions and the milestones you have a hundred words. You shout them in the wrong order, and one of the guards laughs, and says something to the others, and a spear goes up. 'Ad Praetorium,' he says, with great slowness, as to a child. To the Praetorium.".
-    Otherwise "The captain listens to the whole of it with the particular patience of the very well-bred. 'No,' he says, in the plain tongue, to the others. 'Not Aenean. Not even Hale.' The spears do not move.".
+    Otherwise "The captain listens to the whole of it with the particular patience of the very well-bred. 'Not Aenean,' he says to the others. 'Not even Hale.' The spears stay level until the evening call.".
   }
   Action deliver_pouch(actor: group, site: place) "Hold up a courier's pouch with the Cohort's own seal" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, gate) and at(sentries, gate) and able(sentries)
-      and holding(actor, courier_pouch) and not tolerates(sentries, actor).
+      and holding(actor, courier_pouch) and not tolerates(sentries, actor) and not gateRebuffed(actor).
     Time 0.
     On success { Spend courier_pouch from actor. Assert tolerates(sentries, actor). Assert admitted(actor). Assert foundPouch(actor). }
     Result "The voice on the wall stops. A spear comes up. 'That is ours,' says one of them. 'That is the seal.' The captain comes down the wall-stair and takes it out of your hand with two fingers, and looks at the wheel, and at the date, and at you. 'Where?' he says. 'The Eagle,' you say. 'The stack.' He gives it to a boy, who runs. 'Then you walked the Viaduct,' says the captain. 'Come in. The Prefect will want you.'".
   }
 
   Action claim_relief(actor: group, site: place) "Say that you are the relief the General promised, come at last" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gate) and at(sentries, gate) and able(sentries) and not tolerates(sentries, actor).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gate) and at(sentries, gate) and able(sentries) and not tolerates(sentries, actor) and not gateRebuffed(actor).
     Time 0.
     Resolve check(actor, deception, dc_formidable).
     On success { Assert tolerates(sentries, actor). Assert admitted(actor). Assert claimedRelief(actor). }
+    On failure { Assert gateRebuffed(actor). }
     Result "There is a silence on the wall. The captain takes off his helmet. 'Eleven hundred and four years,' he says, and cannot finish. A horn begins, and the gate opens, and you walk in under it.".
-    Otherwise "The captain's face does not change. 'The relief,' he says, 'would have a seal.' It is not unkind. 'Lower your hands.'".
+    Otherwise "The captain's face does not change. 'The relief would have a seal,' he says. 'Lower your hands.' Spears come level along the wall, and nothing you say will move them before the evening call.".
   }
   Observe gate_sound at gate as sound when true "From the wall a horn sounds the watch, three notes, as it has been sounded every watch for eleven hundred years.".
 
@@ -84,11 +86,11 @@ Module muster "The Long Muster's Road" {
     Greets "A tired man in a red cloak sits on the tribunal's plain chair, with the cohort's accounts. 'A courier,' he says, 'from the north. I did not think I should see it.' Then, in the plain tongue, with a courtesy that costs him: 'Salve. Sit. Whatever you are, you are welcome. We have bread.'".
   }
   Topic corvin_ask with corvin "Ask the Prefect about the Cohort" when true {
-    Says "'The Long Muster marched out in the year one of the Emperor's last reign,' says Corvin. 'Eleven thousand went north. My fathers held the rearguard, nine hundred, and the road behind them is held to this day. We have kept the gate for eleven hundred and four years, and the Emperor has not called us home.' He looks at the tablet-wall. 'A courier goes north every spring. I would be glad to be told that one had arrived.'".
+    Says "'The Long Muster marched out from the capital in the year one of the Taurine count,' says Corvin. 'Eleven thousand went south-east. My fathers held the rearguard, nine hundred, and the road behind them is held to this day. We have kept the gate for eleven hundred and four years, and the Emperor has not called us home.' He looks at the tablet-wall. 'A courier goes north every spring. I would be glad to be told that one had arrived.'".
     On discuss { Assert knows(actor, cohort_law). Assert knows(actor, cohort_factions). }
   }
   Topic corvin_year with corvin "Ask the Prefect what year it is" when true {
-    Says "'The eleven hundred and fourth year of the Taurine count,' says Corvin, 'the sixth day before the Nones of Frost. My sixteenth as Prefect.' He says it as a man says his own address. 'It has never needed changing.'".
+    Says "'The eleven hundred and fourth year of the Taurine count,' says Corvin, 'the sixth day before the Nones of Frost. My sixteenth as Prefect.' He says it as a man says his own address. 'Eleven hundred and four. It sits well.'".
   }
   Topic corvin_seal with corvin "Ask the Prefect whether he has read the General's letters" when knows(actor, general_read) and prefectRegard(party) >= 4 and not prefectReadSeal(party) once {
     Says "Corvin is silent. 'Once,' he says. 'In my thirtieth year, in the plague of the cattle, when I thought the seal was a thing a man might break to find the answer. I broke it. I read, and I resealed it with the General's wheel from the case, and I put it back.' He rubs his face. 'I have told no one. The seal is whole to the valley. What it says is that nobody was coming, and that he knew it.' He looks at you. 'What would you do with that?'".
@@ -161,7 +163,7 @@ Module muster "The Long Muster's Road" {
   // ── The Archivist, the notches on the beam, and the line that was forged ──────────────────────────────────────
   Person moll "Tiberin Fenwarden" at archive {
     Role "Archivist of the Cohort". Ancestry human. Pronouns he. Manner grim. Peaceable.
-    Greets "An old man among scrolls looks up with the particular look of a man who has read a date he does not believe. 'You are not Aenean,' he says. 'Good. Shut the door.'".
+    Greets "An old man among scrolls looks up. He has read a date and does not believe it. 'You are not Aenean,' he says. 'Good. Shut the door.'".
   }
   Topic moll_beam with moll "Ask the Archivist what the notches on the roof-beam are" when true {
     Says "'Springs,' he says. 'One for each Sending that returned with nothing. Eleven hundred and three, and one yet to cut. My predecessors cut them, in the dark, after the Prefects had gone to bed. We do not talk of the beam. It would be a poor kind of faith that kept count.' He looks at it. 'It would be a poorer kind that did not.'".
@@ -172,7 +174,7 @@ Module muster "The Long Muster's Road" {
   }
   Entity forgery_known: fact "In the year after the plague of the cattle, the Archivist wrote in the Annals that a reply from the Emperor had been received, to keep the valley from despair. There was none.".
   Topic moll_stones with moll "Show the Archivist the soldier's scratches you copied on the road" when knows(actor, rufus_1) and knows(actor, rufus_2) and knows(actor, rufus_3) and knows(actor, rufus_4) and not told_moll(party) {
-    Says "He reads them with a finger, line by line. At WE WAITED he stops. 'Rufus,' he says. 'I have the muster-roll. Gaius Rufus, VI Cohort, died in the winter of the second year of the march, in the south. He never saw the sea. The boots did not hold.' He sits. 'Nobody has told me what he wrote. You have walked the whole road, and read all of it. Then you know more of us than we do.'".
+    Says "He reads them with a finger, line by line. At WE WAITED he stops. 'Rufus,' he says. 'I have the muster-roll. Gaius Rufus, VI Cohort, died in the second winter of the march, south of here. He did not see the sea. The boots did not hold.' He sits. 'Nobody has told me what he wrote. You have walked the whole road, and read all of it. Then you know more of us than we do.'".
   }
   Kind itinerarium_kind "a copy of the Itinerarium" is document teaching itinerarium_read described "A red-bound book in the legion's square hand: every mile of the road, every mansio, every halt.".
   Discovery itinerarium_read "The Itinerarium of the Long Muster lists every halt on the road and, in a later hand, the engineers' note that the fifth arch of the Viaduct can be bridged by a rope-way from the north pier.".
@@ -203,22 +205,22 @@ Module muster "The Long Muster's Road" {
   // ── The courier who goes north, and the one who went further ──────────────────────────────────────────────────
   Person gaius "Old Gaius" at shrine {
     Role "the cohort's courier, retired". Ancestry human. Pronouns he. Manner grim. Peaceable.
-    Greets "An old man sits by the lamp with a pouch in his lap. 'Thirty-one springs I have gone north,' he says. 'Two days to the Eagle, nine at the stack, two back. There is no one there.' He turns the pouch. 'Sit, if you are staying. I am always glad of news, and I do not expect it.'".
+    Greets "An old man sits by the lamp with a pouch in his lap. 'Thirty-one springs I have gone north,' he says. 'A day to the Eagle, nine at the stack, a day back. There is no one there.' He turns the pouch. 'Sit, if you are staying. I am always glad of news, and I do not expect it.'".
   }
   Topic gaius_pontus with gaius "Show Old Gaius the lead tag from the eyrie" when holding(actor, courier_tag) and not gaiusPontus(party) once {
     Says "He takes the tag and reads it with his thumb. 'Cato,' he says. 'Five hundred and three. They said the cold took him at the Eagle.' He turns it over. 'The wyvern. Open stretch, noon.' He puts it in his shirt. 'I'll take it to Fenwarden. He'll want to cut a notch.'".
     On discuss { Spend courier_tag from actor. Assert gaiusPontus(party). }
   }
   Topic gaius_marcus with gaius "Ask Old Gaius whether he knows the men in the Pass" when knows(actor, marcus_known) and not gaiusSecret(party) once {
-    Says "He looks at the lamp. 'Every spring, going north, I leave a sack of barley and a skin of wine under the milestone in the notch, under the heap of small stones. Nineteen years. In the autumn the sack is gone.' He turns the pouch over. 'You will say nothing. He is the one man who knows there is nobody at the Eagle.'".
+    Says "He looks at the lamp. 'Every spring, going north, I leave a sack of barley and a skin of wine under the milestone in the notch, under the heap of small stones. Nine years. In the autumn the sack is gone.' He turns the pouch over. 'You will say nothing. He is the one man who knows there is nobody at the Eagle.'".
     On discuss { Assert gaiusSecret(party). }
   }
   Topic gaius_sending with gaius "Ask Old Gaius how the Sending goes" when true {
-    Says "'First day of spring. The lot is drawn at the evening call from a helmet. Whoever it falls on takes the Prefect's pouch, a loaf and a skin, and goes out by the Sending gate, and the whole wall stands and says nothing. Two days to the Eagle. Nine at the stack. Two home. They say: no answer. The Prefect says: it will come.' He shrugs. 'Best day of the year. Worst.'".
+    Says "'First day of spring. The lot is drawn at the evening call from a helmet. Whoever it falls on takes the Prefect's pouch, a loaf and a skin, and goes out by the Sending gate, and the whole wall stands and says nothing. A day to the Eagle. Nine at the stack. A day home. They say: no answer. The Prefect says: it will come.' He shrugs. 'Best day of the year. Worst.'".
   }
 
   // ── The standard-bearer, and what is in his hands ──────────────────────────────────────────────────────────────
-  Person brand "Pontus Brand" at shrine {
+  Person brand "Silas Brand" at shrine {
     Role "Aquilifer of the Cohort, who carries the standard". Ancestry human. Calling warrior. Level 3. Pronouns he. Manner proud. Peaceable.
     Greets "A big man in a polished cuirass kneels before the plinth, polishing, and does not stop. 'The standard does not rest,' he says, 'and neither does the man who bears it. Salve. If you are here to make trouble, do it quietly. The lamp can hear.'".
   }
@@ -229,7 +231,7 @@ Module muster "The Long Muster's Road" {
     Says "He puts both hands flat on the plinth. 'Eleven years I have known,' he says. 'I took a file to it at night, on the wing. Brass. Under a skin of bronze.' He does not look round. 'The Eagles have said for two hundred and thirty years that the Hearth stole the gold in the Schism. I never said what I found. If the gold is anywhere, where is it?'".
     On discuss { Assert knows(actor, brass_known). }
   }
-  Entity brass_known: fact "The standard of the Last Cohort is brass under a skin of bronze. The gold eagle was sold for grain in the plague winter; the Aquilifer has known for eleven years.".
+  Entity brass_known: fact "The standard of the Last Cohort is brass under a skin of bronze. The gold wings were hidden by the Hearth in the Schism of 871; the Aquilifer has known the pole is brass for eleven years.".
   Topic brand_gold with brand "Lay the gold eagle's wing before the Aquilifer" when holding(actor, golden_idol) and not goldReturned(party) once {
     Says "He kneels and touches it with one finger. 'It is warm,' he says. The lamp on the plinth gutters and steadies. 'The Hearth hid it. So we should not carry it north to be lost.' He sits back. 'We cursed them for it for two hundred and thirty years.' Then, to the wing: 'Well.'".
     On discuss { Spend golden_idol from actor. Assert goldReturned(party). Assert state(standard, golden). }
@@ -241,6 +243,6 @@ Module muster "The Long Muster's Road" {
     Greets "A woman with a tally-stick in each fist and flour to the elbow does not look up from the board. 'Four hundred and sixty sacks,' she says. 'A sixth to the Sending. A twelfth to the Eagles' table. Never a sack to the children without a form.' She looks up. 'You'll want the form. Everyone does.'".
   }
   Topic elpis_tithe with elpis "Ask the granary-reeve about the sixth that goes north" when true {
-    Says "'It is stood at the Sending gate in the spring in thirty sacks and thirty-one skins,' says Elpis. 'Then it is brought back in the autumn by the Sending and put in the Eagles' own store, and the Eagles eat it, very nicely, as a reward for faith. Nobody has asked in eleven hundred years why it is brought back.' She taps the board. 'I do the sums. It is what I do instead of having an opinion.'".
+    Says "'It is stood at the Sending gate in the spring in thirty sacks and thirty-one skins,' says Elpis. 'Then it is brought back in the autumn by the Sending and put in the Eagles' own store, and the Eagles eat it, very nicely, as a reward for faith. Nobody has asked in eleven hundred years why it is brought back.' She taps the board. 'I do the sums. Ask me again in the autumn.'".
   }
 }

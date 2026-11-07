@@ -5,7 +5,7 @@
 1. **The worktree began from main, not the branch it was told to branch from**; the fork had to `git reset --hard adventure/anthology` before it had any muster files.
 2. **A Topic cannot roll**: a person's question answered by a check cannot be an `answering` Topic with `Resolve`; the lint is silent until load. Worked round with separate Actions; the interview's answers carry no dice.
 3. **A person who asks the player a question needs three topics** (the ask, and one per answer) and the answers are visible only after the ask. The ask must be `once`, so a question cannot be put again.
-4. **Names**: Marra Tell → Tellis and Fenn Haldane → Hallam, Octa Brine → Millward, Lucilla Sarn → Merula (and Sarn is an island elsewhere): the corpus-wide surname check cost four renames. Hobbe's brother-in-law could not share a surname with Elpis.
+4. **Names**: Marra Tellis → Tellis and Fenn Hallam → Hallam, Octa Brine → Millward, Lucilla Sarn → Merula (and Sarn is an island elsewhere): the corpus-wide surname check cost four renames. Hobbe's brother-in-law could not share a surname with Elpis.
 5. **`Seen when dark()` wolves are met at once by `put`** (a staged move races the warning); tests walk instead.
 6. **The clock of a standalone campaign starts at midnight**, so wolves are "visible" at watch 3.
 7. **An item `in` a room is an error that reads as a missing container**: `Item x … in gold_cellar` instead of `at` was found only by a test that could not Take it.
@@ -24,3 +24,12 @@
 17. **A `Seen when` person with `Buys` is the only way to gate a purchase** on what the player has said.
 18. **The corpus-wide surname check** again cost three renames (Corrin to Pyke, Marcia to Ursa, Moll's real name used in text).
 19. **Worktrees and patches**: tens of multi-line replacements were done by script with a "missing" report; three missed silently on first run because the text had been edited in between.
+
+## The third pass
+
+20. **`opening when` on a passage closes both directions**, so a deadline on a bridge strands whoever is already across; the remedy (close only the entries from one side, and write an ending for whoever is stranded) is a pattern the guide does not name.
+21. **An `Ending` fires on any tick its condition holds**, so a late-game ending must test everything still pending (`waiting()` here) or it eats the moment it was meant to follow.
+22. **A Topic `once` question has no retry; an Action check has unlimited retry** unless the author writes a latch relation; three obstacles had to be given one.
+23. **A queried name can shadow a canonical query** (`home`): the vocabulary check says "redefines canonical query".
+24. **Time**: a gauntlet's length is the sum of its passages; text and tests had to be reconciled to it, not the other way round. Doubling every road passage was cheaper than rewriting eleven descriptions.
+25. **A companion who carries things takes them when she goes**: a pouch in Marra's pack was lost to the company when she stayed behind at the Pass.

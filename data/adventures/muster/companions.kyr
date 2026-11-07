@@ -15,7 +15,7 @@ Module muster "The Long Muster's Road" {
   // ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
   // Marra Tellis. Beat 1: Septimus (ask). Beat 2: the Eagle (a mark). Beat 3: the Cohort (the apothecary's boy).
   Topic marra_jory with marra "Ask Marra what she is looking for on the far side" when travelsWith(marra, party) and been(party, septimus_hall) once {
-    Says "She takes a long time to say it. 'My brother Jory. He went over nine years since, at seventeen, on a dare from a Pyke, to see if the Eagle was a place. His name is on the reeve's board, at the bottom.' She looks at her hands. 'Would you want to know, if it were yours? That he was dead, I mean. If someone found a bone.'".
+    Says "She takes a long time to say it. 'My brother Jory. He went over nine years since, at seventeen, on a dare from a Ferrar, to see if the Eagle was a place. His name is on the reeve's board, at the bottom.' She looks at her hands. 'Would you want to know, if it were yours? That he was dead, I mean. If someone found a bone.'".
   }
   Topic marra_jory_yes with marra "Say that you would want to know, whatever it was" answering marra_jory when true {
     Says "'Right,' she says. 'Then you'll tell me straight, if you find a bone.'".
@@ -46,7 +46,7 @@ Module muster "The Long Muster's Road" {
     Greets "A lanky young man of twenty-six with a pestle in one fist and an apron over a patched jerkin looks at you without any recognition at all, and says, in an accent that has been sanded flat by the Aenean of the valley: 'Salve. Can I help? We have a very little of everything.'".
   }
   Topic marra_found with marra "Show Marra the boy who sorts Dame Orsa's herbs" when travelsWith(marra, party) and been(party, apothecary) once {
-    Says "She does not go to him. She stands in the doorway of the herb-shop with her crook in her fist and says the name of a Pyke goat. He turns. The pestle goes down on the counter. 'Marra?' he says. She crosses the room in two strides and hits him, hard, on the arm. 'Nine years,' she says. 'Nine years, you daft heap.' After a while he says: 'Do I come home?' She says: 'You tell me.' And then, to you, over his shoulder, quietly: 'Do I stay?'".
+    Says "She does not go to him. She stands in the doorway of the herb-shop with her crook in her fist and says the name of a Ferrar goat. He turns. The pestle goes down on the counter. 'Marra?' he says. She crosses the room in two strides and hits him, hard, on the arm. 'Nine years,' she says. 'Nine years, you daft heap.' After a while he says: 'Do I come home?' She says: 'You tell me.' And then, to you, over his shoulder, quietly: 'Do I stay?'".
   }
   Topic marra_stay with marra "Say that she should stay: he has a life here, and so would she" answering marra_found when true {
     Says "'Right,' says Marra, and wipes her face with her sleeve. 'Someone's to tell Mother, and it might as well be me.' She takes the crook off her shoulder and hangs it on the apothecary's peg. 'Tell my mother. Tell her the water's his as much as hers.'".
@@ -111,7 +111,7 @@ Module muster "The Long Muster's Road" {
   // ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
   // Dunya, scout of the First Century. Beat 1: Kell Ford. Beat 2: the head of the Descent, on the way back. Beat 3: Kell again.
   Topic dunya_kell with dunya "Ask Dunya what she sees in Kell Ford" when travelsWith(dunya, party) and at(party, green) and been(party, pass_s) once {
-    Says "She stands at the trough with her hands behind her back. 'It's small,' she says. 'Thirty houses, a trough, a board, a boy with a dog. I was told there'd be a sea.' She looks at it. 'People were here all the time. Five days past the Eagle and the lamp-end of the road, with a trough.' She turns. 'Is it enough? Is it a place?'".
+    Says "She stands at the trough with her hands behind her back. 'It's small,' she says. 'Thirty houses, a trough, a board, a boy with a dog. I was told there'd be a city.' She looks at it. 'People were here all the time. Two days past the Eagle, with a trough.' She turns. 'Is it enough? Is it a place?'".
   }
   Topic dunya_enough with dunya "Say that it is enough: it is where people are" answering dunya_kell when true {
     Says "'Yes,' says Dunya. She touches the trough, flat-handed, as she would the flank of a horse. 'People are. I'd forgotten that was the point of a road.' Her stiffness goes out of her by a degree, and Maud Hennick, in the inn door, offers her a bowl of something hot.".
