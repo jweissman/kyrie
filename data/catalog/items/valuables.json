@@ -86,6 +86,8 @@
   "wooden_figurine": {"name": "Wooden figurine", "category": "treasure", "description": "A small wooden figurine, roughly carved and unfinished.", "value": 2, "source": {"orsino": "junk:wooden_figurine", "fidelity": "faithful"}},
   "wooden_idol": {"name": "Wooden idol", "category": "treasure", "description": "A small idol carved from wood, depicting a nature deity.", "value": 15, "source": {"orsino": "junk:wooden_idol", "fidelity": "faithful"}},
   "zodiac_medallion": {"name": "Zodiac medallion", "category": "treasure", "description": "A medallion inscribed with zodiac symbols, made of silver.", "value": 20, "source": {"orsino": "junk:zodiac_medallion", "fidelity": "faithful"}},
-  "zoological_manual": {"name": "Zoological manual", "category": "treasure", "description": "A detailed manual describing various fantastical creatures.", "value": 40, "source": {"orsino": "junk:zoological_manual", "fidelity": "faithful"}}
+  "zoological_manual": {"name": "Zoological manual", "category": "treasure", "description": "A detailed manual describing various fantastical creatures.", "value": 40, "source": {"orsino": "junk:zoological_manual", "fidelity": "faithful"}},
+  "golden_torc": {"name": "Golden torc", "category": "treasure", "description": "A torc made of gold, intricately designed and polished.", "value": 200, "source": {"kyr": true}},
+  "golden_amulet": {"name": "Golden amulet", "category": "treasure", "description": "An amulet made of gold, intricately designed and polished.", "value": 250, "source": {"kyr": true}}
  }
 }

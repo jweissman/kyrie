@@ -25,5 +25,8 @@ jobs:
     runs-on: ubuntu-latest
     environment: { name: github-pages, url: '${{ steps.deployment.outputs.page_url }}' }
     steps:
+      # Pages syncs the artifact file by file (some 2,400 now, most of them plates), which took 7 to 10 minutes on 6
+      # November against the action's default timeout of 10: a deploy cancelled while still syncing (ca411781).
       - id: deployment
         uses: actions/deploy-pages@v4
+        with: { timeout: 1800000 }
