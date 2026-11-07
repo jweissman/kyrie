@@ -7,7 +7,9 @@ import { ItemNames } from '../../item-names';
 // A stone found in a deep site: a stone of the catalog's kind, drawn by Orsino's gemstone (its cut, size and quality)
 // and worth what its rank is, by what those make of it (data/catalog/items/gems.json), so that no two rubies found are
 // the same ruby.
-export interface DeepStone { type: string; name: string; worth: number; text: string }
+// Its kind is named by what it is (rose_quartz_large_brilliant_good), so that the same stone is the same kind wherever
+// it is found, in any country of a world.
+export interface DeepStone { kind: string; type: string; name: string; worth: number; text: string }
 interface Way { worth?: number; says?: string; name?: string; unsaid?: boolean }
 
 export class Stones {
@@ -33,7 +35,7 @@ export class Stones {
     const stone = cut.name!.replace('{stone}', base.name.toLowerCase());
     const worth = (this.ranks[g.rank]?.worth ?? base.value ?? 1) * (size.worth ?? 1) * (clarity.worth ?? 1);
     const rank = (base.description ?? 'A gemstone').split(',')[0]!;
-    return { type, name: ItemNames.called(size.unsaid ? stone : `${g.size} ${stone}`),
+    return { kind: `${type}_${g.size}_${g.cut}_${g.quality}`, type, name: ItemNames.called(size.unsaid ? stone : `${g.size} ${stone}`),
       worth: Math.max(1, Math.round(worth)), text: `${rank}, ${cut.says}, ${clarity.says}.` };
   }
 }

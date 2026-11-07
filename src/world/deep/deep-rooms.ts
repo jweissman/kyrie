@@ -39,8 +39,8 @@ export class DeepRooms {
       ...c.riddle ? this.casket(r.id, { difficulty: c.riddle, purpose: at.purpose }) : [],
       ...c.wonder ? this.wonder(c.wonder, r.id) : [],
       ...(c.treasure?.items ?? []).map((kind, n) => `  Item ${r.id}_find${n} ${this.q(this.called(kind, at.purpose))} is ${kind} at ${r.id}.`),
-      ...(c.treasure?.stones ?? []).flatMap((g, n) => [`  Kind ${r.id}_stone${n} ${this.q(g.name)} like ${g.type}`
-        + ` worth ${g.worth} described ${this.q(g.text)}.`, `  Item ${r.id}_gem${n} ${this.q(g.name)} is ${r.id}_stone${n} at ${r.id}.`]),
+      ...(c.treasure?.stones ?? []).flatMap((g, n) => [`  Kind ${g.kind} ${this.q(g.name)} like ${g.type}`
+        + ` worth ${g.worth} described ${this.q(g.text)}.`, `  Item ${r.id}_gem${n} ${this.q(g.name)} is ${g.kind} at ${r.id}.`]),
       ...c.treasure?.coin && ['treasure', 'elite', 'special', 'mob'].includes(c.guide) ? this.coins(r.id, c.treasure.coin) : [],
       ...c.special ? this.camp(r.id, { level: r.level, purpose: at.purpose, first: at.first === r.id }) : [],
       ...c.special ? this.left(r.id) : []];

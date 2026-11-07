@@ -1318,10 +1318,10 @@
    "status": "integrated",
    "rule": "wonder",
    "counts": {
-    "integrated": 43,
+    "integrated": 46,
     "represented": 0,
     "reference": 0,
-    "blocked": 37
+    "blocked": 34
    }
   },
   "wonderRoll": {
@@ -20016,10 +20016,7 @@
   },
   {
    "id": "wonder:arcane_lantern",
-   "status": "blocked",
-   "blockers": [
-    "No meeting is written for it in data/generation/scenes/wonders.json."
-   ]
+   "status": "integrated"
   },
   {
    "id": "wonder:arcane_sculpture",
@@ -20113,10 +20110,7 @@
   },
   {
    "id": "wonder:enchanted_mirror",
-   "status": "blocked",
-   "blockers": [
-    "No meeting is written for it in data/generation/scenes/wonders.json."
-   ]
+   "status": "integrated"
   },
   {
    "id": "wonder:enchanted_obelisk",
@@ -20135,10 +20129,7 @@
   },
   {
    "id": "wonder:enchanted_tapestry",
-   "status": "blocked",
-   "blockers": [
-    "No meeting is written for it in data/generation/scenes/wonders.json."
-   ]
+   "status": "integrated"
   },
   {
    "id": "wonder:endless_staircase",

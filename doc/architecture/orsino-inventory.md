@@ -10,7 +10,7 @@ reaches it with declared omissions), **reference** (kept in the registry only, b
 computed from what Kyr has and draws, not claimed: the ledger and generated catalogs for rules and things, what
 a generated country draws for wonders and traps, the voice tables for barks.
 
-2651 entries in 79 families: 1611 integrated, 174 represented, 745 reference, 121 blocked.
+2651 entries in 79 families: 1614 integrated, 174 represented, 745 reference, 118 blocked.
 
 ## By family
 
@@ -94,7 +94,7 @@ a generated country draws for wonders and traps, the voice tables for barks.
 | world | trapDc | 4 | 0 | 4 | 0 | 0 | src/registry/orsino-world.ts (the medium difficulty) | every generated trap saves against medium | `test/marvels.test.ts` |
 | world | trapMechanism | 6 | 6 | 0 | 0 | 0 | data/generation/scenes/snares.json | every generated trap | `test/marvels.test.ts` |
 | world | trapTrigger | 2 | 0 | 2 | 0 | 0 | data/rules/passages.kyr (crossing a way) | every generated trap | `test/marvels.test.ts` |
-| world | wonder | 80 | 43 | 0 | 0 | 37 | data/generation/scenes/orsino-world.json#wonders and data/generation/scenes/wonders.json, drawn by src/world/region-marvels.ts | two in a country's wild country, and some works | `test/marvels.test.ts` |
+| world | wonder | 80 | 46 | 0 | 0 | 34 | data/generation/scenes/orsino-world.json#wonders and data/generation/scenes/wonders.json, drawn by src/world/region-marvels.ts | two in a country's wild country, and some works | `test/marvels.test.ts` |
 
 ## What stands in the way
 
@@ -408,7 +408,6 @@ For each family with entries not met in play: its blockers, with how many entrie
 ### wonder
 
 - 21 × upgrade: A lasting raise of a quality: Kyr raises qualities only by advancement.
-- 3 × No meeting is written for it in data/generation/scenes/wonders.json.
 - 3 × planeshift: Travel to another plane or room: a generated country has no planes, and a wonder has no rooms to send anyone to.
 - 3 × teleport: Travel to another plane or room: a generated country has no planes, and a wonder has no rooms to send anyone to.
 - 2 × grantPassive: A trait granted outside advancement: Kyr has no effect that grants one.
