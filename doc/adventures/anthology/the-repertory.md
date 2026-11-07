@@ -9,7 +9,7 @@ having been cast in it. Source: `data/adventures/gosses-company/rep_circuit.kyr`
 ## The frame: why the tour comes before the Command
 
 The brief was a tour *after* the command performance. The engine will not allow it: an `Ending` closes the book (`doc/authoring/guide.md`,
-"How the story ends"), and Act V has **eight** Endings (grave, pebble, chain, shamed, sea, staged, exile, river) that fire on `commandDone`,
+"How the story ends"), and Act V has **eleven** Endings (grave, door, seat, quiet, pebble, chain, shamed, sea, staged, exile, river) that fire on `commandDone`,
 with a coda over whichever is reached (fiasco at `chaos >= standingR + 4`). Tested: asserting `commandDone` and waiting an hour leaves the
 page with no choices. So the tour opens at **`commandOn`**, the days between the Wick being theirs and the Command being played, and the
 Command is *held* while the company is away:

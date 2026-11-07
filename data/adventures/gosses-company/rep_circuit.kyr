@@ -20,12 +20,10 @@ Module pentrice "Gosse's Company" {
   Observe wend_cross_scene at wend_cross when true "Four roads and a milestone, and a signpost that has lost three of its arms to boys with knives. The fourth points up the hill to a village whose name has been scratched off and written again in chalk: MARLCROSS. The inn has a drum on its sign and a whistle painted under it, and the whistle is the more convincing.".
   Observe wend_taproom_scene at wend_taproom when true "A long low room with a fire, a settle, a window onto the road, and a table that has been the company's table for as long as the company has been this far out of the city. Hepzibah's book is open on it, and a heap of letters.".
 
-  Relation tourer(group). Relation toured(group). Relation tourOn(place).
-  Initially Assert tourer(gosse). Initially Assert tourer(hepzibah). Initially Assert tourer(swale). Initially Assert tourer(dorcas).
-  Initially Assert tourer(pudding). Initially Assert tourer(kit). Initially Assert tourer(tam).
+  Relation toured(group). Relation tourOn(place).
   Relation touredFrom(group, place). Relation tourAway(place).
   Rule tour_begins when commandOn(rierdan) and not tourOn(rierdan) { Assert tourOn(rierdan). }
-  Rule tour_gathers when tourOn(rierdan) and at(party, wend_cross) and tourer(?p) and not toured(?p) and at(?p, ?q) {
+  Rule tour_gathers when tourOn(rierdan) and at(party, wend_cross) and troupe(?p) and distinct(?p, clemency) and not toured(?p) and at(?p, ?q) {
     Retract at(?p, ?q). Assert at(?p, wend_taproom). Assert toured(?p). Assert touredFrom(?p, ?q). Assert tourAway(rierdan). }
   // The Command waits on the company: held while it is on the road, and set three days off when it comes home.
   Rule tour_holds when tourAway(rierdan) and not tourHomeSet(rierdan) and commandOn(rierdan) and not commandDone(rierdan) and commandDay(rierdan) <= day(clock) + 1 {

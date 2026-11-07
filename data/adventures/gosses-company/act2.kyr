@@ -155,7 +155,7 @@ Module pentrice "Gosse's Company" {
     On discuss { Assert modePoint(rierdan). }
   }
   Topic trap_vague with hepzibah "A name like his. Near enough for him to wince" answering hepzibah_trap when true {
-    Says "'That,' says Hepzibah, 'is what I would have chosen.' She writes. The villain is called Marshal Tarsus of Ember, which is not at all like anything. 'He will know. The others will not. Everyone is safer except the person who matters.'".
+    Says "'That,' says Hepzibah, 'is what I would have chosen.' She writes. The villain is called Marshal Tarsus of Ashmere, which is not at all like anything. 'He will know. The others will not. Everyone is safer except the person who matters.'".
     On discuss { Assert modeVague(rierdan). }
   }
   Topic trap_cancel with hepzibah "No name. Cancel the trap. Play something else" answering hepzibah_trap when true {
@@ -168,7 +168,7 @@ Module pentrice "Gosse's Company" {
     Resolve check(actor, performance, dc_fair).
     On success { Assert playDone(rierdan). Assert tarnExposed(rierdan). Assert tarnByArrest(rierdan). }
     On failure { Assert playDone(rierdan). }
-    Result "The curtain goes up on the Duke of Ember at his supper, and the Rotunda is quiet in the way a house is quiet when it knows it is being watched. In the box the Marshal's hand goes to his collar. Then the ghost comes on, played by Swale, in the nightcap, with a face of white flour, and says the Duke's last words as the Prince gave them. In the third row a woman screams. The Marshal gets up. He looks past the stage. He looks at the Prince.".
+    Result "The curtain goes up on the Duke of Ashmere at his supper, and the Rotunda is quiet in the way a house is quiet when it knows it is being watched. In the box the Marshal's hand goes to his collar. Then the ghost comes on, played by Swale, in the nightcap, with a face of white flour, and says the Duke's last words as the Prince gave them. In the third row a woman screams. The Marshal gets up. He looks past the stage. He looks at the Prince.".
     Otherwise "It is a competent play. The house is moved. The Marshal watches with every sign of a clear conscience, and applauds in the right places. The Prince, in the box, sits with his hand over his mouth.".
   }
   Action stage_mousetrap_vague(actor: group, site: place) "Give the signal for the curtain, and the play with the villain who is not anyone" {
@@ -177,7 +177,7 @@ Module pentrice "Gosse's Company" {
     Resolve check(actor, performance, dc_fair).
     On success { Assert playDone(rierdan). Assert tarnShaken(rierdan). }
     On failure { Assert playDone(rierdan). }
-    Result "The curtain goes up on Marshal Tarsus of Ember, and the Rotunda is a house at a play. In the box the Marshal of the Watch sits with a still face. When Tarsus is exposed at the supper he does not rise; he turns his glove over and looks into it. The Prince has seen him do it. The Prince does not understand what he has seen.".
+    Result "The curtain goes up on Marshal Tarsus of Ashmere, and the Rotunda is a house at a play. In the box the Marshal of the Watch sits with a still face. When Tarsus is exposed at the supper he does not rise; he turns his glove over and looks into it. The Prince has seen him do it. The Prince does not understand what he has seen.".
     Otherwise "It is a decent play about an unknown Tarsus, and the house enjoys it. The Marshal applauds in the right places and does not turn his head.".
   }
   Relation tarnShaken(place).
@@ -220,4 +220,10 @@ Module pentrice "Gosse's Company" {
   Milestone m_salt "had salt from the Wives" worth 100 when saltGiven(party).
   Milestone m_night "lived through the night of the Mousetrap" worth 350 when nightOver(rierdan).
   Observe ghost_reached at concourse when nightOver(rierdan) and ghostScore(rierdan) >= 5 "A crowd stands in front of the Rotunda in the grey light looking at the doors. The frost on the front step has not melted. The Duke walked the whole way, they say, and has gone in.".
+  Relation courtHome(place).
+  Rule court_home when nightOver(rierdan) and not courtHome(rierdan) { Assert courtHome(rierdan). Assert at(casimir, audience). Assert at(lothar, terrace). }
+  Rule marshal_home when marshalLives(rierdan) and at(tarn, ?x) and distinct(?x, lamp_hill) { Retract at(tarn, ?x). Assert at(tarn, lamp_hill). }
+  Rule marshal_gone when tarnFallen(rierdan) and at(tarn, ?x) { Retract at(tarn, ?x). }
+  Observe lothar_yes_note near lothar when lothalTrust(party) and not nightOver(rierdan) "Prince Lothar has not let the signet out of his sight. He looks at you now and then, as if you were the only thing left that he had not yet doubted.".
+  Observe lothar_no_note near lothar when lothalDoubt(party) and not nightOver(rierdan) "Prince Lothar looks at you the way one looks at a rope he is going to have to trust.".
 }
