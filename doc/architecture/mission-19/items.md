@@ -25,7 +25,7 @@ done about each gap since. Register row M19-92.
 | G9 equipped qualities in the field | **Fixed** (this commit): a quality as its bearer has it with what they wear (ItemCatalog.quality) is what a field check and what one can carry read (test/item-gaps.test.ts: a belt of giant strength, twelve more carried and three more to force) |
 | G10 one thing to a slot | **Fixed** (this commit): a ring to each hand (ItemCatalog.holds), a third worn in place of the first; one of anything else, so a mail of power is worn instead of the armour beneath, as armour is (test/item-gaps.test.ts) |
 | G11 tools nobody asks for | Open |
-| G12 spoils | Open |
+| G12 spoils | Fixed (integrate: src/campaign/spoils.ts; what the slain carried set down where they fell) |
 | The expedition the owner asked for | **Reachable** (this commit): test/orsino-expedition.test.ts, h8: a large brilliant-cut rose quartz, Orsino's ring of strength and amulet of health taken up below, both worn, the walk home by the world's ways, the stone sold to the jeweller as a valuable and the amulet as a rare thing. Not played in the browser |
 
 ## Plants: what each is for in play

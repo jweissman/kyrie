@@ -42,11 +42,11 @@ describe('a calling\'s own way in the first town', () => {
     expect(warrior.latest).not.toMatch(/something big at the back is laying/);
   }, 120000);
   // Prepared at the chandler's, a lone mage can do the jobs a warrior fights through: ratsbane laid in the cellar
-  // kills the rats by morning, and a fire flask thrown into the web burns the spiders out (Mission 19: alone, a mage
+  // kills the rats by morning, and an oil firebomb thrown into the web burns the spiders out (Mission 19: alone, a mage
   // was reckoned "deadly" against both).
   it('lets a lone mage do the rats and the spiders by what the chandler sells', async () => {
     const mage = await start('mage'), j = mage;
-    for (const step of ['To the landing at Lowmouth', 'To Ulf\'s chandlery', 'Buy › A twist of ratsbane', 'Buy › A fire flask',
+    for (const step of ['To the landing at Lowmouth', 'To Ulf\'s chandlery', 'Buy › A twist of ratsbane', 'Buy › An oil firebomb',
       'To the landing at Lowmouth', 'To Mik\'s salt-house', 'Ask Mik about the rats', 'To the landing at Lowmouth',
       'To the old corn-store', 'Down to the corn-store cellar', 'a candle: Light', 'Lay ratsbane',
       'Up to the old corn-store', 'Wait › Until dark', 'Wait › An hour', 'Wait › An hour', 'Wait › An hour']) {
@@ -55,7 +55,7 @@ describe('a calling\'s own way in the first town', () => {
     expect([j.holds('able', 'region__s1_u_rats'), j.holds('region__s1_u_done', 'region__s1_u_rats_job')]).toEqual([false, true]);
     for (const step of ['To the landing at Lowmouth', 'Into the Lucky Phoenix', 'Ask .* about the old quarry',
       'To the landing at Lowmouth', 'To the old quarry pit', '^Down to the quarry adit$', '?a candle: Light',
-      'Throw a fire flask', 'Wait › A while']) { await j.step(step); }
+      'Throw an oil firebomb', 'Wait › A while']) { await j.step(step); }
     expect(j.holds('region__s1_u_done', 'region__s1_u_spiders_job')).toBe(true);
   }, 180000);
 });
