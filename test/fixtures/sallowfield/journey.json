@@ -1,0 +1,158 @@
+{
+  "muster": [
+    "To the ford stones",
+    "Ask Davy what he would do if the soldiers came",
+    "Tonight everyone is old enough",
+    "Ask Davy Pinn to join the company",
+    "To the ford meadow",
+    "To Sallowfield green",
+    "Into the Ploughshare",
+    "Ask Nan Ashworth to hold the ford stones",
+    "Let Hob Wadsworth tell you how he would hold the bridge",
+    "Out to Sallowfield green",
+    "Into Kersey's forge",
+    "a smith's crowbar: Take",
+    "a sod-cutting shovel: Take",
+    "Ask Peg Kersey what the iron is for",
+    "Make the spikes",
+    "Work Peg Kersey's bellows for four hours while she makes the spikes",
+    "Out to Sallowfield green",
+    "Into the chapel of Saint Eadred",
+    "Ask Mistress Cragg why she is counting arrows in a church",
+    "Nobody. Not yet",
+    "Ask Ellen Cragg to join the company",
+    "Ask Father Mowbray whether he would kill, if it came to it",
+    "No. Come and keep the hurt alive",
+    "Ask Father Mowbray to join the company",
+    "Out to Sallowfield green",
+    "To Quarmby's mill yard",
+    "Ask Gil Quarmby what the mill is worth to him",
+    "If it saves the mill, yes",
+    "Ask Gil Quarmby to hold Quarmby's mill yard",
+    "To Sallowfield green"
+  ],
+  "works": [
+    "Take the old, the sick and the children up to the high fold",
+    "Drill the levy on the green with staves",
+    "To the green well",
+    "Set a bucket line from the well to the green",
+    "To Sallowfield green",
+    "To the ford meadow",
+    "Dig pits in the ford meadow and lay hurdles over them",
+    "To the ford stones",
+    "Wall the ford with the coach, the inn's tables and the hurdles",
+    "To the ford meadow",
+    "To Sallowfield green",
+    "To the packhorse bridge",
+    "Prise out the keystone of the near arch"
+  ],
+  "toTheFord": [
+    "To the ford meadow",
+    "To the ford stones"
+  ],
+  "wall": [
+    "Wall the ford with the coach, the inn's tables and the hurdles"
+  ],
+  "evacuate": [
+    "Take the old, the sick and the children up to the high fold"
+  ],
+  "reeds": [
+    "To the ford meadow",
+    "To the reed marsh",
+    "=day 2 17:40",
+    "Take the boy in the reeds before he sees you",
+    "To the ford meadow",
+    "To Sallowfield green",
+    "Into the Ploughshare",
+    "Ask the boy what he was doing in the reeds",
+    "Tell the boy he will be fed and sent home when it is over"
+  ],
+  "parley": [
+    "Out to Sallowfield green",
+    "To the ford meadow",
+    "To the ford stones",
+    "To the east road, at the ford",
+    "To the parley stone",
+    "=day 3 12:30"
+  ],
+  "refuse": [
+    "Ask the captain what he wants",
+    "Wait for what the captain asks",
+    "Nothing. We will not pay",
+    "To the east road, at the ford",
+    "To the ford stones"
+  ],
+  "hobToTheFord": [
+    "To the ford meadow",
+    "To Sallowfield green",
+    "Into the Ploughshare",
+    "Ask Hob Wadsworth to hold the ford stones",
+    "Out to Sallowfield green",
+    "To the ford meadow",
+    "To the ford stones"
+  ],
+  "payTheCaptain": [
+    "Say what you would put on the notice",
+    "Ask the reeve what the village could pay",
+    "The reeve wants the plate for Wyre. What do you say?",
+    "Give it, if it is asked",
+    "To the ford meadow",
+    "To the ford stones",
+    "To the east road, at the ford",
+    "To the parley stone",
+    "=day 3 12:30",
+    "Ask the captain what he wants",
+    "Wait for what the captain asks",
+    "The reeve's sixty, the plate and the grain"
+  ],
+  "foulTheGrain": [
+    "Into Kersey's forge",
+    "a pot of pitch: Take",
+    "Out to Sallowfield green",
+    "Into the tithe granary",
+    "Foul the tithe grain with brine and lamp oil",
+    "Out to Sallowfield green",
+    "To the ford meadow",
+    "To the ford stones",
+    "=day 1 22:00",
+    "To the ford meadow",
+    "To the reed marsh",
+    "=day 2 17:40",
+    "Take the boy in the reeds before he sees you",
+    "To the ford meadow",
+    "To Sallowfield green",
+    "Into the Ploughshare",
+    "Ask the boy what he was doing in the reeds",
+    "Tell the boy he will be fed and sent home when it is over",
+    "Send the boy back to Wyre with a message you have thought about",
+    "Out to Sallowfield green",
+    "To the ford meadow",
+    "To the ford stones",
+    "=day 3 18:30"
+  ],
+  "buyTheLieutenant": [
+    "Out to Sallowfield green",
+    "To the ford meadow",
+    "To the ford stones",
+    "To the east road, at the ford",
+    "To the parley stone",
+    "=day 3 12:30",
+    "Offer Lieutenant Fothergill ten coin and a way home",
+    "To the east road, at the ford",
+    "To the ford stones"
+  ],
+  "walkOn": [
+    "To Greenhalgh's farm",
+    "To the south road",
+    "Walk on south, and do not look back"
+  ],
+  "mendTheAxle": [
+    "To the ford stones",
+    "To the ford meadow",
+    "To Sallowfield green",
+    "Into Kersey's forge",
+    "Ask Peg Kersey what the iron is for",
+    "Mend the axle",
+    "Out to Sallowfield green"
+  ]
+}

@@ -1,0 +1,67 @@
+Module sallowfield "Three Nights at Sallowfield" {
+  Description "Sallowfield: sixty people at a ford on the Brimble, a stranded coach, and an unpaid company three days up the valley.".
+
+  // The Brimble runs north to south. The town is on its west bank; the coach road comes in from the east and crosses by
+  // the ford or by the old packhorse bridge. Wyre's company comes down the east bank.
+  Place vale "the Brimble vale" is region within imbar.
+  Place eastbank "the east bank" is wilderness within vale at 2, 1.
+  Place sallowfield "Sallowfield" is settlement within vale at 1, 1.
+  Place upvale "the upper vale" is wilderness within vale at 1, 0.
+  Place lowvale "the lower vale" is wilderness within vale at 1, 2.
+  Place inn "the Ploughshare" is building within sallowfield.
+  Place chapel "the chapel of Saint Eadred" is building within sallowfield.
+  Place millhouse_b "Quarmby's mill" is building within sallowfield.
+  Place smithy_b "Kersey's forge" is building within sallowfield.
+  Place granary_b "the tithe granary" is building within sallowfield.
+
+  Place east_road "the east road, at the ford" is room within eastbank at 2, 1 outdoors.
+  Place green "Sallowfield green" is room within sallowfield at 1, 1 outdoors.
+  Place taproom "the Ploughshare taproom" is room within inn at 0, 1.
+  Place forge "Kersey's forge" is room within smithy_b at 0, 2.
+  Place granary "the tithe granary" is room within granary_b at 0, 0.
+  Place nave "the nave of Saint Eadred's" is room within chapel at 2, 0.
+  Place bell_loft "the bell loft" is room within chapel at 2, 1.
+  Place tower_roof "the tower roof" is room within chapel at 2, 2.
+  Place mill_yard "Quarmby's mill yard" is room within sallowfield at 0, 0 outdoors.
+  Place mill_loft "the mill loft" is room within millhouse_b at 0, 1.
+  Place race "the mill race" is room within sallowfield at 0, 2 outdoors.
+  Place ford_stones "the ford stones" is room within sallowfield at 2, 1 outdoors.
+  Place ford_meadow "the ford meadow" is room within sallowfield at 2, 2 outdoors.
+  Place bridge "the packhorse bridge" is room within sallowfield at 2, 0 outdoors.
+  Place well "the green well" is room within sallowfield at 1, 0 outdoors.
+
+  Place fold "the high fold" is room within upvale at 1, 0 outdoors.
+  Place high_track "the high track" is room within upvale at 1, 1 outdoors.
+  Place lookout "the Scar lookout" is room within upvale at 2, 0 outdoors.
+  Place lower_farm "Greenhalgh's farm" is room within lowvale at 1, 0 outdoors.
+  Place reed_marsh "the reed marsh" is room within lowvale at 2, 1 outdoors.
+  Place south_road "the south road" is room within lowvale at 1, 2 outdoors.
+  Place parley_stone "the parley stone" is room within eastbank at 2, 2 outdoors.
+
+  Passage ford_east "the ford, east side" is ford between east_road and ford_stones taking 10 minutes.
+  Passage bridge_east "the packhorse bridge, east end" is bridge between east_road and bridge taking 10 minutes.
+  Passage bridge_green "the bridge head" is path between bridge and green taking 5 minutes.
+  Passage ford_meadow_way "the ford meadow" is path between ford_stones and ford_meadow taking 5 minutes.
+  Passage meadow_green "the lane from the meadow" is road between ford_meadow and green taking 10 minutes.
+  Passage inn_door "the Ploughshare door" is door between green and taproom.
+  Passage forge_door "the forge door" is door between green and forge.
+  Passage granary_door "the granary door" is door between green and granary.
+  Passage nave_door "the chapel door" is doorway between green and nave.
+  Passage bell_ladder "the bell ladder" is ladder between nave and bell_loft.
+  Passage roof_hatch "the roof hatch" is ladder between bell_loft and tower_roof.
+  Passage well_path "the way to the well" is path between green and well taking 3 minutes.
+  Passage mill_lane "the mill lane" is path between green and mill_yard taking 10 minutes.
+  Passage mill_door "the mill door" is door between mill_yard and mill_loft.
+  Passage race_path "the race path" is path between mill_yard and race taking 5 minutes.
+  Passage race_meadow "the race path to the meadow" is path between race and ford_meadow taking 10 minutes.
+  Passage high_lane "the lane to the high track" is road between green and high_track taking 20 minutes.
+  Passage fold_path "the track to the fold" is path between high_track and fold taking 30 minutes.
+  Passage scar_path "the path to the Scar" is path between high_track and lookout taking 40 minutes.
+  Passage low_lane "the lower lane" is road between green and lower_farm taking 20 minutes.
+  Passage marsh_path "the reed track" is path between lower_farm and reed_marsh taking 20 minutes needing wayfinding or woodcraft.
+  Passage marsh_meadow "the marsh edge" is path between reed_marsh and ford_meadow taking 25 minutes.
+  Passage south_lane "the south road" is road between lower_farm and south_road taking 30 minutes.
+  Passage parley_way "the road to the parley stone" is road between east_road and parley_stone taking 20 minutes.
+  Passage lookout_east "the Scar path down to the east road" is path between lookout and parley_stone taking 40 minutes.
+  Passage ford_race "the ford stones to the race" is path between ford_stones and race taking 10 minutes.
+}

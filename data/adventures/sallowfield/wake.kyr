@@ -1,0 +1,71 @@
+Module sallowfield "Three Nights at Sallowfield" {
+  // ── What the morning finds ─────────────────────────────────────────────────────────────────────────────────────
+  Relation walkedOn(group).
+  Rule plan_open when planned(party) and parleyOpen(party) and not planMod5(party) {
+    Assert planMod5(party). Decrease thrust(ford_stones) by 2 or to nothing. Decrease thrust(bridge) by 2 or to nothing. Decrease thrust(mill_yard) by 2 or to nothing. }
+  Rule plan_refused when planned(party) and parleyRefused(party) and not planMod6(party) {
+    Assert planMod6(party). Increase thrust(ford_stones) by 1. Increase thrust(bridge) by 1. Increase thrust(mill_yard) by 1. Increase thrust(nave) by 1. }
+  Relation planMod5(group). Relation planMod6(group).
+
+  Action walk_on(actor: group, site: place) "Walk on south, and do not look back" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, south_road).
+    Time 0.
+    On success { Assert walkedOn(party). }
+    Result "You go. It is a road, and it goes on, and you go on it.".
+  }
+
+  Chapter ch_axle "The Axle" when true "A coach with a cracked axle at a ford, and the smith says three days.".
+  Chapter ch_probe "The Probe" when watch(clock) >= 78 "Dusk on the first day. Two horsemen have looked at the ford.".
+  Chapter ch_parley "The Stone" when parleyHeld(party) "A white rag on a lance, a standing stone, and a man who would sooner not.".
+  Chapter ch_night "The Night" when p1done(party) "Four hours, in four movements. The bell is the village's oldest thing, and the bridge its newest.".
+  Chapter ch_morning "The Morning" when dawned(party) "It is light. You count.".
+
+  Objective ob_news when watch(clock) < 120 and not knowsNumbers(party) "A company of unpaid soldiers has been seen on the east road. Crowther the shepherd, Nan Ashworth and the reeve each know a different part.".
+  Objective ob_watch when watch(clock) < 78 and not watchedFord() "If no one is watching the ford tonight, something will be told to someone who is.".
+  Objective ob_works when not planned(party) and not barricadeUp(party) and not bridgeCut(party) "There are two days. A wall, a cut, a flood and a drill each take hours the others need.".
+  Objective ob_parley when parleyHeld(party) and not wyreMet(party) "A white rag on a lance, by the standing stone.".
+  Objective ob_night when battleOn() and not dawned(party) "It is dark. They are coming.".
+
+  Milestone m_scout "caught the boy in the reeds" worth 150 when heldScout(lowes).
+  Milestone m_stone "went to the standing stone and heard the captain out" worth 200 when wyreMet(party).
+  Milestone m_farm "got Ned Greenhalgh and his cows out" worth 150 when greenhalghSaved(party).
+  Milestone m_turned "bought Lieutenant Fothergill" worth 250 when fothergillTurned(party).
+  Milestone m_spoiled "ruined the winter's grain to save the village" worth 200 when grainSpoiled(party).
+  Milestone m_picks "turned the picked men away" worth 300 when picksWithdrawn(party) or picksBeaten(party).
+  Milestone m_dawn "saw the third dawn" worth 400 when dawned(party).
+
+  // Fates, by name, at dawn.
+  Observe fate_quarmby_dead at green when dawned(party) and dead(quarmby) "Gil Quarmby is lying across the mill door with the key in his hand. They have not touched the mill. It looks to have been the one thing he asked.".
+  Observe fate_quarmby_live at green when dawned(party) and not dead(quarmby) "Gil Quarmby is already on the wheel with a rag, wiping the soot off the buckets. 'Forty years,' he says, to nobody. The wheel turns.".
+  Observe fate_pinn_dead at green when dawned(party) and dead(pinn) "They found Davy Pinn at the foot of the bridge with the sling still round his hand. Nobody has told his father. His father is at the mill, grinding, because it is the only thing he knows how to do.".
+  Observe fate_pinn_live at green when dawned(party) and not dead(pinn) and pinnBrave(party) "Davy Pinn is sitting on the tower roof with his legs over the parapet, eating a heel of bread. He is twelve years old, and has changed, in the manner of the very young, completely.".
+  Observe fate_cragg_dead at green when dawned(party) and dead(cragg) "Ellen Cragg is in the nave with her back against the plate-chest and an arrow in her hand, nock to string. The pile beside her is counted: forty-one gone, two left.".
+  Observe fate_cragg_live at green when dawned(party) and not dead(cragg) "Ellen Cragg is counting what is left. 'Nine,' she says. She does not say it sadly. She says it as though it were a debt, and she was glad to know the figure.".
+  Observe fate_mowbray_dead at green when dawned(party) and dead(mowbray) "Father Mowbray is in his own church with the doors wide. They have not taken the plate. The last thing he said was, the witnesses agree, a blasphemy of astonishing length.".
+  Observe fate_mowbray_live at green when dawned(party) and not dead(mowbray) and mowbrayRaised(party) "Father Mowbray has said a rite over a man and the man has stood up. He is sitting in the porch, sweating through his surplice and swearing very quietly and continuously, like a pot.".
+  Observe fate_cragg_kin at green when dawned(party) and not dead(cragg) and craggKin(party) "At the bottom of her tally, under the nine, Ellen Cragg has written a name in her own hand, and has not said whose.".
+  Observe fate_cragg_killed at green when dawned(party) and not dead(cragg) and craggKilled(party) "Ellen Cragg has not spoken to you since the ford. She has left a bow on your bed, strung, which is either courtesy or the other thing.".
+  Observe fate_mowbray_arms at green when dawned(party) and not dead(mowbray) and mowbrayArms(party) "Father Mowbray has the stain of it on his sleeve and has not changed the sleeve, and says the morning office in it.".
+  Observe fate_pinn_sent at green when dawned(party) and not dead(pinn) and pinnSent(party) and not pinnBrave(party) "Davy Pinn was on the green all night, as promised, and counted every man who went by, and is willing to say the number at length.".
+  Observe fate_kersey_dead at green when dawned(party) and dead(kersey) "The forge is cold. Peg Kersey is in the doorway, on her side. There are black points on the floor all round her, and none of the men who fell on them are alive.".
+  Observe fate_greenhalgh at green when dawned(party) and greenhalghDead(party) "Ned Greenhalgh is in his yard, with a cow. He had not been willing to leave. The cow is alive.".
+  Observe fate_wadsworth at green when dawned(party) and wadsworthRan(party) "Hob Wadsworth is in the cellar of the Ploughshare, in the dark, under a barrel. He has been there since the second hour. Nobody has told him it is over, and nobody is going to.".
+  Observe fate_elland at green when dawned(party) and ellandFights(party) and not dead(elland) "Tib Elland is holding a granary door with a tally-stick. He has not been asked to stop. He does not seem to have noticed that it is morning.".
+  Observe fate_wyre_dead at green when dawned(party) and dead(wyre) and not fothergillTurned(party) "Captain Tobin Wyre is laid out on a door by the chapel wall, with his helm under his head. The picked men sat with him until the light, and then went down the east road without any order being given, and the sergeant did not look back.".
+  Observe fate_winter at green when dawned(party) and winterShort(party) "The granary is stained or empty. There is going to be a winter in Sallowfield, and some of it will be hungry. People in the queue for the well are doing the sum aloud.".
+  Observe fate_coach at east_road when dawned(party) and coachGone(party) "The coach is the ford wall, and the wall is a heap of char. Teasdale is sitting on a wheel in the sun. 'It was a good coach,' he says, without rancour, to the river.".
+  Observe fate_lowes at taproom when dawned(party) and heldScout(lowes) and lowesHard(party) "The boy in the cellar has not eaten. He looks at you as one looks at a door that has been open and shut.".
+
+  // Endings, most particular first.
+  Ending company_fell "What the Steel Said" when p4done(party) and not able(party) and not picksWithdrawn(party) "The three do not hurry. One of them sits on the plate-chest afterward, with his helm on his knee, and watches the others go through the chapel; and what is said of it in Sallowfield for the next forty years is that the coach people stood in the road and told the picked men to go home, and that the picked men were very civil about it, and did not. The bell does not ring again that night. Whether the village stood, or sat down in the dark and waited for the captain's terms, nobody who could tell you was left to be asked.".
+  Ending walked_on_ending "The Road South" when walkedOn(party) and not coachMended(party) "You walk until dark. In the morning you are further, and the morning after, further still, and you do not know and will not learn what Sallowfield was by the end of its third night. It is possible it did very well. You do not look back, in the way that people do not who have already decided what they would see.".
+  Ending coach_goes "The Coach Goes On" when walkedOn(party) and coachMended(party) "Teasdale's axle holds. By noon the coach is a dot on the south road, and nobody on it says a word about the village, or the smith who mended the strap with a face you did not see, or the boy at the ford who waved. The passengers are eleven. They arrive.".
+  Ending alone_ending "Nobody Left" when dawned(party) and not pact(party) and count(villager(?v) and able(?v)) == 0 "You are alive. You are the only person in the village who is, and the morning is very fine. The river runs, and the geese have come back, and are cropping the green round the dead as if they had always been there.".
+  Ending bought_peace "A Peace of Sixty Coin" when pact(party) "Wyre keeps his word to the letter: not a roof burned, not a girl touched. The company goes down the east road at noon with the wagons full, in good order, and the village watches it go with an odd politeness, as at the departure of a relative. You know, and so does the reeve, that in the spring he will have a thing to ask, and that you will have given him his answer in advance.".
+  Ending stalemate_ending "The Next Granary" when wyreWithdraws(party) and grainSpoiled(party) "At dawn the east road is empty. Voll's four words went up the column in the night, and by the morning half of it was already on its way to Marden, where the tithe-barn is dry. You have a village, a mill, and a winter with nothing in it. The reeve is writing a notice. You do not read it.".
+  Ending captain_ending "The Captain's Own" when fothergillTurned(party) and picksWithdrawn(party) and dawned(party) "Wyre is on the ground by the bridge with his helm off, or as good as. Fothergill, who has the sergeant at the end of a sword, says in a clear carrying voice that the company will be going home, now, by the Marden road, and will be paid in the spring from the Margrave's own treasury or the Margrave will have the pleasure of explaining. Nobody argues. They have been waiting for someone to say it.".
+  Ending held_ending "Held, at a Cost" when dawned(party) and not greenBurns(party) and overrunCount(party) <= 1 "The sun comes up on a village standing. The bridge is black; the ford is full of what the river will take away. Sixty people are in the lane, counting each other, and in a dozen doorways there is a person who is not doing it, because it has already been done.".
+  Ending half_saved "Half Saved" when dawned(party) and greenBurns(party) and evacuated(party) "The green is a floor of black timbers and the chapel is the only roof. But the old, the sick and the children are on the high fold with Crowther and two hundred sheep, and when the sun gets over the Scar they come down in a line in the cold light, and the count is bad and not the worst.".
+  Ending ash_ending "Ash" when dawned(party) and greenBurns(party) and not evacuated(party) "They had gone to bed. That is what you will think of, afterward, in a town where nobody asks you what you did: that the helpless were in their beds when the green went up, and that the bucket line was a line of women who came to the end of it and found nothing to put the water on.".
+  Ending what_was_left "What Was Left" when dawned(party) "The company has gone. The village is neither saved nor burned; it is a place with its roofs on and a great many people at the well not looking at each other. You cannot tell, standing in it, whether this is a victory. Somebody says that it will be known by spring.".
+}

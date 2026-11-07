@@ -602,6 +602,26 @@
    "heard": "East of here, a lighthouse stands on a rock at the end of a tidal causeway, and the road to it is only dry for three hours.",
    "skyline": "a white tower on a grey flat, with posts going out to it",
    "far": "a lighthouse stands at the end of a causeway that the sea closes every day, and people who cross late stay the night"
+  },
+  {
+   "id": "sallowfield",
+   "province": true,
+   "bundle": "sallowfield/placed.json",
+   "entry": "east_road",
+   "marker": "wyre",
+   "side": "west",
+   "beside": [
+    "hills",
+    "forest",
+    "marsh"
+   ],
+   "name": "the vale of the Brimble",
+   "topic": "the ford at Sallowfield, where a coach has cracked its axle",
+   "terrain": "hills",
+   "rumour": "'There's a village on the Brimble called Sallowfield,' says {keeper}, 'a ford, a mill, sixty souls. A coach broke its axle there this week, and I'm told there's a company of the Margrave's unpaid soldiers coming down the east road behind it with nothing in their bellies. Whoever's passing would do well to be passing quickly.' {keeper} wipes a mug. 'The smith will tell you three days for the axle. I'd say the soldiers will be quicker.'",
+   "heard": "West of here, on the Brimble, lies Sallowfield: a ford, a mill, sixty people, and a coach with a cracked axle, with a company of the Margrave's unpaid soldiers coming down the east road behind it.",
+   "skyline": "a river valley with a mill-race and a chapel tower, and smoke going straight up from every chimney",
+   "far": "a village at a ford is waiting, and nobody in it knows yet what to do about the soldiers on the road"
   }
  ]
 }
