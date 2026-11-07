@@ -2,7 +2,7 @@ Module wrayford "The Third Night" {
   // The campaign played alone: Wat Pardoe's elder child, three years away with the droves on the far side of the fells,
   // coming home on their mother's letter, a week after it was written. (placed.kyr is the world's own company, come in
   // by the drove road with no kin here.)
-  Company party "You" of 1 at drove_road.
+  Company party "You" of 1 to 3 at drove_road.
   Initially Set quantity(party, gold) to 9. Initially Set quantity(party, rations) to 2.
   Initially Assert homecomer(party).
   Initially Assert kin(party, maudie). Initially Assert kin(party, kit).

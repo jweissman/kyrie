@@ -44,6 +44,6 @@ Module wending "Wending Cross" {
   }
   Discovery west_told "West over the march, a day's walk, lies Pentrice, where the Trial of the Wheel is played: three companies of players for three nights, and a house to the best.".
   Initially Assert leadsTo(west_told, road_out).
-  Company party "You" of 1 at cross_green.
+  Company party "You" of 1 to 3 at cross_green.
   Initially Set quantity(party, gold) to 14. Initially Set quantity(party, rations) to 2.
 }
