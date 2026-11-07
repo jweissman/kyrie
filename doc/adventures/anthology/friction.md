@@ -37,3 +37,58 @@
 26. **The shared "ask to let you by" and "warn off" remain at every guard that warns** (an even chance and an unlikely one, one try each): they are checked and cost a fight on failure, so they were left, but they are a way past a toll, an owlbear and a ghoul pack that the module did not write.
 27. **A placated Person is still described as it was** unless its words are conditioned; a Person's `State` text is room text, shown wherever it stands. Dropping the State (and the Guards) and telling the way's shut text through `opening when … "text"` removes it; a placated Person gets an Observe `when tolerates(x, party)`.
 28. **`bun run lint` (eslint) over the repository fails on files that are not Tallow's** (`test/skerrow.test.ts`, `test/wrongboat.test.ts` and others, line lengths and the 160-line function limit), as it did before this pass; `test/tallow.test.ts` and `scripts/tallow-fights.ts` are clean.
+
+---
+
+# Index: the authorability findings of the whole anthology
+
+*Written when the review rounds were spun down (7 November 2026). The numbered items above are the first four passes; each adventure keeps its own list, named below with the numbers cited here. This section groups them by what an author or the engine could do, so the next iteration can pick them off in order of value.*
+
+## Where each adventure's findings live
+| Adventure | File | Page |
+|---|---|---|
+| I. Tallow Deep (and the first passes) | this file, items 1–28 | `tallow-deep.md` |
+| II. The Long Muster's Road | `friction-muster.md` | `the-long-muster.md` |
+| III. Wapshott's Fourth Act (Isle of Sarn) | `friction-sarn.md` | `the-fourth-act.md` |
+| IV. The King's Players | `friction-players.md` | `the-kings-players.md` |
+| V. The Repertory | `friction-repertory.md` (F-numbers) | `the-repertory.md` |
+| VI. The Wrong Boat | `friction-wrongboat.md` | `the-wrong-boat.md` |
+| VII. Skerrow | `friction-skerrow.md` | `skerrow.md` |
+| VIII. Three Nights at Sallowfield | `friction-sallowfield.md` | `sallowfield.md` |
+
+## A. Free actions and the cost of a failed check (the commonest design fault)
+An `Action` with a `Resolve check` and `Time 0` (or a cheap `Time`) is offered again after it fails, so every such check is a free reroll unless the author builds a latch (`Relation tried`) or a price. The same holds of a Topic that is `once` (it has no retry) versus an Action (unlimited retry): Muster 22, Skerrow 37, Sallowfield 42, Wrong Boat (rounds 3–5). *Done:* latches and costs by hand in every adventure. *Engine could:* a `Resolve … once` or `tries N` clause; a lint that flags a `Time 0` check with no failure effect; showing "one try" in the label automatically (the label today says only the odds).
+The engine's own `slip_past` (passages.kyr:96–107) is the same fault at scale: free, unrolled, unlimited, and the guard stays put (Tallow 19). *Engine could:* roll stealth and turn the guard on the company on failure.
+
+## B. Rules that speak, and where
+A `Rule` whose condition lacks a literal `at(party, X)` fires, and its `says` is told, wherever the party is; `at <area>` on a rule's `says` makes it silent; `Observe … near X as sound` hears only where X is; a sound is told on the step that ends while it holds (Skerrow 7, 25, 33, 34, 36, 43; Sarn 2; Players 2, 6; Sallowfield 3; Muster 33). *Done:* `Observe … within <area> as sound` for sounds, a literal anchor in every rule. *Engine could:* a lint that errors (not advises) on an unanchored `says`; `says … to <place>`.
+Narration for a party that is elsewhere does not exist (Sallowfield 3, 4): fates and battles are told when the party is present, or as reported speech.
+
+## C. Time and waiting
+A wait is one atomic step; it does not stop at a warning, a sound or a change in the room; `=until` and `=+N` are the only precise tools (Skerrow 20, 27, 39, 45; Sallowfield 8, 19, 32; Wrong Boat 16; Players 1, 16). A hunter or hazard keyed to a narrow clock window is fragile (Muster 27); a die in a rule (`dice(clock)`) is a different die every watch (Muster 16). *Engine could:* wait-until-event-or-N; a rule-level `once per N`.
+
+## D. Pursuit and groups
+`Pursuit` works, but a pursuer re-plans only when it arrives, so a party that is "nowhere" (travelling) is never intercepted and a long hop commits for the whole hop (Wrong Boat 2, 3, 19, 22, 23, 25; Sallowfield 33, 37, 44). A hostile group that retreats to a `Refuge` becomes a wall for anyone who later walks through it (Sallowfield 44). *Done:* scripted rules (a carrier's cart, peaceable "takers"). *Engine could:* pursuit that re-plans each watch, and a way to say "intercept the party's route".
+
+## E. State that outlives its cause
+A Person's `State` text, a `Guards` line or a warning ("will wait ten minutes more") is shown after the creature is placated, the toll met or the person gone (Tallow 3, 27; Muster 36; Skerrow 14, 33; Wrong Boat 4). A topic cannot retract `at(x, ?p)` unless its `when` binds `?p`, and rules run on the next tick, not after a Time-0 topic (Tallow 21; Wrong Boat 7, 27). `following` people are not `at` anywhere (Tallow 11; Skerrow 10). *Done:* `Seen when` on the Person; explicit `Retract warned`. *Engine could:* conditioned `State`; `Retract at(x, _)`; the patience line read from live state.
+
+## F. Companions and parties
+A hired companion is a party member from that hour: `dead(x)` and `able(x)` apply; a party of one dies to a hazard meant for a company (Sarn 3; Sallowfield 28; Players 5). A companion who carries things takes them when she goes (Muster 25). Hiring is limited by the purse, not a cap (Muster 37, 29). The test party is often one character, which is why survival clocks kill it first. *Engine could:* a hazard that scales with party size; an explicit "company" query.
+
+## G. Spec authorability
+The Journey API steps by page labels and is the right tool, but: `j.put/assert/give` makes specs that teleport and hide the path (Players 14; Sarn 20); a forced roll hides what the dice would do (Repertory F26–F31); seeded dice are the only way to spec a die (Wrong Boat 28); an ending that fires on arrival eats the beats at that place (Muster 31); `Journey.at` cannot see a group moved by a pursuit (Sallowfield 33); a spec cannot read an ending's title from the page (Skerrow 13; Wrong Boat 10); a worktree agent's shell refuses compound commands (several). *Engine/tooling could:* `Journey.endings()`, `j.until(cond)`, group positions, and a `--seed-sweep` helper that reports pass-rate per route (several reviews hand-rolled one).
+
+## H. Names, words and lint
+Names are unique across the whole corpus, reserved words are found only by loading (`service`, `watch`, `shut`, `closed`, `fallen`, `turned`, `crate`, `losses`), canonical words collide silently, and first names recur across adventures even when the surname test passes (first pass 12; Muster 4, 18; Sallowfield 9, 11; Wrong Boat 8, 9). Lint advice (write-only flags, unanchored `says`) is advice only, and a Relation set only from a Topic can trip the write-only advice (Sallowfield 20). *Engine could:* a `bin/kyrie names --free <prefix>` and a reserved-word list in the guide.
+
+## I. Where the engine shaped the fiction
+Several finished pieces are what they are because of an engine limit, and are recorded as such rather than as faults of the writing:
+- *Tallow has no stealth way past anything* (A): the stealthy character lost an option rather than gaining a priced one.
+- *Sallowfield is a comparison, not a sequence* (Sallowfield 2): a battle is a sum of post strengths against thrusts, decided at the clash, because nothing can narrate to an absent party.
+- *Wrong Boat's pursuit is partly scripted* (D): the chaser is a carrier's cart on a clock.
+- *Skerrow's night is a lamp-state machine* (C): the thing is a Person who moves by rules, with sound Observes; "hiding" is an exposed-rooms query.
+- *The repertory tour is a gather rule over `troupe(?p)`* (F), because hard-coded rosters broke when members left.
+
+## J. Still open when the rounds were spun down
+Recorded in each adventure's own file under "not done"; the headline items are: Fourth Act's pack-each-night and played journeys for the remaining endings; King's Players' Act V as a counter and the remaining staged specs; the Repertory's staged `heistOver` and luckily-seeded specs; Wrong Boat's "kindest route is cheapest" and time-gated pursuit; Skerrow's harsh unforced romance odds; Muster's lore-only flags and shared NPC cadence; Sallowfield's unmeasured flood and the "even chance" label on the farm fight; Tallow's missing stealth and unspecced collar/report beats. None is a known bug that blocks play; each has been played end to end by a hostile reviewer or a spec.
