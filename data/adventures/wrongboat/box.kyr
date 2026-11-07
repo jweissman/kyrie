@@ -39,7 +39,7 @@ Module wrongboat "The Wrong Boat" {
     Requires able(actor) and company(actor) and at(actor, site) and holding(actor, music_box) and drawerOpen(actor) and not boxKnown(actor).
     Time 1.
     On success { Assert boxKnown(actor). Assert knows(actor, maker_known). }
-    Result "You tilt it to the light. The words were put in with a pin, a long time ago, by someone who did not own an engraver's tool and did not want to wait for one.".
+    Result "You tilt it to the light. The words were put in with a pin, years ago, by someone who did not own an engraver's tool and did not want to wait for one.".
   }
 
   // The ways of being rid of it.

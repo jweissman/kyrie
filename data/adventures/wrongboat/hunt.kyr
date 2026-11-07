@@ -4,7 +4,7 @@ Module wrongboat "The Wrong Boat" {
   // taken up while the hunt is on, hiding or not (a hidden company is searched for, not forgotten), so that Bess (and, once the company has passed the race-head, the lads) go to
   // where the company is, by the ways that are open, and stop when they are there.
   Query huntBess() means not bessAlly(party) and not bessMet(party) and since(14) and (trailLostAt(party) == 0 or watch(clock) >= trailLostAt(party) + 30) and not bessTook(party) and not boxReturned(party).
-  Query huntLads() means not ladsSwept(party) and not ladsPaid(party) and not ladsRouted(party) and not beatenUp(party) and been(party, ferry_stage) and not caught(party).
+  Query huntLads() means not ladsDealt() and not escort() and (ladsMet(party) or been(party, ferry_stage)).
   Pursuit hunt_bess_road for bess "coming for you" priority 8 when huntBess() and at(party, road) seeks at(bess, road).
   Pursuit hunt_bess_quay for bess "coming for you" priority 8 when huntBess() and at(party, quay) seeks at(bess, quay).
   Pursuit hunt_bess_taproom for bess "coming for you" priority 8 when huntBess() and at(party, taproom) seeks at(bess, taproom).
