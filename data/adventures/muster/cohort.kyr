@@ -14,7 +14,7 @@ Module muster "The Long Muster's Road" {
   Relation received(group). Relation gateRebuffed(group). Relation foundPouch(group). Relation merulaFull(group). Relation admitted(group). Relation claimedRelief(group). Relation dispatchTaken(group).
   Relation told_prefect(group). Relation told_moll(group). Relation told_merula(group). Relation told_elpis(group). Relation traded_only(group).
   Relation valleyTold(group). Measure toldAt(group). Relation scoutGiven(group). Relation pardoned(group). Relation merulaKnowsSon(group).
-  Relation goldReturned(group). Relation brassShown(group). Relation prefectReadSeal(group). Relation forgeryKnown(group).
+  Relation goldReturned(group). Relation hobbeShut(group). Relation hearthOwes(group). Relation brandShut(group). Relation brandTold(group). Relation prefectReadSeal(group). Relation forgeryKnown(group).
   Relation orsaConfessed(group). Relation gaiusPontus(group). Relation liviaMapped(group). Relation hobbeFreed(group). Relation gaiusSecret(group).
 
   // ── The gate: a challenge in a language the company probably cannot speak ───────────────────────────────────────
@@ -113,15 +113,15 @@ Module muster "The Long Muster's Road" {
     Says "Corvin does not move for a long time. 'Eleven hundred and four years,' he says. 'You are certain.' He gets up, goes to the window, and looks at the eagle in the forum. 'I shall have the standard struck at dawn. The valley will want to know what we are, if not what we were told. I shall tell them. It had better come from me.' He turns. 'Thank you,' he says, and it is the hardest thing you have heard anyone say.".
     On discuss { Assert told_prefect(party). Assert valleyTold(party). Assert knows(actor, empire_gone). Assert state(standard, struck). Set toldAt(party) to watch(clock). }
   }
-  Topic moll_tell with fenwarden "Tell the Archivist what the road is" when admitted(party) and not valleyTold(party) and not traded_only(party) once {
-    Says "Fenwarden listens with his eyes shut. 'The General promised an answer by the spring,' he says. 'The Annals record the promise. It was made a thousand and a hundred springs ago.' He opens his eyes. 'The Prefect is a decent man and a tired one. I will tell him by degrees. In a year, in two. Not at dawn, with the buccina.' He takes a red book down from the press. 'There is a note in the engineers' hand about the fifth arch. The Cohort can string a rope-way. Let us send someone north, to see, and let them take the Annals, and let the valley be told afterwards, by someone it trusts, what it has been waiting for.'".
+  Topic moll_tell with ostrander "Tell the Archivist what the road is" when admitted(party) and not valleyTold(party) and not traded_only(party) once {
+    Says "Ostrander listens with his eyes shut. 'The Annals record, in the General's own year, that an answer was promised by the spring,' he says, 'a promise which, being a thousand and a hundred springs old, I have come to read as a kind of weather.' He opens his eyes. 'The Prefect is a decent man and a tired one. I will tell him by degrees. In a year, in two. Not at dawn, with the buccina.' He takes a red book down from the press. 'There is a note in the engineers' hand about the fifth arch. The Cohort can string a rope-way. Let us send someone north, to see, and let them take the Annals, and let the valley be told afterwards, by someone it trusts, what it has been waiting for.'".
     On discuss { Assert told_moll(party). Assert valleyTold(party). Assert knows(actor, empire_gone). Give itinerarium_copy to actor. Assert state(standard, kept). Assert knows(actor, ropeway_known). Set toldAt(party) to watch(clock). }
   }
   Topic merula_tell with merula "Tell the Centurion that the empire is gone" when admitted(party) and not valleyTold(party) and not traded_only(party) once {
     Says "Lucilla Merula takes it standing, as soldiers do. 'Then I have been a Centurion of nothing for twenty years,' she says, 'and my century is the best drilled nothing in the world.' She picks up her cane. 'I shall not tell the valley. I shall tell the First Century, tonight, in the barracks, and tomorrow we shall decide whether to go north and look. A column, thirty, with the Archivist's maps. A century that knows what it is for does not stand on a wall.' She looks at the standard through the door. 'Keep your mouths shut about my face.'".
     On discuss { Assert told_merula(party). Assert valleyTold(party). Assert knows(actor, empire_gone). Set toldAt(party) to watch(clock). }
   }
-  Topic elpis_tell with elpis "Tell the granary-reeve that the empire is gone" when admitted(party) and piaVouched(party) and not valleyTold(party) and not traded_only(party) once {
+  Topic elpis_tell with elpis "Tell the granary-reeve that the empire is gone" when admitted(party) and piaVouched(party) and not piaPushed(party) and not valleyTold(party) and not traded_only(party) once {
     Says "Elpis Varo puts down her tally-stick. 'Then the sixth of the harvest we send north on the Sending is a sixth we owe nobody,' she says, evenly. 'Then the Sending is eleven hundred years of the best barley in the valley fed to the Eagle's pride. Then every child who went hungry in the plague winter went hungry for a lie.' She stands. 'I shall tell the Hearth at the evening call. And I shall not send the sixth.'".
     On discuss { Assert told_elpis(party). Assert valleyTold(party). Assert knows(actor, empire_gone). Set toldAt(party) to watch(clock). }
   }
@@ -141,7 +141,7 @@ Module muster "The Long Muster's Road" {
     Greets "The woman with the cane lowers it. 'You walked the Pass, then,' she says. 'Not many do. Past the Eagle, past the giant, past the men at the head of the Descent. What did you see in the road?'".
   }
   Topic merula_deserters with merula "Tell the Centurion about the men at the head of the Descent" when paidDeserters(party) or marcusMet(party) {
-    Says "'Deserters,' says Merula. 'There are seven. They walked out of the Sending, one by one, when the lot fell on them. They are my business.' She looks at the wall. 'The tall one, the one with the bow. Did he give a name?'".
+    Says "'Seven,' says Merula, as if reading from a report. 'Walked out of the Sending, one by one, lot or no lot. Mine to deal with.' She looks at the wall. 'The tall one with the bow. Name. Report.'".
   }
   Topic merula_letter with merula "Give the Centurion the pouch addressed to her, from the Eagle" when holding(actor, marcus_letter_kind) and not merulaKnowsSon(party) once {
     Says "She takes it in both hands and reads the superscription. 'He writes square,' she says. She breaks the seal, reads, and sits down on the spear-rack, which is not done. 'He saw them,' she says. 'And could not come and say.' She turns the letter over. 'I would have had him flogged. Because I would have had to.' She looks at you. 'What do you want for this?'".
@@ -154,26 +154,26 @@ Module muster "The Long Muster's Road" {
   Topic merula_ans_part with merula "Ask a scout for it, and say no more about the Pass" answering merula_letter when true {
     Says "'A scout,' says Merula. 'Yes.' She puts the letter inside her cuirass. 'I do not do pardons for scouts.'".
   }
-  Topic merula_pardon with merula "Ask the Centurion to pardon the seven in the Pass" when merulaKnowsSon(party) and merulaFull(party) and not pardoned(party) once {
-    Says "'A pardon is the Prefect's,' says Merula. 'I shall ask it. I shall say they were scouts. I have sent no scout north on my own say in forty years, and the Prefect has not noticed, and I think he will not mind noticing now.' She looks at the mountains. 'If they come home in the spring, it will be because you came down the road in the autumn.'".
+  Topic merula_pardon with merula "Ask the Centurion to pardon the seven in the Pass" when merulaKnowsSon(party) and merulaFull(party) and not dunyaSilent(party) and not pardoned(party) once {
+    Says "'Pardon is the Prefect's,' says Merula. 'I will put it to him. Scouts, I will say. Orders from me, forty years back, mislaid. He will not check.' She looks at the mountains. 'Dismissed. If they are home by spring, you did that.'".
     On discuss { Assert pardoned(party). }
   }
   Observe pardon_news at gate when pardoned(party) and watch(clock) >= toldAt(party) + 800 "Seven men in patched red cloaks stand outside the gate with their hats in their hands. The sentries have not yet opened it. The captain on the wall has taken off his helmet, and the Centurion is coming down the wall-stair with her cane under her arm, not using it.".
 
   // ── The Archivist, the notches on the beam, and the line that was forged ──────────────────────────────────────
-  Person fenwarden "Tiberin Fenwarden" at archive {
+  Person ostrander "Tiberin Ostrander" at archive {
     Role "Archivist of the Cohort". Ancestry human. Pronouns he. Manner grim. Peaceable.
     Greets "An old man among scrolls looks up. He has read a date and does not believe it. 'You are not Aenean,' he says. 'Good. Shut the door.'".
   }
-  Topic moll_beam with fenwarden "Ask the Archivist what the notches on the roof-beam are" when true {
+  Topic moll_beam with ostrander "Ask the Archivist what the notches on the roof-beam are" when true {
     Says "'Springs,' he says. 'One for each Sending that returned with nothing. Eleven hundred and three, and one yet to cut. My predecessors cut them, in the dark, after the Prefects had gone to bed. We do not talk of the beam. It would be a poor kind of faith that kept count.' He looks at it. 'It would be a poorer kind that did not.'".
   }
-  Topic moll_forged with fenwarden "Ask the Archivist about the year the Annals say a reply came" when told_moll(party) and mollSwore(party) and not forgeryKnown(party) once {
-    Says "Fenwarden is a long time answering. 'The year of the cattle plague. The Sending went north in the spring and came home with nothing, as it has done every year, and the valley had buried four hundred head and a good many children. The Prefect before Corvin asked me what to put. I wrote: A REPLY WAS RECEIVED; HOLD. In my own hand, in the red ink.' He folds his hands. 'The only false line in the Annals. I have not forgiven myself for it, and the valley got through the winter.'".
+  Topic moll_forged with ostrander "Ask the Archivist about the year the Annals say a reply came" when told_moll(party) and mollSwore(party) and not forgeryKnown(party) once {
+    Says "Ostrander is a long time answering. 'The year of the cattle plague. The Sending went north in the spring and came home with nothing, as it has done every year, and the valley had buried four hundred head and a good many children. The Prefect before Corvin asked me what to put. I wrote: A REPLY WAS RECEIVED; HOLD. In my own hand, in the red ink.' He folds his hands. 'The only false line in the Annals. I have not forgiven myself for it, and the valley got through the winter.'".
     On discuss { Assert forgeryKnown(party). Assert knows(actor, forgery_known). }
   }
   Entity forgery_known: fact "In the year after the plague of the cattle, the Archivist wrote in the Annals that a reply from the Emperor had been received, to keep the valley from despair. There was none.".
-  Topic moll_stones with fenwarden "Show the Archivist the soldier's scratches you copied on the road" when knows(actor, rufus_1) and knows(actor, rufus_2) and knows(actor, rufus_3) and knows(actor, rufus_4) and not told_moll(party) {
+  Topic moll_stones with ostrander "Show the Archivist the soldier's scratches you copied on the road" when knows(actor, rufus_1) and knows(actor, rufus_2) and knows(actor, rufus_3) and knows(actor, rufus_4) and not told_moll(party) {
     Says "He reads them with a finger, line by line. At WE WAITED he stops. 'Rufus,' he says. 'I have the muster-roll. Gaius Rufus, VI Cohort, died in the second winter of the march, south of here. He did not see the sea. The boots did not hold.' He sits. 'Nobody has told me what he wrote. You have walked the whole road, and read all of it. Then you know more of us than we do.'".
   }
   Kind itinerarium_kind "a copy of the Itinerarium" is document teaching itinerarium_read described "A red-bound book in the legion's square hand: every mile of the road, every mansio, every halt.".
@@ -205,10 +205,10 @@ Module muster "The Long Muster's Road" {
   // ── The courier who goes north, and the one who went further ──────────────────────────────────────────────────
   Person gaius "Old Gaius" at shrine {
     Role "the cohort's courier, retired". Ancestry human. Pronouns he. Manner grim. Peaceable.
-    Greets "An old man sits by the lamp with a pouch in his lap. 'Thirty-one springs I have gone north,' he says. 'A day to the Eagle, nine at the stack, a day back. There is no one there.' He turns the pouch. 'Sit, if you are staying. I am always glad of news, and I do not expect it.'".
+    Greets "An old man sits by the lamp with a pouch in his lap. 'Thirty-one springs, and the knees went in the nineteenth, and I said to the surgeon, they will go on a road or on a bed, and he said road, so I went,' says Gaius, to the pouch. 'A day up, nine at the stack, a day back, and nobody there, not once. Sit. Mind the lamp. Where was I?'".
   }
   Topic gaius_pontus with gaius "Show Old Gaius the lead tag from the eyrie" when holding(actor, courier_tag) and not gaiusPontus(party) once {
-    Says "He takes the tag and reads it with his thumb. 'Cato,' he says. 'Five hundred and three. They said the cold took him at the Eagle.' He turns it over. 'The wyvern. Open stretch, noon.' He puts it in his shirt. 'I'll take it to Fenwarden. He'll want to cut a notch.'".
+    Says "He takes the tag and reads it with his thumb, and goes on reading it long after the thumb has stopped. 'Cato. Five hundred and three. They said the cold, but the cold does not leave a man's tag in a nest, does it, and I always thought, past the stack, at noon, with nothing to stand behind.' He puts it in his shirt. 'Ostrander will want to cut a notch. He cut one when my wife died and I said that is not a notch matter and he said everything is a notch matter.'".
     On discuss { Spend courier_tag from actor. Assert gaiusPontus(party). }
   }
   Topic gaius_marcus with gaius "Ask Old Gaius whether he knows the men in the Pass" when knows(actor, marcus_known) and not gaiusSecret(party) once {
@@ -216,7 +216,7 @@ Module muster "The Long Muster's Road" {
     On discuss { Assert gaiusSecret(party). }
   }
   Topic gaius_sending with gaius "Ask Old Gaius how the Sending goes" when true {
-    Says "'First day of spring. The lot is drawn at the evening call from a helmet. Whoever it falls on takes the Prefect's pouch, a loaf and a skin, and goes out by the Sending gate, and the whole wall stands and says nothing. A day to the Eagle. Nine at the stack. A day home. They say: no answer. The Prefect says: it will come.' He shrugs. 'Best day of the year. Worst.'".
+    Says "'The lot is drawn at the evening call out of a helmet, and it was my father's helmet, with the dent, which is a story,' says Gaius. 'Anyway whoever it falls on takes the pouch and a loaf and a skin and goes out by the Sending gate while the wall stands there, and then you come home and say no answer, and the Prefect says it will come. I liked the loaf. Nobody mentions the loaf.'".
   }
 
   // ── The standard-bearer, and what is in his hands ──────────────────────────────────────────────────────────────
@@ -227,9 +227,14 @@ Module muster "The Long Muster's Road" {
   Topic brand_ask with brand "Ask the Aquilifer about the standard" when true {
     Says "'Bronze,' says Brand. 'Cast the year the Muster marched. It was nearly lost in the Schism, when the Eagles said it should go north and the Hearth said it should stay. There was a man killed.' He polishes the wing. 'It is warm in the morning. Do not tell me it is the sun.'".
   }
-  Topic brand_brass with brand "Tell the Aquilifer what the old wing is made of" when brassShown(party) and not goldReturned(party) once {
-    Says "He puts both hands flat on the plinth. 'Eleven years I have known,' he says. 'I took a file to it at night, on the wing. Brass. Under a skin of bronze.' He does not look round. 'The Eagles have said for two hundred and thirty years that the Hearth stole the gold in the Schism. I never said what I found. If the gold is anywhere, where is it?'".
-    On discuss { Assert knows(actor, brass_known). }
+  Action press_brand(actor: group, site: place) "Press the Aquilifer on why he polishes one wing every night" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, shrine) and at(brand, shrine) and admitted(actor) and not brandTold(actor) and not brandShut(actor) and not goldReturned(actor).
+    Time 1.
+    Resolve check(actor, insight, dc_hard).
+    On success { Assert brandTold(actor). Assert knows(actor, brass_known). }
+    Result "He puts both hands flat on the plinth and does not look round. 'Eleven years,' he says. 'I took a file to it at night, on the wing. Brass. Under a skin of bronze.' He is quiet. 'The Eagles say the Hearth stole the gold in the Schism. I never said what I found. If the gold is anywhere, where is it?'".
+    On failure { Assert brandShut(actor). }
+    Otherwise "'It is a wing,' says Brand. He goes on polishing, and in a little he is humming, loud enough to cover anything you could say. He does not stop again that day, or, you suspect, any day you are in the valley.".
   }
   Entity brass_known: fact "The standard of the Last Cohort is brass under a skin of bronze. The gold wings were hidden by the Hearth in the Schism of 871; the Aquilifer has known the pole is brass for eleven years.".
   Topic brand_gold with brand "Lay the gold eagle's wing before the Aquilifer" when holding(actor, golden_idol) and not goldReturned(party) once {
@@ -242,7 +247,11 @@ Module muster "The Long Muster's Road" {
     Role "granary-reeve, who keeps the rota". Ancestry human. Pronouns she. Manner acerbic. Peaceable.
     Greets "A woman with a tally-stick in each fist and flour to the elbow does not look up from the board. 'Four hundred and sixty sacks,' she says. 'A sixth to the Sending. A twelfth to the Eagles' table. Never a sack to the children without a form.' She looks up. 'You'll want the form. Everyone does.'".
   }
+  Topic elpis_owes with elpis "Remind the granary-reeve that the Hearth owes the one who paid a Hearth man's fine" when hearthOwes(party) once {
+    Says "Elpis looks at you for the first time as if you were a sack to be weighed. 'Form,' she says, and writes it herself. 'Four days. Take them out of the north end, where it keeps.' She does not say thank you. She puts the stick behind her ear.".
+    On discuss { Increase quantity(actor, rations) by 4. }
+  }
   Topic elpis_tithe with elpis "Ask the granary-reeve about the sixth that goes north" when true {
-    Says "'It is stood at the Sending gate in the spring in thirty sacks and thirty-one skins,' says Elpis. 'Then it is brought back in the autumn by the Sending and put in the Eagles' own store, and the Eagles eat it, very nicely, as a reward for faith. Nobody has asked in eleven hundred years why it is brought back.' She taps the board. 'I do the sums. Ask me again in the autumn.'".
+    Says "'It is stood at the Sending gate in the spring in thirty sacks and thirty-one skins,' says Elpis. 'Then it is brought back in the autumn by the Sending and put in the Eagles' own store, and the Eagles eat it, very nicely, as a reward for faith. Nobody has asked in eleven hundred years why it is brought back.' She taps the board. 'Sums are mine. Opinions go on a form. The form is in the drawer. The drawer is stuck.'".
   }
 }

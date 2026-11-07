@@ -76,7 +76,7 @@ Module muster "The Long Muster's Road" {
   Observe salt_shut at salt_market when valleyTold(party) "The trestle is folded and the steelyard taken in. A chalked board says CLOSED FOR THE REASONING OF WEIGHTS, and nobody in the square will say for how long.".
   Observe salt_market_scene at salt_market when true "A paved square under a bronze steelyard on a gallows, stalls of grey and pink and white salt in cones, and a ring of little weights stamped with the wheel. The salt comes from a spring above the valley, boiled in pans, and the market is quiet, careful, and a little holy. A man is weighing out a dozen pinches into a child's palm with the gravity of a surgeon.".
   Topic rhea_coin with rhea "Ask the salt-reckoner about Aenean coin" when true {
-    Says "'Every coin in the valley is the same coin,' says Rhea. 'Eleven hundred years in circulation. Worn to a thumb's smooth. We do not mint, we do not melt, we do not argue.' She turns the chip over. 'The Hearth says that the coin is a story we tell. The Eagles say the coin is the Emperor's face. I say it is a way of knowing how much a thing is worth, and I have not needed more from an emperor.'".
+    Says "'Every coin in the valley is the same coin,' says Rhea. 'Eleven hundred years in circulation. Worn to a thumb's smooth. We do not mint, we do not melt, we do not argue.' She turns the chip over. 'The Hearth says that the coin is a story we tell. The Eagles say the coin is the Emperor's face. I say it is eleven grains of silver, and the grains weigh the same whoever's face is on them.'".
   }
 
   // ── The Tally-yard: a man counting ─────────────────────────────────────────────────────────────────────────────
@@ -89,16 +89,18 @@ Module muster "The Long Muster's Road" {
     Says "'Two hundred and fifteen,' says Hobbe, and then, between numbers, level and low: 'I kept back a tithe of barley. Eleven sacks. The Sending's.' 'Two hundred and sixteen.' 'We have the right to count our own.' 'Two hundred and seventeen.' 'My father kept back none and was a better man.'".
   }
   Action count_with_hobbe(actor: group, site: place) "Stand beside him and count aloud with him, for an hour" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, tally_yard) and at(hobbe, tally_yard) and not hobbeFreed(actor).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, tally_yard) and at(hobbe, tally_yard) and not hobbeFreed(actor) and not hobbeShut(actor).
     Time 6.
-    On success { Assert hobbeFreed(actor). Assert knows(actor, gold_known). Assert brassShown(actor). }
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert hobbeFreed(actor). Assert knows(actor, gold_known). }
+    On failure { Assert hobbeShut(actor). }
     Result "You stand by him on the flag and say the numbers with him, an hour of them, and the clerk marks both of you. The words go flat. Somewhere in the second half-hour his voice breaks off on 'Two hundred and forty' and he says, still counting, low enough to be an accident: 'Under the vine-house floor. My father's father's father's. The Hearth never sold it, the Hearth saved it. Don't let the Eagles have it till they've learned to say sorry.' 'Two hundred and forty-one.'".
   }
   Action pay_hobbe_fine(actor: group, site: place) "Pay the clerk Hobbe Quarry's fine, thirty coin" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, tally_yard) and at(hobbe, tally_yard) and quantity(actor, gold) >= 30 and not hobbeFreed(actor).
     Time 0.
-    On success { Decrease quantity(actor, gold) by 30. Assert hobbeFreed(actor). Assert knows(actor, gold_known). Assert brassShown(actor). Retract at(hobbe, tally_yard). }
-    Result "The clerk takes the coin, and weighs it, and strikes a line through a tablet, and says, 'Day two hundred and forty-one, and remitted.' Hobbe stops counting in the middle of a number and stands there, swaying, like a man who has just set down a sack. 'The vine-house floor,' he says to you, in an ordinary voice, as if resuming a conversation. 'Under the trap. Don't give it to the Eagles, give it to the standard, and let them work out the rest.'".
+    On success { Decrease quantity(actor, gold) by 30. Assert hobbeFreed(actor). Assert hearthOwes(actor). Retract at(hobbe, tally_yard). }
+    Result "The clerk takes the coin, and weighs it, and strikes a line through a tablet, and says, 'Day two hundred and forty-one, and remitted.' Hobbe stops counting in the middle of a number and stands there, swaying, like a man who has just set down a sack. 'Thank you,' he says, in the voice of a man who has been told he may stop and does not yet believe it. He goes out by the gate without looking round, and the clerk watches him go and writes nothing at all.".
   }
   Discovery gold_known "The gold wings of the old standard were hidden by the Hearth under a vine-house floor in the Schism of 871, and the standard on its pole in the forum is brass.".
   Item gold_wing "the gold wing of the old standard" is golden_idol at gold_cellar hidden until gold_known.

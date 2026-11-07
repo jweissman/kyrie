@@ -36,3 +36,7 @@
 26. **A closing passage must be audited for the occupant**: `opening when` closes both directions, so a party standing *on* the closed span has no exit; the parapet needed its far end left open.
 27. **Narrow clock windows on rules are fragile**: `hour >= 18 and hour < 19` retracts only if a tick lands inside it. The gate's cooling now needs a night (`gateNight`) then a morning window; this relies on the clock ticking through, which the spec exercises only for the walk, not a long wait.
 28. **No journey API for the clock's day**: the spec reads `measure('watch', 'clock')` in ten-minute units and reasons from 864 = the seventh day.
+29. **A companion limit of one** (the party is four) made the Marra, Fenn, Dunya and Ione journeys incompatible; it also hides every second companion's beats from a single play-through. Specs had to choose.
+30. **`needing climbing` is a gear check** (a worn climber's harness), not a skill of the party; a `Buy` option disappears from the page when the purse cannot meet it, which is how the harness became the gold hook.
+31. **An ending that fires on arrival eats any beat that waits at the arrival place**; the cure was to hold the ending while the companion is still travelling.
+32. **A weather rolled "at first light" must be read after first light**: reading at 04:00 saw yesterday's sky.

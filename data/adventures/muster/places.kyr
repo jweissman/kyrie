@@ -152,7 +152,7 @@ Module muster "The Long Muster's Road" {
   Passage forum_shrine "the shrine steps" is steps between forum and shrine taking 1 hour.
   Passage forum_terraces "the terraces" is path between forum and terraces taking 2 hours.
   Passage forum_schola "the schola door" is door between forum and schola taking 1 hour.
-  Passage forum_market "the salt-market" is road between forum and salt_market taking 30 minutes.
+  Passage forum_market "the salt-market" is road between forum and salt_market taking 30 minutes opening when not told_prefect(party) "The salt-market is shuttered. A strip of black cloth is nailed across the door, and Rhea\'s steelyard is gone from the trestle.".
   Passage forum_pistrina "the pistrina door" is door between forum and pistrina taking 30 minutes.
   Passage forum_wall "the wall stair" is steps between forum and wall_walk taking 1 hour.
   Passage wall_sending "the Sending gate" is steps between wall_walk and sending_gate taking 1 hour.
