@@ -23,7 +23,7 @@ Module wrongboat "The Wrong Boat" {
     Requires able(actor) and company(actor) and at(actor, site) and holding(actor, music_box) and windings(actor) < 3.
     Time 1.
     On success { Increase windings(actor) by 1. Assert boxWound(actor). }
-    Result "It plays. Six notes down, six notes up, a turn in the middle like a man changing his grip on a rope. The lid shivers against your hand. Everyone within earshot looks up, and nobody says what song it is, because they all know it.".
+    Result "It plays. Six notes down, six notes up, a turn in the middle where the tune shifts its grip. The lid shivers against your hand. Everyone within earshot looks up, and nobody says what song it is, because they all know it.".
   }
   Observe tune_taught near galley when boxWound(party) and at(party, galley) "In the galley the cook has stopped stirring. The song she was singing in the other room has ended in the middle of a verse, and the box has finished it." teaches tune_known.
   Observe tune_taught_deck at deck when boxWound(party) "On the deck, somebody forward has taken up the tune on a whistle, and stopped, and not started again." teaches tune_known.
@@ -60,7 +60,7 @@ Module wrongboat "The Wrong Boat" {
   Relation soldHonest(group).
   Action surrender_box(actor: group, site: place) "Give the box up to the lads" {
     Speaker lads.
-    Requires able(actor) and company(actor) and at(actor, site) and at(lads, site) and able(lads) and holding(actor, music_box).
+    Requires able(actor) and company(actor) and at(actor, site) and at(lads, site) and holding(actor, music_box) and not caught(actor).
     Time 0.
     On success { Spend music_box from actor. Assert caught(actor). }
     Result "The larger takes it, winds it, and looks at nothing as it plays. 'There,' he says. 'No need for the long way.' The smaller doesn't look at you. They go off along the towpath, and one of them, as he goes, hums the second line.".
