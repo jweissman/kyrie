@@ -1,0 +1,168 @@
+Module skerrow "The Light on Skerrow Holm" {
+  // ── Seven people and a dog on a rock ───────────────────────────────────────────────────────────────────────────
+  // Each has a want, a secret and a way of talking. Seddon: short, no adjectives. Hettie: food and the dead, in the
+  // same breath. Gaff: loud, friendly, never finishes a sentence he is laughing at. Piers: qualifies everything.
+  // Dib: asks, does not wait. Lowrie: says things as if a question had been put to him from far off. The dog: is right.
+  Measure love(entity).
+
+  Person orrin "Edmund Seddon" at kitchen {
+    Role "keeper of the Skerrow light". Ancestry human. Calling warrior. Level 3. Peaceable. Pronouns he. Manner stoic.
+    Greets "A man of sixty in a navy jersey darned at both elbows looks at the tide-table, and at you, and back at the table. 'Late,' he says. 'You're in. Boots by the range.' That is the whole of the welcome, and it is warm.".
+  }
+  Topic orrin_asks with orrin "Answer Seddon's question about the night" when true once {
+    Says "'Can you stay awake?' says Seddon. 'All of you. Till it's light.' He does not say what for. He looks at the window, which has fog on it.".
+  }
+  Topic orrin_yes with orrin "We can. Say what we're to do" answering orrin_asks when true {
+    Says "'Keep the lamp,' says Seddon. 'Oil's in the store. Don't let it go low.' A pause. 'Bell's mine.' He turns the cup in his hands. 'If anybody speaks outside, say nothing. That's all.'".
+  }
+  Topic orrin_no with orrin "No. We'd sooner sleep" answering orrin_asks when true {
+    Says "'Sleep, then,' says Seddon. 'Shutters down.' He does not look at you. 'I'll take the lamp.'".
+  }
+  Topic orrin_what with orrin "Ask what happens at night" answering orrin_asks when true {
+    Says "'Tide comes in,' says Seddon. 'Dark comes down.' He thinks about it. 'People hear things. It's a rock.'".
+  }
+  Relation orrinSpoke(group). Relation orrinDeclared(group).
+  Relation hettieSecret(group). Relation hettieKept(group). Relation hettieTaken(group). Relation hettieWalking(group). Relation hettieHeld(group).
+  Relation orrinTaken(group). Relation dibTaken(group). Relation gaffTaken(group). Relation piersLost(group). Relation lowrieGone(group).
+
+  Person hettie "Hettie Marram" at kitchen {
+    Role "a widow, a year's black on her and a basket". Ancestry human. Peaceable. Pronouns she. Manner compassionate.
+    Greets "A round woman in a black straw bonnet is cutting a loaf into thicker slices than the loaf can spare. 'Sit,' she says. 'Sit, sit. You've come over the sands in this, and there's a girl in every one of you under the coat, I can tell. Tea. I always bring tea. Tam used to say it was the only part of the journey that was properly planned.'".
+  }
+  Topic hettie_ask with hettie "Hear what Hettie asks you over the tea" when true once {
+    Says "Hettie pours. 'May I ask you a thing?' she says. 'It's the day, you see. Eleven years. I come every year, I bring the loaf. Do you think the drowned can be spoken to?'".
+  }
+  Topic hettie_no with hettie "No. They are gone" answering hettie_ask when true {
+    Says "'That's what I tell myself,' says Hettie, and gets up for the sugar nobody asked for. 'It's a great comfort, I find, being told. It doesn't last.'".
+    On discuss { Assert hettieDeep(party). }
+  }
+  Topic hettie_some with hettie "Some of them, perhaps" answering hettie_ask when true {
+    Says "Hettie's whole face lifts. 'Perhaps,' she says. 'That's what I say. Perhaps.' She takes your hand across the table in both of hers. 'You're kind.' She is holding it a good deal harder than kindness.".
+    On discuss { Assert hettieHopes(party). }
+  }
+  Topic hettie_would with hettie "Ask what Tam would want of her tonight" answering hettie_ask when true {
+    Says "Hettie is silent. 'He'd want me home,' she says at last. 'By the fire. With the cat.' She laughs. It is not a laugh. 'He was a dull man, Tam. I loved him extremely.'".
+    On discuss { Increase love(tide) by 1. }
+  }
+  Relation hettieDeep(group). Relation hettieHopes(group).
+  Topic hettie_secret_t with hettie "Ask Hettie why she comes to this rock" when hettieDeep(party) or hettieHopes(party) or love(tide) > 0 once {
+    Says "'Because it's here,' says Hettie. 'Tam went into the sea off that causeway at ten past nine, the fourteenth of Haysel. Mr Seddon was keeping the light. They were friends.' She smooths the cloth. 'I come to be near the last place he was. And, to tell you the truth, I come to hear him.' She does not lower her voice. 'I think he calls me. I've never answered. I wonder if this year I shall.'".
+    On discuss { Assert hettieSecret(party). }
+  }
+  Topic hettie_ask_stop with hettie "Ask Hettie to promise she will not go out to the water" when hettieSecret(party) and not hettieHeld(party) once {
+    Says "'Oh, my dear,' says Hettie. 'I can't promise a thing like that to someone I've known two hours.' She pats your cheek. 'I'll promise to think of you. That's something.'".
+  }
+
+  Person gaff "Gaff Mullen" at kitchen {
+    Role "a drover with a cart of cheeses in the lee of the causeway post, and a dog". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Greets "A man built like a barn door fills the best chair, his boots in the fender and a mug the size of a bucket on his knee. 'FRIENDS!' he says. 'Come in, come in, there's tea and there's something to put in the tea. Gaff Mullen. Forty-two cheeses and a dog. Not a word to the revenue, they're all under the sacking.'".
+  }
+  Topic gaff_asks with gaff "Take Gaff's question" when true once {
+    Says "'Here's a thing,' says Gaff, loudly. 'Here's a thing I'll ask you, and you'll tell me honest. You've the look of folk who've been about. Is it true that if you're in a lighthouse and you hear your own name, you're not to answer, hear?' He roars. 'My old mam used to say that. She said a great many things.'".
+  }
+  Topic gaff_hush with gaff "Tell him she was right, and mean it" answering gaff_asks when true {
+    Says "Gaff's laugh stops. He puts the mug down. 'Eh,' he says, and the great face goes small. 'Eh. Is that so.' He looks at the window, then at the dog, who has not moved from the door in an hour. 'I'll keep my mouth shut, then. First time for everything.'".
+    On discuss { Assert gaffHushed(party). }
+  }
+  Topic gaff_laugh with gaff "Laugh with him; it's a rock" answering gaff_asks when true {
+    Says "'THERE!' says Gaff, delighted, and slaps the table so that the tea jumps. 'A man after my own heart!' He is not afraid of anything, at present, and the dog has gone under the table.".
+  }
+  Relation gaffHushed(group).
+  Person sprat "Sprat" at kitchen {
+    Role "Gaff's dog, a lurcher with a split ear". Species dog. Peaceable.
+  }
+  Observe sprat_door near sprat when hunting() and within(party, tower) "Sprat is at the cistern door with her nose to the crack, and her whole body is pointed at it like a needle. She has not made a sound.".
+
+  Person piers "Piers Tolland" at kitchen {
+    Role "a clerk of the Tide Board, with a satchel on his knees". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
+    Greets "A thin young man in a brown coat that fits him in the sleeves and nowhere else is sitting on a stool with a satchel held on his knees in both arms. 'Tolland,' he says. 'Piers. Tide Board. Which is to say, I think, that I am the Tide Board, as far as this rock is concerned, though of course there are others. I do apologise for the satchel. It is not that I do not trust you.'".
+  }
+  Topic piers_asks with piers "Hear what Piers has to say in confidence" when true once {
+    Says "Piers looks round the kitchen twice. 'In confidence,' he says. 'I am to give notice, you see. I have it here. The Board has resolved to discontinue the Skerrow light on the first of next month, as the traffic no longer warrants it, and I am to hand it to the keeper personally and I have been here two hours and I have not.' He swallows. 'What would you do?'".
+  }
+  Topic piers_tell with piers "Tell the keeper tonight, and be there when he reads it" answering piers_asks when true {
+    Says "'Tonight,' says Piers, in a very small voice. 'On the night. Yes. I see that you are right and I see that I shall die of it.' He stands up, with the satchel, like a man going to the dentist.".
+    On discuss { Assert piersTold(party). }
+  }
+  Topic piers_wait with piers "Keep it till morning; it is the worse for being said in the dark" answering piers_asks when true {
+    Says "'Till morning,' says Piers, with deep relief. 'Yes. Quite. Thank you.' He lets out a breath he has been holding since the causeway.".
+    On discuss { Assert piersWaits(party). }
+  }
+  Topic piers_burn with piers "Burn it; nobody knows you came" answering piers_asks when true {
+    Says "Piers's mouth opens. 'That would be,' he says, and then does not say what it would be. He looks at the range. 'No,' he says. 'No, I really couldn't. But thank you for thinking I could.'".
+  }
+  Relation piersTold(group). Relation piersWaits(group). Relation piersEscort(group).
+
+  Person corrie "Corrie Fenwether" at kitchen {
+    Role "a rope-seller, with a coil on her shoulder and a ledger in her sleeve". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
+    Greets "A square woman in a man's waxed coat sits at the end of the bench with a coil of tarred line across her knees, counting the strands of it with her thumb. 'Fenwether,' she says. 'Cordage. Four pence the fathom, three if you take the lot, and I am not to be haggled with on a rock.' She does not look up from the coil. 'I was at the slipway at twelve and I am on the wrong side of the tide for it. That is a day's trade gone.'".
+  }
+  Topic corrie_asks with corrie "Ask Corrie Fenwether what else she carries besides cord" when true once {
+    Says "'Ears,' says Corrie. 'Come up the coast road with the clerk, did I not, a mile behind him, and a man who reads his letter on the move is a man who wants it read.' She holds up two fingers. 'Twenty-one days. Then the Board puts the light out and sells the lens. Seddon has not been told. I'd tell him myself, but I sell rope, and I have found it does not do to be the one who brings a keeper his dismissal.'".
+    On discuss { Assert corrieTold(party). }
+  }
+  Relation corrieTold(group).
+
+  Person dib "Dib Wyke" at kitchen {
+    Role "the keeper's boy, taken in off a wreck last winter". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
+    Greets "A boy of twelve with a face scrubbed raw and a sleeve out of one elbow comes at you at once. 'Have you been in the sea? Have you seen the sea at night? Does your dog bite? You haven't a dog. Why haven't you? Can I see that?'".
+  }
+  Topic dib_asks with dib "Let Dib show you what he found" when true once {
+    Says "Dib drags you to the store and hauls up the hatch by its iron ring. Black water, a ladder going down, the smell of an old cellar. 'Cistern,' he says. 'Mr Seddon says never. But you can hear the sea in it. And sometimes you hear my dad.' He says it as he says everything. 'Would you? If it was your dad?'".
+  }
+  Topic dib_no with dib "No. It isn't him" answering dib_asks when true {
+    Says "'Mr Seddon says that,' says Dib. He lets the hatch fall. 'It sounds just like him, though.'".
+  }
+  Topic dib_stay with dib "I'd want to. Stay by me tonight, and we'll listen together" answering dib_asks when true {
+    Says "Dib looks at you for a moment as if he had not been offered anything in a long time. 'All right,' he says. 'Together.'".
+    On discuss { Assert dibWatched(party). Assert following(dib, party). }
+  }
+  Relation dibWatched(group).
+
+  Person lowrie "Mr Lowrie" at keeper_room {
+    Role "a man the sea gave back three weeks ago". Ancestry human. Peaceable. Pronouns he. Manner grim.
+    Greets "A man sits upright on the bunk in a keeper's coat that does not fit, with his hands on his knees and his eyes on the window. He does not turn his head. 'It is that you came in by the door,' he says. 'The door is a good way. Is it the sea you came by? No. The sea is not a way.' The skin of his hands is the colour of candle-wax and does not look wet, though it is.".
+  }
+  Topic lowrie_rule with lowrie "Ask Mr Lowrie what he knows of the night" when true once {
+    Says "'Is it that you ask what is known,' says Lowrie. 'The light is the hour. The bell is the hour. The name is the door.' He says it as one says a lesson, to a window. 'I am not to say more. I said more once and was heard.'".
+    On discuss { Assert lowrieHeard(party). }
+  }
+  Topic lowrie_who with lowrie "Ask Mr Lowrie who he was before the sea" when lowrieHeard(party) once {
+    Says "'Lowrie,' he says. 'Is that a name? It was answered.' The window clouds, from the inside. 'Is it that you would like to be asked a thing? There is a thing I am asked. Which of you has a name worth keeping.'".
+  }
+  Topic lowrie_all with lowrie "All of us. Every one" answering lowrie_who when true {
+    Says "'Is that so,' says Lowrie, and for the first time turns his head. 'Then I shall ring for you. I have nothing else to be used for.'".
+    On discuss { Assert lowrieOffers(party). }
+  }
+  Topic lowrie_me with lowrie "I do. I can't speak for the others" answering lowrie_who when true {
+    Says "'That is honest,' says Lowrie. 'It is the only sort of name that stays.' He turns back to the window. 'Keep it.'".
+  }
+  Relation lowrieHeard(group). Relation lowrieOffers(group). Relation lowrieRang(group).
+
+  // The rest of the drama: bringing two people to say a thing.
+  Action bring_hettie_up(actor: group, site: place) "Take Hettie up the iron stair to the lamp room" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, kitchen) and at(hettie, kitchen) and hettieSecret(party) and not hettieTaken(party) and not hettieHeld(party).
+    Time 2.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Retract at(hettie, kitchen). Assert at(hettie, lamp_room). Increase love(tide) by 1. }
+    Result "'Oh, I couldn't,' says Hettie, and has her bonnet on. She goes up the iron stair on your arm, saying she is too heavy for such stairs, and on the last turn she sees the lamp, and stops, and says nothing at all.".
+    Otherwise "'No,' says Hettie, gently. 'I think I'll sit with the tea.'".
+  }
+  Action ask_orrin_speak(actor: group, site: place) "Ask Seddon whether there is a thing he has never said to Mrs Marram" {
+    Speaker orrin.
+    Requires able(actor) and company(actor) and at(actor, site) and (at(actor, lamp_room) or at(actor, kitchen)) and at(orrin, site) and at(hettie, site) and hettieSecret(party) and not orrinDeclared(party).
+    Time 1.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert orrinDeclared(party). Increase love(tide) by 2. }
+    Result "Seddon looks at the lamp. He looks at it for a long time. 'Hettie,' he says. He has not said it, you realise, in eleven years. 'I held the light that night. I heard him. I did not answer, and I did not ring, and he went in.' He stops. 'I should have rung.' Hettie has taken a step. 'You rang,' she says. 'Edmund. You rang. I heard it from the road.'".
+    Otherwise "Seddon says, 'No,' and trims a wick that did not need it.".
+  }
+  Action read_orrin(actor: group, site: place) "Watch Seddon's hands while Mrs Marram talks of Tam" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, kitchen) and at(orrin, kitchen) and at(hettie, kitchen) and hettieSecret(party) and not orrinSpoke(party).
+    Time 1.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert orrinSpoke(party). Increase love(tide) by 1. }
+    Result "He is not looking at her. He is looking at the clock, which stopped at four. His hand on the table has taken hold of the cloth. It is the hand of a man who has been in love for eleven years, and is very tired.".
+    Otherwise "Seddon's face tells you nothing at all. It is a very good face for it.".
+  }
+}

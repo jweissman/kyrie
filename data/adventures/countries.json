@@ -568,7 +568,12 @@
    "entry": "road",
    "marker": "cobbold",
    "side": "south",
-   "beside": ["hills", "forest", "marsh", "mountain"],
+   "beside": [
+    "hills",
+    "forest",
+    "marsh",
+    "mountain"
+   ],
    "name": "the Aldwater",
    "topic": "the Staithe quay, where two barges lie side by side",
    "terrain": "hills",
@@ -576,6 +581,27 @@
    "heard": "South of here, at the Staithe quay on the Aldwater, two barges lie side by side that nobody can tell apart.",
    "skyline": "a brown river between willows with a line of masts on it",
    "far": "two barges that nobody can tell apart lie side by side on a river, and one of them is the wrong one"
+  },
+  {
+   "id": "skerrow",
+   "province": true,
+   "bundle": "skerrow/placed.json",
+   "entry": "shore_road",
+   "marker": "fog_bell",
+   "side": "east",
+   "beside": [
+    "marsh",
+    "forest",
+    "hills",
+    "frost"
+   ],
+   "name": "Skerrow Holm",
+   "topic": "the lighthouse at the end of the Skerrow causeway",
+   "terrain": "marsh",
+   "rumour": "'There is a light at the end of the Skerrow sands,' says {keeper}, 'and a causeway that dries for three hours at noon. Cross after twelve and you sleep out there. People do, and are glad of the tea, and do not much talk of the night.'",
+   "heard": "East of here, a lighthouse stands on a rock at the end of a tidal causeway, and the road to it is only dry for three hours.",
+   "skyline": "a white tower on a grey flat, with posts going out to it",
+   "far": "a lighthouse stands at the end of a causeway that the sea closes every day, and people who cross late stay the night"
   }
  ]
 }

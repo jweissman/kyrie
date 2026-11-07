@@ -1,0 +1,3 @@
+Module skerrow "The Light on Skerrow Holm" {
+  Entity party: group "Your company".
+}
