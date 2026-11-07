@@ -25,8 +25,11 @@
 .fight > .law b { color: var(--violet); font-weight: 600; }
 /* The sides take what the hand of acts leaves them, and never less than a fifth of the stage: every act is in view
    at a laptop's 1280 by 800 and a tablet's (the fresh playtest of 7 November: Defend, Flee and the firebomb had lain
-   under the foot of the hand, with nothing to say so, under a band of empty field). */
-.fight > .sides { flex: 1 1 0; min-height: calc(var(--frame-h) * .2); overflow-y: auto; display: grid; align-content: start;
+   under the foot of the hand, with nothing to say so, under a band of empty field). But the company is seen whole, each
+   face with its card, wherever that leaves the hand a third of the stage (--held: see Scrolled.useHeld): where the two
+   do not both fit, the hand gives way and its fade says it goes on (the reader spec at 1180 by 820 and 390 by 844). */
+.fight > .sides { flex: 1 1 0; overflow-y: auto; display: grid; align-content: start;
+  min-height: max(calc(var(--frame-h) * .2), min(var(--held, 0px), calc(var(--frame-h) * .62)));
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr) minmax(0, 1fr); gap: 0 clamp(16px, 2.6vw, 36px);
   padding: 20px clamp(20px, 3.4vw, 44px) 12px; }
 /* A side's cards are its width and no wider: a name cut short is cut, not let push the card over the foes'. */

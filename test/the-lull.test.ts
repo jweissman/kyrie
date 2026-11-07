@@ -203,8 +203,11 @@ describe('The Lull, by other hands', () => {
     expect(g.gold).toBe(paid - 10);
   }, 300000);
 
+  // A company of the sixth level: three of the fourth beat the three wardens (warriors of the second) about three
+  // fights in ten, before the tactics of 7 November and after them, and this spec's seed had been one of the three
+  // until those tactics changed its dice; three of the sixth about seven in ten, the spec's seed among them.
   it('What Was Meant: a company that stands against the wardens on the bridge, and kills, and it holds', async () => {
-    const g = await Lull.start('test/fixtures/the-lull/party.campaign.json');
+    const g = await Lull.start('test/fixtures/the-lull/strong.campaign.json');
     await g.fixture('meant');
     expect(g.holds('killedMeant', 'party')).toBe(true);
     expect(g.ending()).toEqual([k('what_was_meant')]);
