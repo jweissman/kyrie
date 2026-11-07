@@ -11,7 +11,7 @@ Module skerrow "The Light on Skerrow Holm" {
     Greets "A man of sixty in a navy jersey darned at both elbows looks at the tide-table, and at you, and back at the table. 'Late,' he says. 'You're in. Boots by the range.' That is the whole of the welcome, and it is warm.".
   }
   Topic orrin_asks with orrin "Answer Seddon's question about the night" when true once {
-    Says "'Can you stay awake?' says Seddon. 'All of you. Till it's light.' He does not say what for. The window has fog on it.".
+    Says "'Can you stay awake?' says Seddon. 'All of you. Till it's light.' He does not say what for. 'I'll not have the lamp touched by anyone who'd sooner sleep.' The window has fog on it.".
   }
   Topic orrin_yes with orrin "We can. Say what we're to do" answering orrin_asks when true {
     Says "'Good,' says Seddon. 'If anyone calls, say nothing.' He turns the cup in his hands. 'Oil's in the store. Take what you want of it.'".
@@ -23,12 +23,12 @@ Module skerrow "The Light on Skerrow Holm" {
   Topic orrin_what with orrin "Ask what happens at night" answering orrin_asks when true {
     Says "'Tide comes in,' says Seddon. 'Dark comes down.' He thinks about it. 'People hear things. It's a rock. Say nothing if anyone calls. The oil's in the store, if you're up.'".
   }
-  Relation orrinSpoke(group). Relation orrinDeclared(group). Relation orrinTried(group). Relation hettieUpTried(group). Relation holdTried(group).
+  Relation readTried(group). Relation orrinTamAsked(group). Relation orrinSpoke(group). Relation orrinDeclared(group). Relation orrinTried(group). Relation hettieUpTried(group). Relation holdTried(group).
   Relation hettieSecret(group). Relation hettieKept(group). Relation hettieTaken(group). Relation hettieWalking(group). Relation hettieHeld(group).
   Relation orrinTaken(group). Relation dibTaken(group). Relation gaffTaken(group). Relation piersLost(group). Relation lowrieGone(group). Relation corrieLost(group).
 
   Person hettie "Hettie Marram" at kitchen {
-    Role "a widow, a year's black on her and a basket". Ancestry human. Peaceable. Pronouns she. Manner compassionate.
+    Role "a widow in black, with a basket". Ancestry human. Peaceable. Pronouns she. Manner compassionate.
     Greets "A round woman in a black straw bonnet is cutting a loaf into slices thicker than the loaf can spare. 'Sit,' she says. 'Tea. I always bring tea. Tam said it was the only part of the journey that was properly planned.'".
   }
   Topic hettie_ask with hettie "Hear what Hettie asks you over the tea" when true once {
@@ -36,11 +36,11 @@ Module skerrow "The Light on Skerrow Holm" {
   }
   Topic hettie_no with hettie "No. They are gone" answering hettie_ask when true {
     Says "'That's what I tell myself,' says Hettie, and gets up for the sugar nobody asked for. 'Being told is a comfort. It doesn't last.'".
-    On discuss { Assert hettieAsked(party). }
+    On discuss { Assert hettieAsked(party). Set hettieAt(tide) to 5. }
   }
   Topic hettie_some with hettie "Some of them, perhaps" answering hettie_ask when true {
     Says "'Perhaps,' says Hettie. Her face lifts. 'That's what I say.' She takes your hand across the table, and holds it harder than kindness.".
-    On discuss { Assert hettieAsked(party). }
+    On discuss { Assert hettieAsked(party). Set hettieAt(tide) to 3. }
   }
   Topic hettie_would with hettie "Ask what Tam would want of her tonight" answering hettie_ask when true {
     Says "Hettie is silent. 'He'd want me home,' she says at last. 'By the fire. With the cat.' Her mouth goes sideways. 'He was a dull man, Tam. I loved him extremely.'".
@@ -64,7 +64,7 @@ Module skerrow "The Light on Skerrow Holm" {
     On discuss { Assert gaffHushed(party). }
   }
   Topic gaff_laugh with gaff "Laugh with him; it's a rock" answering gaff_asks when true {
-    Says "'THERE!' says Gaff, delighted, and slaps the table so that the tea jumps. 'A man after my own heart!' He is afraid of nothing at present, and the dog has gone under the table.".
+    Says "'THERE!' says Gaff, delighted, and slaps the table so that the tea jumps. 'A man after my own heart!' He begins a song. It is very loud, and the whole kitchen is under it, and nobody could hear a voice at the window through it. He is afraid of nothing at present, and the dog has gone under the table.".
     On discuss { Assert gaffLoud(party). }
   }
   Relation gaffHushed(group). Relation gaffLoud(group).
@@ -83,12 +83,12 @@ Module skerrow "The Light on Skerrow Holm" {
     Says "Piers looks round the kitchen twice. 'In confidence,' he says. 'I am to give notice, you see. I have it here. The Board has resolved to discontinue the Skerrow light on the first of next month, as the traffic no longer warrants it, and I am to hand it to the keeper personally and I have been here two hours and I have not.' He swallows. 'What would you do?'".
   }
   Topic piers_tell with piers "Tell the keeper tonight, and be there when he reads it" answering piers_asks when true {
-    Says "'Tonight,' says Piers, in a small voice. 'On the night. Yes. I see that you are right and I see that I shall die of it.' He stands up with the satchel, like a man called to the front of a class.".
+    Says "'Tonight,' says Piers, in a small voice. 'On the night. Yes. I see that you are right and I see that I shall die of it.' He stands up with the satchel held to his chest.".
     On discuss { Assert piersTold(party). }
   }
   Topic piers_wait with piers "Keep it till morning; it is the worse for being said in the dark" answering piers_asks when true {
-    Says "'Till morning,' says Piers, with deep relief. 'Yes. Thank you.' He lets out a breath he has been holding since the causeway.".
-    On discuss { Assert piersWaits(party). }
+    Says "'Till morning,' says Piers, with deep relief. 'Yes. Thank you.' He lets out a breath he has been holding since the causeway. 'Then I shall sit up with him. I can carry an oil-can. It is the least I can do for a man I am going to ruin.'".
+    On discuss { Assert piersWaits(party). Increase refills(lamp) by 1. }
   }
   Relation piersTold(group). Relation piersWaits(group). Relation piersEscort(group).
 
@@ -146,6 +146,10 @@ Module skerrow "The Light on Skerrow Holm" {
   Relation lowrieHeard(group). Relation lowrieOffers(group). Relation lowrieRang(group). Relation lowrieSpared(group).
 
   // The rest of the drama: bringing two people to say a thing. Each of these is tried once.
+  Topic orrin_tam with orrin "Ask Seddon what Tam was to him" when hettieSecret(party) and not orrinTamAsked(party) once {
+    Says "'Friend,' says Seddon. 'He owed me a pound.' He turns the cup. 'He was the one man on this coast who laughed at the bell.' He does not look at Hettie, who is looking at him.".
+    On discuss { Assert orrinTamAsked(party). Increase love(tide) by 1. }
+  }
   Action bring_hettie_up(actor: group, site: place) "Take Hettie up the iron stair to the lamp room" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, kitchen) and at(hettie, kitchen) and hettieSecret(party) and not hettieTaken(party) and not hettieHeld(party) and not hettieUpTried(party).
     Time 2.
@@ -157,7 +161,7 @@ Module skerrow "The Light on Skerrow Holm" {
   }
   Action ask_orrin_speak(actor: group, site: place) "Ask Seddon whether there is a thing he has never said to Mrs Marram" {
     Speaker orrin.
-    Requires able(actor) and company(actor) and at(actor, site) and (at(actor, lamp_room) or at(actor, kitchen)) and at(orrin, site) and at(hettie, site) and hettieSecret(party) and orrinSpoke(party) and not orrinDeclared(party) and not orrinTried(party).
+    Requires able(actor) and company(actor) and at(actor, site) and (at(actor, lamp_room) or at(actor, kitchen)) and at(orrin, site) and at(hettie, site) and hettieSecret(party) and orrinSpoke(party) and not orrinDeclared(party) and not orrinTried(party) and love(tide) < 3.
     Time 1.
     Resolve check(actor, persuasion, dc_hard).
     On success { Assert orrinDeclared(party). Increase love(tide) by 2. }
@@ -165,11 +169,20 @@ Module skerrow "The Light on Skerrow Holm" {
     Result "Seddon looks at the lamp. He looks at it. 'Hettie,' he says. He has not said it, you realise, in eleven years. 'I held the light that night. I heard him. I did not answer, and I did not ring, and he went in.' He stops. 'I should have rung.' Hettie has taken a step. 'You rang,' she says. 'Edmund. You rang. I heard it from the road.'".
     Otherwise "Seddon says, 'No,' and trims a wick that did not need it.".
   }
+  // A company that has earned the keeper's trust (a love of three) is not made to roll: he has been waiting to be asked.
+  Action ask_orrin_speak_known(actor: group, site: place) "Ask Seddon whether there is a thing he has never said to Mrs Marram" {
+    Speaker orrin.
+    Requires able(actor) and company(actor) and at(actor, site) and (at(actor, lamp_room) or at(actor, kitchen)) and at(orrin, site) and at(hettie, site) and hettieSecret(party) and orrinSpoke(party) and not orrinDeclared(party) and love(tide) >= 3.
+    Time 1.
+    On success { Assert orrinDeclared(party). Increase love(tide) by 2. }
+    Result "Seddon looks at the lamp. 'Hettie,' he says. He has not said it, you realise, in eleven years. 'I held the light that night. I heard him. I did not answer, and I did not ring, and he went in.' He stops. 'I should have rung.' Hettie has taken a step. 'You rang,' she says. 'Edmund. You rang. I heard it from the road.'".
+  }
   Action read_orrin(actor: group, site: place) "Watch Seddon's hands while Mrs Marram talks of Tam" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, kitchen) and at(orrin, kitchen) and at(hettie, kitchen) and hettieSecret(party) and not orrinSpoke(party).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, kitchen) and at(orrin, kitchen) and at(hettie, kitchen) and hettieSecret(party) and not orrinSpoke(party) and not readTried(party).
     Time 1.
     Resolve check(actor, insight, dc_fair).
     On success { Assert orrinSpoke(party). Increase love(tide) by 1. }
+    On failure { Assert readTried(party). }
     Result "He is not looking at her. He is looking at the clock, which stopped at four. His hand on the table has the cloth in a fist.".
     Otherwise "Seddon's face is shut.".
   }

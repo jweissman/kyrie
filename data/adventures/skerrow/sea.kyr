@@ -12,7 +12,7 @@ Module skerrow "The Light on Skerrow Holm" {
   }
   Initially Assert state(tide, high).
   Measure reachedAt(entity). Measure bellUntil(entity). Measure lastRang(entity). Measure lastCall(entity). Measure callN(entity).
-  Measure oil(entity). Measure oilTick(entity). Measure flasks(entity). Measure refills(entity). Measure repelUntil(entity).
+  Measure oil(entity). Measure oilTick(entity). Measure flasks(entity). Measure refills(entity). Measure repelUntil(entity). Measure ringN(entity). Measure lowSince(entity).
   Relation lampForbidden(group).
   Rule tide_falls when state(tide, high) and hour(clock) >= 11 and hour(clock) < 14 { Assert state(tide, low). }
   Rule tide_rises when state(tide, low) and (hour(clock) >= 14 or hour(clock) < 11) { Assert state(tide, high). }
@@ -27,7 +27,7 @@ Module skerrow "The Light on Skerrow Holm" {
   Rule fog_thickens when state(fog, thin) and (hour(clock) >= 14 or hour(clock) < 13) { Assert state(fog, thick). }
   Rule fog_thins when state(fog, thick) and hour(clock) >= 13 and hour(clock) < 14 { Assert state(fog, thin). }
   Relation lined(group). Relation bearingTried(group). Relation lostTold(group).
-  Hazard mud_lost "The sands in fog" means "Deal (2d6) physical damage to ally unless constitution save against (13).".
+  Hazard mud_lost "The sands in fog" means "Deal (3d6) physical damage to ally unless constitution save against (14).".
   Rule sands_fog at sands_mid when at(party, sands_mid) and state(fog, thick) and not lined(party) and not lostTold(party)
     says "The posts stop. You walk the way the posts were, and the mud takes you to the knee, and the tower is behind you now, or beside you. The bell, when it comes, comes from everywhere." {
     Assert strikes(mud_lost, party). Assert lostTold(party).
@@ -64,7 +64,7 @@ Module skerrow "The Light on Skerrow Holm" {
   Initially Assert state(lamp, bright). Initially Set oil(lamp) to 10. Initially Set flasks(store) to 7. Initially Set refills(lamp) to 1.
   Relation orrinPost(group). Initially Assert orrinPost(orrin).
   Rule oil_burns when reachedAt(tide) > 0 and watch(clock) >= oilTick(lamp) + 6 and oil(lamp) > 0 { Decrease oil(lamp) by 1 or to nothing. Set oilTick(lamp) to watch(clock). }
-  Rule lamp_goes_low when oil(lamp) < 4 and oil(lamp) > 0 and not state(lamp, low) { Assert state(lamp, low). }
+  Rule lamp_goes_low when oil(lamp) < 4 and oil(lamp) > 0 and not state(lamp, low) { Assert state(lamp, low). Set lowSince(lamp) to watch(clock). }
   Rule lamp_goes_out when oil(lamp) <= 0 and not state(lamp, out) { Assert state(lamp, out). }
   Rule lamp_brightens when oil(lamp) >= 4 and not state(lamp, bright) { Assert state(lamp, bright). }
   Rule orrin_fills when orrinPost(orrin) and oil(lamp) < 6 and refills(lamp) > 0 {
@@ -97,15 +97,17 @@ Module skerrow "The Light on Skerrow Holm" {
   Query calling() means hunting() and hour(clock) < 6.
   Observe seddon_store at lamp_room when at(orrin, lamp_room) and orrinPost(orrin) and oil(lamp) < 3 "Seddon turns the empty oil-can in his hands. 'I don't go in the store after dark,' he says. 'The hatch.' He does not say whose errand that makes it.".
   Observe cord_pulled at lamp_room when at(orrin, lamp_room) and bellRecent() and lastRang(tide) > 0 "Seddon has the bell-cord in his fist, and pulls to a count he does not say. Far out on the east point the bell answers.".
+  // The company may ring once between noons: the weights that drive the lens drive the bell, and the oil goes with it.
+  Rule bell_rested when hour(clock) >= 12 and hour(clock) < 13 and ringN(tide) > 0 { Set ringN(tide) to 0. }
   Rule orrin_rings when orrinPost(orrin) and dark() and state(tide, high) and watch(clock) >= lastRang(tide) + 10 and not bellRecent()
     says "From the east point the bell begins: slow, evenly, a stroke to every breath." {
     Set bellUntil(tide) to watch(clock) + 4. Set lastRang(tide) to watch(clock).
   }
   Action ring_bell(actor: group, site: place) "Take the bell-cord and ring the fog-bell for an hour" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lamp_room) and not bellRecent().
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lamp_room) and not bellRecent() and ringN(tide) < 1 and oil(lamp) > 2.
     Time 2.
-    On success { Set bellUntil(tide) to watch(clock) + 6. }
-    Result "The cord is warm where a hand has worn it, and it pulls back. The bell goes out over the fog, a long bronze note and a long silence, and the sea, which has been listening, goes a little further off.".
+    On success { Set bellUntil(tide) to watch(clock) + 6. Increase ringN(tide) by 1. Decrease oil(lamp) by 2. }
+    Result "The cord is warm where a hand has worn it, and it pulls back. The lens slows a little, as the weights are shared, and the bell goes out over the fog, a long bronze note and a long silence, and the sea, which has been listening, goes a little further off.".
   }
 
 }

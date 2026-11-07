@@ -22,6 +22,7 @@
     "Buy a coil of Corrie's line"
   ],
   "lovers": [
+    "Ask Seddon what Tam was to him",
     "Watch Seddon's hands while Mrs Marram talks of Tam",
     "Take Hettie up the iron stair to the lamp room",
     "To the keeper's room",
@@ -35,16 +36,17 @@
     "To the keeper's room",
     "To the keeper's kitchen",
     "Ask Seddon to come over the sands with Mrs Marram",
+    "=11:00",
     "Ask Dib to take you out along the posts"
   ],
   "morning_stays": [
     "=08:00",
     "To the keeper's room",
     "To the keeper's kitchen",
+    "=11:00",
     "Ask Dib to take you out along the posts"
   ],
   "cross_out": [
-    "=11:00",
     "Out to the holm's landing",
     "To the middle of the causeway",
     "To the landward end of the Skerrow causeway"

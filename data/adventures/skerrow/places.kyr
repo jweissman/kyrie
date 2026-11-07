@@ -32,8 +32,8 @@ Module skerrow "The Light on Skerrow Holm" {
   Passage landing_shed "the shed door" is door between landing and boat_shed.
   Passage landing_bell "the path to the fog bell" is path between landing and bell_hut taking 10 minutes.
   Passage kitchen_store "the store door" is door between kitchen and store.
-  Passage kitchen_stair "the stair to the keeper's floor" is stair between kitchen and keeper_room.
-  Passage keeper_lamp "the iron stair to the lamp" is stair between keeper_room and lamp_room.
+  Passage kitchen_stair "the stair to the keeper's floor" is stair between kitchen and keeper_room taking 10 minutes.
+  Passage keeper_lamp "the iron stair to the lamp" is stair between keeper_room and lamp_room taking 10 minutes.
   Passage lamp_gallery "the lamp room's outer door" is door between lamp_room and gallery.
-  Passage store_cistern "the cistern steps" is steps between store and cistern.
+  Passage store_cistern "the cistern steps" is steps between store and cistern taking 10 minutes.
 }

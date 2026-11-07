@@ -3,7 +3,8 @@ Module skerrow "The Light on Skerrow Holm" {
   // What happens to the people is told by sound, which carries over the whole holm, and by what is left in the room
   // afterwards (see the Observes at the foot), so it is told truly wherever the company happens to be.
   Relation hettieDecided(group). Relation orrinChasing(group). Relation orrinHeld(group). Relation stopTried(group).
-  Measure walkAt(entity).
+  Measure walkAt(entity). Measure hettieAt(entity). Initially Set hettieAt(tide) to 4.
+  Relation hushTried(group). Relation keepTried(group).
 
   // Seddon's days and nights.
   Rule orrin_to_lamp when orrinPost(orrin) and (hour(clock) >= 19 or hour(clock) < 7) and not at(orrin, lamp_room) and not orrinChasing(party) and not orrinTaken(party) and at(orrin, ?p) {
@@ -12,39 +13,49 @@ Module skerrow "The Light on Skerrow Holm" {
   Rule orrin_to_kitchen when orrinPost(orrin) and hour(clock) >= 7 and hour(clock) < 19 and at(orrin, lamp_room) and not orrinChasing(party) and not orrinTaken(party) and at(orrin, ?p) {
     Retract at(orrin, ?p). Assert at(orrin, kitchen).
   }
-  Rule orrin_returns when not orrinPost(orrin) and orrinFreed(party) and watch(clock) >= walkAt(tide) + 12 and not orrinTaken(party) { Assert orrinPost(orrin). }
+  Rule orrin_returns when not orrinPost(orrin) and orrinFreed(party) and not orrinComes(party) and watch(clock) >= walkAt(tide) + 12 and not orrinTaken(party) { Assert orrinPost(orrin). }
   Relation orrinFreed(group).
 
   // Gaff: the second call is the one he answers (the first, if he was encouraged to be loud), unless he has been hushed.
   Rule gaff_answers when (callN(tide) >= 2 or (callN(tide) >= 1 and gaffLoud(party))) and not gaffHushed(party) and not gaffTaken(party) and watch(clock) >= lastCall(tide) + 3 and at(gaff, kitchen)
-    and at(gaff, ?p) says "Below, a great voice: 'WHO'S THAT? HERE! I'M HERE, FRIEND! COME UP!' A silence the length of a man's breath. Then a door, and laughing, going away across the rock." {
+    and at(gaff, ?p) says "A great voice, not far off: 'WHO'S THAT? HERE! I'M HERE, FRIEND! COME UP!' A silence the length of a man's breath. Then a door, and laughing, going away across the rock." {
     Assert gaffTaken(party). Retract at(gaff, ?p).
   }
   Action hush_gaff(actor: group, site: place) "Put a hand over Gaff's mouth and keep it there" {
     Speaker gaff.
-    Requires able(actor) and company(actor) and at(actor, site) and at(gaff, site) and not gaffHushed(party) and not gaffTaken(party) and callN(tide) >= 1.
-    Time 0.
+    Requires able(actor) and company(actor) and at(actor, site) and at(gaff, site) and not gaffHushed(party) and not gaffTaken(party) and callN(tide) >= 1 and not hushTried(party).
+    Time 1.
     Resolve check(actor, intimidation, dc_fair).
     On success { Assert gaffHushed(party). }
+    On failure { Assert hushTried(party). }
     Result "Gaff's eyes go wide over your hand, and then softer. He nods. He does not make another sound the whole of the night.".
     Otherwise "He shoves you off cheerfully, and takes a breath to say something enormous.".
   }
 
   // Dib: the third call is his father. He answers it unless someone has him by the sleeve.
-  Rule dib_answers when (callN(tide) >= 4 or (callN(tide) >= 3 and not dibDoubts(party))) and not dibWatched(party) and not dibTaken(party) and at(dib, kitchen) and watch(clock) >= lastCall(tide) + 3
+  Rule dib_answers when (callN(tide) >= 4 or (callN(tide) >= 3 and not dibDoubts(party) and not gaffLoud(party))) and not dibWatched(party) and not dibTaken(party) and at(dib, kitchen) and watch(clock) >= lastCall(tide) + 3
     and at(dib, ?p) says "In the store the hatch-ring clangs against the stone, and a boy's feet go down a ladder, quickly, and then no more of them." {
     Assert dibTaken(party). Retract at(dib, ?p).
   }
   Action keep_dib(actor: group, site: place) "Take Dib by the sleeve and keep him by you" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(dib, site) and not dibWatched(party) and not dibTaken(party).
-    Time 0.
+    Requires able(actor) and company(actor) and at(actor, site) and at(dib, site) and not dibWatched(party) and not dibTaken(party) and not keepTried(party).
+    Time 1.
+    Resolve check(actor, persuasion, dc_fair).
     On success { Assert dibWatched(party). Assert following(dib, party). }
+    On failure { Assert keepTried(party). }
     Result "'Aw,' says Dib. He lets himself be held. After a moment he leans on you, by accident, and falls to watching the lens go round.".
+    Otherwise "'I'm all right,' says Dib, and ducks under your arm. 'I'm not a baby.'".
+  }
+
+  // Seddon, who would not have the lamp touched, puts the oil-can in the company's hand at the first call.
+  Rule seddon_relents when lampForbidden(party) and callN(tide) >= 1 and orrinPost(orrin)
+    says "At the first call a voice you know from the lamp room, flat and tired: 'Oil's in the store. Don't let it go out. I'll not say I was wrong.'" {
+    Retract lampForbidden(party).
   }
 
   // Corrie: she answers the second call, unless she has been promised something for it.
-  Rule corrie_answers when callN(tide) >= 2 and not corrieSold(party) and not corrieLost(party) and watch(clock) >= lastCall(tide) + 3 and at(corrie, kitchen)
-    and at(corrie, ?p) says "Below, a bench scrapes. A woman's voice, in a tone you have not heard from her: 'Sister?' A door." {
+  Rule corrie_answers when (callN(tide) >= 3 or (callN(tide) >= 2 and not gaffLoud(party))) and not corrieSold(party) and not corrieLost(party) and watch(clock) >= lastCall(tide) + 3 and at(corrie, kitchen)
+    and at(corrie, ?p) says "A woman's voice, in a tone you have not heard from her: 'Sister?' A bench scrapes. A door." {
     Assert corrieLost(party). Retract at(corrie, ?p).
   }
 
@@ -58,7 +69,7 @@ Module skerrow "The Light on Skerrow Holm" {
     Assert lowrieGone(party). Retract at(lowrie, ?p).
   }
   Rule lowrie_walks when callN(tide) >= 4 and not lowrieRang(party) and not lowrieSpared(party) and not lowrieGone(party) and hunting()
-    and at(lowrie, ?p) says "Along the passage a door opens, and a slow step goes down the stair and out, and a dry voice says, politely, to nobody: 'I am called.'" {
+    and at(lowrie, ?p) says "A door opens, and a slow step goes down the stair and out, and a dry voice says, politely, to nobody: 'I am called.'" {
     Assert lowrieGone(party). Retract at(lowrie, ?p).
   }
 
@@ -66,16 +77,16 @@ Module skerrow "The Light on Skerrow Holm" {
   Rule hettie_spared when hour(clock) >= 6 and hour(clock) < 12 and reachedAt(tide) > 0 and watch(clock) >= reachedAt(tide) + 90 and not hettieDecided(party) and not hettieTaken(party) {
     Assert hettieDecided(party). Assert hettieKept(party).
   }
-  Rule hettie_kept_held when callN(tide) >= 4 and not hettieDecided(party) and not hettieTaken(party) and hettieHeld(party)
-    says "At the fourth call, aloud, in Hettie's voice, steady: 'Tam, I'm not coming.' Then nothing, for the length of a held breath. Then, quietly, the sound of a woman being sat down." {
+  Rule hettie_kept_held when callN(tide) >= hettieAt(tide) and not hettieDecided(party) and not hettieTaken(party) and hettieHeld(party)
+    says "At the call, aloud, in Hettie's voice, steady: 'Tam, I'm not coming.' Then nothing, for the length of a held breath. Then the sound of a woman being sat down." {
     Assert hettieDecided(party). Assert hettieKept(party).
   }
-  Rule hettie_kept_loved when callN(tide) >= 4 and not hettieDecided(party) and not hettieHeld(party) and orrinDeclared(party) and at(hettie, lamp_room)
-    says "At the fourth call, in the lamp room, a whisper: 'He'll have to do without. I've somebody here.'" {
+  Rule hettie_kept_loved when callN(tide) >= hettieAt(tide) and not hettieDecided(party) and not hettieHeld(party) and orrinDeclared(party) and at(hettie, lamp_room)
+    says "At the call, a whisper: 'He'll have to do without. I've somebody here.'" {
     Assert hettieDecided(party). Assert hettieKept(party).
   }
-  Rule hettie_walks when callN(tide) >= 4 and not hettieDecided(party) and not hettieHeld(party) and (not orrinDeclared(party) or not at(hettie, lamp_room)) and not hettieTaken(party) and not hettieKept(party)
-    and at(hettie, ?p) says "At the fourth call, below, Hettie's voice: 'That's Tam. Excuse me.' A shawl taken off its peg, a door, and an unhurried step going down to the landing." {
+  Rule hettie_walks when callN(tide) >= hettieAt(tide) and not hettieDecided(party) and not hettieHeld(party) and (not orrinDeclared(party) or not at(hettie, lamp_room)) and not hettieTaken(party) and not hettieKept(party)
+    and at(hettie, ?p) says "At the call, Hettie's voice: 'That's Tam. Excuse me.' A shawl taken off its peg, a door, and an unhurried step going down to the landing." {
     Assert hettieDecided(party). Assert hettieWalking(party). Set walkAt(tide) to watch(clock). Retract at(hettie, ?p). Assert at(hettie, landing).
   }
   Rule hettie_goes when hettieWalking(party) and watch(clock) >= walkAt(tide) + 4 and not hettieKept(party) and not hettieTaken(party) and not orrinChasing(party)
@@ -114,7 +125,7 @@ Module skerrow "The Light on Skerrow Holm" {
     Result "'Keep the lamp,' you say. 'We'll bring her.' His hand is on the rail. It stays there. He does not take his eyes from the dark landing.".
   }
   Rule orrin_follows when hettieWalking(party) and orrinDeclared(party) and orrinPost(orrin) and not orrinHeld(party) and watch(clock) >= walkAt(tide) + 2 and not orrinChasing(party) and not hettieKept(party) and not hettieTaken(party)
-    and at(orrin, ?p) says "Overhead the oil-can is set down. Boots on the iron stair, three at a time, going down in the dark." {
+    and at(orrin, ?p) says "An oil-can set down hard. Boots on the iron stair, three at a time, going down in the dark." {
     Assert orrinChasing(party). Retract orrinPost(orrin). Retract at(orrin, ?p). Assert at(orrin, landing). Set walkAt(tide) to watch(clock).
   }
   Rule chase_wins when orrinChasing(party) and watch(clock) >= walkAt(tide) + 2 and love(tide) >= 4 and not hettieKept(party) and not hettieTaken(party)
@@ -131,7 +142,7 @@ Module skerrow "The Light on Skerrow Holm" {
   Observe dib_left at kitchen when dibTaken(party) "The boy's place on the settle is empty. The store door is open, and the hatch is open, and there is a wet print on the first rung, and another on the second.".
   Observe corrie_left at kitchen when corrieLost(party) "Corrie Fenwether's coil lies on the bench where she put it down, with the ledger beside it.".
   Observe piers_left at kitchen when piersLost(party) "Piers Tolland's stool is in the middle of the floor, and the satchel is not on it.".
-  Observe lowrie_left at keeper_room when lowrieGone(party) "The bunk is empty, and the window, which was shut, is open an inch.".
+  Observe lowrie_left at keeper_room when lowrieGone(party) "The bunk is empty.".
   Observe hettie_left at landing when hettieTaken(party) "A black straw bonnet lies on the winch, set down neatly.".
   Observe orrin_left at landing when orrinTaken(party) "A navy jersey, darned at both elbows and worn inside out, lies on the steps.".
 

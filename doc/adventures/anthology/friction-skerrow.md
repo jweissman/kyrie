@@ -56,3 +56,13 @@
 43. **A `says` on a Rule is told wherever the party is.** Narration written as if the party stood in the room (a woman getting up from the table) is wrong from the lamp room. The fix is to write the told text as what carries (a voice, a door, a step) and put the sight in an `Observe at <room>`. *Could:* an optional room for a `says`, told only if the party is there.
 44. **A measure cap can hide an action.** `fill_lamp` needs `oil < 10`; two fills in a row from low oil are fine, from nine are not, and the spec step was "not offered". Sensible, but nothing says why a button is gone.
 45. **`=+N` and `=until`** are the two wait forms a spec has besides `=HH:MM`; `=+N` counts watches and `=until <condition>` steps one watch at a time.
+
+## Added after the fourth review
+
+46. **A `once` Topic that sets a Relation a Rule clears on the same tick does nothing and cannot be asked again.** Dib's line set `lined`; `line_washes` removed it at high water; the topic was spent. The topic needs the same gate as the Rule that undoes it.
+47. **A Journey step is skipped silently if prefixed `?`**, and that is the only way to play an unforced route: a failed roll leaves later steps unoffered. The guide says the prefix; the spec for unforced seeds is the only place it is exercised here.
+48. **`=HH:MM` waits for the *next* such time.** A step list that already passed 11:00 and says `=11:00` waits a day; the fixtures that ended at 11:00 had to stop repeating it.
+49. **`Spend X from actor` fails with "Cannot release unowned item" if the one holding the item is dead.** The company's holy water belonged to a member the thing had taken; the action stayed on offer. *Could:* an action that hands the item to whoever is alive, or hide the action.
+50. **A measure compared to a measure (`callN(tide) >= hettieAt(tide)`) works**, and is the way a topic answer moves a threshold. Not documented.
+51. **Two `Action`s with the same label and exclusive guards** (`ask_orrin_speak`, `ask_orrin_speak_known`) work, and the Journey finds whichever is on offer; useful for a roll that is waived by earned standing.
+52. **Walking time between floors needs `taking`** on the Passage; the default of nothing made the refuge free.
