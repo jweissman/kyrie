@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Cuts the portraits of animals and monsters, and the plates of plants, out of the matrices in assets/animals,
-assets/monsters, assets/plants, assets/gems and assets/gear (see data/paintings/animals.json, monsters.json,
-plants.json, gems.json and gear.json).
+assets/monsters, assets/plants, assets/gems, assets/gear, assets/junk, assets/weapons, assets/armor and
+assets/consumables (see the manifests of the same names in data/paintings).
 
   python3 scripts/animal-portraits.py [animals|monsters|plants|gems|gear]
 
@@ -19,7 +19,7 @@ from PIL import Image, ImageChops, ImageFilter, ImageStat
 ROOT = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
 SET = sys.argv[1] if len(sys.argv) > 1 else 'animals'
 # Where a set's sheets are, where it is not the set's own name (the valuables' relic sheets, in assets/junk).
-SHEETS = {'valuables': 'junk', 'arms': 'weapons'}
+SHEETS = {'valuables': 'junk', 'arms': 'weapons', 'armour': 'armor'}
 MANIFEST = os.path.join(ROOT, f'data/paintings/{SET}.json')
 OUT = os.path.join(ROOT, 'web/reader')
 spec = importlib.util.spec_from_file_location('pc', os.path.join(ROOT, 'scripts/pc-portraits.py'))
@@ -68,7 +68,7 @@ def mend(img):
 
 
 # Sheets of plates with no frames (the botanical, gemstone and gear sheets): each a third of the sheet each way.
-PLATES = {'plants', 'gems', 'gear', 'valuables', 'arms'}
+PLATES = {'plants', 'gems', 'gear', 'valuables', 'arms', 'armour', 'consumables'}
 
 
 def gutters(image, axis):
@@ -95,7 +95,7 @@ def square(cut):
 
 # Sheets whose things are cut out of their cells, not cut whole (the gear sheets: a crowbar's tip or a cloak's hem
 # crosses into the next cell, and some sheets are ruled): the thing alone, on a square of its own parchment.
-ISOLATED = {'gear', 'valuables', 'arms'}
+ISOLATED = {'gear', 'valuables', 'arms', 'armour', 'consumables'}
 # How far a pixel's colour is from the parchment's to be of the thing, and the scale its pieces are found at.
 INK, SCALE = 34, 4
 

@@ -21,7 +21,7 @@ describe('the painting corpus', () => {
       expect(p.sha1).toMatch(/^[0-9a-f]{40}$/);
       expect(existsSync(`web/reader/${p.copy}`)).toBe(true);
     }
-    if (existsSync('assets/images')) { expect(readdirSync('assets/images').length).toBe(paintings.length); }
+    if (existsSync('assets/portraits')) { expect(readdirSync('assets/portraits').length).toBe(paintings.length); }
   });
   it('says only what each image says of itself', () => {
     for (const p of paintings.filter(x => x.source === 'none')) { expect([p.artist, p.title]).toEqual([undefined, undefined]); }

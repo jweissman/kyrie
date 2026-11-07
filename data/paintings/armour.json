@@ -1,0 +1,23 @@
+{
+ "about": "The plates of armour, cut from the owner's sheets in assets/armor (two sheets, each three by three, ruled: in the order of data/catalog/items/armour.json, lamellar, crystal and bronze last). An armour names its plate as portrait (armour/<id>). Cut by scripts/animal-portraits.py armour, each out of its cell alone on its own parchment.",
+ "portraits": [
+ {"id": "banded", "kind": "banded", "source": "torso i.png", "cell": [0, 0], "file": "paintings/armour/banded.webp", "large": "paintings/large/armour/banded.webp", "crop": [0, 0, 437, 381]},
+ {"id": "chainmail", "kind": "chainmail", "source": "torso i.png", "cell": [0, 1], "file": "paintings/armour/chainmail.webp", "large": "paintings/large/armour/chainmail.webp", "crop": [437, 0, 875, 381]},
+ {"id": "chitin", "kind": "chitin", "source": "torso i.png", "cell": [0, 2], "file": "paintings/armour/chitin.webp", "large": "paintings/large/armour/chitin.webp", "crop": [875, 0, 1312, 381]},
+ {"id": "cloth", "kind": "cloth", "source": "torso i.png", "cell": [1, 0], "file": "paintings/armour/cloth.webp", "large": "paintings/large/armour/cloth.webp", "crop": [0, 381, 437, 761]},
+ {"id": "feathers", "kind": "feathers", "source": "torso i.png", "cell": [1, 1], "file": "paintings/armour/feathers.webp", "large": "paintings/large/armour/feathers.webp", "crop": [437, 381, 875, 761]},
+ {"id": "fur", "kind": "fur", "source": "torso i.png", "cell": [1, 2], "file": "paintings/armour/fur.webp", "large": "paintings/large/armour/fur.webp", "crop": [875, 381, 1312, 761]},
+ {"id": "hide_armor", "kind": "hide_armor", "source": "torso i.png", "cell": [2, 0], "file": "paintings/armour/hide_armor.webp", "large": "paintings/large/armour/hide_armor.webp", "crop": [0, 761, 437, 1199]},
+ {"id": "leather", "kind": "leather", "source": "torso i.png", "cell": [2, 1], "file": "paintings/armour/leather.webp", "large": "paintings/large/armour/leather.webp", "crop": [437, 761, 875, 1199]},
+ {"id": "plate", "kind": "plate", "source": "torso i.png", "cell": [2, 2], "file": "paintings/armour/plate.webp", "large": "paintings/large/armour/plate.webp", "crop": [875, 761, 1312, 1199]},
+ {"id": "ring", "kind": "ring", "source": "torso ii.png", "cell": [0, 0], "file": "paintings/armour/ring.webp", "large": "paintings/large/armour/ring.webp", "crop": [0, 0, 437, 377]},
+ {"id": "scale", "kind": "scale", "source": "torso ii.png", "cell": [0, 1], "file": "paintings/armour/scale.webp", "large": "paintings/large/armour/scale.webp", "crop": [437, 0, 875, 377]},
+ {"id": "shell", "kind": "shell", "source": "torso ii.png", "cell": [0, 2], "file": "paintings/armour/shell.webp", "large": "paintings/large/armour/shell.webp", "crop": [875, 0, 1312, 377]},
+ {"id": "spine", "kind": "spine", "source": "torso ii.png", "cell": [1, 0], "file": "paintings/armour/spine.webp", "large": "paintings/large/armour/spine.webp", "crop": [0, 377, 437, 761]},
+ {"id": "splint", "kind": "splint", "source": "torso ii.png", "cell": [1, 1], "file": "paintings/armour/splint.webp", "large": "paintings/large/armour/splint.webp", "crop": [437, 377, 875, 761]},
+ {"id": "studded", "kind": "studded", "source": "torso ii.png", "cell": [1, 2], "file": "paintings/armour/studded.webp", "large": "paintings/large/armour/studded.webp", "crop": [875, 377, 1312, 761]},
+ {"id": "lamellar", "kind": "lamellar", "source": "torso ii.png", "cell": [2, 0], "file": "paintings/armour/lamellar.webp", "large": "paintings/large/armour/lamellar.webp", "crop": [0, 761, 437, 1199]},
+ {"id": "crystal", "kind": "crystal", "source": "torso ii.png", "cell": [2, 1], "file": "paintings/armour/crystal.webp", "large": "paintings/large/armour/crystal.webp", "crop": [437, 761, 875, 1199]},
+ {"id": "bronze", "kind": "bronze", "source": "torso ii.png", "cell": [2, 2], "file": "paintings/armour/bronze.webp", "large": "paintings/large/armour/bronze.webp", "crop": [875, 761, 1312, 1199]}
+ ]
+}
