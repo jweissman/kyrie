@@ -37,7 +37,8 @@ describe('under the town the company begins in', () => {
     const s = await Town.start(true), c = s.campaign;
     await Town.take(s, /^Read the notice on the well-post/);
     const aims = () => ScreenModel.build(c).objectives.join(' ');
-    expect(aims()).toContain('Ask Falkor about the rats in the corn-store at Newmeet: the corn-store is locked');
+    expect(aims()).toContain('Ask Falkor, herb-wife at Falkor\'s herb-shop, about the rats in the corn-store at Newmeet: '
+      + 'the corn-store is locked');
     // Locked until asked.
     expect(PlayerView.choices(c).some(x => /^Take the corn-store door/.test(x.choice.name))).toBe(false);
     await Town.take(s, /^Take Falkor's door/, /^Ask .* about the rats/);

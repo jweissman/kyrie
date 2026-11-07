@@ -1,0 +1,37 @@
+import { RegionGeography, type Seat } from './region-geography';
+import { RegionSites } from './region-sites';
+import { Terrain } from './land/terrain';
+import type { Region } from './region-writer';
+
+// What is out in the country round a town, as whoever keeps travellers there would tell it: the old places nearest
+// it, each by its name, how it looks and where it stands, and how to find it. A fresh company could find no dungeon to
+// go to (the owner's own session, 7 November: "It seems galling I can't find anything or start quests or just find a
+// dungeon and fight things"): a country's sites were heard of only by asking after each by a name nobody had said,
+// and the map of a company come into it held one cave not made out. One question at the inn now tells the nearest
+// few, and they are on the map, heard of, with the way to each; what lies in them is for the company to find.
+export class RegionRumours {
+  static readonly most = 3;
+  static lines(region: Region): string[] {
+    const q = JSON.stringify, seats = RegionGeography.seats(region).filter(s => !s.site.work?.great);
+    return region.settlements.flatMap(town => {
+      const near = RegionRumours.nearest(region, town, seats);
+      if (!near.length) { return []; }
+      const keeper = `${town.id}_innkeeper`;
+      const told = near.map(s => `${s.site.name}: ${RegionSites.look(s.site, region)} in ${RegionSites.where(s, region)}`);
+      return [`  Topic ${town.id}_country_asked with ${keeper} ${q(`Ask {${keeper}} what is out in the country round`)}`
+        + ' when true once {',
+      `    Says ${q(`{${keeper}} counts them off on a hand. '${told.join('. ')}. Nobody goes to them that has any sense,'`
+        + ` and {${keeper}} tells you how each is come to.`)}.`,
+      `    On discuss { ${near.map(s => `Assert knows(actor, ${s.site.id}_named). Assert knows(actor, ${s.site.id}_found).`)
+        .join(' ')} }`, '  }'];
+    });
+  }
+  // The sites nearest a town, by the land between.
+  private static nearest(region: Region, town: Region['settlements'][number], seats: Seat[]): Seat[] {
+    const land = RegionGeography.atlas(region).land;
+    if (town.cell === undefined) { return []; }
+    return seats.filter(s => s.site.cell !== undefined)
+      .map(s => [Terrain.distance(land, town.cell!, s.site.cell!), s] as const)
+      .sort((a, b) => a[0] - b[0]).slice(0, RegionRumours.most).map(([, s]) => s);
+  }
+}

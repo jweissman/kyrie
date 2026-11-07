@@ -24,7 +24,7 @@ export class AimWords {
       const at = text.indexOf(`{${id}}`), after = text.slice(at + id.length + 2);
       // Said between commas where the sentence goes on after them, and not where it ends with them.
       const shut = /^\s+[\p{L}'‘]/u.test(after) ? ',' : '';
-      text = `${text.slice(0, at)}${this.introduced(world, id)}${shut}${after}`;
+      text = `${text.slice(0, at)}${this.introduced(world, id, o.text)}${shut}${after}`;
     }
     return ObservationText.render(text, world);
   }
@@ -40,8 +40,11 @@ export class AimWords {
       const e = byId.get(id), town = this.town(world, byId, id), at = o.text.indexOf(`{${id}}`);
       if (e?.type !== 'group' || id === company || !world.one('pronouns', id) || !town || at < 0) { return false; }
       if (world.test(ModuleWriter.call('acquainted', id, company)) || ObservationText.knownAs(world, e)) { return false; }
+      // A town the aim names is not where they are found in it (the owner's own session, 7 November: "Ask Ulric about
+      // what has come up under the churchyard at Elmford" sent a player to the churchyard and the shrine by guess):
+      // they are said by the room they keep there, unless the aim names a place of that town already.
       return !/^['’]s\b/.test(o.text.slice(at + id.length + 2))
-        && !said.includes(ObservationText.label(world, town).toLowerCase())
+        && !(said.includes(ObservationText.label(world, town).toLowerCase()) && !this.room(world, byId, id, town))
         && !named.some(p => byId.get(p)?.space && Spatial.ancestry(byId, p).some(x => x.id === town));
     });
   }
@@ -51,12 +54,19 @@ export class AimWords {
     return at ? Spatial.ancestry(byId, at).filter(e => !['plane', 'region'].includes(e.space?.kind ?? ''))
       .map(e => e.id) : [];
   }
-  private static introduced(world: World, id: string): string {
+  private static introduced(world: World, id: string, text: string): string {
     const e = ObservationText.entity(world, id)!, [name, ...role] = e.name.split(', ');
     const byId = EntityIndex.of(world.module.entities).byId, town = this.town(world, byId, id);
-    const where = town ? `at ${ObservationText.label(world, town).replace(/^The /, 'the ')}` : '';
+    const said = ObservationText.render(text, world).toLowerCase(), room = town && this.room(world, byId, id, town);
+    const place = town && said.includes(ObservationText.label(world, town).toLowerCase()) && room ? room : town;
+    const where = place ? `at ${ObservationText.label(world, place).replace(/^The /, 'the ')}` : '';
     const what = [role.join(', '), where].filter(Boolean).join(' ');
     return what ? `${name}, ${what}` : name!;
+  }
+  // The room someone keeps within their town, where it is not the town itself (a shrine, a forge, a counting-house).
+  private static room(world: World, byId: Map<string, Entity>, id: string, town: string): string | undefined {
+    const at = world.one('at', id);
+    return at && at !== town && byId.get(at)?.space ? at : undefined;
   }
   // The town, or the site, someone is in.
   private static town(world: World, byId: Map<string, Entity>, id: string): string | undefined {

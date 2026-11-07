@@ -2,7 +2,7 @@ import { RegionNews } from './region-news';
 import type { Landmark } from './region-land';
 import { RegionGeography } from './region-geography';
 import { RegionPeoples } from './region-peoples';
-import { RegionSites } from './region-sites';
+import { RegionSites } from './region-sites'; import { RegionRumours } from './region-rumours';
 import { RegionWeather } from './region-weather';
 import { RegionRoads } from './region-roads';
 import { RegionUndertown } from './region-undertown';
@@ -171,7 +171,7 @@ export class RegionWriter {
       ...RegionGrowth.lines(region),
       ...RegionMarvels.lines(region),
       ...RegionBorders.lines(region), ...RegionGates.lines(region),
-      ...RegionSites.lines(region, taken),
+      ...RegionSites.lines(region, taken), ...RegionRumours.lines(region),
       ...RegionWorks.lines(region, taken), ...RegionFellows.lines(region), ...RegionTraffic.lines(region),
       // Finding a place is its own reward, once: a makers' work more than a cave (the owner, 1 November: hex
       // crawling encouraged, exploration rewarded).

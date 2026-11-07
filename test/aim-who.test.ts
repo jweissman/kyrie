@@ -12,7 +12,9 @@ describe('an aim not yet on the map', () => {
     await s.perform('region__s1_u_notice_read(party,region__s1_green)');
     const aims = ScreenModel.build(s.campaign).aims ?? [];
     const dead = aims.find(a => /under the churchyard/.test(a.text));
-    expect(dead?.who).toEqual(['Eogan']);
+    // Whom to ask, and where: said in the aim itself (the owner's own session, 7 November), so the map needs no
+    // "may know where" of him.
+    expect(dead?.text).toMatch(/^Ask Eogan, priest of \S+ at the shrine of \S+, about what has come up/);
     // The father's own errand names no one to ask.
     expect(aims.find(a => /your father/i.test(a.text))?.who).toBeUndefined();
   }, 120000);

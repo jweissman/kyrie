@@ -48,7 +48,7 @@ describe('the frame after an act, in kite', () => {
   });
   it('reads the notice: the aims it gave and what was learnt, and no act made up for people not here', async () => {
     const v = await g.choose(/notice/);
-    expect(v.after!.changed).toContainEqual(expect.stringMatching(/^Aim: Ask Adran about the rats/));
+    expect(v.after!.changed).toContainEqual(expect.stringMatching(/^Aim: Ask Adran, [^,]+, about the rats/));
     expect(v.after!.changed).toContainEqual(expect.stringMatching(/^Learnt: A notice on the post by the well/));
     expect(v.after!.next).toBeUndefined();
   });

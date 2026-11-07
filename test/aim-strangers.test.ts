@@ -12,8 +12,8 @@ import { AimWords } from '../src/presentation/aim-words';
 // priest the tower's story binds, and was given "The dead in the tower are still. Kellen will want to know.", of a
 // Kellen it had never met nor heard of; the map said "Not yet on your map: Kellen may know where" of Kellen himself.
 // An aim names whom it leads to as who they are and where they are found, until the company has spoken with them, and
-// the map finds where; one it says where to find already (Ask Mik about the rats in the corn-store at Lowmouth) is said
-// as it was.
+// the map finds where; one whose town it names is said by the room they keep in it (the owner's own session, 7
+// November: "Ask Ulric about what has come up under the churchyard at Elmford" left the shrine to be guessed).
 describe('an aim that leads to someone the company has never met', () => {
   it('says who they are and where, and the map finds them', async () => {
     const w = await WorldAssembler.assemble('a1', NodeBundleSource.shared,
@@ -34,9 +34,9 @@ describe('an aim that leads to someone the company has never met', () => {
     x.commit(x.world.apply([{ kind: 'assert', call: ModuleWriter.call('acquainted', priest, 'party') }]));
     aim = ScreenModel.build(c).aims!.find(a => a.id === 'tower__report')!;
     expect(aim.text).toBe(`The dead in the tower are still. ${name} will want to know.`);
-    // A job read on a notice says where to ask already, and is said as it was.
+    // A job read on a notice names the town; whom to ask there is said by the room they keep.
     const jobs = c.module.objectives!.filter(o => o.id.endsWith('_job_sought'));
     expect(jobs.length).toBeGreaterThan(0);
-    for (const job of jobs) { expect(AimWords.render(c.world, job)).toBe(ObservationText.render(job.text, c.world)); }
+    for (const job of jobs) { expect(AimWords.render(c.world, job)).toMatch(/^Ask [^,]+, [^,]+ at [^,]+, about /); }
   }, 120000);
 });

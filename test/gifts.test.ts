@@ -25,7 +25,8 @@ describe('what the givers give', () => {
     await gift('plongman__nave', [['knows', 'party', 'plongman__charter_read'], ['plongman__valeTold', 'plongman__ysolt']],
       'Ask Mother Ysolt for a fair copy', 'prefects_writ');
     await gift('pskeel__church', [['knows', 'party', 'pskeel__tally_read']], 'Ask Parson Hosken to take a rubbing', 'tally_rubbing');
-    // Halm at his dig, as he is by day: the roads of a shaped world bring the company to it after he has gone to the inn.
+    // Halm at his dig, as he is by day: the roads of a shaped world bring the company to it after he has gone to the
+    // inn.
     j.put('plowwater__halm', 'plowwater__dig');
     await gift('plowwater__dig', [['knows', 'party', 'plowwater__census_read']], 'Ask Halm for a letter of introduction', 'collegium_letter');
     await gift('ptessary__withies', [['knows', 'party', 'ptessary__release_law']], 'Ask the Valuer what a surety owes', 'surety_terms');
