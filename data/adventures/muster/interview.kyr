@@ -1,0 +1,128 @@
+Module muster "The Long Muster's Road" {
+  // ── Questions put to the company ─────────────────────────────────────────────────────────────────────────────────
+  // The valley asks before it receives. The Prefect puts three questions to whoever comes in at the gate; the
+  // answers are the company's character in the valley's eyes (and in the Prefect's), and they shape what the
+  // valley will hear and from whom. Smaller questions are put by the giant, the apothecary, the salt-reckoner, the
+  // Centurion, the Archivist, the innkeeper and the reeve, each of whom wants to know one thing before they will
+  // tell one thing.
+  Measure prefectRegard(group). Relation interviewQ1(group). Relation interviewQ2(group). Relation interviewQ3(group).
+  Relation reeveNamed(group). Relation orsaFair(group). Relation orsaAnswered(group). Relation rheaAnswered(group).
+  Relation ostranderAnswered(group). Relation ostranderSwore(group).
+
+  // The Prefect's interview.
+  Topic corvin_q1 with corvin "Let the Prefect put his first question" when admitted(party) and not interviewQ1(party) once {
+    Says "Corvin folds his hands on the accounts. 'I shall ask three things,' he says, 'as my fathers asked of every stranger who came to the gate, in the days when we had strangers. First: who sent you?'".
+  }
+  Topic corvin_q1_none with corvin "Say that nobody sent you: you came to see what the road led to" answering corvin_q1 when true {
+    Says "'Men used to come because they were told,' says Corvin. 'Nobody has come for the pleasure of it in my time.' He nods, and waits.".
+    On discuss { Assert interviewQ1(party). Increase prefectRegard(party) by 2. }
+  }
+  Topic corvin_q1_north with corvin "Say that the north sent you: you are what the Emperor's silence looks like" answering corvin_q1 when true {
+    Says "A pause in which the water-clock can be heard. 'That is a fine sentence,' says Corvin. 'Whoever taught you to say it was not wrong.' He looks down. 'I do not believe you are what you say, and I am glad you said it.'".
+    On discuss { Assert interviewQ1(party). Increase prefectRegard(party) by 1. }
+  }
+  Topic corvin_q1_private with corvin "Say that you would tell him alone, and no one else" answering corvin_q1 when true {
+    Says "'Ah,' says Corvin, and glances at the clerk, who finds a reason to be at the far end of the hall. 'Then it is a thing worth hearing.' He leans forward, and the clerk's pen stops somewhere beyond the door.".
+    On discuss { Assert interviewQ1(party). Increase prefectRegard(party) by 1. }
+  }
+  Topic corvin_q2 with corvin "Let the Prefect put his second question" when interviewQ1(party) and not interviewQ2(party) once {
+    Says "'Second,' says Corvin. 'You came through the forum. You saw the standard. Tell me what you saw in it.'".
+  }
+  Topic corvin_q2_fine with corvin "Say that it is the most beautiful thing you have seen on the road" answering corvin_q2 when true {
+    Says "'It is,' says Corvin. 'I have looked at it every day for sixteen years and I do not know why.' He turns his ring once on its finger.".
+    On discuss { Assert interviewQ2(party). Increase prefectRegard(party) by 1. }
+  }
+  Topic corvin_q2_heavy with corvin "Say that it looks heavy: that it looks like something people carry" answering corvin_q2 when true {
+    Says "'Orsa says that, and Elpis,' says Corvin. 'A boy of ten said it last week, to his mother, over soup.' He looks at the doors, and does not call for anyone.".
+    On discuss { Assert interviewQ2(party). Increase prefectRegard(party) by 2. }
+  }
+  Topic corvin_q2_metal with corvin "Say that it is metal on a pole, and the people are the thing" answering corvin_q2 when true {
+    Says "'Metal on a pole,' says Corvin, without heat. 'That is what the Hearth says. It is also what my fathers said in the plague winter, in private, with the doors shut.' The doors get his attention. 'I have never heard it said in the Praetorium.'".
+    On discuss { Assert interviewQ2(party). }
+  }
+  Topic corvin_q3 with corvin "Let the Prefect put his last question" when interviewQ2(party) and not interviewQ3(party) once {
+    Says "'Third,' says Corvin, and his voice has changed. 'What is north of the Viaduct?'".
+  }
+  Topic corvin_q3_kell with corvin "Say that there is a village, thirty houses round a trough, and they keep a lamp in the window" answering corvin_q3 when knows(actor, lamp_known) {
+    Says "Corvin does not move. 'A lamp,' he says. 'In a window. For whom?' 'They don't know,' you say. 'They put it in because they always have.' He rubs his jaw. 'Well,' he says. 'We were looking at the wrong end.'".
+    On discuss { Assert interviewQ3(party). Assert received(party). Increase prefectRegard(party) by 2. }
+  }
+  Topic corvin_q3_bishop with corvin "Say that there are scholars at Hale who keep the empire's old archives" answering corvin_q3 when true {
+    Says "'Archives,' says Corvin. 'Scholars.' A light goes into his face. 'Then there is a place the Emperor's name is written, and read.' He turns the idea over like a coin. 'I shall write them a dispatch.'".
+    On discuss { Assert interviewQ3(party). Assert received(party). Increase prefectRegard(party) by 1. }
+  }
+  Topic corvin_q3_refuse with corvin "Say that you will not answer, because the answer is not yours to give" answering corvin_q3 when true {
+    Says "'Not yours,' says Corvin, after a time. 'No.' He nods. 'That is a fair answer. It is the answer of a courier who has been told something to carry and not told what.' He stands. 'You may go where you will in the valley, on that.'".
+    On discuss { Assert interviewQ3(party). Increase prefectRegard(party) by 1. }
+  }
+
+  // The giant's question.
+  Topic giant_asks with giant "Ask the giant what he wants besides iron" when tolerates(giant, party) or giantPaid(party) once {
+    Says "The giant turns the fire-iron over and looks at the end of it. 'Is the king still king?' he says. 'The one I keep this house for. He had a beard, I think. It was a long time ago.'".
+  }
+  Topic giant_yes with giant "Say that the king is still king, and sends his regards" answering giant_asks when true {
+    Says "'Good,' says the giant, with relief. He puts down the iron and takes a leg of mutton off the hook and holds it out. 'Eat. Don't tell the little ones.'".
+    On discuss { Increase quantity(actor, rations) by 2. }
+  }
+  Topic giant_no with giant "Say that the king is dead, and so is his kingdom, and you are sorry" answering giant_asks when true {
+    Says "The giant turns the iron in the fire. 'Then I keep the house for no one,' he says. 'That is easier. Go on. I'll mind the fire.' He does not offer the mutton. At the door he tells you, unasked, what the marmots do when he wakes, which is the one thing he knows that is of use to anybody.".
+    On discuss { Assert knows(actor, marmots_known). }
+  }
+
+  // The reeve's question.
+  Topic reeve_names with cattermole "Let the reeve ask where to write if you do not come back" when true once {
+    Says "The reeve has his hammer in his fist and a nail between his teeth. 'The board has forty-one names,' he says round the nail. 'Every one of them, I wrote, to somebody. I would like not to write a forty-second to nobody. Who?'".
+  }
+  Topic reeve_name_one with cattermole "Give the name of someone at home" answering reeve_names when true {
+    Says "He writes it in a small neat hand on a slip, and pins the slip to the board, under the others. 'There,' he says. 'That is done properly.'".
+    On discuss { Assert reeveNamed(party). }
+  }
+  Topic reeve_name_none with cattermole "Say there is no one" answering reeve_names when true {
+    Says "'Then I'll write it to the road,' says the reeve, after a moment. 'It can have a letter. It has had all the rest of us.' He writes nothing on the board. He does not pin anything.".
+    On discuss { }
+  }
+
+  Topic reeve_slip with cattermole "Ask the reeve for the Ford's travel-fund, now that your name is on his board" when reeveNamed(party) once {
+    Says "The reeve counts four coin out of a tin that says FOR THE RELIEF OF TRAVELLERS and does not look at the lid. 'It has had no use since the Muster,' he says. 'It might as well have you.'".
+    On discuss { Increase quantity(actor, gold) by 4. }
+  }
+
+  // The apothecary's question.
+  Topic orsa_asks with orsa "Let Dame Orsa ask what herbs you carried over the Fells" when true once {
+    Says "She sets down the pestle and looks at you straight. 'Tell me honestly,' she says. 'You carried herbs over thirty miles of fell to sell to a woman you hadn't met. What did you think they were worth?'".
+  }
+  Topic orsa_ans_fair with orsa "Say that you asked a fair price, and would take a fair one" answering orsa_asks when true {
+    Says "'Then I shall be fair,' she says, and is pleased, and does not hide it. She opens a drawer. 'Kingsfoil, ninety. Is that fair?' She counts twelve coin into your hand for the herbs you carried, and one more, and says that is the bread.".
+    On discuss { Assert orsaAnswered(party). Assert orsaFair(party). Increase quantity(actor, gold) by 12. }
+  }
+  Topic orsa_ans_high with orsa "Say that nothing from the north was ever worth less than gold to you" answering orsa_asks when true {
+    Says "'Gold,' she says, and laughs. 'We have no gold. We have salt and bread and I can give you a cure for anything you have.' She points a stained finger. 'But I take the compliment.' She does not open the drawer. A woman who is told her herbs are worth gold is a woman who expects to be asked for more.".
+    On discuss { Assert orsaAnswered(party). }
+  }
+
+  // The salt-reckoner's question.
+  Topic rhea_asks with rhea "Let the salt-reckoner ask how you came by the Aenean coin" when true once {
+    Says "Rhea does not look up. 'Aenean silver does not turn up in a stranger's pocket,' she says. 'Where did you get it? Be exact. I shall know.'".
+  }
+  Topic rhea_ans_road with rhea "Say you took it off the stack at the Eagle, where the Muster left it" answering rhea_asks when true {
+    Says "'Dead men's silver on a dead men's road,' says Rhea. She weighs it, and counts ten back out of her box. 'The finder's share. We always paid it.'".
+    On discuss { Assert rheaAnswered(party). Increase quantity(actor, gold) by 10. }
+  }
+  Topic rhea_ans_sale with rhea "Say you were paid it, for a service, in the world beyond the Fells" answering rhea_asks when true {
+    Says "She looks at you until the scale settles. 'There is no world beyond the Fells,' she says. 'But I take your meaning.' She slides the coin back across the trestle. 'Do not say that to the Eagles.' She keeps five of it, for the silence, and does not say that she has.".
+    On discuss { Assert rheaAnswered(party). Decrease quantity(actor, gold) by 5 or to nothing. }
+  }
+
+  // The Archivist's question.
+  Topic ostrander_asks with ostrander "Let the Archivist ask what it is you want of the Annals" when annalsOpen(party) once {
+    Says "'Before I show you a thing I must know what it will be used for,' says Ostrander. 'A history in the wrong hand is a knife. What do you want to do with it?'".
+  }
+  Topic ostrander_ans_know with ostrander "Say that you only want to know" answering ostrander_asks when true {
+    Says "'That is what the first Archivist said, in that chair,' he says. 'It is the right reason and the most dangerous.' He turns a page. 'Read.'".
+    On discuss { Assert ostranderAnswered(party). }
+  }
+  Topic ostrander_ans_swear with ostrander "Swear on the lamp of the shrine that you will not use it to harm the valley" answering ostrander_asks when true {
+    Says "He weighs the oath in his hand, as if it had a mass. 'It is a fine thing to swear on,' he says. 'Eleven hundred years of lamp.' He nods, once. 'I shall hold you to it.'".
+    On discuss { Assert ostranderAnswered(party). Assert ostranderSwore(party). }
+  }
+}

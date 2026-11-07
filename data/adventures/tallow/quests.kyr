@@ -1,0 +1,204 @@
+Module tallow "Tallow Deep" {
+  // ── Companions, asides and questions ───────────────────────────────────────────────────────────────────────────
+  // Two who will come down with the company (Sib Wray, an informer in a smuggler's hammock; Usk, a mason with a
+  // grandfather's silence), three errands that do not touch the Bore (a cat, a drowned man's letter, a cook's book),
+  // and the questions people put to whoever is asking questions of them.
+  Relation sibNoLocks(group). Relation sibOpens(group). Relation sibAsks(group). Relation sibInformer(group).
+  Relation sibExposed(group). Relation sibKept(group). Relation sibBurned(group). Relation sibSold(group).
+  Relation oskPromised(group). Relation oskCut(group). Relation oskHolds(group).
+  Relation motiveCoin(group). Relation motiveDead(group). Relation motiveCurious(group).
+  Relation nibTold(group). Relation nibLied(group). Relation cookKnown(group). Relation oreNamed(group). Relation sibGone(group).
+
+  // Lowen asks the one question: why go up.
+  Topic hester_why with hester "Say why you are going up the hill" when true once {
+    Says "Lowen Pook looks at you across the bar for a time. 'Everyone says they are going up for something,' she says. 'Coin, mostly. I should like to know what you are going up for. It is the only thing I am any good at, telling which of them will come down.'".
+  }
+  Topic why_coin with hester "For what it will fetch" answering hester_why when true {
+    Says "'Honest,' says Lowen, and nods, 'and the commonest. Then you want Cador Tarbet, who buys at the bottom, and Mistress Orpe, who buys the things he can't. Don't look at me like that. Coin is a reason.'".
+    On discuss { Assert motiveCoin(actor). }
+  }
+  Topic why_dead with hester "For the men who did not come out" answering hester_why when true {
+    Says "Lowen's hands stop on the pot. 'Then you want Barrick, by the fire,' she says. 'He will not tell you sober. I will pour him a second, and you may owe me for it.' She does not say her brother's name. She pours.".
+    On discuss { Assert motiveDead(actor). Assert knows(actor, foreman_known). }
+  }
+  Topic why_look with hester "To see what is there" answering hester_why when true {
+    Says "'Ah,' says Lowen, less kindly. 'One of those.' She turns the pot. 'Mistress Orpe is one too. Go and be looked at by her; she has been waiting forty years for somebody to ask the right question about a piece of grey metal.'".
+    On discuss { Assert motiveCurious(actor). }
+  }
+
+  // Orpe tests the asker.
+  Action name_ore(actor: group, site: place) "Take the black lump from Mistress Orpe's counter and say what it is" {
+    Speaker orpe.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, counter) and at(orpe, counter) and not oreNamed(actor).
+    Time 1.
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert oreNamed(actor). Increase quantity(actor, gold) by 6. }
+    On failure { Assert oreNamed(actor). }
+    Result "'Ironglass,' you say, and Mistress Orpe puts down her nail for the first time. 'By what?' By the fracture, you tell her, and the way it takes the light. 'Six coin,' she says, 'for the first person in forty years who didn't say lead.'".
+    Otherwise "'Lead,' you say. 'Lead,' agrees Mistress Orpe, wearily, and takes it back, and puts it in the drawer marked NOT BLACK.".
+  }
+
+  // Sib Wray: a Tallywoman with a letter she did not ask to receive.
+  Person sib "Sib Wray" at tally_room {
+    Role "one of the Tallymen, off the bend". Ancestry human. Calling thief. Level 2. Peaceable. Pronouns she. Manner acerbic. Seen when not sibGone(party).
+    Greets "A woman about thirty, on the hammock nearest the stove, with a rope-burned neck and the quick plain eyes of someone who counts the exits when she sits down. She does not get up. 'I'm Sib,' she says. 'Not the toll. I only take that when Enys is sick.'".
+    Joins "Sib swings her feet down, ties her bundle shut in two knots, and keeps her back to Cador Tarbet, who is looking at the chest. 'I'll show you the bits that aren't on any of Nib's maps,' she says. 'For my price, and because I am tired of this room.'".
+    Leaves "Sib lifts her bundle and her chin. 'I'll find my own road,' she says. 'I always have.'".
+    Remarks at settling "Sib stops at the edge of the silt-bank and does not go further. 'I know that coat,' she says, to nobody. Then she looks at the ceiling, hard, as if it had said something.".
+    Remarks at gate_house "Sib puts a hand flat on the Calx wheel and keeps it there. 'It goes out two miles west,' she says. 'And comes up behind the Porthwen customs-barn. I know exactly where, because I have drawn it twice.' She takes the hand off. 'Forget I said that.'".
+  }
+  Topic sib_talk with sib "Ask Sib what a woman does on the bend of a smugglers' adit" when true once {
+    Says "'Counts,' says Sib. 'Barrels, coin, who looks tired.' She turns a coin over her knuckles. 'Let me ask you, since you ask. You find a lock on a thing that isn't yours. A box, a door, a man's mouth. What do you do?'".
+  }
+  Topic sib_leave with sib "Leave it. It's locked for a reason" answering sib_talk when true {
+    Says "'A saint,' says Sib, without scorn. 'You'll starve. But I'd rather go down with someone who knows what's theirs.' She sets her price at eight coin and looks glad of it.".
+    On discuss { Assert sibNoLocks(actor). Assert willing(sib, actor). Set hire(sib) to 8. }
+  }
+  Topic sib_open with sib "Open it. A lock is an opinion" answering sib_talk when true {
+    Says "'There she is,' says Sib, and grins like a cut. 'Four coin, and I'll want to see the thing you open.'".
+    On discuss { Assert sibOpens(actor). Assert willing(sib, actor). Set hire(sib) to 4. }
+  }
+  Topic sib_ask_whose with sib "Ask whose it is, and why they locked it" answering sib_talk when true {
+    Says "Sib is silent a moment. 'That's the answer of someone who has been lied to by a lock,' she says. 'Six. And you'll tell me, if I ask, why you wanted to know.'".
+    On discuss { Assert sibAsks(actor). Assert willing(sib, actor). Set hire(sib) to 6. }
+  }
+
+  // The drowned man in the Settling Cistern, and his letter.
+  Observe drowned_man at settling when not sibExposed(party) "A pair of good boots stands out of the silt-bank at the weir's foot, toes up, with a Customs button on the left.".
+  Kind excise_letter "a letter on the Board's paper" is document teaching sib_informer_known described "A single sheet, water-wrinkled but legible, in a Customs clerk's round hand.".
+  Discovery sib_informer_known "The Board of Excise at Porthwen writes to 'Sibyl Wray, at the Day-Level': the sum is approved; the landing at Porthwen shall be watched on the night of the next quarter-day; the bearer of this letter is to be given a writ of passage south. Sib Wray has been selling the Tallymen to the Customs for two years.".
+  Item excise_item "a letter on the Board's paper" is excise_letter at settling hidden until drowned_man_found.
+  Discovery drowned_man_found "The drowned man in the silt-bank carries a letter.".
+  Observe drowned_taught at settling when true "Under the silt the man's coat holds a letter in an oilcloth." teaches drowned_man_found.
+  Topic sib_letter with sib "Show Sib the letter from the drowned man" when holding(actor, excise_letter) and knows(actor, sib_informer_known) and not sibExposed(party) and not sibKept(party) and not sibBurned(party) once {
+    Says "Sib reads it as if it were in a tongue she had once had. 'He was meant to meet me at the weir,' she says. 'He was twenty-two. He said he'd bring a writ.' She gives it back with a steady hand. 'Well. You know now. What will you do with it?'".
+  }
+  Topic sib_burn with sib "Burn it where she can see" answering sib_letter when holding(actor, excise_letter) {
+    Says "You hold a corner of it to a flame. Sib watches the Board's seal run. 'That was a good seal,' she says, and sits on the nearest barrel with her back to the room.".
+    On discuss { Spend excise_letter from actor. Assert sibBurned(party). Assert sibKept(party). Assert sibInformer(party). }
+  }
+  Topic sib_joss with sib "Give it to Cador Tarbet" answering sib_letter when holding(actor, excise_letter) and at(joss, tally_room) and at(sib, tally_room) {
+    Says "'Of course,' says Sib, evenly. She takes up her bundle. At the arch she turns, once: 'He was kind to me,' she says. 'I don't say that to move you.' She is gone before Cador has finished the first line.".
+    On discuss { Assert sibExposed(party). Assert sibSold(party). Assert sibInformer(party). Retract travelsWith(sib, actor). Retract at(sib, tally_room). Assert sibGone(party). }
+  }
+  Topic sib_board with sib "Take it to the Board yourself, for the reward" answering sib_letter when holding(actor, excise_letter) {
+    Says "'Give it here,' says Sib. 'I'll carry it to Porthwen on the quarter-day myself, and take the writ south, and Cador will have a clean road for one more year and a wrong one after.' She counts eight coin into your hand. 'For the lock you didn't open.' She has her bundle on her shoulder before you have closed your hand on it.".
+    On discuss { Spend excise_letter from actor. Assert sibInformer(party). Assert sibKept(party). Increase quantity(actor, gold) by 8. Retract travelsWith(sib, actor). Assert sibGone(party). }
+  }
+  // Gone is gone, from wherever she was: the Tally-Room, the weir, the Gear-Hall.
+  Rule sib_goes when sibGone(party) and at(sib, ?p) { Retract at(sib, ?p). }
+  Rule sib_flees when sold_out(party) and at(sib, tally_room) and not travelsWith(sib, party) { Assert sibGone(party). }
+  Observe sib_joss_fallout at tally_room when sibSold(party) "Cador Tarbet sits with a page on his knee, not reading it. There is a hammock cut down by the stove and no one is talking.".
+  Observe sib_burned_fallout near sib when sibBurned(party) "Sib has stopped counting the exits. She sits with her back to the wall and her face to the room, which is a thing she has not done before.".
+
+  // Usk, who will come if he is promised something.
+  Topic osk_offer with osk "Ask Usk to come and look at the Cap" when knows(actor, cap_known) and not oskPromised(actor) once {
+    Says "Usk sets down the trowel he is not using. 'The Cap,' he says. 'Aenean?' You say it is, and something under it is not. He looks at the shelf above the counter for some time. 'If it is the sort of thing that should not be touched,' he says, 'will you leave it?'".
+  }
+  Topic osk_leave with osk "Yes. If it asks to be left alone" answering osk_offer when true {
+    Says "'Then I'll come,' says Usk. 'For nothing. I should like to see a joint nobody has pointed.'".
+    On discuss { Assert oskPromised(actor). Assert willing(osk, actor). Set hire(osk) to 0. }
+  }
+  Topic osk_known with osk "No. It should be known, whatever it is" answering osk_offer when true {
+    Says "'That is what my grandfather's master said,' says Usk, dryly. 'He cut one sample.' He picks up his hammer. 'Four coin, and I decide what is cut.'".
+    On discuss { Assert oskCut(actor). Assert willing(osk, actor). Set hire(osk) to 4. }
+  }
+  Topic osk_unsure with osk "I don't know yet. I'd like to see it first" answering osk_offer when true {
+    Says "'That I'll take,' says Usk. 'It is the only answer I'd trust.' He shoulders his bag. 'Come on then.'".
+    On discuss { Assert oskHolds(actor). Assert willing(osk, actor). Set hire(osk) to 0. }
+  }
+
+  // Usk in the Gear-Hall: the makers' stone, and whether to take any.
+  Action osk_cut(actor: group, site: place) "Let Usk cut one sample from the grey wall" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gear_hall) and travelsWith(osk, actor) and not oskCutDone(actor) and not oskPromised(actor).
+    Time 0.
+    On success { Assert oskCutDone(actor). Give bell_teeth_sample to actor. }
+    Result "Usk sets a chisel to the wall, once, and strikes it once. A crescent of grey comes away that rings like a struck cup. The wire above you misses a beat and takes it up again late. Usk looks at the chisel, then at his hand, and puts the chisel away.".
+  }
+  Action osk_forbear(actor: group, site: place) "Ask Usk to leave the wall alone" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gear_hall) and travelsWith(osk, actor) and not oskCutDone(actor) and not oskLeft(actor).
+    Time 0.
+    On success { Assert oskLeft(actor). }
+    Result "Usk puts the chisel back in his belt without a word. Then, 'Thank you,' he says. 'I did not want to be asked. I did not want not to be.'".
+  }
+  Relation oskCutDone(group). Relation oskLeft(group). Relation oskGone(group).
+  Kind bell_teeth_sample "a crescent of the makers' grey" is treasure worth 40 weighing 1 described "A crescent the length of a thumb, grey, ringing. It is too light and has no grain.".
+  Observe osk_names near osk when namesRead(party) and travelsWith(osk, party) "Usk has taken a chisel to a flat stone by the green and is cutting fourteen names into it, one a line, in the plain square letters his grandfather's master used. He keeps cutting. 'The Company never had the sense,' he says.".
+
+  // Nib's cat.
+  Topic nib_cat with nib "Ask Nib why he watches the portal so hard" when true once {
+    Says "Nib looks at his boots. 'Biscuit went in,' he says. 'Three weeks, on a Tuesday. She does, she likes the bats. Treve went up the stair after her.' He looks up. 'If you see her, you tell her I said come home. Don't tell Cador I asked.'".
+  }
+  Topic nib_collar with nib "Give Nib the cat's collar" when holding(actor, bell) and not nibTold(actor) once {
+    Says "He takes it. The bell is stopped with a bit of web. He picks the web out with a fingernail, careful, and it gives a small dull note. 'Was it quick?' he says, not looking at you.".
+  }
+  Topic nib_truth with nib "No. It was not quick" answering nib_collar when true {
+    Says "He nods, for a long while. 'I knew,' he says. 'Thank you for not saying.' He gives you his father's whistle without being asked, and goes in to the barrel and sits on it with the collar in his fist.".
+    On discuss { Spend bell from actor. Assert nibTold(actor). Give signal_whistle to actor. }
+  }
+  Topic nib_lie with nib "Yes. She did not know" answering nib_collar when true {
+    Says "'Good,' says Nib, in a small voice. 'That's good.' He puts the collar on the barrel beside him and turns it so the bell faces the wall.".
+    On discuss { Spend bell from actor. Assert nibTold(actor). Assert nibLied(actor). }
+  }
+
+  // Elspeth Noakes, who cooked for them.
+  Thing cook_stone "the flat stone under the foxglove" at garden is scenery {
+    State lying "Under the foxglove a flat stone lies, cut with a spoon and a pot: ELSPETH NOAKES. SHE FED THEM. Something has been laid in the hollow of the pot: a clean white pebble, and another, and another.".
+  }
+  Initially Assert grows(cook_stone).
+  Kind cook_book "Elspeth Noakes's receipt book" is document teaching cook_known_fact described "A fat book of receipts, greasy, tied with a bootlace, kept by the Company's cook. In the margins she has written who ate what.".
+  Discovery cook_known_fact "The Company's cook wrote in the margin of every dinner who had taken seconds and who had not. Against the Foreman: Mr Carr does not eat when he is afraid. Against the night of the breaking-in: fifteen plates laid. Fourteen cold.".
+  Item cook_book_item "Elspeth Noakes's receipt book" is cook_book at bothy hidden until cook_stone_seen.
+  Place bothy "the Brasiers' bothy" is room within foot at 0, 1 outdoors.
+  Passage bothy_door "the bothy door" is door between garden and bothy.
+  Observe bothy_scene at bothy when true "The cook's bothy has kept a roof. A hearth with a pot-crane, a bench with a place worn at one end, a dresser of plates stacked for a table that was never laid again. The air smells of old fat and bay.".
+  Discovery cook_stone_seen "Under the foxglove, a cook's stone; behind it, her bothy.".
+  Observe cook_taught at garden when state(cook_stone, lying) "Under the foxglove a flat stone is cut with a spoon and a pot." teaches cook_stone_seen.
+  Topic hester_cook with hester "Ask Lowen about Elspeth Noakes" when knows(actor, cook_stone_seen) once {
+    Says "'My mother's sister,' says Lowen, and for a moment she is not an innkeeper. 'She laid the fifteen plates, and went home when the wall went, and never came back to wash them. She was the only person in Swallet who didn't take it as a judgement.' She breathes out. 'Is her book still there? She wrote in it who ate what. She used to say you can tell everything about a man by whether he takes seconds.'".
+  }
+
+  // The answers given are heard again.
+  Topic dunstan_open with dunstan "Tell Barrick you came for the men who did not come out" when motiveDead(party) and not knows(party, vault_laid) once {
+    Says "He puts his tankard down for the first time. 'Then I'll tell you what I told no one,' he says. 'Carr stacked them. All thirteen, one at a time, to the Breach, because it was the only dry place. I held the lamp. When the last was down he said, I'll oil the pawl, and I said, I'll fetch more oil, and went up the shaft instead, with my eyes on the rungs.' He folds his hands. 'It was me that left the Foreman. I would like that read somewhere.'".
+    On discuss { Assert knows(actor, vault_laid). Give lamp to actor. }
+  }
+  Entity vault_laid: fact "Carr stacked the thirteen in the vault by the Breach himself, one at a time, while Barrick held the lamp; then Barrick went up the shaft and left him there.".
+  Topic joss_coin with joss "Tell Cador you came for what it fetches" when motiveCoin(party) once {
+    Says "Cador smiles, the first honest smile of the evening. 'Then we understand each other,' he says, and tosses you a flask of oil from under the table. 'On account. You'll bring me things. I won't ask where from, and I won't pay you for the ones that have a Customs button on them.'".
+    On discuss { Give lamp_oil to actor. }
+  }
+  Topic orpe_curious with orpe "Tell Mistress Orpe you came to see what is there" when motiveCurious(party) once {
+    Says "'Then you will want this,' says Mistress Orpe, and goes to the drawer marked NOT BLACK, and unlocks it with her back to you. She takes out a map on hide, much folded. 'The Company's survey of the Conduit. The Aeneans' numbers are on it, 800 down to nothing. They count down to the Swallow, not up. Nobody could ever say what to.'".
+    On discuss { Give faded_map to actor. }
+  }
+  Topic nib_stope_free with nib "Ask Nib again about the hole in the chimney" when nibTold(party) and not nibLied(party) and not knows(party, stope_known) once {
+    Says "'You didn't lie to me,' says Nib. 'So.' He lowers his voice to the barrel. 'The bat chimney. It goes down on the left, all knees. You come out behind Enys's back. Never said.'".
+    On discuss { Assert knows(actor, stope_known). }
+  }
+  Observe nib_lied_note near nib when nibLied(party) "Nib has tied the cat's bell to his belt, where it hangs unrung. He looks past you when you come near, as if you might say the thing you did not.".
+  Observe sib_lock_a near sib when sibNoLocks(party) and travelsWith(sib, party) "Sib walks a little behind you and touches nothing she is not given.".
+  Observe sib_lock_b near sib when sibOpens(party) and travelsWith(sib, party) "Sib goes ahead and tries every latch on the way, lightly, with two fingers, and shuts them again.".
+  Observe sib_lock_c near sib when sibAsks(party) and travelsWith(sib, party) "Sib walks beside you and now and then looks at you sideways, as if you had a question she meant to hear.".
+  Observe osk_left near osk when oskLeft(party) "Usk has cut a card for the shop door in square letters: NOTHING TAKEN THAT CANNOT BE GIVEN BACK.".
+  Observe osk_cut_note near osk when oskCutDone(party) "Usk keeps the crescent of grey in his coat and does not take it out. He has stopped asking about the hill.".
+  Observe shelf_back at dial_room when shelfRestored(party) > 0 "On the shelf of grey metal, in the dust, are the clean places where things used to stand and one place where something has stood again.".
+  Observe osk_hold_note near osk when oskHolds(party) and travelsWith(osk, party) "Usk walks with his hands behind him, looking at everything and touching nothing, a man waiting to be told what he saw.".
+  Observe osk_cutter near osk when oskCut(party) and travelsWith(osk, party) "Usk's chisel hangs loose on his belt, where it can be reached.".
+  Milestone m_sib "learned what Sib Wray was, and chose" worth 200 when sibInformer(party).
+  Milestone m_cook "read what the cook wrote in the margin" worth 120 when knows(party, cook_known_fact).
+
+  Topic hester_book with hester "Show Lowen the cook's receipt book" when holding(actor, cook_book) and not cookKnown(party) once {
+    Says "Lowen turns the pages with her thumb and stops at a margin. She reads it twice. Against her brother Abner: takes seconds, always, says it is for his sister. 'He did,' she says, and puts the book to her chest like a child. 'He did, he did.' When she can speak she gives you six coin from the till and will not hear a word about it. 'I'll pin the page,' she says. 'Beside the names.'".
+    On discuss { Spend cook_book from actor. Assert cookKnown(party). Increase quantity(actor, gold) by 6. }
+  }
+  Topic hester_supper with hester "Ask Lowen whether a cook's page buys a supper for the road" when cookKnown(party) once {
+    Says "'It buys the cook's supper,' says Lowen, and goes through to the back, and comes out with two rations wrapped in a cloth. 'Her receipts were for the road, mostly. She said a company marches on its seconds.' She puts them in your hands. 'Do not tell me they are too many.'".
+    On discuss { Increase quantity(actor, rations) by 2. }
+  }
+  Observe cook_pinned at taproom when cookKnown(party) "Under the ledger's page on the beam is a second page, in a cook's hand: who took seconds, and who did not.".
+  // Usk goes home when the matter is settled, or he has done what he came to do.
+  Rule osk_home at green when travelsWith(osk, party) and at(party, green) and (namesRead(party) or oskCutDone(party) or oskLeft(party)) and not oskGone(party)
+    says "Usk stops at his own door. 'That is enough hill,' he says. 'I will cut what I must cut here.' He goes in and the card on the door turns round." {
+    Assert oskGone(party). Retract travelsWith(osk, party). Assert at(osk, shop). }
+}

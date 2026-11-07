@@ -131,7 +131,7 @@ Module circus "Wapshott's Peregrine Circus" {
     Says "'Because I said I would beat him fairly,' says Madame Sallow, 'and I keep my word. And because the Household should have someone who can add.' She looks across the Long Court at the striped big top. 'And because if I do not, he will be given a royal ruin and a menagerie and a warrant, and he will spend the Treasury's wagon in a fortnight, and somebody will have to watch.' A pause. 'I would rather it were me watching than reading about it.'".
   }
   Topic sallow_lend_lion with sallow "Ask Madame Sallow to let Nebuchadnezzar walk in Wapshott's procession of the Inventory" when not merged(wapshotts) and knows(actor, inventory_known) and here(tober_r) and not lionLent(neb) once {
-    Says "Madame Sallow considers it. 'He is in the Inventory,' she says. 'His line, at least. Nebuchadnezzar the third was this one's great-great-something. I bought him from the last of the Dunmere menageries, and they had him from the Rest.' She looks at her own blue-and-gold wagons. 'If he walks for you he does not walk for me.' Then: 'He is very old, and very slow. He would walk in anyone's procession who walked slowly enough.' She looks at you. 'And Florian has never once asked after him.'".
+    Says "Madame Sallow considers it. 'He is in the Inventory,' she says. 'Nebuchadnezzar the third. I bought him from the last of the Dunmere menageries, and they had him from the Rest.' She looks at her own blue-and-gold wagons. 'If he walks for you he does not walk for me.' Then: 'He is very old, and very slow. He would walk in anyone's procession who walked slowly enough.' She looks at you. 'And Florian has never once asked after him.'".
     On discuss { Assert lionAsked(neb). }
   }
   Relation lionAsked(group).

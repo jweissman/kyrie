@@ -1,0 +1,129 @@
+Module sallowfield "Three Nights at Sallowfield" {
+  // ── What can be done with two days ───────────────────────────────────────────────────────────────────────────
+  // Every work costs hours that something else needed, and most cost the village something it will want later.
+  // Time is in tens of minutes: 24 is four hours.
+  Relation coachGone(group). Relation winterShort(group). Relation caltrops(group). Relation ironForSpikes(group). Relation coachMended(group).
+  Relation drilledOne(group). Relation drilledTwo(group). Measure drillBonus(group).
+  Relation evacuated(group). Relation bucketLine(group). Relation bellRung(group). Relation quarmbyAgrees(group).
+
+  Item crowbar_a "a smith's crowbar" is crowbar at forge.
+  Item shovel_a "a sod-cutting shovel" is shovel at forge.
+  Item shovel_b "a second shovel" is shovel at mill_yard.
+  Item pitch_pot "a pot of pitch" is lamp_oil at forge.
+
+  Action build_barricade(actor: group, site: place) "Wall the ford with the coach, the inn's tables and the hurdles" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ford_stones) and not barricadeUp(actor) and posted(?v, ford_stones).
+    Time 108.
+    On success { Assert barricadeUp(party). Assert coachGone(party). Increase defence(ford_stones) by 4. }
+    Result "It takes eighteen hours, six people, and every hurdle in the meadow. When it is done the coach is a wall: the body on its side, the wheels roped across the gap, the inn's tables behind for a firing-step. Teasdale watches the last wheel go up.".
+  }
+  Thing bridge_span "the packhorse bridge" at bridge {
+    State standing "The bridge crosses on its two arches, the cobbles worn into hollows by three centuries of mules.".
+    State cut blocking "The keystone of the near arch has been prised out and lies in the river, and the arch has slid after it. There is nothing between the banks but a gap of brown water.".
+    Change cut_the_arch "Prise out the keystone of the near arch" from standing to cut needing crowbar.
+  }
+  Initially Assert state(bridge_span, standing).
+  Rule bridge_cut_marks when state(bridge_span, cut) and not bridgeCut(party) { Assert bridgeCut(party). Increase defence(bridge) by 10. }
+  Thing flood_gate "the flood-gate on the race" at race {
+    State shut "A flood-gate of black oak stands shut across the head of the race, with a windlass and a pin. A painted board nailed over it says: MILLER ONLY.".
+    State drawn "The flood-gate is drawn, and the river is going over the sill and out across the meadow in a long sheet, brown, quiet and a hand deep and rising.".
+    Change draw_gate "Draw the flood-gate" from shut to drawn needing crowbar when quarmbyAgrees(party) "Gil Quarmby is standing on the sill with his arms folded. He has not said a word, and he does not need to.".
+  }
+  Initially Assert state(flood_gate, shut).
+  Rule flood_marks when state(flood_gate, drawn) and not sluiceOpen(party) { Assert sluiceOpen(party). Assert hayLost(party). Increase defence(ford_stones) by 3. Increase defence(mill_yard) by 3. Decrease defence(bridge) by 4 or to nothing. Decrease nerve(greenhalgh) by 2 or to nothing. }
+  // A flood over the meadow drowns the pits, and what it does to the ford it does to the bridge's footings.
+  Rule flood_drowns_pits when sluiceOpen(party) and pitsDug(party) and not pitsDrowned(party) { Assert pitsDrowned(party). Decrease defence(ford_stones) by 3 or to nothing. Decrease defence(mill_yard) by 3 or to nothing. }
+  Relation pitsDrowned(group).
+  Relation hayLost(group).
+  Thing meadow_way "the ford meadow" on ford_meadow_way is scenery {
+    State dry "The meadow is wet grass and cropped turf.".
+    State flooded blocking "The meadow is under a hand of brown water and the hawthorn hedge stands out of it like a row of drowned men.".
+  }
+  Initially Assert state(meadow_way, dry).
+  Rule meadow_floods when sluiceOpen(party) and state(meadow_way, dry) { Assert state(meadow_way, flooded). }
+  Action dig_pits(actor: group, site: place) "Dig pits in the ford meadow and lay hurdles over them" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ford_meadow) and holding(actor, shovel) and not pitsDug(party) and not sluiceOpen(party).
+    Time 84.
+    On success { Assert pitsDug(party). Increase defence(ford_stones) by 3. Increase defence(mill_yard) by 3. Increase defence(bridge) by 1. }
+    Result "You dig until your hands blister and then you dig on. The pits are a yard deep, a yard wide, laid out in a staggered line from the hedge to the ford, and the hurdles lie over them as naturally as a hurdle can. The villagers who watch say nothing. A horse would not see them either.".
+  }
+  Action spoil_grain(actor: group, site: place) "Foul the tithe grain with brine and lamp oil" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, granary) and not grainSpoiled(party) and holding(actor, lamp_oil) and knows(actor, reeve_would_pay).
+    Time 6.
+    On success { Spend lamp_oil from actor. Assert grainSpoiled(party). Assert winterShort(party). }
+    Result "It is a thing you can do in an hour. The oil goes on the sacks in a black stain and the brine from the pickle-tubs after it, and by the end the granary stinks of salt and lamp. Tib Elland watches from the door with his tally-sticks hanging and says, 'That was the winter.'".
+  }
+  // The grain is the village's winter: what is done to it is done to them.
+  Rule spoiled_costs when grainSpoiled(party) and not spoiledMod(party) {
+    Assert spoiledMod(party). Assert at(elland, fold).
+    Decrease nerve(ashworth) by 1 or to nothing. Decrease nerve(quarmby) by 1 or to nothing. Decrease nerve(wadsworth) by 1 or to nothing. Decrease nerve(greenhalgh) by 1 or to nothing. }
+  Relation spoiledMod(group).
+  Action drill_levy(actor: group, site: place) "Drill the levy on the green with staves" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, green) and not drilledTwo(party) and watch(clock) < 330.
+    Time 60.
+    Resolve check(actor, intimidation, dc_fair).
+    On success { Increase drillBonus(party) by 1. Assert drilledOne(party). }
+    On failure { Assert drilledOne(party). }
+    Result "You make them walk in a line and then in two lines, and carry staves, and strike at a post and at each other. By the third hour there are forty of the sixty on the green who know which way to point. Hob Wadsworth is now good at the part where you shout.".
+    Otherwise "It is not a success. The line wanders, and a goose gets in it, and Hob Wadsworth makes a speech.".
+  }
+  Rule drilled_twice when drilledOne(party) and drillBonus(party) >= 2 and not drilledTwo(party) { Assert drilledTwo(party). }
+  Action evacuate_the_helpless(actor: group, site: place) "Take the old, the sick and the children up to the high fold" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, green) and not evacuated(party).
+    Time 36.
+    Resolve check(actor, wayfinding, dc_easy).
+    On success { Assert evacuated(party). }
+    Result "It is a procession: thirty-odd, a cart, two goats, a cradle, and old Mistress Haworth in a chair carried between two boys who are not speaking to each other. Crowther at the fold stands aside and says only, 'Mind the wall.'".
+    Otherwise "The track is steeper than anyone said. You turn back with half of them, and the other half up the hill without you.".
+  }
+  Action form_bucket_line(actor: group, site: place) "Set a bucket line from the well to the green" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, well) and not bucketLine(party).
+    Time 12.
+    On success { Assert bucketLine(party). }
+    Result "Nan Ashworth takes the end of the line without being asked, and the first bucket is in your hands before you have finished saying where it goes. By dusk there are three lines of women and the well-rope is smoking.".
+  }
+  Action ring_the_bell(actor: group, site: place) "Ring the chapel bell for the village to stand to" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, bell_loft) and not bellRung(party) and watch(clock) >= assaultAt(wyre) + 6 and watch(clock) < assaultAt(wyre) + 12 and w2planned(party).
+    Time 0.
+    On success { Assert bellRung(party). Increase defence(ford_stones) by 2. Increase defence(bridge) by 2. Increase defence(mill_yard) by 2. Increase defence(nave) by 2. }
+    Result "The bell goes out over the vale like a great hand laid on every roof. In every house a door opens. You can hear, under the last note, forty of them finding their feet.".
+  }
+  Rule numbers_help when knowsNumbers(party) and not numMod(party) { Assert numMod(party). Increase defence(ford_stones) by 2. Increase defence(bridge) by 2. Increase defence(mill_yard) by 2. Increase defence(nave) by 2. }
+  Relation numMod(group).
+  Action scout_the_road(actor: group, site: place) "Count the column from the Scar" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lookout) and watch(clock) >= 120 and not knowsNumbers(party) and not scouted(party).
+    Time 6.
+    Resolve check(actor, woodcraft, dc_fair).
+    On success { Assert knowsNumbers(party). Assert scouted(party). }
+    On failure { Assert badCount(party). Assert scouted(party). }
+    Result "You lie on the limestone with the cairn at your head and watch them come down the east road in the late light: forty on horse and foot, a wagon, a string of led horses, a standard with the Margrave's green gone to brown. Twenty more follow, on foot, with women among them. They are not marching. They are walking like people who have not been paid since spring.".
+    Otherwise "You lie on the limestone and count, and it comes to sixty on horse and foot, and you tell it so in the village: sixty armed men. It is a good clear count, and it is a bad one. Twenty of them were women with the wagons, and by the time that is known the levy has stopped asking.".
+  }
+
+  Relation badCount(group). Relation scouted(group).
+  Rule bad_count_hurts when badCount(party) and battleOn() and not badMod(party) { Assert badMod(party). Decrease drillBonus(party) by 1 or to nothing. Decrease defence(ford_stones) by 1 or to nothing. Decrease defence(bridge) by 1 or to nothing. Decrease defence(mill_yard) by 1 or to nothing. Decrease defence(nave) by 1 or to nothing. }
+  Relation badMod(group).
+
+  // The ledger: the hours there are, said in bands, until the night he is expected (a quarter of a day each).
+
+  // The reeve's sixty is the village's, house by house; it takes the time it takes, and Stansfield is no use at it.
+  Action collect_the_sixty(actor: group, site: place) "Go house to house with the reeve for the sixty" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, green) and knows(actor, reeve_would_pay) and not sixtyCollected(party).
+    Time 96.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Increase quantity(actor, gold) by 60. Assert sixtyCollected(party). Decrease nerve(stansfield) by 1 or to nothing. }
+    On failure { Increase quantity(actor, gold) by 20. Assert sixtyCollected(party). }
+    Result "Forty-one doors, and the reeve behind you with his ledger saying the name of each one before you knock. Most open. Nan Ashworth gives the lot of her slate. At the Haworths' they have nothing and give it.".
+    Otherwise "It is a bad day for a request. You come back with a purse that is lighter than a sixty, and the reeve writes the name of every door that did not open.".
+  }
+  Relation sixtyCollected(group).
+
+  Observe ledger_0 near party when not wyreEarly(party) and watch(clock) >= 0 and watch(clock) < 72 and not battleOn() "Two days and a night before the night he is expected. The wall alone is eighteen hours, the pits fourteen, the drill ten each, the caltrops nine; the iron is only enough for the coach or the caltrops. There are not enough hours for the lot.".
+  Observe ledger_1 near party when not wyreEarly(party) and watch(clock) >= 72 and watch(clock) < 144 and not battleOn() "A day and most of a night. If the wall is not up by the second dusk it will not be up. Choose what you will not do.".
+  Observe ledger_2 near party when not wyreEarly(party) and watch(clock) >= 144 and watch(clock) < 204 and not battleOn() "The second day. The boy in the reeds comes tonight, and the farm is raided the same hour; the company is one body.".
+  Observe ledger_3 near party when not wyreEarly(party) and watch(clock) >= 204 and watch(clock) < 246 and not battleOn() "The second evening. What was not begun by now will not be finished before the stone.".
+  Observe ledger_4 near party when not wyreEarly(party) and watch(clock) >= 246 and watch(clock) < 306 and not battleOn() "The last morning. Whatever is half done is half done.".
+  Observe ledger_5 near party when not wyreEarly(party) and watch(clock) >= 306 and watch(clock) < 342 and not battleOn() "The last afternoon. He is at the stone at noon, if he comes to talk.".
+  Observe ledger_6 near party when not wyreEarly(party) and watch(clock) >= 342 and watch(clock) < 366 and not battleOn() "Dusk. Whatever is built is what there is.".
+  Observe ledger_early near party when wyreEarly(party) and not battleOn() "He is coming tonight. Whatever is not done is not going to be.".
+}

@@ -1,0 +1,68 @@
+Module wrongboat "The Wrong Boat" {
+  // ── The hunt ──────────────────────────────────────────────────────────────────────────────────────────────
+  // A pursuit that seeks a fixed place is an itinerary. These seek the company: one for each place it can stand,
+  // taken up while the hunt is on, hiding or not (a hidden company is searched for, not forgotten), so that Bess (and, once the company has passed the race-head, the lads) go to
+  // where the company is, by the ways that are open, and stop when they are there.
+  Query huntBess() means not bessAlly(party) and not bessMet(party) and since(14) and (trailLostAt(party) == 0 or watch(clock) >= trailLostAt(party) + 30) and not bessTook(party) and not boxReturned(party).
+  Query huntLads() means not ladsDealt() and not escort() and (ladsMet(party) or been(party, ferry_stage)).
+  Pursuit hunt_bess_road for bess "coming for you" priority 8 when huntBess() and at(party, road) seeks at(bess, road).
+  Pursuit hunt_bess_quay for bess "coming for you" priority 8 when huntBess() and at(party, quay) seeks at(bess, quay).
+  Pursuit hunt_bess_taproom for bess "coming for you" priority 8 when huntBess() and at(party, taproom) seeks at(bess, taproom).
+  Pursuit hunt_bess_toll_counter for bess "coming for you" priority 8 when huntBess() and at(party, toll_counter) seeks at(bess, toll_counter).
+  Pursuit hunt_bess_deck for bess "coming for you" priority 8 when huntBess() and at(party, deck) seeks at(bess, deck).
+  Pursuit hunt_bess_cabin for bess "coming for you" priority 8 when huntBess() and at(party, cabin) seeks at(bess, cabin).
+  Pursuit hunt_bess_hold for bess "coming for you" priority 8 when huntBess() and at(party, hold) seeks at(bess, hold).
+  Pursuit hunt_bess_galley for bess "coming for you" priority 8 when huntBess() and at(party, galley) seeks at(bess, galley).
+  Pursuit hunt_bess_fen_landing for bess "coming for you" priority 8 when huntBess() and at(party, fen_landing) seeks at(bess, fen_landing).
+  Pursuit hunt_bess_causeway for bess "coming for you" priority 8 when huntBess() and at(party, causeway) seeks at(bess, causeway).
+  Pursuit hunt_bess_bell_cot for bess "coming for you" priority 8 when huntBess() and at(party, bell_cot) seeks at(bess, bell_cot).
+  Pursuit hunt_bess_eel_stage for bess "coming for you" priority 8 when huntBess() and at(party, eel_stage) seeks at(bess, eel_stage).
+  Pursuit hunt_bess_fair_quay for bess "coming for you" priority 8 when huntBess() and at(party, fair_quay) seeks at(bess, fair_quay).
+  Pursuit hunt_bess_fairground for bess "coming for you" priority 8 when huntBess() and at(party, fairground) seeks at(bess, fairground).
+  Pursuit hunt_bess_puppet_booth for bess "coming for you" priority 8 when huntBess() and at(party, puppet_booth) seeks at(bess, puppet_booth).
+  Pursuit hunt_bess_draper for bess "coming for you" priority 8 when huntBess() and at(party, draper) seeks at(bess, draper).
+  Pursuit hunt_bess_horse_lines for bess "coming for you" priority 8 when huntBess() and at(party, horse_lines) seeks at(bess, horse_lines).
+  Pursuit hunt_bess_pelham_inn for bess "coming for you" priority 8 when huntBess() and at(party, pelham_inn) seeks at(bess, pelham_inn).
+  Pursuit hunt_bess_lockup for bess "coming for you" priority 8 when huntBess() and at(party, lockup) seeks at(bess, lockup).
+  Pursuit hunt_bess_race_head for bess "coming for you" priority 8 when huntBess() and at(party, race_head) seeks at(bess, race_head).
+  Pursuit hunt_bess_millyard for bess "coming for you" priority 8 when huntBess() and at(party, millyard) seeks at(bess, millyard).
+  Pursuit hunt_bess_weir for bess "coming for you" priority 8 when huntBess() and at(party, weir) seeks at(bess, weir).
+  Pursuit hunt_bess_millhouse for bess "coming for you" priority 8 when huntBess() and at(party, millhouse) seeks at(bess, millhouse).
+  Pursuit hunt_bess_sluice_hut for bess "coming for you" priority 8 when huntBess() and at(party, sluice_hut) seeks at(bess, sluice_hut).
+  Pursuit hunt_bess_ferry_stage for bess "coming for you" priority 8 when huntBess() and at(party, ferry_stage) seeks at(bess, ferry_stage).
+  Pursuit hunt_bess_far_bank for bess "coming for you" priority 8 when huntBess() and at(party, far_bank) seeks at(bess, far_bank).
+  Pursuit hunt_bess_ferry_hut for bess "coming for you" priority 8 when huntBess() and at(party, ferry_hut) seeks at(bess, ferry_hut).
+  Pursuit hunt_bess_hill_foot for bess "coming for you" priority 8 when huntBess() and at(party, hill_foot) seeks at(bess, hill_foot).
+  Pursuit hunt_bess_inn_room for bess "coming for you" priority 8 when huntBess() and at(party, inn_room) seeks at(bess, inn_room).
+  Pursuit hunt_bess_pass_gap for bess "coming for you" priority 8 when huntBess() and at(party, pass_gap) seeks at(bess, pass_gap).
+  Pursuit hunt_lads_road for lads "coming for the box" priority 8 when huntLads() and at(party, road) seeks at(lads, road).
+  Pursuit hunt_lads_quay for lads "coming for the box" priority 8 when huntLads() and at(party, quay) seeks at(lads, quay).
+  Pursuit hunt_lads_taproom for lads "coming for the box" priority 8 when huntLads() and at(party, taproom) seeks at(lads, taproom).
+  Pursuit hunt_lads_toll_counter for lads "coming for the box" priority 8 when huntLads() and at(party, toll_counter) seeks at(lads, toll_counter).
+  Pursuit hunt_lads_deck for lads "coming for the box" priority 8 when huntLads() and at(party, deck) seeks at(lads, deck).
+  Pursuit hunt_lads_cabin for lads "coming for the box" priority 8 when huntLads() and at(party, cabin) seeks at(lads, cabin).
+  Pursuit hunt_lads_hold for lads "coming for the box" priority 8 when huntLads() and at(party, hold) seeks at(lads, hold).
+  Pursuit hunt_lads_galley for lads "coming for the box" priority 8 when huntLads() and at(party, galley) seeks at(lads, galley).
+  Pursuit hunt_lads_fen_landing for lads "coming for the box" priority 8 when huntLads() and at(party, fen_landing) seeks at(lads, fen_landing).
+  Pursuit hunt_lads_causeway for lads "coming for the box" priority 8 when huntLads() and at(party, causeway) seeks at(lads, causeway).
+  Pursuit hunt_lads_bell_cot for lads "coming for the box" priority 8 when huntLads() and at(party, bell_cot) seeks at(lads, bell_cot).
+  Pursuit hunt_lads_eel_stage for lads "coming for the box" priority 8 when huntLads() and at(party, eel_stage) seeks at(lads, eel_stage).
+  Pursuit hunt_lads_fair_quay for lads "coming for the box" priority 8 when huntLads() and at(party, fair_quay) seeks at(lads, fair_quay).
+  Pursuit hunt_lads_fairground for lads "coming for the box" priority 8 when huntLads() and at(party, fairground) seeks at(lads, fairground).
+  Pursuit hunt_lads_puppet_booth for lads "coming for the box" priority 8 when huntLads() and at(party, puppet_booth) seeks at(lads, puppet_booth).
+  Pursuit hunt_lads_draper for lads "coming for the box" priority 8 when huntLads() and at(party, draper) seeks at(lads, draper).
+  Pursuit hunt_lads_horse_lines for lads "coming for the box" priority 8 when huntLads() and at(party, horse_lines) seeks at(lads, horse_lines).
+  Pursuit hunt_lads_pelham_inn for lads "coming for the box" priority 8 when huntLads() and at(party, pelham_inn) seeks at(lads, pelham_inn).
+  Pursuit hunt_lads_lockup for lads "coming for the box" priority 8 when huntLads() and at(party, lockup) seeks at(lads, lockup).
+  Pursuit hunt_lads_race_head for lads "coming for the box" priority 8 when huntLads() and at(party, race_head) seeks at(lads, race_head).
+  Pursuit hunt_lads_millyard for lads "coming for the box" priority 8 when huntLads() and at(party, millyard) seeks at(lads, millyard).
+  Pursuit hunt_lads_weir for lads "coming for the box" priority 8 when huntLads() and at(party, weir) seeks at(lads, weir).
+  Pursuit hunt_lads_millhouse for lads "coming for the box" priority 8 when huntLads() and at(party, millhouse) seeks at(lads, millhouse).
+  Pursuit hunt_lads_sluice_hut for lads "coming for the box" priority 8 when huntLads() and at(party, sluice_hut) seeks at(lads, sluice_hut).
+  Pursuit hunt_lads_ferry_stage for lads "coming for the box" priority 8 when huntLads() and at(party, ferry_stage) seeks at(lads, ferry_stage).
+  Pursuit hunt_lads_far_bank for lads "coming for the box" priority 8 when huntLads() and at(party, far_bank) seeks at(lads, far_bank).
+  Pursuit hunt_lads_ferry_hut for lads "coming for the box" priority 8 when huntLads() and at(party, ferry_hut) seeks at(lads, ferry_hut).
+  Pursuit hunt_lads_hill_foot for lads "coming for the box" priority 8 when huntLads() and at(party, hill_foot) seeks at(lads, hill_foot).
+  Pursuit hunt_lads_inn_room for lads "coming for the box" priority 8 when huntLads() and at(party, inn_room) seeks at(lads, inn_room).
+  Pursuit hunt_lads_pass_gap for lads "coming for the box" priority 8 when huntLads() and at(party, pass_gap) seeks at(lads, pass_gap).
+}

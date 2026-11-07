@@ -2401,6 +2401,471 @@
         "kyr": true,
         "notes": "A wild animal of its own, added by its record (the owner, 6 November)."
       }
+    },
+    "fern_runner": {
+      "name": "Fern-runner",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A cat-sized, feathered runner of the island's undergrowth, quick, curious and not at all afraid of doors.",
+      "looks": "A slender, long-legged little animal the size of a heron's chick, with a coat of rust and cream down running to quills along the arms, a long balancing tail and large dark eyes.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 4,
+        "primary": "dexterity",
+        "weapon": "bite",
+        "armor": "hide_armor"
+      },
+      "abilities": [
+        "flee"
+      ],
+      "traits": [],
+      "temperament": "wary",
+      "worth": {
+        "base": 0,
+        "perLevel": 10
+      },
+      "source": {
+        "kyr": true,
+        "notes": "The smallest of the island's animals: a feathered little runner the size of a cat, curious, social, clever with latches. No habitats are written for it, so no generated country draws it into a den: it lives on the Isle of Sarn alone (Wapshott's Fourth Act, doc/adventures/anthology/the-fourth-act.md). Its painting is not yet made (portrait left unset; data/paintings/animals.json would take animals/fern_runner)."
+      }
+    },
+    "hook_claw": {
+      "name": "Hook-claw",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A feathered pack hunter of the island's cycad forest, the size of a big dog, that takes what it can overpower with a great curved claw on each foot.",
+      "looks": "A lean, bird-footed animal the length of a man, barred in green and rust, with a stiff tail held out behind it, long arms ending in three claws, and on each foot a single hooked claw held off the ground.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 8,
+        "primary": "dexterity",
+        "weapon": "claws",
+        "armor": "hide_armor"
+      },
+      "abilities": [
+        "flee",
+        "howl"
+      ],
+      "traits": [],
+      "temperament": "territorial",
+      "worth": {
+        "base": 0,
+        "perLevel": 10
+      },
+      "source": {
+        "kyr": true,
+        "notes": "A pack hunter of the forest, hunting in fives. Telegraphed by the click of the foot-claw on stone and by the whole pack going quiet. Its young are what Wapshott's crate held. No habitats are written for it, so no generated country draws it into a den: it lives on the Isle of Sarn alone (Wapshott's Fourth Act, doc/adventures/anthology/the-fourth-act.md). Its painting is not yet made (portrait left unset; data/paintings/animals.json would take animals/hook_claw)."
+      }
+    },
+    "stilt_runner": {
+      "name": "Stilt-runner",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A tall, fast, flightless eater of eggs and fruit, curious about people and quick to bolt.",
+      "looks": "A bird-like animal as tall as a man at the back, on two long legs, with a small head on a long neck, a toothless beak, a bristle of feathers and a kick that has broken a boar's back.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 8,
+        "primary": "dexterity",
+        "weapon": "kick",
+        "armor": "hide_armor"
+      },
+      "abilities": [
+        "flee",
+        "defend"
+      ],
+      "traits": [],
+      "temperament": "wary",
+      "worth": {
+        "base": 0,
+        "perLevel": 10
+      },
+      "source": {
+        "kyr": true,
+        "notes": "A herd animal of the open fern plain, wary and quick; it kicks only when it cannot run. No habitats are written for it, so no generated country draws it into a den: it lives on the Isle of Sarn alone (Wapshott's Fourth Act, doc/adventures/anthology/the-fourth-act.md). Its painting is not yet made (portrait left unset; data/paintings/animals.json would take animals/stilt_runner)."
+      }
+    },
+    "three_horn": {
+      "name": "Three-horn",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A browsing beast of the fern plain with a bony frill and three horns, that will hold a calf's ground against anything.",
+      "looks": "A beast the size of a wagon with a beak, a great bony frill behind its head, one short horn on the nose and two long above the eyes, on four heavy legs, its hide in plates like dry mud.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 12,
+        "primary": "strength",
+        "weapon": "horns",
+        "armor": "scale"
+      },
+      "abilities": [
+        "prepare_charge",
+        "charge",
+        "defend"
+      ],
+      "traits": [],
+      "temperament": "territorial",
+      "worth": {
+        "base": 0,
+        "perLevel": 10
+      },
+      "source": {
+        "kyr": true,
+        "notes": "A herd beast: grazes, and charges what comes between it and its calf. No habitats are written for it, so no generated country draws it into a den: it lives on the Isle of Sarn alone (Wapshott's Fourth Act, doc/adventures/anthology/the-fourth-act.md). Its painting is not yet made (portrait left unset; data/paintings/animals.json would take animals/three_horn)."
+      }
+    },
+    "lantern_neck": {
+      "name": "Lantern-neck",
+      "type": "beast",
+      "kind": "animal",
+      "description": "The greatest animal of the island: a long-necked browser as big as a barn that lives on the canopy and notices nothing smaller than itself.",
+      "looks": "An animal longer than a ship's boat laid keel to keel with another, on four pillar legs, with a neck like a mast that carries its small head up among the cycad crowns and a long tail held clear of the ground.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 12,
+        "primary": "strength",
+        "weapon": "tail",
+        "armor": "hide_armor"
+      },
+      "abilities": [
+        "defend"
+      ],
+      "traits": [],
+      "temperament": "defensive",
+      "worth": {
+        "base": 0,
+        "perLevel": 20
+      },
+      "source": {
+        "kyr": true,
+        "notes": "A browser the size of a house, indifferent to people, dangerous only by being where it is: it does not hunt, flee or defend, and a stride of it is a calamity. No habitats are written for it, so no generated country draws it into a den: it lives on the Isle of Sarn alone (Wapshott's Fourth Act, doc/adventures/anthology/the-fourth-act.md). Its painting is not yet made (portrait left unset; data/paintings/animals.json would take animals/lantern_neck)."
+      }
+    },
+    "tyrant": {
+      "name": "Tyrant",
+      "type": "beast",
+      "kind": "animal",
+      "description": "The island's great hunter: a bulk-headed killer as long as a barn, with a bite that breaks the backs of the herd.",
+      "looks": "A huge two-legged animal with a head the length of a man, a mouth of teeth like bread-knives, arms that are laughably small, and a tail that balances all of it.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 12,
+        "primary": "strength",
+        "weapon": "bite",
+        "armor": "scale"
+      },
+      "abilities": [
+        "prepare_charge",
+        "charge",
+        "maul"
+      ],
+      "traits": [],
+      "temperament": "ambush",
+      "worth": {
+        "base": 0,
+        "perLevel": 30
+      },
+      "source": {
+        "kyr": true,
+        "notes": "The island's greatest hunter, hunting the herd's edge at dusk. Telegraphed by a silence that moves, by the ground shaking in a rhythm, by what is left of the herd's stragglers. No habitats are written for it, so no generated country draws it into a den: it lives on the Isle of Sarn alone (Wapshott's Fourth Act, doc/adventures/anthology/the-fourth-act.md). Its painting is not yet made (portrait left unset; data/paintings/animals.json would take animals/tyrant)."
+      }
+    },
+    "sail_wing": {
+      "name": "Sail-wing",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A leathery flier of the island's sea-cliffs that nests in great colonies and drives off anything that walks on the ledges.",
+      "looks": "A flying animal with a skin wing spanning a cart, a long toothless beak, a head crested with a bony sail, and legs it walks on, folded, like a bat's.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 6,
+        "primary": "dexterity",
+        "weapon": "beak",
+        "armor": "hide_armor"
+      },
+      "abilities": [
+        "flee"
+      ],
+      "traits": [],
+      "temperament": "territorial",
+      "worth": {
+        "base": 0,
+        "perLevel": 15
+      },
+      "source": {
+        "kyr": true,
+        "notes": "A colonial flier of the Nesting Cliffs; at dawn the whole colony launches off the updraughts together. No habitats are written for it, so no generated country draws it into a den: it lives on the Isle of Sarn alone (Wapshott's Fourth Act, doc/adventures/anthology/the-fourth-act.md). Its painting is not yet made (portrait left unset; data/paintings/animals.json would take animals/sail_wing)."
+      }
+    },
+    "ridge_goat": {
+      "name": "Ridge-goat",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A grey, long-horned goat of the high fells that has learned the legion's roads and will not set a hoof on any stone that will not bear it.",
+      "looks": "A lean grey goat with a pale belly and horns swept back in one long curve, hooves like split cups, a beard stained with lichen, and a look of settled disapproval.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 6,
+        "primary": "dexterity",
+        "weapon": "headbutt",
+        "armor": "hide_armor"
+      },
+      "abilities": [
+        "flee"
+      ],
+      "traits": [],
+      "temperament": "wary",
+      "worth": {
+        "base": 0,
+        "perLevel": 10
+      },
+      "source": {
+        "kyr": true,
+        "notes": "A goat of the sound stone: it follows a climber at a distance, stands on the footing that holds, and will not go where the shale slides. The goatherds of Kell Ford trust it over a rope. No habitats are written for it, so no generated country draws it into a den: it lives on the Hesper Fells' road alone (The Long Muster's Road, doc/adventures/anthology/the-long-muster.md). Its painting is not yet made (portrait left unset; data/paintings/animals.json would take animals/ridge_goat)."
+      }
+    },
+    "bone_kite": {
+      "name": "Bone-kite",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A rust-and-white carrion raptor that nests in the arches of the old viaduct and circles over what is about to fall.",
+      "looks": "A broad-winged bird with a forked tail, a white head, a hooked yellow bill and a rust-red back, hanging on the updraught without a wingbeat, its shadow the size of a door.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 4,
+        "primary": "dexterity",
+        "weapon": "beak",
+        "armor": "hide_armor"
+      },
+      "abilities": [
+        "flee"
+      ],
+      "traits": [],
+      "temperament": "wary",
+      "worth": {
+        "base": 0,
+        "perLevel": 10
+      },
+      "source": {
+        "kyr": true,
+        "notes": "A bird of the broken stone: it perches only on masonry that will bear weight and circles over what is loose. The legion's engineers called it the surveyor's bird. No habitats are written for it, so no generated country draws it into a den: it lives on the Hesper Fells' road alone (The Long Muster's Road, doc/adventures/anthology/the-long-muster.md). Its painting is not yet made (portrait left unset; data/paintings/animals.json would take animals/bone_kite)."
+      }
+    },
+    "pass_marmot": {
+      "name": "Pass-marmot",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A stout burrowing sentinel of the high pass, that whistles once at a thing it fears and twice at a thing it hates.",
+      "looks": "A fat, fawn-coloured animal the size of a spaniel, up on its haunches on a rock, its cheeks full, its small black eyes fixed on the road, its front paws held to its chest as if in prayer.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 4,
+        "primary": "constitution",
+        "weapon": "bite",
+        "armor": "hide_armor"
+      },
+      "abilities": [
+        "flee"
+      ],
+      "traits": [],
+      "temperament": "wary",
+      "worth": {
+        "base": 0,
+        "perLevel": 10
+      },
+      "source": {
+        "kyr": true,
+        "notes": "The Pass's sentinel: one whistle for a stranger, two for the giant. The whole colony dives into its holes at the second. No habitats are written for it, so no generated country draws it into a den: it lives on the Hesper Fells' road alone (The Long Muster's Road, doc/adventures/anthology/the-long-muster.md). Its painting is not yet made (portrait left unset; data/paintings/animals.json would take animals/pass_marmot)."
+      }
+    },
+    "salt_ox": {
+      "name": "Salt-ox",
+      "type": "beast",
+      "kind": "animal",
+      "description": "The Last Cohort's draught ox, shaggy and broad-backed, bred over eleven centuries to draw salt-sleds on the Descent and to stand still at a bugle.",
+      "looks": "A short-legged, broad-backed ox in a coat like a rug, with a wide white blaze, curved horns capped in bronze, and a placid eye that has learned the bugle calls of the day.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 10,
+        "primary": "strength",
+        "weapon": "horns",
+        "armor": "hide_armor"
+      },
+      "abilities": [
+        "defend"
+      ],
+      "traits": [],
+      "temperament": "defensive",
+      "worth": {
+        "base": 0,
+        "perLevel": 10
+      },
+      "source": {
+        "kyr": true,
+        "notes": "A draught ox of the valley: it stops dead at the noon call and will not be driven past it, and the Cohort sets its hours by the oxen as much as by the horn. No habitats are written for it, so no generated country draws it into a den: it lives on the Hesper Fells' road alone (The Long Muster's Road, doc/adventures/anthology/the-long-muster.md). Its painting is not yet made (portrait left unset; data/paintings/animals.json would take animals/salt_ox)."
+      }
+    },
+    "dawn_piper": {
+      "name": "Dawn-piper",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A hen-sized crested runner of the fern plain whose flock pipes together an hour before the great herd comes down to the lake.",
+      "looks": "A small bird-footed animal in blue-grey down, with a hollow bony crest on its head like a bent flute, that stands in flocks of forty with its head back and its crest open.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 4,
+        "primary": "dexterity",
+        "weapon": "beak",
+        "armor": "hide_armor"
+      },
+      "abilities": [
+        "flee"
+      ],
+      "traits": [],
+      "temperament": "wary",
+      "worth": {
+        "base": 0,
+        "perLevel": 10
+      },
+      "source": {
+        "kyr": true,
+        "notes": "A tell-tale: its crest is a sounding-box, and the flock's piping at first grey is how the island's other animals, and wise visitors, know the lantern-necks are coming. No habitats are written, so no generated country draws it into a den: it lives on the Isle of Sarn alone (doc/adventures/anthology/the-fourth-act.md). Its painting is not yet made (portrait unset; data/paintings/animals.json would take animals/dawn_piper)."
+      }
+    },
+    "plate_back": {
+      "name": "Plate-back",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A low, slow grazer of the forest margins, walled in bony plates, that sleeps in rings with its young inside.",
+      "looks": "A beast like a barn door on four short legs, its back in plates of bone each as wide as a shield, a spiked tail-club, and a small head under a hood of bone.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 10,
+        "primary": "constitution",
+        "weapon": "tail",
+        "armor": "scale"
+      },
+      "abilities": [
+        "defend"
+      ],
+      "traits": [],
+      "temperament": "defensive",
+      "worth": {
+        "base": 0,
+        "perLevel": 12
+      },
+      "source": {
+        "kyr": true,
+        "notes": "A slow animal that sleeps in rings at dusk; the island's hunters walk round a ring of them. No habitats are written, so no generated country draws it into a den: it lives on the Isle of Sarn alone (doc/adventures/anthology/the-fourth-act.md). Its painting is not yet made (portrait unset; data/paintings/animals.json would take animals/plate_back)."
+      }
+    },
+    "mud_skimmer": {
+      "name": "Mud-skimmer",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A flat-headed shell-digger of the delta that goes in and out of the black water in dozens and is the first thing there to leave it when the lurker comes.",
+      "looks": "A foot-and-a-half animal like a crayfish with a lizard's head, ringed in chitin, with great digging forearms and a way of standing very still with its head up.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 3,
+        "primary": "dexterity",
+        "weapon": "mandibles",
+        "armor": "chitin"
+      },
+      "abilities": [
+        "flee"
+      ],
+      "traits": [],
+      "temperament": "wary",
+      "worth": {
+        "base": 0,
+        "perLevel": 10
+      },
+      "source": {
+        "kyr": true,
+        "notes": "Its mounds of dug shell mark the safe sand of the delta; a bank of skimmers out of the water means something large is in it. No habitats are written, so no generated country draws it into a den: it lives on the Isle of Sarn alone (doc/adventures/anthology/the-fourth-act.md). Its painting is not yet made (portrait unset; data/paintings/animals.json would take animals/mud_skimmer)."
+      }
+    },
+    "glide_lizard": {
+      "name": "Glide-lizard",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A cycad-living lizard with skin-wings between its limbs that glides from crown to crown at dusk toward the one hollow where it nests.",
+      "looks": "A lizard the length of a forearm, striped orange and green, with wing-flaps of bright skin folded along its ribs, and a throat-fan like a lamp.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 3,
+        "primary": "dexterity",
+        "weapon": "bite",
+        "armor": "hide_armor"
+      },
+      "abilities": [
+        "flee"
+      ],
+      "traits": [],
+      "temperament": "wary",
+      "worth": {
+        "base": 0,
+        "perLevel": 10
+      },
+      "source": {
+        "kyr": true,
+        "notes": "A guide, if followed: at dusk the gliders cross the forest to their nesting-hollow, which is the sheltered hollow where nothing else goes. No habitats are written, so no generated country draws it into a den: it lives on the Isle of Sarn alone (doc/adventures/anthology/the-fourth-act.md). Its painting is not yet made (portrait unset; data/paintings/animals.json would take animals/glide_lizard)."
+      }
+    },
+    "bone_scuttler": {
+      "name": "Bone-scuttler",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A hand-sized armoured carrion-eater of the bone-beds that crosses the hot crust only by one line, and keeps the beds clean.",
+      "looks": "A bright beetle-like animal on six legs with a head like a trowel, black and sulphur-yellow, that moves in files of a dozen over the yellow crust.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 2,
+        "primary": "constitution",
+        "weapon": "mandibles",
+        "armor": "chitin"
+      },
+      "abilities": [
+        "flee"
+      ],
+      "traits": [],
+      "temperament": "wary",
+      "worth": {
+        "base": 0,
+        "perLevel": 10
+      },
+      "source": {
+        "kyr": true,
+        "notes": "The files cross the basin by the one line the crust will bear; a visitor who watches where they go can walk it. No habitats are written, so no generated country draws it into a den: it lives on the Isle of Sarn alone (doc/adventures/anthology/the-fourth-act.md). Its painting is not yet made (portrait unset; data/paintings/animals.json would take animals/bone_scuttler)."
+      }
+    },
+    "shore_brooder": {
+      "name": "Shore-brooder",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A great flightless beaked animal that nests on the strand under the cliffs and will not leave its clutch for anything that walks.",
+      "looks": "A feathered animal the height of a horse, on two columnar legs, bald-necked, with a ruff of black plumes, a hooked beak, and a flat nest of tide-wrack under it.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 10,
+        "primary": "strength",
+        "weapon": "beak",
+        "armor": "hide_armor"
+      },
+      "abilities": [
+        "defend"
+      ],
+      "traits": [],
+      "temperament": "defensive",
+      "worth": {
+        "base": 0,
+        "perLevel": 15
+      },
+      "source": {
+        "kyr": true,
+        "notes": "It holds the strand under the cliffs by sitting on it; it does not give chase, and a visitor who goes round loses nothing. No habitats are written, so no generated country draws it into a den: it lives on the Isle of Sarn alone (doc/adventures/anthology/the-fourth-act.md). Its painting is not yet made (portrait unset; data/paintings/animals.json would take animals/shore_brooder)."
+      }
     }
   }
 }

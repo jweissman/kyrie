@@ -1,0 +1,241 @@
+Module circus "Wapshott's Peregrine Circus" {
+  // ── Who lives on Sarn, and how they behave ─────────────────────────────────────────────────────────────────────
+  Relation eggTaken(group). Relation eggReturned(group). Relation herdSeen(group). Relation herdBlessed(group).
+  Relation tarFreed(group). Relation hookTolerates(group). Relation harrowFriend(group). Relation harrowBeaten(group).
+  Relation hatchlingsHome(group). Relation nightPackCame(group). Relation specimenTaken(group). Relation journalRead(group).
+
+  Person fern_runners "the fern-runners" at forest_edge {
+    Role "a company of cat-sized feathered runners". Species fern_runner. Numbers 6. Peaceable.
+  }
+  Person stilt_runners "the stilt-runners" at plain_south {
+    Role "grey-feathered runners as tall as a man, feeding in the ferns". Species stilt_runner. Numbers 5. Peaceable.
+  }
+  Person hook_claws "the hook-claws" at hook_den {
+    Role "a pack of five, barred green and rust". Species hook_claw. Level 3. Numbers 5. Temperament territorial.
+    Warns "The click stops. All round the hollow, in the ferns, there are heads: long, barred, bright-eyed, turned. They do not hurry. One, nearer than the others, lifts a single hooked foot clear of the ground and lowers it.".
+    Comes "The nearest hook-claw goes down on its hocks and comes, and the ferns close behind it with five others in them.".
+    Lair hook_den. Refuge kingsfoil_hollow.
+  }
+  Person three_horns "the three-horns" at plain_mid {
+    Role "a herd of four, grazing, with a calf in the middle of them". Species three_horn. Level 4. Numbers 4. Temperament territorial.
+    Warns "The nearest of the beasts lifts a head barrel-headed, with three horns on it, and turns. The calf goes under the biggest cow's belly. The cow lowers her frill and paws the clay once, and the herd closes.".
+    Comes "The cow comes across the clay like a wagon off a hill.".
+    Lair plain_mid.
+    State grazing blocking "The three-horns graze across the herd-trail to the lake, the calf in the middle of them, and any road through them is theirs.".
+    Guards plain_lake.
+  }
+  Person lantern_necks "the lantern-necks" at lake_shore {
+    Role "ten of the island's greatest animals, wading, with their calves between them". Species lantern_neck. Level 8. Numbers 3. Peaceable.
+  }
+  Person tyrant "the tyrant" at tyrant_hollow {
+    Role "the island's hunter, asleep or not". Species tyrant. Level 6. Numbers 1. Temperament territorial.
+    Warns "The ground ahead rises. A head the length of a man comes up out of the ferns with its mouth a little open, unhurried, and the teeth in it are the length of your hand.".
+    Comes "It comes across the ground in three strides and the ground shakes at every one.".
+    Lair tyrant_hollow.
+  }
+  Person delta_croc "the delta-lurker" at channels {
+    Role "an old crocodile, long as a boat, with a notched back". Species crocodile. Variant great. Variant elder. Level 3. Numbers 1. Temperament ambush.
+    Warns "A log in the black water turns, and has an eye in it.".
+    Comes "The water explodes at the bank.".
+    Lair channels.
+  }
+  Person sail_wings "the sail-wings" at ledges {
+    Role "a colony of great-winged lizards, six hundred strong". Species sail_wing. Level 2. Numbers 6. Temperament territorial.
+    Warns "The colony rises half off the ledge in one movement, bills open, crests up, a roar of wings. Not a single bird has left its nest.".
+    Comes "The wings come down over you in a tearing white storm.".
+    Lair ledges.
+    State nesting blocking "The colony sits across the ledge path to the top, bills open, and does not give way.".
+    Guards ledges_top.
+  }
+
+  // ── Captain Harrow and the Hippodrome's nets ─────────────────────────────────────────────────────────────────
+  Person harrow "Captain Dace Harrow" at harrow_camp {
+    Role "an animal-dealer, lately of the Imperial Hippodrome". Ancestry human. Calling thief. Level 4. Peaceable. Pronouns he. Manner jovial.
+    Greets "A lean, brown man in a good oilskin gets up from a camp-stool, bows, and does not take his hands out of his sleeves. 'Harrow,' he says. 'Dace Harrow. You'll be Wapshott's. I knew you were coming; you can smell a circus half a league off a beach. Welcome to Sarn. Do not touch the nets.'".
+  }
+  Person harrow_men "Captain Harrow's men" at harrow_camp {
+    Role "four net-men in oilskins, off the Hippodrome". Ancestry human. Calling warrior. Level 2. Numbers 4. Peaceable.
+  }
+  Topic harrow_why with harrow "Ask Captain Harrow what he is doing on Sarn" when true {
+    Says "'Collecting,' says Harrow. 'For a lady with an old lion who has told me she wants something young.' He gestures at the crates. 'Two stilt-runner chicks, a hook-claw calf, and a nest of those little feathered things that open latches. I take what the island can spare. It can spare a great deal. It has seven hundred stilt-runners and I mean to leave it six hundred and ninety-eight.' He smiles. 'I have never lost an animal in transit, Wapshott. Ask the Hippodrome.'".
+    On discuss { Assert knows(actor, harrow_known). }
+  }
+  Entity harrow_known: fact "Captain Dace Harrow has a camp in the delta, taking young stilt-runners and a hook-claw calf for the Hippodrome.".
+  Topic harrow_young with harrow "Ask Captain Harrow about the hook-claw calf" when knows(actor, harrow_known) {
+    Says "'Took it from a den in the forest,' says Harrow. 'The mother was out. I am told she has been looking for it since. I would not go into the forest, if I were you.' He is not joking. 'Forty coin, if you want it, and the cage.'".
+  }
+  Action buy_calf(actor: group, site: place) "Buy the hook-claw calf from Captain Harrow, forty coin" {
+    Speaker harrow.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, harrow_camp) and at(harrow, harrow_camp) and quantity(actor, gold) >= 40 and not calfBought(party) and not calfFreed(party).
+    Time 0.
+    On success { Decrease quantity(actor, gold) by 40. Assert calfBought(party). Assert harrowFriend(party). }
+    Result "Harrow counts the coin twice, and nods at the least of the crates. 'You'll want the cage back,' he says. 'You will not get it.' Inside it a young hook-claw the size of a cat looks at you sidelong, with the whole of its face, and clicks once.".
+  }
+  Relation calfBought(group). Relation calfFreed(group).
+  Thing calf_cage "the hook-claw's cage" at harrow_camp {
+    State locked closed "In the least of the crates a young hook-claw sits upright with its tail wrapped round its feet, looking out between the slats.".
+    State sprung "The crate stands open, empty.".
+    Change spring_cage "Spring the calf's crate" from locked to sprung needing crowbar or lockwork.
+    Holds.
+  }
+  Rule calf_freed_rule at harrow_camp when at(party, harrow_camp) and state(calf_cage, sprung) and not calfFreed(party)
+    says "Harrow's men look up from their mugs at the sound, and do not move. The calf comes out of the crate in a single sideways flow, and is gone into the mangroves with its tail out straight." {
+    Assert calfFreed(party). Assert tolerates(hook_claws, party). Assert hookTolerates(party). Assert harrowBeaten(party). Retract tolerates(harrow_men, party).
+  }
+  Action parley_harrow(actor: group, site: place) "Argue with Captain Harrow that the island is not his to thin" {
+    Speaker harrow.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, harrow_camp) and at(harrow, harrow_camp) and not harrowFriend(party) and not harrowBeaten(party).
+    Time 0.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert harrowFriend(party). }
+    Result "Harrow listens with his head on one side. 'You are a showman,' he says. 'Everything on this island is a house. You and I want the same thing and have quarrelled about the price.' He lets the nets fall. 'Take the stilt-runners. I will take my chances with the hook-claw.'".
+    Otherwise "Harrow listens, smiling, and when you have finished he says, kindly, 'No.'".
+  }
+
+  // ── The egg-beds: what to take, and what taking costs ────────────────────────────────────────────────────────
+  Item egg_a "a grey loaf-big egg, warm as bread" is dragons_egg at egg_beds.
+  Item egg_b "a second egg, a little darker" is dragons_egg at egg_beds.
+  Item egg_c "a third, cracked and cold" is dragons_egg at egg_beds.
+  Rule egg_taken_rule at egg_beds when at(party, egg_beds) and holding(party, dragons_egg) and not eggTaken(party) and not eggReturned(party)
+    says "The beds are warm under your hand, and the egg is warm in it. Out in the mangroves, a long way off, there is a single hard click." {
+    Assert eggTaken(party).
+  }
+  Hazard pack_night "The pack at the camp" means "Deal (3d6) physical damage to ally unless dexterity save against (14).".
+  Rule pack_comes when eggTaken(party) and not eggReturned(party) and not hookTolerates(party) and dark() and not nightPackCame(party) and (at(party, landing) or at(party, delta_edge) or at(party, cage_row) or at(party, forest_edge) or at(party, cycad_aisle)) {
+    Assert nightPackCame(party). Assert strikes(pack_night, party).
+  }
+  Observe pack_night_told at landing when nightPackCame(party) "Something went through the camp in the night, in a silence of clicking, and took what it was looking for out of the dark, and left a long red line down someone's arm.".
+  Action return_egg(actor: group, site: place) "Set the egg back in the warm sand where it was found" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, egg_beds) and holding(actor, dragons_egg) and eggTaken(party) and not eggReturned(party).
+    Time 0.
+    On success { Spend dragons_egg from actor. Assert eggReturned(party). Retract eggTaken(party). }
+    Result "You put it back in its ring, point down, in the warm. It is a small thing to have done. The mangrove, which has been holding its breath since you took it, lets it out.".
+  }
+
+  // ── The hook-claws and the hatchlings ────────────────────────────────────────────────────────────────────────
+  Action return_hatchlings(actor: group, site: place) "Set the young hook-claws down at the edge of the hollow and step back" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hook_den) and at(hook_claws, hook_den) and able(hook_claws)
+      and youngAshore(party) and (not colonelNamed(wapshotts) or namedLetGo(wapshotts)) and not hookTolerates(party).
+    Time 0.
+    On success { Assert hookTolerates(party). Assert tolerates(hook_claws, party). Assert hatchlingsHome(party). Assert at(hatchlings, hook_den). Retract youngAshore(party). }
+    Result "You open the sack and set them down in the bare earth, and step back, and nobody moves. One of the young goes forward in short, stopped runs, and the biggest of the pack lowers her head to it, and makes a sound you could not have told from a purr. The pack closes round them. When it opens, you are no longer in it, and no one has looked at you since.".
+  }
+  Observe hook_pack_soft at hook_den when hookTolerates(party) "The pack lies in the sun in its hollow with the young in the middle, and takes no notice of you at all.".
+  Action throw_meat(actor: group, site: place) "Throw the pack a ration of meat and back off" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hook_den) and at(hook_claws, hook_den) and quantity(actor, rations) >= 2 and not tolerates(hook_claws, actor).
+    Time 0.
+    On success { Decrease quantity(actor, rations) by 2. Assert tolerates(hook_claws, actor). }
+    Result "The meat lands among them and the pack falls on it in the old silence. You are not forgiven. You are, for as long as it takes to eat, a thing that is not worth the trouble.".
+  }
+
+  // ── The herd at dawn: the sight to be had for not doing anything ────────────────────────────────────────────
+  Observe dawn_herd at lake_shore when hour(clock) >= 5 and hour(clock) < 8 and not dead(lantern_necks) "The mist on the lake begins to move. Out of it, one at a time, necks first, come the lantern-necks: grey, vast, wading, with their small heads high among the cycad crowns. The calves come between their legs. They do not look at you. A foot comes down in the mud beside you the size of a wagon-wheel, and the whole shore tilts.".
+  Rule herd_wakes at lake_shore when at(party, lake_shore) and hour(clock) >= 5 and hour(clock) < 8 and not herdSeen(party)
+    says "You stand at the lake's edge at dawn and the lantern-necks come down out of the mist to drink, ten of them, and the calves between them, and they take no notice of you whatever. It is the largest thing you have ever seen alive, and it is not interested in you." {
+    Assert herdSeen(party).
+  }
+  Entity herd_known: fact "At dawn the lantern-necks come down out of the crater mist to wade and drink in the lake, with their calves between them, and are interested in nothing.".
+  Rule herd_stride_rule at lake_shore when at(party, lake_shore) and hour(clock) >= 6 and hour(clock) < 7 and herdSeen(party) and dice(clock) <= 2 and not tyrantFled(party) and not knows(party, piper_known)
+    says "A wagon-wheel of a foot comes down in the shallows, too near." {
+    Assert strikes(herd_stride, party).
+  }
+  Relation tyrantFled(group).
+  Observe dawn_ridge at plain_ridge when hour(clock) >= 5 and hour(clock) < 8 "Far below, on the grey edge of the lake, the herd has come down out of the mist: ten great backs wading, and nothing else moving anywhere on the plain." teaches herd_known.
+  Rule ridge_sees at plain_ridge when at(party, plain_ridge) and hour(clock) >= 5 and hour(clock) < 8 and not herdSeen(party) says "From the ridge, at a safe distance, the lantern-necks come down to drink. You have the whole of it at once, as a picture, and nobody trampled." {
+    Assert herdSeen(party).
+  }
+
+  // ── The tyrant's hunting, and the herd's shadow ──────────────────────────────────────────────────────────────
+  Action stand_in_herd(actor: group, site: place) "Stand in the lee of the sleeping three-horns until the hunting is over" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, plain_mid) and tolerates(three_horns, actor) and hour(clock) >= 15.
+    Time 0.
+    On success { Assert tolerates(tyrant, actor). Assert tyrantFled(party). }
+    Result "The cows have drawn into a ring with the calf in the middle and you in with the calf, and not one of them objects. Something large goes past the ring in the dusk without turning its head, and the herd does not move a muscle. Afterwards the biggest cow looks at you, just once, like a landlady.".
+  }
+
+  // ── The tar-pit: something dying that could be saved, or not ─────────────────────────────────────────────────
+  Person tar_calf "the sunk three-horn" at tar_pits {
+    Role "a young three-horn sunk to the shoulders in pitch". Species three_horn. Variant young. Numbers 1. Peaceable.
+  }
+  Action free_tar_calf(actor: group, site: place) "Rope the three-horn and haul it out of the pitch" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, tar_pits) and holding(actor, rope) and not tarFreed(party).
+    Time 6.
+    Resolve check(actor, brawn, dc_hard).
+    On success { Assert tarFreed(party). Assert tolerates(three_horns, actor). Assert herdBlessed(party). Retract at(tar_calf, tar_pits). }
+    On failure { Assert strikes(bog_pitch, party). }
+    Result "It takes all of you, and a rope round its horns, and an hour. At the end of it, a great black-skinned calf comes out of the pitch with a sound like a boot out of a bog, and lies quite still on the sulphur crust, and then lurches to its feet and goes off over the ridge calling for something that answers.".
+    Otherwise "The rope slips. The pitch takes your boots to the ankle, and the animal looks at you with one dark and patient eye.".
+  }
+  Action end_tar_calf(actor: group, site: place) "Put the sunk animal out of its misery" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, tar_pits) and not tarFreed(party) and not tarEnded(party).
+    Time 1.
+    On success { Assert tarEnded(party). Retract at(tar_calf, tar_pits). }
+    Result "It takes only a moment, and you are not proud of it, and it was the kind thing.".
+  }
+  Relation tarEnded(group).
+  Observe tar_gas at tar_pits as feature when true "The flat stinks of struck matches. The crust gives a little, and gives again.".
+  Rule gas_hurts at tar_pits when at(party, tar_pits) and dice(clock) <= 12 and not gassed(party)
+    says "The wind drops, and the smell of bad eggs closes round your head like a hand." { Assert strikes(sulphur_gas, party). Assert gassed(party). }
+  Relation gassed(group).
+  Rule gas_clears when gassed(party) and not at(party, tar_pits) { Retract gassed(party). }
+  Rule hot_crust at bone_beds when at(party, bone_beds) and dice(clock) <= 6 and not crusted(party) and not knows(party, crust_safe)
+    says "The crust under your boot gives, and the heat under it comes through the leather." { Assert strikes(hot_ground, party). Assert crusted(party). }
+  Relation crusted(group).
+  Rule crust_clears when crusted(party) and not at(party, bone_beds) { Retract crusted(party). }
+
+  // ── The journal and the cages ─────────────────────────────────────────────────────────────────────────────────
+  Kind warden_journal "Warden Orme's journal" is document teaching journal_read described "A leather-bound book swollen with damp, in a fair copperplate hand: the day-book of the last Warden of the Southern Preserve, Osric Orme, who kept it for thirty-one years and left it on the table in the hall.".
+  Discovery journal_read "Warden Orme's journal: the Progress founded the Preserve four hundred years ago and went round its last time three hundred years since to keep beasts of the southern sea; the Great Beast sent north in the last Progress, to the King as a gift, was a lantern-neck, a calf of three summers, and went with a hook-claw cub from the forest to keep him company; the ship's master was told to feed him cabbages; the Preserve was left to itself when the Progress was disbanded; and the last entry is a note to whoever came after: PUT NOTHING IN A CAGE THAT CAN BE LET OUT OF ONE.".
+  Item journal_item "Warden Orme's journal" is warden_journal at preserve_hall.
+  Kind keepers_map "the Warden's map of the island" is document teaching map_read described "A map on tanned hide in the Warden's hand, with the island's six countries named and the beasts in each drawn in the margins, and a warning, in red, at the plain's north-west corner: THE TYRANT HUNTS AT EVENING.".
+  Discovery map_read "The Warden's map names the island's six countries and the beasts in each, and warns of the tyrant at evening.".
+  Item map_item "the Warden's map of the island" is keepers_map at preserve_hall.
+  Observe rule_board at preserve_hall when true "Painted over the hearth: THE RULE OF THE PRESERVE. I. NOTHING IS TO BE KILLED FOR SPORT. II. NOTHING IS TO BE TAKEN THAT CANNOT BE FED. III. THE KEEPER IS ANSWERABLE TO THE BEAST.".
+
+  // ── What grows, and what lies about ───────────────────────────────────────────────────────────────────────────
+  Thing shore_dulse "the dulse" at landing is scenery { State growing "Dulse grows on the rocks beneath the quay, red and leathery.". }
+  Initially Assert grows(shore_dulse).
+  Discovery shore_dulse_hid "The dulse on the quay rocks is gathered, not found.".
+  Item shore_dulse_1 "a handful of dulse" is dulse_gathered in shore_dulse hidden until shore_dulse_hid.
+  Initially Assert crop(shore_dulse_1, shore_dulse).
+  Thing delta_bamboo "the bamboo" at delta_edge is scenery { State growing "Bamboo stands in the mud in a jointed green thicket, twenty feet tall.". }
+  Initially Assert grows(delta_bamboo).
+  Discovery delta_bamboo_hid "The bamboo is gathered, not found.".
+  Item delta_bamboo_1 "a length of bamboo" is bamboo_gathered in delta_bamboo hidden until delta_bamboo_hid.
+  Initially Assert crop(delta_bamboo_1, delta_bamboo).
+  Thing edge_cinnamon "the cinnamon" at forest_edge is scenery { State growing "A small tree with aromatic bark grows in a clearing by the first cycads. Its bark has been stripped in places by something with a small beak.". }
+  Initially Assert grows(edge_cinnamon).
+  Discovery edge_cinnamon_hid "The cinnamon tree is gathered, not found.".
+  Item edge_cinnamon_1 "a curl of cinnamon bark" is cinnamon_gathered in edge_cinnamon hidden until edge_cinnamon_hid.
+  Initially Assert crop(edge_cinnamon_1, edge_cinnamon).
+  Thing aisle_dragonwort "the dragonwort" at cycad_aisle is scenery { State growing "Dragonwort grows along the edge of the trampled aisle, red-flowered, in the light the great animals let in.". }
+  Initially Assert grows(aisle_dragonwort).
+  Discovery aisle_dragonwort_hid "The dragonwort along the aisle is gathered, not found.".
+  Item aisle_dragonwort_1 "a spray of dragonwort" is dragonwort_gathered in aisle_dragonwort hidden until aisle_dragonwort_hid.
+  Initially Assert crop(aisle_dragonwort_1, aisle_dragonwort).
+  Thing hollow_kingsfoil "the kingsfoil" at kingsfoil_hollow is scenery { State growing "Kingsfoil grows in a bank by the spring, low and three-leaved, the sharp scent of it carrying across the hollow. Nothing has trodden on it.". }
+  Initially Assert grows(hollow_kingsfoil).
+  Discovery hollow_kingsfoil_hid "The kingsfoil in the hollow is gathered, not found.".
+  Item hollow_kingsfoil_1 "a sprig of kingsfoil" is kingsfoil in hollow_kingsfoil hidden until hollow_kingsfoil_hid.
+  Initially Assert crop(hollow_kingsfoil_1, hollow_kingsfoil).
+  Item hollow_kingsfoil_2 "a second sprig of kingsfoil" is kingsfoil in hollow_kingsfoil hidden until hollow_kingsfoil_hid.
+  Initially Assert crop(hollow_kingsfoil_2, hollow_kingsfoil).
+  Item hollow_kingsfoil_3 "a third sprig of kingsfoil" is kingsfoil in hollow_kingsfoil hidden until hollow_kingsfoil_hid.
+  Initially Assert crop(hollow_kingsfoil_3, hollow_kingsfoil).
+  Thing plain_stagger "the staggerweed" at plain_south is scenery { State growing "Staggerweed grows low in the ferns at the forest's edge, small and inconspicuous. The stilt-runners walk round it.". }
+  Initially Assert grows(plain_stagger).
+  Discovery plain_stagger_hid "The staggerweed on the plain is gathered, not found.".
+  Item plain_stagger_1 "a handful of staggerweed" is staggerweed_gathered in plain_stagger hidden until plain_stagger_hid.
+  Initially Assert crop(plain_stagger_1, plain_stagger).
+
+  Kind sarn_pitch "a lump of island pitch" is treasure worth 6 weighing 2 described "A lump of black pitch cut from the tar-pits, still faintly warm, smelling of struck matches and the sea. It burns well, and an apothecary in a port will pay for it.".
+  Item pitch_a "a lump of island pitch" is sarn_pitch at tar_pits.
+  Item pitch_b "a second lump of island pitch" is sarn_pitch at tar_pits.
+  Item tooth_a "a shed tooth the length of a hand" is dragons_tooth at bone_beds.
+  Item tooth_b "a second shed tooth, chipped" is dragons_tooth at bone_beds.
+  Item tooth_c "a large tooth, black at the root" is dragons_tooth at tyrant_hollow.
+  Item shell_a "an unusual seashell, the size of a fist" is unusual_seashell at landing.
+  Item star_a "a fallen star, pitted and black, cold" is fallen_star at tar_pits.
+  Item channel_oil "a drowned net-man's oil-flask, stopped and full, caught in the roots" is lamp_oil at channels.
+  Item bracelet_a "a bronze bracelet on a warden's wrist-bone" is bronze_bracelet at bone_beds.
+}

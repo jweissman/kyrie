@@ -15,14 +15,14 @@ Module pentrice "Gosse's Company" {
   Rule fallow_heard at moon_loft when at(party, moon_loft) and fallowVisited(fallow) and not (tday(pentrice) == 1 and daytime()) and not spread(fallow_visit_known)
     says "They tell you in the loft that Corin Fallow came up the stair on the first morning in his beautiful plain coat, with his hat in his hand, and was very civil to everyone, and asked for a word with Absalom and a word with Dorcas; and that Gosse stood at the window afterward and said nothing for nearly a minute, which is a record." { Assert spread(fallow_visit_known). }
   Discovery fallow_visit_known "Corin Fallow came to the Moon on the first morning with offers for Gosse and for Dorcas Quaile.".
-  Topic fallow_trial with fallow "Ask Fallow about the Trial" when true once {
+  Topic fallow_trial with fallow "Ask Fallow about the Trial" when not royalCall(pentrice) once {
     Says "'The Siege of Arle,' says Fallow, 'on the second night. You've seen it. Everyone has; it's eleven years old. It is handsome, it is safe, it is licensed to the last comma, and the Guildhall and the Close vote for it every year because it is what a city's play should be.' He shrugs. 'I don't pretend it's art. It's a roof. My people have had a roof since the Siege. Absalom's have had the sky.'".
   }
-  Topic fallow_gosse with fallow "Ask Fallow about Gosse" when true once {
+  Topic fallow_gosse with fallow "Ask Fallow about Gosse" when not royalCall(pentrice) once {
     Says "'He was the best fool I ever saw,' says Fallow. 'Forty years ago. I was in the pit the night of the riot, a prentice of sixteen, and I'd have followed him into the river.' He turns his hat in his hands. 'He's sixty-three, and deaf, and his company sleeps on straw, and his leading lady is forty-eight playing girls of nineteen. Somebody has to tell him it's over, and nobody will, because everybody loves him.' He looks at you. 'I offered him thirty crowns a year to stop. It's the kindest thing anyone will ever do for him, and he'll hate me for it.'".
   }
   // Fallow on his own campaign, once there is something of it to put to him.
-  Topic fallow_campaign with fallow "Ask Fallow what he thinks he is doing to Gosse's Company" when garlickHired(garlick) or watermenPaid(ferriby) or informed(fallow) or dorcasGone(dorcas) once {
+  Topic fallow_campaign with fallow "Ask Fallow what he thinks he is doing to Gosse's Company" when not royalCall(pentrice) and (garlickHired(garlick) or watermenPaid(ferriby) or informed(fallow) or dorcasGone(dorcas)) once {
     Says "Fallow does not pretend not to understand. 'Winning,' he says. 'I have won eleven Trials, and not one of them by luck. A heckler is a cost of business; so is a boatman; so is a wardrobe-mistress.' He looks at you quite kindly. 'Absalom would do the same, if he had ever had a shilling at the right moment. He never has. That is the whole difference between us, and it is the only one he will not forgive.' He opens the door for you. 'Come and see the Siege. It is very good. It is always very good.'".
   }
   Action watch_fallow(actor: group, site: place) "Watch Fallow's face while he talks of what he has offered Dorcas Quaile" {
@@ -438,7 +438,7 @@ Module pentrice "Gosse's Company" {
   // a little coin, and, if the company saved his tower, is sorry and says so.
   Rule watermen_resolve when tday(pentrice) >= 3 and hour(clock) >= 20 and not watermenOurs(ferriby) and not watermenPaid(ferriby) and not pensionTaken(gosse) {
     Assert watermenPaid(ferriby). }
-  Topic fallow_warns with fallow "Ask Fallow whether there is anything else you should know" when fallowGrateful(fallow) and not knows(actor, watermen_grievance) once {
+  Topic fallow_warns with fallow "Ask Fallow whether there is anything else you should know" when fallowGrateful(fallow) and not royalCall(pentrice) and not knows(actor, watermen_grievance) once {
     Says "Fallow turns his hat round once in his hands. 'The watermen,' he says. 'They mean to sit on the Stairs on your night, for the second penny, and I,' he makes a small face, 'may have given Joss Ferriby a crown to make up his mind. Before the tower.' He looks at you. 'I can't buy it back. Ferriby would despise me, and rightly. But you should know.'".
     On discuss { Assert knows(actor, watermen_grievance). }
   }

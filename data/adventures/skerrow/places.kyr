@@ -1,0 +1,39 @@
+Module skerrow "The Light on Scarth Holm" {
+  Description "Scarth Holm: a lighthouse on a rock at the end of a causeway that dries for three hours at noon, and a night, a day and a night in it.".
+
+  Place coast "The Scarth coast" is region within imbar.
+  Place sands "the Scarth sands" is wilderness within coast at 0, 1.
+  Place holm "Scarth Holm" is wilderness within coast at 1, 0.
+  Place tower "the Scarth light" is building within holm.
+  Place l_ground "the ground floor" is level within tower.
+  Place l_mid "the keeper's floor" is level within tower.
+  Place l_top "the lamp" is level within tower.
+  Place l_under "under the tower" is level within tower underground.
+
+  Place shore_road "the landward end of the Scarth causeway" is room within sands at 0, 2 outdoors.
+  Place sands_mid "the middle of the causeway" is room within sands at 0, 1 outdoors.
+  Place landing "the holm's landing" is room within holm at 1, 1 outdoors.
+  Place boat_shed "the boat shed" is room within holm at 2, 1.
+  Place bell_hut "the fog-bell hut" is room within holm at 2, 0 outdoors.
+  Place kitchen "the keeper's kitchen" is room within l_ground at 0, 1.
+  Place store "the oil store" is room within l_ground at 1, 1.
+  Place keeper_room "the keeper's room" is room within l_mid at 0, 1.
+  Place lamp_room "the lamp room" is room within l_top at 0, 1.
+  Place gallery "the gallery" is room within l_top at 1, 1 outdoors.
+  Place cistern "the cistern" is room within l_under at 0, 0.
+
+  Initially Assert unlit(store). Initially Assert unlit(keeper_room). Initially Assert unlit(cistern). Initially Assert unlit(boat_shed).
+
+  Passage causeway_a "the causeway, landward half" is path between shore_road and sands_mid taking 1 hour
+    opening when state(tide, low) "The sea is over the causeway. A line of black posts goes out into it, and then the posts stop.".
+  Passage causeway_b "the causeway, seaward half" is path between sands_mid and landing taking 1 hour
+    opening when state(tide, low) "The sea is over the causeway, and the posts end at the water.".
+  Passage landing_door "the lighthouse door" is door between landing and kitchen.
+  Passage landing_shed "the shed door" is door between landing and boat_shed.
+  Passage landing_bell "the path to the fog bell" is path between landing and bell_hut taking 10 minutes.
+  Passage kitchen_store "the store door" is door between kitchen and store.
+  Passage kitchen_stair "the stair to the keeper's floor" is stair between kitchen and keeper_room taking 10 minutes.
+  Passage keeper_lamp "the iron stair to the lamp" is stair between keeper_room and lamp_room taking 10 minutes.
+  Passage lamp_gallery "the lamp room's outer door" is door between lamp_room and gallery.
+  Passage store_cistern "the cistern steps" is steps between store and cistern taking 10 minutes.
+}

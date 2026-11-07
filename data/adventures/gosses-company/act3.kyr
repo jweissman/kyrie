@@ -1,0 +1,263 @@
+Module pentrice "Gosse's Company" {
+  // ── Act III: The Unburied ───────────────────────────────────────────────────────────────────────────────────
+  // Tragedy. The Marshal of the Watch is dead and a traitor by the Warden's reckoning, and the law of the Tower of Dust
+  // is that a traitor lies in the Field of Exposure three days under the sky, unmourned, and then goes to the river.
+  // His daughter is an acolyte of the Bells, whose first rule is that no dead thing lies unwept. The Warden who made
+  // the edict is a just man. His son loves the daughter. A blind man in the bell-tower has a prophecy nobody wants.
+  // Loss is possible and nothing forces it: there are six ways through the three nights and they cost different things.
+  // There is no hearing. It is a field, a spade and a night.
+  Relation edictOn(place). Relation prophecyHeard(group). Relation verrallSoftened(group). Relation lucanPleaded(group).
+  Relation ysoltAsked(group). Relation ysoltBury(group). Relation clemAsked(group).
+  Relation buriedNight(place). Relation ysoltSealed(place). Relation ysoltFree(place). Relation lucanDead(place).
+  Relation lucanLives(place). Relation verrallResigned(place). Relation verrallStays(place). Relation actIIIDone(place).
+  Relation bodyTaken(place). Relation bodyStaged(place). Relation pardoned(place).
+  Relation clemFurious(place). Relation clemSatisfied(place). Relation lucanLoved(group). Relation lucanFled(place).
+  Measure exposeDay(place). Measure ysoltTrust(group).
+  Hazard sexton_blow "A sexton's mattock" means "Deal (2d6) physical damage to ally unless dexterity save against (13).".
+  Chapter ch_unburied "The Unburied" when bodyLies(pentrice) and not actIIIDone(rierdan) "The Field of Exposure has one who on it, under the sky, with a sexton at each corner. The birds have not come down yet.".
+
+  Rule edict_issued when bodyLies(pentrice) and not edictOn(rierdan) {
+    Assert edictOn(rierdan). Set exposeDay(rierdan) to day(clock). Assert at(tarn_body, field). }
+  Thing tarn_body "the Marshal's body" at field {
+    State lying "A big man lies on his back on the mown grass in his shirt, with his hands at his sides and a square of grey cloth over the face. Four sextons stand at the corners of the Field. It is quiet. The birds sit in a row on the wall.".
+    State buried "The grass is lifted at one end of the Field in a long strip, and put back. There is nothing to be seen but a rectangle of dark earth.".
+    State taken "The grey cloth lies folded on the grass. The Field is empty.".
+  }
+  Initially Assert state(tarn_body, lying).
+  Person sextons "the sextons" at field {
+    Role "four grey-robed sextons, one at each corner of the Field". Ancestry human. Calling warrior. Level 2. Numbers 4. Peaceable.
+    Greets "The nearest sexton lowers his mattock from his shoulder. 'The Field is the Warden's three days,' he says. 'You will stand back to the wall.' They do not strike a visitor. They strike whoever puts a hand to the turf, and they wait, at the corners, for the one sort of thing the Edict allows them to hear: a verdict.".
+    Warns "The nearest sexton lowers his mattock from his shoulder. 'The Field is the Warden's three days,' he says. 'You will stand back to the wall.'".
+    Comes "The sextons come in from the corners with their mattocks level, in step.".
+  }
+  Observe sexton_roll at sexton_hall when edictOn(rierdan) "The Sextons' roll hangs by the stove, a long column of names on grey paper. The newest, at the foot, in a fresh hand, is EDRIC MARRICK, LATE MARSHAL, with a line ruled under it and the days of his exposure ticked off in pencil. Under it a sexton has written, for his own use, in a smaller hand: 'Wardens decide. We hear.'".
+  Observe edict_posted at concourse when edictOn(rierdan) and not actIIIDone(rierdan) "The Edict is nailed to the dead fountain in the Warden's hand: ON THE TRAITOR EDRIC MARRICK LATE MARSHAL OF THE WATCH. THREE DAYS UNDER THE SKY, UNWEPT, UNBURIED, AND THEN THE RIVER. WHOEVER COVERS HIM, OR MOURNS HIM IN PUBLIC, IS SEALED IN THE DUST. By order, C. VERRALL, WARDEN. Below it someone has pasted a ballad about the Marshal. Below that, someone has torn it down.".
+
+  // The Warden. The Prince has told him. He is sorry. He will not move.
+  Topic verrall_ask with dray "Ask the Warden whether it must be the whole three days" when edictOn(rierdan) and not actIIIDone(rierdan) once {
+    Says "Lord Warden Verrall does not look up from the paper in front of him. 'Edric Marrick was my friend for thirty years,' he says. 'He taught my son to ride. The Watch says he was the Prince's enemy and the Duke's murderer, and I am the Warden of the Realm: what the Watch says, I am bound to treat as so. If I unwrite the Edict for a friend, I have written a law for friends, and the Seven Seats are a hundred and forty years of men saying that the law is not for friends.' He lifts his eyes. 'You are going to ask me something. Ask it as someone who would have to live in a city where I said yes.' He pauses. 'Would you?'".
+  }
+  Topic verrall_yes with dray "Yes. I'd live in it" answering verrall_ask when true {
+    Says "'Then you are not a Warden,' says Verrall, without heat. 'Good.' He goes back to the paper. 'I shall not do it.' He has heard you. It has cost him something to hear you. You can tell.".
+    On discuss { Assert verrallSoftened(actor). }
+  }
+  Topic verrall_no with dray "No. A city where the Warden bends is a city of bent men" answering verrall_ask when true {
+    Says "Verrall nods, by degrees. 'Yes,' he says. 'Yes.' It is not the answer he wanted, but it is the one he has been given by everyone, and he takes it up like a coat. 'The Field is three days.' He looks past you again.".
+    On discuss { Assert verrallHardened(actor). }
+  }
+  Topic verrall_son with dray "Ask where his son is, and does he know" when edictOn(rierdan) and not actIIIDone(rierdan) once {
+    Says "'My son is on duty at the Dust Gate,' says Verrall. 'He asked me last night, in the same voice you are using now, whether I would hear the girl. I said I would hear anyone who came by the door of the Seats.' He puts the pen down. 'She has not come by the door of the Seats. She is in the Bells. She is on her knees. I understand she has been there since the Edict.' He covers his eyes with one hand. 'I wish she would come by the door.'".
+  }
+
+  // The acolyte. She asks one thing, and means it.
+  Topic ysolt_ask with ysolt "Speak to the acolyte of the Bells, who is on her knees" when edictOn(rierdan) and not actIIIDone(rierdan) once {
+    Says "Ysolt Marrick does not look round. 'They tell me it is wrong,' she says, to the rope. 'To weep. They tell me the dead may not be wept for in public, and I have not wept in public. I have wept in the Bells, which is not public, because nobody comes.' Her voice is steady. 'He was my father. He was also a murderer, I think, and I think he was a good father. I do not need anyone to tell me those can be true together.' She turns. 'I am going to bury him. You may help me, or you may watch, or you may stop me. Which would you do?'".
+  }
+  Topic ysolt_help with ysolt "Help you, if I can" answering ysolt_ask when true {
+    Says "She looks at you for a long moment. 'Be careful what you offer,' she says. 'They will seal whoever covers him. I would not like it to be someone I had asked.' But her hands have stopped shaking. 'The second night. There are two sextons at the east corner who share a flask.'".
+    On discuss { Assert ysoltBury(actor). Assert ysoltAsked(actor). Increase ysoltTrust(actor) by 1. }
+  }
+  Topic ysolt_watch with ysolt "Watch. It is yours to do" answering ysolt_ask when true {
+    Says "'Thank you,' says Ysolt, and means it, and you can see it is the first kindness she has had since the Edict. 'It is a mercy to be left alone with a thing.' She makes the sign of the Bells. 'The second night.'".
+    On discuss { Assert ysoltAsked(actor). }
+  }
+  Topic ysolt_stop with ysolt "Stop you. I don't think you've counted the cost" answering ysolt_ask when true {
+    Says "Her face shuts like a book. 'I have counted it,' she says. 'It is the only thing I have been counting since the Edict.' She turns back to the rope. 'You can tell the Warden. Lucan will not.' She has said his name without thinking, and then she stops.".
+    On discuss { Assert ysoltAsked(actor). Assert stopTried(actor). }
+  }
+  Relation stopTried(group). Relation ysoltDefiant(place). Relation ysoltBroken(place).
+  Action hold_ysolt(actor: group, site: place) "Keep Ysolt from the Field, by whatever can be said to her face" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, bell_nave) and edictOn(rierdan) and stopTried(actor) and not ysoltStopped(actor) and not ysoltDefiant(rierdan) and not actIIIDone(rierdan).
+    Time 10.
+    Resolve check(actor, persuasion, dc_formidable).
+    On success { Assert ysoltStopped(actor). Assert ysoltBroken(rierdan). }
+    On failure { Assert ysoltDefiant(rierdan). }
+    Result "You tell her what the sextons will do, and what the Warden will do, and what her brother will do, and you tell her the truth, which is that her father would not have wanted her sealed. It works. Something in her goes out like a lamp. She nods. She takes off the acolyte's cord and lays it on the rope. 'I am not going,' she says. She does not say it to you.".
+    Otherwise "She listens to all of it and says, 'You are very kind,' and that is the end of it. You have told her you mean to stop her. She will now be careful to be where you are not.".
+  }
+
+
+  // The blind ringer: a prophecy given only to someone who answers what he is owed.
+  Topic ambros_edict with ambros "Ask Brother Ambros what the bells say of the Edict" when edictOn(rierdan) and not actIIIDone(rierdan) once {
+    Says "'The Bells say nothing,' says Ambros. 'The Bells ring the hours. The hours say the dead are owed.' He turns his dead face to you. 'I am old, and I am blind, and the Wardens have never believed in anything I say, so I may as well say it. Whom do the dead belong to? The city that fed them? The god that took them? The people who weep?'".
+  }
+  Topic ambros_city with ambros "The city. They were fed by it, and they owe it a clean death" answering ambros_edict when true {
+    Says "'A fair answer,' says Ambros sadly. 'I have heard it from Wardens since I was a boy. It is the answer that buries cities.' He holds her tongue else. The tower hums.".
+    On discuss { Assert ambrosGrieves(actor). }
+  }
+  Topic ambros_weep with ambros "The ones who weep. They are the only ones the dead have" answering ambros_edict when true {
+    Says "He is silent so long the bells shift a little in their cradles. 'Then you will hear it,' he says. 'Tell the Warden: the day the Edict is carried out, the Warden's own house will have a body in it that is not buried, and a daughter in the Dust, and a son in the wall. I do not say it to be cruel. I say it as I would say there is rain by Thursday.' His hand goes to the rope. 'He will not like it from me. He may like it from you.'".
+    On discuss { Assert prophecyHeard(actor). }
+  }
+  Topic ambros_god with ambros "The god. And the god does not take orders from Wardens" answering ambros_edict when true {
+    Says "Ambros smiles for the first time. It changes his face a great deal. 'That is the thing the nuns say, and then do what the Wardens say,' he says. 'If you mean it, you will find the tower is on your side. I cannot make the bells ring for a traitor. I can make them ring for a man.' He takes his hand from the rope. 'I have not decided which he is.'".
+    On discuss { Assert prophecyHeard(actor). Assert bellsOffered(actor). }
+  }
+  Relation bellsOffered(group). Relation verrallRefused(place). Relation outTried(place). Relation wardenFact(group).
+  // The harder fact: the Warden will not bend for an old man's prophecy and a son's tears. He will for a hole in his own law.
+  Topic verrall_law with dray "Show the Warden the Edict's own words: UNWEPT, UNBURIED, and who is to carry out its third clause" when edictOn(rierdan) and not actIIIDone(rierdan) and (tarnExposed(rierdan) or gloveFound(party)) and not wardenFact(party) once {
+    Says "Verrall takes the Edict and reads it as if he had not written it. 'Whoever covers him, or mourns, shall be sealed.' He puts his thumb on a line. 'And the river afterward.' He stops. 'The Edict says the Warden carries out the third day. It does not say what the Warden does if the man was named before the city by a court of the Realm, as he was. It says nothing of one whose guilt is already in the Chamberlain's book.' He sets it down. 'I wrote it for a traitor. I wrote it to be read by men who would not ask whether he was named.' A pause. 'He was named.' That is the fact. He does not look glad.".
+    On discuss { Assert wardenFact(actor). }
+  }
+
+  // The Warden's son, who asks something of the player that nobody should have to be asked.
+  Topic lucan_ask with lucan "Speak to Lucan Verrall at the Dust Gate" when edictOn(rierdan) and not actIIIDone(rierdan) once {
+    Says "Lucan is on the gate and has been two nights, and has not slept, and has stopped pretending he has. 'He gave me this post himself,' he says. 'Himself! I think he thought it was a kindness.' He kicks the pillar. 'She'll come. She'll come over that wall at midnight with a spade, and I'll have to put my hand on her, and I swear to you I can feel it already.' He wipes his face with his sleeve. 'You. You're not anybody. What would you do?'".
+  }
+  Topic lucan_stop with lucan "Yes. And you'd have to live with it" answering lucan_ask when true {
+    Says "'Yes,' says Lucan, in a small voice. 'That is what my father would say.' He puts a hand on the pommel of his sword, and takes it off again. 'I'll be here.'".
+    On discuss { Assert lucanHeldGate(actor). }
+  }
+  Topic lucan_look with lucan "No. Look the other way. Nobody will thank you for the other thing" answering lucan_ask when true {
+    Says "Lucan stares. 'You are telling me to break my oath,' he says. Then: 'I have been wanting to be told that for two days.' He turns his back, in a manner that is almost military, on the road to the Field. 'I am looking at the wall.'".
+    On discuss { Assert lucanLoved(actor). }
+  }
+  Topic lucan_plead with lucan "Go to your father yourself. Tell him what he's done" answering lucan_ask when true {
+    Says "'I have,' says Lucan. 'He heard me.' A pause. 'He heard me,' he says again, in a voice that has been keeping the price. 'I do not know what else there is. If you can think of what else there is, I will do it.'".
+    On discuss { Assert lucanPleaded(actor). }
+  }
+
+  // ── The six ways through ──────────────────────────────────────────────────────────────────────────────────
+  // 1. Help her bury him on the second night (the tragic path, if no one else acts: she is caught, and sealed).
+  Action help_bury(actor: group, site: place) "Take a spade and help Ysolt Marrick lift the turf" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, field) and edictOn(rierdan) and not buriedNight(rierdan) and hour(clock) >= 23 and day(clock) >= exposeDay(rierdan) + 1 and ysoltBury(actor) and ysoltTrust(actor) >= 1 and not actIIIDone(rierdan).
+    Time 0.
+    Resolve check(actor, stealth, dc_hard).
+    On success { Assert buriedNight(rierdan). Assert state(tarn_body, buried). Assert buriedUnseen(rierdan). Assert actIIIDone(rierdan). Assert lucanLives(rierdan). Assert verrallStays(rierdan). }
+    On failure { Assert strikes(sexton_blow, actor). Assert buriedNight(rierdan). Assert state(tarn_body, buried). Assert caughtBurying(rierdan). }
+    Result "The two sextons at the east corner are passing a flask. It is a clear night. You lift the turf in long strips, as she shows you, with a spade each, and lay it on a cloth, and dig, and the earth is loose and sweet. At the bottom she kneels and says the words of the Bells in a whisper. You cover him. Neither of you speaks, and when you lay the turf back in its strips you could not tell where it had been.".
+    Otherwise "A boot scrapes. A sexton's lantern swings and a voice says, calmly: 'Who is it?'".
+  }
+  Relation caughtBurying(place). Relation buriedUnseen(place). Relation ysoltExiled(place). Relation verrallShamed(place). Relation gosseBanned(place).
+  Relation ysoltStopped(group). Relation lucanHeldGate(group). Relation verrallHardened(group). Relation ambrosGrieves(group). Relation bodyRiver(place).
+  // 2. Persuade the Warden himself, on the second night, at the Dust Gate. Needs the prophecy and a plea.
+  Action beg_verrall(actor: group, site: place) "Tell the Warden what the blind man said, and what his son said, at the Dust Gate" {
+    Speaker dray.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, dust_gate) and at(dray, dust_gate) and edictOn(rierdan) and (prophecyHeard(actor) or bellsOffered(actor)) and (lucanPleaded(actor) or lucanLoved(actor) or ysoltBury(actor)) and wardenFact(actor) and not verrallSoftened(actor) and not verrallHardened(actor) and not verrallRefused(rierdan) and not actIIIDone(rierdan).
+    Time 5.
+    Resolve check(actor, persuasion, dc_formidable).
+    On failure { Assert verrallRefused(rierdan). Retract at(lucan, dust_gate). Assert at(lucan, king_court). }
+    On success { Assert pardoned(rierdan). Assert verrallResigned(rierdan). Assert ysoltFree(rierdan). Assert lucanLives(rierdan). Assert actIIIDone(rierdan). Assert state(tarn_body, taken). Assert clemFurious(rierdan). }
+    Result "Verrall hears it to the end, standing, in the lamp of the Gate. When you have finished he is silent for so long that Lucan, behind him, takes a step. 'I wrote it,' the Warden says. 'I wrote it as a just man.' He puts his hand into his coat and takes out the seal of the Warden of the Realm, and looks at it, and gives it to his son. 'You will take it to the King in the morning,' he says. 'And you will tell him I am an old man who has found the limit of what he can do. And then you will go and tell that girl she may bury her father.' He does not wait for an answer. He goes down the Dust Road, past the sextons, who stand aside, and sits on the wall of the Field in the dark with his back to the body, like a guard, until morning.".
+    Otherwise "The Warden listens with his head bowed. 'I know,' he says. 'I know what it will cost. I would rather it cost my house than my word.' He sends Lucan off the Gate that night to the King's Court, under guard of a pretext. It is the first thing the refusal costs; there will be others.".
+  }
+  Action beg_verrall_heard(actor: group, site: place) "Remind the Warden what he heard you say, and tell him what the blind man said, at the Dust Gate" {
+    Speaker dray.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, dust_gate) and at(dray, dust_gate) and edictOn(rierdan) and (prophecyHeard(actor) or bellsOffered(actor)) and (lucanPleaded(actor) or lucanLoved(actor) or ysoltBury(actor)) and wardenFact(actor) and verrallSoftened(actor) and not verrallRefused(rierdan) and not actIIIDone(rierdan).
+    Time 5.
+    Resolve check(actor, persuasion, dc_formidable).
+    On failure { Assert verrallRefused(rierdan). Retract at(lucan, dust_gate). Assert at(lucan, king_court). }
+    On success { Assert pardoned(rierdan). Assert verrallResigned(rierdan). Assert ysoltFree(rierdan). Assert lucanLives(rierdan). Assert actIIIDone(rierdan). Assert state(tarn_body, taken). Assert clemFurious(rierdan). }
+    Result "Verrall hears it to the end, standing, in the lamp of the Gate. When you have finished he is silent for so long that Lucan, behind him, takes a step. 'I wrote it,' the Warden says. 'I wrote it as a just man.' He puts his hand into his coat and takes out the seal of the Warden of the Realm, and looks at it, and gives it to his son. 'You will take it to the King in the morning,' he says. 'And you will tell him I am an old man who has found the limit of what he can do. And then you will go and tell that girl she may bury her father.' He does not wait for an answer. He goes down the Dust Road, past the sextons, who stand aside, and sits on the wall of the Field in the dark with his back to the body, like a guard, until morning.".
+    Otherwise "The Warden listens with his head bowed. 'I know,' he says. 'I know what it will cost. I would rather it cost my house than my word.' He goes into the dark.".
+  }
+  // 3. Go over his head: the King, through the Prince.
+  Action ask_the_king(actor: group, site: place) "Ask the King for the Marshal's burial, in his own audience" {
+    Speaker casimir.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, audience) and edictOn(rierdan) and lothalTrust(actor) and (favour(rierdan) >= 2 or holding(actor, signet_kind)) and not actIIIDone(rierdan).
+    Time 10.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert pardoned(rierdan). Assert ysoltFree(rierdan). Assert lucanLives(rierdan). Assert actIIIDone(rierdan). Assert verrallStays(rierdan). Assert verrallShamed(rierdan). Assert state(tarn_body, taken). Assert clemFurious(rierdan). }
+    Result "The King listens to you, which he does not always do, and then to the Chamberlain, which he does. 'Edric taught the boy to ride,' he says. 'Bury him.' The Chamberlain writes it down. It will be done by noon. In the doorway, with the seal of the Realm in his hand, stands the Lord Warden, who has been sent for and told, in front of the Household, that his law has been overruled. He looks past you. Lucan, behind him, looks at his father's back. The Warden will keep his office, and every man in the Seven Seats will know what it was worth on this one day.".
+    Otherwise "The King hears you out, and turns to the Chamberlain, who says that the Warden of the Realm has His Majesty's entire confidence in the matter of the Edict. The King says: 'Yes.' The Chamberlain writes it in the book.".
+  }
+  Action ask_the_king_doubtful(actor: group, site: place) "Ask the King for the Marshal's burial, though the Prince has not trusted you" {
+    Speaker casimir.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, audience) and edictOn(rierdan) and lothalDoubt(actor) and favour(rierdan) >= 3 and not actIIIDone(rierdan).
+    Time 10.
+    Resolve check(actor, persuasion, dc_formidable).
+    On success { Assert pardoned(rierdan). Assert ysoltFree(rierdan). Assert lucanLives(rierdan). Assert actIIIDone(rierdan). Assert verrallStays(rierdan). Assert verrallShamed(rierdan). Assert state(tarn_body, taken). Assert clemFurious(rierdan). }
+    Result "The King listens, and the Prince, who has stood at the back with his arms folded, says in a stiff voice that he will not oppose it. It is the first thing he has said all day that he did not mean. 'Bury him,' says the King. The Warden is sent for in front of the Household.".
+    Otherwise "The Prince does not speak for you and the King does not remember who you are. The Chamberlain writes it in the book.".
+  }
+  // 4. Take the body in the night and give it to the water: the Salt-Wives' boat.
+  Action steal_body(actor: group, site: place) "Take the body from the Field in the Salt-Wives' handcart under the cloth, to the river" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, field) and edictOn(rierdan) and not actIIIDone(rierdan) and hour(clock) >= 23 and (saltGiven(actor) or holding(actor, herring_kind)) and day(clock) >= exposeDay(rierdan) + 1.
+    Time 0.
+    Resolve check(actor, deception, dc_hard).
+    On success { Assert bodyTaken(rierdan). Assert state(tarn_body, taken). Assert ysoltFree(rierdan). Assert ysoltExiled(rierdan). Assert lucanLives(rierdan). Assert actIIIDone(rierdan). Assert verrallStays(rierdan). Assert clemFurious(rierdan). }
+    On failure { Assert strikes(sexton_blow, actor). }
+    Result "The Wives' handcart comes down the Dust Road under a load of herring-barrels, with a blue apron on every one of you. The sextons hold their lanterns up and smell it and wave you through. At the Field you lay the Marshal under the barrels and go out by the same gate. At the Salt Quay the three old women are waiting with a boat, a lamp and a sack of salt. 'For the sea,' says the eldest. 'The Bells will call it a wake. The Dust will call it the river. Neither of them is wrong.' Ysolt Marrick, who has come down to the Quay in her grey, goes into the boat with him, because there is nothing left in Dun Rierdan that will not be asked where he is. She looks past the city. She does not say goodbye to anyone, and you are one of them.".
+    Otherwise "A sexton lifts the cloth. He looks at the barrels until the lantern gutters, and then at your aprons, and then at your boots. 'Wrong boots,' he says, and the mattocks come round.".
+  }
+  // 5. Stage the exposure: Clemency's play on the Field, for the Marshal, in the name the Dust demands.
+  Topic clem_play with clemency "Ask Clemency Orde what she is writing" when edictOn(rierdan) and not actIIIDone(rierdan) and not clemAsked(party) once {
+    Says "Clemency Orde does not put down the pen. She has been installed in the Wick's wardrobe for six days, in the dead king's cloak, with a candle, three inkwells and a sleep that she takes in the hamper with the lid on. 'The Unburied,' she says. 'A play. A daughter buries her father against the law of the city and is sealed in the vault, and her betrothed follows her, and the city learns something.' She looks up. 'It is going to be the best thing I have written. It is only missing a third act, which is happening at the moment in the Field of Exposure. I should like you to leave it exactly as it is.' She does not smile. 'My father was Lord Mayor of Pentrice, and Gosse made a fool of him, and every sentence he spoke afterward was true and none was kind. I am writing the other sort.'".
+  }
+  Topic clem_nobody with clemency "Nobody. Write it so nobody dies" answering clem_play when true {
+    Says "Clemency lays the pen across the inkwell. 'That is not a tragedy,' she says. 'That is a pageant.' She picks the pen up again. 'I'll write it your way. I'll hate it.' It is a promise made with the eyes of a woman who has been told her house is to be demolished.".
+    On discuss { Assert clemAsked(actor). Assert clemSoft(actor). }
+  }
+  Topic clem_ysolt with clemency "The girl. It is what the story wants" answering clem_play when true {
+    Says "'Exactly,' says Clemency, with great gentleness, as one speaks to a student who has at last said the right thing. 'Thank you.' She writes. She does not say that it is a girl. She does not need to.".
+    On discuss { Assert clemAsked(actor). Assert clemHard(actor). }
+  }
+  Topic clem_you with clemency "Whoever the city decides. You write what happens; don't make it happen" answering clem_play when true {
+    Says "Clemency's pen stops. She is silent for a time. 'That,' she says, 'is an impertinent thing to say to a dramatist,' and puts the pen down, and looks at it as if she had not seen it before. 'Go away. I need to think about it.'".
+    On discuss { Assert clemAsked(actor). }
+  }
+  Relation clemSoft(group). Relation clemHard(group).
+  Action stage_unburied(actor: group, site: place) "Play the Marshal's tragedy at the Field of Exposure, over the body, and name him" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, field) and edictOn(rierdan) and not actIIIDone(rierdan) and clemAsked(actor) and not clemHard(actor) and hour(clock) >= 19.
+    Time 0.
+    Resolve check(actor, performance, dc_hard).
+    On success { Assert bodyStaged(rierdan). Assert ysoltFree(rierdan). Assert lucanLives(rierdan). Assert actIIIDone(rierdan). Assert verrallStays(rierdan). Assert gosseBanned(rierdan). Assert state(tarn_body, taken). Assert clemSatisfied(rierdan). }
+    On failure { Assert strikes(sexton_blow, actor). }
+    Result "Gosse stands at the head of the Field in the Marshal's own cloak as the Chorus and tells the city what it is looking at. Swale is the Warden. Dorcas, who has agreed to it with her eyes shut, is the daughter. At the end of the second scene the sextons lower their mattocks, because the Edict says that a man is exposed until he is named aloud before the city by one with a right, and Gosse, in that great voice, has named him eleven times. Verrall stands at the wall of the Field and does not give the order. In the third act the sextons put down their lanterns and bring the Marshal in on a bier, as the play requires. By the fifth, the dust of the Field has been dug for a grave by men who think they are acting. Clemency, in the dark, with a wet face, has written nothing for an hour.".
+    Otherwise "Gosse's voice is carried off by the wind. The sextons wait politely until the end, and then re-form their square.".
+  }
+  // 6. Take the Marshal's daughter and son out of the city that night, and let the Field be.
+  Action get_them_out(actor: group, site: place) "Get Ysolt and Lucan out of the city by the River Gate before the Field is closed" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, river_gate) and edictOn(rierdan) and lucanLoved(actor) and ysoltAsked(actor) and not outTried(rierdan) and not actIIIDone(rierdan).
+    Time 10.
+    Resolve check(actor, deception, dc_hard).
+    On failure { Assert outTried(rierdan). }
+    On success { Assert ysoltFree(rierdan). Assert ysoltExiled(rierdan). Assert lucanFled(rierdan). Assert actIIIDone(rierdan). Assert verrallStays(rierdan). Assert clemSatisfied(rierdan). }
+    Result "Peverell, who is a man of simple loyalties, lifts the bar for the Captain of the Household and a nun, and does not ask where two people are going at midnight with a cart. 'Mind the ford,' he says, as one who has been told nothing and is pleased. They go out into the dark. Behind them in the Field the Marshal lies under the sky with the birds waiting. In the morning the Warden has no son, and no daughter-to-be, and a Field to keep.".
+    Otherwise "The sergeant looks at the nun and the Captain. 'In the morning,' he says, kindly. 'Everyone leaves in the morning.'".
+  }
+
+  // The default: no one acts. The tragedy keeps its own appointments.
+  Rule night_comes when edictOn(rierdan) and not actIIIDone(rierdan) and not buriedNight(rierdan) and not ysoltStopped(party) and day(clock) >= exposeDay(rierdan) + 2 and hour(clock) >= 3 and hour(clock) < 10 {
+    Assert buriedNight(rierdan). Assert caughtBurying(rierdan). Assert state(tarn_body, buried). }
+  Rule caught_sealed when caughtBurying(rierdan) and not actIIIDone(rierdan) and not ysoltFree(rierdan) {
+    Assert ysoltSealed(rierdan). Assert actIIIDone(rierdan). Assert clemSatisfied(rierdan). }
+  Rule edict_runs_out when edictOn(rierdan) and not actIIIDone(rierdan) and ysoltStopped(party) and not ysoltBury(party) and day(clock) >= exposeDay(rierdan) + 3 and hour(clock) >= 6 {
+    Assert bodyRiver(rierdan). Assert actIIIDone(rierdan). Assert lucanLives(rierdan). Assert verrallStays(rierdan). Assert state(tarn_body, taken). Assert clemSatisfied(rierdan). }
+  Observe river_morning at concourse when bodyRiver(rierdan) "On the third morning the sextons lift the Marshal on a bier and carry him down the Dust Road, and nobody follows. The river has him by noon. Ysolt Marrick is not in the Bells. The acolyte's cord hangs on the rope, and the Bells say she has gone to her mother's people on the coast; she did not say goodbye to anyone, and the one who stopped her is on the list of people she will not name. Lucan holds the Gate and has not been told why.".
+  Rule lucan_follows when ysoltSealed(rierdan) and not lucanLives(rierdan) and not lucanDead(rierdan) {
+    Assert lucanDead(rierdan). }
+  Observe sealed_morning at concourse when ysoltSealed(rierdan) "At first light the Warden walks down the Dust Road in his formal robe, alone, with a ring of keys. The sextons stand in two lines. At the door of the Vault a nun in grey goes in on her own feet, and does not look back. The Warden closes the door himself. Afterwards he leans on it, the way one leans on a wall in the dark. Nobody speaks to him.".
+  Observe lucan_gone at dust_gate when lucanDead(rierdan) "The Captain of the Household did not go back to his post. They found him at dawn at the Door of the Vault, sitting with his back against it and his sword across his knees, dead, of nothing anyone can name. The Warden has put a cloak over him. He is sitting beside him.".
+  Observe lucan_held near lucan when lucanHeldGate(party) and ysoltSealed(rierdan) "Lucan Verrall stood at the Gate for four nights as he said he would. It was his hand on her arm in the end, and the whole of the Household watched it be gentle.".
+  Observe verrall_hard near dray when verrallHardened(party) and not actIIIDone(rierdan) "Lord Warden Verrall has been told by one more person that a Warden who bends is a Warden who is not needed, and has taken it, like a coat, and put it on.".
+  Observe ambros_grieves at ringers_loft when ambrosGrieves(party) "Brother Ambros rings the hours a little late. Nobody has said anything to him about it.".
+  Observe exile_note at salt_quay when ysoltExiled(rierdan) "The Salt-Wives are mending nets on the slip. One of them has a grey wool shawl across her knees that nobody has asked about.".
+  Observe shamed_note at king_court when verrallShamed(rierdan) "The Lord Warden Verrall crosses the King's Court at noon with the Household watching him do it. He walks as upright as he did on the day before, and the Household has decided to be busy.".
+  Observe banned_note at dust_gate when gosseBanned(rierdan) "A board is nailed to the gate-post of the Dust: NO PLAYER OF THE WICK TO COME WITHIN THE GATE. The sextons say, if asked, that they did not make the rule and they would not have unmade it either.".
+  Observe clem_pleased near clemency when ysoltSealed(rierdan) "Clemency Orde has put the pen down. She has the last page in front of her and does not touch it. 'I did not want it to be true,' she says, to nobody. 'I wanted it to be good.'".
+  Observe clem_chain near clemency when verrallResigned(rierdan) "Clemency Orde has the Warden's resignation copied out fair. 'He took off the chain,' she says. 'It is a good scene. A man gives up the one thing he is.' She turns the page. 'It is not the scene I was waiting for. You gave me his office instead of his child. I shall have to be grateful.'".
+  Observe clem_shamed near clemency when verrallShamed(rierdan) "Clemency Orde is writing furiously and crossing it out. 'A King,' she says. 'A King! Who does not know what he has signed. You made the Crown do the thing the Warden could not, and he will know it every morning, and I have no ending for that.' She underlines a word. 'It is the cruellest thing in the book and nobody dies.'".
+  Observe clem_sea near clemency when bodyTaken(rierdan) "Clemency Orde has not spoken of the boat. When she is asked she says, 'Put into the sea. By women. In an apron.' She looks at the pen. 'I would have written that better if I had been there. I would have written it worse if I had been asked.'".
+  Observe clem_staged near clemency when bodyStaged(rierdan) "Clemency Orde has her play in the drawer with the last page written and played. 'It was my play,' she says, 'in a field, in front of the Dust, in Gosse's voice.' She cannot look at the drawer.".
+  Observe clem_exile near clemency when lucanFled(rierdan) "Clemency Orde has crossed out the word she would have put at the end. 'Past the ford,' she says. 'There is nothing after the ford. You cannot end a play with a ford.'".
+  Observe clem_river near clemency when bodyRiver(rierdan) "Clemency Orde has taken the tragedy out of its drawer and put it back. 'The river,' she says. 'Nobody's hands in it. Nobody to blame. I cannot use any of it.'".
+  Observe verrall_resigned near dray when verrallResigned(rierdan) "The Lord Warden Verrall has taken off the chain of office and put it on the table. He is looking at a window, as if he had stopped being a wall.".
+  Observe tarn_buried_field at field when state(tarn_body, buried) "The turf has been laid back in long strips, with care. There is no sign of the grave but a single white pebble, set on the grass, which is not a thing that grows there.".
+  Observe pebble_warden near dray when buriedUnseen(rierdan) "The Lord Warden Verrall comes back from the Field at first light with one white pebble in his gloved hand. He has seen the turf. He looks at the pebble for a time, and then at you, and puts the pebble in his pocket. 'The sextons report the body undisturbed,' he says, each word set down by itself, so that he cannot be misquoted. 'I have inspected it.' He does not say anything else. He will know, for the rest of his life, what he did not see; and so, now, will you.".
+  Rule clem_comes when nightOver(rierdan) and not clemInWick(rierdan) { Assert clemInWick(rierdan). Assert at(clemency, lant_ward). }
+  Relation clemInWick(place).
+  Observe clem_soft_note near clemency when clemSoft(party) and not actIIIDone(rierdan) "Clemency has crossed out a great deal. The margin is a battlefield. She looks up and says, without being asked: 'I have given her a window. It is a small window.'".
+  Observe clem_hard_note near clemency when clemHard(party) and not actIIIDone(rierdan) "Clemency has a clean sheet on the desk headed ACT FIVE, and a line under it, and nothing else. She has been looking at it for an hour with the fixed brightness of someone who is waiting to be told what to write.".
+  Milestone m_edict "stood in the Field of Exposure" worth 150 when edictOn(rierdan) and been(party, field).
+  Milestone m_actiii "came to the end of the three nights" worth 400 when actIIIDone(rierdan).
+  Observe bell_for_tarn near ambros when bellsOffered(party) and not actIIIDone(rierdan) "Brother Ambros has put a black ribbon on the knotted rope. He will not say what it is for. He says only that the bells are on your side if they are rung.".
+  Observe body_taken_quay at salt_quay when bodyTaken(rierdan) "On the slip at the end of the Quay a handcart stands upturned with a few herring-scales in the bed. The Wives say it blew over in the night.".
+  Observe pardoned_court at king_court when pardoned(rierdan) "The petitioners' benches are full of whispering. The Warden of the Realm is on the end of one, in a plain coat, with his hands between his knees, waiting to be sent for.".
+  Observe lucan_fled_gate at river_gate when lucanFled(rierdan) "Sergeant Peverell has taken to polishing the bar of the gate that nobody has lifted since. He looks at the road a good deal.".
+  Observe verrall_stays_note at concourse when verrallStays(rierdan) and not verrallResigned(rierdan) and actIIIDone(rierdan) "The Warden of the Realm walks across the Concourse at noon as he has for twenty years, upright, alone, with his hand on the Edict he no longer has to read.".
+  Observe edict_exposed at concourse when edictOn(rierdan) and tarnExposed(rierdan) and not actIIIDone(rierdan) "Somebody has written under the Edict, in chalk: HE WAS NAMED BEFORE THE CITY. The sextons have rubbed it out twice.".
+  Rule warden_keeps_watch when edictOn(rierdan) and not actIIIDone(rierdan) and day(clock) >= exposeDay(rierdan) + 1 and hour(clock) >= 21 and not at(dray, dust_gate) { Assert at(dray, dust_gate). }
+  Rule warden_goes_home when edictOn(rierdan) and hour(clock) >= 6 and hour(clock) < 20 and at(dray, dust_gate) { Assert at(dray, king_court). }
+  Observe ysolt_broken_nave at bell_nave when ysoltBroken(rierdan) "The acolyte's cord hangs on the great rope where she left it. The worn place on the floor is bare, and the nuns step round it, as round a grave.".
+}

@@ -997,7 +997,7 @@
     "faithful": 231,
     "adapted": 36,
     "represented": 27,
-    "kyr": 289,
+    "kyr": 294,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 198
@@ -1036,7 +1036,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 23,
+      "kyr": 28,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -1063,7 +1063,7 @@
     "faithful": 126,
     "adapted": 143,
     "represented": 10,
-    "kyr": 90,
+    "kyr": 108,
     "unsupported": 4,
     "unreachable": 0,
     "data-only": 104
@@ -1076,7 +1076,7 @@
       "faithful": 32,
       "adapted": 52,
       "represented": 0,
-      "kyr": 23,
+      "kyr": 41,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -15592,6 +15592,13 @@
    "section": "campaigns"
   },
   {
+   "id": "campaign:muster",
+   "title": "The Long Muster's Road",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "campaigns"
+  },
+  {
    "id": "campaign:parliament-of-books",
    "title": "A Parliament of Books",
    "status": "kyr",
@@ -15606,8 +15613,29 @@
    "section": "campaigns"
   },
   {
+   "id": "campaign:sallowfield",
+   "title": "Three Nights at Sallowfield",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "campaigns"
+  },
+  {
    "id": "campaign:skeel",
    "title": "Fair Weather",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "campaigns"
+  },
+  {
+   "id": "campaign:skerrow",
+   "title": "The Light on Scarth Holm",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "campaigns"
+  },
+  {
+   "id": "campaign:tallow",
+   "title": "Tallow Deep",
    "status": "kyr",
    "book": "dmg",
    "section": "campaigns"
@@ -15692,6 +15720,13 @@
   {
    "id": "campaign:what-tessary-owes",
    "title": "What Tessary Owes",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "campaigns"
+  },
+  {
+   "id": "campaign:wrongboat",
+   "title": "The Wrong Boat",
    "status": "kyr",
    "book": "dmg",
    "section": "campaigns"
@@ -19176,6 +19211,13 @@
    "section": "species/species-aberration"
   },
   {
+   "id": "species:tide_caller",
+   "title": "Tide-caller",
+   "status": "kyr",
+   "book": "mm",
+   "section": "species/species-aberration"
+  },
+  {
    "id": "species:badger",
    "title": "Badger",
    "status": "faithful",
@@ -19200,6 +19242,20 @@
    "id": "species:beetle",
    "title": "Beetle",
    "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:bone_kite",
+   "title": "Bone-kite",
+   "status": "kyr",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:bone_scuttler",
+   "title": "Bone-scuttler",
+   "status": "kyr",
    "book": "mm",
    "section": "species/species-beast"
   },
@@ -19255,6 +19311,13 @@
   {
    "id": "species:curlew",
    "title": "Curlew",
+   "status": "kyr",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:dawn_piper",
+   "title": "Dawn-piper",
    "status": "kyr",
    "book": "mm",
    "section": "species/species-beast"
@@ -19316,6 +19379,13 @@
    "section": "species/species-beast"
   },
   {
+   "id": "species:fern_runner",
+   "title": "Fern-runner",
+   "status": "kyr",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
    "id": "species:ferret",
    "title": "Ferret",
    "status": "faithful",
@@ -19333,6 +19403,13 @@
    "id": "species:frog",
    "title": "Frog",
    "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:glide_lizard",
+   "title": "Glide-lizard",
+   "status": "kyr",
    "book": "mm",
    "section": "species/species-beast"
   },
@@ -19372,6 +19449,13 @@
    "section": "species/species-beast"
   },
   {
+   "id": "species:hook_claw",
+   "title": "Hook-claw",
+   "status": "kyr",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
    "id": "species:horse",
    "title": "Horse",
    "status": "kyr",
@@ -19396,6 +19480,13 @@
    "id": "species:hyena",
    "title": "Hyena",
    "status": "adapted",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:lantern_neck",
+   "title": "Lantern-neck",
+   "status": "kyr",
    "book": "mm",
    "section": "species/species-beast"
   },
@@ -19456,6 +19547,13 @@
    "section": "species/species-beast"
   },
   {
+   "id": "species:mud_skimmer",
+   "title": "Mud-skimmer",
+   "status": "kyr",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
    "id": "species:nightmare",
    "title": "Nightmare",
    "status": "adapted",
@@ -19491,6 +19589,13 @@
    "section": "species/species-beast"
   },
   {
+   "id": "species:pass_marmot",
+   "title": "Pass-marmot",
+   "status": "kyr",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
    "id": "species:pig",
    "title": "Pig",
    "status": "kyr",
@@ -19500,6 +19605,13 @@
   {
    "id": "species:pike",
    "title": "Pike",
+   "status": "kyr",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:plate_back",
+   "title": "Plate-back",
    "status": "kyr",
    "book": "mm",
    "section": "species/species-beast"
@@ -19547,8 +19659,36 @@
    "section": "species/species-beast"
   },
   {
+   "id": "species:ridge_goat",
+   "title": "Ridge-goat",
+   "status": "kyr",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:sail_wing",
+   "title": "Sail-wing",
+   "status": "kyr",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:salt_ox",
+   "title": "Salt-ox",
+   "status": "kyr",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
    "id": "species:sheep",
    "title": "Sheep",
+   "status": "kyr",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:shore_brooder",
+   "title": "Shore-brooder",
    "status": "kyr",
    "book": "mm",
    "section": "species/species-beast"
@@ -19575,9 +19715,23 @@
    "section": "species/species-beast"
   },
   {
+   "id": "species:stilt_runner",
+   "title": "Stilt-runner",
+   "status": "kyr",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
    "id": "species:stoat",
    "title": "Stoat",
    "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:three_horn",
+   "title": "Three-horn",
+   "status": "kyr",
    "book": "mm",
    "section": "species/species-beast"
   },
@@ -19592,6 +19746,13 @@
    "id": "species:turtle",
    "title": "Turtle",
    "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:tyrant",
+   "title": "Tyrant",
+   "status": "kyr",
    "book": "mm",
    "section": "species/species-beast"
   },

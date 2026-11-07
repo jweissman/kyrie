@@ -5178,6 +5178,7 @@
       "mind_destroyer",
       "mouther",
       "ooze",
+      "tide_caller",
       "automaton",
       "clockwork_soldier",
       "golem/clay",
@@ -5244,7 +5245,8 @@
       "hollow_stalker",
       "mind_destroyer",
       "mouther",
-      "ooze"
+      "ooze",
+      "tide_caller"
      ],
      "level": 15
     }
@@ -5298,7 +5300,8 @@
       "hollow_stalker",
       "mind_destroyer",
       "mouther",
-      "ooze"
+      "ooze",
+      "tide_caller"
      ],
      "level": 20
     }
@@ -5352,7 +5355,8 @@
       "hollow_stalker",
       "mind_destroyer",
       "mouther",
-      "ooze"
+      "ooze",
+      "tide_caller"
      ],
      "level": 25
     }

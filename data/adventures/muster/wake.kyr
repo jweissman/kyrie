@@ -1,0 +1,73 @@
+Module muster "The Long Muster's Road" {
+  // ── The acts of the road, and what the valley does with what it is told ────────────────────────────────────────
+  Chapter ch_board "The Board at Kell Ford" when true "The legion's road goes over the Hesper Fells, three days to a number nobody in the village will say, and the notice-board at the trough carries the names of those who went and did not come back.".
+  Chapter ch_lower "The Lower Country" when within(party, lowroads) "The first day is the easiest, and three ways long: the gorge that drowns in a thaw, the dry ridge the wolves keep at night, and a goat-track that wants a head for heights.".
+  Chapter ch_heights "The Heights and the Viaduct" when within(party, heights) or within(party, viaduct) "Above the lower country the legion's engineers stopped bargaining with the mountain. The road goes into it, or along it, or across a gap where an arch used to be.".
+  Chapter ch_pass "The Giant's Pass" when within(party, passland) "At the notch the road goes through a house, and the house has a tenant. Below it, the men who would not be Sent.".
+  Chapter ch_cohort "The Last Cohort" when within(party, cohort) "A valley that has kept the hours of a vanished empire for eleven hundred years, and at the end of the road, a tired man in a plain chair, waiting to be answered.".
+
+  Discovery ropeway_known "The Cohort's engineers will string a rope-way across the fifth arch of the Viaduct, from the north pier to the south abutment, for anyone the Cohort counts a friend.".
+  Relation dispatchSent(group). Relation delegationCame(group). Relation elpisTallied(group).
+  Topic hobday_dispatch with cattermole "Give the reeve the Prefect's dispatch" when holding(actor, dispatch) and not dispatchSent(party) once {
+    Says "The reeve breaks no seal. He turns it over and reads the superscription, twice, and goes the colour of the dish he is standing by. 'There is a bishop at Hale who keeps the old archives,' he says. 'He will want this more than he has ever wanted anything. I shall send it by the next carrier, and I shall tell no one what it says, because I do not know what it says, and I should like to keep it so.' He counts out forty coin from the village purse. 'The Ford's thanks. It isn't much. It's what we have.'".
+    On discuss { Spend dispatch from actor. Increase quantity(actor, gold) by 40. Assert dispatchSent(party). }
+  }
+  Observe dispatch_news_inn at taproom when dispatchSent(party) "Greta Hennick has put a second lamp in the window.".
+  Observe dispatch_news_shrine at shrine when dispatchSent(party) "A new wax tablet has been pushed into the cracks, in a courier's hand: THE LETTER WENT NORTH. AWAIT THE ANSWER.".
+  Observe ropeway_seen at via_n when knows(party, ropeway_known) "A pair of iron staples is driven into the north pier, new, bright, with a rope's worn groove.".
+  Observe ropeway_seen_s at via_s when knows(party, ropeway_known) "Across the gap, the engineers' rope-way hangs from two staples, taut as a bowstring.".
+  Observe valley_news_kell at green when scoutGiven(party) and travelsWith(dunya, party) "Dunya of the Last Cohort is standing at Kell trough looking at the thirty houses with every sign of delight.".
+
+  // ── What each telling does, and where it can be seen ────────────────────────────────────────────────────────────
+  // told the Prefect: the standard struck, a valley in mourning, the Eagles and the Hearth each in their own grief.
+  Observe fate_struck_forum at forum when told_prefect(party) and not state(standard, golden) "Under the empty pole, on a plank, the standard lies wrapped. A bareheaded crowd stands round it in silence, the Hearth on one side, the Eagles on the other, a yard of paving between them where nobody puts a foot.".
+  Observe fate_struck_barracks at barracks when told_prefect(party) "The First Century stands in ranks facing the empty pole, shoulder to shoulder, and does not drill. The Centurion walks the line, and says something to each.".
+  Observe fate_struck_granary at granary when told_prefect(party) "Elpis Varo has chalked a new line on the board by the door, over the sixth: SENT, and under it, small, NO MORE.".
+  // told the Archivist: the standard kept; a slow telling; a rope-way; a delegation after some days.
+  Observe fate_kept_forum at forum when told_ostrander(party) and not state(standard, golden) "A black cloth hangs on the standard's pole, and nobody has said why. In the forum people go about in lowered voices, as the valley does when a physician is in the Prefect's house.".
+  Observe fate_kept_archive at archive when told_ostrander(party) "The Archivist and the Prefect sit together at the cedar table with the Annals open between them and a lamp, and have been there since the noon call. Neither looks up.".
+  Person delegates "the Cohort's delegation" nowhere {
+    Role "three soldiers of the First Century, with a wheel on their packs". Ancestry human. Calling ranger. Level 3. Numbers 3. Peaceable.
+    Arrives at green when told_ostrander(party) and watch(clock) >= toldAt(party) + 600.
+    Arrives "Three soldiers in red cloaks come down the north road to the trough at Kell Ford with the whole village standing in its doors. The leader takes off her helmet and says, in careful plain-speech: 'We are from the end of the road. We are told the lamps here are lit. May we see?'".
+  }
+  // told the Centurion: a century that knows what it is for; a column north.
+  Observe fate_march_barracks at barracks when told_merula(party) "The First Century is in full marching order in the yard, packs on, spears up, and no one will say why. The Centurion stands at the head with her cane under her arm. She nods to you once.".
+  Person column "the First Century's column" nowhere {
+    Role "six soldiers of the Last Cohort in red cloaks, with the Centurion's cane at their head". Ancestry human. Calling warrior. Level 3. Numbers 6. Peaceable.
+    Arrives at green when told_merula(party) and watch(clock) >= toldAt(party) + 900.
+    Arrives "A column of red cloaks comes down the north road in ranks, six strong, with a horn sounding at the head of it, and Kell Ford's dogs go mad. The woman at the front halts them at the trough, sets down her cane, and says in plain speech: 'I am a Centurion of the Last Cohort. We have come to see whether anyone is there.' Greta Hennick, in her inn door, says she supposes they will want feeding.".
+  }
+  // told the Hearth: the sixth withheld; the Eagles' answer; a quarrel in the forum.
+  Rule elpis_tallied_rule when told_elpis(party) and watch(clock) >= toldAt(party) + 200 and not elpisTallied(party) {
+    Assert elpisTallied(party). Retract at(elpis, granary). Assert at(elpis, tally_yard). }
+  Observe fate_quarrel_granary at granary when told_elpis(party) "The granary is shut and chalked across the door: NO SIXTH. The Hearth stands about it in knots, with sacks at their feet and an air of people at the start of a very long argument.".
+  Observe fate_quarrel_tally at tally_yard when elpisTallied(party) "Elpis Varo is on the worn flag counting, in her flat granary-reeve's voice, a Tally of a year, and the Hearth has gathered outside the yard-gate to count with her, a murmur that rises and falls like a field of barley. The Eagles stand across the lane with their arms folded.".
+  // traded and said nothing.
+  Observe fate_silent_forum at forum when traded_only(party) "The parade goes on at the fourth hour. A girl at the front of the schola's line is crying.".
+  Observe fate_silent_shrine at shrine when traded_only(party) "Old Gaius is sitting by the lamp with the Prefect's pouch ready. In the spring he will go again.".
+
+  Objective cross_road when not been(party, septimus_hall) "Three days of road lead over the Hesper Fells from Kell Ford, and the board in the village says the far end is held.".
+  Objective find_cohort when been(party, septimus_hall) and not been(party, gate) "The road is the legion's, and the legion's road leads somewhere. The stones count it down in cables to a number the village does not mention.".
+  Objective read_graffiti when been(party, septimus_hall) and not knows(party, rufus_5) "A soldier called Rufus has scratched his name on every wall of the road, and the walls remember him.".
+  Objective tell_valley when been(party, gate) and not valleyTold(party) and not traded_only(party) "The Cohort holds its gate against an empire that is dust. Someone should be told. Or not.".
+  Objective carry_dispatch when dispatchTaken(party) and not dispatchSent(party) "The Prefect has given the company a dispatch for the Emperor. The reeve at Kell Ford knows a bishop who keeps the old archives.".
+  Objective aurel_letter when holding(party, aurel_letter_kind) and not merulaKnowsSon(party) "A pouch on the Eagle's stack is addressed to a Centurion of the Cohort, in a young man's hand. It has waited nine springs.".
+
+  Milestone m_septimus "reached the Mansio Septimus" worth 100 when been(party, septimus_hall).
+  Milestone m_octavius "reached the Mansio Octavius" worth 150 when been(party, octavius_hall).
+  Milestone m_viaduct "crossed the fifth arch of the Great Viaduct" worth 300 when been(party, via_s).
+  Milestone m_eagle "stood in the roofless Mansio of the Eagle" worth 150 when been(party, eagle).
+  Milestone m_pass "passed the giant in the Giant's Pass" worth 250 when been(party, pass_s).
+  Milestone m_gate "came down to the gate of the Last Cohort and was let in" worth 300 when been(party, forum) and admitted(party).
+  Milestone m_rufus "read Rufus on every wall of the road" worth 300 when knows(party, rufus_1) and knows(party, rufus_2) and knows(party, rufus_3) and knows(party, rufus_4).
+  Milestone m_aurel "met the man who left the Sending" worth 250 when aurelMet(party).
+  Milestone m_letter "brought a son's letter to his mother" worth 300 when merulaKnowsSon(party).
+  Milestone m_pontus "brought the lost courier's tag home" worth 250 when gaiusPontus(party).
+  Milestone m_gold "found the gold wing of the standard" worth 400 when holding(party, golden_idol) or goldReturned(party).
+  Milestone m_gold_home "laid the gold eagle's wing before the standard" worth 400 when goldReturned(party).
+  Milestone m_annals "heard the Annals' red years" worth 250 when knows(party, second_wife_known) and knows(party, plague_winter_known) and knows(party, schism_known).
+  Milestone m_told "told the Last Cohort what became of the empire" worth 300 when valleyTold(party).
+  Milestone m_sent "sent the Prefect's dispatch north" worth 250 when dispatchSent(party).
+  Milestone m_wyvern "robbed the wyvern's nest while it hunted" worth 250 when holding(party, courier_tag) or gaiusPontus(party).
+}

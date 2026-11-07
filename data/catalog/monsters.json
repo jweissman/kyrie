@@ -2279,6 +2279,33 @@
         "kyr": true,
         "notes": "An author's own kind, added by its record alone (the owner, 6 November: the authoring experiment): it lives in caves and is fairly common there, an aberration (so it lies in wait), and nothing else is written for it anywhere."
       }
+    },
+    "tide_caller": {
+      "name": "Tide-caller",
+      "type": "aberration",
+      "kind": "monster",
+      "description": "A thing that lives in the sea under certain shores and calls, in the voices of the drowned, to whoever is listening, and takes the ones who answer.",
+      "looks": "Seen low in the water: a long grey back like a wet rope-coil, a ring of pale hands along it that open and close, and no face at all. Heard, it is anyone you have lost.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 10,
+        "primary": "wisdom",
+        "weapon": "tentacles",
+        "armor": "hide_armor"
+      },
+      "abilities": [
+        "fear",
+        "charm"
+      ],
+      "traits": [],
+      "worth": {
+        "base": 150,
+        "perLevel": 50
+      },
+      "source": {
+        "kyr": true,
+        "notes": "An author's own kind, for the Light on Skerrow Holm (doc/adventures/anthology/skerrow.md): no habitats (no generated den draws it); temperament from its type (an aberration lies in wait). Its painting is not yet made (portrait unset; data/paintings/monsters.json would take monsters/tide_caller)."
+      }
     }
   }
 }

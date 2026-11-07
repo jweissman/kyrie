@@ -1,0 +1,43 @@
+Module wrongboat "The Wrong Boat" {
+  // ── Staithe ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe road_scene at road when true "The Staithe road comes down through a cutting to a river the colour of tea. Mist stands on the water, and under the mist two barges are lying side by side with their ropes crossed. Nobody has hung out a name.".
+  Observe quay_scene at quay when true "The quay is a plank frontage a hundred paces long, and every plank of it is occupied. Sacks, a crate of geese, a bargeman asleep on a barrow, a child selling hot eels out of a bucket. Two barges lie against it, the Patient Maud and the Patient Mary, as alike as two boots, and half the shouting on the quay is about which is which.".
+  Observe taproom_scene at taproom when true "The Heron and Pipe is a low room that smells of eels and pipe-ash and wet rope. Every bench has a bargeman on it. Behind the bar a stout woman in a man's coat is doing six things and shouting about a seventh.".
+  Observe toll_counter_scene at toll_counter when true "A counting-room with one window onto the quay. A scale for coin, a ledger on a chain, a stove with a kettle gone cold. On the wall a list of barges and their dues, in a clerk's black hand, with three lines ruled out in red.".
+
+  // ── The barge ───────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe deck_scene at deck when true "A forty-foot barge, low in the water, loaded with onions and bricks. A tiller aft, a stove-pipe amidships, washing on a line. Tarred ropes everywhere. Somebody is singing in the galley, loudly, a song with a great many verses about a miller, and the verses are getting worse.".
+  Observe cabin_scene at cabin when true "A cabin like a wardrobe, with six hammocks in it. A parrot's cage, empty. A shelf with a Bible, a cribbage board and a dried eel, the eel the better thumbed.".
+  Observe hold_scene at hold when true "The hold is full of onion sacks to the beams, and the air is sweet and wet and makes your eyes run. Between the sacks and the hull there is a gap, a body wide.".
+  Observe galley_scene at galley when true "A stove, a copper, a table bolted to the floor. A woman the width of the doorway is stirring something with a spoon the length of an oar, and crying a little, steadily, as a woman does who has done so all her life and finds it makes the food better.".
+
+  // ── The fen ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe fen_landing_scene at fen_landing when true "The river leaves its banks and the land leaves its edges. Reeds to the height of a house, black water between, and a plank landing with a bollard on it and a notice nailed to the bollard.".
+  Observe causeway_scene at causeway when true "A raised causeway of packed brushwood and clay runs out across the fen, a cart wide, with water on both sides at the same level as the road. Eels turn in it. Every hundred paces there is a post, and on every post, in a different hand, a mark.".
+  Observe bell_cot_scene at bell_cot when true "A hut on stilts at the causeway's turn, with a bell hung under the eaves, big as a coal-scuttle. A rope runs from its clapper into the hut. Someone inside pulls it once, slow, and the sound goes out over the fen and nothing in the fen answers.".
+  Observe eel_stage_scene at eel_stage when true "A stage of rotten planks over the water, eel-traps stacked at one end, a skiff tied at the other. The smell is mud and smoke. Nobody has been here since morning, and a pot of something is still warm.".
+
+  // ── Pelham ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe fair_quay_scene at fair_quay when true "Pelham quay on fair-day. Eleven barges abreast, tied bow to stern, so that a person could walk across the river without wetting a boot. The air is frying onions and horse and brass band, and nobody can hear anybody.".
+  Observe fairground_scene at fairground when true "A field of tents and a thousand people moving in it in every direction at once. Gingerbread, a bear on a chain, a man selling the true cross in short lengths. Everyone is carrying something. A hamper would be nothing here.".
+  Observe puppet_booth_scene at puppet_booth when true "The inside of a puppet booth: a painted cloth stage, a plank to stand on, a rack of heads. A man in his shirt is arguing in three voices with himself, in a language he has made up, and has not stopped for you.".
+  Observe draper_scene at draper when true "A slop-shop, hung with coats of every trade and cut. Bargemen's smocks, a clergyman's bands, a bridegroom's waistcoat in lavender. The woman behind the counter is measuring a customer's neck with her eyes.".
+  Observe horse_lines_scene at horse_lines when true "Eighty horses at a rope. A horse-dealer is being lied to by another horse-dealer, with respect. Beyond the lines the river road goes away between willows towards the mill, and there is no one on it.".
+  Observe pelham_inn_scene at pelham_inn when true "The Magpie is full of men eating standing up. A fiddler is asleep in the chimney-corner with his bow in his hand. Through a hatch in the wall you can see a kitchen where nobody is cooking and everyone is shouting.".
+
+  // ── The mill reach ──────────────────────────────────────────────────────────────────────────────────────────────
+  Observe race_head_scene at race_head when true "Where the barges leave the river for the mill-cut. A lock with a lever and a bell. The water inside is higher than the water outside, and shivers in its walls.".
+  Observe millyard_scene at millyard when true "A cobbled yard with a wheel the height of a house turning behind a wall. Flour on every surface, the cart horse white to the knee. A miller's wife is beating a sack with a broom and singing under her breath, to keep time.".
+  Observe weir_scene at weir when true "A long apron of wet stone with the whole of the Aldwater going over it in one sheet, white, loud, and cold in the face. A wooden walk along the top, a hand-wide, with a rail on one side. The towpath goes away along the bank on the far side of the noise.".
+  Observe millhouse_scene at millhouse when true "A flagged kitchen warm as bread. A table, a dresser, a child's slate with a sum on it still unsolved. A pot of tea is stewed black and a plate of cold pie sits with a cloth over it, for somebody expected.".
+  Observe sluice_hut_scene at sluice_hut when true "A hut on the lip of the weir with one iron wheel inside, tall as a man, red with rust and greased at the spindle. A painted board: FIRST TURN OPENS THE RELIEF. DO NOT THEN STAND BELOW.".
+
+  // ── Highfoot ────────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe ferry_stage_scene at ferry_stage when true "The towpath ends at a stage and a chain. A flat ferry lies on the far bank. On this side a hut, a bell on a post, and a hand-lettered board that says RING ONCE.".
+  Observe ferry_hut_scene at ferry_hut when true "A one-room hut with a stove and a bunk and a kettle. On the wall a row of pegs, each with a name and a coat hanging from it, and one empty peg with no name.".
+  Observe far_bank_scene at far_bank when true "The far bank, high and dry, with the hills standing up behind it. A road goes up between hedges. Behind you the river is wide, and the near bank is suddenly small.".
+  Observe hill_foot_scene at hill_foot when true "The road forks at a milestone. Left, an inn with a smoking chimney and a sign that has lost its picture. Right, the road to the gap, climbing between stone walls into cloud.".
+  Observe inn_room_scene at inn_room when true "The Last Pint: one long room, a fire at each end, an innkeeper with a cough. A shelf of clocks, all stopped at different times, and a dog on every step of the stairs.".
+  Observe pass_gap_ally at pass_gap when bessAlly(party) "The road crests in a notch between two shoulders of hill. On the other side, the sea, far off, or a kind of light that is not sky. Bess is a pace behind you, with her coin-scale hanging in her hand, looking at it.".
+  Observe pass_gap_scene at pass_gap when not bessAlly(party) "The road crests in a notch between two shoulders of hill. On the other side, the sea, far off, or a kind of light that is not sky. Nobody is behind you on the road. Nobody is in front of you either, which is new.".
+}

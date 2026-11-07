@@ -184,6 +184,24 @@ Planar Adaptation: +2 against magic, resists 50% of fire, resists 50% of cold, r
 
 *Adapted: Composed by OrsinoMonsters (aberration class, Ooze type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
 
+#### Tide-caller
+
+*Kyr · aberration* · `species:tide_caller`
+
+- Type: aberration (monster)
+- Hit points: d10 a level
+- Qualities: rolled (3d6 each)
+- Attack: tentacles, 1d4+1 bludgeoning
+- Hide: Hide Armor, armour 1
+- Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
+- Worth: 150 + 50 experience a level
+
+Scream: Every enemy is frightened for 3 turns (a Wisdom save against 12 + level + the caster's spell bonus avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. Again after 6 turns.
+
+Charm Person: One enemy is charmed for 3 turns (only humanoid creatures; a Wisdom save against 18 + level + the caster's spell bonus avoids it). Charmed: fights for the other side. An arcane spell of the first level. Takes a first-level slot.
+
+> A thing that lives in the sea under certain shores and calls, in the voices of the drowned, to whoever is listening, and takes the ones who answer.
+
 ### Beasts
 
 #### Badger
@@ -270,6 +288,38 @@ Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 
 Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A small insect with a hard exoskeleton and strong mandibles for biting.
+
+#### Bone-kite
+
+*Kyr · beast* · `species:bone_kite`
+
+- Type: beast (animal)
+- Hit points: d4 a level
+- Qualities: rolled (3d6 each)
+- Attack: beak, 1d4 piercing
+- Hide: Hide Armor, armour 1
+- Temperament: wary
+- Worth: 10 experience a level
+
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
+
+> A rust-and-white carrion raptor that nests in the arches of the old viaduct and circles over what is about to fall.
+
+#### Bone-scuttler
+
+*Kyr · beast* · `species:bone_scuttler`
+
+- Type: beast (animal)
+- Hit points: d2 a level
+- Qualities: rolled (3d6 each)
+- Attack: mandibles, 1d6 piercing
+- Hide: Chitin Armor, armour 2
+- Temperament: wary
+- Worth: 10 experience a level
+
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
+
+> A hand-sized armoured carrion-eater of the bone-beds that crosses the hot crust only by one line, and keeps the beds clean.
 
 #### Butterfly
 
@@ -449,6 +499,22 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A curlew of the moor and the wet meadows, whose call carries for miles.
 
+#### Dawn-piper
+
+*Kyr · beast* · `species:dawn_piper`
+
+- Type: beast (animal)
+- Hit points: d4 a level
+- Qualities: rolled (3d6 each)
+- Attack: beak, 1d4 piercing
+- Hide: Hide Armor, armour 1
+- Temperament: wary
+- Worth: 10 experience a level
+
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
+
+> A hen-sized crested runner of the fern plain whose flock pipes together an hour before the great herd comes down to the lake.
+
 #### Deer
 
 *Faithful · beast* · `species:deer`
@@ -608,6 +674,22 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A swift bird of prey possessing extreme speed and remarkable hunting prowess.
 
+#### Fern-runner
+
+*Kyr · beast* · `species:fern_runner`
+
+- Type: beast (animal)
+- Hit points: d4 a level
+- Qualities: rolled (3d6 each)
+- Attack: bite, 1d6 piercing
+- Hide: Hide Armor, armour 1
+- Temperament: wary
+- Worth: 10 experience a level
+
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
+
+> A cat-sized, feathered runner of the island's undergrowth, quick, curious and not at all afraid of doors.
+
 #### Ferret
 
 *Faithful · beast* · `species:ferret`
@@ -667,6 +749,22 @@ Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 
 Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A small amphibian with a powerful jumping ability and croaking calls.
+
+#### Glide-lizard
+
+*Kyr · beast* · `species:glide_lizard`
+
+- Type: beast (animal)
+- Hit points: d3 a level
+- Qualities: rolled (3d6 each)
+- Attack: bite, 1d6 piercing
+- Hide: Hide Armor, armour 1
+- Temperament: wary
+- Worth: 10 experience a level
+
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
+
+> A cycad-living lizard with skin-wings between its limbs that glides from crown to crown at dusk toward the one hollow where it nests.
 
 #### Goat
 
@@ -765,6 +863,24 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A hen scratching about a yard.
 
+#### Hook-claw
+
+*Kyr · beast* · `species:hook_claw`
+
+- Type: beast (animal)
+- Hit points: d8 a level
+- Qualities: rolled (3d6 each)
+- Attack: claws, 1d4 slashing
+- Hide: Hide Armor, armour 1
+- Temperament: territorial
+- Worth: 10 experience a level
+
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
+
+Howl: Every enemy is frightened for 2 turns (a Wisdom save against 12 avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. Again after 3 turns.
+
+> A feathered pack hunter of the island's cycad forest, the size of a big dog, that takes what it can overpower with a great curved claw on each foot.
+
 #### Horse
 
 *Kyr · beast* · `species:horse`
@@ -842,6 +958,22 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 > A scavenging carnivore with powerful jaws and distinctive laugh-like vocalizations.
 
 *Adapted: Orsino's animal template made it a companion's size (fixed hit points no more than a squirrel's); as a beast of the wild Kyr rolls its qualities with a hit die of 6, as it does a wolf's, with a rending bite.*
+
+#### Lantern-neck
+
+*Kyr · beast* · `species:lantern_neck`
+
+- Type: beast (animal)
+- Hit points: d12 a level
+- Qualities: rolled (3d6 each)
+- Attack: tail, 1d6 bludgeoning
+- Hide: Hide Armor, armour 1
+- Temperament: defensive
+- Worth: 20 experience a level
+
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
+
+> The greatest animal of the island: a long-necked browser as big as a barn that lives on the canopy and notices nothing smaller than itself.
 
 #### Lark
 
@@ -1002,6 +1134,22 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A nocturnal flying insect attracted to light, with soft, furry wings.
 
+#### Mud-skimmer
+
+*Kyr · beast* · `species:mud_skimmer`
+
+- Type: beast (animal)
+- Hit points: d3 a level
+- Qualities: rolled (3d6 each)
+- Attack: mandibles, 1d6 piercing
+- Hide: Chitin Armor, armour 2
+- Temperament: wary
+- Worth: 10 experience a level
+
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
+
+> A flat-headed shell-digger of the delta that goes in and out of the black water in dozens and is the first thing there to leave it when the lurker comes.
+
 #### Nightmare
 
 *Adapted · beast* · `species:nightmare`
@@ -1132,6 +1280,22 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 *Adapted: Orsino's animal template made it a companion's size (fixed hit points no more than a squirrel's); as a beast of the wild Kyr rolls its qualities with a hit die of 8, as it does a wolf's, with a rending bite.*
 
+#### Pass-marmot
+
+*Kyr · beast* · `species:pass_marmot`
+
+- Type: beast (animal)
+- Hit points: d4 a level
+- Qualities: rolled (3d6 each)
+- Attack: bite, 1d6 piercing
+- Hide: Hide Armor, armour 1
+- Temperament: wary
+- Worth: 10 experience a level
+
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
+
+> A stout burrowing sentinel of the high pass, that whistles once at a thing it fears and twice at a thing it hates.
+
 #### Pig
 
 *Kyr · beast* · `species:pig`
@@ -1171,6 +1335,22 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 Of deep water: Immune to reflex.
 
 > A long lean fish of still water and slow rivers, that lies among the weed and takes what passes.
+
+#### Plate-back
+
+*Kyr · beast* · `species:plate_back`
+
+- Type: beast (animal)
+- Hit points: d10 a level
+- Qualities: rolled (3d6 each)
+- Attack: tail, 1d6 bludgeoning
+- Hide: Scale Mail, armour 4
+- Temperament: defensive
+- Worth: 12 experience a level
+
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
+
+> A low, slow grazer of the forest margins, walled in bony plates, that sleeps in rings with its young inside.
 
 #### Pony
 
@@ -1298,6 +1478,54 @@ Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 
 
 > A great grey beast of the hot scrub, short-sighted and short-tempered, that charges whatever it cannot make out.
 
+#### Ridge-goat
+
+*Kyr · beast* · `species:ridge_goat`
+
+- Type: beast (animal)
+- Hit points: d6 a level
+- Qualities: rolled (3d6 each)
+- Attack: headbutt, 1d4 bludgeoning
+- Hide: Hide Armor, armour 1
+- Temperament: wary
+- Worth: 10 experience a level
+
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
+
+> A grey, long-horned goat of the high fells that has learned the legion's roads and will not set a hoof on any stone that will not bear it.
+
+#### Sail-wing
+
+*Kyr · beast* · `species:sail_wing`
+
+- Type: beast (animal)
+- Hit points: d6 a level
+- Qualities: rolled (3d6 each)
+- Attack: beak, 1d4 piercing
+- Hide: Hide Armor, armour 1
+- Temperament: territorial
+- Worth: 15 experience a level
+
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
+
+> A leathery flier of the island's sea-cliffs that nests in great colonies and drives off anything that walks on the ledges.
+
+#### Salt-ox
+
+*Kyr · beast* · `species:salt_ox`
+
+- Type: beast (animal)
+- Hit points: d10 a level
+- Qualities: rolled (3d6 each)
+- Attack: horns, 1d4 bludgeoning
+- Hide: Hide Armor, armour 1
+- Temperament: defensive
+- Worth: 10 experience a level
+
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
+
+> The Last Cohort's draught ox, shaggy and broad-backed, bred over eleven centuries to draw salt-sleds on the Descent and to stand still at a bugle.
+
 #### Sheep
 
 *Kyr · beast* · `species:sheep`
@@ -1316,6 +1544,22 @@ Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 
 Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A sheep of the hill flocks, in its heavy coat.
+
+#### Shore-brooder
+
+*Kyr · beast* · `species:shore_brooder`
+
+- Type: beast (animal)
+- Hit points: d10 a level
+- Qualities: rolled (3d6 each)
+- Attack: beak, 1d4 piercing
+- Hide: Hide Armor, armour 1
+- Temperament: defensive
+- Worth: 15 experience a level
+
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
+
+> A great flightless beaked animal that nests on the strand under the cliffs and will not leave its clutch for anything that walks.
 
 #### Snake
 
@@ -1386,6 +1630,24 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A small rodent of great agility and bushy tail. It is an excellent climber.
 
+#### Stilt-runner
+
+*Kyr · beast* · `species:stilt_runner`
+
+- Type: beast (animal)
+- Hit points: d8 a level
+- Qualities: rolled (3d6 each)
+- Attack: kick, 1d2 bludgeoning
+- Hide: Hide Armor, armour 1
+- Temperament: wary
+- Worth: 10 experience a level
+
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
+
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
+
+> A tall, fast, flightless eater of eggs and fruit, curious about people and quick to bolt.
+
 #### Stoat
 
 *Faithful · beast* · `species:stoat`
@@ -1405,6 +1667,26 @@ Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 
 Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A small carnivorous mammal with exceptional agility and clever hunting techniques.
+
+#### Three-horn
+
+*Kyr · beast* · `species:three_horn`
+
+- Type: beast (animal)
+- Hit points: d12 a level
+- Qualities: rolled (3d6 each)
+- Attack: horns, 1d4 bludgeoning
+- Hide: Scale Mail, armour 4
+- Temperament: territorial
+- Worth: 10 experience a level
+
+Prepare Charge: You are preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else. Again after 3 turns.
+
+Charge: End preparing to charge on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act. Again after 3 turns.
+
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
+
+> A browsing beast of the fern plain with a bony frill and three horns, that will hold a calf's ground against anything.
 
 #### Tiger
 
@@ -1446,6 +1728,26 @@ Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 
 Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A slow-moving reptile with a hard protective shell and long lifespan.
+
+#### Tyrant
+
+*Kyr · beast* · `species:tyrant`
+
+- Type: beast (animal)
+- Hit points: d12 a level
+- Qualities: rolled (3d6 each)
+- Attack: bite, 1d6 piercing
+- Hide: Scale Mail, armour 4
+- Temperament: ambush
+- Worth: 30 experience a level
+
+Prepare Charge: You are preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else. Again after 3 turns.
+
+Charge: End preparing to charge on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act. Again after 3 turns.
+
+Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to it (may cause stunned: a Constitution save against 15 avoids it); it is bleeding for 3 turns (a Constitution save against 15 + level + the caster's spell bonus avoids it). Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn. Again after 2 turns.
+
+> The island's great hunter: a bulk-headed killer as long as a barn, with a bite that breaks the backs of the herd.
 
 #### Wendigo
 

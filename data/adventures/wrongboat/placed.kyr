@@ -1,0 +1,3 @@
+Module wrongboat "The Wrong Boat" {
+  Entity party: group "Your company".
+}
