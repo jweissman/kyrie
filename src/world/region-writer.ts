@@ -14,6 +14,7 @@ import { Provinces, type Province } from './provinces';
 import type { Atlas } from './land/atlas';
 import type { Side } from './land/borders';
 import type { After } from './countries';
+import type { Great } from './world-shape';
 import type { History } from './history/histories';
 import { RegionWorks } from './region-works';
 import { RegionFellows } from './region-fellows';
@@ -64,11 +65,14 @@ export interface Region extends Naming {
   history?: History;
   // Where it lies in its world, and what the folk call the country beyond each of its borders (see WorldGrid).
   at?: [number, number];
+  // The great region of the world it is part of, if it is (see WorldShape), and the side of it that falls to a great
+  // sea, if one does.
+  great?: Great; shore?: Side;
   // One with no road over into it from here (an authored country entered from another side) is closed, and the
-  // folk may know the country it is entered from (way).
+  // folk may know the country it is entered from (way). A sea is closed too: the march toward it is its shore.
   beyond?: Partial<Record<Side, { name: string; terrain: string; rumour?: string; heard?: string; topic?: string;
     notice?: { name: string; text: string; talk: string }; after?: After; closed?: boolean;
-    way?: string; skyline?: string }>>;
+    way?: string; skyline?: string; sea?: boolean }>>;
   // The authored countries its folk have heard of further off, beyond the countries next to theirs (Countries.further).
   further?: { side: Side; via: string; then: Side; name: string; terrain: string; far: string; id: string }[];
   // Its provinces: authored adventures installed as parts of it, each entered by its way in (see Provinces).

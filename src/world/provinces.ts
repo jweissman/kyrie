@@ -21,7 +21,8 @@ export class Provinces {
     const atlas = RegionGeography.atlas(region), built = new Set(atlas.ways.flatMap(w => w.cells));
     const taken = [...atlas.borders.map(b => b.cell),
       ...region.sites.flatMap(w => w.cell === undefined ? [] : [w.cell])];
-    const wanted = provinces.map(c => ({ id: c.id, side: c.side, covers: c.covers ?? this.lands[c.terrain] ?? [] }));
+    const wanted = provinces.map(c => ({ id: c.id, side: c.side, covers: c.covers ?? this.lands[c.terrain] ?? [],
+      ...c.shore ? { shore: true } : {} }));
     return Gates.make(atlas.land, { seats: atlas.seats, built, taken }, wanted)
       .map(gate => ({ country: gate.id, name: provinces.find(c => c.id === gate.id)!.name, gate }));
   }

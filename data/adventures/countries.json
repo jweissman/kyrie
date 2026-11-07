@@ -537,6 +537,7 @@
   {
    "id": "tolleth",
    "province": true,
+   "shore": true,
    "bundle": "the-dorothea/placed.json",
    "entry": "road_end",
    "marker": "tolleth",

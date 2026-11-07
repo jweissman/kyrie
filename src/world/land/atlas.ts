@@ -1,7 +1,7 @@
 import { Draw } from './draw';
 import { LandNames, type Feature, type Naming } from './land-names';
 import { Roads, type Road } from './roads';
-import { Borders, type Border } from './borders';
+import { Borders, type Border, type Side } from './borders';
 import { Settling, type Seat } from './settling';
 import { Terrain, type Land } from './terrain';
 import { Zones, type Zone } from './zones';
@@ -18,10 +18,11 @@ export interface Atlas { land: Land; seats: Seat[]; ways: Way[]; rivers: Water[]
   borders: Border[] }
 
 export class Atlases {
-  static make(key: string, terrain: string, at: { tongue: string; taken: string[] }): Atlas {
-    const land = Terrain.make(key, terrain), seats = Settling.make(key, terrain, land);
+  // shore: the side of the land that falls to a great sea, where the world's shape gives one (see WorldShape).
+  static make(key: string, terrain: string, at: { tongue: string; taken: string[]; shore?: Side }): Atlas {
+    const land = Terrain.make(key, terrain, Terrain.size, at.shore), seats = Settling.make(key, terrain, land);
     const roads = Roads.make(land, seats), zones = Zones.make(land, seats, roads);
-    const names = { key, ...at };
+    const names = { key, tongue: at.tongue, taken: at.taken };
     const rivers = land.water.rivers.slice(0, 3).map((r, i) => ({ cells: r.cells, spring: r.spring, fall: r.fall,
       naming: this.name(names, 'river', `river${i}`, i === 0 ? 'river' : undefined) }));
     const lakes = land.water.lakes.map((cells, i) => ({ cells, naming: this.name(names, 'lake', `lake${i}`) }));

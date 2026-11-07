@@ -4,6 +4,7 @@ import { GenerationSetting } from '../generation-setting';
 import { RegionLand, type Landmark } from './region-land';
 import { CommonNames } from './common-names';
 import { Foundings } from './founding';
+import { WorldShape } from './world-shape';
 import type { Naming } from './land/land-names';
 import type { Region, Site } from './region-writer';
 
@@ -40,6 +41,8 @@ export class PlaceNames {
     const features = tables.placeFeature.groups[region.terrain] ?? [];
     const affixes = tables.placeAffix.groups[region.terrain] ?? [];
     const named = { ...region, ...this.named(region, tongue) }, parts = new Set<string>();
+    // A country of a great region is called its own name of it (see WorldShape).
+    named.name = WorldShape.named(region.great, named.name);
     const taken = [named.name, ...this.landmarks(region).map(l => l.name)];
     const at = { taken, parts, rng, features, affixes, english: this.joined };
     // What made each settlement (see Foundings) is read first in the heartland, where it can be what a name tells.
@@ -133,7 +136,8 @@ export class PlaceNames {
   private static prefix(at: Distinction): string { return at.prefix ?? (at.kind ? 'site:' : ''); }
   // What a drawn region will be called, in its own folk's tongue (for the folk of the region next to it).
   static regionName(region: Region): string {
-    return this.named(region, this.tongues[region.ancestry] ?? 'westron').name ?? region.name;
+    return WorldShape.named(region.great, this.named(region, this.tongues[region.ancestry] ?? 'westron').name
+      ?? region.name);
   }
   // In Common a site's words stand apart (the Cold Barrow), and the name needs no meaning told.
   private static named(place: { feature?: string; affix?: string }, tongue: string, apart = false): Partial<Named> {

@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "about": "The shape of Imbar: what certain cells of every generated world's grid of countries are, whatever its seed (see WorldShape). Each great region holds the cells its `where` says, as steps from the first country: `\"east\": [2, null]` holds every cell two or more countries east of it, `\"south\": [2, 3]` the two rows beyond its southern neighbour, a null no bound that way (north is minus south, west minus east). A cell is held by the first region listed that holds it. A land region's cells are drawn with its terrain given (none given: drawn as any country is) and named as part of it (`{own} of the Great Desert`). A sea is not a country one walks into: the march toward it is its shore, and no road goes over; it is crossed by ship (the vessel and the sea passage, to come), and until then seen from the coast and named. A sea's `coast` says which side of the land countries near it falls to it, and how many countries off it they may lie: the first country's east falls to the Eastern Ocean, two countries off, as its eastern neighbour's does, one off. Its `terrain` is the kind of country it is when it is crossed (open water with islands by seed), not drawn by Deem's tables, which know only land. Written by hand, the owner's world (6 November).",
+  "regions": [
+    {
+      "id": "eastern_ocean",
+      "name": "the Eastern Ocean",
+      "kind": "sea",
+      "terrain": "archipelago",
+      "where": { "east": [2, null] },
+      "coast": { "side": "east", "within": 2 }
+    },
+    {
+      "id": "great_desert",
+      "name": "the Great Desert",
+      "kind": "land",
+      "terrain": "desert",
+      "where": { "south": [2, 3], "east": [null, 1] }
+    },
+    {
+      "id": "southern_sea",
+      "name": "the Southern Sea",
+      "kind": "sea",
+      "terrain": "archipelago",
+      "where": { "south": [4, 4], "east": [null, 1] },
+      "coast": { "side": "south", "within": 1 }
+    },
+    {
+      "id": "southern_continent",
+      "name": "the Southern Continent",
+      "kind": "land",
+      "where": { "south": [5, null], "east": [null, 1] }
+    }
+  ]
+}

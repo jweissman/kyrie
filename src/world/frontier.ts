@@ -5,6 +5,7 @@ import { Borders, type Side } from './land/borders';
 import { WorldAssembler } from './world-assembler';
 import { ModuleBundle } from '../campaign/module-bundle';
 import { WorldGrid } from './world-grid';
+import { WorldShape } from './world-shape';
 import { RegionWriter, type Region } from './region-writer';
 import { Countries, type Country } from './countries';
 import { Provinces } from './provinces';
@@ -30,8 +31,11 @@ export class Frontier {
     return !new Set(campaign.installed).has(rid) && !this.closed(campaign, rid, at[2] as Side);
   }
   // Whether the road goes no further than the march-stone: the country beyond is an authored one, entered from
-  // another side, and not there yet as something else (a world kept from before it was planned there).
+  // another side, and not there yet as something else (a world kept from before it was planned there); or it is a
+  // great sea (see WorldShape), and the march-stone is its shore, crossed by ship and not on foot.
   private closed(campaign: Campaign, rid: string, side: Side): boolean {
+    const cell = WorldGrid.at(rid);
+    if (cell && WorldShape.sea(...cell)) { return true; }
     const planned = new Set(campaign.installed).has(rid) ? this.holds(campaign, rid)
       : Countries.plan(this.seed, this.first(campaign)).get(rid);
     return !!planned && planned.side !== side;
