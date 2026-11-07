@@ -23,7 +23,7 @@ type Entity = Module['entities'][number];
 interface Declared {
   has: Set<string>; measures: Set<string>; abilityIds: Set<string>; declared: ArenaAbility[]; field: ArenaAbility[];
   capabilities: Entity[]; items: Entity[]; kinds: Entity[]; references: Map<string, string>; itemIds: Set<string>;
-  callings: Map<string, string>;
+  callings: Map<string, string[]>;
 }
 // What the module declares, with the world the projection reads what holds now from (see `set`).
 interface Scope extends Declared { world: World; at?: PerkContext }
@@ -113,8 +113,11 @@ export class CreatureFacts {
       abilityIds, declared, field: declared.filter(a => FieldUse.safe(a.id)),
       capabilities: entities.filter(e => e.type === 'capability'), items, itemIds: new Set(items.map(e => e.id)),
       kinds: entities.filter(e => e.type === 'itemkind'),
-      // Each calling by its class, under the id its installation gave it (canon__calling_mage).
-      callings: new Map(entities.filter(e => e.type === 'callingkind').map(e => [e.id.replace(/^.*__calling_/, ''), e.id])),
+      // Each calling by its class, under every id an installation gave it (canon__calling_mage,
+      // plongman__calling_mage): a world of many modules has one of each module's, and a module's rules ask for its own
+      // (the Imbar author's calling-portability audit: only the last installed had been given, so every module's voices
+      // but one were silent).
+      callings: CreatureFacts.callings(entities),
       references: new Map(entities.filter(e => e.creatureId).map(e => [e.creatureId!, e.id])) };
     this.declarations.set(module, { lengths, declared: made });
     return made;
@@ -226,10 +229,18 @@ export class CreatureFacts {
       ...this.set(scope, 'canCast', reference, usable.map(a => a.id)));
     return changes;
   }
+  private static callings(entities: Entity[]): Map<string, string[]> {
+    const out = new Map<string, string[]>();
+    for (const e of entities.filter(x => x.type === 'callingkind')) {
+      const id = e.id.replace(/^.*__calling_|^calling_/, '');
+      out.set(id, [...out.get(id) ?? [], e.id]);
+    }
+    return out;
+  }
   // A member's calling, and what they have learned of the abilities the world names (the Book of Faces' BOF-13).
   private static calling(c: Creature, reference: string, scope: Scope, learned: string[]): Change[] {
-    const calling = c.classId && scope.callings.get(c.classId);
-    return [...scope.has.has('hasCalling') ? this.set(scope, 'hasCalling', reference, calling ? [calling] : []) : [],
+    const callings = (c.classId && scope.callings.get(c.classId)) || [];
+    return [...scope.has.has('hasCalling') ? this.set(scope, 'hasCalling', reference, callings) : [],
       ...scope.has.has('learned') ? this.set(scope, 'learned', reference, learned.filter(id => scope.abilityIds.has(id)))
         : []];
   }
