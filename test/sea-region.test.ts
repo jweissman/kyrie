@@ -9,13 +9,14 @@ import { BoardTiles } from '../web/reader/board/board-tiles';
 // no generator draws): opt-in, by an authored region saying `terrain(region, archipelago)`. Nothing else is drawn
 // differently, so no world already played changes.
 const places = [[0, 0], [2, 0], [0, 1], [3, 2], [1, 3], [5, 1]];
-async function chart(terrain: string | undefined, seed: string, at = places) {
+async function chart(terrain: string | undefined, seed: string, at = places, more = '') {
   const body = at.map(([x, y], i) => `Place i${i} "Isle ${i}" is ${i % 2 ? 'wilderness' : 'settlement'} within reach at ${x}, ${y}.`)
     .join('\n');
   const source = new OverlayBundleSource(NodeBundleSource.shared, {
     'sea/site.kyr': `Module sea "Sea" { Place reach "The Reach" is region.
       ${terrain ? `Initially Assert terrain(reach, ${terrain}).` : ''}
       ${body}
+      ${more}
       Place deck "the deck" is room within i1 at 0, 0. Company party "You" of 1 at deck. }`,
     'sea/module.json': JSON.stringify({ version: 1, source: 'site.kyr', rules: ['world'], globals: ['party'],
       exports: { party: 'party' } }),
@@ -68,6 +69,22 @@ describe('a sea region', () => {
           expect(gap(land, isles[i]!, isles[j]!)).toBeGreaterThanOrEqual(3);
         }
       }
+    }
+  }, 120000);
+  // A ship's stations (the Dorothea's Reach): a stretch said to be open water stays the sea, and a reef is a broken
+  // line of rocks across its block, with the way through at the stretch's own cell.
+  it('leaves a stretch of open water as water, and lays a reef as a line of rocks with a gap', async () => {
+    const more = `Entity land_sea: landkind "open water". Entity land_reef: landkind "reef".
+      Initially Assert landform(i0, land_sea). Initially Assert landform(i2, land_sea).
+      Initially Assert landform(i3, land_reef).`;
+    for (const seed of ['a', 'b']) {
+      const { land, ids } = await chart('archipelago', seed, places, more), W = land.width;
+      for (const i of [0, 2]) { expect(land.blocks![ids[i]!]!.every(c => land.cover[c] === '~')).toBe(true); }
+      const reef = land.places[ids[3]!]!;
+      expect(land.cover[reef]).toBe('~');
+      expect([-2, -1, 1, 2].map(d => land.cover[reef + d * W]).join('')).toBe('ffff');
+      for (const i of [1, 4, 5]) { expect(land.cover[land.places[ids[i]!]!]).not.toBe('~'); }
+      expect(islands(land).length).toBe(3 + 2);
     }
   }, 120000);
   it('leaves a region that does not ask for it as it was', async () => {

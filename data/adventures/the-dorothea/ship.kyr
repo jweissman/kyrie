@@ -2,16 +2,26 @@ Module dorothea "The Dorothea" {
   Description "The ketch Dorothea: her deck, her quarterdeck and wheel, the captain's cabin, the forecastle, the hold. A vessel is a place the company can go about, and a thing that is somewhere.".
 
   // ── The hull: where she is ──────────────────────────────────────────────────────────────────────────────────────
-  // Where the Dorothea is, is `at(hull, place)`: one of five stations of her passage. Her state says what she is doing.
+  // Where the Dorothea is, is `at(hull, place)`: one of the stations of her passage. Her state says what she is doing.
+  // The near stations are the Reach, a sea chart of open water and islands (terrain archipelago), each a stretch of it
+  // on the author's grid, a step about a quarter of a day's sail: so the map has her where she is while the company is
+  // aboard (decks, below). The Sound and the open water are water; the Combs a line of rocks across the way, with one
+  // gap; Skerrow's roads, Port Ness's and the Antlers' race lie off land, drawn as islands.
+  Place reach "the Reach" is region.
+  Initially Assert terrain(reach, archipelago).
+  Entity land_sea: landkind "open water". Entity land_reef: landkind "reef".
+  Place sound "the Sound" is wilderness within reach at 0, 1.
+  Place open_sea "open water" is wilderness within reach at 1, 1.
+  Place ness_roads "Port Ness roads" is wilderness within reach at 2, 2.
+  Place antler_race "the Antlers' race" is wilderness within reach at 3, 0.
+  Place teeth "the Combs" is wilderness within reach at 3, 1.
+  Place roads "Skerrow roads" is wilderness within reach at 4, 1.
+  Initially Assert landform(sound, land_sea). Initially Assert landform(open_sea, land_sea).
+  Initially Assert landform(teeth, land_reef). Initially Assert landform(antler_race, land_peak).
+  // The far calls lie off this chart (Ashkeld three days out, Mangrow five: a chart of them would be a hundred and
+  // eighty cells wide), in a sea of their own that nobody walks to.
   Place sea "the Skerrow passage" is region.
   Place lane "the passage" is wilderness within sea at 0, 0.
-  Place sound "the Sound" is room within lane at 0, 0.
-  Place open_sea "open water" is room within lane at 1, 0.
-  Place teeth "the Combs" is room within lane at 2, 0.
-  Place roads "Skerrow roads" is room within lane at 3, 0.
-  // The other calls of the Reach: the roads off Port Ness; the Antlers' race, a channel between the stacks.
-  Place ness_roads "Port Ness roads" is room within lane at 5, 0.
-  Place antler_race "the Antlers' race" is room within lane at 6, 0.
   Place ashkeld_roads "Ashkeld roads" is room within lane at 7, 0.
   Place mangrow_roads "Mangrow roads" is room within lane at 8, 0.
 
@@ -45,6 +55,9 @@ Module dorothea "The Dorothea" {
     State moored_antlers "The ketch Dorothea lies off the Antlers' ledge on two anchors, a plank run out to the rock.".
   }
   Initially Assert state(hull, alongside).
+  // Her decks are hers: the company aboard is wherever she is, on the map (at the quay, on the country's; under way,
+  // on the Reach).
+  Initially Assert decks(hull, hull_site).
   // bound(hull) is the call she is making: 1 Skerrow, 2 Port Ness, 3 the Antlers, 4 Ashkeld, 5 Mangrow (set with the fare, port.kyr).
   Measure departedAt(entity). Measure delay(entity). Measure reachedAt(entity). Measure bound(entity).
   Relation sailed(entity). Relation arrived(entity). Relation troubled(entity).

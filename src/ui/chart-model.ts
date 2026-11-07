@@ -215,9 +215,20 @@ export class ChartModel {
         ...course });
     }
   }
-  private region(ways: WayInfo[], visited: Set<string>, place: string): { region?: RegionChart } {
+  // Aboard a vessel (decks: a ship's decks, a place that is also a thing somewhere), where the company is on the map is
+  // where she is: alongside, at the quay on the country's land; under way, at her station on the sea's chart. Her own
+  // plan is still the local one (the Dorothea's voyage had been on no map at all: doc/imbar/19-sea-region.md).
+  private afloat(place: string): string {
+    const w = this.world;
+    for (const r of w.relates('decks') ? w.related('decks') : []) {
+      const at = w.one('at', r.args[0]!);
+      if (at && this.inside(place, r.args[1]!)) { return at; }
+    }
+    return place;
+  }
+  private region(ways: WayInfo[], visited: Set<string>, aboard: string): { region?: RegionChart } {
     const areas = new Map<string, RegionChart['areas'][number]>(), edges = new Map<string, RegionChart['edges'][number]>();
-    const here = this.regionalArea(place)?.id, home = this.regionOf(here);
+    const place = this.afloat(aboard), here = this.regionalArea(place)?.id, home = this.regionOf(here);
     const chart = home ? AuthoredLand.of(this.world.module, home) : undefined;
     const land = chart ? new LandModel(chart, this.entities) : undefined;
     for (const v of [...visited].filter(v => this.regionOf(v) === home)) { this.mark(areas, v, visited, here); }

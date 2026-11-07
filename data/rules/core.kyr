@@ -45,6 +45,9 @@ Module world_core "Bodies, places, time and the shared catalog" {
   Entity land_river: landkind "river". Entity land_lake: landkind "lake". Entity land_peak: landkind "peak".
   Entity land_pass: landkind "pass". Entity land_wood: landkind "wood".
   Relation at(entity, place) exclusive.
+  // A vessel's own decks (decks(hull, hull_site)): a place that is also a thing that is somewhere. Whoever is aboard is,
+  // for the map, where she is (see ChartModel.afloat).
+  Relation decks(entity, place).
   // How big a settlement is: what can be seen of it from the road, and what it can spare.
   Kind sizekind. Relation townSize(place, sizekind).
   Entity size_hamlet: sizekind "hamlet". Entity size_village: sizekind "village". Entity size_town: sizekind "town".

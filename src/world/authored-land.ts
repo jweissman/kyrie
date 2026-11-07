@@ -67,9 +67,16 @@ export class AuthoredLand {
   // A sea region (terrain archipelago): the water is the country and each area is an island of it, a block of three
   // by three with, now and then, a spit one cell further east or south, so that however the author sets two areas on
   // the grid (a block is six cells) at least two cells of open water lie between their islands. A peak is a cone in
-  // a ring of rock, a wood stands, a lake is a lagoon in the middle; anywhere else the island is open ground.
+  // a ring of rock, a wood stands, a lake is a lagoon in the middle; anywhere else the island is open ground. A stretch
+  // that is open water (a ship's station out of sight of land) is the sea itself, no island; a reef is a line of rocks
+  // north and south across the block, with a gap at its middle, where the stretch's own cell is (the way through).
   private static isle(cover: string[], a: Entity, at: { form?: string; f: Frame; draw: Draw }) {
     const { form, f, draw } = at, mid = this.centre(a, f), W = f.width;
+    if (form === 'sea') { return; }
+    if (form === 'reef') {
+      for (const d of [-2, -1, 1, 2]) { cover[mid + d * W] = 'f'; }
+      return;
+    }
     const land = form === 'wood' ? 'w' : '.';
     for (const c of this.blob(mid, W, 1.6)) { cover[c] = land; }
     for (const c of [mid + 2, mid + 2 * W]) { if (draw.chance(0.5)) { cover[c] = land; } }
