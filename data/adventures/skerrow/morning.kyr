@@ -5,15 +5,9 @@ Module skerrow "The Light on Skerrow Holm" {
     Says "'The posts?' says Dib. 'Course. Eleven to a hundred and four, and the bad ones are the odd ones, because the mud's soft there. You count them out loud, you don't look. I did it with Mr Seddon the first week.' He wipes his nose on his wrist. 'Dad would've hated it. He was always for the boat.'".
     On discuss { Assert lined(party). }
   }
-  Topic orrin_comes_t with orrin "Ask Seddon to come over the sands with Mrs Marram, now the Board has put a date on the light" when orrinDeclared(party) and noticeGiven(party) and hettieKept(party) and not orrinComes(party) and not orrinTaken(party) once {
-    Says "Seddon looks at the lamp, which he has kept for twenty-six years. He looks at Hettie, who is looking at nothing, with her hand on his sleeve. 'Twenty-one days,' he says. 'I can leave it twenty-one days.' He puts his hand over hers. 'I'll fetch my coat.' He fetches it, and his tide-tables, and then, after a moment, he puts the tide-tables back.".
+  Topic orrin_comes_t with orrin "Ask Seddon to come over the sands with Mrs Marram" when orrinDeclared(party) and hettieKept(party) and not orrinComes(party) and not orrinTaken(party) once {
+    Says "Seddon has kept the lamp twenty-six years. He looks at Hettie, who has her hand on his sleeve. 'I held it the night Tam went,' he says. 'I've held it every night since.' He puts his hand over hers. 'It'll keep a day.' He fetches his coat, and his tide-tables, and then, after a moment, he puts the tide-tables back.".
     On discuss { Assert orrinComes(party). Retract orrinPost(orrin). Assert following(orrin, party). Assert following(hettie, party). }
-  }
-  Topic orrin_stays_t with orrin "Leave him his light; Mrs Marram can come back in the spring" when orrinDeclared(party) and hettieKept(party) and not orrinComes(party) once {
-    Says "'Spring,' says Seddon. He looks as if it were a word in another language, that he was beginning to like. 'Yes.' Hettie is silent. She has a way of not saying it that means she has already decided otherwise.".
-  }
-  Topic lowrie_last with lowrie "Say goodbye to Mr Lowrie" when lowrieRang(party) and not lowrieGone(party) once {
-    Says "'It is that you go,' says Lowrie, from the bell. He does not stop ringing. 'Is it that you were warm? It is a long time since I asked it of anyone.'".
   }
   Observe fog_morning at kitchen when state(fog, thick) and reachedAt(tide) > 0 and watch(clock) >= reachedAt(tide) + 90 "It is morning by the clock, and the window shows a wall. The bell is still going, somewhere, patient.".
 }

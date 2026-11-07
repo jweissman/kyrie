@@ -1,8 +1,9 @@
 Module skerrow "The Light on Skerrow Holm" {
   // ── The sea, the fog, the lamp, the bell, and what lives under the tower ───────────────────────────────────────
-  // The rules a player is meant to infer and never be told: the Caller comes up with the high tide in the dark; it is
-  // held below by a bright lamp and put back to sea for an hour by the bell; it calls in the voices of the drowned;
-  // it takes whoever answers. The causeway dries from eleven to two, every day, and is fogged all hours but one to two.
+  // The rules a player is meant to infer and never be told: the Caller comes up with the high tide in the dark; a bright
+  // lamp holds it to a knocking and a sunk lamp lets it call and climb; the bell sends it back to sea for an hour; it
+  // takes whoever answers, and whoever it finds in a dark room. The causeway dries from eleven to two, every day, and
+  // is fogged all hours but one to two.
   Place open_water "the open water" is room within sands at 3, 3 outdoors.
 
   Thing tide "the tide" at sands_mid is scenery {
@@ -11,7 +12,8 @@ Module skerrow "The Light on Skerrow Holm" {
   }
   Initially Assert state(tide, high).
   Measure reachedAt(entity). Measure bellUntil(entity). Measure lastRang(entity). Measure lastCall(entity). Measure callN(entity).
-  Measure oil(entity). Measure oilTick(entity). Measure flasks(entity).
+  Measure oil(entity). Measure oilTick(entity). Measure flasks(entity). Measure refills(entity). Measure lowAt(entity). Measure outAt(entity).
+  Relation oilGiven(group).
   Rule tide_falls when state(tide, high) and hour(clock) >= 11 and hour(clock) < 14 { Assert state(tide, low). }
   Rule tide_rises when state(tide, low) and (hour(clock) >= 14 or hour(clock) < 11) { Assert state(tide, high). }
   Rule marks_arrival when at(party, landing) and reachedAt(tide) == 0 { Set reachedAt(tide) to watch(clock). }
@@ -33,7 +35,7 @@ Module skerrow "The Light on Skerrow Holm" {
   Rule lost_clears when lostTold(party) and not at(party, sands_mid) { Retract lostTold(party). }
   Hazard cold_wade "The sea coming in over the causeway" means "Deal (2d6) cold damage to ally unless strength save against (13).".
   Rule sea_comes at sands_mid when at(party, sands_mid) and state(tide, high)
-    says "The sea comes over the mud from both sides at once, quietly, and then it is at your knees and pulling. You wade for the light, because it is the only direction." {
+    says "The sea comes over the mud from both sides at once, and then it is at your knees and pulling. You wade for the light, because it is the only direction." {
     Assert strikes(cold_wade, party). Assert at(party, landing).
   }
   Action peg_line(actor: group, site: place) "Peg a guide-line along the posts" {
@@ -57,44 +59,47 @@ Module skerrow "The Light on Skerrow Holm" {
     State low "The lamp has sunk to a blue bead.".
     State out "The lamp is out.".
   }
-  Initially Assert state(lamp, bright). Initially Set oil(lamp) to 12. Initially Set flasks(store) to 10.
+  Initially Assert state(lamp, bright). Initially Set oil(lamp) to 10. Initially Set flasks(store) to 7. Initially Set refills(lamp) to 1.
   Relation orrinPost(group). Initially Assert orrinPost(orrin).
   Rule oil_burns when reachedAt(tide) > 0 and watch(clock) >= oilTick(lamp) + 6 and oil(lamp) > 0 { Decrease oil(lamp) by 1 or to nothing. Set oilTick(lamp) to watch(clock). }
-  Rule lamp_goes_low when oil(lamp) < 4 and oil(lamp) > 0 and not state(lamp, low) { Assert state(lamp, low). }
-  Rule lamp_goes_out when oil(lamp) <= 0 and not state(lamp, out) { Assert state(lamp, out). }
+  Rule lamp_goes_low when oil(lamp) < 4 and oil(lamp) > 0 and not state(lamp, low) { Assert state(lamp, low). Set lowAt(lamp) to watch(clock). }
+  Rule lamp_goes_out when oil(lamp) <= 0 and not state(lamp, out) { Assert state(lamp, out). Set outAt(lamp) to watch(clock). }
   Rule lamp_brightens when oil(lamp) >= 4 and not state(lamp, bright) { Assert state(lamp, bright). }
-  Rule orrin_fills when orrinPost(orrin) and oil(lamp) < 6 and flasks(store) > 0 {
-    Increase oil(lamp) by 4. Decrease flasks(store) by 1.
+  Rule orrin_fills when orrinPost(orrin) and oil(lamp) < 6 and refills(lamp) > 0 {
+    Increase oil(lamp) by 4. Decrease refills(lamp) by 1.
   }
   Action fill_lamp(actor: group, site: place) "Fill the lamp from a flask out of the store" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lamp_room) and flasks(store) > 0 and oil(lamp) < 10.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lamp_room) and oilGiven(party) and flasks(store) > 0 and oil(lamp) < 10.
     Time 1.
     On success { Decrease flasks(store) by 1. Increase oil(lamp) by 4. }
     Result "You carry the flask up the iron stair and fill the reservoir through the brass funnel, and the flame stands up again. The oil smells of fish.".
   }
   Action bring_flasks(actor: group, site: place) "Take two flasks of oil up to the lamp room and leave them by the funnel" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, store) and flasks(store) > 1.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, store) and oilGiven(party) and flasks(store) > 1.
     Time 1.
     On success { Decrease flasks(store) by 2. Increase oil(lamp) by 8. }
     Result "Two flasks, one under each arm, up the dark stair. You pour them in together, and stand with your hands wet, listening to the lens turn.".
   }
 
-  // The bell: an hour under the bell, the Caller is put back to sea. Orrin rings it every second hour of the dark.
+  // The bell: an hour under the bell, the Caller is put back to sea. Seddon rings it from the lamp room, by a cord, in the
+  // first four watches of every ten of the dark.
   Thing fog_bell "the fog-bell" at bell_hut is scenery {
     State hanging "The bronze bell hangs from its beam, still.".
   }
   Initially Assert state(fog_bell, hanging).
   Query bellRecent() means watch(clock) < bellUntil(tide).
   Query hunting() means dark() and state(tide, high) and not bellRecent().
+  Query calling() means hunting() and not state(lamp, bright).
+  Observe cord_pulled at lamp_room when at(orrin, lamp_room) and bellRecent() and lastRang(tide) > 0 "Seddon has the bell-cord in his fist, and pulls to a count he does not say. Far out on the east point the bell answers.".
   Rule orrin_rings when orrinPost(orrin) and dark() and state(tide, high) and watch(clock) >= lastRang(tide) + 10 and not bellRecent()
     says "From the east point the bell begins: slow, evenly, a stroke to every breath." {
     Set bellUntil(tide) to watch(clock) + 4. Set lastRang(tide) to watch(clock).
   }
-  Action ring_bell(actor: group, site: place) "Ring the fog-bell for an hour" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, bell_hut).
+  Action ring_bell(actor: group, site: place) "Take the bell-cord and ring the fog-bell for an hour" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lamp_room).
     Time 1.
     On success { Set bellUntil(tide) to watch(clock) + 6. }
-    Result "The rope is warm where Orrin's hands have worn it. The bell goes out over the fog, a long bronze note and a long silence, and the sea, which has been listening, goes a little further off.".
+    Result "The cord is warm where a hand has worn it, and it pulls back. The bell goes out over the fog, a long bronze note and a long silence, and the sea, which has been listening, goes a little further off.".
   }
 
 }
