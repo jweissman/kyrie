@@ -1,0 +1,207 @@
+Module pentrice "Gosse's Company" {
+  // ── Episode 2: The Three (Macbeth) ──────────────────────────────────────────────────────────────────────────────
+  // Lord Osmund Valtry of Cairnholt, a tired and honest soldier who has held a bad frontier for nineteen years, has
+  // been told by three women on the moor that he will be Warden of the March, and that his keep will stand until the
+  // heather walks. He hires the company, first, to learn whether the women can be believed; and then, as the days go,
+  // to be the hands for what he has begun to want. The party need not notice. What they report, whom they test and
+  // where they post their guards on the night of the feast are the prophecy's means. Act II of the King's Players
+  // gave the Salt-Wives one line about a Marshal; this is the other half of the shape: the prediction that is made
+  // true by the people sent to check it.
+  // c2 = complicity: the count of things the company did that the prophecy needed.
+  Place moor "the Cairnholt moor" is wilderness within wend at 3, 0.
+  Place moor_cairns "the Three Cairns" is room within moor at 0, 1 outdoors.
+  Place ck_yard "Cairnholt's yard" is room within moor at 1, 1 outdoors.
+  Place ck_hall "Cairnholt's hall" is room within moor at 2, 1.
+  Place ck_stair "the keep stair" is room within moor at 2, 0.
+  Place ck_chamber "the Warden's chamber" is room within moor at 3, 0.
+  Passage mo_yard "the peat track to the keep" is path between moor_cairns and ck_yard taking 30 minutes.
+  Passage ck_door "the hall door" is door between ck_yard and ck_hall.
+  Passage ck_up "the keep stair" is path between ck_hall and ck_stair.
+  Passage ck_warden "the Warden's door" is door between ck_stair and ck_chamber.
+
+  Observe moor_cairns_scene at moor_cairns when true "Three heaps of grey stones on a rise in brown heather, like three loaves of different ages. The wind has a sound in it. There is a small fire with a kettle on it, and three women sitting round it, who do not look up. The rise is the only place on the moor from which you cannot see the keep.".
+  Observe ck_yard_scene at ck_yard when true "The yard of a keep that has been held for a king who forgot it: a well, a midden, thirty soldiers' washing, and a flag of a colour the weather has decided. Lord Valtry's men do their work as men do who have not been paid on time and have decided it is a matter of personal honour.".
+  Observe ck_hall_scene at ck_hall when true "A long hall with a roof of black beams and a floor of flags. A hearth like a cave. A table laid for a feast, and a smaller table, to one side, where a lean lady in a green gown keeps the accounts.".
+  Observe ck_stair_scene at ck_stair when true "A turnpike of worn stone, with a rope for a rail and a window the width of a man's two hands. At the top is a door with a bar on the inside.".
+  Observe ck_chamber_scene at ck_chamber when true "A bedchamber for an old man: a bed with curtains, a chair by the fire, a basin, a shelf of tonics and one window over the dark moor. There is a smell of camphor and of a long life.".
+
+  Relation e2On(place). Relation e2Reported(place). Relation e2Genuine(place). Relation e2Fraud(place). Relation e2Unclear(place).
+  Relation e2StroudComes(place). Relation e2Feast(place). Relation e2Night(place). Relation e2Murder(place). Relation e2Left(place).
+  Relation e2Turned(place). Relation e2Revealed(place). Relation e2LoopSeen(place). Relation e2Warned(place).
+  Relation e2GuardDoor(place). Relation e2GuardGate(place). Relation e2Carried(place). Relation e2Tested1(group). Relation e2Tested2(group). Relation e2Tested3(group).
+  Relation e2Paid(place). Relation e2Boots(place). Relation dorcasWants(group). Relation dorcasAfraid(group).
+  Measure c2(place). Measure e2Start(place).
+
+  Person valtry "Lord Osmund Valtry" at ck_hall {
+    Role "the Lord of Cairnholt, a soldier". Ancestry human. Calling warrior. Level 4. Peaceable. Pronouns he. Manner grim.
+    Greets "A big grey man in a dented gorget, who stands as if the floor were deck. 'I do not need advice,' says Lord Valtry. 'I need a fact, and I am told you are in the business of showing things that are not so. Come to the fire. I am cold.'".
+  }
+  Person marit "Lady Marit Valtry" at ck_hall {
+    Role "his sister, who keeps the keep's accounts". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
+    Greets "A lean woman of forty in green, who does not look up from the ledger until the line is finished. 'You are the players,' says Lady Marit. 'My brother says you are honest. I have never found that a quality in a guest.'".
+  }
+  Person toon "Steward Bartle Toon" at ck_yard {
+    Role "the steward of Cairnholt". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
+    Greets "A round man in a leather apron with a ring of keys. 'Welcome,' says the steward. 'It is a beautiful keep when it is not on fire.'".
+  }
+  Person stroud "Warden Ancel Stroud" nowhere {
+    Role "the Warden of the March, seventy-four, tired". Ancestry human. Peaceable. Pronouns he. Manner compassionate.
+    Greets "An old man in a good fur with a stick he does not lean on. 'I am told,' says the Warden, 'that I am to be amused. I should like the soup.'".
+  }
+  Person three "the three women" at moor_cairns {
+    Role "three women of the moor, round a kettle, at a cairn". Ancestry human. Numbers 3. Peaceable. Pronouns they.
+    Greets "None of the three looks up. 'Valtry's,' says the first. 'Or the Lady's,' says the second. 'Or the strangers',' says the third, and takes the kettle off the fire.".
+  }
+
+  // The employment: Toon engages the company, in the yard.
+  Topic toon_job with toon "Ask the steward what the Lord wants of the company" when true once {
+    Says "'A thing he will not say himself,' says Toon. 'Three women on the moor told him, at Lammas, that he would be Warden of the March, and that Cairnholt would stand until the heather walks. He has not slept since. He wants to know if they are real. He has asked the priest, who says no; and the farrier, who says yes, which settles nothing.' He lowers his voice. 'He thinks you are people who know what is pretended. Test them. Come back and tell him straight.'".
+    On discuss { Assert e2On(rierdan). Set e2Start(rierdan) to watch(clock). }
+  }
+
+  // The women: three tests, each an action at the cairns.
+  Action test_sincere(actor: group, site: place) "Watch the three women's hands while they talk, and listen for what is practised" {
+    Speaker three.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, moor_cairns) and e2On(rierdan) and not e2Tested1(actor).
+    Time 3.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert e2Tested1(actor). Assert knows(actor, three_hands_known). }
+    On failure { Assert e2Tested1(actor). }
+    Result "They talk about nothing for half an hour: a ewe, a cart, a daughter. Not one of the three looks at the other when she speaks, and when the third says a thing the other two, without turning, finish the sentence. It is practised. It is a rehearsed thing, and also the voice of women who have been three together for forty years. You cannot tell which of those it is.".
+    Otherwise "They give you tea. You watch their hands. The hands are hands.".
+  }
+  Discovery three_hands_known "The three women speak as one voice in three; it is practised, and also old.".
+  Action test_question(actor: group, site: place) "Ask them something the steward has hidden, and see what they say" {
+    Speaker three.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, moor_cairns) and e2On(rierdan) and not e2Tested2(actor).
+    Time 2.
+    Resolve check(actor, lore, dc_hard).
+    On success { Assert e2Tested2(actor). Assert knows(actor, three_truth_known). }
+    On failure { Assert e2Tested2(actor). }
+    Result "You ask what Toon has in his left pocket, which Toon told you in the yard: a ring. 'A ring,' says the eldest, 'with a blue stone, that he has not got, because he lost it to the Lady at cards.' It is true. It was the Lady who told Toon to put it there, yesterday, and told the women not at all. You write down the pocket's contents. You do not write down how she knew.".
+    Otherwise "'A pocket,' says the eldest, and pours the tea.".
+  }
+  Discovery three_truth_known "The women knew a thing the steward had hidden, which only the Lady could have told them, or the world.".
+  Action test_boots(actor: group, site: place) "Look for how they came to the cairns: tracks, a purse, a path" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, moor_cairns) and e2On(rierdan) and not e2Tested3(actor).
+    Time 3.
+    Resolve check(actor, woodcraft, dc_fair).
+    On success { Assert e2Tested3(actor). Assert e2Boots(rierdan). Assert knows(actor, three_paid_known). }
+    On failure { Assert e2Tested3(actor). }
+    Result "A path through the heather runs from the cairns to the back of the keep's kitchen midden, and has been walked often by one woman in good boots, a lady's, with a heel. At the third cairn, under a stone, a purse that has been counted into three: a green ribbon, a seal, and the beginning of an initial. M.".
+    Otherwise "Heather. A great deal of heather.".
+  }
+  Discovery three_paid_known "A lady's path runs from Cairnholt's kitchen to the cairns; under the third stone, a purse bound with a green ribbon, sealed M.".
+
+  // The report: the company's word, and what the Lord does with it. Three answers, each acted on.
+  Topic valtry_report with valtry "Report to Lord Valtry what you found on the moor" when e2On(rierdan) and not e2Reported(rierdan) once {
+    Says "He listens with his arms folded and his eyes on the fire. 'Straight,' he says. 'As you would tell a man what is in his coat. Are they what they say?'".
+  }
+  Topic rep_genuine with valtry "They are genuine, my lord: they see" answering valtry_report when true {
+    Says "He lets out a breath that has been in him since Lammas. 'Then it is not mine to refuse,' he says. 'If it is true it is coming, and a man should meet his fate with his coat on.' He looks at the fire. 'Thank you.' He does not look glad. He looks like a man who has been given leave.".
+    On discuss { Assert e2Reported(rierdan). Assert e2Genuine(rierdan). Increase c2(rierdan) by 1. }
+  }
+  Topic rep_fraud with valtry "They are frauds, my lord, and somebody is paying them" answering valtry_report when knows(actor, three_paid_known) {
+    Says "Valtry is quiet for a long time. 'Paying,' he says. 'Who?' You say you cannot say. He looks across the hall, at the lean lady in green bending over her accounts, and looks away again very fast. 'No,' he says. 'No, that is not a thing we say.'".
+    On discuss { Assert e2Reported(rierdan). Assert e2Fraud(rierdan). }
+  }
+  Topic rep_unclear with valtry "I cannot tell, my lord; it would take another day" answering valtry_report when true {
+    Says "'Another day,' says Lord Valtry. 'The Warden comes on Saturday for the feast. I should like it known before he does. Take your day.' He turns to the fire. 'But I will tell you,' he says, 'I find I have begun to arrange the room for him.'".
+    On discuss { Assert e2Reported(rierdan). Assert e2Unclear(rierdan). Increase c2(rierdan) by 1. }
+  }
+
+  // The loop: from here the Lord begins to arrange what he has been told. The company is asked for the means.
+  Rule e2_stroud when e2Reported(rierdan) and not e2StroudComes(rierdan) and watch(clock) >= e2Start(rierdan) + 60 {
+    Assert e2StroudComes(rierdan). Assert at(stroud, ck_hall). }
+  Observe e2_arrange near valtry when e2Genuine(rierdan) and not e2Night(rierdan) and not e2Done(rierdan) "Lord Valtry has had the Warden's room aired, the stair-rope re-hung, and a good bed made up, 'because he is old', and has asked the steward three times where the guards will stand.".
+  Observe e2_fraud_obs near valtry when e2Fraud(rierdan) and not e2Night(rierdan) and not e2Done(rierdan) "Lord Valtry takes his meals at the far end of the table from his sister now, and watches her pour, and has not said why.".
+  Observe e2_unclear_obs near valtry when e2Unclear(rierdan) and not e2Night(rierdan) and not e2Done(rierdan) "Lord Valtry says he is waiting for the company's day, and in the meantime has had the Warden's room swept twice.".
+  Topic toon_guards with toon "Ask the steward where the guards are to stand on the feast night" when e2Reported(rierdan) and e2StroudComes(rierdan) and not e2GuardDoor(rierdan) and not e2GuardGate(rierdan) once {
+    Says "'My Lord's instruction,' says Toon, 'is that the company's soldiers stand wherever the company thinks best. He says the Warden should see he is trusted. I should put two at the gate and none at the Warden's door, which is what my lady suggests, but it is a matter for you.'".
+  }
+  Action guard_gate(actor: group, site: place) "Post the guards at the gate, and let the Warden's door alone" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ck_yard) and e2StroudComes(rierdan) and not e2GuardDoor(rierdan) and not e2GuardGate(rierdan).
+    Time 1.
+    On success { Assert e2GuardGate(rierdan). Increase c2(rierdan) by 1. }
+    Result "The soldiers take the gate. The old man's stair is not watched, as the Lady suggested and the Lord assented, on the grounds that a Warden should not be treated like a prisoner.".
+  }
+  Action guard_door(actor: group, site: place) "Post two soldiers at the Warden's door, and tell the Lord it is the company's rule" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ck_yard) and e2StroudComes(rierdan) and not e2GuardDoor(rierdan) and not e2GuardGate(rierdan).
+    Time 1.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert e2GuardDoor(rierdan). }
+    Result "You tell Valtry it is the Players' practice that a guest of rank is watched at the door in a house with a feast, which is not true. He looks at you, for a very long time, with an expression you cannot read. 'Do it,' he says. He does not say thank you.".
+    Otherwise "'The Warden is among friends,' says Valtry. 'He will not be guarded.' He is angry, a little, and has not decided at whom.".
+  }
+  Action carry_invitation(actor: group, site: place) "Carry the Lord's cup of welcome to the Warden's room, with the Lady's compliments" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ck_stair) and e2StroudComes(rierdan) and not e2Carried(rierdan).
+    Time 1.
+    On success { Assert e2Carried(rierdan). Increase c2(rierdan) by 1. }
+    Result "The cup is warm and has a spice in it you do not know. The Warden thanks you and sets it by the bed. 'Tell the Lord,' he says, 'that it is a very good cup.'".
+  }
+  Action warn_stroud(actor: group, site: place) "Tell the Warden he is not safe in this keep, and why" {
+    Speaker stroud.
+    Requires able(actor) and company(actor) and at(actor, site) and at(stroud, site) and e2StroudComes(rierdan) and not e2Warned(rierdan).
+    Time 0.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert e2Warned(rierdan). Assert e2GuardDoor(rierdan). }
+    Result "The old man listens with his head turned to one side. 'I have been told I am in danger from Cairnholt every year for twenty years,' he says, 'by people who wanted a fee. You, I think, want nothing.' He sits up. 'I shall have a man at my door, then, and I shall not drink the cup.'".
+    Otherwise "'Danger,' says the Warden, and smiles, 'is a thing I have outlived.'".
+  }
+
+  // The loop is seen: from the second act of complicity the women say so.
+  Observe e2_loop at moor_cairns when c2(rierdan) >= 2 and not e2Night(rierdan) "The three women have moved the kettle. Now one of them is writing, and the writing is yours: 'Who reported. Who posted. Who carried.' She looks up, kindly. 'And the strangers,' she says, 'fetched it.' You had not told them your names." teaches e2_loop_known.
+  Discovery e2_loop_known "The women have been writing down what the company did, and calling it the prophecy.".
+
+  // The night.
+  Rule e2_night when e2StroudComes(rierdan) and not e2Night(rierdan) and watch(clock) >= e2Start(rierdan) + 80 { Assert e2Night(rierdan). }
+  Rule e2_kill when e2Night(rierdan) and not e2Done(rierdan) and not e2GuardDoor(rierdan) and not e2Warned(rierdan) and c2(rierdan) >= 2 and watch(clock) >= e2Start(rierdan) + 84 {
+    Assert e2Murder(rierdan). Assert e2Done(rierdan). }
+  Rule e2_quiet when e2Night(rierdan) and not e2Done(rierdan) and not e2GuardDoor(rierdan) and not e2Warned(rierdan) and c2(rierdan) < 2 and watch(clock) >= e2Start(rierdan) + 84 {
+    Assert e2Left(rierdan). Assert e2Quiet(rierdan). Assert e2Done(rierdan). }
+  Relation e2Done(place). Relation e2Quiet(place).
+  Observe e2_quiet_told at ck_hall when e2Quiet(rierdan) "The feast is long and dull. Nobody tries the Warden's stair, because nobody has been given a reason; the Lord of Cairnholt gets drunk at the high table, and says to the company that he has been a fool about three old women. In the morning the kettle has gone from the cairns and, they say, the women from the moor.".
+  Observe e2_broadside at wend_cross when e2Murder(rierdan) "A broadside is nailed to the milestone: the Warden of the March died in his bed at Cairnholt, of the cold, and the Lord of Cairnholt is chosen Warden by acclamation. A carter says that he has not been seen to sleep since. Someone has drawn a small kettle in the corner, in chalk.".
+  Observe e2_murder_told at ck_hall when e2Murder(rierdan) "In the morning there is a noise in the keep that is not a noise: the sound of thirty soldiers standing very still. The Warden's chamber door is open and the old man lies in his bed with the cup beside him, quite peaceful, and warm. Lord Valtry stands at the foot of the bed in his gorget. He turns. 'You see,' he says, 'it was true.' It is the worst sentence you have heard. He does not seem to know that. By noon the keep has a new Warden, and the company has a letter of thanks.".
+  Observe e2_murder_after near valtry when e2Murder(rierdan) "Lord Valtry is the Warden of the March. He has not slept since the night. He has had the cups taken out of the keep, and the women sent for, and not found.".
+  Rule e2_survive when e2Night(rierdan) and not e2Done(rierdan) and (e2GuardDoor(rierdan) or e2Warned(rierdan)) and watch(clock) >= e2Start(rierdan) + 86 { Assert e2Left(rierdan). Assert e2Done(rierdan). }
+  Observe e2_survive_told at ck_hall when e2Left(rierdan) and not e2Quiet(rierdan) "In the grey, someone tries the Warden's stair. Two soldiers stand at the door with their spears crossed, as they were told, and the footstep stops, and goes down again. Nobody says who it was. At breakfast the Warden eats his egg with great attention and Lord Valtry does not come down. Lady Marit pours the tea. You leave on the stroke of ten. At the Cross, a month later, you read it on a broadside: the Lord of Cairnholt, found in the morning in his own hall with his gorget off and no mark on him, a heart, they said. The Warden was chosen again at midsummer by the usual vote.".
+  // The two ways out of the loop that take nerve: expose the Lady's purse, or turn the Lord.
+  Action show_purse(actor: group, site: place) "Put the Lady's purse on the table in front of the Lord, and the ribbon, and the seal" {
+    Speaker valtry.
+    Requires able(actor) and company(actor) and at(actor, site) and at(valtry, site) and e2Boots(rierdan) and e2On(rierdan) and not e2Revealed(rierdan) and not e2Turned(rierdan).
+    Time 0.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert e2Revealed(rierdan). Assert e2Done(rierdan). }
+    Result "He looks at it. He picks up the ribbon and puts it down. 'She said,' he says at last, to nobody, 'that I had always had the hands for it.' He sits. He does not look at the door, behind which, you can hear, his sister is not listening. 'I think I would rather be a tired man,' he says, 'than the thing I had been told.' He sends for the Warden to be told that his chamber is warm. In the morning the Lady is not at the table, and her accounts are balanced.".
+    Otherwise "'You say that,' says Valtry, 'because you are afraid of what I might be.' He is very quiet. 'I think you had better go, before I decide whether you are right.'".
+  }
+  Action turn_the_lord(actor: group, site: place) "Say to the Lord, alone, that a man told he will be a king is not told to do anything" {
+    Speaker valtry.
+    Requires able(actor) and company(actor) and at(actor, site) and at(valtry, site) and e2Reported(rierdan) and not e2Revealed(rierdan) and not e2Turned(rierdan).
+    Time 0.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert e2Turned(rierdan). Assert e2Done(rierdan). }
+    Result "He is very still. 'Go on.' You say that a prophecy is the shape of a thing, and a man who is told it can walk round it or into it, and it is not your business which; and that you have been the hands for what he had begun to want and are going to stop. He does not say anything for a time. 'Stop, then,' he says. 'I shall go up and wake the Warden and ask him to tell me why he is tired. It is my habit that I do not do that.'".
+    Otherwise "'It is easy,' says Valtry, 'to say what a man should do who is not me.'".
+  }
+  Observe e2_turned_told near valtry when e2Turned(rierdan) "Lord Valtry sits by the Warden's fire in the morning with a bowl of soup in his hands and the old man talking, and listens, and does not seem to be waiting for anything. Lady Marit is looking at them from the door with an expression you will remember.".
+  Observe e2_revealed_told near marit when e2Revealed(rierdan) "Lady Marit has gone back to her mother's house on the coast. Her accounts, which are balanced, are on the table. At the cairns the kettle has gone cold, and under the third stone there is nothing.".
+  Chapter ch_three "The Three" when e2On(rierdan) and not e2Done(rierdan) "A soldier on a bad frontier has been told something. You have been hired to find out if it is true.".
+  Milestone m_three_loop "saw that the company was in the prophecy" worth 200 when knows(party, e2_loop_known).
+  Milestone m_three_end "left Cairnholt behind" worth 300 when e2Done(rierdan).
+  Milestone m_three_turn "turned Lord Valtry, or showed him the purse" worth 400 when e2Turned(rierdan) or e2Revealed(rierdan).
+
+  // Dorcas, and whom she will play.
+  Topic dorcas_marit with dorcas "Ask Dorcas how she would play the Lady" when e2On(rierdan) and at(dorcas, wend_taproom) once {
+    Says "Dorcas puts down the stocking. 'There is the thing everyone does,' she says, 'where she wants it. Cold, hungry, the whole of it. I never believed it. I think she is afraid of what her brother will turn into if nobody gives him something to be for.' She looks at you. 'Which is it? You have seen her.'".
+  }
+  Topic dorcas_wants with dorcas "She wants it, and has for years" answering dorcas_marit when true {
+    Says "'Yes,' says Dorcas, without triumph. 'That is the safer way. Cleaner. I shall do her as if she were hungry.'".
+    On discuss { Assert dorcasWants(actor). }
+  }
+  Topic dorcas_afraid with dorcas "She is afraid of what he will be without it" answering dorcas_marit when true {
+    Says "Dorcas is silent. 'That is the difficult one,' she says. 'It will be a great deal harder to play.' She picks up the stocking and then puts it down. 'Good.'".
+    On discuss { Assert dorcasAfraid(actor). }
+  }
+}

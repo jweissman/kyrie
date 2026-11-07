@@ -21,6 +21,11 @@
     "act4.kyr",
     "act5.kyr",
     "rier_side.kyr",
+    "rep_circuit.kyr",
+    "rep_errors.kyr",
+    "rep_three.kyr",
+    "rep_prince.kyr",
+    "rep_wood.kyr",
     "placed.kyr"
   ],
   "rules": [
