@@ -56,11 +56,11 @@ Module pentrice "Gosse's Company" {
     Wants gull_note.
     Greets "Dame Thalia Gammage is a big woman in a bonnet with ribbons, behind a stall papered with ballad-sheets, eating hazelnuts out of a bag and cracking the shells in her teeth. 'Buy a ballad,' she says, 'or buy me a drink, or go away.'".
   }
-  Topic gammage_taste with gammage "Ask Dame Gammage what a play is for" when true once {
+  Topic gammage_taste with gammage "Ask Dame Gammage what a play is for" when not royalCall(pentrice) once {
     Says "'Joy,' says Dame Gammage, through a nut. 'A play is for a fishwife who has stood in the Gullet since four in the morning, to stand in the yard of the Wheel at seven and forget she has feet. Laugh, cry, see a bear, go home.' She spits a shell. 'Not to be talked at. Not to be preached at. Not to stand three hours watching Ambrose Swale die by inches in iambics.' She cracks another. 'Fifteen years I've been telling him so in print.'".
     On discuss { Assert knows(actor, taste_gammage). }
   }
-  Topic gammage_swale with gammage "Ask Dame Gammage about Ambrose Swale" when true once {
+  Topic gammage_swale with gammage "Ask Dame Gammage about Ambrose Swale" when not royalCall(pentrice) once {
     Says "'The Wooden Lear,' says Dame Gammage, with relish. 'I called him that in the year thirty and it stuck. The Wooden Lear, the Walking Cathedral, the Man Who Played Hamlet as a Bell-Tower.' She is smiling. 'Fifteen years, every time he's played the Wheel, I've gone and stood in the yard and written him down.' She stops smiling, though not on purpose. 'He has a voice, mind. Under all that marble. If he ever let it out, you'd hear it in the Close.'".
   }
   Discovery gammage_loves "Dame Gammage's scrapbook holds every notice she ever wrote of Ambrose Swale in fifteen years, each one cruel, and against each one, pressed, a flower." {
@@ -68,7 +68,7 @@ Module pentrice "Gosse's Company" {
   }
   Item gammage_notice "the old notice of Dorcas Quaile's Widow" is old_notice at gullet hidden until notice_given.
   Discovery notice_given "Dame Gammage has given you her old notice of Dorcas Quaile's Widow, from twelve years ago.".
-  Topic gammage_dorcas with gammage "Ask Dame Gammage what she thinks of Dorcas Quaile" when true once {
+  Topic gammage_dorcas with gammage "Ask Dame Gammage what she thinks of Dorcas Quaile" when not royalCall(pentrice) once {
     Says "'Dorcas Quaile!' Dame Gammage slaps the stall. 'Twelve years ago she played the Miller's Widow at the Wheel and I laughed so hard they carried me out. I wrote it up. I said, let her play nothing but widows.' She sighs. 'And she went on playing girls. They all do. They'd sooner be pretty than great.' She rummages under the stall. 'I've the cutting somewhere. I keep everything.'".
     On discuss { Assert knows(actor, notice_given). }
   }

@@ -53,7 +53,7 @@ Module pentrice "Gosse's Company" {
   }
   Kind salt_kind "a pouch of the Salt-Wives' grey salt" is gear described "A pouch of grey salt tied with red wool. It is cold in the hand.".
   Discovery prophecy_known "The youngest Salt-Wife has said, to the fire, in the Marshal's hearing last winter and again to you: Hail to the Marshal that shall be Warden, and to the Warden that shall be King.".
-  Discovery duke_name_known "The Duke was called Wattie when he was nine. Said to him by the right voice, it brings him in.".
+  Discovery duke_name_known "The Duke was called Aldie when he was nine. Said to him by the right voice, it brings him in.".
   Action salt_threshold(actor: group, site: place) "Lay a line of grey salt across the threshold" {
     Requires able(actor) and company(actor) and at(actor, site) and holding(actor, salt_kind) and not salted(site).
     Time 0.
@@ -128,7 +128,7 @@ Module pentrice "Gosse's Company" {
     Time 0.
     Resolve check(actor, performance, dc_fair).
     On success { Assert tolerates(duke_ghost, actor). Increase ghostScore(rierdan) by 0. }
-    Result "You ring it and say it: Aldous Orvane. The old man's head comes round. He listens to his own name like a man listening to a letter. It takes a long time. When it is over he is standing at your elbow, looking where you look, as a guest does.".
+    Result "You ring it and say it: Aldous Orvane. The old man's head comes round. He listens to his own name as if it were a letter in someone else's hand. It takes a long time. When it is over he is standing at your elbow, looking where you look, as a guest does.".
     Otherwise "The note rings true and your voice does not. The Duke leans in and hears what you meant to mean, and it is not enough.".
   }
   Action ring_avenging(actor: group, site: place) "Ring Ambros's bell at the man you mean, and say what he did" {
@@ -147,7 +147,7 @@ Module pentrice "Gosse's Company" {
 
   // The play: the Mousetrap. Hepzibah asks whose name goes in the poison scene.
   Topic hepzibah_trap with hepzibah "Ask Hepzibah to prompt the Mousetrap" when nightOn(rierdan) and at(party, rot_wings) and not playDone(rierdan) once {
-    Says "Hepzibah has the book open on her knee and the pencil in her hand. 'I have been prompting forty years,' she says, 'and I do not put a living man's name in a villain's mouth. It gets people killed. It is not a rule. It is an observation.' She looks at you. 'Whose name goes in the poison scene?'".
+    Says "Hepzibah has the book open on her knee and the pencil in her hand. 'I have been prompting thirty-four years,' she says, 'and I do not put a living man's name in a villain's mouth. It gets people killed. It is not a rule. It is an observation.' She looks at you. 'Whose name goes in the poison scene?'".
   }
   Topic trap_point with hepzibah "The Marshal's. Plainly" answering hepzibah_trap when true {
     Says "She writes it. She writes a good deal more. When she has finished she has not so much written a speech as aimed it. 'Very well,' she says. 'God help whoever speaks it.'".
@@ -191,8 +191,11 @@ Module pentrice "Gosse's Company" {
     Assert at(duke_ghost, lamp_roof). }
   Rule by_default when nightOver(rierdan) and not tarnByGhost(rierdan) and not tarnByArrest(rierdan) and not tarnByFall(rierdan) { Assert tarnByFall(rierdan). }
   Observe morning_news at concourse when nightOver(rierdan) and tarnByGhost(rierdan) "The city has found the Marshal of the Watch in the royal box of the Rotunda, in his chair, quite dead and quite unmarked, with an expression of the deepest civility. The Watch will say nothing. The Salt-Wives have said, to anyone who asks, that it rained on Thursday.".
-  Observe morning_news2 at concourse when nightOver(rierdan) and tarnByArrest(rierdan) and not tarnByGhost(rierdan) "At first light the Watch comes down the Lamp Hill road with its Marshal between two halberdiers, in his shirt, with a glove missing. The Warden has not slept. The King has said only: Take him to the Tower of Dust.".
-  Observe morning_news3 at concourse when nightOver(rierdan) and tarnByFall(rierdan) and not tarnByGhost(rierdan) and not tarnByArrest(rierdan) "They found the Marshal at dawn in the Concourse, at the foot of the Tower of Lamps, from the roof. The new rail is gone. The Prince, with his arm in a sling, has asked to see him. He was told it would not be proper.".
+  Observe morning_news2 at concourse when nightOver(rierdan) and tarnByArrest(rierdan) and not tarnByGhost(rierdan) "At first light the Watch comes down the Lamp Hill road with its Marshal between two halberdiers, in his shirt, with a glove missing. The Warden has not slept. The King has said only: Take him to the Tower of Dust. It is done before the bells ring nones, in the yard of the Dust, by men who do not look at his face; and by evening he is a body on a plank, and the Edict is being lettered.".
+  Observe morning_sling at concourse when nightOver(rierdan) and lotharWounded(rierdan) "The Prince is about the Concourse with his arm in a sling, and a face of astonished fury, and has asked to see the Marshal. He was told it would not be proper.".
+  Observe glove_fits at lamp_roof when gloveFound(party) and nightOver(rierdan) "The glove you took off the roof is a man's glove, left-handed, with a scorch at the thumb where a fuse is lit. The Marshal's left hand, when they laid him out, had the scorch. Nobody asked you for the glove. It is the only proof the Duke's murder will ever have, and the Duke is not in a position to ask for it.".
+  Rule glove_names_him when gloveFound(party) and nightOver(rierdan) and not tarnExposed(rierdan) { Assert tarnExposed(rierdan). }
+  Observe morning_news3 at concourse when nightOver(rierdan) and tarnByFall(rierdan) and not tarnByGhost(rierdan) and not tarnByArrest(rierdan) "They found the Marshal at dawn in the Concourse, at the foot of the Tower of Lamps. He had gone up to the roof in the night and did not come down by the stair. The new rail is gone.".
   Observe morning_still at concourse when nightOver(rierdan) and ghostSatisfied(rierdan) and tarnByFall(rierdan) "At dawn the Marshal of the Watch went up the Tower of Lamps alone, and stood a while at the new rail. He did not say why. The bells of the Seven are all ringing the same hour, for once.".
   Milestone m_signet "was given the Duke's ring" worth 100 when holding(party, signet_kind).
   Milestone m_salt "had salt from the Wives" worth 100 when saltGiven(party).

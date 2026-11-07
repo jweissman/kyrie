@@ -66,7 +66,7 @@ Module pentrice "Gosse's Company" {
     Says "'Ah,' says the eldest. 'A man in his place.' She considers. 'We should like to meet him.' It is a threat. It is also a courtesy. In the afternoon Jem Pudding, who has never been asked to do anything with such evident delight, is dressed in paper and carried off.".
     On discuss { Assert herringSkipped(actor). Assert puddingFool(actor). }
   }
-  Kind herring_kind "a silver herring from the Quay" is gear described "A herring cut from tinfoil, on a ribbon. It is the Herring King's badge, and it admits you to every fishwife's kitchen on the Quay.".
+  Kind herring_kind "a silver herring from the Quay" is gear described "A herring cut from tin-leaf, on a ribbon. It is the Herring King's badge, and it admits you to every fishwife's kitchen on the Quay.".
 
   // 4. The mummers: a street company without a licence, and the sergeant who has to arrest them.
   Topic peverell_mummers with tallis "Ask Sergeant Peverell about the troupe he is not arresting" when royalCall(pentrice) and not mummersLicensed(rierdan) and not mummersTold(party) once {
@@ -100,7 +100,7 @@ Module pentrice "Gosse's Company" {
     On discuss { Assert puddingFool(actor). }
   }
   Topic tam_beat with tam "Ask Tam why the carpenters haven't been paid" when wickGranted(rierdan) and not tamStood(party) and not tamBack(party) once {
-    Says "Tam Hautboy sets down the plane. 'Because Pomfret has sixty days on the fit-out and the men have sixty days on their own,' he says. 'They'll stay for a promise. They won't stay for a rope.' His hands are quite steady. 'I'll tell them to go on. I'll tell them the Wick will pay on opening. I'll tell them that, if that's what you want me to say.' He looks at you. 'Or I'll stand with them. I've only ever had the one trade.'".
+    Says "Tam Hautboy sets down the plane. 'Because Mauger has sixty days on the fit-out and the men have sixty days on their own,' he says. 'They'll stay for a promise. They won't stay for a rope.' His hands are quite steady. 'I'll tell them to go on. I'll tell them the Wick will pay on opening. I'll tell them that, if that's what you want me to say.' He looks at you. 'Or I'll stand with them. I've only ever had the one trade.'".
   }
   Topic tam_promise with tam "Tell them the Wick will pay on opening" answering tam_beat when true {
     Says "'Right,' says Tam, and puts on his coat. He goes out to the carpenters at the back door. He is gone an hour. When he comes back he has a face that says he has spent it. 'They'll stay,' he says. 'Now we'd better pay.'".
@@ -115,4 +115,37 @@ Module pentrice "Gosse's Company" {
   Milestone m_printer "settled the pirate" worth 100 when printerSmashed(rierdan) or printerHired(rierdan) or printerBought(rierdan).
   Milestone m_herring "was carried down the Quay, or sent a man" worth 100 when herringKing(party) or herringSkipped(party).
   Milestone m_mummers "took in the street company" worth 100 when mummersLicensed(rierdan).
+
+  // Cyprian and Oriel: the Watch and the father, in three beats each (the join, the question, and the scene on the stage).
+  Relation cyprianResigned(group). Relation cyprianBoth(group). Relation orielTells(group). Relation orielStage(group). Relation orielAsked(group). Relation cyprianAsked(group).
+  Topic cyprian_watch with cyprian "Ask Cyprian what the Watch will say to a lieutenant who goes on a stage" when cyprianWith(party) and not cyprianAsked(party) once {
+    Says "Cyprian Marchant considers the pewter on his collar. 'There is a regulation,' he says. 'Against lieutenants being in a play. I wrote the regulation. I was nineteen and I thought plays were for people who could not lift anything.' He turns the collar over. 'The Marshal signed it.' The Marshal, you remember, is a body in the Dust.".
+    On discuss { Assert cyprianAsked(actor). }
+  }
+  Topic cyprian_resign with cyprian "Hand in the pewter, then. A lieutenant is a small thing to be" answering cyprian_watch when true {
+    Says "'Yes,' says Cyprian, with the face of a man who has been told his tooth is out. He unpins the pewter and puts it in his purse. 'My father will be a good deal worse than my commander.' He puts the purse away, and takes it out again, and looks at the pewter, and puts it back.".
+    On discuss { Assert cyprianResigned(actor). }
+  }
+  Topic cyprian_both with cyprian "Keep it. A man can be a lieutenant and a player" answering cyprian_watch when true {
+    Says "'I shall be a laughing-stock,' says Cyprian, delighted. 'I shall be the only lieutenant of the Watch who can do the sword-fight in the third act with the right foot.' He has already decided; he only needed it said.".
+    On discuss { Assert cyprianBoth(actor). }
+  }
+  Topic oriel_say with oriel "Ask Oriel what she means to say to her father" when travelsWith(oriel, party) and not orielAsked(party) once {
+    Says "Oriel Marchant is sitting on a hamper with the Chancellor's seal in a clay impression in her lap, turning it over. 'I thought: the Wick,' she says. 'On the stage, in front of the Household, in my own voice, in a part, so that he cannot make a scene because it will be one.' She looks up. 'Or I tell him in the Concourse, tomorrow, at his own door, and let him be furious in private. Which is the braver?'".
+    On discuss { Assert orielAsked(actor). }
+  }
+  Topic oriel_tell with oriel "Tell him first, tomorrow, at his door" answering oriel_say when true {
+    Says "'Yes,' says Oriel, 'because if I do it on the stage it is a trick, and he will never forgive the trick.' She stands up. She puts the seal in your hand. 'Hold this. I am going to need to have given it up.'".
+    On discuss { Assert orielTells(actor). }
+  }
+  Topic oriel_stage with oriel "On the stage, in the part, in your own voice. He cannot shout at a play" answering oriel_say when true {
+    Says "Oriel grins, which she does very rarely, and when she does she looks about eleven. 'I knew you would say so,' she says. 'I wanted to be told by someone who was not me.'".
+    On discuss { Assert orielStage(actor). }
+  }
+  Observe s5_oriel_told at lant_stage when sceneV(rierdan) == 5 and orielTells(party) "Lord Marchant has been told, and has had a day to be furious in, and has come to the Wick in his second-best coat with his spectacles in his hand. He looks at his daughter on the stage the way a man looks at a piece of news that has taken a long time to arrive.".
+  Rule oriel_stage_costs when holdingCommand(rierdan) and sceneV(rierdan) == 5 and orielStage(party) and not orielPaid(rierdan) and at(party, lant_stage)
+    says "Oriel steps into the light in her own voice, in front of the Household, and says her name; and in the second tier the Chancellor of the Realm stands up with a noise like a chair being sat on by a horse." { Assert orielPaid(rierdan). Increase chaos(rierdan) by 1. }
+  Relation orielPaid(place).
+  Observe s5_cyprian_resigned at lant_stage when sceneV(rierdan) == 5 and cyprianResigned(party) "Cyprian is in the wings in a plain brown coat with a pale place on the collar where the pewter was, and his hands, now that they have nothing to do, do not know where to go.".
+  Observe s5_cyprian_both at lant_stage when sceneV(rierdan) == 5 and cyprianBoth(party) "Cyprian is in the wings in the Watch's grey with the pewter polished, and a stage-sword in the other hand, and is the happiest man in the Wick.".
 }

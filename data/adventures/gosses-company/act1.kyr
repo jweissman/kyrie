@@ -15,14 +15,14 @@ Module pentrice "Gosse's Company" {
 
   // The gate: the sergeant puts one question, and the answer is a life.
   Topic gate_ask with tallis "Say who you are, since the sergeant has not asked" when not gateTruth(party) and not posing(party) and not gateHonest(party) once {
-    Says "'Marchant's men,' says Sergeant Peverell, making a tick. 'Now. I have eight and a bear on my list and the Chancellor's steward has told me twice that the one with the voices is to be treated as if he were a bishop.' He looks you over with the expression of a man who has done this several thousand times and been wrong once. 'You're the masquers. Aren't you.'".
+    Says "'Marchant's men,' says Sergeant Peverell, making a tick. 'Now. I have eight and a bear on my list and the Chancellor's steward has told me twice that the one with the voices is to be treated as if he were a bishop.' He looks you over with the flat patience of a customs shed. 'You're the masquers. Aren't you.'".
   }
   Topic gate_masquers with tallis "We are. The Marchants' masquers, and we are late" answering gate_ask when true {
     Says "He ticks and does not look up. 'Then the steward will be pleased,' he says, 'and I shall be spared his face.' The ledger takes your name as Marchant's, which is not the first time a book has lied for you, and is the first time it has done it so promptly.".
     On discuss { Assert posing(actor). }
   }
   Topic gate_truth with tallis "We are Gosse's Company, with the King's own writ" answering gate_ask when holding(actor, writ_kind) {
-    Says "'The King's,' says Peverell, and takes the writ, and reads it the wrong way up, and then the right way, and goes pink. 'It's real,' he says. 'Mallam!' A boy in a clerk's coat comes at a run. 'It's real. They're the King's. The King's what, I couldn't say, but it's real.' You are walked up the Gate Street by two men who are afraid of you and one who is only curious.".
+    Says "'The King's,' says Peverell, and takes the writ, and reads it the wrong way up, and then the right way, and goes pink. 'It's real,' he says. 'Mallam!' A young clerk in the Household's blue, a lanky cheerful twenty-two, comes at a run. 'It's real. They're the King's. The King's what, I couldn't say, but it's real.' You are walked up the Gate Street by two men who are afraid of you and one who is only curious.".
     On discuss { Assert gateTruth(actor). Increase favour(rierdan) by 1. }
   }
   Topic gate_nobody with tallis "Nobody's. We want a bed and the price of one" answering gate_ask when true {
@@ -144,7 +144,7 @@ Module pentrice "Gosse's Company" {
     Otherwise "The King recites every line before Swale can, and then remarks to the Chamberlain, quite audibly, that the company is old-fashioned.".
   }
   Action audition_farce(actor: group, site: place) "Play the King The Marchants' Men, with the two companies and the two Oriels" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, audience) and masqueFarce(actor) and realMasquers(rierdan) and not auditioned(rierdan).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, audience) and masqueFarce(actor) and realMasquers(rierdan) and (kitTaken(actor) or kitProved(actor)) and (twinsMet(actor) or orielSworn(actor)) and not auditioned(rierdan).
     Time 30.
     Resolve check(actor, performance, dc_hard).
     On success { Assert auditioned(rierdan). Increase favour(rierdan) by 4. Assert provisional(rierdan). Set auditionScore(rierdan) to 4. }
@@ -158,9 +158,9 @@ Module pentrice "Gosse's Company" {
   Rule slip_of_the_pencil at audience when auditioned(rierdan) and at(party, audience) and not titleByAccident(rierdan)
     says "In the uproar the Chamberlain turns two pages at once. 'The King's Players,' says Sir Ferrand Pyke, writing it down in the harder pencil, in a voice of great relief, 'are to be the company from the Rotunda's green-room, the Pentrice people, and not the masquers.' He has ticked the wrong column. He does not know it yet. Behind him Osbert Mallam has seen, and is deciding whether to be a good clerk or a happy one." {
     Assert titleByAccident(rierdan). Assert provisional(rierdan). }
-  Observe king_verdict near casimir when auditioned(rierdan) "The King has had a stool brought to the foot of the rug and sits on it, with his chin on his stick, looking at the wreck of the Audience Chamber, the two companies, three Marchants, a bear and a Chancellor under the throne, with the air of a man who has found a drawer he forgot he had. 'Do it again tomorrow,' he says. 'Somebody write that down.'".
+  Observe king_verdict near casimir when auditioned(rierdan) "The King has had a stool brought to the foot of the rug and sits on it, with his chin on his stick, looking at the wreck of the Audience Chamber, the two companies, three Marchants, a bear and a Chancellor under the throne, looking pleased, and then suspicious of being pleased. 'Do it again tomorrow,' he says. 'Somebody write that down.'".
   Topic gosse_audition with gosse "Ask Gosse how he wants the King to see him" when royalCall(pentrice) and not gosseSeen(party) once {
-    Says "Gosse is standing at the window of the Sparrow's loft with his back to the room and his head a little on one side. 'Forty-one years,' he says. 'I have played for innkeepers, for bishops, for a duke who was drunk and a duchess who was not, and never for a King.' He does not turn. 'I can't hear him, you know. I can only hear that he is there.' He turns, and he is a very old man with a good face. 'Tell me how I should seem. As what I am, or as what I was?'".
+    Says "Gosse is standing at the window of the Sparrow's loft with his back to the room and his head a little on one side. 'Forty-one years,' he says. 'I have played for innkeepers, for bishops, for a duke who was drunk and a duchess who was not, and never for a King.' He does not turn. 'I have never learned his lines,' he says. 'I have only learned where he stands.' He turns, and he is a very old man with a good face. 'Tell me how I should seem. As what I am, or as what I was?'".
   }
   Relation gosseSeen(group). Relation gosseHam(group). Relation gosseHonest2(group).
   Topic gosse_was with gosse "As what you were. The King wants a king" answering gosse_audition when true {
@@ -178,4 +178,5 @@ Module pentrice "Gosse's Company" {
   Milestone m_provisional "was appointed, for the season, provisionally" worth 250 when provisional(rierdan).
   Observe audition_score near casimir when auditionScore(rierdan) >= 3 "The King has had the ghost scene played a second time in his head and is trying not to laugh at it again.".
   Observe swale_told_gosse near gosse when gosseTold(party) and not auditioned(rierdan) "Gosse has not said a word to Ambrose Swale since the morning, which is how you know.".
+  Observe marchant_note at sparrow_loft when posing(party) and not kitTaken(party) and not kitProved(party) "A note in the Marchants' crest has been pushed under the loft door: HIS LORDSHIP THE CHANCELLOR WILL RECEIVE THE MASQUERS ON LAMP HILL, AND DESIRES TO SEE THE BOY WHO PLAYS THE GIRLS. Hepzibah has underlined the last six words twice, in the hard pencil.".
 }
