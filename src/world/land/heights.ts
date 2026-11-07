@@ -6,11 +6,12 @@ export type Side = 'north' | 'south' | 'east' | 'west';
 export interface Relief { width: number; height: number; heights: number[]; coast?: Side }
 
 // Heights from layered value noise, shaped by the region's terrain: a mountain region has a range across it, a frost
-// region stands high, a marsh region lies low and flat; a coast drops away to the sea on one side.
+// region stands high, a marsh region lies low and flat; a coast drops away to the sea on one side. The side is the
+// world's where its shape gives one (a country beside a great sea: see WorldShape), else the seed's, by chance.
 export class Heights {
   static readonly coastChance: Record<string, number> = { forest: 0.4, marsh: 0.7, mountain: 0.3, frost: 0.5,
     desert: 0.3 };
-  static make(key: string, terrain: string, size: { width: number; height: number }): Relief {
+  static make(key: string, terrain: string, size: { width: number; height: number }, shore?: Side): Relief {
     const draw = new Draw(`${key}:heights`), { width, height } = size;
     const layers = [[6, 0.55], [3, 0.3], [1.4, 0.15]] as const;
     let heights = new Array<number>(width * height).fill(0);
@@ -19,8 +20,9 @@ export class Heights {
       heights = heights.map((h, i) => h + weight * layer[i]!);
     }
     heights = this.normal(this.shape(draw, terrain, heights, size));
-    const coast = draw.chance(this.coastChance[terrain] ?? 0.4) ? draw.pick(['north', 'south', 'east', 'west'] as const)
-      : undefined;
+    // The seed's chance is drawn even where the world gives the side, so the land's other draws are as they were.
+    const chanced = draw.chance(this.coastChance[terrain] ?? 0.4)
+      ? draw.pick(['north', 'south', 'east', 'west'] as const) : undefined, coast = shore ?? chanced;
     if (coast) { heights = this.fall(heights, size, coast).map(h => Math.max(0, h)); }
     return { width, height, heights, ...coast ? { coast } : {} };
   }

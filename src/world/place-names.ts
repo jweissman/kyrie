@@ -4,8 +4,9 @@ import { GenerationSetting } from '../generation-setting';
 import { RegionLand, type Landmark } from './region-land';
 import { CommonNames } from './common-names';
 import { Foundings } from './founding';
+import { WorldShape } from './world-shape';
 import type { Naming } from './land/land-names';
-import type { Region, Site } from './region-writer';
+import type { Region, Settlement, Site } from './region-writer';
 
 interface Named { name: string; feature?: string; affix?: string; gloss?: string; tongue?: string }
 // What a name must stand apart from: the names already given in the region, and the meanings already said by places of
@@ -40,19 +41,31 @@ export class PlaceNames {
     const features = tables.placeFeature.groups[region.terrain] ?? [];
     const affixes = tables.placeAffix.groups[region.terrain] ?? [];
     const named = { ...region, ...this.named(region, tongue) }, parts = new Set<string>();
+    // A country of a great region is called its own name of it (see WorldShape).
+    named.name = WorldShape.named(region.great, named.name);
     const taken = [named.name, ...this.landmarks(region).map(l => l.name)];
     const at = { taken, parts, rng, features, affixes, english: this.joined };
     // What made each settlement (see Foundings) is read first in the heartland, where it can be what a name tells.
     const kinds = CommonNames.heartland(region) && region.atlas ? Foundings.kinds(named) : undefined;
     const said = this.settled(named, tongue, kinds);
     const settlements = region.settlements.map((s, i) => ({ ...s, ...said[i] === 'common'
-      ? this.common(named, i, { ...at, seed, founding: kinds?.[i] }) : this.distinct(s, said[i]!, at) }));
+      ? this.common(named, i, { ...at, seed, founding: kinds?.[i] }) : this.distinct(s, said[i]!, at) }))
+      .map((s, i) => i === 0 && region.seat ? this.city(s, region.seat, taken) : s);
     // A work keeps the name the folk wore it down to (see Histories); any other site is named here.
     taken.push(...region.sites.filter(s => s.work).map(s => s.name));
     const own = this.landTongue(region);
     const sites = region.sites.map(s => s.work ? s : this.site(s, { region: named, tongue: own, taken, parts, rng }));
     return { ...named, settlements, sites, land: region.atlas ? this.landmarks(region)
       : RegionLand.shape(region.terrain, tongue, `${seed}:land`, taken) };
+  }
+  // The chief town of a country a city of the canon is built in is the city, called what the canon calls it (Dun
+  // Rìerdan), with no meaning of a drawn name told. Its drawn name is given first and kept from the rest as before, so
+  // the country's other places are named as they were.
+  private static city(s: Settlement, seat: NonNullable<Region['seat']>, taken: string[]): Settlement {
+    const city: Settlement = { ...s, name: seat.name, seat: seat.identity };
+    delete city.gloss; delete city.tongue; delete city.feature; delete city.affix;
+    taken.push(seat.name);
+    return city;
   }
   // The land a region is known by, from its atlas: its great river and lake, its largest wood, the pass its roads
   // climb, its highest peak.
@@ -133,7 +146,8 @@ export class PlaceNames {
   private static prefix(at: Distinction): string { return at.prefix ?? (at.kind ? 'site:' : ''); }
   // What a drawn region will be called, in its own folk's tongue (for the folk of the region next to it).
   static regionName(region: Region): string {
-    return this.named(region, this.tongues[region.ancestry] ?? 'westron').name ?? region.name;
+    return WorldShape.named(region.great, this.named(region, this.tongues[region.ancestry] ?? 'westron').name
+      ?? region.name);
   }
   // In Common a site's words stand apart (the Cold Barrow), and the name needs no meaning told.
   private static named(place: { feature?: string; affix?: string }, tongue: string, apart = false): Partial<Named> {

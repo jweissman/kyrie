@@ -46,17 +46,18 @@ class Picks {
 // From where the road across the march comes in, each pick on the map sets out, by the engine's plan, and arrives.
 describe('the map in a country over the march', () => {
   it('in a drawn country, comes to a hex beside, a stretch on the road, a town and a site', async () => {
+    // West: east of every first country is the Eastern Ocean, whose shore no road goes over (see WorldShape).
     const j = await MapPlay.start('kite', 'debt');
-    expect((await MapPlay.reach(j, 'region__edge_east')).arrived).toBe(true);
+    expect((await MapPlay.reach(j, 'region__edge_west')).arrived).toBe(true);
     await j.step('^To the march-stone of ');
-    expect([MapPlay.at(j), Picks.land(j).tracts]).toEqual(['x1y0__edge_west', 'x1y0__t']);
+    expect([MapPlay.at(j), Picks.land(j).tracts]).toEqual(['xm1y0__edge_east', 'xm1y0__t']);
     const hex = Picks.beside(j);
-    expect(await MapPlay.press(j, `hex:${hex}`)).toEqual({ to: `x1y0__t${hex}`, arrived: true });
-    for (const chosen of [Picks.road(j), Picks.town(j, 'x1y0__')]) {
+    expect(await MapPlay.press(j, `hex:${hex}`)).toEqual({ to: `xm1y0__t${hex}`, arrived: true });
+    for (const chosen of [Picks.road(j), Picks.town(j, 'xm1y0__')]) {
       expect([chosen, await MapPlay.press(j, chosen)]).toEqual([chosen, { to: chosen, arrived: true }]);
     }
     // With wayfinding, the sites of the country are on the map: one is set out for itself, not the fen it is in.
-    const site = Picks.site(j, 'x1y0__');
+    const site = Picks.site(j, 'xm1y0__');
     expect(await MapPlay.press(j, site)).toEqual({ to: site, arrived: true });
     expect(MapPlay.at(j)).toBe(site);
   }, 600000);

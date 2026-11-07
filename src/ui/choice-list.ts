@@ -303,7 +303,7 @@ export class ChoiceList {
   private static item(i: ItemRow, count = 1): Choice {
     const note = i.equipped ? `in use${i.slot ? ` · ${i.slot}` : ''}` : i.kept ?? i.slot ?? '';
     const label = this.upper(count > 1 ? Counted.many(count, i.name.replace(/^(a|an|the|some) /i, '')) : i.name);
-    const base = { id: i.id, label, tone: 'item' as const, about: `${i.description}${i.equipped ? ' In use.' : ''}`,
+    const base = { id: i.id, label, tone: 'item' as const, about: `${i.description}${i.points ? ` ${i.points}` : ''}${i.equipped ? ' In use.' : ''}`,
       ...(note ? { note } : {}) };
     return i.acts.length ? { ...base, children: this.flatten(i.acts, i.id, 'item') } : base;
   }

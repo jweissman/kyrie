@@ -98,6 +98,8 @@ export interface ItemRow {
   light?: boolean;
   // What it is kept for, when its use is not offered now (see ItemUses).
   kept?: string;
+  // Which way it points, where it points to somewhere the canon names (the Dun Rìerdan waystone: see Seats).
+  points?: string;
 }
 export interface MemberRow {
   id: string; ref?: string; name: string; line: string; background?: string; level: number;

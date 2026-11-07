@@ -75,7 +75,7 @@ describe('a fallen companion', () => {
     const back = PlaySession.resume(JSON.parse(JSON.stringify(s.checkpoint())));
     expect(back.campaign.state.party.map(m => m.name)).toEqual(['Bran', 'Dori']);
     // Nor does she come back when the country beyond is drawn and installed.
-    GeneratedWorld.put(s, 'edge_east');
+    GeneratedWorld.put(s, 'edge_west');
     await s.perform('wait');
     expect(await new Frontier('a1', NodeBundleSource.shared).expand(s.campaign)).toBeDefined();
     expect(s.campaign.state.party.map(m => m.name)).toEqual(['Bran', 'Dori']);

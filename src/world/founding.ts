@@ -85,11 +85,15 @@ export class Foundings {
     if (['charcoal', 'timber', 'reed', 'whale oil', 'furs', 'honey'].includes(s.trade)) { return draw.chance(0.6) ? 'yard' : 'farm'; }
     return (s.trade === 'eels' || wet) && draw.chance(0.7) ? 'fishing' : 'farm';
   }
-  // The first settlement, not a hamlet, at the end of a road over a pass.
+  // The first settlement, not a hamlet, at the end of a road over a pass; never a city of the canon (Dun Rìerdan is a
+  // city of markets or of a harbour, not a fort that holds a pass: see WorldShape.seat).
   private static fort(region: Region): number | undefined {
     const atlas = RegionGeography.atlas(region);
-    const way = atlas.ways.find(w => w.over && [w.start, w.end].some(i => region.settlements[i]?.size !== 'hamlet'));
-    return way ? [way.start, way.end].find(i => region.settlements[i]?.size !== 'hamlet') : undefined;
+    const way = atlas.ways.find(w => w.over && [w.start, w.end].some(i => this.holding(region, i)));
+    return way ? [way.start, way.end].find(i => this.holding(region, i)) : undefined;
+  }
+  private static holding(region: Region, i: number): boolean {
+    return region.settlements[i]?.size !== 'hamlet' && !(i === 0 && region.seat);
   }
   // A road out of the settlement crosses a named river within a cell or two of it.
   private static crossing(region: Region, i: number): { river: string; kind: string; d: number } | undefined {
