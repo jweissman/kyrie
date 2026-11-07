@@ -3,7 +3,7 @@ Module tallow "Tallow Deep" {
   // Swallet: the village that does not look at the hill.
   Person hester "Hester Pook" at taproom {
     Role "landlady of the Chandler's Arms". Ancestry human. Profession innkeeper. Peaceable. Pronouns she. Manner acerbic.
-    Greets "Hester Pook wipes a pot that is already dry. 'You'll be going up the hill,' she says. 'They all do, sooner or later. There's the Rising, which is wet, and the portal, which is watched, and the Swallow, which is a rope. And there's the old road, which is nowhere.'".
+    Greets "Hester Pook wipes a pot that is already dry, as she has every evening since her brother Amos did not come home from the shift. 'You'll be going up the hill,' she says. 'They all do, sooner or later. There's the Rising, which is wet, and the portal, which is watched, and the Swallow, which is a rope. And there's the old road, which is nowhere.'".
   }
   Topic ask_rising with hester "Ask Hester about the Rising" when true {
     Says "'It's the river coming out,' says Hester. 'It runs low in a dry week, and you can wade it up to the first gallery with your boots round your neck. When it's rained on the downs it's a mill-race by the next dawn, and it stays one for a day. Don't be under that hill when it rains.'".
@@ -16,7 +16,7 @@ Module tallow "Tallow Deep" {
     Says "'Where the river goes in. You can climb down it with a rope and a stout heart. I wouldn't. There's a she-bear up in the scrub that has taken two of my neighbour's calves, and a she-bear is not a thing you want to meet with a rope on your back.' She says it again, with the stress on 'bear'. It is not a bear.".
   }
   Topic ask_trouble with hester "Ask Hester about the water-trouble" when true {
-    Says "'The Company holed into something, in the winter of 'seventy-one,' says Hester, 'and the river came into the works, and fourteen men didn't come out. The Company packed up in a season. Nobody speaks of it. If you want to hear it you'll want Dunstan Ibbot, and he won't tell it sober.'".
+    Says "'The Company holed into something, in the winter of 'fifty-six,' says Hester, 'and the river came into the works, and fourteen men didn't come out. The Company packed up in a season. Nobody speaks of it. If you want to hear it you'll want Dunstan Ibbot, and he won't tell it sober.'".
     On discuss { Assert knows(actor, breakthrough_known). }
   }
   Topic ask_road with hester "Ask Hester about the old road" when true {
@@ -28,7 +28,7 @@ Module tallow "Tallow Deep" {
     Role "an old miner". Ancestry human. Peaceable. Pronouns he. Manner grim.
     Greets "An old man by the fire holds his tankard in both hands, the way a man does who has had a wet hand-hold. 'Going down,' he says, not asking.".
   }
-  Topic dunstan_tale with dunstan "Ask Dunstan what happened in 'seventy-one" when true {
+  Topic dunstan_tale with dunstan "Ask Dunstan what happened in 'fifty-six" when true {
     Says "'We were following the lead down the Blind Shaft,' says Dunstan, 'and Foreman Carr put a shot in the north wall to see where the vein turned, and the wall wasn't a wall. It was a cap. Under it, a hall, and in the hall, water, and in the middle of the water, a thing hanging. Carr said he'd sooner not look at it again. The river came in at the shot like a door opening. I went up the shaft. Fourteen didn't.' He drinks. 'Carr kept a book. He wrote a letter to the Company before the lamp went. He left it where a man would look, if he were the Company. The Company never came to look.'".
     On discuss { Assert knows(actor, breakthrough_known). Assert knows(actor, foreman_known). }
   }
@@ -45,6 +45,7 @@ Module tallow "Tallow Deep" {
     Role "assayer to the Brasiers' Company, retired". Ancestry human. Peaceable. Pronouns she. Manner stoic.
     Buys ironglass_dagger for 40 coin.
     Buys dowsing_rod for 20 coin.
+    Buys bell_teeth for 30 coin.
     Buys ancient_orrery for 250 coin.
     Buys celestial_chart for 150 coin.
     Buys rose_quartz for 12 coin.
@@ -59,10 +60,10 @@ Module tallow "Tallow Deep" {
     On discuss { Assert knows(actor, ironglass_known). }
   }
   Topic orpe_cap with orpe "Ask Mistress Orpe about the Cap" when knows(actor, breakthrough_known) {
-    Says "'A lid,' says Mistress Orpe. 'On something. The Aeneans made lids, they were fond of them. But Carr said it was not lead under that lid, and it was not water. I had a letter from the Company's secretary that said the hall was to be sealed and the Company would pay nobody to look at it. I kept the letter. I could show you.'".
+    Says "'A lid,' says Mistress Orpe. 'On something. The Aeneans made lids, they were fond of them. But Carr said it was not lead under that lid, and it was not water. The Company's secretary wrote to say the hall was to be sealed and nobody paid to look at it. I burned the letter. I have been sorry since.'".
   }
   Topic orpe_sample with orpe "Ask Mistress Orpe about the specimens on her counter" when true {
-    Says "'Calcite, from the Swallow rim, which glows a little in the dark; Aenean brick from the Settling Cistern; and the grey one is nothing I can name. It is a kind of metal and a kind of glass, and I have a piece the size of a thumb that came up the shaft in a dead man's pocket. It rings like a bell. If you find more of it, I will give you a fair price and a better question.'".
+    Says "'Calcite, from the Swallow rim, which glows a little in the dark; Aenean brick from the Settling Cistern; and the grey one is nothing I can name. It is a kind of metal and a kind of glass, and I have a piece the size of a thumb that came up the shaft in a dead man's pocket. It rings like a bell. If you find more of it I will pay thirty a tooth, and tell you what I think it is for.'".
   }
 
   Person osk "Osk" at shop {
@@ -79,6 +80,7 @@ Module tallow "Tallow Deep" {
     Sells bandages for 1 coin from 6.
     Sells signal_whistle for 2 coin from 3.
     Sells blanket for 2 coin from 6.
+    Buys bell_teeth for 12 coin.
     Sells ratsbane for 3 coin from 4.
     Sells climbing_harness for 6 coin from 2.
     Buys guano_sack for 3 coin.
@@ -98,10 +100,6 @@ Module tallow "Tallow Deep" {
   }
   Topic wick_hobb with nib "Ask Nib what happened to Hobb" when true {
     Says "'He went down by the cage on a Tuesday,' says Nib, 'and the rope went slack on the Thursday, and Joss said not to ask. There's nothing living down there, he says. There's something that doesn't make a noise.'".
-  }
-  Topic wick_stope with nib "Ask Nib if there is a way round the bend" when true {
-    Says "Nib looks at his feet. 'There's a hole in the chimney where the bats come out,' he says. 'You'd need to go in by the Rising. But I never said so, and I never told you. Give us twopence, though, if it's all the same.'".
-    On discuss { Assert knows(actor, stope_known). }
   }
 
   Person bend_watch "the Tallymen on watch" at adit {
@@ -136,7 +134,7 @@ Module tallow "Tallow Deep" {
     Says "'The cat went up the service walk in the autumn,' says Joss, 'and the spiders had her. They are the size of dogs, and they sit above you. They do not like smoke. If you can spare a torch and carry it up, you can burn a way through. Or you can go round by the Settling Cistern, but it is rats.'".
   }
   Topic joss_hobb with joss "Ask Joss about Hobb" when true {
-    Says "'Hobb was greedy,' says Joss. 'He took a rope and a lantern and the cage, and went down the Blind Shaft on his own after the black stone. The lantern came back up. It was lit, in the cage. The rope was cut, a hand above the cage, not broken, cut. Think about that.'".
+    Says "'Hobb was greedy,' says Joss. 'He took a rope and a lantern and the cage, and went down the Blind Shaft on his own after the black stone. The cage came back up empty, and the rope was cut a hand above it: not broken, cut. Think about that.'".
   }
   Topic joss_buy with joss "Ask Joss what he pays for" when true {
     Says "'Steel coin, which is Aenean, and the old toll-silver in the chest there, which isn't for sale. Bell-teeth, which the barge-men want. The little brass instruments the assayer likes, I don't touch; she gets them. Black stone I buy by weight, but I'll want to see it first, and I'll want to know where you had it.'".
@@ -155,4 +153,10 @@ Module tallow "Tallow Deep" {
   }
   Item toll_sack "a season of the Toll" is toll_silver in strongbox owned by joss.
   Item joss_coin "a dull steel coin" is steel_coin in strongbox owned by joss.
+  Topic osk_stone with osk "Ask Osk what he makes of the stone on the hill" when true {
+    Says "'The Company's work is dwarf-cut and it shows,' says Osk, 'and under it there is Aenean, which you can tell by the joints: the legions cut to a thumb's width and thought it was a boast. And under that,' he lifts a shoulder, 'there is something I was taught as a boy not to name, because my grandfather's master walked into a hall like it and came out and never cut a stone again. The joints do not show. You cannot find where it was made, only where it was stopped.'".
+  }
+  Topic hester_amos with hester "Ask Hester about her brother" when true once {
+    Says "'Amos,' says Hester, and sets the pot down. 'The fourth shift down, the winter of 'fifty-six. They said the water took the whole of it. Nobody has ever said whose names.' She picks the pot up again. 'I was nine. I have kept the inn so the door would be open when someone came to say.'".
+  }
 }

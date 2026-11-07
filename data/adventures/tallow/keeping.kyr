@@ -15,16 +15,17 @@ Module tallow "Tallow Deep" {
   Observe pipe_tick at green as sound when true "Under the gurgle of the pipe, so faint you take it for your own pulse, something ticks: once, and again, six breaths apart.".
   Observe shaft_tick at winding as sound when true "Under the water far below the cage there is a tick, and a tick, evenly, not a drip. It has the patience of a thing that does not mind who is listening.".
   Topic dunstan_tick with dunstan "Ask Dunstan about the ticking under the pipe" when true {
-    Says "'You hear it, then,' says Dunstan. 'Not many do. We heard it in the shaft the winter before the shot, and the Foreman had us stop work to listen, and it kept time, and not ours.' He drinks. 'Carr said the Legion's engineers heard it too. He'd read their wall. He said they were the first people who had the sense to be afraid of it, and the only ones who had the sense to leave it running.'".
+    Says "'You hear it, then,' says Dunstan. 'Not many do. We heard it in the shaft the winter before the shot, and the Foreman had us stop work to listen, and it kept time, and not ours: six breaths between, and I counted a thousand of them before the shot.' He drinks. 'Carr said the Legion's engineers heard it too. He'd read their wall. He said they were the first people who had the sense to be afraid of it, and the only ones who had the sense to leave it running.'".
+    On discuss { Assert knows(actor, period_known). }
   }
 
   // The Foreman's ledger: fourteen names and the wages owed them.
   Topic joss_father with joss "Show Joss the fourteen names in the Foreman's ledger" when holding(actor, carr_ledger) and not namesRead(party) once {
-    Says "Joss reads down the column with a clerk's finger, and stops at the ninth. TARBET, J., SENIOR: 3 DAYS. He does not move. 'I was told he went to Carrow for work,' he says at last. 'Thirty years, I've been running brandy under the place he was lying in.' He gives the ledger back with both hands. 'The Company never paid him,' he says, and laughs, and it is a bad laugh. 'Three days. I should like them paid.'".
+    Says "Joss reads down the column with a clerk's finger, past the Foreman's name at the head and a struck-through sixth, and stops at the ninth. TARBET, J., SENIOR: 3 DAYS. He does not move. 'I was told he went to Carrow for work,' he says at last. 'Thirty years, I've been running brandy under the place he was lying in.' He gives the ledger back with both hands. 'The Company never paid him,' he says, and laughs, and it is a bad laugh. 'Three days. I should like them paid.'".
     On discuss { Assert ticked(party). }
   }
   Topic dunstan_names with dunstan "Read Dunstan the fourteen names from the Foreman's ledger" when holding(actor, carr_ledger) and not namesRead(party) once {
-    Says "You read them. Dunstan sits quite still. At the sixth name, which is his own, struck through in a different ink because Carr thought he had gone up the shaft alive, he lifts his head. 'I did,' he says. 'I did go up. I have been dead six and fifty years, and nobody has said.' He takes the ledger and reads the fourteen aloud himself, slowly, to the room, and Hester Pook, at her pots, says each after him. Afterwards he pins the page to the beam beside the tokens.".
+    Says "You read the fifteen. Dunstan sits quite still. At the sixth name, which is his own, struck through in a different ink because Carr knew he had gone up the shaft alive and would not have him owed, he lifts his head. 'I did,' he says. 'I did go up. I have been dead six and fifty years, and nobody has said.' He takes the ledger and reads the fourteen aloud himself, slowly, to the room, and Hester Pook, at her pots, says each after him. Afterwards he pins the page to the beam beside the tokens.".
     On discuss { Assert namesRead(party). }
   }
   Observe names_pinned at taproom when namesRead(party) "Beside the Company's tokens, pinned to the beam, a page from a ledger: fourteen names, and by each of them, in Hester's hand, a day's wage in pence, paid.".
@@ -32,8 +33,29 @@ Module tallow "Tallow Deep" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, ossuary) and at(ghouls, ossuary) and able(ghouls) and holding(actor, carr_ledger).
     Time 0.
     On success { Slay ghouls. Assert laid(party). }
-    Result "You read them: the first name to the boy in the first boots, the last to the Foreman, slowly, as clerks do. At the ninth, the long hands lie down. At the fourteenth, no one in the vault is eating. They have been waiting, you think, only to be counted.".
+    Result "You read them: the first to the Foreman, who stacked them himself, and the last to the boy in the first boots, slowly, as clerks do. At the ninth, the long hands lie down. At the fourteenth, no one in the vault is eating. They have been waiting, you think, only to be counted.".
   }
 
   Milestone m_names "had the fourteen counted" worth 200 when namesRead(party) or ticked(party) or laid(party).
+  Observe pipe_tick_slow at green instead of pipe_tick as sound when holding(party, ancient_orrery) or holding(party, celestial_chart) or holding(party, lensing_crystal) "Under the gurgle of the pipe the tick has changed. It comes late, and then twice, and then late. Hester has stopped wiping her pots.".
+  Action restore_shelf(actor: group, site: place) "Set what was taken back on the shelf of grey metal" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, dial_room) and (holding(actor, ancient_orrery) or holding(actor, celestial_chart) or holding(actor, lensing_crystal)).
+    Time 0.
+    On success { Spend ancient_orrery from actor. Increase shelfRestored(party) by 1. }
+    Result "You put it back where it stood, on its own clean place in the dust. The wire swings once over the glass, and goes on.".
+  }
+  Measure shelfRestored(group).
+  Topic hester_report_kind with hester "Tell Hester the old road is open" when state(calx_gate, raised) and ticked(party) and not sold_out(party) once {
+    Says "Hester Pook listens, and for a long time says nothing. 'He asked me,' she says at last, 'not to tell you. Joss. He said you would see it for yourself, or you would not.' She wipes the pot. 'I will not be the one. It's his father's grave he's been carrying brandy over, and he has paid the parish a tithe every year for it, which I did not understand till now.' She looks at the beam. 'Tell him yourself.'".
+  }
+  Action play_cards(actor: group, site: place) "Sit in on the Tallymen's game of cards for the loan of the lantern" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, tally_room) and at(joss, tally_room) and not cardsPlayed(actor).
+    Time 1.
+    Resolve check(actor, deception, dc_fair).
+    On success { Assert cardsPlayed(actor). Assert tolerates(bend_watch, actor). Increase quantity(actor, gold) by 4. }
+    On failure { Assert cardsPlayed(actor). Decrease quantity(actor, gold) by 3 or to nothing. }
+    Result "The dog watches the cards, and Joss watches the dog, which is where you notice that the dog has been dealt a hand. You win four coin and the lantern's loan by turning up a knave you were quite sure was under the dog, and Joss says, without rancour, that he will have the dog re-schooled.".
+    Otherwise "You lose three coin to a dog. Joss pretends not to have seen it, which is the cruellest thing he could do.".
+  }
+  Relation cardsPlayed(group).
 }

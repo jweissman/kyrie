@@ -43,3 +43,15 @@ Lore from three people; the Tallymen's toll (pay, lie, slip, fight); poisoned ra
 - **Treasure sale:** only the assayer's `Buys` list and any dealer's half-worth of `treasure` buy finds; the orrery (value 500) has no buyer in Swallet.
 - **Portraits:** all creatures here were already painted; no new species were added.
 - **Handbook/encyclopedia** entries for the creatures exist; none of the Tallow-specific local documents are indexed.
+
+## Second pass: the adversarial review, and what it changed
+A reviewer who had not written it read the module and found, among others: a softlock (the sluice reopened silently after four hours with the party on the Cap); a stale latch (`shutWas`) that hit parties with a flood long past; a ledger whose order, count (14 vs 15) and chronology (sixty years or two hundred?) contradicted themselves; a dominated bribe (Nib's twopence bought what he gave free); a theme (*keeping*) stated in a comment and enacted nowhere at the climax; a toll paid once for ever; a village that was information dispensers.
+- **Softlock:** the Cap, Breach and Gear-Hall now say, from the twelfth watch, that the river is coming back (`cap_damp`, `bore_damp`); the Cap's ring can be turned to hold it four hours more (`wind_cap_ring`).
+- **`shutWas`** clears when the sluice opens away from the Hall.
+- **Chronology:** the Breakthrough is the winter of 'fifty-six (sixty years gone); the ledger holds fifteen names, one struck through (Dunstan, who lived); Carr stacked the dead himself (his letter says so).
+- **Theme enacted at the climax:** the shelf of grey metal is a trust. Carrying the orrery, chart or crystal off changes the tick under Swallet's pipe (late, then twice) and makes the Wend rise more often; the shelf can be restored (`restore_shelf`).
+- **Living sources of the beat:** Dunstan counted it ("six breaths") before the Company shot into the Cap, so `period_known` has three sources, not one clue.
+- **Dominated bribe** removed; the toll lapses after a day (pay again) and the Tallymen's cards (a comic set-piece with a dog who has been dealt a hand) are a fourth way past; `lie_to_watch` and the rites are one try each.
+- **The betrayal has a cost:** after Joss's father, Hester will not sell him out (`hester_report_kind`); she has a brother in the ledger, Osk a dwarf's memory of the stone, Orpe a debt to the letter she burned and a price (thirty a tooth) for the grey metal.
+- **Declined:** closing the Long Stair to the Calx Way party. A shortcut that skips levels was asked for; the cost is the ghouls, the oil, the shovel and not having the Tally-Wall's hall, and the beat is now had from Dunstan.
+- **Left:** the Wend does not fall when the sluice shuts; spiders and ghouls do not recolonise; the prose still wants a third off its "the way men do who" cadence.

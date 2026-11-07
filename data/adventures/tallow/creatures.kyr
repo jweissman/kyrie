@@ -89,7 +89,7 @@ Module tallow "Tallow Deep" {
   Place spider_vault "the web-roofed vault" is room within l2 at 2, 1 underground.
   Initially Assert unlit(spider_vault).
   Passage gallery_vault "the climb into the vault" is ladder between spider_gallery and spider_vault needing climbing or rope.
-  Observe vault_scene at spider_vault when true "A domed hollow in the Aenean masonry, roofed in web, where the spiders have their wrapped larder. Bats are hung in it, and a cat, and something that was a man, lashed to a beam in silk to the neck.".
+  Observe vault_scene at spider_vault when true "A domed hollow in the Aenean masonry, roofed in web, where the spiders have their wrapped larder. Bats are hung in it, and a cat, and something that was a man in a bend-watch's baldric, lashed to a beam in silk to the neck. Hobb went up the service walk after a collar, and the ledge was narrow.".
   Rule spiders_range when dead(rats) and dead(settling_rats) and at(spiders, spider_gallery) and not scattered(spiders) and untilLight(clock) == 1 and dice(clock) <= 40 {
     Retract at(spiders, spider_gallery). Assert at(spiders, settling). Assert scattered(spiders).
   }
@@ -127,14 +127,15 @@ Module tallow "Tallow Deep" {
     Guards ossuary_gate.
   }
   Action lay_dead(actor: group, site: place) "Say the Company's burial words over the stacked dead" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ossuary) and at(ghouls, ossuary) and able(ghouls).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ossuary) and at(ghouls, ossuary) and able(ghouls) and not ritedFailed(actor).
     Time 0.
     Resolve check(actor, rites, dc_hard).
     On success { Slay ghouls. Assert laid(party). }
+    On failure { Assert ritedFailed(actor). }
     Result "You say the words over them, all of them, slowly. The long hands go still on the stacked boots. The dead are only dead.".
     Otherwise "The words go out into the vault and come back changed. The nearest ghoul tips its head and smiles, and the smile is wrong in a way you recognise as grief.".
   }
-  Relation laid(group).
+  Relation laid(group). Relation ritedFailed(group).
   Observe ghouls_signs at breach as sign when not dead(ghouls) "From the Ossuary side, the smell of old sweet rot, and a sound like a stack of wood being gently rearranged.".
 
   // The Quiet Gallery: the stalkers hunt by breath, and the Bore has its custodians.
@@ -154,7 +155,7 @@ Module tallow "Tallow Deep" {
   }
   Observe stalkers_remains at gear_hall as sign when not dead(stalker_a) "At the mouth of the Quiet Gallery a Tallyman's tin lamp lies on its side, dry, with a coil of good rope beside it, cut clean through a hand above where it was tied. Nothing else is left.".
   Action muffle(actor: group, site: place) "Bind blankets over boots and wrap wet cloth across mouths" {
-    Requires able(actor) and company(actor) and at(actor, site) and (at(actor, breach) or at(actor, gear_hall) or at(actor, quiet_gallery)) and holding(actor, blanket) and not muffled(actor).
+    Requires able(actor) and company(actor) and at(actor, site) and (at(actor, breach) or at(actor, gear_hall) or at(actor, quiet_gallery) or at(actor, dial_room)) and holding(actor, blanket) and not muffled(actor).
     Time 6.
     On success { Spend blanket from actor. Assert muffled(actor). Set muffledUntil(actor) to watch(clock) + 12.
       Assert tolerates(stalker_a, actor). Assert tolerates(stalker_b, actor). }

@@ -83,4 +83,16 @@ describe('Tallow Deep', () => {
     await j.step('Read the fourteen names aloud over the stacked dead');
     expect(j.holds('dead', 'ghouls')).toBe(true);
   }, 120000);
+
+  it('lets the beat be had from a living man, the toll lapse, and the Cap hold the river back', async () => {
+    const j = await Journey.start(campaign, 'tallow');
+    await j.play('To Swallet lane', 'To Swallet green', "Into the Chandler's Arms", 'Ask Dunstan about the ticking under the pipe');
+    expect(j.holds('knows', 'party', 'period_known')).toBe(true);
+    j.put('party', 'the_cap');
+    j.assert('state', 'sluice', 'wound');
+    const before = j.measure('shutAt', 'sluice');
+    await j.step('Wait › An hour');
+    await j.step('Turn the Cap\'s bronze ring to hold the river back another four hours');
+    expect(j.measure('shutAt', 'sluice')).toBeGreaterThan(before);
+  }, 120000);
 });

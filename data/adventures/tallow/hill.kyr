@@ -36,7 +36,7 @@ Module tallow "Tallow Deep" {
   Place west_end "the west road's end" is room within westway at 0, 1 outdoors.
   Place calx_portal "the buried portal" is room within westway at 0, 0 outdoors.
 
-  // The Day-Level: the Brasiers' Company's works, two hundred years old.
+  // The Day-Level: the Brasiers' Company's works, sixty years gone.
   Place adit "the adit" is room within l1 at 0, 1.
   Place drift "the long drift" is room within l1 at 1, 1.
   Place tally_room "the Tally-Room" is room within l1 at 2, 1.
