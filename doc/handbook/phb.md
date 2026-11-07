@@ -6115,7 +6115,7 @@ Every enemy gains slow for 4 turns (a Dexterity save against 14 + level + the ca
 
 *Faithful · level 2 arcane spell, conjuration* · `ability:summon_monster`
 
-Call one of: chimera, nightmare, owlbear, wendigo, dryad, nymph, pixie, satyr, sprite, to fight for you until the fight ends. An arcane spell of the second level. Takes a second-level slot.
+Call one of: chimera, locatah, nightmare, owlbear, pegasus, unicorn, wendigo, yrthak, dryad, lillend, nymph, pixie, satyr, sprite, to fight for you until the fight ends. An arcane spell of the second level. Takes a second-level slot.
 
 > Summon a random monster (beast or fey type) to fight for you.
 
@@ -6607,7 +6607,7 @@ Call one of: mephit, slump, air elemental, ash elemental, crystal elemental, dus
 
 *Faithful · level 6 arcane spell, conjuration* · `ability:summon_monster_iv`
 
-Call one of: discerner, hollow-stalker, mind destroyer, mouther, ooze, tide-caller, automaton, clockwork soldier, clay golem, stone golem, iron golem, wood golem, gold golem, bone golem, crystal golem, silver golem, glass golem, platinum golem, bronze golem, of level 12, to fight for you until the fight ends. An arcane spell of the sixth level. Takes a sixth-level slot.
+Call one of: discerner, grey render, hollow-stalker, mind destroyer, mouther, ooze, tide-caller, xill, automaton, clockwork soldier, clay golem, stone golem, iron golem, wood golem, gold golem, bone golem, crystal golem, silver golem, glass golem, platinum golem, bronze golem, of level 12, to fight for you until the fight ends. An arcane spell of the sixth level. Takes a sixth-level slot.
 
 > Summon a mighty random construct or aberration to fight for you.
 
@@ -6687,7 +6687,7 @@ Every enemy is confused for 3 turns (a Wisdom save against 18 + level + the cast
 
 *Faithful · level 7 arcane spell, conjuration* · `ability:summon_monster_v`
 
-Call one of: drake, wyrm, wyvern, black dragon, blue dragon, brass dragon, bronze dragon, copper dragon, gold dragon, green dragon, red dragon, silver dragon, white dragon, behemoth, colossus, titan, angel, archon, deva, solar, balor, fiend, ifrit, marilith, discerner, hollow-stalker, mind destroyer, mouther, ooze, tide-caller, of level 15, to fight for you until the fight ends. An arcane spell of the seventh level. Takes a seventh-level slot.
+Call one of: drake, wyrm, wyvern, black dragon, blue dragon, brass dragon, bronze dragon, copper dragon, gold dragon, green dragon, red dragon, silver dragon, white dragon, behemoth, colossus, titan, angel, archon, deva, solar, balor, fiend, ifrit, marilith, discerner, grey render, hollow-stalker, mind destroyer, mouther, ooze, tide-caller, xill, of level 15, to fight for you until the fight ends. An arcane spell of the seventh level. Takes a seventh-level slot.
 
 > Summon a champion random creature to fight for you.
 
@@ -6771,7 +6771,7 @@ Every ally gains mind blank for 20 turns. Mind Blank: +2 to will saves, resists 
 
 *Faithful · level 8 arcane spell, conjuration* · `ability:summon_monster_vi`
 
-Call one of: drake, wyrm, wyvern, black dragon, blue dragon, brass dragon, bronze dragon, copper dragon, gold dragon, green dragon, red dragon, silver dragon, white dragon, behemoth, colossus, titan, angel, archon, deva, solar, balor, fiend, ifrit, marilith, discerner, hollow-stalker, mind destroyer, mouther, ooze, tide-caller, of level 20, to fight for you until the fight ends. An arcane spell of the eighth level. Takes an eighth-level slot.
+Call one of: drake, wyrm, wyvern, black dragon, blue dragon, brass dragon, bronze dragon, copper dragon, gold dragon, green dragon, red dragon, silver dragon, white dragon, behemoth, colossus, titan, angel, archon, deva, solar, balor, fiend, ifrit, marilith, discerner, grey render, hollow-stalker, mind destroyer, mouther, ooze, tide-caller, xill, of level 20, to fight for you until the fight ends. An arcane spell of the eighth level. Takes an eighth-level slot.
 
 > Summon a epic random creature to fight for you.
 
@@ -6847,7 +6847,7 @@ Every enemy is dominated for 3 turns (only humanoid creatures). Dominated: fight
 
 *Faithful · level 9 arcane spell, conjuration* · `ability:summon_monster_vii`
 
-Call one of: drake, wyrm, wyvern, black dragon, blue dragon, brass dragon, bronze dragon, copper dragon, gold dragon, green dragon, red dragon, silver dragon, white dragon, behemoth, colossus, titan, angel, archon, deva, solar, balor, fiend, ifrit, marilith, discerner, hollow-stalker, mind destroyer, mouther, ooze, tide-caller, of level 25, to fight for you until the fight ends. An arcane spell of the ninth level. Takes a ninth-level slot.
+Call one of: drake, wyrm, wyvern, black dragon, blue dragon, brass dragon, bronze dragon, copper dragon, gold dragon, green dragon, red dragon, silver dragon, white dragon, behemoth, colossus, titan, angel, archon, deva, solar, balor, fiend, ifrit, marilith, discerner, grey render, hollow-stalker, mind destroyer, mouther, ooze, tide-caller, xill, of level 25, to fight for you until the fight ends. An arcane spell of the ninth level. Takes a ninth-level slot.
 
 > Summon a legendary random creature to fight for you.
 

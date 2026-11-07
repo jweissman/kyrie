@@ -54,6 +54,25 @@ Planar Adaptation: +2 against magic, resists 50% of fire, resists 50% of cold, r
 
 *Adapted: Composed by OrsinoMonsters (aberration class, Discerner type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
 
+#### Grey Render
+
+*Kyr · aberration* · `species:grey_render`
+
+<img src="../../web/reader/paintings/monsters/grey_render.webp" alt="" width="128">
+
+- Type: aberration (monster)
+- Hit points: d12 a level
+- Qualities: rolled (3d6 each)
+- Attack: claws, 1d4 slashing
+- Hide: Hide Armor, armour 1
+- Worth: 200 + 75 experience a level
+
+Scream: Every enemy is frightened for 3 turns (a Wisdom save against 12 + level + the caster's spell bonus avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. Again after 6 turns.
+
+Charge: End preparing to charge on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act. Again after 3 turns.
+
+> A massive, hulking creature with a hide like stone and a relentless hunger for flesh.
+
 #### Hollow-stalker
 
 *Kyr · aberration* · `species:hollow_stalker`
@@ -188,6 +207,8 @@ Planar Adaptation: +2 against magic, resists 50% of fire, resists 50% of cold, r
 
 *Kyr · aberration* · `species:tide_caller`
 
+<img src="../../web/reader/paintings/monsters/tide_caller.webp" alt="" width="128">
+
 - Type: aberration (monster)
 - Hit points: d10 a level
 - Qualities: rolled (3d6 each)
@@ -201,6 +222,21 @@ Scream: Every enemy is frightened for 3 turns (a Wisdom save against 12 + level 
 Charm Person: One enemy is charmed for 3 turns (only humanoid creatures; a Wisdom save against 18 + level + the caster's spell bonus avoids it). Charmed: fights for the other side. An arcane spell of the first level. Takes a first-level slot.
 
 > A thing that lives in the sea under certain shores and calls, in the voices of the drowned, to whoever is listening, and takes the ones who answer.
+
+#### Xill
+
+*Kyr · aberration* · `species:xill`
+
+<img src="../../web/reader/paintings/monsters/xill.webp" alt="" width="128">
+
+- Type: aberration (monster)
+- Hit points: d8 a level
+- Qualities: rolled (3d6 each)
+- Attack: claws, 1d4 slashing
+- Hide: Chitin Armor, armour 2
+- Worth: 120 + 40 experience a level
+
+> Xills are extraplanar beings with insect-like features and a penchant for ambushing travelers. They are known for their agility and deadly combat skills. Malevolent in the extreme, xills are known for brutality and totalitarianism. They combine a healthy dose of evil with a keen love of cruelty.
 
 ### Beasts
 
@@ -293,6 +329,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 *Kyr · beast* · `species:bone_kite`
 
+<img src="../../web/reader/paintings/animals/bone_kite.webp" alt="" width="128">
+
 - Type: beast (animal)
 - Hit points: d4 a level
 - Qualities: rolled (3d6 each)
@@ -308,6 +346,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 #### Bone-scuttler
 
 *Kyr · beast* · `species:bone_scuttler`
+
+<img src="../../web/reader/paintings/animals/bone_scuttler.webp" alt="" width="128">
 
 - Type: beast (animal)
 - Hit points: d2 a level
@@ -503,6 +543,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 *Kyr · beast* · `species:dawn_piper`
 
+<img src="../../web/reader/paintings/animals/dawn_piper.webp" alt="" width="128">
+
 - Type: beast (animal)
 - Hit points: d4 a level
 - Qualities: rolled (3d6 each)
@@ -592,6 +634,24 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A swift flying insect with iridescent wings and excellent maneuverability.
 
+#### Dromedary
+
+*Kyr · beast* · `species:dromedary`
+
+<img src="../../web/reader/paintings/animals/dromedary.webp" alt="" width="128">
+
+- Type: beast (animal)
+- Hit points: d10 a level
+- Qualities: rolled (3d6 each)
+- Attack: kick, 1d2 bludgeoning
+- Hide: Hide Armor, armour 1
+- Found in: desert
+- Worth: 10 experience a level
+
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
+
+> A desert-dwelling camel with a single hump, known for its endurance and ability to travel long distances without water.
+
 #### Eagle
 
 *Faithful · beast* · `species:eagle`
@@ -678,6 +738,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 *Kyr · beast* · `species:fern_runner`
 
+<img src="../../web/reader/paintings/animals/fern_runner.webp" alt="" width="128">
+
 - Type: beast (animal)
 - Hit points: d4 a level
 - Qualities: rolled (3d6 each)
@@ -753,6 +815,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 #### Glide-lizard
 
 *Kyr · beast* · `species:glide_lizard`
+
+<img src="../../web/reader/paintings/animals/glide_lizard.webp" alt="" width="128">
 
 - Type: beast (animal)
 - Hit points: d3 a level
@@ -867,6 +931,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 *Kyr · beast* · `species:hook_claw`
 
+<img src="../../web/reader/paintings/animals/hook_claw.webp" alt="" width="128">
+
 - Type: beast (animal)
 - Hit points: d8 a level
 - Qualities: rolled (3d6 each)
@@ -959,9 +1025,29 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 *Adapted: Orsino's animal template made it a companion's size (fixed hit points no more than a squirrel's); as a beast of the wild Kyr rolls its qualities with a hit die of 6, as it does a wolf's, with a rending bite.*
 
+#### Kangaroo Rat
+
+*Kyr · beast* · `species:kangaroo_rat`
+
+<img src="../../web/reader/paintings/animals/kangaroo_rat.webp" alt="" width="128">
+
+- Type: beast (animal)
+- Hit points: d2 a level
+- Qualities: rolled (3d6 each)
+- Attack: bite, 1d6 piercing
+- Hide: Hide Armor, armour 1
+- Found in: desert
+- Worth: 5 experience a level
+
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
+
+> A small desert-dwelling rodent with powerful hind legs for jumping.
+
 #### Lantern-neck
 
 *Kyr · beast* · `species:lantern_neck`
+
+<img src="../../web/reader/paintings/animals/lantern_neck.webp" alt="" width="128">
 
 - Type: beast (animal)
 - Hit points: d12 a level
@@ -1055,6 +1141,25 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A small reptile known with exquisite agility and unusual ability to regenerate lost tails.
 
+#### Locatah
+
+*Kyr · beast* · `species:locatah`
+
+<img src="../../web/reader/paintings/monsters/locatah.webp" alt="" width="128">
+
+- Type: beast (monster)
+- Hit points: d6 a level
+- Qualities: rolled (3d6 each)
+- Attack: dagger, 1d4 piercing
+- Hide: Shell Armor, armour 4
+- Worth: 50 + 20 experience a level
+
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
+
+Rapid Strike: Weapon attack against one enemy; weapon attack against it; weapon attack against it. Again after 3 turns.
+
+> The nomadic locathahnim dwell in warm coastal waters, hunting fish and gathering crustaceans for food. Although humanoid in shape, they are clearly more fish than human.
+
 #### Marsh boar
 
 *Adapted · beast* · `species:boar`
@@ -1137,6 +1242,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 #### Mud-skimmer
 
 *Kyr · beast* · `species:mud_skimmer`
+
+<img src="../../web/reader/paintings/animals/mud_skimmer.webp" alt="" width="128">
 
 - Type: beast (animal)
 - Hit points: d3 a level
@@ -1284,6 +1391,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 *Kyr · beast* · `species:pass_marmot`
 
+<img src="../../web/reader/paintings/animals/pass_marmot.webp" alt="" width="128">
+
 - Type: beast (animal)
 - Hit points: d4 a level
 - Qualities: rolled (3d6 each)
@@ -1295,6 +1404,23 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A stout burrowing sentinel of the high pass, that whistles once at a thing it fears and twice at a thing it hates.
+
+#### Pegasus
+
+*Kyr · beast* · `species:pegasus`
+
+<img src="../../web/reader/paintings/monsters/pegasus.webp" alt="" width="128">
+
+- Type: beast (monster)
+- Hit points: d10 a level
+- Qualities: rolled (3d6 each)
+- Attack: kick, 1d2 bludgeoning
+- Hide: Hide Armor, armour 1
+- Worth: 100 + 50 experience a level
+
+Charge: End preparing to charge on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act. Again after 3 turns.
+
+> A majestic winged horse known for its grace and speed. The pegasus is a magnificent winged horse that sometimes serves the cause of good. Though highly prized as aerial steeds, pegasi are wild and shy creatures not easily tamed.
 
 #### Pig
 
@@ -1339,6 +1465,8 @@ Of deep water: Immune to reflex.
 #### Plate-back
 
 *Kyr · beast* · `species:plate_back`
+
+<img src="../../web/reader/paintings/animals/plate_back.webp" alt="" width="128">
 
 - Type: beast (animal)
 - Hit points: d10 a level
@@ -1482,6 +1610,8 @@ Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 
 
 *Kyr · beast* · `species:ridge_goat`
 
+<img src="../../web/reader/paintings/animals/ridge_goat.webp" alt="" width="128">
+
 - Type: beast (animal)
 - Hit points: d6 a level
 - Qualities: rolled (3d6 each)
@@ -1498,6 +1628,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 *Kyr · beast* · `species:sail_wing`
 
+<img src="../../web/reader/paintings/animals/sail_wing.webp" alt="" width="128">
+
 - Type: beast (animal)
 - Hit points: d6 a level
 - Qualities: rolled (3d6 each)
@@ -1513,6 +1645,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 #### Salt-ox
 
 *Kyr · beast* · `species:salt_ox`
+
+<img src="../../web/reader/paintings/animals/salt_ox.webp" alt="" width="128">
 
 - Type: beast (animal)
 - Hit points: d10 a level
@@ -1548,6 +1682,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 #### Shore-brooder
 
 *Kyr · beast* · `species:shore_brooder`
+
+<img src="../../web/reader/paintings/animals/shore_brooder.webp" alt="" width="128">
 
 - Type: beast (animal)
 - Hit points: d10 a level
@@ -1634,6 +1770,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 *Kyr · beast* · `species:stilt_runner`
 
+<img src="../../web/reader/paintings/animals/stilt_runner.webp" alt="" width="128">
+
 - Type: beast (animal)
 - Hit points: d8 a level
 - Qualities: rolled (3d6 each)
@@ -1671,6 +1809,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 #### Three-horn
 
 *Kyr · beast* · `species:three_horn`
+
+<img src="../../web/reader/paintings/animals/three_horn.webp" alt="" width="128">
 
 - Type: beast (animal)
 - Hit points: d12 a level
@@ -1733,6 +1873,8 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 *Kyr · beast* · `species:tyrant`
 
+<img src="../../web/reader/paintings/animals/tyrant.webp" alt="" width="128">
+
 - Type: beast (animal)
 - Hit points: d12 a level
 - Qualities: rolled (3d6 each)
@@ -1748,6 +1890,26 @@ Charge: End preparing to charge on yourself; 3d8 + 1 + level bludgeoning damage 
 Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to it (may cause stunned: a Constitution save against 15 avoids it); it is bleeding for 3 turns (a Constitution save against 15 + level + the caster's spell bonus avoids it). Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn. Again after 2 turns.
 
 > The island's great hunter: a bulk-headed killer as long as a barn, with a bite that breaks the backs of the herd.
+
+#### Unicorn
+
+*Kyr · beast* · `species:unicorn`
+
+<img src="../../web/reader/paintings/monsters/unicorn.webp" alt="" width="128">
+
+- Type: beast (monster)
+- Hit points: d10 a level
+- Qualities: rolled (3d6 each)
+- Attack: horns, 1d4 bludgeoning
+- Hide: Hide Armor, armour 1
+- Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
+- Worth: 150 + 50 experience a level
+
+Charge: End preparing to charge on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act. Again after 3 turns.
+
+Heal Ally: Heal one ally for 4d8 + level; end diseased, poison, cursed, blinded, slow or paralyzed on that ally. A divine spell of the fifth level. Takes a fifth-level slot.
+
+> These fierce, noble beasts shun contact with all but sylvan creatures (dryads, pixies, and the like), showing themselves only to defend their woodland homes. Unicorns are elusive but occasionally allow themselves to be tamed and ridden by good human or elven maidens of pure heart.
 
 #### Wendigo
 
@@ -1824,6 +1986,21 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 > A grey wolf of the uplands: a pack hunter with a rending bite.
 
 *Adapted: Orsino's wolf stat line (base 3 + kind) is not used; Kyr wolves roll their attributes.*
+
+#### Yrthak
+
+*Kyr · beast* · `species:yrthak`
+
+<img src="../../web/reader/paintings/monsters/yrthak.webp" alt="" width="128">
+
+- Type: beast (monster)
+- Hit points: d10 a level
+- Qualities: rolled (3d6 each)
+- Attack: claws, 1d4 slashing
+- Hide: Scale Mail, armour 4
+- Worth: 150 + 50 experience a level
+
+> A strange predator from desolate wastelands, the yrthak terrorizes the area it inhabits as an always hungry dragon might. A yrthak is blind. It senses sound and movement by means of a special organ on its long tongue. It emits powerfully focused beams of sound from the protrusion on its head. The creature is a yellowish-green color, with the wings and fin being more yellow and the head and body more green. The teeth are yellow.
 
 #### Zebra
 
@@ -2447,6 +2624,24 @@ Call Animal Companion: Call the beast your people keep company with, to fight fo
 
 *Adapted: Composed by OrsinoMonsters (fey class, Dryad type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
 
+#### Lillend
+
+*Kyr · fey* · `species:lillend`
+
+<img src="../../web/reader/paintings/monsters/lillend.webp" alt="" width="128">
+
+- Type: fey (monster)
+- Hit points: d8 a level
+- Qualities: rolled (3d6 each)
+- Attack: longsword, 1d8 slashing
+- Hide: Clothing, armour 0
+- Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
+- Worth: 150 + 50 experience a level
+
+Charm Person: One enemy is charmed for 3 turns (only humanoid creatures; a Wisdom save against 18 + level + the caster's spell bonus avoids it). Charmed: fights for the other side. An arcane spell of the first level. Takes a first-level slot.
+
+> A graceful, otherworldly being with an enchanting presence and a connection to the natural world.
+
 #### Nymph
 
 *Adapted · fey* · `species:nymph`
@@ -2673,6 +2868,28 @@ Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, 
 *Left out — field:monsterGold: Orsino's 5d10 gold for the kill is not carried.*
 
 *Adapted: Composed by OrsinoMonsters (giant class, Titan type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+
+### Humanoids
+
+#### Yuanti
+
+*Kyr · humanoid* · `species:yuanti`
+
+<img src="../../web/reader/paintings/monsters/yuanti.webp" alt="" width="128">
+
+- Type: humanoid (monster)
+- Hit points: d8 a level
+- Qualities: rolled (3d6 each)
+- Attack: claws, 1d4 slashing
+- Hide: Studded Leather Armor, armour 3
+- Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
+- Worth: 120 + 40 experience a level
+
+Charm Person: One enemy is charmed for 3 turns (only humanoid creatures; a Wisdom save against 18 + level + the caster's spell bonus avoids it). Charmed: fights for the other side. An arcane spell of the first level. Takes a first-level slot.
+
+Dodge: You are dodging for 3 turns. Dodging: 2 harder to hit, +5 evasion. Again after 3 turns.
+
+> Yuanti are serpentine outsiders with a genius intellect and a penchant for manipulation. They are known for their magical abilities and their ability to charm and deceive other creatures. The yuan-ti are descended from humans whose bloodlines have been mingled with those of snakes. Their evilness, cunning, and ruthlessness are legendary.
 
 ### Spirits
 

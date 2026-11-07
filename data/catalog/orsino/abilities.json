@@ -5063,10 +5063,15 @@
      "target": "self",
      "from": [
       "chimera",
+      "locatah",
       "nightmare",
       "owlbear",
+      "pegasus",
+      "unicorn",
       "wendigo",
+      "yrthak",
       "dryad",
+      "lillend",
       "nymph",
       "pixie",
       "satyr",
@@ -5174,11 +5179,13 @@
      "target": "self",
      "from": [
       "discerner",
+      "grey_render",
       "hollow_stalker",
       "mind_destroyer",
       "mouther",
       "ooze",
       "tide_caller",
+      "xill",
       "automaton",
       "clockwork_soldier",
       "golem/clay",
@@ -5242,11 +5249,13 @@
       "ifrit",
       "marilith",
       "discerner",
+      "grey_render",
       "hollow_stalker",
       "mind_destroyer",
       "mouther",
       "ooze",
-      "tide_caller"
+      "tide_caller",
+      "xill"
      ],
      "level": 15
     }
@@ -5297,11 +5306,13 @@
       "ifrit",
       "marilith",
       "discerner",
+      "grey_render",
       "hollow_stalker",
       "mind_destroyer",
       "mouther",
       "ooze",
-      "tide_caller"
+      "tide_caller",
+      "xill"
      ],
      "level": 20
     }
@@ -5352,11 +5363,13 @@
       "ifrit",
       "marilith",
       "discerner",
+      "grey_render",
       "hollow_stalker",
       "mind_destroyer",
       "mouther",
       "ooze",
-      "tide_caller"
+      "tide_caller",
+      "xill"
      ],
      "level": 25
     }

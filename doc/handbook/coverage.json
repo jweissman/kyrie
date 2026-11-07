@@ -1063,7 +1063,7 @@
     "faithful": 126,
     "adapted": 143,
     "represented": 10,
-    "kyr": 108,
+    "kyr": 118,
     "unsupported": 4,
     "unreachable": 0,
     "data-only": 104
@@ -1076,7 +1076,7 @@
       "faithful": 32,
       "adapted": 52,
       "represented": 0,
-      "kyr": 41,
+      "kyr": 51,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -19183,6 +19183,13 @@
    "section": "species/species-aberration"
   },
   {
+   "id": "species:grey_render",
+   "title": "Grey Render",
+   "status": "kyr",
+   "book": "mm",
+   "section": "species/species-aberration"
+  },
+  {
    "id": "species:hollow_stalker",
    "title": "Hollow-stalker",
    "status": "kyr",
@@ -19213,6 +19220,13 @@
   {
    "id": "species:tide_caller",
    "title": "Tide-caller",
+   "status": "kyr",
+   "book": "mm",
+   "section": "species/species-aberration"
+  },
+  {
+   "id": "species:xill",
+   "title": "Xill",
    "status": "kyr",
    "book": "mm",
    "section": "species/species-aberration"
@@ -19351,6 +19365,13 @@
    "section": "species/species-beast"
   },
   {
+   "id": "species:dromedary",
+   "title": "Dromedary",
+   "status": "kyr",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
    "id": "species:eagle",
    "title": "Eagle",
    "status": "faithful",
@@ -19484,6 +19505,13 @@
    "section": "species/species-beast"
   },
   {
+   "id": "species:kangaroo_rat",
+   "title": "Kangaroo Rat",
+   "status": "kyr",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
    "id": "species:lantern_neck",
    "title": "Lantern-neck",
    "status": "kyr",
@@ -19515,6 +19543,13 @@
    "id": "species:lizard",
    "title": "Lizard",
    "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:locatah",
+   "title": "Locatah",
+   "status": "kyr",
    "book": "mm",
    "section": "species/species-beast"
   },
@@ -19591,6 +19626,13 @@
   {
    "id": "species:pass_marmot",
    "title": "Pass-marmot",
+   "status": "kyr",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:pegasus",
+   "title": "Pegasus",
    "status": "kyr",
    "book": "mm",
    "section": "species/species-beast"
@@ -19757,6 +19799,13 @@
    "section": "species/species-beast"
   },
   {
+   "id": "species:unicorn",
+   "title": "Unicorn",
+   "status": "kyr",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
    "id": "species:wendigo",
    "title": "Wendigo",
    "status": "adapted",
@@ -19774,6 +19823,13 @@
    "id": "species:wolf",
    "title": "Wolf",
    "status": "adapted",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:yrthak",
+   "title": "Yrthak",
+   "status": "kyr",
    "book": "mm",
    "section": "species/species-beast"
   },
@@ -19932,6 +19988,13 @@
    "section": "species/species-fey"
   },
   {
+   "id": "species:lillend",
+   "title": "Lillend",
+   "status": "kyr",
+   "book": "mm",
+   "section": "species/species-fey"
+  },
+  {
    "id": "species:nymph",
    "title": "Nymph",
    "status": "adapted",
@@ -19979,6 +20042,13 @@
    "status": "adapted",
    "book": "mm",
    "section": "species/species-giant"
+  },
+  {
+   "id": "species:yuanti",
+   "title": "Yuanti",
+   "status": "kyr",
+   "book": "mm",
+   "section": "species/species-humanoid"
   },
   {
    "id": "species:wisp",
