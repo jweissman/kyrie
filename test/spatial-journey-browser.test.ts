@@ -17,8 +17,8 @@ import type { MonoDriver } from './support/mono-driver';
 class Walk {
   constructor(readonly page: Page, readonly d: MonoDriver) {}
   async here(): Promise<string | undefined> { return (await this.d.inspect()).place?.id; }
-  // A way from here, taken as a player takes it: Go…, its name chosen in the wayfinder, then its Go; a place in another
-  // quarter of the town by that quarter first (its row says what it holds), then from there.
+  // A way from here, taken as a player takes it: Go…, and its name in the wayfinder, which goes at a click; a place in
+  // another quarter of the town by that quarter first (its row says what it holds), then from there.
   async to(place: string) {
     // With one way on, it is offered as itself ("To the yard…"), and taken at once (M19-109).
     if (await this.page.locator('.act.opens-go').count()) {
@@ -28,14 +28,13 @@ class Walk {
     await this.page.click('.opens-go');
     const quarter = this.page.locator(`.wayfinder [data-holds~="${place}"]`);
     if (await quarter.count()) {
-      await quarter.click(); await this.page.click('.wf-go'); await this.d.settle();
+      await quarter.click(); await this.d.settle();
       // The place may be the quarter's heart, where its row goes.
       if (await this.here() === place) { return; }
       await this.page.click('.opens-go');
     }
-    await this.page.click(`.wayfinder :is([data-pick="exit:${place}"], [data-pick^="exit:${place}/"], [data-pick="travel:${place}"])`);
-    await this.page.click('.wf-go');
-    await this.d.settle();
+    await this.d.goBy(`.wayfinder :is([data-pick="exit:${place}"], [data-pick^="exit:${place}/"], `
+      + `[data-pick="travel:${place}"])`);
     expect(await this.here()).toBe(place);
   }
   async page_(): Promise<string> {

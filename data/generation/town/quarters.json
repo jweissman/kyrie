@@ -1,9 +1,9 @@
 {
-  "about": "The quarters of a generated town (the owner, 6 November: a town of recognizable, navigable organization, not a directory): each a part of the town a player can learn, walked to by its heart, holding the places whose role it lists. A town of more than a few places is given those of its quarters it has a place for (a town with no waterside has no waterside quarter); a place of another module in the town (a going-on's ground, a scenario's yard) is in the quarter its role names here, else in that of the place it opens off, else with the green. Each place keeps its containment in the town; a quarter is only where it lies. An adventure that adds a place to a town says its quarter with inQuarter (data/rules/core.kyr). Add a role to a quarter here, or a quarter: nothing in the engine needs to change.",
+  "about": "The quarters of a generated town (the owner, 6 November: a town of recognizable, navigable organization, not a directory): each a part of the town a player can learn, walked to by its heart, holding the places whose role it lists. A town of more than a few places is given those of its quarters it has a place for (a town with no waterside has no waterside quarter); a place of another module in the town (a going-on's ground, a scenario's yard) is in the quarter its role names here, else in that of the place it opens off, else with the green. Each place keeps its containment in the town; a quarter is only where it lies. An adventure that adds a place to a town says its quarter with inQuarter (data/rules/core.kyr). A quarter is come into at an open place of its own (a square, a street, a bank), its heart where that is open, else the first of its places a way goes to that is not a door; a quarter with no open place is no quarter apart, and its places are the green's (the owner's play of 7 November: \"the market\" was come into by a shop's door). The green is called as the town calls its heart (\"{heart}\", the market-place). Add a role to a quarter here, or a quarter: nothing in the engine needs to change.",
   "least": 7,
   "quarters": {
     "green": {
-      "name": "the green",
+      "name": "{heart}",
       "heart": "green",
       "roles": [
         "green",

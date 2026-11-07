@@ -11,11 +11,14 @@ import { AimWords } from './aim-words';
 // one of the aims the company holds, by its id, kept with the game in its save, and the one every page's "your aim"
 // means. It had lived in the browser by the aim's words, apart from the engine, so the glance led toward one aim while
 // the page said it followed another (the handoff's first repair).
-// Until the player chooses one, the company's own errand is followed, else the first aim held. An aim taken up alone
-// (a job asked for) is followed as it comes, unless the player chose another or the company's own errand is followed
-// (the page's aim had wandered to whatever was heard of last while the brothers' errand was under way: play 7); the
-// page offers to follow it instead. An aim followed that gives way to one other (asking Bask for the key, then going
-// down for the rats) is followed on into it.
+// Followed is the player's choice, or the company's own errand, and nothing else (the owner's play of 7 November:
+// "gold, dots and 'your aim' appear only for an aim the company actually holds and is following"; the evidence
+// sessions saw the aim followed go over by itself to a roofless abbey the innkeeper had named among three). Until the
+// player chooses one, the company's own errand is followed while it holds; with none, nothing is, and the page marks
+// no way as anyone's aim. An adventure played by itself, with no origin, has the aims its author gave it for its
+// errand, and follows the first held. An aim followed that gives way to one other is followed on into it where that
+// is the errand's next part, or the aim was the player's choice (asking Bask for the key, then going down for the
+// rats): never a rumour that happened to arise as it ended.
 export class Undertakings {
   static held(campaign: Campaign): Objective[] {
     const w = campaign.world;
@@ -23,7 +26,16 @@ export class Undertakings {
   }
   static followed(campaign: Campaign, held = this.held(campaign)): Objective | undefined {
     const kept = campaign.tickState.current.following;
-    return held.find(o => o.id === kept?.id) ?? held.find(o => Stakes.own(o)) ?? held[0];
+    return held.find(o => o.id === kept?.id) ?? held.find(o => this.errand(campaign, o));
+  }
+  // The company's own errand: the aim its origin sets (see Stakes.own); in an adventure with no origin, any it holds.
+  static errand(campaign: Campaign, o: Objective): boolean {
+    return Stakes.own(o) || !this.originated(campaign);
+  }
+  // Whether the company came into the country by an origin, a life chosen at the start (its parts are origin__'s).
+  private static originated(campaign: Campaign): boolean {
+    const m = campaign.module;
+    return [...m.objectives ?? [], ...m.observations ?? [], ...m.entities].some(x => /^origin__/.test(x.id));
   }
   // Whether the player chose it (in the notes), not the game for them.
   static chosen(campaign: Campaign): boolean {
@@ -82,7 +94,8 @@ export class Undertakings {
   private static site(byId: Map<string, Entity>, id: string): string | undefined {
     return Spatial.ancestry(byId, id).find(e => e.space?.kind === 'site')?.id;
   }
-  // After a command, from the aims held before it.
+  // After a command, from the aims held before it: the aim followed, gone, goes on into the one aim that arose with
+  // its going, where that is the errand's or the player chose the one gone; an aim heard of is never followed for them.
   static after(campaign: Campaign, before: string[]) {
     const current = campaign.tickState.current, kept = current.following, held = this.held(campaign);
     const was = new Set(before), now = new Set(held.map(o => o.id));
@@ -90,10 +103,9 @@ export class Undertakings {
     const then = (campaign.module.objectives ?? []).filter(o => was.has(o.id));
     const followed = then.some(o => o.id === kept?.id) ? kept!.id : this.followed(campaign, then)?.id;
     if (followed && gone.includes(followed)) {
-      if (arisen.length === 1) { current.following = { id: arisen[0]!.id, ...kept?.chosen ? { chosen: true } : {} }; }
+      const next = arisen.length === 1 && (kept?.chosen || this.errand(campaign, arisen[0]!)) ? arisen[0] : undefined;
+      if (next) { current.following = { id: next.id, ...kept?.chosen ? { chosen: true } : {} }; }
       else { delete current.following; }
-    } else if (!this.chosen(campaign) && arisen.length === 1 && !then.some(o => o.id === followed && Stakes.own(o))) {
-      current.following = { id: arisen[0]!.id };
     }
     // The aim followed for the player is kept once taken: three jobs read of on a notice had put the first of them,
     // in the module's order, ahead of the aim the company had been following.

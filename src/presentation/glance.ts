@@ -57,9 +57,11 @@ export class Glance {
     const said = aim && !(arrival === 'opening' && telling.opened) && !told?.feedback.aims?.includes(aim)
       && (['opening', 'first', 'resume'].includes(arrival) || turned);
     const need = this.need(screen), after = told && this.after(campaign, told, { screen, acts, scene });
+    // The game's first page says the company's own errand as its first goal, once (the owner's play of 7 November).
+    const goal = arrival === 'opening' ? screen.aims?.find(a => a.followed && a.own)?.text : undefined;
     return { arrival, ...lines.sight ? { sight: lines.sight } : {}, ...lines.life ? { life: lines.life } : {},
       changed: lines.changed, acts, ways: Promotion.ways(cands, acts, s), ...this.aimed(screen, reading),
-      ...said ? { aim } : {}, ...need.length ? { need } : {}, ...after ? { after } : {} };
+      ...said ? { aim } : {}, ...goal ? { goal } : {}, ...need.length ? { need } : {}, ...after ? { after } : {} };
   }
   // What came of the act just done, and what it made relevant (REV-05; see DecisionFrame).
   private static after(campaign: Campaign, told: Told, at: { screen: Screen; acts: Promoted[]; scene: Scene }) {

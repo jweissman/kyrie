@@ -27,7 +27,7 @@ class Page {
   said(): string[] {
     const html = renderToStaticMarkup(createElement(Wayfinder.View, { app: this.app, draw: Act.draw(this.app) }));
     const preview = /<aside class="wf-preview"[\s\S]*?<\/aside>/.exec(html)?.[0] ?? '';
-    return [/class="wf-aim">([^<]*)</.exec(preview)?.[1] ?? '', /<h3>([^<]*)<\/h3>/.exec(preview)?.[1] ?? ''];
+    return [/class="wf-aim[^"]*">([^<]*)</.exec(preview)?.[1] ?? '', /<h3>([^<]*)<\/h3>/.exec(preview)?.[1] ?? ''];
   }
 }
 
@@ -72,12 +72,15 @@ describe('Go… and the places the aims name', () => {
     expect(page.chosen()?.c.command).toMatch(/^go\(.*region__s1_u_yard\)$/);
   }, 60000);
 
-  it('in a shop of the market, says your aim of the crypt\'s way and another aim of another\'s', async () => {
+  // The shops are round the market-place now, in its quarter, and it is listed by its own name among them (the owner's
+  // play of 7 November: a quarter is come into at its own open place).
+  it('in a shop off the market-place, says your aim of the crypt\'s way and another aim of another\'s', async () => {
     await g.to('region__s1_chandlery');
     const page = Page.at(g), aimed = page.ways().filter(w => w.aim);
-    expect(aimed.map(w => [w.name, w.aim])).toEqual([['the churchyard', 'followed'], ['the green', 'held']]);
+    expect(aimed.map(w => [w.name, w.aim])).toEqual([['the market-place of Newmeet', 'held'],
+      ['the churchyard', 'followed']]);
     expect(page.said()).toEqual(['Your aim', 'The churchyard']);
-    page.state = { ...page.state, hovered: aimed[1]!.c.id };
-    expect(page.said()).toEqual(['Another aim', 'The green']);
+    page.state = { ...page.state, hovered: aimed[0]!.c.id };
+    expect(page.said()).toEqual(['Another aim', 'The market-place of Newmeet']);
   }, 60000);
 });
