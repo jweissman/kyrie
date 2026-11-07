@@ -24,18 +24,18 @@ Module pentrice "Gosse's Company" {
   Passage wd_f "the root-stair to the ash" is path between wd_glade and wd_ash taking 10 minutes.
   Passage wd_g "the ash's long shadow" is path between wd_ash and wd_hollow taking 20 minutes.
   Observe wd_lawn_scene at wd_lawn when true "A lawn cut into the beech wood and set with trestles, an arbour of ribbons, and a heap of hampers. The village players have built a stage out of two carts and a door. A smell of cut grass and cheese, and, from the dark of the wood, an absolutely steady sound of someone not laughing.".
-  Observe wd_edge_scene at wd_edge when true "Where the lawn ends the wood begins, with no fuss: a wall of beech and a ride that closes behind you, if you look back, a good deal sooner than it should. Midges. A faint, warm smell of hay and honey, the smell of nothing in particular, that you realise you have been smelling for some time.".
+  Observe wd_edge_scene at wd_edge when true "Where the lawn ends the wood begins, with no fuss: a wall of beech and a ride that closes behind you, if you look back, sooner than it should. Midges. A faint, warm smell of hay and honey, the smell of nothing in particular, that you realise you have been smelling for some time.".
   Observe wd_ring_scene at wd_ring when true "A ring of old oaks around a clearing carpeted in moss, lit from no source. In the middle, on a bed of cut flowers, someone is sleeping with enormous dignity.".
   Observe wd_glade_scene at wd_glade when true "A glade of trampled grass and cold fires, where a revel is just ending or about to begin. The air tastes of cider that has been left out in the moon. Goat-hoofed prints go round and round.".
   Observe wd_bog_scene at wd_bog when true "A black bog with islands of reed and a hundred small blue lights moving over it in no pattern, politely, like guests who have not been introduced. The boardwalk goes on into them.".
   Observe wd_hollow_scene at wd_hollow when true "A bank under a tree-root, soft with moss, in which something small has made a bed and lined it with stolen things: a thimble, a bell, a lock of hair. Round the bank grow low blue flowers, and, among them, some red ones, with heavy heads.".
   Observe wd_ash_scene at wd_ash when true "A great ash in a clearing, which has the shoulders of a tall woman and a bark like a grey cloak. Her roots go down into the earth like a skirt. She is watching you.".
 
-  Relation e4Slept(place). Relation e4BargainFailed(place). Relation e4Blank(place). Relation e4NameKnown(place). Relation robinStole(place). Relation e4On(place). Relation e4Done(place). Relation e4Dawn(place). Relation e4Restored(place). Relation e4Fiasco(place). Relation e4Price(place).
+  Relation e4AshAsked(group). Relation e4Slept(place). Relation e4BargainFailed(place). Relation e4Blank(place). Relation e4NameKnown(place). Relation robinStole(place). Relation e4On(place). Relation e4Done(place). Relation e4Dawn(place). Relation e4Restored(place). Relation e4Fiasco(place). Relation e4Price(place).
   Relation e4Mischief(place). Relation e4Quarrel(place). Relation e4Hunt(place). Relation e4LoomAss(place). Relation e4QueenLoves(place). Relation e4LoomFree(place).
   Relation e4Played(place). Relation e4Gathered(group). Relation e4Namepaid(group). Relation e4LordTolerates(place).
   Relation loves(group, group). Relation e4Rested(place). Relation gosseBeside(place). Relation gosseCalm(place).
-  Measure e4Start(place).
+  Measure e4Start(place). Measure e4Dusk(place). Relation e4Humbled(place).
   Initially Assert loves(rafe, idony). Initially Assert loves(idony, rafe). Initially Assert loves(jack, maud). Initially Assert loves(maud, jack).
 
   Person rafe "Squire Rafe Hartigan" at wd_lawn {
@@ -52,7 +52,7 @@ Module pentrice "Gosse's Company" {
   }
   Person maud "Maud Sellars" at wd_lawn {
     Role "the bride's friend, who is to stand up for her". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
-    Greets "'I am the bridesmaid,' says Maud Sellars, who has pinned her own hem. 'I am told it is a role of dignity. I have yet to be told what the dignity consists of.'".
+    Greets "Maud Sellars, who has pinned her own hem, looks you up and down. 'Bridesmaid. Means I hold the hat. You'll find I hold it well.'".
   }
   Person loom "Barnaby Loom" at wd_lawn {
     Role "the weaver, who is to play Pyramus, the Wall and the Lion". Ancestry human. Peaceable. Pronouns he. Manner jovial.
@@ -60,7 +60,7 @@ Module pentrice "Gosse's Company" {
   }
   Person robin "Robin Sprigg" nowhere {
     Role "a small brown pixie with a bag". Species pixie. Level 2. Peaceable.
-    Greets "Something small and brown drops off a branch onto your shoulder and examines your ear. 'No iron,' it says, delighted. 'Not a nail. Pick what you like from the bank. I have picked a great deal from everybody.'".
+    Greets "Something small and brown drops off a branch onto your shoulder and examines your ear. 'No iron,' it says, delighted. 'Not a nail. Pick what you like from the bank. I have picked from everybody.'".
   }
   Person queen "the Lady of the Ring" nowhere {
     Role "the queen of the oak ring, asleep". Species nymph. Level 3. Temperament territorial.
@@ -103,7 +103,7 @@ Module pentrice "Gosse's Company" {
     Says "'I said I was the sort of boy who says so,' says Kit, 'and I find it is true. It is very awkward. I told Maud Sellars she had lovely handwriting, and she said thank you, and I have been dying ever since.' He grins, miserable. 'Is this what it is?'".
   }
   Topic kit_wood_b with kit "Ask Kit how he is, here, among the lovers" when e4On(rierdan) and kitHolds(party) once {
-    Says "'I am holding it back,' says Kit, 'the way you said.' He looks at the pairs on the grass. 'I see now why one might. It looks like a great deal of work, and none of them is any good at it.'".
+    Says "'I am holding it back,' says Kit, 'the way you said.' He looks at the pairs on the grass. 'I see now why one might. It looks like hard work, and none of them is any good at it.'".
   }
   Topic kit_wood_c with kit "Ask Kit how he is, here, among the lovers" when e4On(rierdan) and kitLeaned(party) once {
     Says "'I stayed near you,' says Kit, 'and it was the right thing, because the wood is full of people who are all going to be someone else's by morning.' He kicks a root. 'I like being nobody's. It is restful.'".
@@ -118,13 +118,15 @@ Module pentrice "Gosse's Company" {
   // The night. Four beats.
   Rule rp_w1 when e4On(rierdan) and not e4Mischief(rierdan) and watch(clock) >= e4Start(rierdan) + 8 {
     Assert e4Mischief(rierdan). Assert at(robin, wd_hollow). }
-  Rule rp_w1s at wd_lawn when e4Mischief(rierdan) and not e4Quarrel(rierdan) and watch(clock) >= e4Start(rierdan) + 14
-    says "At dusk Rafe and Jack walk into the wood to find a better hat; Idony and Maud follow them with a lantern, to lecture. They do not come back out." {
-    Assert e4Quarrel(rierdan). Retract at(rafe, wd_lawn). Assert at(rafe, wd_edge). Retract at(jack, wd_lawn). Assert at(jack, wd_edge).
-    Retract at(idony, wd_lawn). Assert at(idony, wd_edge). Retract at(maud, wd_lawn). Assert at(maud, wd_edge). }
-  Rule rp_w2 when e4Quarrel(rierdan) and not e4LoomAss(rierdan) and watch(clock) >= e4Start(rierdan) + 20 {
+  Rule rp_w1s when e4Mischief(rierdan) and not e4Quarrel(rierdan) and (hour(clock) >= 18 or hour(clock) < 4)
+    and at(rafe, ?r1) and at(jack, ?j1) and at(idony, ?i1) and at(maud, ?m1) {
+    Assert e4Quarrel(rierdan). Set e4Dusk(rierdan) to watch(clock).
+    Retract at(rafe, ?r1). Assert at(rafe, wd_edge). Retract at(jack, ?j1). Assert at(jack, wd_edge).
+    Retract at(idony, ?i1). Assert at(idony, wd_edge). Retract at(maud, ?m1). Assert at(maud, wd_edge). }
+  Observe w_dusk_told at wd_lawn when e4Quarrel(rierdan) and not e4Dawn(rierdan) "At dusk Rafe and Jack walked into the wood to find a better hat; Idony and Maud followed them with a lantern, to lecture. Nobody has come back out.".
+  Rule rp_w2 when e4Quarrel(rierdan) and not e4LoomAss(rierdan) and watch(clock) >= e4Dusk(rierdan) + 6 {
     Assert e4LoomAss(rierdan). Retract at(loom, wd_lawn). Assert at(loom, wd_ring). Assert e4QueenLoves(rierdan). Assert at(queen, wd_ring). }
-  Rule rp_w3 when e4LoomAss(rierdan) and not e4Hunt(rierdan) and watch(clock) >= e4Start(rierdan) + 30 {
+  Rule rp_w3 when e4LoomAss(rierdan) and not e4Hunt(rierdan) and watch(clock) >= e4Dusk(rierdan) + 16 {
     Assert e4Hunt(rierdan). Assert at(greenlord, wd_glade).
     Retract loves(rafe, idony). Retract loves(idony, rafe). Retract loves(jack, maud). Retract loves(maud, jack).
     Assert loves(rafe, maud). Assert loves(jack, idony). Assert loves(maud, rafe). Assert loves(idony, jack). }
@@ -210,10 +212,11 @@ Module pentrice "Gosse's Company" {
   }
   Action ask_the_ash(actor: group, site: place) "Ask the Ash whether she remembers the Lord of the Green's name" {
     Speaker ash.
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, wd_ash) and at(ash, site) and not e4NameKnown(rierdan).
-    Time 1.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, wd_ash) and at(ash, site) and not e4NameKnown(rierdan) and not e4AshAsked(actor).
+    Time 6.
     Resolve check(actor, persuasion, dc_fair).
-    On success { Assert e4NameKnown(rierdan). }
+    On success { Assert e4NameKnown(rierdan). Assert e4AshAsked(actor). }
+    On failure { Assert e4AshAsked(actor). }
     Result "The ash is silent for a while, long enough for the shadow to move. 'He was born in a ditch,' she says, 'in a hard winter, and his mother called him Tod.' A branch creaks, which may be laughter. 'Say it in his hearing and see how big he is.'".
     Otherwise "'I remember everything,' says the ash. 'I do not remember you.'".
   }
@@ -221,7 +224,7 @@ Module pentrice "Gosse's Company" {
     Speaker greenlord.
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, wd_glade) and at(greenlord, site) and e4NameKnown(rierdan) and e4LordTolerates(rierdan) and not e4LoomFree(rierdan).
     Time 0.
-    On success { Assert e4LoomFree(rierdan). Retract at(loom, wd_ring). Assert at(loom, wd_lawn). Retract e4QueenLoves(rierdan). }
+    On success { Assert e4LoomFree(rierdan). Assert e4Humbled(rierdan). Retract at(loom, wd_ring). Assert at(loom, wd_lawn). Retract e4QueenLoves(rierdan). }
     Result "'Tod,' you say. The glade goes quiet. The Lord of the Green becomes, for the length of a breath, rather small. 'Take him,' he says. 'Take him and go, and never say it where the Lady can hear.' The weaver comes out of the ring with his own head, and says that he had a very curious dream about a Wall.".
   }
   Action pay_name(actor: group, site: place) "Give the Lord of the Green your true name, in return for the weaver" {
@@ -237,11 +240,12 @@ Module pentrice "Gosse's Company" {
   Observe w_changeling near greenlord when e4Hunt(rierdan) and not e4LoomFree(rierdan) "At the Lord's heel, holding his goat-hair in one fist, stands a small boy of six in a coat of moss. He is not smiling. He is the thing the Lord and the Lady have been quarrelling over, a human child, since before the wedding was thought of.".
 
   // Dawn. The wedding goes ahead, in whatever pairs it finds.
-  Rule rp_dawn when e4Hunt(rierdan) and not e4Dawn(rierdan) and watch(clock) >= e4Start(rierdan) + 80 and at(rafe, ?a) and at(idony, ?b) and at(jack, ?c) and at(maud, ?d) {
+  Rule rp_dawn when e4Hunt(rierdan) and not e4Dawn(rierdan) and hour(clock) >= 5 and hour(clock) < 12 and watch(clock) >= e4Dusk(rierdan) + 40 and at(rafe, ?a) and at(idony, ?b) and at(jack, ?c) and at(maud, ?d) {
     Assert e4Dawn(rierdan). Retract at(rafe, ?a). Assert at(rafe, wd_lawn). Retract at(idony, ?b). Assert at(idony, wd_lawn).
     Retract at(jack, ?c). Assert at(jack, wd_lawn). Retract at(maud, ?d). Assert at(maud, wd_lawn). }
   Rule rp_restored when e4Dawn(rierdan) and loves(rafe, idony) and loves(jack, maud) and not e4Done(rierdan) and not e4Price(rierdan) { Assert e4Restored(rierdan). Assert e4Done(rierdan). }
   Rule rp_priced when e4Dawn(rierdan) and loves(rafe, idony) and loves(jack, maud) and e4Price(rierdan) and not e4Done(rierdan) { Assert e4Restored(rierdan). Assert e4Done(rierdan). }
+  Observe w_humbled at wd_lawn when e4Humbled(rierdan) and e4Dawn(rierdan) "The horn does not sound at sunrise. In the beech wood a goat-legged shape stands a long way back from the trees, with its arms folded, and does not come any nearer. The Lady's changeling boy is sitting on the Squire's mother's lap, eating a bun.".
   Rule rp_blank when e4Dawn(rierdan) and e4Slept(rierdan) and not e4Done(rierdan) { Assert e4Blank(rierdan). Assert e4Done(rierdan). }
   Observe w_blank at wd_lawn when e4Blank(rierdan) "The wedding goes ahead at sunrise between two people who like one another very much and cannot say why. The Squire and Idony stand side by side with the faintly puzzled courtesy of people who have been introduced. Jack plays the fiddle as if he were mourning something. Gosse, in the second row, finds he has no complaint, and cannot account for the lump in his throat.".
   Rule rp_fiasco when e4Dawn(rierdan) and (loves(rafe, maud) or loves(jack, idony)) and not e4Done(rierdan) { Assert e4Fiasco(rierdan). Assert e4Done(rierdan). }

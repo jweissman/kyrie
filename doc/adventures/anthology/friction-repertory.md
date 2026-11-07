@@ -100,3 +100,17 @@ pays eight lint cycles. Wanted: one pass that lists every collision.
 
 ## F22. Gating a flag-setting rule on the very condition it reports makes a stall
 Repeated from F3 for the second episode that did it (Ep 3's `x1h` deadline, Ep 2's report). The reviewer's lesson: every deadline chain needs a test that plays the *absent* route and the *present-but-passive* route.
+
+## Second review (round 2)
+
+## F23. `says` on an ending rule makes the ending depend on where you stand
+`Rule ... at place ... says` fires only with the party present; used on an ending it leaves the state unset when the party is elsewhere (Ep 3's confession and Orlay rules, Ep 4's quarrel). The pattern now: a location-free rule sets the flag, an `Observe at place` tells it. Wanted: lint for a rule that has `at`/`says` and also asserts an ending or `*Done` flag.
+
+## F24. Clock hours need `or` across midnight
+Night is `hour >= 21 or hour < 4`, dawn `hour >= 5 and hour < 12`; there is no `between` for a wrapped interval and a rest that jumps over the window misses the beat (the next night comes round). Wanted: `during(clock, 21, 4)`.
+
+## F25. Dice outside a check are not forceable
+`dice(clock)` in a rule (the inn's basket) is not touched by `Journey.roll`; a spec can only choose a seed. I probed eight seeds to find one that mixes and one that does not. Wanted: `roll` that sets a die, or a probe verb that lists a rule's outcome by seed.
+
+## F26. A forced pass is still the cheap way to walk a skill gate
+I removed the forced passes, found 14 specs failing on luck (a "likely" lore check missed, a fair insight check missed), and put one `roll('pass')` at the head of each helper back. The checks are still real in play; the specs only walk past them. Wanted: a `Journey.walk(label, {attempts})` that retries a check at its real odds and reports the odds met.

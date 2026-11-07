@@ -149,3 +149,14 @@ the failed bargain then the paid name, the fiasco, Kit's answer carried from Ep 
 ### Assets incomplete
 No portraits, no paintings for the Circuit's places; the pixie, nymph, satyr and dryad use canon species with no custom statblocks.
 No sound for the hunt horn (an authored `as sound` Observe stands in). The hautboy has no musical-instrument Kind.
+
+## Second review: what changed again
+
+- **Endings are location-free.** Every rule that sets an ending (`rp_confess`, `rp_orlay_*`, the Ep 4 quarrel that moves the lovers) now fires wherever the party stands; the telling is an `Observe` at the place. Guard, cup and warning actions in Ep 2 refuse once `e2Done` holds.
+- **"I cannot tell" is silence.** It sets no report; Valtry decides at +40 watches (`e2Unreported`), so it is exactly as complicit as a genuine report. `refuse_cup` is a persuasion check; failure sends the cup up on the company's name (`e2Carried`, `c2 + 1`).
+- **Night beats are clock hours.** Ep 2's night begins at 21:00 and the Warden's stair is tried (or the quiet feast ends) from 03:00; Ep 3's Orlay road is walked 06:00-19:00 (the gate shuts at dusk) and the inn's basket is rolled once, on the morning, on dice (`rp_mix`, `dice(clock) <= 10`); sleeping in the hedge at the road costs a night's cutpurses (once). Ep 4's lovers walk off at dusk (18:00-04:00) and dawn is 05:00-12:00, forty watches after.
+- **Failures cost.** A failed read spends three crowns and the chance to learn what the letter says (so no forgery); a failed forgery spends the Prince's sheet.
+- **Credit is for plays played through.** `repertoire` is not raised by Ep 1 chaos, Ep 2 murder, Ep 3 grave.
+- **Consequences in Ep 4.** A freed Loom leads the applause on the night of the Command (`rp_loom_fan`, -1 chaos); the paid name leaves a hole in the Chamberlain's roll (+1 chaos); the Ash's route costs an hour of the night (Time 6, one try) and leaves the Lord humbled (`e4Humbled`, `w_humbled`).
+- **Ep 1 early ending carries the reversal**: Mother Everard is sent for and speaks at the Mermaid; the Priory-bound lines in Kit's and Tilde's Observes are neutral.
+- **Specs**: 26. Checks are forced to pass only to remove luck from a walked journey (`roll('pass')` at the head of a helper); each spec that shows a failure forces `fail` for that one step. The inn's gamble and every clock hour are unforced (seeds `rep3m` mixes, `rep3j` does not).

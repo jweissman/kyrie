@@ -85,7 +85,7 @@ Module pentrice "Gosse's Company" {
   }
   Person everard "Mother Everard" at m_priory {
     Role "the Prioress of the Shore-Mother". Ancestry human. Peaceable. Pronouns she. Manner compassionate.
-    Greets "A very old woman in grey, who is watching the gate and has been for some time. 'There are always, on a day like this one,' she says, 'those who come to us in a hurry.'".
+    Greets "A old woman in grey, who is watching the gate and has been for some time. 'There are always, on a day like this one,' she says, 'those who come to us in a hurry.'".
   }
 
   // The day begins when the company comes into the square. d is read from e1Start.
@@ -205,10 +205,10 @@ Module pentrice "Gosse's Company" {
   }
   Rule rp_meet when e1On(rierdan) and not e1Met(rierdan) and at(cr, ?r) and at(cv, ?r) {
     Assert e1Met(rierdan). }
-  Rule rp_early when e1Met(rierdan) and knows(party, two_masters_known) and knows(party, two_servants_known) and not i5(rierdan) and not e1Early(rierdan) and not e1Priory(rierdan) and not e1Chaos(rierdan) and at(tilde, ?te) { Assert e1Early(rierdan). Assert e1Done(rierdan). Retract at(tilde, ?te). Assert at(tilde, m_inn). }
+  Rule rp_early when e1Met(rierdan) and knows(party, two_masters_known) and knows(party, two_servants_known) and not i5(rierdan) and not e1Early(rierdan) and not e1Priory(rierdan) and not e1Chaos(rierdan) and at(tilde, ?te) and at(everard, ?ev) { Assert e1Early(rierdan). Assert e1Done(rierdan). Retract at(tilde, ?te). Assert at(tilde, m_inn). Retract at(everard, ?ev). Assert at(everard, m_inn). }
   Rule rp_priory when e1Met(rierdan) and i5(rierdan) and not crBound(rierdan) and not e1Priory(rierdan) and not e1Early(rierdan) and not e1Chaos(rierdan) { Assert e1Priory(rierdan). Assert e1Done(rierdan). }
   Rule rp_chaos when e1Met(rierdan) and crBound(rierdan) and not e1Chaos(rierdan) and not e1Early(rierdan) and not e1Priory(rierdan) { Assert e1Chaos(rierdan). Assert e1Done(rierdan). }
-  Observe e1_early_told near cv when e1Early(rierdan) "The two Corbets stand in the Mermaid with their coats the same, looking at each other across a table with two dinners on it. It is Tilde who says it, from the door, in a clear dry voice: 'Well. That explains the stove.' The traveller bursts into tears; the merchant bursts into laughter, half a second early. The Jibbs shake hands, and then each hits the other, for the morning.".
+  Observe e1_early_told near cv when e1Early(rierdan) "The two Corbets stand in the Mermaid with their coats the same, looking at each other across a table with two dinners on it. Tilde Ashlar is in the door. Behind her, sent for by a sister who ran down the lane, comes Mother Everard with her hands in her sleeves, and looks from one man to the other for a long time. 'Thirty-one years ago,' she says, 'a ship went down off the Shingle, and a woman got to shore with two babies and was not sure she had them both.' She looks at the two coats. 'I was the woman.' Nobody speaks. It is Tilde who says it, in a clear dry voice: 'Well. That explains the stove.' The traveller bursts into tears; the merchant bursts into laughter, half a second early. The Jibbs shake hands, and then each hits the other, for the morning.".
   Observe e1_priory_told near everard when e1Priory(rierdan) "Mother Everard comes out with her hands in her sleeves and looks at the gate: two Corbets, two Jibbs, a wife, a bailiff, a goldsmith, a dame in red, an alderman and an exorcist, assembled in the beans. 'Thirty-one years ago,' she says, 'a ship went down off the Shingle, and a woman got to shore with two babies and was not sure she had them both.' She looks from one to the other. 'I was the woman.' Nobody says a word. In the silence the small dog, which has followed the parlour, is sick.".
   Observe e1_chaos_told near everard when e1Chaos(rierdan) "At the Priory gate, a Corbet with his wrists tied is shouting at a Corbet who is being comforted by a sister, while an exorcist reads over the wrong one, a wife is shouting at the right one, and the goldsmith reads out the invoice to the beans. Mother Everard walks into the middle of it, says 'Quiet' in a voice you can hear in Evesholm, and sorts it in two minutes, as she says afterwards, as one sorts laundry.".
   Chapter ch_errors "The Two Pairs" when e1On(rierdan) and not e1Done(rierdan) "Marlcross is behaving as if it has gone mad, and it has not, and that is worse.".
@@ -228,7 +228,7 @@ Module pentrice "Gosse's Company" {
     Says "Luce turns the ink on her thumb. 'That he was not married,' she says, 'and that he had a house in Evesholm with a view of a mill. I thought, that is a very particular lie.' She laughs; it goes wrong. 'He was kind. Kit was kind, too, when he came to the door with the dog.'".
   }
   Topic kit_marlcross with kit "Ask Kit what he made of Marlcross" when e1Done(rierdan) once {
-    Says "Kit has been quiet all the way back from the Priory. 'I held the door for her,' he says. 'Luce. She looked at me like I was a person.' He pulls at his sleeve. 'I do not know what to do about that.'".
+    Says "Kit has been quiet since the town came right. 'I held the door for her,' he says. 'Luce. She looked at me like I was a person.' He pulls at his sleeve. 'I do not know what to do about that.'".
   }
   Topic kit_a1 with kit "Tell him to say so, in his own voice" answering kit_marlcross when true {
     Says "'That is what everyone says,' says Kit. 'I have not got one. I have got the voices I do.' He grins, shakily. 'I shall try.'".
@@ -262,7 +262,7 @@ Module pentrice "Gosse's Company" {
     Otherwise "'Columns,' says Madam Cinnabar. 'I have a ring.'".
   }
   Observe e1_ring_told near tilde when ringBack(rierdan) and e1Done(rierdan) "Tilde has the ring on a ribbon at her neck, which Corbet has given back to her without being asked, and which is not the one she gave him.".
-  Observe e1_tilde_side near tilde when sideTilde(party) and e1Done(rierdan) "Tilde nods to you across the Priory beans, once. 'You said it was not me,' she says. 'It was not.'".
+  Observe e1_tilde_side near tilde when sideTilde(party) and e1Done(rierdan) "Tilde nods to you across the room, once. 'You said it was not me,' she says. 'It was not.'".
   Observe e1_corbet_side near cr when sideCorbet(party) and e1Done(rierdan) "Corbet of Marlcross claps you on the arm. 'You said she was shouting at the wrong man,' he says. 'She was shouting at the right one, for the wrong reason, which is how I knew her.'".
   Topic pomphrey_court with pomphrey "Ask the Alderman who he means to try today" when e1On(rierdan) once {
     Says "'Whoever is brought,' says the Alderman, 'and I mean to try him before he is brought, to save the court's time.' He eats a cherry. 'You will notice that I have not yet been wrong.'".
