@@ -82,6 +82,26 @@ def gutters(image, axis):
     return [0, *cuts, n]
 
 
+def whole(cut):
+    """A painting kept whole in a square (the owner, 7 November: a square cut of a wide cell had taken off heads,
+    horns and tails): the cell entire in the middle, its margins filled by drawing its own outer edge out to the square
+    and softening it, so nothing of the beast is doubled behind it (a blurred copy had ghosted above the heads)."""
+    w, h = cut.size
+    side = max(w, h)
+    out = Image.new('RGB', (side, side))
+    x, y = (side - w) // 2, (side - h) // 2
+    if h < side:
+        top = cut.crop((0, 0, w, 16)).resize((w // 8 or 1, 1)).resize((w, y or 1))
+        bottom = cut.crop((0, h - 16, w, h)).resize((w // 8 or 1, 1)).resize((w, side - h - y or 1))
+        out.paste(top.filter(ImageFilter.GaussianBlur(6)), (x, 0)); out.paste(bottom.filter(ImageFilter.GaussianBlur(6)), (x, y + h))
+    if w < side:
+        left = cut.crop((0, 0, 16, h)).resize((1, h // 8 or 1)).resize((x or 1, h))
+        right = cut.crop((w - 16, 0, w, h)).resize((1, h // 8 or 1)).resize((side - w - x or 1, h))
+        out.paste(left.filter(ImageFilter.GaussianBlur(6)), (0, y)); out.paste(right.filter(ImageFilter.GaussianBlur(6)), (x + w, y))
+    out.paste(cut, (x, y))
+    return out
+
+
 def square(cut):
     """A plate made square, centred on the parchment its corners show."""
     w, h = cut.size
@@ -95,6 +115,8 @@ def square(cut):
 
 # Sheets whose things are cut out of their cells, not cut whole (the gear sheets: a crowbar's tip or a cloak's hem
 # crosses into the next cell, and some sheets are ruled): the thing alone, on a square of its own parchment.
+# Sheets ruled into equal thirds, painted to the edge, without frames, and how far in from a rule a cell is cut.
+GRID, GRID_INSET = {'animals'}, 0.03
 ISOLATED = {'gear', 'valuables', 'arms', 'armour', 'consumables'}
 # How far a pixel's colour is from the parchment's to be of the thing, and the scale its pieces are found at.
 INK, SCALE = 34, 4
@@ -164,6 +186,17 @@ def main():
             image = Image.open(os.path.join(ROOT, 'assets', SHEETS.get(SET, SET), p['source'])).convert('RGB')
             sheets[p['source']] = (image, None if SET in PLATES else pc.openings(image.load(), *image.size))
         image, cells = sheets[p['source']]
+        if SET in GRID:
+            # A sheet ruled into equal thirds and painted to its edges (the owner's natural-history animals of 7
+            # November): each cell between its rules, where the sheet's rules are, a little in from them, kept whole.
+            cols, rows = gutters(image, 0), gutters(image, 1)
+            r, c = p['cell']
+            x0, x1, y0, y1 = cols[c], cols[c + 1], rows[r], rows[r + 1]
+            m = int(min(x1 - x0, y1 - y0) * GRID_INSET)
+            x0, x1, y0, y1 = x0 + m, x1 - m, y0 + m, y1 - m
+            p['crop'] = [x0, y0, x1, y1]
+            write(p, whole(image.crop((x0, y0, x1, y1))))
+            continue
         if SET in PLATES:
             # A plate on parchment, no frame: between the blank gutters either side of it, whole, made square with the
             # parchment's own colour (a plant is tall, and its root and flower are both of it).
