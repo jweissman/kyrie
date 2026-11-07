@@ -6,7 +6,7 @@ Module muster "The Long Muster's Road" {
   // water, that a pack has a widow, that a man went on alone.
   Relation quintusFound(group). Relation viatorHonoured(group). Relation stonesFound(group). Relation springSettled(group).
   Relation widowAnswered(group). Relation graveDug(group). Relation pelt_laid(group).
-  Relation springMarra(group). Relation springSnubbed(group). Relation viatorSilent(group).
+  Relation springMarra(group). Relation viatorUntold(group). Relation digSpent(group). Relation springSnubbed(group). Relation viatorSilent(group).
 
   // 1. Quintus went on. Five mansio walls carry a second hand: a Q and a stroke, an arrow, and a line.
   Discovery quintus_1 "At Septimus, under Rufus, a second and rougher hand: Q. WENT ON, and an arrow cut north-east, towards no road.".
@@ -16,7 +16,7 @@ Module muster "The Long Muster's Road" {
   Observe qu_octavius at octavius_hall as sign when true "Beside the scribe's bench the second hand again, a day or a decade later: Q. WENT ON. FOUND WATER. Under it a spring and a tree, drawn by someone who cannot draw." teaches quintus_2.
   Observe qu_eagle at eagle as sign when true "On the gate-arch, low, where a man sitting would reach: Q. WENT ON, AND CAME BACK, AND WENT ON. A line runs from the lettering across the wall to the thorn behind the fort." teaches quintus_3.
   Action follow_q_marks(actor: group, site: place) "Follow the Q-marks behind the fort into the thorn" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hollow) and knows(actor, quintus_1) and knows(actor, quintus_2) and knows(actor, quintus_3) and not quintusFound(actor).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hollow) and knows(actor, quintus_1) and knows(actor, quintus_2) and knows(actor, quintus_3) and quantity(actor, rations) >= 1 and not quintusFound(actor).
     Time 2.
     Resolve check(actor, wayfinding, dc_fair).
     On success { Assert quintusFound(actor). Assert knows(actor, quintus_known). }
@@ -45,11 +45,13 @@ Module muster "The Long Muster's Road" {
     Otherwise "You have most of the words. The dish rings under the nail. Nothing answers, which is, you suppose, the answer.".
   }
   Action tell_viator(actor: group, site: place) "Tell Viator what you saw on the road, as the old rule asks of those who come out" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gallery1) and viatorHonoured(actor) and been(actor, octavius_hall).
-    Time 0.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gallery1) and viatorHonoured(actor) and been(actor, octavius_hall) and not viatorUntold(actor).
+    Time 1.
     Resolve check(actor, performance, dc_fair).
     On success { Assert knows(actor, viator_told). }
     Result "You tell the niche about the Third Arch and what you did to it. The lamp, which was out, is lit. You do not remember lighting it.".
+    On failure { Assert viatorUntold(actor). }
+    Otherwise "You tell it badly, and the niche keeps its face. The lamp stays out. The old rule asks once.".
   }
   Entity viator_told: fact "The road-god Viator, who is told stories by those who come out of the Gallery, keeps a lamp for the ones who tell him.".
 
@@ -64,7 +66,7 @@ Module muster "The Long Muster's Road" {
     Holds.
   }
   Action follow_orde(actor: group, site: place) "Follow the survey studs and set your feet by the numbers" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ledge1) and knows(actor, orde_known) and not stonesFound(actor).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ledge1) and knows(actor, orde_known) and quantity(actor, rations) >= 1 and not stonesFound(actor).
     Time 1.
     Resolve check(actor, wayfinding, dc_fair).
     On success { Assert stonesFound(actor). Assert state(ledge_wind, steady). }
@@ -95,7 +97,7 @@ Module muster "The Long Muster's Road" {
   }
   Entity spring_level: fact "A notch cut in the old wall above the spring is a level: the water, laid out fairly, would run to the red door's trough as much as the blue's.".
   Action settle_spring(actor: group, site: place) "Cut the trough a second lip by the old level, so that the water divides by itself" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, spring) and knows(actor, spring_level) and not springSettled(actor).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, spring) and knows(actor, spring_level) and quantity(actor, rations) >= 1 and not springSettled(actor).
     Time 3.
     Resolve check(actor, digging, dc_fair).
     On success { Assert springSettled(actor). }
@@ -119,11 +121,12 @@ Module muster "The Long Muster's Road" {
   Discovery milepost_known "The milepost at the long middle of the causeway says XLI, and the one before it says XXXIX: the mile is missing, and the legion's engineers did not make mistakes.".
   Observe milepost_scene at causeway2 as sign when true "The milepost reads XLI. The one behind it, at the causeway's head, read XXXIX. There is no XL; the road goes straight and level for a mile in which nothing is counted, and the ridge to either side is cropped short by sheep that never go into it." teaches milepost_known.
   Action dig_unnumbered(actor: group, site: place) "Pace out the unnumbered mile and dig where the heather will not grow" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, causeway2) and knows(actor, milepost_known) and holding(actor, shovel) and not graveDug(actor).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, causeway2) and knows(actor, milepost_known) and holding(actor, shovel) and not graveDug(actor) and not digSpent(actor).
     Time 4.
     Resolve check(actor, digging, dc_fair).
     On success { Assert graveDug(actor). Assert knows(actor, sappers_known). }
     Result "A foot down, packed chalk; two feet, a bronze buckle; four, the first of forty skulls under a sheet of lead stamped COHORS FABRORUM. The sappers who built the causeway died of a spring fever and were buried at the road's centre, in the mile the engineers refused to number. They did not want it said that any mile of it was theirs to count the dead against.".
+    On failure { Assert digSpent(actor). }
     Otherwise "You dig an hour and find chalk, and more chalk, and the heather watches.".
   }
   Entity sappers_known: fact "The unnumbered mile of the Old Causeway is the burial of forty sappers who died of fever building it; the engineers left the mile uncounted out of respect.".

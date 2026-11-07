@@ -15,7 +15,7 @@ Module muster "The Long Muster's Road" {
   // ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
   // Marra Tellis. Beat 1: Septimus (ask). Beat 2: the Eagle (a mark). Beat 3: the Cohort (the apothecary's boy).
   Topic marra_jory with marra "Ask Marra what she is looking for on the far side" when travelsWith(marra, party) and been(party, septimus_hall) once {
-    Says "She takes a long time to say it. 'My brother Jory. He went over nine years since, at seventeen, on a dare from a Ferrar, to see if the Eagle was a place. His name is on the reeve's board, at the bottom.' She looks at her hands. 'Would you want to know, if it were yours? That he was dead, I mean. If someone found a bone.'".
+    Says "She says it to the trough, not to you. 'My brother Jory. He went over nine years since, at seventeen, on a dare from a Ferrar, to see if the Eagle was a place. His name is on the reeve's board, at the bottom.' She looks at her hands. 'Would you want to know, if it were yours? That he was dead, I mean. If someone found a bone.'".
   }
   Topic marra_jory_yes with marra "Say that you would want to know, whatever it was" answering marra_jory when true {
     Says "'Right,' she says. 'Then you'll tell me straight, if you find a bone.'".
@@ -78,7 +78,7 @@ Module muster "The Long Muster's Road" {
   }
 
   Topic fenn_stay with fenn_hallam "Tell him to wait at the north head; you will send word by the rope-way" answering fenn_nerve when true {
-    Says "'Thank you,' says Fenn, like a man reprieved. He sits down on the paving with his back to the gap and takes out his pencil. His drawing of the north pier, when you see it again, is the best thing he has done.".
+    Says "'Thank you,' says Fenn, and means it more than he wants to. He sits down on the paving with his back to the gap and takes out his pencil. His drawing of the north pier, when you see it again, is the best thing he has done.".
     On discuss { Retract travelsWith(fenn_hallam, party). Assert at(fenn_hallam, via_n). Assert fennNerve(party). }
   }
   Rule fenn_comes_over when fennNerve(party) and at(party, via_s) and at(fenn_hallam, via_n) and not fennCrossed(party) and (knows(party, ropeway_known) or lineFixed(party))
@@ -114,25 +114,25 @@ Module muster "The Long Muster's Road" {
     Says "She stands at the trough with her hands behind her back. 'It's small,' she says. 'Thirty houses, a trough, a board, a boy with a dog. I was told there'd be a city.' She looks at it. 'People were here all the time. Two days past the Eagle, with a trough.' She turns. 'Is it enough? Is it a place?'".
   }
   Topic dunya_enough with dunya "Say that it is enough: it is where people are" answering dunya_kell when true {
-    Says "'Yes,' says Dunya. She touches the trough, flat-handed, as she would the flank of a horse. 'People are. I'd forgotten that was the point of a road.' Her stiffness goes out of her by a degree, and Greta Hennick, in the inn door, offers her a bowl of something hot.".
+    Says "'Yes,' says Dunya. She touches the trough, flat-handed, as she would the flank of a horse. 'People are. I had them down as a list.' Her stiffness goes out of her by a degree, and Greta Hennick, in the inn door, offers her a bowl of something hot.".
     On discuss { Increase dunyaTrust(dunya) by 2. }
   }
   Topic dunya_small with dunya "Say that it is small, and the Cohort is the greater place" answering dunya_kell when true {
     Says "'Yes,' says Dunya, stiff again. 'It is.' She does not look at the houses. 'I have always said the Cohort was the greater place. It is good to have a witness.' She drinks Greta's soup and does not taste it.".
     On discuss { Decrease dunyaTrust(dunya) by 1 or to nothing. }
   }
-  Topic dunya_marcus with dunya "Ask Dunya who the men at the head of the Descent are" when travelsWith(dunya, party) and at(party, pass_s) once {
+  Topic dunya_aurel with dunya "Ask Dunya who the men at the head of the Descent are" when travelsWith(dunya, party) and at(party, pass_s) once {
     Says "She has not taken her eyes off Aurel since the turn of the road. 'The tall one's Aurel Merula,' she says. 'He was my century-mate. We drew the lot together. Mine was the draw before his.' She breathes. 'He took the pouch that spring and he did not come back, and the Centurion said he was dead at the Eagle, and she wept for a month. He's not dead.' She looks at you. 'Do I report him? I am a scout of the First Century. It is my duty.'".
   }
-  Topic dunya_report with dunya "Tell her that duty is duty, and that his mother is owed the truth" answering dunya_marcus when true {
+  Topic dunya_report with dunya "Tell her that duty is duty, and that his mother is owed the truth" answering dunya_aurel when true {
     Says "'She is,' says Dunya. She goes to Aurel, and they talk for a quarter of an hour on the boulder, with their heads close. When she returns her face is wet. 'I'll tell the Centurion. Not that he's a deserter. That he's alive.'".
     On discuss { Assert dunyaReported(party). Increase dunyaTrust(dunya) by 1. }
   }
-  Topic dunya_silent with dunya "Tell her to say nothing: they have made their choice, and it is theirs" answering dunya_marcus when true {
+  Topic dunya_silent with dunya "Tell her to say nothing: they have made their choice, and it is theirs" answering dunya_aurel when true {
     Says "'Nothing,' she says. She does not sound sure. 'I'll say nothing. I'll carry it, like the Sending.' She follows you down the Descent with her eyes on her boots.".
     On discuss { Assert dunyaSilent(party). }
   }
-  Topic dunya_join with dunya "Tell her that she could stay with them, and no one would know" answering dunya_marcus when true {
+  Topic dunya_join with dunya "Tell her that she could stay with them, and no one would know" answering dunya_aurel when true {
     Says "Dunya looks at the boulder and the seven men. 'I could,' she says. She puts down her pack. 'Tell the Centurion I took the Pass for my century. Tell her I am where I am needed.' She goes up the slope, and Aurel gets down off his boulder, and they clasp wrists, and she does not look back.".
     On discuss { Assert dunyaDefected(party). Retract travelsWith(dunya, party). Assert at(dunya, pass_s). }
   }
@@ -143,6 +143,14 @@ Module muster "The Long Muster's Road" {
     Says "'A season,' says Dunya. She almost smiles. 'Greta will want the table.' She takes her pack off.".
     On discuss { Assert dunyaStaysKell(party). Retract travelsWith(dunya, party). Assert at(dunya, taproom). }
   }
+  Measure dunyaAt(group).
+  Rule dunya_arrives when travelsWith(dunya, party) and at(party, green) and dunyaAt(party) == 0 { Set dunyaAt(party) to watch(clock). }
+  Rule dunya_leaves_unasked when travelsWith(dunya, party) and dunyaAt(party) > 0 and watch(clock) >= dunyaAt(party) + 36 and dunyaTrust(dunya) < 2
+    says "Dunya waits out the better part of a morning at the trough, with her pack at her feet, and then shoulders it. 'I was sent to see,' she says. 'I have seen.' She goes north up the Causeway, and does not wave." {
+    Assert dunyaHome(party). Retract travelsWith(dunya, party). Assert at(dunya, causeway3). }
+  Rule dunya_stays_unasked when travelsWith(dunya, party) and dunyaAt(party) > 0 and watch(clock) >= dunyaAt(party) + 36 and dunyaTrust(dunya) >= 2
+    says "Dunya has been reading the notice-board for an hour. 'A season,' she says to nobody in particular, and carries her pack in at the Last Fire's door." {
+    Assert dunyaStaysKell(party). Retract travelsWith(dunya, party). Assert at(dunya, taproom). }
   Topic dunya_go_home with dunya "Tell her to go back and report what she has seen" answering dunya_stay when true {
     Says "'Yes,' says Dunya. 'The Centurion.' She stands and puts on her cloak. By morning there is a wheel scratched on the doorpost of the Last Fire, and a cleared plate.".
     On discuss { Assert dunyaHome(party). Retract travelsWith(dunya, party). Assert at(dunya, causeway3). }

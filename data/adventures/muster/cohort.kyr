@@ -11,10 +11,10 @@ Module muster "The Long Muster's Road" {
   Discovery empire_gone "The empire the Cohort serves has been dust for eleven hundred years.".
   Discovery cohort_law "The Muster's law holds the valley: the Prefect rules by the last emperor's regnal year, a courier goes north every spring, and no answer has come.".
   Discovery cohort_factions "The Last Cohort keeps its faith in three parties: the Eagles, who hold the standard; the Hearth, who hold the fields and doubt; and the Archive, who count the springs.".
-  Relation received(group). Relation gateRebuffed(group). Relation foundPouch(group). Relation merulaFull(group). Relation admitted(group). Relation claimedRelief(group). Relation dispatchTaken(group).
-  Relation told_prefect(group). Relation told_moll(group). Relation told_merula(group). Relation told_elpis(group). Relation traded_only(group).
+  Relation received(group). Relation gateRebuffed(group). Relation merulaFull(group). Relation admitted(group). Relation claimedRelief(group). Relation dispatchTaken(group).
+  Relation told_prefect(group). Relation told_ostrander(group). Relation told_merula(group). Relation told_elpis(group). Relation traded_only(group).
   Relation valleyTold(group). Measure toldAt(group). Relation scoutGiven(group). Relation pardoned(group). Relation merulaKnowsSon(group).
-  Relation goldReturned(group). Relation hobbeShut(group). Relation hearthOwes(group). Relation brandShut(group). Relation brandTold(group). Relation prefectReadSeal(group). Relation forgeryKnown(group).
+  Relation goldReturned(group). Relation doseTold(group). Relation hobbeShut(group). Relation hearthOwes(group). Relation brandShut(group). Relation brandTold(group). Relation prefectReadSeal(group). Relation forgeryKnown(group).
   Relation orsaConfessed(group). Relation gaiusPontus(group). Relation liviaMapped(group). Relation hobbeFreed(group). Relation gaiusSecret(group).
 
   // ── The gate: a challenge in a language the company probably cannot speak ───────────────────────────────────────
@@ -24,8 +24,10 @@ Module muster "The Long Muster's Road" {
     Comes "The sentries come down off the wall at the double.".
     Lair gate.
     State challenging blocking "Four soldiers of the Last Cohort stand across the gate with their spears crossed.".
+    State stood_down "The sentries lean on their spears on the wall and let the road lie open.".
     Guards gate_forum.
   }
+  Rule sentries_stand_down when tolerates(sentries, party) and state(sentries, challenging) { Assert state(sentries, stood_down). }
   Observe sentry_gloss at gate when holding(party, old_glossary) "With the scribe's glossary open in your hand the song resolves into words: QUIS VENIT, who comes; DA TESSERAM, give the watchword; ET SI NON, and if not.".
   Action answer_challenge(actor: group, site: place) "Answer the sentries' challenge in the old script, out of the glossary" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, gate) and at(sentries, gate) and able(sentries)
@@ -48,7 +50,7 @@ Module muster "The Long Muster's Road" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, gate) and at(sentries, gate) and able(sentries)
       and holding(actor, courier_pouch) and not tolerates(sentries, actor) and not gateRebuffed(actor).
     Time 0.
-    On success { Spend courier_pouch from actor. Assert tolerates(sentries, actor). Assert admitted(actor). Assert foundPouch(actor). }
+    On success { Spend courier_pouch from actor. Assert tolerates(sentries, actor). Assert admitted(actor). }
     Result "The voice on the wall stops. A spear comes up. 'That is ours,' says one of them. 'That is the seal.' The captain comes down the wall-stair and takes it out of your hand with two fingers, and looks at the wheel, and at the date, and at you. 'Where?' he says. 'The Eagle,' you say. 'The stack.' He gives it to a boy, who runs. 'Then you walked the Viaduct,' says the captain. 'Come in. The Prefect will want you.'".
   }
 
@@ -110,22 +112,22 @@ Module muster "The Long Muster's Road" {
 
   // ── Telling: five ways to put the same fact into the valley ────────────────────────────────────────────────────
   Topic corvin_tell with corvin "Tell the Prefect that the empire is gone" when admitted(party) and interviewQ3(party) and not valleyTold(party) and not traded_only(party) once {
-    Says "Corvin does not move for a long time. 'Eleven hundred and four years,' he says. 'You are certain.' He gets up, goes to the window, and looks at the eagle in the forum. 'I shall have the standard struck at dawn. The valley will want to know what we are, if not what we were told. I shall tell them. It had better come from me.' He turns. 'Thank you,' he says, and it is the hardest thing you have heard anyone say.".
+    Says "Corvin does not move until the clerk in the doorway has gone away. 'Eleven hundred and four years,' he says. 'You are certain.' He gets up, goes to the window, and looks at the eagle in the forum. 'I shall have the standard struck at dawn. The valley will want to know what we are, if not what we were told. I shall tell them. It had better come from me.' He turns. 'Thank you,' he says, and goes to stand at the window with his back to you.".
     On discuss { Assert told_prefect(party). Assert valleyTold(party). Assert knows(actor, empire_gone). Assert state(standard, struck). Set toldAt(party) to watch(clock). }
   }
-  Topic moll_tell with ostrander "Tell the Archivist what the road is" when admitted(party) and not valleyTold(party) and not traded_only(party) once {
+  Topic ostrander_tell with ostrander "Tell the Archivist what the road is" when admitted(party) and not valleyTold(party) and not traded_only(party) once {
     Says "Ostrander listens with his eyes shut. 'The Annals record, in the General's own year, that an answer was promised by the spring,' he says, 'a promise which, being a thousand and a hundred springs old, I have come to read as a kind of weather.' He opens his eyes. 'The Prefect is a decent man and a tired one. I will tell him by degrees. In a year, in two. Not at dawn, with the buccina.' He takes a red book down from the press. 'There is a note in the engineers' hand about the fifth arch. The Cohort can string a rope-way. Let us send someone north, to see, and let them take the Annals, and let the valley be told afterwards, by someone it trusts, what it has been waiting for.'".
-    On discuss { Assert told_moll(party). Assert valleyTold(party). Assert knows(actor, empire_gone). Give itinerarium_copy to actor. Assert state(standard, kept). Assert knows(actor, ropeway_known). Set toldAt(party) to watch(clock). }
+    On discuss { Assert told_ostrander(party). Assert valleyTold(party). Assert knows(actor, empire_gone). Give itinerarium_copy to actor. Assert state(standard, kept). Retract annalsOpen(party). Set toldAt(party) to watch(clock). }
   }
   Topic merula_tell with merula "Tell the Centurion that the empire is gone" when admitted(party) and not valleyTold(party) and not traded_only(party) once {
-    Says "Lucilla Merula takes it standing, as soldiers do. 'Then I have been a Centurion of nothing for twenty years,' she says, 'and my century is the best drilled nothing in the world.' She picks up her cane. 'I shall not tell the valley. I shall tell the First Century, tonight, in the barracks, and tomorrow we shall decide whether to go north and look. A column, thirty, with the Archivist's maps. A century that knows what it is for does not stand on a wall.' She looks at the standard through the door. 'Keep your mouths shut about my face.'".
+    Says "Lucilla Merula takes it standing, as soldiers do. 'Then I have been a Centurion of nothing for twenty years,' she says, 'and my century is the best drilled nothing in the world.' She picks up her cane. 'I shall not tell the valley. I shall tell the First Century, tonight, in the barracks, and tomorrow we shall decide whether to go north and look. A column, six, with the Archivist's maps. A century that knows what it is for does not stand on a wall.' She looks at the standard through the door. 'Keep your mouths shut about my face.'".
     On discuss { Assert told_merula(party). Assert valleyTold(party). Assert knows(actor, empire_gone). Set toldAt(party) to watch(clock). }
   }
-  Topic elpis_tell with elpis "Tell the granary-reeve that the empire is gone" when admitted(party) and piaVouched(party) and not piaPushed(party) and not valleyTold(party) and not traded_only(party) once {
+  Topic elpis_tell with elpis "Tell the granary-reeve that the empire is gone" when admitted(party) and edeVouched(party) and not edePushed(party) and not valleyTold(party) and not traded_only(party) once {
     Says "Elpis Varo puts down her tally-stick. 'Then the sixth of the harvest we send north on the Sending is a sixth we owe nobody,' she says, evenly. 'Then the Sending is eleven hundred years of the best barley in the valley fed to the Eagle's pride. Then every child who went hungry in the plague winter went hungry for a lie.' She stands. 'I shall tell the Hearth at the evening call. And I shall not send the sixth.'".
     On discuss { Assert told_elpis(party). Assert valleyTold(party). Assert knows(actor, empire_gone). Set toldAt(party) to watch(clock). }
   }
-  Topic merula_scout with merula "Ask the Centurion for a scout" when (told_prefect(party) or told_moll(party) or told_merula(party) or merulaKnowsSon(party)) and not claimedRelief(party) and not scoutGiven(party) once {
+  Topic merula_scout with merula "Ask the Centurion for a scout" when (told_prefect(party) or told_ostrander(party) or told_merula(party) or merulaKnowsSon(party)) and not claimedRelief(party) and not scoutGiven(party) once {
     Says "'You told us,' says Merula, 'or you brought me something I did not know how to ask for. Then you are owed, and I pay.' Her face does something. 'Dunya knows the Pass and the Viaduct, and she knows a thing about the fifth arch. Ask her.'".
     On discuss { Assert scoutGiven(party). Assert willing(dunya, party). Set hire(dunya) to 0. Assert knows(actor, ropeway_known). }
   }
@@ -140,16 +142,16 @@ Module muster "The Long Muster's Road" {
     Role "Centurion of the First Century". Ancestry human. Calling warrior. Level 4. Pronouns she. Manner acerbic. Peaceable.
     Greets "The woman with the cane lowers it. 'You walked the Pass, then,' she says. 'Not many do. Past the Eagle, past the giant, past the men at the head of the Descent. What did you see in the road?'".
   }
-  Topic merula_deserters with merula "Tell the Centurion about the men at the head of the Descent" when paidDeserters(party) or marcusMet(party) {
+  Topic merula_deserters with merula "Tell the Centurion about the men at the head of the Descent" when paidDeserters(party) or aurelMet(party) {
     Says "'Seven,' says Merula, as if reading from a report. 'Walked out of the Sending, one by one, lot or no lot. Mine to deal with.' She looks at the wall. 'The tall one with the bow. Name. Report.'".
   }
-  Topic merula_letter with merula "Give the Centurion the pouch addressed to her, from the Eagle" when holding(actor, marcus_letter_kind) and not merulaKnowsSon(party) once {
+  Topic merula_letter with merula "Give the Centurion the pouch addressed to her, from the Eagle" when holding(actor, aurel_letter_kind) and not merulaKnowsSon(party) once {
     Says "She takes it in both hands and reads the superscription. 'He writes square,' she says. She breaks the seal, reads, and sits down on the spear-rack, which is not done. 'He saw them,' she says. 'And could not come and say.' She turns the letter over. 'I would have had him flogged. Because I would have had to.' She looks at you. 'What do you want for this?'".
-    On discuss { Spend marcus_letter_kind from actor. Assert merulaKnowsSon(party). }
+    On discuss { Spend aurel_letter_kind from actor. Assert merulaKnowsSon(party). }
   }
   Topic merula_ans_all with merula "Ask nothing for it, and tell her everything about the men in the Pass" answering merula_letter when true {
     Says "She listens to the end with her cane across her knees. 'Then I owe you the pardon,' she says. 'I will ask it in the Prefect's name.'".
-    On discuss { Assert merulaFull(party). Assert knows(actor, marcus_known). }
+    On discuss { Assert merulaFull(party). Assert knows(actor, aurel_known). }
   }
   Topic merula_ans_part with merula "Ask a scout for it, and say no more about the Pass" answering merula_letter when true {
     Says "'A scout,' says Merula. 'Yes.' She puts the letter inside her cuirass. 'I do not do pardons for scouts.'".
@@ -165,15 +167,15 @@ Module muster "The Long Muster's Road" {
     Role "Archivist of the Cohort". Ancestry human. Pronouns he. Manner grim. Peaceable.
     Greets "An old man among scrolls looks up. He has read a date and does not believe it. 'You are not Aenean,' he says. 'Good. Shut the door.'".
   }
-  Topic moll_beam with ostrander "Ask the Archivist what the notches on the roof-beam are" when true {
-    Says "'Springs,' he says. 'One for each Sending that returned with nothing. Eleven hundred and three, and one yet to cut. My predecessors cut them, in the dark, after the Prefects had gone to bed. We do not talk of the beam. It would be a poor kind of faith that kept count.' He looks at it. 'It would be a poorer kind that did not.'".
+  Topic ostrander_beam with ostrander "Ask the Archivist what the notches on the roof-beam are" when true {
+    Says "'Springs,' he says. 'One for each Sending that returned with nothing. Eleven hundred and three, and one yet to cut. My predecessors cut them, in the dark, after the Prefects had gone to bed. We do not talk of the beam. It would be a poor kind of faith that kept count.' He looks at it. 'The kind that did not would be easier to read.'".
   }
-  Topic moll_forged with ostrander "Ask the Archivist about the year the Annals say a reply came" when told_moll(party) and mollSwore(party) and not forgeryKnown(party) once {
-    Says "Ostrander is a long time answering. 'The year of the cattle plague. The Sending went north in the spring and came home with nothing, as it has done every year, and the valley had buried four hundred head and a good many children. The Prefect before Corvin asked me what to put. I wrote: A REPLY WAS RECEIVED; HOLD. In my own hand, in the red ink.' He folds his hands. 'The only false line in the Annals. I have not forgiven myself for it, and the valley got through the winter.'".
+  Topic ostrander_forged with ostrander "Ask the Archivist about the year the Annals say a reply came" when told_ostrander(party) and ostranderSwore(party) and not forgeryKnown(party) once {
+    Says "Ostrander turns three pages before he answers. 'The year of the cattle plague. The Sending went north in the spring and came home with nothing, as it has done every year, and the valley had buried four hundred head and a good many children. The Prefect before Corvin asked me what to put. I wrote: A REPLY WAS RECEIVED; HOLD. In my own hand, in the red ink.' He folds his hands. 'The only false line in the Annals. I have not forgiven myself for it, and the valley got through the winter.'".
     On discuss { Assert forgeryKnown(party). Assert knows(actor, forgery_known). }
   }
   Entity forgery_known: fact "In the year after the plague of the cattle, the Archivist wrote in the Annals that a reply from the Emperor had been received, to keep the valley from despair. There was none.".
-  Topic moll_stones with ostrander "Show the Archivist the soldier's scratches you copied on the road" when knows(actor, rufus_1) and knows(actor, rufus_2) and knows(actor, rufus_3) and knows(actor, rufus_4) and not told_moll(party) {
+  Topic ostrander_stones with ostrander "Show the Archivist the soldier's scratches you copied on the road" when knows(actor, rufus_1) and knows(actor, rufus_2) and knows(actor, rufus_3) and knows(actor, rufus_4) and not told_ostrander(party) {
     Says "He reads them with a finger, line by line. At WE WAITED he stops. 'Rufus,' he says. 'I have the muster-roll. Gaius Rufus, VI Cohort, died in the second winter of the march, south of here. He did not see the sea. The boots did not hold.' He sits. 'Nobody has told me what he wrote. You have walked the whole road, and read all of it. Then you know more of us than we do.'".
   }
   Kind itinerarium_kind "a copy of the Itinerarium" is document teaching itinerarium_read described "A red-bound book in the legion's square hand: every mile of the road, every mansio, every halt.".
@@ -211,7 +213,7 @@ Module muster "The Long Muster's Road" {
     Says "He takes the tag and reads it with his thumb, and goes on reading it long after the thumb has stopped. 'Cato. Five hundred and three. They said the cold, but the cold does not leave a man's tag in a nest, does it, and I always thought, past the stack, at noon, with nothing to stand behind.' He puts it in his shirt. 'Ostrander will want to cut a notch. He cut one when my wife died and I said that is not a notch matter and he said everything is a notch matter.'".
     On discuss { Spend courier_tag from actor. Assert gaiusPontus(party). }
   }
-  Topic gaius_marcus with gaius "Ask Old Gaius whether he knows the men in the Pass" when knows(actor, marcus_known) and not gaiusSecret(party) once {
+  Topic gaius_aurel with gaius "Ask Old Gaius whether he knows the men in the Pass" when knows(actor, aurel_known) and not gaiusSecret(party) once {
     Says "He looks at the lamp. 'Every spring, going north, I leave a sack of barley and a skin of wine under the milestone in the notch, under the heap of small stones. Nine years. In the autumn the sack is gone.' He turns the pouch over. 'You will say nothing. He is the one man who knows there is nobody at the Eagle.'".
     On discuss { Assert gaiusSecret(party). }
   }
@@ -251,6 +253,12 @@ Module muster "The Long Muster's Road" {
     Says "Elpis looks at you for the first time as if you were a sack to be weighed. 'Form,' she says, and writes it herself. 'Four days. Take them out of the north end, where it keeps.' She does not say thank you. She puts the stick behind her ear.".
     On discuss { Increase quantity(actor, rations) by 4. }
   }
+  Topic corvin_dose with corvin "Tell the Prefect what Dame Orsa puts in his evening cup" when orsaConfessed(party) and admitted(party) and not doseTold(party) once {
+    Says "Corvin sets down the cup he was lifting. He does not look at it again. 'Sixteen years,' he says, 'of the clearest sleep in the valley.' He rings a small bell, and a clerk is sent down the steps for Dame Orsa, who comes up them slowly, and does not look at you. 'Thank you,' he says, and does not say what for.".
+    On discuss { Assert doseTold(party). Increase prefectRegard(party) by 2. Retract at(orsa, apothecary). Assert at(orsa, praetorium_hall). }
+  }
+  Rule gaius_barley_pass when gaiusSecret(party) and at(party, pass_s) and not tolerates(deserters, party)
+    says "The tall man on the boulder looks at the sack under the milestone, and at you, and at the sack. 'Gaius,' he says, and raises his bow an inch, which here is a greeting. They let you by." { Assert tolerates(deserters, party). }
   Topic elpis_tithe with elpis "Ask the granary-reeve about the sixth that goes north" when true {
     Says "'It is stood at the Sending gate in the spring in thirty sacks and thirty-one skins,' says Elpis. 'Then it is brought back in the autumn by the Sending and put in the Eagles' own store, and the Eagles eat it, very nicely, as a reward for faith. Nobody has asked in eleven hundred years why it is brought back.' She taps the board. 'Sums are mine. Opinions go on a form. The form is in the drawer. The drawer is stuck.'".
   }
