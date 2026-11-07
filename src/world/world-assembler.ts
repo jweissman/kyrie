@@ -111,7 +111,7 @@ export class WorldAssembler {
     const modules: BundleRequest[] = [{ id: RegionWriter.id, bundle: base.resolve(`${root}/region/module.json`) }];
     // The family an origin makes the protagonist's own are of the protagonist's people: a human mage's brother had
     // been an elf ranger, the town's folk (play 10).
-    const family = origin?.manifest.binder === 'kin' ? party[0]!.raceId : undefined;
+    const family = origin?.manifest.binder === 'kin' ? { folk: party[0]!.raceId, own: party[0]!.name } : undefined;
     this.spread(placements,
       { library: [...library, ...heralds, ...standing], base, region, contacts, context, files, root, modules,
         family });
@@ -210,13 +210,13 @@ export class WorldAssembler {
   // Each placement's modules, and the module that spreads word of it.
   private static spread(placements: Placement[], at: { library: Entry[]; base: BundleSource; region: Region;
     contacts: Contact[]; context: Record<string, string>; files: Record<string, string>; root: string;
-    modules: BundleRequest[]; family?: string }) {
+    modules: BundleRequest[]; family?: { folk?: string; own?: string } }) {
     const { library, base, region, context, files, root, modules } = at;
     placements.forEach((placement, i) => {
       const entry = library.find(e => e.manifest.id === placement.scenario)!;
-      const kin = at.family && placement.scenario === 'drover' && placement.rid === RegionWriter.id;
+      const kin = at.family?.folk && placement.scenario === 'drover' && placement.rid === RegionWriter.id;
       modules.push(...this.requests(entry, placement, base, { context: { ...context, ...this.wild(placement, region),
-        ...this.folk(placement, region), ...kin ? { folk: at.family!, kin: true } : {} }, region }));
+        ...this.folk(placement, region, kin ? at.family : undefined) }, region }));
       const word = ScenarioWord.of(entry.manifest, placement, { region, contacts: at.contacts });
       if (word) {
         files[`${root}/word-${placement.instance}/module.json`] = JSON.stringify(word.manifest);
@@ -406,9 +406,7 @@ export class WorldAssembler {
     const w = region.sites.find(x => x.id === site);
     return w?.near === town ? -1 : w?.hours ?? Infinity;
   }
-  private static install(module: string, n: number): string {
-    return `${module.replace(/[^A-Za-z0-9]/g, '')}${n > 1 ? n : ''}`;
-  }
+  private static install(m: string, n: number): string { return `${m.replace(/[^A-Za-z0-9]/g, '')}${n > 1 ? n : ''}`; }
   // A scenario reference: @party, @region, @role, @role.part (a settlement's green, a site's track or the country it
   // stands in…), @history.makers / .fate / .successors (the country's own history, to be found), module.export.
   static ref(value: string, placement: Placement, region?: Region): string {
@@ -442,10 +440,13 @@ export class WorldAssembler {
   }
   // The people of the settlement a placement is set in, for its modules to name their own people by; and the names
   // the country's people have already, which its people are drawn apart from (two Caelynns on one quay: PT-28).
-  static folk(placement: Placement, region: Region): Record<string, DeemValue> {
+  // The protagonist's own family (kin) are of the protagonist's people, and not called by the protagonist's own name
+  // (a dwarf's brother had been Harbek, as Harbek was: the fresh playtest of 7 November).
+  static folk(placement: Placement, region: Region, kin?: { folk?: string; own?: string }): Record<string, DeemValue> {
     const town = region.settlements.find(t => Object.values(placement.bindings).includes(t.id));
-    return { ...town ? { folk: town.folk ?? region.ancestry, townName: town.name } : {},
-      taken: StoryPeople.country(region) };
+    const taken = StoryPeople.country(region), own = kin?.own ? [kin.own] : [];
+    return { ...town ? { folk: town.folk ?? region.ancestry, townName: town.name } : {}, taken,
+      ...kin?.folk ? { folk: kin.folk, kin: true, taken: [...taken, ...own] } : {} };
   }
   // What has made its den at a placement's first site, by the country it stands in (see RegionEcology): told to its
   // modules, which use it (a den does) or not.
