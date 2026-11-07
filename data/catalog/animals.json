@@ -2402,10 +2402,41 @@
         "notes": "A wild animal of its own, added by its record (the owner, 6 November)."
       }
     },
+    "dromedary": {
+      "name": "Dromedary",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A desert-dwelling camel with a single hump, known for its endurance and ability to travel long distances without water.",
+      "looks": "A tall, sandy-colored camel with a single hump, long legs, and a long neck.",
+      "portrait": "animals/dromedary",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 10,
+        "primary": "constitution",
+        "weapon": "kick",
+        "armor": "hide_armor"
+      },
+      "abilities": [
+        "flee"
+      ],
+      "habitats": [
+        "desert"
+      ],
+      "abundance": 2,
+      "worth": {
+        "base": 0,
+        "perLevel": 10
+      },
+      "source": {
+        "kyr": true,
+        "notes": "A wild animal of its own, added by its record (the owner, 6 November)."
+      }
+    },
     "fern_runner": {
       "name": "Fern-runner",
       "type": "beast",
       "kind": "animal",
+      "portrait": "animals/fern_runner",
       "description": "A cat-sized, feathered runner of the island's undergrowth, quick, curious and not at all afraid of doors.",
       "looks": "A slender, long-legged little animal the size of a heron's chick, with a coat of rust and cream down running to quills along the arms, a long balancing tail and large dark eyes.",
       "statistics": {
@@ -2433,6 +2464,7 @@
       "name": "Hook-claw",
       "type": "beast",
       "kind": "animal",
+      "portrait": "animals/hook_claw",
       "description": "A feathered pack hunter of the island's cycad forest, the size of a big dog, that takes what it can overpower with a great curved claw on each foot.",
       "looks": "A lean, bird-footed animal the length of a man, barred in green and rust, with a stiff tail held out behind it, long arms ending in three claws, and on each foot a single hooked claw held off the ground.",
       "statistics": {
@@ -2461,6 +2493,7 @@
       "name": "Stilt-runner",
       "type": "beast",
       "kind": "animal",
+      "portrait": "animals/stilt_runner",
       "description": "A tall, fast, flightless eater of eggs and fruit, curious about people and quick to bolt.",
       "looks": "A bird-like animal as tall as a man at the back, on two long legs, with a small head on a long neck, a toothless beak, a bristle of feathers and a kick that has broken a boar's back.",
       "statistics": {
@@ -2489,6 +2522,7 @@
       "name": "Three-horn",
       "type": "beast",
       "kind": "animal",
+      "portrait": "animals/three_horn",
       "description": "A browsing beast of the fern plain with a bony frill and three horns, that will hold a calf's ground against anything.",
       "looks": "A beast the size of a wagon with a beak, a great bony frill behind its head, one short horn on the nose and two long above the eyes, on four heavy legs, its hide in plates like dry mud.",
       "statistics": {
@@ -2518,6 +2552,7 @@
       "name": "Lantern-neck",
       "type": "beast",
       "kind": "animal",
+      "portrait": "animals/lantern_neck",
       "description": "The greatest animal of the island: a long-necked browser as big as a barn that lives on the canopy and notices nothing smaller than itself.",
       "looks": "An animal longer than a ship's boat laid keel to keel with another, on four pillar legs, with a neck like a mast that carries its small head up among the cycad crowns and a long tail held clear of the ground.",
       "statistics": {
@@ -2545,6 +2580,7 @@
       "name": "Tyrant",
       "type": "beast",
       "kind": "animal",
+      "portrait": "animals/tyrant",
       "description": "The island's great hunter: a bulk-headed killer as long as a barn, with a bite that breaks the backs of the herd.",
       "looks": "A huge two-legged animal with a head the length of a man, a mouth of teeth like bread-knives, arms that are laughably small, and a tail that balances all of it.",
       "statistics": {
@@ -2574,6 +2610,7 @@
       "name": "Sail-wing",
       "type": "beast",
       "kind": "animal",
+      "portrait": "animals/sail_wing",
       "description": "A leathery flier of the island's sea-cliffs that nests in great colonies and drives off anything that walks on the ledges.",
       "looks": "A flying animal with a skin wing spanning a cart, a long toothless beak, a head crested with a bony sail, and legs it walks on, folded, like a bat's.",
       "statistics": {
@@ -2601,6 +2638,7 @@
       "name": "Ridge-goat",
       "type": "beast",
       "kind": "animal",
+      "portrait": "animals/ridge_goat",
       "description": "A grey, long-horned goat of the high fells that has learned the legion's roads and will not set a hoof on any stone that will not bear it.",
       "looks": "A lean grey goat with a pale belly and horns swept back in one long curve, hooves like split cups, a beard stained with lichen, and a look of settled disapproval.",
       "statistics": {
@@ -2628,6 +2666,7 @@
       "name": "Bone-kite",
       "type": "beast",
       "kind": "animal",
+      "portrait": "animals/bone_kite",
       "description": "A rust-and-white carrion raptor that nests in the arches of the old viaduct and circles over what is about to fall.",
       "looks": "A broad-winged bird with a forked tail, a white head, a hooked yellow bill and a rust-red back, hanging on the updraught without a wingbeat, its shadow the size of a door.",
       "statistics": {
@@ -2655,6 +2694,7 @@
       "name": "Pass-marmot",
       "type": "beast",
       "kind": "animal",
+      "portrait": "animals/pass_marmot",
       "description": "A stout burrowing sentinel of the high pass, that whistles once at a thing it fears and twice at a thing it hates.",
       "looks": "A fat, fawn-coloured animal the size of a spaniel, up on its haunches on a rock, its cheeks full, its small black eyes fixed on the road, its front paws held to its chest as if in prayer.",
       "statistics": {
@@ -2682,6 +2722,7 @@
       "name": "Salt-ox",
       "type": "beast",
       "kind": "animal",
+      "portrait": "animals/salt_ox",
       "description": "The Last Cohort's draught ox, shaggy and broad-backed, bred over eleven centuries to draw salt-sleds on the Descent and to stand still at a bugle.",
       "looks": "A short-legged, broad-backed ox in a coat like a rug, with a wide white blaze, curved horns capped in bronze, and a placid eye that has learned the bugle calls of the day.",
       "statistics": {
@@ -2709,6 +2750,7 @@
       "name": "Dawn-piper",
       "type": "beast",
       "kind": "animal",
+      "portrait": "animals/dawn_piper",
       "description": "A hen-sized crested runner of the fern plain whose flock pipes together an hour before the great herd comes down to the lake.",
       "looks": "A small bird-footed animal in blue-grey down, with a hollow bony crest on its head like a bent flute, that stands in flocks of forty with its head back and its crest open.",
       "statistics": {
@@ -2736,6 +2778,7 @@
       "name": "Plate-back",
       "type": "beast",
       "kind": "animal",
+      "portrait": "animals/plate_back",
       "description": "A low, slow grazer of the forest margins, walled in bony plates, that sleeps in rings with its young inside.",
       "looks": "A beast like a barn door on four short legs, its back in plates of bone each as wide as a shield, a spiked tail-club, and a small head under a hood of bone.",
       "statistics": {
@@ -2763,6 +2806,7 @@
       "name": "Mud-skimmer",
       "type": "beast",
       "kind": "animal",
+      "portrait": "animals/mud_skimmer",
       "description": "A flat-headed shell-digger of the delta that goes in and out of the black water in dozens and is the first thing there to leave it when the lurker comes.",
       "looks": "A foot-and-a-half animal like a crayfish with a lizard's head, ringed in chitin, with great digging forearms and a way of standing very still with its head up.",
       "statistics": {
@@ -2790,6 +2834,7 @@
       "name": "Glide-lizard",
       "type": "beast",
       "kind": "animal",
+      "portrait": "animals/glide_lizard",
       "description": "A cycad-living lizard with skin-wings between its limbs that glides from crown to crown at dusk toward the one hollow where it nests.",
       "looks": "A lizard the length of a forearm, striped orange and green, with wing-flaps of bright skin folded along its ribs, and a throat-fan like a lamp.",
       "statistics": {
@@ -2817,6 +2862,7 @@
       "name": "Bone-scuttler",
       "type": "beast",
       "kind": "animal",
+      "portrait": "animals/bone_scuttler",
       "description": "A hand-sized armoured carrion-eater of the bone-beds that crosses the hot crust only by one line, and keeps the beds clean.",
       "looks": "A bright beetle-like animal on six legs with a head like a trowel, black and sulphur-yellow, that moves in files of a dozen over the yellow crust.",
       "statistics": {
@@ -2844,6 +2890,7 @@
       "name": "Shore-brooder",
       "type": "beast",
       "kind": "animal",
+      "portrait": "animals/shore_brooder",
       "description": "A great flightless beaked animal that nests on the strand under the cliffs and will not leave its clutch for anything that walks.",
       "looks": "A feathered animal the height of a horse, on two columnar legs, bald-necked, with a ruff of black plumes, a hooked beak, and a flat nest of tide-wrack under it.",
       "statistics": {
@@ -2865,6 +2912,36 @@
       "source": {
         "kyr": true,
         "notes": "It holds the strand under the cliffs by sitting on it; it does not give chase, and a visitor who goes round loses nothing. No habitats are written, so no generated country draws it into a den: it lives on the Isle of Sarn alone (doc/adventures/anthology/the-fourth-act.md). Its painting is not yet made (portrait unset; data/paintings/animals.json would take animals/shore_brooder)."
+      }
+    },
+    "kangaroo_rat": {
+      "name": "Kangaroo Rat",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A small desert-dwelling rodent with powerful hind legs for jumping.",
+      "looks": "A tiny rodent with large hind legs, a long tail, and fur colored to blend with the desert sand.",
+      "portrait": "animals/kangaroo_rat",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 2,
+        "primary": "dexterity",
+        "weapon": "bite",
+        "armor": "hide_armor"
+      },
+      "abilities": [
+        "flee"
+      ],
+      "habitats": [
+        "desert"
+      ],
+      "abundance": 3,
+      "worth": {
+        "base": 0,
+        "perLevel": 5
+      },
+      "source": {
+        "kyr": true,
+        "notes": "A wild animal of its own, added by its record (the owner, 6 November)."
       }
     }
   }
