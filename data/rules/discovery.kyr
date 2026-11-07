@@ -68,9 +68,13 @@ Module discovery_rules "Reliable discovery and trusted reports" {
       Assert toldBy(actor, informant, statement).
     }
   }
+  // Searched indoors, or wherever something reads a search of the place (LookAnswers.searches, the engine's): out of
+  // doors a search had found nothing nearly everywhere, and was offered everywhere (the owner, 6 November).
+  Relation searchedAnywhere().
   Action search(actor: group, site: place) "Search {site}" {
     Description "Go over the whole of the place, a little at a time: the ground, the walls, the backs of things. Twenty minutes, once; what it does not find is not there to be found, and a search the light gives out on is not made.".
-    Requires able(actor) and at(actor, site) and not benighted(actor) and not searched(actor, site).
+    Requires able(actor) and at(actor, site) and not benighted(actor) and not searched(actor, site)
+      and (indoors(site) or answers(site, rummaging) or searchedAnywhere()).
     Time 2. Resolve rummage(actor). Interrupted when threatened(actor) or benighted(actor).
     On success { Assert searched(actor, site). }
     Result "You search {site} with care, a little at a time.".

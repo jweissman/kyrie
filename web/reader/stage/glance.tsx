@@ -1,3 +1,4 @@
+import { Glyphs } from '../creation/glyphs';
 import type { Glance, Promoted } from '../../../src/presentation/glance-types';
 import type { Choice } from '../../../src/ui/choice-list';
 import type { SceneSubject } from '../../../src/ui/scene';
@@ -137,15 +138,32 @@ export class GlanceStage {
   // go), Look… (the things at hand, where there are any), Wait… and Search. Who is here is on the picture.
   static Resting({ app, draw, acts, top }: { app: ReaderApp; draw: Draw; acts: Promoted[]; top?: string }) {
     const shown = GlanceStage.pressing(acts), search = Pastime.search(app), hand = AtHand.of(app);
+    const ways = Wayfinder.ways(app), only = GlanceStage.only(app), posted = GlanceStage.posted(app);
     return <>
       {shown.length > 0 && <GlanceStage.Acts app={app} draw={draw} acts={shown} top={top} />}
       <p className="openers">
-        <Explorer.Opener app={app} part="go" label="Go…" led={Wayfinder.ways(app).some(w => w.aim)} />
+        {posted && <Act.View choice={posted} draw={draw} quiet className="opener opens-go">
+          {Typography.curl(posted.label)}</Act.View>}
+        {only ? <Act.View choice={only.c} draw={draw} quiet className="opener opens-go">
+          {Typography.curl(`To ${only.name}…`)}</Act.View>
+          : <Explorer.Opener app={app} part="go" label="Go…" led={ways.some(w => w.aim)} />}
         {hand.length > 0 && <Explorer.Opener app={app} part="look" label="Look…" led={!!AtHand.led(app, hand)} />}
-        {Pastime.wait(app) && <Explorer.Opener app={app} part="wait" label="Wait…" />}
-        {search && <Act.View choice={search} draw={draw} quiet className="opener search">Search</Act.View>}
+        {Pastime.wait(app) && <Explorer.Opener app={app} part="wait" label="Wait…" glyph="wait" />}
+        {search && <Act.View choice={search} draw={draw} quiet className="opener search by-glyph">
+          <Glyphs.View id="search" className="opener-glyph" label="Search" /></Act.View>}
       </p>
     </>;
+  }
+  // A notice put up here and not yet read, met on the scene itself (M19-86: the notice that sets a town's jobs had been
+  // under Look…, one thing among others): the place's own offer to read it. Read, it is at hand like the rest.
+  static posted(app: ReaderApp): Choice | undefined {
+    return (app.menu.scene?.you ?? []).find(c => SceneModel.own(c) && /^Read /.test(c.label) && !c.disabled);
+  }
+  // The one way on, where there is only one and it can be taken: offered as itself, not behind Go… (the owner, 6
+  // November: two clicks for no choice).
+  static only(app: ReaderApp): ReturnType<typeof Wayfinder.ways>[number] | undefined {
+    const ways = Wayfinder.ways(app);
+    return ways.length === 1 && !ways[0]!.c.disabled && ways[0]!.c.command ? ways[0] : undefined;
   }
   // What will not wait (a danger, an answer owed, a warning, the dark), as a situation, never a way: a place at rest
   // shows its name, its picture, a few words of it, who is here and Explore…, and nothing of where to go or what is
@@ -158,7 +176,7 @@ export class GlanceStage {
   static atRest(app: ReaderApp): Set<string> {
     const g = app.state.frame?.leaf.glance, subjects = app.menu.scene?.subjects ?? [];
     const pressing = g ? GlanceStage.pressing(app.menu.leads ?? g.acts).flatMap(a => GlanceStage.choice(app, a.choice)?.id ?? []) : [];
-    return new Set([...pressing, ...Pastime.search(app)?.id ?? [], ...subjects.filter(x => ['companion', 'person'].includes(x.kind))
+    return new Set([...pressing, ...Pastime.search(app)?.id ?? [], ...GlanceStage.only(app)?.c.id ?? [], ...GlanceStage.posted(app)?.id ?? [], ...subjects.filter(x => ['companion', 'person'].includes(x.kind))
       .slice(0, 10).flatMap(x => PlaceStage.into(x)?.id ?? [])]);
   }
   // Four: two rows of the rail, so that the ways under them are in view too.

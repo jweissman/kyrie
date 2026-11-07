@@ -22,7 +22,7 @@ import { Content, type CreatureGenerationContext } from '../content';
 import type { CombatEvent, Fighter } from '../model'; import type { Instance, Module } from '../lang/module';
 import { World } from '../lang/world'; import { Beside } from './beside'; import { Checks } from '../rules/checks';
 import type { Operator } from './planner'; import { RuntimeCapabilities } from './runtime-capabilities';
-import { Overlays } from '../overlays'; import { CampaignTick } from './campaign-tick'; import { Mercy } from './mercy';
+import { Overlays } from '../overlays'; import { CampaignTick } from './campaign-tick'; import { Mercy } from './mercy'; import { LookAnswers } from './look-answers';
 import { WatchLoop, type WatchHost } from './watch-loop'; import { Environment } from './environment';
 import { Journey } from './journey'; import { LocalKinds } from '../canon/local-catalog';
 import { ActionTime } from './action-time'; import { Engagement } from './engagement';
@@ -116,7 +116,7 @@ export class Campaign implements WatchHost {
       const draft = await ModuleBundle.load(request, { seed, installed: canon?.campaign.installations,
         party: party?.length }, source);
       if (party) { CompanyChoices.apply(draft, party); }
-      Overlays.declareGear(draft.instance); Overlays.declareWorth(draft.instance);
+      Overlays.declareGear(draft.instance); Overlays.declareWorth(draft.instance); LookAnswers.declare(draft);
       const first = ModuleInstallations.prepare(canon, draft, 0, false);
       campaign = new Campaign(seed, first, undefined, { calendar: manifest.calendar, night: manifest.night });
     }
@@ -135,7 +135,7 @@ export class Campaign implements WatchHost {
       installed: this.definition.installations, people: this.compiled.entities }, source);
     this.installBoundary();
     if (this.current.elapsed !== startedAt) { throw new Error('Campaign advanced while loading module; retry installation'); }
-    Overlays.declareGear(draft.instance); Overlays.declareWorth(draft.instance);
+    Overlays.declareGear(draft.instance); Overlays.declareWorth(draft.instance); LookAnswers.declare(draft);
     const next = ModuleInstallations.prepare({ module: this.module, world: this.current.world, live: this.world,
       budget: this.current.deadline, campaign: this.definition }, draft, this.current.elapsed, checked);
     const { actors, store, world } = ModuleInstallations.populate(next, this.creatures, this.current, everyone);

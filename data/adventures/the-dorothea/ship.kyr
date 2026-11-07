@@ -7,7 +7,7 @@ Module dorothea "The Dorothea" {
   // on the author's grid, a step about a quarter of a day's sail: so the map has her where she is while the company is
   // aboard (decks, below). The Sound and the open water are water; the Combs a line of rocks across the way, with one
   // gap; Skerrow's roads, Port Ness's and the Antlers' race lie off land, drawn as islands.
-  Place reach "the Reach" is region.
+  Place reach "the Near Reach" is region.
   Initially Assert terrain(reach, archipelago).
   Entity land_sea: landkind "open water". Entity land_reef: landkind "reef".
   Place sound "the Sound" is wilderness within reach at 0, 1.

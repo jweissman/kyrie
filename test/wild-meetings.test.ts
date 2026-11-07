@@ -88,14 +88,14 @@ describe('the open country\'s meetings', () => {
     expect(Wild.led(s)).toContainEqual([`search(region__t${cache.cell})`, 'sign']);
     expect(await Wild.said(s, /^Search /)).toContain('a bundle done up in oilcloth');
     expect(PlayerView.choices(s.campaign).some(c => /pitched torch/.test(c.choice.name))).toBe(true);
-    // Where nothing is hidden, the search says so.
+    // Where nothing is hidden out of doors, no search is offered (the owner, 6 November: search where it finds).
     const land = RegionGeography.atlas(region).land, standing = new Set(RegionTracts.standing(region).map(x => x.cell));
     const plain = RegionTracts.cells(region).find(c => !standing.has(c)
       && meetings.every(m => Terrain.distance(land, m.cell, c) > 3))!;
     GeneratedWorld.put(s, RegionTracts.id(plain));
     await s.perform('wait');
     expect(Wild.led(s).filter(([c]) => c.startsWith('search('))).toEqual([]);
-    expect(await Wild.said(s, /^Search /)).toContain('nothing is hidden here');
+    expect(PlayerView.choices(s.campaign).some(c => /^Search /.test(c.choice.name))).toBe(false);
     // Crossing the country past a meeting not yet come to, the journey stops there.
     const other = meetings.find(m => !['tracks', 'cache'].includes(m.section.option) && !m.section.said.includes('danger'))!;
     const about = RegionTracts.neighbours(other.cell, land.width, land.height);

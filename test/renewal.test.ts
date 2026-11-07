@@ -25,6 +25,12 @@ class Empty {
       lease.commit(lease.creatures);
     } finally { lease.release(); }
   }
+  // A night waited out, whatever happens in it to break the wait (the ring's goings-on come by night).
+  static async night(s: PlaySession) {
+    const offered = (id: string) => PlayerView.choices(s.campaign).some(c => c.choice.id === id);
+    for (let k = 0; k < 4 && offered('wait_for_dark'); k++) { await s.perform('wait_for_dark'); }
+    for (let k = 0; k < 4 && offered('wait_for_light'); k++) { await s.perform('wait_for_light'); }
+  }
   static choice(s: PlaySession, pattern: RegExp) {
     return PlayerView.choices(s.campaign).find(c => pattern.test(c.choice.name));
   }
@@ -39,7 +45,7 @@ describe('a work left empty', () => {
     expect(Empty.choice(s, /what is out at/)).toBeUndefined();
     let nights = 0;
     while (!Empty.choice(s, /what is out at/) && nights < 12) {
-      await s.perform('wait_for_dark'); await s.perform('wait_for_light'); nights++;
+      await Empty.night(s); nights++;
     }
     expect(nights).toBeGreaterThanOrEqual(4);
     expect(s.campaign.world.one('at', `region__${barrow.id}_newcomers`)).toBe(`region__${barrow.id}_passage`);

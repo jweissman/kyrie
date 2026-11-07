@@ -26,6 +26,10 @@ Module world_passages "Passages, obstacles and the condition of things" {
   Relation strikes(hazard, entity).
   // What can be tried on a thing (looked over closely, prodded, pried at...), and what has been.
   Kind verb. Relation probeable(entity). Relation suits(entity, verb). Relation tried(entity, verb).
+  // What a try or a search can find (LookAnswers, the engine's): a thing with states or contents, or one something
+  // reads the looking of, answers a look; a place something reads the searching of answers a search. Two places, so
+  // that a module may say it of what it only imports.
+  Relation answers(entity, verb). Entity rummaging: verb "searched".
   Relation needs(entity, entity).
   Relation changeOf(change, entity). Relation changeFrom(change, condition). Relation changeTo(change, condition).
   // A change only one side reaches (the bar on the cellar side of a door) is made from that place.

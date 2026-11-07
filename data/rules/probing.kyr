@@ -11,7 +11,7 @@ Module probing "Trying things: looking closely, prodding, prying, burning, pushi
   Action look_closely(actor: group, target: entity, site: place) "Look closely at {target}" {
     Time 2 minutes.
     Requires able(actor) and at(actor, site) and probeable(target) and reaches(actor, target) and not benighted(actor)
-      and suits(target, looking) and not tried(target, looking).
+      and suits(target, looking) and answers(target, looking) and not tried(target, looking).
     On success { Assert tried(target, looking). }
     Result "You look closely at {target}.".
   }

@@ -1,6 +1,6 @@
 Module strongroom "The cartographer's strongroom" {
   Description "A dead cartographer's house: a study with a trapped chest, an alcove behind a map, a passage with a loose flagstone, and a vault where a jade idol sits on a pressure plate.".
-  Place house "The cartographer's house" is site.
+  Place house "The cartographer's house" is site indoors.
   Place hall "the hall" is room within house at 0, 0.
   Place study "the study" is room within house at 1, 0.
   Place alcove "the alcove" is room within house at 1, 1.

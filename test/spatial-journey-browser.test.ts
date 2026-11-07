@@ -20,6 +20,11 @@ class Walk {
   // A way from here, taken as a player takes it: Go…, its name chosen in the wayfinder, then its Go; a place in another
   // quarter of the town by that quarter first (its row says what it holds), then from there.
   async to(place: string) {
+    // With one way on, it is offered as itself ("To the yard…"), and taken at once (M19-109).
+    if (await this.page.locator('.act.opens-go').count()) {
+      await this.page.click('.opens-go'); await this.d.settle();
+      expect(await this.here()).toBe(place); return;
+    }
     await this.page.click('.opens-go');
     const quarter = this.page.locator(`.wayfinder [data-holds~="${place}"]`);
     if (await quarter.count()) {

@@ -1,3 +1,4 @@
+import { Glyphs } from '../creation/glyphs';
 import type { ReaderApp } from '../reader-app';
 import { Typography } from '../../../src/presentation/typography';
 import { Words } from '../words';
@@ -83,9 +84,14 @@ export class Explorer {
     return /^[1-9]$/.test(key);
   }
   // The touch on the place at rest that opens one, said as it is and marked when what is led with is in it.
-  static Opener({ app, part, label, led }: { app: ReaderApp; part: Part; label: string; led?: boolean }) {
-    return <button type="button" className={`opener opens-${part}${led ? ' led' : ''}`} data-action="explore"
-      data-part={part} aria-haspopup="dialog" onClick={() => Explorer.open(app, part)}>
-      {Typography.curl(Words.upper(label))}</button>;
+  // An opener in words, or by its glyph where the act is so common words would crowd the scene (Wait: the owner, 6
+  // November), its words then its name to a reader and its title to a pointer.
+  static Opener({ app, part, label, led, glyph }: { app: ReaderApp; part: Part; label: string; led?: boolean;
+    glyph?: string }) {
+    const words = Typography.curl(Words.upper(label));
+    return <button type="button" className={`opener opens-${part}${led ? ' led' : ''}${glyph ? ' by-glyph' : ''}`}
+      data-action="explore" data-part={part} aria-haspopup="dialog" onClick={() => Explorer.open(app, part)}
+      {...glyph ? { 'aria-label': words, title: words } : {}}>
+      {glyph ? <Glyphs.View id={glyph} className="opener-glyph" /> : words}</button>;
   }
 }

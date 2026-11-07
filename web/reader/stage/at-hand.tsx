@@ -73,7 +73,9 @@ export class AtHand {
         opens: acts.filter(c => c.children?.length).map(c => c.id) };
     });
     // What the place itself offers, each by what it is (the notice on the well-post, read).
-    const own = scene.you.filter(SceneModel.own).map(c => ({ id: c.id, name: Words.upper(c.label), seen: [], choices: [c],
+    // An unread notice is on the scene itself (GlanceStage.posted), not here as well.
+    const posted = GlanceStage.posted(app);
+    const own = scene.you.filter(c => SceneModel.own(c) && c !== posted).map(c => ({ id: c.id, name: Words.upper(c.label), seen: [], choices: [c],
       opens: [] }));
     return [...own, ...things, ...ways];
   }

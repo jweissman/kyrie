@@ -26,6 +26,12 @@
   border-bottom: 1px solid transparent; transition: color var(--quick), border-color var(--quick); }
 .openers .opener::before, .openers .act.opener::before { display: none; }
 .openers .opens-go { color: var(--gold); }
+/* Wait and Search by their glyphs, in the line's own light (the owner, 6 November). */
+.openers .by-glyph { padding: 2px 0; line-height: 0; }
+.openers .opener-glyph { width: 22px; height: 22px; fill: none; stroke: var(--ivory); stroke-width: 1.6;
+  stroke-linecap: round; stroke-linejoin: round; transition: stroke var(--quick); }
+.openers .by-glyph:hover .opener-glyph, .openers .by-glyph:focus-visible .opener-glyph,
+.openers .act.by-glyph.sel .opener-glyph { stroke: var(--gold); }
 .openers .opener:hover, .openers .opener:focus-visible, .openers .act.opener.sel { border-bottom-color: var(--gold); }
 .openers .opener.led::after { content: ''; display: inline-block; width: 5px; height: 5px; margin: 0 0 2px 7px;
   border-radius: 50%; background: var(--gold); vertical-align: middle; }

@@ -132,6 +132,13 @@
         "animal": "M24 26c-6 0-10 5-10 9 0 3 3 5 6 4 2-.6 3-1 4-1s2 .4 4 1c3 1 6-1 6-4 0-4-4-9-10-9zM10 22a3.5 4.5 0 1 0 7 0a3.5 4.5 0 1 0-7 0zM31 22a3.5 4.5 0 1 0 7 0a3.5 4.5 0 1 0-7 0zM15.5 12.5a3.5 4.5 0 1 0 7 0a3.5 4.5 0 1 0-7 0zM25.5 12.5a3.5 4.5 0 1 0 7 0a3.5 4.5 0 1 0-7 0z",
         "someone": "M24 8c-6 0-10 5-10 11 0 5 3 9 6 10h8c3-1 6-5 6-10 0-6-4-11-10-11zM20 22c1 2 2.5 3 4 3s3-1 4-3M10 42c1-7 6-11 14-11s13 4 14 11"
       }
+    },
+    "acts": {
+      "about": "What the company does of itself, wherever it is: waiting and searching, shown by their glyphs where words would crowd the scene (the owner, 6 November).",
+      "paths": {
+        "wait": "M15 7h18M15 41h18M17 7c0 9 14 11 14 17s-14 8-14 17M31 7c0 9-14 11-14 17s14 8 14 17M20 36h8",
+        "search": "M21 8a12 12 0 1 0 .01 0zM29.5 29.5L40 40M15 18a7 7 0 0 1 6-5"
+      }
     }
   }
 }
