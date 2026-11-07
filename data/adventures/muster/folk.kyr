@@ -9,10 +9,10 @@ Module muster "The Long Muster's Road" {
   Discovery ledge_known "The Ledge is out of the wyvern's sight, but closed in snow, and only the goat-wise find the way on to it.".
   Discovery cohort_known "Eleven hundred years ago the Long Muster marched out by this road, and a rearguard went the other way. Some say the lamps at the far end are still lit.".
 
-  Person marra "Marra Ashgrove" at green {
+  Person marra "Marra Tellis" at green {
     Role "a goatherd". Ancestry human. Calling ranger. Level 2. Pronouns she. Manner stoic. Peaceable.
     Carries marra_crook.
-    Joins "Marra Ashgrove shoulders her crook and a bag of cheese. 'I go as far as the places I go,' she says. 'Don't ask me past them.'".
+    Joins "Marra Tellis shoulders her crook and a bag of cheese. 'I go as far as the places I go,' she says. 'Don't ask me past them.'".
     Greets "A woman with a hooked stick and three goats, sitting on the trough as if it were hers. 'You want to go over,' she says. 'Everyone who looks at the board does. I can show you the track. I won't go in the Gallery and I won't go where the giant can see me. The rest is fair.'".
   }
   Kind marra_crook "a goatherd's crook" is gear granting wayfinding described "A hooked ash stick polished by forty years of use. Whoever holds it, the hill is as plain as a street.".
@@ -32,11 +32,11 @@ Module muster "The Long Muster's Road" {
   }
   // She goes no further than she said.
   Rule marra_stays_gallery at gallery1 when travelsWith(marra, party) and at(party, gallery1)
-    says "Marra Ashgrove stops at the mouth of the Gallery with her goats' lead in her fist. 'This is as far as I said,' she says. 'I'll wait.'" {
+    says "Marra Tellis stops at the mouth of the Gallery with her goats' lead in her fist. 'This is as far as I said,' she says. 'I'll wait.'" {
     Retract travelsWith(marra, party). Assert at(marra, gallery1). Assert willing(marra, party). Set hire(marra) to 0.
   }
-  Rule marra_stays_giant at pass_n when travelsWith(marra, party) and at(party, pass_n)
-    says "Marra Ashgrove sits down behind a rock below the notch. 'He'll see me from the door,' she says. 'Go on. I'll be here.'" {
+  Rule marra_stays_giant at pass_n when travelsWith(marra, party) and at(party, pass_n) and marraTrust(marra) < 2
+    says "Marra Tellis sits down behind a rock below the notch. 'He'll see me from the door,' she says. 'Go on. I'll be here.'" {
     Retract travelsWith(marra, party). Assert at(marra, pass_n). Assert willing(marra, party). Set hire(marra) to 0.
   }
 
@@ -49,7 +49,7 @@ Module muster "The Long Muster's Road" {
     On discuss { Assert knows(actor, cohort_known). }
   }
 
-  Person dray "Ansel Whitlow" at taproom {
+  Person dray "Fenn Hallam" at taproom {
     Role "a surveyor, resting a bad knee". Ancestry human. Pronouns he. Manner jovial. Peaceable.
     Buys antique_compass for 120 coin.
     Buys ancient_map for 140 coin.
@@ -58,10 +58,10 @@ Module muster "The Long Muster's Road" {
     Greets "A man with a roll of oiled paper and a leg up on a stool, who has been to the Viaduct and no further. 'It's the finest road in the world, and it's falling down,' he says. 'Sit.'".
   }
   Topic dray_notes with dray "Ask the surveyor for his notes on the Viaduct" when true once {
-    Says "Whitlow unrolls a sketch: nine arches, one with a cross through it. 'The fifth,' he says. 'Three ways over, none of them kind. The parapet, if you can pin a line to it. The river, if it's low, and a climb. Or the rubble, if you like your fingers broken. The wind's worse on the parapet. The river's worse in a thaw. There's no soft one.'".
+    Says "Hallam unrolls a sketch: nine arches, one with a cross through it. 'The fifth,' he says. 'Three ways over, none of them kind. The parapet, if you can pin a line to it. The river, if it's low, and a climb. Or the rubble, if you like your fingers broken. The wind's worse on the parapet. The river's worse in a thaw. There's no soft one.'".
     On discuss { Give surveyor_notes to actor. }
   }
-  Kind surveyor_notes "Whitlow's notes on the Viaduct" is document teaching viaduct_notes described "A roll of oiled paper, in a surveyor's fine hand, showing the Viaduct from three sides.".
+  Kind surveyor_notes "Hallam's notes on the Viaduct" is document teaching viaduct_notes described "A roll of oiled paper, in a surveyor's fine hand, showing the Viaduct from three sides.".
   Discovery viaduct_notes "The fifth arch of the Viaduct can be crossed by the parapet (pitons and a rope), by the river and the south abutment (not in a thaw), or by the fallen arch (a climb). The wind is worst on the parapet.".
 
   Person hobday "Reeve Cattermole" at green {
@@ -81,11 +81,27 @@ Module muster "The Long Muster's Road" {
     Sells signal_whistle for 2 coin from 3.
     Sells torch for 1 coin from 8.
     Sells crowbar for 3 coin from 3.
+    Sells shovel for 3 coin from 3.
     Sells iron_spikes for 2 coin from 4.
     Sells waterskin for 2 coin from 4.
     Greets "Gil Pryor sells people equipment for a journey he has never seen anyone finish. 'Rope,' he says. 'Pitons, in case of the Viaduct. Iron, in case of the giant. Firewood, in case of nights. You'll want a tent. You'll want everything.'".
   }
   Topic pryor_what with pryor "Ask Gil Pryor what the road needs" when true {
     Says "'Rope for the shaft and the river. Pitons for the parapet. Iron for the giant: a bar, or spikes, he's not particular. Firewood and a tent, because it is cold above the snow-line and nobody has ever lit a fire on the High Road with what they found there. Rations for five days. And a way to be home by the thaw.'".
+  }
+
+  // ── The village that sees the road and does not go ─────────────────────────────────────────────────────────────
+  Person lorne "Eddard Lorne" at taproom {
+    Role "the oldest man in Kell Ford". Ancestry human. Pronouns he. Manner grim. Peaceable.
+    Greets "A very old man by the hearth does not take his eyes from the coals. 'Sit,' he says. 'I have been waiting for somebody to ask me about the red cloak.'".
+  }
+  Topic lorne_cloak with lorne "Ask the old man about the red cloak" when true once {
+    Says "'Nine years since, in the spring,' says Eddard Lorne. 'At the far bank of the river, at dusk, a man in a red cloak among the willows. He stood there from the light going to the dark. I was out looking for a ewe. I did not call. I do not know why I did not call.' He drinks. 'He had a bow, and he did not come across. Next day, nothing. I have told no one. There is a legion's road at the end of this village and I have lived my life with my back to it. I think it would be a poor thing if a man stood on the far bank nine years ago and found nobody would speak.'".
+    On discuss { Assert knows(actor, red_cloak_known). }
+  }
+  Entity red_cloak_known: fact "Nine springs ago a man in a red cloak, with a bow, stood on the far bank of the river below Kell Ford from dusk to dark, and did not cross.".
+  Observe board_scene at green when true "The notice-board at the trough carries a column of names in the reeve's hand, each with a year: the people of Kell Ford who went over the Fells and did not come back, forty-one of them. At the head of the column, in a hand a hundred years older: THE ROAD IS THE LEGION'S. IT LEADS SOMEWHERE. Nobody has ever amended it.".
+  Topic maud_sending with maud "Ask Maud why the village keeps a lamp in the window" when true {
+    Says "'Every spring,' says Maud. 'A hundred and some years, since my grandmother's grandmother. The first week of spring, a lamp in the window facing the road. Nobody knows why. My mother said it was for the ones who went, and my grandmother said it was for something that might come. She was cross about it.' She trims the wick. 'I put it in because I always have.'".
   }
 }

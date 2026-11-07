@@ -7,7 +7,7 @@ import steps from './fixtures/muster/journey.json';
 
 // The Long Muster's Road, played by the labels a player sees. One continuous session:
 //   a first start by the Low Road, turned back by a thaw;
-//   a second, by the goatherds' track and the Ledge with Marra Ashgrove, the Viaduct's parapet, the Eagle, the giant
+//   a second, by the goatherds' track and the Ledge with Marra Tellis, the Viaduct's parapet, the Eagle, the giant
 //   (paid in iron) and the gate (opened by a courier's pouch); a choice at the Prefect's tribunal that is kept;
 //   and the way home by the Cohort's rope-way, the Gallery and the Old Causeway.
 describe("The Long Muster's Road", () => {
@@ -42,7 +42,11 @@ describe("The Long Muster's Road", () => {
     await j.play(...steps.giant);
     expect(j.holds('tolerates', 'giant', 'party')).toBe(true);
     // The gate: the pouch, not a word.
-    await j.play(...steps.gate);
+    await j.play('To the head of the descent');
+    j.coin(60);
+    await j.play(...steps.deserters);
+    expect(j.holds('paidDeserters', 'party')).toBe(true);
+    await j.play(...steps.gate.slice(1));
     expect(j.holds('received', 'party')).toBe(true);
     // The Prefect is told; the standard is struck; a scout and a rope-way are offered; the dispatch taken.
     await j.play(...steps.valley);
@@ -84,7 +88,7 @@ describe("The Long Muster's Road", () => {
     j.put('marra', 'pass_n');
     j.assert('willing', 'marra', 'party');
     await j.play('Wait › A while');
-    expect(j.find('Ask Marra Ashgrove to join the company')).toBeDefined();
+    expect(j.find('Ask Marra Tellis to join the company')).toBeDefined();
   }, 120000);
 
   it('closes the Ledge under snow', async () => {
@@ -92,7 +96,7 @@ describe("The Long Muster's Road", () => {
     j.assert('state', 'sky', 'snow_sky');
     j.put('party', 'ledge1');
     await j.play('Wait › A while');
-    expect(j.find('To the end of the Ledge')).toBeUndefined();
+    expect(j.find('^To the end of the Ledge$')).toBeUndefined();
   }, 120000);
 
   it('is heard of, walked into with the world\'s own company, and kept', async () => {

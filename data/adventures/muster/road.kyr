@@ -51,7 +51,7 @@ Module muster "The Long Muster's Road" {
   // ---------------------------------------------------------------------------------------------------------------
   // The first day. Wolves on the causeway at night.
   Person wolves "the wolves of the ridge" at causeway2 {
-    Role "a pack of lean grey wolves". Species wolf. Level 2. Numbers 3. Temperament territorial.
+    Role "a pack of lean grey wolves, four, hunting the ridge as their fathers did". Species wolf. Level 3. Numbers 4. Temperament territorial.
     Seen when dark().
     Warns "A long note goes up from the heather, and another answers it, and the dark round the road fills with the shapes of wolves, sitting.".
     Comes "The pack comes in from the sides, low.".

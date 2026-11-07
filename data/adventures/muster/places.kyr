@@ -68,6 +68,13 @@ Module muster "The Long Muster's Road" {
   Place prefect_room "the Prefect's room" is room within prefect_h at 3, 0.
   Place shrine "the shrine of the Eagle" is room within cohort at 2, 1.
   Place terraces "the vineyard terraces" is room within cohort at 0, 1 outdoors.
+  Place schola "the Cohort's schola" is room within cohort at 4, 1.
+  Place salt_market "the salt-market" is room within cohort at 4, 0 outdoors.
+  Place pistrina "the pistrina" is room within cohort at 3, 2.
+  Place wall_walk "the wall-walk" is room within cohort at 0, 3 outdoors.
+  Place sending_gate "the Sending gate" is room within cohort at 1, 3 outdoors.
+  Place tally_yard "the Tally-yard" is room within cohort at 2, 2 outdoors.
+  Place gold_cellar "the old farm under the terraces" is room within cohort at 0, 4.
 
   Relation exposed(place).
   Place nowhere "the place gifts come from" is room within lowroads at 9, 9.
@@ -142,4 +149,11 @@ Module muster "The Long Muster's Road" {
   Passage forum_archive "the archive door" is door between forum and archive.
   Passage forum_shrine "the shrine steps" is steps between forum and shrine.
   Passage forum_terraces "the terraces" is path between forum and terraces taking 10 minutes.
+  Passage forum_schola "the schola door" is door between forum and schola.
+  Passage forum_market "the salt-market" is road between forum and salt_market taking 5 minutes.
+  Passage forum_pistrina "the pistrina door" is door between forum and pistrina.
+  Passage forum_wall "the wall stair" is steps between forum and wall_walk.
+  Passage wall_sending "the Sending gate" is steps between wall_walk and sending_gate.
+  Passage barracks_tally "the Tally-yard gate" is gate between barracks and tally_yard.
+  Passage terraces_cellar "the trap in the vine-house floor" is steps between terraces and gold_cellar hidden until gold_known.
 }

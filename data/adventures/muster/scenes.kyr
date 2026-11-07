@@ -25,7 +25,7 @@ Module muster "The Long Muster's Road" {
 
   Observe via_n_scene at via_n when true "The road runs out on to the Great Viaduct and stops. Nine arches carried it over the river four hundred feet below; the fifth has gone. The paving ends on air, and on the far side of the gap the road begins again, as if nothing had happened. The wind comes up the gap in a long roar.".
   Observe parapet_scene at parapet when true "The parapet, a foot and a half of dressed stone along the broken edge, with the wind trying to peel you off it. Pitons driven in a crack of the parapet make something to clip to.".
-  Observe rubble_scene at rubble when true "The fallen fifth arch lies in the gorge in a slope of blocks the size of carts, leaning on the north pier. Climb it, and the other side is a wall.".
+  Observe rubble_scene at rubble when true "The fallen fifth arch lies in the gorge in a slope of blocks as big as carts, leaning on the north pier. Climb it, and the other side is a wall.".
   Observe river_n_scene at river_n when true "The river runs between the piers of the Viaduct, loud and brown, and the north bank is a bar of shingle. Overhead the nine arches go away like a row of teeth with one missing.".
   Observe river_s_scene at river_s when true "The south bank of the river, a cobble beach under the abutment. The stonework goes up, sheer, with iron rungs let into it once, and a few left.".
   Observe via_s_scene at via_s when true "The far end of the Viaduct, with the road beginning again. A single milestone stands at the abutment, the legion's wheel cut on it, and under it in a later hand: SIX DAYS FROM THE EAGLE TO THE LAST. Beyond, the road goes on to a fort.".
@@ -48,5 +48,4 @@ Module muster "The Long Muster's Road" {
   Observe archive_scene at archive when true "A long low archive of cedar presses and scrolls, lit by one lamp. A table holds a single book bound in red leather with a wheel stamped on it.".
   Observe shrine_scene at shrine when true "A shrine of the Eagle: a small round room with a bronze bird on a plinth and a lamp that has not gone out in eleven hundred years. A hundred scraps of wax tablet are tucked in the cracks: prayers for a letter.".
   Observe terraces_scene at terraces when true "Vineyard terraces cut into the hillside, walled in dry stone, rows of vines tied up with osier. An old man in a red cloak is talking to a vine.".
-  Observe first_milestone at green when true "By the trough stands a milestone older than the village, the legion's wheel cut on it and under the wheel a number: CCCLX. Nobody in Kell Ford has ever asked what it counts down to. The old men say it is the days to the sea, and the surveyor says it is not.".
 }

@@ -2596,6 +2596,114 @@
         "kyr": true,
         "notes": "A colonial flier of the Nesting Cliffs; at dawn the whole colony launches off the thermals together. No habitats are written for it, so no generated country draws it into a den: it lives on the Isle of Sarn alone (Wapshott's Fourth Act, doc/adventures/anthology/the-fourth-act.md). Its painting is not yet made (portrait left unset; data/paintings/animals.json would take animals/sail_wing)."
       }
+    },
+    "ridge_goat": {
+      "name": "Ridge-goat",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A grey, long-horned goat of the high fells that has learned the legion's roads and will not set a hoof on any stone that will not bear it.",
+      "looks": "A lean grey goat with a pale belly and horns swept back in one long curve, hooves like split cups, a beard stained with lichen, and a look of settled disapproval.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 6,
+        "primary": "dexterity",
+        "weapon": "headbutt",
+        "armor": "hide_armor"
+      },
+      "abilities": [
+        "flee"
+      ],
+      "traits": [],
+      "temperament": "wary",
+      "worth": {
+        "base": 0,
+        "perLevel": 10
+      },
+      "source": {
+        "kyr": true,
+        "notes": "A goat of the sound stone: it follows a climber at a distance, stands on the footing that holds, and will not go where the shale slides. The goatherds of Kell Ford trust it over a rope. No habitats are written for it, so no generated country draws it into a den: it lives on the Hesper Fells' road alone (The Long Muster's Road, doc/adventures/anthology/the-long-muster.md). Its painting is not yet made (portrait left unset; data/paintings/animals.json would take animals/ridge_goat)."
+      }
+    },
+    "bone_kite": {
+      "name": "Bone-kite",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A rust-and-white carrion raptor that nests in the arches of the old viaduct and circles over what is about to fall.",
+      "looks": "A broad-winged bird with a forked tail, a white head, a hooked yellow bill and a rust-red back, hanging on the updraught without a wingbeat, its shadow the size of a door.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 4,
+        "primary": "dexterity",
+        "weapon": "beak",
+        "armor": "hide_armor"
+      },
+      "abilities": [
+        "flee"
+      ],
+      "traits": [],
+      "temperament": "wary",
+      "worth": {
+        "base": 0,
+        "perLevel": 10
+      },
+      "source": {
+        "kyr": true,
+        "notes": "A bird of the broken stone: it perches only on masonry that will bear weight and circles over what is loose. The legion's engineers called it the surveyor's bird. No habitats are written for it, so no generated country draws it into a den: it lives on the Hesper Fells' road alone (The Long Muster's Road, doc/adventures/anthology/the-long-muster.md). Its painting is not yet made (portrait left unset; data/paintings/animals.json would take animals/bone_kite)."
+      }
+    },
+    "pass_marmot": {
+      "name": "Pass-marmot",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A stout burrowing sentinel of the high pass, that whistles once at a thing it fears and twice at a thing it hates.",
+      "looks": "A fat, fawn-coloured animal the size of a spaniel, up on its haunches on a rock, its cheeks full, its small black eyes fixed on the road, its front paws held to its chest as if in prayer.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 4,
+        "primary": "constitution",
+        "weapon": "bite",
+        "armor": "hide_armor"
+      },
+      "abilities": [
+        "flee"
+      ],
+      "traits": [],
+      "temperament": "wary",
+      "worth": {
+        "base": 0,
+        "perLevel": 10
+      },
+      "source": {
+        "kyr": true,
+        "notes": "The Pass's sentinel: one whistle for a stranger, two for the giant. The whole colony dives into its holes at the second. No habitats are written for it, so no generated country draws it into a den: it lives on the Hesper Fells' road alone (The Long Muster's Road, doc/adventures/anthology/the-long-muster.md). Its painting is not yet made (portrait left unset; data/paintings/animals.json would take animals/pass_marmot)."
+      }
+    },
+    "salt_ox": {
+      "name": "Salt-ox",
+      "type": "beast",
+      "kind": "animal",
+      "description": "The Last Cohort's draught ox, shaggy and broad-backed, bred over eleven centuries to draw salt-sleds on the Descent and to stand still at a bugle.",
+      "looks": "A short-legged, broad-backed ox in a coat like a rug, with a wide white blaze, curved horns capped in bronze, and a placid eye that has learned the bugle calls of the day.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 10,
+        "primary": "strength",
+        "weapon": "horns",
+        "armor": "hide_armor"
+      },
+      "abilities": [
+        "defend"
+      ],
+      "traits": [],
+      "temperament": "defensive",
+      "worth": {
+        "base": 0,
+        "perLevel": 10
+      },
+      "source": {
+        "kyr": true,
+        "notes": "A draught ox of the valley: it stops dead at the noon call and will not be driven past it, and the Cohort sets its hours by the oxen as much as by the horn. No habitats are written for it, so no generated country draws it into a den: it lives on the Hesper Fells' road alone (The Long Muster's Road, doc/adventures/anthology/the-long-muster.md). Its painting is not yet made (portrait left unset; data/paintings/animals.json would take animals/salt_ox)."
+      }
     }
   }
 }
