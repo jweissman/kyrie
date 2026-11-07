@@ -4,7 +4,7 @@ import type { HookKey, Hooks } from './canon/schema';
 import { parseAbility, type ArenaAbility, type Effect } from './lang/parse';
 import { ModifierSet, type Modifiers } from './rules/modifiers';
 import type { WeaponProfile } from './rules/fighting';
-import type { Creature } from './creature';
+import type { Attribute, Creature } from './creature';
 import { CreatureVariants } from './creature-variants';
 export type ItemDefinition = RuntimeItem;
 export interface Equipment {
@@ -46,6 +46,13 @@ export class ItemCatalog {
       if (use?.effects.length && use.effects.every(e => e.kind !== 'apply' || !e.clock)) { (stock[use.id] ??= []).push(i.id); }
     }
     return stock;
+  }
+  // A quality as its bearer has it with what they wear (a belt of giant strength's six), out of a fight as in one (the
+  // item audit's G9: a field check and what one can carry had read the bare quality).
+  static quality(creature: Creature, stat: Attribute): number {
+    const worn = (creature.state.inventory ?? []).filter(i => i.equipped)
+      .reduce((n, i) => n + (this.get(i.definition).modifiers?.attributes?.[stat] ?? 0), 0);
+    return creature.base[stat] + worn;
   }
   static weapon(id: string, name?: string): WeaponProfile {
     const w = this.get(id).weapon;

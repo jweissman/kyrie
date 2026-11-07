@@ -19,7 +19,7 @@ done about each gap since. Register row M19-92.
 | G6 flask of oil, foxglove | **Fixed** (this commit): both consumables with Orsino's effects, which the runtime runs (foxglove heals and lifts poison, fatigue and weakness; the flask of oil leaves a foe oiled unless it dodges), out of gear, where they had been put only because the translator could not say them |
 | G7 effects with no runtime | Open (language and combat work). The wand of polymorph, wand of wonder, scroll of shapechange and deck of multiplicity are wonders now (wonders.json, with every wand and scroll), held and sold to a dealer in rare things, their use said unsupported (a consumable may want a use only when it says why) |
 | G8 charges in the field | **Fixed** (this commit): a wand used out of a fight keeps its charges less one, and is spent with its last, as in a fight (Items.resolve; test/item-gaps.test.ts) |
-| G9 equipped qualities in the field | Open |
+| G9 equipped qualities in the field | **Fixed** (this commit): a quality as its bearer has it with what they wear (ItemCatalog.quality) is what a field check and what one can carry read (test/item-gaps.test.ts: a belt of giant strength, twelve more carried and three more to force) |
 | G10 one thing to a slot | Open |
 | G11 tools nobody asks for | Open |
 | G12 spoils | Open |

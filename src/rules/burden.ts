@@ -1,4 +1,5 @@
 import { Canon } from '../canon/canon';
+import { ItemCatalog } from '../item-catalog';
 import type { Creature } from '../creature';
 import type { ItemKind } from '../canon/schema';
 
@@ -22,9 +23,11 @@ export class Burden {
   static load(c: Creature): number {
     return (c.state.inventory ?? []).reduce((n, i) => n + this.mass(i.definition), 0);
   }
-  // Anyone can carry ten and twice their strength, and what a beast they lead carries besides (a pack mule's thirty).
+  // Anyone can carry ten and twice their strength (with what they wear: a belt of giant strength), and what a beast
+  // they lead carries besides (a pack mule's thirty).
   static capacity(c: Creature): number {
-    return 10 + 2 * c.base.strength + (c.state.inventory ?? []).reduce((n, i) => n + this.carries(i.definition), 0);
+    return 10 + 2 * ItemCatalog.quality(c, 'strength')
+      + (c.state.inventory ?? []).reduce((n, i) => n + this.carries(i.definition), 0);
   }
   static carries(kind: string): number { return (Canon.items[kind] as { carries?: number } | undefined)?.carries ?? 0; }
 }

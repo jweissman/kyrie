@@ -5,10 +5,13 @@ import { Items } from '../src/campaign/items';
 import { CombatProjection } from '../src/combat-projection';
 import { Effects, type EffectContext } from '../src/effects';
 import { Expressions } from '../src/expressions';
+import { Burden } from '../src/rules/burden';
+import { Checks } from '../src/rules/checks';
 
-// Two of the item audit's gaps (doc/architecture/mission-19/items.md): a ring of regeneration's mending had been summed
-// with what its wearer wears and never run (G5); a wand used out of a fight had been used up whole, its fifteen
-// charges with it, where in a fight it kept what it had left (G8).
+// The item audit's gaps in what the runtime does (doc/architecture/mission-19/items.md): a ring of regeneration's
+// mending had been summed with what its wearer wears and never run (G5); a wand used out of a fight had been used up
+// whole, its fifteen charges with it, where in a fight it kept what it had left (G8); what a thing worn adds to a
+// quality had counted only in a fight, so a belt of giant strength let no one carry more nor force a door (G9).
 class Kit {
   static store() {
     const c = new Content('item-gaps').createCreature('hero', { raceId: 'human', classId: 'warrior', level: 4 });
@@ -44,5 +47,14 @@ describe('what the item audit found the runtime left undone', () => {
     } finally { lease.release(); }
     Items.consume(store, { owner: 'hero', target: 'hero', id: 'wand-1', seed: 'last' });
     expect(store.get('hero').state.inventory!.some(i => i.id === 'wand-1')).toBe(false);
+  });
+  it('counts what a thing worn adds to a quality out of a fight: what is carried, and a check', () => {
+    const store = Kit.store(), bare = store.get('hero');
+    const [carry, force] = [Burden.capacity(bare), Checks.total(bare, 'brawn')];
+    Items.take(store, 'hero', { id: 'belt-1', definition: 'belt_of_giant_strength' });
+    Items.equip(store, 'hero', 'belt-1');
+    const belted = store.get('hero');
+    expect(Burden.capacity(belted)).toBe(carry + 12);
+    expect(Checks.total(belted, 'brawn')).toBe(force + 3);
   });
 });

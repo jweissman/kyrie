@@ -2,6 +2,7 @@ import { Expressions } from '../expressions';
 import { RandomStreams } from '../random-streams';
 import { PartyCapabilities } from '../campaign/party-capabilities';
 import { Canon } from '../canon/canon';
+import { ItemCatalog } from '../item-catalog';
 import type { Attribute, Creature } from '../creature';
 import type { CombatEvent } from '../model';
 
@@ -25,9 +26,10 @@ export class Checks {
     return found[1];
   }
   static skill(id: string): string { return id.replace(/^.*__/, ''); }
-  // What a member adds to the roll: the quality's modifier, and their proficiency where the skill is theirs.
+  // What a member adds to the roll: the quality's modifier, as they have it with what they wear, and their proficiency
+  // where the skill is theirs.
   static bonus(c: Creature, skill: string): { modifier: number; stat: Attribute; trained: number } {
-    const stat = this.qualities[skill] ?? 'wisdom', modifier = Math.floor((c.base[stat] - 10) / 2);
+    const stat = this.qualities[skill] ?? 'wisdom', modifier = Math.floor((ItemCatalog.quality(c, stat) - 10) / 2);
     const trained = PartyCapabilities.brings(skill, c) ? 2 + Math.floor((c.base.level - 1) / 4) : 0;
     return { modifier, stat, trained };
   }
