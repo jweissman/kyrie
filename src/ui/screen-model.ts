@@ -367,7 +367,7 @@ export class ScreenModel {
       const race = Content.race(m.raceId)?.name ?? m.raceId;
       const klass = Content.classes[m.classId as keyof typeof Content.classes]?.name ?? m.classId;
       const background = m.backgroundId ? Canon.backgrounds[m.backgroundId]?.name : undefined;
-      const likeness = campaign.readout.creatures.find(c => c.id === m.id)?.likeness;
+      const likeness = campaign.readout.creatures.find(c => c.id === m.id)?.likeness ?? Portraits.met(campaign, ref);
       const pronoun = ref ? CompanyPortraits.said(campaign.world, ref) : undefined;
       const face = CompanyPortraits.member(m, { ...pronoun ? { pronoun } : {}, ...likeness ? { likeness } : {} });
       const emblems = [m.raceId, m.classId].filter((x): x is string => !!x && Emblems.has(x));

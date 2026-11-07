@@ -136,12 +136,15 @@ export class FightStage {
       ['statuses', statuses], ['boons', boons]] as [string, ReactNode][]).filter(([, p]) => p);
   }
   // One of the company by their portrait (see CompanyPortraits), the card's left panel, the whole height of it, the
-  // name, the bar and what they are under to its right (the owner, 2026-10-30: not a little square). One no portrait
-  // fits, or whose portrait does not come, by the first letter of their name in the same panel.
+  // name, the bar and what they are under to its right (the owner, 2026-10-30: not a little square), held about where
+  // its face sits across it and by its top, so that a panel wider than tall cuts the shoulders and never the crown (a
+  // foe's painting, with no such square, as the stylesheet says). One no portrait fits, or whose portrait does not
+  // come, by the first letter of their name in the same panel.
   static Face({ fighter: f }: { fighter: CombatantRow }) {
-    const [failed, fail] = useState(false), painted = f.face && !failed;
+    const [failed, fail] = useState(false), painted = f.face && !failed, at = f.face?.at;
     return <span className={`face${painted ? '' : ' plate'}`} aria-hidden="true">
-      {painted ? <img src={f.face!.medium} alt="" decoding="async" onError={() => fail(true)} />
+      {painted ? <img src={f.face!.medium} alt="" decoding="async" onError={() => fail(true)}
+        style={at ? { objectPosition: `${Math.round(at[0] * 100)}% 0%` } : undefined} />
         : f.name.replace(/^(the|an?) /i, '').charAt(0).toUpperCase()}</span>;
   }
 }

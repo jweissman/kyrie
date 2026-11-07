@@ -38,7 +38,7 @@ export class Explorer {
   }
   // Everyone here the picture has no room for, each by their likeness, each the way to them.
   static Who({ app, draw }: { app: ReaderApp; draw: Draw }) {
-    const rest = WorldStage.ordered(app).slice(WorldStage.room - 1);
+    const { rest } = WorldStage.placed(app);
     return <ul className="portraits who">{rest.map(x => <li key={x.id} data-subject={x.id}
       className={`${x.kind}${x.danger ? ' danger' : ''}`}><WorldStage.Portrait subject={x} draw={draw} /></li>)}</ul>;
   }
