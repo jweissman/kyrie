@@ -1356,6 +1356,7 @@ Reading animals and wild country: tracks, warning signs, a safe approach.
 *Adapted* · `skill:lockwork`
 
 - Brought by: Thief, Locks and mechanisms backgrounds
+- Tools of the trade: Thieves' tools
 
 Opening locks without their keys.
 
@@ -1364,6 +1365,7 @@ Opening locks without their keys.
 *Adapted* · `skill:trapwork`
 
 - Brought by: Thief
+- Tools of the trade: Thieves' tools
 
 Finding and disarming traps.
 
@@ -1372,6 +1374,7 @@ Finding and disarming traps.
 *Kyr* · `skill:mending`
 
 - Brought by: Cleric, Monk, Healing backgrounds
+- Tools of the trade: Bandages, First Aid Kit
 
 Setting bones and binding wounds.
 
@@ -1387,7 +1390,7 @@ Knowing a region's roads before walking them.
 
 *Kyr* · `skill:digging`
 
-- Brought by: Stone and earth backgrounds
+- Brought by: Stone and earth backgrounds, Shovel
 
 Moving earth and stone quickly and safely.
 
@@ -1395,7 +1398,7 @@ Moving earth and stone quickly and safely.
 
 *Kyr* · `skill:climbing`
 
-- Brought by: Monk, The water backgrounds, Climber's harness
+- Brought by: Monk, The water backgrounds, Climber's harness, Iron spikes, Ladder, Piton
 
 Using climbing routes with the right equipment.
 
@@ -1418,6 +1421,7 @@ Moving unseen and unheard: slipping past a watcher, a guardian or a beast withou
 *Kyr* · `skill:lore`
 
 - Brought by: Mage, Bard, Learning backgrounds, The stage backgrounds, Glossary of the old script
+- Tools of the trade: Spellbook
 
 Old histories, scripts and the workings of magic: reading what others only see.
 
@@ -1426,6 +1430,7 @@ Old histories, scripts and the workings of magic: reading what others only see.
 *Kyr* · `skill:rites`
 
 - Brought by: Cleric, The faith backgrounds
+- Tools of the trade: Holy symbol
 
 The prayers and forms that give the dead rest; what keeps the unquiet in their graves.
 
@@ -1510,6 +1515,7 @@ Going down on purpose and coming up unhurt: the fall, the roll, the cartwheel, t
 *Kyr* · `skill:performance`
 
 - Brought by: Bard
+- Tools of the trade: Musical instrument
 
 Holding a house: a tune, a turn, a spiel, a face pulled at the right moment; the art of being watched and making it worth it.
 
@@ -2248,7 +2254,7 @@ Used: You are candlelit for 2 hours.
 
 - Worn: tool
 
-Brings Climbing to whoever carries it equipped.
+Used for climbing: whoever carries it can do what needs it, and does a little better at its checks (+2), trained or not.
 
 > A rope, pitons and a fitted harness.
 
@@ -2388,13 +2394,17 @@ Brings Climbing to whoever carries it equipped.
 
 #### Holy symbol
 
-*Faithful · tool* · `item:holy_symbol`
+*Adapted · tool* · `item:holy_symbol`
 
 <img src="../../web/reader/paintings/gear/holy_symbol.webp" alt="" width="128">
 
 - Worth: 5
 
+A tool of rites of the dead: one trained in it does better at its checks (+2); it lends one who is not nothing.
+
 > A holy symbol for religious ceremonies or warding off evil.
+
+*Adapted: Orsino gives a description and price; Kyr makes it a professional's tool: it helps one trained in the rites of the dead at its checks, and lends one who is not nothing.*
 
 #### Hose
 
@@ -2408,23 +2418,31 @@ Brings Climbing to whoever carries it equipped.
 
 #### Iron spikes
 
-*Faithful · tool* · `item:iron_spikes`
+*Adapted · tool* · `item:iron_spikes`
 
 <img src="../../web/reader/paintings/gear/iron_spikes.webp" alt="" width="128">
 
 - Worth: 1
 
+Used for climbing: whoever carries it can do what needs it, and does a little better at its checks (+2), trained or not.
+
 > A set of iron spikes for securing tents or climbing walls.
+
+*Adapted: Orsino gives a description and price; Kyr gives it its direct use: whoever carries it meets a need of climbing, and does a little better at its checks, trained or not.*
 
 #### Ladder
 
-*Faithful · tool* · `item:ladder`
+*Adapted · tool* · `item:ladder`
 
 <img src="../../web/reader/paintings/gear/ladder.webp" alt="" width="128">
 
 - Worth: 4
 
+Used for climbing: whoever carries it can do what needs it, and does a little better at its checks (+2), trained or not.
+
 > A portable ladder for reaching high places.
+
+*Adapted: Orsino gives a description and price; Kyr gives it its direct use: whoever carries it meets a need of climbing, and does a little better at its checks, trained or not.*
 
 #### Lamp
 
@@ -2510,13 +2528,17 @@ Used: You are lamplit for 6 hours.
 
 #### Musical instrument
 
-*Faithful · tool* · `item:musical_instrument`
+*Adapted · tool* · `item:musical_instrument`
 
 <img src="../../web/reader/paintings/gear/musical_instrument.webp" alt="" width="128">
 
 - Worth: 10
 
+A tool of performance: one trained in it does better at its checks (+2); it lends one who is not nothing.
+
 > A musical instrument for entertainment or rituals.
+
+*Adapted: Orsino gives a description and price; Kyr makes it a professional's tool: it helps one trained in performance at its checks, and lends one who is not nothing.*
 
 #### Needle and thread
 
@@ -2540,13 +2562,17 @@ Used: You are lamplit for 6 hours.
 
 #### Piton
 
-*Faithful · tool* · `item:piton`
+*Adapted · tool* · `item:piton`
 
 <img src="../../web/reader/paintings/gear/piton.webp" alt="" width="128">
 
 - Worth: 1
 
+Used for climbing: whoever carries it can do what needs it, and does a little better at its checks (+2), trained or not.
+
 > A metal spike for anchoring ropes in rock or ice.
+
+*Adapted: Orsino gives a description and price; Kyr gives it its direct use: whoever carries it meets a need of climbing, and does a little better at its checks, trained or not.*
 
 #### Ten-foot pole
 
@@ -2700,9 +2726,11 @@ Used: You are lamplit for 6 hours.
 
 - Worth: 3
 
+Used for digging: whoever carries it can do what needs it, and does a little better at its checks (+2), trained or not.
+
 > A sturdy shovel for digging or moving earth.
 
-*Adapted: Orsino gives a description and price; Kyr gives the tool meaning through world rules.*
+*Adapted: Orsino gives a description and price; Kyr gives it its direct use: whoever carries it meets a need of digging, and does a little better at its checks, trained or not.*
 
 #### Signal whistle
 
@@ -2736,13 +2764,17 @@ Used: You are lamplit for 6 hours.
 
 #### Spellbook
 
-*Faithful · tool* · `item:spellbook`
+*Adapted · tool* · `item:spellbook`
 
 <img src="../../web/reader/paintings/gear/spellbook.webp" alt="" width="128">
 
 - Worth: 15
 
+A tool of lore: one trained in it does better at its checks (+2); it lends one who is not nothing.
+
 > A book containing spells and magical knowledge for wizards.
+
+*Adapted: Orsino gives a description and price; Kyr makes it a professional's tool: it helps one trained in lore at its checks, and lends one who is not nothing.*
 
 #### Spyglass
 
@@ -2772,9 +2804,11 @@ Used: You are lamplit for 6 hours.
 
 - Worth: 25
 
+A tool of lockwork and trapwork: one trained in it does better at its checks (+2); it lends one who is not nothing.
+
 > A set of tools for picking locks and disarming traps.
 
-*Adapted: Orsino gives a description and price; Kyr gives the tool meaning through world rules.*
+*Adapted: Orsino gives a description and price; Kyr makes it a professional's tool: it helps one trained in lockwork and trapwork at its checks, and lends one who is not nothing.*
 
 #### Torch
 
@@ -2898,11 +2932,13 @@ Used: End poisoned on one ally.
 
 - Worth: 1
 
+A tool of mending: one trained in it does better at its checks (+2); it lends one who is not nothing.
+
 Used: Heal one ally for 1d4 + 1 (2–5).
 
 > Clean linen for binding wounds. One use.
 
-*Adapted: Starting gear of the medic; absent from Orsino's gear catalog.*
+*Adapted: Starting gear of the medic; absent from Orsino's gear catalog. Kyr makes it a healer's tool besides: carried, it helps one trained in mending at its checks.*
 
 #### Cloudberry
 
@@ -2976,13 +3012,17 @@ Used: One ally is fireproof for 10 turns.
 
 #### First Aid Kit
 
-*Faithful · consumable* · `item:first_aid_kit`
+*Adapted · consumable* · `item:first_aid_kit`
 
 - Worth: 25
+
+A tool of mending: one trained in it does better at its checks (+2); it lends one who is not nothing.
 
 Used: Heal one ally for 1d4 + 1 (2–5); end bleeding on that ally.
 
 > A small kit containing bandages and salves for treating minor wounds.
+
+*Adapted: Kyr makes it a healer's tool besides: carried, it helps one trained in mending at its checks, and lends one who is not nothing.*
 
 #### Goodberry
 
@@ -3411,7 +3451,7 @@ Brings Sunlight to whoever carries it equipped.
 - Worth: 60
 - Worn: book
 
-Brings Lore to whoever carries it equipped.
+Used for lore: whoever carries it can do what needs it, and does a little better at its checks (+2), trained or not.
 
 > A fat book in wooden boards, in which brothers of a dead order wrote the old script's letters beside their own, and copied out whole inscriptions with what they meant. Carried and studied, it lets its reader make out the old script.
 

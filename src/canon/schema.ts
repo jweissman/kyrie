@@ -178,7 +178,16 @@ export interface ItemKind {
   fuel?: string;
   // How many times it can be used before it is spent (a wand of magic missile's twenty); once, unless it says.
   charges?: number;
+  // What it brings whoever carries it equipped as if they were trained in it: magic only (a feather that keeps its
+  // bearer from falling, a playbill that grants what it says). A tool brings no expertise (the owner, 7 November).
   grants?: { ability?: string; skill?: string }; unsupported?: Omissions; source: Source;
+  // A professional's tool (thieves' tools, a holy symbol, an instrument): it improves the checks of its skills by one
+  // trained in them, and lends one who is not nothing at all (see Checks.bonus).
+  tool?: string[];
+  // An ordinary thing's direct use, which anyone can make of it (a shovel digs, pitons and a ladder climb, a glossary
+  // gives the old script's letters): whoever carries it meets a way's or a change's need of the skill, and does a
+  // little better at its checks; it is no training in it.
+  aids?: string[];
   // What of the source a generated item leaves out, and why (a container's capacity: Kyr does not count it).
   omits?: Omissions;
   // A stone's rank (data/catalog/items/gems.json): what one of it is worth, before its cut, size and clarity; and

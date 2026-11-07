@@ -26,6 +26,8 @@
       "roles": [
         "shop",
         "chandlery",
+        "general",
+        "clothier",
         "herbs",
         "smithy",
         "bakehouse",
