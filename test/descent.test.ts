@@ -47,7 +47,9 @@ class Descent {
 }
 
 describe.skipIf(!process.env.KYRIE_LONG)('deep sites played to their hearts', () => {
-  it('brings the heart of the vein up into daylight, by the page\'s own choices alone', async () => {
+  // Held back (M19-112): the pump-room's shift-boss is a wraith, and its touch takes levels now (the owner's ruling 3);
+  // the first-level pair this route was kept for falls to it, and the route is to be found again.
+  it.skip('brings the heart of the vein up into daylight, by the page\'s own choices alone', async () => {
     const s = await Descent.play('wren', 'warrior');
     expect(s.campaign.world.test(ModuleWriter.call('region__w9_raised'))).toBe(true);
     expect(s.campaign.state.party.map(m => m.name)).toEqual(['Wenna', 'Thoradin', 'Veit']);

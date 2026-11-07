@@ -422,6 +422,9 @@ export class Effects {
   // no level to read, and the page showed the engine's error).
   static condition(effect: Extract<Effect, { kind: 'apply' }>, target: Fighter, context: EffectContext) {
     if (target.hp === 0) { return; }
+    // A hold already on is not lengthened: a creature that loses its turns to it is not held a whole fight by the
+    // same spell cast again each round (a red dragon frozen throughout by a first-level mage's frostbite).
+    if (Effects.skips(effect.status) && target.statuses.some(s => s.id === effect.status)) { return; }
     const status = Effects.status(effect.status);
     target.statuses = target.statuses.filter(s => s.id !== effect.status
       || (status.stacking === 'source-refresh' && s.source !== context.source?.id));

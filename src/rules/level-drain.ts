@@ -13,7 +13,9 @@ interface Drained extends Partial<Record<Attribute, number>> {
 // holder no longer stands at — its attacks and saves, the spells it can reach and the slots it has, and the hit points
 // that level gave, for as long as it holds the condition that counts them (drained: until it is lifted). It is kept
 // on the creature beyond the fight and in a saved game as any lasting condition is, and only a restoration (a temple's,
-// or a cleric's spell) lifts it; a raising does not. One drained below its first level dies of it. The levels are held
+// or a cleric's spell) lifts it; a raising does not. One at its first level has no level to give, and the drain takes
+// the hit points a level would have given instead, so that it is consequential and can be recovered from (the owner's
+// ruling of 7 November): it kills only as any wound does. The levels are held
 // down, not unlearned: what it knows, and its experience, are as they were, and come back whole when it is lifted.
 export class LevelDrain {
   static get id(): string { return Canon.rules.combat.ids.drained; }
@@ -54,8 +56,8 @@ export class LevelDrain {
     const n = this.levels(removed);
     if (n > 0) { f.level += n; f.maxHp += n * this.perLevel(f); }
   }
-  // Levels taken in a fight: counted on its condition, the body lowered now; one drained past its first level is
-  // killed by it (Kill). What happened, as events.
+  // Levels taken in a fight: counted on its condition, the body lowered now; a level it could not give, past its first,
+  // taken from its life instead, and it falls if that leaves none. What happened, as events.
   static take(f: Fighter, n: number, at: { turn: number; actor?: { id: string }; source?: { id: string } }):
     CombatEvent[] {
     if (n <= 0 || f.hp === 0) { return []; }
@@ -71,8 +73,10 @@ export class LevelDrain {
         clock: 'until-removed' });
     }
     if (past) {
-      f.hp = 0;
-      events.push({ type: 'death', turn: at.turn, actor: f.id });
+      const lost = Math.min(f.hp, (n - taken) * this.perLevel(f));
+      f.hp -= lost;
+      events.push({ type: 'damage', turn: at.turn, actor: by, target: f.id, rolled: lost, amount: lost, hp: f.hp });
+      if (f.hp === 0) { events.push({ type: 'death', turn: at.turn, actor: f.id }); }
     }
     return events;
   }

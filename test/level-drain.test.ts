@@ -56,14 +56,19 @@ describe('level drain', () => {
     expect(CharacterSheets.fighting(drained).find(b => b.label === 'Drained')?.value)
       .toBe('a level taken: fighting as level 4 of 5, with the hit points and spells of it, until a restoration at a temple or by a cleric');
   });
-  it('lowers a caster\'s slots to the level it stands at, and kills one drained below the first level', () => {
+  it('lowers a caster\'s slots to the level it stands at, and takes from one at the first level its hit points', () => {
     const cleric = c.createCreature('dori', { raceId: 'human', classId: 'cleric', level: 7 }, 'dori');
     const f = CombatProjection.fighter({ ...cleric, state: { ...cleric.state,
       conditions: [{ id: 'drained', remaining: 3, clock: 'until-removed' }] } }, 'fighters');
     expect([f.level, f.slots!.length > 0 && f.slots![3] === 0]).toEqual([4, true]);
     const low = CombatProjection.fighter(c.createCreature('low', { raceId: 'human', classId: 'warrior', level: 1 }), 'fighters');
-    expect(LevelDrain.take(low, 1, { turn: 1 }).map(e => e.type)).toEqual(['death']);
-    expect(low.hp).toBe(0);
+    // A warrior's level is worth six hit points (half a d10 and one, at an ordinary Constitution) or so: taken from
+    // its life, it falls only when that leaves none (the owner's ruling: consequential, and to be recovered from).
+    const hp = low.hp, worth = LevelDrain.perLevel(low);
+    expect(LevelDrain.take(low, 1, { turn: 1 }).map(e => e.type)).toEqual(hp > worth ? ['damage'] : ['damage', 'death']);
+    expect([low.level, low.hp]).toEqual([1, Math.max(0, hp - worth)]);
+    low.hp = 1;
+    expect(LevelDrain.take(low, 1, { turn: 2 }).map(e => e.type)).toEqual(['damage', 'death']);
   });
   it('is lifted by a cleric\'s restoration, and the level comes back', () => {
     // A seventh-level cleric who has learned it, and prayed it into her fourth-level slot.
