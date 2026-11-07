@@ -37,9 +37,9 @@ Module sallowfield "Three Nights at Sallowfield" {
     Decrease defence(mill_yard) by thrust(mill_yard) / 4 or to nothing. Decrease defence(nave) by thrust(nave) / 4 or to nothing. }
 
   // ── The first wave ──────────────────────────────────────────────────────────────────────────────────────────
-  Rule w1_hold_with when battleOn() and p1done(party) and watch(clock) >= assaultAt(wyre) + 6 and postsite(?p) and not w1done(?p) and here(?p) and defence(?p) + 2 * count(posted(?v, ?p) and able(?v)) + drillBonus(party) + 11 >= thrust(?p) + dice(?p) / 20 {
+  Rule w1_hold_with when battleOn() and p1done(party) and watch(clock) >= assaultAt(wyre) + 6 and postsite(?p) and not w1done(?p) and here(?p) and defence(?p) + 2 * count(posted(?v, ?p) and able(?v)) + drillBonus(party) + 13 >= thrust(?p) + dice(?p) / 20 {
     Assert w1done(?p). Assert stands1(?p). }
-  Rule w1_lost_with when battleOn() and p1done(party) and watch(clock) >= assaultAt(wyre) + 6 and postsite(?p) and not w1done(?p) and here(?p) and defence(?p) + 2 * count(posted(?v, ?p) and able(?v)) + drillBonus(party) + 11 < thrust(?p) + dice(?p) / 20 {
+  Rule w1_lost_with when battleOn() and p1done(party) and watch(clock) >= assaultAt(wyre) + 6 and postsite(?p) and not w1done(?p) and here(?p) and defence(?p) + 2 * count(posted(?v, ?p) and able(?v)) + drillBonus(party) + 13 < thrust(?p) + dice(?p) / 20 {
     Assert w1done(?p). Assert overrun1(?p). Assert overrun(?p). }
   Rule w1_hold when battleOn() and p1done(party) and watch(clock) >= assaultAt(wyre) + 6 and postsite(?p) and not w1done(?p) and not here(?p) and defence(?p) + 2 * count(posted(?v, ?p) and able(?v)) + drillBonus(party) + 4 >= thrust(?p) + dice(?p) / 20 {
     Assert w1done(?p). Assert stands1(?p). }
@@ -92,9 +92,9 @@ Module sallowfield "Three Nights at Sallowfield" {
   // Only a post that stood the first wave is fought for again; one that fell is simply passed. A post given up is the
   // enemy's. The company's weight counts for nine if it is there, three if not.
   Rule abandon_effect when abandoned(?p) and not w2done(?p) { Assert w2done(?p). Assert overrun2(?p). Assert overrun(?p). }
-  Rule w2_hold_with when battleOn() and w2planned(party) and watch(clock) >= assaultAt(wyre) + 12 and postsite(?p) and stands1(?p) and not w2done(?p) and here(?p) and defence(?p) + 2 * count(posted(?v, ?p) and able(?v)) + drillBonus(party) + 9 >= thrust2(?p) + dice(?p) / 20 {
+  Rule w2_hold_with when battleOn() and w2planned(party) and watch(clock) >= assaultAt(wyre) + 12 and postsite(?p) and stands1(?p) and not w2done(?p) and here(?p) and defence(?p) + 2 * count(posted(?v, ?p) and able(?v)) + drillBonus(party) + 11 >= thrust2(?p) + dice(?p) / 20 {
     Assert w2done(?p). Assert stands2(?p). }
-  Rule w2_lost_with when battleOn() and w2planned(party) and watch(clock) >= assaultAt(wyre) + 12 and postsite(?p) and stands1(?p) and not w2done(?p) and here(?p) and defence(?p) + 2 * count(posted(?v, ?p) and able(?v)) + drillBonus(party) + 9 < thrust2(?p) + dice(?p) / 20 {
+  Rule w2_lost_with when battleOn() and w2planned(party) and watch(clock) >= assaultAt(wyre) + 12 and postsite(?p) and stands1(?p) and not w2done(?p) and here(?p) and defence(?p) + 2 * count(posted(?v, ?p) and able(?v)) + drillBonus(party) + 11 < thrust2(?p) + dice(?p) / 20 {
     Assert w2done(?p). Assert overrun2(?p). Assert overrun(?p). }
   Rule w2_hold when battleOn() and w2planned(party) and watch(clock) >= assaultAt(wyre) + 12 and postsite(?p) and stands1(?p) and not w2done(?p) and not here(?p) and defence(?p) + 2 * count(posted(?v, ?p) and able(?v)) + drillBonus(party) + 3 >= thrust2(?p) + dice(?p) / 20 {
     Assert w2done(?p). Assert stands2(?p). }
@@ -161,7 +161,7 @@ Module sallowfield "Three Nights at Sallowfield" {
   Action parley_the_picks(actor: group, site: place) "Argue with the picked men that there is nothing here worth their dying" {
     Requires able(actor) and company(actor) and at(actor, site) and at(picks, site) and able(picks) and not picksWithdrawn(party) and not parleyTried(party).
     Time 0.
-    Resolve check(actor, persuasion, dc_hard).
+    Resolve check(actor, persuasion, dc_fair).
     On success { Assert picksWithdrawn(party). Assert picksArgued(party). Retract at(picks, site). Retract at(wyre, site). }
     On failure { Assert parleyTried(party). }
     Result "You tell them what the village is: a ford, a mill, sixty people, no coin. You tell them what it will cost them, and you tell them exactly, because you have counted. The one with the helm laughs once, shortly, and says to the others, 'He's right about the coin.' They go with their granary unvisited and their purses as empty as they came.".
@@ -229,4 +229,15 @@ Module sallowfield "Three Nights at Sallowfield" {
   Observe wyre_plan_east_road_nave at east_road when planned(party) and thrust(nave) > thrust(ford_stones) and thrust(nave) > thrust(bridge) and thrust(nave) > thrust(mill_yard) and not dawned(party) and (watch(clock) < assaultAt(wyre) - 54 or watch(clock) >= assaultAt(wyre) - 36) "Archers are being sent up the Scar path, and Wyre is looking at the chapel tower with a glass.".
   Observe wyre_right_nave near party when dawned(party) and planned(party) and thrust(nave) > thrust(ford_stones) and thrust(nave) > thrust(bridge) and thrust(nave) > thrust(mill_yard) and overrun(nave) "Wyre guessed the chapel, and it went.".
   Observe wyre_wrong_nave near party when dawned(party) and planned(party) and thrust(nave) > thrust(ford_stones) and thrust(nave) > thrust(bridge) and thrust(nave) > thrust(mill_yard) and not overrun(nave) "Wyre put his weight on the chapel and it stood.".
+
+  Action draw_on_the_raiders(actor: group, site: place) "Draw on the four with the sacks" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lower_farm) and at(raiders, site) and able(raiders) and not companyBroken(party) and not raidersBeaten(party).
+    Time 0.
+    Resolve check(actor, brawn, dc_hard).
+    On success { Slay raiders. Assert raidersBeaten(party). Assert greenhalghSaved(party). }
+    On failure { Assert companyBroken(party). }
+    Result "They have sacks in their hands and the sacks go down, and for a minute it is a muddy business at a gate in the dusk. Then there are four men on the ground, and a farmer in the door with a dog, who has not moved.".
+    Otherwise "They put the sacks down very carefully. Then they are not four men with sacks any more. Nobody at Sallowfield hears about it for two days.".
+  }
+  Relation raidersBeaten(group).
 }

@@ -241,5 +241,39 @@
     "To the packhorse bridge",
     "Prise out the keystone of the near arch",
     "To Sallowfield green"
+  ],
+  "afterRaidDay2": [
+    "=day 2 22:00",
+    "To Greenhalgh's farm",
+    "To the south road",
+    "Walk on south, and do not look back"
+  ],
+  "afterRaidDay3Morning": [
+    "=day 3 08:00",
+    "To Greenhalgh's farm",
+    "To the south road",
+    "Walk on south, and do not look back"
+  ],
+  "afterRaidDay3Afternoon": [
+    "=day 3 14:00",
+    "To Greenhalgh's farm",
+    "To the south road",
+    "Walk on south, and do not look back"
+  ],
+  "afterRaidFirelight": [
+    "=day 3 21:30",
+    "To Greenhalgh's farm",
+    "To the south road",
+    "Walk on south, and do not look back"
+  ],
+  "theRaidersWithTheSacks": [
+    "=day 2 19:00",
+    "To Greenhalgh's farm",
+    "Draw on the four with the sacks"
+  ],
+  "floodTheMeadow": [
+    "To Quarmby's mill yard",
+    "To the mill race",
+    "Draw the flood-gate"
   ]
 }

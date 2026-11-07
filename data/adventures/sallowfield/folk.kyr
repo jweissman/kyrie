@@ -48,7 +48,7 @@ Module sallowfield "Three Nights at Sallowfield" {
   }
   Person crowther "Old Crowther" at fold {
     Role "the shepherd". Ancestry human. Peaceable. Pronouns he. Manner stoic.
-    Greets "The shepherd turns round when he is ready. 'Sheep,' he says. And after a while: 'There's riders on the Scar road most mornings now. Three. Never four. They look at the village a long time and then go.'".
+    Greets "The shepherd turns round when he is ready. 'Sheep,' he says. And after a while: 'There's riders on the Scar road most mornings now. Three. Never four. They look at the village and then go.'".
   }
   Person greenhalgh "Ned Greenhalgh" at lower_farm {
     Role "the farmer at the lower farm". Ancestry human. Peaceable. Pronouns he. Manner grim.

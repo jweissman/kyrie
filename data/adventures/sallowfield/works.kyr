@@ -30,7 +30,10 @@ Module sallowfield "Three Nights at Sallowfield" {
     Change draw_gate "Draw the flood-gate" from shut to drawn needing crowbar when quarmbyAgrees(party) "Gil Quarmby is standing on the sill with his arms folded. He has not said a word, and he does not need to.".
   }
   Initially Assert state(flood_gate, shut).
-  Rule flood_marks when state(flood_gate, drawn) and not sluiceOpen(party) { Assert sluiceOpen(party). Assert hayLost(party). Increase defence(ford_stones) by 3. Increase defence(mill_yard) by 3. Decrease nerve(greenhalgh) by 2 or to nothing. }
+  Rule flood_marks when state(flood_gate, drawn) and not sluiceOpen(party) { Assert sluiceOpen(party). Assert hayLost(party). Increase defence(ford_stones) by 3. Increase defence(mill_yard) by 3. Decrease defence(bridge) by 4 or to nothing. Decrease nerve(greenhalgh) by 2 or to nothing. }
+  // A flood over the meadow drowns the pits, and what it does to the ford it does to the bridge's footings.
+  Rule flood_drowns_pits when sluiceOpen(party) and pitsDug(party) and not pitsDrowned(party) { Assert pitsDrowned(party). Decrease defence(ford_stones) by 3 or to nothing. Decrease defence(mill_yard) by 3 or to nothing. }
+  Relation pitsDrowned(group).
   Relation hayLost(group).
   Thing meadow_way "the ford meadow" on ford_meadow_way is scenery {
     State dry "The meadow is wet grass and cropped turf.".
@@ -41,7 +44,7 @@ Module sallowfield "Three Nights at Sallowfield" {
   Action dig_pits(actor: group, site: place) "Dig pits in the ford meadow and lay hurdles over them" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, ford_meadow) and holding(actor, shovel) and not pitsDug(party) and not sluiceOpen(party).
     Time 84.
-    On success { Assert pitsDug(party). Increase defence(ford_stones) by 2. Increase defence(mill_yard) by 2. }
+    On success { Assert pitsDug(party). Increase defence(ford_stones) by 3. Increase defence(mill_yard) by 3. Increase defence(bridge) by 1. }
     Result "You dig until your hands blister and then you dig on. The pits are a yard deep, a yard wide, laid out in a staggered line from the hedge to the ford, and the hurdles lie over them as naturally as a hurdle can. The villagers who watch say nothing. A horse would not see them either.".
   }
   Action spoil_grain(actor: group, site: place) "Foul the tithe grain with brine and lamp oil" {
@@ -85,7 +88,7 @@ Module sallowfield "Three Nights at Sallowfield" {
     On success { Assert bellRung(party). Increase defence(ford_stones) by 2. Increase defence(bridge) by 2. Increase defence(mill_yard) by 2. Increase defence(nave) by 2. }
     Result "The bell goes out over the vale like a great hand laid on every roof. In every house a door opens. You can hear, under the last note, forty of them finding their feet.".
   }
-  Rule numbers_help when knowsNumbers(party) and not numMod(party) { Assert numMod(party). Increase defence(ford_stones) by 1. Increase defence(bridge) by 1. Increase defence(mill_yard) by 1. Increase defence(nave) by 1. }
+  Rule numbers_help when knowsNumbers(party) and not numMod(party) { Assert numMod(party). Increase defence(ford_stones) by 2. Increase defence(bridge) by 2. Increase defence(mill_yard) by 2. Increase defence(nave) by 2. }
   Relation numMod(group).
   Action scout_the_road(actor: group, site: place) "Count the column from the Scar" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, lookout) and watch(clock) >= 120 and not knowsNumbers(party) and not scouted(party).
@@ -98,7 +101,7 @@ Module sallowfield "Three Nights at Sallowfield" {
   }
 
   Relation badCount(group). Relation scouted(group).
-  Rule bad_count_hurts when badCount(party) and battleOn() and not badMod(party) { Assert badMod(party). Decrease drillBonus(party) by 1 or to nothing. Decrease defence(ford_stones) by 2 or to nothing. Decrease defence(bridge) by 2 or to nothing. Decrease defence(mill_yard) by 2 or to nothing. Decrease defence(nave) by 2 or to nothing. }
+  Rule bad_count_hurts when badCount(party) and battleOn() and not badMod(party) { Assert badMod(party). Decrease drillBonus(party) by 1 or to nothing. Decrease defence(ford_stones) by 1 or to nothing. Decrease defence(bridge) by 1 or to nothing. Decrease defence(mill_yard) by 1 or to nothing. Decrease defence(nave) by 1 or to nothing. }
   Relation badMod(group).
 
   // The ledger: the hours there are, said in bands, until the night he is expected (a quarter of a day each).
