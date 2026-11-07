@@ -126,7 +126,7 @@ describe('The endings the valley leads to', () => {
       'the gold wing of the old standard: Take', 'to the vineyard terraces', 'to the forum', 'To the shrine of the Eagle', 'Lay the gold eagle\'s wing before the Aquilifer', 'to the forum');
     await homeFromForum(j);
     expect(ended(j)).toBe(true);
-    expect(j.page).toContain('a gold wing again');
+    expect(j.page).toContain('has a gold wing, and the Hearth has barred its granary');
   }, T);
 
   it('ends in The Cohort Reached and Left when only the granary was told', async () => {
@@ -138,7 +138,7 @@ describe('The endings the valley leads to', () => {
     await j.play('to the barracks yard', 'to the forum');
     await homeFromForum(j);
     expect(ended(j)).toBe(true);
-    expect(j.page).toContain('a woman in a granary, over a scale');
+    expect(j.page).toContain('A sixth of the barley that goes north in the spring will not go now');
   }, T);
 
   it('ends with One Fewer, and the bell not rung, when Ione keeps the shrine', async () => {
@@ -444,7 +444,7 @@ describe('What telling and knowing cost', () => {
     expect(j.find('To the granary')).toBeUndefined();
     await j.play('to the forum');
     await homeFromForum(j);
-    expect(j.page).toContain('barred the granary door from the inside');
+    expect(j.page).toContain('barred its granary against you from the inside');
   }, T);
 
   it('gives the gold a second road, through the Annals, to one who swore', async () => {

@@ -63,7 +63,7 @@ describe('the endings of the crossing', () => {
     await toGate(j);
     await j.play('To the forum', 'To the gate of the Last Cohort', 'To the Long Descent', ...homeNoRope.slice(3));
     expect(ended(j)).toBe(true);
-    expect(j.page).toContain('said nothing of what you knew');
+    expect(j.page).toContain('You said nothing in the forum');
   }, 290000);
 
   it('leaves the valley worse for the telling when the Prefect is told and the standard comes down', async () => {
