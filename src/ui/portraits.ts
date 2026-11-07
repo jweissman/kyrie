@@ -19,6 +19,13 @@ export class Portraits {
     }
     return out;
   }
+  // The painting one who joined the company was met in (by the group they joined as, as the place they were met in
+  // shows them), for their page and for how their portrait presents: Leif, met as a man with a lute in the taproom, had
+  // been a woman bard on his own page, his name saying nothing of him (the owner's fresh session, 7 November).
+  static met(campaign: Campaign, ref: string | undefined): string | undefined {
+    const world = campaign.world, joined = ref && world.relates('joinedAs') ? world.one('joinedAs', ref) : undefined;
+    return joined ? Sittings.of(campaign, joined) : undefined;
+  }
   static of(campaign: Campaign, id: string): TargetRow['portrait'] {
     const painting = Sittings.of(campaign, id);
     return painting ? Likeness.portrait(painting) : undefined;

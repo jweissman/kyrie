@@ -218,6 +218,15 @@
 .world-page .surface .portraits { position: absolute; left: 18px; bottom: 16px; right: 18px; z-index: 2; margin: 0;
   padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; pointer-events: none; }
 .world-page .surface .portraits li { pointer-events: auto; }
+/* Each likeness the same box, whatever else its class is said by elsewhere (a companion's card, a danger's label): no
+   margin, padding, rule or lettering of its own, so that the faces stand on one line (the owner, 7 November: one of
+   the company sat higher than the rest). */
+.portraits > li { margin: 0; padding: 0; border: 0; font: inherit; letter-spacing: normal; text-transform: none; }
+/* The company first and apart, at the left; those meaning harm apart at the right (below). */
+.world-page .surface .portraits > li.companion + li:not(.companion) { margin-left: 16px; }
+/* The touch to the rest, a face's size, level with the faces and not with their names. */
+.portraits > li:has(> .portrait.more) { align-self: flex-start; }
+.world-page .surface .portraits .portrait.more { width: 54px; height: 54px; }
 .portraits .portrait { display: grid; justify-items: center; gap: 4px; padding: 0; border: 0; background: none;
   min-height: 0; width: 72px; cursor: pointer; }
 .portraits .portrait::before { display: none; }
@@ -254,6 +263,7 @@
   .explorer-body { grid-template-columns: minmax(0, 1fr); gap: 18px; }
   .portraits .portrait { width: 60px; }
   .portraits .portrait .face { width: 46px; height: 46px; }
+  .world-page .surface .portraits .portrait.more { width: 46px; height: 46px; }
 }
 /* At rest the told lines have the column, scrolling within it only if they must; the aim and Go… / Explore… under. */
 .world-page.scale-scene .focus > .glance > .told-col { flex: 0 1 auto; max-height: none; }

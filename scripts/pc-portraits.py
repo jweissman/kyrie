@@ -7,8 +7,13 @@ Each sheet is three by three paintings in gold frames. A cell's opening is found
 between the cells are the columns and rows of the sheet that are gold nearly all the way along. Within the opening the
 frame's arches reach into the corners, so the square cut about the face (where the manifest says the face sits) is
 kept clear of every gold pixel joined to the frame there. Each square is written small, for a fighter's card, and
-medium, for the company's page, as WebP under web/reader/paintings/pcs; its box is written back to the manifest. Needs
-Pillow. A development aid only: the game reads the copies and the manifest, never the sheets.
+medium, for the company's page, as WebP under web/reader/paintings/pcs; its box is written back to the manifest, and
+where the face sits in it (at), for the page to keep it in view. Needs Pillow. A development aid only: the game reads
+the copies and the manifest, never the sheets.
+
+The heads in these paintings fill their frames, the crown often at the frame's top: the square is set with the face
+half way down it, so that as much as the painting has over the head is kept, and where the arches are in the way it is
+made smaller before it is moved down (moved down, it had cut the crowns of elves and birdfolk; the owner, 7 November).
 """
 import json, os
 from collections import deque
@@ -19,7 +24,7 @@ MANIFEST = os.path.join(ROOT, 'data/paintings/pcs.json')
 OUT = os.path.join(ROOT, 'web/reader')
 # The square's side as a part of the opening's shorter side, how far down it the face sits, the least clearance from
 # the opening's edge, how far into each corner the arches reach, and how wide a strip along each edge is frame.
-SIDE, AT, MARGIN, CORNER, EDGE = 0.62, 0.42, 8, 110, 6
+SIDE, AT, MARGIN, CORNER, EDGE = 0.62, 0.5, 8, 110, 6
 SIZES = {'file': 160, 'medium': 320}
 
 
@@ -83,19 +88,26 @@ def frame(px, size, box):
 
 
 def square(box, face, gilt):
-    """The square about the face, moved down or aside, or made smaller, until no gold of the frame is in it."""
+    """The square about the face, made smaller, moved aside or (last) down, until no gold of the frame is in it."""
     x0, y0, x1, y1 = box
     w, h = x1 - x0, y1 - y0
     fx, fy = x0 + face[0] * w, y0 + face[1] * h
-    for shrink in (1, .96, .92, .88, .84, .8):
-        s = int(SIDE * min(w, h) * shrink)
-        for dy in range(0, 44, 4):
+    for dy in range(0, 44, 4):
+        for shrink in (1, .96, .92, .88, .84, .8):
+            s = int(SIDE * min(w, h) * shrink)
             for dx in (0, 4, -4, 8, -8, 12, -12, 16, -16, 20, -20):
                 a = int(min(max(fx - s / 2 + dx, x0 + MARGIN), x1 - MARGIN - s))
                 b = int(min(max(fy - AT * s + dy, y0 + MARGIN + (6 if y0 == 0 else 0)), y1 - MARGIN - s))
                 if not any(a <= x < a + s and b <= y < b + s for x, y in gilt):
                     return [a, b, a + s, b + s]
     raise ValueError(f'No square clear of the frame in {box}')
+
+
+def at(box, face, crop):
+    """Where the face sits in the square cut, as fractions of its side, across and down."""
+    x0, y0, x1, y1 = box
+    side = crop[2] - crop[0]
+    return [round((x0 + face[0] * (x1 - x0) - crop[0]) / side, 2), round((y0 + face[1] * (y1 - y0) - crop[1]) / side, 2)]
 
 
 def main():
@@ -108,6 +120,7 @@ def main():
         image, cells = sheets[p['source']]
         box = cells[tuple(p['cell'])]
         p['crop'] = square(box, p['face'], frame(image.load(), image.size, box))
+        p['at'] = at(box, p['face'], p['crop'])
         cut = image.crop(tuple(p['crop']))
         for key, size in SIZES.items():
             path = os.path.join(OUT, p[key])

@@ -8,13 +8,14 @@ export type Presentation = 'man' | 'woman';
 // One portrait of a player character, as recorded by looking at it (data/paintings/pcs.json): what it shows, not
 // what its sheet was labelled.
 export interface PcPortrait { id: string; class: string; ancestry: string; presentation: Presentation; usable: boolean;
-  file: string; medium: string }
+  file: string; medium: string; source: string; crop: number[]; at: number[] }
 // Whom a portrait is wanted for: their calling, people and background, how they present where anything says, and a
 // key that is theirs alone.
 export interface Sitting { classId?: string; raceId?: string; backgroundId?: string; presentation?: Presentation;
   key: string }
-// A portrait as the page shows it: small on a fighter's card, medium on the company's page.
-export interface Face { id: string; src: string; medium: string }
+// A portrait as the page shows it: small on a fighter's card, medium on the company's page; where one of the company's,
+// where the face sits in its square (fractions of its side, across and down), for the page to keep it in view.
+export interface Face { id: string; src: string; medium: string; at?: [number, number] }
 
 // The portrait of a member of the company: one of the paintings of player characters (data/paintings/pcs.json), of
 // their calling, their people and their presentation; one of no calling painted as the aristocrat or the commoner
@@ -47,7 +48,9 @@ export class CompanyPortraits {
     for (const as of who.presentation ? [who.presentation] : drawn) {
       const fit = this.usable.filter(p => p.class === kind && p.ancestry === ancestry && p.presentation === as);
       const chosen = fit[this.hash(`${who.key}:${as}`) % Math.max(1, fit.length)];
-      if (chosen) { return { id: chosen.id, src: chosen.file, medium: chosen.medium }; }
+      if (chosen) {
+        return { id: chosen.id, src: chosen.file, medium: chosen.medium, at: [chosen.at[0]!, chosen.at[1]!] };
+      }
     }
     return undefined;
   }

@@ -72,25 +72,36 @@ export class WorldStage {
   }
   // Who is here, as small likenesses over the foot of the picture (the owner, 4 November, late: not where they stand
   // in it, but restrained, and each the way to them): touched, a person is talked to, an animal looked at in its own
-  // page (5 November, late: a creature-focused interaction, not its one act done at a touch). Those dangerous are
-  // ringed; more than the picture has room for, and the rest are a touch away (see Explorer.Who).
+  // page (5 November, late: a creature-focused interaction, not its one act done at a touch). The company first and
+  // apart, at the left, wherever it is and however many are here; those dangerous ringed, at the right; more than the
+  // picture has room for, and the rest are a touch away (see Explorer.Who).
   static Portraits({ app, draw }: { app: ReaderApp; draw: Draw }) {
-    const here = WorldStage.ordered(app);
-    if (!here.length) { return null; }
-    const shown = here.slice(0, here.length > WorldStage.room ? WorldStage.room - 1 : here.length);
-    const more = here.length - shown.length;
+    const { company, shown, rest } = WorldStage.placed(app);
+    if (!company.length && !shown.length) { return null; }
     return (
       <ul className="portraits" aria-label="Who is here">
-        {shown.map(x => <li key={x.id} data-subject={x.id} className={`${x.kind}${x.danger ? ' danger' : ''}`
-          + `${WorldStage.led(app, x) ? ' led' : ''}${x.stake ? ' stake' : ''}`}><WorldStage.Portrait subject={x} draw={draw} /></li>)}
-        {more > 0 && <li><button type="button" className="portrait more" data-action="explore" data-part="who"
-          aria-label={`${more} more here`} onClick={() => app.explore('who')}>{`+${more}`}</button></li>}
+        {[...company, ...shown].map(x => <li key={x.id} data-subject={x.id}
+          className={`${x.kind}${x.danger ? ' danger' : ''}${WorldStage.led(app, x) ? ' led' : ''}`
+            + `${x.stake ? ' stake' : ''}`}>
+          <WorldStage.Portrait subject={x} draw={draw} /></li>)}
+        {rest.length > 0 && <li><button type="button" className="portrait more" data-action="explore" data-part="who"
+          aria-label={`${rest.length} more here`} onClick={() => app.explore('who')}>{`+${rest.length}`}</button></li>}
       </ul>
     );
   }
   // Few enough to take in at a glance (the owner, 6 November: the scene was still too busy): those the page leads by
-  // first, then the rest of the room's six, and anyone more a touch away.
+  // first, then the rest of the room's six, and anyone more a touch away. The company is drawn whole and takes its
+  // room from the rest, who keep at least three places (the last of them the touch to the rest where there are more).
   static readonly room = 6;
+  static readonly least = 3;
+  // Who is drawn where: the company; who else is on the picture; and who is a touch away.
+  static placed(app: ReaderApp): { company: SceneSubject[]; shown: SceneSubject[]; rest: SceneSubject[] } {
+    const all = WorldStage.ordered(app), company = all.filter(x => x.kind === 'companion');
+    const others = all.filter(x => x.kind !== 'companion');
+    const room = Math.max(WorldStage.least, WorldStage.room - company.length);
+    const shown = others.length > room ? others.slice(0, room - 1) : others;
+    return { company, shown, rest: others.slice(shown.length) };
+  }
   // Those who mean harm last, so that they stand apart at the right of the picture.
   static present(app: ReaderApp): SceneSubject[] {
     return (app.menu.scene?.subjects ?? []).filter(x => ['companion', 'person', 'animal', 'creature'].includes(x.kind))
