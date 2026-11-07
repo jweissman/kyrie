@@ -224,9 +224,6 @@
 .portraits > li { margin: 0; padding: 0; border: 0; font: inherit; letter-spacing: normal; text-transform: none; }
 /* The company first and apart, at the left; those meaning harm apart at the right (below). */
 .world-page .surface .portraits > li.companion + li:not(.companion) { margin-left: 16px; }
-/* The touch to the rest, a face's size, level with the faces and not with their names. */
-.portraits > li:has(> .portrait.more) { align-self: flex-start; }
-.world-page .surface .portraits .portrait.more { width: 54px; height: 54px; }
 .portraits .portrait { display: grid; justify-items: center; gap: 4px; padding: 0; border: 0; background: none;
   min-height: 0; width: 72px; cursor: pointer; }
 .portraits .portrait::before { display: none; }
@@ -242,8 +239,6 @@
 .portraits .danger .portrait .face { border-color: var(--ember, #c4552e); }
 .portraits .portrait:hover .face, .portraits .portrait.sel .face, .portraits .portrait:focus-visible .face {
   transform: translateY(-2px); border-color: var(--gold); }
-.portraits .portrait.more { width: 54px; height: 54px; border-radius: 50%; place-items: center;
-  border: 1px solid rgba(236, 230, 217, .5); background: rgba(18, 19, 24, .8); color: var(--ivory); font: 500 14px var(--do); }
 .focus .explore-keys { display: flex; gap: 8px; margin: 14px 0 0; }
 .focus .explore-open { flex: 1; min-height: 40px; border: 1px solid var(--gold-line); background: rgba(236, 230, 217, .04);
   color: var(--ivory); font: 500 14px/1 var(--do); letter-spacing: .08em; text-transform: uppercase; cursor: pointer; }
@@ -263,7 +258,6 @@
   .explorer-body { grid-template-columns: minmax(0, 1fr); gap: 18px; }
   .portraits .portrait { width: 60px; }
   .portraits .portrait .face { width: 46px; height: 46px; }
-  .world-page .surface .portraits .portrait.more { width: 46px; height: 46px; }
 }
 /* At rest the told lines have the column, scrolling within it only if they must; the aim and Go… / Explore… under. */
 .world-page.scale-scene .focus > .glance > .told-col { flex: 0 1 auto; max-height: none; }

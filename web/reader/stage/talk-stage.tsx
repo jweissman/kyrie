@@ -22,7 +22,9 @@ import { TalkFocus } from '../talk-focus';
 export class TalkStage {
   static View({ app, talk }: { app: ReaderApp; talk: Talk }) {
     const s = app.state, frame = s.frame!, who = talk.subject, draw = Act.draw(app);
-    const [name, ...role] = [Words.short(who.name), who.note && Words.described(who.note)].filter(Boolean) as string[];
+    // A name begins with a capital where it heads the page ("The wagoner", not "the wagoner": the owner, 7 November).
+    const [name, ...role] = [Words.upper(Words.short(who.name)), who.note && Words.described(who.note)]
+      .filter(Boolean) as string[];
     const counter = frame.screen.trade.find(c => c.id === who.id), { wares, rest } = Wares.of(counter, talk.replies);
     const led = frame.leaf.glance?.acts.find(a => a.subject === who.id)?.for;
     const focus = TalkFocus.of(rest, { ...led ? { led } : {}, ...s.heard ? { heard: s.heard } : {}, asked: s.asked,
@@ -80,9 +82,9 @@ export class TalkStage {
           style={{ objectPosition: `50% ${portrait.focus}%` }} />}
         {/* Credited where the painter is known; nothing said where not ("Painter unrecorded" read as a defect). */}
         {portrait?.credit && <p className="credit">{portrait.credit}</p>}
-        {/* Unpainted, their people's emblem stands large and faint behind their name (the owner, 5 November). */}
-        {!portrait && app.menu.talk!.subject.emblem && <Glyphs.View id={app.menu.talk!.subject.emblem}
-          className="sitter-emblem" />}
+        {/* Unpainted, their people's emblem stands large and faint behind their name (the owner, 5 November), or
+            anyone's where their people have none drawn: never a name alone (7 November). */}
+        {!portrait && <Glyphs.View id={Glyphs.met(app.menu.talk!.subject)} className="sitter-emblem" />}
         <div className="cap"><h1 className="n">{Typography.curl(name)}</h1>{role && <p className="r">{Typography.curl(role)}</p>}
           {children}</div>
       </div>

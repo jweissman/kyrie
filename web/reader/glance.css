@@ -25,10 +25,6 @@
 .glance.arrival-return .sight, .glance.arrival-resume .sight { font-size: 18.5px; }
 .glance .life { display: flex; align-items: flex-start; gap: 14px; margin: 0 0 18px; font: italic 400 17.5px/1.55 var(--told);
   color: var(--ivory); }
-.glance .life .face { flex: none; width: 44px; height: 54px; margin-top: 4px; overflow: hidden; background: var(--lift);
-  box-shadow: 0 0 0 1px var(--edge-strong); }
-.glance .life .face img { display: block; width: 100%; height: 100%; object-fit: cover; filter: saturate(.85); }
-.glance .life .face.gone { display: none; }
 .glance .threat { margin: 4px 0 18px; }
 .glance .happened { margin: 0 0 18px; }
 .glance > .happened:not(:first-child) .telling, .glance > .happened:not(:first-child) p { font-size: 17.5px; }

@@ -19,7 +19,7 @@
       "scene": "Sacks stand on the floor and shelves climb to the beams, and the counter is worn into a dip in the middle by years of things set down on it. The air smells of meal, soap and lamp-oil." },
     "herbs": { "role": "herbalist", "room": "{keeper}'s herb-shop", "painting": "herbalist",
       "scene": "Bunches of drying herbs hang from every beam, so that you walk in stooping, and the air is thick with sage and mint and something bitter." },
-    "jewelry": { "role": "jeweller", "room": "{keeper}'s jewel-shop", "painting": "jeweler",
+    "jewelry": { "role": "jeweller", "room": "{keeper}'s jewel-shop", "painting": "jeweler", "stones": 3,
       "scene": "A small bright room with one window and everything turned toward it. The rings lie in a tray under glass and throw small sparks across the ceiling." },
     "kitchen": { "role": "cook-shop keeper", "room": "{keeper}'s cook-shop", "painting": "cook",
       "scene": "A hot little room with a counter onto the street and a fire behind it, where sausages spit on a griddle and a pot of broth steams." },

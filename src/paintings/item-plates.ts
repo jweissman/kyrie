@@ -8,7 +8,12 @@ import type { World } from '../lang/world';
 // alone.
 export class ItemPlates {
   static of(world: World, item: string): ReturnType<typeof Likeness.portrait> | undefined {
-    const kind = world.one('itemKind', item)?.replace(/^.*__/, ''), plate = kind ? Canon.items[kind]?.portrait : undefined;
+    const kind = world.one('itemKind', item);
+    return kind ? ItemPlates.kind(kind) : undefined;
+  }
+  // A kind's plate, by the catalog's id for it (torch, ring_of_protection), a module's own kind by the kind it is.
+  static kind(kind: string): ReturnType<typeof Likeness.portrait> | undefined {
+    const plate = Canon.items[kind.replace(/^.*__/, '')]?.portrait;
     return plate && CanonValidation.paintings.has(plate) ? Likeness.portrait(plate) : undefined;
   }
 }

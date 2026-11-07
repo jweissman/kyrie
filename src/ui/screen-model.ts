@@ -8,7 +8,7 @@ import { EntityIndex } from '../lang/entity-index';
 import { ItemNames } from '../item-names';
 import { MechanicsText } from '../presentation/mechanics-text';
 import { AbilityRows } from './ability-rows';
-import { Portraits } from './portraits'; import { Treasure } from './treasure';
+import { Portraits } from './portraits'; import { Treasure } from './treasure'; import { Owed } from './owed';
 import { ConditionSense } from '../presentation/condition-sense';
 import { Advancement } from '../rules/advancement';
 import { Canon } from '../canon/canon'; import { Content } from '../content';
@@ -59,11 +59,11 @@ export class ScreenModel {
     const companions = this.companions(campaign, view.actor, { unclaimed, present });
     const scene = this.scene(campaign, view, present), along = this.along(world, view.actor);
     const items = this.items(campaign, grouped, entities);
-    const dark = view.observations.some(o => o.id === 'darkness'), stakes = Stakes.of(campaign);
+    const dark = view.observations.some(o => o.id === 'darkness'), stakes = Stakes.of(campaign), owed = Owed.of(campaign);
     const charted = new ChartModel(world, view.actor, entities).build(visited, here);
     // Each person in the one painting they are met in wherever they are (see Portraits).
     const rows = this.stack(view.present.map(p => ({ ...this.target(p, grouped, world, { dark, campaign }),
-      ...this.marks(campaign, p.id, { along, stakes }),
+      ...this.marks(campaign, p.id, { along, stakes, owed }),
       ...scene.says.has(p.id) ? { says: scene.says.get(p.id)! } : {}, ...this.reckoning(campaign, p.id, grouped),
       ...CharacterSheets.recruit(campaign, p.id, grouped.targets.get(p.id) ?? []) })));
     const screen: Screen = {
@@ -117,10 +117,13 @@ export class ScreenModel {
       ...world.measured(world.module.measures.some(m => m.name === 'dealerPays') ? 'dealerPays' : 'worth')
         .map(m => [`worth:${m.call.args[0]}`, m.value] as const)]);
   }
-  // How someone here stands to the company: with it, one it has a stake in, one with something written to be asked.
-  private static marks(campaign: Campaign, id: string, sets: { along: Set<string>; stakes: Set<string> }) {
+  // How someone here stands to the company: with it, one it has a stake in, one with something written to be asked,
+  // one with something for it now (see Owed).
+  private static marks(campaign: Campaign, id: string,
+    sets: { along: Set<string>; stakes: Set<string>; owed: Set<string> }) {
     return { ...sets.along.has(id) ? { companion: true } : {}, ...sets.stakes.has(id) ? { stake: true } : {},
-      ...campaign.module.actions.some(a => a.speaker === id) ? { asked: true } : {} };
+      ...campaign.module.actions.some(a => a.speaker === id) ? { asked: true } : {},
+      ...sets.owed.has(id) ? { owed: true } : {} };
   }
   // Whoever travels with the company is with it, not met where it is.
   // Who is with the company: whoever has joined it, and whoever follows it (one in custody, a child brought home),
@@ -432,8 +435,9 @@ export class ScreenModel {
     return state.creatures.filter(c => state.partyIds.includes(c.id)).flatMap(c => (c.state.inventory ?? []).map(i => {
       const d = ItemCatalog.get(i.definition), acts = grouped.items.get(i.id) ?? [];
       const kept = ItemUses.kept(i.definition, acts), points = Seats.line(campaign.world, i.definition);
+      const plate = ItemPlates.kind(i.definition);
       return { id: i.id, name: ItemNames.shown(entities.get(i.id)?.name, d.name), kind: i.definition,
-        description: d.description,
+        description: d.description, ...plate ? { plate } : {},
         owner: c.id, ownerName: c.name, equipped: !!i.equipped, ...(d.slot ? { slot: d.slot } : {}),
         ...(this.lights(d.use) ? { light: true } : {}), acts, ...kept ? { kept } : {}, ...points ? { points } : {} };
     }));

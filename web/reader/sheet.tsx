@@ -1,12 +1,12 @@
 import type { Entry, Frame } from '../engine/protocol';
 import type { Screen } from '../../src/ui/screen-types';
 import type { ReaderApp } from './reader-app';
-import { Act } from './stage/act';
 import { Words } from './words';
 import { Typography } from '../../src/presentation/typography';
 import { CharacterPage } from './character-page';
 import { BoardField } from './board-field';
 import { Aims } from './aims';
+import { PackGrid } from './pack-grid';
 import { Followed } from './followed';
 
 // What takes the right-hand side's place when asked for: your notes (what is unfinished, what you know, and how sure
@@ -128,16 +128,12 @@ export class Sheet {
     if (e.hungry) { return 'Hungry: a ration is eaten as soon as there is one.'; }
     return e.nextMeal ? `Fed until ${e.nextMeal}, when a ration is eaten, or at a rest that comes before.` : undefined;
   }
-  // What each of you carries, and what can be done with each thing.
+  // What each of you carries, and what can be done with each thing (see PackGrid).
   private static pack(app: ReaderApp, screen: Screen) {
-    const menu = app.menu, draw = Act.draw(app);
     return (
       <article className="pack">
         <h2>What you carry</h2>
-        {menu.sections.length ? menu.sections.map(sec => <section key={sec.id}>
-          <h3>{sec.title}</h3>
-          <Act.List choices={sec.choices} draw={draw} className="column" />
-        </section>) : <p className="none">You carry nothing.</p>}
+        <PackGrid.View app={app} screen={screen} />
         <p className="how">{screen.purse.coin} coin · {screen.purse.rations} {screen.purse.rations === 1 ? 'ration' : 'rations'}
           {screen.purse.other.length > 0 && ` · ${screen.purse.other.join(', ')}`}</p>
         {Sheet.fed(screen) && <p className="how" data-id="fed">{Sheet.fed(screen)}</p>}

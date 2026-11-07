@@ -182,7 +182,7 @@ export class GlanceStage {
     const g = app.state.frame?.leaf.glance, subjects = app.menu.scene?.subjects ?? [];
     const pressing = g ? GlanceStage.pressing(app.menu.leads ?? g.acts).flatMap(a => GlanceStage.choice(app, a.choice)?.id ?? []) : [];
     return new Set([...pressing, ...Pastime.search(app)?.id ?? [], ...GlanceStage.only(app)?.c.id ?? [], ...GlanceStage.posted(app)?.id ?? [], ...subjects.filter(x => ['companion', 'person'].includes(x.kind))
-      .slice(0, 10).flatMap(x => PlaceStage.into(x)?.id ?? [])]);
+      .flatMap(x => PlaceStage.into(x)?.id ?? [])]);
   }
   // Four: two rows of the rail, so that the ways under them are in view too.
   static readonly most = 10;
@@ -228,20 +228,18 @@ export class GlanceStage {
     );
   }
   // A sign of life now: a danger, as what it is, what it is doing and how a fight would go (what can be done about it
-  // is what the glance leads with, and every way of meeting it is under Look about); or someone's words or doings, with
-  // their likeness when one fits; or the place's passing life.
+  // is what the glance leads with, and every way of meeting it is under Look about); or someone's words or doings; or
+  // the place's passing life. In words alone: whoever it is about is on the picture by their likeness, and no
+  // likeness stands in the telling (the owner's own play, 7 November: a brother's portrait had been set into the
+  // market-place's prose).
   static Life({ app, glance: g }: { app: ReaderApp; glance: Glance }) {
     const life = g.life, subject = life?.subject ? app.menu.scene?.subjects.find(x => x.id === life.subject) : undefined;
     if (!life) { return null; }
     // How a fight would go is said once, on the attack led with when it is (see Marks), and here when it is not.
     const reckoned = g.acts.some(a => a.marks.some(m => m.kind === 'fight'));
     if (life.danger && subject) { return <GlanceStage.Danger subject={subject} text={life.text} reckoned={reckoned} />; }
-    const face = subject?.portrait;
     return (
-      <p className={`life${face ? ' faced' : ''}`} data-subject={life.subject} data-id={life.id}>
-        {face && <span className="face" aria-hidden="true"><img src={face.src} alt="" decoding="async"
-          style={{ objectPosition: `50% ${face.focus}%` }}
-          onError={e => { e.currentTarget.parentElement?.classList.add('gone'); }} /></span>}
+      <p className="life" data-subject={life.subject} data-id={life.id}>
         <span className="said">{Typography.curl(life.text)}</span>
       </p>
     );

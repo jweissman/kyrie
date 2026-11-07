@@ -89,6 +89,8 @@ export interface TargetRow {
   stake?: boolean;
   // Someone with something written to be asked of them (a Topic): talking to them can go somewhere.
   asked?: boolean;
+  // Someone with something for the company now: a thing to be said to them, open now, that pays it (see Owed).
+  owed?: boolean;
 }
 export interface ItemRow {
   // kind: the catalog's id for what it is (torch, lamp_oil), not its name.
@@ -100,6 +102,8 @@ export interface ItemRow {
   kept?: string;
   // Which way it points, where it points to somewhere the canon names (the Dun Rìerdan waystone: see Seats).
   points?: string;
+  // Its kind's plate, where one is cut (see ItemPlates): what the pack shows it by.
+  plate?: { src: string; large: string; focus: number; credit?: string };
 }
 export interface MemberRow {
   id: string; ref?: string; name: string; line: string; background?: string; level: number;

@@ -7,8 +7,9 @@ import type { Region, Settlement } from './region-writer';
 import world from '../../data/generation/scenes/orsino-world.json';
 import shops from '../../data/generation/scenes/shops.json';
 import folk from '../../data/generation/scenes/folk.json';
+import gems from '../../data/catalog/items/gems.json';
 
-interface Kind { role: string; room: string; painting: string; scene: string }
+interface Kind { role: string; room: string; painting: string; scene: string; stones?: number }
 
 // The shops of Orsino's shop table a town keeps beside its own merchant: a market town two, any other town one, of
 // the kinds that have something a country's market sees (an apothecary, an armoury, a jeweller's, a potion-shop),
@@ -51,8 +52,19 @@ export class RegionShops {
   // anyone setting out needs, then the cheapest) and three more drawn for the town from the rest it can afford to keep,
   // cheapest first. A market town's jeweller may have a ring of protection; a small town's has what a small town buys.
   static shelves(region: Region, i: number, kind: string): [string, number][] {
-    return this.shelf(kind, { means: Foundings.of(region, i).kind === 'market' ? 800 : 300,
-      key: `${region.name}:${region.settlements[i]!.id}:${kind}:shelves` });
+    const at = { means: Foundings.of(region, i).kind === 'market' ? 800 : 300,
+      key: `${region.name}:${region.settlements[i]!.id}:${kind}:shelves` };
+    return [...this.shelf(kind, at), ...this.stones(kind, at)].sort((a, b) => a[1] - b[1]);
+  }
+  // The stones a shop keeps besides what Orsino's shop of its kind sells, so many as its kind says (a jeweller's: the
+  // owner's own play, 7 November, found a jeweller who sold no gems), drawn for the town among the catalog's stones
+  // it can afford to keep, each at its worth.
+  static stones(kind: string, at: { means: number; key: string }): [string, number][] {
+    const n = this.kinds[kind]?.stones ?? 0, items = gems.items as Record<string, { value: number }>;
+    if (!n) { return []; }
+    const pool = Object.entries(items).filter(([, g]) => g.value <= at.means)
+      .map(([id, g]) => [id, g.value] as [string, number]);
+    return new Draw(`${at.key}:stones`).shuffle(pool).slice(0, n);
   }
   static shelf(kind: string, at: { means: number; key: string }): [string, number][] {
     const pool = (this.stocks[kind]?.stock ?? []).filter(([, fee]) => fee <= at.means), draw = new Draw(at.key);
