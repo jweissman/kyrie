@@ -38,5 +38,6 @@ Module wrongboat "The Wrong Boat" {
   Observe far_bank_scene at far_bank when true "The far bank, high and dry, with the hills standing up behind it. A road goes up between hedges. Behind you the river is wide, and the near bank is suddenly small.".
   Observe hill_foot_scene at hill_foot when true "The road forks at a milestone. Left, an inn with a smoking chimney and a sign that has lost its picture. Right, the road to the gap, climbing between stone walls into cloud.".
   Observe inn_room_scene at inn_room when true "The Last Pint: one long room, a fire at each end, an innkeeper with a cough. A shelf of clocks, all stopped at different times, and a dog on every step of the stairs.".
-  Observe pass_gap_scene at pass_gap when true "The road crests in a notch between two shoulders of hill. On the other side, the sea, far off, or a kind of light that is not sky. Nobody is behind you on the road. Nobody is in front of you either, which is new.".
+  Observe pass_gap_ally at pass_gap when bessAlly(party) "The road crests in a notch between two shoulders of hill. On the other side, the sea, far off, or a kind of light that is not sky. Bess is a pace behind you, with her coin-scale hanging in her hand, looking at it.".
+  Observe pass_gap_scene at pass_gap when not bessAlly(party) "The road crests in a notch between two shoulders of hill. On the other side, the sea, far off, or a kind of light that is not sky. Nobody is behind you on the road. Nobody is in front of you either, which is new.".
 }

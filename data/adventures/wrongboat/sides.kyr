@@ -18,11 +18,11 @@ Module wrongboat "The Wrong Boat" {
   // Without anything in your hands to show it, "it was Hob Garrod" is a thing you heard shouted on a quay.
   Action bess_hob_bluff(actor: group, site: place) "Tell Bess the porter shouted Hob Garrod's name, and you know no more" {
     Speaker bess.
-    Requires able(actor) and company(actor) and at(actor, site) and at(bess, site) and confronted(party) and not bessMet(party) and not bessAlly(party) and not bluffTried(party) and not bessKnows(party) and not ladsSwept(party) and accused(party) and not hobKnown(actor) and not knows(actor, wage_slip_read) and not hobMet(actor).
+    Requires able(actor) and company(actor) and at(actor, site) and at(bess, site) and confronted(party) and not bessMet(party) and not bessAlly(party) and not bessKnows(party) and not ladsSwept(party) and accused(party) and not hobKnown(actor) and not knows(actor, wage_slip_read) and not hobMet(actor).
     Time 0.
     Resolve check(actor, persuasion, dc_hard).
     On success { Assert bessAlly(actor). Assert bessMet(party). Assert following(bess, actor). }
-    On failure { Assert bessKnows(party). Assert bluffTried(party). }
+    On failure { Assert bessKnows(party). }
     Result "'Shouted,' says Bess. 'On a quay. By a porter.' She looks at you. 'It isn't much,' she says. 'But I have been walking on less since Tuesday.' She falls in beside you without another word.".
     Otherwise "'A porter shouted a name,' says Bess. 'You have a hamper and a porter. Give me the box and I will go and ask Hob myself.' She holds out her hands, and for the first time her voice is not level.".
   }
@@ -236,7 +236,6 @@ Module wrongboat "The Wrong Boat" {
   Rule sluice_sweeps when sluiceOpen(party) and at(lads, weir) and not ladsSwept(party) {
     Assert ladsSwept(party). Retract at(lads, weir). }
   Observe sluice_news at weir when ladsSwept(party) "Below the apron the water has taken back a stretch of bank. One grey coat is on the far shingle, on all fours, being sick; the other is not there. Wilfred Auster is coming down the path with a boathook, looking at the water.".
-  Observe sluice_bess near bess when ladsSwept(party) and bessAlly(party) "Bess has been told what the weir did. She is walking a yard further from you than she was, and she has stopped asking how far it is to Pelham.".
   Action pay_lads(actor: group, site: place) "Pay the lads fifteen coin to find the wrong woman" {
     Speaker lads.
     Requires able(actor) and company(actor) and at(actor, site) and at(lads, site) and quantity(actor, gold) >= 15 and ladsMetAt(party) > 0 and not ladsPaid(actor) and not ladsRouted(actor) and not ladsSwept(actor) and not caught(actor).
