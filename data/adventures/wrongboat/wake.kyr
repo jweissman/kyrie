@@ -1,0 +1,42 @@
+Module wrongboat "The Wrong Boat" {
+  // ── Chapters, aims, and the ways it can end ────────────────────────────────────────────────────────────────────
+  Chapter ch_quay "The Wrong Boat" when true "Two barges that look alike, a quay full of shouting, a mist that is lifting. Somebody is about to hand you something.".
+  Chapter ch_afloat "Afloat" when since(9) and been(party, deck) "The Mary goes down the Aldwater at a walking pace, with onions, with a song, with the quay getting smaller and a thing in your pack that you cannot put down.".
+  Chapter ch_fen "The Fen" when been(party, fen_landing) "Reeds, mist, one road, and every sound is a long way off or right beside you.".
+  Chapter ch_fair "Pelham on Fair-day" when been(party, fairground) "A great many people, no one of whom is looking for you, and one of whom is.".
+  Chapter ch_mill "The Mill Reach" when been(party, millyard) "A weir, a lock, a lever, and two men in grey coats who have not yet been told they are in a story.".
+  Chapter ch_foot "Highfoot" when been(party, ferry_stage) "The last of the river. After this there is only the hill, and whatever you have chosen to carry up it.".
+
+  Objective get_away when t0() > 0 and not boxReturned(party) and not caught(party) "Get down the Aldwater and over the hills before a toll-clerk, or the Trust's two lads, catch you with something that is not yours.".
+  Objective what_is_it when holding(party, music_box) and not drawerOpen(party) "There is a music box in the hamper. It plays a tune everyone on the river knows. It has a back-plate nobody has looked behind.".
+
+  Milestone m_afloat "got away from Staithe on the wrong boat" worth 100 when been(party, deck).
+  Milestone m_fen "crossed the Wend Fen" worth 120 when been(party, bell_cot) or been(party, eel_stage).
+  Milestone m_fair "went through Pelham on fair-day and was not caught" worth 150 when been(party, fairground) and been(party, millyard).
+  Milestone m_lie "lied to a woman's face about a box" worth 120 when bessMet(party) and bessKnows(party).
+  Milestone m_tune "heard the song the box was made for" worth 100 when knows(party, tune_known).
+  Milestone m_gap "got to the gap in the hills" worth 300 when been(party, pass_gap).
+  Milestone m_swept "left two of the sergeant's men to the weir" worth 200 when ladsSwept(party).
+
+  // Fiasco at the fair: the one thing nobody can see coming is a horse.
+  Relation tradedDally(group).
+  Action trade_to_dally(actor: group, site: place) "Trade the music box to Mr Dally for his horse, Parnassus" {
+    Speaker dally.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, horse_lines) and travelsWith(dally, actor) and holding(actor, music_box) and dallyBolted(actor) and not tradedDally(actor).
+    Time 0.
+    On success { Spend music_box from actor. Assert tradedDally(actor). }
+    Result "'For Hester,' says Mr Dally, taking it as a man takes a diploma. 'For when she asks why I was late, and why I came, and where I got a music box.' He gives you the reins of a long-faced bay with a look of grave surprise. 'He is a very fine horse,' he says. 'He does not like going forwards.'".
+  }
+
+  // ── Endings ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  Ending caught "Taken at the Stage" when caught(party) "The lads take it down the towpath, and one of them hums. You walk the rest of the way to Highfoot with your hands empty and your pockets turned out, and you are on the right side of the river when the bell rings behind you, and it is not for you. You have your boots. You have the end of a song you cannot remember the start of. Somewhere behind, a toll-clerk will arrive at a weir and find a wet patch on the stone, and sit down on it.".
+  Ending returned "The Lowther Kitchen" when boxReturned(party) "Bess Lowther carries it home in both hands, as if it might spill, and sets it on the table in the room over the toll-house. She does not wind it. She sits and looks at it until the light goes. You were not asked to stay, and you do not, but you hear it from the street, at the third winding, when she finally does. It plays the tune right through, and then there is a very small sound, like a latch.".
+  Ending bargain "A Glorious Bad Bargain" when tradedDally(party) "You leave Pelham on the long-faced bay, who goes sideways, and Mr Dally leaves on foot with a music box under his arm and every church bell in the county against him. At the third milestone the horse stops and looks at you with great intelligence. At the fourth it lies down. Three hours later a very stout man with a gun and a very pale girl with a dog arrive at the same milestone, in a wagon, going the other way, and Mr Dally is in the back of it holding the music box and saying, with enormous dignity, that he has never been so happy in his life. The horse, you note, has got up.".
+  Ending delivered "Forty Coin and a Back-plate" when soldFosse(party) "Barnaby Fosse winds it once as you leave, to see it work. It plays through to the end. 'B.L., from T.L.,' he says to nobody, in the doorway, to the shelf of stopped clocks. You are halfway up the gap with forty coin when it comes to you what the words were that you were meant to read, and you stop on the road, and nothing behind you but the inn and its sign without a picture. The coin is good. It does not weigh what it ought.".
+  Ending lost_friend "Without Shim" over the_weir when at(party, pass_gap) and shimGone(party) and holding(party, music_box) "The gap is windy and bare. You have the box and the road, and you do not have the boy who shouted the news of every barge on the river at nobody. At the crest you turn, once, and below at the Highfoot stage, small as a pin, there is a figure with its hand up. You wave. You cannot tell if he sees. The box is quiet in your pack, as if it knew.".
+  Ending with_bess "Bess at the Gap" over lost_friend when at(party, pass_gap) and bessAlly(party) "Bess Lowther stops at the crest with her coin-scale hanging forgotten in her hand and looks out over the hills as if they had been put there as a courtesy. 'I've never been this far,' she says. 'I'd always supposed the river was all there was.' She holds out her hand for the box, and you give it to her, and she does not wind it. 'Not yet,' she says. 'Not till I've said it to him.' She turns back down the hill alone, towards Pelham and a man in a lock-up, and you stand on the crest with your hands empty and your faces cold. It is, you decide, the best you did.".
+  Ending the_weir "Down the Weir" when at(party, pass_gap) and holding(party, music_box) and ladsSwept(party) "You come over the gap with the box and with two men in grey coats somewhere in the Aldwater below you, drying out. The sergeant will say he sent them for a lost dog. It is a clean, mean little victory and you take it. You wound it once, on the river, and not since. It occurs to you at the top of the hill that you do not know the song, and that you have done a great deal to keep a thing you do not understand.".
+  Ending cashed "Fifty Coin and No Questions" when at(party, pass_gap) and soldHonest(party) "You come over the gap with fifty coin and nobody behind you, which is as much as most people get from a river. Behind, a horse-dealer winds a music box for his wife, and in a toll-house at Staithe a woman sits on her stool with the three red lines in the ledger and a face like a closed door. You will think about her every time you hear a tune on a barge, and not much more often than that.".
+  Ending empty "Empty Hands" when at(party, pass_gap) and dropped(party) "You cross the gap with nothing in your hands at all. It is a lovely clear morning, and the hills go on. Somewhere under the Aldwater a box of dark wood is lying in the mud with its spring let go, and every so often, when the current moves it, it plays one note, and then stops.".
+  Ending clean "Clean Water" when at(party, pass_gap) and holding(party, music_box) "The gap is a notch in the hills with the sea beyond, or a light that is not sky. You have the box, and the road, and nobody behind you. You wind it once, there on the crest, to see what all the fuss was, and it plays the whole tune, a man's tune, written in a hurry for a wife, and the wind takes it away down the other side. You do not know what you carry. You know that you carry it.".
+}

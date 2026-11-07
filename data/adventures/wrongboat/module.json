@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "source": ["places.kyr", "scenes.kyr", "clock.kyr", "folk.kyr", "box.kyr", "sides.kyr", "wake.kyr", "company.kyr"],
+  "rules": ["world"],
+  "globals": ["party"],
+  "canon": ["imbar"],
+  "exports": { "party": "party", "region": "aldwater", "road": "road" }
+}
