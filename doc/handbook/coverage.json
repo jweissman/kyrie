@@ -801,7 +801,7 @@
     "faithful": 770,
     "adapted": 375,
     "represented": 4,
-    "kyr": 544,
+    "kyr": 554,
     "unsupported": 68,
     "unreachable": 4,
     "data-only": 12
@@ -892,7 +892,7 @@
       "faithful": 242,
       "adapted": 82,
       "represented": 0,
-      "kyr": 92,
+      "kyr": 102,
       "unsupported": 7,
       "unreachable": 0,
       "data-only": 0
@@ -997,7 +997,7 @@
     "faithful": 231,
     "adapted": 36,
     "represented": 27,
-    "kyr": 288,
+    "kyr": 289,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 198
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 261,
+      "kyr": 262,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -6842,6 +6842,27 @@
    "section": "equipment/armour"
   },
   {
+   "id": "item:lamellar",
+   "title": "Lamellar Armor",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/armour"
+  },
+  {
+   "id": "item:crystal",
+   "title": "Crystal Armor",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/armour"
+  },
+  {
+   "id": "item:bronze",
+   "title": "Bronze Armor",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/armour"
+  },
+  {
    "id": "item:angelmail",
    "title": "Angelmail",
    "status": "faithful",
@@ -7580,6 +7601,55 @@
    "id": "item:oil_flask",
    "title": "Flask of Oil",
    "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:elixir_of_agility",
+   "title": "Elixir of Agility",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:elixir_of_mind",
+   "title": "Elixir of Mind",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:elixir_of_wisdom",
+   "title": "Elixir of Wisdom",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:potion_of_glibness",
+   "title": "Potion of Glibness",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:draught_of_ironskin",
+   "title": "Draught of Ironskin",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:physic_of_actaea",
+   "title": "Physic of Actaea",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:elixir_of_constitution",
+   "title": "Elixir of Constitution",
+   "status": "kyr",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -14425,6 +14495,13 @@
   {
    "id": "rule:world_core.season",
    "title": "season",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-core"
+  },
+  {
+   "id": "rule:world_core.sittingOut",
+   "title": "sittingOut",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-core"

@@ -820,7 +820,7 @@ Also kept, without comment: matterOpen, matterDone, at, able, dead, distinct, cl
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 21 | 51 | 17 | 5 | 5 | 8 |
+| 21 | 52 | 17 | 5 | 5 | 8 |
 
 #### quarter, inQuarter, heartOf
 
@@ -1089,6 +1089,12 @@ A die thrown each watch, 1 to 100, for what is left to chance: dice(clock) for t
 *Kyr · measure(clock)* · `rule:world_core.season`
 
 The season by the campaign's calendar, when it keeps one: 1 spring, 2 summer, 3 autumn, 4 winter (0: none).
+
+#### sittingOut
+
+*Kyr · relation(group)* · `rule:world_core.sittingOut`
+
+A company sitting out the hours (until first light, until dark) puts its lights out while it waits, as it does to sleep, and lights them again after, with what was left of them (see FieldUse.advance): a candle and a lantern had both burned dry over a night waited out in a cellar under the tower (the fresh playtest of 7 November).
 
 #### wait for light
 

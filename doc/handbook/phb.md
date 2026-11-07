@@ -2086,6 +2086,9 @@ Each thing is carried by one companion. A weapon or armour works only for a call
 | Spine Armor | 1 | medium | inherent | Faithful |
 | Splint Mail | 6 | heavy | metal | Faithful |
 | Studded Leather Armor | 3 | medium | leather | Faithful |
+| Lamellar Armor | 4 | medium | metal | Kyr |
+| Crystal Armor | 5 | medium | inherent | Kyr |
+| Bronze Armor | 3 | medium | metal | Kyr |
 | Angelmail | 4 | medium | metal | Faithful |
 | Bone Armor | 5 | heavy | metal | Faithful |
 | Galvorn Mail | 5 | light | metal | Faithful |
@@ -2900,6 +2903,8 @@ Used: You are torchlit for 1 hour.
 
 *Faithful · consumable* · `item:alchemist_fire`
 
+<img src="../../web/reader/paintings/consumables/alchemist_fire.webp" alt="" width="128">
+
 - Worth: 18
 
 Used: 1d6 (1–6) fire damage to one enemy (may cause burning: a Constitution save against 15 avoids it).
@@ -2909,6 +2914,8 @@ Used: 1d6 (1–6) fire damage to one enemy (may cause burning: a Constitution sa
 #### Ale
 
 *Faithful · consumable* · `item:ale`
+
+<img src="../../web/reader/paintings/consumables/ale.webp" alt="" width="128">
 
 - Worth: 2
 
@@ -2920,6 +2927,8 @@ Used: Heal one ally for 3d4 (3–12).
 
 *Adapted · consumable* · `item:antidote`
 
+<img src="../../web/reader/paintings/consumables/antidote.webp" alt="" width="128">
+
 Used: End poisoned on one ally.
 
 > A single dose removes the poisoned condition from a living companion.
@@ -2929,6 +2938,8 @@ Used: End poisoned on one ally.
 #### Bandages
 
 *Adapted · consumable* · `item:bandages`
+
+<img src="../../web/reader/paintings/consumables/bandages.webp" alt="" width="128">
 
 - Worth: 1
 
@@ -2944,6 +2955,8 @@ Used: Heal one ally for 1d4 + 1 (2–5).
 
 *Faithful · consumable* · `item:cloudberry`
 
+<img src="../../web/reader/paintings/consumables/cloudberry.webp" alt="" width="128">
+
 - Worth: 20
 
 Used: Heal one ally for 1d4 + 1 (2–5).
@@ -2953,6 +2966,8 @@ Used: Heal one ally for 1d4 + 1 (2–5).
 #### Comfrey
 
 *Faithful · consumable* · `item:comfrey`
+
+<img src="../../web/reader/paintings/consumables/comfrey.webp" alt="" width="128">
 
 - Worth: 40
 
@@ -2964,6 +2979,8 @@ Used: Heal one ally for 2d4 (2–8); end bleeding on that ally.
 
 *Faithful · consumable* · `item:dandelion`
 
+<img src="../../web/reader/paintings/consumables/dandelion.webp" alt="" width="128">
+
 - Worth: 10
 
 Used: Heal one ally for 1d3 (1–3); end poison on that ally.
@@ -2973,6 +2990,8 @@ Used: Heal one ally for 1d3 (1–3); end poison on that ally.
 #### Elixir of Strength
 
 *Faithful · consumable* · `item:elixir_of_strength`
+
+<img src="../../web/reader/paintings/consumables/elixir_of_strength.webp" alt="" width="128">
 
 - Worth: 100
 
@@ -2984,6 +3003,8 @@ Used: One ally gains bull's strength for 3 turns.
 
 *Kyr · consumable* · `item:feverwort`
 
+<img src="../../web/reader/paintings/consumables/feverwort.webp" alt="" width="128">
+
 - Worth: 2
 
 Used: Heal one ally for 1d6 (1–6).
@@ -2993,6 +3014,8 @@ Used: Heal one ally for 1d6 (1–6).
 #### Oil firebomb
 
 *Kyr · consumable* · `item:oil_firebomb`
+
+<img src="../../web/reader/paintings/consumables/oil_firebomb.webp" alt="" width="128">
 
 - Worth: 2
 
@@ -3004,6 +3027,8 @@ Used: 1d6 (1–6) fire damage to one enemy (a Dexterity save against 11 avoids i
 
 *Adapted · consumable* · `item:fireproof_salve`
 
+<img src="../../web/reader/paintings/consumables/fireproof_salve.webp" alt="" width="128">
+
 Used: One ally is fireproof for 10 turns.
 
 > A clay pot of ash-and-lanolin salve. Smeared on skin and clothing, it makes fire do half its harm for a while.
@@ -3013,6 +3038,8 @@ Used: One ally is fireproof for 10 turns.
 #### First Aid Kit
 
 *Adapted · consumable* · `item:first_aid_kit`
+
+<img src="../../web/reader/paintings/consumables/first_aid_kit.webp" alt="" width="128">
 
 - Worth: 25
 
@@ -3028,6 +3055,8 @@ Used: Heal one ally for 1d4 + 1 (2–5); end bleeding on that ally.
 
 *Faithful · consumable* · `item:goodberry_consumable`
 
+<img src="../../web/reader/paintings/consumables/goodberry_consumable.webp" alt="" width="128">
+
 - Worth: 10
 
 Used: Heal one ally for 1d4 + 1 (2–5).
@@ -3037,6 +3066,8 @@ Used: Heal one ally for 1d4 + 1 (2–5).
 #### Potion of Healing
 
 *Faithful · consumable* · `item:healing_potion`
+
+<img src="../../web/reader/paintings/consumables/healing_potion.webp" alt="" width="128">
 
 - Worth: 40
 
@@ -3048,6 +3079,8 @@ Used: Heal one ally for 3d4 + 3 (6–15).
 
 *Faithful · consumable* · `item:heather`
 
+<img src="../../web/reader/paintings/consumables/heather.webp" alt="" width="128">
+
 - Worth: 15
 
 Used: Heal one ally for 1d3 + 1 (2–4); end fatigued on that ally.
@@ -3058,6 +3091,8 @@ Used: Heal one ally for 1d3 + 1 (2–4); end fatigued on that ally.
 
 *Kyr · consumable* · `item:herb_poultice`
 
+<img src="../../web/reader/paintings/consumables/herb_poultice.webp" alt="" width="128">
+
 - Worth: 3
 
 Used: Heal one ally for 1d6 + 1 (2–7).
@@ -3067,6 +3102,8 @@ Used: Heal one ally for 1d6 + 1 (2–7).
 #### Healing herbs
 
 *Adapted · consumable* · `item:herbs`
+
+<img src="../../web/reader/paintings/consumables/herbs.webp" alt="" width="128">
 
 - Worth: 2
 
@@ -3080,6 +3117,8 @@ Used: Heal one ally for 1d6 (1–6).
 
 *Adapted · consumable* · `item:holy_water`
 
+<img src="../../web/reader/paintings/consumables/holy_water.webp" alt="" width="128">
+
 - Worth: 6
 
 Used: 1d6 (1–6) radiant damage to one enemy (may cause blinded: a Dexterity save against 15 avoids it).
@@ -3092,6 +3131,8 @@ Used: 1d6 (1–6) radiant damage to one enemy (may cause blinded: a Dexterity sa
 
 *Faithful · consumable* · `item:kingsfoil`
 
+<img src="../../web/reader/paintings/consumables/kingsfoil.webp" alt="" width="128">
+
 - Worth: 75
 
 Used: Heal one ally for 2d4 + 2 (4–10); end poison on that ally.
@@ -3101,6 +3142,8 @@ Used: Heal one ally for 2d4 + 2 (4–10); end poison on that ally.
 #### Major Potion of Healing
 
 *Faithful · consumable* · `item:major_healing_potion`
+
+<img src="../../web/reader/paintings/consumables/major_healing_potion.webp" alt="" width="128">
 
 - Worth: 120
 
@@ -3112,6 +3155,8 @@ Used: Heal one ally for 4d4 + 4 (8–20).
 
 *Faithful · consumable* · `item:minor_healing_potion`
 
+<img src="../../web/reader/paintings/consumables/minor_healing_potion.webp" alt="" width="128">
+
 - Worth: 15
 
 Used: Heal one ally for 2d4 + 2 (4–10).
@@ -3121,6 +3166,8 @@ Used: Heal one ally for 2d4 + 2 (4–10).
 #### Potion of Barkskin
 
 *Faithful · consumable* · `item:potion_of_barkskin`
+
+<img src="../../web/reader/paintings/consumables/potion_of_barkskin.webp" alt="" width="128">
 
 - Worth: 120
 
@@ -3132,6 +3179,8 @@ Used: Barkskin, at no cost.
 
 *Faithful · consumable* · `item:rashers`
 
+<img src="../../web/reader/paintings/consumables/rashers.webp" alt="" width="128">
+
 - Worth: 5
 
 Used: Heal one ally for 1d3 (1–3).
@@ -3141,6 +3190,8 @@ Used: Heal one ally for 1d3 (1–3).
 #### Vinegar
 
 *Faithful · consumable* · `item:vinegar`
+
+<img src="../../web/reader/paintings/consumables/vinegar.webp" alt="" width="128">
 
 - Worth: 2
 
@@ -3152,6 +3203,8 @@ Used: Heal one ally for 1d4 (1–4).
 
 *Kyr · consumable* · `item:willow_bark`
 
+<img src="../../web/reader/paintings/consumables/willow_bark.webp" alt="" width="128">
+
 - Worth: 2
 
 Used: Heal one ally for 1d6 (1–6).
@@ -3161,6 +3214,8 @@ Used: Heal one ally for 1d6 (1–6).
 #### Wine
 
 *Faithful · consumable* · `item:wine`
+
+<img src="../../web/reader/paintings/consumables/wine.webp" alt="" width="128">
 
 - Worth: 3
 
@@ -3172,6 +3227,8 @@ Used: Heal one ally for 2d4 (2–8).
 
 *Kyr · consumable* · `item:yarrow_poultice`
 
+<img src="../../web/reader/paintings/consumables/yarrow_poultice.webp" alt="" width="128">
+
 Used: End bleeding on one ally; heal that ally for 1d3 (1–3).
 
 > Crushed yarrow bound in a cloth. It stops bleeding and eases a small wound.
@@ -3179,6 +3236,8 @@ Used: End bleeding on one ally; heal that ally for 1d3 (1–3).
 #### Foxglove
 
 *Adapted · consumable* · `item:foxglove`
+
+<img src="../../web/reader/paintings/consumables/foxglove.webp" alt="" width="128">
 
 - Worth: 50
 
@@ -3190,11 +3249,97 @@ Used: Heal one ally for 1d4 + 2 (3–6); end poison on that ally; end fatigued o
 
 *Adapted · consumable* · `item:oil_flask`
 
+<img src="../../web/reader/paintings/consumables/oil_flask.webp" alt="" width="128">
+
 - Worth: 20
 
 Used: One enemy is oiled for 3 turns (a Dexterity save against 25 avoids it).
 
 > A flask of slippery oil that can be thrown onto a surface or creature to make it more vulnerable to fire.
+
+#### Elixir of Agility
+
+*Kyr · consumable* · `item:elixir_of_agility`
+
+<img src="../../web/reader/paintings/consumables/elixir_of_agility.webp" alt="" width="128">
+
+- Worth: 100
+
+Used: Apply (1+1d3) dexterity to ally for 6 turns.
+
+> A potent brew that temporarily enhances the drinker's agility and reflexes.
+
+#### Elixir of Mind
+
+*Kyr · consumable* · `item:elixir_of_mind`
+
+<img src="../../web/reader/paintings/consumables/elixir_of_mind.webp" alt="" width="128">
+
+- Worth: 100
+
+Used: One ally gains intelligence for 6 turns.
+
+> A potent brew that temporarily enhances the drinker's mental acuity and problem-solving abilities.
+
+#### Elixir of Wisdom
+
+*Kyr · consumable* · `item:elixir_of_wisdom`
+
+<img src="../../web/reader/paintings/consumables/elixir_of_wisdom.webp" alt="" width="128">
+
+- Worth: 100
+
+Used: One ally gains owl's wisdom for 6 turns.
+
+> A potent brew that temporarily enhances the drinker's insight and judgment.
+
+#### Potion of Glibness
+
+*Kyr · consumable* · `item:potion_of_glibness`
+
+<img src="../../web/reader/paintings/consumables/potion_of_glibness.webp" alt="" width="128">
+
+- Worth: 100
+
+Used: One ally gains charisma for 6 turns.
+
+> A potion that temporarily enhances the drinker's charm and persuasiveness.
+
+#### Draught of Ironskin
+
+*Kyr · consumable* · `item:draught_of_ironskin`
+
+<img src="../../web/reader/paintings/consumables/draught_of_ironskin.webp" alt="" width="128">
+
+- Worth: 100
+
+Used: Ironskin, at no cost.
+
+> A potent brew that temporarily hardens the drinker's skin, providing substantial protection.
+
+#### Physic of Actaea
+
+*Kyr · consumable* · `item:physic_of_actaea`
+
+<img src="../../web/reader/paintings/consumables/physic_of_actaea.webp" alt="" width="128">
+
+- Worth: 100
+
+Used: Heal one ally for 3d4 + 3 (6–15).
+
+> A potent herbal remedy made from the actaea plant, known for its healing properties.
+
+#### Elixir of Constitution
+
+*Kyr · consumable* · `item:elixir_of_constitution`
+
+<img src="../../web/reader/paintings/consumables/elixir_of_constitution.webp" alt="" width="128">
+
+- Worth: 100
+
+Used: One ally gains constitution for 6 turns.
+
+> A potent brew that temporarily enhances the drinker's vitality and resilience.
 
 #### Aegis of Eternity
 
