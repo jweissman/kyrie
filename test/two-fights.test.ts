@@ -47,10 +47,10 @@ describe('two fights in one', () => {
     const lines = ['Initiative: Wenna, the first of the pack, Mabon.', 'Mabon misses the first of the pack.',
       'Wenna takes 3 bludgeoning damage (0 HP left).', 'Wenna falls.',
       'Rharash hits the first of the pack (d20 15, needing 9: THAC0 less AC 11 less to-hit 4).',
-      'The first of the pack takes 1 slashing damage (0 HP left).', 'The first of the pack falls.',
+      'The first of the pack takes 1 slashing damage.', 'The first of the pack falls.',
       'The fight is won.'];
     expect(Narration.tidy(lines, lines.length)).toEqual(['Wenna takes 3 bludgeoning damage (0 HP left).', 'Wenna falls.',
-      'Rharash hits the first of the pack.', 'The first of the pack takes 1 slashing damage (0 HP left).',
+      'Rharash hits the first of the pack.', 'The first of the pack takes 1 slashing damage.',
       'The first of the pack falls.', 'The fight is won.']);
   });
 });

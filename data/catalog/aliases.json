@@ -6,7 +6,8 @@
   },
   "traits": {},
   "items": {
-    "healingdraught": "minor_healing_potion"
+    "healingdraught": "minor_healing_potion",
+    "fire_flask": "oil_firebomb"
   },
   "classes": {
     "fighter": "warrior",

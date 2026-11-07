@@ -11,7 +11,9 @@ export class Narration {
   }
   // A fight is told by its turning points; what is kept besides (what a rule said as it ended) is kept whole.
   static tidy(lines: string[], blows = 0, kept: ReadonlySet<string> = new Set()): string[] {
-    let clean = lines.map(l => this.sentence(l.replace(/ \((\d+) HP; [^)]*\)/, ' ($1 HP left)')
+    // One of the company's blows told with what they have left; a foe's with nothing counted (its dice are the
+    // chronicle's alone: the owner, 7 November).
+    let clean = lines.map(l => this.sentence(l.replace(/ \((\d+) HP; [^)]*\)/, ' ($1 HP left)').replace(/ \(roll [^)]*\)/, '')
       .replace(/(passes|fails) the (\w+) save \([^)]*\)/, (_m, verb: string, stat: string) =>
         `${verb === 'passes' ? 'resists' : 'fails to resist'} (${stat})`)));
     // How the fight ended is said once, by the fight; who is down after it is still said.

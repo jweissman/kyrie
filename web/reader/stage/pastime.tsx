@@ -16,6 +16,7 @@ export class Pastime {
       <div className="pastime" data-region="pastime">
         {lengths.length > 0 && <section className="pt-wait" aria-label="Wait">
           <h3>Wait</h3>
+          <Pastime.Means app={app} />
           <ul className="pt-lengths">{lengths.map(c => <li key={c.id}>
             <Act.View choice={c} draw={draw} className="pt-length" marked /></li>)}</ul>
         </section>}
@@ -27,6 +28,15 @@ export class Pastime {
         </section>}
       </div>
     );
+  }
+  // What waiting spends, said where it is chosen (REV-14: rest and food were opaque): the rations there are and when
+  // the company next eats, whether it is hungry or worn, and its light where that matters.
+  static Means({ app }: { app: ReaderApp }) {
+    const e = app.state.frame?.screen.expedition;
+    if (!e) { return null; }
+    const food = `${e.rations} ration${e.rations === 1 ? '' : 's'}${e.nextMeal ? `, a meal due ${e.nextMeal}` : ''}`;
+    const parts = [food, ...e.hungry ? ['hungry'] : [], ...e.weary ? ['worn out'] : [], ...e.light ? [e.light] : []];
+    return <p className="pt-means">{parts.join(' · ')}</p>;
   }
   // The company's waiting, by what its choices do.
   static wait(app: ReaderApp): Choice | undefined {

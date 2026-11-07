@@ -1,3 +1,4 @@
+import { Portraits } from '../../src/ui/portraits';
 import { PlaySession, type SessionCheckpoint } from '../../src/session/play-session';
 import { PlayerView } from '../../src/presentation/player-view';
 import { ActionFeedbackView, type ActionFeedback } from '../../src/presentation/action-feedback';
@@ -434,7 +435,9 @@ export class EngineHost {
     // A generated world is named on the page for the region the company is in, as it goes on past the first.
     const region = this.frontier && this.screen.path.find(p => p.kind === 'region')?.name;
     // In a fight, the company's own by their portraits, as on their pages.
-    const faces = new Map(this.screen.party.flatMap(m => m.face ? [[m.id, m.face] as const] : []));
+    // A foe who is someone by their own likeness, as the company is (M19-78).
+    const faces = new Map([...this.turn || this.fought ? Portraits.foes(campaign) : [],
+      ...this.screen.party.flatMap(m => m.face ? [[m.id, m.face] as const] : [])]);
     // Told before the story is sent: the opening is the story's first entry (see leaf). The journey held is read after
     // the page is told (coming to it lets it go), and goes on first of what the glance leads with.
     const leaf = this.leaf(), going = this.journeying();

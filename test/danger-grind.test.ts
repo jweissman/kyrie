@@ -30,17 +30,18 @@ describe('a fight that will be a grind', () => {
     expect(Grind.against('human', 'grind')).not.toContain('barely bite');
   });
   it('has its answer sold in any town, which bites where steel does not', () => {
-    expect(trade.merchantType.groups.chandler.stock.map(([k]) => k)).toContain('fire_flask');
+    expect(trade.merchantType.groups.chandler.stock.map(([k]) => k)).toContain('oil_firebomb');
     expect(occupations.occupations.sexton.sells).toEqual([['holy_water', 6, 3]]);
-    for (const answer of ['fire_flask', 'holy_water']) {
-      const battle = Grind.battle('revenant', `flung:${answer}`, [answer]);
+    // Each in a fight of its own seed (the flask's the seed it had as the fire flask, where it is not dodged).
+    for (const [answer, seed] of [['oil_firebomb', 'flung:fire_flask'], ['holy_water', 'flung:holy_water']] as const) {
+      const battle = Grind.battle('revenant', seed, [answer]);
       while (!battle.state.outcome && battle.state.actor !== 'hero') { battle.step(battle.chosen()); }
       const before = battle.events.length;
       battle.step({ actor: 'hero', ability: `item-${answer}`, target: 'foe' });
       // The dead are the worse for it, where they shrug off half of a blade (in a fight where the flask is not dodged).
       const struck = battle.events.slice(before)
         .flatMap(e => e.type === 'damage' && e.actor === 'hero' ? [e.modifiers?.resistance ?? 0] : []);
-      expect(struck).toEqual([answer === 'fire_flask' ? -0.5 : -1]);
+      expect(struck).toEqual([answer === 'oil_firebomb' ? -0.5 : -1]);
     }
   });
 });
