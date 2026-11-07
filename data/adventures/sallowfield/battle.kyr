@@ -14,13 +14,13 @@ Module sallowfield "Three Nights at Sallowfield" {
   Relation w1done(place). Relation w2done(place). Relation here(place). Relation sacrificed(place). Relation abandoned(place).
   Relation casualtyDone(group). Relation cas1(group). Relation p1done(group). Relation p3done(group). Relation p4done(group). Relation dawned(group).
   Relation greenBurns(group). Relation greenSaved(group). Relation helplessLost(group). Relation grainTaken(group). Relation bellSilenced(group).
-  Relation pact(group). Relation grainGiven(group). Relation wyreWithdraws(group). Relation wyreDead(group). Relation picksBeaten(group). Relation picksWithdrawn(group).
+  Relation pact(group). Relation grainGiven(group). Relation wyreWithdraws(group). Relation picksBeaten(group). Relation picksWithdrawn(group).
   Relation felled(group). Relation morning(group). Relation bellMod(group). Relation w2planned(group). Relation lured(group). Relation bridgeBurned(group). Relation picksArgued(group).
   Measure overrunCount(group). Measure thrust2(place).
 
   Query battleOn() means watch(clock) >= assaultAt(wyre) and not pact(party) and not wyreWithdraws(party).
 
-  Rule wyre_sees_spoiled when planned(party) and grainSpoiled(party) and wyreKnowsSpoiled(party) and watch(clock) >= assaultAt(wyre) and not wyreWithdraws(party) {
+  Rule wyre_sees_spoiled when planned(party) and grainSpoiled(party) and wyreKnowsSpoiled(party) and (fothergillTurned(party) or vollLooked(party)) and watch(clock) >= assaultAt(wyre) and not wyreWithdraws(party) {
     Assert wyreWithdraws(party). }
 
   Rule move_to_posts when posted(?v, ?p) and watch(clock) >= assaultAt(wyre) - 12 and able(?v) and not at(?v, ?p) and not travelsWith(?v, party) { Assert at(?v, ?p). }
@@ -85,7 +85,7 @@ Module sallowfield "Three Nights at Sallowfield" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, reed_marsh) and w2planned(party) and not lured(party) and watch(clock) < assaultAt(wyre) + 12.
     Time 0.
     On success { Assert lured(party). Decrease thrust2(ford_stones) by 5 or to nothing. Decrease thrust2(mill_yard) by 4 or to nothing. }
-    Result "A lantern on a pole, going slowly away along a track that is not a track. A horseman at the edge of the meadow sees it and shouts. Then a dozen of them are following it, and the first of the horses goes in to the girth.".
+    Result "A lantern on a pole, going away along a track that is not a track. A horseman at the edge of the meadow sees it and shouts. Then a dozen of them are following it, and the first of the horses goes in to the girth.".
   }
 
   // ── The second wave ─────────────────────────────────────────────────────────────────────────────────────────
@@ -114,6 +114,7 @@ Module sallowfield "Three Nights at Sallowfield" {
   Rule cas2_sacrificed when sacrificed(?p) and w2done(?p) and posted(?v, ?p) and able(?v) and not casualtyDone(?v) { Slay ?v. Assert felled(?v). Assert casualtyDone(?v). }
   Rule cas2_lost when overrun2(?p) and not abandoned(?p) and posted(?v, ?p) and able(?v) and not casualtyDone(?v) and dice(?v) <= 55 { Slay ?v. Assert felled(?v). Assert casualtyDone(?v). }
   Rule cas2_held when stands2(?p) and posted(?v, ?p) and able(?v) and not casualtyDone(?v) and dice(?v) <= 12 { Slay ?v. Assert felled(?v). Assert casualtyDone(?v). }
+  Rule cas2_company_sacrificed when sacrificed(?p) and w2done(?p) and at(party, ?p) and travelsWith(?v, party) and able(?v) and not casualtyDone(?v) { Slay ?v. Assert felled(?v). Assert casualtyDone(?v). }
   Rule cas2_done when w2done(?p) and posted(?v, ?p) and not casualtyDone(?v) { Assert casualtyDone(?v). }
   // The company's own: those who fight beside the fall of a post may not come out of it.
   Rule cas_company_lost when overrun(?p) and at(party, ?p) and travelsWith(?v, party) and able(?v) and not casualtyDone(?v) and dice(?v) <= 35 { Slay ?v. Assert felled(?v). Assert casualtyDone(?v). }
@@ -129,6 +130,8 @@ Module sallowfield "Three Nights at Sallowfield" {
   Rule p3_helpless when greenBurns(party) and not evacuated(party) and not helplessLost(party) { Assert helplessLost(party). }
   Rule p3_grain when battleOn() and p3done(party) and overrun(mill_yard) and not grainSpoiled(party) and not grainTaken(party) { Assert grainTaken(party). Assert winterShort(party). }
   Rule p3_bell when battleOn() and p3done(party) and overrun(nave) and not bellSilenced(party) { Assert bellSilenced(party). }
+  Rule winter_bites when winterShort(party) and not winterMod(party) { Assert winterMod(party). Decrease nerve(elland) by 1 or to nothing. Decrease nerve(quarmby) by 1 or to nothing. Decrease nerve(ashworth) by 1 or to nothing. Decrease nerve(wadsworth) by 1 or to nothing. }
+  Relation winterMod(group).
   Rule bell_silent_costs when bellSilenced(party) and not bellMod(party) { Assert bellMod(party). Decrease drillBonus(party) by 1 or to nothing. }
 
   // ── The picked men come for the company, wherever it is ──────────────────────────────────────────────────────
@@ -139,8 +142,7 @@ Module sallowfield "Three Nights at Sallowfield" {
   Rule picks_take when p4done(party) and not picksWithdrawn(party) and not dead(picks) and watch(clock) >= assaultAt(wyre) + 24 {
     Assert picksWithdrawn(party). Assert picksTook(party). Assert grainTaken(party). Assert winterShort(party). Assert at(picks, mill_yard). }
   Rule picks_beaten_rule when p4done(party) and dead(picks) and not picksBeaten(party) { Assert picksBeaten(party). }
-  Rule wyre_with_the_picks when p4done(party) and overrunCount(party) >= 2 and not picksWithdrawn(party) and at(picks, ?r) and not at(wyre, ?r) and not dead(wyre) { Assert at(wyre, ?r). }
-  Rule wyre_dies when dead(wyre) and not wyreDead(party) { Assert wyreDead(party). }
+  Rule wyre_with_the_picks when p4done(party) and overrunCount(party) >= 2 and not picksWithdrawn(party) and at(picks, ?r) and not at(wyre, ?r) { Assert at(wyre, ?r). }
   Rule dawn_comes when watch(clock) >= assaultAt(wyre) + 48 and not dawned(party) { Assert dawned(party). }
   Rule morning_comes when watch(clock) >= assaultAt(wyre) + 54 and not morning(party) { Assert morning(party). }
 
@@ -157,7 +159,7 @@ Module sallowfield "Three Nights at Sallowfield" {
     On success { Assert picksWithdrawn(party). Assert picksArgued(party). Retract at(picks, site). Retract at(wyre, site). }
     On failure { Assert parleyTried(party). }
     Result "You tell them what the village is: a ford, a mill, sixty people, no coin. You tell them what it will cost them, and you tell them exactly, because you have counted. The one with the helm laughs once, shortly, and says to the others, 'He's right about the coin.' They go with their granary unvisited and their purses as empty as they came.".
-    Otherwise "They hear you out. The helm is already back on. 'Sorry,' says the first, and he does sound it.".
+    Otherwise "They hear you out. The helm is already back on. 'Regrets,' says the first, and he does sound it.".
   }
   Action draw_on_the_picks(actor: group, site: place) "Draw on the picked men" {
     Requires able(actor) and company(actor) and at(actor, site) and at(picks, site) and able(picks) and not picksWithdrawn(party) and not companyBroken(party).
@@ -169,6 +171,7 @@ Module sallowfield "Three Nights at Sallowfield" {
     Otherwise "It is a good fight and it is not a long one. Three men in good steel are very hard to kill and the company does it anyway, by a margin it will not forget, with the benches over and the bell-rope cut.".
   }
   Relation companyBroken(group).
+  Rule yield_dear when grainGiven(party) and parleyTried(party) and not bellSilenced(party) { Assert bellSilenced(party). }
   Relation parleyTried(group). Relation picksTook(group).
 
   // ── What the night looks like from wherever you are standing ─────────────────────────────────────────────────
@@ -179,7 +182,7 @@ Module sallowfield "Three Nights at Sallowfield" {
   Observe night_ford_falls near party when overrun1(ford_stones) and watch(clock) < assaultAt(wyre) + 18 "The ford has gone. You know by the sound: the noise of the wall coming apart, and then the noise of men who no longer have to climb.".
   Observe night_bridge_holds near party when stands1(bridge) and posted(wadsworth, bridge) and watch(clock) < assaultAt(wyre) + 18 "Nothing comes over the packhorse bridge. A single voice shouts 'Again!' and it is Hob Wadsworth's.".
   Observe night_bridge_holds_plain near party when stands1(bridge) and not posted(wadsworth, bridge) and watch(clock) < assaultAt(wyre) + 18 "Nothing comes over the packhorse bridge.".
-  Observe night_bridge_horn near party when stands1(bridge) and watch(clock) >= assaultAt(wyre) + 6 and watch(clock) < assaultAt(wyre) + 12 "A horn, from the bridge: three blasts, and a voice that is not one of ours shouting that the bridge is lost. Nobody at the bridge has lost anything. It is going round the village faster than it can be answered.".
+  Observe night_bridge_horn near party when stands1(bridge) and watch(clock) >= assaultAt(wyre) + 6 and watch(clock) < assaultAt(wyre) + 12 "A horn, from the bridge: three blasts, and a voice that is not one of ours shouting that the bridge is lost. It is going round the village faster than it can be answered.".
   Observe night_bridge_falls near party when overrun1(bridge) and watch(clock) < assaultAt(wyre) + 18 "The bridge has gone, and its people with it, and the road into the village is a lit road now.".
   Observe night_mill_holds near party when stands1(mill_yard) and posted(quarmby, mill_yard) and watch(clock) < assaultAt(wyre) + 18 "The mill wheel is still turning. Somebody has put out a lantern in the yard and the dark is full of thrown meal.".
   Observe night_mill_holds_plain near party when stands1(mill_yard) and not posted(quarmby, mill_yard) and watch(clock) < assaultAt(wyre) + 18 "The mill wheel is still turning.".
@@ -191,6 +194,26 @@ Module sallowfield "Three Nights at Sallowfield" {
   Observe night_second_mill near party when overrun2(mill_yard) and watch(clock) >= assaultAt(wyre) + 12 and watch(clock) < assaultAt(wyre) + 24 "The second wave has come through the mill yard. The wheel has stopped and the meal is on fire.".
   Observe night_second_lured near party when lured(party) and watch(clock) >= assaultAt(wyre) + 12 and watch(clock) < assaultAt(wyre) + 24 "Somewhere out on the marsh a great many men are shouting at once, and a horse is screaming, and the sound goes on a long time.".
   Observe night_bridge_burned near party when bridgeBurned(party) and watch(clock) >= assaultAt(wyre) + 6 and watch(clock) < assaultAt(wyre) + 24 "Over the roofs, orange, low: the bridge, burning from end to end.".
+  Observe night_bell_rung near party when bellRung(party) and watch(clock) >= assaultAt(wyre) + 6 and watch(clock) < assaultAt(wyre) + 18 "The bell goes out over the vale like a great hand laid on every roof, and in every house a door opens.".
   Observe night_fire near party when greenBurns(party) and watch(clock) < assaultAt(wyre) + 30 "Over the roofs, red. The green is burning; the thatch goes first, in a long sigh, and then the rest.".
   Observe night_fire_out near party when greenSaved(party) and watch(clock) < assaultAt(wyre) + 30 "A torch has gone into the thatch by the inn, and a dozen buckets have been waiting for it. The steam goes up like a flag.".
+
+  // Wyre's intelligence, as it shows from the high places: where the weight of the column is, and so what he has guessed.
+  Observe wyre_plan_tower_roof_ford at tower_roof when planned(party) and thrust(ford_stones) >= thrust(bridge) and thrust(ford_stones) >= thrust(mill_yard) and not dawned(party) "The column has halted opposite the ford and Captain Wyre's grey is at the head of it. Men are cutting fascines.".
+  Observe wyre_plan_tower_roof_bridge at tower_roof when planned(party) and thrust(bridge) > thrust(ford_stones) and thrust(bridge) >= thrust(mill_yard) and not dawned(party) "The wagons are drawn up opposite the bridge, and Wyre's standard is planted beside them. Ladders are being roped.".
+  Observe wyre_plan_tower_roof_mill at tower_roof when planned(party) and thrust(mill_yard) > thrust(ford_stones) and thrust(mill_yard) > thrust(bridge) and not dawned(party) "The led horses are going round by the marsh edge toward the mill, and Wyre has gone with them. The wagons are not unharnessed.".
+  Observe wyre_plan_lookout_ford at lookout when planned(party) and thrust(ford_stones) >= thrust(bridge) and thrust(ford_stones) >= thrust(mill_yard) and not dawned(party) "The column has halted opposite the ford and Captain Wyre's grey is at the head of it. Men are cutting fascines.".
+  Observe wyre_plan_lookout_bridge at lookout when planned(party) and thrust(bridge) > thrust(ford_stones) and thrust(bridge) >= thrust(mill_yard) and not dawned(party) "The wagons are drawn up opposite the bridge, and Wyre's standard is planted beside them. Ladders are being roped.".
+  Observe wyre_plan_lookout_mill at lookout when planned(party) and thrust(mill_yard) > thrust(ford_stones) and thrust(mill_yard) > thrust(bridge) and not dawned(party) "The led horses are going round by the marsh edge toward the mill, and Wyre has gone with them. The wagons are not unharnessed.".
+  Observe wyre_plan_east_road_ford at east_road when planned(party) and thrust(ford_stones) >= thrust(bridge) and thrust(ford_stones) >= thrust(mill_yard) and not dawned(party) "The column has halted opposite the ford and Captain Wyre's grey is at the head of it. Men are cutting fascines.".
+  Observe wyre_plan_east_road_bridge at east_road when planned(party) and thrust(bridge) > thrust(ford_stones) and thrust(bridge) >= thrust(mill_yard) and not dawned(party) "The wagons are drawn up opposite the bridge, and Wyre's standard is planted beside them. Ladders are being roped.".
+  Observe wyre_plan_east_road_mill at east_road when planned(party) and thrust(mill_yard) > thrust(ford_stones) and thrust(mill_yard) > thrust(bridge) and not dawned(party) "The led horses are going round by the marsh edge toward the mill, and Wyre has gone with them. The wagons are not unharnessed.".
+  Observe wyre_right_ford near party when dawned(party) and planned(party) and thrust(ford_stones) >= thrust(bridge) and thrust(ford_stones) >= thrust(mill_yard) and overrun(ford_stones) "Wyre guessed the ford, and the ford went.".
+  Observe wyre_wrong_ford near party when dawned(party) and planned(party) and thrust(ford_stones) >= thrust(bridge) and thrust(ford_stones) >= thrust(mill_yard) and not overrun(ford_stones) "Wyre spent his weight on the ford and the ford stood. A man in the picked company says afterwards that the captain was right about everything except what you would do.".
+  Observe wyre_right_bridge near party when dawned(party) and planned(party) and thrust(bridge) > thrust(ford_stones) and thrust(bridge) >= thrust(mill_yard) and overrun(bridge) "Wyre guessed the bridge, and the bridge went.".
+  Observe wyre_wrong_bridge near party when dawned(party) and planned(party) and thrust(bridge) > thrust(ford_stones) and thrust(bridge) >= thrust(mill_yard) and not overrun(bridge) "Wyre spent his weight on the bridge and the bridge stood. A man in the picked company says afterwards that the captain was right about everything except what you would do.".
+  Observe wyre_right_mill near party when dawned(party) and planned(party) and thrust(mill_yard) > thrust(ford_stones) and thrust(mill_yard) > thrust(bridge) and overrun(mill_yard) "Wyre guessed the mill, and the mill went.".
+  Observe wyre_wrong_mill near party when dawned(party) and planned(party) and thrust(mill_yard) > thrust(ford_stones) and thrust(mill_yard) > thrust(bridge) and not overrun(mill_yard) "Wyre spent his weight on the mill and the mill stood. A man in the picked company says afterwards that the captain was right about everything except what you would do.".
+  Observe night_wyre_first near party when w2planned(party) and watch(clock) < assaultAt(wyre) + 12 "Behind the first rush a horn is blowing the long note Captain Wyre uses to call men off. It is answered from three places at once.".
+  Observe night_wyre_second near party when w2done(ford_stones) and w2done(bridge) and w2done(mill_yard) and w2done(nave) and watch(clock) < assaultAt(wyre) + 24 "Wyre's grey has been seen at the edge of the meadow, not moving. He is not hurrying. He is counting.".
 }

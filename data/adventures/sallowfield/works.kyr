@@ -4,7 +4,7 @@ Module sallowfield "Three Nights at Sallowfield" {
   // Time is in tens of minutes: 24 is four hours.
   Relation coachGone(group). Relation winterShort(group). Relation caltrops(group). Relation ironForSpikes(group). Relation coachMended(group).
   Relation drilledOne(group). Relation drilledTwo(group). Measure drillBonus(group).
-  Relation evacuated(group). Relation bucketLine(group). Relation bellRung(group). Relation quarmbyAgrees(group). Relation kerseyAgrees(group).
+  Relation evacuated(group). Relation bucketLine(group). Relation bellRung(group). Relation quarmbyAgrees(group).
 
   Item crowbar_a "a smith's crowbar" is crowbar at forge.
   Item shovel_a "a sod-cutting shovel" is shovel at forge.
@@ -13,9 +13,9 @@ Module sallowfield "Three Nights at Sallowfield" {
 
   Action build_barricade(actor: group, site: place) "Wall the ford with the coach, the inn's tables and the hurdles" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, ford_stones) and not barricadeUp(actor) and posted(?v, ford_stones).
-    Time 60.
+    Time 108.
     On success { Assert barricadeUp(party). Assert coachGone(party). Increase defence(ford_stones) by 4. }
-    Result "It takes ten hours, six people, and every hurdle in the meadow. When it is done the coach is a wall: the body on its side, the wheels roped across the gap, the inn's tables behind for a firing-step. Teasdale watches the last wheel go up.".
+    Result "It takes eighteen hours, six people, and every hurdle in the meadow. When it is done the coach is a wall: the body on its side, the wheels roped across the gap, the inn's tables behind for a firing-step. Teasdale watches the last wheel go up.".
   }
   Thing bridge_span "the packhorse bridge" at bridge {
     State standing "The bridge crosses on its two arches, the cobbles worn into hollows by three centuries of mules.".
@@ -39,7 +39,7 @@ Module sallowfield "Three Nights at Sallowfield" {
   Rule meadow_floods when sluiceOpen(party) and state(meadow_way, dry) { Assert state(meadow_way, flooded). }
   Action dig_pits(actor: group, site: place) "Dig pits in the ford meadow and lay hurdles over them" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, ford_meadow) and holding(actor, shovel) and not pitsDug(party) and not sluiceOpen(party).
-    Time 48.
+    Time 84.
     On success { Assert pitsDug(party). Increase defence(ford_stones) by 2. Increase defence(mill_yard) by 2. }
     Result "You dig until your hands blister and then you dig on. The pits are a yard deep, a yard wide, laid out in a staggered line from the hedge to the ford, and the hurdles lie over them as naturally as a hurdle can. The villagers who watch say nothing. A horse would not see them either.".
   }
@@ -47,15 +47,15 @@ Module sallowfield "Three Nights at Sallowfield" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, granary) and not grainSpoiled(party) and holding(actor, lamp_oil).
     Time 6.
     On success { Spend lamp_oil from actor. Assert grainSpoiled(party). Assert winterShort(party). }
-    Result "It is a thing you can do in an hour. The oil goes on the sacks in a black stain and the brine from the pickle-tubs after it, and by the end the granary stinks of salt and lamp. Tib Elland watches from the door with his tally-sticks hanging and says, very quietly, 'That was the winter.'".
+    Result "It is a thing you can do in an hour. The oil goes on the sacks in a black stain and the brine from the pickle-tubs after it, and by the end the granary stinks of salt and lamp. Tib Elland watches from the door with his tally-sticks hanging and says, 'That was the winter.'".
   }
   Action drill_levy(actor: group, site: place) "Drill the levy on the green with staves" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, green) and not drilledTwo(party) and watch(clock) < 330.
-    Time 36.
+    Time 60.
     Resolve check(actor, intimidation, dc_fair).
     On success { Increase drillBonus(party) by 1. Assert drilledOne(party). }
     On failure { Assert drilledOne(party). }
-    Result "You make them walk in a line and then in two lines, and carry staves, and strike at a post and at each other. By the third hour there are forty of the sixty on the green who know which way to point. Hob Wadsworth is now very good at the part where you shout.".
+    Result "You make them walk in a line and then in two lines, and carry staves, and strike at a post and at each other. By the third hour there are forty of the sixty on the green who know which way to point. Hob Wadsworth is now good at the part where you shout.".
     Otherwise "It is not a success. The line wanders, and a goose gets in it, and Hob Wadsworth makes a speech.".
   }
   Rule drilled_twice when drilledOne(party) and drillBonus(party) >= 2 and not drilledTwo(party) { Assert drilledTwo(party). }
@@ -96,13 +96,25 @@ Module sallowfield "Three Nights at Sallowfield" {
   Relation badMod(group).
 
   // The ledger: the hours there are, said in bands, until the night he is expected (a quarter of a day each).
-  Observe ledger_0 near party when not wyreEarly(party) and watch(clock) >= 0 and watch(clock) < 48 and not battleOn() "About 59 hours before the night he is expected, if he comes when the riders say. Everything on the list costs hours; the list is longer than the hours.".
-  Observe ledger_1 near party when not wyreEarly(party) and watch(clock) >= 48 and watch(clock) < 96 and not battleOn() "About 51 hours before the night he is expected, if he comes when the riders say. Everything on the list costs hours; the list is longer than the hours.".
-  Observe ledger_2 near party when not wyreEarly(party) and watch(clock) >= 96 and watch(clock) < 144 and not battleOn() "About 43 hours before the night he is expected, if he comes when the riders say. Everything on the list costs hours; the list is longer than the hours.".
-  Observe ledger_3 near party when not wyreEarly(party) and watch(clock) >= 144 and watch(clock) < 192 and not battleOn() "About 35 hours before the night he is expected, if he comes when the riders say. Everything on the list costs hours; the list is longer than the hours.".
-  Observe ledger_4 near party when not wyreEarly(party) and watch(clock) >= 192 and watch(clock) < 240 and not battleOn() "About 27 hours before the night he is expected, if he comes when the riders say. Everything on the list costs hours; the list is longer than the hours.".
-  Observe ledger_5 near party when not wyreEarly(party) and watch(clock) >= 240 and watch(clock) < 288 and not battleOn() "About 19 hours before the night he is expected, if he comes when the riders say. Everything on the list costs hours; the list is longer than the hours.".
-  Observe ledger_6 near party when not wyreEarly(party) and watch(clock) >= 288 and watch(clock) < 336 and not battleOn() "About 11 hours before the night he is expected, if he comes when the riders say. Everything on the list costs hours; the list is longer than the hours.".
-  Observe ledger_7 near party when not wyreEarly(party) and watch(clock) >= 336 and watch(clock) < 384 and not battleOn() "About 3 hours before the night he is expected, if he comes when the riders say. Everything on the list costs hours; the list is longer than the hours.".
+
+  // The reeve's sixty is the village's, house by house; it takes the time it takes, and Stansfield is no use at it.
+  Action collect_the_sixty(actor: group, site: place) "Go house to house with the reeve for the sixty" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, green) and knows(actor, reeve_would_pay) and not sixtyCollected(party).
+    Time 48.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Increase quantity(actor, gold) by 60. Assert sixtyCollected(party). Decrease nerve(stansfield) by 1 or to nothing. }
+    On failure { Increase quantity(actor, gold) by 20. Assert sixtyCollected(party). }
+    Result "Forty-one doors, and the reeve behind you with his ledger saying the name of each one before you knock. Most open. Nan Ashworth gives the lot of her slate. At the Haworths' they have nothing and give it.".
+    Otherwise "It is a bad day for a request. You come back with a purse that is lighter than a sixty, and the reeve says nothing, and writes the name of every door that did not open.".
+  }
+  Relation sixtyCollected(group).
+
+  Observe ledger_0 near party when not wyreEarly(party) and watch(clock) >= 0 and watch(clock) < 72 and not battleOn() "Two days and a night before the night he is expected. The wall alone is eighteen hours, the pits fourteen, the drill ten each, the caltrops nine; the iron is only enough for the coach or the caltrops. There are not enough hours for the lot.".
+  Observe ledger_1 near party when not wyreEarly(party) and watch(clock) >= 72 and watch(clock) < 144 and not battleOn() "A day and most of a night. If the wall is not up by the second dusk it will not be up. Choose what you will not do.".
+  Observe ledger_2 near party when not wyreEarly(party) and watch(clock) >= 144 and watch(clock) < 204 and not battleOn() "The second day. The boy in the reeds comes tonight, and the farm is raided the same hour; the company is one body.".
+  Observe ledger_3 near party when not wyreEarly(party) and watch(clock) >= 204 and watch(clock) < 246 and not battleOn() "The second night. What was not begun by now will not be finished before the stone.".
+  Observe ledger_4 near party when not wyreEarly(party) and watch(clock) >= 246 and watch(clock) < 306 and not battleOn() "The last morning. Whatever is half done is half done.".
+  Observe ledger_5 near party when not wyreEarly(party) and watch(clock) >= 306 and watch(clock) < 342 and not battleOn() "The last afternoon. He is at the stone at noon, if he comes to talk.".
+  Observe ledger_6 near party when not wyreEarly(party) and watch(clock) >= 342 and watch(clock) < 366 and not battleOn() "Dusk. Whatever is built is what there is.".
   Observe ledger_early near party when wyreEarly(party) and not battleOn() "He is coming tonight. Whatever is not done is not going to be.".
 }

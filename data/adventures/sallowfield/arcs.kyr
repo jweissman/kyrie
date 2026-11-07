@@ -7,7 +7,7 @@ Module sallowfield "Three Nights at Sallowfield" {
 
   // ── Davy Pinn: twelve, with a sling ───────────────────────────────────────────────────────────────────────────
   Topic pinn_talk with pinn "Ask Davy what he would do if the soldiers came" when true once {
-    Says "Davy Pinn takes the sling from round his neck and winds it round his fist, and unwinds it. 'Hit them,' he says. 'Obviously.' Then, not so loud: 'My da says boys don't. My da is at the mill all day. Do you think I'm too young?'".
+    Says "Davy Pinn takes the sling from round his neck and winds it round his fist, and unwinds it. 'Hit them,' he says. 'What else?' Then, not so loud: 'My da says boys don't. My da is at the mill all day. Do you think I'm too young?'".
   }
   Topic pinn_young with pinn "Yes. Stay with your mother" answering pinn_talk when true {
     Says "Davy goes red to the hair, and says, 'Oh,' and goes back to his pin. After a minute: 'I'll be on the green, then. If anybody needs me.' He does not look round.".
@@ -27,6 +27,7 @@ Module sallowfield "Three Nights at Sallowfield" {
   }
   Rule pinn_does_it when pinnRoof(party) and travelsWith(pinn, party) and watch(clock) >= assaultAt(wyre) + 6 and not pinnBrave(party) {
     Assert pinnBrave(party). Increase defence(nave) by 3. Increase defence(bridge) by 2. }
+  Rule pinn_roof_falls when pinnRoof(party) and overrun(nave) and not pinnHome(party) and dice(pinn) <= 50 { Assert pinnHome(party). Slay pinn. Assert felled(pinn). }
   Rule pinn_runs_out when pinnRisk(party) and not pinnRoof(party) and travelsWith(pinn, party) and watch(clock) >= assaultAt(wyre) + 12 and not pinnHome(party) and dice(pinn) <= 60 {
     Assert pinnHome(party). Slay pinn. Assert felled(pinn). }
   Rule pinn_lucky when pinnRisk(party) and not pinnRoof(party) and travelsWith(pinn, party) and watch(clock) >= assaultAt(wyre) + 12 and not pinnHome(party) and dice(pinn) > 60 {
@@ -45,7 +46,7 @@ Module sallowfield "Three Nights at Sallowfield" {
     On discuss { Assert willing(cragg, actor). Set hire(cragg) to 0. Assert craggKin(actor). }
   }
   Topic cragg_killed with cragg "People I killed" answering cragg_talk when true {
-    Says "Ellen Cragg does not move. 'I see,' she says. 'It is honest. I had a husband who could say that and it made him very good with a bow.' She thinks. 'I'll come. Don't expect me to like it. It might not come up.'".
+    Says "Ellen Cragg does not move. 'I see,' she says. 'It is honest. I had a husband who could say that and it made him good with a bow.' She thinks. 'I'll come. Don't expect me to like it. It might not come up.'".
     On discuss { Assert willing(cragg, actor). Set hire(cragg) to 0. Assert craggKilled(actor). }
   }
   Discovery cragg_bow_known "Ellen Cragg's husband's bow hangs in Greenhalgh's barn, where he left it.".
@@ -70,10 +71,10 @@ Module sallowfield "Three Nights at Sallowfield" {
 
   // ── Father Mowbray: swears, and has the plate ─────────────────────────────────────────────────────────────────
   Topic mowbray_talk with mowbray "Ask Father Mowbray whether he would kill, if it came to it" when true once {
-    Says "'God's wounds,' says Mowbray, 'what a question to put to a man in his own church,' and stops. 'I would not like to know,' he says more quietly. 'I have buried a good many who knew. They were not better for it.'".
+    Says "'Damn your eyes,' says Mowbray. 'In his own church!' He sits down hard on the pew. Then, flat: 'I have buried a good many who knew. None of them was the better for it.'".
   }
   Topic mowbray_yes with mowbray "Yes, in your place. Come and be a man with a staff" answering mowbray_talk when true {
-    Says "He looks at the staff in the corner, which is a very good staff. 'Hell and blood,' says Mowbray, almost happily, and hefts it. 'I'll come.'".
+    Says "He looks at the staff in the corner, which is a good staff. 'Hell and blood,' says Mowbray, almost happily, and hefts it. 'I'll come.'".
     On discuss { Assert willing(mowbray, actor). Set hire(mowbray) to 0. Assert mowbrayArms(actor). }
   }
   Topic mowbray_no with mowbray "No. Come and keep the hurt alive" answering mowbray_talk when true {
@@ -81,7 +82,7 @@ Module sallowfield "Three Nights at Sallowfield" {
     On discuss { Assert willing(mowbray, actor). Set hire(mowbray) to 0. Assert mowbrayPeace(actor). }
   }
   Topic mowbray_plate with mowbray "The reeve wants the plate for Wyre. What do you say?" when travelsWith(mowbray, actor) and knows(actor, reeve_would_pay) and not plateGiven(actor) and not plateKept(actor) once {
-    Says "'What do I say,' says Mowbray. He sits down on the plate-chest. 'I say it was given to Saint Eadred by a woman who sold her bed for it, in the year of the sweating sickness, and I say I would melt it into spurs for Wyre myself if it would save one child.' He looks up. 'It will not save one child. Men who take the plate take the rest. But I am not the reeve. Tell me, and I will do it, and I will not forgive either of us.'".
+    Says "'What do I say,' says Mowbray. He sits down on the plate-chest. 'I say it was given to Saint Eadred by a woman who sold her bed for it, in the year of the sweating sickness, and I say I would melt it into spurs for Wyre myself if it would save one child.' He looks up. 'It will not save one child. Men who take the plate take the rest. But I am not the reeve. Tell me, and I'll do it, and be damned for it myself.'".
   }
   Topic mowbray_give with mowbray "Give it, if it is asked" answering mowbray_plate when true {
     Says "He nods slowly, twice. 'God forgive us,' says Mowbray. 'He will be better at it than I.' He unbolts the chest.".
@@ -91,26 +92,28 @@ Module sallowfield "Three Nights at Sallowfield" {
     Says "'Well,' says Mowbray. 'Well, damn it,' and gets up, and bolts the chest, and is a different man. 'Then it stays where it is, and I'll stay with it.'".
     On discuss { Assert plateKept(actor). }
   }
+  Rule arms_help when mowbrayArms(party) and travelsWith(mowbray, party) and watch(clock) >= assaultAt(wyre) - 12 and not armsMod(party) { Assert armsMod(party). Increase drillBonus(party) by 1. }
+  Relation armsMod(group).
   Action mowbray_raises(actor: group, site: place, v: group) "Ask Father Mowbray to say the rite over {v}, who fell" {
     Requires company(actor) and at(actor, site) and travelsWith(mowbray, actor) and mowbrayPeace(actor) and not mowbrayRaised(actor) and felled(v) and villager(v) and watch(clock) >= assaultAt(wyre) + 12 and watch(clock) < assaultAt(wyre) + 42.
     Time 2.
     Resolve check(actor, rites, dc_hard).
     On success { Restore v. Retract felled(v). Assert mowbrayRaised(actor). }
     On failure { Assert mowbrayRaised(actor). }
-    Result "Mowbray kneels in the blood, swearing steadily, and puts both hands on the body. The words are not elegant. They are, you slowly understand, in the vulgar tongue, and they are an argument. At the end of it {v} coughs.".
+    Result "Mowbray kneels in the blood, swearing steadily, and puts both hands on the body. The words are not elegant. They are, you understand, in the vulgar tongue, and they are an argument. At the end of it {v} coughs.".
     Otherwise "He says the rite to the end. Then he says it again, with the swearing left out, which is worse. {v} does not stir.".
   }
 
   // ── The small knots ───────────────────────────────────────────────────────────────────────────────────────────
   Topic quarmby_mill with quarmby "Ask Gil Quarmby what the mill is worth to him" when true once {
-    Says "'Forty years,' says Quarmby. 'My father's, and his. I know what you want it for.' He nods at the race. 'The gate. You would drown the meadow, and the meadow is Greenhalgh's winter hay, and there is a man called Greenhalgh who would burn the mill for it. Would you drown your own hay, if you were me?'".
+    Says "'Forty years,' says Quarmby, wiping flour off his forehead with a floury hand and making it worse. 'Father's. Grandfather's. Don't tell me what you want it for, I can see it from here.' He jerks his chin at the race. 'The gate. Drown the meadow. That's Greenhalgh's hay, and Greenhalgh would burn my wheel for it and I'd not blame him. You'd drown your own hay?'".
   }
   Topic quarmby_yes with quarmby "If it saves the mill, yes" answering quarmby_mill when true {
-    Says "'Yes,' says Quarmby. 'That's my own thought, and I hate it.' He takes a key off a nail. 'It's the pin at the head. You'll want a bar.'".
+    Says "'Hmph. That's my own thought, and it's sour.' He takes a key off a nail. 'Pin at the head. Bring a bar, I'm not lending mine.'".
     On discuss { Assert quarmbyAgrees(actor). }
   }
   Topic quarmby_no with quarmby "No. We will find another way" answering quarmby_mill when true {
-    Says "'Mm,' says Quarmby, and hates how glad he is. 'I'll hold the mill, then. I'll not leave it. Don't ask me to.'".
+    Says "'Fine,' says Quarmby, to a sack. 'Fine. I'll hold it. Nobody'll shift me once the sun's down, so don't ask.'".
     On discuss { Assert posted(quarmby, mill_yard). }
   }
   Topic greenhalgh_go with greenhalgh "Tell Ned Greenhalgh to take his cows to the fold" when true once {
@@ -121,7 +124,7 @@ Module sallowfield "Three Nights at Sallowfield" {
     On discuss { Assert evacuatedFarm(actor). Assert greenhalghSaved(actor). }
   }
   Topic greenhalgh_lie with greenhalgh "No. They will go straight for the ford" answering greenhalgh_go when true {
-    Says "He looks at you a long time. 'You are a bad liar,' he says, quite kindly, and goes back to the cow he was milking.".
+    Says "He looks at you until the cow shifts. 'You are a bad liar,' he says, quite kindly, and goes back to the cow he was milking.".
   }
   Action rally_wadsworth(actor: group, site: place) "Let Hob Wadsworth tell you how he would hold the bridge" {
     Requires able(actor) and company(actor) and at(actor, site) and at(wadsworth, site) and able(wadsworth) and not posted(wadsworth, bridge) and nerve(wadsworth) >= 1.
@@ -132,21 +135,21 @@ Module sallowfield "Three Nights at Sallowfield" {
   Rule wadsworth_breaks when posted(wadsworth, bridge) and not steadied(wadsworth) and watch(clock) >= assaultAt(wyre) + 6 and not wadsworthRan(party) and overrun(bridge) {
     Assert wadsworthRan(party). Retract posted(wadsworth, bridge). }
   Topic elland_count with elland "Ask Tib Elland how many sacks there are" when true once {
-    Says "'Four hundred and, and, and four,' says Tib Elland, and breathes. 'Sixty people. Four hundred and four sacks. A person eats a sack and a half in a winter, and it is not enough, and the Margrave takes a third.' He looks very small. 'It is a sum I can do. I cannot, I cannot do the other sum.'".
+    Says "'Ninety, ninety, ninety,' says Tib Elland, and breathes. 'Sixty people. Ninety sacks. A person eats a sack and a half in a winter, and it is not enough, and the Margrave takes a third.' He looks very small. 'It is a sum I can do. I cannot, I cannot do the other sum.'".
   }
   Topic elland_stand with elland "Say that he can hold a door with a stick, like anyone" when true once {
     Says "He takes a tally-stick in each hand and looks at them as though for the first time. 'It is a stick,' he says. 'I could hold a door with a stick.' He does not sound as if he thinks he could.".
     On discuss { Assert ellandFights(actor). Set nerve(elland) to 1. }
   }
   Topic kersey_iron with kersey "Ask Peg Kersey what the iron is for" when true once {
-    Says "'Strap,' says Peg Kersey. 'The coach.' She takes the strap out of the coals with tongs and looks at it. 'Or four hundred caltrops, a day's work, which would take the legs out from under a horse. Or both, if you find me more iron. There is no more iron.' She sets it down. 'You tell me. I do not ask which of you is leaving.'".
+    Says "'Strap,' says Peg Kersey. 'Coach.' She lifts it out with the tongs. 'Or caltrops. Four hundred. Or both, more iron. No more iron.' She sets it down. 'Yours to say.'".
   }
   Topic kersey_spikes with kersey "Make the spikes" answering kersey_iron when true {
-    Says "Kersey puts the strap back in the coals with a face that gives nothing away. 'Coach stays,' she says.".
+    Says "'Spikes,' says Kersey. 'Coach stays.'".
     On discuss { Assert ironForSpikes(actor). }
   }
   Topic kersey_axle with kersey "Mend the axle" answering kersey_iron when true {
-    Says "Kersey files the strap flat. 'Two days.' She does not look at you. 'I did not think you would stay, and I did not think you should.'".
+    Says "'Two days,' says Kersey, and files. 'Didn't think you'd stay. Shouldn't.'".
     On discuss { Assert coachMended(actor). }
   }
   Action work_the_forge(actor: group, site: place) "Work Peg Kersey's bellows for nine hours while she makes the spikes" {

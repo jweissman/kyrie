@@ -36,7 +36,7 @@ describe("Three Nights at Sallowfield", () => {
   it('opens on the east road with a coach and a clock that has not struck', async () => {
     const j = await start(false);
     expect(j.at('party')).toBe('sallowfield__east_road');
-    expect(j.choices().map(c => c.label)).toContain('Talk to Ned Teasdale');
+    expect(j.choices().map(c => c.label)).toContain('Talk to Amos Teasdale');
     expect(ending(j)).toBeUndefined();
     await j.play('To the ford stones');
     expect(j.at('party')).toBe('sallowfield__ford_stones');
@@ -143,16 +143,27 @@ describe("Three Nights at Sallowfield", () => {
     }, 300000);
   });
 
-  it('cannot do every work: the full list of works is longer than the hours before he comes', async () => {
+  it('cannot do every work: with the muster, the helpless, two drills, the bucket line, the pits and the wall done in good order, he is already at the ford', async () => {
     const j = await start();
     await j.play(...steps.muster, 'Take the old, the sick and the children up to the high fold', 'Drill the levy on the green with staves',
       'Drill the levy on the green with staves', 'To the green well', 'Set a bucket line from the well to the green', 'To Sallowfield green',
       'To the ford meadow', 'Dig pits in the ford meadow and lay hurdles over them', 'To the ford stones',
-      "Wall the ford with the coach, the inn's tables and the hurdles", 'To the ford meadow', 'To Sallowfield green',
-      'To the packhorse bridge', 'Prise out the keystone of the near arch');
-    // Muster, helpless, two drills, bucket line, pits, wall and cut: and the boy in the reeds has come and gone, unmet.
-    expect(j.watch()).toBeGreaterThan(280);
+      "Wall the ford with the coach, the inn's tables and the hurdles");
+    // The list is longer than the hours: the wall finishes after the night has begun, the cut is never made, and the boy
+    // in the reeds has come and gone unmet.
+    expect(j.watch()).toBeGreaterThan(366);
     expect(held(j, 'lowesGone', 'party')).toBe(true);
+    expect(held(j, 'bridgeCut', 'party')).toBe(false);
+  }, 300000);
+
+  it('does not end the war by fouling the grain alone: the boy told, nobody walked through the granary', async () => {
+    const j = await start();
+    const upTo = steps.foulTheGrain.indexOf('To the east road, at the ford');
+    await j.play(...steps.muster, ...steps.foulTheGrain.slice(0, upTo), '=day 3 18:30');
+    await toDawn(j);
+    expect(held(j, 'wyreKnowsSpoiled', 'party')).toBe(true);
+    expect(held(j, 'wyreWithdraws', 'party')).toBe(false);
+    expect(ending(j)).not.toBe('The Next Granary');
   }, 300000);
 
   it('lets the company see the riders on the Scar road in the morning and on the east road at dusk', async () => {
@@ -229,10 +240,20 @@ describe("Three Nights at Sallowfield", () => {
     expect(ending(j)).toBe('What the Steel Said');
   }, 300000);
 
-  it('buys a peace that rots: the reeve\'s sixty, the plate Mowbray gave, and the grain', async () => {
+  it('buys a peace that rots: the sixty collected, the plate Mowbray gave, and the lieutenant not turned, so the mill burns anyway', async () => {
     const j = await start();
     await j.play(...steps.muster, ...steps.payTheCaptain);
     expect(held(j, 'plateGiven', 'party')).toBe(true);
+    expect(held(j, 'sixtyCollected', 'party')).toBe(true);
+    await toDawn(j);
+    expect(ending(j)).toBe('Sixty Coin, and the Mill');
+  }, 300000);
+
+  it('buys a peace that holds, if the lieutenant is bought first', async () => {
+    const j = await start();
+    await j.play(...steps.muster, ...steps.toTheFord, '=day 1 22:00', ...steps.reeds, ...steps.turnedPeace);
+    expect(held(j, 'fothergillTurned', 'party')).toBe(true);
+    await toDawn(j);
     expect(ending(j)).toBe('A Peace of Sixty Coin');
   }, 300000);
 
@@ -242,6 +263,7 @@ describe("Three Nights at Sallowfield", () => {
     await toDawn(j);
     expect(held(j, 'grainSpoiled', 'party')).toBe(true);
     expect(held(j, 'wyreKnowsSpoiled', 'party')).toBe(true);
+    expect(held(j, 'vollLooked', 'party')).toBe(true);
     expect(ending(j)).toBe('The Next Granary');
   }, 300000);
 
