@@ -214,7 +214,7 @@ describe('The Light on Skerrow Holm', () => {
     await k.play(...steps.cross_in, '=until calling()', "Out to the holm's landing");
     k.roll('pass');
     await k.play("Answer the voice with someone else's name, and make it sound afraid");
-    expect(k.measure('bellUntil', 'tide')).toBeGreaterThan(k.watch());
+    expect(k.measure('repelUntil', 'tide')).toBeGreaterThan(k.watch());
     expect(k.campaign.fighters.filter(f => f.hp > 0).length).toBe(3);
   }, 290000);
 
@@ -231,6 +231,89 @@ describe('The Light on Skerrow Holm', () => {
     const j = await start();
     await j.play(...steps.cross_in, ...steps.talk, "Put the Board's notice into Seddon's hand, and stay while he reads it", ...nightFromKitchen, ...steps.morning_stays, ...steps.cross_out);
     expect(reached(j)).toBe("The Keeper's Last Winter");
+  }, 290000);
+
+  const alive = (j: Journey) => j.campaign.fighters.filter(f => f.hp > 0).length;
+
+  it('calls whatever the lamp is doing: a lamp kept bright all night still lets Gaff answer, and Hettie be tested', async () => {
+    const j = await start();
+    await j.play(...steps.cross_in, ...steps.talk_loud, ...steps.to_lamp, '=21:00', fill, '=01:00', fill, '=03:30', fill, '=06:30');
+    expect(j.measure('callN', 'tide')).toBeGreaterThanOrEqual(3);
+    expect(j.holds('gaffTaken', 'party')).toBe(true);
+    expect(j.holds('hettieDecided', 'party')).toBe(true);
+    expect(alive(j)).toBe(3);
+  }, 290000);
+
+  it('gives no hiding place: in the boat shed, in the dark, it comes to the company', async () => {
+    const j = await start();
+    await j.play(...steps.cross_in, ...steps.talk, "Out to the holm's landing", 'To the boat shed', '=03:00');
+    expect(alive(j)).toBeLessThan(3);
+  }, 290000);
+
+  it('comes up the stair when the lamp has sunk: a company waiting in the keeper\'s room is taken before the lamp is out', async () => {
+    const j = await start();
+    await j.play(...steps.cross_in, ...steps.talk, "To the keeper's room", '=until state(lamp, low)', '=+10');
+    expect(alive(j)).toBeLessThan(3);
+    expect(j.holds('state', 'lamp', 'out')).toBe(false);
+  }, 290000);
+
+  it('lets Hettie be called back only by those she has let sit with her, and only once', async () => {
+    const j = await start();
+    await j.play(...steps.cross_in, ...steps.talk);
+    j.roll('pass');
+    await j.play("Watch Seddon's hands while Mrs Marram talks of Tam", '=02:50', ...steps.to_lamp, fill, "To the keeper's room", "To the keeper's kitchen", '=until hettieWalking(party)', "Out to the holm's landing");
+    const stop = 'Take Hettie by both hands on the landing and say her name';
+    expect(j.find(stop)).toBeDefined();
+    await j.play(stop);
+    expect(j.holds('hettieKept', 'party')).toBe(true);
+  }, 290000);
+
+  it('does not let Hettie be called back by a company she has not let in, and does not allow a second try', async () => {
+    const j = await start();
+    await j.play(...steps.cross_in, 'Answer Seddon\'s question about the night', 'We can. Say what we\'re to do', 'Hear what Hettie asks you over the tea', 'No. They are gone', 'Ask Hettie why she comes to this rock',
+      '=02:50', ...steps.to_lamp, fill, "To the keeper's room", "To the keeper's kitchen", '=until hettieWalking(party)', "Out to the holm's landing");
+    expect(j.find('Take Hettie by both hands on the landing and say her name')).toBeUndefined();
+  }, 290000);
+
+  it('sends it down whatever the lamp is doing: holy water thrown in the kitchen with the lamp out', async () => {
+    const j = await start();
+    await j.play(...steps.cross_in, 'To the oil store', 'Bran: light a torch', 'Take', "To the keeper's kitchen", '=until at(caller, kitchen)');
+    await j.play('Throw holy water where the hands are opening', '=+6');
+    expect(j.holds('state', 'lamp', 'out')).toBe(true);
+    expect(j.at('skerrow__caller')).not.toBe('skerrow__kitchen');
+    expect(alive(j)).toBe(3);
+  }, 290000);
+
+  it('lets a flame be tried once in the dark, and no more', async () => {
+    const j = await start();
+    await j.play(...steps.cross_in, "To the keeper's room", '=until at(caller, keeper_room)', 'Bran: light a torch');
+    j.roll('fail');
+    await j.play('Take a torch to it');
+    expect(j.find('Take a torch to it')).toBeUndefined();
+  }, 290000);
+
+  it('takes Mr Lowrie at the fifth call if he was not asked to ring, and lets Piers wait for the company', async () => {
+    const j = await start();
+    await j.play(...steps.cross_in, 'Tell Piers you will walk him over at noon, and he is to wait', '=05:50');
+    expect(j.measure('callN', 'tide')).toBeGreaterThanOrEqual(5);
+    expect(j.holds('lowrieGone', 'party')).toBe(true);
+    expect(j.page).toContain('whole street');
+  }, 290000);
+
+  it('has Piers follow the company when promised, and the fifth call on the page', async () => {
+    const j = await start();
+    await j.play(...steps.cross_in, 'Tell Piers you will walk him over at noon, and he is to wait', ...steps.to_lamp, fill, '=03:20', fill, '=05:50', fill, '=08:30');
+    expect(j.holds('following', 'piers', 'party')).toBe(true);
+  }, 290000);
+
+  it('keeps the notice till morning when Piers is told to: it cannot be given in the evening, and can be at dawn', async () => {
+    const j = await start();
+    const wait = steps.talk.map(x => x === 'Tell the keeper tonight, and be there when he reads it' ? 'Keep it till morning; it is the worse for being said in the dark' : x);
+    await j.play(...steps.cross_in, ...wait);
+    const notice = "Put the Board's notice into Seddon's hand, and stay while he reads it";
+    expect(j.find(notice)).toBeUndefined();
+    await j.play(...steps.to_lamp, '=03:20', fill, '=05:10', fill, '=08:00', "To the keeper's room", "To the keeper's kitchen");
+    expect(j.find(notice)).toBeDefined();
   }, 290000);
 
   it('lets a rope-seller be paid: Corrie sells a line, and answers no voice that offers no coin', async () => {
