@@ -60,7 +60,7 @@ Module sallowfield "Three Nights at Sallowfield" {
     Result "It is where she said, on two pegs, oiled, with the string slackened. It is lighter than it looks. It has her husband's initials burned into the stave, and a notch for every year of the crows.".
   }
   Action cragg_arrows(actor: group, site: place, p: place) "Ask Ellen to put the last of her arrows at {p}" {
-    Requires able(actor) and company(actor) and at(actor, site) and travelsWith(cragg, actor) and postsite(p) and not craggGave(actor) and watch(clock) >= assaultAt(wyre) - 6 and watch(clock) < assaultAt(wyre) + 6.
+    Requires able(actor) and company(actor) and at(actor, site) and travelsWith(cragg, actor) and postsite(p) and not craggGave(actor) and watch(clock) >= assaultAt(wyre) + 6 and watch(clock) < assaultAt(wyre) + 12 and w2planned(party).
     Time 0.
     On success { Assert craggGave(actor). Increase defence(p) by 3. }
     Result "Ellen counts them out into the hands of whoever is nearest, aloud, to the last one. 'Forty-one,' she says. 'Remember it.'".
@@ -149,10 +149,10 @@ Module sallowfield "Three Nights at Sallowfield" {
     Says "'Right,' says Kersey. She files the strap flat. 'Two days.' She does not look at you. 'I did not think you would stay, and I did not think you should.'".
     On discuss { Assert coachMended(actor). }
   }
-  Action work_the_forge(actor: group, site: place) "Work Peg Kersey's bellows for six hours while she makes the spikes" {
+  Action work_the_forge(actor: group, site: place) "Work Peg Kersey's bellows for nine hours while she makes the spikes" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, forge) and ironForSpikes(actor) and not caltrops(party).
-    Time 36.
+    Time 54.
     On success { Assert caltrops(party). Increase defence(ford_stones) by 3. Increase defence(bridge) by 1. }
-    Result "Six hours of it. The bellows is a lung as big as a boy and it takes all of you in turn. By dusk the floor of the forge is a field of black points, and Peg Kersey is sweeping them into sacks with her hands, and not a drop of blood on her.".
+    Result "Nine hours of it. The bellows is a lung as big as a boy and it takes all of you in turn. By dusk the floor of the forge is a field of black points, and Peg Kersey is sweeping them into sacks with her hands, and not a drop of blood on her.".
   }
 }
