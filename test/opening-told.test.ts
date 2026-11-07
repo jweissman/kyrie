@@ -13,7 +13,7 @@ import { Typography } from '../src/presentation/typography';
 // ask (automation) is told it all in the place, as before.
 class Opened {
   static readonly party: Member[] = [{ name: 'Aud', raceId: 'human', classId: 'warrior' }];
-  static readonly origins = ['kin', 'order', 'debt', 'herbs', 'wanderer'];
+  static readonly origins = ['kin', 'order', 'debt', 'herbs', 'wanderer', 'map', 'lost', 'courier'];
   static async begin(origin: string, apart: boolean, host = new EngineHost(() => undefined)): Promise<Frame> {
     return await host.handle({ kind: 'begin', campaign: 'world', seed: 'kite', party: this.party, origin,
       apart }) as Frame;

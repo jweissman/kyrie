@@ -56,6 +56,7 @@ export class TitlePage {
           </nav>
           {dev && <TitlePage.Dev app={app} />}
         </main>
+        {beat !== 'ident' && <TitlePage.Motes />}
         {beat !== 'ident' && credit && <p className="credit" aria-hidden="true">{credit}</p>}
         <Toast.View app={app} />
       </div>
@@ -100,6 +101,17 @@ export class TitlePage {
       </h1>
     );
   }
+  // Sparks going up slowly through the dark over the country, as off a fire out of sight below the title: a few, each
+  // its own way across and its own pace, the same every time (no chance in it), gone for one who asks for less motion.
+  static Motes() {
+    return (
+      <div className="motes" aria-hidden="true">
+        {Array.from({ length: TitlePage.motes }, (_, i) => <i key={i} style={{ '--x': `${(i * 37 + 11) % 100}%`,
+          '--d': `${-((i * 7919) % 23)}s`, '--t': `${16 + (i * 13) % 11}s`, '--s': `${2 + (i % 3)}px` } as CSSProperties} />)}
+      </div>
+    );
+  }
+  static readonly motes = 18;
   // When the name's middle letter begins to be lit, after the black; and how long the whole title takes to come up.
   static readonly lit = 120;
   static readonly reveal = 3200;

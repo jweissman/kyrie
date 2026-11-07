@@ -15,7 +15,7 @@ export class Glyphs {
     return (
       <svg className={className} viewBox="0 0 48 48" focusable="false" {...label ? { role: 'img', 'aria-label': label }
         : { 'aria-hidden': true }}>
-        <path d={path} vectorEffect="non-scaling-stroke" />
+        <path d={path} vectorEffect="non-scaling-stroke" pathLength={1} />
       </svg>
     );
   }

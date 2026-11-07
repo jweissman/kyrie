@@ -163,9 +163,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
 
   // Set out, a new game opens on its opening (OWN-17), asked for here as automation is otherwise spared it: the way in
   // over the whole screen, nothing of play on it; the origin's chapter, small and gold; why you came, then by a key or
-  // a touch, once the way on has appeared, the way in, naming the town; and one Go on, into the first place, which
-  // tells neither, nor your aim, which the opening has just told. Where motion is unwanted, the way on is there at
-  // once.
+  // a touch, once the way on has appeared, the way in, naming the town; whoever is met on the road, answered; and one
+  // Go on, into the first place, which tells neither, nor your aim, which the opening has just told. Where motion is
+  // unwanted, the way on is there at once.
   it.each([[1440, 900, 'kin', false], [390, 844, 'wanderer', true]] as [number, number, string, boolean][])(
     'at %i by %i sets out into the opening of %s, and goes on into the place', async (width, height, origin, touch) => {
       const { page, errors, driver } = await MonoBrowser.page(browser, { width, height }, { site, pointer: touch,
@@ -193,6 +193,15 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
       const second = (await page.textContent('[data-id="beat"]'))!, town = (await driver.inspect()).path!
         .find(p => p.kind === 'settlement')!.name;
       expect([second !== first, second.includes(Typography.curl(town))]).toEqual([true, true]);
+      // Then whoever is met on the road (the owner, 7 November), with no way on until they are answered, by one of
+      // play's own choices or its digit; then what came of it, the first aim said once, and Go on.
+      if (touch) { await page.waitForTimeout(400); await driver.click('[data-action="beat"]'); } else {
+        await page.waitForSelector('[data-action="beat"]', { state: 'visible' }); await page.keyboard.press('Enter'); }
+      await page.waitForSelector('[data-id="meeting"]');
+      expect(await page.locator('[data-action="go-on"]').count()).toBe(0);
+      await page.waitForSelector('[data-action="answer"]', { state: 'visible' });
+      if (touch) { await driver.click('li:first-child > [data-action="answer"]'); } else { await page.keyboard.press('1'); }
+      await page.waitForSelector('[data-id="aim"]', { timeout: 30000 });
       if (touch) {
         const go = page.locator('[data-action="go-on"]');
         expect(await go.evaluate(e => getComputedStyle(e).animationName)).toBe('none');

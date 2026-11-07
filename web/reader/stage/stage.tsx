@@ -60,7 +60,7 @@ export class Stage {
   // Whether a new game's opening is being told, before its first place: then the keys are the opening's.
   static prologue(app: ReaderApp): boolean {
     const s = app.state;
-    return s.phase === 'play' && s.prologue !== undefined && !!s.frame?.leaf.prologue;
+    return s.phase === 'play' && s.prologue !== undefined && !!s.frame && !!s.told;
   }
   // Whether the map is open over everything (not a fight, or the end, come over it): then the keys are the map's, and
   // what would be said over the page is said over the map.

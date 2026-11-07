@@ -34,7 +34,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a place at rest, and the pack', () 
   afterAll(async () => { await browser?.close(); await rm(site, { recursive: true, force: true }); });
 
   it.each([[1280, 800], [1024, 1366]] as const)('at %ix%i', async (width, height) => {
-    const { page, errors, driver: d } = await MonoBrowser.page(browser, { width, height }, { site, query: '?world=mere' });
+    const { page, errors, driver: d } = await MonoBrowser.page(browser, { width, height }, { site, query: '?world=kite' });
     await page.waitForSelector('[data-action="start"]', { timeout: 120000 });
     await d.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
