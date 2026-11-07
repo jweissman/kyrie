@@ -1,7 +1,7 @@
 Module skerrow "The Light on Skerrow Holm" {
   // ── The day that isn't: who knows the posts, who comes, who stays ───────────────────────────────────────────────
   Relation orrinComes(group).
-  Topic dib_line with dib "Ask Dib to take you out along the posts" when dibWatched(party) and not dibTaken(party) and not lined(party) once {
+  Topic dib_line with dib "Ask Dib to take you out along the posts" when dibWatched(party) and not dibTaken(party) and not lined(party) and state(tide, low) once {
     Says "'The posts?' says Dib. 'Course. Eleven to a hundred and four, and the bad ones are the odd ones, because the mud's soft there. You count them out loud, you don't look. I did it with Mr Seddon the first week.' He wipes his nose on his wrist. 'Dad would've hated it. He was always for the boat.'".
     On discuss { Assert lined(party). }
   }
