@@ -231,8 +231,11 @@ describe('Quittance: the Descent', () => {
       expect(j.measure('quantity', 'party', 'coal')).toBe(2);
       expect(j.matches('Ask the Fire for coals').length).toBe(0);
     }, 180000);
+    // Strong enough is three warriors of the fourteenth level: three of the tenth beat the Fire one fight in ten,
+    // before the tactics of 7 November and after them (the spec's seed had been that one until those tactics changed
+    // its dice), three of the twelfth one in two, three of the fourteenth ten in ten.
     it('is slain by a company strong enough, and that is ruinous: nothing else is asked of it again', async () => {
-      const j = await Ds.toFire(['warrior', 'warrior', 'warrior'], 10);
+      const j = await Ds.toFire(['warrior', 'warrior', 'warrior'], 14);
       await Ds.speak(j);
       await j.step('^the Fire.*: Attack');
       expect(j.holds('dead', Q('ds_fire'))).toBe(true);

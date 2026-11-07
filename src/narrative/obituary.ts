@@ -68,8 +68,11 @@ export class Obituary {
   }
   // Who each creature is, as the company knew them (see BandNames).
   private static names(campaign: Campaign): Map<string, string> { return BandNames.of(campaign); }
+  // A wound that struck it by its condition's name ("Bleeding"), not its id: Orsino's bleed had been told as "Bleed".
   private static thing(campaign: Campaign, id: string): string {
-    return Telling.called(campaign, id.replace(/^.*?:/, ''));
+    const bare = id.replace(/^.*?:/, '');
+    const condition = Object.hasOwn(Content.statuses, bare) ? Content.statuses[bare] : undefined;
+    return condition?.name ?? Telling.called(campaign, bare);
   }
   // Where the company was when it happened: where the last move up to then had taken it (it may have gone on since,
   // carrying whoever fell).

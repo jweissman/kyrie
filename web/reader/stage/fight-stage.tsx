@@ -29,7 +29,7 @@ export class FightStage {
     const earlier = combat.exchanges.filter(e => e.n < seen).slice(-FightStage.kept);
     const first = mark?.first ?? true, after = combat.after ?? [];
     const turn = combat.outcome ? 'The fight is over.' : combat.ours ? `${combat.actorName}’s turn` : `${combat.actorName} acts`;
-    Scrolled.useCue(moves, combat); Scrolled.useCue(sides, combat);
+    Scrolled.useCue(moves, combat); Scrolled.useCue(sides, combat); Scrolled.useHeld(sides, '.ours', combat);
     return (
       <div className="fight" id="page">
         <p className="status"><span>A fight</span><span>Round {Math.max(1, combat.round)}</span>

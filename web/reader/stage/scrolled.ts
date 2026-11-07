@@ -49,4 +49,24 @@ export class Scrolled {
   private static mark(el: HTMLElement) {
     el.toggleAttribute('data-more', el.scrollTop + el.clientHeight < el.scrollHeight - 4);
   }
+  // A column whose part must be seen whole (a fight's company, each face with its card): the foot of that part is
+  // written on it (--held), for the stage to keep it at least so tall, so that what is under it gives way first and
+  // says it goes on. Every act in view had let the hand of acts take what it needed, and the company above it was cut
+  // at the mouth at 1180 by 820 and on a phone.
+  static useHeld(at: RefObject<HTMLElement | null>, part: string, key?: unknown) {
+    useLayoutEffect(() => {
+      const el = at.current, held = el?.querySelector<HTMLElement>(part);
+      if (!el || !held) { return undefined; }
+      const hold = Scrolled.hold.bind(Scrolled, el, held);
+      hold();
+      const seen = new ResizeObserver(hold);
+      for (const child of el.children) { seen.observe(child); }
+      return seen.disconnect.bind(seen);
+    }, [at, part, key]);
+  }
+  private static hold(el: HTMLElement, held: HTMLElement) {
+    const foot = held.getBoundingClientRect().bottom - el.getBoundingClientRect().top + el.scrollTop
+      + parseFloat(getComputedStyle(el).paddingBottom);
+    el.style.setProperty('--held', `${Math.ceil(foot)}px`);
+  }
 }
