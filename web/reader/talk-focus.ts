@@ -18,8 +18,8 @@ export class TalkFocus {
     const spent = said.filter(c => at.asked.includes(c.id) || /_again(\(|$)/.test(c.command ?? ''));
     const fresh = said.filter(c => !spent.includes(c)), heard = new Set(at.heard ?? []);
     const led = [...at.led ? fresh.filter(c => c.command === at.led || c.id === at.led
-      || !!c.children?.some(k => k.command === at.led)) : [], ...fresh.filter(c => TalkFocus.aimed(c, at.aims ?? []))]
-      .filter((c, i, all) => all.indexOf(c) === i);
+      || !!c.children?.some(k => k.command === at.led)) : [], ...fresh.filter(c => TalkFocus.aimed(c, at.aims ?? [])),
+    ...fresh.filter(c => TalkFocus.weighty(c))].filter((c, i, all) => all.indexOf(c) === i);
     // New since the last thing said: not offered then (a group, if none of what it holds was).
     const opened = at.heard ? fresh.filter(c => !heard.has(c.id) && !c.children?.some(k => heard.has(k.id))
       && !led.includes(c)) : [];
@@ -35,6 +35,11 @@ export class TalkFocus {
     const said = c.label.replace(/^Ask (?:\S+ )?about /i, '').toLowerCase();
     return /^Ask /i.test(c.label) && said.length > 6 && aims.some(a => a.toLowerCase().includes(` about ${said}`));
   }
+  // What the company has come to say or to settle with them, before what they might tell it: news it brings ("Tell
+  // Beak the rats under the corn-store are dead": a job done, reported fifth, under Something else, in the second
+  // fresh playtest of 7 November), and taking them on, when they are looking for work (Traubon's "Would you come
+  // along?" had stood seventh, though the innkeeper had just pointed him out).
+  private static weighty(c: Choice): boolean { return /^Tell /.test(c.label) || c.does === 'recruit'; }
   // What is told of the countries beyond this one (twenty and more at an inn), one thing to ask about, opened to them.
   private static beyond(said: Choice[]): Choice[] {
     const far = said.filter(c => /_beyond_told_/.test(c.command ?? c.id));

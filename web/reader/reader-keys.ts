@@ -62,6 +62,11 @@ export class ReaderKeys {
       return !!chosen;
     }
     if (/^[1-9]$/.test(key)) {
+      // What is drawn with that key on it, first: the glance numbers what it leads with by their places among
+      // themselves, and at a place at rest only what will not wait is led with (the second fresh playtest of 7
+      // November: "2" by "light a torch" in a dark cellar did nothing, the keys reading the menu's order).
+      const drawn = ReaderKeys.keyed(Number(key)), shown = drawn ? menu.choices.findIndex(c => c.id === drawn) : -1;
+      if (shown >= 0) { app.setState({ cursor: shown }); app.choose(menu.choices[shown]!); return true; }
       // At a place, what the glance leads with (1 to 3), never something under a sheet and out of sight.
       const led = Stage.mode(app) === 'explore' ? Raised.led(app) : undefined;
       if (led !== undefined && Number(key) > led) { return false; }
@@ -71,6 +76,11 @@ export class ReaderKeys {
     }
     if (key === 'Escape' || key === 'Backspace') { app.back(); return true; }
     return this.letter(key.toLowerCase());
+  }
+  // The choice drawn with this number on its key, where the glance leads with it (none under a raised sheet).
+  private static keyed(n: number): string | undefined {
+    if (document.querySelector('[aria-modal="true"]')) { return undefined; }
+    return document.querySelector<HTMLElement>(`ol.led > li[data-promoted="${n}"] [data-choice]`)?.dataset.choice;
   }
   // A new game's opening: Enter, Space or an arrow on brings the next beat (and after the last, the place), once it
   // has been shown a moment (see PrologueStage.next), and never by a key held down; Esc goes straight on. Nothing

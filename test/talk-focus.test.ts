@@ -36,6 +36,16 @@ describe('what is said, as attention holds it', () => {
     expect(f.salient[0]!.id).toBe('Ask about the rats in the corn-store');
     expect(TalkFocus.of(brom, { asked: [] }).salient.map(c => c.id)).not.toContain('Ask about the rats in the corn-store');
   });
+  it('puts first what the company has come to say or settle: news it brings, and taking on one looking for work', () => {
+    // The second fresh playtest of 7 November: the rats' report came fifth at Beak's, under Something else, and
+    // Traubon's offer to come along seventh, though the innkeeper had just pointed him out.
+    const beak = [said('Ask what is down in the cisterns', 'r1'), said('Ask about the factor', 'r2'),
+      said('Ask about the silk from the sink', 'r3'), said('Ask about the old well', 'r4'),
+      said('Tell Beak the rats under the corn-store are dead, nest and all', 'u_rats_told')];
+    expect(TalkFocus.of(beak, { asked: [] }).salient[0]!.id).toMatch(/^Tell Beak the rats/);
+    const traubon = [...beak.slice(0, 4), said('Would you come along?', 'recruit(traubon)')];
+    expect(TalkFocus.of(traubon, { asked: [] }).salient[0]!.id).toBe('Would you come along?');
+  });
   it('makes room for an answer owed', () => {
     const f = TalkFocus.of([said('yes', 'yes', { answer: true }), ...replies], { asked: [] });
     expect([f.answers.length, f.salient.length]).toEqual([1, 2]);
