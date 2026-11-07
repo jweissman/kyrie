@@ -15,7 +15,7 @@ Module pentrice "Gosse's Company" {
   Place wend_inn "the Drum and Whistle" is building within wend_area.
   Place wend_taproom "the Drum and Whistle's taproom" is room within wend_inn at 1, 2.
   Passage wend_road "the Wend road" is road between river_gate and wend_cross taking 1 hour
-    opening when commandOn(rierdan) "The Wend road goes out under the gate, but the King's Players have not yet been given leave to go on it.".
+    opening when commandOn(rierdan) and commandDay(rierdan) > day(clock) "The Wend road goes out under the gate, but the Wick is lit tonight, or the King's Players have not yet been given leave to go on it.".
   Passage wend_door "the inn door" is door between wend_cross and wend_taproom.
   Observe wend_cross_scene at wend_cross when true "Four roads and a milestone, and a signpost that has lost three of its arms to boys with knives. The fourth points up the hill to a village whose name has been scratched off and written again in chalk: MARLCROSS. The inn has a drum on its sign and a whistle painted under it, and the whistle is the more convincing.".
   Observe wend_taproom_scene at wend_taproom when true "A long low room with a fire, a settle, a window onto the road, and a table that has been the company's table for as long as the company has been this far out of the city. Hepzibah's book is open on it, and a heap of letters.".
@@ -23,12 +23,12 @@ Module pentrice "Gosse's Company" {
   Relation tourer(group). Relation toured(group). Relation tourOn(place).
   Initially Assert tourer(gosse). Initially Assert tourer(hepzibah). Initially Assert tourer(swale). Initially Assert tourer(dorcas).
   Initially Assert tourer(pudding). Initially Assert tourer(kit). Initially Assert tourer(tam).
-  Relation touredFrom(group, place). Relation tourAway(place). Measure renown(place).
+  Relation touredFrom(group, place). Relation tourAway(place).
   Rule tour_begins when commandOn(rierdan) and not tourOn(rierdan) { Assert tourOn(rierdan). }
   Rule tour_gathers when tourOn(rierdan) and at(party, wend_cross) and tourer(?p) and not toured(?p) and at(?p, ?q) {
     Retract at(?p, ?q). Assert at(?p, wend_taproom). Assert toured(?p). Assert touredFrom(?p, ?q). Assert tourAway(rierdan). }
   // The Command waits on the company: held while it is on the road, and set three days off when it comes home.
-  Rule tour_holds when tourAway(rierdan) and commandOn(rierdan) and not commandDone(rierdan) and commandDay(rierdan) <= day(clock) + 1 {
+  Rule tour_holds when tourAway(rierdan) and not tourHomeSet(rierdan) and commandOn(rierdan) and not commandDone(rierdan) and commandDay(rierdan) <= day(clock) + 1 {
     Set commandDay(rierdan) to day(clock) + 2. }
   Rule tour_home when tourAway(rierdan) and at(party, river_gate) and toured(?p) and touredFrom(?p, ?h) and at(?p, ?q) {
     Retract at(?p, ?q). Assert at(?p, ?h). Retract toured(?p). Retract touredFrom(?p, ?h). }
@@ -46,7 +46,7 @@ Module pentrice "Gosse's Company" {
     Says "'Four,' says Hepzibah, without looking up. 'A market town that has been told we play in the King's livery and would like to see it. A soldier on the moor who wants a company to cheer his wife, and who has also, I notice, asked for an opinion on some women. A Margravate that needs players for a prince it is rather worried about. And a squire who is to be married in a wood, and wants us to play at it, because his bride has read that this is done.' She turns a page. 'They have all offered money. I have no confidence in any of them. Choose.'".
     On discuss { Assert e1Open(rierdan). Assert e2Open(rierdan). Assert e3Open(rierdan). Assert e4Open(rierdan). }
   }
-  Observe rp_board_done at wend_taproom when renown(rierdan) >= 2 "On the board over the settle, in Hepzibah's hand, the list of what the King's Players can play has grown past the width of the board. Someone has pinned a second sheet.".
+  Observe rp_board_done at wend_taproom when repertoire(rierdan) >= 2 "On the board over the settle, in Hepzibah's hand, the list of what the King's Players can play has grown past the width of the board. Someone has pinned a second sheet.".
 
   // Four ways out of the Cross.
   Passage to_marlcross "the lane to Marlcross" is road between wend_cross and m_square taking 30 minutes
@@ -59,15 +59,19 @@ Module pentrice "Gosse's Company" {
     opening when e4Open(rierdan) "A ride goes into the beech wood on the south side. The squire's letter has not been read.".
 
   // A play, once performed, joins the repertoire; each episode's ending sets its eNDone and these count it once.
-  Rule rp_rep1 when e1Done(rierdan) and not epRep1(rierdan) { Assert epRep1(rierdan). Increase repertoire(rierdan) by 1. Increase renown(rierdan) by 1. }
-  Rule rp_rep2 when e2Done(rierdan) and not epRep2(rierdan) { Assert epRep2(rierdan). Increase repertoire(rierdan) by 1. Increase renown(rierdan) by 1. }
-  Rule rp_rep3 when e3Done(rierdan) and not epRep3(rierdan) { Assert epRep3(rierdan). Increase repertoire(rierdan) by 1. Increase renown(rierdan) by 1. }
-  Rule rp_rep4 when e4Done(rierdan) and not epRep4(rierdan) { Assert epRep4(rierdan). Increase repertoire(rierdan) by 1. Increase renown(rierdan) by 1. }
+  Rule rp_rep1 when e1Done(rierdan) and not epRep1(rierdan) { Assert epRep1(rierdan). Increase repertoire(rierdan) by 1. }
+  Rule rp_rep2 when e2Done(rierdan) and not epRep2(rierdan) { Assert epRep2(rierdan). Increase repertoire(rierdan) by 1. }
+  Rule rp_rep3 when e3Done(rierdan) and not epRep3(rierdan) { Assert epRep3(rierdan). Increase repertoire(rierdan) by 1. }
+  Rule rp_rep4 when e4Done(rierdan) and not epRep4(rierdan) { Assert epRep4(rierdan). Increase repertoire(rierdan) by 1. }
 
-  // What the road did for the company: a steadier hand on the night of the Command (Act V's chaos counter starts a point lower
-  // for a company that has done two engagements, and two lower for four), told on the stage.
-  Relation rpSteady(place). Relation rpSteady2(place).
-  Rule rp_steady when holdingCommand(rierdan) and renown(rierdan) >= 2 and chaos(rierdan) >= 1 and not rpSteady(rierdan) { Assert rpSteady(rierdan). Decrease chaos(rierdan) by 1. }
-  Rule rp_steady2 when holdingCommand(rierdan) and renown(rierdan) >= 4 and rpSteady(rierdan) and chaos(rierdan) >= 1 and not rpSteady2(rierdan) { Assert rpSteady2(rierdan). Decrease chaos(rierdan) by 1. }
-  Observe rp_steady_told at lant_stage when rpSteady(rierdan) and holdingCommand(rierdan) "A scene goes wrong and the company, with four roads' dirt on its boots, takes it back without a pause. Gosse has come to the Wick tonight with four roads' dirt still on his boots. He is not calm. He is something harder to name, which in a man of his profession is steadiness: he has been beside himself in a wood and in a ditch, and a lit house is only a house.".
+  // What the road did for the company is Act V's own: repertoire raises standingR there (+1 at two plays, +1 at four), and that
+  // is the only chaos slack the tour buys. This file adds nothing to it. Two things of the road are read on the night, though:
+  // Swale who was kind to the Prince's speech blurts more gently (the blurt costs a point less), and the name paid in the wood
+  // is missing from the Chamberlain's roll.
+  Relation swaleSoftened(place). Relation nameRoll(place).
+  Rule rp_swale_soft when swaleBlurted(rierdan) and swaleHand(party) and not swaleSoftened(rierdan) { Assert swaleSoftened(rierdan). Decrease chaos(rierdan) by 1 or to nothing. }
+  Observe rp_swale_soft_told at lant_stage when swaleSoftened(rierdan) "Swale's cry in the third row ends, this time, in a sort of apology to the Prince of Harrowmere, whom nobody present has met. It costs the house a laugh and not the scene.".
+  Rule rp_name_roll when holdingCommand(rierdan) and e4Price(rierdan) and not nameRoll(rierdan) and at(party, lant_stage)
+    says "The Chamberlain's clerk reads out the company's names for the King's book. He reads yours, and then reads it again, and looks up, blank. 'Is there,' he says, 'a name that goes there?' There is a pause that the King notices." {
+    Assert nameRoll(rierdan). Increase chaos(rierdan) by 1. }
 }

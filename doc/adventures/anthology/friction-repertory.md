@@ -74,3 +74,29 @@ Every specs' "epilogue" counts need an extra `waits(1)` before `repertoire` show
 ## What I left alone
 - The other fork's act files (`act1`..`act5`, `rier_*`): I wrote into them nothing. I do *read* `commandOn`, `commandDay`, `holdingCommand`, `chaos` and `repertoire` from Act V, and **write** `commandDay` and `chaos`, which is a coupling the doc names.
 - `player.json`/portraits: none added.
+
+## Found by hostile review and by playing a bare route (second pass)
+
+## F17. A bare-route spec finds what a forced-roll spec cannot
+The first specs forced `roll('pass')` and walked one path per ending; the reviewer played the *shortest* route and found four episodes with a dominant line that skipped the signature
+beat (Ep 1: three moves to "early"; Ep 3: hand the letter over unread = escape; Ep 2: do nothing after a "genuine" report = the quiet ending; Ep 4: pay a name for nothing). Each now has a spec asserting
+where its dominant line ends. Wanted: an autoplay probe that plays "the cheapest legal move to each ending" and reports the cheapest path per ending, as `bin/kyrie` does for mazes.
+
+## F18. An ending that is a *meeting* cannot be a *state of knowledge*
+Ep 1's reversal depends on the company having reconstructed the day; the engine has `knows(actor, discovery)` and relations but no way to say "the company has understood": the early ending had to
+list two discoveries by name, and the discoveries had to be made hard to get (gated on `chainTaken`, i.e. on the day having happened). Wanted: a `Understanding` bundle (several discoveries as one condition).
+
+## F19. A tour that borrows another act's clock couples two files by hand
+`commandDay`, `chaos`, `holdingCommand`, `standingR`, `puddingBrave`, `swaleBlurted` are Act V's and Act IV/V-side's names; the Repertory reads or writes them. A change to Act V's clock would break the tour silently
+(only the specs notice). Wanted: an `Export` list on a module so a borrower may name what it depends on, and a lint that names the dependents when a measure is renamed.
+
+## F20. A second source of the same credit is invisible to the author
+`renown` plus `standingR` credited the same two plays twice; nothing flagged it because both are legal measures. The fix was to delete mine. Wanted: when a rule increases or decreases a measure that a shared mechanism in the same
+campaign also moves from the same trigger (`repertoire`), say so.
+
+## F21. A person's id can collide with a rule variable, a shared entity, or a name in another adventure
+Four of my names were refused in turn (`lord`, `marsh`, `tarrow`, and the person-name check against `Marsh`/`Tarrow` in two other adventures). The refusals are right, but the error comes one at a time; an author with eight new people
+pays eight lint cycles. Wanted: one pass that lists every collision.
+
+## F22. Gating a flag-setting rule on the very condition it reports makes a stall
+Repeated from F3 for the second episode that did it (Ep 3's `x1h` deadline, Ep 2's report). The reviewer's lesson: every deadline chain needs a test that plays the *absent* route and the *present-but-passive* route.
