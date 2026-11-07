@@ -143,12 +143,12 @@ Module circus "Wapshott's Peregrine Circus" {
   // The Sundial: from the fair town's quay.
   Passage sarn_ferry "the brig Sundial" is ferry between green_a and landing taking 3 hours
     opening when voyageReady(wapshotts) "The quay is empty but for a heap of rope and a gull.". 
-  Rule aboard at landing when voyageReady(wapshotts) and not voyaged(wapshotts) and wapshottAboard(wapshotts)
+  Rule aboard at landing when at(party, landing) and voyageReady(wapshotts) and not voyaged(wapshotts) and wapshottAboard(wapshotts)
     says "The Sundial lays her side to a quay built for her, a hundred and fifty miles and twelve days from the fair town's, and her master's hand is not quite steady on the tiller. There are creepers on the bollards, and the crowned wheel on every post. Colonel Wapshott is the first to the rail. He does not say a word. Behind him Sir Gervase is already writing." {
     Assert voyaged(wapshotts). Assert away(wapshott). Assert at(wapshott, landing). Assert following(wapshott, party).
     Assert away(fenwick). Assert at(fenwick, landing). Assert following(fenwick, party). }
-  Rule aboard_billie at landing when voyaged(wapshotts) and billieAboard(wapshotts) and not away(billie) { Assert away(billie). Assert at(billie, landing). Assert following(billie, party). }
-  Rule aboard_mumchance at landing when voyaged(wapshotts) and mumchanceAboard(wapshotts) and not away(mumchance) { Assert away(mumchance). Assert at(mumchance, landing). Assert following(mumchance, party). }
+  Rule aboard_billie when at(party, landing) and voyaged(wapshotts) and billieAboard(wapshotts) and not away(billie) { Assert away(billie). Assert at(billie, landing). Assert following(billie, party). }
+  Rule aboard_mumchance when at(party, landing) and voyaged(wapshotts) and mumchanceAboard(wapshotts) and not away(mumchance) { Assert away(mumchance). Assert at(mumchance, landing). Assert following(mumchance, party). }
   Rule circus_lies_up when voyaged(wapshotts) and not backFromSarn(wapshotts) and moveDay(wapshotts) < day(clock) + 2 { Set moveDay(wapshotts) to day(clock) + 3. }
 
   // The Colonel on the island: three moments, and what he decides.

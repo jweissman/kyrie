@@ -997,7 +997,7 @@
     "faithful": 238,
     "adapted": 29,
     "represented": 27,
-    "kyr": 283,
+    "kyr": 285,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 198
@@ -1036,7 +1036,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 22,
+      "kyr": 24,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -1063,7 +1063,7 @@
     "faithful": 126,
     "adapted": 143,
     "represented": 10,
-    "kyr": 88,
+    "kyr": 95,
     "unsupported": 4,
     "unreachable": 0,
     "data-only": 104
@@ -1076,7 +1076,7 @@
       "faithful": 32,
       "adapted": 52,
       "represented": 0,
-      "kyr": 23,
+      "kyr": 30,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -15368,15 +15368,15 @@
    "section": "making-worlds/kits"
   },
   {
-   "id": "kit:raider_hold",
-   "title": "A raiders' hold",
+   "id": "kit:toll_road",
+   "title": "A toll on a road",
    "status": "kyr",
    "book": "dmg",
    "section": "making-worlds/kits"
   },
   {
-   "id": "kit:toll_road",
-   "title": "A toll on a road",
+   "id": "kit:raider_hold",
+   "title": "A raiders' hold",
    "status": "kyr",
    "book": "dmg",
    "section": "making-worlds/kits"
@@ -15445,6 +15445,13 @@
    "section": "campaigns"
   },
   {
+   "id": "campaign:muster",
+   "title": "The Long Muster's Road",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "campaigns"
+  },
+  {
    "id": "campaign:parliament-of-books",
    "title": "A Parliament of Books",
    "status": "kyr",
@@ -15461,6 +15468,13 @@
   {
    "id": "campaign:skeel",
    "title": "Fair Weather",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "campaigns"
+  },
+  {
+   "id": "campaign:tallow",
+   "title": "Tallow Deep",
    "status": "kyr",
    "book": "dmg",
    "section": "campaigns"
@@ -19162,6 +19176,13 @@
    "section": "species/species-beast"
   },
   {
+   "id": "species:fern_runner",
+   "title": "Fern-runner",
+   "status": "kyr",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
    "id": "species:ferret",
    "title": "Ferret",
    "status": "faithful",
@@ -19218,6 +19239,13 @@
    "section": "species/species-beast"
   },
   {
+   "id": "species:hook_claw",
+   "title": "Hook-claw",
+   "status": "kyr",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
    "id": "species:horse",
    "title": "Horse",
    "status": "kyr",
@@ -19242,6 +19270,13 @@
    "id": "species:hyena",
    "title": "Hyena",
    "status": "adapted",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:lantern_neck",
+   "title": "Lantern-neck",
+   "status": "kyr",
    "book": "mm",
    "section": "species/species-beast"
   },
@@ -19393,6 +19428,13 @@
    "section": "species/species-beast"
   },
   {
+   "id": "species:sail_wing",
+   "title": "Sail-wing",
+   "status": "kyr",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
    "id": "species:sheep",
    "title": "Sheep",
    "status": "kyr",
@@ -19421,9 +19463,23 @@
    "section": "species/species-beast"
   },
   {
+   "id": "species:stilt_runner",
+   "title": "Stilt-runner",
+   "status": "kyr",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
    "id": "species:stoat",
    "title": "Stoat",
    "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:three_horn",
+   "title": "Three-horn",
+   "status": "kyr",
    "book": "mm",
    "section": "species/species-beast"
   },
@@ -19438,6 +19494,13 @@
    "id": "species:turtle",
    "title": "Turtle",
    "status": "faithful",
+   "book": "mm",
+   "section": "species/species-beast"
+  },
+  {
+   "id": "species:tyrant",
+   "title": "Tyrant",
+   "status": "kyr",
    "book": "mm",
    "section": "species/species-beast"
   },

@@ -602,6 +602,22 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A swift bird of prey possessing extreme speed and remarkable hunting prowess.
 
+#### Fern-runner
+
+*Kyr · beast* · `species:fern_runner`
+
+- Type: beast (animal)
+- Hit points: d4 a level
+- Qualities: rolled (3d6 each)
+- Attack: bite, 1d6 piercing
+- Hide: Hide Armor, armour 1
+- Temperament: wary
+- Worth: 10 experience a level
+
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
+
+> A cat-sized, feathered runner of the island's undergrowth, quick, curious and not at all afraid of doors.
+
 #### Ferret
 
 *Faithful · beast* · `species:ferret`
@@ -759,6 +775,24 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A hen scratching about a yard.
 
+#### Hook-claw
+
+*Kyr · beast* · `species:hook_claw`
+
+- Type: beast (animal)
+- Hit points: d8 a level
+- Qualities: rolled (3d6 each)
+- Attack: claws, 1d4 slashing
+- Hide: Hide Armor, armour 1
+- Temperament: territorial
+- Worth: 10 experience a level
+
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
+
+Howl: Every enemy is frightened for 2 turns (a Wisdom save against 12 avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. Again after 3 turns.
+
+> A feathered pack hunter of the island's cycad forest, the size of a big dog, that takes what it can overpower with a great curved claw on each foot.
+
 #### Horse
 
 *Kyr · beast* · `species:horse`
@@ -836,6 +870,22 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 > A scavenging carnivore with powerful jaws and distinctive laugh-like vocalizations.
 
 *Adapted: Orsino's animal template made it a companion's size (fixed hit points no more than a squirrel's); as a beast of the wild Kyr rolls its qualities with a hit die of 6, as it does a wolf's, with a rending bite.*
+
+#### Lantern-neck
+
+*Kyr · beast* · `species:lantern_neck`
+
+- Type: beast (animal)
+- Hit points: d12 a level
+- Qualities: rolled (3d6 each)
+- Attack: tail, 1d6 bludgeoning
+- Hide: Hide Armor, armour 1
+- Temperament: defensive
+- Worth: 20 experience a level
+
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
+
+> The greatest animal of the island: a long-necked browser as big as a barn that lives on the canopy and notices nothing smaller than itself.
 
 #### Lark
 
@@ -1292,6 +1342,22 @@ Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 
 
 > A great grey beast of the hot scrub, short-sighted and short-tempered, that charges whatever it cannot make out.
 
+#### Sail-wing
+
+*Kyr · beast* · `species:sail_wing`
+
+- Type: beast (animal)
+- Hit points: d6 a level
+- Qualities: rolled (3d6 each)
+- Attack: beak, 1d4 piercing
+- Hide: Hide Armor, armour 1
+- Temperament: territorial
+- Worth: 15 experience a level
+
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
+
+> A leathery flier of the island's sea-cliffs that nests in great colonies and drives off anything that walks on the ledges.
+
 #### Sheep
 
 *Kyr · beast* · `species:sheep`
@@ -1378,6 +1444,24 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A small rodent of great agility and bushy tail. It is an excellent climber.
 
+#### Stilt-runner
+
+*Kyr · beast* · `species:stilt_runner`
+
+- Type: beast (animal)
+- Hit points: d8 a level
+- Qualities: rolled (3d6 each)
+- Attack: kick, 1d2 bludgeoning
+- Hide: Hide Armor, armour 1
+- Temperament: wary
+- Worth: 10 experience a level
+
+Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
+
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
+
+> A tall, fast, flightless eater of eggs and fruit, curious about people and quick to bolt.
+
 #### Stoat
 
 *Faithful · beast* · `species:stoat`
@@ -1397,6 +1481,26 @@ Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 
 Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A small carnivorous mammal with exceptional agility and clever hunting techniques.
+
+#### Three-horn
+
+*Kyr · beast* · `species:three_horn`
+
+- Type: beast (animal)
+- Hit points: d12 a level
+- Qualities: rolled (3d6 each)
+- Attack: horns, 1d4 bludgeoning
+- Hide: Scale Mail, armour 4
+- Temperament: territorial
+- Worth: 10 experience a level
+
+Prepare Charge: You are preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else. Again after 3 turns.
+
+Charge: End preparing to charge on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act. Again after 3 turns.
+
+Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 turns.
+
+> A browsing beast of the fern plain with a bony frill and three horns, that will hold a calf's ground against anything.
 
 #### Tiger
 
@@ -1438,6 +1542,26 @@ Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 
 Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 > A slow-moving reptile with a hard protective shell and long lifespan.
+
+#### Tyrant
+
+*Kyr · beast* · `species:tyrant`
+
+- Type: beast (animal)
+- Hit points: d12 a level
+- Qualities: rolled (3d6 each)
+- Attack: bite, 1d6 piercing
+- Hide: Scale Mail, armour 4
+- Temperament: ambush
+- Worth: 30 experience a level
+
+Prepare Charge: You are preparing to charge for 2 turns. Preparing to Charge: +2 to hit, +2 damage; and the next turn can only be Charge, nothing else. Again after 3 turns.
+
+Charge: End preparing to charge on yourself; 3d8 + 1 + level bludgeoning damage to one enemy (may cause stunned: a Constitution save against 15 avoids it). Stunned: −2 to every roll, cannot act. Again after 3 turns.
+
+Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to it (may cause stunned: a Constitution save against 15 avoids it); it is bleeding for 3 turns (a Constitution save against 15 + level + the caster's spell bonus avoids it). Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn. Again after 2 turns.
+
+> The island's great hunter: a bulk-headed killer as long as a barn, with a bite that breaks the backs of the herd.
 
 #### Wendigo
 

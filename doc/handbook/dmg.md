@@ -2485,17 +2485,6 @@ A generated world is assembled from a region's geography and kits. A kit is a si
 
 > A settlement that a power preys on puts a price on the power's chief. It needs a power some earlier placement established, the settlement that power raids, the people the power acts through, and where it holds out (which the offer puts on the company's map); who offers the money, and what they want for it, is Deem's to propose.
 
-#### A raiders' hold
-
-*Kyr* · `kit:raider_hold`
-
-- Fills: approach (waypoint(?approach)); road (waypoint(?road) and onRoad(?road)); prey (square(?town, ?prey)); area (areaOf(?approach, ?area))
-- Draws: hold from raider_hold_shape by terrain; folk from raider_hold_folk by terrain
-- Provides: 7 facts
-- Modules: 4
-
-> A band that lives by raiding: a hold in wild country off the road, a road they lie in wait on, and a settlement they rob. Where it stands, which road and which settlement are bound to the region; who they are and the shape of their hold are Deem's to propose, and each changes what the company can do about them.
-
 #### A toll on a road
 
 *Kyr* · `kit:toll_road`
@@ -2506,6 +2495,17 @@ A generated world is assembled from a region's geography and kits. A kit is a si
 - Modules: 2
 
 > A band that has made a stretch of road between two settlements its own: it stops whoever comes and takes a toll, and buys its bread on credit at the nearest inn. While the road is tolled the settlements it joins pay more for their meal and are not restocked; an inn bought empty means the band comes for bread in the night. Where the road runs and which inn feeds it are bound to the region; who keeps the toll is Deem's to propose, and each kind is dealt with differently.
+
+#### A raiders' hold
+
+*Kyr* · `kit:raider_hold`
+
+- Fills: approach (waypoint(?approach)); road (waypoint(?road) and onRoad(?road)); prey (square(?town, ?prey)); area (areaOf(?approach, ?area))
+- Draws: hold from raider_hold_shape by terrain; folk from raider_hold_folk by terrain
+- Provides: 7 facts
+- Modules: 4
+
+> A band that lives by raiding: a hold in wild country off the road, a road they lie in wait on, and a settlement they rob. Where it stands, which road and which settlement are bound to the region; who they are and the shape of their hold are Deem's to propose, and each changes what the company can do about them.
 
 ### Frameworks
 
@@ -2593,6 +2593,15 @@ The worlds that ship with the game.
 
 > Ammerlin goes down the inside of an old crater in four terraces, and its life is the water of the Stair. For three years the Mere at the bottom has been falling, and everybody in the city has a reason, and every reason is also a claim on somebody else's water. The Office of Measures has engaged you as Independent Assessor, because nobody who lives there can be neutral. Choose three companions.
 
+### The Long Muster's Road
+
+*Kyr* · `campaign:muster`
+
+- Regions and sites: muster
+- Kits placed: —
+
+> Sixty miles of road the Aeneans built in a season and the mountains have taken back in eleven hundred years: bridges down, galleries fallen, mansios roofless. At its far end, they say, someone still lights the lamps. Choose three companions, and decide what to carry.
+
 ### A Parliament of Books
 
 *Kyr* · `campaign:parliament-of-books`
@@ -2619,6 +2628,15 @@ The worlds that ship with the game.
 - Kits placed: —
 
 > You have walked the coast road for a week with a little money and no reason to stop. This morning it comes over the shoulder of a down, and below you is the Gannet Reach: nine miles of shining sand, or of shining sea, depending on the hour, with islands in it, and a town of grey roofs on the near headland, and out on the sands a ship lying on her side.
+
+### Tallow Deep
+
+*Kyr* · `campaign:tallow`
+
+- Regions and sites: tallow
+- Kits placed: —
+
+> A pale ridge with a village at its foot swallows a river, and the river comes out nine miles round. In between there is a mine the Company left in a season, a waterworks the legions built, and something older than either. Choose three companions, and decide how to go in.
 
 ### The Book of Faces
 
