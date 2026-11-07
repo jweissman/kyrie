@@ -6,6 +6,9 @@
 /* The telling has the column; the touches stay at its foot. */
 .world-page.scale-scene .focus > .glance > .told-col { flex: 1 1 auto; min-height: 0; max-height: none;
   padding: clamp(18px, 3vh, 28px) clamp(18px, 2.2vw, 30px) 8px; mask-image: none; }
+/* More of the telling below than is in view: its foot fades, so that it is seen to go on (see Scrolled). */
+.world-page.scale-scene .focus > .glance > .told-col[data-more] {
+  mask-image: linear-gradient(180deg, #000 calc(100% - 44px), transparent); }
 .world-page.scale-scene .focus > .glance > .do-col { flex: none; }
 .world-page.scale-scene .focus > .glance .do-list { padding: 4px clamp(18px, 2.2vw, 30px) clamp(14px, 2.4vh, 22px); }
 .setting { margin: 0; }
@@ -128,3 +131,5 @@
 
 /* What waiting spends, under Wait (REV-14). */
 .pastime .pt-means { margin: 2px 0 8px; font: 400 13px/1.4 var(--told); color: var(--dim); }
+/* That there is nowhere to sleep, where a night could only be waited out (the fresh playtest of 7 November). */
+.pastime .pt-no-sleep { margin: 10px 0 0; font: italic 400 13.5px/1.4 var(--told); color: var(--dim); }

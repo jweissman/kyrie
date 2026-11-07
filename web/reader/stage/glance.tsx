@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { Glyphs } from '../creation/glyphs';
 import type { Glance, Promoted } from '../../../src/presentation/glance-types';
 import type { Choice } from '../../../src/ui/choice-list';
@@ -20,6 +21,7 @@ import { AtHand } from './at-hand';
 import { Explorer } from './explorer';
 import { Pastime } from './pastime';
 import { Wayfinder } from './wayfinder';
+import { Scrolled } from './scrolled';
 
 // A place at a glance (OWN-18, OWN-19), as the engine decides it (see Glance), under the place's head: what is told in
 // one column, and what can be done held in view beside it (under it on a screen held upright), never a scroll away.
@@ -114,11 +116,14 @@ export class GlanceStage {
   // At rest in a place (the owner, 4 November, late, and 5 November: a settled contract), what is told: the place
   // whole, always (5 November, late: never folded away), how the company came, and what came of what was last done
   // here, under it; a danger in its own block.
+  // The column says when more of it lies below (see Scrolled), and what was just done here is brought into view in it
+  // (see Told.Happened).
   static Rest({ app, glance: g }: { app: ReaderApp; glance: Glance }) {
     const s = app.state, leaf = s.frame!.leaf, exchange = leaf.exchange, screen = s.frame!.screen;
     const told = exchange && (exchange.lines.length || exchange.notes.length) && !s.kept ? exchange : undefined;
-    const struck = !leaf.moved ? false : !!told && told.lines.some(l => Told.harm.test(l.text));
-    return <div className="told-col" data-region="told">
+    const struck = !leaf.moved ? false : !!told && told.lines.some(l => Told.harm.test(l.text)), col = useRef(null);
+    Scrolled.useCue(col, s.frame);
+    return <div className="told-col" data-region="told" ref={col}>
       {s.pending && !s.exploring && <Told.Working pending={{ ...s.pending, stage: s.stage }} />}
       {struck && told && <Told.Happened exchange={told} ready={Moments.ready(screen)} app={app} />}
       {g.came && <GlanceStage.Came app={app} came={g.came} />}

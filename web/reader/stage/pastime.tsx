@@ -12,13 +12,15 @@ export class Pastime {
     const s = app.state, exchange = s.frame!.leaf.exchange, wait = Pastime.wait(app);
     const told = s.kept && !s.pending && exchange && (exchange.lines.length || exchange.notes.length) ? exchange : undefined;
     const lengths = (wait?.children ?? []).filter(c => draw.index.has(c.id)), also = Pastime.also(app);
+    const sleeps = Pastime.sleeps(app), night = lengths.some(c => c.does === 'wait_for_light');
     return (
       <div className="pastime" data-region="pastime">
         {lengths.length > 0 && <section className="pt-wait" aria-label="Wait">
           <h3>Wait</h3>
           <Pastime.Means app={app} />
-          <ul className="pt-lengths">{lengths.map(c => <li key={c.id}>
+          <ul className="pt-lengths">{[...lengths, ...sleeps].map(c => <li key={c.id}>
             <Act.View choice={c} draw={draw} className="pt-length" marked /></li>)}</ul>
+          {night && !sleeps.length && <p className="pt-no-sleep">{Pastime.sleepless}</p>}
         </section>}
         <div className="pt-told" aria-live="polite">
           {s.pending ? <Told.Working pending={s.pending} /> : told && <Told.Happened exchange={told} said app={app} />}
@@ -45,9 +47,19 @@ export class Pastime {
   static search(app: ReaderApp): Choice | undefined {
     return (app.menu.scene?.you ?? []).find(c => c.does === 'search');
   }
-  // What else the company does of itself here: not waiting or searching, nor what the place offers (see AtHand).
+  // Sleeping, where it can be had (a rest somewhere safe, a camp in the open): among the ways of letting the hours go,
+  // beside waiting for the light, which is no rest. A company that waited out a night in a cellar woke worn out, its
+  // rest a line among lighting a lantern and preparing spells, or nowhere (the fresh playtest of 7 November).
+  static readonly sleeping = ['rest', 'rest_unfed', 'camp'];
+  static sleeps(app: ReaderApp): Choice[] {
+    return (app.menu.scene?.you ?? []).filter(c => Pastime.sleeping.includes(c.does ?? ''));
+  }
+  static readonly sleepless = 'Nowhere to sleep here: a night waited out is no rest.';
+  // What else the company does of itself here: not waiting, sleeping or searching, nor what the place offers (see
+  // AtHand).
   static also(app: ReaderApp): Choice[] {
-    const wait = Pastime.wait(app), search = Pastime.search(app);
-    return (app.menu.scene?.you ?? []).filter(c => c !== wait && c !== search && !SceneModel.own(c));
+    const wait = Pastime.wait(app), search = Pastime.search(app), sleeps = Pastime.sleeps(app);
+    return (app.menu.scene?.you ?? []).filter(c => c !== wait && c !== search && !sleeps.includes(c)
+      && !SceneModel.own(c));
   }
 }

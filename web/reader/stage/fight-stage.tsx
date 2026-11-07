@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react';
+import { useRef, useState, type ReactNode } from 'react';
 import type { CombatantRow } from '../../../src/ui/screen-types';
 import type { ReaderApp } from '../reader-app';
 import { Typography } from '../../../src/presentation/typography';
@@ -6,6 +6,7 @@ import { Words } from '../words';
 import { Followed } from '../followed';
 import { FightLog } from '../fight-log';
 import { Act } from './act';
+import { Scrolled } from './scrolled';
 
 // A fight. The company on one side and what it fights on the other, each with how hurt they are, what they are under
 // and (for a foe) what it means to do; between them what has just happened, large, the latest last, the blows just
@@ -19,14 +20,16 @@ export class FightStage {
     const standing = c.foes.filter(f => f.hp > 0);
     return standing.length > 0 && standing.every(f => f.hp <= f.maxHp / 2) && c.allies.every(f => f.hp > f.maxHp / 2);
   }
+  // The acts and the sides each say when more of them lies below (see Scrolled).
   static View({ app }: { app: ReaderApp }) {
-    const [log, show] = useState(false);
+    const [log, show] = useState(false), moves = useRef(null), sides = useRef(null);
     const s = app.state, frame = s.frame!, combat = frame.combat!, mark = s.fight, draw = Act.draw(app);
     const seen = mark?.seen ?? 0, recent = combat.exchanges.filter(e => e.n >= seen);
     // The blows before, quieter, above the last: the middle of the page had been white under one line (Mission 17).
     const earlier = combat.exchanges.filter(e => e.n < seen).slice(-FightStage.kept);
     const first = mark?.first ?? true, after = combat.after ?? [];
     const turn = combat.outcome ? 'The fight is over.' : combat.ours ? `${combat.actorName}’s turn` : `${combat.actorName} acts`;
+    Scrolled.useCue(moves, combat); Scrolled.useCue(sides, combat);
     return (
       <div className="fight" id="page">
         <p className="status"><span>A fight</span><span>Round {Math.max(1, combat.round)}</span>
@@ -34,7 +37,7 @@ export class FightStage {
           {combat.standing && <span className={`standing ${combat.standing.danger}`} data-region="standing">
             {Typography.curl(combat.standing.text.split(/(?<=\.) /)[0]!)}</span>}</p>
         {(combat.laws ?? []).map(l => <p key={l.name} className="law"><b>{l.name}.</b> {l.text}</p>)}
-        <div className="sides">
+        <div className="sides" ref={sides}>
           <ul className="side ours" aria-label="The company">{combat.allies.map(f => <FightStage.Card key={`${f.id}:${f.hp}`} fighter={f}
             took={mark ? (mark.hp[f.id] ?? f.hp) - f.hp : 0} />)}</ul>
           <div className="beat" aria-live="polite">{log ? <FightLog.Memo exchanges={combat.exchanges} /> : <>
@@ -58,7 +61,7 @@ export class FightStage {
           {!combat.outcome && combat.order.length > 1 && <ol className="order" aria-label="Who acts, in turn">
             {combat.order.map((n, i) => <li key={`${i}:${n}`} className={i ? undefined : 'next'}>
               {Typography.curl(Words.upper(n))}</li>)}</ol>}</div>
-        <div className="moves">
+        <div className="moves" ref={moves}>
           {app.menu.sections.filter(sec => sec.choices.length).map(sec => <section key={sec.id} data-section={sec.id}>
             {sec.title && <p className="label">{sec.title}</p>}
             <Act.List choices={sec.choices} draw={draw} className="cards" />

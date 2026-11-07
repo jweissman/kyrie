@@ -108,7 +108,8 @@ export class FieldUse {
   }
   // World-time conditions run down a watch. A company's own flames (a torch, a lantern, a candle; not a conjured
   // light, which runs its course) burn only while they are wanted: where the company is is unlit, and it is not
-  // asleep. A lantern is put out to sleep, and in the day, or in a lit room.
+  // asleep, nor sitting out the hours until light or dark (asleep, here: see WatchLoop). A lantern is put out to sleep,
+  // and to wait out a night, and in the day, or in a lit room.
   static advance(store: CreatureStore, elapsed: number, events: CombatEvent[],
     scene?: { world: World; actors: CampaignActor[]; player?: string; asleep?: boolean; seed?: string }) {
     const ids = store.live.filter(c => c.state.conditions.some(s => s.clock === 'world-time')).map(c => c.id);

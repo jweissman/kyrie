@@ -19,6 +19,8 @@ export interface WatchHost extends TickHost {
 // A command's time passes a watch at a time: conditions run out, people act, rules fire, what the world turns on
 // the company happens to it, modules progress; an activity that can be interrupted stops when something does.
 export class WatchLoop {
+  // What an act holds while it runs that has the company put its lights out (see core.kyr's sittingOut).
+  private static readonly lightless = ['asleep', 'sittingOut'];
   // Minutes add up: what is left over from the last action and this one's, every ten of them a watch passed.
   private static spend(host: WatchHost, minutes: number): number {
     const current = host.tickState.current, spent = (current.minutes ?? 0) + minutes;
@@ -62,8 +64,9 @@ export class WatchLoop {
       if (foe) { return { npc, happenings, interrupted: Engagement.announced(host, foe, happenings) }; }
       Engagement.halt(host);
     }
-    // A company asleep puts its lights out (see FieldUse.advance).
-    const asleep = ['recover', 'rough'].includes(action.resolve?.name ?? '');
+    // A company asleep puts its lights out (see FieldUse.advance), and so does one sitting out the hours.
+    const asleep = ['recover', 'rough'].includes(action.resolve?.name ?? '')
+      || (action.meanwhile ?? []).some(call => WatchLoop.lightless.includes(call.name));
     for (let tick = 0; tick < watches && !why; tick++) {
       if (journey && tick === watches - 1) { journey.arrive(); }
       host.advanceWatch(combat, asleep);
