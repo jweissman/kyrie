@@ -267,13 +267,22 @@
     "Walk on south, and do not look back"
   ],
   "theRaidersWithTheSacks": [
-    "=day 2 19:00",
     "To Greenhalgh's farm",
+    "=day 2 18:30",
     "Draw on the four with the sacks"
   ],
   "floodTheMeadow": [
     "To Quarmby's mill yard",
     "To the mill race",
     "Draw the flood-gate"
+  ],
+  "askAtTheStone": [
+    "To the ford meadow",
+    "To the ford stones",
+    "To the east road, at the ford",
+    "To the parley stone",
+    "=day 3 12:30",
+    "Ask the captain what he wants",
+    "Wait for what the captain asks"
   ]
 }

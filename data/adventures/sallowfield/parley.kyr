@@ -72,8 +72,9 @@ Module sallowfield "Three Nights at Sallowfield" {
   }
   Topic wyre_owed with wyre "Tell me what you are owed. All of it" answering wyre_q when true {
     Says "He is silent for so long that Fothergill shifts in his saddle. Then he tells it, flatly: the spring, the Margrave's letter, the debt that has been recognised for six years and is not recognised this one, the eleven hundred, the forty men who have followed him because he said he would see them paid and has not. 'There,' he says. 'You asked.'".
-    On discuss { Assert parleyOpen(actor). }
+    On discuss { Assert owedHeard(actor). }
   }
+  Relation owedHeard(group).
   Action bluff_wyre(actor: group, site: place) "Tell the captain the Margrave's lancers are a day behind him" {
     Speaker wyre.
     Requires able(actor) and company(actor) and at(actor, site) and at(wyre, site) and not bluffed(party).

@@ -4,8 +4,12 @@ Module sallowfield "Three Nights at Sallowfield" {
   Rule plan_open when planned(party) and parleyOpen(party) and not planMod5(party) {
     Assert planMod5(party). Decrease thrust(ford_stones) by 2 or to nothing. Decrease thrust(bridge) by 2 or to nothing. Decrease thrust(mill_yard) by 2 or to nothing. }
   Rule plan_refused when planned(party) and parleyRefused(party) and not planMod6(party) {
-    Assert planMod6(party). Increase thrust(ford_stones) by 1. Increase thrust(bridge) by 1. Increase thrust(mill_yard) by 1. Increase thrust(nave) by 1. }
-  Relation planMod5(group). Relation planMod6(group).
+    Assert planMod6(party). Increase thrust(ford_stones) by 1. Increase thrust(bridge) by 1. Increase thrust(mill_yard) by 1. Increase thrust(nave) by 1. Increase drillBonus(party) by 2. }
+  // To hear what he is owed is to give him a hearing: his line leans less, and the village's levy hears a captain with a case.
+  Rule plan_owed when planned(party) and owedHeard(party) and not planMod7(party) {
+    Assert planMod7(party). Decrease thrust(ford_stones) by 2 or to nothing. Decrease thrust(bridge) by 2 or to nothing. Decrease thrust(mill_yard) by 2 or to nothing.
+    Decrease drillBonus(party) by 1 or to nothing. }
+  Relation planMod5(group). Relation planMod6(group). Relation planMod7(group).
 
   Action walk_on(actor: group, site: place) "Walk on south, and do not look back" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, south_road).
@@ -39,29 +43,29 @@ Module sallowfield "Three Nights at Sallowfield" {
   // Fates, by name, at dawn.
   Observe fate_quarmby_dead near party when dawned(party) and felled(quarmby) "Gil Quarmby is lying across the mill door with the key in his hand. They have not touched the mill. It looks to have been the one thing he asked.".
   Observe fate_quarmby_live near party when dawned(party) and not felled(quarmby) "Gil Quarmby is already on the wheel with a rag, wiping the soot off the buckets. 'Forty years,' he says, to nobody. The wheel turns.".
-  Observe fate_pinn_dead near party when dawned(party) and felled(pinn) "They found Davy Pinn at the foot of the bridge with the sling still round his hand. Nobody has told his father. His father is at the mill, grinding, because it is the only thing he knows how to do.".
-  Observe fate_pinn_live near party when dawned(party) and not felled(pinn) and pinnBrave(party) "Davy Pinn is sitting on the tower roof with his legs over the parapet, eating a heel of bread. He is twelve years old, and has not asked anyone whether he is too young.".
+  Observe fate_pinn_dead near party when dawned(party) and felled(pinn) "They found Davy Pinn at the foot of the bridge with the sling still round his hand. His father is at the mill, grinding, because it is the only thing he knows how to do.".
+  Observe fate_pinn_live near party when dawned(party) and not felled(pinn) and pinnBrave(party) "Davy Pinn is sitting on the tower roof with his legs over the parapet, eating a heel of bread. He is twelve years old, and he is wearing somebody's helmet.".
   Observe fate_cragg_dead near party when dawned(party) and felled(cragg) "They say Ellen Cragg is in the nave with her back against the plate-chest and an arrow in her hand, nock to string. The pile beside her is counted: thirty-one gone, ten left.".
   Observe fate_cragg_live near party when dawned(party) and not felled(cragg) "Ellen Cragg is counting what is left. 'Ten,' she says. She does not say it sadly. She says it as though it were a debt, and she was glad to know the figure.".
   Observe fate_mowbray_dead near party when dawned(party) and felled(mowbray) "They say Father Mowbray is in his own church with the doors wide. They have not taken the plate. The last thing he said was, the witnesses agree, a blasphemy of astonishing length.".
   Observe fate_mowbray_live near party when dawned(party) and not felled(mowbray) and mowbrayRaised(party) "Father Mowbray has said a rite over a man and the man has stood up. He is sitting in the porch, sweating through his surplice and swearing under his breath and continuously, like a pot.".
-  Observe fate_cragg_kin near party when dawned(party) and not felled(cragg) and craggKin(party) "At the bottom of her tally, under the ten, Ellen Cragg has written a name in her own hand, and has not said whose.".
+  Observe fate_cragg_kin near party when dawned(party) and not felled(cragg) and craggKin(party) "At the bottom of her tally, under the ten, Ellen Cragg has written a name in her own hand. It is a short name.".
   Observe fate_cragg_killed near party when dawned(party) and not felled(cragg) and craggKilled(party) "Ellen Cragg has not spoken to you since the ford. She has left a bow on your bed, strung, which is either courtesy or the other thing.".
-  Observe fate_mowbray_arms near party when dawned(party) and not felled(mowbray) and mowbrayArms(party) "Father Mowbray has the stain of it on his sleeve and has not changed the sleeve, and says the morning office in it.".
+  Observe fate_mowbray_arms near party when dawned(party) and not felled(mowbray) and mowbrayArms(party) "Father Mowbray has the stain of it on his sleeve, and says the morning office in it.".
   Observe fate_pinn_sent near party when dawned(party) and not felled(pinn) and pinnSent(party) and not pinnBrave(party) "Davy Pinn was on the green all night, as promised, and counted every man who went by, and is willing to say the number at length.".
   Observe fate_kersey_dead near party when dawned(party) and felled(kersey) "They say the forge is cold and Peg Kersey is in the doorway, on her side. There are black points on the floor all round her, and none of the men who fell on them are alive.".
   Observe fate_greenhalgh near party when dawned(party) and greenhalghDead(party) "Ned Greenhalgh is in his yard, with a cow. He had not been willing to leave. The cow is alive.".
-  Observe fate_wadsworth near party when dawned(party) and wadsworthRan(party) "Hob Wadsworth is in the cellar of the Ploughshare, in the dark, under a barrel. He has been there since the second hour. Nobody has told him it is over, and nobody is going to.".
-  Observe fate_elland near party when dawned(party) and ellandFights(party) and not felled(elland) "Tib Elland is holding a granary door with a tally-stick. He has not been asked to stop. He does not seem to have noticed that it is morning.".
-  Observe fate_hay near party when dawned(party) and hayLost(party) "Greenhalgh's meadow is a brown lake with the hurdles standing out of it, and his hay is under it. The cows will be on straw by Christmas, and he has not said what he thinks of you.".
+  Observe fate_wadsworth near party when dawned(party) and wadsworthRan(party) "Hob Wadsworth is in the cellar of the Ploughshare, in the dark, under a barrel. He has been there since the second hour. It is a good barrel, and he has found the tap.".
+  Observe fate_elland near party when dawned(party) and ellandFights(party) and not felled(elland) "Tib Elland is holding a granary door with a tally-stick. The door has held since midnight, and so has he.".
+  Observe fate_hay near party when dawned(party) and hayLost(party) "Greenhalgh's meadow is a brown lake with the hurdles standing out of it, and his hay is under it. The cows will be on straw by Christmas, and he is sitting on the gate with the dog, looking at it.".
   Observe fate_winter near party when dawned(party) and winterShort(party) "The granary is stained or empty. There is going to be a winter in Sallowfield, and some of it will be hungry. People in the queue for the well are doing the sum aloud.".
   Observe fate_picks_argued near party when dawned(party) and picksArgued(party) "The three went off down the east road at first light, and one of them stopped at the bridge to tell the sentry he had been right about the coin.".
-  Observe fate_picks_yielded near party when dawned(party) and grainGiven(party) "The granary door is open and the floor is swept. Nobody has told Tib Elland, and he is counting the empty sacks twice.".
+  Observe fate_picks_yielded near party when dawned(party) and grainGiven(party) "The granary door is open and the floor is swept. Tib Elland is counting the empty sacks twice.".
   Observe fate_picks_took near party when dawned(party) and picksTook(party) "Nobody was asked. The granary door was open when the light came, and the floor is swept, and the winter is going to be a long one.".
   Observe fate_helpless near party when dawned(party) and helplessLost(party) "Old Mistress Haworth's chair is in the road with nobody in it, and a cradle is lying on its side in the ash of the inn yard.".
   Observe fate_bell near party when dawned(party) and bellSilenced(party) "The bell-rope has been cut at the hole in the roof and hangs a yard short of the floor.".
   Observe fate_plate near party when dawned(party) and plateKept(party) "The plate-chest is bolted to the chapel floor, and Father Mowbray is sitting on it, and has the look of a man who has been asked for it twice.".
-  Observe fate_captain_ash near party when dawned(party) and fothergillTurned(party) and greenBurns(party) "The green is still smoking, and Fothergill rode out through it with his hat in his hand, and did not look at the chapel.".
+  Observe fate_captain_ash near party when dawned(party) and fothergillTurned(party) and greenBurns(party) "The green is still smoking, and Fothergill rode out through it with his hat in his hand, and the horse picked its own way through the embers.".
   Observe fate_coach at east_road when dawned(party) and coachGone(party) "The coach is the ford wall, and the wall is a heap of char. Teasdale is sitting on a wheel in the sun. 'It was a good coach,' he says, without rancour, to the river.".
   Observe fate_lowes at taproom when dawned(party) and heldScout(lowes) and lowesHard(party) "The boy in the cellar has not eaten. He pulls his boots in when you come down.".
 

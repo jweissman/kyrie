@@ -355,6 +355,8 @@ describe("Three Nights at Sallowfield", () => {
     await j.play(...steps.muster, ...steps.theRaidersWithTheSacks);
     expect(held(j, 'raidersBeaten', 'party')).toBe(true);
     expect(held(j, 'greenhalghSaved', 'party')).toBe(true);
+    expect(held(j, 'greenhalghDead', 'party')).toBe(false);
+    expect(held(j, 'farmBurned', 'party')).toBe(false);
   }, 300000);
 
   it('makes the flood a trade: the ford and the mill are stronger, the bridge is undermined, and the pits are drowned', async () => {
@@ -370,6 +372,23 @@ describe("Three Nights at Sallowfield", () => {
     const dug = pits.measure('defence', 'ford_stones');
     await pits.play('To Sallowfield green', ...steps.floodTheMeadow);
     expect(pits.measure('defence', 'ford_stones')).toBe(dug);
+  }, 300000);
+
+  it('does not offer to draw on the raiders once the farm has burned', async () => {
+    const j = await start();
+    await j.play(...steps.muster, '=day 2 23:00', "To Greenhalgh's farm");
+    expect(held(j, 'farmBurned', 'party')).toBe(true);
+    expect(j.choices().map(c => c.label)).not.toContain('Draw on the four with the sacks');
+  }, 300000);
+
+  it('makes refusing and asking what he is owed two different bargains: the levy hardens, or Wyre leans less and the levy listens', async () => {
+    const refused = await start();
+    await refused.play(...steps.muster, ...steps.askAtTheStone, 'Nothing. We will not pay');
+    const owed = await start();
+    await owed.play(...steps.muster, ...steps.askAtTheStone, 'Tell me what you are owed. All of it');
+    expect(refused.measure('drillBonus', 'party')).toBeGreaterThan(owed.measure('drillBonus', 'party'));
+    expect(owed.measure('thrust', 'ford_stones')).toBeLessThan(refused.measure('thrust', 'ford_stones'));
+    expect(owed.measure('thrust', 'nave')).toBeGreaterThanOrEqual(0);
   }, 300000);
 
   it('is half saved when the ford is walled, the helpless sent up the fold, and the grain given', async () => {
