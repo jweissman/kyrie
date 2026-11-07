@@ -642,6 +642,12 @@ One `at nowhere` is nowhere to be taken, and comes only by being given. A topic 
 lends(clerk, ladder, actor). }`) lets the company take it up in front of its owner (Quittance's sd 6 and wk 8;
 `probes/lent-ladder`).
 
+Lending is leave, not a gift: `lends` puts nothing in anyone's hands. A thing lent where the company cannot reach it (in
+another room it never comes to, or `at nowhere`) is never had, though the topic that lends it reads as if it were
+handed over: the Imbar author found six gifts between adventures that no player could ever hold, with tests that had
+handed them over by hand (M19-93). To hand a thing over, `Give` it (`On discuss { Give ladder to actor. }`); to let it
+be taken where it lies, lend it where the company stands.
+
 A servant bought off stops serving: in *The Long Man*, paying Dunnet's wages retracts `serves(dunnet, venn)`. One who
 `Resents "…"` says that on seeing what is theirs in the company's hands, and is not made its enemy by it: they can
 still be talked to (What Tessary Owes' W8; `test/fixtures/probes/resents`).

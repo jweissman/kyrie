@@ -184,6 +184,9 @@ export interface ItemKind {
   // A stone's rank (data/catalog/items/gems.json): what one of it is worth, before its cut, size and clarity; and
   // a thing's plate, where one is drawn (data/paintings/gems.json and gear.json: gems/<id>, gear/<id>).
   rank?: string; portrait?: string;
+  // What it points its bearer toward: one of the canon's identities (data/imbar), never a place or a map's cell, so it
+  // resolves to wherever a world builds that one (the Dun Rìerdan waystone: dun_ri, the City of Seven Towers).
+  points?: string;
 }
 export interface Domain {
   name: string; alignment: 'good' | 'neutral' | 'evil'; description?: string; spellDomain?: string;

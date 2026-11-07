@@ -9,12 +9,14 @@ Module canon "Imbar and the planes" {
   Observe infinite_library_seen at infinite_library_threshold when true "Shelves of books on every side, going away further than you can see.".
 
   // ── The College of Dun Rì, and its House of Doors ────────────────────────────────────────────────────────────────
-  // Named before any adventure builds a place for them. The college is seated in Dun Rì, the City of Seven Towers
-  // (Orsino's dun_ri); the House of Doors is its restricted precinct, and the Rector of the House an office of it.
+  // Named before any adventure builds a place for them. The college is seated in Dun Rìerdan, the City of Seven
+  // Towers (Orsino's dun_ri; Dun Rì, as travellers say it); the House of Doors is its restricted precinct, and the
+  // Rector of the House an office of it. A world builds the city once and names it (seatOf(dun_ri, a place)); what
+  // points there (the Dun Rìerdan waystone) points to it so.
   // An adventure that builds a place for one says so: Initially Assert seatOf(house_of_doors, its building).
   Entity mages_college: identity "the College of Dun Rì".
   Entity house_of_doors: identity "the House of Doors".
-  Entity dun_ri: identity "Dun Rì".
+  Entity dun_ri: identity "Dun Rìerdan".
   Entity rose_of_the_winds: identity "the Rose of the Winds".
   Entity rector_of_the_house: identity "the Rector of the House of Doors".
   Initially Assert seatedIn(mages_college, dun_ri).

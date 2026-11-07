@@ -25,8 +25,11 @@ describe('a generated world', () => {
       { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
     const s = await PlaySession.start(w.path, 'a1', w.source);
     const c = s.campaign as unknown as { world: { apply(c: Change[]): unknown }; commit(w: unknown): void };
-    c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('at', 'party', 'region__w2_hall') },
-      { kind: 'retract', call: ModuleWriter.call('unlit', 'region__w2_hall') }]));
+    // Wherever the world has set its symbols: the room moves as Orsino's wonders are drawn.
+    const symbols = s.campaign.module.entities.find(e => /^region__wonder_arcane_symbols/.test(e.id))!.id;
+    const room = s.campaign.world.one('at', symbols)!;
+    c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('at', 'party', room) },
+      { kind: 'retract', call: ModuleWriter.call('unlit', room) }]));
     const meet = PlayerView.choices(s.campaign).find(x => /the glowing symbols$/.test(x.choice.name))!;
     expect((await s.perform(meet.choice.id)).result).toBe('success');
   }, 180000);

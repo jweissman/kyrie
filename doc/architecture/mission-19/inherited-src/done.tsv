@@ -8,8 +8,8 @@ REV-18	Fixed 1f60613c: notes in layers (aims; leads heard, not yet seen; what yo
 LOR-05	Not reproduced in play: the third way-mark's two 'right-hand passage' labels hold only before the Fork is found, and it is found before the mark is reached (navigation census reads names before discovery)
 QIS-09	Not reproduced: GeneratedWorld.travel reached a1's w8 and w11 across the country on 4 Nov (scratch lead walker)
 REV-16	Partial 4a9932ac: 'Press on to the end' when every foe standing is at half strength or less and the company above half (engine presses by tactics, stops if one of the company falls under a third); morale and surrender by default stay deferred (authored fights wait on a band's fall)
-PT-11	Partial bb400a85: the first town's three jobs each have a way any calling can take (ratsbane, fire flask, the rite or the chalk ring); lone casters and thieves still lose standing fights out of town (novice-viability); companions by recruitment are the brief's answer
-SYS-05	Partial bb400a85: as PT-11
+PT-11	Partial bb400a85, 4f09db02: the first town's three jobs each have a way any calling can take (ratsbane, fire flask, the rite or the chalk ring); lone casters and thieves still lose standing fights out of town (novice-viability); companions by recruitment are the brief's answer; the first foes under the town set by the company that takes the job, one for a company of one (4f09db02, M19-87: two great rats had killed a lone mage three times in four)
+SYS-05	Partial bb400a85, 4f09db02: as PT-11
 REV-08	Fixed e7aeac3a: the aim shown is the one followed, kept by the engine, not the one naming where the company stands, so the page no longer points from each edge at the other aim (pine, order: followed steady on the brothers' errand)
 REV-09	Fixed (Mission 18's OWN-85: crossing the country is the map's alone); M19-11 the road's ways on are the map, named for its ends
 IND-05	Fixed d7ceb585, d8539236, bb400a85: thief, warrior, cleric, mage, bard and ranger each have a way of their own in every first town, led on the page; undertown-callings spec

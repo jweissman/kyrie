@@ -10,7 +10,7 @@ REASONS = {
  'OWN-36': 'The Grand Tour\'s canonical locations within the planes: cosmological expansion, set aside by §XI.',
  'OWN-37': 'The Grand Tour for a protagonist of another calling: a rewrite of an adventure\'s premise, beyond the reference journey.',
  'OWN-38': 'Two adventures extending one plane: cosmological demonstration, set aside by §XI.',
- 'ARV-H5': 'A projection of what the company can perceive, across src/ui and the reader: an architecture change the page does not yet need for the reference journey (no leak was found in a1\'s rooms, M19-25).',
+ 'ARV-H5': 'A projection of what the company can perceive, across src/ui and the reader. Rechecked 6 November: the leak is real, not \"none found\": a foe\'s card shows its exact hit points whatever the light (src/ui/combat-model.ts row(); web/reader/stage/fight-stage.tsx), though a fight in an unlit place is fought as a cave (src/campaign/environment.ts). What a company reads of a foe in the dark is a design to settle with the owner (words or numbers), then the projection.',
  'COR-12': 'As ARV-H5.',
  'ARV-M5': 'Fights of more than two sides: a combat-engine change, not asked for by any play of the reference journey.',
  'ARV-M6': 'Central edit points: remedied piecemeal as content moves to data (the trade table, the town template); a registry rewrite is not bounded.',
