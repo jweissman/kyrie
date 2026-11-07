@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "source": [
+    "hill.kyr",
+    "scenes.kyr",
+    "people.kyr",
+    "works.kyr",
+    "creatures.kyr",
+    "finds.kyr",
+    "wake.kyr",
+    "company.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "canon": [
+    "imbar"
+  ],
+  "exports": {
+    "party": "party",
+    "region": "edge",
+    "road": "road"
+  }
+}

@@ -1,0 +1,179 @@
+Module tallow "Tallow Deep" {
+  // ---------------------------------------------------------------------------------------------------------------
+  // What can be known.
+  Discovery spate_known "The Wend comes down in spate the day after rain on the downs, and the Rising and its galleries cannot be waded then.".
+  Discovery breakthrough_known "In the winter of 'seventy-one the Brasiers' Company shot into the Aenean cap in the Blind Shaft's north wall; the river came in and fourteen men died in the Breach.".
+  Discovery foreman_known "Foreman Carr, who led the Breakthrough, left a letter and a ledger in his office on the north walk, in the hall under the Blind Shaft.".
+  Discovery calx_known "A paved Aenean road runs under the ridge, from the Breach to a portal buried two miles west of Swallet.".
+  Discovery stope_known "A miners' stope joins the bat chimney to the old stores, behind the Tallymen's watch at the bend.".
+  Discovery gate_known "The Calx Gate is a bronze portcullis raised by a wheel; its pawl is rusted solid and wants oil, and then the wheel will turn.".
+  Discovery ironglass_known "The black ore under the lead is ironglass; the Foreman kept the best of it in his office.".
+  Discovery cap_known "The Cap is an Aenean lid, set over the head of a shaft older than the Cistern, and a stair goes down under it.".
+  Discovery period_known "The Aeneans measured the Bore's weight at one swing in six breaths, and they cut the figure into the Tally-Wall: VI.".
+  Discovery bore_known "The Bore is a plumb-line well: a weight hangs in it, and has been swinging since before the Aeneans came. They capped it, and wrote on the Cap THE WEIGHT STILL SWINGS.".
+  Discovery custodians_known "The grey figures in the Gear-Hall wind the weight, and attack what disturbs the measure.".
+  Discovery stalkers_known "Something in the Quiet Gallery hunts by the sound of breath, and does not make a noise.".
+
+  // ---------------------------------------------------------------------------------------------------------------
+  // The Wend, and the days it rises.
+  Thing wend "the Wend" at rising_gallery is scenery {
+    State low "The Wend runs knee-deep and clear through the gallery, loud on its stones.".
+    State spate "The Wend is in spate: a brown, roaring mass of water that fills the gallery from wall to wall.".
+  }
+  Initially Assert state(wend, low).
+  Measure spateUntil(entity).
+  Relation surged(group).
+  Rule rain_on_downs when untilLight(clock) == 1 and state(wend, low) and dice(clock) <= 20 {
+    Assert state(wend, spate). Set spateUntil(wend) to watch(clock) + 144.
+  }
+  Rule spate_goes when state(wend, spate) and watch(clock) >= spateUntil(wend) { Assert state(wend, low). Retract surged(party). }
+  Thing ford_spate "the Wend at the bank" on wend_ford is scenery {
+    State easy "The Wend is a shallow gravel run, bright and quick.".
+    State flooding blocking "The Wend is brown and loud over the gravel bank, a mill-race coming out of the hill. Nobody wades it.".
+  }
+  Initially Assert state(ford_spate, easy).
+  Rule ford_floods when state(wend, spate) and state(ford_spate, easy) { Assert state(ford_spate, flooding). }
+  Rule ford_clears when state(wend, low) and state(ford_spate, flooding) { Assert state(ford_spate, easy). }
+  Thing gallery_spate "the Wend in the gallery" on gallery_settling is scenery {
+    State easy "The Wend runs in its channel, knee-deep.".
+    State flooding blocking "The channel is a brown torrent from wall to wall, and the roof drips with its spray.".
+  }
+  Initially Assert state(gallery_spate, easy).
+  Rule gallery_floods when state(wend, spate) and state(gallery_spate, easy) { Assert state(gallery_spate, flooding). }
+  Rule gallery_clears when state(wend, low) and state(gallery_spate, flooding) { Assert state(gallery_spate, easy). }
+  Hazard surge_wave "The Wend in spate" means "Deal (3d6) physical damage to ally unless strength save against (14).".
+  Rule surge_catches at rising_gallery when state(wend, spate) and at(party, rising_gallery) and not surged(party)
+    says "A noise like a cart on a bridge comes up the gallery, and the roof drips, and then the water is not knee-deep any more." {
+    Assert strikes(surge_wave, party). Assert surged(party).
+  }
+  Observe spate_news at green when state(wend, spate) "The pipe over the trough runs brown and thick. It rained on the downs in the night, and the Rising will be loud.".
+  Observe spate_news_bank at bank when state(wend, spate) "The Wend comes out of the Rising in a brown standing wave. The bats are not flying.".
+  Observe rising_sound at rising_gallery as sound when state(wend, spate) "Somewhere upstream there is a long, even roar that was not there a minute ago.".
+
+  // ---------------------------------------------------------------------------------------------------------------
+  // The toll at the bend.
+  Action pay_toll(actor: group, site: place) "Pay the Tallymen six coin for the lantern's loan" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, adit) and at(bend_watch, adit) and able(bend_watch)
+      and not tolerates(bend_watch, actor) and quantity(actor, gold) >= 6.
+    Time 1.
+    On success { Decrease quantity(actor, gold) by 6. Assert tolerates(bend_watch, actor). }
+    Result "The tall one counts the coins into a cap, nods, and steps back into the dark with the other two. 'The lantern's yours till you come out,' he says, 'and we'll not ask what for.'".
+  }
+  Action lie_to_watch(actor: group, site: place) "Tell the Tallymen you are the assayer's surveyors" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, adit) and at(bend_watch, adit) and able(bend_watch)
+      and not tolerates(bend_watch, actor).
+    Time 1.
+    Resolve check(actor, deception, dc_hard).
+    On success { Assert tolerates(bend_watch, actor). }
+    Result "The tall one looks at the cleanest of you, and at Mistress Orpe's name on the lie, and lets the lantern swing. 'Mind the timbers,' he says.".
+    Otherwise "The tall one listens to all of it. 'Orpe's never sent anyone,' he says, almost kindly. 'Six, or the way you came.'".
+  }
+  Action tell_boy(actor: group, site: place) "Give Nib twopence for what he did not say" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, adit_mouth) and at(nib, adit_mouth) and quantity(actor, gold) >= 2.
+    Time 1.
+    On success { Decrease quantity(actor, gold) by 2. Assert knows(actor, stope_known). }
+    Result "Nib takes the coins and looks at the sky. 'The bat chimney,' he says, to the sky. 'It goes up from the Rising. There's a hole in the side, going down, and it's all knees. Never said.'".
+  }
+
+  // ---------------------------------------------------------------------------------------------------------------
+  // The Company's works.
+  Thing office_door "the counting-house's back door" at counting {
+    State bricked blocking "A door in the back wall has been bricked shut, and the brick is newer than the room.".
+    State broken "The bricks of the back door lie in a heap, and a low passage goes back into the dark.".
+    Change break_bricks "Break through the bricked-up door" from bricked to broken needing crowbar.
+  }
+  Passage counting_back "the counting-house's back passage" is passage between counting and winding hidden until counting_back_known.
+  Discovery counting_back_known "Behind the bricked-up door in the counting-house, a passage runs back to the winding-house.".
+  Observe back_opens at counting when state(office_door, broken) "Behind the broken bricks a low passage runs back toward the winding-house." teaches counting_back_known.
+
+  Thing cage "the Blind Shaft's cage" at winding {
+    State hung "A plank cage hangs at the top of the Blind Shaft from a single chain. The chain is bright with rust and has two links worn thin.".
+    State dropped "The cage is gone, and the shaft has the sound of something very large going on falling.".
+    Change ride "Ride the cage down" from hung to dropped.
+  }
+  Hazard cage_drop "The cage's fall" means "Deal (4d6) physical damage to ally unless dexterity save against (15).".
+  Rule cage_falls at winding when state(cage, dropped) and at(party, winding) and not caged(party)
+    says "The chain gives with a sound like a shot." { Assert strikes(cage_drop, party). Assert caged(party). }
+  Relation caged(group).
+  Observe shaft_voice at winding as sound when true "A long way down, water is talking to itself.".
+  Observe sweet_smell at shaft_head as sign when true "The smell that comes up with the draught is sweet and wrong. Something dead has lain down there a long time.".
+
+  // The sluice: the Aeneans' valve on the Wend.
+  Thing sluice "the Swallow's sluice-gate" at sluice_house {
+    State open "The great bronze wheel on the wall is set to OPEN, and below the floor the river goes by in its channel with the sound of a train.".
+    State wound "The wheel is wound round to SHUT, and under the floor the channel is empty and ticking as it drains. From above, a groaning: the river is backing up the Swallow's throat.".
+    Change close_sluice "Wind the sluice-wheel shut" from open to wound.
+    Change open_sluice "Wind the sluice-wheel open" from wound to open.
+  }
+  Initially Assert state(sluice, open).
+  Measure shutAt(entity).
+  Rule shut_marks when state(sluice, wound) and shutAt(sluice) == 0 { Set shutAt(sluice) to watch(clock). }
+  Rule shut_clears when state(sluice, open) and shutAt(sluice) != 0 { Set shutAt(sluice) to 0. }
+  Hazard burst_water "The river returning" means "Deal (4d6) physical damage to ally unless strength save against (15).".
+  Rule gate_gives when state(sluice, wound) and shutAt(sluice) != 0 and watch(clock) >= shutAt(sluice) + 24 {
+    Assert state(sluice, open).
+  }
+  Rule gate_gives_news at cistern_hall when state(sluice, open) and burstAt(party) == 0 and at(party, cistern_hall) and shutWas(party)
+    says "A boom comes down the stair from the Conduit, and then a wall of the Wend." {
+    Assert strikes(burst_water, party). Retract shutWas(party).
+  }
+  Relation shutWas(group). Measure burstAt(group).
+  Rule remember_shut when state(sluice, wound) and not shutWas(party) { Assert shutWas(party). }
+  // The causeway to the Cap is under the black water until the river is cut.
+  Query hallDry() means state(sluice, wound).
+  Observe causeway_dry at cistern_hall when hallDry() "With the river cut, the hall has dropped a man's height. A causeway of white stone runs out of the black mud toward the Cap, and the columns stand on their bases.".
+  Observe water_high at cistern_hall when not hallDry() "The water is a fathom deep and perfectly still. A causeway runs out toward the Cap, a hand beneath the surface.".
+  Observe sluice_news at north_walk when state(sluice, wound) "From the Hall the sound of the river has changed: it is running down a grating, thinner, and the water-line on the wall is exposed in a band of green slime.".
+
+  // The Cap and the Bore.
+  Observe cap_sign at the_cap as sign when true "The bronze ring is polished on one side by something that has dragged on it, a very long time ago.".
+  Observe the_stair_cold at the_cap as sound when true "A tick, tick, tick comes up the stair from a long way below. It does not hurry.".
+
+  // The Calx Gate.
+  Thing calx_gate "the Calx Gate" on gate_way {
+    State rusted blocking "The Calx Gate hangs in its slot, green bronze; the wheel's pawl is a lump of rust and the wheel will not turn.".
+    State freed blocking "The wheel's pawl is black with oil, and moves in its notch when pushed.".
+    State raised "The bronze portcullis has gone up into its slot, grumbling, and the road runs away west under its vault.".
+    Change oil_pawl "Free the gate-wheel's pawl with lamp oil" from rusted to freed needing lamp_oil consuming lamp_oil.
+    Change raise_gate "Turn the wheel and raise the Calx Gate" from freed to raised.
+  }
+  Observe gate_lantern at gate_house when state(calx_gate, raised) "The way west lies open, and a faint draught from it smells of grass." teaches calx_known.
+  Thing buried_portal "the scree against the portal" on buried_way {
+    State buried "Scree and earth are heaped against the portal's arch to twice a man's height.".
+    State dug "The scree has been shovelled aside from the arch, and the old gate stands dark behind it.".
+    Change dig_scree "Dig the portal out" from buried to dug needing shovel.
+  }
+  Thing portal_inside "the fall of earth inside the portal" on portal_inner {
+    State caved blocking "A slope of earth and stone fills the arch from inside. At the top there is a gap you could get a hand through.".
+    State cleared "The earth has been dug back from the arch, and daylight comes in.".
+    Change dig_inner "Dig the earth out of the portal" from caved to cleared needing shovel.
+  }
+  Rule portal_connects when state(buried_portal, dug) and state(portal_inside, caved) { Assert state(portal_inside, cleared). }
+  Rule portal_connects_back when state(portal_inside, cleared) and state(buried_portal, buried) { Assert state(buried_portal, dug). }
+  Hazard sway_stone "The scree shifting" means "Deal (2d6) physical damage to ally unless dexterity save against (12).".
+
+  // The foreman's papers.
+  Kind foreman_letter "Foreman Carr's letter" is document teaching letter_read described "A letter in a clerk's hand and a foreman's, the last lines written in pencil. It was never sent.".
+  Discovery letter_read "Carr's letter: 'The Company will not like what it has to hear. We have shot into a lid. Under the lid is a hall, and under the hall a shaft older than the road. In the shaft hangs a weight, and the weight moves. There are grey men in the shaft who wind it. We broke the road in the process and the river came in; there is a gate on the road, and the road goes west two miles and comes out in daylight. I am going to oil the pawl. If I do not come back, burn this.'" .
+  Kind carr_ledger "the Company's ledger of the last fortnight" is document teaching ledger_read described "A ledger of tonnage and wages in a bold hand; the last pages are names and a sum against each.".
+  Discovery ledger_read "Fourteen names, each with a day's wage unpaid, and the foreman's own name at the head.".
+  Item letter_item "Foreman Carr's letter" is foreman_letter in desk hidden until foreman_found.
+  Item ledger_item "the Company's ledger" is carr_ledger in desk hidden until foreman_found.
+  Thing desk "the Foreman's desk" at foremans_office {
+    State latched "The Foreman's desk is closed, and a stone sits on its lid.".
+    State open "The desk is open. A letter and a ledger lie in it, and a box.".
+    Change open_desk "Lift the stone and open the desk" from latched to open.
+    Holds.
+  }
+  Discovery foreman_found "The Foreman's desk holds the Company's last papers.".
+  Observe desk_open at foremans_office when state(desk, open) "The desk's lid is open." teaches foreman_found.
+  Item carr_box "Foreman Carr's box" is jeweled_box in desk hidden until foreman_found.
+  Item carr_dagger "a dagger of black glass" is ironglass_dagger in desk hidden until foreman_found.
+  Item carr_rod "the assayer's dowsing rod" is dowsing_rod at counting.
+  Item carr_zoology "a zoological manual, water-stained" is zoological_manual at foremans_office.
+
+  // The Tally-Wall.
+  Observe wall_read at tally_wall when true "Under the Company's chalk the Aenean script is clear: the legion's engineers signing off a work. THE CAP IS SET. THE WEIGHT STILL SWINGS. LET NO ONE STOP IT. VI." teaches bore_known.
+  Observe wall_period at tally_wall when knows(party, bore_known) "The last figure is not a date. It is a measure, cut with the engineers' own gauge: one swing in six breaths." teaches period_known.
+  Observe wall_cap at the_cap when true "On the Cap, cut deep and recut, one line of Aenean: THE WEIGHT STILL SWINGS." teaches cap_known.
+}

@@ -519,6 +519,27 @@
     "fen",
     "meadow"
    ]
+  },
+  {
+   "id": "tallow",
+   "province": true,
+   "bundle": "tallow/placed.json",
+   "entry": "road",
+   "marker": "joss",
+   "side": "west",
+   "beside": [
+    "hills",
+    "mountain",
+    "forest",
+    "marsh"
+   ],
+   "name": "Tallow Edge",
+   "topic": "the pale ridge that swallows a river",
+   "terrain": "hills",
+   "rumour": "'West of here there is a long white ridge called Tallow Edge,' says {keeper}, 'and a river that goes into it at one end and comes out the other. There was a mine in it once. The village will not talk of it, and there is a smugglers' road underneath, they say, and something older than that.'",
+   "heard": "West of here lies Tallow Edge, a long pale ridge that swallows a river, with an abandoned mine in it, a smugglers' road under it, and something older than either.",
+   "skyline": "a long bare ridge, white as tallow, with a thread of mist coming out of its foot",
+   "far": "a river goes in at one end of a white ridge and comes out the other, and nobody in the village will talk about what is between"
   }
  ]
 }
