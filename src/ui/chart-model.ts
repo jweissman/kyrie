@@ -312,7 +312,10 @@ export class ChartModel {
     const sites = new Set([...named].flatMap(id => this.siteOf(id) ?? []));
     const outsides = w.related('connects').flatMap(r => [[r.args[1]!, r.args[2]!], [r.args[2]!, r.args[1]!]] as const)
       .flatMap(([a, b]) => sites.has(this.siteOf(a) ?? '') && !this.siteOf(b) ? [b] : []);
-    return [...new Set([...[...named].filter(id => this.entities.get(id)?.space && !this.siteOf(id)), ...outsides])];
+    // The site an aim names is on the map, heard of (never its rooms: the way in is for the company to find): "Bring
+    // the crown out of Nocsrecs" had named a barrow the map did not show (the owner's evidence sessions, 7 November).
+    return [...new Set([...[...named].filter(id => this.entities.get(id)?.space && !this.siteOf(id)), ...sites,
+      ...outsides])];
   }
   private siteOf(id: string): string | undefined {
     return Spatial.ancestry(this.entities, id).find(e => e.space?.kind === 'site')?.id;

@@ -28,6 +28,14 @@ export class LandModel {
     return Spatial.ancestry(this.entities, id).map(e => this.chart.places[e.id]).find(c => c !== undefined);
   }
   // The place that stands for one on the land: itself, or the site, settlement or wild country it lies in.
+  // A place told of that stands in wild country (a bridge on the road a father went out by) is marked as itself, not
+  // lost in the stretch of country it lies in; a place only walked through there is not, or every room would be one.
+  private told(id: string, heard: Set<string>): Entity | undefined {
+    const own = this.entities.get(id), area = this.marked(id);
+    const lost = this.chart.roads[id] !== undefined && area?.id !== id
+      || !!area && area.id !== id && LandModel.areas.includes(area.space?.kind ?? '');
+    return heard.has(id) && own?.space && lost && !LandModel.areas.includes(own.space.kind) ? own : undefined;
+  }
   private marked(id: string): Entity | undefined {
     return Spatial.ancestry(this.entities, id).find(e => this.chart.places[e.id] !== undefined);
   }
@@ -173,15 +181,19 @@ export class LandModel {
     const rows = new Map<string, Land['marks'][number]>(), rank: Knowing[] = ['unknown', 'heard', 'seen', 'visited'];
     const line = new Set(Spatial.ancestry(this.entities, here).map(e => e.id));
     for (const id of [...of.visited, ...of.sighted, ...of.heard].filter(x => !LandModel.tract.test(x))) {
-      const e = this.marked(id);
+      const e = this.told(id, of.heard) ?? this.marked(id);
       if (!e?.space || LandModel.areas.includes(e.space.kind)) { continue; }
       const state = of.visited.has(id) ? 'visited' : of.sighted.has(id) ? 'seen' : 'heard', row = rows.get(e.id);
       if (row && rank.indexOf(row.state) >= rank.indexOf(state)) { continue; }
       // What it is, where the country's folk would say it (a barrow, a cave), even of a place only heard of: a "?" on
       // the map had told nothing of what was there (the owner, 4 November).
       const kind = this.chart.kinds?.[e.id] ?? (state === 'heard' ? 'place' : this.kind(e));
-      rows.set(e.id, { id: e.id, name: e.name, cell: this.chart.places[e.id]!, kind, visited: state === 'visited',
-        here: line.has(e.id), state });
+      // A stretch of road is marked half way along its road, as the company is when on it: "Your father went out by
+      // the bridge over the Nûrrant" had named a bridge the map could not show (the owner's evidence sessions).
+      const road = this.chart.roads[e.id];
+      const cell = this.chart.places[e.id] ?? this.cell(e.id) ?? road?.[Math.floor(road.length / 2)];
+      if (cell === undefined) { continue; }
+      rows.set(e.id, { id: e.id, name: e.name, cell, kind, visited: state === 'visited', here: line.has(e.id), state });
     }
     return [...rows.values()];
   }

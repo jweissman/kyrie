@@ -128,7 +128,10 @@ describe('Quittance: the Descent', () => {
       expect(k.matches('Show the glass men an adjuster').length).toBe(0);
     }, 120000);
     it('are fought by a martial company, who take their cuffs, and the heat is the lighter for them', async () => {
-      const j = await Ds.start(['warrior', 'warrior', 'cleric'], 4);
+      // A company of the sixth level, which wins this two times in three and more: at the fourth, two warriors and a
+      // cleric win it one time in four whatever they do (they always had; the spec had passed on a seed that won), the
+      // cleric's holy wrath now catching her own warriors in the press (the owner's ruling 3).
+      const j = await Ds.start(['warrior', 'warrior', 'cleric'], 6);
       await toRow(j);
       await j.step('^the glass men: Attack');
       expect(j.holds('dead', Q('ds_glassmen'))).toBe(true);

@@ -44,6 +44,9 @@
     State locked blocking "The stone door into the ground is locked, an old lock in an iron plate.".
     State open "The stone door into the ground stands unlocked.".
     Change pick "Pick the old lock of the stone door" from locked to open needing lockwork.
+    // And forced, as any door may be by one strong enough (the owner's evidence session, 7 November: a warrior of
+    // twenty strength stood at this door with nothing to do but go and ask for the key).
+    Change force "Set your shoulder to the stone door until the old lock gives" from locked to open needing brawn.
   }
   Place {t}_u_ossuary "the ossuary" is room within {t} at 1, 4 underground 1 down.
   Passage {t}_u_bone_arch "an arch stacked round with skulls" is arch between {t}_u_crypt and {t}_u_ossuary.
@@ -53,6 +56,7 @@
     State locked blocking "A gate of iron bars closes the adit, with a brass padlock on its chain.".
     State open "The adit gate's padlock hangs open on its chain.".
     Change pick "Pick the brass padlock" from locked to open needing lockwork.
+    Change force "Wrench the adit gate's padlock off its staple" from locked to open needing brawn.
   }
   Place {t}_u_gallery "the cut gallery" is room within {t} at 2, 4 underground 1 down.
   Passage {t}_u_gallery_way "the old cutting" is passage between {t}_u_adit and {t}_u_gallery.

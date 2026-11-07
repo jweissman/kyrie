@@ -111,7 +111,7 @@ export class WorldAssembler {
     const modules: BundleRequest[] = [{ id: RegionWriter.id, bundle: base.resolve(`${root}/region/module.json`) }];
     // The family an origin makes the protagonist's own are of the protagonist's people: a human mage's brother had
     // been an elf ranger, the town's folk (play 10).
-    const family = origin?.manifest.binder === 'kin' ? { folk: party[0]!.raceId, own: party[0]!.name } : undefined;
+    const family = { own: party[0]!.name, ...origin?.manifest.binder === 'kin' ? { folk: party[0]!.raceId } : {} };
     this.spread(placements,
       { library: [...library, ...heralds, ...standing], base, region, contacts, context, files, root, modules,
         family });
@@ -216,7 +216,7 @@ export class WorldAssembler {
       const entry = library.find(e => e.manifest.id === placement.scenario)!;
       const kin = at.family?.folk && placement.scenario === 'drover' && placement.rid === RegionWriter.id;
       modules.push(...this.requests(entry, placement, base, { context: { ...context, ...this.wild(placement, region),
-        ...this.folk(placement, region, kin ? at.family : undefined) }, region }));
+        ...this.folk(placement, region, kin ? at.family : { own: at.family?.own }) }, region }));
       const word = ScenarioWord.of(entry.manifest, placement, { region, contacts: at.contacts });
       if (word) {
         files[`${root}/word-${placement.instance}/module.json`] = JSON.stringify(word.manifest);
@@ -440,13 +440,14 @@ export class WorldAssembler {
   }
   // The people of the settlement a placement is set in, for its modules to name their own people by; and the names
   // the country's people have already, which its people are drawn apart from (two Caelynns on one quay: PT-28).
-  // The protagonist's own family (kin) are of the protagonist's people, and not called by the protagonist's own name
-  // (a dwarf's brother had been Harbek, as Harbek was: the fresh playtest of 7 November).
+  // The protagonist's own family (kin) are of the protagonist's people; and no one of a story is called by the
+  // protagonist's own name (a dwarf's brother had been Harbek, as Harbek was, and a dwarf Rangrim met a Rangrim: the
+  // fresh playtests of 7 November).
   static folk(placement: Placement, region: Region, kin?: { folk?: string; own?: string }): Record<string, DeemValue> {
     const town = region.settlements.find(t => Object.values(placement.bindings).includes(t.id));
     const taken = StoryPeople.country(region), own = kin?.own ? [kin.own] : [];
-    return { ...town ? { folk: town.folk ?? region.ancestry, townName: town.name } : {}, taken,
-      ...kin?.folk ? { folk: kin.folk, kin: true, taken: [...taken, ...own] } : {} };
+    return { ...town ? { folk: town.folk ?? region.ancestry, townName: town.name } : {}, taken: [...taken, ...own],
+      ...kin?.folk ? { folk: kin.folk, kin: true } : {} };
   }
   // What has made its den at a placement's first site, by the country it stands in (see RegionEcology): told to its
   // modules, which use it (a den does) or not.
