@@ -7,7 +7,7 @@ Module tallow "Tallow Deep" {
   Relation sibExposed(group). Relation sibKept(group). Relation sibBurned(group). Relation sibSold(group).
   Relation oskPromised(group). Relation oskCut(group). Relation oskHolds(group).
   Relation motiveCoin(group). Relation motiveDead(group). Relation motiveCurious(group).
-  Relation nibTold(group). Relation nibLied(group). Relation cookKnown(group). Relation oreNamed(group).
+  Relation nibTold(group). Relation nibLied(group). Relation cookKnown(group). Relation oreNamed(group). Relation hesterCook(group).
 
   // Hester asks the one question: why go up.
   Topic hester_why with hester "Say why you are going up the hill" when true once {
@@ -42,7 +42,7 @@ Module tallow "Tallow Deep" {
   Person sib "Sib Wray" at tally_room {
     Role "one of the Tallymen, off the bend". Ancestry human. Calling thief. Level 2. Peaceable. Pronouns she. Manner acerbic.
     Greets "A woman about thirty, on the hammock nearest the stove, with a rope-burned neck and the quick plain eyes of someone who counts the exits when she sits down. She does not get up. 'I'm Sib,' she says. 'Not the toll. I only take that when Meg is sick.'".
-    Joins "Sib swings her feet down, ties her bundle shut in two knots, and does not look at Joss Tarbet, who is looking at the chest. 'I'll show you the bits that aren't on any of Nib's maps,' she says. 'For six coin, and because I am tired of this room.'".
+    Joins "Sib swings her feet down, ties her bundle shut in two knots, and does not look at Joss Tarbet, who is looking at the chest. 'I'll show you the bits that aren't on any of Nib's maps,' she says. 'For my price, and because I am tired of this room.'".
     Leaves "Sib lifts her bundle and her chin. 'I'll find my own road,' she says. 'I always have.'".
     Remarks at settling "Sib stops at the edge of the silt-bank and does not go further. 'I know that coat,' she says, to nobody. Then she looks at the ceiling, hard, as if it had said something.".
     Remarks at gate_house "Sib puts a hand flat on the Calx wheel and keeps it there. 'It goes out two miles west,' she says. 'And comes up behind the Carrow customs-barn. I know exactly where, because I have drawn it twice.' She takes the hand off. 'Forget I said that.'".
@@ -74,23 +74,23 @@ Module tallow "Tallow Deep" {
     Says "Sib reads it as if it were in a tongue she had once had. 'He was meant to meet me at the weir,' she says. 'He was twenty-two. He said he'd bring a ticket.' She gives it back with a steady hand. 'Well. You know now. What will you do with it?'".
   }
   Topic sib_burn with sib "Burn it where she can see" answering sib_letter when holding(actor, excise_letter) {
-    Says "You hold it to the stove-lamp. Sib watches the Board's seal run. 'That was a good seal,' she says, and sits down on the nearest barrel, and does not speak again for some time.".
+    Says "You hold it to the stove-lamp. Sib watches the Board's seal run. 'That was a good seal,' she says, and sits on the nearest barrel with her back to the room.".
     On discuss { Spend excise_letter from actor. Assert sibBurned(party). Assert sibKept(party). Assert sibInformer(party). }
   }
-  Topic sib_joss with sib "Give it to Joss Tarbet" answering sib_letter when holding(actor, excise_letter) {
+  Topic sib_joss with sib "Give it to Joss Tarbet" answering sib_letter when holding(actor, excise_letter) and at(joss, tally_room) and at(sib, tally_room) {
     Says "'Of course,' says Sib, evenly. She takes up her bundle. At the arch she turns, once: 'He was kind to me,' she says. 'I don't say that to move you.' She is gone before Joss has finished the first line.".
     On discuss { Assert sibExposed(party). Assert sibSold(party). Assert sibInformer(party). Retract travelsWith(sib, actor). Retract at(sib, tally_room). }
   }
   Topic sib_board with sib "Take it to the Board yourself, for the reward" answering sib_letter when holding(actor, excise_letter) {
-    Says "'The Board pays thirty,' says Sib, 'to the informer, not to the courier. You'd have to be me.' She almost laughs. 'Go on then. Go and tell a clerk at Carrow who the informer is. He'll ask you why you are asking.'".
-    On discuss { Assert sibInformer(party). Assert sibKept(party). }
+    Says "'Give it here,' says Sib. 'I'll carry it to Carrow on the quarter-day myself, and take the ticket south, and Joss will have a clean road for one more year and a wrong one after.' She counts eight coin into your hand. 'For the lock you didn't open.' She is gone before the stove has burned down.".
+    On discuss { Spend excise_letter from actor. Assert sibInformer(party). Assert sibKept(party). Increase quantity(actor, gold) by 8. Retract travelsWith(sib, actor). Retract at(sib, tally_room). }
   }
-  Observe sib_joss_fallout at tally_room when sibSold(party) "Joss Tarbet sits with a page on his knee and the look of a man hearing a clock he thought was his own heart. There is a hammock cut down by the stove and no one is talking.".
+  Observe sib_joss_fallout at tally_room when sibSold(party) "Joss Tarbet sits with a page on his knee, not reading it. There is a hammock cut down by the stove and no one is talking.".
   Observe sib_burned_fallout near sib when sibBurned(party) "Sib has stopped counting the exits. She sits with her back to the wall and her face to the room, which is a thing she has not done before.".
 
   // Osk, who will come if he is promised something.
   Topic osk_offer with osk "Ask Osk to come and look at the Cap" when knows(actor, cap_known) and not oskPromised(actor) once {
-    Says "Osk puts down what he is holding. 'The Cap,' he says. 'Aenean?' You say it is, and something under it is not. He looks at the shelf above the counter for some time. 'If it is the sort of thing that should not be touched,' he says, 'will you leave it?'".
+    Says "Osk sets down the trowel he is not using. 'The Cap,' he says. 'Aenean?' You say it is, and something under it is not. He looks at the shelf above the counter for some time. 'If it is the sort of thing that should not be touched,' he says, 'will you leave it?'".
   }
   Topic osk_leave with osk "Yes. If it asks to be left alone" answering osk_offer when true {
     Says "'Then I'll come,' says Osk. 'For nothing. I should like to see a joint nobody has pointed.'".
@@ -101,13 +101,13 @@ Module tallow "Tallow Deep" {
     On discuss { Assert oskCut(actor). Assert willing(osk, actor). Set hire(osk) to 4. }
   }
   Topic osk_unsure with osk "I don't know yet. I'd like to see it first" answering osk_offer when true {
-    Says "'Honest,' says Osk. 'It is the only answer I'd trust.' He shoulders his bag. 'Come on then.'".
+    Says "'That I'll take,' says Osk. 'It is the only answer I'd trust.' He shoulders his bag. 'Come on then.'".
     On discuss { Assert oskHolds(actor). Assert willing(osk, actor). Set hire(osk) to 0. }
   }
 
   // Osk in the Gear-Hall: the makers' stone, and whether to take any.
   Action osk_cut(actor: group, site: place) "Let Osk cut one sample from the grey wall" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gear_hall) and travelsWith(osk, actor) and not oskCutDone(actor).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gear_hall) and travelsWith(osk, actor) and not oskCutDone(actor) and not oskPromised(actor).
     Time 0.
     On success { Assert oskCutDone(actor). Give bell_teeth_sample to actor. }
     Result "Osk sets a chisel to the wall, once, and strikes it once. A crescent of grey comes away that rings like a struck cup. The wire above you misses a beat and takes it up again late. Osk looks at the chisel as a man looks at a hand that has done something without him.".
@@ -118,7 +118,7 @@ Module tallow "Tallow Deep" {
     On success { Assert oskLeft(actor). Increase oskRegard(actor) by 1. }
     Result "Osk puts the chisel back in his belt without a word. Then, 'Thank you,' he says. 'I did not want to be asked. I did not want not to be.'".
   }
-  Relation oskCutDone(group). Relation oskLeft(group). Measure oskRegard(group). Relation unused_oskHolds(group).
+  Relation oskCutDone(group). Relation oskLeft(group). Relation oskGone(group). Measure oskRegard(group). 
   Kind bell_teeth_sample "a crescent of the makers' grey" is treasure worth 40 weighing 1 described "A crescent the length of a thumb, grey, ringing. It is too light and has no grain.".
   Observe osk_names near osk when namesRead(party) and travelsWith(osk, party) "Osk has taken a chisel to a flat stone by the green and is cutting fourteen names into it, one a line, in the plain square letters his grandfather's master used. He does not look up. 'The Company never had the sense,' he says.".
 
@@ -152,12 +152,13 @@ Module tallow "Tallow Deep" {
   Discovery cook_stone_seen "Under the foxglove, a cook's stone; behind it, her bothy.".
   Observe cook_taught at garden when state(cook_stone, lying) "Under the foxglove a flat stone is cut with a spoon and a pot." teaches cook_stone_seen.
   Topic hester_cook with hester "Ask Hester about Elspeth Noakes" when knows(actor, cook_stone_seen) once {
-    Says "'My mother's sister,' says Hester, and for a moment does not look like anyone who keeps an inn. 'She fed the fifteen, and went home the night before. She was the only person in Swallet who didn't take it as a judgement.' She breathes out. 'Is her book still there? She wrote in it who ate what. She used to say you can tell everything about a man by whether he takes seconds.'".
+    Says "'My mother's sister,' says Hester, and for a moment does not look like anyone who keeps an inn. 'She laid the fifteen plates, and went home when the shot was heard, and never came back to wash them. She was the only person in Swallet who didn't take it as a judgement.' She breathes out. 'Is her book still there? She wrote in it who ate what. She used to say you can tell everything about a man by whether he takes seconds.'".
   }
 
   // The answers given are heard again.
   Topic dunstan_open with dunstan "Tell Dunstan you came for the men who did not come out" when motiveDead(party) and not knows(party, vault_laid) once {
-    Says "He puts his tankard down for the first time. 'Then I'll tell you what I told no one,' he says. 'Carr didn't stack them. I did. Carr was on the ledge with the lamp, reading. I carried them, one at a time, to the Breach, because the Ossuary was the only place that was dry, and when the last was down I went up the shaft and did not look round.' He folds his hands. 'It was me that left the Foreman. I would like that read somewhere.'".
+    Says "He puts his tankard down for the first time. 'Then I'll tell you what I told no one,' he says. 'Carr stacked them. All thirteen, one at a time, to the Breach, because it was the only dry place. I held the lamp. When the last was down he said, I'll oil the pawl, and I said, I'll fetch more oil, and went up the shaft instead and did not look round.' He folds his hands. 'It was me that left the Foreman. I would like that read somewhere.'".
+    On discuss { Assert knows(actor, vault_laid). Give lamp to actor. }
   }
   Entity vault_laid: fact "Dunstan carried the dead to the Breach himself while Carr read by the lamp, then left him there.".
   Topic joss_coin with joss "Tell Joss you came for what it fetches" when motiveCoin(party) once {
@@ -177,11 +178,21 @@ Module tallow "Tallow Deep" {
   Observe sib_lock_b near sib when sibOpens(party) and travelsWith(sib, party) "Sib goes ahead and tries every latch on the way, lightly, as a man runs a hand along a fence.".
   Observe sib_lock_c near sib when sibAsks(party) and travelsWith(sib, party) "Sib walks beside you and now and then looks at you sideways, as if you had a question she meant to hear.".
   Observe osk_left near osk when oskLeft(party) "Osk has cut a card for the shop door in square letters: NOTHING TAKEN THAT CANNOT BE GIVEN BACK.".
-  Observe osk_cut_note near osk when oskCutDone(party) "Osk keeps the crescent of grey in his coat and does not take it out. Twice he has started to say something and bitten it off.".
+  Observe osk_cut_note near osk when oskCutDone(party) "Osk keeps the crescent of grey in his coat and does not take it out. He has stopped asking about the hill.".
   Observe shelf_back at dial_room when shelfRestored(party) > 0 "On the shelf of grey metal, in the dust, are the clean places where things used to stand and one place where something has stood again.".
   Observe osk_hold_note near osk when oskHolds(party) and travelsWith(osk, party) "Osk walks with his hands behind him, looking at everything and touching nothing, a man waiting to be told what he saw.".
   Observe osk_cutter near osk when oskCut(party) and travelsWith(osk, party) "Osk's chisel hangs loose on his belt, where it can be reached.".
   Observe osk_regard near osk when oskRegard(party) >= 1 and travelsWith(osk, party) "Osk walks easier than he did, and has stopped touching the chisel.".
   Milestone m_sib "learned what Sib Wray was, and chose" worth 200 when sibInformer(party).
   Milestone m_cook "read what the cook wrote in the margin" worth 120 when knows(party, cook_known_fact).
+
+  Topic hester_book with hester "Show Hester the cook's receipt book" when holding(actor, cook_book) and not hesterCook(party) once {
+    Says "Hester turns the pages with her thumb and stops at a margin. She reads it twice. Against her brother Amos: takes seconds, always, says it is for his sister. 'He did,' she says, and puts the book to her chest like a child. 'He did, he did.' When she can speak she gives you ten coin from the till and will not hear a word about it. 'I'll pin the page,' she says. 'Beside the names.'".
+    On discuss { Spend cook_book from actor. Assert hesterCook(party). Assert cookKnown(party). Increase quantity(actor, gold) by 10. }
+  }
+  Observe cook_pinned at taproom when cookKnown(party) "Under the ledger's page on the beam is a second page, in a cook's hand: who took seconds, and who did not.".
+  // Osk goes home when the matter is settled, or he has done what he came to do.
+  Rule osk_home at green when travelsWith(osk, party) and at(party, green) and (namesRead(party) or oskCutDone(party) or oskLeft(party)) and not oskGone(party)
+    says "Osk stops at his own door. 'That is enough hill,' he says. 'I will cut what I must cut here.' He goes in and the card on the door turns round." {
+    Assert oskGone(party). Retract travelsWith(osk, party). Assert at(osk, shop). }
 }

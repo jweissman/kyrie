@@ -77,7 +77,7 @@ describe('Tallow Deep', () => {
   it('has its dead counted: the ledger gives Dunstan his name back and lays the ghouls without a roll', async () => {
     const j = await Journey.start(campaign, 'tallow');
     j.give('ledger_item');
-    await j.play('To Swallet lane', 'To Swallet green', "Into the Chandler's Arms", 'Read Dunstan the fourteen names from the Foreman\'s ledger');
+    await j.play('To Swallet lane', 'To Swallet green', "Into the Chandler's Arms", 'Read Dunstan the names from the Foreman\'s ledger');
     expect(j.holds('namesRead', 'party')).toBe(true);
     j.put('party', 'ossuary');
     await j.step('Read the fourteen names aloud over the stacked dead');
@@ -111,5 +111,23 @@ describe('Tallow Deep', () => {
     j.give('vault_collar');
     await j.play('Ask Nib why he watches the portal so hard', 'Give Nib the cat\'s collar', 'No. It was not quick');
     expect(j.holds('nibTold', 'party')).toBe(true);
+  }, 120000);
+
+  it('lets companions be hired, keep a vow, and go home', async () => {
+    const j = await Journey.start(campaign, 'tallow');
+    j.put('party', 'tally_room');
+    await j.play('Ask Sib what a woman does on the bend of a smugglers\' adit', 'Open it. A lock is an opinion', 'Ask Sib Wray to join the company');
+    expect(j.holds('travelsWith', 'sib', 'party')).toBe(true);
+    j.put('party', 'shop');
+    j.assert('knows', 'party', 'cap_known');
+    await j.play('Ask Osk to come and look at the Cap', 'Yes. If it asks to be left alone', 'Ask Osk to join the company');
+    expect(j.holds('travelsWith', 'osk', 'party')).toBe(true);
+    j.put('party', 'gear_hall');
+    expect(j.find('Let Osk cut one sample from the grey wall')).toBeUndefined();
+    await j.play('Ask Osk to leave the wall alone');
+    expect(j.holds('oskLeft', 'party')).toBe(true);
+    j.put('party', 'green');
+    await j.step('Wait › A while');
+    expect(j.holds('travelsWith', 'osk', 'party')).toBe(false);
   }, 120000);
 });

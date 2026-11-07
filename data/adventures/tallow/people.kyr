@@ -16,7 +16,7 @@ Module tallow "Tallow Deep" {
     Says "'Where the river goes in. You can climb down it with a rope and a stout heart. I wouldn't. There's a she-bear up in the scrub that has taken two of my neighbour's calves, and a she-bear is not a thing you want to meet with a rope on your back.' She says it again, with the stress on 'bear'. It is not a bear.".
   }
   Topic ask_trouble with hester "Ask Hester about the water-trouble" when true {
-    Says "'The Company holed into something, in the winter of 'fifty-six,' says Hester, 'and the river came into the works, and fourteen men didn't come out. The Company packed up in a season. Nobody speaks of it. If you want to hear it you'll want Dunstan Ibbot, and he won't tell it sober.'".
+    Says "'The Company holed into something, in the winter of 'fifty-two,' says Hester, 'and the river came into the works, and fourteen men didn't come out. The Company packed up in a season. Nobody speaks of it. If you want to hear it you'll want Dunstan Ibbot, and he won't tell it sober.'".
     On discuss { Assert knows(actor, breakthrough_known). }
   }
   Topic ask_road with hester "Ask Hester about the old road" when true {
@@ -26,11 +26,11 @@ Module tallow "Tallow Deep" {
 
   Person dunstan "Dunstan Ibbot" at taproom {
     Role "an old miner". Ancestry human. Peaceable. Pronouns he. Manner grim.
-    Greets "An old man by the fire holds his tankard in both hands, the way a man does who has had a wet hand-hold. 'Going down,' he says, not asking.".
+    Greets "An old man by the fire holds his tankard in both hands, as if it might be taken. 'Going down,' he says, not asking.".
   }
-  Topic dunstan_tale with dunstan "Ask Dunstan what happened in 'fifty-six" when true {
+  Topic dunstan_tale with dunstan "Ask Dunstan what happened in 'fifty-two" when true {
     Says "'We were following the lead down the Blind Shaft,' says Dunstan, 'and Foreman Carr put a shot in the north wall to see where the vein turned, and the wall wasn't a wall. It was a cap. Under it, a hall, and in the hall, water, and in the middle of the water, a thing hanging. Carr said he'd sooner not look at it again. The river came in at the shot like a door opening. I went up the shaft. Fourteen didn't.' He drinks. 'Carr kept a book. He wrote a letter to the Company before the lamp went. He left it where a man would look, if he were the Company. The Company never came to look.'".
-    On discuss { Assert knows(actor, breakthrough_known). Assert knows(actor, foreman_known). }
+    On discuss { Assert knows(actor, breakthrough_known). Assert knows(actor, foreman_known). Assert knows(actor, cap_known). }
   }
   Topic dunstan_stope with dunstan "Ask Dunstan about a way round the Tallymen" when knows(actor, breakthrough_known) {
     Says "'There's a stope from the bat chimney to the old stores,' says Dunstan, 'that the Company cut for a drain. No one's looked at it since. You'll lose some skin. You'd come out behind the Tallymen's backs.'".
@@ -108,8 +108,8 @@ Module tallow "Tallow Deep" {
 
   Person bend_watch "the Tallymen on watch" at adit {
     Role "three of the Tallymen, at the bend". Ancestry human. Calling thief. Level 2. Numbers 3. Temperament territorial.
-    Warns "Three men with a lantern step out of the dark at the bend of the adit, with the ease of men who are paid not to hurry. 'Six coin,' says the tall one, 'for the lot of you, and the lantern's lent. Or back out the way you came. Those are the two choices, and I'd sooner you took the first.'".
-    Comes "The three step in together, the way men do who have done it before.".
+    Warns "Three men with a lantern step out of the dark at the bend of the adit, unhurried. 'Six coin,' says the tall one, 'for the lot of you, and the lantern's lent. Or back out the way you came. Those are the two choices, and I'd sooner you took the first.'".
+    Comes "The three step in together, without a word.".
     Pleads "The tall one puts his hands up. 'Six is cheap,' he says, 'and you've made it dear.'".
     Lair adit. Refuge drift.
     State bar blocking "The three Tallymen stand across the adit at the bend, one with the lantern, and nobody goes past them without paying.".
@@ -135,7 +135,7 @@ Module tallow "Tallow Deep" {
     On discuss { Assert knows(actor, gate_known). }
   }
   Topic joss_spiders with joss "Ask Joss about the spiders" when true {
-    Says "'The cat went up the service walk in the autumn,' says Joss, 'and the spiders had her. They are the size of dogs, and they sit above you. They do not like smoke. If you can spare a torch and carry it up, you can burn a way through. Or you can go round by the Settling Cistern, but it is rats.'".
+    Says "'The cat went up the service walk three weeks ago,' says Joss, 'and the spiders had her. They are the size of dogs, and they sit above you. They do not like smoke. If you can spare a torch and carry it up, you can burn a way through. Or you can go round by the Settling Cistern, but it is rats.'".
   }
   Topic joss_hobb with joss "Ask Joss about Hobb" when true {
     Says "'Hobb was greedy,' says Joss. 'He took a rope and a lantern and the cage, and went down the Blind Shaft on his own after the black stone. The cage came back up empty, and the rope was cut a hand above it: not broken, cut. Think about that.'".
@@ -161,6 +161,6 @@ Module tallow "Tallow Deep" {
     Says "'The Company's work is dwarf-cut and it shows,' says Osk, 'and under it there is Aenean, which you can tell by the joints: the legions cut to a thumb's width and thought it was a boast. And under that,' he lifts a shoulder, 'there is something I was taught as a boy not to name, because my grandfather's master walked into a hall like it and came out and never cut a stone again. The joints do not show. You cannot find where it was made, only where it was stopped.'".
   }
   Topic hester_amos with hester "Ask Hester about her brother" when true once {
-    Says "'Amos,' says Hester, and sets the pot down. 'The fourth shift down, the winter of 'fifty-six. They said the water took the whole of it. Nobody has ever said whose names.' She picks the pot up again. 'I was nine. I have kept the inn so the door would be open when someone came to say.'".
+    Says "'Amos,' says Hester, and sets the pot down. 'The fourth shift down, the winter of 'fifty-two. They said the water took the whole of it. Nobody has ever said whose names.' She picks the pot up again. 'I was nine. I have kept the inn so the door would be open when someone came to say.'".
   }
 }

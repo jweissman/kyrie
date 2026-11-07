@@ -136,6 +136,7 @@ Module tallow "Tallow Deep" {
     Otherwise "The words go out into the vault and come back changed. The nearest ghoul tips its head and smiles, and the smile is wrong in a way you recognise as grief.".
   }
   Relation laid(group). Relation ritedFailed(group).
+  Observe carr_sits at gate_house when true "Against the wheel of the Calx Gate a man in a Foreman's coat sits with his chin on his chest and an oilcan in his hand, unopened. He has been here sixty years. The pawl above him is red with rust. He never reached it.".  
   Observe ghouls_signs at breach as sign when not dead(ghouls) "From the Ossuary side, the smell of old sweet rot, and a sound like a stack of wood being gently rearranged.".
 
   // The Quiet Gallery: the stalkers hunt by breath, and the Bore has its custodians.

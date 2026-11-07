@@ -24,8 +24,8 @@ Module tallow "Tallow Deep" {
     Says "Joss reads down the column with a clerk's finger, past the Foreman's name at the head and a struck-through sixth, and stops at the ninth. TARBET, J., SENIOR: 3 DAYS. He does not move. 'I was told he went to Carrow for work,' he says at last. 'Thirty years, I've been running brandy under the place he was lying in.' He gives the ledger back with both hands. 'The Company never paid him,' he says, and laughs, and it is a bad laugh. 'Three days. I should like them paid.'".
     On discuss { Assert ticked(party). }
   }
-  Topic dunstan_names with dunstan "Read Dunstan the fourteen names from the Foreman's ledger" when holding(actor, carr_ledger) and not namesRead(party) once {
-    Says "You read the fifteen. Dunstan sits quite still. At the sixth name, which is his own, struck through in a different ink because Carr knew he had gone up the shaft alive and would not have him owed, he lifts his head. 'I did,' he says. 'I did go up. I have been dead six and fifty years, and nobody has said.' He takes the ledger and reads the fourteen aloud himself, slowly, to the room, and Hester Pook, at her pots, says each after him. Afterwards he pins the page to the beam beside the tokens.".
+  Topic dunstan_names with dunstan "Read Dunstan the names from the Foreman's ledger" when holding(actor, carr_ledger) and not namesRead(party) once {
+    Says "You read the fifteen. Dunstan sits quite still. At the sixth name, which is his own, struck through in a different ink because Carr knew he had gone up the shaft alive and would not have him owed, he lifts his head. 'I did,' he says. 'I did go up. I have been dead sixty years, and nobody has said.' He takes the ledger and reads the rest aloud himself, to the room, and Hester Pook, at her pots, says each after him. Afterwards he pins the page to the beam beside the tokens.".
     On discuss { Assert namesRead(party). }
   }
   Observe names_pinned at taproom when namesRead(party) "Beside the Company's tokens, pinned to the beam, a page from a ledger: fourteen names, and by each of them, in Hester's hand, a day's wage in pence, paid.".
@@ -33,7 +33,7 @@ Module tallow "Tallow Deep" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, ossuary) and at(ghouls, ossuary) and able(ghouls) and holding(actor, carr_ledger).
     Time 0.
     On success { Slay ghouls. Assert laid(party). }
-    Result "You read them: the first to the Foreman, who stacked them himself, and the last to the boy in the first boots, slowly, as clerks do. At the ninth, the long hands lie down. At the fourteenth, no one in the vault is eating. They have been waiting, you think, only to be counted.".
+    Result "You read them: the first to the Foreman, who is not here, and the last to the boy in the first boots. At the ninth, the long hands lie down. At the fourteenth, no one in the vault is eating.".
   }
 
   Milestone m_names "had the fourteen counted" worth 200 when namesRead(party) or ticked(party) or laid(party).
@@ -54,7 +54,7 @@ Module tallow "Tallow Deep" {
     Resolve check(actor, deception, dc_fair).
     On success { Assert cardsPlayed(actor). Assert tolerates(bend_watch, actor). Increase quantity(actor, gold) by 4. }
     On failure { Assert cardsPlayed(actor). Decrease quantity(actor, gold) by 3 or to nothing. }
-    Result "The dog watches the cards, and Joss watches the dog, which is where you notice that the dog has been dealt a hand. You win four coin and the lantern's loan by turning up a knave you were quite sure was under the dog, and Joss says, without rancour, that he will have the dog re-schooled.".
+    Result "The dog watches the cards, and Joss watches the dog, which is where you notice that the dog has been dealt a hand. You win four coin and the lantern's loan by turning up a knave that the dog, on reflection, had been sitting on, and Joss says, without rancour, that he will have the dog re-schooled.".
     Otherwise "You lose three coin to a dog. Joss pretends not to have seen it, which is the cruellest thing he could do.".
   }
   Relation cardsPlayed(group).

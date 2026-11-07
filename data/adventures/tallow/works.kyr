@@ -2,7 +2,7 @@ Module tallow "Tallow Deep" {
   // ---------------------------------------------------------------------------------------------------------------
   // What can be known.
   Discovery spate_known "The Wend comes down in spate the day after rain on the downs, and the Rising and its galleries cannot be waded then.".
-  Discovery breakthrough_known "In the winter of 'fifty-six the Brasiers' Company shot into the Aenean cap in the Blind Shaft's north wall; the river came in and fourteen men died in the Breach.".
+  Discovery breakthrough_known "In the winter of 'fifty-two the Brasiers' Company shot into the Aenean cap in the Blind Shaft's north wall; the river came in and fourteen men died in the Breach.".
   Discovery foreman_known "Foreman Carr, who led the Breakthrough, left a letter and a ledger in his office on the north walk, in the hall under the Blind Shaft.".
   Discovery calx_known "A paved Aenean road runs under the ridge, from the Breach to a portal buried two miles west of Swallet.".
   Discovery stope_known "A miners' stope joins the bat chimney to the old stores, behind the Tallymen's watch at the bend.".
@@ -172,7 +172,7 @@ Module tallow "Tallow Deep" {
   Kind foreman_letter "Foreman Carr's letter" is document teaching letter_read described "A letter in a clerk's hand and a foreman's, the last lines written in pencil. It was never sent.".
   Discovery letter_read "Carr's letter: 'The Company will not like what it has to hear. We have shot into a lid. Under the lid is a hall, and under the hall a shaft older than the road. In the shaft hangs a weight, and the weight moves. There are grey men in the shaft who wind it. We broke the road in the process and the river came in; there is a gate on the road, and the road goes west two miles and comes out in daylight. I have laid the men in the vault by the Breach myself, in their boots, and counted them twice. I am going to oil the pawl. If I do not come back, burn this.'" .
   Kind carr_ledger "the Company's ledger of the last fortnight" is document teaching ledger_read described "A ledger of tonnage and wages in a bold hand; the last pages are names and a sum against each.".
-  Discovery ledger_read "Fifteen names, the foreman's own at the head, each with a day's wage unpaid; one, the sixth, struck through in another ink.".
+  Discovery ledger_read "Fifteen names, the foreman's own at the head, each with a day's wage unpaid; one, the sixth, struck through in another ink. Thirteen lie in the vault; the Foreman is not among them.".
   Item letter_item "Foreman Carr's letter" is foreman_letter in desk hidden until foreman_found.
   Item ledger_item "the Company's ledger" is carr_ledger in desk hidden until foreman_found.
   Thing desk "the Foreman's desk" at foremans_office {
