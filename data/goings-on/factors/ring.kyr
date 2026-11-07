@@ -190,7 +190,7 @@ Module factors "The factor who buys old bronze" {
     Requires able(actor) and company(actor) and at(actor, site) and at(principal, site) and knows(actor, waybill_read) and knows(actor, ledger_read) and knows(actor, principal_traced) and not routed(principal) and not offered(principal) and not stood(principal).
     Time 2.
     Grave "If he runs, he runs for good, and the ring has no head. If he has more nerve than that he may buy you, or he may say that he will not go; and a man who will not go, in a loft at the end of a pier, is a fighter of the fourth or fifth rank. A lieutenant who has gone over to you takes the nerve out of him.".
-    On success { Assert principalMet(actor). }
+    On success { Assert principalMet(actor). Assert tolerates(principal, actor). }
     Result "You put them in a row on the table, as you would lay out a hand of cards: the waybill from the cellar, the leaf from the strongbox, the lieutenant's account of where he sits. The Principal reads them in that order, and does not touch any. Then they look up, and the face has gone quiet in a way that a man's face goes when he is adding.".
   }
   Relation principalMet(group). Relation stood(group).
@@ -272,7 +272,7 @@ Module factors "The factor who buys old bronze" {
     Set cutAt(lieutenant) to watch(clock). Increase cutAt(lieutenant) by 3.
   }
   Rule lieutenant_cut when cutAt(lieutenant) > 0 and watch(clock) >= cutAt(lieutenant) and not turned(lieutenant) and not lieutenantCut(lieutenant) and not routed(lieutenant) and not dead(lieutenant) and at(lieutenant, ?q)
-    says "A letter goes down the coast on the evening boat, in a clerk's hand, to the harbourmaster's office, and it is about the man at the back-table. It says that the House's accounts at the bonded store do not agree, and that the man who kept them has absconded." {
+    says "A letter goes down the coast on the evening boat, in a clerk's hand, to the harbourmaster's office, and it is about R, the House's man at the bonded store. It says that the House's accounts at the bonded store do not agree, and that the man who kept them has absconded." {
     Assert lieutenantCut(lieutenant). Assert routed(lieutenant). Retract at(lieutenant, ?q). Assert at(lieutenant, abroad). Set cutAt(lieutenant) to 0.
   }
   // The Principal's circuit: town, then abroad (the Dorothea takes him on from here), then home after Deem's days away.

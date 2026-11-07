@@ -56,8 +56,14 @@ log below does not say pass.
 4. **Shipped parties are mostly one person.** Calling-unique beats were given weaker "lone company" routes in eight
    adventures, but the best versions need callings the shipped party lacks. Decide whether shipped campaigns should start
    with a fuller company (`company.kyr`), which would change every campaign.
-5. **`hasCalling` voices did not fire in one standalone campaign** (callings installed under another module's prefix);
-   `capable(party, …)` works but drops the member's name. Audit the other campaigns' voices.
+5. **`hasCalling` voices never fire in a drawn world (found late; the biggest silent bug).** The party's `hasCalling` facts
+   name the last-installed module's calling entities (`creature-facts.ts:115`), so `memberOf(?m, party) and hasCalling(?m,
+   calling_x)` works in a one-module campaign and fails in any multi-module campaign and every drawn world. Every voice in the
+   corpus has been rewritten to `brings(?m, <capability>)` (cleric rites, ranger woodcraft, warrior brawn, thief lockwork, bard
+   performance, mage lore, monk tumbling), which fires in all three settings and keeps the member's name; verified by 24 test
+   files and `calling-portability.test.ts` (29). The cost: `brings` is a skill, not a class, so a locksmith warrior speaks the
+   thief's line. The real fix is in the engine (name the party's calling facts per module, or alias `calling_*` globally);
+   see `calling-portability.md`.
 6. **The ring's Principal cannot be met between places** (Pursuit does not cross hidden doors or uninstalled countries); the
    fight with him is not simulated (a level-1 company loses). The House of Marchbank is authored and does not plan.
 7. **Prose.** Tics are reduced, not gone. Rewritten shares were under 10% of most adventures; the `_again` topics repeat
@@ -69,6 +75,14 @@ log below does not say pass.
 9. **Orsett is a name, not a place** (a province would re-seed every world).
 10. **Tests to prefer over mine:** my tests lean on `put`/`give`/`assert` in places the ledgers label; where a ledger says
     "asserted", a real play is still owed.
+
+## 4b. Playtests that now exist
+
+`playtests/dorothea-archipelago-player.md` (five sessions plus the five entries; fixes applied), `playtests/shipped-first-hour.md`
+(11 lone-novice openings scored 3-5; seven openings fixed), and `playtests/ring-and-lamp-player.md` (if present). Still weak
+from them: fog fires on every passage (making it seed-dependent moves about fourteen tests' timelines), Ashkeld is a bare
+errand, the Antlers/Ness scenes share one shape (agent refuses, expert helps, pay or prove), many shipped calling beats are
+unreachable to a lone novice and their lone-company routes are not signposted, and Gosse's wagon "look closely" is a dead action.
 
 ## 5. Things that look like bugs and are not
 

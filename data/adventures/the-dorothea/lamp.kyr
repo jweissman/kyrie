@@ -42,14 +42,23 @@ Module dorothea "The Dorothea" {
   Observe lb_head_scene at lb_head when true "A stair-head cut out of the living rock, no wider than the trap, warm: warmer than a cellar has any right to be. Whale oil and brass and, under it, a very slow tick, one to a breath, like a clock that is not hurrying. A lead pipe comes down through the ceiling and goes on down with the stair.".
   Observe lb_stair_scene at lb_stair when true "The stair goes down in a left-hand spiral cut from black stone, each step worn into a shallow dish on the inner edge and not on the outer: the whole of it has been walked down by people who did not much mind where they put their feet, and up by people who did. On the wall, scratched at the height of a hand, names. They go all the way down. The last one is a girl's.".
   Observe stair_coins at lb_stair when true "In a niche on the third turn, a drift of small copper has built up the way snow drifts: coins of nine reigns, a button, a milk-tooth, a ribbon. Everyone who has gone down has left one. The drift has a hollow in its crown where the last coin went in, and the hollow is still bright.".
+  Action leave_a_coin(actor: group, site: place) "Leave a coin in the drift on the third turn" {
+    Description "Everyone who has gone down has left one. Nobody can say why.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lb_stair) and quantity(actor, gold) >= 1 and not coinLeft(actor).
+    Time 1.
+    On success { Decrease quantity(actor, gold) by 1. Assert coinLeft(actor). }
+    Result "The coin goes into the hollow in the crown of the drift with a small clear ring, and the drift takes it. It is not nothing. It is the kind of thing that is worth exactly one coin.".
+  }
+  Observe lb_coin_on_the_way_up at lb_head when coinLeft(party) and lbDone(party) "Behind you, down the stair, a coin you left is in the drift where the last one was, and the hollow in the crown of it is bright again.".
+  Observe lb_light_above at lb_head when lbDone(party) "The stair-head is warm at your back. Above, in the square of the trap, is the first light you have seen in hours that did not come off brass.".
   Observe lb_gate_tick at lb_gate when true "Here the tick is loud enough to count by, and slower than your pulse. After a minute you notice that you have begun to breathe to it.".
   Observe lb_gate_scene at lb_gate when true "The keepers' gate: two leaves, closed, the bronze gone black as an old pan. A fish and over it a flame are inlaid in the leaves in a green metal that has not tarnished, and under them a plate of numerals in two columns, one of them scrubbed to a shadow. A draught comes out from under the gate, smelling of warm oil.".
-  Rule voice_stair at lb_stair when at(party, lb_stair) and memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and not vStair(party)
+  Rule voice_stair at lb_stair when at(party, lb_stair) and memberOf(?m, party) and brings(?m, woodcraft) and awake(?m) and not vStair(party)
     says "{?m} goes down three turns and stops with a hand on the wall. 'The steps are worn on the inside edge,' {?m} says. 'That is somebody going down quickly with a load on the outer arm. Oil, in a can. Every year.' {?m} looks up the stair. 'And up on the outside, slowly. Somebody whose knees were going. The same pair of knees, I think. Thirty years of them.'" {
     Assert vStair(party).
   }
   Relation vStair(group). Relation vGate(group). Relation vTeeth(group). Relation vOffice(group). Relation vHip(group). Relation vTally(group).
-  Rule voice_gate at lb_gate when at(party, lb_gate) and memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and not vGate(party)
+  Rule voice_gate at lb_gate when at(party, lb_gate) and memberOf(?m, party) and brings(?m, lockwork) and awake(?m) and not vGate(party)
     says "{?m} runs a thumb down the left leaf and stops at the seam. 'Two locks,' {?m} says. 'The one on the face is for show: it takes a number, and people will stand here an hour with a number. The real one is under the plate. A tumbler, here, and a click you could miss. Quiet, if you take your time.'" {
     Assert vGate(party).
   }
@@ -87,13 +96,13 @@ Module dorothea "The Dorothea" {
   Thing keepers_brake "the keepers' brake" at lb_ledge { State free "A black iron lever as long as an arm, set in a slot in the ledge wall, with a pawl the size of a thumb. It has not moved in a very long time.". }
   Observe lb_ledge_scene at lb_ledge when true "A ledge of black stone over a hall the size of a barn. Below, in the dark, brass: wheels, hundreds of them, each as wide as a cartwheel, meshed edge to edge and turning, on a floor that is also wheels. Every one carries numerals. The tick is the sound of them. The whole hall hangs on a taut flat steadiness, as a heart does in a body asleep.".
   Observe lb_far_scene at lb_far when true "The far side of the wheel-floor: a landing, a rail, an arch into lamplight. The brass goes on turning behind you with the sound of someone counting to himself.".
-  Rule voice_teeth at lb_ledge when at(party, lb_ledge) and memberOf(?m, party) and hasCalling(?m, calling_mage) and awake(?m) and not vTeeth(party)
+  Rule voice_teeth at lb_ledge when at(party, lb_ledge) and memberOf(?m, party) and brings(?m, lore) and awake(?m) and not vTeeth(party)
     says "{?m} watches the wheels for a full minute with the stillness of someone doing a sum. 'They are not random,' {?m} says. 'Every tooth has a number and the numbers are in step. If you cross on the evens as they come up, and wait out the odds, there is a path of about thirty paces. I could do it. I'd rather not have to say how.'" {
     Assert vTeeth(party).
   }
   Action cipher_the_wheels(actor: group, site: place) "Read the wheel-floor's numbers, and give the company the path across" {
     Description "Only someone who has been taught to see a number in a toothed wheel can do it unaided.".
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lb_ledge) and not crossed(party) and state(engine, running) and memberOf(?m, party) and hasCalling(?m, calling_mage).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lb_ledge) and not crossed(party) and state(engine, running) and memberOf(?m, party) and brings(?m, lore).
     Time 4.
     On success { Assert crossed(party). }
     Result "{?m} walks you over in the order the teeth allow, a pace at a time, with a hand flat on each of your backs, saying the numbers aloud. It takes eleven minutes, and nobody is touched by a wheel. On the far side {?m} sits down on the landing and says that was the most tiresome thing that has ever been done with a pencil.".
@@ -121,6 +130,17 @@ Module dorothea "The Dorothea" {
     says "Above you, through a hundred feet of rock, the Pharos goes out. You do not see it. There is simply a place in the dark above the stair where the glow was, and a silence in the oil pipe." {
     Assert brakeThrown(party).
   }
+  // The island's night pays for the brake: a day with the Pharos dark and the pilot unfed, and something on the Reach pays.
+  Measure darkAt(entity). Relation reachPaid(group).
+  Rule dark_begins when brakeThrown(party) and not pilotLit(party) and darkAt(party) == 0 and not reachPaid(party) {
+    Set darkAt(party) to watch(clock). Increase darkAt(party) by 144.
+  }
+  Rule reach_pays when darkAt(party) > 0 and watch(clock) >= darkAt(party) and not pilotLit(party) and not reachPaid(party)
+    says "Through the rock, from very far above, comes the thump of a gun, and a second, and no third. Wherever you are on the island, some time after, you will be told what it was, and you will not need telling." {
+    Assert reachPaid(party). Set darkAt(party) to 0.
+  }
+  Rule pilot_saves_the_reach when pilotLit(party) and darkAt(party) > 0 { Set darkAt(party) to 0. }
+  Observe reach_paid_scene at pharos_foot when reachPaid(party) "A boat's spars lie across the strand below the Pharos, a day old, and the gulls are very quiet about them. Nobody on the island will say whose.".
   Observe lamp_dims at pharos_lamp when brakeThrown(party) and not pilotLit(party) "The lamp room is dark. The wicks are trimmed, the oil is in, and the great bronze reflector has nothing to throw. Marren Kestle sits on the floor with her back to it, saying nothing, and the Dorothea's captain is the only one on the Reach who has noticed.".
   Observe lb_crawl_scene at lb_crawl when true "A crawl as narrow as a chimney, polished on the floor to a trough by the knees and elbows of keepers one at a time, the one who tends and the one who counts. Every yard or so, scratched at the height of a cheek, a name and a year, in the hand of whoever was crawling.".
   Observe lb_gallery_air at lb_gallery when true "The tick has thinned to a murmur behind the rock. The air has the dry sweetness of a room where a fire has been banked for longer than the room has had a roof.".
@@ -150,19 +170,35 @@ Module dorothea "The Dorothea" {
   Topic oswin_heart with oswin "Ask Oswin Tarn what he is afraid of" when true once {
     Says "'That I shall be told I was wrong,' says Tarn, at once, and without any pride at all. 'Everyone is afraid of the thing in the well. I am afraid that the Collegium will say my reading of the second column is a copyist's slip. If I take the book out and I am wrong, I have wasted two Collegia. If I leave it here and I am right, I have wasted the only true thing I ever found.' He laughs, once. 'Choose one of us to carry, if you have to.'".
   }
-  Action carry_oswin(actor: group, site: place) "Take Oswin Tarn back up the stair with you" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(oswin, site) and not oswinOut(actor).
-    Time 1.
+  // Tarn will not leave without his book, and the company cannot carry both a man who has not eaten in nine days and
+  // nine days of paper up a hundred feet of dish-worn stair: it carries him, and the book stays on the bench (he says it
+  // was only ever a reading), or it carries the book and Marren fetches him in the morning, if he is still there.
+  Relation bookTaken(group). Relation coinLeft(group).
+  Kind lb_notebook "Oswin Tarn's notebook" is treasure worth 50 weighing 1 described "Nine days of readings in a surveyor's hand, in pencil, going lighter toward the end. The second column of the Prefect's Table is copied out in it as a tread, with a note in the margin: NOT A LIST.".
+  Action carry_oswin(actor: group, site: place) "Take Oswin Tarn back up the stair with you, and leave his book on the bench" {
+    Description "A man who has not eaten in nine days, up a hundred feet of dish-worn stair. The book stays.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(oswin, site) and not oswinOut(actor) and not bookTaken(actor).
+    Time 6.
     On success { Assert oswinOut(actor). Retract at(oswin, lb_gallery). Assert at(oswin, lb_head). }
-    Result "Tarn takes your arm like a man on a ship's deck. He climbs the stair on it, one dish-worn step at a time, saying the numbers he can see in the wall, and at the trap he stops and looks up at the sky he has not seen in nine days. 'Oh,' he says. 'It's still there.'".
+    Result "Tarn looks at the notebook for as long as it takes to be afraid of it, and puts it on the bench with the pencil across it, squared, like a man leaving a hat. 'It was a reading,' he says. 'Only ever a reading.' He takes your arm like a man on a ship's deck. He climbs the stair on it, one dish-worn step at a time, saying the numbers he can see in the wall, and at the trap he stops and looks up at the sky he has not seen in nine days. 'Oh,' he says. 'It's still there.'".
   }
-  Rule voice_office at lb_gallery when at(party, lb_gallery) and memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and not vOffice(party)
+  Action take_oswins_book(actor: group, site: place) "Take Oswin Tarn's notebook for the Collegium, and leave him to be fetched" {
+    Description "The only true thing he ever found, out of the hands that found it.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(oswin, site) and not oswinOut(actor) and not bookTaken(actor).
+    Time 1.
+    On success { Give lb_notebook to actor. Assert bookTaken(actor). }
+    Result "'Take it,' says Tarn, quickly, before he can think, and puts it in your hands. 'If I am wrong, say it was a copyist.' He sits down again, rather carefully, with his back to the wall and his readings gone. 'Send someone,' he says, to the lamp on the table. 'In the morning will do. I shall be very quiet.'".
+  }
+  Observe oswin_left at oil_store when bookTaken(party) and not oswinOut(party) "Marren Kestle has rope, a lantern and a ration-bag ready by the trap, and her back to you. 'There is a man down there,' she says, without turning. 'Nine days. You carried his paper up and left him with the lamp.' She does not say it as a charge. She says it as a sum.".
+  Observe oswin_out at oil_store when oswinOut(party) "Oswin Tarn sits on an oil keg in the light from the door, eating oatcake with both hands, and telling Marren Kestle, in a voice getting steadier with every mouthful, exactly how wrong he was.".
+
+  Rule voice_office at lb_gallery when at(party, lb_gallery) and memberOf(?m, party) and brings(?m, rites) and awake(?m) and not vOffice(party)
     says "{?m} reads the chalk columns end to end, lips moving, and stops where the two hands meet in a smear. 'Somebody at the Collegium wrote OWED against every year's oil,' {?m} says. 'Somebody on the island wrote KEPT over it. Two hundred years of rubbing out each other's totals.' {?m} puts a thumb in the smear and takes it away grey. 'We have an office for the dead that argues the same point, and we settle it the island's way. I know what to say to this. I'm not sure it will like being said to.'" {
     Assert vOffice(party).
   }
   Action read_the_office(actor: group, site: place) "Read the office for the dead over the tally, aloud, from the lip of the well" {
     Description "The Governor keeps the count of the living and the lost. A cleric has a form of words for closing a count.".
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lb_well) and at(governor, lb_well) and not tolerates(governor, actor) and memberOf(?m, party) and hasCalling(?m, calling_cleric) and not governorRests(actor).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lb_well) and at(governor, lb_well) and not tolerates(governor, actor) and memberOf(?m, party) and brings(?m, rites) and not governorRests(actor).
     Time 4.
     Resolve check(actor, persuasion, dc_fair).
     On success { Assert tolerates(governor, actor). Assert governorRests(actor). }
@@ -183,7 +219,7 @@ Module dorothea "The Dorothea" {
     says "The Governor counts the company, one finger at a time. Then it counts again. 'One,' it says, in the hinge of its voice. 'One keeper. Tend.' It steps aside from the pilot as if from a table it has been told to lay for a guest, and the lens goes on turning." {
     Assert tolerates(governor, party). Assert governorRests(party).
   }
-  Rule voice_hip at lb_well when at(party, lb_well) and memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and at(governor, lb_well) and not vHip(party)
+  Rule voice_hip at lb_well when at(party, lb_well) and memberOf(?m, party) and brings(?m, brawn) and awake(?m) and at(governor, lb_well) and not vHip(party)
     says "{?m} looks at the Governor's hip for as long as it takes to be afraid of it, and then at the plate above the left knee. 'Overlap's worn on that side,' {?m} says, low. 'Two hundred years of the same stroke with the same knife. You'd get a blade into that gap, but you'd be in reach to do it.' A breath. 'I'd rather talk to it.'" {
     Assert vHip(party).
   }

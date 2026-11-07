@@ -146,13 +146,16 @@ describe('the Principal, at the top', () => {
     await buys.play('Lay the waybill, the leaf and the lieutenant', 'Take the Principal.s sixty crowns');
     expect(buys.measure('quantity', 'party', 'gold')).toBe(before + 60);
     expect(buys.holds('routed', F('principal'))).toBe(false);
-    // nerve 2: he will not go. The warn stands, and the company has a fight or a way out.
+    // nerve 2: he will not go. He gives the company an hour to be gone, and then the warn stands: a fight or a way out.
     const stands = fresh(2);
     stands.put('party', T('ring_loft'));
     await stands.play('Lay the waybill, the leaf and the lieutenant');
     expect(stands.holds('routed', F('principal'))).toBe(false);
-    expect(stands.holds('tolerates', F('principal'), 'party')).toBe(false);
+    expect(stands.holds(F('stood'), F('principal'))).toBe(true);
+    expect(stands.holds('tolerates', F('principal'), 'party')).toBe(true);
     expect(stands.at(F('principal'))).toBe(T('ring_loft'));
+    await stands.play('^Wait › An hour');
+    expect(stands.holds('tolerates', F('principal'), 'party')).toBe(false);
   }, 900000);
 
   it('opens the Lamp Below when the Principal flees, and not before, in the world the ring was drawn into', async () => {
