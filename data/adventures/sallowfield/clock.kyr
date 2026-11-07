@@ -1,6 +1,6 @@
 Module sallowfield "Three Nights at Sallowfield" {
   // ── The clock ─────────────────────────────────────────────────────────────────────────────────────────────────
-  // Watch 0 is eight in the morning of the first day. Dusk of the first day: watch 78; the second: 222; the third: 366.
+  // Watch 0 is eight in the morning of the first day. The engine's dusk, by which the nights are counted, falls at watch 78 on the first day, 222 on the second and 366 on the third (21:00); the boy and the raiders come up in the evening before it, at 200 to 214.
   // Wyre means to come on the third night (assaultAt 366). If his riders find the town unwatched on the first night he
   // does not wait: he comes on the second (222). Everything he does turns on what he has seen, so what he has seen is
   // kept in plain facts: sawFord, sawBarricade, sawCut, sawTower, sawWatch.
@@ -26,7 +26,7 @@ Module sallowfield "Three Nights at Sallowfield" {
     Role "a pair of troopers on lathered horses, in the Margrave's old green". Ancestry human. Calling warrior. Level 2. Numbers 2. Peaceable. Manner stoic. Refuge east_road.
     Uses go.
     Arrives at lookout when watch(clock) >= 12.
-    Arrives "Two horsemen come along the Scar road and rein in at the lookout, and sit their horses looking down the vale as a man looks at a plate. One of them has a slate.".
+    Arrives "Two horsemen come along the Scar road and rein in at the lookout, and sit their horses looking down the vale like a plate laid out. One of them has a slate.".
     Greets "The nearer trooper touches his hat and says the road is free to everyone, and keeps his eyes on the water. The other has a slate on his knee and does not look up.".
   }
   Person lowes "Kit Lowes" nowhere {
@@ -56,7 +56,7 @@ Module sallowfield "Three Nights at Sallowfield" {
   Pursuit riders_ford for riders "riding down to the ford" priority 5 when watch(clock) >= 80 and not riders_gone(party) seeks at(riders, ford_stones).
   Observe crowther_four near crowther when riders_gone(party) "'Four,' says Crowther, and holds up four fingers, and puts one down. 'There were three, on the Scar road. There was a fourth this morning, with a slate.'".
 
-  Query watchedFord() means (posted(?v, ford_stones) and able(?v)) or (posted(?v, bridge) and able(?v)) or at(party, ford_stones) or at(party, bridge) or at(party, ford_meadow).
+  Query watchedFord() means (posted(?v, ford_stones) and at(?v, ford_stones) and able(?v)) or (posted(?v, bridge) and at(?v, bridge) and able(?v)) or at(party, ford_stones) or at(party, bridge) or at(party, ford_meadow).
   Rule riders_look at ford_stones when at(riders, ford_stones) and watch(clock) >= 92 and not riders_gone(party) and watchedFord()
     says "The troopers sit their horses at the middle stone for the length of a long breath. Someone on the bank has been seen. The man with the slate writes a line and wipes his thumb." {
     Assert riders_gone(party). Assert sawWatch(party). Retract at(riders, ford_stones). }
@@ -85,7 +85,7 @@ Module sallowfield "Three Nights at Sallowfield" {
   Rule lowes_lie when planned(party) and lowesLie(party) and not lieMod(party) {
     Assert lieMod(party). Increase thrust(ford_stones) by 4. Decrease thrust(bridge) by 3 or to nothing. Decrease thrust(mill_yard) by 3 or to nothing. }
   Observe lowes_in_reeds at reed_marsh when lowesCame(party) and not lowesGone(party) and not heldScout(lowes) "A boy is picking his way along the reed causeway in the dark with his boots round his neck, counting under his breath. He has not seen you.".
-  Observe reeds_lights_crowther near crowther when watch(clock) >= 150 and watch(clock) < 214 and not heldScout(lowes) "'Lights in the reeds,' says Crowther, 'two nights back. A small man, with a lantern shaded. He goes along the hurdles to where they stop and stands there. I don't know what he's counting.'".
+  Observe reeds_lights_crowther near crowther when watch(clock) >= 150 and watch(clock) < 214 and not heldScout(lowes) "'Lights in the reeds,' says Crowther, 'last night. A small man, with a lantern shaded. He goes along the hurdles to where they stop and stands there. I don't know what he's counting.'".
   Observe reeds_lights_greenhalgh near greenhalgh when watch(clock) >= 150 and watch(clock) < 214 and not heldScout(lowes) "'There's a lad comes down the reed track at night,' says Greenhalgh. 'Dog won't have him. Small. Boots in his hand.'".
   Relation lowesAlert(group).
   Rule lowes_alert_effect when planned(party) and lowesAlert(party) and not alertMod(party) { Assert alertMod(party). Increase thrust(ford_stones) by 1. Increase thrust(mill_yard) by 1. }

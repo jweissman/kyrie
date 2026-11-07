@@ -42,7 +42,7 @@ Module sallowfield "Three Nights at Sallowfield" {
     On discuss { Assert willing(cragg, actor). Set hire(cragg) to 0. }
   }
   Topic cragg_lost with cragg "A friend. I could not save him" answering cragg_talk when true {
-    Says "'Ah,' says Ellen Cragg. She looks at you for the first time as one grown person looks at another. 'Then you know the other thing about numbers.' She takes up her quiver. 'I will come with you.'".
+    Says "'Ah,' says Ellen Cragg. She looks at you for the first time as someone who has been addressed as an equal. 'Then you know the other thing about numbers.' She takes up her quiver. 'I will come with you.'".
     On discuss { Assert willing(cragg, actor). Set hire(cragg) to 0. Assert craggKin(actor). }
   }
   Topic cragg_killed with cragg "People I killed" answering cragg_talk when true {
@@ -121,7 +121,14 @@ Module sallowfield "Three Nights at Sallowfield" {
   }
   Topic greenhalgh_true with greenhalgh "Yes. The farm is the first they reach" answering greenhalgh_go when true {
     Says "Greenhalgh spits, and wipes his mouth. 'Not hard, that.' He whistles the dog off the yard. 'I'll drive them. You can mend the barn yourselves.'".
-    On discuss { Assert evacuatedFarm(actor). Assert greenhalghSaved(actor). }
+    On discuss { Assert greenhalghAgreed(actor). }
+  }
+  Relation greenhalghAgreed(group).
+  Action drive_the_cows(actor: group, site: place) "Help Ned Greenhalgh drive the cows up to the fold" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lower_farm) and greenhalghAgreed(actor) and not evacuatedFarm(actor).
+    Time 24.
+    On success { Assert evacuatedFarm(actor). Assert greenhalghSaved(actor). }
+    Result "Forty head, a dog that has views, and a track that was not made for them. It takes the afternoon. At the fold Crowther opens the wall and shuts it, and Greenhalgh does not look back at the barn.".
   }
   Topic greenhalgh_lie with greenhalgh "No. They will go straight for the ford" answering greenhalgh_go when true {
     Says "He looks at you until the cow shifts. 'You are a bad liar,' he says, quite kindly, and goes back to the cow he was milking.".
@@ -135,7 +142,7 @@ Module sallowfield "Three Nights at Sallowfield" {
   Rule wadsworth_breaks when posted(wadsworth, bridge) and not steadied(wadsworth) and watch(clock) >= assaultAt(wyre) + 6 and not wadsworthRan(party) and overrun(bridge) {
     Assert wadsworthRan(party). Retract posted(wadsworth, bridge). }
   Topic elland_count with elland "Ask Tib Elland how many sacks there are" when true once {
-    Says "'Ninety, ninety, ninety,' says Tib Elland, and breathes. 'Sixty people. Ninety sacks. A person eats a sack and a half in a winter, and it is not enough, and the Margrave takes a third.' He looks very small. 'It is a sum I can do. I cannot, I cannot do the other sum.'".
+    Says "'Ninety, ninety, ninety,' says Tib Elland, and breathes. 'Sixty people. Ninety sacks. A person eats a sack and a half in a winter, and it is not enough, and the Margrave takes a third.' He looks small. 'It is a sum I can do. I cannot, I cannot do the other sum.'".
   }
   Topic elland_stand with elland "Say that he can hold a door with a stick, like anyone" when true once {
     Says "He takes a tally-stick in each hand and looks at them as though for the first time. 'It is a stick,' he says. 'I could hold a door with a stick.' He does not sound as if he thinks he could.".

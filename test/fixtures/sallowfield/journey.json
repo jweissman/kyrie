@@ -92,6 +92,9 @@
     "The reeve's sixty, the plate and the grain"
   ],
   "foulTheGrain": [
+    "Say what you would put on the notice",
+    "Ask the reeve what the village could pay",
+    "Take the old, the sick and the children up to the high fold",
     "Into Kersey's forge",
     "a pot of pitch: Take",
     "Out to Sallowfield green",
@@ -161,6 +164,7 @@
     "To the ford meadow",
     "To Sallowfield green",
     "Into the Ploughshare",
+    "Steady Hob Wadsworth with a word",
     "Ask Hob Wadsworth to hold Quarmby's mill yard",
     "Out to Sallowfield green",
     "To Quarmby's mill yard"
@@ -202,5 +206,11 @@
     "Ask the captain what he wants",
     "Wait for what the captain asks",
     "The reeve's sixty, the plate and the grain"
+  ],
+  "bucketFirst": [
+    "Out to Sallowfield green",
+    "To the green well",
+    "Set a bucket line from the well to the green",
+    "To Sallowfield green"
   ]
 }

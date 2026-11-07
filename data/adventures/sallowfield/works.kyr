@@ -44,11 +44,16 @@ Module sallowfield "Three Nights at Sallowfield" {
     Result "You dig until your hands blister and then you dig on. The pits are a yard deep, a yard wide, laid out in a staggered line from the hedge to the ford, and the hurdles lie over them as naturally as a hurdle can. The villagers who watch say nothing. A horse would not see them either.".
   }
   Action spoil_grain(actor: group, site: place) "Foul the tithe grain with brine and lamp oil" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, granary) and not grainSpoiled(party) and holding(actor, lamp_oil).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, granary) and not grainSpoiled(party) and holding(actor, lamp_oil) and knows(actor, reeve_would_pay).
     Time 6.
     On success { Spend lamp_oil from actor. Assert grainSpoiled(party). Assert winterShort(party). }
     Result "It is a thing you can do in an hour. The oil goes on the sacks in a black stain and the brine from the pickle-tubs after it, and by the end the granary stinks of salt and lamp. Tib Elland watches from the door with his tally-sticks hanging and says, 'That was the winter.'".
   }
+  // The grain is the village's winter: what is done to it is done to them.
+  Rule spoiled_costs when grainSpoiled(party) and not spoiledMod(party) {
+    Assert spoiledMod(party). Assert at(elland, fold).
+    Decrease nerve(ashworth) by 1 or to nothing. Decrease nerve(quarmby) by 1 or to nothing. Decrease nerve(wadsworth) by 1 or to nothing. Decrease nerve(greenhalgh) by 1 or to nothing. }
+  Relation spoiledMod(group).
   Action drill_levy(actor: group, site: place) "Drill the levy on the green with staves" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, green) and not drilledTwo(party) and watch(clock) < 330.
     Time 60.
@@ -86,13 +91,13 @@ Module sallowfield "Three Nights at Sallowfield" {
     Time 6.
     Resolve check(actor, woodcraft, dc_fair).
     On success { Assert knowsNumbers(party). }
-    On failure { Assert knowsNumbers(party). Assert badCount(party). }
+    On failure { Assert badCount(party). }
     Result "You lie on the limestone with the cairn at your head and watch them come down the east road in the late light: forty on horse and foot, a wagon, a string of led horses, a standard with the Margrave's green gone to brown. Twenty more follow, on foot, with women among them. They are not marching. They are walking like people who have not been paid since spring.".
     Otherwise "You lie on the limestone and count, and it comes to sixty on horse and foot, and you tell it so in the village: sixty armed men. It is a good clear count, and it is a bad one. Twenty of them were women with the wagons, and by the time that is known the levy has stopped asking.".
   }
 
   Relation badCount(group).
-  Rule bad_count_hurts when badCount(party) and not badMod(party) { Assert badMod(party). Decrease drillBonus(party) by 1 or to nothing. }
+  Rule bad_count_hurts when badCount(party) and not badMod(party) { Assert badMod(party). Decrease drillBonus(party) by 1 or to nothing. Decrease defence(ford_stones) by 1 or to nothing. Decrease defence(bridge) by 1 or to nothing. Decrease defence(mill_yard) by 1 or to nothing. Decrease defence(nave) by 1 or to nothing. }
   Relation badMod(group).
 
   // The ledger: the hours there are, said in bands, until the night he is expected (a quarter of a day each).
@@ -105,14 +110,14 @@ Module sallowfield "Three Nights at Sallowfield" {
     On success { Increase quantity(actor, gold) by 60. Assert sixtyCollected(party). Decrease nerve(stansfield) by 1 or to nothing. }
     On failure { Increase quantity(actor, gold) by 20. Assert sixtyCollected(party). }
     Result "Forty-one doors, and the reeve behind you with his ledger saying the name of each one before you knock. Most open. Nan Ashworth gives the lot of her slate. At the Haworths' they have nothing and give it.".
-    Otherwise "It is a bad day for a request. You come back with a purse that is lighter than a sixty, and the reeve says nothing, and writes the name of every door that did not open.".
+    Otherwise "It is a bad day for a request. You come back with a purse that is lighter than a sixty, and the reeve writes the name of every door that did not open.".
   }
   Relation sixtyCollected(group).
 
   Observe ledger_0 near party when not wyreEarly(party) and watch(clock) >= 0 and watch(clock) < 72 and not battleOn() "Two days and a night before the night he is expected. The wall alone is eighteen hours, the pits fourteen, the drill ten each, the caltrops nine; the iron is only enough for the coach or the caltrops. There are not enough hours for the lot.".
   Observe ledger_1 near party when not wyreEarly(party) and watch(clock) >= 72 and watch(clock) < 144 and not battleOn() "A day and most of a night. If the wall is not up by the second dusk it will not be up. Choose what you will not do.".
   Observe ledger_2 near party when not wyreEarly(party) and watch(clock) >= 144 and watch(clock) < 204 and not battleOn() "The second day. The boy in the reeds comes tonight, and the farm is raided the same hour; the company is one body.".
-  Observe ledger_3 near party when not wyreEarly(party) and watch(clock) >= 204 and watch(clock) < 246 and not battleOn() "The second night. What was not begun by now will not be finished before the stone.".
+  Observe ledger_3 near party when not wyreEarly(party) and watch(clock) >= 204 and watch(clock) < 246 and not battleOn() "The second evening. What was not begun by now will not be finished before the stone.".
   Observe ledger_4 near party when not wyreEarly(party) and watch(clock) >= 246 and watch(clock) < 306 and not battleOn() "The last morning. Whatever is half done is half done.".
   Observe ledger_5 near party when not wyreEarly(party) and watch(clock) >= 306 and watch(clock) < 342 and not battleOn() "The last afternoon. He is at the stone at noon, if he comes to talk.".
   Observe ledger_6 near party when not wyreEarly(party) and watch(clock) >= 342 and watch(clock) < 366 and not battleOn() "Dusk. Whatever is built is what there is.".

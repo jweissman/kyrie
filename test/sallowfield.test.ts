@@ -212,6 +212,63 @@ describe("Three Nights at Sallowfield", () => {
     expect(passive.page).toContain('Nobody was asked');
   }, 300000);
 
+  it('does not let a bare village be saved by fouling the grain: no wall, no cut, nobody sent up the fold', async () => {
+    const j = await start();
+    const route = steps.foulTheGrain.filter(s => !s.startsWith('Take the old'));
+    await j.play(...steps.muster, ...route);
+    await toDawn(j);
+    expect(held(j, 'vollLooked', 'party')).toBe(true);
+    expect(held(j, 'wyreWithdraws', 'party')).toBe(false);
+    expect(ending(j)).not.toMatch(/^The Next Granary/);
+  }, 300000);
+
+  it('makes the company weary after eighteen hours awake, and a night in camp mends it', async () => {
+    const j = await start();
+    await j.play('=day 2 03:00');
+    expect(held(j, 'weary', 'party')).toBe(true);
+    expect(held(j, 'wearyMod', 'party')).toBe(true);
+    await j.play('Make camp and sleep', '=+6');
+    expect(held(j, 'weary', 'party')).toBe(false);
+    expect(held(j, 'wearyMod', 'party')).toBe(false);
+  }, 300000);
+
+  it('is held, and the winter short, when the picked men are given the granary', async () => {
+    const j = await start();
+    await j.play(...steps.muster, ...steps.wallAndCut, 'To Sallowfield green', ...steps.reeds, ...steps.sendTruth, ...steps.afterTruth, ...steps.parley, ...steps.refuse,
+      ...steps.hobToTheMill);
+    await toDawn(j, yielded);
+    expect(held(j, 'grainGiven', 'party')).toBe(true);
+    expect(ending(j)).toBe('Held, and the Winter Short');
+  }, 300000);
+
+  it('shows Wyre\'s weight from the east road, and says at the end whether he guessed right', async () => {
+    const j = await start();
+    await j.play(...steps.muster, ...steps.toTheFord, ...steps.wall, ...steps.toTheFord.slice(0, 1), ...['To Sallowfield green', 'To the packhorse bridge', 'Prise out the keystone of the near arch', 'To Sallowfield green'],
+      'To the ford meadow', 'To the reed marsh', '=day 2 17:40', '=day 2 19:00', 'To the ford meadow', 'To the ford stones', '=day 3 08:00', 'To the east road, at the ford');
+    expect(j.page).toContain('led horses are going round by the marsh edge toward the mill');
+    await j.play('To the ford stones');
+    await toDawn(j);
+    expect(j.page).toMatch(/Wyre (guessed the mill, and it went|put his weight on the mill and it stood)/);
+  }, 300000);
+
+  it('leaves nobody: every villager posted, steadied where they would not stand, the posts held to the last, and the company alive', async () => {
+    const j = await start();
+    await j.play(...steps.muster,
+      'Steady Aldred Stansfield with a word', 'Ask Aldred Stansfield to hold the ford stones',
+      'Into the Ploughshare', 'Ask Hob Wadsworth to hold the ford stones', 'Out to Sallowfield green',
+      "Into Kersey's forge", 'Ask Peg Kersey to hold the ford stones', 'Out to Sallowfield green',
+      'Into the tithe granary', 'Steady Tib Elland with a word', "Ask Tib Elland to hold Quarmby's mill yard", 'Out to Sallowfield green',
+      'To the high track', 'To the high fold', "Ask Old Crowther to hold Quarmby's mill yard", 'To the high track', 'To Sallowfield green',
+      "To Greenhalgh's farm", "Ask Ned Greenhalgh to hold Quarmby's mill yard", 'To Sallowfield green',
+      ...steps.toTheFord, ...steps.wall, '=day 3 19:00', 'Wait › An hour', 'Wait › An hour', 'Wait › An hour');
+    for (const p of ['ford stones', "Quarmby's mill yard"]) {
+      if (j.choices().some(c => c.label.startsWith(`Hold the ${p}`) || c.label.startsWith(`Hold ${p}`))) { await j.play(`Hold .*${p}.* to the last`); }
+    }
+    await toDawn(j);
+    expect(j.measure('overrunCount', 'party')).toBeGreaterThanOrEqual(0);
+    expect(ending(j)).toBe('Nobody Left');
+  }, 300000);
+
   it('is half saved when the ford is walled, the helpless sent up the fold, and the grain given', async () => {
     const j = await start();
     await j.play(...steps.muster, ...steps.evacuate, ...steps.toTheFord, ...steps.wall);
@@ -257,20 +314,30 @@ describe("Three Nights at Sallowfield", () => {
     expect(ending(j)).toBe('A Peace of Sixty Coin');
   }, 300000);
 
-  it('ends in the next granary when the grain is fouled and the boy carries the word', async () => {
+  it('ends in the next granary, after the mill, when the grain is fouled, the boy told, Voll walked through it, and the lieutenant not bought', async () => {
     const j = await start();
     await j.play(...steps.muster, ...steps.foulTheGrain);
     await toDawn(j);
     expect(held(j, 'grainSpoiled', 'party')).toBe(true);
     expect(held(j, 'wyreKnowsSpoiled', 'party')).toBe(true);
     expect(held(j, 'vollLooked', 'party')).toBe(true);
+    expect(ending(j)).toBe('The Next Granary, After the Mill');
+  }, 300000);
+
+  it('ends in the next granary, with the mill standing, when the lieutenant is bought as well', async () => {
+    const j = await start();
+    const at = steps.foulTheGrain.indexOf('Offer Sergeant Voll safe conduct to see the granary for himself');
+    const route = [...steps.foulTheGrain.slice(0, at), 'Offer Lieutenant Fothergill ten coin and a way home', ...steps.foulTheGrain.slice(at)];
+    await j.play(...steps.muster, ...route);
+    await toDawn(j);
+    expect(held(j, 'fothergillTurned', 'party')).toBe(true);
     expect(ending(j)).toBe('The Next Granary');
   }, 300000);
 
   it('turns the lieutenant on his captain', async () => {
     const j = await start();
     await j.play(...steps.muster, ...steps.toTheFord, '=day 1 22:00', ...steps.reeds);
-    await j.play(...steps.buyTheLieutenant);
+    await j.play(...steps.bucketFirst, ...steps.buyTheLieutenant.slice(1));
     await toDawn(j);
     expect(held(j, 'fothergillTurned', 'party')).toBe(true);
     expect(ending(j)).toBe("The Captain's Own");

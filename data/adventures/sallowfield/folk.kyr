@@ -15,7 +15,6 @@ Module sallowfield "Three Nights at Sallowfield" {
   }
   Person ashworth "Nan Ashworth" at taproom {
     Role "landlady of the Ploughshare". Ancestry human. Profession innkeeper. Peaceable. Pronouns she. Manner jovial.
-    Remarks at bridge "'What it wants,' says Hob Wadsworth, to the whole bridge, 'is a man with a voice. Lucky for you.' His voice has gone up a tone since the sun went down.".
     Greets "'Sit,' says Nan Ashworth, 'sit, sit, it's not a day to be on your feet. I've mutton, I've the end of a cheese, I've a cellar that has never in its life been lent to an army and I'd be obliged if it kept the record.'".
   }
   Person quarmby "Gil Quarmby" at mill_yard {
@@ -57,6 +56,7 @@ Module sallowfield "Three Nights at Sallowfield" {
   }
   Person wadsworth "Hob Wadsworth" at taproom {
     Role "a carter, loudly". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Remarks at bridge "'What it wants,' says Hob Wadsworth, to the whole bridge, 'is a man with a voice. Lucky for you.' His voice has gone up a tone since the sun went down.".
     Greets "A big pink man at the bar with a pot in each hand, telling the room how he would deal with soldiers. He has dealt with soldiers in nine different ways since you came in and each way has been worse than the last. 'You're a fighter,' he says to you, with enormous warmth. 'I can tell. Let me buy you something.'".
   }
   Person elland "Tib Elland" at granary {
@@ -73,8 +73,8 @@ Module sallowfield "Three Nights at Sallowfield" {
   // Asking someone to hold a place. A villager with no nerve will not; a steadied one will.
   Action post_villager(actor: group, site: place, v: group, p: place) "Ask {v} to hold {p}" {
     Requires able(actor) and company(actor) and at(actor, site) and villager(v) and able(v) and at(v, site) and postsite(p) and not posted(v, p) and nerve(v) >= 1 and not travelsWith(v, actor).
-    Time 0.
-    On success { Assert posted(v, p). }
+    Time 6.
+    On success { Assert posted(v, p). Assert at(v, p). }
     Result "{v} nods, once, and the matter is settled. They will be there.".
   }
   Action steady_villager(actor: group, site: place, v: group) "Steady {v} with a word" {
