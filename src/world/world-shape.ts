@@ -11,15 +11,20 @@ export interface Great {
   where: Partial<Record<Side, [number | null, number | null]>>;
   coast?: { side: Side; within: number };
 }
+// A city of the canon built in every world (data/imbar/shape.json's seats): the identity it is (dun_ri), what it is
+// called, and the cells its country may be, read as a great region's; the nearest of them that is land is its.
+export interface Seat { identity: string; name: string; where: Great['where'] }
 // The shape of Imbar: certain cells of every generated world's grid of countries (see WorldGrid) are what they are
 // whatever the seed, by rule over the grid rather than by any coordinate an author must know: the Eastern Ocean
 // beyond the first country's eastern march, the Great Desert south beyond its southern neighbour, the Southern Sea
 // beyond the desert and the Southern Continent beyond that. Read before any country is drawn, so the countries of a
 // great region are drawn with its terrain given, named as part of it, and the land beside a sea falls to it where
 // the sea says. The first country's land is never redrawn by it: a world's start is its seed's (the recorded descents
-// and traces play on it), and the ocean comes into it only by Tolleth's firth (see Firth).
+// and traces play on it), and the ocean comes into it only by Tolleth's firth (see Firth). A city of the canon is
+// built in the country its seat says (Dun Rìerdan north of the first country): its chief town is the city.
 export class WorldShape {
   static readonly regions = shape.regions as Great[];
+  static readonly seats = shape.seats as unknown as Seat[];
   // The great region that holds a cell, if one does: the first listed that does.
   static at(x: number, y: number): Great | undefined {
     return this.regions.find(g => this.holds(g, [x, y]));
@@ -54,7 +59,28 @@ export class WorldShape {
     const of = ` of ${great.name}`;
     return own.endsWith(of) ? own : `${own}${of}`;
   }
-  private static holds(g: Great, at: [number, number]): boolean {
+  // The cell of the grid whose country a city of the canon is built in: of the cells its seat holds, the nearest the
+  // first country that no great sea holds (of those as near, the westernmost, then the northernmost); none, if it
+  // names no seat or holds no land within reach. The same in every world, whatever its seed.
+  static seat(identity: string): [number, number] | undefined {
+    const seat = this.seats.find(s => s.identity === identity);
+    if (!seat) { return undefined; }
+    for (let ring = 1; ring <= this.reach; ring++) {
+      for (let x = -ring; x <= ring; x++) {
+        for (const y of [...new Set([-(ring - Math.abs(x)), ring - Math.abs(x)])]) {
+          if (this.holds(seat, [x, y]) && !this.sea(x, y)) { return [x, y]; }
+        }
+      }
+    }
+    return undefined;
+  }
+  // The city of the canon built in a cell's country, if one is.
+  static seated(x: number, y: number): Seat | undefined {
+    return this.seats.find(s => { const at = this.seat(s.identity); return at?.[0] === x && at[1] === y; });
+  }
+  // How far from the first country a seat is looked for.
+  private static readonly reach = 8;
+  private static holds(g: Pick<Great, 'where'>, at: [number, number]): boolean {
     return Object.entries(g.where).every(([side, [least, most]]) => {
       const steps = this.steps(at, side as Side);
       return (least === null || steps >= least) && (most === null || steps <= most);

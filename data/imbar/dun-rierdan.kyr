@@ -1,0 +1,38 @@
+Module canon "Imbar and the planes" {
+  // ── Dun Rìerdan, the City of Seven Towers ─────────────────────────────────────────────────────────────────────────
+  // The great city of Imbar (the owner, 6 November): the Rì's fort of old, and a city now, of a Mabinogion-like
+  // character, with seven towers over it, each the seat of one of the powers that keep the city. Every world builds the
+  // city once, where its shape says (data/imbar/shape.json: the first country's northern neighbour), and names the
+  // place it is: seatOf(dun_ri, the city). The towers are named here before anyone builds them, each part of the city,
+  // with the power seated in it: an adventure set in the city names the canon's city and these towers and lays its
+  // people, quarters and buildings over them, and says where it builds one (Initially Assert seatOf(tower_of_the_harp,
+  // its building)); none makes a city of its own.
+  Entity tower_of_the_ri: identity "the Rì's Tower".
+  Entity tower_of_doors: identity "the Tower of Doors".
+  Entity tower_of_the_cauldron: identity "the Tower of the Cauldron".
+  Entity tower_of_judges: identity "the Tower of the Judges".
+  Entity tower_of_the_harp: identity "the Harp Tower".
+  Entity tower_of_the_scales: identity "the Tower of the Scales".
+  Entity tower_of_the_teulu: identity "the Tower of the Teulu".
+  Initially Assert partOf(tower_of_the_ri, dun_ri). Initially Assert partOf(tower_of_doors, dun_ri).
+  Initially Assert partOf(tower_of_the_cauldron, dun_ri). Initially Assert partOf(tower_of_judges, dun_ri).
+  Initially Assert partOf(tower_of_the_harp, dun_ri). Initially Assert partOf(tower_of_the_scales, dun_ri).
+  Initially Assert partOf(tower_of_the_teulu, dun_ri).
+
+  // The powers seated in them. The Llys is the Rì's court, the seat of the city and of the country it rules; the
+  // College of Dun Rì keeps the Tower of Doors (its House of Doors is its restricted precinct: see house.kyr); the
+  // Keepers of the Cauldron are the city's priesthood, who keep the cauldron that gives back the dead; the Judges keep
+  // the old law and give its judgements; the Bards' Hall keeps the city's memory, its genealogies and its songs, under
+  // its chief of song; the Exchange is where the city's guilds weigh and bargain; and the Teulu is the Rì's war-band,
+  // which keeps the city's walls and its watch.
+  Entity the_llys: identity "the Llys, the Rì's court".
+  Entity keepers_of_the_cauldron: identity "the Keepers of the Cauldron".
+  Entity court_of_judges: identity "the Court of the Judges".
+  Entity bards_hall: identity "the Bards' Hall".
+  Entity the_exchange: identity "the Exchange of Dun Rì".
+  Entity the_teulu: identity "the Teulu, the Rì's war-band".
+  Initially Assert seatedIn(the_llys, tower_of_the_ri). Initially Assert seatedIn(mages_college, tower_of_doors).
+  Initially Assert seatedIn(keepers_of_the_cauldron, tower_of_the_cauldron).
+  Initially Assert seatedIn(court_of_judges, tower_of_judges). Initially Assert seatedIn(bards_hall, tower_of_the_harp).
+  Initially Assert seatedIn(the_exchange, tower_of_the_scales). Initially Assert seatedIn(the_teulu, tower_of_the_teulu).
+}

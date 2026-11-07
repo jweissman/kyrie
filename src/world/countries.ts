@@ -71,8 +71,9 @@ export class Countries {
   // independent adventures its seed chose. Each of the rest lies beyond a country further out, on its own side of
   // it: the nearest country of a terrain it may lie beside that is the way into no other, so that a world holds them
   // all, and no country is walled in by them (every country that leads into one can be reached by countries drawn
-  // from the seed). Decided by the seed (and the first country's terrain, which may be given) before anyone goes
-  // anywhere: the same world whichever way it is walked.
+  // from the seed). None is laid where a city of the canon is built (Dun Rìerdan's country: see WorldShape.seat).
+  // Decided by the seed (and the first country's terrain, which may be given) before anyone goes anywhere: the same
+  // world whichever way it is walked.
   private static readonly plans = new WeakMap<Country[], Map<string, Map<string, Country>>>();
   static plan(seed: string, first: string): Map<string, Country> {
     const plans = this.plans.get(this.marches) ?? new Map<string, Map<string, Country>>();
@@ -81,7 +82,8 @@ export class Countries {
     if (kept) { return kept; }
     const plan = new Map<string, Country>();
     for (const side of Borders.sides) {
-      const c = this.fits(first, side, o => [...plan.values()].includes(o), seed);
+      const c = WorldShape.seated(...WorldGrid.next([0, 0], side)) ? undefined
+        : this.fits(first, side, o => [...plan.values()].includes(o), seed);
       if (c) { plan.set(WorldGrid.id(...WorldGrid.next([0, 0], side)), c); }
     }
     const ways = new Set<string>();
@@ -95,13 +97,14 @@ export class Countries {
   // The country a country is entered from, of those nearest the first that can be: of a terrain it may lie beside,
   // drawn from the seed (not authored), the way into no other, with the cell beyond it on that side free and not on
   // the first's own marches; and with every way into an authored country still reachable once it is there. Neither
-  // is a great sea's (see WorldShape). Of those equally near, the seed's choice.
+  // is a great sea's, and it is not where a city of the canon is built (see WorldShape). Of those equally near, the
+  // seed's choice.
   private static way(seed: string, c: Country, plan: Map<string, Country>, ways: Set<string>) {
     for (let ring = 1; ring <= this.reach; ring++) {
       const open = this.ring(ring).filter(at => {
         const into = WorldGrid.next(at, c.side), id = WorldGrid.id(...at), cell = WorldGrid.id(...into);
         return !plan.has(id) && !ways.has(id) && !plan.has(cell) && !ways.has(cell) && this.far(into) >= 2
-          && !WorldShape.sea(...at) && !WorldShape.sea(...into)
+          && !WorldShape.sea(...at) && !WorldShape.sea(...into) && !WorldShape.seated(...into)
           && c.beside.includes(WorldGrid.drawn(seed, ...at).terrain)
           && this.open(new Map([...plan, [cell, c]]), [...ways, id]);
       }).sort((a, b) => this.hash(`${seed}:${c.id}:${WorldGrid.id(...a)}`)

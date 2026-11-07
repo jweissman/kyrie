@@ -57,11 +57,12 @@ export class WorldGrid {
   }
   // A country drawn where the world's shape holds its cell: part of the great region there, with its terrain given (a
   // sea's is the kind of country the sea is, which Deem's tables, knowing only land, do not draw), and the side of its
-  // land that falls to a great sea, if one does.
+  // land that falls to a great sea, if one does; and the city of the canon built in it, if one is (its chief town).
   private static shaped(region: Region, [x, y]: [number, number]): Region {
-    const great = WorldShape.at(x, y), shore = WorldShape.coast(x, y);
+    const great = WorldShape.at(x, y), shore = WorldShape.coast(x, y), seat = WorldShape.seated(x, y);
     return { ...region, ...great ? { great } : {}, ...great?.kind === 'sea' && great.terrain
-      ? { terrain: great.terrain } : {}, ...shore ? { shore } : {} };
+      ? { terrain: great.terrain } : {}, ...shore ? { shore } : {},
+    ...seat ? { seat: { identity: seat.identity, name: seat.name } } : {} };
   }
   // What the folk of a region call the country beyond each of its borders, and what kind of country it is.
   // A sea is seen from the shore and named, and no road goes over into it.

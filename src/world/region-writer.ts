@@ -46,6 +46,8 @@ export interface Settlement extends Naming {
   pronouns?: Partial<Record<'innkeeper' | 'priest' | 'merchant' | 'traveller', string>>;
   // The cell of the region's atlas it stands on.
   cell?: number;
+  // The canon's identity it is, where it is a city of the canon (Dun Rìerdan: dun_ri), seated there (see WorldShape).
+  seat?: string;
 }
 // A site: what it is and what it is called, and where: its cell, and the wild country (and part of it) it is in.
 export interface Site extends Naming { id: string; kind: string; name: string; hours: number; near?: string;
@@ -68,6 +70,8 @@ export interface Region extends Naming {
   // The great region of the world it is part of, if it is (see WorldShape), and the side of it that falls to a great
   // sea, if one does.
   great?: Great; shore?: Side;
+  // The city of the canon built in it, if one is: its chief town is the city (see WorldShape.seat).
+  seat?: { identity: string; name: string };
   // One with no road over into it from here (an authored country entered from another side) is closed, and the
   // folk may know the country it is entered from (way). A sea is closed too: the march toward it is its shore.
   beyond?: Partial<Record<Side, { name: string; terrain: string; rumour?: string; heard?: string; topic?: string;
@@ -157,6 +161,8 @@ export class RegionWriter {
       `  Place region ${q(region.name)} is region within ${ModuleCanon.imbar}.`,
       `  Initially Assert terrain(region, ${region.terrain}).`);
     region.settlements.forEach((s, i) => lines.push(...this.settlement(s, i, region)));
+    // A city of the canon is built here: the canon's identity is seated in it (Dun Rìerdan: see WorldShape.seat).
+    lines.push(...region.settlements.filter(s => s.seat).map(s => `  Initially Assert seatOf(${s.seat}, ${s.id}).`));
     // Each road runs through its own stretch of country, where travellers can be met or waylaid; the land decides
     // how long it takes and what it asks (see RegionGeography).
     lines.push(...RegionRoads.lines(region), ...RegionZones.lines(region), ...RegionSights.lines(region),
@@ -263,7 +269,7 @@ export class RegionWriter {
       ...region.settlements.map(s => ['keeper', `${s.id}_innkeeper`, `${s.id}_green`]),
       ...region.sites.map(w => ['siteKind', w.id, w.kind]), ...Object.entries(taken).map(([w, by]) => ['taken', w, by])];
     return { version: 1, source: sources, rules: ['world', 'elements', 'devotion'], globals: ['party'],
-      canon: [ModuleCanon.imbar], ...beyond ? { imports: ['party'], roles: { party: { type: 'group' } } } : {},
+      canon: [ModuleCanon.imbar, ...region.settlements.flatMap(s => s.seat ? [s.seat] : [])], ...beyond ? { imports: ['party'], roles: { party: { type: 'group' } } } : {},
       exports: Object.fromEntries([...ids.map(id => [id, id]), ...lands]), assembly: { commitments },
       chart: this.chart(region, roads) };
   }
