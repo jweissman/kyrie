@@ -2,7 +2,7 @@
 
 *A five-act continuation of Gosse's Company, played in Dun Rierdan, the City of Seven Towers. Each act is a different form; none ends in a civic settlement.*
 
-Data: `data/adventures/gosses-company/{rierdan,rier_cast,act1..act5,rier_side}.kyr` (module `pentrice`, listed in `module.json` and `placed.json`). Specs: `test/kings-players.test.ts` (30 specs, eight of them one per Act V ending). Governing document: `forms.md`.
+Data: `data/adventures/gosses-company/{rierdan,rier_cast,act1..act5,rier_side}.kyr` (module `pentrice`, listed in `module.json` and `placed.json`). Specs: `test/kings-players.test.ts` (37 specs, eight of them one per Act V ending). Governing document: `forms.md`.
 
 ## Dun Rierdan is canonical here
 
@@ -71,7 +71,7 @@ Tics and anachronisms removed: "Michaelmas" is now "Haysel-tide"; tinfoil, progr
 
 **Authored but unreachable or only specced from a staged start:** Act II is still entered by `assert/put` (no natural walk); Act III's `beg_verrall`, `ask_the_king`, `steal_body`, `get_them_out` are linted but the specs reach their *endings* by staging the outcome flag; Act I's later scenes remain teleported; Act V's ending specs stage the Act III outcome and skip Acts II–IV; the side quests; Cyprian's and Oriel's topic answers (read by Observes, not specced).
 
-**Open after round two:** the Law tower's remaining rooms are read by Observes only; `mallam_correct` changes only the book; Act V is still a seven-nod counter with scene counter-actions (the coda, the repertoire and the arcs respond to what was done, but it is closer to a scorecard than a free farce); the tic counts were reduced ("quite" removed, "christening", "Aye", "God help", ten "a man who" similes) but "very", "real", "does not look at" and "says nothing" were not recounted; voices were rewritten for Hepzibah, Dorcas, Lucan, Mallam and Swale, not audited across the whole corpus; there is no `repertory` test file in the repository to run.
+**Open after round three (honest list):** the Law tower's remaining rooms are read by Observes only; the Act V scenes are still driven by a seven-nod counter, though what the player does in them (the Chorus, the bow, the book, the arcs) now chooses the coda and, for the sealed outcome, the ending; the endings are still keyed first to how Act III ended, so Act V cannot rescue a grave; the tic recount left four "very" and six "real" (all deliberate: "the real masquers"); voices were rewritten for Hepzibah, Dorcas, Lucan, Mallam, Swale and Oriel, not audited line by line across the corpus; Act II's fly-loft and several walks inside the Rotunda still use `put` in specs (the ladder label was not found).
 
 **The engine cannot represent:** a performance as an object with an audience; a crowd with opinions; a persuasion chain that remembers tone; a heist whose route is spatial (the counting-room is one room); a body as something carried; an ending built from several independent outcomes (an Ending is one text, so the Act III outcome selects it and Acts IV and V speak in a coda).
 
@@ -94,3 +94,17 @@ Tics and anachronisms removed: "Michaelmas" is now "Haysel-tide"; tinfoil, progr
 | Dead flags | sixteen removed, `gosseHam`/`gosseHonest2` and `ysoltStopped` now read, `clemFurious`/`clemSatisfied` read at the call, `favour` read by `standing_f`, `Increase … by 0` gone | lint |
 | Continuity and name leaks | Clemency's father is the Lord Mayor; "Crake", "Pomfret", "Tarn" leaks cleaned; Mallam's Greets fixed; the coda no longer names runs that did not occur; the Eastgate has a scene | lint |
 | Tam strike shared `holdingAct` | its own `tamPicket` | lint |
+
+## Round three: what changed
+
+| Item | Fix | Played in |
+|---|---|---|
+| `flyGuard` outlived the flies | `guard_lapses` clears it the moment the party leaves the flies; the signal for the play can now be given from the loft so the guard and the play can coexist; the bolt (`tarn_strikes`, and `tarn_strikes_unseen` when the party is elsewhere) can fall after midnight, which it could not before because the play ends at 00:25 | "keeps the guard only while the party is in the flies" |
+| Chancellor ignored `posing` | `chancellor_posed` and `chancellor_plain` | "greets the company differently while it is posing" |
+| Warden's turn was only a harder roll | a fact is required: `verrall_law` (the Marshal was named before the city, or the glove), asserting `wardenFact`; both begging actions need it | the Warden spec asserts the begging is not offered without it |
+| `mallam_correct` changed only the book | correct: `mendPaid` adds two to the repertoire's standing at the call; keep: Pyke finds the wrong column in scene 3 (`slip_found`, two chaos) | two Mallam specs |
+| Jem's funeral beat came early | it opens only when the Edict is on and Act III is not done; the pint is in the Row; payoffs at the Field (`jem_funeral_*`) and in the ringers' loft | the staged-tragedy spec plays the beat first |
+| "Prove Kit" was an infinite re-roll | one try; failure sets `kitDoubted`, takes Kit out of the party's following and leaves him with the Chancellor until the audition (`kit_released`) | Kit's proof spec |
+| Tics | "very" 49 to 4, "real" 12 to 6, "does not look at" 6 to 0, "says nothing" 6 to 0 (the remaining are "the real masquers" and a few emphases); Oriel's register is now precise and quick | lint |
+| `herald_leaves` closed in 3 hours | window is 180 watches (a day and a half), `herald_warns` at 150, the crier says "till noon tomorrow" | "holds the hinge open for a day and a half" |
+| Act V a counter | choices at scene 6 (`chorusPlayed`/`chorusCut`) and the bow (`bowCompany` vs `bear_alone`) change the codas; a sealed Act III ends `grave` only if the Chorus was played, otherwise `seat` (a ninth ending) | chorus and bear specs |

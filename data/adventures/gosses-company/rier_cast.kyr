@@ -8,7 +8,10 @@ Module pentrice "Gosse's Company" {
   // The Pentrice epilogue waits for the herald: it closes only when the writ is refused, ignored for three hours, or the
   // book is not yet read. Once the company is summoned (and after, through Dun Rierdan) it does not close at all.
   Query pentriceCloses() means not summoned(pentrice) and not royalCall(pentrice) and (heraldGone(pentrice) or not verdictRead(pentrice)).
-  Rule herald_leaves when verdictRead(pentrice) and not heraldGone(pentrice) and watch(clock) >= verdictAt(pentrice) + 18 { Assert heraldGone(pentrice). }
+  Rule herald_leaves when verdictRead(pentrice) and not heraldGone(pentrice) and watch(clock) >= verdictAt(pentrice) + 180 { Assert heraldGone(pentrice). }
+  Relation heraldWarned(place).
+  Rule herald_warns when verdictRead(pentrice) and not heraldGone(pentrice) and not heraldWarned(pentrice) and watch(clock) >= verdictAt(pentrice) + 150 and inCity()
+    says "A servant of the Painted Moon is leading a tall horse out of the stable to the mounting-block, and the herald in blue is standing in the yard looking at the sun. He will not wait much longer." { Assert heraldWarned(pentrice). }
   Topic aubrey_refuse with aubrey "Tell Aubrey Lintel the company has had enough of masters, and will stay" when verdictRead(pentrice) and not heraldGone(pentrice) once {
     Says "'Ah,' says Aubrey Lintel, who has been refused by better, and says it kindly. 'I shall say you were indisposed. It is what the Household says, when it does not wish to know.' He remounts as though the yard had been laid for it. 'The King is eighty-one. He will not remember.'".
     On discuss { Assert heraldGone(pentrice). }
@@ -53,7 +56,7 @@ Module pentrice "Gosse's Company" {
   Relation dorcasHome(group). Relation swaleHome(group).
   Rule dorcas_returns when dorcasHome(party) and dorcasGone(dorcas) { Retract dorcasGone(dorcas). Assert troupe(dorcas). Assert lodged(dorcas). Assert at(dorcas, lant_ward). }
   Topic swale_return with swale "Ask Swale what brings a man of his gifts to a taproom in Dun Rierdan" when royalCall(pentrice) and swaleGone(swale) once {
-    Says "Ambrose Swale rises, magnificently, and sits again. 'I heard,' he says. 'In a coach, from a tallow-chandler, that Gosse had been sent for by the King. I thought: he will want a Ghost.' He studies his hands. 'I did not think: he will not want me. I thought it afterward, on the road, and I am here, and I am very drunk, and it is a splendid city.'".
+    Says "Ambrose Swale rises, magnificently, and sits again. 'I heard,' he says. 'In a coach, from a tallow-chandler, that Gosse had been sent for by the King. I thought: he will want a Ghost.' He studies his hands. 'I did not think: he will not want me. I thought it afterward, on the road, and I am here, and I am drunk, and it is a splendid city.'".
   }
   Topic swale_back with swale "He wants you. He has never said so" answering swale_return when true {
     Says "Swale puts both hands over his face. 'He has not,' he says through them. 'Nineteen years. He has not said it once.' He drops them. 'Take me to him before I think better of it.'".
@@ -62,9 +65,9 @@ Module pentrice "Gosse's Company" {
   Rule swale_returns when swaleHome(party) and swaleGone(swale) { Retract swaleGone(swale). Assert troupe(swale). Assert lodged(swale). Assert at(swale, lant_ward). }
   // The Trial's outcome, carried by the people it happened to.
   Observe gosse_patent near gosse when royalCall(pentrice) and patentWon(pentrice) "Gosse has the Patent of the Wheel in a leather tube, and takes it out to look at when he thinks nobody sees. It does not say what he thought it would say. It says he owes the Office a quarter's rent.".
-  Observe gosse_pension near gosse when royalCall(pentrice) and pensionTaken(gosse) "Gosse wears Fallow's thirty crowns like a good coat that belongs to someone else. He is very gracious about it and does not speak of the Trial.".
+  Observe gosse_pension near gosse when royalCall(pentrice) and pensionTaken(gosse) "Gosse wears Fallow's thirty crowns like a good coat that belongs to someone else. He is gracious about it and does not speak of the Trial.".
   Observe gosse_neither near gosse when royalCall(pentrice) and not patentWon(pentrice) and not pensionTaken(gosse) "Gosse has no Patent and no pension, and the grey patience of a man who has been refused a roof before, in a better year.".
-  Observe hepzibah_wife near hepzibah when royalCall(pentrice) and (proposed(gosse) or emptyWing(gosse)) "Hepzibah Dimmock is Mrs Gosse, and writes it in the prompt-book's margin in a very small hand when she thinks nobody is looking, and then rubs it out.".
+  Observe hepzibah_wife near hepzibah when royalCall(pentrice) and (proposed(gosse) or emptyWing(gosse)) "Hepzibah Dimmock is Mrs Gosse, and writes it in the prompt-book's margin in a small hand when she thinks nobody is looking, and then rubs it out.".
   Observe kit_voice at sparrow_loft when royalCall(pentrice) and kitVoiceHeld(kit) "Kit Arden's voice has held through the winter, on a spoonful of honey a day and a great deal of will. He is sixteen, and plays girls, and is aware that this is a loan.".
   Observe kit_broke at sparrow_loft when royalCall(pentrice) and not kitVoiceHeld(kit) "Kit Arden's voice broke somewhere between Pentrice and the River Gate, and he plays the girls now in a falsetto he hates, and knows exactly how many more months it has.".
   Observe fallow_won near fallow when royalCall(pentrice) and not patentWon(pentrice) "Corin Fallow holds the Patent of the Wheel and is, accordingly, a power in a bigger room, which he has taken the trouble to learn the shape of.".
@@ -120,12 +123,12 @@ Module pentrice "Gosse's Company" {
   Person oriel "Oriel Marchant" at rot_wings {
     Role "a page of the Rotunda, small and sharp-faced". Ancestry human. Peaceable. Pronouns she. Manner cheerful.
     Known as "Orrin, a page of the Rotunda" when not knows(party, oriel_unmasked).
-    Greets "A slight page in the Rotunda's blue, with soot on one cheek and a prompt-copy under his arm, looks at you with sharp interest. 'You're players,' he says, and the word is a different word in his mouth than in anyone else's. 'Real ones. Not Master Fallow's.'".
+    Greets "A slight page in the Rotunda's blue, with soot on one cheek and a prompt-copy under his arm, looks at you with sharp interest. 'You're players,' he says, and the word is a different word in his mouth than in anyone else's. 'True ones. Not Master Fallow's.'".
   }
   Discovery oriel_unmasked "The Rotunda's page Orrin is Lady Oriel Marchant, the Chancellor's daughter, who has been living in the wings as a boy for six weeks.".
   Person cyprian "Cyprian Marchant" at marchant_hall {
     Role "the Chancellor's son, a lieutenant of the Watch". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
-    Greets "A young man in the Watch's grey and pewter comes down the stair two at a time and stops in front of you with his mouth open. 'You,' he says. It is very odd to be looked at as though you were a ghost, and a welcome one.".
+    Greets "A young man in the Watch's grey and pewter comes down the stair two at a time and stops in front of you with his mouth open. 'You,' he says. It is odd to be looked at as though you were a ghost, and a welcome one.".
   }
 
   // The Rotunda's master: Corin Fallow, who won the Patent and is now being a power in a bigger room.
@@ -142,7 +145,7 @@ Module pentrice "Gosse's Company" {
   }
   Person tarn "Marshal Edric Marrick" at lamp_hill {
     Role "Marshal of the Watch, in the Tower of Lamps". Ancestry human. Calling warrior. Level 4. Peaceable. Pronouns he. Manner proud.
-    Greets "The Marshal of the Watch is a big, handsome, sincere man of fifty with a scar like a signature across the back of one hand. 'Players!' he says, with real pleasure. 'Good. This city has too many lawyers and not enough plays. I should like to see one where the right man wins.'".
+    Greets "The Marshal of the Watch is a big, handsome, sincere man of fifty with a scar like a signature across the back of one hand. 'Players!' he says, with pleasure. 'Good. This city has too many lawyers and not enough plays. I should like to see one where the right man wins.'".
   }
   Person ysolt "Ysolt Marrick" at bell_nave {
     Role "the Marshal's daughter, an acolyte of the Bells". Ancestry human. Peaceable. Pronouns she. Manner compassionate.
@@ -154,11 +157,11 @@ Module pentrice "Gosse's Company" {
   }
   Person salt_wives "the Salt-Wives" at salt_hall {
     Role "three old women of the guild of Salt, who keep the weather-lore of the city". Ancestry human. Numbers 3. Peaceable. Pronouns they. Manner acerbic.
-    Greets "Three women in grey look up as one. The eldest says: 'Rain by Thursday.' The second says: 'And a fall by Friday.' The third says nothing at all, and smiles, and it is the smile of someone who has seen the end of the play.".
+    Greets "Three women in grey look up as one. The eldest says: 'Rain by Thursday.' The second says: 'And a fall by Friday.' The third holds her tongue at all, and smiles, and it is the smile of someone who has seen the end of the play.".
   }
   Person crake "Master Isidore Mauger" at crake_room {
     Role "a moneylender of the Tower of Coin". Ancestry human. Peaceable. Pronouns he. Manner jovial.
-    Greets "Master Mauger rises like a very friendly sunrise. 'The King's Players!' he says. 'Or soon to be. How very good of you to call. I have heard so much, and written down so much more.' He sits, and you notice you are sitting too.".
+    Greets "Master Mauger rises like a friendly sunrise. 'The King's Players!' he says. 'Or soon to be. How good of you to call. I have heard so much, and written down so much more.' He sits, and you notice you are sitting too.".
   }
   Person pardew "Mistress Pardew" at draper {
     Role "the draper, who dresses the Rotunda and everyone else". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
@@ -180,5 +183,7 @@ Module pentrice "Gosse's Company" {
   Rule rot_home_rot_box when troupe(?p) and royalCall(pentrice) and nightOver(rierdan) and distinct(?p, clemency) and at(?p, rot_box) and not holdingAct(rierdan) { Retract at(?p, rot_box). Assert at(?p, sparrow_loft). }
   Relation heraldNews(place).
   Rule herald_news when verdictRead(pentrice) and not heraldNews(pentrice) and not heraldGone(pentrice) and inCity()
-    says "The crier of the Chepe, who has the Bench's verdict by heart, has a second piece of news and gives it with the same lungs: a herald of the King's Household is in the yard of the Painted Moon, in blue, and will wait there for the players of the Wheel till the afternoon, and not after." { Assert heraldNews(pentrice). }
+    says "The crier of the Chepe, who has the Bench's verdict by heart, has a second piece of news and gives it with the same lungs: a herald of the King's Household is in the yard of the Painted Moon, in blue, and will wait there for the players of the Wheel till noon tomorrow, and not after." { Assert heraldNews(pentrice). }
+  Observe chancellor_posed near marchant when posing(party) "Lord Marchant has the masquers' letter of engagement open on his desk, and holds it up beside your faces as though one of them would turn out to be a forgery. 'Masquers,' he says, to the room. 'You will understand that I know every masquer in this city by his gait.' He does not say whether he has found the gait.".
+  Observe chancellor_plain near marchant when not posing(party) and gateHonest(party) "Lord Marchant has been told, by a sergeant with a good memory, who you are. 'The Pentrice people,' he says, with a lawyer's relief. 'Good. Then the lie is somebody else's, and I can be wronged by it in comfort.'".
 }
