@@ -3113,6 +3113,16 @@ Used: Heal one ally for 1d6 (1–6).
 
 *Adapted: Starting gear of the medic; absent from Orsino's gear catalog.*
 
+#### Self-heal
+
+*Kyr · consumable* · `item:self_heal`
+
+- Worth: 3
+
+Used: Heal one ally for 1d4 + 1 (2–5); end bleeding on that ally.
+
+> A twist of self-heal, the purple-headed carpenters' herb, bruised and wrapped in a dock leaf: laid on a cut it stops the bleeding and closes it a little. One use.
+
 #### Holy water
 
 *Adapted · consumable* · `item:holy_water`
@@ -7110,6 +7120,14 @@ Heal one ally for 1d8 (1–8). A divine spell of the first level. Takes a first-
 2d4 (2–8) cold damage to one enemy (may cause frozen: a Dexterity save against 15 avoids it); it gains slow for 3 turns (a Dexterity save against 15 + level + the caster's spell bonus avoids it). Frozen: Dexterity −5, cannot act. Slow: −10 initiative, Dexterity −5, -1 more blows a turn. A divine spell of the first level. Takes a first-level slot.
 
 > Drain heat from an enemy, causing damage and slowing them.
+
+##### Hornet Swarm
+
+*Kyr · level 1 divine spell, nature domain* · `ability:hornet_swarm`
+
+1d4 (1–4) piercing damage to every enemy (may cause bleeding: a Constitution save against 15 avoids it); every enemy is distracted for 2 turns (a Dexterity save against 15 + level + the caster's spell bonus avoids it). Bleeding: takes 1d2 (1–2) bleed damage each turn. Distracted: −1 to hit, −1 damage, −5 evasion. A divine spell of the first level. Takes a first-level slot.
+
+> A prayer to the wild that is answered out of the nearest hollow tree: a brown cloud of hornets over every foe, stinging, so that they strike wild while it lasts.
 
 ##### Protection from Evil
 

@@ -1298,6 +1298,27 @@
         "kyr": true,
         "notes": "An author's own plant, added by its record alone (the owner, 6 November: the authoring experiment), with the item it gives (items.json, ofbit)."
       }
+    },
+    "betony_plant": {
+      "name": "Betony",
+      "looks": "A hairy square stem a foot high, a rosette of scalloped leaves at its foot, and a short dense spike of purple-red flowers.",
+      "habitats": [
+        "wood",
+        "meadow"
+      ],
+      "grounds": ["clay_vale", "limestone"],
+      "abundance": 2,
+      "yields": "betony",
+      "gathered": "a twist of betony",
+      "count": 2,
+      "stand": "Betony stands in the short grass at the wood's edge, purple-spiked: the hedge herb, for a cut or a sting.",
+      "uses": [
+        "medicine"
+      ],
+      "source": {
+        "kyr": true,
+        "notes": "Demonstration content (Mission 19, journey 5, 7 November): a plant added by its record alone, with the item it yields (items/consumables.json, betony), met in a generated wood and in the honey-hunter's meeting (data/generation/wild/meetings.kyrt)."
+      }
     }
   }
 }

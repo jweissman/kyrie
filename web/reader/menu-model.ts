@@ -129,7 +129,17 @@ export class MenuModel {
   // north-east on a page of the wild).
   private static stays(c: Choice, screen: Frame['screen']): boolean {
     const exit = screen.exits.find(e => e.id === c.id);
-    return !!c.local || !exit || (!['travel', 'cross_plane'].includes(exit.transition) && !exit.bearing);
+    return !!c.local || !exit || (!['travel', 'cross_plane'].includes(exit.transition) && !exit.bearing)
+      || (exit.transition === 'travel' && !exit.bearing && MenuModel.oneStretch(screen, exit.destination.id));
+  }
+  // Whether a journey goes no further than the stretch of the map the company stands on: between the parts of an
+  // authored province, which all stand on the one hex of its way in. The map cannot tell them apart, so the page keeps
+  // the way (journey 6 of Mission 19, 7 November: at Thrume's salt road the town gate into Saltgrave was on neither the
+  // page nor the map, and the province could not be entered).
+  private static oneStretch(screen: Frame['screen'], to: string): boolean {
+    const r = screen.region, here = r?.areas.find(a => a.id === r.within[screen.place.id]);
+    const there = r?.areas.find(a => a.id === r.within[to]);
+    return !!here && !!there && here.id !== there.id && here.x === there.x && here.y === there.y;
   }
   // Going out of a town or a site into the country: the map, where the country is crossed.
   static readonly country: Choice = { id: 'view:map', label: 'Open the world map', tone: 'way', command: 'view:map' };

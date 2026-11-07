@@ -196,6 +196,18 @@
     Result "You say the words for the dead that every shrine keeps, slowly, as they are meant to be said. The flame on the black candle leans as if a door had opened somewhere, and goes out. The man in the muddy coat looks at you as if you had struck him, and goes up the stair at a run, and out of {town} before morning. The book he leaves on the bones.".
     Otherwise "The words come, but the black candle's flame does not move, and the dead turn their heads toward the sound.".
   }
+  // A thief's way (journey 2 of Mission 19, 7 November: the same opening played as a cleric and as a thief, the
+  // cleric had the rite and a scholar the chalk, and the thief nothing of a thief's own here): round behind the
+  // bone-heaps, out of his candle's light, to pinch it out from behind him. Seen, the dead are no longer his to hold.
+  Action {t}_u_candle_crept(actor: group, site: place) "Creep round behind the bone-heaps and pinch out the black candle at his back" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_u_ossuary) and at({t}_u_raiser, {t}_u_ossuary) and able({t}_u_raiser) and state({t}_u_candle, alight) and capable(actor, stealth).
+    Time 1.
+    Resolve check(actor, stealth, dc_fair).
+    On success { Assert state({t}_u_candle, snuffed). Retract state({t}_u_candle, alight). Retract at({t}_u_raiser, {t}_u_ossuary). Assert {t}_u_done({t}_u_raiser). }
+    On failure { Retract tolerates({t}_u_dead, party). }
+    Result "You go back the way you came, and round, along the foot of the bone-heaps where his candle throws no light, and come up behind him. He hears nothing until the flame is a wisp between your fingers. He turns, sees the dead fall, and runs: up the stair and out of {town} before morning. The book he leaves on the bones.".
+    Otherwise "A skull rolls off the course under your hand and goes down the heap, knocking. He turns with the candle held high, and the dead turn with him.".
+  }
   Entity {t}_u_dead_read: fact "The marks round the chalk ring are copied from an old book of the dead, and copied badly: the warding line is left out. The dead are held only while the candle burns, and whoever holds them is not safe from them.".
   Observe {t}_u_crypt_marks at {t}_u_crypt as sign when capable(party, lore) and knows(party, {t}_u_dead_raised) and not knows(party, {t}_u_dead_read) "You know these marks from the old scripts. Round the chalk ring they say what they are for, and they are copied badly: the warding line, the one that keeps the dead off whoever calls them, is not there." teaches {t}_u_dead_read.
   Action {t}_u_raiser_read(actor: group, site: place) "Tell the man with the black candle what his book left out of the ring" {

@@ -8,6 +8,7 @@ import type { OrsinoAppendix } from './orsino-appendix';
 import { MonsterDescribers } from './mm-describers';
 import { CreatureVariants } from '../creature-variants';
 import { CreaturePortraits } from '../paintings/creature-portraits';
+import geology from '../../data/catalog/geology.json';
 
 
 // The Monster Manual: every creature Kyr can put in front of a company, from the species catalog and the creature
@@ -61,7 +62,7 @@ export class MonsterManual {
     const facts: [string, string][] = [['Type', `${s.type ?? '—'} (${s.kind ?? 'monster'})`],
       ...st ? [['Hit points', MonsterManual.hitPoints(st)] as [string, string],
         ...st.actions && st.actions > 1 ? [['Actions a turn', String(st.actions)] as [string, string]] : [],
-        ['Qualities', st.attributes === 'rolled' ? 'rolled (3d6 each)' : HandbookText.attributes(st.attributes)] as [string, string],
+        ['Qualities', st.attributes === 'rolled' ? 'rolled (3d6 each)' : MonsterManual.scores(st.attributes)] as [string, string],
         ['Attack', MonsterManual.attacks(st.attacks?.length ? st.attacks : [st.weapon])] as [string, string]] : [],
       ...armor?.armor ? [['Hide', `${armor.name}, armour ${armor.armor.ac}`] as [string, string]] : [],
       ...s.resistances && Object.keys(s.resistances).length ? [['Resists', MonsterManual.resistances(s.resistances)] as
@@ -114,6 +115,17 @@ export class MonsterManual {
       ...v.health ? [`health ${MonsterManual.signed(v.health)} a level`] : [], ...(v.traits ?? []).map(t => Canon.traits[t]?.name ?? t),
       ...(v.abilities ?? []).map(a => HandbookText.ability(a))].join(', ');
   }
+  // A creature's qualities are its scores, not a people's or a calling's bonuses: "strength 11", never "+11 strength"
+  // (journey 6 of Mission 19, 7 November, found the ghoul's entry giving it eleven strength over and above a man's).
+  static scores(a: Partial<Record<string, number>>): string {
+    return Object.entries(a).filter(([, v]) => v !== undefined).map(([k, v]) => `${k} ${v}`).join(', ') || '—';
+  }
+  // A plant's grounds as a reader says them: a formation by its name ("clay vale", not clay_vale), a soil as written.
+  // Journey 6 of Mission 19 (7 November) found the Encyclopedia giving a new plant's grounds as ids.
+  static grounds(ids: string[]): string {
+    const named = geology.formations as Record<string, { name: string }>;
+    return ids.map(g => named[g]?.name.toLowerCase() ?? g.replace(/_/g, ' ')).join(', ');
+  }
   static signed(n: number): string { return `${n > 0 ? '+' : ''}${n}`; }
   static resistances(r: Record<string, number>): string {
     return Object.entries(r).map(([k, v]) => v >= 1 ? `immune to ${k}` : v > 0 ? `${k} ${Math.round(v * 100)}%`
@@ -126,7 +138,7 @@ export class MonsterManual {
       .map(([id, p]): Entry => {
         const gives = p.yields ? Canon.items[p.yields] : undefined;
         const facts: [string, string][] = [['Grows in', p.habitats.map(h => Canon.habitats[h]?.name.toLowerCase() ?? h)
-          .join(', ')], ...p.grounds?.length ? [['Does best on', p.grounds.join(', ')] as [string, string]] : [],
+          .join(', ')], ...p.grounds?.length ? [['Does best on', MonsterManual.grounds(p.grounds)] as [string, string]] : [],
           ...gives ? [['Gathered', p.gathered ?? gives.name.toLowerCase()] as [string, string]] : [],
           ...p.uses?.length ? [['Good for', p.uses.join(', ')] as [string, string]] : [],
           ['Found', !p.abundance ? 'wherever it can grow' : p.abundance >= 5 ? 'often' : p.abundance >= 3 ? 'here and there'
