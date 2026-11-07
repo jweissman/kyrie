@@ -157,7 +157,7 @@ Module pentrice "Gosse's Company" {
   }
   Person salt_wives "the Salt-Wives" at salt_hall {
     Role "three old women of the guild of Salt, who keep the weather-lore of the city". Ancestry human. Numbers 3. Peaceable. Pronouns they. Manner acerbic.
-    Greets "Three women in grey look up as one. The eldest says: 'Rain by Thursday.' The second says: 'And a fall by Friday.' The third holds her tongue at all, and smiles, and it is the smile of someone who has seen the end of the play.".
+    Greets "Three women in grey look up as one. The eldest says: 'Rain by Thursday.' The second says: 'And a fall by Friday.' The third says nothing at all, and smiles, and it is the smile of someone who has seen the end of the play.".
   }
   Person crake "Master Isidore Mauger" at crake_room {
     Role "a moneylender of the Tower of Coin". Ancestry human. Peaceable. Pronouns he. Manner jovial.
