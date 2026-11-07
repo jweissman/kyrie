@@ -30,7 +30,7 @@
     "iron": ["hammer", "chain", "iron_spikes", "piton", "manacles", "lock", "pot", "skillet"],
     "tin": ["pot", "skillet", "lock", "flask"],
     "slate": ["chalk", "hammer", "piton"],
-    "timber": ["ladder", "box", "barrel", "yoke", "firewood"],
+    "timber": ["ladder", "barrel", "yoke", "firewood"],
     "charcoal": ["firewood", "flint_and_steel", "pot"],
     "eels": ["fish_hook", "fishing_net", "barrel", "twine"],
     "salt": ["barrel", "sack", "pot"],
