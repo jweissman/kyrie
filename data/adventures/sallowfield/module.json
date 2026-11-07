@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "source": [
+    "places.kyr",
+    "scenes.kyr",
+    "folk.kyr",
+    "clock.kyr",
+    "works.kyr",
+    "arcs.kyr",
+    "parley.kyr",
+    "battle.kyr",
+    "wake.kyr",
+    "company.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "canon": [
+    "imbar"
+  ],
+  "exports": {
+    "party": "party",
+    "region": "vale",
+    "road": "east_road"
+  }
+}
