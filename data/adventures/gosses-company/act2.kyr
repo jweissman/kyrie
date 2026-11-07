@@ -14,7 +14,7 @@ Module pentrice "Gosse's Company" {
   Measure nightDay(place). Measure ghostHour(place). Measure ghostScore(place).
   Hazard ghost_chill "The Duke's hand" means "Deal (2d6) necrotic damage to ally unless constitution save against (14).".
   Hazard crossbow_bolt "A bolt from the flies" means "Deal (3d6) physical damage to ally unless dexterity save against (15).".
-  Chapter ch_mousetrap "The Mousetrap" when mousetrapAsked(rierdan) and not nightOver(rierdan) "The Prince has seen his great-uncle on the roof of the Lamps, and the Marshal of the Watch has been very kind to him since. The King's Players are to give a play on the second evening.".
+  Chapter ch_mousetrap "The Mousetrap" when mousetrapAsked(rierdan) and not nightOver(rierdan) "The Prince has seen his great-uncle on the roof of the Lamps, and the Marshal of the Watch has been kind to him since. The King's Players are to give a play on the second evening.".
 
   // The Prince on the terrace: he puts the question to the one who answers.
   Topic lothar_ghost with lothar "Go out on the terrace and stand where the Prince can say it" when auditioned(rierdan) and not mousetrapAsked(rierdan) once {
@@ -25,11 +25,11 @@ Module pentrice "Gosse's Company" {
     On discuss { Assert mousetrapAsked(rierdan). Assert lothalTrust(actor). Set nightDay(rierdan) to day(clock) + 1. Give signet_kind to actor. }
   }
   Topic lothar_no with lothar "No. But I'll stage one" answering lothar_ghost when true {
-    Says "'A professional,' says Lothar, with real bitterness. 'Good.' He looks at you from head to foot. 'I need you to pretend. Do it properly. If you do it half-way the man will know it is a play, and so will the ghost.' He tells you what he wants. It takes a long time, and at the end you realise he has not once asked whether the thing on the roof is real.".
+    Says "'A professional,' says Lothar, with bitterness. 'Good.' He looks at you from head to foot. 'I need you to pretend. Do it properly. If you do it half-way the man will know it is a play, and so will the ghost.' He tells you what he wants. It takes a long time, and at the end you realise he has not once asked whether the thing on the roof is real.".
     On discuss { Assert mousetrapAsked(rierdan). Assert lothalDoubt(actor). Set nightDay(rierdan) to day(clock) + 1. }
   }
   Topic lothar_play with lothar "I play them. Ghosts are my trade" answering lothar_ghost when true {
-    Says "Lothar laughs, once, like a hinge. 'Then you will know where to stand.' He tells you quickly what the play must be and when. 'Tomorrow night. The Rotunda. The Marshal of the Watch will be in the box with the King, and the Warden, and me.' He stops. 'The Marshal has been very kind to me,' he says. 'I find I do not like it.'".
+    Says "Lothar laughs, once, like a hinge. 'Then you will know where to stand.' He tells you quickly what the play must be and when. 'Tomorrow night. The Rotunda. The Marshal of the Watch will be in the box with the King, and the Warden, and me.' He stops. 'The Marshal has been kind to me,' he says. 'I find I do not like it.'".
     On discuss { Assert mousetrapAsked(rierdan). Assert lothalTrust(actor). Set nightDay(rierdan) to day(clock) + 1. }
   }
   Kind signet_kind "Duke Aldous's signet" is gear described "A gold ring with a tower on it, worn smooth on the inside where a thumb pressed.".
@@ -136,7 +136,7 @@ Module pentrice "Gosse's Company" {
     Requires able(actor) and company(actor) and at(actor, site) and holding(actor, handbell_kind) and nightOn(rierdan) and at(duke_ghost, site) and bellAvenge(actor) and at(tarn, site).
     Time 0.
     On success { Assert tarnByGhost(rierdan). Assert tarnExposed(rierdan). Assert ghostBound(rierdan). Assert at(duke_ghost, site). }
-    Result "You ring it at the Marshal, in front of everyone, and say it: Aldous Orvane, from the Lamp roof, at midnight, by a man's hand. The Duke goes past you, not through you, and across the floor to the Marshal. Nobody sees what he does. The Marshal sits very still, and then not at all.".
+    Result "You ring it at the Marshal, in front of everyone, and say it: Aldous Orvane, from the Lamp roof, at midnight, by a man's hand. The Duke goes past you, not through you, and across the floor to the Marshal. Nobody sees what he does. The Marshal sits still, and then not at all.".
   }
   Action ring_midnight(actor: group, site: place) "Ring the great bell three times, at midnight, to send him up" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, bell_nave) and nightOn(rierdan) and bellLeave(actor) and hour(clock) >= 0 and hour(clock) < 2.
@@ -163,27 +163,30 @@ Module pentrice "Gosse's Company" {
     On discuss { Assert modeCancel(rierdan). Assert playDone(rierdan). }
   }
   Action stage_mousetrap(actor: group, site: place) "Give the signal for the curtain, and the play" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, rot_wings) and nightOn(rierdan) and not playDone(rierdan) and modePoint(rierdan) and hour(clock) >= 21.
+    Requires able(actor) and company(actor) and at(actor, site) and (at(actor, rot_wings) or at(actor, rot_flies)) and nightOn(rierdan) and not playDone(rierdan) and modePoint(rierdan) and hour(clock) >= 21.
     Time 20.
     Resolve check(actor, performance, dc_fair).
     On success { Assert playDone(rierdan). Assert tarnExposed(rierdan). Assert tarnByArrest(rierdan). }
     On failure { Assert playDone(rierdan). }
-    Result "The curtain goes up on the Duke of Ember at his supper, and the Rotunda is quiet in the way a house is quiet when it knows it is being watched. In the box the Marshal's hand goes to his collar. Then the ghost comes on, played by Swale, in the nightcap, with a face of white flour, and says the Duke's last words as the Prince gave them. In the third row a woman screams. The Marshal gets up. He does not look at the stage. He looks at the Prince.".
+    Result "The curtain goes up on the Duke of Ember at his supper, and the Rotunda is quiet in the way a house is quiet when it knows it is being watched. In the box the Marshal's hand goes to his collar. Then the ghost comes on, played by Swale, in the nightcap, with a face of white flour, and says the Duke's last words as the Prince gave them. In the third row a woman screams. The Marshal gets up. He looks past the stage. He looks at the Prince.".
     Otherwise "It is a competent play. The house is moved. The Marshal watches with every sign of a clear conscience, and applauds in the right places. The Prince, in the box, sits with his hand over his mouth.".
   }
   Action stage_mousetrap_vague(actor: group, site: place) "Give the signal for the curtain, and the play with the villain who is not anyone" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, rot_wings) and nightOn(rierdan) and not playDone(rierdan) and modeVague(rierdan) and hour(clock) >= 21.
+    Requires able(actor) and company(actor) and at(actor, site) and (at(actor, rot_wings) or at(actor, rot_flies)) and nightOn(rierdan) and not playDone(rierdan) and modeVague(rierdan) and hour(clock) >= 21.
     Time 20.
     Resolve check(actor, performance, dc_fair).
     On success { Assert playDone(rierdan). Assert tarnShaken(rierdan). }
     On failure { Assert playDone(rierdan). }
-    Result "The curtain goes up on Marshal Tarsus of Ember, and the Rotunda is a house at a play. In the box the Marshal of the Watch sits with a very still face. When Tarsus is exposed at the supper he does not rise; he turns his glove over and looks into it. The Prince has seen him do it. The Prince does not understand what he has seen.".
+    Result "The curtain goes up on Marshal Tarsus of Ember, and the Rotunda is a house at a play. In the box the Marshal of the Watch sits with a still face. When Tarsus is exposed at the supper he does not rise; he turns his glove over and looks into it. The Prince has seen him do it. The Prince does not understand what he has seen.".
     Otherwise "It is a decent play about an unknown Tarsus, and the house enjoys it. The Marshal applauds in the right places and does not turn his head.".
   }
   Relation tarnShaken(place).
   // The assassin: Tarn, once seen, goes for the Prince in the interval, from the flies.
-  Rule tarn_strikes when nightOn(rierdan) and playDone(rierdan) and (modePoint(rierdan) or modeVague(rierdan)) and not tarnByArrest(rierdan) and not lotharWounded(rierdan) and not flyGuard(rierdan) and not decoyBox(rierdan) and not tarnFallen(rierdan) and not ghostBound(rierdan) and hour(clock) >= 22 and at(party, rot_wings)
+  Rule tarn_strikes when nightOn(rierdan) and playDone(rierdan) and (modePoint(rierdan) or modeVague(rierdan)) and not tarnByArrest(rierdan) and not lotharWounded(rierdan) and not flyGuard(rierdan) and not decoyBox(rierdan) and not tarnFallen(rierdan) and not ghostBound(rierdan) and (hour(clock) >= 22 or hour(clock) < 5) and at(party, rot_wings)
     says "In the dark of the interval something goes up the fly ladder two rungs at a time. A string twangs. A bolt comes down out of the loft and goes into the back of the royal chair, through the velvet. The Prince is on the floor of the box with his arm held in the other hand and a face of astonished fury." {
+    Assert lotharWounded(rierdan). Assert tarnByFall(rierdan). }
+  Rule guard_lapses when flyGuard(rierdan) and nightOn(rierdan) and not at(party, rot_flies) { Retract flyGuard(rierdan). }
+  Rule tarn_strikes_unseen when nightOn(rierdan) and playDone(rierdan) and (modePoint(rierdan) or modeVague(rierdan)) and not tarnByArrest(rierdan) and not lotharWounded(rierdan) and not decoyBox(rierdan) and not tarnFallen(rierdan) and not ghostBound(rierdan) and (hour(clock) >= 22 or hour(clock) < 5) and not at(party, rot_wings) and not at(party, rot_flies) {
     Assert lotharWounded(rierdan). Assert tarnByFall(rierdan). }
   Action guard_flies(actor: group, site: place) "Take up Pudding's place in the fly-loft with a sandbag and a cold stare" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, rot_flies) and nightOn(rierdan) and not flyGuard(rierdan).

@@ -56,7 +56,7 @@ Module pentrice "Gosse's Company" {
 
   // 3. The herring procession: the Salt-Wives want a King.
   Topic salt_procession with salt_wives "Ask the Salt-Wives about the procession on the quay" when royalCall(pentrice) and not herringKing(party) and not herringSkipped(party) once {
-    Says "The eldest looks at you and her face is without expression. 'The Herring King,' she says. 'On the feast of the Shoal. Every year a man is dressed in nets and silver paper and carried the length of the Quay on a hurdle and thrown in the dock. It has always been a fishmonger. We would like it this year to be a player.' The second wife says, 'It's a great honour.' The third says nothing and is already smiling.".
+    Says "The eldest looks at you and her face is without expression. 'The Herring King,' she says. 'On the feast of the Shoal. Every year a man is dressed in nets and silver paper and carried the length of the Quay on a hurdle and thrown in the dock. It has always been a fishmonger. We would like it this year to be a player.' The second wife says, 'It's a great honour.' The third holds her tongue and is already smiling.".
   }
   Topic herring_yes with salt_wives "I'll be your Herring King" answering salt_procession when true {
     Says "'Splendid,' says the eldest, with a warmth that is a little too prompt. 'The net is in the back.' You are dressed in silver paper. You are carried down the Quay by eight fishwives, singing, and thrown in the dock to cheers, and come up with a herring in your coat that you never discover the source of. Nothing in the city is ever so friendly as it is that afternoon.".
@@ -83,12 +83,12 @@ Module pentrice "Gosse's Company" {
 
   // The companions. Cyprian is impulsive and brave; he does not ask what you want him for.
   Topic cyprian_join with cyprian "Ask Cyprian Marchant whether he would come along, in the Watch's name or not" when twinsMet(party) and not cyprianWith(party) once {
-    Says "'Come along?' says Cyprian. 'Of course. Where?' He has not asked what for. 'I'm no good in a play,' he says. 'But I can stand at a door.' He thinks. 'That's a thing in a play, isn't it? Standing at a door. I should like to be very good at it.'".
+    Says "'Come along?' says Cyprian. 'Of course. Where?' He has not asked what for. 'I'm no good in a play,' he says. 'But I can stand at a door.' He thinks. 'That's a thing in a play, isn't it? Standing at a door. I should like to be good at it.'".
     On discuss { Assert willing(cyprian, actor). Set hire(cyprian) to 0. Assert cyprianWith(actor). }
   }
 
   // Jem Pudding wants to be taken seriously; Tam Hautboy wants his men paid.
-  Topic pudding_beat with pudding "Ask Jem why he's so quiet" when royalCall(pentrice) and not puddingBrave(party) and not puddingFool(party) once {
+  Topic pudding_beat with pudding "Ask Jem why he's so quiet" when edictOn(rierdan) and not actIIIDone(rierdan) and not puddingBrave(party) and not puddingFool(party) once {
     Says "Jem Pudding is balancing an onion on his nose and not looking at anyone. 'I'm going to be asked,' he says, 'to be the Fool in the Chorus, in the Marshal's tragedy, in the Field.' He lets the onion fall. 'I've never played a Fool at a funeral. A Fool does not belong at a funeral. He has nothing to say there that is not a joke.' He looks at you. 'What does a clown do at a funeral?'".
   }
   Topic jem_silent with pudding "Nothing. He stands there and is sad" answering pudding_beat when true {
@@ -96,7 +96,7 @@ Module pentrice "Gosse's Company" {
     On discuss { Assert puddingBrave(actor). }
   }
   Topic jem_joke with pudding "A joke. The one the dead man would have liked" answering pudding_beat when true {
-    Says "Jem's face does a number of things. 'Ah,' he says. 'Yes. Well. If I knew him.' He sits down on a hamper. 'I knew the Marshal. He once stood me a pint in Pentrice and told me I was the only honest man in the Watch's pay. I'll do a joke.' He goes quiet. 'I'll find one he'd have liked,' he says. He will be ten days at it.".
+    Says "Jem's face does a number of things. 'Ah,' he says. 'Yes. Well. If I knew him.' He sits down on a hamper. 'I knew the Marshal. He once stood me a pint in the Row and told me I was the only honest man in the Rotunda's pay. I'll do a joke.' He goes quiet. 'I'll find one he'd have liked,' he says. He will be ten days at it.".
     On discuss { Assert puddingFool(actor). }
   }
   Topic tam_beat with tam "Ask Tam why the carpenters haven't been paid" when wickGranted(rierdan) and not tamStood(party) and not tamBack(party) once {
@@ -136,11 +136,11 @@ Module pentrice "Gosse's Company" {
     On discuss { Assert orielAsked(actor). }
   }
   Topic oriel_tell with oriel "Tell him first, tomorrow, at his door" answering oriel_say when true {
-    Says "'Yes,' says Oriel, 'because if I do it on the stage it is a trick, and he will never forgive the trick.' She stands up. She puts the seal in your hand. 'Hold this. I am going to need to have given it up.'".
+    Says "'Item,' says Oriel, counting on her fingers. 'A trick forgives nobody; a plain statement forgives itself. Item: he is a lawyer, and will respect a disclosure made before witnesses.' She stands. She puts the seal in your hand. 'Hold this, as evidence of my having surrendered it.'".
     On discuss { Assert orielTells(actor). }
   }
   Topic oriel_stage with oriel "On the stage, in the part, in your own voice. He cannot shout at a play" answering oriel_say when true {
-    Says "Oriel grins, which she does very rarely, and when she does she looks about eleven. 'I knew you would say so,' she says. 'I wanted to be told by someone who was not me.'".
+    Says "'Good,' says Oriel, quick as a latch. 'A statement made in a part is a statement made in a part. He cannot call a play perjury.' She grins, which she does rarely, and looks about eleven. 'I had the argument drafted. I wanted it countersigned.'".
     On discuss { Assert orielStage(actor). }
   }
   Observe s5_oriel_told at lant_stage when sceneV(rierdan) == 5 and orielTells(party) "Lord Marchant has been told, and has had a day to be furious in, and has come to the Wick in his second-best coat with his spectacles in his hand. He looks at his daughter on the stage the way a man looks at a piece of news that has taken a long time to arrive.".
@@ -149,4 +149,7 @@ Module pentrice "Gosse's Company" {
   Relation orielPaid(place).
   Observe s5_cyprian_resigned at lant_stage when sceneV(rierdan) == 5 and cyprianResigned(party) "Cyprian is in the wings in a plain brown coat with a pale place on the collar where the pewter was, and his hands, now that they have nothing to do, do not know where to go.".
   Observe s5_cyprian_both at lant_stage when sceneV(rierdan) == 5 and cyprianBoth(party) "Cyprian is in the wings in the Watch's grey with the pewter polished, and a stage-sword in the other hand, and is the happiest man in the Wick.".
+  Observe jem_funeral_brave at field when puddingBrave(party) and bodyStaged(rierdan) "Jem Pudding stands at the foot of the bier in the Fool's coat with the bells off it, perfectly still. The sextons, who have heard a Chorus and a verdict and are no longer sure what is allowed, take their hats off first, because of him.".
+  Observe jem_funeral_fool at field when puddingFool(party) and bodyStaged(rierdan) "Jem Pudding steps out at the end of the burial and tells the Marshal's joke, the one with the pint and the Watch's pay. It is a bad joke. The sextons laugh before they can stop themselves, and a woman in the back of the crowd says, loudly, that Edric would have, too.".
+  Observe jem_pays_grave at ringers_loft when puddingBrave(party) and ysoltSealed(rierdan) "Somebody has hung a Fool's coat with the bells off it on the peg inside the ringers' ladder. Ambros, who cannot see it, says the Bells have not been so quiet since the Siege.".
 }
