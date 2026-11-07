@@ -97,14 +97,14 @@ Module tallow "Tallow Deep" {
   Item sluice_oil "a lamp, filled" is lamp at sluice_house.
   Item sump_bar "a Company crowbar" is crowbar at sump.
   Item sump_lantern "a Company lantern" is lantern at sump.
-  Item calx_milestone "a milestone's bronze plaque" is bell_teeth at calx_way.
+  
   Item calx_toll "an Aenean toll-sack" is toll_silver at gate_house.
   Item gate_map "a strip-map of the road" is ancient_map in gate_house hidden until gate_known.
   // The Ossuary: fourteen men in their boots, and what they wore.
   Item ossuary_rings "a handful of grave rings" is grave_rings at ossuary.
   Item ossuary_whistle "a foreman's whistle" is signal_whistle at ossuary.
   // The Bore: the makers', which no later age understood.
-  Item gear_teeth "bell-teeth, prised from a wheel" is bell_teeth at gear_hall.
+  Item gear_teeth "bell-teeth, prised from a wheel" is bell_teeth at breach.
   Item dial_orrery "an orrery of grey metal" is ancient_orrery at dial_room.
   Item dial_chart "a chart of the stars, in grey ink on grey" is celestial_chart at dial_room.
   Item dial_lens "a lensing crystal" is lensing_crystal at dial_room.

@@ -15,7 +15,10 @@
     "art2.kyr",
     "lives.kyr",
     "marl.kyr",
-    "revels.kyr"
+    "revels.kyr",
+    "isle.kyr",
+    "isle_life.kyr",
+    "act4.kyr"
   ],
   "rules": [
     "world"
