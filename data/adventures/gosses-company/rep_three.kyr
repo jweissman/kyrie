@@ -1,6 +1,6 @@
 Module pentrice "Gosse's Company" {
   // ── Episode 2: The Three (Macbeth) ──────────────────────────────────────────────────────────────────────────────
-  // Lord Hadwin Valtry of Cairnholt, a tired and honest soldier who has held a bad frontier for nineteen years, has
+  // Lord Ranulf Valtry of Cairnholt, a tired and honest soldier who has held a bad frontier for nineteen years, has
   // been told by three women on the moor that he will be Warden of the March, and that his keep will stand until the
   // heather walks. He hires the company, first, to learn whether the women can be believed; and then, as the days go,
   // to be the hands for what he has begun to want. The party need not notice. What they report, whom they test and
@@ -26,19 +26,19 @@ Module pentrice "Gosse's Company" {
   Observe ck_chamber_scene at ck_chamber when true "A bedchamber for an old man: a bed with curtains, a chair by the fire, a basin, a shelf of tonics and one window over the dark moor. There is a smell of camphor and of a long life.".
 
   Relation e2On(place). Relation e2Reported(place). Relation e2Genuine(place). Relation e2Fraud(place). Relation e2Unclear(place).
-  Relation e2StroudComes(place). Relation e2Feast(place). Relation e2Night(place). Relation e2Murder(place). Relation e2Left(place).
+  Relation e2StroudComes(place). Relation e2Night(place). Relation e2Murder(place). Relation e2Left(place).
   Relation e2Turned(place). Relation e2Revealed(place). Relation e2Warned(place).
   Relation e2GuardDoor(place). Relation e2GuardGate(place). Relation e2Carried(place). Relation e2Tested1(group). Relation e2Tested2(group). Relation e2Tested3(group).
   Relation e2Boots(place). Relation dorcasWants(group). Relation dorcasAfraid(group).
-  Measure c2(place). Measure e2Start(place).
+  Measure c2(place). Measure e2StroudAt(place). Measure e2NightAt(place). Measure e2StairAt(place). Relation e2Stair(place). Measure e2Start(place).
 
-  Person valtry "Lord Hadwin Valtry" at ck_hall {
+  Person valtry "Lord Ranulf Valtry" at ck_hall {
     Role "the Lord of Cairnholt, a soldier". Ancestry human. Calling warrior. Level 4. Peaceable. Pronouns he. Manner grim.
     Greets "A big grey man in a dented gorget, who stands as if the floor were deck. 'I do not need advice,' says Lord Valtry. 'I need a fact, and I am told you are in the business of showing things that are not so. Come to the fire. I am cold.'".
   }
   Person marit "Lady Marit Valtry" at ck_hall {
     Role "his sister, who keeps the keep's accounts". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
-    Greets "A lean woman of forty in green, who does not look up from the ledger until the line is finished. 'The players,' says Lady Marit. 'Mind the table: it is the accounts. My brother likes you. Hadwin likes anyone who agrees with him.'".
+    Greets "A lean woman of forty in green, who does not look up from the ledger until the line is finished. 'The players,' says Lady Marit. 'Mind the table: it is the accounts. My brother likes you. Ranulf likes anyone who agrees with him.'".
   }
   Person toon "Steward Bartle Toon" at ck_yard {
     Role "the steward of Cairnholt". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
@@ -46,7 +46,7 @@ Module pentrice "Gosse's Company" {
   }
   Person stroud "Warden Ancel Stroud" nowhere {
     Role "the Warden of the March, seventy-four, tired". Ancestry human. Peaceable. Pronouns he. Manner compassionate.
-    Greets "An old man in a good fur with a stick he does not lean on. 'I am told,' says the Warden, 'that I am to be amused. I should like the soup.'".
+    Greets "An old man in a good fur with a stick he does not lean on. 'I am told,' says the Warden, 'that I am to be amused. Is there soup.'".
   }
   Person three "the three women" at moor_cairns {
     Role "three women of the moor, round a kettle, at a cairn". Ancestry human. Numbers 3. Peaceable. Pronouns they.
@@ -106,7 +106,7 @@ Module pentrice "Gosse's Company" {
     On discuss { Assert e2Reported(rierdan). Assert e2Fraud(rierdan). }
   }
   Topic rep_unclear with valtry "I cannot tell, my lord; it would take another day" answering valtry_report when true {
-    Says "'Another day,' says Lord Valtry. 'The Warden comes on the feast day. I should like it known before he does. Take your day.' He turns to the fire. 'But I will tell you,' he says, 'I find I have begun to arrange the room for him.'".
+    Says "'Another day,' says Lord Valtry, and stops. 'The Warden comes in a day and a half. A man does not wait on a silence.' He looks at the fire. 'If you have nothing to tell me, I'll go by what I believe, and the gods help whoever it is I believe.'".
     On discuss { Assert e2Unclear(rierdan). }
   }
 
@@ -114,8 +114,9 @@ Module pentrice "Gosse's Company" {
   Rule e2_unreported when e2On(rierdan) and not e2Reported(rierdan) and watch(clock) >= e2Start(rierdan) + 40 {
     Assert e2Reported(rierdan). Assert e2Genuine(rierdan). Assert e2Unreported(rierdan). Increase c2(rierdan) by 1. }
   Observe e2_unreported_told near valtry when e2Unreported(rierdan) and not e2Done(rierdan) and not e2Night(rierdan) "Lord Valtry has stopped waiting for the company's word. He has decided what the women are, and is arranging the house to suit.".
-  Rule e2_stroud when e2Reported(rierdan) and not e2StroudComes(rierdan) and watch(clock) >= e2Start(rierdan) + 60 {
-    Assert e2StroudComes(rierdan). Assert at(stroud, ck_hall). }
+  Rule e2_stroud when e2Reported(rierdan) and not e2StroudComes(rierdan) and not e2Done(rierdan) and watch(clock) >= e2Start(rierdan) + 60 {
+    Assert e2StroudComes(rierdan). Set e2StroudAt(rierdan) to watch(clock). Assert at(stroud, ck_hall). }
+  Observe e2_stroud_told at ck_yard when e2StroudComes(rierdan) and not e2Night(rierdan) and not e2Done(rierdan) "Outriders in the Warden's colours have come in under the gate with a cart of good bedding, and the yard has gone quiet to look. The feast will be tonight, when the lamps are lit, and the whole keep is saying so.".
   Observe e2_arrange near valtry when e2Genuine(rierdan) and not e2Night(rierdan) and not e2Done(rierdan) "Lord Valtry has had the Warden's room aired, the stair-rope re-hung, and a good bed made up, 'because he is old', and has asked the steward three times where the guards will stand.".
   Observe e2_fraud_obs near valtry when e2Fraud(rierdan) and not e2Night(rierdan) and not e2Done(rierdan) "Lord Valtry takes his meals at the far end of the table from his sister now, and watches her pour, and has not said why.".
   Observe e2_unclear_obs near valtry when e2Unclear(rierdan) and not e2Reported(rierdan) and not e2Night(rierdan) and not e2Done(rierdan) "Lord Valtry says he is waiting for the company's day, and in the meantime has had the Warden's room swept twice.".
@@ -129,23 +130,24 @@ Module pentrice "Gosse's Company" {
     Result "The soldiers take the gate. The old man's stair is not watched, as the Lady suggested and the Lord assented, on the grounds that a Warden should not be treated like a prisoner.".
   }
   Action guard_door(actor: group, site: place) "Post two soldiers at the Warden's door, and tell the Lord it is the company's rule" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ck_yard) and e2StroudComes(rierdan) and not e2GuardDoor(rierdan) and not e2GuardGate(rierdan) and not e2Done(rierdan).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ck_yard) and e2StroudComes(rierdan) and not e2GuardDoor(rierdan) and not e2GuardGate(rierdan) and not e2Done(rierdan) and not f_door(rierdan).
     Time 1.
     Resolve check(actor, persuasion, dc_fair).
     On success { Assert e2GuardDoor(rierdan). }
-    Result "You tell Valtry it is the Players' practice that a guest of rank is watched at the door in a house with a feast, which is not true. He looks at you, for a long while, with an expression you cannot read. 'Do it,' he says. He does not say thank you.".
+    On failure { Assert f_door(rierdan). }
+    Result "You tell Valtry it is the Players' practice that a guest of rank is watched at the door in a house with a feast, which is not true. He studies you with an expression you cannot read. 'Do it,' he says. He does not say thank you.".
     Otherwise "'The Warden is among friends,' says Valtry. 'He will not be guarded.' He is angry, a little, and has not decided at whom.".
   }
-  Observe marit_cup near marit when e2StroudComes(rierdan) and not e2Carried(rierdan) and not e2CupRefused(rierdan) and not e2Done(rierdan) "Lady Marit has a covered cup on her table, warming by the fire. She does not look at it. She looks, now and again, at whoever in the hall is idle.".
+  Observe marit_cup near marit when e2StroudComes(rierdan) and not e2Carried(rierdan) and not e2CupRefused(rierdan) and not e2Done(rierdan) "Lady Marit has a covered cup on her table, warming by the fire. She keeps her back to it. She looks, now and again, at whoever in the hall is idle.".
   Topic marit_asks with marit "Ask Lady Marit how the Warden is to be received" when e2StroudComes(rierdan) and not e2Done(rierdan) once {
     Says "'He is old,' says Lady Marit, ruling a line. 'He will want to be left alone and to be thought well of. I would put the guard on the gate, where they can be seen, and let him sleep without a soldier on his stair; he will take it as a courtesy. And someone he does not know should bring him the cup. It is a family cup, and spiced.'".
   }
-  Action carry_invitation(actor: group, site: place) "Carry Lady Marit's covered cup up to the Warden's room, as she asks" {
+  Action carry_invitation(actor: group, site: place) "Take Lady Marit's covered cup up to the Warden's room, as she asks" {
     Speaker marit.
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ck_stair) and e2StroudComes(rierdan) and not e2Carried(rierdan) and not e2CupRefused(rierdan) and not e2Done(rierdan).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ck_hall) and at(marit, ck_hall) and e2StroudComes(rierdan) and not e2Carried(rierdan) and not e2CupRefused(rierdan) and not e2Done(rierdan).
     Time 1.
     On success { Assert e2Carried(rierdan). Increase c2(rierdan) by 1. }
-    Result "The cup is warm. Under the spice there is something you know from sick-rooms: poppy, and a bitterness behind it. The Warden thanks you and sets it by the bed. 'Tell the Lady,' he says, 'that it is a very good cup.'".
+    Result "You carry it up the stair yourself. The cup is warm. Under the spice there is something you know from sick-rooms: poppy, and a bitterness behind it. The Warden thanks you and sets it by the bed. 'Tell the Lady,' he says, 'that it is a very good cup.'".
   }
   Action refuse_cup(actor: group, site: place) "Tell Lady Marit that the company does not carry cups to guests it has not tasted for" {
     Speaker marit.
@@ -159,11 +161,12 @@ Module pentrice "Gosse's Company" {
   }
   Action warn_stroud(actor: group, site: place) "Tell the Warden he is not safe in this keep, and why" {
     Speaker stroud.
-    Requires able(actor) and company(actor) and at(actor, site) and at(stroud, site) and e2StroudComes(rierdan) and not e2Warned(rierdan) and not e2Done(rierdan).
+    Requires able(actor) and company(actor) and at(actor, site) and at(stroud, site) and e2StroudComes(rierdan) and not e2Warned(rierdan) and not e2Done(rierdan) and not f_warn(rierdan).
     Time 0.
     Resolve check(actor, persuasion, dc_fair).
     On success { Assert e2Warned(rierdan). Assert e2GuardDoor(rierdan). }
-    Result "The old man listens with his head turned to one side. 'I have been told I am in danger from Cairnholt every year for twenty years,' he says, 'by people who wanted a fee. You, I think, want nothing.' He sits up. 'I shall have a man at my door, then, and I shall not drink the cup.'".
+    On failure { Assert f_warn(rierdan). }
+    Result "The old man listens with his head turned to one side. 'I have been told I am in danger from Cairnholt every year for twenty years,' he says, 'by people who wanted a fee. You, I think, want nothing.' He sits up. 'A man at my door, then. And no cup for me.'".
     Otherwise "'Danger,' says the Warden, and smiles, 'is a thing I have outlived.'".
   }
 
@@ -172,17 +175,20 @@ Module pentrice "Gosse's Company" {
   Discovery e2_loop_known "The women have been writing down what the company did, and calling it the prophecy.".
 
   // The night.
-  Rule e2_night when e2StroudComes(rierdan) and not e2Night(rierdan) and (hour(clock) >= 21 or hour(clock) < 4) { Assert e2Night(rierdan). }
-  Rule e2_kill when e2Night(rierdan) and not e2Done(rierdan) and not e2GuardDoor(rierdan) and not e2Warned(rierdan) and not e2CupRefused(rierdan) and c2(rierdan) >= 1 and hour(clock) >= 3 and hour(clock) < 12 {
+  Rule e2_night when e2StroudComes(rierdan) and not e2Night(rierdan) and not e2Done(rierdan) and (hour(clock) >= 21 or hour(clock) < 4) and watch(clock) >= e2StroudAt(rierdan) + 12 { Assert e2Night(rierdan). Set e2NightAt(rierdan) to watch(clock). }
+  Observe e2_night_told at ck_hall when e2Night(rierdan) and not e2Stair(rierdan) and not e2Done(rierdan) "The feast is cleared. The Warden has been helped up the stair with a lamp. Lady Marit sits in her corner with her ledger shut, and every soldier in the hall is looking at the company.".
+  Rule e2_stair when e2Night(rierdan) and not e2Stair(rierdan) and not e2Done(rierdan) and hour(clock) >= 2 and hour(clock) < 12 and watch(clock) >= e2NightAt(rierdan) + 6 { Assert e2Stair(rierdan). Set e2StairAt(rierdan) to watch(clock). }
+  Observe e2_stair_told at ck_hall when e2Stair(rierdan) and not e2Done(rierdan) "A step on the keep stair, slow and careful, with something carried. In an hour the hall will know what it was.".
+  Rule e2_kill when e2Night(rierdan) and not e2Done(rierdan) and not e2GuardDoor(rierdan) and not e2Warned(rierdan) and not e2CupRefused(rierdan) and c2(rierdan) >= 1 and e2Stair(rierdan) and watch(clock) >= e2StairAt(rierdan) + 6 {
     Assert e2Murder(rierdan). Assert e2Done(rierdan). }
-  Rule e2_quiet when e2Night(rierdan) and not e2Done(rierdan) and not e2GuardDoor(rierdan) and not e2Warned(rierdan) and not e2CupRefused(rierdan) and c2(rierdan) < 1 and hour(clock) >= 3 and hour(clock) < 12 {
+  Rule e2_quiet when e2Night(rierdan) and not e2Done(rierdan) and not e2GuardDoor(rierdan) and not e2Warned(rierdan) and not e2CupRefused(rierdan) and c2(rierdan) < 1 and e2Stair(rierdan) and watch(clock) >= e2StairAt(rierdan) + 6 {
     Assert e2Left(rierdan). Assert e2Quiet(rierdan). Assert e2Done(rierdan). }
   Relation e2Done(place). Relation e2Quiet(place). Relation e2Unreported(place). Relation e2Rebuffed(place). Relation e2CupRefused(place).
   Observe e2_quiet_told at ck_hall when e2Quiet(rierdan) "The feast is long and dull. Nobody tries the Warden's stair, because nobody has been given a reason; the Lord of Cairnholt gets drunk at the high table, and says to the company that he has been a fool about three old women. In the morning the kettle has gone from the cairns and, they say, the women from the moor.".
   Observe e2_broadside at wend_cross when e2Murder(rierdan) "A broadside is nailed to the milestone: the Warden of the March died in his bed at Cairnholt, of the cold, and the Lord of Cairnholt is chosen Warden by acclamation. A carter says that he has not been seen to sleep since. Someone has drawn a small kettle in the corner, in chalk.".
-  Observe e2_murder_told at ck_hall when e2Murder(rierdan) "In the morning there is a noise in the keep that is not a noise: the sound of thirty soldiers standing still. The Warden's chamber door is open and the old man lies in his bed with the cup beside him, quite peaceful, and warm. Lord Valtry stands at the foot of the bed in his gorget. He turns. 'You see,' he says, 'it was true.' By noon the keep has a new Warden, and the company has a letter of thanks.".
+  Observe e2_murder_told at ck_hall when e2Murder(rierdan) "In the morning there is a noise in the keep that is not a noise: the sound of thirty soldiers standing still. The Warden's chamber door is open and the old man lies in his bed with the cup beside him, peaceful, and warm. Lord Valtry stands at the foot of the bed in his gorget. He turns. 'You see,' he says, 'it was true.' By noon the keep has a new Warden, and the company has a letter of thanks.".
   Observe e2_murder_after near valtry when e2Murder(rierdan) "Lord Valtry is the Warden of the March. He has not slept since the night. He has had the cups taken out of the keep, and the women sent for, and not found.".
-  Rule e2_survive when e2Night(rierdan) and not e2Done(rierdan) and (e2GuardDoor(rierdan) or e2Warned(rierdan) or e2CupRefused(rierdan)) and hour(clock) >= 3 and hour(clock) < 12 { Assert e2Left(rierdan). Assert e2Done(rierdan). }
+  Rule e2_survive when e2Night(rierdan) and not e2Done(rierdan) and (e2GuardDoor(rierdan) or e2Warned(rierdan) or e2CupRefused(rierdan)) and e2Stair(rierdan) and watch(clock) >= e2StairAt(rierdan) + 6 { Assert e2Left(rierdan). Assert e2Done(rierdan). }
   Observe e2_survive_told at ck_hall when e2Left(rierdan) and not e2Quiet(rierdan) "In the grey, someone tries the Warden's stair. Two soldiers stand at the door with their spears crossed, as they were told, and the footstep stops, and goes down again. Nobody says who it was. At breakfast the Warden eats his egg with great attention and Lord Valtry does not come down. Lady Marit pours the tea. You leave on the stroke of ten. At the Cross, a month later, you read it on a broadside: the Lord of Cairnholt, found in the morning in his own hall with his gorget off and no mark on him, a heart, they said. The Warden was chosen again at midsummer by the usual vote.".
   // The two ways out of the loop that take nerve: expose the Lady's purse, or turn the Lord.
   Action show_purse(actor: group, site: place) "Put the Lady's purse on the table in front of the Lord, and the ribbon, and the seal" {
@@ -192,17 +198,17 @@ Module pentrice "Gosse's Company" {
     Resolve check(actor, persuasion, dc_hard).
     On success { Assert e2Revealed(rierdan). Assert e2Done(rierdan). }
     On failure { Assert e2Rebuffed(rierdan). }
-    Result "He looks at it. He picks up the ribbon and puts it down. 'She said,' he says at last, to nobody, 'that I had always had the hands for it.' He sits. He does not look at the door, behind which, you can hear, his sister is not listening. 'I think I would rather be a tired man,' he says, 'than the thing I had been told.' He sends for the Warden to be told that his chamber is warm. In the morning the Lady is not at the table, and her accounts are balanced.".
+    Result "He looks at it. He picks up the ribbon and puts it down. 'She said,' he says at last, to nobody, 'that I had always had the hands for it.' He sits. He keeps his back to the door, behind which, you can hear, his sister is not listening. 'I think I would rather be a tired man,' he says, 'than the thing I had been told.' He sends for the Warden to be told that his chamber is warm. In the morning the Lady is not at the table, and her accounts are balanced.".
     Otherwise "'You say that,' says Valtry, 'because you are afraid of what I might be.' He is quiet. 'Go, before I decide whether you are right.' He will not hear it from you again.".
   }
   Action turn_the_lord(actor: group, site: place) "Say to the Lord, alone, that a man told he will be a king is not told to do anything" {
     Speaker valtry.
-    Requires able(actor) and company(actor) and at(actor, site) and at(valtry, site) and e2Reported(rierdan) and not e2Revealed(rierdan) and not e2Turned(rierdan) and not e2Rebuffed(rierdan).
+    Requires able(actor) and company(actor) and at(actor, site) and at(valtry, site) and knows(actor, e2_loop_known) and not e2Revealed(rierdan) and not e2Turned(rierdan) and not e2Rebuffed(rierdan).
     Time 0.
     Resolve check(actor, persuasion, dc_hard).
     On success { Assert e2Turned(rierdan). Assert e2Done(rierdan). }
     On failure { Assert e2Rebuffed(rierdan). }
-    Result "He is still. 'Go on.' You say that a prophecy is the shape of a thing, and a man who is told it can walk round it or into it, and it is not your business which; and that you have been the hands for what he had begun to want and are going to stop. He does not say anything for a time. 'Stop, then,' he says. 'I shall go up and wake the Warden and ask him to tell me why he is tired. It is my habit that I do not do that.'".
+    Result "He is still. 'Go on.' You say that a prophecy is the shape of a thing, and a man who is told it can walk round it or into it, and it is not your business which; and that you have been the hands for what he had begun to want and are going to stop. He does not say anything for a time. 'Stop, then,' he says. 'I'll go up and wake the Warden and ask him to tell me why he is tired. It is my habit that I do not do that.'".
     Otherwise "'It is easy,' says Valtry, 'to say what a man should do who is not me.' He turns his back, and it is a back that has stopped listening.".
   }
   Observe e2_turned_told near valtry when e2Turned(rierdan) "Lord Valtry sits by the Warden's fire in the morning with a bowl of soup in his hands and the old man talking, and listens, and does not seem to be waiting for anything. Lady Marit is looking at them from the door with an expression you will remember.".
@@ -217,11 +223,13 @@ Module pentrice "Gosse's Company" {
     Says "Dorcas puts down the stocking. 'There is the thing everyone does,' she says, 'where she wants it. Cold, hungry, the whole of it. I never believed it. I think she is afraid of what her brother will turn into if nobody gives him something to be for.' She looks at you. 'Which is it? You have seen her.'".
   }
   Topic dorcas_wants with dorcas "She wants it, and has for years" answering dorcas_marit when true {
-    Says "'Yes,' says Dorcas, without triumph. 'That is the safer way. Cleaner. I shall do her as if she were hungry.'".
+    Says "'Yes,' says Dorcas, without triumph. 'That is the safer way. Cleaner. I'll do her hungry.'".
     On discuss { Assert dorcasWants(actor). }
   }
   Topic dorcas_afraid with dorcas "She is afraid of what he will be without it" answering dorcas_marit when true {
     Says "Dorcas is silent. 'That is the difficult one,' she says. 'It will be much harder to play.' She picks up the stocking and then puts it down. 'Good.'".
     On discuss { Assert dorcasAfraid(actor). }
   }
+  Relation f_door(place).
+  Relation f_warn(place).
 }

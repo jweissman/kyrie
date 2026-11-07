@@ -9,13 +9,13 @@ Module pentrice "Gosse's Company" {
   // ghost (Hamlet's first act and fourth, where Act II played the third), and a wood where a wedding is to be
   // entertained (the Dream). The company is the company: its people stand in these places as they stood in the Sparrow.
   // Doc: doc/adventures/anthology/the-repertory.md.
-  Place wend "the Wend Circuit" is region.
-  Place wend_area "the Wend country" is wilderness within wend at 1, 1.
-  Place wend_cross "the Wend Cross" is room within wend_area at 1, 1 outdoors.
+  Place wend "the Fourways Circuit" is region.
+  Place wend_area "the Fourways country" is wilderness within wend at 1, 1.
+  Place wend_cross "the Fourways" is room within wend_area at 1, 1 outdoors.
   Place wend_inn "the Drum and Whistle" is building within wend_area.
   Place wend_taproom "the Drum and Whistle's taproom" is room within wend_inn at 1, 2.
-  Passage wend_road "the Wend road" is road between river_gate and wend_cross taking 1 hour
-    opening when commandOn(rierdan) and commandDay(rierdan) > day(clock) "The Wend road goes out under the gate, but the Wick is lit tonight, or the King's Players have not yet been given leave to go on it.".
+  Passage wend_road "the Fourways road" is road between river_gate and wend_cross taking 1 hour
+    opening when commandOn(rierdan) and commandDay(rierdan) > day(clock) "The Fourways road goes out under the gate, but the Wick is lit tonight, or the King's Players have not yet been given leave to go on it.".
   Passage wend_door "the inn door" is door between wend_cross and wend_taproom.
   Observe wend_cross_scene at wend_cross when true "Four roads and a milestone, and a signpost that has lost three of its arms to boys with knives. The fourth points up the hill to a village whose name has been scratched off and written again in chalk: MARLCROSS. The inn has a drum on its sign and a whistle painted under it, and the whistle is the more convincing.".
   Observe wend_taproom_scene at wend_taproom when true "A long low room with a fire, a settle, a window onto the road, and a table that has been the company's table for as long as the company has been this far out of the city. Hepzibah's book is open on it, and a heap of letters.".
@@ -41,7 +41,7 @@ Module pentrice "Gosse's Company" {
   Relation e1Done(place). Relation e2Done(place). Relation e3Done(place). Relation e4Done(place).
   Relation epRep1(place). Relation epRep2(place). Relation epRep3(place). Relation epRep4(place).
   Topic hz_letters with hepzibah "Ask Hepzibah what is in the heap of letters" when tourOn(rierdan) once {
-    Says "'Four,' says Hepzibah, without looking up. 'A market town that has been told we play in the King's livery and would like to see it. A soldier on the moor who wants a company to cheer his wife, and who has also, I notice, asked for an opinion on some women. A Margravate that needs players for a prince it is rather worried about. And a squire who is to be married in a wood, and wants us to play at it, because his bride has read that this is done.' She turns a page. 'They have all offered money. I have no confidence in any of them. Choose.'".
+    Says "'Four,' says Hepzibah, without looking up. 'A market town that has been told we play in the King's livery and would like to see it. A soldier on the moor who wants a company to cheer his garrison, and who has also, I notice, asked for an opinion on some women. A Margravate that needs players for a prince it is rather worried about. And a squire who is to be married in a wood, and wants us to play at it, because his bride has read that this is done.' She turns a page. 'They have all offered money. I have no confidence in any of them. Choose.'".
     On discuss { Assert e1Open(rierdan). Assert e2Open(rierdan). Assert e3Open(rierdan). Assert e4Open(rierdan). }
   }
   Observe rp_board_done at wend_taproom when repertoire(rierdan) >= 2 "On the board over the settle, in Hepzibah's hand, the list of what the King's Players can play has grown past the width of the board. Someone has pinned a second sheet.".
@@ -59,14 +59,14 @@ Module pentrice "Gosse's Company" {
   // A play, once performed, joins the repertoire; each episode's ending sets its eNDone and these count it once.
   Rule rp_rep1 when e1Done(rierdan) and not e1Chaos(rierdan) and not epRep1(rierdan) { Assert epRep1(rierdan). Increase repertoire(rierdan) by 1. }
   Rule rp_rep2 when e2Done(rierdan) and not e2Murder(rierdan) and not epRep2(rierdan) { Assert epRep2(rierdan). Increase repertoire(rierdan) by 1. }
-  Rule rp_rep3 when e3Done(rierdan) and not e3Grave(rierdan) and not epRep3(rierdan) { Assert epRep3(rierdan). Increase repertoire(rierdan) by 1. }
-  Rule rp_rep4 when e4Done(rierdan) and not epRep4(rierdan) { Assert epRep4(rierdan). Increase repertoire(rierdan) by 1. }
+  Rule rp_rep3 when e3Done(rierdan) and not e3Grave(rierdan) and not e3Bellerophon(rierdan) and not e3TurnedAway(rierdan) and not e3Misdelivered(rierdan) and not e3Dismissed(rierdan) and not epRep3(rierdan) { Assert epRep3(rierdan). Increase repertoire(rierdan) by 1. }
+  Rule rp_rep4 when e4Done(rierdan) and (e4Acted(rierdan) or e4Left(rierdan)) and not epRep4(rierdan) { Assert epRep4(rierdan). Increase repertoire(rierdan) by 1. }
 
   // What the road did for the company is Act V's own: repertoire raises standingR there (+1 at two plays, +1 at four), and that
   // is the only chaos slack the tour buys. This file adds nothing to it. Two things of the road are read on the night, though:
   // Swale who was kind to the Prince's speech blurts more gently (the blurt costs a point less), and the name paid in the wood
   // is missing from the Chamberlain's roll.
-  Rule rp_loom_fan when holdingCommand(rierdan) and e4LoomFree(rierdan) and not loomFan(rierdan) and chaos(rierdan) >= 1 { Assert loomFan(rierdan). Decrease chaos(rierdan) by 1. }
+  Rule rp_loom_fan when holdingCommand(rierdan) and e4LoomFree(rierdan) and not loomFan(rierdan) and chaos(rierdan) >= 1 { Assert loomFan(rierdan). Decrease chaos(rierdan) by 2 or to nothing. }
   Observe rp_loom_fan_told at lant_stage when loomFan(rierdan) "In the second tier a large happy man in a wool mantle laughs half a beat before the joke and everyone else takes the cue from him. The scene recovers. He is the weaver from Hollin; he said he had always wanted to see how it was done.".
   Relation loomFan(place). Relation swaleSoftened(place). Relation nameRoll(place).
   Rule rp_swale_soft when swaleBlurted(rierdan) and swaleHand(party) and not swaleSoftened(rierdan) { Assert swaleSoftened(rierdan). Decrease chaos(rierdan) by 1 or to nothing. }

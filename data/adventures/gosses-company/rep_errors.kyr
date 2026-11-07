@@ -28,15 +28,15 @@ Module pentrice "Gosse's Company" {
   Observe m_shop_scene at m_shop when true "A goldsmith's shop smaller than its sign: a counter, a scale, a hanging row of chains in their order of vanity. A man in an apron is writing a long, hurt invoice with his tongue out.".
   Observe m_parlour_scene at m_parlour when true "A parlour hung with red cloth that has seen better arguments. A hearth, a lute with a cracked belly, a small dog that has been given too much to eat. The room is warmer than the people in it.".
   Observe m_inn_scene at m_inn when true "The Mermaid's tap: low and brown, a landlord with a tankard for every complaint, a settle where two travellers sit with their luggage between their feet like men waiting for a ship.".
-  Observe m_lockup_scene at m_lockup when true "A stone cell the size of a pantry, with a bench, a bucket and a window the width of a hand. Someone before you has cut into the lintel in a clerkly hand: IT WAS NOT ME.".
+  Observe m_lockup_scene at m_lockup when true "A stone cell as small as a pantry, with a bench, a bucket and a window the width of a hand. Someone before you has cut into the lintel in a clerkly hand: IT WAS NOT ME.".
   Observe m_priory_scene at m_priory when true "The Priory of the Shore-Mother has a gate like a mouth, a bell, and a small garden with beans in it. It is the only quiet thing in the town. A sister is weeding as if the day had not happened.".
 
   Relation e1On(place). Relation e1Met(place). Relation e1Early(place). Relation e1Priory(place). Relation e1Chaos(place).
   Relation i1(place). Relation i2(place). Relation i3(place). Relation i4(place). Relation i5(place). Relation i6(place). Relation i7(place). Relation i8(place).
   Relation chainTaken(place). Relation debtPaid(place). Relation crArrested(place). Relation dvArrested(place). Relation crBound(place).
-  Relation tuckettHeld(place). Relation pledged(group). Relation sawCr(group). Relation sawCv(group). Relation sawDr(group). Relation sawDv(group).
-  Relation twoMasters(group). Relation twoServants(group). Relation sideTilde(group). Relation sideCorbet(group). Relation sideNone(group).
-  Relation houseBarred(place). Relation chainReturned(place).
+  Relation tuckettHeld(place). Relation pledged(group).
+  Relation sideTilde(group). Relation sideCorbet(group).
+  Relation houseBarred(place).
   Measure e1Start(place).
 
   Person cr "Corbet of Marlcross" at m_shop {
@@ -85,7 +85,7 @@ Module pentrice "Gosse's Company" {
   }
   Person everard "Mother Everard" at m_priory {
     Role "the Prioress of the Shore-Mother". Ancestry human. Peaceable. Pronouns she. Manner compassionate.
-    Greets "A old woman in grey, who is watching the gate and has been for some time. 'There are always, on a day like this one,' she says, 'those who come to us in a hurry.'".
+    Greets "An old woman in grey, who is watching the gate and has been since breakfast. 'There are always, on a day like this one,' she says, 'those who come to us in a hurry.'".
   }
 
   // The day begins when the company comes into the square. d is read from e1Start.
@@ -101,7 +101,7 @@ Module pentrice "Gosse's Company" {
   Rule rp_i1s at m_square when i1(rierdan) and not i1said(rierdan) says "Jibb of Marlcross comes across the square at a trot, takes a traveller in a good coat by the sleeve and says 'Dinner, master, and your wife with a face on her,' and the traveller, who has never seen him, goes, because it is easier. The Mermaid's door shuts on a second servant who is saying 'But I am he.'" {
     Assert i1said(rierdan). }
   Observe m_house_barred at m_house when houseBarred(rierdan) "The door of the Corbets' house is barred from within, and beyond it a man's voice, indignant, is asking to be let into his own dinner.".
-  Observe m_chain_worn at m_square when chainTaken(rierdan) and not chainReturned(rierdan) "A stranger in a merchant's good coat crosses the square with a heavy gold chain on his chest that the whole square remembers being ordered by the other one.".
+  Observe m_chain_worn at m_square when chainTaken(rierdan) and not e1Done(rierdan) "A stranger in a merchant's good coat crosses the square with a heavy gold chain on his chest that the whole square remembers being ordered by the other one.".
   Relation i1said(place). Relation i2said(place). Relation i4said(place). Relation i5said(place). Relation i7said(place).
   Rule rp_i2p when i1(rierdan) and not i2(rierdan) and watch(clock) >= e1Start(rierdan) + 12 and pledged(cv) { Assert i2(rierdan). Assert i2said(rierdan). }
   Rule rp_i2 when i1(rierdan) and not i2(rierdan) and watch(clock) >= e1Start(rierdan) + 12 and not pledged(cv) and at(dv, ?d2) {
@@ -169,37 +169,41 @@ Module pentrice "Gosse's Company" {
   }
   Action tell_grabb_other(actor: group, site: place) "Tell the bailiff the chain was taken by a traveller at the Mermaid, and point at his servant" {
     Speaker grabb.
-    Requires able(actor) and company(actor) and at(actor, site) and e1On(rierdan) and at(grabb, site) and i4(rierdan) and not i5(rierdan) and at(dv, site) and not dvArrested(rierdan) and not crArrested(rierdan).
+    Requires able(actor) and company(actor) and at(actor, site) and e1On(rierdan) and at(grabb, site) and i4(rierdan) and not i5(rierdan) and at(dv, site) and not dvArrested(rierdan) and not crArrested(rierdan) and not f_grabb(rierdan).
     Time 0.
     Resolve check(actor, persuasion, dc_fair).
     On success { Assert dvArrested(rierdan). Retract at(dv, site). Assert at(dv, m_lockup). Assert i5(rierdan). Assert i5said(rierdan). Assert tuckettHeld(rierdan). }
+    On failure { Assert f_grabb(rierdan). }
     Result "Grabb looks at the servant, who looks back with the trust of a lamb. 'That one,' says the bailiff. 'Has the look.' He takes Jibb of Evesholm to the lock-up by the elbow. Jibb goes, with an air of having always expected it.".
     Otherwise "'Eating,' says Grabb. 'I do not hear complaints when I am eating.'".
   }
   Action hold_tuckett(actor: group, site: place) "Tell Dr Tuckett that a man locked out of his own house is angry, not possessed" {
     Speaker tuckett.
-    Requires able(actor) and company(actor) and at(actor, site) and e1On(rierdan) and at(tuckett, site) and not tuckettHeld(rierdan) and not crBound(rierdan).
+    Requires able(actor) and company(actor) and at(actor, site) and e1On(rierdan) and at(tuckett, site) and not tuckettHeld(rierdan) and not crBound(rierdan) and not f_tuckett(rierdan).
     Time 0.
     Resolve check(actor, lore, dc_fair).
     On success { Assert tuckettHeld(rierdan). }
+    On failure { Assert f_tuckett(rierdan). }
     Result "Tuckett opens one of his three books to a page that agrees with you, and shuts it with some disappointment. 'Anger,' he says, 'is a lesser order. I shall not trouble the bottle.'".
     Otherwise "'Anger,' says Tuckett, 'is often the first sign.'".
   }
   Action ask_to_wait_cv(actor: group, site: place) "Ask the Evesholm Corbet to wait for you at the Mermaid and not to go anywhere for anyone" {
     Speaker cv.
-    Requires able(actor) and company(actor) and at(actor, site) and e1On(rierdan) and at(cv, site) and not pledged(cv).
+    Requires able(actor) and company(actor) and at(actor, site) and e1On(rierdan) and at(cv, site) and not pledged(cv) and not f_cv(rierdan).
     Time 0.
     Resolve check(actor, persuasion, dc_hard).
     On success { Assert pledged(cv). Retract at(cv, site). Assert at(cv, m_inn). Retract at(dv, site). Assert at(dv, m_inn). }
-    Result "He looks at you and then, slowly, sits down. 'You are the first person today who has not shouted,' he says. 'I shall sit where I am put.'".
+    On failure { Assert f_cv(rierdan). }
+    Result "He looks at you and then, slowly, sits down. 'You are the first person today who has not shouted,' he says. 'I'll sit where I'm put.'".
     Otherwise "'I have been told what to do by seven people today,' he says. 'You are the eighth.'".
   }
   Action ask_to_wait_cr(actor: group, site: place) "Ask the Marlcross Corbet to wait for you at the Mermaid, with his dinner paid for" {
     Speaker cr.
-    Requires able(actor) and company(actor) and at(actor, site) and e1On(rierdan) and at(cr, site) and not pledged(cr) and not crBound(rierdan).
+    Requires able(actor) and company(actor) and at(actor, site) and e1On(rierdan) and at(cr, site) and not pledged(cr) and not crBound(rierdan) and not f_cr(rierdan).
     Time 0.
     Resolve check(actor, persuasion, dc_fair).
     On success { Assert pledged(cr). Retract at(cr, site). Assert at(cr, m_inn). }
+    On failure { Assert f_cr(rierdan). }
     Result "'A dinner at the Mermaid,' says Corbet, 'on the company. Why not. I have been locked out of better.' He goes in. He is still laughing, a half-second before his own jokes.".
     Otherwise "'I have a wife to shout at first,' says Corbet.".
   }
@@ -208,7 +212,7 @@ Module pentrice "Gosse's Company" {
   Rule rp_early when e1Met(rierdan) and knows(party, two_masters_known) and knows(party, two_servants_known) and not i5(rierdan) and not e1Early(rierdan) and not e1Priory(rierdan) and not e1Chaos(rierdan) and at(tilde, ?te) and at(everard, ?ev) { Assert e1Early(rierdan). Assert e1Done(rierdan). Retract at(tilde, ?te). Assert at(tilde, m_inn). Retract at(everard, ?ev). Assert at(everard, m_inn). }
   Rule rp_priory when e1Met(rierdan) and i5(rierdan) and not crBound(rierdan) and not e1Priory(rierdan) and not e1Early(rierdan) and not e1Chaos(rierdan) { Assert e1Priory(rierdan). Assert e1Done(rierdan). }
   Rule rp_chaos when e1Met(rierdan) and crBound(rierdan) and not e1Chaos(rierdan) and not e1Early(rierdan) and not e1Priory(rierdan) { Assert e1Chaos(rierdan). Assert e1Done(rierdan). }
-  Observe e1_early_told near cv when e1Early(rierdan) "The two Corbets stand in the Mermaid with their coats the same, looking at each other across a table with two dinners on it. Tilde Ashlar is in the door. Behind her, sent for by a sister who ran down the lane, comes Mother Everard with her hands in her sleeves, and looks from one man to the other for a long time. 'Thirty-one years ago,' she says, 'a ship went down off the Shingle, and a woman got to shore with two babies and was not sure she had them both.' She looks at the two coats. 'I was the woman.' Nobody speaks. It is Tilde who says it, in a clear dry voice: 'Well. That explains the stove.' The traveller bursts into tears; the merchant bursts into laughter, half a second early. The Jibbs shake hands, and then each hits the other, for the morning.".
+  Observe e1_early_told near cv when e1Early(rierdan) "The two Corbets stand in the Mermaid with their coats the same, looking at each other across a table with two dinners on it. Tilde Ashlar is in the door. Behind her, sent for by a sister who ran down the lane, comes Mother Everard with her hands in her sleeves, and looks from one man to the other. 'Thirty-one years ago,' she says, 'a ship went down off the Shingle, and a woman got to shore with two babies and was not sure she had them both.' She looks at the two coats. 'I was the woman.' Nobody speaks. It is Tilde who says it, in a clear dry voice: 'Well. That explains the stove.' The traveller bursts into tears; the merchant bursts into laughter, half a second early. The Jibbs shake hands, and then each hits the other, for the morning.".
   Observe e1_priory_told near everard when e1Priory(rierdan) "Mother Everard comes out with her hands in her sleeves and looks at the gate: two Corbets, two Jibbs, a wife, a bailiff, a goldsmith, a dame in red, an alderman and an exorcist, assembled in the beans. 'Thirty-one years ago,' she says, 'a ship went down off the Shingle, and a woman got to shore with two babies and was not sure she had them both.' She looks from one to the other. 'I was the woman.' Nobody says a word. In the silence the small dog, which has followed the parlour, is sick.".
   Observe e1_chaos_told near everard when e1Chaos(rierdan) "At the Priory gate, a Corbet with his wrists tied is shouting at a Corbet who is being comforted by a sister, while an exorcist reads over the wrong one, a wife is shouting at the right one, and the goldsmith reads out the invoice to the beans. Mother Everard walks into the middle of it, says 'Quiet' in a voice you can hear in Evesholm, and sorts it in two minutes, as she says afterwards, as one sorts laundry.".
   Chapter ch_errors "The Two Pairs" when e1On(rierdan) and not e1Done(rierdan) "Marlcross is behaving as if it has gone mad, and it has not, and that is worse.".
@@ -217,7 +221,7 @@ Module pentrice "Gosse's Company" {
 
   // Sides, said and remembered: whose side the company takes is read in the epilogue and in Kit's heart.
   Topic tilde_side with tilde "Side with Tilde: her husband is behaving like a stranger and she is right" when e1On(rierdan) and not sideTilde(actor) and not sideCorbet(actor) once {
-    Says "Tilde Ashlar looks at you with a wet face that is quite dry. 'Thank you,' she says. 'I do not need agreement. I need somebody to say it is not me.'".
+    Says "Tilde Ashlar looks at you with a face that is wet and perfectly dry-eyed. 'Thank you,' she says. 'I do not need agreement. I need somebody to say it is not me.'".
     On discuss { Assert sideTilde(actor). }
   }
   Topic corbet_side with cr "Side with Corbet: his wife is shouting at the wrong man" when e1On(rierdan) and not sideTilde(actor) and not sideCorbet(actor) once {
@@ -231,7 +235,7 @@ Module pentrice "Gosse's Company" {
     Says "Kit has been quiet since the town came right. 'I held the door for her,' he says. 'Luce. She looked at me like I was a person.' He pulls at his sleeve. 'I do not know what to do about that.'".
   }
   Topic kit_a1 with kit "Tell him to say so, in his own voice" answering kit_marlcross when true {
-    Says "'That is what everyone says,' says Kit. 'I have not got one. I have got the voices I do.' He grins, shakily. 'I shall try.'".
+    Says "'That is what everyone says,' says Kit. 'I have not got one. I have got the voices I do.' He grins, shakily. 'I'll try.'".
     On discuss { Assert kitSaysSo(actor). }
   }
   Topic kit_a2 with kit "Tell him she is nineteen and he is fifteen and a company is a company" answering kit_marlcross when true {
@@ -254,10 +258,11 @@ Module pentrice "Gosse's Company" {
   }
   Action cinnabar_ring_back(actor: group, site: place) "Show Madam Cinnabar the chalked columns, and ask for the ring back for the Corbet who did not give it" {
     Speaker cinnabar.
-    Requires able(actor) and company(actor) and at(actor, site) and at(cinnabar, site) and knows(actor, two_masters_known) and not ringBack(rierdan).
+    Requires able(actor) and company(actor) and at(actor, site) and at(cinnabar, site) and knows(actor, two_masters_known) and not ringBack(rierdan) and not f_ring(rierdan).
     Time 1.
     Resolve check(actor, persuasion, dc_fair).
     On success { Assert ringBack(rierdan). }
+    On failure { Assert f_ring(rierdan). }
     Result "She reads the columns as she reads a client, from the bottom. 'Two,' she says. 'Well. That explains the manners.' She draws the ring off and puts it in your hand, and tells you what it will cost the Marlcross Corbet, which is a dinner and an apology.".
     Otherwise "'Columns,' says Madam Cinnabar. 'I have a ring.'".
   }
@@ -267,4 +272,9 @@ Module pentrice "Gosse's Company" {
   Topic pomphrey_court with pomphrey "Ask the Alderman who he means to try today" when e1On(rierdan) once {
     Says "'Whoever is brought,' says the Alderman, 'and I mean to try him before he is brought, to save the court's time.' He eats a cherry. 'You will notice that I have not yet been wrong.'".
   }
+  Relation f_grabb(place).
+  Relation f_tuckett(place).
+  Relation f_cv(place).
+  Relation f_cr(place).
+  Relation f_ring(place).
 }
