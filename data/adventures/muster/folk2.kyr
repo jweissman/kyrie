@@ -1,0 +1,54 @@
+Module muster "The Long Muster's Road" {
+  // ── People who want something of the company, and push back ────────────────────────────────────────────────────
+  Relation yeastGiven(group). Relation yeastTaken(group). Relation piaVouched(group). Relation piaPushed(group).
+
+  // Octa Millward: the bread. She sells you rations at a coin; she will not give you the yeast unless you will feed it.
+  Kind yeast_pot "a pot of the Muster's yeast" is gear worth 0 weighing 1 described "A glazed pot with a cloth tied over it, warm to the hand. Twice a day it wants flour and water, and a place by a fire.".
+  Item yeast_item "a pot of the Muster's yeast" is yeast_pot at nowhere.
+  Topic octa_pot with octa "Ask the baker for a pot of the old yeast, to take south" when ateBread(party) and not yeastTaken(party) once {
+    Says "Octa wipes her hands down her apron. 'It's been alive eleven hundred years,' she says. 'It wants flour and water twice a day and a fire to sit by. Not a saddle-bag. Not a cold night on a fell.' She folds her arms. 'Will you feed it, or will you let it die on the Viaduct?'".
+  }
+  Topic octa_pot_yes with octa "Say that you will feed it, twice a day, by a fire" answering octa_pot when true {
+    Says "'Then you'll build the fire at noon and dusk,' says Octa, 'even if there's a wolf.' She ties the cloth and puts the pot in your hands. 'If it dies, I'll know.'".
+    On discuss { Give yeast_item to actor. Assert yeastTaken(party). }
+  }
+  Topic octa_pot_no with octa "Say that you can't promise that, on that road" answering octa_pot when true {
+    Says "'No,' says Octa. 'Well. Honest.' She turns back to her oven. 'There's bread, if you'll pay for it.'".
+  }
+  Topic maud_yeast with maud "Give Maud the pot of yeast from the valley" when holding(actor, yeast_pot) and not yeastGiven(party) once {
+    Says "Maud lifts the cloth, sniffs, and lifts her eyebrows. 'It's alive,' she says. 'Mine's been dead since my grandmother.' She puts it by the hearth as if it were a baby.".
+    On discuss { Spend yeast_pot from actor. Assert yeastGiven(party). }
+  }
+  Observe yeast_inn at taproom when yeastGiven(party) "The Last Fire's bread has begun to taste of cumin. Maud will not say why. A boy is sent out twice a day to the hearth with a spoon.".
+
+  // Pia Cassel: the Archivist's young hand, who thinks the valley should be told and says so.
+  Person pia "Pia Cassel" at archive {
+    Role "the Archivist's assistant". Ancestry human. Pronouns she. Manner cheerful. Peaceable.
+    Greets "A girl of twenty with ink to the elbow looks up from a copy she is making. 'You're the one from the north,' she says. 'Don't let Fenwarden make you wait a year. He'll say it's kindness.'".
+  }
+  Topic pia_asks with pia "Ask Pia what she wants of you" when admitted(party) once {
+    Says "Pia puts the pen down. 'There's a beam in this room with eleven hundred notches on it and nobody says a word,' she says. 'You've been over the Viaduct. Will you tell them? The Hearth, at least. Elpis will hear it from me if she hears it from someone who's seen the road.'".
+  }
+  Topic pia_yes with pia "Say that you will, if she will stand beside you when you do" answering pia_asks when true {
+    Says "'Done,' says Pia. 'Elpis trusts the Archive's hand when it's mine. Not his.' She shuts the copy. 'Don't wait for spring.'".
+    On discuss { Assert piaVouched(party). }
+  }
+  Topic pia_no with pia "Say that it is not yours to tell, and leave it to the Prefect" answering pia_asks when true {
+    Says "'It's not anyone's,' says Pia. She picks the pen up. 'That's how it's lasted.' She doesn't look at you again.".
+    On discuss { Assert piaPushed(party). }
+  }
+  Observe pia_cold at archive when piaPushed(party) "Pia Cassel copies without looking up.".
+
+  // Tavi: the baker's boy, who follows if you have eaten his bread.
+  Person tavi "Tavi" at pistrina {
+    Role "the baker's boy". Ancestry human. Pronouns he. Manner cheerful. Peaceable.
+    Greets "A boy of eleven with flour to the ears stops pushing a peel into the oven. 'You came over,' he says. 'From the north.' He wipes his nose. 'Is there trees?'".
+  }
+  Topic tavi_trees with tavi "Tell Tavi about the trees" when true {
+    Says "'Real ones?' says Tavi. 'With birds? We've only the vines.' He looks at the oven, and at you. 'Do they have bread?'".
+  }
+  Rule tavi_follows at descent when at(party, descent) and ateBread(party) and not following(tavi, party) and not boyHome(party)
+    says "A boy of eleven is sitting on a milestone on the Descent with a loaf under his arm and a sack. 'Octa doesn't know,' he says. 'I'll walk behind.'" {
+    Assert following(tavi, party). }
+  Observe tavi_kell at green when following(tavi, party) "The boy from the valley has stopped at the trough with his mouth open. He's looking at the thirty houses, and at the dogs, and at the line of the hills, and at a tree.".
+}

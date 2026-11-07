@@ -1,5 +1,5 @@
 Module muster "The Long Muster's Road" {
-  Description "Sixty miles of broken Aenean road over the Hesper Fells, from Kell Ford to the valley of the Last Cohort.".
+  Description "Five days of broken Aenean road over the Hesper Fells, from Kell Ford to the valley of the Last Cohort.".
 
   Place fells "the Hesper Fells" is region within imbar.
   Place kell "Kell Ford" is settlement within fells at 0, 4.
@@ -120,17 +120,20 @@ Module muster "The Long Muster's Road" {
   Passage ledge_out "off the Ledge" is passage between ledge2 and octavius_hall taking 1 hour.
   // The third day.
   Passage via_in "the road to the Viaduct" is passage between octavius_hall and via_n taking 1 hour.
-  Passage via_parapet "the parapet" is passage between via_n and parapet taking 1 hour needing piton.
-  Passage via_parapet_out "the parapet, onward" is passage between parapet and via_s taking 1 hour.
-  Passage via_down "down the north pier" is ladder between via_n and river_n taking 1 hour needing rope.
+  Passage via_parapet "the parapet" is passage between via_n and parapet taking 1 hour
+    opening when lineFixed(party) "The parapet is a foot and a half of stone over four hundred feet of air, and there is no line on it."
+    opening when not lateSeason() "Snow has closed the fifth arch. Nothing crosses it until the thaw.".
+  Passage via_parapet_out "the parapet, onward" is passage between parapet and via_s taking 1 hour opening when not lateSeason() "Snow has closed the fifth arch. Nothing crosses it until the thaw.".
+  Passage via_down "down the north pier" is ladder between via_n and river_n taking 1 hour needing rope opening when not lateSeason() "Snow has closed the fifth arch. Nothing crosses it until the thaw.".
   Passage river_ford "the river" is ford between river_n and river_s taking 30 minutes.
   Passage via_up "up the south abutment" is ladder between river_s and via_s taking 1 hour needing climbing.
-  Passage rubble_in "down on to the fallen arch" is path between via_n and rubble taking 30 minutes.
+  Passage rubble_in "down on to the fallen arch" is path between via_n and rubble taking 30 minutes opening when not lateSeason() "Snow has closed the fifth arch. Nothing crosses it until the thaw.".
   Passage rubble_out "over the fallen arch" is path between rubble and via_s taking 1 hour needing climbing.
   Passage via_eagle "the road to the Eagle" is road between via_s and eagle taking 30 minutes.
   Passage bog_path "the bog path" is path between eagle and bog taking 20 minutes.
   Passage hollow_path "the way behind the fort" is path between eagle and hollow taking 20 minutes.
-  Passage ropeway "the Cohort's rope-way" is passage between via_n and via_s taking 20 minutes hidden until ropeway_known.
+  Passage ropeway "the Cohort's rope-way" is passage between via_n and via_s taking 20 minutes hidden until ropeway_known
+    opening when not lateSeason() or told_moll(party) "Snow has closed the fifth arch; the Cohort's rope-way hangs in it, iced.".
   // The fourth day.
   Passage pass_in "the road to the Pass" is road between eagle and pass_n taking 2 hours.
   Passage pass_through "the road through the road-house" is road between pass_n and roadhouse taking 20 minutes.

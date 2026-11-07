@@ -7,23 +7,23 @@ Module muster "The Long Muster's Road" {
   // beat is a question put to the player, and each ends differently by the answers: they may stay, go home, quit,
   // change the valley or die.
   Measure marraTrust(group). Measure fennTrust(group). Measure dunyaTrust(group). Measure ioneTrust(group).
-  Relation marraStaysCohort(group). Relation marraHome(group). Relation marraAngry(group).
-  Relation fennCredit(group). Relation fennTook(group). Relation fennGone(group). Relation fennNerve(group). Relation fennCrossed(group).
+  Relation marraStaysCohort(group). Relation marraHome(group). Relation marraAngry(group). Relation marraBoth(group).
+  Relation fennCredit(group). Relation fennPushed(group). Relation fennTook(group). Relation fennGone(group). Relation fennNerve(group). Relation fennCrossed(group). Relation fennPushed(group).
   Relation dunyaReported(group). Relation dunyaSilent(group). Relation dunyaDefected(group). Relation dunyaStaysKell(group). Relation dunyaHome(group).
   Relation ioneJoined(group). Relation ioneSafe(group). Relation ioneUnroped(group). Relation ioneFell(group). Relation ioneKeeper(group). Relation ioneHome(group).
 
   // ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
   // Marra Tellis. Beat 1: Septimus (ask). Beat 2: the Eagle (a mark). Beat 3: the Cohort (the apothecary's boy).
   Topic marra_jory with marra "Ask Marra what she is looking for on the far side" when travelsWith(marra, party) and been(party, septimus_hall) once {
-    Says "She takes a long time to say it. 'My brother Jory. He went over nine years since, at seventeen, on a dare from a Corrin, to see if the Eagle was a place. His name is on the reeve's board, at the bottom.' She looks at her hands. 'Would you want to know, if it were yours? That he was dead, I mean. If someone found a bone.'".
+    Says "She takes a long time to say it. 'My brother Jory. He went over nine years since, at seventeen, on a dare from a Pyke, to see if the Eagle was a place. His name is on the reeve's board, at the bottom.' She looks at her hands. 'Would you want to know, if it were yours? That he was dead, I mean. If someone found a bone.'".
   }
   Topic marra_jory_yes with marra "Say that you would want to know, whatever it was" answering marra_jory when true {
-    Says "'Aye,' she says. 'I thought you would.' It costs her something. 'Then you'll tell me straight, if you find anything.'".
+    Says "'Right,' she says. 'Then you'll tell me straight, if you find a bone.'".
     On discuss { Increase marraTrust(marra) by 1. }
   }
   Topic marra_jory_no with marra "Say that you would not, if you could do nothing about it" answering marra_jory when true {
-    Says "'No,' she says, after a pause. 'No, I thought so too.' She turns away. 'I'd not like to be told by a stranger anyway.' It is not what she wanted, and you can both hear that it was honest.".
-    On discuss { Assert marraAngry(party). }
+    Says "'No,' she says. 'No. Nor me.' She turns away. 'I'd not like to be told by a stranger anyway.' It was honest, and she is sore about it.".
+    On discuss { Decrease marraTrust(marra) by 1 or to nothing. }
   }
   Topic marra_jory_cheese with marra "Say nothing, and offer her some of your bread" answering marra_jory when true {
     Says "She takes the bread, looks at it, and eats it. 'You can shut up,' she says, not unkindly, 'which is more than most of Kell can.'".
@@ -34,11 +34,11 @@ Module muster "The Long Muster's Road" {
     Says "'That's his,' she says. 'He cut his J like that. He never could do a T.' Her voice is quite level. 'He was here. He got as far as here.' She does not look at you. 'What do I do now? Do I go on, or do I go home? You tell me. I don't know whose road this is.'".
   }
   Topic marra_on with marra "Tell her to come on: it is her brother's road too" answering marra_mark when true {
-    Says "'Aye,' she says. 'It is.' She shoulders the crook. 'I'll not stay behind a rock for a giant. Not now.'".
+    Says "'It is,' she says. She shoulders the crook. 'I'll not stay behind a rock for a giant. Not now.'".
     On discuss { Increase marraTrust(marra) by 2. }
   }
   Topic marra_home with marra "Tell her to go home: it is too far, and she has the goats" answering marra_mark when true {
-    Says "'The goats,' she says. 'Aye.' She puts her hand on the stone for a moment, and takes it off. 'I thought you'd say that. Someone always does.' She walks back along the road, alone, a goat on a lead, and does not look round.".
+    Says "'The goats,' she says. She puts a hand on the stone, and takes it off. She walks back along the road with a goat on a lead and does not look round.".
     On discuss { Assert marraHome(party). Assert marraAngry(party). Retract travelsWith(marra, party). Assert at(marra, eagle). }
   }
   Person jory "Jory Tellis" at apothecary {
@@ -46,18 +46,18 @@ Module muster "The Long Muster's Road" {
     Greets "A lanky young man of twenty-six with a pestle in one fist and an apron over a patched jerkin looks at you without any recognition at all, and says, in an accent that has been sanded flat by the Aenean of the valley: 'Salve. Can I help? We have a very little of everything.'".
   }
   Topic marra_found with marra "Show Marra the boy who sorts Dame Orsa's herbs" when travelsWith(marra, party) and been(party, apothecary) once {
-    Says "She does not go to him. She stands in the doorway of the herb-shop with her crook in her fist and says, quite flatly, the name of a Corrin goat. He turns. The pestle goes down on the counter very carefully. 'Marra?' he says. They look at each other across eleven hundred years of lamps. Then she crosses the room in two strides and hits him, quite hard, on the arm. 'Nine years,' she says. 'Nine years, you daft heap.' After a while he says: 'Do I come home?' She says: 'You tell me.' And then, to you, over his shoulder, quietly: 'Do I stay?'".
+    Says "She does not go to him. She stands in the doorway of the herb-shop with her crook in her fist and says the name of a Pyke goat. He turns. The pestle goes down on the counter. 'Marra?' he says. She crosses the room in two strides and hits him, hard, on the arm. 'Nine years,' she says. 'Nine years, you daft heap.' After a while he says: 'Do I come home?' She says: 'You tell me.' And then, to you, over his shoulder, quietly: 'Do I stay?'".
   }
   Topic marra_stay with marra "Say that she should stay: he has a life here, and so would she" answering marra_found when true {
-    Says "'Aye,' says Marra, and wipes her face with her sleeve. 'I thought you'd say. Someone has to be told, and it might as well be me.' She takes the crook off her shoulder and hangs it on the apothecary's peg. 'Tell my mother. Tell her the water's his as much as hers.'".
+    Says "'Right,' says Marra, and wipes her face with her sleeve. 'Someone's to tell Mother, and it might as well be me.' She takes the crook off her shoulder and hangs it on the apothecary's peg. 'Tell my mother. Tell her the water's his as much as hers.'".
     On discuss { Assert marraStaysCohort(party). Retract travelsWith(marra, party). Assert at(marra, apothecary). }
   }
   Topic marra_both with marra "Say that they should both go home, and tell Kell Ford what is here" answering marra_found when true {
-    Says "'Both,' she says. 'Aye.' She looks at Jory. 'He'd be a bad Cohort man. Too much Tell in him.' He laughs, and it is his father's laugh exactly. 'We'll come with you to the Viaduct,' says Marra. 'And then I'll take him home by the rope-way, and show Mother the boy.'".
-    On discuss { Increase marraTrust(marra) by 2. Assert marraHome(party). }
+    Says "'Both,' she says. She looks at Jory. 'He'd be a bad Cohort man.' He laughs, and it is his father's laugh. 'We'll come with you to the Viaduct,' says Marra. 'And then I'll take him home by the rope-way, and show Mother the boy.'".
+    On discuss { Increase marraTrust(marra) by 2. Assert marraBoth(party). }
   }
   Topic marra_pride with marra "Say it is their business and none of yours" answering marra_found when true {
-    Says "'It's not,' says Marra. 'It's not anyone's business. That's the point of it.' She puts the crook back on her shoulder. 'I thought you were a friend.' She walks out of the apothecary and does not come back, and Jory looks after her, and then at you, with an expression that you will remember.".
+    Says "'It's not,' says Marra. 'Not anyone's.' She puts the crook back on her shoulder. 'I thought you were a friend.' She walks out of the apothecary and does not come back, and Jory looks after her, and then at you, with an expression that you will remember.".
     On discuss { Assert marraAngry(party). Retract travelsWith(marra, party). Assert at(marra, forum). }
   }
 
@@ -69,22 +69,26 @@ Module muster "The Long Muster's Road" {
     Says "He is looking at the gap with the careful interest of a man looking at his own grave. 'I have drawn this from the north bank eleven times,' says Fenn Hallam. 'I have never gone on it. I did not tell you.' He swallows. 'I can do the arithmetic of a rope. I cannot make my feet do the arithmetic.' He glances at you. 'Will you think less of me, if I stay?'".
   }
   Topic fenn_easy with dray "Tell him no: half the road is turning back, and he is the one who drew it" answering fenn_nerve when true {
-    Says "'Half the road is turning back,' says Fenn, trying it. 'And I drew it.' A little colour comes into his face. 'I suppose a man who has measured the thing is under no further obligation to be killed by it.' He unbuckles his satchel. 'I'll go. At the back. Take my satchel; I'll want both hands.'".
-    On discuss { Increase fennTrust(dray) by 1. Assert fennNerve(party). }
+    Says "'Half the road is turning back,' says Fenn, trying it. 'And I drew it.' He gets some colour back. 'A man who has measured the thing isn't obliged to be killed by it.' He unbuckles the satchel. 'I'll go last. Take this; I want both hands.'".
+    On discuss { Increase fennTrust(dray) by 1. Assert fennCrossed(party). }
   }
-  Topic fenn_push with dray "Tell him that he will cross, or he will stay in Kell Ford and draw it for the rest of his life" answering fenn_nerve when true {
-    Says "He goes white, and then he goes grey, and then he goes, very stiffly, to the parapet. 'You're right,' he says in a thin voice. 'You're right and I hate you.' He crosses with his eyes shut, hand over hand along the line, and is sick on the far side, and does not speak to you for an hour.".
-    On discuss { Assert fennNerve(party). Assert fennCrossed(party). Decrease fennTrust(dray) by 1 or to nothing. }
+  Topic fenn_push with dray "Tell him that he will cross, or stay in Kell Ford drawing it for the rest of his life" answering fenn_nerve when true {
+    Says "He goes white, then grey, then goes to the parapet. 'You're right,' he says, thin. 'You're right and I hate you.' He crosses with his eyes shut, hand over hand, and is sick on the far side, and does not speak to you for an hour.".
+    On discuss { Assert fennCrossed(party). Assert fennPushed(party). Decrease fennTrust(dray) by 1 or to nothing. }
   }
+
   Topic fenn_stay with dray "Tell him to wait at the north head; you will send word by the rope-way" answering fenn_nerve when true {
-    Says "'Thank you,' says Fenn, with the gratitude of a man reprieved from a sentence. 'I shall draw the north pier.' He sits down on the paving with his back to the abyss and takes out his pencil. You leave him. His drawing of the pier, when you see it again, is the best thing he has ever done.".
-    On discuss { Retract travelsWith(dray, party). Assert at(dray, via_n). Assert fennGone(party). }
+    Says "'Thank you,' says Fenn, like a man reprieved. He sits down on the paving with his back to the gap and takes out his pencil. His drawing of the north pier, when you see it again, is the best thing he has done.".
+    On discuss { Retract travelsWith(dray, party). Assert at(dray, via_n). Assert fennNerve(party). }
   }
+  Rule fenn_comes_over when fennNerve(party) and at(party, via_s) and at(dray, via_n) and not fennCrossed(party) and (knows(party, ropeway_known) or lineFixed(party))
+    says "A small figure on the north head has begun to come across the fifth arch on the Cohort's rope-way, hand over hand, with a satchel on his back and his eyes shut. It takes him most of an hour." {
+    Assert at(dray, via_s). Assert fennCrossed(party). Assert travelsWith(dray, party). }
   Topic fenn_note with dray "Ask Fenn what he has found in the Eagle's wall" when travelsWith(dray, party) and been(party, eagle) once {
     Says "He has found, in a niche behind the gate-arch, the engineers' note: a copper plate, eleven lines, in the Itinerarium's hand, giving the span and the method for a rope-way across the fifth arch. He reads it aloud, and stops, and reads it again. 'I could put my name to this,' he says, in a small voice. 'No one has seen it for eleven hundred years. It's a better idea than any I've had. It would be called Hallam's Crossing.' He looks up. 'What would you do?'".
   }
   Topic fenn_credit with dray "Say it should be Thessaly Orde's, or the engineer's, whoever's it was: write down who" answering fenn_note when true {
-    Says "'The engineers are dead,' says Fenn, 'and Orde, I think, is a name on a stud.' He pauses. 'It would be more honest.' He takes out his pencil and writes, under the note, in a careful hand: FROM THE ENGINEERS OF THE LONG MUSTER. COPIED BY F. HALDANE. His mouth twists. 'It is a worse title.'".
+    Says "'The engineers are dead,' says Fenn, 'and Orde, I think, is a name on a stud.' He pauses. 'It would be more honest.' He takes out his pencil and writes, under the note, in a careful hand: FROM THE ENGINEERS OF THE LONG MUSTER. COPIED BY F. HALLAM. His mouth twists. 'It is a worse title.'".
     On discuss { Assert fennCredit(party). Increase fennTrust(dray) by 2. }
   }
   Topic fenn_take with dray "Say that he found it, he earned it, and no one will ever know" answering fenn_note when true {
@@ -92,49 +96,56 @@ Module muster "The Long Muster's Road" {
     On discuss { Assert fennTook(party). }
   }
   Topic fenn_survey with dray "Tell Fenn the Archivist will print the survey, and ask whose name goes on it" when travelsWith(dray, party) and been(party, archive) and (fennCredit(party) or fennTook(party)) once {
-    Says "Moll, who has been listening, puts down his pen. 'My press prints the Annals of a people who do not know they are in a story,' he says. 'I can print Hallam. I can print the Engineers. I cannot print a lie, because the Annals would remember it for eleven hundred years. Choose.' Fenn looks at the schola's pupils, who are tracing his map on the wall with chalk, and at Livia Veldt, who has drawn the Viaduct's fifth arch better than he did.".
+    Says "Fenwarden, who has been listening, puts down his pen. 'My press prints the Annals of a people who do not know they are in a story,' he says. 'I can print Hallam. I can print the Engineers. I cannot print a lie, because the Annals would remember it for eleven hundred years. Choose.' Fenn looks at the schola's pupils, who are tracing his map on the wall with chalk, and at Livia Veldt, who has drawn the Viaduct's fifth arch better than he did.".
   }
   Topic fenn_honest with dray "Tell him to put Livia Veldt's name beside his: she drew half of it" answering fenn_survey when true {
     Says "'Livia drew the arches,' says Fenn. His mouth works. 'I drew the road. Hallam and Veldt, then. Hallam first, because it is alphabetical, and I am weak.' Livia, who has understood nothing and everything, goes the colour of a poppy. 'The survey of the Long Muster's Road,' says Fenn, 'by two.'".
     On discuss { Assert fennCredit(party). Increase fennTrust(dray) by 1. }
   }
   Topic fenn_alone with dray "Tell him it is his survey, and the Archive may do as it likes with the credit" answering fenn_survey when true {
-    Says "'It is my survey,' says Fenn, and sits up. 'Mine. All of it.' He takes the sheets, rolls them, and tucks them in his coat, and Moll watches him go with the look of a man who has been told a joke he cannot repeat. In the morning the surveyor's bed is made, and the satchel and the Archive's copy of the Itinerarium are gone south by the Descent.".
+    Says "'Mine,' says Fenn, and sits up. He takes the sheets and rolls them. Fenwarden watches him do it. In the morning the surveyor's bed is made, and the satchel and the Archive's copy of the Itinerarium are gone down the Descent.".
     On discuss { Assert fennGone(party). Retract travelsWith(dray, party). Assert at(dray, descent). }
   }
-  Observe fenn_credit_wall at schola when fennCredit(party) "On the wall of the schola, over the chalked map, a board: THE ROAD OF THE LONG MUSTER, SURVEYED BY F. HALDANE AND L. VELDT, FROM THE ENGINEERS' NOTES. Fenn Hallam has not been able to look at it for more than a moment at a time.".
+  Observe fenn_credit_wall at schola when fennCredit(party) "On the wall of the schola, over the chalked map, a board: THE ROAD OF THE LONG MUSTER, SURVEYED BY F. HALLAM AND L. VELDT, FROM THE ENGINEERS' NOTES. Fenn Hallam has not been able to look at it for more than a moment at a time.".
 
   // ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
   // Dunya, scout of the First Century. Beat 1: Kell Ford. Beat 2: the head of the Descent, on the way back. Beat 3: Kell again.
-  Topic dunya_kell with dunya "Ask Dunya what she sees in Kell Ford" when travelsWith(dunya, party) and at(party, green) once {
-    Says "She stands at the trough with her hands behind her back, in her legion's pose. 'It's small,' she says. 'Thirty houses, a trough, a board, a boy with a dog. I was told there would be a sea.' She looks at it for a long time. 'The Sending goes to the Eagle every spring for eleven hundred years, and there were people here the whole time, a day and a half beyond it, with a trough.' She turns. 'Is it enough? Is it a place?'".
+  Topic dunya_kell with dunya "Ask Dunya what she sees in Kell Ford" when travelsWith(dunya, party) and at(party, green) and been(party, pass_s) once {
+    Says "She stands at the trough with her hands behind her back. 'It's small,' she says. 'Thirty houses, a trough, a board, a boy with a dog. I was told there'd be a sea.' She looks at it. 'People were here all the time. Five days past the Eagle and the lamp-end of the road, with a trough.' She turns. 'Is it enough? Is it a place?'".
   }
   Topic dunya_enough with dunya "Say that it is enough: it is where people are" answering dunya_kell when true {
-    Says "'Aye,' says Dunya. She touches the trough, flat-handed, as she would the flank of a horse. 'People are. I'd forgotten that was the point of a road.' Her stiffness goes out of her by a degree, and Maud Hennick, in the inn door, offers her a bowl of something hot.".
+    Says "'Yes,' says Dunya. She touches the trough, flat-handed, as she would the flank of a horse. 'People are. I'd forgotten that was the point of a road.' Her stiffness goes out of her by a degree, and Maud Hennick, in the inn door, offers her a bowl of something hot.".
     On discuss { Increase dunyaTrust(dunya) by 2. }
   }
   Topic dunya_small with dunya "Say that it is small, and the Cohort is the greater place" answering dunya_kell when true {
-    Says "'Aye,' says Dunya, stiff again, 'it is.' She does not look at the houses. 'I have always said the Cohort was the greater place. It is good to have a witness.' She drinks Maud's soup and does not taste it.".
+    Says "'Yes,' says Dunya, stiff again. 'It is.' She does not look at the houses. 'I have always said the Cohort was the greater place. It is good to have a witness.' She drinks Maud's soup and does not taste it.".
     On discuss { Decrease dunyaTrust(dunya) by 1 or to nothing. }
   }
-  Topic dunya_marcus with dunya "Ask Dunya who the men at the head of the Descent are" when travelsWith(dunya, party) and at(party, pass_s) and tolerates(deserters, party) once {
+  Topic dunya_marcus with dunya "Ask Dunya who the men at the head of the Descent are" when travelsWith(dunya, party) and at(party, pass_s) once {
     Says "She has not taken her eyes off Marcus since the turn of the road. 'The tall one's Marcus Merula,' she says. 'He was my century-mate. We drew the lot together. Mine was the draw before his.' She breathes. 'He took the pouch that spring and he did not come back, and the Centurion said he was dead at the Eagle, and she wept for a month. He's not dead.' She looks at you. 'Do I report him? I am a scout of the First Century. It is my duty.'".
   }
   Topic dunya_report with dunya "Tell her that duty is duty, and that his mother is owed the truth" answering dunya_marcus when true {
-    Says "'Aye,' says Dunya, softly. 'She is.' She goes to Marcus, and they talk for a quarter of an hour on the boulder, with their heads close. When she returns her face is wet. 'I'll tell the Centurion. Not that he's a deserter. That he's alive.'".
+    Says "'She is,' says Dunya. She goes to Marcus, and they talk for a quarter of an hour on the boulder, with their heads close. When she returns her face is wet. 'I'll tell the Centurion. Not that he's a deserter. That he's alive.'".
     On discuss { Assert dunyaReported(party). Increase dunyaTrust(dunya) by 1. }
   }
   Topic dunya_silent with dunya "Tell her to say nothing: they have made their choice, and it is theirs" answering dunya_marcus when true {
-    Says "'Nothing,' she says. 'Aye.' She does not sound sure. 'I'll say nothing. I'll carry it, like the Sending.' She follows you down the Descent with her eyes on her boots.".
+    Says "'Nothing,' she says. She does not sound sure. 'I'll say nothing. I'll carry it, like the Sending.' She follows you down the Descent with her eyes on her boots.".
     On discuss { Assert dunyaSilent(party). }
   }
   Topic dunya_join with dunya "Tell her that she could stay with them, and no one would know" answering dunya_marcus when true {
-    Says "Dunya looks at the boulder, and the seven men, and the long road down. 'I could,' she says. 'It would be a thing to be: free of the lot.' She puts down her pack. 'Tell the Centurion I took the Pass for my century. Tell her I am where I am needed.' She goes up the slope, and Marcus gets down off his boulder, and they clasp wrists, and she does not look back.".
+    Says "Dunya looks at the boulder and the seven men. 'I could,' she says. She puts down her pack. 'Tell the Centurion I took the Pass for my century. Tell her I am where I am needed.' She goes up the slope, and Marcus gets down off his boulder, and they clasp wrists, and she does not look back.".
     On discuss { Assert dunyaDefected(party). Retract travelsWith(dunya, party). Assert at(dunya, pass_s). }
   }
-  Topic dunya_stay with dunya "Ask Dunya whether she means to go back to the Cohort, now that she has seen the Ford" when travelsWith(dunya, party) and at(party, green) and dunyaTrust(dunya) >= 2 once {
-    Says "'Back,' says Dunya. 'I was sent to see. I have seen. I should report.' She looks at the trough. 'I would like to be a scout of something that has a use. I think I would like to be a scout between the two. A road with a scout at each end.' She turns. 'May I stay a season, and carry word?'".
+  Topic dunya_stay with dunya "Ask Dunya whether she means to go back to the Cohort, now she has seen the Ford" when travelsWith(dunya, party) and at(party, taproom) and been(party, green) and dunyaTrust(dunya) >= 2 once {
+    Says "She turns her bowl a quarter-turn. 'I was sent to see. I have seen. I should report.' She looks at the fire. 'Or I could be a scout between the two ends. A road wants one at each.'".
+  }
+  Topic dunya_stay_here with dunya "Tell her to stay a season and carry word between them" answering dunya_stay when true {
+    Says "'A season,' says Dunya. She almost smiles. 'Maud will want the table.' She takes her pack off.".
     On discuss { Assert dunyaStaysKell(party). Retract travelsWith(dunya, party). Assert at(dunya, taproom). }
+  }
+  Topic dunya_go_home with dunya "Tell her to go back and report what she has seen" answering dunya_stay when true {
+    Says "'Yes,' says Dunya. 'The Centurion.' She stands and puts on her cloak. By morning there is a wheel scratched on the doorpost of the Last Fire, and a cleared plate.".
+    On discuss { Assert dunyaHome(party). Retract travelsWith(dunya, party). Assert at(dunya, causeway3). }
   }
 
   // ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -150,22 +161,22 @@ Module muster "The Long Muster's Road" {
     Says "'That a road is a promise,' says Ione. 'That the one who made it meant it to be walked. That the walking is the prayer and the arriving the answer.' She smiles. 'And you? I am asked it at every fire. It is a courtesy. Do you believe in him?'".
   }
   Topic ione_yes with ione "Say that you do, a little, the way you believe in weather" answering ione_faith when true {
-    Says "'That is the right amount,' says Ione, much pleased. 'Weather is humbling.' She falls in at your heel with her bell.".
-    On discuss { Increase ioneTrust(ione) by 1. Assert ioneJoined(party). }
+    Says "'That is the right amount,' says Ione, much pleased. 'Weather is humbling.' She falls in at your heel.".
+    On discuss { Increase ioneTrust(ione) by 1. Assert ioneJoined(party). Assert travelsWith(ione, party). }
   }
   Topic ione_no with ione "Say that you do not: you believe in rope, and in a good boot" answering ione_faith when true {
     Says "'Boots are the first article of the faith,' says Ione, unoffended. 'You only fail to give thanks.' She looks at your pack. 'I shall pray for the rope.'".
-    On discuss { Assert ioneJoined(party). }
+    On discuss { Assert ioneJoined(party). Assert travelsWith(ione, party). }
   }
   Topic ione_road with ione "Say that you believe in the road, whoever made it" answering ione_faith when true {
-    Says "'Ah,' says Ione, and her whole face changes. 'That is the heresy and the heart of it.' She puts a hand on your sleeve. 'Come. I think we shall be friends.'".
-    On discuss { Increase ioneTrust(ione) by 2. Assert ioneJoined(party). }
+    Says "'That is the heresy,' says Ione, 'and the heart of it.' She puts a hand on your sleeve. 'Come.'".
+    On discuss { Increase ioneTrust(ione) by 2. Assert ioneJoined(party). Assert travelsWith(ione, party). }
   }
   Topic ione_rope with ione "Ask Sister Ione whether she will take the line over the parapet" when travelsWith(ione, party) and at(party, via_n) once {
     Says "She looks at the pitons, and the rope, and the gap. 'A rope is a hand that is not a god's,' she says. 'Viator carries those who walk the stones he made. I shall cross unroped.' She is perfectly serene, and perfectly immovable. 'You will think me a fool. I should like you not to stop me.'".
   }
   Topic ione_agree with ione "Say that you will not stop her, and that you will go behind" answering ione_rope when true {
-    Says "'Thank you,' says Ione. She goes out on the parapet with her staff in front of her and the little lead bell ringing, one step, one ring, one step. Behind her the wind comes up the gap.".
+    Says "'Thank you,' says Ione. She goes out on the parapet with her staff in front of her and the lead bell ringing, one step, one ring. Behind her the wind comes up the gap.".
     On discuss { Assert ioneUnroped(party). }
   }
   Topic ione_argue with ione "Argue that a god who made stone also made the hands that drive pitons" answering ione_rope when true {
@@ -176,16 +187,19 @@ Module muster "The Long Muster's Road" {
     Says "'You will not command me,' says Ione. 'But I will go back.' She picks up her staff and goes, without anger, along the road you came by, her bell ringing smaller and smaller. 'I am sorry,' she says, over her shoulder. 'I am sorry to be so very sure.'".
     On discuss { Retract travelsWith(ione, party). Assert at(ione, octavius_hall). Assert ioneHome(party). }
   }
-  Rule ione_resolves when ioneUnroped(party) and not ioneSafe(party) and not ioneFell(party) and travelsWith(ione, party) {
-    Assert ioneSafe(party). }
-  Rule ione_falls_rule when ioneUnroped(party) and at(party, parapet) and travelsWith(ione, party) and dice(clock) <= 45 and not ioneFell(party) and not ioneSafe(party)
-    says "The wind comes up the gap in a single shove, from the open side, and the bell goes. It rings once more, a long way down, and then it does not." {
-    Assert ioneFell(party). Slay ione. }
+  Relation ioneRolled(group).
+  Rule ione_falls_rule when ioneUnroped(party) and at(party, parapet) and travelsWith(ione, party) and not ioneRolled(party) and dice(clock) <= 40
+    says "The wind comes up the gap in one shove, from the open side, and the bell goes. It rings once more, a long way down, and then it does not." {
+    Assert ioneRolled(party). Assert ioneFell(party). Slay ione. }
+  Rule ione_steady_rule when ioneUnroped(party) and at(party, parapet) and travelsWith(ione, party) and not ioneRolled(party) and dice(clock) > 40
+    says "The wind comes up the gap and finds her, and she stops, and the bell rings very fast, and she goes on." {
+    Assert ioneRolled(party). }
+  Rule ione_crosses when ioneRolled(party) and not ioneFell(party) and at(party, via_s) and not ioneSafe(party) { Assert ioneSafe(party). }
   Topic ione_stone with ione "Ask Sister Ione what she will do now she has seen the last stone" when travelsWith(ione, party) and at(party, forum) once {
     Says "She is kneeling at the foot of the stone that says I, with her cheek against it. 'It is smooth,' she says. 'Nothing after.' She sits back on her heels. 'I have walked from the sea for three years to kiss the last stone of a road that says there is no more. And there is a valley, and two thousand people, and a god's name nobody remembers.' She looks at you. 'What would he have me do?'".
   }
   Topic ione_keep with ione "Say that the valley wants a shrine, and a keeper who knows the old words" answering ione_stone when true {
-    Says "'A keeper,' says Ione, as one hears a name. She lays her staff across her knees and takes the lead bell off it, and hangs it on the stone. 'Then I shall be it. Someone ought to say the words for those who come in.' It rings, once, in the draught. It is the first bell the valley has heard in a thousand years that was not a horn.".
+    Says "'A keeper,' says Ione, as one hears a name. She lays her staff across her knees and takes the lead bell off it, and hangs it on the stone. 'Then I shall be it. Someone ought to say the words for those who come in.' It rings, once, in the draught. It is the first bell in the valley that is not a horn.".
     On discuss { Assert ioneKeeper(party). Retract travelsWith(ione, party). Assert at(ione, forum). }
   }
   Topic ione_go with ione "Say that the road has two ends, and the other one needs her" answering ione_stone when true {

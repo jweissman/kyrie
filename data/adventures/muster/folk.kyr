@@ -45,7 +45,7 @@ Module muster "The Long Muster's Road" {
     Greets "Maud Hennick looks at your boots, and your packs, and the number of you. 'You've the look,' she says. 'Soft. Sit down and eat before you start, you'll not get a hot meal for five days.'".
   }
   Topic maud_road with maud "Ask Maud about the road" when true {
-    Says "'It's the legion's road,' says Maud. 'Eleven thousand went over it and ten thousand came down the other side, if you believe the beams. It's sixty miles to the Eagle and then it's the Pass and then it's nobody. We send nobody. Every spring somebody's grandmother puts a lamp in the window, and I put one in the inn.'".
+    Says "'It's the legion's road,' says Maud. 'Eleven thousand went over it and ten thousand came down the other side, if you believe the beams. It's five days' miles to the Eagle and then it's the Pass and then it's nobody. We send nobody. Every spring somebody's grandmother puts a lamp in the window, and I put one in the inn.'".
     On discuss { Assert knows(actor, cohort_known). }
   }
 

@@ -1,14 +1,15 @@
 Module muster "The Long Muster's Road" {
   // ── Where each of them is left, and what the road remembers of what was said ───────────────────────────────────
   Observe end_marra_stays at apothecary when marraStaysCohort(party) "A goatherd's crook hangs on a peg behind the counter, polished by forty years of Tellis hands, and a young woman in a stranger's apron is teaching a lanky boy the Kell Ford word for thyme.".
-  Observe end_marra_home at eagle when marraHome(party) and not marraStaysCohort(party) "By the gate-arch somebody has put a heap of small stones under the letters J.T., one for each year. There are nine, and a tenth, new.".
-  Observe end_marra_angry at green when marraAngry(party) "The goat-track from the trough is empty, and the board has a new line pinned under the others in an angry hand: M.T., GONE OVER. NOT TO BE ASKED AFTER.".
+  Observe end_marra_home at eagle when marraHome(party) "By the gate-arch somebody has put a heap of small stones under the letters J.T., one for each year. There are nine, and a tenth, new.".
+  Observe end_marra_angry at green when marraAngry(party) and not travelsWith(marra, party) "The goat-track from the trough is empty, and the board has a new line pinned under the others in an angry hand: M.T., GONE OVER. NOT TO BE ASKED AFTER.".
   Observe end_fenn_gone at via_n when fennGone(party) "A neat drawing of the north pier is pinned under a stone on the paving, with every course of masonry numbered and a margin note: DRAWN WITH GRATITUDE FROM THE SAFE SIDE.".
-  Observe end_fenn_nerve at via_s when fennCrossed(party) and not fennNerve(party) "Fenn Hallam sits on the south abutment with his head between his knees, drawing nothing, and does not look up.".
+  Observe end_fenn_nerve at via_s when fennPushed(party) "Fenn Hallam sits on the south abutment with his head between his knees and a sick-stain on his coat, drawing nothing.".
+  Observe end_fenn_trust at forum when fennTrust(dray) >= 3 and fennCredit(party) "Fenn Hallam is on the forum steps with his sheets and three of the schola's children, explaining where the credit goes.".
   Observe end_dunya_report at barracks when dunyaReported(party) "The Centurion and her scout stand a little apart at the end of the yard, and the Centurion has her hand flat over her mouth.".
   Observe end_dunya_silent at descent when dunyaSilent(party) "Someone has laid a heap of three small stones at the head of the Descent, where the men in patched red watch the road. Dunya of the First Century does not pass them without looking up.".
   Observe end_dunya_defected at pass_s when dunyaDefected(party) "Beside the tall man with the bow a woman in a scout's cloak sits cleaning a spear. She raises a hand to you, once, as to a fellow traveller on the same road, going the other way.".
-  Observe end_dunya_kell at taproom when dunyaStaysKell(party) "A scout of the First Century sits in the corner of the Last Fire eating Maud Hennick's stew with great concentration and a map on the table, and has already, it seems, been taught three card games.".
+  Observe end_dunya_kell at taproom when dunyaStaysKell(party) "A scout of the First Century is in the corner of the Last Fire with a bowl of Maud Hennick's stew and a map on the table. She has been taught three card games and has lost at all of them.".
   Observe end_ione_home at gallery1 when ioneHome(party) "A grey staff with a lead bell is leaning in the niche of Viator. The dish is full of boot-nails. The lamp, which was out, is lit.".
   Observe end_ione_fell at via_n when ioneFell(party) "On the parapet, a handspan from the edge, a little lead bell lies on its side. It does not ring. The wind goes over it.".
 
@@ -28,4 +29,19 @@ Module muster "The Long Muster's Road" {
   Milestone m_sappers "found the unnumbered mile's dead" worth 200 when graveDug(party).
   Milestone m_widow "paid the wolf-widow" worth 200 when pelt_laid(party).
   Milestone m_companion "kept faith with one who walked with you" worth 300 when marraStaysCohort(party) or marraHome(party) or fennCredit(party) or dunyaReported(party) or dunyaStaysKell(party) or ioneKeeper(party) or ioneSafe(party) or ioneJoined(party) or ioneTrust(ione) >= 3 or fennTrust(dray) >= 3.
+  Rule jory_comes when marraBoth(party) and at(party, green) and at(jory, apothecary)
+    says "A lanky young man in a patched jerkin is standing at the trough with a bundle, looking at thirty houses with his mouth open. A woman with a crook is walking up the lane to meet him. Neither of them says anything. The goats do." {
+    Retract at(jory, apothecary). Assert at(jory, green). }
+  Rule delegation_met when at(party, green) and at(delegates, green) and not delegationCame(party) { Assert delegationCame(party). }
+  Observe end_pouch_gate at forum when foundPouch(party) "A boy in the forum is carrying a sun-bleached pouch to the Praetorium at a run, holding it out in front of him like a lit lamp.".
+  Observe end_dunya_home at causeway3 when dunyaHome(party) "A wheel is scratched on the guard-post's lintel, new, in a hand that is used to it. Under it, a tally of one.".
+  Milestone m_lore "carried the valley's history out of the valley" worth 200 when knows(party, school_changes) or knows(party, spring_pact) or knows(party, forgery_known) or knows(party, brass_known) or knows(party, two_sendings_known) or knows(party, viator_told).
+  Milestone m_tavi "took a boy south" worth 200 when following(tavi, party).
+
+  // The endings of a crossing: it is not decided by a verdict.
+  Ending ending_turned "Turned Back at the Viaduct" when lateSeason() and not been(party, via_s) and at(party, octavius_hall) "The snow came down on the ninth day with the Viaduct still a white line ahead. You turned at Octavius, with what you had, and the sound of the wind in the vault. The road will be there in the spring. It is good at that.".
+  Ending ending_boy "A Boy Follows You South" when been(party, forum) and at(party, green) and following(tavi, party) and (dispatchSent(party) or not dispatchTaken(party)) "You came down to the trough at Kell Ford with a boy eleven years old and a loaf, and he stood by the water for a long time looking at a tree. Maud Hennick says he can have the loft. Nobody has asked him what the Cohort is, and he has not said.".
+  Ending ending_fewer "With One Fewer" when been(party, forum) and at(party, green) and not following(tavi, party) and not delegationCame(party) and (dispatchSent(party) or not dispatchTaken(party)) and (ioneFell(party) or marraStaysCohort(party) or fennGone(party) or dunyaDefected(party) or ioneKeeper(party) or dunyaStaysKell(party)) "You came back to the Ford one fewer than you left it, and the board has a line to write, or not. The reeve asks where the other one is. You tell him. He writes it down.".
+  Ending ending_left "The Cohort Reached and Left" when been(party, forum) and at(party, green) and not following(tavi, party) and not delegationCame(party) and (dispatchSent(party) or not dispatchTaken(party)) and not ioneFell(party) and not marraStaysCohort(party) and not fennGone(party) and not dunyaDefected(party) and not ioneKeeper(party) and not dunyaStaysKell(party) "You came back down the legion's road to a ford and a trough and a lamp in a window. You told some of it, or none. Maud Hennick asks whether it is as they say. You say it is a town. She says she supposed so.".
+  Ending ending_rider "A Single Rider" when dispatchSent(party) and delegationCame(party) and at(party, green) "On the first day of spring the lamp in Maud Hennick's window is lit, and a single rider comes down the north road in a red cloak, and stops at the trough, and does not know what to say. Nor does the reeve. The rider says, in the plain tongue, with an accent: 'We were told to answer.'".
 }

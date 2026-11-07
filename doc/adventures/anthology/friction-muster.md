@@ -14,3 +14,13 @@
 10. **Lint advice about write-only facts** pushed every companion and answer flag to be read somewhere: the `endings.kyr` Observes exist partly to satisfy it, and partly because a flag nobody reads is a consequence nobody sees.
 11. **A Thing's description does not change by who is looking**: a place shows its blocking state text after the creature is placated (owlbear, slump in Tallow; the giant here).
 12. **Shell restrictions in worktree agents**: compound commands (heredocs piped into `python3`, `source`-like strings) are refused; files had to be made with the Write tool and run singly.
+
+## The second pass
+
+13. **Answering topics can be written to feel like interaction and be monologues.** Fifty were; the review found them flags read by one Observe. Fixed by making answers open or close other topics (the Archive's years, Orsa's secret, the pardon). The authoring surface does not say which answers gate.
+14. **`Ending` fires the moment its condition holds**, closing the page; the dispatch had to be held back by the ending's own condition so the last topic stayed reachable.
+15. **`opening when` can close a passage in both directions**; there is no way to close only the return. The deadline closes the way out as well as in, which is the point, and the cost of testing it.
+16. **A rule's `dice(clock)` is a different die at every watch**: an unroped fall needed two exclusive rules and a latch, not one roll.
+17. **A `Seen when` person with `Buys` is the only way to gate a purchase** on what the player has said.
+18. **The corpus-wide surname check** again cost three renames (Corrin to Pyke, Marcia to Ursa, Moll's real name used in text).
+19. **Worktrees and patches**: tens of multi-line replacements were done by script with a "missing" report; three missed silently on first run because the text had been edited in between.

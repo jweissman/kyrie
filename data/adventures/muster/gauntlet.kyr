@@ -1,0 +1,40 @@
+Module muster "The Long Muster's Road" {
+  // ── What the road costs ───────────────────────────────────────────────────────────────────────────────────────
+  // A crossing, not a string of toll-booths. Pitons and rope are spent when they are used. Hunger bites at noon.
+  // The season turns on the ninth day and the fifth arch closes in both directions. The weather can be read from
+  // the heights. And a company that goes back loses what it carried up: the line, the days, the rope.
+  Relation lineFixed(group). Relation hungerToday(group). Relation boyHome(group). Relation ateBread(group).
+  Query lateSeason() means day(clock) >= 9.
+  Hazard hunger_pangs "A day without food on the fell" means "Deal (1d6) physical damage to ally unless constitution save against (13).".
+  Rule hunger_bites when hungry(party) and hour(clock) == 12 and not hungerToday(party) and not within(party, kell)
+    { Assert strikes(hunger_pangs, party). Assert hungerToday(party). }
+  Rule hunger_resets when hungerToday(party) and hour(clock) >= 14 { Retract hungerToday(party). }
+
+  Action rig_parapet(actor: group, site: place) "Drive a piton into the parapet and rig a line over the gap with a coil of rope" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, via_n) and holding(actor, piton) and holding(actor, rope) and not lineFixed(actor) and not lateSeason().
+    Time 6.
+    Resolve check(actor, climbing, dc_fair).
+    On success { Spend piton from actor. Spend rope from actor. Assert lineFixed(actor). }
+    Result "It takes three tries to find a crack that holds. The piton rings home, and the rope goes out over four hundred feet of air to the second, and the line sings in the wind like a plucked string. Nothing you carry will cross without it now, and nothing you used to carry is left to use anywhere else.".
+    Otherwise "The crack takes the piton, and spits it. The piton goes down into the gap and does not make a sound.".
+  }
+  Observe late_snow_via at via_n when lateSeason() "Snow has come to the Viaduct in the night. The parapet is a white line, and the gap beyond it is white, and nothing crosses until the thaw.".
+  Observe late_snow_octavius at octavius_hall when lateSeason() "The vault leaks snow-water down the wall in a line of icicles. In the lee of the rock a pack-mule's bones are already white to the knee.".
+
+  // Weather you can read from the heights.
+  Observe sky_high_snow at high1 when state(sky, snow_sky) "Snow blows across the High Road in long flat ribbons, and the peaks beyond the next shoulder have gone.".
+  Observe sky_high_wind at high1 when state(sky, wind_sky) "The wind lays the heather flat and takes the breath out of your mouth. Nothing is in the air. Nothing could be.".
+  Observe sky_high_thaw at high1 when state(sky, thaw_sky) "Every rock on the fell is running with water, and the whole slope talks.".
+  Observe sky_ledge_snow at ledge1 when state(sky, snow_sky) "A line of clean white runs along the Ledge, unbroken, and a goat on the far buttress is watching it with the look of someone who has been told.".
+  Observe sky_via_wind at via_n when state(sky, wind_sky) "The wind comes up the gap in gusts that move the rust-red birds on the parapet one block along.".
+  Observe sky_via_thaw at via_n when state(sky, thaw_sky) "Far below, the river is the colour of tea and the noise of it comes up through the stone.".
+  Observe sky_eagle_snow at eagle when state(sky, snow_sky) "Snow is drifting into the roofless fort in a long tongue from the gate-arch, over the courier-pouches.".
+  Observe sky_pass_snow at pass_n when state(sky, snow_sky) "The notch is full of driven snow. The marmots are gone to ground and the giant's smoke goes up straight, which means there is nothing in the sky to bend it.".
+
+  // The oxen stop at noon and the marmots empty the slope when the giant wakes: both are readable.
+  Relation giantAwakeSeen(group).
+  Rule marmots_see when at(party, pass_n) and not dark() and not giantAwakeSeen(party)
+    says "The marmots whistle once, and again, and are gone: a slope of dived holes and a few shaken stones." { Assert giantAwakeSeen(party). }
+  Rule marmots_calm when dark() and giantAwakeSeen(party) { Retract giantAwakeSeen(party). }
+  Query giantAwake() means not dark().
+}

@@ -1,5 +1,5 @@
 Module muster "The Long Muster's Road" {
-  // ── The valley by the hour: bugles, bread, salt and the Tally ──────────────────────────────────────────────────
+  // ── The valley by the hour: horns, bread, salt and the Tally ──────────────────────────────────────────────────
   // The valley keeps the legion's hours. Reveille at the sixth, the parade at the standard at the fourth hour of the
   // day, the noon call at which the salt-oxen stop where they are, the evening call at which the lot is drawn once a
   // year and the watch is set every year of the year, and the last watch at the twenty-second hour. The smell is of
@@ -11,7 +11,7 @@ Module muster "The Long Muster's Road" {
   Observe noon_call at forum as sound when hour(clock) >= 12 and hour(clock) < 13 "The noon call: three notes held. Every salt-ox in the forum stops where it stands, with its sled half out of the lane, and will not be moved by a goad or a bribe until the last note has died.".
   Observe evening_call at wall_walk as sound when hour(clock) >= 18 and hour(clock) < 19 "The evening call from the wall: two long and two short. The Cohort turns, wherever it is, towards the north, and for the space of a held breath nobody speaks. Then somebody laughs, and the day goes on.".
   Observe last_watch at wall_walk as sound when hour(clock) >= 22 and hour(clock) < 23 "The last watch is set to a single note, low, from a bronze buccina older than the town. Down in the valley a dog sings back, and a sentry says something in a language that has had no children for a thousand years.".
-  Observe parade_scene at forum when hour(clock) >= 10 and hour(clock) < 11 "The parade at the standard. Every soul in the forum, from the Prefect to the boy with the bucket, has stopped and turned and brought a fist to the breast. A girl of ten, at the front of the schola's line, is crying without embarrassment. Nobody looks at her. It is the most beautiful thing you have seen anyone do.".
+  Observe parade_scene at forum when hour(clock) >= 10 and hour(clock) < 11 "The parade at the standard. Everyone in the forum, the Prefect to the boy with the bucket, stops, turns and brings a fist to the breast. A girl of ten at the front of the schola's line is crying. Nobody looks at her.".
   Observe forum_ox at forum when true "A salt-ox stands in the lane by the well with a sled, broad as a door, its horns capped in bronze, a white blaze down its face. It has the absolute serenity of an animal that has not been wrong about the hour in its life.".
 
   Person oxen "the salt-oxen" at forum {
@@ -24,22 +24,23 @@ Module muster "The Long Muster's Road" {
     Sells rations for 1 coin from 20.
     Greets "A woman built like a gate-post, dusted white from hair to boots, turns a loaf out of its tin and holds it under your nose before you have spoken. 'Buccellatum,' she says. 'Twice-cooked, cumin, eleven hundred years of it. The Muster's recipe. Never improved. Never needed it.' You eat. It is, you discover, the best bread you have ever tasted, and you do not understand why.".
   }
-  Observe pistrina_scene at pistrina when true "The pistrina is a long domed oven-house with six mouths, each fired by a boy, and the whole room smells of cumin, hot flour and scorched crust. The loaves come out in rows, each stamped with a wheel, each exactly the same weight. A tablet on the wall gives the day's baking in numerals and a column headed THE SENDING, in which a single loaf is ruled off.".
+  Observe pistrina_scene at pistrina when true "The pistrina is a long domed oven-house with six mouths, each fired by a boy, and the whole room smells of cumin, hot flour and scorched crust. The loaves come out in rows, each stamped with a wheel, each exactly the same weight. A tablet on the wall gives the day's baking in numerals and a column headed THE SENDING, with a single loaf ruled off in it.".
   Topic octa_recipe with octa "Ask the baker why the bread tastes as it does" when true {
     Says "'Because it is the Muster's,' says Octa. 'And because nobody has ever dared to change a grain. The yeast is older than the Cohort. My great-grandmother's grandmother kept it alive in a pot in the plague winter by keeping it against her skin.' She cuts a heel. 'There was a year the flour was bad and the bread was bad and the Eagles said it was a judgment. The Hearth said it was the flour.' She butters it. 'It was both. It generally is.'".
+    On discuss { Assert ateBread(party). }
   }
 
   // ── The schola: the March, by heart ───────────────────────────────────────────────────────────────────────────
-  Person veldt "Marcia Veldt" at schola {
+  Person veldt "Ursa Veldt" at schola {
     Role "schoolmistress of the Cohort". Ancestry human. Pronouns she. Manner compassionate. Peaceable.
-    Greets "A thin woman with ink to the wrist stands before forty children on benches, a tablet in her hand. 'The Eleventh Day of the March,' she says, and the benches answer together, high and flat, like geese: 'The Mansio Septimus. The Sixth Cohort lay in the hall. Sixty days unpaid.' She lifts a finger. 'Again. With the pay, this time.'".
+    Greets "A thin woman with ink to the wrist stands before forty children on benches, a tablet in her hand. 'The twenty-ninth day of the March,' she says, and the benches answer together, high and flat: 'The Mansio Septimus. The Sixth Cohort lay in the hall. A hundred and forty days unpaid.' She lifts a finger. 'Again. With the pay.'".
   }
   Observe schola_scene at schola when true "A long room of benches, wax tablets and a map on the wall that is wrong in a way you cannot at first place: the road goes from the gate northward to a great sea, and between the Eagle and the sea there is a single word: HOME. The children recite the March each morning, a day for each day of the road, so that none of them will forget the names of the places they have never seen.".
   Topic veldt_march with veldt "Ask the schoolmistress what the children recite" when true {
-    Says "'The March,' says Marcia Veldt. 'Thirty-three days from the sea to the Eagle, the places and the pay. They learn it at five and it is the first thing they can say.' She smiles a little. 'It is also the cleverest thing the Muster did. They gave a lonely people a long poem, so that they would always have something to be ahead of.'".
+    Says "'The March,' says Ursa Veldt. 'Thirty-three days from the sea to the Eagle, the places and the pay. They learn it at five and it is the first thing they can say.' She shrugs. 'It's long, so there's always more of it ahead.'".
   }
   Topic veldt_rufus with veldt "Tell the schoolmistress that Rufus's scratches say they waited" when knows(actor, rufus_3) and knows(actor, rufus_4) once {
-    Says "She lowers the tablet, and the forty children go quiet in a way they have not been taught. 'We say, the Sixth Cohort lay in the hall,' she says. 'We say nothing of the rest. I have taught for thirty years the sixty days and never the hundred and twenty.' She looks at the wall. 'I think I shall add a day.'".
+    Says "She lowers the tablet, and the forty children go quiet in a way they have not been taught. 'We say, the Sixth Cohort lay in the hall,' she says. 'We say nothing of the rest. I have taught for thirty years the sixty days and never the hundred and twenty.' 'I'll add a day,' she says.".
     On discuss { Assert knows(actor, school_changes). }
   }
   Entity school_changes: fact "The schoolmistress will add a day to the March: the one where the soldiers wrote that they waited.".
@@ -61,11 +62,18 @@ Module muster "The Long Muster's Road" {
     Role "the salt-reckoner, who sets the day's weights". Ancestry human. Pronouns she. Manner acerbic. Peaceable.
     Buys toll_silver for 60 coin.
     Buys steel_coin for 6 coin.
+    Sells lamp_oil for 3 coin from 6.
+    Sells rope for 2 coin from 4.
+    Greets "A woman at a trestle with a steelyard, a ring of weights and a face like a sharp stone does not look at you; she looks at your coin. 'Aenean?' she says. 'Show me. It's the only money I take.' She weighs a chip of salt and sets it down. 'You have walked from the north with Aenean coin in your pocket. Do you have any idea what that is worth to a people who have not seen a new one in eleven hundred years?'".
+  }
+  Person rhea_vault "Rhea Tarn's strongbox" at salt_market {
+    Role "the reckoner's locked chest, opened for those she has asked". Ancestry human. Pronouns she. Peaceable.
+    Seen when rheaAnswered(viewer) and not valleyTold(viewer).
     Buys ancient_orrery for 300 coin.
     Buys celestial_chart for 200 coin.
     Buys antique_compass for 100 coin.
-    Greets "A woman at a trestle with a steelyard, a ring of weights and a face like a sharp stone does not look at you; she looks at your coin. 'Aenean?' she says. 'Show me. It is the only money I take. Salt is the measure, and silver the pledge.' She weighs a chip of salt and sets it down. 'You have walked from the north with Aenean coin in your pocket. Do you have any idea what that is worth to a people who have not seen a new one in eleven hundred years?'".
   }
+  Observe salt_shut at salt_market when valleyTold(party) "The trestle is folded and the steelyard taken in. A chalked board says CLOSED FOR THE REASONING OF WEIGHTS, and nobody in the square will say for how long.".
   Observe salt_market_scene at salt_market when true "A paved square under a bronze steelyard on a gallows, stalls of grey and pink and white salt in cones, and a ring of little weights stamped with the wheel. The salt comes from a spring above the valley, boiled in pans, and the market is quiet, careful, and a little holy. A man is weighing out a dozen pinches into a child's palm with the gravity of a surgeon.".
   Topic rhea_coin with rhea "Ask the salt-reckoner about Aenean coin" when true {
     Says "'Every coin in the valley is the same coin,' says Rhea. 'Eleven hundred years in circulation. Worn to a thumb's smooth. We do not mint, we do not melt, we do not argue.' She turns the chip over. 'The Hearth says that the coin is a story we tell. The Eagles say the coin is the Emperor's face. I say it is a way of knowing how much a thing is worth, and that this is the only thing I have ever needed from an emperor.'".
@@ -74,7 +82,7 @@ Module muster "The Long Muster's Road" {
   // ── The Tally-yard: a man counting ─────────────────────────────────────────────────────────────────────────────
   Person hobbe "Hobbe Quarry" at tally_yard {
     Role "a Hearth man, serving a year's Tally for withholding a tithe of barley". Ancestry human. Pronouns he. Manner stoic. Peaceable.
-    Greets "A man stands in the middle of the yard on a worn flag, hands at his sides, counting aloud in a level, unhurried voice: 'Two hundred and eleven. Two hundred and twelve.' A clerk on a stool marks something at each number. He does not stop for you. He nods, the width of a hair, and says, in the same breath, 'Two hundred and thirteen.'".
+    Greets "A man stands in the middle of the yard on a worn flag, hands at his sides, counting aloud in a level, unhurried voice: 'Two hundred and eleven. Two hundred and twelve.' A clerk on a stool marks something at each number. He does not stop for you. He nods once and says, in the same breath, 'Two hundred and thirteen.'".
   }
   Observe tally_scene at tally_yard when true "A small walled yard with a single flag worn into a dip by feet, and a clerk's stool, and a tablet. The Tally is the Muster's old punishment: stand, count, be marked. No one is beaten. No one is shut up. It is simply that the offender is made to say the days aloud, every one, until they are done. The sentence is a year, and the voice, after a hundred days, is quite flat.".
   Topic hobbe_why with hobbe "Ask the man in the yard what he did" when true {
@@ -94,7 +102,7 @@ Module muster "The Long Muster's Road" {
   }
   Discovery gold_known "The gold wings of the old standard were not sold: the Hearth hid them under the vine-house floor in the plague winter, and the standard on its pole in the forum is brass.".
   Item gold_wing "the gold wing of the old standard" is golden_idol at gold_cellar hidden until gold_known.
-  Observe gold_cellar_scene at gold_cellar when true "A low cellar under a vine-house, the floor of beaten earth and the wall of dry stone, kept swept by someone who knew nothing of what was beneath. In a niche, wrapped in oiled sacking and then in a child's christening-cloth, something heavy that is warm to the touch in a cellar that is cold.".
+  Observe gold_cellar_scene at gold_cellar when true "A low cellar under a vine-house, the floor of beaten earth and the wall of dry stone, kept swept by someone who knew nothing of what was beneath. In a niche, wrapped in oiled sacking and then in a child's naming-cloth, something heavy that is warm to the touch in a cellar that is cold.".
   Observe sending_scene at sending_gate when true "A small postern in the north wall, its lintel studded with iron nails, one for every Sending, rusted to one scab. The latest are bright. Outside it a worn path goes up the Descent, wide enough for one. Inside, painted on the wall: SPES, hope, in letters taller than a man, and under it, small, in a child's chalk: it will come.".
   Observe wall_scene at wall_walk when true "The wall-walk looks north over the Descent and the high fells, and south over the whole valley: terraces, tiles, smoke, the dark line of the river, the pans of the salt-spring steaming white. A bronze buccina the length of a man hangs on a bracket by the stair, and a bored boy is polishing it.".
   Observe brand_walk near brand when true "Pontus Brand polishes the eagle's wing with a cloth and a little oil, the length of the wing, and again, as if he were stroking a living thing.".

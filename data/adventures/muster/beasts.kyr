@@ -3,7 +3,7 @@ Module muster "The Long Muster's Road" {
   // The goats know the sound stone; the kites know what will fall; the marmots know the giant's mood; the wolves know
   // the dark; the wyvern knows noon. A company that reads them can go where one that fights them cannot.
   Relation followed(group). Relation kitesRead(group). Relation wolvesTolerated(group). Relation paidDeserters(group).
-  Relation marcusMet(group). Relation marcusLetterShown(group). Relation pontusFound(group).
+  Relation marcusMet(group). Relation marcusLetterShown(group).
 
   // ── Ridge-goats ─────────────────────────────────────────────────────────────────────────────────────────────────
   Person goat_steep "a ridge-goat" at track1 {
@@ -43,7 +43,7 @@ Module muster "The Long Muster's Road" {
 
   // ── Bone-kites on the Viaduct ──────────────────────────────────────────────────────────────────────────────────
   Person kites "the bone-kites" at via_n {
-    Role "a dozen bone-kites on the Viaduct, perched and circling". Species bone_kite. Numbers 5. Peaceable.
+    Role "five bone-kites on the Viaduct, perched and circling". Species bone_kite. Numbers 5. Peaceable.
   }
   Discovery kites_known "The bone-kites perch only on the parapet's sound blocks, and circle the fallen arch, where nothing will bear them.".
   Observe kite_sign at via_n as sign when true "Rust-backed birds sit along the broken edge of the Viaduct in a row, each on its own block, shifting their feet. Over the fallen arch below three more hang on the draught without a wingbeat, circling a slope of blocks that none of them will land on.".
@@ -96,44 +96,44 @@ Module muster "The Long Muster's Road" {
   Item eyrie_ward "a wardstone in a nest of bracken" is wardstone at eyrie.
   Item eyrie_tooth "a shed tooth, long as a finger" is dragons_tooth at eyrie.
   Item eyrie_tag "a courier's tag of lead, pierced, on a rotted cord" is courier_tag at eyrie.
-  Kind courier_tag "a courier's lead tag" is document teaching pontus_read described "A lead tag stamped with a wheel and a name, hung on the neck of a man who went north once a year and did not come back from the year 503.".
-  Discovery pontus_read "The tag reads: PONTUS, COURIER, THE SENDING OF THE YEAR 503. The Annals say that he was lost at the Eagle, and that his pouch was not found.".
+  Kind courier_tag "a courier's lead tag" is document teaching cato_read described "A lead tag stamped with a wheel and a name, hung on the neck of a man who went north once a year and did not come back from the year 503.".
+  Discovery cato_read "The tag reads: CATO, COURIER, THE SENDING OF THE YEAR 503. The Annals say that he was lost at the Eagle, and that his pouch was not found.".
 
   // ── Deserters at the head of the Descent ───────────────────────────────────────────────────────────────────────
   // Men of the Last Cohort who would not be Sent: a courier is chosen by lot, goes to the Eagle and comes home with
-  // nothing, thirty-one springs of nothing, and some have gone round it. They hold the end of the road and take a
+  // nothing, one spring of nothing is enough for some, and they have gone round it. They hold the end of the road and take a
   // toll of anyone who comes down it, in the name of a Cohort they have walked out on.
   Person deserters "the deserters of the Descent" at pass_s {
     Role "three deserters of the Last Cohort in patched red, spears across their knees". Ancestry human. Calling warrior. Level 3. Numbers 3. Temperament territorial.
-    Warns "Three men in cloaks that were red come out of the rocks on either side of the road with their spears down. 'The toll,' says the tallest, in an Aenean as formal as a sentence of the court, and then, in the plain tongue, almost kindly: 'Ten coin. Or a word from the north we haven't heard.'".
-    Comes "The deserters come off the rock in good order, as soldiers do who were taught properly once.".
+    Warns "Three men in cloaks that were red come out of the rocks on both sides of the road with their spears down. 'Toll,' says the tallest. 'Ten.' He considers it. 'Or a word from the north.'".
+    Comes "The deserters come off the rock together, spears level.".
     Lair pass_s.
     State toll blocking "Three deserters of the Last Cohort stand across the head of the Descent, spears down. The road goes through them.".
     Guards descend_in.
   }
   Person marcus "Marcus Merula" at pass_s {
     Role "who leads the men who left the Sending". Ancestry human. Calling ranger. Level 4. Pronouns he. Manner grim. Peaceable.
-    Greets "A lean man of thirty-five in a red cloak gone to brown stands a little apart on a boulder with a bow across his back, and does not come down. 'We don't hurt people who pay,' he says. 'We hurt people who tell the Prefect where we are. Which are you?'".
+    Greets "A lean man in a red cloak gone brown sits on a boulder with a bow across his back and does not come down. 'Pay,' he says. 'Or don't tell the Prefect. Which are you?'".
   }
   Action pay_deserters(actor: group, site: place) "Pay the deserters their ten coin" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, pass_s) and at(deserters, pass_s) and able(deserters) and quantity(actor, gold) >= 10 and not tolerates(deserters, actor).
     Time 0.
     On success { Decrease quantity(actor, gold) by 10. Assert tolerates(deserters, actor). Assert paidDeserters(actor). }
-    Result "The tall one counts the coin into a helmet and hands the helmet back over his shoulder. 'Marcus,' he says, 'they paid.' The spears go up like a gate.".
+    Result "The tall one counts the coin into a helmet. 'They paid,' he says over his shoulder. The spears go up.".
   }
   Action show_marcus_letter(actor: group, site: place) "Hold up the pouch addressed to the Centurion Lucilla Merula" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, pass_s) and at(deserters, pass_s) and able(deserters) and holding(actor, marcus_letter_kind) and not tolerates(deserters, actor).
     Time 0.
     On success { Assert tolerates(deserters, actor). Assert marcusLetterShown(actor). Assert marcusMet(actor). }
-    Result "Marcus Merula comes down off the boulder faster than he meant to. He looks at the superscription, in his own hand, nine years old, and at the seal that has not been broken. 'Where was that?' he says. 'I left it on the Eagle's stack in the spring I went over. I thought the Sending would carry it.' He puts his hand on the pouch, and then on his mouth. 'They never touch another man's. It was a rule.' The spears go up.".
+    Result "Marcus Merula comes down off the boulder faster than he meant to. He looks at the superscription, in his own hand, nine years old. 'Where was that?' he says. 'The Eagle. I left it on the stack the spring I went over.' He takes it. 'They never touch another man's. It was a rule.' The spears go up.".
   }
   Topic marcus_why with marcus "Ask Marcus why he left the Cohort" when marcusMet(party) or tolerates(deserters, party) {
-    Says "'The lot fell on me in my twenty-fifth spring,' says Marcus. 'You take the pouch, you go to the Eagle, you wait nine days, you come home with it and you say the north is silent. Thirty-one springs of that. I thought: if I go on past the Eagle one year, I shall know. So I crossed at the parapet with a rope, and walked up the other side of the river, and there is a village there, with thirty houses round a trough, and a woman on a stone, and goats.' He looks at the road. 'They did not see me. I stood in the willows till dark. I came back, and I could not tell it. I could not tell it to my mother, who is a Centurion.'".
+    Says "'The lot fell on me,' says Marcus. 'Twenty-six. I went to the Eagle. Nine days at the stack. I came home and said no answer.' He looks at the road. 'I couldn't do it twice. So I went over the parapet on a rope. There is a village. Thirty houses and a trough. A woman on a stone, goats.' He rubs his jaw. 'I stood in the willows till dark. Didn't call. I couldn't tell it to my mother. She's a Centurion.'".
     On discuss { Assert marcusMet(party). Assert knows(actor, marcus_known). }
   }
   Entity marcus_known: fact "Marcus Merula, who deserted the Sending, crossed the Viaduct by its parapet and saw a village of thirty houses round a trough on the north bank. He has never been able to tell his mother, the Centurion.".
   Topic marcus_mother with marcus "Ask Marcus what he would say to his mother" when marcusMet(party) once {
-    Says "'That the boots held,' says Marcus, and then does not seem to know why he said it. 'That I am not a coward. That I did not run from the work, I ran from the not-knowing.' He turns the pouch over in his hands. 'You will go down to the gate. You will meet her. She will be on the wall at the evening call. She will not ask. Do not tell her unless she asks.'".
+    Says "'That the boots held,' says Marcus, and does not seem to know why he said it. He turns the pouch over. 'She'll be on the wall at the evening call. She won't ask. Don't tell her unless she asks.'".
   }
   Kind marcus_letter_kind "a courier's pouch addressed to Lucilla Merula" is document teaching marcus_letter_read described "A leather pouch, sealed with a wheel, addressed in a young man's square hand: TO THE CENTURION LUCILLA MERULA, FIRST CENTURY, FROM HER SON M. It has waited at the Eagle for nine springs.".
   Discovery marcus_letter_read "The pouch is a son's letter to his mother, left on the Eagle's stack nine springs ago: he is alive, he is in the Pass, he has seen what is north of the Viaduct, and he cannot come home.".

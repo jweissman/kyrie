@@ -59,7 +59,7 @@ describe('Six things on the road that lead nowhere', () => {
     await j.play('Leave a boot-nail in the dish for Viator, and say the old words for those who go in');
     expect(j.holds('state', 'third_arch', 'found')).toBe(true);
     j.assert('knows', 'party', 'orde_known');
-    j.put('party', 'ledge2');
+    j.put('party', 'ledge1');
     await j.play('Follow the survey studs and set your feet by the numbers');
     expect(j.holds('stonesFound', 'party')).toBe(true);
   }, 200000);
@@ -145,6 +145,8 @@ describe('The Last Cohort asks, is answered, and is told', () => {
       ['elpis', 'granary', 'Tell the granary-reeve that the empire is gone', 'told_elpis']] as const) {
       const k = await start();
       k.assert('admitted', 'party');
+      k.assert('piaVouched', 'party');
+      k.assert('interviewQ3', 'party');
       k.put('party', room);
       await k.play(label);
       expect(k.holds(fact, 'party')).toBe(true);
@@ -167,13 +169,15 @@ describe('The Last Cohort asks, is answered, and is told', () => {
     expect(j.holds('goldReturned', 'party')).toBe(true);
     expect(j.holds('state', 'standard', 'golden')).toBe(true);
     j.put('party', 'archive');
-    await j.play('Ask the Archivist to open the Annals', 'Ask the Archivist about the year of the second wife', 'Ask the Archivist about the plague winter', 'Ask the Archivist about the Schism of the Standard');
+    j.assert('knows', 'party', 'rufus_1');
+    await j.play('Ask the Archivist to open the Annals', 'Let the Archivist ask what it is you want of the Annals', 'Swear on the lamp of the shrine that you will not use it to harm the valley', 'Ask the Archivist about the year of the second wife', 'Ask the Archivist about the plague winter', 'Ask the Archivist about the Schism of the Standard');
     expect(j.holds('knows', 'party', 'schism_known')).toBe(true);
   }, 290000);
 
   it('sends a delegation to Kell Ford after the Archivist is told', async () => {
     const j = await start();
     j.assert('admitted', 'party');
+    j.assert('interviewQ3', 'party');
     j.put('party', 'archive');
     await j.play('Tell the Archivist what the road is');
     j.put('party', 'green');
@@ -181,3 +185,75 @@ describe('The Last Cohort asks, is answered, and is told', () => {
     expect(j.at('muster__delegates')).toBe('muster__green');
   }, 290000);
 });
+
+describe('A crossing, with its costs', () => {
+  it('spends the pitons and the rope on the line, and shuts the fifth arch when the season turns', async () => {
+    const j = await start();
+    await j.play('To Kell green', "Into Pryor's store", 'Buy › A coil of rope', 'Buy › A piton', 'Out to Kell green');
+    j.put('party', 'via_n');
+    j.roll('pass');
+    await j.play('Drive a piton into the parapet and rig a line over the gap with a coil of rope');
+    expect(j.holds('lineFixed', 'party')).toBe(true);
+    expect(j.holds('holding', 'party', 'piton')).toBe(false);
+    await j.play('=day 9 08:00');
+    expect(j.find('^To the parapet of the fifth arch$')).toBeUndefined();
+  }, 200000);
+
+  it('ends in a turning back, when the snow comes before the arch is crossed', async () => {
+    const j = await start();
+    j.put('party', 'octavius_hall');
+    await j.play('=day 9 08:00');
+    expect(j.holds('lateSeason')).toBe(true);
+    // The chapter closes: the page offers nothing further.
+    expect(j.choices().filter(c => !/Give to|Set down|prepare spells|Pack/.test(c.label))).toHaveLength(0);
+  }, 200000);
+
+  it('lets a baker\'s boy follow the company south if it has eaten his master\'s bread', async () => {
+    const j = await start();
+    j.put('party', 'pistrina');
+    await j.play('Ask the baker why the bread tastes as it does');
+    expect(j.holds('ateBread', 'party')).toBe(true);
+    j.put('party', 'descent');
+    await j.play('Wait › A while');
+    expect(j.holds('following', 'tavi', 'party')).toBe(true);
+  }, 200000);
+
+  it('lets Fenn freeze at the north head and be found on the south side later', async () => {
+    const j = await start();
+    j.assert('travelsWith', 'dray', 'party');
+    j.put('party', 'via_n');
+    await j.play('Ask Fenn why he has stopped at the Viaduct\'s head', 'Tell him to wait at the north head; you will send word by the rope-way');
+    expect(j.holds('fennNerve', 'party')).toBe(true);
+    j.assert('knows', 'party', 'ropeway_known');
+    j.put('party', 'via_s');
+    await j.play('Wait › A while');
+    expect(j.at('muster__dray')).toBe('muster__via_s');
+  }, 200000);
+
+  it('lets Dunya choose between the two ends of the road at the Last Fire', async () => {
+    const j = await start();
+    j.assert('travelsWith', 'dunya', 'party');
+    j.assert('been', 'party', 'pass_s');
+    j.assert('been', 'party', 'green');
+    j.coin(0);
+    j.put('party', 'green');
+    await j.play('Ask Dunya what she sees in Kell Ford', 'Say that it is enough: it is where people are');
+    expect(j.measure('dunyaTrust', 'dunya')).toBe(2);
+    j.put('party', 'taproom');
+    await j.play('Ask Dunya whether she means to go back to the Cohort, now she has seen the Ford', 'Tell her to go back and report what she has seen');
+    expect(j.holds('dunyaHome', 'party')).toBe(true);
+  }, 200000);
+
+  it('brings Jory home to Kell if Marra is told that both should go', async () => {
+    const j = await start();
+    j.assert('travelsWith', 'marra', 'party');
+    j.assert('been', 'party', 'apothecary');
+    j.put('party', 'apothecary');
+    await j.play('Show Marra the boy who sorts Dame Orsa\'s herbs', 'Say that they should both go home, and tell Kell Ford what is here');
+    expect(j.holds('marraBoth', 'party')).toBe(true);
+    j.put('party', 'green');
+    await j.play('Wait › A while');
+    expect(j.at('muster__jory')).toBe('muster__green');
+  }, 200000);
+});
+

@@ -35,11 +35,13 @@
  ],
  "viaduct": [
   "To the north head of the Viaduct",
+  "Drive a piton into the parapet and rig a line over the gap with a coil of rope",
   "To the parapet of the fifth arch",
   "To the south abutment",
   "To the Mansio of the Eagle",
   "a courier's pouch: Take",
-  "a season of the Toll: Take"
+  "a season of the Toll: Take",
+  "a courier's pouch addressed to Lucilla Merula: Take"
  ],
  "to_pass": [
   "To the foot of the Giant's Pass"
@@ -53,15 +55,23 @@
   "To the head of the descent",
   "To the Long Descent",
   "To the gate of the Last Cohort",
-  "Hold up a courier's pouch with the Cohort's seal"
+  "Hold up a courier's pouch with the Cohort's own seal"
  ],
  "valley": [
   "To the forum",
   "To the Praetorium",
-  "Tell the Prefect that the empire is gone",
+  "Let the Prefect put his first question",
+  "Say that nobody sent you: you came to see what the road led to",
+  "Let the Prefect put his second question",
+  "Say that it looks heavy: that it looks like something people carry",
+  "Let the Prefect put his last question",
+  "Say that there is a village, thirty houses round a trough, and they keep a lamp in the window",
   "Ask the Prefect for his dispatch",
+  "Tell the Prefect that the empire is gone",
   "Out to the forum",
   "To the barracks yard",
+  "Give the Centurion the pouch addressed to her, from the Eagle",
+  "Ask nothing for it, and tell her everything about the men in the Pass",
   "Ask the Centurion for a scout",
   "Ask Dunya to join the company"
  ],
@@ -92,6 +102,6 @@
   "Give the reeve the Prefect's dispatch"
  ],
  "deserters": [
-  "Pay the deserters their ten coin"
+  "Hold up the pouch addressed to the Centurion Lucilla Merula"
  ]
 }

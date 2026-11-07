@@ -32,24 +32,29 @@ describe("The Long Muster's Road", () => {
     expect(j.holds('travelsWith', 'marra', 'party')).toBe(true);
     await j.play(...steps.first_days);
     expect(j.at('party')).toBe('muster__octavius_hall');
+    // Marra asks, at Octavius, whether the company would want to know; the answer is kept.
+    await j.play('Ask Marra what she is looking for on the far side', 'Say that you would want to know, whatever it was');
+    expect(j.measure('marraTrust', 'marra')).toBe(1);
     // The viaduct by its parapet (pitons and a rope), and on to the Eagle's undelivered pouches.
     await j.play(...steps.viaduct);
     expect(j.at('party')).toBe('muster__eagle');
+    expect(j.holds('lineFixed', 'party')).toBe(true);
+    await j.play('Ask Marra about the letters on the arch', 'Tell her to come on: it is her brother\'s road too');
     // At the Pass the goatherd stays where the giant cannot see her; the toll is iron.
     await j.play(...steps.to_pass);
-    expect(j.holds('travelsWith', 'marra', 'party')).toBe(false);
-    expect(j.at('muster__marra')).toBe('muster__pass_n');
+    // Her trust is high enough now: she does not hide from the giant.
+    expect(j.holds('travelsWith', 'marra', 'party')).toBe(true);
     await j.play(...steps.giant);
     expect(j.holds('tolerates', 'giant', 'party')).toBe(true);
     // The gate: the pouch, not a word.
     await j.play('To the head of the descent');
-    j.coin(60);
     await j.play(...steps.deserters);
-    expect(j.holds('paidDeserters', 'party')).toBe(true);
+    expect(j.holds('marcusMet', 'party')).toBe(true);
     await j.play(...steps.gate.slice(1));
-    expect(j.holds('received', 'party')).toBe(true);
+    expect(j.holds('foundPouch', 'party')).toBe(true);
     // The Prefect is told; the standard is struck; a scout and a rope-way are offered; the dispatch taken.
     await j.play(...steps.valley);
+    expect(j.holds('received', 'party')).toBe(true);
     expect(j.holds('state', 'standard', 'struck')).toBe(true);
     expect(j.holds('knows', 'party', 'ropeway_known')).toBe(true);
     expect(j.holds('dispatchTaken', 'party')).toBe(true);

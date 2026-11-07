@@ -28,7 +28,7 @@ Sixty miles of legionary road over the Hesper Fells, from the village of **Kell 
 
 ## How to cross it
 
-Prepare at Kell Ford: Gil Pryor sells rope, pitons, firewood, a tent, iron (crowbar, spikes), blankets and rations; Maud Hennick and Marra Ashgrove say what each road costs; Ansel Whitlow gives the Viaduct's notes. Hire Marra (4 coin) and her crook gives the company *wayfinding*: the goatherds' track and the Ledge open. She will go no further than the Gallery's mouth and the foot of the Pass, and takes up again for nothing on the way back.
+Prepare at Kell Ford: Gil Pryor sells rope, pitons, firewood, a tent, iron (crowbar, spikes), blankets and rations; Maud Hennick and Marra Tellis say what each road costs; Fenn Hallam gives the Viaduct's notes. Hire Marra (4 coin) and her crook gives the company *wayfinding*: the goatherds' track and the Ledge open. She will go no further than the Gallery's mouth and the foot of the Pass, and takes up again for nothing on the way back.
 
 Each day is a choice. The wyvern is a fact of noon on the open High Road (a Hazard keyed to the hour, grounded by wind); the Gallery and the Ledge shelter from it, each at a price. The Third Arch is rotten unless the roadway is prodded first. The Viaduct has three honest crossings and a fourth for friends. Sleeping out above the snow-line costs a cold Hazard each night unless the company holds a tent or builds a fire. The giant takes iron, takes a story (a hard performance check), sleeps at night (the company may then slip by, but he wakes at dawn), or can be gone round by the goat path. At the gate, the sentries want the word (the scribe's glossary from Octavius) or a courier's pouch from the Eagle; with the pouch the Cohort receives the company as the first courier from the north in eleven centuries.
 
@@ -47,7 +47,7 @@ In the valley the company may tell the Prefect (the eagle is struck; the Centuri
 7. Guards: the giant and the gate sentries are persons with a blocking state and `Guards`; each is passed by an action of `Time 0` (iron, spikes, a story, the glossary, a pouch) or the engine's own "slip past".
 8. Plants by the growing pattern: comfrey, bruisewort (gorge), heather, gentian, alhuren (Ledge), cloudberry (bog), kingsfoil (hollow); Dame Orsa `Buys` them.
 9. Persistent choices: `state(standard, struck|kept)`, `told_prefect`, `received`, `dispatchTaken`, `dispatchSent`, `ropeway_known`; the forum, the inn and the shrine show them; the first survives checkpoint and resume.
-10. Orsino/catalog items used and sold: antique compass, ancient/faded maps, celestial chart (Whitlow buys), toll silver, steel coin, old glossary, wardstone, dun_rierdan waystone, piton, rope, tent, spyglass, lamp, blanket.
+10. Orsino/catalog items used and sold: antique compass, ancient/faded maps, celestial chart (Hallam buys), toll silver, steel coin, old glossary, wardstone, dun_rierdan waystone, piton, rope, tent, spyglass, lamp, blanket.
 11. Provincial placement: `a1`-style walk in seed `b2` (a mountain first country): heard of, walked into, kept.
 
 ## Authored content present but not reachable
@@ -98,7 +98,7 @@ Played by the builder through `Journey`, not by an independent player. The wolve
 - **Combat with ways round it.** Wolves of the Old Causeway (level 3, four): torches, rations, the picket-tower, or the dead male's pelt laid for the widow. The wyvern: robbed while it hunts at noon. The giant: iron, a story, the goat path, or asleep. Deserters in the Pass: ten coin, a letter, or a fight. Sentries: glossary, pouch, lie, or Lore.
 - **Four new species** (animals.json, no habitats, unpainted): `ridge_goat` (shows sound footing), `bone_kite` (settles on stone that bears), `pass_marmot` (one whistle a stranger, two the giant), `salt_ox` (stops at the noon call).
 - **Six side quests** with a place, a face and a resolution by check or choice: Quintus's Q-marks to a grave under a pear tree; the shrine of Viator; Thessaly Orde's survey studs; the goatherds' spring; the unnumbered mile; the wolf-widow.
-- **Four companions with three beats each** (Marra Tellis, Fenn Hallam, Dunya, Sister Ione), each beat a question put to the player with answering topics; they may stay, go home, quit, die or change the valley. The Prefect puts a three-question interview; the giant, reeve, apothecary, salt-reckoner, Centurion and Archivist each put one; 40+ answering topics in all.
+- **Four companions with three beats each** (Marra Tellis, Fenn Hallam, Dunya, Sister Ione), each beat a question put to the player with answering topics; they may stay, go home, quit, die or change the valley. The Prefect puts a three-question interview; the giant, reeve, apothecary, salt-reckoner, Centurion and Archivist each put one; about fifty answering topics in all.
 - **Prose.** Present tense; tics cut ("the size of", "slowly", "quite quietly", "the way X do who"). Not exhaustively re-read.
 
 ## 1. Content that works in play
@@ -114,3 +114,33 @@ A companion who can **die in play** is a `Slay` after a dice rule, not a fight w
 Lanterns still need oil in the same pack; the glossary's use is a held-check, not reading; plant `uses` are read by nothing; the four species are unpainted and have no Encyclopedia plate; the quest "surveyor's level" and the pelt are local kinds because the catalog has no equivalent; `Marra Tell` and `Fenn Haldane` had to be renamed (Tellis, Hallam) because the corpus-wide name check refuses a surname another adventure holds.
 
 *Not played by anyone independent.*
+
+---
+
+# What changed in the second pass
+
+*Answering a hostile review and `forms.md` (the Muster is a crossing, not a verdict).*
+
+**Form.** The climax is the road, not the Cohort. The Cohort is somewhere you may reach and leave. Telling it the empire fell is private, optional, gated (the Prefect's three questions; the Archive's young hand must vouch before the Hearth will hear it), and costs: the salt-market shuts for a company that has told. Endings (the engine's `Ending`s): **Turned Back at the Viaduct** (the season turns on the ninth day and the fifth arch closes both ways); **The Cohort Reached and Left**; **With One Fewer** (a companion stays, keeps the shrine, deserts, or falls); **A Boy Follows You South** (Tavi, the baker's boy, if you have eaten his master's bread); **A Single Rider** (the dispatch sent and a delegation come to Kell Ford).
+
+**Gauntlet.** Pitons and rope are spent in rigging the parapet; hunger bites at noon; weather is visible on the heights; the Ledge is closed by snow; the wyvern's noon is a window you pay for; retreat costs the line and the days.
+
+**Consistency.** One history of the standard (the Hearth hid the gold wings in the Schism of 871, 233 years ago; the Eagles have called it theft since; the Archivist's forged line is his own, from the cattle plague, and unrelated). One march (thirty-three days from the sea to the Eagle; Rufus on day 29, 31, 33, 34); stones in cables; five days from the Ford. The sentries recognise their own seal: the pouch is "the Sending's lost pouch", not news from the north. Rufus's last scratch is also cut in the notch, so the goat path teaches it.
+
+**Companions, mended.** Marra, Fenn, Dunya and Ione have their own flags, beats in the order they can be met, and consequences (Jory comes to Kell; Fenn freezes and is found on the south side; Dunya's beats run Pass, Kell, taproom; Ione's fall is rolled once, at the parapet).
+
+**Answers gate things.** The Archive's red years need an oath; Orsa's secret needs a fair dealing; the Centurion's pardon needs the whole story of the Pass; the strongbox buyer in the salt-market opens to those Rhea has questioned; the Prefect's dispatch needs his regard.
+
+**Voices.** Terse deserters, a cheerful Tavi, a boisterous Octa; the ten worst flourishes were rewritten and a dozen explainers cut. Not exhaustively re-read.
+
+## 1. Content that works in play (specs)
+The continuous crossing plays Marra's first two beats from the hire, the Marcus pouch at the Pass, the Sending's pouch at the gate, the Prefect's interview, the telling, the dispatch and the way home. `muster-rewrite.test.ts` (16): beasts, quests, companions, the interview, tellings, the Tally, the Annals, the delegation, the pitons, the season, Tavi, Fenn, Dunya, Jory.
+
+## 2. Authored content present but not specced
+Ione's fall (a dice rule at the parapet; only her safe crossing is specced); the Hearth quarrel and the column; the claim of relief; hunger's bite (a rule at noon); the Rhea strongbox.
+
+## 3. Actions or consequences the engine cannot yet represent
+A Topic cannot roll. An obstacle that costs more than coins is a rule, not a condition on a person. There is no *deadline* construct: the season is `day(clock) >= 9`. A person cannot walk the road in the player's absence: delegations are `Arrives`.
+
+## 4. Existing assets whose integration is incomplete
+Lanterns; plant `uses`; four unpainted species; ridge-goat and goat are near-duplicates the encyclopedia will list twice; `Marra Tell`/`Fenn Haldane` renamed (Tellis, Hallam).

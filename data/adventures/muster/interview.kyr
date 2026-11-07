@@ -14,7 +14,7 @@ Module muster "The Long Muster's Road" {
     Says "Corvin folds his hands on the accounts. 'I shall ask three things,' he says, 'as my fathers asked of every stranger who came to the gate, in the days when we had strangers. First: who sent you?'".
   }
   Topic corvin_q1_none with corvin "Say that nobody sent you: you came to see what the road led to" answering corvin_q1 when true {
-    Says "'Nobody,' says Corvin. He tastes it. 'It is the first time I have heard that answer in my life. In my father's day men came because they were told. Nobody comes because they are not.' He almost smiles. 'Go on.'".
+    Says "'Nobody,' says Corvin. 'No. Men used to come because they were told.' He nods. 'Go on.'".
     On discuss { Assert interviewQ1(party). Increase prefectRegard(party) by 2. }
   }
   Topic corvin_q1_north with corvin "Say that the north sent you: you are what the Emperor's silence looks like" answering corvin_q1 when true {
@@ -29,11 +29,11 @@ Module muster "The Long Muster's Road" {
     Says "'Second,' says Corvin. 'You came through the forum. You saw the standard. Tell me what you saw in it.'".
   }
   Topic corvin_q2_fine with corvin "Say that it is the most beautiful thing you have seen on the road" answering corvin_q2 when true {
-    Says "'It is,' says Corvin, simply. 'I know it is. I do not know why.' His shoulders ease. 'You have a good eye.'".
+    Says "'It is,' says Corvin. 'I don't know why.' He sits back. 'Go on.'".
     On discuss { Assert interviewQ2(party). Increase prefectRegard(party) by 1. }
   }
   Topic corvin_q2_heavy with corvin "Say that it looks heavy: that it looks like something people carry" answering corvin_q2 when true {
-    Says "'Heavy,' says Corvin. His hands are very still. 'Orsa says it too, and Elpis, and a boy of ten last week.' He looks at you for a long moment. 'Everyone who says heavy has been right.'".
+    Says "'Heavy,' says Corvin. 'Orsa says it. Elpis says it. A boy of ten said it last week.' He looks at the doors. 'Go on.'".
     On discuss { Assert interviewQ2(party). Increase prefectRegard(party) by 2. }
   }
   Topic corvin_q2_metal with corvin "Say that it is metal on a pole, and the people are the thing" answering corvin_q2 when true {
@@ -44,7 +44,7 @@ Module muster "The Long Muster's Road" {
     Says "'Third,' says Corvin, and his voice has changed. 'What is north of the Viaduct?'".
   }
   Topic corvin_q3_kell with corvin "Say that there is a village, thirty houses round a trough, and they keep a lamp in the window" answering corvin_q3 when knows(actor, red_cloak_known) or been(party, green) {
-    Says "Corvin does not move. 'A lamp,' he says. 'In a window.' He is looking at nothing. 'For whom?' 'They do not know,' you say. 'They put it in because they always have.' He puts his hand over his mouth. 'Then someone was always going to answer,' he says through his fingers. 'We were looking at the wrong end of the road.'".
+    Says "Corvin does not move. 'A lamp,' he says. 'In a window. For whom?' 'They don't know,' you say. 'They put it in because they always have.' He rubs his jaw. 'Well,' he says. 'We were looking at the wrong end.'".
     On discuss { Assert interviewQ3(party). Assert received(party). Increase prefectRegard(party) by 2. }
   }
   Topic corvin_q3_bishop with corvin "Say that there are scholars at Hale who keep the empire's old archives" answering corvin_q3 when true {
@@ -61,11 +61,11 @@ Module muster "The Long Muster's Road" {
     Says "The giant turns the fire-iron over and looks at the end of it. 'Is the king still king?' he says. 'The one I keep this house for. He had a beard, I think. It was a long time ago.'".
   }
   Topic giant_yes with giant "Say that the king is still king, and sends his regards" answering giant_asks when true {
-    Says "'Good,' says the giant, with immense relief. He puts down the iron. 'That is a weight. Eat. There is mutton. Do not tell the little ones.'".
-    On discuss { Assert giantAnswered(party). Increase marraTrust(marra) by 0. }
+    Says "'Good,' says the giant, with relief. He puts down the iron and takes a leg of mutton off the hook and holds it out. 'Eat. Don't tell the little ones.'".
+    On discuss { Assert giantAnswered(party). Increase quantity(actor, rations) by 3. }
   }
   Topic giant_no with giant "Say that the king is dead, and so is his kingdom, and you are sorry" answering giant_asks when true {
-    Says "The giant says nothing at all for a long time. 'I see,' he says. His great hands open on his knees. 'Then I shall keep the house for no one. That is easier, in a way. One does not get disappointed.' After a time: 'Go on. I shall mind the fire.'".
+    Says "The giant says nothing for a time. 'Then I keep the house for no one,' he says. 'That is easier. Go on. I'll mind the fire.' He does not offer the mutton.".
     On discuss { Assert giantAnswered(party). }
   }
 
@@ -108,22 +108,9 @@ Module muster "The Long Muster's Road" {
     On discuss { Assert rheaAnswered(party). }
   }
 
-  // The Centurion's question.
-  Topic merula_asks with merula "Let the Centurion ask what you saw in the Pass" when true once {
-    Says "'What did you see at the head of the Descent?' says Merula. She is not looking at you; she is looking at the rack of spears. 'I should like to hear you tell it, and I shall know if you leave a thing out.'".
-  }
-  Topic merula_ans_all with merula "Tell her everything: the toll, the men, the one with the bow" answering merula_asks when true {
-    Says "She listens to the end, standing very straight. At the bow she shuts her eyes. 'Thank you,' she says, in a voice that has been sanded. 'I shall act on it.'".
-    On discuss { Assert merulaAnswered(party). Assert knows(actor, marcus_known). }
-  }
-  Topic merula_ans_part with merula "Say you saw some men in the Pass who took a toll, and no more" answering merula_asks when true {
-    Says "'Some men,' says Merula. 'Yes. Men.' She turns the cane over. 'A toll. I shall have that looked at.' She does not ask again.".
-    On discuss { Assert merulaAnswered(party). }
-  }
-
   // The Archivist's question.
   Topic moll_asks with moll "Let the Archivist ask what it is you want of the Annals" when annalsOpen(party) once {
-    Says "'Before I show you a thing I must know what it will be used for,' says Moll. 'A history in the wrong hand is a knife. What do you want to do with it?'".
+    Says "'Before I show you a thing I must know what it will be used for,' says Fenwarden. 'A history in the wrong hand is a knife. What do you want to do with it?'".
   }
   Topic moll_ans_know with moll "Say that you only want to know" answering moll_asks when true {
     Says "'Only,' he says. 'Yes. That is what the first Archivist said. It is the right reason and the most dangerous.' He turns a page. 'Read.'".
