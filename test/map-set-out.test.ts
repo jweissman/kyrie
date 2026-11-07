@@ -13,7 +13,7 @@ describe('setting out from the map', () => {
   // (With wayfinding: without it a march-stone is on the map only once heard of, the owner, 3 November.)
   it('goes by the road to each march-stone, named for the country beyond, and draws that country there', async () => {
     const j = await MapPlay.start('kite', 'debt'), screen = j.screen(), land = screen.region!.land!;
-    const stones = land.marks.filter(m => /__(edge_[a-z]+|gate_\w+)$/.test(m.id));
+    const stones = land.marks.filter(m => /^region__(edge_[a-z]+|gate_\w+)$/.test(m.id));
     // The four march-stones, and the way into each of the country's provinces (Gate B: every adventure in it).
     expect(stones.length).toBe(4 + Countries.provinces.length);
     for (const m of stones) {
