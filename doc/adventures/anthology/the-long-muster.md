@@ -157,7 +157,7 @@ Lanterns; plant `uses`; four unpainted species; ridge-goat and goat are near-dup
 - **The deserters**: Aurel left a letter on the Eagle's stack and crossed the arch and came back to the Pass; three of seven are met at the head of the Descent; Gaius has left barley nine years; Hobbe's tally is one set of numbers.
 - Aphorism endings varied; renames (Ede Cassel, Silas Brand, Ferrar, Octa Draycott).
 
-**Still open**: `muster-rewrite.test.ts` still stages positions with `put` (63); the stale ids `hobday`/`dray`; ioneJoined, claimedRelief, piaPushed and others are flavour flags; the column ending is not played.
+**Still open (superseded by the fifth pass: the staged spec is gone)**: `muster-rewrite.test.ts` still stages positions with `put` (63); the stale ids `hobday`/`dray`; ioneJoined, claimedRelief, piaPushed and others are flavour flags; the column ending is not played.
 
 ## Fourth pass (the third hostile review)
 
@@ -173,7 +173,7 @@ What changed, and what did not.
 - **Ione.** "Argue" now costs her trust; "agree" earns it and risks her; the fall remains a dice roll on the clock.
 - **Ids.** `pia`, `dray`, `hobday`, `corrin`, `moll`, `sarn_scout` are now `ede_cassel`, `fenn_hallam`, `cattermole`, `hartnoll`, `ostrander`, `merula_scout`.
 
-**Not done, honestly.** `muster-rewrite.test.ts` still stages position and facts in about fifty places (three duplicated staged specs were deleted because the endings spec plays them); the write-only flags `dunyaSilent`, `fennPushed`, `giantAnswered`, `marraAngry`, `widowAnswered`, `springMarra`, `piaPushed`, `ioneJoined`, `marcusLetterShown` still only colour text; the wyvern is still dodged by timing; gold is still weak pressure (the purse is 24, the Tally fine 30); the telling harms someone only in the ending text, not in the world's state; the valley still hands its secrets to the stranger faster than the review wanted (the Archivist's forgery, Orsa's confession and the seal now need an earned step; Brand and Hobbe do not); cadences for Ostrander, Elpis, Rhea, Merula and Gaius are still close; the tics were cut where the review named them, not exhaustively; M-name piles remain.
+**Not done, honestly (the staging is superseded by the fifth pass).** `muster-rewrite.test.ts` still stages position and facts in about fifty places (three duplicated staged specs were deleted because the endings spec plays them); the write-only flags `dunyaSilent`, `fennPushed`, `giantAnswered`, `marraAngry`, `widowAnswered`, `springMarra`, `piaPushed`, `ioneJoined`, `marcusLetterShown` still only colour text; the wyvern is still dodged by timing; gold is still weak pressure (the purse is 24, the Tally fine 30); the telling harms someone only in the ending text, not in the world's state; the valley still hands its secrets to the stranger faster than the review wanted (the Archivist's forgery, Orsa's confession and the seal now need an earned step; Brand and Hobbe do not); cadences for Ostrander, Elpis, Rhea, Merula and Gaius are still close; the tics were cut where the review named them, not exhaustively; M-name piles remain.
 
 ## Fifth pass (the fourth hostile review's leftovers)
 
