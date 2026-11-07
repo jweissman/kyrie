@@ -1,0 +1,214 @@
+Module wrongboat "The Wrong Boat" {
+  // ── The clock, the barge and the chasers ───────────────────────────────────────────────────────────────────────
+  // Time is counted in ten-minute watches from the morning the company first stands on the Staithe quay (t0). The
+  // Mary keeps a timetable; the company does not. Bess Lowther starts after them by the old fen road as soon as the
+  // quay has told her where a hamper went, and from then on she hunts the company where it is, not where it was
+  // (hunt.kyr); the Trust's two lads wait at the weir and, once the company has passed the race-head, hunt it too.
+  Measure t0(). Measure stageNow(). Measure confrontedAt(group). Measure trailLostAt(group). Measure ladsMetAt(group).
+  Query bargeAt(n: number) means stageNow() == n.
+  Query since(n: number) means t0() > 0 and watch(clock) >= t0() + n.
+  Query ferryCrossing() means ferryPaid(party) and at(party, ferry_stage).
+  Query stageHot() means (at(lads, ferry_stage) and not ladsDealt() and not escort()) or (at(bess, ferry_stage) and not bessAlly(party) and not bessMet(party)).
+  // The lads hold the towpath at the weir until they are paid, beaten, swept or have the pack; the company does not walk past them. A toll-clerk who walks with the company, and whose sergeant's ledger they are in, is not a thing they stop.
+  Query ladsDealt() means ladsPaid(party) or ladsRouted(party) or ladsSwept(party) or beatenUp(party) or caught(party) or emptyHanded(party).
+  Query escort() means bessAlly(party) and together(bess, party).
+  Query ladsBlock() means at(lads, weir) and not ladsDealt() and not escort().
+  Query aboard() means at(party, deck) or at(party, cabin) or at(party, hold) or at(party, galley).
+  Query loot() means holding(party, music_box) or holding(party, hamper_kind).
+  Relation hiding(group). Relation disguised(group). Relation confronted(group). Relation bessSearched(group). Relation accused(group).
+  Relation decoyLaid(group). Relation decoyFound(group). Relation ferryPaid(group). Relation bessMet(group). Relation bessKnows(group).
+  Relation boxReturned(group). Relation caught(group). Relation bessTook(group). Relation ladsSwept(group). Relation dollyFare(group).
+  Relation bessAlly(group). Relation hobyPlay(group). Relation flamboyant(group). Relation nollWaited(group). Relation teagueOpen(group).
+  // A chaser who is with the company stays; the itinerary pursuits below are for when she is not.
+  Relation emptyHanded(group). Relation ladsPaid(group). Relation ladsRouted(group). Relation beatenUp(group). Relation ladsMet(group). Relation sluiceOpen(group). Relation liedToBess(group). Relation hobAsked(group). Relation hobTold(group). Relation bessReunited(group).
+  
+  Rule empty_handed when not loot() and not emptyHanded(party) { Assert emptyHanded(party). }
+  Rule loaded when loot() and emptyHanded(party) { Retract emptyHanded(party). }
+  Rule begin when at(party, quay) and t0() == 0 { Set t0() to watch(clock) + 1. Set stageNow() to 1. }
+  // The Mary: at Staithe to +9; afloat; at the fen +60 to +70; afloat overnight; at Pelham +150 to +185 (the
+  // morning after, the fair open); afloat; at the race-head +225 to +245; afloat; at the Highfoot stage from +290.
+  Rule at_staithe when t0() > 0 and watch(clock) < t0() + 9 and stageNow() != 1 { Set stageNow() to 1. }
+  Rule afloat_a when since(9) and watch(clock) < t0() + 60 and stageNow() != 0 { Set stageNow() to 0. }
+  Rule at_fen when since(60) and watch(clock) < t0() + 70 and stageNow() != 2 { Set stageNow() to 2. }
+  Rule afloat_b when since(70) and watch(clock) < t0() + 150 and stageNow() != 0 { Set stageNow() to 0. }
+  Rule at_pelham when since(150) and watch(clock) < t0() + 185 and stageNow() != 3 { Set stageNow() to 3. }
+  Rule afloat_c when since(185) and watch(clock) < t0() + 225 and stageNow() != 0 { Set stageNow() to 0. }
+  Rule at_race when since(225) and watch(clock) < t0() + 245 and stageNow() != 4 { Set stageNow() to 4. }
+  Rule afloat_d when since(245) and watch(clock) < t0() + 290 and stageNow() != 0 { Set stageNow() to 0. }
+  Rule at_stage when since(290) and stageNow() != 5 { Set stageNow() to 5. }
+
+  // Where the Mary lies, told from her deck.
+  Relation castOff(group).
+  Rule casts_off at deck when at(party, deck) and since(9) and not castOff(party)
+    says "Dolly takes her pipe out. 'Cast off!' she shouts, to the world. Shim has the bow-rope in his hands before she finishes, and the quay goes backward as if somebody had pulled it, with Mother Cobbold on it getting smaller, shouting something about a debt." {
+    Assert castOff(party). }
+  Observe mary_gone at quay when since(9) "The Patient Mary has gone. Where she lay there is a stripe of clean water, and a child on the bollard staring at it.".
+  Observe water_slides at deck when bargeAt(0) and since(9) "The banks slide past at a walking pace. A heron lifts and settles. Forward, Shim is telling the river what he thinks of it.".
+  Observe lies_fen at deck when bargeAt(2) "The Mary lies against the fen landing with her nose in the reeds. Dolly is leaning on the tiller, eating an onion like an apple. She will not run the Wend by night, she says, for anybody, and the Mary will lie here till the morning.".
+  Observe lies_fair at deck when bargeAt(3) "The Mary has taken a place on the fourth tier at Pelham quay, three barges out from the bank. Across their decks the fair is a wall of noise. The Mary lies here for the fair-day and the night after it, because the lock-keeper will not open for less than a morning.".
+  Observe lies_race at deck when bargeAt(4) "The Mary sits at the race-head with the lock-gate shut ahead of her and the miller's boy, on the lever, asleep. The lock is the way round the weir; Dolly steers by it with her back to the weir, and neither does anyone else on the deck.".
+  Observe lies_stage at deck when bargeAt(5) "The Mary has run out of river. Dolly has tied her to the Highfoot stage for good and gone to look for a drink.".
+
+  // The land ways: the old fen road, long; the high back road over the downs, longer, which the lads take.
+  Passage old_fen_road "the old fen road" is road between road and fen_landing taking 5 hours.
+  Passage back_road "the high back road" is road between road and horse_lines taking 6 hours.
+
+  // The cry on the quay: the first hint that the hamper is somebody's.
+  Person porter "a quay-porter" at quay {
+    Role "a porter with a sack-hook, off the Maud". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+  }
+  Rule porter_cries at quay when at(party, quay) and holding(party, hamper_kind) and not accused(party)
+    says "A porter on the next bollard stops with his hook half-way in a sack. 'Oi!' he shouts, to the whole quay. 'That's Hob Garrod's hamper! That's off the Heron! Who gave you Hob Garrod's hamper?' Heads come up all along the planks. He is pointing, and he has a voice for it." {
+    Assert accused(party). }
+  // Landings remember. Each says what was said of the company before it got there.
+  Observe bill_fen at fen_landing when since(60) and accused(party) "On the bollard a handbill, new, in a clerk's black hand: LOST, A BOX OF DARK WOOD, FROM STAITHE. THREE PERSONS WITH A HAMPER. FIVE SHILLINGS TO WHOEVER SAYS WHERE. Somebody has drawn a bad picture of three persons.".
+  Observe bill_fair at fair_quay when since(150) and accused(party) "A crier is at the end of the quay calling the lost box, and the three persons, and the five shillings, in the voice of someone paid by the word.".
+  Observe bill_mill at millyard when since(225) and accused(party) "Tabitha Auster's broom has stopped. 'There's been a man,' she says, 'asking about three people and a hamper. I said I'd not seen so much as an onion.' She looks at your hands.".
+  Observe bill_stage at ferry_stage when since(290) and accused(party) "The Highfoot bell-post has a handbill nailed to it, under the board that says RING ONCE. The five shillings has been struck out and ten written in.".
+
+  // The chasers. Bess's first leg is a guess; the rest is hunt.kyr.
+  Person bess "Bess Lowther" at toll_counter {
+    Role "a toll-clerk, owed three months' wages". Ancestry human. Calling commoner. Level 1. Peaceable. Pronouns she. Manner stoic.
+    Uses go. Plans 80 steps.
+    Greets "A broad woman of forty-odd in a clerk's black sleeves, with a coin-scale in one hand and nothing in the other, turns from a barge-list and looks you over like a column of figures. 'You are not who I'm looking for,' she says. 'Or you are, and you are better at it than he was.'".
+  }
+  Pursuit bess_fen for bess "going by the old fen road" priority 1 when not bessAlly(party) and not together(bess, party) and since(14) and aboard() seeks at(bess, fen_landing).
+  Pursuit bess_dealer for bess "gone to the horse lines" priority 9 when soldHonest(party) and not bessMet(party) seeks at(bess, horse_lines).
+  Pursuit bess_decoy for bess "gone to look at the eel-stage" priority 9 when decoyLaid(party) and not decoyFound(party) seeks at(bess, eel_stage).
+  Rule decoy_found when decoyLaid(party) and not decoyFound(party) and at(bess, eel_stage) {
+    Assert decoyFound(party). Retract decoyLaid(party). Set trailLostAt(party) to watch(clock). }
+  Observe decoy_seen near bess when decoyFound(party) and at(bess, eel_stage) and at(party, eel_stage) "Bess stands on the eel-stage with a dishcloth in her hand, and a ration-cake wrapped in it, and turns it over as if there were a second side.".
+
+  // Two grey coats with a cudgel between them. Not a fight the engine stages: the company meets them, has five watches,
+  // and then pays, sweeps, routes, surrenders or is robbed.
+  Person lads "the Trust's lads" at weir {
+    Role "two of Sergeant Brill's men, sent after the music box". Ancestry human. Calling warrior. Level 2. Numbers 2. Peaceable.
+    Uses go. Plans 30 steps.
+  }
+  Pursuit lads_weir for lads "going to the weir" priority 1 when since(2) and not since(250) and not ladsSwept(party) and not ladsPaid(party) and not together(lads, party) seeks at(lads, weir).
+  Pursuit lads_stage for lads "going down to the Highfoot stage" priority 2 when since(250) and not ladsSwept(party) and not together(lads, party) seeks at(lads, ferry_stage).
+
+  // Being seen: out in the open Bess knows a face. A bargeman's smock fools her; lavender does not (it is looked at);
+  // hiding, or the fen mist, keeps her off; and anyone who has seen the puppet-play of the Wicked Toll-Clerk knows her
+  // at once, smock or no.
+  Thing fen_mist "the mist on the fen" at causeway is scenery {
+    State thin "The mist lies in the reeds, no higher than a man's knee, and the causeway runs on ahead plain enough.".
+    State thick "The mist has come up out of the reeds and stands over the causeway. You can see your hand, and the planks, and nothing else.".
+  }
+  Initially Assert state(fen_mist, thin).
+  Rule mist_up when since(55) and watch(clock) < t0() + 100 and state(fen_mist, thin) { Assert state(fen_mist, thick). }
+  Rule mist_down when since(100) and state(fen_mist, thick) { Assert state(fen_mist, thin). }
+  Query mistHides() means state(fen_mist, thick) and (at(party, causeway) or at(party, bell_cot) or at(party, eel_stage)).
+  Query disguiseFools() means disguised(party) and not flamboyant(party) and not hobyPlay(party).
+  Query nollHides() means nollWaited(party) and at(party, bell_cot) and hiding(party).
+  Query unaHides() means unaSung(party) and at(party, ferry_stage) and hiding(party).
+  Query sheltered() means nollHides() or unaHides().
+  Rule bess_spots when at(bess, ?r) and at(party, ?r) and not hiding(party) and not disguiseFools() and not confronted(party) and not bessMet(party) and not mistHides() and not sheltered() {
+    Assert confronted(party). Set confrontedAt(party) to watch(clock). }
+  // Hiding is a gamble against a woman who is looking. She comes to the room, and looks once. One time in three she
+  // finds you (and you are confronted as ever); otherwise she is satisfied, and goes off the hunt for ninety watches.
+  Rule bess_finds when at(bess, ?r) and at(party, ?r) and hiding(party) and not bessSearched(party) and not confronted(party) and not bessMet(party) and not sheltered() and dice(clock) <= 35
+    says "Bess comes down into the dark and stands still in it. She does not call out. She puts out one hand, flat, and walks it along the sacks until it finds a shoulder." {
+    Assert bessSearched(party). Assert confronted(party). Set confrontedAt(party) to watch(clock). }
+  Rule bess_misses when at(bess, ?r) and at(party, ?r) and hiding(party) and not bessSearched(party) and not confronted(party) and not bessMet(party) and not sheltered() and dice(clock) > 35
+    says "Bess comes to the doorway and looks for exactly as long as it takes to be sure of what she sees. She goes through the rest of the place, quickly, and comes back, and stands with her hands on her hips looking at nothing at all. She goes out. You hear her on the planks, going the wrong way." {
+    Assert bessSearched(party). Set trailLostAt(party) to watch(clock) + 60. }
+  Rule searched_clears when bessSearched(party) and not hiding(party) { Retract bessSearched(party). }
+  Measure hidAt(group).
+  Rule hiding_marks when hiding(party) and hidAt(party) == 0 { Set hidAt(party) to watch(clock). }
+  Rule hiding_wears when hiding(party) and hidAt(party) > 0 and watch(clock) >= hidAt(party) + 18
+    says "You have been under the sacks, or the cloth, or the steam, long enough to hear your own blood. Cramp wakes in a leg. You cannot stay here and be anything but a thing hidden." { Retract hiding(party). Set hidAt(party) to 0. }
+  Rule hidAt_clear when not hiding(party) and hidAt(party) > 0 { Set hidAt(party) to 0. }
+  Rule hiding_ends when hiding(party) and not at(party, hold) and not at(party, galley) and not at(party, puppet_booth) and not at(party, bell_cot) and not at(party, sluice_hut) and not at(party, ferry_hut) and not at(party, millhouse) and not at(party, ferry_stage) and not at(party, millyard) and not at(party, fair_quay) { Retract hiding(party). }
+  Rule disguise_ends when disguised(party) and not at(party, fairground) and not at(party, draper) and not at(party, puppet_booth) and not at(party, fair_quay) and not at(party, horse_lines) and not at(party, pelham_inn) and not at(party, lockup) { Retract disguised(party). }
+  // What a disguise does, shown. A smock is passed over; lavender is looked at, and not for the reason the wearer hoped.
+  Observe smock_passed near bess when disguised(party) and not flamboyant(party) and not confronted(party) "Bess's eyes go over you the way they go over luggage, and on to the next thing.".
+  Observe lavender_looked near bess when disguised(party) and flamboyant(party) "Bess's eyes go to the waistcoat and stay on it. She is not looking at the waistcoat.".
+  Observe spotted near bess when confronted(party) and not bessMet(party) "Bess has seen you. She does not run, and she does not shout. She puts the coin-scale down on whatever is nearest, carefully, and walks towards you with her hands open.".
+  // A confrontation left to lie is a loss: she has what you carry out of your hands in three watches, kindly. The
+  // hamper is no safer than the box; she lifts the cloth, once, and does not ask whose it was.
+  Rule bess_takes when confronted(party) and not bessMet(party) and watch(clock) >= confrontedAt(party) + 3 and at(bess, ?r) and at(party, ?r) and holding(party, music_box)
+    says "Bess does not wait to be answered. She takes the box from whoever is holding it, in both hands, the way a nurse takes a child from a stranger, and nobody stops her. It begins to play, and she holds it a little away from her, as if to give it room." {
+    Spend music_box from party. Assert bessTook(party). }
+  Rule bess_takes_hamper when confronted(party) and not bessMet(party) and watch(clock) >= confrontedAt(party) + 3 and at(bess, ?r) and at(party, ?r) and holding(party, hamper_kind) and not holding(party, music_box)
+    says "Bess lifts the corner of the cloth, looks, and puts it back. She takes the hamper out of whoever's arms it is in, and the label with it, and no hand is raised. 'DO NOT OPEN,' she reads. 'Well. He never did learn to spell.'" {
+    Spend hamper_kind from party. Assert bessTook(party). }
+
+  // A company with nothing in its hands is not a company she has anything to ask of.
+  Rule bess_empty when confronted(party) and not bessMet(party) and not loot() and not bessTook(party)
+    says "Bess looks at your hands, and your pack, and the floor of the place you are standing on. 'Nothing,' she says. She takes her time over it. 'Somebody has it, then.' She picks up her coin-scale, and goes the way she came, and does not turn her head." {
+    Retract confronted(party). Assert bessMet(party). Set trailLostAt(party) to watch(clock). }
+  // A hunt by pursuit answers a move only after the move is made, so a company that walks a long hop is a whole hop
+  // ahead of her. The quick road is not made safe by that: the carrier on the high road runs a dog-cart, and she has
+  // the Trust's name to ride it with. She is at the weir two watches after a company that came by the back road, and
+  // at the stage, when it has gone on, twelve watches after that.
+  Rule bess_cart_weir at weir when at(party, weir) and huntBess() and not together(bess, party) and since(52)
+    says "A dog-cart comes down the towpath at a trot, with a carrier on the box looking put-upon. A broad woman in black sleeves gets down from it before it has stopped, and thanks the carrier, and pays him, and puts the coin-scale in her pocket. She has not been hurrying. She has been getting here." {
+    Assert at(bess, weir). }
+  Rule bess_cart_stage at ferry_stage when at(party, ferry_stage) and huntBess() and not together(bess, party) and since(64)
+    says "Bess Lowther is sitting on a bollard at the end of the stage with her coin-scale in her lap, and a dog-cart standing empty on the towpath behind her. She stands up when she sees you." {
+    Assert at(bess, ferry_stage). }
+  // Bess has her own view of a weir.
+  Rule bess_leaves_swept when bessAlly(party) and ladsSwept(party)
+    says "Bess has been told what the weir did. She stops walking. 'Tom went in at that weir,' she says. 'I did not think I would find that I knew people who could do it to two strangers on purpose.' She holds out nothing, asks for nothing, and turns around. She does not look back, and you do not call her." {
+    Retract bessAlly(party). Retract following(bess, party). Assert bessMet(party). Assert at(bess, quay). Set trailLostAt(party) to watch(clock). }
+  Rule bess_has_box when bessTook(party) and holding(party, music_box) { Spend music_box from party. }
+  Rule bess_has_hamper when bessTook(party) and holding(party, hamper_kind) { Spend hamper_kind from party. }
+
+  // Hiding, and what is done once she finds you.
+  Action hide_in_hold(actor: group, site: place) "Go down into the hold and pull the onion-sacks over you" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hold) and not hiding(actor) and quantity(actor, rations) >= 1.
+    Time 1.
+    On success { Assert hiding(actor). Decrease quantity(actor, rations) by 1. }
+    Result "The sacks smell of earth and a kind of sweet rot, and you are all three under them, and it is hot. Above your face the planking has a knot-hole, and through the knot-hole there is a square of light the exact size of an eye.".
+  }
+  Action hide_in_galley(actor: group, site: place) "Stand in the galley steam behind Mrs Brabant" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, galley) and teagueOpen(actor) and not liedToBess(actor) and not hiding(actor) and quantity(actor, rations) >= 1.
+    Time 1.
+    On success { Assert hiding(actor). Decrease quantity(actor, rations) by 1. }
+    Result "Mrs Brabant says nothing. She moves one step to the left, which puts the whole of her between the door and you, and goes on stirring, and crying, and nobody would look past her for a king.".
+  }
+  Action swear_false(actor: group, site: place) "Swear to Bess that you have only cakes" {
+    Speaker bess.
+    Requires able(actor) and company(actor) and at(actor, site) and at(bess, site) and confronted(party) and not bessAlly(party) and not bessKnows(party) and loot().
+    Time 0.
+    Resolve check(actor, deception, dc_hard).
+    On success { Retract confronted(party). Assert bessMet(party). Assert liedToBess(party). Set trailLostAt(party) to watch(clock). Retract at(bess, site). Assert at(bess, quay). }
+    On failure { Assert bessKnows(party). }
+    Result "You say it to her face and it does not feel like lying; it feels like acting. Bess takes it in with her head on one side. 'Cakes,' she says. 'It's a big hamper for cakes.' But she goes, and she goes the wrong way, and at the end of the street she stops and stands there.".
+    Otherwise "'It plays,' says Bess. 'I can hear it from here. The spring is loose.' You had not known that. She holds out her hand.".
+  }
+  Action flee_bess(actor: group, site: place) "Break from her and run for it" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(bess, site) and confronted(party) and not bessAlly(party).
+    Time 0.
+    Resolve check(actor, stealth, dc_hard).
+    On success { Retract confronted(party). Assert bessMet(party). Set trailLostAt(party) to watch(clock). Retract at(bess, site). Assert at(bess, quay). }
+    On failure { Assert bessTook(party). }
+    Result "You do not decide to run. Your legs do, and the crowd, or the reeds, or the dark does the rest. Behind you a woman's voice says your name, which she cannot know, and then something else, which sounds like 'please'.".
+    Otherwise "Your foot finds a rope. She is there before you have finished falling, with one hand on your coat and the other under the box. 'Don't,' she says, and takes it.".
+  }
+  // The lads: the pair meets the company, has five watches of it, and then takes what is carried. Paid, swept, routed
+  // or eluded, they do not. Nothing here is a fight the engine plays out.
+  Rule lads_meet when at(lads, ?r) and at(party, ?r) and ladsMetAt(party) == 0 and not ladsDealt() and not escort()
+    says "Two men step out of the reeds side by side, in the Trust's grey coats with the badges turned inward. 'The box,' says the larger, in a voice that has not had to be raised before. 'Or we do this the long way, and you carry the bits.' The smaller one has his hand on a cudgel and is looking at the water." {
+    Set ladsMetAt(party) to watch(clock). Assert ladsMet(party). }
+  Observe lads_stand_off at weir when escort() and at(lads, weir) "The larger lad sees the toll-clerk beside you, and finds something to look at on the water. They are the Trust's, and she is the Trust's clerk, and he has not been told which of you he is meant to be more afraid of.".  Rule lads_snatch when at(lads, ?r) and at(party, ?r) and not ladsDealt() and not escort() and ladsMetAt(party) > 0 and watch(clock) >= ladsMetAt(party) + 5 and loot()
+    says "The larger lad is behind you before you have turned. A hand like a spade closes on the strap of the pack, and there is a moment of weight and tearing, and then he has it, and the two of them are off along the bank, not running, because they do not need to." {
+    Assert caught(party). }
+  Rule lads_take_box when (caught(party) or beatenUp(party)) and holding(party, music_box) { Spend music_box from party. }
+  Rule lads_take_hamper when (caught(party) or beatenUp(party)) and holding(party, hamper_kind) { Spend hamper_kind from party. }
+  Rule lads_clear when ladsMetAt(party) > 0 and watch(clock) >= ladsMetAt(party) + 40 { Set ladsMetAt(party) to 0. }
+  // The fight is a choice. A hard brawn check in front of the company's own coin: win and they are driven off, with
+  // a coin or two lost in the grass and the noise of it carried on the water to a woman who is listening; lose and
+  // they have everything you hold and leave you on the towpath.
+  Action fight_lads(actor: group, site: place) "Stand and fight the lads" {
+    Speaker lads.
+    Requires able(actor) and company(actor) and at(actor, site) and at(lads, site) and ladsMetAt(party) > 0 and not ladsDealt().
+    Time 1.
+    Resolve check(actor, brawn, dc_hard).
+    On success { Assert ladsRouted(party). Retract at(lads, site). Assert accused(party). Decrease quantity(actor, gold) by 2 or to nothing. }
+    On failure { Assert beatenUp(party). }
+    Result "It is brief and it is ugly and the smaller one is better at it than he looks. When the larger sits down in the reeds with his hand to his head, the cudgel is in the water and two coins from your purse are somewhere in the grass. The noise has gone out over the river a long way. They do not follow.".
+    Otherwise "You get one good blow in. After that it is the bank, and then the sky, and the larger lad's knee, and then the underside of a willow.".
+  }
+}

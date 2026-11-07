@@ -1,0 +1,111 @@
+Module muster "The Long Muster's Road" {
+  // ── The valley by the hour: horns, bread, salt and the Tally ──────────────────────────────────────────────────
+  // The valley keeps the legion's hours. Reveille at the sixth, the parade at the standard at the fourth hour of the
+  // day, the noon call at which the salt-oxen stop where they are, the evening call at which the lot is drawn once a
+  // year and the watch is set every year of the year, and the last watch at the twenty-second hour. The smell is of
+  // bread baked to a legion's recipe (hard, twice-cooked, studded with cumin) and of bronze polish, wet wool and
+  // woodsmoke. A tally is a punishment: whoever has offended the Muster's law stands in the Tally-yard and counts,
+  // aloud and unbroken, the days of the sentence, and a clerk marks him present at each call.
+
+  Observe reveille at wall_walk as sound when hour(clock) >= 6 and hour(clock) < 7 "On the wall a horn begins, five notes, and from every roof in the valley a second horn answers, thin and late, and then dogs. It is the sixth hour. It has been the sixth hour, by this horn, for eleven hundred years.".
+  Observe noon_call at forum as sound when hour(clock) >= 12 and hour(clock) < 13 "The noon call: three notes held. Every salt-ox in the forum stops where it stands, with its sled half out of the lane, and will not be moved by a goad or a bribe until the last note has died.".
+  Observe evening_call at wall_walk as sound when hour(clock) >= 18 and hour(clock) < 19 "The evening call from the wall: two long and two short. The Cohort turns, wherever it is, towards the north, and for the space of a held breath nobody speaks. Then somebody laughs, and the day goes on.".
+  Observe last_watch at wall_walk as sound when hour(clock) >= 22 and hour(clock) < 23 "The last watch is set to a single note, low, from a bronze buccina older than the town. Down in the valley a dog sings back, and a sentry says something in a language that has had no children for a thousand years.".
+  Observe parade_scene at forum when hour(clock) >= 10 and hour(clock) < 11 "The parade at the standard. Everyone in the forum, the Prefect to the boy with the bucket, stops, turns and brings a fist to the breast. A girl of ten at the front of the schola's line is crying. Nobody looks at her.".
+  Observe forum_ox at forum when true "A salt-ox stands in the lane by the well with a sled, broad as a door, its horns capped in bronze, a white blaze down its face. It has the absolute serenity of an animal that has not been wrong about the hour in its life.".
+
+  Person oxen "the salt-oxen" at forum {
+    Role "a team of four salt-oxen at their sled". Species salt_ox. Numbers 4. Peaceable.
+  }
+
+  // ── The pistrina: bread ─────────────────────────────────────────────────────────────────────────────────────────
+  Person octa "Octa Draycott" at pistrina {
+    Role "master baker of the Cohort". Ancestry human. Pronouns she. Manner jovial. Peaceable.
+    Sells rations for 3 coin from 20.
+    Greets "A woman built like a gate-post, dusted white from hair to boots, turns a loaf out of its tin and holds it under your nose before you have spoken. 'Buccellatum,' she says. 'Twice-cooked, cumin, eleven hundred years of it. The Muster's recipe. Never improved. Never needed it.' You eat. It is, you discover, the best bread you have ever tasted, and you do not understand why.".
+  }
+  Observe pistrina_scene at pistrina when true "The pistrina is a long domed oven-house with six mouths, each fired by a boy, and the whole room smells of cumin, hot flour and scorched crust. The loaves come out in rows, each stamped with a wheel, each exactly the same weight. A tablet on the wall gives the day's baking in numerals and a column headed THE SENDING, with a single loaf ruled off in it.".
+  Topic octa_recipe with octa "Ask the baker why the bread tastes as it does" when true {
+    Says "'Because it is the Muster's,' says Octa. 'And because nobody has ever dared to change a grain. The yeast is older than the Cohort. My great-grandmother's grandmother kept it alive in a pot in the plague winter by keeping it against her skin.' She cuts a heel. 'There was a year the flour was bad and the bread was bad and the Eagles said it was a judgment. The Hearth said it was the flour.' She butters it. 'Both. Pass the salt.'".
+    On discuss { Assert ateBread(party). }
+  }
+
+  // ── The schola: the March, by heart ───────────────────────────────────────────────────────────────────────────
+  Person veldt "Ursa Veldt" at schola {
+    Role "schoolmistress of the Cohort". Ancestry human. Pronouns she. Manner compassionate. Peaceable.
+    Greets "A thin woman with ink to the wrist stands before forty children on benches, a tablet in her hand. 'The twenty-ninth day of the March,' she says, and the benches answer together, high and flat: 'The Mansio Septimus. The Sixth Cohort lay in the hall. A hundred and forty days unpaid.' She lifts a finger. 'Again. With the pay.'".
+  }
+  Observe schola_scene at schola when true "A long room of benches, wax tablets and a map on the wall that is wrong in a way you cannot at first place: the road goes from the gate north-west to a great city, and between the Eagle and the city there is a single word: HOME. The children recite the March each morning, a day for each day of the road, so that none of them will forget the names of the places they have never seen.".
+  Topic veldt_march with veldt "Ask the schoolmistress what the children recite" when true {
+    Says "'The March,' says Ursa Veldt. 'Thirty-three days from the capital to the Eagle, the places and the pay. They learn it at five and it is the first thing they can say.' She shrugs. 'They like the places with long names.'".
+  }
+  Topic veldt_rufus with veldt "Tell the schoolmistress that Rufus's scratches say they waited" when knows(actor, rufus_3) and knows(actor, rufus_4) once {
+    Says "She lowers the tablet, and the forty children go quiet in a way they have not been taught. 'We say, the Sixth Cohort lay in the hall,' she says. 'We say nothing of the rest. I have taught for thirty years the hundred and forty days and never what the hundred and forty were for.' 'I'll add a day,' she says.".
+    On discuss { Assert knows(actor, school_changes). }
+  }
+  Entity school_changes: fact "The schoolmistress will add a day to the March: the one where the soldiers wrote that they waited.".
+  Person livia "Livia Veldt" at schola {
+    Role "a pupil of fourteen, the schoolmistress's niece". Ancestry human. Pronouns she. Manner cheerful. Peaceable.
+    Greets "A girl in the back bench has drawn the road in the margin of her tablet, every arch of the Viaduct, with something in each arch. 'I have never seen it,' she says. 'I know where the stones are, and where the milestones say. Is the fifth really gone?'".
+  }
+  Topic livia_north with livia "Ask Livia what she would do if the lot fell on her" when true {
+    Says "'Go,' says Livia at once. 'Go past the Eagle. I'd cross at the parapet. Everyone knows the parapet's the way, nobody dares. Auntie says the wind on it would peel a pig.' She chews her pen. 'I've been to the Eagle in my head every night for six years. There's a village, I think. There's a smoke.'".
+  }
+  Topic livia_map with livia "Give Livia the map of the road you found" when (holding(actor, ancient_map) or holding(actor, faded_map)) and not liviaMapped(party) once {
+    Says "She unrolls it on the bench and does not speak for a quarter of an hour. When she does, it is in a whisper. 'It's not the same. The Eagle is here, not there. The Pass is nearer. There's a ford, and a place with a name I can't read, and it says: KELL.' She puts a finger on it. 'It's real,' she says. 'It's got a name. It's got a *name*.'".
+    On discuss { Assert liviaMapped(party). }
+  }
+  Observe livia_wall at schola when liviaMapped(party) "On the wall of the schola, under the old map, a new map has been chalked, as large as the wall: the road all the way to a ford and a place called Kell, with thirty tiny houses round a trough. The schoolmistress has not rubbed it out.".
+
+  // ── The salt-market ───────────────────────────────────────────────────────────────────────────────────────────
+  Person rhea "Rhea Coad" at salt_market {
+    Role "the salt-reckoner, who sets the day's weights". Ancestry human. Pronouns she. Manner acerbic. Peaceable.
+    Buys toll_silver for 20 coin.
+    Buys steel_coin for 6 coin.
+    Sells lamp_oil for 3 coin from 6.
+    Sells rope for 2 coin from 4.
+    Greets "A woman at a trestle with a steelyard, a ring of weights and a face like a sharp stone looks at your coin and not at you. 'Aenean?' she says. 'Show me. It's the only money I take.' She weighs a chip of salt and sets it down. 'You have walked from the north with Aenean coin in your pocket. Do you have any idea what that is worth to a people who have not seen a new one in eleven hundred years?'".
+  }
+  Person rhea_vault "Rhea Coad's strongbox" at salt_market {
+    Role "the reckoner's locked chest, opened for those she has asked". Ancestry human. Pronouns she. Peaceable.
+    Seen when rheaAnswered(viewer) and not valleyTold(viewer).
+    Buys ancient_orrery for 70 coin.
+    Buys celestial_chart for 45 coin.
+    Buys antique_compass for 25 coin.
+  }
+  Observe salt_shut at salt_market when valleyTold(party) "The trestle is folded and the steelyard taken in. A chalked board says CLOSED FOR THE REASONING OF WEIGHTS, and nobody in the square will say for how long.".
+  Observe salt_market_scene at salt_market when true "A paved square under a bronze steelyard on a gallows, stalls of grey and pink and white salt in cones, and a ring of little weights stamped with the wheel. The salt comes from a spring above the valley, boiled in pans, and the market is quiet, careful, and a little holy. A man is weighing out a dozen pinches into a child's palm with the gravity of a surgeon.".
+  Topic rhea_coin with rhea "Ask the salt-reckoner about Aenean coin" when true {
+    Says "'Every coin in the valley is the same coin,' says Rhea. 'Eleven hundred years in circulation. Worn to a thumb's smooth. We do not mint, we do not melt, we do not argue.' She turns the chip over. 'The Hearth says that the coin is a story we tell. The Eagles say the coin is the Emperor's face. I say it is eleven grains of silver, and the grains weigh the same whoever's face is on them.'".
+  }
+
+  // ── The Tally-yard: a man counting ─────────────────────────────────────────────────────────────────────────────
+  Person hobbe "Hobbe Quarry" at tally_yard {
+    Role "a Hearth man, serving a year's Tally for withholding a tithe of barley". Ancestry human. Pronouns he. Manner stoic. Peaceable.
+    Greets "A man stands in the middle of the yard on a worn flag, hands at his sides, counting aloud in a level, unhurried voice: 'Two hundred and eleven. Two hundred and twelve.' A clerk on a stool marks something at each number. He does not stop for you. He nods once and says, in the same breath, 'Two hundred and thirteen.'".
+  }
+  Observe tally_scene at tally_yard when true "A small walled yard with a single flag worn into a dip by feet, and a clerk's stool, and a tablet. The Tally is the Muster's old punishment: stand, count, be marked. No one is beaten. No one is shut up. It is simply that the offender is made to say the days aloud, every one, until they are done. The sentence is a year, and the voice, after a hundred days, is flat.".
+  Topic hobbe_why with hobbe "Ask the man in the yard what he did" when true {
+    Says "'Two hundred and fifteen,' says Hobbe, and then, between numbers, level and low: 'I kept back a tithe of barley. Eleven sacks. The Sending's.' 'Two hundred and sixteen.' 'We have the right to count our own.' 'Two hundred and seventeen.' 'My father kept back none and was a better man.'".
+  }
+  Action count_with_hobbe(actor: group, site: place) "Stand beside him and count aloud with him, for an hour" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, tally_yard) and at(hobbe, tally_yard) and not hobbeFreed(actor) and not hobbeShut(actor).
+    Time 6.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert hobbeFreed(actor). Assert knows(actor, gold_known). }
+    On failure { Assert hobbeShut(actor). }
+    Result "You stand by him on the flag and say the numbers with him, an hour of them, and the clerk marks both of you. The words go flat. Somewhere in the second half-hour his voice breaks off on 'Two hundred and forty' and he says, still counting, low enough to be an accident: 'Under the vine-house floor. My father's father's father's. The Hearth never sold it, the Hearth saved it. Don't let the Eagles have it till they've learned to say sorry.' 'Two hundred and forty-one.'".
+  }
+  Action pay_hobbe_fine(actor: group, site: place) "Pay the clerk Hobbe Quarry's fine, thirty coin" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, tally_yard) and at(hobbe, tally_yard) and quantity(actor, gold) >= 30 and not hobbeFreed(actor).
+    Time 0.
+    On success { Decrease quantity(actor, gold) by 30. Assert hobbeFreed(actor). Assert hearthOwes(actor). Retract at(hobbe, tally_yard). }
+    Result "The clerk takes the coin, and weighs it, and strikes a line through a tablet, and says, 'Day two hundred and forty-one, and remitted.' Hobbe stops counting in the middle of a number and stands there, swaying, as though the floor had moved. 'Thank you,' he says, in the voice of a man who has been told he may stop and does not yet believe it. He goes out by the gate without looking round, and the clerk watches him go and writes nothing at all.".
+  }
+  Discovery gold_known "The gold wings of the old standard were hidden by the Hearth under a vine-house floor in the Schism of 871, and the standard on its pole in the forum is brass.".
+  Item gold_wing "the gold wing of the old standard" is golden_idol at gold_cellar hidden until gold_known.
+  Observe gold_cellar_scene at gold_cellar when true "A low cellar under a vine-house, the floor of beaten earth and the wall of dry stone, kept swept by someone who knew nothing of what was beneath. In a niche, wrapped in oiled sacking and then in a child's naming-cloth, something heavy that is warm to the touch in a cellar that is cold.".
+  Observe sending_scene at sending_gate when true "A small postern in the north wall, its lintel studded with iron nails, one for every Sending, rusted to one scab. The latest are bright. Outside it a worn path goes up the Descent, wide enough for one. Inside, painted on the wall: SPES, hope, in letters taller than a man, and under it, small, in a child's chalk: it will come.".
+  Observe wall_scene at wall_walk when true "The wall-walk looks north over the Descent and the high fells, and south over the whole valley: terraces, tiles, smoke, the dark line of the river, the pans of the salt-spring steaming white. A bronze buccina the length of a man hangs on a bracket by the stair, and a bored boy is polishing it.".
+  Observe brand_walk near brand when true "Silas Brand polishes the eagle's wing with a cloth and a little oil, the length of the wing, and again, as if he were stroking a living thing.".
+}

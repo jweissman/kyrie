@@ -1,0 +1,200 @@
+Module circus "Wapshott's Peregrine Circus" {
+  // ── Act IV: the crate, the hatchlings, the Sundial, and what comes home ───────────────────────────────────────
+  // After the Revels. A crate comes for the Keeper of the Menagerie Royal, which the Colonel signed himself, whatever the Revels made of him, because he wrote a
+  // letter in the first week of whatever the Revels made of him, to the one address in the Keepers' Book he had not tried. The eggs in
+  // it hatch within a day. What the company does with a clutch of frightened, clever animals decides how the town
+  // takes it; what they are decides where the Colonel goes next; and where he goes next is a place his Keepership
+  // should have been about from the beginning.
+  Relation crateCome(concern). Relation crateOpened(concern). Relation eggsKept(concern). Relation eggsHatched(concern).
+  Relation hatchlingsLoose(concern). Relation hatchlingsPenned(concern). Relation fenwickShown(concern).
+  Relation voyageReady(concern). Relation voyaged(concern). Relation backFromSarn(concern).
+  Relation wapshottAboard(concern). Relation billieAboard(concern). Relation mumchanceAboard(concern).
+  Relation trumpetPending(concern). Relation trumpetDone(concern). Relation colonelStopped(concern). Relation herdScattered(concern).
+  Relation takeLeave(concern). Relation takeEgg(concern). Relation takeSpecimens(concern). Relation billieResigned(concern).
+  Relation fenwickDispleased(concern). Relation colonelAwed(concern). Relation ruleRead(concern).
+  Measure crateDay(concern). Measure hatchLosses(concern). Measure trumpetAt(concern).
+
+  Person crewe "Tobiah Crewe" at tober_a {
+    Role "mate of the brig Sundial, lately her master". Ancestry human. Peaceable. Pronouns he. Manner stoic.
+    Greets "A thin, weathered man in a salt-stiff coat stands in the yard with his hat in both hands, reading the names on the wagons. 'Crewe,' he says. 'Tobiah. Mate of the Sundial, brig, out of Port Dree. Master, now.' He turns the hat. 'I've a crate for a Colonel Wapshott, who wrote to Port Dree and signed himself Keeper of the Menagerie Royal. I was told to give it into his hand and no other. I've been looking for his hand a month.'".
+  }
+  Initially Assert offstage(crewe).
+  Topic crewe_who with crewe "Ask Mate Crewe who sent the crate" when true {
+    Says "'Captain Vance, that was master,' says Crewe. 'He took a letter at Port Dree six months ago, from a Colonel Wapshott, Keeper of something. He'd been to the Preserve once as a boy. He went back for it. He took fever on the way home, off the Cape, and left me the crate, and this.' He gives you a salt-stained paper. 'I'm to say: the last clutch. I don't know what that means.'".
+    On discuss { Assert knows(actor, crate_known). }
+  }
+  Topic crewe_ship with crewe "Ask Mate Crewe where the Sundial lies" when knows(actor, crate_known) {
+    Says "'At the quay in the fair town, with half her crew in the taverns,' says Crewe. 'She's sound. She'll go south to Sarn for anyone who'll pay her master's wages and her bond. It's eleven days, wind or no wind.' He looks at the crate. 'It's an island nobody's been to since I was a lad. Vance said it was full.'".
+    On discuss { Assert knows(actor, ship_known). }
+  }
+  Entity crate_known: fact "A crate has come for Colonel Wapshott, who signed himself Keeper of the Menagerie Royal from the late Captain Vance of the brig Sundial, with a paper that says: the last clutch.".
+  Entity ship_known: fact "The brig Sundial lies at the quay in the fair town, her master Tobiah Crewe, and will go south to the Isle of Sarn for anyone who pays her bond.".
+  Entity eggs_known: fact "The crate holds a clutch of grey eggs, the size of loaves, packed in sawdust and warm.".
+  Entity sarn_known: fact "The crate came from the Isle of Sarn, which the Keepers' Book names in the margin of the Southern Preserve, and where the Progress once kept its beasts.".
+
+  Thing sea_crate "the sea-captain's crate" at tober_a is scenery {
+    State sealed "A sea-captain's crate stands in the wagon-yard, as long as a coffin, with SARN burnt into the lid and a crowned wheel burnt under it. It is warm to the hand.".
+    State opened "The lid of the crate has been prised off. A bed of sawdust, still warm, and in it a ring of grey eggs, loaf-big.".
+    State hatched "The crate lies in splinters in the yard, and the sawdust has been scraped into nests by small feet.".
+  }
+  Initially Assert offstage(sea_crate). Initially Assert state(sea_crate, sealed).
+  Rule crate_comes when revelsDone(wapshotts) and pitched(wapshotts) and day(clock) >= revelsDay(wapshotts) + 2 and hour(clock) >= 10 and not crateCome(wapshotts)
+    and current(wapshotts, ?g) and groundRoom(?g, rk_yard, ?r) {
+    Assert crateCome(wapshotts). Retract offstage(sea_crate). Retract offstage(crewe). Assert at(sea_crate, ?r). Assert at(crewe, ?r).
+    Assert travels(sea_crate). Assert post(sea_crate, rk_yard). Set crateDay(wapshotts) to day(clock). }
+  Rule fenwick_returns when crateCome(wapshotts) and offstage(fenwick) and not backFromSarn(wapshotts) and day(clock) >= crateDay(wapshotts) { Retract offstage(fenwick). Assert travels(fenwick). Assert post(fenwick, rk_tober). Assert fenwickCome(fenwick). }
+  Rule crewe_stays when crateCome(wapshotts) and not voyaged(wapshotts) and current(wapshotts, ?g) and groundRoom(?g, rk_yard, ?r) and not at(crewe, ?r) and not away(crewe) { Assert at(crewe, ?r). }
+  Observe crate_scene near sea_crate when state(sea_crate, sealed) "A sea-captain's crate is in the yard, burnt with SARN and a crowned wheel, and the wagon-hands are keeping a yard away from it.".
+
+  Action open_crate(actor: group, site: place) "Prise up the lid of the crate" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(sea_crate, site) and state(sea_crate, sealed) and not crateOpened(wapshotts).
+    Time 3.
+    On success { Assert crateOpened(wapshotts). Assert state(sea_crate, opened). }
+    Result "The lid comes up with a shriek of nails and a breath of warm air that smells of eggs and the sea. In the sawdust, in a ring, eleven loaf-big grey eggs lie in a ring like a clutch of stones. One of them rocks, a little, as you watch.".
+  }
+  Observe eggs_taught near sea_crate when state(sea_crate, opened) "Eleven eggs lie in the sawdust, warm. One rocks." teaches eggs_known.
+
+  // The Colonel on seeing it: the first mistake is made with love.
+  Topic wap_crate with wapshott "Show the Colonel what the crate holds" when knows(actor, eggs_known) and not colonelAwed(wapshotts) once {
+    Says "The Colonel goes down on one knee in the yard. He puts a hand on an egg, flat, as a physician does on a chest. 'Warm,' he says. 'Warm! Do you know what this is?' It is not a question. 'It is the Keepership. It is what it was FOR.' He gets up. His moustache is trembling, and Ada, from the ticket wagon, has put down her pen. 'We shall hatch them,' he says. 'We shall hatch them in the ring.'".
+    On discuss { Assert colonelAwed(wapshotts). Assert wapshottKeen(wapshotts). }
+  }
+  Relation wapshottKeen(concern).
+  Topic billie_eggs with billie "Ask Billie what to do with the eggs" when knows(actor, eggs_known) {
+    Says "'Keep them warm and keep them quiet and keep him out of it,' says Billie. 'A clutch hatches in a dark nest, not in a ring. Honoria's oven, the cool end, with a damp cloth. Or I'll do it under a lamp in the straw, if you'll shift the wagon.' She looks at the eggs with an expression you have not seen on her. 'They'll be wild, whatever we do. Don't let him name them.'".
+  }
+  Action warm_oven(actor: group, site: place) "Ask Honoria to put the eggs in the cool end of her oven" {
+    Speaker honoria.
+    Requires able(actor) and company(actor) and at(actor, site) and at(honoria, site) and crateOpened(wapshotts) and not eggsKept(wapshotts) and not eggsHatched(wapshotts).
+    Time 1.
+    On success { Assert eggsKept(wapshotts). Increase regard(honoria) by 1. }
+    Result "Honoria looks at the eggs, and at you, and takes off her apron and wraps the first in it. 'They'll want turning,' she says. 'Like a loaf.' She carries them to the oven one by one, as if they were the Archbishop.".
+  }
+  Action warm_lamp(actor: group, site: place) "Ask Billie to make them a nest under a lamp" {
+    Speaker billie.
+    Requires able(actor) and company(actor) and at(actor, site) and at(billie, site) and crateOpened(wapshotts) and not eggsKept(wapshotts) and not eggsHatched(wapshotts) and regard(billie) >= 1.
+    Time 1.
+    On success { Assert eggsKept(wapshotts). Increase regard(billie) by 1. }
+    Result "Billie says nothing at all. She makes a nest of the clean straw in the corner of the beast tent, lined with her own coat, and moves a lamp until it is exactly right, and stands over it with her arms folded. Nobody else is to come in.".
+  }
+
+  // They hatch in the night of the day they come (or the day after).
+  Person hatchlings "the hatchlings" at tober_a {
+    Role "eleven young hook-claws, an hour out of the egg". Species hook_claw. Variant young. Numbers 5. Level 1. Temperament wary.
+    Warns "A small barred head comes up from behind a wagon wheel, and looks, and does not run. Not yet.".
+    Flinches "The nearest hatchling bolts under the wagons with its tail straight out.".
+  }
+  Initially Assert offstage(hatchlings).
+  Rule hatch_kept when crateCome(wapshotts) and eggsKept(wapshotts) and not eggsHatched(wapshotts) and hour(clock) >= 22 and day(clock) >= crateDay(wapshotts)
+    and current(wapshotts, ?g) and groundRoom(?g, rk_beasts, ?b) {
+    Assert eggsHatched(wapshotts). Assert hatchlingsPenned(wapshotts). Retract offstage(hatchlings). Assert at(hatchlings, ?b). Assert state(sea_crate, hatched). Assert peaceable(hatchlings). Assert travels(hatchlings). Assert post(hatchlings, rk_beasts). }
+  Observe hatched_kept near hatchlings when hatchlingsPenned(wapshotts) "Eleven hook-claws kitten-small are asleep in a heap in a nest of straw, with Billie's coat under them. One is awake. It looks at you with the whole of its face and says nothing, as a creature does that has not yet found out about being looked at.".
+  Rule hatch_loose when crateCome(wapshotts) and not eggsKept(wapshotts) and not eggsHatched(wapshotts) and hour(clock) >= 22 and day(clock) >= crateDay(wapshotts)
+    and current(wapshotts, ?g) and greenOf(?g, ?n) {
+    Assert eggsHatched(wapshotts). Assert hatchlingsLoose(wapshotts). Retract offstage(hatchlings). Assert at(hatchlings, ?n). Assert state(sea_crate, hatched). }
+  Observe hatched_loose near hatchlings when hatchlingsLoose(wapshotts) "On the green, in the grey, the hatchlings are everywhere: on the horse-trough, in the gutters, on the stocks, one inside the pump. They are kitten-small and have a hooked claw on each foot. The geese are making a noise you would not have thought geese could.".
+
+  // In town: three ways to get them back, none of them a fight.
+  Action coax_meat(actor: group, site: place) "Lay a trail of meat from the green to the beast tent" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(hatchlings, site) and hatchlingsLoose(wapshotts) and quantity(actor, rations) >= 1.
+    Time 1.
+    On success { Decrease quantity(actor, rations) by 1. Retract hatchlingsLoose(wapshotts). Assert hatchlingsPenned(wapshotts). Assert peaceable(hatchlings). Assert travels(hatchlings). Assert post(hatchlings, rk_beasts). }
+    Result "They come in ones and twos, with their heads low and their tails out, tearing at the bait and looking over their shoulders, and after the last of it there is a pen and an open gate, and Billie shutting it.".
+  }
+  Action coax_stillness(actor: group, site: place) "Sit down in the middle of the green and be a tree" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(hatchlings, site) and hatchlingsLoose(wapshotts).
+    Time 3.
+    Resolve check(actor, stealth, dc_fair).
+    On success { Retract hatchlingsLoose(wapshotts). Assert hatchlingsPenned(wapshotts). Assert peaceable(hatchlings). Assert travels(hatchlings). Assert post(hatchlings, rk_beasts). }
+    Result "You sit. You are still for a long time. A small barred animal climbs on to your knee, looks into your face, and lies down on your boot. Then the rest come, as if you had been a trough. At the end of it Billie takes them one at a time from you into a sack, with an expression of faint professional jealousy.".
+    Otherwise "You sit down on the horse-trough and they all watch you do it. When you reach for the nearest, it takes a piece out of your thumb and runs up the pump.".
+  }
+  Action coax_billie(actor: group, site: place) "Ask Billie to bring them in" {
+    Speaker billie.
+    Requires able(actor) and company(actor) and at(actor, site) and at(hatchlings, site) and hatchlingsLoose(wapshotts) and regard(billie) >= 2.
+    Time 2.
+    On success { Retract hatchlingsLoose(wapshotts). Assert hatchlingsPenned(wapshotts). Assert peaceable(hatchlings). Assert travels(hatchlings). Assert post(hatchlings, rk_beasts). Increase regard(billie) by 1. }
+    Result "Billie comes down the green with a sack and a bucket of offal, walking quite slowly, talking to nobody. Within ten minutes she has all eleven, and the geese have been restored to a state of grievance.".
+  }
+  Rule hatchlings_damage when hatchlingsLoose(wapshotts) and hour(clock) >= 7 and hour(clock) < 8 and hatchLosses(wapshotts) < 6 and current(wapshotts, ?g) {
+    Decrease standing(?g) by 1 or to nothing. Increase hatchLosses(wapshotts) by 1. }
+
+  // Sir Gervase, the Book, and the charter.
+  Topic fenwick_crate with fenwick "Show Sir Gervase the crate's paper" when knows(actor, crate_known) and not fenwickShown(wapshotts) once {
+    Says "Sir Gervase takes the paper in both hands and reads it as he has not read anything since the claw. 'Sarn,' he says. 'SARN. It's in the margin, it's in red, in the Southern column, Jabez showed me and I took it for a mistake.' He sits down on the step of the cookhouse wagon. 'The Progress had a preserve. On an island. It has been a hundred and fifty miles south of the Cape all this time. I have sent a letter to the Royal Society every month for a year saying we had nothing to find.' He looks up. 'Eleven eggs! Madam, sir, I will charter a ship.'".
+    On discuss { Assert fenwickShown(wapshotts). Assert knows(actor, sarn_known). }
+  }
+  Topic fenwick_charter with fenwick "Ask Sir Gervase to charter the Sundial" when knows(actor, sarn_known) and knows(actor, ship_known) and not voyageReady(wapshotts) once {
+    Says "'The Sundial,' says Sir Gervase. 'Yes. Done. Her master's wages, her bond, and a hold for specimens: a pair of each, for the Society, alive if possible, preserved if not, and a full account.' He beams. 'It is the largest undertaking of my life, and I am delighted to be paying for it. She sails on the morning ebb whenever you are ready. I shall go myself. I should not like to miss a thing.' And, as an afterthought, as if it were nothing: 'The Colonel will want to come. It is, after all, his Keepership.'".
+    On discuss { Assert voyageReady(wapshotts). }
+  }
+  Topic wap_sail with wapshott "Tell the Colonel that Sir Gervase has chartered the Sundial" when voyageReady(wapshotts) and not wapshottAboard(wapshotts) once {
+    Says "The Colonel takes off his hat, which is the only time you have ever seen it off in daylight. 'Sarn,' he says. 'A hundred and fifty miles south, and four hundred years since they laid it out.' His hands are trembling. 'I wrote to the one address I had not tried. That is the whole of my gift: I write to the one address I have not tried.' He puts the hat back. 'I shall bring my trumpet,' he says. 'And Ada's best opinion of me. And Billie, if she will come.'".
+    On discuss { Assert wapshottAboard(wapshotts). }
+  }
+  Topic billie_sail with billie "Ask Billie whether she will go to Sarn" when voyageReady(wapshotts) and not billieAboard(wapshotts) once {
+    Says "'To the Preserve,' says Billie. 'The place the Book says the beasts were kept.' She is quiet. 'I'll come. On my terms. I'll go where I can see what's done to them, and I'll say when it's enough.' She puts on her coat. 'And nobody is to name anything.'".
+    On discuss { Assert billieAboard(wapshotts). Increase regard(billie) by 1. }
+  }
+  Topic mum_sail with mumchance "Ask Mumchance to come to Sarn" when voyageReady(wapshotts) and regard(mumchance) >= 2 and not mumchanceAboard(wapshotts) once {
+    Says "Mumchance looks at you a good while with his clown's face. Then he nods, once, and goes to get his coat. He is the only man in the circus who has ever managed to stand perfectly still in front of the Colonel when the Colonel is excited, and it has occurred to you that this may be what an island is for.".
+    On discuss { Assert mumchanceAboard(wapshotts). }
+  }
+
+
+  // The Colonel on the island: three moments, and what he decides.
+  Observe wap_landing near wapshott when voyaged(wapshotts) and at(party, landing) and not colonelMoved(wapshotts) "Colonel Wapshott stands at the end of the quay with his hat in his hand, looking up the jungle. He has not spoken since the gangway. On the post by his hand the crowned wheel is cut deep, with a crown over it, and a date, and a name he has been told all his life was a legend.".
+  Relation colonelMoved(concern).
+  Topic wap_what with wapshott "Ask the Colonel what he sees" when voyaged(wapshotts) and at(party, landing) and not colonelMoved(wapshotts) once {
+    Says "'Mud,' says the Colonel. 'A great deal of mud.' He puts his hat back on. He takes it off again. He has been trying, for some minutes, to say something to the jungle, and it has not been listening.".
+    On discuss { Assert colonelMoved(wapshotts). }
+  }
+  Topic wap_rule with wapshott "Show the Colonel the Rule of the Preserve over the hearth" when voyaged(wapshotts) and at(party, preserve_hall) and not ruleRead(wapshotts) once {
+    Says "The Colonel reads it aloud, as he reads everything, as if to a house. THE KEEPER IS ANSWERABLE TO THE BEAST. He stops. 'That is a hard thing to be told in a stranger's hall,' he says quietly. 'I thought it was the other way about.' He looks round for Billie, and finds her, and looks away.".
+    On discuss { Assert ruleRead(wapshotts). }
+  }
+  Rule trumpet_found at lake_shore when at(party, lake_shore) and hour(clock) >= 5 and hour(clock) < 9 and voyaged(wapshotts) and herdSeen(party) and not trumpetPending(wapshotts) and not trumpetDone(wapshotts)
+    says "The Colonel has stopped being awed. You see it happen: his chest comes up, his hand goes into his coat, and out of it, with a fumbling flourish, comes the trumpet. It is nine inches of brass with a ribbon on it. He is looking at ten lantern-necks and a lake with an expression of terrible joy." {
+    Assert trumpetPending(wapshotts). Set trumpetAt(wapshotts) to watch(clock). }
+  Rule trumpet_pocketed when trumpetPending(wapshotts) and not at(party, lake_shore) says "Behind you on the shore the Colonel has put the trumpet away, unblown. It is not a thing he can do in front of nobody." { Retract trumpetPending(wapshotts). }
+  Action stop_colonel(actor: group, site: place) "Take the Colonel by the elbow before he blows" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lake_shore) and trumpetPending(wapshotts).
+    Time 1.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Retract trumpetPending(wapshotts). Assert trumpetDone(wapshotts). Assert colonelStopped(wapshotts). }
+    Result "'Colonel,' you say, and put your hand on his sleeve. He looks at you, and at the herd, and at his trumpet. After a time he lowers it. 'You are right,' he says, in a small voice. 'There are some audiences one does not play to.'".
+    Otherwise "He shakes you off, kindly, and puts the trumpet to his lips.".
+  }
+  Action still_colonel(actor: group, site: place) "Let Mumchance lay a hand on the Colonel's arm" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lake_shore) and trumpetPending(wapshotts) and mumchanceAboard(wapshotts).
+    Time 0.
+    On success { Retract trumpetPending(wapshotts). Assert trumpetDone(wapshotts). Assert colonelStopped(wapshotts). }
+    Result "Mumchance walks across the mud without a sound and stands beside him, and puts one white-gloved hand lightly on his sleeve. The Colonel does not look round. His breath goes out of him. He lowers the trumpet slowly, as a man lowers a flag, and after a moment he takes off his hat. The herd goes on drinking.".
+  }
+  Rule trumpet_blown at lake_shore when at(party, lake_shore) and trumpetPending(wapshotts) and not colonelStopped(wapshotts) and watch(clock) >= trumpetAt(wapshotts) + 2 and not trumpetDone(wapshotts)
+    says "The Colonel blows. It is a beautiful note, bright, brazen, perfectly pitched, and it goes out over the lake like a thrown plate. The nearest lantern-neck turns its small head, slowly. The herd takes one step, all together, to the left, and the shore is a shore of mud and spray and vast grey legs." {
+    Assert trumpetDone(wapshotts). Assert herdScattered(wapshotts). Assert strikes(herd_stride, party). Retract trumpetPending(wapshotts). }
+
+  Observe herd_scattered_seen at lake_shore when herdScattered(wapshotts) "The mud is churned to soup. A calf is standing apart from the others, with its head up, looking back at the Colonel. Nobody has mentioned the trumpet.".
+  Chapter ch_crate "The Crate" when crateCome(wapshotts) and not voyaged(wapshotts) "A sea-captain's crate has come for Colonel Wapshott, who signed himself Keeper of the Menagerie Royal. It is warm, and it is burnt with a crowned wheel, and the Colonel has seen the lid.".
+  Chapter ch_sarn "The Isle of Sarn" when voyaged(wapshotts) and within(party, sarn) "A hundred and fifty miles south of the Cape, on a quay with a crowned wheel on every post, in a jungle where nothing has been shown for four hundred years.".
+  Chapter ch_after_sarn "After Sarn" when backFromSarn(wapshotts) "The Sundial has put them down at the fair town's quay. Whatever the Colonel took home, or left, the wagons are where they were.".
+
+  Objective colonel_told when voyageReady(wapshotts) and not wapshottAboard(wapshotts) "Sir Gervase has chartered the Sundial. The Colonel will want to be told.".
+  Objective crate_ask when crateCome(wapshotts) and not knows(party, crate_known) "A crate has come for Colonel Wapshott, who signed himself Keeper of the Menagerie Royal. Mate Crewe in the yard will say who sent it.".
+  Objective hatch_ask when crateOpened(wapshotts) and not eggsHatched(wapshotts) "The eggs will not wait. Billie, Honoria's oven, a lamp: they hatch tonight.".
+  Objective loose_ask when hatchlingsLoose(wapshotts) "Eleven young hook-claws are loose in the town, and the geese are screaming.".
+  Objective sarn_ask when knows(party, sarn_known) and not voyaged(wapshotts) "The crate came from the Isle of Sarn, where the Progress once kept its beasts. Sir Gervase will charter the Sundial.".
+
+  Milestone m_crate "learned who sent the crate" worth 80 when knows(party, crate_known).
+  Milestone m_hatched "saw the clutch through its first night, penned or caught" worth 150 when hatchlingsPenned(wapshotts).
+  Milestone m_charter "had the Sundial chartered for Sarn" worth 150 when voyageReady(wapshotts).
+  Milestone m_sarn "stood on the Progress's quay" worth 200 when voyaged(wapshotts).
+  Milestone m_herd "watched the lantern-necks come down to the lake at dawn" worth 400 when herdSeen(party).
+  Milestone m_journal "read Warden Orme's journal" worth 200 when knows(party, journal_read).
+  Milestone m_hooks "was suffered by the hook-claws" worth 250 when hookTolerates(party).
+  Milestone m_tar "got the sunk three-horn out of the pitch" worth 250 when tarFreed(party).
+  Milestone m_egg_back "put the egg back in its bed" worth 150 when eggReturned(party).
+  Milestone m_stopped "stopped the Colonel blowing his trumpet" worth 200 when colonelStopped(wapshotts).
+  Milestone m_home "brought the Colonel home from Sarn" worth 200 when backFromSarn(wapshotts).
+}

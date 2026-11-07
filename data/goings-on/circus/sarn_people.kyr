@@ -1,0 +1,219 @@
+Module circus "Wapshott's Peregrine Circus" {
+  // ── Companions with arcs, and four side stories that belong to no one's plot ────────────────────────────────────
+  // Each companion wants something, has a fault, is asked one question by the company or asks it, and moves on at
+  // least three times. A question put to the player (a `once` topic) is answered by one of several topics that
+  // `answer` it, and each answer leaves a different fact. The side stories (a grave, a bottle, a camp, a boy in the
+  // hold) lead nowhere; they only make the island and the voyage older than the circus.
+  Relation billieCage(concern). Relation billieField(concern). Relation billieNeither(concern). Relation mumRead(group).
+  Relation mumYes(concern). Relation mumNo(concern). Relation mumMatters(concern). Relation scopeNone(concern). Relation scopeSmall(concern).
+  Relation scopeAll(concern). Relation crewePardoned(concern). Relation creweBlamed(concern). Relation creweAsked(concern).
+  Relation dabFound(concern). Relation dabTold(concern). Relation dabHidden(concern). Relation dabColonel(concern).
+  Relation epitaphDone(group). Relation thorneBuried(group). Relation thorneRead(group). Relation fenwickYielded(concern).
+  Relation harrowStory(concern). Relation crewLeft(concern). Relation crewHired(concern). Relation crewStranded(concern).
+  Relation bottleRead(group). Relation bottleCast(group). Relation bottleKept(group).
+
+  // ── Billie: a woman who has kept cages all her life and has come to see what they were for ─────────────────────
+  Topic billie_asks with billie "Ask Billie what she makes of the cages in the hold" when billieSat(wapshotts) and atSea(wapshotts) and not billieCage(wapshotts) and not billieField(wapshotts) and not billieNeither(wapshotts) once {
+    Says "'You've seen both,' says Billie. 'I've only seen the one.' She does not look round. 'Which is worse. A cage that is kept well, or a field where nobody keeps anything?'".
+  }
+  Topic billie_a1 with billie "Say a kind cage is worse, because the animal learns to be glad of it" answering billie_asks when true {
+    Says "'Seen that,' says Billie. She says nothing else for an hour.".
+    On discuss { Assert billieCage(wapshotts). Increase regard(billie) by 1. }
+  }
+  Topic billie_a2 with billie "Say the field is worse, because nothing in it is answerable" answering billie_asks when true {
+    Says "'The Rule says the Keeper is answerable to the beast,' says Billie. 'I've been wondering who a field is answerable to.' She looks pleased, for a moment, and annoyed to be.".
+    On discuss { Assert billieField(wapshotts). Increase regard(billie) by 1. }
+  }
+  Topic billie_a3 with billie "Say neither, and that it depends on who is looking" answering billie_asks when true {
+    Says "'That's what the Colonel would say,' says Billie. 'It isn't wrong. It's what you say when you don't want to be asked again.'".
+    On discuss { Assert billieNeither(wapshotts). }
+  }
+  Topic billie_cage_asks with billie "Ask Billie what she would do with the Preserve-house if it were hers" when at(party, cage_row) and (billieCage(wapshotts) or billieField(wapshotts) or billieNeither(wapshotts)) and not billieCageSaid(wapshotts) once {
+    Says "Billie stands in front of the ninth cage with her hands in her coat. 'If it were mine I'd open every door and sweep them all anyway,' she says. 'I'd keep the doors for when they were asked for. I'd never shut one.' She frowns at it. 'The Colonel would never shut one either. He'd hang a bill on it.'".
+    On discuss { Assert billieCageSaid(wapshotts). }
+  }
+  Relation billieCageSaid(concern).
+  Action read_billie(actor: group, site: place) "Look at what Billie does with her hands while the Colonel talks of the egg" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(billie, site) and at(party, landing) and not billieRead(party).
+    Time 0.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert billieRead(party). Increase regard(billie) by 1. }
+    Result "She is counting, on the inside of her coat, with her thumb against her fingers. It is the number of days she has left to say yes to him. She sees you see it, and does not put her hand away.".
+    Otherwise "Billie is looking at the sea, and gives you nothing.".
+  }
+  Relation billieRead(group).
+
+  // ── Mumchance: a man who has been silent for forty years and has never been asked to speak by anyone he trusted ──
+  Action read_mumchance(actor: group, site: place) "Watch Mumchance's face while the Colonel talks" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(mumchance, site) and atSea(wapshotts) and not mumRead(party).
+    Time 0.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert mumRead(party). }
+    Result "He is listening to the Colonel the way a man listens to the sea. The Colonel says a great thing, and Mumchance's mouth moves a hair's breadth. He is saying it with him, for the tenth thousand time, with no sound. He would, you think, give a year of his life to hear someone say something to him that he had not already known.".
+    Otherwise "Mumchance meets your eye with the look he keeps for the house, which gives away nothing, and is kind.".
+  }
+  Topic mum_slate with mumchance "Take the slate Mumchance holds out to you" when herdSeen(party) and not mumYes(wapshotts) and not mumNo(wapshotts) and not mumMatters(wapshotts) once {
+    Says "He has written, in a clerk's round hand: DO THEY KNOW WE ARE HERE. He holds the slate up, and the herd goes on drinking behind him.".
+  }
+  Topic mum_a1 with mumchance "Write: yes, and they do not mind" answering mum_slate when true {
+    Says "He reads it twice. He wipes the slate with his sleeve, and writes: GOOD. THEN I NEED NOT WORRY ABOUT THE HOUSE. He puts his chalk away and does not take it out again.".
+    On discuss { Assert mumYes(wapshotts). }
+  }
+  Topic mum_a2 with mumchance "Write: no, they have never heard of us" answering mum_slate when true {
+    Says "He nods. He writes: THAT IS WHAT I THOUGHT. He smiles.".
+    On discuss { Assert mumNo(wapshotts). Increase regard(mumchance) by 1. }
+  }
+  Topic mum_a3 with mumchance "Write: it makes no difference" answering mum_slate when true {
+    Says "He looks at it a good while. Then he writes, small, in the corner: IT DOES TO ME. He wipes it before you can read it twice.".
+    On discuss { Assert mumMatters(wapshotts). Increase regard(mumchance) by 2. }
+  }
+
+  // ── Sir Gervase: kind, and blind in one place ───────────────────────────────────────────────────────────────────
+  Topic fenwick_scope with fenwick "Ask Sir Gervase which kinds he will take" when at(party, landing) and voyaged(wapshotts) and clausesRead(wapshotts) and not scopeNone(wapshotts) and not scopeSmall(wapshotts) and not scopeAll(wapshotts) once {
+    Says "Sir Gervase has his list on his knee. 'Which would you let me take?' he says. He is asking. It is the first time he has asked anyone.".
+  }
+  Topic fenwick_a1 with fenwick "Say none, and let the Society have your drawings instead" answering fenwick_scope when true {
+    Says "He is silent some time. 'I should have to explain to the committee,' he says, 'that I went to the end of the world and drew a picture.' He laughs. 'I find I should like that much.' He crosses out the whole page.".
+    On discuss { Assert scopeNone(wapshotts). Assert fenwickYielded(wapshotts). }
+  }
+  Topic fenwick_a2 with fenwick "Say only the small and plentiful: the runners, the skimmers, the lizards" answering fenwick_scope when true {
+    Says "'Plentiful,' he says. 'Yes. Yes, that is a principle.' He writes it down as though it were. 'A pair of each of the small. I can defend that to any committee in England.' He looks, you think, as though he had been let off.".
+    On discuss { Assert scopeSmall(wapshotts). Assert fenwickWants(wapshotts). }
+  }
+  Topic fenwick_a3 with fenwick "Say all of them, if it keeps the Colonel in the Society's good books" answering fenwick_scope when not thorneBuried(party) {
+    Says "He takes his pencil out. He does not write anything. 'You are kind,' he says, 'and you have not understood me at all.' He puts the pencil away. 'But it is what I wrote in the contract.'".
+    On discuss { Assert scopeAll(wapshotts). Assert fenwickWants(wapshotts). }
+  }
+
+  // ── Mate Crewe: a man who has been asked to be master of a dead man's ship ──────────────────────────────────────
+  Topic crewe_asks with crewe "Ask Crewe what weighs on him" when vanceKnown(wapshotts) and atSea(wapshotts) and not creweAsked(wapshotts) once {
+    Says "Crewe turns the hat. 'It was my idea to answer the letter,' he says. 'Vance would have let it lie. I said a Keeper's a Keeper. He took the clutch off the beds himself, with the fever on him, and died off the Cape.' He does not look at you. 'Was it right? To ask him?'".
+    On discuss { Assert creweAsked(wapshotts). }
+  }
+  Topic crewe_a1 with crewe "Say it was right, and that the Captain wanted to go" answering crewe_asks when true {
+    Says "'I know he did,' says Crewe. 'Was it right, I said.' He puts the hat on. 'But I thank you for the answer.' He sets the course a point to starboard for no reason.".
+    On discuss { Assert crewePardoned(wapshotts). }
+  }
+  Topic crewe_a2 with crewe "Say it was not, and that a dying man should not have been asked" answering crewe_asks when true {
+    Says "'No,' says Crewe. 'That's what I think.' He is quiet. 'I have been waiting a long while for someone to say it. It is less than I hoped, and more than I could have said myself.'".
+    On discuss { Assert creweBlamed(wapshotts). }
+  }
+  Topic crewe_a3 with crewe "Say you cannot know, and that the clutch is alive" answering crewe_asks when true {
+    Says "He looks at the hold, where the sound of something small is coming up through the hatch. 'That's so,' he says. 'There's that.'".
+    On discuss { Assert crewePardoned(wapshotts). }
+  }
+
+  // ── The boy in the hold ────────────────────────────────────────────────────────────────────────────────────────
+  Person dab "Dab" at hold {
+    Role "a boy of eleven, stowed away among the cages". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
+    Seen when dabFound(wapshotts).
+    Greets "A boy comes out of the straw with a biscuit in each hand. 'Inspecting,' he says.".
+  }
+  Initially Assert offstage(dab).
+  Rule dab_aboard when voyaged(wapshotts) and offstage(dab) { Retract offstage(dab). Assert at(dab, hold). }
+  Action listen_hold(actor: group, site: place) "Listen in the hold among the empty cages" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hold) and voyaged(wapshotts) and not dabFound(wapshotts).
+    Time 0.
+    Resolve check(actor, woodcraft, dc_fair).
+    On success { Assert dabFound(wapshotts). }
+    Result "One of the cages is breathing. A boy is asleep in the straw of the third, with a biscuit-bag for a pillow and his boots on the wrong feet.".
+    Otherwise "The hold creaks and knocks. Nothing in it is anybody.".
+  }
+  Topic dab_asks with dab "Ask the boy what he is doing in the hold" when dabFound(wapshotts) and not dabTold(wapshotts) and not dabHidden(wapshotts) and not dabColonel(wapshotts) once {
+    Says "'Mam's cook at Port Dree,' says Dab. 'I'm bound at twelve. I'm eleven.' He looks at you. 'Tell?'".
+  }
+  Topic dab_a1 with dab "Say you will tell Mr Crewe, and stand beside him when you do" answering dab_asks when true {
+    Says "Crewe cuffs him, as the law requires, and then gives him a tin plate and a place at the galley. 'I was eleven once,' says Crewe. Dab eats his biscuit with a face like a saint's.".
+    On discuss { Assert dabTold(wapshotts). }
+  }
+  Topic dab_a2 with dab "Say nothing, and tell him to stay out of the way" answering dab_asks when true {
+    Says "'I will,' says Dab, and vanishes into the straw with the dignity of a great man. For the rest of the voyage things go missing: a biscuit, a candle, one of the Colonel's gloves.".
+    On discuss { Assert dabHidden(wapshotts). Decrease quantity(party, rations) by 2 or to nothing. }
+  }
+  Topic dab_a3 with dab "Take him to the Colonel" answering dab_asks when true {
+    Says "The Colonel hears it standing, with his hat on. 'A boy,' he says, 'who has stowed away to see the unseen.' He looks round for something grand to say, and says it. 'Master Dab, you are appointed Assistant Zoologist to the Menagerie Royal, at a salary of nothing, with all the privileges.' Dab salutes with both hands.".
+    On discuss { Assert dabColonel(wapshotts). }
+  }
+  Topic dab_glide with dab "Ask Dab what he has seen from the foretop" when dabColonel(wapshotts) and at(party, cycad_aisle) and not knows(actor, hollow_way_known) once {
+    Says "'Them lizards,' says Dab, who has climbed a cycad without being asked. 'They all go the same road at supper. Look. There.' He points. 'All to the notch in the trees.'".
+    On discuss { Assert knows(actor, hollow_way_known). }
+  }
+
+  // ── Captain Harrow, his men, and a debt ───────────────────────────────────────────────────────────────────────
+  Place wreck_camp "the Coldharbour camp" is room within s_delta at 1, 2 outdoors.
+  Passage delta_wreck "the tide-line track" is path between delta_edge and wreck_camp taking 20 minutes.
+  Topic harrow_story with harrow "Ask Captain Harrow how he came to Sarn" when knows(actor, harrow_known) and not harrowStory(wapshotts) once {
+    Says "'I kept lions for Cordelia Sallow for twelve years,' says Harrow. 'I lost one. Not to a bite; to a draught. She dismissed me with a month's wages and a reference, and the reference was true, which is worse.' He nods at the four men at their mugs. 'They were my stable lads. They came with me because they are owed. I shall pay them out of the first calf.' He does not look at them. 'Tell me honestly. Would you leave four men on a beach for a principle?'".
+    On discuss { Assert harrowStory(wapshotts). }
+  }
+  Topic harrow_a1 with harrow "Say yes, if the principle is theirs to keep" answering harrow_story when true {
+    Says "'Then you will not mind,' says Harrow, 'if I hold you to it,' and he laughs, and he has a good laugh, and you understand he has no idea what he will do.".
+    On discuss { Assert crewStranded(wapshotts). }
+  }
+  Topic harrow_a2 with harrow "Say no, and that you will make good what they are owed" answering harrow_story when true {
+    Says "'That is handsome,' says Harrow. 'Handsome. I would have settled for yes.' He sends for the men. 'Lads. These people will stand your wages in the fair town if you come aboard with them.' There is a long silence, and then a net-man puts down his mug.".
+    On discuss { Assert crewLeft(wapshotts). Assert harrowBeaten(party). Retract at(harrow_men, harrow_camp). }
+  }
+  Topic harrow_a3 with harrow "Say they might do well in a circus, and that you can ask the Colonel" answering harrow_story when true {
+    Says "'In a circus,' says Harrow. 'Four net-men.' He thinks about it. 'There is a Hippodrome rule that a net-man is a net-man. I should like to see it broken.' He raises his voice. 'Lads! Mr Wapshott's offering places.' The net-men look at the Colonel, and at one another. It is, you think, the most dignified resignation in the history of the trade.".
+    On discuss { Assert crewHired(wapshotts). Assert harrowBeaten(party). Retract at(harrow_men, harrow_camp). }
+  }
+  Observe crew_hired_home near honoria when crewHired(wapshotts) and backFromSarn(wapshotts) "Four men in oilskins are mucking out the horse lines, cheerfully and with a good deal of method. Honoria has told them where the tea is.".
+
+  // ── The grave-garden: an unfinished epitaph ────────────────────────────────────────────────────────────────────
+  Observe grave_seventh at cage_row when holding(party, preserve_key) "The seventh Warden has no stone. The plate in the earth is cut for a key, and below it, half-worked, an epitaph: WARDEN ANSEL THE YOUNGER, WHO KEPT THE DOORS FOR WHEN THEY WERE ASKED FOR, AND. The mason, whoever he was, stopped there.".
+  Action finish_epitaph(actor: group, site: place) "Set the Preserve's key in the seventh grave and read the last word" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cage_row) and holding(actor, preserve_key) and not epitaphDone(party).
+    Time 0.
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert epitaphDone(party). Spend preserve_key from actor. }
+    Result "The key goes into the plate like a tongue into a groove. Under the unfinished line the old cut comes up in the bronze, one letter at a time: WERE ASKED. That is all. That is the whole of the sentence, and it is the same sentence.".
+    Otherwise "The key sticks. The script on the plate is older than you can read, and you cannot tell if the last word is a name or an order.".
+  }
+  Observe crewe_grave near crewe when epitaphDone(party) and at(party, cage_row) "Crewe has taken off his hat and not put it on. He is standing at the foot of the seventh grave reading a line that is not for him.".
+
+  // ── The bottle from the Hasty Mary ─────────────────────────────────────────────────────────────────────────────
+  Kind mary_bottle "a green glass bottle with a letter in it" is document teaching bottle_read described "A thick green bottle, stopped with wax and a wheel-seal, with a sheet of paper rolled inside.".
+  Discovery bottle_read "The Hasty Mary's master wrote that the Great Beast refused to eat for nine days, sang to the stars all night, and would take his food only from the boy who sang back; that he put this bottle over the side to say so; that they were four days from the King's port.".
+  Item bottle_item "a green glass bottle in the wrack" is mary_bottle at cliff_foot.
+  Action cast_bottle(actor: group, site: place) "Reseal the bottle and throw it back from the quay" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, landing) and holding(actor, mary_bottle) and not bottleCast(party).
+    Time 0.
+    On success { Spend mary_bottle from actor. Assert bottleCast(party). }
+    Result "It falls in a long arc and floats, green and bright, and the ebb takes it out of the bay. It will go where the Hasty Mary went, sooner or later, or nowhere.".
+  }
+  Topic jabez_bottle with jabez "Give Jabez the letter from the Hasty Mary's bottle" when holding(actor, mary_bottle) and not bottleKept(party) once {
+    Says "Jabez Orme reads it standing, and then sits down on the step with the paper on his knee. 'It sang,' he says. 'We swept the cage three hundred years and nobody said it sang.' He lays the sheet in the Book at the page for the Great Worm, and does not close it. 'He was a boy of three summers. Somebody sang back.'".
+    On discuss { Assert bottleKept(party). Spend mary_bottle from actor. }
+  }
+  Milestone m_bottle "carried the Hasty Mary's letter to the Keepers' Book" worth 200 when bottleKept(party).
+
+  // ── The Coldharbour camp ─────────────────────────────────────────────────────────────────────────────────────────
+  Observe wreck_camp_scene at wreck_camp when true "A camp thirty years old, on the sand above the tide-line: three tents rotted to ribs, a table with a chart nailed to it, and a row of specimen-cases burst and emptied by weather. Three skeletons lie in the shade of the largest tent, side by side, with their boots still on. Someone has put a tarpaulin over one, and the tarpaulin has been eaten to lace.".
+  Kind thorne_journal "Dr Thorne's field-book" is document teaching thorne_read described "A salt-stained field-book in a small neat hand, the last entry dated nine days before the others. The drawings are good.".
+  Discovery thorne_read "Dr Edmund Thorne of Coldharbour came to Sarn with two companions in the year of the old king's death; they took fever from the delta water; he drew the lantern-necks at the lake, and wrote that he had never been so happy.".
+  Item thorne_item "Dr Thorne's field-book" is thorne_journal at wreck_camp.
+  Item thorne_glass "a brass spyglass, green with age" is spyglass at wreck_camp.
+  Action bury_thorne(actor: group, site: place) "Bury the three dead of the Coldharbour camp" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, wreck_camp) and not thorneBuried(party).
+    Time 0.
+    Resolve check(actor, rites, dc_fair).
+    On success { Assert thorneBuried(party). }
+    Result "You dig in the sand above the tide-line, three graves in a row, and say what you know. The tarpaulin goes in with the one it covered. It is not a funeral. It is thirty years late and it is all you have.".
+    Otherwise "You say the words, and cannot find the end of them. The dead are as they were.".
+  }
+  Topic fenwick_thorne with fenwick "Give Sir Gervase Dr Thorne's field-book" when holding(actor, thorne_journal) and not thorneRead(party) once {
+    Says "Sir Gervase opens it, and reads a line, and puts his hand over his mouth. 'He was my master,' he says. 'He went to the South in the year of my first paper. They told us fever and the sea.' He turns the pages, and his hands shake, and he finds the drawing of the herd at the lake. 'Look at it,' he says. 'He drew them as I should. As large as that. He did not take one.' He closes the book. 'I have been following him all my life and did not know where.' After a minute he says, in a different voice: 'He did not take one. Did he.'".
+    On discuss { Assert thorneRead(party). Spend thorne_journal from actor. Increase regard(fenwick) by 2. }
+  }
+  Milestone m_thorne "found what became of Dr Thorne" worth 250 when thorneRead(party).
+
+  Rule epitaph_pardons when epitaphDone(party) and not creweBlamed(wapshotts) and not crewePardoned(wapshotts) { Assert crewePardoned(wapshotts). }
+  Observe bottle_afloat at deck when calmDone(wapshotts) and atSea(wapshotts) and bottleCast(party) "A green bottle rides past on the swell, a long way off, with its wax glinting. Nobody remarks on it. Crewe watches it out of sight.".
+  Observe stranded_men at landing when crewStranded(wapshotts) and berthS(wapshotts) "Four net-men sit on the strand by the delta path in a row with their boots off, drinking, and singing a song about a woman at Dunmere with a hundred names.".
+  Rule fenwick_thorne_soft when thorneRead(party) and thorneBuried(party) and not fenwickYielded(wapshotts) { Assert fenwickYielded(wapshotts). }
+  Topic crewe_bottle with crewe "Give Crewe the letter from the Hasty Mary's bottle" when holding(actor, mary_bottle) once {
+    Says "Crewe reads it with his lips. 'The boy who sang back,' he says. 'There'll have been a boy.' He folds it into his hat.".
+    On discuss { Spend mary_bottle from actor. Assert bottleKept(party). }
+  }
+}

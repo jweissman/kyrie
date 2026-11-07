@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "source": [
+    "hill.kyr",
+    "scenes.kyr",
+    "people.kyr",
+    "works.kyr",
+    "creatures.kyr",
+    "finds.kyr",
+    "wake.kyr",
+    "keeping.kyr",
+    "quests.kyr",
+    "placed.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "canon": [
+    "imbar"
+  ],
+  "imports": [
+    "party"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    }
+  },
+  "exports": {
+    "party": "party",
+    "region": "edge",
+    "road": "road"
+  }
+}

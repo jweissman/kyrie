@@ -1,0 +1,91 @@
+{
+  "cross_in": [
+    "=12:00",
+    "To the middle of the causeway",
+    "To the holm's landing",
+    "Into the Scarth light"
+  ],
+  "talk": [
+    "Answer Seddon's question about the night",
+    "We can. Say what we're to do",
+    "Hear what Hettie asks you over the tea",
+    "Ask what Tam would want of her tonight",
+    "Ask Hettie why she comes to this rock",
+    "Take Gaff's question",
+    "Tell him to keep his voice down tonight, and mean it",
+    "Hear what Piers has to say in confidence",
+    "Tell the keeper tonight, and be there when he reads it",
+    "Tell Piers you will walk him over at noon, and he is to wait",
+    "Let Dib show you what he found",
+    "I'd want to. Stay by me tonight, and we'll listen together",
+    "Ask Corrie Fenwether what she is doing on a rock in the fog",
+    "Buy a coil of Corrie's line"
+  ],
+  "lovers": [
+    "Ask Seddon what Tam was to him",
+    "Watch Seddon's hands while Mrs Marram talks of Tam",
+    "Take Hettie up the iron stair to the lamp room",
+    "To the keeper's room",
+    "To the lamp room",
+    "=19:30",
+    "Ask Seddon whether there is a thing he has never said to Mrs Marram",
+    "Put the Board's notice into Seddon's hand, and stay while he reads it"
+  ],
+  "morning_comes": [
+    "=08:00",
+    "To the keeper's room",
+    "To the keeper's kitchen",
+    "Ask Seddon to come over the sands with Mrs Marram",
+    "=11:00",
+    "Ask Dib to take you out along the posts"
+  ],
+  "morning_stays": [
+    "=08:00",
+    "To the keeper's room",
+    "To the keeper's kitchen",
+    "=11:00",
+    "Ask Dib to take you out along the posts"
+  ],
+  "cross_out": [
+    "Out to the holm's landing",
+    "To the middle of the causeway",
+    "To the landward end of the Scarth causeway"
+  ],
+  "hold_hettie": [
+    "Sit with Hettie, with her hand in yours, and not let go"
+  ],
+  "declare_in_kitchen": [
+    "Watch Seddon's hands while Mrs Marram talks of Tam",
+    "Ask Seddon whether there is a thing he has never said to Mrs Marram"
+  ],
+  "talk_loud": [
+    "Answer Seddon's question about the night",
+    "We can. Say what we're to do",
+    "Hear what Hettie asks you over the tea",
+    "Ask what Tam would want of her tonight",
+    "Ask Hettie why she comes to this rock",
+    "Take Gaff's question",
+    "Laugh with him; it's a rock",
+    "Hear what Piers has to say in confidence",
+    "Tell the keeper tonight, and be there when he reads it",
+    "Tell Piers you will walk him over at noon, and he is to wait",
+    "Let Dib show you what he found",
+    "I'd want to. Stay by me tonight, and we'll listen together",
+    "Ask Corrie Fenwether what she is doing on a rock in the fog",
+    "Buy a coil of Corrie's line"
+  ],
+  "keep": [
+    "Fill the lamp from a flask out of the store",
+    "Fill the lamp from a flask out of the store"
+  ],
+  "to_lamp": [
+    "To the keeper's room",
+    "To the lamp room"
+  ],
+  "second_night": [
+    "=19:00",
+    "Fill the lamp from a flask out of the store",
+    "Fill the lamp from a flask out of the store",
+    "Fill the lamp from a flask out of the store"
+  ]
+}

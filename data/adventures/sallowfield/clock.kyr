@@ -1,0 +1,136 @@
+Module sallowfield "Three Nights at Sallowfield" {
+  // ── The clock ─────────────────────────────────────────────────────────────────────────────────────────────────
+  // Watch 0 is eight in the morning of the first day. The engine's dusk, by which the nights are counted, falls at watch 78 on the first day, 222 on the second and 366 on the third (21:00); the boy and the raiders come up in the evening before it, at 200 to 214.
+  // Wyre means to come on the third night (assaultAt 366). If his riders find the town unwatched on the first night he
+  // does not wait: he comes on the second (222). Everything he does turns on what he has seen, so what he has seen is
+  // kept in plain facts: sawFord, sawBarricade, sawCut, sawTower, sawWatch.
+  Measure assaultAt(group). Measure thrust(place). Measure defence(place).
+  Initially Set assaultAt(wyre) to 366.
+  Relation sawWatch(group). Relation sawBarricade(group). Relation sawCut(group). Relation sawTower(group).
+  Relation riders_gone(group). Relation wyreEarly(group). Relation planned(group). Relation lowesCame(group).
+  Relation knowsNumbers(group).
+
+  Person wyre "Captain Tobin Wyre" nowhere {
+    Role "the captain of the Unpaid, forty-odd of the Margrave's border-company and twenty camp-followers". Ancestry human. Calling warrior. Level 4. Peaceable. Pronouns he. Manner proud.
+    Warns "The captain does not move. He lets you finish the thought, and finish the next, and then he says, in an even voice that has been used on horses, 'You are in the way of men who have not eaten.'".
+    Comes "Wyre steps back and nods to the men behind him. He has been patient, and is not now.".
+    Pleads "Wyre lowers his sword. His voice is dry. 'Stop,' he says. 'Stop it. There's nothing here worth this.'".
+  }
+  Person fothergill "Lieutenant Fothergill" nowhere {
+    Role "Wyre's second, lately of the Margrave's horse". Ancestry human. Calling warrior. Level 3. Peaceable. Pronouns he. Manner proud.
+  }
+  Person voll "Sergeant Voll" nowhere {
+    Role "Wyre's sergeant, a big man with a bad knee". Ancestry human. Calling warrior. Level 2. Peaceable. Pronouns he. Manner stoic.
+  }
+  Person riders "two of Wyre's riders" nowhere {
+    Role "a pair of troopers on lathered horses, in the Margrave's old green". Ancestry human. Calling warrior. Level 2. Numbers 2. Peaceable. Manner stoic. Refuge east_road.
+    Uses go.
+    Arrives at lookout when watch(clock) >= 12.
+    Arrives "Two horsemen come along the Scar road and rein in at the lookout, and sit their horses looking down the vale like a plate laid out. One of them has a slate.".
+    Greets "The nearer trooper touches his hat and says the road is free to everyone, and keeps his eyes on the water. The other has a slate on his knee and does not look up.".
+  }
+  Person lowes "Kit Lowes" nowhere {
+    Role "a boy of nineteen in a trooper's coat that is too big for him, with his boots in his hand". Ancestry human. Calling thief. Level 1. Peaceable. Pronouns he. Manner cheerful.
+    Pleads "The boy puts his hands over his head and begins to talk before he has been asked anything.".
+  }
+  Person raiders "four of the Unpaid" nowhere {
+    Role "four troopers with sacks, who have not been paid since the spring". Ancestry human. Calling warrior. Level 1. Numbers 4. Peaceable. Manner stoic.
+    Arrives at lower_farm when watch(clock) >= 204.
+    Arrives "Four men come up from the river in the failing light, with empty sacks.".
+    Greets "The oldest of them looks at the cows, and then at you, and then at the sacks in his hand. 'We'll take the cows,' he says, 'and go. Better the cows than the other.' The others do not look up.".
+  }
+  Person picks "Wyre's picked men" nowhere {
+    Role "three of the Unpaid in good steel, who have fought for money in six countries". Ancestry human. Calling warrior. Level 3. Numbers 3. Peaceable. Manner grim.
+    Greets "The one in front takes off his helm and holds it under his arm. 'The captain would have the grain,' he says, 'and he'd have the bell. Which of them can you spare?' The other two have not taken their hands off their hilts.".
+  }
+
+  // ── Night one: the riders look ─────────────────────────────────────────────────────────────────────────────────
+  // They cross as far as the middle stone, look at the town, write it down, and go. What they write depends on whether
+  // anyone is about: a man posted at the ford or the bridge, a fire, a lantern. An empty ford means an easy town.
+  // The riders ride the valley, Scar to ford, and are seen where they are: the lookout in the morning, the standing
+  // stone at noon, the east road in the afternoon, the middle stone at dusk. They stay at the stone till they have looked.
+  Pursuit riders_scar for riders "riding the Scar road" priority 5 when watch(clock) >= 12 and watch(clock) < 48 and not riders_gone(party) seeks at(riders, lookout).
+  Pursuit riders_stone for riders "riding down to the standing stone" priority 5 when watch(clock) >= 48 and watch(clock) < 66 and not riders_gone(party) seeks at(riders, parley_stone).
+  Pursuit riders_road for riders "riding the east road" priority 5 when watch(clock) >= 66 and watch(clock) < 80 and not riders_gone(party) seeks at(riders, east_road).
+  Pursuit riders_ford for riders "riding down to the ford" priority 5 when watch(clock) >= 80 and not riders_gone(party) seeks at(riders, ford_stones).
+  Observe crowther_four near crowther when riders_gone(party) "'Four,' says Crowther, and holds up four fingers, and puts one down. 'There were three, on the Scar road. There was a fourth this morning, with a slate.'".
+
+  Query watchedFord() means (posted(?v, ford_stones) and at(?v, ford_stones) and able(?v)) or (posted(?v, bridge) and at(?v, bridge) and able(?v)) or at(party, ford_stones) or at(party, bridge) or at(party, ford_meadow).
+  Rule riders_look at ford_stones when at(riders, ford_stones) and watch(clock) >= 92 and not riders_gone(party) and watchedFord()
+    says "The troopers sit their horses at the middle stone for the length of a long breath. Someone on the bank has been seen. The man with the slate writes a line and wipes his thumb." {
+    Assert riders_gone(party). Assert sawWatch(party). Retract at(riders, ford_stones). }
+  Rule riders_look_empty at ford_stones when at(riders, ford_stones) and watch(clock) >= 92 and not riders_gone(party) and not watchedFord()
+    says "The troopers ride up the ford meadow as far as the hurdle, and sit there, and nothing at all happens. A dog barks, once, a long way off. The man with the slate draws something on his knee, and they turn their horses, unhurried." {
+    Assert riders_gone(party). Assert wyreEarly(party). Set assaultAt(wyre) to 222. Retract at(riders, ford_stones). }
+  Rule riders_absent when at(riders, ford_stones) and not at(party, ford_stones) and watch(clock) >= 92 and not riders_gone(party) and not watchedFord() { Assert wyreEarly(party). }
+  Observe riders_note near stansfield when wyreEarly(party) "The reeve has stopped writing. 'They looked,' he says. 'Nobody was there to be looked at.'".
+  Observe riders_mark near stansfield when sawWatch(party) and not wyreEarly(party) "'Good,' says the reeve, and sits.".
+
+  // ── Night two: a scout, a raid ────────────────────────────────────────────────────────────────────────────────
+  // Kit Lowes comes through the reeds for a last look at the works. He can be caught in them (the reed track or the
+  // farm) or let go. What he sees, Wyre knows.
+  Rule lowes_comes when watch(clock) >= 200 and not lowesCame(party) {
+    Assert lowesCame(party). Assert at(lowes, reed_marsh). }
+  Rule lowes_sees when lowesCame(party) and at(lowes, reed_marsh) and watch(clock) >= 214 and not heldScout(lowes) {
+    Retract at(lowes, reed_marsh). Assert lowesGone(party). Assert lowesTruth(party). }
+  Relation lowesGone(group). Relation heldScout(group). Relation lowesTruth(group). Relation lowesStamp(group). Relation lowesTold(group). Relation lowesLie(group). Relation lieMod(group).
+  // What the boy saw is what stood when he left (or when he was sent): the works are read once, at the stamp, and not after.
+  Rule lowes_saw_barricade when lowesTruth(party) and not lowesTold(party) and barricadeUp(party) and not sawBarricade(party) { Assert sawBarricade(party). }
+  Rule lowes_saw_cut when lowesTruth(party) and not lowesTold(party) and bridgeCut(party) and not sawCut(party) { Assert sawCut(party). }
+  Rule lowes_saw_tower when lowesTruth(party) and not lowesTold(party) and posted(?v, nave) and able(?v) and not sawTower(party) { Assert sawTower(party). }
+  Rule lowes_stamp when lowesTruth(party) and not lowesStamp(party) { Assert lowesStamp(party). }
+  Rule lowes_told when lowesStamp(party) and not lowesTold(party) { Assert lowesTold(party). }
+  // A lie told him to carry: that the ford is the soft place. Wyre believes it, and leans on the ford.
+  Rule lowes_lie when planned(party) and lowesLie(party) and not lieMod(party) {
+    Assert lieMod(party). Increase thrust(ford_stones) by 4. Decrease thrust(bridge) by 3 or to nothing. Decrease thrust(mill_yard) by 3 or to nothing. }
+  Observe lowes_in_reeds at reed_marsh when lowesCame(party) and not lowesGone(party) and not heldScout(lowes) "A boy is picking his way along the reed causeway in the dark with his boots round his neck, counting under his breath. He has not seen you.".
+  Observe reeds_lights_crowther near crowther when watch(clock) >= 150 and watch(clock) < 214 and not heldScout(lowes) "'Lights in the reeds,' says Crowther, 'last night. A small man, with a lantern shaded. He goes along the hurdles to where they stop and stands there. I don't know what he's counting.'".
+  Observe reeds_lights_greenhalgh near greenhalgh when watch(clock) >= 150 and watch(clock) < 214 and not heldScout(lowes) "'There's a lad comes down the reed track at night,' says Greenhalgh. 'Dog won't have him. Small. Boots in his hand.'".
+  Relation lowesAlert(group).
+  Rule lowes_alert_effect when planned(party) and lowesAlert(party) and not alertMod(party) { Assert alertMod(party). Increase thrust(ford_stones) by 1. Increase thrust(mill_yard) by 1. }
+  Relation alertMod(group).
+  Action seize_scout(actor: group, site: place) "Take the boy in the reeds before he sees you" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, reed_marsh) and at(lowes, reed_marsh) and not heldScout(lowes).
+    Time 0.
+    Resolve check(actor, stealth, dc_fair).
+    On success { Assert heldScout(lowes). Retract at(lowes, reed_marsh). Assert at(lowes, taproom). }
+    Result "You come out of the reeds behind him with a hand over his mouth. He goes limp, which is the cleverest thing a scout can do, and when you let go he says in a whisper: 'Don't. Please. I'll say anything.'".
+    On failure { Retract at(lowes, reed_marsh). Assert lowesGone(party). Assert lowesTruth(party). Assert lowesAlert(party). }
+    Otherwise "The reeds rustle under your boot. The boy's head comes up. For a moment you look at each other across ten yards of black water, and then he is gone into the dark, and you hear him going.".
+  }
+  Rule raid_on_farm at lower_farm when at(raiders, lower_farm) and not farmRaided(party) and watch(clock) >= 210 and not at(party, lower_farm)
+    says "Down by the river in the dusk, a cow bellows, and another, and a dog barks and stops. Then there is, for the best part of an hour, the sound of a barn being searched." {
+    Assert farmRaided(party). }
+  Relation farmRaided(group). Relation greenhalghSaved(group).
+  Rule farm_burns when farmRaided(party) and not greenhalghSaved(party) { Assert farmBurned(party). }
+  Relation farmBurned(group).
+  Rule greenhalgh_hurt when farmBurned(party) and not evacuatedFarm(party) and not greenhalghDead(party) { Slay greenhalgh. Assert felled(greenhalgh). Assert greenhalghDead(party). }
+  Relation greenhalghDead(group). Relation evacuatedFarm(group).
+  Observe farm_gone at lower_farm when farmBurned(party) "The long house is a roofless black shape and the barn is gone to its walls. The yard is empty of cattle. The dog sits where it sat, with its chin on its paws.".
+
+  // ── The morning of the third day: Wyre decides ────────────────────────────────────────────────────────────────
+  // What he does depends only on what he has seen: a barricade at the ford draws him to the bridge; a cut bridge to
+  // the ford; both to the marsh and the mill; the flood he does not see, nor the pits, nor the grain spoiled.
+  Relation barricadeUp(group). Relation bridgeCut(group). Relation sluiceOpen(group). Relation pitsDug(group). Relation grainSpoiled(group).
+  Rule plan_base when watch(clock) >= assaultAt(wyre) - 84 and not planned(party) {
+    Assert planned(party).
+    Set thrust(ford_stones) to 12. Set thrust(bridge) to 7. Set thrust(mill_yard) to 3. Set thrust(nave) to 3. }
+  Rule plan_barricade when planned(party) and sawBarricade(party) and not sawCut(party) and not planMod1(party) {
+    Assert planMod1(party). Set thrust(ford_stones) to 6. Set thrust(bridge) to 12. }
+  Rule plan_cut when planned(party) and sawCut(party) and not sawBarricade(party) and not planMod1(party) {
+    Assert planMod1(party). Set thrust(bridge) to 2. Set thrust(ford_stones) to 13. }
+  Rule plan_both when planned(party) and sawCut(party) and sawBarricade(party) and not planMod1(party) {
+    Assert planMod1(party). Set thrust(ford_stones) to 6. Set thrust(bridge) to 2. Set thrust(mill_yard) to 12. }
+  Relation planMod1(group). Relation planMod2(group).
+  Rule plan_tower when planned(party) and sawTower(party) and not planMod2(party) { Assert planMod2(party). Increase thrust(nave) by 5. }
+  Rule plan_turned when planned(party) and fothergillTurned(party) and not planMod3(party) {
+    Assert planMod3(party). Decrease thrust(ford_stones) by 4 or to nothing. Decrease thrust(bridge) by 4 or to nothing. Decrease thrust(mill_yard) by 4 or to nothing. }
+  Relation planMod3(group). Relation fothergillTurned(group).
+  // A ruined granary, and unpaid men, and a lieutenant on a rein: the whole line leans harder.
+  Rule spoiled_anger when planned(party) and grainSpoiled(party) and not angerMod(party) {
+    Assert angerMod(party). Increase thrust(ford_stones) by 3. Increase thrust(bridge) by 3. Increase thrust(mill_yard) by 3. Increase thrust(nave) by 3. }
+  Relation angerMod(group).
+  Rule plan_grain when planned(party) and grainSpoiled(party) and wyreKnowsSpoiled(party) and not planMod4(party) {
+    Assert planMod4(party). Decrease thrust(ford_stones) by 6 or to nothing. Decrease thrust(bridge) by 6 or to nothing. Decrease thrust(mill_yard) by 6 or to nothing. Decrease thrust(nave) by 6 or to nothing. }
+  Relation planMod4(group). Relation wyreKnowsSpoiled(group).
+}

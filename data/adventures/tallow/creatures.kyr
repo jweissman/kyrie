@@ -1,0 +1,194 @@
+Module tallow "Tallow Deep" {
+  // ---------------------------------------------------------------------------------------------------------------
+  // Who lives where, and what each does to the others. Read from the top of the hill down:
+  // bats roost and the spiders eat them; the rats eat the Tallymen's leavings and the spiders eat the rats; the
+  // slump eats what the bats drop; the ghouls eat the Company's dead and raid the rats; the stalkers eat the ghouls
+  // and any Tallyman who goes below alone; the custodians eat nothing, and keep the measure.
+  Relation scattered(group). Relation baited(group). Measure scatteredAt(group). Measure baitedAt(group).
+  Measure muffledUntil(group). Relation muffled(group).
+
+  // The upland.
+  Person owlbear "the owlbear" at scrub {
+    Role "a she-owlbear, heavy with a late litter". Species owlbear. Level 2. Numbers 1. Temperament territorial.
+    Warns "The heather ahead heaves, and something broad as a cart turns its head: a beak where a muzzle should be, a mat of brown feathers on a bear's shoulders. It rises on its hind legs and the sheep's bones slide off its back. It does not roar. It breathes in, once, long.".
+    Comes "The owlbear drops on all fours and comes through the heather like a landslide.".
+    Flinches "The owlbear backs into the scrub with her head low, and a sound comes out of her like a kettle.".
+    Lair scrub.
+  }
+  Action bait_owlbear(actor: group, site: place) "Leave a ration of meat in the heather and back away" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, scrub) and at(owlbear, scrub) and able(owlbear)
+      and not tolerates(owlbear, actor) and quantity(actor, rations) >= 2.
+    Time 0.
+    On success { Decrease quantity(actor, rations) by 2. Assert tolerates(owlbear, actor). }
+    Result "The owlbear watches you set it down, a haunch's worth, and sniffs the air twice before she lowers her head to it.  You walk round her to the rim with your hands out from your sides.".
+  }
+
+  Observe owlbear_fed at scrub when tolerates(owlbear, party) and able(owlbear) "The she-owlbear has her head down in what you left. Her flank goes in and out, and she does not lift her head as you pass.".
+
+  // The Rising and the bat chimney.
+  Person rising_bats "the bats of the Rising" at rising_gallery {
+    Role "a great roost of bats". Species bat. Numbers 12. Peaceable.
+  }
+  Person chimney_bats "the bats of the chimney" at bat_chimney {
+    Role "a smaller roost, fouling the floor". Species bat. Numbers 6. Peaceable.
+  }
+  Person chimney_centipedes "the centipedes in the guano" at bat_chimney {
+    Role "pale centipedes the length of an arm, that live in the guano". Species centipede. Level 1. Numbers 2. Temperament territorial.
+    Warns "The guano on the floor stirs, and a long pale body rears out of it, jointed and feeling the air.".
+    Lair bat_chimney.
+  }
+
+  // The Tallymen's rats, and the Settling Cistern's.
+  Person rats "the rats of the old stores" at stores {
+    Role "rats as big as cats, that live on the Tallymen's leavings". Species great_rat. Level 2. Numbers 5. Temperament territorial.
+    Warns "The dark along the shelves shifts and resolves into rats, a great many, sitting up on their haunches along the gnawed wood.".
+    Lair stores.
+  }
+  Person settling_rats "the rats of the Settling Cistern" at settling {
+    Role "grey rats as fat as terriers, that have the mud-bank for a warren". Species great_rat. Level 2. Numbers 5. Temperament territorial.
+    Warns "The mud-bank is moving: grey backs, wet whiskers, a hundred small black eyes turning in the lantern-light.".
+    Lair settling.
+  }
+  Action lay_ratsbane_stores(actor: group, site: place) "Lay ratsbane along the shelves" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, stores) and holding(actor, ratsbane) and not baited(rats) and not dead(rats).
+    Time 0.
+    On success { Spend ratsbane from actor. Assert baited(rats). Set baitedAt(rats) to watch(clock). }
+    Result "You lay the poison down in rag twists on the sill and in the gnawed corners, and back away. The rats watch you do it. They do not yet know what you have done.".
+  }
+  Action lay_ratsbane_settling(actor: group, site: place) "Lay ratsbane along the mud-bank" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, settling) and holding(actor, ratsbane) and not baited(settling_rats) and not dead(settling_rats).
+    Time 0.
+    On success { Spend ratsbane from actor. Assert baited(settling_rats). Set baitedAt(settling_rats) to watch(clock). }
+    Result "You lay the poison in the silt where the runs go down to the water. The rats do not stir.".
+  }
+  Rule rats_die_stores when baited(rats) and watch(clock) >= baitedAt(rats) + 36 { Slay rats. Retract baited(rats). }
+  Rule rats_die_settling when baited(settling_rats) and watch(clock) >= baitedAt(settling_rats) + 36 { Slay settling_rats. Retract baited(settling_rats). }
+  Observe rats_dead_stores at stores when dead(rats) "The rats lie where they stopped, in the corners and under the shelves, stiff. The stores no longer stink of the living.".
+  Observe rats_dead_settling at settling when dead(settling_rats) "The mud-bank is silent. A great many small grey bodies lie on it, and the silt is the stiller for them.".
+
+  // The Spider Gallery: bats and rats are what the spiders eat; with the rats gone they come down to the water.
+  Person spiders "the spiders of the gallery" at spider_gallery {
+    Role "cave spiders with a hound's body, strung in tiers among the webs". Species cave_spider. Level 3. Numbers 2. Temperament territorial.
+    Warns "The tiers of web tremble. High in the vault, where the lantern does not reach, two grey shapes with too many legs turn to look down at you, together.".
+    Comes "The nearer spider lets go of the vault and falls on its line.".
+    Lair spider_gallery. Refuge spider_vault.
+  }
+  Action burn_webs(actor: group, site: place) "Put a flame to the webs" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, spider_gallery) and at(spiders, spider_gallery) and able(spiders)
+      and capable(actor, flame).
+    Time 0.
+    On success { Retract at(spiders, spider_gallery). Assert at(spiders, spider_vault). 
+      Set scatteredAt(spiders) to watch(clock). }
+    Result "The web goes up in a long soundless sheet, and the gallery is lit orange from end to end. Shapes with too many legs go up the vault in a rush, into the dark above the climb, and the bats that were wrapped in the silk fall out of it, dead and singed.".
+  }
+  Rule spiders_return when at(spiders, spider_vault) and watch(clock) >= scatteredAt(spiders) + 144 and not at(party, spider_gallery) {
+    Retract at(spiders, spider_vault). Assert at(spiders, spider_gallery).
+  }
+  Place spider_vault "the web-roofed vault" is room within l2 at 2, 1 underground.
+  Initially Assert unlit(spider_vault).
+  Passage gallery_vault "the climb into the vault" is ladder between spider_gallery and spider_vault needing climbing or rope.
+  Observe vault_scene at spider_vault when true "A domed hollow in the Aenean masonry, roofed in web, where the spiders have their wrapped larder. Bats are hung in it, and a small grey cat, and something that was a man in a bend-watch's baldric, lashed to a beam in silk to the neck. Treve went up the service walk after the boy's cat, three weeks since, and the ledge was two paces wide.".
+  Rule spiders_range when dead(rats) and dead(settling_rats) and at(spiders, spider_gallery) and not scattered(spiders) and untilLight(clock) == 1 and dice(clock) <= 40 {
+    Retract at(spiders, spider_gallery). Assert at(spiders, settling). Assert scattered(spiders).
+  }
+  Observe spiders_down at settling when scattered(spiders) "The silt-bank is webbed over, in sheets, in tiers. The rats are gone and something else has taken their place.".
+
+  // The Cistern Hall: the slump under the black water.
+  Person slump "the slump in the Cistern Hall" at cistern_hall {
+    Role "clay that water has worked loose and set moving". Species slump. Level 3. Numbers 1. Temperament territorial.
+    Warns "The black water at the foot of a column swells, smooth as a belly, and slides toward you, and the column is clean to the waterline as no stone in the hall is clean.".
+    Comes "The black water rises in a wave that is not a wave, and the wave has a front.".
+    Lair cistern_hall. Refuge the_cap.
+  }
+  Kind guano_sack "a sack of bat guano" is treasure worth 2 weighing 1 described "A sack of the bat chimney's guano, dry, pale and ammoniac. A farmer would pay for it; so, perhaps, would something that eats it.".
+  Item guano_a "a sack of guano" is guano_sack at bat_chimney.
+  Item guano_b "a sack of guano" is guano_sack at bat_chimney.
+  Item guano_c "a sack of guano" is guano_sack at bat_chimney.
+  Action feed_slump(actor: group, site: place) "Heap guano on the shore for the slump" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cistern_hall) and at(slump, cistern_hall) and able(slump)
+      and holding(actor, guano_sack) and not tolerates(slump, actor).
+    Time 0.
+    On success { Spend guano_sack from actor. Assert tolerates(slump, actor). }
+    Result "You tip the sack out on the white shore. The water reaches up the stone and takes it, all of it, and the shore is clean. The hall has gone quiet. Whatever is in the water has turned away.".
+  }
+  Observe slump_fed at cistern_hall when tolerates(slump, party) and able(slump) "The black water lies flat along the causeway, and the columns on either side of it are clean to the waterline.".
+  Observe slump_sign at north_walk as sign when not dead(slump) "The black water along the north shore is scoured clean of scum and droppings. A slow ripple moves against the current, and a rat's skull sits on the lip of the stone, picked white.".
+
+  // The Ossuary: the dead of the Breakthrough, and what feeds on them.
+  Person ghouls "the ghouls of the Ossuary" at ossuary {
+    Role "dead things in the Company's rotted leather, crouched among the stacked dead". Species ghoul. Level 3. Numbers 4. Temperament territorial.
+    Warns "Three of the stacked dead sit up, in the dim, with the unhurried awkwardness of things that have been eating. Their hands are long.".
+    Comes "The nearest ghoul comes down off the stack on all fours.".
+    Lair ossuary.
+  }
+  Action lay_dead(actor: group, site: place) "Say the Company's burial words over the stacked dead" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ossuary) and at(ghouls, ossuary) and able(ghouls) and not ritedFailed(actor)
+      and not knows(actor, vault_laid).
+    Time 0.
+    Resolve check(actor, rites, dc_hard).
+    On success { Slay ghouls. Assert laid(party). }
+    On failure { Assert ritedFailed(actor). }
+    Result "You say the words over them, all of them, to the last. The long hands go still on the stacked boots. The dead are only dead.".
+    Otherwise "The words go out into the vault and come back changed. The nearest ghoul tips its head and smiles, and the smile is wrong in a way you recognise as grief.".
+  }
+  // Told by the one who held the lamp how the Foreman laid them, the words are said in his order, and the rite is easier.
+  Action lay_dead_told(actor: group, site: place) "Say the burial words in the order Barrick says Carr laid the dead" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ossuary) and at(ghouls, ossuary) and able(ghouls) and not ritedFailed(actor)
+      and knows(actor, vault_laid).
+    Time 0.
+    Resolve check(actor, rites, dc_fair).
+    On success { Slay ghouls. Assert laid(party). }
+    On failure { Assert ritedFailed(actor). }
+    Result "You begin with the one he laid first, nearest the wall, and go along the stack as he went, one at a time, with the lamp held low. The long hands go still on the stacked boots. The dead are only dead.".
+    Otherwise "You have the order, and not the voice. The words go out into the vault and come back changed. The nearest ghoul tips its head and smiles, and the smile is wrong in a way you recognise as grief.".
+  }
+  Relation laid(group). Relation ritedFailed(group).
+  Observe carr_sits at gate_house when true "Against the wheel of the Calx Gate a man in a Foreman's coat sits with his chin on his chest and an oilcan in his hand, unopened. He has been here sixty years. The pawl above him is red with rust. He never reached it.".  
+  Observe ghouls_signs at breach as sign when not dead(ghouls) "From the Ossuary side, the smell of old sweet rot, and a sound like a stack of wood being gently rearranged.".
+
+  // The Quiet Gallery: the stalkers hunt by breath, and the Bore has its custodians.
+  Person stalkers "the hollow-stalkers" at quiet_gallery {
+    Role "three pale many-jointed things, each with a ring of wet pits for a mouth; the smallest is scarred, and carries a hobnailed boot in its jaws". Species hollow_stalker. Level 8. Numbers 3. Temperament ambush.
+    Warns "In the dead quiet of the gallery, something turns toward you. A ring of wet pits opens in a long pale head, far ahead, and in another, and in a third behind it, and every pit of them is pointed at your mouth. The smallest is carrying something.".
+    Comes "They come along the ceiling, soundless, each the length of a man's body laid on legs.".
+    Lair quiet_gallery.
+  }
+  Observe stalkers_remains at gear_hall as sign when not dead(stalkers) "At the mouth of the Quiet Gallery a miner's tin lamp lies on its side, rusted to the floor, with a coil of rope beside it that has gone to black string, cut clean through a hand above where it was tied. Nothing else is left.".
+  Action muffle(actor: group, site: place) "Bind blankets over boots and wrap wet cloth across mouths" {
+    Requires able(actor) and company(actor) and at(actor, site) and (at(actor, breach) or at(actor, gear_hall) or at(actor, dial_room)) and holding(actor, blanket) and not muffled(actor).
+    Time 6.
+    On success { Spend blanket from actor. Assert muffled(actor). Set muffledUntil(actor) to watch(clock) + 18.
+      Assert tolerates(stalkers, actor). }
+    Result "You cut the blanket, bind your feet in it and tie wet strips across your faces, and breathe through the cloth. It is stifling. Your own heartbeat is deafening. You have, you think, two hours before the cloth is dry.".
+  }
+  Observe cloth_drying at quiet_gallery as sign when muffled(party) and watch(clock) >= muffledUntil(party) - 3 "The wet cloth across your mouth has gone stiff at the edges. Another half hour, and it will not hold your breath in.".
+  Observe cloth_drying_dial at dial_room as sign when muffled(party) and watch(clock) >= muffledUntil(party) - 3 "The wet cloth across your mouth has gone stiff at the edges. Another half hour, and it will not hold your breath in.".
+  Rule unmuffle when muffled(party) and watch(clock) >= muffledUntil(party) {
+    Retract muffled(party). Retract tolerates(stalkers, party).
+  }
+
+  Person custodians "the custodians" at gear_hall {
+    Role "two man-high figures of grey metal, winding something". Species clockwork_soldier. Level 3. Numbers 2. Temperament territorial.
+    Warns "The two figures stop winding. Both turn their heads together, with a tick, and look at you with no faces. A third tick, and the wire in the middle of the hall swings a little wider, and the figures take one step each, in step, toward the middle.".
+    Comes "The custodians cross the floor in perfect step.".
+    Lair gear_hall.
+  }
+  Thing escapement "the Gear-Hall's escapement" at gear_hall {
+    State running "A bank of tiny wheels turns against another bank, and a dial of grey glass shows the beat: one, and one, and one.".
+    State set "The escapement has been set to the beat the Aeneans cut into the Tally-Wall: one swing in six breaths. The custodians have gone back to their winding.".
+  }
+  Initially Assert state(escapement, running).
+  Action set_by_wall(actor: group, site: place) "Set the escapement to the beat cut in the Tally-Wall" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gear_hall) and knows(actor, period_known) and state(escapement, running).
+    Time 0.
+    On success { Assert state(escapement, set). Assert tolerates(custodians, actor). }
+    Result "Under the Company's chalk the engineers' figure was one swing in six breaths. You set the wheels to it, one at a time, with the tip of a knife. The wire swings once, steadily. The figures stop. The nearer one inclines its head to you, exactly as far as a clerk does, and goes back to winding.".
+  }
+  Action set_by_chart(actor: group, site: place) "Set the escapement to the beat in the chart's border" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gear_hall) and holding(actor, celestial_chart) and state(escapement, running).
+    Time 0.
+    On success { Assert state(escapement, set). Assert tolerates(custodians, actor). }
+    Result "The chart's border is a beat, marked in tiny strokes of the same grey ink. You read it off and set the wheels to match. The wire swings once, steadily. The figures stop, incline their heads, and go back to winding.".
+  }
+  Rule beat_pleases when state(escapement, set) and not tolerates(custodians, party) and at(party, gear_hall) { Assert tolerates(custodians, party). }
+}

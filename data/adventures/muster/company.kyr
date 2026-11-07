@@ -1,0 +1,5 @@
+Module muster "The Long Muster's Road" {
+  Company party "Your company" of 3 at road.
+  // The company's own coin; the engine adds the backgrounds' coin, so the opening purse is 22 (test/muster-played.test.ts pins it).
+  Initially Set quantity(party, gold) to 14. Initially Set quantity(party, rations) to 3.
+}

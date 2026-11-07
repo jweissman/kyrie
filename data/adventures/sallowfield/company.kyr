@@ -1,0 +1,4 @@
+Module sallowfield "Three Nights at Sallowfield" {
+  Company party "Your company" of 3 at east_road.
+  Initially Set quantity(party, gold) to 14. Initially Set quantity(party, rations) to 3.
+}

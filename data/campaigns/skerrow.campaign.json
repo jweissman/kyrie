@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "name": "The Light on Scarth Holm",
+  "calendar": {
+    "year": 1312,
+    "month": 10,
+    "day": 13
+  },
+  "pitch": {
+    "heading": "A company for Scarth Holm",
+    "text": "A causeway dries for three hours at noon and a lighthouse stands at the end of it. You are going to cross, because the road you are on goes that way, and because you were told you could be back by two. Choose three companions, and decide what you carry."
+  },
+  "modules": [
+    {
+      "id": "skerrow",
+      "bundle": "../adventures/skerrow/module.json"
+    }
+  ],
+  "party": [
+    {
+      "name": "Elen",
+      "raceId": "elf",
+      "classId": "ranger",
+      "backgroundId": "hunter"
+    },
+    {
+      "name": "Bran",
+      "raceId": "human",
+      "classId": "warrior",
+      "backgroundId": "locksmith",
+      "traits": [
+        "toughness"
+      ]
+    },
+    {
+      "name": "Dori",
+      "raceId": "dwarf",
+      "classId": "cleric",
+      "backgroundId": "medic",
+      "traits": [
+        "vitalist"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+Module sallowfield "Three Nights at Sallowfield" {
+  // ── The people ───────────────────────────────────────────────────────────────────────────────────────────────
+  // Twelve who can be asked to hold a place, each with a nerve (0 will not stand; 1 will if led; 2 will; 3 will and
+  // steadies others). Dead is dead: the ending counts them by name.
+  Relation villager(group). Measure nerve(group). Relation posted(group, place) exclusive. Relation postsite(place).
+  Initially Assert postsite(ford_stones). Initially Assert postsite(bridge). Initially Assert postsite(mill_yard). Initially Assert postsite(nave).
+
+  Person teasdale "Amos Teasdale" at east_road {
+    Role "the coachman". Ancestry human. Peaceable. Pronouns he. Manner acerbic.
+    Greets "Teasdale does not look up from the axle. 'Cracked clean through,' he says. 'Three days, the smith says, if she's got the iron. Three days on the Company's time, and I have eleven passengers to feed and not one of you has ever once offered to push.'".
+  }
+  Person stansfield "Aldred Stansfield" at green {
+    Role "the reeve of Sallowfield". Ancestry human. Peaceable. Pronouns he. Manner proud.
+    Greets "A stout man in a good coat, with a ledger under his arm, who has plainly been told by someone that this is a time for leadership. 'You are the coach,' he says. 'Good. I have a notice to draw up and I do not know what to put on it. What would you put?'".
+  }
+  Person ashworth "Nan Ashworth" at taproom {
+    Role "landlady of the Ploughshare". Ancestry human. Profession innkeeper. Peaceable. Pronouns she. Manner jovial.
+    Greets "'Sit,' says Nan Ashworth, 'sit, sit, it's not a day to be on your feet. I've mutton, I've the end of a cheese, I've a cellar that has never in its life been lent to an army and I'd be obliged if it kept the record.'".
+  }
+  Person quarmby "Gil Quarmby" at mill_yard {
+    Role "the miller". Ancestry human. Peaceable. Pronouns he. Manner grim.
+    Greets "The miller has flour in his eyebrows and in the creases of his hands and, you suspect, in his temper. 'If you've come about the soldiers,' he says, 'it's four days since I heard and I've not had a minute. A mill doesn't stop for talk. It stops for fire.'".
+  }
+  Person kersey "Peg Kersey" at forge {
+    Role "the smith". Ancestry dwarf. Peaceable. Pronouns she. Manner stoic.
+    Greets "Peg Kersey looks at you, and at your boots, and at the door. 'Axle,' she says. 'Strap's in the coals. Iron's short.' She takes a hammer off the wall and puts it back. 'Don't ask what for. I'll be asked enough.'".
+  }
+  Person cragg "Ellen Cragg" at nave {
+    Role "a widow, in the chapel with a bundle of arrows". Ancestry human. Peaceable. Pronouns she. Manner stoic.
+    Joins "Ellen Cragg gathers the arrows into a quiver with the heads all one way, and counts them into it. 'Forty-one,' she says. 'I'm to carry them, then.'".
+    Leaves "Ellen Cragg lays the quiver on a pew. 'I'll be at the nave,' she says. 'If you want the number.'".
+    Remarks at tower_roof "Ellen Cragg lays an arrow on the parapet, nock out, for the nearest hand. 'Fifty yards to the ford,' she says. 'Sixty to the bridge. Forty to the hedge. I have walked it.'".
+    Greets "A woman of fifty on the front pew with an arrow in each hand, counting. 'Thirty-nine,' she says to nobody. 'Forty.' She lays the last on the pile and looks at you for the first time. 'Forty-one, if the boy hasn't been at them.'".
+  }
+  Person mowbray "Father Mowbray" at nave {
+    Role "the priest of Saint Eadred's". Ancestry human. Calling cleric. Level 2. Peaceable. Pronouns he. Manner jovial.
+    Joins "Mowbray puts on his hat, takes his staff, takes off his hat again to the altar, and puts it back on. 'Saint Eadred,' he says, 'look the other way.'".
+    Leaves "Father Mowbray stops in the porch. 'I'll be at the altar,' he says. 'It is where I am any use.'".
+    Remarks at green "Mowbray stops in the middle of the green and looks round at the geese, the well, the forge, the faces in the windows. 'God's teeth,' he says in a different voice. 'They are all here. I did not know that I would be afraid of that.'".
+    Greets "A big red priest wrestling the plate-chest's lid with his whole bulk. 'God's teeth,' he says, 'and the Devil's tongue, and the pimply arse of Saint Eadred himself, which I'll say for him he'd have forgiven,' and then he sees you and puts on his dignity like a surplice and does not get it straight.".
+  }
+  Person pinn "Davy Pinn" at ford_stones {
+    Role "the miller's boy, fishing". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
+    Joins "Davy Pinn coils his line round the rod and puts the rod in a hedge. 'I'll fetch it after,' he says, and does not look back at the river.".
+    Leaves "Davy Pinn goes off across the grass at a run, towards the mill, without being told to.".
+    Remarks at tower_roof "Davy Pinn puts both hands on the parapet and looks down at the village until the light changes. 'It's small,' he says. 'I never knew it was small.'".
+    Greets "A boy of twelve with a sling round his neck and a bent pin in the river, who has plainly decided you are the most interesting thing to have happened since the fair. 'I can hit a crow at forty yards,' he says. 'I can hit a man at thirty. Well. Haven't. But I could.'".
+  }
+  Person crowther "Old Crowther" at fold {
+    Role "the shepherd". Ancestry human. Peaceable. Pronouns he. Manner stoic.
+    Greets "The shepherd turns round when he is ready. 'Sheep,' he says. And after a while: 'There's riders on the Scar road most mornings now. Three. Never four. They look at the village and then go.'".
+  }
+  Person greenhalgh "Ned Greenhalgh" at lower_farm {
+    Role "the farmer at the lower farm". Ancestry human. Peaceable. Pronouns he. Manner grim.
+    Greets "A man with a forearm like a ham leans on a gate that has been his father's. 'They'll not take my cows,' he says. 'I've been told they will. I have been told a great many things this week by people who did not stop to see the cows.'".
+  }
+  Person wadsworth "Hob Wadsworth" at taproom {
+    Role "a carter, loudly". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Remarks at bridge "'What it wants,' says Hob Wadsworth, to the whole bridge, 'is a man with a voice. Lucky for you.' His voice has gone up a tone since the sun went down.".
+    Greets "A big pink man at the bar with a pot in each hand, telling the room how he would deal with soldiers. He has dealt with soldiers in nine different ways since you came in and each way has been worse than the last. 'You're a fighter,' he says to you, with enormous warmth. 'I can tell. Let me buy you something.'".
+  }
+  Person elland "Tib Elland" at granary {
+    Role "the tithe clerk". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
+    Greets "A thin young man with ink on his chin and a tally-stick in each hand, counting sacks aloud. 'Ninety, ninety, ninety,' he says, and drops a stick. 'Sorry. I. It is not that I am afraid. It is that I have the figures.'".
+  }
+  Initially Assert villager(stansfield). Initially Assert villager(ashworth). Initially Assert villager(quarmby). Initially Assert villager(kersey).
+  Initially Assert villager(cragg). Initially Assert villager(mowbray). Initially Assert villager(pinn). Initially Assert villager(crowther).
+  Initially Assert villager(greenhalgh). Initially Assert villager(wadsworth). Initially Assert villager(elland).
+  Initially Set nerve(stansfield) to 0. Initially Set nerve(ashworth) to 2. Initially Set nerve(quarmby) to 2. Initially Set nerve(kersey) to 3.
+  Initially Set nerve(cragg) to 3. Initially Set nerve(mowbray) to 2. Initially Set nerve(pinn) to 1. Initially Set nerve(crowther) to 2.
+  Initially Set nerve(greenhalgh) to 2. Initially Set nerve(wadsworth) to 1. Initially Set nerve(elland) to 0.
+
+  // Asking someone to hold a place. A villager with no nerve will not; a steadied one will.
+  Action post_villager(actor: group, site: place, v: group, p: place) "Ask {v} to hold {p}" {
+    Requires able(actor) and company(actor) and at(actor, site) and villager(v) and able(v) and at(v, site) and postsite(p) and not posted(v, p) and nerve(v) >= 1 and not travelsWith(v, actor).
+    Time 6.
+    On success { Assert posted(v, p). Assert at(v, p). }
+    Result "{v} nods, once, and the matter is settled. They will be there.".
+  }
+  Action steady_villager(actor: group, site: place, v: group) "Steady {v} with a word" {
+    Requires able(actor) and company(actor) and at(actor, site) and villager(v) and able(v) and at(v, site) and nerve(v) < 2 and not steadied(v) and not travelsWith(v, actor).
+    Time 1.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Increase nerve(v) by 1. Assert steadied(v). }
+    On failure { Assert steadied(v). }
+    Result "{v} listens, and breathes out, and something in the shoulders comes down. 'All right,' {v} says. 'All right. Tell me where.'".
+    Otherwise "{v} hears you out and nods and does not believe a word. Whatever was in the eyes before is still there.".
+  }
+  Relation steadied(group).
+
+  // The reeve wants a notice, and the coachman wants his coach.
+  Topic stansfield_notice with stansfield "Say what you would put on the notice" when true once {
+    Says "Aldred Stansfield writes down every word you say, and after the first sentence he stops writing and simply looks at you. 'It is a great deal,' he says. 'I had thought of THE VILLAGE WILL REMAIN CALM.' He lays down the pen. 'I do not know that it will.'".
+  }
+  Topic stansfield_pay with stansfield "Ask the reeve what the village could pay" when true {
+    Says "'Sixty,' says Stansfield, 'in coin, at the outside, if every house is turned out. And the plate, which is the priest's, and the grain, which is the Margrave's. I have no right to offer either.' He is pale. 'I am not saying I would not.'".
+    On discuss { Assert knows(actor, reeve_would_pay). }
+  }
+  Entity reeve_would_pay: fact "Reeve Stansfield would pay sixty coin, the plate and the grain to be rid of Wyre's company, if he dared.".
+  Topic teasdale_leave with teasdale "Ask the coachman when the coach could go on" when true {
+    Says "'When the iron comes,' says Teasdale. 'Peg's got a strap in the coals she says will do. Three days. Two, if she doesn't take it for something else.' He looks up at the hills for the first time. 'Why?'".
+  }
+}

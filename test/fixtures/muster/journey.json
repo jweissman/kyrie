@@ -1,0 +1,107 @@
+{
+ "prepare_light": [
+  "To Kell green",
+  "Into Pryor's store",
+  "Buy \u203a A coil of rope",
+  "Buy \u203a A piton",
+  "Buy \u203a A piton",
+  "Buy \u203a A crowbar",
+  "Buy \u203a Firewood",
+  "Buy \u203a A torch",
+  "Buy \u203a A torch",
+  "Buy \u203a A tent",
+  "Out to Kell green"
+ ],
+ "gorge": [
+  "To the Low Road gorge"
+ ],
+ "back": [
+  "To Kell green"
+ ],
+ "hire": [
+  "Ask Marra about the roads",
+  "Ask Marra Tellis to join the company"
+ ],
+ "stock": ["To the Last Fire", "Ask Greta why the village keeps a lamp in the window", "Out to Kell green"],
+ "first_days": [
+  "To the goatherds' track",
+  "To the steep of the track",
+  "To the Mansio Septimus",
+  "To the Ledge",
+  "To the end of the Ledge",
+  "To the Mansio Octavius",
+  "Unbuckle the scribe's satchel",
+  "a scribe's glossary of the old script: Take from the scribe's satchel"
+ ],
+ "viaduct": [
+  "To the north head of the Viaduct",
+  "Drive a piton into the parapet and rig a line over the gap with a coil of rope",
+  "To the parapet of the fifth arch",
+  "To the south abutment",
+  "To the Mansio of the Eagle",
+  "a courier's pouch: Take",
+  "a season of the Toll: Take",
+  "a courier's pouch addressed to Lucilla Merula: Take"
+ ],
+ "to_pass": [
+  "To the foot of the Giant's Pass"
+ ],
+ "giant": [
+  "=8:00",
+  "To the road-house",
+  "Give the giant a crowbar for his toll"
+ ],
+ "gate": [
+  "To the head of the descent",
+  "To the Long Descent",
+  "To the gate of the Last Cohort",
+  "Hold up a courier's pouch with the Cohort's own seal"
+ ],
+ "valley": [
+  "To the forum",
+  "To the Praetorium",
+  "Let the Prefect put his first question",
+  "Say that nobody sent you: you came to see what the road led to",
+  "Let the Prefect put his second question",
+  "Say that it looks heavy: that it looks like something people carry",
+  "Let the Prefect put his last question",
+  "Say that there is a village, thirty houses round a trough, and they keep a lamp in the window",
+  "Ask the Prefect for his dispatch",
+  "Tell the Prefect that the empire is gone",
+  "Out to the forum",
+  "To the barracks yard",
+  "Give the Centurion the pouch addressed to her, from the Eagle",
+  "Ask nothing for it, and tell her everything about the men in the Pass",
+  "Ask the Centurion for a scout",
+  "Ask Dunya to join the company"
+ ],
+ "home": [
+  "To the forum",
+  "To the gate of the Last Cohort",
+  "To the Long Descent",
+  "To the head of the descent",
+  "To the road-house",
+  "To the foot of the Giant's Pass",
+  "To the Mansio of the Eagle",
+  "To the south abutment",
+  "To the north head of the Viaduct",
+  "To the Mansio Octavius",
+  "To the Third Arch",
+  "Bran: light a torch",
+  "To the dark of the Gallery \u2014 look at the Third Arch \u203a Prod it with the pole",
+  "To the dark of the Gallery",
+  "To the mouth of the Gallery",
+  "To the Mansio Septimus",
+  "To the end of the causeway",
+  "To the long middle of the causeway",
+  "To the head of the Old Causeway",
+  "To Kell green"
+ ],
+ "reeve": [
+  "Talk to Reeve Cattermole",
+  "Give the reeve the Prefect's dispatch"
+ ],
+ "deserters": [
+  "Hold up the pouch addressed to the Centurion Lucilla Merula"
+ ]
+}

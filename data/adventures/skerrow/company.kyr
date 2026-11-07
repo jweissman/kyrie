@@ -1,0 +1,4 @@
+Module skerrow "The Light on Scarth Holm" {
+  Company party "Your company" of 3 at shore_road.
+  Initially Set quantity(party, gold) to 14. Initially Set quantity(party, rations) to 3.
+}

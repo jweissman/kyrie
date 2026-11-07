@@ -1,0 +1,77 @@
+Module wrongboat "The Wrong Boat" {
+  // ── The hamper, and what is under the cakes ────────────────────────────────────────────────────────────────────
+  // Mother Cobbold gives the company a hamper for the Maud's cook. The Maud has gone. The Mary has not. Under the
+  // cakes is a music box that Hob Garrod, the Mary's owner, took from the widow of a man he never paid, and left at
+  // the Heron to be carried to a buyer at the Last Pint while he went to sit out his debts in Pelham gaol. Bess
+  // Lowther, who is owed three months' wages by the toll and the whole of a marriage by Hob, has found out it has gone
+  // aboard a barge, and cannot tell which. What she and the company think the box is, it is not.
+  Relation hamperOpened(group). Relation boxWound(group). Relation drawerOpen(group). Relation boxKnown(group).
+  Measure windings(group).
+  Kind hamper_kind "Mother Cobbold's hamper" is gear worth 0 weighing 3 described "A wicker hamper with a cloth tied over it and a luggage-label that says MAUD COOK, DO NOT OPEN, in a hand that has pressed hard.".
+  Kind wage_slip_kind "a bargeman's wage-slip" is document teaching wage_slip_read described "A slip of blue paper, stamped with the Patient Mary's anchor and signed by a hand that has made the same signature a thousand times.".
+  Discovery wage_slip_read "The slip is Tom Lowther's last wage-slip from the Patient Mary: seven months unpaid at his death, the sum underlined twice, and under it in Hob Garrod's hand: SET AGAINST A DEBT OF HONOUR. The box is not the Trust's. It never was.".
+  Discovery tune_known "The box plays The Miller's Daughter, a song with thirty verses that every bargeman on the Aldwater knows, and nobody knows who wrote.".
+  Discovery maker_known "Inside the box's back-plate, scratched with a pin: B.L. FROM T.L., THE DAY WE WERE WED. The song the crew sings was written by a bargeman for his wife, and the box was made to play it.".
+
+  Action open_hamper(actor: group, site: place) "Look under the cloth in the hamper" {
+    Requires able(actor) and company(actor) and at(actor, site) and holding(actor, hamper_kind) and not hamperOpened(actor).
+    Time 1.
+    On success { Spend hamper_kind from actor. Assert hamperOpened(actor). Increase quantity(actor, rations) by 2. Give music_box to actor. }
+    Result "Seed-cakes in a clean cloth, six of them; and under the cloth, wrapped in another cloth, a loaf-shaped box of dark wood, brass-cornered, with a key in the side. Somebody has wrapped it as you would wrap a baby, or a thing you were sorry to give up.".
+  }
+  Action wind_box(actor: group, site: place) "Wind the music box" {
+    Requires able(actor) and company(actor) and at(actor, site) and holding(actor, music_box) and windings(actor) < 3.
+    Time 1.
+    On success { Increase windings(actor) by 1. Assert boxWound(actor). }
+    Result "It plays. Six notes down, six notes up, a turn in the middle where the tune shifts its grip. The lid shivers against your hand. Everyone within earshot looks up, and nobody says what song it is, because they all know it.".
+  }
+  Observe tune_taught near galley when boxWound(party) and at(party, galley) "In the galley the cook has stopped stirring. The song she was singing in the other room has ended in the middle of a verse, and the box has finished it." teaches tune_known.
+  Observe tune_taught_deck at deck when boxWound(party) "On the deck, somebody forward has taken up the tune on a whistle, and stopped, and not started again." teaches tune_known.
+  Action open_drawer(actor: group, site: place) "Wind the box a third time and feel under the comb" {
+    Requires able(actor) and company(actor) and at(actor, site) and holding(actor, music_box) and windings(actor) >= 2 and windings(actor) < 5 and not drawerOpen(actor).
+    Time 1.
+    Resolve check(actor, trapwork, dc_fair).
+    On success { Assert drawerOpen(actor). Increase windings(actor) by 1. Give wage_slip_kind to actor. }
+    On failure { Increase windings(actor) by 1. }
+    Result "The comb is a false bottom. It lifts. In the hollow beneath it lies a folded blue slip. On the back plate, where the lamp falls, someone has scratched a few words with a pin.".
+    Otherwise "You turn it every way. The comb does what combs do. You have the feeling of a thing that is waiting for you to be a little kinder to it.".
+  }
+  Action read_plate(actor: group, site: place) "Read the words scratched in the back-plate" {
+    Requires able(actor) and company(actor) and at(actor, site) and holding(actor, music_box) and drawerOpen(actor) and not boxKnown(actor).
+    Time 1.
+    On success { Assert boxKnown(actor). Assert knows(actor, maker_known). }
+    Result "You tilt it to the light. The words were put in with a pin, years ago, by someone who did not own an engraver's tool and did not want to wait for one.".
+  }
+
+  // The ways of being rid of it.
+  Action drop_box(actor: group, site: place) "Drop the music box in the river" {
+    Requires able(actor) and company(actor) and at(actor, site) and holding(actor, music_box) and (at(actor, quay) or at(actor, deck) or at(actor, fair_quay) or at(actor, race_head) or at(actor, ferry_stage) or at(actor, weir)) and not dropped(actor) and not bessAlly(actor).
+    Time 0.
+    On success { Spend music_box from actor. Assert dropped(actor). }
+    Result "It goes in without a splash worth the name. For a long moment, from the green water, you can hear it play, a little, muffled, going down, and then you cannot.".
+  }
+  Relation dropped(group).
+  Action sell_dealer(actor: group, site: place) "Sell the music box to the horse-dealer for fifty coin, no questions" {
+    Speaker dealer.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, horse_lines) and holding(actor, music_box) and not soldHonest(actor) and not bessAlly(actor).
+    Time 0.
+    On success { Spend music_box from actor. Increase quantity(actor, gold) by 50. Assert soldHonest(actor). }
+    Result "The dealer winds it twice, listens, does not smile, and counts fifty out of a purse that has been heavy since morning. 'Very pretty,' he says. 'I shall give it to my wife.' He says it to the horse.".
+  }
+  Relation soldHonest(group).
+  Relation gaveHob(group).
+  Action give_hob(actor: group, site: place) "Put the box in Hob Garrod's hands, since he is the owner" {
+    Speaker hob.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lockup) and holding(actor, music_box) and not gaveHob(actor) and not bessAlly(actor).
+    Time 0.
+    On success { Spend music_box from actor. Assert gaveHob(actor). }
+    Result "'Mine,' says Hob, taking it, as if he had been told a fact about the weather. He winds it, and it plays, and he lies down with it on his chest and his hat over his eyes. 'Bless you,' he says. 'Fosse will give me forty for it, and forty will get me out of here.'".
+  }
+  Action surrender_box(actor: group, site: place) "Give the box up to the lads" {
+    Speaker lads.
+    Requires able(actor) and company(actor) and at(actor, site) and at(lads, site) and holding(actor, music_box) and not caught(actor).
+    Time 0.
+    On success { Spend music_box from actor. Assert caught(actor). }
+    Result "The larger takes it, winds it, and looks at nothing as it plays. 'There,' he says. 'No need for the long way.' The smaller one keeps his eyes on the water. They go off along the towpath, and one of them, as he goes, hums the second line.".
+  }
+}

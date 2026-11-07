@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "name": "Tallow Deep",
+  "calendar": { "year": 1312, "month": 9, "day": 4 },
+  "pitch": {
+    "heading": "A company for Tallow Edge",
+    "text": "A pale ridge with a village at its foot swallows a river, and the river comes out nine miles round. In between there is a mine the Company left in a season, a waterworks the legions built, and something older than either. Choose three companions, and decide how to go in."
+  },
+  "modules": [
+    { "id": "tallow", "bundle": "../adventures/tallow/module.json" }
+  ],
+  "party": [
+    { "name": "Elen", "raceId": "elf", "classId": "ranger", "backgroundId": "hunter" },
+    { "name": "Bran", "raceId": "human", "classId": "warrior", "backgroundId": "locksmith", "traits": ["toughness"] },
+    { "name": "Dori", "raceId": "dwarf", "classId": "cleric", "backgroundId": "medic", "traits": ["vitalist"] }
+  ]
+}

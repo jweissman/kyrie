@@ -15,7 +15,16 @@
     "art2.kyr",
     "lives.kyr",
     "marl.kyr",
-    "revels.kyr"
+    "revels.kyr",
+    "isle.kyr",
+    "isle_life.kyr",
+    "act4.kyr",
+    "voyage.kyr",
+    "tent.kyr",
+    "isle_wild.kyr",
+    "sarn_people.kyr",
+    "sarn_keeping.kyr",
+    "endings.kyr"
   ],
   "rules": [
     "world"

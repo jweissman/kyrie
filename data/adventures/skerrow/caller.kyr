@@ -1,0 +1,134 @@
+Module skerrow "The Light on Scarth Holm" {
+  // ── The Caller ────────────────────────────────────────────────────────────────────────────────────────────────
+  // It is a Thing, not a Person: nothing can be fought, wounded or killed, and the night is not the same without it.
+  // Whenever it is dark and the tide is in it is on the holm: it knocks in the evening and calls from midnight, whatever
+  // the lamp is doing, and the people who answer are lost. What the lamp changes is where it can climb. While the lamp
+  // is bright it lies in the cistern and reaches only the sea-side rooms (the landing, the boat shed, the bell hut, the
+  // cistern). When the lamp sinks it reaches the store and the keeper's room; when it is out it reaches every room.
+  // It goes to wherever the company is, if that room is within reach, and after half an hour takes one of them. A
+  // bell sends it back to sea for an hour while the lamp lives; holy water and a flame send it back whatever the lamp
+  // does. Nobody on the holm will tell the company any of this.
+  Thing caller "the thing in the cistern" at open_water is scenery {
+    State below "In the black water by the ladder something grey lies the whole length of the tank, with its hands closed.".
+    State stair "On the iron stair, a wet print on every tread, going up, and the smell of the cistern.".
+    State here "A grey length of something is in the room with you. Its hands are open.".
+  }
+  Initially Assert state(caller, below).
+  Measure cArr(entity). Measure lastTake(entity). Measure lastKnock(entity).
+  Query exposed() means at(party, cistern) or at(party, boat_shed) or at(party, landing) or at(party, bell_hut)
+    or (not state(lamp, bright) and (at(party, store) or at(party, keeper_room)))
+    or ((state(lamp, out) or (state(lamp, low) and watch(clock) >= lowSince(lamp) + 6)) and (at(party, kitchen) or at(party, lamp_room) or at(party, gallery))).
+  Rule caller_sea when not hunting() and not at(caller, open_water) and at(caller, ?p) {
+    Retract at(caller, ?p). Assert at(caller, open_water). Assert state(caller, below).
+  }
+  Rule caller_hunts when hunting() and exposed() and at(party, ?q) and not at(caller, ?q) and at(caller, ?p) {
+    Retract at(caller, ?p). Assert at(caller, ?q). Assert state(caller, here). Set cArr(tide) to watch(clock).
+  }
+  Rule caller_cistern when hunting() and not exposed() and not state(lamp, low) and not at(caller, cistern) and at(caller, ?p) {
+    Retract at(caller, ?p). Assert at(caller, cistern). Assert state(caller, below). Set cArr(tide) to watch(clock).
+  }
+  Rule caller_stair when hunting() and not exposed() and state(lamp, low) and not at(caller, keeper_room) and at(caller, ?p) {
+    Retract at(caller, ?p). Assert at(caller, keeper_room). Assert state(caller, stair). Set cArr(tide) to watch(clock).
+  }
+
+  // Evenings, a knocking. From midnight, voices, five of them. They come whatever the lamp is doing, and they are why
+  // Gaff, Dib, Corrie and Hettie are lost or kept.
+  Rule knocks when hunting() and not calling() and within(party, holm) and watch(clock) >= lastKnock(tide) + 6 {
+    Set lastKnock(tide) to watch(clock).
+  }
+  Observe knock within holm as sound when hunting() and not calling() and lastKnock(tide) > 0 and watch(clock) < lastKnock(tide) + 7 "Under the floor of the tower something knocks, twice. Then it stops.".
+  Rule the_call when calling() and within(party, holm) and watch(clock) >= lastCall(tide) + 6 {
+    Increase callN(tide) by 1. Set lastCall(tide) to watch(clock).
+  }
+  Observe call_one within holm as sound when calling() and callN(tide) == 1 and watch(clock) < lastCall(tide) + 7 "Out on the water a man shouts, a long way off, one word, as you would shout across a river. It might be a gull.".
+  Observe call_two within holm as sound when calling() and callN(tide) == 2 and watch(clock) < lastCall(tide) + 7 "A woman's voice, nearer, from under the window. 'Is anyone there?' She says it like someone who already knows.".
+  Observe call_three within holm as sound when calling() and callN(tide) == 3 and watch(clock) < lastCall(tide) + 7 "From the sea-side of the rock a man's voice, easy, calls a boy's name, and laughs, and calls it again, nearer than the laugh.".
+  Observe call_four within holm as sound when calling() and callN(tide) == 4 and watch(clock) < lastCall(tide) + 7 "The voice is at the foot of the tower. It is no one you have to guess at. It says a name as it was said at home.".
+  Observe call_five within holm as sound when calling() and callN(tide) >= 5 and watch(clock) < lastCall(tide) + 7 "The voices have stopped being separate. A whole street of them is in the cistern, all saying the one name, softly, over and over, and waiting.".
+
+  // What it does in the room it has come to. A taking is half an hour after it arrives, and one in an hour at most.
+  Hazard taken_by_the_sea "Answering the sea" means "Kill ally.".
+  Rule caller_takes_cistern when hunting() and exposed() and at(party, cistern) and at(caller, cistern) and watch(clock) >= cArr(tide) + 3 and watch(clock) >= lastTake(tide) + 6
+    says "The water does not move. The hands open, along the whole grey back, together. A voice you know says your name from close by, and somebody has gone down the ladder to it before you have turned." {
+    Assert strikes(taken_by_the_sea, party). Set lastTake(tide) to watch(clock).
+  }
+  Rule caller_takes_keeper_room when hunting() and exposed() and at(party, keeper_room) and at(caller, keeper_room) and watch(clock) >= cArr(tide) + 3 and watch(clock) >= lastTake(tide) + 6
+    says "The glove on the sill is wet through. Something has come up the stair and stands in the doorway with its hands open, and says one name. One of you answers it before they have decided to." {
+    Assert strikes(taken_by_the_sea, party). Set lastTake(tide) to watch(clock).
+  }
+  Rule caller_takes_store when hunting() and exposed() and at(party, store) and at(caller, store) and watch(clock) >= cArr(tide) + 3 and watch(clock) >= lastTake(tide) + 6
+    says "The shelves are running with water. Something stands among the flasks with its hands open, and says a name, and a flask rolls off the shelf and breaks. One of you has gone to it." {
+    Assert strikes(taken_by_the_sea, party). Set lastTake(tide) to watch(clock).
+  }
+  Rule caller_takes_kitchen when hunting() and exposed() and at(party, kitchen) and at(caller, kitchen) and watch(clock) >= cArr(tide) + 3 and watch(clock) >= lastTake(tide) + 6
+    says "The range ticks as it cools. The cistern door is open, and nobody opened it, and the thing in the doorway has its hands open. It says a name, and a chair goes back." {
+    Assert strikes(taken_by_the_sea, party). Set lastTake(tide) to watch(clock).
+  }
+  Rule caller_takes_lamp_room when hunting() and exposed() and at(party, lamp_room) and at(caller, lamp_room) and watch(clock) >= cArr(tide) + 3 and watch(clock) >= lastTake(tide) + 6
+    says "The black glass shows the room back to itself, and in it a grey shape stands at your shoulder with its hands open. It says a name, close to your ear. Somebody answers it before they have decided to." {
+    Assert strikes(taken_by_the_sea, party). Set lastTake(tide) to watch(clock).
+  }
+  Rule caller_takes_gallery when hunting() and exposed() and at(party, gallery) and at(caller, gallery) and watch(clock) >= cArr(tide) + 3 and watch(clock) >= lastTake(tide) + 6
+    says "Over the rail, climbing the outside of the glass, come the grey hands, one after another. It says a name into the wind, and one of you leans out to answer." {
+    Assert strikes(taken_by_the_sea, party). Set lastTake(tide) to watch(clock).
+  }
+  Rule caller_takes_boat_shed when hunting() and exposed() and at(party, boat_shed) and at(caller, boat_shed) and watch(clock) >= cArr(tide) + 3 and watch(clock) >= lastTake(tide) + 6
+    says "The sea has come in under the door to your ankles, and the thing stands in it with its hands open. It says a name from close by, and somebody wades to it." {
+    Assert strikes(taken_by_the_sea, party). Set lastTake(tide) to watch(clock).
+  }
+  Rule caller_takes_landing when hunting() and exposed() and at(party, landing) and at(caller, landing) and watch(clock) >= cArr(tide) + 3 and watch(clock) >= lastTake(tide) + 6
+    says "The thing is on the steps, to its waist in the water, with its hands open. It says a name, and somebody goes down to it." {
+    Assert strikes(taken_by_the_sea, party). Set lastTake(tide) to watch(clock).
+  }
+  Rule caller_takes_bell_hut when hunting() and exposed() and at(party, bell_hut) and at(caller, bell_hut) and watch(clock) >= cArr(tide) + 3 and watch(clock) >= lastTake(tide) + 6
+    says "The bell hangs still. The grey length has come up the rock to the beam with its hands open, and says a name, and somebody steps out from under the roof." {
+    Assert strikes(taken_by_the_sea, party). Set lastTake(tide) to watch(clock).
+  }
+
+  // Answering is a thing that can be done, outdoors, by anyone who hears a voice and goes to it.
+  Relation answeredFalse(group). Relation torchTried(group).
+  Action answer_voice(actor: group, site: place) "Answer the voice by your own name" {
+    Requires able(actor) and company(actor) and at(actor, site) and (at(actor, landing) or at(actor, gallery)) and calling() and watch(clock) < lastCall(tide) + 3.
+    Time 0.
+    On success { Assert strikes(taken_by_the_sea, actor). }
+    Result "You say it. It is a relief to say it. The voice is glad. When the cold has gone one of you is on the stones with their eyes open, and the voice has stopped.".
+  }
+  Action answer_false(actor: group, site: place) "Answer the voice with someone else's name, and make it sound afraid" {
+    Requires able(actor) and company(actor) and at(actor, site) and (at(actor, landing) or at(actor, gallery)) and calling() and watch(clock) < lastCall(tide) + 3 and not answeredFalse(actor).
+    Time 0.
+    Resolve check(actor, deception, dc_hard).
+    On success { Assert answeredFalse(actor). Set repelUntil(tide) to watch(clock) + 8. }
+    On failure { Assert answeredFalse(actor). Assert strikes(taken_by_the_sea, actor). }
+    Result "You say a name that is not yours, in a voice that is not yours, and put into it everything you have been afraid of. A long silence. The water turns over once, like a sleeper changing sides, and goes out.".
+    Otherwise "You say the false name. The voice stops. Then it says your own.".
+  }
+
+  // What it does not like: holy water, and a flame held out at the full length of an arm. Both send it back to sea
+  // whatever the lamp is doing, for a while.
+  Item holy_a "a flask of holy water" is holy_water at store.
+  Item holy_b "a second flask of holy water" is holy_water in hettie_basket hidden until basket_looked.
+  Thing hettie_basket "Hettie's basket" at kitchen {
+    State covered closed "A basket with a cloth over it stands by the range. It smells of a loaf and, faintly, of a chapel.".
+    State open "The basket stands open: a loaf, a jar, a candle-end, and a small flask stoppered with wax.".
+    Change open_basket "Look in Hettie's basket" from covered to open.
+    Holds.
+  }
+  Discovery basket_looked "Hettie's basket holds a loaf, a jar, a candle-end and a flask of holy water.".
+  Observe basket_taught at kitchen when state(hettie_basket, open) "The flask is stoppered with wax and smells of a chapel. It is not the sort of thing one brings to a lighthouse for tea." teaches basket_looked.
+  Action splash_caller(actor: group, site: place) "Throw holy water where the hands are opening" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(caller, site) and holding(actor, holy_water).
+    Time 0.
+    On success { Spend holy_water from actor. Set repelUntil(tide) to watch(clock) + 12. }
+    Result "The flask breaks on the grey back, and where the water runs there is a sound like fat on a griddle. The hands close. Every one of them. The thing goes down without turning, lamp or no lamp, and the water in the cistern goes still for two hours.".
+  }
+  Action drive_it_off(actor: group, site: place) "Take a torch to it" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(caller, site) and capable(actor, light) and not torchTried(party).
+    Time 0.
+    Resolve check(actor, intimidation, dc_hard).
+    On success { Set repelUntil(tide) to watch(clock) + 6. }
+    On failure { Assert torchTried(party). }
+    Result "You hold the flame out at the full length of the arm. The hands fold, one at a time. It goes back down, step by step, facing you.".
+    Otherwise "You hold the flame out. It does not mind. It says your name again, in the voice of the person you would least like to refuse.".
+  }
+  Rule torch_rests when torchTried(party) and hour(clock) >= 12 and hour(clock) < 13 { Retract torchTried(party). }
+}

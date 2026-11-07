@@ -1,0 +1,156 @@
+Module tallow "Tallow Deep" {
+  Description "Tallow Edge: a long pale ridge that swallows a river, and what three peoples made of the dark inside it.".
+
+  // The hill, from the village outward and downward. Four ways in: the Day-Level adit and the Rising (the foot), the
+  // Swallow (the upland), and the Calx Way (the west road, buried).
+  Place edge "Tallow Edge" is region within imbar.
+  Place foot "the foot of the Edge" is wilderness within edge at 1, 2.
+  Place swallet "Swallet" is settlement within edge at 1, 1.
+  Place upland "the Tallow upland" is wilderness within edge at 1, 0.
+  Place westway "the west road" is wilderness within edge at 0, 1.
+  Place deep "Tallow Deep" is site within edge at 2, 1.
+  Place inn "the Chandler's Arms" is building within swallet.
+  Place assay "the assay house" is building within swallet.
+  Place store "Usk's store" is building within swallet.
+
+  Place l1 "the Day-Level" is level within deep underground.
+  Place l2 "the Conduit" is level within deep underground.
+  Place l3 "the Cistern" is level within deep underground.
+  Place l4 "the Long Stair" is level within deep underground.
+  Place l5 "the foot of the Bore" is level within deep underground.
+
+  // Above ground.
+  Place road "the Swallet road" is room within foot at 0, 0 outdoors.
+  Place lane "Swallet lane" is room within swallet at 0, 1 outdoors.
+  Place green "Swallet green" is room within swallet at 1, 1 outdoors.
+  Place taproom "the Chandler's Arms" is room within inn at 2, 0.
+  Place counter "the assayer's counter" is room within assay at 2, 2.
+  Place shop "Usk's store" is room within store at 0, 2.
+  Place bank "the bank below the Rising" is room within foot at 1, 0 outdoors.
+  Place rising_mouth "the mouth of the Rising" is room within foot at 2, 0 outdoors.
+  Place garden "the Brasiers' garden" is room within foot at 1, 1 outdoors.
+  Place adit_mouth "the Day-Level portal" is room within foot at 1, 2 outdoors.
+  Place upland_track "the upland track" is room within upland at 1, 2 outdoors.
+  Place scrub "the heather scrub" is room within upland at 1, 1 outdoors.
+  Place swallow_rim "the rim of the Swallow" is room within upland at 1, 0 outdoors.
+  Place west_end "the west road's end" is room within westway at 0, 1 outdoors.
+  Place calx_portal "the buried portal" is room within westway at 0, 0 outdoors.
+
+  // The Day-Level: the Brasiers' Company's works, sixty years gone.
+  Place adit "the adit" is room within l1 at 0, 1.
+  Place drift "the long drift" is room within l1 at 1, 1.
+  Place tally_room "the Tally-Room" is room within l1 at 2, 1.
+  Place smithy "the Company smithy" is room within l1 at 2, 0.
+  Place stores "the old stores" is room within l1 at 2, 2.
+  Place counting "the Company's counting-house" is room within l1 at 3, 1.
+  Place winding "the winding-house" is room within l1 at 4, 1.
+  Place rising_gallery "the Rising Gallery" is room within l1 at 0, 3.
+  Place bat_chimney "the bat chimney" is room within l1 at 1, 3.
+
+  // The Conduit: the Aenean waterworks.
+  Place settling "the Settling Cistern" is room within l2 at 0, 2.
+  Place aenean_walk "the Aenean service walk" is room within l2 at 1, 2.
+  Place spider_gallery "the Spider Gallery" is room within l2 at 2, 2.
+  Place upper_conduit "the Upper Conduit" is room within l2 at 3, 2.
+  Place swallow_foot "the foot of the Swallow" is room within l2 at 4, 2.
+  Place sluice_house "the sluice-house" is room within l2 at 3, 1.
+  Place shaft_head "the head of the Blind Shaft" is room within l2 at 4, 0.
+
+  // The Cistern: a hall for a river to settle in, and what the miners found in it.
+  Place sump "the sump of the Blind Shaft" is room within l3 at 4, 0.
+  Place north_walk "the north walk" is room within l3 at 3, 0.
+  Place foremans_office "the Foreman's office" is room within l3 at 2, 0.
+  Place cistern_hall "the Cistern Hall" is room within l3 at 2, 2.
+  Place south_landing "the south landing" is room within l3 at 0, 3.
+  Place tally_wall "the Tally-Wall" is room within l3 at 0, 1.
+  Place the_cap "the Cap" is room within l3 at 3, 3.
+
+  // The Bore: older than the Cistern, and not for water.
+  Place breach "the Brasiers' Breach" is room within l4 at 3, 0.
+  Place ossuary "the Ossuary" is room within l4 at 4, 0.
+  Place gate_house "the gate-house of the Calx Way" is room within l4 at 5, 0.
+  Place gear_hall "the Gear-Hall" is room within l5 at 3, 3.
+  Place quiet_gallery "the Quiet Gallery" is room within l5 at 2, 4.
+  Place dial_room "the Dial" is room within l5 at 1, 4.
+  Place calx_inner "the inside of the buried portal" is room within l4 at 7, 0.
+  Place calx_way "the Calx Way" is room within l4 at 6, 0.
+
+  Initially Assert unlit(adit). Initially Assert unlit(drift). Initially Assert unlit(smithy). Initially Assert unlit(stores).
+  Initially Assert unlit(counting). Initially Assert unlit(winding). Initially Assert unlit(rising_gallery).
+  Initially Assert unlit(bat_chimney). Initially Assert unlit(settling). Initially Assert unlit(aenean_walk).
+  Initially Assert unlit(spider_gallery). Initially Assert unlit(upper_conduit). Initially Assert unlit(swallow_foot).
+  Initially Assert unlit(sluice_house). Initially Assert unlit(shaft_head). Initially Assert unlit(sump).
+  Initially Assert unlit(north_walk). Initially Assert unlit(foremans_office). Initially Assert unlit(cistern_hall).
+  Initially Assert unlit(south_landing). Initially Assert unlit(tally_wall). Initially Assert unlit(the_cap).
+  Initially Assert unlit(breach). Initially Assert unlit(ossuary). Initially Assert unlit(gate_house).
+  Initially Assert unlit(gear_hall). Initially Assert unlit(quiet_gallery). Initially Assert unlit(dial_room).
+  Initially Assert unlit(calx_inner). Initially Assert unlit(calx_way).
+
+  // ---------------------------------------------------------------------------------------------------------------
+  // Passages above ground.
+  Passage swallet_road "the Swallet road" is road between road and lane taking 30 minutes.
+  Passage lane_green "the lane" is road between lane and green.
+  Passage inn_door "the Chandler's door" is door between green and taproom.
+  Passage assay_door "the assay house door" is door between green and counter.
+  Passage store_door "Usk's door" is door between green and shop.
+  Passage bank_path "the path to the Rising" is path between green and bank taking 20 minutes.
+  Passage wend_ford "the Wend at the bank" is ford between bank and rising_mouth taking 10 minutes.
+  Passage garden_path "the path to the Brasiers' garden" is path between green and garden taking 20 minutes.
+  Passage portal_path "the track to the Day-Level" is path between garden and adit_mouth taking 10 minutes.
+  Passage upland_climb "the upland climb" is path between green and upland_track taking 1 hour.
+  Passage scrub_path "the track through the scrub" is path between upland_track and scrub taking 30 minutes.
+  Passage rim_path "the track to the Swallow" is path between scrub and swallow_rim taking 20 minutes
+    opening when tolerates(owlbear, party) or not able(owlbear) "The she-owlbear stands across the track to the Swallow, broad as the heather, and does not intend to be passed.".
+  Passage west_track "the west road" is road between lane and west_end taking 1 hour.
+  Passage buried_way "the scree below the ridge's end" is path between west_end and calx_portal taking 20 minutes.
+
+  // The Day-Level.
+  Passage adit_way "the adit" is tunnel between adit_mouth and adit taking 10 minutes.
+  Passage adit_drift "the drift" is passage between adit and drift.
+  Passage drift_tally "the Tally-Room arch" is arch between drift and tally_room.
+  Passage smithy_door "the smithy door" is door between tally_room and smithy.
+  Passage stores_door "the stores door" is door between tally_room and stores.
+  Passage counting_door "the counting-house door" is door between tally_room and counting.
+  Passage drift_winding "the rail to the winding-house" is passage between tally_room and winding taking 10 minutes.
+  Passage rising_hole "the cave mouth of the Rising" is tunnel between rising_mouth and rising_gallery taking 20 minutes.
+  Passage gallery_chimney "the gap to the bat chimney" is crawl between rising_gallery and bat_chimney.
+  Passage chimney_drift "the miners' stope" is crawl between bat_chimney and stores taking 20 minutes hidden until stope_known.
+
+  // Up the river: the Conduit.
+  Passage gallery_settling "the Wend's channel, upstream" is tunnel between rising_gallery and settling taking 30 minutes.
+  Passage settling_service "the service walk's lower stair" is steps between settling and aenean_walk.
+  Passage service_spiders "the service walk" is passage between aenean_walk and spider_gallery taking 20 minutes.
+  Passage spiders_upper "the Upper Conduit" is passage between spider_gallery and upper_conduit taking 20 minutes
+    opening when not at(spiders, spider_gallery) or not able(spiders) or tolerates(spiders, party) "Tier on tier of web hangs across the way to the Upper Conduit, and the spiders sit in it.".
+  Passage upper_foot "the Aenean channel" is passage between upper_conduit and swallow_foot.
+  Passage upper_sluice "the sluice steps" is steps between upper_conduit and sluice_house.
+  Passage swallow_climb "the Swallow's throat" is shaft between swallow_foot and swallow_rim taking 2 hours needing rope or climbing.
+
+  // Down: the Blind Shaft and the Cistern.
+  Passage winding_shaft "the Blind Shaft" is shaft between winding and shaft_head taking 10 minutes needing rope or climbing.
+  Passage shaft_down "the Blind Shaft, below" is shaft between shaft_head and sump taking 30 minutes needing rope.
+  Passage upper_hall "the Aenean steps down to the Cistern Hall" is stair between upper_conduit and cistern_hall taking 20 minutes.
+  Passage sump_walk "the Foreman's ledge" is passage between sump and north_walk taking 10 minutes.
+  Passage walk_office "the office stair" is steps between north_walk and foremans_office.
+  Passage walk_hall "the Cistern Hall's north shore" is passage between north_walk and cistern_hall taking 10 minutes.
+  Passage hall_landing "the south shore" is passage between cistern_hall and south_landing taking 10 minutes.
+  Passage hall_wall "the way along the west wall" is passage between south_landing and tally_wall taking 20 minutes.
+  Passage hall_cap "the causeway to the Cap" is passage between cistern_hall and the_cap taking 10 minutes
+    opening when state(sluice, wound) or been(party, the_cap) "The causeway to the Cap lies a hand under black water, and the water is deep on either side. Nothing crosses it while the river runs."
+    opening when tolerates(slump, party) or not able(slump) "The black water along the causeway stands up in a smooth wall, between you and the Cap.".
+  Passage landing_settling "the siphon-house stair" is stair between south_landing and settling taking 20 minutes.
+
+  // The Bore.
+  Passage cap_upper "the Long Stair, upper flights" is stair between the_cap and breach taking 30 minutes.
+  Passage breach_ossuary "the miners' breach" is passage between breach and ossuary.
+  Passage ossuary_gate "the Calx Way, east end" is passage between ossuary and gate_house
+    opening when laid(party) or dead(ghouls) or not able(ghouls) or tolerates(ghouls, party) "The ghouls crouch in the way to the Calx Way, long hands flat on the stacked boots.".
+  Passage gate_way "the Calx Gate" is gate between gate_house and calx_way.
+  Passage way_portal "the Calx Way, west" is tunnel between calx_way and calx_inner taking 1 hour.
+  Passage portal_inner "the buried portal's face" is gate between calx_inner and calx_portal.
+  Passage breach_gear "the Long Stair, lower flights" is stair between breach and gear_hall taking 30 minutes.
+  Passage gear_quiet "the Quiet Gallery's mouth" is passage between gear_hall and quiet_gallery
+    opening when not able(custodians) or tolerates(custodians, party) "The custodians stand across the mouth of the Quiet Gallery, side by side, and do not move.".
+  Passage quiet_dial "the Quiet Gallery, far end" is passage between quiet_gallery and dial_room
+    opening when not able(stalkers) or tolerates(stalkers, party) "Far down the gallery three heads are turned toward you on the ceiling, every pit of them pointed at your mouth.".
+}

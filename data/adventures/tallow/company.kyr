@@ -1,0 +1,4 @@
+Module tallow "Tallow Deep" {
+  Company party "Your company" of 3 at road.
+  Initially Set quantity(party, gold) to 14. Initially Set quantity(party, rations) to 3.
+}

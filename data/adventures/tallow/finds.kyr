@@ -1,0 +1,113 @@
+Module tallow "Tallow Deep" {
+  // ---------------------------------------------------------------------------------------------------------------
+  // What grows where it does (the owner's plants, by their records: src/world/region-growth.ts writes the same lines
+  // for a generated country).
+  // The Swallow rim: the spray keeps a green fringe on the lip of the sink.
+  Thing rim_kingsfoil "the kingsfoil" at swallow_rim is scenery {
+    State growing "Kingsfoil grows in the lee of the ash roots, a low three-leaved herb with a clean sharp scent where the spray has touched it.".
+  }
+  Initially Assert grows(rim_kingsfoil).
+  Discovery rim_kingsfoil_hid "What grows at the Swallow's rim is gathered, not found.".
+  Item rim_kingsfoil_1 "a sprig of kingsfoil" is kingsfoil in rim_kingsfoil hidden until rim_kingsfoil_hid.
+  Initially Assert crop(rim_kingsfoil_1, rim_kingsfoil).
+  Item rim_kingsfoil_2 "a sprig of kingsfoil" is kingsfoil in rim_kingsfoil hidden until rim_kingsfoil_hid.
+  Initially Assert crop(rim_kingsfoil_2, rim_kingsfoil).
+  Thing rim_alhuren "the alhuren" at swallow_rim is scenery {
+    State growing "Alhuren grows between the roots on the lip of the sink, silver-leaved, with blue flowers that give back a faint light of their own.".
+  }
+  Initially Assert grows(rim_alhuren).
+  Discovery rim_alhuren_hid "The alhuren at the Swallow's rim is gathered, not found.".
+  Item rim_alhuren_1 "a spray of alhuren" is alhuren_gathered in rim_alhuren hidden until rim_alhuren_hid.
+  Initially Assert crop(rim_alhuren_1, rim_alhuren).
+  // The Rising bank: feverwort on the limestone, and gentian where it is stony.
+  Thing bank_feverwort "the feverwort" at bank is scenery {
+    State growing "Feverwort grows on the limestone by the bank, pale-leaved, with flat heads of small white flowers.".
+  }
+  Initially Assert grows(bank_feverwort).
+  Discovery bank_feverwort_hid "The feverwort at the Rising's bank is gathered, not found.".
+  Item bank_feverwort_1 "a bunch of feverwort" is feverwort in bank_feverwort hidden until bank_feverwort_hid.
+  Initially Assert crop(bank_feverwort_1, bank_feverwort).
+  Item bank_feverwort_2 "a bunch of feverwort" is feverwort in bank_feverwort hidden until bank_feverwort_hid.
+  Initially Assert crop(bank_feverwort_2, bank_feverwort).
+  Thing track_gentian "the gentian" at upland_track is scenery {
+    State growing "Gentian grows in the grikes of the limestone pavement, a trumpet of the deepest blue.".
+  }
+  Initially Assert grows(track_gentian).
+  Discovery track_gentian_hid "The gentian on the upland is gathered, not found.".
+  Item track_gentian_1 "a blue gentian" is gentian_gathered in track_gentian hidden until track_gentian_hid.
+  Initially Assert crop(track_gentian_1, track_gentian).
+  // The Brasiers' garden: what a company's cook kept, run wild. The Tallymen cut the rue.
+  Thing garden_foxglove "the foxglove" at garden is scenery {
+    State growing "Foxglove stands tall in the wall's shelter, its spire of speckled bells nodding.".
+  }
+  Initially Assert grows(garden_foxglove).
+  Discovery garden_foxglove_hid "The garden's foxglove is gathered, not found.".
+  Item garden_foxglove_1 "a spire of foxglove" is foxglove in garden_foxglove hidden until garden_foxglove_hid.
+  Initially Assert crop(garden_foxglove_1, garden_foxglove).
+  Thing garden_poppy "the poppies" at garden is scenery {
+    State growing "Poppies seed themselves in the old beds, red as a cut.".
+  }
+  Initially Assert grows(garden_poppy).
+  Discovery garden_poppy_hid "The garden's poppies are gathered, not found.".
+  Item garden_poppy_1 "a handful of poppy heads" is poppy_gathered in garden_poppy hidden until garden_poppy_hid.
+  Initially Assert crop(garden_poppy_1, garden_poppy).
+  Thing garden_rue "the rue" at garden is scenery {
+    State growing "Rue stands in a grey-green bush by the bothy door, cut back hard on one side with a clean knife.".
+  }
+  Initially Assert grows(garden_rue).
+  Discovery garden_rue_hid "The garden's rue is gathered, not found.".
+  Item garden_rue_1 "a sprig of rue" is rue_gathered in garden_rue hidden until garden_rue_hid.
+  Initially Assert crop(garden_rue_1, garden_rue).
+  Thing garden_tansy "the tansy" at garden is scenery {
+    State growing "Tansy has run through the beds in yellow buttons.".
+  }
+  Initially Assert grows(garden_tansy).
+  Discovery garden_tansy_hid "The garden's tansy is gathered, not found.".
+  Item garden_tansy_1 "a bunch of tansy" is tansy_gathered in garden_tansy hidden until garden_tansy_hid.
+  Initially Assert crop(garden_tansy_1, garden_tansy).
+
+  // ---------------------------------------------------------------------------------------------------------------
+  // Treasure and gear, from Orsino's inventory: what was left, where the people of each age would have left it.
+  // The Day-Level: the Company's, and the Tallymen's.
+  Item smithy_oil_a "a flask of lamp oil" is lamp_oil at smithy.
+  Item smithy_oil_b "a flask of lamp oil" is lamp_oil at smithy.
+  Item smithy_hammer "the smith's hammer" is hammer at smithy.
+  Item smithy_spikes "a bag of iron spikes" is iron_spikes at smithy.
+  Item counting_gem "a cased rose quartz" is rose_quartz in drawer hidden until counting_known.
+  Item counting_jet "a lump of polished jet" is onyx in drawer hidden until counting_known.
+  Item counting_map "a surveyor's map of the Day-Level" is map at counting.
+  Thing drawer "the specimen drawers" at counting {
+    State closed_up "A cabinet of shallow drawers, every one labelled in the Company's assayer's hand: LEAD, ZINC, BLACK, NOT BLACK.".
+    State pulled "The drawers are out, and the specimens in them lie sorted: lead, zinc, a dozen black lumps, and a cased red-pink stone.".
+    Change pull_drawers "Go through the assayer's drawers" from closed_up to pulled.
+  }
+  Discovery counting_known "The assayer's drawers are sorted, and the black ore among them is ironglass.".
+  Observe drawers_taught at counting when state(drawer, pulled) "The black lumps have a fracture like glass and an edge you can cut yourself on without touching." teaches counting_known.
+  Item smithy_chain "a length of chain" is chain at winding.
+  // The spiders' larder: what a Tallyman had on him.
+  Item vault_pack "a Tallyman's pack" is backpack at spider_vault.
+  Item vault_rope "a coil of good rope" is rope at spider_vault.
+  Item vault_harness "a climbing harness" is climbing_harness at spider_vault.
+  Item vault_whistle "a signal whistle" is signal_whistle at spider_vault.
+  Item vault_coin "a dull steel coin" is steel_coin at spider_vault.
+  Item vault_collar "a cat's collar with a stopped bell" is bell at spider_gallery.
+  // The Aenean works.
+  Item settling_toll "a sack of mixed coin and hack-silver" is toll_silver at settling.
+  Item service_piton "a bronze piton" is piton at aenean_walk.
+  Item sluice_oil "a lamp, filled" is lamp at sluice_house.
+  Item sump_bar "a Company crowbar" is crowbar at sump.
+  Item sump_lantern "a Company lantern" is lantern at sump.
+  
+  Item calx_toll "an Aenean toll-sack" is toll_silver at gate_house.
+  Item gate_map "a strip-map of the road" is ancient_map in gate_house hidden until gate_known.
+  // The Ossuary: fourteen men in their boots, and what they wore.
+  Item carr_oilcan "a Company oilcan, full, in a dead hand" is lamp_oil at gate_house.
+  Item ossuary_rings "a handful of grave rings" is grave_rings at ossuary.
+  Item ossuary_whistle "a foreman's whistle" is signal_whistle at ossuary.
+  // The Bore: the makers', which no later age understood.
+  Item gear_teeth "bell-teeth, prised from a wheel" is bell_teeth at breach.
+  Item dial_orrery "an orrery of grey metal" is ancient_orrery at dial_room.
+  Item dial_chart "a chart of the stars, in grey ink on grey" is celestial_chart at dial_room.
+  Item dial_lens "a lensing crystal" is lensing_crystal at dial_room.
+  Item dial_compass "an antique compass" is antique_compass at dial_room.
+}

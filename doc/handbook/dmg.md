@@ -2633,6 +2633,15 @@ The worlds that ship with the game.
 
 > Ammerlin goes down the inside of an old crater in four terraces, and its life is the water of the Stair. For three years the Mere at the bottom has been falling, and everybody in the city has a reason, and every reason is also a claim on somebody else's water. The Office of Measures has engaged you as Independent Assessor, because nobody who lives there can be neutral. Choose three companions.
 
+### The Long Muster's Road
+
+*Kyr* · `campaign:muster`
+
+- Regions and sites: muster
+- Kits placed: —
+
+> Thirty miles of road the Aeneans built in a season and the mountains have taken back in eleven hundred years: bridges down, galleries fallen, mansios roofless. At its far end, they say, someone still lights the lamps. Choose three companions, and decide what to carry.
+
 ### A Parliament of Books
 
 *Kyr* · `campaign:parliament-of-books`
@@ -2651,6 +2660,15 @@ The worlds that ship with the game.
 
 > Quittance burned to the ground ninety-four years ago and was rebuilt on credit, and now every house in it wears a plate over the door to say which Office of Assurance will put it out. The Offices need adjusters, because the Tables say the fires are falling, and the Receipt that renews the city's Founding Policy, hung on the Cinderwall every Reckoning, was the colour of milk last year. Reckoning is in nine days. You have a little money, and nothing that has been insured.
 
+### Three Nights at Sallowfield
+
+*Kyr* · `campaign:sallowfield`
+
+- Regions and sites: sallowfield
+- Kits placed: —
+
+> The coach has cracked its axle at a ford, and the smith says three days. A company of unpaid soldiers has been seen on the east road. Choose three companions, and decide what a stranded passenger owes a village.
+
 ### Fair Weather
 
 *Kyr* · `campaign:skeel`
@@ -2659,6 +2677,24 @@ The worlds that ship with the game.
 - Kits placed: —
 
 > You have walked the coast road for a week with a little money and no reason to stop. This morning it comes over the shoulder of a down, and below you is the Gannet Reach: nine miles of shining sand, or of shining sea, depending on the hour, with islands in it, and a town of grey roofs on the near headland, and out on the sands a ship lying on her side.
+
+### The Light on Scarth Holm
+
+*Kyr* · `campaign:skerrow`
+
+- Regions and sites: skerrow
+- Kits placed: —
+
+> A causeway dries for three hours at noon and a lighthouse stands at the end of it. You are going to cross, because the road you are on goes that way, and because you were told you could be back by two. Choose three companions, and decide what you carry.
+
+### Tallow Deep
+
+*Kyr* · `campaign:tallow`
+
+- Regions and sites: tallow
+- Kits placed: —
+
+> A pale ridge with a village at its foot swallows a river, and the river comes out nine miles round. In between there is a mine the Company left in a season, a waterworks the legions built, and something older than either. Choose three companions, and decide how to go in.
 
 ### The Book of Faces
 
@@ -2767,6 +2803,15 @@ The worlds that ship with the game.
 - Kits placed: —
 
 > The legions of Tessary have come home from eleven years' war, and some of them are walking into the sea. An eel-wife of the Withies has pinned a notice at the Landgate: her son set his boots together on the Watersteps a fortnight ago and walked into the water, and she will give her savings to whoever can tell her where he went. You have come down the marsh road with a little coin and no particular plans.
+
+### The Wrong Boat
+
+*Kyr* · `campaign:wrongboat`
+
+- Regions and sites: wrongboat
+- Kits placed: —
+
+> You paid for passage on one barge and you are standing on another, with somebody else's hamper, and a woman with a coin-scale has begun to ask the quay about you. Choose three companions, and decide how to get down the river.
 
 ## Appendix: Orsino's world material
 

@@ -1,0 +1,112 @@
+Module sallowfield "Three Nights at Sallowfield" {
+  // ── The scout in the cellar, and the captain at the stone ──────────────────────────────────────────────────────
+  Relation vollTried(group). Relation lowesKind(group). Relation lowesBristled(group). Relation lowesHard(group). Relation lowesCarries(group). Relation parleyOpen(group). Relation parleyRefused(group).
+  Relation bluffed(group). Relation vollLooked(group). Relation fothergillBought(group).
+  Entity fothergill_known: fact "Lieutenant Fothergill wants the village burned for what the Margrave owes him personally, and Wyre keeps him on a rein.".
+
+  // Kit Lowes, in the cellar of the Ploughshare, if he was taken.
+  Topic lowes_ask with lowes "Ask the boy what he was doing in the reeds" when heldScout(lowes) once {
+    Says "'Looking,' says Kit Lowes. He sits on the barrel with his boots between his knees. 'It's what I'm for. They send me because I'm small and I can count.' He swallows. 'What happens to me? I'll tell you anything. I'd just like to know.'".
+  }
+  Action question_kindly(actor: group, site: place) "Tell the boy he will be fed and sent home when it is over" {
+    Speaker lowes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(lowes, site) and heldScout(lowes) and not lowesKind(party) and not lowesHard(party) and not lowesBristled(party).
+    Time 2.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert lowesKind(party). Assert knows(actor, fothergill_known). }
+    On failure { Assert lowesBristled(party). }
+    Result "He believes you. It shows. He tells it from the beginning: the Margrave's debt, the unpaid spring, the captain who keeps them together by being honest, and the lieutenant who has never forgiven the vale for a cousin hanged at the last assize. He tells it like something saved up for the first kind person in a month.".
+    Otherwise "He does not believe you. His mouth is shut so tight it has gone white, and you have the sense of having done something to him by asking.".
+  }
+  Action question_hard(actor: group, site: place) "Frighten it out of the boy" {
+    Speaker lowes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(lowes, site) and heldScout(lowes) and not lowesKind(party) and not lowesHard(party).
+    Time 2.
+    Resolve check(actor, intimidation, dc_fair).
+    On success { Assert lowesHard(party). Assert knows(actor, fothergill_known). }
+    On failure { Retract at(lowes, site). Assert lowesGone(party). Assert lowesTruth(party). }
+    Result "It does not take long. He tells you all of it fast, looking at your hands. When he is done he says 'Please' once and then nothing, and you have what you wanted and none of it is as good as it should be.".
+    Otherwise "You frighten him, and he is no use to anyone. He says the same three words over and over, and then he is through the cellar door and up the lane, and he knows what you are.".
+  }
+  Action send_lowes_back(actor: group, site: place) "Send the boy back to Wyre with the truth: what you have built, and what you have not" {
+    Speaker lowes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(lowes, site) and heldScout(lowes) and (lowesKind(party) or lowesHard(party)) and not lowesCarries(party).
+    Time 0.
+    On success { Assert lowesCarries(party). Assert lowesTruth(party). Retract at(lowes, site). Assert parleyOpen(party). }
+    Result "He puts on his boots on the barrel, and the coat, and stands there with your word in his mouth like a coin. 'I'll say it,' he says. 'All of it. The way you said it.' He goes out by the cellar door and up the lane at a walk, which is a courage, and then at a run.".
+  }
+  Action send_lowes_lying(actor: group, site: place) "Send the boy back to Wyre with a lie: that the ford is where the village is weak" {
+    Speaker lowes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(lowes, site) and heldScout(lowes) and (lowesKind(party) or lowesHard(party)) and not lowesCarries(party).
+    Time 0.
+    On success { Assert lowesCarries(party). Assert lowesLie(party). Retract at(lowes, site). Assert parleyOpen(party). }
+    Result "'The ford,' says Kit Lowes. 'Soft at the ford. Two old men and a coach.' He says it twice, and the second time it is better than yours. He looks at you as if he would like to be told it is all right. You tell him it is.".
+  }
+  Rule carries_spoiled when lowesCarries(party) and grainSpoiled(party) and not wyreKnowsSpoiled(party) { Assert wyreKnowsSpoiled(party). }
+
+  // The parley, noon of the last day (or the second, if he is early).
+  Rule wyre_arrives when watch(clock) >= assaultAt(wyre) - 54 and not parleyHeld(party) {
+    Assert parleyHeld(party). Assert at(wyre, parley_stone). Assert at(voll, parley_stone). Assert at(fothergill, parley_stone). }
+  Relation parleyHeld(group).
+  Rule wyre_leaves when parleyHeld(party) and watch(clock) >= assaultAt(wyre) - 36 and at(wyre, parley_stone) {
+    Retract at(wyre, parley_stone). Retract at(voll, parley_stone). Retract at(fothergill, parley_stone). }
+  Observe herald_seen at green when parleyHeld(party) and watch(clock) < assaultAt(wyre) - 36 and watch(clock) >= assaultAt(wyre) - 54 "On the east bank, by the standing stone, a white rag has been tied to a lance. Under it three men sit their horses and wait, and do not look as though they will wait long.".
+  Observe wyre_unanswered at parley_stone when watch(clock) >= assaultAt(wyre) - 36 and not wyreMet(party) "The grass round the stone is trodden, and there is a white rag tied to the stone itself.".
+  Relation wyreMet(group).
+
+  Topic wyre_talk with wyre "Ask the captain what he wants" when true once {
+    Says "'Grain,' says Wyre. He says it flatly, a thing he has stopped being ashamed of. 'Ninety sacks, and the use of the mill till spring. I have forty men and twenty with them who have not been paid since the Margrave decided I was a debt. We do not want your women. We do not want your bell. Sergeant Voll will tell you I have flogged for less.'".
+    On discuss { Assert wyreMet(actor). }
+  }
+  Topic wyre_q with wyre "Wait for what the captain asks" when wyreMet(actor) once {
+    Says "He takes off a glove, finger by finger. 'Let me ask the one thing,' he says. 'What is it worth to you, to be left alone? I mean in what you would do. Not what you would say.'".
+    On discuss { }
+  }
+  Topic wyre_pay with wyre "The reeve's sixty, the plate and the grain" answering wyre_q when knows(actor, reeve_would_pay) and plateGiven(actor) and quantity(actor, gold) >= 60 {
+    Says "'Hm,' says Wyre. He looks at Voll, who looks at the sky. 'Sixty and the plate and the grain.' He puts the glove on. 'It is too little and I'll take it.' He holds out his hand, and you take it, and it is dry and warm.".
+    On discuss { Decrease quantity(actor, gold) by 60. Assert pact(actor). Assert winterShort(actor). }
+  }
+  Topic wyre_refuse with wyre "Nothing. We will not pay" answering wyre_q when true {
+    Says "'No,' says Wyre, without any heat at all. 'I thought not. It is what I would say.' He looks past you at the village, the long way, as at a thing he will have to carry. 'I will come tonight. I would like you to know it gives me no pleasure.'".
+    On discuss { Assert parleyRefused(actor). }
+  }
+  Topic wyre_owed with wyre "Tell me what you are owed. All of it" answering wyre_q when true {
+    Says "He is silent for so long that Fothergill shifts in his saddle. Then he tells it, flatly: the spring, the Margrave's letter, the debt that has been recognised for six years and is not recognised this one, the eleven hundred, the forty men who have followed him because he said he would see them paid and has not. 'There,' he says. 'You asked.'".
+    On discuss { Assert owedHeard(actor). }
+  }
+  Relation owedHeard(group).
+  Action bluff_wyre(actor: group, site: place) "Tell the captain the Margrave's lancers are a day behind him" {
+    Speaker wyre.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wyre, site) and not bluffed(party).
+    Time 0.
+    Resolve check(actor, deception, dc_hard).
+    On success { Assert bluffed(party). Decrease thrust(ford_stones) by 4 or to nothing. Decrease thrust(bridge) by 4 or to nothing. Decrease thrust(mill_yard) by 4 or to nothing. Decrease thrust(nave) by 4 or to nothing. }
+    On failure { Assert bluffed(party). Increase thrust(ford_stones) by 3. Increase thrust(bridge) by 3. Increase thrust(mill_yard) by 3. }
+    Result "He listens to the whole of it with his head on one side, like someone reading a letter in a bad hand. 'A day,' he says. 'Behind me.' He looks at Voll. Voll studies the sky. 'A day,' he says again, to himself, and begins to count.".
+    Otherwise "He listens courteously. When you have finished he says, 'Do you know, in thirty years I have been lied to by experts, and that was a good try, and I will remember it,' and there is something at the back of his eyes which was not there before.".
+  }
+  Topic voll_come with voll "Offer Sergeant Voll safe conduct to see the granary for himself" when grainSpoiled(actor) once {
+    Says "Voll looks at the captain, who looks at nothing. 'Safe conduct,' says Voll. 'From you.' He gets down off his horse, which takes a while, and he walks beside you with his hand where you can see it. 'If it is a trap,' he says, 'I would like the lieutenant to know I said so.'".
+    On discuss { Assert at(voll, granary). }
+  }
+  Action let_voll_look(actor: group, site: place) "Let Sergeant Voll walk through the granary, and smell it" {
+    Speaker voll.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, granary) and at(voll, granary) and grainSpoiled(party) and not vollLooked(party) and not vollTried(party).
+    Time 0.
+    Resolve check(actor, deception, dc_fair).
+    On success { Assert vollLooked(party). Assert wyreKnowsSpoiled(party). }
+    On failure { Assert vollTried(party). Increase thrust(ford_stones) by 2. Increase thrust(bridge) by 2. Increase thrust(mill_yard) by 2. Increase thrust(nave) by 2. }
+    Result "Voll goes through the granary door with his bad knee and comes out in the time it takes to boil an egg. He says four words to the captain's man, and it goes up the line. 'Salt,' says Voll. 'And lamp. The lot.'".
+    Otherwise "Voll goes through the door and comes out and looks at you. 'Staged,' he says. 'It stinks of a thing done for me to smell.' He goes back up the road, and he does not walk.".
+  }
+  Action bribe_fothergill(actor: group, site: place) "Offer Lieutenant Fothergill ten coin and a way home" {
+    Speaker fothergill.
+    Requires able(actor) and company(actor) and at(actor, site) and at(fothergill, site) and knows(actor, fothergill_known) and quantity(actor, gold) >= 10 and not fothergillBought(party).
+    Time 0.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Decrease quantity(actor, gold) by 10. Assert fothergillBought(party). Assert fothergillTurned(party). }
+    On failure { Decrease quantity(actor, gold) by 10. Assert fothergillBought(party). Increase thrust(ford_stones) by 2. Increase thrust(bridge) by 2. Increase thrust(mill_yard) by 2. }
+    Result "He takes the coin as he would take a handkerchief from a stranger. 'I would have you know,' says Fothergill, 'that I am not for sale. This is not a sale. This is a man who has reached the limit of what he is owed.' He looks at the vale. 'I will see what I can do about my captain.'".
+    Otherwise "'My cousin,' says Fothergill, 'was hanged at Marden assize, and I do not remember that anyone offered ten coin.' He pockets the coin and turns his horse. He has not been moved by it. He has, you think, noted who made the offer, and the coin was not returned.".
+  }
+}

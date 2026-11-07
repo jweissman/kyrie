@@ -1,0 +1,96 @@
+Module tallow "Tallow Deep" {
+  // ── Keeping ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  // What the hill is about: things kept after the reason for keeping them has gone. The makers' weight is kept
+  // swinging by figures that wind it; the Aeneans kept a cap over what they could not read; the Company kept its dead
+  // in a vault and its secret in a desk; the Tallymen keep a road they did not make; the village keeps its back
+  // turned. Each of them is answerable to something it will not look at.
+  Relation namesRead(group). Relation ticked(group).
+
+  Chapter ch_swallet "The Village That Does Not Look" when true "Swallet keeps its back to the ridge. Everyone in it can tell you the way in, and nobody will tell you why they stopped going.".
+  Chapter ch_dayl "The Company's Works" when been(party, adit) "The Brasiers left in a season, and left their tools hanging. Other people have been living in their leavings since.".
+  Chapter ch_cistern "What the Legion Capped" when been(party, cistern_hall) "A hall built to settle a river, and, in the middle of it, a lid.".
+  Chapter ch_bore "The Weight" when been(party, breach) "Under the lid there is a stair, and at the bottom of the stair something has been counting for longer than there have been people to count for.".
+
+  // A tick under the pipe, from the first day: the figure in the Bore is six breaths.
+  Observe pipe_tick at green as sound when true "Under the gurgle of the pipe, so faint you take it for your own pulse, something ticks: once, and again, six breaths apart.".
+  Observe shaft_tick at winding as sound when true "Under the water far below the cage there is a tick, and a tick, evenly, not a drip. It has the patience of a thing that does not mind who is listening.".
+  Topic dunstan_tick with dunstan "Ask Barrick about the ticking under the pipe" when true {
+    Says "'You hear it, then,' says Barrick. 'Not many do. We heard it in the shaft the winter before we broke the wall, and the Foreman had us stop work to listen, and it kept time, and not ours: six breaths between, and I counted a thousand of them before the wall went.' He drinks. 'Carr said the Legion's engineers heard it too. He'd read their wall. He said they were the first people who had the sense to be afraid of it, and the only ones who had the sense to leave it running.'".
+    On discuss { Assert knows(actor, period_known). }
+  }
+
+  // The Foreman's ledger: fourteen names and the wages owed them.
+  Topic joss_father with joss "Show Cador the fourteen names in the Foreman's ledger" when holding(actor, carr_ledger) and knows(actor, ledger_read) and not namesRead(party) once {
+    Says "Cador reads down the column with a clerk's finger, past the Foreman's name at the head and a struck-through sixth, and stops at the ninth. TARBET, J., SENIOR: 3 DAYS. He does not move. 'I was told he went to Porthwen for work,' he says at last. 'Thirty years, I've been running brandy under the place he was lying in.' He gives the ledger back with both hands. 'The Company never paid him,' he says, and laughs, and it is a bad laugh. 'Three days. I should like them paid.'".
+    On discuss { Assert ticked(party). }
+  }
+  Topic dunstan_names with dunstan "Read Barrick the names from the Foreman's ledger" when holding(actor, carr_ledger) and knows(actor, ledger_read) and not namesRead(party) once {
+    Says "You read the fifteen. Barrick sits with his tankard untouched. At the sixth name, which is his own, struck through in a different ink because Carr knew he had gone up the shaft alive and would not have him owed, he lifts his head. 'I did,' he says. 'I did go up. I have been dead sixty years, and nobody has said.' He takes the ledger and reads the rest aloud himself, to the room, and Lowen Pook, at her pots, says each after him. Afterwards he pins the page to the beam beside the tokens.".
+    On discuss { Assert namesRead(party). }
+  }
+  Observe names_pinned at taproom when namesRead(party) "Beside the Company's tokens, pinned to the beam, a page from a ledger: fourteen names, and by each of them, in Lowen's hand, a day's wage in pence, paid.".
+  Action read_names(actor: group, site: place) "Read the fourteen names aloud over the stacked dead" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ossuary) and at(ghouls, ossuary) and able(ghouls) and holding(actor, carr_ledger) and knows(actor, ledger_read).
+    Time 0.
+    On success { Slay ghouls. Assert laid(party). }
+    Result "You read them: the first to the Foreman, who is not here, and the last to the boy in the first boots. At the ninth, the long hands lie down. At the fourteenth, no one in the vault is eating.".
+  }
+
+  Milestone m_names "had the fourteen counted" worth 200 when namesRead(party) or ticked(party) or laid(party).
+  // The Dial's shelf: whatever has been taken off it and not set back (carried, sold, dropped) is owed. Each missing piece
+  // is a further chance in ten of the Wend rising at first light (works.kyr), and the tick under Swallet's pipe goes late.
+  Relation setBack(entity). Measure shelfRestored(group).
+  Query orreryOut() means not at(dial_orrery, dial_room) and not setBack(dial_orrery).
+  Query chartOut() means not at(dial_chart, dial_room) and not setBack(dial_chart).
+  Query crystalOut() means not at(dial_lens, dial_room) and not setBack(dial_lens).
+  Query compassOut() means not at(dial_compass, dial_room) and not setBack(dial_compass).
+  Query shelfShort() means orreryOut() or chartOut() or crystalOut() or compassOut().
+  Observe pipe_tick_slow at green instead of pipe_tick as sound when shelfShort() "Under the gurgle of the pipe the tick has changed. It comes late, and then twice, and then late. Lowen has stopped wiping her pots.".
+  Observe pipe_cloudy at green when shelfShort() "The trough has gone from cloudy to brown, and the horses will not drink at it.".
+  Action restore_orrery(actor: group, site: place) "Set the orrery back on the shelf of grey metal" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, dial_room) and holding(actor, ancient_orrery).
+    Time 0.
+    On success { Spend ancient_orrery from actor. Assert setBack(dial_orrery). Increase shelfRestored(party) by 1. }
+    Result "You set the orrery on its own clean place in the dust. The wire swings once over the glass, and goes on.".
+  }
+  Action restore_chart(actor: group, site: place) "Lay the chart of the stars back on the shelf of grey metal" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, dial_room) and holding(actor, celestial_chart).
+    Time 0.
+    On success { Spend celestial_chart from actor. Assert setBack(dial_chart). Increase shelfRestored(party) by 1. }
+    Result "The chart goes down on the shelf, grey on grey, and the stars in the floor lean a hair toward it.".
+  }
+  Action restore_crystal(actor: group, site: place) "Stand the lensing crystal back on the shelf of grey metal" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, dial_room) and holding(actor, lensing_crystal).
+    Time 0.
+    On success { Spend lensing_crystal from actor. Assert setBack(dial_lens). Increase shelfRestored(party) by 1. }
+    Result "The crystal finds its ring in the dust as if it had been waiting, and the light on the glass floor draws together under it.".
+  }
+  Action restore_compass(actor: group, site: place) "Set the compass back on the shelf of grey metal" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, dial_room) and holding(actor, antique_compass).
+    Time 0.
+    On success { Spend antique_compass from actor. Assert setBack(dial_compass). Increase shelfRestored(party) by 1. }
+    Result "You put the compass down, and its needle, which has pointed at the wire since you took it, lets go.".
+  }
+  Topic hester_report_kind with hester "Tell Lowen the old road is open" when state(calx_gate, raised) and ticked(party) and not sold_out(party) once {
+    Says "Lowen Pook listens, and is a long time with the pot. 'He asked me,' she says at last, 'not to tell you. Cador. He said you would see it for yourself, or you would not.' She wipes the pot. 'I will not be the one. It's his father's grave he's been carrying brandy over, and he has paid the parish a tithe every year for it, which I did not understand till now.' She looks at the beam. 'Tell him yourself.'".
+  }
+  // Hunger bites: a company that has missed a meal is hurt at every half-day until it eats.
+  Hazard hunger_bite "Hunger" means "Deal (1d4) physical damage to ally unless constitution save against (12).".
+  Measure gnawAt(group).
+  Rule gnaw_starts when hungry(party) and gnawAt(party) == 0 { Set gnawAt(party) to watch(clock) + 72. }
+  Rule gnaws when hungry(party) and gnawAt(party) > 0 and watch(clock) >= gnawAt(party)
+    says "Hunger gnaws at you. Somebody has stopped talking, and somebody else has started counting the ration bags." {
+    Assert strikes(hunger_bite, party). Set gnawAt(party) to watch(clock) + 72.
+  }
+  Rule gnaw_ends when not hungry(party) and gnawAt(party) != 0 { Set gnawAt(party) to 0. }
+  Action play_cards(actor: group, site: place) "Sit in on the Tallymen's game of cards for the loan of the lantern" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, tally_room) and at(joss, tally_room) and not cardsPlayed(actor).
+    Time 1.
+    Resolve check(actor, deception, dc_fair).
+    On success { Assert cardsPlayed(actor). Assert tolerates(bend_watch, actor). Increase quantity(actor, gold) by 4. }
+    On failure { Assert cardsPlayed(actor). Decrease quantity(actor, gold) by 3 or to nothing. }
+    Result "The dog watches the cards, and Cador watches the dog, which is where you notice that the dog has been dealt a hand. You win four coin and the lantern's loan by turning up a knave that the dog, on reflection, had been sitting on, and Cador says, without rancour, that he will have the dog re-schooled.".
+    Otherwise "You lose three coin to a dog. Cador pretends not to have seen it, which is the cruellest thing he could do.".
+  }
+  Relation cardsPlayed(group).
+}

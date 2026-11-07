@@ -1,0 +1,302 @@
+Module pentrice "Gosse's Company" {
+  // ── Episode 4: The Wood near Athens-under-Hollin (A Midsummer Night's Dream) ──────────────────────────────────────────
+  // Squire Rafe Hartigan is to be married on the lawn of Hollin Wood at dawn to Idony Faulds, and has engaged the
+  // King's Players to oversee a play to be given by the village's own players, in which a weaver is to play a lover,
+  // a wall, and a lion. The wood has a Lord and a Lady who have been quarrelling over a changeling for seven years
+  // and who take an interest in the wedding the way the weather takes an interest in washing. By midnight the stage
+  // enchantments are real, the lovers are in love with the wrong people, the weaver has an ass's head, and Absalom
+  // Gosse, who has directed kings, is beside himself. The company must get everyone back to the lawn by dawn, in the
+  // pairs they started in or not; the wood does not much care. It is not harmless: it has a hunt.
+  // d = watches since the company first stood on the lawn (e4Start). The night is about ninety watches.
+  Place hollin "Hollin Wood" is wilderness within wend at 5, 1.
+  Place wd_lawn "the wedding lawn" is room within hollin at 1, 2 outdoors.
+  Place wd_edge "the edge of the wood" is room within hollin at 1, 1 outdoors.
+  Place wd_ring "the oak ring" is room within hollin at 2, 1 outdoors.
+  Place wd_glade "the Lord's glade" is room within hollin at 2, 0 outdoors.
+  Place wd_bog "the lantern bog" is room within hollin at 0, 1 outdoors.
+  Place wd_hollow "the pixie's hollow" is room within hollin at 0, 0 outdoors.
+  Place wd_ash "the ash that is a woman" is room within hollin at 1, 0 outdoors.
+  Passage wd_a "the green ride" is path between wd_lawn and wd_edge taking 10 minutes.
+  Passage wd_b "the track to the oaks" is path between wd_edge and wd_ring taking 20 minutes.
+  Passage wd_c "the deer-path to the glade" is path between wd_ring and wd_glade taking 20 minutes.
+  Passage wd_d "the boardwalk to the bog" is path between wd_edge and wd_bog taking 20 minutes.
+  Passage wd_e "the rabbit-run to the hollow" is path between wd_bog and wd_hollow taking 20 minutes.
+  Passage wd_f "the root-stair to the ash" is path between wd_glade and wd_ash taking 10 minutes.
+  Passage wd_g "the ash's long shadow" is path between wd_ash and wd_hollow taking 20 minutes.
+  Observe wd_lawn_scene at wd_lawn when true "A lawn cut into the beech wood and set with trestles, an arbour of ribbons, and a heap of hampers. The village players have built a stage out of two carts and a door. A smell of cut grass and cheese, and, from the dark of the wood, an absolutely steady sound of someone not laughing.".
+  Observe wd_edge_scene at wd_edge when true "Where the lawn ends the wood begins, with no fuss: a wall of beech and a ride that closes behind you, if you look back, sooner than it should. Midges. A faint, warm smell of hay and honey, the smell of nothing in particular, that you realise you have been smelling since the lawn.".
+  Observe wd_ring_scene at wd_ring when true "A ring of old oaks around a clearing carpeted in moss, lit from no source. In the middle, on a bed of cut flowers, someone is sleeping with enormous dignity.".
+  Observe wd_glade_scene at wd_glade when true "A glade of trampled grass and cold fires, where a revel is just ending or about to begin. The air tastes of cider that has been left out in the moon. Goat-hoofed prints go round and round.".
+  Observe wd_bog_scene at wd_bog when true "A black bog with islands of reed and a hundred small blue lights moving over it in no pattern, politely, like guests who have not been introduced. The boardwalk goes on into them.".
+  Observe wd_hollow_scene at wd_hollow when true "A bank under a tree-root, soft with moss, in which something small has made a bed and lined it with stolen things: a thimble, a bell, a lock of hair. Round the bank grow low blue flowers, and, among them, some red ones, with heavy heads.".
+  Observe wd_ash_scene at wd_ash when true "A great ash in a clearing, which has the shoulders of a tall woman and a bark like a grey cloak. Her roots go down into the earth like a skirt. She is watching you.".
+
+  Relation e4AshAsked(group). Relation e4Slept(place). Relation e4BargainFailed(place). Relation e4Blank(place). Relation e4NameKnown(place). Relation robinStole(place). Relation e4On(place). Relation e4Done(place). Relation e4Dawn(place). Relation e4Restored(place). Relation e4Fiasco(place). Relation e4Price(place).
+  Relation e4Mischief(place). Relation e4Quarrel(place). Relation e4Hunt(place). Relation e4LoomAss(place). Relation e4QueenLoves(place). Relation e4LoomFree(place).
+  Relation e4Gathered(group). Relation e4Namepaid(group). Relation e4LordTolerates(place).
+  Relation loves(group, group). Relation e4Rested(place). Relation gosseBeside(place). Relation gosseCalm(place).
+  Measure e4Start(place). Measure e4EdgeAt(place). Measure e4BogAt(place). Measure e4Dusk(place). Relation e4Humbled(place).
+  Initially Assert loves(rafe, idony). Initially Assert loves(idony, rafe). Initially Assert loves(jack, maud). Initially Assert loves(maud, jack).
+
+  Person rafe "Squire Rafe Hartigan" at wd_lawn {
+    Role "the groom, a loud, kind young man". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Greets "'HARTIGAN!' says the Squire, shaking your hand to the elbow. 'Marrying! Dawn! A play! My bride says you are clever. I say you are welcome. Have you seen a girl? Idony, this tall, with a hat?'".
+  }
+  Person idony "Idony Faulds" at wd_lawn {
+    Role "the bride". Ancestry human. Peaceable. Pronouns she. Manner cheerful.
+    Greets "Under a hat as wide as a cartwheel, Idony Faulds is checking the hampers. 'Rafe,' she says, 'is the best man in Hollin. You should know I've thought about this.'".
+  }
+  Person jack "Wat Dunstable" at wd_lawn {
+    Role "the groom's friend, a farmer's son". Ancestry human. Peaceable. Pronouns he. Manner stoic.
+    Greets "Straw in his hair and a fiddle he is not sure he is meant to have: a big shy fellow. 'Wat,' he says. 'I'm to stand up for Rafe. I'm no good at it.'".
+  }
+  Person maud "Nan Sellars" at wd_lawn {
+    Role "the bride's friend, who is to stand up for her". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
+    Greets "Nan Sellars, who has pinned her own hem, looks you up and down. 'Bridesmaid. Means I hold the hat. You'll find I hold it well.'".
+  }
+  Person loom "Barnaby Loom" at wd_lawn {
+    Role "the weaver, who is to play Pyramus, the Wall and the Lion". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Greets "In a lion's mane of carded wool stands a tall, wide, happy man. 'ROAR,' says Barnaby Loom, to demonstrate. 'No, I'll do it softer. So as not to frighten the ladies. ROAR.'".
+  }
+  Person robin "Robin Sprigg" nowhere {
+    Role "a small brown pixie with a bag". Species pixie. Level 2. Peaceable.
+    Greets "Something small and brown drops off a branch onto your shoulder and examines your ear. 'No iron,' it says, delighted. 'Not a nail. Pick what you like from the bank. I have picked from everybody.'".
+  }
+  Person queen "the Lady of the Ring" nowhere {
+    Role "the queen of the oak ring, asleep". Species nymph. Level 3. Temperament territorial.
+    Warns "The woman on the flower bed opens her eyes, which are the colour of the moss, and looks at you without any interest at all. 'Not now,' she says, 'I am in love.'".
+    Lair wd_ring.
+  }
+  Person greenlord "the Lord of the Green" nowhere {
+    Role "the Lord of the wood, a goat-legged, honey-voiced thing". Species satyr. Level 4. Temperament territorial.
+    Warns "In the glade the shadow of a man stands up and has a pair of horns and the hocks of a goat, and a smile you can see from across the clearing. 'A mortal,' says the Lord of the Green, 'is not a guest. A mortal is an excuse.'".
+    Comes "The Lord of the Green comes at you in a dance step that is not a dance.".
+    Lair wd_glade.
+  }
+  Person ash "the Ash" at wd_ash {
+    Role "a dryad, in her tree". Species dryad. Level 3. Peaceable.
+    Greets "The ash says, in a voice like a branch on a roof: 'I have a long memory and a short temper. Which do you wish to meet?'".
+  }
+
+  // The commission: the Squire's steward asks for the company; Gosse, backstage, is already beside himself.
+  Rule e4_begin when at(party, wd_lawn) and not e4On(rierdan) { Assert e4On(rierdan). Set e4Start(rierdan) to watch(clock). Assert gosseBeside(rierdan). }
+  // The troupe is wherever the party finds it: whoever of the troupe is not on the lawn when the party stands there is fetched, every time.
+  Rule e4_fetch when e4On(rierdan) and not e4Done(rierdan) and at(party, wd_lawn) and troupe(?p) and distinct(?p, clemency) and not at(?p, wd_lawn) and at(?p, ?q) { Retract at(?p, ?q). Assert at(?p, wd_lawn). }
+  Topic gosse_beside with gosse "Ask Gosse how the rehearsal is going" when e4On(rierdan) and not gosseCalm(rierdan) once {
+    Says "Gosse is on the stage, if it is a stage, with one hand clasped to his forehead and the other pointing at a villager. 'He is a LION,' he says, 'and he will not be a lion. He is a WALL, and he will not be a wall. He says he can do both at once and he is correct, and it is DREADFUL.' He turns to you, eyes wet. 'Eight rehearsals, Heaven help me, and not one person in the wood is following the SCRIPT.'".
+  }
+  Topic gosse_calm1 with gosse "Tell him that no one in the wood has ever followed a script, and the best plays are the ones where they do not" answering gosse_beside when true {
+    Says "'Heresy,' says Gosse. He thinks about it. 'It is a comforting heresy.' He sits down on a hamper. 'I shall try to enjoy myself.'".
+    On discuss { Assert gosseCalm(rierdan). }
+  }
+  Topic gosse_calm2 with gosse "Offer to run the rehearsal yourself, so he can lie down" answering gosse_beside when true {
+    Says "'Run it?' says Gosse. He stares. 'You will have to be firm with the Wall.' He hands you the book, trembling, and withdraws behind a tree to be beside himself in private.".
+    On discuss { Assert e4Rested(rierdan). Assert gosseCalm(rierdan). }
+  }
+
+  Observe gosse_beside_obs near gosse when gosseBeside(rierdan) and not gosseCalm(rierdan) "Gosse is walking in a small circle with the prompt book held out in front of him like a dead bird.".
+  Observe gosse_rested_obs at wd_lawn when e4Rested(rierdan) and e4Hunt(rierdan) and not e4Dawn(rierdan) "The prompt book is open on a hamper and Gosse is asleep face-down on it, with his hat over his ear, snoring in iambics.".
+
+  // What the troupe carried into the wood from the road: each earlier answer is read here.
+  Topic kit_wood_a with kit "Ask Kit how he is, here, among the lovers" when e4On(rierdan) and kitSaysSo(party) once {
+    Says "'I said I was the sort of boy who says so,' says Kit, 'and it turns out to be true. It is awkward. I told Nan Sellars she had lovely handwriting, and she said thank you, and I have been dying ever since.' He grins, miserable. 'Is this what it is?'".
+  }
+  Topic kit_wood_b with kit "Ask Kit how he is, here, among the lovers" when e4On(rierdan) and kitHolds(party) once {
+    Says "'I am holding it back,' says Kit, 'the way you said.' He looks at the pairs on the grass. 'I see now why one might. It looks like hard work, and none of them is any good at it.'".
+  }
+  Topic kit_wood_c with kit "Ask Kit how he is, here, among the lovers" when e4On(rierdan) and kitLeaned(party) once {
+    Says "'I stayed near you,' says Kit, 'and it was the right thing, because the wood is full of people who are all going to be someone else's by morning.' He kicks a root. 'I like being nobody's. It is restful.'".
+  }
+  Topic swale_wood_a with swale "Ask Swale who he thinks will play the Wall" when e4On(rierdan) and swaleHand(party) once {
+    Says "'The Prince of Harrowmere,' says Swale, unexpectedly, 'writes better than I do, and I find it has made me generous. Let the carpenter be the Wall. I never knew a Wall that was not improved by being someone's best part.'".
+  }
+  Topic swale_wood_b with swale "Ask Swale who he thinks will play the Wall" when e4On(rierdan) and swaleVain(party) once {
+    Says "'I shall play the Wall,' says Swale, 'and the Lion, and the Moon, and I shall have all the best lines, and the carpenter may hold the lantern. I have been cut before and I do not intend to be again.'".
+  }
+
+  // The night. Four beats.
+  Rule rp_w1 when e4On(rierdan) and not e4Mischief(rierdan) and watch(clock) >= e4Start(rierdan) + 8 {
+    Assert e4Mischief(rierdan). Assert at(robin, wd_hollow). }
+  Rule rp_w1s when e4Mischief(rierdan) and not e4Quarrel(rierdan) and (hour(clock) >= 18 or hour(clock) < 4)
+    and at(rafe, ?r1) and at(jack, ?j1) and at(idony, ?i1) and at(maud, ?m1) {
+    Assert e4Quarrel(rierdan). Set e4Dusk(rierdan) to watch(clock).
+    Retract at(rafe, ?r1). Assert at(rafe, wd_edge). Retract at(jack, ?j1). Assert at(jack, wd_edge).
+    Retract at(idony, ?i1). Assert at(idony, wd_edge). Retract at(maud, ?m1). Assert at(maud, wd_edge). }
+  Observe w_dusk_told at wd_lawn when e4Quarrel(rierdan) and not e4Dawn(rierdan) "At dusk Rafe and Wat walked into the wood to find a better hat; Idony and Nan followed them with a lantern, to lecture. Nobody has come back out.".
+  Rule rp_w2 when e4Quarrel(rierdan) and not e4LoomAss(rierdan) and watch(clock) >= e4Dusk(rierdan) + 6 {
+    Assert e4LoomAss(rierdan). Retract at(loom, wd_lawn). Assert at(loom, wd_ring). Assert e4QueenLoves(rierdan). Assert at(queen, wd_ring). }
+  Rule rp_w3 when e4LoomAss(rierdan) and not e4Hunt(rierdan) and watch(clock) >= e4Dusk(rierdan) + 16 {
+    Assert e4Hunt(rierdan). Assert at(greenlord, wd_glade).
+    Retract loves(rafe, idony). Retract loves(idony, rafe). Retract loves(jack, maud). Retract loves(maud, jack).
+    Assert loves(rafe, maud). Assert loves(jack, idony). Assert loves(maud, rafe). Assert loves(idony, jack). }
+  Observe w_lovers near rafe when e4Hunt(rierdan) and loves(rafe, maud) "The Squire has gone down on one knee in the bracken to Nan Sellars, who is trying to get up from her own, and is saying, in a clear carrying voice, the finest verse he has ever made.".
+  Observe w_lovers2 near jack when e4Hunt(rierdan) and loves(jack, idony) "Wat Dunstable, who has never in his life said a thing to a woman, is holding Idony's hat and reciting the order of service to her in a voice of anguish.".
+  Observe w_loom near loom when e4QueenLoves(rierdan) and not e4LoomFree(rierdan) "Barnaby Loom lies on the moss in the oak ring with an ass's head on his shoulders, entirely happy, being fed strawberries by the Lady of the Ring. 'Mothwing,' he says, 'scratch me.' It is not clear that he was told to say it.".
+  Observe w_hunt at wd_lawn as sound when e4Hunt(rierdan) and not e4Dawn(rierdan) "From deep in the wood a horn, a goat's, a long way off, and the sound of hooves going the wrong way round.".
+
+  // The wood's rules, and ways through them: iron, names, music, refusal of thanks. The hunt strikes the unprotected.
+  Item wd_iron "a handful of iron nails from the stage-carpenter's box" is iron_spikes at wd_lawn.
+  Item wd_torch "a pitch torch from the property hamper" is torch at wd_lawn.
+  Hazard hunt_blow "The Hunt in the wood" means "Deal (1d6) physical damage to ally unless dexterity save against (13).".
+  Hazard bog_drown "The bog" means "Deal (1d6) physical damage to ally unless constitution save against (12).".
+  // At the edge the horn comes first: the company has two watches (twenty minutes) between the horn and the hooves, and may turn its coats, play on the lawn, hold iron, or go back.
+  Rule rp_hunt_warn at wd_edge when e4Hunt(rierdan) and not e4Dawn(rierdan) and at(party, wd_edge) and not e4EdgeSeen(rierdan) and not e4LordTolerates(rierdan)
+    says "The horn is in the beech-wood, nearer than it was, and the wind has turned to bring it. In the ride behind you the leaves have begun to move the wrong way, towards the lawn. Whatever is coming is coming round the oaks, and it will be here soon." {
+    Assert e4EdgeSeen(rierdan). Set e4EdgeAt(rierdan) to watch(clock). }
+  Rule rp_edge_clear when e4EdgeSeen(rierdan) and not at(party, wd_edge) { Retract e4EdgeSeen(rierdan). }
+  Rule rp_hunt_strikes at wd_edge when e4Hunt(rierdan) and not e4Dawn(rierdan) and at(party, wd_edge) and e4EdgeSeen(rierdan) and watch(clock) >= e4EdgeAt(rierdan) + 2 and not e4LordTolerates(rierdan) and not holding(party, iron_spikes) and dice(clock) <= 14
+    says "The horn comes round the oaks in a rush, and the wind with it, and a thing with the smell of goat goes past you at the height of a man's head." {
+    Assert strikes(hunt_blow, party). }
+  Rule rp_bog_warn at wd_bog when e4Hunt(rierdan) and at(party, wd_bog) and not e4BogSeen(rierdan) and not e4LordTolerates(rierdan) and not holding(party, torch)
+    says "Blue lights have come out on the water, one and then three, and they are drifting your way over the reeds like guests who have decided to walk you home. The boards under your feet are slick." {
+    Assert e4BogSeen(rierdan). Set e4BogAt(rierdan) to watch(clock). }
+  Rule rp_bog_clear when e4BogSeen(rierdan) and not at(party, wd_bog) { Retract e4BogSeen(rierdan). }
+  Rule rp_bog_strikes at wd_bog when at(party, wd_bog) and e4BogSeen(rierdan) and watch(clock) >= e4BogAt(rierdan) + 2 and not holding(party, torch) and not e4LordTolerates(rierdan) and dice(clock) <= 14
+    says "A hand you cannot see takes your elbow and walks you on, pleasantly, towards the water." {
+    Assert strikes(bog_drown, party). }
+  Action turn_coats(actor: group, site: place) "Turn your coats inside out, the old way, and keep to the middle of the ride" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, wd_edge) and e4Hunt(rierdan) and not e4LordTolerates(rierdan) and not f_coats(rierdan).
+    Time 1.
+    Resolve check(actor, woodcraft, dc_fair).
+    On success { Assert e4LordTolerates(rierdan). }
+    On failure { Assert f_coats(rierdan). }
+    Result "You do it as your grandmother did, with your teeth set. The wood, with great reluctance, loses interest. The ride is a ride again, and goes where it appears to.".
+    Otherwise "It is a lining, and not a good one. The wood is not fooled.".
+  }
+  Action play_hautboy(actor: group, site: place) "Ask Tam to play the hautboy on the lawn, loud enough to carry into the wood" {
+    Speaker tam.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, wd_lawn) and at(tam, site) and e4Hunt(rierdan) and not e4LordTolerates(rierdan) and not f_haut(rierdan).
+    Time 0.
+    Resolve check(actor, performance, dc_fair).
+    On success { Assert e4LordTolerates(rierdan). }
+    On failure { Assert f_haut(rierdan). }
+    Result "Tam puts the hautboy to his mouth, and for the first time in his life plays something he has not rehearsed. Far off in the wood the horn stops, mid-breath. A voice like honey says, to the trees, 'That is a badly made tune.' It does not move. It listens to the whole of it, and when it is over it says: 'More.'".
+    Otherwise "The tune is correct. The Lord does not care for the correct.".
+  }
+
+  // The lovers: three ways to the pairs, and one price.
+  Thing wd_ofbit "the ofbit" at wd_hollow is scenery { State growing "Low blue flowers, ofbit, grow round the bank in the moss, with delicate heads and thin stems; the wood's own old remedy for the heart.". }
+  Initially Assert grows(wd_ofbit).
+  Discovery wd_ofbit_hid "The ofbit round the pixie's bank is gathered, not found.".
+  Item wd_ofbit_1 "a sprig of ofbit" is ofbit_gathered in wd_ofbit hidden until wd_ofbit_hid.
+  Initially Assert crop(wd_ofbit_1, wd_ofbit).
+  Item wd_ofbit_2 "a second sprig of ofbit" is ofbit_gathered in wd_ofbit hidden until wd_ofbit_hid.
+  Initially Assert crop(wd_ofbit_2, wd_ofbit).
+  Thing wd_poppy "the red poppies" at wd_hollow is scenery { State growing "Red poppies, heavy-headed, grow among the blue: the wood's own old remedy for the same thing.". }
+  Initially Assert grows(wd_poppy).
+  Discovery wd_poppy_hid "The red poppies are gathered, not found.".
+  Item wd_poppy_1 "a handful of poppy heads" is poppy_gathered in wd_poppy hidden until wd_poppy_hid.
+  Initially Assert crop(wd_poppy_1, wd_poppy).
+  Item wd_poppy_2 "a second handful of poppy heads" is poppy_gathered in wd_poppy hidden until wd_poppy_hid.
+  Initially Assert crop(wd_poppy_2, wd_poppy).
+  Action anoint_true_a(actor: group, site: place) "Touch the lovers' eyes with poppy and let them sleep it off: all four, side by side" {
+    Requires able(actor) and company(actor) and at(actor, site) and e4Hunt(rierdan) and at(rafe, site) and at(idony, site) and holding(actor, poppy_gathered) and loves(rafe, maud).
+    Time 1.
+    On success { Spend poppy_gathered from actor. Retract loves(rafe, maud). Retract loves(maud, rafe). Retract loves(idony, jack). Retract loves(jack, idony). Assert e4Slept(rierdan). }
+    Result "You pinch the poppy over four pairs of eyelids and they lie down in the bracken like children. It is a clean sleep. When they wake they will remember the wedding, and the hats, and that there was someone they were fond of; they will not remember who.".
+  }
+  Action anoint_cross(actor: group, site: place) "Touch Rafe's eyes and Idony's with ofbit, so that each wakes to the other" {
+    Requires able(actor) and company(actor) and at(actor, site) and e4Hunt(rierdan) and at(rafe, site) and at(idony, site) and holding(actor, ofbit_gathered) and loves(rafe, maud) and not e4Slept(rierdan).
+    Time 1.
+    Resolve check(actor, woodcraft, dc_fair).
+    On success { Spend ofbit_gathered from actor. Retract loves(rafe, maud). Retract loves(maud, rafe). Retract loves(idony, jack). Retract loves(jack, idony). Assert loves(rafe, idony). Assert loves(idony, rafe). Assert loves(jack, maud). Assert loves(maud, jack). }
+    On failure { Spend ofbit_gathered from actor. }
+    Result "A little ofbit, the old rule: the first face seen. Rafe opens his eyes on Idony's hat and says 'My dear.' Wat, a yard off, opens his on Nan and cannot speak.".
+    Otherwise "The sprig is too dry, or your hand is too quick; the juice runs into the moss. You have one fewer sprig, and four people who are still, tenderly, wrong.".
+  }
+  Action leave_them(actor: group, site: place) "Stand at the edge and let the lovers be as they are; it is none of the company's business" {
+    Requires able(actor) and company(actor) and at(actor, site) and e4Hunt(rierdan) and at(rafe, site) and loves(rafe, maud) and not e4Gathered(actor).
+    Time 6.
+    On success { Assert e4Gathered(actor). Assert e4Left(rierdan). }
+    Result "You nod. After all, the Squire will be in love with whoever he is told to marry by the time the bell goes. It has been done before.".
+  }
+
+  // The weaver and the Lady: the Lord's bargain.
+  Action bargain_lord(actor: group, site: place) "Offer the Lord of the Green the thing he is quarrelling about: the Lady's changeling boy, for the weaver" {
+    Speaker greenlord.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, wd_glade) and at(greenlord, site) and e4LordTolerates(rierdan) and not e4LoomFree(rierdan) and not e4BargainFailed(rierdan).
+    Time 0.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert e4LoomFree(rierdan). Retract at(loom, wd_ring). Assert at(loom, wd_lawn). Retract e4QueenLoves(rierdan). }
+    On failure { Assert e4BargainFailed(rierdan). }
+    Result "'You will tell the Lady,' says the Lord of the Green, 'that the boy she kept is to come home to my hall. And that the old wood is full.' His smile is dreadful. 'She will listen. She has been listening for seven years for someone to say it.' The weaver comes out of the ring with his own head, looking puzzled and well rested. 'What a dream,' says Barnaby Loom. 'I was a Wall.'".
+    Otherwise "'No,' says the Lord, agreeably, and does not say it again.".
+  }
+  Action ask_the_ash(actor: group, site: place) "Ask the Ash whether she remembers the Lord of the Green's name" {
+    Speaker ash.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, wd_ash) and at(ash, site) and not e4NameKnown(rierdan) and not e4AshAsked(actor).
+    Time 6.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert e4NameKnown(rierdan). Assert e4AshAsked(actor). }
+    On failure { Assert e4AshAsked(actor). }
+    Result "The ash is silent for a while, long enough for the shadow to move. 'He was born in a ditch,' she says, 'in a hard winter, and his mother called him Tod.' A branch creaks, which may be laughter. 'Say it in his hearing and see how big he is.'".
+    Otherwise "'I remember everything,' says the ash. 'I do not remember you.'".
+  }
+  Action name_the_lord(actor: group, site: place) "Call the Lord of the Green by the name he was born with, and ask for the weaver" {
+    Speaker greenlord.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, wd_glade) and at(greenlord, site) and e4NameKnown(rierdan) and e4LordTolerates(rierdan) and not e4LoomFree(rierdan).
+    Time 0.
+    On success { Assert e4LoomFree(rierdan). Assert e4Humbled(rierdan). Retract at(loom, wd_ring). Assert at(loom, wd_lawn). Retract e4QueenLoves(rierdan). }
+    Result "'Tod,' you say. The glade goes quiet. The Lord of the Green becomes, for the length of a breath, rather small. 'Take him,' he says. 'Take him and go, and never say it where the Lady can hear.' The weaver comes out of the ring with his own head, and says that he had a curious dream about a Wall.".
+  }
+  Action pay_name(actor: group, site: place) "Give the Lord of the Green your true name, in return for the weaver" {
+    Speaker greenlord.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, wd_glade) and at(greenlord, site) and e4BargainFailed(rierdan) and not e4NameKnown(rierdan) and not e4LoomFree(rierdan) and not e4Namepaid(actor).
+    Time 0.
+    On success { Assert e4Namepaid(actor). Assert e4Price(rierdan). Assert e4LoomFree(rierdan). Retract at(loom, wd_ring). Assert at(loom, wd_lawn). Retract e4QueenLoves(rierdan). }
+    Result "You give it. It goes out of your mouth like a coin into a well. 'Thank you,' says the Lord, kindly, and takes it somewhere you cannot see. You find you have to think, for a moment, which of two people you are.".
+  }
+  Rule rp_robin at wd_hollow when e4Hunt(rierdan) and at(party, wd_hollow) and not robinStole(rierdan) and quantity(party, gold) >= 2
+    says "The pixie drops onto your hat from nowhere, examines your purse with great courtesy, and removes two coins, a button and the dignity of the thing. 'For the bank,' it says. 'It has so few things.' It is pleased with you. It points out the poppy you were looking at." {
+    Assert robinStole(rierdan). Decrease quantity(party, gold) by 2. Assert at(robin, wd_hollow). }
+  Observe w_changeling near greenlord when e4Hunt(rierdan) and not e4LoomFree(rierdan) "At the Lord's heel, holding his goat-hair in one fist, stands a small boy of six in a coat of moss. He is not smiling. He is the thing the Lord and the Lady have been quarrelling over, a human child, since before the wedding was thought of.".
+
+  // Dawn. The wedding goes ahead, in whatever pairs it finds.
+  Rule rp_acted when e4Hunt(rierdan) and not e4Acted(rierdan) and (e4LoomFree(rierdan) or e4Slept(rierdan) or e4LordTolerates(rierdan) or loves(rafe, idony)) { Assert e4Acted(rierdan). }
+  Observe w_left_told at wd_lawn when e4Left(rierdan) and e4Dawn(rierdan) and e4Fiasco(rierdan) "At first light the company stands at the back of the lawn with its arms folded, having decided it was none of its business, and has the grace to look as if it had not enjoyed it.".
+  Rule rp_loom_pay when e4Done(rierdan) and e4LoomFree(rierdan) and not e4Paid(rierdan) { Assert e4Paid(rierdan). Increase quantity(party, gold) by 8. }
+  Observe w_loom_pay at wd_lawn when e4Paid(rierdan) "The Squire's mother pays the fiddler, and, seeing the weaver in his own head, pays him as well, and he gives the company his half in the speech of a man who has just played a Lion for the first time to a full house.".
+  Rule rp_pyramus when e4Dawn(rierdan) and puddingPyramus(party) and not e4LoomFree(rierdan) and not pyramusPlayed(rierdan) { Assert pyramusPlayed(rierdan). }
+  Observe w_pyramus at wd_lawn when pyramusPlayed(rierdan) "With no weaver in his own head, Jem Pudding plays Pyramus. He dies seven times, on the carts, with three onions, and the third time the audience stands.".
+  Rule rp_dawn when e4Hunt(rierdan) and not e4Dawn(rierdan) and hour(clock) >= 5 and hour(clock) < 12 and watch(clock) >= e4Dusk(rierdan) + 40 and at(rafe, ?a) and at(idony, ?b) and at(jack, ?c) and at(maud, ?d) {
+    Assert e4Dawn(rierdan). Retract at(rafe, ?a). Assert at(rafe, wd_lawn). Retract at(idony, ?b). Assert at(idony, wd_lawn).
+    Retract at(jack, ?c). Assert at(jack, wd_lawn). Retract at(maud, ?d). Assert at(maud, wd_lawn). }
+  Rule rp_restored when e4Dawn(rierdan) and loves(rafe, idony) and loves(jack, maud) and not e4Done(rierdan) and not e4Price(rierdan) { Assert e4Restored(rierdan). Assert e4Done(rierdan). }
+  Rule rp_priced when e4Dawn(rierdan) and loves(rafe, idony) and loves(jack, maud) and e4Price(rierdan) and not e4Done(rierdan) { Assert e4Restored(rierdan). Assert e4Done(rierdan). }
+  Observe w_humbled at wd_lawn when e4Humbled(rierdan) and e4Dawn(rierdan) "The horn does not sound at sunrise. In the beech wood a goat-legged shape stands a long way back from the trees, with its arms folded, and does not come any nearer. The Lady's changeling boy is sitting on the Squire's mother's lap, eating a bun.".
+  Rule rp_blank when e4Dawn(rierdan) and e4Slept(rierdan) and not e4Done(rierdan) { Assert e4Blank(rierdan). Assert e4Done(rierdan). }
+  Observe w_blank at wd_lawn when e4Blank(rierdan) "The wedding goes ahead at sunrise between two people who like one another much and cannot say why. The Squire and Idony stand side by side with the faintly puzzled courtesy of people who have been introduced. Wat plays the fiddle as if he were mourning something. Gosse, at the side of the lawn, finds he has no complaint, and cannot account for the lump in his throat.".
+  Rule rp_fiasco when e4Dawn(rierdan) and (loves(rafe, maud) or loves(jack, idony)) and not e4Done(rierdan) { Assert e4Fiasco(rierdan). Assert e4Done(rierdan). }
+  Observe w_restored at wd_lawn when e4Restored(rierdan) and not e4Price(rierdan) "The wedding goes ahead at sunrise in the pairs it was meant for, with a long grey light, a fiddler who will not stop, and a lion who is good. Pyramus dies seven times. The Squire cries into his cuffs. Gosse, at the side of the lawn, finds that he is weeping, and that he has been enjoying himself.".
+  Observe w_priced at wd_lawn when e4Restored(rierdan) and e4Price(rierdan) "The wedding goes ahead in the right pairs. At the vows one of the company says a name that is nearly theirs, and the Squire's mother looks round to see whom they are speaking to. Nobody says anything. In the grass at the edge of the lawn a pair of small hoof-prints goes away towards the wood.".
+  Observe w_fiasco at wd_lawn when e4Fiasco(rierdan) "At sunrise Squire Hartigan, still beautifully in love, marries Nan Sellars before the whole village, and Wat Dunstable, shining, stands up for him, and weeps for Idony, who stands up for Nan with a smile on her face that is much too steady. The play follows. The Wall falls on the Lion. The Lion is a woman in a ram's mask, and nobody, afterwards, can say which of the villagers she was. The audience gives a standing ovation that lasts until noon.".
+  Observe w_fiasco2 near gosse when e4Fiasco(rierdan) "Gosse has stopped saying it is not in the script. He sits on a hamper with the prompt-book on his knee and looks forgiven.".
+  Chapter ch_wood "The Wood near Athens-under-Hollin" when e4On(rierdan) and not e4Done(rierdan) "A wedding at dawn, a play by a weaver, and a wood that has taken an interest.".
+  Milestone m_wood_loom "got the weaver's head back" worth 200 when e4LoomFree(rierdan).
+  Milestone m_wood_done "got the wedding to the lawn by dawn" worth 300 when e4Done(rierdan).
+  Milestone m_wood_lord "was suffered by the Lord of the Green" worth 150 when e4LordTolerates(rierdan).
+
+  // Pudding, who is to be Pyramus if the weaver is not; and who finds he can be.
+  Topic pudding_part with pudding "Ask Jem Pudding whether he would play Pyramus if the weaver does not come back" when e4On(rierdan) and e4LoomAss(rierdan) once {
+    Says "Jem Pudding puts down the onions. 'I am a juggler,' he says. 'I have said it so often it has set. I'd like to be a person who is Pyramus.' He looks at his hands. 'Do you think I could?'".
+  }
+  Topic pudding_yes with pudding "Yes. You were a clown before you were anything else" answering pudding_part when true {
+    Says "'Oh,' says Pudding. He puts the onions in his pocket. 'Oh, that would be a thing.'".
+    On discuss { Assert puddingPyramus(actor). }
+  }
+  Topic pudding_no with pudding "No. Stick to the juggling; it is a gift" answering pudding_part when true {
+    Says "'Right,' says Pudding, relieved and a little crushed. He takes the onions out again.".
+    On discuss { Assert puddingSings(actor). }
+  }
+  Relation puddingPyramus(group). Relation puddingSings(group).
+  Observe pudding_p near pudding when puddingPyramus(party) "Pudding has begun to say the death-speech of Pyramus under his breath to the trees, and is better at it, now, than the weaver ever was.".
+  Observe pudding_s near pudding when puddingSings(party) "Pudding has been juggling three onions behind the hampers all night, and dropping none.".
+  Relation f_coats(place).
+  Relation f_haut(place).
+  Relation e4Acted(place).
+  Relation e4Left(place).
+  Relation e4Paid(place).
+  Relation e4EdgeSeen(place).
+  Relation e4BogSeen(place).
+  Relation pyramusPlayed(place).
+}

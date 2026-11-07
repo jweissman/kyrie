@@ -1,0 +1,158 @@
+Module muster "The Long Muster's Road" {
+  // ── The beasts of the road ──────────────────────────────────────────────────────────────────────────────────────
+  // The goats know the sound stone; the kites know what will fall; the marmots know the giant's mood; the wolves know
+  // the dark; the wyvern knows noon. A company that reads them can go where one that fights them cannot.
+  Relation kitesRead(group). Relation wolvesTolerated(group). Relation paidDeserters(group).
+  Relation aurelMet(group).
+
+  // ── Ridge-goats ─────────────────────────────────────────────────────────────────────────────────────────────────
+  Person goat_steep "a ridge-goat" at track1 {
+    Role "grey, on a rock, chewing". Species ridge_goat. Numbers 1. Peaceable.
+  }
+  Person goat_ledge "a ridge-goat" at ledge1 {
+    Role "grey, standing on the line of the Ledge, in the lee". Species ridge_goat. Numbers 1. Peaceable.
+  }
+  Person goat_shale "a ridge-goat" at pass_n {
+    Role "grey, below the crag, watching the shale". Species ridge_goat. Numbers 1. Peaceable.
+  }
+  Observe goat_sign at track1 as sign when true "Where the path starts to climb the droppings are in a line, and every dropping is on a stone that does not move.".
+  Action follow_goat_steep(actor: group, site: place) "Follow the ridge-goat up the steep, setting your feet where it sets its hooves" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, track1) and at(goat_steep, track1).
+    Time 3.
+    On success { Assert at(actor, track2). }
+    Result "It goes up the face as if the face were a stair, looking back twice with an expression of faint contempt, and you go up where it went and nowhere else. Every foot it uses holds. When you come to the top it is already standing on the next rock, chewing.".
+  }
+  Thing ledge_wind "the wind off the Ledge" on ledge_a {
+    State gusting dangerous "Wind comes along the Ledge in sudden shoves, from the open side, with nothing to lean on.".
+    State steady "The wind has gone to a steady lean, and you have the measure of it.".
+    Hurts with ledge_gust when gusting then steady.
+  }
+  Hazard ledge_gust "The Ledge's gusts" means "Deal (2d6) physical damage to ally unless dexterity save against (13).".
+  Action walk_goat_line(actor: group, site: place) "Walk where the ridge-goat walks, on the inside, and wait when it waits" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ledge1) and at(goat_ledge, ledge1) and state(ledge_wind, gusting).
+    Time 1.
+    On success { Assert state(ledge_wind, steady). }
+    Result "The goat stands in the lee of every buttress and does not step out until the gust has gone by, and you learn to do the same. By the third buttress you can feel the next gust before it comes, as a goat does, and your back is to the rock when it arrives.".
+  }
+  Action follow_goat_shale(actor: group, site: place) "Follow the ridge-goat up the shale, in its steps" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, pass_n) and at(goat_shale, pass_n) and state(goat_slide, loose).
+    Time 1.
+    On success { Assert state(goat_slide, trodden). }
+    Result "It goes up the slope in a long, unhurried zigzag, a hoof here and a hoof there, never across the fall line. You put your boots in its prints. The shale slides under the goat's step and under yours, and settles, and holds.".
+  }
+
+  // ── Bone-kites on the Viaduct ──────────────────────────────────────────────────────────────────────────────────
+  Person kites "the bone-kites" at via_n {
+    Role "five bone-kites on the Viaduct, perched and circling". Species bone_kite. Numbers 5. Peaceable.
+  }
+  Discovery kites_known "The bone-kites perch only on the parapet's sound blocks, and circle the fallen arch, where nothing will bear them.".
+  Observe kite_sign at via_n as sign when true "Rust-backed birds sit along the broken edge of the Viaduct in a row, each on its own block, shifting their feet. Over the fallen arch below three more hang on the draught without a wingbeat, circling a slope of blocks that none of them will land on.".
+  Action read_kites(actor: group, site: place) "Watch where the kites settle, and where they will not" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, via_n) and not kitesRead(actor).
+    Time 3.
+    On success { Assert kitesRead(actor). Assert state(parapet_wind, rigged). }
+    Result "You watch them an hour. They settle on the parapet in the same places every time, like men taking their old seats, and not once on any block that has a crack in it. The blocks they use run in a line along the parapet's inner edge. You note the line.".
+  }
+  Observe kite_known near kites when kitesRead(party) "The kites sit where they always sit. You know now which blocks they trust, and so do you." teaches kites_known.
+
+  // ── Marmots in the Pass: one whistle for a stranger, two for the giant ─────────────────────────────────────────
+  Person marmots "the marmots of the Pass" at pass_n {
+    Role "a colony of marmots on the scree, up on their haunches". Species pass_marmot. Numbers 6. Peaceable.
+  }
+  Discovery marmots_known "The marmots whistle once at a stranger and twice at the giant, and the whole colony dives into the ground at the second: when they are gone, he is awake.".
+  Observe marmot_once at pass_n as sound when dark() "A single whistle off the scree, thin as a kettle. Then nothing: the colony has gone to ground, and the notch is the giant's.".
+  Observe marmot_twice at pass_n as sound when not dark() "A whistle, and a second on its heels, and the whole slope empties. Every marmot has gone into the ground at once, and the scree is bare, and somewhere above the notch a large door is being opened." teaches marmots_known.
+
+  // ── The wolves of the Old Causeway: dangerous, and three ways not to meet them ─────────────────────────────────
+  Action hold_wolves_flame(actor: group, site: place) "Stand together with lit torches, and let the pack look at the flame" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, causeway2) and at(wolves, causeway2) and able(wolves) and capable(actor, flame) and not tolerates(wolves, actor).
+    Time 0.
+    On success { Assert tolerates(wolves, actor). Retract warned(wolves, actor). Assert wolvesTolerated(actor). }
+    Result "You close up back to back with the torches held out and high, and the pack sits at the edge of the light and watches. One wolf gets up, circles, and lies down. They do not like the fire. They like it better than you.".
+  }
+  Action feed_wolves(actor: group, site: place) "Throw the pack three days' rations and walk on while they fight over it" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, causeway2) and at(wolves, causeway2) and able(wolves) and quantity(actor, rations) >= 3 and not tolerates(wolves, actor).
+    Time 0.
+    On success { Decrease quantity(actor, rations) by 3. Assert tolerates(wolves, actor). Retract warned(wolves, actor). Assert wolvesTolerated(actor). }
+    Result "The meat goes out into the heather and the dark moves after it. You are, for as long as it takes, a thing that smells like less than dinner. You do not hurry, and you do not look back.".
+  }
+  Action shelter_picket(actor: group, site: place) "Climb into the legion's picket-tower and pull the ladder up after you" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, causeway3) and dark() and holding(actor, rope) and not wolvesTolerated(actor).
+    Time 0.
+    On success { Assert wolvesTolerated(actor). }
+    Result "The picket-tower is one room, roofless, ten feet up a wall of squared stone, with a stone ladder-socket the legion's sentries used. A rope over the lip does the same. Below, in the heather, the pack walks round it twice, and sits down, and in the morning is gone.".
+  }
+  Observe picket_note at causeway3 as sign when true "The guard-post's tower has one wall standing to twice a man's height, and a ring-bolt cut in it. Wolf-marks go round its foot in a smooth path, as if it were a thing they had walked round every night since the legion left.".
+
+  // A party that walks the causeway unanswered is not let walk it: the pack comes in at the end of the heather.
+  Relation wolfBitten(group).
+  Hazard wolf_rush "The pack closes on the road" means "Deal (2d8) physical damage to ally unless dexterity save against (14).".
+  Rule wolves_rush when at(party, causeway3) and not wolvesTolerated(party) and not wolfBitten(party) and able(wolves) and not dead(wolves)
+    says "The long note goes up behind you, and the heather moves. They have walked the ridge with you the whole way, and now they come in all at once." { Assert strikes(wolf_rush, party). Assert wolfBitten(party). }
+  Rule wolves_rush_back when at(party, causeway1) and not wolvesTolerated(party) and not wolfBitten(party) and hour(clock) >= 18 and able(wolves) and not dead(wolves)
+    says "At the head of the causeway the dark fills with sitting shapes." { Assert strikes(wolf_rush, party). Assert wolfBitten(party). }
+
+  // ── The wyvern: noon, wind, and an empty nest ──────────────────────────────────────────────────────────────────
+  Relation wyvernOut(group).
+  Rule wyvern_leaves when hour(clock) >= 11 and hour(clock) < 14 and not state(sky, wind_sky) and at(wyvern, eyrie) and not dead(wyvern) {
+    Retract at(wyvern, eyrie). Assert wyvernOut(wyvern). }
+  Rule wyvern_thief when wyvernOut(wyvern) and at(party, eyrie) and holding(party, dragons_tooth) and not dead(wyvern)
+    says "A shadow takes the sun off the shelf. It has not gone far, and it knows to the grain what was in its bed." { Assert at(wyvern, eyrie). Retract wyvernOut(wyvern). Assert strikes(wyvern_stoop, party). }
+  Rule wyvern_returns when hour(clock) >= 14 and wyvernOut(wyvern) and not dead(wyvern) {
+    Assert at(wyvern, eyrie). Retract wyvernOut(wyvern). }
+  Observe nest_empty at eyrie when wyvernOut(wyvern) "The nest is a bed of charred bracken on a shelf, empty. Whatever slept in it left an hour ago, and left the heat of it behind.".
+  Observe eyrie_bones at eyrie as sign when not dead(wyvern) "A scatter of bones, some of sheep, some of goat, one of a mule. Amongst them a rag of red cloth, bleached nearly white, and a rusted spear-head.".
+  Item eyrie_pouch "a courier's pouch, sun-bleached to bone" is courier_pouch at eyrie.
+  Item eyrie_ward "a wardstone in a nest of bracken" is wardstone at eyrie.
+  Item eyrie_tooth "a shed tooth, long as a finger" is dragons_tooth at eyrie.
+  Item eyrie_tag "a courier's tag of lead, pierced, on a rotted cord" is courier_tag at eyrie.
+  Kind courier_tag "a courier's lead tag" is document teaching cato_read described "A lead tag stamped with a wheel and a name, hung on the neck of the courier of the year 503, who went north and did not come back.".
+  Discovery cato_read "The tag reads: CATO, COURIER, THE SENDING OF THE YEAR 503. The Annals say that he was lost at the Eagle, and that his pouch was not found.".
+
+  // ── Deserters at the head of the Descent ───────────────────────────────────────────────────────────────────────
+  // Men of the Last Cohort who would not be Sent: a courier is chosen by lot, goes to the Eagle and comes home with
+  // nothing, one spring of nothing is enough for some, and they have gone round it. They hold the end of the road and take a
+  // toll of anyone who comes down it, in the name of a Cohort they have walked out on.
+  Person deserters "the deserters of the Descent" at pass_s {
+    Role "three of the seven deserters of the Last Cohort in patched red, spears across their knees". Ancestry human. Calling warrior. Level 3. Numbers 3. Temperament territorial.
+    Warns "Three men in cloaks that were red come out of the rocks on both sides of the road with their spears down. 'Toll,' says the tallest. 'Ten.' He considers it. 'Or a word from the north.'".
+    Comes "The deserters come off the rock together, spears level.".
+    Lair pass_s.
+    State toll blocking "Three deserters of the Last Cohort stand across the head of the Descent, spears down. The road goes through them.".
+    State stood_aside "The deserters sit on the rocks with their spears across their knees, and the road is open.".
+    Guards descend_in.
+  }
+  Rule deserters_stand_aside when tolerates(deserters, party) and state(deserters, toll) { Assert state(deserters, stood_aside). Retract warned(deserters, party). }
+  Person aurel "Aurel Merula" at pass_s {
+    Role "who leads the men who left the Sending". Ancestry human. Calling ranger. Level 4. Pronouns he. Manner grim. Peaceable.
+    Greets "A lean man in a red cloak gone brown sits on a boulder with a bow across his back and does not come down. 'Pay,' he says. 'Or don't tell the Prefect. Which are you?'".
+  }
+  Action pay_deserters(actor: group, site: place) "Pay the deserters their ten coin" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, pass_s) and at(deserters, pass_s) and able(deserters) and quantity(actor, gold) >= 10 and not tolerates(deserters, actor).
+    Time 0.
+    On success { Decrease quantity(actor, gold) by 10. Assert tolerates(deserters, actor). Retract warned(deserters, actor). Assert paidDeserters(actor). }
+    Result "The tall one counts the coin into a helmet. 'They paid,' he says over his shoulder. The spears go up.".
+  }
+  Action show_aurel_letter(actor: group, site: place) "Hold up the pouch addressed to the Centurion Lucilla Merula" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, pass_s) and at(deserters, pass_s) and able(deserters) and holding(actor, aurel_letter_kind) and not tolerates(deserters, actor).
+    Time 0.
+    On success { Assert tolerates(deserters, actor). Retract warned(deserters, actor). Assert aurelMet(actor). }
+    Result "Aurel Merula comes down off the boulder faster than he meant to. He reads the superscription, in his own hand, nine years old. 'Where was that?' he says. 'The Eagle. I left it on the stack the spring I went over.' He takes it. 'They never touch another man's. It was a rule.' The spears go up.".
+  }
+  Topic aurel_why with aurel "Ask Aurel why he left the Cohort" when aurelMet(party) or tolerates(deserters, party) {
+    Says "'The lot fell on me,' says Aurel. 'Twenty-six. I took the pouch to the Eagle and wrote my mother a letter and left it on the stack. Then I went over the parapet on a rope.' He rubs his jaw. 'There's a village. Thirty houses and a trough. A woman on a stone, goats. I stood in the willows till dark. Didn't call.' He eyes the road. 'I came back over. Couldn't go home and say. I came here.'".
+    On discuss { Assert aurelMet(party). Assert knows(actor, aurel_known). }
+  }
+  Entity aurel_known: fact "Aurel Merula, who deserted the Sending, crossed the Viaduct by its parapet and saw a village of thirty houses round a trough on the north bank. He has never been able to tell his mother, the Centurion.".
+  Topic aurel_mother with aurel "Ask Aurel what he would say to his mother" when aurelMet(party) once {
+    Says "'That the boots held,' says Aurel, and does not seem to know why he said it. He turns the pouch over. 'She'll be on the wall at the evening call. She won't ask. Don't tell her unless she asks.'".
+  }
+  Kind aurel_letter_kind "a courier's pouch addressed to Lucilla Merula" is document teaching aurel_letter_read described "A leather pouch, sealed with a wheel, addressed in a young man's square hand: TO THE CENTURION LUCILLA MERULA, FIRST CENTURY, FROM HER SON M. It has waited at the Eagle for nine springs.".
+  Discovery aurel_letter_read "The pouch is a son's letter to his mother, left on the Eagle's stack nine springs ago: he means to cross the fifth arch to see what is there, and if he lives he will be in the Pass.".
+  Item aurel_letter_item "a courier's pouch addressed to Lucilla Merula" is aurel_letter_kind at eagle.
+
+  // A pardon the stranger can win and cannot finish: the six go home, and the one who counted them out does not.
+  Rule pardon_marches when pardoned(party) and at(deserters, pass_s)
+    says "In the morning six men in cloaks that were red go down the Descent with their spears on their shoulders, not looking back, and not quickly." { Retract at(deserters, pass_s). }
+  Observe aurel_stays at pass_s when pardoned(party) "Aurel Merula sits on his boulder with the Centurion's pardon folded small in his hand. The others have gone. 'It is for the others,' he says, when you ask. 'I was the one who counted them out. A pardon is for a man who can be forgiven by people he can stand to see.'".
+}

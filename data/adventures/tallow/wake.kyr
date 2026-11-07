@@ -1,0 +1,31 @@
+Module tallow "Tallow Deep" {
+  // ---------------------------------------------------------------------------------------------------------------
+  // What the village wants, what the Tallymen want, and what the hill remembers.
+  Relation sold_out(group). Relation paid_by_joss(group).
+  Topic joss_report with joss "Tell Cador the old road is open" when state(calx_gate, raised) and not sold_out(party) and not paid_by_joss(party) once {
+    Says "Cador sits very still for a moment. Then he laughs, once. 'Two miles,' he says. 'Two miles of paved road under the excise's feet.' He counts sixty coin out of the ledger-box. 'You never saw me do it. And my lads will be on the bend for your coming and going, free, so long as you are mine.'".
+    On discuss { Increase quantity(actor, gold) by 60. Assert paid_by_joss(party). Assert tolerates(bend_watch, party). }
+  }
+  Topic hester_report with hester "Tell Lowen the old road is open" when state(calx_gate, raised) and not ticked(party) and not paid_by_joss(party) and not sold_out(party) once {
+    Says "Lowen Pook sets the pot down. 'The Tallymen's cellar,' she says, 'and that road. Well.' She is quiet. 'The parish will be wanting a word with Cador Tarbet. I'll see he has a night to pack.' She gives you twenty coin out of the till. 'That's the parish's thanks. It isn't much. It's all there is.'".
+    On discuss { Increase quantity(actor, gold) by 20. Assert sold_out(party). Retract at(bend_watch, adit). Retract at(joss, tally_room). Retract at(dog, tally_room). }
+  }
+  Observe market_gone at tally_room when sold_out(party) "The Tally-Room is empty: hammocks cut down, the stove cold, the ledger gone, and a chalk line across the table where somebody counted for the last time.".
+  Observe watch_gone at adit when sold_out(party) "The bend of the adit is empty. The lantern has gone from its hook.".
+
+
+  Objective ask_swallet when not knows(party, breakthrough_known) "Swallet keeps its back to the hill. The assayer, the landlady and an old miner by the fire all know something of why.".
+  Objective find_foreman when knows(party, foreman_known) and not knows(party, letter_read) "Foreman Carr led the Breakthrough and left a letter in his office in the hall under the Blind Shaft. Someone should read it.".
+  Objective open_road when knows(party, calx_known) and not state(calx_gate, raised) "There is said to be an old road under the ridge, with a rusted gate and a wheel.".
+  Objective reach_bore when knows(party, bore_known) and not been(party, dial_room) "The Cap in the Cistern Hall covers a shaft, and the Tally-Wall says a weight still swings in it.".
+
+  Milestone m_foreman "found Foreman Carr's papers" worth 120 when knows(party, letter_read).
+  Milestone m_cistern "stood on the shore of the Cistern Hall" worth 100 when been(party, cistern_hall).
+  Milestone m_calx "opened the Calx Gate" worth 250 when state(calx_gate, raised).
+  Milestone m_through "walked the Calx Way to the daylight" worth 200 when been(party, calx_inner) and been(party, calx_portal) and state(portal_inside, cleared).
+  Milestone m_gear "stood in the Gear-Hall, and was not stopped" worth 250 when been(party, gear_hall) and tolerates(custodians, party).
+  Milestone m_dial "stood in the Dial" worth 400 when been(party, dial_room).
+  Milestone m_dead "laid the Company's dead" worth 150 when laid(party).
+  Milestone m_slump "fed what lives in the Cistern Hall" worth 100 when tolerates(slump, party).
+  Milestone m_bore "learned what hangs in the Bore" worth 150 when knows(party, bore_known).
+}

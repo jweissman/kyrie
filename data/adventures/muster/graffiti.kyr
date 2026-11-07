@@ -1,0 +1,36 @@
+Module muster "The Long Muster's Road" {
+  // ── Rufus, and the stones that count down ───────────────────────────────────────────────────────────────────────
+  // Eleven thousand men marched out of the south-east by this road in one season, and one of them, Gaius Rufus of
+  // the Sixth Cohort, scratched his name and the days since his pay on every wall they slept under: day 29 at
+  // Septimus, day 34 in the notch. The March, as the Cohort teaches it, is thirty-three days from the sea to the Eagle. Under the first scratches, later hands: the
+  // rearguard's. They are a different story told in the same plaster, and the second story is the one the Cohort
+  // does not tell its children.
+  //
+  // The milestones count the road down in cables (a hundred paces) to the gate of the Last Cohort, where the last
+  // stone says I and nothing comes after it. The road did not run from the Cohort to anywhere: it was built to it.
+
+  Discovery rufus_1 "At the Mansio Septimus a soldier scratched: RUFUS, VI COH. DAY 29. A HUNDRED AND FORTY DAYS UNPAID. THE GENERAL SAYS AT THE SEA, THEY ALL SAY AT THE SEA.".
+  Discovery rufus_2 "At the Mansio Octavius the same hand: RUFUS. DAY 31. BREAD BAD. THE MULES DIED AT THE THIRD ARCH, TWO. THE MULETEER SAT DOWN AND DID NOT GET UP. Under it, in a squarer hand: THE SCRIBE LEFT THIS BOOK. SOMEONE WILL WANT IT.".
+  Discovery rufus_3 "At the Eagle the same hand, shaky: RUFUS. DAY 33. THE BRIDGE WENT UNDER THE FOURTH WAGON. THE ENGINEERS SAY THE FIFTH ARCH WAS ALWAYS BAD. THE REARGUARD IS TO MEND IT. WE ARE NOT TO WAIT. And under it, in a different hand, many strokes: WE WAITED.".
+  Discovery rufus_4 "In the notch of the Pass the soldier's last: RUFUS. DAY 34. THE GENERAL HAS GONE ON WITH THE EAGLES. HE SAYS HE WILL SEND FROM THE SEA. TELL MY WIFE THE BOOTS HELD. Below it, in hands that change with the centuries, small tallies: five strokes and a bar. Each bar is a spring.".
+  Discovery rufus_5 "Over the gate of the Last Cohort, the soldiers' own reply, cut deep: WE ARE HERE. SEND. And under it, in a hand that has recut it a hundred times: SEND.".
+
+  Observe gr_septimus at septimus_hall as sign when true "A wall of soldiers' scratches, layer on layer: tallies, names, a wheel with a face drawn in it, a sum worked out and rubbed out. One hand returns at shoulder height, neat, as if the man had his back against the wall: RUFUS, VI COH. DAY 29. A HUNDRED AND FORTY DAYS UNPAID. THE GENERAL SAYS AT THE SEA, THEY ALL SAY AT THE SEA." teaches rufus_1.
+  Observe gr_octavius at octavius_hall as sign when true "On the bare wall above the scribe's bench, the same hand: RUFUS. DAY 31. BREAD BAD. THE MULES DIED AT THE THIRD ARCH, TWO. THE MULETEER SAT DOWN AND DID NOT GET UP. Under it a squarer hand: THE SCRIBE LEFT THIS BOOK. SOMEONE WILL WANT IT." teaches rufus_2.
+  Observe gr_eagle at eagle as sign when true "The gate-arch of the Eagle is scored with the Muster's last scratches: RUFUS. DAY 33. THE BRIDGE WENT UNDER THE FOURTH WAGON. THE ENGINEERS SAY THE FIFTH ARCH WAS ALWAYS BAD. THE REARGUARD IS TO MEND IT. WE ARE NOT TO WAIT. And under it, deep, a great many times: WE WAITED." teaches rufus_3.
+  Observe gr_roadhouse at roadhouse as sign when true "In the plaster by the hearth, under the soot: the tallies. Five strokes and a bar, five strokes and a bar, down to the floor, in hands that change. Each bar is a spring." teaches rufus_4.
+  Observe gr_gate at gate as sign when true "Over the gate, cut deep and bright and recut by every century: WE ARE HERE. SEND. And a little below, in a later and smaller hand, shorter: SEND." teaches rufus_5.
+
+  // The milestones, which count down in cables to the gate.
+  Discovery stones_known "The legion's milestones count down in cables, a hundred paces, to the gate of the Last Cohort, where the last stone says I. The road was built to it, not from it.".
+  Observe ms_kell at green as sign when true "By the trough stands a milestone older than the village, the legion's wheel cut on it and, under the wheel, a number: CCCLX. Nobody in Kell Ford has ever asked what it counts down to. The old men say it is the days to the sea, and the surveyor says it is not.".
+  Observe ms_septimus at septimus_hall as sign when true "Beyond the door, the milestone: CCLX, and the wheel, and in a rubbed corner the engineers' mark, a dividers and a plumb-line." teaches stones_known.
+  Observe ms_octavius at octavius_hall as sign when true "At the lintel, the stone: CLX. Whoever set it set it level to the width of a hair.".
+  Observe ms_eagle at eagle as sign when true "The stone by the gate-arch says LX. It has been oiled. Someone comes here.".
+  Observe gr_notch at pass_n as sign when true "Cut in the crag at a walker's eye, where the road goes through: RUFUS. DAY 34. THE GENERAL HAS GONE ON WITH THE EAGLES. HE SAYS HE WILL SEND FROM THE SEA. TELL MY WIFE THE BOOTS HELD. And under it the tallies, five strokes and a bar." teaches rufus_4.
+  Observe ms_pass at pass_n as sign when true "In the notch: XXX, and a heap of small stones laid on its head, one for each spring that anyone has come this far.".
+  Observe ms_descent at descent as sign when true "On the Descent, the stones come thick, one to every mile, each swept: X, VIIII, VIII, as if the engineers could not bear to leave the last miles uncounted. The paving has been swept between them.".
+
+  // The Cohort's own stone, inside the gate: the count ends.
+  Observe ms_forum at forum as sign when true "Just inside the gate, at the foot of the forum steps, the last stone of the road: I. Nothing is cut after it. The mason left the rest of the face smooth, as one leaves a page.".
+}
