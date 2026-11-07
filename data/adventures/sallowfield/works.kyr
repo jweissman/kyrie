@@ -30,7 +30,8 @@ Module sallowfield "Three Nights at Sallowfield" {
     Change draw_gate "Draw the flood-gate" from shut to drawn needing crowbar when quarmbyAgrees(party) "Gil Quarmby is standing on the sill with his arms folded. He has not said a word, and he does not need to.".
   }
   Initially Assert state(flood_gate, shut).
-  Rule flood_marks when state(flood_gate, drawn) and not sluiceOpen(party) { Assert sluiceOpen(party). Assert winterShort(party). Increase defence(ford_stones) by 4. Increase defence(mill_yard) by 4. }
+  Rule flood_marks when state(flood_gate, drawn) and not sluiceOpen(party) { Assert sluiceOpen(party). Assert hayLost(party). Increase defence(ford_stones) by 3. Increase defence(mill_yard) by 3. Decrease nerve(greenhalgh) by 2 or to nothing. }
+  Relation hayLost(group).
   Thing meadow_way "the ford meadow" on ford_meadow_way is scenery {
     State dry "The meadow is wet grass and cropped turf.".
     State flooded blocking "The meadow is under a hand of brown water and the hawthorn hedge stands out of it like a row of drowned men.".
@@ -87,17 +88,17 @@ Module sallowfield "Three Nights at Sallowfield" {
   Rule numbers_help when knowsNumbers(party) and not numMod(party) { Assert numMod(party). Increase defence(ford_stones) by 1. Increase defence(bridge) by 1. Increase defence(mill_yard) by 1. Increase defence(nave) by 1. }
   Relation numMod(group).
   Action scout_the_road(actor: group, site: place) "Count the column from the Scar" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lookout) and watch(clock) >= 120 and not knowsNumbers(party).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lookout) and watch(clock) >= 120 and not knowsNumbers(party) and not scouted(party).
     Time 6.
     Resolve check(actor, woodcraft, dc_fair).
-    On success { Assert knowsNumbers(party). }
-    On failure { Assert badCount(party). }
+    On success { Assert knowsNumbers(party). Assert scouted(party). }
+    On failure { Assert badCount(party). Assert scouted(party). }
     Result "You lie on the limestone with the cairn at your head and watch them come down the east road in the late light: forty on horse and foot, a wagon, a string of led horses, a standard with the Margrave's green gone to brown. Twenty more follow, on foot, with women among them. They are not marching. They are walking like people who have not been paid since spring.".
     Otherwise "You lie on the limestone and count, and it comes to sixty on horse and foot, and you tell it so in the village: sixty armed men. It is a good clear count, and it is a bad one. Twenty of them were women with the wagons, and by the time that is known the levy has stopped asking.".
   }
 
-  Relation badCount(group).
-  Rule bad_count_hurts when badCount(party) and not badMod(party) { Assert badMod(party). Decrease drillBonus(party) by 1 or to nothing. Decrease defence(ford_stones) by 1 or to nothing. Decrease defence(bridge) by 1 or to nothing. Decrease defence(mill_yard) by 1 or to nothing. Decrease defence(nave) by 1 or to nothing. }
+  Relation badCount(group). Relation scouted(group).
+  Rule bad_count_hurts when badCount(party) and battleOn() and not badMod(party) { Assert badMod(party). Decrease drillBonus(party) by 1 or to nothing. Decrease defence(ford_stones) by 2 or to nothing. Decrease defence(bridge) by 2 or to nothing. Decrease defence(mill_yard) by 2 or to nothing. Decrease defence(nave) by 2 or to nothing. }
   Relation badMod(group).
 
   // The ledger: the hours there are, said in bands, until the night he is expected (a quarter of a day each).
@@ -105,7 +106,7 @@ Module sallowfield "Three Nights at Sallowfield" {
   // The reeve's sixty is the village's, house by house; it takes the time it takes, and Stansfield is no use at it.
   Action collect_the_sixty(actor: group, site: place) "Go house to house with the reeve for the sixty" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, green) and knows(actor, reeve_would_pay) and not sixtyCollected(party).
-    Time 48.
+    Time 96.
     Resolve check(actor, persuasion, dc_fair).
     On success { Increase quantity(actor, gold) by 60. Assert sixtyCollected(party). Decrease nerve(stansfield) by 1 or to nothing. }
     On failure { Increase quantity(actor, gold) by 20. Assert sixtyCollected(party). }

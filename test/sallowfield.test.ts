@@ -214,7 +214,7 @@ describe("Three Nights at Sallowfield", () => {
 
   it('does not let a bare village be saved by fouling the grain: no wall, no cut, nobody sent up the fold', async () => {
     const j = await start();
-    const route = steps.foulTheGrain.filter(s => !s.startsWith('Take the old'));
+    const route = steps.foulTheGrain.filter(s => !s.startsWith('Take the old') && !s.startsWith('Wall the ford'));
     await j.play(...steps.muster, ...route);
     await toDawn(j);
     expect(held(j, 'vollLooked', 'party')).toBe(true);
@@ -226,10 +226,8 @@ describe("Three Nights at Sallowfield", () => {
     const j = await start();
     await j.play('=day 2 03:00');
     expect(held(j, 'weary', 'party')).toBe(true);
-    expect(held(j, 'wearyMod', 'party')).toBe(true);
     await j.play('Make camp and sleep', '=+6');
     expect(held(j, 'weary', 'party')).toBe(false);
-    expect(held(j, 'wearyMod', 'party')).toBe(false);
   }, 300000);
 
   it('is held, and the winter short, when the picked men are given the granary', async () => {
@@ -267,6 +265,56 @@ describe("Three Nights at Sallowfield", () => {
     await toDawn(j);
     expect(j.measure('overrunCount', 'party')).toBeGreaterThanOrEqual(0);
     expect(ending(j)).toBe('Nobody Left');
+  }, 300000);
+
+  it('pays for weariness at the clash, and a night in camp before it avoids the bill', async () => {
+    const tired = await start();
+    await tired.play(...steps.muster, ...steps.toTheFord, ...steps.wall, '=day 3 19:00', 'Wait › An hour', 'Wait › An hour', 'Wait › An hour');
+    expect(held(tired, 'wearyMod', 'party')).toBe(true);
+    const rested = await start();
+    await rested.play(...steps.muster, ...steps.toTheFord, ...steps.wall, '=day 3 06:00', 'Make camp and sleep|Take a bed and supper', '=day 3 19:00', 'Wait › An hour', 'Wait › An hour', 'Wait › An hour');
+    expect(held(rested, 'weary', 'party')).toBe(false);
+    expect(held(rested, 'wearyMod', 'party')).toBe(false);
+  }, 300000);
+
+  it('walks on south on the second day, past the raiders at the farm, and the road is an ending', async () => {
+    const j = await start(false);
+    await j.play(...steps.muster, ...steps.walkOnDay2);
+    expect(ending(j)).toBe('The Road South');
+  }, 300000);
+
+  it('walks on south on the third afternoon, and the road is an ending', async () => {
+    const j = await start(false);
+    await j.play(...steps.muster, ...steps.walkOnDay3);
+    expect(ending(j)).toBe('The Road South');
+  }, 300000);
+
+  it('walks on south with the night begun, and sees the glow behind', async () => {
+    const j = await start(false);
+    await j.play(...steps.muster, ...steps.walkOnFirelight);
+    expect(ending(j)).toBe('The Road South, by Firelight');
+  }, 300000);
+
+  it('gets the cows up the fold in an afternoon, and Greenhalgh lives through the raid', async () => {
+    const j = await start();
+    await j.play(...steps.muster, ...steps.cowsAway, '=day 2 23:00');
+    expect(held(j, 'evacuatedFarm', 'party')).toBe(true);
+    expect(held(j, 'greenhalghDead', 'party')).toBe(false);
+  }, 300000);
+
+  it('leaves the farm to the raiders when the company is elsewhere, and Greenhalgh does not live', async () => {
+    const j = await start();
+    await j.play(...steps.muster, ...steps.toTheFord, '=day 2 23:00');
+    expect(held(j, 'farmBurned', 'party')).toBe(true);
+    expect(held(j, 'greenhalghDead', 'party')).toBe(true);
+  }, 300000);
+
+  it('keeps the column off the east road page in the hour of the parley', async () => {
+    const j = await start(false);
+    await j.play('=day 3 08:00');
+    expect(j.latest).toMatch(/halted opposite the ford|drawn up opposite the bridge|led horses are going round|Archers are being sent/);
+    await j.play('=day 3 13:00');
+    expect(j.latest).not.toMatch(/halted opposite the ford|drawn up opposite the bridge|led horses are going round|Archers are being sent/);
   }, 300000);
 
   it('is half saved when the ford is walled, the helpless sent up the fold, and the grain given', async () => {
@@ -337,7 +385,7 @@ describe("Three Nights at Sallowfield", () => {
   it('turns the lieutenant on his captain', async () => {
     const j = await start();
     await j.play(...steps.muster, ...steps.toTheFord, '=day 1 22:00', ...steps.reeds);
-    await j.play(...steps.bucketFirst, ...steps.buyTheLieutenant.slice(1));
+    await j.play(...steps.bucketFirst, ...steps.cutTheBridge, ...steps.buyTheLieutenant.slice(1));
     await toDawn(j);
     expect(held(j, 'fothergillTurned', 'party')).toBe(true);
     expect(ending(j)).toBe("The Captain's Own");

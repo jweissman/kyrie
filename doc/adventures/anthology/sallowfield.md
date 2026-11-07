@@ -32,7 +32,7 @@ Four posts are fought over on the third night: the **ford stones**, the **bridge
 
 ## What the party's time is spent on
 
-Two days and three nights: the clock runs from watch 0 (08:00 on day 1) to watch 366 (21:00 on day 3), about sixty-one hours, of which perhaps forty-nine are the company's. The works below, with the walking between them, come to about sixty (a spec plays most of the list and arrives after he has come). Nothing is enough for all of it.
+Two days and three nights: the clock runs from watch 0 (08:00 on day 1) to watch 366 (21:00 on day 3), about sixty-one hours, of which perhaps forty-nine are the company's. The works below, with the walking between them, come to about eighty-one (a full run in the explorer finished at watch 489, and a spec plays most of the list and arrives after he has come). Nothing is enough for all of it.
 
 | Work | Cost in time | What it does |
 |---|---|---|
@@ -45,8 +45,8 @@ Two days and three nights: the clock runs from watch 0 (08:00 on day 1) to watch
 | Evacuate the old, sick and children to the fold | 6 h | The difference between *Ash* and *Half Saved*. |
 | Set the bucket line | 2 h | The difference between *Half Saved* and *Held*. |
 | Make caltrops with Peg Kersey | 9 h | +3 at the ford, +1 at the bridge. The iron is the coach's tyre-strap: or the coach goes on. |
-| Foul the grain | 1 h | The winter is gone, and Wyre's men are angrier: +3 thrust everywhere, unless he is made to know, by a boy who was sent back with the truth *and* by Sergeant Voll, escorted to the granary, who must be convinced it is not a stage (a deception check). |
-| Go house to house for the sixty | 8 h | The coin that the peace costs; sixty is sixty, and Wyre does not take less. |
+| Foul the grain | 1 h | The reeve must be told first. The winter is gone and the villagers' nerve with it, Tib Elland goes up the fold, and Wyre's men are angrier (+3 thrust everywhere). He withdraws only from a village that has built a wall *and* sent the helpless up the fold or set the bucket line, and only if Sergeant Voll, escorted to the granary, is convinced it is not a stage (a deception check; a failed one does not count as a look and adds +2 thrust), or the lieutenant has been bought. Without Fothergill bought, his score burn the mill anyway. |
+| Go house to house for the sixty | 16 h | The coin that the peace costs; sixty is sixty, and Wyre does not take less. |
 | Take the scout in the reeds | night 2 | Kit Lowes: nineteen, frightened, and carrying Wyre's plan. |
 | Count the column from the Scar | — | Numbers: forty, not sixty. |
 | Parley at the standing stone | noon, day 3 | Wyre, Voll, Fothergill. |
@@ -80,7 +80,7 @@ The player chooses *where the company stands*, *whom to post where*, *what to bu
 | | A: wall + cut, the boy taken and sent back with the truth | B: wall only, the bridge unwatched, no boy |
 |---|---|---|
 | What Wyre has | the barricade and the cut (`sawBarricade`, `sawCut`) | nothing (the base plan) |
-| Thrust at ford / bridge / mill / nave | 4 / 0 / 10 / 3 (6 / 2 / 12 had the boy walked out loose) | 6 / 12 / 3 / 3 |
+| Thrust at ford / bridge / mill / nave | 4 / 0 / 10 / 3 (6 / 2 / 12 / 3 had the boy walked out loose; measured at day 3 08:00) | 6 / 12 / 3 / 3 |
 | Where it comes | the mill | the ford and the bridge |
 | Company | at the mill with Hob and Quarmby posted | at the ford |
 | Outcome | *Held, at a Cost* (the picked men argued off) | the bridge falls, the green burns, nobody was told to leave: *Ash* |
@@ -104,7 +104,7 @@ Works take hours (the wall eighteen, the pits fourteen, the caltrops nine, the d
 
 ## Endings
 
-Fifteen authored; fourteen are specced by played journeys (the fifteenth, *The Road South, by Firelight*, is walking on after the night has begun).
+Sixteen authored (the sixteenth, *The Road Takes Its Toll*, is any fall of the whole company, whatever the cause); fifteen are specced by played journeys, with *The Road Takes Its Toll* the generic one reached in no spec but held in code.
 
 | Title | How | Specced |
 |---|---|---|
@@ -122,11 +122,12 @@ Fifteen authored; fourteen are specced by played journeys (the fifteenth, *The R
 | **Nobody Left** | Every villager who is not with the company is felled. | yes (ten villagers posted, steadied where they would not stand, the posts held to the last) |
 | **The Road South** | The party walks on before the night; the axle mended counts only after day 3 at 08:00, and not if the coach is the wall. | yes |
 | **The Coach Goes On** | The smith mends the axle, the coach is not the wall, and the party waits two days. | yes |
-| **The Road South, by Firelight** | The party walks on with the night begun. | no |
+| **The Road South, by Firelight** | The party walks on with the night begun. | yes |
+| **The Road Takes Its Toll** | The whole company is down, from any cause. | no |
 
 ## Tested
 
-`test/sallowfield.test.ts` (34 specs: four measure the thrust Wyre plans by what the boy saw, five play the company hour between the waves, and one each plays the early assault, the riders on the road, weariness, the bare village that fouling cannot save, Wyre's weight from the east road, and Nobody Left): lints clean; opens at the start; **nine endings played from the true start by labels, with no teleports** (checks are forced to pass where a scene would otherwise be a coin; the dice of the clash are not forced); a save and a reload at the standing stone, continued to *Held, at a Cost*. `test/adventure-names`, the adventure library, the province, the provinces and the countries specs pass with it.
+`test/sallowfield.test.ts` (41 specs: four measure the thrust Wyre plans by what the boy saw, five play the company hour between the waves, and one each plays the early assault, the riders on the road, weariness at the clash, the bare village that fouling cannot save, Wyre's weight from the east road and its absence in the hour of the parley, the farm (cows driven; cows left), walking on south on day 2, day 3 and at night, and Nobody Left): lints clean; opens at the start; **nine endings played from the true start by labels, with no teleports** (checks are forced to pass where a scene would otherwise be a coin; the dice of the clash are not forced); a save and a reload at the standing stone, continued to *Held, at a Cost*. `test/adventure-names`, the adventure library, the province, the provinces and the countries specs pass with it.
 
 The route to *Held, at a Cost* is about 90 labels.
 
@@ -173,3 +174,5 @@ Still open: the engine cannot stop a wait for a *report* (friction 8), so the lo
 Third review (round 2): the sixty is real and must be collected; a peace with the lieutenant unbought ends with the mill burned anyway, one with him bought holds; fouling the grain raises Wyre's thrust, and he withdraws only if the boy told him *and* Voll was walked through it; the wall takes eighteen hours, the pits fourteen, the drill ten each, the farm raid and the boy come in the same watch; the Scar lights are talked about by Crowther and Greenhalgh from the second morning; a failed seizure sends the boy off with what he saw; a failed kind word allows a hard one; Wyre's weight shows from the tower, the Scar and the east road; the dawn says whether he guessed right; the bribe costs its ten coin whether or not it takes; yielding after a failed argument costs the bell; the roof can fall; Mowbray's arms add a point of drill; five voices were rewritten.
 
 Fourth review: weariness (the engine's, eighteen hours awake) now bites: a point off every post, a point of drill, and the nerve of the villagers who would be posted; a night in camp mends it. Fouling the grain needs the reeve told, costs the villagers' nerve and sends Tib Elland up the fold, raises thrust, withdraws Wyre only from a village that has built something, and ends in the mill's burning unless the lieutenant is bought. Posting takes an hour and puts the person at the post. The Scar count, failed, is a false count that costs defence. The bell falls with the nave in the first wave, so its cost lands before the second. Giving the picked men the granary is its own ending. The cows take an afternoon. Hob Wadsworth's line is on Hob. The Observes of Wyre's weight include the nave and keep off the east road in the hour of the parley.
+
+Fifth review: the raiders at the farm are takers (`Peaceable`), not a wall across the south road; before this a company that walked south after the raid was killed with no ending. Walking on is now specced on day 2, day 3 and with the night begun, and any fall of the whole company is an ending. A failed look from Voll no longer counts as a look and the boy alone no longer withdraws Wyre. Withdrawal now needs the wall as well as the evacuation or the bucket line; the sixty costs sixteen hours and a failed collection cannot pay. The flood costs Greenhalgh's hay, not the granary. The Scar count is one try, and a false one is paid at the clash. Weariness is paid at the clash, so a sleep before it avoids the bill and nothing is restored for free. The Captain's Own needs the wall or the cut.

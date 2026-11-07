@@ -37,7 +37,7 @@ Module sallowfield "Three Nights at Sallowfield" {
     Joins "Mowbray puts on his hat, takes his staff, takes off his hat again to the altar, and puts it back on. 'Saint Eadred,' he says, 'look the other way.'".
     Leaves "Father Mowbray stops in the porch. 'I'll be at the altar,' he says. 'It is where I am any use.'".
     Remarks at green "Mowbray stops in the middle of the green and looks round at the geese, the well, the forge, the faces in the windows. 'God's teeth,' he says in a different voice. 'They are all here. I did not know that I would be afraid of that.'".
-    Greets "A big red priest wrestling the plate-chest's lid with his whole bulk. 'God's teeth,' he says, 'and the Devil's tongue, and the pimply arse of Saint Eadred himself, which I'll say for him he'd have forgiven,' and then he sees you and puts on his dignity like a surplice and does not quite get it straight.".
+    Greets "A big red priest wrestling the plate-chest's lid with his whole bulk. 'God's teeth,' he says, 'and the Devil's tongue, and the pimply arse of Saint Eadred himself, which I'll say for him he'd have forgiven,' and then he sees you and puts on his dignity like a surplice and does not get it straight.".
   }
   Person pinn "Davy Pinn" at ford_stones {
     Role "the miller's boy, fishing". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
@@ -48,7 +48,7 @@ Module sallowfield "Three Nights at Sallowfield" {
   }
   Person crowther "Old Crowther" at fold {
     Role "the shepherd". Ancestry human. Peaceable. Pronouns he. Manner stoic.
-    Greets "The shepherd turns round in his own time. 'Sheep,' he says. And after a while: 'There's riders on the Scar road most mornings now. Three. Never four. They look at the village a long time and then go.'".
+    Greets "The shepherd turns round when he is ready. 'Sheep,' he says. And after a while: 'There's riders on the Scar road most mornings now. Three. Never four. They look at the village a long time and then go.'".
   }
   Person greenhalgh "Ned Greenhalgh" at lower_farm {
     Role "the farmer at the lower farm". Ancestry human. Peaceable. Pronouns he. Manner grim.

@@ -1,6 +1,6 @@
 Module sallowfield "Three Nights at Sallowfield" {
   // ── The scout in the cellar, and the captain at the stone ──────────────────────────────────────────────────────
-  Relation lowesKind(group). Relation lowesBristled(group). Relation lowesHard(group). Relation lowesCarries(group). Relation parleyOpen(group). Relation parleyRefused(group).
+  Relation vollTried(group). Relation lowesKind(group). Relation lowesBristled(group). Relation lowesHard(group). Relation lowesCarries(group). Relation parleyOpen(group). Relation parleyRefused(group).
   Relation bluffed(group). Relation vollLooked(group). Relation fothergillBought(group).
   Entity fothergill_known: fact "Lieutenant Fothergill wants the village burned for what the Margrave owes him personally, and Wyre keeps him on a rein.".
 
@@ -90,11 +90,11 @@ Module sallowfield "Three Nights at Sallowfield" {
   }
   Action let_voll_look(actor: group, site: place) "Let Sergeant Voll walk through the granary, and smell it" {
     Speaker voll.
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, granary) and at(voll, granary) and grainSpoiled(party) and not vollLooked(party).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, granary) and at(voll, granary) and grainSpoiled(party) and not vollLooked(party) and not vollTried(party).
     Time 0.
     Resolve check(actor, deception, dc_fair).
     On success { Assert vollLooked(party). Assert wyreKnowsSpoiled(party). }
-    On failure { Assert vollLooked(party). Increase thrust(ford_stones) by 2. Increase thrust(bridge) by 2. Increase thrust(mill_yard) by 2. Increase thrust(nave) by 2. }
+    On failure { Assert vollTried(party). Increase thrust(ford_stones) by 2. Increase thrust(bridge) by 2. Increase thrust(mill_yard) by 2. Increase thrust(nave) by 2. }
     Result "Voll goes through the granary door with his bad knee and comes out in the time it takes to boil an egg. He says four words to the captain's man, and it goes up the line. 'Salt,' says Voll. 'And lamp. The lot.'".
     Otherwise "Voll goes through the door and comes out and looks at you. 'Staged,' he says. 'It stinks of a thing done for me to smell.' He goes back up the road, and he does not walk.".
   }
