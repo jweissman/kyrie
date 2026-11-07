@@ -117,8 +117,10 @@ Module muster "The Long Muster's Road" {
     Comes "The giant picks up a fire-iron the length of a spear.".
     Lair roadhouse.
     State astride blocking "The giant stands in the road-house between its two doors, with a fire-iron across his knees, and the road goes through him.".
+    State at_ease "The giant sits by his hearth with the fire-iron laid by, and nods you through.".
     Guards pass_on.
   }
+  Rule giant_at_ease when tolerates(giant, party) and state(giant, astride) { Assert state(giant, at_ease). }
   Relation giantPaid(group).
   Action pay_iron(actor: group, site: place) "Give the giant a crowbar for his toll" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, roadhouse) and at(giant, roadhouse) and able(giant)

@@ -87,7 +87,10 @@ describe('the endings of the crossing', () => {
       'Let the Prefect put his second question', 'Say that it looks heavy: that it looks like something people carry',
       'Let the Prefect put his last question', 'Say that you will not answer, because the answer is not yours to give',
       'Out to the forum', 'To the Archive', 'Tell the Archivist what the road is');
-    expect(j.holds('told_moll', 'party')).toBe(true);
+    expect(j.holds('told_ostrander', 'party')).toBe(true);
+    expect(j.holds('knows', 'party', 'ropeway_known')).toBe(false);
+    await j.play('=+80', 'Ask the Archivist whether the engineers\' note is copied out yet');
+    expect(j.holds('knows', 'party', 'ropeway_known')).toBe(true);
     await j.play('Out to the forum', ...steps.home.slice(1));
     expect(ended(j)).toBe(false);
     await j.play('=+700');

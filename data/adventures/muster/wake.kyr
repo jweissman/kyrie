@@ -24,11 +24,11 @@ Module muster "The Long Muster's Road" {
   Observe fate_struck_barracks at barracks when told_prefect(party) "The First Century stands in ranks facing the empty pole, shoulder to shoulder, and does not drill. The Centurion walks the line, and says something to each.".
   Observe fate_struck_granary at granary when told_prefect(party) "Elpis Varo has chalked a new line on the board by the door, over the sixth: SENT, and under it, small, NO MORE.".
   // told the Archivist: the standard kept; a slow telling; a rope-way; a delegation after some days.
-  Observe fate_kept_forum at forum when told_moll(party) and not state(standard, golden) "A black cloth hangs on the standard's pole, and nobody has said why. In the forum people go about in lowered voices, as the valley does when a physician is in the Prefect's house.".
-  Observe fate_kept_archive at archive when told_moll(party) "The Archivist and the Prefect sit together at the cedar table with the Annals open between them and a lamp, and have been there since the noon call. Neither looks up.".
+  Observe fate_kept_forum at forum when told_ostrander(party) and not state(standard, golden) "A black cloth hangs on the standard's pole, and nobody has said why. In the forum people go about in lowered voices, as the valley does when a physician is in the Prefect's house.".
+  Observe fate_kept_archive at archive when told_ostrander(party) "The Archivist and the Prefect sit together at the cedar table with the Annals open between them and a lamp, and have been there since the noon call. Neither looks up.".
   Person delegates "the Cohort's delegation" nowhere {
     Role "three soldiers of the First Century, with a wheel on their packs". Ancestry human. Calling ranger. Level 3. Numbers 3. Peaceable.
-    Arrives at green when told_moll(party) and watch(clock) >= toldAt(party) + 600.
+    Arrives at green when told_ostrander(party) and watch(clock) >= toldAt(party) + 600.
     Arrives "Three soldiers in red cloaks come down the north road to the trough at Kell Ford with the whole village standing in its doors. The leader takes off her helmet and says, in careful plain-speech: 'We are from the end of the road. We are told the lamps here are lit. May we see?'".
   }
   // told the Centurion: a century that knows what it is for; a column north.
@@ -52,7 +52,7 @@ Module muster "The Long Muster's Road" {
   Objective read_graffiti when been(party, septimus_hall) and not knows(party, rufus_5) "A soldier called Rufus has scratched his name on every wall of the road, and the walls remember him.".
   Objective tell_valley when been(party, gate) and not valleyTold(party) and not traded_only(party) "The Cohort holds its gate against an empire that is dust. Someone should be told. Or not.".
   Objective carry_dispatch when dispatchTaken(party) and not dispatchSent(party) "The Prefect has given the company a dispatch for the Emperor. The reeve at Kell Ford knows a bishop who keeps the old archives.".
-  Objective marcus_letter when holding(party, marcus_letter_kind) and not merulaKnowsSon(party) "A pouch on the Eagle's stack is addressed to a Centurion of the Cohort, in a young man's hand. It has waited nine springs.".
+  Objective aurel_letter when holding(party, aurel_letter_kind) and not merulaKnowsSon(party) "A pouch on the Eagle's stack is addressed to a Centurion of the Cohort, in a young man's hand. It has waited nine springs.".
 
   Milestone m_septimus "reached the Mansio Septimus" worth 100 when been(party, septimus_hall).
   Milestone m_octavius "reached the Mansio Octavius" worth 150 when been(party, octavius_hall).
@@ -61,7 +61,7 @@ Module muster "The Long Muster's Road" {
   Milestone m_pass "passed the giant in the Giant's Pass" worth 250 when been(party, pass_s).
   Milestone m_gate "came down to the gate of the Last Cohort and was let in" worth 300 when been(party, forum) and admitted(party).
   Milestone m_rufus "read Rufus on every wall of the road" worth 300 when knows(party, rufus_1) and knows(party, rufus_2) and knows(party, rufus_3) and knows(party, rufus_4).
-  Milestone m_marcus "met the man who left the Sending" worth 250 when marcusMet(party).
+  Milestone m_aurel "met the man who left the Sending" worth 250 when aurelMet(party).
   Milestone m_letter "brought a son's letter to his mother" worth 300 when merulaKnowsSon(party).
   Milestone m_pontus "brought the lost courier's tag home" worth 250 when gaiusPontus(party).
   Milestone m_gold "found the gold wing of the standard" worth 400 when holding(party, golden_idol) or goldReturned(party).

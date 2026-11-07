@@ -40,3 +40,6 @@
 30. **`needing climbing` is a gear check** (a worn climber's harness), not a skill of the party; a `Buy` option disappears from the page when the purse cannot meet it, which is how the harness became the gold hook.
 31. **An ending that fires on arrival eats any beat that waits at the arrival place**; the cure was to hold the ending while the companion is still travelling.
 32. **A weather rolled "at first light" must be read after first light**: reading at 04:00 saw yesterday's sky.
+33. **A rule that moves a person into `Retract`/`Assert at` must name the new place**; `Retract` alone leaves the person where the rule found them for the next query.
+34. **An ending that holds for a companion needs a rule that ends the hold**; otherwise any trust level the player cannot reach is a softlock (round 4's blocker).
+35. **A Python replace on a string read earlier and never written back silently drops the edit**; four ending texts and two rules were lost this way and found only by grep.

@@ -52,7 +52,7 @@ describe('The Last Cohort asks, is answered, and is told', () => {
     await toForum(j);
     await interview(j);
     await j.play('Into the Archive', 'Tell the Archivist what the road is');
-    expect(j.holds('told_moll', 'party')).toBe(true);
+    expect(j.holds('told_ostrander', 'party')).toBe(true);
     await j.play('Wait › A while');
     expect(j.at('muster__ede_cassel')).toBe('muster__sending_gate');
   }, T);
@@ -215,7 +215,7 @@ describe('The road\'s beasts, and a way round each', () => {
 
   it('lets the wyvern\'s nest be robbed while it hunts, and sends it back at a thief with its tooth', async () => {
     const j = await start();
-    // The harness (six coin) is the purse's whole worth: no tent, no rope, no pitons.
+    // The harness (six coin) fits the purse even after the whole kit (22 - 15 = 7), and leaves one coin; here it is bought first, with no tent, rope or pitons.
     await j.play('To Kell green', 'Into Pryor\'s store', 'Buy › A climber\'s harness', 'Out to Kell green', ...steps.hire, 'a climber\'s harness: Equip');
     await j.play('To the goatherds\' track', 'To the steep of the track', 'To the Mansio Septimus', '=day 2 05:00', 'To the foot of the High Road', 'To the open stretch of the High Road', 'To the wyvern\'s eyrie');
     await j.play('Wait › A while');
@@ -353,6 +353,138 @@ describe('The weather over the Fells', () => {
     };
     expect((await walk('wind_sky')).holds('stooped', 'party')).toBe(false);
     expect((await walk('clear_sky')).holds('stooped', 'party')).toBe(true);
+  }, T);
+});
+
+describe('Every way of keeping Dunya ends', () => {
+  // Dunya joined in the valley (the Prefect told, the Centurion asked for a scout), walked to the Descent with the company.
+  const withDunya = async () => {
+    const j = await start();
+    await toForum(j, 'none');
+    await interview(j);
+    await j.play('To the Praetorium', 'Tell the Prefect that the empire is gone', 'to the forum', 'To the barracks yard', 'Ask the Centurion for a scout',
+      'Ask Dunya to join the company', 'to the forum', 'To the gate of the Last Cohort', 'To the Long Descent', 'To the head of the descent');
+    return j;
+  };
+  const toFord = (j: any) => j.play(...homeNoRope.slice(4).map(x => /light a torch/.test(x) ? '?a torch: Light' : x));
+
+  it('lets her go home unasked when the Ford question was skipped (trust 0)', async () => {
+    const j = await withDunya();
+    await toFord(j);
+    expect(ended(j)).toBe(false);
+    await j.play('=+40');
+    expect(j.holds('dunyaHome', 'party')).toBe(true);
+    expect(ended(j)).toBe(true);
+    expect(j.page).not.toContain('one fewer');
+  }, T);
+
+  it('lets her go home unasked after "it is small" (trust 0)', async () => {
+    const j = await withDunya();
+    await toFord(j);
+    await j.play('Ask Dunya what she sees in Kell Ford', 'Say that it is small, and the Cohort is the greater place');
+    await j.play('=+40');
+    expect(j.holds('dunyaHome', 'party')).toBe(true);
+    expect(ended(j)).toBe(true);
+  }, T);
+
+  it('lets her stay in Kell unasked after "it is enough" (trust 2), and ends', async () => {
+    const j = await withDunya();
+    await toFord(j);
+    await j.play('Ask Dunya what she sees in Kell Ford', 'Say that it is enough: it is where people are');
+    await j.play('=+40');
+    expect(j.holds('dunyaStaysKell', 'party')).toBe(true);
+    expect(ended(j)).toBe(true);
+  }, T);
+
+  it('lets her go home unasked with the one word of trust the Descent gave (trust 1)', async () => {
+    const j = await withDunya();
+    await j.play('Ask Dunya who the men at the head of the Descent are', 'Tell her that duty is duty, and that his mother is owed the truth');
+    await toFord(j);
+    await j.play('=+40');
+    expect(j.holds('dunyaHome', 'party')).toBe(true);
+    expect(ended(j)).toBe(true);
+  }, T);
+});
+
+describe('What telling and knowing cost', () => {
+  it('has the Centurion march the First Century out, taking the scout and the wall with her', async () => {
+    const j = await start();
+    await toForum(j);
+    await j.play('To the barracks yard', 'Tell the Centurion that the empire is gone', '=+40', 'Wait › A while');
+    expect(j.at('muster__merula')).toBe('muster__sending_gate');
+    expect(j.find('Ask the Centurion for a scout')).toBeUndefined();
+  }, T);
+
+  it('has the Archivist shut the Annals and keep the rope-way twelve hours', async () => {
+    const j = await start();
+    await toForum(j);
+    await interview(j);
+    await j.play('Into the Archive', 'Tell the Archivist what the road is');
+    expect(j.find('Ask the Archivist to open the Annals')).toBeUndefined();
+    expect(j.find('engineers\' note')).toBeUndefined();
+  }, T);
+
+  it('has the Eagles bar the shrine to one who told the Hearth', async () => {
+    const j = await start();
+    await toForum(j);
+    await interview(j);
+    await j.play('Into the Archive', 'Ask Ede what she wants of you', 'Say that you will, if she will stand beside you when you do', 'to the forum', 'To the barracks yard', 'To the granary', 'Tell the granary-reeve that the empire is gone');
+    await j.play('to the barracks yard', 'to the forum');
+    expect(j.find('To the shrine of the Eagle')).toBeUndefined();
+  }, T);
+
+  it('bars the granary to the one who returns the gold wing, and ends with the Hearth not speaking', async () => {
+    const j = await start();
+    await toForum(j);
+    await j.play('To the barracks yard', 'To the Tally-yard');
+    j.roll('pass');
+    await j.play('Stand beside him and count aloud with him, for an hour', 'to the barracks yard', 'to the forum', 'To the vineyard terraces', 'To the old farm under the terraces',
+      'the gold wing of the old standard: Take', 'to the vineyard terraces', 'to the forum', 'To the shrine of the Eagle', 'Lay the gold eagle\'s wing before the Aquilifer', 'to the forum', 'To the barracks yard');
+    expect(j.find('To the granary')).toBeUndefined();
+    await j.play('to the forum');
+    await homeFromForum(j);
+    expect(j.page).toContain('barred the granary door from the inside');
+  }, T);
+
+  it('gives the gold a second road, through the Annals, to one who swore', async () => {
+    const j = await start();
+    await toForum(j);
+    await interview(j);
+    await j.play('Into the Archive', 'Ask the Archivist to open the Annals', 'Let the Archivist ask what it is you want of the Annals',
+      'Swear on the lamp of the shrine that you will not use it to harm the valley', 'Ask the Archivist about the Schism of the Standard',
+      'Ask the Archivist where the Hearth hid the Eagle\'s wings');
+    expect(j.holds('knows', 'party', 'gold_known')).toBe(true);
+  }, T);
+
+  it('lets Orsa\'s confession reach the Prefect, and take Orsa to the Praetorium', async () => {
+    const j = await start();
+    await toForum(j);
+    await interview(j);
+    await j.play('Into the apothecary', 'Let Dame Orsa ask what herbs you carried over the Fells', 'Say that you asked a fair price, and would take a fair one',
+      'Ask Dame Orsa what the Prefect takes for his sleep', 'to the forum', 'To the Praetorium', 'Tell the Prefect what Dame Orsa puts in his evening cup', 'Wait › A while');
+    expect(j.holds('doseTold', 'party')).toBe(true);
+    expect(j.at('muster__orsa')).toBe('muster__praetorium_hall');
+  }, T);
+
+  it('ends in What the Standard Cost, and Who Was Spared It, when Jory was taken home and the Prefect told', async () => {
+    const j = await start();
+    await toForum(j);
+    await j.play('Into the apothecary', 'Show Marra the boy who sorts Dame Orsa\'s herbs', 'Say that they should both go home, and tell Kell Ford what is here', 'to the forum');
+    await interview(j);
+    await j.play('To the Praetorium', 'Tell the Prefect that the empire is gone', 'to the forum');
+    await homeFromForum(j);
+    expect(j.page).toContain('Jory sits on the trough with his sister');
+  }, T);
+});
+
+describe('The purse', () => {
+  it('opens at 22 coin, leaves 7 after the whole kit, and 1 after kit and harness; the Tally fine (30) is out of reach until the valley pays', async () => {
+    const j = await start();
+    expect(j.measure('quantity', 'party', 'gold')).toBe(22);
+    await j.play(...steps.prepare_light);
+    expect(j.measure('quantity', 'party', 'gold')).toBe(7);
+    await j.play('Into Pryor\'s store', 'Buy › A climber\'s harness');
+    expect(j.measure('quantity', 'party', 'gold')).toBe(1);
   }, T);
 });
 

@@ -146,13 +146,13 @@ Module muster "The Long Muster's Road" {
   Passage forum_praetorium "the Praetorium steps" is steps between forum and praetorium_hall taking 1 hour.
   Passage prefect_door "the Prefect's door" is door between praetorium_hall and prefect_room taking 30 minutes.
   Passage forum_barracks "the barracks yard" is road between forum and barracks taking 1 hour.
-  Passage barracks_granary "the granary lane" is road between barracks and granary taking 1 hour.
+  Passage barracks_granary "the granary lane" is road between barracks and granary taking 1 hour opening when not goldReturned(party) "The granary door is barred from the inside. The Hearth does not open it to the one who carried their wing across the forum.".
   Passage forum_apothecary "the apothecary's door" is door between forum and apothecary taking 1 hour.
   Passage forum_archive "the archive door" is door between forum and archive taking 1 hour.
-  Passage forum_shrine "the shrine steps" is steps between forum and shrine taking 1 hour.
+  Passage forum_shrine "the shrine steps" is steps between forum and shrine taking 1 hour opening when not told_elpis(party) "The Eagles have barred the shrine to anyone who carried the Hearth's news to the granary. Two men stand on the steps with their arms folded.".
   Passage forum_terraces "the terraces" is path between forum and terraces taking 2 hours.
   Passage forum_schola "the schola door" is door between forum and schola taking 1 hour.
-  Passage forum_market "the salt-market" is road between forum and salt_market taking 30 minutes opening when not told_prefect(party) "The salt-market is shuttered. A strip of black cloth is nailed across the door, and Rhea\'s steelyard is gone from the trestle.".
+  Passage forum_market "the salt-market" is road between forum and salt_market taking 30 minutes opening when not told_prefect(party) or prefectReadSeal(party) "The salt-market is shuttered. A strip of black cloth is nailed across the door, and Rhea\'s steelyard is gone from the trestle.".
   Passage forum_pistrina "the pistrina door" is door between forum and pistrina taking 30 minutes.
   Passage forum_wall "the wall stair" is steps between forum and wall_walk taking 1 hour.
   Passage wall_sending "the Sending gate" is steps between wall_walk and sending_gate taking 1 hour.

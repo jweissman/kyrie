@@ -1,6 +1,6 @@
 # The Long Muster's Road
 
-*Adventure II of the anthology ([treatments](README.md)). Built 7 November 2026 in `data/adventures/muster/`; spec `test/muster.test.ts`. Spoilers throughout.*
+*Adventure II of the anthology ([treatments](README.md)). Built 7 November 2026 in `data/adventures/muster/`; specs `test/muster.test.ts` (the continuous crossing, three tests), `test/muster-played.test.ts`, `test/muster-endings.test.ts`, `test/muster-round3.test.ts`. Spoilers throughout.*
 
 ## What it is
 
@@ -36,7 +36,7 @@ In the valley the company may tell the Prefect (the eagle is struck; the Centuri
 
 ## Content that works in play
 
-(Specs: `test/muster.test.ts`, six tests, all passing at the commit below; the browser was **not** used.)
+(Specs: see the header; all passing at the commit below; the browser was **not** used.)
 
 1. The whole route is walkable by the labels a player sees: hire, stock, track, Septimus, Ledge, Octavius, parapet, Eagle, Pass, giant, Descent, gate, forum, Praetorium, barracks, home by rope-way, Gallery and Causeway, the reeve (`journey.json`).
 2. A thaw (sky state) shuts the Low Road bend (`road.kyr` `gorge_water`) and the river ford; the company turns back; clearing the sky reopens them.
@@ -52,12 +52,7 @@ In the valley the company may tell the Prefect (the eagle is struck; the Centuri
 
 ## Authored content present but not reachable
 
-1. **The wyvern's eyrie** (`eyrie`, the wyvern Person with Warns/Comes): reachable only by `needing climbing` from the open stretch; no spec enters it, and nothing is there to take (the wyvern's remains of travellers are only described).
-2. **The wolves** (`wolves`, `Seen when dark()`): the specs cross the causeway by day; the night encounter was not played.
-3. **The Archivist branch** (`moll_tell`, Itinerarium copy, `standard` kept) and the **General's sealed bundle** (`generals_letters`): written, lint-clean, not walked by a spec. The `general_read` Discovery is never taught (the Observe at the archive describes it but does not `teach` it).
-4. **The apothecary's sale**, `Sells`, the shrine, Gaius, the granary and terraces are rooms and talk only; no Topic of Gaius or Orsa beyond greetings.
-5. **The Low Road past the bend, the causeway's `causeway_fire`** scenery (decorative), and the **goat path** over the giant's roof: described and wired, not walked by a spec.
-6. Cohort scout Dunya joins (`willing`) and carries the crook; nothing in the valley changes her fare or lets the player send her home.
+(As of the sixth pass; the earlier list was stale.) Played by labels in `muster-played.test.ts`: the wolves' flame, the pelt and the torch ways round; the wyvern's nest, the tooth and the stoop; the goat's steep and shale; the kites; Orde's studs; Quintus; Viator (nail and telling); the unnumbered mile; the spring (success and the final snub); the Archivist's branch; the Tally, the gold wing and the second road to it; Orsa's confession; Dunya at every trust level; Marra, Fenn and Ione's beats. Authored and **not** played: the wolves at night; the picket-tower shelter; the ration-throw; the Prefect's seal confession (`prefectReadSeal`), Gaius's barley (`gaiusSecret`) and the deserters let by it; Rufus's gate scratches beyond the first four; the Low Road past the bend; the goat path over the giant's roof; the river crossing in low water; the cohort sale of loot at Rhea's strongbox; the fall of Sister Ione; Fenn's refusal branches; the Rider and the Column with a boy or a lost companion.
 
 ## Actions or consequences the engine cannot yet represent
 
@@ -88,7 +83,7 @@ Played by the builder through `Journey`, not by an independent player. The wolve
 
 # The rewrite (second pass)
 
-*7 November 2026. Files added to `data/adventures/muster/`: `graffiti.kyr`, `beasts.kyr`, `valley.kyr`, `history.kyr`, `quests.kyr`, `companions.kyr`, `interview.kyr`, `endings.kyr`; `cohort.kyr` and `wake.kyr` rewritten. Specs: `test/muster.test.ts` (the continuous crossing, green) and `test/muster-rewrite.test.ts` (ten branch specs).*
+*7 November 2026. Files added to `data/adventures/muster/`: `graffiti.kyr`, `beasts.kyr`, `valley.kyr`, `history.kyr`, `quests.kyr`, `companions.kyr`, `interview.kyr`, `endings.kyr`; `cohort.kyr` and `wake.kyr` rewritten. Specs: `test/muster.test.ts` (the continuous crossing) and, later, `test/muster-played.test.ts` (which replaced the staged `muster-rewrite.test.ts`).*
 
 ## What changed in the rewrite
 
@@ -152,12 +147,12 @@ Lanterns; plant `uses`; four unpainted species; ridge-goat and goat are near-dup
 - **The south-side softlock** is gone. On the seventh day only the north entries of the fifth arch close (the parapet from the north, the pier, the fallen arch from the north); the rope-way is open to anyone who knows of it, and a company stranded south without it meets **Snowed In at the Last Cohort**. The valley says the passes are closing from the fifth day.
 - **One table.** The Muster marched from the capital (north-west) past the Ford into the valley, south-east; Rufus's days rise toward the Cohort; the Sending goes back north-west to the Eagle, where the road the empire left breaks off. The Ford to the gate is three days and about thirty miles (road times doubled so the play matches); the Eagle is a day from the gate and two days from the Ford; the stones count in cables from CCCLX to I.
 - **The standard**: the Schism of 871 everywhere (233 years; the Hearth hid the wings; Hobbe's father's father's father). The plague winter (640) has nothing to do with it.
-- **Endings that can be reached**: Turned Back, Snowed In, A Boy Follows You South, With One Fewer (now including a companion sent home), The Cohort Reached and Left, Someone Comes Down the Road (after telling the Archivist; the delegation arrives four days later, three soldiers and a scout), The First Century Comes South (after telling the Centurion). All seven are played by labels in `test/muster-endings.test.ts` except the column.
+- **Endings that can be reached**: Turned Back, Snowed In, A Boy Follows You South, With One Fewer (now including a companion sent home), The Cohort Reached and Left, Someone Comes Down the Road (after telling the Archivist; the delegation arrives four days later, three soldiers and a scout), The First Century Comes South (after telling the Centurion). Every ending is played by labels (`muster-endings.test.ts`, `muster-played.test.ts`) except the Rider with a boy or a lost companion (`Someone Comes Down the Road, and a Boy / and Counts`), *The Prefect Takes It Down by Degrees* and *Reached and Left* by any route but the granary.
 - **Free retries**: the giant's story, the claim of relief and the plea without a glossary can each be tried once and cost something (a ration, until the evening call); a failed rigging spends a piton.
 - **The deserters**: Aurel left a letter on the Eagle's stack and crossed the arch and came back to the Pass; three of seven are met at the head of the Descent; Gaius has left barley nine years; Hobbe's tally is one set of numbers.
 - Aphorism endings varied; renames (Ede Cassel, Silas Brand, Ferrar, Octa Draycott).
 
-**Still open (superseded by the fifth pass: the staged spec is gone)**: `muster-rewrite.test.ts` still stages positions with `put` (63); the stale ids `hobday`/`dray`; ioneJoined, claimedRelief, piaPushed and others are flavour flags; the column ending is not played.
+**Still open (superseded: the staged spec was deleted in the fifth pass; see the sixth).**
 
 ## Fourth pass (the third hostile review)
 
@@ -171,20 +166,30 @@ What changed, and what did not.
 - **Answers differ.** The giant's truth teaches the marmots' rule (his lie feeds you two rations); Orsa's fair answer pays twelve coin and is required for her confession about the Prefect's sleep; Rhea pays ten for an honest source and keeps five for silence; the reeve's "no one" leaves a bare nail, not a slip; the Archivist's forgery is told only to one who swore. The Q3 lamp answer needs Greta's explanation of the lamp first.
 - **Continuity.** One hundred and forty days unpaid throughout; thirty miles in the pitch; two days to the Eagle; the abutment's stone is LXIII; descent stones one to the mile; nobody but Corvin has opened the seal; the column is six; the delegation no longer duplicates Dunya.
 - **Ione.** "Argue" now costs her trust; "agree" earns it and risks her; the fall remains a dice roll on the clock.
-- **Ids.** `pia`, `dray`, `hobday`, `corrin`, `moll`, `sarn_scout` are now `ede_cassel`, `fenn_hallam`, `cattermole`, `hartnoll`, `ostrander`, `merula_scout`.
+- **Ids.** `pia`, `dray`, `hobday`, `corrin`, `ostrander`, `sarn_scout` are now `ede_cassel`, `fenn_hallam`, `cattermole`, `hartnoll`, `ostrander`, `merula_scout`.
 
-**Not done, honestly (the staging is superseded by the fifth pass).** `muster-rewrite.test.ts` still stages position and facts in about fifty places (three duplicated staged specs were deleted because the endings spec plays them); the write-only flags `dunyaSilent`, `fennPushed`, `giantAnswered`, `marraAngry`, `widowAnswered`, `springMarra`, `piaPushed`, `ioneJoined`, `marcusLetterShown` still only colour text; the wyvern is still dodged by timing; gold is still weak pressure (the purse is 24, the Tally fine 30); the telling harms someone only in the ending text, not in the world's state; the valley still hands its secrets to the stranger faster than the review wanted (the Archivist's forgery, Orsa's confession and the seal now need an earned step; Brand and Hobbe do not); cadences for Ostrander, Elpis, Rhea, Merula and Gaius are still close; the tics were cut where the review named them, not exhaustively; M-name piles remain.
+**Not done, honestly (the staging is superseded by the fifth pass).** the staged spec was deleted in the fifth pass.
 
 ## Fifth pass (the fourth hostile review's leftovers)
 
 - **No staged specs remain.** `muster-rewrite.test.ts` is gone; `muster-played.test.ts` (shared walks in `muster-walks.ts`) plays every road beast, side quest, companion beat, telling and ending from the Ford by its labels. Only the clock (`=…`) and the dice (`roll`) are forced; weather is waited for through dawns (`untilSky`). `grep` for `put(`, `assert(`, `give(`, `coin(` in `test/muster*` finds nothing. Played endings: Turned, Snowed, Boy, Said Nothing, Standard Cost, The Wing Goes Home, Reached and Left (granary), One Fewer (Marra / Ione / Fenn), Someone Comes Down the Road, The First Century Comes South. Not played: *The Cohort Reached and Left* by the Archivist-only route, Dunya's other three outcomes (defects, stays in Kell, silent), the Rider with Dunya travelling.
 - **A bug found by playing:** an ending that fires on arrival at the Ford made every Ford beat unreachable. `backAtFord()` now waits while Dunya travels with the company, so she can be asked about Kell Ford and choose.
 - **Only one companion fits.** The party is four; Marra, Fenn and Dunya each take the single slot, and without Marra the track and the Ledge are shut (wayfinding), so the specs give Fenn and Ione the causeway and the High Road. This is a design fact the specs now record, not a fix.
-- **Flavour flags.** `marraAngry` shuts the spring (her mother will not be asked a favour); `springMarra` is required for the persuasion; `widowAnswered` is required to lay the pelt; `fennPushed` forbids the survey credit; `dunyaSilent` forbids the Centurion's pardon; `piaPushed` forbids the Hearth's hearing; `giantAnswered`, `ioneJoined`, `marcusLetterShown` and `brassShown` were cut.
+- **Flavour flags.** `marraAngry` shuts the spring (her mother will not be asked a favour); `springMarra` is required for the persuasion; `widowAnswered` is required to lay the pelt; `fennPushed` forbids the survey credit; `dunyaSilent` forbids the Centurion's pardon; `edePushed` forbids the Hearth's hearing; `giantAnswered`, `ioneJoined`, `aurelLetterShown` and `brassShown` were cut.
 - **Withholding.** Hobbe's secret is counted for (a hard persuasion check, six hours, one try); paying his fine frees him, sends him home and makes the Hearth owe four days' bread, and the gold stays unlearned. Brand's brass is pressed for (a hard insight check, one try). Some visitors will never learn where the gold is.
 - **Telling costs the world something.** Telling the Prefect shutters the salt-market (a passage closes) and, at the Ford, ends in *What the Standard Cost*; telling the Archivist sends Ede Cassel out by the Sending gate. The valley is worse, and a person leaves, for the visitor's knowing.
-- **Gold and the wyvern.** The purse is 14 coin; the tent and the rope-and-pitons leave almost nothing, the climber's harness (six coin, the way to the eyrie) needs the purse spent on nothing else, and the Tally fine is thirty. Taking the shed tooth while the wyvern is out calls it back at once.
+- **Gold and the wyvern.** The party opens with 22 coin (the company's 14 and the backgrounds' 8); the whole kit costs 15, leaving 7; the climber's harness (6 coin, the way to the eyrie) fits after the kit and leaves 1; the Tally fine is thirty, out of reach until the valley's answers (twelve from Orsa, ten from Rhea, a season of the Toll sold) pay it. Taking the shed tooth while the wyvern is out calls it back at once.
 - **Names.** Maud Hennick is Greta Hennick; Marcus Merula is Aurel Merula; the Archivist is Tiberin Ostrander; Joss Hartnoll is Anselm Hartnoll. Marra and Merula still share an initial.
 - **Cadences.** Gaius wanders; Merula reports; Elpis forms; Rhea weighs; Ostrander subordinates. Others were touched only where I read them.
 
 **Still open, honestly.** The Eagles/Hearth/Archive triad is leaned on (the Archive is not neutral: the Archivist forged a line, and his clerk is sent north) but not broken by a fourth party; the Prefect's grief is a closed door and an ending, not a lasting change in the valley's trade; the wolf bite is survivable by most parties; the tic cuts are not exhaustive.
+
+
+## Sixth pass (the fifth hostile review)
+
+- **Dunya cannot lock the ending.** If she is still with the company at the Ford she decides in six hours by her trust: under two she goes home, two or more she stays at the Last Fire. Four specs play trust 0 (skipped, and "small"), 1 and 2. She is not "one fewer": `lostOne()` counts only Marra (stayed, home, or angry and left), Ione and Fenn.
+- **Each telling has its own price.** The Prefect: the standard struck, the market shuttered, and at the Ford *What the Standard Cost* (a second text if Jory was taken home); with the seal read first, *The Prefect Takes It Down by Degrees* and an open market. The Archivist: the Annals shut to you, Ede sent north, and the rope-way (so the way past the snow) offered only twelve hours later. The Centurion: she marches the First Century out after six hours, taking the scout and the pardon. The Hearth: the Eagles bar the shrine, so the gold wing is out of reach. Returning the wing bars the granary against you.
+- **Secrets lead somewhere.** Orsa's confession can be carried to the Prefect (regard, and Orsa is taken to the Praetorium); Gaius's barley lets the deserters let you by; the seal softens the Prefect's telling; the Annals, to one who swore, name the old farm under the terraces (a second road to the gold). Not given an effect: `brass_known`, `school_changes`, `forgery_known` still feed only the lore milestone.
+- **Retries and flags.** The Viator telling and the dig are latched on failure; Orde, Quintus and the second lip need a ration to try. `foundPouch`, `rheaFair`, `reeveNone` and `yeastDead` are gone; `reeveNamed` pays four coin.
+- **State text.** The sentries, deserters and giant take a "stood down" state once the toll is met. The giant is still listed as present at the Descent's head in one page the specs do not reach; I did not find the source.
+- **Ids and text.** `moll_*`, `told_moll`, `marcus*`, `pia*` are now `ostrander_*`, `told_ostrander`, `aurel*`, `ede*`. About a dozen "a long time" and "like a man who" lines and three theme-stating closers were cut.
