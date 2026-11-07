@@ -1,0 +1,94 @@
+{
+ "prepare_light": [
+  "To Kell green",
+  "Into Pryor's store",
+  "Buy › A coil of rope",
+  "Buy › A piton",
+  "Buy › A piton",
+  "Buy › A crowbar",
+  "Buy › Firewood",
+  "Buy › A torch",
+  "Buy › A torch",
+  "Buy › A tent",
+  "Out to Kell green"
+ ],
+ "gorge": [
+  "To the Low Road gorge"
+ ],
+ "back": [
+  "To Kell green"
+ ],
+ "hire": [
+  "Ask Marra about the roads",
+  "Ask Marra Ashgrove to join the company"
+ ],
+ "stock": [],
+ "first_days": [
+  "To the goatherds' track",
+  "To the steep of the track",
+  "To the Mansio Septimus",
+  "To the Ledge",
+  "To the end of the Ledge",
+  "To the Mansio Octavius",
+  "Unbuckle the scribe's satchel",
+  "a scribe's glossary of the old script: Take from the scribe's satchel"
+ ],
+ "viaduct": [
+  "To the north head of the Viaduct",
+  "To the parapet of the fifth arch",
+  "To the south abutment",
+  "To the Mansio of the Eagle",
+  "a courier's pouch: Take",
+  "a season of the Toll: Take"
+ ],
+ "to_pass": [
+  "To the foot of the Giant's Pass"
+ ],
+ "giant": [
+  "=8:00",
+  "To the road-house",
+  "Give the giant a crowbar for his toll"
+ ],
+ "gate": [
+  "To the head of the descent",
+  "To the Long Descent",
+  "To the gate of the Last Cohort",
+  "Hold up a courier's pouch with the Cohort's seal"
+ ],
+ "valley": [
+  "To the forum",
+  "To the Praetorium",
+  "Tell the Prefect that the empire is gone",
+  "Ask the Prefect for his dispatch",
+  "Out to the forum",
+  "To the barracks yard",
+  "Ask the Centurion for a scout",
+  "Ask Dunya to join the company"
+ ],
+ "home": [
+  "To the forum",
+  "To the gate of the Last Cohort",
+  "To the Long Descent",
+  "To the head of the descent",
+  "To the road-house",
+  "To the foot of the Giant's Pass",
+  "To the Mansio of the Eagle",
+  "To the south abutment",
+  "To the north head of the Viaduct",
+  "To the Mansio Octavius",
+  "To the Third Arch",
+  "Bran: light a torch",
+  "To the dark of the Gallery — look at the Third Arch › Prod it with the pole",
+  "To the dark of the Gallery",
+  "To the mouth of the Gallery",
+  "To the Mansio Septimus",
+  "To the end of the causeway",
+  "To the long middle of the causeway",
+  "To the head of the Old Causeway",
+  "To Kell green"
+ ],
+ "reeve": [
+  "Talk to Reeve Cattermole",
+  "Give the reeve the Prefect's dispatch"
+ ]
+}

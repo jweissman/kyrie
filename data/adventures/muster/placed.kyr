@@ -1,0 +1,3 @@
+Module muster "The Long Muster's Road" {
+  Entity party: group "Your company".
+}

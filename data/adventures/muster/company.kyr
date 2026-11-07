@@ -1,0 +1,4 @@
+Module muster "The Long Muster's Road" {
+  Company party "Your company" of 3 at road.
+  Initially Set quantity(party, gold) to 24. Initially Set quantity(party, rations) to 3.
+}

@@ -1,0 +1,145 @@
+Module muster "The Long Muster's Road" {
+  Description "Sixty miles of broken Aenean road over the Hesper Fells, from Kell Ford to the valley of the Last Cohort.".
+
+  Place fells "the Hesper Fells" is region within imbar.
+  Place kell "Kell Ford" is settlement within fells at 0, 4.
+  Place lowroads "the three roads of the first day" is wilderness within fells at 0, 3.
+  Place heights "the heights of the second day" is wilderness within fells at 1, 2.
+  Place viaduct "the Great Viaduct" is wilderness within fells at 2, 2.
+  Place passland "the Giant's Pass" is wilderness within fells at 3, 1.
+  Place cohort "the valley of the Last Cohort" is settlement within fells at 4, 0.
+  Place septimus "the Mansio Septimus" is building within lowroads.
+  Place octavius "the Mansio Octavius" is building within heights.
+  Place lastfire "the Last Fire" is building within kell.
+  Place kellstore "Pryor's store" is building within kell.
+  Place praetorium "the Praetorium" is building within cohort.
+  Place archive_h "the Archive" is building within cohort.
+  Place apothecary_h "the apothecary" is building within cohort.
+  Place prefect_h "the Prefect's house" is building within cohort.
+
+  // Kell Ford.
+  Place road "the Kell road" is room within kell at 0, 0 outdoors.
+  Place green "Kell green" is room within kell at 1, 0 outdoors.
+  Place taproom "the Last Fire" is room within lastfire at 2, 0.
+  Place counter "Pryor's counter" is room within kellstore at 1, 1.
+  // Day one.
+  Place gorge1 "the Low Road gorge" is room within lowroads at 0, 0 outdoors.
+  Place gorge2 "the flooded bend" is room within lowroads at 0, 1 outdoors.
+  Place causeway1 "the head of the Old Causeway" is room within lowroads at 1, 0 outdoors.
+  Place causeway2 "the long middle of the causeway" is room within lowroads at 1, 1 outdoors.
+  Place causeway3 "the end of the causeway" is room within lowroads at 1, 2 outdoors.
+  Place track1 "the goatherds' track" is room within lowroads at 2, 0 outdoors.
+  Place track2 "the steep of the track" is room within lowroads at 2, 1 outdoors.
+  Place septimus_hall "the Mansio Septimus" is room within septimus at 3, 3.
+  // Day two.
+  Place high1 "the foot of the High Road" is room within heights at 0, 0 outdoors.
+  Place high2 "the open stretch of the High Road" is room within heights at 0, 1 outdoors.
+  Place eyrie "the wyvern's eyrie" is room within heights at 1, 1 outdoors.
+  Place gallery1 "the mouth of the Gallery" is room within heights at 2, 0 outdoors.
+  Place gallery2 "the dark of the Gallery" is room within heights at 2, 1 underground.
+  Place gallery3 "the Third Arch" is room within heights at 2, 2 underground.
+  Place ledge1 "the Ledge" is room within heights at 3, 0 outdoors.
+  Place ledge2 "the end of the Ledge" is room within heights at 3, 1 outdoors.
+  Place octavius_hall "the Mansio Octavius" is room within octavius at 1, 3.
+  // Day three.
+  Place via_n "the north head of the Viaduct" is room within viaduct at 0, 0 outdoors.
+  Place parapet "the parapet of the fifth arch" is room within viaduct at 1, 0 outdoors.
+  Place river_n "the river beneath the Viaduct, north bank" is room within viaduct at 0, 1 outdoors.
+  Place river_s "the river beneath the Viaduct, south bank" is room within viaduct at 0, 2 outdoors.
+  Place rubble "the fallen arch" is room within viaduct at 1, 1 outdoors.
+  Place via_s "the south abutment" is room within viaduct at 1, 3 outdoors.
+  Place eagle "the Mansio of the Eagle" is room within viaduct at 2, 3 outdoors.
+  Place bog "the cloudberry bog" is room within viaduct at 3, 2 outdoors.
+  Place hollow "the sheltered hollow" is room within viaduct at 3, 3 outdoors.
+  // Day four.
+  Place pass_n "the foot of the Giant's Pass" is room within passland at 0, 0 outdoors.
+  Place roadhouse "the road-house" is room within passland at 1, 0 outdoors.
+  Place goat_path "the goat path above the road-house" is room within passland at 1, 1 outdoors.
+  Place pass_s "the head of the descent" is room within passland at 2, 0 outdoors.
+  // Day five: the Cohort.
+  Place descent "the Long Descent" is room within passland at 3, 0 outdoors.
+  Place gate "the gate of the Last Cohort" is room within cohort at 0, 0 outdoors.
+  Place forum "the forum" is room within cohort at 1, 0 outdoors.
+  Place praetorium_hall "the Praetorium" is room within praetorium at 2, 0.
+  Place barracks "the barracks yard" is room within cohort at 1, 1 outdoors.
+  Place granary "the granary" is room within cohort at 0, 2.
+  Place apothecary "the apothecary" is room within apothecary_h at 2, 2.
+  Place archive "the Archive" is room within archive_h at 3, 1.
+  Place prefect_room "the Prefect's room" is room within prefect_h at 3, 0.
+  Place shrine "the shrine of the Eagle" is room within cohort at 2, 1.
+  Place terraces "the vineyard terraces" is room within cohort at 0, 1 outdoors.
+
+  Relation exposed(place).
+  Place nowhere "the place gifts come from" is room within lowroads at 9, 9.
+  Initially Assert exposed(gorge1). Initially Assert exposed(gorge2). Initially Assert exposed(causeway1).
+  Initially Assert exposed(causeway2). Initially Assert exposed(causeway3). Initially Assert exposed(track1).
+  Initially Assert exposed(track2). Initially Assert exposed(high1). Initially Assert exposed(high2).
+  Initially Assert exposed(eyrie). Initially Assert exposed(gallery1). Initially Assert exposed(ledge1).
+  Initially Assert exposed(ledge2). Initially Assert exposed(via_n). Initially Assert exposed(parapet).
+  Initially Assert exposed(river_n). Initially Assert exposed(river_s). Initially Assert exposed(rubble).
+  Initially Assert exposed(via_s). Initially Assert exposed(eagle). Initially Assert exposed(bog).
+  Initially Assert exposed(hollow). Initially Assert exposed(pass_n). Initially Assert exposed(roadhouse).
+  Initially Assert exposed(goat_path). Initially Assert exposed(pass_s). Initially Assert exposed(descent).
+  Initially Assert unlit(gallery2). Initially Assert unlit(gallery3).
+  Initially Assert unlit(archive).
+
+  // ------------------------------------------------------------------------------------------------------------
+  Passage kell_road "the Kell road" is road between road and green taking 20 minutes.
+  Passage fire_door "the door of the Last Fire" is door between green and taproom.
+  Passage store_door "Pryor's door" is door between green and counter.
+  // The first day.
+  Passage low_road "the Low Road" is path between green and gorge1 taking 1 hour.
+  Passage low_bend "the Low Road, deeper" is path between gorge1 and gorge2 taking 2 hours.
+  Passage low_out "the end of the gorge" is passage between gorge2 and septimus_hall taking 1 hour.
+  Passage causeway_in "the Old Causeway" is road between green and causeway1 taking 1 hour.
+  Passage causeway_a "the Causeway, onward" is road between causeway1 and causeway2 taking 3 hours.
+  Passage causeway_b "the Causeway, further on" is road between causeway2 and causeway3 taking 3 hours.
+  Passage causeway_out "the Causeway's last mile" is passage between causeway3 and septimus_hall taking 1 hour.
+  Passage track_in "the goatherds' track" is path between green and track1 taking 1 hour needing wayfinding.
+  Passage track_up "the steep" is path between track1 and track2 taking 2 hours needing climbing or rope.
+  Passage track_out "the track down to the Mansio" is passage between track2 and septimus_hall taking 1 hour.
+  // The second day.
+  Passage high_in "the High Road" is passage between septimus_hall and high1 taking 30 minutes.
+  Passage high_on "the open High Road" is road between high1 and high2 taking 2 hours.
+  Passage high_out "the High Road's end" is passage between high2 and octavius_hall taking 1 hour.
+  Passage eyrie_climb "the scree up to the eyrie" is path between high2 and eyrie taking 1 hour needing climbing.
+  Passage gallery_in "the Gallery" is passage between septimus_hall and gallery1 taking 30 minutes.
+  Passage gallery_a "into the Gallery" is tunnel between gallery1 and gallery2 taking 1 hour.
+  Passage gallery_b "the Gallery, further in" is tunnel between gallery2 and gallery3 taking 1 hour.
+  Passage gallery_out "out of the Gallery" is passage between gallery3 and octavius_hall taking 1 hour.
+  Passage ledge_in "the Ledge" is passage between septimus_hall and ledge1 taking 30 minutes needing wayfinding.
+  Passage ledge_a "along the Ledge" is path between ledge1 and ledge2 taking 3 hours
+    opening when not state(sky, snow_sky) "Snow lies along the Ledge in a clean unbroken line, and nothing goes along it under snow.".
+  Passage ledge_out "off the Ledge" is passage between ledge2 and octavius_hall taking 1 hour.
+  // The third day.
+  Passage via_in "the road to the Viaduct" is passage between octavius_hall and via_n taking 1 hour.
+  Passage via_parapet "the parapet" is passage between via_n and parapet taking 1 hour needing piton.
+  Passage via_parapet_out "the parapet, onward" is passage between parapet and via_s taking 1 hour.
+  Passage via_down "down the north pier" is ladder between via_n and river_n taking 1 hour needing rope.
+  Passage river_ford "the river" is ford between river_n and river_s taking 30 minutes.
+  Passage via_up "up the south abutment" is ladder between river_s and via_s taking 1 hour needing climbing.
+  Passage rubble_in "down on to the fallen arch" is path between via_n and rubble taking 30 minutes.
+  Passage rubble_out "over the fallen arch" is path between rubble and via_s taking 1 hour needing climbing.
+  Passage via_eagle "the road to the Eagle" is road between via_s and eagle taking 30 minutes.
+  Passage bog_path "the bog path" is path between eagle and bog taking 20 minutes.
+  Passage hollow_path "the way behind the fort" is path between eagle and hollow taking 20 minutes.
+  Passage ropeway "the Cohort's rope-way" is passage between via_n and via_s taking 20 minutes hidden until ropeway_known.
+  // The fourth day.
+  Passage pass_in "the road to the Pass" is road between eagle and pass_n taking 2 hours.
+  Passage pass_through "the road through the road-house" is road between pass_n and roadhouse taking 20 minutes.
+  Passage pass_on "past the road-house" is road between roadhouse and pass_s taking 20 minutes.
+  Passage goat_up "up the goat path" is path between pass_n and goat_path taking 1 hour needing climbing.
+  Passage goat_down "down the goat path" is path between goat_path and pass_s taking 1 hour.
+  // The fifth day.
+  Passage descend_in "the Long Descent" is road between pass_s and descent taking 3 hours.
+  Passage descend_gate "the road to the gate" is road between descent and gate taking 20 minutes.
+  Passage gate_forum "the gate of the Last Cohort" is gate between gate and forum.
+  Passage forum_praetorium "the Praetorium steps" is steps between forum and praetorium_hall.
+  Passage prefect_door "the Prefect's door" is door between praetorium_hall and prefect_room.
+  Passage forum_barracks "the barracks yard" is road between forum and barracks.
+  Passage barracks_granary "the granary lane" is road between barracks and granary.
+  Passage forum_apothecary "the apothecary's door" is door between forum and apothecary.
+  Passage forum_archive "the archive door" is door between forum and archive.
+  Passage forum_shrine "the shrine steps" is steps between forum and shrine.
+  Passage forum_terraces "the terraces" is path between forum and terraces taking 10 minutes.
+}
