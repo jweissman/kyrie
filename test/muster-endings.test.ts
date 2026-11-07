@@ -3,7 +3,7 @@ import { Journey } from '../src/session/journey';
 import steps from './fixtures/muster/journey.json';
 
 // Every ending of the crossing, played by its labels from the Ford: no staging of position, only of the clock
-// (the season turns on the ninth day, the delegation walks four days; a test waits).
+// (the season turns on the seventh day, the delegation walks four days; a test waits).
 const campaign = 'data/campaigns/muster.campaign.json';
 const start = () => Journey.start(campaign, 'muster');
 // Home from the gate: the Viaduct is crossed by its parapet (the line is fixed) unless the Cohort has shown the rope-way.
@@ -63,7 +63,7 @@ describe('the endings of the crossing', () => {
     await toGate(j);
     await j.play('To the forum', 'To the gate of the Last Cohort', 'To the Long Descent', ...homeNoRope.slice(3));
     expect(ended(j)).toBe(true);
-    expect(j.page).toContain('said nothing of what you knew');
+    expect(j.page).toContain('You said nothing in the forum');
   }, 290000);
 
   it('leaves the valley worse for the telling when the Prefect is told and the standard comes down', async () => {

@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'bun:test';
+import { Patience } from '../src/ui/patience';
 import { start, steps, untilSky, ford, toOctavius, toEagle, toGate, toForum, interview, homeFromForum, homeNoRope, ended } from './muster-walks';
 
 // The Long Muster's Road, played from the Ford by its labels: no position and no fact is staged; only the clock
@@ -125,7 +126,7 @@ describe('The endings the valley leads to', () => {
       'the gold wing of the old standard: Take', 'to the vineyard terraces', 'to the forum', 'To the shrine of the Eagle', 'Lay the gold eagle\'s wing before the Aquilifer', 'to the forum');
     await homeFromForum(j);
     expect(ended(j)).toBe(true);
-    expect(j.page).toContain('a gold wing again');
+    expect(j.page).toContain('has a gold wing, and the Hearth has barred its granary');
   }, T);
 
   it('ends in The Cohort Reached and Left when only the granary was told', async () => {
@@ -137,7 +138,7 @@ describe('The endings the valley leads to', () => {
     await j.play('to the barracks yard', 'to the forum');
     await homeFromForum(j);
     expect(ended(j)).toBe(true);
-    expect(j.page).toContain('a woman in a granary, over a scale');
+    expect(j.page).toContain('A sixth of the barley that goes north in the spring will not go now');
   }, T);
 
   it('ends with One Fewer, and the bell not rung, when Ione keeps the shrine', async () => {
@@ -443,7 +444,7 @@ describe('What telling and knowing cost', () => {
     expect(j.find('To the granary')).toBeUndefined();
     await j.play('to the forum');
     await homeFromForum(j);
-    expect(j.page).toContain('barred the granary door from the inside');
+    expect(j.page).toContain('barred its granary against you from the inside');
   }, T);
 
   it('gives the gold a second road, through the Annals, to one who swore', async () => {
@@ -485,6 +486,85 @@ describe('The purse', () => {
     expect(j.measure('quantity', 'party', 'gold')).toBe(7);
     await j.play('Into Pryor\'s store', 'Buy › A climber\'s harness');
     expect(j.measure('quantity', 'party', 'gold')).toBe(1);
+  }, T);
+});
+
+describe('Round five: what the Archivist, the Centurion, Dunya and the reeve now do', () => {
+  it('does not let the scout skip the Archivist\'s twelve hours, and says to wait', async () => {
+    const j = await start();
+    await toForum(j);
+    await interview(j);
+    await j.play('Into the Archive', 'Tell the Archivist what the road is');
+    expect(j.page).toContain('half a day');
+    expect(j.page).toContain('HALF A DAY');
+    await j.play('to the forum', 'To the barracks yard');
+    expect(j.find('Ask the Centurion for a scout')).toBeUndefined();
+    expect(j.holds('knows', 'party', 'ropeway_known')).toBe(false);
+  }, T);
+
+  it('keeps Dunya\'s unasked leaving for the green', async () => {
+    const j = await start();
+    await toForum(j, 'none');
+    await interview(j);
+    await j.play('To the Praetorium', 'Tell the Prefect that the empire is gone', 'to the forum', 'To the barracks yard', 'Ask the Centurion for a scout',
+      'Ask Dunya to join the company', 'to the forum', 'To the gate of the Last Cohort', 'To the Long Descent', 'To the head of the descent',
+      ...homeNoRope.slice(4).map(x => /light a torch/.test(x) ? '?a torch: Light' : x).slice(0, -1));
+    await j.play('To Kell green');
+    await j.play('To the head of the Old Causeway', '=+60');
+    expect(j.page).not.toContain('carries her pack in');
+    expect(j.page).not.toContain('does not wave');
+    expect(j.holds('dunyaHome', 'party')).toBe(false);
+  }, T);
+
+  it('lifts the sentries\' and the giant\'s warning once the toll is met', async () => {
+    const j = await start();
+    await toEagle(j);
+    await j.play(...steps.to_pass, ...steps.giant);
+    expect(Patience.of((j as any).campaign).warned).toBeUndefined();
+  }, T);
+
+  it('lights the Archive, and has the Archivist answer a broken seal', async () => {
+    const j = await start();
+    await toForum(j);
+    await j.play('Into the Archive');
+    expect(j.page).not.toContain('pitch dark');
+    await j.play('Break the General\'s seal and read');
+    expect(j.page).toContain('That seal has been whole for eleven hundred years');
+    expect(j.find('Ask the Archivist to open the Annals')).toBeUndefined();
+  }, T);
+
+  it('ends in The Letter Kept when the Prefect\'s dispatch is carried home and never given', async () => {
+    const j = await start();
+    await toForum(j);
+    await j.play('To the Praetorium', 'Let the Prefect put his first question', 'Say that nobody sent you: you came to see what the road led to',
+      'Let the Prefect put his second question', 'Say that it looks heavy: that it looks like something people carry',
+      'Let the Prefect put his last question', 'Say that there are scholars at Hale who keep the empire\'s old archives',
+      'Ask the Prefect for his dispatch', 'to the forum');
+    expect(j.holds('dispatchTaken', 'party')).toBe(true);
+    await homeFromForum(j);
+    expect(ended(j)).toBe(false);
+    await j.play('=+40');
+    expect(ended(j)).toBe(true);
+    expect(j.page).toContain('still sealed in your pack');
+  }, T);
+
+  it('pardons six, and leaves Aurel on his boulder', async () => {
+    const j = await start();
+    await toForum(j);
+    await j.play('To the barracks yard', 'Give the Centurion the pouch addressed to her, from the Eagle',
+      'Ask nothing for it, and tell her everything about the men in the Pass', 'Ask the Centurion to pardon the seven in the Pass');
+    expect(j.holds('pardoned', 'party')).toBe(true);
+    await j.play('to the forum', 'To the gate of the Last Cohort', 'To the Long Descent', 'To the head of the descent');
+    expect(j.page).toContain('I was the one who counted them out');
+    expect(j.holds('at', 'deserters', 'pass_s')).toBe(false);
+  }, T);
+
+  it('lets the purse hire one of Marra and Fenn after the kit, and not both', async () => {
+    const j = await start();
+    await ford(j);
+    expect(j.measure('quantity', 'party', 'gold')).toBe(3);
+    await j.play('Into the Last Fire');
+    expect(j.find('Ask Fenn Hallam to join the company')).toBeUndefined();
   }, T);
 });
 

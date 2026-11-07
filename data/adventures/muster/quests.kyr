@@ -147,7 +147,7 @@ Module muster "The Long Muster's Road" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, causeway2) and holding(actor, wolf_pelt_kind) and widowAnswered(actor) and not pelt_laid(actor).
     Time 0.
     Resolve check(actor, insight, dc_fair).
-    On success { Spend wolf_pelt_kind from actor. Assert pelt_laid(actor). Assert tolerates(wolves, actor). Assert wolvesTolerated(actor). }
+    On success { Spend wolf_pelt_kind from actor. Assert pelt_laid(actor). Assert tolerates(wolves, actor). Retract warned(wolves, actor). Assert wolvesTolerated(actor). }
     Result "A long way off in the heather a grey shape stands up, and watches, and does not come. You lay the pelt across the road with the muzzle toward the hill, as you would lay a body, and you do not stop. Behind you, much later, you hear the sound a wolf makes that is not a howl.".
     On failure { Spend wolf_pelt_kind from actor. }
     Otherwise "You lay it down too quickly and walk off too fast. The wolves watch you go as if you had thrown it at them.".
