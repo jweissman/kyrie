@@ -77,3 +77,60 @@ describe("The King's Players, Act I: the Marchants' Men", () => {
     expect(k.measure('favour', 'rierdan')).toBeGreaterThanOrEqual(4);
   }, 280000);
 });
+
+describe("The King's Players, Act II: the Mousetrap", () => {
+  const staged = async () => {
+    const k = await KP.start('kp2');
+    k.assert('royalCall', 'pentrice').assert('auditioned', 'rierdan').assert('provisional', 'rierdan').set('favour', 'rierdan', '3');
+    return k;
+  };
+  it('is prepared for in the afternoon, survived by salt and a play, and ends with the Marshal fallen', async () => {
+    const k = await staged();
+    k.put('party', 'terrace');
+    await k.play('Go out on the terrace and stand where the Prince can say it', "Yes. I've met two");
+    expect(k.holds('mousetrapAsked', 'rierdan')).toBe(true);
+    k.put('party', 'salt_hall');
+    await k.play('Ask the Salt-Wives what keeps a dead thing out of a house', 'Silence. When they stop listening');
+    expect(k.holds('saltGiven', 'party')).toBe(true);
+    k.put('party', 'ringers_loft');
+    await k.play('Ask Brother Ambros how to stop a walking dead man', 'To be remembered. His name, said aloud');
+    expect(k.holds('bellRemember', 'party')).toBe(true);
+    k.put('party', 'lamp_roof');
+    k.j.roll('pass');
+    await k.play('Look at the new rail, the old wall and the place the Duke stood');
+    expect(k.holds('gloveFound', 'party')).toBe(true);
+    // The night: the Duke leaves the roof at six, an hour a step. Salt on the Rotunda's door keeps him in the Row.
+    k.j.roll(undefined);
+    k.set('nightDay', 'rierdan', '0');
+    k.put('party', 'playhouse_row');
+    await k.play('=18:10');
+    k.put('party', 'rot_front');
+    expect(k.holds('nightOn', 'rierdan')).toBe(true);
+    await k.play('Lay a line of grey salt across the threshold');
+    expect(k.holds('salted', 'rot_front')).toBe(true);
+    k.put('party', 'rot_wings');
+    await k.play('=20:55');
+    expect(k.at('duke_ghost')).not.toBe(p('rot_stage'));
+    await k.play('Ask Hepzibah to prompt the Mousetrap', "The Marshal's. Plainly");
+    expect(k.holds('modePoint', 'rierdan')).toBe(true);
+    k.put('party', 'rot_flies');
+    await k.play("Take up Pudding's place in the fly-loft with a sandbag and a cold stare");
+    k.put('party', 'rot_wings');
+    k.j.roll('pass');
+    await k.play('=21:05', 'Give the signal for the curtain, and the play');
+    expect(k.holds('tarnExposed', 'rierdan')).toBe(true);
+    k.j.roll(undefined);
+    await k.play('=06:30');
+    expect(k.holds('nightOver', 'rierdan')).toBe(true);
+    expect(k.holds('lotharWounded', 'rierdan')).toBe(false);
+    expect(k.holds('tarnFallen', 'rierdan')).toBe(true);
+    expect(k.holds('bodyLies', 'pentrice')).toBe(true);
+  }, 290000);
+  it('is a horror when nothing is done: the Duke walks the whole way, and the party is struck', async () => {
+    const k = await staged();
+    k.assert('mousetrapAsked', 'rierdan').set('nightDay', 'rierdan', '0').put('party', 'playhouse_row');
+    await k.play('=18:10', '=+6', '=+6', '=+12');
+    expect(k.measure('ghostScore', 'rierdan')).toBeGreaterThanOrEqual(3);
+    expect(k.holds('hurtOnce', 'party')).toBe(true);
+  }, 200000);
+});

@@ -97,7 +97,7 @@ Module pentrice "Gosse's Company" {
     Assert at(duke_ghost, lamp_roof).
     Assert at(gosse, rot_wings). Assert at(hepzibah, rot_wings). Assert at(swale, rot_stage). Assert at(dorcas, rot_stage).
     Assert at(pudding, rot_flies). Assert at(kit, rot_wings). Assert at(tam, rot_wings). }
-    Person duke_ghost "the Duke's ghost" at lamp_roof {
+    Person duke_ghost "the Duke's ghost" nowhere {
     Role "a tall old man in a nightcap and a fur-lined gown, with the front of his head missing". Species wraith. Level 3. Numbers 1. Temperament savage.
     Warns "The old man at the rail turns round with his cap in his hand. There is nothing wrong with his face from the side. From the front it is not there.".
     Comes "The Duke comes across the iron at you, silently, with his hand out, and the cold comes first.".
