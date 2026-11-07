@@ -68,10 +68,11 @@ Module ombra "The Book of Faces" {
   // Collegium: it stands at the Pound's door and keeps the cellar level. It does not hate; it is exact. A fight is
   // possible, and costly: it is bronze, and it is not hurried. Without a fight the way is by the Bursar's chit (an
   // instruction it reads), by a short loaf of the Drip (it weighs it, and is satisfied), or by the Master's recitative
-  // (a witness it still obeys).
+  // (a witness it still obeys). Of level 4 since a species grows by its level (main's QTC-21): of 6, it killed a company
+  // of four before the second blow; of 4, the warrior stands alone at the end of it.
   Species rv_counterpoise_kind "a Counterpoise" like bronze_construct temperament territorial described "A bronze figure twice the height of a man, whose arms end in two flat pans and whose face is a pointer on a scale that has not moved in living memory. It does not strike so much as set down.".
   Person rv_counterpoise "the Counterpoise" at rv_landing {
-    Role "a bronze Weight at the Pound's door". Species rv_counterpoise_kind. Level 6. Temperament territorial. Pronouns it.
+    Role "a bronze Weight at the Pound's door". Species rv_counterpoise_kind. Level 4. Temperament territorial. Pronouns it.
     Lair rv_landing.
     State rv_cp_watching blocking "The Counterpoise stands before the black door with its pans held level, and nothing goes by it that has not been weighed.".
     Guards rv_pound_door.
@@ -124,27 +125,27 @@ Module ombra "The Book of Faces" {
   }
   Action rv_open_case(actor: group, who: member, site: place) "Have {who} feel under the pan of the Pound's case for a lock without a keyhole" {
     Description "A case with one open lock is an invitation to look no further. A thief does not accept invitations.".
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, rv_assay) and memberOf(who, actor) and awake(who) and brings(who, lockwork) and not rv_page_taken(actor).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, rv_assay) and memberOf(who, actor) and awake(who) and hasCalling(who, calling_thief) and not rv_page_taken(actor).
     Time 12.
     On success { Assert rv_page_taken(actor). Assert knows(actor, rv_first_page). Give rv_page to actor. }
     Result "{who} lies on the cold floor with an ear against the plinth, and runs a thumb along the underside of the table until it finds a seam in the black stone that is too clean to be wear. A second lock, felt from below, with a pin no thicker than a hair. It takes the better part of the hour and a piece of wire from {who}'s boot; the tumblers are old and civil, and give, one by one, as if they had been waiting to be asked in order. A drawer the width of a hand slides out. In it is one leaf, folded in four.".
   }
   // The company has two minds, and each is right: the thief took what was never anyone's, and the cleric knows that
   // something kept is not something taken.
-  Rule rv_page_quarrel at rv_assay when at(party, rv_assay) and memberOf(?t, party) and brings(?t, lockwork) and awake(?t) and memberOf(?c, party) and brings(?c, rites) and awake(?c) and rv_page_taken(party) and not rv_quarrelled(party) and not rv_page_returned(party) and not rv_page_kept(party)
+  Rule rv_page_quarrel at rv_assay when at(party, rv_assay) and memberOf(?t, party) and hasCalling(?t, calling_thief) and awake(?t) and memberOf(?c, party) and hasCalling(?c, calling_cleric) and awake(?c) and rv_page_taken(party) and not rv_quarrelled(party) and not rv_page_returned(party) and not rv_page_kept(party)
     says "{?t} unfolds the leaf and reads it aloud, once, in the lamp. {?c} has gone very still. 'It says kept,' says {?c}, quietly. 'It says whoever holds it is not its owner.' {?t} turns the leaf over; the back is blank. 'Then whoever holds it keeps it for the rest,' says {?t}. 'And the rest are upstairs, being told it is owed.' Neither is wrong, and both are looking at you." {
     Assert rv_quarrelled(party).
   }
   Action rv_side_thief(actor: group, t: member, c: member, site: place) "Tell {c} that {t} is right, and keep the leaf for the rest" {
     Description "Take the leaf out of the cellar. The Bursar will not forgive it. The city may.".
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, rv_assay) and rv_quarrelled(actor) and not rv_page_kept(actor) and not rv_page_returned(actor) and memberOf(t, actor) and brings(t, lockwork) and memberOf(c, actor) and brings(c, rites).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, rv_assay) and rv_quarrelled(actor) and not rv_page_kept(actor) and not rv_page_returned(actor) and memberOf(t, actor) and hasCalling(t, calling_thief) and memberOf(c, actor) and hasCalling(c, calling_cleric).
     Time 2.
     On success { Assert rv_page_kept(actor). }
     Result "{c} looks at the lintel a long time, and then helps {t} close the drawer so that it will not be seen to have been opened. 'I will not say a word against it,' {c} says, 'but I will remember that I did not.' The leaf goes inside {t}'s coat.".
   }
   Action rv_side_cleric(actor: group, t: member, c: member, site: place) "Tell {t} that {c} is right, and return the leaf to the drawer" {
     Description "Put it back, and tell the Bursar where it is. She will know what to do with the fact of it, which is more than the leaf could.".
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, rv_assay) and rv_quarrelled(actor) and not rv_page_kept(actor) and not rv_page_returned(actor) and memberOf(t, actor) and brings(t, lockwork) and memberOf(c, actor) and brings(c, rites) and holding(actor, rv_page_kind).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, rv_assay) and rv_quarrelled(actor) and not rv_page_kept(actor) and not rv_page_returned(actor) and memberOf(t, actor) and hasCalling(t, calling_thief) and memberOf(c, actor) and hasCalling(c, calling_cleric) and holding(actor, rv_page_kind).
     Time 2.
     On success { Assert rv_page_returned(actor). Spend rv_page_kind from actor. }
     Result "{t} says nothing, folds the leaf along its old creases and lays it back in the drawer, and slides the stone shut until the seam is gone. {c} puts a hand briefly on the glass, as on a font. 'It is kept,' {c} says, to the room. 'That is what it said.' {t}'s mouth is a flat line, and then it is not. 'I knew what it said,' {t} says. 'I wanted someone else to say it.'".
@@ -155,7 +156,7 @@ Module ombra "The Book of Faces" {
   Relation rv_mould_broken(group).
   Action rv_force_case(actor: group, who: member, site: place) "Have {who} force the Pound's case with a bar" {
     Description "A case, a table and a drawer that must be somewhere. It can be found by a hand that is gentle or by a bar that is not.".
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, rv_assay) and memberOf(who, actor) and awake(who) and brings(who, brawn) and not rv_page_taken(actor).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, rv_assay) and memberOf(who, actor) and awake(who) and hasCalling(who, calling_warrior) and not rv_page_taken(actor).
     Time 8.
     On success { Assert rv_page_taken(actor). Assert rv_mould_broken(actor). Assert knows(actor, rv_first_page). Give rv_page to actor. }
     Result "{who} sets the bar under the lip of the black table and leans. The stone does not break. The mould does: the glass goes, the bronze drum rolls off its plinth and strikes the drain with a flat, a ruined note, and where it struck there is a split down its flank you could lay a finger in. The drawer, which was behind it all the time, comes out in two pieces. In it is one leaf, folded in four. Overhead, faintly, in the hall, a pen stops.".
@@ -201,31 +202,31 @@ Module ombra "The Book of Faces" {
   // Said once, by whoever the company has of the calling; a company without the calling has nobody to notice it.
   Relation heardNave(group). Relation heardLocks(group). Relation heardDrip(group). Relation heardStair(group).
   Relation heardStage(group). Relation heardFrame(group). Relation heardCellar(group).
-  Rule rv_voice_nave at nave when memberOf(?m, party) and brings(?m, rites) and awake(?m) and at(party, nave) and not heardNave(party)
+  Rule rv_voice_nave at nave when memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and at(party, nave) and not heardNave(party)
     says "{?m} stands at the foot of the bier-room door and does not go in. 'They have not said her name,' {?m} says. 'So no office has been read. A funeral without a name is a tally with the number scratched out. She is dead and nothing in this place has been told so.' {?m} touches the lintel. 'Somebody ought to.'" {
     Assert heardNave(party).
   }
-  Rule rv_voice_locks at locks_office when memberOf(?m, party) and brings(?m, lockwork) and awake(?m) and at(party, locks_office) and not heardLocks(party)
+  Rule rv_voice_locks at locks_office when memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and at(party, locks_office) and not heardLocks(party)
     says "{?m} walks once round the room and stops at the door they came in by. 'No handle on the outside,' {?m} says. 'The hinges are on the inside too. That is not a door, that is a wall with an opinion.' {?m} glances at the strongroom. 'The joke of this house is that it has no lock. The lock is that you were let in.'" {
     Assert heardLocks(party).
   }
-  Rule rv_voice_drip at drip_landing when memberOf(?m, party) and brings(?m, woodcraft) and awake(?m) and at(party, drip_landing) and not heardDrip(party)
+  Rule rv_voice_drip at drip_landing when memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and at(party, drip_landing) and not heardDrip(party)
     says "{?m} crouches by the nearest piling and runs a thumb along a line of green on the timber, a hand above the water. 'Rain does not wash this,' {?m} says. 'This is the Flood of nine years ago, and there is another, higher, and a third higher than that. They are measuring the sluice by the damp.' {?m} stands. 'You could read the Drip's whole history from the pilings, if you could stand to.'" {
     Assert heardDrip(party).
   }
-  Rule rv_voice_stair at hill_foot when memberOf(?m, party) and brings(?m, brawn) and awake(?m) and at(party, hill_foot) and not heardStair(party)
+  Rule rv_voice_stair at hill_foot when memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and at(party, hill_foot) and not heardStair(party)
     says "{?m} looks up the Duelling Stair and then down at the bottom step. 'Worn on the left,' {?m} says. 'Every one of them led with the same foot. A hundred years of Seconds, and not one has thought to change.' {?m} rolls a shoulder. 'Whoever has the left foot at the top has the stair. It is not a fight, it is a habit in armour.'" {
     Assert heardStair(party).
   }
-  Rule rv_voice_stage at stage_pit when memberOf(?m, party) and brings(?m, performance) and awake(?m) and at(party, stage_pit) and not heardStage(party)
+  Rule rv_voice_stage at stage_pit when memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m) and at(party, stage_pit) and not heardStage(party)
     says "{?m} stands with a head cocked at the boards. 'The Cuff slaps under the stage on every beat,' {?m} says, 'and the Moths time their laughs to it. They do not know they do.' {?m} grins. 'Give me a month under this floor and I could make them laugh at anything by leaving a gap where the water goes.'" {
     Assert heardStage(party).
   }
-  Rule rv_voice_frame at collegium_study when memberOf(?m, party) and brings(?m, lore) and awake(?m) and at(party, collegium_study) and not heardFrame(party)
+  Rule rv_voice_frame at collegium_study when memberOf(?m, party) and hasCalling(?m, calling_mage) and awake(?m) and at(party, collegium_study) and not heardFrame(party)
     says "{?m} holds a hand over the sheeted Frame and takes it away again. 'It is warm,' {?m} says. 'Not from the lamp. From the arithmetic. Something has been going on in here for sixty years and has not stopped for the sheet.' {?m} looks at the back wall, where a dark stair goes down behind the crab, and says nothing more about it at all." {
     Assert heardFrame(party).
   }
-  Rule rv_voice_cellar at rv_assay when memberOf(?m, party) and brings(?m, lockwork) and awake(?m) and at(party, rv_assay) and not heardCellar(party) and not rv_page_taken(party)
+  Rule rv_voice_cellar at rv_assay when memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and at(party, rv_assay) and not heardCellar(party) and not rv_page_taken(party)
     says "{?m} walks round the black table slowly, and stops, and looks at its underside and then at its legs. 'One lock on the case,' {?m} says. 'Open. A thing this old and this careful does not have one lock.' {?m} gets down on one knee. 'I will be a moment.'" {
     Assert heardCellar(party).
   }

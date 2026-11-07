@@ -3,10 +3,11 @@ import { Journey } from '../src/session/journey';
 import { ProvincePlay } from './support/province-play';
 import type { CreatureGenerationContext } from '../src/content';
 
-// Which form of calling-keyed voice is portable (doc/imbar/calling-portability.md). A module's rules
-// name its own installation's `<module>__calling_cleric`, but a party's `hasCalling` facts name the LAST installed
-// module's. So `hasCalling(?m, calling_x)` fires in a one-module campaign and never in a drawn world or a campaign of
-// several modules; `brings(?m, <capability>)` (capabilities are canonical) fires in all, and keeps the member's name.
+// Calling-keyed voices, wherever a module is installed (doc/imbar/calling-portability.md). A module's rules name its
+// own installation's `<module>__calling_cleric`; the party's `hasCalling` facts had named only the LAST installed
+// module's, so `hasCalling(?m, calling_x)` fired in a one-module campaign and never in a drawn world. A member is now
+// of their calling under every module's name for it (CreatureFacts.callings, a463c3f9; M19-100), and the voices the
+// author had rewritten to `brings` read the calling again.
 const six: CreatureGenerationContext[] = [
   { name: 'Dori', raceId: 'dwarf', classId: 'cleric', backgroundId: 'medic' },
   { name: 'Elen', raceId: 'elf', classId: 'ranger', backgroundId: 'hunter' },
@@ -86,9 +87,8 @@ describe('calling voices: the Liberty of the Ice', () => {
   }, 600000);
 });
 
-// The mechanism, for every adventure whose rules ask `hasCalling`: standalone, the one module's calling entities are
-// the only ones there are, so its rules and the party's facts agree; in a drawn world the party's facts name the last
-// module installed, and the province's own `calling_cleric` is an entity no member is given.
+// The mechanism, for every adventure whose rules ask `hasCalling`: standalone and in a drawn world alike, each member
+// is given their calling under the module's own name for it, as well as any other installation's.
 const standalone: [string, string][] = [
   ['the-liberty-of-the-ice', 'pellam'], ['the-grand-tour', 'sennet'], ['what-tessary-owes', 'tessary'], ['hollins', 'hollins'],
   ['half-the-hive', 'hume'], ['quittance', 'quittance'], ['a-winter-in-carth', 'gaunt'], ['the-patient-star', 'season'],
@@ -98,19 +98,20 @@ const standalone: [string, string][] = [
 ];
 describe('hasCalling, by mechanism', () => {
   for (const [file, id] of standalone) {
-    it(`${file}: in its shipped campaign every hasCalling fact names ${id}__calling_*`, async () => {
+    it(`${file}: in its shipped campaign every member is of their calling under ${id}__calling_*`, async () => {
       const j = await Journey.start(`data/campaigns/${file}.campaign.json`, 'port-m');
-      const facts = j.campaign.world.related('hasCalling');
-      expect(facts.length).toBeGreaterThan(0);
-      expect(facts.filter(f => !f.args[1]!.startsWith(`${id}__calling_`))).toEqual([]);
+      const facts = j.campaign.world.related('hasCalling'), members = new Set(facts.map(f => f.args[0]!));
+      expect(members.size).toBeGreaterThan(0);
+      expect([...members].filter(m => !facts.some(f => f.args[0] === m && f.args[1]!.startsWith(`${id}__calling_`))))
+        .toEqual([]);
     }, 240000);
   }
   for (const [province, label] of [['longman', 'the Long Man'], ['pellam', 'the Liberty of the Ice'], ['skeel', 'Fair Weather']] as const) {
-    it(`${label}: in a drawn world no member of the company is given its own ${province}__calling_*`, async () => {
+    it(`${label}: in a drawn world every member of the company is given its own ${province}__calling_*`, async () => {
       const { s, rid } = await ProvincePlay.enter('kite', province, province === 'pellam' ? { region: { terrain: 'frost' }, party: six } : { party: six });
       const facts = s.campaign.world.related('hasCalling').filter(f => /member_party_/.test(f.args[0]!));
-      expect(facts.length).toBe(6);
-      expect(facts.filter(f => f.args[1]!.startsWith(`${rid}__calling_`))).toEqual([]);
+      expect(new Set(facts.map(f => f.args[0])).size).toBe(6);
+      expect(facts.filter(f => f.args[1]!.startsWith(`${rid}__calling_`)).length).toBe(6);
       expect(s.campaign.module.entities.some(e => e.id === `${rid}__calling_cleric`)).toBe(true);
     }, 600000);
   }

@@ -68,35 +68,35 @@ Module hhg "The House That Grows" {
   // ---- Voices of the company, by calling ----
   Relation heardShelf(group). Relation heardLamps(group). Relation heardHall(group). Relation heardSlope(group).
   Relation heardSlopeB(group). Relation heardHallB(group). Relation heardGate(group). Relation heardGateB(group).
-  Rule voice_monk_shelf at cup_shelf when memberOf(?m, party) and brings(?m, tumbling) and awake(?m) and at(party, cup_shelf) and not heardShelf(party)
+  Rule voice_monk_shelf at cup_shelf when memberOf(?m, party) and hasCalling(?m, calling_monk) and awake(?m) and at(party, cup_shelf) and not heardShelf(party)
     says "{?m} stands with feet apart and lets the room come to {?m} instead of going to it. 'Count them again,' {?m} says, after a while. 'I'll wait. I would like to be wrong.'" {
     Assert heardShelf(party).
   }
-  Rule voice_thief_lamps at lamp_store when memberOf(?m, party) and brings(?m, lockwork) and awake(?m) and at(party, lamp_store) and not heardLamps(party)
+  Rule voice_thief_lamps at lamp_store when memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and at(party, lamp_store) and not heardLamps(party)
     says "{?m} lifts a lamp and weighs it, and sets it exactly back in its own dust-ring. 'These aren't stock,' {?m} says. 'Stock gets dusted. These get left. Somebody counts them every year and puts them back as they were.'" {
     Assert heardLamps(party).
   }
-  Rule voice_ranger_hall at long_hall when memberOf(?m, party) and brings(?m, woodcraft) and awake(?m) and at(party, long_hall) and not heardHall(party)
+  Rule voice_ranger_hall at long_hall when memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and at(party, long_hall) and not heardHall(party)
     says "{?m} crouches by a smear of glass dust at the hall's downhill end. 'Bare feet,' {?m} says. 'Small, and sixty years old, and been this way every night this week, down and not back.' {?m} follows the print with a finger. 'Somebody walks in her sleep and she isn't hurrying.'" {
     Assert heardHall(party).
   }
-  Rule voice_bard_hall at long_hall when memberOf(?m, party) and brings(?m, performance) and awake(?m) and at(party, long_hall) and not heardHallB(party)
+  Rule voice_bard_hall at long_hall when memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m) and at(party, long_hall) and not heardHallB(party)
     says "{?m} hums, half a bar, and stops. 'That knocking is in six-eight,' {?m} says. 'Eleven beats and a rest, and the tune wants the rest. I could finish that phrase.' {?m} opens a mouth to supply the twelfth beat, and shuts it again." {
     Assert heardHallB(party).
   }
-  Rule voice_cleric_slope at slope when memberOf(?m, party) and brings(?m, rites) and awake(?m) and at(party, slope) and not heardSlope(party)
+  Rule voice_cleric_slope at slope when memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and at(party, slope) and not heardSlope(party)
     says "{?m} lays a palm on the glass of the wall, as a priest lays it on a sickbed, and keeps it there through two rounds of the knocking. 'Warm,' {?m} says. 'Not from the lamp. It is warm the way a door is warm when someone has just let go of the handle.'" {
     Assert heardSlope(party).
   }
-  Rule voice_warrior_slope at slope when memberOf(?m, party) and brings(?m, brawn) and awake(?m) and at(party, slope) and not heardSlopeB(party)
+  Rule voice_warrior_slope at slope when memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and at(party, slope) and not heardSlopeB(party)
     says "{?m} stamps once on the glass floor, and listens to what it says. 'This is a ramp for carts,' {?m} says. 'Wide, level, and sloped for a brake. Nobody builds that to bring a child in. They build it to take a thing out.'" {
     Assert heardSlopeB(party).
   }
-  Rule voice_thief_gate at slope when memberOf(?m, party) and brings(?m, lockwork) and awake(?m) and at(party, slope) and not heardGate(party)
+  Rule voice_thief_gate at slope when memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and at(party, slope) and not heardGate(party)
     says "{?m} goes down on a knee to the gate's lock and looks at it sideways. 'Two locks,' {?m} says. 'The old one is glass and means to be asked. The brass one is newer, and anything newer than the lock beside it was put on by somebody frightened.'" {
     Assert heardGate(party).
   }
-  Rule voice_monk_gate at slope when memberOf(?m, party) and brings(?m, tumbling) and awake(?m) and at(party, slope) and not heardGateB(party)
+  Rule voice_monk_gate at slope when memberOf(?m, party) and hasCalling(?m, calling_monk) and awake(?m) and at(party, slope) and not heardGateB(party)
     says "{?m} stands before the gate with the arms hung loose and does not blink. Behind the glass the knocking slows. 'She is not looking away either,' {?m} says, very quietly. 'My eyes are watering. Don't talk to me for a minute.'" {
     Assert heardGateB(party).
   }
@@ -122,7 +122,7 @@ Module hhg "The House That Grows" {
   Action stare_gate(actor: group, site: place, m: member) "Stare at the gate with {m} until the brass bar lets go" {
     Description "A Watch-trained eye can outhold a girl who has had longer than the Watch to practise. It takes an hour, and nobody must look away.".
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, slope) and state(gate_leaf, barred) and stareTrained(actor)
-      and memberOf(m, actor) and brings(m, tumbling) and awake(m) and companyLooks(actor, site).
+      and memberOf(m, actor) and hasCalling(m, calling_monk) and awake(m) and companyLooks(actor, site).
     Time 6. Interrupted when not companyLooks(actor, site).
     On success { Assert state(gate_leaf, open). Assert gateStared(party). }
     Result "You do not blink. {m} does not blink. Somewhere behind the glass a girl sets her jaw and does not blink either, for a very long time, and then the brass bar drops its latch with a sound like someone sitting down, and a small voice says, aggrieved, 'That isn't fair, you've done it before.'".

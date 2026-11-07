@@ -27,47 +27,47 @@ Module hollins "Behind the Wainscot" {
   // ── Voices by calling ─────────────────────────────────────────────────────────────────────────────────────────────
   Relation hvClockA(group). Relation hvClockB(group). Relation hvClockC(group). Relation hvHallA(group). Relation hvHallB(group).
   Relation hvFortA(group). Relation hvFortB(group). Relation hvKitchenA(group). Relation hvKitchenB(group). Relation hvBedA(group). Relation hvBedB(group). Relation hvNan(group).
-  Rule hv_warrior_clock at clock_foot when memberOf(?m, party) and brings(?m, brawn) and awake(?m) and at(party, clock_foot) and not hvClockA(party)
+  Rule hv_warrior_clock at clock_foot when memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and at(party, clock_foot) and not hvClockA(party)
     says "{?m} walks round the plinth once and looks up at the case as a soldier looks at a siege-tower. 'Forty turns of the key and a weight that size,' {?m} says. 'You could set a garrison by it.'" {
     Assert hvClockA(party).
   }
-  Rule hv_cleric_clock at clock_foot when memberOf(?m, party) and brings(?m, rites) and awake(?m) and at(party, clock_foot) and not hvClockB(party)
+  Rule hv_cleric_clock at clock_foot when memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and at(party, clock_foot) and not hvClockB(party)
     says "{?m} reads the painted words on the plinth with a lifted eyebrow, and then the velvet door, and then the little worn place on the boards where kneelers kneel. 'It is a chantry,' {?m} says. 'They have made a chantry of a clock, for a person who is not dead.'" {
     Assert hvClockB(party).
   }
-  Rule hv_thief_clock at clock_foot when memberOf(?m, party) and brings(?m, lockwork) and awake(?m) and at(party, clock_foot) and not hvClockC(party)
+  Rule hv_thief_clock at clock_foot when memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and at(party, clock_foot) and not hvClockC(party)
     says "{?m} stands where the trunk's keyhole is, and measures it with a finger and thumb. 'The key to this is a ship's wheel,' {?m} says. 'You would have to be a very large person indeed to lose it, and a very small one to want to.'" {
     Assert hvClockC(party).
   }
-  Rule hv_warrior_hall at hall_flags when memberOf(?m, party) and brings(?m, brawn) and awake(?m) and at(party, hall_flags) and not hvHallA(party)
+  Rule hv_warrior_hall at hall_flags when memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and at(party, hall_flags) and not hvHallA(party)
     says "{?m} goes down on one knee to the claw-marks and counts the sets with a gauntleted hand. 'Four to a stroke, eighteen foot of reach, always out from the Stair,' {?m} says. 'It comes down the Hall at a trot and turns at the clock.'" {
     Assert hvHallA(party).
   }
-  Rule hv_ranger_hall at hall_flags when memberOf(?m, party) and brings(?m, woodcraft) and awake(?m) and at(party, hall_flags) and not hvHallB(party)
+  Rule hv_ranger_hall at hall_flags when memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and at(party, hall_flags) and not hvHallB(party)
     says "'Fish, and old fur, and something like warm bread,' {?m} says, breathing in, turning toward the drift. 'It likes it here. A year it has been coming, and nobody has fed it.'" {
     Assert hvHallB(party).
   }
-  Rule hv_warrior_fort at fort when memberOf(?m, party) and brings(?m, brawn) and awake(?m) and at(party, fort) and not hvFortA(party)
+  Rule hv_warrior_fort at fort when memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and at(party, fort) and not hvFortA(party)
     says "{?m} stops at the drawbridge and looks the Regiment over rank by rank, as one soldier looks at another's. 'Keys wound to the same mark,' {?m} says. 'Heads dressed to the left.'" {
     Assert hvFortA(party).
   }
-  Rule hv_bard_fort at fort when memberOf(?m, party) and brings(?m, performance) and awake(?m) and at(party, fort) and not hvFortB(party)
+  Rule hv_bard_fort at fort when memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m) and at(party, fort) and not hvFortB(party)
     says "{?m} tilts an ear to the Captain's musical-box voice. 'It is a child's voice,' {?m} says. 'Played slow. Every order he gives is a sentence a child once said, in the order she said it, and they have been obeying her ever since.'" {
     Assert hvFortB(party).
   }
-  Rule hv_thief_kitchen at kitchen_floor when memberOf(?m, party) and brings(?m, lockwork) and awake(?m) and at(party, kitchen_floor) and not hvKitchenA(party)
+  Rule hv_thief_kitchen at kitchen_floor when memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and at(party, kitchen_floor) and not hvKitchenA(party)
     says "{?m} looks at the pantry door for some time without going near it. 'Pins in the lintel,' {?m} says. 'Hair across the latch. A house this big, and the one door in it that is properly guarded is the one with honey behind it.'" {
     Assert hvKitchenA(party).
   }
-  Rule hv_cleric_kitchen at kitchen_floor when memberOf(?m, party) and brings(?m, rites) and awake(?m) and at(party, kitchen_floor) and not hvKitchenB(party)
+  Rule hv_cleric_kitchen at kitchen_floor when memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and at(party, kitchen_floor) and not hvKitchenB(party)
     says "{?m} watches the Jarl's men carry a jar of honey across the tiles with their caps off. 'Grace,' {?m} says. 'They are saying a grace, under their breath, and not one of them knows to whom.'" {
     Assert hvKitchenB(party).
   }
-  Rule hv_warrior_bed at counterpane when memberOf(?m, party) and brings(?m, brawn) and awake(?m) and at(party, counterpane) and not hvBedA(party)
+  Rule hv_warrior_bed at counterpane when memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and at(party, counterpane) and not hvBedA(party)
     says "'You do not talk,' {?m} says, very low, hands folded at the foot of the counterpane. 'You stay on your feet. You let her see someone is standing.'" {
     Assert hvBedA(party).
   }
-  Rule hv_bard_bed at counterpane when memberOf(?m, party) and brings(?m, performance) and awake(?m) and at(party, counterpane) and not hvBedB(party)
+  Rule hv_bard_bed at counterpane when memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m) and at(party, counterpane) and not hvBedB(party)
     says "'Hush.' {?m} lifts a finger: the breath, the clock below, the faint clear note from the piano through the floor. 'The clock, the keys and her breath,' {?m} says, under all three. 'Same beat. Don't move.'" {
     Assert hvBedB(party).
   }
@@ -84,7 +84,7 @@ Module hollins "Behind the Wainscot" {
   Action order_stand_easy(actor: group, site: place, m: member) "Give the Regiment the order to stand easy, in the form the Colonel would have used" {
     Description "{m} knows how an order is given. It is not the Colonel's. It is the next best thing.".
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, fort) and at(ordinance, fort) and knows(actor, regiment_orders)
-      and memberOf(m, actor) and brings(m, brawn) and awake(m) and not standDown(regiment) and not regimentStopped(regiment)
+      and memberOf(m, actor) and hasCalling(m, calling_warrior) and awake(m) and not standDown(regiment) and not regimentStopped(regiment)
       and not regimentMarched(regiment) and not pyeStabbed(pye) and not orderedEasy(party).
     Time 3.
     On success { Assert orderedEasy(party). Assert standDown(regiment). Assert tolerates(regiment, party). Assert peaceable(regiment). }

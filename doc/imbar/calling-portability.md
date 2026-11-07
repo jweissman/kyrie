@@ -1,5 +1,9 @@
 # Calling portability: which voice form fires where
 
+> **Since the merge (main, M19-100):** the engine now gives a member their calling under every module's name for it
+> (`CreatureFacts.callings`), so `hasCalling` fires in a drawn world too, and the voices rewritten to `brings` below have
+> been put back to the calling (only the lines this audit's two commits changed). The table records how it stood.
+
 *Audit for `18-engine-spec.md` item 9 and handoff gap 5. Tested by `test/calling-portability.test.ts` (29 tests, green).
 No engine change is proposed or made: the portable form is a data rewrite.*
 

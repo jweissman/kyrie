@@ -6,32 +6,32 @@ Module gaunt "A Winter in Carth" {
   Relation heardByre(group). Relation heardDeadfall(group). Relation heardHeb(group). Relation heardPlinth(group). Relation heardLamb(group).
 
   // ── Act II, Carth: the cleric at the byre ─────────────────────────────────────────────────────────────────────────
-  Rule voice_byre at carth_byre when memberOf(?m, party) and brings(?m, rites) and awake(?m) and at(party, carth_byre) and not ralphLaid(carth_vigil) and not heardByre(party)
+  Rule voice_byre at carth_byre when memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and at(party, carth_byre) and not ralphLaid(carth_vigil) and not heardByre(party)
     says "{?m} stands over the hurdle and looks, for a long time, at the dead man's hands. 'Folded two ways,' {?m} says, very low, 'and slept with, and folded again. Somebody has been keeping him from going.' A pause. 'A man who is kept is not at peace. He is waiting. I have seen what that does to the one who keeps him.' {?m} does not look at the old woman on the stool. 'I could say the words. It would be a kindness to somebody. I do not know which of them it would be a kindness to.'" {
     Assert heardByre(party).
   }
 
   // ── Act III, the Bishop's Wood: the ranger ────────────────────────────────────────────────────────────────────────
-  Rule voice_deadfall at deadfall when memberOf(?m, party) and brings(?m, woodcraft) and awake(?m) and at(party, deadfall) and not heardDeadfall(party)
+  Rule voice_deadfall at deadfall when memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and at(party, deadfall) and not heardDeadfall(party)
     says "{?m} goes along the edge of the clearing with a hand out, not touching. 'All in the same prints,' {?m} says. 'Five of them, and not one has put a foot down on its own.' {?m} straightens. 'They have a road, in a wood where no wolf has been given one. I should be out of here by four.'" {
     Assert heardDeadfall(party).
   }
 
   // ── Act III, the Row: the thief in Heb's cellar ───────────────────────────────────────────────────────────────────
-  Rule voice_heb at heb_cellar when memberOf(?m, party) and brings(?m, lockwork) and awake(?m) and at(party, heb_cellar) and not heardHeb(party)
+  Rule voice_heb at heb_cellar when memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and at(party, heb_cellar) and not heardHeb(party)
     says "{?m} takes a tally from the nearest bundle and tilts it to the lamp. 'Cut yesterday, smoked, rubbed with ash and mutton fat,' {?m} says. 'Whoever sold you one of these knew the Assessor looks at the ends and not at the notches.' A shrug. 'It's good work. It would be better if it were not the same work for the Fabric's accounts.'" {
     Assert heardHeb(party).
   }
 
   // ── Act IV, the Minster: the mage and the plinth ──────────────────────────────────────────────────────────────────
   Discovery plinth_lines "Five lines were dressed off the plinth of Saint Oswy's shrine by a different hand than cut the three that remain, perhaps a hundred years after them; the stone has not forgotten the depth of the letters.".
-  Rule voice_plinth at minster_nave when memberOf(?m, party) and brings(?m, lore) and awake(?m) and at(party, minster_nave) and not ashDay() and not heardPlinth(party)
+  Rule voice_plinth at minster_nave when memberOf(?m, party) and hasCalling(?m, calling_mage) and awake(?m) and at(party, minster_nave) and not ashDay() and not heardPlinth(party)
     says "{?m} runs two fingers across the dressed-back place on Oswy's plinth with the grain of the chisel. 'Five lines,' {?m} says. 'Not three. A stone remembers the depth of a letter the way a bruise remembers a hand.' The fingers come away. 'This was done later than the cutting by a hundred years, and by someone who was careful. It was not defaced. It was edited.'" teaches plinth_lines {
     Assert heardPlinth(party).
   }
 
   // ── Act IV, Fastens' Eve: the bard and the missing verse ──────────────────────────────────────────────────────────
-  Rule voice_lamb at fat_lamb when memberOf(?m, party) and brings(?m, performance) and awake(?m) and at(party, fat_lamb) and licence() and not heardLamb(party)
+  Rule voice_lamb at fat_lamb when memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m) and at(party, fat_lamb) and licence() and not heardLamb(party)
     says "{?m} sits with a cup untouched and an ear turned to the fiddle and the drum. 'Listen to the fiddler,' {?m} says. 'Eight bars into every tune he takes a breath, and the drum takes it with him, and not one of these people has noticed that all four tunes stopped at the same place.' {?m} taps the table at the gap, once, and the man across the table taps it too, looking puzzled. 'Somebody asked the whole city to stop singing the same eight bars. It did, and then it forgot it had been asked.'" {
     Assert heardLamb(party).
   }
@@ -44,7 +44,7 @@ Module gaunt "A Winter in Carth" {
   Discovery first_leaf "Under the first line of the Register, the original goes on for nine lines in the old rubric: In the year the Bishop went away, the Penitentiary took up his keys, to keep and not to have, until they be asked for. Thirty-two keys are named; thirty-one were received. The Minster is of two towers, whereof the one shall carry the bell and the other the light, when it is asked for. To the poor of Gaunt the fallen wood, for ever.".
   Action read_first_leaf(actor: group, site: place, m: member) "Have {m} read the first leaf of the Register in the old rubric, under the clerks' copy" {
     Description "The clerks copy it at the head of every new book and not one of them has read it. It is nine lines. It will take an hour at the lectern with the Lady Penitentiary looking up from her desk.".
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, penitentiary) and daytime() and memberOf(m, actor) and brings(m, rites) and awake(m) and not knows(actor, first_leaf).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, penitentiary) and daytime() and memberOf(m, actor) and hasCalling(m, calling_cleric) and awake(m) and not knows(actor, first_leaf).
     Time 6.
     On success { Assert knows(actor, first_leaf). }
     Result "{m} stands at the first lectern with a finger under the rubric, and reads it a line at a time, under the breath, the way one reads a thing one has been taught as a boy and never needed. At her desk by the fire Dame Hawise has stopped writing. Nine lines. The year the Bishop went away: the keys, taken up to keep and not to have, until they be asked for. Thirty-two named; thirty-one received. A Minster of two towers, the one to carry the bell and the other the light, when it is asked for. To the poor of Gaunt the fallen wood, for ever. {m} reads the last word aloud, and nobody in the room moves. 'It does not say where he went,' {m} says. 'It does not say who is to ask.'".
@@ -56,7 +56,7 @@ Module gaunt "A Winter in Carth" {
   Relation grantYear(group).
   Action recite_first_leaf(actor: group, site: place, m: member) "Have {m} sit with the clerks and take the old rubric down by ear, as they mutter it" {
     Description "The clerks copy the first leaf at the head of every new book, mouthing as they go. It will take an hour of sitting where the Lady Penitentiary can see you, and what is got is a tune, not a text.".
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, penitentiary) and daytime() and memberOf(m, actor) and brings(m, performance) and awake(m) and not knows(actor, first_leaf) and not knows(actor, first_leaf_ear).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, penitentiary) and daytime() and memberOf(m, actor) and hasCalling(m, calling_bard) and awake(m) and not knows(actor, first_leaf) and not knows(actor, first_leaf_ear).
     Time 6.
     On success { Assert knows(actor, first_leaf_ear). }
     Result "{m} takes a stool at the end of the long bench and shuts both eyes, and the clerks go on mouthing at their lecterns, a murmur like a mill-race. After an hour {m} has a run of sounds that scan and mean nothing, and under them, twice, three words that do: the keys, and the wood, and a year. 'For ever, or for a year and a day,' {m} says, quietly, at the door. 'It does not carry. I have the grant, as a song has a grant.' At her desk by the fire Dame Hawise has watched all of it, and has not looked down once.".

@@ -10,33 +10,33 @@ Module quittance "Quittance" {
   Relation qv_cistern(group). Relation qv_office(group). Relation qv_lined(group).
 
   // ── Act One: Assessment ─────────────────────────────────────────────────────────────────────────────────
-  Rule qv_voice_court at candlewick when memberOf(?m, party) and brings(?m, woodcraft) and awake(?m) and at(party, candlewick) and not qv_hCourt(party)
+  Rule qv_voice_court at candlewick when memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and at(party, candlewick) and not qv_hCourt(party)
     says "{?m} goes along the foot of the houses on one knee, and stops where the gutter-stones are stained dark in a line from the lane to the pump. 'Oil,' {?m} says. 'Not spilled: laid. Somebody has walked this twice with a can, a hand's breadth from the wall, so it would not show from the lane.' {?m} looks up at the sheet on the line. 'Whoever it was has been very careful of the washing.'" {
     Assert qv_hCourt(party).
   }
-  Rule qv_voice_drill at drill_yard when memberOf(?m, party) and brings(?m, brawn) and awake(?m) and at(party, drill_yard) and not qv_hDrill(party)
+  Rule qv_voice_drill at drill_yard when memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and at(party, drill_yard) and not qv_hDrill(party)
     says "{?m} watches forty buckets go hand to hand along the whitewash and shakes a head slowly. 'They drill for a fire that has been announced,' {?m} says. 'Look at the pumps: new leather, and nobody has wet it. A brigade that expected to be surprised would have its hose in a heap. This one has its hose coiled for a long march and a short stand.' The sergeant on the line, who has been listening, does not look round, and makes the count a little louder." {
     Assert qv_hDrill(party).
   }
 
   // ── Act Two: Adjustment ─────────────────────────────────────────────────────────────────────────────────
-  Rule qv_voice_queue at queue_hall when memberOf(?m, party) and brings(?m, rites) and awake(?m) and at(party, queue_hall) and not qv_hQueue(party)
+  Rule qv_voice_queue at queue_hall when memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and at(party, queue_hall) and not qv_hQueue(party)
     says "{?m} stands at the end of the Queue, which does not notice, and then takes off a hat that is not there. 'This is not a line,' {?m} says, very low. 'There is a form for this and it is not the Exchange's. A line moves. These people are keeping a watch. Somebody sat down in this hall ninety-four years ago and was told to wait, and the whole room has waited with them ever since, so that they would not wait alone.'" {
     Assert qv_hQueue(party).
   }
 
   // ── Act Three: Settlement ───────────────────────────────────────────────────────────────────────────────
-  Rule qv_voice_hearth at hearn_hearth when memberOf(?m, party) and brings(?m, rites) and awake(?m) and at(party, hearn_hearth) and not qv_hHearth(party)
+  Rule qv_voice_hearth at hearn_hearth when memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and at(party, hearn_hearth) and not qv_hHearth(party)
     says "{?m} holds both hands to Auberon's little coal and takes them away again quickly. 'It is not burning anything,' {?m} says. 'Look at the grate. No ash. It has been lit for ninety-four years and it has made no waste.' {?m} says the next part more quietly, to the old man's back: 'That is not how a fire behaves. That is how a guest behaves who has been told not to leave a mess.'" {
     Assert qv_hHearth(party).
   }
-  Rule qv_voice_ward at cinder_ward when memberOf(?m, party) and brings(?m, woodcraft) and awake(?m) and at(party, cinder_ward) and day(clock) >= 7 and not qv_hWard(party)
+  Rule qv_voice_ward at cinder_ward when memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and at(party, cinder_ward) and day(clock) >= 7 and not qv_hWard(party)
     says "{?m} licks a finger and holds it up, and the finger goes cold on one side only: the side that faces the black chimney. 'It is drawing,' {?m} says. 'Dead cold chimney, no fire in it, and the air is going in at the foot like a held breath. Every house in the Ward is leaning toward it. If I were to lay a fire here, I would lay it so, with the wind helping.' {?m} is quiet a moment. 'Somebody did.'" {
     Assert qv_hWard(party).
   }
 
   // ── Act Four: Reckoning ─────────────────────────────────────────────────────────────────────────────────
-  Rule qv_voice_hall at hall_five when memberOf(?m, party) and brings(?m, brawn) and awake(?m) and at(party, hall_five) and day(clock) >= 8 and not qv_hHall(party)
+  Rule qv_voice_hall at hall_five when memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and at(party, hall_five) and day(clock) >= 8 and not qv_hHall(party)
     says "{?m} stands with a back to the wall, as a warrior does in a room full of people who have never been hit, and counts the Chairmen's chairs. 'Five seats and six cushions,' {?m} says. 'There is a cushion with nobody on it, and it is warm. It is not one of ours.' The nearest clerk goes the colour of the Receipt." {
     Assert qv_hHall(party).
   }
@@ -48,7 +48,7 @@ Module quittance "Quittance" {
   Observe qv_gasket_damp at gasket_yard when not qv_cistern(party) and not burned(gasket_yard) "Under the dry well, where the cobbles meet the slab, there is a ring of ground a shade darker than the rest. Dolly Orrimer's pump-handle goes up and down above it with a dry gasp.".
   Action qv_ranger_cistern(actor: group, site: place, r: member) "Read the ground round the dry well, and dig for what closed it" {
     Description "A well that does not give is either empty or shut. Its want of water is the whole of the notice on its head.".
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gasket_yard) and at(dolly, site) and memberOf(r, actor) and brings(r, woodcraft)
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gasket_yard) and at(dolly, site) and memberOf(r, actor) and hasCalling(r, calling_ranger)
       and knows(actor, d_gasket_next) and not gasketSaved(actor) and not burned(gasket_yard) and not qv_cistern(actor).
     Time 40 minutes.
     On success { Assert qv_cistern(actor). Assert gasketSaved(actor). Retract at(burners, gasket_yard). Increase regard(wardsfolk) by 1. }
@@ -59,8 +59,8 @@ Module quittance "Quittance" {
   // A company with a warrior and a cleric has the argument; each is right; it is settled by the company, and the settling
   // costs the other. The warrior's way keeps the Yard standing and loses the Wards' regard. The cleric's way lets the Yard
   // burn empty and wins it. The ranger's way, above, costs neither, and only a ranger has it.
-  Rule qv_quarrel_yard at gasket_yard when memberOf(?w, party) and brings(?w, brawn) and awake(?w)
-    and memberOf(?c, party) and brings(?c, rites) and awake(?c)
+  Rule qv_quarrel_yard at gasket_yard when memberOf(?w, party) and hasCalling(?w, calling_warrior) and awake(?w)
+    and memberOf(?c, party) and hasCalling(?c, calling_cleric) and awake(?c)
     and at(party, gasket_yard) and knows(party, d_gasket_next) and not gasketSaved(party) and not gasketWarned(party) and not burned(gasket_yard) and not qv_quarrelled(party)
     says "{?w} says it first, because somebody must. 'There are four of them and a pole-ladder, and they are coming at dusk. Take the oil off them at the Night Market and there is no fire.' {?c} is looking at the women round the well, who have stopped pretending not to listen. 'And the next time a man in a clean coat tells them a thing is a hazard, they will remember that the last people to come into the Yard came with their hands,' says {?c}. 'Tell them. Let them carry their own beds.' Neither looks at you. Both are waiting for you to say which of them is right." {
     Assert qv_quarrelled(party).
@@ -69,7 +69,7 @@ Module quittance "Quittance" {
     Description "The Yard stands. The Wards will have seen what an adjuster does when pressed, and what they have seen they will not forget.".
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, gasket_yard) and qv_quarrelled(actor) and not qv_sidedWarrior(actor) and not qv_sidedCleric(actor)
       and not gasketSaved(actor) and not burned(gasket_yard)
-      and memberOf(w, actor) and brings(w, brawn) and memberOf(c, actor) and brings(c, rites).
+      and memberOf(w, actor) and hasCalling(w, calling_warrior) and memberOf(c, actor) and hasCalling(c, calling_cleric).
     Time 3.
     On success { Assert qv_sidedWarrior(actor). Assert gasketSaved(actor). Retract at(burners, gasket_yard). Decrease regard(wardsfolk) by 1 or to nothing. }
     Result "{c} says nothing, and goes on saying nothing all the way to the Night Market. {w} does it without a speech: a hired man at a stall, a barrel with the Gas Company's stencil on it, a cart-pin drawn and pocketed, six cans tipped into the gutter in a long bright fan. Nobody is hurt. A woman at the next stall, who has sold eel-pies in that place for twenty years, watches the whole of it with her pie held out to a customer, and does not charge the customer. 'Yard's safe, then,' she says, as you pass. It is not said as thanks. By evening the story is in Salt Lane, and in Salt Lane it has grown a second man, and a knife.".
@@ -78,7 +78,7 @@ Module quittance "Quittance" {
     Description "The Yard burns, and burns empty; and it will know who told it, and in what voice.".
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, gasket_yard) and qv_quarrelled(actor) and not qv_sidedWarrior(actor) and not qv_sidedCleric(actor)
       and not gasketSaved(actor) and not gasketWarned(actor) and not burned(gasket_yard)
-      and memberOf(w, actor) and brings(w, brawn) and memberOf(c, actor) and brings(c, rites).
+      and memberOf(w, actor) and hasCalling(w, calling_warrior) and memberOf(c, actor) and hasCalling(c, calling_cleric).
     Time 3.
     On success { Assert qv_sidedCleric(actor). Assert gasketWarned(actor). Increase regard(wardsfolk) by 1. }
     Result "{w} says nothing against it, which is not the same as agreeing, and spends the afternoon carrying other people's mattresses up the lane with a face like a shut door. {c} goes from house to house in the voice of someone who has told families things before, and not one house asks for proof. Dolly Orrimer pumps her dry well until the last bed is out, from habit, and then sits on the rim of it with her arms folded to see it done. 'It'll go,' she says. 'It's a hazard.' She says it quite gently. When dusk comes the Yard is out in the lane in rings of chairs, all present; the burners find the oil useful and the Yard empty, and light it anyway, because it was on the list.".
@@ -92,7 +92,7 @@ Module quittance "Quittance" {
     Description "It is the one thing a cleric of the vitalist rite has that is meant for a hearth rather than a body. It takes the better part of an hour, and it is not a bargain.".
     Speaker ds_fire.
     Requires able(actor) and company(actor) and at(actor, site) and at(ds_fire, site) and fireHeard(actor) and not fireWrathful(actor)
-      and memberOf(c, actor) and brings(c, rites) and not qv_office(actor).
+      and memberOf(c, actor) and hasCalling(c, calling_cleric) and not qv_office(actor).
     Time 50 minutes.
     On success { Assert qv_office(actor). Increase ds_accord(actor) by 3. Decrease ds_slight(actor) by 1 or to nothing. Assert fireFed(actor). }
     Result "{c} kneels in the ash, which is warm, and begins in the voice used at the bedside of the dying: not the sermon, the other thing, the one that is only for the room. It names no names. It says that the fire in this house is out, and that its people are not here, and that those who are here sit with it. The Fire listens without moving. At the third repetition the coal draws in, the heat goes soft, and a long breath comes off the ash. 'That,' says the Fire, 'is the form. I had forgotten there was a form.' It does not thank {c}. It says, in a voice that for a moment is not a creditor's at all: 'Nobody has said it over me. They said it over everyone else.'".
@@ -104,7 +104,7 @@ Module quittance "Quittance" {
     Description "Six cans, six men, a cart, and the knowledge that two of them have already looked at the door. A warrior knows a line that has stopped wanting to be one.".
     Speaker tithe_burners.
     Requires able(actor) and company(actor) and at(actor, site) and at(tithe_burners, site) and tithePrepared(city) and not titheStopped(city) and not qv_lined(actor)
-      and memberOf(w, actor) and brings(w, brawn).
+      and memberOf(w, actor) and hasCalling(w, calling_warrior).
     Time 10 minutes.
     Resolve check(actor, intimidation, dc_fair).
     On success { Assert qv_lined(actor). Assert titheStopped(city). }

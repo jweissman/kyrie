@@ -6,44 +6,44 @@ Module calamy "A Parliament of Books" {
   Relation heardLocks(group). Relation heardFlats(group). Relation heardLamp(group). Relation heardPyre(group).
 
   // Act I: the Hithe. The bard hears the Almanack's tides.
-  Rule voice_tides at taproom when memberOf(?m, party) and brings(?m, performance) and awake(?m) and at(party, taproom) and knows(party, almanack_one) and not heardTides(party)
+  Rule voice_tides at taproom when memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m) and at(party, taproom) and knows(party, almanack_one) and not heardTides(party)
     says "{?m} sits a while with an ear turned to the nail by the chimney, and a finger beating something on the table. 'It scans,' {?m} says at last, low, so the almanack should not hear. 'Count it. High water at the Hithe, twenty past eleven: that is a line from a song, and it has been sung so long it has gone back to being a habit. Somebody taught this book to count in verse.' {?m} turns the cup in its ring. 'I should like to hear the tune.'" {
     Assert heardTides(party).
   }
   // Act I and II: the bridge. The bard hears the rope.
-  Rule voice_rope at bridge_middle when memberOf(?m, party) and brings(?m, performance) and awake(?m) and at(party, bridge_middle) and knows(party, rhyme_heard) and not heardRope(party)
+  Rule voice_rope at bridge_middle when memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m) and at(party, bridge_middle) and knows(party, rhyme_heard) and not heardRope(party)
     says "{?m} stands by the parapet counting the beats under the children's feet, and does not smile. 'That is not a skipping rhyme,' {?m} says. 'Look at the stresses. Sew it UP and SEND it ON. Every line is a stage and every stage hands on to the next, and the last line is the one that stops on somebody's foot.' {?m} watches the rope turn. 'It is a relay. It is the rule of a relay, handed down in the one place nobody ever tries to forget a thing, which is a child's mouth.'" {
     Assert heardRope(party).
   }
   // Act II: Crake's back stacks. The thief sees the second lock; the bard hears the room.
-  Rule voice_locks at crake_stacks when memberOf(?m, party) and brings(?m, lockwork) and awake(?m) and at(party, crake_stacks) and not heardLocks(party)
+  Rule voice_locks at crake_stacks when memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and at(party, crake_stacks) and not heardLocks(party)
     says "{?m} runs a thumb round the edge of the last bay and stops. 'Two locks,' {?m} says. 'One is on the door you came in at. The other is on the end of the aisle, and it is not a lock you turn: it is a lock you have to be wanted by. It will not open for a picklock. It will open for a key that has been somewhere.' {?m} does not touch it again. 'Somebody has been through here. Often. The dust on the shelf-ends is the dust of a corridor.'" {
     Assert heardLocks(party).
   }
-  Rule voice_stacks at crake_stacks when memberOf(?m, party) and brings(?m, performance) and awake(?m) and at(party, crake_stacks) and not heardStacks(party)
+  Rule voice_stacks at crake_stacks when memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m) and at(party, crake_stacks) and not heardStacks(party)
     says "{?m} says a word into the dimness, softly, and listens to what it does. 'This room was built to be heard,' {?m} says. 'The shelves are the baffles. A voice at the front is a voice at the back. It was a hall for calling names, once, before it was a shop for hiding books.' {?m} looks at the long aisle. 'Whatever stood at the far end, it was meant to be called to.'" {
     Assert heardStacks(party).
   }
   // Act III: the Lamp. The cleric at the church.
-  Rule voice_lamp at nave when memberOf(?m, party) and brings(?m, rites) and awake(?m) and at(party, nave) and not heardLamp(party)
+  Rule voice_lamp at nave when memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and at(party, nave) and not heardLamp(party)
     says "{?m} stands with a hand on the nearest pew-end and looks up at the great lamp. 'Nine hundred years and it has never once gone out,' {?m} says. 'That is not a miracle. Look at the wick: it was trimmed this morning, square, with a good knife. It is a duty.' {?m} crosses the nave, slowly, and finds the verger's boy asleep in the last pew with the trimming-scissors in his fist." {
     Assert heardLamp(party).
   }
   // Act IV: the Commonplace. The ranger on the flats; the mage at the chained book; the bard on the floor of the Roll.
-  Rule voice_flats at reed_edge when memberOf(?m, party) and brings(?m, woodcraft) and awake(?m) and at(party, reed_edge) and not heardFlats(party)
+  Rule voice_flats at reed_edge when memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and at(party, reed_edge) and not heardFlats(party)
     says "{?m} crouches by the edge of the cut and looks, not at the reeds, but at the line of the water. 'A path wanders,' {?m} says. 'These do not. Eleven paces and a stone, eleven paces and a stone, straight as a rule, across a mile of mud that shifts every tide.' {?m} straightens, and wipes the grey off a knee. 'They were laid by somebody with a measuring-rod and an appointment. They have been under the mud a thousand years and they are exactly where they were put.'" {
     Assert heardFlats(party).
   }
-  Rule voice_roll at chamber when memberOf(?m, party) and brings(?m, performance) and awake(?m) and at(party, chamber) and not heardRoll(party)
+  Rule voice_roll at chamber when memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m) and at(party, chamber) and not heardRoll(party)
     says "{?m} puts a foot down on the red capitals of the floor, and then the other, as one tests a stage. 'It is a very good room,' {?m} says, not quite to anyone. 'Every word said here is said to the whole house. You could not whisper in it if you wished. You could not tell a lie in it without hearing yourself tell it.' {?m} breathes out. 'I have played to worse. I have never played to a room that was also the law.'" {
     Assert heardRoll(party).
   }
   // Act V: the Ashpit. The warrior at the pyre; the bard at the crowd.
-  Rule voice_pyre at ashpit when memberOf(?m, party) and brings(?m, brawn) and awake(?m) and at(party, ashpit) and kindlingBegun(ashpit) and not heardPyre(party)
+  Rule voice_pyre at ashpit when memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and at(party, ashpit) and kindlingBegun(ashpit) and not heardPyre(party)
     says "{?m} stands at the edge of the crowd with arms folded and eyes on the pile. 'Four thousand people and no fear of a fire,' {?m} says. 'That is a crowd that has done this every year of its life.' {?m} looks along the faces. 'Whoever speaks to them has to do it before the match. After the match, they are the fire.'" {
     Assert heardPyre(party).
   }
-  Rule voice_crowd at ashpit when memberOf(?m, party) and brings(?m, performance) and awake(?m) and at(party, ashpit) and kindlingBegun(ashpit) and not heardCrowd(party)
+  Rule voice_crowd at ashpit when memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m) and at(party, ashpit) and kindlingBegun(ashpit) and not heardCrowd(party)
     says "{?m} listens to the Ashpit breathe. 'Not a word from any of them,' {?m} says, quietly. 'That is the quiet before the first note.' {?m} tilts a head at the great pile, unlit, and the ladder against it. 'Do not shout. They have all done that. Wait for the front rows to notice you, and then the next. Let the quiet do it.'" {
     Assert heardCrowd(party).
   }
