@@ -75,19 +75,19 @@ Module muster "The Long Muster's Road" {
   Initially Assert exposed(spring).
   Passage spring_path "the goats' path to the spring" is path between track1 and spring taking 20 minutes.
   Observe spring_scene at spring when true "A shelf of turf under an overhang, with a spring coming out of the rock into a stone trough, and two lines of goat-droppings that stop on either side of a white-painted stone, never crossing. On one side is a lean-to with a blue door. On the other, a lean-to with a red. Both are shut, and both are watched.".
-  Person corrin "Old Joss Pyke" at spring {
+  Person corrin "Old Joss Hartnoll" at spring {
     Role "a goatherd of the red door". Ancestry human. Pronouns he. Manner grim. Peaceable.
     Greets "An old man on a milking stool on the red side of the stone does not turn his head. 'Marra Tellis sent you,' he says, 'or you'd not have found it. She's wrong. My father had the trough, and his before him. The Tells took the water by dividing the stones in the night.'".
   }
-  Topic corrin_ask with corrin "Ask Joss Pyke what the quarrel is about" when true once {
-    Says "'A trough,' says Pyke. 'Two goats a day's water out of eleven hundred years of rain. It is not the water, it's who is asked.' He looks at the white stone. 'Would you ask me, if you had the choice? Would you ask her?'".
+  Topic corrin_ask with corrin "Ask Joss Hartnoll what the quarrel is about" when true once {
+    Says "'A trough,' says Hartnoll. 'Two goats a day's water out of eleven hundred years of rain. It is not the water, it's who is asked.' He looks at the white stone. 'Would you ask me, if you had the choice? Would you ask her?'".
   }
   Topic corrin_me with corrin "Say you would ask whoever has the better claim" answering corrin_ask when true {
-    Says "'The better claim,' says Pyke, and spits. 'There's the question.' He looks at you for the first time. 'Check the old wall. There is a stone cut with a notch. It was my grandfather's idea that the notch was a tally. It's a level.'".
+    Says "'The better claim,' says Hartnoll, and spits. 'There's the question.' He looks at you for the first time. 'Check the old wall. There is a stone cut with a notch. It was my grandfather's idea that the notch was a tally. It's a level.'".
     On discuss { Assert knows(actor, spring_level). }
   }
   Topic corrin_her with corrin "Say you would ask Marra, because she asked you first" answering corrin_ask when true {
-    Says "'Of course you would,' says Pyke, without heat. 'She sent you, and a goatherd's guest eats the goatherd's cheese. I'd do the same.' He picks up the pail. 'I'll tell you what I tell everyone. I don't mind losing. I mind it being said I'd lost to a girl with a better lawyer.'".
+    Says "'Of course you would,' says Hartnoll, without heat. 'She sent you, and a goatherd's guest eats the goatherd's cheese. I'd do the same.' He picks up the pail. 'I'll tell you what I tell everyone. I don't mind losing. I mind it being said I'd lost to a girl with a better lawyer.'".
     On discuss { Assert springMarra(party). }
   }
   Entity spring_level: fact "A notch cut in the old wall above the spring is a level: the water, laid out fairly, would run to the red door's trough as much as the blue's.".
@@ -96,7 +96,7 @@ Module muster "The Long Muster's Road" {
     Time 3.
     Resolve check(actor, digging, dc_fair).
     On success { Assert springSettled(actor). }
-    Result "A lip of an inch, cut with the crowbar's edge and checked against the notch. The trough fills on both sides at the same pace. Pyke comes over, looks, says nothing for an uncomfortable time, and then takes his pail to the red end and fills it. 'It's what I always said it should do,' he says.".
+    Result "A lip of an inch, cut with the crowbar's edge and checked against the notch. The trough fills on both sides at the same pace. Hartnoll comes over, looks, says nothing for an uncomfortable time, and then takes his pail to the red end and fills it. 'It's what I always said it should do,' he says.".
     Otherwise "The lip comes out crooked. The water runs to the red door, and the blue door opens, and the quarrel resumes with more matter.".
   }
   Action persuade_spring(actor: group, site: place) "Persuade the old man to ask Marra's mother for the water, as a courtesy, and her to give it" {
@@ -105,7 +105,7 @@ Module muster "The Long Muster's Road" {
     Resolve check(actor, persuasion, dc_hard).
     On success { Assert springSettled(actor). Assert knows(actor, spring_pact). }
     Result "It takes two hours and a cheese, and both doors open at once. Nobody has ever apologised: you are told, afterwards, that they asked each other to dinner, which is the same thing.".
-    Otherwise "'I won't be told by a stranger,' says Pyke, and goes into the red door and shuts it.".
+    Otherwise "'I won't be told by a stranger,' says Hartnoll, and goes into the red door and shuts it.".
   }
   Entity spring_pact: fact "The red and blue doors at the goatherds' spring asked each other to dinner after thirty years.".
   Observe spring_peace at spring when springSettled(party) "The white stone has been moved a hand's breadth into the red side, and a child of each family is sitting on it eating the other's bread.".
