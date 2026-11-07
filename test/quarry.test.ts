@@ -8,7 +8,8 @@ import type { Fighter } from '../src/model';
 // Whom a foe goes for (the audit's SLIP-07): every foe had struck whoever had the fewest hit points, so a mage behind
 // a warrior was cut down first, whatever the warrior did. A beast goes for whoever struck it, or the nearest; a band
 // for whoever has hurt it most, or the company's leader; a coward for the weakest only once the strong are down. And
-// one of the company steps in front of a frail companion that something means to strike.
+// one of the company steps in front of a frail companion that something means to strike, though not of one who
+// stands in front of someone; a warrior strikes a foe half proof against the blade rather than take a stance.
 class Q {
   static readonly content = new Content('quarry');
   static set(f: Fighter, hp: number): Fighter { return { ...f, hp, maxHp: hp }; }
@@ -87,5 +88,34 @@ describe('a companion steps in front of a frail one', () => {
       const first = fought(seed).find(e => e.type === 'action' && e.command.actor.startsWith('ghoul'));
       expect(first?.type === 'action' && first.command.target).toBe('warrior');
     }
+  });
+  it('but not one who stands in front of someone, whom the blows meant for that one now find', () => {
+    const [mage, warrior] = Q.company();
+    const second = Q.set(Q.content.character('warrior', 'second', 'fighters'), 20);
+    const meant = { ghoul: { actor: 'ghoul', ability: 'melee', target: 'warrior' } };
+    const cover = (statuses: Fighter['statuses']) => {
+      const hurt = { ...warrior!, hp: 3 }, ghoul = Q.content.creature('ghoul', 'ghoul', 'goblins', 1);
+      const state = { ...Q.battle([{ ...mage!, statuses }, hurt, second, ghoul]).state, intents: meant };
+      return Quarry.cover(state, second, hurt);
+    };
+    expect(cover([])).toBeGreaterThan(0);
+    expect(cover([{ id: 'guarded', remaining: 2, by: 'warrior' }])).toBe(0);
+  });
+});
+
+describe('a warrior strikes the foe in front of them', () => {
+  it('though it is half proof against the blade, rather than take a stance', () => {
+    const warrior = Q.content.character('warrior', 'warrior', 'fighters');
+    const mummy = Q.content.creature('mummy', 'mummy', 'goblins', 3);
+    const state = { ...Q.battle([warrior, mummy]).state, actor: 'warrior' };
+    const legal = [{ actor: 'warrior', ability: 'melee', target: 'mummy' },
+      ...['defend', 'dig_in'].map(ability => ({ actor: 'warrior', ability, target: 'warrior' }))];
+    expect(mummy.hp).toBeGreaterThan(8);
+    expect(Tactics.choose(state, legal).ability).toBe('melee');
+  });
+  it('and an area is weighed by the worst its dice can do to a friend it catches', () => {
+    const cleric = Q.content.character('cleric', 'cleric', 'fighters');
+    const wrath = Content.abilities.find(a => a.id === 'holy_wrath')!;
+    expect(Tactics.worst(wrath, cleric)).toBe(18);
   });
 });

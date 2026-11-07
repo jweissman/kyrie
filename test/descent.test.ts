@@ -19,10 +19,11 @@ import type { CreatureStore } from '../src/creature-store';
 // bell fought for in the unfinished hall and rung over the singers, to the tuning-stone brought out at first light on
 // the second day. In a1, the king-barrow Lapistumul by a warrior and a healer in two expeditions: the outer barrow's
 // grave-goods sold for a glossary of the old script, then over the toll-bridge for a pole and a lantern and a scholar,
-// the stair's switch sprung with the pole, the jar of the embalmers' daylight carried before them so the king goes back
-// from it, and the crown of the first king brought out at first light on the fourth day. They take some minutes, so
-// they are opt-in: KYRIE_LONG=1. A change that moves what the world offers (a new trap, a fight that goes otherwise)
-// will stop one where its record no longer holds; the record is then played on from there. (The heartland's settlements
+// the stair's switch sprung with the pole, the healer felled by the embalmers' drainer and a torch lit for the lantern
+// he carried, the jar of the embalmers' daylight carried before them so the king goes back from it, and the crown of
+// the first king brought out at first light on the fourth day. They take some minutes, so they are opt-in:
+// KYRIE_LONG=1. A change that moves what the world offers (a new trap, a fight that goes otherwise) will stop one
+// where its record no longer holds; the record is then played on from there. (The heartland's settlements
 // and land took Common names after these were kept, and their choices were renamed with them, Merscheald to Misthythe,
 // Murkstede to Lowmouth, Muntheald to Rainmeet, the Deopex to the Deepwater, Eikwudu to Oakhurst: the world otherwise
 // the same.)
