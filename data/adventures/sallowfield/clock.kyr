@@ -3,10 +3,10 @@ Module sallowfield "Three Nights at Sallowfield" {
   // Watch 0 is eight in the morning of the first day. Dusk of the first day: watch 78; the second: 222; the third: 366.
   // Wyre means to come on the third night (assaultAt 366). If his riders find the town unwatched on the first night he
   // does not wait: he comes on the second (222). Everything he does turns on what he has seen, so what he has seen is
-  // kept in plain facts: sawFord, sawBridge, sawBarricade, sawCut, sawFlood, sawTower, sawWatch.
+  // kept in plain facts: sawFord, sawBarricade, sawCut, sawTower, sawWatch.
   Measure assaultAt(group). Measure thrust(place). Measure defence(place).
   Initially Set assaultAt(wyre) to 366.
-  Relation sawWatch(group). Relation sawBarricade(group). Relation sawCut(group). Relation sawFlood(group). Relation sawTower(group).
+  Relation sawWatch(group). Relation sawBarricade(group). Relation sawCut(group). Relation sawTower(group).
   Relation riders_gone(group). Relation wyreEarly(group). Relation planned(group). Relation lowesCame(group).
   Relation knowsNumbers(group).
 
@@ -35,7 +35,7 @@ Module sallowfield "Three Nights at Sallowfield" {
   }
   Person raiders "four of the Unpaid" nowhere {
     Role "four troopers with sacks, who have not been paid since the spring". Ancestry human. Calling warrior. Level 1. Numbers 4. Temperament wary. Refuge south_road.
-    Arrives at lower_farm when watch(clock) >= 216.
+    Arrives at lower_farm when watch(clock) >= 204.
     Arrives "Four men come up out of the dark by the river, quietly, with empty sacks.".
     Warns "The troopers stop. The oldest of them looks at the cows, and then at you, and then at the sacks in his hands. 'We'll take the cows,' he says, 'and go. Better the cows than the other.'".
     Flinches "The troopers leave their sacks where they stand and go off into the dark at a run.".
@@ -78,7 +78,6 @@ Module sallowfield "Three Nights at Sallowfield" {
   // What the boy saw is what stood when he left (or when he was sent): the works are read once, at the stamp, and not after.
   Rule lowes_saw_barricade when lowesTruth(party) and not lowesTold(party) and barricadeUp(party) and not sawBarricade(party) { Assert sawBarricade(party). }
   Rule lowes_saw_cut when lowesTruth(party) and not lowesTold(party) and bridgeCut(party) and not sawCut(party) { Assert sawCut(party). }
-  Rule lowes_saw_flood when lowesTruth(party) and not lowesTold(party) and sluiceOpen(party) and not sawFlood(party) { Assert sawFlood(party). }
   Rule lowes_saw_tower when lowesTruth(party) and not lowesTold(party) and posted(?v, nave) and able(?v) and not sawTower(party) { Assert sawTower(party). }
   Rule lowes_stamp when lowesTruth(party) and not lowesStamp(party) { Assert lowesStamp(party). }
   Rule lowes_told when lowesStamp(party) and not lowesTold(party) { Assert lowesTold(party). }
@@ -86,16 +85,22 @@ Module sallowfield "Three Nights at Sallowfield" {
   Rule lowes_lie when planned(party) and lowesLie(party) and not lieMod(party) {
     Assert lieMod(party). Increase thrust(ford_stones) by 4. Decrease thrust(bridge) by 3 or to nothing. Decrease thrust(mill_yard) by 3 or to nothing. }
   Observe lowes_in_reeds at reed_marsh when lowesCame(party) and not lowesGone(party) and not heldScout(lowes) "A boy is picking his way along the reed causeway in the dark with his boots round his neck, counting under his breath. He has not seen you.".
+  Observe reeds_lights_crowther near crowther when watch(clock) >= 150 and watch(clock) < 214 and not heldScout(lowes) "'Lights in the reeds,' says Crowther, 'two nights back. A small man, with a lantern shaded. He goes along the hurdles to where they stop and stands there. I don't know what he's counting.'".
+  Observe reeds_lights_greenhalgh near greenhalgh when watch(clock) >= 150 and watch(clock) < 214 and not heldScout(lowes) "'There's a lad comes down the reed track at night,' says Greenhalgh. 'Dog won't have him. Small. Boots in his hand.'".
+  Relation lowesAlert(group).
+  Rule lowes_alert_effect when planned(party) and lowesAlert(party) and not alertMod(party) { Assert alertMod(party). Increase thrust(ford_stones) by 1. Increase thrust(mill_yard) by 1. }
+  Relation alertMod(group).
   Action seize_scout(actor: group, site: place) "Take the boy in the reeds before he sees you" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, reed_marsh) and at(lowes, reed_marsh) and not heldScout(lowes).
     Time 0.
     Resolve check(actor, stealth, dc_fair).
     On success { Assert heldScout(lowes). Retract at(lowes, reed_marsh). Assert at(lowes, taproom). }
     Result "You come out of the reeds behind him with a hand over his mouth. He goes limp, which is the cleverest thing a scout can do, and when you let go he says in a whisper: 'Don't. Please. I'll say anything.'".
+    On failure { Retract at(lowes, reed_marsh). Assert lowesGone(party). Assert lowesTruth(party). Assert lowesAlert(party). }
     Otherwise "The reeds rustle under your boot. The boy's head comes up. For a moment you look at each other across ten yards of black water, and then he is gone into the dark, and you hear him going.".
   }
-  Rule raid_on_farm at lower_farm when at(raiders, lower_farm) and not farmRaided(party) and watch(clock) >= 222 and not at(party, lower_farm)
-    says "In the dark by the river, a cow bellows, and another, and a dog barks and stops. Then, for a long time, there is the sound of a barn being searched." {
+  Rule raid_on_farm at lower_farm when at(raiders, lower_farm) and not farmRaided(party) and watch(clock) >= 210 and not at(party, lower_farm)
+    says "In the dark by the river, a cow bellows, and another, and a dog barks and stops. Then there is, for the best part of an hour, the sound of a barn being searched." {
     Assert farmRaided(party). }
   Relation farmRaided(group). Relation greenhalghSaved(group).
   Rule farm_burns when farmRaided(party) and not greenhalghSaved(party) { Assert farmBurned(party). }
@@ -122,6 +127,10 @@ Module sallowfield "Three Nights at Sallowfield" {
   Rule plan_turned when planned(party) and fothergillTurned(party) and not planMod3(party) {
     Assert planMod3(party). Decrease thrust(ford_stones) by 4 or to nothing. Decrease thrust(bridge) by 4 or to nothing. Decrease thrust(mill_yard) by 4 or to nothing. }
   Relation planMod3(group). Relation fothergillTurned(group).
+  // A ruined granary, and unpaid men, and a lieutenant on a rein: the whole line leans harder.
+  Rule spoiled_anger when planned(party) and grainSpoiled(party) and not angerMod(party) {
+    Assert angerMod(party). Increase thrust(ford_stones) by 3. Increase thrust(bridge) by 3. Increase thrust(mill_yard) by 3. Increase thrust(nave) by 3. }
+  Relation angerMod(group).
   Rule plan_grain when planned(party) and grainSpoiled(party) and wyreKnowsSpoiled(party) and not planMod4(party) {
     Assert planMod4(party). Decrease thrust(ford_stones) by 6 or to nothing. Decrease thrust(bridge) by 6 or to nothing. Decrease thrust(mill_yard) by 6 or to nothing. Decrease thrust(nave) by 6 or to nothing. }
   Relation planMod4(group). Relation wyreKnowsSpoiled(group).

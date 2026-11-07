@@ -5,7 +5,7 @@ Module sallowfield "Three Nights at Sallowfield" {
   Relation villager(group). Measure nerve(group). Relation posted(group, place) exclusive. Relation postsite(place).
   Initially Assert postsite(ford_stones). Initially Assert postsite(bridge). Initially Assert postsite(mill_yard). Initially Assert postsite(nave).
 
-  Person teasdale "Ned Teasdale" at east_road {
+  Person teasdale "Amos Teasdale" at east_road {
     Role "the coachman". Ancestry human. Peaceable. Pronouns he. Manner acerbic.
     Greets "Teasdale does not look up from the axle. 'Cracked clean through,' he says. 'Three days, the smith says, if she's got the iron. Three days on the Company's time, and I have eleven passengers to feed and not one of you has ever once offered to push.'".
   }
@@ -44,12 +44,12 @@ Module sallowfield "Three Nights at Sallowfield" {
     Role "the miller's boy, fishing". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
     Joins "Davy Pinn coils his line round the rod and puts the rod in a hedge. 'I'll fetch it after,' he says, and does not look back at the river.".
     Leaves "Davy Pinn goes off across the grass at a run, towards the mill, without being told to.".
-    Remarks at tower_roof "Davy Pinn puts both hands on the parapet and looks down at the village for a long time. 'It's small,' he says. 'I never knew it was small.'".
+    Remarks at tower_roof "Davy Pinn puts both hands on the parapet and looks down at the village until the light changes. 'It's small,' he says. 'I never knew it was small.'".
     Greets "A boy of twelve with a sling round his neck and a bent pin in the river, who has plainly decided you are the most interesting thing to have happened since the fair. 'I can hit a crow at forty yards,' he says. 'I can hit a man at thirty. Well. Haven't. But I could.'".
   }
   Person crowther "Old Crowther" at fold {
     Role "the shepherd". Ancestry human. Peaceable. Pronouns he. Manner stoic.
-    Greets "The shepherd takes a long time to turn round. 'Sheep,' he says. And after a while: 'There's riders on the Scar road most mornings now. Three. Never four. They look at the village a long time and then go.'".
+    Greets "The shepherd turns round in his own time. 'Sheep,' he says. And after a while: 'There's riders on the Scar road most mornings now. Three. Never four. They look at the village a long time and then go.'".
   }
   Person greenhalgh "Ned Greenhalgh" at lower_farm {
     Role "the farmer at the lower farm". Ancestry human. Peaceable. Pronouns he. Manner grim.
@@ -61,7 +61,7 @@ Module sallowfield "Three Nights at Sallowfield" {
   }
   Person elland "Tib Elland" at granary {
     Role "the tithe clerk". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
-    Greets "A thin young man with ink on his chin and a tally-stick in each hand, counting sacks aloud. 'Four hundred and, and, and four,' he says, and drops a stick. 'Sorry. I. It is not that I am afraid. It is that I have the figures.'".
+    Greets "A thin young man with ink on his chin and a tally-stick in each hand, counting sacks aloud. 'Ninety, ninety, ninety,' he says, and drops a stick. 'Sorry. I. It is not that I am afraid. It is that I have the figures.'".
   }
   Initially Assert villager(stansfield). Initially Assert villager(ashworth). Initially Assert villager(quarmby). Initially Assert villager(kersey).
   Initially Assert villager(cragg). Initially Assert villager(mowbray). Initially Assert villager(pinn). Initially Assert villager(crowther).
@@ -93,7 +93,7 @@ Module sallowfield "Three Nights at Sallowfield" {
     Says "Aldred Stansfield writes down every word you say, and after the first sentence he stops writing and simply looks at you. 'It is a great deal,' he says. 'I had thought of THE VILLAGE WILL REMAIN CALM.' He lays down the pen. 'I do not know that it will.'".
   }
   Topic stansfield_pay with stansfield "Ask the reeve what the village could pay" when true {
-    Says "'Sixty,' says Stansfield, 'in coin, at the outside, if every house is turned out. And the plate, which is the priest's, and the grain, which is the Margrave's. I have no right to offer either.' He is quite pale. 'I am not saying I would not.'".
+    Says "'Sixty,' says Stansfield, 'in coin, at the outside, if every house is turned out. And the plate, which is the priest's, and the grain, which is the Margrave's. I have no right to offer either.' He is pale. 'I am not saying I would not.'".
     On discuss { Assert knows(actor, reeve_would_pay). }
   }
   Entity reeve_would_pay: fact "Reeve Stansfield would pay sixty coin, the plate and the grain to be rid of Wyre's company, if he dared.".

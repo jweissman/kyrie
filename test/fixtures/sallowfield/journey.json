@@ -81,6 +81,7 @@
     "Ask the reeve what the village could pay",
     "The reeve wants the plate for Wyre. What do you say?",
     "Give it, if it is asked",
+    "Go house to house with the reeve for the sixty",
     "To the ford meadow",
     "To the ford stones",
     "To the east road, at the ford",
@@ -113,7 +114,17 @@
     "Out to Sallowfield green",
     "To the ford meadow",
     "To the ford stones",
-    "=day 3 18:30"
+    "To the east road, at the ford",
+    "To the parley stone",
+    "=day 3 12:30",
+    "Offer Sergeant Voll safe conduct to see the granary for himself",
+    "To the east road, at the ford",
+    "To the ford stones",
+    "To the ford meadow",
+    "To Sallowfield green",
+    "Into the tithe granary",
+    "Let Sergeant Voll walk through the granary, and smell it",
+    "=day 3 21:30"
   ],
   "buyTheLieutenant": [
     "Out to Sallowfield green",
@@ -174,5 +185,22 @@
     "Take the old, the sick and the children up to the high fold",
     "To the green well",
     "Set a bucket line from the well to the green"
+  ],
+  "turnedPeace": [
+    "Out to Sallowfield green",
+    "Say what you would put on the notice",
+    "Ask the reeve what the village could pay",
+    "The reeve wants the plate for Wyre. What do you say?",
+    "Give it, if it is asked",
+    "Go house to house with the reeve for the sixty",
+    "To the ford meadow",
+    "To the ford stones",
+    "To the east road, at the ford",
+    "To the parley stone",
+    "=day 3 12:30",
+    "Offer Lieutenant Fothergill ten coin and a way home",
+    "Ask the captain what he wants",
+    "Wait for what the captain asks",
+    "The reeve's sixty, the plate and the grain"
   ]
 }

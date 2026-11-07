@@ -32,20 +32,21 @@ Four posts are fought over on the third night: the **ford stones**, the **bridge
 
 ## What the party's time is spent on
 
-Two days and three nights. Eighteen hours of preparation is enough for most of the following; nothing is enough for all of it.
+Two days and three nights: the clock runs from watch 0 (08:00 on day 1) to watch 366 (21:00 on day 3), about sixty-one hours, of which perhaps forty-nine are the company's. The works below, with the walking between them, come to about sixty (a spec plays most of the list and arrives after he has come). Nothing is enough for all of it.
 
 | Work | Cost in time | What it does |
 |---|---|---|
-| Wall the ford with the coach | 4 h | A barricade; Wyre's men will avoid it and go for the bridge. The coach is burned. |
+| Wall the ford with the coach | 18 h | A barricade; Wyre's men will avoid it and go for the bridge. The coach is burned. |
 | Cut the bridge (crowbar, keystone) | — | The bridge is nearly impassable; Wyre goes for the ford. |
 | Both | — | He goes for the mill, which is the weakest thing in the village. |
 | Draw the flood-gate (Quarmby must agree; crowbar) | — | The meadow drowns, the ford and mill get +4. Greenhalgh's winter hay is gone. |
-| Dig pits in the meadow (shovel) | 4 h | +2 at the ford and the mill: a horse would not see them. |
-| Drill the levy (twice, if the first takes) | 3 h | +1 to every post per success (an intimidation check). Wadsworth gets very good at shouting. |
-| Evacuate the old, sick and children to the fold | 3 h | The difference between *Ash* and *Half Saved*. |
-| Set the bucket line | 1 h | The difference between *Half Saved* and *Held*. |
-| Make caltrops with Peg Kersey | 4 h | +3 at the ford, +1 at the bridge. The iron is the coach's tyre-strap: or the coach goes on. |
-| Foul the grain | 1 h | The winter is gone, and so is Wyre's reason to come. If he knows. |
+| Dig pits in the meadow (shovel) | 14 h | +2 at the ford and the mill: a horse would not see them. |
+| Drill the levy (twice, if the first takes) | 10 h each | +1 to every post per success (an intimidation check). Wadsworth gets very good at shouting. |
+| Evacuate the old, sick and children to the fold | 6 h | The difference between *Ash* and *Half Saved*. |
+| Set the bucket line | 2 h | The difference between *Half Saved* and *Held*. |
+| Make caltrops with Peg Kersey | 9 h | +3 at the ford, +1 at the bridge. The iron is the coach's tyre-strap: or the coach goes on. |
+| Foul the grain | 1 h | The winter is gone, and Wyre's men are angrier: +3 thrust everywhere, unless he is made to know, by a boy who was sent back with the truth *and* by Sergeant Voll, escorted to the granary, who must be convinced it is not a stage (a deception check). |
+| Go house to house for the sixty | 8 h | The coin that the peace costs; sixty is sixty, and Wyre does not take less. |
 | Take the scout in the reeds | night 2 | Kit Lowes: nineteen, frightened, and carrying Wyre's plan. |
 | Count the column from the Scar | — | Numbers: forty, not sixty. |
 | Parley at the standing stone | noon, day 3 | Wyre, Voll, Fothergill. |
@@ -98,7 +99,7 @@ Works take hours (the wall ten, the pits eight, the caltrops nine, the drill six
 - **Gil Quarmby**, miller, will not leave. Holds the mill; agrees to the flood only with a key and a grudge.
 - **Aldred Stansfield**, reeve, writes everything down. Knows what the village can pay.
 - **Hob Wadsworth**, boaster; breaks on the night unless steadied.
-- **Peg Kersey**, smith. **Nan Ashworth**, the Ploughshare. **Ned Greenhalgh**, who will not leave his cows. **Tib Elland**, tithe-clerk, holds a door with a tally-stick. **Crowther**, the shepherd, who sees things.
+- **Peg Kersey**, smith. **Nan Ashworth**, the Ploughshare. **Ned Greenhalgh** (the coachman is Amos Teasdale), who will not leave his cows. **Tib Elland**, tithe-clerk, holds a door with a tally-stick. **Crowther**, the shepherd, who sees things.
 - **Captain Tobin Wyre**, **Lieutenant Fothergill**, **Sergeant Voll**, and **Kit Lowes**, nineteen, in a coat that is too big.
 
 ## Endings
@@ -134,9 +135,9 @@ The route to *Held, at a Cost* is about 90 labels.
 
 ## 2. Authored content present but not reachable (or not specced)
 
-- **Nobody Left** — written, linted; no spec empties the village.
+- **Nobody Left** — written and linted, and now counted over villagers who are not companions; no spec empties the village (it needs the nerve-0 reeve and clerk steadied, posted, and lost).
 - **What Was Left** — the fall-through ending; not reached by any played route.
-- **Early assault** (riders find the ford unwatched; Wyre comes a day early): the rule and its objective exist; no spec plays it.
+- The early assault is played by a spec; but a posted villager anywhere counts as 'watching the ford', which a single `Ask X to hold the ford` defeats, and that is still open.
 - **Cragg's bow** (`fetch_bow` from Greenhalgh's barn; the arrow allocation); **Pinn on the roof**; **Mowbray's rite** over a fallen villager; **Wadsworth breaking** unless steadied; the **bell**; **Elland's door**; the **night-2 raid on the farm** and Greenhalgh's evacuation; **`bluff_wyre`**; **`let_voll_look`**; the **hard interrogation**; the **picked men parleyed with** (the spec argues them off, but does not exercise the failed check); the **bribe's failed check**.
 - Three companions' ending variants are Observes at dawn; only one combination was ever seen in a played run.
 
@@ -164,3 +165,5 @@ First review: the boy's report is a snapshot, a held boy carries what the player
 Second review: the night is two waves with a company's hour between them (above); works are longer and the hours are shown; the riders ride the valley as `Pursuit`s (the Scar road in the morning, the standing stone at noon, the east road in the afternoon, the ford at dusk) and Crowther's count of them changes; the picked men are negotiators, so a wait no longer kills the company by walking past their warning; the Scar count can be wrong (a failed count is sixty armed men and a levy that loses heart); the bell, the helpless lost, the bell silenced, the grain taken and the plate kept all read at dawn; the voices of Kersey, Davy, Quarmby, Mowbray and Greenhalgh differ; Wadsworth speaks on the bridge; Cragg's arrows are forty-one; Wyre no longer explains the moral.
 
 Still open: the engine cannot stop a wait for a *report* (friction 8), so the long waits are survivable rather than interrupted; *Nobody Left* is authored and linted but not reachable by any play I could build (it needs every villager felled, and two of them cannot be posted); the company's hour is five actions and a walk, not a map; the casualty lottery is still dice.
+
+Third review (round 2): the sixty is real and must be collected; a peace with the lieutenant unbought ends with the mill burned anyway, one with him bought holds; fouling the grain raises Wyre's thrust, and he withdraws only if the boy told him *and* Voll was walked through it; the wall takes eighteen hours, the pits fourteen, the drill ten each, the farm raid and the boy come in the same watch; the Scar lights are talked about by Crowther and Greenhalgh from the second morning; a failed seizure sends the boy off with what he saw; a failed kind word allows a hard one; Wyre's weight shows from the tower, the Scar and the east road; the dawn says whether he guessed right; the bribe costs its ten coin whether or not it takes; yielding after a failed argument costs the bell; the roof can fall; Mowbray's arms add a point of drill; five voices were rewritten.
