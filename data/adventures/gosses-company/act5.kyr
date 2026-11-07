@@ -47,7 +47,7 @@ Module pentrice "Gosse's Company" {
   // The evening opens three days after the Wick's, with a chaos counter and seven scenes.
   Rule command_set when heistOver(rierdan) and not commandOn(rierdan) { Assert commandOn(rierdan). Set commandDay(rierdan) to day(clock) + 3. Set chaos(rierdan) to 0. }
   Rule command_begins when commandOn(rierdan) and not holdingCommand(rierdan) and not commandDone(rierdan) and day(clock) >= commandDay(rierdan) and hour(clock) >= 19 {
-    Assert holdingCommand(rierdan). Assert holdingAct(rierdan). Assert at(party, lant_stage). }
+    Assert holdingCommand(rierdan). Assert holdingAct(rierdan). Assert at(party, lant_stage). Assert at(fallow, lant_stage). }
   Relation holdingCommand(place).
   Action next_scene(actor: group, site: place) "Give Hepzibah the nod for the next scene" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, lant_stage) and holdingCommand(rierdan) and not commandDone(rierdan).
@@ -140,8 +140,13 @@ Module pentrice "Gosse's Company" {
     On success { Assert commandDone(rierdan). Retract holdingCommand(rierdan). Retract holdingAct(rierdan). }
     Result "You go down in a line with your hands joined, Gosse at the centre, Hepzibah at the end with the prompt-book under her arm, which is not done. The bear bows. The King throws his handkerchief. The Wick has not sounded like this for nine years.".
   }
-  Rule chaos_counts when sceneV(rierdan) > 0 and not chaosCounted(rierdan) and (s1Done(rierdan) or s2Done(rierdan) or s5Done(rierdan)) { Assert chaosCounted(rierdan). }
-  Relation chaosCounted(place).
+  // A scene the company lets pass unmanaged costs the evening a point of chaos; the skips above cover the scenes that
+  // never arose (no masquers posed against, a Duke already laid, a note already burned, no twins).
+  Rule s1_ignored when sceneV(rierdan) == 2 and not s1Done(rierdan) { Assert s1Done(rierdan). Increase chaos(rierdan) by 1. }
+  Rule s2_ignored when sceneV(rierdan) == 3 and not s2Done(rierdan) and posing(party) { Assert s2Done(rierdan). Increase chaos(rierdan) by 1. }
+  Rule s3_ignored when sceneV(rierdan) == 4 and not s3Done(rierdan) and not ghostSatisfied(rierdan) and not tarnByGhost(rierdan) { Assert s3Done(rierdan). Increase chaos(rierdan) by 1. }
+  Rule s4_ignored when sceneV(rierdan) == 5 and not s4Done(rierdan) and not noteGone(rierdan) { Assert s4Done(rierdan). Increase chaos(rierdan) by 2. }
+  Rule s5_ignored when sceneV(rierdan) == 6 and not s5Done(rierdan) and (twinsMet(party) or kitTaken(party)) { Assert s5Done(rierdan). Increase chaos(rierdan) by 1. }
 
   // The hearts: three private matters, none of which is a hearing.
   Topic dorcas_rask with dorcas "Ask Dorcas what Lord Rask said in the box" when raskCharmed(party) and not dorcasStays(party) and not dorcasLeaves(party) once {

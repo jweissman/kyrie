@@ -61,7 +61,7 @@ Module pentrice "Gosse's Company" {
   }
   Topic ysolt_stop with ysolt "Stop you. I don't think you've counted the cost" answering ysolt_ask when true {
     Says "Her face shuts like a book. 'I have counted it,' she says. 'It is the only thing I have been counting since the Edict.' She turns back to the rope. 'You can tell the Warden. Lucan will not.' She has said his name without thinking, and then she stops.".
-    On discuss { Assert ysoltAsked(actor). Decrease ysoltTrust(actor) by 1 or to nothing. }
+    On discuss { Assert ysoltAsked(actor). }
   }
 
   // The blind ringer: a prophecy given only to someone who answers what he is owed.
@@ -134,7 +134,7 @@ Module pentrice "Gosse's Company" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, audience) and edictOn(rierdan) and (lothalTrust(actor) or lothalDoubt(actor)) and favour(rierdan) >= 2 and not actIIIDone(rierdan).
     Time 10.
     Resolve check(actor, persuasion, dc_hard).
-    On success { Assert pardoned(rierdan). Assert ysoltFree(rierdan). Assert lucanLives(rierdan). Assert actIIIDone(rierdan). Decrease favour(rierdan) by 2 or to nothing. Assert verrallStays(rierdan). Assert state(tarn_body, taken). }
+    On success { Assert pardoned(rierdan). Assert ysoltFree(rierdan). Assert lucanLives(rierdan). Assert actIIIDone(rierdan). Assert verrallStays(rierdan). Assert state(tarn_body, taken). }
     Result "The King has not understood a word of the Edict, which is why he is the King. 'Bury him,' he says. 'Edric taught the boy to ride. Why was he not buried?' The Chamberlain writes it down. It will be done by noon. In the doorway, with the seal of the Realm in his hand and nothing to say, stands the Lord Warden, who has been sent for. He does not look at you. Lucan, behind him, looks at his father's back.".
     Otherwise "The King nods, and smiles, and says: 'Yes, yes, a very sad business,' and has forgotten it by the time you reach the door.".
   }

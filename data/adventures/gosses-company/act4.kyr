@@ -92,7 +92,7 @@ Module pentrice "Gosse's Company" {
     Retract openingNight(rierdan). Retract holdingAct(rierdan). Assert heistOver(rierdan). }
   // The Wick opens even if no one steals anything. Dorcas keeps Pomfret in the box, or doesn't.
   Action charm_pomfret(actor: group, site: place) "Take Lord Rask's box for the evening, and a bottle, and Master Pomfret's whole attention" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, wick_box) and openingNight(rierdan) and planDorcas(actor) and not pomfretLocked(rierdan).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, wick_box) and openingNight(rierdan) and not pomfretLocked(rierdan).
     Time 5.
     Resolve check(actor, performance, dc_fair).
     On success { Assert pomfretLocked(rierdan). Assert raskCharmed(actor). }
@@ -131,7 +131,7 @@ Module pentrice "Gosse's Company" {
     Otherwise "The porter looks at the darn in the cuff, and at your face, and makes a small interrogative noise.".
   }
   Action open_the_box(actor: group, site: place) "Open Master Pomfret's strong-box, with a key or without" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, crake_room) and inCounting(actor) and openingNight(rierdan) and not boxOpened(actor) and (holding(actor, key_kind) or capable(actor, lockwork)).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, crake_room) and inCounting(actor) and openingNight(rierdan) and not boxOpened(actor) and (clerkLured(rierdan) or planPudding(actor) or planTam(actor)) and (holding(actor, key_kind) or capable(actor, lockwork)).
     Time 5.
     Resolve check(actor, lockwork, dc_fair).
     On success { Assert boxOpened(actor). Assert noteTaken(actor). Give forged_note to actor. }
@@ -169,4 +169,7 @@ Module pentrice "Gosse's Company" {
   Milestone m_plan "chose a plan" worth 100 when planPudding(party) or planDorcas(party) or planTam(party) or planOriel(party).
   Milestone m_note "got the note back" worth 400 when noteTaken(party).
   Milestone m_noted "had the note gone, and nothing to show for it" worth 150 when noteGone(rierdan).
+  Relation pomfretBack(place).
+  Rule pomfret_returns when openingNight(rierdan) and not pomfretLocked(rierdan) and not pomfretBack(rierdan) and hour(clock) >= 20 and at(party, crake_room) { Assert pomfretBack(rierdan). Increase alarm(rierdan) by 2. }
+  Observe dorcas_plan_note near dorcas when planDorcas(party) and openingNight(rierdan) "Dorcas has the gown on. She has the look of a woman who has been told she is the only plan, and has agreed to be.".
 }

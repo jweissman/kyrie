@@ -200,3 +200,118 @@ describe("The King's Players, Act III: the Unburied", () => {
     expect(k.holds('ysoltFree', 'rierdan')).toBe(true);
   }, 280000);
 });
+
+describe("The King's Players, Act IV: the Note", () => {
+  const staged = async () => {
+    const k = await KP.start('kp4');
+    k.assert('royalCall', 'pentrice').assert('auditioned', 'rierdan').assert('actIIIDone', 'rierdan').set('favour', 'rierdan', '3');
+    k.put('party', 'concourse');
+    await k.play('Wait › A while');
+    expect(k.holds('wickGranted', 'rierdan')).toBe(true);
+    k.set('openingDay', 'rierdan', '0'); // the same evening, rather than waiting out the three days the lease allows
+    return k;
+  };
+  const prepare = async (k: KP) => {
+    k.put('party', 'lant_ward').put('hepzibah', 'lant_ward');
+    await k.play('Ask Hepzibah to gather the company about the note', "Jem's: a false clerk, a false summons, and a very good coat");
+    k.put('party', 'draper');
+    await k.play('Ask Mistress Pardew whether she dressed a clerk', "The note's a forgery. We mean to take it back");
+    expect(k.holds('disguiseHad', 'party')).toBe(true);
+    expect(k.holds('keyCopied', 'party')).toBe(true);
+  };
+  it('is a caper: a false clerk, a wax key and a burnt forgery, with nothing in the city changed', async () => {
+    const k = await staged();
+    await prepare(k);
+    k.put('party', 'concourse');
+    await k.play('=19:10');
+    expect(k.holds('openingNight', 'rierdan')).toBe(true);
+    k.put('party', 'wick_box');
+    k.j.roll('pass');
+    await k.play("Take Lord Rask's box for the evening, and a bottle, and Master Pomfret's whole attention");
+    expect(k.holds('pomfretLocked', 'rierdan')).toBe(true);
+    k.put('party', 'exchange');
+    await k.play("Walk in at the counting-room door in the clerk's coat, as if you worked there");
+    expect(k.holds('inCounting', 'party')).toBe(true);
+    await k.play("Open Master Pomfret's strong-box, with a key or without");
+    expect(k.holds('noteTaken', 'party')).toBe(true);
+    await k.play('Go out by the way you came, with the paper, before the third act ends');
+    k.put('party', 'lant_stage');
+    await k.play("Burn the note in the Wick's ghost-light");
+    expect(k.holds('noteGone', 'rierdan')).toBe(true);
+    await k.play('=22:10');
+    expect(k.holds('heistOver', 'rierdan')).toBe(true);
+    expect(k.holds('caughtInCounting', 'party')).toBe(false);
+  }, 280000);
+  it('goes wrong: the company is caught in the counting-room, and the note stays with Pomfret', async () => {
+    const k = await staged();
+    await prepare(k);
+    k.put('party', 'concourse');
+    await k.play('=19:10');
+    k.put('party', 'exchange');
+    k.j.roll('pass');
+    await k.play("Walk in at the counting-room door in the clerk's coat, as if you worked there");
+    k.set('alarm', 'rierdan', '3');
+    await k.play('Wait › An hour');
+    expect(k.holds('caughtInCounting', 'party')).toBe(true);
+    k.j.roll(undefined);
+    await k.play('=22:10');
+    expect(k.holds('heistOver', 'rierdan')).toBe(true);
+    expect(k.holds('noteGone', 'rierdan')).toBe(false);
+  }, 280000);
+});
+
+describe("The King's Players, Act V: the Command", () => {
+  const staged = async (seed: string, ...flags: string[]) => {
+    const k = await KP.start(seed);
+    k.assert('royalCall', 'pentrice').assert('auditioned', 'rierdan').assert('actIIIDone', 'rierdan').assert('wickGranted', 'rierdan')
+      .assert('heistOver', 'rierdan').assert('titleByAccident', 'rierdan').set('favour', 'rierdan', '4').set('openingDay', 'rierdan', '0');
+    for (const f of flags) k.assert(f, 'rierdan');
+    k.put('party', 'concourse');
+    await k.play('Wait › A while');
+    expect(k.holds('commandOn', 'rierdan')).toBe(true);
+    k.set('commandDay', 'rierdan', '0');
+    await k.play('=19:10');
+    expect(k.holds('holdingCommand', 'rierdan')).toBe(true);
+    return k;
+  };
+  it('is a glorious fiasco: every scene goes wrong, the bear bows, and the King applauds', async () => {
+    const k = await staged('kp5');
+    k.assert('posing', 'party');
+    // Scene by scene, the company does what the page offers and the dice are against it.
+    k.j.roll('fail');
+    await k.play('Give Hepzibah the nod for the next scene', 'Take Corin Fallow by the arm and walk him to a seat in the second row');
+    await k.play('Give Hepzibah the nod for the next scene', "Seat the Marchants' masquers in the pit, and promise them the afterpiece");
+    await k.play('Give Hepzibah the nod for the next scene'); // the Duke takes the third chair, and nobody has his name
+    await k.play('Give Hepzibah the nod for the next scene', 'Play the Alderman at the top of your voice until he sits');
+    await k.play('Give Hepzibah the nod for the next scene');
+    await k.play('Give Hepzibah the nod for the next scene', 'Cut the scene, and go on to the bear');
+    await k.play('Give Hepzibah the nod for the next scene', 'Take the company down for the call, in front of the bear');
+    expect(k.holds('commandDone', 'rierdan')).toBe(true);
+    expect(k.measure('chaos', 'rierdan')).toBeGreaterThanOrEqual(4);
+    expect(k.j.session.canonical()).toBe(PlaySession.resume(JSON.parse(JSON.stringify(k.j.session.checkpoint()))).canonical());
+  }, 290000);
+  it('is a clean night when the note is gone and the scenes are managed: the theft that could not be proved', async () => {
+    const k = await staged('kp5b', 'noteGone', 'ghostSatisfied');
+    k.j.roll('pass');
+    await k.play('Give Hepzibah the nod for the next scene', 'Take Corin Fallow by the arm and walk him to a seat in the second row');
+    await k.play('Give Hepzibah the nod for the next scene');
+    await k.play('Give Hepzibah the nod for the next scene');
+    await k.play('Give Hepzibah the nod for the next scene');
+    await k.play('Give Hepzibah the nod for the next scene');
+    await k.play('Give Hepzibah the nod for the next scene', 'Cut the scene, and go on to the bear'.replace('Cut the scene, and go on to the bear', 'Give Gosse the Chorus, and let him say it as it is written'));
+    await k.play('Give Hepzibah the nod for the next scene', 'Take the company down for the call, in front of the bear');
+    expect(k.holds('commandDone', 'rierdan')).toBe(true);
+    expect(k.measure('chaos', 'rierdan')).toBeLessThan(4);
+  }, 290000);
+  it('lets the player answer the company in the wings: Dorcas, Hepzibah and Kit each go one way or the other', async () => {
+    const k = await KP.start('kp5c');
+    k.assert('royalCall', 'pentrice').assert('raskCharmed', 'party').assert('twinsMet', 'party');
+    k.put('party', 'lant_ward').put('dorcas', 'lant_ward').put('hepzibah', 'lant_ward').put('kit', 'lant_ward');
+    await k.play('Ask Dorcas what Lord Rask said in the box', 'Stay. You\'d never forgive the house for the loss of you');
+    await k.play('Ask Hepzibah whether she has ever told Gosse', 'Tell him. A man ought to know');
+    await k.play('Ask Kit about Oriel Marchant', 'Go with her. A trade is a trade, and love is rarer');
+    expect(k.holds('dorcasStays', 'party')).toBe(true);
+    expect(k.holds('hepzibahSpoke', 'party')).toBe(true);
+    expect(k.holds('kitLeaves', 'party')).toBe(true);
+  }, 200000);
+});
