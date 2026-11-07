@@ -27,6 +27,9 @@ class R {
     await this.play('Wait › An hour', 'To the Wend Cross', 'Into the Drum and Whistle', 'Ask Hepzibah what is in the heap of letters', 'Out to the Wend Cross');
     return this;
   }
+  // Wait an hour at a time until a condition holds (a night is a clock hour, not a count of waits).
+  async until(done: () => boolean, max = 48) { for (let i = 0; i < max && !done(); i++) { await this.play('Wait › An hour'); } expect(done()).toBe(true); return this; }
+  hour() { return this.measure('hour', 'clock'); }
   async waits(n: number) { for (let i = 0; i < n; i++) { await this.play('Wait › An hour'); } return this; }
 }
 
@@ -133,18 +136,18 @@ describe('The Repertory, 2: The Three', () => {
   const toKeep = async (seed: string) => {
     const r = await R.start(seed);
     await r.tour();
-    await r.play('To the Three Cairns', "To Cairnholt's yard", 'Ask the steward what the Lord wants', 'To the Three Cairns');
     r.j.roll('pass');
+    await r.play('To the Three Cairns', "To Cairnholt's yard", 'Ask the steward what the Lord wants', 'To the Three Cairns');
     await r.play("Watch the three women's hands", 'Ask them something the steward', 'Look for how they came to the cairns', "To Cairnholt's yard", "To Cairnholt's hall");
     return r;
   };
+  const done = (r: R) => () => r.holds('e2Done', 'rierdan');
   it('is ended by the purse on the table, and the Lady is played as the answer given', async () => {
     const r = await toKeep('rep2a');
     expect(r.knows('three_paid_known')).toBe(true);
     await r.play('Report to Lord Valtry', 'They are frauds, my lord', "Put the Lady's purse on the table");
     expect(r.holds('e2Revealed', 'rierdan')).toBe(true);
     expect(r.holds('e2Done', 'rierdan')).toBe(true);
-    r.j.roll(undefined);
     await r.play("To Cairnholt's yard", 'To the Three Cairns', 'To the Wend Cross', 'Into the Drum and Whistle', 'Ask Dorcas how she would play the Lady', 'She is afraid of what he will be without it');
     expect(r.holds('dorcasAfraid', 'party')).toBe(true);
     expect(r.measure('repertoire', 'rierdan')).toBe(1);
@@ -154,40 +157,62 @@ describe('The Repertory, 2: The Three', () => {
     await r.play('Report to Lord Valtry', 'They are frauds, my lord');
     r.j.roll('fail');
     await r.play("Put the Lady's purse on the table");
+    r.j.roll('pass');
     expect(r.holds('e2Rebuffed', 'rierdan')).toBe(true);
     expect(r.holds('e2Done', 'rierdan')).toBe(false);
     expect(r.offers("Put the Lady's purse on the table")).toBe(false);
     expect(r.offers('Say to the Lord, alone, that a man told he will be a king')).toBe(false);
   }, 280000);
-  it('ends in a murder when the company reports the women true and then does nothing at all', async () => {
+  it('ends in a murder when the company reports the women true and then does nothing at all; the murder is not credited to the repertoire', async () => {
     const r = await toKeep('rep2b');
     await r.play('Report to Lord Valtry', 'They are genuine, my lord', "To Cairnholt's yard");
-    await r.waits(17);
+    await r.until(done(r));
     expect(r.holds('e2Murder', 'rierdan')).toBe(true);
-    expect(r.holds('e2Done', 'rierdan')).toBe(true);
+    expect(r.hour()).toBeGreaterThanOrEqual(3);
+    await r.waits(1);
+    expect(r.measure('repertoire', 'rierdan')).toBe(0);
   }, 280000);
-  it('is survived when the Warden\'s door is watched, or the Lady\'s cup is refused; and leaving the report unmade does not leave it open', async () => {
-    const a = await toKeep('rep2c');
-    await a.play('Report to Lord Valtry', 'They are genuine, my lord', "To Cairnholt's yard");
-    await a.waits(11);
-    a.j.roll('pass');
-    await a.play("Post two soldiers at the Warden's door");
-    await a.waits(6);
+  it('treats "I cannot tell" as silence: Valtry decides at +40 watches, and a company that then does nothing has a murder on its hands', async () => {
+    const r = await toKeep('rep2g');
+    await r.play('Report to Lord Valtry', 'I cannot tell, my lord');
+    expect(r.holds('e2Reported', 'rierdan')).toBe(false);
+    await r.until(done(r));
+    expect(r.holds('e2Unreported', 'rierdan')).toBe(true);
+    expect(r.holds('e2Murder', 'rierdan')).toBe(true);
+  }, 280000);
+  it('is survived when the Warden\'s door is watched; the guards cannot be posted after the book is closed', async () => {
+    const r = await toKeep('rep2c');
+    await r.play('Report to Lord Valtry', 'They are genuine, my lord', "To Cairnholt's yard");
+    await r.until(() => r.holds('e2StroudComes', 'rierdan'));
+    await r.play("Post two soldiers at the Warden's door");
+    await r.until(done(r));
+    expect(r.holds('e2Left', 'rierdan')).toBe(true);
+    expect(r.holds('e2Murder', 'rierdan')).toBe(false);
+    expect(r.offers("Post two soldiers at the Warden's door")).toBe(false);
+    await r.waits(1);
+    expect(r.measure('repertoire', 'rierdan')).toBe(1);
+  }, 280000);
+  it('is survived when the Lady\'s cup is refused and the refusal holds; a refusal that fails sends the cup up on the company\'s name', async () => {
+    const a = await toKeep('rep2e');
+    await a.until(() => a.holds('e2StroudComes', 'rierdan'));
+    await a.play('Tell Lady Marit that the company does not carry cups');
+    expect(a.holds('e2CupRefused', 'rierdan')).toBe(true);
+    await a.until(done(a));
     expect(a.holds('e2Left', 'rierdan')).toBe(true);
-    expect(a.holds('e2Murder', 'rierdan')).toBe(false);
-    const b = await toKeep('rep2e');
-    await b.waits(10);
-    expect(b.holds('e2Unreported', 'rierdan')).toBe(true);
+    const b = await toKeep('rep2h');
+    await b.until(() => b.holds('e2StroudComes', 'rierdan'));
+    b.j.roll('fail');
     await b.play('Tell Lady Marit that the company does not carry cups');
-    await b.waits(6);
-    expect(b.holds('e2CupRefused', 'rierdan')).toBe(true);
-    expect(b.holds('e2Left', 'rierdan')).toBe(true);
-    expect(b.holds('e2Murder', 'rierdan')).toBe(false);
+    b.j.roll('pass');
+    expect(b.holds('e2Carried', 'rierdan')).toBe(true);
+    expect(b.holds('e2CupRefused', 'rierdan')).toBe(false);
+    await b.until(done(b));
+    expect(b.holds('e2Murder', 'rierdan')).toBe(true);
   }, 280000);
   it('ends quietly when the company never joins the loop: the women called frauds, nothing done', async () => {
     const r = await toKeep('rep2f');
     await r.play('Report to Lord Valtry', 'They are frauds, my lord');
-    await r.waits(17);
+    await r.until(done(r));
     expect(r.holds('e2Quiet', 'rierdan')).toBe(true);
   }, 280000);
 });
@@ -196,6 +221,7 @@ describe('The Repertory, 3: The Prince and the Letter', () => {
   const toLetter = async (seed: string, trap = true) => {
     const r = await R.start(seed);
     await r.tour();
+    r.j.roll('pass');
     await r.play('To the gate of Harrowmere', 'To the great hall of Harrowmere', 'Ask the Chancellor what he wants');
     await r.play("To the Prince's study", 'Ask the Prince why he talks to the rampart', 'Make him show it', 'To the great hall of Harrowmere', 'To the south rampart');
     await r.waits(2);
@@ -203,13 +229,11 @@ describe('The Repertory, 3: The Prince and the Letter', () => {
     expect(r.holds('e3Ghost', 'party')).toBe(true);
     if (trap) {
       await r.play('Ask the Prince what the cold place said to him', 'To the great hall of Harrowmere');
-      r.j.roll('pass');
       await r.play('Have Swale work a speech about a king killed in an orchard');
       expect(r.holds('e3Trap', 'rierdan')).toBe(true);
     } else { await r.play('To the great hall of Harrowmere'); }
     await r.play('To the gate of Harrowmere', 'To the tiltyard');
     await r.waits(trap ? 2 : 3);
-    r.j.roll('pass');
     await r.play('Step between the Prince and the captain', 'To the gate of Harrowmere', 'To the great hall of Harrowmere');
     await r.waits(2);
     await r.play('To the chapel');
@@ -218,67 +242,103 @@ describe('The Repertory, 3: The Prince and the Letter', () => {
     await r.play('To the great hall of Harrowmere');
     await r.waits(3);
     expect(r.holds('e3Letter', 'rierdan')).toBe(true);
-    r.j.roll(undefined);
     return r;
+  };
+  // The road on to Orlay is walked by day; the company waits on the road (or sleeps at the inn) until it opens.
+  const toOrlayHall = async (r: R) => {
+    await r.play('To the gate of Harrowmere', 'To the Orlay road');
+    await r.until(() => r.hour() >= 6 && r.hour() < 19);
+    await r.play('To the gate of Orlay', 'To the hall of Orlay');
   };
   it('escapes through Orlay on a letter Swale has rewritten on the Prince\'s paper, with his consent, and the two friends are killed for it', async () => {
     const r = await toLetter('rep3a');
-    r.j.roll('pass');
-    await r.play('Warm the seal over a candle', 'Tell the Prince what his uncle');
+    await r.play('Warm the seal over a candle');
     expect(r.holds('e3Read', 'rierdan')).toBe(true);
+    await r.play('Tell the Prince what his uncle');
     expect(r.offers('Ask Swale to write a new letter')).toBe(false);
     await r.play("To the Prince's study", 'Take a clean sheet of the Prince', 'To the great hall of Harrowmere', 'Ask Swale to write a new letter');
     expect(r.holds('e3Forged', 'rierdan')).toBe(true);
-    await r.play('To the gate of Harrowmere', 'To the Orlay road', 'To the gate of Orlay', 'To the hall of Orlay', 'Hand the Margravine of Orlay the letter');
+    await toOrlayHall(r);
+    await r.play('Hand the Margravine of Orlay the letter');
     expect(r.holds('e3Escape', 'rierdan')).toBe(true);
     expect(r.holds('e3Killed', 'rierdan')).toBe(true);
     expect(r.holds('e3Done', 'rierdan')).toBe(true);
     await r.waits(1);
     expect(r.measure('repertoire', 'rierdan')).toBe(1);
   }, 280000);
+  it('spends the Prince\'s sheet on a forgery that fails', async () => {
+    const r = await toLetter('rep3i');
+    await r.play('Warm the seal over a candle', 'Tell the Prince what his uncle', "To the Prince's study", 'Take a clean sheet of the Prince', 'To the great hall of Harrowmere');
+    r.j.roll('fail');
+    await r.play('Ask Swale to write a new letter');
+    r.j.roll('pass');
+    expect(r.holds('e3Forged', 'rierdan')).toBe(false);
+    expect(r.offers('Ask Swale to write a new letter')).toBe(false);
+  }, 280000);
   it('ends in the larder, Bellerophon-wise, when the genuine letter is handed over: read or not', async () => {
     const r = await toLetter('rep3e', false);
-    await r.play('To the gate of Harrowmere', 'To the Orlay road', 'To the gate of Orlay', 'To the hall of Orlay', 'Hand the Margravine of Orlay the letter');
+    await toOrlayHall(r);
+    await r.play('Hand the Margravine of Orlay the letter');
     expect(r.holds('e3Bellerophon', 'rierdan')).toBe(true);
     expect(r.holds('e3Escape', 'rierdan')).toBe(false);
     expect(r.holds('e3Done', 'rierdan')).toBe(true);
   }, 280000);
-  it('lets a seal that was cracked and clumsily re-sealed save the company: the Margravine will not act on a letter she cannot swear to', async () => {
+  it('lets a seal that was cracked and clumsily re-sealed save the company, at the price of the wax-smith\'s crowns', async () => {
     const r = await toLetter('rep3f');
+    const gold = r.j.measure('quantity', 'party', 'gold');
     r.j.roll('fail');
     await r.play('Warm the seal over a candle');
+    r.j.roll('pass');
     expect(r.holds('e3Cracked', 'rierdan')).toBe(true);
+    expect(r.j.measure('quantity', 'party', 'gold')).toBeLessThan(gold);
     expect(r.offers('Warm the seal over a candle')).toBe(false);
-    r.j.roll(undefined);
-    await r.play('To the gate of Harrowmere', 'To the Orlay road', 'To the gate of Orlay', 'To the hall of Orlay', 'Hand the Margravine of Orlay the letter');
+    await toOrlayHall(r);
+    await r.play('Hand the Margravine of Orlay the letter');
     expect(r.holds('e3Escape', 'rierdan')).toBe(true);
     expect(r.holds('e3Killed', 'rierdan')).toBe(false);
   }, 280000);
   it('goes to Orlay with no letter and no cover story, and is turned away at the gate when the explanation fails', async () => {
     const r = await toLetter('rep3g');
-    await r.play("Burn the Margrave's letter", 'To the gate of Harrowmere', 'To the Orlay road', 'To the gate of Orlay', 'To the hall of Orlay');
+    await r.play("Burn the Margrave's letter");
+    await toOrlayHall(r);
     r.j.roll('fail');
     await r.play('Tell the Margravine you come without');
+    r.j.roll('pass');
     expect(r.holds('e3TurnedAway', 'rierdan')).toBe(true);
     expect(r.holds('e3Escape', 'rierdan')).toBe(false);
   }, 280000);
-  it('ends in a farce of laundry lists when the carrier packs the letter into the wrong basket', async () => {
-    const r = await toLetter('rep3b');
+  // The inn is a gamble taken once, on the morning after: the carrier packs the wrong basket on some dice and not on others.
+  const inn = async (seed: string) => {
+    const r = await toLetter(seed);
     await r.play('To the gate of Harrowmere', 'To the Orlay road', 'To the Fox and Feather');
-    await r.waits(1);
+    await r.until(() => r.holds('e3MixRolled', 'rierdan'));
+    await r.until(() => r.hour() >= 6 && r.hour() < 19);
+    return r;
+  };
+  it('ends in a farce of laundry lists when the morning\'s dice send the letter to Orlay in the wrong basket', async () => {
+    const r = await inn('rep3m');
     expect(r.holds('e3Mixed', 'rierdan')).toBe(true);
     await r.play('To the Orlay road', 'To the gate of Orlay', 'To the hall of Orlay', 'Present what the carrier brings');
     expect(r.holds('e3Misdelivered', 'rierdan')).toBe(true);
     expect(r.holds('e3Done', 'rierdan')).toBe(true);
   }, 280000);
-  it('ends in a grave when the Prince is left alone three times', async () => {
+  it('keeps the letter, and its danger, when the morning\'s dice leave the basket alone', async () => {
+    const r = await inn('rep3j');
+    expect(r.holds('e3Mixed', 'rierdan')).toBe(false);
+    await r.play('To the Orlay road', 'To the gate of Orlay', 'To the hall of Orlay', 'Hand the Margravine of Orlay the letter');
+    expect(r.holds('e3Bellerophon', 'rierdan')).toBe(true);
+  }, 280000);
+  it('ends in a grave when the Prince is left alone three times; the grave is not credited to the repertoire', async () => {
     const r = await R.start('rep3c');
     await r.tour();
+    r.j.roll('pass');
     await r.play('To the gate of Harrowmere', 'To the great hall of Harrowmere', 'Ask the Chancellor what he wants');
     await r.waits(11);
     expect(r.holds('e3Grave', 'rierdan')).toBe(true);
     expect(r.holds('e3Letter', 'rierdan')).toBe(false);
     expect(r.holds('e3Done', 'rierdan')).toBe(true);
+    await r.waits(1);
+    expect(r.measure('repertoire', 'rierdan')).toBe(0);
   }, 280000);
 });
 
@@ -286,70 +346,76 @@ describe('The Repertory, 4: The Wood near Athens-on-Wend', () => {
   const toNight = async (seed: string) => {
     const r = await R.start(seed);
     await r.tour();
+    r.j.roll('pass');
     await r.play('To the wedding lawn', 'Ask Gosse how the rehearsal is going', 'Run the rehearsal yourself');
-    await r.waits(6);
-    expect(r.holds('e4Hunt', 'rierdan')).toBe(true);
+    await r.until(() => r.holds('e4Hunt', 'rierdan'));
     return r;
   };
   it('puts the lovers right with ofbit (a sprig is lost to a failed hand) and brings the wedding to the lawn by dawn', async () => {
     const r = await toNight('rep4a');
-    r.j.roll('pass');
     await r.play('Ask Tam to play the hautboy');
     expect(r.holds('e4LordTolerates', 'rierdan')).toBe(true);
     await r.play('To the edge of the wood', 'To the lantern bog', "To the pixie's hollow", 'Gather a sprig of ofbit', 'Gather a second sprig of ofbit', 'To the lantern bog', 'To the edge of the wood');
     r.j.roll('fail');
     await r.play("Touch Rafe's eyes and Idony's with ofbit");
-    expect(r.holds('loves', 'rafe', 'idony')).toBe(false);
     r.j.roll('pass');
+    expect(r.holds('loves', 'rafe', 'idony')).toBe(false);
     await r.play("Touch Rafe's eyes and Idony's with ofbit");
     expect(r.holds('loves', 'rafe', 'idony')).toBe(true);
     expect(r.holds('loves', 'jack', 'maud')).toBe(true);
     await r.play('To the wedding lawn');
-    await r.waits(8);
+    await r.until(() => r.holds('e4Done', 'rierdan'));
+    expect(r.hour()).toBeGreaterThanOrEqual(5);
     expect(r.holds('e4Restored', 'rierdan')).toBe(true);
-    expect(r.holds('e4Done', 'rierdan')).toBe(true);
     expect(r.holds('e4Fiasco', 'rierdan')).toBe(false);
   }, 280000);
   it('ends in a wedding between two who cannot say why when the poppy is used instead', async () => {
     const r = await toNight('rep4d');
-    r.j.roll('pass');
     await r.play('Ask Tam to play the hautboy', 'To the edge of the wood', 'To the lantern bog', "To the pixie's hollow", 'Gather a handful of poppy heads', 'To the lantern bog', 'To the edge of the wood', 'Touch the lovers\' eyes with poppy');
     expect(r.holds('e4Slept', 'rierdan')).toBe(true);
     await r.play('To the wedding lawn');
-    await r.waits(8);
+    await r.until(() => r.holds('e4Done', 'rierdan'));
     expect(r.holds('e4Blank', 'rierdan')).toBe(true);
     expect(r.holds('e4Fiasco', 'rierdan')).toBe(false);
   }, 280000);
-  it('lets the weaver go for the Lord\'s true name only after the cheap bargain has failed, and the missing name costs the Command', async () => {
+  it('lets the weaver go for the Lord\'s true name only after the cheap bargain has failed', async () => {
     const r = await toNight('rep4e');
-    r.j.roll('pass');
     await r.play('Ask Tam to play the hautboy', 'To the edge of the wood', 'To the oak ring', "To the Lord's glade");
     expect(r.offers('Give the Lord of the Green your true name')).toBe(false);
     r.j.roll('fail');
     await r.play('Offer the Lord of the Green the thing he is quarrelling about');
+    r.j.roll('pass');
     expect(r.holds('e4BargainFailed', 'rierdan')).toBe(true);
-    r.j.roll(undefined);
     await r.play('Give the Lord of the Green your true name');
     expect(r.holds('e4Price', 'rierdan')).toBe(true);
     expect(r.holds('e4LoomFree', 'rierdan')).toBe(true);
   }, 280000);
+  it('lets the Ash\'s memory free the weaver at the cost of an hour of the night, and humbles the Lord', async () => {
+    const r = await toNight('rep4f');
+    await r.play('Ask Tam to play the hautboy', 'To the edge of the wood', 'To the oak ring', "To the Lord's glade", 'To the ash that is a woman');
+    const before = r.measure('watch', 'clock');
+    await r.play('Ask the Ash whether she remembers');
+    expect(r.measure('watch', 'clock')).toBeGreaterThanOrEqual(before + 6);
+    expect(r.holds('e4NameKnown', 'rierdan')).toBe(true);
+    await r.play("To the Lord's glade", 'Call the Lord of the Green by the name');
+    expect(r.holds('e4LoomFree', 'rierdan')).toBe(true);
+    expect(r.holds('e4Humbled', 'rierdan')).toBe(true);
+    expect(r.holds('e4Price', 'rierdan')).toBe(false);
+  }, 280000);
   it('ends in the glorious fiasco when the lovers are left as the wood made them', async () => {
     const r = await toNight('rep4b');
-    await r.waits(8);
+    await r.until(() => r.holds('e4Done', 'rierdan'));
     expect(r.holds('e4Dawn', 'rierdan')).toBe(true);
+    expect(r.hour()).toBeGreaterThanOrEqual(5);
     expect(r.holds('e4Fiasco', 'rierdan')).toBe(true);
-    expect(r.holds('e4Done', 'rierdan')).toBe(true);
     expect(r.holds('e4Restored', 'rierdan')).toBe(false);
   }, 280000);
   it('carries what was said on the road into the wood: Kit\'s answer from Marlcross is read among the lovers', async () => {
     const r = await R.start('rep4c');
     await r.tour();
-    await r.play('To Marlcross market square');
     r.j.roll('pass');
-    await r.play('Tell Dr Tuckett that a man locked out', 'To the Priory gate');
-    r.j.roll(undefined);
-    await r.waits(9);
-    expect(r.holds('e1Done', 'rierdan')).toBe(true);
+    await r.play('To Marlcross market square', 'Tell Dr Tuckett that a man locked out', 'To the Priory gate');
+    await r.until(() => r.holds('e1Done', 'rierdan'));
     await r.play('To Marlcross market square', 'To the Ashlar house', 'Ask Kit what he made of Marlcross', 'Tell him to say so, in his own voice');
     expect(r.holds('kitSaysSo', 'party')).toBe(true);
     await r.play('To Marlcross market square', 'To the Wend Cross', 'To the wedding lawn');

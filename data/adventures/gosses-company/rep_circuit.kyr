@@ -59,16 +59,18 @@ Module pentrice "Gosse's Company" {
     opening when e4Open(rierdan) "A ride goes into the beech wood on the south side. The squire's letter has not been read.".
 
   // A play, once performed, joins the repertoire; each episode's ending sets its eNDone and these count it once.
-  Rule rp_rep1 when e1Done(rierdan) and not epRep1(rierdan) { Assert epRep1(rierdan). Increase repertoire(rierdan) by 1. }
-  Rule rp_rep2 when e2Done(rierdan) and not epRep2(rierdan) { Assert epRep2(rierdan). Increase repertoire(rierdan) by 1. }
-  Rule rp_rep3 when e3Done(rierdan) and not epRep3(rierdan) { Assert epRep3(rierdan). Increase repertoire(rierdan) by 1. }
+  Rule rp_rep1 when e1Done(rierdan) and not e1Chaos(rierdan) and not epRep1(rierdan) { Assert epRep1(rierdan). Increase repertoire(rierdan) by 1. }
+  Rule rp_rep2 when e2Done(rierdan) and not e2Murder(rierdan) and not epRep2(rierdan) { Assert epRep2(rierdan). Increase repertoire(rierdan) by 1. }
+  Rule rp_rep3 when e3Done(rierdan) and not e3Grave(rierdan) and not epRep3(rierdan) { Assert epRep3(rierdan). Increase repertoire(rierdan) by 1. }
   Rule rp_rep4 when e4Done(rierdan) and not epRep4(rierdan) { Assert epRep4(rierdan). Increase repertoire(rierdan) by 1. }
 
   // What the road did for the company is Act V's own: repertoire raises standingR there (+1 at two plays, +1 at four), and that
   // is the only chaos slack the tour buys. This file adds nothing to it. Two things of the road are read on the night, though:
   // Swale who was kind to the Prince's speech blurts more gently (the blurt costs a point less), and the name paid in the wood
   // is missing from the Chamberlain's roll.
-  Relation swaleSoftened(place). Relation nameRoll(place).
+  Rule rp_loom_fan when holdingCommand(rierdan) and e4LoomFree(rierdan) and not loomFan(rierdan) and chaos(rierdan) >= 1 { Assert loomFan(rierdan). Decrease chaos(rierdan) by 1. }
+  Observe rp_loom_fan_told at lant_stage when loomFan(rierdan) "In the second tier a large happy man in a wool mantle laughs half a beat before the joke and everyone else takes the cue from him. The scene recovers. He is the weaver from Hollin; he said he had always wanted to see how it was done.".
+  Relation loomFan(place). Relation swaleSoftened(place). Relation nameRoll(place).
   Rule rp_swale_soft when swaleBlurted(rierdan) and swaleHand(party) and not swaleSoftened(rierdan) { Assert swaleSoftened(rierdan). Decrease chaos(rierdan) by 1 or to nothing. }
   Observe rp_swale_soft_told at lant_stage when swaleSoftened(rierdan) "Swale's cry in the third row ends, this time, in a sort of apology to the Prince of Harrowmere, whom nobody present has met. It costs the house a laugh and not the scene.".
   Rule rp_name_roll when holdingCommand(rierdan) and e4Price(rierdan) and not nameRoll(rierdan) and at(party, lant_stage)
