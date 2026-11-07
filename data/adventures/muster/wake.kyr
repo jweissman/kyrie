@@ -1,6 +1,6 @@
 Module muster "The Long Muster's Road" {
   // ── The acts of the road, and what the valley does with what it is told ────────────────────────────────────────
-  Chapter ch_board "The Board at Kell Ford" when true "The legion's road goes over the Hesper Fells, five days to a number nobody in the village will say, and the notice-board at the trough carries the names of those who went and did not come back.".
+  Chapter ch_board "The Board at Kell Ford" when true "The legion's road goes over the Hesper Fells, three days to a number nobody in the village will say, and the notice-board at the trough carries the names of those who went and did not come back.".
   Chapter ch_lower "The Lower Country" when within(party, lowroads) "The first day is the easiest, and three ways long: the gorge that drowns in a thaw, the dry ridge the wolves keep at night, and a goat-track that wants a head for heights.".
   Chapter ch_heights "The Heights and the Viaduct" when within(party, heights) or within(party, viaduct) "Above the lower country the legion's engineers stopped bargaining with the mountain. The road goes into it, or along it, or across a gap where an arch used to be.".
   Chapter ch_pass "The Giant's Pass" when within(party, passland) "At the notch the road goes through a house, and the house has a tenant. Below it, the men who would not be Sent.".
@@ -16,7 +16,7 @@ Module muster "The Long Muster's Road" {
   Observe dispatch_news_shrine at shrine when dispatchSent(party) "A new wax tablet has been pushed into the cracks, in a courier's hand: THE LETTER WENT NORTH. AWAIT THE ANSWER.".
   Observe ropeway_seen at via_n when knows(party, ropeway_known) "A pair of iron staples is driven into the north pier, new, bright, with a rope's worn groove.".
   Observe ropeway_seen_s at via_s when knows(party, ropeway_known) "Across the gap, the engineers' rope-way hangs from two staples, taut as a bowstring.".
-  Observe valley_news_kell at green when scoutGiven(party) "Dunya of the Last Cohort is standing at Kell trough looking at the thirty houses with every sign of delight.".
+  Observe valley_news_kell at green when scoutGiven(party) and travelsWith(dunya, party) "Dunya of the Last Cohort is standing at Kell trough looking at the thirty houses with every sign of delight.".
 
   // ── What each telling does, and where it can be seen ────────────────────────────────────────────────────────────
   // told the Prefect: the standard struck, a valley in mourning, the Eagles and the Hearth each in their own grief.
@@ -28,14 +28,14 @@ Module muster "The Long Muster's Road" {
   Observe fate_kept_archive at archive when told_moll(party) "The Archivist and the Prefect sit together at the cedar table with the Annals open between them and a lamp, and have been there since the noon call. Neither looks up.".
   Person delegates "the Cohort's delegation" nowhere {
     Role "Dunya of the First Century and two soldiers, with a wheel on their packs". Ancestry human. Calling ranger. Level 3. Numbers 3. Peaceable.
-    Arrives at green when told_moll(party) and watch(clock) >= toldAt(party) + 1500.
+    Arrives at green when told_moll(party) and watch(clock) >= toldAt(party) + 600.
     Arrives "Three soldiers in red cloaks come down the north road to the trough at Kell Ford with the whole village standing in its doors. The leader takes off her helmet and says, in careful plain-speech: 'We are from the end of the road. We are told the lamps here are lit. May we see?'".
   }
   // told the Centurion: a century that knows what it is for; a column north.
   Observe fate_march_barracks at barracks when told_merula(party) "The First Century is in full marching order in the yard, packs on, spears up, and no one will say why. The Centurion stands at the head with her cane under her arm. She nods to you once.".
   Person column "the First Century's column" nowhere {
     Role "thirty soldiers of the Last Cohort in red cloaks, with the Centurion's cane at their head". Ancestry human. Calling warrior. Level 3. Numbers 6. Peaceable.
-    Arrives at green when told_merula(party) and watch(clock) >= toldAt(party) + 2000.
+    Arrives at green when told_merula(party) and watch(clock) >= toldAt(party) + 900.
     Arrives "A column of red cloaks comes down the north road in ranks, thirty strong, with a horn sounding at the head of it, and Kell Ford's dogs go mad. The woman at the front halts them at the trough, sets down her cane, and says in plain speech: 'I am a Centurion of the Last Cohort. We have come to see whether anyone is there.' Maud Hennick, in her inn door, says she supposes they will want feeding.".
   }
   // told the Hearth: the sixth withheld; the Eagles' answer; a quarrel in the forum.
@@ -47,11 +47,11 @@ Module muster "The Long Muster's Road" {
   Observe fate_silent_forum at forum when traded_only(party) "The parade goes on at the fourth hour. A girl at the front of the schola's line is crying.".
   Observe fate_silent_shrine at shrine when traded_only(party) "Old Gaius is sitting by the lamp with the Prefect's pouch ready. In the spring he will go again.".
 
-  Objective cross_road when not been(party, septimus_hall) "Five days of road lead over the Hesper Fells from Kell Ford, and the board in the village says the far end is held.".
+  Objective cross_road when not been(party, septimus_hall) "Three days of road lead over the Hesper Fells from Kell Ford, and the board in the village says the far end is held.".
   Objective find_cohort when been(party, septimus_hall) and not been(party, gate) "The road is the legion's, and the legion's road leads somewhere. The stones count it down in cables to a number the village does not mention.".
   Objective read_graffiti when been(party, septimus_hall) and not knows(party, rufus_5) "A soldier called Rufus has scratched his name on every wall of the road, and the walls remember him.".
   Objective tell_valley when been(party, gate) and not valleyTold(party) and not traded_only(party) "The Cohort holds its gate against an empire that is dust. Someone should be told. Or not.".
-  Objective carry_dispatch when dispatchTaken(party) and not dispatchSent(party) "The Prefect has given the company a dispatch for the Emperor. Someone north should read it.".
+  Objective carry_dispatch when dispatchTaken(party) and not dispatchSent(party) "The Prefect has given the company a dispatch for the Emperor. The reeve at Kell Ford knows a bishop who keeps the old archives.".
   Objective marcus_letter when holding(party, marcus_letter_kind) and not merulaKnowsSon(party) "A pouch on the Eagle's stack is addressed to a Centurion of the Cohort, in a young man's hand. It has waited nine springs.".
 
   Milestone m_septimus "reached the Mansio Septimus" worth 100 when been(party, septimus_hall).
