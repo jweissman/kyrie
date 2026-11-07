@@ -40,7 +40,7 @@ export class Act {
   }
   // What a choice that is asked again says when it is chosen once: what it cannot undo, or how a fight would go.
   static asks(c: Choice): string | undefined { return c.grave ?? c.marks?.find(m => m.ask)?.said; }
-  private static asked(said: string, grave: boolean): string {
+  static asked(said: string, grave: boolean): string {
     const whole = `${Words.upper(said)}${/[.!?]$/.test(said) ? '' : '.'}`;
     return `${whole}${grave ? ' It cannot be undone.' : ''} Choose it again to do it.`;
   }

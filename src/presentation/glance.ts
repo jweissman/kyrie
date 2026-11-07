@@ -58,7 +58,7 @@ export class Glance {
       && (['opening', 'first', 'resume'].includes(arrival) || turned);
     const need = this.need(screen), after = told && this.after(campaign, told, { screen, acts, scene });
     return { arrival, ...lines.sight ? { sight: lines.sight } : {}, ...lines.life ? { life: lines.life } : {},
-      changed: lines.changed, acts, ways: Promotion.ways(cands, acts, s), aimed: this.aimed(screen, reading),
+      changed: lines.changed, acts, ways: Promotion.ways(cands, acts, s), ...this.aimed(screen, reading),
       ...said ? { aim } : {}, ...need.length ? { need } : {}, ...after ? { after } : {} };
   }
   // What came of the act just done, and what it made relevant (REV-05; see DecisionFrame).
@@ -107,12 +107,20 @@ export class Glance {
     return [...e.hungry ? ['Hungry'] : [], ...e.weary ? ['Weary'] : [], ...screen.dark ? ['No light'] : [],
       ...screen.party.filter(m => m.hp < m.maxHp / 2).map(m => m.hp > 0 ? `${m.name}: ${m.hp} of ${m.maxHp}` : `${m.name}: down`)];
   }
-  // Every choice that goes where the aims name: the ways, the walks about the town, the journeys known.
-  private static aimed(screen: Screen, r: Reading): string[] {
-    const aims = new Set([...r.named, ...r.held]);
+  // Every choice that goes where the aims name: the ways, the walks about the town, the journeys known; those of the
+  // aim followed first, and said apart (following), so that the page's "your aim" is that aim's and no other's. In
+  // Karir's chandlery, following the crypt, the corn-store of another aim had stood alone as "your aim", the
+  // churchyard's walk folded into its quarter (the fresh playtest of 7 November).
+  private static aimed(screen: Screen, r: Reading): Pick<View, 'aimed' | 'following'> {
+    const following = [...new Set(this.going(screen, r, r.named, 'toward'))];
+    const aimed = [...new Set([...following, ...this.going(screen, r, r.held, 'held')])];
+    return { aimed, ...following.length ? { following } : {} };
+  }
+  // The ways and journeys to the places some aims name, and the ways toward them.
+  private static going(screen: Screen, r: Reading, aims: Set<string>, why: 'toward' | 'held'): string[] {
     const journeys = [...screen.destinations ?? [], ...screen.around ?? [], ...screen.roads ?? []];
-    return [...new Set([...screen.exits.filter(e => aims.has(e.destination.id) || r.toward.has(e.id)).map(e => e.id),
-      ...journeys.filter(d => aims.has(d.id)).map(d => `travel:${d.id}`)])];
+    return [...screen.exits.filter(e => aims.has(e.destination.id) || r.toward.get(e.id) === why).map(e => e.id),
+      ...journeys.filter(d => aims.has(d.id)).map(d => `travel:${d.id}`)];
   }
   private static reading(campaign: Campaign, screen: Screen,
     at: { recall: CompanyRecall; life?: string; pointed: Set<string> }): Reading {
@@ -122,8 +130,9 @@ export class Glance {
       .filter(([k]) => !['actor', 'site'].includes(k)).map(([, v]) => v)]));
     const touches = new Map(rows.map(r => [r.choice.id,
       new Set((r.action.success ?? []).flatMap(c => c.call?.args ?? []))]));
-    const named = this.whereabouts(campaign, screen, this.named(campaign));
-    const held = new Set([...screen.aimed ?? []].filter(id => !named.has(id) && id !== campaign.playerActor));
+    const named = this.inside(campaign, screen, this.whereabouts(campaign, screen, this.named(campaign)));
+    const held = this.inside(campaign, screen,
+      new Set([...screen.aimed ?? []].filter(id => !named.has(id) && id !== campaign.playerActor)));
     const idle = new Set([...screen.around ?? [], ...screen.destinations ?? []].map(d => d.id)
       .concat(screen.exits.map(e => e.destination.id), [...named], [...held]).filter(id => recall.idle(id)));
     const back = recall.came && screen.exits.find(e => e.destination.id === recall.came)?.destination.id;
@@ -185,6 +194,20 @@ export class Glance {
     });
     return at.length ? new Set([...ids, ...at]) : ids;
   }
+  // An aim at the place a site stands at (the heath the lone tower stands on) is, to a company inside the site, an aim
+  // at the site itself: what it asks is in there, not out by the way in. In the crypt under the tower, following
+  // "Something is wrong at Lapisspira", the page had led out by the postern (the fresh playtest of 7 November).
+  private static inside(campaign: Campaign, screen: Screen, ids: Set<string>): Set<string> {
+    const byId = EntityIndex.of(campaign.module.entities).byId, site = this.siteOf(byId, screen.place.id);
+    if (!site || ids.has(site)) { return ids; }
+    const fronts = new Set<string>();
+    for (const r of campaign.world.related('connects')) {
+      for (const [a, b] of [[r.args[1]!, r.args[2]!], [r.args[2]!, r.args[1]!]] as const) {
+        if (ids.has(a) && !this.siteOf(byId, a) && this.siteOf(byId, b) === site) { fronts.add(a); }
+      }
+    }
+    return fronts.size ? new Set([...[...ids].filter(id => !fronts.has(id)), site]) : ids;
+  }
   private static names(campaign: Campaign, def: Objective): Set<string> {
     let kept = this.namings.get(campaign.module);
     if (!kept) { kept = new Map(); this.namings.set(campaign.module, kept); }
@@ -205,9 +228,15 @@ export class Glance {
     // Nor, from there, back to a place it names that the company has been (the rat-runs the run is in, not the
     // corn-store above them).
     const been = new Set(aims.named.has(here) ? screen.map.filter(p => p.visited).map(p => p.id) : []);
-    const places = [...[...aims.named].map(id => [id, 'toward'] as const), ...held.map(id => [id, 'held'] as const)]
+    // Nor a step toward a place the aim names while a way or a walk about the town goes straight to one it names: the
+    // walk to the churchyard is the way to the crypt under it. From the shrine at Karir the page had led to the
+    // landing, the first leg of the way round to the crypt, and at the landing nothing (the playtest of 7 November).
+    const direct = new Set([...screen.exits.map(e => e.destination.id), ...(screen.around ?? []).map(d => d.id)]);
+    const straight = [...aims.named].some(id => direct.has(id) && id !== here && !around.has(id) && !aims.idle.has(id));
+    const places = [...straight ? [] : [...aims.named].map(id => [id, 'toward'] as const),
+      ...held.map(id => [id, 'held'] as const)]
       .filter(([id]) => byId.get(id)?.space && !around.has(id) && !been.has(id) && !aims.idle.has(id)
-        && !screen.exits.some(e => e.destination.id === id))
+        && !direct.has(id))
       // A room to stand in before the area round it: an aim at Gaudumport's far end names the site too, and the way
       // in, once the speaking door was open, had not been led with (OWN-57's play).
       .sort((a, b) => Number(byId.get(b[0])?.space?.kind === 'room') - Number(byId.get(a[0])?.space?.kind === 'room'))

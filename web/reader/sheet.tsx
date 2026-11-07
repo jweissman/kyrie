@@ -5,7 +5,7 @@ import { Act } from './stage/act';
 import { Words } from './words';
 import { Typography } from '../../src/presentation/typography';
 import { CharacterPage } from './character-page';
-import { MenuModel } from './menu-model';
+import { BoardField } from './board-field';
 import { Aims } from './aims';
 import { Followed } from './followed';
 
@@ -81,8 +81,12 @@ export class Sheet {
         aria-pressed={following} disabled={following} onClick={() => app.follow(aim)}>
         {following ? 'Following' : 'Follow this'}</button>
       {place && <button type="button" className="option on-map" data-action="aim-map" data-id={place.id}
-        onClick={() => { app.follow(aim); app.choose(MenuModel.country); }}>{`${place.name}, on the map`}</button>}
+        onClick={() => { app.follow(aim); app.chart(Sheet.charted(screen, place.id)); }}>{`${place.name}, on the map`}</button>}
       </span></li>;
+  }
+  // A place as the map knows it (its mark, its town, or the hex it lies in: see BoardField.whither).
+  static charted(screen: Screen, id: string): string {
+    return screen.region?.land ? BoardField.whither(screen.region, id) ?? id : id;
   }
   // Nothing asked: yet, or any more, now something has been seen through; and what has been heard of is there to
   // follow (the follow-up review read "Nothing is asked of you yet" over a family's story finished and a hall heard of).

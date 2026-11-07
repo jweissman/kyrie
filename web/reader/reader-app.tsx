@@ -53,6 +53,9 @@ export interface AppState {
   // entering a place, or doing anything where the company is, puts it away (the owner, 4 November, late: one map,
   // never a second view of it with a sidebar).
   outdoors?: boolean;
+  // What is chosen on the map, and where the company stood when it was chosen (a choice made at one place is let go
+  // of at the next): chosen on the map itself, or by the Notes, opening it on an aim's place (see chart).
+  charted?: { at: string; id?: string };
   // What is opened over a place at rest, if anything (see Explorer): the wayfinder, what is at hand, a wait, or
   // everyone here the picture has no room for; and whether what is told in it is what came of something done there
   // (it stays open over what was done to a thing or a wait, and closes on going anywhere).
@@ -154,7 +157,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
       const combat = message.frame.combat, fight = combat ? this.state.frame?.combat ? this.state.fight
         : { seen: 0, hp: {}, first: true, began: Object.fromEntries(combat.allies.map(f => [f.id, f.hp])) } : undefined;
       this.setState({ frame: message.frame, pending: undefined, cursor: 0, open: [], hovered: undefined, fight,
-        attention: Conversation.place, talk: [], asked: [], confirming: undefined,
+        attention: Conversation.place, talk: [], asked: [], confirming: undefined, charted: undefined,
         outdoors: !!message.frame.screen.region?.land && !combat });
     }
   }
@@ -289,6 +292,14 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   // The map up, or put away (entering where the company stands, or backing out of it to the map).
   readonly outdoor = (up: boolean) => { this.setState({ outdoors: up, view: 'here', attention: Conversation.place, cursor: 0,
     open: [], hovered: undefined, exploring: undefined }); };
+  // The map up with a place on it chosen, brought into view clear of the card that says it: "A lone tower, on the
+  // map", in the Notes, had opened the map on the town, the tower neither chosen nor in sight (the fresh playtest of 7
+  // November). A country with no land drawn has its own map, the Map in the books.
+  readonly chart = (id: string) => {
+    const at = this.state.frame?.screen.place.id;
+    if (!at || !this.state.frame?.screen.region?.land) { this.show('map'); return; }
+    this.outdoor(true); this.setState({ charted: { at, id } });
+  };
   // The map up and your mark walked there, for as long as the board takes to walk it (no time at all where it does
   // not move: no drawing, or reduced motion), and never longer than a board that is slow to come up is waited for.
   private walk(way: number[]): Promise<void> {
