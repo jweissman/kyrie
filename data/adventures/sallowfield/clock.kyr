@@ -23,11 +23,11 @@ Module sallowfield "Three Nights at Sallowfield" {
     Role "Wyre's sergeant, a big man with a bad knee". Ancestry human. Calling warrior. Level 2. Peaceable. Pronouns he. Manner stoic.
   }
   Person riders "two of Wyre's riders" nowhere {
-    Role "a pair of troopers on lathered horses, in the Margrave's old green". Ancestry human. Calling warrior. Level 2. Numbers 2. Temperament wary. Refuge east_road.
-    Arrives at ford_stones when watch(clock) >= 80.
-    Arrives "Two horsemen come down to the east bank in the last of the light and walk their horses into the river as if it were their own. They stop at the middle stone. One of them has a slate.".
-    Warns "The nearer trooper puts a hand on his hilt, without drawing. 'Evening,' he says. 'Nice night to be about.' Behind him the other has already turned his horse.".
-    Flinches "The troopers wheel and are across the ford and gone up the east road at a canter, one of them swearing.".
+    Role "a pair of troopers on lathered horses, in the Margrave's old green". Ancestry human. Calling warrior. Level 2. Numbers 2. Peaceable. Manner stoic. Refuge east_road.
+    Uses go.
+    Arrives at lookout when watch(clock) >= 12.
+    Arrives "Two horsemen come along the Scar road and rein in at the lookout, and sit their horses looking down the vale as a man looks at a plate. One of them has a slate.".
+    Greets "The nearer trooper touches his hat and says the road is free to everyone, and keeps his eyes on the water. The other has a slate on his knee and does not look up.".
   }
   Person lowes "Kit Lowes" nowhere {
     Role "a boy of nineteen in a trooper's coat that is too big for him, with his boots in his hand". Ancestry human. Calling thief. Level 1. Peaceable. Pronouns he. Manner cheerful.
@@ -37,18 +37,25 @@ Module sallowfield "Three Nights at Sallowfield" {
     Role "four troopers with sacks, who have not been paid since the spring". Ancestry human. Calling warrior. Level 1. Numbers 4. Temperament wary. Refuge south_road.
     Arrives at lower_farm when watch(clock) >= 216.
     Arrives "Four men come up out of the dark by the river, quietly, with empty sacks.".
-    Warns "The troopers stop. The oldest of them looks at the cows, and then at you, and then at the sacks in his hands. 'We'll take the cows,' he says, 'and go. I'd sooner that than the other.'".
+    Warns "The troopers stop. The oldest of them looks at the cows, and then at you, and then at the sacks in his hands. 'We'll take the cows,' he says, 'and go. Better the cows than the other.'".
     Flinches "The troopers leave their sacks where they stand and go off into the dark at a run.".
   }
   Person picks "Wyre's picked men" nowhere {
-    Role "three of the Unpaid in good steel, who have fought for money in six countries". Ancestry human. Calling warrior. Level 3. Numbers 3. Temperament territorial.
-    Warns "Three men come out of the dark in a line, in good steel, and stop. The one in front takes off his helm and holds it under his arm. 'The captain would have the grain,' he says, 'and he'd have the bell. Which would you sooner lose?'".
-    Comes "The three step in together, and the first one puts his helm back on.".
+    Role "three of the Unpaid in good steel, who have fought for money in six countries". Ancestry human. Calling warrior. Level 3. Numbers 3. Peaceable. Manner grim.
+    Greets "The one in front takes off his helm and holds it under his arm. 'The captain would have the grain,' he says, 'and he'd have the bell. Which of them can you spare?' The other two have not taken their hands off their hilts.".
   }
 
   // ── Night one: the riders look ─────────────────────────────────────────────────────────────────────────────────
   // They cross as far as the middle stone, look at the town, write it down, and go. What they write depends on whether
   // anyone is about: a man posted at the ford or the bridge, a fire, a lantern. An empty ford means an easy town.
+  // The riders ride the valley, Scar to ford, and are seen where they are: the lookout in the morning, the standing
+  // stone at noon, the east road in the afternoon, the middle stone at dusk. They stay at the stone till they have looked.
+  Pursuit riders_scar for riders "riding the Scar road" priority 5 when watch(clock) >= 12 and watch(clock) < 48 and not riders_gone(party) seeks at(riders, lookout).
+  Pursuit riders_stone for riders "riding down to the standing stone" priority 5 when watch(clock) >= 48 and watch(clock) < 66 and not riders_gone(party) seeks at(riders, parley_stone).
+  Pursuit riders_road for riders "riding the east road" priority 5 when watch(clock) >= 66 and watch(clock) < 80 and not riders_gone(party) seeks at(riders, east_road).
+  Pursuit riders_ford for riders "riding down to the ford" priority 5 when watch(clock) >= 80 and not riders_gone(party) seeks at(riders, ford_stones).
+  Observe crowther_four near crowther when riders_gone(party) "'Four,' says Crowther, and holds up four fingers, and puts one down. 'There were three, on the Scar road. There was a fourth this morning, with a slate.'".
+
   Query watchedFord() means (posted(?v, ford_stones) and able(?v)) or (posted(?v, bridge) and able(?v)) or at(party, ford_stones) or at(party, bridge) or at(party, ford_meadow).
   Rule riders_look at ford_stones when at(riders, ford_stones) and watch(clock) >= 92 and not riders_gone(party) and watchedFord()
     says "The troopers sit their horses at the middle stone for the length of a long breath. Someone on the bank has been seen. The man with the slate writes a line and wipes his thumb." {
@@ -91,9 +98,9 @@ Module sallowfield "Three Nights at Sallowfield" {
     says "In the dark by the river, a cow bellows, and another, and a dog barks and stops. Then, for a long time, there is the sound of a barn being searched." {
     Assert farmRaided(party). }
   Relation farmRaided(group). Relation greenhalghSaved(group).
-  Rule farm_burns when farmRaided(party) and not farmDefended(party) and not greenhalghSaved(party) { Assert farmBurned(party). }
-  Relation farmDefended(group). Relation farmBurned(group).
-  Rule greenhalgh_hurt when farmBurned(party) and not farmDefended(party) and not evacuatedFarm(party) and not greenhalghDead(party) { Slay greenhalgh. Assert felled(greenhalgh). Assert greenhalghDead(party). }
+  Rule farm_burns when farmRaided(party) and not greenhalghSaved(party) { Assert farmBurned(party). }
+  Relation farmBurned(group).
+  Rule greenhalgh_hurt when farmBurned(party) and not evacuatedFarm(party) and not greenhalghDead(party) { Slay greenhalgh. Assert felled(greenhalgh). Assert greenhalghDead(party). }
   Relation greenhalghDead(group). Relation evacuatedFarm(group).
   Observe farm_gone at lower_farm when farmBurned(party) "The long house is a roofless black shape and the barn is gone to its walls. The yard is empty of cattle. The dog sits where it sat and does not bark.".
 

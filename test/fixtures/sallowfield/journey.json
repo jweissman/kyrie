@@ -15,7 +15,7 @@
     "a sod-cutting shovel: Take",
     "Ask Peg Kersey what the iron is for",
     "Make the spikes",
-    "Work Peg Kersey's bellows for six hours while she makes the spikes",
+    "Work Peg Kersey's bellows for nine hours while she makes the spikes",
     "Out to Sallowfield green",
     "Into the chapel of Saint Eadred",
     "Ask Mistress Cragg why she is counting arrows in a church",
@@ -30,21 +30,6 @@
     "If it saves the mill, yes",
     "Ask Gil Quarmby to hold Quarmby's mill yard",
     "To Sallowfield green"
-  ],
-  "works": [
-    "Take the old, the sick and the children up to the high fold",
-    "Drill the levy on the green with staves",
-    "To the green well",
-    "Set a bucket line from the well to the green",
-    "To Sallowfield green",
-    "To the ford meadow",
-    "Dig pits in the ford meadow and lay hurdles over them",
-    "To the ford stones",
-    "Wall the ford with the coach, the inn's tables and the hurdles",
-    "To the ford meadow",
-    "To Sallowfield green",
-    "To the packhorse bridge",
-    "Prise out the keystone of the near arch"
   ],
   "toTheFord": [
     "To the ford meadow",
@@ -68,7 +53,7 @@
     "Tell the boy he will be fed and sent home when it is over"
   ],
   "parley": [
-    "Out to Sallowfield green",
+    "To Sallowfield green",
     "To the ford meadow",
     "To the ford stones",
     "To the east road, at the ford",
@@ -174,5 +159,20 @@
     "To the south road",
     "=day 3 09:00",
     "Walk on south, and do not look back"
+  ],
+  "wallAndCut": [
+    "To the ford meadow",
+    "To the ford stones",
+    "Wall the ford with the coach, the inn's tables and the hurdles",
+    "To the ford meadow",
+    "To Sallowfield green",
+    "To the packhorse bridge",
+    "Prise out the keystone of the near arch"
+  ],
+  "afterTruth": [
+    "Out to Sallowfield green",
+    "Take the old, the sick and the children up to the high fold",
+    "To the green well",
+    "Set a bucket line from the well to the green"
   ]
 }

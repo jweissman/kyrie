@@ -10,11 +10,11 @@ Module sallowfield "Three Nights at Sallowfield" {
     Says "Davy Pinn takes the sling from round his neck and winds it round his fist, and unwinds it. 'Hit them,' he says. 'Obviously.' Then, not so loud: 'My da says boys don't. My da is at the mill all day. Do you think I'm too young?'".
   }
   Topic pinn_young with pinn "Yes. Stay with your mother" answering pinn_talk when true {
-    Says "Davy goes red to the hair, and says, 'Right,' and goes back to his pin. After a minute: 'I'll be on the green, then. If anybody needs me.' He does not look round.".
+    Says "Davy goes red to the hair, and says, 'Oh,' and goes back to his pin. After a minute: 'I'll be on the green, then. If anybody needs me.' He does not look round.".
     On discuss { Assert pinnSent(actor). }
   }
   Topic pinn_useful with pinn "Old enough to be useful. Not old enough to be a hero" answering pinn_talk when true {
-    Says "'Useful,' says Davy, trying the word. 'Right. I can be useful.' He is already thinking about where. 'You tell me where, and I'll be there.'".
+    Says "'Useful,' says Davy, trying the word. 'I can be useful, then.' He is already thinking about where. 'You tell me where, and I'll be there.'".
     On discuss { Assert willing(pinn, actor). Set hire(pinn) to 0. }
   }
   Topic pinn_all with pinn "Tonight everyone is old enough" answering pinn_talk when true {
@@ -45,7 +45,7 @@ Module sallowfield "Three Nights at Sallowfield" {
     On discuss { Assert willing(cragg, actor). Set hire(cragg) to 0. Assert craggKin(actor). }
   }
   Topic cragg_killed with cragg "People I killed" answering cragg_talk when true {
-    Says "Ellen Cragg does not move. 'I see,' she says. 'It is honest. I had a husband who could say that and it made him very good with a bow.' She thinks. 'I'll come. I'll not forgive you for it, if it comes up. It might not.'".
+    Says "Ellen Cragg does not move. 'I see,' she says. 'It is honest. I had a husband who could say that and it made him very good with a bow.' She thinks. 'I'll come. Don't expect me to like it. It might not come up.'".
     On discuss { Assert willing(cragg, actor). Set hire(cragg) to 0. Assert craggKilled(actor). }
   }
   Discovery cragg_bow_known "Ellen Cragg's husband's bow hangs in Greenhalgh's barn, where he left it.".
@@ -60,7 +60,7 @@ Module sallowfield "Three Nights at Sallowfield" {
     Result "It is where she said, on two pegs, oiled, with the string slackened. It is lighter than it looks. It has her husband's initials burned into the stave, and a notch for every year of the crows.".
   }
   Action cragg_arrows(actor: group, site: place, p: place) "Ask Ellen to put the last of her arrows at {p}" {
-    Requires able(actor) and company(actor) and at(actor, site) and travelsWith(cragg, actor) and postsite(p) and not craggGave(actor) and watch(clock) >= assaultAt(wyre) - 6 and watch(clock) < assaultAt(wyre) + 6.
+    Requires able(actor) and company(actor) and at(actor, site) and travelsWith(cragg, actor) and postsite(p) and not craggGave(actor) and watch(clock) >= assaultAt(wyre) + 6 and watch(clock) < assaultAt(wyre) + 12 and w2planned(party).
     Time 0.
     On success { Assert craggGave(actor). Increase defence(p) by 3. }
     Result "Ellen counts them out into the hands of whoever is nearest, aloud, to the last one. 'Forty-one,' she says. 'Remember it.'".
@@ -88,7 +88,7 @@ Module sallowfield "Three Nights at Sallowfield" {
     On discuss { Assert plateGiven(actor). }
   }
   Topic mowbray_keep with mowbray "Keep it. It is not ours to trade" answering mowbray_plate when true {
-    Says "'Good,' says Mowbray, 'good,' and gets up, and bolts the chest, and is a different man. 'Then it stays where it is, and I'll stay with it.'".
+    Says "'Well,' says Mowbray. 'Well, damn it,' and gets up, and bolts the chest, and is a different man. 'Then it stays where it is, and I'll stay with it.'".
     On discuss { Assert plateKept(actor). }
   }
   Action mowbray_raises(actor: group, site: place, v: group) "Ask Father Mowbray to say the rite over {v}, who fell" {
@@ -110,14 +110,14 @@ Module sallowfield "Three Nights at Sallowfield" {
     On discuss { Assert quarmbyAgrees(actor). }
   }
   Topic quarmby_no with quarmby "No. We will find another way" answering quarmby_mill when true {
-    Says "'Good,' says Quarmby, and is angry with himself at how good it is. 'I'll hold the mill, then. I'll not leave it. Don't ask me to.'".
+    Says "'Mm,' says Quarmby, and hates how glad he is. 'I'll hold the mill, then. I'll not leave it. Don't ask me to.'".
     On discuss { Assert posted(quarmby, mill_yard). }
   }
   Topic greenhalgh_go with greenhalgh "Tell Ned Greenhalgh to take his cows to the fold" when true once {
     Says "'And leave the barn?' says Greenhalgh. 'My father built that barn.' He leans on the gate. 'Tell me one thing that is not a lie. Will they come here first?'".
   }
   Topic greenhalgh_true with greenhalgh "Yes. The farm is the first they reach" answering greenhalgh_go when true {
-    Says "'There,' says Greenhalgh. 'That was not hard.' He whistles the dog off the yard. 'I'll drive them. I'll not forgive any of you for the barn.'".
+    Says "Greenhalgh spits, and wipes his mouth. 'Not hard, that.' He whistles the dog off the yard. 'I'll drive them. You can mend the barn yourselves.'".
     On discuss { Assert evacuatedFarm(actor). Assert greenhalghSaved(actor). }
   }
   Topic greenhalgh_lie with greenhalgh "No. They will go straight for the ford" answering greenhalgh_go when true {
@@ -142,17 +142,17 @@ Module sallowfield "Three Nights at Sallowfield" {
     Says "'Strap,' says Peg Kersey. 'The coach.' She takes the strap out of the coals with tongs and looks at it. 'Or four hundred caltrops, a day's work, which would take the legs out from under a horse. Or both, if you find me more iron. There is no more iron.' She sets it down. 'You tell me. I do not ask which of you is leaving.'".
   }
   Topic kersey_spikes with kersey "Make the spikes" answering kersey_iron when true {
-    Says "'Right,' says Kersey, and puts the strap back in the coals with a face that gives nothing away. 'The coach stays here.'".
+    Says "Kersey puts the strap back in the coals with a face that gives nothing away. 'Coach stays,' she says.".
     On discuss { Assert ironForSpikes(actor). }
   }
   Topic kersey_axle with kersey "Mend the axle" answering kersey_iron when true {
-    Says "'Right,' says Kersey. She files the strap flat. 'Two days.' She does not look at you. 'I did not think you would stay, and I did not think you should.'".
+    Says "Kersey files the strap flat. 'Two days.' She does not look at you. 'I did not think you would stay, and I did not think you should.'".
     On discuss { Assert coachMended(actor). }
   }
-  Action work_the_forge(actor: group, site: place) "Work Peg Kersey's bellows for six hours while she makes the spikes" {
+  Action work_the_forge(actor: group, site: place) "Work Peg Kersey's bellows for nine hours while she makes the spikes" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, forge) and ironForSpikes(actor) and not caltrops(party).
-    Time 36.
+    Time 54.
     On success { Assert caltrops(party). Increase defence(ford_stones) by 3. Increase defence(bridge) by 1. }
-    Result "Six hours of it. The bellows is a lung as big as a boy and it takes all of you in turn. By dusk the floor of the forge is a field of black points, and Peg Kersey is sweeping them into sacks with her hands, and not a drop of blood on her.".
+    Result "Nine hours of it. The bellows is a lung as big as a boy and it takes all of you in turn. By dusk the floor of the forge is a field of black points, and Peg Kersey is sweeping them into sacks with her hands, and not a drop of blood on her.".
   }
 }
