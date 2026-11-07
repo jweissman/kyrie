@@ -60,6 +60,7 @@ Module sallowfield "Three Nights at Sallowfield" {
   Rule w2_held_bridge when stands1(bridge) and w1done(nave) and not w2planned(party) { Increase thrust2(ford_stones) by 3. }
   Rule w2_fell_bridge when overrun1(bridge) and w1done(nave) and not w2planned(party) { Increase thrust2(nave) by 5. }
   Rule w2_fell_mill when overrun1(mill_yard) and w1done(nave) and not w2planned(party) { Increase thrust2(nave) by 3. }
+  Rule w2_flooded when sluiceOpen(party) and w1done(nave) and not w2planned(party) { Increase thrust2(mill_yard) by 3. Increase thrust2(nave) by 3. }
   Rule w2_latch when w1done(ford_stones) and w1done(bridge) and w1done(mill_yard) and w1done(nave) and not w2planned(party) { Assert w2planned(party). }
 
   // ── The company's hour ──────────────────────────────────────────────────────────────────────────────────────
@@ -90,7 +91,7 @@ Module sallowfield "Three Nights at Sallowfield" {
 
   // ── The second wave ─────────────────────────────────────────────────────────────────────────────────────────
   // Only a post that stood the first wave is fought for again; one that fell is simply passed. A post given up is the
-  // enemy's. The company's weight counts for nine if it is there, three if not.
+  // enemy's. The company's weight counts for eleven if it is there, three if not.
   Rule abandon_effect when abandoned(?p) and not w2done(?p) { Assert w2done(?p). Assert overrun2(?p). Assert overrun(?p). }
   Rule w2_hold_with when battleOn() and w2planned(party) and watch(clock) >= assaultAt(wyre) + 12 and postsite(?p) and stands1(?p) and not w2done(?p) and here(?p) and defence(?p) + 2 * count(posted(?v, ?p) and able(?v)) + drillBonus(party) + 11 >= thrust2(?p) + dice(?p) / 20 {
     Assert w2done(?p). Assert stands2(?p). }
@@ -231,7 +232,7 @@ Module sallowfield "Three Nights at Sallowfield" {
   Observe wyre_wrong_nave near party when dawned(party) and planned(party) and thrust(nave) > thrust(ford_stones) and thrust(nave) > thrust(bridge) and thrust(nave) > thrust(mill_yard) and not overrun(nave) "Wyre put his weight on the chapel and it stood.".
 
   Action draw_on_the_raiders(actor: group, site: place) "Draw on the four with the sacks" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lower_farm) and at(raiders, site) and able(raiders) and not companyBroken(party) and not raidersBeaten(party).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lower_farm) and at(raiders, site) and able(raiders) and not companyBroken(party) and not raidersBeaten(party) and not farmBurned(party).
     Time 0.
     Resolve check(actor, brawn, dc_hard).
     On success { Slay raiders. Assert raidersBeaten(party). Assert greenhalghSaved(party). }

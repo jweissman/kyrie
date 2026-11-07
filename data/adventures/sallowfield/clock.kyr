@@ -106,7 +106,7 @@ Module sallowfield "Three Nights at Sallowfield" {
   Relation farmBurned(group).
   Rule greenhalgh_hurt when farmBurned(party) and not evacuatedFarm(party) and not greenhalghDead(party) { Slay greenhalgh. Assert felled(greenhalgh). Assert greenhalghDead(party). }
   Relation greenhalghDead(group). Relation evacuatedFarm(group).
-  Observe farm_gone at lower_farm when farmBurned(party) "The long house is a roofless black shape and the barn is gone to its walls. The yard is empty of cattle. The dog sits where it sat and does not bark.".
+  Observe farm_gone at lower_farm when farmBurned(party) "The long house is a roofless black shape and the barn is gone to its walls. The yard is empty of cattle. The dog sits where it sat, with its chin on its paws.".
 
   // ── The morning of the third day: Wyre decides ────────────────────────────────────────────────────────────────
   // What he does depends only on what he has seen: a barricade at the ford draws him to the bridge; a cut bridge to

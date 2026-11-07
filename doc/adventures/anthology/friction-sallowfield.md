@@ -37,7 +37,7 @@
 ## Craft
 
 24. **The sum of a prepared company is lethal to a level-one party in one round.** Three level-3 veterans killed all six of the company in a single hit each. That is the point (a genuinely dangerous fight with non-combat alternatives: argue, yield the grain, warn, let by), but it means *What the Steel Said* is the default outcome of `Attack`, and the spec for it is two lines.
-25. **Hard-to-balance numbers are cheaper to balance by ending than by arithmetic.** The thrust, defence and bonus numbers were set by hand, probed with a score of explorer runs, and tuned (dice /10 → /20, bridge cut +6 → +10, flood +3 → +4) until: unprepared → *Ash*, walled and evacuated → *Half Saved*, fully prepared and the company at the right post → *Held, at a Cost*. A table of the numbers by route belongs in the treatment; I have not written it.
+25. **Hard-to-balance numbers are cheaper to balance by ending than by arithmetic.** The thrust, defence and bonus numbers were set by hand, probed with a score of explorer runs, and tuned (dice /10 → /20, bridge cut +6 → +10, flood +3 → +4 → +3) until: unprepared → *Ash*, walled and evacuated → *Half Saved*, fully prepared and the company at the right post → *Held, at a Cost*. A table of the numbers by route belongs in the treatment; I have not written it.
 
 ## Found by the hostile review
 
@@ -64,3 +64,4 @@
 46. **`Journey.latest` is the page of the last play only** and is the way to assert that something was *not* told in a given hour.
 47. **A defeat the module can write.** The only way for the whole company to fall in this province is a fight the module offers: the raiders at the farm or the picked men. Both were made negotiators so that waiting is not fatal; the fights are now authored actions with a check, and the fall is an Ending on a flag (`companyBroken`) because a module cannot ask the engine to defeat the party.
 48. **Good play is not a coin flip only if the module says so.** The best ending needed a 'perfect' preparation and then a coin at the end (a hard check); making the final argument a fair check and giving the company's hour a decision (the arrows) put the best ending at about seven in eight with the skill checks forced, which the module's own sweep showed.
+49. **Two doors in one topic need different prices.** "What you are owed" and "Nothing" were both free, with the first strictly better; the fix was to make each carry a price and a payoff on different axes (thrust against the levy's heart), so that neither dominates, and to have a spec compare them.
