@@ -15,7 +15,7 @@ Module world_making "What a company can make of what it carries" {
   Initially Assert makes(dandelion_tisane, antidote). Initially Assert remedy(dandelion_tisane).
   Entity oil_and_rag: recipe "a rag stuffed in a flask of lamp oil".
   Initially Assert takes(oil_and_rag, lamp_oil). Initially Assert takesWith(oil_and_rag, bandages).
-  Initially Assert makes(oil_and_rag, fire_flask).
+  Initially Assert makes(oil_and_rag, oil_firebomb).
   Action make_remedy(actor: group, mk_maker: member, mk_recipe: recipe, mk_first: item, mk_first_kind: itemkind, mk_second: item, mk_second_kind: itemkind, mk_made: itemkind) "{mk_maker}: make {mk_made} of {mk_first} and {mk_second}" {
     Description "Steeped, boiled down and strained, the two are one dose that does what both would, and more: a mender's work, and it can spoil.".
     Requires able(actor) and memberOf(mk_maker, actor) and awake(mk_maker) and not benighted(actor)

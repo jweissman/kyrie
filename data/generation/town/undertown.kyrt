@@ -97,9 +97,9 @@
   Observe {t}_u_nest_scene at {t}_u_nest as fixture when true "A dry shelf above the drain water, heaped with chewed sacking, straw and grain-husks, and bones under it all; the stink is enough to make the eyes run.".
   // Nothing done to the nest from far off: the buck rat is too old for bait, but not for fire.
   Action {t}_u_nest_burned(actor: group, site: place) "Throw a fire flask into the nest" {
-    Requires able(actor) and company(actor) and at(actor, site) and (at(actor, {t}_u_warren) or at(actor, {t}_u_drain)) and holding(actor, fire_flask) and able({t}_u_buck).
+    Requires able(actor) and company(actor) and at(actor, site) and (at(actor, {t}_u_warren) or at(actor, {t}_u_drain)) and holding(actor, oil_firebomb) and able({t}_u_buck).
     Time 1.
-    On success { Spend fire_flask from actor. Slay {t}_u_buck. }
+    On success { Spend oil_firebomb from actor. Slay {t}_u_buck. }
     Result "The flask bursts on the shelf and the straw goes up at once. Something big comes out of it screaming and goes into the water, and does not come up again.".
   }
   Rule {t}_u_rats_cleared when not able({t}_u_rats) and not {t}_u_done({t}_u_rats_job) { Assert {t}_u_done({t}_u_rats_job). }
@@ -260,17 +260,17 @@
   }
   // A fire flask thrown through the crack does for the mother and the eggs both, for a company that would not go in.
   Action {t}_u_brood_burned(actor: group, site: place) "Throw a fire flask through the crack into the brood-chamber" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_u_gallery) and holding(actor, fire_flask) and able({t}_u_mother).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_u_gallery) and holding(actor, oil_firebomb) and able({t}_u_mother).
     Time 1.
-    On success { Spend fire_flask from actor. Slay {t}_u_mother. Retract state({t}_u_eggs, hanging). Assert state({t}_u_eggs, burnt). }
+    On success { Spend oil_firebomb from actor. Slay {t}_u_mother. Retract state({t}_u_eggs, hanging). Assert state({t}_u_eggs, burnt). }
     Result "The flask bursts somewhere behind the web, and the crack fills with light. Something heavy thrashes in there a long while, and then the only sound is the sacs popping in the heat.".
   }
   // A way through for a company that would not stand in the web: a fire flask thrown into it from the adit, and the
   // fire runs up it into the gallery. The egg-sacs at the back are still to be seen to.
   Action {t}_u_spiders_burned(actor: group, site: place) "Throw a fire flask into the web across the cutting" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_u_adit) and holding(actor, fire_flask) and able({t}_u_spiders).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_u_adit) and holding(actor, oil_firebomb) and able({t}_u_spiders).
     Time 1.
-    On success { Spend fire_flask from actor. Slay {t}_u_spiders. }
+    On success { Spend oil_firebomb from actor. Slay {t}_u_spiders. }
     Result "The flask bursts against the web and the fire runs up it into the dark of the cutting, faster than you would have thought. Something screams in a voice like wet wood in a grate. When it has burned out, nothing moves in there.".
   }
   Rule {t}_u_spiders_cleared when not able({t}_u_spiders) and not {t}_u_done({t}_u_spiders_job) { Assert {t}_u_done({t}_u_spiders_job). }

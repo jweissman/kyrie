@@ -11,15 +11,17 @@ export class CombatPresenter {
   static told(id: string, when: 'begins' | 'ends'): string | undefined {
     return Canon.conditions[Canon.resolve('conditions', id)]?.[when];
   }
-  // The dice behind a blow, for the chronicle: the roll, then each adjustment.
-  private static damage(event: Extract<CombatEvent, { type: 'damage' | 'heal' }>, target: string): string {
+  // The dice behind a blow, for the chronicle: the roll, then each adjustment. A foe's hit points are not said: how it
+  // stands is told in words on its card (the owner, 7 November); only one of the company's is counted here.
+  private static damage(event: Extract<CombatEvent, { type: 'damage' | 'heal' }>, target: string,
+    foe: boolean): string {
     const m = event.modifiers;
     const parts = m ? [m.critical ? `critical +${m.critical}` : '', m.halfSave ? 'save halves' : '',
       m.bonus ? `bonus ${m.bonus >= 0 ? '+' : ''}${m.bonus}` : '',
       m.resistance ? `resistance ${Math.round(m.resistance * 100)}%` : '', m.reduction ? `reduction ${m.reduction}` : '',
       m.absorbed ? `${m.absorbed} absorbed` : ''].filter(Boolean) : [];
     const calculation = [`roll ${event.rolled}`, ...parts].join(', ');
-    return `${target} takes ${event.amount} ${event.damageType ?? ''} damage (${event.hp} HP; ${calculation}).`;
+    return `${target} takes ${event.amount} ${event.damageType ?? ''} damage (${foe ? '' : `${event.hp} HP; `}${calculation}).`;
   }
   // Two or more of a thing given are said as many ("2 flasks of lamp oil"), a thing's name being capitalised as the
   // catalog has it; a count of something else (experience, spell slots) as it is.
@@ -46,6 +48,9 @@ export class CombatPresenter {
     return `${actor} ${event.success ? 'makes' : 'fails'} the ${event.skill} check (${[`d20 ${event.die}`, ...terms]
       .join(' + ')} = ${event.rolled} against ${event.difficulty}).`;
   }
+  private static foe(event: { target: string }, state: BattleState): boolean {
+    return state.combatants.find(f => f.id === event.target)?.team === 'goblins';
+  }
   static format(event: CombatEvent, state: BattleState): string {
     const known = [...state.combatants, ...state.departed ?? []];
     const actor = 'actor' in event ? known.find(f => f.id === event.actor)?.name ?? event.actor : '';
@@ -59,8 +64,8 @@ export class CombatPresenter {
         return `${name} uses ${carried ? ItemNames.called(event.source!.name ?? ability)
           : event.source?.kind === 'item' ? event.source.name ?? ability : ability}.`;
       }
-      case 'damage': return this.damage(event, target);
-      case 'heal': return `${target} recovers ${event.amount} HP (${event.hp} HP).`;
+      case 'damage': return this.damage(event, target, this.foe(event, state));
+      case 'heal': return `${target} recovers ${event.amount} HP${this.foe(event, state) ? '' : ` (${event.hp} HP)`}.`;
       case 'death': return `${actor} falls.`;
       case 'defend': return `${actor} guards.`;
       case 'intercept': return `${actor} steps in front of ${target} and takes it.`;

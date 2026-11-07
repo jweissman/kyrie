@@ -33,7 +33,7 @@ describe('making a thing of two', () => {
     const s = await Making.start('m');
     expect(Making.names(s)).toEqual(expect.arrayContaining([
       expect.stringMatching(/^Ama: make Minor Potion of Healing of some willow bark and a twist of meadowsweet · /),
-      'Ama: make Fire flask of a flask of lamp oil and a strip of linen']));
+      'Ama: make Oil firebomb of a flask of lamp oil and a strip of linen']));
   }, 60000);
   it('makes a remedy to use or sell, or spoils the first of what it takes', async () => {
     const outcomes = new Map<string, PlaySession>();
@@ -57,8 +57,8 @@ describe('making a thing of two', () => {
   }, 120000);
   it('of plain work, anyone does at once', async () => {
     const s = await Making.start('m');
-    const done = await s.perform('make_plain(party,p__member_party_1,oil_and_rag,p__oil,lamp_oil,p__rag,bandages,fire_flask)');
-    expect([done.result, Making.kinds(s).includes('fire_flask'), Making.kinds(s).includes('lamp_oil')])
+    const done = await s.perform('make_plain(party,p__member_party_1,oil_and_rag,p__oil,lamp_oil,p__rag,bandages,oil_firebomb)');
+    expect([done.result, Making.kinds(s).includes('oil_firebomb'), Making.kinds(s).includes('lamp_oil')])
       .toEqual(['success', true, false]);
   }, 60000);
 });

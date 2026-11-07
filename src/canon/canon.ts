@@ -50,10 +50,17 @@ export class Canon {
   private static gathered(items: Record<string, ItemKind>): Record<string, ItemKind> {
     const made = Object.entries(plants.plants as unknown as Record<string, Plant>)
       .filter(([, p]) => p.yields && !items[p.yields])
-      .map(([id, p]): [string, ItemKind] => [Canon.yielded(id, p.yields!), { name: p.name, category: 'gear', value: 1,
-        description: `${p.looks} Gathered where it grows.`,
+      .map(([id, p]): [string, ItemKind] => [Canon.yielded(id, p.yields!), { name: p.name, value: 1,
+        description: `${p.looks} Gathered where it grows.`, ...Canon.raw(p),
         source: { kyr: true, notes: `What the plant ${id} gives, made from its record (data/catalog/plants.json).` } }]);
     return { ...items, ...Object.fromEntries(made) };
+  }
+  // What is gathered of a plant good to eat or to heal is used as it is (the owner, 6 November): a mouthful, or a leaf
+  // laid on a hurt, less than a remedy made of it (see HerbRecipes); anything else is gathered to sell or to make with.
+  private static raw(p: Plant): Pick<ItemKind, 'category' | 'use'> {
+    const uses = (p as { uses?: string[] }).uses ?? [];
+    return uses.includes('healing') ? { category: 'consumable', use: 'Heal (1d4) health to ally.' }
+      : uses.includes('food') ? { category: 'consumable', use: 'Heal (1) health to ally.' } : { category: 'gear' };
   }
   // The item a plant yields by its own name is its gathered thing (an item and a plant are never one id).
   private static yielded(plant: string, yields: string): string { return yields === plant ? `${plant}_gathered` : yields; }

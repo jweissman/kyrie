@@ -51,7 +51,7 @@ export class FightStage {
             {!recent.length && !first && !after.length && <p className="quiet">Nothing has changed.</p>}
           </>}</div>
           <ul className="side foes" aria-label="Against you">{combat.foes.map(f => <FightStage.Card key={`${f.id}:${f.hp}`} fighter={f}
-            took={mark ? (mark.hp[f.id] ?? f.hp) - f.hp : 0} foe />)}</ul>
+            took={mark ? (mark.hp[f.id] ?? f.hp) - f.hp : 0} foe dark={!!frame.screen.dark} />)}</ul>
         </div>
         <div className="turn"><p className="now">{turn}
           {s.pending && <span className="working"> · {Typography.curl(Words.lastSaid(s.pending.said))}…</span>}</p>
@@ -98,16 +98,20 @@ export class FightStage {
     return <p className="intent">{at && <span className="at">→ {Typography.curl(at)}</span>}
       <span className="what">{at ? ' · ' : ''}{Typography.curl(what!.toLowerCase())}</span></p>;
   }
-  static Card({ fighter: f, took, foe }: { fighter: CombatantRow; took: number; foe?: boolean }) {
-    const hurt = Words.hurt(f.hp, f.maxHp);
+  // A foe by how it looks, never its hit points (the owner, 7 November: what one can see, not what one counts): its
+  // hurt in words and a bar of four bands; in the dark only whether it stands.
+  static Card({ fighter: f, took, foe, dark }: { fighter: CombatantRow; took: number; foe?: boolean; dark?: boolean }) {
+    const hurt = foe && dark ? (f.hp > 0 ? 'standing' : 'down') : Words.hurt(f.hp, f.maxHp);
+    const band = foe ? FightStage.band(f, dark) : f.maxHp ? (f.hp / f.maxHp) * 100 : 0;
     // A face panel for one of the company, and for a foe that has a painting (a den's wolves, the rats).
     const marks = [!foe || f.face ? ' faced' : '', f.down ? ' down' : '', f.acting ? ' acting' : '', took > 0 ? ' struck' : ''];
     return (
       <li className={`fighter${marks.join('')}`} data-fighter={f.id}>
         {(!foe || f.face) && <FightStage.Face fighter={f} />}
         <p className="n"><b title={foe ? undefined : Typography.curl(Words.upper(f.name))}>{Typography.curl(Words.upper(f.name))}</b>
-          {took > 0 && <span className="took" key={`${f.hp}`}>−{took}</span>}<span className="of">{f.hp} of {f.maxHp}</span></p>
-        <span className="hp" aria-hidden="true"><i style={{ width: `${f.maxHp ? (f.hp / f.maxHp) * 100 : 0}%` }} /></span>
+          {took > 0 && !foe && <span className="took" key={`${f.hp}`}>−{took}</span>}
+          {!foe && <span className="of">{f.hp} of {f.maxHp}</span>}</p>
+        <span className="hp" aria-hidden="true"><i style={{ width: `${band}%` }} /></span>
         <p className="tags"><span className="parts">{FightStage.parts(f, hurt).map(([key, part]) =>
           <span key={key} className="part">
             <span className="sep" aria-hidden="true"> · </span>{part}</span>)}</span></p>
@@ -115,6 +119,12 @@ export class FightStage {
         {foe && !f.down && f.defenses && <p className="defenses">{Words.upper(f.defenses)}.</p>}
       </li>
     );
+  }
+  // How full a foe's bar is drawn: by its hurt, not its count.
+  static band(f: CombatantRow, dark?: boolean): number {
+    if (f.hp <= 0) { return 0; }
+    if (dark) { return 100; }
+    return ({ unhurt: 100, hurt: 75, 'badly hurt': 45, 'near death': 15 } as Record<string, number>)[Words.hurt(f.hp, f.maxHp)] ?? 100;
   }
   // What they are and are under, each part whole (see fight.css): "elf ranger", "badly hurt", "prone, frightened".
   static parts(f: CombatantRow, hurt: string): [string, ReactNode][] {
