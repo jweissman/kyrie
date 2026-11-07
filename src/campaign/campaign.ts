@@ -22,7 +22,7 @@ import { Content, type CreatureGenerationContext } from '../content';
 import type { CombatEvent, Fighter } from '../model'; import type { Instance, Module } from '../lang/module';
 import { World } from '../lang/world'; import { Beside } from './beside'; import { Checks } from '../rules/checks';
 import type { Operator } from './planner'; import { RuntimeCapabilities } from './runtime-capabilities';
-import { EngineDeclarations } from './engine-declarations'; import { CampaignTick } from './campaign-tick'; import { Mercy } from './mercy';
+import { EngineDeclarations } from './engine-declarations'; import { Spoils } from './spoils'; import { CampaignTick } from './campaign-tick'; import { Mercy } from './mercy';
 import { WatchLoop, type WatchHost } from './watch-loop'; import { Environment } from './environment';
 import { Journey } from './journey'; import { LocalKinds } from '../canon/local-catalog';
 import { ActionTime } from './action-time'; import { Engagement } from './engagement';
@@ -339,8 +339,8 @@ export class Campaign implements WatchHost {
       { ...this.current, player: this.playerActor, combat }); if (taken) { this.commit(taken); this.refresh(); }
     const opponent = action.resolve?.args[0];
     if (won && action.resolve?.name === 'combat' && opponent) {
-      FieldUse.award(this.creatures, this.current.partyIds, this.world, { opponent, events: combat,
-        members: Beside.fallen(this.world, this.readout, opponent) });
+      this.commit(Spoils.won(this.world, this.creatures, { opponent, events: combat, party: this.current.partyIds,
+        fallen: Beside.fallen(this.world, this.readout, opponent), company: this.playerActor }));
     }
     if (action.resolve && Membership.resolves(action.resolve)) {
       this.commit(Membership.resolve({ current: this.current, company: this.playerActor, module: this.module,
