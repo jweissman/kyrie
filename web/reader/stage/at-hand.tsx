@@ -1,6 +1,6 @@
 import type { Choice } from '../../../src/ui/choice-list';
 import type { ReaderApp } from '../reader-app';
-import { SceneModel } from '../../../src/ui/scene';
+import { SceneModel, type SceneSubject } from '../../../src/ui/scene';
 import { Typography } from '../../../src/presentation/typography';
 import { Words } from '../words';
 import { Act, type Draw } from './act';
@@ -57,10 +57,15 @@ export class AtHand {
   // Everything at hand: the things here, what is done at a way off this place (the lock on its door), and what the
   // place itself offers.
   static of(app: ReaderApp): Held[] {
-    const frame = app.state.frame!, scene = app.menu.scene, situation = frame.leaf.situation;
+    const frame = app.state.frame!, scene = app.menu.scene, leaf = frame.leaf, situation = leaf.situation;
     if (!scene) { return []; }
-    // A thing stays at hand when nothing is left to do with it (a notice read): it is still there to be looked at.
-    const things = scene.subjects.filter(x => x.kind === 'thing' && !x.danger).map(x => {
+    // What the place tells already, and what came of what was just done (the cart out of the ditch, "square on the
+    // road again"): a thing's words that are only these show nothing more.
+    const told = [...situation, ...leaf.presence, ...(leaf.exchange?.lines ?? []).map(l => l.text)].join(' ');
+    // A thing stays at hand when nothing is left to do with it but there is still something of it to read (a notice
+    // read); one with nothing to do and nothing to show that the place has not told is not offered (see AtHand.real).
+    const kept = [...scene.subjects, ...scene.still ?? []].filter(x => x.kind === 'thing' && !x.danger);
+    const things = kept.filter(x => AtHand.real(x, told)).map(x => {
       const opener = x.choices.find(c => /#look$/.test(c.id));
       return { id: x.id, name: x.name, ...x.note ? { note: x.note } : {}, seen: ThingStage.seen(situation, x.name, x.about),
         choices: opener?.children ?? x.choices, opens: opener ? [opener.id] : [] };
@@ -78,6 +83,13 @@ export class AtHand {
     const own = scene.you.filter(c => SceneModel.own(c) && c !== posted).map(c => ({ id: c.id, name: Words.upper(c.label), seen: [], choices: [c],
       opens: [] }));
     return [...own, ...things, ...ways];
+  }
+  // Whether a thing has something real to show or do (the owner's own play, 7 November: Look… "has never shown anything
+  // but 'it is what it seems'", a cart, a lockup door and a bill each offered for a close look that found nothing): an
+  // act, or words of its own the place does not tell already (a bill's lettering). One that is only what the place
+  // says of it, or what was just told of it, is not offered.
+  static real(x: SceneSubject, told: string): boolean {
+    return x.choices.some(c => !/#look$/.test(c.id) || !!c.children?.length) || (!!x.about && !told.includes(x.about));
   }
   // The one the glance leads with, where it leads with something at hand.
   static led(app: ReaderApp, held: Held[]): Held | undefined {

@@ -73,34 +73,28 @@ export class WorldStage {
   // Who is here, as small likenesses over the foot of the picture (the owner, 4 November, late: not where they stand
   // in it, but restrained, and each the way to them): touched, a person is talked to, an animal looked at in its own
   // page (5 November, late: a creature-focused interaction, not its one act done at a touch). The company first and
-  // apart, at the left, wherever it is and however many are here; those dangerous ringed, at the right; more than the
-  // picture has room for, and the rest are a touch away (see Explorer.Who).
+  // apart, at the left, wherever it is and however many are here; those dangerous ringed, at the right; one with
+  // something owed the company (thanks, a payment, an answer to what it did) badged (see SceneSubject.owed).
+  // Everyone is on the picture, the faces smaller the more there are (the owner's own play, 7 November: "+3" had
+  // folded people into a second screen, the wagoner who owed two coin among them).
   static Portraits({ app, draw }: { app: ReaderApp; draw: Draw }) {
-    const { company, shown, rest } = WorldStage.placed(app);
-    if (!company.length && !shown.length) { return null; }
+    const { company, shown } = WorldStage.placed(app), many = company.length + shown.length;
+    if (!many) { return null; }
     return (
-      <ul className="portraits" aria-label="Who is here">
+      <ul className={`portraits${many > WorldStage.crowd ? ' crowd' : ''}`} aria-label="Who is here">
         {[...company, ...shown].map(x => <li key={x.id} data-subject={x.id}
           className={`${x.kind}${x.danger ? ' danger' : ''}${WorldStage.led(app, x) ? ' led' : ''}`
-            + `${x.stake ? ' stake' : ''}`}>
+            + `${x.stake ? ' stake' : ''}${x.owed ? ' owed' : ''}`}>
           <WorldStage.Portrait subject={x} draw={draw} /></li>)}
-        {rest.length > 0 && <li><button type="button" className="portrait more" data-action="explore" data-part="who"
-          aria-label={`${rest.length} more here`} onClick={() => app.explore('who')}>{`+${rest.length}`}</button></li>}
       </ul>
     );
   }
-  // Few enough to take in at a glance (the owner, 6 November: the scene was still too busy): those the page leads by
-  // first, then the rest of the room's six, and anyone more a touch away. The company is drawn whole and takes its
-  // room from the rest, who keep at least three places (the last of them the touch to the rest where there are more).
-  static readonly room = 6;
-  static readonly least = 3;
-  // Who is drawn where: the company; who else is on the picture; and who is a touch away.
-  static placed(app: ReaderApp): { company: SceneSubject[]; shown: SceneSubject[]; rest: SceneSubject[] } {
-    const all = WorldStage.ordered(app), company = all.filter(x => x.kind === 'companion');
-    const others = all.filter(x => x.kind !== 'companion');
-    const room = Math.max(WorldStage.least, WorldStage.room - company.length);
-    const shown = others.length > room ? others.slice(0, room - 1) : others;
-    return { company, shown, rest: others.slice(shown.length) };
+  // More than the picture's foot holds in one row however small the faces: a second row above the first.
+  static readonly crowd = 12;
+  // Who is drawn where: the company, and everyone else here.
+  static placed(app: ReaderApp): { company: SceneSubject[]; shown: SceneSubject[] } {
+    const all = WorldStage.ordered(app);
+    return { company: all.filter(x => x.kind === 'companion'), shown: all.filter(x => x.kind !== 'companion') };
   }
   // Those who mean harm last, so that they stand apart at the right of the picture.
   static present(app: ReaderApp): SceneSubject[] {
@@ -121,9 +115,11 @@ export class WorldStage {
     // One with nothing to say or do now is a likeness, not a way into a conversation with nothing in it.
     const into = x.live || x.kind === 'animal' || x.kind === 'creature' ? WorldStage.into(x) : undefined, face = x.portrait
       ? <img src={x.portrait.src} alt="" decoding="async" style={{ objectPosition: `50% ${x.portrait.focus}%` }} />
-      : <Glyphs.View id={x.emblem ?? (x.kind === 'animal' ? 'animal' : 'someone')} className="emblem" />;
+      : <Glyphs.View id={Glyphs.met(x)} className="emblem" />;
+    const name = Typography.curl(Words.upper(x.name));
     const body = <><span className="face" aria-hidden="true">{face}</span>
-      <span className="pn">{Typography.curl(Words.upper(x.name))}</span></>;
+      {x.owed && <span className="owed-mark" role="img" aria-label="Has something for you" title="Has something for you" />}
+      <span className="pn" title={name}>{name}</span></>;
     if (!into) { return <span className="portrait still">{body}</span>; }
     // An animal's own page is the page's to open (no command of the engine's), and is opened as one.
     return draw.index.has(into.id) ? <Act.View choice={into} draw={draw} quiet className="portrait">{body}</Act.View>

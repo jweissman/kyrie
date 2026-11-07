@@ -434,7 +434,8 @@
 .thing .uses .acts.parts { display: flex; flex-wrap: wrap; gap: 8px; }
 .thing .uses .act.part { min-width: 6.5rem; justify-content: center; font: 500 14.5px/1.2 var(--do); letter-spacing: .06em; }
 .thing .away { margin: 26px 0 0; }
-.thing .away .act { display: flex; width: 100%; color: var(--dim); border-style: dashed; }
+/* Back from a thing, whole and quieter: dashed is for what cannot be done (see talk.css's leave). */
+.thing .away .act { display: flex; width: 100%; color: var(--dim); }
 
 /* ---- A road's line across the country (the country in bands, you on it). ---- */
 .strip { margin: 0; }

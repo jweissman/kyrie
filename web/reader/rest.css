@@ -37,7 +37,8 @@
   stroke-linecap: round; stroke-linejoin: round; transition: stroke var(--quick); }
 .openers .by-glyph:hover .opener-glyph, .openers .by-glyph:focus-visible .opener-glyph,
 .openers .act.by-glyph.sel .opener-glyph { stroke: var(--gold); }
-.openers .opener:hover, .openers .opener:focus-visible, .openers .act.opener.sel { border-bottom-color: var(--gold); }
+.openers .opener:hover, .openers .opener:focus-visible, .openers .act.opener.sel,
+.openers .opener[aria-expanded="true"] { border-bottom-color: var(--gold); }
 /* The one way on offered as itself (see GlanceStage.only) keeps what it risks on it, a tag beside its name, and once
    chosen asks again on a line of its own in the line's plain hand (the opener's capitals had run the question on from
    the name: "To the still water…There is no coming back"); the tag goes once the question says it. */
@@ -48,15 +49,37 @@
 .openers .opener.led::after { content: ''; display: inline-block; width: 5px; height: 5px; margin: 0 0 2px 7px;
   border-radius: 50%; background: var(--gold); vertical-align: middle; }
 
-/* Who is here: one row along the foot of the picture, the likeness the glance leads with ringed in gold. */
-.world-page .surface .portraits:not(.who) { flex-wrap: nowrap; gap: 4px; }
-.world-page .surface .portraits .portrait { width: 70px; }
+/* Who is here: everyone, in one row along the foot of the picture, each likeness giving way to the rest down to a
+   small face before any is left out; more than a row holds, in two (the owner's own play, 7 November: "+3" had folded
+   people into a second screen). The likeness the glance leads with ringed in gold. */
+.world-page .surface .portraits { flex-wrap: nowrap; gap: 4px; }
+.world-page .surface .portraits.crowd { flex-wrap: wrap; row-gap: 6px; }
+.world-page .surface .portraits > li { flex: 0 1 70px; min-width: 50px; }
+.world-page .surface .portraits.crowd > li { flex-basis: 52px; }
+.world-page .surface .portraits .portrait { width: 100%; }
+.world-page .surface .portraits .portrait .face { width: min(54px, calc(100% - 6px)); height: auto; aspect-ratio: 1; }
+.world-page .surface .portraits .animal .portrait .face { width: min(44px, calc(100% - 14px)); }
+.world-page .surface .portraits .portrait .pn { max-width: 100%; }
 /* Led with, or one the company has a stake in (whom its aim names, its kin): ringed in gold (M19-86). */
 .portraits li.led .portrait .face, .portraits li.stake .portrait .face { border-color: var(--gold); box-shadow: 0 0 0 2px rgba(214, 178, 94, .35); }
-.portraits.who { position: static; display: flex; flex-wrap: wrap; gap: 18px; list-style: none; margin: 0; padding: 8px 0; }
+/* One with something for the company now (thanks that pay, a payment owed: see Owed): a green seal on the shoulder of
+   the likeness, whatever ring it has, never the gold of a lead nor the red of danger (the owner, 7 November). */
+.portraits .portrait { position: relative; }
+.portraits li.owed:not(.danger) .portrait .face { border-color: var(--verdigris);
+  box-shadow: 0 0 0 2px rgba(95, 211, 182, .35), 0 4px 14px rgba(0, 0, 0, .55); }
+.portraits .portrait .owed-mark { position: absolute; top: -4px; left: calc(50% + 11px); width: 19px; height: 19px;
+  border-radius: 50%; background: var(--verdigris); border: 2px solid #14151a; box-sizing: border-box;
+  box-shadow: 0 0 0 2px rgba(95, 211, 182, .35), 0 2px 6px rgba(0, 0, 0, .6); }
+.portraits .portrait .owed-mark::after { content: ''; position: absolute; inset: 3.5px; border-radius: 50%;
+  border: 1.5px solid #14151a; }
+.portraits li.owed .portrait .pn { color: var(--verdigris); }
 
-/* What is opened: over the whole stage under the place bar, one purpose, put away by its cross or Esc. */
+/* What is opened: over the whole stage under the place bar, one purpose, put away by its cross or Esc. Look… over the
+   picture alone, the telling and the place's touches beside it still to hand (see Explorer). */
 .world-page .explorer { grid-template-rows: auto minmax(0, 1fr); background: rgb(17, 18, 23); backdrop-filter: none; }
+.world-page.scale-scene .world-body > .surface { grid-area: 1 / 1; }
+.world-page.scale-scene .world-body > .explorer.part-look { position: relative; inset: auto; grid-area: 1 / 1;
+  min-height: 0; border-top: 0; }
 .explorer-head { padding: 14px clamp(18px, 3vw, 40px) 4px; }
 .explorer-head .part { margin: 0; }
 .explorer-body { display: block; overflow: hidden; padding: 0 clamp(18px, 3vw, 40px) 18px; }
@@ -135,7 +158,8 @@
   margin: 0 0 18px; border: 1px solid var(--edge-strong); }
 .thing .face .likeness img { width: 100%; height: 100%; object-fit: cover; }
 @media (max-width: 599px) {
-  .world-page .surface .portraits:not(.who) { overflow-x: auto; pointer-events: auto; scrollbar-width: none; }
+  .world-page .surface .portraits { flex-wrap: wrap; row-gap: 6px; }
+  .world-page .surface .portraits > li { flex-basis: 52px; }
 }
 
 /* What waiting spends, under Wait (REV-14). */

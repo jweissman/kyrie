@@ -1,5 +1,5 @@
 {
-  "about": "The shops of Orsino's shop table that a town of a generated country may keep beside its own merchant (src/world/region-shops.ts): who keeps each, what the shop is called, and how it looks inside. What it sells is Orsino's, computed into data/generation/scenes/orsino-world.json#shops (the Kyr items of its kinds, at their worth). {keeper} is the shopkeeper's name.",
+  "about": "The shops of Orsino's shop table that a town of a generated country may keep beside its own merchant (src/world/region-shops.ts): who keeps each, what the shop is called, and how it looks inside. What it sells is Orsino's, computed into data/generation/scenes/orsino-world.json#shops (the Kyr items of its kinds, at their worth). {keeper} is the shopkeeper's name. stones: how many of the catalog's stones (data/catalog/items/gems.json) the shop keeps besides, drawn for the town among those it can afford (a jeweller's: the owner, 7 November, found one that sold no gems).",
   "kinds": {
     "alchemy": { "role": "alchemist", "room": "{keeper}'s still-room", "painting": "alchemist",
       "scene": "Glass everywhere: retorts, phials, a coil of copper pipe dripping into a bowl. Something on a slow fire smells of burnt sugar and pennies, and the alchemist has stopped noticing." },
@@ -19,8 +19,8 @@
       "scene": "Sacks on the floor, shelves to the beams, and a counter worn into a dip in the middle by forty years of things being put down on it." },
     "herbs": { "role": "herbalist", "room": "{keeper}'s herb-shop", "painting": "herbalist",
       "scene": "Bunches of drying herbs hang from every beam, so that you walk in stooping, through a smell like a summer meadow that has been told a secret." },
-    "jewelry": { "role": "jeweller", "room": "{keeper}'s jewel-shop", "painting": "jeweler",
-      "scene": "A small bright room with one window and everything turned toward it. The rings are kept in a tray under glass, and the jeweller keeps one eye on the tray whatever else is going on." },
+    "jewelry": { "role": "jeweller", "room": "{keeper}'s jewel-shop", "painting": "jeweler", "stones": 3,
+      "scene": "A small bright room with one window and everything turned toward it. The rings and the loose stones are kept in a tray under glass, and the jeweller keeps one eye on the tray whatever else is going on." },
     "kitchen": { "role": "cook-shop keeper", "room": "{keeper}'s cook-shop", "painting": "cook",
       "scene": "A hot little room with a counter onto the street and a fire behind it, and things on the fire that smell better than they look." },
     "magic_items": { "role": "seller of small magics", "room": "{keeper}'s shop of small magics", "painting": "magician",

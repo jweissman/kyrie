@@ -2,15 +2,17 @@ import type { Instance } from '../lang/module';
 import { ModuleWriter } from '../lang/module-writer';
 
 // What a close look can find (the owner, 6 November: "Look closely" offered where it could only say a thing is what
-// it seems, on a page of its own, broke the scene for nothing). A thing answers a look when it has states, holds
-// something, or anything in the world reads its being looked at (`tried(it, looking)` in a rule, an observation, an
-// act or a query); where something reads any thing's being looked at, every thing does. Offering a look then says
-// there is something to look at: the owner would rather that than a page of nothing.
+// it seems, on a page of its own, broke the scene for nothing). A thing answers a look when anything in the world reads
+// its being looked at (`tried(it, looking)` in a rule, an observation, an act or a query); where something reads any
+// thing's being looked at, every thing does. A thing's states and what it holds no longer answer a look of themselves
+// (the owner's own play, 7 November: Look… had "never shown anything but 'it is what it seems'"; a ditched cart, a
+// barred lockup door and a playbill each offered a close look that found nothing, since what a state is is told with
+// the place, and nothing in a hold is seen by looking at it shut).
 export class LookAnswers {
   // A module says it of the things it reads the looking of, its own or another's (the relation has two places, so an
-  // imported thing may be given it), and of its own things with states or contents.
-  static declare(draft: { instance: Instance; imports: readonly string[] }) {
-    const instance = draft.instance, imported = new Set(draft.imports);
+  // imported thing may be given it).
+  static declare(draft: { instance: Instance }) {
+    const instance = draft.instance;
     LookAnswers.searches(instance);
     const module = instance.module;
     if (!module.relations.some(r => r.name === 'answers')) { return; }
@@ -18,10 +20,8 @@ export class LookAnswers {
       && LookAnswers.is(c.call.args[1] ?? '', 'looking')).map(c => c.call.args[0]!);
     const read = new Set<string>(), any = { read: false };
     for (const p of LookAnswers.definitions(module)) { LookAnswers.reads(p, read, any, 'tried'); }
-    const kept = new Set(module.initial.filter(c => c.kind === 'assert' && ['state', 'receptacle']
-      .some(n => LookAnswers.is(c.call.name, n))).map(c => c.call.args[0]!));
     for (const thing of new Set([...suits, ...read])) {
-      if (any.read || read.has(thing) || (kept.has(thing) && !imported.has(thing))) {
+      if (any.read || read.has(thing)) {
         module.initial.push({ kind: 'assert', call: ModuleWriter.call('answers', thing, LookAnswers.verb(module, 'looking')) });
       }
     }

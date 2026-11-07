@@ -6,21 +6,24 @@ import type { Draw } from './act';
 import { AtHand } from './at-hand';
 import { Pastime } from './pastime';
 import { Wayfinder } from './wayfinder';
-import { WorldStage } from './world-stage';
 
-export type Part = 'go' | 'look' | 'wait' | 'who';
+export type Part = 'go' | 'look' | 'wait';
 
 // What is opened over a place at rest, one at a time, for one purpose, and put away again (Esc, the cross): Go…, the
 // wayfinder (where to go, and nothing else); Look…, the things at hand, each in its own pane; Wait…, letting time pass
-// and what came of it; and everyone here the picture has no room for (the owner, 5 November, late: a place is the
-// scene's, a way the wayfinder's, a thing its own; none a catalogue of everything the engine permits).
+// and what came of it (the owner, 5 November, late: a place is the scene's, a way the wayfinder's, a thing its own;
+// none a catalogue of everything the engine permits). Everyone here is on the picture, however many (see
+// WorldStage.placed).
+// Look… is opened over the picture alone, the place's telling and its other touches (Go…, Wait, Search) still beside
+// it and still to be touched, and put away by its cross as the rest are (the owner's own play, 7 November: after
+// looking, they "could not get back to the actions").
 export class Explorer {
-  static readonly titles: Record<Part, string> = { go: 'Go', look: 'Look', wait: 'Wait', who: 'Also here' };
+  static readonly titles: Record<Part, string> = { go: 'Go', look: 'Look', wait: 'Wait' };
   static View({ app, draw }: { app: ReaderApp; draw: Draw }) {
     const frame = app.state.frame!, part = app.state.exploring;
     if (!frame.leaf.glance || !part) { return null; }
     return (
-      <div className={`explorer part-${part}`} role="dialog" aria-modal="true"
+      <div className={`explorer part-${part}`} role="dialog" aria-modal={part !== 'look'}
         aria-label={`${Explorer.titles[part]}: ${frame.screen.place.name}`} data-region="explorer" data-part={part}>
         <header className="explorer-head">
           <p className="part">{Explorer.titles[part]}</p>
@@ -31,16 +34,16 @@ export class Explorer {
           {part === 'go' && <Wayfinder.View app={app} draw={draw} />}
           {part === 'look' && <AtHand.View app={app} draw={draw} />}
           {part === 'wait' && <Pastime.View app={app} draw={draw} />}
-          {part === 'who' && <Explorer.Who app={app} draw={draw} />}
         </div>
       </div>
     );
   }
-  // Everyone here the picture has no room for, each by their likeness, each the way to them.
-  static Who({ app, draw }: { app: ReaderApp; draw: Draw }) {
-    const { rest } = WorldStage.placed(app);
-    return <ul className="portraits who">{rest.map(x => <li key={x.id} data-subject={x.id}
-      className={`${x.kind}${x.danger ? ' danger' : ''}`}><WorldStage.Portrait subject={x} draw={draw} /></li>)}</ul>;
+  // After something done in it, what is opened stays only while it has something in it: what was done to the last
+  // thing at hand (the cart heaved out of the ditch) is told on the place at rest, not in an empty pane over it.
+  static settle(app: ReaderApp) {
+    if (app.state.exploring === 'look' && !app.state.pending && !AtHand.of(app).length) {
+      app.setState({ exploring: undefined, kept: false, hovered: undefined });
+    }
   }
   // Which of these holds a choice, so that the keys coming to it, or automation, open it there.
   static holder(app: ReaderApp, id: string): Part | undefined {
@@ -84,14 +87,16 @@ export class Explorer {
     if (key === 'Escape' || key === 'Backspace') { app.explore(); return true; }
     return /^[1-9]$/.test(key);
   }
-  // The touch on the place at rest that opens one, said as it is and marked when what is led with is in it.
+  // The touch on the place at rest that opens one, said as it is and marked when what is led with is in it; touched
+  // again while it is open (Look…, which leaves the touches in view), it is put away.
   // An opener in words, or by its glyph where the act is so common words would crowd the scene (Wait: the owner, 6
   // November), its words then its name to a reader and its title to a pointer.
   static Opener({ app, part, label, led, glyph }: { app: ReaderApp; part: Part; label: string; led?: boolean;
     glyph?: string }) {
     const words = Typography.curl(Words.upper(label));
     return <button type="button" className={`opener opens-${part}${led ? ' led' : ''}${glyph ? ' by-glyph' : ''}`}
-      data-action="explore" data-part={part} aria-haspopup="dialog" onClick={() => Explorer.open(app, part)}
+      data-action="explore" data-part={part} aria-haspopup="dialog" aria-expanded={app.state.exploring === part}
+      onClick={() => Explorer.open(app, app.state.exploring === part ? undefined : part)}
       {...glyph ? { 'aria-label': words, title: words } : {}}>
       {glyph ? <Glyphs.View id={glyph} className="opener-glyph" /> : words}</button>;
   }

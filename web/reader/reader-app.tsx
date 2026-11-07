@@ -272,7 +272,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
         // owner, 5 November: the inn to the smithy had gone by way of the whole country's map).
         outdoors: walked ? !next.combat : ReaderApp.outdoors(frame, next), walking: undefined,
         exploring: keeps ? this.state.exploring : undefined, kept: keeps,
-        acted: this.state.attention.kind === 'thing' ? this.state.attention.id : undefined });
+        acted: this.state.attention.kind === 'thing' ? this.state.attention.id : undefined }, () => { Explorer.settle(this); });
     } catch (error) { this.failed(error); }
   }
   // Whether the map is up after a command: come into open country, it is; come into a town or a site, or anything done

@@ -22,6 +22,9 @@ export interface SceneSubject {
   live?: boolean;
   // Someone with something written to be asked of them.
   asked?: boolean;
+  // Someone with something for the company now: thanks that pay, a payment, a thing to hand over (see Owed). The
+  // page badges their likeness, apart from danger (the owner's own play, 7 November).
+  owed?: boolean;
 }
 // What the page is drawn from in play: who and what is here (danger first), who is with you, the ways about the place
 // and the ways out across the country, and what you can do yourself. Every choice is one the engine offered, attached
@@ -71,6 +74,7 @@ export class SceneModel {
       ...row?.says?.length ? { says: row.says } : {},
       ...row?.state ? { state: row.state } : {}, ...row?.recruit ? { recruit: row.recruit } : {},
       ...row?.stake && live ? { stake: true } : {}, ...row?.asked ? { asked: true } : {}, ...live ? { live } : {},
+      ...row?.owed && live ? { owed: true } : {},
       choices: s.choices.map(c => this.bare(c, name!)).map(c => row?.kind === 'animal' ? this.led(c) : c) };
   }
   // Something there is to say or do now (the owner, 7 November: a person ringed in gold after all they had to say was

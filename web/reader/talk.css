@@ -62,7 +62,11 @@
 .replies .asked .act { color: var(--dim); }
 .replies.answers { border-left: 2px solid var(--gold); padding-left: 12px; margin: 0 0 14px; }
 .answering { font: 500 11px/1.3 var(--do); letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin: 0 0 8px; }
-.dialogue .leave .act { color: var(--dim); border-style: dashed; }
+/* Taking your leave is always there to be done, so it is drawn whole and quieter, never dashed: a dashed edge is what
+   cannot be done (reader.css), and a jeweller's "Take your leave", the only thing to do there, had read as shut (the
+   owner, 7 November). Where it is all there is to say, it is said as plainly as any answer. */
+.dialogue .leave .act { color: var(--dim); border-color: var(--edge); }
+.dialogue .choosing:not(:has(button)) + .leave .act { color: var(--ivory); border-color: var(--edge-strong); }
 /* A trader's counter: each ware a key that buys it, its price and how many are left. */
 .counter { margin: 0 0 16px; padding: 0 0 14px; border-bottom: 1px solid var(--edge); font: 400 14.5px/1.5 var(--do); }
 .counter .label { margin: 0 0 8px; color: var(--gold); display: flex; justify-content: space-between; gap: 12px; }

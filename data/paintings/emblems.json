@@ -134,9 +134,9 @@
       }
     },
     "acts": {
-      "about": "What the company does of itself, wherever it is: waiting and searching, shown by their glyphs where words would crowd the scene (the owner, 6 November).",
+      "about": "What the company does of itself, wherever it is: waiting and searching, shown by their glyphs where words would crowd the scene (the owner, 6 November). Waiting is an hourglass: two bulbs meeting at a narrow neck between its caps, sand settled in the upper and heaped in the lower, its two sides never crossing (the owner, 7 November: the first, its sides drawn across each other, read as a twisted ribbon).",
       "paths": {
-        "wait": "M15 7h18M15 41h18M17 7c0 9 14 11 14 17s-14 8-14 17M31 7c0 9-14 11-14 17s14 8 14 17M20 36h8",
+        "wait": "M13 6h22M13 42h22M16 6c0 8 3 13 7 17v2c-4 4-7 9-7 17M32 6c0 8-3 13-7 17v2c4 4 7 9 7 17M19 13h10M24 27v6M19 40c1-3 3-5 5-5s4 2 5 5",
         "search": "M21 8a12 12 0 1 0 .01 0zM29.5 29.5L40 40M15 18a7 7 0 0 1 6-5"
       }
     }
