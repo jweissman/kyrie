@@ -42,7 +42,7 @@ Module pentrice "Gosse's Company" {
     On discuss { Assert verrallSoftened(actor). }
   }
   Topic verrall_no with dray "No. A city where the Warden bends is a city of bent men" answering verrall_ask when true {
-    Says "Verrall nods, slowly. 'Yes,' he says. 'Yes.' It is not the answer he wanted, but it is the one he has been given by everyone, and he takes it up like a coat. 'The Field is three days.' He looks past you again.".
+    Says "Verrall nods, by degrees. 'Yes,' he says. 'Yes.' It is not the answer he wanted, but it is the one he has been given by everyone, and he takes it up like a coat. 'The Field is three days.' He looks past you again.".
     On discuss { Assert verrallHardened(actor). }
   }
   Topic verrall_son with dray "Ask where his son is, and does he know" when edictOn(rierdan) and not actIIIDone(rierdan) once {
@@ -72,7 +72,7 @@ Module pentrice "Gosse's Company" {
     Resolve check(actor, persuasion, dc_formidable).
     On success { Assert ysoltStopped(actor). Assert ysoltBroken(rierdan). }
     On failure { Assert ysoltDefiant(rierdan). }
-    Result "You tell her what the sextons will do, and what the Warden will do, and what her brother will do, and you tell her the truth, which is that her father would not have wanted her sealed. It works. Something in her goes out like a lamp. She nods. She takes off the acolyte's cord and lays it on the rope. 'I shall not go,' she says. She does not say it to you.".
+    Result "You tell her what the sextons will do, and what the Warden will do, and what her brother will do, and you tell her the truth, which is that her father would not have wanted her sealed. It works. Something in her goes out like a lamp. She nods. She takes off the acolyte's cord and lays it on the rope. 'I am not going,' she says. She does not say it to you.".
     Otherwise "She listens to all of it and says, 'You are very kind,' and that is the end of it. You have told her you mean to stop her. She will now be careful to be where you are not.".
   }
 
@@ -96,7 +96,7 @@ Module pentrice "Gosse's Company" {
   Relation bellsOffered(group). Relation verrallRefused(place). Relation outTried(place). Relation wardenFact(group).
   // The harder fact: the Warden will not bend for an old man's prophecy and a son's tears. He will for a hole in his own law.
   Topic verrall_law with dray "Show the Warden the Edict's own words: UNWEPT, UNBURIED, and who is to carry out its third clause" when edictOn(rierdan) and not actIIIDone(rierdan) and (tarnExposed(rierdan) or gloveFound(party)) and not wardenFact(party) once {
-    Says "Verrall takes the Edict and reads it as if he had not written it. 'Whoever covers him, or mourns, shall be sealed.' He puts his thumb on a line. 'And the river afterward.' He stops. 'The Edict says the Warden carries out the third day. It does not say what the Warden does if the man was named before the city by a court of the Realm, as he was. It says nothing of a man whose guilt is already in the Chamberlain's book.' He sets it down. 'I wrote it for a traitor. I wrote it to be read by men who would not ask whether he was named.' A pause. 'He was named.' That is the fact. He does not look glad.".
+    Says "Verrall takes the Edict and reads it as if he had not written it. 'Whoever covers him, or mourns, shall be sealed.' He puts his thumb on a line. 'And the river afterward.' He stops. 'The Edict says the Warden carries out the third day. It does not say what the Warden does if the man was named before the city by a court of the Realm, as he was. It says nothing of one whose guilt is already in the Chamberlain's book.' He sets it down. 'I wrote it for a traitor. I wrote it to be read by men who would not ask whether he was named.' A pause. 'He was named.' That is the fact. He does not look glad.".
     On discuss { Assert wardenFact(actor). }
   }
 
@@ -109,7 +109,7 @@ Module pentrice "Gosse's Company" {
     On discuss { Assert lucanHeldGate(actor). }
   }
   Topic lucan_look with lucan "No. Look the other way. Nobody will thank you for the other thing" answering lucan_ask when true {
-    Says "Lucan stares. 'You are telling me to break my oath,' he says. Then, slowly: 'I have been wanting to be told that for two days.' He turns his back, in a manner that is almost military, on the road to the Field. 'I am looking at the wall.'".
+    Says "Lucan stares. 'You are telling me to break my oath,' he says. Then: 'I have been wanting to be told that for two days.' He turns his back, in a manner that is almost military, on the road to the Field. 'I am looking at the wall.'".
     On discuss { Assert lucanLoved(actor). }
   }
   Topic lucan_plead with lucan "Go to your father yourself. Tell him what he's done" answering lucan_ask when true {
@@ -178,14 +178,14 @@ Module pentrice "Gosse's Company" {
     On success { Assert bodyTaken(rierdan). Assert state(tarn_body, taken). Assert ysoltFree(rierdan). Assert ysoltExiled(rierdan). Assert lucanLives(rierdan). Assert actIIIDone(rierdan). Assert verrallStays(rierdan). Assert clemFurious(rierdan). }
     On failure { Assert strikes(sexton_blow, actor). }
     Result "The Wives' handcart comes down the Dust Road under a load of herring-barrels, with a blue apron on every one of you. The sextons hold their lanterns up and smell it and wave you through. At the Field you lay the Marshal under the barrels and go out by the same gate. At the Salt Quay the three old women are waiting with a boat, a lamp and a sack of salt. 'For the sea,' says the eldest. 'The Bells will call it a wake. The Dust will call it the river. Neither of them is wrong.' Ysolt Marrick, who has come down to the Quay in her grey, goes into the boat with him, because there is nothing left in Dun Rierdan that will not be asked where he is. She looks past the city. She does not say goodbye to anyone, and you are one of them.".
-    Otherwise "A sexton lifts the cloth. He looks at the barrels a long time, and then at your aprons, and then at your boots. 'Wrong boots,' he says, and the mattocks come round.".
+    Otherwise "A sexton lifts the cloth. He looks at the barrels until the lantern gutters, and then at your aprons, and then at your boots. 'Wrong boots,' he says, and the mattocks come round.".
   }
   // 5. Stage the exposure: Clemency's play on the Field, for the Marshal, in the name the Dust demands.
   Topic clem_play with clemency "Ask Clemency Orde what she is writing" when edictOn(rierdan) and not actIIIDone(rierdan) and not clemAsked(party) once {
     Says "Clemency Orde does not put down the pen. She has been installed in the Wick's wardrobe for six days, in the dead king's cloak, with a candle, three inkwells and a sleep that she takes in the hamper with the lid on. 'The Unburied,' she says. 'A play. A daughter buries her father against the law of the city and is sealed in the vault, and her betrothed follows her, and the city learns something.' She looks up. 'It is going to be the best thing I have written. It is only missing a third act, which is happening at the moment in the Field of Exposure. I should like you to leave it exactly as it is.' She does not smile. 'My father was Lord Mayor of Pentrice, and Gosse made a fool of him, and every sentence he spoke afterward was true and none was kind. I am writing the other sort.'".
   }
   Topic clem_nobody with clemency "Nobody. Write it so nobody dies" answering clem_play when true {
-    Says "Clemency lays the pen across the inkwell. 'That is not a tragedy,' she says. 'That is a pageant.' She picks the pen up again. 'I shall write it your way. I shall hate it.' It is a promise made with the eyes of a woman who has been told her house is to be demolished.".
+    Says "Clemency lays the pen across the inkwell. 'That is not a tragedy,' she says. 'That is a pageant.' She picks the pen up again. 'I'll write it your way. I'll hate it.' It is a promise made with the eyes of a woman who has been told her house is to be demolished.".
     On discuss { Assert clemAsked(actor). Assert clemSoft(actor). }
   }
   Topic clem_ysolt with clemency "The girl. It is what the story wants" answering clem_play when true {
@@ -242,9 +242,9 @@ Module pentrice "Gosse's Company" {
   Observe clem_staged near clemency when bodyStaged(rierdan) "Clemency Orde has her play in the drawer with the last page written and played. 'It was my play,' she says, 'in a field, in front of the Dust, in Gosse's voice.' She cannot look at the drawer.".
   Observe clem_exile near clemency when lucanFled(rierdan) "Clemency Orde has crossed out the word she would have put at the end. 'Past the ford,' she says. 'There is nothing after the ford. You cannot end a play with a ford.'".
   Observe clem_river near clemency when bodyRiver(rierdan) "Clemency Orde has taken the tragedy out of its drawer and put it back. 'The river,' she says. 'Nobody's hands in it. Nobody to blame. I cannot use any of it.'".
-  Observe verrall_resigned near dray when verrallResigned(rierdan) "The Lord Warden Verrall has taken off the chain of office and put it on the table. He is looking at a window, like a man who has stopped being a wall.".
+  Observe verrall_resigned near dray when verrallResigned(rierdan) "The Lord Warden Verrall has taken off the chain of office and put it on the table. He is looking at a window, as if he had stopped being a wall.".
   Observe tarn_buried_field at field when state(tarn_body, buried) "The turf has been laid back in long strips, with care. There is no sign of the grave but a single white pebble, set on the grass, which is not a thing that grows there.".
-  Observe pebble_warden near dray when buriedUnseen(rierdan) "The Lord Warden Verrall comes back from the Field at first light with one white pebble in his gloved hand. He has seen the turf. He looks at the pebble for a time, and then at you, and puts the pebble in his pocket. 'The sextons report the body undisturbed,' he says, slowly, so that he cannot be misquoted. 'I have inspected it.' He does not say anything else. He will know, for the rest of his life, what he did not see; and so, now, will you.".
+  Observe pebble_warden near dray when buriedUnseen(rierdan) "The Lord Warden Verrall comes back from the Field at first light with one white pebble in his gloved hand. He has seen the turf. He looks at the pebble for a time, and then at you, and puts the pebble in his pocket. 'The sextons report the body undisturbed,' he says, each word set down by itself, so that he cannot be misquoted. 'I have inspected it.' He does not say anything else. He will know, for the rest of his life, what he did not see; and so, now, will you.".
   Rule clem_comes when nightOver(rierdan) and not clemInWick(rierdan) { Assert clemInWick(rierdan). Assert at(clemency, lant_ward). }
   Relation clemInWick(place).
   Observe clem_soft_note near clemency when clemSoft(party) and not actIIIDone(rierdan) "Clemency has crossed out a great deal. The margin is a battlefield. She looks up and says, without being asked: 'I have given her a window. It is a small window.'".

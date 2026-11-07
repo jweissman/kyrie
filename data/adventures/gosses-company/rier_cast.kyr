@@ -47,11 +47,11 @@ Module pentrice "Gosse's Company" {
     Says "Dorcas Quaile is sitting in the Rotunda's front of house in a gown she did not pay for, drinking something clear. 'It has a roof,' she says. 'It has a Fallow. It has a Lord Rask who is the second-largest man in the realm and the first-most-patient.' She turns the glass. 'Master Gosse is the King's, they say. Is there a part?' It is the nearest she will come to saying it.".
   }
   Topic dorcas_home with dorcas "There is a part, and a wardrobe, and a Gosse who has not got over you" answering dorcas_return when true {
-    Says "'He has not,' says Dorcas. 'He told me a thing in Pentrice and I was a coward.' She puts down the glass. 'I shall come. I shall want it in writing that I was not asked to.' She is already getting up.".
+    Says "'He has not,' says Dorcas. 'He told me a thing in Pentrice and I was a coward.' She puts down the glass. 'I'll come. I'll want it in writing that I was not asked to.' She is already getting up.".
     On discuss { Assert dorcasHome(actor). }
   }
   Topic dorcas_stay_rask with dorcas "Stay where you are, then. The roof is real" answering dorcas_return when true {
-    Says "Dorcas looks at you for a long time. 'Thank you,' she says. 'Nobody has said that to me and meant it.' She finishes the glass.".
+    Says "Dorcas looks at you for a good while. 'Thank you,' she says. 'Nobody has said that to me and meant it.' She finishes the glass.".
   }
   Relation dorcasHome(group). Relation swaleHome(group).
   Rule dorcas_returns when dorcasHome(party) and dorcasGone(dorcas) { Retract dorcasGone(dorcas). Assert troupe(dorcas). Assert lodged(dorcas). Assert at(dorcas, lant_ward). }
@@ -66,7 +66,7 @@ Module pentrice "Gosse's Company" {
   // The Trial's outcome, carried by the people it happened to.
   Observe gosse_patent near gosse when royalCall(pentrice) and patentWon(pentrice) "Gosse has the Patent of the Wheel in a leather tube, and takes it out to look at when he thinks nobody sees. It does not say what he thought it would say. It says he owes the Office a quarter's rent.".
   Observe gosse_pension near gosse when royalCall(pentrice) and pensionTaken(gosse) "Gosse wears Fallow's thirty crowns like a good coat that belongs to someone else. He is gracious about it and does not speak of the Trial.".
-  Observe gosse_neither near gosse when royalCall(pentrice) and not patentWon(pentrice) and not pensionTaken(gosse) "Gosse has no Patent and no pension, and the grey patience of a man who has been refused a roof before, in a better year.".
+  Observe gosse_neither near gosse when royalCall(pentrice) and not patentWon(pentrice) and not pensionTaken(gosse) "Gosse has no Patent and no pension, and the grey patience of one who has been refused a roof before, in a better year.".
   Observe hepzibah_wife near hepzibah when royalCall(pentrice) and (proposed(gosse) or emptyWing(gosse)) "Hepzibah Dimmock is Mrs Gosse, and writes it in the prompt-book's margin in a small hand when she thinks nobody is looking, and then rubs it out.".
   Observe kit_voice at sparrow_loft when royalCall(pentrice) and kitVoiceHeld(kit) "Kit Arden's voice has held through the winter, on a spoonful of honey a day and a great deal of will. He is sixteen, and plays girls, and is aware that this is a loan.".
   Observe kit_broke at sparrow_loft when royalCall(pentrice) and not kitVoiceHeld(kit) "Kit Arden's voice broke somewhere between Pentrice and the River Gate, and he plays the girls now in a falsetto he hates, and knows exactly how many more months it has.".
@@ -137,7 +137,7 @@ Module pentrice "Gosse's Company" {
   // The Towers.
   Person dray "Lord Warden Cassian Verrall" at king_court {
     Role "the Warden of the Realm, the King's hand in the Seven Seats". Ancestry human. Calling warrior. Level 3. Peaceable. Pronouns he. Manner grim.
-    Greets "Lord Warden Cassian Verrall is a lean grey man of sixty with a soldier's back and the habit of speaking slowly so that he cannot be misquoted. 'The law,' he says, when you are introduced, as if it were a surname. 'You have come to see it done.'".
+    Greets "Lord Warden Cassian Verrall is a lean grey man of sixty with a soldier's back and the habit of speaking in separate words so that he cannot be misquoted. 'The law,' he says, when you are introduced, as if it were a surname. 'You have come to see it done.'".
   }
   Person lucan "Lucan Verrall" at dust_gate {
     Role "the Warden's son, a captain of the Household". Ancestry human. Calling warrior. Level 2. Peaceable. Pronouns he. Manner compassionate.

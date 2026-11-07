@@ -92,7 +92,7 @@ Module pentrice "Gosse's Company" {
     Says "Jem Pudding is balancing an onion on his nose and not looking at anyone. 'I'm going to be asked,' he says, 'to be the Fool in the Chorus, in the Marshal's tragedy, in the Field.' He lets the onion fall. 'I've never played a Fool at a funeral. A Fool does not belong at a funeral. He has nothing to say there that is not a joke.' He looks at you. 'What does a clown do at a funeral?'".
   }
   Topic jem_silent with pudding "Nothing. He stands there and is sad" answering pudding_beat when true {
-    Says "Jem looks at you. 'That's not a part,' he says, and then, slowly: 'Is it? Is it a part?' A great change comes over him. He gets up. He puts on his Fool's coat, and he takes the bells off it. He stands in the middle of the wardrobe for a quarter of an hour, perfectly still, and the rest of the company, who come in and out for hampers, step round him as round a monument.".
+    Says "Jem looks at you. 'That's not a part,' he says, and then: 'Is it? Is it a part?' A great change comes over him. He gets up. He puts on his Fool's coat, and he takes the bells off it. He stands in the middle of the wardrobe for a quarter of an hour, perfectly still, and the rest of the company, who come in and out for hampers, step round him as round a monument.".
     On discuss { Assert puddingBrave(actor). }
   }
   Topic jem_joke with pudding "A joke. The one the dead man would have liked" answering pudding_beat when true {
@@ -124,7 +124,7 @@ Module pentrice "Gosse's Company" {
     On discuss { Assert cyprianAsked(actor). }
   }
   Topic cyprian_resign with cyprian "Hand in the pewter, then. A lieutenant is a small thing to be" answering cyprian_watch when true {
-    Says "'Yes,' says Cyprian, with the face of a man who has been told his tooth is out. He unpins the pewter and puts it in his purse. 'My father will be a good deal worse than my commander.' He puts the purse away, and takes it out again, and looks at the pewter, and puts it back.".
+    Says "'Yes,' says Cyprian, with the face of someone told his tooth is out. He unpins the pewter and puts it in his purse. 'My father will be a good deal worse than my commander.' He puts the purse away, and takes it out again, and looks at the pewter, and puts it back.".
     On discuss { Assert cyprianResigned(actor). }
   }
   Topic cyprian_both with cyprian "Keep it. A man can be a lieutenant and a player" answering cyprian_watch when true {
@@ -143,7 +143,7 @@ Module pentrice "Gosse's Company" {
     Says "'Good,' says Oriel, quick as a latch. 'A statement made in a part is a statement made in a part. He cannot call a play perjury.' She grins, which she does rarely, and looks about eleven. 'I had the argument drafted. I wanted it countersigned.'".
     On discuss { Assert orielStage(actor). }
   }
-  Observe s5_oriel_told at lant_stage when sceneV(rierdan) == 5 and orielTells(party) "Lord Marchant has been told, and has had a day to be furious in, and has come to the Wick in his second-best coat with his spectacles in his hand. He looks at his daughter on the stage the way one looks at a piece of news that has taken a long time to arrive.".
+  Observe s5_oriel_told at lant_stage when sceneV(rierdan) == 5 and orielTells(party) "Lord Marchant has been told, and has had a day to be furious in, and has come to the Wick in his second-best coat with his spectacles in his hand. He looks at his daughter on the stage the way one looks at a piece of news that has taken a good while to arrive.".
   Rule oriel_stage_costs when holdingCommand(rierdan) and sceneV(rierdan) == 5 and orielStage(party) and not orielPaid(rierdan) and at(party, lant_stage)
     says "Oriel steps into the light in her own voice, in front of the Household, and says her name; and in the second tier the Chancellor of the Realm stands up with a noise like a chair being sat on by a horse." { Assert orielPaid(rierdan). Increase chaos(rierdan) by 1. }
   Relation orielPaid(place).

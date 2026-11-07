@@ -18,7 +18,7 @@ Module pentrice "Gosse's Company" {
     Says "'Marchant's men,' says Sergeant Peverell, making a tick. 'Now. I have eight and a bear on my list and the Chancellor's steward has told me twice that the one with the voices is to be treated as if he were a bishop.' He looks you over with the flat patience of a customs shed. 'You're the masquers. Aren't you.'".
   }
   Topic gate_masquers with tallis "We are. The Marchants' masquers, and we are late" answering gate_ask when true {
-    Says "He ticks and does not look up. 'Then the steward will be pleased,' he says, 'and I shall be spared his face.' The ledger takes your name as Marchant's, which is not the first time a book has lied for you, and is the first time it has done it so promptly.".
+    Says "He ticks and does not look up. 'Then the steward will be pleased,' he says, 'and I'll be spared his face.' The ledger takes your name as Marchant's, which is not the first time a book has lied for you, and is the first time it has done it so promptly.".
     On discuss { Assert posing(actor). }
   }
   Topic gate_truth with tallis "We are Gosse's Company, with the King's own writ" answering gate_ask when holding(actor, writ_kind) {
@@ -107,7 +107,7 @@ Module pentrice "Gosse's Company" {
 
   // The play: Hepzibah asks which one it will be.
   Topic hepzibah_play with hepzibah "Ask Hepzibah what the company will give the King" when royalCall(pentrice) and not masqueChosen(party) once {
-    Says "Hepzibah takes the pencil out of her hair and puts it behind the other ear. 'There are three things we can give,' she says, 'and I shall tell you what each costs. I do not do this for everyone. Which would you choose?'".
+    Says "Hepzibah takes the pencil out of her hair and puts it behind the other ear. 'There are three things we can give,' she says, 'and I'll tell you what each costs. I do not do this for everyone. Which would you choose?'".
   }
   Topic hepzibah_ghost with hepzibah "The Alderman's Ghost, as it was written" answering hepzibah_play when ghostPlay(pentrice) {
     Says "'Dangerous,' says Hepzibah. 'It is the best thing we have, and it is a play about a dead man who will not stay buried, in front of a King of eighty-one.' She writes something in the book. 'I do not mind. I like danger in a play. I do not like it in a man who can have us hanged.'".
@@ -118,7 +118,7 @@ Module pentrice "Gosse's Company" {
     On discuss { Assert masqueChosen(actor). Assert masqueMiser(actor). }
   }
   Topic hepzibah_farce with hepzibah "A farce, tonight, made of the mistakes of this week" answering hepzibah_play when true {
-    Says "Hepzibah looks at you over her spectacles for a long time. 'You mean,' she says, 'The Marchants' Men. The one that is happening to us.' She opens the book at a clean page. 'I have been waiting thirty-four years for someone to ask me to write a play that hasn't been finished yet. I shall need a Chancellor, a boy who plays girls, and a page.' She smiles. It is a small, rare, dangerous smile. 'Which we have.'".
+    Says "Hepzibah looks at you over her spectacles until the pencil has finished a line. 'You mean,' she says, 'The Marchants' Men. The one that is happening to us.' She opens the book at a clean page. 'I have been waiting thirty-four years for someone to ask me to write a play that hasn't been finished yet. I'll need a Chancellor, a boy who plays girls, and a page.' She smiles. It is a small, rare, dangerous smile. 'Which we have.'".
     On discuss { Assert masqueChosen(actor). Assert masqueFarce(actor). }
   }
 
@@ -152,7 +152,7 @@ Module pentrice "Gosse's Company" {
     Resolve check(actor, performance, dc_hard).
     On success { Assert auditioned(rierdan). Increase favour(rierdan) by 3. Assert provisional(rierdan). Set auditionScore(rierdan) to 3. }
     On failure { Assert auditioned(rierdan). Increase favour(rierdan) by 1. Set auditionScore(rierdan) to 1. }
-    Result "Gosse plays the Miser as an old man would, tired and clever, counting his money slowly. The King leans forward on his stick. He does not say the lines before Swale this time. He lets them come.".
+    Result "Gosse plays the Miser as an old man would, tired and clever, counting his money with care. The King leans forward on his stick. He does not say the lines before Swale this time. He lets them come.".
     Otherwise "An old man plays an old miser quietly to an old King, and nobody in the room knows what to do with their hands.".
   }
   Action audition_miser(actor: group, site: place) "Play the King The Miser's Wedding, as his grandfather had it" {
@@ -193,7 +193,7 @@ Module pentrice "Gosse's Company" {
     On discuss { Assert gosseSeen(actor). Assert gosseHam(actor). }
   }
   Topic gosse_is with gosse "As what you are. He's old too" answering gosse_audition when true {
-    Says "Gosse looks at you for a long time. 'That,' he says, 'is a harder part,' and sits down on the hamper, and takes his hat off, and holds it in both hands like a man waiting to be called. 'I shall try.'".
+    Says "Gosse looks at you for a good while. 'That,' he says, 'is a harder part,' and sits down on the hamper, and takes his hat off, and holds it in both hands as if waiting to be called. 'I shall try.'".
     On discuss { Assert gosseSeen(actor). Assert gosseHonest2(actor). }
   }
 
@@ -211,6 +211,7 @@ Module pentrice "Gosse's Company" {
     Result "'The Miser,' says Hepzibah, with the sigh of a woman who has told them. 'The old one. He will know every word.'".
   }
   Relation nameDayPassed(place).
-  Rule name_day when royalCall(pentrice) and not auditioned(rierdan) and not nameDayPassed(rierdan) and day(clock) >= arrivedR(rierdan) + 4 and hour(clock) >= 9 and inCity() { Assert nameDayPassed(rierdan). }
-  Observe name_day_note at sparrow_loft when nameDayPassed(rierdan) and not auditioned(rierdan) "The King's Name-Day has come and gone without them. A servant of the Household has left a note under the loft door: the King is graciously informed that the players have been delayed, and is graciously willing to see them still, since nobody else has been engaged.".
+  Rule name_day when royalCall(pentrice) and not auditioned(rierdan) and not nameDayPassed(rierdan) and day(clock) >= arrivedR(rierdan) + 4 and hour(clock) >= 9 { Assert nameDayPassed(rierdan). Set favour(rierdan) to 0. }
+  Observe name_day_note at sparrow_loft when nameDayPassed(rierdan) and not auditioned(rierdan) "The King's Name-Day has come and gone without them. A servant of the Household has left a note under the loft door: the King is graciously informed that the players have been delayed, and is graciously willing to see them still, since nobody else has been engaged. Whatever favour the company had earned has gone with the Name-Day, like a bill the Household has not paid.".
+  Observe name_day_warning at sparrow_loft when royalCall(pentrice) and not auditioned(rierdan) and not nameDayPassed(rierdan) and day(clock) >= arrivedR(rierdan) + 2 "Hepzibah has chalked on the loft door: THE NAME-DAY IS THE FOURTH DAY. THE KING WILL NOT ASK TWICE. Under it, in her hard pencil: Whatever we have earned with the Chancellor by then is all we have; after, it is forgotten.".
 }
