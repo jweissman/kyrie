@@ -360,7 +360,7 @@ export class ModuleBundle {
   }
   // Sets a province's own country inside a host place: the region its manifest exports as its region, or, if it
   // names none, each region it sets in Imbar or in no plane. Never a region elsewhere (Parliament's Commonplace, which
-  // every city that writes has), nor one in another plane (its Cthelll, in Cthell), nor, where it names its own
+  // every city that writes has), nor one in another plane (its Cthelll, in Cthelll), nor, where it names its own
   // country, any other (Thrume's Between, under every sleeping thing): those are where they are, whatever country the
   // province is part of.
   private static nest(draft: ModuleDraft, host: string) {

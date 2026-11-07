@@ -178,7 +178,7 @@ The planes offer an especially great opportunity.
 
 The elemental inner planes are not simply combat environments with corresponding damage types. Nor are the proper outer planes merely distant countries populated by unusual monsters.
 
-The Plane of Fire is distinct from Gehenna. The Plane of Air is distinct from Pandemonium. Water, Earth, and the energy planes possess their own orders of existence. Arcadia, Nirvana, the Abyss, Cthell, and the other outer realms should be treated as substantive metaphysical places, with their own histories, inhabitants, structures, and principles.
+The Plane of Fire is distinct from Gehenna. The Plane of Air is distinct from Pandemonium. Water, Earth, and the energy planes possess their own orders of existence. Arcadia, Nirvana, the Abyss, Cthelll, and the other outer realms should be treated as substantive metaphysical places, with their own histories, inhabitants, structures, and principles.
 
 The House of Doors may provide passage into this greater cosmos. The Infinite Library may contain more geography, scholarship, intrigue, and peril than a mortal traveler could exhaust in a lifetime.
 

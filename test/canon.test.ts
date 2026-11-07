@@ -48,7 +48,7 @@ describe('the canon', () => {
     expect(entities.get('inner_fire')?.space).toEqual({ kind: 'plane' });
     expect(entities.get('inner_fire_threshold')?.space?.kind).toBe('room');
     expect(entities.get('house_upper_threshold')?.name).toBe('the first gallery');
-    expect(entities.get('outer_cthell')?.name).toBe('Cthell');
+    expect(entities.get('outer_cthell')?.name).toBe('Cthelll');
     expect(entities.get('court_of_waters')?.space?.parent).toBe('inner_water_region');
     // Orsino's outer planes carry their laws, and of the elemental planes the Fire and the Air theirs (the Grand
     // Tour's).

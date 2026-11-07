@@ -3,7 +3,7 @@ Module canon "Imbar and the planes" {
   // Orsino's nine, each under its law (the catalog's plane condition: its spell DC is held by everyone fighting
   // anywhere in it), and the Abyss, Nirvana and the Mount of the Exalted, which have none. A module puts no law of its
   // own on them: its laws go on its own places.
-  Entity plane_arcadia: law "the law of Arcadia". Entity plane_cthelll: law "the law of Cthell".
+  Entity plane_arcadia: law "the law of Arcadia". Entity plane_cthelll: law "the law of Cthelll".
   Entity plane_gehenna: law "the law of Gehenna". Entity plane_hades: law "the law of Hades".
   Entity plane_limbo: law "the law of Limbo". Entity plane_mechanus: law "the law of Mechanus".
   Entity plane_pandemonium: law "the law of Pandemonium". Entity plane_ysgard: law "the law of Ysgard".
@@ -17,10 +17,10 @@ Module canon "Imbar and the planes" {
   Observe outer_arcadia_seen at outer_arcadia_threshold when true "Green country in the light of a spring that does not end, and everything in leaf.".
 
   // Spelt as the owner spells it; the catalog's condition keeps Orsino's spelling in its id.
-  Place outer_cthell "Cthell" is plane.
-  Place outer_cthell_region "Cthell" is region within outer_cthell elsewhere.
-  Place outer_cthell_land "the threshold of Cthell" is wilderness within outer_cthell_region at 0, 0 elsewhere.
-  Place outer_cthell_threshold "the threshold of Cthell" is room within outer_cthell_land at 0, 0.
+  Place outer_cthell "Cthelll" is plane.
+  Place outer_cthell_region "Cthelll" is region within outer_cthell elsewhere.
+  Place outer_cthell_land "the threshold of Cthelll" is wilderness within outer_cthell_region at 0, 0 elsewhere.
+  Place outer_cthell_threshold "the threshold of Cthelll" is room within outer_cthell_land at 0, 0.
   Initially Assert law(outer_cthell, plane_cthelll).
   Observe outer_cthell_seen at outer_cthell_threshold when true "Black water and reeds in a fog that does not lift.".
 

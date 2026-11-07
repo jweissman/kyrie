@@ -49,7 +49,7 @@ company. Laws pass down through every enclosing place (`src/campaign/environment
 entity once, lists each in its `globals` and exports it. It holds two kinds of entity.
 
 - **Canonical places.** Imbar, the material plane. The six inner planes: Fire, Air, Earth, Water, and the Positive
-  and Negative Energy Planes. The outer planes: Orsino's nine (Arcadia, Cthell, Gehenna, Hades, Limbo, Mechanus,
+  and Negative Energy Planes. The outer planes: Orsino's nine (Arcadia, Cthelll, Gehenna, Hades, Limbo, Mechanus,
   Pandemonium, Ysgard, Zephyrus) and the owner's Abyss and Nirvana. The Infinite Library. The upper House beyond the
   Door of Doors.
   - Only regions may stand in a plane (`src/spatial.ts:143`). So each plane has one canonical region and in it a
@@ -93,10 +93,10 @@ into the host country, never an `elsewhere` region such as the Commonplace or Th
   canonical outer planes, where they belong.
 - **The Grand Tour's −1 to spell DCs stays, under the courts' own names.** It becomes local laws, `hour_court_law`
   and `gallery_law` (after `unlit_law`), on its courts.
-- **Spelling.** The canonical plane is spelt "Cthell", as the owner wrote it. The catalog keeps its condition id
+- **Spelling.** The canonical plane is spelt "Cthelll", as the owner wrote it. The catalog keeps its condition id
   `plane_cthelll` for its provenance.
 - **Parliament's realms move into the planes they name.** The Mount of the Exalted becomes a region within its
-  canonical outer plane. Parliament's Cthelll becomes a region within Cthell.
+  canonical outer plane. Parliament's Cthelll becomes a region within Cthelll.
 
 ### The House of Doors: one House, at Sennet, of the college at Dun Rì
 
@@ -177,7 +177,7 @@ These are taken so the work goes on. Each is chosen to keep the author's design 
 3. **A world that never visits Sennet records nothing of the Tour.** The other choice is a lazy history in which, left
    alone, the Rector takes the Rose and goes through on the seventh night. Every neglected world would then have its
    upper House opened by her. It is the author's own schedule, and it is the owner's to choose.
-4. **Cthell is spelt as the owner spelt it.** The catalog condition keeps its id.
+4. **Cthelll is spelt as the owner spelt it.** The catalog condition keeps its id.
 5. **The other demiplanes stay their modules' own for now:** the Keeping, the Masonry, the Interval, the Margin, and
    the Varakiiri void beyond the gates of being. Whether the three Varakiiri citadels are one place is a question for
    the canon of the Varakiiri.

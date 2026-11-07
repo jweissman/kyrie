@@ -50,7 +50,7 @@ describe('Imbar, one plane', () => {
 });
 
 describe('the realms beyond the Hexagon of Doors', () => {
-  it('are Parliament\'s own regions of Cthell and of the Mount of the Exalted, under their planes\' laws', async () => {
+  it('are Parliament\'s own regions of Cthelll and of the Mount of the Exalted, under their planes\' laws', async () => {
     const j = await Calamy.start(), c = j.campaign;
     expect(Imbar.line(c, C('cthelll_gate')).slice(1)).toEqual([C('cthelll'), C('furnace_city'), 'outer_cthell']);
     expect(Imbar.line(c, C('celestia_terrace')).slice(1)).toEqual([C('mount'), C('terraces'), 'outer_exalted']);
@@ -58,7 +58,8 @@ describe('the realms beyond the Hexagon of Doors', () => {
     expect(c.module.entities.filter(e => e.space?.parent === 'outer_cthell').map(e => e.id).sort())
       .toEqual([C('furnace_city'), 'outer_cthell_region'].sort());
     expect(c.module.entities.filter(e => e.space?.kind === 'plane' && /cthell/i.test(e.name))).toHaveLength(1);
-    // A fight at the Gate of Cthelll is fought under Cthell's law; on the Mount, which has none, under none.
+    // A fight at the Gate of the Bronze Citadel, on Cthelll, is fought under Cthelll's law; on the Mount, which has
+    // none, under none.
     Imbar.put(c, C('cthelll_gate'));
     expect(Environment.laws(c.world, 'party')).toEqual(['plane_cthelll']);
     Imbar.put(c, C('celestia_terrace'));
