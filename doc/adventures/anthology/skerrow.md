@@ -12,27 +12,28 @@ Seven people are on the rock besides the company: Edmund Seddon the keeper, Hett
 
 ## The rule, and what shows it
 
-The player is never told the rule. Everything that tells them is something they can see happen:
+The player is never told the rule. Everything that tells them is something they can see or hear:
 
 | What the player sees | What the engine is doing |
 |---|---|
-| By day nothing. At dusk, with the lamp bright, a knocking under the floor of the tower, twice, every hour or so. | `hunting()` (dark, tide in, and either no bell lately or the lamp out) with `state(lamp, bright)`: `knocks` only. A sound `Observe … within holm as sound`, told on any step that ends within seven watches of it, so no hour-long wait can pass it by. |
-| When the lamp sinks to a blue bead, voices. Five of them, each nearer, each in a voice someone has lost. | `calling()` is `hunting()` and not a bright lamp; `the_call` raises `callN` every six watches; five sound `Observe`s (`within holm as sound`) tell it on the page. A spec asserts the text. |
-| While the bell is ringing there are no voices, until the lamp is out; then the bell does not help. Seddon pulls a cord in the lamp room, four watches of every ten of the dark. | `bellRecent()` ends `hunting()` unless `state(lamp, out)`; the caller goes back to sea (`caller_sea`). The lamp is the clock; the bell is a respite while there is a lamp. |
-| The wet glove on the keeper's sill, a print on every stair, the dog at the foot of the iron stair with her hackles up. | The caller's `state` text shows in the room it has reached: `below`, `stair`, `here`. Sprat's `Observe`s read `at(caller, keeper_room)`. |
-| When the lamp is out the thing is in the room the company is in, and an hour and forty minutes later one of them answers it before they have decided to. | `caller_takes_*`: a party in a room the lamp no longer reaches is taken after `outAt + 10` watches, one per six watches (`strikes(taken_by_the_sea)` kills an ally). "Dark" here means the lamp's state, not a room's own light: the kitchen range does not save a party. The kitchen window shows the lantern dimming and going out. In the cistern, two watches. |
+| In the evening, with the tide in, a knocking under the floor of the tower, twice, every hour or so. | `hunting()` (dark, tide in, not sent away, and either no bell lately or the lamp out) before midnight: `knocks`, a sound `Observe … within holm as sound`, told on any step that ends within seven watches of it. |
+| From midnight to six, voices. Five of them, each nearer, each in a voice someone has lost. They come whatever the lamp is doing. | `calling()` is `hunting()` and the small hours; `the_call` raises `callN` every six watches; five sound `Observe`s tell it on the page. A spec asserts the text. A bright lamp does not stop them: it is not the lamp that is being tested then, but Gaff, Dib, Corrie and Hettie. |
+| While the bell is ringing there are no voices, until the lamp is out; then the bell does not help. Seddon pulls a cord in the lamp room, four watches of every ten of the dark. | `bellRecent()` ends `hunting()` unless `state(lamp, out)`; the caller goes back to sea (`caller_sea`). |
+| The wet glove on the keeper's sill, a print on every stair, the dog at the foot of the iron stair, or under the table with her eyes on the open cistern door. | The caller's `state` text shows in the room it has reached: `below`, `stair`, `here`. Sprat's `Observe`s read where it is. |
+| Where the thing can reach follows the lamp. | `exposed()`: with the lamp bright, only the sea-side rooms (landing, boat shed, bell hut, cistern); sunk, the store and the keeper's room too; out, every room. The company is hunted *where it is*: `caller_hunts` moves the thing to the party's room if it is exposed. After half an hour there, one of them answers it (`caller_takes_*`, one per hour at most). The lamp room is the one refuge, for as long as there is a lamp. |
+| Holy water, or a flame held out, sends it down. | `repelUntil`: holy water two hours, a torch one, a lie eight watches; and `hunting()` honours it whatever the lamp is doing. A torch is tried once a night. |
 | Going outside at the time of a call offers "Answer the voice". Nowhere else does. | `answer_voice` and `answer_false` need `calling()`, a call in the last three watches, and the landing or the gallery. |
 
 Seddon says one thing: *if anyone calls, say nothing.* The lamp and the bell are learned from what happens when they fail. Lowrie speaks only in riddles of the sea's keeping.
 
-**The lamp is the clock.** It burns one measure an hour from arrival. Seddon refills it exactly once (`refills`), because after dark he will not go into the store (the hatch is there; he says so, at the lamp, when the oil runs short); after that the company must, from seven flasks in the store (four hours each). If they answered "No, we'd sooner sleep", Seddon says *touch it and you answer to me*, and the filling is not offered while he is at his post. An unkept lamp sinks about midnight, goes out about three, and the thing is in the kitchen or the lamp room by four. One flask when it goes out brings it back to *low*: the calls go on and the dark rooms are still dangerous, but the lamp room is not. Two keep it bright.
+**The lamp is the clock.** It burns one measure an hour from arrival. Seddon refills it exactly once (`refills`), because after dark he will not go into the store (the hatch is there; he says so, at the lamp, when the oil runs short); after that the company must, from seven flasks in the store (four hours each). If they answered "No, we'd sooner sleep", Seddon says *touch it and you answer to me*, and the filling is not offered while he is at his post. An unkept lamp sinks about midnight and goes out about three. One flask when it goes out brings it back to *low*: the lamp room is safe again, the kitchen is safe, the keeper's room and the store are not. Two keep it bright. **Keeping it bright does not skip the night**: the calls come regardless, and the people are what they test.
 
 ## Why it is not the others
 
 * **Time is the lamp's oil and the tide**, not money, rations or a pursuer.
-* **The threat has a position the company can see and a rule it can test.** It is not fought, and it does not strike wherever the party is.
+* **The threat has a position the company can see and a rule it can test.** It is not fought, and it goes where the company goes, so hiding costs something: outdoors it is the first place, a dark tower the second, and the lamp room the only one that is safe, while there is a lamp to keep.
 * **The people are the clock.** At fixed counts of calls Gaff (two; one if he has been encouraged to be loud), Dib (three; four if he has said "it isn't him") and Corrie (two, unless she has been paid) answer the voice and go down the stair unless the player has kept them: Gaff hushed, Dib watched, Corrie promised that her sister will be spoken of (she sells the line at cost, and stays in her seat for the promise). Hettie's fourth call is the romance.
-* **The romance is between two non-player people, and the player is the weather they have to get through.** Seddon has loved Mrs Marram for eleven years and never said it. A measure (`love`, on the tide) rises with what the company does, and the kitchen shows it at each step (a second cup put out; the stopped clock wound; Seddon looking at the cup, not the table; Seddon half rising whenever she crosses the room). At four the keeper will go down the stair after her and bring her up; below four he goes after her and does not come up. When she walks, the room shows which: *Seddon is at the head of the stair; his hands will not settle*, or *his jersey is already inside out*. The company has two watches to put a hand on his arm and keep him at the lamp (`hold_orrin`).
+* **The romance is between two non-player people, and the player is the weather they have to get through.** Seddon has loved Mrs Marram for eleven years and never said it. A measure (`love`, on the tide) rises with what the company does, and the kitchen shows it at each step (a second cup put out; the stopped clock wound; Seddon looking at the cup, not the table; Seddon half rising whenever she crosses the room). At four the keeper will go down the stair after her and bring her up; below four he goes after her and does not come up. Without a declaration the company can call her back from the landing once (`stop_hettie`: persuasion, and only those she has let sit with her, a love of two); with a failed try, she goes. When she walks, the room shows which: *Seddon is at the head of the stair; his hands will not settle*, or *his jersey is already inside out*. The company has two watches to put a hand on his arm and keep him at the lamp (`hold_orrin`).
 * **No ending is a settlement.** Nobody is tried, the Board does not reform, the cistern is not found.
 
 ## The map
@@ -91,7 +92,7 @@ A hostile review found the first version hollow. Changes in answer:
 6. Dead answers were given readers or cut (round two: Corrie's line is bought with a promise, Piers's notice decides an ending, Lowrie leaving unrung counts as lost): Gaff's laugh, Dib's doubt, Lowrie's name, Piers's two answers; Hettie's promise, Seddon's refusal-to-stay and the goodbye to Lowrie were cut. Corrie now sells a line (a rope for the sands) and answers the second call unless she has been paid.
 7. The hard persuasions are tried once on failure.
 8. The romance is visible in the kitchen at every step; Seddon's chase is a choice the company can make or stop.
-9. Seven endings, each played by title; a failed-roll path.
+9. Eight endings, each played by title; a failed-roll path.
 10. Chronology: the date is the night of the drowning ("tonight, eleven years since, at ten past nine"); the Board's notice says "first of next month" (eighteen days); the bell is four watches ringing and six silent; Seddon rings by a cord from the lamp room, so he is seen to ring.
 
 ## Tested
@@ -107,20 +108,20 @@ The second review found the sounds were never heard: the `Observe`s were anchore
 * The tide, the fog and the line; the lamp's oil as a clock; the bell as the only counter the company can see.
 * All seven people, their topics and fates: Gaff's, Dib's and Corrie's takings at call counts.
 * The romance as a measure the player raises by what they ask and where they go, shown at each step, deciding whether Seddon follows.
-* Seven endings, each reached by label.
-* A thing that cannot be fought, that moves with the lamp, that takes the party in a dark room.
+* Eight endings, each reached by label.
+* A thing that cannot be fought, that comes to the company wherever it hides, and that the lamp, the bell, holy water and a flame each hold off in their own way.
 
 ## 2. Authored content present but not reachable (or not specced)
 
-* **The torch** (`drive_it_off`) is authored and lints, but no spec plays it; holy water and the false answer are specced.
-* **Piers's "wait till morning" notice path** is reachable but not specced.
-* **`lowrie_walks`** (Lowrie leaving at the fifth call when never asked) and **`piers_leaves`** are reachable but not specced.
+* **A torch that works** (`drive_it_off` succeeding) is specced only as a failed try that cannot be repeated; a pass is not played.
+* **`piers_leaves`** (Piers going alone at day-two eleven) is reachable but not specced.
+* **`chase_wins`/`chase_loses` with a bell-held Seddon** are played; a Seddon who follows and loses is the Down to the Water route.
 
 ## 3. Actions or consequences the engine cannot yet represent
 
 * **Hearing a name.** The Caller calls in the voice of someone you have lost, but a sound `Observe` is the same text for every listener; it cannot address a companion or the party's own dead. The calls are written to be true for everyone.
-* **A person removed in the dark with a sound the player hears and cannot attribute.** The fates are told by the rule's `says` the moment they happen, not as a half-heard sound.
-* **A party member alone.** The party is one group at one place, so "the one who is alone, in the dark, off the lamp" is a room, not a person: the thing takes *one of the company* in a dark room, not a companion who has wandered off.
+* **A person removed in the dark with a sound the player hears and cannot attribute.** The fates are told as sound over the whole holm (a door, a voice, a splash) with the visual remains Observed in the rooms where they would be left (the bonnet on the winch, the empty chair), so they are told truly wherever the company is; but a sound the player hears and cannot attribute is still not representable.
+* **A party member alone.** The party is one group at one place, so "the one who is alone, in the dark, off the lamp" is a room, not a person: the thing takes *one of the company* in the room it has come to, not a companion who has wandered off.
 * **A companion's fear.** The lamp's brightness has no effect on a companion's morale (no morale measure in the shared systems).
 * **The company's own stake.** The company wants only to live and to leave. A reason of its own to be on the rock (a debt, a name in the cistern) is not representable: the sound `Observe` cannot name one of three chosen companions.
 * **Two things at once in a room at night**: a person answering in the kitchen while another is on the stair is two rules, not a scene.
@@ -128,6 +129,21 @@ The second review found the sounds were never heard: the `Observe`s were anchore
 ## 4. Existing assets whose integration is incomplete
 
 * `tide_caller` is in the catalog (no portrait, no habitat) and used by no module Person. The adventure's creature is a Thing. The species is natural history only, and a handbook entry for a creature the player can never meet is odd.
-* `unlit`, torches and the lantern: the tower is lit, so the shared dark-room mechanism is not used. The lamp is a Thing with three states instead. A torch does appear: `drive_it_off` uses `capable(actor, flame)`.
-* Hiding and slip-past: the Caller does not search, so there is nothing to slip past. Hiding is "not answering" and "not being in a dark room".
+* `unlit`, torches and the lantern: the tower is lit, so the shared dark-room mechanism is not used. The lamp is a Thing with three states instead. A torch does appear: `drive_it_off` uses `capable(actor, light)`; a torch must be lit when the thing is already in the room, because it burns out in the wait.
+* Hiding and slip-past: the Caller does not search, so there is nothing to slip past. Hiding is "not answering" and "being in the lamp room with the lamp lit".
 * Orsino items: holy water is used; the rest of the catalog is not.
+
+## What round three changed
+
+A third review found the lamp could be used to skip the night, the tower was safe in most rooms, and several rules could not fire. In answer:
+
+1. **Calls come whatever the lamp is doing**, from midnight; the lamp decides where the thing can climb, not whether the voices come. A lamp kept bright all night no longer skips Gaff, Dib, Corrie and Hettie. A spec plays that night.
+2. **The thing hunts where the company is** (`exposed()`, `caller_hunts`): the boat shed, the bell hut, the store, the keeper's room, the kitchen and the lamp room all have takings, according to the lamp. Specs play the boat shed and the keeper's room.
+3. **`caller_takes_stair` could not fire** (it waited thirty watches on a lamp that is low for eighteen). The takings are timed from the thing's arrival, not the lamp's change, and the keeper's room at low is a spec.
+4. **`stop_hettie` and `drive_it_off` are latched** (once a night); calling Hettie back needs a love of two, so her life depends on how the company has spent the evening.
+5. **The counters hold**: holy water, a torch and a lie set `repelUntil`, which `hunting()` honours whatever the lamp is doing. A spec throws holy water in the kitchen with the lamp out.
+6. **Corrie's price is charged** (two gold); the line is washed off the posts by the tide, so Dib's line is needed on the second morning; a bearing is taken once.
+7. **Fates are told by sound over the holm** with visual remains in the rooms, not narrated from the wrong place.
+8. **Hettie's hand on his sleeve is not told after she drowns**; the second cup is not put out for a dead woman; the notice no longer raises `love`.
+9. **Lowrie walks at the fourth call** if he was not asked to ring, on the first night; Piers, promised, follows the company; Piers told "till morning" can give the notice only from the second morning. All played.
+10. **The jersey** (Everyone Out) is no longer put on "the right way round"; "Hull", "paraffin", "newspaper" and the repeated "size of" are gone.

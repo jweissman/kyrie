@@ -12,7 +12,7 @@ Module skerrow "The Light on Skerrow Holm" {
   }
   Initially Assert state(tide, high).
   Measure reachedAt(entity). Measure bellUntil(entity). Measure lastRang(entity). Measure lastCall(entity). Measure callN(entity).
-  Measure oil(entity). Measure oilTick(entity). Measure flasks(entity). Measure refills(entity). Measure lowAt(entity). Measure outAt(entity).
+  Measure oil(entity). Measure oilTick(entity). Measure flasks(entity). Measure refills(entity). Measure repelUntil(entity).
   Relation lampForbidden(group).
   Rule tide_falls when state(tide, high) and hour(clock) >= 11 and hour(clock) < 14 { Assert state(tide, low). }
   Rule tide_rises when state(tide, low) and (hour(clock) >= 14 or hour(clock) < 11) { Assert state(tide, high). }
@@ -26,12 +26,13 @@ Module skerrow "The Light on Skerrow Holm" {
   Initially Assert state(fog, thick).
   Rule fog_thickens when state(fog, thin) and (hour(clock) >= 14 or hour(clock) < 13) { Assert state(fog, thick). }
   Rule fog_thins when state(fog, thick) and hour(clock) >= 13 and hour(clock) < 14 { Assert state(fog, thin). }
-  Relation lined(group). Relation lostTold(group).
+  Relation lined(group). Relation bearingTried(group). Relation lostTold(group).
   Hazard mud_lost "The sands in fog" means "Deal (2d6) physical damage to ally unless constitution save against (13).".
   Rule sands_fog at sands_mid when at(party, sands_mid) and state(fog, thick) and not lined(party) and not lostTold(party)
     says "The posts stop. You walk the way the posts were, and the mud takes you to the knee, and the tower is behind you now, or beside you. The bell, when it comes, comes from everywhere." {
     Assert strikes(mud_lost, party). Assert lostTold(party).
   }
+  Rule line_washes when lined(party) and state(tide, high) { Retract lined(party). Retract bearingTried(party). }
   Rule lost_clears when lostTold(party) and not at(party, sands_mid) { Retract lostTold(party). }
   Hazard cold_wade "The sea coming in over the causeway" means "Deal (2d6) cold damage to ally unless strength save against (13).".
   Rule sea_comes at sands_mid when at(party, sands_mid) and state(tide, high)
@@ -45,10 +46,11 @@ Module skerrow "The Light on Skerrow Holm" {
     Result "You tie the rope to the first post, and the second, and the third, hand over hand, a long grey line of it paying out into the fog. It will take you out. It will bring you back.".
   }
   Action take_bearing(actor: group, site: place) "Listen for the bell and take a bearing on it" {
-    Requires able(actor) and company(actor) and at(actor, site) and (at(actor, shore_road) or at(actor, landing)) and state(tide, low) and not lined(actor).
+    Requires able(actor) and company(actor) and at(actor, site) and (at(actor, shore_road) or at(actor, landing)) and state(tide, low) and not lined(actor) and not bearingTried(party).
     Time 1.
     Resolve check(actor, wayfinding, dc_hard).
     On success { Assert lined(actor). }
+    On failure { Assert bearingTried(party). }
     Result "The bell tolls once, a long way off and to the left of where it ought to be. Twice more. You pace it out against the posts. After that you know where the line of the posts is, which is the same as having a rope.".
     Otherwise "The bell comes from the right, and then the left, and then both. You cannot say where it is.".
   }
@@ -62,8 +64,8 @@ Module skerrow "The Light on Skerrow Holm" {
   Initially Assert state(lamp, bright). Initially Set oil(lamp) to 10. Initially Set flasks(store) to 7. Initially Set refills(lamp) to 1.
   Relation orrinPost(group). Initially Assert orrinPost(orrin).
   Rule oil_burns when reachedAt(tide) > 0 and watch(clock) >= oilTick(lamp) + 6 and oil(lamp) > 0 { Decrease oil(lamp) by 1 or to nothing. Set oilTick(lamp) to watch(clock). }
-  Rule lamp_goes_low when oil(lamp) < 4 and oil(lamp) > 0 and not state(lamp, low) { Assert state(lamp, low). Set lowAt(lamp) to watch(clock). }
-  Rule lamp_goes_out when oil(lamp) <= 0 and not state(lamp, out) { Assert state(lamp, out). Set outAt(lamp) to watch(clock). }
+  Rule lamp_goes_low when oil(lamp) < 4 and oil(lamp) > 0 and not state(lamp, low) { Assert state(lamp, low). }
+  Rule lamp_goes_out when oil(lamp) <= 0 and not state(lamp, out) { Assert state(lamp, out). }
   Rule lamp_brightens when oil(lamp) >= 4 and not state(lamp, bright) { Assert state(lamp, bright). }
   Rule orrin_fills when orrinPost(orrin) and oil(lamp) < 6 and refills(lamp) > 0 {
     Increase oil(lamp) by 4. Decrease refills(lamp) by 1.
@@ -89,8 +91,10 @@ Module skerrow "The Light on Skerrow Holm" {
   Initially Assert state(fog_bell, hanging).
   Query bellRecent() means watch(clock) < bellUntil(tide).
   // A sunk lamp is the clock: while it is out the bell does not hold the Caller below.
-  Query hunting() means dark() and state(tide, high) and (not bellRecent() or state(lamp, out)).
-  Query calling() means hunting() and not state(lamp, bright).
+  Query repelled() means watch(clock) < repelUntil(tide).
+  Query hunting() means dark() and state(tide, high) and not repelled() and (not bellRecent() or state(lamp, out)).
+  // The voices come from midnight to six, whatever the lamp is doing.
+  Query calling() means hunting() and hour(clock) < 6.
   Observe seddon_store at lamp_room when at(orrin, lamp_room) and orrinPost(orrin) and oil(lamp) < 3 "Seddon turns the empty oil-can in his hands. 'I don't go in the store after dark,' he says. 'The hatch.' He does not say whose errand that makes it.".
   Observe cord_pulled at lamp_room when at(orrin, lamp_room) and bellRecent() and lastRang(tide) > 0 "Seddon has the bell-cord in his fist, and pulls to a count he does not say. Far out on the east point the bell answers.".
   Rule orrin_rings when orrinPost(orrin) and dark() and state(tide, high) and watch(clock) >= lastRang(tide) + 10 and not bellRecent()

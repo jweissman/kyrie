@@ -47,3 +47,12 @@
 37. **A cost on a repeatable action needs a gate as well as a price.** `ring_bell` was free and repeatable; "weary an hour" was not expressible as a cost, only as `not bellRecent()` and `Time 2`.
 38. **`Take` in a dark room is a bare label** (one `Take` for whatever is there); it found the holy water only after a torch was lit. The nudge is now a label on the shelf in the room's own text.
 39. **`=until dark()`** is the way to land on dusk; `=20:30` is before it on some days.
+
+## Added after the third review
+
+40. **`capable(actor, flame)` is not what a lit torch gives; `capable(actor, light)` is.** The torch action was authored against a capability nothing grants and was never offered. Found only by playing it. *Could:* a lint for a `capable(…, X)` where no Item or Kind provides X.
+41. **A torch lit before a long wait is burnt out after it.** The spec must light it when the thing is already in the room.
+42. **A Query over `at(party, X)` disjunctions is how "the rooms it can reach" is written** (`exposed()`); with `Rule … when exposed() and at(party, ?q)` it hunts the party. It works, but a `says` rule still needs its own literal room, so nine takings.
+43. **A `says` on a Rule is told wherever the party is.** Narration written as if the party stood in the room (a woman getting up from the table) is wrong from the lamp room. The fix is to write the told text as what carries (a voice, a door, a step) and put the sight in an `Observe at <room>`. *Could:* an optional room for a `says`, told only if the party is there.
+44. **A measure cap can hide an action.** `fill_lamp` needs `oil < 10`; two fills in a row from low oil are fine, from nine are not, and the spec step was "not offered". Sensible, but nothing says why a button is gone.
+45. **`=+N` and `=until`** are the two wait forms a spec has besides `=HH:MM`; `=+N` counts watches and `=until <condition>` steps one watch at a time.
