@@ -15,6 +15,7 @@ Module sallowfield "Three Nights at Sallowfield" {
   }
   Person ashworth "Nan Ashworth" at taproom {
     Role "landlady of the Ploughshare". Ancestry human. Profession innkeeper. Peaceable. Pronouns she. Manner jovial.
+    Remarks at bridge "'What it wants,' says Hob Wadsworth, to the whole bridge, 'is a man with a voice. Lucky for you.' His voice has gone up a tone since the sun went down.".
     Greets "'Sit,' says Nan Ashworth, 'sit, sit, it's not a day to be on your feet. I've mutton, I've the end of a cheese, I've a cellar that has never in its life been lent to an army and I'd be obliged if it kept the record.'".
   }
   Person quarmby "Gil Quarmby" at mill_yard {
@@ -30,7 +31,7 @@ Module sallowfield "Three Nights at Sallowfield" {
     Joins "Ellen Cragg gathers the arrows into a quiver with the heads all one way, and counts them into it. 'Forty-one,' she says. 'I'm to carry them, then.'".
     Leaves "Ellen Cragg lays the quiver on a pew. 'I'll be at the nave,' she says. 'If you want the number.'".
     Remarks at tower_roof "Ellen Cragg lays an arrow on the parapet, nock out, for the nearest hand. 'Fifty yards to the ford,' she says. 'Sixty to the bridge. Forty to the hedge. I have walked it.'".
-    Greets "A woman of fifty on the front pew with an arrow in each hand, counting. 'Forty-one,' she says to nobody. 'Forty-two.' She lays the last on the pile and looks at you for the first time. 'Sixty-three, if the boy hasn't been at them.'".
+    Greets "A woman of fifty on the front pew with an arrow in each hand, counting. 'Thirty-nine,' she says to nobody. 'Forty.' She lays the last on the pile and looks at you for the first time. 'Forty-one, if the boy hasn't been at them.'".
   }
   Person mowbray "Father Mowbray" at nave {
     Role "the priest of Saint Eadred's". Ancestry human. Calling cleric. Level 2. Peaceable. Pronouns he. Manner jovial.

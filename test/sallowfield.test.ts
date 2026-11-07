@@ -90,6 +90,10 @@ describe("Three Nights at Sallowfield", () => {
       const j = await run([...steps.wall, ...built, ...toReeds], [...held, 'Send the boy back to Wyre with a lie']);
       expect(thrust(j)).toEqual([14, 2, 0]);
     }, 300000);
+    it('leans on the bridge when the boy sees only the wall and goes loose', async () => {
+      const j = await run([...steps.wall, ...toReeds], ['=day 2 19:00']);
+      expect(thrust(j)).toEqual([6, 12, 3]);
+    }, 300000);
     it('does not know what is built after the boy has gone', async () => {
       const j = await run(toReeds, ['=day 2 19:00', 'To the ford meadow', 'To the ford stones', ...steps.wall, ...built]);
       expect(thrust(j)).toEqual([12, 7, 3]);
@@ -160,6 +164,43 @@ describe("Three Nights at Sallowfield", () => {
     expect(dusk.page).toMatch(/Wyre.s riders takes the ford/);
   }, 120000);
 
+  it('comes a day early when nobody watches the ford on the first night, and the company is not told twice', async () => {
+    const j = await start(false);
+    await j.play('=day 1 23:40');
+    expect(held(j, 'wyreEarly', 'party')).toBe(true);
+    expect(j.measure('assaultAt', 'wyre')).toBe(222);
+    await j.play('=day 2 19:00');
+    for (let i = 0; i < 30 && ending(j) === undefined && j.campaign.running; i++) { await j.play('Wait › An hour'); }
+    expect(ending(j)).toBeDefined();
+    expect(j.watch()).toBeLessThan(330);
+  }, 300000);
+
+  it('is what was left when the green is saved by the bucket line and the posts are lost', async () => {
+    const j = await start();
+    await j.play(...steps.muster, 'To the green well', 'Set a bucket line from the well to the green', 'To Sallowfield green', ...steps.toTheFord, ...steps.wall);
+    await toDawn(j);
+    expect(held(j, 'greenSaved', 'party')).toBe(true);
+    expect(j.measure('overrunCount', 'party')).toBeGreaterThanOrEqual(2);
+    expect(ending(j)).toBe('What Was Left');
+  }, 300000);
+
+  it('is told differently when the picked men are argued off, yielded to, or left to take the granary', async () => {
+    const argued = await start();
+    await argued.play(...steps.muster, ...steps.toTheFord, ...steps.wall);
+    await toDawn(argued, argue);
+    expect(argued.page).toContain('had been right about the coin');
+    const given = await start();
+    await given.play(...steps.muster, ...steps.toTheFord, ...steps.wall);
+    await toDawn(given);
+    expect(given.page).toContain('floor is swept');
+    expect(given.page).not.toContain('Nobody was asked');
+    const passive = await start();
+    await passive.play(...steps.muster, ...steps.toTheFord, ...steps.wall, '=day 3 19:00');
+    for (let i = 0; i < 24 && ending(passive) === undefined && passive.campaign.running; i++) { await passive.play('Wait › An hour'); }
+    expect(held(passive, 'picksTook', 'party')).toBe(true);
+    expect(passive.page).toContain('Nobody was asked');
+  }, 300000);
+
   it('is half saved when the ford is walled, the helpless sent up the fold, and the grain given', async () => {
     const j = await start();
     await j.play(...steps.muster, ...steps.evacuate, ...steps.toTheFord, ...steps.wall);
@@ -182,7 +223,8 @@ describe("Three Nights at Sallowfield", () => {
   it('falls to the picked men when the company stands and fights them, and the book closes on it', async () => {
     const j = await start();
     await j.play(...steps.muster, ...steps.toTheFord, ...steps.wall);
-    await toDawn(j, 'Attack');
+    j.roll('fail');
+    await toDawn(j, 'Draw on the picked men');
     expect(held(j, 'p4done', 'party')).toBe(true);
     expect(ending(j)).toBe('What the Steel Said');
   }, 300000);

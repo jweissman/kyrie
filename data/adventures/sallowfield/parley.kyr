@@ -70,7 +70,7 @@ Module sallowfield "Three Nights at Sallowfield" {
     On discuss { Decrease quantity(actor, gold) by 10. Assert pact(actor). Assert winterShort(actor). }
   }
   Topic wyre_refuse with wyre "Nothing. We will not pay" answering wyre_q when true {
-    Says "'No,' says Wyre, without any heat at all. 'I thought not. It is what I would say.' He looks past you at the village, the long way, as at a thing he will have to carry. 'I will come tonight. I would like you to know I would sooner not.'".
+    Says "'No,' says Wyre, without any heat at all. 'I thought not. It is what I would say.' He looks past you at the village, the long way, as at a thing he will have to carry. 'I will come tonight. I would like you to know it gives me no pleasure.'".
     On discuss { Assert parleyRefused(actor). }
   }
   Topic wyre_owed with wyre "Tell me what you are owed. All of it" answering wyre_q when true {

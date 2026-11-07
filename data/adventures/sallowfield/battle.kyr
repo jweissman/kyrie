@@ -135,6 +135,9 @@ Module sallowfield "Three Nights at Sallowfield" {
   Rule picks_come when battleOn() and p3done(party) and watch(clock) >= assaultAt(wyre) + 18 and not p4done(party) and not fothergillTurned(party) and not picksWithdrawn(party) and at(party, ?r) {
     Assert p4done(party). Assert at(picks, ?r). }
   Rule picks_turned when battleOn() and p3done(party) and watch(clock) >= assaultAt(wyre) + 18 and not p4done(party) and fothergillTurned(party) { Assert p4done(party). Assert picksWithdrawn(party). }
+  // If the company does nothing (it waits, or it is away), the picked men take what they came for and go.
+  Rule picks_take when p4done(party) and not picksWithdrawn(party) and not dead(picks) and watch(clock) >= assaultAt(wyre) + 24 {
+    Assert picksWithdrawn(party). Assert picksTook(party). Assert grainTaken(party). Assert winterShort(party). Assert at(picks, mill_yard). }
   Rule picks_beaten_rule when p4done(party) and dead(picks) and not picksBeaten(party) { Assert picksBeaten(party). }
   Rule wyre_with_the_picks when p4done(party) and overrunCount(party) >= 2 and not picksWithdrawn(party) and at(picks, ?r) and not at(wyre, ?r) and not dead(wyre) { Assert at(wyre, ?r). }
   Rule wyre_dies when dead(wyre) and not wyreDead(party) { Assert wyreDead(party). }
@@ -156,7 +159,17 @@ Module sallowfield "Three Nights at Sallowfield" {
     Result "You tell them what the village is: a ford, a mill, sixty people, no coin. You tell them what it will cost them, and you tell them exactly, because you have counted. The one with the helm laughs once, shortly, and says to the others, 'He's right about the coin.' They go with their granary unvisited and their purses as empty as they came.".
     Otherwise "They hear you out. The helm is already back on. 'Sorry,' says the first, and he does sound it.".
   }
-  Relation parleyTried(group).
+  Action draw_on_the_picks(actor: group, site: place) "Draw on the picked men" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(picks, site) and able(picks) and not picksWithdrawn(party) and not companyBroken(party).
+    Time 0.
+    Resolve check(actor, brawn, dc_hard).
+    On success { Slay picks. Assert picksBeaten(party). }
+    On failure { Assert companyBroken(party). }
+    Result "The first of them has his helm back on before your blade is out of the scabbard, and it is still not enough. You are very quick, and so are the others, and it is a short bad minute in which nobody speaks, and then there are three men standing in the chapel who are not hurt.".
+    Otherwise "It is a good fight and it is not a long one. Three men in good steel are very hard to kill and the company does it anyway, by a margin it will not forget, with the benches over and the bell-rope cut.".
+  }
+  Relation companyBroken(group).
+  Relation parleyTried(group). Relation picksTook(group).
 
   // ── What the night looks like from wherever you are standing ─────────────────────────────────────────────────
   // Reports are told of what is posted where, and not all of them are true: a horn can be a feint, and the nave

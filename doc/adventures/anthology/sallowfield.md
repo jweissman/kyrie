@@ -64,14 +64,31 @@ Wyre is never on the map. He is what the party's works *look like* from the east
 
 ## The third night
 
-Four hours, four movements, each a thing the company can still affect.
+Two waves, and an hour between them that is the player's.
 
-1. **The wear**: each post loses a quarter of its thrust in defence.
-2. **The clash**: at each of the four posts, defence + the posted villagers + the drill + (11, if the company is standing there; 4, if not) is set against thrust + the dice. A post that holds loses one in seven of its people. A post that is overrun loses most.
-3. **The fire and the push**: an overrun ford, bridge or mill means the green burns. The bucket line saves it. The evacuation saves the helpless. The grain is taken if the mill falls. The bell stops if the nave falls.
-4. **The picked men**: three veterans come to the company, **wherever it is**. They can be argued with, yielded the granary, warned off, bribed away (if Fothergill was turned), or fought. A level-one party that fights them dies. That is an ending.
+1. **The wear** (dusk): each post loses a quarter of what Wyre sent at it.
+2. **The first wave** (+1 h): at each of the four posts, defence + two for each posted villager still able + the drill + (11 if the company stands there, 4 if not) is set against that post's thrust and a die. A post that holds loses a few people; one that falls loses many, by name.
+3. **The company's hour**: the reports come in, some late (the nave's), some wrong (a horn at a bridge that has not fallen). The company may *hold a post to the last* (+7, and its people do not come back), *give a post up* (the enemy's, without a second fight and without its dead), *burn the bridge behind the men on it* (needs the one pot of pitch, which is also what fouls the grain; spares the nave the road a fallen bridge opened), *light the causeway* (the second wave's horse goes into the marsh, but the company is not at a post), *ring the bell* (+2 everywhere), *give out Ellen's arrows* (+3 at one post), or simply *walk to another post*.
+4. **The second wave** (+2 h) goes where the first opened a road: a held ford sends it to the mill, a fallen bridge to the nave, a fallen mill to the nave; a post that fell the first time is passed, and a post that stood is fought for again with what is left of it.
+5. **Fire and the push inward**; **the picked men** (+3 h) come to the company wherever it is. They are negotiators with their hands on their hilts: argue them off (a hard check), yield them the granary, draw on them (a hard check, and a lost one is the end of the company), or do nothing, and they take the granary and go. All three end differently on the page the next morning.
 
-The player chooses *where the company stands* and *whom to post where*; the engine reports each clash in the page ("The ford has gone. You know by the sound.").
+The player chooses *where the company stands*, *whom to post where*, *what to build*, and then, between the waves, *what to give up*.
+
+## Two preparations, two plans, two nights (by play)
+
+| | A: wall + cut, the boy taken and sent back with the truth | B: wall only, the bridge unwatched, no boy |
+|---|---|---|
+| What Wyre has | the barricade and the cut (`sawBarricade`, `sawCut`) | nothing (the base plan) |
+| Thrust at ford / bridge / mill | 4 / 0 / 10 (6 / 2 / 12 had the boy walked out loose) | 12 / 7 / 3 |
+| Where it comes | the mill | the ford and the bridge |
+| Company | at the mill with Hob and Quarmby posted | at the ford |
+| Outcome | *Held, at a Cost* (the picked men argued off) | the bridge falls, the green burns, nobody was told to leave: *Ash* |
+
+The same wall and cut with the boy sent back with a lie (that the ford is the soft place) gives 14 / 2 / 0; the wall alone with the boy loose gives 6 / 12 / 3. All five are measured by specs.
+
+## The hours
+
+Works take hours (the wall ten, the pits eight, the caltrops nine, the drill six, the helpless six, the bucket line two, the cut and the flood fewer) and the page says, in bands, how many hours there are before the night he is expected. The full list is longer than the hours: a spec plays the whole list and arrives with the boy gone from the reeds unmet.
 
 ## The faces
 
@@ -104,7 +121,7 @@ Eleven, of which nine are specced by played journeys (the table gives all eleven
 
 ## Tested
 
-`test/sallowfield.test.ts` (15 specs, three of them measuring Wyre's thrust by what the boy saw): lints clean; opens at the start; **nine endings played from the true start by labels, with no teleports** (checks are forced to pass where a scene would otherwise be a coin; the dice of the clash are not forced); a save and a reload at the standing stone, continued to *Held, at a Cost*. `test/adventure-names`, the adventure library, the province, the provinces and the countries specs pass with it.
+`test/sallowfield.test.ts` (26 specs: five measure the thrust Wyre plans by what the boy saw, five play the company hour between the waves, one plays the early assault): lints clean; opens at the start; **nine endings played from the true start by labels, with no teleports** (checks are forced to pass where a scene would otherwise be a coin; the dice of the clash are not forced); a save and a reload at the standing stone, continued to *Held, at a Cost*. `test/adventure-names`, the adventure library, the province, the provinces and the countries specs pass with it.
 
 The route to *Held, at a Cost* is about 90 labels.
 
@@ -140,8 +157,10 @@ The route to *Held, at a Cost* is about 90 labels.
 - `Pursuit` is not used; Wyre's riders and raiders are `Arrives` persons. The pursuit that would hunt the party through the vale is unbuilt.
 - Companions have three beats each but no authored *leave* scene.
 
-## After the hostile review
+## After the hostile reviews
 
-Fixed: the boy's report is a snapshot at his departure or at the sending, and a held boy carries what the player says (truth or lie); a separate `felled` relation records the dead (recruited companions are party members and read as `dead`, which had told the player at dawn that Ellen Cragg was dead beside them); companions with the company can fall at an overrun post; fates are told near the party, not only on the green, and the endings now wait an hour after dawn so they are read; the night reports are gated on who is actually posted; a purse of ten coin leaves with the bought peace; the axle is two days, so walking on at hour three is the road south, not the coach; the big works take longer (wall, pits, caltrops six hours, the drill five); the scout on the Scar gives +1 at every post; the silenced bell costs a point of drill; wording and numbers cleaned.
+First review: the boy's report is a snapshot, a held boy carries what the player says, `felled` records the dead (companions read as `dead` from the hour they join), the fates and the ending texts are read before the book closes, the night's reports are gated on who is posted, the peace costs ten coin, the axle is two days.
 
-Not fixed, and said plainly: the battle is still one inequality per post and the player acts once, not during, the night (no decisions at +6 and +12); not every work is excluded by another, so a patient player still fits most of them; passive waits (`Until first light`) still walk past the picked men's warning (engine, friction 8); the riders and the Scar riders are `Arrives` persons that the party sees only if standing at the ford, and no `Pursuit` is used; yielding the grain and arguing the picked men off end alike; Wyre is on the page twice; voices of the stoics are still close; `helplessLost`, `grainTaken`, `farmDefended`, `bluffed` and `plateKept` have thin or no readers.
+Second review: the night is two waves with a company's hour between them (above); works are longer and the hours are shown; the riders ride the valley as `Pursuit`s (the Scar road in the morning, the standing stone at noon, the east road in the afternoon, the ford at dusk) and Crowther's count of them changes; the picked men are negotiators, so a wait no longer kills the company by walking past their warning; the Scar count can be wrong (a failed count is sixty armed men and a levy that loses heart); the bell, the helpless lost, the bell silenced, the grain taken and the plate kept all read at dawn; the voices of Kersey, Davy, Quarmby, Mowbray and Greenhalgh differ; Wadsworth speaks on the bridge; Cragg's arrows are forty-one; Wyre no longer explains the moral.
+
+Still open: the engine cannot stop a wait for a *report* (friction 8), so the long waits are survivable rather than interrupted; *Nobody Left* is authored and linted but not reachable by any play I could build (it needs every villager felled, and two of them cannot be posted); the company's hour is five actions and a walk, not a map; the casualty lottery is still dice.

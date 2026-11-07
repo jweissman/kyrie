@@ -84,9 +84,16 @@ Module sallowfield "Three Nights at Sallowfield" {
   Action scout_the_road(actor: group, site: place) "Count the column from the Scar" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, lookout) and watch(clock) >= 120 and not knowsNumbers(party).
     Time 6.
+    Resolve check(actor, woodcraft, dc_fair).
     On success { Assert knowsNumbers(party). }
+    On failure { Assert knowsNumbers(party). Assert badCount(party). }
     Result "You lie on the limestone with the cairn at your head and watch them come down the east road in the late light: forty on horse and foot, a wagon, a string of led horses, a standard with the Margrave's green gone to brown. Twenty more follow, on foot, with women among them. They are not marching. They are walking like people who have not been paid since spring.".
+    Otherwise "You lie on the limestone and count, and it comes to sixty on horse and foot, and you tell it so in the village: sixty armed men. It is a good clear count, and it is a bad one. Twenty of them were women with the wagons, and by the time that is known the levy has stopped asking.".
   }
+
+  Relation badCount(group).
+  Rule bad_count_hurts when badCount(party) and not badMod(party) { Assert badMod(party). Decrease drillBonus(party) by 1 or to nothing. }
+  Relation badMod(group).
 
   // The ledger: the hours there are, said in bands, until the night he is expected (a quarter of a day each).
   Observe ledger_0 near party when not wyreEarly(party) and watch(clock) >= 0 and watch(clock) < 48 and not battleOn() "About 59 hours before the night he is expected, if he comes when the riders say. Everything on the list costs hours; the list is longer than the hours.".

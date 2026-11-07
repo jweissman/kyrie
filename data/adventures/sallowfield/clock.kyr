@@ -37,13 +37,12 @@ Module sallowfield "Three Nights at Sallowfield" {
     Role "four troopers with sacks, who have not been paid since the spring". Ancestry human. Calling warrior. Level 1. Numbers 4. Temperament wary. Refuge south_road.
     Arrives at lower_farm when watch(clock) >= 216.
     Arrives "Four men come up out of the dark by the river, quietly, with empty sacks.".
-    Warns "The troopers stop. The oldest of them looks at the cows, and then at you, and then at the sacks in his hands. 'We'll take the cows,' he says, 'and go. I'd sooner that than the other.'".
+    Warns "The troopers stop. The oldest of them looks at the cows, and then at you, and then at the sacks in his hands. 'We'll take the cows,' he says, 'and go. Better the cows than the other.'".
     Flinches "The troopers leave their sacks where they stand and go off into the dark at a run.".
   }
   Person picks "Wyre's picked men" nowhere {
-    Role "three of the Unpaid in good steel, who have fought for money in six countries". Ancestry human. Calling warrior. Level 3. Numbers 3. Temperament territorial.
-    Warns "Three men come out of the dark in a line, in good steel, and stop. The one in front takes off his helm and holds it under his arm. 'The captain would have the grain,' he says, 'and he'd have the bell. Which would you sooner lose?'".
-    Comes "The three step in together, and the first one puts his helm back on.".
+    Role "three of the Unpaid in good steel, who have fought for money in six countries". Ancestry human. Calling warrior. Level 3. Numbers 3. Peaceable. Manner grim.
+    Greets "The one in front takes off his helm and holds it under his arm. 'The captain would have the grain,' he says, 'and he'd have the bell. Which of them can you spare?' The other two have not taken their hands off their hilts.".
   }
 
   // ── Night one: the riders look ─────────────────────────────────────────────────────────────────────────────────
@@ -99,9 +98,9 @@ Module sallowfield "Three Nights at Sallowfield" {
     says "In the dark by the river, a cow bellows, and another, and a dog barks and stops. Then, for a long time, there is the sound of a barn being searched." {
     Assert farmRaided(party). }
   Relation farmRaided(group). Relation greenhalghSaved(group).
-  Rule farm_burns when farmRaided(party) and not farmDefended(party) and not greenhalghSaved(party) { Assert farmBurned(party). }
-  Relation farmDefended(group). Relation farmBurned(group).
-  Rule greenhalgh_hurt when farmBurned(party) and not farmDefended(party) and not evacuatedFarm(party) and not greenhalghDead(party) { Slay greenhalgh. Assert felled(greenhalgh). Assert greenhalghDead(party). }
+  Rule farm_burns when farmRaided(party) and not greenhalghSaved(party) { Assert farmBurned(party). }
+  Relation farmBurned(group).
+  Rule greenhalgh_hurt when farmBurned(party) and not evacuatedFarm(party) and not greenhalghDead(party) { Slay greenhalgh. Assert felled(greenhalgh). Assert greenhalghDead(party). }
   Relation greenhalghDead(group). Relation evacuatedFarm(group).
   Observe farm_gone at lower_farm when farmBurned(party) "The long house is a roofless black shape and the barn is gone to its walls. The yard is empty of cattle. The dog sits where it sat and does not bark.".
 
