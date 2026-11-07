@@ -2704,6 +2704,168 @@
         "kyr": true,
         "notes": "A draught ox of the valley: it stops dead at the noon call and will not be driven past it, and the Cohort sets its hours by the oxen as much as by the horn. No habitats are written for it, so no generated country draws it into a den: it lives on the Hesper Fells' road alone (The Long Muster's Road, doc/adventures/anthology/the-long-muster.md). Its painting is not yet made (portrait left unset; data/paintings/animals.json would take animals/salt_ox)."
       }
+    },
+    "dawn_piper": {
+      "name": "Dawn-piper",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A hen-sized crested runner of the fern plain whose flock pipes together an hour before the great herd comes down to the lake.",
+      "looks": "A small bird-footed animal in blue-grey down, with a hollow bony crest on its head like a bent flute, that stands in flocks of forty with its head back and its crest open.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 4,
+        "primary": "dexterity",
+        "weapon": "beak",
+        "armor": "hide_armor"
+      },
+      "abilities": [
+        "flee"
+      ],
+      "traits": [],
+      "temperament": "wary",
+      "worth": {
+        "base": 0,
+        "perLevel": 10
+      },
+      "source": {
+        "kyr": true,
+        "notes": "A tell-tale: its crest is a resonator, and the flock's piping at first grey is how the island's other animals, and wise visitors, know the lantern-necks are coming. No habitats are written, so no generated country draws it into a den: it lives on the Isle of Sarn alone (doc/adventures/anthology/the-fourth-act.md). Its painting is not yet made (portrait unset; data/paintings/animals.json would take animals/dawn_piper)."
+      }
+    },
+    "plate_back": {
+      "name": "Plate-back",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A low, slow grazer of the forest margins, walled in bony plates, that sleeps in rings with its young inside.",
+      "looks": "A beast like a barn door on four short legs, its back in plates of bone each as wide as a shield, a spiked tail-club, and a small head under a hood of bone.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 10,
+        "primary": "constitution",
+        "weapon": "tail",
+        "armor": "scale"
+      },
+      "abilities": [
+        "defend"
+      ],
+      "traits": [],
+      "temperament": "defensive",
+      "worth": {
+        "base": 0,
+        "perLevel": 12
+      },
+      "source": {
+        "kyr": true,
+        "notes": "A slow animal that sleeps in rings at dusk; the island's hunters walk round a ring of them. No habitats are written, so no generated country draws it into a den: it lives on the Isle of Sarn alone (doc/adventures/anthology/the-fourth-act.md). Its painting is not yet made (portrait unset; data/paintings/animals.json would take animals/plate_back)."
+      }
+    },
+    "mud_skimmer": {
+      "name": "Mud-skimmer",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A flat-headed shell-digger of the delta that goes in and out of the black water in dozens and is the first thing there to leave it when the lurker comes.",
+      "looks": "A foot-and-a-half animal like a crayfish with a lizard's head, ringed in chitin, with great digging forearms and a way of standing very still with its head up.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 3,
+        "primary": "dexterity",
+        "weapon": "mandibles",
+        "armor": "chitin"
+      },
+      "abilities": [
+        "flee"
+      ],
+      "traits": [],
+      "temperament": "wary",
+      "worth": {
+        "base": 0,
+        "perLevel": 10
+      },
+      "source": {
+        "kyr": true,
+        "notes": "Its mounds of dug shell mark the safe sand of the delta; a bank of skimmers out of the water means something large is in it. No habitats are written, so no generated country draws it into a den: it lives on the Isle of Sarn alone (doc/adventures/anthology/the-fourth-act.md). Its painting is not yet made (portrait unset; data/paintings/animals.json would take animals/mud_skimmer)."
+      }
+    },
+    "glide_lizard": {
+      "name": "Glide-lizard",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A cycad-living lizard with skin-wings between its limbs that glides from crown to crown at dusk toward the one hollow where it nests.",
+      "looks": "A lizard the length of a forearm, striped orange and green, with wing-flaps of bright skin folded along its ribs, and a throat-fan like a lamp.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 3,
+        "primary": "dexterity",
+        "weapon": "bite",
+        "armor": "hide_armor"
+      },
+      "abilities": [
+        "flee"
+      ],
+      "traits": [],
+      "temperament": "wary",
+      "worth": {
+        "base": 0,
+        "perLevel": 10
+      },
+      "source": {
+        "kyr": true,
+        "notes": "A guide, if followed: at dusk the gliders cross the forest to their nesting-hollow, which is the sheltered hollow where nothing else goes. No habitats are written, so no generated country draws it into a den: it lives on the Isle of Sarn alone (doc/adventures/anthology/the-fourth-act.md). Its painting is not yet made (portrait unset; data/paintings/animals.json would take animals/glide_lizard)."
+      }
+    },
+    "bone_scuttler": {
+      "name": "Bone-scuttler",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A hand-sized armoured carrion-eater of the bone-beds that crosses the hot crust only by one line, and keeps the beds clean.",
+      "looks": "A bright beetle-like animal on six legs with a head like a trowel, black and sulphur-yellow, that moves in files of a dozen over the yellow crust.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 2,
+        "primary": "constitution",
+        "weapon": "mandibles",
+        "armor": "chitin"
+      },
+      "abilities": [
+        "flee"
+      ],
+      "traits": [],
+      "temperament": "wary",
+      "worth": {
+        "base": 0,
+        "perLevel": 10
+      },
+      "source": {
+        "kyr": true,
+        "notes": "The files cross the basin by the one line the crust will bear; a visitor who watches where they go can walk it. No habitats are written, so no generated country draws it into a den: it lives on the Isle of Sarn alone (doc/adventures/anthology/the-fourth-act.md). Its painting is not yet made (portrait unset; data/paintings/animals.json would take animals/bone_scuttler)."
+      }
+    },
+    "shore_brooder": {
+      "name": "Shore-brooder",
+      "type": "beast",
+      "kind": "animal",
+      "description": "A great flightless beaked animal that nests on the strand under the cliffs and will not leave its clutch for anything that walks.",
+      "looks": "A feathered animal the height of a horse, on two columnar legs, bald-necked, with a ruff of black plumes, a hooked beak, and a flat nest of tide-wrack under it.",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 10,
+        "primary": "strength",
+        "weapon": "beak",
+        "armor": "hide_armor"
+      },
+      "abilities": [
+        "defend"
+      ],
+      "traits": [],
+      "temperament": "defensive",
+      "worth": {
+        "base": 0,
+        "perLevel": 15
+      },
+      "source": {
+        "kyr": true,
+        "notes": "It holds the strand under the cliffs by sitting on it; it does not give chase, and a visitor who goes round loses nothing. No habitats are written, so no generated country draws it into a den: it lives on the Isle of Sarn alone (doc/adventures/anthology/the-fourth-act.md). Its painting is not yet made (portrait unset; data/paintings/animals.json would take animals/shore_brooder)."
+      }
     }
   }
 }

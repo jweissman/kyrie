@@ -1,0 +1,51 @@
+Module circus "Wapshott's Peregrine Circus" {
+  // ── Act IV.i the tent, IV.ii the town, IV.v (the island is left, not judged; see endings.kyr) ───────────────────────────────────────────────────────
+  // The comic and tender scale first: a company that has put on a thousand shows and never hatched anything. Then the
+  // night chase, which the company wins by not fighting. 
+  Relation namesForbidden(concern). Relation colonelNamed(concern). Relation namedLetGo(concern). Relation chaseWorse(concern).
+  Relation reckoningCome(concern). Relation reckoned(concern). Relation preserveDeclared(concern). Relation billieGone(concern).
+  Relation inventoryLost(concern). Relation loosePhase2(concern).
+
+  // The tent, while the eggs wait: everyone has a small part in the same silence.
+  Observe tent_honoria near honoria when crateOpened(wapshotts) and not eggsHatched(wapshotts) "Honoria Bulstrode has taken the measure of the eggs with her forearm, as she does a loaf, and says it is a very long proving. She has stopped cooking for the circus and is cooking, in a small pot, for something that cannot yet eat.".
+  Observe tent_hench near hench when crateOpened(wapshotts) and not eggsHatched(wapshotts) "Lucius Hench is going round the crate with a tape and a notebook, with the expression of a valet who has been told that a duchess is coming and has not been told what sort. He has written, under COSTUME: none. Under it he has written, in smaller letters: yet.".
+  Observe tent_pip near pip when crateOpened(wapshotts) and not eggsHatched(wapshotts) "Pip Gallant sits on an upturned bucket six feet from the crate with her chin on her knees, perfectly still, having been told she may stay if she does not speak. It is the longest anybody has seen her do it.".
+  Observe tent_quinceys near hal when crateOpened(wapshotts) and not eggsHatched(wapshotts) "Hal and Dunstan Quincey, who have not spoken to each other in a month, are taking turns to sit up with the crate, and have agreed on it, in writing, on the back of a bill. It is the first thing they have agreed on since the pyramid. Neither of them has yet remarked on this.".
+  Observe tent_mumchance near mumchance when crateOpened(wapshotts) and not eggsHatched(wapshotts) "Mumchance is sitting by the crate, quite still, with his white-gloved hands on his knees. One of the eggs, at the edge of the ring, has begun to rock toward him, slowly, and he has not moved a muscle, and has not taken his eyes from it, and is crying.".
+  Observe tent_nance near nance when crateOpened(wapshotts) and not eggsHatched(wapshotts) "Nance Tibbet has read the crate as she reads a face. 'It's afraid of the dark,' she says, which is not a thing a crate can be, and then, to nobody: 'Afraid of the dark, and has been told there is a sea in it.'".
+  Observe tent_claw near jabez when crateOpened(wapshotts) and holding(party, marl_claw_kind) "The crowned wheel on the crate's lid is the same wheel as on the Bishop's shell and the claw's old wrapping. Whatever the Progress kept, it kept a full minute, and in a good many places.".
+
+  // The Colonel's mistake: he names things.
+  Topic wap_no_names with wapshott "Ask the Colonel not to name them" when crateOpened(wapshotts) and not eggsHatched(wapshotts) and not namesForbidden(wapshotts) once {
+    Says "The Colonel stares. 'Not name them?' he says. 'My dear sir. A creature unnamed is a creature unbilled.' Billie, who has been standing behind you for some time, says nothing in a very particular way. The Colonel looks at her, and at you. 'Not till they are out,' he says, as though conceding Calais. 'On my honour.'".
+    On discuss { Assert namesForbidden(wapshotts). }
+  }
+  Rule colonel_names near wapshott when eggsHatched(wapshotts) and not namesForbidden(wapshotts) and not colonelNamed(wapshotts)
+    says "By breakfast the Colonel has named them. The big one is Hercules. The one who bit him is Mrs Pettigrew. The littlest, who has attached herself to the toe of his boot and will not be moved, is Dame Honorine. He is happier than you have seen him since the Warrant. Billie goes out of the tent without a word and comes back with a bucket she does not need." {
+    Assert colonelNamed(wapshotts). }
+
+  // The night chase: a funny escalation, none of it a fight.
+  Rule loose_phase2 when hatchlingsLoose(wapshotts) and hour(clock) >= 3 and hour(clock) < 7 and not loosePhase2(wapshotts) { Assert loosePhase2(wapshotts). }
+  Observe loose_phase2_scene near hatchlings when hatchlingsLoose(wapshotts) and loosePhase2(wapshotts) "By grey light the hatchlings have found the church. Four are on the tower in a row, in the shape of a dotted line, and the bell has been rung by one trying to bite its own reflection. The parish has come out in its nightshirts. The sexton is explaining, to the priest, that they are not pigeons.".
+  Observe loose_sallow near sallow when hatchlingsLoose(wapshotts) "Madame Sallow's man has come across the green with a note, on a salver, to the Colonel's wagon: Cordelia Sallow regrets the escape of M. Wapshott's livestock, and encloses a net.".
+  Topic wap_loose with wapshott "Tell the Colonel his clutch is on the green" when hatchlingsLoose(wapshotts) and not chaseWorse(wapshotts) once {
+    Says "The Colonel is on the green in less than a minute, in his nightshirt and best hat, with a bucket in one hand and the trumpet in the other. 'HERCULES!' he cries. 'MRS PETTIGREW! DAME HONORINE!' He blows. The effect is as if someone had opened a pie. Eleven small barred animals go up the pump, the church and a sleeping dray-horse; the horse bolts, taking the dray; the geese, who had begun to compose themselves, take heart. 'Colonel,' you say. 'Hush,' says the Colonel, 'they will come to the voice.'".
+    On discuss { Assert chaseWorse(wapshotts). Increase hatchLosses(wapshotts) by 2. }
+  }
+  Action hold_the_colonel(actor: group, site: place) "Take the trumpet from the Colonel, gently, and sit him on the horse-trough" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(hatchlings, site) and hatchlingsLoose(wapshotts) and not chaseWorse(wapshotts).
+    Time 0.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert chaseWorse(wapshotts). Increase regard(billie) by 1. }
+    Result "He gives it up as a child gives up a toy it has been told is dangerous. He sits on the trough in his nightshirt with his hat on and his hands between his knees, and watches Billie, in the dawn, take the town's whole night in her bucket.".
+    Otherwise "The Colonel evades you with the practised skill of a man who has, for thirty years, avoided creditors.".
+  }
+  Action sweep_the_tower(actor: group, site: place) "Go up the church tower with a sack and the Brothers Quincey" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(hatchlings, site) and hatchlingsLoose(wapshotts) and loosePhase2(wapshotts).
+    Time 4.
+    Resolve check(actor, tumbling, dc_hard).
+    On success { Retract hatchlingsLoose(wapshotts). Assert hatchlingsPenned(wapshotts). Assert peaceable(hatchlings). Assert travels(hatchlings). Assert post(hatchlings, rk_beasts). }
+    Result "The Quinceys form a pyramid on the leads, the first time it has stood in a month, and you walk up it with the sack. The hatchlings take you for a bird. You come down the tower in a rain of small feathered shapes that do not weigh anything, and the sexton rings, in relief, the wrong bell.".
+    Otherwise "The pyramid goes, as pyramids do. Hal lands on Dunstan, who says it was his turn, and from the leads an interested row of small heads look down.".
+  }
+}
