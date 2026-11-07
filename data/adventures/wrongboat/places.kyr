@@ -84,7 +84,7 @@ Module wrongboat "The Wrong Boat" {
   Passage yard_kitchen "the mill door" is door between millyard and millhouse.
   Passage yard_sluice "the sluice path" is path between millyard and sluice_hut taking 10 minutes.
   Passage weir_sluice "the top of the weir" is path between weir and sluice_hut taking 5 minutes.
-  Passage mill_to_stage "the towpath to Highfoot" is road between weir and ferry_stage taking 2 hours opening when not ladsBlock() "The towpath goes on downstream past two men in grey coats who are standing in the middle of it, not in any hurry.".
+  Passage mill_to_stage "the towpath to Highfoot" is road between weir and ferry_stage taking 2 hours opening when not ladsBlock() or since(250) "The towpath goes on downstream past two men in grey coats who are standing in the middle of it, not in any hurry.".
   // Highfoot.
   Passage stage_hut "the ferrywoman's door" is door between ferry_stage and ferry_hut.
   Passage ferry_across "the Highfoot ferry" is ferry between ferry_stage and far_bank taking 20 minutes opening when ferryCrossing() "The ferry lies on the far bank, and the ferrywoman is in no hurry.".

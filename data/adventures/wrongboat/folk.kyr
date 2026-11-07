@@ -143,7 +143,7 @@ Module wrongboat "The Wrong Boat" {
     Assert shimGone(party). Retract travelsWith(shim, party). Assert at(shim, ferry_stage). }
   Rule shim_visited at hill_foot when at(party, hill_foot) and shimDecided(party) and not shimBetrayed(party) and shimSeesHob(party) and not shimLoyal(party) and travelsWith(shim, party) and not shimGone(party)
     says "'I'm going back,' says Shim. 'To Pelham. He asked me for tobacco. That's all he said, after, with his hat over his face, and I have been hearing it for two days.' He puts the bundle on the other shoulder. 'Somebody ought to bring him some.'" {
-    Assert shimGone(party). Retract travelsWith(shim, party). Assert at(shim, ferry_stage). }
+    Assert shimGone(party). Retract travelsWith(shim, party). Assert at(shim, pelham_inn). }
   Rule shim_goes_on at hill_foot when at(party, hill_foot) and shimDecided(party) and not shimBetrayed(party) and (shimLoyal(party) or not shimSeesHob(party)) and travelsWith(shim, party) and not shimGoesOn(party)
     says "'Right,' says Shim, to the road. 'Right.' He hitches the bundle. 'Somebody's got to carry the other end.' He does not look back." {
     Assert shimGoesOn(party). }
@@ -196,8 +196,8 @@ Module wrongboat "The Wrong Boat" {
   }
   // The reunion: she said "come and say it to his face". Bess in the cell, and what is said, which is not heard.
   Rule reunion at lockup when at(party, lockup) and bessAlly(party) and following(bess, party) and not bessReunited(party)
-    says "Hob Garrod takes his hat off his face and sits up slowly. 'Bess,' he says. She puts the coin-scale down on the bench, carefully, between them. You are not asked to stay, and you do not, but you hear the first of it through the hatch from the Magpie's yard: not shouting. A flat voice, reading. It sounds like a ledger. Later it sounds like something else." {
-    Assert bessReunited(party). Retract following(bess, party). Assert at(bess, lockup). }
+    says "Hob Garrod takes his hat off his face and sits up. 'Bess,' he says. She puts the coin-scale down on the bench, carefully, between them. You are not asked to stay, and you do not, but you hear the first of it through the hatch from the Magpie's yard: not shouting. A flat voice, reading. It sounds like a ledger. Later it sounds like something else." {
+    Assert bessReunited(party). Assert hobTold(party). Retract following(bess, party). Assert at(bess, lockup). }
   Topic hob_ask with hob "Ask Hob what he thinks he has done" when not bessAlly(party) once {
     Says "'What I have done,' says Hob, sitting up, 'is nothing the Trust would call a crime. A man dies owing, and the owing goes to his master, which is me, and I take what I am owed. Where I went wrong,' he says, 'is I took it from the widow herself, and did not sit down first and let her say what it was.' He looks at his boots. 'Do you think she'd forgive me?'".
   }

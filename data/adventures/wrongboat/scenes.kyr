@@ -14,7 +14,7 @@ Module wrongboat "The Wrong Boat" {
   // ── The fen ─────────────────────────────────────────────────────────────────────────────────────────────────────
   Observe fen_landing_scene at fen_landing when true "The river leaves its banks and the land leaves its edges. Reeds to the height of a house, black water between, and a plank landing with a bollard on it and a notice nailed to the bollard.".
   Observe causeway_scene at causeway when true "A raised causeway of packed brushwood and clay runs out across the fen, a cart wide, with water on both sides at the same level as the road. Eels turn in it. Every hundred paces there is a post, and on every post, in a different hand, a mark.".
-  Observe bell_cot_scene at bell_cot when true "A hut on stilts at the causeway's turn, with a bell hung under the eaves, big as a coal-scuttle. A rope runs from its clapper into the hut. Someone inside pulls it once, slowly, and the sound goes out over the fen and nothing in the fen answers.".
+  Observe bell_cot_scene at bell_cot when true "A hut on stilts at the causeway's turn, with a bell hung under the eaves, big as a coal-scuttle. A rope runs from its clapper into the hut. Someone inside pulls it once, slow, and the sound goes out over the fen and nothing in the fen answers.".
   Observe eel_stage_scene at eel_stage when true "A stage of rotten planks over the water, eel-traps stacked at one end, a skiff tied at the other. The smell is mud and smoke. Nobody has been here since morning, and a pot of something is still warm.".
 
   // ── Pelham ──────────────────────────────────────────────────────────────────────────────────────────────────────

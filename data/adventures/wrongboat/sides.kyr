@@ -11,19 +11,19 @@ Module wrongboat "The Wrong Boat" {
     Says "She takes it, and turns it to the label, and reads it twice. 'DO NOT OPEN,' she says. She sets it on her hip the way Mother Cobbold did, and her mouth does something that is not a smile. 'I'll open it at home.'".
     On discuss { Spend hamper_kind from actor. Assert boxReturned(actor). Assert bessMet(party). }
   }
-  Topic bess_hob with bess "Tell her it was Hob Garrod who put it aboard" answering bess_where when not bessMet(party) and not ladsSwept(party) and (hobKnown(actor) or knows(actor, wage_slip_read) or hobMet(actor)) {
+  Topic bess_hob with bess "Tell her it was Hob Garrod who put it aboard" answering bess_where when not bessMet(party) and not bessKnows(party) and not ladsSwept(party) and (hobKnown(actor) or knows(actor, wage_slip_read) or hobMet(actor)) {
     Says "'I know it was,' says Bess. 'I came to Staithe to be told by someone else.' She sits down on a bollard, or a sack, or the ground. 'Come with me, then. Come and say it to his face. I'll not hurt you. Nobody on the river thinks I could.'".
     On discuss { Assert bessAlly(actor). Assert bessMet(party). Assert following(bess, actor). }
   }
   // Without anything in your hands to show it, "it was Hob Garrod" is a thing you heard shouted on a quay.
   Action bess_hob_bluff(actor: group, site: place) "Tell Bess the porter shouted Hob Garrod's name, and you know no more" {
     Speaker bess.
-    Requires able(actor) and company(actor) and at(actor, site) and at(bess, site) and confronted(party) and not bessMet(party) and not bessAlly(party) and not bluffTried(party) and not ladsSwept(party) and accused(party) and not hobKnown(actor) and not knows(actor, wage_slip_read) and not hobMet(actor).
+    Requires able(actor) and company(actor) and at(actor, site) and at(bess, site) and confronted(party) and not bessMet(party) and not bessAlly(party) and not bluffTried(party) and not bessKnows(party) and not ladsSwept(party) and accused(party) and not hobKnown(actor) and not knows(actor, wage_slip_read) and not hobMet(actor).
     Time 0.
     Resolve check(actor, persuasion, dc_hard).
     On success { Assert bessAlly(actor). Assert bessMet(party). Assert following(bess, actor). }
     On failure { Assert bessKnows(party). Assert bluffTried(party). }
-    Result "'Shouted,' says Bess. 'On a quay. By a porter.' She looks at you for the length of time it takes to count. 'It isn't much,' she says. 'But I have been walking on less since Tuesday.' She falls in beside you without another word.".
+    Result "'Shouted,' says Bess. 'On a quay. By a porter.' She looks at you. 'It isn't much,' she says. 'But I have been walking on less since Tuesday.' She falls in beside you without another word.".
     Otherwise "'A porter shouted a name,' says Bess. 'You have a hamper and a porter. Give me the box and I will go and ask Hob myself.' She holds out her hands, and for the first time her voice is not level.".
   }
   // Standing on it is a gamble: if she believes it she goes, and if she does not she has the box and her thanks.
@@ -35,7 +35,7 @@ Module wrongboat "The Wrong Boat" {
     On success { Retract confronted(party). Assert bessMet(party). Assert bessKnows(party). Assert bessPitied(actor). Set trailLostAt(party) to watch(clock). Retract at(bess, site). Assert at(bess, quay). }
     On failure { Assert bessTook(party). }
     Result "She takes this without moving her face. 'No,' she says. 'It is not.' She lets it lie. 'Then you will want to be a long way off, because the Trust's lads think it is theirs, and they do not ask.' She turns and goes, and she is the least dignified thing you have seen all week.".
-    Otherwise "'Not mine,' says Bess. 'No.' She says it so quietly that for a moment you think you have won. Then both her hands are under the box, and it is hers, and she is gentle about it.".
+    Otherwise "'Not mine,' says Bess. 'No.' She says it so softly that for a moment you think you have won. Then both her hands are under the box, and it is hers, and she is gentle about it.".
   }
   Topic bess_wage with bess "Ask Bess what she is owed and by whom" when bessMet(party) or bessAlly(party) {
     Says "'Three months by the Trust,' says Bess. 'Seven by Hob Garrod, for a man dead four years. I could have lived on the first and I could not on the second.' She turns the coin-scale in her hand. 'Sergeant Brill has the idea that if I come home without the box I lose the room over the toll-house. He has the idea that if I come home with it I lose it anyway, because he wants it. He is not a stupid man, and nor am I.'".
@@ -48,12 +48,12 @@ Module wrongboat "The Wrong Boat" {
   // ── The Highfoot ferry, and the last chance to lose it ──────────────────────────────────────────────────────────
   Person una "Una Marchbank" at ferry_hut {
     Role "the ferrywoman at Highfoot". Ancestry human. Peaceable. Pronouns she. Manner stoic.
-    Greets "A small, brown, upright woman of sixty with a boathook for a stick looks at you for some time. 'Aye,' she says.".
+    Greets "A small, brown, upright woman of sixty with a boathook for a stick looks at you. 'Yes,' she says.".
   }
   Topic una_cross with una "Ask Una to put you across" when true once {
     Says "'Carrying?' says Una.".
   }
-  Topic una_refuse with una "Ask Una again, with the pair on the stage" answering una_cross when stageHot() {
+  Topic una_refuse with una "Ask Una again, with the stage as it is" answering una_cross when stageHot() {
     Says "Una looks past you to the planks, and then at the chain, and then at nothing. 'No,' she says. It is the longest speech you have had from her. 'Not with them there. I take people over. I don't take them away from things.' She picks up the boathook and turns her back.".
   }
   Topic una_truth with una "Tell her what is in the hamper" answering una_cross when not stageHot() {
@@ -61,21 +61,21 @@ Module wrongboat "The Wrong Boat" {
     On discuss { Assert ferryPaid(actor). Assert unaSung(actor). }
   }
   Topic una_nothing with una "Say nothing but yourselves" answering una_cross when not stageHot() {
-    Says "'Two coin.' She holds out a hand like a root.".
-    On discuss { Decrease quantity(actor, gold) by 2 or to nothing. Assert ferryPaid(actor). }
+    Says "'Four coin.' She holds out a hand like a root. 'It's fair-day.'".
+    On discuss { Decrease quantity(actor, gold) by 4 or to nothing. Assert ferryPaid(actor). }
   }
   Topic una_tune with una "Wind the box and let her listen" answering una_cross when holding(actor, music_box) and not stageHot() {
     Says "You wind it. Una listens to all of it with her eyes on the middle distance. At the end she gets up and takes the chain in both hands. At the far bank she says one name, which is not Hob's, and it is a minute before you realise it is the name in the song.".
     On discuss { Assert ferryPaid(actor). Assert unaSung(actor). Assert boxWound(actor). }
   }
+  Relation teaTaken(group). Relation sluiceTried(group).
   // With Una's goodwill the ferry is also somewhere to be unseen.
   Action hide_in_ferry(actor: group, site: place) "Lie down under the ferry's tarpaulin" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, ferry_stage) and unaSung(actor) and not hiding(actor).
     Time 0.
     On success { Assert hiding(actor). }
-    Result "Una says nothing, and throws the tarpaulin over you herself, and sits on it.".
+    Result "Una says nothing, and throws the tarpaulin over you herself, and sits on it. Nothing short of a warrant will move her.".
   }
-  Rule hiding_ferry_ok when hiding(party) and at(party, ferry_stage) and unaSung(party) { Assert nollWaited(party). }
   // The failable climax of the river: Bess or the lads at the stage and the ferry on the far bank. A rope over the
   // water on the chain, hand over hand; or a rush at the ferry when it is brought across.
   Action cross_by_chain(actor: group, site: place) "Go hand over hand along the ferry chain, over the water" {
@@ -209,7 +209,7 @@ Module wrongboat "The Wrong Boat" {
   }
   Topic tabitha_toward with tabitha "Toward. I think. I'm not sure" answering tabitha_flour when true {
     Says "'You poor lamb,' says Tabitha. 'Tea.' She puts it in your hand and goes out, and she is right, and you do cry a little, and no one sees.".
-    On discuss { Assert bessPitied(actor). }
+    On discuss { Assert teaTaken(actor). }
   }
   Person wilfred "Wilfred Auster" at millyard {
     Role "the miller". Ancestry human. Peaceable. Pronouns he. Manner stoic.
@@ -225,11 +225,11 @@ Module wrongboat "The Wrong Boat" {
   // The wheel is stiff, it is the miller's, and the water does not choose. A roll, two watches, and two men in the
   // river whom the company then has to live with.
   Action open_sluice(actor: group, site: place) "Spin the wheel and open the relief" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, sluice_hut) and not sluiceOpen(actor).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, sluice_hut) and not sluiceOpen(actor) and not sluiceTried(actor).
     Time 2.
     Resolve check(actor, brawn, dc_fair).
-    On success { Assert sluiceOpen(actor). Assert state(sluice, open). }
-    On failure { Assert ladsMet(party). Set ladsMetAt(party) to watch(clock). Retract at(lads, weir). Assert at(lads, sluice_hut). }
+    On success { Assert sluiceOpen(actor). Assert sluiceTried(actor). Assert state(sluice, open). }
+    On failure { Assert sluiceTried(actor). Assert ladsMet(party). Set ladsMetAt(party) to watch(clock). Retract at(lads, weir). Assert at(lads, sluice_hut). }
     Result "It takes all three of you. The wheel goes round with a noise like a cart on stones, and the water answers, a long way below, with a note you feel in your feet. Nobody has told you what is standing on the apron.".
     Otherwise "The wheel screams. Down at the weir two heads turn to look up the path, and then the grey coats are coming up it, not hurrying, because it is a dead end.".
   }
@@ -237,11 +237,11 @@ Module wrongboat "The Wrong Boat" {
     Assert ladsSwept(party). Retract at(lads, weir). }
   Observe sluice_news at weir when ladsSwept(party) "Below the apron the water has taken back a stretch of bank. One grey coat is on the far shingle, on all fours, being sick; the other is not there. Wilfred Auster is coming down the path with a boathook, looking at the water.".
   Observe sluice_bess near bess when ladsSwept(party) and bessAlly(party) "Bess has been told what the weir did. She is walking a yard further from you than she was, and she has stopped asking how far it is to Pelham.".
-  Action pay_lads(actor: group, site: place) "Pay the lads eight coin to find the wrong woman" {
+  Action pay_lads(actor: group, site: place) "Pay the lads fifteen coin to find the wrong woman" {
     Speaker lads.
-    Requires able(actor) and company(actor) and at(actor, site) and at(lads, site) and quantity(actor, gold) >= 8 and ladsMetAt(party) > 0 and not ladsPaid(actor) and not ladsRouted(actor) and not ladsSwept(actor) and not caught(actor).
-    Time 0.
-    On success { Decrease quantity(actor, gold) by 8. Assert ladsPaid(actor). Retract at(lads, site). }
+    Requires able(actor) and company(actor) and at(actor, site) and at(lads, site) and quantity(actor, gold) >= 15 and ladsMetAt(party) > 0 and not ladsPaid(actor) and not ladsRouted(actor) and not ladsSwept(actor) and not caught(actor).
+    Time 2.
+    On success { Decrease quantity(actor, gold) by 15. Assert ladsPaid(actor). Retract at(lads, site). }
     Result "The larger lad counts them, twice, in his palm. 'There's a woman at Highfoot,' he says, without conviction, 'who's got the look.' They go off along the bank, arguing about who will say what to the sergeant.".
   }
 

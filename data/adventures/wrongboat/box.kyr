@@ -28,10 +28,11 @@ Module wrongboat "The Wrong Boat" {
   Observe tune_taught near galley when boxWound(party) and at(party, galley) "In the galley the cook has stopped stirring. The song she was singing in the other room has ended in the middle of a verse, and the box has finished it." teaches tune_known.
   Observe tune_taught_deck at deck when boxWound(party) "On the deck, somebody forward has taken up the tune on a whistle, and stopped, and not started again." teaches tune_known.
   Action open_drawer(actor: group, site: place) "Wind the box a third time and feel under the comb" {
-    Requires able(actor) and company(actor) and at(actor, site) and holding(actor, music_box) and windings(actor) >= 2 and not drawerOpen(actor).
+    Requires able(actor) and company(actor) and at(actor, site) and holding(actor, music_box) and windings(actor) >= 2 and windings(actor) < 5 and not drawerOpen(actor).
     Time 1.
     Resolve check(actor, trapwork, dc_fair).
     On success { Assert drawerOpen(actor). Increase windings(actor) by 1. Give wage_slip_kind to actor. }
+    On failure { Increase windings(actor) by 1. }
     Result "The comb is a false bottom. It lifts. In the hollow beneath it lies a folded blue slip. On the back plate, where the lamp falls, someone has scratched a few words with a pin.".
     Otherwise "You turn it every way. The comb does what combs do. You have the feeling of a thing that is waiting for you to be a little kinder to it.".
   }
@@ -58,11 +59,19 @@ Module wrongboat "The Wrong Boat" {
     Result "The dealer winds it twice, listens, does not smile, and counts fifty out of a purse that has been heavy since morning. 'Very pretty,' he says. 'I shall give it to my wife.' He says it to the horse.".
   }
   Relation soldHonest(group).
+  Relation gaveHob(group).
+  Action give_hob(actor: group, site: place) "Put the box in Hob Garrod's hands, since he is the owner" {
+    Speaker hob.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lockup) and holding(actor, music_box) and not gaveHob(actor).
+    Time 0.
+    On success { Spend music_box from actor. Assert gaveHob(actor). }
+    Result "'Mine,' says Hob, taking it, as if he had been told a fact about the weather. He winds it, and it plays, and he lies down with it on his chest and his hat over his eyes. 'Bless you,' he says. 'Fosse will give me forty for it, and forty will get me out of here.'".
+  }
   Action surrender_box(actor: group, site: place) "Give the box up to the lads" {
     Speaker lads.
     Requires able(actor) and company(actor) and at(actor, site) and at(lads, site) and holding(actor, music_box) and not caught(actor).
     Time 0.
     On success { Spend music_box from actor. Assert caught(actor). }
-    Result "The larger takes it, winds it, and looks at nothing as it plays. 'There,' he says. 'No need for the long way.' The smaller doesn't look at you. They go off along the towpath, and one of them, as he goes, hums the second line.".
+    Result "The larger takes it, winds it, and looks at nothing as it plays. 'There,' he says. 'No need for the long way.' The smaller one keeps his eyes on the water. They go off along the towpath, and one of them, as he goes, hums the second line.".
   }
 }
