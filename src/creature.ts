@@ -93,7 +93,9 @@ export class CreatureSchema {
       || new Set(inventory.map(i => i.id)).size !== inventory.length) { throw new Error('Invalid item inventory'); }
     const slots = inventory.filter(i => i.equipped).map(i => ItemCatalog.get(i.definition).slot);
     inventory.forEach(i => ItemCatalog.get(i.definition));
-    if (slots.some(s => !s) || new Set(slots).size !== slots.length) { throw new Error('Invalid equipment slots'); }
+    if (slots.some(s => !s || slots.filter(t => t === s).length > ItemCatalog.holds(s))) {
+      throw new Error('Invalid equipment slots');
+    }
     const grants = creature.base.abilities;
     const learned = creature.state.learnedAbilities;
     if (!Array.isArray(grants) || !Array.isArray(learned)

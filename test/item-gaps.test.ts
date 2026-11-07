@@ -11,7 +11,8 @@ import { Checks } from '../src/rules/checks';
 // The item audit's gaps in what the runtime does (doc/architecture/mission-19/items.md): a ring of regeneration's
 // mending had been summed with what its wearer wears and never run (G5); a wand used out of a fight had been used up
 // whole, its fifteen charges with it, where in a fight it kept what it had left (G8); what a thing worn adds to a
-// quality had counted only in a fight, so a belt of giant strength let no one carry more nor force a door (G9).
+// quality had counted only in a fight, so a belt of giant strength let no one carry more nor force a door (G9); and one
+// ring at a time (G10).
 class Kit {
   static store() {
     const c = new Content('item-gaps').createCreature('hero', { raceId: 'human', classId: 'warrior', level: 4 });
@@ -56,5 +57,14 @@ describe('what the item audit found the runtime left undone', () => {
     const belted = store.get('hero');
     expect(Burden.capacity(belted)).toBe(carry + 12);
     expect(Checks.total(belted, 'brawn')).toBe(force + 3);
+  });
+  it('wears a ring on each hand, and a third in place of the first', () => {
+    const store = Kit.store();
+    for (const [id, kind] of [['r1', 'ring_of_strength'], ['r2', 'ring_of_minor_protection'], ['r3', 'ring_of_regeneration']]) {
+      Items.take(store, 'hero', { id: id!, definition: kind! });
+      Items.equip(store, 'hero', id!);
+    }
+    expect(store.get('hero').state.inventory!.filter(i => i.equipped && /^r\d/.test(i.id)).map(i => i.id).sort())
+      .toEqual(['r2', 'r3']);
   });
 });

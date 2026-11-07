@@ -47,6 +47,8 @@ export class ItemCatalog {
     }
     return stock;
   }
+  // How many things a slot holds at once: a ring to each hand, one of anything else (the item audit's G10).
+  static holds(slot: string): number { return slot === 'ring' ? 2 : 1; }
   // A quality as its bearer has it with what they wear (a belt of giant strength's six), out of a fight as in one (the
   // item audit's G9: a field check and what one can carry had read the bare quality).
   static quality(creature: Creature, stat: Attribute): number {

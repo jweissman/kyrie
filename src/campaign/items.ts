@@ -60,8 +60,11 @@ export class Items {
       if (!Creation.canEquip(creature.classId, item.definition)) {
         throw new Error(`${creature.name} is not proficient with ${definition.name}`);
       }
-      for (const other of creature.state.inventory!) {
-        if (ItemCatalog.get(other.definition).slot === definition.slot) { other.equipped = false; }
+      // As many to a slot as it holds (a ring to each hand: the item audit's G10), the first worn taken off for more.
+      const worn = creature.state.inventory!.filter(o => o !== item && o.equipped
+        && ItemCatalog.get(o.definition).slot === definition.slot);
+      for (const other of worn.slice(0, Math.max(0, worn.length - ItemCatalog.holds(definition.slot) + 1))) {
+        other.equipped = false;
       }
       item.equipped = true;
       lease.commit(lease.creatures);
