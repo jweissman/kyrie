@@ -112,10 +112,6 @@ drift to the haulage way
 Collect a lump of star-iron for Wenna
 Look closely at the enchanted object
 Knock it over
-gallery to the pump-room
-Knock the pawl home
-Collect a small star-iron ingot for Thoradin
-gallery to the haulage way
 passage to the Delvers' hall
 Read the brothers' tablet
 Collect a chapel cup
@@ -159,10 +155,8 @@ Sell a lump of star-iron
 Sell a lump of star-iron
 Sell a lump of star-iron
 Sell a lump of star-iron
-small star-iron ingot (to|from Thoradin for) Wenna
 Sell a lump of star-iron
 Sell a string
-Sell a small star-iron ingot
 Sell a Delver's silver lamp
 Sell a chapel cup
 Buy a torch for Wenna
@@ -228,6 +222,10 @@ gap behind the rubble to the old stope
 drift to the shaft head
 cage in the shaft
 drift to the haulage way
+gallery to the pump-room
+Knock the pawl home
+Collect a small star-iron ingot for Veit
+gallery to the haulage way
 passage to the Delvers' hall
 gallery to the long haulage
 Look closely at the pressure plate
@@ -238,6 +236,8 @@ Break the wall down
 sealed stair to the foot of the stair
 Look closely at the arcane glyph
 Unsay the glyph
+Wait an hour
+Wait an hour
 gallery to the sump gallery
 Collect a lump of star-iron for Veit
 Collect a lump of star-iron for Wenna
@@ -266,6 +266,7 @@ path up onto Barzelrehes to the bailey
 Ulfgar's door
 Sell a lump
 Sell a lump
+Sell a small star-iron ingot
 Have Wenna raise Strength
 Buy a torch for Wenna
 Buy a flask of lamp oil for Veit

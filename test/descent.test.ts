@@ -9,20 +9,23 @@ import type { CreatureStore } from '../src/creature-store';
 
 // The principal demonstration, kept four times over: deep sites played to their hearts by the page's own choices
 // (test/fixtures/descent/<seed>.choices, one choice's words a line, matched as test/long-expedition matches them). In
-// wren, six expeditions into the Delvers' mine by a warrior, from the road into Gothgiba to the heart of the vein
-// brought up into daylight eight days later. In thorn, the Water-Wardens' cisterns by a ranger and a pilgrim, with a
-// soldier fetched from Fairholt to tear the seal off the deep gate, to the reading-glass brought up at first light on
-// the fifth day. In d4, the Stone-Singers' hall by a bard, a pilgrim and a mason, with a crowbar for the pivot-door and
-// a rope for the crack round the singing door, the dirge bell fought for in the unfinished hall and rung over the
-// singers, to the tuning-stone brought out at first light on the second day. In a1, the king-barrow Lapistumul by a
-// warrior and a healer in two expeditions: the outer barrow's grave-goods sold for a glossary of the old script, then
-// over the toll-bridge for a pole and a lantern and a scholar, the stair's switch sprung with the pole, the jar of the
-// embalmers' daylight carried before them so the king goes back from it, and the crown of the first king brought out at
-// first light on the fourth day. They take some minutes, so they are opt-in: KYRIE_LONG=1. A change that moves what the
-// world offers (a new trap, a fight that goes otherwise) will stop one where its record no longer holds; the record is
-// then played on from there. (The heartland's settlements and land took Common names after these were kept, and their
-// choices were renamed with them, Merscheald to Misthythe, Murkstede to Lowmouth, Muntheald to Rainmeet, the Deopex to
-// the Deepwater, Eikwudu to Oakhurst: the world otherwise the same.)
+// wren, five expeditions into the Delvers' mine by a warrior and a cleric, from the road into Gothgiba to the heart of
+// the vein brought up into daylight on the sixth day: the pump-room's shift-boss, a wraith whose touch takes levels,
+// left alone until the warrior has her second level and a second warrior is fetched from the burners' clearing, then
+// fought by the three, the bucket-chain set on the axle, and the water waited out at the foot of the stair. In thorn,
+// the Water-Wardens' cisterns by a ranger and a pilgrim, with a soldier fetched from Fairholt to tear the seal off the
+// deep gate, to the reading-glass brought up at first light on the fifth day. In d4, the Stone-Singers' hall by a bard,
+// a pilgrim and a mason, with a crowbar for the pivot-door and a rope for the crack round the singing door, the dirge
+// bell fought for in the unfinished hall and rung over the singers, to the tuning-stone brought out at first light on
+// the second day. In a1, the king-barrow Lapistumul by a warrior and a healer in two expeditions: the outer barrow's
+// grave-goods sold for a glossary of the old script, then over the toll-bridge for a pole and a lantern and a scholar,
+// the stair's switch sprung with the pole, the jar of the embalmers' daylight carried before them so the king goes back
+// from it, and the crown of the first king brought out at first light on the fourth day. They take some minutes, so
+// they are opt-in: KYRIE_LONG=1. A change that moves what the world offers (a new trap, a fight that goes otherwise)
+// will stop one where its record no longer holds; the record is then played on from there. (The heartland's settlements
+// and land took Common names after these were kept, and their choices were renamed with them, Merscheald to Misthythe,
+// Murkstede to Lowmouth, Muntheald to Rainmeet, the Deopex to the Deepwater, Eikwudu to Oakhurst: the world otherwise
+// the same.)
 class Descent {
   static choices(seed: string): string[] {
     return readFileSync(new URL(`./fixtures/descent/${seed}.choices`, import.meta.url), 'utf8').split('\n').filter(Boolean);
@@ -47,9 +50,7 @@ class Descent {
 }
 
 describe.skipIf(!process.env.KYRIE_LONG)('deep sites played to their hearts', () => {
-  // Held back (M19-112): the pump-room's shift-boss is a wraith, and its touch takes levels now (the owner's ruling 3);
-  // the first-level pair this route was kept for falls to it, and the route is to be found again.
-  it.skip('brings the heart of the vein up into daylight, by the page\'s own choices alone', async () => {
+  it('brings the heart of the vein up into daylight, by the page\'s own choices alone', async () => {
     const s = await Descent.play('wren', 'warrior');
     expect(s.campaign.world.test(ModuleWriter.call('region__w9_raised'))).toBe(true);
     expect(s.campaign.state.party.map(m => m.name)).toEqual(['Wenna', 'Thoradin', 'Veit']);
