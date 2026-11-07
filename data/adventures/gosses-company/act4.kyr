@@ -24,7 +24,7 @@ Module pentrice "Gosse's Company" {
     Greets "The chief clerk looks at you over a pair of spectacles and does not offer to take your name. 'Master Mauger is at the Exchange,' he says. 'He is always at the Exchange. I am here.'".
   }
   Topic pomfret_terms with crake "Ask Master Mauger about the lease on the Wick" when wickGranted(rierdan) and not heistOver(rierdan) once {
-    Says "Master Mauger opens a book and shows you a page of beautiful copperplate. 'Three hundred for the fit-out,' he says. 'At a most generous five in the hundred by the month. And a small matter of eighty crowns, upon a note of hand in Mr Gosse's name, which Mr Swale was good enough to bring me in the spring.' He closes the book. 'I would not dream of troubling the Chamberlain with it. The lease, I am told, is particular about false instruments. I think we understand one another.' He smiles. 'The Wick opens on the third evening, at seven, and I shall be in Lord Rask's box until nine, which I mention only so that you may be easy. My daughter marries at Haysel-tide. I have always thought a private performance would be so nice.'".
+    Says "Master Mauger opens a book and shows you a page of beautiful copperplate. 'Three hundred for the fit-out,' he says. 'At a most generous five in the hundred by the month. And a small matter of eighty crowns, upon a note of hand in Mr Gosse's name, which Mr Swale was good enough to bring me in the spring.' He closes the book. 'I would not dream of troubling the Chamberlain with it. The lease, I am told, is particular about false instruments. I think we understand one another.' He smiles. 'The Wick opens on the third evening, at seven, and I'll be in Lord Rask's box until nine, which I mention only so that you may be easy. My daughter marries at Haysel-tide. I have always thought a private performance would be so nice.'".
   }
 
   // Swale owns it, or doesn't; Gosse is told, or isn't.
@@ -46,14 +46,14 @@ Module pentrice "Gosse's Company" {
 
   // Four plans; the company will not agree. Hepzibah asks the player to choose the one that goes.
   Topic hepzibah_plan with hepzibah "Ask Hepzibah to gather the company about the note" when wickGranted(rierdan) and not planPudding(party) and not planDorcas(party) and not planTam(party) and not planOriel(party) once {
-    Says "The company is in the Wick's wardrobe among the hampers. Four people begin speaking at once and Hepzibah rings the prompt-bell, which is how you tell it is serious. 'Jem has a plan,' she says. 'Dorcas has a plan. Tam has a plan. The Marchant girl has a plan, and so far hers is the only one with a seal in it. I have put them in order. I should like you to choose, because if I do I shall be blamed for the result.'".
+    Says "The company is in the Wick's wardrobe among the hampers. Four people begin speaking at once and Hepzibah rings the prompt-bell, which is how you tell it is serious. 'Jem has a plan,' she says. 'Dorcas has a plan. Tam has a plan. The Marchant girl has a plan, and so far hers is the only one with a seal in it. I have put them in order. I should like you to choose, because if I do I'll be blamed for the result.'".
   }
   Topic plan_pudding with hepzibah "Jem's: a false clerk, a false summons, and a good coat" answering hepzibah_plan when true {
     Says "Jem Pudding stands on a hamper, in the dim, in one of Mauger's own clerk's coats that has been taken in by Pardew. 'I have juggled for clerks,' he says. 'Eleven years of them, in every town in Imbar. They are the worst house there is; they never once look at the stage.' He bows. 'I know exactly what they do not look at. I'll be perfectly dull.'".
     On discuss { Assert planPudding(actor). }
   }
   Topic plan_dorcas with hepzibah "Dorcas's: she keeps Master Mauger in the box, and Lord Rask looks the other way" answering hepzibah_plan when troupe(dorcas) {
-    Says "Dorcas is sitting on a hamper with her chin up. 'I'm forty-eight,' she says. 'A girl of twenty can't do what I can do to an old man's attention.' She looks past anyone. 'Lord Rask has a large box and a small mind. I shall keep Isidore Mauger in it till nine.'".
+    Says "Dorcas is sitting on a hamper with her chin up. 'I'm forty-eight,' she says. 'A girl of twenty can't do what I can do to an old man's attention.' She looks past anyone. 'Lord Rask has a large box and a small mind. I'll keep Isidore Mauger in it till nine.'".
     On discuss { Assert planDorcas(actor). }
   }
   Topic plan_tam with hepzibah "Tam's: over the roof of the Tower of Coin, through the skylight" answering hepzibah_plan when true {
@@ -88,7 +88,7 @@ Module pentrice "Gosse's Company" {
     Says "Mistress Pardew sits on her counter, which she never does. 'Eighty crowns,' she says. 'He bought my husband's debt in the autumn and my husband died in the debtors' yard.' She gives you the mould. 'Bring me the paper, when you have it. I'll burn it myself, and I'll remember who did not.'".
     On discuss { Assert keyCopied(actor). Give key_kind to actor. Assert pardewOwed(actor). }
   }
-  Relation pardewOwed(group). Relation sealUsed(place).
+  Relation pardewOwed(group). Relation coatSeen(place). Relation roofOut(place). Relation forgeryClue(group). Relation sealUsed(place).
   Rule pardew_betrayed when heistOver(rierdan) and pardewOwed(party) and noteGone(rierdan) and not noteReturned(party) and not pardewSoured(rierdan) { Assert pardewSoured(rierdan). }
   Relation pardewSoured(place).
   Observe pardew_soured_note at draper when pardewSoured(rierdan) "Mistress Pardew's shutters are up in the daytime. A boy at the door says she has gone to her sister's, and will be back at Haysel-tide, and will not be wanting players.".
@@ -108,7 +108,7 @@ Module pentrice "Gosse's Company" {
   // The Wick opens even if no one steals anything. Dorcas keeps Mauger in the box, or doesn't.
   Action charm_pomfret(actor: group, site: place) "Take Lord Rask's box for the evening, and a bottle, and Master Mauger's whole attention" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, wick_box) and openingNight(rierdan) and not pomfretLocked(rierdan) and not pomfretBack(rierdan).
-    Time 5.
+    Time 2.
     Resolve check(actor, performance, dc_fair).
     On success { Assert pomfretLocked(rierdan). Assert raskCharmed(actor). }
     On failure { Assert pomfretBack(rierdan). Increase alarm(rierdan) by 1. }
@@ -123,7 +123,7 @@ Module pentrice "Gosse's Company" {
     On success { Assert clerkLured(rierdan). Assert inCounting(actor). Assert sealUsed(rierdan). Assert at(pomfret_clerk, king_court). Assert at(party, crake_room). }
     On failure { Increase alarm(rierdan) by 1. }
     Result "Corbin Ashplant reads the summons through his spectacles. He reads the seal. He gets up, with cold fury, because he knows precisely what he is looking at and cannot refuse it. 'The Household,' he says. 'At this hour.' He goes out past you with his hat. The door is not locked behind him, and he has left the strong-box on the latch, as one who does who means to be back in a quarter of an hour.".
-    Otherwise "The clerk reads it twice. 'A good seal,' he says. 'A bad hand.' He looks at you. 'I shall go and ask.' He does not go. He sits down at his desk where he can see you.".
+    Otherwise "The clerk reads it twice. 'A good seal,' he says. 'A bad hand.' He looks at you. 'I'll go and ask.' He does not go. He sits down at his desk where he can see you.".
   }
   Action slip_in_while_dorcas_has_him(actor: group, site: place) "Slip in at the counting-room door while Dorcas has Master Mauger in the box, as the gentleman who is expected" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, exchange) and openingNight(rierdan) and planDorcas(actor) and raskCharmed(actor) and not pomfretBack(rierdan) and not inCounting(actor).
@@ -138,7 +138,7 @@ Module pentrice "Gosse's Company" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, exchange) and openingNight(rierdan) and planTam(actor) and not inCounting(actor).
     Time 10.
     Resolve check(actor, climbing, dc_hard).
-    On success { Assert inCounting(actor). Assert at(party, crake_room). }
+    On success { Assert inCounting(actor). Assert roofOut(rierdan). Assert at(party, crake_room). }
     On failure { Increase alarm(rierdan) by 2. Assert strikes(roof_fall, actor). }
     Result "Tam throws the hook on the third try. You go up the downpipe like a cat and across the leads on your belly, and the skylight is a pane out of a frame that Tam has had a week to oil. You let yourself down on the rope into the counting-room, which is lit by one candle and smells of Mauger. Tam, on the roof, coughs, twice, to say it is clear.".
     Otherwise "The rope is too short, or you are. You come down the last ten feet by an arrangement of gutters and let go.".
@@ -149,14 +149,14 @@ Module pentrice "Gosse's Company" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, exchange) and openingNight(rierdan) and planPudding(actor) and disguiseHad(actor) and not inCounting(actor).
     Time 2.
     Resolve check(actor, deception, dc_fair).
-    On success { Assert inCounting(actor). Assert at(party, crake_room). }
-    On failure { Increase alarm(rierdan) by 1. }
+    On success { Assert inCounting(actor). Assert coatSeen(rierdan). Assert at(party, crake_room). }
+    On failure { Increase alarm(rierdan) by 2. }
     Result "You go in as Jem would, with a pen behind the ear and the expression of a man owed his supper. The night porter says, 'Evening, Mr Dunstable,' and you say, 'Evening,' in a voice that has nothing in it at all.".
     Otherwise "The porter looks at the darn in the cuff, and at your face, and makes a small interrogative noise.".
   }
   Action open_the_box(actor: group, site: place) "Open Master Mauger's strong-box, with a key or without" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, crake_room) and inCounting(actor) and openingNight(rierdan) and not boxOpened(actor) and (holding(actor, key_kind) or capable(actor, lockwork) or clerkLured(rierdan)).
-    Time 5.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, crake_room) and inCounting(actor) and openingNight(rierdan) and not boxOpened(actor) and (holding(actor, key_kind) or capable(actor, lockwork) or clerkLured(rierdan) or forgeryClue(actor)).
+    Time 3.
     Resolve check(actor, lockwork, dc_fair).
     On success { Assert boxOpened(actor). Assert noteTaken(actor). Give forged_note to actor. }
     On failure { Increase alarm(rierdan) by 2. }
@@ -165,12 +165,12 @@ Module pentrice "Gosse's Company" {
   }
   Kind forged_note "the note for eighty crowns, in Gosse's hand" is document described "A note of hand for eighty crowns, in a beautiful, shaky copy of Absalom Gosse's signature. The forger has given the G a flourish Gosse never used.".
   Action leave_unseen(actor: group, site: place) "Go out by the way you came, with the paper, before the third act ends" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, crake_room) and noteTaken(actor) and openingNight(rierdan) and alarm(rierdan) < 3.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, crake_room) and noteTaken(actor) and openingNight(rierdan) and ((alarm(rierdan) < 3) or (roofOut(rierdan) and alarm(rierdan) < 5)).
     Time 2.
     On success { Assert at(party, exchange). }
     Result "The porter says 'Goodnight, Mr Dunstable.' You say it back. The Exchange is empty under the lamps. A beggar on a stool counts three piles of coin and does not look up. The Wick's third-act bell is going down the Row, and you are in the pit, in your own coat, before the Alderman has finished dying.".
   }
-  Rule alarm_rings when openingNight(rierdan) and alarm(rierdan) >= 3 and at(party, crake_room) and not caughtInCounting(party)
+  Rule alarm_rings when openingNight(rierdan) and ((alarm(rierdan) >= 3 and not roofOut(rierdan)) or alarm(rierdan) >= 5) and at(party, crake_room) and not caughtInCounting(party)
     says "A bell begins to go in the Tower of Coin, a small, bright, officious bell. The night porter says, in a different voice, 'Mr Dunstable is in the Wick.' Boots on the stairs." {
     Assert caughtInCounting(party). }
   // The three endings of the night, and not one of them is a verdict.
@@ -187,7 +187,7 @@ Module pentrice "Gosse's Company" {
     Result "Mistress Pardew holds it over her candle with a pair of sugar-tongs and watches until the last of the G goes. Then she sweeps the ashes into her palm and puts them in the pocket where she keeps the pins. 'Thank you,' she says. It is the only time you will hear her say it.".
   }
   Relation noteGone(place).
-  Observe pomfret_next near crake when heistOver(rierdan) and noteGone(rierdan) "Master Mauger has opened his strong-box, looked at the empty place under the velvet bag, closed it, and sat for a long time with his hands on his knees. He cannot prove a thing. 'Nine years that theatre was dark,' he says, to the miniature, pleasantly. 'I do hope they will be happy in it.' The Tower of Coin goes on lending. It is not a story that has an end.".
+  Observe pomfret_next near crake when heistOver(rierdan) and noteGone(rierdan) "Master Mauger has opened his strong-box, looked at the empty place under the velvet bag, closed it, and sat with his hands on his knees. He cannot prove a thing. 'Nine years that theatre was dark,' he says, to the miniature, pleasantly. 'I do hope they will be happy in it.' The Tower of Coin goes on lending. It is not a story that has an end.".
   Observe pomfret_prevails near crake when heistOver(rierdan) and not noteGone(rierdan) "Master Mauger has come down from Lord Rask's box, and has the note out on his desk and a pen beside it, and a diary open at Haysel-tide. 'Not a large wedding,' he says. 'Forty guests. A little speech, in the second act. I have written it myself.' He beams. He has the Chamberlain's ear and Lord Rask's, and nobody to whom he need justify himself.".
   Observe caught_net near pomfret_clerk when caughtInCounting(party) "The chief clerk has locked the door of the counting-room with you inside it and gone for the Watch. It is, he says through the keyhole, a serious thing. He will be perhaps an hour. It is not clear what he thinks you will do in the meantime.".
   // The Seats sit on the Wick's business, and the debtors' yard keeps Mistress Pardew's husband.
@@ -202,4 +202,20 @@ Module pentrice "Gosse's Company" {
   Observe dorcas_plan_note near dorcas when planDorcas(party) and openingNight(rierdan) "Dorcas has the gown on. She has the look of a woman who has been told she is the only plan, and has agreed to be.".
   Observe wick_clock at lant_ward when wickGranted(rierdan) and not openingNight(rierdan) and not heistOver(rierdan) "Hepzibah has chalked it on the wardrobe door, in the hard pencil's capitals: OPENING THE THIRD EVENING, AT SEVEN. MAUGER IN RASK'S BOX TILL NINE. DOORS SHUT AT TEN. Under it, smaller: Whoever is in the counting-room at nine is a burglar.".
   Observe box_hint at crake_room when inCounting(party) and not boxOpened(party) and not holding(party, key_kind) and not clerkLured(rierdan) "The strong-box is a good one, with a lock as big as a fist. It wants a key, or hands that know locks. Mistress Pardew, they say, keeps a mould for the truthful.".
+  Action try_the_box(actor: group, site: place) "Try the strong-box with what you have" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, crake_room) and inCounting(actor) and not boxOpened(actor) and openingNight(rierdan) and not (holding(actor, key_kind) or capable(actor, lockwork) or clerkLured(rierdan) or forgeryClue(actor)).
+    Time 1.
+    On success { Increase alarm(rierdan) by 1. }
+    Result "It does not open. It is a Coin-tower box with a lock the size of a man's fist, and you have neither Pardew's wax key nor the hands for it nor the clerk's own forgetfulness. The tumbler does not even turn. A floor creaks somewhere overhead, in the way of a house that has heard a lock tried.".
+  }
+  Rule coat_seen_costs when coatSeen(rierdan) and openingNight(rierdan) and at(party, crake_room) and not coatPaid(rierdan)
+    says "The night porter has been looking at you through the glass of his box, and at the left cuff of your coat. He goes up the street door's three steps, and down, and up again." { Assert coatPaid(rierdan). Increase alarm(rierdan) by 1. }
+  Relation coatPaid(place).
+  Rule light_favour when openingNight(rierdan) and lightLit(rierdan) and not lightLeft(rierdan) and not lightPaid(rierdan) { Assert lightPaid(rierdan). Decrease alarm(rierdan) by 1 or to nothing. }
+  Rule light_cost when openingNight(rierdan) and lightLeft(rierdan) and not lightPaid(rierdan) { Assert lightPaid(rierdan). Increase alarm(rierdan) by 1. }
+  Relation lightPaid(place).
+  Rule printer_clue when printerHired(rierdan) and wickGranted(rierdan) and not forgeryClue(party) { Assert forgeryClue(party). }
+  Observe printer_clue_note at print_row when printerHired(rierdan) and wickGranted(rierdan) "Gadsby has been told what the Wick wants with a good lock, and does not ask. He has a thin steel hook in his waistcoat and a printer's contempt for anything that has to be opened by force. It is yours, for the price of a title-page, and you have already paid.".
+  Observe light_good_note at lant_stage when openingNight(rierdan) and lightLit(rierdan) and not lightLeft(rierdan) "The ghost-light burns white. A stagehand in the flies has put a rope across the street door of the Wick, for the night, with the care of someone who wants you out of the house in good time.".
+  Observe light_out_note at lant_stage when lightOut(rierdan) "The Wick has no ghost-light. The stage is a stage, and the flats stand up when they are told, and nobody in the flies is on anyone's side.".
 }

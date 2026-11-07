@@ -66,7 +66,7 @@ Module pentrice "Gosse's Company" {
     Resolve check(actor, persuasion, dc_fair).
     On success { Assert s1Done(rierdan). Assert fallowSeen(actor). }
     On failure { Assert s1Done(rierdan). Increase chaos(rierdan) by 1. }
-    Result "'Corin,' you say, 'the King is looking.' He is. The plume goes down. He sits in the second row with the dignity of a man who has agreed to be someone else's audience.".
+    Result "'Corin,' you say, 'the King is looking.' He is. The plume goes down. He sits in the second row with the dignity of one who has agreed to be someone else's audience.".
     Otherwise "'I'm on the bill,' he says, in the voice of somebody who is not on any bill. The plume is in the King's eyeline for most of the first scene.".
   }
   // Scene 2: the real masquers, if they were ever posed against.
@@ -101,7 +101,7 @@ Module pentrice "Gosse's Company" {
     Resolve check(actor, performance, dc_hard).
     On success { Assert s4Done(rierdan). Assert pomfretStood(actor). }
     On failure { Assert s4Done(rierdan). Increase chaos(rierdan) by 2. }
-    Result "Gosse, with the whole of his lungs, begins The Alderman's Ghost from the middle. Swale joins in. The Chamberlain, who has been reading the playbill, thinks it is the next scene. Master Mauger sits down slowly with the paper still in his hand, and the King says, loudly, 'He is not a good actor, that one.'".
+    Result "Gosse, with the whole of his lungs, begins The Alderman's Ghost from the middle. Swale joins in. The Chamberlain, who has been reading the playbill, thinks it is the next scene. Master Mauger sits down by degrees with the paper still in his hand, and the King says, loudly, 'He is not a good actor, that one.'".
     Otherwise "Mauger reads the note out in full. He has an excellent voice. It is the best reading of the evening.".
   }
   Rule s4_skip when sceneV(rierdan) == 5 and not s4Done(rierdan) and noteGone(rierdan) { Assert s4Done(rierdan). }
@@ -124,7 +124,7 @@ Module pentrice "Gosse's Company" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, lant_stage) and sceneV(rierdan) == 6 and not s6Done(rierdan).
     Time 5.
     On success { Assert s6Done(rierdan). Assert chorusPlayed(rierdan). }
-    Result "Gosse says it. He does not play it. He says every line of it to the third row in his great voice, as simply as one who giving directions, and the house is as still as the Field. At the end he bows to the empty seat, or the full one, as the case may be. Nobody applauds for a long time. Then everybody does.".
+    Result "Gosse says it. He does not play it. He says every line of it to the third row in his great voice, as simply as one who giving directions, and the house is as still as the Field. At the end he bows to the empty seat, or the full one, as the case may be. Nobody applauds for a good while. Then everybody does.".
   }
   Action cut_the_chorus(actor: group, site: place) "Cut the scene, and go on to the bear" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, lant_stage) and sceneV(rierdan) == 6 and not s6Done(rierdan).
@@ -164,14 +164,14 @@ Module pentrice "Gosse's Company" {
     On discuss { Assert dorcasStays(actor). }
   }
   Topic dorcas_go with dorcas "Go. It is the only time anyone will ask like that" answering dorcas_rask when true {
-    Says "Dorcas rises from the hamper in the great manner, with one hand to her throat. 'Go! Yes! My dear, you have said what the part required, and I shall play it to the end.' Her contralto does not shake; it was trained not to. 'I shall be Lady Rask by Haysel-tide, with a box and a bottle and a bad conscience, and nobody in the house will see me play.' She blows out the candle with a flourish and sits a long time in the dark.".
+    Says "Dorcas rises from the hamper in the great manner, with one hand to her throat. 'Go! Yes! My dear, you have said what the part required, and I shall play it to the end.' Her contralto does not shake; it was trained not to. 'I'll be Lady Rask by Haysel-tide, with a box and a bottle and a bad conscience, and nobody in the house will see me play.' She blows out the candle with a flourish and sits a good while in the dark.".
     On discuss { Assert dorcasLeaves(actor). }
   }
   Topic hepzibah_heart with hepzibah "Ask Hepzibah whether she has ever told Gosse" when royalCall(pentrice) and not proposed(gosse) and not emptyWing(gosse) and not hepzibahSpoke(party) and not hepzibahSilent(party) once {
-    Says "Hepzibah does not move her pencil. 'No,' she says. 'Thirty-four years.' She does not need to say what. 'He is going deaf. He is going to go on until he cannot, and then he will stop in the middle of a speech, and I shall prompt him.' She puts the pencil down. 'It is not necessary to say. Is it?'".
+    Says "Hepzibah does not move her pencil. 'No,' she says. 'Thirty-four years.' She does not need to say what. 'He is going deaf. He is going to go on until he cannot, and then he will stop in the middle of a speech, and I'll prompt him.' She puts the pencil down. 'It is not necessary to say. Is it?'".
   }
   Topic hepzibah_wife with hepzibah "Ask Hepzibah how she likes being Mrs Gosse" when royalCall(pentrice) and (proposed(gosse) or emptyWing(gosse)) and not hepzibahSpoke(party) and not hepzibahSilent(party) once {
-    Says "Hepzibah does not move her pencil. 'He says it to the King's face now,' she says. 'Mrs Gosse. As if it were a part.' She turns a page. 'He is going deaf. He will go on until he cannot, and then he will stop in the middle of a speech, and I shall prompt him, and nobody will know it is not the line.' The pencil goes down the margin. 'Is it enough, do you think, to have been asked?'".
+    Says "Hepzibah does not move her pencil. 'He says it to the King's face now,' she says. 'Mrs Gosse. As if it were a part.' She turns a page. 'He is going deaf. He will go on until he cannot, and then he will stop in the middle of a speech, and I'll prompt him, and nobody will know it is not the line.' The pencil goes down the margin. 'Is it enough, do you think, to have been asked?'".
   }
   Topic hepw_enough with hepzibah "It is enough. It is more than most are given" answering hepzibah_wife when true {
     Says "'Noted,' says Hepzibah, and writes it down, which is how she accepts anything. 'Enough. Yes. I did not think I should be told.' She turns the page. The line she writes in the margin is not in the book.".
@@ -182,11 +182,11 @@ Module pentrice "Gosse's Company" {
     On discuss { Assert hepzibahSilent(actor). }
   }
   Topic hep_say with hepzibah "Tell him. A man ought to know" answering hepzibah_heart when true {
-    Says "Hepzibah takes her time with the pencil. 'You will tell me I am a fool,' she says, 'and I shall write that down also.' She goes to the loft window where Gosse is standing with his head on one side. You do not hear what is said. You see him turn round. He takes her hand and puts it in the crook of his elbow, as for a bishop, and they look at the Rotunda's roof for some time.".
+    Says "Hepzibah takes her time with the pencil. 'You will tell me I am a fool,' she says, 'and I'll write that down also.' She goes to the loft window where Gosse is standing with his head on one side. You do not hear what is said. You see him turn round. He takes her hand and puts it in the crook of his elbow, as for a bishop, and they look at the Rotunda's roof for some time.".
     On discuss { Assert hepzibahSpoke(actor). }
   }
   Topic hep_silent with hepzibah "No. It would only make it harder" answering hepzibah_heart when true {
-    Says "'Yes,' she says. 'It would.' She opens the book at the next scene. 'Thirty-four years,' she says, 'is a long time to be prompter to a man's life. I should hate to start giving my own lines.' Her pencil goes down the margin. It does not shake.".
+    Says "'Yes,' she says. 'It would.' She opens the book at the next scene. 'Thirty-four years,' she says, 'is a great many years to be prompter to a man's life. I should hate to start giving my own lines.' Her pencil goes down the margin. It does not shake.".
     On discuss { Assert hepzibahSilent(actor). }
   }
   Topic kit_oriel with kit "Ask Kit about Oriel Marchant" when twinsMet(party) and not kitStays(party) and not kitLeaves(party) once {
@@ -229,7 +229,7 @@ Module pentrice "Gosse's Company" {
   Observe fallow_gracious at rot_front when fallowSeen(party) "Corin Fallow's portraits are all looking at the door again. He has been talked into the second row and has taken it with grace, and told everyone on the Row that it was his idea.".
   Observe spandrel_chancellor at lant_stage when maskersSeen(party) "Spandrel, in the Chancellor's robe borrowed from the real one, is playing the Chancellor in the Wick's afterpiece, and the real Chancellor is in the second tier, mouthing the lines.".
   Observe twins_after near oriel when twinsSorted(party) and commandDone(rierdan) "Oriel and Cyprian stand together on the Wick's stage after the call with their arms linked, a matched pair, and the house is saying their names in the wrong order.".
-  Observe pomfret_sat near crake when pomfretStood(party) and commandDone(rierdan) "Master Mauger sits through the afterpiece with the note in his hand and the smile of a man who knows he has been outplayed but not by whom.".
+  Observe pomfret_sat near crake when pomfretStood(party) and commandDone(rierdan) "Master Mauger sits through the afterpiece with the note in his hand and the smile of someone who knows he has been outplayed but not by whom.".
 
   // ── What the arcs were for ───────────────────────────────────────────────────────────────────────────────────────
   // Each answer given in the wings or the wardrobe is paid out in the command performance, once, by something that reads it.
@@ -298,4 +298,12 @@ Module pentrice "Gosse's Company" {
   Rule seal_found_out when holdingCommand(rierdan) and sceneV(rierdan) == 5 and sealUsed(rierdan) and not sealPaid(rierdan) and at(party, lant_stage)
     says "In the second tier the Chancellor of the Realm has been handed a letter, by a clerk of the Household, about a sealed summons presented at the Tower of Coin on the night the Wick opened. He reads it. He looks at his daughter. He does not speak, which is worse." { Assert sealPaid(rierdan). Increase chaos(rierdan) by 1. }
   Relation sealPaid(place).
+  Relation presPaid(place). Relation mumPaid(place).
+  Rule press_smashed_costs when holdingCommand(rierdan) and sceneV(rierdan) == 1 and printerSmashed(rierdan) and not presPaid(rierdan) and at(party, lant_stage)
+    says "A boy in the pit is selling a sheet printed in Hog Lane that morning: THE KING'S PLAYERS UNMASKED, or THE PLAYERS AND THE PRESS. The House has been reading it through the first scene. There is a woman in the third row whose name is in it." { Assert presPaid(rierdan). Increase chaos(rierdan) by 1. }
+  Rule press_bought_pays when holdingCommand(rierdan) and sceneV(rierdan) == 1 and printerBought(rierdan) and not presPaid(rierdan) and at(party, lant_stage)
+    says "The playbills in the house are Gadsby's best, and in the right type, and the bill says what the play is. The King has read it twice and is smiling at the right line before it comes." { Assert presPaid(rierdan). Increase standingR(rierdan) by 1. }
+  Rule mummers_pay when holdingCommand(rierdan) and sceneV(rierdan) == 2 and mummersLicensed(rierdan) and not s2Done(rierdan) and not mumPaid(rierdan) and at(party, lant_stage)
+    says "The horse from the Gate Street, in his ribbon, comes onto the stage with the masquers' wagon and turns out to be the best-received thing so far. Spandrel hands the man in the mask his own cue, and the masquers sit down in the pit as people who have been licensed." { Assert mumPaid(rierdan). Assert s2Done(rierdan). Assert maskersSeen(party). }
+  Observe light_dukes_clue at lant_stage when lightLit(rierdan) and not lightLeft(rierdan) and sceneV(rierdan) == 3 and not ghostSatisfied(rierdan) "The ghost-light stands up straight and white at the centre of the stage, and the old man in the third chair, who has been looking at the stage with polite attention, looks at the light instead and, after a moment, nods to it, as to a colleague.".
 }

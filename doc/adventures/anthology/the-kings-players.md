@@ -2,7 +2,7 @@
 
 *A five-act continuation of Gosse's Company, played in Dun Rierdan, the City of Seven Towers. Each act is a different form; none ends in a civic settlement.*
 
-Data: `data/adventures/gosses-company/{rierdan,rier_cast,act1..act5,rier_side}.kyr` (module `pentrice`, listed in `module.json` and `placed.json`). Specs: `test/kings-players.test.ts` (43 specs; the ending specs cover grave, seat, door, quiet and the eight Act III outcomes). Governing document: `forms.md`.
+Data: `data/adventures/gosses-company/{rierdan,rier_cast,act1..act5,rier_side}.kyr` (module `pentrice`, listed in `module.json` and `placed.json`). Specs: `test/kings-players.test.ts` (32 specs in `kings-players.test.ts` and 11 in `kings-players-acts.test.ts`, with the played-route helpers in `test/support/kp.ts` and `kp3.ts`). Governing document: `forms.md`.
 
 ## Dun Rierdan is canonical here
 
@@ -71,7 +71,7 @@ Tics and anachronisms removed: "Michaelmas" is now "Haysel-tide"; tinfoil, progr
 
 **Authored but unreachable or only specced from a staged start:** Act II is still entered by `assert/put` (no natural walk); Act III's `beg_verrall`, `ask_the_king`, `steal_body`, `get_them_out` are linted but the specs reach their *endings* by staging the outcome flag; Act I's later scenes remain teleported; Act V's ending specs stage the Act III outcome and skip Acts II–IV; the side quests; Cyprian's and Oriel's topic answers (read by Observes, not specced).
 
-**Open after round four (honest list):** the Law tower's remaining rooms are read by Observes only; the printer, ghost-light and mummers side quests still feed only milestones and Observes; Act V's scenes are still driven by a seven-nod counter (what is done in them changes the coda, one ending split, a casualty and the Seal), but the ending is keyed first to how Act III ended; one unbroken natural-dice play exists (Pentrice to the last bow, on the quiet night) and the Antigone act is not played inside it; `put` still appears about 49 times and `assert` about 34 in the specs, mostly to enter an act (the Act II fly-loft and several Act III rooms) and the Act V ending specs stage the Act III outcome; the tic counts after the round-4 pass are: "I shall" 26 (kept for Swale, Gosse, Hepzibah, Verrall, Ambros, Clemency, the Chamberlain), "a long time" 11, "slowly" 7, "a man who" 8, "like a man" 3.
+**Open after round five (honest list):** the Law tower's remaining rooms are read by Observes only; Act V's scenes are still driven by a seven-nod counter; the Antigone act is played unbroken in ten routes and once on natural dice, but each route forces its one deciding throw (`pass()` before the action that selects it), and the natural run forces nothing; the Act I farce path (Kit, the Chancellor, the Oriels) and the Act II guard and horror specs, the Act III Stop and Jem specs, and the Act IV plan variants still enter their act with `put`/`assert` (31 `put` and 34 `assert` remain in `kings-players.test.ts`; the new `kings-players-acts.test.ts` and its helpers have none); the Act IV plans trade off in costs but were not simulated for balance; voices are improved but not audited line by line.
 
 **The engine cannot represent:** a performance as an object with an audience; a crowd with opinions; a persuasion chain that remembers tone; a heist whose route is spatial (the counting-room is one room); a body as something carried; an ending built from several independent outcomes (an Ending is one text, so the Act III outcome selects it and Acts IV and V speak in a coda).
 
@@ -124,3 +124,16 @@ Tics and anachronisms removed: "Michaelmas" is now "Haysel-tide"; tinfoil, progr
 | Act V altering outcomes | the `door` reversal, a casualty at ruin (`disaster_costs` removes Swale from the troupe), and the Seal | ending specs |
 | Prose | "holds her tongue" and the other substitutions in six places, "a impertinent", "a old", the Mousetrap is "the Duke of Ashmere" on the stage and the board, "as a man" similes recast, "the size of" recast, "I shall" cut for the plainer speakers | lint |
 | One unbroken play | `goes from the verdict through all five acts by labels alone`: the Trial fixture, herald, writ, road, gate, Sparrow, audition, terrace, Salt-Wives, night with salt, cancel, Wick, Pudding's plan, draper, opening night, Command, last bow, ending `quiet` | the spec |
+
+## Round five: what changed
+
+| Item | Fix | Played in |
+|---|---|---|
+| The Antigone act played unbroken | `test/support/kp.ts` and `kp3.ts` play the Trial, herald, road, gate, Act I (the Miser), Act II (salt, night, the Marshal's name given plainly), the Edict, and ten routes through Act III by label alone | `kings-players-acts.test.ts`: one spec per route, plus a natural-dice run |
+| Act V ending specs staged Act III | removed; each of grave, seat, door, pebble, chain, shamed, sea, staged, exile and river is reached at the end of its own unbroken play (quiet is the earlier unbroken play) | the same file |
+| `put`/`assert` | the old staged ending, Act II and Act III specs are gone; the new route specs use none | counts above |
+| Plans trade off | Oriel: clean but a price (the seal is found out at scene 5); Pudding: a fair roll but the coat is noticed (`coatSeen`, a point of alarm) and failure costs two; Tam: hard and a fall, but the roof route gives slack (`roofOut`, a leaving threshold of five); the clock is real (the charm and the box are shorter, so the nine o'clock bell bites) | the Act IV specs |
+| The box won't say why | `try_the_box` explains: no key, no hands, no clerk, and costs a point of alarm | the lie-to-Pardew spec |
+| Name-Day a note | a warning two days before, and at the fourth day the favour earned is forgotten | the Name-Day spec |
+| Side quests | ghost-light lit: a point less alarm on the opening night and the Duke's clue in scene 3; crooked: a point more; the printer: smashed, a libel read in scene 1; bought, a point of standing; hired, a hook for the box (`forgeryClue`); the mummers: the masquers are seated by the licence in scene 2 | the side-quest spec (printer and mummers) |
+| Tics and voices | "I shall" 26 to 10 (kept for Gosse, Swale, Verrall, Aubrey, Dorcas once); "a long time" and "slowly" replaced; "a man who" and "like a man" down to the ones that scan | lint |
