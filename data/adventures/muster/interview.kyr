@@ -6,15 +6,15 @@ Module muster "The Long Muster's Road" {
   // Centurion, the Archivist, the innkeeper and the reeve, each of whom wants to know one thing before they will
   // tell one thing.
   Measure prefectRegard(group). Relation interviewQ1(group). Relation interviewQ2(group). Relation interviewQ3(group).
-  Relation reeveNamed(group). Relation giantAnswered(group). Relation orsaAnswered(group). Relation rheaAnswered(group).
-  Relation mollAnswered(group). Relation merulaAnswered(group). Relation mollSwore(group).
+  Relation reeveNamed(group). Relation reeveNone(group). Relation orsaFair(group). Relation rheaFair(group). Relation giantAnswered(group). Relation orsaAnswered(group). Relation rheaAnswered(group).
+  Relation mollAnswered(group). Relation mollSwore(group).
 
   // The Prefect's interview.
   Topic corvin_q1 with corvin "Let the Prefect put his first question" when admitted(party) and not interviewQ1(party) once {
     Says "Corvin folds his hands on the accounts. 'I shall ask three things,' he says, 'as my fathers asked of every stranger who came to the gate, in the days when we had strangers. First: who sent you?'".
   }
   Topic corvin_q1_none with corvin "Say that nobody sent you: you came to see what the road led to" answering corvin_q1 when true {
-    Says "'Nobody,' says Corvin. 'No. Men used to come because they were told.' He nods. 'Go on.'".
+    Says "'Men used to come because they were told,' says Corvin. 'It is a long time since anyone came for the pleasure of it.' He nods, and waits.".
     On discuss { Assert interviewQ1(party). Increase prefectRegard(party) by 2. }
   }
   Topic corvin_q1_north with corvin "Say that the north sent you: you are what the Emperor's silence looks like" answering corvin_q1 when true {
@@ -22,18 +22,18 @@ Module muster "The Long Muster's Road" {
     On discuss { Assert interviewQ1(party). Increase prefectRegard(party) by 1. }
   }
   Topic corvin_q1_private with corvin "Say that you would tell him alone, and no one else" answering corvin_q1 when true {
-    Says "'Ah,' says Corvin, and glances at the clerk, who finds a reason to be at the far end of the hall. 'Then it is a thing worth hearing.' He leans forward. 'Go on.'".
+    Says "'Ah,' says Corvin, and glances at the clerk, who finds a reason to be at the far end of the hall. 'Then it is a thing worth hearing.' He leans forward, and the clerk's pen stops somewhere beyond the door.".
     On discuss { Assert interviewQ1(party). Increase prefectRegard(party) by 1. }
   }
   Topic corvin_q2 with corvin "Let the Prefect put his second question" when interviewQ1(party) and not interviewQ2(party) once {
     Says "'Second,' says Corvin. 'You came through the forum. You saw the standard. Tell me what you saw in it.'".
   }
   Topic corvin_q2_fine with corvin "Say that it is the most beautiful thing you have seen on the road" answering corvin_q2 when true {
-    Says "'It is,' says Corvin. 'I don't know why.' He sits back. 'Go on.'".
+    Says "'It is,' says Corvin. 'I have looked at it every day for sixteen years and I do not know why.' He turns his ring once on its finger.".
     On discuss { Assert interviewQ2(party). Increase prefectRegard(party) by 1. }
   }
   Topic corvin_q2_heavy with corvin "Say that it looks heavy: that it looks like something people carry" answering corvin_q2 when true {
-    Says "'Heavy,' says Corvin. 'Orsa says it. Elpis says it. A boy of ten said it last week.' He looks at the doors. 'Go on.'".
+    Says "'Orsa says that, and Elpis,' says Corvin. 'A boy of ten said it last week, to his mother, over soup.' He looks at the doors, and does not call for anyone.".
     On discuss { Assert interviewQ2(party). Increase prefectRegard(party) by 2. }
   }
   Topic corvin_q2_metal with corvin "Say that it is metal on a pole, and the people are the thing" answering corvin_q2 when true {
@@ -43,7 +43,7 @@ Module muster "The Long Muster's Road" {
   Topic corvin_q3 with corvin "Let the Prefect put his last question" when interviewQ2(party) and not interviewQ3(party) once {
     Says "'Third,' says Corvin, and his voice has changed. 'What is north of the Viaduct?'".
   }
-  Topic corvin_q3_kell with corvin "Say that there is a village, thirty houses round a trough, and they keep a lamp in the window" answering corvin_q3 when knows(actor, red_cloak_known) or been(party, green) {
+  Topic corvin_q3_kell with corvin "Say that there is a village, thirty houses round a trough, and they keep a lamp in the window" answering corvin_q3 when knows(actor, lamp_known) {
     Says "Corvin does not move. 'A lamp,' he says. 'In a window. For whom?' 'They don't know,' you say. 'They put it in because they always have.' He rubs his jaw. 'Well,' he says. 'We were looking at the wrong end.'".
     On discuss { Assert interviewQ3(party). Assert received(party). Increase prefectRegard(party) by 2. }
   }
@@ -62,24 +62,24 @@ Module muster "The Long Muster's Road" {
   }
   Topic giant_yes with giant "Say that the king is still king, and sends his regards" answering giant_asks when true {
     Says "'Good,' says the giant, with relief. He puts down the iron and takes a leg of mutton off the hook and holds it out. 'Eat. Don't tell the little ones.'".
-    On discuss { Assert giantAnswered(party). Increase quantity(actor, rations) by 3. }
+    On discuss { Assert giantAnswered(party). Increase quantity(actor, rations) by 2. }
   }
   Topic giant_no with giant "Say that the king is dead, and so is his kingdom, and you are sorry" answering giant_asks when true {
-    Says "The giant says nothing for a time. 'Then I keep the house for no one,' he says. 'That is easier. Go on. I'll mind the fire.' He does not offer the mutton.".
-    On discuss { Assert giantAnswered(party). }
+    Says "The giant turns the iron in the fire. 'Then I keep the house for no one,' he says. 'That is easier. Go on. I'll mind the fire.' He does not offer the mutton. At the door he tells you, unasked, what the marmots do when he wakes, which is the one thing he knows that is of use to anybody.".
+    On discuss { Assert giantAnswered(party). Assert knows(actor, marmots_known). }
   }
 
   // The reeve's question.
-  Topic reeve_names with hobday "Let the reeve ask where to write if you do not come back" when true once {
+  Topic reeve_names with cattermole "Let the reeve ask where to write if you do not come back" when true once {
     Says "The reeve has his hammer in his fist and a nail between his teeth. 'The board has forty-one names,' he says round the nail. 'Every one of them, I wrote, to somebody. I would like not to write a forty-second to nobody. Who?'".
   }
-  Topic reeve_name_one with hobday "Give the name of someone at home" answering reeve_names when true {
+  Topic reeve_name_one with cattermole "Give the name of someone at home" answering reeve_names when true {
     Says "He writes it in a small neat hand on a slip, and pins the slip to the board, under the others. 'There,' he says. 'That is done properly.'".
     On discuss { Assert reeveNamed(party). }
   }
-  Topic reeve_name_none with hobday "Say there is no one" answering reeve_names when true {
-    Says "'Then I'll write it to the road,' says the reeve, after a moment. 'It can have a letter. It has had all the rest of us.'".
-    On discuss { Assert reeveNamed(party). }
+  Topic reeve_name_none with cattermole "Say there is no one" answering reeve_names when true {
+    Says "'Then I'll write it to the road,' says the reeve, after a moment. 'It can have a letter. It has had all the rest of us.' He writes nothing on the board. He does not pin anything.".
+    On discuss { Assert reeveNone(party). }
   }
 
   // The apothecary's question.
@@ -87,11 +87,11 @@ Module muster "The Long Muster's Road" {
     Says "She sets down the pestle and looks at you very straight. 'Tell me honestly,' she says. 'You carried herbs over thirty miles of fell to sell to a woman you hadn't met. What did you think they were worth?'".
   }
   Topic orsa_ans_fair with orsa "Say that you asked a fair price, and would take a fair one" answering orsa_asks when true {
-    Says "'Fair,' she says, pleased. 'Then I shall be fair.' She opens a drawer. 'Kingsfoil, ninety. Is that fair?'".
-    On discuss { Assert orsaAnswered(party). }
+    Says "'Then I shall be fair,' she says, and is pleased, and does not hide it. She opens a drawer. 'Kingsfoil, ninety. Is that fair?' She counts twelve coin into your hand for the herbs you carried, and one more, and says that is the bread.".
+    On discuss { Assert orsaAnswered(party). Assert orsaFair(party). Increase quantity(actor, gold) by 12. }
   }
   Topic orsa_ans_high with orsa "Say that nothing from the north was ever worth less than gold to you" answering orsa_asks when true {
-    Says "'Gold,' she says, and laughs. 'We have no gold. We have salt and bread and I can give you a cure for anything you have.' She points a stained finger. 'But I take the compliment.'".
+    Says "'Gold,' she says, and laughs. 'We have no gold. We have salt and bread and I can give you a cure for anything you have.' She points a stained finger. 'But I take the compliment.' She does not open the drawer. A woman who is told her herbs are worth gold is a woman who expects to be asked for more.".
     On discuss { Assert orsaAnswered(party). }
   }
 
@@ -100,23 +100,23 @@ Module muster "The Long Muster's Road" {
     Says "Rhea does not look up. 'Aenean silver does not turn up in a stranger's pocket,' she says. 'Where did you get it? Be exact. I shall know.'".
   }
   Topic rhea_ans_road with rhea "Say you took it off the stack at the Eagle, where the Muster left it" answering rhea_asks when true {
-    Says "'Honest,' says Rhea. 'Dead men's silver on a dead men's road.' She weighs it. 'Fair.'".
-    On discuss { Assert rheaAnswered(party). }
+    Says "'Dead men's silver on a dead men's road,' says Rhea. She weighs it, and counts ten back out of her box. 'The finder's share. We always paid it.'".
+    On discuss { Assert rheaAnswered(party). Assert rheaFair(party). Increase quantity(actor, gold) by 10. }
   }
   Topic rhea_ans_sale with rhea "Say you were paid it, for a service, in the world beyond the Fells" answering rhea_asks when true {
-    Says "She looks at you for a long time. 'There is no world beyond the Fells,' she says. 'But I take your meaning.' She slides the coin back across the trestle. 'Do not say that to the Eagles.'".
-    On discuss { Assert rheaAnswered(party). }
+    Says "She looks at you for a long time. 'There is no world beyond the Fells,' she says. 'But I take your meaning.' She slides the coin back across the trestle. 'Do not say that to the Eagles.' She keeps five of it, for the silence, and does not say that she has.".
+    On discuss { Assert rheaAnswered(party). Decrease quantity(actor, gold) by 5 or to nothing. }
   }
 
   // The Archivist's question.
-  Topic moll_asks with moll "Let the Archivist ask what it is you want of the Annals" when annalsOpen(party) once {
+  Topic moll_asks with fenwarden "Let the Archivist ask what it is you want of the Annals" when annalsOpen(party) once {
     Says "'Before I show you a thing I must know what it will be used for,' says Fenwarden. 'A history in the wrong hand is a knife. What do you want to do with it?'".
   }
-  Topic moll_ans_know with moll "Say that you only want to know" answering moll_asks when true {
-    Says "'Only,' he says. 'Yes. That is what the first Archivist said. It is the right reason and the most dangerous.' He turns a page. 'Read.'".
+  Topic moll_ans_know with fenwarden "Say that you only want to know" answering moll_asks when true {
+    Says "'That is what the first Archivist said, in that chair,' he says. 'It is the right reason and the most dangerous.' He turns a page. 'Read.'".
     On discuss { Assert mollAnswered(party). }
   }
-  Topic moll_ans_swear with moll "Swear on the lamp of the shrine that you will not use it to harm the valley" answering moll_asks when true {
+  Topic moll_ans_swear with fenwarden "Swear on the lamp of the shrine that you will not use it to harm the valley" answering moll_asks when true {
     Says "He considers the oath for a long time. 'It is a fine thing to swear on,' he says. 'Eleven hundred years of lamp.' He nods, once. 'I shall hold you to it.'".
     On discuss { Assert mollAnswered(party). Assert mollSwore(party). }
   }

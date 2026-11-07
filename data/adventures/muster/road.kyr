@@ -78,7 +78,7 @@ Module muster "The Long Muster's Road" {
   }
   Rule stoop_clears when stooped(party) and not at(party, high2) and not hour(clock) >= 11 { Retract stooped(party). }
   Rule stoop_clears_late when stooped(party) and hour(clock) >= 14 { Retract stooped(party). }
-  Observe high_shadow at high1 as sign when true "Far up, in the white glare, something is hanging in the sky quite still, and then it is not.".
+  Observe high_shadow at high1 as sign when true "Far up, in the white glare, something is hanging in the sky, still, and then it is not.".
   Observe high_bones at gallery1 as sign when true "A sheep's skull lies by the mouth of the Gallery, opened at the crown. The herdsmen of Kell Ford will tell you why you do not cross the open stretch at noon.".
   Thing third_arch "the Third Arch" on gallery_b {
     State whole dangerous "The roadway across the Third Arch is paved and level, and looks as sound as the rest.".

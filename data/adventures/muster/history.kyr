@@ -9,23 +9,23 @@ Module muster "The Long Muster's Road" {
   Discovery schism_known "In the year 871 the Eagles proposed to send the standard itself north with the Sending, to be put into the Emperor's hand. In the night the gold wings were taken, and a brass eagle in a skin of bronze stood on the pole by morning. The Eagles said the Hearth had stolen them. A man was killed. The quarrel is two hundred and thirty-three years old.".
   Discovery two_sendings_known "In the year 1002 the valley sent two couriers, one by the Eagles and one in secret by the Hearth; neither came home; neither is in the Annals but in the margin, as: both.".
 
-  Topic moll_annals with moll "Ask the Archivist to open the Annals" when admitted(party) and not annalsOpen(party) and knows(actor, rufus_1) {
+  Topic moll_annals with fenwarden "Ask the Archivist to open the Annals" when admitted(party) and not annalsOpen(party) and knows(actor, rufus_1) {
     Says "He lifts down a book that takes both arms. 'Eleven hundred and four years, mostly weather and who was Prefect. Four years are written in red.' He keeps his hand on the cover. 'I show the red ones to someone who has sworn on the shrine lamp not to use them against the valley, and who has brought me one thing I do not already know. You have brought Rufus. Swear.'".
     On discuss { Assert annalsOpen(party). }
   }
-  Topic moll_wife with moll "Ask the Archivist about the year of the second wife" when annalsOpen(party) and mollSwore(party) {
-    Says "'The year two hundred and twelve,' says Fenwarden. 'The Prefect Aulus was an Eagle, and his wife an Eagle's daughter, and he thought she was barren. So he took a second wife from the Hearth, a farmer's girl with no Latin. And the first wife lived. The valley has eaten at two tables since.' He taps the line. 'The Prefect eats at the Eagles' table one day and the Hearth's the next. Nobody remembers why. Nobody has broken it.'".
+  Topic moll_wife with fenwarden "Ask the Archivist about the year of the second wife" when annalsOpen(party) and mollSwore(party) {
+    Says "'The year two hundred and twelve,' says Fenwarden. 'The Prefect Aulus was an Eagle, and his wife an Eagle's daughter, and he thought she was barren. So he took a second wife from the Hearth, a farmer's girl with no schooling. And the first wife lived. The valley has eaten at two tables since.' He taps the line. 'The Prefect eats at the Eagles' table one day and the Hearth's the next. Nobody remembers why. Nobody has broken it.'".
     On discuss { Assert knows(actor, second_wife_known). }
   }
-  Topic moll_plague with moll "Ask the Archivist about the plague winter" when annalsOpen(party) and mollSwore(party) {
+  Topic moll_plague with fenwarden "Ask the Archivist about the plague winter" when annalsOpen(party) and mollSwore(party) {
     Says "'Six hundred and forty. One in three.' Fenwarden turns a page. 'The Sending was due and the lot fell on a girl of nineteen, and she walked out of the gate with the pouch and fell down dead on the path with her white cord on. Nobody touched her for a day. Since then the courier wears a white cord. It is not for mourning. It is so the valley knows whose turn it was, if there is no one left to say.'".
     On discuss { Assert knows(actor, plague_winter_known). }
   }
-  Topic moll_schism with moll "Ask the Archivist about the Schism of the Standard" when annalsOpen(party) and mollSwore(party) {
+  Topic moll_schism with fenwarden "Ask the Archivist about the Schism of the Standard" when annalsOpen(party) and mollSwore(party) {
     Says "'Eight hundred and seventy-one,' says Fenwarden, in the voice of a man reading a charge sheet. 'A young Aquilifer proposed in the evening call that the standard be carried north with the Sending and put into the Emperor's hand. The Eagles roared. The Hearth said nothing. In the night the wings were taken. In the morning a brass eagle in a skin of bronze stood on the pole, and the Aquilifer, who loved the old bird more than his mother, hanged himself in the shrine.' He shuts the book. 'Three days of fighting in the forum. A man killed. The Eagles have said since that the Hearth stole the gold. The Hearth has said nothing at all.'".
     On discuss { Assert knows(actor, schism_known). }
   }
-  Topic moll_two with moll "Ask the Archivist about the year of two Sendings" when annalsOpen(party) and knows(actor, schism_known) {
+  Topic moll_two with fenwarden "Ask the Archivist about the year of two Sendings" when annalsOpen(party) and knows(actor, schism_known) {
     Says "'One thousand and two. The Annals say the Eagles' courier went, as ever. In the margin, in a hand I do not know, one word: BOTH. A courier from the Hearth, by the goat path, in the night.' He taps it. 'Neither came home. I have looked for the second name for thirty years.'".
     On discuss { Assert knows(actor, two_sendings_known). }
   }

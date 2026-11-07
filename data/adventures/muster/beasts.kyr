@@ -2,7 +2,7 @@ Module muster "The Long Muster's Road" {
   // ── The beasts of the road ──────────────────────────────────────────────────────────────────────────────────────
   // The goats know the sound stone; the kites know what will fall; the marmots know the giant's mood; the wolves know
   // the dark; the wyvern knows noon. A company that reads them can go where one that fights them cannot.
-  Relation followed(group). Relation kitesRead(group). Relation wolvesTolerated(group). Relation paidDeserters(group).
+  Relation kitesRead(group). Relation wolvesTolerated(group). Relation paidDeserters(group).
   Relation marcusMet(group). Relation marcusLetterShown(group).
 
   // ── Ridge-goats ─────────────────────────────────────────────────────────────────────────────────────────────────
@@ -17,7 +17,7 @@ Module muster "The Long Muster's Road" {
   }
   Observe goat_sign at track1 as sign when true "Where the path starts to climb the droppings are in a line, and every dropping is on a stone that does not move.".
   Action follow_goat_steep(actor: group, site: place) "Follow the ridge-goat up the steep, setting your feet where it sets its hooves" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, track1) and at(goat_steep, track1) and not followed(actor).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, track1) and at(goat_steep, track1).
     Time 3.
     On success { Assert at(actor, track2). }
     Result "It goes up the face as if the face were a stair, looking back twice with an expression of faint contempt, and you go up where it went and nowhere else. Every foot it uses holds. When you come to the top it is already standing on the next rock, chewing.".
@@ -83,6 +83,14 @@ Module muster "The Long Muster's Road" {
     Result "The picket-tower is one room, roofless, ten feet up a wall of squared stone, with a stone ladder-socket the legion's sentries used. A rope over the lip does the same. Below, in the heather, the pack walks round it twice, and sits down, and in the morning is gone.".
   }
   Observe picket_note at causeway3 as sign when true "The guard-post's tower has one wall standing to twice a man's height, and a ring-bolt cut in it. Wolf-marks go round its foot in a smooth path, as if it were a thing they had walked round for a long time.".
+
+  // A party that walks the causeway unanswered is not let walk it: the pack comes in at the end of the heather.
+  Relation wolfBitten(group).
+  Hazard wolf_rush "The pack closes on the road" means "Deal (2d8) physical damage to ally unless dexterity save against (14).".
+  Rule wolves_rush when at(party, causeway3) and not wolvesTolerated(party) and not wolfBitten(party) and able(wolves) and not dead(wolves)
+    says "The long note goes up behind you, and the heather moves. They have walked the ridge with you the whole way, and now they come in all at once." { Assert strikes(wolf_rush, party). Assert wolfBitten(party). }
+  Rule wolves_rush_back when at(party, causeway1) and not wolvesTolerated(party) and not wolfBitten(party) and hour(clock) >= 18 and able(wolves) and not dead(wolves)
+    says "At the head of the causeway the dark fills with sitting shapes." { Assert strikes(wolf_rush, party). Assert wolfBitten(party). }
 
   // ── The wyvern: noon, wind, and an empty nest ──────────────────────────────────────────────────────────────────
   Relation wyvernOut(group).

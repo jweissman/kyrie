@@ -3,7 +3,7 @@ Module muster "The Long Muster's Road" {
   // The legion's milestones: the numbers count down toward the Last, and say how far.
   Discovery days_known "The legion's milestones count the road down in cables, and the engineers' reckoning was three days' march from the Ford to the Last.".
   Observe milestone_causeway at causeway1 as sign when true "A milestone stands at the causeway's head, the wheel and a number cut in it. A later hand has scratched under it: THREE DAYS TO THE LAST." teaches days_known.
-  Observe milestone_far at via_s as sign when true "The abutment's milestone: CXX, in the legion's square capitals, and the wheel." teaches days_known.
+  Observe milestone_far at via_s as sign when true "The abutment's milestone: LXIII, in the legion's square capitals, and the wheel." teaches days_known.
 
   // What grows.
   Thing gorge_comfrey "the comfrey" at gorge1 is scenery { State growing "Comfrey grows in the wet below the road, tall hairy leaves and hanging bells.". }

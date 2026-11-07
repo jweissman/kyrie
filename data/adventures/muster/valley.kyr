@@ -21,7 +21,7 @@ Module muster "The Long Muster's Road" {
   // ── The pistrina: bread ─────────────────────────────────────────────────────────────────────────────────────────
   Person octa "Octa Draycott" at pistrina {
     Role "master baker of the Cohort". Ancestry human. Pronouns she. Manner jovial. Peaceable.
-    Sells rations for 1 coin from 20.
+    Sells rations for 3 coin from 20.
     Greets "A woman built like a gate-post, dusted white from hair to boots, turns a loaf out of its tin and holds it under your nose before you have spoken. 'Buccellatum,' she says. 'Twice-cooked, cumin, eleven hundred years of it. The Muster's recipe. Never improved. Never needed it.' You eat. It is, you discover, the best bread you have ever tasted, and you do not understand why.".
   }
   Observe pistrina_scene at pistrina when true "The pistrina is a long domed oven-house with six mouths, each fired by a boy, and the whole room smells of cumin, hot flour and scorched crust. The loaves come out in rows, each stamped with a wheel, each exactly the same weight. A tablet on the wall gives the day's baking in numerals and a column headed THE SENDING, with a single loaf ruled off in it.".
@@ -40,7 +40,7 @@ Module muster "The Long Muster's Road" {
     Says "'The March,' says Ursa Veldt. 'Thirty-three days from the capital to the Eagle, the places and the pay. They learn it at five and it is the first thing they can say.' She shrugs. 'They like the places with long names.'".
   }
   Topic veldt_rufus with veldt "Tell the schoolmistress that Rufus's scratches say they waited" when knows(actor, rufus_3) and knows(actor, rufus_4) once {
-    Says "She lowers the tablet, and the forty children go quiet in a way they have not been taught. 'We say, the Sixth Cohort lay in the hall,' she says. 'We say nothing of the rest. I have taught for thirty years the sixty days and never the hundred and twenty.' 'I'll add a day,' she says.".
+    Says "She lowers the tablet, and the forty children go quiet in a way they have not been taught. 'We say, the Sixth Cohort lay in the hall,' she says. 'We say nothing of the rest. I have taught for thirty years the hundred and forty days and never what the hundred and forty were for.' 'I'll add a day,' she says.".
     On discuss { Assert knows(actor, school_changes). }
   }
   Entity school_changes: fact "The schoolmistress will add a day to the March: the one where the soldiers wrote that they waited.".
@@ -60,18 +60,18 @@ Module muster "The Long Muster's Road" {
   // ── The salt-market ───────────────────────────────────────────────────────────────────────────────────────────
   Person rhea "Rhea Tarn" at salt_market {
     Role "the salt-reckoner, who sets the day's weights". Ancestry human. Pronouns she. Manner acerbic. Peaceable.
-    Buys toll_silver for 60 coin.
+    Buys toll_silver for 20 coin.
     Buys steel_coin for 6 coin.
     Sells lamp_oil for 3 coin from 6.
     Sells rope for 2 coin from 4.
-    Greets "A woman at a trestle with a steelyard, a ring of weights and a face like a sharp stone does not look at you; she looks at your coin. 'Aenean?' she says. 'Show me. It's the only money I take.' She weighs a chip of salt and sets it down. 'You have walked from the north with Aenean coin in your pocket. Do you have any idea what that is worth to a people who have not seen a new one in eleven hundred years?'".
+    Greets "A woman at a trestle with a steelyard, a ring of weights and a face like a sharp stone looks at your coin and not at you. 'Aenean?' she says. 'Show me. It's the only money I take.' She weighs a chip of salt and sets it down. 'You have walked from the north with Aenean coin in your pocket. Do you have any idea what that is worth to a people who have not seen a new one in eleven hundred years?'".
   }
   Person rhea_vault "Rhea Tarn's strongbox" at salt_market {
     Role "the reckoner's locked chest, opened for those she has asked". Ancestry human. Pronouns she. Peaceable.
     Seen when rheaAnswered(viewer) and not valleyTold(viewer).
-    Buys ancient_orrery for 300 coin.
-    Buys celestial_chart for 200 coin.
-    Buys antique_compass for 100 coin.
+    Buys ancient_orrery for 70 coin.
+    Buys celestial_chart for 45 coin.
+    Buys antique_compass for 25 coin.
   }
   Observe salt_shut at salt_market when valleyTold(party) "The trestle is folded and the steelyard taken in. A chalked board says CLOSED FOR THE REASONING OF WEIGHTS, and nobody in the square will say for how long.".
   Observe salt_market_scene at salt_market when true "A paved square under a bronze steelyard on a gallows, stalls of grey and pink and white salt in cones, and a ring of little weights stamped with the wheel. The salt comes from a spring above the valley, boiled in pans, and the market is quiet, careful, and a little holy. A man is weighing out a dozen pinches into a child's palm with the gravity of a surgeon.".
@@ -84,7 +84,7 @@ Module muster "The Long Muster's Road" {
     Role "a Hearth man, serving a year's Tally for withholding a tithe of barley". Ancestry human. Pronouns he. Manner stoic. Peaceable.
     Greets "A man stands in the middle of the yard on a worn flag, hands at his sides, counting aloud in a level, unhurried voice: 'Two hundred and eleven. Two hundred and twelve.' A clerk on a stool marks something at each number. He does not stop for you. He nods once and says, in the same breath, 'Two hundred and thirteen.'".
   }
-  Observe tally_scene at tally_yard when true "A small walled yard with a single flag worn into a dip by feet, and a clerk's stool, and a tablet. The Tally is the Muster's old punishment: stand, count, be marked. No one is beaten. No one is shut up. It is simply that the offender is made to say the days aloud, every one, until they are done. The sentence is a year, and the voice, after a hundred days, is quite flat.".
+  Observe tally_scene at tally_yard when true "A small walled yard with a single flag worn into a dip by feet, and a clerk's stool, and a tablet. The Tally is the Muster's old punishment: stand, count, be marked. No one is beaten. No one is shut up. It is simply that the offender is made to say the days aloud, every one, until they are done. The sentence is a year, and the voice, after a hundred days, is flat.".
   Topic hobbe_why with hobbe "Ask the man in the yard what he did" when true {
     Says "'Two hundred and fifteen,' says Hobbe, and then, between numbers, level and low: 'I kept back a tithe of barley. Eleven sacks. The Sending's.' 'Two hundred and sixteen.' 'We have the right to count our own.' 'Two hundred and seventeen.' 'My father kept back none and was a better man.'".
   }
@@ -98,7 +98,7 @@ Module muster "The Long Muster's Road" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, tally_yard) and at(hobbe, tally_yard) and quantity(actor, gold) >= 30 and not hobbeFreed(actor).
     Time 0.
     On success { Decrease quantity(actor, gold) by 30. Assert hobbeFreed(actor). Assert knows(actor, gold_known). Assert brassShown(actor). Retract at(hobbe, tally_yard). }
-    Result "The clerk takes the coin, and weighs it, and strikes a line through a tablet, and says, 'Day two hundred and forty-one, and remitted.' Hobbe stops counting in the middle of a number and stands there, swaying, as a man does who has put down a very heavy weight. 'The vine-house floor,' he says to you, quite normally, as if resuming a conversation. 'Under the trap. Don't give it to the Eagles, give it to the standard, and let them work out the rest.'".
+    Result "The clerk takes the coin, and weighs it, and strikes a line through a tablet, and says, 'Day two hundred and forty-one, and remitted.' Hobbe stops counting in the middle of a number and stands there, swaying, like a man who has just set down a sack. 'The vine-house floor,' he says to you, in an ordinary voice, as if resuming a conversation. 'Under the trap. Don't give it to the Eagles, give it to the standard, and let them work out the rest.'".
   }
   Discovery gold_known "The gold wings of the old standard were hidden by the Hearth under a vine-house floor in the Schism of 871, and the standard on its pole in the forum is brass.".
   Item gold_wing "the gold wing of the old standard" is golden_idol at gold_cellar hidden until gold_known.

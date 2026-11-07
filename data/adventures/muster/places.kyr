@@ -123,7 +123,7 @@ Module muster "The Long Muster's Road" {
   Passage via_parapet "the parapet" is passage between via_n and parapet taking 2 hours
     opening when lineFixed(party) "The parapet is a foot and a half of stone over four hundred feet of air, and there is no line on it."
     opening when not lateSeason() "Snow has closed the fifth arch. Nothing crosses it until the thaw.".
-  Passage via_parapet_out "the parapet, onward" is passage between parapet and via_s taking 2 hours opening when not lateSeason() "Snow has closed the fifth arch. Nothing crosses it until the thaw.".
+  Passage via_parapet_out "the parapet, onward" is passage between parapet and via_s taking 2 hours.
   Passage via_down "down the north pier" is ladder between via_n and river_n taking 2 hours needing rope opening when not lateSeason() "Snow has closed the fifth arch. Nothing crosses it until the thaw.".
   Passage river_ford "the river" is ford between river_n and river_s taking 1 hour.
   Passage via_up "up the south abutment" is ladder between river_s and via_s taking 2 hours needing climbing.
@@ -143,19 +143,19 @@ Module muster "The Long Muster's Road" {
   Passage descend_in "the Long Descent" is road between pass_s and descent taking 6 hours.
   Passage descend_gate "the road to the gate" is road between descent and gate taking 20 minutes.
   Passage gate_forum "the gate of the Last Cohort" is gate between gate and forum.
-  Passage forum_praetorium "the Praetorium steps" is steps between forum and praetorium_hall.
-  Passage prefect_door "the Prefect's door" is door between praetorium_hall and prefect_room.
-  Passage forum_barracks "the barracks yard" is road between forum and barracks.
-  Passage barracks_granary "the granary lane" is road between barracks and granary.
-  Passage forum_apothecary "the apothecary's door" is door between forum and apothecary.
-  Passage forum_archive "the archive door" is door between forum and archive.
-  Passage forum_shrine "the shrine steps" is steps between forum and shrine.
-  Passage forum_terraces "the terraces" is path between forum and terraces taking 10 minutes.
-  Passage forum_schola "the schola door" is door between forum and schola.
-  Passage forum_market "the salt-market" is road between forum and salt_market taking 5 minutes.
-  Passage forum_pistrina "the pistrina door" is door between forum and pistrina.
-  Passage forum_wall "the wall stair" is steps between forum and wall_walk.
-  Passage wall_sending "the Sending gate" is steps between wall_walk and sending_gate.
-  Passage barracks_tally "the Tally-yard gate" is gate between barracks and tally_yard.
-  Passage terraces_cellar "the trap in the vine-house floor" is steps between terraces and gold_cellar hidden until gold_known.
+  Passage forum_praetorium "the Praetorium steps" is steps between forum and praetorium_hall taking 1 hour.
+  Passage prefect_door "the Prefect's door" is door between praetorium_hall and prefect_room taking 30 minutes.
+  Passage forum_barracks "the barracks yard" is road between forum and barracks taking 1 hour.
+  Passage barracks_granary "the granary lane" is road between barracks and granary taking 1 hour.
+  Passage forum_apothecary "the apothecary's door" is door between forum and apothecary taking 1 hour.
+  Passage forum_archive "the archive door" is door between forum and archive taking 1 hour.
+  Passage forum_shrine "the shrine steps" is steps between forum and shrine taking 1 hour.
+  Passage forum_terraces "the terraces" is path between forum and terraces taking 2 hours.
+  Passage forum_schola "the schola door" is door between forum and schola taking 1 hour.
+  Passage forum_market "the salt-market" is road between forum and salt_market taking 30 minutes.
+  Passage forum_pistrina "the pistrina door" is door between forum and pistrina taking 30 minutes.
+  Passage forum_wall "the wall stair" is steps between forum and wall_walk taking 1 hour.
+  Passage wall_sending "the Sending gate" is steps between wall_walk and sending_gate taking 1 hour.
+  Passage barracks_tally "the Tally-yard gate" is gate between barracks and tally_yard taking 1 hour.
+  Passage terraces_cellar "the trap in the vine-house floor" is steps between terraces and gold_cellar taking 1 hour hidden until gold_known.
 }

@@ -31,7 +31,7 @@ Module muster "The Long Muster's Road" {
   }
   Observe marra_mark at eagle as sign when travelsWith(marra, party) "Low on the gate-arch where a boy would sit to rest, among the soldiers' scratches, three letters in a clumsy new hand: J.T. A DARE. Marra Tellis has stopped in the arch and is looking at them with her hand flat on the stone.".
   Topic marra_mark with marra "Ask Marra about the letters on the arch" when travelsWith(marra, party) and been(party, eagle) once {
-    Says "'That's his,' she says. 'He cut his J like that. He never could do a T.' Her voice is quite level. 'He was here. He got as far as here.' She does not look at you. 'What do I do now? Do I go on, or do I go home? You tell me. I don't know whose road this is.'".
+    Says "'That's his,' she says. 'He cut his J like that. He never could do a T.' Her voice is level. 'He was here. He got as far as here.' She does not look at you. 'What do I do now? Do I go on, or do I go home? You tell me. I don't know whose road this is.'".
   }
   Topic marra_on with marra "Tell her to come on: it is her brother's road too" answering marra_mark when true {
     Says "'It is,' she says. She shoulders the crook. 'I'll not stay behind a rock for a giant. Not now.'".
@@ -63,48 +63,48 @@ Module muster "The Long Muster's Road" {
 
   // ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
   // Fenn Hallam. Beat 1: the north head of the Viaduct (nerve). Beat 2: the Eagle (the note). Beat 3: the Archive (credit).
-  Initially Assert willing(dray, party).
-  Initially Set hire(dray) to 6.
-  Topic fenn_nerve with dray "Ask Fenn why he has stopped at the Viaduct's head" when travelsWith(dray, party) and at(party, via_n) once {
+  Initially Assert willing(fenn_hallam, party).
+  Initially Set hire(fenn_hallam) to 6.
+  Topic fenn_nerve with fenn_hallam "Ask Fenn why he has stopped at the Viaduct's head" when travelsWith(fenn_hallam, party) and at(party, via_n) once {
     Says "He is looking at the gap with the careful interest of a man looking at his own grave. 'I have drawn this from the north bank eleven times,' says Fenn Hallam. 'I have never gone on it. I did not tell you.' He swallows. 'I can do the arithmetic of a rope. I cannot make my feet do the arithmetic.' He glances at you. 'Will you think less of me, if I stay?'".
   }
-  Topic fenn_easy with dray "Tell him no: half the road is turning back, and he is the one who drew it" answering fenn_nerve when true {
-    Says "'Half the road is turning back,' says Fenn, trying it. 'And I drew it.' He gets some colour back. 'A man who has measured the thing isn't obliged to be killed by it.' He unbuckles the satchel. 'I'll go last. Take this; I want both hands.'".
-    On discuss { Increase fennTrust(dray) by 1. Assert fennCrossed(party). }
+  Topic fenn_easy with fenn_hallam "Tell him no: half the road is turning back, and he is the one who drew it" answering fenn_nerve when true {
+    Says "'Half the road is turning back,' says Fenn, trying it. 'And I drew it.' He gets some colour back. 'Measuring a thing doesn't oblige you to be killed by it.' He unbuckles the satchel. 'I'll go last. Take this; I want both hands.'".
+    On discuss { Increase fennTrust(fenn_hallam) by 1. Assert fennCrossed(party). }
   }
-  Topic fenn_push with dray "Tell him that he will cross, or stay in Kell Ford drawing it for the rest of his life" answering fenn_nerve when true {
+  Topic fenn_push with fenn_hallam "Tell him that he will cross, or stay in Kell Ford drawing it for the rest of his life" answering fenn_nerve when true {
     Says "He goes white, then grey, then goes to the parapet. 'You're right,' he says, thin. 'You're right and I hate you.' He crosses with his eyes shut, hand over hand, and is sick on the far side, and does not speak to you for an hour.".
-    On discuss { Assert fennCrossed(party). Assert fennPushed(party). Decrease fennTrust(dray) by 1 or to nothing. }
+    On discuss { Assert fennCrossed(party). Assert fennPushed(party). Decrease fennTrust(fenn_hallam) by 1 or to nothing. }
   }
 
-  Topic fenn_stay with dray "Tell him to wait at the north head; you will send word by the rope-way" answering fenn_nerve when true {
+  Topic fenn_stay with fenn_hallam "Tell him to wait at the north head; you will send word by the rope-way" answering fenn_nerve when true {
     Says "'Thank you,' says Fenn, like a man reprieved. He sits down on the paving with his back to the gap and takes out his pencil. His drawing of the north pier, when you see it again, is the best thing he has done.".
-    On discuss { Retract travelsWith(dray, party). Assert at(dray, via_n). Assert fennNerve(party). }
+    On discuss { Retract travelsWith(fenn_hallam, party). Assert at(fenn_hallam, via_n). Assert fennNerve(party). }
   }
-  Rule fenn_comes_over when fennNerve(party) and at(party, via_s) and at(dray, via_n) and not fennCrossed(party) and (knows(party, ropeway_known) or lineFixed(party))
+  Rule fenn_comes_over when fennNerve(party) and at(party, via_s) and at(fenn_hallam, via_n) and not fennCrossed(party) and (knows(party, ropeway_known) or lineFixed(party))
     says "A small figure on the north head has begun to come across the fifth arch on the Cohort's rope-way, hand over hand, with a satchel on his back and his eyes shut. It takes him most of an hour." {
-    Assert at(dray, via_s). Assert fennCrossed(party). Assert travelsWith(dray, party). }
-  Topic fenn_note with dray "Ask Fenn what he has found in the Eagle's wall" when travelsWith(dray, party) and been(party, eagle) once {
+    Assert at(fenn_hallam, via_s). Assert fennCrossed(party). Assert travelsWith(fenn_hallam, party). }
+  Topic fenn_note with fenn_hallam "Ask Fenn what he has found in the Eagle's wall" when travelsWith(fenn_hallam, party) and been(party, eagle) once {
     Says "He has found, in a niche behind the gate-arch, the engineers' note: a copper plate, eleven lines, in the Itinerarium's hand, giving the span and the method for a rope-way across the fifth arch. He reads it aloud, and stops, and reads it again. 'I could put my name to this,' he says, in a small voice. 'No one has seen it for eleven hundred years. It's a better idea than any I've had. It would be called Hallam's Crossing.' He looks up. 'What would you do?'".
   }
-  Topic fenn_credit with dray "Say it should be Thessaly Orde's, or the engineer's, whoever's it was: write down who" answering fenn_note when true {
+  Topic fenn_credit with fenn_hallam "Say it should be Thessaly Orde's, or the engineer's, whoever's it was: write down who" answering fenn_note when true {
     Says "'The engineers are dead,' says Fenn, 'and Orde, I think, is a name on a stud.' He pauses. 'It would be more honest.' He takes out his pencil and writes, under the note, in a careful hand: FROM THE ENGINEERS OF THE LONG MUSTER. COPIED BY F. HALLAM. His mouth twists. 'It is a worse title.'".
-    On discuss { Assert fennCredit(party). Increase fennTrust(dray) by 2. }
+    On discuss { Assert fennCredit(party). Increase fennTrust(fenn_hallam) by 2. }
   }
-  Topic fenn_take with dray "Say that he found it, he earned it, and no one will ever know" answering fenn_note when true {
+  Topic fenn_take with fenn_hallam "Say that he found it, he earned it, and no one will ever know" answering fenn_note when true {
     Says "'No one will ever know,' says Fenn, and his face lights, and then dims. 'That is rather the trouble, isn't it.' He copies the note into his own book, in his own hand, with the plate's number crossed out. 'Hallam's Crossing,' he says, to himself. It does not sound as good as it did.".
     On discuss { Assert fennTook(party). }
   }
-  Topic fenn_survey with dray "Tell Fenn the Archivist will print the survey, and ask whose name goes on it" when travelsWith(dray, party) and been(party, archive) and (fennCredit(party) or fennTook(party)) once {
+  Topic fenn_survey with fenn_hallam "Tell Fenn the Archivist will print the survey, and ask whose name goes on it" when travelsWith(fenn_hallam, party) and been(party, archive) and (fennCredit(party) or fennTook(party)) once {
     Says "Fenwarden, who has been listening, puts down his pen. 'My press prints the Annals of a people who do not know they are in a story,' he says. 'I can print Hallam. I can print the Engineers. I cannot print a lie, because the Annals would remember it for eleven hundred years. Choose.' Fenn looks at the schola's pupils, who are tracing his map on the wall with chalk, and at Livia Veldt, who has drawn the Viaduct's fifth arch better than he did.".
   }
-  Topic fenn_honest with dray "Tell him to put Livia Veldt's name beside his: she drew half of it" answering fenn_survey when true {
+  Topic fenn_honest with fenn_hallam "Tell him to put Livia Veldt's name beside his: she drew half of it" answering fenn_survey when true {
     Says "'Livia drew the arches,' says Fenn. His mouth works. 'I drew the road. Hallam and Veldt, then. Hallam first, because it is alphabetical, and I am weak.' Livia, who has understood nothing and everything, goes the colour of a poppy. 'The survey of the Long Muster's Road,' says Fenn, 'by two.'".
-    On discuss { Assert fennCredit(party). Increase fennTrust(dray) by 1. }
+    On discuss { Assert fennCredit(party). Increase fennTrust(fenn_hallam) by 1. }
   }
-  Topic fenn_alone with dray "Tell him it is his survey, and the Archive may do as it likes with the credit" answering fenn_survey when true {
+  Topic fenn_alone with fenn_hallam "Tell him it is his survey, and the Archive may do as it likes with the credit" answering fenn_survey when true {
     Says "'Mine,' says Fenn, and sits up. He takes the sheets and rolls them. Fenwarden watches him do it. In the morning the surveyor's bed is made, and the satchel and the Archive's copy of the Itinerarium are gone down the Descent.".
-    On discuss { Assert fennGone(party). Retract travelsWith(dray, party). Assert at(dray, descent). }
+    On discuss { Assert fennGone(party). Retract travelsWith(fenn_hallam, party). Assert at(fenn_hallam, descent). }
   }
   Observe fenn_credit_wall at schola when fennCredit(party) "On the wall of the schola, over the chalked map, a board: THE ROAD OF THE LONG MUSTER, SURVEYED BY F. HALLAM AND L. VELDT, FROM THE ENGINEERS' NOTES. Fenn Hallam has not been able to look at it for more than a moment at a time.".
 
@@ -177,11 +177,11 @@ Module muster "The Long Muster's Road" {
   }
   Topic ione_agree with ione "Say that you will not stop her, and that you will go behind" answering ione_rope when true {
     Says "'Thank you,' says Ione. She goes out on the parapet with her staff in front of her and the lead bell ringing, one step, one ring. Behind her the wind comes up the gap.".
-    On discuss { Assert ioneUnroped(party). }
+    On discuss { Assert ioneUnroped(party). Increase ioneTrust(ione) by 2. }
   }
   Topic ione_argue with ione "Argue that a god who made stone also made the hands that drive pitons" answering ione_rope when true {
-    Says "She hears it out. 'That is theology,' she says at last, 'and it is very good.' She takes the line and clips it to her habit with an air of grave ceremony. 'I shall tell him that I was persuaded.'".
-    On discuss { Assert ioneSafe(party). Increase ioneTrust(ione) by 1. }
+    Says "She hears it out. 'That is theology,' she says at last, 'and it is very good.' She takes the line and clips it to her habit with an air of grave ceremony. 'I shall tell him that I was persuaded.' She does not ring the bell again between here and the Cohort, and you notice that you are listening for it.".
+    On discuss { Assert ioneSafe(party). Decrease ioneTrust(ione) by 1 or to nothing. }
   }
   Topic ione_order with ione "Tell her she will wear the line, or she will turn back" answering ione_rope when true {
     Says "'You will not command me,' says Ione. 'But I will go back.' She picks up her staff and goes, without anger, along the road you came by, her bell ringing smaller and smaller. 'I am sorry,' she says, over her shoulder. 'I am sorry to be so very sure.'".
@@ -203,7 +203,7 @@ Module muster "The Long Muster's Road" {
     On discuss { Assert ioneKeeper(party). Retract travelsWith(ione, party). Assert at(ione, forum). }
   }
   Topic ione_go with ione "Say that the road has two ends, and the other one needs her" answering ione_stone when true {
-    Says "'Both ends,' says Ione, slowly. 'Yes.' She rises, and knocks the dust from her habit. 'I shall go back, then, and tell Kell Ford and the sea that it was a promise kept. And I shall bring back a cutting of the vine, to plant by the shrine at the Gallery.' She puts her palm on the stone one last time. 'II,' she says. 'Someone will cut it.'".
+    Says "'Both ends,' says Ione. 'Yes.' She rises, and knocks the dust from her habit. 'I shall go back, then, and tell Kell Ford and the sea that it was a promise kept. And I shall bring back a cutting of the vine, to plant by the shrine at the Gallery.' She puts her palm on the stone one last time. 'II,' she says. 'Someone will cut it.'".
     On discuss { Assert ioneHome(party). Increase ioneTrust(ione) by 1. }
   }
   Observe ione_shrine near ione when ioneKeeper(party) "Sister Ione has set up a niche in the forum wall with a stub of candle and a dish of boot-nails, and the first child has already left one.".

@@ -29,7 +29,7 @@ Module muster "The Long Muster's Road" {
   Observe ms_eagle at eagle as sign when true "The stone by the gate-arch says LX. It has been oiled. Someone comes here.".
   Observe gr_notch at pass_n as sign when true "Cut in the crag at a walker's eye, where the road goes through: RUFUS. DAY 34. THE GENERAL HAS GONE ON WITH THE EAGLES. HE SAYS HE WILL SEND FROM THE SEA. TELL MY WIFE THE BOOTS HELD. And under it the tallies, five strokes and a bar." teaches rufus_4.
   Observe ms_pass at pass_n as sign when true "In the notch: XXX, and a heap of small stones laid on its head, one for each spring that anyone has come this far.".
-  Observe ms_descent at descent as sign when true "On the Descent, the stones come thick, one to every few paces: X, VIIII, VIII, as if the engineers could not bear to leave the last miles uncounted. The paving has been swept between them.".
+  Observe ms_descent at descent as sign when true "On the Descent, the stones come thick, one to every mile, each swept: X, VIIII, VIII, as if the engineers could not bear to leave the last miles uncounted. The paving has been swept between them.".
 
   // The Cohort's own stone, inside the gate: the count ends.
   Observe ms_forum at forum as sign when true "Just inside the gate, at the foot of the forum steps, the last stone of the road: I. Nothing is cut after it. The mason left the rest of the face smooth, as one leaves a page.".

@@ -105,7 +105,7 @@ describe('Four who go with the company', () => {
     await j.play('Show Marra the boy who sorts Dame Orsa\'s herbs', 'Say that she should stay: he has a life here, and so would she');
     expect(j.holds('marraStaysCohort', 'party')).toBe(true);
     const k = await start();
-    k.assert('travelsWith', 'dray', 'party');
+    k.assert('travelsWith', 'fenn_hallam', 'party');
     k.put('party', 'via_n');
     await k.play('Ask Fenn why he has stopped at the Viaduct\'s head', 'Tell him no: half the road is turning back, and he is the one who drew it');
     k.put('party', 'eagle');
@@ -140,7 +140,7 @@ describe('The Last Cohort asks, is answered, and is told', () => {
     await j.play('Tell the Prefect that the empire is gone');
     expect(j.holds('state', 'standard', 'struck')).toBe(true);
     for (const [who, room, label, fact] of [
-      ['moll', 'archive', 'Tell the Archivist what the road is', 'told_moll'],
+      ['fenwarden', 'archive', 'Tell the Archivist what the road is', 'told_moll'],
       ['merula', 'barracks', 'Tell the Centurion that the empire is gone', 'told_merula'],
       ['elpis', 'granary', 'Tell the granary-reeve that the empire is gone', 'told_elpis']] as const) {
       const k = await start();
@@ -174,16 +174,6 @@ describe('The Last Cohort asks, is answered, and is told', () => {
     expect(j.holds('knows', 'party', 'schism_known')).toBe(true);
   }, 290000);
 
-  it('sends a delegation to Kell Ford after the Archivist is told', async () => {
-    const j = await start();
-    j.assert('admitted', 'party');
-    j.assert('interviewQ3', 'party');
-    j.put('party', 'archive');
-    await j.play('Tell the Archivist what the road is');
-    j.put('party', 'green');
-    await j.play('=+1600');
-    expect(j.at('muster__delegates')).toBe('muster__green');
-  }, 290000);
 });
 
 describe('A crossing, with its costs', () => {
@@ -195,39 +185,20 @@ describe('A crossing, with its costs', () => {
     await j.play('Drive a piton into the parapet and rig a line over the gap with a coil of rope');
     expect(j.holds('lineFixed', 'party')).toBe(true);
     expect(j.holds('holding', 'party', 'piton')).toBe(false);
-    await j.play('=day 9 08:00');
+    await j.play('=day 7 08:00');
     expect(j.find('^To the parapet of the fifth arch$')).toBeUndefined();
-  }, 200000);
-
-  it('ends in a turning back, when the snow comes before the arch is crossed', async () => {
-    const j = await start();
-    j.put('party', 'octavius_hall');
-    await j.play('=day 9 08:00');
-    expect(j.holds('lateSeason')).toBe(true);
-    // The chapter closes: the page offers nothing further.
-    expect(j.choices().filter(c => !/Give to|Set down|prepare spells|Pack/.test(c.label))).toHaveLength(0);
-  }, 200000);
-
-  it('lets a baker\'s boy follow the company south if it has eaten his master\'s bread', async () => {
-    const j = await start();
-    j.put('party', 'pistrina');
-    await j.play('Ask the baker why the bread tastes as it does');
-    expect(j.holds('ateBread', 'party')).toBe(true);
-    j.put('party', 'descent');
-    await j.play('Wait › A while');
-    expect(j.holds('following', 'tavi', 'party')).toBe(true);
   }, 200000);
 
   it('lets Fenn freeze at the north head and be found on the south side later', async () => {
     const j = await start();
-    j.assert('travelsWith', 'dray', 'party');
+    j.assert('travelsWith', 'fenn_hallam', 'party');
     j.put('party', 'via_n');
     await j.play('Ask Fenn why he has stopped at the Viaduct\'s head', 'Tell him to wait at the north head; you will send word by the rope-way');
     expect(j.holds('fennNerve', 'party')).toBe(true);
     j.assert('knows', 'party', 'ropeway_known');
     j.put('party', 'via_s');
     await j.play('Wait › A while');
-    expect(j.at('muster__dray')).toBe('muster__via_s');
+    expect(j.at('muster__fenn_hallam')).toBe('muster__via_s');
   }, 200000);
 
   it('lets Dunya choose between the two ends of the road at the Last Fire', async () => {

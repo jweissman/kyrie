@@ -33,3 +33,6 @@
 23. **A queried name can shadow a canonical query** (`home`): the vocabulary check says "redefines canonical query".
 24. **Time**: a gauntlet's length is the sum of its passages; text and tests had to be reconciled to it, not the other way round. Doubling every road passage was cheaper than rewriting eleven descriptions.
 25. **A companion who carries things takes them when she goes**: a pouch in Marra's pack was lost to the company when she stayed behind at the Pass.
+26. **A closing passage must be audited for the occupant**: `opening when` closes both directions, so a party standing *on* the closed span has no exit; the parapet needed its far end left open.
+27. **Narrow clock windows on rules are fragile**: `hour >= 18 and hour < 19` retracts only if a tick lands inside it. The gate's cooling now needs a night (`gateNight`) then a morning window; this relies on the clock ticking through, which the spec exercises only for the walk, not a long wait.
+28. **No journey API for the clock's day**: the spec reads `measure('watch', 'clock')` in ten-minute units and reasons from 864 = the seventh day.

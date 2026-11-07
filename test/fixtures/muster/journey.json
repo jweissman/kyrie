@@ -22,7 +22,7 @@
   "Ask Marra about the roads",
   "Ask Marra Tellis to join the company"
  ],
- "stock": [],
+ "stock": ["To the Last Fire", "Ask Maud why the village keeps a lamp in the window", "Out to Kell green"],
  "first_days": [
   "To the goatherds' track",
   "To the steep of the track",

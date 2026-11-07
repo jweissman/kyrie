@@ -4,7 +4,7 @@
   "calendar": { "year": 1312, "month": 9, "day": 4 },
   "pitch": {
     "heading": "A company for the Hesper Fells",
-    "text": "Sixty miles of road the Aeneans built in a season and the mountains have taken back in eleven hundred years: bridges down, galleries fallen, mansios roofless. At its far end, they say, someone still lights the lamps. Choose three companions, and decide what to carry."
+    "text": "Thirty miles of road the Aeneans built in a season and the mountains have taken back in eleven hundred years: bridges down, galleries fallen, mansios roofless. At its far end, they say, someone still lights the lamps. Choose three companions, and decide what to carry."
   },
   "modules": [
     { "id": "muster", "bundle": "../adventures/muster/module.json" }
