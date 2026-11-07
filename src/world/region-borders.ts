@@ -29,6 +29,7 @@ export class RegionBorders {
   private static border(b: Border, region: Region, mark: string): string[] {
     const q = JSON.stringify, id = this.room(b), [x, y] = RegionGeography.spot(region, b.cell);
     const from = region.settlements[b.seat]!, beyond = region.beyond?.[b.side];
+    if (beyond?.sea) { return this.shore(b, region, beyond.name); }
     const land = beyond && `${beyond.name}, ${RegionGeography.terrain(beyond.terrain)} country`;
     // An authored country entered from another side: the folk know there is no road over into it from here.
     const there = !beyond ? '' : beyond.closed ? ` Beyond it lies ${land}, the folk say; but no road goes over into it from this side.${beyond.way ? ` The way in is from ${beyond.way}, they say.` : ''}`
@@ -42,6 +43,19 @@ export class RegionBorders {
       `  Passage ${id}_road ${q(`the old road ${b.side}`)} is road between ${from.id}_green and ${id} taking ${RegionRoads.time(Math.max(60, b.road.hours * RegionRoads.minutesPerHour))}.`,
       `  Observe ${id}_scene at ${id} when true ${q(`${mark}${there}`)}.`,
       ...this.rumour({ room: this.room(b), way: `the road ${b.side}`, seat: b.seat }, beyond, region)];
+  }
+  // Where the road comes down to a great sea (see WorldShape): the shore, named for the sea and seen from it, and no
+  // road over; the sea is crossed by ship, not on foot (the march toward it is not a march: see Frontier.closed).
+  private static shore(b: Border, region: Region, sea: string): string[] {
+    const q = JSON.stringify, id = this.room(b), [x, y] = RegionGeography.spot(region, b.cell), at = borders.shore;
+    const from = region.settlements[b.seat]!, seen = new Draw(`${region.name}:shore:${b.side}`).pick(at.seen);
+    return [`  Place ${id}_land ${q(`the ${b.side}ern shore of ${region.name}`)} is wilderness within region at ${x}, ${y}.`,
+      `  Place ${id} ${q(this.said(at.room, region, sea))} is room within ${id}_land at 0, 0.`,
+      `  Passage ${id}_road ${q(at.road.replaceAll('{side}', b.side))} is road between ${from.id}_green and ${id} taking ${RegionRoads.time(Math.max(60, b.road.hours * RegionRoads.minutesPerHour))}.`,
+      `  Observe ${id}_scene at ${id} when true ${q(this.said(seen, region, sea))}.`];
+  }
+  private static said(text: string, region: Region, sea: string): string {
+    return text.replaceAll('{region}', region.name).replaceAll('{sea}', sea);
   }
   // What the folk of every town of the country say of an authored country beyond, asked: whoever keeps travellers
   // tells it, named for what it is about, and the way to it from where they are; and where its news is posted, the

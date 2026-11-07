@@ -40,7 +40,8 @@ export class CombatPresenter {
   }
   private static check(event: Extract<CombatEvent, { type: 'check' }>, actor: string): string {
     if (!event.actor) { return `None of you can try it (${event.skill}).`; }
-    const terms = [`${event.stat} ${event.modifier}`, ...event.trained ? [`${event.skill} ${event.trained}`] : []];
+    const terms = [`${event.stat} ${event.modifier}`, ...event.trained ? [`${event.skill} ${event.trained}`] : [],
+      ...event.tool && event.using ? [`${ItemCatalog.get(event.using).name.toLowerCase()} ${event.tool}`] : []];
     if (event.unrolled) {
       return `${actor} ${event.success ? 'needs no luck for it' : 'has no chance of it'} (${event.skill}: `
         + `${event.success ? 'at worst' : 'at best'} ${event.rolled} against ${event.difficulty}).`;

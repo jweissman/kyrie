@@ -1,6 +1,6 @@
 import { ModuleParser } from '../lang/module-parser';
 import { ModuleWriter } from '../lang/module-writer';
-import type { Module, Predicate } from '../lang/module';
+import type { Module, Operator, Predicate } from '../lang/module';
 import { FictionalTime } from '../campaign/fictional-time';
 import type { Entry, Section } from './model';
 
@@ -50,12 +50,18 @@ export class KyrDoc {
     return { id: `rule:${module.id}.${first.name}`, title: action ? first.name.replace(/_/g, ' ') : group.map(d => d.name).join(', '),
       status: 'kyr', kind: action ? `action (${(action.parameters ?? []).map(p => p.type).join(', ')})`
         : group.map(d => `${d.kind.toLowerCase()}${d.signature}`).join('; '),
-      facts: action ? [['Shown as', action.name], ['Takes', action.duration ? `the ${action.duration.name} of the way` : `${action.time * FictionalTime.minutesPerTick} minutes`],
+      facts: action ? [['Shown as', action.name], ['Takes', KyrDoc.takes(action)],
         ...action.cost ? [['Costs', String(action.cost)] as [string, string]] : []] : [],
       rules: [...first.comment, ...action?.description ? [action.description] : [], ...rule?.say ? [`Says: "${rule.say}"`] : []],
       text: code };
   }
   // A conjunction read as a list ("a; b; not c"), each part as the module writes it.
+  // How long an action takes: the measure of the way it reads, a value it works out, or so many minutes.
+  private static takes(action: Operator): string {
+    const d = action.duration;
+    if (!d) { return `${action.time * FictionalTime.minutesPerTick} minutes`; }
+    return d.kind === 'call' ? `the ${d.name} of the way` : `${ModuleWriter.value(d)} watches`;
+  }
   static condition(p: Predicate): string {
     const parts: Predicate[] = [], stack = [p];
     while (stack.length) {

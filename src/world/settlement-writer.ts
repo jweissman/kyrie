@@ -10,6 +10,7 @@ import { RegionShops } from './region-shops';
 import { Herbals } from './herbals';
 import { RegionMarket } from './region-market';
 import { Outfitters } from './outfitters';
+import { GeneralStores } from './general-stores';
 import type { Region, Settlement } from './region-writer';
 
 // A merchant's trade: who they are, their shop and what it looks like inside (a salt-house had no words of its own:
@@ -136,7 +137,9 @@ export class SettlementWriter {
   private static merchant(s: Settlement, f: Founding, region: Region): string {
     const t = this.trade(s), q = this.q;
     const have = t.stock.map(([w]) => w);
-    const wares = [...t.stock, ...RegionShops.wares(region, s, { trades: t.trades ?? [], have })];
+    const wares = [...t.stock, ...RegionShops.wares(region, s, { trades: t.trades ?? [], have }),
+      // A village's own chandler has its few ordinary things besides (see GeneralStores.village).
+      ...Outfitters.needed(s) ? [] : GeneralStores.village(region, s, have)];
     const sells = wares.map(([what, fee, n]) => `Sells ${what} for ${fee} coin from ${n}.`).join(' ');
     // A herbalist buys what is gathered wild besides (see Herbals).
     const buys = [...t.buys, ...t.profession === 'herbalist' ? Herbals.buys() : []]

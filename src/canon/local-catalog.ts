@@ -49,6 +49,8 @@ export class LocalKinds {
     const inherited: Partial<ItemKind> = { ...like, ...spec.grants ? { grants: { skill: spec.grants } } : {},
       ...spec.slot ? { slot: spec.slot } : {} };
     delete inherited.source;
+    // What it grants is in place of what its like is for: Gosse's crown of paste, like the glossary, is no glossary.
+    if (spec.grants) { delete inherited.tool; delete inherited.aids; }
     return { ...inherited, name: spec.name, category, description: spec.description ?? like?.description ?? spec.name,
       ...spec.worth !== undefined ? { value: spec.worth } : {}, ...spec.mass !== undefined ? { mass: spec.mass } : {},
       source: { kyr: true, notes: `Declared by the module ${module}.` } } as ItemKind & { mass?: number };
@@ -75,7 +77,8 @@ export class LocalKinds {
         ...item.hooks ? { hooks: item.hooks } : {}, ...item.weapon ? { weapon: item.weapon } : {},
         ...item.armor ? { armor: item.armor } : {}, ...item.use ? { use: item.use } : {},
         ...item.grants?.skill ? { capability: item.grants.skill } : {},
-        ...item.grants?.ability ? { ability: item.grants.ability } : {} };
+        ...item.grants?.ability ? { ability: item.grants.ability } : {},
+        ...item.tool ? { tool: item.tool } : {}, ...item.aids ? { aids: item.aids } : {} };
     }
     for (const [id, species] of Object.entries(catalog?.species ?? {})) {
       this.same('species', id, Canon.species[id], species);

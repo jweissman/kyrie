@@ -3365,6 +3365,8 @@ What grows wild in Imbar, and where: each is met where its country is, and more 
 - Good for: medicine, food, protection, invisibility
 - Found: seldom
 
+Amaranth: Heal (1) health to ally.
+
 > A tall plant with broad leaves and clusters of small, colorful flowers.
 
 ### Aster
@@ -3421,6 +3423,8 @@ What grows wild in Imbar, and where: each is met where its country is, and more 
 - Good for: medicine, cooking, protection, purification, healing
 - Found: seldom
 
+Bay: Heal (1d4) health to ally.
+
 > A shrub with aromatic leaves and small yellow flowers.
 
 ### Bloodroot
@@ -3435,6 +3439,8 @@ What grows wild in Imbar, and where: each is met where its country is, and more 
 - Good for: medicine, protection, healing, purification, love
 - Found: seldom
 
+Bloodroot: Heal (1d4) health to ally.
+
 > A perennial plant with large leaves and clusters of white flowers.
 
 ### Bruisewort
@@ -3448,6 +3454,8 @@ What grows wild in Imbar, and where: each is met where its country is, and more 
 - Gathered: a handful of bruisewort leaves
 - Good for: safety, healing, protection
 - Found: seldom
+
+Bruisewort: Heal (1d4) health to ally.
 
 > A hardy plant with thick leaves and small purple flowers.
 
@@ -3491,6 +3499,8 @@ What grows wild in Imbar, and where: each is met where its country is, and more 
 - Good for: medicine, protection, healing, escape, happiness
 - Found: seldom
 
+Celandine: Heal (1d4) health to ally.
+
 > A small plant with bright yellow flowers and lobed leaves.
 
 ### Cherry
@@ -3518,6 +3528,8 @@ What grows wild in Imbar, and where: each is met where its country is, and more 
 - Gathered: a stick of cinnamon bark
 - Good for: protection, love, healing, magic
 - Found: seldom
+
+Cinnamon: Heal (1d4) health to ally.
 
 > A small tree with aromatic bark and green leaves.
 
@@ -3623,6 +3635,8 @@ Dandelion: Heal (1d3) health to ally. Remove poison from ally.
 - Good for: protection, love, healing, magic
 - Found: seldom
 
+Dropberry: Heal (1d4) health to ally.
+
 > A small shrub with red berries that hang down from the branches.
 
 ### Dulse
@@ -3636,6 +3650,8 @@ Dandelion: Heal (1d3) health to ally. Remove poison from ally.
 - Gathered: a handful of dulse
 - Good for: food, lust, harmony, fertility
 - Found: seldom
+
+Dulse: Heal (1) health to ally.
 
 > A red seaweed with a leathery texture, commonly found along rocky shores.
 
@@ -3724,6 +3740,8 @@ Foxglove: Heal (1d4+2) health to ally. Remove poison from ally. Remove fatigue f
 - Gathered: a sprig of gilliflower
 - Good for: medicine, protection, love, strength, healing
 - Found: seldom
+
+Gilliflower: Heal (1d4) health to ally.
 
 > A fragrant plant with clusters of small, colorful flowers.
 
@@ -3899,6 +3917,8 @@ Healing herbs: Heal (1d6) health to ally.
 - Good for: protection, love, purification, healing, sleep
 - Found: seldom
 
+Rosemary: Heal (1d4) health to ally.
+
 > A woody herb with needle-like leaves and small blue flowers.
 
 ### Rosenoble
@@ -3926,6 +3946,8 @@ Healing herbs: Heal (1d6) health to ally.
 - Gathered: a sprig of rue
 - Good for: healing, love, health, magic
 - Found: seldom
+
+Rue: Heal (1d4) health to ally.
 
 > A bushy herb with bluish-green leaves and yellow flowers.
 
@@ -3998,6 +4020,8 @@ Bandages: Heal (1d4 + 1) health to ally.
 - Good for: protection, love, healing, magic
 - Found: seldom
 
+Sweetgrass: Heal (1d4) health to ally.
+
 > A tall grass with long, fragrant green blades.
 
 ### Tansy
@@ -4011,6 +4035,8 @@ Bandages: Heal (1d4 + 1) health to ally.
 - Gathered: a sprig of tansy
 - Good for: protection, love, healing, magic
 - Found: seldom
+
+Tansy: Heal (1d4) health to ally.
 
 > A tall plant with yellow button-like flowers and feathery leaves.
 
@@ -4026,6 +4052,8 @@ Bandages: Heal (1d4 + 1) health to ally.
 - Good for: protection, love, healing, magic
 - Found: seldom
 
+Thistle: Heal (1d4) health to ally.
+
 > A spiny plant with purple flowers.
 
 ### Thyme
@@ -4039,6 +4067,8 @@ Bandages: Heal (1d4 + 1) health to ally.
 - Gathered: a sprig of thyme
 - Good for: protection, love, healing, purification
 - Found: seldom
+
+Thyme: Heal (1d4) health to ally.
 
 > A low-growing herb with small green leaves and tiny purple flowers.
 

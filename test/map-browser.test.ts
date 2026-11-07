@@ -64,19 +64,20 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the map and the notes, to plan with
     await page.click('[data-action="origin"][data-id="debt"]');
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
-    await page.waitForSelector('[data-action="map-place"][data-id="region__edge_east"]', { timeout: 120000 });
-    await page.focus('[data-action="map-place"][data-id="region__edge_east"]');
+    // North: east of every first country is the Eastern Ocean, whose shore no road goes over (see WorldShape).
+    await page.waitForSelector('[data-action="map-place"][data-id="region__edge_north"]', { timeout: 120000 });
+    await page.focus('[data-action="map-place"][data-id="region__edge_north"]');
     await page.keyboard.press('Enter');
     const plan = await page.textContent('.plan');
     expect(plan).toContain('march-stone of');
-    expect(plan).toMatch(/By the old road east/);
+    expect(plan).toMatch(/By the old road north/);
     await page.click('.plan [data-action="set-out"]');
     await driver.settle();
-    // Gone on with, as the page offers, past whatever stops it on the road (on the bridge by Brightbridge, something
-    // going on there stops a journey, as a toll or nightfall would).
-    const onward = (c: ChoiceShape) => c.id === 'travel:region__edge_east';
-    for (let k = 0; k < 4 && (await driver.inspect()).choices.some(onward); k++) { await driver.pick(onward, 'go on'); }
-    expect((await driver.inspect()).place?.id).toBe('region__edge_east');
+    // Gone on with, as the page offers, past whatever stops it on the road (something going on there stops a journey,
+    // as a toll or nightfall would).
+    const onward = (c: ChoiceShape) => c.id === 'travel:region__edge_north';
+    for (let k = 0; k < 6 && (await driver.inspect()).choices.some(onward); k++) { await driver.pick(onward, 'go on'); }
+    expect((await driver.inspect()).place?.id).toBe('region__edge_north');
     expect(errors).toEqual([]);
     await page.close();
   }, 300000);

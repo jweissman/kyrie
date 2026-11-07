@@ -13,8 +13,9 @@ export interface Land {
 
 export class Terrain {
   static readonly size = { width: 20, height: 14 };
-  static make(key: string, terrain: string, size = this.size): Land {
-    const relief = Heights.make(key, terrain, size), water = Drainage.make(relief, terrain);
+  // shore: the side the world's shape gives to the sea, if it gives one (see Heights).
+  static make(key: string, terrain: string, size = this.size, shore?: Side): Land {
+    const relief = Heights.make(key, terrain, size, shore), water = Drainage.make(relief, terrain);
     const cover = LandCover.make(key, terrain, relief, water);
     return { width: relief.width, height: relief.height, heights: relief.heights, cover, water,
       ground: Geology.make(key, terrain, { width: relief.width, cover }),

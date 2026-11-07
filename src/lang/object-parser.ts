@@ -8,12 +8,13 @@ type Field = { field: string; value: unknown };
 // The object declarations of the Kyr grammar: an item or thing at a place, on a passage or inside a container,
 // perhaps hidden until something is known; a receptacle; a discovery found by searching a place.
 export class ObjectParser {
-  // ItemDecl = "Item" ident string? "is" ident ItemPlace Concealed? "."
+  // ItemDecl = "Item" ident string? "is" ident ItemPlace Concealed? ItemOwner? ItemEnd
   static item(id: Node, name: Node, kind: Node, where: Record<'place' | 'concealed' | 'owner' | 'end', Node>): Field {
-    const { place, concealed, owner, end } = where, site = ModuleParser.ast(place) as { anchor: string; id: string };
+    const { place, concealed, owner, end } = where;
+    const site = ModuleParser.ast(place) as { anchor: string; id: string } | undefined;
     const parts = end.sourceString === '.' ? undefined : ModuleParser.ast(end) as Pick<ThingSpec, 'states' | 'changes'>;
-    return { field: 'item', value: { id: id.sourceString, kind: kind.sourceString, place: site.id, ...parts,
-      ...(site.anchor === 'inside' ? { inside: true } : {}),
+    return { field: 'item', value: { id: id.sourceString, kind: kind.sourceString, ...site ? { place: site.id } : {},
+      ...parts, ...(site?.anchor === 'inside' ? { inside: true } : {}),
       ...(concealed.children.length ? { hidden: ModuleParser.ast(concealed.children[0]!) } : {}),
       ...(owner.children.length ? { owner: ModuleParser.ast(owner.children[0]!) } : {}),
       ...(name.children.length ? { name: ModuleParser.ast(name.children[0]!) } : {}) } };
@@ -26,6 +27,9 @@ export class ObjectParser {
   }
   static At(_at: Node, id: Node) { return { anchor: 'at', id: id.sourceString }; }
   static In(_in: Node, id: Node) { return { anchor: 'inside', id: id.sourceString }; }
+  // Nowhere: lying in no place, nor inside anything, until something puts it somewhere (a rule, an act, a gift), as a
+  // person nowhere is (M19-95: seven adventures had each declared a place of their own called nowhere or offstage).
+  static Nowhere(_nowhere: Node): undefined { return undefined; }
   static Concealed(_hidden: Node, _until: Node, fact: Node) { return fact.sourceString; }
   static thing(id: Node, name: Node, where: { site: Node; kind: Node; concealed: Node }, parts: Node): Field {
     const { site, kind, concealed } = where;

@@ -140,7 +140,7 @@ export class WorldConstructs {
     'track', 'road', 'causeway', 'bridge', 'ford', 'tunnel', 'crawl', 'culvert', 'drift', 'incline', 'ferry', 'climb',
     'portal', 'overland'];
   // An item instance with one name: the authored one, or its catalog kind's name.
-  static item(module: Module, i: { id: string; name?: string; kind: string; place: string; inside?: boolean;
+  static item(module: Module, i: { id: string; name?: string; kind: string; place?: string; inside?: boolean;
     hidden?: string; owner?: string } & Partial<Pick<ThingSpec, 'states' | 'changes'>>, kindName?: string) {
     if (!kindName) { throw new Error(`Item ${i.id} names a kind missing from the item catalog: ${i.kind}`); }
     module.entities.push({ id: i.id, type: 'item', name: i.name ?? ItemNames.called(kindName) });
@@ -151,7 +151,7 @@ export class WorldConstructs {
     }
     this.entity(module, i.kind, 'itemkind', kindName);
     this.assert(module, 'itemKind', i.id, i.kind);
-    this.assert(module, i.inside ? 'inside' : 'at', i.id, i.place);
+    if (i.place) { this.assert(module, i.inside ? 'inside' : 'at', i.id, i.place); }
     if (i.hidden) { this.assert(module, 'revealedBy', i.id, i.hidden); }
     // Whose it is: an owner who sees it in the company's hands, not lent, objects (belongings.kyr).
     if (i.owner) { this.assert(module, 'owns', i.owner, i.id); }
@@ -288,11 +288,11 @@ export class WorldConstructs {
   }
   static thing(module: Module, t: ThingSpec) {
     module.entities.push({ id: t.id, type: t.type, name: t.name });
-    if (!t.site) { throw new Error(`Thing ${t.id} needs a place or passage`); }
-    this.assert(module, t.site.anchor, t.id, t.site.id);
+    // One nowhere is in no place until something puts it somewhere (M19-95).
+    if (t.site) { this.assert(module, t.site.anchor, t.id, t.site.id); }
     // One seen from one end of its way bars it from that end only: a toll at the foot of a ladder, and down is free
     // (Behind the Wainscot's F5, BTW-06).
-    if (t.site.anchor === 'on' && t.site.from) { this.assert(module, 'barsFrom', t.id, t.site.from); }
+    if (t.site?.anchor === 'on' && t.site.from) { this.assert(module, 'barsFrom', t.id, t.site.from); }
     if (t.hidden) { this.assert(module, 'revealedBy', t.id, t.hidden); }
     if (t.holds) { this.assert(module, 'receptacle', t.id); }
     // Anything a company can handle can be tried, in the ways that suit it; scenery only in the ways its author
@@ -302,7 +302,7 @@ export class WorldConstructs {
       this.assert(module, 'probeable', t.id);
       for (const verb of tries) { this.assert(module, 'suits', t.id, verb); }
     }
-    this.states(module, t, t.site.anchor === 'on' ? { kind: 'beside', id: t.site.id, from: t.site.from }
+    this.states(module, t, t.site?.anchor === 'on' ? { kind: 'beside', id: t.site.id, from: t.site.from }
       : { kind: 'near', id: t.id });
   }
   // How a thing may be tried, by what anyone can see of it, so that offering a try gives nothing away: anything can

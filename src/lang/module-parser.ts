@@ -12,7 +12,7 @@ import { CatalogParser } from './catalog-parser'; import { Milestones } from './
 import { InformationParser } from './information-parser'; import { Endings } from './endings';
 import { LocalKinds } from '../canon/local-catalog';
 import { ModuleDeclarations } from './module-declarations'; import { ActionParts } from './action-parts';
-import { Superseded } from './superseded';
+import { Superseded } from './superseded'; import { Bringing } from './bringing';
 
 type Node = ohm.Node;
 type AstNode = ohm.Node & { ast(): unknown };
@@ -74,6 +74,7 @@ export class ModuleParser {
     Interruption: StatementParser.Interruption, Watchful: StatementParser.Watchful,
     Assert: StatementParser.Assert, Retract: StatementParser.Retract, Set: StatementParser.Set,
     Increase: StatementParser.Increase, Decrease: StatementParser.Decrease, Spend: StatementParser.Spend,
+    Bring: StatementParser.Bring, ThingSite_nowhere: ObjectParser.Nowhere, ItemPlace_nowhere: ObjectParser.Nowhere,
     Or_binary: StatementParser.Or, And_binary: StatementParser.And,
     Unary_not: StatementParser.Not, Unary_group: StatementParser.Group,
     Unary_true: StatementParser.True, Unary_false: StatementParser.False,
@@ -138,7 +139,7 @@ export class ModuleParser {
     module.entities.push(...expanded.entities); module.initial.push(...expanded.initial);
     if (expanded.observations.length) { (module.observations ??= []).push(...expanded.observations); }
     Spatial.addEscorts(module); Spatial.addSearches(module); Endings.rank(module, fields);
-    Superseded.lower(module, false);
+    Superseded.lower(module, false); Bringing.lower(module);
     // A module that never says what would end it goes on: Goal false is the default, and one file of a module in
     // several files says it for all of them.
     return module;

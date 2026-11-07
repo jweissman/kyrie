@@ -239,7 +239,7 @@ export class ChoiceGrouping {
   // The hour only, or with "tomorrow" if it ends on the next day ("3:00 p.m. on day 2" was said of a camp made in the
   // morning: play 11).
   private static until(action: Operator, minutes: number, world?: World): { until?: string } {
-    if (action.duration?.name !== 'untilMorning' || !world) { return {}; }
+    if (action.duration?.kind !== 'call' || action.duration.name !== 'untilMorning' || !world) { return {}; }
     const now = world.number(ModuleWriter.call('watch', 'clock')), end = now + Math.round(minutes / 10);
     const [today, time] = [FictionalTime.at(now).split(', ')[0], FictionalTime.at(end).split(', ')];
     return { until: time[0] === today ? time[1]! : `${time[1]!} tomorrow` };

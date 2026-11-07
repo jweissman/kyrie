@@ -55,7 +55,9 @@ export interface Operator {
   parameters?: { name: string; type: string }[];
   actor?: string; schema?: string; bindings?: Record<string, string>;
   id: string; name: string; description: string; requires: Predicate;
-  success: Change[]; failure: Change[]; cost: number; time: number; duration?: Call; resolve?: Call;
+  success: Change[]; failure: Change[]; cost: number; time: number; resolve?: Call;
+  // As many watches as this comes to as it is begun (Time travelTime(way), Time crossing(way) + 2: M19-96).
+  duration?: Value;
   // Less than a watch, in minutes (Time 2 minutes): minutes add up, and every ten of them is a watch passed.
   minutes?: number;
   // Until an hour of the clock, the next time it comes round or on a day (Time until day 2 hour 6): see ActionTime.

@@ -222,6 +222,9 @@ export class CanonValidation {
       if (i.grants?.skill && !Canon.skills[i.grants.skill] && !LocalKinds.local(id)) {
         this.fail(where, `grants unknown skill ${i.grants.skill}`);
       }
+      for (const s of [...i.tool ?? [], ...i.aids ?? []].filter(s => !Canon.skills[s])) {
+        this.fail(where, `is a tool of unknown skill ${s}`);
+      }
       // A use Kyr cannot run yet is said (unsupported.use: a wand of wonder's random effect), never left out.
       if (i.category === 'consumable' && !i.use && !i.unsupported?.use) { this.fail(where, 'a consumable needs a use'); }
       if (i.fuel && !Canon.items[i.fuel]?.use) { this.fail(where, `burns ${i.fuel}, which gives no light`); }

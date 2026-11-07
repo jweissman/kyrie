@@ -98,8 +98,9 @@ export class WorldAssembler {
     const heralds = await this.heralds(base, region, seed), standing = await this.library(base, this.standing);
     const { context, eligibility, placements } = this.settle(region, library, { seed, rid: RegionWriter.id,
       rounds: [options.scenarios ?? 3, options.towns ?? 2], exclude: [], heralds, standing });
-    // The country's provinces: its authored adventures that are parts of it, each with a way in on its land.
-    region.provinces = await Provinces.regions(Provinces.situate(region), base);
+    // The country's provinces: its authored adventures that are parts of it, each with a way in on its land (a
+    // harbour's at the head of a firth from the sea, let in then).
+    region.provinces = await Provinces.regions(Provinces.flood(region, Provinces.situate(region)), base);
     // One protagonist, with an origin in this world; or a company, each with an old acquaintance somewhere in it.
     const origin = options.origin ? (await Origins.load(base)).find(o => o.manifest.id === options.origin) : undefined;
     const party = origin ? [Origins.member(origin.manifest, (options.party ?? this.fixture)[0]!, !!options.party)]
@@ -164,7 +165,7 @@ export class WorldAssembler {
   static region(seed: string, at: [number, number], drawn?: Record<string, DeemValue>,
     { taken = [], first }: { taken?: string[]; first?: string } = {}): Region {
     const own = WorldGrid.seed(seed, ...at);
-    const d = WorldGrid.drawn(seed, ...at, drawn);
+    const d = WorldGrid.land(seed, at, drawn);
     const region = { ...PlaceNames.render(RegionPeoples.settle(this.lay(d, own, seed, taken), RandomStreams.key(own, 'world'))),
       at, beyond: WorldGrid.beyond(seed, at) };
     // Every country knows what authored country lies beyond it, where one does.
@@ -231,7 +232,7 @@ export class WorldAssembler {
   // where each kind can stand (those that can stand nowhere left out).
   static lay(drawn: Region, seed: string, world = seed, taken: string[] = []): Region {
     const atlas = Atlases.make(RandomStreams.key(seed, 'world', 'land'), drawn.terrain,
-      { tongue: PlaceNames.landTongue(drawn), taken: [drawn.name] });
+      { tongue: PlaceNames.landTongue(drawn), taken: [drawn.name], ...drawn.shore ? { shore: drawn.shore } : {} });
     const region = RegionRecruits.distinct(Livelihoods.seat(drawn, atlas, seed), seed);
     const history = Histories.make(RandomStreams.key(seed, 'world', 'history'), drawn.terrain, atlas,
       { world: RandomStreams.key(world, 'world', 'history'), taken });

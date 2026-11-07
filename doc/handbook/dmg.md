@@ -1200,7 +1200,7 @@ Also kept, without comment: established, reveals, intact, noticeable, destructib
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 2 | 20 | 0 | 0 | 0 | 5 |
+| 2 | 21 | 0 | 0 | 0 | 5 |
 
 #### readIn
 
@@ -1272,6 +1272,12 @@ They tell you what they know of it.
 
 > Then: Assert knows(actor, statement). Retract assumesFalse(actor, statement). Assert toldBy(actor, informant, statement).
 
+#### searchedAnywhere
+
+*Kyr · relation()* · `rule:discovery_rules.searchedAnywhere`
+
+Searched indoors, or wherever something reads a search of the place (LookAnswers.searches, the engine's): out of doors a search had found nothing nearly everywhere, and was offered everywhere (the owner, 6 November).
+
 #### search
 
 *Kyr · action (group, place)* · `rule:discovery_rules.search`
@@ -1282,7 +1288,7 @@ They tell you what they know of it.
 
 Go over the whole of the place, a little at a time: the ground, the walls, the backs of things. Twenty minutes, once; what it does not find is not there to be found, and a search the light gives out on is not made.
 
-> Needs: able(actor); at(actor, site); not (benighted(actor)); not (searched(actor, site))
+> Needs: able(actor); at(actor, site); not (benighted(actor)); not (searched(actor, site)); indoors(site)) or ((answers(site, rummaging)) or (searchedAnywhere())
 
 > Then: Assert searched(actor, site).
 
@@ -1886,7 +1892,7 @@ Also kept, without comment: passageKind, connects, on, guards, state, blocksWhen
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 8 | 36 | 2 | 24 | 0 | 6 |
+| 8 | 37 | 2 | 24 | 0 | 6 |
 
 #### scenery
 
@@ -1935,6 +1941,12 @@ A hazard that strikes a company: the world turns it on one of its members (a tra
 *Kyr · kind; relation(entity); relation(entity, verb); relation(entity, verb)* · `rule:world_passages.verb`
 
 What can be tried on a thing (looked over closely, prodded, pried at...), and what has been.
+
+#### answers
+
+*Kyr · relation(entity, verb)* · `rule:world_passages.answers`
+
+What a try or a search can find (LookAnswers, the engine's): a thing with states or contents, or one something reads the looking of, answers a look; a place something reads the searching of answers a search. Two places, so that a module may say it of what it only imports.
 
 #### changeAt
 
@@ -2284,7 +2296,7 @@ Nor does a conversation outlast whoever it was with falling, nor their turning o
 
 Anything that can be handled can be tried, in the ways its look suits (and any its author adds); what it does when tried is the author's (an observation, an event, a rule on tried). A try that finds nothing says so; offering it never reveals anything. Something already undone (a trap gone off, a seal broken, a lid off) is not prodded, pried at, pushed or listened at.
 
-> Needs: able(actor); at(actor, site); probeable(target); reaches(actor, target); not (benighted(actor)); suits(target, looking); not (tried(target, looking))
+> Needs: able(actor); at(actor, site); probeable(target); reaches(actor, target); not (benighted(actor)); suits(target, looking); answers(target, looking); not (tried(target, looking))
 
 > Then: Assert tried(target, looking).
 
@@ -3183,7 +3195,7 @@ Orsino's planes, traps, wonders, treasure and magic items, with how much of each
 | Dandelion | herb | type heal amount 1d3; type removeStatus statusName Poison | faithful |
 | Deck of Multiplicity | special | type randomEffect randomEffects [{"description":"Ace of Clubs","type":"buff","status":"haste","target":"self"},{"description":"King of Clubs","type":"buff","status":"scaleskin","target":"self"},{"description":"Dame of Clubs","type":"buff","status":"major_strength","target":"self"},{"description":"Jack of Clubs","type":"buff","status":"wisdom","target":"self"},{"description":"Ten of Clubs","type":"buff","status":"clarity","target":"self"},{"description":"Nine of Clubs","type":"buff","status":"focus","target":"self"},{"description":"Eight of Clubs","type":"buff","status":"rage","target":"self"},{"description":"Seven of Clubs","type":"buff","status":"steelskin","target":"self"},{"description":"Six of Clubs","type":"buff","status":"strength","target":"self"},{"description":"Five of Clubs","type":"buff","status":"ironskin","target":"self"},{"description":"Four of Clubs","type":"buff","status":"cunning","target":"self"},{"description":"Three of Clubs","type":"buff","status":"splendor","target":"self"},{"description":"Two of Clubs","type":"buff","status":"courage","target":"self"},{"description":"One of Clubs","type":"buff","status":"barkskin","target":"self"},{"description":"Ace of Coins","type":"cast","spellName":"death"},{"description":"King of Coins","type":"cast","spellName":"disintegrate"},{"description":"Dame of Coins","type":"cast","spellName":"flesh_to_stone"},{"description":"Jack of Coins","type":"cast","spellName":"meteor_swarm"},{"description":"Ten of Coins","type":"cast","spellName":"polymorph"},{"description":"Nine of Coins","type":"cast","spellName":"sandstorm"},{"description":"Eight of Coins","type":"cast","spellName":"chain_lightning"},{"description":"Seven of Coins","type":"cast","spellName":"ice_storm"},{"description":"Six of Coins","type":"cast","spellName":"fire_storm"},{"description":"Five of Coins","type":"cast","spellName":"cone_of_cold"},{"description":"Four of Coins","type":"cast","spellName":"dispel_magic"},{"description":"Three of Coins","type":"cast","spellName":"lightning_bolt"},{"description":"Two of Coins","type":"cast","spellName":"fireball"},{"description":"One of Coins","type":"cast","spellName":"ice_bolt"},{"description":"Ace of Swords","type":"damage","amount":"1d100","kind":"radiant"},{"description":"King of Swords","type":"damage","amount":"1d60","kind":"psychic"},{"description":"Dame of Swords","type":"damage","amount":"1d20","kind":"true"},{"description":"Jack of Swords","type":"damage","amount":"1d12","kind":"acid"},{"description":"Ten of Swords","type":"damage","amount":"1d10","kind":"sonic"},{"description":"Nine of Swords","type":"damage","amount":"2d8","kind":"poison"},{"description":"Eight of Swords","type":"damage","amount":"2d8","kind":"cold"},{"description":"Seven of Swords","type":"damage","amount":"3d6","kind":"fire"},{"description":"Six of Swords","type":"damage","amount":"3d6","kind":"necrotic"},{"description":"Five of Swords","type":"damage","amount":"3d6","kind":"lightning"},{"description":"Four of Swords","type":"damage","amount":"4d4","kind":"force"},{"description":"Three of Swords","type":"damage","amount":"4d3","kind":"slashing"},{"description":"Two of Swords","type":"damage","amount":"6d2","kind":"piercing"},{"description":"One of Swords","type":"damage","amount":"8d2","kind":"bludgeoning"},{"description":"Ace of Cups","type":"debuff","status":"asleep","saveDC":30},{"description":"King of Cups","type":"debuff","status":"confused","saveDC":30},{"description":"Dame of Cups","type":"debuff","status":"fatigue","saveDC":30},{"description":"Jack of Cups","type":"debuff","status":"fear","saveDC":30},{"description":"Ten of Cups","type":"debuff","status":"slow","saveDC":30},{"description":"Nine of Cups","type":"debuff","status":"weakened","saveDC":30},{"description":"Eight of Cups","type":"debuff","status":"feebleminded","saveDC":30},{"description":"Seven of Cups","type":"debuff","status":"petrified","saveDC":30},{"description":"Six of Cups","type":"debuff","status":"charmed","saveDC":30},{"description":"Five of Cups","type":"debuff","status":"blinded","saveDC":30},{"description":"Four of Cups","type":"debuff","status":"deafened","saveDC":30},{"description":"Three of Cups","type":"debuff","status":"paralyzed","saveDC":30},{"description":"Two of Cups","type":"debuff","status":"poison","saveDC":30},{"description":"One of Cups","type":"debuff","status":"silence","saveDC":30},{"description":"Ace of Hearts","type":"heal","amount":"3d20","target":"self"},{"description":"King of Hearts","type":"heal","amount":"4d12","target":"self"},{"description":"Dame of Hearts","type":"heal","amount":"4d10","target":"self"},{"description":"Jack of Hearts","type":"heal","amount":"4d8","target":"self"},{"description":"Ten of Hearts","type":"heal","amount":"3d8","target":"self"},{"description":"Nine of Hearts","type":"heal","amount":"4d6","target":"self"},{"description":"Eight of Hearts","type":"heal","amount":"5d4","target":"self"},{"description":"Seven of Hearts","type":"heal","amount":"6d3","target":"self"},{"description":"Six of Hearts","type":"heal","amount":"8d2","target":"self"},{"description":"Five of Hearts","type":"heal","amount":"14","target":"self"},{"description":"Four of Hearts","type":"heal","amount":"10","target":"self"},{"description":"Three of Hearts","type":"heal","amount":"9","target":"self"},{"description":"Two of Hearts","type":"heal","amount":"8","target":"self"},{"description":"One of Hearts","type":"heal","amount":"6","target":"self"},{"description":"Ace of Shields","type":"summon","creature":"dragon"},{"description":"King of Shields","type":"summon","creature":"pc"},{"description":"Dame of Shields","type":"summon","creature":"monster","options":{"_class":"elemental"}},{"description":"Jack of Shields","type":"summon","creature":"monster","options":{"_class":"aberration"}},{"description":"Ten of Shields","type":"summon","creature":"monster","options":{"_class":"fey"}},{"description":"Nine of Shields","type":"summon","creature":"monster","options":{"_class":"demon"}},{"description":"Eight of Shields","type":"summon","creature":"monster","options":{"_class":"giant"}},{"description":"Seven of Shields","type":"summon","creature":"monster","options":{"_class":"celestial"}},{"description":"Six of Shields","type":"summon","creature":"monster","options":{"_class":"construct"}},{"description":"Five of Shields","type":"summon","creature":"monster","options":{"_class":"beast"}},{"description":"Four of Shields","type":"summon","creature":"npc","options":{"race":"human"}},{"description":"Three of Shields","type":"summon","creature":"npc","options":{"race":"elf"}},{"description":"Two of Shields","type":"summon","creature":"npc","options":{"race":"dwarf"}},{"description":"One of Shields","type":"summon","creature":"animal"}] | represented |
 | Elixir of Strength | potion | type buff status strength | faithful |
-| First Aid Kit | kit | type heal amount 1d4+1; type removeStatus statusName Bleeding | faithful |
+| First Aid Kit | kit | type heal amount 1d4+1; type removeStatus statusName Bleeding | adapted |
 | Foxglove | herb | type heal amount 1d4+2; type removeStatus statusName Poison\|Fatigue\|Weakened | adapted |
 | Goodberry | food | type heal amount 1d4+1 | faithful |
 | Potion of Healing | potion | type heal amount 3d4+3 | faithful |
@@ -3238,19 +3250,19 @@ Orsino's planes, traps, wonders, treasure and magic items, with how much of each
 | Gloves | 2 | A pair of gloves for protecting your hands. | faithful |
 | Gown | 3 | An elegant gown for formal occasions. | faithful |
 | Hammer | 2 | A sturdy hammer for driving nails or breaking objects. | faithful |
-| Holy symbol | 5 | A holy symbol for religious ceremonies or warding off evil. | faithful |
+| Holy symbol | 5 | A holy symbol for religious ceremonies or warding off evil. | adapted |
 | Holy water | 25 | type damage kind radiant amount 2d6 condition {"trait":"undead"} | adapted |
 | Hose | 2 | A length of hose for carrying water or other liquids. | faithful |
-| Iron spikes | 1 | A set of iron spikes for securing tents or climbing walls. | faithful |
-| Ladder | 4 | A portable ladder for reaching high places. | faithful |
+| Iron spikes | 1 | A set of iron spikes for securing tents or climbing walls. | adapted |
+| Ladder | 4 | A portable ladder for reaching high places. | adapted |
 | Lamp | 3 | An oil lamp that provides light in dark places. | adapted |
 | Lantern | 7 | A lantern that provides bright light for extended periods. | adapted |
 | Lock | 10 | A sturdy lock for securing doors or chests. | faithful |
 | Manacles | 8 | A pair of manacles for restraining prisoners. | faithful |
 | Mirror | 5 | A small mirror for signaling or personal grooming. | faithful |
-| Musical instrument | 10 | A musical instrument for entertainment or rituals. | faithful |
+| Musical instrument | 10 | A musical instrument for entertainment or rituals. | adapted |
 | Needle and thread | 1 | A needle and thread for repairing clothing or gear. | faithful |
-| Piton | 1 | A metal spike for anchoring ropes in rock or ice. | faithful |
+| Piton | 1 | A metal spike for anchoring ropes in rock or ice. | adapted |
 | Pole | 2 | A long pole for support or investigation. | adapted |
 | Pot | 3 | A cooking pot for preparing meals while traveling. | adapted |
 | Pouch | 2 | A small pouch for carrying personal items. | adapted |
@@ -3267,7 +3279,7 @@ Orsino's planes, traps, wonders, treasure and magic items, with how much of each
 | Signal whistle | 1 | A whistle for signaling allies or alerting to danger. | faithful |
 | Skillet | 2 | A cast iron skillet for cooking meals over a campfire. | faithful |
 | Soap | 1 | A bar of soap for personal hygiene while traveling. | faithful |
-| Spellbook | 15 | A book containing spells and magical knowledge for wizards. | faithful |
+| Spellbook | 15 | A book containing spells and magical knowledge for wizards. | adapted |
 | Tent | 10 | A portable tent for shelter while camping outdoors. | faithful |
 | Thieves tools | 25 | A set of tools for picking locks and disarming traps. | adapted |
 | Torch | 1 | A wooden torch that provides light and can be used as a weapon. | represented |

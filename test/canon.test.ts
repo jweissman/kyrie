@@ -61,7 +61,7 @@ describe('the canon', () => {
   }, 120000);
 
   it('lists every place, identity and event it declares among its globals and its exports', () => {
-    const { globals, exports } = Canon.manifest(), declared = ['planes', 'outer', 'house', 'events']
+    const { globals, exports } = Canon.manifest(), declared = ['planes', 'outer', 'house', 'dun-rierdan', 'events']
       .flatMap(f => [...readFileSync(`data/imbar/${f}.kyr`, 'utf8')
         .matchAll(/(?:Place (\w+) "|Entity (\w+): (?:identity|fact) ")/g)].map(m => m[1] ?? m[2]!));
     expect([...globals].sort()).toEqual([...declared].sort());
