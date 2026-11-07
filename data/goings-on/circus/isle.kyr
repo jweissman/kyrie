@@ -61,7 +61,7 @@ Module circus "Wapshott's Peregrine Circus" {
   Passage landing_cliffs "the strand to the cliffs" is path between landing and cliff_foot taking 1 hour.
   Passage cliff_ledge_way "the ledge path" is path between cliff_foot and ledges taking 30 minutes needing climbing or rope.
   Passage ledges_top "the last pitch" is path between ledges and cliff_top taking 30 minutes needing climbing or rope.
-  Passage top_lake "the headland track" is path between cliff_top and lake_shore taking 1 hour.
+  Passage top_lake "the headland track down to the lake" is path between cliff_top and lake_shore one way taking 1 hour.
 
   // ── The sights, told as the preserve's own ──────────────────────────────────────────────────────────────────
   Observe landing_scene at landing when true "A stone quay stands at the mouth of a green bay, built by people who meant it to be seen from the sea. On every post is cut a crowned wheel, and the posts are hung with creeper. The jungle comes down to the quay and stops, as if told to.".

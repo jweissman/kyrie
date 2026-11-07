@@ -11,7 +11,7 @@ Module circus "Wapshott's Peregrine Circus" {
     Role "grey-feathered runners as tall as a man, feeding in the ferns". Species stilt_runner. Numbers 5. Peaceable.
   }
   Person hook_claws "the hook-claws" at hook_den {
-    Role "a pack of five, barred green and rust, on their own ground". Species hook_claw. Level 3. Numbers 5. Temperament territorial.
+    Role "a pack of five, barred green and rust". Species hook_claw. Level 3. Numbers 5. Temperament territorial.
     Warns "The click stops. All round the hollow, in the ferns, there are heads: long, barred, bright-eyed, turned. They do not hurry. One, nearer than the others, lifts a single hooked foot clear of the ground and lowers it.".
     Comes "The nearest hook-claw goes down on its hocks and comes, and the ferns close behind it with five others in them.".
     Lair hook_den. Refuge kingsfoil_hollow.
@@ -40,7 +40,7 @@ Module circus "Wapshott's Peregrine Circus" {
     Lair channels.
   }
   Person sail_wings "the sail-wings" at ledges {
-    Role "the colony, in its hundreds, on the nesting ledges". Species sail_wing. Level 2. Numbers 6. Temperament territorial.
+    Role "a colony of great-winged lizards, six hundred strong". Species sail_wing. Level 2. Numbers 6. Temperament territorial.
     Warns "The colony rises half off the ledge in one movement, bills open, crests up, a roar of wings. Not a single bird has left its nest.".
     Comes "The wings come down over you in a tearing white storm.".
     Lair ledges.
@@ -78,7 +78,7 @@ Module circus "Wapshott's Peregrine Circus" {
     Change spring_cage "Spring the calf's crate" from locked to sprung needing crowbar or lockwork.
     Holds.
   }
-  Rule calf_freed_rule at harrow_camp when state(calf_cage, sprung) and not calfFreed(party)
+  Rule calf_freed_rule at harrow_camp when at(party, harrow_camp) and state(calf_cage, sprung) and not calfFreed(party)
     says "Harrow's men look up from their mugs at the sound, and do not move. The calf comes out of the crate in a single sideways flow, and is gone into the mangroves with its tail out straight." {
     Assert calfFreed(party). Assert tolerates(hook_claws, party). Assert hookTolerates(party). Assert harrowBeaten(party). Retract tolerates(harrow_men, party).
   }
@@ -96,7 +96,7 @@ Module circus "Wapshott's Peregrine Circus" {
   Item egg_a "a grey loaf-big egg, warm as bread" is dragons_egg at egg_beds.
   Item egg_b "a second egg, a little darker" is dragons_egg at egg_beds.
   Item egg_c "a third, cracked and cold" is dragons_egg at egg_beds.
-  Rule egg_taken_rule at egg_beds when holding(party, dragons_egg) and not eggTaken(party) and not eggReturned(party)
+  Rule egg_taken_rule at egg_beds when at(party, egg_beds) and holding(party, dragons_egg) and not eggTaken(party) and not eggReturned(party)
     says "The beds are warm under your hand, and the egg is warm in it. Out in the mangroves, a long way off, there is a single hard click." {
     Assert eggTaken(party).
   }
@@ -184,7 +184,7 @@ Module circus "Wapshott's Peregrine Circus" {
   Rule crust_clears when crusted(party) and not at(party, bone_beds) { Retract crusted(party). }
 
   // ── The journal and the cages ─────────────────────────────────────────────────────────────────────────────────
-  Kind warden_journal "Warden Orme's journal" is document teaching journal_read described "A leather-bound book swollen with damp, in a fair copperplate hand: the day-book of the last Warden of the Southern Preserve, Anselm Orme, who kept it for thirty-one years and left it on the table in the hall.".
+  Kind warden_journal "Warden Orme's journal" is document teaching journal_read described "A leather-bound book swollen with damp, in a fair copperplate hand: the day-book of the last Warden of the Southern Preserve, Osric Orme, who kept it for thirty-one years and left it on the table in the hall.".
   Discovery journal_read "Warden Orme's journal: the Progress founded the Preserve four hundred years ago and went round its last time three hundred years since to keep beasts of the southern sea; the Great Beast sent north in the last Progress, to the King as a gift, was a lantern-neck, a calf of three summers, and went with a hook-claw cub from the forest to keep him company; the ship's master was told to feed him cabbages; the Preserve was left to itself when the Progress was disbanded; and the last entry is a note to whoever came after: PUT NOTHING IN A CAGE THAT CAN BE LET OUT OF ONE.".
   Item journal_item "Warden Orme's journal" is warden_journal at preserve_hall.
   Kind keepers_map "the Warden's map of the island" is document teaching map_read described "A map on tanned hide in the Warden's hand, with the island's six countries named and the beasts in each drawn in the margins, and a warning, in red, at the plain's north-west corner: THE TYRANT HUNTS AT EVENING.".
@@ -236,5 +236,6 @@ Module circus "Wapshott's Peregrine Circus" {
   Item tooth_c "a large tooth, black at the root" is dragons_tooth at tyrant_hollow.
   Item shell_a "an unusual seashell, the size of a fist" is unusual_seashell at landing.
   Item star_a "a fallen star, pitted and black, cold" is fallen_star at tar_pits.
+  Item channel_oil "a drowned net-man's oil-flask, stopped and full, caught in the roots" is lamp_oil at channels.
   Item bracelet_a "a bronze bracelet on a warden's wrist-bone" is bronze_bracelet at bone_beds.
 }

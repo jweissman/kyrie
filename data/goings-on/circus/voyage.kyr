@@ -133,8 +133,7 @@ Module circus "Wapshott's Peregrine Circus" {
   Rule home_from_sarn at green_a when voyaged(wapshotts) and homeward(wapshotts) and not backFromSarn(wapshotts) and not atSea(wapshotts) and at(party, green_a) {
     Assert backFromSarn(wapshotts). Retract away(wapshott). Retract away(fenwick). Retract away(billie). Retract away(mumchance). Retract away(crewe). Retract away(mudge). Retract away(nunn).
     Retract following(wapshott, party). Retract following(fenwick, party). Retract following(billie, party). Retract following(mumchance, party).
-    Set moveDay(wapshotts) to day(clock) + 1. Set homeDay(wapshotts) to day(clock). }
-  Measure homeDay(concern).
+    Set moveDay(wapshotts) to day(clock) + 1. }
   Chapter ch_voyage "The Sundial" when within(party, sundial) "Eleven days out, with a naturalist, a showman and a dead man's crew. The wagons are a long way behind.".
   Milestone m_clauses "had the contract read at sea" worth 100 when clausesRead(wapshotts).
   Milestone m_storm "rode out the storm with the Colonel" worth 150 when colonelCovered(wapshotts) or colonelNamedFear(wapshotts).

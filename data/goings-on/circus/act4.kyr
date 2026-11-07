@@ -1,6 +1,6 @@
 Module circus "Wapshott's Peregrine Circus" {
   // ── Act IV: the crate, the hatchlings, the Sundial, and what comes home ───────────────────────────────────────
-  // After the Revels. A crate comes for the Keeper of the Menagerie Royal, which the Colonel is, because he wrote a
+  // After the Revels. A crate comes for the Keeper of the Menagerie Royal, which the Colonel signed himself, whatever the Revels made of him, because he wrote a
   // letter in the first week of whatever the Revels made of him, to the one address in the Keepers' Book he had not tried. The eggs in
   // it hatch within a day. What the company does with a clutch of frightened, clever animals decides how the town
   // takes it; what they are decides where the Colonel goes next; and where he goes next is a place his Keepership
@@ -8,7 +8,7 @@ Module circus "Wapshott's Peregrine Circus" {
   Relation crateCome(concern). Relation crateOpened(concern). Relation eggsKept(concern). Relation eggsHatched(concern).
   Relation hatchlingsLoose(concern). Relation hatchlingsPenned(concern). Relation fenwickShown(concern).
   Relation voyageReady(concern). Relation voyaged(concern). Relation backFromSarn(concern).
-  Relation wapshottAboard(concern). Relation billieAboard(concern). Relation mumchanceAboard(concern). Relation fenwickAboard(concern).
+  Relation wapshottAboard(concern). Relation billieAboard(concern). Relation mumchanceAboard(concern).
   Relation trumpetPending(concern). Relation trumpetDone(concern). Relation colonelStopped(concern). Relation herdScattered(concern).
   Relation takeLeave(concern). Relation takeEgg(concern). Relation takeSpecimens(concern). Relation billieResigned(concern).
   Relation fenwickDispleased(concern). Relation colonelAwed(concern). Relation ruleRead(concern).
@@ -126,7 +126,7 @@ Module circus "Wapshott's Peregrine Circus" {
   }
   Topic fenwick_charter with fenwick "Ask Sir Gervase to charter the Sundial" when knows(actor, sarn_known) and knows(actor, ship_known) and not voyageReady(wapshotts) once {
     Says "'The Sundial,' says Sir Gervase. 'Yes. Done. Her master's wages, her bond, and a hold for specimens: a pair of each, for the Society, alive if possible, preserved if not, and a full account.' He beams. 'It is the largest undertaking of my life, and I am delighted to be paying for it. She sails on the morning ebb whenever you are ready. I shall go myself. I should not like to miss a thing.' And, as an afterthought, as if it were nothing: 'The Colonel will want to come. It is, after all, his Keepership.'".
-    On discuss { Assert voyageReady(wapshotts). Assert fenwickAboard(wapshotts). }
+    On discuss { Assert voyageReady(wapshotts). }
   }
   Topic wap_sail with wapshott "Tell the Colonel that Sir Gervase has chartered the Sundial" when voyageReady(wapshotts) and not wapshottAboard(wapshotts) once {
     Says "The Colonel takes off his hat, which is the only time you have ever seen it off in daylight. 'Sarn,' he says. 'A hundred and fifty miles south, and four hundred years since they laid it out.' His hands are trembling. 'I wrote to the one address I had not tried. That is the whole of my gift: I write to the one address I have not tried.' He puts the hat back. 'I shall bring my trumpet,' he says. 'And Ada's best opinion of me. And Billie, if she will come.'".
@@ -175,9 +175,10 @@ Module circus "Wapshott's Peregrine Circus" {
     says "The Colonel blows. It is a beautiful note, bright, brazen, perfectly pitched, and it goes out over the lake like a thrown plate. The nearest lantern-neck turns its small head, slowly. The herd takes one step, all together, to the left, and the shore is a shore of mud and spray and vast grey legs." {
     Assert trumpetDone(wapshotts). Assert herdScattered(wapshotts). Assert strikes(herd_stride, party). Retract trumpetPending(wapshotts). }
 
+  Observe herd_scattered_seen at lake_shore when herdScattered(wapshotts) "The mud is churned to soup. A calf is standing apart from the others, with its head up, looking back at the Colonel. Nobody has mentioned the trumpet.".
   Chapter ch_crate "The Crate" when crateCome(wapshotts) and not voyaged(wapshotts) "A sea-captain's crate has come for Colonel Wapshott, who signed himself Keeper of the Menagerie Royal. It is warm, and it is burnt with a crowned wheel, and the Colonel has seen the lid.".
   Chapter ch_sarn "The Isle of Sarn" when voyaged(wapshotts) and within(party, sarn) "A hundred and fifty miles south of the Cape, on a quay with a crowned wheel on every post, in a jungle where nothing has been shown for four hundred years.".
-  Chapter ch_after_sarn "After Sarn" when backFromSarn(wapshotts) "The Sundial has put them down at the fair town's quay. The wagons are where they were. Nothing else is.".
+  Chapter ch_after_sarn "After Sarn" when backFromSarn(wapshotts) "The Sundial has put them down at the fair town's quay. Whatever the Colonel took home, or left, the wagons are where they were.".
 
   Objective colonel_told when voyageReady(wapshotts) and not wapshottAboard(wapshotts) "Sir Gervase has chartered the Sundial. The Colonel will want to be told.".
   Objective crate_ask when crateCome(wapshotts) and not knows(party, crate_known) "A crate has come for Colonel Wapshott, who signed himself Keeper of the Menagerie Royal. Mate Crewe in the yard will say who sent it.".

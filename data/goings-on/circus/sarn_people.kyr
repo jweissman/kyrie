@@ -10,7 +10,7 @@ Module circus "Wapshott's Peregrine Circus" {
   Relation dabFound(concern). Relation dabTold(concern). Relation dabHidden(concern). Relation dabColonel(concern).
   Relation epitaphDone(group). Relation thorneBuried(group). Relation thorneRead(group). Relation fenwickYielded(concern).
   Relation harrowStory(concern). Relation crewLeft(concern). Relation crewHired(concern). Relation crewStranded(concern).
-  Relation bottleRead(group). Relation bottleCast(group). Relation bottleKept(group). Relation specimensSmall(concern).
+  Relation bottleRead(group). Relation bottleCast(group). Relation bottleKept(group).
 
   // ── Billie: a woman who has kept cages all her life and has come to see what they were for ─────────────────────
   Topic billie_asks with billie "Ask Billie what she makes of the cages in the hold" when billieSat(wapshotts) and atSea(wapshotts) and not billieCage(wapshotts) and not billieField(wapshotts) and not billieNeither(wapshotts) once {
@@ -78,7 +78,7 @@ Module circus "Wapshott's Peregrine Circus" {
   }
   Topic fenwick_a2 with fenwick "Say only the small and plentiful: the runners, the skimmers, the lizards" answering fenwick_scope when true {
     Says "'Plentiful,' he says. 'Yes. Yes, that is a principle.' He writes it down as though it were. 'A pair of each of the small. I can defend that to any committee in England.' He looks, you think, as though he had been let off.".
-    On discuss { Assert scopeSmall(wapshotts). Assert specimensSmall(wapshotts). Assert fenwickWants(wapshotts). }
+    On discuss { Assert scopeSmall(wapshotts). Assert fenwickWants(wapshotts). }
   }
   Topic fenwick_a3 with fenwick "Say all of them, if it keeps the Colonel in the Society's good books" answering fenwick_scope when not thorneBuried(party) {
     Says "He takes his pencil out. He does not write anything. 'You are kind,' he says, 'and you have not understood me at all.' He puts the pencil away. 'But it is what I wrote in the contract.'".
@@ -189,9 +189,9 @@ Module circus "Wapshott's Peregrine Circus" {
   Milestone m_bottle "carried the Hasty Mary's letter to the Keepers' Book" worth 200 when bottleKept(party).
 
   // ── The Coldharbour camp ─────────────────────────────────────────────────────────────────────────────────────────
-  Observe wreck_camp_scene at wreck_camp when true "A camp thirty years old, on the sand above the tide-line: six tents rotted to ribs, a table with a chart nailed to it, and a row of specimen-cases burst and emptied by weather. Three skeletons lie in the shade of the largest tent, side by side, with their boots still on. Someone has put a tarpaulin over one, and the tarpaulin has been eaten to lace.".
+  Observe wreck_camp_scene at wreck_camp when true "A camp thirty years old, on the sand above the tide-line: three tents rotted to ribs, a table with a chart nailed to it, and a row of specimen-cases burst and emptied by weather. Three skeletons lie in the shade of the largest tent, side by side, with their boots still on. Someone has put a tarpaulin over one, and the tarpaulin has been eaten to lace.".
   Kind thorne_journal "Dr Thorne's field-book" is document teaching thorne_read described "A salt-stained field-book in a small neat hand, the last entry dated nine days before the others. The drawings are good.".
-  Discovery thorne_read "Dr Edmund Thorne of Coldharbour came to Sarn with five companions in the year of the old king's death; they took fever from the delta water; he drew the lantern-necks at the lake, and wrote that he had never been so happy.".
+  Discovery thorne_read "Dr Edmund Thorne of Coldharbour came to Sarn with two companions in the year of the old king's death; they took fever from the delta water; he drew the lantern-necks at the lake, and wrote that he had never been so happy.".
   Item thorne_item "Dr Thorne's field-book" is thorne_journal at wreck_camp.
   Item thorne_glass "a brass spyglass, green with age" is spyglass at wreck_camp.
   Action bury_thorne(actor: group, site: place) "Bury the three dead of the Coldharbour camp" {

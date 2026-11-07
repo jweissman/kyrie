@@ -47,10 +47,12 @@ class Act {
     w.commit(w.world.apply([{ kind: 'set', call: ModuleWriter.call(c('waterCasks'), c('wapshotts')), value: ModuleWriter.number(n) }]));
   }
   async decide() {
-    this.rations(14);
+    this.rations(14); this.water(12);
+    this.put('party', 'deck');
     await this.j.play('=+520');
+    this.rations(14); this.water(12);
     this.put('wapshott', 'landing'); this.put('party', 'landing');
-    await this.j.play('Ask the Colonel what he means to take home');
+    await this.j.play('Ask the Colonel what he means to do now');
   }
   fenwick() { this.set('fenwickCome', 'fenwick'); this.unset('offstage', 'fenwick'); this.set('travels', 'fenwick'); this.put('fenwick', 'tober_a'); }
 }
@@ -213,6 +215,7 @@ describe("Wapshott's, Act IV: the crate", () => {
     expect(a.holds('dabColonel', 'wapshotts')).toBe(true);
     a.put('party', 'deck');
     await a.j.play('=+700', "To the Progress's landing");
+    a.water(12); a.rations(14);
     // The grave: the key finishes the epitaph.
     a.put('party', 'cage_row');
     await a.j.play('Set the Preserve\'s key in the seventh grave and read the last word');
@@ -235,10 +238,12 @@ describe("Wapshott's, Act IV: the crate", () => {
     await a.j.play('Take the slate Mumchance holds out to you', 'Write: it makes no difference');
     expect(a.holds('mumMatters', 'wapshotts')).toBe(true);
     a.set('clausesRead', 'wapshotts'); a.put('party', 'landing'); a.put('fenwick', 'landing');
+    a.water(12); a.rations(14);
     await a.j.play('Ask Sir Gervase which kinds he will take');
     a.put('fenwick', 'landing');
     await a.j.play('Say only the small and plentiful');
-    expect(a.holds('specimensSmall', 'wapshotts')).toBe(true);
+    a.water(12); a.rations(14);
+    expect(a.holds('scopeSmall', 'wapshotts')).toBe(true);
     // The bottle in the wrack.
     a.put('party', 'cliff_foot');
     await a.j.play('a green glass bottle in the wrack: Take');
@@ -289,7 +294,8 @@ describe("Wapshott's, Act IV: the crate", () => {
     c2.water(14); c2.rations(20);
     await c2.decide();
     c2.water(14); c2.rations(20);
-    await c2.j.play('=+1000', "To the Sundial's deck");
+    c2.put('party', 'deck');
+    await c2.j.play('=+1000');
     expect(c2.j.find('Take the Sundial out through the shut reef')).toBeDefined();
   }, 290000);
 
@@ -309,7 +315,7 @@ describe("Wapshott's, Act IV: the crate", () => {
     await stay.j.play('=+1600', "To the Progress's landing", '=+520');
     for (const f of ['namedLetGo', 'ruleRead', 'colonelMoved', 'billieAboard']) { stay.set(f, 'wapshotts'); }
     stay.put('wapshott', 'landing');
-    await stay.j.play('Ask the Colonel if he means to come home');
+    await stay.j.play('Ask the Colonel what he means to do now');
     expect(stay.holds('colonelStays', 'wapshotts')).toBe(true);
     expect(stay.holds('billieResigned', 'wapshotts')).toBe(true);
     const egg = await Act.start();
@@ -318,7 +324,7 @@ describe("Wapshott's, Act IV: the crate", () => {
     egg.put('wapshott', 'landing'); egg.put('party', 'landing');
     egg.set('billieAboard', 'wapshotts');
     egg.j.give('egg_a');
-    await egg.j.play('Ask the Colonel what he means to take home');
+    await egg.j.play('Ask the Colonel what he means to do now');
     expect(egg.holds('takeEgg', 'wapshotts')).toBe(true);
     expect(egg.holds('billieResigned', 'wapshotts')).toBe(true);
   }, 290000);
@@ -389,8 +395,7 @@ describe("Wapshott's, Act IV: the crate", () => {
     await a.toSarn();
     await a.j.play('=+1600', "To the Progress's landing");
     a.set('trumpetDone', 'wapshotts');
-    a.water(12);
-    for (let i = 0; i < 60 && !a.holds('huntOn', 'wapshotts'); i++) { await a.j.play('=+30'); }
+    for (let i = 0; i < 60 && !a.holds('huntOn', 'wapshotts'); i++) { a.water(12); a.rations(14); await a.j.play('=+30'); }
     expect(a.holds('huntOn', 'wapshotts')).toBe(true);
     expect(a.j.at('party')).toBe(c('landing'));
     a.rations(6);
