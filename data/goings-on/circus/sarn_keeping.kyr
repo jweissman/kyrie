@@ -14,7 +14,7 @@ Module circus "Wapshott's Peregrine Circus" {
   Observe ada_crate near ada when crateCome(wapshotts) and not voyaged(wapshotts) "Ada Thripp has stopped writing the Brigand's Bride and is writing, in the book of the circus's accounts, a column headed SARN, in which every figure is a question.".
 
   Topic wap_great_beast with wapshott "Show the Colonel the page of the Warden's journal about the Great Beast" when voyaged(wapshotts) and knows(actor, journal_read) and not legKnown(wapshotts) once {
-    Says "The Colonel reads it standing. At the line about the stone he says 'Ha.' He walks to the end of the quay and back, twice. 'HE WAS NOT DEAD ENOUGH,' he says to the sea, in his ring voice, and then, in nobody's: 'Oh, the beggars.'".
+    Says "The Colonel reads it standing. At the line about the calf of three summers he stops. 'The Leg,' he says. He walks to the end of the quay and back, twice. 'HE WAS NOT DEAD ENOUGH,' he says to the sea, in his ring voice: it is what the stone said. Then, in nobody's: 'Oh, the beggars.'".
     On discuss { Assert legKnown(wapshotts). Assert colonelGrieved(wapshotts). }
   }
   Topic wap_leg_promise with wapshott "Ask the Colonel what he will do about the Leg in the shrine" when legKnown(wapshotts) and voyaged(wapshotts) and not legPromised(wapshotts) once {
@@ -26,7 +26,7 @@ Module circus "Wapshott's Peregrine Circus" {
   // The Colonel on the cliff-top, with the colony launching: the other kind of audience.
   Topic wap_widow with wapshott "Ask the Colonel who he is writing to on the cliff-top" when voyaged(wapshotts) and at(party, cliff_top) and not widowLetter(wapshotts) once {
     Says "He folds the page before you can see it. 'A woman at Dunmere,' he says, 'to whom I owe a coin a week.' The colony goes off the edge, wing on wing. 'I have written to say I have seen it. He would have liked the house.'".
-    On discuss { Assert widowLetter(wapshotts). Increase regard(billie) by 0. }
+    On discuss { Assert widowLetter(wapshotts). }
   }
   Milestone m_leg "learned what the Leg in the shrine was" worth 300 when legKnown(wapshotts).
   Milestone m_widow "stood with the Colonel on the cliff-top" worth 100 when widowLetter(wapshotts).

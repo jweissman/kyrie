@@ -17,7 +17,7 @@ Module circus "Wapshott's Peregrine Circus" {
     Says "'You've seen both,' says Billie. 'I've only seen the one.' She does not look round. 'Which is worse. A cage that is kept well, or a field where nobody keeps anything?'".
   }
   Topic billie_a1 with billie "Say a kind cage is worse, because the animal learns to be glad of it" answering billie_asks when true {
-    Says "'Aye,' says Billie, after a long time. 'Aye. I've seen that.' She says nothing else for an hour.".
+    Says "'Seen that,' says Billie. She says nothing else for an hour.".
     On discuss { Assert billieCage(wapshotts). Increase regard(billie) by 1. }
   }
   Topic billie_a2 with billie "Say the field is worse, because nothing in it is answerable" answering billie_asks when true {
@@ -124,7 +124,7 @@ Module circus "Wapshott's Peregrine Circus" {
   }
   Topic dab_a1 with dab "Say you will tell Mr Crewe, and stand beside him when you do" answering dab_asks when true {
     Says "Crewe cuffs him, as the law requires, and then gives him a tin plate and a place at the galley. 'I was eleven once,' says Crewe. Dab eats his biscuit with a face like a saint's.".
-    On discuss { Assert dabTold(wapshotts). Retract away(dab). }
+    On discuss { Assert dabTold(wapshotts). }
   }
   Topic dab_a2 with dab "Say nothing, and tell him to stay out of the way" answering dab_asks when true {
     Says "'I will,' says Dab, and vanishes into the straw with the dignity of a great man. For the rest of the voyage things go missing: a biscuit, a candle, one of the Colonel's gloves.".
