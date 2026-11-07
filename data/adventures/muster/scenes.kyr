@@ -48,4 +48,5 @@ Module muster "The Long Muster's Road" {
   Observe archive_scene at archive when true "A long low archive of cedar presses and scrolls, lit by one lamp. A table holds a single book bound in red leather with a wheel stamped on it.".
   Observe shrine_scene at shrine when true "A shrine of the Eagle: a small round room with a bronze bird on a plinth and a lamp that has not gone out in eleven hundred years. A hundred scraps of wax tablet are tucked in the cracks: prayers for a letter.".
   Observe terraces_scene at terraces when true "Vineyard terraces cut into the hillside, walled in dry stone, rows of vines tied up with osier. An old man in a red cloak is talking to a vine.".
+  Observe first_milestone at green when true "By the trough stands a milestone older than the village, the legion's wheel cut on it and under the wheel a number: CCCLX. Nobody in Kell Ford has ever asked what it counts down to. The old men say it is the days to the sea, and the surveyor says it is not.".
 }

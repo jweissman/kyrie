@@ -88,6 +88,11 @@ describe("Wapshott's, Act IV: the crate", () => {
     a.j.roll('pass');
     await a.j.play('Take the Colonel by the elbow before he blows');
     expect(a.holds('colonelStopped', 'wapshotts')).toBe(true);
+    a.set('journalRead', 'wapshotts');
+    a.j.assert('knows', 'party', c('journal_read'));
+    a.put('party', 'landing');
+    await a.j.play('Tell the Colonel what the Warden\'s journal says of the Great Beast', 'Ask the Colonel what he will do about the Leg in the shrine');
+    expect(a.holds('legPromised', 'wapshotts')).toBe(true);
     // The egg: taken, and put back.
     a.put('party', 'egg_beds');
     await a.j.play('=day 4 09:00');

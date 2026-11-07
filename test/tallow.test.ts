@@ -73,4 +73,14 @@ describe('Tallow Deep', () => {
     expect(j.holds('state', 'portal_inside', 'cleared')).toBe(true);
     expect(j.holds('laid', 'party')).toBe(true);
   }, 290000);
+
+  it('has its dead counted: the ledger gives Dunstan his name back and lays the ghouls without a roll', async () => {
+    const j = await Journey.start(campaign, 'tallow');
+    j.give('ledger_item');
+    await j.play('To Swallet lane', 'To Swallet green', "Into the Chandler's Arms", 'Read Dunstan the fourteen names from the Foreman\'s ledger');
+    expect(j.holds('namesRead', 'party')).toBe(true);
+    j.put('party', 'ossuary');
+    await j.step('Read the fourteen names aloud over the stacked dead');
+    expect(j.holds('dead', 'ghouls')).toBe(true);
+  }, 120000);
 });

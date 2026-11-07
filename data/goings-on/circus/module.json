@@ -18,7 +18,8 @@
     "revels.kyr",
     "isle.kyr",
     "isle_life.kyr",
-    "act4.kyr"
+    "act4.kyr",
+    "sarn_keeping.kyr"
   ],
   "rules": [
     "world"

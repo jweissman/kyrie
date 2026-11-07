@@ -105,5 +105,5 @@ Module muster "The Long Muster's Road" {
     Holds.
   }
   Discovery general_read "The General wrote that the Emperor was ill, and the Muster's rearguard must hold the road until a relief came, and that he would return by the spring.".
-  Observe letters_read at archive when state(generals_letters, broken) "The letters say the General left a rearguard to hold the road until he sent for them. He did not send.".
+  Observe letters_read at archive when state(generals_letters, broken) "The letters say the General left a rearguard to hold the road until he sent for them. He did not send." teaches general_read.
 }

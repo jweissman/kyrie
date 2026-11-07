@@ -45,6 +45,8 @@ Module tallow "Tallow Deep" {
     Role "assayer to the Brasiers' Company, retired". Ancestry human. Peaceable. Pronouns she. Manner stoic.
     Buys ironglass_dagger for 40 coin.
     Buys dowsing_rod for 20 coin.
+    Buys ancient_orrery for 250 coin.
+    Buys celestial_chart for 150 coin.
     Buys rose_quartz for 12 coin.
     Buys jeweled_box for 30 coin.
     Buys zoological_manual for 20 coin.

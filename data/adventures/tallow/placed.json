@@ -8,6 +8,7 @@
     "creatures.kyr",
     "finds.kyr",
     "wake.kyr",
+    "keeping.kyr",
     "placed.kyr"
   ],
   "rules": [
