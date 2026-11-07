@@ -13,6 +13,7 @@ import { CombatPresenter } from '../ui/combat-presenter';
 import { CombatProjection } from '../combat-projection';
 import { ActionPresentation, type PublicChoice } from './action-presentation';
 import { ObservationText } from '../lang/observation-text';
+import { AimWords } from './aim-words';
 import { Spoken } from './spoken';
 import { VisitedPlaces } from './visited-places';
 import { Agency } from '../campaign/agency';
@@ -256,9 +257,8 @@ export class PlayerView {
         providers: PartyCapabilities.providers(e.id, state.creatures.filter(c => state.partyIds.includes(c.id)))
           .map(c => `${c.name} (${c.raceId} ${c.classId})`) })),
       choices: publicChoices.map(c => c.choice),
-      ...(campaign.module.objectives?.length ? { objectives: perceiving ? campaign.module.objectives
-        .filter(o => world.test(o.when)).map(o => ({ id: o.id, text: ObservationText.render(o.text, world) }))
-        .toSorted((a, b) => PlayerView.own(a.id) - PlayerView.own(b.id)) : [] } : {}),
+      ...(campaign.module.objectives?.length ? { objectives: perceiving ? AimWords.held(world,
+        campaign.module.objectives).toSorted((a, b) => PlayerView.own(a.id) - PlayerView.own(b.id)) : [] } : {}),
       map: CompanyMap.of(campaign, actor, publicChoices.filter(c => c.choice.category === 'travel').map(c => c.action)) };
   }
   // Your own errand before what the country holds (the page's aim had wandered to whatever was heard of last: the lone

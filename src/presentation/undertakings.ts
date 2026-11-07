@@ -5,6 +5,7 @@ import { FictionalTime } from '../campaign/fictional-time';
 import { EntityIndex } from '../lang/entity-index';
 import { Spatial } from '../spatial';
 import { ObservationText } from '../lang/observation-text';
+import { AimWords } from './aim-words';
 
 // The aim the player follows (the owner's "a clearer currently selected quest"; Mission 19, journal and intentions):
 // one of the aims the company holds, by its id, kept with the game in its save, and the one every page's "your aim"
@@ -63,15 +64,20 @@ export class Undertakings {
       .flatMap(([a, b]) => inside.has(a) && this.site(byId, b) !== inside.get(a) ? [b] : []);
     const around = named.flatMap(id => Spatial.ancestry(byId, id).slice(1)
       .filter(e => !['plane', 'region'].includes(e.space?.kind ?? '')).map(e => e.id));
-    return [...new Set([...named, ...joined, ...around])];
+    // And where whoever it names is found, where its words do not say (see AimWords): tell Kellen the dead are still.
+    const sought = AimWords.strangers(w, o).flatMap(id => AimWords.whereabouts(w, id));
+    return [...new Set([...named, ...joined, ...around, ...sought])];
   }
   // Those an aim names who are someone (said with a he, a she or a they), by the names the company knows them by: who
   // might know where it is, when the map cannot show it (the product-design review's PD-12).
+  // Not one the aim says where to find (see AimWords): "Kellen may know where" had been said of Kellen, whom the aim
+  // was to find.
   private static who(campaign: Campaign, o: Objective): string[] {
     const w = campaign.world, byId = EntityIndex.of(campaign.module.entities).byId;
     if (!w.relates('pronouns')) { return []; }
+    const placed = new Set(AimWords.strangers(w, o));
     return [...Stakes.named(campaign, o)].filter(id => byId.get(id)?.type === 'group' && id !== campaign.playerActor
-      && !!w.one('pronouns', id)).map(id => ObservationText.label(w, id));
+      && !!w.one('pronouns', id) && !placed.has(id)).map(id => ObservationText.label(w, id));
   }
   private static site(byId: Map<string, Entity>, id: string): string | undefined {
     return Spatial.ancestry(byId, id).find(e => e.space?.kind === 'site')?.id;

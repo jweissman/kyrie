@@ -45,10 +45,24 @@ export class DangerSense {
     // A bout is reckoned as it will be fought, and said to be one: the odds of a sparring bout had read as a killing
     // (the Quiet in the Sky's QIS-04).
     const place = Environment.encounter(campaign.world, campaign.playerActor, [], group);
-    return this.kept(key, () => {
+    const reckoning = this.kept(key, () => {
       const reckoning = this.judge(this.play(ours, foes, key, place), ours, foes);
       return place.terms?.yields ? { ...reckoning, text: `${reckoning.text} ${DangerSense.bout}` } : reckoning;
     });
+    this.foreseen.set(this.lineup(ours, foes), reckoning);
+    if (this.foreseen.size > 200) { this.foreseen.delete(this.foreseen.keys().next().value!); }
+    return reckoning;
+  }
+  // What the company reckoned of a fight before it began, by who would be in it and how each stands: a fight joined
+  // is reckoned as it was foreseen until something in it has changed (someone hurt, a spell spent). Each reckoning is
+  // a few fights played out, and two of them had said two things of one fight a breath apart: "Easily won: Sable
+  // reckons it is no match for you" over the attack on a great centipede, then, the fight begun and no blow struck,
+  // "Traubon reckons you would likely beat it, but Sable could fall" (the fresh playtest of 7 November).
+  private static readonly foreseen = new Map<string, Reckoning>();
+  private static lineup(ours: Creature[], foes: Creature[]): string {
+    return JSON.stringify([ours, foes].map(side => side.toSorted((a, b) => a.id.localeCompare(b.id))
+      .map(c => [c.id, c.state.hp, c.state.mana, LevelDrain.level(c), (c.state.ready ?? []).flat().length,
+        (c.state.inventory ?? []).filter(i => i.equipped).map(i => i.definition).sort()])));
   }
   static readonly bout = 'It is a bout, to the first fall: no one will be killed.';
   // A fight already joined, as it would go from where everyone stands: what the company reckons in the moment before
@@ -59,6 +73,8 @@ export class DangerSense {
   // opens: seen as it began, the company strikes first.
   static of(battle: Battle): Reckoning {
     const { ours, foes } = this.fighters(battle), standing = battle.state.combatants.filter(f => f.hp > 0);
+    const foreseen = this.foreseen.get(this.lineup(ours, foes));
+    if (foreseen) { return foreseen; }
     const moment = battle.opening;
     const key = JSON.stringify(['joined', moment ?? '', ...standing.map(f => [f.id, f.hp, f.mana, f.level,
       f.statuses.map(s => s.id), f.equipment.weapon.name, f.equipment.armorAc])]);

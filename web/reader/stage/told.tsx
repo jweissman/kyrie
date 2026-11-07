@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { useRef, type ReactNode } from 'react';
 import type { Exchange, Frame } from '../../engine/protocol';
 import type { SceneSubject } from '../../../src/ui/scene';
 import type { ReaderApp, Travel } from '../reader-app';
@@ -12,6 +12,7 @@ import { PlaceStage } from './place-stage';
 import { Stage } from './stage';
 import { Journey } from './journey';
 import { Check } from './check';
+import { Scrolled } from './scrolled';
 
 // What the place says and what just happened in it. Coming somewhere, the way there is told, then the place, then
 // who is about; doing something where the company stands, what came of it is told first, and the place, already
@@ -142,12 +143,15 @@ export class Told {
     return [...screen?.destinations ?? [], ...screen?.roads ?? []]
       .map(d => ({ id: d.id, name: d.name, journey: map ? MenuModel.country : MenuModel.journey(d) }));
   }
+  // Said where the company stands (said), it is brought into view in the column that holds it, the aims and levels it
+  // gave with it (see Scrolled): they had lain under the foot of the column.
   static Happened({ exchange, said, ready, app }: { exchange: Exchange; said?: boolean; ready?: string; app?: ReaderApp }) {
     const echo = said && exchange.said ? Words.echo(Words.lastSaid(exchange.said)) : undefined;
     const { plain, rest, sights, ended, levels } = Moments.of(exchange.lines);
-    const notes = Told.few(Panorama.unsaid(exchange.notes, sights));
+    const notes = Told.few(Panorama.unsaid(exchange.notes, sights)), at = useRef<HTMLElement>(null);
+    Scrolled.useNewest(at, exchange, !!said);
     return (
-      <section className={`happened tone-${exchange.tone}`} data-id="response" aria-live="polite">
+      <section ref={at} className={`happened tone-${exchange.tone}`} data-id="response" aria-live="polite">
         {echo && !Words.restates(echo, exchange.lines[0]?.text) && <p className="you">{Typography.curl(echo)}</p>}
         {plain.map((l, i) => Check.of(l, i)
           ?? <p key={i} className={l.kind}>{Typography.curl(l.text)}</p>)}
