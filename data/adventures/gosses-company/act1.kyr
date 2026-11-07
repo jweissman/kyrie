@@ -1,0 +1,174 @@
+Module pentrice "Gosse's Company" {
+  // ── Act I: The Marchants' Men ─────────────────────────────────────────────────────────────────────────────────
+  // Comedy of errors. The King's Name-Day is in four days and the Chancellor has hired a company of masquers who are
+  // stuck behind a flooded ford. Gosse's Company comes in at the River Gate and is taken for them. A page at the Rotunda
+  // is the Chancellor's missing daughter in boy's clothes. Kit Arden, the boy who plays the girls, is the image of her.
+  // Her twin brother is a lieutenant of the Watch. The Chamberlain is keeping a book. By the fourth day there are two
+  // companies of masquers, two Oriels and one King, who would like to be amused.
+  Relation posing(group). Relation gateTruth(group). Relation gateHonest(group). Relation suspected(group).
+  Relation kitTaken(group). Relation kitProved(group). Relation kitLied(group).
+  Relation orielSworn(group). Relation orielToldFather(group). Relation orielHelped(group). Relation twinsMet(group).
+  Relation masqueChosen(group). Relation masqueGhost(group). Relation masqueMiser(group). Relation masqueFarce(group).
+  Relation realMasquers(place). Relation auditioned(place). Relation provisional(place).
+  Measure auditionScore(place).
+  Chapter ch_arrive "The Marchants' Men" when royalCall(pentrice) and not auditioned(rierdan) "The King's Road ends at a customs arch with a kettle under it. The sergeant has been expecting you, and has got the wrong you.".
+
+  // The gate: the sergeant puts one question, and the answer is a life.
+  Topic gate_ask with tallis "Say who you are, since the sergeant has not asked" when not gateTruth(party) and not posing(party) and not gateHonest(party) once {
+    Says "'Marchant's men,' says Sergeant Peverell, making a tick. 'Now. I have eight and a bear on my list and the Chancellor's steward has told me twice that the one with the voices is to be treated as if he were a bishop.' He looks you over with the expression of a man who has done this several thousand times and been wrong once. 'You're the masquers. Aren't you.'".
+  }
+  Topic gate_masquers with tallis "We are. The Marchants' masquers, and we are late" answering gate_ask when true {
+    Says "He ticks and does not look up. 'Then the steward will be pleased,' he says, 'and I shall be spared his face.' The ledger takes your name as Marchant's, which is not the first time a book has lied for you, and is the first time it has done it so promptly.".
+    On discuss { Assert posing(actor). }
+  }
+  Topic gate_truth with tallis "We are Gosse's Company, with the King's own writ" answering gate_ask when holding(actor, writ_kind) {
+    Says "'The King's,' says Peverell, and takes the writ, and reads it the wrong way up, and then the right way, and goes pink. 'It's real,' he says. 'Mallam!' A boy in a clerk's coat comes at a run. 'It's real. They're the King's. The King's what, I couldn't say, but it's real.' You are walked up the Gate Street by two men who are afraid of you and one who is only curious.".
+    On discuss { Assert gateTruth(actor). Increase favour(rierdan) by 1. }
+  }
+  Topic gate_nobody with tallis "Nobody's. We want a bed and the price of one" answering gate_ask when true {
+    Says "'A bed,' says Peverell, and puts down the pen with real regret. 'You've come to the right city. We have one of every kind of bed. You want the Brazen Sparrow, on the Row, where the players lodge.' He writes something. 'I'd say the Chancellor's steward will be along. I shouldn't say it to him.'".
+    On discuss { Assert gateHonest(actor). }
+  }
+  Kind writ_kind "the King's writ" is document described "A writ sealed in blue wax with a crowned tower: COME TO DUN RIERDAN BY THE KING'S ROAD, BEING FOUND SUFFICIENT, AND PLAY. In a different hand: BRING THE BEAR.".
+  Rule writ_given when writHeld(party) and not has_writ(party) { Give writ_kind to party. Assert has_writ(party). }
+  Relation has_writ(group).
+
+  // The Marchants' house: Kit Arden is brought, and is received.
+  Action bring_kit(actor: group, site: place) "Take Kit Arden along to the Marchants' house" {
+    Speaker kit.
+    Requires able(actor) and company(actor) and at(actor, site) and at(kit, site) and royalCall(pentrice) and not following(kit, actor).
+    Time 0.
+    On success { Assert following(kit, actor). }
+    Result "Kit looks at the Row, the towers and the pie stall in one glance, and takes hold of your sleeve.".
+  }
+  Rule kit_received at marchant_hall when at(party, marchant_hall) and following(kit, party) and not kitTaken(party) and not kitProved(party)
+    says "The steward drops a tray. It is quite a large tray, and the noise goes up the stair. 'My lady,' says Beadle Simm, in a voice that has not been used since the Chancellor's wife died. 'My lady Oriel.' He is on his knees on the tiles. Kit has gone the colour of whey. 'Beadle Simm,' Kit says. 'I am Kit. Kit Arden. I play the girls.' From the stair a short stout man in a robe of office is saying, quite gently, 'My daughter,' and coming down." {
+    Assert kitTaken(party). }
+  Topic marchant_ask with marchant "Answer the Chancellor, who has put a hand on Kit's shoulder" when kitTaken(party) and not kitProved(party) and not kitLied(party) once {
+    Says "'Six weeks,' says Lord Marchant. 'I have had the Watch turn over the city for six weeks. I was told you were dead, and I was told you were in a convent, and I was told by your brother that you were happy. I had not been told you had taken to the stage.' He looks round at you. 'This person is my daughter. I ask you, since you appear to be her friends. Is she not?'".
+  }
+  Topic marchant_yes with marchant "She is, my lord, and she is a good deal improved by it" answering marchant_ask when true {
+    Says "'There,' says Lord Marchant, with immense satisfaction. 'Beadle. A room. A proper room. A gown.' Kit looks at you with the eyes of a hare at the end of a field. 'I am Kit,' Kit says again, faintly, to nobody. They have taken him upstairs. It will be necessary, you think, to get him back.".
+    On discuss { Assert kitLied(actor). Retract following(kit, actor). Assert at(kit, marchant_hall). }
+  }
+  Topic marchant_no with marchant "No, my lord. He is a boy called Kit Arden, and he plays the girls" answering marchant_ask when true {
+    Says "'A boy,' says Lord Marchant. 'A boy who plays the girls.' He lifts Kit's chin with a finger. 'A very good likeness, then. I congratulate the profession.' He is not convinced; you can see it. A man who has lost a daughter for six weeks does not want to find a boy. 'Prove it,' he says.".
+  }
+  Action prove_kit(actor: group, site: place) "Prove Kit is a boy, with Kit's help and some dignity" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, marchant_hall) and kitTaken(party) and not kitProved(party).
+    Time 1.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert kitProved(actor). Increase favour(rierdan) by 1. }
+    Result "It takes a minute of Kit's best baritone, the recital of the Fool's catalogue from The Miser's Wedding, and, in the end, the Chancellor's own barber, fetched in a hurry, who looks at Kit's jaw and says: 'Mine, my lord, I have been shaving that chin since it was a hope.' Lord Marchant sits down on the stair. 'Then where,' he says, in a different voice, 'is my daughter?'".
+    Otherwise "Lord Marchant, who is a lawyer, hears the proof and remarks that it proves what a good actor Kit is.".
+  }
+  Rule kit_freed when kitProved(party) and kitLied(party) { Retract kitLied(party). }
+
+  // The twin.
+  Topic cyprian_talk with cyprian "Tell Lieutenant Marchant what the Chancellor believes" when kitTaken(party) and not twinsMet(party) once {
+    Says "Cyprian listens, white. 'He believes it is Oriel,' he says. 'He believes his daughter has come back as a boy who plays girls.' He passes a hand over his face. 'It was always going to be some such thing. We look alike. We have looked alike since the cradle. I have never in my life wished I looked less like her than I did when I was twelve and wanted to join the Watch, and she wanted to go on the stage, and our father wanted neither.' He lowers his hand. 'Where is she?'".
+  }
+  Topic oriel_ask with oriel "Ask the page Orrin why a Rotunda boy has such a look" when not knows(party, oriel_unmasked) once {
+    Says "The page puts the prompt-copy behind his back, a thing real pages never do. 'Look at what?' says Orrin, in the carrying clear voice of someone who has been rehearsing to be someone else. 'I'm Orrin. I run errands for Master Fallow. I have done nothing wrong.' He looks at you. 'If I told you I was running away from a marriage,' he says, much lower, 'would you tell my father?'".
+  }
+  Topic oriel_sworn with oriel "No. Not a word, on my word" answering oriel_ask when true {
+    Says "Something lets go in her shoulders. 'I am Oriel,' she says, and takes off the page's cap, and a quantity of dark hair comes down which was plainly not a page's. 'The Chancellor's. I have been in the wings six weeks. I have never been so happy in my life, and I have never been so hungry.' She puts the cap on again. 'Thank you.'".
+    On discuss { Assert orielSworn(actor). Assert knows(actor, oriel_unmasked). Increase favour(rierdan) by 0. }
+  }
+  Topic oriel_father with oriel "Yes. He has the right to know where his daughter is" answering oriel_ask when true {
+    Says "'Then it was kind of you to ask first,' says Orrin, with a dreadful composure, and takes off the cap. 'I am Oriel Marchant. I shall go with you. I should like it to be known that I think you wrong.' She does not weep. She picks up the prompt-copy. 'But I shall not be taken. I shall go in my own time, and I shall go as myself.'".
+    On discuss { Assert orielToldFather(actor). Assert knows(actor, oriel_unmasked). }
+  }
+  Topic oriel_help with oriel "I'd help you if I could. What do you want?" answering oriel_ask when true {
+    Says "She looks you up and down with all the shrewdness the stage has given her. 'I want to play,' she says. 'Not in a box, not at a window, not at the end of a corridor with a husband at the other end. I want to play a part that is a person.' She takes off the cap. 'I am Oriel Marchant. I should like it very much if you helped me.'".
+    On discuss { Assert orielHelped(actor). Assert knows(actor, oriel_unmasked). }
+  }
+  Action unmask_oriel(actor: group, site: place) "Look hard at the page, and then at Kit, and then at the page" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, rot_wings) and at(oriel, rot_wings) and kitTaken(party) and not knows(actor, oriel_unmasked).
+    Time 0.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert knows(actor, oriel_unmasked). Assert orielHelped(actor). }
+    Result "You do the sum a child could. The page's chin, the Chancellor's boy-girl, and the resemblance. 'Lady Oriel,' you say. The page stands quite still. Then, with an air of weary relief, takes off the cap.".
+    Otherwise "The page looks back at you with the guileless eyes of a Rotunda page, and the question goes by.".
+  }
+  Action reunite_twins(actor: group, site: place) "Bring Oriel and Cyprian into the same room" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, marchant_hall) and knows(actor, oriel_unmasked) and at(cyprian, marchant_hall) and not twinsMet(actor) and travelsWith(oriel, actor).
+    Time 1.
+    On success { Assert twinsMet(actor). Increase favour(rierdan) by 1. }
+    Result "They stop on either side of a pillar and look at each other for a long second, like a pair of mirrors. Then, at the same moment, in the same voice, they say 'You utter fool', and are in each other's arms, and the steward sits down quite hard on the stair. Lord Marchant says nothing at all, but he holds out a handkerchief to both of them, from the same pocket.".
+  }
+  Topic oriel_join with oriel "Ask Oriel to come with the company, as herself" when knows(actor, oriel_unmasked) and not travelsWith(oriel, actor) once {
+    Says "'Yes,' says Oriel at once, and then, more carefully, 'if I may be paid. I do not want to be a Marchant at a table. I want to be a person at a salary.'".
+    On discuss { Assert willing(oriel, actor). Set hire(oriel) to 0. }
+  }
+
+  // The play: Hepzibah asks which one it will be.
+  Topic hepzibah_play with hepzibah "Ask Hepzibah what the company will give the King" when royalCall(pentrice) and not masqueChosen(party) once {
+    Says "Hepzibah takes the pencil out of her hair and puts it behind the other ear. 'There are three things we can give,' she says, 'and I shall tell you what each costs. I do not do this for everyone. Which would you choose?'".
+  }
+  Topic hepzibah_ghost with hepzibah "The Alderman's Ghost, as it was written" answering hepzibah_play when ghostPlay(pentrice) {
+    Says "'Dangerous,' says Hepzibah. 'It is the best thing we have, and it is a play about a dead man who will not stay buried, in front of a King of eighty-one.' She writes something in the book. 'I do not mind. I like danger in a play. I do not like it in a man who can have us hanged.'".
+    On discuss { Assert masqueChosen(actor). Assert masqueGhost(actor). }
+  }
+  Topic hepzibah_miser with hepzibah "The Miser's Wedding, the old one" answering hepzibah_play when true {
+    Says "'Safe,' says Hepzibah. 'Safe is what Gosse has been telling the old kings since before I could read. It will not offend a soul.' She taps the book. 'It will also not be remembered.'".
+    On discuss { Assert masqueChosen(actor). Assert masqueMiser(actor). }
+  }
+  Topic hepzibah_farce with hepzibah "A farce, tonight, made of the mistakes of this week" answering hepzibah_play when true {
+    Says "Hepzibah looks at you over her spectacles for a very long time. 'You mean,' she says, 'The Marchants' Men. The one that is happening to us.' She opens the book at a clean page. 'I have been waiting thirty-four years for someone to ask me to write a play that hasn't been finished yet. I shall need a Chancellor, a boy who plays girls, and a page.' She smiles. It is a small, rare, dangerous smile. 'Which we have.'".
+    On discuss { Assert masqueChosen(actor). Assert masqueFarce(actor). }
+  }
+
+  // The real masquers arrive, which is the farce's turn.
+  Rule real_masquers_come when royalCall(pentrice) and day(clock) >= arrivedR(rierdan) + 2 and not realMasquers(rierdan) and not auditioned(rierdan) and at(party, concourse)
+    says "A wagon comes into the Concourse, hung with bunting, on which eight people in half-made costumes are shouting at each other over the head of a man in a mask who is plainly the actor-manager. 'The ford!' he is crying. 'The ford was a lake! We have come through a lake!' It is the Marchants' masquers. They are three days late and they are going to be extremely difficult to explain." {
+    Assert realMasquers(rierdan). }
+
+  // The audition: the Audience Chamber, and the King.
+  Action audition_ghost(actor: group, site: place) "Play the King The Alderman's Ghost, the best scene, on the rug" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, audience) and masqueGhost(actor) and not auditioned(rierdan).
+    Time 30.
+    Resolve check(actor, performance, dc_hard).
+    On success { Assert auditioned(rierdan). Increase favour(rierdan) by 3. Assert provisional(rierdan). Set auditionScore(rierdan) to 3. }
+    On failure { Assert auditioned(rierdan). Increase favour(rierdan) by 1. Set auditionScore(rierdan) to 1. }
+    Result "The King sits upright through the whole of it. At the line where the Alderman insists he is not dead he laughs, once, with real surprise, and the Chamberlain writes it down. At the end the old man is on his feet, and he says in his thin clear voice: 'I should like that again, with a better ending.' It is not clear whether this is praise. It is the best the Household has had in three years.".
+    Otherwise "The scene goes up on the rug with perfect craft, and the King sleeps through the best of it. At the end he opens his eyes and says: 'Was it a comedy? I thought I heard a ghost.'".
+  }
+  Action audition_miser(actor: group, site: place) "Play the King The Miser's Wedding, as his grandfather had it" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, audience) and masqueMiser(actor) and not auditioned(rierdan).
+    Time 30.
+    Resolve check(actor, performance, dc_fair).
+    On success { Assert auditioned(rierdan). Increase favour(rierdan) by 2. Assert provisional(rierdan). Set auditionScore(rierdan) to 2. }
+    On failure { Assert auditioned(rierdan). Set auditionScore(rierdan) to 0. }
+    Result "The King knows the play. He says the Miser's lines a beat before Swale does, and then stops, mortified, and says, 'Go on.' It is the most nearly human thing the court has seen him do in a year.".
+    Otherwise "The King recites every line before Swale can, and then remarks to the Chamberlain, quite audibly, that the company is old-fashioned.".
+  }
+  Action audition_farce(actor: group, site: place) "Play the King The Marchants' Men, with the two companies and the two Oriels" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, audience) and masqueFarce(actor) and realMasquers(rierdan) and not auditioned(rierdan).
+    Time 30.
+    Resolve check(actor, performance, dc_hard).
+    On success { Assert auditioned(rierdan). Increase favour(rierdan) by 4. Assert provisional(rierdan). Set auditionScore(rierdan) to 4. }
+    On failure { Assert auditioned(rierdan). Decrease favour(rierdan) by 1 or to nothing. Set auditionScore(rierdan) to 1. }
+    Result "It is performed by two sets of players at once, in two different costumes, in front of a Chancellor who is also in it, by accident, and three Oriels. The King does not stop laughing. At the end he is wiping his eyes with the Chamberlain's book. 'That,' he says, 'is the first time since the Siege of Thrall that I have understood a joke before the end.'".
+    Otherwise "The farce is a collision. Everyone talks at once. At the end the King says, kindly, that it was a great deal of play for one afternoon.".
+  }
+  Observe king_verdict near casimir when auditioned(rierdan) and provisional(rierdan) "The King has had a stool brought to the foot of the rug and has been looking at the players for some time, with the air of a man who has found a drawer he forgot he had. 'I appoint you,' he says, 'for the season. Provisionally. The Chamberlain will draft something.'".
+  Observe king_verdict_no near casimir when auditioned(rierdan) and not provisional(rierdan) "The King pats your hand with a dry old palm. 'You must come again,' he says. The Chamberlain, who knows what that means, writes it down in the harder pencil.".
+  Topic gosse_audition with gosse "Ask Gosse how he wants the King to see him" when royalCall(pentrice) and not gosseSeen(party) once {
+    Says "Gosse is standing at the window of the Sparrow's loft with his back to the room and his head a little on one side. 'Forty-one years,' he says. 'I have played for innkeepers, for bishops, for a duke who was drunk and a duchess who was not, and never for a King.' He does not turn. 'I can't hear him, you know. I can only hear that he is there.' He turns, and he is a very old man with a good face. 'Tell me how I should seem. As what I am, or as what I was?'".
+  }
+  Relation gosseSeen(group). Relation gosseHam(group). Relation gosseHonest2(group).
+  Topic gosse_was with gosse "As what you were. The King wants a king" answering gosse_audition when true {
+    Says "'Good,' says Gosse, and puts back his shoulders, and is forty years younger, and his coat is crimson. 'I shall not let him down.' You are not sure whether you have given him a gift or a trap.".
+    On discuss { Assert gosseSeen(actor). Assert gosseHam(actor). }
+  }
+  Topic gosse_is with gosse "As what you are. He's old too" answering gosse_audition when true {
+    Says "Gosse looks at you for a long time. 'That,' he says, 'is a harder part,' and sits down on the hamper, and takes his hat off, and holds it in both hands like a man waiting to be called. 'I shall try.'".
+    On discuss { Assert gosseSeen(actor). Assert gosseHonest2(actor). }
+  }
+
+  Milestone m_gate "went in at the River Gate under a name that was not theirs" worth 80 when posing(party) or gateTruth(party) or gateHonest(party).
+  Milestone m_twins "brought the twins into one room" worth 200 when twinsMet(party).
+  Milestone m_audition "played for the King" worth 250 when auditioned(rierdan).
+  Milestone m_provisional "was appointed, for the season, provisionally" worth 250 when provisional(rierdan).
+}

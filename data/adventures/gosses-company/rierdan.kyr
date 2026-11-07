@@ -1,0 +1,145 @@
+Module pentrice "Gosse's Company" {
+  // ── Dun Rierdan, the City of Seven Towers ─────────────────────────────────────────────────────────────────────
+  // The King's Players (doc/adventures/anthology/the-kings-players.md). The sequel to the Trial of the Wheel lives in
+  // this module because the people are this module's: Gosse, Hepzibah, Swale, Dorcas, Pudding, Kit, Tam, Fallow and the
+  // Ordes are one adventure's own names. Dun Rierdan is a region of it, reached by the King's Road from Pentrice's east
+  // end once the verdict is read, and is written here as the shared metropolis: seven towers, each an institution.
+  //   Bells (the faith and its hours), Law (the Court of the Seven Seats), Coin (the Exchange and the debtors),
+  //   Dust (the dead, and the law of their exposure), Lamps (the Watch and the city's ghost-lights),
+  //   Salt (the guild-wives, who keep the city's fish, its weather-lore and its tongue), and the King's Tower.
+  Place reach "the Crown Reach" is region.
+  Place crown_road "the King's Road" is wilderness within reach at 0, 1.
+  Place rierdan "Dun Rierdan, the City of Seven Towers" is settlement within reach at 1, 1.
+
+  Place road_head "the King's Road above the River Gate" is room within crown_road at 0, 0 outdoors.
+  Place river_gate "the River Gate" is room within rierdan at 0, 2 outdoors.
+  Place concourse "the Concourse of the Seven" is room within rierdan at 1, 2 outdoors.
+  Place playhouse_row "Playhouse Row" is room within rierdan at 1, 3 outdoors.
+  Place print_row "Quill Alley" is room within rierdan at 2, 3 outdoors.
+  Place bell_steps "the steps of the Tower of Bells" is room within rierdan at 2, 2 outdoors.
+  Place exchange "the Exchange under the Tower of Coin" is room within rierdan at 0, 1 outdoors.
+  Place lamp_hill "Lamp Hill" is room within rierdan at 2, 1 outdoors.
+  Place lamp_roof "the roof of the Tower of Lamps" is room within rierdan at 3, 1 outdoors.
+  Place dust_gate "the Gate of Dust" is room within rierdan at 3, 2 outdoors.
+  Place king_court "the King's Court" is room within rierdan at 2, 0 outdoors.
+  Place law_steps "the steps of the Tower of Law" is room within rierdan at 1, 1 outdoors.
+  Place salt_quay "the Salt Quay" is room within rierdan at 0, 3 outdoors.
+  Place field "the Field of Exposure" is room within rierdan at 4, 2 outdoors.
+  Place draper "Mistress Pardew's draper's" is room within rierdan at 0, 4 outdoors.
+  Place pardew_back "the draper's back room" is room within rierdan at 1, 4.
+
+  Place sparrow "the Brazen Sparrow" is building within rierdan.
+  Place sparrow_taproom "the Brazen Sparrow's taproom" is room within sparrow at 0, 0.
+  Place sparrow_loft "the Sparrow's long loft" is room within sparrow at 1, 0.
+  Place rotunda "the Rotunda" is building within rierdan.
+  Place rot_front "the Rotunda's front of house" is room within rotunda at 0, 0.
+  Place rot_stage "the Rotunda's stage" is room within rotunda at 1, 0.
+  Place rot_wings "the Rotunda's wings" is room within rotunda at 2, 0.
+  Place rot_flies "the Rotunda's fly-loft" is room within rotunda at 2, 1.
+  Place rot_box "the royal box" is room within rotunda at 1, 1.
+  Place lantern "the Wick" is building within rierdan.
+  Place lant_stage "the Wick's dark stage" is room within lantern at 0, 0.
+  Place lant_ward "the Wick's wardrobe" is room within lantern at 1, 0.
+  Place king_tower "the King's Tower" is building within rierdan.
+  Place audience "the Audience Chamber" is room within king_tower at 0, 0.
+  Place closet "the Chamberlain's closet" is room within king_tower at 1, 0.
+  Place terrace "the long terrace" is room within king_tower at 0, 1.
+  Place law_tower "the Tower of Law" is building within rierdan.
+  Place seats "the Court of the Seven Seats" is room within law_tower at 0, 0.
+  Place debt_yard "the debtors' yard" is room within law_tower at 1, 0.
+  Place coin_tower "the Tower of Coin" is building within rierdan.
+  Place crake_room "Master Pomfret's counting-room" is room within coin_tower at 0, 0.
+  Place bell_tower "the Tower of Bells" is building within rierdan.
+  Place bell_nave "the nave of the Bells" is room within bell_tower at 0, 0.
+  Place ringers_loft "the ringers' loft" is room within bell_tower at 1, 0.
+  Place dust_tower "the Tower of Dust" is building within rierdan.
+  Place sexton_hall "the Sextons' hall" is room within dust_tower at 0, 0.
+  Place salt_tower "the Tower of Salt" is building within rierdan.
+  Place salt_hall "the Salt-Wives' hall" is room within salt_tower at 0, 0.
+  Place marchant_house "the Marchants' house on Lamp Hill" is building within rierdan.
+  Place marchant_hall "the Marchants' hall" is room within marchant_house at 0, 0.
+
+  Initially Assert cityRoom(river_gate). Initially Assert cityRoom(concourse).
+  Relation summoned(place). Relation royalCall(place). Relation bodyLies(place).
+
+  // ── The King's Road ──────────────────────────────────────────────────────────────────────────────────────────
+  Place eastgate "the Eastgate" is room within pentrice at 4, 1 outdoors.
+  Passage east_street "East Street" is path between close and eastgate taking 5 minutes.
+  Passage kings_road "the King's Road" is road between eastgate and road_head taking 6 hours
+    opening when summoned(pentrice) "The Eastgate is a gate in a wall, and beyond it the road is a road to somewhere you have no business.".
+  Passage river_gate_way "the road down to the River Gate" is road between road_head and river_gate taking 20 minutes.
+
+  Passage gate_concourse "the Gate Street" is path between river_gate and concourse taking 5 minutes.
+  Passage to_exchange "the Coin Stair" is path between concourse and exchange taking 5 minutes.
+  Passage to_law "the Law Steps" is path between concourse and law_steps taking 5 minutes.
+  Passage to_bells "the Bell Steps" is steps between concourse and bell_steps.
+  Passage to_row "Playhouse Row" is path between concourse and playhouse_row taking 5 minutes.
+  Passage row_print "Quill Alley" is path between playhouse_row and print_row taking 5 minutes.
+  Passage row_quay "the Quay Stairs" is path between playhouse_row and salt_quay taking 5 minutes.
+  Passage quay_draper "the Salt Quay lane" is path between salt_quay and draper taking 5 minutes.
+  Passage to_lamps "the Lamp Hill Road" is path between concourse and lamp_hill taking 10 minutes.
+  Passage lamps_roof "the stair to the Lamp roof" is path between lamp_hill and lamp_roof taking 20 minutes.
+  Passage to_court "the King's Way" is path between law_steps and king_court taking 5 minutes.
+  Passage to_dust "the Dust Road" is path between bell_steps and dust_gate taking 10 minutes.
+  Passage dust_field "the road to the Field" is path between dust_gate and field taking 10 minutes.
+  Passage to_marchants "the Marchants' door" is door between lamp_hill and marchant_hall.
+  Passage sparrow_door "the Sparrow's door" is door between playhouse_row and sparrow_taproom.
+  Passage sparrow_stair "the loft stair" is steps between sparrow_taproom and sparrow_loft.
+  Passage rotunda_door "the Rotunda's doors" is door between playhouse_row and rot_front.
+  Passage rot_in "the house door" is doorway between rot_front and rot_stage.
+  Passage rot_wing "the prompt-side door" is doorway between rot_stage and rot_wings.
+  Passage rot_ladder "the fly ladder" is ladder between rot_wings and rot_flies.
+  Passage rot_up "the royal stair" is steps between rot_front and rot_box.
+  Passage rot_boxview "the box curtain" is doorway between rot_box and rot_stage.
+  Passage lantern_door "the Wick's chained door" is door between playhouse_row and lant_stage.
+  Passage lant_wing "the stage-door behind the flats" is doorway between lant_stage and lant_ward.
+  Passage court_tower "the King's Tower door" is door between king_court and audience.
+  Passage aud_closet "the closet door" is door between audience and closet.
+  Passage aud_terrace "the terrace window" is doorway between audience and terrace.
+  Passage law_in "the Seats' door" is door between law_steps and seats.
+  Passage seats_yard "the debtors' stair" is steps between seats and debt_yard.
+  Passage coin_in "the counting-room stair" is steps between exchange and crake_room.
+  Passage bells_in "the Bell door" is door between bell_steps and bell_nave.
+  Passage bells_loft "the ringers' ladder" is ladder between bell_nave and ringers_loft.
+  Passage dust_in "the Sextons' door" is door between dust_gate and sexton_hall.
+  Passage salt_in "the Salt-Wives' door" is door between salt_quay and salt_hall.
+  Passage draper_back "the curtain" is doorway between draper and pardew_back.
+
+  // ── The city told ────────────────────────────────────────────────────────────────────────────────────────────
+  Observe road_head_scene at road_head when true "The King's Road comes over a ridge and the whole city is below you at once: seven towers on a hill in a bend of the river, no two the same height, no two the same stone, and at the centre of them, lower than the rest, a round roof with a flag on it that is not the King's. Bells are going in a pattern that does not repeat.".
+  Observe river_gate_scene at river_gate when true "The River Gate is a customs arch with a kettle going under it. A sergeant in a pewter breastplate sits on a barrel beside a ledger the size of a door, writing down who comes in by what name, and who they are with, and what they are carrying that is not allowed. Behind him the street goes up into the shade of the towers.".
+  Observe concourse_scene at concourse when true "The Concourse of the Seven is a paved ring with a tower on each side of it and a fountain that is not working in the middle. Every tower has its own sound: bells from one, from another the click of a hundred abacuses, from a third a low murmur. A carter, a nun, a notary and a boy with a pie cross the ring without once looking at each other.".
+  Observe row_scene2 at playhouse_row when true "Playhouse Row is a street of hanging signs and shuttered fronts. At one end stands the Rotunda, a round house with a lead roof and a flag, and at the other, a lower building with its doors chained and its glass painted black: the Wick. Between them, a pie stall, a pawnbroker and a poster-paster asleep under a ladder.".
+  Observe print_scene at print_row when true "Quill Alley smells of lampblack and boiled size. Presses thump behind every door. Quartos hang on lines from window to window like washing: sermons, scandals, ballads, and one entire play, pirated, in four pages, with the author's name misspelled.".
+  Observe bell_steps_scene at bell_steps when true "Wide steps go up to the Tower of Bells. At the top a nun is sweeping with a besom made of grey feathers. The bells are in the tower's open head, eleven of them, and a blind man sits under them with his hand flat on the wall, listening for something wrong.".
+  Observe exchange_scene at exchange when true "The Exchange is a market of paper. Men with ledgers stand under the Tower of Coin and shout figures at each other in a language of fractions. A queue of the poor leans against the wall of the Tower of Law next door and does not enter the Exchange. A beggar has set up a stool outside and is counting what he has been given into three piles.".
+  Observe law_steps_scene at law_steps when true "The Tower of Law has seven doors, one for each Seat, and the sign over each is a word: MURDER, DEBT, MARRIAGE, WILLS, PROPERTY, CUSTOM, and SOVEREIGN. A crowd waits at DEBT. At SOVEREIGN a single clerk plays patience on an upturned box.".
+  Observe lamp_hill_scene at lamp_hill when true "Lamp Hill is a street of narrow tall houses with a lamp at every door, and every lamp is lit by day. At the top, the Tower of Lamps goes up out of sight into a cap of iron baskets. The Watch lives in it. The houses lean away.".
+  Observe lamp_roof_scene at lamp_roof when true "The roof of the Tower of Lamps is an iron platform among the beacon-baskets, forty fathoms over the Concourse. The wind has a taste of tin. A rail runs round the edge, and in one place the rail is new, and the wall under it is a fresh colour.".
+  Observe dust_gate_scene at dust_gate when true "A gate of black stone stands across the Dust Road, and above it, cut deep, a line of letters: WHAT IS OWED IS OWED. Behind it the road runs out to the Field. Grey-robed sextons pass in and out with handcarts. Nobody speaks here above a murmur, even the carters.".
+  Observe field_scene at field when not bodyLies(pentrice) "The Field of Exposure is a mown lawn with a low wall round it, and nothing on it at all. The sextons have raked it. Birds sit on the wall in a row, waiting for a thing they have been told is coming.".
+  Observe king_court_scene at king_court when true "The King's Court is a flagged yard under the King's Tower, where petitioners wait on benches painted with their trades. A halberdier in a tabard stands at each end of the yard. Between them a small dog, belonging to no-one, has made the sunniest spot its own.".
+  Observe salt_quay_scene at salt_quay when true "The Salt Quay has a smell you could stand a spoon in. Wives in blue aprons gut herring on slabs and call the weather to each other from stall to stall. A boy runs between the stalls with a bucket, and a wife says without looking up: 'Rain by Thursday, and the Warden's wig in the gutter.'".
+  Observe draper_scene at draper when true "Mistress Pardew's draper's is a long dim shop with bolts of cloth from floor to ceiling in every colour that can be dyed, and a few that cannot. A tape-measure on a stick hangs over the counter like a sleeping snake. Costumes hang in the window on dummies, and the dummies are wearing wigs.".
+  Observe sparrow_taproom_scene at sparrow_taproom when true "The Brazen Sparrow is a taproom with a bird on the sign that is plainly a vulture. The landlady's husband is a former sergeant of the Watch who sits by the fire and says nothing about it. Players drink here, and so do their creditors, at separate tables.".
+  Observe sparrow_loft_scene at sparrow_loft when true "The Sparrow's long loft runs the length of the inn under the rafters, and has six straw pallets, a hamper that is also a table, and a window that looks down on the Rotunda's roof. Somebody has chalked a line down the middle of the floor, and on one side, in a slanting hand, the word MINE.".
+  Observe rot_front_scene at rot_front when true "The Rotunda's front of house is a round foyer with a floor of black and white marble and a cashier's cage. A bust of the King stands in an alcove, his nose rubbed pale by the touch of nervous actors. Portraits of players hang round the wall in a ring, and every one of them is Corin Fallow.".
+  Observe rot_stage_scene at rot_stage when true "The Rotunda's stage is a half-circle thrust into a pit of benches, under a painted heaven the colour of a duck-egg. The boards have been sanded by fifty years of tragedy. In the royal box above the pit a curtain of crimson velvet hangs a little open, and something behind it moves.".
+  Observe rot_wings_scene at rot_wings when true "The wings are a corridor of flats and ropes in half-dark, smelling of size, lamp-oil and fear. A prompt-desk stands at the end with a candle, a bell and a ledger, and a cat asleep on the ledger.".
+  Observe rot_flies_scene at rot_flies when true "The fly-loft is a forest of ropes and sandbags under a roof of black timber, thirty feet above the stage. A cloud on a frame hangs from one hook. Through a gap in the boards you can see the whole stage as a small bright coin.".
+  Observe rot_box_scene at rot_box when true "The royal box is a small room hung in crimson, with a gilt chair, three stools, a decanter on a tray and the best view of the stage in Dun Rierdan. It is also, you notice, the only place in the house from which the whole audience can see who is watching.".
+  Observe lant_stage_scene at lant_stage when true "The Wick is dark. Dust has put a skin on the boards. A single ghost-light, an iron cage with a lamp in it, stands in the centre of the stage and burns, though no-one has trimmed it in nine years.".
+  Observe lant_ward_scene at lant_ward when true "The Wick's wardrobe is a long room of hampers, each with a name chalked on its lid. Costumes hang in rows under sheets. Somebody has made a bed in the corner out of a cloak that was once a king's.".
+  Observe audience_scene at audience when true "The Audience Chamber is a long hall with a throne at one end and a rug the length of a street. An old man in the throne is falling asleep and being woken by a chamberlain at his shoulder. Three portraits of the King's ancestors look down from the wall, and all three are looking away.".
+  Observe closet_scene at closet when true "The Chamberlain's closet is a windowless cupboard stacked with petitions in bundles. A single candle burns before a large book which is open at a page of names, each with a tick or a cross. Several of the crosses have been gone over in a harder pencil.".
+  Observe terrace_scene at terrace when true "The terrace overlooks the Concourse from the King's Tower. Below, the ring of the Seven is a pattern of coloured stone. In the south corner a young man in black stands very still against the parapet, looking at nothing.".
+  Observe seats_scene at seats when true "The Court of the Seven Seats is a round chamber with seven judge's chairs and a bar. Six of the chairs are occupied by an old man each, who look as if they had been there at the founding of the city. The seventh is empty, and has been polished.".
+  Observe debt_yard_scene at debt_yard when true "The debtors' yard is a small stone court with a pump, a bench, a washing-line and thirty people living on it in good order. A man is teaching a child to read with a petition. Some of the prisoners can go out by day on their word, and do not.".
+  Observe crake_room_scene at crake_room when true "Master Pomfret's counting-room is warm, panelled and well-lit by a window on to the Exchange. A clerk sits at each of four desks. Crake himself is a plump pink man in a velvet coat who stands up to shake your hand, and you realise as you let it go that you have also signed something.".
+  Observe bell_nave_scene at bell_nave when true "The nave of the Bells is a round hall with a floor of chalk-white stone, and in the middle of it a rope falls from the dark. Pilgrims wait in the shadows for the hour. A nun walks round the walls with a long brass key, winding the lamps.".
+  Observe ringers_loft_scene at ringers_loft when true "The ringers' loft is a timber cage round the great bells' wheels. The air is thick with the smell of old rope and bronze. Eleven bell-ropes hang, and one is knotted at the end. The blind ringer sits on a stool with a hand on each of two ropes, feeling the tower hum.".
+  Observe sexton_hall_scene at sexton_hall when true "The Sextons' hall is bare grey stone with a long table, a ledger and a lamp that burns without oil. A roll of names hangs on the wall, in three colours: the buried, the exposed and the owed.".
+  Observe salt_hall_scene at salt_hall when true "The Salt-Wives' hall smells of herring brine and wet wool. Three women in grey sit by the fire with their hands in their laps, their eyes on the door. A kettle sings. A scale stands on the table, with a single grain of salt on one pan.".
+  Observe marchant_hall_scene at marchant_hall when true "The Marchants' hall is a narrow tiled hall with a staircase going up out of sight, and a smell of beeswax and boiled mutton. Portraits of Marchant men hang in a row. Several have had their faces gone over with fresh paint, as though a likeness had been altered to suit.".
+  Observe pardew_scene at pardew_back when true "The draper's back room is a fitting-room hung with mirrors set at different angles, so that wherever you stand you are looking at yourself from behind, from the side, and from a slightly younger angle you do not like.".
+}
