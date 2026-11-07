@@ -1,0 +1,109 @@
+Module muster "The Long Muster's Road" {
+  // ---------------------------------------------------------------------------------------------------------------
+  // The Last Cohort: two thousand people who believe the empire stands.
+  Discovery empire_gone "The empire the Cohort serves has been dust for eleven hundred years.".
+  Discovery cohort_law "The Muster's law holds the valley: the Prefect rules by the last emperor's regnal year, a courier goes north every spring, and no answer has come.".
+
+  Person sentries "the sentries of the gate" at gate {
+    Role "four soldiers of the Last Cohort in red cloaks, on the wall". Ancestry human. Calling warrior. Level 3. Numbers 4. Temperament territorial.
+    Warns "A voice from the wall rings out in an Aenean so formal it sounds like singing. A spear comes down across the road. 'Who goes? Give the word, or the pouch.'".
+    Comes "The sentries come down off the wall at the double.".
+    Lair gate.
+    State challenging blocking "Four soldiers of the Last Cohort stand across the gate with their spears crossed.".
+    Guards gate_forum.
+  }
+  Relation received(group). Relation admitted(group).
+  Action answer_challenge(actor: group, site: place) "Answer the sentries' challenge in the old script" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gate) and at(sentries, gate) and able(sentries)
+      and holding(actor, old_glossary) and not tolerates(sentries, actor).
+    Time 0.
+    On success { Assert tolerates(sentries, actor). Assert admitted(actor). }
+    Result "You read the answer off the glossary's page, falling over every second syllable. The captain on the wall listens with his head down, and then lifts it. 'He speaks like a clerk from the schools,' he says. 'Admit them.'".
+  }
+  Action deliver_pouch(actor: group, site: place) "Hold up a courier's pouch with the Cohort's seal" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gate) and at(sentries, gate) and able(sentries)
+      and holding(actor, courier_pouch) and not tolerates(sentries, actor).
+    Time 0.
+    On success { Spend courier_pouch from actor. Assert tolerates(sentries, actor). Assert admitted(actor). Assert received(actor). }
+    Result "The sentries see the wheel on the leather, and the voice that was singing stops. A spear is lowered, and then another. 'It is the north,' says one of them, in the voice of a boy. 'It is the first from the north in my father's father's time.' The gate is opened for you with some ceremony.".
+  }
+  Observe gate_sound at gate as sound when true "From the wall a horn sounds the watch, three notes, as it has been sounded every watch for eleven hundred years.".
+
+  Person corvin "Vettius Corvin" at praetorium_hall {
+    Role "Prefect of the Last Cohort". Ancestry human. Calling warrior. Level 3. Pronouns he. Manner stoic. Peaceable.
+    Greets "A tired man in a red cloak sits on the tribunal's plain chair, with the cohort's accounts. 'A courier,' he says, 'from the north. I did not think I should see it.'".
+  }
+  Person sarn "Lucilla Sarn" at barracks {
+    Role "Centurion of the First Century". Ancestry human. Calling warrior. Level 4. Pronouns she. Manner acerbic. Peaceable.
+    Greets "The woman with the cane lowers it. 'You walked the Pass, then,' she says. 'Not many do. What did you see in the road?'".
+  }
+  Person moll "Tiberin Fenwarden" at archive {
+    Role "Archivist of the Cohort". Ancestry human. Pronouns he. Manner grim. Peaceable.
+    Greets "An old man among scrolls looks up with the particular look of a man who has read a date he does not believe. 'You are not Aenean,' he says. 'Good. Shut the door.'".
+  }
+  Person orsa "Dame Orsa" at apothecary {
+    Role "apothecary of the Cohort". Ancestry human. Profession herbalist. Pronouns she. Manner jovial. Peaceable.
+    Buys kingsfoil for 90 coin.
+    Buys gentian_gathered for 12 coin.
+    Buys alhuren_gathered for 20 coin.
+    Buys heather for 4 coin.
+    Buys cloudberry for 6 coin.
+    Buys comfrey for 12 coin.
+    Buys bruisewort_gathered for 8 coin.
+    Greets "A broad woman in a stained apron looks over your pouches before she looks at you. 'Whatever you have from the high places,' she says. 'We've not had a herb from the north side in my life.'".
+  }
+  Person gaius "Old Gaius" at shrine {
+    Role "the cohort's courier, retired". Ancestry human. Pronouns he. Manner grim. Peaceable.
+    Greets "An old man sits by the lamp with a pouch in his lap. 'I have gone north thirty-one springs,' he says. 'I have gone to the Eagle. There is no one there.'".
+  }
+  Topic corvin_ask with corvin "Ask the Prefect about the Cohort" when true {
+    Says "'The Long Muster marched out in the year one,' says Corvin. 'Eleven thousand went north. My fathers held the rearguard, and the road behind them is held to this day. We have kept the gate for eleven hundred and four years, and the Emperor has not called us home. A courier goes every spring.'".
+    On discuss { Assert knows(actor, cohort_law). }
+  }
+  Topic corvin_dispatch with corvin "Ask the Prefect for his dispatch" when received(party) and not dispatchTaken(party) once {
+    Says "Corvin writes for some time, seals it, and holds it out. 'To the Emperor, or to whoever keeps his archive. Carry it north. Let it be answered, if it can be.'".
+    On discuss { Give dispatch_item to actor. Assert dispatchTaken(party). }
+  }
+  Relation dispatchTaken(group).
+  Kind dispatch "the Prefect's dispatch" is document teaching dispatch_read described "A letter on vellum, sealed with the wheel, addressed to the Emperor.".
+  Discovery dispatch_read "The Prefect asks the Emperor whether the Cohort may be relieved, and whether the northern road is still held.".
+  Item dispatch_item "the Prefect's dispatch" is dispatch at nowhere.
+  Topic corvin_tell with corvin "Tell the Prefect that the empire is gone" when not told_prefect(party) and not told_moll(party) once {
+    Says "Corvin does not move for a long time. 'Eleven hundred and four years,' he says. 'You are certain.' He gets up, goes to the window, and looks at the eagle in the forum. 'I shall have the standard struck at dawn. The valley will want to know what we are, and I shall have to tell them. Thank you for the courtesy of telling me alone.'".
+    On discuss { Assert told_prefect(party). Assert knows(actor, empire_gone). Assert state(standard, struck). }
+  }
+  Relation told_prefect(group). Relation told_moll(group).
+  Topic moll_tell with moll "Tell the Archivist what the road is" when not told_moll(party) and not told_prefect(party) once {
+    Says "Moll listens with his eyes shut. 'I have read the General's last letter,' he says. 'It says there will be an answer by the spring. It was written a thousand and a hundred springs ago.' He opens his eyes. 'The Prefect is a decent man and a tired one. I will not tell him. The valley has enough to bear. But there is a thing you can have, and it is the book that tells where the road goes, which none of us has opened in a hundred years.'".
+    On discuss { Assert told_moll(party). Assert knows(actor, empire_gone). Give itinerarium_copy to actor. Assert state(standard, kept). Assert knows(actor, ropeway_known). }
+  }
+  Kind itinerarium_kind "a copy of the Itinerarium" is document teaching itinerarium_read described "A red-bound book in the legion's square hand: every mile of the road, every mansio, every halt.".
+  Discovery itinerarium_read "The Itinerarium of the Long Muster lists every halt on the road and, in a later hand, the engineers' note that the fifth arch of the Viaduct can be bridged by a rope-way from the north pier.".
+  Item itinerarium_copy "a copy of the Itinerarium" is itinerarium_kind at nowhere.
+  Topic sarn_scout with sarn "Ask the Centurion for a scout" when told_prefect(party) and not scoutGiven(party) once {
+    Says "'You told him,' says Sarn. 'Then you owe us, and I'll pay. Dunya knows the Pass and the Viaduct. She goes with you as far as Kell Ford, and she knows a thing about the fifth arch.' Her face does something. 'Ask her.'".
+    On discuss { Assert scoutGiven(party). Assert willing(dunya, party). Set hire(dunya) to 0. Assert knows(actor, ropeway_known). }
+  }
+  Relation scoutGiven(group).
+  Person dunya "Dunya" at barracks {
+    Role "scout of the First Century". Ancestry human. Calling ranger. Level 3. Pronouns she. Manner stoic. Peaceable.
+    Carries marra_crook.
+    Joins "Dunya shoulders a pack with a legion's wheel stamped on it. 'I have always wanted to see the Ford,' she says. 'Is it as small as they say?'".
+  }
+  Observe standard_struck at forum instead of forum_scene when state(standard, struck) "A forum paved in grey stone, with a well and an altar. The bronze eagle that stood in the middle lies on its side on a plank, wrapped in sacking. A clerk is chiselling a name off the base. The people stand about in knots and do not talk loudly.".
+  Observe standard_kept at forum when state(standard, kept) "Nobody has said anything different about the bronze eagle on its pole.".
+  Thing standard "the standard of the Cohort" at forum is scenery {
+    State raised "The bronze eagle stands on its pole in the middle of the forum.".
+    State struck "The standard has been taken down.".
+    State kept "The standard is where it was.".
+  }
+  Initially Assert state(standard, raised).
+  Thing generals_letters "the General's sealed bundle" at archive {
+    State sealed closed "A bundle of letters tied in red tape and sealed with the General's own wheel lies on the table, unopened since the Muster marched.".
+    State broken "The seal is broken, and the letters lie open.".
+    Change break_seal "Break the General's seal and read" from sealed to broken.
+    Holds.
+  }
+  Discovery general_read "The General wrote that the Emperor was ill, and the Muster's rearguard must hold the road until a relief came, and that he would return by the spring.".
+  Observe letters_read at archive when state(generals_letters, broken) "The letters say the General left a rearguard to hold the road until he sent for them. He did not send.".
+}

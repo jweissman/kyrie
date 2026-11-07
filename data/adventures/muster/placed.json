@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "source": [
+    "places.kyr",
+    "scenes.kyr",
+    "road.kyr",
+    "folk.kyr",
+    "finds.kyr",
+    "cohort.kyr",
+    "wake.kyr",
+    "placed.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "canon": [
+    "imbar"
+  ],
+  "imports": [
+    "party"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    }
+  },
+  "exports": {
+    "party": "party",
+    "region": "fells",
+    "road": "road"
+  }
+}

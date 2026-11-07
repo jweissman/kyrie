@@ -540,6 +540,26 @@
    "heard": "West of here lies Tallow Edge, a long pale ridge that swallows a river, with an abandoned mine in it, a smugglers' road under it, and something older than either.",
    "skyline": "a long bare ridge, white as tallow, with a thread of mist coming out of its foot",
    "far": "a river goes in at one end of a white ridge and comes out the other, and nobody in the village will talk about what is between"
+  },
+  {
+   "id": "muster",
+   "province": true,
+   "bundle": "muster/placed.json",
+   "entry": "road",
+   "marker": "marra",
+   "side": "east",
+   "beside": [
+    "mountain",
+    "frost",
+    "hills"
+   ],
+   "name": "the Hesper Fells",
+   "topic": "the old road over the Hesper Fells",
+   "terrain": "mountain",
+   "rumour": "'East of here, up in the Hesper Fells, there is a village called Kell Ford,' says {keeper}, 'where a paved road begins that nobody has finished walking. The soldiers built it. They say it goes sixty miles over the fells to a place where somebody still lights the lamps. Every spring somebody in Kell puts a lamp in the window, and nobody will say for whom.'",
+   "heard": "East of here, in the Hesper Fells, lies Kell Ford, where an old soldiers' road begins that goes sixty miles over the mountains to a place where, they say, someone still lights the lamps.",
+   "skyline": "a pale paved road climbing out of a huddle of grey houses into the fells and being lost",
+   "far": "an old soldiers road goes sixty miles over the fells, and at the far end someone is said to still light the lamps"
   }
  ]
 }

@@ -1,0 +1,91 @@
+Module muster "The Long Muster's Road" {
+  // ---------------------------------------------------------------------------------------------------------------
+  // What the roads are, as Kell Ford knows them.
+  Discovery wyvern_known "A wyvern stoops on the open stretch of the High Road at noon, unless the wind keeps it down. The Gallery and the Ledge are sheltered from it.".
+  Discovery gallery_known "The Gallery's Third Arch is rotten; prod the roadway before crossing it. The air is foul and the goatherd will not enter.".
+  Discovery causeway_known "The Old Causeway is dry but twice as long, and wolves hunt it in the dark.".
+  Discovery flood_known "In a thaw the Low Road floods at its bend and the river under the Viaduct cannot be forded.".
+  Discovery giant_known "A giant keeps the road-house of the Pass. He asks a toll of iron or a story, and sleeps at night. The goat path goes over his roof.".
+  Discovery ledge_known "The Ledge is out of the wyvern's sight, but closed in snow, and only the goat-wise find the way on to it.".
+  Discovery cohort_known "Eleven hundred years ago the Long Muster marched out by this road, and a rearguard went the other way. Some say the lamps at the far end are still lit.".
+
+  Person marra "Marra Ashgrove" at green {
+    Role "a goatherd". Ancestry human. Calling ranger. Level 2. Pronouns she. Manner stoic. Peaceable.
+    Carries marra_crook.
+    Joins "Marra Ashgrove shoulders her crook and a bag of cheese. 'I go as far as the places I go,' she says. 'Don't ask me past them.'".
+    Greets "A woman with a hooked stick and three goats, sitting on the trough as if it were hers. 'You want to go over,' she says. 'Everyone who looks at the board does. I can show you the track. I won't go in the Gallery and I won't go where the giant can see me. The rest is fair.'".
+  }
+  Kind marra_crook "a goatherd's crook" is gear granting wayfinding described "A hooked ash stick polished by forty years of use. Whoever holds it, the hill is as plain as a street.".
+  Initially Assert willing(marra, party).
+  Initially Set hire(marra) to 4.
+  Topic marra_roads with marra "Ask Marra about the roads" when true {
+    Says "'Three roads to Septimus,' says Marra. 'The gorge is quickest and drowns in a thaw. The causeway is dry and long and the wolves have it at night. My track is steepest and no one else will take it.' She spits. 'Past Septimus the High Road is quick and the wyvern has it at noon; the Gallery is dark and the arch is rotten; the Ledge is mine, and closed in snow.'".
+    On discuss { Assert knows(actor, causeway_known). Assert knows(actor, flood_known). Assert knows(actor, wyvern_known). Assert knows(actor, ledge_known). }
+  }
+  Topic marra_gallery with marra "Ask Marra why she will not enter the Gallery" when true {
+    Says "'The air,' she says. 'And the arch. A goat knows. You prod the road with a pole before you trust it, and you hold your breath and you do not light a candle you cannot afford to see go blue.'".
+    On discuss { Assert knows(actor, gallery_known). }
+  }
+  Topic marra_giant with marra "Ask Marra about the giant" when true {
+    Says "'In the Pass, in the road-house, he keeps it for the king,' says Marra. 'Which king he doesn't know. He asks iron or a story. He sleeps at night and his hearth keeps him warm. I don't go where he can see me, because he asked my mother for a story once, and she had none.'".
+    On discuss { Assert knows(actor, giant_known). }
+  }
+  // She goes no further than she said.
+  Rule marra_stays_gallery at gallery1 when travelsWith(marra, party) and at(party, gallery1)
+    says "Marra Ashgrove stops at the mouth of the Gallery with her goats' lead in her fist. 'This is as far as I said,' she says. 'I'll wait.'" {
+    Retract travelsWith(marra, party). Assert at(marra, gallery1). Assert willing(marra, party). Set hire(marra) to 0.
+  }
+  Rule marra_stays_giant at pass_n when travelsWith(marra, party) and at(party, pass_n)
+    says "Marra Ashgrove sits down behind a rock below the notch. 'He'll see me from the door,' she says. 'Go on. I'll be here.'" {
+    Retract travelsWith(marra, party). Assert at(marra, pass_n). Assert willing(marra, party). Set hire(marra) to 0.
+  }
+
+  Person maud "Maud Hennick" at taproom {
+    Role "keeper of the Last Fire". Ancestry human. Profession innkeeper. Pronouns she. Manner acerbic. Peaceable.
+    Greets "Maud Hennick looks at your boots, and your packs, and the number of you. 'You've the look,' she says. 'Soft. Sit down and eat before you start, you'll not get a hot meal for five days.'".
+  }
+  Topic maud_road with maud "Ask Maud about the road" when true {
+    Says "'It's the legion's road,' says Maud. 'Eleven thousand went over it and ten thousand came down the other side, if you believe the beams. It's sixty miles to the Eagle and then it's the Pass and then it's nobody. We send nobody. Every spring somebody's grandmother puts a lamp in the window, and I put one in the inn.'".
+    On discuss { Assert knows(actor, cohort_known). }
+  }
+
+  Person dray "Ansel Whitlow" at taproom {
+    Role "a surveyor, resting a bad knee". Ancestry human. Pronouns he. Manner jovial. Peaceable.
+    Buys antique_compass for 120 coin.
+    Buys ancient_map for 140 coin.
+    Buys faded_map for 30 coin.
+    Buys celestial_chart for 150 coin.
+    Greets "A man with a roll of oiled paper and a leg up on a stool, who has been to the Viaduct and no further. 'It's the finest road in the world, and it's falling down,' he says. 'Sit.'".
+  }
+  Topic dray_notes with dray "Ask the surveyor for his notes on the Viaduct" when true once {
+    Says "Whitlow unrolls a sketch: nine arches, one with a cross through it. 'The fifth,' he says. 'Three ways over, none of them kind. The parapet, if you can pin a line to it. The river, if it's low, and a climb. Or the rubble, if you like your fingers broken. The wind's worse on the parapet. The river's worse in a thaw. There's no soft one.'".
+    On discuss { Give surveyor_notes to actor. }
+  }
+  Kind surveyor_notes "Whitlow's notes on the Viaduct" is document teaching viaduct_notes described "A roll of oiled paper, in a surveyor's fine hand, showing the Viaduct from three sides.".
+  Discovery viaduct_notes "The fifth arch of the Viaduct can be crossed by the parapet (pitons and a rope), by the river and the south abutment (not in a thaw), or by the fallen arch (a climb). The wind is worst on the parapet.".
+
+  Person hobday "Reeve Cattermole" at green {
+    Role "the reeve of Kell Ford". Ancestry human. Pronouns he. Manner grim. Peaceable.
+    Greets "The reeve stands at the notice-board with a hammer, nailing up a notice nobody will read. 'If you don't come back,' he says, 'I'm to know where to write. Where would that be?'".
+  }
+
+  Person pryor "Gil Pryor" at counter {
+    Role "storekeeper". Ancestry human. Pronouns he. Manner stoic. Peaceable.
+    Sells rope for 1 coin from 8.
+    Sells piton for 1 coin from 10.
+    Sells firewood for 1 coin from 10.
+    Sells tent for 6 coin from 2.
+    Sells blanket for 2 coin from 6.
+    Sells rations for 2 coin from 15.
+    Sells climbing_harness for 6 coin from 2.
+    Sells signal_whistle for 2 coin from 3.
+    Sells torch for 1 coin from 8.
+    Sells crowbar for 3 coin from 3.
+    Sells iron_spikes for 2 coin from 4.
+    Sells waterskin for 2 coin from 4.
+    Greets "Gil Pryor sells people equipment for a journey he has never seen anyone finish. 'Rope,' he says. 'Pitons, in case of the Viaduct. Iron, in case of the giant. Firewood, in case of nights. You'll want a tent. You'll want everything.'".
+  }
+  Topic pryor_what with pryor "Ask Gil Pryor what the road needs" when true {
+    Says "'Rope for the shaft and the river. Pitons for the parapet. Iron for the giant: a bar, or spikes, he's not particular. Firewood and a tent, because it is cold above the snow-line and nobody has ever lit a fire on the High Road with what they found there. Rations for five days. And a way to be home by the thaw.'".
+  }
+}

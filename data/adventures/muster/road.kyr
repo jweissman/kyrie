@@ -1,0 +1,156 @@
+Module muster "The Long Muster's Road" {
+  // ---------------------------------------------------------------------------------------------------------------
+  // The weather. A province's weather is not the region's: this sky is the road's own, and turns at first light.
+  Thing sky "the sky over the Fells" at green is scenery {
+    State clear_sky "A hard clear sky.".
+    State wind_sky "A high wind out of the north, hard enough to lean on.".
+    State snow_sky "Snow, early, thin and driven.".
+    State thaw_sky "A warm wind and a low sky, and the streams are rising.".
+  }
+  Initially Assert state(sky, clear_sky).
+  Rule sky_clear when untilLight(clock) == 1 and dice(clock) <= 45 and not state(sky, clear_sky) { Assert state(sky, clear_sky). }
+  Rule sky_wind when untilLight(clock) == 1 and dice(clock) > 45 and dice(clock) <= 65 and not state(sky, wind_sky) { Assert state(sky, wind_sky). }
+  Rule sky_snow when untilLight(clock) == 1 and dice(clock) > 65 and dice(clock) <= 82 and not state(sky, snow_sky) { Assert state(sky, snow_sky). }
+  Rule sky_thaw when untilLight(clock) == 1 and dice(clock) > 82 and not state(sky, thaw_sky) { Assert state(sky, thaw_sky). }
+  Observe sky_green at green when state(sky, snow_sky) "Snow is falling on Kell Ford, early, and the Ledge will be closed.".
+  Observe sky_green_thaw at green when state(sky, thaw_sky) "The trough overflows, and the streams are loud: a warm wind has come and the snow in the hills is going.".
+  Observe sky_wind_s at septimus_hall when state(sky, wind_sky) "A high wind is hunting about the Mansio's vault. On a day like this nothing flies.".
+
+  // Thaw floods the low places.
+  Thing gorge_water "the river in the gorge" on low_bend is scenery {
+    State low "The river runs a thumb deep over the paving at the bend.".
+    State rising blocking "The river fills the bend of the gorge from wall to wall, brown and fast. Nothing wades it.".
+  }
+  Initially Assert state(gorge_water, low).
+  Rule gorge_rises when state(sky, thaw_sky) and state(gorge_water, low) { Assert state(gorge_water, rising). }
+  Rule gorge_falls when not state(sky, thaw_sky) and state(gorge_water, rising) { Assert state(gorge_water, low). }
+  Thing river_water "the river under the Viaduct" on river_ford is scenery {
+    State low "The river is waist-deep and loud, with a bar of shingle to wade.".
+    State spate blocking "The river is a brown torrent between the piers, rolling boulders. Nobody fords it.".
+  }
+  Initially Assert state(river_water, low).
+  Rule river_rises when state(sky, thaw_sky) and state(river_water, low) { Assert state(river_water, spate). }
+  Rule river_falls when not state(sky, thaw_sky) and state(river_water, spate) { Assert state(river_water, low). }
+
+  // ---------------------------------------------------------------------------------------------------------------
+  // The cold. Nothing stops a company sleeping out except what it carries.
+  Relation warm(group). Relation chilled(group). Measure fireUntil(group).
+  Hazard night_cold "A night out on the fell" means "Deal (1d6) cold damage to ally unless constitution save against (12).".
+  Rule night_cold_strikes when dark() and at(party, ?p) and exposed(?p) and not chilled(party) and not warm(party) and not holding(party, tent) {
+    Assert strikes(night_cold, party). Assert chilled(party).
+  }
+  Rule morning_warms when not dark() and chilled(party) { Retract chilled(party). }
+  Rule fire_dies when warm(party) and watch(clock) >= fireUntil(party) { Retract warm(party). }
+  Action make_fire(actor: group, site: place) "Build a fire of the firewood you carry" {
+    Requires able(actor) and company(actor) and at(actor, site) and exposed(site) and holding(actor, firewood) and not warm(actor).
+    Time 1.
+    On success { Spend firewood from actor. Assert warm(actor). Set fireUntil(actor) to watch(clock) + 60. }
+    Result "You split the wood small and make a fire in the lee of a stone. It burns all night, and the cold stays on the other side of it.".
+  }
+
+  // ---------------------------------------------------------------------------------------------------------------
+  // The first day. Wolves on the causeway at night.
+  Person wolves "the wolves of the ridge" at causeway2 {
+    Role "a pack of lean grey wolves". Species wolf. Level 2. Numbers 3. Temperament territorial.
+    Seen when dark().
+    Warns "A long note goes up from the heather, and another answers it, and the dark round the road fills with the shapes of wolves, sitting.".
+    Comes "The pack comes in from the sides, low.".
+    Lair causeway2.
+  }
+  Observe wolf_tracks at causeway1 as sign when true "Wolf tracks cross the causeway in the dust, many, fresh. The sheep on the hill are all up on the high side of the wall.".
+  Observe wolf_howl at causeway2 as sound when dark() "Far off, in the heather, a wolf starts, and is answered.".
+  Thing causeway_fire "the causeway's old watch-fire" at causeway2 is scenery {
+    State cold "A ring of fire-blackened stones where the legion's pickets made their fire on the ridge.".
+  }
+
+  // The second day. The wyvern stoops at noon on the open road, unless the wind keeps it down.
+  Person wyvern "the wyvern" at eyrie {
+    Role "a grey wyvern, thin-winged and lean with the season". Species wyvern. Level 6. Numbers 1. Temperament territorial.
+    Warns "The bracken heaves and a long head comes up out of it on a neck like a ship's cable, with an eye like a coin, and lets out a hiss that sets the stones singing.".
+    Comes "The wyvern comes down off its shelf with its wings half open.".
+    Lair eyrie.
+  }
+  Relation stooped(group).
+  Hazard wyvern_stoop "The stoop of the wyvern" means "Deal (3d6) physical damage to ally unless dexterity save against (15).".
+  Rule wyvern_stoops at high2 when at(party, high2) and hour(clock) >= 11 and hour(clock) < 14 and not state(sky, wind_sky) and not stooped(party)
+    says "A shadow goes over the road in one long sweep, and then the sky has a wing in it, and the bird is not a bird." {
+    Assert strikes(wyvern_stoop, party). Assert stooped(party).
+  }
+  Rule stoop_clears when stooped(party) and not at(party, high2) and not hour(clock) >= 11 { Retract stooped(party). }
+  Rule stoop_clears_late when stooped(party) and hour(clock) >= 14 { Retract stooped(party). }
+  Observe high_shadow at high1 as sign when true "Far up, in the white glare, something is hanging in the sky quite still, and then it is not.".
+  Observe high_bones at gallery1 as sign when true "A sheep's skull lies by the mouth of the Gallery, opened at the crown. The herdsmen of Kell Ford will tell you why you do not cross the open stretch at noon.".
+  Thing third_arch "the Third Arch" on gallery_b {
+    State whole dangerous "The roadway across the Third Arch is paved and level, and looks as sound as the rest.".
+    State found "A slab of the roadway has been pried up and thrown into the crack: the arch beneath is rotted through, and the sound way runs along the pier on the left.".
+    Hurts with arch_fall when whole then found.
+  }
+  Hazard arch_fall "The rotten arch" means "Deal (3d6) physical damage to ally unless dexterity save against (14).".
+  Rule arch_shown when tried(third_arch, prodding) and state(third_arch, whole)
+    says "The pole goes down on the roadway and the slab goes down with it, spinning away into the crack, with no sound at the bottom." {
+    Assert state(third_arch, found).
+  }
+  Thing foul_air "the Gallery's bad air" on gallery_a {
+    State foul dangerous "The air is thick and sweet; a candle burns low and blue.".
+    Hurts with bad_air when foul then foul.
+  }
+  Hazard bad_air "Foul air" means "Deal (1d6) poison damage to ally unless constitution save against (12).".
+
+  // The third day. Three ways over the fifth arch; each with a hazard and a cost.
+  Thing parapet_wind "the wind on the parapet" on via_parapet {
+    State windy dangerous "The wind on the parapet comes up the gap and tries to take you off the stone.".
+    State rigged "The pitons hold, and the line is rigged.".
+    Hurts with wind_slip when windy then rigged.
+  }
+  Hazard wind_slip "The wind on the parapet" means "Deal (2d6) physical damage to ally unless dexterity save against (13).".
+  Thing rubble_slope "the fallen arch" on rubble_out {
+    State loose dangerous "The blocks of the fallen arch shift under the hand.".
+    State sorted "The blocks have settled under your weight.".
+    Hurts with rock_slide when loose then sorted.
+  }
+  Hazard rock_slide "The sliding rubble" means "Deal (2d6) physical damage to ally unless dexterity save against (13).".
+
+  // The fourth day. The giant asks a toll, and sleeps at night.
+  Person giant "the giant of the Pass" at roadhouse {
+    Role "a hill-giant, the road-house's one resident". Species behemoth. Level 5. Numbers 1. Temperament territorial.
+    Warns "The heap of fleeces by the hearth stands up, and goes on standing up. A face like a cliff looks down. 'A toll,' it says. 'Iron, or a story. I have had both and I would like more of both.'".
+    Comes "The giant picks up a fire-iron the length of a spear.".
+    Lair roadhouse.
+    State astride blocking "The giant stands in the road-house between its two doors, with a fire-iron across his knees, and the road goes through him.".
+    Guards pass_on.
+  }
+  Relation giantPaid(group).
+  Action pay_iron(actor: group, site: place) "Give the giant a crowbar for his toll" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, roadhouse) and at(giant, roadhouse) and able(giant)
+      and holding(actor, crowbar) and not tolerates(giant, actor).
+    Time 0.
+    On success { Spend crowbar from actor. Assert tolerates(giant, actor). Assert giantPaid(actor). }
+    Result "The giant turns the bar over, bends it in the middle, bends it back, and puts it on the hearth with the rest. 'Iron,' he says. 'Good.' He sits down on the far side of the fire.".
+  }
+  Action pay_spikes(actor: group, site: place) "Give the giant a bag of iron spikes for his toll" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, roadhouse) and at(giant, roadhouse) and able(giant)
+      and holding(actor, iron_spikes) and not tolerates(giant, actor).
+    Time 0.
+    On success { Spend iron_spikes from actor. Assert tolerates(giant, actor). Assert giantPaid(actor). }
+    Result "The giant counts the spikes in his palm, lips moving, up to forty, and then loses count and gives up and lets you by.".
+  }
+  Action tell_giant(actor: group, site: place) "Tell the giant a story for his toll" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, roadhouse) and at(giant, roadhouse) and able(giant) and not tolerates(giant, actor).
+    Time 0.
+    Resolve check(actor, performance, dc_hard).
+    On success { Assert tolerates(giant, actor). Assert giantPaid(actor). }
+    Result "You tell the one about the king who lost his beard in the river, and the giant listens with his mouth open, and he laughs where it should be laughed at, and at the end he wipes his eyes with a fleece.".
+    Otherwise "The giant listens through the first of it with his head on one side. 'I have heard that one,' he says. 'He gets the beard back.'".
+  }
+  Rule giant_sleeps at roadhouse when dark() and at(giant, roadhouse) and not tolerates(giant, party) and not giantNod(giant)
+    says "The giant's head goes down on his chest. The fleeces move in time with his breath." { Assert tolerates(giant, party). Assert giantNod(giant). }
+  Relation giantNod(group).
+  Rule giant_wakes when not dark() and giantNod(giant) and not giantPaid(party) { Retract tolerates(giant, party). Retract giantNod(giant). }
+  Observe giant_sign at pass_n as sign when true "Footprints the length of a door in the snow-melt, and a sheep's bones piled neat as kindling.".
+  Thing goat_slide "the loose shale on the goat path" on goat_up {
+    State loose dangerous "The shale of the goat path slides in little skirts.".
+    State trodden "The goat path is trodden firm.".
+    Hurts with shale_slide when loose then trodden.
+  }
+  Hazard shale_slide "The shale" means "Deal (2d6) physical damage to ally unless dexterity save against (13).".
+}

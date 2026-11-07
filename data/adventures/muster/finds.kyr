@@ -1,0 +1,77 @@
+Module muster "The Long Muster's Road" {
+  // ---------------------------------------------------------------------------------------------------------------
+  // The legion's milestones: the numbers count down toward the Last, and say how far.
+  Discovery days_known "The milestones count the days from the Eagle to the Last, and the last stone says six.".
+  Observe milestone_causeway at causeway1 as sign when true "A milestone stands at the causeway's head, the wheel and a number cut in it; and a later hand has scratched under it: SIX FROM THE EAGLE, FIVE FROM THE FORD." teaches days_known.
+  Observe milestone_far at via_s as sign when true "The abutment's milestone: IIII, in the legion's square capitals, and the wheel." teaches days_known.
+
+  // What grows.
+  Thing gorge_comfrey "the comfrey" at gorge1 is scenery { State growing "Comfrey grows in the wet below the road, tall hairy leaves and hanging bells.". }
+  Initially Assert grows(gorge_comfrey).
+  Discovery gorge_comfrey_hid "The gorge's comfrey is gathered, not found.".
+  Item gorge_comfrey_1 "a bunch of comfrey" is comfrey in gorge_comfrey hidden until gorge_comfrey_hid.
+  Initially Assert crop(gorge_comfrey_1, gorge_comfrey).
+  Thing gorge_bruisewort "the bruisewort" at gorge1 is scenery { State growing "Bruisewort grows in the cracks of the old paving, thick leaves and small purple flowers.". }
+  Initially Assert grows(gorge_bruisewort).
+  Discovery gorge_bruisewort_hid "The gorge's bruisewort is gathered, not found.".
+  Item gorge_bruisewort_1 "a handful of bruisewort" is bruisewort_gathered in gorge_bruisewort hidden until gorge_bruisewort_hid.
+  Initially Assert crop(gorge_bruisewort_1, gorge_bruisewort).
+  Thing high_heather "the heather" at high1 is scenery { State growing "Heather lies over the shoulder of the fell in low wiry purple-pink bells.". }
+  Initially Assert grows(high_heather).
+  Discovery high_heather_hid "The heather on the High Road is gathered, not found.".
+  Item high_heather_1 "a bundle of heather" is heather in high_heather hidden until high_heather_hid.
+  Initially Assert crop(high_heather_1, high_heather).
+  Thing ledge_gentian "the gentian" at ledge1 is scenery { State growing "Gentian grows in the rock crevices of the Ledge, the deepest blue in the fells.". }
+  Initially Assert grows(ledge_gentian).
+  Discovery ledge_gentian_hid "The Ledge's gentian is gathered, not found.".
+  Item ledge_gentian_1 "a blue gentian" is gentian_gathered in ledge_gentian hidden until ledge_gentian_hid.
+  Initially Assert crop(ledge_gentian_1, ledge_gentian).
+  Thing ledge_alhuren "the alhuren" at ledge2 is scenery { State growing "Alhuren grows where the Ledge narrows, silver-leaved, with blue flowers that give back a faint light.". }
+  Initially Assert grows(ledge_alhuren).
+  Discovery ledge_alhuren_hid "The Ledge's alhuren is gathered, not found.".
+  Item ledge_alhuren_1 "a spray of alhuren" is alhuren_gathered in ledge_alhuren hidden until ledge_alhuren_hid.
+  Initially Assert crop(ledge_alhuren_1, ledge_alhuren).
+  Thing bog_cloudberry "the cloudberry" at bog is scenery { State growing "Cloudberry grows on the hummocks, a single amber berry to a plant.". }
+  Initially Assert grows(bog_cloudberry).
+  Discovery bog_cloudberry_hid "The bog's cloudberry is gathered, not found.".
+  Item bog_cloudberry_1 "a handful of cloudberries" is cloudberry in bog_cloudberry hidden until bog_cloudberry_hid.
+  Initially Assert crop(bog_cloudberry_1, bog_cloudberry).
+  Item bog_cloudberry_2 "a handful of cloudberries" is cloudberry in bog_cloudberry hidden until bog_cloudberry_hid.
+  Initially Assert crop(bog_cloudberry_2, bog_cloudberry).
+  Thing hollow_kingsfoil "the kingsfoil" at hollow is scenery { State growing "Kingsfoil grows in the warm green turf of the hollow, a low three-leaved herb with a clean sharp scent.". }
+  Initially Assert grows(hollow_kingsfoil).
+  Discovery hollow_kingsfoil_hid "The hollow's kingsfoil is gathered, not found.".
+  Item hollow_kingsfoil_1 "a sprig of kingsfoil" is kingsfoil in hollow_kingsfoil hidden until hollow_kingsfoil_hid.
+  Initially Assert crop(hollow_kingsfoil_1, hollow_kingsfoil).
+  Item hollow_kingsfoil_2 "a sprig of kingsfoil" is kingsfoil in hollow_kingsfoil hidden until hollow_kingsfoil_hid.
+  Initially Assert crop(hollow_kingsfoil_2, hollow_kingsfoil).
+
+  // What the legion left, and the road's travellers after it.
+  Item track_piton "a rusted piton" is piton at track2.
+  Item guard_harness "a legion harness, stiff" is climbing_harness at causeway3.
+  Item septimus_spyglass "a spyglass in a niche" is spyglass at septimus_hall.
+  Item septimus_oil "a flask of lamp oil" is lamp_oil at septimus_hall.
+  Item septimus_blanket "a soldier's blanket" is blanket at septimus_hall.
+  Item septimus_coin "a dull steel coin" is steel_coin at septimus_hall.
+  Item octavius_glossary "a scribe's glossary of the old script" is old_glossary in satchel.
+  Item octavius_ward "a scribe's wardstone" is wardstone in satchel.
+  Thing satchel "the scribe's satchel" at octavius_hall {
+    State hanging closed "A leather satchel hangs on a peg by the scribe's bench, buckled.".
+    State open "The satchel hangs open, and a book and a stone lie in it.".
+    Change open_satchel "Unbuckle the scribe's satchel" from hanging to open.
+    Holds.
+  }
+  Item eagle_silver "a season of the Toll" is toll_silver at eagle.
+  Item eagle_coin "a dull steel coin" is steel_coin at eagle.
+  Item eagle_map "an ancient map of the road" is ancient_map at eagle.
+  Item eagle_faded "a faded map, one corner burnt" is faded_map at eagle.
+  Item pouch_a "a courier's pouch" is courier_pouch at eagle.
+  Item pouch_b "a courier's pouch" is courier_pouch at eagle.
+  Item pouch_c "a courier's pouch" is courier_pouch at eagle.
+  Kind courier_pouch "a courier's pouch" is document teaching pouch_read described "A leather pouch sealed with a wheel, addressed in a clear square hand. It has waited a long time for a reply.".
+  Discovery pouch_read "The pouch is addressed to the Emperor at Aen-Vessaly from the Prefect of the Last Cohort, and dated: the eleven hundred and fourth year of his reign.".
+  Item roadhouse_waystone "a waystone, dragged in for a doorstop" is dun_rierdan_waystone at roadhouse.
+  Item hollow_lamp "a lamp left in the hollow" is lamp at hollow.
+  Observe eagle_pouches at eagle as sign when true "The courier-pouches are stacked in the angle of the wall as they were left, by someone who had come to the end of the road that the north had no longer.".
+  Observe eagle_arch at eagle when knows(party, pouch_read) "The tags on the pouches all say the same: TO THE EMPEROR, WITH THE COHORT'S DUTY, AND A REQUEST FOR AN ANSWER.".
+}
