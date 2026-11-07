@@ -130,8 +130,12 @@ export class Journey {
     return all.filter(c => c.full !== c.label && who.test(Journey.straight(c.full.slice(0, -c.label.length - 2)))
       && what.test(Journey.straight(c.label)));
   }
+  // A step written to a group's act ("Examine › Push") also finds that act offered alone ("Examine — Push and pull at
+  // it"): a group left with one act is offered as itself (a thing's look is offered only where something answers it,
+  // and Low Water's records, written when Examine held both, had stopped at the stones).
   private static pattern(text: string): RegExp {
-    try { return new RegExp(text, 'i'); } catch { return new RegExp(text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i'); }
+    const either = text.replaceAll(' › ', ' [›—] ');
+    try { return new RegExp(either, 'i'); } catch { return new RegExp(text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i'); }
   }
   private static plain(text: string): string { return text.replace(/[‐-―]/g, '-').toLowerCase(); }
   private static straight(text: string): string { return text.replace(/[‘’]/g, "'").replace(/[“”]/g, '"'); }
