@@ -168,4 +168,67 @@ describe('the Lamp Below', () => {
     await back.play('To the far side of the wheel-floor');
     expect(back.at('party')).toBe(k('lb_far'));
   }, 300000);
+
+  // What a descent costs and what it leaves (the play-through in doc/imbar/playtests/ring-and-lamp-player.md).
+  it('makes Oswin Tarn a choice: carry the man and leave his book, or carry the book and leave the man to be fetched', async () => {
+    const carry = await start();
+    carry.put('party', k('lb_gallery'));
+    await carry.play('Take Oswin Tarn back up the stair');
+    expect(carry.holds(k('oswinOut'), 'party')).toBe(true);
+    expect(carry.matches("Take Oswin Tarn's notebook").length).toBe(0);
+    expect(carry.at(k('oswin'))).toBe(k('lb_head'));
+    carry.put('party', k('oil_store'));
+    expect(seen(carry)).toContain('exactly how wrong he was');
+    const book = await start();
+    book.put('party', k('lb_gallery'));
+    await book.play("Take Oswin Tarn's notebook");
+    expect(book.holds(k('bookTaken'), 'party')).toBe(true);
+    expect(book.matches('Take Oswin Tarn back up').length).toBe(0);
+    expect(book.at(k('oswin'))).toBe(k('lb_gallery'));
+    expect(book.campaign.world.related('holding').some(f => f.args[1] === k('lb_notebook'))).toBe(true);
+    book.put('party', k('oil_store'));
+    expect(seen(book)).toContain('You carried his paper up and left him with the lamp');
+  }, 300000);
+
+  it('has the brake cost a night on the Reach unless the pilot is fed in time, and the pilot save it', async () => {
+    const dark = await start();
+    await descend(dark);
+    await dark.play('black stair', "To the keepers' gate");
+    dark.roll('pass');
+    await dark.play("Take the gate's tumbler", 'To the ledge over the wheel-floor', 'Ease the keepers. brake');
+    expect(dark.holds(k('brakeThrown'), 'party')).toBe(true);
+    await dark.play(`=${dark.watch() + 100}`);
+    expect(dark.holds(k('reachPaid'), 'party')).toBe(false);
+    await dark.play(`=${dark.watch() + 60}`);
+    expect(dark.holds(k('reachPaid'), 'party')).toBe(true);
+    expect(dark.latest).toContain('thump of a gun');
+    dark.put('party', k('pharos_foot'));
+    expect(seen(dark)).toContain('spars lie across the strand');
+    // Fed in time, the Pharos burns again, and nothing is lost on the Reach.
+    const fed = await start();
+    await descend(fed);
+    await fed.play('black stair', "To the keepers' gate");
+    fed.roll('pass');
+    await fed.play("Take the gate's tumbler", 'To the ledge over the wheel-floor', 'Ease the keepers. brake');
+    fed.give('dorothea_oil_keg');
+    fed.put('party', k('lb_well'));
+    await fed.play('Pour a keg of the Pharos');
+    expect(fed.holds(k('pilotLit'), 'party')).toBe(true);
+    await fed.play(`=${fed.watch() + 200}`);
+    expect(fed.holds(k('reachPaid'), 'party')).toBe(false);
+  }, 600000);
+
+  it('lets a company leave a coin in the drift on the way down, and finds it bright on the way up', async () => {
+    const j = await start();
+    j.put('party', k('lb_stair'));
+    j.coin(5);
+    await j.play('Leave a coin in the drift');
+    expect(j.holds(k('coinLeft'), 'party')).toBe(true);
+    expect(j.matches('Leave a coin').length).toBe(0);
+    j.assert('lbDone', 'party');
+    j.put('party', k('lb_head'));
+    await j.play('=+1');
+    expect(seen(j)).toContain('first light you have seen in hours');
+    expect(seen(j)).toContain('the hollow in the crown of it is bright again');
+  }, 300000);
 });
