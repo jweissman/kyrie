@@ -4,6 +4,8 @@ import { Effects } from './effects';
 import { ItemCatalog } from './item-catalog';
 import type { BattleState, Command, Fighter } from './model';
 import { Quarry } from './quarry';
+import { Expressions } from './expressions';
+import type { Amount, ArenaAbility } from './lang/parse';
 import { Positions } from './rules/positions';
 
 // The automatic controller's choice: score each legal command, take the best. Ties are broken explicitly, never by
@@ -14,20 +16,37 @@ export class Tactics {
     const r = Effects.modifiers(target).resistances ?? {};
     return (r.all ?? 0) + (r[type] ?? (Content.rules.physicalDamage.includes(type) ? r.physical ?? 0 : 0));
   }
-  // Hit points within one blow or burst of falling.
-  static readonly frail = 10;
+  // A foe that turns all of a kind of harm is not worth striking with it; one that turns some of it still falls to it,
+  // only more slowly, and a blow at it weighs more than a stance, a boast or a guard not needed (two warriors had dug
+  // in, taunted and steeled themselves at three glass men half proof against their axes, and never swung at them).
+  private static blunted(resistance: number): number { return resistance >= 1 ? 10 * resistance : 5 * resistance; }
+  // An area catches whoever stands where it is aimed (see Positions). Each friend it catches weighs against it more
+  // than a foe for it; one it could fell, at the worst its dice can do, rules it out: a cleric had let a burst of
+  // radiance loose in the press at three glass men and burned the warrior beside them to death. But a burst that
+  // holds three glass men still while it scorches two hale warriors is a trade a company makes.
+  private static friendly(ability: ArenaAbility, actor: Fighter, ours: Fighter[]): number {
+    const worst = Tactics.worst(ability, actor);
+    return ours.reduce((n, f) => n - (f.hp <= worst ? 100 : 15), 0);
+  }
+  private static readonly reckoner = new Expressions('tactics');
+  // The most an ability's harm comes to on one it falls on: its dice at their highest (3d6 is eighteen).
+  static worst(ability: ArenaAbility, actor: Fighter): number {
+    return ability.effects.reduce((n, e) => n + (e.kind !== 'damage' && e.kind !== 'drain' || !e.amount ? 0
+      : Tactics.reckoner.harm(Tactics.highest(e.amount), Effects.context(actor))), 0);
+  }
+  private static highest(amount: Amount): Amount {
+    return amount.kind === 'literal' ? amount : { kind: 'deem', expression:
+      amount.expression.replace(/(\d*)d(\d+)/g, (_, n: string, d: string) => `(${Number(n || 1) * Number(d)})`) };
+  }
   static score(state: BattleState, command: Command): number {
     const actor = state.combatants.find(f => f.id === command.actor)!;
     const target = state.combatants.find(f => f.id === command.target)!;
     // A thing carried to use up is scored as what using it does (see ItemCatalog.use).
     const ability = Content.abilities.find(a => a.id === command.ability) ?? ItemCatalog.used(command.ability)!;
-    // An area catches whoever stands where it is aimed: each foe in it counts for it, and each friend weighs far more
-    // against it than a foe for it, one it could fell most of all (see Positions): a cleric of a company of four had
-    // let a burst of radiance loose in the press at three glass men, and burned the warrior beside them to death.
     const area = Positions.area(ability);
     const caught = area ? Positions.caught(actor, command.target, area, state.combatants) : undefined;
     const ours = caught?.filter(f => f.team === actor.team) ?? [], friends = ours.length;
-    let score = ours.reduce((n, f) => n - (f.hp <= Tactics.frail ? 100 : 30), 0);
+    let score = Tactics.friendly(ability, actor, ours), kept = false;
     for (const effect of ability.effects) {
       switch (effect.kind) {
         case 'attack': case 'damage': case 'drain': {
@@ -41,7 +60,7 @@ export class Tactics {
             : all || Quarry.of(state, actor) === target.id ? 8 : 0;
           const type = effect.kind === 'attack' ? actor.equipment?.weapon?.type ?? 'bludgeoning'
             : effect.kind === 'damage' ? effect.damageType : effect.damageType ?? 'necrotic';
-          score -= 10 * Tactics.resistance(target, type);
+          score -= Tactics.blunted(Tactics.resistance(target, type));
           break;
         }
         case 'enervate': score += target.team !== actor.team ? 15 : 0; break;
@@ -51,8 +70,12 @@ export class Tactics {
         case 'apply':
           // Standing in front of a frail companion something means to strike comes before a blow of one's own.
           if (Effects.status(effect.status).guard) { score += Quarry.cover(state, actor, target); break; }
+          // What one lays on oneself is one turn's readiness, worth the same however many conditions it names (a
+          // cleric had blessed and cloaked herself, two apiece, rather than smite the glass men).
           if (Effects.skips(effect.status)) { score += 18; }
-          else if (!target.statuses.some(s => s.id === effect.status)) { score += 6; }
+          else if (!target.statuses.some(s => s.id === effect.status) && !(effect.target === 'self' && kept)) {
+            score += 6; kept ||= effect.target === 'self';
+          }
           // A foe's own power (a ghoul's touch) falls on whom its kind goes for, as its blows do.
           if (actor.team !== 'fighters' && target.team !== actor.team && Quarry.of(state, actor) === target.id) { score += 8; }
           break;

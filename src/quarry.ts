@@ -54,11 +54,13 @@ export class Quarry {
     return state.combatants.some(o => o.hp > 0 && o.statuses.some(s => s.by === f.id && Effects.status(s.id).guard));
   }
   // How much one of the company would rather stand in front of another now than strike a blow: not at all unless some
-  // foe means to strike them this round, they have fewer hit points than the guard, nobody else is guarding them, and
-  // what is meant for them could put them down (the worst of each blow, together); then more for each blow meant, and
-  // the nearer they are to falling. A mage behind a warrior is guarded; a cleric with a few cuts is not.
+  // foe means to strike them this round, they have fewer hit points than the guard, nobody else is guarding them, they
+  // are not standing in front of someone themselves, and what is meant for them could put them down (the worst of each
+  // blow, together); then more for each blow meant, and the nearer they are to falling. A mage behind a warrior is
+  // guarded; a cleric with a few cuts is not; nor a warrior guarding her, whom the blows meant for her now find: two
+  // warriors had stood in front of each other in turn before three glass men, and neither struck a blow.
   static cover(state: BattleState, guard: Fighter, ally: Fighter): number {
-    if (ally.id === guard.id || ally.hp === 0 || ally.hp >= guard.hp) { return 0; }
+    if (ally.id === guard.id || ally.hp === 0 || ally.hp >= guard.hp || this.guarding(state, ally)) { return 0; }
     if (ally.statuses.some(s => Effects.status(s.id).guard && s.by !== guard.id)) { return 0; }
     const meant = Object.values(state.intents ?? {}).filter(c => c.target === ally.id);
     const worst = meant.reduce((n, c) => n + this.worst(state, c), 0);
