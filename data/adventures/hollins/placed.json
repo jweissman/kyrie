@@ -15,6 +15,7 @@
     "lady.kyr",
     "pye.kyr",
     "plots.kyr",
+    "winders.kyr",
     "endings.kyr",
     "after.kyr",
     "placed.kyr"
@@ -34,6 +35,10 @@
       "type": "group"
     }
   },
+  "canon": [
+    "imbar",
+    "rose_made_whole"
+  ],
   "exports": {
     "party": "party",
     "region": "hollins_country",

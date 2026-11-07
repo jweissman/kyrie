@@ -19,7 +19,9 @@
     "endings.kyr",
     "aftermath.kyr",
     "growth.kyr",
-    "company.kyr"
+    "voices.kyr",
+    "company.kyr",
+    "lore.kyr"
   ],
   "rules": [
     "world"
@@ -28,7 +30,8 @@
     "party"
   ],
   "canon": [
-    "imbar"
+    "imbar",
+    "slack_opened"
   ],
   "exports": {
     "party": "party",

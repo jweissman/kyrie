@@ -40,7 +40,7 @@ Module thrume "Thrume" {
     Role "the Abbess of Hush, as she is in his dream: tall, grey, crowned with sleep". Species court_kin. Level 14. Peaceable.
   }
   Topic abbess_offer with dream_abbess "Speak to the Abbess at the bridge" when true once {
-    Says "She speaks aloud. In the dream, the Court can. Her voice is the kindest you have ever heard. 'Go back,' she says. 'Sit by the heart and let him sleep, and I will give you a dream of your own, the best one, for ever. Your father alive. Your home not burned. Whatever you lost.' Her long hand opens toward the bridge. 'Or go down there, and meet what I serve, and be forgotten.' She steps aside. She does not need to stop you.".
+    Says "She speaks aloud. In the dream, the Court can. Her voice is patient; it has never once been in a hurry. 'Go back,' she says. 'Sit by the heart and let him sleep, and I will give you a dream of your own, the best one, for ever. Your father alive. Your home not burned. Whatever you lost.' Her long hand opens toward the bridge. 'Or go down there, and meet what I serve, and be forgotten.' She steps aside. She does not need to stop you.".
   }
   Passage to_between "the bridge to the Between" is passage between eye_tower and grey_plain taking 1 hour.
 }

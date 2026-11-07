@@ -240,7 +240,7 @@ Module ombra "The Book of Faces" {
     On success { Assert cm_thief_caught(party). Assert cm_tested(party, cm_t_chandler). }
     Otherwise "You have a handful of Cockle's white and then you have not: he goes under the trestle and out the far side like an eel from a net, and the mild man, who has been looking at wicks, is now looking at the sky. 'Well,' says Mistress Crumb, 'that is two for you.' She means the thread.".
     On failure { Assert cm_stall_robbed(party). Assert cm_tested(party, cm_t_chandler). }
-    Result "He is a boy of fourteen in a Cockle's white that is too big, with a reel of Mistress Crumb's best thread in his sleeve. The mild man has gone from the trestle as if he had never been at it. Mistress Crumb looks at the boy for a long time. She takes the thread, and the reel's worth, and the boy's ear. 'The Watch would have him by the neck in an hour,' she says, to you. 'Ask me what I shall do with him.' She does not say. You see her put a loaf in his hand as she sends him off.".
+    Result "He is a boy of fourteen in a Cockle's white that is too big, with a reel of Mistress Crumb's best thread in his sleeve. The mild man has gone from the trestle as if he had never been at it. Mistress Crumb counts the boy's fingers with her eyes, all ten. She takes the thread, and the reel's worth, and the boy's ear. 'The Watch would have him by the neck in an hour,' she says, to you. 'Ask me what I shall do with him.' She does not say. You see her put a loaf in his hand as she sends him off.".
   }
   Action cm_warn_thief(actor: group, site: place) "Tell the mild man quietly that you have seen, and let him and his friend go" {
     Speaker cm_teale.

@@ -1,0 +1,55 @@
+Module skeel "Fair Weather" {
+  Description "What the hermit's cell on the Holm was for: the keeper's bench and its tally, three notations deep, and the mark of the fish and the flame.".
+
+  // ── The keeper's bench ─────────────────────────────────────────────────────────────────────────────────────────
+  // Nobody on the Reach knows what the cell was built for, and everybody has a use for it. Parson Hosken thinks a
+  // hermit; Skeel thinks a store. The bench is a ledger. Cut along its underside, in three hands that are not one
+  // hand, is the keeping of the Light: a long cut for a ship, and under it a short cut for each soul the sea gave
+  // back living, with a flame in the stroke, and for each dog or cat a small paw. Neither man nor dog nor cat is not
+  // a charter's whim: it is what the keepers counted. The oldest rows are in a notation nobody reads; the middle rows
+  // are in the numerals the Aeneans used, I, V, X, cut with a ruler; the last are the Holm's own marks, a stroke and
+  // a ring, and they stop forty years ago, the year the pilots went and the well turned salt.
+  Observe lamp_stand_mark at lamp_room as feature when true "Cast into the iron foot of the lamp-stand, rubbed bright where a hand has gone over it for fifty years, is a small device: a fish, and above it a flame.".
+  Observe bench_underside at cell when tried(bench, looking) "Under the lip of the hollowed bench the stone is cut in close rows, hand-wide, from one end to the other and back: long strokes, and short ones under them, and in some of the short strokes a little flame, and in a few a paw. The rows are in three hands. The last row ends a hand's breadth short of the wall." teaches tally_seen.
+  Thing bench "the worn stone bench in the cell" at cell {
+    Tries looking.
+    State standing "A stone bench along one wall of the cell, worn into a hollow by somebody's sitting a very long time ago.".
+  }
+  Initially Assert state(bench, standing).
+  Discovery tally_seen "Cut along the underside of the cell's bench is a tally in three hands: a long stroke for a ship, short strokes under it, some of them with a flame cut in, a few with a paw. It stops forty years ago.".
+  Discovery tally_read "The bench is the keeper's tally. The oldest rows are in a notation nobody can read; then, in the numerals of the Aeneans, a long stroke for every ship and under it a short one for each person the sea gave back living, with a flame; a paw for every dog or cat; a ring for the dead. The last rows are the Holm's own, and stop in the year the pilots went. Neither man nor dog nor cat is what the keepers counted. A ship that gave back a flame was never wreck." {
+    Found by searching cell with lore "You lie on your back on the cell floor with a candle, and the rows come up out of the stone one by one. Three hands: the last is Loveday's mother's, a stroke and a ring, careful, with the habit of someone who learned it by touch; the middle is cut with a rule, in Aenean numerals, so many ships and so many flames under them, century on century of the same patient regular count; the oldest you cannot read at all, but you can read its shape, because it is the same shape. A long stroke. Short ones under it. A flame in some. In all that count there are four hundred and nine ships with a flame in them, and not one of them is marked wreck. Neither man nor dog nor cat: those are not a charter's words. They are the keeper's columns.".
+  }
+  Topic loveday_bench with loveday "Ask Loveday Kitto what the bench in the cell is for" when knows(actor, tally_seen) once {
+    Says "'The bench.' She is quiet. 'My mother said you sit on it the third ebb. When the sea has given somebody back, living, you take them in, and you sit with them on the bench till the third ebb, and you do not say what they are, or whose, or what they were carrying, to anybody. Not to the Reeve. Not to the town.' She turns the rag in her hands. 'Till they've had three ebbs. She said: nobody is to say a word of a man for three ebbs, because a man who's been given back has the right to be nobody for a bit.' She half-laughs. 'I took it for a sailor's superstition. Forty years I've kept a light and sat on that bench one night in a hard winter, to rest my back.'".
+  }
+  Topic hosken_tally with hosken "Ask Parson Hosken to read the tally on the underside of the cell's bench" when knows(actor, tally_seen) and not knows(actor, tally_read) once {
+    Says "He lies on his back on the cell floor in his cassock, with the candle, and says nothing at all for a quarter of an hour, and when he sits up he has stone-dust in his hair and is very pale. 'Not a hermit,' he says. 'I have preached it for twenty years in the vestry: a hermit. A hermit does not count ships.' He shows you the middle rows. 'These are Aenean, they are the numerals one sees on the church foundation, and look, a flame in every fourth stroke, a paw. A dog, a cat. Neither man nor dog nor cat.' He sits on the bench, where nobody has sat. 'It is not the Admiral's phrase. It is older than the Admiral. It is what a keeper wrote down. And the Admiral's grandfather's clerk bought it for a wreck-right and kept the words and did not understand them.'".
+    On discuss { Assert knows(actor, tally_read). }
+  }
+  Discovery keepers_third "The keeper of the Light took in whoever the sea gave back living, sat with them the third ebb, and told no one what they were; the keeper's count of those given back living is why a ship with a living thing ashore of her was never wreck.".
+
+  // ── The Court hears it ──────────────────────────────────────────────────────────────────────────────────────────
+  // The Court is asked to relieve a keeper of an office it did not give her. Read, the tally says what a keeper is.
+  Relation tallyRead(place).
+  Action read_tally(actor: group, site: place) "Read the keeper's tally to the Court" {
+    Description "The Court may relieve a keeper it appointed. The tally says who appointed this one.".
+    Requires able(actor) and at(actor, site) and at(actor, net_loft) and matterOpen(lantern) and knows(actor, tally_read)
+      and not lovedayKept(reach) and not tallyRead(reach) and not henderConfessed(hender).
+    Time 2.
+    On success { Assert tallyRead(reach). Assert lovedayKept(reach). Assert decided(lantern). Assert knows(actor, keepers_third). }
+    Result "You put it plainly, and not well: a bench in a cell, a tally in three hands, four hundred and nine ships with a flame in them, and none of them wreck. Parson Hosken stands up beside you with his hat in his hands and says the middle rows are numerals he has seen cut in the church foundation, and sits down. Nobody in the loft moves. Then Loveday Kitto, on her stool, says clearly, to nobody, 'Third ebb,' and a very old man on the back bench says it with her, 'third ebb,' and then two women, who have not said it since they were girls. Hender Brask puts down his pen. 'The Court,' he says, 'does not relieve what it did not appoint.' He writes it in the book. 'The keeper keeps. The Court notes the tally.'".
+  }
+  Observe loft_tally_after at net_loft when tallyRead(reach) and decided(lantern) "Jack Cawse has taken his hat off, and does not seem to know it.".
+  Rule tally_church_after when courtDone(reach) and tallyRead(reach) and at(party, church) and not tallyNoted(party) says "Parson Hosken has had the chalk-board down from the church wall and turned to its back, where he has begun in a fair hand, in two columns, the names of the Constancy's men, with a space beside each for the day the sea gives them back. At the head he has written, and rubbed out, and written again: THE KEEPER SITS." { Assert tallyNoted(party). }
+  Relation tallyNoted(group).
+
+  // Parson Hosken takes a rubbing of the bench, because he has been a clerk and cannot help it. A bilingual of a kind: the
+  // Aenean numerals gloss the strokes. He gives it to whoever sat with him in the cell.
+  Item bench_rubbing "a wax rubbing of the keeper's bench" is tally_rubbing at nowhere owned by hosken.
+  Topic hosken_rubbing with hosken "Ask Parson Hosken to take a rubbing of the tally, for the Court's keeping" when knows(actor, tally_read) and not rubbed(hosken) once {
+    Says "'The Court's keeping is a drawer in Hender's parlour,' says Hosken. 'Mine is a vestry cupboard.' He takes a lump of wax and a square of linen out of his cassock, where he had it all along, and goes back to the cell on his knees. It takes him an hour. When he gives it to you it is a piece of the underside of the bench, in cloth, three notations deep and the length of a forearm. 'Take it where it can be read by someone who isn't me,' he says. 'I am afraid I should read it for the rest of my life.'".
+    On discuss { Give bench_rubbing to actor. Assert rubbed(hosken). }
+  }
+  Relation rubbed(group).
+}

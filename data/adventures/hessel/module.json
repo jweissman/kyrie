@@ -12,7 +12,9 @@
     "ball.kyr",
     "endings.kyr",
     "growth.kyr",
-    "company.kyr"
+    "season.kyr",
+    "company.kyr",
+    "lore.kyr"
   ],
   "rules": [
     "world"
@@ -21,7 +23,9 @@
     "party"
   ],
   "canon": [
-    "imbar"
+    "imbar",
+    "slack_opened",
+    "remainder_harboured"
   ],
   "exports": {
     "party": "party",

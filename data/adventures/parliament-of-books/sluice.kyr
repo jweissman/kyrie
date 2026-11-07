@@ -2,7 +2,7 @@ Module calamy "A Parliament of Books" {
   Description "The night sluice: two tide-mills, one millrace, a gate shut at night, an eel-catcher, and a wedding that wants forty eels.".
 
   Observe race_scene at millrace when not dark() "Two mills face each other across a stone race where the river comes in on the flood and goes out on the ebb, and their wheels turn with it. The old mill is timber, black with age, with BRANNOCK painted on it; the new one is brick, with TEAGUE & DAU. painted bigger. Between them at the race's mouth a wooden sluice gate on a winch can shut the race off from the river altogether. Both millers are standing in their doorways not looking at each other.".
-  Observe race_dark at millrace when dark() "The millrace at night, black water, and the two mills dark on either side of it.".
+  Observe race_dark at millrace when dark() "The millrace at night: black water going nowhere, the two mills dark on either side, and a smell of pipe-tobacco that belongs to neither.".
   Observe brannock_scene at brannock_floor when true "A mill floor all dust and thunder: the great stones going round, rag-pulp in the vats, the whole building shaking with the wheel. Sheets of wet paper hang on felts on the racks, and the light comes through them yellow.".
   Observe teague_scene at teague_floor when true "A brick mill floor with new iron gears painted green, very clean, and vats in a row, and a wall of finished paper in reams wrapped and stacked and marked DOBLE.".
   Person brannock "Old Brannock" at brannock_floor {

@@ -15,13 +15,13 @@ Module lowwater "Low Water" {
     Says "She looks at you for a while before she answers, and you understand that she has been deciding whether to. 'The Registrar gave the Office's finding. The Guild. I sat at the back with my tally in my coat and didn't stand up.' She takes a breath. 'Nobody asked me to. That's not a reason. It's a fact.' She walks on. 'Noted,' she says, after a while, to herself.".
   }
   Topic isaura_farewell with isaura travelling "Ask Isaura what she will say about you, when you have gone" when hearingDone(ammerlin) once {
-    Says "Isaura considers the question with the care she gives everything. 'I'll say the Office engaged an outsider who didn't want anyone's water, and they went where the figures went, which is rarer than you'd think.' A pause. 'I'll say they asked me things nobody in the Office has ever asked me. What's over the door. Whether everything can be measured. What I do when I'm not working.' The smallest smile you have seen on her. 'I'll put the cake in. Some things belong in the record.'".
+    Says "Isaura considers the question with the care she gives everything. 'I'll say the Office engaged an outsider who didn't want anyone's water, and they went where the figures went, which is rarer than you'd think. I'll say they asked me things nobody in the Office has ever asked me. What's over the door. Whether everything can be measured. What I do when I'm not working.' The smallest smile you have seen on her. 'I'll put the cake in. Some things belong in the record.'".
   }
   Topic isaura_dov_after with isaura travelling "Ask Isaura whether she has seen her brother since" when hearingDone(ammerlin) and not drowned(diggers) and not quillDeal(quill) once {
     Says "'He came to the Office.' She seems to find this more extraordinary than anything under the Mere. 'He's never come to the Office. He stood in the hall in his boots with the whole queue looking at him and asked for Clerk-Measurer Vant, Third Grade, by her full title, which he must have practised.' She looks away. 'He wanted to know the Ward's water-right. To the half-ell. So he could tell them in Tench Row.' A breath. 'I told him. He wrote it on his hand.'".
   }
   Topic isaura_dov_lost with isaura travelling "Ask Isaura whether she has seen her brother since" when hearingDone(ammerlin) and quillDeal(quill) once {
-    Says "'No.' Very level. 'The Ward plots are sealed to the Guild. I sealed them; it was my turn at the counter.' She does not look at you. 'He came to the Office door and saw who was at the counter and went away again.' A pause. 'I'd do it again. It was the bargain that saved the Mere. I'd like that to be enough. Noted that it isn't.'".
+    Says "'No.' Very level. 'The Ward plots are sealed to the Guild. I sealed them; it was my turn at the counter.' She does not look at you. 'He came to the Office door and saw who was at the counter and went away again.' She squares the ledger on the counter. 'I'd do it again. It was the bargain that saved the Mere. I'd like that to be enough. Noted that it isn't.'".
   }
 
   Topic isaura_dissent with isaura travelling "Ask Isaura why she stood up against the Finding" when dissented(isaura) once {
@@ -54,15 +54,15 @@ Module lowwater "Low Water" {
 
   // The Registrar, after.
   Topic fenn_after with fenn "Ask the Registrar what she makes of the Finding" when decided(council) and not registrarsFinding(ammerlin) once {
-    Says "Registrar Fenn does not stop writing for a while. 'I asked you for something that would still be standing at the end of the afternoon,' she says. 'It's still standing. That is more than I have managed in eleven years.' She looks up. 'You also showed the Council that the Office's own ledger was wrong for three years, in front of the whole Bowl, with my best clerk reading it out.' A pause. 'I'll be answering for that until I retire. I find I don't mind. That's the part I can't account for.'".
+    Says "Registrar Fenn does not stop writing for a while. 'I asked you for something that would still be standing at the end of the afternoon,' she says. 'It's still standing. That is more than I have managed in eleven years.' She looks up. 'You also showed the Council that the Office's own ledger was wrong for three years, in front of the whole Bowl, with my best clerk reading it out. I shall be answering for that until I retire.' She caps her pen. 'I find I don't mind. That's the part I can't account for.'".
   }
   Topic fenn_vant_after with fenn "Ask the Registrar what will become of Clerk Vant" when decided(council) and not registrarsFinding(ammerlin) once {
     Says "'Second Grade, whether she likes it or not.' The Registrar almost smiles. 'She'll tell me she'd rather measure than check other people's measuring. I'll tell her that's exactly why. She'll say noted.' She caps her ink. 'She stood up in the Moot Hall and said the Office was wrong, with the Office's seal behind her. I've wanted somebody to do that for eleven years. I never thought it would be a Third Grade clerk from the Ward.'".
   }
 
   // The Sounding, after.
-  Topic tamsin_after with tamsin "Ask Tamsin how the singing is now" when restoredForGood(bowl) once {
-    Says "'Packed.' Tamsin is glowing. 'More than before. People come to hear the Seventh. The counting one.' She giggles. 'Jessa says we're the lock-keepers now, all of us, and the boys at the back have started calling the low notes the Cupful.' Then, seriously: 'Cantor Orr says if we sing it wrong the Ward goes dry. She's joking. She's mostly joking. Nobody sings it wrong.'".
+  Topic tamsin_after with tamsin "Ask Merrin how the singing is now" when restoredForGood(bowl) once {
+    Says "'Packed.' Merrin is glowing. 'More than before. People come to hear the Seventh. The counting one.' She giggles. 'Jessa says we're the lock-keepers now, all of us, and the boys at the back have started calling the low notes the Cupful.' Then, seriously: 'Cantor Orr says if we sing it wrong the Ward goes dry. She's joking. She's mostly joking. Nobody sings it wrong.'".
   }
   Topic fisk_right with fisk "Ask Precentor Penhale whether he was right" when knows(actor, hymn_cause) and restoredForGood(bowl) once {
     Says "Penhale draws himself up for a speech, and then, unexpectedly, does not make it. 'I said it was the Remainders,' he says. 'I said the dead were going down and away.' He looks down through the grating at the black water. 'It was the Remainders. It was not the dead. It was a gate, and a machine, and a girl's reform, and a boy's book.' He is silent. 'I had the conclusion and none of the reasons. That's not faith, Assessor. That's luck wearing a cassock.' And then, with a flicker of his old self: 'Still. I'll take the luck.'".

@@ -1,0 +1,64 @@
+Module longman "The Long Man" {
+  Description "What each member of the company makes of the dale, by what they are: the cleric at the font, the ranger on the crest, the warrior at the cart, the thief at the door.".
+
+  // The preset party is not a set of declared people, so it has no Remarks of its own. What a rule can ask of a member
+  // is their calling, and print their name. Said once for the company, by whoever it has of the calling; a company
+  // without a ranger has nobody to notice the cut saplings, and must notice them itself.
+  Relation heardFont(group). Relation heardCrest(group). Relation heardCart(group). Relation heardDoor(group).
+  Relation heardOx(group). Relation heardWheel(group).
+  Relation quarrelled(group).
+
+  Rule voice_font at nave when memberOf(?m, party) and brings(?m, rites) and awake(?m) and at(party, nave) and not heardFont(party)
+    says "{?m} lays a hand flat on the font and keeps it there. 'Nobody tallies sins on a floor,' {?m} says, low. 'A tally has no use for a floor. This one has a high-water mark that somebody kept level with the roof-beam.'" {
+    Assert heardFont(party).
+  }
+  Rule voice_crest at crest when memberOf(?m, party) and brings(?m, woodcraft) and awake(?m) and at(party, crest) and not heardCrest(party)
+    says "{?m} goes down on one knee by a stump and runs a finger across the cut. 'Same height, same angle, every one, all the way along,' {?m} says. 'That is not a man's hook, and it is not a deer. It is a thing with a very long reach and no hurry at all.'" {
+    Assert heardCrest(party).
+  }
+  Rule voice_cart at yard when memberOf(?m, party) and brings(?m, brawn) and awake(?m) and at(party, yard) and state(cart, covered) and not heardCart(party)
+    says "{?m} walks round the cart once, looking at the axle and the gouged bed. 'That is not wool,' {?m} says. 'Something that weighs more than a man has been dragged in and out of there, and somebody has been at pains to hang a tarpaulin over the marks. Ask the foreman about his arm before you ask anyone about the hill.'" {
+    Assert heardCart(party).
+  }
+  Rule voice_door at cellar when memberOf(?m, party) and brings(?m, lockwork) and awake(?m) and at(party, cellar) and not heardDoor(party)
+    says "{?m} runs a thumb round the hinge of the new door in the old wall. 'Greased this week,' {?m} says. 'Somebody goes in and out of here, and not to roll barrels.'" {
+    Assert heardDoor(party).
+  }
+  Rule voice_ox at taproom when memberOf(?m, party) and brings(?m, performance) and awake(?m) and at(party, taproom) and not heardOx(party)
+    says "{?m} sits a while with an ear turned to the room. 'Everyone has a different story of the Mower and the same one of the steward,' {?m} says at last. 'When a village agrees about a man and not about a ghost, I know which one it has seen.'" {
+    Assert heardOx(party).
+  }
+  Rule voice_wheel at sluice when memberOf(?m, party) and brings(?m, lore) and awake(?m) and at(party, sluice) and not heardWheel(party)
+    says "{?m} stands with a palm held an inch from the nearest tooth of green bronze. 'No working in it,' {?m} says, puzzled. 'Nothing I could name. It does not do a thing. It counts, and the counting does the thing.'" {
+    Assert heardWheel(party).
+  }
+
+  // A disagreement the company has with itself: only a company with both a warrior and a cleric has it, and each is right.
+  // The money is forty crowns; the Hall owes the warrior's trade nothing; the cleric has seen the font.
+  Rule quarrel_over_bounty at green when memberOf(?w, party) and brings(?w, brawn) and awake(?w)
+    and memberOf(?c, party) and brings(?c, rites) and awake(?c) and at(party, green) and knows(party, bounty_known) and knows(party, notches_known)
+    and not paidBounty(venn) and not quarrelled(party)
+    says "{?w} says it first, because somebody must. 'Forty crowns is forty crowns. It walks the crest at night and it has hit a man; lay it and be paid.' {?c} does not raise a voice. 'It keeps the wall that keeps the lake that keeps the chapel dry,' says {?c}. 'I would like to be certain what it is before I put a bar under its chin.' Neither looks at you, and both are waiting for you to say which of them is right." {
+    Assert quarrelled(party).
+  }
+
+  // Taking a side is a choice with a cost: the warrior's way buys a man, the cleric's way wakes a priest, and neither
+  // does the other's work. One answer closes the other.
+  Relation sidedWarrior(group). Relation sidedCleric(group).
+  Action side_warrior(actor: group, site: place, w: member, c: member) "Tell {c} that {w} is right about the forty crowns, and go to the foreman" {
+    Description "Forty crowns and a man at the Hall who will not be paid. {w} will go in with the first of the money.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, green) and quarrelled(party) and not sidedWarrior(party) and not sidedCleric(party)
+      and memberOf(w, actor) and brings(w, brawn) and memberOf(c, actor) and brings(c, rites) and quantity(actor, gold) >= 3.
+    Time 1.
+    On success { Assert sidedWarrior(party). Decrease quantity(actor, gold) by 3. Increase quantity(dunnet, gold) by 3. Assert promisedDoor(dunnet). Retract serves(dunnet, venn). }
+    Result "{c} says nothing, and goes on saying nothing all the way up the Hall lane. {w} finds Dunnet in the yard and puts three coin in his hand without a word of explanation, as a man pays a debt to his own trade. Dunnet counts them twice. 'The bar comes off the cellar door at dark,' he says, low. 'For you.' Behind you {c} has stopped at the gate and is looking at the hill with an expression you will remember at the wrong moment.".
+  }
+  Action side_cleric(actor: group, site: place, w: member, c: member) "Tell {w} that {c} is right, and take the font to Mother Ysolt" {
+    Description "{c} will say what the notches are, in the chapel, before the parish; {w} will hold the door.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, green) and quarrelled(party) and not sidedWarrior(party) and not sidedCleric(party)
+      and memberOf(w, actor) and brings(w, brawn) and memberOf(c, actor) and brings(c, rites) and knows(actor, notches_known).
+    Time 3.
+    On success { Assert sidedCleric(party). Assert convinced(ysolt). }
+    Result "{w} says nothing against it, which is not the same as agreeing, and stands at the chapel door with arms folded while {c} puts a hand on the font and says what the notches are, in the plain voice of someone who has done it before. Mother Ysolt listens to the end. When {c} has finished she looks up at the roof-beam, and then at {w}, and says: 'Ring the bell, if it comes. I will see it rung.' {w} unfolds arms. 'Forty crowns,' {w} says, to the doorpost, and goes out to see to the weather.".
+  }
+}

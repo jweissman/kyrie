@@ -5,4 +5,13 @@ Module longman "The Long Man" {
   // wall, it is old news there, and they say so to whoever comes back down the north road.
   Entity word: fact "What is said of Merrowdale in the country below.".
   Rule word_old when (state(leak_gate, mended) or drawn(hollow) or (broke(long_man) and calm(long_man) and not lostToWater(folk))) and not stale(word) { Assert stale(word). }
+  // The factor of the Founders' Exchange in the country below, when the world holds one (the herald on the roads to
+  // this dale): bell-teeth that go downriver on the barge are sold to her, and become hers to hold and send. The dale
+  // does not write what she does with them. Standing alone, the dale has no such factor, and the barge carries them
+  // off as it always has.
+  Entity factor: group "The factor who buys old bronze in the country below.".
+  Rule teeth_to_factor when aboard(teeth) and at(teeth, downriver) and not consigned(teeth) says "Cass Rowell touches her cap to the landing as the Heron goes out of sight round the first bend, with the sack of bronze under the tarpaulin forward, bound for whoever pays by the pound." {
+    Retract at(teeth, downriver). Retract aboard(teeth). Assert consigned(teeth). Assert keeps(factor, teeth).
+  }
+  Relation consigned(item).
 }

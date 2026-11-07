@@ -1,0 +1,144 @@
+Module hume "Half the Hive" {
+  // ── The Account, kept: what each of a company sees, and the seventh Leaving's last page ───────────────────────────────
+  // The Brow's count is its Leavings: six it remembers, a seventh it does not say. Whoever keeps the Comb's account (the
+  // Cappers, once; Tobit Mellor, lately) was handed the book without its first page, and the Wold has been quietly
+  // lying about one line of it for eighty-one years. Everything below is what a company of several callings finds when
+  // it goes looking, and none of it is on the road to any ending.
+
+  // ── Voices: the company, by what it is ───────────────────────────────────────────────────────────────────────────────
+  Relation heardRows(group). Relation heardKnoll(group). Relation heardBeam(group). Relation heardSett(group). Relation heardWalls(group).
+
+  Rule voice_rows at capped_gallery when memberOf(?m, party) and brings(?m, rites) and awake(?m) and at(party, capped_gallery) and not heardRows(party)
+    says "{?m} stops at the end of the first row and does not go on. 'Standing,' {?m} says, low. 'In every office I know the dead are laid down, because the dead are resting. These are kept on their feet with their hands folded, like people in a room waiting to be called.' {?m} looks along the clear wax, four hundred years of it. 'Whoever made this custom did not think death was a rest. Who says the words over them? Somebody must; the hands are all done the same way.'" {
+    Assert heardRows(party).
+  }
+  Rule voice_knoll at gallow_knoll when memberOf(?m, party) and brings(?m, woodcraft) and awake(?m) and at(party, gallow_knoll) and not heardKnoll(party)
+    says "{?m} walks the foot of the knoll once, slowly, head down, and stops where the turf is a different green. 'A cart-road,' {?m} says. 'Under the grass, going east. Iron tyres, eighty years of rain filling the ruts.' {?m} follows it a hundred paces to a bank of turf, where it ends. The wheels did not turn round there. The cart was tipped over the bank and left, and the only way back is a line of footprints, small ones, one person's, going the other way to the tree. 'Somebody made a road that goes east and stops,' {?m} says. 'And then walked home along the side of it so as not to spoil it. I'd say it was made to be found, by anyone who came looking for where they'd gone.'" teaches east_staged {
+    Assert heardKnoll(party).
+  }
+  Discovery east_staged "Eighty-one years ago someone made a cart-road east from the Gallowtree that ends at a bank where a cart was tipped over, and walked back alone along the edge of it: the seventh Leaving's 'gone on east' was laid on the ground, by a small foot, to be found.".
+  Rule voice_beam at leavers_yard when memberOf(?m, party) and brings(?m, lockwork) and awake(?m) and at(party, leavers_yard) and not heardBeam(party)
+    says "{?m} drifts along the rows to the weighing-beam, as if looking at the cradles, and runs a thumbnail under the near pan. 'Filed,' {?m} says, not moving the lips. 'Underneath, where the stamp doesn't cover. Four strokes, fresh bright metal. That pan weighs light by a sixth, and the Measures' mark above it says it has been proved.' {?m} moves on to a chest and admires it loudly. 'Don't look at him. Look at the chests. We'll have to decide what to do about the Drewes.'" teaches beam_filed {
+    Assert heardBeam(party).
+  }
+  Discovery beam_filed "The near pan of the Chandlers' weighing-beam in the Leavers' Market has been filed underneath, four fresh strokes, so that it weighs light by a sixth beneath the Collegium of Measures' stamp.".
+  Rule voice_sett at sett_mouth when memberOf(?m, party) and brings(?m, brawn) and awake(?m) and at(party, sett_mouth) and not heardSett(party)
+    says "{?m} lays a hand flat against the highest of the grooves, well above {?m}'s own head, and measures it with the span of the other. 'She stood to this,' {?m} says. 'Sow, on her back legs, to scratch. That puts the first blow at the height of a man's neck, and a boar-spear's reach is no more than hers.' {?m} takes the hand away and looks at the dark mouth. 'Moss is nineteen and it is a very good spear,' {?m} says. 'I would not go in there with a spear for anything that could be had by some other road.'" {
+    Assert heardSett(party).
+  }
+  Rule voice_walls at dancing_hall when memberOf(?m, party) and brings(?m, performance) and awake(?m) and at(party, dancing_hall) and not heardWalls(party)
+    says "{?m} tips an ear to the slope while the Searchers argue, and then hums a little under the breath, a figure and a loop and a figure and a loop, to see how it goes. 'It scans,' {?m} says, surprised. 'Every dance on this wall is the same measure: a run, a waggle, a loop, a rest of one breath. The old ones are cut deep and the new ones shallow, but the breath is always in the same place.' {?m} walks down to the lowest marks, by the door, where the children's hands reach. 'Count them. Six of these are a song. The seventh has had its breath taken out.'" {
+    Assert heardWalls(party).
+  }
+
+  // ── The seventh run, on the wall of the Dancing Hall ───────────────────────────────────────────────────────────────
+  // Foreshadow, in plain sight; and its payoff, for whoever has been to the Gallowtree and comes back to look.
+  Observe seventh_run at dancing_hall as feature when not leavingBegun() and not knows(party, lost_leaving) "Low by the door, where the wax is smoothed by children's hands, the oldest dances are cut. Seven long runs, each ending in a place: you can read the Far Brow in the sixth, by its handprints. The seventh runs out east, farther than all the rest, and ends in a smear, as if someone wiped it out with a thumb while it was still soft.".
+  Observe seventh_run_read at dancing_hall as feature when knows(party, lost_leaving) "Low by the door, the seventh run. Knowing where to look you can read under the smear: the line did not go east at all. It was cut west, two hours, a short run to a tree, and a hand has turned it round and dragged it out long, east, with a thumb, and then wiped the end. The hand that did that knew exactly what the first line said.".
+
+  // ── The Cappers' board ─────────────────────────────────────────────────────────────────────────────────────────────
+  Observe cappers_board at capped_gallery as feature when not knows(party, merrit_found) "Beside the board that forbids flame, another is pegged, with names burnt into it in a column, one beneath another: the Cappers of the Brow, by their years. Six are cut clean. The seventh place is smooth wax, rubbed flat with a thumb, with nothing on it at all; the eighth is Tobit Mellor, and a long line of Mellors below.".
+  Observe cappers_board_read at capped_gallery as feature when knows(party, merrit_found) "Beside the board that forbids flame, the Cappers' names in their column. Six are cut clean. In the seventh place, knowing what to feel for, you press your thumb into the smooth wax and under it, small and square, you find it: M. COKE. Somebody smoothed it over, carefully, not to destroy it, and the Cappers have kept the board that way, a name shut under wax, for eighty-one years.".
+
+  // ── Capping Merrit Coke ────────────────────────────────────────────────────────────────────────────────────────────
+  // The one by the door was never capped, because nobody was left to do it. A company that has a cleric can say the
+  // Capper's office over her, and must decide in what wax: the seventh Leaving's own white comb, or Brow wax. The white
+  // is the only white in the Wold, and Eben Candlish's Stair wants it. Neither choice can be taken back.
+  Relation merritCapped(group). Relation merritWhite(group). Relation merritBrow(group).
+  Action cap_merrit_white(actor: group, site: place, c: member) "Say the Capper's office over Merrit Coke, and cap her in the seventh Leaving's own white comb" {
+    Description "{c} knows the words. The white is the first wax they drew, and it is the only white in the Wold; Eben's Lantern Stair wants it too.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gallow_hollow) and knows(actor, merrit_found) and holding(actor, white_wax)
+      and memberOf(c, actor) and brings(c, rites) and not merritCapped(actor).
+    Time 4.
+    Grave "Once Merrit is capped in the white, the Lantern Stair cannot have it; and she cannot be uncapped.".
+    On success { Spend white_wax from actor. Assert merritCapped(actor). Assert merritWhite(actor). }
+    Result "{c} says it plainly, in the voice for the dead, standing by the door where the bones sit against the wall; and it is not an office you have heard, but it has a shape you know: a name, a place, a thanks. You warm the white comb in your hands until it takes the shape of a shell, and {c} sets it over her, and seals the edge with Merrit's own iron. She stands up. She stands with her hands folded, clear in the white, the colour of milk with the light behind it, with a little space left in the lap where something small was.".
+  }
+  Action cap_merrit_brow(actor: group, site: place, c: member) "Say the Capper's office over Merrit Coke, and cap her in a cake of Brow wax" {
+    Description "{c} knows the words. Brow wax is the Brow's: it will make her the Brow's, after eighty-one years of nobody's.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gallow_hollow) and knows(actor, merrit_found) and holding(actor, wax_cake)
+      and memberOf(c, actor) and brings(c, rites) and not merritCapped(actor).
+    Time 4.
+    Grave "Brow wax closes her into the Brow's account; she cannot be uncapped.".
+    On success { Spend wax_cake from actor. Assert merritCapped(actor). Assert merritBrow(actor). }
+    Result "{c} says it plainly, in the voice for the dead, by the door where the bones sit. The cake of yellow wax goes soft in your hands and is dull when it sets; it is not the colour of anything in that tree. {c} lays it over her all the same, and seals it, and she stands up capped in the Brow's wax with her hands folded, a Capper's girl at last among the Brow's own dead; and you have the feeling, which you do not say, of having signed something on her behalf.".
+  }
+  // A company with no cleric in it can still cap her. It has no office to say, so it says nothing, and caps her with
+  // its hands; Hannet will ask who spoke for her, and the account will say that nobody did.
+  Relation merritUnsaid(group).
+  Action cap_merrit_white_unsaid(actor: group, site: place) "Cap Merrit Coke in the seventh Leaving's own white comb, with no office to say" {
+    Description "You have no words for the dead. You have a slab of white comb and your hands, and a girl by a door.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gallow_hollow) and knows(actor, merrit_found) and holding(actor, white_wax)
+      and not companyHasCleric(actor) and not merritCapped(actor).
+    Time 6.
+    Grave "Once Merrit is capped in the white, the Lantern Stair cannot have it; and she cannot be uncapped.".
+    On success { Spend white_wax from actor. Assert merritCapped(actor). Assert merritWhite(actor). Assert merritUnsaid(actor). }
+    Result "You do not know the Capper's office, so you do not say it. You warm the white comb until it will take a shape and lay it over her a hand at a time, from the knees up, the way you have seen it done on the wall behind you, and you seal the edge with her own iron because it is lying there. It is not neat. The shoulders are thick and one hand has lost a finger to your thumb. When it sets she is clear as milk, and there is a little hollow in the lap where something small was.".
+  }
+  Action cap_merrit_brow_unsaid(actor: group, site: place) "Cap Merrit Coke in a cake of Brow wax, with no office to say" {
+    Description "You have no words for the dead. A cake of yellow wax is a thing you can carry, and she has waited eighty-one years.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gallow_hollow) and knows(actor, merrit_found) and holding(actor, wax_cake)
+      and not companyHasCleric(actor) and not merritCapped(actor).
+    Time 6.
+    Grave "Brow wax closes her into the Brow's account; she cannot be uncapped.".
+    On success { Spend wax_cake from actor. Assert merritCapped(actor). Assert merritBrow(actor). Assert merritUnsaid(actor). }
+    Result "You cannot say the office, so you do not. The cake goes soft between your palms and dull when it sets, and you press it over her in sheets, and the edge will not take her iron, so you leave the iron where it is in her hand. She stands up in the Brow's yellow with the seams showing.".
+  }
+  Rule company_has_cleric when memberOf(?m, party) and brings(?m, rites) and not companyHasCleric(party) { Assert companyHasCleric(party). }
+  Relation companyHasCleric(group).
+  Topic hannet_merrit_unsaid with hannet "Tell Hannet that Merrit was capped, and that nobody said anything over her" when merritUnsaid(party) and hannetHasBee(hannet) once {
+    Says "Hannet turns the two bees over on their cord. 'Nobody said it,' she says. 'No.' She looks at your hands. 'You did it with those.' She is quiet for a time. 'My aunt capped forty-one of them and I do not suppose any of them was done with words, either, at the end.'".
+  }
+  Topic hannet_merrit_white with hannet "Tell Hannet that Merrit was capped in the white comb" when merritWhite(party) and not merritUnsaid(party) and hannetHasBee(hannet) once {
+    Says "Hannet turns the two bees over on their cord. 'The white,' she says. 'The first comb. She drew that, you know, with her own hands, the first week, before they knew about the damp; she told me it was the cleanest wax in the world, and I was four.' She sits a while. 'She'd have chosen that. She never had a thing that was the Brow's.'".
+  }
+  Topic hannet_merrit_brow with hannet "Tell Hannet that Merrit was capped in Brow wax" when merritBrow(party) and not merritUnsaid(party) and hannetHasBee(hannet) once {
+    Says "Hannet turns the two bees over on their cord. 'Brow wax,' she says, and her mouth does something. 'Well. The Brow never sent for her, and it's capped her anyway. That's the Brow.' She is quiet. 'It's more than it did for the other forty.' She does not say whether she is glad.".
+  }
+  Rule fate_merrit_w within hume_wold when accounting() and merritWhite(party) and not merritUnsaid(party) and not spread(fate_merrit) says "By the door of the Gallowtree a woman stands in white wax with her hands folded, clear as milk, where the whole tree can see her. Nobody in the Brow has been told, and Hannet Coke knows, and says nothing, and keeps two bees on a cord." { Assert spread(fate_merrit). }
+  Rule fate_merrit_b within hume_wold when accounting() and merritBrow(party) and not merritUnsaid(party) and not spread(fate_merrit) says "By the door of the Gallowtree a woman stands in yellow wax with her hands folded. It is Brow wax, and the Brow has not been told whose, and the Cappers' board has a smooth place in its seventh line that one day someone will read." { Assert spread(fate_merrit). }
+  Rule fate_merrit_u within hume_wold when accounting() and merritUnsaid(party) and not spread(fate_merrit) says "By the door of the Gallowtree a woman stands in wax with her hands folded and the seams showing, capped by someone who did not know the words and did it anyway. Hannet Coke knows, and keeps two bees on a cord." { Assert spread(fate_merrit). }
+  Entity fate_merrit: fact "Merrit".
+
+  // ── A cleric's way through: the carrying office ───────────────────────────────────────────────────────────────────
+  // Linnet's reason for refusing Agnes is that nobody ever wrote down that the dead may go, only that they stay. A
+  // company that has a cleric knows the lowland office, which does write it, and which the Brow's keeper has never
+  // heard said. Linnet can be moved by the watch (lovers.kyr); this is the other way, and no other calling has it.
+  Action say_carrying_office(actor: group, site: place, c: member) "Have {c} say the lowland office of the carrying, to Linnet, for Agnes Mellor" {
+    Speaker linnet.
+    Description "In the lowland office the living say, over the bier, 'We take you.' The Brow has the custom of the dead staying; it has never had the words for the other.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, mothers_chamber) and at(linnet, mothers_chamber) and wantsTobit(agnes)
+      and memberOf(c, actor) and brings(c, rites) and not linnetPermitsDead(linnet) and not leavingBegun().
+    Time 2.
+    On success { Assert linnetPermitsDead(linnet). }
+    Result "{c} does not argue. {c} says it, in the plain low voice for it, with a hand on the Mother's cold flank because that is where the keeper's hand is: the office for carrying the dead, with its three lines. We take you. You will not be left. We carry what is ours. Linnet Amory's hands stop on the old queen's back. 'That is written down?' she says. 'Somewhere that is written down?' {c} says it is written in every parish below the march. 'We kept the dead because nobody ever told us we could take them,' Linnet says, not to you. 'Tell Agnes. Tell her I will walk beside the litter.'".
+  }
+
+  // ── Polglaze's beam ───────────────────────────────────────────────────────────────────────────────────────────────
+  // The thief sees it; what the company does about it is its own. Crispin Polglaze offers a hush; the Drewes would
+  // sooner know. Taking his coin costs nothing but the Drewes; telling them costs him his table.
+  Relation beamHushed(group). Relation drewesTold(group).
+  Topic polglaze_beam with penhallow "Tell Crispin Polglaze you have seen the file-marks under his near pan" when knows(actor, beam_filed) and not beamHushed(actor) and not drewesTold(actor) once {
+    Says "He does not look at the beam. He looks at the boy, and the boy looks at the slate. 'Everyone files a little,' says Crispin Polglaze, pleasantly. 'It is the carriage.' He takes four coin from his coat, as someone might take out a handkerchief, and holds them where only you can see. 'I am a price,' he says. 'I did tell you.'".
+    On discuss { Assert offeredHush(penhallow). }
+  }
+  Relation offeredHush(group).
+  Topic polglaze_take with penhallow "Take Crispin Polglaze's four coin" when offeredHush(penhallow) and not beamHushed(actor) and not drewesTold(actor) once {
+    Says "The coin is warm from his pocket. 'Sensible,' he says, and the boy goes on writing numbers. At the table of fine candles the mother of the Drewes watches you take it, and watches the beam, and works out what she was not told.".
+    On discuss { Assert beamHushed(actor). Increase quantity(actor, gold) by 4. }
+  }
+  Topic drewes_beam with drewes "Tell the mother of the Drewes about the filed pan" when knows(actor, beam_filed) and not drewesTold(actor) and not beamHushed(actor) once {
+    Says "She puts a finger under the near pan, the way you did, and takes it away. 'Thirty years of my mother's moulds,' she says. 'I have been selling them a sixth short to the Company for six years, and I thought it was me.' She picks up the bundle of fluted candles, and then the next, and begins, without hurry, to pack them in the cloth. 'We'll carry them ourselves,' she says to the girls. 'They'll sell new, where we go.' Crispin Polglaze looks up from his slate, and sees the table empty, and does not ask.".
+    On discuss { Assert drewesTold(actor). }
+  }
+  Observe drewes_gone at leavers_yard as sign when drewesTold(party) and not leavingBegun() "The Drewes' table is bare, and the family sits by their bundles at the end of the row, in the sun, not selling.".
+  Rule fate_drewes_own within hume_wold when accounting() and drewesTold(party) and not spread(fate_drewes) says "The Drewes carried their own moulds out of the Brow, and light their own candles in the new comb, and the Chandlers' Company in the lowland has noticed that the best fluted candles have stopped coming and asks, courteously, why." { Assert spread(fate_drewes). }
+  Entity fate_drewes: fact "the Drewes".
+
+  // ── Where the drovers sleep ────────────────────────────────────────────────────────────────────────────────────────
+  Observe bothy_fire at bothy as feature when true "The peat in the grate is banked: ash drawn over a core of red, as someone does who means to come back. A notched stick on a nail by the hearth has a splinter taken out of it at every stop, and a rule cut in the lintel under the names: BANK IT FOR THE NEXT. Nobody in the Wold can tell you who the next is meant to be. The shepherds say their grandfathers' grandfathers did it, and so do they.".
+  Observe bothy_quarrel at bothy as feature when true "Low on the lintel two names are cut side by side, with the same date, two hundred and some years gone: HOB TREWIN, and next to him GABRIEL FENN. Someone has scored out FENN with a knife, and under it, in a rounder hand, scratched: HE WAS RIGHT ABOUT THE SHEEP.".
+
+  // ── Where the Wold's wax goes ──────────────────────────────────────────────────────────────────────────────────────
+  Observe polglaze_slate at leavers_yard as feature when daytime() "The factor's boy holds his slate where you can read it over his arm: the Company's carts for the week, and where. SIXWAYS, the Haskett cart, six bundles of fluted candles, and a note that the Sixways trade asks for them unlit, because they keep better so. LARUM, below the Pass, nine bundles for the parson's vigil, no questions asked about the Pass. And the stamp on the beam, which the boy is polishing with his sleeve: COLLEGIUM OF MEASURES · PROVED.".
+}

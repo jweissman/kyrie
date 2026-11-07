@@ -95,7 +95,7 @@ describe('The Lull', () => {
     expect(g.j.campaign.state.elapsed).toBe(1284);
     expect(g.at('party')).toBe(k('mill_yard'));
     expect(g.carries('shift_bolt')).toBe(true);
-    expect(g.page).toMatch(/this is what the strikers stopped/);
+    expect(g.page).toMatch(/you look up for a window, and there is none/);
   }, 300000);
 
   it('the Sixnight, lain down in: the beam read, the Overseer passed open-handed, and out by the Weaver\'s Gap into Sixways', async () => {

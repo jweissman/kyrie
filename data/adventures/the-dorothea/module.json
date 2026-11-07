@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "source": [
+    "port.kyr",
+    "ship.kyr",
+    "isle.kyr",
+    "voyage.kyr",
+    "weather.kyr",
+    "crew.kyr",
+    "combs.kyr",
+    "skerrow.kyr",
+    "night.kyr",
+    "ness.kyr",
+    "antlers.kyr",
+    "holm.kyr",
+    "ashkeld.kyr",
+    "mangrow.kyr",
+    "house.kyr",
+    "entries.kyr",
+    "return.kyr",
+    "ring.kyr",
+    "lamp.kyr",
+    "voices.kyr",
+    "company.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "canon": [
+    "imbar"
+  ],
+  "exports": {
+    "party": "party",
+    "region": "tolleth",
+    "green": "green"
+  },
+  "experience": 1000
+}

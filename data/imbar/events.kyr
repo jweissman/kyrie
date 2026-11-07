@@ -16,4 +16,11 @@ Module canon "Imbar and the planes" {
   Entity rector_barred: fact "The Rector of the House of Doors was kept from the Door of Doors, and would not go through it.".
   Entity perrin_lives: fact "Perrin Halyard, who was given out for dead, is alive, and has come up out of the sea.".
   Entity perrin_lost: fact "Perrin Halyard is dead.".
+
+  // Beyond the Door of Doors' house, under the Nexus floor: the black square that opens on the Slack. What befell there.
+  Entity slack_opened: fact "The black square in the Nexus floor of the House of Doors has been opened, and the stair under it goes down to the Slack.".
+  Entity remainder_harboured: fact "The ship Remainder, out of the Slack, has been given harbour at the House of Doors, and her people have come ashore.".
+  Entity remainder_kept: fact "The ship Remainder was left in the Slack, and her people sail on in it.".
+  Entity mechanus_seen: fact "A company has stood on the threshold of Mechanus, from the deck of a ship out of the Slack.".
+  Entity remainder_steadied: fact "The lens of a lamp that was lent to an island has been fitted to the mast of the Remainder, and her pin is still.".
 }

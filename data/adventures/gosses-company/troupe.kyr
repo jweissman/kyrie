@@ -66,7 +66,7 @@ Module pentrice "Gosse's Company" {
     Says "'Remember!' says Gosse. 'The one who got the chain off our wheel! Hepzibah!' Hepzibah looks up and, for once, smiles. 'You would not sign on, then,' says Gosse, 'and I bear no grudge, because I am a magnanimous man and because I mean to ask you again now.'".
   }
   Topic gosse_hire with gosse "Ask Gosse whether the company needs a hand for the Trial" when not inCompany(actor) and week() and not pensionTaken(gosse) once {
-    Says "'Needs!' says Gosse. 'We are a handful of players, a prompter and a bear, to play a comedy of eleven parts in a round house before the Bench of four on the last night of the Trial. We need a hand. We need hands. We need a Tapwell, a chain-man, a carrier of hampers and a person to stand in the wings.' He considers you. 'A season's work, a share of the house, a pallet in the loft and the honour of the profession, which is worth precisely nothing and which I would not sell for a crown. Yes or no?'".
+    Says "'Needs!' says Gosse. 'We are a handful of players, a prompter and a bear, to play a comedy of eleven parts in a round house before the Bench of four on the last night of the Trial. We need a hand. We need hands. We need a Tapwell, a chain-man, a carrier of hampers and a person to stand in the wings.' He considers you. 'A season's work, a share of the house, a pallet in the loft, and all the applause you can carry. Yes or no?'".
   }
   Topic gosse_sign with gosse "Tell Gosse you will take service with the company" when not inCompany(actor) once {
     Says "'Done,' says Gosse, and seizes your hand. 'Hepzibah, write it down.' Hepzibah writes it down. 'You are one of us. You will discover that this is a mixed blessing, like all blessings and most of the gods.'".
@@ -111,7 +111,7 @@ Module pentrice "Gosse's Company" {
   }
   Discovery cast_trouble "Dorcas Quaile has claimed Bell, the nineteen-year-old daughter, though the Widow is the better part and hers by right; Kit Arden is down for the Widow; and nobody is playing Master Tapwell, the lover, so Hepzibah will read him from the wings." { Known by hepzibah. }
   Topic hepz_quarrel with hepzibah "Ask Hepzibah why Swale and Pudding never speak" when true once {
-    Says "'Nine years,' says Hepzibah. 'Swale's mother died at Galt, on the road, and we buried her in a churchyard in the rain, and Jem Pudding stood at the grave and told a joke. A good one. Everyone laughed but Ambrose.' She turns a page. 'What Ambrose doesn't know is that she asked him to. She gave Jem a letter the week before, to give Ambrose after, and Jem never could, because Ambrose wouldn't let him near.' She puts her hand flat on the book. 'I have it. Here. Jem gave it me to keep, the night of the funeral, and I've kept it nine years, because nobody asked.'".
+    Says "'Nine years,' says Hepzibah. 'Swale's mother died at Galt, on the road, and we buried her in a churchyard in the rain, and Jem Pudding stood at the grave and told a joke. A good one. Everyone laughed but Ambrose.' She turns a page. 'There is more, and it is Jem's to tell, not mine.' She puts her hand flat on the book. 'I will say that I have something of hers in here, that Jem gave me to keep the night of the funeral, and that I have kept it nine years because nobody asked.'".
     On discuss { Assert knows(actor, mother_letter_known). }
   }
   Discovery mother_letter_known "Ambrose Swale's mother asked Jem Pudding to tell a joke at her burying, and left a letter for her son saying so; Hepzibah Dimmock has kept it in the book for nine years." { Known by hepzibah, pudding. }
@@ -371,7 +371,7 @@ Module pentrice "Gosse's Company" {
     Requires able(actor) and company(actor) and at(actor, site) and at(hepzibah, site) and inCompany(actor) and swaleGone(swale) and not plays(party, part_ghost)
       and not plays(party, part_tapwell) and not tallyman(actor) and week().
     On success { Retract plays(swale, part_ghost). Assert plays(party, part_ghost). }
-    Result "Hepzibah looks at you for a long time over her spectacles. 'The Ghost,' she says. 'Nineteen speeches and a complaint.' She writes your name. 'He is dead in every line. Remember that, and the rest will look after itself.'".
+    Result "Hepzibah's pencil, which was moving, stops. 'The Ghost,' she says. 'Nineteen speeches and a complaint.' She writes your name. 'He is dead in every line. Remember that, and the rest will look after itself.'".
   }
   // A part nobody plays is taken by whoever is free: the Widow by Kit, or Gosse, doubling, in a cap; Bell by Ned Cherry
   // if he is with the company, or Kit, or, failing everyone, Tam Hautboy in a frock.

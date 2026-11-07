@@ -219,7 +219,7 @@ Module ombra "The Book of Faces" {
   Relation th_dov_refused(group).
   // The same key, by the other way: not asked of him but taken from a gratitude. It costs nothing to the company, and costs him.
   Topic th_dov_favour with dov "Ask Dov for the spare key, as the favour he owes you" when not masked(actor) and at(dov, maskers_roof) and mk_dov_trusts(actor) and mk_dov_free(actor) and th_dov_asked(actor) and not th_crew_dov(actor) and not th_crew_alone(actor) and not th_crew_slee(actor) once {
-    Says "He gives it as if you had asked him for a glass of water. 'Of course,' says Dov, and takes the cord off over his head, and puts it in your hand, and does not ask what it is for, because you are the person who sat on a wet roof with him for an hour and asked him nothing, and because the world has only recently begun to be kind to him, and he has not yet learned that kindness has a price. 'Along the wall on the left,' he says. 'The right rings.'".
+    Says "He gives it as if you had asked him for a glass of water. 'Of course,' says Dov, and takes the cord off over his head, and puts it in your hand, and does not ask what it is for, because you are the person who sat on a wet roof with him for an hour and asked him nothing. 'Along the wall on the left,' he says. 'The right rings.'".
     On discuss { Assert th_crew_dov(actor). Assert th_have_key(actor). Assert th_bells_off(actor). Assert promiseMade(th_dov_promise). Assert th_dov_used(actor). }
   }
   Relation th_dov_used(group).
@@ -334,7 +334,7 @@ Module ombra "The Book of Faces" {
   Relation th_bell_said(group).
   // The Fitter wakes at five and sleeps lightly: nobody who stays is unseen.
   Rule th_caught_early when th_intruder(party) and at(party, pavane_parlour) and at(pavane, pavane_parlour) and not th_via_guest(party) and not th_caught_said(party) once says "The parlour is not empty. A woman in a quilted gown is at the stove with a poker in one hand, and has been for some time, and says, quite mildly, 'I have been expecting you since half past nine. You are not good at roofs.' You are in the lane before you know that you moved." { Assert th_caught_said(party). Assert th_seen(party). Assert th_alerted(party). Assert at(party, maskers_lane). Retract th_intruder(party). }
-  Rule th_caught_late when th_intruder(party) and hour(clock) == 6 and (at(party, pavane_parlour) or at(party, cast_cellar) or at(party, fitting_room)) and not th_caught_said(party) once says "The Fitter is up with the grey light, as she has been up with it thirty-nine years, and the parlour is not empty. She stands in the doorway with a lamp and looks at you for a long time, with the look of a woman measuring a face against a face she remembers. 'I think,' she says, 'you had better be in the lane.'" { Assert th_caught_said(party). Assert th_seen(party). Assert at(party, maskers_lane). Retract th_intruder(party). }
+  Rule th_caught_late when th_intruder(party) and hour(clock) == 6 and (at(party, pavane_parlour) or at(party, cast_cellar) or at(party, fitting_room)) and not th_caught_said(party) once says "The Fitter is up with the grey light, as she has been up with it thirty-nine years, and the parlour is not empty. She stands in the doorway with a lamp held high enough to light you and low enough to light her own jaw, measuring your face against a face she remembers. 'I think,' she says, 'you had better be in the lane.'" { Assert th_caught_said(party). Assert th_seen(party). Assert at(party, maskers_lane). Retract th_intruder(party). }
   Relation th_caught_said(group).
   Rule th_clear_intruder when th_intruder(party) and at(party, maskers_lane) { Retract th_intruder(party). }
   // The lock is the Fitter's: it is shut again, with a new pin if the company was seen, in the morning.
@@ -428,7 +428,7 @@ Module ombra "The Book of Faces" {
     Requires able(actor) and company(actor) and at(actor, site) and at(pavane, site) and carries(actor, th_owed_cast) and not named(pavane).
     Time 5 minutes.
     On success { Spend th_owed_cast from actor. Assert th_cast_back(actor). Retract th_took_owed(actor). }
-    Result "She looks at the boy of sixteen with the broad forehead for a long moment. 'It is the custom,' says Madame Pavane. 'The Named are turned to the wall, so that they will not have to see it.' She does not say whom it is for. 'I shall turn it again tomorrow. I shall not turn it all the way.'".
+    Result "She turns the boy of sixteen with the broad forehead to face the lamp, and back. 'It is the custom,' says Madame Pavane. 'The Named are turned to the wall, so that they will not have to see it.' She does not say whom it is for. 'I shall turn it again tomorrow. I shall not turn it all the way.'".
   }
   Relation th_cast_back(group).
 
@@ -458,14 +458,14 @@ Module ombra "The Book of Faces" {
     Requires able(actor) and company(actor) and at(actor, site) and at(lacke, site) and carries(actor, th_proof).
     Time 10 minutes.
     On success { Spend th_proof from actor. Increase quantity(actor, gold) by 30. Assert th_proof_lacke(actor). Assert th_cast_lacke(actor). Decrease heat(actor) by 1 or to nothing. }
-    Result "He does not open the sack. He weighs it on his palm, as a man does who has been sold things before. 'Ah,' says Ser Corvin Lacke. 'The Mender-shelf.' He gives the word a faint distaste. 'I have been wondering how many nights it would be before somebody came to me with this. I can use it; one can always use a shelf of faces that one need not explain.' He counts out thirty. 'The Watch will be rather less interested in you by Thursday. I am a very discreet buyer. It is the whole of my trade.' The hold of a man who can be thanked is, you notice, a hold.".
+    Result "He does not open the sack. He weighs it on his palm, as a man does who has been sold things before. 'Ah,' says Ser Corvin Lacke. 'The Mender-shelf.' He gives the word a faint distaste. 'I have been wondering how many nights it would be before somebody came to me with this. I can use it; one can always use a shelf of faces that one need not explain.' He counts out thirty. 'The Watch will be rather less interested in you by Thursday. I am a very discreet buyer. It is the whole of my trade.' He counts the coin into your palm himself, one at a time, so that you will remember whose it was.".
   }
   Action th_lacke_keys(actor: group, site: place) "Sell the four Offices' casts to the Warden of Locks, forty coin" {
     Speaker lacke.
     Requires able(actor) and company(actor) and at(actor, site) and at(lacke, site) and carries(actor, th_keys).
     Time 10 minutes.
     On success { Spend th_keys from actor. Increase quantity(actor, gold) by 40. Assert th_keys_lacke(actor). Assert th_cast_lacke(actor). Decrease heat(actor) by 1 or to nothing. }
-    Result "He lifts the first of them out of the straw, KEY, with his own face on it, sixteen and asleep, and looks at it for some time with a curious composure. 'I was a rather good-looking boy,' he says. 'One forgets.' He puts it back. 'Forty. And you will forgive me if I observe that this makes you the second most dangerous person in Ombra, and I the first.' He smiles. 'The Watch will be rather less interested in you by Thursday. I should not be seen to have been of service, if I were you.'".
+    Result "He lifts the first of them out of the straw, KEY, with his own face on it, sixteen and asleep, and looks at it for some time with a curious composure. 'I was a rather good-looking boy,' he says. 'One forgets.' He puts it back. 'Forty. And you will forgive me if I observe that this makes you the second most dangerous person in Ombra, and I the first.' He smiles. 'I should not be seen to have been of service, if I were you.'".
   }
   Action th_break_proof(actor: group, site: place) "Break the Menders' row and the Registrar's cast, and tip them into the Cuff" {
     Grave "Broken, the proof of what the Wall shows cannot be put back, and cannot be shown to anyone ever again.".
@@ -491,10 +491,10 @@ Module ombra "The Book of Faces" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, cast_cellar) and carries(actor, th_keys) and not mk_guiding(pavane) and (th_intruder(actor) or th_via_guest(actor)).
     Time 10 minutes.
     On success { Spend th_keys from actor. Retract th_took_keys(actor). Assert th_cast_back(actor). Retract th_took_any(actor). }
-    Result "KEY, POUND, SERENE, WHITE, back on their hooks with their brass tags. They look exactly as they did. That is the particular quality of a thing that has been stolen and put back: it looks as if nothing has been done to it.".
+    Result "KEY, POUND, SERENE, WHITE, back on their hooks with their brass tags. They look exactly as they did. Only the straw is flattened on one side, where a hand held them.".
   }
   Topic th_peck_give with peck "Give Peck his own cast, from the shelf of the Named" when carries(actor, th_owed_cast) and not th_peck_cast(actor) once {
-    Says "He does not take it. He looks at it in your hands for a long time, a boy of sixteen with a mouth ready to laugh, and his own mouth does something very slowly. 'I have not seen him,' says Absalom Peck, 'in thirty-one years. They don't let you. They turn it to the wall.' He puts out one finger, and touches the cheekbone, as one touches the face of a sleeping child. 'He was a good boy. He didn't know. Nobody had told him what the white and gold would do. I've been very angry with him.' He takes it, at last, in both hands, and holds it in his lap with the wet face down against his coat. 'There,' he says to it. 'There, there. It's all right. I'm here.'".
+    Says "He does not take it. He looks at it in your hands, a boy of sixteen with a mouth ready to laugh, and his own mouth does something very slowly. 'I have not seen him,' says Absalom Peck, 'in thirty-one years. They don't let you. They turn it to the wall.' He puts out one finger, and touches the cheekbone, as one touches the face of a sleeping child. 'He was a good boy. He didn't know. Nobody had told him what the white and gold would do. I've been very angry with him.' He takes it, at last, in both hands, and holds it in his lap with the wet face down against his coat. 'There,' he says to it. 'There, there. It's all right. I'm here.'".
     On discuss { Spend th_owed_cast from actor. Assert th_peck_cast(actor). }
   }
 

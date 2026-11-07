@@ -1,0 +1,94 @@
+Module dorothea "The Dorothea" {
+  Description "The House of Marchbank, of Orsett: salt, carriage and assurance on the Reach, and a ground-rent on every light. Its ranks, its ledgers read in pieces, its leverage on each island, and the ways a company may answer it.".
+
+  // ── What the House is ───────────────────────────────────────────────────────────────────────────────────────────
+  // A counting-house in Orsett whose mark is a key and a ring. Five ranks, each with a colour of binding, learnt by
+  // travelling: Prentice (grey, keeps an island's day-book), Clerk (blue, copies it to the ledger), Agent (green, keeps
+  // a post), Factor (red, keeps a coast), Principal (black, keeps the seal). It holds the landing at Skerrow, the pans
+  // at Port Ness, the harvest at the Antlers, the carrying (the Dorothea's keel is its note), and a LUM. column: the
+  // lease of every kept light on the Reach, left dark, and under each dark light a W.R. column: wreck-rights, which
+  // fall to the House in default of a light. The Pharos is the last big one lit, and is pending.
+  Entity house: group "The House of Marchbank, of Orsett.".
+  Entity lamp_ness: fact "The Ness Light.". Entity lamp_antlers: fact "The Antler cresset.". Entity lamp_holm: fact "The Holm stump.". Entity lamp_pharos: fact "The Pharos.".
+  Relation houseHolds(entity). Relation lampLit(entity).
+  Initially Assert houseHolds(lamp_ness). Initially Assert houseHolds(lamp_antlers). Initially Assert houseHolds(lamp_holm).
+  Measure freed(group). Measure leaves(group).
+  Relation marked(group). Relation houseExposed(group). Relation reckoned(group). Relation silenced(group).
+  Relation leafNess(group). Relation leafAntlers(group). Relation leafSkerrow(group). Relation leafDorothea(group). Relation leafTolleth(group).
+  Measure holdUntil(entity). Initially Set holdUntil(hull) to 0.
+
+  Kind dorothea_oil_keg "a keg of the Pharos's oil" is gear worth 8 weighing 2 described "A small keg of clean lamp oil, bunged with a plug of wax, the stave-heads burned with nothing at all: no key, no ring. It smells of nothing, which is how you know.".
+  Kind dorothea_copy "a copy of the House's leaves" is document teaching house_plan described "Five sheets in your own hand, copied from five ledgers, with the same three marks recurring in the margin: LUM., W.R., and a small key-and-ring.".
+
+  // ── Ledgers, read in pieces ─────────────────────────────────────────────────────────────────────────────────────
+  Discovery leaf_ness_d "In the Port Ness day-book, in the blue clerk's hand: SALT, 4,100 SACKS, CONSIGNED TO THE ACCOUNT. And in a separate column headed LUM.: NESS LIGHT, KEEPER'S BOND, SKAIL, DEBIT 18 CR., BOOK CLOSED AT LAMMAS, OIL NIL. THE HOLM, RENT TO OAKE 4 CR. THE QUARTER, FOR NO LIGHT. And under W.R.: ROSA LIND, HOLM BAR, SALVAGE TAKEN 212 CR." {
+  }
+  Discovery leaf_antlers_d "In the Antlers' day-book, a child's careful hand: DOWN, 90 STONE. EGGS, 11 GREAT HUNDRED. LUM.: THE CRESSET, LEASE OF THE STACK, CLAUSE 7, NO FIRE UPON THIS STACK WITHOUT THE HOUSE'S LEAVE. RENT ARREARS 15 CR. AGENT TO SEND TO FACTOR: BOOK ONE. (BOOK TWO IS THIS ONE.) W.R.: TERN, THE RACE, TAKEN 160 CR." {
+  }
+  Discovery leaf_skerrow_d "In Silas Quillon's green ledger: SKERROW, THE LANDING, A THIRD. LUM.: THE PHAROS. PENDING. BRONZE, TABLE AND REFLECTOR, TO BE CLEARED BY MARTINMAS ON THE PRINCIPAL'S ORDER, 'THE LAMP ROOM TO BE LEFT EMPTY'. LIGHTS IN HAND: NESS, ANTLERS, HOLM. OUTSTANDING: ONE. W.R.: MARY ANN, THE COMBS, LAMMAS." {
+  }
+  Discovery leaf_dorothea_d "On the shelf in Bascom's cabin, a House form: DOROTHEA, KETCH, KEEL ADVANCED 60 CR., PLEDGED. SAILING ORDERS: CALL AT THE HOUSE'S PORTS ONLY. CARRY NO OIL TO ANY UNLEASED LIGHT. AT THE COMBS OR THE RACE, ON DEFAULT OF A LIGHT, STAND BY FOR SALVAGE. W.R.: AS FOLLOWS, IN SUCH CASE, 1 PART IN 3 TO THE MASTER." {
+  }
+  Discovery leaf_tolleth_d "In Dacey Hoe's ledger of sailings, a second column nobody reads: PREM., the House's premiums on every hull that clears; and beside it W.R., the hulls that did not. Eleven names this year. Against each: SALVAGE IN DEFAULT OF A LIGHT, THE HOUSE'S. Against nine of them, in the margin, in pencil: NO LIGHT." {
+  }
+  Discovery house_plan "The House of Marchbank leases the kept lights of the Reach and does not light them; it holds, under each dark light, the wreck-rights; the Pharos is the last big one lit, and the House has been sent to take it.".
+
+  // Reading a leaf is done where the leaf is: at the counting-room (Pym), the day-book (Wick Bligh), the Gull (Quillon),
+  // the cabin shelf (Bascom), the harbourmaster's ledger (Dacey Hoe). Each is a different small hazard. Three, of any
+  // five, are enough to see the pattern.
+  Action reckon_leaves(actor: group, site: place) "Lay the House's leaves side by side and sum them" {
+    Description "Three or more, from different hands, with the same columns in the margin.".
+    Requires able(actor) and company(actor) and at(actor, site) and leaves(actor) >= 3 and not reckoned(actor).
+    Time 4.
+    On success { Assert reckoned(actor). Give dorothea_copy to actor. Assert knows(actor, house_plan). }
+    Result "You lay them on the hatch-cover and weigh the corners with a belaying-pin, a boot and a mug. The columns do not agree: one says SALT, one EGGS, one SULPHUR, one the price of a keel. The margins agree. LUM., LUM., LUM., and beside each a W.R. with a sum, and when you run a thumb down the W.R. column every figure is dated the week its light went dark. Nobody wrecked a ship. Somebody held the lease on the lamp that would have saved her, and left the wick as it was. Under the last leaf, in pencil, a pin on a chart at Port Ness, loose on the sill, has been marked WAITING. You copy the lot out fair on the back of a sailing bill, because the pencil is going to be wanted.".
+  }
+
+  // ── Ranks, as a Prentice tells them ─────────────────────────────────────────────────────────────────────────────
+  // (Pym tells them at Port Ness; Wick Bligh at the Antlers; Quillon, who is an Agent, tells them less kindly.)
+
+  // ── Answering the House ─────────────────────────────────────────────────────────────────────────────────────────
+  // Expose it: the reckoning before the harbourmaster at Tolleth, who will chalk it on the board and send it to the
+  // Pilots' Bench. The House answers by holding the Dorothea on a bailiff's order for two days (holdUntil).
+  Topic hoe_expose with harbourman "Lay the House's reckoning before Dacey Hoe" when reckoned(actor) and not houseExposed(actor) and not silenced(actor) once {
+    Says "Dacey Hoe reads the copy through, once, with her mouth getting thinner. Then she turns the ledger of sailings to its second column and puts a finger on it, as if she were pinning something. 'I collected these,' she says. 'Eleven years. I never read the right hand.' She takes the chalk from behind her ear. By noon the board outside has a new line under LOST THIS YEAR: NO LIGHT, NO PREMIUM. THE HOUSE OF MARCHBANK'S LEASES, OPEN TO READING AT THIS OFFICE. A copy goes to the Pilots' Bench by the Wednesday boat. 'They'll come for the Dorothea,' she says. 'It is what they have. Bascom will be held on the quay.'".
+    On discuss { Assert houseExposed(actor). Set holdUntil(hull) to watch(clock) + 288. Assert cressetFree(actor). }
+  }
+  Observe board_exposed at quay when houseExposed(party) "The board under LOST THIS YEAR has a new line in Dacey Hoe's square hand: NO LIGHT, NO PREMIUM. THE HOUSE OF MARCHBANK'S LEASES, OPEN TO READING AT THE HARBOURMASTER'S. A knot of pilots stands reading it with their hats on. Somebody has rubbed the key-and-ring off the foot of every sailing.".
+  Observe board_freed at quay when freed(party) >= 2 and not houseExposed(party) "Under LOST THIS YEAR the fourth line has been rubbed out again, and nobody has begun it. Someone has chalked a small flame beside the Antlers.".
+
+  // The Pharos is the fourth light. It is kept if the lamp was not sold; that is counted here, whichever way it came.
+  Relation pharosCounted(group).
+  Rule pharos_kept_counts when keptLamp(party) and not pharosCounted(party) and not lampOut(party) { Assert pharosCounted(party). Increase freed(party) by 1. }
+
+  // ── The Principal, at the quay, when it is known ────────────────────────────────────────────────────────────────
+  Person principal "Josselin Marchbank" at nowhere {
+    Role "Principal of the House of Marchbank". Ancestry human. Level 4. Peaceable. Pronouns he. Manner stoic.
+    Likeness "merchant".
+    Greets "A tall old man in a black coat stands at the foot of the notice board, reading it as one reads a bill one has already paid. He has no ledger in his hand: only a seal on a chain, a key and a ring. 'Josselin Marchbank,' he says. 'You have been reading my books, in pieces. It is the usual way people read them.'".
+  }
+  Relation principalMet(group).
+  Rule principal_comes when reckoned(party) and at(party, quay) and not principalMet(party)
+    says "A man in a black coat has come down the Orsett road with a clerk and a stick, and stands at the foot of the notice board with his hands behind him." {
+    Assert principalMet(party). Retract at(principal, nowhere). Assert at(principal, quay).
+  }
+  Topic marchbank_lights with principal "Ask Josselin Marchbank why the House leases lights it does not light" when true once {
+    Says "'A lit coast needs no pilot,' he says. 'No assurance. No salvage. A free light is a hole in a market, and I have been filling it for thirty-one years.' He turns the seal on its chain, once round, as another man turns a ring. 'I have never wrecked a ship. Put that in your copy, if you must have a line of mine.'".
+  }
+  Topic marchbank_offer with principal "Hear what Josselin Marchbank offers for the copy" when true once {
+    Says "'Forty crowns,' he says. 'Or the Dorothea's note struck off. Or a clerkship at Orsett for whichever of you writes the fairest hand.' He does not raise his voice for any of the three. 'Choose before the tide turns.'".
+  }
+  Action take_silver(actor: group, site: place) "Take the Principal's forty crowns for the copy" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(principal, site) and holding(actor, dorothea_copy) and not silenced(actor).
+    Time 1.
+    On success { Increase quantity(actor, gold) by 40. Spend dorothea_copy from actor. Assert silenced(actor). Retract at(principal, quay). Assert at(principal, nowhere). }
+    Result "Marchbank counts it out himself, forty crowns, as a man pays a debt he does not think he owes. He folds the copy into his coat. 'Forty,' he says. 'Counted twice.' He does not say thank you; the House does not.".
+  }
+  Action press_principal(actor: group, site: place) "Tell him the copy is also with Dacey Hoe, and the Pilots' Bench" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(principal, site) and houseExposed(actor) and not silenced(actor) and not principalLeft(actor).
+    Time 1.
+    On success { Assert principalLeft(actor). Retract at(principal, quay). Assert at(principal, nowhere). Set holdUntil(hull) to watch(clock). }
+    Result "Marchbank looks at the board, and at the pilots with their hats on, and at the clerk, who has turned the colour of paper. 'Ah,' he says. 'So.' He puts the seal back inside his coat, and for a moment he looks his age. 'The Dorothea is free to sail,' he says. 'You will find the House is not at all as large as it was this morning.' He goes up the Orsett road with his stick, and the clerk after him, carrying nothing.".
+  }
+  Relation principalLeft(group).
+}

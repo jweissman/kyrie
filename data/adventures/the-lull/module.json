@@ -17,7 +17,9 @@
     "builds.kyr",
     "endings.kyr",
     "after.kyr",
-    "company.kyr"
+    "fellowship.kyr",
+    "company.kyr",
+    "lore.kyr"
   ],
   "rules": [
     "world"
@@ -30,5 +32,9 @@
     "region": "lull_country",
     "march_road": "march_road"
   },
-  "experience": 1000
+  "experience": 1000,
+  "canon": [
+    "imbar",
+    "remainder_kept"
+  ]
 }

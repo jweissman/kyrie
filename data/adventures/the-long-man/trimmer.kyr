@@ -1,0 +1,28 @@
+Module longman "The Long Man" {
+  Description "A lamp-trimmer who keeps the ford lamp in the Chapel of the Ford, which is lit for no one living, and what he has heard on the roads about other lamps like it.".
+
+  // ── Osmund Wethered, who trims the ford lamp ─────────────────────────────────────────────────────────────────────
+  // The lamp hangs by the font and has been lit every dusk since the winter the ford took the carriers. Nobody in the
+  // dale is left who crossed with them. He wants to be told whom it is for; he fears it is for nobody and that, if he
+  // were to stop, nothing would happen; the lie he tells himself is that he does it for the oil-money. In two beats:
+  // the gossip, and (told what the notches count) a second wick that he trims for no reason he will give.
+  Person wethered "Osmund Wethered" at nave {
+    Role "the lamp-trimmer of the Chapel of the Ford, who comes in at dusk with a pair of snuffers and a can". Ancestry human. Peaceable. Pronouns he. Manner acerbic.
+    Greets "A bent man in a leather apron is on a stool by the font with a lamp in his lap, taking the char off its wick with a small pair of brass scissors. He does not stop. 'There is a charge for the oil,' says Osmund Wethered. 'There is no charge for the looking. Do not stand in the light.'".
+    Greets again "Osmund Wethered holds the wick up to the window, squints, and lets it down again. 'Not yet,' he says. 'It is never yet.'".
+    Sells lamp_oil for 1 coin from 4.
+  }
+  Relation wethereldTold(group). Relation twoWicks(group).
+  Discovery wethered_gossip "Osmund Wethered, the lamp-trimmer, gets his wicks from a chandler's loft at Skeel by the coast carriers, and has a brother's tale of a lamp on the rock at Skerrow that is lit for no one living either, by men who do not say why.".
+  Observe wethered_lamp at nave when not twoWicks(party) "By the font a small lamp hangs from a bracket in the wall, with a glass black on the weather side and clean on the other. It is lit. Under it, on a ledge worn smooth, a can, a pair of scissors and a stub of candle.".
+  Observe wethered_lamp_two at nave when twoWicks(party) "By the font the small lamp burns with two flames, not one, side by side in the same dish, and the glass is clean all round. Under it, on the worn ledge, there is a second pair of scissors, newer than the first.".
+
+  Topic wethered_lamp_ask with wethered "Ask Osmund Wethered whom the lamp by the font is lit for" when true once {
+    Says "'Ask the parish,' he says, 'and it will tell you the carriers who drowned at the ford, the winter of the hard frost, eleven of them, and a boy.' The scissors do not stop. 'Ask the register, and it says nothing. Ask my mother, who had the trimming before me, and she said do not ask. I have asked everyone who comes through. Pedlars. Carters.' He lays the wick straight. 'A chandler's man from Skeel, once, came up with the wicks, a great river of rope-walk grey in his bag, and he said there was a lantern on the Holm at Skeel kept by a lass who took the log of an empty sea, and that she had asked the same, and written it down, and had no better. And my brother, God keep him, went to be lamp-boy on a rock off the south, Skerrow, where the Pharos is, and he sent a letter once that said they lit it there for the same reason. Nobody living. No one will say who.' He sniffs. 'It is a good business, lamps. Nobody asks for their money back.'".
+    On discuss { Assert knows(actor, wethered_gossip). Assert wethereldTold(wethered). }
+  }
+  Topic wethered_notches with wethered "Tell Osmund Wethered what the notches under the Long Man count" when knows(actor, wethered_gossip) and knows(actor, notches_known) and not twoWicks(party) once {
+    Says "He puts down the scissors for the first time. 'Eleven,' he says. 'And a space.' He looks at the lamp, and at the font beneath it, and the high-water mark on the wall that somebody kept level with the roof-beam. 'I have trimmed this thing forty winters,' he says, 'and I had it in my head that it was for the dead. For the drowned.' He is quiet. 'It has eleven drowned and a boy. Twelve.' He gets up, with his hand on the font, and takes a second stub of wick out of his apron, and lays it in the dish beside the first without asking you or anyone. 'The twelfth is not lost,' he says. 'Somebody knows where the twelfth is. Light it for him until he does.' He does not thank you. He goes back to the stool and begins on the second wick, as if it had always been there, and does not look up for the rest of the hour.".
+    On discuss { Assert twoWicks(party). }
+  }
+}

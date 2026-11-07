@@ -26,11 +26,11 @@ Module ombra "The Book of Faces" {
 
   // The first speeches. Each teaches a rule of the city by showing it.
   Topic vail_use with vail "Ask what use the Watch has for a stranger" when not warrantHeld(actor) and not warrantRefused(actor) once {
-    Says "'The Registrar of Ombra is dead,' says the Watch, 'in the bier-room of the Chapel of the Bare Face, in the white mask of her office, and the Book of Faces is not on its lectern.' She says it without any weight at all, the way a clerk reads out a bridge toll. 'A Registrar's mask may be lifted by her successor-designate and nobody else, and the successor-designate is in the Book. So nobody may lawfully say who is dead. Nobody may say the Office is vacant. In nine days the Drawing must be read by a Registrar, and if it is not, every Office in this city dissolves at midnight, being only masks.' She turns her head very slightly. 'The seventy-first article says the Concord may hire a stranger to look. Look.'".
+    Says "'The Registrar of Ombra is dead,' says the Watch, 'in the bier-room of the Chapel of the Bare Face, in the white mask of her office, and the Book of Faces is not on its lectern.' She says it without any weight at all, the way a clerk reads out a bridge toll. 'A Registrar's mask may be lifted by her successor-designate and nobody else, and the successor-designate is in the Book. So nobody may lawfully say who is dead. Nobody may say the Office is vacant. In nine days the Drawing must be read by a Registrar, and if it is not, every Office in this city dissolves at midnight, being only masks.' She turns her head very slightly. 'The seventy-first article says the Concord may hire a stranger to look. Look.' She tips her head down the Cuff, towards a bell being rung for no one in particular. 'Start where she lies. You will find the Chapel by the people not looking at it.'".
     On discuss { Assert knows(actor, marrick_dead). Assert knows(actor, warrant_terms). }
   }
   Topic vail_pay with vail "Ask what the Warrant pays" when not warrantHeld(actor) and not warrantRefused(actor) once {
-    Says "'Nine days' lodging at the Hospice, under Mother Tibb, God help you. Five coin now.' She pauses. 'And at the end of it, if there is an end, the Concord offers the Bare who served a face of their own. A trade, or a place in the next Urn. A name nobody may say.' She might be reading it off the inside of her mask. 'Nobody has taken it in sixty-two years. The last one went home.'".
+    Says "'Lodging at the Hospice, nine days, under Mother Tibb. Five coin now.' She counts it onto the strip of paper. 'At the end, if there is an end, the Concord offers the Bare who served a face of their own. A trade. A place in the next Urn.' She might be reading it off the inside of her mask. 'Sixty-two years, no one has taken it. The last one went home. Noted.'".
     On discuss { Assert faceOffered(actor). }
   }
   Topic vail_why with vail "Ask why a Bare, and why you" when not warrantHeld(actor) and not warrantRefused(actor) once {
@@ -68,7 +68,7 @@ Module ombra "The Book of Faces" {
     On discuss { Assert knows(actor, vail_name). Increase vailTrust(actor) by 1. }
   }
   Topic vail_candour with vail "Tell the Watch honestly what you have found, and what you have not" when warrantHeld(actor) and (knows(actor, pip_saw) or knows(actor, lacke_taxed) or knows(actor, pell_hid_book) or knows(actor, serene_saw)) and not vailTold(actor) once {
-    Says "She listens in the Gatehouse with her mask in her lap, which is how you know it is serious. When you have done she does not say anything for a long moment. 'If I take that to the Watch-house they will say I asked a Bare to Unface a Warden,' she says. 'So I have not heard it.' She puts the mask back on. 'But I know where to stand on the ninth night, now. That is not nothing.'".
+    Says "She listens in the Gatehouse with her mask in her lap, which is how you know it is serious. When you have done she turns the mask in her lap a quarter-turn, and back. 'If I take that to the Watch-house they will say I asked a Bare to Unface a Warden,' she says. 'So I have not heard it.' She puts the mask back on. 'But I know where to stand on the ninth night, now. That is not nothing.'".
     On discuss { Assert vailTold(actor). Increase vailTrust(actor) by 1. }
   }
   Relation vailTold(group).

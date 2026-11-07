@@ -5,14 +5,14 @@ Module corrow "The Road the Star Came Down" {
   // In 412 the Lettings read the star's name in the Root's memories and let it go, by order of both councils, and the
   // star stayed. Ever since, the name has been gathering forgotten things round itself in the Margin. The body woke in
   // 2641 and went after the jewel. The name wants to go after its body.
-  Discovery unsaid_is_name "The Unsaid is the Nail's own name. In 412 the Lettings, by order of both councils, read the star's name in the Root and let it go into the Lap, and the star stayed where it was. The name has been in the Margin ever since, gathering forgotten things round itself; the body lay in the Well without it until 2641. A name without its thing wants its thing.".
+  Discovery unsaid_is_name "In 412 the Lettings, by order of both councils, read a name in the Root and let it go. What they let go has been in the Margin ever since, gathering forgotten things round itself.".
   Thing warden_chest "a deadiron-bound chest in the old warden's office" at gaol_ring is scenery {
     State shut "In the wreck of the Concord warden's office, under fallen rock, a chest bound in black iron that no fire touched.".
   }
   Discovery warden_ledger "The Concord Warden's account book for 412, kept from thinning in deadiron: 'To the Letting school, for the Long Rite against the star's name, by order of both councils: forty weights of silver, paid. Fog. No market. To searchers for Keld Hollow, sixty men, nine days. Nothing found. They say the road there is longer than it was. The Keeper does not know her daughter. Fog.'" {
     Source warden_book "the Concord Warden's account book of 412" at gaol_ring readable by party.
   }
-  Observe name_and_body near party when knows(party, warden_ledger) and knows(party, root_gift) and not knows(party, unsaid_is_name) "The Warden's account and the bear's night in the Root fit together like the two halves of a broken plate: the Lettings read the star's name in the Root, where the oldest witnesses had seen it fall, and let the name go. Not the star. Its name. Which is somewhere still." teaches unsaid_is_name.
+  Observe name_and_body near party when knows(party, warden_ledger) and knows(party, root_gift) and not knows(party, unsaid_is_name) "The Warden's account and the bear's night in the Root fit together like the two halves of a broken plate. Forty weights of silver, paid, to let go of a name. The ledger does not say whose." teaches unsaid_is_name.
   Topic ferran_told with ferran "Tell Ferran Cosk what is waiting in the grey" when knows(actor, unsaid_is_name) and not turned(ferran) and not unsaidCrossed(margin) {
     Says "Ferran Cosk listens to the end with his hands folded, and then he takes the Open Hand's book of syllables off its shelf, the one they have been filling for a year, and looks at it. 'My great-grandfather's rite,' he says. 'The star's name. We were going to say it at the Seam, out of mercy.' He closes the book. He does not burn it; he gives it to you. 'Whatever you need forgotten,' he says, 'the Open Hand will forget it. That is the only thing we are good for.'".
     On discuss { Assert turned(ferran). }
@@ -39,7 +39,7 @@ Module corrow "The Road the Star Came Down" {
   }
   Rule open_hand_short when watch(clock) >= 5616 and gathered(margin) < 7 and not turned(ferran) and not unsaidCrossed(margin) and not riteFailed(margin)
     and not unsaidHoused(margin) and not unsaidSent(margin) and not unsaidSlain(margin)
-    says "On the fortieth day the Open Hand go down to the Seam and say what they have, all of it, in the dark, for a night and a day. The lake steams. The grey shore comes so close you could step onto it. Nothing crosses. Ferran Cosk comes up the stair with his book and sits on the rim for a long time." {
+    says "On the fortieth day the Open Hand go down to the Seam and say what they have, all of it, in the dark, for a night and a day. The lake steams. The grey shore comes so close you could step onto it. Nothing crosses. Ferran Cosk comes up the stair with his book and sits on the rim until the lamps are lit." {
     Assert riteFailed(margin).
   }
   Relation riteFailed(place).
@@ -81,7 +81,7 @@ Module corrow "The Road the Star Came Down" {
   Passage place_court "toward what is gathering" is path between mountain_place and unsaid_court taking 1 hour.
 
   Topic rook_anchor with rook "Ask Prioress Rook to anchor the company across the lake at the Seam" when knows(actor, seam_found) and not riteArranged(rook) {
-    Says "The prioress is quiet for a long time. 'Thirty years nobody has asked,' she says. 'My sisters will go down with you to the chamber and forget you there: that is how you cross. Then they will come up, and we will say your names here, all of us, in turns, day and night, until you walk back out of the lake.' She takes your hands one by one and looks at each face as if learning it. 'We are only nurses. We can hold you two days. If you want longer, ask the people who owe you, or who love you. Ask a Keld if you can find one who will; a Keld cannot forget, and will hold you as long as you need.'".
+    Says "The prioress turns her ring once round her finger. 'Thirty years nobody has asked,' she says. 'My sisters will go down with you to the chamber and forget you there: that is how you cross. Then they will come up, and we will say your names here, all of us, in turns, day and night, until you walk back out of the lake.' She takes your hands one by one and looks at each face in turn, slowly, learning it. 'We are only nurses. We can hold you two days. If you want longer, ask the people who owe you, or who love you. Ask a Keld if you can find one who will; a Keld cannot forget, and will hold you as long as you need.'".
     On discuss { Assert riteArranged(rook). Set anchorDays(margin) to 2. }
   }
   Relation anchoring(group).
@@ -98,7 +98,7 @@ Module corrow "The Road the Star Came Down" {
     On discuss { Assert anchoring(bram). Increase anchorDays(margin) by 2. }
   }
   Topic saska_anchor with saska "Ask Mother Saska to stand anchor for the company" when riteArranged(rook) and not anchoring(saska) {
-    Says "Mother Saska looks at you for a long time. 'My grandmother was over there,' she says. 'The anchors who brought her back were Marra Coyle and her daughter, and they said her name for nine days.' She settles in her chair. 'I will not forget you. I cannot. Go and come back.'".
+    Says "Mother Saska lays her hands flat on the chair-arms. 'My grandmother was over there,' she says. 'The anchors who brought her back were Marra Coyle and her daughter, and they said her name for nine days.' She settles in her chair. 'I will not forget you. I cannot. Go and come back.'".
     On discuss { Assert anchoring(saska). Increase anchorDays(margin) by 100. }
   }
   Relation lensHome(group).
@@ -125,7 +125,7 @@ Module corrow "The Road the Star Came Down" {
   Observe drifts_scene at drifts when true "The drifts. Lost things lie against fences that are forgotten boundaries, banked like snow on the windward side: gloves by the thousand, buttons, keys, a Peleth ledger swollen to twice its size, a child's shoe, a whole hayrick, a dog collar, a well-bucket. Everything anyone in the Corrow ever put down and forgot is here, and most of it is single.".
   Observe hollow_scene at hollow_lanes when true "Keld Hollow: thirty houses in a lane, whole and swept, with smoke going up straight from every chimney into the no-sky. Nobody is in the lanes. The houses remember being lived in; their people went home in 2606.".
   Observe reeve_empty at reeve_house when webbNamed(webb) "The reeve's house. The hearth is cold for the first time in two hundred years: the one this house was keeping warm has gone home to Keld, and it knows. A bed, a chair, a coat-peg with nothing on it. It is waiting for somebody.".
-  Observe reeve_kept at reeve_house when not webbNamed(webb) "The reeve's house. A fire on the hearth, low. A young man's coat on the peg by the door, still warm, as if he had just gone out to the far field and would be back in a minute.".
+  Observe reeve_kept at reeve_house when not webbNamed(webb) "The reeve's house. A fire on the hearth, low. A young man's coat on the peg by the door, still warm, and on the table a bowl of porridge with the spoon standing upright in it.".
   Observe far_field_scene at far_field when true "The far field: a stone wall round a square of grey grass, and in the middle a hay-fork standing upright in the ground where somebody stuck it and walked away.".
   Observe library_scene at grey_library when true "A library with no titles: shelves going away in every direction, and on them books, scrolls, keepstone plates, tally-chains, all without a name, all Calvessan. Half of a people's history, let go on one night in 1 BB to save the world. Some of the books are open, as if someone had been reading.".
   Observe place_scene at mountain_place when true "Here is a hole. Not in the ground: in the grey itself, a hole-shaped absence a kilometre and more across, ribbed down its sides, three hundred metres deep, with nothing at the bottom and nothing in it at all. It is exactly the shape of the Socket. It is where the mountain belongs. It is waiting.".
@@ -136,7 +136,7 @@ Module corrow "The Road the Star Came Down" {
   // The blue bucket, which Sabeth Coyle lost on an elver morning in 2601.
   Kind blue_bucket "a blue bucket, a good one, with an old chalk tally on its side" is treasure worth 0 weighing 2.
   Item bucket "a blue bucket" is blue_bucket at drifts.
-  Event bucket_home near bram when keeps(bram, bucket) "Bram turns the bucket round in his hands and reads the chalk on its side, which has not rubbed off in a hundred and thirty years: eleven strokes, in his great-great-grandmother's hand. 'Gran said there was a blue bucket,' he says. 'Her gran's. It went in the fog one elver morning.' He sets it on the bench by the lens-grinder's lap, and it looks as if it had always been there." then {
+  Event bucket_home near bram when keeps(bram, bucket) "Bram turns the bucket round in his hands and reads the chalk on its side, which has not rubbed off in a hundred and thirty years: a row of tally strokes, in his great-great-grandmother's hand. 'Gran said there was a blue bucket,' he says. 'Her gran's. It went in the fog one elver morning.' He sets it on the bench by the lens-grinder's lap, and it looks as if it had always been there." then {
     Assert bucketHome(bram).
   }
   Relation bucketHome(group).
@@ -149,7 +149,7 @@ Module corrow "The Road the Star Came Down" {
   Discovery library_name "In the untitled library, an open book in Concord hand of 412: the Lettings' own record of the Long Rite. They read the star's name in the Root, it says, and let it go; and on the last page, in another hand: 'The star did not go. We have let go of the wrong thing.'" {
     Source rite_record "an open book in Concord hand" at grey_library readable by party.
   }
-  Observe library_inference near party when knows(party, library_name) and not knows(party, unsaid_is_name) "'We have let go of the wrong thing.' The name went. The star stayed. And something in the grey has been gathering itself round a name ever since." teaches unsaid_is_name.
+  Observe library_inference near party when knows(party, library_name) and not knows(party, unsaid_is_name) "'We have let go of the wrong thing.' Something in the grey has been gathering itself round it ever since." teaches unsaid_is_name.
 
   // The mountain's place: a stone of the absence is Hightown's place in a pocket.
   Kind place_stone "a stone of the mountain's place, which weighs nothing at all" is treasure worth 0 weighing 0.
@@ -163,7 +163,7 @@ Module corrow "The Road the Star Came Down" {
     State returned "Iniry Calde is in the Corrow again, and does not like the weather.".
   }
   Topic iniry_who with iniry "Ask the woman on the milestone who she is" when state(iniry, forgotten) once {
-    Says "'Iniry Calde,' she says, 'of the charge of the old forgettings. They locked me in the Quiet Gaol in 590 for trying to forget the Chain. A party of heroes let me out in 2601. Three years later a fool of a Letting brother and I tried his great-grandfather's rite, and it took us both.' She considers you. 'Nobody up there has said my name in a hundred and twenty-seven years. You cannot anchor what nobody remembers.' She looks at the fog. 'I know the old rites better than anyone living or forgotten. Learn my name, up there, from someone who wrote it down, and say it at the shore, and I will come.'".
+    Says "'Iniry Calde,' she says, as to a clerk who has spelt it wrong before. 'Of the charge of the old forgettings. The Quiet Gaol had me from 590 for trying to forget the Chain. A party of heroes let me out in 2601, and three years later I let a fool of a Letting brother talk me into his great-grandfather's rite, and it took us both.' She considers the fog as though it owed her rent. 'A hundred and twenty-seven years, and nobody up there has said my name. You cannot anchor what nobody remembers. Find it written, say it at the shore, and I will come. I know the old rites better than anyone living or forgotten, and I am in a temper.'".
   }
   Topic iniry_rite with iniry "Ask Iniry Calde about the Forgetting of the Way Home" when state(iniry, forgotten) once {
     Says "'Three hundred,' she says at once. 'Who can forget: no Keld, then. Sitting in a ring across the road the enemy must take, before it takes it. You will lose something. You choose what; the rite takes it whether you choose or not, so choose.' She almost smiles. 'It is the only rite that ever won a war in this country. They taught it to children once, without its words, as a skipping game.'".
@@ -185,12 +185,12 @@ Module corrow "The Road the Star Came Down" {
   Relation unsaidHoused(place). Relation unsaidSent(place). Relation unsaidSlain(place).
   Discovery road_fragments "Three fragments of a road, given up by the Unsaid: the keeper Wenna Coyle's lapses as she fled with the Hush in 2641, moments she let fall into the grey as she went: a night sky with a burnt line up it, north-north-east and up; a wall of cloud with a door in it; a long road of fused air with a star at the end of it, burning.".
   Topic unsaid_wants with unsaid "Ask the Unsaid what it wants" when not unsaidCrossed(margin) and not unsaidSent(margin) and not unsaidSlain(margin) and not unsaidHoused(margin) {
-    Says "It does not speak. Things speak for it: a lost hat says 'I', a Peleth ledger says 'was', a gravestone name nobody reads says 'mine'. Slowly, out of a hundred dropped words, you hear it: I WAS SAID ONCE AND THEN NOT. I AM THE SAYING WITHOUT THE THING. THE THING HAS GONE UP THE ROAD AFTER THE JEWEL. I HAVE THREE PIECES OF THE ROAD THAT THE KEEPER DROPPED. TELL ME THE REST. OR SAY ME, AT THE SEAM, AND I WILL FIND IT MYSELF.".
+    Says "It does not speak. Things speak for it: a lost hat says 'I', a Peleth ledger says 'was', a gravestone name nobody reads says 'mine'. Slowly, out of a hundred dropped words, you hear it: I WAS SAID ONCE AND THEN NOT. I AM THE SAYING WITHOUT THE THING. I HAVE THREE PIECES OF A ROAD THAT A KEEPER DROPPED. TELL ME THE REST. OR SAY ME, AT THE SEAM, AND I WILL FIND IT MYSELF.".
   }
   Action house_unsaid(actor: group, site: place) "Ask Teshen to give the Unsaid a name and a place: the reeve's empty house in Keld Hollow" {
     Description "A Stray named aloud by someone who means it, and given a place, stops taking. The reeve's house is empty now that Corin is home.".
     Requires able(actor) and company(actor) and at(actor, site) and at(unsaid, site) and travelsWith(teshen, actor)
-      and knows(actor, unsaid_is_name) and webbNamed(webb) and not unsaidHoused(margin) and not unsaidSent(margin) and not unsaidSlain(margin) and not unsaidCrossed(margin).
+      and knows(actor, unsaid_is_name) and webbNamed(webb) and not nicheClosed(keld) and not unsaidHoused(margin) and not unsaidSent(margin) and not unsaidSlain(margin) and not unsaidCrossed(margin).
     Time 2.
     On success { Assert unsaidHoused(margin). Assert at(unsaid, reeve_house). Assert knows(actor, road_fragments). }
     Result "Teshen walks into the gathering until the things it wears brush her face, and stands there. 'You're the name of the star,' she says, 'that was said and then not. That's who you are. It's not nothing; it's a name.' The coats and the hats go still. 'And your place is the reeve's house in the Hollow, where Corin lived, because Corin's gone home and the house is waiting for somebody, and the somebody is you.' For a long time nothing moves. Then the Unsaid walks past her, very slowly, out of the gathering and down the grey road, shedding gloves, toward Keld Hollow. When it is gone there are three things lying where it stood: three pieces of a road.".

@@ -31,7 +31,7 @@ Module ombra "The Book of Faces" {
     Time 10.
     Resolve check(actor, insight, dc_fair).
     On success { Assert knows(actor, mask_reset). }
-    Result "You turn it over. The knot of the tie is a clerk's knot, tied twice, the way a person ties a thing they are afraid will come off. The left slit sits a fraction high on the face, as if the hand that put it there was shaking. Whoever did it was not hiding a crime. They were making a thing right that they could not bear to see wrong.".
+    Result "You turn it over. The knot of the tie is a clerk's knot, tied twice, the way a person ties a thing they are afraid will come off. The left slit sits a fraction high on the face, as if the hand that put it there was shaking. Whoever did it stopped halfway, and began again.".
     Otherwise "It is a mask, and it has been tied on. You cannot make it tell you more.".
   }
   Action examine_bands(actor: group, site: place) "Look at the marks a mask leaves on the Registrar's face" {

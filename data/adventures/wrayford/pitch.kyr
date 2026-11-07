@@ -26,7 +26,7 @@ Module wrayford "The Third Night" {
     Time 2 minutes.
     Resolve drop(joss_ring, giver).
     On success { Assert annisRing(annis). Assert annisLeft(annis). Increase temper(wray) by 1. Increase quantity(actor, rations) by 3. }
-    Result "She looks at it in your palm for a long time, the tray of pies tilting on its strap. Then she takes it and puts it on her own finger, which it is too big for, and closes her hand on it. She takes the tray off over her head and gives you three pies off it, not for sale, and walks away from the Bridge End along Bridge Street without looking back, with her fist shut, and does not come back to her pitch.".
+    Result "She does not take it at once; the tray tilts on its strap, and a pie slides, and she lets it. Then she takes the ring and puts it on her own finger, which it is too big for, and closes her hand on it. She takes the tray off over her head and gives you three pies off it, not for sale, and walks away from the Bridge End along Bridge Street without looking back, with her fist shut, and does not come back to her pitch.".
   }
   Topic annis_win with annis "Ask Annis whether she would sell Win Fenner pies at cost" when annisRing(annis) and knows(actor, win_proud) and not annisWinPies(annis) once {
     Says "'Win.' She thinks about it. 'She'd not take them off you. She'd take them off me.' She nods slowly. 'At cost. Every day, as many as the children want, and she can owe me, and I'll never send in the bill.' She almost smiles. 'She'll know. She'll take them anyway. We're the same now, her and me.'".

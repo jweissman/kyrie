@@ -361,7 +361,7 @@ Module ombra "The Book of Faces" {
     Time 3 minutes.
     Resolve check(actor, insight, dc_fair).
     On success { Assert knows(actor, wr_brother_shakes). }
-    Result "The stone is scrubbed because there was something on it. The vinegar is to cover another smell. And the sword is held low and a little away from the body, the way one holds a thing that might go off, and the hand that holds it, under the glove, is not quite still. Nobody on the Hill has told you why. He sees you look and does not move it. 'Winter,' he says, as if you had asked. 'A boy. He was seventeen, and he did not yield, and I did not stop.' Then, in the manner of one who has said it a good many times to a wall: 'I am quite good enough. Come on.'".
+    Result "The stone is scrubbed because there was something on it. The vinegar is to cover another smell. And the sword is held low and a little away from the body, the way one carries a full cup across a crowded room, and the hand that holds it, under the glove, is not quite still. Nobody on the Hill has told you why. He sees you look and does not move it. 'Winter,' he says, as if you had asked. 'A boy. He was seventeen, and he did not yield, and I did not stop.' Then, in the manner of one who has said it a good many times to a wall: 'I am quite good enough. Come on.'".
     Otherwise "He is better than you, and he is waiting, and nothing in him that you can read is any different from what it was.".
   }
   Action wr_disarm(actor: group, site: place) "Take the sword out of his hand" {
@@ -451,7 +451,7 @@ Module ombra "The Book of Faces" {
     Says "She turns the ledger round so that you can read it. 'The first,' says Reeve, 'laid his steel on the rack, or took your coin, or drew. The second held a door or fought two. The third was a clown with a daughter. The fourth was paid to fall to you, and was, or was not. The fifth held out a sword. The sixth wore a mask. The seventh is my brother.' Her voice does not change on it. 'The eighth was a child. And I have a column of what you did. Say what it is that you refuse.'".
   }
   Topic wr_say_hire with reeve "Say that you refuse nothing that is fairly paid for" answering wr_reeve_asks when wr_hire(party) >= 2 {
-    Says "'A sword for rent,' says Reeve, and does not make it sound like an insult, which is a gift. 'The Guild is mostly that. It is honest work. It is the oldest, and the best-paid, and the one the Hill cannot do without; and its whole ethic is that the buyer is told the price, and the sword does what it is paid for and no more. If that is what you are, say it, and be that, and do not let anyone say it is shame.'".
+    Says "'A sword for rent,' says Reeve, and does not make it sound like an insult, which is a gift. 'The Guild is mostly that. It is honest work. The buyer is told the price; the sword does what it is paid for and no more.' She taps the rack. 'If that is what you are, say it. Do not let anyone call it shame.'".
     On discuss { Assert wr_hireling(party). Assert wr_asked(party). }
   }
   Topic wr_say_defend with reeve "Say that you refuse to see the unarmed hurt" answering wr_reeve_asks when wr_defend(party) >= 2 {
@@ -471,7 +471,7 @@ Module ombra "The Book of Faces" {
     Says "'You have killed on my Stair,' says Reeve. 'Seconds I have trained, who signed their blows. The Guild's oath is not for those who bring blood up it, and you know that it is not, or you would not have drawn on a man who was paid to be hit.' She does not stand. 'You may go up. It is a public stair. I will not swear you, and you will not be a Second, and I will tell you which of mine I buried, since you did not ask.' She names them. It does not take long.".
   }
   Topic wr_reeve_ledger with reeve "Ask the Captain about the forty coin in the fourth landing's book" when knows(actor, wr_paid_to_lose) {
-    Says "'Mine,' says Reeve at once. She does not make it a confession. 'Forty coin from my purse, in my hand, signed R., and every Second on the Stair has a column and a custom, and the fourth landing's is to see what a champion does with a gift. I put the purse in. I wanted to see what you did.' She turns the pen once. 'It is a mean sort of trade, and I am the Captain, and it is how the Guild has always found out what kind of blade has come up it. Do not think it was personal. It was only that you were next.'".
+    Says "'Mine,' says Reeve at once. She does not make it a confession. 'Forty coin from my purse, in my hand, signed R., and every Second on the Stair has a column and a custom, and the fourth landing's is to see what a champion does with a gift. I put the purse in. I wanted to see what you did.' She turns the pen once. 'It is a mean little test and I am the Captain. Do not take it personally. You were next.'".
   }
   Action wr_swear(actor: group, site: place) "Kneel on the wet stone, and take the Seconds' oath" {
     Speaker reeve.

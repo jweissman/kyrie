@@ -50,7 +50,7 @@ Module larum "The Quiet in the Sky" {
   Measure hildTrust(group).
   Relation hildKnows(group). Relation hildAsked(group). Relation hildRefused(group). Relation hildPromised(group). Relation hildResolved(group). Relation hildHardened(group).
   Topic hild_halt with hild "Ask Hild Varley why she blew the Halt" when true once {
-    Says "'Because I was nearest,' says Hild. 'He was lying there at the Hour with his eyes open and everyone getting up round him, and somebody had to do something, and the call was in the horn.' She turns her hands over and looks at them, as if the horn might still be in them. 'Every horn on the Field has the Halt in it. It's the first call a horn-boy learns. Nobody ever blew it, because nobody ever wanted to stop.' She looks out over Halt. 'I blew it. And they stopped. Both hosts, the whole Field, mid-blow. Like a breath held.' Her hands go behind her back. 'That's all.' It is very obviously not all.".
+    Says "'Because I was nearest,' says Hild. 'He was lying there at the Hour with his eyes open and everyone getting up round him, and somebody had to do something, and the call was in the horn.' She turns her hands over and looks at them, as if the horn might still be in them. 'Every horn on the Field has the Halt in it. It's the first call a horn-boy learns. Nobody ever blew it, because nobody ever wanted to stop.' She looks out over Halt. 'I blew it. And they stopped. Both hosts, the whole Field, mid-blow. Like a breath held.' Her hands go behind her back. 'That's all.'".
     On discuss { Increase hildTrust(hild) by 1. }
   }
   Topic hild_town with hild "Ask Hild Varley about the town on her map" when true once {
@@ -59,7 +59,7 @@ Module larum "The Quiet in the Sky" {
   }
   Discovery hild_loves "Hild Varley walks Halt every afternoon and counts its tents. She has come to love the peace: the sound of a lot of people talking on the Field instead of dying on it.".
   Topic hild_secret with hild "Ask Hild Varley what she was afraid of" when hildTrust(hild) >= 2 and knows(actor, hild_loves) once {
-    Says "Hild looks at you for a long moment, and then at the window. 'You'll not tell Morrow,' she says. It is not a request. 'I held the bridge at Wrenning at dawn four hundred years ago with sixty men, against two thousand, till they cut us all down. They sing it. Morrow made me Marshal for it.' Her hands are flat on the map. 'I was not brave at Wrenning. I could not run, there was nowhere to run. And I came in out of the snow and found that here you cannot die, and I have been brave every day since, because it costs nothing.' She breathes. 'Then I saw a man stay down. And I blew the Halt because I was afraid, breather. Because if death had come back I did not want to meet it. That is the bravest thing Morrow thinks I ever did.'".
+    Says "Hild looks at the window. 'You'll not tell Morrow,' she says. It is not a request. 'I held the bridge at Wrenning at dawn four hundred years ago with sixty men, against two thousand, till they cut us all down. They sing it. Morrow made me Marshal for it.' Her hands are flat on the map. 'I was not brave at Wrenning. I could not run, there was nowhere to run. And I came in out of the snow and found that here you cannot die, and I have been brave every day since, because it costs nothing.' She breathes. 'Then I saw a man stay down. And I blew the Halt because I was afraid, breather. Because if death had come back I did not want to meet it. That is the bravest thing Morrow thinks I ever did.'".
     On discuss { Assert knows(actor, hild_fear). Increase hildTrust(hild) by 1. }
   }
   Discovery hild_fear "Hild Varley blew the Halt out of fear: she was never brave where death was real, and in Ysgard bravery cost nothing until the day a man stayed down. Morrow thinks it the bravest thing she ever did.".
@@ -79,7 +79,7 @@ Module larum "The Quiet in the Sky" {
     On discuss { Assert hildPromised(hild). Assert promiseMade(hild_promise). }
   }
   Topic hild_no with hild "Say you will not" answering hild_asks when true {
-    Says "Hild looks at you a long time. 'No,' she says. 'No, of course not.' She looks down at the map, at the little town, and puts her finger on it, gently, as though it might be warm. 'Then the Testing will come, and they will all get up, and the town will go under the third horn like a stubble field.' She takes her finger away. 'Go away now, breather. I have to think how a Marshal does a thing like that without a breather.'".
+    Says "Hild's mouth thins. 'No,' she says. 'No, of course not.' She looks down at the map, at the little town, and puts her finger on it, gently, as though it might be warm. 'Then the Testing will come, and they will all get up, and the town will go under the third horn like a stubble field.' She takes her finger away. 'Go away now, breather. I have to think how a Marshal does a thing like that without a breather.'".
     On discuss { Assert hildRefused(hild). }
   }
   Promise hild_promise "to strike down one of Even at the Testing, so the fear holds" to hild
@@ -93,14 +93,14 @@ Module larum "The Quiet in the Sky" {
     Resolve check(actor, persuasion, dc_fair).
     On success { Assert hildResolved(hild). Retract hildHardened(hild). }
     On failure { Assert hildTriedToday(hild). }
-    Result "You tell her what you have seen in her town. Hild listens with her back to you, looking down the Field at it through the window, and does not interrupt. When you have finished she is quiet a long while. 'Four hundred years brave for nothing,' she says. 'And now you want me brave for something.' She turns round. 'If they all get up, and Even comes down by the third horn the morning after, Morrow will not go to meet it. Morrow will be in Halt. I will see to it.' She looks at her own hands. 'I don't know if I can. I'll find out, won't I. That's what it's like for you lot, I suppose. All the time.'".
+    Result "You tell her what you have seen in her town. Hild listens with her back to you, looking down the Field at it through the window, and does not interrupt. When you have finished she folds the map in half, and unfolds it. 'Four hundred years brave for nothing,' she says. 'And now you want me brave for something.' She turns round. 'If they all get up, and Even comes down by the third horn the morning after, Morrow will not go to meet it. Morrow will be in Halt. I will see to it.' She looks at her own hands. 'I don't know if I can. I'll find out, won't I. That's what it's like for you lot, I suppose. All the time.'".
     Otherwise "Hild hears you out, looking down the Field. 'Words,' she says, not unkindly. 'Breathers have plenty. Come back tomorrow, when I've slept, and say it again.'".
   }
   Relation hildTriedToday(group).
   Observe hild_promised at marshal_room as sign when hildPromised(hild) and not afterTesting() "Hild Varley stands at the window with her back to the room, and does not turn round. She knows who it is by the breath.".
   // Heard, not argued with: told that what she does now, afraid, is what brave is.
   Topic hild_brave with hild "Tell Hild Varley that choosing the peace now, afraid, would be the first brave thing she has done" when knows(actor, hild_fear) and (hildRefused(hild) or truthSpoken(field_country) and hildKnows(hild)) and haltSigns() and not hildResolved(hild) and beforeTesting() once {
-    Says "Hild does not answer for a long time. She stands at the window with her back to you and her hands behind her, the way she walks the banner lanes. 'Wrenning was nothing,' she says at last. 'There was nowhere to run.' Then: 'And here there is. There is the third horn, and the ford, and four hundred years of knowing exactly what to do.' She turns round. Her face is wet, which in the dead you did not know could happen. 'If they all get up, and Even comes down by the third horn the morning after, Morrow will not go to meet it. Morrow will be in Halt. I will see to it.' She almost laughs. 'Afraid. Yes. Well. I am told that's how it's done.'".
+    Says "Hild does not answer. She stands at the window with her back to you and her hands behind her, the way she walks the banner lanes. 'Wrenning was nothing,' she says at last. 'There was nowhere to run.' Then: 'And here there is. There is the third horn, and the ford, and four hundred years of knowing exactly what to do.' She turns round. Her face is wet, which in the dead you did not know could happen. 'If they all get up, and Even comes down by the third horn the morning after, Morrow will not go to meet it. Morrow will be in Halt. I will see to it.' She almost laughs. 'Afraid. Yes. Well. I am told that's how it's done.'".
     On discuss { Assert hildResolved(hild). Retract hildHardened(hild). }
   }
   Rule hild_try_resets when hour(clock) == 0 and hildTriedToday(hild) { Retract hildTriedToday(hild). }
@@ -125,7 +125,7 @@ Module larum "The Quiet in the Sky" {
     Greets again "Gorm Hallett grunts at you over the anvil.".
   }
   Topic gorm_trade with gorm "Ask Gorm Hallett how his trade goes" when beforeTesting() once {
-    Says "'Four hundred year,' says Gorm, 'I've mended Even's mail every night. They come in off the Field at the Hour with it hanging off them in rags, and their bodies mend and their mail doesn't, and I sit up all night with the rings and by the third horn they've each a shirt again.' He waves the hammer at the racks. 'Forty nights, nothing. Hundreds of shirts. All mended. Nothing to mend.' He looks at the hammer as if it had betrayed him. 'Torold's Testing, that's work. I'll have them all to do again by morning after.' He grins, horribly. 'Can't come soon enough.'".
+    Says "'Four hundred year,' says Gorm, 'I've mended Even's mail every night. They come in off the Field at the Hour with it hanging off them in rags, and their bodies mend and their mail doesn't, and I sit up all night with the rings and by the third horn they've each a shirt again.' He waves the hammer at the racks. 'Forty nights, nothing. Hundreds of shirts. All mended. Nothing to mend.' He weighs the hammer in his hand, and puts it down. 'Torold's Testing, that's work. I'll have them all to do again by morning after.' He grins, horribly. 'Can't come soon enough.'".
     On discuss { Assert knows(actor, gorm_wants_war). }
   }
   Discovery gorm_wants_war "Gorm Hallett has mended Evenhall's mail every night for four hundred years, and has had nothing to mend for forty; he wants the Testing for the work.".

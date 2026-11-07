@@ -84,7 +84,7 @@ Module calamy "A Parliament of Books" {
   }
   Discovery quire_ways "Signature XVII knows where every word from AUSPICE to AUTUMN occurs in the Library, and so knows a way between any two hexagons that hold them: a short way from the First Hexagon to the Concordance.".
   Topic quire_way with quire "Ask the Signature the way through the Stacks" when travelsWith(quire, actor) once {
-    Says "'Ways,' says the Signature. 'I don't know ways. I know where AUTUMN is.' A pause. 'AUTUMN is on a shelf in the First Hexagon, third case, and on a shelf beside my own body, eleventh case; and they're the same shelf, if you know that, because the Library is folded. There. A short way.' It sounds pleased in spite of itself.".
+    Says "'Ways,' says the Signature. 'I don't know ways. I know where AUTUMN is.' A card turns over. 'AUTUMN is on a shelf in the First Hexagon, third case, and on a shelf beside my own body, eleventh case; and they're the same shelf, if you know that, because the Library is folded. There. A short way.' It sounds pleased in spite of itself.".
     On discuss { Assert knows(actor, quire_ways). }
   }
   Passage quire_fold "a way that runs between two words" is path between hex_first and hex_concordance taking 5 minutes
@@ -95,7 +95,7 @@ Module calamy "A Parliament of Books" {
     On discuss { Assert quireHome(quire). Retract lends(remainderman, quire_item, actor). Assert at(quire_item, hex_concordance). }
   }
   Topic quire_stay with quire "Ask Signature XVII if it would rather stay with you" when concordanceRestored(concordance) and travelsWith(quire, actor) and not quireHome(quire) and not quireStays(quire) once {
-    Says "'Stay,' says the Signature. 'In a pocket. Looking at one thing at a time.' It considers. 'The Concordance can have a copy of me; it can copy anything; it is a concordance.' A pause. 'I should like to see AUTUMN. Not the word. The thing. They tell me it's in Calamy, once a year.'".
+    Says "'Stay,' says the Signature. 'In a pocket. Looking at one thing at a time.' It considers. 'The Concordance can have a copy of me; it can copy anything; it is a concordance.' A drawer slides out and shuts. 'I should like to see AUTUMN. Not the word. The thing. They tell me it's in Calamy, once a year.'".
     On discuss { Assert quireStays(quire). }
   }
 
@@ -135,7 +135,7 @@ Module calamy "A Parliament of Books" {
   }
   Item fenwick_notes "Dr. Fenwick's notebook" is notes_kind at hex_mapmaker.
   Rule fenwick_comes_home at quad when travelsWith(fenwick, party) and at(party, quad) and not fenwickHome(fenwick)
-    says "Fenwick stops in the middle of the quad and stands there a long time, looking at the grass, and the Schools, and the shuttered window with its yellow card. A student on the lawn looks up, and looks again, and drops her book. 'He's back,' she says, to nobody, and then, louder, to everybody: 'Fenwick's back!' Somewhere in the Fellows' Court, a door opens." {
+    says "Fenwick stops in the middle of the quad with his bag at his feet, looking at the grass, and the Schools, and the shuttered window with its yellow card. A student on the lawn looks up, and looks again, and drops her book. 'He's back,' she says, to nobody, and then, louder, to everybody: 'Fenwick's back!' Somewhere in the Fellows' Court, a door opens." {
     Assert fenwickHome(fenwick). }
   Observe fenwick_lecturing at quad when fenwickHome(fenwick) "The shutter in the Fellows' Court is open. Through the window you can see Dr. Fenwick at a desk, drawing, very slowly, in ink, with students on the floor round him; on the wall behind him, one plan.".
 

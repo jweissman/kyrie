@@ -57,7 +57,7 @@ Module hollins "Behind the Wainscot" {
   }
   Discovery kit_fears "Kit Lacey fears Nan Collier will be ashamed of him, a Lacey who has never done anything but sit on a stair.".
   Rule nan_meets_kit at small_house_hall when following(nan, party) and at(party, small_house_hall) and at(kit, small_house_hall) and not kitNanMet(kit)
-    says "Kit Lacey stands up off the painted stair so fast the letter falls out of his hand. Nan Collier stands in the front door of the Small House with soot in her plaits and her chin up. Neither of them says anything. Then Nan says, 'You're taller than your writing,' and Kit says, 'You're,' and cannot finish, and Nan says, 'Black. I know. It's the house burning,' and Kit comes down the last two steps and takes her sooty hand in his clean one and does not let go, and says, in a voice nothing like a book: 'Pull twice.' Dame Honor has come to the parlour door. She looks at them for a long moment, and then, with enormous dignity, goes back into the parlour and shuts the door." {
+    says "Kit Lacey stands up off the painted stair so fast the letter falls out of his hand. Nan Collier stands in the front door of the Small House with soot in her plaits and her chin up. Neither of them says anything. Then Nan says, 'You're taller than your writing,' and Kit says, 'You're,' and cannot finish, and Nan says, 'Black. I know. It's the house burning,' and Kit comes down the last two steps and takes her sooty hand in his clean one and does not let go, and says, in a voice nothing like a book: 'Pull twice.' Dame Honor has come to the parlour door. She looks at them, and then, with enormous dignity, goes back into the parlour and shuts the door." {
     Assert kitNanMet(kit). Retract following(nan, party). Assert at(nan, small_house_hall).
   }
 
@@ -110,7 +110,7 @@ Module hollins "Behind the Wainscot" {
     Greets "In the ark, sitting on the deck between a tin giraffe and a tin bear, a tin soldier half your height turns his head toward you and does not get up. 'Don't tell the Captain,' he says. His voice is a musical box too, but a quieter one. 'Or do. It doesn't matter. He's running down.'".
     Greets again "Lance-Corporal Fennick turns his head toward you, ticking.".
     Joins "Fennick gets up out of the ark, stiffly, and brushes off his red coat, and shoulders his musket as if he had forgotten how and was remembering. 'Somebody will have to wind me,' he says. 'Every day. There's a key in my back.'".
-    Remarks at fort "Fennick stops at the edge of the courtyard and looks at the Regiment. 'I wound every one of them,' he says. 'Every morning. Three hundred years.'".
+    Remarks at fort "Fennick stops at the edge of the courtyard and looks at the Regiment. 'I wound every one of them,' he says. 'Every morning, before light.'".
   }
   Topic fennick_why with fennick "Ask Fennick why he left the Fort" when true once {
     Says "'I'm the winder,' says Fennick. 'Every morning I go down the ranks with the key and wind them for another day. Three hundred and twelve years of mornings.' He looks at his hands. 'Against mice. We kill mice. The mice come back. We kill them. The Colonel said, until I come home. The Colonel never came home.' He ticks. 'And on Thursday something came into the house that shook the floor, and the Captain said, the Colonel? And I thought: if it's her, the war's over. And if it isn't, it never will be.' He looks at you. 'So I stopped winding. If I wind them, it goes on. If I don't, they stop, and the war stops, and so do they.' A long tick. 'I don't know which is right. So I'm sitting in the ark.'".
@@ -122,7 +122,7 @@ Module hollins "Behind the Wainscot" {
     On discuss { Assert countersign(actor). }
   }
   Topic fennick_after with fennick "Ask Fennick what he will do, now the war is over" when standDown(regiment) once {
-    Says "Fennick reads the paper on the gate twice, with his head on one side, ticking. THE WAR IS OVER. YOU MAY REST. 'Rest,' he says. He looks at the Regiment sitting in its rows. 'I never thought of that. I thought there was winding, and not winding.' He is quiet a long time. 'I should like to see the sea,' he says. 'The Colonel drew it for us once, on the nursery floor, in chalk. Then I'll sit down with the others.' He holds out his key to you. 'Wind me as far as the sea, if you're going that way. Not further.'".
+    Says "Fennick reads the paper on the gate twice, with his head on one side, ticking. THE WAR IS OVER. YOU MAY REST. 'Rest,' he says. He looks at the Regiment sitting in its rows. 'I never thought of that. I thought there was winding, and not winding.' His winding hand goes round once on nothing. 'I should like to see the sea,' he says. 'The Colonel drew it for us once, on the nursery floor, in chalk. Then I'll sit down with the others.' He holds out his key to you. 'Wind me as far as the sea, if you're going that way. Not further.'".
   }
   Measure spring(group).
   Initially Set spring(fennick) to 24.

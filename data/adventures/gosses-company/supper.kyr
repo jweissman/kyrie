@@ -84,7 +84,7 @@ Module pentrice "Gosse's Company" {
     Time 0.
     Requires speaking(actor) and supperBeat(pentrice) == 1 and at(actor, site) and not spoke(course_one).
     On success { Assert spoke(course_one). Assert trueSaid(actor). Increase regard(mallory) by 1. }
-    Result "You say it. It comes out simpler than you meant. Urania Orde looks at you for a long moment over her glass, and then says, 'Yes,' as if she had been waiting some time for somebody to; and across the table Canon Mallory, who has been looking at his plate, looks up.".
+    Result "You say it. It comes out simpler than you meant. Urania Orde sets down her glass. 'Yes,' she says, as if she had been waiting some time for somebody to; and across the table Canon Mallory, who has been looking at his plate, looks up.".
   }
   Relation trueSaid(group).
   Rule c1_close when supperOn(pentrice) and supperBeat(pentrice) == 1 and courseDone() { Set supperBeat(pentrice) to 2. Set supperAt(pentrice) to watch(clock). }
@@ -151,7 +151,7 @@ Module pentrice "Gosse's Company" {
     Time 0.
     Requires speaking(actor) and supperBeat(pentrice) == 4 and at(actor, site) and not spoke(course_four).
     On success { Assert spoke(course_four). Assert knows(actor, lamplighter_known). Increase regard(mallory) by 1. Increase regard(clay) by 1. }
-    Result "Urania Orde puts her fork down. 'Ridiculous,' she says. 'Loving. He made speeches about drains, and paved the Chepe badly, and sang in the bath. He laughed at the fool that night louder than anybody, and sang the song all the way home with Clemency asleep on his shoulder. And on the second night a lamplighter fell from his ladder in the Chepe, singing it, and Ezra never laughed in a theatre again. He made the Office the next week, and took the man's boy into it.' She looks at the door, where Abel Tunstall is standing very still with his sticks. 'People say it was his pride. It was his conscience. Hugh knows. Hugh buried him.' The Canon says nothing at all, and nods.".
+    Result "Urania Orde puts her fork down. 'Ridiculous,' she says. 'Loving.' She looks at the door, where Abel Tunstall is standing very still with his sticks. 'People say the Office was his pride. It was his conscience. Hugh knows. Hugh buried him.' The Canon says nothing at all, and nods.".
   }
   Relation authorNamed(place).
   Action c4_name(actor: group, site: place) "Tell the table who wrote The Alderman's Ghost" {
@@ -159,10 +159,10 @@ Module pentrice "Gosse's Company" {
     Grave "It is the Master's secret, at her mother's table, in front of the Bench.".
     Requires speaking(actor) and supperBeat(pentrice) == 4 and at(actor, site) and not spoke(course_four) and knows(actor, author_known) and not clemBowed(clemency).
     On success { Assert spoke(course_four). Assert authorNamed(pentrice). Increase regard(mallory) by 2. Increase regard(clay) by 1. Increase regard(gammage) by 1. Increase slight(callow) by 1. }
-    Result "You say it. The silence that follows is the sound of a dropped plate before it lands. The Master turns round from the window at last, very white. And her mother, quite calmly, puts down her fork. 'I know, child,' says Urania Orde. 'I have known since the first page. You wrote your father a sonnet about his chain when you were nine, and it scanned better than this, but not much.' She looks round the table. 'Well? It's a daughter's play. Put that in your notices.' Carrow puts down his pen as if it had bitten him. The Canon, quite slowly, begins to smile.".
+    Result "You say it. The silence that follows is the sound of a dropped plate before it lands. The Master turns round from the window at last, very white. And her mother, quite calmly, puts down her fork. 'I know, child,' says Urania Orde. 'I have known since the first page. You wrote your father a sonnet about his chain when you were nine, and it scanned better than this, but not much.' She looks round the table. 'Well? It's a daughter's play. Put that in your notices.' Carrow puts down his pen, and picks it up, and puts it down. The Canon, quite slowly, begins to smile.".
   }
   Rule c4_named_forgiven at orde_parlour when authorNamed(pentrice) and clemTrust(clemency) >= 2 and not clemCold(clemency) and not namedTold(pentrice)
-    says "The Master looks at you for a long time across the room. 'You might have let me do it myself,' she says. Then she comes and sits down at her mother's table, in her father's chair, for the first time that evening." { Assert namedTold(pentrice). }
+    says "The Master takes her time turning from the window. 'You might have let me do it myself,' she says. Then she comes and sits down at her mother's table, in her father's chair, for the first time that evening." { Assert namedTold(pentrice). }
   Rule c4_named_cold at orde_parlour when authorNamed(pentrice) and clemTrust(clemency) < 2 and not clemCold(clemency) and not namedTold(pentrice)
     says "The Master does not look at you. She turns back to the window, and stays there, and the back of her grey dress is the coldest thing in Pentrice." { Assert namedTold(pentrice). Assert clemCold(clemency). }
   Relation namedTold(place).

@@ -1,0 +1,57 @@
+Module longman "The Long Man" {
+  Description "What the company can do by what it is, and a little of what Merrow does when nobody is asking it: the ranger's drain, the priest's sermon, the reeve's rod given away, two clocks that disagree, and what two strangers' papers mean here.".
+
+  // ── The ranger's way ────────────────────────────────────────────────────────────────────────────────────────────
+  // The Hall keeps the grate, and the key to it, and the steward's temper with the key. A company with a ranger need
+  // none of the three: the springs run into a ditch, and a ditch that has run for three hundred years has a history
+  // in the grass. Nobody else in the company would look at the grass.
+  Discovery drain_known "A reeve's drain, older than the Hall's grate, takes some of the springs' water down into the hill: a way into the sluice chamber that does not pass the Hollow Door.".
+  Action read_the_ground(actor: group, site: place, r: member) "Walk the ditch at the springs, and read where the water goes" {
+    Description "A ditch is dug by someone, for something. This one has been dug twice.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, springs) and memberOf(r, actor)
+      and brings(r, woodcraft) and awake(r) and not knows(actor, drain_known).
+    Time 3.
+    On success { Assert knows(actor, drain_known). }
+    Result "{r} walks the spring-ditch end to end with the flat of a hand on the turf, and stops where the grass turns from bent to straight. 'Two cuts,' {r} says. 'This one is the Mower's: clean, the same width as its blade. And under it, older, laid with stone by somebody with a line.' A flag has been lifted and set back so well that you would have gone past it. Under the flag a drain goes down into the dark, dry, and wide enough for a man bent double, and the air that comes up it smells of wet iron and the inside of a bell.".
+  }
+  Passage reeve_drain "the reeve's old drain" is passage between springs and sluice taking 30 minutes hidden until drain_known.
+  Observe drain_came at sluice when knows(party, drain_known) and not state(grate, open) "The drain comes up under the floor of the chamber through a hole no wider than a pail, and the grate over the culvert is still locked. Nobody at the Hall knows you are inside the hill.".
+
+  // ── The priest's sermon, and what it was for ─────────────────────────────────────────────────────────────────────
+  // Mother Ysolt wants the parish safe and the dead laid; she is afraid that if the king is taken from them they will
+  // have nothing to be careful of; the lie is the sermon. Told what the notches measure, she does not argue.
+  Relation sermonChanged(group).
+  Topic ysolt_sermon with ysolt "Ask Mother Ysolt what she will preach on Sunday, now" when convinced(ysolt) and knows(actor, notches_known) and not sermonChanged(ysolt) once {
+    Says "She takes a long time to answer, and does not look at the font. 'I have told them for forty years that he was a king and cruel, and that the notches were sins,' she says. 'A king can be prayed at. A frightened parish will do a great deal for a king.' She folds her hands. 'A wall can only be mended, and nobody is afraid of a wall until it is down.' She looks at last at the highest notch. 'Sunday I shall say it is a measure. They will hate it for a year, and then the children will stand against it to see how tall they are.'".
+    On discuss { Assert sermonChanged(ysolt). }
+  }
+  Observe font_measured at nave when sermonChanged(ysolt) "A line has been chalked across the font at the height of the chapel step, and beside it, in a child's capitals, HERE. Below it a row of smaller marks, each with a name.".
+
+  // ── The reeve's rod ──────────────────────────────────────────────────────────────────────────────────────────────
+  // Gammer Coller wants a reeve after her; she is afraid there will not be one; her lie is that the notches on the rod
+  // are a mystery she has never tried to read. Shown that the rod fits the wheel, she says she has read them for years.
+  Relation rodGiven(group).
+  Topic nell_last with nell "Tell Gammer Coller the rod fits a wheel in the Water-House, and ask her what it is for" when knows(actor, rod_fits) and not rodGiven(nell) {
+    Says "'Fits,' says Gammer Coller. She sits very still. 'I have measured that lake at Lammas for forty years, off the lakeshore, with this, and written the figure in the back of my mother's psalter, and never once said to anyone what the figure was a figure of.' She does not look at you. 'I said I did not know what the notches measured. That was not so. I knew they measured it and I did not want to be the one who knew.' She lays the rod across your hands, and her own are not quite steady. 'Take it up there and leave it where it belongs. I am seventy-one. There is nobody after me who would know which end to hold.'".
+    On discuss { Assert rodGiven(nell). Give rod to actor. }
+  }
+
+  // ── Off the road: a hum, a smell, a quarrel about the time ──────────────────────────────────────────────────────
+  Observe springs_hum at springs when not dark() "Standing still by the springs, you can feel the Long Man in your back teeth. A note too low to hear comes up through the soles of your feet and goes on; the water in the ditch is shivering very slightly at its edges. The cold that comes off the turf smells of a cellar that has had a bell in it.".
+  Observe ox_clocks at taproom when true "Two clocks hang in the Ox: one over the hearth, which has one hand and agrees with nothing; and a slate by the door on which Martin Pask chalks, each noon, what the chapel bell has said, so that he can tell the hearth-clock how wrong it is.".
+  Topic martin_clocks with martin "Ask Martin Pask about the two clocks" when true once {
+    Says "'The chapel keeps a bell, and the Ox keeps a clock, and in the year of the big frost they fell out about which was the time,' says Pask, with enormous satisfaction. 'Every Lammas the parish votes to set the clock by the bell. Every Lammas it is found that the clock was set by the bell the Lammas before, and that the bell has been rung by Mother Ysolt's sexton's boy, who cannot tell the time, off the Ox's clock.' He taps the slate. 'Round and round. There is a wager on the beam. Four people in this room are owed money by a dead man.'".
+  }
+
+  // ── Papers from elsewhere ───────────────────────────────────────────────────────────────────────────────────────
+  Discovery kin_letter_read "The Collegium of Lesser Instruments counts the instruments of a place: a letter of the Collegium, shown to Gammer Coller, makes the reeve's rod a working thing of a kind the Collegium asks after, and she is plainly more frightened by that than flattered.".
+  Topic nell_letter with nell "Show Gammer Coller the letter of the Collegium of Lesser Instruments" when holding(actor, collegium_letter) once {
+    Says "She holds it at arm's length, then close. 'Working things,' she reads. 'They collect them.' She looks at the rod on its pegs. 'They are welcome to write it down. They are not welcome to take it. There is a difference, and I had it from the Hall's own charter.' She gives the letter back, and straightens the rod on its pegs a quarter-inch, as if it had been looked at.".
+    On discuss { Assert knows(actor, kin_letter_read). }
+  }
+  Discovery kin_surety_read "A surety answers for the keeping named, and where none is named, for all: shown the Ninth Valuer's note, Mother Ysolt thinks of the bell the parish gave as a surety, and of who was never asked to give it back.".
+  Topic ysolt_surety with ysolt "Show Mother Ysolt the Ninth Valuer's note on a surety" when holding(actor, surety_terms) once {
+    Says "'A surety.' Mother Ysolt reads the strip twice. 'Answers for the keeping named, and where none is named, for all.' She sets it on the register. 'The year the water wept, this parish gave its bell to the Keeper on those terms, I think, though nobody wrote them. We named no keeping. So we answered for all of it.' She almost laughs. 'And now a man with the bell-teeth in his cellar thinks the account is his to close.' She gives it back, carefully, by the edge, and for a moment the register in front of her seems heavier than it was.".
+    On discuss { Assert knows(actor, kin_surety_read). }
+  }
+}

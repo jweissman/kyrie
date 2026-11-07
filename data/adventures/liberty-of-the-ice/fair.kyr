@@ -19,7 +19,7 @@ Module pellam "The Liberty of the Ice" {
   Rule gage_home when (hour(clock) >= 21 or hour(clock) < 8 or iceGone()) and not at(gage, limbo) { Assert at(gage, limbo). }
   Observe gage_booth at swan_foot when at(gage, swan_foot) "At the foot of the stairs the first booth of all is a chandler's, hung with candles in bundles like onions, with lanterns on a pole and a coil of rope for a doorstep.".
   Topic gage_ice with gage "Ask Mother Gage what a stranger ought to know on the ice" when true once {
-    Says "'Know?' She counts it off on her mittens. 'The Glove's at the top of the street, and the crier cries the Liberty under it at noon: say what you like, keep what you shake on, and they mean it, so don't shake. The Court's the big patched tent by the Glove, and sits at four. Gin's at the Lamb, the bottom of the street, with the Liars' Bench at seven. The bear's past the Hiring Ring, the ox at the bottom. Past the ox is the Reach, which is grey ice over black water, and you keep to the sledge-marks or you go in.' She looks at your hands. 'And you'll want a light.'".
+    Says "'Know?' She does not stop tying wicks. 'Don't shake. That's one. Glove's at the top of the street, and the crier cries the Liberty under it at noon, say what you like, keep what you shake on, and it's the second half they mean. Court's the patched tent, four o'clock. Lamb's at the bottom, Bench at seven. Past the ox it's the Reach, grey on black, and you keep to the sledge-marks or you go in.' She looks at your hands. 'Two. You'll want a light. Penny a candle, and the best in Pellam, there being no other.'".
     On discuss { Assert knows(actor, fair_known). }
   }
   Topic gage_thaw with gage "Ask Mother Gage how long the ice will hold" when true once {

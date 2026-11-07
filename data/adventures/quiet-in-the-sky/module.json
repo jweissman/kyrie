@@ -24,7 +24,9 @@
     "endings.kyr",
     "after.kyr",
     "growth.kyr",
-    "company.kyr"
+    "fellowship.kyr",
+    "company.kyr",
+    "lore.kyr"
   ],
   "rules": [
     "world"
@@ -33,7 +35,9 @@
     "party"
   ],
   "canon": [
-    "outer_ysgard"
+    "outer_ysgard",
+    "imbar",
+    "cloudgate_fell"
   ],
   "exports": {
     "party": "party",

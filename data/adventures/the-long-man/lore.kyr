@@ -1,0 +1,21 @@
+Module longman "The Long Man" {
+  Description "Links outward from Merrowdale: news from the south that has come up the drove roads, a rubbing of a keeper's bench brought to the chapel, and the almanack woman, passing through.".
+
+  // ── World events, read: what the carters say at the Drowned Ox ──────────────────────────────────────────────────
+  Observe lore_ox_south at taproom when befell(slack_opened) "Martin Pask has a new subject, which he is giving to the whole room, and it is not sheep. 'A black square,' he says, 'in the floor of a college, and a stair under it. And the college did not open it, mark you, a company did. And now every mason from here to the coast says he always knew.' Somebody asks him what a mason would know. 'That's what I asked,' says Pask. 'They said: where the stone is not the same stone.' He drinks. 'I told them we have a wall like that up the dale, and they were very polite.'".
+  Observe lore_ox_ship at taproom when befell(remainder_harboured) "The talk at the Drowned Ox has moved from the Long Man to a ship. 'Out of a cellar,' a drover is saying, 'and her people came ashore in the wrong clothes, and some old fellow gave them a bed in his own house.' Hob Teller's cousin, who has come over from the mill for the beer, says he would not give a bed to anyone who had not asked for one. The drover says that is exactly what the old fellow said.".
+
+  // ── A visitor from elsewhere: a keeper's bench in wax ───────────────────────────────────────────────────────────
+  Discovery lore_rubbing_notches "A wax rubbing of a keeper's bench, brought from a church by the sea, has the same count as the notches in the keeper's niche under the Long Man: eleven, and a space where a twelfth would go.".
+  Topic lore_ysolt_rubbing with ysolt "Show Mother Ysolt the wax rubbing of a keeper's bench" when holding(actor, tally_rubbing) once {
+    Says "Mother Ysolt takes the wax in both hands, and for a time she does not look at it; she looks at you. 'From a church, you said? By the sea?' She carries it to the chapel window. 'Three notations. A hand I cannot read. A hand that counted like a customs house. And these.' Her thumb finds the last rows, a stroke and a ring. 'This is the way Hob's grandmother counted sheep. I did not know it was a way. I thought it was a family.' She gives it back with great care. 'I will say what I told the steward when he asked what the niche was for. A bench is for sitting. A tally is for the one who sits after.' She looks at the wall of the chapel, towards the hill, as if it might answer, and then at the rubbing, and then back at you.".
+    On discuss { Assert knows(actor, lore_rubbing_notches). }
+  }
+
+  // ── The almanack woman ──────────────────────────────────────────────────────────────────────────────────────────
+  Discovery lore_cattermole_merrow "Jessamy Cattermole, the almanack woman, came through Merrowdale from the Bowl of Ammerlin and has gone south for the Season at Hessel, where, Martin Pask says, they buy anything with a date in it.".
+  Topic lore_pask_cattermole with martin "Ask Martin Pask whether any pedlars come up the dale" when true once {
+    Says "'One,' says Pask. 'Cattermole. A woman with an almanack for every year there ever was and a different one for each town.' He pours. 'She was here a month ago on her way down from a place in the north called the Bowl. She told me the steward's notice had been put up in the Bowl's market, and read it aloud to a man who laughed and paid her twopence to see the original. I told her there was no giant. She said that was a pity, there was a season in a giant.' He shakes his head. 'Off down the drove road to Hessel, for the Season. She said they will buy anything with a date in it. They would not buy mine. Mine says it is a hundred and seventy years later than hers.'".
+    On discuss { Assert knows(actor, lore_cattermole_merrow). }
+  }
+}

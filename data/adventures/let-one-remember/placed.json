@@ -12,6 +12,8 @@
     "act3_kin.kyr",
     "act4_voyage.kyr",
     "act5_road.kyr",
+    "witness.kyr",
+    "lore.kyr",
     "placed.kyr"
   ],
   "rules": [
@@ -32,5 +34,9 @@
     "party": "party",
     "region": "corrow",
     "eighth_bend": "eighth_bend"
-  }
+  },
+  "canon": [
+    "imbar",
+    "perrin_lives"
+  ]
 }

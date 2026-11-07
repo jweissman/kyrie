@@ -16,6 +16,9 @@
     "drowned.kyr",
     "watermen.kyr",
     "night.kyr",
+    "callings.kyr",
+    "mariner.kyr",
+    "deeper.kyr",
     "gant.kyr",
     "bear.kyr",
     "quarle.kyr",
@@ -37,7 +40,9 @@
     "party"
   ],
   "canon": [
-    "imbar"
+    "imbar",
+    "slack_opened",
+    "remainder_steadied"
   ],
   "exports": {
     "party": "party",

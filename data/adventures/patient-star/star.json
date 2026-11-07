@@ -13,6 +13,7 @@
     "clock.kyr",
     "keeping.kyr",
     "masonry.kyr",
+    "kept_season.kyr",
     "company.kyr"
   ],
   "rules": [

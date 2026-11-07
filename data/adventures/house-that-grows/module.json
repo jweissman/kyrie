@@ -5,8 +5,10 @@
     "attention.kyr",
     "annex.kyr",
     "keel.kyr",
+    "slope.kyr",
     "lowmere.kyr",
-    "company.kyr"
+    "company.kyr",
+    "lore.kyr"
   ],
   "rules": [
     "world"

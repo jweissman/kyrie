@@ -33,9 +33,23 @@ export class BoardTiles {
   private static readonly desert: Record<string, Color[]> = Object.fromEntries(Object.entries({
     '.': ['#86704e', '#ad9469'], h: ['#b48c55', '#ddb97f'], f: ['#8a5a3b', '#b07a50'], p: ['#744c33', '#a26c4a'],
     w: ['#47502a', '#7d8244'], ',': ['#9a9478', '#cfc8a8'] }).map(([k, v]) => [k, v.map(c => new Color(c))]));
+  // Terrains an authored region may say and no generator draws (a sea of islands, a burning isle): volcanic ash and
+  // black basalt, red cone and sulphur; jungle's deep greens; a salt flat's white crust and brine;
+  // a reef's pale shoals.
+  private static readonly more: Record<string, Record<string, Color[]>> = Object.fromEntries(Object.entries({
+    volcanic: { '.': ['#3a3735', '#58534f'], h: ['#2f2c2b', '#4a4543'], f: ['#1f1d1d', '#3b3736'], p: ['#7a2e1c', '#c4501f'],
+      w: ['#262a22', '#49523a'], ',': ['#6b6120', '#b3a336'] },
+    jungle: { '.': ['#2f5a2c', '#4f7d3a'], h: ['#3b5230', '#5f7a3e'], f: ['#4a4b3a', '#6d6b4f'], p: ['#575a50', '#7f8272'],
+      w: ['#10281a', '#2f5a2c'], ',': ['#25402f', '#46603f'] },
+    saltflat: { '.': ['#cfc9b4', '#e9e4d3'], h: ['#c2b79a', '#ddd2b4'], f: ['#a8a291', '#c9c4b2'], p: ['#9a948a', '#c2bdb0'],
+      w: ['#7d8a6a', '#a8b38e'], ',': ['#8aa0a8', '#b6c8cc'] },
+    reef: { '.': ['#c8b98a', '#e4d9ae'], h: ['#b8a878', '#d6c896'], f: ['#8a9a8e', '#b3c2b6'], p: ['#6e8f8c', '#9ec2bd'],
+      w: ['#3f6a52', '#6f9a72'], ',': ['#4f8f95', '#86c2c4'] },
+  }).map(([t, m]) => [t, Object.fromEntries(Object.entries(m).map(([k, v]) => [k, v.map(c => new Color(c))]))]));
   // The colours of a cover in the country's terrain.
   static tone(terrain: string | undefined, cover: string): Color[] {
-    const own = terrain === 'frost' ? BoardTiles.frost : terrain === 'desert' ? BoardTiles.desert : BoardTiles.tones;
+    const own = terrain === 'frost' ? BoardTiles.frost : terrain === 'desert' ? BoardTiles.desert
+      : BoardTiles.more[terrain ?? ''] ?? BoardTiles.tones;
     return own[cover] ?? own['.']!;
   }
   private static readonly sand = new Color('#9a8a62');

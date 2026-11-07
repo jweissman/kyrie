@@ -298,7 +298,7 @@ Module quittance "Quittance" {
 
   // The Pilots' Breath: the watched event. Everything lit goes out together, and comes back together.
   Rule ll_breath_out when ll_breathing(hob) and not ll_breathed(hob) and watch(clock) >= ll_breathAt(hob) and within(party, glass)
-    says "Every lamp in the Quarter goes out in the same instant. Not the flames; the glow in the mantles stays. The gulls on the Furnace Wharf stand up. In the Gasworks yard the gasometer, which was rising, stops. Nobody speaks. It is perfectly silent, and you have the impression of a very large thing taking a very large breath."
+    says "Every lamp in the Quarter goes out in the same instant. Not the flames; the glow in the mantles stays. The gulls on the Furnace Wharf stand up. In the Gasworks yard the gasometer, which was rising, stops. Nobody speaks. The pigeons come down off the roofs of the Row and walk about, which they never do at dusk."
     { Assert ll_breathed(hob). Set ll_breathAt(hob) to watch(clock) + 1. Assert state(ll_lamp_t, breath). Assert state(ll_lamp_s, breath). Assert state(ll_lamp_g, breath). Assert state(ll_lamp_f, breath). }
   Rule ll_breath_in when ll_breathed(hob) and ll_breathing(hob) and watch(clock) >= ll_breathAt(hob) and within(party, glass)
     says "And all of them are lit again, together, as if nothing had happened. The gulls sit down. The gasometer, which has been waiting, rises. Hob, beside you, lets out a long breath that he seems to have held for forty years."
@@ -341,7 +341,7 @@ Module quittance "Quittance" {
     Requires able(actor) and company(actor) and at(actor, site) and at(hob, site) and at(quoyle, site) and ll_flueClear(hob) and ll_moved(hob) and ll_hearthWarden(hob) and ll_roundDone(hob) and not ll_ended(hob) and not ll_hallClosed(hob).
     Time 20 minutes.
     On success { Assert ll_ended(hob). Assert ll_howHearth(hob). Retract following(hob, actor). Retract ll_walking(hob). Assert keeper(glass). Assert witness(hob). }
-    Result "Hob kneels at the old grate with the tinder-box, and strikes it once, and it lights; he has lit nothing so well. The flue draws with a sigh like a man putting down a bag. Warden Quoyle stands with her hands behind her. 'Keeper,' she says, and her voice goes in the middle. 'Of the Hearth of the Lamplighters. For the Night, and for any other.' Hob lays the pole across the fender. 'I never could keep a thing alight,' he says, 'that wasn't on a pole.' He is lying; he does not stop kneeling.".
+    Result "Hob kneels at the old grate with the tinder-box, and strikes it once, and it lights; he has lit nothing so well. The flue draws with a low steady note, and the Hall's old brickwork, which has not been warm in sixty years, begins to tick. Warden Quoyle stands with her hands behind her. 'Keeper,' she says, and her voice goes in the middle. 'Of the Hearth of the Lamplighters. For the Night, and for any other.' Hob lays the pole across the fender. 'I never could keep a thing alight,' he says, 'that wasn't on a pole.' He is lying; he does not stop kneeling.".
   }
   Action ll_sweep(actor: group, site: place) "Sweep the Lamplighters' Hall's old flue and unbrick the throat" {
     Requires able(actor) and company(actor) and at(actor, site) and at(ll_locker, site) and not ll_flueClear(hob).

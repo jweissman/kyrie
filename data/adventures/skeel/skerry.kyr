@@ -98,7 +98,7 @@ Module skeel "Fair Weather" {
   // Nothing to do with the wreck, except that the Constancy carried the mail. Ewan cannot read.
   Relation letterGiven(group). Relation letterTruth(group). Relation letterLie(group). Relation letterKept(group).
   Topic give_letter with ewan "Give Ewan Marrock the letter from the Constancy's mailbag" when carries(actor, morva_letter) and not letterGiven(ewan) once {
-    Says "He takes it and turns it over in his big hands and looks at the writing on it for a long time, and at the thumbprint in the tallow. 'That's her hand,' he says. 'She wrote big, she never learned it right.' He holds it out to you again. 'I can't read it. I never could. Morva could, a bit; she said she'd teach me.' His voice is quite steady. 'You read it. Tell me what it says.'".
+    Says "He takes it and turns it over in his big hands and runs a thumb along the lines of writing as if they were a rope he was testing, and then fits it to the thumbprint in the tallow. 'That's her hand,' he says. 'She wrote big, she never learned it right.' He holds it out to you again. 'I can't read it. I never could. Morva could, a bit; she said she'd teach me.' His voice is quite steady. 'You read it. Tell me what it says.'".
     On discuss { Assert letterGiven(ewan). Spend letter_morva from actor. }
   }
   Topic read_true with ewan "Read Ewan the letter as it is written" answering give_letter when letterGiven(ewan) once {

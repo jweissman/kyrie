@@ -48,7 +48,7 @@ Module wrayford "The Third Night" {
     Result "He looks at you and the jug and says, 'Suit yourself.' He drinks. He talks about horses, and a woman in Harbury, and the cold on the fell road at four in the morning, and how carters are all the same, and in the end, looking into the jug, how he has hanged eleven men in nineteen years and these were the first who went quiet. 'The big one sang,' he says. 'On the road. Some hymn. Carry me over, something, carry me over.' He looks into the jug. 'Till the rope.'".
   }
   Topic gault_letter with gault "Ask Gault, plainly, as one who has stood a watch, who sent him the letter" when gaultSat(actor) and (craft(actor, craft_arms) or capable(actor, intimidation)) and not letterSeen(actor) once {
-    Says "He looks at you for a long time across the jug. 'You've stood a watch,' he says. It is not a question. He reaches into his coat and puts a folded paper on the table between you and does not take his hand off it. 'Midnight. A lad brought it. I don't know the lad.' He lets you read it and then puts it back in his coat. 'Clerk's hand. Gentleman's paper. Your carters don't write like that.'".
+    Says "He turns the jug a quarter-turn on the table. 'You've stood a watch,' he says. It is not a question. He reaches into his coat and puts a folded paper on the table between you and does not take his hand off it. 'Midnight. A lad brought it. I don't know the lad.' He lets you read it and then puts it back in his coat. 'Clerk's hand. Gentleman's paper. Your carters don't write like that.'".
     On discuss { Assert letterSeen(actor). Assert knows(actor, letter_read). }
   }
   Action ask_gault_letter(actor: group, site: place) "Ask Gault, as he drinks, whether he kept the letter" {
@@ -130,12 +130,12 @@ Module wrayford "The Third Night" {
     Time 2 minutes.
     Resolve drop(roll, carrier).
     On success { Assert toolsHome(win). Assert winHelped(actor). Assert winClaims(win). }
-    Result "She looks at the roll of leather for a long time before she touches it. Then she unrolls it on the table among the children and counts the chisels with one finger, all six, and rolls it up again, and puts it on the high shelf where Kester cannot reach. She does not thank you. She says, 'When they bring him down. Dunstan. I want him in the Acre by the church door, where his mother is,' as if it were a thing you had already agreed between you.".
+    Result "She does not touch the roll of leather at first; she wipes her hand dry on her apron, and then does. Then she unrolls it on the table among the children and counts the chisels with one finger, all six, and rolls it up again, and puts it on the high shelf where Kester cannot reach. She does not thank you. She says, 'When they bring him down. Dunstan. I want him in the Acre by the church door, where his mother is,' as if it were a thing you had already agreed between you.".
   }
   Rule win_claims_after when winHelped(party) and not winClaims(win) and knows(party, dead_on_rail) { Assert winClaims(win). }
   // A widow's claim, said aloud: Northgate hears it, and is the angrier and the quieter for it.
   Relation winClaimTold(group).
-  Rule win_claim_spreads when winClaims(win) and not winClaimTold(win) and inWrayford() and hour(clock) >= 7 and hour(clock) < 21 says "Word goes round Northgate: Win Fenner went to the Guildhall door with her four children in a row by height and told the reeve's constable to his face that she will have Dunstan in the Acre by the church door, where his mother is, and the constable took his hat off." {
+  Rule win_claim_spreads when winClaims(win) and not winClaimTold(win) and inWrayford() and hour(clock) >= 7 and hour(clock) < 21 says "Pell Saxby tells it over the bar, and it is round Northgate by supper: Win Fenner went to the Guildhall door with her four children in a row by height and told the reeve's constable to his face that she will have Dunstan in the Acre by the church door, where his mother is, and the constable took his hat off." {
     Assert winClaimTold(win). Increase temper(wray) by 1. }
 
   // ── The yards ─────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -150,7 +150,7 @@ Module wrayford "The Third Night" {
   }
   Relation farrantPressed(group).
   Topic farrant_reins with farrant "Ask the farrier who was on the box of Wat Pardoe's cart when it came back off the gate" when knows(actor, tailboard_seen) and not farrantPressed(actor) once {
-    Says "The hammer stops. He looks at the iron for a long time, and puts it back in the fire. 'I'll tell you,' he says, 'because you've looked at that cart, I can see it on you, and you'd find out.' He works the bellows. 'The boy. Kit. Wat was at the chain with the old ones. The boy had the reins, and the horse went forward in the press, and he couldn't hold her.' The bellows. 'Then Wat came running and got up and took them off him. That's what I saw.' He looks at you over the fire. 'I've not told the reeve. I'll not tell the reeve. They've hanged the father for it. They'll not get the son off me.'".
+    Says "The hammer stops. He turns the iron over with the tongs, and over again, and puts it back in the fire. 'I'll tell you,' he says, 'because you've looked at that cart, I can see it on you, and you'd find out.' He works the bellows. 'The boy. Kit. Wat was at the chain with the old ones. The boy had the reins, and the horse went forward in the press, and he couldn't hold her.' The bellows. 'Then Wat came running and got up and took them off him. That's what I saw.' He looks at you over the fire. 'I've not told the reeve. I'll not tell the reeve. They've hanged the father for it. They'll not get the son off me.'".
     On discuss { Assert farrantPressed(actor). Assert knows(actor, kit_reins). }
   }
   Action read_farrant(actor: group, site: place) "Watch the farrier's face while he says he saw nothing" {
@@ -210,7 +210,7 @@ Module wrayford "The Third Night" {
     On discuss { Assert kitTurned(kit). Increase kitTrust(kit) by 1. }
   }
   Topic kit_join with kit "Tell Kit you'll go with them to the counting-house" when knows(actor, kit_plan) and not kitStoodDown(kit) and not kitTurned(kit) and not kitJoined(kit) once {
-    Says "He looks at you a long moment, and then grips your hand, hard. 'Midnight,' he says. 'In the Market. Bring a light.'".
+    Says "He grips your hand, hard, before you have finished offering it. 'Midnight,' he says. 'In the Market. Bring a light.'".
     On discuss { Assert kitJoined(kit). Increase kitTrust(kit) by 1. }
   }
 }

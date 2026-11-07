@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "source": [
+    "../../../../data/adventures/quiet-in-the-sky/kinds.kyr",
+    "../../../../data/adventures/quiet-in-the-sky/clock.kyr",
+    "../../../../data/adventures/quiet-in-the-sky/country.kyr",
+    "../../../../data/adventures/quiet-in-the-sky/larum.kyr",
+    "../../../../data/adventures/quiet-in-the-sky/pass.kyr",
+    "../../../../data/adventures/quiet-in-the-sky/whitlocks.kyr",
+    "../../../../data/adventures/quiet-in-the-sky/coming-in.kyr",
+    "../../../../data/adventures/quiet-in-the-sky/halt.kyr",
+    "../../../../data/adventures/quiet-in-the-sky/ring.kyr",
+    "../../../../data/adventures/quiet-in-the-sky/oven.kyr",
+    "../../../../data/adventures/quiet-in-the-sky/song.kyr",
+    "../../../../data/adventures/quiet-in-the-sky/halls.kyr",
+    "../../../../data/adventures/quiet-in-the-sky/lovers.kyr",
+    "../../../../data/adventures/quiet-in-the-sky/scrapes.kyr",
+    "../../../../data/adventures/quiet-in-the-sky/old-ice.kyr",
+    "../../../../data/adventures/quiet-in-the-sky/field.kyr",
+    "../../../../data/adventures/quiet-in-the-sky/funeral.kyr",
+    "../../../../data/adventures/quiet-in-the-sky/law.kyr",
+    "../../../../data/adventures/quiet-in-the-sky/testing.kyr",
+    "../../../../data/adventures/quiet-in-the-sky/days.kyr",
+    "../../../../data/adventures/quiet-in-the-sky/endings.kyr",
+    "../../../../data/adventures/quiet-in-the-sky/after.kyr",
+    "../../../../data/adventures/quiet-in-the-sky/growth.kyr",
+    "../../../../data/adventures/quiet-in-the-sky/fellowship.kyr",
+    "company.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "canon": [
+    "outer_ysgard"
+  ],
+  "exports": {
+    "party": "party",
+    "region": "larum_country",
+    "road": "march_road"
+  },
+  "experience": 1000
+}

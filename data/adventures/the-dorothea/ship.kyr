@@ -1,0 +1,74 @@
+Module dorothea "The Dorothea" {
+  Description "The ketch Dorothea: her deck, her quarterdeck and wheel, the captain's cabin, the forecastle, the hold. A vessel is a place the company can go about, and a thing that is somewhere.".
+
+  // ── The hull: where she is ──────────────────────────────────────────────────────────────────────────────────────
+  // Where the Dorothea is, is `at(hull, place)`: one of five stations of her passage. Her state says what she is doing.
+  Place sea "the Skerrow passage" is region.
+  Place lane "the passage" is wilderness within sea at 0, 0.
+  Place sound "the Sound" is room within lane at 0, 0.
+  Place open_sea "open water" is room within lane at 1, 0.
+  Place teeth "the Combs" is room within lane at 2, 0.
+  Place roads "Skerrow roads" is room within lane at 3, 0.
+  // The other calls of the Reach: the roads off Port Ness; the Antlers' race, a channel between the stacks.
+  Place ness_roads "Port Ness roads" is room within lane at 5, 0.
+  Place antler_race "the Antlers' race" is room within lane at 6, 0.
+  Place ashkeld_roads "Ashkeld roads" is room within lane at 7, 0.
+  Place mangrow_roads "Mangrow roads" is room within lane at 8, 0.
+
+  Place ship_region "the ketch Dorothea" is region.
+  Place hull_site "the Dorothea" is site within ship_region at 0, 0.
+  Place deck "the Dorothea's waist" is room within hull_site at 1, 1.
+  Place helm "the quarterdeck" is room within hull_site at 2, 1.
+  Place cabin "the captain's cabin" is room within hull_site at 3, 1.
+  Place forecastle "the forecastle" is room within hull_site at 0, 1.
+  Place hold "the hold" is room within hull_site at 1, 2.
+
+  Passage ladder_aft "the ladder to the quarterdeck" is ladder between deck and helm.
+  Passage cabin_door "the cabin door" is door between helm and cabin.
+  Passage fore_hatch "the forecastle hatch" is door between deck and forecastle.
+  Passage hold_hatch "the hold hatch" is ladder between deck and hold.
+  // The gangways: down to wherever she lies, if she lies anywhere.
+  Passage gangway_home "the gangway to the quay" is steps between deck and quay opening when at(hull, quay) and booked(party) "".
+  Passage gangway_isle "the gangway to the jetty" is steps between deck and jetty opening when at(hull, jetty) "".
+  Passage gangway_ness "the gangway to Port Ness pier" is steps between deck and ness_quay opening when at(hull, ness_quay) "".
+  Passage gangway_ashkeld "the boat to the black beach" is steps between deck and ashkeld_beach opening when at(hull, ashkeld_beach) "".
+  Passage gangway_mangrow "the plank to the Mangrow pier" is steps between deck and mangrow_pier opening when at(hull, mangrow_pier) "".
+  Passage gangway_antlers "the plank to the Antlers' ledge" is steps between deck and antler_ledge opening when at(hull, antler_ledge) "".
+
+  Thing hull "the Dorothea" at quay {
+    State alongside "The ketch Dorothea lies alongside Tolleth quay, her gangway down, her hatches off, casks going down into her hold.".
+    State underway "The ketch Dorothea is under way.".
+    State moored_isle "The ketch Dorothea lies against Skerrow's jetty, lines out, her gangway down, her crew rolling casks along the stone.".
+    State moored_ness "The ketch Dorothea lies against Port Ness pier among the salt lighters, lines out, her gangway down.".
+    State moored_ashkeld "The ketch Dorothea lies off Ashkeld's black beach with her boat in the surf, and a plume of steam going straight up from the hill behind.".
+    State moored_mangrow "The ketch Dorothea lies off the Mangrow pier on two anchors, a plank run out to the black piles, the green coming down to the water on either hand.".
+    State moored_antlers "The ketch Dorothea lies off the Antlers' ledge on two anchors, a plank run out to the rock.".
+  }
+  Initially Assert state(hull, alongside).
+  // bound(hull) is the call she is making: 1 Skerrow, 2 Port Ness, 3 the Antlers, 4 Ashkeld, 5 Mangrow (set with the fare, port.kyr).
+  Measure departedAt(entity). Measure delay(entity). Measure reachedAt(entity). Measure bound(entity).
+  Relation sailed(entity). Relation arrived(entity). Relation troubled(entity).
+  Initially Set departedAt(hull) to 0. Initially Set delay(hull) to 0. Initially Set bound(hull) to 1.
+  Measure sailAfter(entity). Initially Set sailAfter(hull) to 24.
+
+  // ── Aboard ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe deck_at_quay at deck when at(hull, quay) "The Dorothea's waist: a hatch, a windlass, a long-boat chocked on the beams, and the quay at your elbow. Casks are going down the hatch on a whip. Gulls are interested.".
+  Observe deck_sound at deck when at(hull, sound) and not troubled(hull) "The Sound is a grey road between low headlands, the water brown-green and busy. The Dorothea works down it on the ebb, close-hauled, her wake a white thread behind her. Tolleth falls back until it is a smudge with a smoke on it.".
+  Observe deck_open at deck when at(hull, open_sea) and not troubled(hull) "Open water. The land is gone, and nothing has taken its place: grey swell from the west, a line where the sea meets the sky, and the Dorothea going over it with a long slow lift and fall. Every rope aboard has its own note.".
+  Observe deck_teeth at deck when at(hull, teeth) and not troubled(hull) "A line of broken water lies across the morning, a mile ahead and from edge to edge of the world: black rocks, a hundred of them, their tops showing as the swell draws off. The Combs. There is a gap in them, if you know where, and the sea runs through it like a mill-race. Beyond them, very far and very small, a white tower on a green hill, and on the tower a light that has not been put out though the sun is up.".
+  Observe deck_roads at deck when at(hull, roads) "Skerrow roads: a green island with a white tower on it and sheep on its shoulder, smoke from a dozen chimneys, a stone jetty, and a boat putting out. The wind has dropped. For the first time in two days nothing aboard the Dorothea is leaning.".
+  Observe helm_scene at helm when true "The quarterdeck: a big wheel with a brass boss worn bright, a compass in a box, a log-slate, a lead-line coiled on a pin. Whoever steers can see everything and be seen from everywhere.".
+  Observe cabin_scene at cabin when true "A cabin the size of a wardrobe and kept like a chapel: a chart table, a bunk with the blanket squared, a shelf of ledgers, a sea-chest with a padlock, and above the bunk a woodcut of a woman in a cap, pinned up small by a hand that had wanted to pin it larger.".
+  Observe forecastle_scene at forecastle when true "The forecastle: six bunks in two tiers, a stove, a table fixed to the floor, sea-boots on a rack, and the permanent smell of wet wool. Somebody has cut a notch in the beam for every voyage. It is a long beam.".
+  Observe hold_scene at hold when true "The hold: casks lashed in tiers, bales of canvas, a ladder, and the sound of the sea very close through the planks, like something breathing in the next room. Forward of the salt, lashed apart, is a short tier of small casks, each branded with a lamp, PHAROS, in the Captain's square hand. The tally chalked on the end of the tier has been rubbed with a thumb. The stow-marks on the planking show where more have stood.".
+
+  // ── Casting off ─────────────────────────────────────────────────────────────────────────────────────────────────
+  // She goes on the noon ebb. A company on the quay at noon is left on it; the hours before are to book a passage, pay
+  // or work it, and get aboard.
+  Query aboardNow(g: group) means at(g, deck) or at(g, helm) or at(g, cabin) or at(g, forecastle) or at(g, hold).
+  Rule hull_sails when state(hull, alongside) and watch(clock) >= sailAfter(hull) and watch(clock) >= holdUntil(hull) and at(hull, quay) and not sailed(hull)
+    says "At the foot of the quay Captain Bascom says one word round the stem of her pipe, and the Dorothea's lines come off the bollards as if they had been waiting to. The gangway comes in. The quay slides away astern, and Tolleth with it." {
+    Assert state(hull, underway). Assert sailed(hull). Retract at(bascom, quay). Assert at(bascom, helm). Set departedAt(hull) to watch(clock). Retract at(hull, quay). Assert at(hull, sound).
+  }
+  Observe left_behind at quay when sailed(hull) and not aboardNow(party) "The Dorothea is gone. A last gull sits on the empty bollard. On the chalk-board the next sailing for Skerrow is the Mary Ann, a week from Thursday, and a crown dearer.".
+}

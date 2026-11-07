@@ -1,0 +1,72 @@
+{
+  "version": 1,
+  "source": [
+    "port.kyr",
+    "ship.kyr",
+    "isle.kyr",
+    "voyage.kyr",
+    "weather.kyr",
+    "crew.kyr",
+    "combs.kyr",
+    "skerrow.kyr",
+    "night.kyr",
+    "ness.kyr",
+    "antlers.kyr",
+    "holm.kyr",
+    "ashkeld.kyr",
+    "mangrow.kyr",
+    "house.kyr",
+    "entries.kyr",
+    "return.kyr",
+    "ring.kyr",
+    "lamp.kyr",
+    "voices.kyr",
+    "placed.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "canon": [
+    "imbar"
+  ],
+  "exports": {
+    "party": "party",
+    "region": "tolleth",
+    "green": "green",
+    "road_end": "road_end"
+  },
+  "experience": 1000,
+  "imports": [
+    "party",
+    "word",
+    "ring",
+    "ring_coast",
+    "ring_head",
+    "abroad",
+    "ledger_read",
+    "lieutenant_named",
+    "principal_traced",
+    "seal_seen",
+    "waybill_read"
+  ],
+  "optional": [
+    "word",
+    "ring",
+    "ring_coast",
+    "ring_head",
+    "abroad",
+    "ledger_read",
+    "lieutenant_named",
+    "principal_traced",
+    "seal_seen",
+    "waybill_read"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    }
+  }
+}

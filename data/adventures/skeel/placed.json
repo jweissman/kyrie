@@ -6,6 +6,7 @@
     "skeel.kyr",
     "wreck.kyr",
     "holm.kyr",
+    "keeper.kyr",
     "craigs.kyr",
     "dog.kyr",
     "skerry.kyr",
@@ -16,6 +17,8 @@
     "endings.kyr",
     "after.kyr",
     "growth.kyr",
+    "lore.kyr",
+    "tracks.kyr",
     "placed.kyr"
   ],
   "rules": [
@@ -25,7 +28,9 @@
     "party"
   ],
   "canon": [
-    "imbar"
+    "imbar",
+    "slack_opened",
+    "remainder_kept"
   ],
   "imports": [
     "party",

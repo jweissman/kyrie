@@ -16,7 +16,7 @@ Module corrow "The Road the Star Came Down" {
   Passage past_the_nail "past the Nail" is path between nail_wake and wennas_stop taking 1 hour.
 
   // Nothing here is woven of the world's binding magic: it is all of a piece with deadiron.
-  Observe far_side_scene at far_side when true "The door shuts behind you, and you are in a country with no colour in it: not grey, which is a colour, but none. Ground, sky, the road, all of a piece, all of one stuff, and you know the stuff: it is what the Chain is made of, and the horn, and the Nail. Nothing here was ever woven of your world. No spell any of you knows would so much as flicker. Hightown hangs behind you in the door like a picture of somewhere.".
+  Observe far_side_scene at far_side when true "The door shuts behind you, and you are in a country with no colour in it: not grey, which is a colour, but none. Ground, sky, the road, all of a piece, all of one black stuff that you have walked on before. Nothing here was ever woven of your world. No spell any of you knows would so much as flicker. Hightown hangs behind you in the door like a picture of somewhere.".
   Observe road_beyond_scene at road_beyond when true "The burnt road goes on, level now, across the unwoven country toward something on the horizon that is very large and does not move.".
   Observe road_kin at road_beyond when bandRead(corrow) "The Unfolded passed this way. Their prints go on ahead of you in step, and once, at the roadside, one of them stands quite still with its closed-hand head bowed, as if listening for something it has lost.".
   Observe road_coats at road_beyond when unsaidSent(margin) or unsaidCrossed(margin) "On the road lie lost things, more and more of them: gloves, hats, a cart-wheel, a Peleth ledger, a gravestone name. Whatever wore them has put them all down.".
@@ -28,16 +28,16 @@ Module corrow "The Road the Star Came Down" {
     Role "the Varakiiri that fell on the Corrow, one thought behind the jewel". Peaceable.
   }
   Observe nail_asleep at nail_wake when not reunited(beyond) "The Nail lies across the road like a hill of black iron and glass and something the eye slides off: sixty metres of it, horned, the stump of its greatest horn raw where it broke from the Chain in 2641. It is moving. You can see it move, the way you can see a minute hand move if you watch long enough: toward the horizon, one thought behind whatever is there. It does not see you. It has no name to see you with.".
-  Observe nail_awake at nail_wake when reunited(beyond) "The Nail lies across the road like a hill of black iron and glass, horned, and it is awake. Its name came up the road wearing lost things and went into it, and now it has both. Its attention moves over you like weather. It is still a thought behind the woman on the horizon. It is no longer content to be.".
+  Observe nail_awake at nail_wake when reunited(beyond) "The Nail lies across the road like a hill of black iron and glass, horned, and it is awake. Something came up the road wearing lost things and went into it. Its attention moves over you like weather. It is still a thought behind the woman on the horizon. It is no longer content to be.".
   Topic nail_speaks with nail "Listen to the Varakiiri" when reunited(beyond) once {
-    Says "It does not speak in words. The ground under you speaks, the stuff of it, and you understand it the way you understand cold. YOU ARE FROM THE PLACE THAT FORGETS. YOUR KIND FORGOT MY NAME AND LEFT ME BLIND IN A HOLE FOR TWO THOUSAND SIX HUNDRED YEARS. I HAVE IT AGAIN. THE JEWEL IS MINE: IT IS MY HEART. THERE ARE EIGHT MORE IN YOUR WORLD, AND MY KIN ARE COMING FOR THEM. GIVE IT TO ME AND I WILL GO HOME, AND TAKE THEM WITH ME, AND YOUR WORLD CAN DIVIDE ITSELF INTO AS MANY ROOMS AS IT LIKES.".
+    Says "It does not speak in words. The ground under you speaks, the stuff of it, and you understand it the way you understand cold. YOU ARE FROM THE PLACE THAT FORGETS. I WAS LEFT BLIND IN A HOLE. I HAVE IT AGAIN. THE JEWEL IS MINE. THERE ARE EIGHT MORE, AND MY KIN ARE COMING FOR THEM. GIVE IT TO ME AND I WILL GO HOME.".
   }
 
   // Wenna Coyle, aged a hundred and fifty-nine, who has thought of nothing but elsewhere for ninety years.
   Person wenna "the old woman at the end of the road" at wennas_stop {
     Role "an old woman holding something that lights her hands". Ancestry human. Peaceable.
     State keeping "An old woman stands at the very end of the road, where it stops at nothing, with her two hands cupped round something that lights them from inside: something the size of a child's fist, with nine faces. She is very old, older than anyone should be, and she is not looking at you, or at anything. Her lips are moving. She is saying, over and over, the way the Strays say their syllables: elsewhere, elsewhere, elsewhere.".
-    State herself "Wenna Coyle stands at the end of the road with the Hush in her hands and her lens in her pocket, and looks at you as if she had been waiting for somebody, and is not sure, yet, that she is glad.".
+    State herself "Wenna Coyle stands at the end of the road with the Hush in her hands and her lens in her pocket, and looks at you, and her face goes through hope, and then through caution, and stops there.".
   }
   Observe wenna_ringed at wennas_stop when bandRead(corrow) and state(wenna, keeping) "Round her, at a distance, the Unfolded kneel in a ring with their heads bowed, waiting. They cannot come nearer than she lets them. She has not noticed them.".
   Topic wenna_who with wenna "Ask the old woman who she is" when state(wenna, keeping) once {
@@ -66,7 +66,7 @@ Module corrow "The Road the Star Came Down" {
     Result "She does not lay it in stone; there is no stone here that remembers. She puts it into the hands of the one who kept the road, and closes their fingers on it with hers, and holds them closed while she tells them, slowly, as you would tell a child the way home, everything she knows: where it is, what it is, that it must always be one. When she lets go she is only an old woman, very tired, standing at the end of a road. 'I'll sit down now,' she says, and does, on the edge of nothing, with her lens in her lap, and closes her eyes, and does not open them again. Behind you, on the road, the Nail goes still. Its quarry is known to exactly one mind again. It will fall as slowly as it fell for two thousand years.".
   }
   Action give_heart(actor: group, site: place) "Take the Hush from Wenna and give it to the thing that follows" {
-    Description "It is its heart. It says there are eight more in your world, and that its kin are coming for them.".
+    Description "It says it is its own. It says there are eight more.".
     Requires able(actor) and company(actor) and at(actor, site) and at(wenna, site) and not ended(beyond).
     Time 2.
     On success { Assert endedGiven(beyond). }

@@ -53,7 +53,7 @@ Module tessary "What Tessary Owes" {
     Says "'Promises,' says Brother Ancel, and touches one so that it turns on its cord. 'A man who wants a thing kept hangs its weight here. Brass for a marriage. Lead for a debt. This one, a stone off the beach, a girl hung for her sweetheart in the Muster.' He looks up at them, hundreds, turning. 'Eleven years of war, and the cords are getting thin. The saint holds the scales, you see. He doesn't put his thumb on them.'".
   }
   Topic tolley_saint with tolley "Ask Brother Ancel who Saint Evenhand was" when true once {
-    Says "'A clerk of the drowned city,' says Ancel, 'who came up out of the sea the night it went down. That is the old story. He had lines on his skin like a ledger, and he could not tell a lie, and he lived among the first people of Tessary weighing their quarrels for them, and they trusted him because he could not be bought or frightened or flattered. He never went back.' He smiles. 'The scholars say he is a story about a set of scales. I say a set of scales is a story about a man like that.'".
+    Says "'A clerk of the drowned city,' says Ancel, 'who came up out of the sea the night it went down. That is the old story. He had lines on his skin like a ledger, and he could not tell a lie, and he lived among the first people of Tessary weighing their quarrels for them, and they trusted him because he could not be bought or frightened or flattered. He never went back.' He smiles. 'The scholars say he is a story about a set of scales.'".
     On discuss { Assert knows(actor, evenhand_tale). }
   }
   Topic tolley_calling with tolley "Ask Brother Ancel about the soldiers walking into the sea" when knows(actor, notice_read) or knows(actor, calling_witnessed) once {
@@ -107,7 +107,7 @@ Module tessary "What Tessary Owes" {
     On discuss { Assert nanOffer(actor). }
   }
   Topic nan_bill with nan "Ask Nan about the recruiting bill on her shelf" when true once {
-    Says "'LAND AND A PENSION FOR EVERY MAN WHO COMES HOME,' says Nan, without looking at it. 'They cried that in the Withies with a drum. Davy was seventeen. He came home Tuesday with a red coat and a paper that says he's owed eleven years' pay, and the Exchequer has no money to pay it with, and the Board's to hear the question of the land on the thirteenth day. The question.' She snorts. 'They've had eleven years to think of the answer.'".
+    Says "'LAND AND A PENSION FOR EVERY MAN WHO COMES HOME,' says Nan, without looking at it. 'They cried that in the Withies with a drum. Davy was seventeen. He came home Tuesday with a red coat and a paper that says he's owed eleven years' pay, and the Exchequer has no money to pay it with, and the Board's to hear the question of the land on the thirteenth day. The question.' She snorts. 'Eleven years they've had to think of an answer.'".
     On discuss { Assert knows(actor, enlist_promise). }
   }
   Topic nan_alive with nan "Tell Nan that Davy is alive" when knows(actor, held_alive) and knows(actor, davy_went) and not toldNan(actor) once {
@@ -127,7 +127,7 @@ Module tessary "What Tessary Owes" {
     On success { Assert knows(actor, coat_given). Retract at(davy_coat, teazle_room). }
     Result "Nan lays the coat over your arm, and smooths the darn at the elbow once with her thumb, and lets go.".
   }
-  Initially Assert lends(nan, davy_coat, party).
+  Initially Give davy_coat to party.
 
   Topic wick_night with wick "Ask Wick about the night Davy went" when not cameHome(davy) once {
     Says "'I followed him,' says Wick, fast, as if he has been waiting to be asked. 'All the way down the Steps and out on the sand, it was a spring ebb, you can walk right out. There were twelve of them and they kept step and nobody was calling it. Out past the colonnade, across the Forum. Into the Hall of Oaths.' He lowers his voice. 'There's no door in the Hall of Oaths. It's a wall at the back. I've felt it. They walked into the wall and it let them, and then it was a wall again.' He considers. 'I'll show you, if you like. A coin. Two if you want the tide-table too, which you do.'".
@@ -212,7 +212,7 @@ Module tessary "What Tessary Owes" {
     On discuss { Assert saultInformed(sault). Decrease quantity(sault, gold) by 20. Increase quantity(actor, gold) by 20. }
   }
   Topic sault_confronted with sault "Tell the Factor you have read her letter to the Broker of the Fourth Pan" when knows(actor, sault_bid) and not saultExposed(ossel) and not voted(ossel) once {
-    Says "Factor Sault puts her pen down. 'Bettany,' she says, not as a question. 'Well. Every word of it's true.' She leans back. 'So what will you do with it? Take it to the Board, and they'll read it, and be frightened of me, and vote no anyway because there's no money, and I'll have the note at the Feast and you'll have been right. Or take it under the sea to the old man, and he'll stop my broker, and I'll go down and bid in person.' She shrugs. 'Or put me terms, if you can find anything I want more than the Muster. Nobody has yet.' She picks up the pen. 'I'm not your enemy. I'm the only one in this city who's been paying attention.'".
+    Says "Factor Sault puts her pen down. 'Bettany,' she says, not as a question. 'Well. Every word of it's true.' She leans back. 'So what will you do with it? Take it to the Board, and they'll read it, and be frightened of me, and vote no anyway because there's no money, and I'll have the note at the Feast and you'll have been right. Or take it under the sea to the old man, and he'll stop my broker, and I'll go down and bid in person.' She shrugs. 'Or put me terms, if you can find anything I want more than the Muster. Nobody has yet.' She picks up the pen. 'I'm not your enemy. Ask the Board who has been paying attention.'".
   }
   // The grey clerk's inventory, copied.
   Item inventory_copy "a copy of the Valuer's inventory" is ledger_copy at tideline_steps hidden until inventory_copied.
@@ -249,7 +249,7 @@ Module tessary "What Tessary Owes" {
     On discuss { Assert quireConfided(actor). Assert knows(actor, collateral). }
   }
   Topic quire_terms with quire "Ask the Treasurer what the city must do to pay" when quireConfided(actor) and not knows(actor, promise_weight) once {
-    Says "'Keep a promise,' says Quire. 'Of equal weight. Their words.' He laughs, horribly. 'Do you know what weighs as much as a king's ancestral oath, in their scales? A promise of a whole people to a whole people. And there is exactly one of those in the city's books, and I have it by heart: land and a pension for every man who comes home. It would cost two hundred thousand marks. The treasury has nothing. The Board will vote no on the thirteenth day, because there is no money, and on the fifteenth the note falls due, and then...' He doesn't finish.".
+    Says "'Keep a promise,' says Quire. 'Of equal weight. Their words.' He laughs, horribly. 'And there is exactly one of those in the city's books, and I have it by heart: land and a pension for every man who comes home. Two hundred thousand marks. The treasury has nothing. The Board will vote no on the thirteenth day, because there is no money, and on the fifteenth the note falls due, and then...' He doesn't finish.".
     On discuss { Assert knows(actor, promise_weight). Assert knows(actor, enlist_promise). }
   }
 
@@ -388,7 +388,7 @@ Module tessary "What Tessary Owes" {
     On discuss { Assert knows(actor, held_alive). }
   }
   Topic tally_discharge with tally "Ask the Valuer what would bring the called home" when knows(actor, held_alive) and not knows(actor, release_law) once {
-    Says "'The discharge of the debt they stand surety for,' says the Valuer, as if reading it. 'A debt is discharged in two ways. It is kept, or it is released: if the one to whom a promise was made says freely to the one who made it, I hold you quit, that weighs in the Balance exactly as the keeping does.' A pause. 'People forget the second. Nobody releases anybody. I have often wondered why.'".
+    Says "'The discharge of the debt they stand surety for,' says the Valuer, as if reading it. 'A debt is discharged in two ways. It is kept, or it is released: if the one to whom a promise was made says freely to the one who made it, I hold you quit, that weighs in the Balance exactly as the keeping does.' A pause. 'People forget the second.'".
     On discuss { Assert knows(actor, release_law). }
   }
   Topic tally_confirm with tally "Ask the Valuer whether the city pledged its soldiers' oaths" when (knows(actor, council_knows) or quireConfided(actor)) and not knows(actor, collateral) once {
@@ -411,4 +411,15 @@ Module tessary "What Tessary Owes" {
     On discuss { Assert willing(tally, actor). Assert promisedTally(actor). }
   }
   Relation promisedTally(group).
+
+  // The Valuer cannot lie and will not volunteer. Asked what a surety owes, it writes the answer down, which is the
+  // only way it knows to be of use to a stranger.
+  Place beyond_ledger "beyond the ledger" is wilderness within ossel at 9, 9.
+  Place nowhere "nowhere" is room within beyond_ledger at 0, 0.
+  Item surety_note "the Valuer's note on the terms of a surety" is surety_terms at nowhere owned by tally.
+  Topic tally_surety with tally "Ask the Valuer what a surety owes" when knows(actor, release_law) and not suretyNoted(tally) once {
+    Says "'A surety answers for the keeping named,' says the Valuer, 'and for no more. Where the keeping is named, the surety is bounded. Where it is not named, the surety answers for everything the principal holds, to the last coin and the last day.' A small pause. 'This is the whole of the law, and it is why I am so seldom asked. People sign what they are given.' The pen is moving. The strip of paper that comes away is ruled in lines as fine as hairs, and says in a hand like type what the Valuer has just said. 'Receipt,' says the Valuer. 'I never give a thing without one.'".
+    On discuss { Give surety_note to actor. Assert suretyNoted(tally). }
+  }
+  Relation suretyNoted(group).
 }

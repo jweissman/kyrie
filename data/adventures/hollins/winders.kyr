@@ -1,0 +1,112 @@
+Module hollins "Behind the Wainscot" {
+  // ── The Winders' account: ten past four, and the twelfth notch ────────────────────────────────────────────────────
+  // The count: the days the Long Clock has stood at ten past four (three hundred and twelve years of them). The keepers:
+  // the Winders, who oil and never wind. The first page: a child of eleven, sent out of the house at that minute, who
+  // meant to scratch her twelfth birthday on the plinth when she came home. The price of reading it aloud: the Winders'
+  // whole faith, which the Prior pays gladly and Sister Verity cannot. A domestic book; its danger is a cat, a fire and
+  // a cup of sugar, each with its ways round (the bell, the catmint, the drift; the warning, the lamp-oil, the cold hearth;
+  // the spilled sugar, the stopped jar), and the Clock is its kept light.
+
+  // ── Depth: things everyone does and no one can explain ────────────────────────────────────────────────────────────
+  Observe quiet_minute at button_market when hour(clock) == 16 "At ten past four the whole Button Market drops its awnings together, and every stall-keeper stands with hands behind the back for the count of sixty. When the minute is out the awnings go up, and a man who was haggling over a thimble goes on haggling from exactly the word he stopped at.".
+  Observe quiet_notice at skirting as sign when true "A card is tacked to a lath-post at the mouth of Lath Lane, in a careful hand, with a hole in each corner where it has been moved from post to post: STALLS CLOSE AT TEN PAST FOUR FOR ONE MINUTE. NO BARGAINING. NO DISCOUNT FOR THE INCONVENIENCE.".
+  Observe oil_smell at clock_foot as feature when true "The air under the Clock smells of whale-oil, old brass, and wet wool: the Winders' gowns, which are never quite dry because the case holds the cold. Somewhere in it, very faint, a smell of candle-wax and boiled sweets, which nobody has been able to account for since the Going.".
+  Observe hall_claws at hall_flags as feature when true "The flagstones are scored in long parallel strokes, each set of four as far apart as a man's reach, running from the foot of the Stair toward the drift. They are the cat's, and they are three hundred years deep in places, in places new.".
+  Discovery notch_tally "At the foot of the Long Clock's plinth, low, where only a child would reach, someone has scratched eleven notches in the oak and left a space for the twelfth." {
+    Found by searching clock_foot "Low on the plinth, behind the velvet curtain of the Winders' door, where only a child would kneel: a row of notches scratched in the oak with a pin, eleven of them, evenly spaced, and a space after the eleventh the exact width of one more. Beside the row, so small it could be a flaw in the grain: E.".
+  }
+  Topic hasp_time with hasp "Ask Hasp Tallowby why the Jarmen and the Readers do not speak" when true once {
+    Says "Hasp scratches under his hat. 'Two hundred years back we borrowed Volume T off the Readers' shelf,' he says. 'For the wrapping. Fine thin paper, good for honey-cakes. And the Readers have never forgiven it. They say the volume had Tides in it, and Tobacco, and Time.' He sniffs. 'We used Time. Went best of the three. Tides wouldn't hold the grease.' He lowers his voice. 'There's a leaf of it in the Prior's case this minute, I'd lay a button. Somebody had to give them something.'".
+  }
+  Topic gideon_wrap with gideon "Ask Gideon Lamb about the missing leaf of Time" when true once {
+    Says "Gideon takes off his spectacles and cleans them on his sleeve for rather longer than they need. 'It was a very good leaf,' he says. 'The entry for Time begins, Time is that which, and the next page is where the Jarmen cut it. We have been reading that sentence for two centuries as if the rest of it were a courtesy.' He puts the spectacles back. 'If anyone were to find the rest, I would consider the quarrel closed.'".
+  }
+  // Contrast: a comic scene in a gentle house. Ottoline Fogg's weekly auction, the one thing in the Wainscot nobody tries to be sincere about.
+  Observe button_auction at button_market when hour(clock) == 17 "Ottoline Fogg is on her bone counter with a pickle-fork for a gavel, auctioning a single mother-of-pearl button the size of a tea-tray to a crowd of eleven. 'The finest button in the Wainscot,' she is saying, 'cut from the cuff of a giant's christening robe. Do I hear four buttons? I hear five from the gentleman who is holding his own ear. Six! Sold, to the lady who has not stopped waving since Tuesday.' The lady has not been bidding. She is waving at her daughter. The button is carried off between four men.".
+
+  // ── Voices by calling ─────────────────────────────────────────────────────────────────────────────────────────────
+  Relation hvClockA(group). Relation hvClockB(group). Relation hvClockC(group). Relation hvHallA(group). Relation hvHallB(group).
+  Relation hvFortA(group). Relation hvFortB(group). Relation hvKitchenA(group). Relation hvKitchenB(group). Relation hvBedA(group). Relation hvBedB(group). Relation hvNan(group).
+  Rule hv_warrior_clock at clock_foot when memberOf(?m, party) and brings(?m, brawn) and awake(?m) and at(party, clock_foot) and not hvClockA(party)
+    says "{?m} walks round the plinth once and looks up at the case as a soldier looks at a siege-tower. 'Forty turns of the key and a weight that size,' {?m} says. 'You could set a garrison by it.'" {
+    Assert hvClockA(party).
+  }
+  Rule hv_cleric_clock at clock_foot when memberOf(?m, party) and brings(?m, rites) and awake(?m) and at(party, clock_foot) and not hvClockB(party)
+    says "{?m} reads the painted words on the plinth with a lifted eyebrow, and then the velvet door, and then the little worn place on the boards where kneelers kneel. 'It is a chantry,' {?m} says. 'They have made a chantry of a clock, for a person who is not dead.'" {
+    Assert hvClockB(party).
+  }
+  Rule hv_thief_clock at clock_foot when memberOf(?m, party) and brings(?m, lockwork) and awake(?m) and at(party, clock_foot) and not hvClockC(party)
+    says "{?m} stands where the trunk's keyhole is, and measures it with a finger and thumb. 'The key to this is a ship's wheel,' {?m} says. 'You would have to be a very large person indeed to lose it, and a very small one to want to.'" {
+    Assert hvClockC(party).
+  }
+  Rule hv_warrior_hall at hall_flags when memberOf(?m, party) and brings(?m, brawn) and awake(?m) and at(party, hall_flags) and not hvHallA(party)
+    says "{?m} goes down on one knee to the claw-marks and counts the sets with a gauntleted hand. 'Four to a stroke, eighteen foot of reach, always out from the Stair,' {?m} says. 'It comes down the Hall at a trot and turns at the clock.'" {
+    Assert hvHallA(party).
+  }
+  Rule hv_ranger_hall at hall_flags when memberOf(?m, party) and brings(?m, woodcraft) and awake(?m) and at(party, hall_flags) and not hvHallB(party)
+    says "'Fish, and old fur, and something like warm bread,' {?m} says, breathing in, turning toward the drift. 'It likes it here. A year it has been coming, and nobody has fed it.'" {
+    Assert hvHallB(party).
+  }
+  Rule hv_warrior_fort at fort when memberOf(?m, party) and brings(?m, brawn) and awake(?m) and at(party, fort) and not hvFortA(party)
+    says "{?m} stops at the drawbridge and looks the Regiment over rank by rank, as one soldier looks at another's. 'Keys wound to the same mark,' {?m} says. 'Heads dressed to the left.'" {
+    Assert hvFortA(party).
+  }
+  Rule hv_bard_fort at fort when memberOf(?m, party) and brings(?m, performance) and awake(?m) and at(party, fort) and not hvFortB(party)
+    says "{?m} tilts an ear to the Captain's musical-box voice. 'It is a child's voice,' {?m} says. 'Played slow. Every order he gives is a sentence a child once said, in the order she said it, and they have been obeying her ever since.'" {
+    Assert hvFortB(party).
+  }
+  Rule hv_thief_kitchen at kitchen_floor when memberOf(?m, party) and brings(?m, lockwork) and awake(?m) and at(party, kitchen_floor) and not hvKitchenA(party)
+    says "{?m} looks at the pantry door for some time without going near it. 'Pins in the lintel,' {?m} says. 'Hair across the latch. A house this big, and the one door in it that is properly guarded is the one with honey behind it.'" {
+    Assert hvKitchenA(party).
+  }
+  Rule hv_cleric_kitchen at kitchen_floor when memberOf(?m, party) and brings(?m, rites) and awake(?m) and at(party, kitchen_floor) and not hvKitchenB(party)
+    says "{?m} watches the Jarl's men carry a jar of honey across the tiles with their caps off. 'Grace,' {?m} says. 'They are saying a grace, under their breath, and not one of them knows to whom.'" {
+    Assert hvKitchenB(party).
+  }
+  Rule hv_warrior_bed at counterpane when memberOf(?m, party) and brings(?m, brawn) and awake(?m) and at(party, counterpane) and not hvBedA(party)
+    says "'You do not talk,' {?m} says, very low, hands folded at the foot of the counterpane. 'You stay on your feet. You let her see someone is standing.'" {
+    Assert hvBedA(party).
+  }
+  Rule hv_bard_bed at counterpane when memberOf(?m, party) and brings(?m, performance) and awake(?m) and at(party, counterpane) and not hvBedB(party)
+    says "'Hush.' {?m} lifts a finger: the breath, the clock below, the faint clear note from the piano through the floor. 'The clock, the keys and her breath,' {?m} says, under all three. 'Same beat. Don't move.'" {
+    Assert hvBedB(party).
+  }
+  Rule hv_nan_clock at clock_foot when following(nan, party) and at(party, clock_foot) and not hvNan(party)
+    says "Nan Collier stops under the Long Clock with her black hands behind her back. 'We set the Hearth-bell by it before the Going,' she says. 'My gran said you could hear it from the grate if you held your breath. She said it was the sound of a person being sorry.' She looks up at the dark of the case. 'I never believed her. I'd like to now.'" {
+    Assert hvNan(party).
+  }
+
+  // ── The warrior's word: a soldier gives the order that the Lady alone would otherwise give ──────────────────────────
+  // The Regiment stands down for the Lady's word (lady_regiment), which she can give only once she knows them. A warrior
+  // who has the Regiment's word and its orders can give a soldier's order the Captain knows the form of, long before. It
+  // costs: the Regiment no longer keeps the Wainscot's night patrol, and the children's drum is not heard in the Skirting.
+  Relation orderedEasy(group).
+  Action order_stand_easy(actor: group, site: place, m: member) "Give the Regiment the order to stand easy, in the form the Colonel would have used" {
+    Description "{m} knows how an order is given. It is not the Colonel's. It is the next best thing.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, fort) and at(ordinance, fort) and knows(actor, regiment_orders)
+      and memberOf(m, actor) and brings(m, brawn) and awake(m) and not standDown(regiment) and not regimentStopped(regiment)
+      and not regimentMarched(regiment) and not pyeStabbed(pye) and not orderedEasy(party).
+    Time 3.
+    On success { Assert orderedEasy(party). Assert standDown(regiment). Assert tolerates(regiment, party). Assert peaceable(regiment). }
+    Result "{m} comes to attention at the edge of the courtyard, feet together, and says it plainly, in the voice of someone who has said it to better men: 'Regiment. The war is over. The Colonel is home. Stand easy.' Every head in the Fort turns. The Captain's sword comes down, very slowly, a degree at a time, until the point rests on the boards. 'THE COLONEL,' he says. A long whirr. 'IS HOME.' Then, to the ranks, in a smaller voice: 'REGIMENT. STAND EASY.' One by one they sit down on the courtyard floor with their muskets across their knees, and the drummer, uncertain, puts his sticks away in his belt as if he were putting away a toy.".
+  }
+  Observe skirting_no_drum at skirting as feature when orderedEasy(party) "In the Skirting the children, who have gone to sleep for three hundred years to a faint drum through the floor of the nursery, lie awake. Nobody has told them. A mother stands in a doorway with a lamp and listens, and does not know what she is missing.".
+  Rule fate_regiment_word when accounting() and orderedEasy(party) and not fateTold(f_regiment) says "The Tin Regiment sits in its Fort with its keys still, by an order given in the one form it had waited for, and the children of the Wainscot, who liked the drum, have made one of their own out of a cotton-reel and play it at the Quiet. The Captain has been heard, on warm days, to whirr a word that sounds like home." { Assert fateTold(f_regiment). }
+
+  // ── The Lady, told of the notches: the first page, and a chart lent ─────────────────────────────────────────────────
+  Relation notchesTold(group).
+  Kind hollins_lady_map_kind "a copy of the Lady's chart of the northern coast" like map worth 3 weighing 0 described "A sheet of ordinary paper, ruled by hand, a copy of the white-cliff coast in the north where the sea comes in green: a harbour with a mole, a village of a dozen crooked roofs, and a tower on a rock at the end of a long breakwater. Under the tower, in a hand a yard high, reduced: I WAS HAPPY HERE.".
+  Item lady_map "the Lady's chart of the northern coast" is hollins_lady_map_kind at nowhere owned by lady.
+  Topic lady_notches with lady "Tell the Lady about the eleven notches scratched at the foot of her clock" when ladyKnows(lady) and knows(actor, notch_tally) and not notchesTold(lady) once {
+    Says "The Lady is quiet so long you think she has gone to sleep. Then she says, to the ceiling, 'Eleven.' A breath. 'I was eleven. I meant to do the twelfth on the day I came home, with my own pin, standing on the box.' Her hand moves on the counterpane, a boat adrift. 'They sent me to my aunt's in the coach at ten past four, and I stopped the clock with my finger on the way out so it would be the same day when I came back. I thought that was how time worked.' She laughs, a very small one. 'I came back at six on a Thursday, at fifty years' remove, and wound it, and it struck. I thought it was my own fault.' She turns her face toward you. 'Take the chart on the table. It's the coast I was happiest on. Somebody ought to have it who has been to look.'".
+    On discuss { Assert notchesTold(lady). Give lady_map to actor. }
+  }
+  Rule fate_notch when accounting() and notchesTold(lady) and not fateTold(f_notch) says "The twelfth notch was scratched at the foot of the Long Clock on the Sunday after the funeral, in front of the Winders, by Prior Tobit Hale, kneeling, with a pin from the Lady's own workbox, to the surprise of nobody who had been told what the notches were for. He did not say anything. Sister Verity was seen to wipe the pin on her sleeve before she put it back." { Assert fateTold(f_notch). }
+  Entity f_notch: fact "the twelfth notch".
+
+  // ── Outward: a world event, read, and a hook for a stranger ──────────────────────────────────────────────────────────
+  Observe chart_rose at chart_table when befell(rose_made_whole) "In the corner of the Lady's chart, in an ink newer than the rest, someone has drawn a compass-rose with all its points, and written under it, in the hand that wrote the whole of the house: made good this season, by someone else. The Lady has not told Mrs Pyecroft. She looks at it every morning at nine.".
+  Topic jory_visitors with jory "Ask Jory Mudge who comes to Bootscrape from outside" when true once {
+    Says "'Carriers,' says Jory. 'And the chandler's man from Wendle. And once a year a pilot off the southern coast, a lamp-keeper's cousin by his talk, who wants a chart off the Lady and has been waiting thirty years for her to be home to ask.' He lays a finger beside his nose. 'If a body wanted to come in under the notice of the house, Bootscrape is where they would have to start. The post goes by the Slot, and the Slot goes by us.'".
+  }
+}

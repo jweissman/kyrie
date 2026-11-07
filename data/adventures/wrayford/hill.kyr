@@ -22,7 +22,7 @@ Module wrayford "The Third Night" {
     On discuss { Assert knows(actor, hulme_reasons). }
   }
   // Kin: he stood godfather to Kit. He asks his question once.
-  Event hulme_question near hulme when homecomer(party) and knows(party, hulme_reasons) and addressed(hulme, party) and not hulmeAsked(party) "He looks at you for a long time. 'You were in my house every day of your childhood,' he says. 'You and Hal. Tell me, then. You've come home and found your father on the rail, and you're the only one in this city who can say anything to me I'd listen to.' His voice does not rise. 'What would you have me do?'" then { Assert hulmeAsked(party). }
+  Event hulme_question near hulme when homecomer(party) and knows(party, hulme_reasons) and addressed(hulme, party) and not hulmeAsked(party) "He squares the papers on the desk, edge to edge. 'You were in my house every day of your childhood,' he says. 'You and Hal. Tell me, then. You've come home and found your father on the rail, and you're the only one in this city who can say anything to me I'd listen to.' His voice does not rise. 'What would you have me do?'" then { Assert hulmeAsked(party). }
   Topic answer_cut with hulme "Tell him: cut them down, and let the captain find a city that buries its dead" when hulmeAsked(actor) and not hulmeAnswered(actor) once {
     Says "He shuts his eyes. 'A city that buries its dead,' he says. 'That's a thing to say. That's a fine thing.' He opens them. 'And when she asks who cut them down against the lord's warrant?' He waits. You do not have an answer, and he sees it. 'No,' he says, gently. 'Neither have I.' But he does not look away from you.".
     On discuss { Assert hulmeAnswered(actor). Increase hulmeMoved(hulme) by 1. }
@@ -62,7 +62,7 @@ Module wrayford "The Third Night" {
   Rule hal_home when (hour(clock) >= 21 or hour(clock) < 9) and not at(hal, hulme_study) and not halAway(hal) { Assert at(hal, hulme_study). }
   Relation halSat(group). Relation halConfessed(group). Relation halKept(group). Relation halToldFather(group). Relation halTold(group).
   Topic hal_hello with hal "Ask Hal how he has been" when homecomer(actor) once {
-    Says "'How I've been.' He looks at you as if you were a word he had been trying to remember for three years. 'I've been writing my father's letters,' he says. 'I've been writing his decrees.' He looks down at the paper under his hand. 'I wrote that one. On the gatehouse door. In my best hand.' His face does something, and stops. 'I'm glad you've come. I'm sorry it's now.'".
+    Says "He does not get up. 'You've got thin,' he says, as if you were a word he had been trying to remember for three years. 'I wrote to you. Three times. I didn't send them. I've been writing my father's letters instead.' A breath. 'His decrees.' He looks down at the paper under his hand. 'I wrote that one. On the gatehouse door. In my best hand.' His face does something, and stops. 'I'm glad you've come. I'm sorry it's now.'".
   }
   Observe starling_hal at starling when at(hal, starling) "Hal Hulme is sitting on the starling with his legs over the water and his back to the pier, where the two sets of initials are cut, as if he had been there every evening for three years.".
   Action sit_hal(actor: group, site: place) "Sit down by Hal on the starling, the way you used to" {
@@ -91,7 +91,7 @@ Module wrayford "The Third Night" {
     On discuss { Assert halToldFather(hal). Increase hulmeMoved(hulme) by 2. }
   }
   Topic hal_keep with hal "Tell Hal you'll keep it between the two of you" when halConfessed(actor) and not halToldFather(hal) and not halKept(hal) once {
-    Says "He looks at you for a long time. 'That's worse,' he says. 'You know that. That's worse than telling.' But he takes your hand, on the stone between you, where the initials are, and holds on to it as if the river might take one of you.".
+    Says "Hal laughs, once, without any sound. 'That's worse,' he says. 'You know that. That's worse than telling.' But he takes your hand, on the stone between you, where the initials are, and holds on to it as if the river might take one of you.".
     On discuss { Assert halKept(hal). }
   }
   Topic kit_told_hal with kit "Tell Kit who sent the riders to the fell road" when knows(actor, hal_wrote) and not halTold(kit) and not kitTaken(kit) once {

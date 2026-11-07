@@ -165,7 +165,7 @@ Module ombra "The Book of Faces" {
   // ── The chimney and the Siphon, to the stair-head ─────────────────────────────────────────────────────────────────
   Observe ci_eelrun_scene at ci_eelrun when true "The Drain widens into a long cold room with a pool in it, a ledge on either side a hand wide, and the pool black and dead level, as if poured. On the far side a low arch lets the pool go on into the dark: the Siphon. High on the right a second way goes up by a hand-cut ledge to a dark shaft in the roof. Something in the pool is looking at you, from under the water, with all the time in the world.".
   Observe ci_chimney_scene at ci_chimney when true "A square shaft, going up out of sight and down into the dark, with iron staples let into one wall at a spacing that suited somebody with longer arms than yours. The Brewers built it to draw the Drain's air; it draws it still, and the draught that goes up past you smells of nothing at all. Far over your head, very small and very square, there is something that is not dark: a gleam of light, a slot of grey, a grating at the Drip's street-level a very long way off. A child's voice, once, would carry down it.".
-  Observe ci_aenean_scene at ci_aenean when true "The Drain ends here, and something older begins. The brick gives way to black stone fitted without mortar, plain and square and cut with a precision that hurts the eye, and in the floor of the stair-head, before a door of the same black stone, there is a single paving-slab that is not quite the colour of the others. Water runs down the walls in lines.".
+  Observe ci_aenean_scene at ci_aenean when true "The Drain ends here, and something older begins. The brick gives way to black stone fitted without mortar, plain and square and cut with a precision that hurts the eye (the Aeneans' lettering over the door is cut into it afterward, as a notice is nailed to a door someone else hung), and in the floor of the stair-head, before a door of the same black stone, there is a single paving-slab that is not quite the colour of the others. Water runs down the walls in lines.".
   Hazard ci_stone "the Aenean counterweight, falling" means "Deal (2d6) physical damage to ally unless dexterity save against (13).".
   Discovery ci_plate_known "The paving-slab before the Aenean door is a pressure-plate: stood on, it lets a counterweight fall from the lintel.".
   Thing ci_plate "the slab before the Aenean door" on ci_door_way {
@@ -187,8 +187,8 @@ Module ombra "The Book of Faces" {
   Discovery ci_eel_toll "The lamp-boys pay the eel in the Drain a toll of fish-heads, which they keep in a bucket on the shelf of their den, and she lets them by.".
 
   // ── The Aenean pump ───────────────────────────────────────────────────────────────────────────────────────────────
-  // Older than the Drain: a wheel and a piston in a hall of black stone, which the Aeneans built to keep this end of
-  // their city dry, and left. It was kept going by the Brewers, and then not. Three things are wrong with it, and it
+  // Older than the Drain: a wheel and a piston in a hall of black stone, which the Aeneans found and learned to start, and used to keep this end of
+  // their city dry, and wrote their plaque beside, and left. It was kept going by the Brewers, and then not. Three things are wrong with it, and it
   // can be put right by each of three crafts. When it runs it holds the Siphon low (and so keeps the Drain open on the
   // third to fifth days) and drains the Drain's water to wherever its valve is set: the lagoon, through the Heronry,
   // which it has done since the Aeneans and which the Heronry has never asked for; or to the Weighhouse Yard on the
@@ -452,7 +452,7 @@ Module ombra "The Book of Faces" {
     Time 6.
     On success { Assert ci_candle(actor). Increase ci_trust(pip) by 1. Assert restful(lamp_boys_den). }
     On failure { Set ci_closed_until(pip) to watch(clock) + 6. }
-    Result "He gives it to you with both hands, as one gives up a bird. You melt it in the kettle's lid with the wax-ends from the plank, a hundred small soldiers, and stir in a twist of the sail-cloth's thread for a wick, and roll the lot between your palms on the slate until it is whole and long and your hands are burning, and set it to stand. It is lopsided. It is the finest candle in the cisterns. Pip stands it in front of him and looks at it for a long time. 'That's mine,' he says. 'Out of mine.'".
+    Result "He gives it to you with both hands, as one gives up a bird. You melt it in the kettle's lid with the wax-ends from the plank, a hundred small soldiers, and stir in a twist of the sail-cloth's thread for a wick, and roll the lot between your palms on the slate until it is whole and long and your hands are burning, and set it to stand. It is lopsided. It is the finest candle in the cisterns. Pip stands it in front of him and holds his hand round the flame, to keep off a draught that is not there. 'That's mine,' he says. 'Out of mine.'".
     Otherwise "The wick drowns in its own wax and the whole thing guts and slumps, and there is nothing in the kettle but a grey sticky smear where the stub was. Pip looks at it. 'That was a good stub,' he says, in a very small voice, and goes behind the sacking, and does not say another word for an hour.".
   }
   Action ci_tell_nobody(actor: group, site: place) "Tell him a Bare is no one, and what is told to no one has not been Said" {
@@ -497,7 +497,7 @@ Module ombra "The Book of Faces" {
     Says "'No,' says Nell. It is not an answer to anything you said. It is the whole of her policy, said once.".
   }
   Topic ci_nell_hint with ci_nell "Ask Nell how the boy might be got to talk" when ci_found(actor) and not ci_asked(actor) and (privateHours() or wears(actor, face_owl) or masked(actor)) and not ci_pip_taken(actor) once {
-    Says "Nell looks at you for a long time with her knife across her knees. 'Everybody tells him,' she says. 'The Watch told him. The steward told him. The Chaplain told him on the steps, I saw. Told him he's to come in, told him he's to be good, told him he's safe.' She spits, neatly, into the oil. 'I tell him. I'm worse than any of them. *Nobody asks him.* Nobody's ever asked him a thing in his life, that wasn't what's he done. If you want him out, ask him something. That's all I know.'".
+    Says "Nell does not get up; she turns her knife over on her knees, point and then handle. 'Everybody tells him,' she says. 'The Watch told him. The steward told him. The Chaplain told him on the steps, I saw. Told him he's to come in, told him he's to be good, told him he's safe.' She spits, neatly, into the oil. 'I tell him. I'm worse than any of them. *Nobody asks him.* Nobody's ever asked him a thing in his life, that wasn't what's he done. If you want him out, ask him something. That's all I know.'".
     On discuss { Assert knows(actor, ci_pip_named). }
   }
   Topic ci_nell_heads with ci_nell "Ask Nell what the boys feed the eel" when ci_found(actor) and (privateHours() or masked(actor)) and not ci_pip_taken(actor) once {

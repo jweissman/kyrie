@@ -37,7 +37,7 @@ Module hollins "Behind the Wainscot" {
   Observe hearth_scene at hearth when not hearthBurned(hollins) "The Hearth: a town in a cold grate, where eighty colliers live in the ash of the Whitbreads' last fire. The ash of the Whitbreads' last fire, three hundred years old, has been dug into streets; the cinders are walls; on the iron fire-dogs, which are as tall as gallows, people have built galleries of slate and hung lanterns. The coal-heap at the back is a hill with pits sunk in it and a windlass over each. Up the black throat of the chimney you can see, far up, a square of sky, and ledges in the soot with doors.".
   Observe hearth_burned at hearth when hearthBurned(hollins) and not state(fire, blazing) "What was the Hearth: a grate full of hot ash with the banked fire in the middle of it, red under grey. The galleries on the fire-dogs have gone. The windlasses have gone. A melted lantern hangs from an iron bar, and on the brick at the back, black on black, somebody has written with a cinder the names of the dead.".
   Observe hearth_burning at hearth when hearthBurned(hollins) and state(fire, blazing) "You cannot stand here: the fire fills the grate like a sunrise, and the air beyond the fender shakes.".
-  Observe hearth_names at hearth as feature when collierDead(hollins) and hearthBurned(hollins) and not state(fire, blazing) "Eleven names on the brick. The last is BET COLLIER, FOREWOMAN, and under it, smaller: SHE WENT BACK FOR THE PIT BOYS.".
+  Observe hearth_names at hearth as feature when collierDead(hollins) and hearthBurned(hollins) and not state(fire, blazing) "Nine names on the brick. The last is BET COLLIER, FOREWOMAN, and under it, smaller: SHE WENT BACK FOR THE PIT BOYS.".
 
   Person bet "Bet Collier" at hearth {
     Role "the forewoman of the Hearth". Ancestry dwarf. Peaceable. Pronouns she. Manner grim.
@@ -62,7 +62,7 @@ Module hollins "Behind the Wainscot" {
   }
   Discovery fire_at_nine "Mrs Pyecroft will light the drawing-room fire at nine on the second morning, as the Lady goes through to the Library.".
   Topic warn_bet with bet "Warn Bet Collier that the fire will be lit in the morning" when knows(actor, fire_coming) and not hearthWarned(hollins) and not hearthBurned(hollins) and knows(actor, fire_at_nine) once {
-    Says "Bet Collier hears you out with her arms folded. 'At nine,' she says. 'By her woman's own mouth.' She looks at the logs on the irons, as if for the first time. Then she puts two fingers in her mouth and whistles, and the whole grate goes still. 'Everybody out,' she says, not loud. 'Children first, then the old, then what you can carry. Up the wall-way to the Skirting. Now.' And as the Hearth begins to move round her, she turns back to you: 'If you're wrong, I'll have your hide. If you're right, I owe you eighty-three.'".
+    Says "Bet Collier hears you out with her arms folded. 'At nine,' she says. 'By her woman's own mouth.' She looks at the logs, and then up the black throat of the chimney, which in ninety years she has never once looked up. Then she puts two fingers in her mouth and whistles, and the whole grate goes still. 'Everybody out,' she says, not loud. 'Children first, then the old, then what you can carry. Up the wall-way to the Skirting. Now.' And as the Hearth begins to move round her, she turns back to you: 'If you're wrong, I'll have your hide. If you're right, I owe you eighty-three.'".
     On discuss { Assert hearthWarned(hollins). }
   }
   Action urge_bet(actor: group, site: place) "Urge Bet Collier to take the Hearth out tonight, before they light the fire" {
@@ -103,7 +103,7 @@ Module hollins "Behind the Wainscot" {
     Says "Nan looks at her hands. 'It burned,' she says. 'Nine o'clock. Like a door opening onto the sun.' Then she looks up, and nearly smiles. 'We got everybody. Mam carried the Lightfoot twins up the wall-way one under each arm. We've nothing, but we've everybody.'".
   }
   Topic nan_hearth_lost with nan "Ask Nan Collier about the Hearth" when hearthBurned(hollins) and collierDead(hollins) once {
-    Says "Nan looks at her hands for a long time. 'It burned,' she says. 'Nine o'clock. Like a door opening onto the sun.' She does not say anything else for a while. Then: 'Mam went back for the pit boys. She'd got them as far as the fender.' She turns the pencil over in her fingers, and over. 'They've written her name on the brick. Someone has. I can't go and look.'".
+    Says "Nan looks at her hands. 'It burned,' she says. 'Nine o'clock. Like a door opening onto the sun.' Then: 'Mam went back for the pit boys. She'd got them as far as the fender.' She turns the pencil over in her fingers, and over. 'They've written her name on the brick. Someone has. I can't go and look.'".
   }
   Topic nan_kit with nan "Ask Nan Collier about Kit Lacey" when knows(actor, kit_nan) and hearthBurned(hollins) once {
     Says "Nan takes a scrap of paper out of her pocket and shows you: TWICE, in her own big pencil, and above it, in a careful schooled hand, a whole letter she has read so often it is coming apart at the folds. 'Kit Lacey,' she says. 'Up the Stair. Dame Honor's nephew, the heir of the Small House.' She folds it up again. 'He writes like a book. I write like a collier. He's never seen me, and I've never been up the Stair.' She looks at the burned grate. 'He'll be ashamed. When he sees. A collier, with a burned house.'".
@@ -171,6 +171,6 @@ Module hollins "Behind the Wainscot" {
 
   // ── The tea table ─────────────────────────────────────────────────────────────────────────────────────────────────
   Observe table_scene at tea_table when true "The top of the tea table is a polished field of walnut, with a lace cloth over half of it like a frozen sea. The tea things stand on it like the buildings of a city: the pot a domed hall of blue and white china, the sugar bowl a round tower with tongs in it like a crane, a cup and saucer, a plate with a cake on it as big as a haystack and smelling of caraway.".
-  Observe table_lady at tea_table as ambience when at(lady, tea_table) "The Lady's hand comes down out of the air, slowly, with a fingertip the size of a loaf, and feels across the cloth for the cup, and finds it; and lifts it out of sight; and after a long while sets it down again, so close to you that the saucer rings like a bell.".
+  Observe table_lady at tea_table as ambience when at(lady, tea_table) "The Lady's hand comes down out of the air, slowly, with a fingertip the size of a loaf, and feels across the cloth for the cup, and finds it; and lifts it out of sight; and sets it down again, so close to you that the saucer rings like a bell.".
   Observe table_pye at tea_table as ambience when at(lady, tea_table) and at(pye, tea_table) "Mrs Pyecroft is reading aloud from somewhere up by the Lady's shoulder: the shipping news, three months old.".
 }

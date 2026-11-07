@@ -60,7 +60,7 @@ describe('The Long Man', () => {
     await Dale.act(s, '^To Merrow green', '^To the Hall yard');
     await Dale.until(s, 100);
     await Dale.act(s, '^Into the Hall cellar', '^Take from', '^Out to the Hall yard');
-    expect(Dale.said(await Dale.act(s, '^Give a sack of bell-teeth'))).toContain('sound like a bell');
+    expect(Dale.said(await Dale.act(s, '^Give a sack of bell-teeth'))).toContain('every dog in Merrow lifts its head');
     expect(Dale.holds(s, 'state', 'longman__leak_gate', 'longman__mended')).toBe(true);
     expect(Dale.holds(s, 'at', 'longman__wet', 'longman__core')).toBe(true);
     // Seen through, the dale is a level's experience to each (its goal had been lost, written in its second file), and

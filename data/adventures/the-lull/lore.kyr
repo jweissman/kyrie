@@ -1,0 +1,20 @@
+Module lull "The Lull" {
+  Description "Links outward from Linger: a shift that is still being worked somewhere else, the Glossary shown a Collegium book, and a surveyor with a chain.".
+
+  // ── A world event, read: the Old Shift hears of a ship ──────────────────────────────────────────────────────────
+  Observe lore_shift_ship at almshouse when befell(remainder_kept) "One of the Old Shift has been moved to the window and sits looking out at nothing, with her hands going. 'There is a ship,' she says, to no one, 'that has been left on the other side of a door, and they are sailing on, and nobody has relieved the watch.' The warden says she has said it since Tuesday. 'It is only the Shift,' he says. 'They do get a feeling when somebody else is still on.'".
+
+  // ── A visitor from elsewhere: the Collegium's glossary ──────────────────────────────────────────────────────────
+  Discovery lore_glossary_kin "The Collegium's glossary of the old script, shown to the Glossary's keeper, has a column of marks that the Glossary of Linger has in the margin of its own Rule, a hundred years apart in the same hand.".
+  Topic lore_aldith_glossary with aldith "Show Aldith Mote the Collegium's glossary" when holding(actor, old_glossary) once {
+    Says "Aldith turns the book over, weighs it in her palm like a loaf, and says nothing for long enough that you wonder whether she heard. Then she crosses to the shelf behind her and takes down a thin volume, bound in the grey of the almshouse, and lays the two side by side. 'The marks in the margin of our Rule,' she says, 'and the marks in your column. The same. Not the same words. The same hand: look how it makes the descender.' Her mouth works. 'Somebody carried a column of marks from wherever this came from, and copied it into the Rule of a house for tired people. We have said the Rule aloud for two hundred years.' She closes the almshouse book on her finger. 'I think we have been reading someone else's letter.'".
+    On discuss { Assert knows(actor, lore_glossary_kin). }
+  }
+
+  // ── The surveyor, and the almanack woman ────────────────────────────────────────────────────────────────────────
+  Discovery lore_pym_lull "Orlando Pym of the Collegium of Measures chained the march road at Sixways and found the Lull nine chains shorter at the Fold than it is on the Collegium's table. He has gone on to the Pass at Larum before the White comes down.".
+  Topic lore_dorcas_pym with dorcas "Ask Dorcas Trewin about the man with a chain" when true once {
+    Says "'He sat there,' says Dorcas, pointing with her chin at the window-seat, 'and ate a pie with one hand and wrote in a book with the other, and did not spill. Pym. From the Measures. He had a boy to hold the stake.' She leans on the bar. 'He said the Lull is nine chains shorter at the Fold than it is in the Collegium. I said, perhaps it has been shortened. He wrote that down. Went on up toward Larum and the Pass, before the snow, he said, to get the Teeth.' She considers. 'He never asked once whether anyone here was asleep. Everyone else asks.'".
+    On discuss { Assert knows(actor, lore_pym_lull). }
+  }
+}

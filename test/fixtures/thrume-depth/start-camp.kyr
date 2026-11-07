@@ -1,0 +1,5 @@
+Module thrume "Thrume" {
+  // Brannoc's deep camp on its own, the cutting already stopped (the shipped route does it with the Margravine's seal).
+  Company party "Your company" of 3 at brannoc_camp.
+  Initially Assert stopped(brannoc).
+}

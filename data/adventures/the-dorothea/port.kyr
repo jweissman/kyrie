@@ -1,0 +1,186 @@
+Module dorothea "The Dorothea" {
+  Description "Tolleth, a salt-and-herring port at the end of a long road; the ketch Dorothea at her quay; and her calls: Skerrow, a night and a morning out, where a lamp has burned since before the roads; Port Ness, the salt; the Antlers, a night away among the stacks. All of it is the paper of a counting-house in Orsett.".
+
+  // The port, the ship and the island are three places with no way between them on foot. The ship is a thing that is
+  // at a place: the quay, then the Sound, open water, the Combs, the roads of Skerrow. The company, aboard, goes about
+  // her deck and does not leave her; where she is, is a fact of the world, and the clock moves her.
+  Place tolleth "Tolleth" is region.
+  Place harbour "Tolleth harbour" is settlement within tolleth at 0, 0.
+  Place road_wild "the coast road" is wilderness within tolleth at 0, 1.
+  Place road_end "the end of the coast road" is room within road_wild at 0, 0.
+  Place anchor_inn "the Anchor and Hope" is building within harbour.
+  Place chandlery "Garrick's chandlery" is building within harbour.
+  Place office "the harbourmaster's office" is building within harbour.
+  Place quay "Tolleth quay" is room within harbour at 1, 1.
+  Place taproom "the Anchor and Hope" is room within anchor_inn at 0, 1.
+  Place shop "Garrick's chandlery" is room within chandlery at 2, 1.
+  Place harbourmaster "the harbourmaster's office" is room within office at 1, 0.
+  Place nowhere "nowhere" is room within road_wild at 9, 9.
+
+  Passage coast_road "the coast road" is road between road_end and quay taking 30 minutes.
+  Passage inn_door "the Anchor's door" is door between quay and taproom.
+  Passage shop_door "Garrick's door" is door between quay and shop.
+  Passage office_door "the harbourmaster's door" is door between quay and harbourmaster.
+
+  Observe road_scene at road_end when true "The coast road comes down off the moor to a harbour the colour of slate, with a smell of tar and herring on the wind. Masts stand in it close as reeds, and beyond the harbour mouth a grey line that might be cloud or might be an island.".
+  Observe quay_scene at quay when true "Tolleth quay: a curved stone wall, bollards worn to the shape of ropes, barrels in rows, gulls. A notice board outside the harbourmaster's door gives the tides and the sailings in chalk: ORSETT, WED. PORT NESS (SALT), SAT. THE ANTLERS, WHEN THE PILOT IS SOBER. SKERROW, THE NOON EBB (DOROTHEA). ASHKELD (STONE), THREE DAYS, WHEN THE HOUSE REMEMBERS. MANGROW (BARK), FIVE DAYS SOUTH, FEVER ALLOWING. Under it, in another hand and a different chalk, a column of names with a cross against each, and the heading LOST THIS YEAR: MARY ANN, THE COMBS, LAMMAS. ROSA LIND, THE HOLM BAR. TERN, THE ANTLERS RACE. A fourth line has been begun, and rubbed out, and begun again. Each sailing is chalked with a small key-and-ring at the end of its line, the way a brewer brands a cask.".
+  Observe taproom_scene at taproom when true "A low taproom full of men with salt in their hair, and a fire that smokes when the wind is in the west. A slate by the door has names on it, and sums.".
+  Observe shop_scene at shop when true "Garrick's: rope in coils like sleeping snakes, tar in kegs, oilskins on pegs, a rack of lead-lines. The smell is enough to give a landsman a headache and a seaman a sentimental turn.".
+  Observe office_scene at harbourmaster when true "A narrow room with a tide-table on the wall as long as a man, a barometer that has not been believed since it was hung, and a ledger of sailings in a neat hand, ruled in two columns, the right-hand one headed in small capitals W.R. and not read.".
+
+  Person bascom "Captain Ingrith Bascom" at quay {
+    Role "master of the ketch Dorothea". Ancestry human. Calling ranger. Level 4. Peaceable. Pronouns she. Manner stoic.
+    Likeness "sailor".
+    Greets "A broad woman in a man's coat, a clay pipe unlit between her teeth, stands with her arms folded at the foot of the Dorothea's gangway, counting casks as they go up. She counts them again as you speak to her. 'Passage to Skerrow,' she says. 'A night and a morning if the wind holds, two days if it doesn't, and I don't discuss the other thing.'".
+  }
+  Person pellow "Wat Garrick" at shop {
+    Role "chandler". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Sells rope for 1 coin from 4. Sells rations for 2 coin from 6. Sells torch for 1 coin from 6.
+    Sells dorothea_netting for 2 coin from 4.
+    Greets "Wat Garrick looks up from a coil he is whipping, and at your boots, and says that nobody goes to Skerrow in those, and then sells you something.".
+  }
+  Person harbourman "Dacey Hoe" at harbourmaster {
+    Role "harbourmaster". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
+    Greets "Dacey Hoe does not look up from the ledger. 'Sailings are chalked on the board,' she says. 'The Dorothea goes on the noon ebb, Bascom's never missed a tide in her life and has no intention of starting on yours.'".
+  }
+  Person drinkers "the Anchor's regulars" at taproom {
+    Role "seamen and pilots' men". Ancestry human. Numbers 4. Peaceable.
+  }
+  Topic drinkers_skerrow with drinkers "Ask the regulars about Skerrow" when true once {
+    Says "'A night out, and nothing on it but sheep and a lamp,' says a man with one eye. 'The lamp's the Aeneans'. It's been lit since before there was a Tolleth, and the Kestles have trimmed it, father to son, and never once been thanked.' 'The Combs are what you want to mind,' says another. 'Not the sea, the Combs. They've a name for a ship that doesn't make the passage on the morning flood.' He doesn't say what the name is.".
+  }
+  Topic drinkers_bascom with drinkers "Ask the regulars about Captain Bascom" when true once {
+    Says "'Honest,' says the one-eyed man, in the tone of a man giving a bad report. 'Owes the salt-factor in Orsett sixty crowns for the Dorothea's new keel, and the factor's wife's brother has the island lease. She'll make the passage if it kills her.' He drinks. 'It might.'".
+  }
+
+  // ── Booking a passage ───────────────────────────────────────────────────────────────────────────────────────────
+  // Six coin, or the company's backs at the casks, or neither and a quiet hour in the dark. Whichever it is, the
+  // Dorothea goes on the noon ebb and does not wait.
+  Relation booked(group). Relation workedPassage(group). Relation stowedAway(group). Relation paidFare(group). Relation asked(group).
+  Topic bascom_passage with bascom "Ask Captain Bascom for passage to Skerrow" when not booked(actor) once {
+    Says "'Six coin a head, in coin,' says Bascom, 'or a back at the casks till the tide, which I'll count as three. Cargo's salt for the island's pickling and lamp oil for the Pharos, and I'm forty casks short of a full hold and a day behind my debt.' She takes the pipe out. 'Noon. I go on the noon ebb. If you are not on my deck at noon you are on my quay, and I'll be sorry for you in a general way.'".
+    On discuss { Assert asked(actor). }
+  }
+  Topic bascom_why with bascom "Ask Captain Bascom why she sails to Skerrow" when asked(actor) once {
+    Says "'To sell salt, and to buy fish, and because the lease on the island's landing is the Orsett factor's and the Orsett factor will have my keel for his brother-in-law by Michaelmas if I miss a call.' She looks past you at the grey line beyond the harbour mouth. 'And because someone has to. The Pharos is lit. Do you know how many lights are lit on this coast that no one pays for? One. A lamp that was lit before Tolleth had a name.'".
+  }
+  Action pay_fare(actor: group, site: place) "Pay Captain Bascom six coin for a passage to Skerrow" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(bascom, site) and at(actor, quay) and asked(actor) and not booked(actor) and bound(hull) == 1 and quantity(actor, gold) >= 6.
+    Time 1.
+    On success { Decrease quantity(actor, gold) by 6. Increase quantity(bascom, gold) by 6. Assert booked(actor). Assert paidFare(actor). }
+    Result "Bascom counts the coin twice into her palm and puts it away in a pocket that has seen it before. 'Gangway's down,' she says. 'Mind the third rung.'".
+  }
+  Action carry_casks(actor: group, site: place) "Work your passage: carry casks up the gangway until the tide" {
+    Description "Forty casks short of a full hold, and the whole company's backs. It works whichever call she is to make.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(bascom, site) and at(actor, quay) and asked(actor) and not booked(actor) and capable(actor, brawn) and watch(clock) < sailAfter(hull) - 2.
+    Time 8.
+    On success { Assert booked(actor). Assert workedPassage(actor). }
+    Result "You carry casks for an hour and a half, and the quay learns your name. Bascom says nothing, which from her is warmth. Her mate, a long man called Rune who has been watching from the rail, says you've a good back, for a landsman, and goes below.".
+  }
+  Action slip_aboard(actor: group, site: place) "Slip aboard unseen among the casks" {
+    Description "The tide is near. The gangway is not watched all the time.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, quay) and not booked(actor) and capable(actor, stealth).
+    Time 2.
+    Resolve check(actor, stealth, dc_fair).
+    On success { Assert booked(actor). Assert stowedAway(actor). }
+    Result "You go up with the casks, and you are a cask. Below, in the dark of the hold, nobody asks you anything.".
+    Otherwise "You go up behind a cask and a gull screams at you. Bascom does not look round. 'Six coin,' she says, 'or the quay.'".
+  }
+
+  // ── Where to: the calls ─────────────────────────────────────────────────────────────────────────────────────────
+  // Bascom makes one call a voyage and comes home. Skerrow is the one on the board in capitals; she will put in at
+  // Port Ness or the Antlers instead for another fare. The call is fixed before the fare is paid; the fare, the road
+  // and the way home follow it (voyage.kyr, return.kyr). A company left abroad finds her coming back to where it is.
+  Relation askedCalls(group).
+  Topic bascom_calls with bascom "Ask Captain Bascom where else she calls" when asked(actor) once {
+    Says "'Skerrow, six coin; you know it. Port Ness, four: the salt. A long afternoon out, a night in the barn if you like, and back with the lighters' leavings. The Antlers, eight, on account of the race, and on account of the pilot, who is a man that has to be found sober.' She shifts the pipe. 'There is Ashkeld, twelve, three days south-west, if you like your supper warm. And Mangrow, sixteen, five days south, up a river: bark, and a fever for those who go in without netting. Most of them are the House's paper, as it happens, the House of Marchbank, Orsett. You'll find a man of the House on most of them. You'll know them by the colour of their books.'".
+    On discuss { Assert askedCalls(actor). }
+  }
+  Action course_skerrow(actor: group, site: place) "Ask Captain Bascom to make her call Skerrow after all" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(bascom, site) and at(actor, quay) and asked(actor) and not booked(actor) and not sailed(hull) and bound(hull) > 1.
+    Time 0.
+    On success { Set bound(hull) to 1. Set seaEnd(hull) to 100. Set stayFor(hull) to 217. Set homeOpenAt(hull) to 32. Set homeSoundAt(hull) to 120. Set homeQuayAt(hull) to 160. }
+    Result "'Skerrow, then,' says Bascom. 'Six coin. Mind the third rung.'".
+  }
+  Action course_ness(actor: group, site: place) "Ask Captain Bascom to put in at Port Ness (four coin)" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(bascom, site) and at(actor, quay) and asked(actor) and not booked(actor) and not sailed(hull) and (bound(hull) < 2 or bound(hull) > 2).
+    Time 0.
+    On success { Set bound(hull) to 2. Set seaEnd(hull) to 56. Set stayFor(hull) to 96. Set homeOpenAt(hull) to 6. Set homeSoundAt(hull) to 34. Set homeQuayAt(hull) to 70. }
+    Result "'Port Ness,' says Bascom, as if tasting it. 'Four coin. Salt and sulphur and a clerk who counts my casks twice. I'll be in by dusk.'".
+  }
+  Action course_antlers(actor: group, site: place) "Ask Captain Bascom to put in at the Antlers (eight coin)" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(bascom, site) and at(actor, quay) and asked(actor) and not booked(actor) and not sailed(hull) and (bound(hull) < 3 or bound(hull) > 3).
+    Time 0.
+    On success { Set bound(hull) to 3. Set seaEnd(hull) to 88. Set stayFor(hull) to 130. Set homeOpenAt(hull) to 8. Set homeSoundAt(hull) to 64. Set homeQuayAt(hull) to 100. }
+    Result "'The Antlers.' Bascom turns the pipe over and looks at it. 'Eight coin. There's a pilot, if he's sober. If he isn't I'll be asking you for a favour at the race.'".
+  }
+  Action course_ashkeld(actor: group, site: place) "Ask Captain Bascom to put in at Ashkeld, the burning island (twelve coin)" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(bascom, site) and at(actor, quay) and asked(actor) and not booked(actor) and not sailed(hull) and askedCalls(actor) and (bound(hull) < 4 or bound(hull) > 4).
+    Time 0.
+    On success { Set bound(hull) to 4. Set seaEnd(hull) to 370. Set stayFor(hull) to 150. Set homeOpenAt(hull) to 8. Set homeSoundAt(hull) to 352. Set homeQuayAt(hull) to 388. }
+    Result "'Ashkeld.' Bascom says it the way people say the name of a relative who has been in prison. 'Three days out and three back, and the House has not called there in two seasons. Twelve coin. I will not tell you it is a pretty place.'".
+  }
+  Action course_mangrow(actor: group, site: place) "Ask Captain Bascom to put in at Mangrow, up the river (sixteen coin)" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(bascom, site) and at(actor, quay) and asked(actor) and not booked(actor) and not sailed(hull) and askedCalls(actor) and bound(hull) < 5.
+    Time 0.
+    On success { Set bound(hull) to 5. Set seaEnd(hull) to 660. Set stayFor(hull) to 200. Set homeOpenAt(hull) to 8. Set homeSoundAt(hull) to 656. Set homeQuayAt(hull) to 692. }
+    Result "'Mangrow.' Bascom takes the pipe out and looks into the bowl as into a well. 'Five days south and five back, and a pier I will not trust with a line. Sixteen coin. Buy netting from Garrick. I am not saying it for your sake, I am saying it because Mab will not stop.'".
+  }
+  Action pay_fare_mangrow(actor: group, site: place) "Pay Captain Bascom sixteen coin for a passage to Mangrow" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(bascom, site) and at(actor, quay) and asked(actor) and not booked(actor) and bound(hull) == 5 and quantity(actor, gold) >= 16.
+    Time 1.
+    On success { Decrease quantity(actor, gold) by 16. Increase quantity(bascom, gold) by 16. Assert booked(actor). Assert paidFare(actor). }
+    Result "Sixteen coin, counted three times. 'South,' says Bascom, 'until the sea goes the colour of tea. Mind your hats.'".
+  }
+  Action pay_fare_ashkeld(actor: group, site: place) "Pay Captain Bascom twelve coin for a passage to Ashkeld" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(bascom, site) and at(actor, quay) and asked(actor) and not booked(actor) and bound(hull) == 4 and quantity(actor, gold) >= 12.
+    Time 1.
+    On success { Decrease quantity(actor, gold) by 12. Increase quantity(bascom, gold) by 12. Assert booked(actor). Assert paidFare(actor). }
+    Result "Twelve coin, counted twice. 'South-west by west,' says Bascom, 'until the sea goes the wrong colour.'".
+  }
+  Action pay_fare_ness(actor: group, site: place) "Pay Captain Bascom four coin for a passage to Port Ness" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(bascom, site) and at(actor, quay) and asked(actor) and not booked(actor) and bound(hull) == 2 and quantity(actor, gold) >= 4.
+    Time 1.
+    On success { Decrease quantity(actor, gold) by 4. Increase quantity(bascom, gold) by 4. Assert booked(actor). Assert paidFare(actor). }
+    Result "Four coin into the broad palm. 'Salt,' says Bascom. 'Mind your boots, the barn eats leather.'".
+  }
+  Action pay_fare_antlers(actor: group, site: place) "Pay Captain Bascom eight coin for a passage to the Antlers" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(bascom, site) and at(actor, quay) and asked(actor) and not booked(actor) and bound(hull) == 3 and quantity(actor, gold) >= 8.
+    Time 1.
+    On success { Decrease quantity(actor, gold) by 8. Increase quantity(bascom, gold) by 8. Assert booked(actor). Assert paidFare(actor). }
+    Result "Eight coin. Bascom counts it, and then looks along the quay for something she has not found. 'The pilot,' she says. 'Find him before noon.'".
+  }
+
+  // The Antlers' pilot: asleep at the foot of the board, with his hat over his face. The race is not run drunk.
+  Person rudd "Fenwick Pelham" at quay {
+    Role "pilot of the Antlers race". Ancestry human. Calling ranger. Level 3. Peaceable. Pronouns he. Manner jovial.
+    Likeness "sailor".
+    Greets "A broad red man in a pilot's blue coat lies along a coil of rope at the foot of the notice board with his hat over his face and one boot off. 'Not drunk,' he says, without moving the hat. 'Resting my judgement. There is a difference, and it is eleven pints.'".
+  }
+  Relation ruddSober(group).
+  Topic rudd_race with rudd "Ask Fenwick Pelham about the Antlers race" when true once {
+    Says "'A street with a hundred corners and every one of them has a stone on it,' says Pelham. He lifts the hat an inch. 'Nobody has run it blind and lived to be sorry, so they say. I've run it sober eleven hundred times and drunk twice. Don't ask me to choose which was better.' He puts the hat back. 'The House pays my retainer. By the quarter. When it pays.'".
+  }
+  Action walk_rudd(actor: group, site: place) "Walk Fenwick Pelham up and down the quay until he can see straight" {
+    Description "He will complain the whole way. It takes the better part of an hour.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(rudd, site) and at(actor, quay) and not ruddSober(actor) and not sailed(hull).
+    Time 6.
+    On success { Assert ruddSober(actor). }
+    Result "You get him up between you and walk him the length of the quay and back, and again, with the gulls watching. By the third turn he has stopped swearing; by the fifth he is reading the sky. 'Southerly by dark,' he says, in a voice from a different man. 'Where am I wanted?'".
+  }
+  Action pay_rudd_slate(actor: group, site: place) "Pay Fenwick Pelham's slate at the Anchor, four coin, so that he goes to bed early" {
+    Description "The slate by the taproom door has sums on it. Four of them are his.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(rudd, site) and at(actor, quay) and not ruddSober(actor) and not sailed(hull) and quantity(actor, gold) >= 4.
+    Time 2.
+    On success { Decrease quantity(actor, gold) by 4. Assert ruddSober(actor). }
+    Result "The barman wipes four sums off the slate with a thumb. Pelham watches it done with the face of a man at his own funeral, and says nothing, and goes in to sleep, and comes out at noon looking like a bishop.".
+  }
+  Rule rudd_ships when sailed(hull) and bound(hull) == 3 and ruddSober(party) and not pilotAboard(hull) {
+    Assert pilotAboard(hull). Retract at(rudd, quay). Assert at(rudd, helm).
+  }
+
+  Topic hoe_ledger with harbourman "Ask Dacey Hoe what the second column in her ledger is" when true once {
+    Says "'Premiums,' says Dacey Hoe, 'on the left. I collect them for the House on every hull that clears, a shilling a ton, since my predecessor.' She turns the book. 'And the right is the hulls that did not. W.R. Eleven this year. I took the House's word that W.R. was a thing in law. I wrote the names. I did not read the margins.' She has read them now. In pencil, against nine of the names: NO LIGHT.".
+    On discuss { Assert leafTolleth(actor). Increase leaves(actor) by 1. Assert knows(actor, leaf_tolleth_d). }
+  }
+}

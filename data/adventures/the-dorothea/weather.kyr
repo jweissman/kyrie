@@ -1,0 +1,100 @@
+Module dorothea "The Dorothea" {
+  Description "A table of the sea, drawn by the ship's own die: while she is in open water and not in trouble, each watch may bring one of five things (a squall, a drifting lantern, a fever, a calm, a fishing fleet). Two at most on a passage; which, and when, differ with the seed. Each is a Kyr rule keyed on dice(hull), so the table is data in the module and needs nothing from the engine.".
+
+  Measure seaDrawn(entity). Measure seaAt(entity).
+  // seaQuiet: a flat-calm passage (the table is off); the fixed-timeline tests of the first pass use it.
+  Relation seaQuiet(entity). Relation squall(entity). Relation raft(entity). Relation fever(entity). Relation calm(entity).
+  Relation squallDone(entity). Relation raftDone(entity). Relation feverDone(entity). Relation calmDone(entity). Relation fleetDone(entity).
+  Initially Set seaDrawn(hull) to 0.
+
+  // The window: open water, outward, not in other trouble, and not so near the Kestrel's hail that the two crowd.
+  // The table, by the ship's die for the watch (1-100):  1-5 squall  6-10 raft  11-15 fever  16-20 calm  21-25 fleet.
+
+  Rule sea_squall when at(hull, open_sea) and sailed(hull) and not troubled(hull) and seaWindow(hull) and seaDrawn(hull) < 2 and not seaQuiet(hull) and not squallDone(hull) and dice(hull) <= 5
+    says "The horizon to windward has gone the colour of a bruise, and the swell, which was long and idle, shortens. Bascom looks at it, and at the sky over it, and then at Rune. 'Reef,' she says. 'Now.'" {
+    Assert squall(hull). Assert squallDone(hull). Assert troubled(hull). Increase seaDrawn(hull) by 1.
+  }
+  Observe squall_deck at deck when squall(hull) "Rain comes across the deck in a sheet. The Dorothea lies over until the lee rail drinks, and every rope aboard has stopped humming and begun to scream.".
+  Action reef_down(actor: group, site: place) "Go aloft with Rune and take in the topsail" {
+    Description "A wet sail is a wet sail, and a wet sail in a squall is a hundred pounds of someone else's temper.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, deck) and squall(hull).
+    Time 2.
+    Resolve check(actor, wayfinding, dc_fair).
+    On success { Retract squall(hull). Retract troubled(hull). }
+    On failure { Retract squall(hull). Retract troubled(hull). Increase water(hull) by 8. Assert holed(hull). }
+    Result "You go up the shrouds on your hands and your hope, and the sail comes in in armfuls, and Rune's hand is at your belt the whole time as if you were a thing he had paid for. By the time you are down the worst of it has gone over, and Bascom, at the wheel, has the look of someone who has won an argument with the weather by refusing to have it.".
+    Otherwise "The sail takes you for its own and, for a moment, you are not sure it is wrong. Rune gets it in, and you, and the Dorothea takes a sea over the beam that finds the seam by the mast-step. It is a small seam. It will not stay one.".
+  }
+  Action run_before_it(actor: group, site: place) "Bear away and run before the squall" {
+    Description "Nobody was ever hurt by running. It costs the watches that it costs.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, deck) and squall(hull).
+    Time 6.
+    On success { Retract squall(hull). Retract troubled(hull). Increase water(hull) by 3. Assert holed(hull). }
+    Result "Bascom puts the wind on her quarter and lets the Dorothea go, and for an hour the sea goes under her like a road. When the sky lightens you are a long way to leeward of where you meant to be, and a little wetter, and the hold has a quarter-inch more in it than it had.".
+  }
+
+  Rule sea_raft when at(hull, open_sea) and sailed(hull) and not troubled(hull) and seaWindow(hull) and seaDrawn(hull) < 2 and not seaQuiet(hull) and not raftDone(hull) and dice(hull) > 5 and dice(hull) <= 10
+    says "A speck on the water, to larboard, in the last of the light, and the speck is a light. Not a ship's: lower, steadier, riding on something flat. Mab, who sees it first, makes the sign against nothing in particular." {
+    Assert raft(hull). Assert raftDone(hull). Assert troubled(hull). Increase seaDrawn(hull) by 1. Set seaAt(hull) to watch(clock).
+  }
+  Observe raft_deck at deck when raft(hull) "A raft of lashed casks, black with weed, with a stable lantern wired to a post at its middle. The lantern is lit, and has been filled this week, which is the odd part. On the post, in a hand a century out of fashion, is nailed a board with one word on it: HOLM.".
+  Action take_the_lantern(actor: group, site: place) "Fish the lantern off the raft with a boat-hook" {
+    Description "It is warm and nearly full. Whoever lit it did not mean it for the ship.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, deck) and raft(hull).
+    Time 2.
+    On success { Give lantern to actor. Assert raftLantern(actor). Retract raft(hull). Retract troubled(hull). }
+    Result "Rune gets the hook through the ring, and you bring it over the rail. Mab trims the wick, sniffs the oil, and says it is lamp-oil like any other, which she seems to find the worst of it. She sets it on a cask in the galley, where she can see it.".
+  }
+  Action leave_the_raft(actor: group, site: place) "Sail on, and leave it burning" {
+    Description "There are lights in the world that are for someone else.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, deck) and raft(hull).
+    Time 1.
+    On success { Retract raft(hull). Retract troubled(hull). }
+    Result "The raft draws astern, and the lantern is a spark, and then it is Bascom's pipe, as she lights it from the binnacle and looks the other way.".
+  }
+
+  Rule sea_fever when at(hull, open_sea) and sailed(hull) and not troubled(hull) and seaWindow(hull) and seaDrawn(hull) < 2 and not seaQuiet(hull) and not feverDone(hull) and dice(hull) > 10 and dice(hull) <= 15
+    says "Nipper does not come up for the morning watch. Mab goes down for him, and comes back up faster than she went, and says to nobody: 'He's burning.'" {
+    Assert fever(hull). Assert feverDone(hull). Assert troubled(hull). Increase seaDrawn(hull) by 1.
+  }
+  Observe fever_deck at deck when fever(hull) "Below, in the fo'c'sle, a boy sweats in a hammock, with a face the colour of tallow, and mutters in the voice of someone describing a house to a person who is not there.".
+  Action tend_the_boy(actor: group, site: place) "Sit with the boy through the worst of it" {
+    Description "It is an old fever and an old cure: water, a wet cloth, and someone to be awake.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, deck) and fever(hull).
+    Time 4.
+    Resolve check(actor, insight, dc_easy).
+    On success { Retract fever(hull). Retract troubled(hull). }
+    On failure { Retract fever(hull). Retract troubled(hull). Decrease cargo(hull) by 2 or to nothing. }
+    Result "You keep the cloth cold and the boy talking, and sometime before light his fever breaks like a plate. 'Mother,' he says, quite clearly, 'the Combs.' Then he sleeps.".
+    Otherwise "You do what you can, and what you can is not quite it. He lives; but Mab spends two casks of the Pharos oil on a poultice, and does not say sorry, and does not look at the Captain.".
+  }
+  Action say_the_office_for_the_sick(actor: group, site: place) "Say the office for the sick over the boy" {
+    Description "A short office, in the dialect of any harbour church. The words are less than the voice.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, deck) and fever(hull) and capable(actor, rites).
+    Time 2.
+    On success { Retract fever(hull). Retract troubled(hull). }
+    Result "The office is short and has a gap in it for the sick person's name. You do not know the boy's second name and say 'Nipper', and Mab, at the door, nods as at a thing correctly entered. The fever lets go of him as a hand lets go of a rail.".
+  }
+
+  Rule sea_calm when at(hull, open_sea) and sailed(hull) and not troubled(hull) and seaWindow(hull) and seaDrawn(hull) < 2 and not seaQuiet(hull) and not calmDone(hull) and dice(hull) > 15 and dice(hull) <= 20
+    says "The wind goes out of the afternoon like a held breath. The sails hang. The sea becomes a plate, a green one, with the Dorothea set down on it for someone to look at." {
+    Assert calm(hull). Assert calmDone(hull). Assert troubled(hull). Increase seaDrawn(hull) by 1. Set seaAt(hull) to watch(clock).
+  }
+  Observe calm_deck at deck when calm(hull) "Nothing moves. A gull sits on the water a cable off and does not trouble to be anywhere else. The only sound is the ship's own timbers settling, one at a time, like old people sitting down.".
+  Action sweeps_out(actor: group, site: place) "Man the sweeps and row her on" {
+    Description "The Dorothea carries two long oars for harbours. Nobody built her to be rowed twelve miles.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, deck) and calm(hull) and capable(actor, brawn).
+    Time 6.
+    On success { Retract calm(hull). Retract troubled(hull). }
+    Result "You and Rune and the cook take a sweep apiece. It is slow, wet, and unlovely. By the time a breath of wind comes, you have moved the Dorothea half a mile and your hands will not close.".
+  }
+  Rule calm_ends when calm(hull) and watch(clock) >= seaAt(hull) + 12 says "A cat's paw crosses the plate, and another, and the topsail fills, and someone aft clears his throat as if he had done it. Bascom lets out a breath. 'There,' she says, as if she had arranged it." {
+    Retract calm(hull). Retract troubled(hull).
+  }
+
+  // A fleet is not a trouble: it is the sea being inhabited. It does not stop the count.
+  Rule sea_fleet when at(hull, open_sea) and sailed(hull) and not troubled(hull) and seaWindow(hull) and seaDrawn(hull) < 2 and not seaQuiet(hull) and not fleetDone(hull) and dice(hull) > 20 and dice(hull) <= 25
+    says "Sails, a dozen of them, tan and patched, working the swell in a loose line: a Port Ness salt-fleet at its drift-nets, with gulls over it like a second sky. A boat comes alongside with a basket of herring and a hail across the water, and Bascom answers it with a word and an arm. 'Ah,' says the man, and looks at her sails, and at the sea. 'Mind the lights, then. There are fewer of them every year. We lost the Mary Ann on the Combs at Lammas, and there was a night the Pharos was the only one of the lot of them showing.'" {
+    Assert fleetDone(hull). Increase seaDrawn(hull) by 1.
+  }
+}

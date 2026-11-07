@@ -25,7 +25,7 @@ Module hessel "The Banns at Hessel" {
     On discuss { Assert knows(actor, ottery_summons). }
   }
   Topic ottery_promise with ottery "Tell Dr Ottery you will be at the Beacon at seven, and walk to Orm with him" when knows(actor, ottery_summons) and not witnessPromised(actor) and dayN(hessel_town) == 1 once {
-    Says "Ottery looks at you for a long moment over his spectacles. 'You,' he says. 'A stranger. Of good character.' He considers it. 'Well, nobody knows you're not. Seven. Don't be late. The College hangs about for nobody, and it'll strike me off for the pleasure of not having to read my letters.'".
+    Says "Ottery looks at you over his spectacles. 'You,' he says. 'A stranger. Of good character.' He considers it. 'Well, nobody knows you're not. Seven. Don't be late. The College hangs about for nobody, and it'll strike me off for the pleasure of not having to read my letters.'".
     On discuss { Assert witnessPromised(actor). }
   }
   // The one truth he has kept back, for nine years, at someone else's asking.
@@ -178,7 +178,7 @@ Module hessel "The Banns at Hessel" {
     On discuss { Assert saidLiedForGood(actor). }
   }
   Topic answer_wrong with ottery "Tell him: yes, and it was wrong, and you knew it" when askedCrossways(actor) and not saidNeverLied(actor) and not saidLiedForGood(actor) and not saidLieWrong(actor) once {
-    Says "Ottery is silent a long time. 'Yes,' he says at last. 'That's the usual way of it.' He pushes himself off the gibbet's post. 'Come on. The College won't wait, and I find I want to get there.'".
+    Says "Ottery walks four paces before he answers. 'Yes,' he says. 'That's the usual way of it.' He pushes himself off the gibbet's post. 'Come on. The College won't wait, and I find I want to get there.'".
     On discuss { Assert saidLieWrong(actor). }
   }
   // Orm gate: the turn, and the choice.
@@ -207,7 +207,7 @@ Module hessel "The Banns at Hessel" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, orm_gate) and following(ottery, actor) and not otteryDecided(ottery).
     Time 2 minutes.
     On success { Assert otteryFugitive(ottery). Assert otteryStruck(ottery). Assert otteryDecided(ottery). }
-    Result "'Back,' says Ottery. 'Struck off in my absence, unlicensed, and back to the ward that's turned me off.' He looks at the College's grey gate for a long moment. Then he laughs. 'Well, they can't strike me off it twice,' he says. 'The carrier goes at three. I'll buy you a pie.'".
+    Result "'Back,' says Ottery. 'Struck off in my absence, unlicensed, and back to the ward that's turned me off.' He looks at the College's grey gate, and laughs. 'Well, they can't strike me off it twice,' he says. 'The carrier goes at three. I'll buy you a pie.'".
   }
   // Too late for the College, whatever is chosen: it struck him off at noon in his absence.
   Rule college_sat when secondDay() and hour(clock) >= 12 and otteryOnRoad(ottery) and not otteryDecided(ottery) and not at(party, orm_gate) and not spread(college_sat_told) { Assert collegeMissed(ottery). Assert spread(college_sat_told). }

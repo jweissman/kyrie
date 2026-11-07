@@ -874,7 +874,7 @@ The lie of the land a region is: what a party's perks of place (an elven tribe i
 
 *Kyr · kind; relation(place, landkind)* · `rule:world_core.landkind`
 
-The land a stretch of country is (a river's vale, a wood, a mere, a pass): what a chart draws it as. The names are prefixed, as every module shares them and an author's own place may well be called "pass".
+Kinds no generator draws: an authored region says them (a sea of islands, a burning isle, a steaming green coast). The land a stretch of country is (a river's vale, a wood, a mere, a pass): what a chart draws it as. The names are prefixed, as every module shares them and an author's own place may well be called "pass".
 
 #### sizekind, townSize
 
@@ -2628,6 +2628,15 @@ The worlds that ship with the game.
 - Kits placed: —
 
 > Ombra is a city of masks. Between the Third Bell and the Ninth nobody in it is anybody: bakers are Cockles, ferrywomen Gulls, and to say aloud who is under a mask is the one crime the city will not forgive. The Registrar, who kept the Book of Faces, lies dead in her chapel in her white mask, and the Book is gone, and in nine days, if the Drawing is not held, every Office in Ombra dissolves at midnight. The law has one lawful move left: to hire a Bare, a stranger who is no one, to look at what no one may. You have fourteen coin, and the delta road under your feet.
+
+### The Dorothea
+
+*Kyr* · `campaign:the-dorothea`
+
+- Regions and sites: dorothea
+- Kits placed: —
+
+> At the end of the coast road lies Tolleth, a harbour full of masts, and out beyond the harbour mouth an island nobody goes to unless they must. The ketch Dorothea sails for it on the noon ebb. Choose three companions.
 
 ### The Grand Tour
 

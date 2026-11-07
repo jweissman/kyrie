@@ -19,7 +19,7 @@ Module tessary "What Tessary Owes" {
     Says "'Torches,' says Hannelore. 'The lads at the Factor's hall say if the Board's going to vote no, they'll go up the Terraces the night before and ask it again, louder. Fisk's getting them together on Scriveners' Row after dark, the night before the sitting.' She shakes her head. 'And the Factor says leave it to her, and pays for the torches. Work that out.'".
   }
   Topic gossip_coats_back with sedge "Ask Hannelore what they are saying in the Drum" when night(ossel) >= 11 and night(ossel) <= 12 and fiskTurned(fisk) once {
-    Says "'There's grey coats in the canal,' says Hannelore, and almost smiles. 'Fisk's been telling the lads at the Factor's hall what she wants them for, and some of them believed him. Half the Withies went fishing for coats this morning.' She looks at you. 'The Board sits the day after tomorrow. Ten in the morning. I've never been on the public bench in my life. I might go.'".
+    Says "Hannelore has a grey coat hanging off the end of the bar, dripping into a bucket, and she is not hiding it. 'Out of the canal,' she says. 'Fisk's been telling the lads at the Factor's hall what she wants them for, and some of them believed him. Half the Withies went fishing for coats this morning.' She wrings the sleeve out over the bucket. 'The Board sits the day after tomorrow. Ten in the morning. I've never been on the public bench in my life. I might go.'".
   }
   Topic gossip_board with sedge "Ask Hannelore what they are saying in the Drum" when night(ossel) == 13 and not voted(ossel) once {
     Says "'The Board's sitting,' says Hannelore. 'Ten till two, and then the count. Public bench is open to anyone who'll stand, and anyone with anything to say can stand up and say it, before two.' She unties her apron. 'Half the Withies is going. Mind, if the Board votes yes, the Factor's lost, and she doesn't like losing. I'd watch the Office of Seals tonight, if I were the Keeper. He sleeps in there with it.'".
@@ -28,7 +28,7 @@ Module tessary "What Tessary Owes" {
     Says "'Carried!' says Hannelore, and kisses you on both cheeks before you can stop her. Then she sobers. 'It's not done till the Seal's on the deeds tomorrow, mind. The Factor's lightermen were on Scriveners' Row this afternoon looking at the Keeper's windows. Somebody ought to sit up with him tonight.'".
   }
   Topic gossip_feast with sedge "Ask Hannelore what they are saying in the Drum" when night(ossel) == 14 once {
-    Says "'Feast tomorrow,' says Hannelore. 'Feast of Settlement, and the spring ebb with it. Fifteenth night.' She looks at the drum for a long time. 'There's people in the Withies hanging their sons' boots on the door. I don't know if it's for luck or the other thing.'".
+    Says "'Feast tomorrow,' says Hannelore. 'Feast of Settlement, and the spring ebb with it. Fifteenth night.' She rubs a clean place on the drum-skin with her apron, where it wants no rubbing. 'There's people in the Withies hanging their sons' boots on the door. I don't know if it's for luck or the other thing.'".
   }
 
   // The tenth night: an hour before he goes down the stair, the Treasurer goes to the head of it and stands there.

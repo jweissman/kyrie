@@ -1,0 +1,17 @@
+Module hessel "The Banns at Hessel" {
+  Description "Links outward from the Lim valley: a rumour of raiders on the coast, a letter-carrying commission, and the almanack woman's visit.".
+
+  // ── An entry point: raiders, and a Tolleth packet delayed ───────────────────────────────────────────────────────
+  Discovery lore_raiders_rumour "It is said in the Pump Room that raiders have been taking salt-boats off the western coast, and that the Tolleth packet, the Dorothea, is a week behind and her owners are not saying why.".
+  Topic lore_scrope_raiders with scrope "Ask Mrs Scrope what is said of the coast beyond the valley" when true once {
+    Says "'The coast,' says Mrs Scrope, with a delighted shudder. 'Raiders. Salt-boats taken off the Orsett shore, and not a soul hanged, which is what makes it so shocking. I have it from a lady whose son writes the manifests at Tolleth. The packet, the Dorothea, with a Captain Bascom, a woman, imagine, is a week behind. They say the Orsett factors have put a man aboard to count her oil.' She leans forward. 'Anyone with a good strong back and no engagements might take a passage. I should never. The sea is so very damp.'".
+    On discuss { Assert knows(actor, lore_raiders_rumour). }
+  }
+
+  // ── The almanack woman ──────────────────────────────────────────────────────────────────────────────────────────
+  Discovery lore_cattermole_hessel "Jessamy Cattermole sold Mrs Scrope the Season's only almanack that gives the moon right, and says the fourth change of Saint Ebba's peal is the same tune a ferryman hums at a town on the Wray.".
+  Topic lore_scrope_cattermole with scrope "Ask Mrs Scrope about the woman with the almanacks" when true once {
+    Says "'Mrs Cattermole!' Mrs Scrope claps her hands. 'Such a person. Six calendars and no two of them the same year, and she said, my dear, the year is a local arrangement, like a dialect. I bought the one that has the moon right. She told me the fourth change of the Sunday peal is wrong and always was wrong, and that a ferryman at a river town she calls the Wray hums it on his stage as a thing he was taught, and has no notion why.' She sits back. 'Imagine anyone humming anything on purpose. She has gone on to the Wray for the Third Night, she said. People do like a bridge-penny.'".
+    On discuss { Assert knows(actor, lore_cattermole_hessel). }
+  }
+}

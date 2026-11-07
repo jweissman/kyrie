@@ -189,8 +189,8 @@ Module quittance "Quittance" {
     Resolve check(actor, deception, dc_hard).
     On success { Assert wk_plantL(actor). Assert wk_fraud(actor). }
     On failure { Assert wk_exposed(actor). }
-    Result "You say it to him eleven times in a dead man's gruff patience, with the cloth half down, and on the twelfth he says it back, word-perfect, in a voice that Mr Teague would have owned. He looks pleased with himself.".
-    Otherwise "You say it eleven times and on the twelfth Fusby says it back in your voice. It is quite unmistakably your voice. He is delighted with it.".
+    Result "You say it to him nine times in a dead man's gruff patience, with the cloth half down, and on the tenth he says it back, word-perfect, in a voice that Mr Teague would have owned. He looks pleased with himself.".
+    Otherwise "You say it nine times and on the tenth Fusby says it back in your voice. It is quite unmistakably your voice. He is delighted with it.".
   }
   Action wk_plant_wife(actor: group, site: place) "Teach Fusby a sentence for the adjuster: 'To the Admiral, all of it, Rosalind'" {
     Requires able(actor) and company(actor) and at(actor, site) and at(wk_fusby, site) and state(wk_cage, open) and wk_pos(wk_fusby) >= 6 and wk_mood(wk_fusby) >= 2 and not wk_plantL(actor) and not wk_plantW(actor) and not wk_exposed(actor).
@@ -198,8 +198,8 @@ Module quittance "Quittance" {
     Resolve check(actor, deception, dc_hard).
     On success { Assert wk_plantW(actor). Assert wk_fraud(actor). }
     On failure { Assert wk_exposed(actor). }
-    Result "You say it to him eleven times, with feeling, and on the twelfth he says it back in Mr Teague's own breathy bass. It would not stand up in a court. It will stand up in a front room.".
-    Otherwise "You say it eleven times and on the twelfth Fusby says it back in your voice. It is quite unmistakably your voice. He is delighted with it.".
+    Result "You say it to him nine times, with feeling, and on the tenth he says it back in Mr Teague's own breathy bass. It would not stand up in a court. It will stand up in a front room.".
+    Otherwise "You say it nine times and on the tenth Fusby says it back in your voice. It is quite unmistakably your voice. He is delighted with it.".
   }
 
   // The whim: easy, uncovered, in company, Fusby may speak of his own accord; coaxed, he speaks at once; showy, he runs.
@@ -224,7 +224,7 @@ Module quittance "Quittance" {
   // What reached Mr Fettiplace's ears: only what Fusby said while the adjuster was sitting by the cage.
   Rule wk_hears_L when wk_just(wk_fusby) == 2 and watch(clock) < wk_attend_until(wk_fettiplace) and at(wk_fettiplace, teague_front) { Assert wk_heardL(party). }
   Rule wk_hears_W when wk_just(wk_fusby) == 4 and watch(clock) < wk_attend_until(wk_fettiplace) and at(wk_fettiplace, teague_front) { Assert wk_heardW(party). }
-  Rule wk_hears_C when wk_just(wk_fusby) == 6 and watch(clock) < wk_attend_until(wk_fettiplace) and at(wk_fettiplace, teague_front) says "Mr Fettiplace's pencil stops. He writes down 'fish, fish, fish-bone' with some care, and underlines it, and looks at the cage for a long time." { Assert wk_heardC(party). Assert wk_slighted_lamprey(party). Decrease regard(lamprey) by 1 or to nothing. }
+  Rule wk_hears_C when wk_just(wk_fusby) == 6 and watch(clock) < wk_attend_until(wk_fettiplace) and at(wk_fettiplace, teague_front) says "Mr Fettiplace's pencil stops. He writes down 'fish, fish, fish-bone' with some care, and underlines it, and looks at the cage, and then at the pencil, and says nothing to either." { Assert wk_heardC(party). Assert wk_slighted_lamprey(party). Decrease regard(lamprey) by 1 or to nothing. }
   Rule wk_hears_PL when wk_just(wk_fusby) == 7 and watch(clock) < wk_attend_until(wk_fettiplace) and at(wk_fettiplace, teague_front) { Assert wk_heardPL(party). }
   Rule wk_hears_PW when wk_just(wk_fusby) == 8 and watch(clock) < wk_attend_until(wk_fettiplace) and at(wk_fettiplace, teague_front) { Assert wk_heardPW(party). }
   Rule wk_hears_X when wk_just(wk_fusby) == 9 and watch(clock) < wk_attend_until(wk_fettiplace) and at(wk_fettiplace, teague_front) { Assert wk_heardX(party). }

@@ -28,7 +28,7 @@ Module season "The Patient Star" {
   // own light.
   Initially Assert litGround(courses_face).
 
-  Observe watch_room_scene at watch_room when true "A guardroom with an Office lamp, a table, a ledger and a cot. A bronze bell hangs on a cord that runs up a stair cut in red clay.".
+  Observe watch_room_scene at watch_room when true "A guardroom with an Office lamp, a table, a ledger and a cot, the blanket on it turned down and never slept in. A bronze bell hangs on a cord that runs up a stair cut in red clay.".
   Discovery kings_book "The King's Book: the Office clerk's record of the old king below, written three days a month. In Haysel he answered at about a sixth of a man's speed and asked for honey and for his daughter by name." {
     Source kings_book_copy "the King's Book" at watch_room readable by party.
   }

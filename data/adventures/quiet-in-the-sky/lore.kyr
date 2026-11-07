@@ -1,0 +1,13 @@
+Module larum "The Quiet in the Sky" {
+  Description "Links outward from Larum: a piece of sky reported fallen far away, and a surveyor who wants the Teeth.".
+
+  // ── A world event, read: the sky is not as it was ───────────────────────────────────────────────────────────────
+  Observe lore_street_sky at larum_street when befell(cloudgate_fell) "Bet Garside has propped the Hark's door open, which she does not do in winter, and the whole street is standing in it looking up. 'A drover from the coast,' says Ambler, 'says a piece of the sky came down in a bay. A whole piece. With a house on it.' The street looks up. The sky above the Pass is quite as it was, grey and low and quiet. 'It is a comfort,' says Bet, 'to be told somebody else's has fallen.'".
+
+  // ── The surveyor ────────────────────────────────────────────────────────────────────────────────────────────────
+  Discovery lore_pym_larum "Orlando Pym of the Collegium of Measures was at Larum before the snow, and chained the street, and left a mark on the Hark's doorpost; he will come back for the Teeth when the White lifts.".
+  Topic lore_bet_pym with bet "Ask Bet Garside about the mark on the doorpost" when true once {
+    Says "'That,' says Bet, 'is a surveyor.' She wipes the chalk-mark on the Hark's doorpost with the back of a knuckle and thinks better of it. 'Pym, of the Measures. Came in off the south road with a chain and a boy and a wet cough, and was very sorry, and chained my street. Forty-one chains. He said, in the Lull they are nine short of the table and Larum is exact, and was so pleased he forgot his hat. I have it.' She puts a hat on the bar. 'He said he'd come back for the Teeth when the White lifts. If he does, I'll tell him what the Teeth are for. He'll write it down.'".
+    On discuss { Assert knows(actor, lore_pym_larum). }
+  }
+}

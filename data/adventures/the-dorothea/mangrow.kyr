@@ -1,0 +1,264 @@
+Module dorothea "The Dorothea" {
+  Description "Mangrow: five days south, where the Reach runs out into green. A river mouth under cane and fig, a pier that is mostly a rumour, a House outstation the forest has been eating for eleven months, a naturalist in a tree, and a fever that comes in with the bites. The bark that cures it is locked in the House's own strong-room.".
+
+  // Terrain kinds do not exist (friction A1): Mangrow is a `settlement` and a `wilderness`, and the jungle is prose and two
+  // mechanisms, a heat measure (`swelter`) that climbs while the company is in the green and a hazard when it climbs too far.
+  Place mangrow "Mangrow" is region.
+  Place mangrow_shore "the Mangrow landing" is settlement within mangrow at 0, 0.
+  Place mangrow_wood "the forest" is wilderness within mangrow at 1, 0.
+  Place mangrow_pier "the rotting pier" is room within mangrow_shore at 0, 1.
+  Place mangrow_yard "the outstation yard" is room within mangrow_shore at 1, 1.
+  Place mangrow_store "the strong-room" is room within mangrow_shore at 2, 1.
+  Place mangrow_creek "the creek mouth" is room within mangrow_wood at 0, 0.
+  Place mangrow_hide "Vail's hide" is room within mangrow_wood at 1, 0.
+
+  Relation ferried(group). Relation storeOpen(group). Relation burntOpen(group). Relation barkTaken(group). Relation barkCut(group).
+  Relation netted(group). Relation barked(group). Relation fevered(group). Relation vailTrusts(group). Relation oskTended(group).
+  Relation strandedMangrow(group). Relation felt2(group). Relation felt6(group).
+  Measure swelter(group). Measure stingAt(group). Measure barkEnds(group).
+
+  Passage mangrow_track "the overgrown track" is path between mangrow_pier and mangrow_yard taking 1 hour.
+  Passage mangrow_cut "the cut through the cane" is path between mangrow_yard and mangrow_creek taking 30 minutes.
+  Passage mangrow_planks "the plank-walk to the hide" is path between mangrow_creek and mangrow_hide taking 30 minutes.
+  Passage mangrow_ferry "Sula Weir's flat boat" is path between mangrow_pier and mangrow_creek taking 40 minutes
+    opening when ferried(party) "The flat boat lies in the reeds with its pole across it. Sula Weir does not pole for nothing.".
+  Passage mangrow_strong_door "the strong-room door" is door between mangrow_yard and mangrow_store
+    opening when storeOpen(party) "The strong-room door is shut. A fig has put one root through the frame and another through the lock, and the iron has stopped being the stronger of the two.".
+
+  Query inGreen(g: group) means at(g, mangrow_yard) or at(g, mangrow_store) or at(g, mangrow_creek) or at(g, mangrow_hide).
+  Query onMangrow(g: group) means at(g, mangrow_pier) or at(g, mangrow_yard) or at(g, mangrow_store) or at(g, mangrow_creek) or at(g, mangrow_hide).
+
+  Observe deck_mangrow_roads at deck when at(hull, mangrow_roads) "Mangrow roads: a green wall with a brown mouth in it. The water has gone the colour of tea, and warm air comes off the shore like the breath of a large animal. Something is calling in the trees, over and over, the same three notes.".
+  Observe deck_mangrow at deck when at(hull, mangrow_pier) "The Dorothea lies against a pier that Bascom has not trusted with a line: she has laid out two anchors and a plank. Vines come down the bank to the waterline. Mab, who has been here twice, stands on the hatch with a hand over her mouth and a cloth tied round her hair.".
+  Observe mangrow_pier_scene at mangrow_pier when true "The Mangrow pier: forty yards of black piles with about a third of the planking left on them, the rest gone to the river a board at a time. Green comes right down to the water. Vines hang from the bollards, thick as a wrist, and the air is wet enough to wear. A hum comes off the cane that you take for wind until something lands on your neck.".
+  Observe mangrow_yard_scene at mangrow_yard when true "The House's outstation: a long shed on stilts, its veranda sagging, its stencilled key-and-ring blistered to a ghost. A fig has taken the east end whole, and its roots go through the boards like fingers through a loaf. There is a chair on the veranda with a fern growing in it. On the table inside, under a skin of green mould, a letter in a clerk's round hand has been rained on and dried most of a year.".
+  Observe mangrow_store_scene at mangrow_store when true "The strong-room: stone, the only dry place at Mangrow, and it smells of cloves and wet dog. Rolls of grey bark are stacked to the ceiling in tiers, every tier stencilled HELD, and a fig-root has found the ceiling and hangs from it, patient as a plumb-line.".
+  Observe mangrow_store_book at mangrow_store when true "On the top bale lies the outstation's day-book, open, in Perrin Osk's cramped hand. Month after month the same line: BARK GATHERED, SO MANY BALES. BARK HELD. NOT TO BE SHIPPED, PRICE TO BE KEPT. Under the last entry, in another ink, a figure that is the Tolleth physic's price for a bale this autumn, and beside it, in pencil, a second figure: the lower town's burials.".
+  Observe mangrow_creek_scene at mangrow_creek when true "The creek mouth: brown water the width of a street going slowly out under a roof of figs, a bar of mud where the tide leaves things, a log on the far bank that is not a log. Bats go over at noon. The insects here are not midges. They have opinions.".
+  Observe mangrow_hide_scene at mangrow_hide when true "Vail's hide: a plank platform in a mangrove, twelve feet above the mud and roofed in palm. A hammock, a trestle of pinned moths under glass, a hundred paper packets in a fine hand, a kettle, and behind a hung cloth a second hammock in which someone is breathing carefully.".
+
+  Person weir "Sula Weir" at mangrow_pier {
+    Role "ferrywoman of the Mangrow creek". Ancestry human. Level 2. Peaceable. Pronouns she. Manner acerbic.
+    Likeness "sailor".
+    Greets "A woman as thin and dark as a pole leans on the pier's last good bollard, a cheroot unlit in one hand and a slapping-cloth in the other. She slaps her neck and looks at the palm before she speaks. 'I pole the creek. Sula Weir, in case you want it for the complaint. You will have come about the Agent, or the bark, or because Bascom said it was an adventure.' She wipes the palm on her skirt. 'Three coin and I take you up it. Walk and you pay the cane instead.'".
+  }
+  Person ennis_vail "Ennis Vail" at mangrow_hide {
+    Role "naturalist, struck off the rolls of the Collegium of Measures, and counting". Ancestry human. Level 2. Peaceable. Pronouns he. Manner stoic.
+    Likeness "scholar".
+    Greets "A man so brown and so thin that he seems made of the same stuff as the hide stands up from the trestle with a pin in his teeth and does not take it out until he has put the moth down. 'Vail,' he says. 'You are not the Collegium. The Collegium would have sent a boat with a flag. You are not the House either, because the House has sent nothing for eleven months, and I have a very good ear for the absence of the House.'".
+  }
+  Person osk "Perrin Osk" at mangrow_hide {
+    Role "the House's Agent at Mangrow, who went up the creek eleven months ago and has been ill since". Ancestry human. Level 1. Peaceable. Pronouns he. Manner jovial.
+    Likeness "merchant".
+    Greets "Behind the cloth a man in a once-good waistcoat lies with his boots on and a sheet to the chin, yellow as a candle, and turns his head with great care. 'You will forgive the waistcoat,' he says. 'Osk, Perrin, the House of Marchbank's Agent at Mangrow, at your service, and you may see how I am serving.' He tries a laugh and thinks better of it.".
+  }
+
+  // ── Getting there and what the green does ───────────────────────────────────────────────────────────────────────
+  Topic sula_creek with weir "Ask Sula Weir about the creek" when true once {
+    Says "'It is the road,' says Sula. 'The track from here to the outstation was cut by the House's people with the House's money, so you can guess how much of it is left. The creek goes up under the figs to a man in a tree.' She looks at you with some pity. 'The air is the trouble. You will not feel it for the first hour. Then the bites go to your head. Net, or smoke, or the bark. I have all three in my bad dreams.'".
+  }
+  Topic sula_osk with weir "Ask Sula Weir what became of the Agent" when true once {
+    Says "'Went up the creek in March with the strong-room key round his neck and the petty cash in a boot,' says Sula, to the cheroot. 'I do not say I poled him. I say a man cannot get up that creek on his own legs.' She finds a match. 'He was not stealing. He was carrying. You'll see.'".
+  }
+  Action pay_sula(actor: group, site: place) "Pay Sula Weir three coin to pole you up the creek" {
+    Description "The flat boat takes you to the creek mouth in forty minutes. The track takes an hour to the outstation, and the cane has its toll.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(weir, site) and at(actor, mangrow_pier) and not ferried(actor) and quantity(actor, gold) >= 3.
+    Time 1.
+    On success { Decrease quantity(actor, gold) by 3. Increase quantity(weir, gold) by 3. Assert ferried(actor). }
+    Result "She puts the coin in the cheroot-hand and the cheroot in her mouth, which is as near as she comes to a receipt. 'Sit in the middle,' she says. 'Hands in the boat. Whatever is on the log, it is a log.'".
+  }
+
+  // The heat: one sting a hour in the green, half as often under netting, none under the bark. Four of them and the river
+  // fever takes the company; eight and Sula comes and carries it out.
+  Initially Set swelter(party) to 0. Initially Set stingAt(party) to 0. Initially Set barkEnds(party) to 0.
+  Rule sting_clock when not inGreen(party) { Set stingAt(party) to watch(clock) + 6. }
+  Rule swelter_rises when inGreen(party) and not barked(party) and not netted(party) and watch(clock) >= stingAt(party) {
+    Increase swelter(party) by 1. Set stingAt(party) to watch(clock) + 6.
+  }
+  Rule swelter_rises_netted when inGreen(party) and not barked(party) and netted(party) and watch(clock) >= stingAt(party) {
+    Increase swelter(party) by 1. Set stingAt(party) to watch(clock) + 12.
+  }
+  Rule bark_fades when barked(party) and watch(clock) >= barkEnds(party)
+    says "The bitter has gone out of your mouth, and the cane has noticed." {
+    Retract barked(party).
+  }
+  Rule felt_warm when swelter(party) >= 2 and not felt2(party)
+    says "Your shirt has stopped being a shirt and become a damp opinion. The bites are in clusters on the neck and wrists, and every one is a small hot coin. You are slow to answer when spoken to." {
+    Assert felt2(party).
+  }
+  Rule felt_cool when felt2(party) and swelter(party) < 2 { Retract felt2(party). }
+  Hazard river_fever "The river fever" means "Deal (2d6) physical damage to ally unless constitution save against (13).".
+  Rule fever_takes when swelter(party) >= 4 and not fevered(party)
+    says "It comes in all at once, as a tide comes in over flat sand: a cold in the spine in a place where the air is warm, and a ringing, and the green going too bright at the edges. Someone laughs at nothing and it is yourself." {
+    Assert fevered(party). Assert strikes(river_fever, party).
+  }
+  Rule fever_breaks when fevered(party) and swelter(party) <= 1 { Retract fevered(party). }
+  Rule felt_dire when swelter(party) >= 6 and not felt6(party) says "The river is a long way off and the ground is nearer than it was. Somebody is saying your name from a boat." { Assert felt6(party). }
+  Rule felt_dire_over when felt6(party) and swelter(party) < 6 { Retract felt6(party). }
+  Rule swelter_collapses when at(party, ?w) and inGreen(party) and swelter(party) >= 8
+    says "You do not remember sitting down. You remember a flat boat, a pole, and a woman's voice saying, to the mud, that she had told them." {
+    Retract at(party, ?w). Assert at(party, mangrow_pier). Set swelter(party) to 3. Retract felt6(party).
+  }
+
+  // ── The protections ─────────────────────────────────────────────────────────────────────────────────────────────
+  Kind dorothea_netting "a length of tarred netting" is gear worth 2 weighing 1 described "Fine hemp netting, tarred against the damp and cut to hang from a hat-brim or a hammock. Wat Garrick swears it has never failed anyone who was alive to complain.".
+  Action hang_netting(actor: group, site: place) "Put on the netting and tar your wrists" {
+    Description "It halves the stings. It does not stop them.".
+    Requires able(actor) and company(actor) and at(actor, site) and onMangrow(actor) and not netted(actor) and holding(actor, dorothea_netting).
+    Time 1.
+    On success { Spend dorothea_netting from actor. Assert netted(actor). }
+    Result "You hang it from your hats and tar the cuffs, and look like a company of bee-keepers going to a funeral. The hum drops half a note.".
+  }
+  Action rest_on_pier(actor: group, site: place) "Sit out in the breeze at the end of the pier until your head clears" {
+    Description "The sea air does what the green takes away. It takes the better part of an hour.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, mangrow_pier) and swelter(actor) >= 1.
+    Time 6.
+    On success { Decrease swelter(actor) by 2 or to nothing. }
+    Result "You sit with your feet over the water and the wind coming off the roads, and the ringing eases a note at a time, until it is the Dorothea's rigging and no more.".
+  }
+  Kind dorothea_bark "a bale of Mangrow bark" is gear worth 8 weighing 2 described "A roll of grey-white bark, tied with raffia, stencilled HELD and, under it in a hand with less certainty, a key-and-ring. It smells of cloves and wet dog. A pinch steeped in a pannikin is bitter enough to stand a spoon in.".
+  Action drink_bark(actor: group, site: place) "Steep a pinch of the bark and drink it round" {
+    Description "It is a day's protection from the bites and the fever behind them. It is also, by report, the worst thing you have ever put in your mouth.".
+    Requires able(actor) and company(actor) and at(actor, site) and holding(actor, dorothea_bark) and not barked(actor).
+    Time 1.
+    On success { Spend dorothea_bark from actor. Assert barked(actor). Set swelter(actor) to 0. Set barkEnds(actor) to watch(clock) + 90. }
+    Result "The pannikin goes round. The one who has drunk worse in the army says they have not. By the second round the cane has gone quiet, and the ringing is a sound you remember from somewhere else.".
+  }
+  Action brew_for_the_boy(actor: group, site: place) "Steep the Mangrow bark for the boy" {
+    Description "A fever on a ship is a fever on a ship. This one the bark was made for.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, deck) and fever(hull) and holding(actor, dorothea_bark).
+    Time 2.
+    On success { Spend dorothea_bark from actor. Retract fever(hull). Retract troubled(hull). }
+    Result "Mab holds the pannikin and Nipper holds his nose. It takes three tries and a promise about the biscuit. By the second watch the sweat has gone cold and honest, and he is asking whether there is any more of the cheese.".
+  }
+
+  // ── Vail and his count ──────────────────────────────────────────────────────────────────────────────────────────
+  Topic vail_count with ennis_vail "Ask Ennis Vail what he is counting" when true once {
+    Says "'Moths,' says Vail, and the word comes out like a thing he has been saving. 'Twelve hundred and four kinds on this river, in six years, of which the Collegium would grant me eight hundred, and has struck the whole table out of the Tables on the ground that a man cannot see so many in a place so small.' He lays a pin down very straight. 'I have the pins. They can come and look at the pins.' He glances at the hammock behind the cloth. 'I count the Agent too. Sixty-one days since he last sat up. He is a man who sits up when he is ashamed.'".
+    On discuss { Assert vailTrusts(actor). }
+  }
+  Topic vail_bark with ennis_vail "Ask Ennis Vail what cures the river fever" when true once {
+    Says "'The bark of the white fig-leaf. It weeps red where it is cut. A pinch in a pannikin, and the river lets go.' He waves at the hide. 'I take a cup a day. Perrin takes what I can keep in him. The House bought every bale on this coast two seasons running and shut them in a stone room. I would call it hoarding, but the House would call it a position.'".
+  }
+  Topic quint_vail with quint "Ask Odile Quint whether she knows Ennis Vail" when at(actor, mangrow_hide) once {
+    Says "Quint has been standing very straight since you climbed the ladder. 'Ennis Vail,' she says, and then, to him, in a different voice: 'You wrote the note on the unequal wings. You said a measure that cannot be repeated is a rumour. I put it on the wall of my room at Sennet.' Vail takes the pin out of his teeth. 'It was wrong,' he says. 'It was a rumour.' 'It was the best thing in the Tables,' says Quint. He sits down on the trestle rather quickly. When he has found his voice again he is making a pannikin of the bark for the whole company without being asked.".
+    On discuss { Assert vailTrusts(actor). Assert barked(actor). Set swelter(actor) to 0. Set barkEnds(actor) to watch(clock) + 90. }
+  }
+  Topic vail_tea with ennis_vail "Ask Ennis Vail for a pannikin of the bark for the company" when vailTrusts(actor) and not barked(actor) once {
+    Says "'You have asked about the moths,' says Vail. 'Nobody does. It is the price.' He puts the kettle on. 'Drink it all. It will do your tongue a permanent injury and the river will leave you alone for most of a day.'".
+    On discuss { Assert barked(actor). Set swelter(actor) to 0. Set barkEnds(actor) to watch(clock) + 90. }
+  }
+  Action pay_vail(actor: group, site: place) "Pay Ennis Vail four coin for a pannikin of the bark and an hour of his ear" {
+    Description "He is a man of principle. His principle is that he has not been paid for six years.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(ennis_vail, site) and not vailTrusts(actor) and quantity(actor, gold) >= 4.
+    Time 2.
+    On success { Decrease quantity(actor, gold) by 4. Increase quantity(ennis_vail, gold) by 4. Assert vailTrusts(actor). Assert barked(actor). Set swelter(actor) to 0. Set barkEnds(actor) to watch(clock) + 90. }
+    Result "He looks at the coin as at a moth he has not seen before. 'It is not enough,' he says, 'and it is the most anyone has given me since I wrote to the Collegium.' He puts it in a packet and labels it. The pannikin, when it comes, is bitter beyond the language.".
+  }
+
+  // ── Perrin Osk, and the key ─────────────────────────────────────────────────────────────────────────────────────
+  Topic osk_why with osk "Ask Perrin Osk why he walked out of the outstation" when true once {
+    Says "'Because the letter on the table said HOLD,' says Osk. 'It is the fourth letter that said it. The first said hold until the price is right, and the price was right in the spring. The second said hold until the price is better. By the third the lower town at Tolleth was burying its children by the dozen, and the physic there was paying the House's price for a cup of what I had in a stone room, and I had the key.' He closes his eyes. 'I did not steal the cash. I paid the gatherers with it, so that the bark would be cut and not rot on the trees. That is a thing the House calls embezzlement, and I call arithmetic.'".
+  }
+  Kind dorothea_strong_key "the strong-room key at Mangrow" is gear worth 1 weighing 0 described "A black iron key as long as a hand, on a loop of fishing-line, with a key-and-ring stamped on the bow and, scratched under it with a nail, a tally of days.".
+  Action tend_osk(actor: group, site: place) "Carry Vail's pannikin behind the cloth and sit with Perrin Osk while he drinks it" {
+    Description "He will not take it from a stranger, and then he will, and then he will talk.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(osk, site) and at(actor, mangrow_hide) and vailTrusts(actor) and not oskTended(actor).
+    Time 3.
+    On success { Assert oskTended(actor). }
+    Result "He drinks it in four swallows and a curse. You sit while the colour goes slowly up his face like water up a wick. When he can hold a cup he looks at it, and at you, and takes a long breath. 'I will tell you what I should have told the House,' he says.".
+  }
+  Topic osk_key with osk "Ask Perrin Osk for the strong-room key" when oskTended(actor) and not barkTaken(actor) once {
+    Says "He lifts the loop of fishing-line over his head, and his hand shakes with the weight of it. 'The big bales are the Tolleth physic's,' he says. 'There are twenty-two. Take what two can carry, and tell the physic what it cost.' He lets his hand fall on the sheet. 'Tell nobody in Orsett where I am. I am not hiding. I am waiting until I am well enough to be arrested.'".
+    On discuss { Give dorothea_strong_key to actor. }
+  }
+  Action use_the_key(actor: group, site: place) "Cut the roots from the lock and turn Osk's key" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, mangrow_yard) and holding(actor, dorothea_strong_key) and not storeOpen(actor).
+    Time 2.
+    On success { Spend dorothea_strong_key from actor. Assert storeOpen(actor). }
+    Result "The fig has fought for the lock, but the key was cut for it, and it turns. The door swings in on cloves and dry stone.".
+  }
+  Action pick_the_strongroom(actor: group, site: place) "Work the strong-room lock free of the fig's roots" {
+    Description "A thief's job, and a patient one. The roots have been at the wards for most of a year.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, mangrow_yard) and capable(actor, lockwork) and not storeOpen(actor).
+    Time 4.
+    Resolve check(actor, lockwork, dc_hard).
+    On success { Assert storeOpen(actor). }
+    On failure { Increase swelter(actor) by 2. }
+    Result "You find the wards by feel, between the roots, and lift them one by one in the humming dark. The last one gives a click. The door comes open on cloves.".
+    Otherwise "A tendril has taken the pick; you break it out with the lock, and your hand with it. The sweat runs into the cuts, and the insects arrive in a body.".
+  }
+  Action burn_the_fig(actor: group, site: place) "Burn the fig off the strong-room door with a torch" {
+    Description "It is quick, and it is dry stone behind. The bark behind it is not stone.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, mangrow_yard) and holding(actor, torch) and not storeOpen(actor).
+    Time 2.
+    On success { Spend torch from actor. Assert storeOpen(actor). Assert burntOpen(actor). }
+    Result "The fig goes up with a noise like a bolt of wet cloth being torn, and a smell of burnt sugar, and the veranda behind it takes a share. When the roots have shrivelled the door falls open. The inside stops short of burning, but the nearest tier is black and the air is full of cloves, roasted.".
+  }
+  Relation barkTaken2(group).
+  Action take_bark(actor: group, site: place) "Carry a bale out of the strong-room" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, mangrow_store) and storeOpen(actor) and not burntOpen(actor) and not barkTaken(actor).
+    Time 3.
+    On success { Give dorothea_bark to actor. Assert barkTaken(actor). }
+    Result "You take the nearest, which weighs as much as a drowned man, and carry it out into the heat with your teeth set. Behind you twenty more tiers go on waiting, in order, as the House left them.".
+  }
+  Action take_second_bark(actor: group, site: place) "Carry a second bale out" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, mangrow_store) and storeOpen(actor) and not burntOpen(actor) and barkTaken(actor) and not barkTaken2(actor).
+    Time 3.
+    On success { Give dorothea_bark to actor. Assert barkTaken2(actor). }
+    Result "A second, because a company of three can carry two and a half. The stencil on it says HELD; you hold it.".
+  }
+  Action take_scorched_bark(actor: group, site: place) "Carry out the one bale the fire spared" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, mangrow_store) and burntOpen(actor) and not barkTaken(actor).
+    Time 3.
+    On success { Give dorothea_bark to actor. Assert barkTaken(actor). Assert barkTaken2(actor). }
+    Result "The outer tiers are cinders. You find one bale in the back that the smoke has only browned, and carry it out under your arm, coughing, past the smouldering veranda.".
+  }
+  Action cut_bark(actor: group, site: place) "Find the white fig-leaf tree and cut your own bark" {
+    Description "Vail has said what it looks like. A tree that weeps red does not hide.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, mangrow_creek) and capable(actor, woodcraft) and not barkCut(actor).
+    Time 6.
+    Resolve check(actor, woodcraft, dc_fair).
+    On success { Give dorothea_bark to actor. Assert barkCut(actor). }
+    On failure { Increase swelter(actor) by 1. }
+    Result "A leaf with a white underside, a trunk that bleeds when your knife goes in: a quarter of a mile up the bank, where the ground begins to rise. You strip a bale's worth, in the whining dusk, and bring it back with a face that has stopped feeling like yours.".
+    Otherwise "Every tree is a fig-leaf and every fig-leaf is the wrong one. You come back with a bleeding hand and a poor opinion of botany.".
+  }
+  Rule osk_gone when oskTended(party) and not oskWalks(party) and watch(clock) >= reachedAt(hull) + 140 says "A man is sitting up on the veranda of the outstation in a clean waistcoat, with the letter in his hand, reading it as one reads a debt. He does not look up when you pass. He is, you think, waiting to be arrested." {
+    Assert oskWalks(party).
+  }
+  Relation oskWalks(group).
+
+  // ── Home with it ────────────────────────────────────────────────────────────────────────────────────────────────
+  Topic drinkers_mangrow with drinkers "Ask the regulars about Mangrow" when true once {
+    Says "'Bark island,' says the man with one eye, and spits to the side of the fire. 'Five days south, and a fever for the unwary. The House has bought the whole crop of it, and sells it out of Orsett at a price that would buy a ship. There's children in the lower town lying on the floor with it this autumn, and the physic charges for a cup what you'd pay a priest.'".
+  }
+  Topic mab_mangrow with mab "Ask Mab about Mangrow" when true once {
+    Says "'Twice,' says Mab. 'I will tell you what I told the boy. Netting from Garrick, and tar, and a tin of the bad tobacco, and do not drink from the creek and do not sit in the shade, because the shade is where it keeps the biters.' She tastes the pot. 'And do not let the Captain tie the Dorothea to that pier. She will, if you let her. She has a feeling about piers.'".
+  }
+  Action sell_bark(actor: group, site: place) "Sell Wat Garrick a bale of Mangrow bark for the physic's price" {
+    Description "He knows the physic. The physic has been asking him for it since Michaelmas.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(pellow, site) and holding(actor, dorothea_bark) and quantity(pellow, gold) >= 10.
+    Time 1.
+    On success { Spend dorothea_bark from actor. Increase quantity(actor, gold) by 10. Decrease quantity(pellow, gold) by 10. }
+    Result "Wat Garrick weighs the bale in his hand, and sniffs it, and goes the colour of a man who has been told a price in a dream. He counts out ten coin without bargaining, which has never happened in his shop, and puts the bale on a hook behind the door where a runner will fetch it. 'There's six households I could name,' he says, 'and I won't.'".
+  }
+  Initially Set quantity(pellow, gold) to 40.
+
+  // ── Left behind ─────────────────────────────────────────────────────────────────────────────────────────────────
+  Rule left_behind_mangrow when homeward(hull) and bound(hull) == 5 and not aboardNow(party) and onMangrow(party) and not strandedMangrow(party) { Assert strandedMangrow(party). }
+  Observe mangrow_stranded at mangrow_pier when strandedMangrow(party) "The Dorothea is a brown sail going north, and Sula Weir is sitting on the last good bollard watching it go. 'Bascom does not wait for anyone,' she says. 'It is her most reliable quality. The bark-cutter Hesper takes passengers for nine, on the tide, when her master is sober.'".
+  Action sail_on_the_hesper(actor: group, site: place) "Pay nine coin to go home on the bark-cutter Hesper" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, mangrow_pier) and strandedMangrow(actor) and quantity(actor, gold) >= 9.
+    Time 1.
+    On success { Decrease quantity(actor, gold) by 9. Retract at(actor, mangrow_pier). Assert at(actor, quay). Retract strandedMangrow(actor). Set swelter(actor) to 0. }
+    Result "The Hesper is a cutter with a hold full of nothing and a master with a hand like a ham, and she takes five days to do what the Dorothea did in five, with a good deal less conversation. At Tolleth she puts you on the quay without a word, and is gone before you have your feet.".
+  }
+
+  // ── A voice: the ranger at the creek ────────────────────────────────────────────────────────────────────────────
+  Relation vCreek(group).
+  Rule voice_creek at mangrow_creek when memberOf(?m, party) and brings(?m, woodcraft) and awake(?m) and at(party, mangrow_creek) and not vCreek(party)
+    says "{?m} stands in the green glare with a hand on a trunk and looks up it. 'There,' {?m} says, to nobody. 'White underleaf. That one weeps. If the man in the tree is right, that is the bark, and I do not need the House's stone room for a bale of it. I need an hour and a good knife and not to mind the biters.'" {
+    Assert vCreek(party).
+  }
+}

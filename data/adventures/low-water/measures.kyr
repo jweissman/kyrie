@@ -64,7 +64,7 @@ Module lowwater "Low Water" {
     On discuss { Assert titlesFrozen(ammerlin). }
   }
   Topic fenn_postpone with fenn "Ask the Registrar to put the Hearing off two days" when (knows(actor, hymn_cause) or knows(actor, engine_seen)) and not postponed(ammerlin) and watch(clock) < hearingAt(bowl) - 36 once {
-    Says "'The Council set the day, not I.' But she does not say no. She listens to the end and then stands looking at the brown plan of the Stair for a long time. 'If what you say is so, a Finding on the seventh day would be wrong, and a wrong Finding from this Office is worse than none.' She writes. 'I will ask them for two days. I will get them, because I have never asked before.' She seals it. 'Do not make me sorry.'".
+    Says "'The Council set the day, not I.' But she does not say no. She listens to the end and then stands at the brown plan of the Stair with one finger on the Ninth Lock. 'If what you say is so, a Finding on the seventh day would be wrong, and a wrong Finding from this Office is worse than none.' She writes. 'I will ask them for two days. I will get them, because I have never asked before.' She seals it. 'Do not make me sorry.'".
     On discuss { Assert postponed(ammerlin). Increase hearingAt(bowl) by 288. }
   }
   Topic fenn_warrant with fenn "Ask the Registrar for a warrant over the Ninth Lock" when knows(actor, letters_read) and not warranted(actor) once {
@@ -87,7 +87,7 @@ Module lowwater "Low Water" {
     says "You unroll it on the long table, weighting the corners with ledgers. The Bowl as it was before the Office: the same terraces, the same Stair, and one thing more. From the channel head at the Rim, a grey line goes straight down under the terraces to the Ninth Lock, missing the Mere altogether. Beside it, in a hand older than the Office's: TO FEED THE DEEP WHEN THE MERE IS LOW." teaches feeder_known { }
   // The Full Measure, where carters and Assessors sleep.
   Observe taproom_scene at taproom when not familiar(taproom) "The Full Measure: low beams, a fire, carters' boots, and on every table a pewter measure-jug stamped by the Office, so that nobody can say they were given short.".
-  Observe taproom_scene_again at taproom when familiar(taproom) "The Full Measure's taproom: the fire, the carters, the stamped jugs.".
+  Observe taproom_scene_again at taproom when familiar(taproom) "The Full Measure: carters' boots to the fire, wet rings on every table, and every jug stamped by the Office and every drinker watching his own.".
   Person ruan "Ruan Tell" at taproom {
     Greets "Ruan Tell has a jug in one hand and a cloth in the other, and puts down neither.".
     Role "the keeper of the Full Measure". Ancestry human. Profession innkeeper. Peaceable. Pronouns he. Manner jovial.

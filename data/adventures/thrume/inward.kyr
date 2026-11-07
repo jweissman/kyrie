@@ -155,7 +155,7 @@ Module thrume "Thrume" {
   // The Smiths' Last Delving.
   Observe gate_scene at delving_gate when true "A gate of black iron in a wall of grey stone, and over it, cut deep, a line of letters: WHAT WAKES, KILLS. WHAT KILLS, WAKES.".
   Discovery doctrine_known "The doctrine of the Hollow Smiths: what wakes, kills; what kills, wakes. They could not kill Thrume, because every killing blow woke him; so they made him sleep, and built the tomb around his heart so that nothing would wake him or kill him again.".
-  Observe forge_scene at cold_forge when true "A forge the size of a chapel, cold a thousand years. Anvils, tongs as long as oars, and hammers racked on the wall: iron, bronze, and one of red salt, glassy, unused.".
+  Observe forge_scene at cold_forge when true "A forge the size of a chapel, and as cold. Anvils, tongs as long as oars, and hammers racked on the wall: iron, bronze, and one of red salt, glassy, unused.".
   Observe library_scene at iron_library when true "A room of shelves, and on the shelves books made of iron leaves, hinged, the letters punched through. Most are too heavy to lift alone.".
   Discovery tomb_stair_known "From the smiths' building-book: 'The third tread of the salt stair is no tread. Prod before you trust.'" {
     Source building_book "the building-book of the Heart-Tomb" at iron_library readable by party.
@@ -189,7 +189,7 @@ Module thrume "Thrume" {
 
   // The Dream-Hollows.
   Observe hmouth_scene at hollow_mouth when true "A soft dark. The walls are not stone here; they give a little under the hand, and are warm. Somewhere below, you can smell hay and summer.".
-  Observe field_scene at dream_field when true "A meadow, inside the mountain, under a sky. The sky is too close: you could throw a stone into the clouds. Sheep graze, and do not cast shadows. A shepherd boy sleeps against a stone with his crook across his knees. This is something Thrume is dreaming, and it is quite real.".
+  Observe field_scene at dream_field when true "A meadow, inside the mountain, under a sky. The sky is too close: you could throw a stone into the clouds. Sheep graze, and do not cast shadows. A shepherd boy sleeps against a stone with his crook across his knees. The meadow is Thrume's dream, and the grass wets your boots all the same.".
   Person dream_boy "the dreamed shepherd" at dream_field {
     Role "a boy asleep against a stone". Ancestry human. Peaceable.
     Seen when dreamt(viewer).

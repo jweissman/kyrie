@@ -1,0 +1,126 @@
+Module calamy "A Parliament of Books" {
+  Description "The Road: the empire nobody in Calamy can name, whose last post-house is the drowned roof in the Calamies; its dead-letter hook at the Hithe ferry-stairs; the Undelivered that waits in it for the year's book; and what the Kindling was before it was a custom.".
+
+  // The Account of the Posts. Count: eleven stages of a road that ended at the Ford, and a twelfth that was never cut.
+  // Keeper: the last courier, who was never relieved. First page: the Colophon was a relay, and Ambery was the Master of the
+  // Post. Price of reading: the tide, which gives an hour at dead low water and then asks for the room back.
+  Kind post_dead_letter "a letter from the hook at the Hithe stairs" is gear worth 0 weighing 0 described "A letter folded in the old way, in three, sealed with a wax gone brown as tobacco, addressed in a square flat hand in the courier script and, beneath, in a later round one, in Calamy letters: TO THE HOUSE OF THE POSTS AT THE FORD, BY HAND. It has been on a nail for eighty years and is not damp.".
+  Kind post_stamp "the die of the post-house at the Ford" is gear worth 5 weighing 1 described "A bronze die the size of a fist, with a handle worn smooth, cut in reverse with twelve small marks round a rim, eleven filled and the twelfth blank. Pressed into wax, it says RECEIVED, in the courier script, and the stage.".
+  Species post_runner_kind "the Undelivered" like dog temperament territorial described "A courier of the House of the Posts: a man-shape of wet paper and wax-seals standing in a black leather satchel, with a staff, whose face is a letter franked and folded, with neither name nor town.".
+
+  // ── Early: the ferry-stairs, a hook ────────────────────────────────────────────────
+  Observe hook_scene at ferry_stairs when true "On the third pile, driven in at the height of a man's hand, a great iron hook, black with age, hung with letters: dozens, paper gone to felt, sealed, unopened, tied on with twine. Nobody in the Hithe has ever thrown a letter away. They nail it to the hook.".
+  Observe hook_slack at ferry_stairs when befell(slack_opened) "On the hook, among the felted old letters, hangs a new one: crisp, white, unsealed, addressed in no hand to no one, and postmarked from no town in a stamp that is a circle with the ring broken at one point. Jonah Pellow does not touch it. 'It came in with the tide,' he says. 'No boat. I'll nail it up with the others.'".
+  Discovery hook_known "The Hithe ferry-stairs keep a great iron hook for the letters nobody came for. The Hithe has never thrown one away.".
+  Topic jonah_hook with jonah "Ask the ferryman about the hook on the pile" when true once {
+    Says "'Dead letters,' says Jonah Pellow. 'That was the packet's hook, before my father's day. What the packet couldn't deliver, it hung there, against the claim. The packet stopped and the claims never did.' He looks at the felted paper with his jaw working. 'My mother wouldn't have one burnt. She said a letter is a thing that is waiting for somebody. She said that if you burn what's waiting you've no right to be waited for yourself.' He spits, carefully, downstream. 'It's only paper. I tell myself it's only paper.'".
+    On discuss { Assert knows(actor, hook_known). }
+  }
+  Topic jonah_oldest with jonah "Ask Jonah Pellow which is the oldest letter on the hook" when knows(actor, hook_known) once {
+    Says "He is silent so long that you think he has not heard. Then he reaches up without looking and unpicks a twist of twine from a letter at the very bottom, in the old brown wax, in the old square hand. 'I swore I'd not give it to anyone,' he says. 'I've sworn it every year since my father died.' He puts it in your hand. 'There was a house. Out on the flats, a roof that shows at dead low water. They say it was a post-house, from before. This one was meant for it. It has been on that nail eighty years, and nobody has asked, and I find I do not wish to be the last one who didn't.' He turns to the water. 'Take it. Don't tell me what's in it. I'd read it.'".
+    On discuss { Give post_dead_letter to actor. }
+  }
+
+  // ── The drowned ridge, read ────────────────────────────────────────────────────────────────────────────────────
+  Discovery post_script "The letters on the drowned ridge in the Calamies are the courier script, and say HOUSE OF THE POSTS, and a stage-mark, and a word that is both FORD and CROSSING and also the verb for a thing changing hands. A glossary of the old measures can read them. The Collegium of Measures has one, and does not know what else it reads.".
+  Action read_ridge_glossary(actor: group, site: place) "Read the carved ridge with the Collegium's glossary of the old script" {
+    Description "A glossary of the old measures, made for the Aenean tables, carries a short list of the courier script's marks. Someone made it, once, from this road.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, reed_heart) and holding(actor, old_glossary) and not knows(actor, post_script).
+    Time 3.
+    On success { Assert knows(actor, post_script). }
+    Result "The surveyor's glossary opens at the right page without being asked, which surprises you. The square flat letters on the ridge go into it line by line: HOUSE OF THE POSTS. STAGE ELEVEN. RECEIVED. And a last line cut a little deeper than the rest, which the glossary renders as: THE TWELFTH IS WHERE IT IS DELIVERED.".
+  }
+  Observe ridge_hatch_seen at reed_heart when deadLow() "At dead low water the ridge shows more of itself than it did: a square dark gap in its slope, with stone steps going down out of the mud into a room, and the mud on the steps drying in the shape of a boot.".
+
+  // ── The post-house: a cold room, a count, a courier ───────────────────────────────────────────────────────────
+  Place post_house "the post-house under the ridge" is room within calamies at 1, 1.
+  Passage ridge_hatch "the stair under the ridge" is ladder between reed_heart and post_house taking 10 minutes
+    opening when deadLow() "The gap in the ridge is under black water. At dead low water it stands clear; not before.".
+  Observe post_scene at post_house when true "A long low room cut in the roof-space of a stone house sunk in the mud, with a tidemark on the walls at the height of your shoulders and a skin of grey silt on the floor. Along one wall, pigeon-holes in rows, hundreds, every one with a name over it in the courier script, and in every one the grey felt of a letter that has been wet and dried a thousand times. At the end, a board of pale wood with eleven stages cut on it, each with a name, and a twelfth space, blank, scraped smooth. There is a satchel on a peg, and an unlit lamp, and a smell of wet wax and old rope. Through slit windows high in the wall there is a little green light, moving: the water, just above.".
+  Observe post_board at post_house when true "On the board the stages go down in the square flat letters: the Ford, the Eleventh Stone, the Black Stones, and eight more you cannot read. The twelfth is a blank scraped smooth, with a small cut cross beside it. Every eleventh stone of the causeway at the Hithe has such a cross, if you look. It was never explained.".
+  Hazard tide_race "The returning tide" means "Deal (2d6) physical damage to ally unless strength save against (13).".
+  Rule tide_returns at post_house when at(party, post_house) and not deadLow()
+    says "The green light in the slit windows goes dark. Then there is a sound in the wall like a long breath drawn in through the teeth, and the water comes down the stair in a single grey rope and into the room at the height of your knees, and your waist. It takes you off your feet and shoulders you up the stair into the daylight, and sets you down on the mud among the reeds, gasping. Behind you the gap in the ridge is a pool, and then not even that." {
+    Assert strikes(tide_race, party). Assert at(party, reed_heart).
+  }
+  Observe post_rising at post_house when hour(clock) == 7 or hour(clock) == 19 "The green light in the slit windows has begun to come and go in long slow beats, like a lid. The silt on the floor is darker round the foot of the stair. The water is coming back.".
+
+  // ── The Undelivered ─────────────────────────────────────────────────────────────────────────────────────────────
+  Person runner "the Undelivered" at post_house {
+    Role "the last courier of the House of the Posts, who was never relieved". Species post_runner_kind. Level 1. Numbers 1.
+    Temperament territorial.
+    Warns "The satchel on the peg swells and straightens, and a figure of wet paper and wax-seals stands up inside it with a staff in one hand: a courier, grey, patient, with a letter for a face. 'Stage,' it says, in a voice like a page being turned in the next room. 'Stage, stage. Relieve me, or stand aside.'".
+    Comes "The courier brings the staff round flat, as a man does who has run a long way and is not to be stopped on the last mile. 'Not relieved,' it says. 'Not relieved. Not relieved.'".
+    Pleads "The courier sags into its satchel on the peg, and the staff clatters on the stone, and it says only, over and over, 'Stage. Stage.' like a thing winding down.".
+  }
+  Relation runnerEased(group). Relation runnerHeard(group).
+  // As the Paid in Thrume are not hasty, the Undelivered is not either: it gives a company the length of a reading.
+  Rule runner_waits when warned(runner, party) and not runnerHeard(runner) {
+    Assert runnerHeard(runner). Set patience(runner) to watch(clock) + 3.
+  }
+
+  // Four ways: a fight (costly: the tide is also in the room); the letter (an item, from the hook); the stage-chant (a bard
+  // alone: the Kindling rhyme is the relay's rule, kept as a skipping song); or the hour, which the tide ends.
+  Action deliver_the_letter(actor: group, site: place) "Give the Undelivered the letter from the hook, by hand" {
+    Description "It has been on a nail for eighty years. The courier has been waiting nine hundred.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, post_house) and at(runner, post_house) and holding(actor, post_dead_letter) and not runnerEased(runner) and not dead(runner).
+    Time 2.
+    On success { Spend post_dead_letter from actor. Assert runnerEased(runner). Assert tolerates(runner, actor). }
+    Result "The courier takes the letter in both hands and turns it to read the direction, and its franked face tilts, and tilts again. 'By hand,' it says. 'At the Ford.' It sets down its staff. It breaks no seal; it presses the thumb of a wet glove to the wax, and the wax takes the print and holds it. 'Received,' says the courier, and the word has so much relief in it that the pigeon-holes whisper. It does not look at you again. It goes back to the peg, and hangs its satchel on it with great care, and stands beside it like a man who has been told he may sit down and cannot yet bring himself to.".
+  }
+  Action chant_the_stages(actor: group, site: place, b: member) "Chant the stages of the Road to the Undelivered, in the beat of the Kindling rhyme" {
+    Description "{b} heard the children skip it on the bridge and knows a relay when {b} hears one. Sew it up (seal), send it home (pass), read it once (the stage reads the direction), leave alone (does not open).".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, post_house) and at(runner, post_house) and memberOf(b, actor) and brings(b, performance) and awake(b) and knows(actor, rhyme_heard) and not runnerEased(runner) and not dead(runner).
+    Time 3.
+    On success { Assert runnerEased(runner). Assert tolerates(runner, actor). }
+    Result "{b} says the beam of it first, low, under the breath, and then lets the words go out into the cold room in the old square stresses of the board on the wall: the Ford, the Eleventh Stone, the Black Stones, and the rest, a stage to a line, down to the blank. SEW it UP and SEND it ON, and then, because the board has nothing to put there, {b} stops, at the twelfth, in the place where the children say ONE FOR YOU. The courier has turned its head. It says the line back, in the voice of a page: 'Read it once and leave alone.' And then, in a voice that sounds suddenly very young: 'I know that one. Who taught it you?' It sets down its staff. It does not wait for an answer. 'The twelfth,' it says. 'I have always known it. Nobody would tell me it was theirs.'".
+  }
+  Topic runner_what with runner "Ask the Undelivered what the House of the Posts was" when runnerEased(runner) once {
+    Says "'The Road,' says the courier, with the patience of a thing that has been asked nothing for nine centuries. 'Eleven stages from the Hills to the Ford, a rider to a stage, a letter to a rider. Sealed, sent, read once at each by the stage and not opened, and left alone. It was the only law there was. It ran three countries and it never lost a letter.' A rustle. 'You ask what it was called. I have not got the name. They took the name when they took the Road, and left the law.' A pause, as of wet paper settling. 'There was a master of the posts at the Ford when the Road failed. Ambery. He did not shut the house. He said a post that is shut is a letter unsent. He turned the last stage into a petition, and the city's word into a letter, and the year's book into a rider, of its own leave, because a rider who has not consented is not a rider but a theft. I carry the pouch the last mile. The rite was the relay. They forgot that, and began to burn things.'".
+    On discuss { Assert knows(actor, post_known). Assert knows(actor, kindling_is_rite). }
+  }
+  Discovery post_known "The Colophon is a relay. Ambery was the last Master of the Posts at the Ford, and when the Road failed he kept the last stage as a petition: one book a year, of its own leave, to carry the city's word the last mile to the twelfth stage, where it is delivered. The Kindling was the relay before it was a fire. The Undelivered has carried no pouch since the rite became a burning.".
+  Topic runner_twelfth with runner "Ask the Undelivered where the twelfth stage is" when runnerEased(runner) and knows(actor, post_known) once {
+    Says "'You have been there,' says the courier, or a little less than that: 'You are going. The twelfth is where it is delivered. It was never cut, because it was never to be a place; a place is a thing you can besiege. It is the Chamber of the Parliament of the Bound, on the Roll, where the year's word was read.' It touches the blank on the board with one glove. 'The Master left a die. It is in the third pigeon-hole from the end. Whoever brings the year's book carries it, to be received.' A pause. 'Whoever it is.'".
+    On discuss { Assert knows(actor, die_known). }
+  }
+  Discovery die_known "The die of the post-house is in the third pigeon-hole from the end. Whoever brings the year's book to the twelfth stage presses it in wax, and is received.".
+  Item post_die "the die of the post-house" is post_stamp at post_house hidden until die_known.
+  Observe post_eased at post_house when runnerEased(runner) "The courier stands by its peg with its hands at its sides. It has stopped saying anything. The room is, in a way you cannot explain, warmer.".
+
+  // ── The choice ──────────────────────────────────────────────────────────────────────────────────────────────────
+  // The courier carries what is given it, of its own leave. The company's own almanack is a book that has just learned it
+  // may consent. To post it is to lose it, and to give the Parliament a voice; to keep it is to keep a friend.
+  Relation almanackPosted(group).
+  Topic almanack_post_ask with almanack "Ask the Almanack whether it would go to the Parliament by the Post, of its own leave" when knows(actor, post_known) and carriesAlmanack(actor) and not almanackPosted(almanack) once {
+    Says "The almanack in your pocket is quiet for so long that you take it out and look. 'By post,' it says at last. 'To a Parliament. As a book, with a stamp on, in a pouch, to be delivered.' A rustle that is almost a laugh. 'I have been on three thousand nails, you know, and I have never been delivered anywhere. I have only ever been where I was hung.' It sags a little. 'I would be on the nails still. I'm every copy; I can't help that. This one would be in the Chamber, with the Roll, and the Housebook, and the others. And I would be a copy that had been somewhere.' It folds a corner down. 'It is a great deal to ask of a penny. I should like to be asked properly. But I would go.'".
+  }
+  Action post_the_almanack(actor: group, site: place) "Give the Undelivered your almanack to carry to the Parliament, of its own leave" {
+    Description "It asked to be asked properly. The courier will not take it otherwise.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, post_house) and runnerEased(runner) and knows(actor, post_known) and carriesAlmanack(actor) and not almanackPosted(almanack).
+    Time 2.
+    On success { Spend almanack_copy from actor. Assert almanackPosted(almanack). }
+    Result "You hold it out in both hands, and say what you are doing, and why, and that it may say no. 'Yes,' says the Almanack, quite clearly, and then, very fast, before the courier has taken it: 'High water at the Ford, a quarter to seven. Fair, with showers toward evening, and a courier bringing news. I put that in at Candlemas, for somebody. It might as well be you.' The courier takes it in a grey glove and seals it, with the thumb, into the front of the satchel. 'Received,' it says. 'To be delivered.' The weight is gone from your pocket, and the pocket is a little colder, and on the nails of the Hithe, you are quite sure, three thousand almanacks go on reading the tides.".
+  }
+  Topic roll_posted with roll "Tell the Great Roll that a book has come to the twelfth stage by post, of its own leave" when heardStance(roll) and almanackPosted(almanack) and not favours(roll, sew_leave) once {
+    Says "The floor is silent for a long time. Then, from the front of the Chamber, from somewhere near the clerk's table, a small papery voice says, with great care: 'High water at the Chamber, a quarter past never. Fair.' The Roll makes a sound like a whole library clearing its throat. 'RECEIVED,' it says. It is not a magisterial voice. 'I have heard the Colophon read as a decree, and as a petition, and I had not thought to hear it read as a letter.' The floor trembles. 'A book that has come by the old Road, of its own leave, to be delivered: that is the first word of the Colophon, and I have not had it said to my face in nine hundred years. The chair could accept the Sleep by leave.'".
+    On discuss { Assert favours(roll, sew_leave). }
+  }
+  Topic roll_post with roll "Lay before the Great Roll the die of the post-house: the Road was a licensed passage with a keeper and a ledger" when heardStance(roll) and holding(actor, post_stamp) and not favours(roll, door_licensed) once {
+    Says "You set the die on the floor, and the floor, which is the Roll, reads it with its capitals, which takes a long time. 'Eleven stages,' it says. 'A twelfth unfilled. A keeper at each, and a ledger at each, and a stamp that says RECEIVED.' The red letters round your feet go still. 'That is a Plea. That is the Fourth. It was written before I was, on a stone I have never been shown.' A rumble, almost a laugh. 'A door with a keeper and a ledger and a mark that says it was passed. The chair could accept the Door under licence.'".
+    On discuss { Assert favours(roll, door_licensed). }
+  }
+
+  // ── The disagreement about a name, and the first word of Crake's ledger ───────────────────────────────────────
+  Topic crake_road with crake "Ask Absalom Crake what empire the courier script belongs to" when knows(actor, drowned_ridge) once {
+    Says "'Ys,' says Crake at once, and lights up. 'The Ysian Road. It's in the Cyclopaedia, in the back stacks, under YS, PHILOSOPHY OF, though that's the philosophy; the road is a footnote. A people who held the past to be written after the present, as a commentary is written after a text. A people like that don't hold roads; they hold the idea that a road has been walked.' He eats an almond. 'I've never been quite sure it was the same people. But my dear, one has to call it something.' His eyes are bright and a little sad. 'Quarles will tell you I'm wrong. Quarles is always right, and I have never once enjoyed it.'".
+  }
+  Topic quarles_road with quarles "Ask Ottoline Quarles what empire the courier script belongs to" when knows(actor, drowned_ridge) once {
+    Says "'Not Ys,' says Ottoline Quarles, without looking up. 'Crake's Ys is a philosophy. The Road ran a thing it called the Post; no more than that; it did not have a name for itself, because the people who ran it were the ones who did the carrying, and the people who named it were the ones who took it afterwards, and left nothing but the law.' She turns a page. 'I do not know what it was called. I know what it did. It carried a thing, and it was received, and it went on. If you need a name, call it the Receiving.'".
+  }
+
+  // ── After: the hook and the first letter ──────────────────────────────────────────────────────────────
+  Query postKept() means runnerEased(runner) and knows(party, post_known).
+  Observe after_hook at ferry_stairs when after() and postKept() "The hook on the third pile is bare. Jonah Pellow has taken the felted letters down in an armful, one afternoon, and read them aloud on the steps to whoever would listen, and delivered those he could. On the board over his boat, under NIGHTS ALSO, in chalk: LETTERS TAKEN.".
+  Observe after_posted at taproom when after() and almanackPosted(almanack) "On the nail by the chimney the almanack goes on reading the tides, and now and then, at the end of a sentence, adds a small thing it did not used to say: 'Received.' Moll Garrow has stopped telling it to hush.".
+}

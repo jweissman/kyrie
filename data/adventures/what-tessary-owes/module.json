@@ -15,7 +15,9 @@
     "ways.kyr",
     "week.kyr",
     "aftermath.kyr",
-    "company.kyr"
+    "company.kyr",
+    "lore.kyr",
+    "callings.kyr"
   ],
   "rules": [
     "world"
@@ -24,7 +26,8 @@
     "party"
   ],
   "canon": [
-    "imbar"
+    "imbar",
+    "remainder_harboured"
   ],
   "exports": {
     "party": "party",

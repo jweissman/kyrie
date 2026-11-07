@@ -1,0 +1,128 @@
+Module dorothea "The Dorothea" {
+  Description "The passage: a clock, a position, and the things that happen on the way. The Dorothea's progress is counted in watches from her casting off; where she is, is a fact of the world; trouble stops the count and the count goes on when the trouble is settled.".
+
+  Measure progress(entity). Measure water(entity). Measure fogAt(entity). Measure cargo(entity).
+  Relation fog(entity). Relation fogDone(entity). Relation heaved(entity). Relation holed(entity).
+  Initially Set progress(hull) to 0. Initially Set water(hull) to 0. Initially Set cargo(hull) to 40.
+
+  // The call she is making (bound(hull): 1 Skerrow, 2 Port Ness, 3 the Antlers) sets these when the fare is settled
+  // (port.kyr): where the open-sea table stops outbound, how long she lies at the island, and the stations home.
+  Measure seaEnd(entity). Measure stayFor(entity). Measure homeOpenAt(entity). Measure homeSoundAt(entity).
+  Measure homeQuayAt(entity). Measure homeAt(entity). Measure voyages(entity).
+  Initially Set seaEnd(hull) to 100. Initially Set stayFor(hull) to 217. Initially Set homeOpenAt(hull) to 32.
+  Initially Set homeSoundAt(hull) to 120. Initially Set homeQuayAt(hull) to 160. Initially Set voyages(hull) to 0.
+  // The window of the sea table (weather.kyr): on every open-sea leg, out or home, after the first hours and before
+  // the next landfall is near.
+  Query seaWindow(h: entity) means not homeward(h) and progress(h) >= 40 and progress(h) <= seaEnd(h) or homeward(h) and back(h) >= homeOpenAt(h) + 4 and back(h) <= homeSoundAt(h) - 4.
+
+  // Time at sea: one tick for each watch she is under way and not in trouble.
+  Rule sail_tick when sailed(hull) and not troubled(hull) and not arrived(hull) and not homeward(hull) and not safeHome(hull) { Increase progress(hull) by 1. }
+
+  // The stations of her passage.
+  Rule enters_open when at(hull, sound) and progress(hull) >= 36 and not homeward(hull) says "That was the last of the Sound's headlands, a minute since; and the Dorothea lifts to her first real swell. Bascom puts the pipe back in her mouth, which Rune says means she is satisfied." {
+    Retract at(hull, sound). Assert at(hull, open_sea).
+  }
+  Rule enters_combs when at(hull, open_sea) and bound(hull) == 1 and progress(hull) >= 108 and not homeward(hull) says "Dawn comes up grey and cold, and in it, dead ahead and from rim to rim of the sea, a line of white. The Combs." {
+    Retract at(hull, open_sea). Assert at(hull, teeth).
+  }
+  Rule enters_roads when at(hull, teeth) and progress(hull) >= 126 and not troubled(hull) and not homeward(hull) says "The Combs fall astern. The water goes from slate to green, and ahead a white tower stands on a green hill." {
+    Retract at(hull, teeth). Assert at(hull, roads).
+  }
+  Rule reaches_jetty when at(hull, roads) and progress(hull) >= 140 and not arrived(hull) and not homeward(hull) and sailed(hull) says "A boy on the jetty catches the Dorothea's bow-line, and makes it fast to the third ring, and the whole ship settles against the stone with a sound like a long breath." {
+    Retract at(hull, roads). Assert at(hull, jetty). Assert arrived(hull). Assert state(hull, moored_isle). Set reachedAt(hull) to watch(clock).
+  }
+
+  // ── Port Ness: a day's sail, nearer, with the salt ──────────────────────────────────────────────────────────────
+  Rule enters_ness when at(hull, open_sea) and bound(hull) == 2 and progress(hull) >= 60 and not homeward(hull) says "The swell shortens, and the water goes from slate to a muddy green. A smell comes down the wind that is not the sea: wet earth, boiled brine, a thousand hearths. Low on the larboard bow there is a long grey shore with white mounds on it like a laundry." {
+    Retract at(hull, open_sea). Assert at(hull, ness_roads).
+  }
+  Rule reaches_ness when at(hull, ness_roads) and progress(hull) >= 68 and not arrived(hull) and not homeward(hull) and sailed(hull) says "Port Ness takes the Dorothea in among its salt lighters, flat black barges with their sides white to the waterline. A man on the pier looks at her bow, and at her ensign, and writes something on a slate." {
+    Retract at(hull, ness_roads). Assert at(hull, ness_quay). Assert arrived(hull). Assert state(hull, moored_ness). Set reachedAt(hull) to watch(clock).
+  }
+
+  // ── The Antlers: a night's sail, and a race between the stacks ──────────────────────────────────────────────────
+  Relation pilotAboard(entity). Relation raceMet(entity). Relation towCalled(entity). Measure raceAt(entity).
+  Rule enters_race when at(hull, open_sea) and bound(hull) == 3 and progress(hull) >= 92 and not homeward(hull) says "At first light the sea is full of towers. They stand up out of it by dozens, black and white, streaked like a barn roof, with a roar of birds about them that you hear before you see: the Antlers. Between the nearest stacks a lane of water runs like a street, and the swell goes up it in lumps." {
+    Retract at(hull, open_sea). Assert at(hull, antler_race).
+  }
+  Rule race_with_pilot when at(hull, antler_race) and pilotAboard(hull) and not raceMet(hull) and not homeward(hull)
+    says "Fenwick Pelham, who was asleep on a coil of rope an hour ago, stands up at the wheel as sober as a bell. He does not look at the stacks. He looks at the water between them, and takes the Dorothea up the race with his hands as light as a man playing a flute." {
+    Assert raceMet(hull).
+  }
+  Rule race_trouble when at(hull, antler_race) and not pilotAboard(hull) and not raceMet(hull) and not homeward(hull)
+    says "'The race,' says Bascom, and takes the pipe out. 'There's a pilot for this. There is meant to be.' The lane between the stacks is a quarter-mile of cross-sea, and every stone in it has a white beard. Rune looks at the Captain, and the Captain looks at the company." {
+    Assert raceMet(hull). Assert troubled(hull). Set raceAt(hull) to watch(clock).
+  }
+  Rule reaches_antlers when at(hull, antler_race) and raceMet(hull) and not troubled(hull) and progress(hull) >= 104 and not arrived(hull) and not homeward(hull) and sailed(hull) says "She comes in under the biggest stack with the birds going up off it in a sheet, and a plank is run out to a ledge of wet rock no wider than a cart. Two anchors go down. A boy in a sack apron is already waving." {
+    Retract at(hull, antler_race). Assert at(hull, antler_ledge). Assert arrived(hull). Assert state(hull, moored_antlers). Set reachedAt(hull) to watch(clock).
+  }
+  // ── Ashkeld: three days south-west, and the loneliest light on the Reach ────────────────────────────────────────
+  Rule enters_ashkeld when at(hull, open_sea) and bound(hull) == 4 and progress(hull) >= 380 and not homeward(hull) says "On the third morning there is a cloud that does not move, standing on the sea ahead of the bow like a tree. As the Dorothea closes it, it has a foot: a black cone, a brown wash of ash on the water, and a smell like struck matches. Rune says, with real respect, that he would not live there for a thousand crowns. Mab says she would not either, and has already put a pot of the water aside to taste it." {
+    Retract at(hull, open_sea). Assert at(hull, ashkeld_roads).
+  }
+  Rule reaches_ashkeld when at(hull, ashkeld_roads) and progress(hull) >= 396 and not arrived(hull) and not homeward(hull) and sailed(hull) says "The boat goes down on its falls and the company goes ashore in the surf, with the ketch rolling off the black beach on her anchors. Warm water runs up the sand, and steam stands up in rags from the rocks above. A woman in a leather apron has already come down with a barrow." {
+    Retract at(hull, ashkeld_roads). Assert at(hull, ashkeld_beach). Assert arrived(hull). Assert state(hull, moored_ashkeld). Set reachedAt(hull) to watch(clock).
+  }
+  Observe deck_ashkeld_roads at deck when at(hull, ashkeld_roads) "Ashkeld roads: black sand, grey sea, ash drifting down on the deck like a thin snow, and the cone above it all with a flat red smear on the underside of its cloud that is not sunset.".
+  Observe deck_ashkeld at deck when at(hull, ashkeld_beach) "Ashkeld: black beach, white steam, a smell of eggs. Women in leather aprons and men with their trousers rolled stand in the surf with barrows of yellow stone.".
+  Observe deck_ness_roads at deck when at(hull, ness_roads) "Port Ness roads: a long shore with pans on it, square after square of grey water, and over them a haze of steam from the boiling-houses. Gulls stand on every post.".
+  Observe deck_ness_quay at deck when at(hull, ness_quay) "Port Ness pier. Salt lighters lie three deep, their loads heaped white, and a gang of women in rag gloves are shovelling it down a chute into the dark of a barn. Nobody looks up.".
+  Observe deck_race at deck when at(hull, antler_race) and not troubled(hull) "The race. Stacks go by close enough to touch, the guano white as a frost down their faces, the birds a roar of wings. Every few cables there is a rope hanging down one, and the end of it is in the sea.".
+  Observe deck_race_trouble at deck when at(hull, antler_race) and troubled(hull) "The Dorothea lies hove-to at the mouth of the race with her sails shaking. The cross-sea runs up the lane and breaks on the stacks, and the stacks do not mind.".
+  Observe deck_antlers at deck when at(hull, antler_ledge) "The Antlers' ledge: a wet shelf of rock, a plank, a hoist-rope going up a stack into cloud, and down the sheer wall of the biggest stack, a rope-ladder of such an age that the sea-birds have nested in it.".
+
+  // ── Mangrow: five days south, and the green ────────────────────────────────────────────────────────────────────
+  Rule enters_mangrow when at(hull, open_sea) and bound(hull) == 5 and progress(hull) >= 680 and not homeward(hull) says "On the fifth morning the sea changes colour from slate to tea, and a smell comes across it that is not the sea: wet leaf, rot, something sweet beyond the rot. Then a green wall rises from the water and goes on rising, and in it a single brown mouth. Rune says it is the only place he knows where the land has the weather." {
+    Retract at(hull, open_sea). Assert at(hull, mangrow_roads).
+  }
+  Rule reaches_mangrow when at(hull, mangrow_roads) and progress(hull) >= 700 and not arrived(hull) and not homeward(hull) and sailed(hull) says "Bascom will not trust a line to the pier. Two anchors go down in the tea-coloured water and a plank is run out to the black piles, and at the end of it, with a cheroot, a thin dark woman is waiting to be paid." {
+    Retract at(hull, mangrow_roads). Assert at(hull, mangrow_pier). Assert arrived(hull). Assert state(hull, moored_mangrow). Set reachedAt(hull) to watch(clock). Set stingAt(party) to watch(clock) + 6.
+  }
+  // The long legs read as days: Ashkeld's third and Mangrow's fifth.
+  Observe deck_day_two at deck when at(hull, open_sea) and bound(hull) >= 4 and progress(hull) >= 150 and progress(hull) < 290 and not homeward(hull) and not troubled(hull) "The second day out. The wind has gone round to the south and there is warmth in it that was not there yesterday. The gulls have turned back. Nipper has stopped asking how far.".
+  Observe deck_day_three at deck when at(hull, open_sea) and bound(hull) >= 4 and progress(hull) >= 290 and progress(hull) < 430 and not homeward(hull) and not troubled(hull) "The third day, and the sea is the same sea. The ship's sounds have settled into a drone. Mab has stopped serving the fresh bread, and the biscuit has become a subject.".
+  Observe deck_day_four at deck when at(hull, open_sea) and bound(hull) == 5 and progress(hull) >= 430 and progress(hull) < 570 and not homeward(hull) and not troubled(hull) "The fourth day. Flying fish go across the bow in sheets. The water has begun to smell of something that is not salt. Bascom, at the wheel, has not said a word since breakfast, and when she does it is to ask for the lead.".
+  Observe deck_day_five at deck when at(hull, open_sea) and bound(hull) == 5 and progress(hull) >= 570 and not homeward(hull) and not troubled(hull) "The fifth day, towards dusk. A drift of leaves goes by, and then a whole bough, and a bird of a colour you have no word for sits on the rail and looks at the company with deep disapproval.".
+
+  // ── Fog in the Sound ────────────────────────────────────────────────────────────────────────────────────────────
+  Rule fog_rolls when at(hull, sound) and progress(hull) >= 22 and not fogDone(hull)
+    says "It comes down the Sound from the sea like a wall being let fall: first the headlands go, then the bow, then the hand on the rail. Bascom says 'Rune,' very quietly, and Rune is already at the lead." {
+    Assert fog(hull). Assert troubled(hull). Assert fogDone(hull). Set fogAt(hull) to watch(clock).
+  }
+  Observe fog_deck at deck when fog(hull) "Fog, thick as wool. The jib has gone. Somewhere ahead and to larboard a bell is tolling, slow, and nobody aboard can say whether it is a buoy or a ship.".
+  Action take_soundings(actor: group, site: place) "Take the lead-line forward and call the depth" {
+    Description "A man in the bows with a weight on a cord can feel a shoaling before the bow does. It is not a thing that is done well by someone who has never done it.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, deck) and fog(hull) and not heaved(hull).
+    Time 3.
+    Resolve check(actor, wayfinding, dc_fair).
+    On success { Retract fog(hull). Retract troubled(hull). }
+    On failure { Increase water(hull) by 6. Assert holed(hull). }
+    Result "You swing the lead and call it, and call it, and the number tells you the shape of the sea floor better than eyes: a hollow, a hump, the long sweep of the channel. When the bell is a ship's bell you call that, too, and the Dorothea wears away to starboard with ten fathoms to spare. Bascom looks at you for the first time as at a person. 'Where did you learn that,' she says. It is not quite a question.".
+    Otherwise "The lead comes up and the number you call is the wrong number by a fathom, and the Dorothea's keel finds the Whelk Bank with a long groan that you feel in your teeth. Bascom takes the wheel from Rune and brings her off, swearing in a very low voice. In the hold a seam has opened and is letting in a little sea.".
+  }
+  Rule bascom_heaves when fog(hull) and not heaved(hull) and watch(clock) >= fogAt(hull) + 8
+    says "Captain Bascom brings the Dorothea up into the wind and lets her sails go slack. 'We'll wait,' she says. 'We'll lose the morning, and we'll keep the keel.'" {
+    Assert heaved(hull).
+  }
+  Rule fog_burns_off when fog(hull) and heaved(hull) and watch(clock) >= fogAt(hull) + 22
+    says "Sometime in the small hours the fog tears, all at once, and there are stars, and a headland four cables off that nobody aboard had known was there. Bascom looks at it for some time. 'Right,' she says." {
+    Retract fog(hull). Retract troubled(hull). Retract heaved(hull).
+  }
+
+  // ── The leak and the pump ───────────────────────────────────────────────────────────────────────────────────────
+  Rule leak_gains when holed(hull) and sailed(hull) and not arrived(hull) and not safeHome(hull) and water(hull) < 60 { Increase water(hull) by 1. }
+  Observe leak_hold at hold when water(hull) > 0 "Sea water slops about the hold, ankle-deep, black, and cold enough to hurt. It is the sort of cold that gets into a plank and stays.".
+  Action pump(actor: group, site: place) "Work the pump" {
+    Description "A hand-pump on the hold's ladder: two men to the brake. It is a labour done in turns, and nobody who has done it for an hour will say they enjoy it.".
+    Requires able(actor) and company(actor) and at(actor, site) and (at(actor, hold) or at(actor, deck)) and water(hull) >= 6.
+    Time 3.
+    On success { Decrease water(hull) by 6. }
+    Result "You work the brake until your arms stop being yours. The water goes down the side in a clear rush, and for a while it is a quarter inch lower.".
+  }
+  Rule bascom_calls_pump when water(hull) >= 18 and not callPumped(hull) and sailed(hull) and not arrived(hull) says "'All hands to the pump!' calls Bascom, in a voice that has never once needed to be raised. 'She's making water faster than I like.'" { Assert callPumped(hull). }
+  Relation callPumped(entity).
+  Rule founder_check when water(hull) >= 40 and sailed(hull) and not arrived(hull) and not foundered(hull) says "The Dorothea settles. It is a gentle thing, like a woman sitting down, and the sea comes over the rail without malice and without hurry." {
+    Assert foundered(hull).
+  }
+  Relation foundered(entity).
+}

@@ -61,7 +61,7 @@ Module tessary "What Tessary Owes" {
   Observe steps_scene_again at tideline_steps when visitedBefore(tideline_steps) "The Watersteps, old and worn to dimples, going down into the sea.".
   Observe steps_boots at tideline_steps when bootsOnSteps(ossel) "On the top step stand pairs of boots, set neatly side by side, toes to the water, the way a soldier sets them by his cot. Nobody has moved them. Nobody will.".
   Observe steps_water at tideline_steps when lowWater() "The sea has drawn back a long way, and the steps go down and down into weed and wet sand, and out there in the grey, very low, the tops of walls.".
-  Observe steps_full at tideline_steps when not lowWater() "The water stands high on the steps, slopping and green.".
+  Observe steps_full at tideline_steps when not lowWater() "The tide is in, green and slopping at the seventh step. A child is fishing off the bottom rail with a bent pin and no line.".
 
   // The Swatch Stair, and the Swatch: the channel the basin drains by.
   Observe throat_scene at throat_head when not visitedBefore(throat_head) "At the west end of the Tidewall the wall-walk breaks off at a stair that goes straight down the face of the wall into the basin. A chain hangs beside it for a handrail. Below, the Swatch: the one deep channel through which the outer basin fills and empties twice a day, with a noise like a slow mill.".
@@ -178,5 +178,5 @@ Module tessary "What Tessary Owes" {
   Place chandlery_house "Pitch's chandlery" is building within tessary.
   Place chandlery "Pitch's chandlery" is room within chandlery_house at 0, 0.
   Passage chandlery_door "the chandlery door" is door between landgate and chandlery.
-  Observe chandlery_scene at chandlery when true "Rope, tar, lanterns, oilskins, hooks, rations in tins, and a ship's chandler in a leather apron behind a counter worn into a dip by elbows.".
+  Observe chandlery_scene at chandlery when true "Rope in coils from the rafters like sleeping eels, and the whole shop smells of tar and wet hemp. Lanterns, oilskins, hooks, rations in tins; and behind a counter worn into a dip by elbows, a chandler in a leather apron, splicing something and not looking at his hands.".
 }

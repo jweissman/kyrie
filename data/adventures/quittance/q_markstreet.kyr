@@ -78,10 +78,10 @@ Module quittance "Quittance" {
   Observe ms_kitchen_after at ms_kitchen when ms_over() "A wet black kitchen, with the range standing in it like a bull in a ruin.".
 
   // ── The people in the street ────────────────────────────────────────────────────────────────────────────
-  Person ms_mrs "Hester Peascod" at ms_kitchen {
+  Person ms_mrs "Ada Peascod" at ms_kitchen {
     Role "Aubrey Peascod's wife". Ancestry human. Calling bard. Level 1. Peaceable. Manner stoic. Pronouns she.
-    Greets "A woman in an apron is wiping a table that is already clean. 'You'll be from the Offices,' says Hester Peascod. 'Everyone is. My husband is on the Wharf and has not been told, and I have been meaning to put the kettle on since seven.'".
-    Greets again "'Oh,' says Hester Peascod, putting down the cloth. 'It's you.'".
+    Greets "A woman in an apron is wiping a table that is already clean. 'You'll be from the Offices,' says Ada Peascod. 'Everyone is. My husband is on the Wharf and has not been told, and I have been meaning to put the kettle on since seven.'".
+    Greets again "'Oh,' says Ada Peascod, putting down the cloth. 'It's you.'".
   }
   Person ms_kids "the Peascod children" at ms_kitchen {
     Role "three children, one with a cat". Ancestry human. Peaceable. Numbers 3. Manner cheerful. Pronouns they.
@@ -135,7 +135,7 @@ Module quittance "Quittance" {
     Assert ms_ended(ms_nine). Assert ms_paid(ms_nine). Assert ms_garrity_shamed(party). Assert ms_slighted_phoenix(party).
     Increase regard(lamprey) by 2. Decrease regard(phoenix) by 1 or to nothing.
   }
-  Rule ms_end_swapped when ms_over() and ms_v_lamprey(ms_nine) and ms_swapped(party) and not ms_ended(ms_nine) says "Captain Garrity looks at the door a long time. 'That's a fish,' she says. There is a silence in which a good many people decide not to remember a bird. 'A mark on the door is the policy,' says Captain Garrity, heavily, 'and that is a mark.' She steps back, and the Lamprey's hose goes in under Mate Marchbanks's astonished eye. Nobody says a word about the other side of the street, where Number Ten has a pale square over its own door." {
+  Rule ms_end_swapped when ms_over() and ms_v_lamprey(ms_nine) and ms_swapped(party) and not ms_ended(ms_nine) says "Captain Garrity looks at the door with the face of a woman reading a bill. 'That's a fish,' she says. There is a silence in which a good many people decide not to remember a bird. 'A mark on the door is the policy,' says Captain Garrity, heavily, 'and that is a mark.' She steps back, and the Lamprey's hose goes in under Mate Marchbanks's astonished eye. Nobody says a word about the other side of the street, where Number Ten has a pale square over its own door." {
     Assert ms_ended(ms_nine). Assert ms_paid(ms_nine). Increase regard(lamprey) by 1.
   }
   Rule ms_end_third when ms_over() and ms_v_third(ms_nine) and not ms_ended(ms_nine) says "You write it out on the back of the Peascods' own policy-book, with your licence open beside it on the step: THIS HOUSE WEARS THE MARK OF THE PHOENIX AND HOLDS THE POLICY OF THE LAMPREY; THE BRIGADE OF THE MARK SHALL ATTEND, THE OFFICE OF THE POLICY SHALL PAY, AND THE SALVAGE BE SHARED. Mate Marchbanks reads it twice. Captain Garrity reads it once, holding it a little away, as a woman looks at a bill from a trade she did not know she had. Then she signs, slowly, beneath you, 'Garrity, for the mark', and Marchbanks 'Marchbanks, for the policy', and the two hoses go in together." {
@@ -182,11 +182,11 @@ Module quittance "Quittance" {
 
   // ── At the fire: what the company can ask, and who answers ──────────────────────────────────────────────
   Topic ms_mrs_policy with ms_mrs "Ask Mrs Peascod whose cover the house is under" when ms_open() once {
-    Says "'The Lamprey's,' says Hester Peascod, not taking her eyes off the front wall. 'Aubrey's firm takes it for all the clerks, the way they take the tea. It's in the policy-book, in the bureau in the front room, in the tin drawer; I could show you the page. And it's the Phoenix has come, with a bird the Guild's man put up on Monday, and I said at the time, I said, Mr Tapley, that's a bird. And he said it was a very good fish.'".
+    Says "'The Lamprey's,' says Ada Peascod, not taking her eyes off the front wall. 'Aubrey's firm takes it for all the clerks, the way they take the tea. It's in the policy-book, in the bureau in the front room, in the tin drawer; I could show you the page. And it's the Phoenix has come, with a bird the Guild's man put up on Monday, and I said at the time, I said, Mr Tapley, that's a bird. And he said it was a very good fish.'".
     On discuss { Assert knows(actor, ms_lamprey_cover). }
   }
   Topic ms_mrs_clock with ms_mrs "Ask Mrs Peascod why she is holding the clock" when ms_open() once {
-    Says "'Because it was the first thing to hand,' says Hester Peascod, 'and I thought if I put it down I should have to decide about the rest.'".
+    Says "'Because it was the first thing to hand,' says Ada Peascod, 'and I thought if I put it down I should have to decide about the rest.'".
   }
   Topic ms_kids_what with ms_kids "Ask the children what they have saved" when ms_open() once {
     Says "'Premium,' says the smallest, holding the cat up. 'And the slate. And Papa's best hat, but only the box.' The eldest shows you the slate. On it, in careful chalk: IF A HOUSE IS INSURED AND IT BURNS, WHO.".
@@ -341,7 +341,7 @@ Module quittance "Quittance" {
     On discuss { Assert willing(tobias, actor). Set hire(tobias) to 0. }
   }
   Topic ms_mrs_witness with ms_mrs "Ask Mrs Peascod whether she would say what happened before the Five" when ms_paid(ms_nine) or ms_rule(party) once {
-    Says "'I should think so,' says Hester Peascod. 'I've been waiting for someone to ask me something that was not whether I was covered.'".
+    Says "'I should think so,' says Ada Peascod. 'I've been waiting for someone to ask me something that was not whether I was covered.'".
     On discuss { Assert witness(ms_mrs). }
   }
   Objective ms_obj_fire when (knows(party, ms_claim) or knows(party, ms_alarm)) and state(ms_house, ms_alight) "A house burns on Mark Street under the wrong Office's plate, and the two brigades will not work a mark that is not theirs. It will be gone by noon.".

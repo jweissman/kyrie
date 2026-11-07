@@ -20,7 +20,7 @@ Module hume "Half the Hive" {
     On success { Set scentUntil(actor) to watch(clock) + 144. Assert anointed(actor). Retract spread(scent_faded). }
     Result "Elspet looks at the yellow ribbon and nods and does it without a word, quicker than for a guest: forehead, throat, wrists. 'Kestrel's,' she says. 'Mind she pays you.'".
   }
-  Rule elspet_smells at scenting_room when at(party, scenting_room) and usedNellOil(party) and scented() and not named(party) and not spread(elspet_smelled) says "Elspet Garnock leans in to smell you, out of habit, and stops. 'That is not mine,' she says, very quietly. 'That is very nearly mine.' She looks at you over her spectacles for a long moment, and does not ask where you got it, which is worse." { Assert spread(elspet_smelled). }
+  Rule elspet_smells at scenting_room when at(party, scenting_room) and usedNellOil(party) and scented() and not named(party) and not spread(elspet_smelled) says "Elspet Garnock leans in to smell you, out of habit, and stops. 'That is not mine,' she says, very quietly. 'That is very nearly mine.' She looks at you over her spectacles, and does not ask where you got it. You would rather she had." { Assert spread(elspet_smelled). }
   Entity elspet_smelled: fact "Elspet smells Nell's oil".
   Topic elspet_scent with elspet "Ask Elspet what the scent is" when true once {
     Says "'The Mother.' She holds up the jar. 'Every queen has her own smell, and every Sister born to her knows it, and knows that whatever smells of it is the hive, and whatever does not is a robber. So we take a little of what the Mother leaves on the comb where she walks, and we cut it with wax and oil, and we put it on our children the day they are born, and on ourselves at every feast. That is what it is to be of the Comb.' She stoppers the jar. 'On you it lasts a day. On us it never quite comes off.'".
@@ -29,7 +29,7 @@ Module hume "Half the Hive" {
     Says "'Anyone may be scented for a day, if they pay. That is hospitality.' She dries her hands, finger by finger. 'To be named, to be scented for life, is another thing. That is for those born to it, and for those the Comb takes in: a marriage, sometimes; a service. I decide. My mother decided before me.' She looks at you over the spectacles. 'People think it is a small thing, a smell. It is everything. It is the only thing the Sisters know about you.'".
   }
   Topic elspet_nell with elspet "Ask Elspet about Nell Quarrie" when knows(actor, nell_forges) and not nellNamed(nell) and not nellBarred(nell) once {
-    Says "Her face goes very still. 'Aldo Quarrie's widow. A lowlander. She asked to be named after he died, so she could sit with him. I said no.' She says it without heat. 'He married out. He went down the gorge for eleven years. The Comb did not take her in; he took her out. It is not the same.' A pause. 'She asks me every year. I say no every year. I am not cruel,' she says. 'I am the door. A door that opens to everyone is not a door.'".
+    Says "Her face goes very still. 'Aldo Quarrie's widow. A lowlander. She asked to be named after he died, so she could sit with him. I said no.' She says it without heat. 'He married out. He went down the gorge for eleven years. The Comb did not take her in; he took her out. It is not the same.' A pause. 'She asks me every year. I say no every year. I say it kindly, now,' she says. 'It took me some years to learn how.'".
   }
   Action expose_nell(actor: group, site: place) "Tell Elspet that Nell Quarrie forges the scent and goes up the stair in it" {
     Speaker elspet.
@@ -47,7 +47,7 @@ Module hume "Half the Hive" {
     Time 2.
     Resolve check(actor, persuasion, dc_fair).
     On success { Assert nellNamed(nell). }
-    Result "You tell her all of it: the oil, the six years, the fourth row on the left. And then what Agnes Mellor said, that Tobit sealed Aldo Quarrie himself and wept doing it, and that Nell sat with Tobit's body last week in the dark when nobody else would. Elspet is silent a long time. 'She has been coming up my stair,' she says at last, 'for six years, to sit in the dark with a dead man, because I would not let her do it in the light.' She puts her spectacles back on. 'Tell her to come in the morning. I will do it properly. The way it is done for a bride.'".
+    Result "You tell her all of it: the oil, the six years, the fourth row on the left. And then what Agnes Mellor said, that Tobit sealed Aldo Quarrie himself and wept doing it, and that Nell sat with Tobit's body last week in the dark when nobody else would. Elspet turns a stoppered jar on her bench a quarter-turn, and another. 'She has been coming up my stair,' she says at last, 'for six years, to sit in the dark with a dead man, because I would not let her do it in the light.' She puts her spectacles back on. 'Tell her to come in the morning. I will do it properly. The way it is done for a bride.'".
     Otherwise "Elspet hears you out and shakes her head. 'You are asking me to reward a forger for forging.' She turns back to the basin. 'Ask me again when I have slept on it.'".
   }
 

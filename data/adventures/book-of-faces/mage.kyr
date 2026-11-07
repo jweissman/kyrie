@@ -124,7 +124,7 @@ Module ombra "The Book of Faces" {
     Time 3.
     Resolve check(actor, insight, dc_fair).
     On success { Assert knows(actor, mg_cost). }
-    Result "He puts it in your hands as he might put down a thing that had been in the family, and tells you without any of the usual pretences. It was cut from a man pulled out of the lagoon in the Sluice year; nobody claimed him. 'It fits whoever has nobody,' says Dov Ashe. 'That is all it is: I cut it from a face and it gives the face back to the next one who needs it. Which is a thing a mask ought to do, and the wrong one to have, and it costs him. It costs the man every time. It costs the one who was going to claim him.' He wipes his hands. 'I think a fit is a thing somebody paid for. I do not think it is ever free.'".
+    Result "He puts it in your hands as he might put down a thing that had been in the family, and tells you without any of the usual pretences. It was cut from a man pulled out of the lagoon in the Sluice year; nobody claimed him. 'It fits whoever has nobody,' says Dov Ashe. 'That is all it is: I cut it from a face and it gives the face back to the next one who needs it. That is what a mask is meant to do. Only he was somebody's. Every time it sits on somebody, that is him not being claimed.' He wipes his hands on his apron. 'A fit is something somebody paid for. I do not think it is ever free.'".
     Otherwise "He holds it out and does not let go. 'It's only a mask,' says Dov, and you cannot tell if he is lying to you or to himself, and you leave with the sense of a door that was meant to be opened and was not, by either of you.".
   }
   Action mg_cost_lacke(actor: group, site: place) "Ask the Warden what the Key has cost him, as one who has had it" {

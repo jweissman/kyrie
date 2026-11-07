@@ -65,12 +65,12 @@ Module hume "Half the Hive" {
     Says "'There's no way round the moor.' She does not even look up. 'I've crossed it forty times. You go by the crag, fast, with smoke, and hope.' Then she does look up. 'Who told you there was a way round?' You tell her. 'A Drone.' She laughs, not kindly. 'The Escort can't find the honey in a honey-cake.'".
   }
   Topic kestrel_drove_ivo with kestrel "Ask Ivo to tell Kestrel about the shepherds' drove" when knows(actor, drove_known) and not kestrelTurned(kestrel) and travelsWith(ivo, actor) once {
-    Says "Ivo tells her. He does it well: the drove, where it leaves the moor path, the cairns that mark it, the bothy halfway with the names on the lintel, the gentle fall of it down to the Far Brow from the north, where the ground is soft. Kestrel listens with her arms folded, and her face does several things. When he has finished she says, 'Hannet could walk that.' And then: 'Agnes Mellor could walk that. Carrying.' And then, as if it hurt her: 'I didn't know it was there.' She looks at Ivo for a long moment. 'Forty times I've crossed that moor by the crag.' She unfolds her arms. 'Show me tomorrow. If it's there, the Leaving goes by it.'".
+    Says "Ivo tells her. He does it well: the drove, where it leaves the moor path, the cairns that mark it, the bothy halfway with the names on the lintel, the gentle fall of it down to the Far Brow from the north, where the ground is soft. Kestrel listens with her arms folded, and her face does several things. When he has finished she says, 'Hannet could walk that.' And then: 'Agnes Mellor could walk that. Carrying.' And then, as if it hurt her: 'I didn't know it was there.' She looks at Ivo's boots, which have never done a mile of work. 'Forty times I've crossed that moor by the crag.' She unfolds her arms. 'Show me tomorrow. If it's there, the Leaving goes by it.'".
     On discuss { Assert kestrelTurned(kestrel). }
   }
   // After the Turning-out, a man with a loaf at the edge of the Wold.
   Topic ivo_world with ivo "Ask Ivo to come with you, out into the world" when ivoTurnedOut(ivo) and not travelsWith(ivo, actor) once {
-    Says "He looks down the drove road toward the lowland for a long time, his loaf under his arm, his yellow coat already dusty. 'I can walk,' he says. 'I can talk. I can sing.' He tucks the loaf more firmly under his arm. 'And it turns out I can find things.' He smiles, the real smile, not the one for cushions. 'Yes. Thank you. Yes.'".
+    Says "He looks down the drove road toward the lowland, his loaf under his arm, his yellow coat already dusty. 'I can walk,' he says. 'I can talk. I can sing.' He tucks the loaf more firmly under his arm. 'And it turns out I can find things.' He smiles, the real smile, not the one for cushions. 'Yes. Thank you. Yes.'".
     On discuss { Assert willing(ivo, actor). }
   }
 }

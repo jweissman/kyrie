@@ -25,8 +25,8 @@ Module lowwater "Low Water" {
   }
   Rule orr_to_loft when hour(clock) == 18 and at(orr, cantor_room) { Retract at(orr, cantor_room). Assert at(orr, choir_loft). }
   Rule orr_to_room when hour(clock) == 21 and at(orr, choir_loft) { Retract at(orr, choir_loft). Assert at(orr, cantor_room). }
-  Person tamsin "Tamsin Reed" at choir_loft {
-    Greets "Tamsin Reed jumps down off the loft bench, all elbows, and then remembers she is in the Sounding and walks the last two steps.".
+  Person tamsin "Merrin Reed" at choir_loft {
+    Greets "Merrin Reed jumps down off the loft bench, all elbows, and then remembers she is in the Sounding and walks the last two steps.".
     Role "a chorister of sixteen, from the Dyers' Terrace". Ancestry human. Peaceable. Pronouns she. Manner cheerful.
   }
   Person fisk "Precentor Aldo Penhale" at nave {
@@ -72,15 +72,15 @@ Module lowwater "Low Water" {
     Says "'Because she cut the Remainders.' He says it with a terrible satisfaction. 'Three autumns ago she cut them, and three autumns ago the Mere began to fall. Seven Remainders, as it was given to the Aeneans and by them to us, and she took a knife to it like a tailor to a coat.' He folds his hands. 'The Mere is the dead, Assessor. Every soul a drop. When the hymn is broken the dead do not rest, and they go down, and away. I have said so at three Councils. They laugh.'".
   }
   Topic fisk_why with fisk "Ask Penhale how he knows it was the Remainders and not something else" when knows(actor, short_hymn) once {
-    Says "'Because I have faith,' he says, and then, seeing your face, rather less grandly: 'And because I can count. The Mere stood still two hundred years. Then it moved. The only thing that changed in the Bowl that autumn was the hymn.' He looks at you sidelong. 'The Guild's Channel was the next year. Nobody remembers that. Everybody remembers the Channel.'".
+    Says "'Because I have faith,' he says, and then, seeing your face, rather less grandly: 'And because I can count. The Mere stood still for as long as there has been a Cantor. Then it moved. The only thing that changed in the Bowl that autumn was the hymn.' He looks at you sidelong. 'The Guild's Channel was the next year. Nobody remembers that. Everybody remembers the Channel.'".
   }
 
-  // Tamsin, who came because of the reform.
-  Topic tamsin_why with tamsin "Ask Tamsin why she sings" when true once {
-    Says "'Because it's the best thing in the world,' says Tamsin, as if you were slow. 'My mum used to say the Hymn was two hours of old men moaning. Then Cantor Orr made it short and my friend Jessa dragged me, and.' She stops, and starts again. 'When we all breathe in together it's like the whole dome breathes in. You can't do that on your own. You can't do it with five people. You need everybody.' She grins. 'Even Precentor Penhale.'".
+  // Merrin, who came because of the reform.
+  Topic tamsin_why with tamsin "Ask Merrin why she sings" when true once {
+    Says "'Because it's the best thing in the world,' says Merrin, as if you were slow. 'My mum used to say the Hymn was two hours of old men moaning. Then Cantor Orr made it short and my friend Jessa dragged me, and.' She stops, and starts again. 'When we all breathe in together it's like the whole dome breathes in. You can't do that on your own. You can't do it with five people. You need everybody.' She grins. 'Even Precentor Penhale.'".
   }
-  Topic tamsin_seventh with tamsin "Ask Tamsin what she would think if the Seventh Remainder came back" when knows(actor, hymn_cause) once {
-    Says "Tamsin pulls a face, and then thinks about it properly, which you like her for. 'The counting one? It's dull. Everybody says so.' She chews her lip. 'But if it was for something. If it actually did something.' She looks down through the grating at the black water. 'I'd sing it. I'd sing it every night. It'd be like, like being the lock-keeper. Only all of us.'".
+  Topic tamsin_seventh with tamsin "Ask Merrin what she would think if the Seventh Remainder came back" when knows(actor, hymn_cause) once {
+    Says "Merrin pulls a face, and then thinks about it properly, which you like her for. 'The counting one? It's dull. Everybody says so.' She chews her lip. 'But if it was for something. If it actually did something.' She looks down through the grating at the black water. 'I'd sing it. I'd sing it every night. It'd be like, like being the lock-keeper. Only all of us.'".
   }
 
   // After the hymn is known for what it does.
@@ -89,7 +89,7 @@ Module lowwater "Low Water" {
     says "It comes together like two halves of a broken plate: the autumn the Short Hymn was first sung, and the autumn the Mere began to fall; the Seventh Remainder that the Short Hymn left out, and the nights since then in the keeper's book, every one of them the same. Deep did not come down." teaches hymn_cause { }
   Relation orrKnows(group).
   Topic orr_told with orr "Tell Cantor Orr what the Seventh Remainder did" when knows(actor, hymn_cause) and not orrKnows(orr) once {
-    Says "She stops you before you have finished. 'Say it plainly. I'm seventy-one. I haven't time for you to be kind.' You say it plainly. She sits for a long time with her hands in her lap, looking at nothing. 'Then it wasn't silt,' she says. 'Then somebody wrote it seven times because it was meant seven times.' She looks at her hands. 'And I thought it was ugly. I thought it was the ugliest thing in the hymn, those four bars. Like somebody counting.' A breath. 'It was somebody counting, wasn't it.'".
+    Says "She stops you before you have finished. 'Say it plainly. I'm seventy-one. I haven't time for you to be kind.' You say it plainly. She sits with her hands in her lap and her eyes on the lid of the clavichord. 'Then it wasn't silt,' she says. 'Then somebody wrote it seven times because it was meant seven times.' She looks at her hands. 'And I thought it was ugly. I thought it was the ugliest thing in the hymn, those four bars. Like somebody counting.' A breath. 'It was somebody counting, wasn't it.'".
     On discuss { Assert orrKnows(orr). }
   }
   Relation trialSung(place).

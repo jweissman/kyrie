@@ -103,7 +103,7 @@ Module thrume "Thrume" {
   Rule challenge_unanswered when challenged(party) and not guest(party) and not roused(hold) and watch(clock) >= answerBy(party)
     says "The giant with the bucket stops waiting. He shouts, and the hall doors bang open." { Assert roused(hold). }
   Rule seen_in_hall when (at(party, long_hall) or at(party, barracks)) and not dark() and not guest(party) and not roused(hold) and not sworn(morrach)
-    says "A roar goes up from the benches." { Assert roused(hold). }
+    says "A roar goes up from the benches, and then the sound of a great many people getting to their feet, one bench at a time, like a landslide arriving in order." { Assert roused(hold). }
   // Crossing the sleeping hall: the light-footed pass; others may not.
   Relation crept(group).
   Rule hall_wakes when at(party, long_hall) and dark() and not guest(party) and not sworn(morrach) and not capable(party, stealth) and not roused(hold) and dice(long_hall) <= 35
@@ -162,12 +162,12 @@ Module thrume "Thrume" {
     Assert saltReturned(rememberer).
   }
   Topic rememberer_truth with rememberer "Ask the Rememberer who is warm" when saltReturned(rememberer) once {
-    Says "She turns her face to you. 'Sit down, small ones. Thrume is not a mountain. Thrume is the last of the old ones, the ones who were here before the hills, and he sleeps, and the hills are him. We are his keepers. Your miners have cut into him to the blood, and he is beginning to dream.' Her hand finds the pillar beside her. 'When he dreams, things walk. You have one in our cellar.'".
+    Says "She turns her face to you and takes her hand from the pillar for the first time. 'Sit, small ones. Your Margravine thinks she is mining a mountain. There is no mountain. Thrume is the last of the old ones, and he is asleep, and the hills are the shape he sleeps in. We keep him. Your miners have cut him to the blood, and he is beginning to dream.' Her hand finds the pillar beside her. 'When he dreams, things walk. You have one in our cellar.'".
     On discuss { Assert knows(actor, thrume_known). }
   }
   Discovery song_known "The keepers' song, as the Rememberer sang it: the names of the old ones, one by one, and Thrume's last. A song is a thing remembered by the living; nothing that eats forgetting can eat it.".
   Topic rememberer_song with rememberer "Ask the Rememberer to teach you the song" when knows(actor, thrume_known) and (dreamt(actor) or knows(actor, mouth_known)) once {
-    Says "She is quiet a long time. She leans close and breathes in, as if smelling your hair. 'You have been in his dream,' she says. 'I can smell the sky on you.' Then: 'The song is not for small ones. Then: 'But the small ones are going where we cannot.' She sings. It is long, and very low, and your teeth ache with it, and it is only names: the old ones, one by one, the hills that walked, and last of all Thrume's. When she stops, you find you can sing it back to her, every name. 'Do not forget it,' she says. 'It is the one thing down there that cannot be eaten, while one of us remembers.'".
+    Says "She is silent while the fire settles twice. Then she leans close and breathes in, as if smelling your hair. 'You have been in his dream,' she says. 'I can smell the sky on you.' A pause. 'The song is not for small ones. But the small ones are going where we cannot.' She sings. It is long, and very low, and your teeth ache with it, and it is only names: the old ones, one by one, the hills that walked, and last of all Thrume's. When she stops, you find you can sing it back to her, every name. 'Do not lose it,' she says. 'Down there it is the one thing that cannot be eaten, while one of us remembers.'".
     On discuss { Assert knows(actor, song_known). }
   }
   Topic rememberer_cage with rememberer "Ask the Rememberer about the thing in the cellar" when knows(actor, thrume_known) once {
@@ -210,7 +210,7 @@ Module thrume "Thrume" {
   // The young bloods' clock: at dark on the second night they kill the miners and go down on Saltgrave, unless the
   // thane has given the miners up.
   Rule massacre when watch(clock) >= 216 and dark() and not freed(aud) and able(skarn) and not razed(scree)
-    says "In the dark the hold wakes all at once: torches, a horn, and then from the pens a sound you will not forget. Then the young bloods go out of the gate and down the scree road toward Saltgrave, singing." {
+    says "In the dark the hold wakes all at once: torches, a horn, and then from the pens a sound the wolves answer. Then the young bloods go out of the gate and down the scree road toward Saltgrave, singing." {
     Assert razed(scree). Assert at(skarn, market). Assert at(bloods, market). Increase stirring(fells) by 1.
   }
   Observe market_raided at market when razed(scree) "Half the square is burnt. The pump is a stump. A giant's footprint is pressed into the dust in front of the Salt Office, deep enough to stand in.".

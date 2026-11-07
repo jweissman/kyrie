@@ -1,0 +1,73 @@
+Module dorothea "The Dorothea" {
+  // ── The ring's coast: a store in Tolleth, a loft at Port Ness ──────────────────────────────────────────────────────
+  // The Ring is the House of Marchbank's criminal arm, and a world's Founders' Exchange is its front in the country
+  // behind this passage (data/goings-on/factors). Deem casts its ring_coast and its Principal there. This module is
+  // where they sit when they are on the coast: R. in a bonded store behind Garrick's, the Principal in a loft over
+  // the boiling-house at Port Ness, each for days at a time, on a circuit. Nothing here names the Exchange: what is
+  // read is the ring, the ring_coast and the Principal (herald-bound), a place called abroad, and four facts the
+  // ring's people let slip, all of them canonical relations on entities the herald bound (at, routed, dead, knows).
+  Measure sawAbroad(entity). Measure ringUntil(entity). Measure lastSaw(entity).
+  Relation ringHome(group). Relation ringFallen(group). Relation loftKnown(group). Relation storeKnown(group). Relation deskLooked(group).
+
+  Place store_house "the bonded store" is building within harbour.
+  Place bonded_store "the bonded store behind Garrick's" is room within store_house at 3, 1.
+  Place boiling_house "the boiling-house" is building within ness_town.
+  Place ring_loft "the boiling-house loft" is room within boiling_house at 3, 1.
+  Discovery store_seen "A lading hatch under the quay's edge opens, at low water, on a store behind Garrick's chandlery that has no door on the street." { Found by searching quay. }
+  Discovery loft_seen "Over the boiling-house at Port Ness there is a loft with a lamp in it, and a ladder that is drawn up when the House's boat is out." { Found by searching ness_quay. }
+  Passage store_door "the plank door behind the chandler's racks" is door between shop and bonded_store hidden until lieutenant_named.
+  Passage store_hatch "the lading hatch under the quay" is ladder between quay and bonded_store hidden until store_seen.
+  Passage loft_ladder "the ladder to the boiling-house loft" is ladder between ness_row and ring_loft hidden until principal_traced.
+  Passage loft_stair "the back stair of the boiling-house" is stair between ness_quay and ring_loft hidden until loft_seen.
+
+  Observe store_scene at bonded_store when at(ring_coast, bonded_store) "A long low room under the chandlery with no windows: crates stencilled NORTH, a bell on its side with its clapper in felt, a stove, a back-table with a lamp and a day-book, and everywhere the smell of tar and cold iron. A key and a ring are scored in the table's edge.".
+  Observe store_swept at bonded_store when not at(ring_coast, bonded_store) "The bonded store is swept. Four crates' worth of dust on the flags, a stove still warm, and on the back-table a clean oblong where a day-book lay. Somebody has taken the lot and the man, and not in that order.".
+  Observe loft_scene at ring_loft when true "A loft under the slates over the pans' boiling-house, warm from the coppers below, with a trestle table, a black trunk, a map of the Reach with pins in it, and a lamp in the gable window that is lit when the House's boat is out. Brine has dried white on everything.".
+  Observe bill_scene at harbourmaster when routed(ring_coast) "A new bill is pinned inside the harbourmaster's door in a clerk's round hand: the House of Marchbank begs the Reach to know that its bonded agent at Tolleth, called R., has absconded with a sum, and that the House will see him taken.".
+
+  // The ring_coast's desk: the letter in the Principal's hand, which is the second way to the loft.
+  Kind ring_letter "a letter under the key and ring" is document teaching principal_traced described "A letter on thick paper under a cut seal, key and ring: three lines, in a hand that has never raised its voice. The Principal will be at the Ness loft after the store, and R. is to keep the day-book square.".
+  Item ring_letter_item "a letter under the key and ring" is ring_letter at nowhere.
+  Action search_desk(actor: group, site: place) "Go through the back-table's day-book and drawer" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, bonded_store) and not deskLooked(actor) and (tolerates(ring_coast, actor) or routed(ring_coast) or dead(ring_coast) or not at(ring_coast, bonded_store)) and not storeSwept(party).
+    Time 6.
+    On success { Give ring_letter_item to actor. Assert deskLooked(actor). Assert knows(actor, seal_seen). }
+    Result "The drawer sticks and then does not. A thick letter under a cut seal, key and ring, lies on the day-book: three lines. The Principal will be at the Ness loft after the store. R. is to keep the day-book square.".
+  }
+  Relation storeSwept(group).
+  Rule store_swept_clean when routed(ring_coast) and not storeSwept(party) { Assert storeSwept(party). }
+
+  // ── The Principal's circuit ─────────────────────────────────────────────────────────────────────────────────────────
+  // He goes round: the town, then abroad (a day by the House's boat), then the bonded store in Tolleth for two days,
+  // then the loft at Port Ness for three, then home. If R. has been put out (routed) he does not stop at the store, and
+  // the loft sees him longer. Rules write only what a rule may: where he is. The town's own rules bring him home.
+  Rule ring_waits when at(ring_head, abroad) and sawAbroad(ring_head) == 0 and not ringHome(ring_head) and not routed(ring_head) and not dead(ring_head) {
+    Set sawAbroad(ring_head) to watch(clock). Increase sawAbroad(ring_head) by 145.
+  }
+  Rule ring_to_store when at(ring_head, abroad) and sawAbroad(ring_head) > 0 and watch(clock) >= sawAbroad(ring_head) and not ringHome(ring_head) and not routed(ring_coast) and not routed(ring_head) and not dead(ring_head)
+    says "A boat with no light puts in under the quay at slack water, and a figure in a black coat goes up the lading steps and in at a door that was not there." {
+    Retract at(ring_head, abroad). Assert at(ring_head, bonded_store). Set sawAbroad(ring_head) to 0. Set ringUntil(ring_head) to watch(clock). Increase ringUntil(ring_head) by 288.
+  }
+  Rule ring_skips_store when at(ring_head, abroad) and sawAbroad(ring_head) > 0 and watch(clock) >= sawAbroad(ring_head) and not ringHome(ring_head) and routed(ring_coast) and not routed(ring_head) and not dead(ring_head) {
+    Retract at(ring_head, abroad). Assert at(ring_head, ring_loft). Set sawAbroad(ring_head) to 0. Set ringUntil(ring_head) to watch(clock). Increase ringUntil(ring_head) by 576.
+  }
+  Rule ring_to_loft when at(ring_head, bonded_store) and watch(clock) >= ringUntil(ring_head) and not routed(ring_head) and not dead(ring_head) {
+    Retract at(ring_head, bonded_store). Assert at(ring_head, ring_loft). Set ringUntil(ring_head) to watch(clock). Increase ringUntil(ring_head) by 432.
+  }
+  Rule ring_home when at(ring_head, ring_loft) and watch(clock) >= ringUntil(ring_head) and not routed(ring_head) and not dead(ring_head) {
+    Retract at(ring_head, ring_loft). Assert at(ring_head, abroad). Assert ringHome(ring_head). Set ringUntil(ring_head) to 0.
+  }
+  Rule homeward_over when ringHome(ring_head) and not at(ring_head, abroad) { Retract ringHome(ring_head). }
+  // R. is a ring_coast of the coast: he is put at his store when the world has cast him and has nowhere else to put him.
+  Rule lieutenant_posted when at(ring_coast, abroad) and not routed(ring_coast) and not dead(ring_coast) { Retract at(ring_coast, abroad). Assert at(ring_coast, bonded_store). }
+
+  // Seen at the bonded store or the loft only if they are there. The Principal at the loft is the end of the circuit's
+  // reach: a company that comes by the Dorothea finds him by the lamp in the gable.
+  Observe lamp_gable at ness_row when at(ring_head, ring_loft) and not routed(ring_head) "Over the boiling-house a gable window is lit in broad day. The Row's washing hangs in a line under it, and every woman pegging it out has her back to the window.".
+  Observe lamp_gable_dark at ness_row when not at(ring_head, ring_loft) "Over the boiling-house the gable window is dark.".
+
+  // ── What the ring's fall opens ──────────────────────────────────────────────────────────────────────────────────────
+  // When its Principal is routed or dead, the House's seal on the Pharos's lower door, which only the ring's authority
+  // kept shut, is struck. See lamp.kyr.
+  Rule ring_has_fallen when (routed(ring_head) or dead(ring_head)) and not ringFallen(party) { Assert ringFallen(party). }
+}

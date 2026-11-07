@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "source": [
+    "../../../data/adventures/thrume/clocks.kyr",
+    "../../../data/adventures/thrume/saltgrave.kyr",
+    "../../../data/adventures/thrume/shoulder.kyr",
+    "../../../data/adventures/thrume/inward.kyr",
+    "../../../data/adventures/thrume/hush.kyr",
+    "../../../data/adventures/thrume/tomb.kyr",
+    "../../../data/adventures/thrume/dream.kyr",
+    "../../../data/adventures/thrume/between.kyr",
+    "../../../data/adventures/thrume/wages.kyr",
+    "../../../data/adventures/thrume/voices.kyr",
+    "../../../data/adventures/thrume/faces.kyr",
+    "start-hold.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "exports": {
+    "party": "party"
+  },
+  "canon": [
+    "imbar",
+    "slack_opened",
+    "cloudgate_fell"
+  ]
+}

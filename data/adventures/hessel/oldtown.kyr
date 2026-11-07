@@ -61,7 +61,7 @@ Module hessel "The Banns at Hessel" {
   Query scabbed(a: group) means scab(a) and goodwill(chairmen) < 2.
   // The chairmen carry everybody and see everybody: Lanyon will tell a friend who goes up the hill at two in the morning.
   Topic lanyon_knocker with lanyon "Ask Big Lanyon if he knows who knocks at Carth House at two in the morning" when goodwill(chairmen) >= 2 and knows(actor, knocker_seen) and not knows(actor, nan_knocks) once {
-    Says "Big Lanyon is quiet a long while. 'We see her,' he says at last. 'Coming down the Parade, nights, after two, in her grey cloak. Nine years. Nan Bellamy, from the laundries.' He looks at you. 'Nobody ever asked her why. You don't. A woman goes up a hill at two in the morning and comes down again; that's hers.' He lowers his voice to a rumble. 'There's some on this bench say she was a lady once. I say she's a laundress, and a good one, and leave her be.'".
+    Says "Big Lanyon waits until the bench has gone quiet. 'We see her,' he says at last. 'Coming down the Parade, nights, after two, in her grey cloak. Nine years. Nan Bellamy, from the laundries.' He looks at you. 'Nobody ever asked her why. You don't. A woman goes up a hill at two in the morning and comes down again; that's hers.' He lowers his voice to a rumble. 'There's some on this bench say she was a lady once. I say she's a laundress, and a good one, and leave her be.'".
     On discuss { Assert knows(actor, nan_knocks). }
   }
   Topic lanyon_hartopp with lanyon "Tell Big Lanyon what Dr Hartopp has been giving Mrs Cherrett" when knows(actor, drops_doubled) and goodwill(chairmen) >= 3 and not chairmenRefuseHartopp(chairmen) once {
@@ -153,7 +153,7 @@ Module hessel "The Banns at Hessel" {
   Relation ismayDenied(group).
   // Denied once, she can still say it: once someone has stood by her, she goes back of her own accord.
   Rule ismay_unsays when ismayDenied(ismay) and ismayStoodBy(ismay) and cherrettToldKit(cherrett) and not cherrettBlessesKit(cherrett) and at(ismay, cherrett_parlour) and at(cherrett, cherrett_parlour) and at(party, cherrett_parlour) and knows(party, navvy_story)
-    says "Ismay puts down her ledger. 'Grandmother,' she says. 'I said no. It was yes. It's always been yes.' Mrs Cherrett looks at her for a long time, and then, slowly, begins to laugh, the coal-scuttle laugh that got her barred from the Rooms. 'A window,' she says. 'Mine was a ground-floor window. Send for the boy.'" {
+    says "Ismay puts down her ledger. 'Grandmother,' she says. 'I said no. It was yes. It's always been yes.' Mrs Cherrett looks at her. Then, slowly, she begins to laugh, the coal-scuttle laugh that got her barred from the Rooms. 'A window,' she says. 'Mine was a ground-floor window. Send for the boy.'" {
     Assert cherrettBlessesKit(cherrett). Retract kitDismissed(kit). Assert bannsWithdrawn(ebbas). Assert withdrawnByCherrett(ebbas). Retract ismayDenied(ismay). }
 
   // ── Hetty Quiney ──────────────────────────────────────────────────────────────────────────────────────────────────
@@ -318,7 +318,7 @@ Module hessel "The Banns at Hessel" {
     On discuss { Assert mopsaYes(party). }
   }
   Topic mopsa_ask_early with mopsa "Ask Mopsa to marry you" when not mopsaWillHave() and not mopsaYes(party) and not mopsaNo(party) and not triedRescue(party) and mopsaRegard(mopsa) >= 2 and dayN(hessel_town) >= 3 once {
-    Says "Mopsa looks at you for a long moment, kindly, which is worse than anything. 'No,' she says. 'Not no for ever. No for now. I don't know you. I know you're kind, and you can carry things, and you've been in Hessel four days.' She picks up her book. 'People get married in Hessel in four days. That's what's wrong with Hessel.'".
+    Says "Mopsa looks at you kindly, which is worse than anything. 'No,' she says. 'Not no for ever. No for now. I don't know you. I know you're kind, and you can carry things, and you've been in Hessel four days.' She picks up her book. 'People get married in Hessel in four days. That's what's wrong with Hessel.'".
     On discuss { Assert mopsaNo(party). }
   }
 }

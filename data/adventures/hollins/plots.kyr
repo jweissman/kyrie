@@ -209,7 +209,7 @@ Module hollins "Behind the Wainscot" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, small_house_parlour) and matterOpen(m_lady) and vouched() and knows(actor, bootscrape_shelter) and not evacPlanned(hollins).
     Time 1.
     On success { Assert evacPlanned(hollins). }
-    Result "You give them Jory Mudge's words. The lofts and the barns and the Mat's cellar. The parlour stirs: nobody in the Wainscot has ever been offered anything by the outside, except bread for pins. Faith Penny says, 'The Post will keep a list of who goes,' and Ma Riser says, 'The ladders'll take them down free,' and Dame Honor, after a long moment, says: 'Then if it comes to it, we go. The Court will give the word.'".
+    Result "You give them Jory Mudge's words. The lofts and the barns and the Mat's cellar. The parlour stirs: nobody in the Wainscot has ever been offered anything by the outside, except bread for pins. Faith Penny says, 'The Post will keep a list of who goes,' and Ma Riser says, 'The ladders'll take them down free,' and Dame Honor, having rapped the thimble twice for no reason, says: 'Then if it comes to it, we go. The Court will give the word.'".
   }
   Action speak_known(actor: group, site: place) "Urge the Moot to make itself known to her" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, small_house_parlour) and matterOpen(m_lady) and vouched() and (knows(actor, diary_laceys) or primed(lady) >= 1) and not mootApproach(hollins).

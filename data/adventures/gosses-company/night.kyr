@@ -108,7 +108,7 @@ Module pentrice "Gosse's Company" {
   Initially Assert state(pump, leaking).
   Rule pump_mended when state(pump, sound) and not pumpMended(pentrice) { Assert pumpMended(pentrice). }
   Topic tam_fountain with tam "Ask Tam about the fountain in the third act" when bookCome(pentrice) once {
-    Says "'There's a pump under the Wheel's stage,' says Tam, 'and a lead tank, and a pipe up through the boards, for fountains and such. Put in for a masque two hundred years back.' He planes. 'The tank's split and the leather's gone. And the trap's jammed with two hundred years of grit. Somebody who can mend could have both going in an afternoon.' He looks at you. 'Not me. I'm all thumbs below stairs. I'm afraid of the dark.'".
+    Says "'There's a pump under the Wheel's stage,' says Tam, 'and a lead tank, and a pipe up through the boards, for fountains and such. Put in for a masque in the third Bishop's time.' He planes. 'The tank's split and the leather's gone. And the trap's jammed with two hundred years of grit. Somebody who can mend could have both going in an afternoon.' He looks at you. 'Not me. I'm all thumbs below stairs. I'm afraid of the dark.'".
   }
   Action rig_lantern(actor: group, site: place) "Climb into the heavens over the Wheel's stage and rig a lantern and a mirror to light the Ghost's rising" {
     Time 3.
@@ -465,7 +465,7 @@ Module pentrice "Gosse's Company" {
     Resolve check(actor, deception, dc_easy).
     On success { Assert hepzibahKept(pentrice). }
     On failure { Assert triedTunstall(actor). }
-    Result "Tunstall looks at you sideways for a long moment. 'After the play,' he says at last, and sits down, and calls his men back with a crook of his finger. 'You will answer for it after the play.'".
+    Result "Tunstall's knife stops against the stick. 'After the play,' he says at last, and sits down, and calls his men back with a crook of his finger. 'You will answer for it after the play.'".
     Otherwise "'You are a tallyman,' says Tunstall. 'You count. Sit down.'".
   }
   Relation triedTunstall(group).
@@ -473,7 +473,7 @@ Module pentrice "Gosse's Company" {
     says "And here she comes: Patience, on her hind legs, in a bonnet, on the Keeper's chain; and she sees the honey, and drops onto all fours, and goes to it, and sits down in the middle of the stage of the Wheel eating it with her eyes shut, and will not be moved for anybody, while the Council tries to get round her to the statue. The yard is lost. Dame Gammage in the lords' room is standing up, cheering, with her bonnet in her hand." {
     Assert bearOn(pentrice). Increase temper(pentrice) by 2. Increase regard(gammage) by 2. Increase slight(clay) by 1. }
   Rule s8_bear_sulks at wheel when ghostOn(pentrice) and scene(pentrice) == 8 and sceneDone() and at(the_bear, tiring_house) and not fed(the_bear) and not honeyUp(pentrice) and not sceneOver(scene_eight)
-    says "Patience will not go on. She sits in the wing in her bonnet with her back to the stage and declines, with great dignity, to be anybody's bear tonight; and the Keeper goes on without her, on all fours, in a hearthrug, being the bear himself, and is very funny, and is not a bear." {
+    says "Patience will not go on. She sits in the wing in her bonnet with her back to the stage and declines, like a landlady, to be anybody's bear tonight; and the Keeper goes on without her, on all fours, in a hearthrug, being the bear himself, and is very funny, and is not a bear." {
     Increase temper(pentrice) by 1. Increase regard(gammage) by 1. }
   Rule s8_no_bear at wheel when ghostOn(pentrice) and scene(pentrice) == 8 and sceneDone() and not at(the_bear, tiring_house) and not sceneOver(scene_eight)
     says "There is no bear. The Keeper comes on as the bear in a hearthrug, and is very funny; but the playbills promised a bear, and in the yard somebody says so, loudly, and somebody else says Bowle has her, over the way, and the laugh goes thin." {

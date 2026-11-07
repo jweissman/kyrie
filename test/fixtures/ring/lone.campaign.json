@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "name": "The Dorothea, alone",
+  "calendar": {
+    "year": 1312,
+    "month": 9,
+    "day": 3
+  },
+  "pitch": {
+    "heading": "Alone",
+    "text": "One of you went down to Skerrow."
+  },
+  "modules": [
+    {
+      "id": "dorothea",
+      "bundle": "../../../data/adventures/the-dorothea/module.json"
+    }
+  ],
+  "party": [
+    {
+      "name": "Hale",
+      "raceId": "human",
+      "classId": "ranger"
+    }
+  ]
+}

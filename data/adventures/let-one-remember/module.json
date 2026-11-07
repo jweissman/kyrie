@@ -12,7 +12,9 @@
     "act3_kin.kyr",
     "act4_voyage.kyr",
     "act5_road.kyr",
-    "company.kyr"
+    "witness.kyr",
+    "company.kyr",
+    "lore.kyr"
   ],
   "rules": [
     "world"
@@ -23,5 +25,9 @@
   "exports": {
     "party": "party",
     "region": "corrow"
-  }
+  },
+  "canon": [
+    "imbar",
+    "perrin_lives"
+  ]
 }

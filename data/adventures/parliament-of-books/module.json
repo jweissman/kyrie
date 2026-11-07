@@ -26,6 +26,8 @@
     "stacks.kyr",
     "concordance.kyr",
     "beyond.kyr",
+    "post.kyr",
+    "voices.kyr",
     "endings.kyr",
     "company.kyr"
   ],
@@ -37,7 +39,8 @@
   ],
   "canon": [
     "outer_cthell",
-    "outer_exalted"
+    "outer_exalted",
+    "slack_opened"
   ],
   "exports": {
     "party": "party",

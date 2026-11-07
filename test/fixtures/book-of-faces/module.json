@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "canon": [
+    "rose_made_whole"
+  ],
+  "source": [
+    "../../../data/adventures/book-of-faces/clock.kyr",
+    "../../../data/adventures/book-of-faces/city.kyr",
+    "../../../data/adventures/book-of-faces/state.kyr",
+    "../../../data/adventures/book-of-faces/faces.kyr",
+    "../../../data/adventures/book-of-faces/warrant.kyr",
+    "../../../data/adventures/book-of-faces/rounds.kyr",
+    "../../../data/adventures/book-of-faces/body.kyr",
+    "../../../data/adventures/book-of-faces/hearing.kyr",
+    "../../../data/adventures/book-of-faces/registry.kyr",
+    "../../../data/adventures/book-of-faces/serene.kyr",
+    "../../../data/adventures/book-of-faces/vane.kyr",
+    "../../../data/adventures/book-of-faces/drawing.kyr",
+    "../../../data/adventures/book-of-faces/endings.kyr",
+    "../../../data/adventures/book-of-faces/aftermath.kyr",
+    "../../../data/adventures/book-of-faces/growth.kyr",
+    "../../../data/adventures/book-of-faces/gate.kyr",
+    "../../../data/adventures/book-of-faces/maskers.kyr",
+    "../../../data/adventures/book-of-faces/thief.kyr",
+    "../../../data/adventures/book-of-faces/counting.kyr",
+    "../../../data/adventures/book-of-faces/mage.kyr",
+    "../../../data/adventures/book-of-faces/post.kyr",
+    "../../../data/adventures/book-of-faces/drip.kyr",
+    "../../../data/adventures/book-of-faces/local.kyr",
+    "../../../data/adventures/book-of-faces/commoner.kyr",
+    "../../../data/adventures/book-of-faces/hill.kyr",
+    "../../../data/adventures/book-of-faces/warrior.kyr",
+    "../../../data/adventures/book-of-faces/chapel.kyr",
+    "../../../data/adventures/book-of-faces/cleric.kyr",
+    "../../../data/adventures/book-of-faces/monk.kyr",
+    "../../../data/adventures/book-of-faces/cisterns.kyr",
+    "../../../data/adventures/book-of-faces/heronry.kyr",
+    "../../../data/adventures/book-of-faces/ranger.kyr",
+    "../../../data/adventures/book-of-faces/bard.kyr",
+    "../../../data/adventures/book-of-faces/revision.kyr",
+    "company.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "exports": {
+    "party": "party",
+    "region": "ombra_delta",
+    "delta_road": "road_end"
+  },
+  "experience": 1000
+}

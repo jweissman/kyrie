@@ -15,7 +15,7 @@ Module tessary "What Tessary Owes" {
     Known by sault, tolley.
   }
   Topic tolley_first with tolley "Ask Brother Ancel about the old rakers on the Pans" when true once {
-    Says "'The First Muster,' says Ancel. 'What is left of it. The Salt War, forty years back. They were promised land on the south bank, and the Board voted them a plaque instead, and the rakes, and called it generous.' He looks up at the hanging weights. 'Half the brass up there is theirs. Their wives hung them. Factor Sault's mother hung one, I'm told, the year Imma was born. It is still there. Nobody has ever taken it down, because nobody has ever been able to say it was kept.'".
+    Says "'The First Muster,' says Ancel. 'What is left of it. The Salt War, forty years back. They were promised land on the south bank, and the Board voted them a plaque instead, and the rakes, and called it generous.' He looks up at the hanging weights. 'Half the brass up there is theirs. Their wives hung them. Factor Sault's mother hung one, I'm told, the year Imma was born. It is still there. They dust round it.'".
     On discuss { Assert knows(actor, first_muster). }
   }
 
@@ -24,7 +24,7 @@ Module tessary "What Tessary Owes" {
     Known by tolley.
   }
   Topic tolley_saying with tolley "Ask Brother Ancel what the saint said about the Drowning" when knows(actor, evenhand_tale) once {
-    Says "Ancel takes a small book from the altar, so old the boards have gone soft as cloth. 'His sayings,' he says. 'Taken down by the first brothers. Most of them are about weights and measures.' He turns to a page he does not have to look for. 'Not the sea. A promise drowned the old city.' He closes the book. 'They asked him whose promise, and he wept. It is the only time the book says he wept. Seven hundred years of brothers have argued about what he meant. I think he meant exactly what he said. He could not do otherwise.'".
+    Says "Ancel takes a small book from the altar, so old the boards have gone soft as cloth. 'His sayings,' he says. 'Taken down by the first brothers. Most of them are about weights and measures.' He turns to a page he does not have to look for. 'Not the sea. A promise drowned the old city.' He closes the book. 'They asked him whose promise, and he wept. Seven hundred years of brothers have argued about what he meant. I think he meant exactly what he said. He could not do otherwise.'".
     On discuss { Assert knows(actor, evenhand_saying). }
   }
   // The worn letters on the Watersteps, which are the beginning of the formula on the Hall's wall.

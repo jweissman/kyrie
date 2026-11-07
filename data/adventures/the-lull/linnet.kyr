@@ -9,7 +9,7 @@ Module lull "The Lull" {
   Person linnet "Linnet Gale" at linnet_loft {
     Role "who plays the Watching in". Ancestry human. Calling bard. Level 2. Peaceable. Pronouns she. Manner cheerful.
     Likeness "minstrel".
-    Greets "The young woman in the window stops playing and looks at you over the fiddle. 'Oh, you're new,' she says, delighted, as if you were weather. 'Nobody's new. Sit down. No: stand there, where the light is.' She plays four notes, looking at you, and nods. 'Linnet. That's you, that bit. I'll use it.'".
+    Greets "The young woman in the window stops playing and looks at you over the fiddle. 'Oh, you're new,' she says, delighted. 'Nobody's new. Sit down. No: stand there, where the light is.' She plays four notes, looking at you, and nods. 'Linnet. That's you, that bit. I'll use it.'".
     Greets again "Linnet looks up from the fiddle and plays your four notes at you, by way of hello.".
     Joins "Linnet takes the fiddle off its nail and puts it under her arm, and looks round the music room as if she were memorising it, and then does not look back.".
     Wants keepsake_kind.
@@ -44,7 +44,7 @@ Module lull "The Lull" {
   Topic linnet_play_love with linnet "Ask Linnet Gale to play you something" when lullOpen() and linnetLoves(linnet) and not linnetTune(linnet) {
     Says "She plays the four notes that are you, and the four that answer them, and then goes on, and it is a tune, a whole one, that goes somewhere and comes back changed. When she stops she sits looking at the fiddle. 'That's the first one with a next bit,' she says.".
   }
-  Event linnet_keepsake near linnet when keeps(linnet, keepsake) and madeFor(keepsake, linnet) "Linnet holds the little carving in both hands and looks at it, and then at the window, where the sun is going. 'Stay till the Watching,' she says. 'Stay and see if it holds.' At sunset it is still in her hands, and she does not say anything at all; she takes up the fiddle and plays, there in the window over the green, and down at the Long Table they stop talking to listen, and before she is done the children have the tune, and are singing it, wrong, under the table." then {
+  Event linnet_keepsake near linnet when keeps(linnet, keepsake) and madeFor(keepsake, linnet) "Linnet holds the little carving in both hands and looks at it, and then at the window, where the sun is going. 'Stay till the Watching,' she says. 'Stay and see if it holds.' At sunset it is still in her hands, and she says nothing; she takes up the fiddle and plays, there in the window over the green, and down at the Long Table they stop talking to listen, and before she is done the children have the tune, and are singing it, wrong, under the table." then {
     Assert keepsakeKept(keepsake). Assert linnetTune(linnet). Assert spreadFact(tune_told).
   }
   Entity tune_told: fact "Linnet's tune".

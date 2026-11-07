@@ -33,7 +33,7 @@ Module hume "Half the Hive" {
     Says "Kestrel looks up at the humming tower. 'It's a good tower,' she says, as if it hurt her. 'And it's nobody's. He gave it.' She scowls at the farmhouse. 'I've had to say thank you to a lowland squire. Twice. He went red both times.'".
   }
   Topic kestrel_after_owned with kestrel "Ask Kestrel how the Leaving does at Larkhill" when left(larkhill) and not corveGives(corve) once {
-    Says "Kestrel looks up at the humming tower, and then at the board on the gate, and does not say anything at all for so long that you think she has not heard. Then she says, 'Rent,' as if it were a word in another language, and goes back to splitting withies.".
+    Says "Kestrel looks up at the humming tower, and then at the board on the gate, and says nothing; she splits two withies while you wait. Then she says, 'Rent,' the way you would name a sickness, and goes back to splitting.".
   }
   Topic kestrel_after_gallow with kestrel "Ask Kestrel how the Leaving does at the Gallowtree" when left(gallowtree) once {
     Says "'The wood's wet.' Kestrel says it quietly so the people on the knoll won't hear. 'I put my hand inside the trunk this morning and it came out wet to the wrist.' She looks at the tree, roaring and green. 'Linnet's been in. She won't say what she saw.' She looks at you. 'You've been in. You know.' It is not a question.".
@@ -66,7 +66,7 @@ Module hume "Half the Hive" {
     Says "Hannet is on her fleece in the sun with the two wax bees on their cord. 'I like it,' she says. 'It's new. Nothing in my whole life has been new.' She pats the ground. 'I danced for it, didn't I? An old woman's dance. They'll tell that.' She shuts her eyes. 'Merrit would have liked it.'".
   }
   Topic agnes_after_gone with agnes "Ask Agnes whether she has her view" when leavingBegun() and goes(agnes) once {
-    Says "Agnes points with her chin. 'There.' Whatever is there, she has been looking at it a long time. 'Tobit would have said it was too windy,' she says. 'He'd have been right.' She keeps looking. 'It's a good view.'".
+    Says "Agnes points with her chin. 'There.' Whatever is there, she has been looking at it since you came. 'Tobit would have said it was too windy,' she says. 'He'd have been right.' She keeps looking. 'It's a good view.'".
   }
   Topic agnes_after_quiet with agnes "Ask Agnes how she does" when leavingBegun() and not goes(agnes) and mothDead(deathshead) once {
     Says "'I sit with him.' Agnes's hands are in her lap. 'Nights, mostly. In the dark, the way you do. It's quiet up there now. Just the two of us and four hundred years.'".

@@ -1,0 +1,14 @@
+Module dorothea "The Dorothea" {
+  Company party "Your company" of 1 to 3 at road_end.
+  Initially Set quantity(party, gold) to 34. Initially Set quantity(party, rations) to 2.
+  // The Founders' Exchange of the country this passage is in, when the world holds one: Quillon's buyer.
+  Entity ring: group "The Founders' Exchange.".
+  Entity ring_coast: group "The ring's man on the coast.".
+  Entity ring_head: group "The ring's Principal.".
+  Place abroad "Abroad" is room.
+  Entity ledger_read: fact "A leaf of the ring's day-book has been read.".
+  Entity lieutenant_named: fact "The ring's man on the coast has been named.".
+  Entity principal_traced: fact "The ring's Principal has been traced.".
+  Entity seal_seen: fact "The ring's seal has been seen.".
+  Entity waybill_read: fact "A cellar waybill has been read.".
+}

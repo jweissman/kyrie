@@ -44,15 +44,15 @@ Module skeel "Fair Weather" {
   // ── What the water looks like, from where the company is ──────────────────────────────────────────────────────────
   Observe reach_low at slip as weather when lowWater() and daylight() "The sea has gone out of the Reach. The Strand lies ribbed and shining for miles, cut by the dark line of the Gut, with the Holm and its Lantern standing up out of it, and the wreck on Scarth Bank, and far off the Craigs. Gulls walk on it like people.".
   Observe reach_high at slip as weather when not lowWater() and daylight() "The sea is in. Where the Strand was there is grey water to the Craigs, with the Holm standing in it, and the wreck's stern, and a line of withy-tops showing like a hedge drowned to the eyes.".
-  Observe reach_dark at slip as weather when not daylight() "You can hear the Reach, out in the dark, and not see it.".
+  Observe reach_dark at slip as weather when not daylight() "The Reach is out there in the dark. You hear it breathe in over the Strand and breathe out, and you know where the Holm is only by where the sound changes.".
   Observe sands_low at flats when lowWater() "Ribbed sand to every side, hard as a road where the withies are and softer off them, shining wet. Each ripple holds a thread of water. A line of laurel branches stuck upright leads away across it, one every twenty paces, toward the Holm, toward Scarth Bank, toward the Gut, toward the Craigs.".
   Observe sands_flood at flats when not lowWater() "The sea is coming over the Strand. It does not come as waves; it comes as a sheet, an inch deep and then a foot, faster than you can walk, from every side at once, with a hiss like frying.".
   Observe sands_dark at flats as ambience when not daylight() and lowWater() "In the dark the withies are the only thing: you go from one to the next with your hand out, and between them there is nothing at all.".
   Observe sands_turning at flats as sign when turning() "The ripples have begun to fill. Far out, toward the Gut, there is a line on the sand that was not there before, white, and it is moving.".
   Observe lip_scene at gut_lip when lowWater() "The Strand ends at a bank of soft grey sand, and below it the Gut runs, a channel sixty yards wide that the tide never empties, green-black and moving. Across it, low and brown, is Inish Gall, with a stone house and a cairn. Downstream the water breaks white over a bar of stones: the Sill, the one place a man can wade it.".
   Observe sill_scene at sill when true "Water to the thigh, cold enough to stop your breath, pulling at you toward the sea. Under your feet the stones of the Sill shift and settle. Upstream the Gut is deep and green; downstream it falls away into the dark.".
-  Observe sill_running at sill as sign when not slack() "The current is strong. Each step is a negotiation.".
-  Observe sill_slack at sill as sign when slack() "The water hangs still in the Gut, for now, as if it were thinking.".
+  Observe sill_running at sill as sign when not slack() "The current has your shins and wants the rest of you. The stones turn under your boot like loaves.".
+  Observe sill_slack at sill as sign when slack() "The water has stopped in the Gut. A strand of weed that was streaming toward the sea hangs straight down, and for a few minutes you could cross in your sleep.".
 
   // ── The flood ─────────────────────────────────────────────────────────────────────────────────────────────────────
   // A company out on the sands when the sea comes is struck by the water every watch until it gets to high ground: the

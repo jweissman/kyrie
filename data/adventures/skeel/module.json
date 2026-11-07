@@ -6,6 +6,7 @@
     "skeel.kyr",
     "wreck.kyr",
     "holm.kyr",
+    "keeper.kyr",
     "craigs.kyr",
     "dog.kyr",
     "skerry.kyr",
@@ -16,7 +17,9 @@
     "endings.kyr",
     "after.kyr",
     "growth.kyr",
-    "company.kyr"
+    "company.kyr",
+    "lore.kyr",
+    "tracks.kyr"
   ],
   "rules": [
     "world"
@@ -25,7 +28,9 @@
     "party"
   ],
   "canon": [
-    "imbar"
+    "imbar",
+    "slack_opened",
+    "remainder_kept"
   ],
   "exports": {
     "party": "party",

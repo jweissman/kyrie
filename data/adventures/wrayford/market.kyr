@@ -44,10 +44,10 @@ Module wrayford "The Third Night" {
       and at(lumley, guild_hall) and state(portrait, sketched) and not gidleySat(actor).
     Time 6.
     On success { Assert gidleySat(actor). Assert state(portrait, true_likeness). }
-    Result "You ask the Alderman about the Company's burdens, and he tells you, for an hour, standing by the easel, about the cost of the bridge's upkeep, the ingratitude of carters, the lord's unreasonable rent, and his own sleepless nights, with his hand on his heart. Behind him Tom Lumley paints like a man possessed. When Gidley at last goes off to his dinner, Lumley steps back from the canvas and looks at it and says, quite quietly, 'There. There he is.'".
+    Result "You ask the Alderman about the Company's burdens, and he tells you, for an hour, standing by the easel, about the cost of the bridge's upkeep, the ingratitude of carters, the lord's unreasonable rent, and his own sleepless nights, with his hand on his heart. Behind him Tom Lumley paints without once looking at his own hand. When Gidley at last goes off to his dinner, Lumley steps back from the canvas and looks at it and says, quite quietly, 'There. There he is.'".
   }
   Topic lumley_flatter with lumley "Tell Tom Lumley to paint them what they'll pay for" when state(portrait, sketched) once {
-    Says "He looks at you a long time with his brush in the air. 'The rent,' he says. 'Yes.' He picks up a rag and wipes out the money-box, and Gidley's nose, and everyone's chins, with a long sigh, very carefully, the way a man takes out a splinter. 'I'll put a dove in,' he says. 'They like a dove.'".
+    Says "The brush stays in the air. 'The rent,' he says. 'Yes.' He picks up a rag and wipes out the money-box, and Gidley's nose, and everyone's chins, with a long sigh, very carefully, the way a man takes out a splinter. 'I'll put a dove in,' he says. 'They like a dove.'".
     On discuss { Assert state(portrait, flattering). Assert lumleyPaid(lumley). }
   }
   Action carry_portrait(actor: group, site: place) "Carry the true portrait out to the carters' yards for a banner" {
@@ -129,7 +129,7 @@ Module wrayford "The Third Night" {
   }
 
   // ── Cutler's Lane: the printer, the pawnshop, the cutler ──────────────────────────────────────────────────────────
-  Observe lane_scene at cutlers_lane when not dark() "Cutler's Lane: a narrow street of knife-grinders and small shops behind the Market, with the clatter of a press coming from one door and three gilt balls hanging over another.".
+  Observe lane_scene at cutlers_lane when not dark() "Cutler's Lane: a narrow street behind the Market where every door has a knife hung out for its sign, so that the whole lane seems to be pointing at you. Sparks from a grinder's wheel, the clatter of a press from one door, and three gilt balls over another.".
   Observe quoin_scene at quoin_shop when true "A print shop: the press like a great wooden mangle, cases of type, wet sheets pegged up on lines to dry like washing, and the smell of ink and lamp-black. On the lines: The True and Last Confession of Wat Pardoe, forty times over.".
   Person quoin "Ezra Quoin" at quoin_shop {
     Role "a printer, inky to the elbow". Ancestry human. Peaceable. Pronouns he. Manner jovial.
@@ -267,7 +267,7 @@ Module wrayford "The Third Night" {
     described "A short heavy knife with a horn handle and the Tull mark, sharp enough to make you careful.".
   Item tull_reward "a Tull knife" is tull_knife at limbo.
   Relation robinHome(group). Relation robinStays(group). Relation tullPaid(group).
-  Rule robin_home_told at tull_shop when robinHome(robin) and not tullPaid(tull) says "Robin Tull comes into the shop behind you with his hands in his pockets, smelling powerfully of bear. His mother looks at him for a long time. Then she hits him round the ear, not hard, and hugs him, very hard, and then holds out to you, handle first, the best knife in the shop." { Assert tullPaid(tull). Assert at(tull_reward, tull_shop). }
+  Rule robin_home_told at tull_shop when robinHome(robin) and not tullPaid(tull) says "Robin Tull comes into the shop behind you with his hands in his pockets, smelling powerfully of bear. His mother puts the cleaver down. Then she hits him round the ear, not hard, and hugs him, very hard, and then holds out to you, handle first, the best knife in the shop." { Assert tullPaid(tull). Assert at(tull_reward, tull_shop). }
   Action take_tull_knife(actor: group, recipient: member, site: place) "Take the knife Goodwife Tull holds out" {
     Requires able(actor) and at(actor, site) and at(actor, tull_shop) and at(tull_reward, tull_shop) and memberOf(recipient, actor).
     Time 0.
@@ -324,7 +324,7 @@ Module wrayford "The Third Night" {
   Rule cart_back when (hour(clock) == 8 or hour(clock) == 16) and cartGone(offal_cart) { Retract cartGone(offal_cart). Retract at(offal_cart, tanyards). Assert at(offal_cart, shambles). }
   Relation cartGone(entity).
   // The boy, bribed but not his father's, talks: the riders look in the cart at the chain.
-  Rule boy_talks when cartGone(offal_cart) and inCart(?b) and boyBribed(party) and not kempAgrees(party) and not cartFound(wray) says "Word comes back over the bridge: at the chain the riders stopped the offal cart, because the butcher's boy had told them in the Nine Wheels there was something in it, and pulled back the tarpaulin, and found the dead." {
+  Rule boy_talks when cartGone(offal_cart) and inCart(?b) and boyBribed(party) and not kempAgrees(party) and not cartFound(wray) says "Jack Kemp's cousin comes back over the bridge at a run: at the chain the riders stopped the offal cart, because the butcher's boy had told them in the Nine Wheels there was something in it, and pulled back the tarpaulin, and found the dead." {
     Assert cartFound(wray). Retract inCart(wat_dead). Retract inCart(dunstan_dead). Retract inCart(joss_dead). Assert state(rail, hanging).
     Assert at(wat_dead, limbo). Assert at(dunstan_dead, limbo).
     Assert at(joss_dead, limbo). }

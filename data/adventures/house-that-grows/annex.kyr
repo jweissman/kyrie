@@ -169,7 +169,7 @@ Module hhg "The House That Grows" {
   // ---- The rooms ----
   Observe barley_scene at barley as fixture when true "The barley lies flat in a line, like hair under a comb, to a room of glass the green of pond-ice that sits on a slab of dark stone pressed a hand deep into the soil. Its panes are as long as a man is tall, and between them, where you would put lead, runs something brown and soft. Through the glass you can see a bed the size of a hay wagon.".
   Observe barley_grown at barley as ambience when grown(bedroom) >= 1 "The room in the barley is longer than it was.".
-  Observe well_scene at haddo_well as fixture when true "A stone well-head in the corner of the field, with a bucket on a chain.".
+  Observe well_scene at haddo_well as fixture when true "A stone well-head in the corner of the field, a bucket on a chain, and the turf round it trodden bare by forty households waiting their turn.".
   Observe well_warm at haddo_well as revelation when grown(root_cellar) >= 2 "The water in Haddo's well is warm, and brown seams thread the stones of the shaft a little below the rim, soft when you press them." teaches well_reached.
   Discovery well_reached "The house's root cellar has grown into Haddo's well. There is a way into the house there that nobody on the stools is watching.".
 
@@ -211,7 +211,7 @@ Module hhg "The House That Grows" {
   Observe window_scene at cup_shelf as feature when true "At the end of the room a long window runs from floor to roof. Through it you should see the barley. You see a hallway lit from below, as long as a field, with doors on both sides, and through its far glass, cloud." teaches keel_seen.
   Discovery keel_seen "The long window of the house in the barley does not look out on the barley. It looks into a long hallway lit from below, with cloud beyond its glass: somewhere up in the city.".
   Discovery house_one "The house in the barley and the rooms under the city are one house. A door in one can open in the other.".
-  Observe high_window at coats_high as revelation when knows(party, keel_seen) "This is the hall the long window showed you." teaches house_one.
+  Observe high_window at coats_high as revelation when knows(party, keel_seen) "This is the hall the long window showed you, and the long window is behind you now, small, with a bit of barley in it." teaches house_one.
 
   Observe coats_scene at coats_low as fixture when true "A hall of hooks at the height of a barn roof, every one hung with a child's coat, in sizes from a child of five to a girl of fourteen. Doors go out of it on every side.".
   Observe coats_fifteen at coats_low as ambience when grown(coats_low) >= 1 "At the end of the row, a new coat hangs on a new hook: a girl's coat, for a girl of fifteen.".

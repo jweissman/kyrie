@@ -186,7 +186,7 @@ Module ombra "The Book of Faces" {
     On success { Assert mo_done(actor, mo_q1). Assert moBroke(actor, mo_q1). Increase moMercy(actor) by 1. Assert mo_spoke1(actor). }
     Result "'Stop,' you say, aloud, in the square, in daylight, to a man in a mask.".
   }
-  Rule mo_q1_heard when mo_spoke1(party) and masked(party) once says "He turns, and finds a face to answer, which is a thing he has been trained for. One mask to another: he lets go of the collar, and says in the trade's form that he did not see your hand in the matter, and is very sorry. The boy is gone before the word is done. The man goes with some dignity, as one who has been corrected by a colleague. It has worked entirely, and for a wrong reason: nothing was said to him. It was said to your face." { }
+  Rule mo_q1_heard when mo_spoke1(party) and masked(party) once says "He turns, and finds a face to answer, which is what he has been trained for. One mask to another: he lets go of the collar, and says in the trade's form that he did not see your hand in the matter, and is very sorry. The boy is gone before the word is done. The man goes with some dignity, as one who has been corrected by a colleague. It has worked entirely, and for a wrong reason: nothing was said to him. It was said to your face." { }
   Rule mo_q1_unheard when mo_spoke1(party) and not masked(party) once says "The man does not hear it. He goes on not hearing it with a thoroughness you can only admire, and in the pause the blow he had begun lands anyway, on the child, and the child cries. Three masked heads in the square have turned, as heads turn at a smell, and one grey Watch domino has stopped walking. You said a word to nobody, and have been counted for it." { Increase heat(party) by 1. }
 
   // ── 2. The Name: the Inspector of Rented Faces ─────────────────────────────────────────────────────────────────────
@@ -316,7 +316,7 @@ Module ombra "The Book of Faces" {
     Requires able(actor) and company(actor) and at(actor, refectory) and mo_open(mo_q6) and not mo_done(actor, mo_q6).
     Time 12.
     On success { Assert mo_done(actor, mo_q6). Assert moQuiet(actor, mo_q6). Assert mo_stores_given(actor). }
-    Result "He looks at you for a long time over the ladle. 'It is for the ninth,' says Brother Dunstan. 'Yes,' you say. He says something under his breath that would be a prayer in anyone wearing a face. Then he unlocks the store. By dusk the queue has eaten the Order's whole reserve and gone away warm. Nobody thanks you; they do not know who you are. On the ninth night, you think, there will have to be a miracle; and you find you do not much mind.".
+    Result "He holds the ladle still over the pot, and the soup runs off it in a thread. 'It is for the ninth,' says Brother Dunstan. 'Yes,' you say. He says something under his breath that would be a prayer in anyone wearing a face. Then he unlocks the store. By dusk the queue has eaten the Order's whole reserve and gone away warm. Nobody thanks you; they do not know who you are. On the ninth night, you think, there will have to be a miracle; and you find you do not much mind.".
   }
   Action mo_q6_hold(actor: group) "Keep your rations, and keep the store shut for the ninth night" {
     Requires able(actor) and company(actor) and at(actor, refectory) and mo_open(mo_q6) and not mo_done(actor, mo_q6).
@@ -335,7 +335,7 @@ Module ombra "The Book of Faces" {
     Requires able(actor) and company(actor) and at(actor, site) and at(tibb, site) and mo_open(mo_q7) and not mo_done(actor, mo_q7) and not masked(actor).
     Time 12.
     On success { Assert mo_done(actor, mo_q7). Assert moQuiet(actor, mo_q7). Increase moPresence(actor) by 1. }
-    Result "'I do not know,' you say. 'I have never seen them. I will sit.' She looks at you for a long moment, and then, with a small dry breath that is nearly a laugh, moves the string over so that you may hold the other end. You sit. She ties a knot that she has been putting off; it is for nobody yet; it is for the space in the ledger, and she will not say whose. At the end she says: 'It is the first true thing anyone has said to me since the Novena began, and it was no use at all.' She does not let go of her end of the string.".
+    Result "'I do not know,' you say. 'I have never seen them. I will sit.' She breathes out through her nose, nearly a laugh, and moves the string over so that you may hold the other end. You sit. She ties a knot that she has been putting off; it is for nobody yet; it is for the space in the ledger, and she will not say whose. At the end she says: 'It is the first true thing anyone has said to me since the Novena began, and it was no use at all.' She does not let go of her end of the string.".
   }
   Action mo_q7_lie(actor: group, site: place) "Tell her that they were all right" {
     Speaker tibb.

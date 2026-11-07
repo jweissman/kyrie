@@ -5,7 +5,9 @@
     "attention.kyr",
     "annex.kyr",
     "keel.kyr",
+    "slope.kyr",
     "lowmere.kyr",
+    "lore.kyr",
     "placed.kyr"
   ],
   "rules": [

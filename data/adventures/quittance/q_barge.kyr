@@ -68,10 +68,10 @@ Module quittance "Quittance" {
     Pleads "The largest of Skell's sons lets his hook go on the stones. 'Enough,' he says. 'Enough. Take your jars. Take your look. Skell can pay for his own tarpaulin.'".
     Refuge skell_loft.
   }
-  Person bg_grindle "Hester Grindle" at salvor_yard {
+  Person bg_grindle "Nan Grindle" at salvor_yard {
     Role "who keeps the Salvors' Yard". Ancestry human. Calling warrior. Level 3. Peaceable. Manner grim. Pronouns she.
     Greets "A woman built like a bollard is mending a block-and-tackle with a marlinspike, and has the air of someone who has been right in public for thirty years. 'Grindle,' she says. 'Master of the Yard. You are here about the Margaret. Everybody is. Stand there; that is where they stand.'".
-    Greets again "'The Margaret,' says Hester Grindle. 'Still ours.'".
+    Greets again "'The Margaret,' says Nan Grindle. 'Still ours.'".
   }
   Person bg_jessop "Cob Jessop" at sluice_room {
     Role "who keeps the Sluice-tap, and was a lighterman". Ancestry human. Calling warrior. Level 2. Peaceable. Manner grim. Pronouns he.
@@ -97,17 +97,17 @@ Module quittance "Quittance" {
   Thing bg_board "the tariff board" at salvor_yard {
     State chalked "The tariff board hangs by the gate: ONE THIRD, ONE HALF, AS AGREED. Somebody has underlined the third clause twice, and somebody else has scratched the underlining out.".
   }
-  Observe bg_board_read at salvor_yard when tried(bg_board, looking) and capable(party, lore) and not knows(party, bg_tariff_known) "You read the board as a clerk would, not as a salvor. The third clause is not a price. It is a procedure: where the crews, the owner and the adjuster agree, the Lamprey's captain signs, and the one third and the one half are whatever they have agreed. Nobody has ever posted what that has been."
+  Observe bg_board_read at salvor_yard when tried(bg_board, looking) and capable(party, lore) and not knows(party, bg_tariff_known) "You read the board as a clerk would, not as a salvor. The third clause is not a price. It is a procedure: where the crews, the owner and the adjuster agree, the Lamprey's captain signs, and the one third and the one half are whatever they have agreed. The sums it has produced are posted nowhere."
     teaches bg_tariff_known.
   Observe bg_board_plain at salvor_yard when tried(bg_board, looking) and not capable(party, lore) "The board is clear about the first two clauses and says of the third only AS AGREED, in the voice of a clause that does not want to be asked.".
-  Topic bg_grindle_claim with bg_grindle "Ask Hester Grindle for the Yard's claim to the Margaret" when true once {
-    Says "'We had a line on her within the hour,' says Hester Grindle. 'First on the wreck, first with a grapple, first at the Lamprey's door. A salvage, one half, to the Yard. If she is called a Total Loss, the Yard gets a third of nothing, because there is nothing to raise.' She takes a pull on her marlinspike, as other people take on a pipe. 'It is not a Total Loss. A Total Loss does not float her bow up at the turn of the tide.'".
+  Topic bg_grindle_claim with bg_grindle "Ask Nan Grindle for the Yard's claim to the Margaret" when true once {
+    Says "'We had a line on her within the hour,' says Nan Grindle. 'First on the wreck, first with a grapple, first at the Lamprey's door. A salvage, one half, to the Yard. If she is called a Total Loss, the Yard gets a third of nothing, because there is nothing to raise.' She takes a pull on her marlinspike, as other people take on a pipe. 'It is not a Total Loss. A Total Loss does not float her bow up at the turn of the tide.'".
   }
   Topic bg_grindle_skell with bg_grindle "Ask Grindle why Skell's crew sleeps by day" when true once {
-    Says "'Because they work by night,' says Hester Grindle. 'Nobody sleeps like a man who has been under a barge. They think I do not hear the pump. I hear the pump.' She hammers the pin home. 'If you want to know what he has, ask it at night. If you want to ask it politely, bring a good reason.'".
+    Says "'Because they work by night,' says Nan Grindle. 'Nobody sleeps like a man who has been under a barge. They think I do not hear the pump. I hear the pump.' She hammers the pin home. 'If you want to know what he has, ask it at night. If you want to ask it politely, bring a good reason.'".
   }
-  Topic bg_grindle_after with bg_grindle "Ask Hester Grindle how the Yard is faring" when bg_settled() once {
-    Says "'The Yard,' says Hester Grindle, and considers. 'Is paid as the Lamprey called it. I have asked the lightermen what they say. They say what lightermen say.' It is not clear that she is displeased.".
+  Topic bg_grindle_after with bg_grindle "Ask Nan Grindle how the Yard is faring" when bg_settled() once {
+    Says "'The Yard,' says Nan Grindle, and considers. 'Is paid as the Lamprey called it. I have asked the lightermen what they say. They say what lightermen say.' It is not clear that she is displeased.".
   }
 
   // ── Skell's yard, and the fight ─────────────────────────────────────────────────────────────────────────
@@ -159,10 +159,10 @@ Module quittance "Quittance" {
     Assert bg_killed_sons(party). Assert bg_skell_out(bg_skell). Decrease regard(lamprey) by 1 or to nothing. Assert bg_slighted_dree(party). }
   Observe bg_yard_fallen at skell_yard when dead(bg_sons) "The cards are where they were left. Josiah Skell sits on the hatch among his remaining crew with his small hat in his hands, and does not look up when you come.".
   Topic bg_skell_claim with bg_skell "Ask Josiah Skell about his claim to the Margaret" when true once {
-    Says "'A Total Loss,' says Josiah Skell, 'and a third to the first crew with the nerve. That is us. We raised nine crates before the Yard had finished its coffee. Ask anybody on the quay.' He deals a card face up. 'They won't know. But ask.'".
+    Says "'Total Loss,' says Josiah Skell. 'A third to the first crew with the nerve, and that's us: nine crates up before the Yard had its kettle on. Ask on the quay.' He deals a card face up. 'Evens they say we were first. Two to one they weren't looking.'".
   }
   Topic bg_skell_tarp with bg_skell "Ask Skell what is under the tarpaulin" when true once {
-    Says "'Rain,' says Josiah Skell. 'Wet rain. We keep it for the Yard.'".
+    Says "'Rain,' says Josiah Skell. 'Lay you a coin it's rain.' He does not wait to be taken up on it.".
   }
   Topic bg_skell_jars with bg_skell "Tell Skell you have seen what is under his tarpaulin, and counted it" when knows(actor, bg_skell_dived) and not bg_skell_out(bg_skell) once {
     Says "Josiah Skell puts down the deck. For some time he does not say anything, and the sons, behind him, find things to look at. 'Eighty-nine,' he says at last, in a different voice. 'It is eighty-nine. I will tell you what I did not do. I did not sink her.' He takes his small hat off. 'The Yard can have the claim. I will have my jars, and you will have the sense to leave Skell and Sons out of the Lamprey's book. My boys will not put a hook near you again.'".
@@ -170,7 +170,7 @@ Module quittance "Quittance" {
   }
   Relation bg_skell_out(group).
   Topic bg_skell_after with bg_skell "Ask Skell how Skell and Sons are faring" when bg_settled() once {
-    Says "'Faring,' says Josiah Skell. 'We are faring as a firm that has been seen to fare.' He deals. 'I do not complain. A man who complains is a man who has jars.'".
+    Says "'Faring,' says Josiah Skell. 'Five to four on, if you want the odds. We've been seen to fare.' He deals. 'I don't complain. Man who complains is a man who has jars.'".
   }
 
   // ── The Mere Wharf: Mistress Veasey ─────────────────────────────────────────────────────────────────────
@@ -203,7 +203,7 @@ Module quittance "Quittance" {
   }
   Relation bg_veasey_word(group).
   Topic bg_veasey_safe with bg_veasey "Tell Mistress Veasey that Kitty is alive, dry and has asked after her" when bg_girl_met(party) and not bg_veasey_yielded(party) once {
-    Says "The needles stop and do not start. Mistress Veasey puts the knitting down on the stool, and the stool on the wharf, and herself on the stool. 'Dry,' she says. 'Is she dry.' It takes her some time. 'The notice,' she says at last, 'had the Phoenix's bird on it, on good paper, with a date in a clerk's hand and the word APPOINTED across the top. Annis could not read it. She did not need to. A paper that nobody sends you is a paper somebody has sent. So I took the child out, and I put my anchor through my own bottom, and I paid Mr Orpwood to be of the opinion that a Total Loss is total.' She looks at you for the first time. 'Whatever you want, you may have. Whatever it is. Is she dry?'".
+    Says "The needles stop and do not start. Mistress Veasey puts the knitting down on the stool, and the stool on the wharf, and herself on the stool. 'Dry,' she says. 'Is she dry.' It takes her some time. 'There was a notice,' she says at last. 'The bird on good paper, and APPOINTED across the top in a clerk's hand. Annis could not read it. She did not need to.' She looks at you for the first time. 'Whatever you want, you may have. Whatever it is. Is she dry?'".
     On discuss { Assert bg_veasey_yielded(actor). Assert bg_veasey_word(actor). Assert knows(actor, d_barge_girl). Assert knows(actor, d_list_exists). Assert knows(actor, bg_bought). }
   }
   Topic bg_veasey_jettison with bg_veasey "Ask Mistress Veasey to let the Margaret be called a jettison, made to save a life" when bg_veasey_yielded(actor) and knows(actor, bg_average_known) and not bg_veasey_consents(actor) once {
@@ -211,7 +211,7 @@ Module quittance "Quittance" {
     On discuss { Assert bg_veasey_consents(actor). }
   }
   Topic bg_veasey_after with bg_veasey "Ask Mistress Veasey how she stands now" when bg_settled() once {
-    Says "'I stand,' says Mistress Veasey. She has taken up the knitting again, and the stitches, for the first time, are even. 'A person may be said to stand, I find, at several prices.'".
+    Says "'I stand,' says Mistress Veasey. She has taken up the knitting again, and the stitches, for the first time, are even. 'A person may be said to stand at several prices.'".
   }
 
   // ── The Lamprey's counting-floor: Orpwood, the manifest, the table of Averages ─────────────────────────────
@@ -257,7 +257,7 @@ Module quittance "Quittance" {
     On discuss { Assert bg_orp_open(actor). Assert knows(actor, d_barge_girl). Assert knows(actor, bg_bought). Assert knows(actor, bg_average_known). }
   }
   Topic bg_orp_after with bg_orpwood "Ask Mr Orpwood how the Margaret stands" when bg_settled() once {
-    Says "'As called,' says Mr Orpwood. He looks, for once, like a man whose handwriting has been the same size all day. 'I find it makes a difference, when it is the right size.'".
+    Says "'As called,' says Mr Orpwood. He looks, for once, like a man whose handwriting has been the same size all day. 'It makes a difference, I am told, when it is the right size.'".
   }
 
   // The call itself. Each is said to Mr Orpwood, and each is done before the bell, or not at all.
@@ -335,7 +335,7 @@ Module quittance "Quittance" {
       and (knows(actor, bg_count_short) or knows(actor, bg_berth) or knows(actor, bg_holed) or knows(actor, bg_skell_dived) or knows(actor, d_barge_girl)).
     Time 15 minutes.
     On success { Set bg_ruling(lamprey) to 3. Increase quantity(actor, gold) by 8. Assert bg_dree_lamps(dree). Assert bg_staying(bg_girl). }
-    Result "'As agreed,' says Captain Dree. He likes the sound of it. 'The Yard and Skell shall have a flat sum each, which they will hate equally, and the owner shall be paid as a Total Loss, and the brigade shall have the lamps for the fire-house, which have been wanted since the last Ordinance. Mr Orpwood will call it, and I shall countersign, and nobody shall be asked anything, because it is a case one does not ask about.' He signs, in the manner of a man who has never been so reasonable. You are paid eight coin from the Slate, and the Lamprey, which has not been told anything, pays out as it would have.".
+    Result "'As agreed,' says Captain Dree. He likes the sound of it. 'The Yard and Skell shall have a flat sum each, which they will hate equally, and the owner shall be paid as a Total Loss, and the brigade shall have the lamps for the fire-house, which have been wanted since the last Ordinance. Mr Orpwood will call it, and I shall countersign, and nobody shall be asked anything, because it is a case one does not ask about.' He signs with a flourish he has clearly never had occasion to use. You are paid eight coin from the Slate, and the Lamprey, which has not been told anything, pays out as it would have.".
   }
   Relation bg_dree_lamps(group).
   Topic bg_dree_slate with dree "Tell Captain Dree the Slate would name him generous if the brigade's lamps lit the Sluice-tap's grate" when arc(dree) == 1 and bg_ruling(lamprey) >= 2 and bg_ruling(lamprey) != 4 and not bg_dree_gave(party) once {
@@ -354,7 +354,7 @@ Module quittance "Quittance" {
   // ── The Sluice-tap: Jessop, Kitty, and the hearth ───────────────────────────────────────────────────────
   Relation bg_jessop_vouches(group). Relation bg_jessop_cold(group). Relation bg_girl_met(group).
   Topic bg_jessop_tam with bg_jessop "Tell Cob Jessop that Tam Ridd let you up the Stair" when entered_water(actor) and knows(actor, bg_cellar_known) and not bg_jessop_vouches(actor) once {
-    Says "Cob Jessop puts the pot down. 'Tam,' he says. 'Tam does not let people up. Tam takes four coin or a winch-handle.' He looks you over for what was in the winch-handle. 'Went up, did you. Carried the Stair. Lamprey men don't pay handling.' He lifts the flap in the counter and does not say anything more, which is, among lightermen, a long speech. 'The trap's yours,' he says. 'She's twelve. Mind the third rung.'".
+    Says "Cob Jessop puts the pot down. 'Tam,' he says. 'Tam does not let people up. Tam takes four coin or a winch-handle.' He looks you over for what was in the winch-handle. 'Went up, did you. Carried the Stair. Lamprey men don't pay handling.' He lifts the flap in the counter, and the pot-boy, who has never seen it lifted for a stranger, drops a spoon. 'The trap's yours,' he says. 'She's twelve. Mind the third rung.'".
     On discuss { Assert bg_jessop_vouches(actor). }
   }
   Action bg_jessop_persuade(actor: group) "Tell Cob Jessop you mean the child no harm, and ask him to let you down" {
@@ -374,12 +374,12 @@ Module quittance "Quittance" {
   }
   Observe bg_cellar_scene at bg_cellar when true "A brick cellar under the taproom, wet at the foot and dry at the head, with barrels and a candle on a barrel. The sluice-wheel can be heard turning overhead, slowly, like a very large animal turning over in its sleep.".
   Topic bg_kitty_story with bg_girl "Ask Kitty how she came to be in the Margaret's hold" when bg_jessop_vouches(actor) and not bg_girl_met(actor) once {
-    Says "Kitty Spratling looks at the trap, and at the ladder, and makes up her mind. 'Mam got a paper told her,' she says. 'Not a paper. A man with a fish on his sleeve came to her at the wash-house and said the block was to burn a week Saturday, and that it was on a list, and he'd seen the paper with the bird on it, the Phoenix's bird, with APPOINTED across it in black, that nobody gets sent unless somebody has sent it. And Mam believed him because who would say it that wasn't true. So Mistress Veasey took me in the Margaret, in the straw, with a candle and a heel of bread. And in the night she put a hole in it. I was out by the cuddy before it was properly under. Cob had a boat.' She picks at the bucket. 'Our block burned. I know it did. Nobody says.'".
+    Says "Kitty Spratling looks at the trap, and at the ladder, and makes up her mind. 'Mam got a paper told her,' she says. 'Not a paper. A man with a fish on his sleeve came to her at the wash-house and said the block was to burn a week Saturday, and that it was on a list, and he'd seen the paper with the bird on it, the Phoenix's bird, with APPOINTED across it in black. And Mam believed him because who'd say it that wasn't so. So Mistress Veasey took me in the Margaret, in the straw, with a candle and a heel of bread. And in the night she put a hole in it. I was out by the cuddy before it was properly under. Cob had a boat.' She picks at the bucket. 'Our block burned. I know it did. Nobody says.'".
     On discuss { Assert bg_girl_met(actor). Assert knows(actor, d_barge_girl). Assert knows(actor, d_list_exists). Assert knows(actor, bg_berth). }
   }
   Topic bg_kitty_promise with bg_girl "Promise Kitty that no book of the Lamprey's will have her name" when bg_girl_met(actor) and not promiseMade(bg_kitty) and not bg_girl_listed(bg_girl) once {
     Grave "A promise to a girl in a cellar: if you give her to the Lamprey, you broke it.".
-    Says "Kitty looks at you for a long time. 'You'd say that,' she says. 'Anybody would say that.' She puts her feet down on the floor, one at a time, as if testing it. 'All right,' she says. 'Mistress Veasey would want me to. Tell her I'm dry. Tell her the scullery was an accident.'".
+    Says "Kitty looks at your boots, then your hands, then your face, in that order. 'You'd say that,' she says. 'Anybody would say that.' She puts her feet down on the floor, one at a time, as if testing it. 'All right,' she says. 'Mistress Veasey would want me to. Tell her I'm dry. Tell her the scullery was an accident.'".
     On discuss { Assert promiseMade(bg_kitty). }
   }
   Promise bg_kitty "to keep Kitty Spratling's name out of the Lamprey's books" to bg_girl

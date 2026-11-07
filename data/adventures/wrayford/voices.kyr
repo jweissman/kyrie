@@ -1,0 +1,126 @@
+Module wrayford "The Third Night" {
+  Description "What each of the company makes of Wrayford by what they are, the swallows, a tale from the south, and two ways to put a pike at its ease, one loud and one quiet.".
+
+  // The company is not a set of declared people, so it has no Remarks of its own. What a rule can ask of a member is
+  // their calling, and print their name. Each voice is said once for the company, by whoever has the calling; a
+  // company without one has nobody to notice, and must notice for itself.
+  Relation heardSky(group). Relation heardOffice(group). Relation heardDoor(group). Relation heardWatch(group).
+  Relation heardSong(group). Relation heardPaint(group).
+
+  // ── Voices, by calling ──────────────────────────────────────────────────────────────────────────────────────────
+  Rule voice_sky at drove_road when capable(party, woodcraft) and at(party, drove_road) and not heardSky(party)
+    says "The one of you who reads the country stands in the stirrups of nothing, one hand up, as the drovers do to find the wind. 'Swallows down on the river at eight in the morning, and the fell-tops sharp as a knife,' they say. 'It is fair now. It will not be fair on the third day. Whatever is going to be done at Wrayford had better be done before the sky changes its mind.'" {
+    Assert heardSky(party).
+  }
+  Rule voice_office at wades_acre when capable(party, rites) and at(party, wades_acre) and not heardOffice(party)
+    says "The one of you who keeps the offices goes down on one knee at the north wall and reads the ten small stones with a thumb, as one reads a register. 'Same hand, same week, no names,' they say. 'Laid with their feet to the river. Wrayford buries the other way. They were put down fast by a man who meant them to go on looking at it.'" {
+    Assert heardOffice(party).
+  }
+  Rule voice_door at gate_road when capable(party, lockwork) and at(party, gate_road) and not heardDoor(party)
+    says "The one of you with clever fingers lets the eye run up the gatehouse to the gate-ward's door. 'Company lock, new, on a door older than the Company,' they say. 'The hinges have been painted so often they have gone soft. Whoever wants in by the stair wants the key. Whoever wants in by the pier does not need a lock at all.'" {
+    Assert heardDoor(party).
+  }
+  Rule voice_watch at gate_road when capable(party, intimidation) and at(party, gate_road) and stillHanging() and not heardWatch(party)
+    says "The one of you who has stood a watch counts the riders on the leads without lifting the chin. 'Four, and no relief,' they say. 'They have not been changed since they hanged them. Men on a duty like that stop looking at what they guard. They look at each other, and at the town. Do not make a quarrel of it; make it quiet, and they will let you.'" {
+    Assert heardWatch(party).
+  }
+  Rule voice_song at wheels_taproom when capable(party, performance) and at(party, wheels_taproom) and not heardSong(party)
+    says "The one of you with an ear for it sits a while with the head turned to the benches. Under the talk the carters are humming, all of them, not together, one tune: carry me over, Wade, carry me over. 'They do not know they are doing it,' they say, and has it by heart before the pot is empty. 'That is not a song. That is a thing a whole road says when it is frightened.'" teaches wade_hymn {
+    Assert heardSong(party).
+  }
+  Rule voice_paint at chapel when capable(party, perception) and not capable(party, woodcraft) and at(party, chapel) and not heardPaint(party)
+    says "The one of you who reads the unseen stands under the altar picture and tilts a hand so the candle falls across it. 'There,' they say. 'Lampblack, laid over something scraped. The darker place in the riverbed is not water. It was a second figure, standing in the river beside him, and somebody was paid to take her out.' they lower the hand. 'I would like to know who she was, and who paid.'" {
+    Assert heardPaint(party).
+  }
+
+  // ── Swallows: planted on the first morning, paid on the third ──────────────────────────────────────────────────
+  // THE THIRD DAY (wade.kyr) opens with swallows low on the river and the sky the colour of a bruise.
+  Observe swallows_first at drove_road when firstDay() and morning() and not dark() "Down in the vale the Wray lies like a dropped scarf, and the swallows are skimming it so low their wings wet. The fell-tops behind you are very sharp, as they are before weather. In the town the Guildhall clock catches the sun, and the gatehouse beside the bridge is a stub of red stone with something hanging from it that you do not look at yet.".
+
+  // ── The hook under the first arch: a kept light, never explained ───────────────────────────────────────────────
+  Discovery hook_seen "Under the first arch of Wrayford Bridge, high on the pier's foot where the river does not quite reach, an iron hook is let into the stone, with a lantern's ring of old tallow under it.".
+  Observe hook_day at under_arches when not dark() "Higher on the pier's foot than a drowned man could reach, an iron hook, much worn, and under it a black ring of old tallow, many years thick, where a lantern has stood or hung for longer than anybody has been counting." teaches hook_seen.
+  Observe hook_night at under_arches when dark() "A small lantern burns on the hook on the pier's foot, as it does every night, throwing a yellow stripe on the water as far as the dark of Wade's Step and no farther. Nobody is here to have lit it.".
+  Topic corbin_hook with corbin "Ask Corbin who lights the hook under the first arch" when knows(actor, hook_seen) once {
+    Says "He takes the pipe out and holds it as if it were the hook. 'My father did it. His father did it.' He looks at the bowl. 'It is for the ones that go in at the Step and are not found. There is nobody to carry them, so there is a light to see by. Dusk to dawn, and tallow is a farthing.' He puts the pipe back. 'I have never asked who first. You do not ask the sexton who first. You ask whether there is tallow.'".
+    On discuss { Assert knows(actor, hook_known). }
+  }
+  Discovery hook_known "Corbin the sexton lights a lantern every dusk on the pier's foot under the first arch, for the drowned at Wade's Step who were never carried over, as his father and grandfather did.".
+  Entity hook_fact: fact "Corbin's light seen from the Step".
+  Rule hook_payoff at tanyards when bearingAny(party) and knows(party, hook_known) and lowWater() and spread(weight_fact) and not spread(hook_fact)
+    says "Half out of the water on the far bank, with the weight on your back, you look behind you, because you cannot help it, across the black of the Step; and there under the arch is a small yellow light, steady, on its hook. It has been burning for every one of the ones who were not carried, for longer than the Company has had a bridge. You are, you realise, the first it has ever lit the way for. You do not feel lighter. You go on." {
+    Assert spread(hook_fact).
+  }
+
+  // ── A tale from the south ───────────────────────────────────────────────────────────────────────────────────────
+  // The drovers carry news across the fells. If, in the world, the black square in the House of Doors at Sennet has been
+  // opened (the Grand Tour's), the story has come up the drove road by now, as such stories do: garbled, and admired.
+  Topic pell_south with pell "Ask Pell what the carters are saying from the south" when befell(slack_opened) once {
+    Says "'There's a tale come up with the Harbury salt,' says Pell, drawing a pint she was not asked for. 'Some great house in a town on the sea has a black square let into its floor. The servants step round it, and the cook swears the kettle in the room above comes to the boil by itself.' She sets the pint down. 'Something came up out of it, they say, that was not weather. The old carters say it will be a Company matter: if there is a stair under a floor, somebody will want a penny for it.'".
+    On discuss { Assert knows(actor, south_tale). }
+  }
+  Discovery south_tale "A tale has come up the drove road from the south: a house on the sea has a black square in its floor, and a stair beneath it to a place with no weather.".
+
+  // ── The knack of a hard man ─────────────────────────────────────────────────────────────────────────────────────
+  // Gault, who has said all along that it is the rope drying, is shown a loaf by a widow; and in the dark, when he thinks
+  // nobody is on the Bridge End, does what he will not say.
+  Entity gault_cloak_fact: fact "Gault's cloak".
+  Rule gault_covers when breadSent(party) and stillHanging() and hour(clock) >= 22 and hour(clock) < 24 and not spread(gault_cloak_fact) and inWrayford()
+    says "Late, when the Bridge End is empty, a cloak comes over the parapet on the leads, a good grey one with the Harbury badge, and is let down by its hem until it hangs over the face of the biggest of the three, and is made fast there with a hay-fork. Nobody says anything. The sergeant's back is to the town as he does it. In the morning he will say that it was the youngest rider's, and that he has been docked for it." {
+    Assert spread(gault_cloak_fact).
+  }
+
+  // ── The Step, put at its ease: a choice with a cost ─────────────────────────────────────────────────────────────
+  // Bread is the drovers' way. The company may have another by what it is. A bard can sing the carters' hymn over the
+  // Step, and it will be heard on the Wharf; a cleric can say the office there, which is quiet, takes longer than the
+  // river will give, and eases the weight on the carrying. Either lets the company by; neither is the same price.
+  Relation sungAtStep(group). Relation officeAtStep(group).
+  Action sing_the_step(actor: group, site: place) "Sing the carters' hymn over the deep water, loud enough to carry" {
+    Description "The Bargeman was fed on bread. It was sung to as well, by those who knew how.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, wades_step) and at(bargeman, wades_step) and able(bargeman)
+      and not tolerates(bargeman, actor) and capable(actor, performance) and knows(actor, wade_hymn).
+    Time 2 minutes.
+    On success { Assert tolerates(bargeman, actor). Assert sungAtStep(actor). Increase temper(wray) by 1. Assert knows(actor, bargeman_loaf). }
+    Result "Your singer stands in the water to the thigh and sings it to the dark, all of it, the way the drovers did on the fell road when the drop frightened them: carry me over, Wade, carry me over. The long shape in the Step turns once, slowly, as a congregation turns, and lies down on the bottom. Across the water, on the Wharf, a window opens. Then another. By morning the eel-men will say that someone was singing at the Step, in a woman's voice, in a man's voice, and that the pike sang back.".
+  }
+  Action say_the_step(actor: group, site: place) "Say the office of the dead over the deep water, low, and take as long as it takes" {
+    Description "Quiet. And the river will not wait; the mills open at five.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, wades_step) and at(bargeman, wades_step) and able(bargeman)
+      and not tolerates(bargeman, actor) and capable(actor, rites) and lowWater().
+    Time 6 minutes.
+    On success { Assert tolerates(bargeman, actor). Assert officeAtStep(actor). }
+    Result "Your priest says it as it is said over a grave and not over water: all of it, without haste, to the black hole in the river, for everyone who was ever put into the Wray and not taken out. Nothing answers. When they have finished the long shape at the bottom has not moved in some time, and the water is only water. The road over is yours. You have lost an hour you did not have.".
+  }
+  Entity sung_fact: fact "The singing at the Step".
+  Rule sung_told when sungAtStep(party) and hour(clock) >= 7 and inWrayford() and not spread(sung_fact)
+    says "Word goes along the Wharf with the morning barges: someone sang the carters' hymn at Wade's Step in the night, in the water, to the pike, and the pike lay still. The eel-men are divided on whether it was a miracle or an insult to the pike. Old Corbin, told it over the churchyard wall, says it was the first decent thing done at the Step in his lifetime, and that the tune was flat." {
+    Assert spread(sung_fact). Increase crowd(wray) by 1.
+  }
+  Rule weight_eased at wades_step when bearingAny(party) and officeAtStep(party) and lowWater() and not spread(weight_fact)
+    says "Halfway over, at the Step, the weight on your back is very great and does not change. It is one man's, and no more. Someone, you think, has already seen to the rest." {
+    Assert spread(weight_fact).
+  }
+
+  // ── A contrast: the Assize of the Goose ──────────────────────────────────────────────────────────────────────────
+  // In a city that has hanged three men on a rail, the Ferry Inn goes on trying its goose. Every week, by a custom older
+  // than the Bridge Company and kept out of spite for it, the landlady's gander is arraigned in the taproom for crossing
+  // the bridge without paying the penny, before a jury of watermen, and acquitted or not as the room feels. Nobody can say
+  // when it began. The gander is called the Alderman, and has been, by several geese.
+  Person tapp "Hannah Tapp" at ferry_taproom {
+    Role "landlady of the Ferry Inn, and clerk of the Goose Assize". Ancestry human. Peaceable. Pronouns she. Manner cheerful.
+    Greets "A woman built like a barrel on a very small stool is writing in a book with her tongue between her teeth, and does not stop. 'Sit,' says Hannah Tapp. 'You are just in time for the Assize. Everybody is.'".
+  }
+  Observe goose_dock at ferry_taproom when not gooseTried(party) "On the settle by the fire, in a wicker basket with a ribbon round its neck, a very large white gander looks about it with the cold, level eye of a magistrate. Round the room, with their pots, twelve watermen in their Sunday coats are being sworn on a sheep's skull.".
+  Relation gooseTried(group). Relation gooseFreed(group).
+  Item assize_candle "the Assize candle" is candle at limbo.
+  Action plead_for_goose(actor: group, site: place) "Speak for the gander at the Ferry Inn's Assize" {
+    Description "The charge is crossing the bridge without paying the penny. The bench is a barrel. The jury is thirsty.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ferry_taproom) and not gooseTried(actor).
+    Time 20 minutes.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert gooseTried(actor). Assert gooseFreed(actor). Give assize_candle to actor. Increase crowd(wray) by 1. }
+    On failure { Assert gooseTried(actor). }
+    Result "You say that the Alderman crossed by the Liberty's own arch, which pays no penny to any company, that his father crossed there, and his father's, and that a bird which has never once been asked for money cannot be said to have declined it. A waterman at the back says 'Hear him,' and sits down on his own hat. The jury is out for as long as it takes to drink a pot. 'Not guilty,' says the foreman, 'and it is a pity.' Hannah Tapp strikes the skull with a spoon and gives you the Assize candle out of the book, which is lit whenever the jury sits and has never once been paid for.".
+    Otherwise "You speak for the gander, and the gander, who has heard this before, stretches out his neck and hisses at you. 'Guilty,' says the foreman, with feeling. 'Hanged by the neck on Sunday till tender,' says Hannah Tapp, writing it down, and the whole room, to a man, sighs.".
+  }
+}

@@ -58,7 +58,7 @@ Module hollins "Behind the Wainscot" {
   }
   Discovery joss_taken "Joss Tenter, nine, Mab Tenter's son, went out on the Hall flagstones to see the Lady the night she came, and her cat played with him till he died.".
   Topic mab_house with mab "Ask Mab Tenter how the Wainscot lives" when true once {
-    Says "'Off her,' says Mab. 'What else. Flour from the bins, thread from the workbox, honey from the Pantry if the Jarmen let you have it. The Sink for water, a thimble at a time. The Court in the doll's house keeps order, after a fashion, and mints buttons. The Readers read. The Keys play. The Post enters everybody.' She shrugs. 'It's a life. It was cold. Three hundred years cold, and dim, and quiet, and we didn't know any better.' She looks at the warm wall. 'Now it's warm, and we're dying of it.'".
+    Says "'Off her,' says Mab. 'What else. Flour from the bins, thread from the workbox, honey from the Pantry if the Jarmen let you have it. The Sink for water, a thimble at a time. The Court in the doll's house keeps order, after a fashion, and mints buttons. The Readers read. The Keys play. The Post enters everybody.' She shrugs. 'It's a life. It was cold. Cold and dim and quiet, and we didn't know any better.' She looks at the warm wall. 'Now it's warm, and we're dying of it.'".
   }
 
   // ── The Bell Walk; Kit and Nan ────────────────────────────────────────────────────────────────────────────────────

@@ -243,7 +243,7 @@ Module corrow "Let One Remember" {
     Result "You put out every light and walk blind, mouth shut, with the chord swelling and fading round you. Something warm brushes your lips and drifts away, looking for a lamp that is not there.".
   }
   Topic ida_guide with ida "Ask Ida Wishart to take you across the Diggings" when not travelsWith(ida, actor) once {
-    Says "'In food,' says Ida. 'And you do as I say on the glass. If I say put the lamp out, you put it out.' She hums a short phrase, as if to herself. 'People who don't, I bring back up humming. Like me.'".
+    Says "'In food,' says Ida. 'And you do as I say on the glass. If I say put the lamp out, you put it out.' She hums a short phrase under her breath. 'People who don't, I bring back up humming. Like me.'".
     On discuss { Assert willing(ida, actor). }
   }
   Initially Set hire(ida) to 1.

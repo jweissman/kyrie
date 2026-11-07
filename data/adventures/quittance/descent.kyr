@@ -347,7 +347,7 @@ Module quittance "Quittance" {
     Requires able(actor) and company(actor) and at(actor, site) and at(ds_fire, site) and fireHeard(actor) and not fireWrathful(actor) and quantity(actor, coal) >= 1 and coalNamedGran(actor).
     Time 5 minutes.
     On success { Decrease quantity(actor, coal) by 1. Increase ds_accord(actor) by 3. Assert fireFed(actor). Assert ds_coal_fed(actor). }
-    Result "The Fire takes the coal into itself the way the sea takes a river. 'Hannah,' it says. 'I knew her mother. She never let it out, not once, in the worst winter.' It adds the coal to a column somewhere. 'Tell the child it was received.'".
+    Result "The Fire takes the coal into itself the way the sea takes a river. 'Hester,' it says. 'I knew her mother. She never let it out, not once, in the worst winter.' It adds the coal to a column somewhere. 'Tell the child it was received.'".
   }
   Action ds_lay_pip(actor: group, site: place) "Lay the Lent coal in the ash, and say whose child keeps it: Pip's" {
     Speaker ds_fire.
@@ -391,7 +391,7 @@ Module quittance "Quittance" {
     Requires able(actor) and company(actor) and at(actor, site) and at(ds_fire, site) and fireHeard(actor) and not fireWrathful(actor) and following(prewitt, actor) and not ds_apologised(prewitt).
     Time 10 minutes.
     On success { Assert ds_apologised(prewitt). Increase ds_accord(actor) by 3. Assert fireFed(actor). }
-    Result "Prewitt stands in the ash with his hat in his hands. 'Six years of blocks,' he says. 'I put them in a table. I called it mercy. They were your hosts.' He does not ask to be forgiven. 'It is an apology,' he says, 'from the one who owes it.' The Fire looks at him for a long time. 'Yes,' it says. 'That is the right man.'".
+    Result "Prewitt stands in the ash with his hat in his hands. 'Six years of blocks,' he says. 'I put them in a table. I called it mercy. They were your hosts.' He does not ask to be forgiven. 'It is an apology,' he says, 'from the one who owes it.' The Fire looks at him while the coal ticks over twice. 'Yes,' it says. 'That is the right man.'".
   }
   Action ds_apology_tobias(actor: group, site: place) "Let Tobias Pargeter say what the brigade has done to the Fire" {
     Speaker ds_fire.

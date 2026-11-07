@@ -1,0 +1,50 @@
+{
+  "version": 1,
+  "source": [
+    "situation.kyr",
+    "ring.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "imports": [
+    "party",
+    "taproom",
+    "keeper"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    },
+    "taproom": {
+      "type": "place"
+    },
+    "keeper": {
+      "type": "group"
+    }
+  },
+  "generation": {
+    "type": "factors",
+    "templates": "templates.json",
+    "tables": "tables.json"
+  },
+  "exports": {
+    "factor": "factor",
+    "carter": "carter",
+    "south_road": "south_road",
+    "rumour": "rumour",
+    "ring": "hands",
+    "abroad": "abroad",
+    "ledger_read": "ledger_read",
+    "lieutenant_named": "lieutenant_named",
+    "principal_traced": "principal_traced",
+    "seal_seen": "seal_seen",
+    "waybill_read": "waybill_read",
+    "ring_coast": "lieutenant",
+    "ring_head": "principal"
+  },
+  "experience": 300
+}

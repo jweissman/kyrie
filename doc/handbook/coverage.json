@@ -801,7 +801,7 @@
     "faithful": 777,
     "adapted": 369,
     "represented": 4,
-    "kyr": 537,
+    "kyr": 546,
     "unsupported": 68,
     "unreachable": 4,
     "data-only": 12
@@ -892,7 +892,7 @@
       "faithful": 249,
       "adapted": 76,
       "represented": 0,
-      "kyr": 87,
+      "kyr": 96,
       "unsupported": 7,
       "unreachable": 0,
       "data-only": 0
@@ -997,7 +997,7 @@
     "faithful": 238,
     "adapted": 29,
     "represented": 27,
-    "kyr": 283,
+    "kyr": 284,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 198
@@ -1036,7 +1036,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 22,
+      "kyr": 23,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -7101,6 +7101,13 @@
    "section": "equipment/gear"
   },
   {
+   "id": "item:lamplighter_seal",
+   "title": "Lamplighters' seal",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
    "id": "item:lantern",
    "title": "Lantern",
    "status": "adapted",
@@ -7272,6 +7279,13 @@
    "id": "item:skillet",
    "title": "Skillet",
    "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:sluice_rod",
+   "title": "Notched rod",
+   "status": "kyr",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -8032,6 +8046,13 @@
    "section": "equipment/gear"
   },
   {
+   "id": "item:collegium_letter",
+   "title": "A letter of the Collegium of Lesser Instruments",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
    "id": "item:crystal_eye",
    "title": "Crystal eye",
    "status": "faithful",
@@ -8277,6 +8298,20 @@
    "section": "equipment/gear"
   },
   {
+   "id": "item:pharos_lens",
+   "title": "The green lens of a Pharos",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:pharos_rubbing",
+   "title": "A rubbing of the Prefect's table",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
    "id": "item:philosophers_stone",
    "title": "Philosophers stone",
    "status": "faithful",
@@ -8287,6 +8322,13 @@
    "id": "item:phoenix_feather",
    "title": "Phoenix feather",
    "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:prefects_writ",
+   "title": "A copy of a Prefect's writ of keeping",
+   "status": "kyr",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -8350,6 +8392,20 @@
    "id": "item:steel_torc",
    "title": "Steel torc",
    "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:surety_terms",
+   "title": "The Ninth Valuer's note on a surety",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:tally_rubbing",
+   "title": "A rubbing of a keeper's tally",
+   "status": "kyr",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -8420,6 +8476,13 @@
    "id": "item:vial_of_unicorn_blood",
    "title": "Vial of unicorn blood",
    "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:watch_tally",
+   "title": "A Watch's tally-stick",
+   "status": "kyr",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -15468,6 +15531,13 @@
   {
    "id": "campaign:the-book-of-faces",
    "title": "The Book of Faces",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "campaigns"
+  },
+  {
+   "id": "campaign:the-dorothea",
+   "title": "The Dorothea",
    "status": "kyr",
    "book": "dmg",
    "section": "campaigns"

@@ -83,7 +83,7 @@ Module quittance "Quittance" {
   Rule skelter_back when hour(clock) == 14 and at(skelter, night_market) { Assert at(skelter, skelter_room). }
   Relation skelterTold(group). Relation skelterBribed(group). Relation skelterFrightened(group). Relation skelterConned(group).
   Topic skelter_rent with skelter "Ask Mr Skelter what the rent is on the Court" when at(skelter, skelter_room) once {
-    Says "'Seven shillings and fourpence a week the house,' says Mr Skelter. 'It is the lowest rent in the city, and the most trouble.'".
+    Says "'Seven and four,' says Mr Skelter. 'The house. Weekly.' A coin is counted, and counted again. 'Lowest in the city. Dearest to collect. Seven houses at seven and four, that is, that is,' and the pen finishes it for him.".
   }
   Action bribe_skelter(actor: group, site: place) "Offer Mr Skelter thirty coin for the page that lists the next block" {
     Speaker skelter.

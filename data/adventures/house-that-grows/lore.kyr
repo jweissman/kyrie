@@ -1,0 +1,8 @@
+Module hhg "The House That Grows" {
+  Description "Where Sabe Orrel's name comes from.".
+  Discovery lore_orrel_post "Sabe Orrel says Sabe is the post, and Orrel the name of those who hold it; she has heard of another Orrel, on a ship, who holds the same post on a stair that is not hers.".
+  Topic lore_sabe_post with sabe "Ask Sabe why people call her by her given name first" when true once {
+    Says "'It is not a given name,' says Sabe. 'It is the post. The one who keeps the lamp is Sabe, and the lamp has always been kept by an Orrel. My mother was Sabe, and her mother.' She turns the lamp with her foot. 'They say there is another Orrel somewhere, on a ship in a place with no weather, who keeps a stair lit and is called the same. I would like to meet him.'".
+    On discuss { Assert knows(actor, lore_orrel_post). }
+  }
+}

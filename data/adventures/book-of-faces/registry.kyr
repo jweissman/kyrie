@@ -42,7 +42,7 @@ Module ombra "The Book of Faces" {
     Requires able(actor) and company(actor) and at(actor, site) and at(doorward, site) and officeFace(mask) and wears(actor, mask) and fitted(actor, mask) and publicHours() and not registryByFace(actor) and state(registry_lock, barred).
     Time 5.
     On success { Assert registryByFace(actor). Assert state(registry_lock, open). }
-    Result "The old man looks at the mask for a long time, as at a coat he has brushed for sixty years. 'It sits,' he says at last. 'It is a very good Fit.' He gets up, which takes some time, and takes a key from the ring, and says to the door, 'The Office goes in. The Office will be quick.' It is quite untrue that nobody notices a person being let in; but it is true that nobody will ever say so.".
+    Result "The old man looks at the mask for a long time, as at a coat he has brushed for sixty years. 'It sits,' he says at last. 'It is a very good Fit.' He gets up, which takes some time, and takes a key from the ring, and says to the door, 'The Office goes in. The Office will be quick.' Two lay-brothers by the font find the roof extremely interesting.".
   }
   Action show_unfitted_face(actor: group, mask: face, site: place) "Show Brother Alder {mask}, and hope the Fit will be forgiven" {
     Speaker doorward.
@@ -60,7 +60,7 @@ Module ombra "The Book of Faces" {
     Requires able(actor) and company(actor) and at(actor, site) and at(tarn, site) and privateStairOpen(actor) and not registryKeyed(actor).
     Time 5.
     On success { Assert registryKeyed(actor). Give registry_key to actor. }
-    Result "'It has not been used since my great-grandmother's time,' says the Contessa, and takes it off a hook in the wall behind a very old shawl. 'She said it would be wanted by someone who could not be trusted with it.' She looks at you for a long moment. 'I find I am not at all sure which of us she meant.'".
+    Result "'It has not been used since my great-grandmother's time,' says the Contessa, and takes it off a hook in the wall behind a very old shawl. 'She said it would be wanted by someone who could not be trusted with it.' She hands it over by the bow, not the shaft. 'I find I am not at all sure which of us she meant.'".
   }
 
   // ── The lectern and the Book ──

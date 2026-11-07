@@ -336,7 +336,7 @@ Module ombra "The Book of Faces" {
     Time 2.
     On success { Assert lcRigged(actor). Assert lcPatentP(actor). Assert lcDuelOff(actor). }
     On failure { Assert lcRiot(actor). Increase heat(actor) by 1. }
-    Result "A rib is a small thing to put out of true. Under cover of the Judge's stool and the Judge's right to handle the exhibits you give it a quarter-turn, and a hand's breadth of oilcloth goes slack in the dark of the case. At the Trial Ostler's First opens over a puddle in the first minute, and Penhallow's holds. The Row cheers, a little guiltily. {ostler} looks at her own umbrella for a long time, and then at you.".
+    Result "A rib is a small thing to put out of true. Under cover of the Judge's stool and the Judge's right to handle the exhibits you give it a quarter-turn, and a hand's breadth of oilcloth goes slack in the dark of the case. At the Trial Ostler's First opens over a puddle in the first minute, and Penhallow's holds. The Row cheers, a little guiltily. {ostler} looks at her own umbrella, furled, and then at you.".
     Otherwise "Under the Judge's stool, with a rib in your hand, you find that {lc_wyn} has been watching your hands since you sat. 'That is ours,' she says, quietly; and then, a good deal louder, 'that is ours.' The Row turns round.".
   }
   Rule lc_riot_starts when lcRiot(party) and not lcDuelling(party) and not lcDuelled(party) and not lcFuneral(party) says "The Row's patience, which has been forty years in the making, takes about four seconds to be spent. Somebody throws an umbrella, and somebody else, with a cousin's sense of occasion, throws it back; and then the two men in the oilskin hoods are in the chalk, and the ferrules are not capped." { Assert lcDuelling(party). }
@@ -582,7 +582,7 @@ Module ombra "The Book of Faces" {
     Resolve check(actor, persuasion, dc_hard).
     Time 3.
     On success { Assert lends(lc_gudge, lc_magpie_old, actor). Give lc_magpie_old to actor. }
-    Result "Gudge listens, with the net across his knees, to the argument that a pond which gives back a face has a better name than a pond that does not; and to the other one, that it is a hard thing to be the man whom the Drip walks round. He says nothing for a long time. Then he takes it down from the wall as a man does who has found that he has been waiting to be argued out of it for years, and puts it in your hands, with the string still on.".
+    Result "Gudge listens, with the net across his knees, to the argument that a pond which gives back a face has a better name than a pond that does not; and to the other one, that it is a hard thing to be the man whom the Drip walks round. He says nothing. The clock over the door gets through a whole minute of it. Then he takes it down from the wall as a man does who has found that he has been waiting to be argued out of it for years, and puts it in your hands, with the string still on.".
     Otherwise "'The pond is exact,' says {lc_gudge}. 'I am not the pond's lawyer. It was staked, and lost, and I will not be talked out of what is mine by someone who has never had a thing to lose.' He is looking, you notice, at the wall; and at a space on it that is not yet empty.".
   }
   Action lc_give_mask_back(actor: group, site: place) "Give Barnaby Sweet his Magpie" {
@@ -749,7 +749,7 @@ Module ombra "The Book of Faces" {
     On discuss { Assert knows(actor, lc_lamb_between). Assert knows(actor, lc_heron_writes). Assert knows(actor, lc_lamp_writes). }
   }
   Topic lc_lamb_fear with lamb "Ask Hester Lyle why she has said nothing in eleven years" when lcLambOpen(party) and knows(actor, lc_lamb_between) and not masked(actor) once {
-    Says "'Because they would meet.' It comes out almost angry. 'The Heron is a man who is afraid of being a person and has made himself a sentence instead. The Lamp has something very like it. They love one another's sentences. It is a thing a person can do. It is not a thing you can do to a person. If they met, they would find the eight o'clock ferry, a Gull and a Heron, a fare, and a quarrel about an umbrella.' A silence. 'It is a wicked thing to say that of two people. I say it because I have seen how they write when they have been quarrelling all morning. It is better. It is better, the days they hate each other. I have never known what to do with that.'".
+    Says "'Because they would meet.' It comes out almost angry. 'The Heron is a man who is afraid of being a person and has made himself a sentence instead. The Lamp has something very like it. They love one another's sentences. Sentences are safe to love. People answer back. If they met, they would find the eight o'clock ferry, a Gull and a Heron, a fare, and a quarrel about an umbrella.' A silence. 'It is a wicked thing to say that of two people. I say it because I have seen how they write when they have been quarrelling all morning. It is better. It is better, the days they hate each other. I have never known what to do with that.'".
     On discuss { Assert knows(actor, lc_pair_known). }
   }
   Topic lc_lamb_swap with lamb "Ask Hester Lyle what the Swap is for" when lcLambOpen(party) and not masked(actor) and day(clock) <= 5 once {
@@ -860,7 +860,7 @@ Module ombra "The Book of Faces" {
   Person cosimo "Cosimo Dray" at weights_floor {
     Role "third clerk of the Hall of Weights". Ancestry human. Peaceable. Pronouns he. Manner stoic.
     Known as "a thin man in the Heron's cowl counting under his breath" when publicHours() and not knows(party, lc_cosimo_face).
-    Greets "A thin man looks up from the figure he is entering, and for a moment the whole of his attention is on you, apologetic, as a man's is who has been interrupted in the middle of being nobody. 'Third clerk,' he says, and then, as if it were a thing a clerk ought not to have said aloud, 'forgive me, I mean to say that I am a Heron. It is a very small office. We do not often have visitors.'".
+    Greets "A thin man looks up from the figure he is entering, and for a moment the whole of his attention is on you, apologetic, as a man's is who has been interrupted in the middle of being nobody. 'Third clerk,' he says, and then, as if clerks were not supposed to say such things aloud, 'forgive me, I mean to say that I am a Heron. It is a very small office. We do not often have visitors.'".
     Greets again "'Ah,' says the thin man, and enters nothing.".
   }
   Initially Assert unmaskTeaches(cosimo, lc_cosimo_face).

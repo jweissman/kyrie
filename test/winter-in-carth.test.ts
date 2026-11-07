@@ -95,7 +95,7 @@ describe('A Winter in Carth: the road, the farm, the city and the Consistory', (
     expect(g.holds('putOut', 'party')).toBe(true);
     expect(g.ending()).toEqual(['the_bearer']);
     expect(g.page).toMatch(/You fool,’ he says\. ‘You lovely fool/);
-    expect(g.page).toMatch(/It is going to be a long winter at Carth/);
+    expect(g.page).toMatch(/Hern telling the child stories about Gaunt that are mostly true/);
     // Struck from the Register, the company cannot come back in by the Fell Gate; Hern can join it.
     expect(g.at('party')).toBe('levels_road');
     expect(g.j.find('^To the Fell Gate')).toBeUndefined();

@@ -29,13 +29,13 @@ Module quittance "Quittance" {
   Observe notice_taught at arch_hall when true "Rule five has been underlined by someone, in pencil, and a small hand has written beside it: 'sufficient to what?'." teaches d_bell_rule.
 
   Topic prest_bell with prest "Ask Mr Prest how the Bell knows" when true once {
-    Says "'It is a bell,' says Mr Prest, 'which hangs under an arch. A man says a thing and the air in the arch has it, and the bell hears the air. I have never found a better explanation and I have looked.'".
+    Says "'It is a bell,' says Mr Prest, 'which hangs under an arch. A man speaks; the air in the arch holds what he said; the bell hears the air. I have taken the Bell down twice for cleaning and it has not once told me how. Entered as: unexplained.'".
   }
   Topic prest_record with prest "Ask what becomes of a declaration" when true once {
-    Says "'It is written in the Roll of Entrances,' says Mr Prest, 'and the Roll goes to the Phoenix, and the Phoenix reads it, because the Phoenix reads everything. A true declaration is therefore also a rather public one.'".
+    Says "'It is written in the Roll of Entrances,' says Mr Prest, turning it so that you can see the hand. 'The Roll goes to the Phoenix on Fridays. The Phoenix reads it. A true declaration is therefore a public one, and I do not know of a way to make it otherwise. Entered.'".
   }
   Topic prest_other with prest "Ask whether there are other ways in" when true once {
-    Says "'There are,' says Mr Prest, with the weariness of long experience. 'The Water-Stair, which I do not know about. The Mortmain road, where the dead are not required to declare. And the gap in the Cinderwall, which is not an entrance, being a hole.' He pauses. 'I should of course discourage all three.'".
+    Says "'There are three,' says Mr Prest. 'The Water-Stair, which I do not know about. The Mortmain road, on which the dead are not required to declare. The gap in the Cinderwall, which is not an entrance, being a hole.' He dips his pen. 'I discourage all three. That is recorded, also.'".
   }
 
   Action declare_true(actor: group, site: place) "Declare yourselves truthfully, and take out a Policy of Passage (3 coin)" {

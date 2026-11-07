@@ -1,0 +1,90 @@
+Module lull "The Lull" {
+  // ── The Account, kept: what each of a company sees in the Lull, and what a cleric can do that nobody else can ───────
+  // The count is the sennight; its keeper is the Fold-stone and, inside the valley, the Old Shift; its first page is the
+  // war that wanted cloth, which nobody can now name and which this file does not try to. What a company of several
+  // callings finds is the cost of the count: who was inside the Mill, who sits with the dying, who is not asked.
+
+  // ── Voices ────────────────────────────────────────────────────────────────────────────────────────────────────────
+  Relation heardPiers(group). Relation heardBrock(group). Relation heardBeam(group). Relation heardWasting(group). Relation heardBirds(group).
+
+  Rule voice_piers at mill_bridge when memberOf(?m, party) and brings(?m, brawn) and awake(?m) and at(party, mill_bridge) and not bridgeBuilt(club) and not heardPiers(party)
+    says "{?m} walks to the edge of the leat and looks at the two piers for a long time, and then at the eight young people on the near end, who are watching {?m} with the hope of the very bored. 'The piers are sound,' {?m} says. 'Dressed stone, laid dry, and not a course moved in fifty-seven years. It wants oak, forty feet of it, and ropes, and a day's honest hauling from people who know which end of a timber is which.' {?m} glances at them. 'They do not. They would be glad to learn.'" {
+    Assert heardPiers(party).
+  }
+  Rule voice_sett at hanger_path when memberOf(?m, party) and brings(?m, woodcraft) and awake(?m) and at(party, hanger_path) and not heardBrock(party)
+    says "{?m} crouches by a spoil-heap with the leaf-litter scraped back, and does not touch the paw-print in the black earth, which is wider than a hand and a half. 'Old,' {?m} says. 'He is old and he has been hurt, and he is not hungry, which is the odd part. See the dung? Honey and beech-mast. Somebody has been feeding him, years back, and stopped, and he has not forgotten.' {?m} gets up slowly, looking at the trees and not the hole. 'He is not wicked. He remembers being killed. Give him what he wants, and keep your hands where he can see them.'" {
+    Assert heardBrock(party).
+  }
+  Rule voice_beam at mill_floor when memberOf(?m, party) and brings(?m, lockwork) and awake(?m) and at(party, mill_floor) and not heardBeam(party)
+    says "{?m} runs a bare palm along the strikers' beam from the near bracket, reading the cut letters with the fingertips as {?m} would a lock. 'Fifty-one names,' {?m} says. 'Fifty-one hands. Good, honest, hacked-out work, standing up, on the outside face.' The hand stops at the far end, at the bracket, where the beam goes into the iron, and turns the wrist to feel the underside. 'And here is one stroke more. A T. Begun and not finished. It is cut from the wrong side, from underneath and behind, by somebody crouching in the dark who did not have the nerve or the time. The others signed in the light.' {?m} takes the hand away. 'I would not mention it to anyone who loved him.'" teaches beam_stroke {
+    Assert heardBeam(party).
+  }
+  Discovery beam_stroke "On the underside of the strikers' beam, at the iron bracket, there is a single stroke of a T, begun from behind by someone crouching and never finished: the fifty-second name, not cut.".
+  Rule voice_wasting at hester_room when memberOf(?m, party) and brings(?m, rites) and awake(?m) and at(party, hester_room) and at(hester, hester_room) and not hesterDead(hester) and not heardWasting(party)
+    says "{?m} stands at the foot of the bed a moment without speaking, taking in the old woman and the worn chair and the cup on the sill, and then sits on the edge of the bed where Hester pats it. 'She is well nursed,' {?m} says to the room, quietly. 'No sores. Clean linen, turned every morning. Whoever sits in that chair has not been out of it for weeks.' {?m} looks at the cup. 'What she lacks is not physic. It is leave. She has been told for ten months that she is dying, and nobody has said the other half, that it may be done gently, and that she may stop. There is an office for that. It does not need anything bought.'" {
+    Assert heardWasting(party).
+  }
+  Rule voice_birds at chapel when memberOf(?m, party) and brings(?m, performance) and awake(?m) and at(party, chapel) and not heardBirds(party)
+    says "{?m} stands in the arch and listens to the starlings in the basin without trying to name them. 'They are not copying anything,' {?m} says, and tips an ear. 'Starlings borrow. This one has a car-door in it, and a kettle, and the smith's third hammer. These are only doing the one tune, and it is the hymn the Old Shift taught me, with the end taken off, going up where you expect it to go down.' {?m} sings the first line back under the breath, and a starling answers from the rim, exactly. 'Somebody taught them and they never forgot,' {?m} says." {
+    Assert heardBirds(party).
+  }
+
+  // ── A cleric's way through: the Office for the Easing ──────────────────────────────────────────────────────────────
+  // Hester has asked for her Monday. Tobias will not buy physic across the Tump and, left alone, does it himself on the
+  // first night. Ruth Coll's poppy and the phial are bought; a cleric has a third thing, which is not. It eases and does
+  // not end; she asks for the end again at the Watching, and the company must live with having been asked.
+  Relation easedByOffice(group). Relation hesterAsksAgain(group).
+  Action ease_hester_office(actor: group, site: place, c: member) "Have {c} say the Office for the Easing over Hester Lindsell" {
+    Speaker hester.
+    Description "Nothing is bought and nothing is carried in. {c} sits with her, and says the words for a bed like hers.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hester_room) and at(hester, hester_room) and lullOpen() and not hesterDead(hester) and not hesterEased(hester)
+      and hesterTrust(hester) >= 1 and memberOf(c, actor) and brings(c, rites).
+    Time 6.
+    On success { Assert hesterEased(hester). Assert easedByOffice(hester). Assert hesterAsksAgain(hester). }
+    Result "{c} says it in the plain low voice for it, with a hand on the sheet, not hurrying: the three parts of it, the naming, the laying down of the burden, and the letting go of the day. It does nothing you can see. Hester listens with her eyes shut and her mouth twitching, as she listens to the world. Somewhere in the second part her whole face changes, the way a field changes when the cloud goes off it. 'Oh,' she says. 'Somebody's said it.' Then she sleeps, deeply, with her hands open on the sheet, and in the doorway Tobias Lindsell has stood for the whole of it with his own hands hanging empty at his sides.".
+  }
+  // A company with no priest in it can only sit. It is a lesser thing: she sleeps for the first part of the night and
+  // not for the rest, nothing is taken from her and nothing is given, and Tobias, who would have done it at ten,
+  // finds a stranger in his chair and cannot. It costs the whole evening, and it does not last.
+  Relation hesterSat(group).
+  Action sit_up_with_hester(actor: group, site: place) "Sit up with Hester Lindsell through the evening, and tell her where you have been" {
+    Speaker hester.
+    Description "You are not a priest, and you have nothing to give her. You can sit in the chair.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hester_room) and at(hester, hester_room) and lullOpen() and dayOne() and not hesterDead(hester) and not hesterEased(hester) and not hesterSat(hester)
+      and hesterTrust(hester) >= 1 and not capable(actor, rites).
+    Time 300 minutes.
+    On success { Assert hesterSat(hester). Assert hesterAsksAgain(hester). }
+    Result "You take the chair that is Tobias's and tell her where you have been, the road and the weather and the bad inn, in no order, and she corrects the distances. About ten she stops correcting and her breath goes long. Tobias comes to the door with the cup in his hand, and sees the chair is taken, and stands there, and goes back to the kitchen. You sit on. She wakes twice and each time looks for the other chair, and finds you. Near dawn she says, quite clearly, 'You are not who I asked,' and holds on to your sleeve until she is asleep again.".
+  }
+  Observe hester_sat_asks at hester_room when hesterSat(hester) and not hesterDead(hester) and dayTwo() "Hester is awake and looking at the chair. 'I did not die,' she says. 'It was kind of you. It was not what I asked for.' She is not angry, and she is looking past you at the other chair.".
+  Topic tobias_office with tobias "Ask Tobias Lindsell about the Office" when easedByOffice(hester) and not hesterDead(hester) once {
+    Says "Tobias is sitting on the settle with the cup in both hands. 'Nothing bought,' he says. 'Nothing carried over the Tump.' He turns the cup. 'I stood in that door and I thought, there is a way that is not mine and not Ruth Coll's. There is a thing that is just said.' He looks up. 'She knew my name this morning. She said, You've not shaved.' His mouth works. 'I'll not thank you. I will do your washing for a year.'".
+    On discuss { Increase tobiasTrust(tobias) by 2. Assert tobiasSoftened(tobias). }
+  }
+  Observe hester_asks_again at hester_room when hesterAsksAgain(hester) and hesterEased(hester) and not hesterDead(hester) and dayTwo() "Hester is awake, and clear, and looking at you. 'I am much better,' she says. 'I may last till the Working Day, and watch it, and be told about it afterwards. That is not what I asked you for.' She is quite calm. 'You have given me a good deal. I am going to keep asking. I thought you should know.'".
+
+  // ── The bolt of the Long Shift ─────────────────────────────────────────────────────────────────────────────────────
+  // A company that wove the six days in the dark carries a bolt of grey cloth that will never wear out, worth twenty
+  // coin to Mercer Haskett. It is also exactly what Tobias Lindsell did not do: work a day because it was owed, and
+  // keep what he made. Given to him, it opens what he has not said; sold, it buys a good deal in Sixways.
+  Relation tobiasHasBolt(group).
+  Topic tobias_bolt with tobias "Give Tobias Lindsell the bolt of cloth you wove in the Mill" when lullOpen() and carries(party, shift_bolt) and not tobiasHasBolt(tobias) once {
+    Says "Tobias takes the end of it in his fingers, and rubs the weave between thumb and forefinger without looking at it, the way he found the notch on the shilling. His whole face goes still. 'Mill weave,' he says. 'Seven-and-a-half to the inch, and the selvedge turned in. Nobody has woven that since the Hallowing.' He looks at you. 'You were in there. In the dark. Working.' He does not ask. He sits down on the settle with the cloth across his knees. 'I worked one day for a shilling,' he says. 'And it was gone at sunset, every thread. You worked six, and it stayed.' He folds a corner over, carefully, as if it might not like it. 'Then that is what holds. Not the wage. The leaving off. Ask me what you came to ask. You came by the cloth honestly.'".
+    On discuss { Spend long_shift_cloth from actor. Assert tobiasHasBolt(tobias). Increase tobiasTrust(tobias) by 2. }
+  }
+  Observe bolt_on_the_chair at hester_room when tobiasHasBolt(tobias) and lullOpen() and not hesterDead(hester) "Across the foot of Hester Lindsell's bed lies a bolt of grey cloth the colour of nothing at all, folded in thirds, and the old woman has her feet on it.".
+  Observe bolt_at_the_table at green when tobiasHasBolt(tobias) and hesterDead(hester) and lullOpen() and dayTwo() and hour(clock) >= 19 and hour(clock) < 21 "By the cup at the top of the Long Table, under Hester's folded shirt, someone has laid a bolt of grey cloth, and the Old Shift keep stopping to touch the edge of it, one at a time, as they pass.".
+
+  // ── Things nobody can explain ──────────────────────────────────────────────────────────────────────────────────────
+  // Nell Lumb's lantern is the Lull's kept light: lit on every Lullday dusk by whichever child of Linger has most lately
+  // lost a tooth, at the Strike Post, and carried down at dawn. Nell was the child who said, can't it just stay Sunday.
+  Observe nells_lantern at strike_post as feature when lullOpen() "On a hook driven into the top of the Strike Post hangs a tin lantern with a stub of candle in it, and a card tied to the handle in a child's hand: NELL. The children of Linger take it in turns to light it at dusk, and the rota is whoever lost a tooth last. Ask a child why and the answer is, 'Because it is Nell's.' Ask a grown man and he looks at the ground. The Old Shift say she is dead, and that it makes no difference.".
+  Observe sixways_curtains at sx_street as feature when not dark() "Every door in Sixways has its curtain of grey-gold Lull-cloth, hung with the right edge turned in. The carters say it is never bought, only given: a woman who bought hers in the market town hung it one night, and in the morning it was the colour of ditchwater.".
+  Observe haskett_oldest at haskett_loft as feature when true "On the lowest rack, wrapped in paper gone brown, hangs the oldest bolt in the loft. Its ticket is in a hand nobody now writes, and says, in full: FOR THE WAR. NOT TO BE SOLD. Haskett's father would not say which war. Haskett says he has never asked, and that this is the whole of what he is proud of.".
+
+  // ── Outward: Sixways, the candle trade, and the news by the north road ─────────────────────────────────────────────
+  Observe spurling_candles at spurling_shop as feature when lullOpen() "On the rack above the bench, apart from the Lull's own spurling and beeswax dips, hangs one bundle of tall white fluted candles, tied with a bit of red wool and a ticket: HASKETT CART, FROM THE WOLD OF HUME, ASKED UNLIT. Wenna says they burn three nights each and smell of summer, and that nothing she dips will do it; and that they came from a place where half a town walks away behind a swarm, which she thinks is the most Lull-like thing she has ever heard of outside the Lull.".
+  Topic dorcas_carters with dorcas "Ask Dorcas Trewin where the carters come from" when true once {
+    Says "'Everywhere that wants cloth.' Dorcas counts on her fingers, not unkindly. 'Larum, up the west road, for the winter wool, and they pay in lamp-oil and say the quiet up there wants warm things. The Hume carts, from the south, for the grey-gold, and bring back candles to be lit unlit.' She smiles at that. 'The Wold of Hume sends us wax and takes cloth, and neither of them has ever once asked what the other does with it. If a Sixer wanted to see the sea, they could go with the Hume cart, but I would not say the sea is any better for it.'".
+  }
+}

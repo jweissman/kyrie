@@ -54,9 +54,9 @@ Module corrow "Let One Remember" {
   Observe hoists_scene at hoist_feet when not towerFell(hornwake) "Three timber hoist-towers stand beside the Chain, each with a winch-house and a counterweight basket, and between them a daily market on trestles: rope, coal, water in casks, dried mutton coming down, fog-wool coming down in great oily bales. A woman with a griddle sells oatcakes.".
   Observe wagons_scene at wagons when true "The horseshoe of Hornwake: wagons with their wheels chocked, canvas, timber frames that come apart in sections, chickens in crates. Every household keeps one ear on the horn.".
   Observe tail_scene at tail when not lost(hightown) and not crashed(hightown) "Behind the horn the tail lies on the ground: seven great links like a felled tree, each eighteen metres long and two thick, black, crusted orange where files have been at them. On the last of them a crew of runners works in a shed of canvas, filing. The sound of it never stops.".
-  Observe cook_scene at cook_room when true "A long tent with a stove at each end and benches, the stovepipes still warm from the last shifting day. Hornwake eats here.".
+  Observe cook_scene at cook_room when true "A long tent with a stove at each end, the stovepipes still warm from the last shifting day. Every bench is bolted to a pair of runners so that it can be dragged, and the oldest are worn bright underneath. Hornwake eats here.".
   Observe watch_scene at watch_hut when true "An instrument hut: a brass sighting-glass on a stone pier sunk deep into the furrow, a lamp, and books, a whole shelf of them, every one the same: dawn bearings of the horn, one line a day.".
-  Observe pavilion_scene at pavilion when true "A good pavilion of grey canvas under a grey banner, a brazier, a camp desk, a strongbox, and maps of the Corrow pinned up with Hightown drawn on them in red, further north each map.".
+  Observe pavilion_scene at pavilion when true "A good pavilion of grey canvas under a grey banner, a brazier, a camp desk, a strongbox, and maps of the Corrow pinned up with Hightown drawn on them in red, further north each map. The newest is pinned lowest, as though nobody wanted it at eye height.".
 
   // Ordinary Life (Player Portfolio): a shifting day after every gale.
   Observe shifting_day at wagons when galesBlown(hightown) >= 1 and watch(clock) - lastGale(hightown) < 144 "The move-bell went before dawn: three strokes, then three. Overnight the horn has dragged north; you can see where: a raw trench of turned earth, black at the bottom, ending at the great dark curve of it lying half buried with its chain behind it. Hoist crews are lowering the first tower in sections, calling numbers. Children carry chickens in baskets. A Registry clerk with a measuring chain walks the new stretch of furrow, and three families follow him, arguing about who planted first.".
@@ -182,7 +182,7 @@ Module corrow "Let One Remember" {
   Person tip "Tip" at hesk_yard {
     Role "a black-and-white sheepdog, grey in the muzzle". Species dog.
   }
-  Event tip_returns at hesk_yard when at(party, hesk_yard) "You stop for water. The farmer's mother is sitting on the step shelling beans, and does not look up. There is a dog at the gate: black and white, grey in the muzzle, sitting the way a sheepdog sits when it has been told to wait. It is looking at the door. 'Is he yours?' you ask. The old woman looks up at last. She looks at the dog for a long time, and the beans go still in her lap. 'That's Tip,' she says. 'That's my grandmother's dog.' She puts the bowl down. 'He died before I was born. She used to tell me about him.' The dog gets up when she says his name, and comes to her, and puts his head in her lap. Her son comes out of the barn, sees it, and swears under his breath. 'Another Return,' he says to you, as though you had asked. 'Third on this road this autumn. Don't mention it in the village. They'll want to put him on the Nail.'" then {
+  Event tip_returns at hesk_yard when at(party, hesk_yard) "You stop for water. The farmer's mother is sitting on the step shelling beans, and does not look up. There is a dog at the gate: black and white, grey in the muzzle, sitting the way a sheepdog sits when it has been told to wait. It is looking at the door. 'Is he yours?' you ask. The old woman looks up at last. She looks at the dog, and then at the grey in its muzzle, and the beans go still in her lap. 'That's Tip,' she says. 'That's my grandmother's dog.' She puts the bowl down. 'He died before I was born. She used to tell me about him.' The dog gets up when she says his name, and comes to her, and puts his head in her lap. Her son comes out of the barn, sees it, and swears under his breath. 'Another Return,' he says to you, as though you had asked. 'Third on this road this autumn. Don't mention it in the village. They'll want to put him on the Nail.'" then {
     Assert returnSeen(party).
   }
   Relation returnSeen(group).
@@ -204,7 +204,7 @@ Module corrow "Let One Remember" {
     On success { Decrease quantity(actor, gold) by 5. Increase quantity(jory, gold) by 5. Assert gatePaid(actor). }
     Result "Jory pockets it without counting. 'Read away,' he says. 'Whatever it says, it's still my gatepost.'".
   }
-  Discovery method_known "The anchor tally of the Drag, station 56, in the hand of the Concord engineers: how they would bring the mountain down if ever they had to. Not all at once. Let the mountain's own people come to know its place one at a time, and it will come down as slowly as they do. 'Let one remember at a time.'".
+  Discovery method_known "The anchor tally of the Drag, station 56, in the hand of the Concord Warden's engineers: how they would bring the mountain down if ever they had to. Not all at once. Let the mountain's own people come to know its place one at a time, and it will come down as slowly as they do. 'Let one remember at a time.'".
   Action read_station(actor: group, site: place) "Ask Teshen to read the chain in the gatepost" {
     Description "Link-script, read by touch. A Keld reads it as you read print.".
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, askew_gate) and travelsWith(teshen, actor)
@@ -227,7 +227,7 @@ Module corrow "Let One Remember" {
   // ── The Socket ───────────────────────────────────────────────────────────────────────────────────────────────────
   Observe socket_scene at socket_south when true "The Socket: a lake a kilometre and more across in a bowl of bare ribbed granite at the foot of the Teskarn, so clear you can see the ribs go down and down into blue and then into black. Nothing lives in it. On the shore a woman sits by a theodolite on its tripod, wrapped in a fog-wool blanket, sighting south.".
   Observe socket_shadow at socket_south when socketDistance(hightown) <= 1500 and not crashed(hightown) and not lost(hightown) "Hightown is close now. Its shadow comes and goes on the water as the cloud thins: a long dark bowl on a lake that is the same shape.".
-  Observe station_scene at survey_station when true "A stone hut with a slate roof, abandoned by Lusk surveyors in 2603: a desk, a cracked plumb-bob, a cupboard of good brass instruments, and on the wall a framed chart.".
+  Observe station_scene at survey_station when true "A stone hut with a slate roof, abandoned by Lusk surveyors in 2603: a desk, a cracked plumb-bob, a cupboard of good brass instruments left behind, as no surveyor ever leaves brass, and on the wall a framed chart.".
   Observe shelf_scene at socket_shelf when true "A shelf of granite at the water's edge, and cut into it in a ring, every twenty paces, a square socket a man could stand in: sixty of them. Something was moored here once, from all sides at once.".
   Observe socket_north_scene at socket_north when true "The north shore, under the Teskarn's first slopes. A camp: two bedrolls, a fire pit, a spyglass on a cairn pointed across the water at the woman on the other side.".
 
@@ -241,7 +241,7 @@ Module corrow "Let One Remember" {
     Says "'Hightown,' says Wil, without taking her eye from the glass. 'How far off, every morning. It was three thousand nine hundred metres when I came down.' She writes a number. 'My brother Aron thinks the mountain's going home. I think it's just going where the wind goes.' She does look up, then, at the lake, and away from it quickly. 'There are men on the north shore measuring me. Hartmark. I wave.'".
   }
   Topic scouts_talk with scouts "Ask the Hartmark scouts what they are watching" when true once {
-    Says "'Weather,' says the older one. The younger one laughs. 'The lady with the glass,' he says, 'and the thing she's looking at. Our envoy likes to know how fast it's coming.' He offers you the spyglass. 'Have a look. It's a free country. They tell us so every day.'".
+    Says "'Weather,' says the older one. The younger one laughs. 'The lady with the glass,' he says, 'and the thing she's looking at. Our envoy likes to know how fast it's coming.' He offers you the spyglass. 'Have a look. She waves back, sometimes.'".
   }
   Kind socket_chart "the Lusk survey chart of the Socket, 2571" is treasure worth 10 weighing 1.
   Item chart "the Lusk survey chart of the Socket" is socket_chart at survey_station.

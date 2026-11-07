@@ -2450,6 +2450,14 @@ Used: You are lamplit for 6 hours.
 
 > A stoppered flask of lamp oil: enough to keep a lantern burning six hours.
 
+#### Lamplighters' seal
+
+*Kyr · gear* · `item:lamplighter_seal`
+
+- Worth: 10
+
+> A brass seal on a chain, a lamp with a hand closed round it: the Charter's mark, which the old doors of the Lamplighters still answer to.
+
 #### Lantern
 
 *Adapted · equipment* · `item:lantern`
@@ -2721,6 +2729,14 @@ Used: You are lamplit for 6 hours.
 - Worth: 2
 
 > A cast iron skillet for cooking meals over a campfire.
+
+#### Notched rod
+
+*Kyr · tool* · `item:sluice_rod`
+
+- Worth: 1
+
+> A staff of black wood shod at both ends in bronze, the bronze notched along its edge in a close, careful pattern.
 
 #### Soap
 
@@ -3849,6 +3865,14 @@ Used: Paralyzing Touch, at no cost.
 
 > A simple cloth tunic, worn and faded.
 
+#### A letter of the Collegium of Lesser Instruments
+
+*Kyr · treasure* · `item:collegium_letter`
+
+- Worth: 5
+
+> A folded letter in a cramped, delighted hand, bearing the seal of the Collegium of Lesser Instruments at Corran: the bearer is a friend of the Collegium and of working things, and is to be admitted where the Collegium's name opens doors, which is fewer places than the Collegium believes.
+
 #### Crystal eye
 
 *Faithful · treasure* · `item:crystal_eye`
@@ -4129,6 +4153,22 @@ Used: Paralyzing Touch, at no cost.
 
 > A skull made of opalescent material, shimmering with various colors.
 
+#### The green lens of a Pharos
+
+*Kyr · treasure* · `item:pharos_lens`
+
+- Worth: 40
+
+> A lens of green glass the width of a dinner plate, in an iron ring, heavy as a sleeping child. Round its rim are twelve settings for small stones; eleven hold a pale stone each, and the twelfth is an empty socket, bright, as if something had been taken out of it not long ago or a very long time ago. On the iron ring, cut small: a fish, and over it a flame.
+
+#### A rubbing of the Prefect's table
+
+*Kyr · treasure* · `item:pharos_rubbing`
+
+- Worth: 8
+
+> A long strip of rag paper rubbed black with charcoal, taken from a table of bronze in the lamp room of the Pharos on Skerrow: columns of Aenean numerals, and beside them, in a second column that was scrubbed and never quite cleared, a series of strokes that are not Aenean. The rubbing is faithful, and says nothing of what it means.
+
 #### Philosophers stone
 
 *Faithful · treasure* · `item:philosophers_stone`
@@ -4144,6 +4184,14 @@ Used: Paralyzing Touch, at no cost.
 - Worth: 700
 
 > A rare feather from a phoenix, said to have healing properties.
+
+#### A copy of a Prefect's writ of keeping
+
+*Kyr · treasure* · `item:prefects_writ`
+
+- Worth: 10
+
+> A monk's copy, in a clerkly hand, of a writ of the Prefect of the Marches giving a House the keeping of a wall it did not build: CUSTODIA, NON DOMINIUM. The Latin is plain. The reading of it has been disputed for eight hundred years.
 
 #### Priceless painting
 
@@ -4216,6 +4264,22 @@ Used: Paralyzing Touch, at no cost.
 - Worth: 7
 
 > A simple steel torc, slightly bent and tarnished.
+
+#### The Ninth Valuer's note on a surety
+
+*Kyr · treasure* · `item:surety_terms`
+
+- Worth: 6
+
+> A strip of ruled paper in a hand like type: A SURETY ANSWERS FOR THE KEEPING NAMED. WHERE NO KEEPING IS NAMED, FOR ALL. Under it, a small exact mark where a name would be, and the word RECEIVED.
+
+#### A rubbing of a keeper's tally
+
+*Kyr · treasure* · `item:tally_rubbing`
+
+- Worth: 8
+
+> A wax-and-cloth rubbing of the underside of a stone bench, three notations deep: a long stroke for a ship, short ones under it, a flame cut into some, a paw into others; the oldest rows in marks no one reads, the middle in Aenean numerals, the last in an island's own. It is a bilingual, of a kind: the numerals gloss the strokes.
 
 #### Tattered map
 
@@ -4296,6 +4360,14 @@ Used: Paralyzing Touch, at no cost.
 - Worth: 1800
 
 > A small vial containing the blood of a unicorn, prized for its magical properties.
+
+#### A Watch's tally-stick
+
+*Kyr · treasure* · `item:watch_tally`
+
+- Worth: 3
+
+> A stick of grey wood the length of a forearm, cut with eleven close notches and a space for a twelfth. It is warm to the hand. It was cut by someone who has not been asked, in a very long time, for anything.
 
 #### Wooden bowl
 

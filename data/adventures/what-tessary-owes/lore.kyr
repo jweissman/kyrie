@@ -1,0 +1,46 @@
+Module tessary "What Tessary Owes" {
+  Description "Links outward from the Ossel: a ship's people with no papers, the Valuer shown a writ that says kept, a Factor's packet for the Tolleth packet, and a Collegium surveyor with a chain.".
+
+  // ── A world event, read: the queue at the Office of Seals ───────────────────────────────────────────────────────
+  Observe lore_queue_ship at seals_hall when befell(remainder_harboured) "The queue has a new rumour, which it is passing back along itself like a bucket: a ship's company, given harbour in the south, who have kept their own accounts for eleven generations and cannot say to whom they owe the first page. The queue's view is that this is the most terrible thing it has ever heard, and the queue would like to know whether they have a number.".
+
+  // ── A visitor from elsewhere: a writ that says kept ─────────────────────────────────────────────────────────────
+  Discovery lore_valuer_kept "The Ninth Valuer, shown a fair copy of a writ that says KEPT, says that the Balance has no column for it, and that a column for it would ruin the Balance.".
+  Topic lore_valuer_writ with tally "Show the Ninth Valuer the fair copy of the Prefect's writ" when holding(actor, prefects_writ) once {
+    Says "The Valuer reads with a finger, as the faintly ruled do. 'Servandam,' they say, 'to be kept. Not oath-bound, not collateral. There is no mark for this in my book.' They turn a page and show you the columns, owed and paid and in arrears, each ruled to the edge. 'Centuries of Tessarine accounting and this word is not in it. An oath may be pledged, bought, sold, discounted. A thing that is kept may not be.' A pause like a ruler laid down. 'I will not copy this. I will remember it. It is the first thing in a long time I have not known how to enter.'".
+    On discuss { Assert knows(actor, lore_valuer_kept). }
+  }
+
+  // ── An entry point: Factor Sault waits on a shipment ───────────────────────────────────────────────────────────
+  Kind exchange_ledger "The Exchange's black ledger" is treasure worth 2 described "A slim ledger bound in black calf, in a clerk's hand: sums paid out of the Salt Exchange's strongroom to 'O.N., at the Gap', every month since the spring.".
+  Item lore_sault_packet "Factor Sault's sealed packet of accounts" is exchange_ledger at nowhere owned by sault.
+  Relation lore_saultPacket(group).
+  Topic lore_sault_tolleth with sault "Ask Factor Sault whether anything is wanted carried overseas" when true once {
+    Says "'You have a face for a courier,' says Sault, not kindly, and shoves a ledger aside. 'Salt I can sell. What I cannot do is get an answer out of the Orsett factors at Tolleth, who have had my money since the spring and sent me one letter, in which they say a ship is delayed. The ship is the Dorothea, Captain Bascom, and she is delayed in the way a ship is delayed that has been paid twice by two houses.' She seals a packet with a thumb of black wax. 'Take it to Tolleth. There is a board on the quay with her sailings chalked up; if Bascom is not there, the harbour woman will know. Put it in Bascom's hand and in no one else's, least of all the Orsett man's. Tell her the Salt Moiety remembers what is owed.' She considers. 'Say it as a threat. It is not one.'".
+    On discuss { Give lore_sault_packet to actor. Assert lore_saultPacket(actor). }
+  }
+
+  // ── The Collegium's surveyor ────────────────────────────────────────────────────────────────────────────────────
+  Discovery lore_pym_tessary "A surveyor of the Collegium of Measures, Orlando Pym, found the Causeway four feet longer at low water than the Collegium's tables, and has gone north up the drove road with his chain to the Lull and the Pass at Larum.".
+  Topic lore_sedge_pym with sedge "Ask Hannelore Rackham about the man with the chain on the Causeway" when true once {
+    Says "'Pym,' says Sedge. 'Surveyor, Collegium of Measures, which weighs things and will tell you so before you ask. He set his chain along the Causeway at low water and found it four feet longer than it was in his tables, and wrote it down, and said the tables were wrong. I said, the tide was wrong. He said the tide is never wrong, it is merely early.' She almost smiles. 'He has gone north with a boy to carry the stake. He wants the Lull, and the Pass beyond it, he says. A man who measures things for his bread will measure anything that holds still.'".
+    On discuss { Assert knows(actor, lore_pym_tessary). }
+  }
+
+  // ── Three things from elsewhere ─────────────────────────────────────────────────────────────────────────────────
+  Discovery lore_rubbing_valuer "The Ninth Valuer, shown a keeper's tally rubbed from a bench by the sea, has no column for the oldest rows, and enters them as 'unruled'.".
+  Topic lore_valuer_rubbing with tally "Show the Ninth Valuer the rubbing of a keeper's tally" when holding(actor, tally_rubbing) once {
+    Says "The Valuer follows the rows with one ruled finger, top to bottom, as the faintly ruled do. 'A stroke for a ship, a mark for whatever the sea gave back,' they say. 'And here, nothing owed.' They stop at the oldest rows and do not go on. 'I have no category for these. They are not receipts. They are not debts. They are the other thing, the one that is not in the ledger.' They take out their pen. 'May I enter them as unruled? It is not an honour I give lightly.'".
+    On discuss { Assert knows(actor, lore_rubbing_valuer). }
+  }
+  Discovery lore_letter_deckle "Ulric Deckle, Keeper of the Great Seal, shown a letter bearing the seal of the Collegium of Lesser Instruments, says nobody forges it, because nobody wishes to be a friend of working things.".
+  Topic lore_deckle_letter with deckle "Show the Keeper the letter of the Collegium of Lesser Instruments" when holding(actor, collegium_letter) once {
+    Says "Deckle takes the letter and does not read a word of it. He looks at the seal, a cog in a ring, for a long, professional minute. 'Pressed from the left,' he says. 'Wax too cool when it was struck, so the ring has a seam. A good seal, honestly made, by a hand that does not care how it looks.' 'Nobody has ever forged a seal as plain as that; there is nothing to be got by it.' He gives the letter back the way one hands back a child, and wipes his fingers.".
+    On discuss { Assert knows(actor, lore_letter_deckle). }
+  }
+  Discovery lore_teeth_pitch "Lemuel Pitch, shown a sack of green bronze teeth, says they are not chandler's metal and not ship's metal, and that the grain in them is a clock's.".
+  Topic lore_pitch_teeth with pitch "Show Lemuel Pitch the bell-teeth" when holding(actor, bell_teeth) once {
+    Says "Pitch takes one tooth between a thumb and a finger and holds it to the lamp, and then bites it, which he never does. 'Bronze,' he says. 'But not tin and copper as my father mixed it. This has something in it besides, and it has been struck, not cast.' He rings it on the counter. The note goes on a very long time. 'I sell old bronze by the pound to a man who does not ask. I would not sell these to him.' He pushes them back across the counter with one finger, and does not look at them again, and from the back of the shop a clock he has never wound seems to tick a little louder.".
+    On discuss { Assert knows(actor, lore_teeth_pitch). }
+  }
+}

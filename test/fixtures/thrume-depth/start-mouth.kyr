@@ -1,0 +1,5 @@
+Module thrume "Thrume" {
+  // The edge of the Mouth on its own: the company starts there with the keepers' song, and (tests add) what it heard on the way.
+  Company party "Your company" of 3 at mouth_edge.
+  Initially Assert knows(party, song_known).
+}

@@ -1,0 +1,139 @@
+Module dorothea "The Dorothea" {
+  Description "Ways into the Reach other than a fare at the quay: a clerk who needs a crate fetched, a wife with a letter, a black lugger on the coast, a bottle on the harbourmaster's desk, a runaway prentice in the chandlery. Each is a short scene in Tolleth that hands the company to a leg of the archipelago, with a consequence there.".
+
+  Kind dorothea_letter "a wife's letter" is document described "A letter folded small and sealed with a thumb of wax, addressed in a careful hand: JOSS KETTERIDGE, STACK-MAN, THE ANTLERS, TO BE GIVEN HIM AND NOT THE BOOK.".
+  Kind dorothea_reply "a stack-man's answer" is document described "A scrap of egg-tray pasteboard written on both sides in pencil, folded, and sealed with a gull's feather. TO DILYS. FROM J.".
+  Kind dorothea_bottle "a bottle with a message" is document teaching bottle_read described "A green bottle, stoppered with tarred rag, with a strip of oilskin inside it written on in burnt stick.".
+  Discovery bottle_read "The oilskin says: TO THE HARBOUR. THE HOLM'S IRON IS LOOSE AND THE ONES COMING HOME ARE NOT. COME AT LOW WATER. M. OAKE.".
+  Relation raidNews(group). Relation raidLanded(group). Relation raidTurned(group). Relation raided(group). Relation bonded(group).
+  Relation crateDelivered(group). Relation hired(group). Relation letterTaken(group). Relation pipHome(group). Relation pipReturned(group). Relation bottleTaken(group). Relation replyGiven(group). Relation hobDefies(group).
+  Measure raidAt(entity). Measure owesHouse(group).
+
+  // ── (a) A counting-house in Tolleth, waiting on a shipment ──────────────────────────────────────────────────────
+  Person latch "Corwin Latch" at taproom {
+    Role "clerk of the House of Marchbank, at the Tolleth desk". Ancestry human. Level 1. Peaceable. Pronouns he. Manner jovial.
+    Likeness "scholar".
+    Greets "A young man with a blue cuff and an inkstand clipped to his belt has taken the best table by the window and spread on it six sheets of the House's paper, none with anything written on it. 'Corwin Latch, Clerk, the Tolleth desk,' he says. 'Do sit. I am waiting for a crate. I have been waiting for a crate since Candlemas. I am told the House is a great deal of money. I find it is mostly waiting.'".
+  }
+  Initially Set quantity(latch, gold) to 80.
+  Topic latch_crate with latch "Ask Corwin Latch about the crate" when true once {
+    Says "'Sulphur,' says Latch. 'Two seasons of it, crated at Ashkeld, three days south-west, and no ship will call, because it is not on the way to anywhere the House sells. A crate with a faded ring on the lid and my number burned in. Bring it to me and the House pays twenty-five crowns on the desk, and I give you twelve against the fare, to have you there at all.' He considers his sheets. 'It is a poor errand. The Factor has not mentioned it in a year. I am the only person in Orsett who remembers that Ashkeld exists.'".
+    On discuss { Assert knows(actor, latch_asked). }
+  }
+  Action latch_advance(actor: group, site: place) "Take the clerk's twelve coin against the fare to Ashkeld" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(latch, site) and knows(actor, latch_asked) and not hired(actor).
+    Time 1.
+    On success { Increase quantity(actor, gold) by 12. Decrease quantity(latch, gold) by 12. Assert hired(actor). }
+    Result "He counts it out of a House purse and enters it in a column. 'Advanced against the Ashkeld shipment,' he writes, and his face lights as of a man whose ledger has at last grown a line.".
+  }
+  Discovery latch_asked "Corwin Latch, clerk of the House at Tolleth, will pay twenty-five crowns for a crate of Ashkeld sulphur with a faded ring on the lid and his number burned into it, and twelve against the fare.".
+  Action deliver_crate(actor: group, site: place) "Put the Ashkeld crate on Corwin Latch's table" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(latch, site) and holding(actor, dorothea_sulphur_crate) and not crateDelivered(actor).
+    Time 1.
+    On success { Spend dorothea_sulphur_crate from actor. Increase quantity(actor, gold) by 25. Decrease quantity(latch, gold) by 25. Assert crateDelivered(actor). }
+    Result "Latch reads his own number off the lid with something close to reverence. 'Two seasons,' he says. 'Mrs Gantry's will be on the Dorothea's next call.' He pays out twenty-five crowns from a purse that was, you notice, never meant for it. 'I shall tell Orsett,' he says, 'that the House keeps its word. It is an unusual thing to be able to say.'".
+  }
+  Observe ashkeld_paid at ashkeld_works when crateDelivered(party) "Someone has chalked on the sulphur-house door a new line under the old stencil: SETTLED, TOLLETH DESK. Merrow Gantry has pinned beside it a clerk's receipt in a blue hand, and has put a nail through the corner, twice.".
+
+  // ── (b) A mariner's wife ────────────────────────────────────────────────────────────────────────────────────────
+  Person dilys "Dilys Ketteridge" at quay {
+    Role "a mariner's wife, whose husband is on the Antlers". Ancestry human. Level 1. Peaceable. Pronouns she. Manner proud.
+    Likeness "farmer".
+    Greets "A woman in a good shawl gone thin at the edges stands at the end of the quay with her back very straight, reading the notice board though she has plainly read it. She has the look of someone who has been polite to a number of people about a boat. 'You're not sailing for the Antlers,' she says. 'No. You look as though you might. I am Dilys Ketteridge.'".
+  }
+  Topic dilys_letter with dilys "Ask Dilys Ketteridge what she is waiting for" when true once {
+    Says "'My husband went up the Antlers for the eggs in March,' she says. 'Joss. He's a stack-man; he does a rope that frightens most men. He wrote by the Dorothea at Whitsun. At Lammas, nothing. Since then, nothing.' She takes a folded paper out of the shawl and holds it in both hands. 'I've written him eleven. The House's clerk says the boat is full. Bascom says she will call at the Antlers when she is asked, and nobody has asked, and I am not a woman who asks.' She looks at you. 'I am asking.'".
+    On discuss { Give dorothea_letter to actor. Assert letterTaken(actor). }
+  }
+  Topic dilys_reply with dilys "Give Dilys Ketteridge her husband's answer" when holding(actor, dorothea_reply) once {
+    Says "She reads it standing, and her face does not change at all, and then she folds it back along its creases, and sits down on a bollard, which she has not done in front of anyone in eleven weeks. 'He says the ladder broke at Lammas, and the House's man has not a rope to spare. He says there has been a light wanted, and he's been asked to hold his tongue.' She laughs once. 'He's never held it in his life.' She presses eight coin into your hand, her housekeeping, folded in a handkerchief, and will not have it back.".
+    On discuss { Spend dorothea_reply from actor. Increase quantity(actor, gold) by 8. Assert replyGiven(actor). }
+  }
+  Person joss "Joss Ketteridge" at stack_foot {
+    Role "stack-man at the Antlers". Ancestry human. Level 2. Peaceable. Pronouns he. Manner jovial.
+    Likeness "sailor".
+    Greets "A lean man with a rope tied round each ankle and a third round his waist is lying on his back in the guano with his boots up on a rock, looking at the sky. 'Ketteridge,' he says. 'Joss. Don't mind me. I'm not hurt. I'm only not going up that.' He tilts his head at the ladder.".
+  }
+  Topic joss_letter with joss "Give Joss Ketteridge his wife's letter" when holding(actor, dorothea_letter) once {
+    Says "He reads it with his lips, slowly, through a face that gets younger by degrees. 'Eleven,' he says. 'She says she has sent me eleven. I've had none.' He sits up. 'They go to the Agent's hammock. I know where.' He writes an answer on a scrap of egg-tray with a pencil end and a great deal of tongue. Then he gets up, and walks to the ladder, and looks at it, and says, 'I'll put the rig back on it. I was told not to. I was told a good many things. Let them write it down.'".
+    On discuss { Spend dorothea_letter from actor. Give dorothea_reply to actor. Assert ladderSound(actor). Assert hobDefies(actor). }
+  }
+
+  // ── (c) A black lugger on the coast, and the House's price for protection ───────────────────────────────────────
+  Person raiders "the Gannet's Widow's boarders" at nowhere {
+    Role "two men and a woman off the lugger Gannet's Widow, with cutlasses and a sack". Ancestry human. Calling thief. Level 2. Numbers 3. Temperament territorial.
+    Warns "Three people are standing on the pier in a loose half-circle with their backs to the sea. The nearest has a cutlass hanging from her wrist and a face like a clean plate. 'Don't make it a thing,' she says. 'It's only salt.'".
+    Comes "The woman with the cutlass lifts it, almost lazily, from her wrist.".
+  }
+  Topic latch_raid with latch "Ask Corwin Latch about the black lugger the pilots are talking about" when true once {
+    Says "'The Gannet's Widow,' says Latch, dropping his voice, which in a taproom is a gesture. 'Black Meg's. She takes salt and sells it back to the people she took it from. She was at the Combs a week ago and is expected at Port Ness before the new moon, because it is the fattest harbour on the Reach and defended by a reeve.' He taps his inkstand. 'The House would protect its own. It has a guard-boat in Orsett. For thirty crowns, in a bond, against your company's good name and a lien on whatever you carry. The House is always glad to be of use.'".
+    On discuss { Assert raidNews(actor). Set raidAt(house) to watch(clock) + 150. }
+  }
+  Action sign_the_bond(actor: group, site: place) "Sign the House's protection bond: thirty crowns, owed" {
+    Description "The guard-boat will be at Port Ness when the lugger comes. The bond is a lien on your company, to be redeemed at the Tolleth desk.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(latch, site) and raidNews(actor) and not bonded(actor) and not raidTurned(actor).
+    Time 2.
+    On success { Assert bonded(actor). Assert raidTurned(actor). Set owesHouse(actor) to 30. }
+    Result "Latch writes it out fair and turns it for the company's mark. 'You will find the House exactly as grateful as it is exact,' he says. He blots it. 'The guard-boat leaves at the next tide.' It is, you think, a very good price for a very small boat.".
+  }
+  Action redeem_the_bond(actor: group, site: place) "Redeem the House's bond at the Tolleth desk, thirty coin" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(latch, site) and bonded(actor) and owesHouse(actor) >= 1 and quantity(actor, gold) >= 30.
+    Time 1.
+    On success { Decrease quantity(actor, gold) by 30. Increase quantity(latch, gold) by 30. Set owesHouse(actor) to 0. }
+    Result "Latch strikes it through in red. 'Paid,' he writes, and then, because he is a decent young man in an indecent trade, 'with thanks.'".
+  }
+  Rule raid_lands at ness_quay when raidNews(party) and watch(clock) >= raidAt(house) and not raidLanded(party) and not raidTurned(party) and not raided(party)
+    says "A black lugger with a bone in her teeth comes round the end of the pier without a flag, and men and women go over her side into the shallows with the unhurried air of those who have done a thing often. The women on the pier put down their shovels." {
+    Assert raidLanded(party). Retract at(raiders, nowhere). Assert at(raiders, ness_quay).
+  }
+  Rule raid_ends when raidLanded(party) and not raidTurned(party) and not raided(party) and watch(clock) >= raidAt(house) + 30 {
+    Assert raided(party). Retract at(raiders, ness_quay). Assert at(raiders, nowhere).
+  }
+  Observe raided_pier at ness_quay when raided(party) "Three lighters lie burnt to the waterline against the pier, and the salt barn door hangs off one hinge. The women are sweeping salt out of the burnt hulls into sacks. Nobody looks up. A reeve is standing with his arms at his sides.".
+  Observe bonded_pier at ness_quay when bonded(party) and raidTurned(party) and not raided(party) "A neat black guard-boat with a key-and-ring on her bow lies at the end of Port Ness pier, two men in the House's grey at her oars, doing nothing at all. Nobody on the pier speaks to them.".
+  Topic warn_auld with auld "Warn Dunstan Auld that Black Meg's lugger is coming" when raidNews(actor) and not raidTurned(actor) and not raidLanded(actor) once {
+    Says "'Aye,' says Auld. He takes the rake off his shoulder. 'We've done it before.' He puts two fingers in his mouth and whistles, and the rakers stop in a long line down the dams. By evening there are two hundred of them at the pier in their rag gloves with their rakes, and every lighter has a line of white-handed women sitting along its gunwale. 'She'll not land on that,' he says. 'She'll count it, and sail on.'".
+    On discuss { Assert raidTurned(actor). }
+  }
+  Action parley_raiders(actor: group, site: place) "Parley with the woman with the cutlass" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(raiders, site) and not raidTurned(actor).
+    Time 2.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert raidTurned(actor). Retract at(raiders, site). Assert at(raiders, nowhere). }
+    Result "You say that the pier is the House's, and that the House has a guard-boat in Orsett, and that you have the reeve behind you, and that salt is cheap compared to what a hanging costs. She looks at you for a while with her head on one side. 'Four sacks,' she says. 'From the top of the heap, where it's dry.' They take four sacks. The lugger goes out on the ebb with her sails the colour of a rotten tooth.".
+    Otherwise "'I didn't get to be Meg's mate,' she says, 'by being talked to.'".
+  }
+  Rule raid_beaten when at(raiders, ness_quay) and not able(raiders) and not raidTurned(party) { Assert raidTurned(party). }
+
+  // ── (d) A bottle on the harbourmaster's desk ────────────────────────────────────────────────────────────────────
+  Topic dacey_bottle with harbourman "Ask Dacey Hoe about the bottle on her desk" when true once {
+    Says "'Cast up on the strand at the spring tide,' says Dacey Hoe. 'Salvage is the finder's, and the finder's a boy who has gone to sea. I have no authority to open another man's bottle, so I have not.' She has plainly not read it eleven times. 'The oilskin says the Holm. The Holm is a mile out past Port Ness and nobody lives on it but a widow who is paid not to be there. If you are going that way, you may say it was handed to you.'".
+    On discuss { Give dorothea_bottle to actor. Assert bottleTaken(actor). }
+  }
+  Topic marit_bottle with marit "Give Marit Oake the bottle" when holding(actor, dorothea_bottle) once {
+    Says "She turns it over in the lamp of the door. 'The night the Rosa Lind went,' she says. 'I put it in the water myself. I never thought it would go anywhere but down.' She holds it a while longer. 'Since Lammas. I thought it was in the bar with the rest. And now somebody has brought it back.' She sets it on the sill. 'The stand,' she says. 'You'll be wanting to see the stand. The iron is loose. It always was.'".
+    On discuss { Spend dorothea_bottle from actor. Assert maritWilling(actor). }
+  }
+
+  // ── (e) A runaway ───────────────────────────────────────────────────────────────────────────────────────────────
+  Person pip "Pip Vosper" at shop {
+    Role "a runaway prentice of the House, eleven, from the Antlers". Ancestry human. Level 1. Peaceable. Pronouns he. Manner stoic.
+    Joins "Pip Vosper takes a coil of rope off the pile, sets it on his shoulder like a man and falls in at your elbow, a pace behind, looking at the sea.".
+    Leaves "Pip nods once, to nobody. 'I'll be all right here,' he says, in a voice that does not say so.".
+    Greets "Behind the coils of rope at the back of Garrick's, between a keg of tar and the wall, a boy of about eleven in a grey cuff is sitting with his knees up and an unlit candle in his hand, quite still. 'Not a word,' he says. 'Please. I'm bound to the House seven years and I've done three and I want my mother, and they'll send me to the Ness, which is the other way.'".
+  }
+  Initially Assert acceptsEscort(pip, party).
+  Topic pip_mother with pip "Ask Pip Vosper where his mother is" when true once {
+    Says "'The Antlers,' says Pip. 'She's Hob Sedge's sister. I was bound to the House to pay her debt in flour. She's not paid it, the House says, because it keeps the flour on the book at its own price.' He turns the candle over. 'There's a man at the taproom with a blue cuff who's put up five crowns to anyone who brings me back. I'd go myself, if I knew the way. I don't, and I've no fare.'".
+  }
+  Topic latch_pip with latch "Tell Corwin Latch where the runaway is, for the House's five coin" when knows(actor, pip_seen) and not pipReturned(actor) and not pipHome(actor) once {
+    Says "Latch is up in a moment, the chair going over behind him. 'Where?' he says. And then, hearing himself, sits down again. 'The House,' he says, 'does not like to lose a prentice. It likes still less to be seen to lose one.' He counts five crowns out. 'Garrick's, you say. Thank you.' He does not look pleased. He looks like a man given a thing to do that he would rather not have been able to do.".
+    On discuss { Increase quantity(actor, gold) by 5. Assert pipReturned(actor). Retract at(pip, shop). Assert at(pip, nowhere). }
+  }
+  Discovery pip_seen "In Garrick's chandlery, behind the coils of rope, a boy of eleven in a House prentice's grey cuffs is hiding from the Tolleth desk.".
+  Observe pip_found at shop when true "At the back, between a keg of tar and the wall, there is a place where the rope has been moved to make a nest." teaches pip_seen.
+  Topic hob_pip with hob "Bring Pip Vosper to Hob Sedge" when following(pip, party) and not pipHome(party) once {
+    Says "Hob Sedge looks at the boy, and the boy at Hob, and nobody speaks. Then Hob picks him up, boots and all, and holds him against his chest like a bundle of sticks, and the guano comes off the boy's boots onto his coat and he does not notice. 'The House says seven years,' he says at last, over Pip's head. 'The House can say it to me.' He puts him down, and takes the rope off his waist, and looks at the stack. 'Clause seven is the House's, and it's the Antlers' too, and when the Antlers' headman gives leave, that's a thing that's been done. You'll light it. I'll stand under it.'".
+    On discuss { Assert pipHome(actor). Assert hobDefies(actor). Assert cressetFree(actor). }
+  }
+}

@@ -1,0 +1,113 @@
+Module quittance "Quittance" {
+  Description "What the city does and nobody can account for: the saucers of salt on the sills, the eleven strokes on the cellar stair, the ninety-four steps, a pigeon on a policy; the Fire's replies to what the company has seen; and a candle, a coat and a Chief Underwriter's lie seen from the side.".
+
+  // ══ THE COUNT, THE KEEPER, THE FIRST PAGE, THE PRICE ═══════════════════════════════════════════════════
+  // Count: the Founders' Policy, five clauses long; the Offices carry it and have not read it. Keeper: the Fire, who counts
+  // in company. First page: clause 3, the Return. Price of reading it: the Guest is owed a hearth for every hearth let out.
+  // Everything in this file is a rumour of that count, or a person seen in it.
+
+  // ── Foreshadow, for everyone: the saucers of salt ───────────────────────────────────────────────────────
+  // A thing every house on Policy Row does and nobody can explain. Paid off in the Hearth Below, and on the Row on the
+  // morning after, if the city has made its terms.
+  Discovery qv_saucers "On every sill on Policy Row stands a saucer with a pinch of salt in it, set out on the first of the month by the Offices' housemaids.".
+  Observe qv_saucers_seen at row_street when true "On every sill along the Row, under the gilt marks, stands a saucer with a pinch of salt in it, white and level, as a thing is set out for someone who may arrive in the night. A housemaid on a step is wiping the rim of one with her apron. 'First of the month,' she says, when you look. 'My mother did it.' A small boy on the step below, who has been counting the saucers on his fingers, says it is for the one who comes in last, so they won't have to ask, and is told to hush." teaches qv_saucers.
+  Observe qv_saucers_licked at row_street when fireTerms(party) and day(clock) >= 9 and hour(clock) >= 6 "The saucers on the sills of Policy Row are clean. Not emptied: licked, as a cat licks a dish. The housemaid on her step has one in each hand and is looking from one to the other, and does not say anything at all.".
+
+  // ── Foreshadow, for those who look: eleven strokes and a blank ──────────────────────────────────────────
+  Discovery qv_strokes "Cut in the lintel of the Exchange cellar stair, in a script of straight notches that Ianthe Corbett calls Hesk, there are eleven strokes and a space for a twelfth.".
+  Discovery qv_twelfth_place "The Fire says eleven came down the stair on the second night, and that a twelfth place was left, as a host leaves one.".
+  Observe qv_strokes_seen at cellar_foot when true "Cut small into the lintel of the stair you came down, under a century of soot, there is a row of straight notches in a script that is not a clerk's: eleven strokes, close and even, and after them a space exactly their width, with nothing in it. The edges of the space are cleaner than the rest. Something has been rubbed there, or kept from soot." teaches qv_strokes.
+
+  // ── New history, away from the critical path ────────────────────────────────────────────────────────────
+  Thing qv_steps "the Brokers' Stair" at brokers_stair {
+    Tries looking.
+    State steps "The Stair that gives the quarter its name has ninety-four steps, and a boy comes at dawn with a bucket of whitewash and does one of them over. The last, at the top, is brighter than the rest, and cracks at the edge from this year's frost. The broker nearest says they do one a year, from the bottom, and that when the boy reaches the top they will start again at the bottom.".
+  }
+  Observe qv_plate_painter at gate_plaza when hour(clock) >= 5 and hour(clock) < 8 "A man with a lantern on his hat is going from door to door along the Plaza repainting the little gilt birds, one coat to a bird, by candlelight, not letting the paint dry in the sun. He says the Phoenix pays a farthing a bird and that he is the thirty-first of his family to hold the brush. 'The colour's the Chief Underwriter's,' he says. 'But the hand is ours. You can tell a Pargeter bird by the left wing.'".
+  Observe qv_orange_peel at wards_gate when true "The Cinderwall smells of burnt orange. The Wards sell the peel, dried and twisted on a wick, as a light that costs a farthing and gives the smell of a hearth, because a flame is a nuisance under the Ordinance and a peel is, by a long judicial hair, a vegetable.".
+  Observe qv_bell_assay at arch_hall when true "On the yoke of the Honest Bell, very small, under the soot, there is a stamp: a pair of scales, and under it, in the Measures' hand, TRUE TO ITS POUND. The Collegium of Measures weighs; it does not say what. Mr Prest says they came in his predecessor's day, weighed the Bell, put it back, and told the Collector that it was heavier than its bronze by about one clerk. 'I have never,' says Mr Prest, 'been able to prove which.'".
+  Observe qv_arch_notice at arch_hall when true "A card pinned under the Rules of the Bell, in a hand older than Mr Prest's: PERSONS ARRIVING WITH A KEEPER'S TALLY, A PREFECT'S WRIT, OR A LAMP THAT HAS NOT BEEN LIT FOR HIRE MAY DECLARE AT THE END WINDOW. THE BELL WILL HEAR THEM TWICE. The end window has been bricked up. Somebody keeps the card dry.".
+  Observe qv_bell_below at arch_hall when befell(slack_opened) "The Honest Bell has rung once in the night with nobody in the hall. Mr Prest says it was not a declaration. 'It was a draught,' he says, 'from somewhere without an Arch.' He has written it in the Roll, as an arrival, and left the columns blank.".
+
+  // ── Contrast: the Hen's Mutual, and a pigeon ────────────────────────────────────────────────────────────
+  // A comic scene in a grave book. Mrs Pudsey has founded, at her own bar, an Office of her own: the Wayward Hen Mutual,
+  // which insures anything the brigades will not. Its largest outstanding claim is a pigeon.
+  Kind qv_salt_kind "a twist of guest-salt" is treasure worth 0 weighing 0 described "A screw of coarse paper holding a pinch of white salt, from a saucer on a sill on Policy Row. Whoever keeps it is told, by the paper, that it is not for eating.".
+  Item qv_salt "a twist of guest-salt" is qv_salt_kind at nowhere.
+  Person qv_spode "Bertram Spode" at hen_taproom {
+    Role "retired ringer of the Loss-Bell, claimant of the Hen". Ancestry human. Peaceable. Manner jovial. Pronouns he.
+    Greets "A man with the forearms of a bell-ringer and the eyes of a bereaved uncle is sitting at the end of the bar with a shoe-box in front of him and a slate propped against it, upon which is chalked, in Mrs Pudsey's hand, THE AMBROSE CLAIM. 'Spode,' he says, and half-rises. 'You'll be the adjusters. Thank goodness. I've been waiting since Tuesday.'".
+    Greets again "'Any news of Ambrose?' says Mr Spode, and then, remembering himself, 'I mean the claim.'".
+  }
+  Relation qv_pigeonHeard(group). Relation qv_pigeonSettled(group).
+  Topic qv_spode_claim with qv_spode "Ask Mr Spode what the claim is" when true once {
+    Says "'Ambrose,' says Mr Spode. He opens the shoe-box a crack, not enough for you to see anything but a blue-grey gleam and a smell of camphor. 'Insured by the Hen Mutual at four coin the quarter against hawks, drains and the common cat. Ambrose was lost on Tuesday.' He lowers his voice. 'To the cat. The cat was the Phoenix's, so I was told it would not be a covered peril, but I put it to Mrs Pudsey that a cat is a common cat whatever it wears on its collar.'".
+    On discuss { Assert qv_pigeonHeard(actor). }
+  }
+  Topic qv_pudsey_mutual with pudsey "Ask Mrs Pudsey about the Wayward Hen Mutual" when true once {
+    Says "'It's the only Office in the city that pays out in beer,' says Mrs Pudsey. 'Forty-one policy-holders, mostly dogs. I pay for what the brigades won't touch: a lost glove, a failed pie, a cat's funeral. I have never once refused a claim for being silly. I refuse them for being late.' She lowers her voice. 'Mr Spode is going to cost me a pigeon. He knows it. We are both enjoying it very much.'".
+  }
+  Action qv_adjust_pigeon(actor: group, site: place) "Adjust the Ambrose claim, in full and in form, at the bar of the Wayward Hen" {
+    Speaker qv_spode.
+    Requires able(actor) and company(actor) and at(actor, site) and at(qv_spode, site) and at(pudsey, site) and qv_pigeonHeard(actor) and not qv_pigeonSettled(actor).
+    Time 20 minutes.
+    On success { Assert qv_pigeonSettled(actor). Increase quantity(actor, gold) by 2. Give qv_salt to actor. Increase regard(wardsfolk) by 1. }
+    Result "You ask for the policy, which is a beer-mat; for the proof of loss, which is a pigeon, and is produced with ceremony, and has clearly been dead since a year before the Tuesday in question; for the cause, which is a cat. You write all of it down in a hand that the Phoenix would admire. You find the loss real, the peril common, and the cat's collar immaterial. Mrs Pudsey pays the claim in coin and a round, the whole bar rises, and Mr Spode weeps with great dignity into a napkin. Mrs Pudsey, who has not once in your acquaintance been quiet, takes a screw of paper from under the bar and presses it into your hand. 'Guest-salt, my duck,' she says. 'From the Row. My mother kept a saucer too. Don't ask me what it's for. It's for a guest.' The bar sings the policy to the tune of a hymn, and a man at the back, who has no policy and no pigeon, asks the landlady how one makes a claim.".
+  }
+
+  // ── Persons, seen in play ───────────────────────────────────────────────────────────────────────────────
+  // Skelter: wants to be paid and left alone; fears being read aloud; tells himself he only collects; and, pressed, does
+  // what a man who only collects would never do.
+  Topic qv_skelter_candle with skelter "Ask Mr Skelter why the candle behind the grating is lit" when at(skelter, skelter_room) and burned(candlewick) and not candlewickWarned(actor) and not holding(actor, skelter_book) once {
+    Says "He does not answer for so long that you think he has not heard. 'Against the Ordinance,' he says at last. 'Open flame. I could be declined for it.' He looks at the candle. 'One a block. I light it the night after. It burns till the wick's gone, and I sit up with it, and I do the sums.' His left hand goes quite still. 'Nineteen. I wrote the nineteen in the margin a week before. I thought it would be nothing, a number. I thought a number was what I was for.' He reaches under the counter and pushes the oilcloth book through the hatch with the flat of his hand, not as a thing that is hot, this time, but as a thing that is heavy. 'Take it,' says Mr Skelter. 'I'll say you took it. I'll say I fought.'".
+    On discuss { Give skelter_item to actor. Assert knows(actor, d_skelter_book). }
+  }
+  // Ottoline: wants to be useful; fears being the Phoenix's entire response; tells herself that the Tables are sound; and
+  // takes the gilt bird off her own coat.
+  Topic qv_ottoline_coat with ottoline "Ask Ottoline why the gilt bird on her coat is pencilled over" when ottolineTrust(ottoline) >= 2 and knows(actor, d_tables_paradox) once {
+    Says "She looks down at her lapel, where somebody has drawn a small, firm rectangle of pencil over the bird, as one blots a word. 'Tuesday,' she says. 'The Tables are right. I want to say that first. I have checked every column, and the Tables are right, and they say that the Wards, unmarked, burn least.' She presses her lips together. 'Which is why I put the pencil on. If they are right, then I am the Phoenix's apology for a fire it has not yet lit.' She unpins the bird and puts it in her pocket, and the coat looks younger. 'Don't tell my father,' says Ottoline. 'He'd say it was a sensible thing to do, and I should have to find something else.'".
+    On discuss { Increase ottolineTrust(ottoline) by 1. }
+  }
+
+  // ── The Fire answers what the company has seen ──────────────────────────────────────────────────────────
+  // Wants company; fears being forgotten; tells itself it does not complain, it counts; and pays, when it is asked the
+  // right way, in the one coin it has.
+  Relation qv_placeCounted(group). Relation qv_tallyShown(group). Relation qv_saltLaid(group).
+  Topic qv_t_complain with ds_fire "Tell the Fire it said it does not complain, and ask whether that is true" when fireHeard(actor) and ds_accord(actor) >= 2 and not fireWrathful(actor) once {
+    Says "The coal is still for a long moment. 'It is a form,' says the Fire. 'A creditor does not complain. A creditor counts.' The heat draws in, and in the draw you hear what it has been keeping under the form: a sound like a kettle left on an empty house, going from room to room. 'There is one night in the year when a house is lit that was not lit for me. I hear every hearth in this city. I hear them not be lit.' It adds, quite evenly: 'That is the complaint. You may enter it.'".
+    On discuss { Increase ds_accord(actor) by 1. }
+  }
+  Topic qv_t_salt with ds_fire "Ask the Fire what the saucers of salt on the Row are for" when fireHeard(actor) and knows(actor, qv_saucers) and not fireWrathful(actor) once {
+    Says "'Salt,' says the Fire, and the form drops out of its voice like a coin through a hole. 'It was set out for a guest who might come late. I have not been late.' The coal brightens. 'They did it on the first of the month, the whole Row, after the doors were walled. Nobody told them to. I think they were afraid. Fear is a very good host.'".
+    On discuss { Increase ds_accord(actor) by 1. }
+  }
+  Action qv_lay_salt(actor: group, site: place) "Lay the twist of guest-salt on the ash, and say whose sill it came from" {
+    Speaker ds_fire.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ds_fire, site) and fireHeard(actor) and not fireWrathful(actor) and holding(actor, qv_salt_kind) and not qv_saltLaid(actor).
+    Time 5 minutes.
+    On success { Spend qv_salt_kind from actor. Assert qv_saltLaid(actor). Increase ds_accord(actor) by 2. Assert fireFed(actor). }
+    Result "The paper takes light and goes, and the salt lies on the hot ash in a small white mound that does not melt. 'The Hen,' says the Fire, reading it as it reads everything. 'The one that insures the cat.' It sounds, for a moment, almost amused. 'A guest's portion. It has been laid. You may tell them it was eaten.'".
+  }
+  Topic qv_t_strokes with ds_fire "Ask the Fire about the eleven strokes and the empty place on the cellar stair" when fireHeard(actor) and knows(actor, qv_strokes) and not fireWrathful(actor) once {
+    Says "'Eleven came down with her on the second night,' says the Fire. 'Notary, clerk, the founders. They cut their number in the stone going down, one stroke each, so that they should be counted when they came up.' The coal ticks. 'They came up. A place was left for a twelfth, as a host leaves one. I was told it was for whoever kept me. I have been keeping the place.'".
+    On discuss { Assert knows(actor, qv_twelfth_place). Increase ds_accord(actor) by 1. }
+  }
+  Rule qv_keeper_stays when fireTermKeeper(party) and knows(party, qv_twelfth_place) and not qv_placeCounted(city)
+    says "'Twelve,' says the Fire, quite softly, and on the stair behind you there is one stroke more than there was, and the lintel is warm." {
+    Assert qv_placeCounted(city).
+  }
+  Action qv_show_tally(actor: group, site: place) "Show the Fire a Watch's tally-stick" {
+    Speaker ds_fire.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ds_fire, site) and fireHeard(actor) and not fireWrathful(actor) and holding(actor, watch_tally) and not qv_tallyShown(actor).
+    Time 5 minutes.
+    On success { Assert qv_tallyShown(actor). Increase ds_accord(actor) by 2. Assert fireFed(actor). }
+    Result "The Fire has no hands. The stick lifts a little off your palm in the heat and turns once in the air, and it goes along the notches, and stops where they stop. 'Kept,' says the Fire. 'Not owned. Someone has been keeping a count a long way from here for a great many years, and has not been thanked.' It sets the stick down. 'My Offices do not know the word. They say owed. Owed is what you have of a thing you were lent. Kept is what you do for it.' It says, after a moment, almost shyly: 'It is a better word. I should like to have been kept.'".
+  }
+  Topic qv_t_draught with ds_fire "Ask the Fire whether there are others like it" when fireHeard(actor) and not fireWrathful(actor) once {
+    Says "'Others,' says the Fire. 'Hearths, who keep a count? There are always others. There was an Auditor, once, a long way from any hearth, who counted the tide and was thanked by nobody, and I am told he thinks it is a mercy.' The coal brightens a little. 'I do not envy him. I have a stair.'".
+  }
+  Topic qv_t_slack with ds_fire "Tell the Fire a door has been opened, a long way off, under a college" when fireHeard(actor) and befell(slack_opened) and not fireWrathful(actor) once {
+    Says "The heat turns, as a face turns toward a draught. 'Yes,' says the Fire. 'I felt it come under my own door, three nights ago, with the smell of a place that has no weather. Someone there has been keeping a house that was not theirs, for a very long time, with no one to tell them they might stop.' It is quiet. 'I hope they have been left a place at the table.'".
+    On discuss { Increase ds_accord(actor) by 1. }
+  }
+}

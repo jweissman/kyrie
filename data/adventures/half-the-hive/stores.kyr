@@ -26,7 +26,7 @@ Module hume "Half the Hive" {
     Says "'The night before you're capped, someone sits with you. In the Gallery, in the dark, no light, because there's no flame among the Capped: one candle up there and four hundred years of us go up like a hayrick.' She looks at her hands. 'Tomorrow they cap him, or the day after, whenever I've sat. I can't sit alone; it's not done. And nobody'll sit with me.' Her mouth goes thin. 'They say there's something up there since he died. Something in the dark that smells of the Mother. Children's talk.' She looks at you. 'You're not a child.'".
   }
   Topic agnes_offer with agnes "Offer to sit the dark watch with Agnes tonight" when not watchAgreed(agnes) and not keptWatch(actor) and not leavingBegun() once {
-    Says "She looks at you a long time. 'Tonight,' she says. 'At ten, in the Gallery. No light. You'll not need one; you sit where you're put and you don't move.' She almost smiles. 'You talk to him, if you like. I do.'".
+    Says "Agnes counts something on the fingers of one hand. 'Tonight,' she says. 'At ten, in the Gallery. No light. You'll not need one; you sit where you're put and you don't move.' She almost smiles. 'You talk to him, if you like. I do.'".
     On discuss { Assert watchAgreed(agnes). }
   }
   Topic agnes_going with agnes "Ask Agnes whether she will go with the Leaving" when not leavingBegun() once {
@@ -37,7 +37,7 @@ Module hume "Half the Hive" {
     On discuss { Assert agnesVouches(agnes). }
   }
   Topic agnes_likeness with agnes "Give Agnes the wax likeness Eben made of Tobit" when holding(actor, tobit_likeness) and not likenessGiven(agnes) once {
-    Says "She takes it in both hands: a little figure as long as her forearm, white and gold, Tobit in his capping apron with his sleeves rolled, his head a little on one side the way he must have stood. She looks at it for a long time. 'That's him,' she says. 'That's exactly how he stood when he was waiting for me to stop talking.' She wraps it in her shawl and puts it in the bundle by the door, on top. 'I'll take this, then,' she says. 'And he can stay.'".
+    Says "She takes it in both hands: a little figure as long as her forearm, white and gold, Tobit in his capping apron with his sleeves rolled, his head a little on one side the way he must have stood. She turns it to the light. 'That's him,' she says. 'That's exactly how he stood when he was waiting for me to stop talking.' She wraps it in her shawl and puts it in the bundle by the door, on top. 'I'll take this, then,' she says. 'And he can stay.'".
     On discuss { Spend tobit_likeness from actor. Assert likenessGiven(agnes). }
   }
   Topic agnes_go_free with agnes "Tell Agnes the thing in the Gallery is dead, and Tobit is safe to leave" when mothDead(deathshead) and knows(actor, moth_heard) and not agnesFreed(agnes) once {
@@ -152,7 +152,7 @@ Module hume "Half the Hive" {
     Resolve check(actor, persuasion, dc_hard).
     On success { Assert meadSaved(huw). }
     On failure { Assert huwRefused(huw). }
-    Result "Huw Penry stares at you. Then he stares at the barrel. 'Bee-bread,' he says, 'is for babies and the sick.' But he goes and gets a loaf, and stands with it a long while, and crumbles in a fistful as if he were throwing away his own good name. By evening the barrel is talking to itself, and Huw is telling everyone in the vaults that it came to him in the night.".
+    Result "Huw Penry stares at you. Then he stares at the barrel. 'Bee-bread,' he says, 'is for babies and the sick.' But he goes and gets a loaf, and stands weighing it, and crumbles in a fistful, like a man throwing away his own good name. By evening the barrel is talking to itself, and Huw is telling everyone in the vaults that it came to him in the night.".
     Otherwise "'Bee-bread!' Huw Penry's voice fills the vaults. 'In my mead! Is that what they do down in Smoke End? Is that Martin Sayle's notion?' He turns his back on you and will not hear another word.".
   }
   Action trick_huw(actor: group, site: place) "Tell Huw that the old mead-masters of the Comb swore by bee-bread in a stuck barrel" {

@@ -19,6 +19,7 @@
     "../../../../data/adventures/wrayford/endings.kyr",
     "../../../../data/adventures/wrayford/aftermath.kyr",
     "../../../../data/adventures/wrayford/growth.kyr",
+    "../../../../data/adventures/wrayford/voices.kyr",
     "traveller.kyr"
   ],
   "rules": [
@@ -28,7 +29,8 @@
     "party"
   ],
   "canon": [
-    "imbar"
+    "imbar",
+    "slack_opened"
   ],
   "exports": {
     "party": "party",

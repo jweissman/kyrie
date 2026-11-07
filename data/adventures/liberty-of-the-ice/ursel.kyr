@@ -59,7 +59,7 @@ Module pellam "The Liberty of the Ice" {
   }
   Discovery con_plan "Ursel Cobb's plan: the company to be the Squire of Hawsfold, with two hundred fell ewes snowed in on the fells, and to sell them to Master Harker the wool-factor, who is buying fleeces he cannot see; to take his money on the ice, and be over the bridge before the Landing, so the bargain goes out with the river.".
   Topic ursel_why with ursel "Ask Ursel why Harker" when knows(actor, con_plan) and not urselConfessed(actor) once {
-    Says "'Because he's rich, and pious, and greedy, and stupid in exactly the one place a man ought to be clever, which is about himself.' She says it quickly, and smoothly, and looks at the fire, not at you, and you have the strong sense of a door being shut very politely in your face. 'And because he'll pay. Ask me something else.'".
+    Says "'Because he's rich, and pious, and greedy, and stupid in exactly the one place a man ought to be clever, which is about himself.' She says it quickly and smoothly, to the fire, in the voice of someone who has said it to herself often enough to have worn the corners off. 'And because he'll pay. Ask me something else.' Her spoon goes round and round the cup and never once touches the side.".
     On discuss { Assert knows(actor, ursel_evades). }
   }
   Discovery ursel_evades "Asked why Harker, of all the factors in Pellam, Ursel Cobb answered too quickly, looking at the fire.".
@@ -114,7 +114,7 @@ Module pellam "The Liberty of the Ice" {
   }
   Discovery ursel_knows_harker "Told that Harker was hired at nine out of Swale Head, her own parish, Ursel said she would rather he were a devil.".
   Topic ursel_tansy with ursel travelling "Tell Ursel that one of Harker's hired, Tansy Hobb, is a dairymaid from Swale Head" when knows(actor, tansy_hired) and knows(actor, ursel_father) once {
-    Says "'Hobb.' She closes her eyes. 'The Hobbs had the low farm, by the wash-dub, where the beck goes under the road. Mary Hobb gave my mother a cheese the morning we walked down. She'll be this Tansy's grandmother.' She opens them. 'Fifteen, you said.' She stands up. 'Right,' says Ursel Cobb. 'Right. Then it's two of us I want out of that barn.'".
+    Says "'Hobb.' She closes her eyes. 'The Hobbs had the low farm, by the wash-dub, where the beck goes under the road. Mary Hobb gave my mother a cheese the morning we walked down. She'll be this Tansy's grandmother.' She opens them. 'Fifteen, you said.' She stands up. 'Then it's two of us I want out of that barn,' says Ursel, and has her cape fastened to the chin before you have said a word.".
     On discuss { Assert knows(actor, ursel_hobbs). Increase urselTrust(ursel) by 1. }
   }
   Discovery ursel_hobbs "Tansy Hobb's people had the low farm at Swale Head; her grandmother gave Ursel's mother a cheese the morning the Cobbs walked down to Pellam.".

@@ -42,7 +42,7 @@ Module pentrice "Gosse's Company" {
   // Found by searching, and seen there while it is there.
   Observe dido_seen at tiring_house when searched(party, tiring_house) and at(dido, tiring_house) "In the rack of old costumes, inside the sleeve of a moth-eaten queen's robe, someone has rolled up a manuscript and tied it with black ribbon: DIDO, A TRAGEDY, BY O. CLAY. Its margins are full of pencil in a big sprawling hand." teaches dido_found.
   Initially Assert lends(gosse, dido, party).
-  Event clay_reads near clay when keeps(clay, dido) "Clay unties the black ribbon as if it might bite. He turns the pages, and stops at the first pencil note, and reads it, and turns more slowly, and reads the next. Beautiful. Too long. Here, beautiful. At the last page he sits for a while with his hand flat on it, over CUT NOTHING. A.G. 'He wrote this,' he says, 'the night they burlesqued it.' He does not look up. 'He stood in the wings and laughed, and then he went home and wrote this.' He ties the ribbon again, carefully, and puts the manuscript inside his coat. 'Thank you,' he says, to the table." then {
+  Event clay_reads near clay when keeps(clay, dido) "Clay unties the black ribbon slowly, with two fingers. He turns the pages, and stops at the first pencil note, and reads it, and turns more slowly, and reads the next. Beautiful. Too long. Here, beautiful. At the last page he sits for a while with his hand flat on it, over CUT NOTHING. A.G. 'He wrote this,' he says, 'the night they burlesqued it.' He does not look up. 'He stood in the wings and laughed, and then he went home and wrote this.' He ties the ribbon again, carefully, and puts the manuscript inside his coat. 'Thank you,' he says, to the table." then {
     Increase regard(clay) by 2. Assert clayMoved(clay). }
   Relation clayMoved(group). Relation curtainRaiser(group).
   Topic gosse_dido with gosse "Ask Gosse to play the lament from Clay's Dido before the play, as a curtain-raiser" when knows(actor, clay_grudge) and knows(actor, dido_found) and inCompany(actor) and not swaleGone(swale) and not curtainRaiser(gosse) once {
@@ -170,7 +170,7 @@ Module pentrice "Gosse's Company" {
     Offers healing "a dressing, and a psalm said over it" for 2 coin.
   }
   Topic mallory_taste with mallory "Ask Canon Mallory what a play is for" when true once {
-    Says "'To send them home better,' says the Canon, and knocks out his pipe. 'Not preached at. I have the pulpit for that, and they do not come. But a play that shows them a kindness done, or a pride brought low, or a quarrel made up, and nobody the worse, why, they go home and are kinder for a week.' He hesitates. 'I will not have filth. And I will not have the dead mocked, who cannot answer. That is all.' He smiles. 'That is a great deal, in the theatre.'".
+    Says "'Ah.' The Canon knocks out his pipe on the leg of the harpsichord, which he plainly allows nobody else to do. 'Home better. That is all I ask of it. Not preached at; I have the pulpit for that, and, well, they do not come.' He refills the pipe. 'A kindness done, a pride brought low, a quarrel made up, and nobody the worse. They go home kinder for a week. A week, mind. I would take a week.' He lights it. 'Filth I will not have. Nor the dead mocked, who cannot answer. Beyond that I find I am very easily pleased,' he adds, in the voice of a man confessing to a vice.".
     On discuss { Assert knows(actor, taste_mallory). }
   }
   Topic mallory_voice with mallory "Ask Canon Mallory how the choir keeps a breaking voice through a season" when knows(actor, kit_fear) or knows(actor, ned_wants) once {
@@ -212,7 +212,7 @@ Module pentrice "Gosse's Company" {
   }
   Relation triedLend(group).
   Topic mallory_faith with mallory "Tell Canon Mallory, as one who keeps the faith, that the boy will be safe among the players" when craft(actor, craft_faith) and knows(actor, ned_wants) and not nedRuns(ned) and not nedLent(ned) once {
-    Says "The Canon looks at you for a long moment, as one who has knelt to another. 'You'll see to it,' he says. 'Yourself.' You say you will. 'Then he may go to them for the Trial, with my blessing.' He rubs his eyes. 'He sings Behold for us on the third night, mind.'".
+    Says "The Canon takes the pipe out of his mouth, as one who has knelt to another. 'You'll see to it,' he says. 'Yourself.' You say you will. 'Then he may go to them for the Trial, with my blessing.' He rubs his eyes. 'He sings Behold for us on the third night, mind.'".
     On discuss { Assert nedLent(ned). Retract at(ned, school_yard). Assert at(ned, moon_loft). Increase regard(mallory) by 1. }
   }
   Action keep_ned(actor: group, site: place) "Tell Ned to stay with the Children and sing, this season" {
@@ -255,6 +255,6 @@ Module pentrice "Gosse's Company" {
     Speaker callow. Time 2 minutes.
     Requires able(actor) and company(actor) and at(actor, site) and at(callow, site) and knows(actor, callow_lies) and not callowShamed(callow) and not callowCaught(callow).
     On success { Assert callowCaught(callow). Increase regard(callow) by 1. }
-    Result "Carrow looks at you for a long moment. 'You might have done me in front of the whole Owl,' he says. 'Everyone else would.' He turns his cup round in its saucer. 'I'll stop saying it. And on Gosse's night,' he says, 'I'll watch it as if I'd never heard of it, which God knows is true.'".
+    Result "Carrow's mouth opens and shuts. 'You might have done me in front of the whole Owl,' he says. 'Everyone else would.' He turns his cup round in its saucer. 'I'll stop saying it. And on Gosse's night,' he says, 'I'll watch it as if I'd never heard of it, which God knows is true.'".
   }
 }

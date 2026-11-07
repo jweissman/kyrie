@@ -1,0 +1,95 @@
+Module pentrice "Gosse's Company" {
+  Description "What each of the company makes of Pentrice by what they are; the requiem for the lamplighter, said alone or said before his son; a playbill for a ship that came ashore; the lamplighter's pole.".
+
+  // The preset party has no declared people, so it has no Remarks of its own. What a rule can ask of a member is their
+  // calling, and print their name; each voice is said once, by whoever has the calling.
+  Relation heardWheel(group). Relation heardPlate(group). Relation heardLock(group). Relation heardDogs(group).
+  Relation heardWeir(group). Relation heardStep(group).
+
+  // ── Voices, by calling ──────────────────────────────────────────────────────────────────────────────────────────
+  Rule voice_wheel at wheel when capable(party, performance) and at(party, wheel) and not heardWheel(party)
+    says "The one of you who has trodden boards walks to the middle of the empty yard, claps once, and stands with a head on one side while the clap goes up through three galleries and comes back late. 'Good house,' they say. 'It gives you back everything but the left-hand corner of the stage, where it gives you back nothing at all. Stand an old man there and he will think his own voice has failed him.'" {
+    Assert heardWheel(party).
+  }
+  Rule voice_plate at nave when capable(party, rites) and at(party, nave) and not heardPlate(party)
+    says "The one of you who keeps the offices stops at the small brass plate by the west door, as a priest stops at any plate, and reads it twice with the lips moving. 'Somebody comes every week with a rag,' they say. 'There is rag-polish in the lettering, and nowhere else. Whoever it is does not let the Close see him do it.' A finger touches the couplet cut beneath. 'And this is a song, not a text. I have not seen a song on a plate before. There must have been a reason it was allowed.'" {
+    Assert heardPlate(party).
+  }
+  Rule voice_lock at office_hall when capable(party, lockwork) and at(party, office_hall) and not heardLock(party)
+    says "The one of you with clever fingers lets the eye go round the hall once, like a man reading a menu. 'Nine locks on the Ordinances' chest and one on the Master's door, and the Master's is the cheap one,' they say, very low. 'The man who guards the rules locks the rules. The woman who writes the plays does not lock anything.'" {
+    Assert heardLock(party).
+  }
+  Rule voice_dogs at bear_pen when capable(party, intimidation) and at(party, bear_pen) and not heardDogs(party)
+    says "The one of you who has stood in front of men for a living walks the edge of the sand and does not once turn a back to the kennel. 'Trained to the word, not to the man,' they say. 'Watch Bowle's left hand. Whoever hears it open is the one they will come for. If he whistles, they are his again; if he does not, nothing in the world will call them off.'" {
+    Assert heardDogs(party).
+  }
+  Rule voice_weir at weir_stones when capable(party, woodcraft) and at(party, weir_stones) and not heardWeir(party)
+    says "The one of you who knows the ground crouches by the cold fire on the ledge and puts a hand over the ashes. 'Three nights of it, banked with wet wood to keep it in till dusk,' they say. 'Nobody banks a fire like that unless they are coming back to it. And the stones are scrubbed. Whoever lives under there keeps the crossing the way a farmer keeps a gate.'" {
+    Assert heardWeir(party).
+  }
+  Rule voice_step at under_stage when capable(party, perception) and not capable(party, woodcraft) and at(party, under_stage) and not heardStep(party)
+    says "The one of you who reads the unseen lays a palm flat on the white curve of the old step and holds it there. 'No working in it,' they say, frowning. 'It was built to do one thing, and that thing is carry a whisper up to the last row without losing a syllable. It does it still. Whatever you say on this step is heard in every seat that is left.'" {
+    Assert heardStep(party).
+  }
+
+  // ── The requiem: a choice with a price ─────────────────────────────────────────────────────────────────────────
+  // Tunstall polishes his father's plate in the minster at six of a morning, before the Office opens, and has done for
+  // forty years. One of the company who keeps the offices can say the office for Abel Tunstall at it. Said alone, it is a kindness
+  // and a lawful reading: the plate's couplet is cut under the Eighth Ordinance, of Epitaphs, and a priest knows what
+  // that is for. Said before the son, it is a gift to the living; and a man who has been given that will not be bribed.
+  Place gosse_limbo "nowhere" is room within pentrice at 9, 9.
+  Entity gosse_limbo_fact: fact "the nowhere of Pentrice".
+  Rule tunstall_polishes when hour(clock) == 6 and tday(pentrice) >= 1 and tday(pentrice) <= 4 and at(tunstall, office_hall) and not pensionTaken(gosse) { Retract at(tunstall, office_hall). Assert at(tunstall, nave). }
+  Rule tunstall_polished when hour(clock) >= 7 and at(tunstall, nave) { Retract at(tunstall, nave). Assert at(tunstall, westgate). }
+  Observe tunstall_at_plate near tunstall when at(tunstall, nave) and not knows(party, plate_seen_son) "A narrow grey man in a narrow grey coat is on one knee at the west door with a rag, working at a small brass plate in short strokes, as one rubs a child's cheek. He does not look up. He has not hurried, you think, in forty years.".
+  Discovery plate_seen_son "At six in the morning, before the Office opens, Abel Tunstall kneels at the lamplighter's plate in the minster and polishes it with a rag, as he has every week since he was nine.".
+  Relation requiemAlone(group). Relation requiemAloud(group). Relation tunstallMourned(place).
+  Action requiem_alone(actor: group, site: place) "Say the office for Abel Tunstall the lamplighter at the plate, alone" {
+    Description "An hour on the stone floor. The Eighth Ordinance was written for this. A priest knows it by its smell.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, nave) and knows(actor, plate_read) and capable(actor, rites)
+      and not requiemAlone(actor) and not requiemAloud(actor) and not at(tunstall, nave).
+    Time 60 minutes.
+    On success { Assert requiemAlone(actor). Assert knows(actor, ordinance_dead). Assert knows(actor, lamplighter_known). }
+    Result "The one of you who keeps the offices kneels where Tunstall kneels and says it all, the office for a man who fell from a ladder, to a plate and an empty nave, in the plain voice of someone who has done it before. At the end of the couplet they sit back on their heels and say, to nobody: 'It is cut under the Eighth. Words in the person of the dead are the dead's. That is what this couplet is.' You will find the Ordinance is where they say it is.".
+  }
+  Action requiem_aloud(actor: group, site: place) "Say the office for Abel Tunstall the lamplighter, aloud, with his son kneeling beside the plate" {
+    Description "Tunstall is here at six in the morning. He will not be asked, and he will not leave. He has never in his life had it said.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, nave) and at(tunstall, nave) and knows(actor, plate_read) and capable(actor, rites)
+      and not requiemAlone(actor) and not requiemAloud(actor).
+    Time 60 minutes.
+    On success { Assert requiemAloud(actor). Assert tunstallMourned(pentrice). Assert knows(actor, ordinance_dead). Assert knows(actor, lamplighter_known). Increase clemTrust(clemency) by 1. Give abel_seal to actor. }
+    Result "Your priest goes down on the stone beside him, and says it. Tunstall does not move. At the first versicle the rag stops. At the second his shoulders go, once, and he does not make a sound, and the office does not stop. When the last response has been given he sits back on his heels with the rag in his lap and does not look at either of you. 'Nobody has said that,' he says. 'In forty years. I did not know it could be said.' He reaches into his narrow coat and brings out a brass seal on a chain, a lamp with a hand closed round it. 'His,' he says. 'The Lamplighters' seal. It is no use to me.' He closes your hand over it. 'The Eighth Ordinance is on a chained page in the Office. I wrote the ruling beneath it myself.'".
+  }
+  // The company of one has no priest in it. A player who has the song can do a poorer thing: sing the plate's couplet to
+  // the son, who has not heard it sung since the night it was sung under his father's ladder. It is the right tune
+  // in the wrong mouth. He will tell what he knows, but no seal, no warmth in the Master, and a man who has been
+  // made to hear it cannot afterwards be bought.
+  Relation requiemSung(group). Relation tunstallShaken(place).
+  Action requiem_sung(actor: group, site: place) "Sing the couplet on the plate to Tunstall, softly, as a song and not an office" {
+    Description "Tunstall is at the plate. It is his father's song. You know the tune; you are not a priest.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, nave) and at(tunstall, nave) and knows(actor, plate_read)
+      and capable(actor, performance) and not capable(actor, rites)
+      and not requiemAlone(actor) and not requiemAloud(actor) and not requiemSung(actor).
+    Time 20 minutes.
+    On success { Assert requiemSung(actor). Assert tunstallShaken(pentrice). Assert knows(actor, ordinance_dead). Assert knows(actor, lamplighter_known). }
+    Result "You kneel two yards off and sing it, the two lines on the brass, to the tune they came up the Chepe with, and you sing it slowly, which is wrong. The rag stops. Tunstall's face does not change, and then it does. 'That is the song,' he says. 'You have got it from the plate.' You say you have it from a hundred taverns. He takes a while. 'Not that fast,' he says, 'and not on the third beat,' and he gets up off his knee, and takes you to the Office through the cold nave with a hand under his own elbow, and shows you the Eighth Ordinance, and the ruling under it, and says what it was made for. He gives you nothing else. When you leave he is writing something in the ledger, and has not offered you the door. You think that you could not now put ten coin on his desk and be answered.".
+  }
+  Item abel_seal "Abel Tunstall's lamplighter seal" is lamplighter_seal at gosse_limbo.
+  Rule tunstall_incorruptible_told at office_hall when tunstallMourned(pentrice) and at(tunstall, office_hall) and state(book, copy_struck) and not spread(mourned_fact)
+    says "Tunstall looks up from the desk as you come in, and nods, once, and goes back to the ledger. There is a new ruling in his handwriting beside the Eighth Ordinance in the chained book. It is only two words long: SEE PLATE." {
+    Assert spread(mourned_fact).
+  }
+  Entity mourned_fact: fact "Tunstall's two words".
+
+  // ── The Ship That Came Late: a playbill from the south ─────────────────────────────────────────────────────────
+  // Players are the first to hear any prodigy and the first to put it on. If, in the world, the ship Remainder has been
+  // given harbour at the House of Doors, the story has come up the roads by now, and Inchbald has been sent the bill.
+  Topic inchbald_ship with inchbald "Ask Inchbald about the bill he is printing for a company from the south" when befell(remainder_harboured) once {
+    Says "'A calf with two heads is a calf with two heads,' says Inchbald, with the reverence of a man at a shrine, and slides a proof across the stone. THE SHIP THAT CAME LATE, OR, THE MARINERS OF NO WEATHER. A NEW AND TRUE HISTORY, WITH MACHINERY. BY THE LORD WARDEN'S MEN LATE OF SENNET. 'They say a ship came up out of a cellar in the south,' he says. 'Full of people who had been sailing since before their grandmothers. They sent the bill ahead of the news. Machinery,' he adds, wetly, 'is a trap and a rope and a boy.' He looks at the proof with something very like longing. 'I could have set a stage for that.'".
+    On discuss { Assert knows(actor, ship_bill). }
+  }
+  Discovery ship_bill "A bill has come up from the south for a play called The Ship That Came Late, about a ship out of a cellar that has been sailing since before anyone's grandmother.".
+  Topic pudding_ship with pudding "Show Pudding the bill for The Ship That Came Late" when knows(actor, ship_bill) and inCompany(actor) once {
+    Says "Pudding reads it standing on one foot, and then the other. 'A ship in a cellar,' he says. 'Full of ghosts who can't get home.' He lowers the paper. 'We have a Ghost who can't get home. We have a bear. Why have we not got machinery?' Hepzibah, from the prompt-corner, without looking up: 'Because it is not licensed.' 'Neither is the ship,' says Pudding, one foot on a hamper, and goes to practise being seasick.".
+  }
+}

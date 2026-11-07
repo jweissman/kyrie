@@ -4,7 +4,12 @@
     "dale.kyr",
     "wall.kyr",
     "water.kyr",
-    "company.kyr"
+    "charter.kyr",
+    "voices.kyr",
+    "company.kyr",
+    "lore.kyr",
+    "trimmer.kyr",
+    "kin.kyr"
   ],
   "rules": [
     "world"
@@ -17,5 +22,10 @@
     "region": "dale",
     "green": "green"
   },
-  "experience": 1000
+  "experience": 1000,
+  "canon": [
+    "imbar",
+    "slack_opened",
+    "remainder_harboured"
+  ]
 }

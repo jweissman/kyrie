@@ -25,9 +25,9 @@ describe('The Scuttled Barge: the others on the Reach', () => {
     expect(j.offers('Down to the Sluice-tap')).toBe(false);
   }, 300000);
 
-  it('Hester Grindle and Josiah Skell talk of their claims', async () => {
+  it('Nan Grindle and Josiah Skell talk of their claims', async () => {
     const j = await start('d', plain);
-    await j.play('>quittance__salvor_yard', 'Talk to Hester', 'Ask Hester Grindle for the Yard', 'Ask Grindle why Skell');
+    await j.play('>quittance__salvor_yard', 'Talk to Nan', 'Ask Nan Grindle for the Yard', 'Ask Grindle why Skell');
     expect(City.said(j)).toContain('pump');
     expect(j.offers('how the Yard is faring')).toBe(false);
     await j.play('>quittance__skell_yard', 'Talk to Josiah', 'Ask Josiah Skell about his claim', 'Ask Skell what is under');
@@ -40,7 +40,7 @@ describe('The Scuttled Barge: the others on the Reach', () => {
     await j.play('>quittance__salvor_yard', 'Examine', '>quittance__lighter_stairs', 'tally-board: Examine',
       '>quittance__lamprey_floor', 'manifest: Examine', 'Set the Margaret.s manifest', '>quittance__dree_room', 'Bargain Captain Dree down', 'Strike a bargain');
     expect(ruling(j)).toBe(3);
-    await j.play('>quittance__salvor_yard', 'Ask Hester Grindle how the Yard is faring');
+    await j.play('>quittance__salvor_yard', 'Ask Nan Grindle how the Yard is faring');
     expect(City.said(j)).toContain('lightermen');
     await j.play('>quittance__skell_yard', 'Ask Skell how Skell and Sons are faring');
     expect(City.said(j)).toContain('complain');

@@ -9,7 +9,7 @@ Module skeel "Fair Weather" {
   }
   // A company that knows can tell him so: he will offer it money to say nothing; or it can send him to her.
   Topic confront_hender with hender "Tell Hender Brask you know who hung the light in the Pulpit" when knows(actor, hender_did) and not henderConfessed(hender) and not bribed(actor) and not toldToConfess(actor) and not courtOver(reach) once {
-    Says "He does not deny it. He does not say anything. He looks at the book in front of him for a long time, and then he closes it, and takes out of the drawer a purse, a heavy one, and puts it on the cover. 'Twenty coin,' he says. 'The Admiral's third is mine to give. Nobody has to know. Not the Court. Not Skeel.' His voice drops. 'Not Loveday. Whatever else. Not Loveday.' He looks up. 'What do you want?'".
+    Says "He does not deny it. He does not say anything. He looks at the book in front of him until the candle gutters, and then he closes it, and takes out of the drawer a purse, a heavy one, and puts it on the cover. 'Twenty coin,' he says. 'The Admiral's third is mine to give. Nobody has to know. Not the Court. Not Skeel.' His voice drops. 'Not Loveday. Whatever else. Not Loveday.' He looks up. 'What do you want?'".
   }
   Topic take_bribe with hender "Take the purse, and say nothing" answering confront_hender when knows(actor, hender_did) once {
     Grave "Eleven men, and a boy on a hatch, and a purse.".

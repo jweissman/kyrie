@@ -1,5 +1,8 @@
 {
   "version": 1,
+  "canon": [
+    "rose_made_whole"
+  ],
   "source": [
     "clock.kyr",
     "city.kyr",
@@ -34,6 +37,7 @@
     "heronry.kyr",
     "ranger.kyr",
     "bard.kyr",
+    "revision.kyr",
     "company.kyr"
   ],
   "rules": [

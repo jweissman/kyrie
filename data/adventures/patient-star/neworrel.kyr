@@ -65,10 +65,10 @@ Module season "The Patient Star" {
 
   Observe gate_scene_no at no_gate when true "The Collar Road comes off the glass onto an island of red spoil. Ahead the Collar stands up like a red cliff thirty metres high, and the town is packed against its foot.".
   Observe market_no at no_market when true "A road of red dust between houses built of the Collar's own spoil. Everything sold here costs what it cost to bring up the Stair.".
-  Observe sink_scene at sink when true "The ground has dropped two metres here since 374. The houses lean into one another like drunks, doors hanging, and nobody lives in them.".
-  Observe store_scene at storehouse when true "The Warden's storehouse: sacks, barrels, and at the back a cut stone arch with a stair going down, a lamp, two guards and a clerk at a table.".
+  Observe sink_scene at sink when true "The ground has dropped two metres here since 374. The houses lean on one another with their doors hanging, and nobody lives in them, and nobody has taken the doors.".
+  Observe store_scene at storehouse when true "The Warden's storehouse: sacks and barrels to the roof, and at the back a cut stone arch with a stair going down. A lamp burns over it, two guards sit under it, and a clerk at a table writes down every sack that goes in and, with less care, every sack that comes out.".
   Observe collar_top_scene at collar_top when true "A path wide enough for carts runs round the top of the ring. Rusted horse-whims stand at intervals, with wooden chutes running down the inside slope into the Pit's haze.".
-  Observe tower_scene at plumb_tower when true "A wooden tower on the Collar top. A bronze plumb line on a drum goes down through a hole in the floor, and survey logs fill a shelf.".
+  Observe tower_scene at plumb_tower when true "A wooden tower on the Collar top, sixty rungs of ladder to a floor with a hole in it. A bronze plumb line on a drum goes down through the hole, and survey logs fill a shelf, every spine labelled in one hand that gets smaller towards the end.".
   Observe breach_scene at breach when true "The ring is broken by a gap forty metres wide, its edges baked white. Beside it a drainage culvert of cut stone runs under the path. Beyond, the clear fields are dark: the same clear rock, with no light in it.".
   Observe fill_scene at inner_fill when true "Inside the Collar the fill slopes down toward the shaft in long red terraces, cracked like old mud. The heat comes up off it, and the light.".
   Observe pit_scene at pit_floor when true "The Pit floor is melt-rock and ceramic slag, too hot to stand on long, too bright to look across. From a dark mouth in the middle a thread of light goes straight up into the cloud, and beside it, hanging from nowhere, a cord as thick as a wrist, glowing along its whole length.".
@@ -125,7 +125,7 @@ Module season "The Patient Star" {
     Says "'Sixty-three men,' says Annet Sorrel. 'Mine among them. Somebody cut the Collar's drain in the storm of 352 and let the water into the Pit, and the steam came back up the chutes. Nobody was hanged for it.' She looks at you. 'They say the Tovash did it. I want the name. And I want the pensions, which have not been paid since 71.'".
   }
   Topic coyle_named with coyle "Tell Annet Sorrel who cut the Breach" when knows(actor, breach_cut) once {
-    Says "She hears it out without sitting down. 'Bren of Ennick,' she says. 'Who holds the dying.' For a long time she says nothing. 'I will go to Ennick myself,' she says, 'and look at his door.'".
+    Says "She hears it out without sitting down. 'Bren of Ennick,' she says. 'Who holds the dying.' Behind her a clerk puts his pen down very quietly. 'I will go to Ennick myself,' she says, 'and look at his door.'".
     On discuss { Assert accused(coyle, bren). }
   }
   Relation accused(group, group).
@@ -149,7 +149,7 @@ Module season "The Patient Star" {
     Role "Elder of the Waiting". Ancestry human. Peaceable. Pronouns he. Manner compassionate.
   }
   Topic ruan_voice with ruan "Ask Ruan Haldane what the Waiting wait for" when true once {
-    Says "'For the answer,' says Ruan. 'Teodar said the name was finished in 71, and what comes after is not more of the name but what it called.' He spreads his hands. 'We listen. The Office has closed the Hour to us, and my people go down without leave.'".
+    Says "'For the answer,' says Ruan, and his voice drops, as in a church. 'Teodar wrote in 71 that the name was finished. What comes after is not more name. It is the thing named.' He spreads his hands. 'The Office has closed the Hour to us. My people go down anyway, and are not sorry.'".
   }
   Topic ruan_tone with ruan "Tell Ruan Haldane about the tone below" when knows(actor, tone_below) once {
     Says "Ruan sits down. 'Once an hour,' he says. 'And they did not tell me.' After a while he laughs, very quietly. 'Then it has answered. Teodar was right.' He gives you a tablet from his sleeve: the Waiting's copy of the transcript. 'Take it to whoever can read it.'".
@@ -203,7 +203,7 @@ Module season "The Patient Star" {
     On discuss { Assert knows(actor, moot_count). }
   }
   Topic ayzhe_breach with ayzhe "Ask Ayzhe who cut the Collar's drain" when knows(actor, breach_cut) once {
-    Says "Ayzhe looks at you a long time. 'We thought the fill would drink it,' she says. 'Sixty-three. I count them every night.' She does not ask you what you will do.".
+    Says "Ayzhe's hand stops on her knee. 'We thought the fill would drink it,' she says. 'Sixty-three. I count them every night.' She does not ask you what you will do.".
   }
   Person halu "Halu" at last_hour {
     Role "a woman of the old people, speaking Old Seridan". Ancestry human. Peaceable. Pronouns she.

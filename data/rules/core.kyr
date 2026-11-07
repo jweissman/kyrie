@@ -36,6 +36,9 @@ Module world_core "Bodies, places, time and the shared catalog" {
   Kind terrainkind. Relation terrain(place, terrainkind).
   Entity forest: terrainkind "forest". Entity marsh: terrainkind "marsh". Entity mountain: terrainkind "mountain".
   Entity frost: terrainkind "frost". Entity desert: terrainkind "desert". Entity hills: terrainkind "hills".
+  // Kinds no generator draws: an authored region says them (a sea of islands, a burning isle, a steaming green coast).
+  Entity jungle: terrainkind "jungle". Entity volcanic: terrainkind "volcanic". Entity saltflat: terrainkind "salt flat".
+  Entity reef: terrainkind "reef". Entity archipelago: terrainkind "archipelago".
   // The land a stretch of country is (a river's vale, a wood, a mere, a pass): what a chart draws it as. The names
   // are prefixed, as every module shares them and an author's own place may well be called "pass".
   Kind landkind. Relation landform(place, landkind).
