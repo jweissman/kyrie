@@ -117,14 +117,9 @@ export class RegionBorders {
     return [`  Discovery ${notice} ${q(beyond.notice!.text)} {`, ...at.map(([sid, place]) =>
       `    Source ${notice}_${sid} ${q(beyond.notice!.name)} at ${place} readable by party.`),
     '  }', `  Initially Assert leadsTo(${notice}, ${b.room}).`,
-    // The notice is seen where it is nailed up, and talked of, before anyone is asked: once, the first time the company
-    // hears it, in whichever town (five notices talked of on every night at an inn had stood between a company and what
-    // its own act did: the fresh playtest of 7 November); it stays to be read.
-    // (Its fact is named in the talk's own words, so the talk is said once and not noted again by another name.)
-    `  Entity ${notice}_talked: fact ${q(beyond.notice!.talk)}.`,
-    ...at.map(([sid, place]) => `  Observe ${notice}_${sid}_talk at ${place} when ${this.remembers(beyond)
-      ? `not stale(${id}) and ` : ''}not knows(party, ${notice}_talked) ${q(beyond.notice!.talk)}`
-      + ` teaches ${notice}_talked.`),
+    // The notice is nailed up where travellers are kept, to be read, and not talked of in the room's own words: five
+    // of them, every evening, had been the description of an inn (the owner, 7 November: "an enormous paragraph
+    // enumerating quest notices or leads instead of a restrained, evocative description of an actual room").
     ...this.remembers(beyond) ? this.afters(id, after!).flatMap(a => at.map(([sid, place]) =>
       `  Observe ${notice}_${sid}_after${a.key} at ${place} when stale(${id})${a.when}`
       + ` and intact(${notice}_${sid}) ${q(a.talk)}.`)) : []];

@@ -151,12 +151,14 @@ describe('Hold One Season', () => {
 
   it('J9, the Neck: a mark scratched at the waterline is found dry days later', async () => {
     const j = await Journey.start();
-    await j.play(...outfit, ...down.slice(0, 5), 'Scratch a mark');
+    await j.play(...outfit, ...down.slice(0, 5), 'Scratch a mark', "The company: Put out Tamsin's light for good");
     const dried = await j.waitUntil(() => j.measure('season__airGap', 'season__neck_water') >= j.measure('season__markedAt', 'party') + 2,
       'The company: Wait › Until', 60);
     if (process.env.JOURNEY_TRACE) { console.log('air', j.measure('season__airGap', 'season__neck_water'), 'mark', j.measure('season__markedAt', 'party'), j.measure('day', 'clock')); }
     expect(dried).toBe(true);
-    // Three days on, the lantern is long out: the mark is there, but nobody sees it without a light.
+    // Three days on, the light put out when the mark was made: the mark is there, but nobody sees it without one. (A
+    // light is put out over a night waited out and lit again after, no longer burned dry by waiting: the second fresh
+    // playtest of 7 November; so the company puts its own out.)
     await j.play('To the West Gate', 'To the West Gallery, at the Neck');
     expect(j.holds('knows', 'party', 'season__water_falling')).toBe(false);
     await j.play('light a flask');
