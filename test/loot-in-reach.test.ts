@@ -15,8 +15,11 @@ import { ChoiceGrouping } from '../src/ui/choice-grouping';
 // Harbek too. The choices offer the two as one ("Collect a coil of rope for Harbek", for the first of them), and the
 // page offered each thing only to whoever carried least, which was as often the other: in a barrow's hall of bones a
 // rope, a wand and an elixir came into the list and went out of it as either brother picked something up, the gift
-// in the king's hall's casket was never there to take, and nor, once the king fell, was his crown. Here a1's barrow,
-// by its drover's son and a protagonist given his name: each thing is at hand, to be taken, whoever carries least.
+// in the king's hall's casket was never there to take, and nor, once the king fell, was his crown. The family is named
+// apart from the protagonist now (kin-names), and companions are made with names of their own, so the two of a name
+// no longer come about; the page offers each thing by who can be handed it all the same (Carriers.hands). Here a1's
+// barrow, by the drover's son and a protagonist come home under the name he had been drawn: each thing is at hand, to
+// be taken, whoever carries least.
 class Reach {
   static set(s: PlaySession, changes: Change[]) {
     const c = s.campaign as unknown as { world: { apply(c: Change[]): unknown }; commit(w: unknown): void };
