@@ -98,7 +98,8 @@ Module pentrice "Gosse's Company" {
   Passage aud_terrace "the terrace window" is doorway between audience and terrace.
   Passage law_in "the Seats' door" is door between law_steps and seats.
   Passage seats_yard "the debtors' stair" is steps between seats and debt_yard.
-  Passage coin_in "the counting-room stair" is steps between exchange and crake_room.
+  Passage coin_in "the counting-room stair" is steps between exchange and crake_room
+    opening when not caughtInCounting(party) "The counting-room stair is barred from above; a clerk has locked it and gone for the Watch.".
   Passage bells_in "the Bell door" is door between bell_steps and bell_nave.
   Passage bells_loft "the ringers' ladder" is ladder between bell_nave and ringers_loft.
   Passage dust_in "the Sextons' door" is door between dust_gate and sexton_hall.
@@ -135,11 +136,12 @@ Module pentrice "Gosse's Company" {
   Observe terrace_scene at terrace when true "The terrace overlooks the Concourse from the King's Tower. Below, the ring of the Seven is a pattern of coloured stone. In the south corner a young man in black stands very still against the parapet, looking at nothing.".
   Observe seats_scene at seats when true "The Court of the Seven Seats is a round chamber with seven judge's chairs and a bar. Six of the chairs are occupied by an old man each, who look as if they had been there at the founding of the city. The seventh is empty, and has been polished.".
   Observe debt_yard_scene at debt_yard when true "The debtors' yard is a small stone court with a pump, a bench, a washing-line and thirty people living on it in good order. A man is teaching a child to read with a petition. Some of the prisoners can go out by day on their word, and do not.".
-  Observe crake_room_scene at crake_room when true "Master Mauger's counting-room is warm, panelled and well-lit by a window on to the Exchange. A clerk sits at each of four desks. Crake himself is a plump pink man in a velvet coat who stands up to shake your hand, and you realise as you let it go that you have also signed something.".
+  Observe crake_room_scene at crake_room when true "Master Mauger's counting-room is warm, panelled and well-lit by a window on to the Exchange. A clerk sits at each of four desks. Mauger himself is a plump pink man in a velvet coat who stands up to shake your hand, and you realise as you let it go that you have also signed something.".
   Observe bell_nave_scene at bell_nave when true "The nave of the Bells is a round hall with a floor of chalk-white stone, and in the middle of it a rope falls from the dark. Pilgrims wait in the shadows for the hour. A nun walks round the walls with a long brass key, winding the lamps.".
   Observe ringers_loft_scene at ringers_loft when true "The ringers' loft is a timber cage round the great bells' wheels. The air is thick with the smell of old rope and bronze. Eleven bell-ropes hang, and one is knotted at the end. The blind ringer sits on a stool with a hand on each of two ropes, feeling the tower hum.".
   Observe sexton_hall_scene at sexton_hall when true "The Sextons' hall is bare grey stone with a long table, a ledger and a lamp that burns without oil. A roll of names hangs on the wall, in three colours: the buried, the exposed and the owed.".
   Observe salt_hall_scene at salt_hall when true "The Salt-Wives' hall smells of herring brine and wet wool. Three women in grey sit by the fire with their hands in their laps, their eyes on the door. A kettle sings. A scale stands on the table, with a single grain of salt on one pan.".
   Observe marchant_hall_scene at marchant_hall when true "The Marchants' hall is a narrow tiled hall with a staircase going up out of sight, and a smell of beeswax and boiled mutton. Portraits of Marchant men hang in a row. Several have had their faces gone over with fresh paint, as though a likeness had been altered to suit.".
   Observe pardew_scene at pardew_back when true "The draper's back room is a fitting-room hung with mirrors set at different angles, so that wherever you stand you are looking at yourself from behind, from the side, and from a slightly younger angle you do not like.".
+  Observe eastgate_scene at eastgate when true "The Eastgate is a plain arch in the wall of Pentrice, with a toll-keeper's hut and a milestone that says DUN RIERDAN, in a deep new hand, and under it, older: SIX HOURS. Carters go through without looking at it. The King's Road beyond is wide and well kept, as roads are that someone important is expected to come down.".
 }
