@@ -101,7 +101,7 @@ Module pentrice "Gosse's Company" {
   // 1. Help her bury him on the second night (the tragic path, if no one else acts: she is caught, and sealed).
   Action help_bury(actor: group, site: place) "Take a spade and help Ysolt Marrick lift the turf" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, field) and edictOn(rierdan) and not buriedNight(rierdan) and hour(clock) >= 23 and day(clock) >= exposeDay(rierdan) + 1 and ysoltBury(actor) and ysoltTrust(actor) >= 1 and not actIIIDone(rierdan).
-    Time 10.
+    Time 0.
     Resolve check(actor, stealth, dc_hard).
     On success { Assert buriedNight(rierdan). Assert state(tarn_body, buried). }
     On failure { Assert strikes(sexton_blow, actor). Assert buriedNight(rierdan). Assert state(tarn_body, buried). Assert caughtBurying(rierdan). }
@@ -141,7 +141,7 @@ Module pentrice "Gosse's Company" {
   // 4. Take the body in the night and give it to the water: the Salt-Wives' boat.
   Action steal_body(actor: group, site: place) "Take the body from the Field in the Salt-Wives' handcart under the cloth, to the river" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, field) and edictOn(rierdan) and not actIIIDone(rierdan) and hour(clock) >= 23 and saltGiven(actor) and day(clock) >= exposeDay(rierdan) + 1.
-    Time 15.
+    Time 0.
     Resolve check(actor, deception, dc_hard).
     On success { Assert bodyTaken(rierdan). Assert state(tarn_body, taken). Assert ysoltFree(rierdan). Assert lucanLives(rierdan). Assert actIIIDone(rierdan). Assert verrallStays(rierdan). }
     On failure { Assert strikes(sexton_blow, actor). }
@@ -167,7 +167,7 @@ Module pentrice "Gosse's Company" {
   Relation clemSoft(group). Relation clemHard(group).
   Action stage_unburied(actor: group, site: place) "Play the Marshal's tragedy at the Field of Exposure, over the body, and name him" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, field) and edictOn(rierdan) and not actIIIDone(rierdan) and clemAsked(actor) and not clemHard(actor) and hour(clock) >= 19.
-    Time 60.
+    Time 0.
     Resolve check(actor, performance, dc_hard).
     On success { Assert bodyStaged(rierdan). Assert ysoltFree(rierdan). Assert lucanLives(rierdan). Assert actIIIDone(rierdan). Assert verrallStays(rierdan). Assert state(tarn_body, taken). Assert clemFurious(rierdan). }
     On failure { Assert strikes(sexton_blow, actor). }
@@ -209,4 +209,7 @@ Module pentrice "Gosse's Company" {
   Observe lucan_fled_gate at river_gate when lucanFled(rierdan) "Sergeant Peverell has taken to polishing the bar of the gate that nobody has lifted since. He looks at the road a good deal.".
   Observe verrall_stays_note at concourse when verrallStays(rierdan) and not verrallResigned(rierdan) and actIIIDone(rierdan) "The Warden of the Realm walks across the Concourse at noon as he has for twenty years, upright, alone, with his hand on the Edict he no longer has to read.".
   Observe edict_exposed at concourse when edictOn(rierdan) and tarnExposed(rierdan) and not actIIIDone(rierdan) "Somebody has written under the Edict, in chalk: HE WAS NAMED BEFORE THE CITY. The sextons have rubbed it out twice.".
+  Rule warden_keeps_watch when edictOn(rierdan) and not actIIIDone(rierdan) and day(clock) >= exposeDay(rierdan) + 1 and hour(clock) >= 21 and not at(dray, dust_gate) { Assert at(dray, dust_gate). }
+  Rule warden_goes_home when edictOn(rierdan) and hour(clock) >= 6 and hour(clock) < 20 and at(dray, dust_gate) { Assert at(dray, king_court). }
+  Rule fury_when_saved when ysoltFree(rierdan) and not ysoltSealed(rierdan) and not clemFurious(rierdan) { Assert clemFurious(rierdan). }
 }

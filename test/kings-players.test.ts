@@ -134,3 +134,69 @@ describe("The King's Players, Act II: the Mousetrap", () => {
     expect(k.holds('hurtOnce', 'party')).toBe(true);
   }, 200000);
 });
+
+describe("The King's Players, Act III: the Unburied", () => {
+  const staged = async () => {
+    const k = await KP.start('kp3');
+    k.assert('royalCall', 'pentrice').assert('auditioned', 'rierdan').assert('nightOver', 'rierdan').assert('tarnFallen', 'rierdan')
+      .assert('bodyLies', 'pentrice').assert('clemInWick', 'rierdan').assert('saltGiven', 'party').set('favour', 'rierdan', '3')
+      .assert('lothalTrust', 'party');
+    k.put('clemency', 'lant_ward').put('party', 'concourse');
+    await k.play('Wait › A while');
+    expect(k.holds('edictOn', 'rierdan')).toBe(true);
+    return k;
+  };
+  it('is a tragedy when no one acts: the girl buries him, is caught, is sealed, and the Warden\'s son follows', async () => {
+    const k = await staged();
+    k.put('party', 'ringers_loft');
+    await k.play('Ask Brother Ambros what the bells say of the Edict', 'The city. They were fed by it, and they owe it a clean death');
+    k.put('party', 'bell_nave');
+    await k.play('Speak to the acolyte of the Bells, who is on her knees', 'Watch. It is yours to do');
+    k.put('party', 'wick_nowhere_placeholder'.replace('wick_nowhere_placeholder', 'concourse'));
+    await k.play('=+144', '=+144', '=+60');
+    expect(k.holds('ysoltSealed', 'rierdan')).toBe(true);
+    expect(k.holds('lucanDead', 'rierdan')).toBe(true);
+    expect(k.holds('actIIIDone', 'rierdan')).toBe(true);
+    expect(k.holds('clemSatisfied', 'rierdan')).toBe(true);
+    expect(k.holds('ysoltFree', 'rierdan')).toBe(false);
+  }, 280000);
+  it('can be ended on the second night by a Warden who has heard the blind man and his own son: nobody dies, and the playwright is furious', async () => {
+    const k = await staged();
+    k.put('party', 'dust_gate');
+    await k.play('Ask the Warden whether it must be the whole three days'.replace('Ask the Warden whether it must be the whole three days', 'Speak to Lucan Verrall at the Dust Gate'),
+      'Go to your father yourself. Tell him what he\'s done');
+    expect(k.holds('lucanPleaded', 'party')).toBe(true);
+    k.put('party', 'ringers_loft');
+    await k.play('Ask Brother Ambros what the bells say of the Edict', 'The ones who weep. They are the only ones the dead have');
+    expect(k.holds('prophecyHeard', 'party')).toBe(true);
+    k.put('party', 'king_court');
+    await k.play('Ask the Warden whether it must be the whole three days', "Yes. I'd live in it");
+    expect(k.holds('verrallSoftened', 'party')).toBe(true);
+    k.put('party', 'wick_nowhere'.replace('wick_nowhere', 'concourse'));
+    await k.play('=+225');
+    k.put('party', 'dust_gate');
+    k.j.roll('pass');
+    await k.play('Remind the Warden what he heard you say, and tell him what the blind man said, at the Dust Gate');
+    expect(k.holds('pardoned', 'rierdan')).toBe(true);
+    expect(k.holds('ysoltFree', 'rierdan')).toBe(true);
+    expect(k.holds('lucanLives', 'rierdan')).toBe(true);
+    k.j.roll(undefined);
+    await k.play('Wait › An hour');
+    expect(k.holds('clemFurious', 'rierdan')).toBe(true);
+    expect(k.holds('ysoltSealed', 'rierdan')).toBe(false);
+  }, 280000);
+  it('can be ended by staging the tragedy over the body: the sextons are given a verdict to hear, and nobody is sealed', async () => {
+    const k = await staged();
+    k.put('party', 'lant_ward');
+    await k.play('Ask Clemency Orde what she is writing', 'Whoever the city decides. You write what happens; don\'t make it happen');
+    k.put('party', 'concourse');
+    await k.play('=+110');
+    await k.play('=19:30');
+    k.put('party', 'field');
+    k.j.roll('pass');
+    await k.play('Play the Marshal\'s tragedy at the Field of Exposure, over the body, and name him');
+    expect(k.holds('bodyStaged', 'rierdan')).toBe(true);
+    expect(k.holds('actIIIDone', 'rierdan')).toBe(true);
+    expect(k.holds('ysoltFree', 'rierdan')).toBe(true);
+  }, 280000);
+});

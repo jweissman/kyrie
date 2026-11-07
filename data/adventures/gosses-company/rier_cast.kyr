@@ -90,7 +90,7 @@ Module pentrice "Gosse's Company" {
     Role "the Warden of the Realm, the King's hand in the Seven Seats". Ancestry human. Calling warrior. Level 3. Peaceable. Pronouns he. Manner grim.
     Greets "Lord Warden Cassian Verrall is a lean grey man of sixty with a soldier's back and the habit of speaking slowly so that he cannot be misquoted. 'The law,' he says, when you are introduced, as if it were a surname. 'You have come to see it done.'".
   }
-  Person lucan "Lucan Verrall" at king_court {
+  Person lucan "Lucan Verrall" at dust_gate {
     Role "the Warden's son, a captain of the Household". Ancestry human. Calling warrior. Level 2. Peaceable. Pronouns he. Manner compassionate.
     Greets "A broad young captain in blue leans on a pillar of the colonnade with a book open on his knee, a thing that has plainly cost him some effort to be seen doing. He shuts it when you come near.".
   }
