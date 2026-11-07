@@ -24,7 +24,7 @@ Module pentrice "Gosse's Company" {
     Greets "The chief clerk looks at you over a pair of spectacles and does not offer to take your name. 'Master Mauger is at the Exchange,' he says. 'He is always at the Exchange. I am here.'".
   }
   Topic pomfret_terms with crake "Ask Master Mauger about the lease on the Wick" when wickGranted(rierdan) and not heistOver(rierdan) once {
-    Says "Master Mauger opens a book and shows you a page of beautiful copperplate. 'Three hundred for the fit-out,' he says. 'At a most generous five in the hundred by the month. And a small matter of eighty crowns, upon a note of hand in Mr Gosse's name, which Mr Swale was good enough to bring me in the spring.' He closes the book. 'I would not dream of troubling the Chamberlain with it. The lease, I am told, is very particular about false instruments. I think we understand one another.' He smiles. 'My daughter marries at Michaelmas. I have always thought a private performance would be so nice.'".
+    Says "Master Mauger opens a book and shows you a page of beautiful copperplate. 'Three hundred for the fit-out,' he says. 'At a most generous five in the hundred by the month. And a small matter of eighty crowns, upon a note of hand in Mr Gosse's name, which Mr Swale was good enough to bring me in the spring.' He closes the book. 'I would not dream of troubling the Chamberlain with it. The lease, I am told, is very particular about false instruments. I think we understand one another.' He smiles. 'My daughter marries at Haysel-tide. I have always thought a private performance would be so nice.'".
   }
 
   // Swale owns it, or doesn't; Gosse is told, or isn't.
@@ -32,7 +32,7 @@ Module pentrice "Gosse's Company" {
     Says "Ambrose Swale rises, magnificently, and sits again. 'There is a paper,' he says. 'In Isidore Mauger's strong-box. It has Gosse's name on it, and Gosse did not write it. I did.' He looks at his hands. 'I was owed a part. I was owed the Hamlet in Pentrice, and Gosse gave it to the boy. I thought: a trifle. Eighty crowns, to settle a tailor, and a man of my gifts being sat on by a tailor.' He closes his eyes. 'Gosse has never raised his voice to me in nineteen years. I cannot bear to tell him. What would you do?'".
   }
   Topic swale_tell with swale "Tell Gosse yourself, tonight, before Mauger does" answering swale_ask when true {
-    Says "'Yes,' says Swale, in the voice of a man hearing his sentence. 'Yes. I shall.' He gets up. He puts on his coat, very slowly, as for a battle. He does not look at you again. It is the bravest thing you have seen him do and he does not know it.".
+    Says "'Yes,' says Swale, in the voice he uses for the last act of Lear. 'Yes! I shall go now, to Absalom, and I shall throw myself on his mercy, and he shall do with me as he pleases!' He gets his coat on the wrong arm and has to start again. 'Where is he? Is he in the loft? Has anybody got a handkerchief?'".
     On discuss { Assert swaleOwned(actor). Assert gosseTold(actor). }
   }
   Topic swale_hide with swale "Say nothing. We'll get the paper back and he need never know" answering swale_ask when true {
@@ -57,7 +57,7 @@ Module pentrice "Gosse's Company" {
     On discuss { Assert planDorcas(actor). }
   }
   Topic plan_tam with hepzibah "Tam's: over the roof of the Tower of Coin, through the skylight" answering hepzibah_plan when true {
-    Says "Tam Hautboy has drawn the Tower of Coin on the floor in chalk, with the skylight and the downpipe and the drop. 'Forty feet,' he says. 'A rope, and a hook, and a man who has built a lot of scaffolds.' He looks at the others. 'I'd want somebody on the street to cough.'".
+    Says "Tam Hautboy has drawn the Tower of Coin on the floor in chalk, with the skylight and the downpipe and the drop. 'Forty feet,' he says. 'A rope, and a hook, and somebody who has built a great many scaffolds.' He looks at the others. 'I'd want somebody on the street to cough.'".
     On discuss { Assert planTam(actor). }
   }
   Topic plan_oriel with hepzibah "Oriel's: a summons from the Chamberlain, sealed, to take the clerk away" answering hepzibah_plan when true {
@@ -107,7 +107,7 @@ Module pentrice "Gosse's Company" {
     Resolve check(actor, deception, dc_fair).
     On success { Assert clerkLured(rierdan). Assert inCounting(actor). Assert at(pomfret_clerk, king_court). Assert at(party, crake_room). }
     On failure { Increase alarm(rierdan) by 1. }
-    Result "Corbin Ashplant reads the summons through his spectacles. He reads the seal. He gets up, with the cold fury of a man who knows precisely what he is looking at and cannot refuse it. 'The Household,' he says. 'At this hour.' He goes out past you with his hat. The door is not locked behind him, and he has left the strong-box on the latch, as a man does who means to be back in a quarter of an hour.".
+    Result "Corbin Ashplant reads the summons through his spectacles. He reads the seal. He gets up, with cold fury, because he knows precisely what he is looking at and cannot refuse it. 'The Household,' he says. 'At this hour.' He goes out past you with his hat. The door is not locked behind him, and he has left the strong-box on the latch, as a man does who means to be back in a quarter of an hour.".
     Otherwise "The clerk reads it twice. 'A good seal,' he says. 'A bad hand.' He looks at you. 'I shall go and ask.' He does not go. He sits down at his desk where he can see you.".
   }
   Action slip_in_while_dorcas_has_him(actor: group, site: place) "Slip in at the counting-room door while Dorcas has Master Mauger in the box, as the gentleman who is expected" {
@@ -173,7 +173,7 @@ Module pentrice "Gosse's Company" {
   }
   Relation noteGone(place).
   Observe pomfret_next near crake when heistOver(rierdan) and noteGone(rierdan) "Master Mauger has opened his strong-box, looked at the empty place under the velvet bag, closed it, and sat for a long time with his hands on his knees. He cannot prove a thing. 'Nine years that theatre was dark,' he says, to the miniature, pleasantly. 'I do hope they will be very happy in it.' The Tower of Coin goes on lending. It is not a story that has an end.".
-  Observe pomfret_prevails near crake when heistOver(rierdan) and not noteGone(rierdan) "Master Mauger has the note out on his desk and a pen beside it, and a diary open at Michaelmas. 'Not a very large wedding,' he says. 'Forty guests. A little speech, in the second act. I have written it myself.' He beams. He has the Chamberlain's ear and Lord Rask's, and nobody to whom he need justify himself.".
+  Observe pomfret_prevails near crake when heistOver(rierdan) and not noteGone(rierdan) "Master Mauger has the note out on his desk and a pen beside it, and a diary open at Haysel-tide. 'Not a very large wedding,' he says. 'Forty guests. A little speech, in the second act. I have written it myself.' He beams. He has the Chamberlain's ear and Lord Rask's, and nobody to whom he need justify himself.".
   Observe caught_net near pomfret_clerk when caughtInCounting(party) "The chief clerk has locked the door of the counting-room with you inside it and gone for the Watch. It is, he says through the keyhole, a very serious thing. He will be perhaps an hour. It is not clear what he thinks you will do in the meantime.".
   // The Seats sit on the Wick's business, and the debtors' yard keeps Mistress Pardew's husband.
   Observe seats_docket at seats when wickGranted(rierdan) "On the Seats' docket for the week, between a dispute over a bridge and a goose, stands POMFRET v. A TRAVELLING COMPANY, on a lease with a clause. It is called, and adjourned, and called again. The clerk of the court is a Coin man, and he is very patient.".
@@ -183,6 +183,6 @@ Module pentrice "Gosse's Company" {
   Milestone m_noted "had the note gone, and nothing to show for it" worth 150 when noteGone(rierdan).
   Rule pomfret_walks when openingNight(rierdan) and not pomfretBack(rierdan) and (hour(clock) >= 21 or (not pomfretLocked(rierdan) and hour(clock) >= 20)) { Assert pomfretBack(rierdan). }
   Rule pomfret_arrives when openingNight(rierdan) and pomfretBack(rierdan) and not pomfretArrived(rierdan) and at(party, crake_room)
-    says "Footsteps on the counting-room stair, unhurried, the footsteps of a man who has the key to his own house. A voice says, to somebody, 'I do hope nobody has been at my papers.'" { Assert pomfretArrived(rierdan). Increase alarm(rierdan) by 2. }
+    says "Footsteps on the counting-room stair, unhurried, the footsteps of the owner of the house. A voice says, to somebody, 'I do hope nobody has been at my papers.'" { Assert pomfretArrived(rierdan). Increase alarm(rierdan) by 2. }
   Observe dorcas_plan_note near dorcas when planDorcas(party) and openingNight(rierdan) "Dorcas has the gown on. She has the look of a woman who has been told she is the only plan, and has agreed to be.".
 }

@@ -27,7 +27,16 @@ class Gosse {
   static async start(campaign = city, seed = 'g1') { return new Gosse(await Journey.start(campaign, seed)); }
   constructor(readonly j: Journey) {}
   async play(...labels: string[]) { await this.j.play(...labels); return this; }
-  async fixture(name: string) { return this.play(...steps(name)); }
+  // The fixtures end at the verdict; the Pentrice ending waits on the herald from Dun Rierdan (test/kings-players.test.ts plays
+  // that by label: the writ, or a refusal). Here the herald is sent away, as a company that has had enough of masters would.
+  async fixture(name: string) {
+    await this.play(...steps(name));
+    if (this.holds('verdictRead', 'pentrice') && !this.holds('heraldGone', 'pentrice') && !this.holds('summoned', 'pentrice')) {
+      this.stage(['heraldGone', 'pentrice']);
+      await this.play('Wait › An hour');
+    }
+    return this;
+  }
   holds(name: string, ...args: string[]) { return this.j.holds(p(name), ...args.map(a => a === 'party' ? a : p(a))); }
   state(thing: string, value: string) { return this.j.holds('state', p(thing), p(value)); }
   knows(fact: string) { return this.j.holds('knows', 'party', p(fact)); }
@@ -175,6 +184,7 @@ describe("Gosse's Company", () => {
     await g.fixture('pension');
     expect(g.holds('pensionTaken', 'gosse')).toBe(true);
     expect(g.j.offers('Rehearse the first act')).toBe(false);
+    g.stage(['heraldGone', 'pentrice']); // the herald from Dun Rierdan is sent away (see the King's Players spec)
     await g.play('=594');
     expect(g.holds('crossed', 'pentrice')).toBe(false);
     expect(g.ending()).toEqual([p('pension')]);

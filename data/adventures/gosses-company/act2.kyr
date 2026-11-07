@@ -53,7 +53,7 @@ Module pentrice "Gosse's Company" {
   }
   Kind salt_kind "a pouch of the Salt-Wives' grey salt" is gear described "A pouch of grey salt tied with red wool. It is cold in the hand.".
   Discovery prophecy_known "The youngest Salt-Wife has said, to the fire, in the Marshal's hearing last winter and again to you: Hail to the Marshal that shall be Warden, and to the Warden that shall be King.".
-  Discovery duke_name_known "The Duke was called Wattie when he was nine. Said to him by the right voice, it brings him in.".
+  Discovery duke_name_known "The Duke was called Aldie when he was nine. Said to him by the right voice, it brings him in.".
   Action salt_threshold(actor: group, site: place) "Lay a line of grey salt across the threshold" {
     Requires able(actor) and company(actor) and at(actor, site) and holding(actor, salt_kind) and not salted(site).
     Time 0.
@@ -128,7 +128,7 @@ Module pentrice "Gosse's Company" {
     Time 0.
     Resolve check(actor, performance, dc_fair).
     On success { Assert tolerates(duke_ghost, actor). Increase ghostScore(rierdan) by 0. }
-    Result "You ring it and say it: Aldous Orvane. The old man's head comes round. He listens to his own name like a man listening to a letter. It takes a long time. When it is over he is standing at your elbow, looking where you look, as a guest does.".
+    Result "You ring it and say it: Aldous Orvane. The old man's head comes round. He listens to his own name as if it were a letter in someone else's hand. It takes a long time. When it is over he is standing at your elbow, looking where you look, as a guest does.".
     Otherwise "The note rings true and your voice does not. The Duke leans in and hears what you meant to mean, and it is not enough.".
   }
   Action ring_avenging(actor: group, site: place) "Ring Ambros's bell at the man you mean, and say what he did" {

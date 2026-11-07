@@ -58,7 +58,7 @@ Module pentrice "Gosse's Company" {
     On discuss { Assert ysoltBury(actor). Assert ysoltAsked(actor). Increase ysoltTrust(actor) by 1. }
   }
   Topic ysolt_watch with ysolt "Watch. It is yours to do" answering ysolt_ask when true {
-    Says "'Thank you,' says Ysolt, and means it, and you can see it is the first kindness she has had since the Edict. 'It is a mercy to be left alone with a thing.' She crosses herself in the way of the Bells. 'The second night.'".
+    Says "'Thank you,' says Ysolt, and means it, and you can see it is the first kindness she has had since the Edict. 'It is a mercy to be left alone with a thing.' She makes the sign of the Bells. 'The second night.'".
     On discuss { Assert ysoltAsked(actor). }
   }
   Topic ysolt_stop with ysolt "Stop you. I don't think you've counted the cost" answering ysolt_ask when true {
@@ -86,7 +86,7 @@ Module pentrice "Gosse's Company" {
 
   // The Warden's son, who asks something of the player that nobody should have to be asked.
   Topic lucan_ask with lucan "Speak to Lucan Verrall at the Dust Gate" when edictOn(rierdan) and not actIIIDone(rierdan) once {
-    Says "Lucan stands as a guard stands who has been told to stand. 'I have been on this gate two nights,' he says. 'My father gave me this watch himself. I do not think he knows what he did.' He is looking not at you but at the road to the Field. 'If she comes,' he says, 'I will have to stop her. I wanted you to know that I will have to. If I do not, I am not my father's son, and I am not any use to her either.' He swallows. 'Would you stop her, if you were me?'".
+    Says "Lucan is on the gate and has been two nights, and has not slept, and has stopped pretending he has. 'He gave me this post himself,' he says. 'Himself! I think he thought it was a kindness.' He kicks the pillar. 'She'll come. She'll come over that wall at midnight with a spade, and I'll have to put my hand on her, and I swear to you I can feel it already.' He wipes his face with his sleeve. 'You. You're not anybody. What would you do?'".
   }
   Topic lucan_stop with lucan "Yes. And you'd have to live with it" answering lucan_ask when true {
     Says "'Yes,' says Lucan, in a small voice. 'That is what my father would say.' He puts a hand on the pommel of his sword, and takes it off again. 'I shall be here.'".
@@ -97,7 +97,7 @@ Module pentrice "Gosse's Company" {
     On discuss { Assert lucanLoved(actor). }
   }
   Topic lucan_plead with lucan "Go to your father yourself. Tell him what he's done" answering lucan_ask when true {
-    Says "'I have,' says Lucan. 'He heard me.' A pause. 'He heard me,' he says again, in a voice that says what hearing costs a man like that. 'I do not know what else there is. If you can think of what else there is, I will do it.'".
+    Says "'I have,' says Lucan. 'He heard me.' A pause. 'He heard me,' he says again, in a voice that has been keeping the price. 'I do not know what else there is. If you can think of what else there is, I will do it.'".
     On discuss { Assert lucanPleaded(actor). }
   }
 

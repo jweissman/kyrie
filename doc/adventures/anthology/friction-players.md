@@ -15,3 +15,15 @@ New frictions only; earlier ones are in the other friction documents.
 11. **A finished campaign shows no choices**, so a spec that waits after an Ending throws `Unoffered`; assert the state instead.
 12. **Compound shell commands are refused in a worktree-isolated agent** (heredoc plus test run in one call). Use Write/Edit and plain commands.
 13. **Write-only flags are advised but not tied to Observes.** Flags that gate only an Observe's text count as read; flags that gate only a later flag chain do not. I had to add Observes to make arcs "readable" to the linter, which pushes authors toward prose-for-the-linter.
+
+## Added in answer to the review
+
+14. **Specs that teleport hide the real path.** `assert`/`put`/`set` make a spec pass while the route a player takes is closed (the Pentrice Endings fired before the herald; Aubrey came after the book had closed). The harness should make a teleport a flagged exception, not the default idiom.
+15. **A Pentrice Ending is a poor way to leave a book.** Eight Endings gated on `cameForTrial` and a tick end the campaign; a continuation needs those Endings conditioned on the world not having moved on. I added `pentriceCloses()`; the original gate should have been the continuation's concern from the start.
+16. **Waits stop at the first change.** `Wait › A while` ends when anything notable happens, so a spec that needs two rule passes must wait twice. Staging a boundary and waiting once left the company in the wrong room.
+17. **Rules racing in one tick.** Two rules that move the same person in one tick (lodge to the Sparrow, move to the Wick) race; staging must mimic the real order (arrive, tick, then act three).
+18. **`Decrease` in Actions is policed by a design test; in Rules it is not.** I spent favour and trust in Actions and was refused; the same moves are legal in Rules. That asymmetry should be written down.
+19. **`Temperament territorial` plus `Lair` makes a place a fight.** The Field became a combat standoff where a level-1 party died; `Peaceable` with a `Greets` that says the same thing is the fix. A temperament on a Lair should draw a lint advice.
+20. **Relation arguments are arity-checked, not type-checked at assert.** `assert('posing', 'rierdan')` compiled and did nothing.
+21. **Gating a continuation's Endings changes every existing Pentrice test.** Twelve tests that ended at the verdict needed the herald sent away; a helper in the test class (`fixture`) was the right place.
+22. **A sed over a block can eat adjacent rules.** I replaced a region by index and deleted two rules I had added at its edge; the spec caught it only because Act IV's company stayed in the Sparrow.
