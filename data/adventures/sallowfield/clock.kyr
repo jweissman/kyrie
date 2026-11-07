@@ -34,11 +34,10 @@ Module sallowfield "Three Nights at Sallowfield" {
     Pleads "The boy puts his hands over his head and begins to talk before he has been asked anything.".
   }
   Person raiders "four of the Unpaid" nowhere {
-    Role "four troopers with sacks, who have not been paid since the spring". Ancestry human. Calling warrior. Level 1. Numbers 4. Temperament wary. Refuge south_road.
+    Role "four troopers with sacks, who have not been paid since the spring". Ancestry human. Calling warrior. Level 1. Numbers 4. Peaceable. Manner stoic.
     Arrives at lower_farm when watch(clock) >= 204.
-    Arrives "Four men come up out of the dark by the river, quietly, with empty sacks.".
-    Warns "The troopers stop. The oldest of them looks at the cows, and then at you, and then at the sacks in his hands. 'We'll take the cows,' he says, 'and go. Better the cows than the other.'".
-    Flinches "The troopers leave their sacks where they stand and go off into the dark at a run.".
+    Arrives "Four men come up from the river in the failing light, with empty sacks.".
+    Greets "The oldest of them looks at the cows, and then at you, and then at the sacks in his hand. 'We'll take the cows,' he says, 'and go. Better the cows than the other.' The others do not look up.".
   }
   Person picks "Wyre's picked men" nowhere {
     Role "three of the Unpaid in good steel, who have fought for money in six countries". Ancestry human. Calling warrior. Level 3. Numbers 3. Peaceable. Manner grim.
@@ -100,7 +99,7 @@ Module sallowfield "Three Nights at Sallowfield" {
     Otherwise "The reeds rustle under your boot. The boy's head comes up. For a moment you look at each other across ten yards of black water, and then he is gone into the dark, and you hear him going.".
   }
   Rule raid_on_farm at lower_farm when at(raiders, lower_farm) and not farmRaided(party) and watch(clock) >= 210 and not at(party, lower_farm)
-    says "In the dark by the river, a cow bellows, and another, and a dog barks and stops. Then there is, for the best part of an hour, the sound of a barn being searched." {
+    says "Down by the river in the dusk, a cow bellows, and another, and a dog barks and stops. Then there is, for the best part of an hour, the sound of a barn being searched." {
     Assert farmRaided(party). }
   Relation farmRaided(group). Relation greenhalghSaved(group).
   Rule farm_burns when farmRaided(party) and not greenhalghSaved(party) { Assert farmBurned(party). }

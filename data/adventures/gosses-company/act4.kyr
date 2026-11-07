@@ -49,7 +49,7 @@ Module pentrice "Gosse's Company" {
     Says "The company is in the Wick's wardrobe among the hampers. Four people begin speaking at once and Hepzibah rings the prompt-bell, which is how you tell it is serious. 'Jem has a plan,' she says. 'Dorcas has a plan. Tam has a plan. The Marchant girl has a plan, and so far hers is the only one with a seal in it. I have put them in order. I should like you to choose, because if I do I shall be blamed for the result.'".
   }
   Topic plan_pudding with hepzibah "Jem's: a false clerk, a false summons, and a good coat" answering hepzibah_plan when true {
-    Says "Jem Pudding stands on a hamper, in the dim, in one of Mauger's own clerk's coats that has been taken in by Pardew. 'I have juggled for clerks,' he says. 'Eleven years of them, in every town in Imbar. They are the worst house there is; they never once look at the stage.' He bows. 'I know exactly what they do not look at. I shall be perfectly dull.'".
+    Says "Jem Pudding stands on a hamper, in the dim, in one of Mauger's own clerk's coats that has been taken in by Pardew. 'I have juggled for clerks,' he says. 'Eleven years of them, in every town in Imbar. They are the worst house there is; they never once look at the stage.' He bows. 'I know exactly what they do not look at. I'll be perfectly dull.'".
     On discuss { Assert planPudding(actor). }
   }
   Topic plan_dorcas with hepzibah "Dorcas's: she keeps Master Mauger in the box, and Lord Rask looks the other way" answering hepzibah_plan when troupe(dorcas) {
@@ -61,22 +61,37 @@ Module pentrice "Gosse's Company" {
     On discuss { Assert planTam(actor). }
   }
   Topic plan_oriel with hepzibah "Oriel's: a summons from the Chamberlain, sealed, to take the clerk away" answering hepzibah_plan when orielHelped(party) or orielSworn(party) {
-    Says "Oriel Marchant has the Chamberlain's seal in a clay impression the size of a coin, and a stiff piece of the Household's paper. 'I know his hand,' she says. 'I copied it for my father a hundred times. The clerk will go. They always go for the Household.' She hesitates. 'I should be using my father's name, I think. I should like to. A little.'".
+    Says "Oriel Marchant has the Chamberlain's seal in a clay impression as big as a coin, and a stiff piece of the Household's paper. 'I know his hand,' she says. 'I copied it for my father a hundred times. The clerk will go. They always go for the Household.' She hesitates. 'I should be using my father's name, I think. I should like to. A little.'".
     On discuss { Assert planOriel(actor). }
   }
 
   // The draper's: disguise, a key, and a price. Mistress Pardew knows who everybody is, and sells it.
   Topic pardew_deal with pardew "Ask Mistress Pardew whether she dressed a clerk" when wickGranted(rierdan) and not disguiseHad(party) once {
-    Says "Mistress Pardew does not answer. She measures you with her eyes. 'I have dressed every clerk in the Tower of Coin for twenty years,' she says. 'I know the coat, I know the collar, I know where the left cuff is darned. What I do not know is why a company of players should want one.' She takes a pin from her mouth. 'I shall find out in a week. Four crowns, and an alteration. And tell me one true thing you were not going to tell me.'".
+    Says "Mistress Pardew does not answer. She measures you with her eyes. 'I have dressed every clerk in the Tower of Coin for twenty years,' she says. 'I know the coat, I know the collar, I know where the left cuff is darned. What I do not know is why a company of players should want one.' She takes a pin from her mouth. 'I'll find out in a week. Four crowns, and an alteration. And tell me one true thing you were not going to tell me.'".
   }
   Topic pardew_true with pardew "The note's a forgery. We mean to take it back" answering pardew_deal when true {
-    Says "Mistress Pardew sits down on her counter, which she never does. 'Eighty crowns,' she says. 'He bought my husband's debt in the autumn and my husband died of it.' She tears the price-ticket off the coat. 'Take it. Take the key-mould too, I have a copy of the clerk's. It was a thing I did when I was angry.' She puts it in your hand. 'Bring me the paper, when you have it, and I shall burn it myself.'".
-    On discuss { Assert disguiseHad(actor). Assert keyCopied(actor). Give clerk_coat to actor. Give key_kind to actor. }
+    Says "Mistress Pardew sits down on her counter, which she never does. 'Eighty crowns,' she says. 'He bought my husband's debt in the autumn and my husband died of it.' She tears the price-ticket off the coat. 'Take it. Take the key-mould too, I have a copy of the clerk's. It was a thing I did when I was angry.' She puts it in your hand. 'Bring me the paper, when you have it, and I'll burn it myself.'".
+    On discuss { Assert disguiseHad(actor). Assert keyCopied(actor). Give clerk_coat to actor. Give key_kind to actor. Assert pardewOwed(actor). }
   }
   Topic pardew_lie with pardew "Costumes for a play about a clerk" answering pardew_deal when true {
-    Says "Mistress Pardew looks at you for a long moment. 'Four crowns,' she says. 'And an alteration. And you will be telling that to someone else tomorrow.' The coat is a good coat. The key she keeps in her pocket.".
+    Says "Mistress Pardew looks at you for a long moment. 'Four crowns. An alteration. And you will be telling that to someone else tomorrow.' The coat is a good coat. The key she keeps in her pocket; she says, with her eyes on the pins, that she sells it to the truthful, or to the rich.".
     On discuss { Assert disguiseHad(actor). Give clerk_coat to actor. Decrease quantity(actor, gold) by 4 or to nothing. }
   }
+  Topic pardew_key with pardew "Ask Mistress Pardew whether the key-mould is still for sale" when disguiseHad(party) and not keyCopied(party) once {
+    Says "Mistress Pardew considers the question with a pin between her lips. 'Twelve crowns,' she says. 'Or the true thing you did not tell me, which is cheaper. I am not particular which you pay in. I only take one.'".
+  }
+  Topic pardew_key_pay with pardew "Twelve crowns. I would rather you did not know" answering pardew_key when true {
+    Says "She weighs the coin on her palm and gives you a wax mould wrapped in a bit of cloth. 'You will tell me when you have it done,' she says, 'or not.' It is exactly the right amount of kindness.".
+    On discuss { Assert keyCopied(actor). Give key_kind to actor. Decrease quantity(actor, gold) by 12 or to nothing. }
+  }
+  Topic pardew_key_true with pardew "The note's a forgery, and we mean to take it back" answering pardew_key when true {
+    Says "Mistress Pardew sits on her counter, which she never does. 'Eighty crowns,' she says. 'He bought my husband's debt in the autumn and my husband died in the debtors' yard.' She gives you the mould. 'Bring me the paper, when you have it. I'll burn it myself, and I'll remember who did not.'".
+    On discuss { Assert keyCopied(actor). Give key_kind to actor. Assert pardewOwed(actor). }
+  }
+  Relation pardewOwed(group). Relation sealUsed(place).
+  Rule pardew_betrayed when heistOver(rierdan) and pardewOwed(party) and noteGone(rierdan) and not noteReturned(party) and not pardewSoured(rierdan) { Assert pardewSoured(rierdan). }
+  Relation pardewSoured(place).
+  Observe pardew_soured_note at draper when pardewSoured(rierdan) "Mistress Pardew's shutters are up in the daytime. A boy at the door says she has gone to her sister's, and will be back at Haysel-tide, and will not be wanting players.".
   Kind clerk_coat "a clerk's coat of the Tower of Coin" is gear described "A grey wool coat with a black collar, smelling of ink and tallow. The left cuff is darned.".
   Kind key_kind "a wax mould of the counting-room key" is gear described "A cake of wax with the key's teeth pressed into it, wrapped in a bit of cloth.".
 
@@ -105,9 +120,9 @@ Module pentrice "Gosse's Company" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, exchange) and openingNight(rierdan) and planOriel(actor) and not inCounting(actor) and not clerkLured(rierdan).
     Time 2.
     Resolve check(actor, deception, dc_fair).
-    On success { Assert clerkLured(rierdan). Assert inCounting(actor). Assert at(pomfret_clerk, king_court). Assert at(party, crake_room). }
+    On success { Assert clerkLured(rierdan). Assert inCounting(actor). Assert sealUsed(rierdan). Assert at(pomfret_clerk, king_court). Assert at(party, crake_room). }
     On failure { Increase alarm(rierdan) by 1. }
-    Result "Corbin Ashplant reads the summons through his spectacles. He reads the seal. He gets up, with cold fury, because he knows precisely what he is looking at and cannot refuse it. 'The Household,' he says. 'At this hour.' He goes out past you with his hat. The door is not locked behind him, and he has left the strong-box on the latch, as a man does who means to be back in a quarter of an hour.".
+    Result "Corbin Ashplant reads the summons through his spectacles. He reads the seal. He gets up, with cold fury, because he knows precisely what he is looking at and cannot refuse it. 'The Household,' he says. 'At this hour.' He goes out past you with his hat. The door is not locked behind him, and he has left the strong-box on the latch, as one who does who means to be back in a quarter of an hour.".
     Otherwise "The clerk reads it twice. 'A good seal,' he says. 'A bad hand.' He looks at you. 'I shall go and ask.' He does not go. He sits down at his desk where he can see you.".
   }
   Action slip_in_while_dorcas_has_him(actor: group, site: place) "Slip in at the counting-room door while Dorcas has Master Mauger in the box, as the gentleman who is expected" {
@@ -173,7 +188,7 @@ Module pentrice "Gosse's Company" {
   }
   Relation noteGone(place).
   Observe pomfret_next near crake when heistOver(rierdan) and noteGone(rierdan) "Master Mauger has opened his strong-box, looked at the empty place under the velvet bag, closed it, and sat for a long time with his hands on his knees. He cannot prove a thing. 'Nine years that theatre was dark,' he says, to the miniature, pleasantly. 'I do hope they will be happy in it.' The Tower of Coin goes on lending. It is not a story that has an end.".
-  Observe pomfret_prevails near crake when heistOver(rierdan) and not noteGone(rierdan) "Master Mauger has the note out on his desk and a pen beside it, and a diary open at Haysel-tide. 'Not a large wedding,' he says. 'Forty guests. A little speech, in the second act. I have written it myself.' He beams. He has the Chamberlain's ear and Lord Rask's, and nobody to whom he need justify himself.".
+  Observe pomfret_prevails near crake when heistOver(rierdan) and not noteGone(rierdan) "Master Mauger has come down from Lord Rask's box, and has the note out on his desk and a pen beside it, and a diary open at Haysel-tide. 'Not a large wedding,' he says. 'Forty guests. A little speech, in the second act. I have written it myself.' He beams. He has the Chamberlain's ear and Lord Rask's, and nobody to whom he need justify himself.".
   Observe caught_net near pomfret_clerk when caughtInCounting(party) "The chief clerk has locked the door of the counting-room with you inside it and gone for the Watch. It is, he says through the keyhole, a serious thing. He will be perhaps an hour. It is not clear what he thinks you will do in the meantime.".
   // The Seats sit on the Wick's business, and the debtors' yard keeps Mistress Pardew's husband.
   Observe seats_docket at seats when wickGranted(rierdan) "On the Seats' docket for the week, between a dispute over a bridge and a goose, stands MAUGER v. A TRAVELLING COMPANY, on a lease with a clause. It is called, and adjourned, and called again. The clerk of the court is a Coin man, and he is patient.".
@@ -186,5 +201,5 @@ Module pentrice "Gosse's Company" {
     says "Footsteps on the counting-room stair, unhurried, the footsteps of the owner of the house. A voice says, to somebody, 'I do hope nobody has been at my papers.'" { Assert pomfretArrived(rierdan). Increase alarm(rierdan) by 2. }
   Observe dorcas_plan_note near dorcas when planDorcas(party) and openingNight(rierdan) "Dorcas has the gown on. She has the look of a woman who has been told she is the only plan, and has agreed to be.".
   Observe wick_clock at lant_ward when wickGranted(rierdan) and not openingNight(rierdan) and not heistOver(rierdan) "Hepzibah has chalked it on the wardrobe door, in the hard pencil's capitals: OPENING THE THIRD EVENING, AT SEVEN. MAUGER IN RASK'S BOX TILL NINE. DOORS SHUT AT TEN. Under it, smaller: Whoever is in the counting-room at nine is a burglar.".
-  Observe box_hint at crake_room when inCounting(party) and not boxOpened(party) and not holding(party, key_kind) and not clerkLured(rierdan) "The strong-box is a good one, with a lock the size of a fist. It wants a key, or hands that know locks. Mistress Pardew, they say, keeps a mould for the truthful.".
+  Observe box_hint at crake_room when inCounting(party) and not boxOpened(party) and not holding(party, key_kind) and not clerkLured(rierdan) "The strong-box is a good one, with a lock as big as a fist. It wants a key, or hands that know locks. Mistress Pardew, they say, keeps a mould for the truthful.".
 }

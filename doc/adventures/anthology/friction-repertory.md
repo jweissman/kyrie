@@ -114,3 +114,23 @@ Night is `hour >= 21 or hour < 4`, dawn `hour >= 5 and hour < 12`; there is no `
 
 ## F26. A forced pass is still the cheap way to walk a skill gate
 I removed the forced passes, found 14 specs failing on luck (a "likely" lore check missed, a fair insight check missed), and put one `roll('pass')` at the head of each helper back. The checks are still real in play; the specs only walk past them. Wanted: a `Journey.walk(label, {attempts})` that retries a check at its real odds and reports the odds met.
+
+## Third review (round 3)
+
+## F27. A hard-coded roster outlives the story that moved the people
+`Initially Assert tourer(...)` listed seven names; two of them (Dorcas, Swale) can be away at the Rotunda or the taproom by an earlier act and were teleported home anyway. The shared `troupe(?p)` relation is the roster; the tour, Ep 3 and Ep 4 now ask it. Wanted: lint when a `Rule` or `Initially` names a person that another file can remove from a shared relation.
+
+## F28. "Fetch once" strands people; "fetch every time" needs a rule per person
+Ep 3 and 4 fetched their companions in a `once` rule; going home and returning left them in the taproom. The fix is one rule whose condition is "the party is here and the person is not": it re-fires on every return. There is no way to say "keep these people with the party" without writing the rule.
+
+## F29. A free reroll is the default shape of an action
+Every `Resolve` that sets nothing on failure is offered again at no cost; nine actions across four files were free rerolls until each was given a failure latch (`f_*(rierdan)`). The latch has to be written by hand into `Requires` and into `On failure`; I wrote a script to do it (`latch(action, name)`), which is the sort of thing an authoring tool should do. Wanted: `Resolve ... once` (one attempt per company, optionally per actor).
+
+## F30. A hazard cannot warn
+`Assert strikes(hazard, party)` is immediate and can kill a first-level character on arrival. A telegraph is a `says` rule that sets a flag, a Measure with the watch, and a second rule two watches later; and a third rule to clear the flag when the party leaves. Wanted: `Hazard ... warns "..." after 2 watches`.
+
+## F31. Moving the whole party is allowed, but has no exits
+`Assert at(party, or_larder)` works, and `Passage ... opening when e3Unlocked` can bar the way back; but nothing tells the author that the party is now in a room whose only exits are closed except the rules that are written to open it. Three unlock rules were needed (trust, a seventh night, a spoon) so that no route can leave the company shut in for ever. Wanted: a lint for a room whose every passage has an `opening when`.
+
+## F32. A seed hunt is not a spec
+The specs now roll natural dice, and each picks the seed that walked its journey (found by sweeping suffixes). That is honest about luck but not about balance: a "fair" check missed in four of six seeds in several journeys. Wanted: a harness verb that plays a step across N seeds and reports the pass fraction; and the dominant-route probe from F17.

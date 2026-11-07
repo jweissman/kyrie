@@ -85,7 +85,7 @@ Module sallowfield "Three Nights at Sallowfield" {
     Says "'What do I say,' says Mowbray. He sits down on the plate-chest. 'I say it was given to Saint Eadred by a woman who sold her bed for it, in the year of the sweating sickness, and I say I would melt it into spurs for Wyre myself if it would save one child.' He looks up. 'It will not save one child. Men who take the plate take the rest. But I am not the reeve. Tell me, and I'll do it, and be damned for it myself.'".
   }
   Topic mowbray_give with mowbray "Give it, if it is asked" answering mowbray_plate when true {
-    Says "He nods slowly, twice. 'God forgive us,' says Mowbray. 'He will be better at it than I.' He unbolts the chest.".
+    Says "He nods, twice. 'God forgive us,' says Mowbray. 'He will be better at it than I.' He unbolts the chest.".
     On discuss { Assert plateGiven(actor). }
   }
   Topic mowbray_keep with mowbray "Keep it. It is not ours to trade" answering mowbray_plate when true {
@@ -131,7 +131,7 @@ Module sallowfield "Three Nights at Sallowfield" {
     Result "Forty head, a dog that has views, and a track that was not made for them. It takes the afternoon. At the fold Crowther opens the wall and shuts it, and Greenhalgh does not look back at the barn.".
   }
   Topic greenhalgh_lie with greenhalgh "No. They will go straight for the ford" answering greenhalgh_go when true {
-    Says "He looks at you until the cow shifts. 'You are a bad liar,' he says, quite kindly, and goes back to the cow he was milking.".
+    Says "He looks at you until the cow shifts. 'You are a bad liar,' he says, kindly, and goes back to the cow he was milking.".
   }
   Action rally_wadsworth(actor: group, site: place) "Let Hob Wadsworth tell you how he would hold the bridge" {
     Requires able(actor) and company(actor) and at(actor, site) and at(wadsworth, site) and able(wadsworth) and not posted(wadsworth, bridge) and nerve(wadsworth) >= 1.

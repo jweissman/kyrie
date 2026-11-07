@@ -1,6 +1,6 @@
 Module muster "The Long Muster's Road" {
   // ── People who want something of the company, and push back ────────────────────────────────────────────────────
-  Relation yeastGiven(group). Relation yeastTaken(group). Relation piaVouched(group). Relation piaPushed(group).
+  Relation yeastGiven(group). Relation yeastTaken(group). Relation edeVouched(group). Relation edePushed(group).
 
   // Octa Draycott: the bread. She sells you rations at a coin; she will not give you the yeast unless you will feed it.
   Kind yeast_pot "a pot of the Muster's yeast" is gear worth 0 weighing 1 described "A glazed pot with a cloth tied over it, warm to the hand. Twice a day it wants flour and water, and a place by a fire.".
@@ -26,18 +26,18 @@ Module muster "The Long Muster's Road" {
     Role "the Archivist's assistant". Ancestry human. Pronouns she. Manner cheerful. Peaceable.
     Greets "A girl of twenty with ink to the elbow looks up from a copy she is making. 'You're the one from the north,' she says. 'Don't let Ostrander make you wait a year. He'll say it's kindness.'".
   }
-  Topic pia_asks with ede_cassel "Ask Ede what she wants of you" when admitted(party) once {
+  Topic ede_asks with ede_cassel "Ask Ede what she wants of you" when admitted(party) once {
     Says "Ede puts the pen down. 'There's a beam in this room with eleven hundred notches on it and nobody says a word,' she says. 'You've been over the Viaduct. Will you tell them? The Hearth, at least. Elpis will hear it from me if she hears it from someone who's seen the road.'".
   }
-  Topic pia_yes with ede_cassel "Say that you will, if she will stand beside you when you do" answering pia_asks when true {
+  Topic ede_yes with ede_cassel "Say that you will, if she will stand beside you when you do" answering ede_asks when true {
     Says "'Done,' says Ede Cassel. 'Elpis trusts the Archive's hand when it's mine. Not his.' She shuts the copy. 'Don't wait for spring.'".
-    On discuss { Assert piaVouched(party). }
+    On discuss { Assert edeVouched(party). }
   }
-  Topic pia_no with ede_cassel "Say that it is not yours to tell, and leave it to the Prefect" answering pia_asks when true {
+  Topic ede_no with ede_cassel "Say that it is not yours to tell, and leave it to the Prefect" answering ede_asks when true {
     Says "'It's not anyone's,' says Ede Cassel. She picks the pen up. 'That's how it's lasted.' She doesn't look at you again.".
-    On discuss { Assert piaPushed(party). }
+    On discuss { Assert edePushed(party). }
   }
-  Observe pia_cold at archive when piaPushed(party) "Ede Cassel copies without looking up.".
+  Observe ede_cold at archive when edePushed(party) "Ede Cassel copies without looking up.".
 
   // Tavi: the baker's boy, who follows if you have eaten his bread.
   Person tavi "Tavi" at pistrina {

@@ -162,7 +162,7 @@ and by season; it closes the Ledge in snow, floods the Low Road in thaw, grounds
 asks a toll in stories and in iron; **avalanche**; the **Third Arch**. None can be killed by a first company; each can
 be passed.
 
-**Companions** matter: the goatherd **Marra Tell** at Kell Ford (hire; she knows the Ledge, will not enter the
+**Companions** matter: the goatherd **Marra Tellis** at Kell Ford (hire; she knows the Ledge, will not enter the
 Gallery or go within sight of the giant); a **pack mule**; a hired **surveyor** whose antique compass is the only
 reason anyone found the Third Arch. A company may lose a companion.
 

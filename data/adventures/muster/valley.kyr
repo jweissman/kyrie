@@ -100,7 +100,7 @@ Module muster "The Long Muster's Road" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, tally_yard) and at(hobbe, tally_yard) and quantity(actor, gold) >= 30 and not hobbeFreed(actor).
     Time 0.
     On success { Decrease quantity(actor, gold) by 30. Assert hobbeFreed(actor). Assert hearthOwes(actor). Retract at(hobbe, tally_yard). }
-    Result "The clerk takes the coin, and weighs it, and strikes a line through a tablet, and says, 'Day two hundred and forty-one, and remitted.' Hobbe stops counting in the middle of a number and stands there, swaying, like a man who has just set down a sack. 'Thank you,' he says, in the voice of a man who has been told he may stop and does not yet believe it. He goes out by the gate without looking round, and the clerk watches him go and writes nothing at all.".
+    Result "The clerk takes the coin, and weighs it, and strikes a line through a tablet, and says, 'Day two hundred and forty-one, and remitted.' Hobbe stops counting in the middle of a number and stands there, swaying, as though the floor had moved. 'Thank you,' he says, in the voice of a man who has been told he may stop and does not yet believe it. He goes out by the gate without looking round, and the clerk watches him go and writes nothing at all.".
   }
   Discovery gold_known "The gold wings of the old standard were hidden by the Hearth under a vine-house floor in the Schism of 871, and the standard on its pole in the forum is brass.".
   Item gold_wing "the gold wing of the old standard" is golden_idol at gold_cellar hidden until gold_known.

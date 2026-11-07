@@ -68,7 +68,7 @@ Module muster "The Long Muster's Road" {
   Item pouch_a "a courier's pouch" is courier_pouch at eagle.
   Item pouch_b "a courier's pouch" is courier_pouch at eagle.
   Item pouch_c "a courier's pouch" is courier_pouch at eagle.
-  Kind courier_pouch "a courier's pouch" is document teaching pouch_read described "A leather pouch sealed with a wheel, addressed in a clear square hand. It has waited a long time for a reply.".
+  Kind courier_pouch "a courier's pouch" is document teaching pouch_read described "A leather pouch sealed with a wheel, addressed in a clear square hand. It has waited eleven hundred years for a reply.".
   Discovery pouch_read "The pouch is addressed to the Emperor at Aen-Vessaly from the Prefect of the Last Cohort, and dated: the eleven hundred and fourth year of his reign.".
   Item roadhouse_waystone "a waystone, dragged in for a doorstop" is dun_rierdan_waystone at roadhouse.
   Item hollow_lamp "a lamp left in the hollow" is lamp at hollow.

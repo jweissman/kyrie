@@ -41,9 +41,9 @@ describe("The Long Muster's Road", () => {
     // The gate: the pouch, not a word.
     await j.play('To the head of the descent');
     await j.play(...steps.deserters);
-    expect(j.holds('marcusMet', 'party')).toBe(true);
+    expect(j.holds('aurelMet', 'party')).toBe(true);
     await j.play(...steps.gate.slice(1));
-    expect(j.holds('foundPouch', 'party')).toBe(true);
+    expect(j.holds('admitted', 'party')).toBe(true);
     expect(j.holds('knows', 'party', 'ropeway_known')).toBe(false);
     // The Prefect is told; the standard is struck; a scout and a rope-way are offered; the dispatch taken.
     await j.play(...steps.valley);

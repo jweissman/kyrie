@@ -78,7 +78,7 @@ Module pentrice "Gosse's Company" {
     Resolve check(actor, persuasion, dc_fair).
     On success { Assert mummersLicensed(rierdan). Assert mummersTold(actor). }
     Result "Peverell ticks them in under a title that does not exist, THE KING'S PLAYERS (OUT OF DOORS), and goes pink with pleasure. The boy who does the horse is given a ribbon. He turns out to be the best horse in the city. The Chamberlain will have this in a book, soon, in the wrong column.".
-    Otherwise "'Not in the Chamberlain's book,' says Peverell. 'I'd have to put your name to it. I'd have to put it to the Household.' He is as sorry as a man can be.".
+    Otherwise "'Not in the Chamberlain's book,' says Peverell. 'I'd have to put your name to it. I'd have to put it to the Household.' He is as sorry as one who can be.".
   }
 
   // The companions. Cyprian is impulsive and brave; he does not ask what you want him for.
@@ -128,7 +128,7 @@ Module pentrice "Gosse's Company" {
     On discuss { Assert cyprianResigned(actor). }
   }
   Topic cyprian_both with cyprian "Keep it. A man can be a lieutenant and a player" answering cyprian_watch when true {
-    Says "'I shall be a laughing-stock,' says Cyprian, delighted. 'I shall be the only lieutenant of the Watch who can do the sword-fight in the third act with the right foot.' He has already decided; he only needed it said.".
+    Says "'I'll be a laughing-stock,' says Cyprian, delighted. 'I'll be the only lieutenant of the Watch who can do the sword-fight in the third act with the right foot.' He has already decided; he only needed it said.".
     On discuss { Assert cyprianBoth(actor). }
   }
   Topic oriel_say with oriel "Ask Oriel what she means to say to her father" when travelsWith(oriel, party) and not orielAsked(party) once {
@@ -143,7 +143,7 @@ Module pentrice "Gosse's Company" {
     Says "'Good,' says Oriel, quick as a latch. 'A statement made in a part is a statement made in a part. He cannot call a play perjury.' She grins, which she does rarely, and looks about eleven. 'I had the argument drafted. I wanted it countersigned.'".
     On discuss { Assert orielStage(actor). }
   }
-  Observe s5_oriel_told at lant_stage when sceneV(rierdan) == 5 and orielTells(party) "Lord Marchant has been told, and has had a day to be furious in, and has come to the Wick in his second-best coat with his spectacles in his hand. He looks at his daughter on the stage the way a man looks at a piece of news that has taken a long time to arrive.".
+  Observe s5_oriel_told at lant_stage when sceneV(rierdan) == 5 and orielTells(party) "Lord Marchant has been told, and has had a day to be furious in, and has come to the Wick in his second-best coat with his spectacles in his hand. He looks at his daughter on the stage the way one looks at a piece of news that has taken a long time to arrive.".
   Rule oriel_stage_costs when holdingCommand(rierdan) and sceneV(rierdan) == 5 and orielStage(party) and not orielPaid(rierdan) and at(party, lant_stage)
     says "Oriel steps into the light in her own voice, in front of the Household, and says her name; and in the second tier the Chancellor of the Realm stands up with a noise like a chair being sat on by a horse." { Assert orielPaid(rierdan). Increase chaos(rierdan) by 1. }
   Relation orielPaid(place).

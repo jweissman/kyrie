@@ -94,7 +94,6 @@
   "foulTheGrain": [
     "Say what you would put on the notice",
     "Ask the reeve what the village could pay",
-    "Take the old, the sick and the children up to the high fold",
     "Into Kersey's forge",
     "a pot of pitch: Take",
     "Out to Sallowfield green",
@@ -103,7 +102,7 @@
     "Out to Sallowfield green",
     "To the ford meadow",
     "To the ford stones",
-    "=day 1 22:00",
+    "Wall the ford with the coach, the inn's tables and the hurdles",
     "To the ford meadow",
     "To the reed marsh",
     "=day 2 17:40",
@@ -115,6 +114,7 @@
     "Tell the boy he will be fed and sent home when it is over",
     "Send the boy back to Wyre with the truth",
     "Out to Sallowfield green",
+    "Take the old, the sick and the children up to the high fold",
     "To the ford meadow",
     "To the ford stones",
     "To the east road, at the ford",
@@ -212,5 +212,68 @@
     "To the green well",
     "Set a bucket line from the well to the green",
     "To Sallowfield green"
+  ],
+  "walkOnDay2": [
+    "To Greenhalgh's farm",
+    "To the south road",
+    "=day 2 22:00",
+    "Walk on south, and do not look back"
+  ],
+  "walkOnDay3": [
+    "To Greenhalgh's farm",
+    "To the south road",
+    "=day 3 14:00",
+    "Walk on south, and do not look back"
+  ],
+  "walkOnFirelight": [
+    "To Greenhalgh's farm",
+    "To the south road",
+    "=day 3 21:30",
+    "Walk on south, and do not look back"
+  ],
+  "cowsAway": [
+    "To Greenhalgh's farm",
+    "Tell Ned Greenhalgh to take his cows to the fold",
+    "Yes. The farm is the first they reach",
+    "Help Ned Greenhalgh drive the cows up to the fold"
+  ],
+  "cutTheBridge": [
+    "To the packhorse bridge",
+    "Prise out the keystone of the near arch",
+    "To Sallowfield green"
+  ],
+  "afterRaidDay2": [
+    "=day 2 22:00",
+    "To Greenhalgh's farm",
+    "To the south road",
+    "Walk on south, and do not look back"
+  ],
+  "afterRaidDay3Morning": [
+    "=day 3 08:00",
+    "To Greenhalgh's farm",
+    "To the south road",
+    "Walk on south, and do not look back"
+  ],
+  "afterRaidDay3Afternoon": [
+    "=day 3 14:00",
+    "To Greenhalgh's farm",
+    "To the south road",
+    "Walk on south, and do not look back"
+  ],
+  "afterRaidFirelight": [
+    "=day 3 21:30",
+    "To Greenhalgh's farm",
+    "To the south road",
+    "Walk on south, and do not look back"
+  ],
+  "theRaidersWithTheSacks": [
+    "=day 2 19:00",
+    "To Greenhalgh's farm",
+    "Draw on the four with the sacks"
+  ],
+  "floodTheMeadow": [
+    "To Quarmby's mill yard",
+    "To the mill race",
+    "Draw the flood-gate"
   ]
 }

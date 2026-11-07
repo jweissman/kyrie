@@ -3,7 +3,7 @@ Module muster "The Long Muster's Road" {
   // A crossing, not a string of toll-booths. Pitons and rope are spent when they are used. Hunger bites at noon.
   // The season turns on the seventh day and the fifth arch closes in both directions. The weather can be read from
   // the heights. And a company that goes back loses what it carried up: the line, the days, the rope.
-  Relation lineFixed(group). Relation hungerToday(group). Relation ateBread(group). Relation yeastDead(group).
+  Relation lineFixed(group). Relation hungerToday(group). Relation ateBread(group).
   Query lateSeason() means day(clock) >= 7.
   Hazard hunger_pangs "A day without food on the fell" means "Deal (1d6) physical damage to ally unless constitution save against (13).".
   Rule hunger_bites when hungry(party) and hour(clock) == 12 and not hungerToday(party) and not within(party, kell)
@@ -41,8 +41,8 @@ Module muster "The Long Muster's Road" {
   Relation gateNight(group).
   Rule gate_night when gateRebuffed(party) and not gateNight(party) and (hour(clock) >= 22 or hour(clock) < 4) { Assert gateNight(party). }
   Rule gate_cools when gateRebuffed(party) and gateNight(party) and hour(clock) >= 6 and hour(clock) < 12 { Retract gateRebuffed(party). Retract gateNight(party). }
-  Rule yeast_dies when holding(party, yeast_pot) and chilled(party) { Spend yeast_pot from party. Assert yeastDead(party). }
-  Observe yeast_dead_note at pistrina when yeastDead(party) "Octa Draycott looks at the empty place on her shelf and stands there for a quarter of a minute. 'Cold night,' she says. She has a spare pot. She does not offer it.".
+  Rule yeast_dies when holding(party, yeast_pot) and chilled(party) { Spend yeast_pot from party. }
+  Observe yeast_dead_note at pistrina when yeastTaken(party) and not holding(party, yeast_pot) "Octa Draycott looks at the empty place on her shelf and stands there for a quarter of a minute. 'Cold night,' she says. She has a spare pot. She does not offer it.".
   // The valley says the passes are closing, on the fifth to the sixth day.
   Observe closing_gate at gate when day(clock) >= 5 and not lateSeason() "The captain on the wall is looking north with his hand over his eyes. 'Early,' he says, to the sky. 'The passes will be shut within the week.'".
   Observe closing_forum at forum when day(clock) >= 5 and not lateSeason() "People in the forum keep stopping to look at the north wall of the valley. The grain-carts are going out the wrong way, back to the granary, with the last of the harvest.".

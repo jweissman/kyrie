@@ -6,19 +6,19 @@ Module muster "The Long Muster's Road" {
   // Centurion, the Archivist, the innkeeper and the reeve, each of whom wants to know one thing before they will
   // tell one thing.
   Measure prefectRegard(group). Relation interviewQ1(group). Relation interviewQ2(group). Relation interviewQ3(group).
-  Relation reeveNamed(group). Relation reeveNone(group). Relation orsaFair(group). Relation rheaFair(group). Relation orsaAnswered(group). Relation rheaAnswered(group).
-  Relation mollAnswered(group). Relation mollSwore(group).
+  Relation reeveNamed(group). Relation orsaFair(group). Relation orsaAnswered(group). Relation rheaAnswered(group).
+  Relation ostranderAnswered(group). Relation ostranderSwore(group).
 
   // The Prefect's interview.
   Topic corvin_q1 with corvin "Let the Prefect put his first question" when admitted(party) and not interviewQ1(party) once {
     Says "Corvin folds his hands on the accounts. 'I shall ask three things,' he says, 'as my fathers asked of every stranger who came to the gate, in the days when we had strangers. First: who sent you?'".
   }
   Topic corvin_q1_none with corvin "Say that nobody sent you: you came to see what the road led to" answering corvin_q1 when true {
-    Says "'Men used to come because they were told,' says Corvin. 'It is a long time since anyone came for the pleasure of it.' He nods, and waits.".
+    Says "'Men used to come because they were told,' says Corvin. 'Nobody has come for the pleasure of it in my time.' He nods, and waits.".
     On discuss { Assert interviewQ1(party). Increase prefectRegard(party) by 2. }
   }
   Topic corvin_q1_north with corvin "Say that the north sent you: you are what the Emperor's silence looks like" answering corvin_q1 when true {
-    Says "A pause that goes on a long time. 'That is a very fine sentence,' says Corvin. 'Whoever taught you to say it was not wrong.' He looks down. 'I do not believe you are what you say, and I am glad you said it.'".
+    Says "A pause in which the water-clock can be heard. 'That is a very fine sentence,' says Corvin. 'Whoever taught you to say it was not wrong.' He looks down. 'I do not believe you are what you say, and I am glad you said it.'".
     On discuss { Assert interviewQ1(party). Increase prefectRegard(party) by 1. }
   }
   Topic corvin_q1_private with corvin "Say that you would tell him alone, and no one else" answering corvin_q1 when true {
@@ -79,7 +79,12 @@ Module muster "The Long Muster's Road" {
   }
   Topic reeve_name_none with cattermole "Say there is no one" answering reeve_names when true {
     Says "'Then I'll write it to the road,' says the reeve, after a moment. 'It can have a letter. It has had all the rest of us.' He writes nothing on the board. He does not pin anything.".
-    On discuss { Assert reeveNone(party). }
+    On discuss { }
+  }
+
+  Topic reeve_slip with cattermole "Ask the reeve for the Ford's travel-fund, now that your name is on his board" when reeveNamed(party) once {
+    Says "The reeve counts four coin out of a tin that says FOR THE RELIEF OF TRAVELLERS and does not look at the lid. 'It has had no use since the Muster,' he says. 'It might as well have you.'".
+    On discuss { Increase quantity(actor, gold) by 4. }
   }
 
   // The apothecary's question.
@@ -101,23 +106,23 @@ Module muster "The Long Muster's Road" {
   }
   Topic rhea_ans_road with rhea "Say you took it off the stack at the Eagle, where the Muster left it" answering rhea_asks when true {
     Says "'Dead men's silver on a dead men's road,' says Rhea. She weighs it, and counts ten back out of her box. 'The finder's share. We always paid it.'".
-    On discuss { Assert rheaAnswered(party). Assert rheaFair(party). Increase quantity(actor, gold) by 10. }
+    On discuss { Assert rheaAnswered(party). Increase quantity(actor, gold) by 10. }
   }
   Topic rhea_ans_sale with rhea "Say you were paid it, for a service, in the world beyond the Fells" answering rhea_asks when true {
-    Says "She looks at you for a long time. 'There is no world beyond the Fells,' she says. 'But I take your meaning.' She slides the coin back across the trestle. 'Do not say that to the Eagles.' She keeps five of it, for the silence, and does not say that she has.".
+    Says "She looks at you until the scale settles. 'There is no world beyond the Fells,' she says. 'But I take your meaning.' She slides the coin back across the trestle. 'Do not say that to the Eagles.' She keeps five of it, for the silence, and does not say that she has.".
     On discuss { Assert rheaAnswered(party). Decrease quantity(actor, gold) by 5 or to nothing. }
   }
 
   // The Archivist's question.
-  Topic moll_asks with ostrander "Let the Archivist ask what it is you want of the Annals" when annalsOpen(party) once {
+  Topic ostrander_asks with ostrander "Let the Archivist ask what it is you want of the Annals" when annalsOpen(party) once {
     Says "'Before I show you a thing I must know what it will be used for,' says Ostrander. 'A history in the wrong hand is a knife. What do you want to do with it?'".
   }
-  Topic moll_ans_know with ostrander "Say that you only want to know" answering moll_asks when true {
+  Topic ostrander_ans_know with ostrander "Say that you only want to know" answering ostrander_asks when true {
     Says "'That is what the first Archivist said, in that chair,' he says. 'It is the right reason and the most dangerous.' He turns a page. 'Read.'".
-    On discuss { Assert mollAnswered(party). }
+    On discuss { Assert ostranderAnswered(party). }
   }
-  Topic moll_ans_swear with ostrander "Swear on the lamp of the shrine that you will not use it to harm the valley" answering moll_asks when true {
-    Says "He considers the oath for a long time. 'It is a fine thing to swear on,' he says. 'Eleven hundred years of lamp.' He nods, once. 'I shall hold you to it.'".
-    On discuss { Assert mollAnswered(party). Assert mollSwore(party). }
+  Topic ostrander_ans_swear with ostrander "Swear on the lamp of the shrine that you will not use it to harm the valley" answering ostrander_asks when true {
+    Says "He weighs the oath in his hand, as if it had a mass. 'It is a fine thing to swear on,' he says. 'Eleven hundred years of lamp.' He nods, once. 'I shall hold you to it.'".
+    On discuss { Assert ostranderAnswered(party). Assert ostranderSwore(party). }
   }
 }
