@@ -1,0 +1,31 @@
+Module muster "The Long Muster's Road" {
+  // ── Where each of them is left, and what the road remembers of what was said ───────────────────────────────────
+  Observe end_marra_stays at apothecary when marraStaysCohort(party) "A goatherd's crook hangs on a peg behind the counter, polished by forty years of Tellis hands, and a young woman in a stranger's apron is teaching a lanky boy the Kell Ford word for thyme.".
+  Observe end_marra_home at eagle when marraHome(party) and not marraStaysCohort(party) "By the gate-arch somebody has put a heap of small stones under the letters J.T., one for each year. There are nine, and a tenth, new.".
+  Observe end_marra_angry at green when marraAngry(party) "The goat-track from the trough is empty, and the board has a new line pinned under the others in an angry hand: M.T., GONE OVER. NOT TO BE ASKED AFTER.".
+  Observe end_fenn_gone at via_n when fennGone(party) "A neat drawing of the north pier is pinned under a stone on the paving, with every course of masonry numbered and a margin note: DRAWN WITH GRATITUDE FROM THE SAFE SIDE.".
+  Observe end_fenn_nerve at via_s when fennCrossed(party) and not fennNerve(party) "Fenn Hallam sits on the south abutment with his head between his knees, drawing nothing, and does not look up.".
+  Observe end_dunya_report at barracks when dunyaReported(party) "The Centurion and her scout stand a little apart at the end of the yard, and the Centurion has her hand flat over her mouth.".
+  Observe end_dunya_silent at descent when dunyaSilent(party) "Someone has laid a heap of three small stones at the head of the Descent, where the men in patched red watch the road. Dunya of the First Century does not pass them without looking up.".
+  Observe end_dunya_defected at pass_s when dunyaDefected(party) "Beside the tall man with the bow a woman in a scout's cloak sits cleaning a spear. She raises a hand to you, once, as to a fellow traveller on the same road, going the other way.".
+  Observe end_dunya_kell at taproom when dunyaStaysKell(party) "A scout of the First Century sits in the corner of the Last Fire eating Maud Hennick's stew with great concentration and a map on the table, and has already, it seems, been taught three card games.".
+  Observe end_ione_home at gallery1 when ioneHome(party) "A grey staff with a lead bell is leaning in the niche of Viator. The dish is full of boot-nails. The lamp, which was out, is lit.".
+  Observe end_ione_fell at via_n when ioneFell(party) "On the parapet, a handspan from the edge, a little lead bell lies on its side. It does not ring. The wind goes over it.".
+
+  Observe end_giant at roadhouse when giantAnswered(party) and tolerates(giant, party) "The giant has hung a fleece over the hearth-hook and hung the fire-iron beside it, and sits with his chin on his chest, thinking about a king.".
+  Observe end_reeve at green when reeveNamed(party) "On the reeve's board, in the column at the bottom, a slip is pinned with a name and a place. It is not yet crossed out.".
+  Observe end_spring at spring when springMarra(party) and not springSettled(party) "The blue door stands open, and a child on its step is watching the red door with great suspicion and a piece of cheese.".
+  Observe end_widow at causeway2 when widowAnswered(party) "The heather beside the road has been parted, once, as if by something that lay down and got up.".
+  Observe end_prefect_warm at praetorium_hall when prefectRegard(party) >= 4 "The Prefect has put a second chair on the tribunal, beside the plain one, and does not say for whom.".
+  Observe end_prefect_cool at praetorium_hall when interviewQ1(party) and prefectRegard(party) < 2 "The Prefect watches you cross the hall with the courteous distance of a man who has asked three questions and heard three answers he is not sure he believes.".
+  Observe end_answers at forum when orsaAnswered(party) or rheaAnswered(party) or mollAnswered(party) or merulaAnswered(party) "People nod to you in the forum now, shortly, without stopping: a thing the valley does for those it has asked a question of and got an answer.".
+  Observe end_moll_oath at archive when mollSwore(party) "On the cedar table, beside the Annals, someone has set the shrine's small lamp, unlit, as a witness.".
+  Milestone m_asked "answered the valley's questions" worth 200 when orsaAnswered(party) or rheaAnswered(party) or mollAnswered(party) or merulaAnswered(party) or interviewQ3(party).
+  Milestone m_quintus "followed Quintus to where he stopped" worth 250 when quintusFound(party).
+  Milestone m_viator "gave the road's forgotten god his due" worth 150 when viatorHonoured(party).
+  Milestone m_orde "walked the Ledge by Thessaly Orde's studs" worth 200 when stonesFound(party).
+  Milestone m_spring "settled the goatherds' spring" worth 200 when springSettled(party).
+  Milestone m_sappers "found the unnumbered mile's dead" worth 200 when graveDug(party).
+  Milestone m_widow "paid the wolf-widow" worth 200 when pelt_laid(party).
+  Milestone m_companion "kept faith with one who walked with you" worth 300 when marraStaysCohort(party) or marraHome(party) or fennCredit(party) or dunyaReported(party) or dunyaStaysKell(party) or ioneKeeper(party) or ioneSafe(party) or ioneJoined(party) or ioneTrust(ione) >= 3 or fennTrust(dray) >= 3.
+}

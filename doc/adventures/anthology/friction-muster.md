@@ -1,0 +1,16 @@
+# Friction met rewriting the Long Muster's Road
+
+*7 November 2026.*
+
+1. **The worktree began from main, not the branch it was told to branch from**; the fork had to `git reset --hard adventure/anthology` before it had any muster files.
+2. **A Topic cannot roll**: a person's question answered by a check cannot be an `answering` Topic with `Resolve`; the lint is silent until load. Worked round with separate Actions; the interview's answers carry no dice.
+3. **A person who asks the player a question needs three topics** (the ask, and one per answer) and the answers are visible only after the ask. The ask must be `once`, so a question cannot be put again.
+4. **Names**: Marra Tell → Tellis and Fenn Haldane → Hallam, Octa Brine → Millward, Lucilla Sarn → Merula (and Sarn is an island elsewhere): the corpus-wide surname check cost four renames. Hobbe's brother-in-law could not share a surname with Elpis.
+5. **`Seen when dark()` wolves are met at once by `put`** (a staged move races the warning); tests walk instead.
+6. **The clock of a standalone campaign starts at midnight**, so wolves are "visible" at watch 3.
+7. **An item `in` a room is an error that reads as a missing container**: `Item x … in gold_cellar` instead of `at` was found only by a test that could not Take it.
+8. **`Arrives at X when …` on a `nowhere` person with a multi-turn delay** works, but its Role advice ("wherever they are") is only advice.
+9. **Rules cannot Assert `knows`**; every knowledge gain is an `Observe … teaches` or a topic's `On discuss`.
+10. **Lint advice about write-only facts** pushed every companion and answer flag to be read somewhere: the `endings.kyr` Observes exist partly to satisfy it, and partly because a flag nobody reads is a consequence nobody sees.
+11. **A Thing's description does not change by who is looking**: a place shows its blocking state text after the creature is placated (owlbear, slump in Tallow; the giant here).
+12. **Shell restrictions in worktree agents**: compound commands (heredocs piped into `python3`, `source`-like strings) are refused; files had to be made with the Write tool and run singly.

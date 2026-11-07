@@ -1,0 +1,146 @@
+Module muster "The Long Muster's Road" {
+  // ── Six things on the road that lead nowhere in particular ───────────────────────────────────────────────────────
+  // None of them is on the way to the Cohort, and none is needed to get there. Each has a place, a face and a
+  // resolution by a skill or a choice, and each says something about the road that the main thread does not: that
+  // someone lived here, that a god once was believed in, that a mistake was made on purpose, that a feud is about
+  // water, that a pack has a widow, that a man went on alone.
+  Relation quintusFound(group). Relation viatorHonoured(group). Relation stonesFound(group). Relation springSettled(group).
+  Relation widowAnswered(group). Relation graveDug(group). Relation pelt_laid(group).
+  Relation springMarra(group). Relation springCorrin(group). Relation springDug(group).
+
+  // 1. Quintus went on. Five mansio walls carry a second hand: a Q and a stroke, an arrow, and a line.
+  Discovery quintus_1 "At Septimus, under Rufus, a second and rougher hand: Q. WENT ON, and an arrow cut north-east, towards no road.".
+  Discovery quintus_2 "At Octavius: Q. WENT ON. FOUND WATER. A drawing of a spring and a tree.".
+  Discovery quintus_3 "At the Eagle: Q. WENT ON, AND CAME BACK, AND WENT ON. HE DOES NOT WANT TO BE FOUND; HE WANTS TO BE FOLLOWED. A line from the gate-arch to the thorn behind the fort.".
+  Observe qu_septimus at septimus_hall as sign when true "Under the soldier Rufus, in a rougher hand, a Q and a stroke: Q. WENT ON, and an arrow cut hard to the north-east, where there is no road." teaches quintus_1.
+  Observe qu_octavius at octavius_hall as sign when true "Beside the scribe's bench the second hand again, a day or a decade later: Q. WENT ON. FOUND WATER. Under it a spring and a tree, drawn by someone who cannot draw." teaches quintus_2.
+  Observe qu_eagle at eagle as sign when true "On the gate-arch, low, where a man sitting would reach: Q. WENT ON, AND CAME BACK, AND WENT ON. A line runs from the lettering across the wall to the thorn behind the fort." teaches quintus_3.
+  Action follow_q_marks(actor: group, site: place) "Follow the Q-marks behind the fort into the thorn" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hollow) and knows(actor, quintus_1) and knows(actor, quintus_2) and knows(actor, quintus_3) and not quintusFound(actor).
+    Time 2.
+    Resolve check(actor, wayfinding, dc_fair).
+    On success { Assert quintusFound(actor). Assert knows(actor, quintus_known). }
+    Result "A Q on a thorn, another on a stone, a third on the lip of the spring. You find the grave in a niche of the rock under a pear tree grown from a pip: a mound the length of a man, and a flat slab, and on the slab cut with great care: Q. WENT ON. HERE HE STOPPED. THE KINGSFOIL IS MINE; TAKE IT. He had walked out of the Muster in its first year and lived forty winters in the hollow behind the Eagle, tending the one green place on the fell. The warm turf is his doing: he carried the soil up in a helmet.".
+    Otherwise "The marks are there, but they lead in a circle round a thorn-brake, and the light is going.".
+  }
+  Entity quintus_known: fact "Quintus, a soldier of the Muster, walked out of the march in its first year and lived forty winters in the hollow behind the Eagle, making the one warm green place on the fell. He is buried under a pear tree he grew from a pip.".
+  Observe quintus_grave near hollow_kingsfoil when quintusFound(party) "Where the grave is, the kingsfoil grows thickest. A pear tree leans over it with a few small hard fruit.".
+
+  // 2. The shrine of Viator, the road's forgotten god, in the mouth of the Gallery.
+  Discovery viator_known "The Walker-by, Viator, was the legion's god of the road: he asks a boot-nail from those who go in and a story from those who come out, and he lights a lamp for the former.".
+  Thing viator_niche "the niche of Viator" at gallery1 {
+    State dark_niche "In the wall by the Gallery's mouth is a niche with a stone face worn to a thumbprint, a heap of boot-nails in a dish, and a lamp with no oil in it.".
+    State lit_niche "The lamp in the niche burns, small and steady, and the face looks out of it with an expression of interested patience.".
+    Change light_lamp "Light the lamp of Viator with lamp oil" from dark_niche to lit_niche needing lamp_oil consuming lamp_oil.
+  }
+  Initially Assert state(viator_niche, dark_niche).
+  Action offer_nail(actor: group, site: place) "Leave a boot-nail in the dish for Viator, and say the old words for those who go in" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gallery1) and not viatorHonoured(actor).
+    Time 0.
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert viatorHonoured(actor). Assert knows(actor, viator_known). Assert state(third_arch, found). }
+    Result "You have the words from a milestone, and they come out in the right order: VIATOR, WALKER-BY, WHO KNOWS WHICH STONES HOLD, KEEP US. A cold draught goes in past you, not out, and somewhere in the dark of the Gallery something settles. You know, without being told, which of the stones at the Third Arch will not bear you.".
+    Otherwise "You have most of the words. The dish rings under the nail. Nothing answers, which is, you suppose, the answer.".
+  }
+  Action tell_viator(actor: group, site: place) "Tell Viator what you saw on the road, as the old rule asks of those who come out" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gallery1) and viatorHonoured(actor) and been(actor, octavius_hall).
+    Time 0.
+    Resolve check(actor, performance, dc_fair).
+    On success { Assert knows(actor, viator_told). }
+    Result "You tell the niche about the Third Arch and what you did to it. The lamp, which was out, is lit. You do not remember lighting it.".
+  }
+  Entity viator_told: fact "The road-god Viator, who is told stories by those who come out of the Gallery, keeps a lamp for the ones who tell him.".
+
+  // 3. The lost surveyor's survey stones: Thessaly Orde, who measured the Ledge and was not believed.
+  Discovery orde_known "Thessaly Orde, surveyor of the road-menders, set seven survey stones along the Ledge and wrote that the wind there followed a rule; the road-menders did not believe her and she went home.".
+  Observe orde_stone at ledge2 as sign when true "In the cliff at shoulder height, in the lee of a buttress: a small bronze stud with a number, VII. The same stud, with VI, is at the next buttress. A man who could count could follow them." teaches orde_known.
+  Item orde_level "a surveyor's level, green with age" is spyglass in orde_cairn hidden until orde_known.
+  Thing orde_cairn "a cairn at the end of the Ledge" at ledge2 {
+    State heaped "A cairn of flat stones, with something square wrapped in oilskin inside it.".
+    State opened "The cairn has been pulled apart.".
+    Change open_cairn "Take the oilskin bundle out of the cairn" from heaped to opened.
+    Holds.
+  }
+  Action follow_orde(actor: group, site: place) "Follow the survey studs and set your feet by the numbers" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ledge2) and knows(actor, orde_known) and not stonesFound(actor).
+    Time 1.
+    Resolve check(actor, wayfinding, dc_fair).
+    On success { Assert stonesFound(actor). Assert state(ledge_wind, steady). }
+    Result "Seven studs, and a rule: the gusts come up the buttress faces in the count of seven, and stop on the eighth. Orde had it right. You cross to the end in the pauses, and at the last stone you find, in the cairn, her notebook.".
+    Otherwise "The studs are there, and the rule she saw in them is not, to you, yet.".
+  }
+
+  // 4. The goatherds' feud: two families, one spring.
+  Place spring "the spring on the goatherds' shelf" is room within lowroads at 3, 0 outdoors.
+  Initially Assert exposed(spring).
+  Passage spring_path "the goats' path to the spring" is path between track1 and spring taking 20 minutes.
+  Observe spring_scene at spring when true "A shelf of turf under an overhang, with a spring coming out of the rock into a stone trough, and two lines of goat-droppings that stop on either side of a white-painted stone, never crossing. On one side is a lean-to with a blue door. On the other, a lean-to with a red. Both are shut, and both are watched.".
+  Person corrin "Old Joss Corrin" at spring {
+    Role "a goatherd of the red door". Ancestry human. Pronouns he. Manner grim. Peaceable.
+    Greets "An old man on a milking stool on the red side of the stone does not turn his head. 'Marra Tellis sent you,' he says, 'or you'd not have found it. She's wrong. My father had the trough, and his before him. The Tells took the water by dividing the stones in the night.'".
+  }
+  Topic corrin_ask with corrin "Ask Joss Corrin what the quarrel is about" when true once {
+    Says "'A trough,' says Corrin. 'Two goats a day's water out of eleven hundred years of rain. It is not the water, it's who is asked.' He looks at the white stone. 'Would you ask me, if you had the choice? Would you ask her?'".
+  }
+  Topic corrin_me with corrin "Say you would ask whoever has the better claim" answering corrin_ask when true {
+    Says "'The better claim,' says Corrin, and spits. 'There's the question.' He looks at you for the first time. 'Check the old wall. There is a stone cut with a notch. It was my grandfather's idea that the notch was a tally. It's a level.'".
+    On discuss { Assert knows(actor, spring_level). }
+  }
+  Topic corrin_her with corrin "Say you would ask Marra, because she asked you first" answering corrin_ask when true {
+    Says "'Of course you would,' says Corrin, without heat. 'She sent you, and a goatherd's guest eats the goatherd's cheese. I'd do the same.' He picks up the pail. 'I'll tell you what I tell everyone. I don't mind losing. I mind it being said I'd lost to a girl with a better lawyer.'".
+    On discuss { Assert springMarra(party). }
+  }
+  Entity spring_level: fact "A notch cut in the old wall above the spring is a level: the water, laid out fairly, would run to the red door's trough as much as the blue's.".
+  Action settle_spring(actor: group, site: place) "Cut the trough a second lip by the old level, so that the water divides by itself" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, spring) and knows(actor, spring_level) and not springSettled(actor).
+    Time 3.
+    Resolve check(actor, digging, dc_fair).
+    On success { Assert springSettled(actor). }
+    Result "A lip of an inch, cut with the crowbar's edge and checked against the notch. The trough fills on both sides at the same pace. Corrin comes over, looks, says nothing for an uncomfortable time, and then takes his pail to the red end and fills it. 'It's what I always said it should do,' he says.".
+    Otherwise "The lip comes out crooked. The water runs to the red door, and the blue door opens, and the quarrel resumes with more matter.".
+  }
+  Action persuade_spring(actor: group, site: place) "Persuade the old man to ask Marra's mother for the water, as a courtesy, and her to give it" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, spring) and not springSettled(actor).
+    Time 2.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert springSettled(actor). Assert knows(actor, spring_pact). }
+    Result "It takes two hours and a cheese, and both doors open at once. Nobody has ever apologised: you are told, afterwards, that they asked each other to dinner, which is the same thing.".
+    Otherwise "'I won't be told by a stranger,' says Corrin, and goes into the red door and shuts it.".
+  }
+  Entity spring_pact: fact "The red and blue doors at the goatherds' spring asked each other to dinner after thirty years.".
+  Observe spring_peace at spring when springSettled(party) "The white stone has been moved a hand's breadth into the red side, and a child of each family is sitting on it eating the other's bread.".
+
+  // 5. The milepost that is wrong by a mile.
+  Discovery milepost_known "The milepost at the long middle of the causeway says XLI, and the one before it says XXXIX: the mile is missing, and the legion's engineers did not make mistakes.".
+  Observe milepost_scene at causeway2 as sign when true "The milepost reads XLI. The one behind it, at the causeway's head, read XXXIX. There is no XL; the road goes straight and level for a mile in which nothing is counted, and the ridge to either side is cropped short by sheep that never go into it." teaches milepost_known.
+  Action dig_unnumbered(actor: group, site: place) "Pace out the unnumbered mile and dig where the heather will not grow" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, causeway2) and knows(actor, milepost_known) and holding(actor, shovel) and not graveDug(actor).
+    Time 4.
+    Resolve check(actor, digging, dc_fair).
+    On success { Assert graveDug(actor). Assert knows(actor, sappers_known). }
+    Result "A foot down, packed chalk; two feet, a bronze buckle; four, the first of forty skulls under a sheet of lead stamped COHORS FABRORUM. The sappers who built the causeway died of a spring fever and were buried at the road's centre, in the mile the engineers refused to number. They did not want it said that any mile of it was theirs to count the dead against.".
+    Otherwise "You dig an hour and find chalk, and more chalk, and the heather watches.".
+  }
+  Entity sappers_known: fact "The unnumbered mile of the Old Causeway is the burial of forty sappers who died of fever building it; the engineers left the mile uncounted out of respect.".
+  Item sapper_buckle "a bronze buckle stamped with a sapper's mallet" is bronze_bracelet in sapper_cache hidden until sappers_known.
+  Thing sapper_cache "the sappers' burial" at causeway2 { State covered "The road runs level here, uncounted.". }
+
+  // 6. The wolf-widow.
+  Kind wolf_pelt_kind "a grey wolf's pelt, tanned" is treasure worth 8 weighing 3 described "A pelt tanned on the inn's wall for thirty years, grey going white at the muzzle, with a notch in the left ear.".
+  Item wolf_pelt "the wolf's pelt on the inn wall" is wolf_pelt_kind at taproom.
+  Topic maud_pelt with maud "Ask Maud about the wolf's pelt on the wall" when true once {
+    Says "'My husband's,' says Maud, 'from the year the sheep went. A big male, a notch in his ear, took twenty ewes and a boy's dog. They put the shot in him on the causeway and my husband skinned him the same night.' She wipes a glass that is clean. 'There was a she-wolf. She sat on the ridge three nights in the frost and cried. She's the one they follow now. I would give a good deal not to have heard it.'".
+  }
+  Topic maud_widow with maud "Ask Maud whether the she-wolf has ever been paid" answering maud_pelt when true {
+    Says "Maud stops wiping. 'Paid,' she says, as if trying the word for weight. 'I never thought you could pay a wolf.' She takes the pelt off its hook, shakes it, and holds it out. 'Take it. If you can put it where she'll find it, put it. I have had it thirty years. I would like to be rid of what it says.'".
+    On discuss { Assert widowAnswered(party). }
+  }
+  Action lay_pelt(actor: group, site: place) "Lay the old male's pelt on the causeway for the widow, and walk on without looking back" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, causeway2) and holding(actor, wolf_pelt_kind) and not pelt_laid(actor).
+    Time 0.
+    Resolve check(actor, insight, dc_fair).
+    On success { Spend wolf_pelt_kind from actor. Assert pelt_laid(actor). Assert tolerates(wolves, actor). Assert wolvesTolerated(actor). }
+    Result "A long way off in the heather a grey shape stands up, and watches, and does not come. You lay the pelt across the road with the muzzle toward the hill, as you would lay a body, and you do not stop. Behind you, much later, you hear the sound a wolf makes that is not a howl.".
+    Otherwise "You lay it down too quickly and walk off too fast. The wolves watch you go as if you had thrown it at them.".
+  }
+}

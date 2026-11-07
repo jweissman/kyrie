@@ -83,3 +83,34 @@ In the valley the company may tell the Prefect (the eagle is struck; the Centuri
 ## Honest gaps in verification
 
 Played by the builder through `Journey`, not by an independent player. The wolves, the eyrie, the Archivist branch, the goat path, the river crossing in low water, and the cohort sale were not walked by a spec. No fight was played. Names are checked by `adventure-names.test.ts`; the Kyr lints with 0 errors and 1 advice (the bog's scenery cannot be looked at).
+
+---
+
+# The rewrite (second pass)
+
+*7 November 2026. Files added to `data/adventures/muster/`: `graffiti.kyr`, `beasts.kyr`, `valley.kyr`, `history.kyr`, `quests.kyr`, `companions.kyr`, `interview.kyr`, `endings.kyr`; `cohort.kyr` and `wake.kyr` rewritten. Specs: `test/muster.test.ts` (the continuous crossing, green) and `test/muster-rewrite.test.ts` (ten branch specs).*
+
+## What changed in the rewrite
+
+- **Dramaturgy.** Five chapters (the board at Kell Ford; the lower country; the heights and the Viaduct; the Giant's Pass; the Last Cohort) and a theme: *keeping after the reason has gone*. Foreshadowing is carried by the soldier **Rufus**, who scratches his name and the days since his pay on five walls (sixty days at Septimus, a hundred and twenty at the Eagle, "WE WAITED" cut under him, a tally of springs at the Pass, "WE ARE HERE. SEND." over the gate), and by the milestones, which count down in cables from CCCLX at Kell to a smooth **I** inside the gate. The road was built *to* the Cohort, not from it.
+- **The Cohort** is now a place: sixteen rooms, thirteen named people in three parties (Eagles, Hearth, Archive), a calendar by the last emperor's regnal year, the bugle hours, the parade at the standard, a salt-market where Aenean coin is the only money, a school that recites the March, a bakehouse of the legion's twice-cooked bread, a Sending gate with a nail for every spring, a **Tally-yard** where a man counts the days of his sentence aloud, and **eleven centuries** in four red years the Archivist will open (the second wife, the plague winter, the Schism of the Standard, the year of two Sendings). Secrets: the Prefect once broke the General's seal and resealed it; the Archivist forged "a reply was received"; the apothecary has been dosing the Prefect's wine; the standard is brass over bronze, and its gold wing is in a Hearth cellar; the Centurion's son is the deserter in the Pass; old Gaius leaves barley for him every spring.
+- **Arrival and telling.** Four non-violent entries (the pouch, the glossary, a lie, a hard Lore check without the glossary) and five tellings that persist and show: the Prefect (standard struck), the Archivist (standard kept; a delegation reaches Kell Ford), the Centurion (a column marches north), the Hearth (the sixth withheld; the reeve in the Tally), or trade only. The gold wing laid before the standard heals the Schism. A Centurion's son's letter, an eyrie tag and the Tally's fine are separate threads that resolve to separate endings.
+- **Combat with ways round it.** Wolves of the Old Causeway (level 3, four): torches, rations, the picket-tower, or the dead male's pelt laid for the widow. The wyvern: robbed while it hunts at noon. The giant: iron, a story, the goat path, or asleep. Deserters in the Pass: ten coin, a letter, or a fight. Sentries: glossary, pouch, lie, or Lore.
+- **Four new species** (animals.json, no habitats, unpainted): `ridge_goat` (shows sound footing), `bone_kite` (settles on stone that bears), `pass_marmot` (one whistle a stranger, two the giant), `salt_ox` (stops at the noon call).
+- **Six side quests** with a place, a face and a resolution by check or choice: Quintus's Q-marks to a grave under a pear tree; the shrine of Viator; Thessaly Orde's survey studs; the goatherds' spring; the unnumbered mile; the wolf-widow.
+- **Four companions with three beats each** (Marra Tellis, Fenn Hallam, Dunya, Sister Ione), each beat a question put to the player with answering topics; they may stay, go home, quit, die or change the valley. The Prefect puts a three-question interview; the giant, reeve, apothecary, salt-reckoner, Centurion and Archivist each put one; 40+ answering topics in all.
+- **Prose.** Present tense; tics cut ("the size of", "slowly", "quite quietly", "the way X do who"). Not exhaustively re-read.
+
+## 1. Content that works in play
+The continuous crossing and the ten branch specs (see above); the five tellings; both companions' endings tested (Marra stays, Fenn credits, Dunya reports, Ione keeps the shrine).
+
+## 2. Authored content present but not reachable (or not specced)
+Wolves' rations option; the picket-tower shelter; the unroped fall of Sister Ione (a dice rule; only the safe branch is specced); Fenn's refusal branches and Dunya's defection; the Hearth's quarrel timing (Elpis to the Tally); the column and pardon news (timed on `toldAt`); the claim of relief and the later shame; Orde's cairn contents; the salt-ox, kites and marmot lines (told, not specced).
+
+## 3. Actions or consequences the engine cannot yet represent
+A companion who can **die in play** is a `Slay` after a dice rule, not a fight with stakes; a **bargain with Time above 0** is overrun by a warning's patience, so every bargain is Time 0; a **question put by a person to the player** cannot roll (a Topic cannot `Resolve`), so the checks that colour an answer sit in separate Actions; **timed arrivals** are `Arrives` rules on a watch count, not a courier who walks; no **named person can walk the road in the player's absence** as a delegation (they appear at Kell by a rule); a **companion cannot be told apart** from the player in text.
+
+## 4. Existing assets whose migration or integration is incomplete
+Lanterns still need oil in the same pack; the glossary's use is a held-check, not reading; plant `uses` are read by nothing; the four species are unpainted and have no Encyclopedia plate; the quest "surveyor's level" and the pelt are local kinds because the catalog has no equivalent; `Marra Tell` and `Fenn Haldane` had to be renamed (Tellis, Hallam) because the corpus-wide name check refuses a surname another adventure holds.
+
+*Not played by anyone independent.*

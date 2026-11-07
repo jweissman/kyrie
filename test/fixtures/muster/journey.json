@@ -2,14 +2,14 @@
  "prepare_light": [
   "To Kell green",
   "Into Pryor's store",
-  "Buy › A coil of rope",
-  "Buy › A piton",
-  "Buy › A piton",
-  "Buy › A crowbar",
-  "Buy › Firewood",
-  "Buy › A torch",
-  "Buy › A torch",
-  "Buy › A tent",
+  "Buy \u203a A coil of rope",
+  "Buy \u203a A piton",
+  "Buy \u203a A piton",
+  "Buy \u203a A crowbar",
+  "Buy \u203a Firewood",
+  "Buy \u203a A torch",
+  "Buy \u203a A torch",
+  "Buy \u203a A tent",
   "Out to Kell green"
  ],
  "gorge": [
@@ -20,7 +20,7 @@
  ],
  "hire": [
   "Ask Marra about the roads",
-  "Ask Marra Ashgrove to join the company"
+  "Ask Marra Tellis to join the company"
  ],
  "stock": [],
  "first_days": [
@@ -78,7 +78,7 @@
   "To the Mansio Octavius",
   "To the Third Arch",
   "Bran: light a torch",
-  "To the dark of the Gallery — look at the Third Arch › Prod it with the pole",
+  "To the dark of the Gallery \u2014 look at the Third Arch \u203a Prod it with the pole",
   "To the dark of the Gallery",
   "To the mouth of the Gallery",
   "To the Mansio Septimus",
@@ -90,5 +90,8 @@
  "reeve": [
   "Talk to Reeve Cattermole",
   "Give the reeve the Prefect's dispatch"
+ ],
+ "deserters": [
+  "Pay the deserters their ten coin"
  ]
 }
