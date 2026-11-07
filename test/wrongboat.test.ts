@@ -259,7 +259,7 @@ describe('The Wrong Boat', () => {
     expect(j.holds('holding', 'party', 'music_box')).toBe(false);
   }, 200000);
 
-  it('lets the walk reach Clean Water for eight coin and a decision, and not for nothing', async () => {
+  it('lets the walk reach Clean Water for fifteen coin and a decision, and not for nothing', async () => {
     const j = await begin();
     await j.play(...quayOpen, ...hamperOpen, ...walkOut, pay);
     expect(j.holds('ladsPaid', 'party')).toBe(true);

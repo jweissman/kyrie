@@ -45,7 +45,7 @@ Module wrongboat "The Wrong Boat" {
 
   // The ways of being rid of it.
   Action drop_box(actor: group, site: place) "Drop the music box in the river" {
-    Requires able(actor) and company(actor) and at(actor, site) and holding(actor, music_box) and (at(actor, quay) or at(actor, deck) or at(actor, fair_quay) or at(actor, race_head) or at(actor, ferry_stage) or at(actor, weir)) and not dropped(actor).
+    Requires able(actor) and company(actor) and at(actor, site) and holding(actor, music_box) and (at(actor, quay) or at(actor, deck) or at(actor, fair_quay) or at(actor, race_head) or at(actor, ferry_stage) or at(actor, weir)) and not dropped(actor) and not bessAlly(actor).
     Time 0.
     On success { Spend music_box from actor. Assert dropped(actor). }
     Result "It goes in without a splash worth the name. For a long moment, from the green water, you can hear it play, a little, muffled, going down, and then you cannot.".
@@ -53,7 +53,7 @@ Module wrongboat "The Wrong Boat" {
   Relation dropped(group).
   Action sell_dealer(actor: group, site: place) "Sell the music box to the horse-dealer for fifty coin, no questions" {
     Speaker dealer.
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, horse_lines) and holding(actor, music_box) and not soldHonest(actor).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, horse_lines) and holding(actor, music_box) and not soldHonest(actor) and not bessAlly(actor).
     Time 0.
     On success { Spend music_box from actor. Increase quantity(actor, gold) by 50. Assert soldHonest(actor). }
     Result "The dealer winds it twice, listens, does not smile, and counts fifty out of a purse that has been heavy since morning. 'Very pretty,' he says. 'I shall give it to my wife.' He says it to the horse.".
@@ -62,7 +62,7 @@ Module wrongboat "The Wrong Boat" {
   Relation gaveHob(group).
   Action give_hob(actor: group, site: place) "Put the box in Hob Garrod's hands, since he is the owner" {
     Speaker hob.
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lockup) and holding(actor, music_box) and not gaveHob(actor).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lockup) and holding(actor, music_box) and not gaveHob(actor) and not bessAlly(actor).
     Time 0.
     On success { Spend music_box from actor. Assert gaveHob(actor). }
     Result "'Mine,' says Hob, taking it, as if he had been told a fact about the weather. He winds it, and it plays, and he lies down with it on his chest and his hat over his eyes. 'Bless you,' he says. 'Fosse will give me forty for it, and forty will get me out of here.'".

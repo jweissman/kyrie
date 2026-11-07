@@ -20,7 +20,7 @@ Module wrongboat "The Wrong Boat" {
   Relation boxReturned(group). Relation caught(group). Relation bessTook(group). Relation ladsSwept(group). Relation dollyFare(group).
   Relation bessAlly(group). Relation hobyPlay(group). Relation flamboyant(group). Relation nollWaited(group). Relation teagueOpen(group).
   // A chaser who is with the company stays; the itinerary pursuits below are for when she is not.
-  Relation emptyHanded(group). Relation ladsPaid(group). Relation ladsRouted(group). Relation beatenUp(group). Relation ladsMet(group). Relation sluiceOpen(group). Relation liedToBess(group). Relation bluffTried(group). Relation hobAsked(group). Relation hobTold(group). Relation bessReunited(group).
+  Relation emptyHanded(group). Relation ladsPaid(group). Relation ladsRouted(group). Relation beatenUp(group). Relation ladsMet(group). Relation sluiceOpen(group). Relation liedToBess(group). Relation hobAsked(group). Relation hobTold(group). Relation bessReunited(group).
   
   Rule empty_handed when not loot() and not emptyHanded(party) { Assert emptyHanded(party). }
   Rule loaded when loot() and emptyHanded(party) { Retract emptyHanded(party). }
@@ -100,7 +100,7 @@ Module wrongboat "The Wrong Boat" {
   Rule mist_down when since(100) and state(fen_mist, thick) { Assert state(fen_mist, thin). }
   Query mistHides() means state(fen_mist, thick) and (at(party, causeway) or at(party, bell_cot) or at(party, eel_stage)).
   Query disguiseFools() means disguised(party) and not flamboyant(party) and not hobyPlay(party).
-  Query nollHides() means nollWaited(party) and at(party, bell_cot).
+  Query nollHides() means nollWaited(party) and at(party, bell_cot) and hiding(party).
   Query unaHides() means unaSung(party) and at(party, ferry_stage) and hiding(party).
   Query sheltered() means nollHides() or unaHides().
   Rule bess_spots when at(bess, ?r) and at(party, ?r) and not hiding(party) and not disguiseFools() and not confronted(party) and not bessMet(party) and not mistHides() and not sheltered() {
@@ -146,11 +146,11 @@ Module wrongboat "The Wrong Boat" {
     says "A dog-cart comes down the towpath at a trot, with a carrier on the box looking put-upon. A broad woman in black sleeves gets down from it before it has stopped, and thanks the carrier, and pays him, and puts the coin-scale in her pocket. She has not been hurrying. She has been getting here." {
     Assert at(bess, weir). }
   Rule bess_cart_stage at ferry_stage when at(party, ferry_stage) and huntBess() and not together(bess, party) and since(64)
-    says "The dog-cart again, a mile off on the towpath, and the same carrier on the box, and the same broad woman in black sleeves, getting down." {
+    says "Bess Lowther is sitting on a bollard at the end of the stage with her coin-scale in her lap, and a dog-cart standing empty on the towpath behind her. She stands up when she sees you." {
     Assert at(bess, ferry_stage). }
   // Bess has her own view of a weir.
   Rule bess_leaves_swept when bessAlly(party) and ladsSwept(party)
-    says "Bess has been told what the weir did. She stops walking. 'Tom went in at that weir,' she says, quite evenly. 'I did not think I would find that I knew people who could do it to two strangers on purpose.' She holds out nothing, asks for nothing, and turns around. She does not look back, and you do not call her." {
+    says "Bess has been told what the weir did. She stops walking. 'Tom went in at that weir,' she says. 'I did not think I would find that I knew people who could do it to two strangers on purpose.' She holds out nothing, asks for nothing, and turns around. She does not look back, and you do not call her." {
     Retract bessAlly(party). Retract following(bess, party). Assert bessMet(party). Assert at(bess, quay). Set trailLostAt(party) to watch(clock). }
   Rule bess_has_box when bessTook(party) and holding(party, music_box) { Spend music_box from party. }
   Rule bess_has_hamper when bessTook(party) and holding(party, hamper_kind) { Spend hamper_kind from party. }
