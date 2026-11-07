@@ -13,6 +13,14 @@
     "history.kyr",
     "combat.kyr",
     "verdict.kyr",
+    "rierdan.kyr",
+    "rier_cast.kyr",
+    "act1.kyr",
+    "act2.kyr",
+    "act3.kyr",
+    "act4.kyr",
+    "act5.kyr",
+    "rier_side.kyr",
     "company.kyr"
   ],
   "rules": [

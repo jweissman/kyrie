@@ -1,0 +1,201 @@
+Module pentrice "Gosse's Company" {
+  // ── Act II: The Mousetrap ───────────────────────────────────────────────────────────────────────────────────
+  // Suspense, and in places horror. The King's brother, Duke Aldous Orvane, fell from the roof of the Tower of Lamps
+  // last winter. His grandnephew the Prince has seen him on the roof, and wants a play that will make the man who
+  // pushed him show his face. The Duke has his own opinion about waiting. He walks, once the play is promised, one
+  // hour at a time from the roof of the Lamps toward the Rotunda, and he is not particular about who he passes.
+  // The night is the act. Success may be simply surviving it.
+  Relation mousetrapAsked(place). Relation nightOn(place). Relation ghostBound(place). Relation salted(place).
+  Relation tarnExposed(place). Relation tarnFallen(place). Relation lotharWounded(place). Relation flyGuard(place).
+  Relation decoyBox(place). Relation modePoint(place). Relation modeVague(place). Relation modeCancel(place).
+  Relation saltGiven(group). Relation bellRemember(group). Relation bellAvenge(group). Relation bellLeave(group).
+  Relation gloveFound(group). Relation playDone(place). Relation lothalTrust(group). Relation lothalDoubt(group).
+  Relation nightOver(place). Relation tarnByGhost(place). Relation tarnByFall(place). Relation tarnByArrest(place).
+  Measure nightDay(place). Measure ghostHour(place). Measure ghostScore(place).
+  Hazard ghost_chill "The Duke's hand" means "Deal (2d6) necrotic damage to ally unless constitution save against (14).".
+  Hazard crossbow_bolt "A bolt from the flies" means "Deal (3d6) physical damage to ally unless dexterity save against (15).".
+  Chapter ch_mousetrap "The Mousetrap" when mousetrapAsked(rierdan) and not nightOver(rierdan) "The Prince has seen his great-uncle on the roof of the Lamps, and the Marshal of the Watch has been very kind to him since. The King's Players are to give a play on the second evening.".
+
+  // The Prince on the terrace: he puts the question to the one who answers.
+  Topic lothar_ghost with lothar "Go out on the terrace and stand where the Prince can say it" when auditioned(rierdan) and not mousetrapAsked(rierdan) once {
+    Says "'You are the players,' says Prince Lothar again, as if you had not said it back. 'You can lie in public. It is the only honest trade in this city.' He looks at the Lamps. 'My great-uncle fell off that roof in the winter. There is a new rail. I have seen him on it, at night, with his cap in his hand, looking down at the Concourse, and I am not a man who sees things.' He turns round. 'Do you believe in ghosts?'".
+  }
+  Topic lothar_yes with lothar "Yes. I've met two" answering lothar_ghost when true {
+    Says "'Then I am not mad,' says Lothar, and sits suddenly on the parapet. 'Or you are, which is not the same.' He gives you the Duke's signet ring on a bootlace from round his neck. 'He was pushed. I do not know by whom. I want a play. A play with a man in it who pushes another man, and a ghost, and a king watching, in the Rotunda, in front of the whole court, so that whoever did it cannot keep his face still.' He puts the ring in your palm. 'A ghost knows its murderer. Let it see him.'".
+    On discuss { Assert mousetrapAsked(rierdan). Assert lothalTrust(actor). Set nightDay(rierdan) to day(clock) + 1. Give signet_kind to actor. }
+  }
+  Topic lothar_no with lothar "No. But I'll stage one" answering lothar_ghost when true {
+    Says "'A professional,' says Lothar, with real bitterness. 'Good.' He looks at you from head to foot. 'I need you to pretend. Do it properly. If you do it half-way the man will know it is a play, and so will the ghost.' He tells you what he wants. It takes a long time, and at the end you realise he has not once asked whether the thing on the roof is real.".
+    On discuss { Assert mousetrapAsked(rierdan). Assert lothalDoubt(actor). Set nightDay(rierdan) to day(clock) + 1. }
+  }
+  Topic lothar_play with lothar "I play them. Ghosts are my trade" answering lothar_ghost when true {
+    Says "Lothar laughs, once, like a hinge. 'Then you will know where to stand.' He tells you quickly what the play must be and when. 'Tomorrow night. The Rotunda. The Marshal of the Watch will be in the box with the King, and the Warden, and me.' He stops. 'Tarn has been very kind to me,' he says. 'I find I do not like it.'".
+    On discuss { Assert mousetrapAsked(rierdan). Assert lothalTrust(actor). Set nightDay(rierdan) to day(clock) + 1. }
+  }
+  Kind signet_kind "Duke Aldous's signet" is gear described "A gold ring with a tower on it, worn smooth on the inside where a thumb pressed.".
+
+  // The afternoon: three things to be got, and what they cost.
+  // 1. Salt, from the guild-wives. The eldest asks a question and the answer decides.
+  Topic salt_ask with salt_wives "Ask the Salt-Wives what keeps a dead thing out of a house" when mousetrapAsked(rierdan) and not saltGiven(party) once {
+    Says "The three look at each other and the kettle sings. 'Salt,' says the eldest. 'Iron. And a name said right.' She turns the scale over, and the grain falls out. 'But we do not give salt to people who will use it badly. What does a player fear most in a house?'".
+  }
+  Topic salt_silence with salt_wives "Silence. When they stop listening" answering salt_ask when true {
+    Says "'Ah,' says the eldest, and puts a hand in her apron and brings out three little pouches of grey salt, tied with red wool. 'Then you know what the dead fear. They are not afraid of fire. They are afraid of being passed in the street.' She drops them in your hand. 'Put it on a sill. It stops them. It does not stop them forever.' The third wife, who has not spoken, says to the fire: 'And hail to the Marshal that shall be Warden.' Nobody looks at her.".
+    On discuss { Assert saltGiven(actor). Give salt_kind to actor. Give salt_kind to actor. Give salt_kind to actor. Assert knows(actor, prophecy_known). }
+  }
+  Topic salt_applause with salt_wives "Applause. The wrong kind" answering salt_ask when true {
+    Says "'Foolish,' says the eldest, not unkindly. 'You'd be afraid of the living.' She gives you a single pouch, as a gift to the young. 'One. Do not waste it.' The third wife says, softly, 'Hail to the Marshal that shall be Warden, and to the Warden that shall be King,' and the others hush her. You have heard it.".
+    On discuss { Assert saltGiven(actor). Give salt_kind to actor. Assert knows(actor, prophecy_known). }
+  }
+  Topic salt_forgot with salt_wives "Being forgotten. Nothing is worse" answering salt_ask when true {
+    Says "The eldest closes her eyes. 'Then you will be kind to the dead,' she says. 'That is the whole of it.' She does not give you salt. She tells you the Duke's name, the thing he was called at nine, the name no one else in the city knows. 'Say it to him,' she says. 'Salt keeps a thing out. A name brings it in. You must choose.'".
+    On discuss { Assert saltGiven(actor). Assert knows(actor, duke_name_known). Assert knows(actor, prophecy_known). }
+  }
+  Kind salt_kind "a pouch of the Salt-Wives' grey salt" is gear described "A pouch of grey salt tied with red wool. It is cold in the hand.".
+  Discovery prophecy_known "The youngest Salt-Wife has said, to the fire, in the Marshal's hearing last winter and again to you: Hail to the Marshal that shall be Warden, and to the Warden that shall be King.".
+  Discovery duke_name_known "The Duke was called Wattie when he was nine. Said to him by the right voice, it brings him in.".
+  Action salt_threshold(actor: group, site: place) "Lay a line of grey salt across the threshold" {
+    Requires able(actor) and company(actor) and at(actor, site) and holding(actor, salt_kind) and not salted(site).
+    Time 0.
+    On success { Spend salt_kind from actor. Assert salted(site). }
+    Result "You lay it end to end, a finger wide, and the room has a cold edge to it that was not there before.".
+  }
+
+  // 2. The bell: Brother Ambros asks what the dead want.
+  Topic ambros_dead with ambros "Ask Brother Ambros how to stop a walking dead man" when mousetrapAsked(rierdan) and not bellRemember(party) and not bellAvenge(party) and not bellLeave(party) once {
+    Says "'You do not stop him,' says Ambros. 'You answer him.' His hand is on the rope, feeling the tower. 'What do the dead want from a play, if they come to one?'".
+  }
+  Topic ambros_remember with ambros "To be remembered. His name, said aloud" answering ambros_dead when true {
+    Says "'Yes,' says Ambros. He leans down, takes a small hand-bell from beside the stool, and rings it once in the dark of the loft. The note goes into your chest. 'Ring it and say the name and he will stand and listen to the end of it. An hour, perhaps. No more. You will have to mean it.'".
+    On discuss { Assert bellRemember(actor). Give handbell_kind to actor. }
+  }
+  Topic ambros_avenge with ambros "To be avenged. To see the man who did it" answering ambros_dead when true {
+    Says "'That is what the living want for them,' says Ambros, but he gives you the bell, and rings it so that you will know its note. 'Ring it at the man you mean and say what he did. The Duke will go to him. I do not say where it ends.' He turns his dead eyes to the roof. 'I never liked the Marshal. He rings his own bell when he comes in. It is the only bell in the city I cannot hear.'".
+    On discuss { Assert bellAvenge(actor). Give handbell_kind to actor. }
+  }
+  Topic ambros_leave with ambros "To be left alone. To be let go" answering ambros_dead when true {
+    Says "He is quiet for so long you think he is asleep. 'Then you are one of the rare ones,' he says. 'I will tell you the other way. Salt the doors, and ring the great bell at midnight, three, and he will go up and not come down.' He does not give you the hand-bell. He gives you the right to ring the Bells at midnight, which is a thing no one has been given in forty years. 'Be careful,' he says. 'Some of them are only waiting to be let go.'".
+    On discuss { Assert bellLeave(actor). }
+  }
+  Kind handbell_kind "Brother Ambros's hand-bell" is gear described "A small bronze bell with a worn leather grip, the note of which goes into the chest.".
+
+  // 3. The roof: what the new rail hides.
+  Action search_rail(actor: group, site: place) "Look at the new rail, the old wall and the place the Duke stood" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lamp_roof) and not gloveFound(actor).
+    Time 10.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert gloveFound(actor). Give glove_kind to actor. Assert knows(actor, glove_known). }
+    Result "The old rail was cut, not broken. In the angle of the wall where the iron meets the stone a glove has been jammed, left, soft, lined with squirrel, and darned at the thumb with a stitch you would know in a thousand. On the inside of the cuff, in ink gone brown: E.M.".
+    Otherwise "A wind comes up out of the Concourse and takes the whole roof in its teeth. You see rail, wall, and a great deal of sky.".
+  }
+  Kind glove_kind "a squirrel-lined left glove, E.M." is gear described "A man's left glove, soft with wear, darned at the thumb, with E.M. inked inside the cuff.".
+  Discovery glove_known "A left glove marked E.M., lined with squirrel and darned at the thumb, was jammed into the angle of the Lamp roof where the Duke's rail was cut.".
+
+  // The night itself.
+  Rule night_begins when mousetrapAsked(rierdan) and not nightOn(rierdan) and not nightOver(rierdan) and day(clock) >= nightDay(rierdan) and hour(clock) >= 18 {
+    Assert nightOn(rierdan). Assert holdingAct(rierdan). Set ghostHour(rierdan) to watch(clock). Set ghostScore(rierdan) to 0.
+    Assert at(duke_ghost, lamp_roof).
+    Assert at(gosse, rot_wings). Assert at(hepzibah, rot_wings). Assert at(swale, rot_stage). Assert at(dorcas, rot_stage).
+    Assert at(pudding, rot_flies). Assert at(kit, rot_wings). Assert at(tam, rot_wings). }
+    Person duke_ghost "the Duke's ghost" nowhere {
+    Role "a tall old man in a nightcap and a fur-lined gown, with the front of his head missing". Species wraith. Level 3. Numbers 1. Temperament savage.
+    Warns "The old man at the rail turns round with his cap in his hand. There is nothing wrong with his face from the side. From the front it is not there.".
+    Comes "The Duke comes across the iron at you, silently, with his hand out, and the cold comes first.".
+    Flinches "The Duke steps back, once, and looks at his own hand.".
+    Pleads "The Duke stands still and looks at you with the side of his face that is there.".
+    Fears flame.
+  }
+  Observe ghost_at_roof at lamp_roof when at(duke_ghost, lamp_roof) and nightOn(rierdan) "At the rail an old man in a nightcap stands with his cap in his hand, looking down at the Concourse. The wind does not move his gown.".
+  // One hour a step: roof, hill, Concourse, Row, the Rotunda's front, the stage. Salt on the threshold stops him.
+  Relation ghostNext(place, place).
+  Initially Assert ghostNext(lamp_roof, lamp_hill). Initially Assert ghostNext(lamp_hill, concourse).
+  Initially Assert ghostNext(concourse, playhouse_row). Initially Assert ghostNext(playhouse_row, rot_front).
+  Initially Assert ghostNext(rot_front, rot_stage).
+  Rule ghost_steps when nightOn(rierdan) and not ghostBound(rierdan) and at(duke_ghost, ?a) and ghostNext(?a, ?b) and not salted(?b) and watch(clock) >= ghostHour(rierdan) + 6 {
+    Retract at(duke_ghost, ?a). Assert at(duke_ghost, ?b). Set ghostHour(rierdan) to watch(clock). Increase ghostScore(rierdan) by 1. }
+  Observe ghost_near_hill at lamp_hill as sound when nightOn(rierdan) and at(duke_ghost, lamp_roof) "Overhead on the iron, slow, a step, and a pause, and a step, like a man going down a stair in the dark in carpet slippers.".
+  Observe ghost_in_concourse at concourse when nightOn(rierdan) and at(duke_ghost, concourse) "The lamps in the Concourse go down one at a time round the ring, as if a hand were passing along them. At the far end, beside the dead fountain, an old man in a gown stands with his cap in his hand.".
+  Observe ghost_in_row at playhouse_row when nightOn(rierdan) and at(duke_ghost, playhouse_row) "Every shutter on Playhouse Row bangs shut at once, from the Rotunda to the Wick. In the sudden dark a pie stall goes over on its own. Something cold has stopped outside the Rotunda's doors and is considering them.".
+  Observe ghost_in_front at rot_front when nightOn(rierdan) and at(duke_ghost, rot_front) "The marble foyer has a frost on it that was not there a minute ago. Corin Fallow's portraits have all turned a little on their nails to look at the door.".
+  Observe ghost_salted at playhouse_row when nightOn(rierdan) and salted(rot_front) and at(duke_ghost, playhouse_row) "At the Rotunda's door the cold comes up against something and stops, like a hand against glass. It stays there. It is waiting for the salt to be lifted.".
+  Rule ghost_hurts when nightOn(rierdan) and at(duke_ghost, ?a) and at(party, ?a) and not tolerates(duke_ghost, party) and not ghostBound(rierdan) and not hurtOnce(party) {
+    Assert strikes(ghost_chill, party). Assert hurtOnce(party). }
+  Relation hurtOnce(group).
+  Rule hurt_clears when hurtOnce(party) and not at(duke_ghost, ?a) { Retract hurtOnce(party). }
+  // What the ghost can be given. Ringing the bell at the right moment is a thing a person must mean.
+  Action ring_remembering(actor: group, site: place) "Ring Ambros's bell, and say the Duke's name, to his face" {
+    Requires able(actor) and company(actor) and at(actor, site) and holding(actor, handbell_kind) and nightOn(rierdan) and at(duke_ghost, site) and bellRemember(actor).
+    Time 0.
+    Resolve check(actor, performance, dc_fair).
+    On success { Assert tolerates(duke_ghost, actor). Increase ghostScore(rierdan) by 0. }
+    Result "You ring it and say it: Aldous Orvane. The old man's head comes round. He listens to his own name like a man listening to a letter. It takes a long time. When it is over he is standing at your elbow, looking where you look, as a guest does.".
+    Otherwise "The note rings true and your voice does not. The Duke leans in and hears what you meant to mean, and it is not enough.".
+  }
+  Action ring_avenging(actor: group, site: place) "Ring Ambros's bell at the man you mean, and say what he did" {
+    Requires able(actor) and company(actor) and at(actor, site) and holding(actor, handbell_kind) and nightOn(rierdan) and at(duke_ghost, site) and bellAvenge(actor) and at(tarn, site).
+    Time 0.
+    On success { Assert tarnByGhost(rierdan). Assert tarnExposed(rierdan). Assert ghostBound(rierdan). Assert at(duke_ghost, site). }
+    Result "You ring it at Tarn, in front of everyone, and say it: Aldous Orvane, from the Lamp roof, at midnight, by a man's hand. The Duke goes past you, not through you, and across the floor to the Marshal. Nobody sees what he does. The Marshal sits very still, and then not at all.".
+  }
+  Action ring_midnight(actor: group, site: place) "Ring the great bell three times, at midnight, to send him up" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, bell_nave) and nightOn(rierdan) and bellLeave(actor) and hour(clock) >= 0 and hour(clock) < 2.
+    Time 0.
+    On success { Assert ghostBound(rierdan). Assert ghostSatisfied(rierdan). Assert at(duke_ghost, lamp_roof). }
+    Result "You put your weight on the rope. The bell goes out over the whole city, once, twice, three times. Somewhere on a roof an old man puts on his cap. The cold goes up the Tower of Lamps like smoke, and the iron baskets flare, all at once, and burn down to embers.".
+  }
+  Relation ghostSatisfied(place).
+
+  // The play: the Mousetrap. Hepzibah asks whose name goes in the poison scene.
+  Topic hepzibah_trap with hepzibah "Ask Hepzibah to prompt the Mousetrap" when nightOn(rierdan) and at(party, rot_wings) and not playDone(rierdan) once {
+    Says "Hepzibah has the book open on her knee and the pencil in her hand. 'I have been prompting forty years,' she says, 'and I do not put a living man's name in a villain's mouth. It gets people killed. It is not a rule. It is an observation.' She looks at you. 'Whose name goes in the poison scene?'".
+  }
+  Topic trap_point with hepzibah "The Marshal's. Plainly" answering hepzibah_trap when true {
+    Says "She writes it. She writes a good deal more. When she has finished she has not so much written a speech as aimed it. 'Very well,' she says. 'God help whoever speaks it.'".
+    On discuss { Assert modePoint(rierdan). }
+  }
+  Topic trap_vague with hepzibah "A name like his. Near enough for him to wince" answering hepzibah_trap when true {
+    Says "'That,' says Hepzibah, 'is what I would have chosen.' She writes. The villain is called Marshal Tarsus of Ember, which is not at all like anything. 'He will know. The others will not. Everyone is safer except the person who matters.'".
+    On discuss { Assert modeVague(rierdan). }
+  }
+  Topic trap_cancel with hepzibah "No name. Cancel the trap. Play something else" answering hepzibah_trap when true {
+    Says "She shuts the book. 'There is a time,' she says, 'to put the pencil down. It is when you are asked to write someone's death for someone else's conscience.' She nods. 'I think that is now. I will tell the Prince.' She does not look sorry. She looks like someone who has put down something heavy.".
+    On discuss { Assert modeCancel(rierdan). Assert playDone(rierdan). }
+  }
+  Action stage_mousetrap(actor: group, site: place) "Give the signal for the curtain, and the play" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, rot_wings) and nightOn(rierdan) and not playDone(rierdan) and (modePoint(rierdan) or modeVague(rierdan)) and hour(clock) >= 21.
+    Time 20.
+    Resolve check(actor, performance, dc_fair).
+    On success { Assert playDone(rierdan). Assert tarnExposed(rierdan). Assert tarnByArrest(rierdan). }
+    On failure { Assert playDone(rierdan). }
+    Result "The curtain goes up on the Duke of Ember at his supper, and the Rotunda is quiet in the way a house is quiet when it knows it is being watched. In the box the Marshal's hand goes to his collar. Then the ghost comes on, played by Swale, in the nightcap, with a face of white flour, and says the Duke's last words as the Prince gave them. In the third row a woman screams. The Marshal gets up. He does not look at the stage. He looks at the Prince.".
+    Otherwise "It is a competent play. The house is moved. The Marshal watches with every sign of a clear conscience, and applauds in the right places. The Prince, in the box, sits with his hand over his mouth.".
+  }
+  // The assassin: Tarn, once seen, goes for the Prince in the interval, from the flies.
+  Rule tarn_strikes when nightOn(rierdan) and playDone(rierdan) and (modePoint(rierdan) or modeVague(rierdan)) and not lotharWounded(rierdan) and not flyGuard(rierdan) and not decoyBox(rierdan) and not tarnFallen(rierdan) and not ghostBound(rierdan) and hour(clock) >= 22 and at(party, rot_wings)
+    says "In the dark of the interval something goes up the fly ladder two rungs at a time. A string twangs. A bolt comes down out of the loft and goes into the back of the royal chair, through the velvet. The Prince is on the floor of the box with his arm held in the other hand and a face of astonished fury." {
+    Assert lotharWounded(rierdan). Assert tarnByFall(rierdan). }
+  Action guard_flies(actor: group, site: place) "Take up Pudding's place in the fly-loft with a sandbag and a cold stare" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, rot_flies) and nightOn(rierdan) and not flyGuard(rierdan).
+    Time 0.
+    On success { Assert flyGuard(rierdan). }
+    Result "You settle behind the cloud with the sandbag across your knees. Anyone coming up that ladder will find you in the way.".
+  }
+  Action decoy_the_prince(actor: group, site: place) "Put Kit in the Prince's cloak in the royal chair, and the Prince in the pit" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, rot_box) and nightOn(rierdan) and not decoyBox(rierdan) and (kitProved(actor) or kitTaken(actor) or following(kit, actor) or at(kit, rot_wings)).
+    Time 0.
+    On success { Assert decoyBox(rierdan). }
+    Result "Kit goes into the Prince's black cloak with a great deal of dignity and a hat pulled down. In the half-light of the box he is exactly a Prince of nineteen who has not slept. Lothar looks at him and says: 'Is that how I stand?' and is moved to the pit, to the left, behind a pillar, where a bolt cannot get him.".
+  }
+  Rule tarn_falls when nightOn(rierdan) and hour(clock) >= 5 and hour(clock) < 12 and day(clock) > nightDay(rierdan) and not nightOver(rierdan) {
+    Assert nightOver(rierdan). Retract nightOn(rierdan). Retract holdingAct(rierdan). Assert tarnFallen(rierdan). Assert bodyLies(pentrice).
+    Assert at(duke_ghost, lamp_roof). }
+  Rule by_default when nightOver(rierdan) and not tarnByGhost(rierdan) and not tarnByArrest(rierdan) and not tarnByFall(rierdan) { Assert tarnByFall(rierdan). }
+  Observe morning_news at concourse when nightOver(rierdan) and tarnByGhost(rierdan) "The city has found the Marshal of the Watch in the royal box of the Rotunda, in his chair, quite dead and quite unmarked, with an expression of the deepest civility. The Watch will say nothing. The Salt-Wives have said, to anyone who asks, that it rained on Thursday.".
+  Observe morning_news2 at concourse when nightOver(rierdan) and tarnByArrest(rierdan) and not tarnByGhost(rierdan) "At first light the Watch comes down the Lamp Hill road with its Marshal between two halberdiers, in his shirt, with a glove missing. The Warden has not slept. The King has said only: Take him to the Tower of Dust.".
+  Observe morning_news3 at concourse when nightOver(rierdan) and tarnByFall(rierdan) and not tarnByGhost(rierdan) and not tarnByArrest(rierdan) "They found the Marshal at dawn in the Concourse, at the foot of the Tower of Lamps, from the roof. The new rail is gone. The Prince, with his arm in a sling, has asked to see him. He was told it would not be proper.".
+  Observe morning_still at concourse when nightOver(rierdan) and ghostSatisfied(rierdan) and tarnByFall(rierdan) "At dawn the Marshal of the Watch went up the Tower of Lamps alone, and stood a while at the new rail. He did not say why. The bells of the Seven are all ringing the same hour, for once.".
+  Milestone m_signet "was given the Duke's ring" worth 100 when holding(party, signet_kind).
+  Milestone m_salt "had salt from the Wives" worth 100 when saltGiven(party).
+  Milestone m_night "lived through the night of the Mousetrap" worth 350 when nightOver(rierdan).
+  Observe ghost_reached at concourse when nightOver(rierdan) and ghostScore(rierdan) >= 5 "A crowd stands in front of the Rotunda in the grey light looking at the doors. The frost on the front step has not melted. The Duke walked the whole way, they say, and has gone in.".
+}

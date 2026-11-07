@@ -1,0 +1,118 @@
+Module pentrice "Gosse's Company" {
+  // ── Dun Rierdan by the way: errands that do not touch the main line ───────────────────────────────────────────
+  // A ghost-light that burns untrimmed, a pirate printer, a procession of herring, a street-company without a licence,
+  // and two more who will come along: Cyprian Marchant of the Watch, who is impulsive and honest, and Oriel, who is
+  // neither. The city's institutions are what they are; the errands are what the people in them want this week.
+  Relation lightLit(place). Relation lightOut(place). Relation lightLeft(place). Relation printerSmashed(place).
+  Relation printerHired(place). Relation printerBought(place). Relation herringKing(group). Relation herringSkipped(group).
+  Relation mummersLicensed(place). Relation mummersTold(group). Relation cyprianWith(group). Relation puddingBrave(group).
+  Relation puddingFool(group). Relation tamStood(group). Relation tamBack(group).
+
+  // 1. The Wick's ghost-light: nine years, and nobody trims it.
+  Topic fallow_wick with fallow "Ask Corin Fallow about the Wick" when royalCall(pentrice) and not lightLit(rierdan) and not lightOut(rierdan) once {
+    Says "Corin Fallow, who is wearing a hat, raises it. 'The Wick,' he says. 'Thrale's house. Marcus Thrale played Macbeth on that stage on a Friday, and on the Saturday he was found in the flies with his hand on the light-cord. They say he is still trimming it.' He puts the hat back. 'Nobody has gone in since. It's bad for business to be seen frightened of a stage.' He is frightened of the stage. Ask him what he thinks you should do, and he will say: 'I'd leave it.'".
+  }
+  Action trim_the_light(actor: group, site: place) "Trim the ghost-light's wick yourself, and say Thrale's name" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lant_stage) and not lightLit(rierdan) and not lightOut(rierdan).
+    Time 2.
+    Resolve check(actor, performance, dc_fair).
+    On success { Assert lightLit(rierdan). }
+    On failure { Assert lightLit(rierdan). Assert lightLeft(rierdan). }
+    Result "You trim it. You say, to the empty house, 'Marcus Thrale,' and the flame stands up straight and goes a clear white. Something that has been waiting for nine years sits down in the back row. For the rest of your stay the Wick's boards will not creak, and Pudding will swear that the prompt-book turns its own pages.".
+    Otherwise "You trim it a little crooked, and the flame lies down and sulks. It will burn another nine years, at that rate.".
+  }
+  Action put_out_the_light(actor: group, site: place) "Put out the ghost-light, and let the dead man go to bed" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lant_stage) and not lightLit(rierdan) and not lightOut(rierdan).
+    Time 1.
+    On success { Assert lightOut(rierdan). }
+    Result "You put the cage's door aside and pinch the flame. The whole house goes dark in a single breath. From the flies, quite distinctly, a man's voice says 'Thank you,' in the weary tone of a stagehand told he may go home, and the Wick is only a theatre.".
+  }
+  Observe lit_light at lant_stage when lightLit(rierdan) and not lightLeft(rierdan) "The ghost-light burns white at the centre of the stage. Whoever trims it does not leave a mark.".
+
+  // 2. Quill Alley: the pirate, and what he will print.
+  Topic gadsby_pirate with printer "Ask Master Gadsby about the four-page Alderman's Ghost" when royalCall(pentrice) and not printerSmashed(rierdan) and not printerHired(rierdan) and not printerBought(rierdan) once {
+    Says "Gabriel Gadsby cuts a corner off the nearest sheet and shows you where he has misspelled Gosse's name. 'Four pages of a play,' he says. 'Taken down by a boy in the pit. Eight hundred sold, and not a penny to the author, and I am the nearest thing to a literary man this city has.' He wipes the type. 'You can break my press. People do. You can buy my copies; they're good paper. Or you can give me the right text and let me print it clean and sell it under the Wick's name, and share.' He holds up a finger. 'I should like to be paid.'".
+  }
+  Action smash_the_press(actor: group, site: place) "Take Tam's sledge to Master Gadsby's press" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, print_row) and not printerSmashed(rierdan) and not printerHired(rierdan) and not printerBought(rierdan).
+    Time 3.
+    On success { Assert printerSmashed(rierdan). }
+    Result "It takes six minutes and Tam's sledge. Gadsby watches with his arms folded, and at the end says, mildly, 'That was my grandfather's.' He sweeps the type into a sack. There will be a new press in Hog Lane by Thursday.".
+  }
+  Action hire_the_printer(actor: group, site: place) "Give Gadsby a clean text, and half the profit, and a name on the title-page" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, print_row) and not printerSmashed(rierdan) and not printerHired(rierdan) and not printerBought(rierdan) and masqueChosen(actor).
+    Time 1.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert printerHired(rierdan). Increase quantity(actor, gold) by 12. }
+    Result "Gadsby reads Hepzibah's fair copy through twice. 'This,' he says, 'is why I became a printer.' The title-page says THE KING'S PLAYERS in the largest type he has. Twelve crowns come back by the end of the week, and a bill for the paper.".
+    Otherwise "'Half,' says Gadsby, 'is what I give my own mother. You may have a third.' He is right, and neither of you knows it.".
+  }
+  Action buy_the_quartos(actor: group, site: place) "Buy up Gadsby's pirate copies, all eight hundred" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, print_row) and quantity(actor, gold) >= 12 and not printerSmashed(rierdan) and not printerHired(rierdan) and not printerBought(rierdan).
+    Time 1.
+    On success { Decrease quantity(actor, gold) by 12. Assert printerBought(rierdan). }
+    Result "Twelve crowns and Gadsby carries them out on his back, in four trips, and stacks them in the Wick's wardrobe. Jem Pudding uses the first for kindling and has to be told what they are.".
+  }
+
+  // 3. The herring procession: the Salt-Wives want a King.
+  Topic salt_procession with salt_wives "Ask the Salt-Wives about the procession on the quay" when royalCall(pentrice) and not herringKing(party) and not herringSkipped(party) once {
+    Says "The eldest looks at you and her face is quite without expression. 'The Herring King,' she says. 'On the feast of the Shoal. Every year a man is dressed in nets and silver paper and carried the length of the Quay on a hurdle and thrown in the dock. It has always been a fishmonger. We would like it this year to be a player.' The second wife says, 'It's a great honour.' The third says nothing and is already smiling.".
+  }
+  Topic herring_yes with salt_wives "I'll be your Herring King" answering salt_procession when true {
+    Says "'Splendid,' says the eldest, with a warmth that is a little too prompt. 'The net is in the back.' You are dressed in silver paper. You are carried down the Quay by eight fishwives, singing, and thrown in the dock to cheers, and come up with a herring in your coat that you never discover the source of. Nothing in the city is ever so friendly as it is that afternoon.".
+    On discuss { Assert herringKing(actor). Give herring_kind to actor. Increase favour(rierdan) by 0. }
+  }
+  Topic herring_no with salt_wives "I'll send a better man, in my place" answering salt_procession when true {
+    Says "'Ah,' says the eldest. 'A man in his place.' She considers. 'We should like to meet him.' It is a threat. It is also a courtesy. In the afternoon Jem Pudding, who has never been asked to do anything with such evident delight, is dressed in paper and carried off.".
+    On discuss { Assert herringSkipped(actor). Assert puddingFool(actor). }
+  }
+  Kind herring_kind "a silver herring from the Quay" is gear described "A herring cut from tinfoil, on a ribbon. It is the Herring King's badge, and it admits you to every fishwife's kitchen on the Quay.".
+
+  // 4. The mummers: a street company without a licence, and the sergeant who has to arrest them.
+  Topic peverell_mummers with tallis "Ask Sergeant Peverell about the troupe he is not arresting" when royalCall(pentrice) and not mummersLicensed(rierdan) and not mummersTold(party) once {
+    Says "Sergeant Peverell looks at his boots. 'There's a troupe of five in the Gate Street,' he says. 'Doing the Siege of Thrall on a barrel. No licence. I've got to take them in by the Chamberlain's rule and I'd as soon take in my own mother.' He lowers his voice. 'They have a boy who does the horse. The sergeant before me took his father in. I haven't the heart. If a company with a patent were to take them on as a street branch, so to speak, I'd have no cause.'".
+  }
+  Action license_the_mummers(actor: group, site: place) "Take the mummers on as the King's Players' street branch, on Gosse's name" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, river_gate) and (provisional(rierdan) or titleByAccident(rierdan) or bookCorrected(actor)) and not mummersLicensed(rierdan).
+    Time 2.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert mummersLicensed(rierdan). Assert mummersTold(actor). }
+    Result "Peverell ticks them in under a title that does not exist, THE KING'S PLAYERS (OUT OF DOORS), and goes pink with pleasure. The boy who does the horse is given a ribbon. He turns out to be the best horse in the city. The Chamberlain will have this in a book, soon, in the wrong column.".
+    Otherwise "'Not in the Chamberlain's book,' says Peverell. 'I'd have to put your name to it. I'd have to put it to the Household.' He is as sorry as a man can be.".
+  }
+
+  // The companions. Cyprian is impulsive and brave; he does not ask what you want him for.
+  Topic cyprian_join with cyprian "Ask Cyprian Marchant whether he would come along, in the Watch's name or not" when twinsMet(party) and not cyprianWith(party) once {
+    Says "'Come along?' says Cyprian. 'Of course. Where?' He has not asked what for. 'I'm no good in a play,' he says. 'But I can stand at a door.' He thinks. 'That's a thing in a play, isn't it? Standing at a door. I should like to be very good at it.'".
+    On discuss { Assert willing(cyprian, actor). Set hire(cyprian) to 0. Assert cyprianWith(actor). }
+  }
+
+  // Jem Pudding wants to be taken seriously; Tam Hautboy wants his men paid.
+  Topic pudding_beat with pudding "Ask Jem why he's so quiet" when royalCall(pentrice) and not puddingBrave(party) and not puddingFool(party) once {
+    Says "Jem Pudding is balancing an onion on his nose and not looking at anyone. 'I'm going to be asked,' he says, 'to be the Fool in the Chorus, in the Marshal's tragedy, in the Field.' He lets the onion fall. 'I've never played a Fool at a funeral. A Fool does not belong at a funeral. He has nothing to say there that is not a joke.' He looks at you. 'What does a clown do at a funeral?'".
+  }
+  Topic jem_silent with pudding "Nothing. He stands there and is sad" answering pudding_beat when true {
+    Says "Jem looks at you. 'That's not a part,' he says, and then, slowly: 'Is it? Is it a part?' A great change comes over him. He gets up. He puts on his Fool's coat, and he takes the bells off it. He stands in the middle of the wardrobe for a quarter of an hour, perfectly still, and the rest of the company, who come in and out for hampers, step round him as round a monument.".
+    On discuss { Assert puddingBrave(actor). }
+  }
+  Topic jem_joke with pudding "A joke. The one the dead man would have liked" answering pudding_beat when true {
+    Says "Jem's face does a number of things. 'Ah,' he says. 'Yes. Well. If I knew him.' He sits down on a hamper. 'I knew the Marshal. He once stood me a pint in Pentrice and told me I was the only honest man in the Watch's pay. I'll do a joke.' He goes quiet. 'I'll find one he'd have liked,' he says. He will be ten days at it.".
+    On discuss { Assert puddingFool(actor). }
+  }
+  Topic tam_beat with tam "Ask Tam why the carpenters haven't been paid" when wickGranted(rierdan) and not tamStood(party) and not tamBack(party) once {
+    Says "Tam Hautboy sets down the plane. 'Because Pomfret has sixty days on the fit-out and the men have sixty days on their own,' he says. 'They'll stay for a promise. They won't stay for a rope.' His hands are quite steady. 'I'll tell them to go on. I'll tell them the Wick will pay on opening. I'll tell them that, if that's what you want me to say.' He looks at you. 'Or I'll stand with them. I've only ever had the one trade.'".
+  }
+  Topic tam_promise with tam "Tell them the Wick will pay on opening" answering tam_beat when true {
+    Says "'Right,' says Tam, and puts on his coat. He goes out to the carpenters at the back door. He is gone an hour. When he comes back he has a face that says he has spent it. 'They'll stay,' he says. 'Now we'd better pay.'".
+    On discuss { Assert tamBack(actor). Decrease quantity(actor, gold) by 10 or to nothing. }
+  }
+  Topic tam_stand with tam "Stand with the carpenters. We'll pay them, or we'll go dark" answering tam_beat when true {
+    Says "Tam takes off his apron. For the first time in the whole engagement he is quite alone, a thin man in the middle of the wardrobe with a plane in his hand. 'Aye,' he says. 'Well. I thought you might.' He goes out to the back door. The sound of carpenters putting down their tools comes in like a long breath.".
+    On discuss { Assert tamStood(actor). Assert holdingAct(rierdan). }
+  }
+  Rule tam_strike_ends when tamStood(party) and heistOver(rierdan) and holdingAct(rierdan) and not commandOn(rierdan) { Retract holdingAct(rierdan). }
+  Milestone m_light "kept, or let go of, the ghost-light" worth 100 when lightLit(rierdan) or lightOut(rierdan).
+  Milestone m_printer "settled the pirate" worth 100 when printerSmashed(rierdan) or printerHired(rierdan) or printerBought(rierdan).
+  Milestone m_herring "was carried down the Quay, or sent a man" worth 100 when herringKing(party) or herringSkipped(party).
+  Milestone m_mummers "took in the street company" worth 100 when mummersLicensed(rierdan).
+}

@@ -5,9 +5,9 @@ Module pentrice "Gosse's Company" {
   Relation troupe(group).
   Initially Assert troupe(gosse). Initially Assert troupe(hepzibah). Initially Assert troupe(swale). Initially Assert troupe(dorcas).
   Initially Assert troupe(pudding). Initially Assert troupe(kit). Initially Assert troupe(tam).
-  Rule troupe_to_taproom when troupe(?p) and at(?p, moon_loft) and hour(clock) >= 18 and hour(clock) < 23 and not playingTonight(pentrice) {
+  Rule troupe_to_taproom when troupe(?p) and not royalCall(pentrice) and at(?p, moon_loft) and hour(clock) >= 18 and hour(clock) < 23 and not playingTonight(pentrice) {
     Retract at(?p, moon_loft). Assert at(?p, moon_taproom). }
-  Rule troupe_to_loft when troupe(?p) and at(?p, moon_taproom) and (hour(clock) >= 23 or hour(clock) < 18) {
+  Rule troupe_to_loft when troupe(?p) and not royalCall(pentrice) and at(?p, moon_taproom) and (hour(clock) >= 23 or hour(clock) < 18) {
     Retract at(?p, moon_taproom). Assert at(?p, moon_loft). }
 
   Person gosse "Absalom Gosse" at moon_loft {
