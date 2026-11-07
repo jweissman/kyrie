@@ -123,14 +123,20 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a place at a glance', () => {
     await page.waitForSelector('[data-action="start"]');
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
-    // Chosen in Go…, the way says what it risks, and its Go asks before it is taken.
-    await page.click('.opens-go');
+    // The drop is the ledge's one way on, so the scene offers it as itself, "To the still water…" (M19-109: two
+    // clicks for no choice); Go…, opened by its key, still holds it, and chosen there it says what it risks.
+    expect(await page.locator('.act.opens-go').innerText()).toMatch(/^to the still water/i);
+    await d.key('g');
     await page.click('.wf-row[data-pick^="exit:"][data-pick*="pool"] >> nth=0');
     expect(await page.locator('.wf-preview').innerText()).toMatch(/no coming back/i);
-    await d.click('.wf-go');
-    expect(await page.locator('.wf-go .grave-said').innerText()).toMatch(/no coming back.+Choose it again/);
+    await d.key('Escape');
+    // Taken from the scene, it asks before it is taken, and says why.
+    await Glancing.shot(page, 'one-way-offered');
+    await d.click('.act.opens-go');
+    await Glancing.shot(page, 'one-way-asked');
+    expect(await page.locator('.opens-go .grave-said').innerText()).toMatch(/no coming back.+Choose it again/);
     expect((await d.inspect()).place?.id).toBe('p__ledge');
-    await d.click('.wf-go');
+    await d.click('.act.opens-go');
     expect((await d.inspect()).place?.id).toBe('p__pool');
     expect(errors).toEqual([]);
     await page.close();

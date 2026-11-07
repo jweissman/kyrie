@@ -144,16 +144,21 @@ export class Wayfinder {
     const town = (w: Way) => [at.near, at.about].includes(w.group);
     const of = (w: Way) => town(w) ? quarters.find(q => q.places.includes(to(w))) : undefined;
     const own = mine ? `In ${mine.name}` : at.about, out: Way[] = [];
+    // A place an aim names in another quarter is listed by its own name as well, among the town's further places: the
+    // churchyard, in Karir's waterside, had been folded into the quarter's one row, gone by to the waterside, and
+    // nowhere on the sheet named or marked (the fresh playtest of 7 November).
+    const named = new Set(ways.filter(w => w.aim && of(w) && !of(w)!.here && to(w) !== of(w)!.heart).map(w => w.c.id));
     for (const w of ways) {
       const q = of(w);
       if (!q || q.here) { out.push(q ? { ...w, group: own } : w); continue; }
-      // A place an aim names in another quarter is listed by its own name as well, among the town's further places:
-      // the churchyard, in Karir's waterside, had been folded into the quarter's one row, gone by to the waterside, and
-      // nowhere on the sheet named or marked (the fresh playtest of 7 November).
-      if (w.aim && to(w) !== q.heart) { out.push({ ...w, group: at.about }); }
+      if (named.has(w.c.id)) { out.push({ ...w, group: at.about }); }
       if (out.some(o => o.quarter && o.name === q.name)) { continue; }
+      // The quarter is gone to by the way to its heart, else by a way not already listed by its own name; where its one
+      // way from here is that aimed place's, it is not drawn again under the quarter's name (the trapdoor up from the
+      // corn-store cellar had been two rows, "Market" and "Old corn-store", one way drawn twice and both lit).
       const held = ways.filter(x => of(x) === q);
-      const heart = held.find(x => to(x) === q.heart) ?? held[0]!;
+      const heart = held.find(x => to(x) === q.heart) ?? held.find(x => !named.has(x.c.id));
+      if (!heart) { continue; }
       out.push({ ...heart, name: q.name, group: at.about, quarter: held.map(x => x.name), holds: held.map(to) });
     }
     return { ways: out, groups: mine ? [own] : [] };

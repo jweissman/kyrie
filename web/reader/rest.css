@@ -28,7 +28,9 @@
   font: 500 13px/1 var(--do); letter-spacing: .16em; text-transform: uppercase; color: var(--ivory);
   border-bottom: 1px solid transparent; transition: color var(--quick), border-color var(--quick); }
 .openers .opener::before, .openers .act.opener::before { display: none; }
-.openers .opens-go { color: var(--gold); }
+/* Go…, or the one way on; and a notice posted here not yet read, which is read, not gone by (its own class, so that
+   whatever finds the way on by .opens-go finds only that). */
+.openers .opens-go, .openers .opens-posted { color: var(--gold); }
 /* Wait and Search by their glyphs, in the line's own light (the owner, 6 November). */
 .openers .by-glyph { padding: 2px 0; line-height: 0; }
 .openers .opener-glyph { width: 22px; height: 22px; fill: none; stroke: var(--ivory); stroke-width: 1.6;
@@ -36,6 +38,13 @@
 .openers .by-glyph:hover .opener-glyph, .openers .by-glyph:focus-visible .opener-glyph,
 .openers .act.by-glyph.sel .opener-glyph { stroke: var(--gold); }
 .openers .opener:hover, .openers .opener:focus-visible, .openers .act.opener.sel { border-bottom-color: var(--gold); }
+/* The one way on offered as itself (see GlanceStage.only) keeps what it risks on it, a tag beside its name, and once
+   chosen asks again on a line of its own in the line's plain hand (the opener's capitals had run the question on from
+   the name: "To the still water…There is no coming back"); the tag goes once the question says it. */
+.openers .act.opener:is(.risk, .grave)::after { margin-left: 10px; vertical-align: 1px; }
+.openers .act.opener .grave-said { display: block; max-width: 30em; margin-top: 8px; font: 500 14px/1.45 var(--told);
+  letter-spacing: 0; text-transform: none; }
+.openers .act.opener:has(> .grave-said)::after { content: none; }
 .openers .opener.led::after { content: ''; display: inline-block; width: 5px; height: 5px; margin: 0 0 2px 7px;
   border-radius: 50%; background: var(--gold); vertical-align: middle; }
 

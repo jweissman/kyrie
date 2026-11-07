@@ -5,7 +5,6 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
-import type { ChoiceShape } from './support/mono-driver';
 
 // The map is a thing to plan with (the play-structure investigation's PT-27: it could not be clicked), and the one
 // map (the owner, 4 November, late): play begins on it, and a place on it is chosen by pointing or by the keys, says
@@ -73,10 +72,12 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the map and the notes, to plan with
     expect(plan).toMatch(/By the old road north/);
     await page.click('.plan [data-action="set-out"]');
     await driver.settle();
-    // Gone on with, as the page offers, past whatever stops it on the road (something going on there stops a journey,
-    // as a toll or nightfall would).
-    const onward = (c: ChoiceShape) => c.id === 'travel:region__edge_north';
-    for (let k = 0; k < 6 && (await driver.inspect()).choices.some(onward); k++) { await driver.pick(onward, 'go on'); }
+    // Gone on with, as the page offers it on the map's card ("Go on to the march-stone of …"), past whatever stops it
+    // on the road (something going on there stops a journey, as a toll or nightfall would).
+    for (let k = 0; k < 6 && (await driver.inspect()).place?.id !== 'region__edge_north'; k++) {
+      await page.waitForSelector('[data-action="go-on"]', { timeout: 30000 });
+      await driver.click('[data-action="go-on"]');
+    }
     expect((await driver.inspect()).place?.id).toBe('region__edge_north');
     expect(errors).toEqual([]);
     await page.close();

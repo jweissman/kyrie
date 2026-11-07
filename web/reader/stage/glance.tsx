@@ -147,7 +147,7 @@ export class GlanceStage {
     return <>
       {shown.length > 0 && <GlanceStage.Acts app={app} draw={draw} acts={shown} top={top} />}
       <p className="openers">
-        {posted && <Act.View choice={posted} draw={draw} quiet className="opener opens-go">
+        {posted && <Act.View choice={posted} draw={draw} quiet className="opener opens-posted">
           {Typography.curl(posted.label)}</Act.View>}
         {only ? <Act.View choice={only.c} draw={draw} quiet className="opener opens-go">
           {Typography.curl(`To ${only.name}…`)}</Act.View>
