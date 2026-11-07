@@ -46,14 +46,14 @@
  {"id": "wisp", "kind": "wisp", "source": "bestiary v.png", "cell": [2, 0], "file": "paintings/monsters/wisp.webp", "large": "paintings/large/monsters/wisp.webp", "crop": [12, 782, 425, 1187]},
  {"id": "zombie", "kind": "zombie", "source": "bestiary v.png", "cell": [2, 1], "file": "paintings/monsters/zombie.webp", "large": "paintings/large/monsters/zombie.webp", "crop": [449, 782, 863, 1187]},
  {"id": "hollow_stalker", "kind": "hollow_stalker", "source": "bestiary v.png", "cell": [2, 2], "file": "paintings/monsters/hollow_stalker.webp", "large": "paintings/large/monsters/hollow_stalker.webp", "crop": [887, 782, 1300, 1187]},
- {"id": "tide_caller", "kind": "tide_caller", "source": "bestiary vi.png", "cell": [0, 0], "file": "paintings/monsters/tide_caller.webp", "large": "paintings/large/monsters/tide_caller.webp", "crop": [12, 12, 425, 388]},
- {"id": "grey_render", "kind": "grey_render", "source": "bestiary vi.png", "cell": [0, 1], "file": "paintings/monsters/grey_render.webp", "large": "paintings/large/monsters/grey_render.webp", "crop": [449, 12, 860, 388]},
- {"id": "lillend", "kind": "lillend", "source": "bestiary vi.png", "cell": [0, 2], "file": "paintings/monsters/lillend.webp", "large": "paintings/large/monsters/lillend.webp", "crop": [884, 12, 1300, 388]},
- {"id": "locatah", "kind": "locatah", "source": "bestiary vi.png", "cell": [1, 0], "file": "paintings/monsters/locatah.webp", "large": "paintings/large/monsters/locatah.webp", "crop": [11, 411, 426, 758]},
- {"id": "pegasus", "kind": "pegasus", "source": "bestiary vi.png", "cell": [1, 1], "file": "paintings/monsters/pegasus.webp", "large": "paintings/large/monsters/pegasus.webp", "crop": [448, 411, 861, 758]},
- {"id": "unicorn", "kind": "unicorn", "source": "bestiary vi.png", "cell": [1, 2], "file": "paintings/monsters/unicorn.webp", "large": "paintings/large/monsters/unicorn.webp", "crop": [883, 411, 1301, 758]},
- {"id": "xill", "kind": "xill", "source": "bestiary vi.png", "cell": [2, 0], "file": "paintings/monsters/xill.webp", "large": "paintings/large/monsters/xill.webp", "crop": [12, 781, 425, 1187]},
- {"id": "yrthak", "kind": "yrthak", "source": "bestiary vi.png", "cell": [2, 1], "file": "paintings/monsters/yrthak.webp", "large": "paintings/large/monsters/yrthak.webp", "crop": [449, 781, 860, 1187]},
- {"id": "yuanti", "kind": "yuanti", "source": "bestiary vi.png", "cell": [2, 2], "file": "paintings/monsters/yuanti.webp", "large": "paintings/large/monsters/yuanti.webp", "crop": [884, 781, 1300, 1187]}
+ {"id": "tide_caller", "kind": "tide_caller", "source": "bestiary vi.png", "cell": [0, 0], "file": "paintings/monsters/tide_caller.webp", "large": "paintings/large/monsters/tide_caller.webp", "crop": [11, 11, 405, 383]},
+ {"id": "grey_render", "kind": "grey_render", "source": "bestiary vi.png", "cell": [0, 1], "file": "paintings/monsters/grey_render.webp", "large": "paintings/large/monsters/grey_render.webp", "crop": [427, 11, 826, 383]},
+ {"id": "lillend", "kind": "lillend", "source": "bestiary vi.png", "cell": [0, 2], "file": "paintings/monsters/lillend.webp", "large": "paintings/large/monsters/lillend.webp", "crop": [848, 11, 1243, 383]},
+ {"id": "locatah", "kind": "locatah", "source": "bestiary vi.png", "cell": [1, 0], "file": "paintings/monsters/locatah.webp", "large": "paintings/large/monsters/locatah.webp", "crop": [11, 405, 405, 750]},
+ {"id": "pegasus", "kind": "pegasus", "source": "bestiary vi.png", "cell": [1, 1], "file": "paintings/monsters/pegasus.webp", "large": "paintings/large/monsters/pegasus.webp", "crop": [427, 405, 826, 750]},
+ {"id": "unicorn", "kind": "unicorn", "source": "bestiary vi.png", "cell": [1, 2], "file": "paintings/monsters/unicorn.webp", "large": "paintings/large/monsters/unicorn.webp", "crop": [848, 405, 1243, 750]},
+ {"id": "xill", "kind": "xill", "source": "bestiary vi.png", "cell": [2, 0], "file": "paintings/monsters/xill.webp", "large": "paintings/large/monsters/xill.webp", "crop": [12, 773, 404, 1242]},
+ {"id": "yrthak", "kind": "yrthak", "source": "bestiary vi.png", "cell": [2, 1], "file": "paintings/monsters/yrthak.webp", "large": "paintings/large/monsters/yrthak.webp", "crop": [428, 773, 825, 1242]},
+ {"id": "yuanti", "kind": "yuanti", "source": "bestiary vi.png", "cell": [2, 2], "file": "paintings/monsters/yuanti.webp", "large": "paintings/large/monsters/yuanti.webp", "crop": [849, 773, 1242, 1242]}
  ]
 }
