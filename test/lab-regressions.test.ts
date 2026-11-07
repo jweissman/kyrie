@@ -2,7 +2,9 @@ import { describe, expect, it } from 'bun:test';
 import { AutoplayRun } from '../src/autoplay/run';
 import { Frontier } from '../src/world/frontier';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
-import { RegionGeography } from '../src/world/region-geography';
+import { Atlases } from '../src/world/land/atlas';
+import { RandomStreams } from '../src/random-streams';
+import { WorldGrid } from '../src/world/world-grid';
 import type { Region } from '../src/world/region-writer';
 import { ModuleWriter } from '../src/lang/module-writer';
 import { PlayerView } from '../src/presentation/player-view';
@@ -17,16 +19,20 @@ describe('what the autoplay laboratory found', () => {
   // thorn, a cleric come home (kin), mixed temper, step 53 of 150: going out to the eastern march-stone, the road
   // across the march could not come in to the country drawn beyond it ("Unresolved module import there:
   // x1y0.edge_west"). Loftymoor's one western town had a wall of peaks between it and its western edge, so the land
-  // was drawn with no road west, and nothing for the road from thorn to come in at. (East of thorn, a fen, lies
-  // Tessary now; Loftymoor is drawn as it was, where a march leads to it.)
-  it('draws the country at thorn\'s east with a road on every side, where it had none west', async () => {
-    const s = await AutoplayRun.start({ seed: 'thorn', origin: 'kin', policy: 'mixed', steps: 1, keep: 1, frontier: false,
-      protagonist: { name: 'Wenna', raceId: 'human', classId: 'cleric' } });
-    const drawn = await (new Frontier('thorn', NodeBundleSource.shared) as unknown as { drawn(c: unknown, x: number,
-      y: number): Promise<{ region: Region }> }).drawn(s.campaign, 1, 0);
-    expect(drawn.region.name).toBe('Loftymoor');
-    expect(RegionGeography.atlas(drawn.region).borders.map(b => b.side).sort()).toEqual(['east', 'north', 'south', 'west']);
-  }, 180000);
+  // was drawn with no road west, and nothing for the road from thorn to come in at. East of every first country is
+  // the Eastern Ocean now (see WorldShape), where Loftymoor had been: its land, as its seed lays it, still has a road
+  // on every side; and the cell is refused plainly, not drawn, as the sea it is.
+  it('lays the land at thorn\'s east with a road on every side, where it had none west, and draws no country there',
+    async () => {
+      const key = RandomStreams.key(WorldGrid.seed('thorn', 1, 0), 'world', 'land');
+      const atlas = Atlases.make(key, 'mountain', { tongue: 'westron', taken: [] });
+      expect(atlas.borders.map(b => b.side).sort()).toEqual(['east', 'north', 'south', 'west']);
+      const s = await AutoplayRun.start({ seed: 'thorn', origin: 'kin', policy: 'mixed', steps: 1, keep: 1,
+        frontier: false, protagonist: { name: 'Wenna', raceId: 'human', classId: 'cleric' } });
+      const frontier = new Frontier('thorn', NodeBundleSource.shared) as unknown as { drawn(c: unknown, x: number,
+        y: number): Promise<{ region: Region }> };
+      await expect(frontier.drawn(s.campaign, 1, 0)).rejects.toThrow('x1y0 is the Eastern Ocean, crossed by ship');
+    }, 180000);
   // thorn, a careful cleric (the laboratory's expedition), step 96: Sir Hamo's men held the company up on the road
   // ("Road-money, in Sir Hamo's name: five crowns") and came at it with swords in the same breath, before it could pay.
   // The company had once gone up to the hold, where the sentry's horn roused Sir Hamo; a roused hold's men turned out

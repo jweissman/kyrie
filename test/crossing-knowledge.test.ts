@@ -21,7 +21,8 @@ describe('knowledge and a country joined later', () => {
     expect(taught.length).toBeGreaterThan(0);
     const c = s.campaign as unknown as { world: { apply(c: Change[]): unknown }; commit(w: unknown): void };
     c.commit(c.world.apply(taught.map(f => ({ kind: 'assert' as const, call: ModuleWriter.call('knows', 'party', f) }))));
-    await GeneratedWorld.travel(s, 'edge_east');
+    // West: east of every first country is the Eastern Ocean, whose shore no road goes over (see WorldShape).
+    await GeneratedWorld.travel(s, 'edge_west');
     const drawn = await new Frontier('a1', NodeBundleSource.shared).expand(s.campaign);
     const road = PlayerView.choices(s.campaign).find(x => /road across the march/.test(x.choice.name))!;
     expect((await s.perform(road.choice.id)).result).toBe('success');

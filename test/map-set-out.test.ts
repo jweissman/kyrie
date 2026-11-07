@@ -20,12 +20,18 @@ describe('setting out from the map', () => {
       const card = MapCard.of(screen, m.id);
       expect([m.id, card.command, card.legs > 0]).toEqual([m.id, `travel:${m.id}`, true]);
     }
-    expect(stones.filter(m => /__edge_/.test(m.id)).every(m => m.name.startsWith('the march-stone of '))).toBe(true);
-    const east = stones.find(m => m.id === 'region__edge_east')!, done = await MapPlay.go(j, east.id);
-    expect([done.arrived, MapPlay.at(j)]).toEqual([true, east.id]);
-    expect(j.campaign.installed).toContain('x1y0');
-    const faenn = j.campaign.module.entities.find(e => e.id === 'x1y0__region')!.name;
-    expect(east.name).toBe(`the march-stone of ${faenn}`);
+    // East of every first country is the Eastern Ocean (see WorldShape): its march east is the shore, where no road
+    // goes over; the rest are march-stones, and one set out for draws the country beyond (north).
+    const edges = stones.filter(m => /__edge_/.test(m.id));
+    expect(edges.filter(m => m.id !== 'region__edge_east').every(m => m.name.startsWith('the march-stone of ')))
+      .toBe(true);
+    expect(edges.find(m => m.id === 'region__edge_east')!.name).toBe('the shore of the Eastern Ocean');
+    // Gone on with past whatever stops it on the way (the road east had none; the road north has).
+    const north = stones.find(m => m.id === 'region__edge_north')!, done = await MapPlay.reach(j, north.id);
+    expect([done.arrived, MapPlay.at(j)]).toEqual([true, north.id]);
+    expect(j.campaign.installed).toContain('x0ym1');
+    const beyond = j.campaign.module.entities.find(e => e.id === 'x0ym1__region')!.name;
+    expect(north.name).toBe(`the march-stone of ${beyond}`);
     // Its ways say where they go: over the march to the stone named for the country it comes from, and the country
     // about (not "To among …").
     const ways = j.choices().map(c => c.label), home = j.campaign.module.entities.find(e => e.id === 'region__region')!;

@@ -165,7 +165,7 @@ export class WorldAssembler {
   static region(seed: string, at: [number, number], drawn?: Record<string, DeemValue>,
     { taken = [], first }: { taken?: string[]; first?: string } = {}): Region {
     const own = WorldGrid.seed(seed, ...at);
-    const d = WorldGrid.drawn(seed, ...at, drawn);
+    const d = WorldGrid.land(seed, at, drawn);
     const region = { ...PlaceNames.render(RegionPeoples.settle(this.lay(d, own, seed, taken), RandomStreams.key(own, 'world'))),
       at, beyond: WorldGrid.beyond(seed, at) };
     // Every country knows what authored country lies beyond it, where one does.

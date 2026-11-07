@@ -34,6 +34,15 @@ export class WorldGrid {
     }
     return this.first(seed, [x, y], 0, given);
   }
+  // A country to be laid on land, and gone into: none at a great sea's cell, which is crossed by ship and never walked
+  // into (see Frontier.closed), and whose kind of country Deem's tables, knowing only land, cannot lay.
+  static land(seed: string, [x, y]: [number, number], given?: Record<string, DeemValue>): Region {
+    const great = WorldShape.at(x, y);
+    if (great?.kind === 'sea') {
+      throw new Error(`${this.id(x, y)} is ${great.name}, crossed by ship: no country is laid there to go into`);
+    }
+    return this.drawn(seed, x, y, given);
+  }
   private static readonly draws = new Map<string, Region>();
   private static first(seed: string, [x, y]: [number, number], salt = 0,
     given: Record<string, DeemValue> = {}): Region {

@@ -9,19 +9,19 @@ import { ModuleWriter } from '../src/lang/module-writer';
 import type { Campaign } from '../src/campaign/campaign';
 
 // A module installed after a campaign began counts its days from the first morning after it was installed (see
-// placed-days.test.ts for why a morning). Eighteen days in, the country east of the march is drawn when the company
-// first stands there: beyond b2, with a child sick of a fever that kills her on the tenth day of its own telling,
-// alive when the company arrives; beyond h2, with a drowned working whose pumps run by its own clock (east of g7 lies
-// Calamy now, and east of a fen like a1 Tessary: authored countries).
+// placed-days.test.ts for why a morning). Eighteen days in, the country beyond a march is drawn when the company
+// first stands there: west of b2, with a child sick of a fever that kills her on the tenth day of its own telling,
+// alive when the company arrives; north of h2, with a drowned working whose pumps run by its own clock (east of every
+// first country is the Eastern Ocean now, where these had been: see WorldShape).
 class Late {
   static readonly fixed = /"name":"watch","args":\["clock"\]\},"right":\{"kind":"number","value":(\d+)/;
   static readonly own = new RegExp(String.raw`"op":"-","left":\{"kind":"call","name":"watch","args":\["clock"\]\},`
     + String.raw`"right":\{"kind":"number","value":(\d+)`);
-  static async beyond(seed: string) {
+  static async beyond(seed: string, side: 'west' | 'north') {
     const w = await WorldAssembler.assemble(seed, NodeBundleSource.shared);
     const s = await PlaySession.start(w.path, seed, w.source);
     (s.campaign as unknown as { current: { elapsed: number } }).current.elapsed = 18 * 144;
-    GeneratedWorld.put(s, 'edge_east');
+    GeneratedWorld.put(s, `edge_${side}`);
     await s.perform('wait');
     await new Frontier(seed, NodeBundleSource.shared).expand(s.campaign);
     return s;
@@ -56,8 +56,8 @@ class Late {
 }
 describe('a module installed late', () => {
   it('counts a fever\'s days from when it was installed', async () => {
-    const s = await Late.beyond('b2');
-    const timed = (s.campaign.module.rules ?? []).filter(r => r.id.startsWith('x1y0fever')
+    const s = await Late.beyond('b2', 'west');
+    const timed = (s.campaign.module.rules ?? []).filter(r => r.id.startsWith('xm1y0fever')
       && Late.fixed.test(JSON.stringify(r.when)));
     expect(timed.length).toBeGreaterThan(0);
     for (const rule of timed) {
@@ -67,17 +67,17 @@ describe('a module installed late', () => {
     expect(said.perceptions?.some(p => /has died/.test(p.text)) ?? false).toBe(false);
   }, 120000);
   it('counts its own time from when it was installed', async () => {
-    const s = await Late.beyond('h2'), fixed = Late.fixed;
+    const s = await Late.beyond('h2', 'north'), fixed = Late.fixed;
     // What was installed with the campaign keeps the times it was written with (what the home country began later,
     // its renewals, counts its own, as the country beyond does).
     const home = (s.campaign.module.rules ?? [])
-      .filter(r => !/^(x1y0|link|renewal\d)/.test(r.id) && fixed.test(JSON.stringify(r.when)));
+      .filter(r => !/^(x0ym1|link|renewal\d)/.test(r.id) && fixed.test(JSON.stringify(r.when)));
     expect(home.length).toBeGreaterThan(0);
     for (const rule of home) { expect(Number(fixed.exec(JSON.stringify(rule.when))![1])).toBeLessThan(18 * 144); }
     // And a measure it starts, which the clock is compared with, is compared with its own watch: the watches since
     // that morning.
     const running = (s.campaign.module.rules ?? [])
-      .filter(r => r.id.startsWith('x1y0') && Late.own.test(JSON.stringify(r.when)));
+      .filter(r => r.id.startsWith('x0ym1') && Late.own.test(JSON.stringify(r.when)));
     expect(running.length).toBeGreaterThan(0);
     for (const rule of running) {
       expect(Number(Late.own.exec(JSON.stringify(rule.when))![1])).toBeGreaterThanOrEqual(18 * 144);
