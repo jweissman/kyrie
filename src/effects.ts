@@ -295,6 +295,8 @@ export class Effects {
     for (const t of actor.traits ?? []) {
       Effects.periodicOf(actor, Canon.traits[t]?.modifiers?.onTurnEnd ?? [], t, context);
     }
+    // And of what it wears: a ring of regeneration's mending (the item audit's G5: summed, and never run).
+    Effects.periodicOf(actor, actor.equipment?.modifiers?.onTurnEnd ?? [], 'equipment', context);
   }
   // Orsino's onTurnEnd hooks of one condition: periodic damage or healing, rolled from the seeded stream.
   static periodic(target: Fighter, id: string, source: string | undefined, context: EffectContext) {

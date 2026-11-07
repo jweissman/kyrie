@@ -196,9 +196,13 @@ export class Items {
         content: new Content(`${seed}:content`), abilities: Content.abilities.map(a => a.id), retreat: false, location: null };
       AbilityUse.perform(ability, targetId, new Expressions(seed), context);
       const next = lease.creatures.map(c => CombatProjection.creature(fighters.find(f => f.id === c.id)!, c));
+      // What is used up is gone; a wand keeps the charges it has left, as it does in a fight (the item audit's G8).
       if (consumed) {
-        const owner = next.find(c => c.id === actorId)!;
-        owner.state.inventory = owner.state.inventory!.filter(i => i.id !== consumed);
+        const owner = next.find(c => c.id === actorId)!, item = owner.state.inventory!.find(i => i.id === consumed)!;
+        const left = (item.charges ?? ItemCatalog.get(item.definition).charges ?? 1) - 1;
+        owner.state.inventory = left > 0
+          ? owner.state.inventory!.map(i => i.id === consumed ? { ...i, charges: left } : i)
+          : owner.state.inventory!.filter(i => i.id !== consumed);
       }
       // Outside a fight there are no turns. What takes someone out of it (asleep, held, stunned) lasts as many
       // watches of the world's clock as it would have lasted turns, and wears off as time passes; what only matters

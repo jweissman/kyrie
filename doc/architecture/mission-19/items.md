@@ -15,10 +15,10 @@ done about each gap since. Register row M19-92.
 | G2 Orsino's tiers | **Partial** (this commit): Orsino's tiers and its loot and gemstone generators are authored tables (data/generation/tables/treasure.json, templates/treasure.json; the generated copy in orsino-world.json retired); a deep room draws Orsino's loot one time in three beside its purpose's finds, of a tier that reaches grand and legendary deeper whatever the purpose has; a stone found is a stone of its own (src/world/deep/stones.ts, by data/catalog/items/gems.json: cut, size, clarity and what each does to its worth), and one time in four a room that holds anything holds a stone besides. Special rooms' treasure still read by nothing |
 | G3 general shops | Open |
 | G4 magic arms for their callings | **Fixed** cf4387eb: staves of power light and struck as staves, blades of power blades with Orsino's damage, magic mails armour of their kind |
-| G5 onTurnEnd of equipment | Open |
+| G5 onTurnEnd of equipment | **Fixed** (this commit): what its wearer wears mends or harms at the end of their turn as a condition or a trait does (Effects.turnEnd; test/item-gaps.test.ts): the ring of regeneration |
 | G6 flask of oil, foxglove | **Fixed** (this commit): both consumables with Orsino's effects, which the runtime runs (foxglove heals and lifts poison, fatigue and weakness; the flask of oil leaves a foe oiled unless it dodges), out of gear, where they had been put only because the translator could not say them |
 | G7 effects with no runtime | Open (language and combat work). The wand of polymorph, wand of wonder, scroll of shapechange and deck of multiplicity are wonders now (wonders.json, with every wand and scroll), held and sold to a dealer in rare things, their use said unsupported (a consumable may want a use only when it says why) |
-| G8 charges in the field | Open |
+| G8 charges in the field | **Fixed** (this commit): a wand used out of a fight keeps its charges less one, and is spent with its last, as in a fight (Items.resolve; test/item-gaps.test.ts) |
 | G9 equipped qualities in the field | Open |
 | G10 one thing to a slot | Open |
 | G11 tools nobody asks for | Open |
