@@ -1,25 +1,26 @@
 Module circus "Wapshott's Peregrine Circus" {
-  // ── Act IV, the physical half: water, fever, the tide, the night, the reef ───────────────────────────────────────
-  // The party are staff and passengers of a patron's expedition, not investigators. What presses is a hold of water
-  // and meat, a reef passage that closes on a date, the delta's fever, the tyrant at dusk, and one night on the
-  // quay when something comes for the camp. Nobody judges anybody. Endings vary: home with nothing; home with a loss;
-  // a fiasco at the quay; the Colonel stays.
-  Relation huntOn(concern). Relation huntDone(concern). Relation huntSafe(concern). Relation refuged(group). Relation firesLit(group).
-  Relation huntDiverted(group). Relation crewLost(concern). Relation crewHurt(concern). Relation colonelOut(concern). Relation colonelDragged(concern).
+  // ── Act IV, the physical half: water, meat, fever, the tide, the night, the reef ──────────────────────────────────
+  // The party are staff and passengers of a patron's expedition. What presses is a hold of water and meat that does
+  // not last the tide, a reef passage that closes on a date and can leave the Sundial aground for a month, the delta's
+  // fever, the tyrant at dusk, and one night on the quay. Nobody judges anybody. The Colonel decides what he takes
+  // from what he has done and seen, and it costs someone.
+  Relation huntOn(concern). Relation huntDone(concern). Relation huntSafe(concern). Relation huntClean(concern). Relation refuged(group). Relation firesLit(group).
+  Relation huntDiverted(group). Relation crewLost(concern). Relation crewHurt(concern). Relation colonelDragged(concern).
   Relation colonelHurt(concern). Relation colonelStays(concern). Relation fever(group). Relation feverHit(group). Relation hullHoled(concern).
-  Relation tideMarked(concern). Relation reefRun(concern). Relation thirstHit(concern).
-  Measure reefDay(concern). Measure landDay(concern). Measure huntAt(concern). Measure waterCasks(concern). Measure drankDay(concern). Measure feverDay(concern). Measure thirstDay(concern).
+  Relation tideMarked(concern). Relation reefRun(concern). Relation doorHeld(concern). Relation springKnown(group). Relation specimensCaught(concern).
+  Relation fenwickWants(concern). Relation hunted(group).
+  Measure reefDay(concern). Measure landDay(concern). Measure huntAt(concern). Measure waterCasks(concern). Measure drankDay(concern). Measure feverDay(concern). Measure thirstDay(concern). Measure huntedDay(group).
 
-  // The camp: nine days by the tide, twelve casks, and a bosun who counts them.
+  // ── The camp ─────────────────────────────────────────────────────────────────────────────────────────────────────
   Person mudge "Mr Mudge" at deck {
     Role "bosun of the Sundial". Ancestry human. Peaceable. Pronouns he. Manner jovial.
-    Greets "'MUDGE!' shouts a barrel of a man, from a yard away. 'Bosun! Who's for biscuit?' He is the loudest person you have ever met, and has been told by Crewe so.".
+    Greets "'MUDGE!' shouts a barrel of a man, from a yard away. 'Bosun! Who's for biscuit?' Crewe has told him about his voice. He has taken it as praise.".
   }
   Initially Assert offstage(mudge).
   Rule mudge_aboard when voyaged(wapshotts) and offstage(mudge) { Retract offstage(mudge). Assert at(mudge, deck). }
   Person nunn "Aggie Nunn" at deck {
     Role "cook of the Sundial". Ancestry human. Peaceable. Pronouns she. Manner cheerful.
-    Greets "'Stew,' says Aggie Nunn. 'It is stew. You'll not be wanting to ask what. I'll tell you on the way home, if there's a way home.' She stirs it with her arm.".
+    Greets "'Stew,' says Aggie Nunn. 'You'll not be wanting to ask what. I'll tell you on the way home, if there's a way home.' She stirs it with her arm.".
   }
   Initially Assert offstage(nunn).
   Rule nunn_aboard when voyaged(wapshotts) and offstage(nunn) { Retract offstage(nunn). Assert at(nunn, deck). }
@@ -27,35 +28,55 @@ Module circus "Wapshott's Peregrine Circus" {
     Says "'Biscuit,' says Aggie. 'And Mr Mudge's opinion. He puts it in.'".
   }
   Topic mudge_tide with mudge "Ask Mr Mudge about the reef" when berthS(wapshotts) {
-    Says "'NINE DAYS!' says Mr Mudge. 'Reef's a gate and the gate shuts on the ninth. Spring tide. Then you wait a month, and eat the cook.' He laughs until the deck shakes. 'She doesn't mind. She's very tough.'".
+    Says "'NINE DAYS!' says Mr Mudge. 'Reef's a gate and the gate shuts on the ninth. Then she's aground till the spring tide, and that's a month, and we eat the cook.' He laughs until the deck shakes. 'She doesn't mind. She's tough.'".
   }
-
   Rule tide_marks when berthS(wapshotts) and not tideMarked(wapshotts) {
-    Assert tideMarked(wapshotts). Set reefDay(wapshotts) to day(clock) + 9. Set landDay(wapshotts) to day(clock). Set waterCasks(wapshotts) to 10.
+    Assert tideMarked(wapshotts). Set reefDay(wapshotts) to day(clock) + 9. Set landDay(wapshotts) to day(clock). Set waterCasks(wapshotts) to 4.
+    Increase quantity(party, rations) by 4.
     Assert away(mudge). Assert at(mudge, landing). Assert away(nunn). Assert at(nunn, landing). }
   Observe tide_board at landing when tideMarked(wapshotts) "A tide table is cut into the quay's last post under the wheel: nine notches, and over the ninth a bar. Mr Mudge has chalked beside it: SHUT.".
-  Observe camp_scene at landing when tideMarked(wapshotts) "The camp is a ring of casks, two tarpaulins and Aggie Nunn's fire on the quay. Billie's crates are stacked by the first cage, and the Colonel's trumpet hangs from a post.".
+  Observe camp_scene at landing when tideMarked(wapshotts) "The camp is a ring of four casks, two tarpaulins and Aggie Nunn's fire on the quay. Billie's crates are stacked by the first cage, and the Colonel's trumpet hangs from a post.".
   Rule drink_day when within(party, sarn) and tideMarked(wapshotts) and hour(clock) == 7 and drankDay(wapshotts) < day(clock) {
     Set drankDay(wapshotts) to day(clock). Decrease waterCasks(wapshotts) by 1 or to nothing. }
-  Hazard thirst_day "A dry day" means "Deal (1d6) physical damage to ally unless constitution save against (13). Apply weakened to ally for 3 turns unless constitution save against (13).".
+  Hazard thirst_day "A dry day" means "Deal (1d6) physical damage to ally unless constitution save against (13). Apply weakened to ally for 24 hours unless constitution save against (13).".
   Rule thirst_bites at landing when within(party, sarn) and tideMarked(wapshotts) and waterCasks(wapshotts) == 0 and hour(clock) == 10 and thirstDay(wapshotts) < day(clock)
-    says "The last cask is dry. Mr Mudge turns it over, and shakes it, and looks at it as at a friend who has let him down." {
+    says "The last cask is dry. Mr Mudge turns it over, shakes it, and sets it down like a friend who has let him down." {
     Set thirstDay(wapshotts) to day(clock). Assert strikes(thirst_day, party). }
+  Observe casks_low at landing when tideMarked(wapshotts) and waterCasks(wapshotts) < 3 "Two casks, or one. Mr Mudge has stopped joking about it.".
   Action fill_casks(actor: group, site: place) "Fill the casks at the spring" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, kingsfoil_hollow) and tideMarked(wapshotts) and waterCasks(wapshotts) < 8.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, kingsfoil_hollow) and tideMarked(wapshotts) and knows(actor, spring_known) and waterCasks(wapshotts) < 4.
     Time 1.
-    On success { Increase waterCasks(wapshotts) by 4. }
-    Result "The spring comes up cold and sweet out of the rock, and you fill what you can carry. It is a long way back to the quay.".
+    On success { Increase waterCasks(wapshotts) by 3. }
+    Result "The spring comes up cold out of the rock. It is two hours back to the quay with the casks on your shoulders.".
   }
-  Observe casks_low at landing when tideMarked(wapshotts) and waterCasks(wapshotts) < 4 "There are three casks, or two. Mr Mudge has stopped joking about it.".
+  Entity spring_known: fact "A spring rises in the sheltered hollow; the fern-runners go there at noon to drink.".
+  Action follow_runners(actor: group, site: place) "Follow the fern-runners when they go off together at noon" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, forest_edge) and hour(clock) >= 11 and hour(clock) < 14 and not springKnown(party).
+    Time 3.
+    Resolve check(actor, woodcraft, dc_fair).
+    On success { Assert springKnown(party). }
+    Result "They run in a line, stopping, starting, looking back. They go under the cycads and over a log, and out through a notch of bank to a pool in a hollow, and drink one at a time with their heads up. You drink after them.".
+    Otherwise "They look back at you once, together, and go in six directions.".
+  }
+  Observe spring_taught at kingsfoil_hollow when springKnown(party) "A spring comes out of the rock at the bank's foot, clear and cold, into a pool no larger than a bath." teaches spring_known.
+  Action hunt_meat(actor: group, site: place) "Spend the morning hunting for the camp's pot" {
+    Requires able(actor) and company(actor) and at(actor, site) and (at(actor, forest_edge) or at(actor, plain_south) or at(actor, delta_edge)) and hour(clock) >= 5 and hour(clock) < 10 and huntedDay(party) < day(clock).
+    Time 6.
+    Resolve check(actor, woodcraft, dc_fair).
+    On success { Set huntedDay(party) to day(clock). Increase quantity(party, rations) by 3. }
+    On failure { Set huntedDay(party) to day(clock). Assert strikes(hunt_scrape, party). }
+    Result "A stilt-runner too slow, or too trusting. It is not a fair trade and nobody says so; it is three days' meat, hung in the shade.".
+    Otherwise "You come back empty and scratched, with a rattle of small things in the brush laughing at you.".
+  }
+  Hazard hunt_scrape "A morning in the brush" means "Deal (1d6) physical damage to ally unless dexterity save against (12).".
 
-  // The delta's fever.
-  Hazard marsh_fever "The delta fever" means "Deal (1d6) poison damage to ally unless constitution save against (13). Apply poisoned to ally for 3 turns unless constitution save against (14).".
-  Rule fever_comes when tideMarked(wapshotts) and hour(clock) == 5 and dice(clock) <= 22 and not fever(party)
+  // ── The fever ────────────────────────────────────────────────────────────────────────────────────────────────────
+  Hazard marsh_fever "The delta fever" means "Deal (1d6) poison damage to ally unless constitution save against (13). Apply poisoned to ally for 24 hours unless constitution save against (14). Apply weakened to ally for 24 hours unless constitution save against (14).".
+  Rule fever_comes when tideMarked(wapshotts) and hour(clock) == 5 and dice(clock) <= 4 and not fever(party)
     and (at(party, landing) or at(party, delta_edge) or at(party, egg_beds) or at(party, harrow_camp) or at(party, wreck_camp) or at(party, channels)) {
     Assert fever(party). Set feverDay(wapshotts) to day(clock). }
   Rule fever_bites at landing when fever(party) and not feverHit(party) and day(clock) >= feverDay(wapshotts) + 2 and hour(clock) == 8
-    says "The shaking begins in the hands. By noon nobody is making jokes, and Aggie Nunn has put her stew down." { Assert feverHit(party). Assert strikes(marsh_fever, party). }
+    says "The shaking starts in the hands. By noon nobody is making jokes, and Aggie Nunn has put her stew down." { Assert feverHit(party). Assert strikes(marsh_fever, party). }
   Action dose_kingsfoil(actor: group, site: place) "Steep a sprig of kingsfoil and make the sick drink it" {
     Requires able(actor) and company(actor) and at(actor, site) and fever(party) and holding(actor, kingsfoil).
     Time 0.
@@ -69,25 +90,41 @@ Module circus "Wapshott's Peregrine Circus" {
     Result "It is bitter. It does what it does.".
   }
 
-  // The night: something comes for the camp.
+  // ── The night: the pack comes to the quay, three times ──────────────────────────────────────────────────────────
+  Person night_pack "the pack at the camp" at hook_den {
+    Role "five hook-claws in the dark beyond the fire". Species hook_claw. Level 3. Numbers 3. Peaceable.
+  }
+  Initially Assert offstage(night_pack).
   Rule hunt_starts when within(party, sarn) and tideMarked(wapshotts) and day(clock) >= landDay(wapshotts) + 5 and hour(clock) >= 22 and not huntOn(wapshotts) and not huntDone(wapshotts) {
-    Assert huntOn(wapshotts). Set huntAt(wapshotts) to watch(clock). }
-  Observe hunt_sound at landing as sound when huntOn(wapshotts) and not huntSafe(wapshotts) "Out in the dark the click stops. Everything on the island stops with it. The fire hisses. Mr Mudge, who has been talking, is not.".
-  Observe hunt_ground at landing as sound when huntOn(wapshotts) and not hookTolerates(party) "The ground shakes, in a rhythm, and the casks answer it, one at a time.".
-  Observe hunt_colonel near wapshott when huntOn(wapshotts) and not colonelDragged(wapshotts) "The Colonel has taken his trumpet down from the post. He is, quite clearly, going out to meet it.".
-  Action shut_cages(actor: group, site: place) "Shut the company into the Wardens' cages" {
-    Requires able(actor) and company(actor) and (at(actor, landing) or at(actor, cage_row)) and huntOn(wapshotts) and at(actor, site) and not refuged(party).
+    Assert huntOn(wapshotts). Set huntAt(wapshotts) to watch(clock). Retract offstage(night_pack). }
+  Rule pack_to_quay when huntOn(wapshotts) and not at(night_pack, landing) { Assert at(night_pack, landing). }
+  Observe hunt_first near night_pack when huntOn(wapshotts) and watch(clock) < huntAt(wapshotts) + 12 "The click stops all round the quay. Eyes: a row of them at the edge of the firelight, low, not blinking. Mr Mudge, who has been talking, is not.".
+  Observe hunt_second near night_pack when huntOn(wapshotts) and watch(clock) >= huntAt(wapshotts) + 12 and watch(clock) < huntAt(wapshotts) + 24 "They have come closer. One of them is walking the tarpaulin's edge, lifting a foot clear of the ground and setting it down. Another is at the cask-stack, working a rope with its teeth.".
+  Observe hunt_third near night_pack when huntOn(wapshotts) and watch(clock) >= huntAt(wapshotts) + 24 "The first cage door rings. Something has put a claw through the bars and is testing the bar.".
+  Observe hunt_colonel near wapshott when huntOn(wapshotts) and not colonelDragged(wapshotts) "The Colonel has taken his trumpet down from the post. He is going out to meet it.".
+  Action shut_cages(actor: group, site: place) "Shut as many as will fit into the Wardens' cages and drop the bar" {
+    Requires able(actor) and company(actor) and at(actor, site) and (at(actor, landing) or at(actor, cage_row)) and huntOn(wapshotts) and not refuged(party).
     Time 0.
-    On success { Assert refuged(party). }
-    Result "The doors are bronze and a hand thick. They close on a bar the Wardens set, and the bar still drops. Eleven people sit in the dark in a row of cages built for beasts, and the Rule is still over the hearth, and nobody mentions it.".
+    Resolve check(actor, brawn, dc_fair).
+    On success { Assert refuged(party). Assert doorHeld(wapshotts). }
+    On failure { Assert refuged(party). Assert crewHurt(wapshotts). }
+    Result "The doors are bronze and a hand thick, and the bar drops. Four cages. Six people go in. Mr Mudge and Aggie Nunn stay by the fire to keep it, because somebody must, and Mr Mudge says so loudly enough to be heard by the cages.".
+    Otherwise "The bar jams on the third door. Somebody's arm is through it when it drops.".
+  }
+  Action hold_door_billie(actor: group, site: place) "Let Billie hold the door with her shoulder while the rest go in" {
+    Speaker billie.
+    Requires able(actor) and company(actor) and at(actor, site) and at(billie, site) and billieField(wapshotts) and (at(actor, landing) or at(actor, cage_row)) and huntOn(wapshotts) and not refuged(party).
+    Time 0.
+    On success { Assert refuged(party). Assert doorHeld(wapshotts). }
+    Result "'I've held worse,' says Billie, and does. She talks to the dark through the bars in the voice she uses to the horses, and it goes on until the grey.".
   }
   Action light_fires(actor: group, site: place) "Build the fire up on the quay and feed it oil" {
-    Requires able(actor) and company(actor) and (at(actor, landing) or at(actor, cage_row)) and huntOn(wapshotts) and at(actor, site) and holding(actor, lamp_oil) and not firesLit(party).
+    Requires able(actor) and company(actor) and at(actor, site) and (at(actor, landing) or at(actor, cage_row)) and huntOn(wapshotts) and holding(actor, lamp_oil) and not firesLit(party).
     Time 0.
     On success { Spend lamp_oil from actor. Assert firesLit(party). }
-    Result "The fire goes up in a column. Beyond the ring of it, the dark steps back a pace, and holds there.".
+    Result "The fire goes up in a column. Beyond the ring of it, the eyes step back a pace, and hold there.".
   }
-  Action throw_the_meat(actor: group, site: place) "Throw three rations of meat into the dark and sit very still" {
+  Action throw_the_meat(actor: group, site: place) "Throw three rations of meat into the dark and sit still" {
     Requires able(actor) and company(actor) and at(actor, site) and (at(actor, landing) or at(actor, cage_row)) and huntOn(wapshotts) and quantity(actor, rations) >= 3 and not huntDiverted(party).
     Time 0.
     On success { Decrease quantity(actor, rations) by 3. Assert huntDiverted(party). }
@@ -99,34 +136,39 @@ Module circus "Wapshott's Peregrine Circus" {
     Resolve check(actor, brawn, dc_fair).
     On success { Assert colonelDragged(wapshotts). }
     Result "He comes in backwards, still blowing, with his hat over his eyes and the trumpet jammed in a bar. The note goes out into the dark. Nothing answers it.".
-    Otherwise "He shakes you off, striding for the quay's end. 'I should like,' he says, 'to see it.'".
+    Otherwise "He shakes you off and strides for the quay's end. 'I should like,' he says, 'to see it.'".
   }
-  Rule hunt_safe when huntOn(wapshotts) and watch(clock) >= huntAt(wapshotts) + 36
-    and (refuged(party) or huntDiverted(party) or (hookTolerates(party) and tolerates(tyrant, party))) {
-    Retract huntOn(wapshotts). Assert huntDone(wapshotts). Assert huntSafe(wapshotts). }
-  Rule hunt_hurts when huntOn(wapshotts) and watch(clock) >= huntAt(wapshotts) + 36 and firesLit(party)
-    and not refuged(party) and not huntDiverted(party) and not (hookTolerates(party) and tolerates(tyrant, party))
+  // The outcomes, at the quay. A pack fed or at peace comes to nothing; the cages alone cost the bosun; the fire alone costs blood.
+  Rule hunt_clean when huntOn(wapshotts) and watch(clock) >= huntAt(wapshotts) + 36 and (huntDiverted(party) or (hookTolerates(party) and tolerates(tyrant, party))) {
+    Retract huntOn(wapshotts). Assert huntDone(wapshotts). Assert huntSafe(wapshotts). Assert huntClean(wapshotts). Assert offstage(night_pack). }
+  Rule hunt_caged_and_lit when huntOn(wapshotts) and watch(clock) >= huntAt(wapshotts) + 36 and refuged(party) and firesLit(party) and not huntDiverted(party) and not (hookTolerates(party) and tolerates(tyrant, party)) {
+    Retract huntOn(wapshotts). Assert huntDone(wapshotts). Assert huntSafe(wapshotts). Assert crewHurt(wapshotts). Assert offstage(night_pack). }
+  Rule hunt_caged when huntOn(wapshotts) and watch(clock) >= huntAt(wapshotts) + 36 and refuged(party) and not firesLit(party) and not huntDiverted(party) and not (hookTolerates(party) and tolerates(tyrant, party))
+    says "It does not come into the cages. It takes what is left outside them. Mr Mudge has time to say one word, which is your name, and the rest is a short wet noise by the fire." {
+    Retract huntOn(wapshotts). Assert huntDone(wapshotts). Assert huntSafe(wapshotts). Assert crewLost(wapshotts). Slay mudge. Assert offstage(night_pack). }
+  Rule hunt_lit when huntOn(wapshotts) and watch(clock) >= huntAt(wapshotts) + 36 and firesLit(party) and not refuged(party) and not huntDiverted(party) and not (hookTolerates(party) and tolerates(tyrant, party)) and (at(party, landing) or at(party, cage_row))
     says "It does not come through the fire. It takes what it can reach round the edge of the light: the tarpaulin, a cask, a man's arm." {
-    Retract huntOn(wapshotts). Assert huntDone(wapshotts). Assert crewHurt(wapshotts). Assert strikes(pack_night, party). }
-  Rule hunt_kills when huntOn(wapshotts) and watch(clock) >= huntAt(wapshotts) + 36 and not firesLit(party)
-    and not refuged(party) and not huntDiverted(party) and not (hookTolerates(party) and tolerates(tyrant, party))
-    says "The fire is out before anyone has seen what put it out. There is a short, wet noise from the tarpaulin where Mr Mudge sleeps. In the morning there is the boots." {
-    Retract huntOn(wapshotts). Assert huntDone(wapshotts). Assert crewLost(wapshotts). Slay mudge. }
-  Rule colonel_hurt when huntDone(wapshotts) and not colonelDragged(wapshotts) and not huntSafe(wapshotts) and not colonelHurt(wapshotts) { Assert colonelHurt(wapshotts). }
-  Observe hunt_morning at landing when huntSafe(wapshotts) and hour(clock) < 9 "Morning. The quay is untouched. There is a track in the sand a yard across, going to the water's edge and coming back, and one cask rolled a hundred feet. Aggie Nunn says nothing, and makes the stew, and everybody eats.".
+    Retract huntOn(wapshotts). Assert huntDone(wapshotts). Assert crewHurt(wapshotts). Assert strikes(pack_night, party). Assert offstage(night_pack). }
+  Rule hunt_bare when huntOn(wapshotts) and watch(clock) >= huntAt(wapshotts) + 36 and not firesLit(party) and not refuged(party) and not huntDiverted(party) and not (hookTolerates(party) and tolerates(tyrant, party)) and (at(party, landing) or at(party, cage_row))
+    says "The fire is out before anyone has seen what put it out. There is a short, wet noise from the tarpaulin where Mr Mudge sleeps. In the morning there are the boots." {
+    Retract huntOn(wapshotts). Assert huntDone(wapshotts). Assert crewLost(wapshotts). Slay mudge. Assert strikes(pack_night, party). Assert offstage(night_pack). }
+  Rule hunt_away when huntOn(wapshotts) and watch(clock) >= huntAt(wapshotts) + 36 and not (at(party, landing) or at(party, cage_row)) and not huntDiverted(party) and not (hookTolerates(party) and tolerates(tyrant, party)) {
+    Retract huntOn(wapshotts). Assert huntDone(wapshotts). Assert crewLost(wapshotts). Slay mudge. Assert offstage(night_pack). }
+  Rule colonel_hurt when huntDone(wapshotts) and not colonelDragged(wapshotts) and not huntClean(wapshotts) and not crewLost(wapshotts) and not colonelHurt(wapshotts) { Assert colonelHurt(wapshotts). }
+  Observe hunt_morning at landing when huntClean(wapshotts) and hour(clock) < 9 "Morning. The quay is untouched. A track a yard wide goes to the water's edge and comes back, and one cask has rolled a hundred feet. Aggie Nunn says nothing, and makes the stew.".
   Observe hunt_loss at landing when crewLost(wapshotts) and hour(clock) < 12 "Mr Mudge's boots stand side by side by the tarpaulin. Nobody touches them. Aggie Nunn has made no stew.".
   Milestone m_night "came through the night on the quay" worth 400 when huntDone(wapshotts).
 
-  // The reef: Crewe's pilotage, or a hand's, or the Colonel's pride. The passage is open nine days.
-  Hazard reef_scrape "The reef" means "Deal (2d6) physical damage to ally unless dexterity save against (14).".
+  // ── The reef: nine days open; a failed run keeps her aground; a month to the next spring tide ────────────────────
+  Hazard reef_scrape "The reef" means "Deal (1d8) physical damage to ally unless dexterity save against (14).".
   Action run_reef(actor: group, site: place) "Take the Sundial out through the reef passage" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, deck) and voyaged(wapshotts) and berthS(wapshotts) and not crewePardoned(wapshotts) and day(clock) <= reefDay(wapshotts) and not reefRun(wapshotts).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, deck) and voyaged(wapshotts) and berthS(wapshotts) and not crewePardoned(wapshotts) and not creweBlamed(wapshotts) and day(clock) <= reefDay(wapshotts) and not reefRun(wapshotts).
     Time 0.
     Resolve check(actor, wayfinding, dc_hard).
     On success { Retract berthS(wapshotts). Assert atSea(wapshotts). Retract outward(wapshotts). Assert homeward(wapshotts). Set sailDay(wapshotts) to day(clock). Assert reefRun(wapshotts). Increase quantity(party, rations) by 12. }
-    On failure { Retract berthS(wapshotts). Assert atSea(wapshotts). Retract outward(wapshotts). Assert homeward(wapshotts). Set sailDay(wapshotts) to day(clock). Assert reefRun(wapshotts). Assert hullHoled(wapshotts). Assert strikes(reef_scrape, party). Increase quantity(party, rations) by 6. }
-    Result "The Sundial goes out through a gap forty feet wide with the surf standing up white on either hand, and Crewe's hand is on the tiller beside yours. The keel does not touch. You find you have not breathed since the quay.".
-    Otherwise "She goes out on a green swell with a noise under her like a cart on cobbles. The hull holds, and weeps all the way home.".
+    On failure { Assert hullHoled(wapshotts). Assert strikes(reef_scrape, party). Set reefDay(wapshotts) to day(clock) - 1. }
+    Result "The Sundial goes out through a gap forty feet wide with the surf standing up white on either hand. The keel does not touch. You find you have not breathed since the quay.".
+    Otherwise "She takes the reef under the forefoot with a noise like a cart on cobbles, and sits there. The ebb goes out from under her. The gate shut behind the keel. Crewe takes off his hat and puts it on again.".
   }
   Action run_reef_with_crewe(actor: group, site: place) "Ask Crewe to take the Sundial out through the reef, and keep your hands off" {
     Speaker crewe.
@@ -134,34 +176,90 @@ Module circus "Wapshott's Peregrine Circus" {
     Time 0.
     Resolve check(actor, wayfinding, dc_fair).
     On success { Retract berthS(wapshotts). Assert atSea(wapshotts). Retract outward(wapshotts). Assert homeward(wapshotts). Set sailDay(wapshotts) to day(clock). Assert reefRun(wapshotts). Increase quantity(party, rations) by 12. }
-    On failure { Retract berthS(wapshotts). Assert atSea(wapshotts). Retract outward(wapshotts). Assert homeward(wapshotts). Set sailDay(wapshotts) to day(clock). Assert reefRun(wapshotts). Assert hullHoled(wapshotts). Assert strikes(reef_scrape, party). Increase quantity(party, rations) by 6. }
+    On failure { Assert hullHoled(wapshotts). Assert strikes(reef_scrape, party). Set reefDay(wapshotts) to day(clock) - 1. }
     Result "Crewe takes her out like a man leading a horse through a fire. He talks all the way, to the Captain, who is not there.".
-    Otherwise "He misses by a hand's breadth, and the reef takes some paint, and a good deal of his confidence.".
+    Otherwise "He misses by a hand's breadth. The reef takes some paint and a good deal of his confidence, and holds her.".
+  }
+  Action run_reef_unsure(actor: group, site: place) "Take the Sundial out through the reef with Crewe wringing his hat beside you" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, deck) and voyaged(wapshotts) and berthS(wapshotts) and creweBlamed(wapshotts) and day(clock) <= reefDay(wapshotts) and not reefRun(wapshotts).
+    Time 0.
+    Resolve check(actor, wayfinding, dc_formidable).
+    On success { Retract berthS(wapshotts). Assert atSea(wapshotts). Retract outward(wapshotts). Assert homeward(wapshotts). Set sailDay(wapshotts) to day(clock). Assert reefRun(wapshotts). Increase quantity(party, rations) by 12. }
+    On failure { Assert hullHoled(wapshotts). Assert strikes(reef_scrape, party). Set reefDay(wapshotts) to day(clock) - 1. }
+    Result "He tells you the marks and then cannot find them. You find them. It is not his fault, and he will say so for the rest of the voyage.".
+    Otherwise "Crewe says 'Port', and then 'Starboard', and then nothing. She goes on the reef broadside.".
   }
   Action run_reef_late(actor: group, site: place) "Take the Sundial out through the shut reef on the ebb, and pray" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, deck) and voyaged(wapshotts) and berthS(wapshotts) and day(clock) > reefDay(wapshotts) and not reefRun(wapshotts).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, deck) and voyaged(wapshotts) and berthS(wapshotts) and day(clock) > reefDay(wapshotts) and day(clock) < reefDay(wapshotts) + 30 and not reefRun(wapshotts).
     Time 0.
     Resolve check(actor, wayfinding, dc_formidable).
     On success { Retract berthS(wapshotts). Assert atSea(wapshotts). Retract outward(wapshotts). Assert homeward(wapshotts). Set sailDay(wapshotts) to day(clock). Assert reefRun(wapshotts). Increase quantity(party, rations) by 6. }
-    On failure { Retract berthS(wapshotts). Assert atSea(wapshotts). Retract outward(wapshotts). Assert homeward(wapshotts). Set sailDay(wapshotts) to day(clock). Assert reefRun(wapshotts). Assert hullHoled(wapshotts). Assert strikes(reef_scrape, party). Assert strikes(storm_wave, party). }
+    On failure { Assert hullHoled(wapshotts). Assert strikes(reef_scrape, party). Assert strikes(storm_wave, party). }
     Result "The passage is a single green slot in a white wall. She goes through on the top of a wave with a hand's breadth either side. Nobody speaks until the island is a smudge.".
-    Otherwise "The wave puts her down on the reef, and lifts her off again, and she is somehow still a ship. Mr Mudge is praying, loudly, in four languages.".
+    Otherwise "The wave puts her down on the reef, lifts her off, and puts her down again. Mr Mudge is praying in four languages.".
   }
-  Observe reef_shut at deck when berthS(wapshotts) and tideMarked(wapshotts) and day(clock) > reefDay(wapshotts) "The reef passage is a wall of surf from end to end. Crewe looks at it, and at the water-casks, and says what a mate says when he has been waiting for the next spring tide for four days: nothing at all.".
+  Action run_reef_spring(actor: group, site: place) "Take the Sundial out through the reef on the spring tide" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, deck) and voyaged(wapshotts) and berthS(wapshotts) and day(clock) >= reefDay(wapshotts) + 30 and not reefRun(wapshotts).
+    Time 0.
+    Resolve check(actor, wayfinding, dc_fair).
+    On success { Retract berthS(wapshotts). Assert atSea(wapshotts). Retract outward(wapshotts). Assert homeward(wapshotts). Set sailDay(wapshotts) to day(clock). Assert reefRun(wapshotts). Increase quantity(party, rations) by 2. }
+    On failure { Assert hullHoled(wapshotts). Assert strikes(reef_scrape, party). }
+    Result "The gate is open again, and everyone in the Sundial is thin, and nobody says a word about the cook.".
+    Otherwise "She scrapes, and comes off on the flood.".
+  }
+  Observe reef_shut at deck when berthS(wapshotts) and tideMarked(wapshotts) and day(clock) > reefDay(wapshotts) and day(clock) < reefDay(wapshotts) + 30 "The reef passage is a wall of surf from end to end. Crewe looks at it, and at the water-casks, and says what a mate says when the next spring tide is a month off: nothing.".
   Milestone m_reef "took the Sundial out through the reef" worth 400 when reefRun(wapshotts).
 
-  // The Colonel's choice at the quay: stay, or go, or go with something.
-  Topic wap_stay with wapshott "Ask the Colonel if he means to come home" when voyaged(wapshotts) and berthS(wapshotts) and at(party, landing) and colonelMoved(wapshotts) and not colonelStays(wapshotts) once {
-    Says "'Home,' says the Colonel. He looks at the quay, the cages, the hall and the jungle. 'Home is a field in Ashby Lowe with a bill on the gate.' He turns his hat over twice. 'I have put it to myself that a man might stay a season. To keep the doors, you understand. Someone must.' Billie, behind him, does not say anything. 'Tell Ada,' he says, 'that I have gone to look at the lake.'".
-    On discuss { Assert colonelStays(wapshotts). Retract following(wapshott, party). Assert at(wapshott, landing). Assert away(wapshott). }
+  // ── The Colonel decides ─────────────────────────────────────────────────────────────────────────────────────────
+  Query colonelHumbled() means ruleRead(wapshotts) or colonelGrieved(wapshotts) or namedLetGo(wapshotts) or colonelNamedFear(wapshotts) or colonelStopped(wapshotts).
+  Action catch_specimens(actor: group, site: place) "Help Sir Gervase net a pair of the small and plentiful" {
+    Requires able(actor) and company(actor) and at(actor, site) and (at(actor, forest_edge) or at(actor, delta_edge)) and fenwickWants(wapshotts) and not specimensCaught(wapshotts).
+    Time 4.
+    Resolve check(actor, woodcraft, dc_fair).
+    On success { Assert specimensCaught(wapshotts). }
+    Result "Two fern-runners, in a net, outraged. Sir Gervase takes them into his coat like a man given a baby. They look at him with the whole of their faces. He weeps a little.".
+    Otherwise "The runners go through the net as through a thought.".
   }
-  Rule colonel_remains when colonelStays(wapshotts) and backFromSarn(wapshotts) and away(wapshott) { Retract away(wapshott). Retract at(wapshott, landing). Assert offstage(wapshott). }
-  Observe colonel_stays_note near ada when colonelStays(wapshotts) and backFromSarn(wapshotts) "Ada Thripp reads the Colonel's note again, and again. It says: GONE TO LOOK AT THE LAKE. DO NOT LET HONORIA SELL THE BAND. She has put the note in the strongbox, and the strongbox in the ticket wagon, and has not, in all the days since, called a single stand off.".
+  Topic wap_decides_leave with wapshott "Ask the Colonel what he means to take home" when voyaged(wapshotts) and berthS(wapshotts) and at(party, landing) and colonelHumbled() and not takeLeave(wapshotts) and not takeEgg(wapshotts) and not takeSpecimens(wapshotts) once {
+    Says "The Colonel turns his hat over, and over. He looks along the quay. 'Nothing,' he says. 'A fern-runner would take the lock off the wagon and give it to a goose.' He puts the hat on. Billie, ten yards off, has stopped coiling the rope. 'Nothing,' he says again, as if trying the weight of it. 'I shall tell Ada it was a large field.'".
+    On discuss { Assert takeLeave(wapshotts). Increase regard(billie) by 2. }
+  }
+  Topic wap_decides_egg with wapshott "Ask the Colonel what he means to take home" when voyaged(wapshotts) and berthS(wapshotts) and at(party, landing) and not colonelHumbled() and holding(actor, dragons_egg) and not takeLeave(wapshotts) and not takeEgg(wapshotts) and not takeSpecimens(wapshotts) once {
+    Says "The Colonel takes the egg out of your hands before you have offered it. 'One,' he says. 'For the oven, with a damp cloth, and Honoria to turn it.' He does not look round. Billie says 'Aye,' to nobody, and goes on coiling the rope as if it were a neck.".
+    On discuss { Assert takeEgg(wapshotts). Assert billieResigned(wapshotts). }
+  }
+  Topic wap_decides_specimens with wapshott "Ask the Colonel what he means to take home" when voyaged(wapshotts) and berthS(wapshotts) and at(party, landing) and not colonelHumbled() and not holding(actor, dragons_egg) and fenwickWants(wapshotts) and specimensCaught(wapshotts) and not takeLeave(wapshotts) and not takeEgg(wapshotts) and not takeSpecimens(wapshotts) once {
+    Says "'The Society's pair,' says the Colonel. 'Sir Gervase has been patient.' He signs the paper on the cask-head in the capitals Sir Gervase asked for. Billie watches the pen. When it is done she goes up the Sundial's gangway without being told, and down into the hold, and shuts the hatch.".
+    On discuss { Assert takeSpecimens(wapshotts). Assert billieResigned(wapshotts). }
+  }
+  Topic wap_decides_nothing with wapshott "Ask the Colonel what he means to take home" when voyaged(wapshotts) and berthS(wapshotts) and at(party, landing) and not colonelHumbled() and not holding(actor, dragons_egg) and not (fenwickWants(wapshotts) and specimensCaught(wapshotts)) and not takeLeave(wapshotts) and not takeEgg(wapshotts) and not takeSpecimens(wapshotts) once {
+    Says "'What is there?' says the Colonel. 'Mud. Mud and a great deal of nothing a man could carry.' He looks at the jungle, which says nothing back. 'Home,' he says, and means it, and does not like it.".
+    On discuss { Assert takeLeave(wapshotts). }
+  }
+  Topic wap_stay_yes with wapshott "Ask the Colonel if he means to come home" when voyaged(wapshotts) and berthS(wapshotts) and at(party, landing) and namedLetGo(wapshotts) and (ruleRead(wapshotts) or colonelGrieved(wapshotts) or colonelStopped(wapshotts)) and not colonelStays(wapshotts) once {
+    Says "'Home,' says the Colonel, 'is a field in Ashby Lowe with a bill on the gate.' He turns his hat over twice. 'I put it to myself that a man might stay a season. To keep the doors.' Billie, behind him, says nothing. He looks at her. 'I have named one thing in my life,' he says, 'and let it go. I find I should like to see what comes of it.' He gives you the trumpet. 'Tell Ada I have gone to look at the lake.'".
+    On discuss { Assert colonelStays(wapshotts). Retract following(wapshott, party). Assert at(wapshott, landing). Assert billieResigned(wapshotts). }
+  }
+  Topic wap_stay_no with wapshott "Ask the Colonel if he means to come home" when voyaged(wapshotts) and berthS(wapshotts) and at(party, landing) and not (namedLetGo(wapshotts) and (ruleRead(wapshotts) or colonelGrieved(wapshotts) or colonelStopped(wapshotts))) and not colonelStays(wapshotts) once {
+    Says "'Home!' says the Colonel. 'Certainly home. There is a house in the fair town that has not seen me for twenty days, and Ada will have raised the prices.' He goes up the gangway first.".
+  }
+  Rule colonel_remains when colonelStays(wapshotts) and backFromSarn(wapshotts) and at(wapshott, landing) { Retract at(wapshott, landing). Assert offstage(wapshott). }
+  Rule billie_leaves when billieResigned(wapshotts) and backFromSarn(wapshotts) and not billieField(wapshotts) and travels(billie) { Retract travels(billie). Retract post(billie, rk_beasts). Assert offstage(billie). }
 
-  // Endings at home, by what happened: nothing, a loss, a fiasco, a hurt, a stay.
-  Observe end_nothing near ada when backFromSarn(wapshotts) and takeLeave(wapshotts) and not crewLost(wapshotts) and not colonelStays(wapshotts) and not colonelHurt(wapshotts) "The Colonel comes up the field gate with his hat in his hand and nothing else. 'Nothing,' he says to Ada. 'I brought nothing.' He looks at the wagons. 'It was extraordinary.' Ada, who had a speech, finds it will not be used.".
-  Observe end_loss near ada when backFromSarn(wapshotts) and crewLost(wapshotts) "Mr Mudge's boots have come home in the Sundial's locker. Crewe stands them at the foot of the king-pole and takes off his hat. The wagons are very quiet. Honoria makes the tea without being asked and nobody drinks it until she says.".
-  Observe end_fiasco near wapshott when backFromSarn(wapshotts) and colonelNamed(wapshotts) and not namedLetGo(wapshotts) and not colonelStays(wapshotts) "A small barred head puts itself out of the Colonel's coat at the gate, looks at Ada's ticket book, and eats it. 'Dame Honorine,' says the Colonel, with enormous dignity, 'has come home.' Billie goes out of the field and does not come back for an hour.".
-  Observe end_hurt near wapshott when backFromSarn(wapshotts) and colonelHurt(wapshotts) "The Colonel comes home with his arm in a sling made of Sir Gervase's best handkerchief. He says it was a capital night and he would not have missed it. Honoria, who knows, hands him a cup of tea in the wrong cup, and he drinks it.".
+  // ── Endings, one at a time ──────────────────────────────────────────────────────────────────────────────────────
+  Query endedLost() means crewLost(wapshotts) and not colonelStays(wapshotts).
+  Query endedHurt() means colonelHurt(wapshotts) and not crewLost(wapshotts) and not colonelStays(wapshotts).
+  Query endedFiasco() means colonelNamed(wapshotts) and not namedLetGo(wapshotts) and hatchlingsPenned(wapshotts) and not hatchlingsHome(party) and not colonelStays(wapshotts) and not crewLost(wapshotts) and not colonelHurt(wapshotts).
+  Observe colonel_stays_note near ada when colonelStays(wapshotts) and backFromSarn(wapshotts) "Ada Thripp reads the Colonel's note again. GONE TO LOOK AT THE LAKE. DO NOT LET HONORIA SELL THE BAND. She has put it in the strongbox, and has not, in all the days since, called a stand off.".
+  Observe end_loss near ada when backFromSarn(wapshotts) and endedLost() "Mr Mudge's boots have come home in the Sundial's locker. Crewe stands them at the foot of the king-pole. The wagons are quiet. Honoria makes the tea, and nobody drinks it until she says.".
+  Observe end_hurt near wapshott when backFromSarn(wapshotts) and endedHurt() "The Colonel comes home with his arm in a sling made of Sir Gervase's best handkerchief. He says it was a capital night. Honoria hands him tea in the wrong cup, and he drinks it.".
+  Observe end_fiasco near wapshott when backFromSarn(wapshotts) and endedFiasco() "A small barred head comes out of the Colonel's coat at the gate, looks at Ada's ticket book, and eats it. 'Dame Honorine,' says the Colonel, 'has come home.' Billie goes out of the field and is gone an hour.".
+  Observe end_plain near ada when backFromSarn(wapshotts) and not endedLost() and not endedHurt() and not endedFiasco() and not colonelStays(wapshotts) and not takeLeave(wapshotts) and not takeEgg(wapshotts) and not takeSpecimens(wapshotts) "The Colonel comes up the field with his hat in his hand and nothing else. 'It was a large field,' he says to Ada. She had a speech, and finds it will not be used.".
+  Observe sarn_home_leave near wapshott when backFromSarn(wapshotts) and takeLeave(wapshotts) and not endedLost() and not endedHurt() and not colonelStays(wapshotts) "The Colonel has had a board painted and nailed over the beast-tent flap, in his largest hand: NOTHING IS TO BE TAKEN THAT CANNOT BE FED. Underneath, in Ada's: Mr Wapshott's own, and he means it.".
+  Observe sarn_home_egg near wapshott when backFromSarn(wapshotts) and takeEgg(wapshotts) and not endedLost() "A grey egg lies in a basket by Honoria's oven under a damp cloth, and she turns it with a wooden spoon every hour. Billie's coat is gone from its peg.".
+  Observe sarn_home_specimens near wapshott when backFromSarn(wapshotts) and takeSpecimens(wapshotts) and not endedLost() "Sir Gervase has a pair of fern-runners in a cage in the yard and a clerk from the Society with a ledger. The beast tent is quiet, and Billie's coat is not on its peg.".
+  Observe home_dab near wapshott when backFromSarn(wapshotts) and dabColonel(wapshotts) "Master Dab, Assistant Zoologist, is polishing a cage with his sleeve and a face of enormous importance.".
+  Observe home_dab_told near crewe when backFromSarn(wapshotts) and dabTold(wapshotts) "Dab is at the galley door of the Sundial at the fair town's quay, carrying a bucket. Crewe is pretending not to see the bucket.".
+  Observe home_fenwick near fenwick when backFromSarn(wapshotts) and fenwickYielded(wapshotts) "Sir Gervase has pinned his drawings of the lake to the cookhouse wagon. He has drawn his own hand in the margin again.".
   Chapter ch_reef "The Reef" when berthS(wapshotts) and tideMarked(wapshotts) and day(clock) >= reefDay(wapshotts) - 2 "Three days to the gate. The casks are low and the Colonel is somewhere on the plain.".
 }

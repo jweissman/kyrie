@@ -2567,7 +2567,7 @@
       },
       "source": {
         "kyr": true,
-        "notes": "The island's apex predator, hunting the herd's edge at dusk. Telegraphed by a silence that moves, by the ground shaking in a rhythm, by what is left of the herd's stragglers. No habitats are written for it, so no generated country draws it into a den: it lives on the Isle of Sarn alone (Wapshott's Fourth Act, doc/adventures/anthology/the-fourth-act.md). Its painting is not yet made (portrait left unset; data/paintings/animals.json would take animals/tyrant)."
+        "notes": "The island's greatest hunter, hunting the herd's edge at dusk. Telegraphed by a silence that moves, by the ground shaking in a rhythm, by what is left of the herd's stragglers. No habitats are written for it, so no generated country draws it into a den: it lives on the Isle of Sarn alone (Wapshott's Fourth Act, doc/adventures/anthology/the-fourth-act.md). Its painting is not yet made (portrait left unset; data/paintings/animals.json would take animals/tyrant)."
       }
     },
     "sail_wing": {
@@ -2594,7 +2594,7 @@
       },
       "source": {
         "kyr": true,
-        "notes": "A colonial flier of the Nesting Cliffs; at dawn the whole colony launches off the thermals together. No habitats are written for it, so no generated country draws it into a den: it lives on the Isle of Sarn alone (Wapshott's Fourth Act, doc/adventures/anthology/the-fourth-act.md). Its painting is not yet made (portrait left unset; data/paintings/animals.json would take animals/sail_wing)."
+        "notes": "A colonial flier of the Nesting Cliffs; at dawn the whole colony launches off the updraughts together. No habitats are written for it, so no generated country draws it into a den: it lives on the Isle of Sarn alone (Wapshott's Fourth Act, doc/adventures/anthology/the-fourth-act.md). Its painting is not yet made (portrait left unset; data/paintings/animals.json would take animals/sail_wing)."
       }
     },
     "ridge_goat": {
@@ -2729,7 +2729,7 @@
       },
       "source": {
         "kyr": true,
-        "notes": "A tell-tale: its crest is a resonator, and the flock's piping at first grey is how the island's other animals, and wise visitors, know the lantern-necks are coming. No habitats are written, so no generated country draws it into a den: it lives on the Isle of Sarn alone (doc/adventures/anthology/the-fourth-act.md). Its painting is not yet made (portrait unset; data/paintings/animals.json would take animals/dawn_piper)."
+        "notes": "A tell-tale: its crest is a sounding-box, and the flock's piping at first grey is how the island's other animals, and wise visitors, know the lantern-necks are coming. No habitats are written, so no generated country draws it into a den: it lives on the Isle of Sarn alone (doc/adventures/anthology/the-fourth-act.md). Its painting is not yet made (portrait unset; data/paintings/animals.json would take animals/dawn_piper)."
       }
     },
     "plate_back": {

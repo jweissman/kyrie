@@ -30,6 +30,7 @@ Module circus "Wapshott's Peregrine Circus" {
     says "The gangway comes in with a thump. The Colonel stands on the deck of the Sundial in his best coat with his hat held in front of him like a plate, and Ada Thripp, on the quay, with her pen behind her ear, lifts one hand and lets it drop. The mate says, to nobody, 'Mind your heads in the hatch.' You are, for the first time since the Fair, not on the circus's ground. Nobody has told the wagons." {
     Assert voyaged(wapshotts). Assert away(wapshott). Assert at(wapshott, deck). Assert following(wapshott, party).
     Assert away(fenwick). Assert at(fenwick, deck). Assert following(fenwick, party). Assert away(crewe). Assert at(crewe, deck).
+
     Increase quantity(party, rations) by 12. }
   Rule aboard_billie when at(party, deck) and voyaged(wapshotts) and billieAboard(wapshotts) and not away(billie) { Assert away(billie). Assert at(billie, deck). Assert following(billie, party). }
   Rule aboard_mumchance when at(party, deck) and voyaged(wapshotts) and mumchanceAboard(wapshotts) and not away(mumchance) { Assert away(mumchance). Assert at(mumchance, deck). Assert following(mumchance, party). }
@@ -79,7 +80,7 @@ Module circus "Wapshott's Peregrine Circus" {
     On discuss { Assert colonelCovered(wapshotts). }
   }
   Topic wap_fear_name with wapshott "Tell the Colonel you saw his hands on the rail, and that it was well done to sing" when stormDone(wapshotts) and not colonelCovered(wapshotts) and not colonelNamedFear(wapshotts) once {
-    Says "The Colonel goes still. Then he puts his hat on, very straight, and says, 'I was extremely frightened.' It is the first thing you have heard him say in an ordinary voice. 'I have been frightened every night of my life,' he says, 'and it has not once been the right night.' He looks at his hands. 'Do not tell Ada.' He does not speak to you again for a day, and the next morning he brings you tea himself, in the wrong cup, and spills it.".
+    Says "The Colonel goes still. Then he puts his hat on, straight, and says, 'I was extremely frightened.' It is the first thing you have heard him say in an ordinary voice. 'I have been frightened every night of my life,' he says, 'and it has not once been the right night.' He looks at his hands. 'Do not tell Ada.' He does not speak to you again for a day, and the next morning he brings you tea himself, in the wrong cup, and spills it.".
     On discuss { Assert colonelNamedFear(wapshotts). Increase regard(billie) by 1. }
   }
 
@@ -87,7 +88,7 @@ Module circus "Wapshott's Peregrine Circus" {
   Rule calm_comes when atSea(wapshotts) and outward(wapshotts) and day(clock) >= sailDay(wapshotts) + 7 and hour(clock) >= 10 and not calmDone(wapshotts) { Assert calmDone(wapshotts). }
   Observe calm_scene at deck when calmDone(wapshotts) and atSea(wapshotts) and outward(wapshotts) "The wind has simply stopped. The sea is a sheet of hot lead; the sails hang like washing. The crew lie in the shade of the boat with their hats over their faces. A turtle, enormous, rides past on the surface with an air of having been invited.".
   Topic crewe_vance with crewe "Ask Mate Crewe about Captain Vance" when calmDone(wapshotts) and atSea(wapshotts) and not vanceKnown(wapshotts) once {
-    Says "'Born on Sarn,' says Crewe, after a long time. 'His grandfather was the last Warden. The Wardens stopped being paid the year the Progress was dissolved, and stayed seven years, and the last of them put his boy on a trader at nine, with the Preserve's key round his neck and a note to keep it. The boy kept it forty years. He never went back, because there was nothing to go back to but a rule and a lot of animals. He read your letter at Port Dree. He said, a Keeper, and sat down on a bollard.' Crewe turns his hat. 'He took the last clutch off the beds himself. He said the Keeper had asked, and somebody ought to answer.' He puts the hat on. 'He has the key, the Captain. It's in the cabin. It opens a door that isn't there any more.'".
+    Says "'Born on Sarn,' says Crewe, after a long time. 'His grandfather was the last Warden. The Wardens stopped being paid the year the Progress was dissolved, and the last of them stayed thirty-one years keeping the books, and put his grandson on a trader at nine, with the Preserve's key round his neck and a note to keep it. The boy kept it forty years. He never went back, because there was nothing to go back to but a rule and a lot of animals. He read your letter at Port Dree. He said, a Keeper, and sat down on a bollard.' Crewe turns his hat. 'He took the last clutch off the beds himself. He said the Keeper had asked, and somebody ought to answer.' He puts the hat on. 'He has the key, the Captain. It's in the cabin. It opens a door that isn't there any more.'".
     On discuss { Assert vanceKnown(wapshotts). Give preserve_key to actor. }
   }
   Kind preserve_key "the Preserve's key" is gear worth 0 weighing 1 described "A bronze key as long as a hand with a crowned wheel for a bow, worn smooth by a boy's chest and a man's. It is the key of the Preserve-house door.".
@@ -101,8 +102,18 @@ Module circus "Wapshott's Peregrine Circus" {
   Observe hold_egg at hold when homeward(wapshotts) and takeEgg(wapshotts) "In a basket by the galley stove, wrapped in the Colonel's best coat and a damp cloth, a grey loaf-big egg. Somebody turns it every hour on the hour. It is, for the whole of the crew, a ship's pet.".
   Observe hold_empty at hold when homeward(wapshotts) and takeLeave(wapshotts) "The cages along both sides of the hold are empty, with the straw as fresh as it was. The Colonel, who is sitting among them with his back against a bar, says it is the best hold he has ever been in.".
 
+  Rule hatchlings_aboard when voyaged(wapshotts) and hatchlingsPenned(wapshotts) and not hatchlingsHome(party) and at(hatchlings, ?r) and distinct(?r, hold) {
+    Retract travels(hatchlings). Retract post(hatchlings, rk_beasts). Retract at(hatchlings, ?r). Assert at(hatchlings, hold). }
+  Rule crew_aboard_home when homeward(wapshotts) and not dead(mudge) and away(mudge) { Retract away(mudge). Assert at(mudge, deck). }
+  Rule cook_aboard_home when homeward(wapshotts) and away(nunn) { Retract away(nunn). Assert at(nunn, deck). }
+  Rule hull_leaks when homeward(wapshotts) and atSea(wapshotts) and hullHoled(wapshotts) and hour(clock) == 6 and bailedDay(wapshotts) < day(clock) { Set bailedDay(wapshotts) to day(clock). Decrease quantity(party, rations) by 2 or to nothing. }
+  Measure bailedDay(concern).
+  Observe hull_water at hold when homeward(wapshotts) and hullHoled(wapshotts) "Water slops over the hold floor at every roll, and Mr Mudge is bailing with a cage-bucket, singing.".
+  Topic nunn_home with nunn "Ask Aggie what was in the stew" when homeward(wapshotts) and atSea(wapshotts) once {
+    Says "'Mr Mudge,' says Aggie, and stirs. 'Mostly.'".
+  }
   Rule home_from_sarn at green_a when voyaged(wapshotts) and homeward(wapshotts) and not backFromSarn(wapshotts) and not atSea(wapshotts) and at(party, green_a) {
-    Assert backFromSarn(wapshotts). Retract away(wapshott). Retract away(fenwick). Retract away(billie). Retract away(mumchance). Retract away(crewe).
+    Assert backFromSarn(wapshotts). Retract away(wapshott). Retract away(fenwick). Retract away(billie). Retract away(mumchance). Retract away(crewe). Retract away(mudge). Retract away(nunn).
     Retract following(wapshott, party). Retract following(fenwick, party). Retract following(billie, party). Retract following(mumchance, party).
     Set moveDay(wapshotts) to day(clock) + 1. Set homeDay(wapshotts) to day(clock). }
   Measure homeDay(concern).
