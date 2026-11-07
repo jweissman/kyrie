@@ -1,0 +1,155 @@
+Module wrongboat "The Wrong Boat" {
+  // ── Faces on the river ────────────────────────────────────────────────────────────────────────────────────────
+  Relation shimWilling(group). Relation shimLoyal(group). Relation shimBetrayed(group). Relation shimGone(group). Relation shimSeesHob(group).
+  Relation dallyAsked(group). Relation dallyWed(group). Relation dallyBolted(group). Relation dollyFare(group).
+  Relation cobboldToldMary(group). Relation teagueOpen(group). Relation unaSung(group). Relation nollWaited(group). Relation hobyPlay(group).
+  Relation bessAlly(group). Relation bessPitied(group). Relation hobKnown(group).
+
+  // Mother Cobbold, who presses a hamper on the first people who look as if they are going somewhere.
+  Person cobbold "Mother Cobbold" at quay {
+    Role "landlady of the Heron and Pipe". Ancestry human. Profession innkeeper. Peaceable. Pronouns she. Manner jovial.
+    Greets "A stout woman in a man's coat comes out of the Heron with a hamper on her hip and her free hand already on your sleeve. 'You,' she says. 'You're going down. Everyone's going down, it's the fair. Which boat?'".
+  }
+  Topic cobbold_which with cobbold "Say which barge you paid for" when true once {
+    Says "'Hurry up,' says Mother Cobbold. 'I've a kitchen on fire and a man who owes me eleven shillings, and he has left me a hamper for a cook who is on the Maud and will not eat it cold.'".
+  }
+  Topic cobbold_maud with cobbold "The Maud, which has gone" answering cobbold_which when true {
+    Says "'Has she?' says Mother Cobbold, looking at the empty water with real surprise. 'Well, then, the Mary will do. They're sisters.' She thrusts the hamper at you. 'Tell the Mary's cook it's for the Maud's, and she will know what to do with it. I never knew a cook who didn't.'".
+    On discuss { Give hamper_kind to actor. Assert cobboldToldMary(actor). }
+  }
+  Topic cobbold_mary with cobbold "The Mary, I think" answering cobbold_which when true {
+    Says "'You think,' says Mother Cobbold. 'God help you.' She puts the hamper into your arms anyway. 'That is not the one that was paid for, and I do not know which is, but they are the same barge in a different colour. Don't open it. It isn't yours.'".
+    On discuss { Give hamper_kind to actor. Assert cobboldToldMary(actor). }
+  }
+  Topic cobbold_either with cobbold "Whichever one is still afloat" answering cobbold_which when true {
+    Says "She laughs, a bark. 'Good,' she says. 'That's a sailor.' The hamper is in your arms before you have finished the sentence.".
+    On discuss { Give hamper_kind to actor. Assert cobboldToldMary(actor). }
+  }
+  Person parr "Jack Parr" at taproom {
+    Role "a bargeman between engagements". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Greets "A big man with a cork-coloured face, on his fourth pint and his eighth opinion, raises a mug to you from the settle. 'Tom Lowther's song!' he says, for no reason. 'Do you know it? Thirty verses!'".
+  }
+  Topic parr_woman with parr "Ask Jack Parr about a woman asking after a box" when since(20) and not at(bess, quay) {
+    Says "'The toll-clerk? Bess?' says Parr. 'Gone up the Maud, I'd think, with a face like a bailiff. Mind, she'd have gone up the wrong one. She cannot tell a Maud from a Mary at forty paces. It's the eyes.' He is very sure.".
+  }
+
+  // The Patient Mary: Dolly Prout, her mate, her cook, and a passenger who should be on the other boat.
+  Person dolly "Dolly Prout" at deck {
+    Role "skipper of the Patient Mary". Ancestry human. Peaceable. Pronouns she. Manner jovial.
+    Greets "A woman built like a cask, with a boatman's pipe in her teeth and a hand on the tiller she has not taken off in nine years, looks you up and down. 'Two shillings each or you work,' she says. 'I don't ask which. A person who wants the Maud and is standing on the Mary has had a worse morning than I have.'".
+  }
+  Topic dolly_fare with dolly "Ask Dolly what the fare is" when true once {
+    Says "'Two shillings, to Pelham,' says Dolly. 'Or the galley, or the bilge-pump, or you sing. Nobody sings. They think they can. Do you know what's in the hamper?'".
+  }
+  Topic dolly_pay with dolly "Pay the two shillings each" answering dolly_fare when true {
+    Says "'Done,' says Dolly. 'Mind the onions.'".
+    On discuss { Decrease quantity(actor, gold) by 6 or to nothing. Assert dollyFare(actor). }
+  }
+  Topic dolly_work with dolly "Work your passage in the galley" answering dolly_fare when true {
+    Says "'Mrs Brabant will use you,' says Dolly. 'Keep clear of the copper.'".
+    On discuss { Assert dollyFare(actor). }
+  }
+  Topic dolly_sing with dolly "Sing for it" answering dolly_fare when true {
+    Says "You give her a verse of something. She listens with her pipe out and then puts it back. 'That,' she says, 'was the worst thing I have heard on this river since the Bishop's choir, and I will take it as a down payment.'".
+    On discuss { Assert dollyFare(actor). }
+  }
+  Topic dolly_hamper with dolly "Tell Dolly there is a hamper for the Maud's cook" when holding(actor, hamper_kind) or hamperOpened(actor) {
+    Says "'The Maud's cook is a man with a wooden leg called Pegleg,' says Dolly. 'He has not got a hamper. He's got an opinion. Give it to Mrs Brabant. She'll eat it.' She looks at the water, and at you. 'You'd be surprised,' she says, 'what this river thinks is a parcel.'".
+  }
+  Person teague "Mrs Brabant" at galley {
+    Role "cook of the Patient Mary". Ancestry human. Peaceable. Pronouns she. Manner compassionate.
+    Greets "The cook turns with the oar-length spoon in one fist and tears down both cheeks. 'It's the onions,' she says. 'It's always the onions. It's not the onions.'".
+  }
+  Topic teague_lost with teague "Ask Mrs Brabant what is the matter" when true once {
+    Says "'Nothing,' says Mrs Brabant, wiping her face with the back of the spoon-hand. 'Have you ever lost a thing you couldn't say you'd lost, because nobody would know what you meant?'".
+  }
+  Topic teague_yes with teague "Yes. It was a person" answering teague_lost when true {
+    Says "'Ah,' she says. 'Well, then.' She puts down the spoon. 'There was a man on this barge for twenty years who wrote the song they sing at me over the washing-up. He wrote it for his wife. He went over the side at the Pelham weir in a flood, and Hob Garrod would not stop the barge. The singing started the day after.' She picks the spoon up. 'It's a good song.'".
+    On discuss { Assert teagueOpen(actor). }
+  }
+  Topic teague_no with teague "No. I've never lost anything" answering teague_lost when true {
+    Says "'Lucky,' says Mrs Brabant, kindly, as to a child. 'I've the onions in the morning, then.' She does not say what the matter is.".
+  }
+  Topic teague_thing with teague "Ask Mrs Brabant if she knows the song the crew sings" when true {
+    Says "'Tom's,' she says. 'Tom Lowther's. He had thirty verses and the crew have added a hundred and nineteen, all terrible.' She stirs. 'There was a box made to play it. His wife had it. I never saw it go.' Her spoon stops.".
+    On discuss { Assert knows(actor, tune_known). }
+  }
+  Topic teague_box with teague "Show Mrs Brabant the music box" when holding(actor, music_box) and not teagueSaw(party) once {
+    Says "She does not take it. She looks at it for a long time without moving, and then she turns to the copper and puts her whole face in the steam. 'You'll not take that to Pelham,' she says to the copper. 'You'll take that to Staithe, to Bess Lowther, at the toll, who is looking for you, and who will not be kind about it, but who is the one it belongs to. And you will not tell Hob.'".
+    On discuss { Assert teagueSaw(party). Assert hobKnown(actor). }
+  }
+  Relation teagueSaw(group).
+
+  // Shim Garrod, who is the owner's nephew and is not on his uncle's side.
+  Person shim "Shim Garrod" at deck {
+    Role "mate of the Patient Mary". Ancestry human. Calling commoner. Level 1. Peaceable. Pronouns he. Manner cheerful.
+    Greets "A lad of nineteen, all knees and rope-burns, comes down the tiller-deck three planks at a time and shouts the news of every barge on the river at nobody. 'Passengers!' he says. 'Passengers on the Mary! Dolly, they've got a hamper, are we on fire?'".
+    Joins "Shim swings his bundle over his shoulder and shouts something to the cook about the dinner. 'I've never been further than Pelham,' he says, delighted. 'I've no idea where we're going. I'm coming.'".
+    Leaves "Shim stands on the far bank with his bundle and his hands hanging. 'I'll go back,' he says. 'I'll say you were decent. I don't know what else to say.'".
+    Remarks at pelham_inn "Shim stops at the door of the Magpie. On a board by the hatch, among the lost dogs and the quarter-day notices, there is a gaol list. He reads it with his lips. 'He's in,' he says. 'He's in the Pelham lock-up, for the eleven shillings.' It is his uncle.".
+    Remarks at weir "Shim looks at the white water going over the apron. 'That's where Tom went in,' he says. 'He was on the bow. He was singing. They say he was singing.' He does not say anything else for the length of the weir.".
+  }
+  Topic shim_side with shim "Ask Shim whose side he is on" when true once {
+    Says "'The boat's,' says Shim at once. Then, rubbing his neck: 'My uncle's, I think. He's the one who has the boat. He's the one who gave me the job when my father died.' He kicks a coil. 'But if he's done what I think he's done — what would you do? If it was yours? If he was?'".
+  }
+  Topic shim_tell with shim "Tell him you'd go to the one wronged" answering shim_side when true {
+    Says "He nods. He keeps nodding, a long time after it has stopped meaning anything. 'That's Bess,' he says. 'Aye. That's Bess. I'll come with you to the end of the river, then. I might not be much use.'".
+    On discuss { Assert shimWilling(actor). Assert willing(shim, actor). Set hire(shim) to 0. Assert shimBetrayed(actor). }
+  }
+  Topic shim_hold with shim "Tell him blood is blood, and you'd say nothing" answering shim_side when true {
+    Says "'Aye,' says Shim, low, and looks relieved, and is not. 'Aye. I'll come. I'll help.'".
+    On discuss { Assert shimWilling(actor). Assert willing(shim, actor). Set hire(shim) to 0. Assert shimLoyal(actor). }
+  }
+  Topic shim_dunno with shim "Tell him you don't know him well enough to say" answering shim_side when true {
+    Says "'That's fair,' says Shim, and grins, and the grin is the first thing he's done all day that does not look practised. 'Come on, then. We'll find out.'".
+    On discuss { Assert shimWilling(actor). Assert willing(shim, actor). Set hire(shim) to 0. }
+  }
+  Topic shim_uncle with shim "Ask Shim what he means to do about his uncle in the lock-up" when at(party, pelham_inn) and travelsWith(shim, party) once {
+    Says "Shim leans on the hatch with his chin in his hands, among the lost dogs and the quarter-day notices. 'He's in for eleven shillings,' he says. 'Mother Cobbold's. He could have paid it on any day this month if he hadn't sold what wasn't his.' He looks at you sideways. 'If you go and look at him, he'll say it was all for me. That's what he always says. What do I do?'".
+  }
+  Topic shim_visit with shim "Tell him to go and look his uncle in the face" answering shim_uncle when true {
+    Says "'Aye,' says Shim. He goes in at the lock-up door at the back of the Magpie with his hat in his hands, and he is gone twenty minutes, and when he comes out he is quite white and walking very carefully, like a man with a full cup. 'He cried,' he says. 'And then he asked me for tobacco.' He sits on the step. 'I'll see you at the hill.'".
+    On discuss { Assert shimSeesHob(actor). }
+  }
+  Topic shim_skip with shim "Tell him to leave the man to his own mess" answering shim_uncle when true {
+    Says "'That's what I'd say,' says Shim, and does not look as if it helps. 'That's what I'd say, if it was yours.'".
+  }
+  Rule shim_decides at hill_foot when at(party, hill_foot) and travelsWith(shim, party) and not shimGone(party) and (shimBetrayed(party) or shimSeesHob(party))
+    says "At the milestone Shim stops. 'This is as far as the river goes,' he says. 'I can't go on a road I don't know, after what I've done to a man who gave me a job.' He puts his bundle on his other shoulder. 'You've the box. I'll go back to Highfoot and wait for the boat. Somebody has to tell them what happened.' He walks back down the road with his head up, which is worse." {
+    Assert shimGone(party). Retract travelsWith(shim, party). Assert at(shim, ferry_stage). }
+
+  // Peregrine Dally, a young gentleman on the wrong barge for the right reason.
+  Person dally "Mr Peregrine Dally" at cabin {
+    Role "a young gentleman, on his way to be married". Ancestry human. Calling commoner. Level 1. Peaceable. Pronouns he. Manner proud.
+    Greets "A young man in a good coat sits in the cabin with a bridegroom's flower wilting in his buttonhole and a watch open in his hand. 'Which barge is this?' he says. 'The Maud. This is the Maud. They said the Maud. Madam, I am to be married at noon tomorrow, in Pelham, and my future father-in-law has a temper and a shotgun.'".
+    Joins "Mr Dally closes his watch and puts it away as if burying it. 'If you are going the way I am,' he says, 'I would be obliged. If you are not, I shall be obliged anyway, and walk.'".
+    Leaves "Mr Dally straightens his coat, tugs at the dead flower, and sets off for the church at a half-run. 'If I am not shot,' he says, 'you shall be invited.'".
+  }
+  Topic dally_love with dally "Ask Mr Dally about his bride" when true once {
+    Says "'Miss Hester Corbet,' says Mr Dally, and his face goes red and blank at once. 'She is very good. She is very, very good, and she has a dog.' He closes the watch. 'Tell me honestly. Do I look like a man who loves her?'".
+  }
+  Topic dally_yes with dally "You look like a man in love" answering dally_love when true {
+    Says "'Do I?' he says, appalled and pleased. 'Good. Good. That would be the right look.' He puts his hand over his mouth. 'Because I do not know, you see. That is the thing nobody tells you. It looks exactly like terror.'".
+    On discuss { Assert dallyAsked(actor). Assert willing(dally, actor). Set hire(dally) to 0. }
+  }
+  Topic dally_no with dally "You look like a man in flight" answering dally_love when true {
+    Says "'Ah,' says Mr Dally, and sits down. 'Ah. Yes.' He takes the flower out of his buttonhole. 'Well. I should like to be in flight with company, then, if I might. I have never been in flight. I understand it is a matter of not looking back.'".
+    On discuss { Assert dallyAsked(actor). Assert dallyBolted(actor). Assert willing(dally, actor). Set hire(dally) to 0. }
+  }
+  Topic dally_dunno with dally "You look like a man with a cold" answering dally_love when true {
+    Says "He sneezes at once, which is either a coincidence or the funniest thing that has happened to him all week. 'Quite right,' he says, wiping his eyes. 'I have never felt better. Take me with you; I shall be an asset.'".
+    On discuss { Assert dallyAsked(actor). Assert willing(dally, actor). Set hire(dally) to 0. }
+  }
+  Rule dally_bells at fairground when at(party, fairground) and travelsWith(dally, party) and not dallyWed(party) and not dallyBolted(party) and not dallyNoted(party)
+    says "Somewhere above the fair a church bell begins to ring for noon, a flat cracked bell, and Mr Dally stops where he stands with his mouth open. 'That is the wrong church,' he says. 'That is the church I am to be married in, and I am here.' A woman in a green bonnet goes by on the arm of a stout man with a gun, and Mr Dally takes a step behind you." {
+    Assert dallyNoted(party). }
+  Relation dallyNoted(group).
+  Topic dally_go with dally "Tell Mr Dally to go to the church" when dallyNoted(party) and not dallyWed(party) and not dallyBolted(party) once {
+    Says "He looks at you as a man looks at a hand held out over a drop. 'You think I should,' he says. Then, with a sudden grin of pure terror: 'Yes. By God, yes.' He tugs his coat straight, takes the dead flower from his buttonhole and puts it back. 'If you hear a shot, it was a wedding.' He is gone through the crowd at a stiff-legged walk, and the crowd closes round him like water.".
+    On discuss { Assert dallyWed(party). Retract travelsWith(dally, party). Retract at(dally, fairground). }
+  }
+  Topic dally_stay with dally "Tell Mr Dally he is under no obligation" when dallyNoted(party) and not dallyWed(party) and not dallyBolted(party) once {
+    Says "'Under none,' he says. 'None whatever.' He sits down on a barrow of onions, and the onion-seller says something rude, and he does not hear it. 'I am so relieved,' he says in a high voice, 'that I feel quite sick.'".
+    On discuss { Assert dallyBolted(party). }
+  }
+}

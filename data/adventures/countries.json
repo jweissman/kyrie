@@ -560,6 +560,22 @@
    "heard": "East of here, in the Hesper Fells, lies Kell Ford, where an old soldiers' road begins that goes sixty miles over the mountains to a place where, they say, someone still lights the lamps.",
    "skyline": "a pale paved road climbing out of a huddle of grey houses into the fells and being lost",
    "far": "an old soldiers road goes sixty miles over the fells, and at the far end someone is said to still light the lamps"
+  },
+  {
+   "id": "wrongboat",
+   "province": true,
+   "bundle": "wrongboat/placed.json",
+   "entry": "road",
+   "marker": "cobbold",
+   "side": "south",
+   "beside": ["hills", "forest", "marsh", "mountain"],
+   "name": "the Aldwater",
+   "topic": "the Staithe quay, where two barges lie side by side",
+   "terrain": "hills",
+   "rumour": "'Down at Staithe quay,' says {keeper}, 'they keep two barges side by side that no one can tell apart, the Maud and the Mary. A person once got on the wrong one, and the river has never forgiven him.'",
+   "heard": "South of here, at the Staithe quay on the Aldwater, two barges lie side by side that nobody can tell apart.",
+   "skyline": "a brown river between willows with a line of masts on it",
+   "far": "two barges that nobody can tell apart lie side by side on a river, and one of them is the wrong one"
   }
  ]
 }

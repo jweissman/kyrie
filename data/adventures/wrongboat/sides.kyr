@@ -1,0 +1,182 @@
+Module wrongboat "The Wrong Boat" {
+  // ── Bess, face to face ──────────────────────────────────────────────────────────────────────────────────────────
+  Topic bess_where with bess "Hear what Bess has to say" when confronted(party) and not bessMet(party) once {
+    Says "'You have a hamper,' says Bess Lowther. 'Or you had. It came out of the Heron on Mother Cobbold's hip, and onto this river on yours.' She wipes her hands on her sleeves. 'I am not the Trust. I am not the law. I am a woman who is owed three months, and I would trade every one of them for what was in it. Where is it?'".
+  }
+  Topic bess_give with bess "Put the box in her hands" answering bess_where when holding(actor, music_box) {
+    Says "She does not take it at once. She puts both hands under it as you would under a bird. It starts to play, because the spring is loose, and she stands there on the planks of the quay, or the causeway, or the weir, with her eyes shut, and the whole of the river has the grace to make less noise.".
+    On discuss { Spend music_box from actor. Assert boxReturned(actor). Assert bessMet(party). }
+  }
+  Topic bess_hob with bess "Tell her it was Hob Garrod who put it aboard" answering bess_where when true {
+    Says "'I know it was,' says Bess. 'I came to Staithe to be told by someone else.' She sits down on a bollard, or a sack, or the ground. 'Come with me, then. Come and say it to his face. I'll not hurt you. Nobody on the river thinks I could.'".
+    On discuss { Assert bessAlly(actor). Assert bessMet(party). Assert following(bess, actor). }
+  }
+  Topic bess_yours with bess "Say it is not hers to ask for" answering bess_where when true {
+    Says "She takes this without moving her face. 'No,' she says. 'It is not.' She lets it lie. 'Then you will want to be very far away by Saturday, because the Trust's lads think it is theirs, and they do not ask.' She turns and goes, and her back is the least dignified thing you have seen all week.".
+    On discuss { Assert bessMet(party). Assert bessKnows(party). Assert bessPitied(actor). }
+  }
+  Topic bess_wage with bess "Ask Bess what she is owed and by whom" when bessMet(party) {
+    Says "'Three months by the Trust,' says Bess. 'Seven by Hob Garrod, for a man dead four years. I could have lived on the first and I could not on the second.' She turns the coin-scale in her hand. 'Mudge has the idea that if I come home without the box I'll lose the room over the toll-house. He has the idea that if I come home with it I'll lose it anyway, because he wants it. He is not a stupid man, and nor am I.'".
+  }
+
+  // ── The Highfoot ferry ──────────────────────────────────────────────────────────────────────────────────────────
+  Person una "Una Marchbank" at ferry_hut {
+    Role "the ferrywoman at Highfoot". Ancestry human. Peaceable. Pronouns she. Manner stoic.
+    Greets "A small, brown, upright woman of sixty with a boathook for a stick looks at you for some time. 'Aye,' she says.".
+  }
+  Topic una_cross with una "Ask Una to put you across" when true once {
+    Says "Una looks at the water, and the sky, and the three of you. 'What are you carrying?' she says.".
+  }
+  Topic una_truth with una "Tell her what is in the hamper" answering una_cross when true {
+    Says "'Aye,' says Una. She puts down the boathook. 'I knew Tom. I knew the song.' She goes to the ferry without another word. The chain rattles. It is a very short crossing, and she says nothing during it, and at the far bank she takes no money.".
+    On discuss { Assert ferryPaid(actor). Assert unaSung(actor). }
+  }
+  Topic una_nothing with una "Say nothing but yourselves" answering una_cross when true {
+    Says "'Aye,' says Una. 'Two coin.' She holds out a hand like a root.".
+    On discuss { Decrease quantity(actor, gold) by 2 or to nothing. Assert ferryPaid(actor). }
+  }
+  Topic una_tune with una "Wind the box and let her listen" answering una_cross when holding(actor, music_box) {
+    Says "You wind it. Una listens to the whole of the tune with her eyes on the middle distance. When it ends she does not say anything. She gets up, and takes the chain in both hands, and takes you across, and at the far bank she says, 'Mind him. Hob. He has a way of being behind you.' It is the longest speech you have ever heard her make.".
+    On discuss { Assert ferryPaid(actor). Assert unaSung(actor). Assert boxWound(actor). }
+  }
+
+  // ── The horse-dealer, the draper and the puppet-man: Pelham on fair-day ─────────────────────────────────────────
+  Person dealer "Joel Sunderland" at horse_lines {
+    Role "a horse-dealer". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Greets "A man like a barrel with a whip tucked in his belt looks at your boots first, then your face, then your boots. 'I've a mare for you,' he says. 'Or I've a gelding for you. Or I've neither and I'm lying. Which would you like?'".
+  }
+  Person tunney "Orpha Tunney" at draper {
+    Role "slop-seller". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
+    Greets "The woman behind the counter takes a tape off her neck. 'I do not ask why,' she says. 'I measure. It is a point of honour with me, and a matter of profit.'".
+  }
+  Topic draper_what with tunney "Ask Mrs Tunney what she could make of you" when true once {
+    Says "'What do you want to be taken for?' says Orpha Tunney, with the tape already out. 'It is cheaper to be a bargeman than a bishop and I should say a good deal more convincing.'".
+  }
+  Topic dress_barge with tunney "A bargeman, with a smell to match" answering draper_what when quantity(actor, gold) >= 4 {
+    Says "Four coin and a quarter of an hour. The smock is stiff with tar, and you smell, truly, like a barge. She hands you a pipe with no tobacco in it. 'Keep it in your mouth,' she says. 'It does half the work.'".
+    On discuss { Decrease quantity(actor, gold) by 4. Assert disguised(actor). }
+  }
+  Topic dress_bride with tunney "A bridegroom's party, in lavender" answering draper_what when quantity(actor, gold) >= 7 {
+    Says "'Ah,' says Orpha Tunney. 'A man who wants to be looked at, so he will not be seen. Very good.' It costs seven coin and you leave in a waistcoat that can be heard from the next field.".
+    On discuss { Decrease quantity(actor, gold) by 7. Assert disguised(actor). Assert flamboyant(actor). }
+  }
+  Topic dress_none with tunney "Nothing. I was only measuring" answering draper_what when true {
+    Says "'Everyone is,' says Orpha Tunney, and puts the tape away.".
+  }
+  Relation flamboyant(group).
+  Person hoby "Gabriel Hoby" at puppet_booth {
+    Role "a puppet-man, between acts". Ancestry human. Peaceable. Pronouns he. Manner proud.
+    Greets "A thin man in his shirt, with a king's head on one hand and a crocodile's on the other, looks round the edge of the cloth. 'The cast is always one short,' he says. 'Are you any good at falling over?'".
+  }
+  Topic hoby_villain with hoby "Ask Hoby what his play is about" when true once {
+    Says "'It's called The Wicked Toll-Clerk,' says Hoby. 'The audience has been wanting a new villain since the old one retired. I have a king, a crocodile, a baby that is a sausage, and a gap where a villain goes.' He shakes the crocodile at you. 'Who is it? The villain. Name me one.'".
+  }
+  Topic hoby_bess with hoby "A toll-clerk with a coin-scale" answering hoby_villain when true {
+    Says "'Perfect,' says Hoby, delighted. 'Hands on the scale, a face like a closed door, a long black sleeve!' He is already writing it on the wall in chalk. By tomorrow every child in Pelham will be booing a woman they have never met.".
+    On discuss { Assert hobyPlay(actor). }
+  }
+  Topic hoby_hob with hoby "A bargeman who owes everybody" answering hoby_villain when true {
+    Says "'Ah,' says Hoby, and his face changes. 'Now that's truer. That's not a villain; that's a man.' He rubs out whatever he had begun. 'Nobody laughs at a man who owes. They laugh at a man who thinks he doesn't.'".
+  }
+  Topic hoby_me with hoby "Yourself, for putting up with this" answering hoby_villain when true {
+    Says "He puts down the crocodile. For the first time he looks at you directly. 'I'll put you on,' he says. 'I'll give you the baby. I'll tell them you are a figure of fun.' He is very pleased with himself, and you have, for the length of a fair-day, the best hiding place in Pelham.".
+    On discuss { Assert hiding(actor). }
+  }
+  Action hide_in_booth(actor: group, site: place) "Duck behind the puppet-cloth and take a head" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, puppet_booth) and not hiding(actor).
+    Time 0.
+    On success { Assert hiding(actor). }
+    Result "You take the crocodile. It is lighter than you expected, and shaped to the arm. Outside, a roar of children. Nobody looks at the man behind the cloth.".
+  }
+
+  // ── Rumours: where is she? (Sometimes the answer is wrong.) ─────────────────────────────────────────────────────
+  Person warden "the quay-warden" at fair_quay {
+    Role "Pelham's quay-warden, a man with a bell". Ancestry human. Peaceable. Pronouns he. Manner stoic.
+  }
+  Topic warden_bess with warden "Ask the quay-warden if anyone has asked after a box" when since(60) {
+    Says "'Black sleeves?' says the warden, scratching himself. 'A toll-clerk? Came off a cart at noon asking after a hamper. Went up Quay Street towards the fair.' He is very certain. It is not at all clear he has not mistaken her for another woman with a similar grievance.".
+  }
+  Relation nollWaited(group).
+  Topic noll_wait with noll "Ask Noll why he rings the bell" when true once {
+    Says "'To tell the lost where the road is,' says the man in the bell-cot. He is perhaps seventy, all beard and mild attention. 'Every strike takes a lost soul one plank nearer. They don't know it.' He pulls the rope. 'How long would you wait for someone who might not come?'".
+  }
+  Person noll "Noll Fairley" at bell_cot {
+    Role "the fen bell-ringer". Ancestry human. Peaceable. Pronouns he. Manner compassionate.
+  }
+  Topic noll_forever with noll "As long as it took" answering noll_wait when true {
+    Says "'Aye,' says Noll. 'That's what I said once.' He looks out over the mist. 'My wife's been gone thirty years, and I still ring at the quarter.'".
+    On discuss { Assert nollWaited(actor). }
+  }
+  Topic noll_sunset with noll "Until sunset, and no longer" answering noll_wait when true {
+    Says "'Sensible,' says Noll, without reproach. 'You'll be a long time alive.'".
+  }
+  Topic noll_never with noll "I would not wait at all" answering noll_wait when true {
+    Says "'Would you not?' says Noll, with real interest. 'I've not heard that said by anyone who looked happy about it.'".
+  }
+  Topic noll_bess with noll "Ask Noll if anyone has been this way" when since(40) {
+    Says "'A woman with a scale in her hand went over the causeway a while back,' says Noll. 'In the mist. She asked me the time and went on. I rang her out of it myself.' He ponders. 'I should say she is behind you now, not before. Though the mist is a great liar.'".
+  }
+  Action lay_false_trail(actor: group, site: place) "Wrap a ration-cake in a dishcloth and leave it in the eel-skiff" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, eel_stage) and quantity(actor, rations) >= 1 and not decoyLaid(actor) and not decoyFound(actor).
+    Time 0.
+    On success { Decrease quantity(actor, rations) by 1. Assert decoyLaid(actor). }
+    Result "A cake in a cloth, in a skiff, tied up as if by someone in a hurry who did not wish to be seen leaving it. It looks, you think, like a lie that has had its hair done.".
+  }
+  Action hide_in_bellcot(actor: group, site: place) "Hunker in the bell-cot's loft behind the rope" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, bell_cot) and not hiding(actor).
+    Time 0.
+    On success { Assert hiding(actor). }
+    Result "The loft smells of tallow and cold iron. The rope passes inches from your ear. Noll says nothing; he has not looked up.".
+  }
+
+  // ── The mill, the weir, and the lads ────────────────────────────────────────────────────────────────────────────
+  Person tabitha "Tabitha Auster" at millyard {
+    Role "the miller's wife". Ancestry human. Peaceable. Pronouns she. Manner jovial.
+    Greets "A big red-armed woman looks up from the sack. 'I'm busy!' she shouts. 'But if you're running away from something, come in the kitchen, I've pie.'".
+  }
+  Topic tabitha_pie with tabitha "Ask Mrs Auster whether she's seen a man behind you" when true once {
+    Says "'Is there a man behind you?' says Tabitha. She looks past you at the empty yard. 'There's a man behind everyone,' she says. 'It's only a question of whether he's the kind who brings a pie.'".
+    On discuss { Assert hiding(actor). }
+  }
+  Person wilfred "Wilfred Auster" at millyard {
+    Role "the miller". Ancestry human. Peaceable. Pronouns he. Manner stoic.
+  }
+  Topic wilfred_sum with wilfred "Ask Mr Auster about the sum on the slate in the kitchen" when true once {
+    Says "'The boy's,' says Wilfred. 'He's set himself how many sacks it'd take to fill the Aldwater from here to the sea, and he's to have it done by Sunday.' He looks at the wheel. 'It is about forty thousand. He will tell you it's a hundred. He's very good at not being told.'".
+  }
+  Thing sluice "the relief sluice" at sluice_hut {
+    State held "The relief sluice is shut, and the weir pours white over its apron.".
+    State open "The relief sluice stands open and a second, brown torrent runs down below the apron, scouring out the stage where anyone had been standing.".
+    Change open_sluice "Spin the wheel and open the relief" from held to open.
+  }
+  Initially Assert state(sluice, held).
+  Rule sluice_sweeps at weir when state(sluice, open) and at(lads, weir) and not ladsSwept(party) {
+    Assert ladsSwept(party). Retract at(lads, weir).
+  }
+  Observe sluice_news at weir when ladsSwept(party) "Below the apron the water has taken back a stretch of bank, and two grey coats are far down the stream, going away in the current with their arms moving.".
+  Action pay_lads(actor: group, site: place) "Pay the lads fifteen coin to find the wrong woman" {
+    Speaker lads.
+    Requires able(actor) and company(actor) and at(actor, site) and at(lads, site) and quantity(actor, gold) >= 15 and able(lads) and not tolerates(lads, actor).
+    Time 0.
+    On success { Decrease quantity(actor, gold) by 15. Assert tolerates(lads, actor). }
+    Result "The larger lad counts them twice. 'There's a woman at Highfoot,' he says, without conviction, 'who's got the look.' They go off along the bank, arguing about who will say what to the sergeant.".
+  }
+
+  // ── The Last Pint, and the man who was to have bought it ────────────────────────────────────────────────────────
+  Person quill "Barnaby Fosse" at inn_room {
+    Role "innkeeper, and a mender of clocks". Ancestry human. Peaceable. Pronouns he. Manner grim.
+    Greets "A thin man with a cough and a loupe on a string looks up from a clock with its back off. 'You've brought it,' he says. 'Garrod's message said a box. I've been expecting it since Whitsun.'".
+  }
+  Topic quill_ask with quill "Ask Mr Fosse what he wants with a music box" when true once {
+    Says "'It's the movement,' says Fosse. 'A Lowther. They're rarer than the saints and nearly as unreliable.' He coughs. 'I'll give forty for it. The question is not the price. Who are you to sell it?'".
+  }
+  Topic quill_carrier with quill "Say you are only carrying it for a friend" answering quill_ask when holding(actor, music_box) {
+    Says "'Then your friend can have forty,' says Fosse. 'I'd rather he had the other thing.' He turns the box over, goes still, and holds it to the lamp. 'Oh,' he says. 'Oh, you poor devil.' He reads the back-plate for a long time. 'This is no Lowther I know. It's a Lowther he made himself. It's got his initials in it, and hers.' He gives it back. 'I'm not buying.'".
+    On discuss { Assert knows(actor, maker_known). Assert quillRead(actor). }
+  }
+  Topic quill_seller with quill "Say you are the seller and want forty" answering quill_ask when holding(actor, music_box) {
+    Says "'Forty,' says Fosse, and counts it out, shaking his head. He winds the box once and listens. 'You might want to read the plate,' he says. 'Before you walk out.' The coins are on the table. The box is in his hand.".
+    On discuss { Spend music_box from actor. Increase quantity(actor, gold) by 40. Assert soldFosse(actor). }
+  }
+  Relation quillRead(group). Relation soldFosse(group).
+}

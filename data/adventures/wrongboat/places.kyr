@@ -1,0 +1,92 @@
+Module wrongboat "The Wrong Boat" {
+  Description "The Aldwater, from the Staithe quay down through the fen, the fair at Pelham, the mill-race and the ferry at Highfoot, on the wrong barge, with the wrong parcel, with someone coming.".
+
+  // The river country, upstream to down. A road runs by the river (the chaser's way); the barge goes by water.
+  Place aldwater "The Aldwater country" is region within imbar.
+  Place staithe_ward "Staithe" is settlement within aldwater at 0, 0.
+  Place fen "the Wend Fen" is wilderness within aldwater at 1, 1.
+  Place pelham_ward "Pelham" is settlement within aldwater at 2, 2.
+  Place mill_reach "the mill reach" is wilderness within aldwater at 3, 3.
+  Place highfoot_ward "Highfoot" is settlement within aldwater at 4, 4.
+  Place hill_road "the hill road" is wilderness within aldwater at 5, 5.
+  Place heron "the Heron and Pipe" is building within staithe_ward.
+  Place tollhouse "the toll-house" is building within staithe_ward.
+  Place barge "the barge Patient Mary" is site within aldwater at 0, 1.
+  Place mill "Auster's mill" is building within mill_reach.
+  Place last_inn "the Last Pint" is building within hill_road.
+
+  // Staithe.
+  Place road "the Staithe road" is room within staithe_ward at 0, 0 outdoors.
+  Place quay "the Staithe quay" is room within staithe_ward at 1, 0 outdoors.
+  Place taproom "the Heron and Pipe" is room within heron at 2, 0.
+  Place toll_counter "the toll-house counter" is room within tollhouse at 1, 1.
+  // The barge, whose four rooms are carried from landing to landing.
+  Place deck "the deck of the Mary" is room within barge at 0, 0 outdoors.
+  Place cabin "the Mary's cabin" is room within barge at 1, 0.
+  Place hold "the Mary's hold" is room within barge at 0, 1.
+  Place galley "the Mary's galley" is room within barge at 1, 1.
+  // The fen.
+  Place fen_landing "the fen landing" is room within fen at 0, 0 outdoors.
+  Place causeway "the long causeway" is room within fen at 1, 0 outdoors.
+  Place bell_cot "the bell-cot" is room within fen at 2, 0 outdoors.
+  Place eel_stage "the eel-stage" is room within fen at 1, 1 outdoors.
+  // Pelham fair.
+  Place fair_quay "Pelham quay" is room within pelham_ward at 0, 0 outdoors.
+  Place fairground "Pelham fairground" is room within pelham_ward at 1, 0 outdoors.
+  Place puppet_booth "the puppet booth" is room within pelham_ward at 2, 0.
+  Place draper "Coyle's slop-shop" is room within pelham_ward at 1, 1.
+  Place horse_lines "the horse lines" is room within pelham_ward at 2, 1 outdoors.
+  Place pelham_inn "the Magpie" is room within pelham_ward at 0, 1.
+  // The mill reach.
+  Place race_head "the head of the mill-race" is room within mill_reach at 0, 0 outdoors.
+  Place millyard "the mill yard" is room within mill_reach at 1, 0 outdoors.
+  Place weir "the weir" is room within mill_reach at 1, 1 outdoors.
+  Place millhouse "Auster's kitchen" is room within mill at 2, 0.
+  Place sluice_hut "the sluice hut" is room within mill_reach at 0, 1 outdoors.
+  // Highfoot and the hill road.
+  Place ferry_stage "the Highfoot stage" is room within highfoot_ward at 0, 0 outdoors.
+  Place far_bank "the far bank" is room within highfoot_ward at 1, 0 outdoors.
+  Place ferry_hut "the ferrywoman's hut" is room within highfoot_ward at 0, 1.
+  Place hill_foot "the foot of the hill road" is room within hill_road at 0, 0 outdoors.
+  Place inn_room "the Last Pint" is room within last_inn at 1, 0.
+  Place pass_gap "the gap in the hills" is room within hill_road at 2, 0 outdoors.
+
+  Passage road_quay "the Staithe road" is road between road and quay taking 10 minutes.
+  Passage heron_door "the Heron's door" is door between quay and taproom.
+  Passage toll_door "the toll-house door" is door between quay and toll_counter.
+  // Barge to landing: the gangplank is down where the Mary lies.
+  Passage plank_staithe "the Mary's gangplank" is ferry between quay and deck taking 1 minute opening when bargeAt(1).
+  Passage plank_fen "the gangplank to the fen" is ferry between fen_landing and deck taking 1 minute opening when bargeAt(2).
+  Passage plank_fair "the gangplank to Pelham" is ferry between fair_quay and deck taking 1 minute opening when bargeAt(3).
+  Passage plank_mill "the gangplank to the race-head" is ferry between race_head and deck taking 1 minute opening when bargeAt(4).
+  Passage plank_foot "the gangplank to the Highfoot stage" is ferry between ferry_stage and deck taking 1 minute opening when bargeAt(5).
+  Passage deck_cabin "the cabin hatch" is door between deck and cabin.
+  Passage deck_hold "the hold hatch" is ladder between deck and hold.
+  Passage deck_galley "the galley door" is door between deck and galley.
+
+  // Fen.
+  Passage fen_ways "the fen path" is path between fen_landing and causeway taking 20 minutes.
+  Passage causeway_cot "the causeway to the bell" is path between causeway and bell_cot taking 20 minutes.
+  Passage causeway_eels "the plank walk to the eel-stage" is path between causeway and eel_stage taking 10 minutes.
+  Passage fen_to_fair "the long causeway into Pelham" is road between bell_cot and fairground taking 1 hour.
+  // Pelham.
+  Passage quay_fair "Quay Street" is road between fair_quay and fairground taking 10 minutes.
+  Passage fair_booth "the puppet booth's flap" is doorway between fairground and puppet_booth.
+  Passage fair_slops "Coyle's door" is door between fairground and draper.
+  Passage fair_lines "the horse lines" is path between fairground and horse_lines taking 10 minutes.
+  Passage fair_inn "the Magpie's door" is door between fair_quay and pelham_inn.
+  Passage fair_to_mill "the river road to the mill" is road between horse_lines and millyard taking 2 hours.
+  // Mill.
+  Passage head_yard "the head-race path" is path between race_head and millyard taking 10 minutes.
+  Passage yard_weir "the weir path" is path between millyard and weir taking 10 minutes.
+  Passage yard_kitchen "the mill door" is door between millyard and millhouse.
+  Passage yard_sluice "the sluice path" is path between millyard and sluice_hut taking 10 minutes.
+  Passage weir_sluice "the top of the weir" is path between weir and sluice_hut taking 5 minutes.
+  Passage mill_to_stage "the towpath to Highfoot" is road between weir and ferry_stage taking 2 hours.
+  // Highfoot.
+  Passage stage_hut "the ferrywoman's door" is door between ferry_stage and ferry_hut.
+  Passage ferry_across "the Highfoot ferry" is ferry between ferry_stage and far_bank taking 20 minutes opening when ferryCrossing() "The ferry lies on the far bank, and the ferrywoman is in no hurry.".
+  Passage far_hill "the hill road" is road between far_bank and hill_foot taking 30 minutes.
+  Passage foot_inn "the inn door" is door between hill_foot and inn_room.
+  Passage foot_gap "the road to the gap" is road between hill_foot and pass_gap taking 1 hour.
+}
