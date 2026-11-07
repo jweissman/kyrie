@@ -2,6 +2,7 @@ import { Canon } from '../canon/canon';
 import { PerkText } from '../presentation/perk-text';
 import { MechanicsText } from '../presentation/mechanics-text';
 import { Formations } from '../rules/formations';
+import { Checks } from '../rules/checks';
 import { HandbookStatus, type Entry, type Section } from './model';
 import { HandbookText } from './text';
 import { CanonValidation } from '../canon/canon-validation';
@@ -92,9 +93,11 @@ export class CompanyChapters {
     const entries = Object.entries(Canon.skills).map(([id, s]): Entry => {
       const from = [...Object.entries(Canon.classes).filter(([, c]) => c.skills?.includes(id)).map(([, c]) => c.name),
         ...Object.entries(Canon.backgroundKinds).filter(([, k]) => k.skills?.includes(id)).map(([, k]) => `${k.name} backgrounds`),
-        ...Object.values(Canon.items).filter(i => i.grants?.skill === id).map(i => i.name)];
+        ...Object.values(Canon.items).filter(i => i.grants?.skill === id || i.aids?.includes(id)).map(i => i.name)];
+      const tools = Object.values(Canon.items).filter(i => i.tool?.includes(id)).map(i => i.name);
       return { id: `skill:${id}`, title: s.name, status: HandbookStatus.of(s), rules: [s.description],
-        facts: from.length ? [['Brought by', from.join(', ')]] : [] };
+        facts: [...from.length ? [['Brought by', from.join(', ')] as [string, string]] : [],
+          ...tools.length ? [['Tools of the trade', tools.join(', ')] as [string, string]] : []] };
     });
     return { id: 'skills', title: 'Skills', intro: ['Kyr does not roll for a skill. A company either has someone who '
       + 'brings it, and can do what needs it, or does not. The way that needs it says so. Searching is the exception: the '
@@ -121,10 +124,15 @@ export class CompanyChapters {
         id: `item:${id}`, title: i.name, status: HandbookStatus.of(i), kind: i.category,
         facts: [...i.value ? [['Worth', `${i.value}`] as [string, string]] : [], ...i.slot ? [['Worn', i.slot] as [string, string]] : []],
         rules: [...i.grants?.skill ? [`Brings ${Canon.skills[i.grants.skill]?.name ?? i.grants.skill} to whoever carries it equipped.`] : [],
+          ...i.tool ? [`A tool of ${CompanyChapters.named(i.tool)}: one trained in it does better at its checks (+${Checks.toolBonus}); it lends one who is not nothing.`] : [],
+          ...i.aids ? [`Used for ${CompanyChapters.named(i.aids)}: whoever carries it can do what needs it, and does a little better at its checks (+${Checks.toolBonus}), trained or not.`] : [],
           ...i.grants?.ability ? [`Lets its bearer use ${HandbookText.ability(i.grants.ability)}.`] : [],
           ...i.use ? [`Used: ${HandbookText.use(i.use)}.`] : [], ...MechanicsText.modifiers(i.modifiers ?? {}).map(m => `${m}.`)],
         ...CompanyChapters.plate(i), text: [i.description], notes: HandbookStatus.notes(i) })) },
       CompanyChapters.stones(stones)] };
+  }
+  private static named(skills: string[]): string {
+    return skills.map(k => Canon.skills[k]?.name.toLowerCase() ?? k).join(' and ');
   }
   // The stones, each by its plate: what one of its rank is worth, which a stone found is by its cut, size and clarity.
   private static stones(stones: [string, ItemKind][]): Section {

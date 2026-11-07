@@ -798,8 +798,8 @@
   "phb": {
    "title": "Player's Handbook",
    "counts": {
-    "faithful": 777,
-    "adapted": 368,
+    "faithful": 770,
+    "adapted": 375,
     "represented": 4,
     "kyr": 541,
     "unsupported": 68,
@@ -889,8 +889,8 @@
      "id": "equipment",
      "title": "Equipment",
      "counts": {
-      "faithful": 249,
-      "adapted": 75,
+      "faithful": 242,
+      "adapted": 82,
       "represented": 0,
       "kyr": 91,
       "unsupported": 7,
@@ -994,10 +994,10 @@
   "dmg": {
    "title": "Dungeon Master's Guide",
    "counts": {
-    "faithful": 238,
-    "adapted": 29,
+    "faithful": 231,
+    "adapted": 36,
     "represented": 27,
-    "kyr": 284,
+    "kyr": 285,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 198
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 257,
+      "kyr": 258,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -1046,8 +1046,8 @@
      "id": "orsino-world",
      "title": "Appendix: Orsino's world material",
      "counts": {
-      "faithful": 238,
-      "adapted": 29,
+      "faithful": 231,
+      "adapted": 36,
       "represented": 27,
       "kyr": 0,
       "unsupported": 0,
@@ -7075,7 +7075,7 @@
   {
    "id": "item:holy_symbol",
    "title": "Holy symbol",
-   "status": "faithful",
+   "status": "adapted",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -7089,14 +7089,14 @@
   {
    "id": "item:iron_spikes",
    "title": "Iron spikes",
-   "status": "faithful",
+   "status": "adapted",
    "book": "phb",
    "section": "equipment/gear"
   },
   {
    "id": "item:ladder",
    "title": "Ladder",
-   "status": "faithful",
+   "status": "adapted",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -7152,7 +7152,7 @@
   {
    "id": "item:musical_instrument",
    "title": "Musical instrument",
-   "status": "faithful",
+   "status": "adapted",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -7173,7 +7173,7 @@
   {
    "id": "item:piton",
    "title": "Piton",
-   "status": "faithful",
+   "status": "adapted",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -7299,7 +7299,7 @@
   {
    "id": "item:spellbook",
    "title": "Spellbook",
-   "status": "faithful",
+   "status": "adapted",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -7460,7 +7460,7 @@
   {
    "id": "item:first_aid_kit",
    "title": "First Aid Kit",
-   "status": "faithful",
+   "status": "adapted",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -14199,6 +14199,13 @@
    "section": "world-rules/rules-core"
   },
   {
+   "id": "rule:world_core.decks",
+   "title": "decks",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-core"
+  },
+  {
    "id": "rule:world_core.sizekind",
    "title": "sizekind, townSize",
    "status": "kyr",
@@ -17330,7 +17337,7 @@
   {
    "id": "orsino:consumable:first_aid_kit",
    "title": "First Aid Kit",
-   "status": "faithful",
+   "status": "adapted",
    "book": "dmg",
    "section": "orsino-world/orsino-consumable"
   },
@@ -17666,7 +17673,7 @@
   {
    "id": "orsino:gear:holy_symbol",
    "title": "Holy symbol",
-   "status": "faithful",
+   "status": "adapted",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
@@ -17687,14 +17694,14 @@
   {
    "id": "orsino:gear:iron_spikes",
    "title": "Iron spikes",
-   "status": "faithful",
+   "status": "adapted",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
   {
    "id": "orsino:gear:ladder",
    "title": "Ladder",
-   "status": "faithful",
+   "status": "adapted",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
@@ -17736,7 +17743,7 @@
   {
    "id": "orsino:gear:musical_instrument",
    "title": "Musical instrument",
-   "status": "faithful",
+   "status": "adapted",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
@@ -17750,7 +17757,7 @@
   {
    "id": "orsino:gear:piton",
    "title": "Piton",
-   "status": "faithful",
+   "status": "adapted",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },
@@ -17869,7 +17876,7 @@
   {
    "id": "orsino:gear:spellbook",
    "title": "Spellbook",
-   "status": "faithful",
+   "status": "adapted",
    "book": "dmg",
    "section": "orsino-world/orsino-gear"
   },

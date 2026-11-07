@@ -26,12 +26,25 @@ export class Checks {
     return found[1];
   }
   static skill(id: string): string { return id.replace(/^.*__/, ''); }
-  // What a member adds to the roll: the quality's modifier, as they have it with what they wear, and their proficiency
-  // where the skill is theirs.
-  static bonus(c: Creature, skill: string): { modifier: number; stat: Attribute; trained: number } {
+  // What a tool adds: the right one to hand does the work better, and no more (the owner, 7 November).
+  static readonly toolBonus = 2;
+  // What a member adds to the roll: the quality's modifier, as they have it with what they wear; their proficiency
+  // where the skill is theirs; and a tool's help, where they have one they can use (see PartyCapabilities.tool):
+  // thieves' tools help a thief at a lock, and one who never learnt to pick one not at all.
+  static bonus(c: Creature, skill: string): { modifier: number; stat: Attribute; trained: number; tool: number;
+    using?: string } {
     const stat = this.qualities[skill] ?? 'wisdom', modifier = Math.floor((ItemCatalog.quality(c, stat) - 10) / 2);
-    const trained = PartyCapabilities.brings(skill, c) ? 2 + Math.floor((c.base.level - 1) / 4) : 0;
-    return { modifier, stat, trained };
+    const trained = PartyCapabilities.skilled(skill, c) ? 2 + Math.floor((c.base.level - 1) / 4) : 0;
+    const using = PartyCapabilities.tool(skill, c);
+    return { modifier, stat, trained, tool: using ? this.toolBonus : 0, ...using ? { using } : {} };
+  }
+  private static added(b: { modifier: number; trained: number; tool: number }): number {
+    return b.modifier + b.trained + b.tool;
+  }
+  // What a check event says of how its roll was made up.
+  private static parts(b: ReturnType<typeof Checks.bonus>): Partial<Check> {
+    const tool = b.using ? { tool: b.tool, using: b.using } : {};
+    return { stat: b.stat, modifier: b.modifier, trained: b.trained, ...tool };
   }
   // Who makes it: of those standing, the one who adds most.
   static maker(creatures: Creature[], skill: string): Creature | undefined {
@@ -39,12 +52,12 @@ export class Checks {
     return able.reduce<Creature | undefined>((best, c) => !best || this.total(c, skill) > this.total(best, skill) ? c
       : best, undefined);
   }
-  static total(c: Creature, skill: string): number { const b = this.bonus(c, skill); return b.modifier + b.trained; }
+  static total(c: Creature, skill: string): number { return this.added(this.bonus(c, skill)); }
   // How it looks before it is tried, to the one who would try it.
   static odds(creatures: Creature[], skill: string, difficulty: number): Odds {
     const c = this.maker(creatures, skill);
     if (!c) { return 'beyond'; }
-    const b = this.bonus(c, skill), add = b.modifier + b.trained;
+    const add = this.total(c, skill);
     if (1 + add >= difficulty) { return 'sure'; }
     if (20 + add < difficulty) { return 'beyond'; }
     const chance = (21 + add - difficulty) / 20;
@@ -57,20 +70,20 @@ export class Checks {
     forced?: 'pass' | 'fail' }): CombatEvent[] {
     const skill = this.skill(at.skill), difficulty = this.difficulty(at.difficulty), c = this.maker(creatures, skill);
     if (!c) { return [{ type: 'check', turn: 0, actor: '', skill, rolled: 0, difficulty, success: false }]; }
-    const b = this.bonus(c, skill), add = b.modifier + b.trained;
+    const b = this.bonus(c, skill), add = this.added(b), parts = this.parts(b);
     if (at.forced) {
       const die = at.forced === 'pass' ? 20 : 1;
       return [{ type: 'check', turn: 0, actor: c.id, skill, rolled: die + add, die, difficulty,
-        success: at.forced === 'pass', stat: b.stat, modifier: b.modifier, trained: b.trained }];
+        success: at.forced === 'pass', ...parts }];
     }
     const sure = 1 + add >= difficulty, beyond = 20 + add < difficulty;
     if (sure || beyond) {
       return [{ type: 'check', turn: 0, actor: c.id, skill, rolled: sure ? 1 + add : 20 + add, difficulty,
-        success: sure, unrolled: true, stat: b.stat, modifier: b.modifier, trained: b.trained }];
+        success: sure, unrolled: true, ...parts }];
     }
     const die = new Expressions(RandomStreams.key(at.seed, 'check', skill, c.id, at.about ?? '')).number('1d20');
     return [{ type: 'check', turn: 0, actor: c.id, skill, rolled: die + add, die, difficulty,
-      success: die + add >= difficulty, stat: b.stat, modifier: b.modifier, trained: b.trained }];
+      success: die + add >= difficulty, ...parts }];
   }
   // Whether a command that turns on a check came through it.
   static passed(events: CombatEvent[]): boolean {

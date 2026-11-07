@@ -25,6 +25,8 @@ import { RegionTraffic } from './region-traffic';
 import { RegionTracts } from './region-tracts';
 import { RegionAnimals } from './region-animals';
 import { RegionQuarters } from './region-quarters';
+import { GeneralStores } from './general-stores';
+import { StoryPeople } from './story-people';
 import { RegionMeetings } from './region-meetings';
 import { ModuleCanon } from '../campaign/module-canon';
 // A generated region (the Deem `region` generator's output, plus sites scenarios asked for) written as an ordinary
@@ -169,6 +171,8 @@ export class RegionWriter {
       // What is met with in the open country, a stretch here and there (the owner's OWN-27).
       ...RegionMeetings.lines(region), ...RegionAnimals.lines(region));
     region.settlements.forEach(s => lines.push(...this.economy(s, region)));
+    // Where its ordinary gear and clothing are bought, kept by people named apart from everyone the country has.
+    lines.push(...GeneralStores.lines(region, new Set(StoryPeople.country(region))));
     // Each town's quarters, by the places it was written with (see RegionQuarters).
     lines.push(...RegionQuarters.lines(region, lines));
     return lines;
