@@ -1,4 +1,4 @@
 Module calamy "A Parliament of Books" {
-  Company party "Your company" of 1 at causey.
+  Company party "Your company" of 1 to 3 at causey.
   Initially Set quantity(party, gold) to 20. Initially Set quantity(party, rations) to 2.
 }

@@ -32,6 +32,7 @@ stay one, and their lone-company routes remain the shipped path.
 | the-quiet-in-the-sky | 1 (Wren, warrior) | "The protagonist comes up the pass alive. Theirs is the only breath on the Field that steams"; Ned Noone can go with them in Ysgard. |
 | the-third-night | 1 (Joan, ranger) | Wat Pardoe's elder child coming home alone on their mother's letter (`homecomer(party)`, `kin(party, maudie)`); the household is at home, not on the road. |
 | what-tessary-owes | 1 (Ivo, thief) | "The protagonist arrives at the Landgate on the notice of a mother", "a little coin and no particular plans". |
+| *all seventeen* | 1, or a chosen company of 2–3 | Each module's company is `of 1 to 3`, as the Dorothea's is: a campaign starts with its one protagonist (the manifest's `party`, which the company page opens with), and a ready company chosen at creation may come instead (`ModuleBundle.sized`; `test/company-range.test.ts`). The lone start, its routes and recruitment are the default. |
 
 The six that begin with three say so in their own pitch ("A company for Merrowdale/Saltgrave/the Corrow/Ammerlin/
 Quittance", "Choose three companions", the Dorothea's passage for three) and are unchanged: let-one-remember, low-water,
@@ -39,9 +40,7 @@ quittance, the-dorothea, the-long-man, thrume.
 
 ## Open
 
-- A one-person module (`Company party "You" of 1`) refuses a larger chosen company ("Choose 1 companions";
-  `CompanyChoices.apply`). Declaring them `of 1 to 3`, as the Dorothea is, would let a player bring a company to a lone
-  story without changing its shipped start. That is a choice about the creation screen, not the story, and is left to
-  the owner.
+- The company page offers "Go alone" only in a drawn country: a player who picks a ready company for a lone story
+  returns to one by choosing the campaign again.
 - The calling-unique beats a lone protagonist cannot reach still want signposted lone-company routes
   (`playtests/shipped-first-hour.md`); a company is not the fix for that.
