@@ -321,6 +321,13 @@ from one end that bars it, bars it from that end only: `Thing toll "Ma Riser's t
 `blocking` state stops a company going up, and lets one come down free (`test/fixtures/probes/toll-up`; Behind the
 Wainscot's F5, whose toll had been two one-way ladders).
 
+A thing not yet in the story, or gone from it, is `nowhere` in place of `at`, `on` or `in`, as a person may be: in no
+place and inside nothing, so it is not seen, tried or taken until something puts it somewhere (`Assert at(ledger,
+yard)` in a rule or an act), and an item `nowhere` comes only by being given or put there. `Thing ledger "the Jarl's
+ledger" nowhere { … }`, `Item token "a brass token" is lantern nowhere hidden until token_known.`
+(`test/thing-nowhere.test.ts`; the Imbar author's friction 3, M19-95: seven adventures had each declared a place of
+their own, `Place nowhere` or `offstage`, to park things in, and may keep it).
+
 ```kyr
   Thing grille "the rusted grille" on ossuary_arch {
     State shut blocking "A rusted iron grille closes the ossuary arch.".
@@ -499,6 +506,14 @@ heals at sunset, a raising, a regeneration is written (`test/fixtures/probes/mad
 holds and the page says so; a Second killed on the Stair in the night is `Slay ullin.` in the rule that tells of it
 (`test/slay.test.ts`; the Book of Faces' hill 8, whose fates had said it of an offstage double).
 
+`Bring pinmen.` brings whoever it names to where the one who acts stands, from wherever they were or from nowhere, as
+the world's rules are next tried after the act's own changes, so whoever falls on the company does it there and then:
+a fight that follows a failed act is the act's `On failure { Assert assails(pinmen, actor). Bring pinmen. }`, with the
+pin-men `nowhere` until then. A rule has no one who acts, so it says to whom: `Bring watchman to party.`
+(`test/bring.test.ts`; the Imbar author's friction 2, M19-94, where each act that could fail wrote out its room again,
+`Assert at(pinmen, pantry)`). It is the word for bringing someone in; `Give` hands a thing over, and `Arrives at …
+when …` is for one who comes in their own time.
+
 `Assert keeps(actor, heart)` does not do it for the company: what it carries is in its members' packs, so what it
 keeps is in nobody's hands, and `kyrie lint` says so (Low Water's 3). What someone else keeps is theirs.
 
@@ -638,7 +653,8 @@ little door could not be opened; `probes/item-state`):
 
 An item lying in a room (`Item ladder "the Guild's ladder" is folding_ladder at yard owned by clerk.`) is offered as
 "Take" under its name to a company that has noticed it: one `hidden until` a fact is taken once the fact is known.
-One `at nowhere` is nowhere to be taken, and comes only by being given. A topic that lends it (`On discuss { Assert
+One `nowhere` (or `at` a place of the module's own that nobody reaches) is nowhere to be taken, and comes only by
+being given. A topic that lends it (`On discuss { Assert
 lends(clerk, ladder, actor). }`) lets the company take it up in front of its owner (Quittance's sd 6 and wk 8;
 `probes/lent-ladder`).
 
@@ -1496,7 +1512,11 @@ declared another module's private relation, and written it).
 ### The order things happen in
 
 A command takes minutes (`Time 2 minutes.`), watches (`Time 1.`, ten minutes each) or hours (`Time 3 hours.`, as a
-passage is `taking 3 hours`: Quittance's bg 16); minutes add up, and every ten of them is a watch passed. One that
+passage is `taking 3 hours`: Quittance's bg 16); minutes add up, and every ten of them is a watch passed. Its watches
+may be a value, worked out as it is begun, as any value is: a measure (`Time ferry(actor).`), or measures and numbers
+added, taken away or multiplied (`Time ferry(actor) + 2.`, `Time (debt(actor) + 1) * 6.`), at least one watch
+(`test/time-value.test.ts`; the Imbar author's friction 8, M19-96: the Slack's interest was a measure, and the measure
+and two more did not parse). One that
 waits for an hour takes until it comes round, or until that hour of a day, reckoned from the clock as the hours until
 dark are: `Time until hour 19.`, `Time until day 2 hour 6.` (`test/fixtures/probes/the-hour`; the circus's 10 kept a
 measure of its own, set by a rule every watch, to wait for the show). A command's time passes a watch at a time. In each watch: the clock moves (`watch`, `dark()`,

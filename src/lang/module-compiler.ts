@@ -149,7 +149,7 @@ export class ModuleCompiler {
       this.predicate(module, t.when, bindings); this.text(module, t.text, bindings);
     }
     if (action.resolve) { this.call(module, action.resolve, this.capabilities, bindings); }
-    if (action.duration) { this.call(module, action.duration, module.measures, bindings); }
+    if (action.duration) { this.value(module, action.duration, bindings); }
   }
   instantiate(definition: Module, seed: string): Instance {
     this.validate(definition);
@@ -174,6 +174,7 @@ export class ModuleCompiler {
       action.requires = this.resolvePredicate(action.requires, expressions);
       if (action.interrupt) { action.interrupt = this.resolvePredicate(action.interrupt, expressions); }
       for (const t of action.told ?? []) { t.when = this.resolvePredicate(t.when, expressions); }
+      if (action.duration) { action.duration = ModuleCompiler.settle(expressions, action.duration); }
     }
     const world = new World(module).apply(module.initial);
     return { module, world: world.snapshot, budget: World.literal(module.budget) };

@@ -125,7 +125,7 @@ export class ActionSchemas {
       success: action.success.map(c => this.change(c, bindings)),
       failure: action.failure.map(c => this.change(c, bindings)),
       ...(action.resolve ? { resolve: this.call(action.resolve, bindings) } : {}),
-      ...(action.duration ? { duration: this.call(action.duration, bindings) } : {}) };
+      ...(action.duration ? { duration: this.value(action.duration, bindings) } : {}) };
   }
   // A label that names none of its parameters is told apart by what they are bound to, by name, less the actor and
   // the site: the site is where the company already stands, so it tells nothing apart.

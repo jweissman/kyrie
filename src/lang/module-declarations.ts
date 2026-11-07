@@ -57,7 +57,7 @@ export class ModuleDeclarations {
       case 'person': PersonParser.declare(module, value); break;
       case 'passage': WorldConstructs.passage(module, value as PassageSpec); break;
       case 'company': PersonParser.company(module, value as NonNullable<Module['company']>); break;
-      case 'item': WorldConstructs.item(module, value as { id: string; name?: string; kind: string; place: string },
+      case 'item': WorldConstructs.item(module, value as { id: string; name?: string; kind: string; place?: string },
         ItemCatalog.definitions[(value as { kind: string }).kind]?.name); break;
       case 'thing': WorldConstructs.thing(module, value as ThingSpec); break;
       case 'event': WorldConstructs.event(module, value as EventSpec); break;

@@ -73,7 +73,7 @@ export class ModuleNamespace {
       ...(action.meanwhile ? { meanwhile: action.meanwhile.map(c => this.call(c, bound)) } : {}),
       success: action.success.map(c => this.change(c, bound)), failure: action.failure.map(c => this.change(c, bound)),
       ...(action.resolve ? { resolve: this.call(action.resolve, bound) } : {}),
-      ...(action.duration ? { duration: this.call(action.duration, bound) } : {}) };
+      ...(action.duration ? { duration: this.value(action.duration, bound) } : {}) };
   }
   private text(text: string, bound: string[] = []): string {
     return ObservationText.scope(text, call => this.call(call, bound),
