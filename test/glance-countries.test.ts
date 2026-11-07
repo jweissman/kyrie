@@ -62,7 +62,7 @@ describe('the glance in other countries', () => {
       ['origin__cart#look', 'own'], ['origin__carter#talk', 'asked']]);
     const yard = await g.perform(g.glance.acts[0]!.command!);
     expect(yard.acts.slice(0, 2).map(a => [a.choice, a.why])).toEqual([['drover__son#talk', 'kin'],
-      ['exit:region__s1_s5_way', 'named']]);
+      ['exit:region__s4_s5_way', 'named']]);
     await Seen.walk('thorn');
   }, 180000);
 });

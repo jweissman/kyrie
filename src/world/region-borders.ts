@@ -51,7 +51,7 @@ export class RegionBorders {
     const from = region.settlements[b.seat]!, seen = new Draw(`${region.name}:shore:${b.side}`).pick(at.seen);
     return [`  Place ${id}_land ${q(`the ${b.side}ern shore of ${region.name}`)} is wilderness within region at ${x}, ${y}.`,
       `  Place ${id} ${q(this.said(at.room, region, sea))} is room within ${id}_land at 0, 0.`,
-      `  Passage ${id}_road ${q(at.road)} is road between ${from.id}_green and ${id} taking ${RegionRoads.time(Math.max(60, b.road.hours * RegionRoads.minutesPerHour))}.`,
+      `  Passage ${id}_road ${q(at.road.replaceAll('{side}', b.side))} is road between ${from.id}_green and ${id} taking ${RegionRoads.time(Math.max(60, b.road.hours * RegionRoads.minutesPerHour))}.`,
       `  Observe ${id}_scene at ${id} when true ${q(this.said(seen, region, sea))}.`];
   }
   private static said(text: string, region: Region, sea: string): string {

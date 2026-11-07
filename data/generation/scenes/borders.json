@@ -40,9 +40,9 @@
     ]
   },
   "shore": {
-    "about": "Where a country's road comes down to a great sea (see data/imbar/shape.json): the place is its shore, named for the sea, and no road goes on, for the sea is crossed by ship. {region} is the country's name, {sea} the sea's; one is drawn for each shore, in an order of its own. Written by hand.",
+    "about": "Where a country's road comes down to a great sea (see data/imbar/shape.json): the place is its shore, named for the sea, and no road goes on, for the sea is crossed by ship. {region} is the country's name, {sea} the sea's, {side} the side the road goes out on (its name as a march's road is, so a choice of it reads as it did); one is drawn for each shore, in an order of its own. Written by hand.",
     "room": "the shore of {sea}",
-    "road": "the road down to the shore",
+    "road": "the old road {side}",
     "seen": [
       "The road ends where the land of {region} does, on shingle above the tide-line, and beyond it is {sea}, grey and moving as far as can be seen. No road goes on from here; what lies over the water is reached by ship, if at all.",
       "The last of {region} is a low cliff of turf and a path down it to a strand of wet sand, and then {sea}, the swell coming in long and slow out of the distance. Nothing on foot goes further.",

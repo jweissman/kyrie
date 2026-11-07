@@ -12,10 +12,12 @@ export interface Great {
   coast?: { side: Side; within: number };
 }
 // The shape of Imbar: certain cells of every generated world's grid of countries (see WorldGrid) are what they are
-// whatever the seed, by rule over the grid rather than by any coordinate an author must know: the Eastern Ocean east
-// of the first country's eastern neighbour, the Great Desert south beyond its southern neighbour, the Southern Sea
+// whatever the seed, by rule over the grid rather than by any coordinate an author must know: the Eastern Ocean
+// beyond the first country's eastern march, the Great Desert south beyond its southern neighbour, the Southern Sea
 // beyond the desert and the Southern Continent beyond that. Read before any country is drawn, so the countries of a
-// great region are drawn with its terrain given, named as part of it, and the land beside a sea falls to it.
+// great region are drawn with its terrain given, named as part of it, and the land beside a sea falls to it where
+// the sea says. The first country's land is never redrawn by it: a world's start is its seed's (the recorded descents
+// and traces play on it), and the ocean comes into it only by Tolleth's firth (see Firth).
 export class WorldShape {
   static readonly regions = shape.regions as Great[];
   // The great region that holds a cell, if one does: the first listed that does.
@@ -30,10 +32,10 @@ export class WorldShape {
     return great?.kind === 'land' && great.terrain ? { terrain: great.terrain } : {};
   }
   // The side of a land country that falls to the sea: the side toward the nearest sea that has the land within its
-  // reach (the first country's east, two countries off the Eastern Ocean); of seas as near, the first listed. One
-  // side only, as a country's land has one coast.
+  // reach (the desert's southern row, beside the Southern Sea); of seas as near, the first listed. One side only, as
+  // a country's land has one coast; none for the first country, whose land is its seed's.
   static coast(x: number, y: number): Side | undefined {
-    if (this.sea(x, y)) { return undefined; }
+    if (this.sea(x, y) || (x === 0 && y === 0)) { return undefined; }
     let best: { side: Side; steps: number } | undefined;
     for (const g of this.regions) {
       if (g.kind !== 'sea' || !g.coast) { continue; }
