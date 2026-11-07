@@ -19,7 +19,12 @@
     "isle.kyr",
     "isle_life.kyr",
     "act4.kyr",
-    "sarn_keeping.kyr"
+    "voyage.kyr",
+    "tent.kyr",
+    "isle_wild.kyr",
+    "sarn_people.kyr",
+    "sarn_keeping.kyr",
+    "endings.kyr"
   ],
   "rules": [
     "world"

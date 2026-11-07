@@ -1,0 +1,160 @@
+Module circus "Wapshott's Peregrine Circus" {
+  // ── Act IV.iv: the island's hours, its smaller people, and many ways ──────────────────────────────────────────────
+  // The island keeps a day. The dawn-pipers sing the herd down; the lantern-necks wade, graze the plain, and sleep in
+  // a ring at dusk; the tyrant walks the plain's edge at evening; the sail-wings launch at first light. A company that
+  // comes back finds it at another hour. Six of its kinds are the island's small people, and each is a telegraph.
+  Relation piperHeard(group). Relation lanternWalked(group). Relation fenwickWept(group). Relation writShown(group).
+  Relation netsRotted(group). Relation tyrantBaited(group). Relation colonyLaunched(group).
+
+  Entity piper_known: fact "The dawn-pipers sing an hour before the lantern-necks come down to the lake; the flock's crests are tuned to it.".
+  Entity hollow_way_known: fact "At dusk the glide-lizards cross the cycad forest by the one game-trail that goes round the hook-claws' hollow, to the sheltered hollow where nothing else goes.".
+  Entity crust_safe: fact "The bone-scuttlers cross the steam basin's crust by one line, and the crust bears the line.".
+  Entity channels_warn: fact "When the mud-skimmers come out of the delta's water and stand in rows on the bank, something large is in the channels.".
+  Entity colony_known: fact "The sail-wings launch off the ledges together at first light, and leave the ledges empty for an hour.".
+
+  Person dawn_pipers "the dawn-pipers" at plain_south {
+    Role "forty small crested runners in blue-grey down, standing in a flock". Species dawn_piper. Numbers 6. Peaceable.
+  }
+  Person plate_backs "the plate-backs" at plain_south {
+    Role "four plate-backs, grazing the plain's margin with their young between them". Species plate_back. Level 3. Numbers 3. Peaceable.
+  }
+  Person mud_skimmers "the mud-skimmers" at delta_edge {
+    Role "dozens of flat-headed shell-diggers on the mud-banks". Species mud_skimmer. Numbers 8. Peaceable.
+  }
+  Person glide_lizards "the glide-lizards" at cycad_aisle {
+    Role "orange-and-green gliders, hanging head-down in the cycad crowns". Species glide_lizard. Numbers 6. Peaceable.
+  }
+  Person bone_scuttlers "the bone-scuttlers" at bone_beds {
+    Role "files of black-and-yellow carrion-eaters on the crust". Species bone_scuttler. Numbers 8. Peaceable.
+  }
+  Person shore_brooder "the shore-brooder" at cliff_foot {
+    Role "a great bald-necked brooder on a nest of tide-wrack". Species shore_brooder. Level 4. Numbers 1. Temperament defensive.
+    Warns "The mound of wrack on the strand rises. Under a ruff of black plumes a bald red neck comes up, and a beak like a pair of shears opens, and the whole nest hisses. It does not get up. It does not need to.".
+    Comes "The brooder comes off the nest in a rush, wings half out, beak open.".
+    Lair cliff_foot.
+    State brooding blocking "The brooder sits on the strand under the cliff, across the way to the ledges, and will not give way to anything on two legs.".
+    Guards landing_cliffs.
+  }
+
+  // What each of them tells you, without anyone fighting anyone.
+  Observe pipers_song at plain_south as sound when hour(clock) >= 4 and hour(clock) < 5 "In the grey, on the plain, forty small throats begin: not a song, a single breathed chord on forty hollow crests, rising and falling. Every other animal on the plain stops. It is, you realise slowly, a clock, and it says the herd is an hour from the lake." teaches piper_known.
+  Observe glide_dusk at cycad_aisle when hour(clock) >= 17 and hour(clock) < 20 "At dusk the glide-lizards drop from the crowns in ones and twos, spread their ribs, and go across the forest in long flat curves, all in one direction, to a notch in the trees on the north-east. They have done it every evening for longer than there have been roads." teaches hollow_way_known.
+  Observe scuttler_line at bone_beds when true "The files of bone-scuttlers cross the yellow crust in one line, over and over, and never put a foot a hand's breadth to either side. The crust to either side of the line is the colour of a sore." teaches crust_safe.
+  Observe skimmers_flee at delta_edge when not dead(delta_croc) and hour(clock) >= 12 "The mud-skimmers are all out of the water, in rows along the bank, heads up and perfectly still. Not one is in the channels. The black water beyond them is smooth." teaches channels_warn.
+  Observe skimmers_mounds at egg_beds when true "Mounds of dug shell mark the safe sand between the nests: the skimmers have worked it for years, and the nests lie only where they have not.".
+  Observe piper_morning near dawn_pipers when hour(clock) >= 5 and hour(clock) < 8 "The pipers have drawn into a tight blue-grey knot with their crests all turned the same way, to the lake.".
+  Observe brooder_sign at landing as sign when true "A line of enormous three-toed prints goes along the strand toward the cliffs and ends in a circle of trodden wrack the size of a threshing-floor.".
+
+  // The sail-wings launch at first light and leave the ledges for an hour.
+  Rule colony_launch when hour(clock) >= 5 and hour(clock) < 8 and not offstage(sail_wings) { Assert offstage(sail_wings). }
+  Rule colony_return when (hour(clock) >= 8 or hour(clock) < 5) and offstage(sail_wings) { Retract offstage(sail_wings). Assert at(sail_wings, ledges). }
+  Observe colony_gone at ledges when offstage(sail_wings) "The ledge is empty. The whole colony is up over the sea, a high wheeling cloud with the sun on its wings, and the nests are left in the open like a street of cradles." teaches colony_known.
+  Observe colony_up at cliff_top when hour(clock) >= 5 and hour(clock) < 8 "The colony drops off the edge below in one long unrolling, and the headland shakes with it. From the top you can see the whole island, laid out like a map, and the Isle's one road, the herd-trail, going away to the lake.".
+
+  // The tyrant's evening patrol, and the herd's day.
+  Rule tyr_dusk when hour(clock) >= 17 and hour(clock) < 20 and not dead(tyrant) and at(tyrant, ?r) and distinct(?r, plain_mid) { Retract at(tyrant, ?r). Assert at(tyrant, plain_mid). }
+  Rule tyr_late when hour(clock) >= 20 and hour(clock) < 22 and not dead(tyrant) and at(tyrant, ?r) and distinct(?r, plain_south) { Retract at(tyrant, ?r). Assert at(tyrant, plain_south). }
+  Rule tyr_home when (hour(clock) >= 22 or hour(clock) < 17) and not dead(tyrant) and at(tyrant, ?r) and distinct(?r, tyrant_hollow) { Retract at(tyrant, ?r). Assert at(tyrant, tyrant_hollow). }
+  Rule tyr_forgets when hour(clock) == 4 and tolerates(tyrant, party) and not dead(tyrant) { Retract tolerates(tyrant, party). Retract tyrantBaited(party). }
+  Rule herd_dawn when hour(clock) >= 5 and hour(clock) < 9 and at(lantern_necks, ?r) and distinct(?r, lake_shore) { Retract at(lantern_necks, ?r). Assert at(lantern_necks, lake_shore). }
+  Rule herd_day when hour(clock) >= 9 and hour(clock) < 17 and at(lantern_necks, ?r) and distinct(?r, plain_mid) { Retract at(lantern_necks, ?r). Assert at(lantern_necks, plain_mid). }
+  Rule herd_night when (hour(clock) >= 17 or hour(clock) < 5) and at(lantern_necks, ?r) and distinct(?r, plain_south) { Retract at(lantern_necks, ?r). Assert at(lantern_necks, plain_south). }
+  Observe tyrant_tracks at plain_south as sign when not dead(tyrant) and hour(clock) < 17 "A three-toed track a yard across, pressed into the clay at the plain's edge and already filling with water. Beside it a ribcage, picked.".
+
+  // Ways past the tyrant: leave the plain at evening; the ridge; the three-horn ring; the plate-back ring; the
+  // lantern-necks' legs; meat; a fight (genuinely dangerous: level six, five dice a bite).
+  Action shelter_plates(actor: group, site: place) "Settle among the sleeping plate-backs and keep your voices down" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, plain_south) and hour(clock) >= 17 and at(plate_backs, plain_south).
+    Time 0.
+    On success { Assert tolerates(tyrant, actor). }
+    Result "The plate-backs have gone down in a ring at dusk, plates out, tails to the middle, the young inside. You sit among their armour with six tons of bone on either side. Something comes along the plain's edge in the dusk, stops, considers the ring, and goes on. It does not like to bite what it has to open.".
+  }
+  Action shelter_lanterns(actor: group, site: place) "Walk in among the legs of the sleeping lantern-necks" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, plain_south) and hour(clock) >= 17 and at(lantern_necks, plain_south).
+    Time 0.
+    Resolve check(actor, stealth, dc_fair).
+    On success { Assert tolerates(tyrant, actor). Assert lanternWalked(party). }
+    Result "You walk in among them as one walks into a wood: grey trunks, a roof of necks, the smell of hay and warm stone. Nothing stirs. Out in the dusk the tyrant comes along the plain's edge, looks at the herd, and turns away. In the morning your coat is damp with the breath of something tall as a house.".
+    Otherwise "A foot as wide as a cartwheel is lifted and set down six inches from your head, and you are glad of the dusk.".
+  }
+  Action bait_tyrant(actor: group, site: place) "Set three rations of meat on the clay and go quietly to the ridge" {
+    Requires able(actor) and company(actor) and at(actor, site) and (at(actor, plain_mid) or at(actor, plain_south)) and quantity(actor, rations) >= 3 and not tyrantBaited(party).
+    Time 0.
+    On success { Decrease quantity(actor, rations) by 3. Assert tyrantBaited(party). Assert tolerates(tyrant, actor). }
+    Result "You lay it out where the herd-trail crosses the ridge-path, and back away with your hands low. Behind you, in the dusk, the ground begins to shake in a rhythm. When you look back there is a shape on the clay tall as a house, quite still, eating with its eyes shut.".
+  }
+
+  // Ways past the hook-claws.
+  Action fire_hooks(actor: group, site: place) "Hold a torch up in the mouth of the hollow" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hook_den) and at(hook_claws, hook_den) and able(hook_claws) and capable(actor, flame) and not tolerates(hook_claws, actor).
+    Time 0.
+    On success { Retract at(hook_claws, hook_den). Assert at(hook_claws, kingsfoil_hollow). Assert tolerates(hook_claws, actor). }
+    Result "They do not like it. One by one the barred heads lower, and the pack goes out of the hollow by the dry stream-bed like water running out of a basin, clicking, its tails out straight. The bare earth where it lay is yours, and you know, quite clearly, that you have made an enemy of the hollow.".
+  }
+  Action sit_with_hooks(actor: group, site: place) "Ask Mumchance to sit down alone in the middle of the hollow" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hook_den) and mumchanceAboard(wapshotts) and at(hook_claws, hook_den) and not tolerates(hook_claws, actor).
+    Time 0.
+    On success { Assert tolerates(hook_claws, actor). }
+    Result "Mumchance walks into the hollow with his hands open and sits down in the middle of the bare earth. The pack looks at him for a very long time. One, then another, lowers its head to the earth. At the end of an hour the youngest has gone to sleep against his boot, and the rest have forgotten there was anyone to guard against.".
+  }
+  Topic wap_let_go with wapshott "Ask the Colonel to put Dame Honorine down at the edge of the hollow" when at(party, hook_den) and colonelNamed(wapshotts) and not namedLetGo(wapshotts) and hatchlingsPenned(wapshotts) once {
+    Says "The littlest is on the Colonel's boot. She has been on his boot for eleven days and nights, and has eaten off his hand, and has learned, in her own way, to answer to a name. The Colonel looks at the pack. 'She is the only creature,' he says, in a voice you have never heard, 'who has not once asked me to be anything.' He kneels. He takes her off his boot with both hands, and holds her up, and for a moment it is entirely possible that he will not. Then he sets her down on the bare earth. She sits there looking at him. 'Go on,' he says. 'Go on, Honorine.' It is the first time he has ever said a name and meant the opposite of keeping.".
+    On discuss { Assert namedLetGo(wapshotts). Increase regard(billie) by 2. }
+  }
+  Observe hatchling_clings near hatchlings when colonelNamed(wapshotts) and not namedLetGo(wapshotts) and at(party, hook_den) "One hatchling has attached itself to the Colonel's boot, and every time the Colonel moves, it moves with the boot. The pack watches this with a patience that is almost courteous.".
+
+  // Ways past the three-horn herd.
+  Action lay_bamboo(actor: group, site: place) "Lay a bundle of bamboo shoots before the cow and back away" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, plain_mid) and at(three_horns, plain_mid) and holding(actor, bamboo_gathered) and not tolerates(three_horns, actor).
+    Time 0.
+    On success { Spend bamboo_gathered from actor. Assert tolerates(three_horns, actor). }
+    Result "The cow looks at the shoots, and at you, and at the calf. She takes a step, and a mouthful, and another. The herd's frill goes down, one plate at a time, like a house closing its shutters. You are, for the length of a meal, a traveller who brings bamboo.".
+  }
+  Action walk_the_herd(actor: group, site: place) "Cross the herd-trail at the herd's own pace, never looking at the calf" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, plain_mid) and at(three_horns, plain_mid) and not tolerates(three_horns, actor).
+    Time 0.
+    Resolve check(actor, stealth, dc_hard).
+    On success { Assert tolerates(three_horns, actor). }
+    Result "You walk as they graze: three steps, a stop, three steps, a stop. You do not look at the calf. The cow's head follows you across the clay like a weathervane, and lets you go.".
+    Otherwise "The cow has a very exact idea of how far away you are, and it is not as far as you thought.".
+  }
+  Action sit_with_herd(actor: group, site: place) "Ask Mumchance to sit by the calf" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, plain_mid) and at(three_horns, plain_mid) and mumchanceAboard(wapshotts) and not tolerates(three_horns, actor).
+    Time 0.
+    On success { Assert tolerates(three_horns, actor). }
+    Result "He sits down on the clay by the calf's flank with his white-gloved hands in his lap. The cow looks at him, and her breath goes in and out, three times, and she lowers her head and goes on tearing at the ferns. Mumchance has the look of someone whose life has led him, by a long road, to the only audience that would not need him to do anything.".
+  }
+
+  // Ways past Captain Harrow: parley, purchase, the cage, the nets, the Society's writ, or a fight with four men.
+  Action rot_nets(actor: group, site: place) "Cut through the net-lines and the drying-poles while the men are at their mugs" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, harrow_camp) and not netsRotted(party) and not harrowBeaten(party).
+    Time 0.
+    Resolve check(actor, trapwork, dc_hard).
+    On success { Assert netsRotted(party). Assert harrowBeaten(party). Retract at(harrow_men, harrow_camp). }
+    Result "By the time the net-men notice, every line in the camp has been neatly severed a hand's breadth from its peg and the poles lie in the creek. Harrow looks at the wreck for a long minute. 'Well,' he says, 'I did say not to touch the nets.' He sends the men down to the boat. It is not, quite, defeat.".
+    Otherwise "A net-man, looking up from his mug, says mildly, 'That is not a fishing knife.'".
+  }
+  Topic fenwick_writ with fenwick "Ask Sir Gervase to show Captain Harrow the Society's charter" when at(party, harrow_camp) and clausesRead(wapshotts) and not writShown(party) once {
+    Says "Sir Gervase unrolls the Society's charter on Harrow's camp-table, kindly, with a flourish, and explains in some detail that the collection of living animals in this region is under the Society's licence and that Captain Harrow's, regrettably, is not. Harrow listens, entirely pleasant. 'And you,' he says, 'are taking a pair of each.' Sir Gervase says it is not at all the same. There is a pause in which the whole island seems to look at the pair of them. 'Well,' says Harrow at last, 'a licence is a licence.' He folds his tents. He has, you notice, taken the calf's cage with him; and he has left it empty on the creek-bank.".
+    On discuss { Assert writShown(party). Assert harrowBeaten(party). Assert calfFreed(party). Assert hatchlingsHome(party). Retract at(harrow_men, harrow_camp). Retract at(harrow, harrow_camp). }
+  }
+  Observe harrow_gone at harrow_camp when writShown(party) "The camp is struck: a ring of black grass, a stockade of cut mangrove, a hippodrome flag nailed to a post by one corner, and a row of empty crates.".
+
+  // Sir Gervase, who is not wrong, at the lake.
+  Observe fenwick_weeps near fenwick when at(party, lake_shore) and herdSeen(party) and hour(clock) >= 5 and hour(clock) < 9 "Sir Gervase Fenwick has sat down in the mud with his drawing-block on his knee and is drawing and weeping at once. He has drawn his own hand in the margin four times, and has not noticed. 'Ten,' he says. 'Ten, and the calves. There are ten, and I have a pair of each in a hold.' He draws a line under it. 'I shall not be able to explain this to anyone.'".
+  Topic fenwick_lake with fenwick "Sit down in the mud beside Sir Gervase and ask what he sees" when at(party, lake_shore) and herdSeen(party) and not fenwickWept(party) once {
+    Says "'A mind,' says Sir Gervase, 'that has no use for us.' He is smiling through it. 'I have spent my life being kind to specimens. I have never once seen an animal that did not want to be one.' He wipes his glass on his sleeve. 'I shall take my pair. I shall take them as gently as I can. And I shall go home and spend what is left of my life trying to argue that no one should ever do it again, and I shall be wrong about every word of it, and I shall do it anyway.'".
+    On discuss { Assert fenwickWept(party). }
+  }
+
+  // History beyond the story.
+  Observe cage_graves at cage_row when true "Beyond the last cage, under a casuarina, seven flat stones lie in a row, cut with a wheel and a name each: Warden Ansel, Warden Gunnar, Warden Ysolt, Warden the Younger Ansel, and three that the moss has taken. The seventh has no stone, only a bronze key-plate set in the earth, and nothing in the slot.".
+  Observe cage_nine at cage_row when true "The ninth cage's door has a plate that has been wiped, recently, by hand: NO. 9. THE GREAT BEAST. SENT NORTH IN THE LAST PROGRESS, ON THE HASTY MARY. THE CAGE IS KEPT. The cage is swept. Nobody has swept it since the Wardens, and it is swept.".
+  Observe founding_roll at preserve_hall when true "Burnt into the black beam over the hearth, a roll of names: the Founder-King, Aldred of the Wheel, who first went round his kingdom in a cart and ordered a Preserve laid out for the beasts he met on the way; the Wardens, seven; and, last, the Keepers of the Menagerie Royal, nine, the final name left blank." teaches founded_known.
+  Entity founded_known: fact "The Preserve was laid out by Aldred of the Wheel, the first king to go round his kingdom, to keep the beasts of the southern sea; seven Wardens kept it, and nine Keepers after them.".
+  Milestone m_pipers "heard the dawn-pipers tell the hour of the herd" worth 100 when knows(party, piper_known).
+  Milestone m_hollow "followed the glide-lizards to the sheltered hollow" worth 100 when knows(party, hollow_way_known).
+  Milestone m_crust "learned the scuttlers' line over the crust" worth 100 when knows(party, crust_safe).
+  Milestone m_colony "saw the colony launch" worth 150 when knows(party, colony_known).
+  Milestone m_founded "read the founding roll of the Preserve" worth 150 when knows(party, founded_known).
+}

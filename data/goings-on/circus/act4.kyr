@@ -34,7 +34,7 @@ Module circus "Wapshott's Peregrine Circus" {
 
   Thing sea_crate "the sea-captain's crate" at tober_a is scenery {
     State sealed "A sea-captain's crate stands in the wagon-yard, as long as a coffin, with SARN burnt into the lid and a crowned wheel burnt under it. It is warm to the hand.".
-    State opened "The lid of the crate has been prised off. A bed of sawdust, still warm, and in it a ring of grey eggs, each the size of a loaf.".
+    State opened "The lid of the crate has been prised off. A bed of sawdust, still warm, and in it a ring of grey eggs, loaf-big.".
     State hatched "The crate lies in splinters in the yard, and the sawdust has been scraped into nests by very small feet.".
   }
   Initially Assert offstage(sea_crate). Initially Assert state(sea_crate, sealed).
@@ -49,7 +49,7 @@ Module circus "Wapshott's Peregrine Circus" {
     Requires able(actor) and company(actor) and at(actor, site) and at(sea_crate, site) and state(sea_crate, sealed) and not crateOpened(wapshotts).
     Time 3.
     On success { Assert crateOpened(wapshotts). Assert state(sea_crate, opened). }
-    Result "The lid comes up with a shriek of nails and a breath of warm air that smells of eggs and the sea. In the sawdust, in a ring, eleven grey eggs the size of loaves lie like a clutch of stones. One of them rocks, a very little, as you watch.".
+    Result "The lid comes up with a shriek of nails and a breath of warm air that smells of eggs and the sea. In the sawdust, in a ring, eleven loaf-big grey eggs lie in a ring like a clutch of stones. One of them rocks, a very little, as you watch.".
   }
   Observe eggs_taught near sea_crate when state(sea_crate, opened) "Eleven eggs lie in the sawdust, warm. One rocks." teaches eggs_known.
 
@@ -87,11 +87,11 @@ Module circus "Wapshott's Peregrine Circus" {
   Rule hatch_kept when crateCome(wapshotts) and eggsKept(wapshotts) and not eggsHatched(wapshotts) and hour(clock) >= 22 and day(clock) >= crateDay(wapshotts)
     and current(wapshotts, ?g) and groundRoom(?g, rk_beasts, ?b) {
     Assert eggsHatched(wapshotts). Assert hatchlingsPenned(wapshotts). Retract offstage(hatchlings). Assert at(hatchlings, ?b). Assert state(sea_crate, hatched). Assert peaceable(hatchlings). Assert travels(hatchlings). Assert post(hatchlings, rk_beasts). }
-  Observe hatched_kept near hatchlings when hatchlingsPenned(wapshotts) "Eleven hook-claws the size of kittens are asleep in a heap in a nest of straw, with Billie's coat under them. One is awake. It looks at you with the whole of its face and says nothing, as a creature does that has not yet found out about being looked at.".
+  Observe hatched_kept near hatchlings when hatchlingsPenned(wapshotts) "Eleven hook-claws kitten-small are asleep in a heap in a nest of straw, with Billie's coat under them. One is awake. It looks at you with the whole of its face and says nothing, as a creature does that has not yet found out about being looked at.".
   Rule hatch_loose when crateCome(wapshotts) and not eggsKept(wapshotts) and not eggsHatched(wapshotts) and hour(clock) >= 22 and day(clock) >= crateDay(wapshotts)
     and current(wapshotts, ?g) and greenOf(?g, ?n) {
     Assert eggsHatched(wapshotts). Assert hatchlingsLoose(wapshotts). Retract offstage(hatchlings). Assert at(hatchlings, ?n). Assert state(sea_crate, hatched). }
-  Observe hatched_loose near hatchlings when hatchlingsLoose(wapshotts) "On the green, in the grey, the hatchlings are everywhere: on the horse-trough, in the gutters, on the stocks, one inside the pump. They are the size of kittens and have a hooked claw on each foot. The geese are making a noise you would not have thought geese could.".
+  Observe hatched_loose near hatchlings when hatchlingsLoose(wapshotts) "On the green, in the grey, the hatchlings are everywhere: on the horse-trough, in the gutters, on the stocks, one inside the pump. They are kitten-small and have a hooked claw on each foot. The geese are making a noise you would not have thought geese could.".
 
   // In town: three ways to get them back, none of them a fight.
   Action coax_meat(actor: group, site: place) "Lay a trail of meat from the green to the beast tent" {
@@ -136,27 +136,17 @@ Module circus "Wapshott's Peregrine Circus" {
     On discuss { Assert billieAboard(wapshotts). Increase regard(billie) by 1. }
   }
   Topic mum_sail with mumchance "Ask Mumchance to come to Sarn" when voyageReady(wapshotts) and regard(mumchance) >= 2 and not mumchanceAboard(wapshotts) once {
-    Says "Mumchance looks at you for a long time with his clown's face. Then he nods, once, and goes to get his coat. He is the only man in the circus who has ever managed to stand perfectly still in front of the Colonel when the Colonel is excited, and it has occurred to you that this may be what an island is for.".
+    Says "Mumchance looks at you a full minute with his clown's face. Then he nods, once, and goes to get his coat. He is the only man in the circus who has ever managed to stand perfectly still in front of the Colonel when the Colonel is excited, and it has occurred to you that this may be what an island is for.".
     On discuss { Assert mumchanceAboard(wapshotts). }
   }
 
-  // The Sundial: from the fair town's quay.
-  Passage sarn_ferry "the brig Sundial" is ferry between green_a and landing taking 3 hours
-    opening when voyageReady(wapshotts) "The quay is empty but for a heap of rope and a gull.". 
-  Rule aboard at landing when at(party, landing) and voyageReady(wapshotts) and not voyaged(wapshotts) and wapshottAboard(wapshotts)
-    says "The Sundial lays her side to a quay built for her, a hundred and fifty miles and twelve days from the fair town's, and her master's hand is not quite steady on the tiller. There are creepers on the bollards, and the crowned wheel on every post. Colonel Wapshott is the first to the rail. He does not say a word. Behind him Sir Gervase is already writing." {
-    Assert voyaged(wapshotts). Assert away(wapshott). Assert at(wapshott, landing). Assert following(wapshott, party).
-    Assert away(fenwick). Assert at(fenwick, landing). Assert following(fenwick, party). }
-  Rule aboard_billie when at(party, landing) and voyaged(wapshotts) and billieAboard(wapshotts) and not away(billie) { Assert away(billie). Assert at(billie, landing). Assert following(billie, party). }
-  Rule aboard_mumchance when at(party, landing) and voyaged(wapshotts) and mumchanceAboard(wapshotts) and not away(mumchance) { Assert away(mumchance). Assert at(mumchance, landing). Assert following(mumchance, party). }
-  Rule circus_lies_up when voyaged(wapshotts) and not backFromSarn(wapshotts) and moveDay(wapshotts) < day(clock) + 2 { Set moveDay(wapshotts) to day(clock) + 3. }
 
   // The Colonel on the island: three moments, and what he decides.
   Observe wap_landing near wapshott when voyaged(wapshotts) and at(party, landing) and not colonelMoved(wapshotts) "Colonel Wapshott stands at the end of the quay with his hat in his hand, looking up the jungle. He has not spoken since the gangway. On the post by his hand the crowned wheel is cut deep, with a crown over it, and a date, and a name he has been told all his life was a legend.".
   Relation colonelMoved(concern).
   Topic wap_what with wapshott "Ask the Colonel what he sees" when voyaged(wapshotts) and at(party, landing) and not colonelMoved(wapshotts) once {
-    Says "'A place that was kept,' says the Colonel. 'Look at the quay. Look at the posts. Somebody laid this out for the beasts the way I would lay out the Hippodrome, if I had Cordelia's money and Cordelia's sense.' He touches the wheel. 'They were not showmen, you understand. They kept them. They did not show them.' He is silent. 'I have been calling it a menagerie,' he says.".
-    On discuss { Assert colonelMoved(wapshotts). Increase regard(billie) by 1. }
+    Says "'Mud,' says the Colonel. 'A very great deal of mud.' He puts his hat back on. He takes it off again. He has been trying, for some minutes, to say something to the jungle, and it has not been listening.".
+    On discuss { Assert colonelMoved(wapshotts). }
   }
   Topic wap_rule with wapshott "Show the Colonel the Rule of the Preserve over the hearth" when voyaged(wapshotts) and at(party, preserve_hall) and not ruleRead(wapshotts) once {
     Says "The Colonel reads it aloud, as he reads everything, as if to a house. THE KEEPER IS ANSWERABLE TO THE BEAST. He stops. 'That is a hard thing to be told in a stranger's hall,' he says quietly. 'I thought it was the other way about.' He looks round for Billie, and finds her, and looks away.".
@@ -177,10 +167,10 @@ Module circus "Wapshott's Peregrine Circus" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, lake_shore) and trumpetPending(wapshotts) and mumchanceAboard(wapshotts).
     Time 0.
     On success { Retract trumpetPending(wapshotts). Assert trumpetDone(wapshotts). Assert colonelStopped(wapshotts). }
-    Result "Mumchance walks across the mud without a sound and stands beside him, and puts one white-gloved hand lightly on his sleeve. The Colonel does not look round. His breath goes out of him. He lowers the trumpet very slowly, as a man lowers a flag, and after a moment he takes off his hat. The herd goes on drinking.".
+    Result "Mumchance walks across the mud without a sound and stands beside him, and puts one white-gloved hand lightly on his sleeve. The Colonel does not look round. His breath goes out of him. He lowers the trumpet slowly, as a man lowers a flag, and after a moment he takes off his hat. The herd goes on drinking.".
   }
   Rule trumpet_blown at lake_shore when trumpetPending(wapshotts) and not colonelStopped(wapshotts) and hour(clock) >= 6 and not trumpetDone(wapshotts)
-    says "The Colonel blows. It is a beautiful note, bright, brazen, perfectly pitched, and it goes out over the lake like a thrown plate. The nearest lantern-neck turns its small head, very slowly. The herd takes one step, all together, to the left, and the shore is a shore of mud and spray and vast grey legs." {
+    says "The Colonel blows. It is a beautiful note, bright, brazen, perfectly pitched, and it goes out over the lake like a thrown plate. The nearest lantern-neck turns its small head, slowly. The herd takes one step, all together, to the left, and the shore is a shore of mud and spray and vast grey legs." {
     Assert trumpetDone(wapshotts). Assert herdScattered(wapshotts). Assert strikes(herd_stride, party). Retract trumpetPending(wapshotts). }
 
   // Leaving: what to take, and who decides. Each is the Colonel's, and each costs someone.
@@ -198,9 +188,6 @@ Module circus "Wapshott's Peregrine Circus" {
   }
 
   // Home: the circus takes up where it left off, and shows what was done.
-  Rule home_from_sarn at green_a when voyaged(wapshotts) and not backFromSarn(wapshotts) and at(party, green_a) {
-    Assert backFromSarn(wapshotts). Retract away(wapshott). Retract away(fenwick). Retract away(billie). Retract away(mumchance).
-    Retract following(wapshott, party). Retract following(fenwick, party). Retract following(billie, party). Retract following(mumchance, party). }
   Observe sarn_home_leave near wapshott when backFromSarn(wapshotts) and takeLeave(wapshotts) "The Colonel has had a board painted and nailed over the beast-tent flap, in his largest hand: NOTHING IS TO BE TAKEN THAT CANNOT BE FED. Underneath, in Ada's: Mr Wapshott's own, and he means it.".
   Observe sarn_home_egg near wapshott when backFromSarn(wapshotts) and takeEgg(wapshotts) "A grey egg the size of a loaf lies in a basket by Honoria's oven under a damp cloth, and she turns it with a wooden spoon every hour, on the hour. Billie has not been seen at the beast tent since Tuesday.".
   Observe sarn_home_specimens near wapshott when backFromSarn(wapshotts) and takeSpecimens(wapshotts) "Sir Gervase has a dozen crates in the yard and a clerk from the Royal Society with a ledger. The beast tent is quiet, and Billie's coat is not on its peg.".

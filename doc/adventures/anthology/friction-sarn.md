@@ -1,0 +1,25 @@
+# Friction met deepening the Fourth Act
+
+*Appended to [friction.md](friction.md) (not edited). 7 November 2026.*
+
+1. **A follower is not always where the page says.** A person marked `away` and `following` the party can be put back by `put` in a test, and a question put to the player ("Ask Sir Gervase which kinds he will take") lost its answers when the asker was relocated between the two steps. Tests re-`put` the person between question and answer; whether a real follower can drift is unverified in the browser.
+2. **A rule with no `at(party, …)` in its condition fires everywhere**, again (the voyage's `aboard` and `home_from_sarn`); all rules in voyage.kyr now carry the party's place.
+3. **A lone character dies to the Colonel's trumpet** (4d6 against a level-1 body). The warning is on the page for ten minutes of game time, but a test or a player who waits through it loses the party. This is intended; recorded because it is the first death in the act that a wait alone can cause.
+4. **No way to condition a Person's `State` on tolerance**, so a brooder, an owlbear or a herd keeps "blocking" text after it has been bargained with (friction 3 of the anthology still stands).
+5. **Creatures cannot patrol.** The tyrant's dusk walk (plain_mid at 17, plain_south at 20, home at 22), the herd's day (lake, plain, plain) and the colony's launch are rules that move a `Person` by the hour with `Retract at` and `Assert at`; the sail-wings use `offstage`. It works, and it is one rule per leg.
+6. **`Chapter` conditions are not ordered.** ch_crate, ch_voyage, ch_sarn, ch_after_sarn and ch_reckoning overlap by their conditions; which heading the page shows is the engine's choice.
+7. **A region inside a standing scenario can hold two more regions** (the Isle and the brig), reached by ordinary passages; a ship is a region with three rooms and two gangways opened by a berth fact. No clock-driven travel exists, so the voyage is a berth rule and a wait of eleven days (`=+1600` watches in a spec).
+8. **Question-and-answer topics** (`once` question, `answering` answers) work, but an answer is offered only while its speaker is present, and the question's `when` should not read the facts the answers assert (it stays asked, but is unreadable).
+9. **Local Kind ids in a holding test** are bare in a Journey's `holds` (`preserve_key`) and prefixed in a rule; mixing the two is a silent false.
+10. **An unlit outdoor room**: marking `wreck_camp` `unlit` (copied from Tallow's habit) hid its items by day. Outdoor rooms are not to be marked.
+11. **Prose tics**: a grep for "the size of", "slowly", "a long time", "quiet" found 40 uses across 10 files in the Act IV text; about half were cut. The register listens to itself (circus friction 25).
+12. **Time and rations**: eleven days at sea use the meal rule; the voyage adds twelve rations on boarding and twelve more on the way home as the brig's biscuit. A hunger system tied to a ship's stores would be better.
+
+## The physical climax (direction change): what the engine could not do
+13. **No tide clock.** A reef that shuts on a date is a measure (`reefDay`) set at landfall and compared with `day(clock)`; three actions (`run_reef`, `run_reef_with_crewe`, `run_reef_late`) differ by it. The sea itself, a passage that opens and closes, is a `Passage … opening when` fed by a rule, not a tide.
+14. **No camp under attack.** The night on the quay is a rule that starts at a day and an hour, three actions that set refuge facts, and a rule that reads them six hours (36 watches) later and either kills the bosun (`Slay mudge`) or hurts the party. Nobody is hunted turn by turn; the hunter is never on the page; there is no one in the dark to fight, and the outcome is decided by what was done before dawn.
+15. **No supplies as a system.** Water is a measure drunk down once a day at seven; thirst is a hazard; the spring is a room with a refill action. Rations are the shared meal rule plus a gift of twelve at each embarkation. A hold of casks, a carry weight, a hull that leaks as water, none exist.
+16. **Fever** is a die at dawn in delta rooms, a hazard two days on, and two cures that spend an item; it is not a condition that tires, slows or spreads.
+17. **Endings are facts read by observations near Ada and the Colonel.** Five endings are reachable (nothing; a loss; a fiasco; a hurt Colonel; the Colonel stays) and none is a civic settlement. The engine has no ending that is a state of a company rather than the book's closing: they cannot be recorded in a ledger or a chronicle except as the facts and the milestone.
+18. **The Rest's reckoning (the Steward, the Dowager, the Warrant scoring) was removed.** Its rules and topics are gone from tent.kyr; the Revels' own facts are unread by Act IV.
+19. **Voices.** A boisterous bosun (Mr Mudge, who shouts), a cook (Aggie Nunn, who gives no explanations), a boy who says four words at a time (Dab): `Manner` has no loud/laconic axis, so loudness is capitals and a verb; there is no per-person length limit and no way to lint that nobody explains significance.

@@ -18,7 +18,7 @@ Module circus "Wapshott's Peregrine Circus" {
   }
   Person three_horns "the three-horns" at plain_mid {
     Role "a herd of four, grazing, with a calf in the middle of them". Species three_horn. Level 4. Numbers 4. Temperament territorial.
-    Warns "The nearest of the beasts lifts a head the size of a barrel, with three horns on it, and turns. The calf goes under the biggest cow's belly. The cow lowers her frill and paws the clay once, and the herd closes.".
+    Warns "The nearest of the beasts lifts a head barrel-headed, with three horns on it, and turns. The calf goes under the biggest cow's belly. The cow lowers her frill and paws the clay once, and the herd closes.".
     Comes "The cow comes across the clay like a wagon off a hill.".
     Lair plain_mid.
     State grazing blocking "The three-horns graze across the herd-trail to the lake, the calf in the middle of them, and any road through them is theirs.".
@@ -80,7 +80,7 @@ Module circus "Wapshott's Peregrine Circus" {
   }
   Rule calf_freed_rule at harrow_camp when state(calf_cage, sprung) and not calfFreed(party)
     says "Harrow's men look up from their mugs at the sound, and do not move. The calf comes out of the crate in a single sideways flow, and is gone into the mangroves with its tail out straight." {
-    Assert calfFreed(party). Assert hatchlingsHome(party). Assert harrowBeaten(party). Retract tolerates(harrow_men, party).
+    Assert calfFreed(party). Assert tolerates(hook_claws, party). Assert hookTolerates(party). Assert hatchlingsHome(party). Assert harrowBeaten(party). Retract tolerates(harrow_men, party).
   }
   Action parley_harrow(actor: group, site: place) "Argue with Captain Harrow that the island is not his to thin" {
     Speaker harrow.
@@ -93,7 +93,7 @@ Module circus "Wapshott's Peregrine Circus" {
   }
 
   // ── The egg-beds: what to take, and what taking costs ────────────────────────────────────────────────────────
-  Item egg_a "a grey egg the size of a loaf, warm as bread" is dragons_egg at egg_beds.
+  Item egg_a "a grey loaf-big egg, warm as bread" is dragons_egg at egg_beds.
   Item egg_b "a second egg, a little darker" is dragons_egg at egg_beds.
   Item egg_c "a third, cracked and cold" is dragons_egg at egg_beds.
   Rule egg_taken_rule at egg_beds when holding(party, dragons_egg) and not eggTaken(party) and not eggReturned(party)
@@ -115,7 +115,7 @@ Module circus "Wapshott's Peregrine Circus" {
   // ── The hook-claws and the hatchlings ────────────────────────────────────────────────────────────────────────
   Action return_hatchlings(actor: group, site: place) "Set the young hook-claws down at the edge of the hollow and step back" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, hook_den) and at(hook_claws, hook_den) and able(hook_claws)
-      and (hatchlingsHome(party) or hatchlingsPenned(wapshotts)) and not hookTolerates(party).
+      and (hatchlingsHome(party) or hatchlingsPenned(wapshotts)) and (not colonelNamed(wapshotts) or namedLetGo(wapshotts)) and not hookTolerates(party).
     Time 0.
     On success { Assert hookTolerates(party). Assert tolerates(hook_claws, party). Assert hatchlingsHome(party). }
     Result "You open the sack and set them down in the bare earth, and step back, and nobody moves. One of the young goes forward in short, stopped runs, and the biggest of the pack lowers her head to it, and makes a sound you could not have told from a purr. The pack closes round them. When it opens, you are no longer in it, and no one has looked at you since.".
@@ -136,7 +136,7 @@ Module circus "Wapshott's Peregrine Circus" {
   }
   Entity herd_known: fact "At dawn the lantern-necks come down out of the crater mist to wade and drink in the lake, with their calves between them, and are interested in nothing.".
   Rule herd_stride_rule at lake_shore when at(party, lake_shore) and hour(clock) >= 6 and hour(clock) < 7 and herdSeen(party) and dice(clock) <= 8 and not tyrantFled(party)
-    says "A foot the size of a wagon-wheel comes down in the shallows, too near." {
+    says "A wagon-wheel of a foot comes down in the shallows, too near." {
     Assert strikes(herd_stride, party).
   }
   Relation tyrantFled(group).
@@ -146,12 +146,6 @@ Module circus "Wapshott's Peregrine Circus" {
   }
 
   // ── The tyrant's hunting, and the herd's shadow ──────────────────────────────────────────────────────────────
-  Rule tyrant_rushes at plain_mid when at(party, plain_mid) and hour(clock) >= 17 and hour(clock) < 20 and not dead(tyrant) and not tolerates(tyrant, party) and not tyrantNight(party)
-    says "The ground stops shaking. Then the ferns to the north part, in a long line, and it is on you." {
-    Assert strikes(tyrant_rush, party). Assert tyrantNight(party).
-  }
-  Relation tyrantNight(group).
-  Rule tyrant_night_clears when tyrantNight(party) and hour(clock) >= 22 { Retract tyrantNight(party). }
   Action stand_in_herd(actor: group, site: place) "Stand in the lee of the sleeping three-horns until the hunting is over" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, plain_mid) and tolerates(three_horns, actor) and hour(clock) >= 15.
     Time 0.
@@ -184,7 +178,7 @@ Module circus "Wapshott's Peregrine Circus" {
     says "The wind drops, and the smell of bad eggs closes round your head like a hand." { Assert strikes(sulphur_gas, party). Assert gassed(party). }
   Relation gassed(group).
   Rule gas_clears when gassed(party) and not at(party, tar_pits) { Retract gassed(party). }
-  Rule hot_crust at bone_beds when at(party, bone_beds) and dice(clock) <= 6 and not crusted(party)
+  Rule hot_crust at bone_beds when at(party, bone_beds) and dice(clock) <= 6 and not crusted(party) and not knows(party, crust_safe)
     says "The crust under your boot gives, and the heat under it comes through the leather." { Assert strikes(hot_ground, party). Assert crusted(party). }
   Relation crusted(group).
   Rule crust_clears when crusted(party) and not at(party, bone_beds) { Retract crusted(party). }
