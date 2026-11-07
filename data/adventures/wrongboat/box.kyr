@@ -31,17 +31,16 @@ Module wrongboat "The Wrong Boat" {
     Requires able(actor) and company(actor) and at(actor, site) and holding(actor, music_box) and windings(actor) >= 2 and not drawerOpen(actor).
     Time 1.
     Resolve check(actor, trapwork, dc_fair).
-    On success { Assert drawerOpen(actor). Increase windings(actor) by 1. Give wage_slip_kind to actor. Give simple_ring to actor. }
-    Result "The comb is a false bottom. It lifts. In the hollow beneath it lie an iron ring, plain, slightly bent from being worn by someone who worked with ropes, and a folded blue slip. On the back plate, where the lamp falls, someone has scratched a few words with a pin.".
+    On success { Assert drawerOpen(actor). Increase windings(actor) by 1. Give wage_slip_kind to actor. }
+    Result "The comb is a false bottom. It lifts. In the hollow beneath it lies a folded blue slip. On the back plate, where the lamp falls, someone has scratched a few words with a pin.".
     Otherwise "You turn it every way. The comb does what combs do. You have the feeling of a thing that is waiting for you to be a little kinder to it.".
   }
-  Observe maker_seen at deck when drawerOpen(party) "The back-plate's scratched words are visible if you tilt the box." teaches maker_known.
-  Observe maker_seen_other at cabin when drawerOpen(party) "The back-plate's scratched words catch the lamp." teaches maker_known.
-  Observe maker_seen_galley at galley when drawerOpen(party) "The back-plate's scratched words show in the steam." teaches maker_known.
-  Observe maker_seen_road at road when drawerOpen(party) "The back-plate's scratched words show in daylight." teaches maker_known.
-  Observe maker_seen_fair at fairground when drawerOpen(party) "The back-plate's scratched words show in the noon sun." teaches maker_known.
-  Observe maker_seen_inn at inn_room when drawerOpen(party) "The back-plate's scratched words show by the fire." teaches maker_known.
-  Observe maker_seen_hill at hill_foot when drawerOpen(party) "The back-plate's scratched words show in the milestone's shade." teaches maker_known.
+  Action read_plate(actor: group, site: place) "Read the words scratched in the back-plate" {
+    Requires able(actor) and company(actor) and at(actor, site) and holding(actor, music_box) and drawerOpen(actor) and not boxKnown(actor).
+    Time 1.
+    On success { Assert boxKnown(actor). Assert knows(actor, maker_known). }
+    Result "You tilt it to the light. The words were put in with a pin, a long time ago, by someone who did not own an engraver's tool and did not want to wait for one.".
+  }
 
   // The ways of being rid of it.
   Action drop_box(actor: group, site: place) "Drop the music box in the river" {
@@ -53,7 +52,7 @@ Module wrongboat "The Wrong Boat" {
   Relation dropped(group).
   Action sell_dealer(actor: group, site: place) "Sell the music box to the horse-dealer for fifty coin, no questions" {
     Speaker dealer.
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, horse_lines) and holding(actor, music_box) and not sold(actor) and not soldHonest(actor).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, horse_lines) and holding(actor, music_box) and not soldHonest(actor).
     Time 0.
     On success { Spend music_box from actor. Increase quantity(actor, gold) by 50. Assert soldHonest(actor). }
     Result "The dealer winds it twice, listens, does not smile, and counts fifty out of a purse that has been heavy since morning. 'Very pretty,' he says. 'I shall give it to my wife.' He says it to the horse.".

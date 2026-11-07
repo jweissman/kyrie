@@ -36,6 +36,7 @@ Module wrongboat "The Wrong Boat" {
   Place puppet_booth "the puppet booth" is room within pelham_ward at 2, 0.
   Place draper "Coyle's slop-shop" is room within pelham_ward at 1, 1.
   Place horse_lines "the horse lines" is room within pelham_ward at 2, 1 outdoors.
+  Place lockup "the Pelham lock-up" is room within pelham_ward at 0, 2.
   Place pelham_inn "the Magpie" is room within pelham_ward at 0, 1.
   // The mill reach.
   Place race_head "the head of the mill-race" is room within mill_reach at 0, 0 outdoors.
@@ -75,6 +76,7 @@ Module wrongboat "The Wrong Boat" {
   Passage fair_slops "Coyle's door" is door between fairground and draper.
   Passage fair_lines "the horse lines" is path between fairground and horse_lines taking 10 minutes.
   Passage fair_inn "the Magpie's door" is door between fair_quay and pelham_inn.
+  Passage inn_lockup "the lock-up door behind the Magpie" is door between pelham_inn and lockup.
   Passage fair_to_mill "the river road to the mill" is road between horse_lines and millyard taking 2 hours.
   // Mill.
   Passage head_yard "the head-race path" is path between race_head and millyard taking 10 minutes.
