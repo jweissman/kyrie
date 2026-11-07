@@ -25,7 +25,7 @@ Module pentrice "Gosse's Company" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, lant_stage) and not lightLit(rierdan) and not lightOut(rierdan).
     Time 1.
     On success { Assert lightOut(rierdan). }
-    Result "You put the cage's door aside and pinch the flame. The whole house goes dark in a single breath. From the flies, quite distinctly, a man's voice says 'Thank you,' in the weary tone of a stagehand told he may go home, and the Wick is only a theatre.".
+    Result "You put the cage's door aside and pinch the flame. The whole house goes dark in a single breath. From the flies, distinctly, a man's voice says 'Thank you,' in the weary tone of a stagehand told he may go home, and the Wick is only a theatre.".
   }
   Observe lit_light at lant_stage when lightLit(rierdan) and not lightLeft(rierdan) "The ghost-light burns white at the centre of the stage. Whoever trims it does not leave a mark.".
 
@@ -56,11 +56,11 @@ Module pentrice "Gosse's Company" {
 
   // 3. The herring procession: the Salt-Wives want a King.
   Topic salt_procession with salt_wives "Ask the Salt-Wives about the procession on the quay" when royalCall(pentrice) and not herringKing(party) and not herringSkipped(party) once {
-    Says "The eldest looks at you and her face is quite without expression. 'The Herring King,' she says. 'On the feast of the Shoal. Every year a man is dressed in nets and silver paper and carried the length of the Quay on a hurdle and thrown in the dock. It has always been a fishmonger. We would like it this year to be a player.' The second wife says, 'It's a great honour.' The third says nothing and is already smiling.".
+    Says "The eldest looks at you and her face is without expression. 'The Herring King,' she says. 'On the feast of the Shoal. Every year a man is dressed in nets and silver paper and carried the length of the Quay on a hurdle and thrown in the dock. It has always been a fishmonger. We would like it this year to be a player.' The second wife says, 'It's a great honour.' The third says nothing and is already smiling.".
   }
   Topic herring_yes with salt_wives "I'll be your Herring King" answering salt_procession when true {
     Says "'Splendid,' says the eldest, with a warmth that is a little too prompt. 'The net is in the back.' You are dressed in silver paper. You are carried down the Quay by eight fishwives, singing, and thrown in the dock to cheers, and come up with a herring in your coat that you never discover the source of. Nothing in the city is ever so friendly as it is that afternoon.".
-    On discuss { Assert herringKing(actor). Give herring_kind to actor. Increase favour(rierdan) by 0. }
+    On discuss { Assert herringKing(actor). Give herring_kind to actor. }
   }
   Topic herring_no with salt_wives "I'll send a better man, in my place" answering salt_procession when true {
     Says "'Ah,' says the eldest. 'A man in his place.' She considers. 'We should like to meet him.' It is a threat. It is also a courtesy. In the afternoon Jem Pudding, who has never been asked to do anything with such evident delight, is dressed in paper and carried off.".
@@ -100,17 +100,18 @@ Module pentrice "Gosse's Company" {
     On discuss { Assert puddingFool(actor). }
   }
   Topic tam_beat with tam "Ask Tam why the carpenters haven't been paid" when wickGranted(rierdan) and not tamStood(party) and not tamBack(party) once {
-    Says "Tam Hautboy sets down the plane. 'Because Mauger has sixty days on the fit-out and the men have sixty days on their own,' he says. 'They'll stay for a promise. They won't stay for a rope.' His hands are quite steady. 'I'll tell them to go on. I'll tell them the Wick will pay on opening. I'll tell them that, if that's what you want me to say.' He looks at you. 'Or I'll stand with them. I've only ever had the one trade.'".
+    Says "Tam Hautboy sets down the plane. 'Because Mauger has sixty days on the fit-out and the men have sixty days on their own,' he says. 'They'll stay for a promise. They won't stay for a rope.' His hands are steady. 'I'll tell them to go on. I'll tell them the Wick will pay on opening. I'll tell them that, if that's what you want me to say.' He looks at you. 'Or I'll stand with them. I've only ever had the one trade.'".
   }
   Topic tam_promise with tam "Tell them the Wick will pay on opening" answering tam_beat when true {
     Says "'Right,' says Tam, and puts on his coat. He goes out to the carpenters at the back door. He is gone an hour. When he comes back he has a face that says he has spent it. 'They'll stay,' he says. 'Now we'd better pay.'".
     On discuss { Assert tamBack(actor). Decrease quantity(actor, gold) by 10 or to nothing. }
   }
   Topic tam_stand with tam "Stand with the carpenters. We'll pay them, or we'll go dark" answering tam_beat when true {
-    Says "Tam takes off his apron. For the first time in the whole engagement he is quite alone, a thin man in the middle of the wardrobe with a plane in his hand. 'Aye,' he says. 'Well. I thought you might.' He goes out to the back door. The sound of carpenters putting down their tools comes in like a long breath.".
-    On discuss { Assert tamStood(actor). Assert holdingAct(rierdan). }
+    Says "Tam takes off his apron. For the first time in the whole engagement he is alone, a thin man in the middle of the wardrobe with a plane in his hand. 'Yes,' he says. 'Well. I thought you might.' He goes out to the back door. The sound of carpenters putting down their tools comes in like a long breath.".
+    On discuss { Assert tamStood(actor). Assert tamPicket(rierdan). }
   }
-  Rule tam_strike_ends when tamStood(party) and heistOver(rierdan) and holdingAct(rierdan) and not commandOn(rierdan) { Retract holdingAct(rierdan). }
+  Relation tamPicket(place).
+  Rule tam_strike_ends when tamStood(party) and heistOver(rierdan) and tamPicket(rierdan) { Retract tamPicket(rierdan). }
   Milestone m_light "kept, or let go of, the ghost-light" worth 100 when lightLit(rierdan) or lightOut(rierdan).
   Milestone m_printer "settled the pirate" worth 100 when printerSmashed(rierdan) or printerHired(rierdan) or printerBought(rierdan).
   Milestone m_herring "was carried down the Quay, or sent a man" worth 100 when herringKing(party) or herringSkipped(party).
@@ -119,7 +120,7 @@ Module pentrice "Gosse's Company" {
   // Cyprian and Oriel: the Watch and the father, in three beats each (the join, the question, and the scene on the stage).
   Relation cyprianResigned(group). Relation cyprianBoth(group). Relation orielTells(group). Relation orielStage(group). Relation orielAsked(group). Relation cyprianAsked(group).
   Topic cyprian_watch with cyprian "Ask Cyprian what the Watch will say to a lieutenant who goes on a stage" when cyprianWith(party) and not cyprianAsked(party) once {
-    Says "Cyprian Marchant considers the pewter on his collar. 'There is a regulation,' he says. 'Against lieutenants being in a play. I wrote the regulation. I was nineteen and I thought plays were for people who could not lift anything.' He turns the collar over. 'The Marshal signed it.' The Marshal, you remember, is a body in the Dust.".
+    Says "Cyprian Marchant considers the pewter on his collar. 'There is a regulation,' he says. 'Against lieutenants being in a play. I wrote the regulation. I was nineteen and I thought plays were for people who could not lift anything.' He turns the collar over. 'The Marshal signed it.' He looks at his boots. 'He is a good man to have against you in an argument and a bad one to have for you in a ditch.'".
     On discuss { Assert cyprianAsked(actor). }
   }
   Topic cyprian_resign with cyprian "Hand in the pewter, then. A lieutenant is a small thing to be" answering cyprian_watch when true {

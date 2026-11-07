@@ -9,12 +9,12 @@ Module pentrice "Gosse's Company" {
   // Whoever takes it back has taken it back, and nothing civic changes: the Tower of Coin will go on lending.
   Relation wickGranted(place). Relation swaleOwned(group). Relation swaleHidden(group). Relation gosseTold(group).
   Relation planPudding(group). Relation planDorcas(group). Relation planTam(group). Relation planOriel(group).
-  Relation disguiseHad(group). Relation keyCopied(group). Relation pomfretHeld(place). Relation clerkLured(place).
+  Relation disguiseHad(group). Relation keyCopied(group). Relation clerkLured(place).
   Relation boxOpened(group). Relation noteTaken(group). Relation noteBurned(group). Relation noteReturned(group).
-  Relation caughtInCounting(group). Relation heistOver(place). Relation raskCharmed(group). Relation dorcasLoved(group).
-  Relation openingNight(place). Relation openingHeld(place). Relation pomfretBack(place). Relation pomfretArrived(place).
+  Relation caughtInCounting(group). Relation heistOver(place). Relation raskCharmed(group).
+  Relation openingNight(place). Relation pomfretBack(place). Relation pomfretArrived(place).
   Measure openingDay(place). Measure alarm(place).
-  Chapter ch_note "The Note" when wickGranted(rierdan) and not heistOver(rierdan) "The Wick has a roof, a stage and a lease, and the lease has a clause. Master Mauger is very fond of the company. He sends flowers.".
+  Chapter ch_note "The Note" when wickGranted(rierdan) and not heistOver(rierdan) "The Wick has a roof, a stage and a lease, and the lease has a clause. It opens on the third evening after the grant, at seven; Master Mauger sits in Lord Rask's box until nine; at ten the doors shut and whatever the company has done, or not done, is done. Master Mauger is very fond of the company. He sends flowers.".
 
   Rule wick_given when actIIIDone(rierdan) and not wickGranted(rierdan) {
     Assert wickGranted(rierdan). Set openingDay(rierdan) to day(clock) + 3. Assert houseGranted(rierdan).
@@ -24,7 +24,7 @@ Module pentrice "Gosse's Company" {
     Greets "The chief clerk looks at you over a pair of spectacles and does not offer to take your name. 'Master Mauger is at the Exchange,' he says. 'He is always at the Exchange. I am here.'".
   }
   Topic pomfret_terms with crake "Ask Master Mauger about the lease on the Wick" when wickGranted(rierdan) and not heistOver(rierdan) once {
-    Says "Master Mauger opens a book and shows you a page of beautiful copperplate. 'Three hundred for the fit-out,' he says. 'At a most generous five in the hundred by the month. And a small matter of eighty crowns, upon a note of hand in Mr Gosse's name, which Mr Swale was good enough to bring me in the spring.' He closes the book. 'I would not dream of troubling the Chamberlain with it. The lease, I am told, is very particular about false instruments. I think we understand one another.' He smiles. 'My daughter marries at Haysel-tide. I have always thought a private performance would be so nice.'".
+    Says "Master Mauger opens a book and shows you a page of beautiful copperplate. 'Three hundred for the fit-out,' he says. 'At a most generous five in the hundred by the month. And a small matter of eighty crowns, upon a note of hand in Mr Gosse's name, which Mr Swale was good enough to bring me in the spring.' He closes the book. 'I would not dream of troubling the Chamberlain with it. The lease, I am told, is very particular about false instruments. I think we understand one another.' He smiles. 'The Wick opens on the third evening, at seven, and I shall be in Lord Rask's box until nine, which I mention only so that you may be easy. My daughter marries at Haysel-tide. I have always thought a private performance would be so nice.'".
   }
 
   // Swale owns it, or doesn't; Gosse is told, or isn't.
@@ -60,7 +60,7 @@ Module pentrice "Gosse's Company" {
     Says "Tam Hautboy has drawn the Tower of Coin on the floor in chalk, with the skylight and the downpipe and the drop. 'Forty feet,' he says. 'A rope, and a hook, and somebody who has built a great many scaffolds.' He looks at the others. 'I'd want somebody on the street to cough.'".
     On discuss { Assert planTam(actor). }
   }
-  Topic plan_oriel with hepzibah "Oriel's: a summons from the Chamberlain, sealed, to take the clerk away" answering hepzibah_plan when true {
+  Topic plan_oriel with hepzibah "Oriel's: a summons from the Chamberlain, sealed, to take the clerk away" answering hepzibah_plan when orielHelped(party) or orielSworn(party) {
     Says "Oriel Marchant has the Chamberlain's seal in a clay impression the size of a coin, and a stiff piece of the Household's paper. 'I know his hand,' she says. 'I copied it for my father a hundred times. The clerk will go. They always go for the Household.' She hesitates. 'I should be using my father's name, I think. I should like to. A little.'".
     On discuss { Assert planOriel(actor). }
   }
@@ -145,7 +145,7 @@ Module pentrice "Gosse's Company" {
     Resolve check(actor, lockwork, dc_fair).
     On success { Assert boxOpened(actor). Assert noteTaken(actor). Give forged_note to actor. }
     On failure { Increase alarm(rierdan) by 2. }
-    Result "The box opens with a sound like a very small cough. Under a velvet bag of crowns and a miniature of Mauger's late wife there is a single sheet, folded in three, in a hand you have seen on a hundred bills. A. GOSSE. The letters are quite wonderful. You take it, and shut the box, and the velvet bag is where it was.".
+    Result "The box opens with a sound like a very small cough. Under a velvet bag of crowns and a miniature of Mauger's late wife there is a single sheet, folded in three, in a hand you have seen on a hundred bills. A. GOSSE. The letters are wonderful. You take it, and shut the box, and the velvet bag is where it was.".
     Otherwise "The tumbler turns and sticks. Somewhere in the Tower a floor creaks.".
   }
   Kind forged_note "the note for eighty crowns, in Gosse's hand" is document described "A note of hand for eighty crowns, in a beautiful, shaky copy of Absalom Gosse's signature. The forger has given the G a flourish Gosse never used.".
@@ -176,7 +176,7 @@ Module pentrice "Gosse's Company" {
   Observe pomfret_prevails near crake when heistOver(rierdan) and not noteGone(rierdan) "Master Mauger has the note out on his desk and a pen beside it, and a diary open at Haysel-tide. 'Not a very large wedding,' he says. 'Forty guests. A little speech, in the second act. I have written it myself.' He beams. He has the Chamberlain's ear and Lord Rask's, and nobody to whom he need justify himself.".
   Observe caught_net near pomfret_clerk when caughtInCounting(party) "The chief clerk has locked the door of the counting-room with you inside it and gone for the Watch. It is, he says through the keyhole, a very serious thing. He will be perhaps an hour. It is not clear what he thinks you will do in the meantime.".
   // The Seats sit on the Wick's business, and the debtors' yard keeps Mistress Pardew's husband.
-  Observe seats_docket at seats when wickGranted(rierdan) "On the Seats' docket for the week, between a dispute over a bridge and a goose, stands POMFRET v. A TRAVELLING COMPANY, on a lease with a clause. It is called, and adjourned, and called again. The clerk of the court is a Coin man, and he is very patient.".
+  Observe seats_docket at seats when wickGranted(rierdan) "On the Seats' docket for the week, between a dispute over a bridge and a goose, stands MAUGER v. A TRAVELLING COMPANY, on a lease with a clause. It is called, and adjourned, and called again. The clerk of the court is a Coin man, and he is very patient.".
   Observe debt_yard_pardew at debt_yard when wickGranted(rierdan) "A cell in the yard has a name scratched over the door: PARDEW, T., DRAPER, FOR EIGHTY CROWNS AND COSTS. It is the one the draper's husband died in. The warder says the Coin Tower bought the debt in the autumn, as it buys the autumn's debts, and that Mistress Pardew comes on Sundays with a clean shirt for a dead man's peg.".
   Milestone m_plan "chose a plan" worth 100 when planPudding(party) or planDorcas(party) or planTam(party) or planOriel(party).
   Milestone m_note "got the note back" worth 400 when noteTaken(party).
@@ -185,4 +185,6 @@ Module pentrice "Gosse's Company" {
   Rule pomfret_arrives when openingNight(rierdan) and pomfretBack(rierdan) and not pomfretArrived(rierdan) and at(party, crake_room)
     says "Footsteps on the counting-room stair, unhurried, the footsteps of the owner of the house. A voice says, to somebody, 'I do hope nobody has been at my papers.'" { Assert pomfretArrived(rierdan). Increase alarm(rierdan) by 2. }
   Observe dorcas_plan_note near dorcas when planDorcas(party) and openingNight(rierdan) "Dorcas has the gown on. She has the look of a woman who has been told she is the only plan, and has agreed to be.".
+  Observe wick_clock at lant_ward when wickGranted(rierdan) and not openingNight(rierdan) and not heistOver(rierdan) "Hepzibah has chalked it on the wardrobe door, in the hard pencil's capitals: OPENING THE THIRD EVENING, AT SEVEN. MAUGER IN RASK'S BOX TILL NINE. DOORS SHUT AT TEN. Under it, smaller: Whoever is in the counting-room at nine is a burglar.".
+  Observe box_hint at crake_room when inCounting(party) and not boxOpened(party) and not holding(party, key_kind) and not clerkLured(rierdan) "The strong-box is a good one, with a lock the size of a fist. It wants a key, or hands that know locks. Mistress Pardew, they say, keeps a mould for the truthful.".
 }

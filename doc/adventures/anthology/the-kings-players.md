@@ -2,7 +2,7 @@
 
 *A five-act continuation of Gosse's Company, played in Dun Rierdan, the City of Seven Towers. Each act is a different form; none ends in a civic settlement.*
 
-Data: `data/adventures/gosses-company/{rierdan,rier_cast,act1..act5,rier_side}.kyr` (module `pentrice`, listed in `module.json` and `placed.json`). Specs: `test/kings-players.test.ts` (11, on the Pentrice city campaign). Governing document: `forms.md`.
+Data: `data/adventures/gosses-company/{rierdan,rier_cast,act1..act5,rier_side}.kyr` (module `pentrice`, listed in `module.json` and `placed.json`). Specs: `test/kings-players.test.ts` (30 specs, eight of them one per Act V ending). Governing document: `forms.md`.
 
 ## Dun Rierdan is canonical here
 
@@ -18,7 +18,7 @@ After the Trial of the Wheel the Crown summons Gosse's Company to play for the K
 | II. The Mousetrap | suspense / horror | one night | the Duke's ghost leaves the roof at six and walks, an hour a step, toward the company | salt, a name, a play within a play; or the ghost walks the whole way and the party is struck |
 | III. The Unburied | tragedy (Antigone) | the Edict: three days' exposure | a girl will bury the Marshal; there is **no hearing climax** | the default is tragic (sealed, the Warden's son follows); six non-tragic resolutions, all costed, one of which the playwright resents bitterly |
 | IV. The Note | heist / caper | opening night at the Wick | a forged note of hand taken back from a strong-box while its holder watches the play | note burnt, note returned to the draper, or the company caught in the counting-room; the Tower of Coin goes on lending |
-| V. The Command | glorious fiasco | the command performance | seven scenes with a chaos counter; Patience the bear takes the bow | four endings (fiasco, grave, unproved, furious) |
+| V. The Command | glorious fiasco | the command performance | seven scenes with a chaos counter; Patience the bear takes the bow | eight endings, one per way Act III ended, with a coda for what Acts IV and V made of the night |
 
 ## Map
 
@@ -71,8 +71,26 @@ Tics and anachronisms removed: "Michaelmas" is now "Haysel-tide"; tinfoil, progr
 
 **Authored but unreachable or only specced from a staged start:** Act II is still entered by `assert/put` (no natural walk); Act III's `beg_verrall`, `ask_the_king`, `steal_body`, `get_them_out` are linted but the specs reach their *endings* by staging the outcome flag; Act I's later scenes remain teleported; Act V's ending specs stage the Act III outcome and skip Acts II–IV; the side quests; Cyprian's and Oriel's topic answers (read by Observes, not specced).
 
-**Open from the review (not done):** `holdingAct` is still shared between Tam's strike and Act II's `tarn_falls`; the Law tower's remaining rooms are read by Observes only; the Chancellor still greets everyone as the masquers (`posing` is set but not maintained); `mallam_correct` changes only the book; the tic counts ("Word," openers, "quite", "real") were not re-counted; voices are improved on the ten worst lines and four named characters, not audited across the corpus.
+**Open after round two:** the Law tower's remaining rooms are read by Observes only; `mallam_correct` changes only the book; Act V is still a seven-nod counter with scene counter-actions (the coda, the repertoire and the arcs respond to what was done, but it is closer to a scorecard than a free farce); the tic counts were reduced ("quite" removed, "christening", "Aye", "God help", ten "a man who" similes) but "very", "real", "does not look at" and "says nothing" were not recounted; voices were rewritten for Hepzibah, Dorcas, Lucan, Mallam and Swale, not audited across the whole corpus; there is no `repertory` test file in the repository to run.
 
 **The engine cannot represent:** a performance as an object with an audience; a crowd with opinions; a persuasion chain that remembers tone; a heist whose route is spatial (the counting-room is one room); a body as something carried; an ending built from several independent outcomes (an Ending is one text, so the Act III outcome selects it and Acts IV and V speak in a coda).
 
 **Assets whose integration is incomplete:** no art or sound; the Seven Towers' bells have `as sound` only in the nave; the repertoire board is text only.
+
+## Round two: what changed
+
+| Finding | Fix | Played in |
+|---|---|---|
+| Act I: Miser plus honest Gosse (or Ghost plus Gosse-as-he-was) offered no audition | each mask has an ungated audition and a Gosse-specific variant (`audition_ghost_ham`, `audition_miser_honest`) with its own DC | "Act I (the honest road)": Miser, honest Gosse, walked to the King's Tower, auditioned |
+| "Stop you" never stopped Ysolt (`night_comes` fired first) | `night_comes` needs `not ysoltStopped`; the Edict runs out and `bodyRiver` is reached | "Stop you stops her": plays the answer, waits three days |
+| Company stranded in the Rotunda after Act II | `rot_home_*` rules send the troupe to the Sparrow on `nightOver`, and `troupe_to_wick_*` to the Wick on the grant | the Act II-to-IV spec |
+| Act IV clock invisible | Chapter line, Hepzibah's chalk (`wick_clock`) and Mauger's own words say opening, nine and ten | read by every Act IV spec |
+| Dominant plan | Oriel's plan needs `orielHelped/orielSworn`; the `coin_in` stair closes on `caughtInCounting`; a hint appears at the box | Act IV plan specs |
+| Act II cast unplaced | the Marshal, Prince and King are placed in the box on the night | Act II specs |
+| Marshal always dies; modes identical | the corpse needs an exposure (`tarnExposed`, `lotharWounded`, `tarnByGhost`, `tarnShaken`, `gloveFound`); the cancel branch ends with `marshalLives`, no Edict, and Act III skipped; `modePoint` arrests and `modeVague` shakes and strikes (`stage_mousetrap_vague`) | "from Act II's quiet night into Act IV" |
+| Act I farce flavour | the verdict reads what happened (`king_verdict` vs `king_verdict_plain`); the real masquers confront a posing company (`masquers_meet`); "Prove Kit" costs thirty watches a try | Act I specs |
+| Act III costs | Clemency has a line for each of grave, chain, shamed, sea, staged, exile and river; the clem_play topic closes with the act; the Warden's resignation is `dc_formidable` | Act III specs |
+| Hinge hard to find | the crier announces the herald and his deadline (`herald_news`) | natural-route spec |
+| Dead flags | sixteen removed, `gosseHam`/`gosseHonest2` and `ysoltStopped` now read, `clemFurious`/`clemSatisfied` read at the call, `favour` read by `standing_f`, `Increase … by 0` gone | lint |
+| Continuity and name leaks | Clemency's father is the Lord Mayor; "Crake", "Pomfret", "Tarn" leaks cleaned; Mallam's Greets fixed; the coda no longer names runs that did not occur; the Eastgate has a scene | lint |
+| Tam strike shared `holdingAct` | its own `tamPicket` | lint |

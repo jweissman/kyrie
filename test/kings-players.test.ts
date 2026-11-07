@@ -112,7 +112,7 @@ describe("The King's Players, Act I: the Marchants' Men", () => {
     await k.play('Ask Oriel to come with the company, as herself', 'Ask Oriel Marchant to join the company');
     expect(k.j.holds('travelsWith', p('oriel'), 'party')).toBe(true);
     // Hepzibah asks which play, and Gosse how he wants the King to see him: the answers decide what can be played.
-    k.put('party', 'sparrow_loft');
+    k.j.put('party', k.at('hepzibah')); // wherever the company is lodged at this hour
     await k.play('Ask Hepzibah what the company will give the King', 'A farce, tonight, made of the mistakes of this week',
       'Ask Gosse how he wants the King to see him', 'As what you were. The King wants a king');
     expect(k.holds('masqueFarce', 'party')).toBe(true);
@@ -126,6 +126,28 @@ describe("The King's Players, Act I: the Marchants' Men", () => {
     await k.play('Wait › A while');
     expect(k.holds('titleByAccident', 'rierdan')).toBe(true);
     expect(k.measure('favour', 'rierdan')).toBeGreaterThanOrEqual(4);
+  }, 280000);
+});
+
+describe("The King's Players, Act I (the honest road): the Miser", () => {
+  it('plays the Miser with an honest Gosse, is auditioned, and reaches Act II without a farce', async () => {
+    const k = await KP.start('kp1m');
+    k.assert('royalCall', 'pentrice');
+    k.put('party', 'sparrow_loft');
+    await k.play('Wait › An hour');
+    k.j.put('party', k.at('hepzibah'));
+    await k.play('Ask Hepzibah what the company will give the King', "The Miser's Wedding, the old one");
+    await k.play('Ask Gosse how he wants the King to see him', "As what you are. He's old too");
+    expect(k.holds('gosseHonest2', 'party')).toBe(true);
+    if (k.j.offers("To the Brazen Sparrow's taproom")) await k.play("To the Brazen Sparrow's taproom");
+    await k.play('Out to Playhouse Row', 'To the Concourse of the Seven');
+    await k.play('To the steps of the Tower of Law', "To the King's Court", "Into the King's Tower");
+    k.j.roll('pass');
+    await k.play("Play the King The Miser's Wedding, with Gosse as he is");
+    expect(k.holds('auditioned', 'rierdan')).toBe(true);
+    expect(k.measure('favour', 'rierdan')).toBeGreaterThanOrEqual(3);
+    // Nothing of the farce is claimed in the verdict.
+    expect(k.pages).not.toMatch(/two companies, the Marchants/);
   }, 280000);
 });
 
@@ -186,6 +208,31 @@ describe("The King's Players, Act II: the Mousetrap", () => {
   }, 200000);
 });
 
+describe("The King's Players: from Act II's quiet night into Act IV", () => {
+  it('cancels the trap, wakes to a living Marshal and no Edict, is given the Wick, and chooses a plan, all by label', async () => {
+    const k = await KP.start('kp24');
+    k.assert('royalCall', 'pentrice').assert('auditioned', 'rierdan').assert('provisional', 'rierdan').set('favour', 'rierdan', '3');
+    k.assert('mousetrapAsked', 'rierdan').set('nightDay', 'rierdan', '0');
+    k.put('party', 'playhouse_row');
+    await k.play('=18:10');
+    k.put('party', 'rot_wings');
+    await k.play('Ask Hepzibah to prompt the Mousetrap', 'No name. Cancel the trap. Play something else');
+    expect(k.holds('modeCancel', 'rierdan')).toBe(true);
+    await k.play('=+60');
+    await k.play('=06:30');
+    expect(k.holds('nightOver', 'rierdan')).toBe(true);
+    expect(k.holds('marshalLives', 'rierdan')).toBe(true);
+    expect(k.holds('bodyLies', 'pentrice')).toBe(false);
+    expect(k.holds('edictOn', 'rierdan')).toBe(false);
+    k.put('party', 'concourse');
+    await k.play('Wait › An hour', 'Wait › An hour');
+    expect(k.holds('wickGranted', 'rierdan')).toBe(true);
+    expect(k.at('hepzibah')).toBe(p('lant_ward'));
+    await k.play('To Playhouse Row', 'Into the Wick', "To the Wick's wardrobe", 'Ask Hepzibah to gather the company about the note', "Jem's: a false clerk, a false summons, and a very good coat");
+    expect(k.holds('planPudding', 'party')).toBe(true);
+  }, 290000);
+});
+
 describe("The King's Players, Act III: the Unburied", () => {
   const staged = async () => {
     const k = await KP.start('kp3');
@@ -197,6 +244,16 @@ describe("The King's Players, Act III: the Unburied", () => {
     expect(k.holds('edictOn', 'rierdan')).toBe(true);
     return k;
   };
+  it('lets "Stop you" stop her: the girl is kept from the Field, the Edict runs out, and the river has him', async () => {
+    const k = await staged();
+    await k.play('To the steps of the Tower of Bells', 'Into the Tower of Bells', 'Speak to the acolyte of the Bells, who is on her knees', "Stop you. I don't think you've counted the cost");
+    expect(k.holds('ysoltStopped', 'party')).toBe(true);
+    await k.play('Out to the steps of the Tower of Bells', 'To the Concourse of the Seven');
+    await k.play('=+144', '=+144', '=+144', '=+30');
+    expect(k.holds('bodyRiver', 'rierdan')).toBe(true);
+    expect(k.holds('ysoltSealed', 'rierdan')).toBe(false);
+    expect(k.holds('actIIIDone', 'rierdan')).toBe(true);
+  }, 280000);
   it('is a tragedy when no one acts: the girl buries him, is caught, is sealed, and the Warden\'s son follows', async () => {
     const k = await staged();
     k.put('party', 'ringers_loft');
@@ -324,6 +381,7 @@ describe("The King's Players, Act IV: the Note", () => {
   }, 290000);
   it('is a caper by the sealed summons: Oriel sends the clerk away and the box is left on the latch', async () => {
     const k = await staged('kp4o');
+    k.assert('orielSworn', 'party'); // Act I's oath, kept
     await plan(k, "Oriel's: a summons from the Chamberlain, sealed, to take the clerk away");
     await k.play("To the Wick's dark stage", '=19:10');
     expect(k.holds('openingNight', 'rierdan')).toBe(true);

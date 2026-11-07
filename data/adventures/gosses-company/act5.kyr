@@ -6,12 +6,12 @@ Module pentrice "Gosse's Company" {
   // Scene by scene a complication comes in, and the company can head it off or let it run; what is let run is chaos, and
   // chaos is the whole of the evening. The ending is whatever room it ends in.
   Relation commandOn(place). Relation commandDone(place). Relation finaleSet(place). Relation bookCorrected(group).
-  Relation fallowHat(place). Relation s1Done(place). Relation s2Done(place). Relation s3Done(place). Relation s4Done(place).
-  Relation s5Done(place). Relation s6Done(place). Relation s7Done(place).
+  Relation s1Done(place). Relation s2Done(place). Relation s3Done(place). Relation s4Done(place).
+  Relation s5Done(place). Relation s6Done(place).
   Relation fallowSeen(group). Relation maskersSeen(group). Relation duneSeen(group). Relation pomfretStood(group).
-  Relation twinsSorted(group). Relation raskAsked(place). Relation dorcasStays(group). Relation dorcasLeaves(group).
+  Relation twinsSorted(group). Relation dorcasStays(group). Relation dorcasLeaves(group).
   Relation hepzibahSpoke(group). Relation hepzibahSilent(group). Relation kitStays(group). Relation kitLeaves(group).
-  Relation orielStays(group). Relation orielGoes(group). Relation gosseExits(group). Relation gosseLives(group).
+ 
   Measure chaos(place). Measure commandDay(place). Measure repertoire(place).
   Chapter ch_command "The Mirrors" when commandOn(rierdan) and not commandDone(rierdan) "The Wick is lit for the first time in nine years. The King is in the box. The company has a play, six hours' sleep between it, and a bear.".
 
@@ -94,7 +94,7 @@ Module pentrice "Gosse's Company" {
   }
   Rule s3_skip when sceneV(rierdan) == 4 and not s3Done(rierdan) and (ghostSatisfied(rierdan) or tarnByGhost(rierdan)) { Assert s3Done(rierdan). }
   // Scene 4: the note, if it is not burned.
-  Observe s4 at lant_stage when sceneV(rierdan) == 4 and not noteGone(rierdan) "Master Mauger has stood up in the second tier with a paper held high in one hand. 'A note of hand,' he is saying, in the kindly voice of a man at a christening, 'in the name of Mr Absalom Gosse, for eighty crowns, which I regret to say I find has not been honoured, and which I should perhaps mention in the presence of the Chamberlain.'".
+  Observe s4 at lant_stage when sceneV(rierdan) == 4 and not noteGone(rierdan) "Master Mauger has stood up in the second tier with a paper held high in one hand. 'A note of hand,' he is saying, in the kindly voice of a man at a font, 'in the name of Mr Absalom Gosse, for eighty crowns, which I regret to say I find has not been honoured, and which I should perhaps mention in the presence of the Chamberlain.'".
   Action shout_pomfret_down(actor: group, site: place) "Play the Alderman at the top of your voice until he sits" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, lant_stage) and sceneV(rierdan) == 4 and not noteGone(rierdan) and not s4Done(rierdan).
     Time 1.
@@ -113,7 +113,7 @@ Module pentrice "Gosse's Company" {
     Resolve check(actor, insight, dc_fair).
     On success { Assert s5Done(rierdan). Assert twinsSorted(actor). }
     On failure { Assert s5Done(rierdan). Increase chaos(rierdan) by 1. }
-    Result "Cyprian takes Kit by the shoulder, and Oriel takes Cyprian by the other. For a moment all three of them stand in a line at the footlights. 'My lord Chancellor,' says Oriel, in her own voice, 'this is my brother, and this is the person who plays me, and I am going to be an actress.' There is a pause. Lord Marchant says, from the second tier, quite distinctly, 'I have never in my life been so bewildered. Go on.'".
+    Result "Cyprian takes Kit by the shoulder, and Oriel takes Cyprian by the other. For a moment all three of them stand in a line at the footlights. 'My lord Chancellor,' says Oriel, in her own voice, 'this is my brother, and this is the person who plays me, and I am going to be an actress.' There is a pause. Lord Marchant says, from the second tier, distinctly, 'I have never in my life been so bewildered. Go on.'".
     Otherwise "Cyprian takes Kit for Oriel and Oriel for the prompter, and the Chancellor, on his feet, shouts a fond name. Three people answer it.".
   }
   Rule s5_skip when sceneV(rierdan) == 6 and not s5Done(rierdan) and not twinsMet(party) and not kitTaken(party) { Assert s5Done(rierdan). }
@@ -157,7 +157,7 @@ Module pentrice "Gosse's Company" {
     On discuss { Assert dorcasStays(actor). }
   }
   Topic dorcas_go with dorcas "Go. It is the only time anyone will ask like that" answering dorcas_rask when true {
-    Says "Dorcas is quite still. 'Yes,' she says. 'I thought you would say that. You are very kind.' Her voice does not shake. 'I shall be Lady Rask by Haysel-tide, and I shall have a box, and I shall never again be hungry on a Tuesday.' She smiles. 'Nobody will see me play.' She puts out the candle.".
+    Says "Dorcas rises from the hamper in the great manner, with one hand to her throat. 'Go! Yes! My dear, you have said what the part required, and I shall play it to the end.' Her contralto does not shake; it was trained not to. 'I shall be Lady Rask by Haysel-tide, with a box and a bottle and a bad conscience, and nobody in the house will see me play.' She blows out the candle with a flourish and sits a long time in the dark.".
     On discuss { Assert dorcasLeaves(actor). }
   }
   Topic hepzibah_heart with hepzibah "Ask Hepzibah whether she has ever told Gosse" when royalCall(pentrice) and not proposed(gosse) and not emptyWing(gosse) and not hepzibahSpoke(party) and not hepzibahSilent(party) once {
@@ -167,7 +167,7 @@ Module pentrice "Gosse's Company" {
     Says "Hepzibah does not move her pencil. 'He says it to the King's face now,' she says. 'Mrs Gosse. As if it were a part.' She turns a page. 'He is going deaf. He will go on until he cannot, and then he will stop in the middle of a speech, and I shall prompt him, and nobody will know it is not the line.' The pencil goes down the margin. 'Is it enough, do you think, to have been asked?'".
   }
   Topic hepw_enough with hepzibah "It is enough. It is more than most are given" answering hepzibah_wife when true {
-    Says "'Yes,' says Hepzibah. 'I thought you would say so. You are kind.' She writes a line in the margin. It is not the line in the book.".
+    Says "'Noted,' says Hepzibah, and writes it down, which is how she accepts anything. 'Enough. Yes. I did not think I should be told.' She turns the page. The line she writes in the margin is not in the book.".
     On discuss { Assert hepzibahSpoke(actor). }
   }
   Topic hepw_more with hepzibah "No. Say it out loud, once, before the King" answering hepzibah_wife when true {
@@ -175,7 +175,7 @@ Module pentrice "Gosse's Company" {
     On discuss { Assert hepzibahSilent(actor). }
   }
   Topic hep_say with hepzibah "Tell him. A man ought to know" answering hepzibah_heart when true {
-    Says "'I thought you would say that,' says Hepzibah, with her small dry look. She picks up the book and goes to the window of the loft, where Gosse is standing with his head on one side. You do not hear what she says. You see him turn round. He takes her hand and puts it in the crook of his elbow as if she were a bishop's. They look out at the Rotunda's roof for a long time.".
+    Says "Hepzibah takes her time with the pencil. 'You will tell me I am a fool,' she says, 'and I shall write that down also.' She goes to the loft window where Gosse is standing with his head on one side. You do not hear what is said. You see him turn round. He takes her hand and puts it in the crook of his elbow, as for a bishop, and they look at the Rotunda's roof for some time.".
     On discuss { Assert hepzibahSpoke(actor). }
   }
   Topic hep_silent with hepzibah "No. It would only make it harder" answering hepzibah_heart when true {
@@ -207,7 +207,7 @@ Module pentrice "Gosse's Company" {
   // The coda, over whichever ending: what the evening itself came to.
   Relation coda(place).
   Rule coda_fiasco when commandDone(rierdan) and chaos(rierdan) >= standingR(rierdan) + 4 and not coda(rierdan) and at(party, lant_stage)
-    says "It was not the play. There were two Oriels, a Duke, a moneylender with a paper, and a bear, and the King laughed until he had to be carried to the terrace, and in the morning he said he had not understood a word and wanted it again. The Chamberlain wrote it in the book, in the wrong column." { Assert coda(rierdan). }
+    says "It was not the play. Things were said that were not in it, and a bear sat down, and the King laughed until he had to be carried to the terrace; and in the morning he said he had not understood a word and wanted it again. The Chamberlain wrote it in the book, in the wrong column." { Assert coda(rierdan). }
   Rule coda_unproved when commandDone(rierdan) and chaos(rierdan) < standingR(rierdan) + 4 and noteGone(rierdan) and not coda(rierdan) and at(party, lant_stage)
     says "The play went as played. Master Mauger never found the note and could not say it was gone; he sends flowers to the Wick every opening, and a draper on the Quay has a pocket of ashes." { Assert coda(rierdan). }
   Rule coda_owed when commandDone(rierdan) and chaos(rierdan) < standingR(rierdan) + 4 and not noteGone(rierdan) and not coda(rierdan) and at(party, lant_stage)
@@ -263,4 +263,8 @@ Module pentrice "Gosse's Company" {
   Observe court_rep_1 at king_court when repertoire(rierdan) >= 1 and repertoire(rierdan) < 3 "The Chamberlain's clerks have begun to say 'the King's Players' without checking the book first. The Household is deciding to be amused.".
   Observe court_rep_3 at king_court when repertoire(rierdan) >= 3 and repertoire(rierdan) < 5 "In the King's Court they ask the company for a play by name, and are annoyed to be told it is not in the book. Lord Rask has begun to bring friends.".
   Observe court_rep_5 at king_court when repertoire(rierdan) >= 5 "In the King's Court the Players are discussed the way people discuss weather: with proprietary despair. A petition has been laid before the Chamberlain asking that they be kept in the city by law.".
+  Observe s7_clem_furious at lant_stage when sceneV(rierdan) == 7 and clemFurious(rierdan) "Clemency Orde sits in the second row with her arms folded, and does not stand for the bear. She has the look of a woman who has been rescued from a good ending.".
+  Observe s7_clem_satisfied at lant_stage when sceneV(rierdan) == 7 and clemSatisfied(rierdan) "Clemency Orde stands at the back of the house, in grey, with her hand over her mouth, and does not applaud. She has what she came for, and it was dear.".
+  Relation stF(place).
+  Rule standing_f when favour(rierdan) >= 6 and not stF(rierdan) { Assert stF(rierdan). Increase standingR(rierdan) by 1. }
 }

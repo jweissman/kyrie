@@ -4,7 +4,7 @@ Module pentrice "Gosse's Company" {
   // The troupe goes ahead to the Brazen Sparrow; whoever follows finds them there, lodged on credit, rehearsing in a
   // loft with a chalk line down the middle. The company is not the only story in the city: the city has its own.
   Measure favour(place). Measure arrivedR(place). Measure standingR(place).
-  Relation heraldCame(place). Relation writHeld(group). Relation rierdanKnown(group). Relation heraldGone(place).
+  Relation writHeld(group). Relation heraldGone(place).
   // The Pentrice epilogue waits for the herald: it closes only when the writ is refused, ignored for three hours, or the
   // book is not yet read. Once the company is summoned (and after, through Dun Rierdan) it does not close at all.
   Query pentriceCloses() means not summoned(pentrice) and not royalCall(pentrice) and (heraldGone(pentrice) or not verdictRead(pentrice)).
@@ -65,8 +65,8 @@ Module pentrice "Gosse's Company" {
   Observe gosse_pension near gosse when royalCall(pentrice) and pensionTaken(gosse) "Gosse wears Fallow's thirty crowns like a good coat that belongs to someone else. He is very gracious about it and does not speak of the Trial.".
   Observe gosse_neither near gosse when royalCall(pentrice) and not patentWon(pentrice) and not pensionTaken(gosse) "Gosse has no Patent and no pension, and the grey patience of a man who has been refused a roof before, in a better year.".
   Observe hepzibah_wife near hepzibah when royalCall(pentrice) and (proposed(gosse) or emptyWing(gosse)) "Hepzibah Dimmock is Mrs Gosse, and writes it in the prompt-book's margin in a very small hand when she thinks nobody is looking, and then rubs it out.".
-  Observe kit_voice near kit when royalCall(pentrice) and kitVoiceHeld(kit) "Kit Arden's voice has held through the winter, on a spoonful of honey a day and a great deal of will. He is sixteen, and plays girls, and is aware that this is a loan.".
-  Observe kit_broke near kit when royalCall(pentrice) and not kitVoiceHeld(kit) "Kit Arden's voice broke somewhere between Pentrice and the River Gate, and he plays the girls now in a falsetto he hates, and knows exactly how many more months it has.".
+  Observe kit_voice at sparrow_loft when royalCall(pentrice) and kitVoiceHeld(kit) "Kit Arden's voice has held through the winter, on a spoonful of honey a day and a great deal of will. He is sixteen, and plays girls, and is aware that this is a loan.".
+  Observe kit_broke at sparrow_loft when royalCall(pentrice) and not kitVoiceHeld(kit) "Kit Arden's voice broke somewhere between Pentrice and the River Gate, and he plays the girls now in a falsetto he hates, and knows exactly how many more months it has.".
   Observe fallow_won near fallow when royalCall(pentrice) and not patentWon(pentrice) "Corin Fallow holds the Patent of the Wheel and is, accordingly, a power in a bigger room, which he has taken the trouble to learn the shape of.".
   Observe fallow_lost near fallow when royalCall(pentrice) and patentWon(pentrice) "Corin Fallow lost the Patent of the Wheel to Gosse's Company and has been given the Rotunda by way of a consolation. He is gracious about it, and has made a list.".
   Topic clem_left with clemency "Ask Clemency Orde why she left the Office of Plain Speech" when royalCall(pentrice) and clemBowed(clemency) once {
@@ -80,9 +80,9 @@ Module pentrice "Gosse's Company" {
   Rule troupe_to_wick_taproom when troupe(?p) and houseGranted(rierdan) and distinct(?p, clemency) and at(?p, sparrow_taproom) and not holdingAct(rierdan) { Retract at(?p, sparrow_taproom). Assert at(?p, lant_ward). }
   Query rehoused() means houseGranted(rierdan).
   Relation houseGranted(place).
-  Rule rtroupe_taproom when troupe(?p) and royalCall(pentrice) and distinct(?p, clemency) and at(?p, sparrow_loft) and hour(clock) >= 18 and hour(clock) < 23 and not holdingAct(rierdan) and not houseGranted(rierdan) {
+  Rule rtroupe_taproom when troupe(?p) and royalCall(pentrice) and distinct(?p, clemency) and at(?p, sparrow_loft) and hour(clock) >= 18 and hour(clock) < 23 and not holdingAct(rierdan) and not tamPicket(rierdan) and not houseGranted(rierdan) {
     Retract at(?p, sparrow_loft). Assert at(?p, sparrow_taproom). }
-  Rule rtroupe_loft when troupe(?p) and royalCall(pentrice) and distinct(?p, clemency) and at(?p, sparrow_taproom) and (hour(clock) >= 23 or hour(clock) < 18) and not holdingAct(rierdan) and not houseGranted(rierdan) {
+  Rule rtroupe_loft when troupe(?p) and royalCall(pentrice) and distinct(?p, clemency) and at(?p, sparrow_taproom) and (hour(clock) >= 23 or hour(clock) < 18) and not holdingAct(rierdan) and not tamPicket(rierdan) and not houseGranted(rierdan) {
     Retract at(?p, sparrow_taproom). Assert at(?p, sparrow_loft). }
   Relation holdingAct(place).
 
@@ -97,7 +97,7 @@ Module pentrice "Gosse's Company" {
   }
   Person mallam "Osbert Mallam" at closet {
     Role "the Chamberlain's clerk". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
-    Greets "Osbert Mallam is twenty-two and has been up all night, and is in the best of spirits about it. 'The masquers!' he cries. 'Have the masquers come? Oh, you have. Splendid. Do sit. Is that a bear?' 'Have the masquers come? Oh, you have. Splendid. Which of you is the one who does the voices?'".
+    Greets "Osbert Mallam is twenty-two and has been up all night, and is in the best of spirits about it. 'The masquers!' he cries. 'Splendid! Do sit. Is that a bear? Which of you does the voices?'".
   }
   Person lothar "Prince Lothar Orvane" at terrace {
     Role "the King's grandson and heir, nineteen". Ancestry human. Peaceable. Pronouns he. Manner grim.
@@ -146,7 +146,7 @@ Module pentrice "Gosse's Company" {
   }
   Person ysolt "Ysolt Marrick" at bell_nave {
     Role "the Marshal's daughter, an acolyte of the Bells". Ancestry human. Peaceable. Pronouns she. Manner compassionate.
-    Greets "A young woman in the grey of an acolyte is on her knees at the foot of the great rope, very straight, as one kneels who has been taught to. She gets up when you come near and the knees of her robe are quite worn.".
+    Greets "A young woman in the grey of an acolyte is on her knees at the foot of the great rope, very straight, as one kneels who has been taught to. She gets up when you come near and the knees of her robe are worn.".
   }
   Person ambros "Brother Ambros" at ringers_loft {
     Role "the blind ringer of the Bells". Ancestry human. Peaceable. Pronouns he. Manner grim.
@@ -169,8 +169,16 @@ Module pentrice "Gosse's Company" {
     Greets "A smooth, smiling young man with an orchid in his buttonhole rises from the royal box as if the Rotunda belonged to him, which in a manner of speaking it does. 'I adore the theatre,' he says. 'I adore everyone in it. Who are you, and are you spoken for?'".
   }
   Person printer "Master Gabriel Gadsby" at print_row {
-    Role "a printer of quartos, not quite licensed". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
+    Role "a printer of quartos, not licensed". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
     Greets "A man with ink to the elbow looks up from a press he is not supposed to be running. 'The Players?' he says. 'You'll want a copy of yourselves. I've done four.'".
   }
   Rule gammage_follows when royalCall(pentrice) and at(gammage, ?x) and distinct(?x, playhouse_row) { Retract at(gammage, ?x). Assert at(gammage, playhouse_row). }
+  Rule rot_home_rot_front when troupe(?p) and royalCall(pentrice) and nightOver(rierdan) and distinct(?p, clemency) and at(?p, rot_front) and not holdingAct(rierdan) { Retract at(?p, rot_front). Assert at(?p, sparrow_loft). }
+  Rule rot_home_rot_stage when troupe(?p) and royalCall(pentrice) and nightOver(rierdan) and distinct(?p, clemency) and at(?p, rot_stage) and not holdingAct(rierdan) { Retract at(?p, rot_stage). Assert at(?p, sparrow_loft). }
+  Rule rot_home_rot_wings when troupe(?p) and royalCall(pentrice) and nightOver(rierdan) and distinct(?p, clemency) and at(?p, rot_wings) and not holdingAct(rierdan) { Retract at(?p, rot_wings). Assert at(?p, sparrow_loft). }
+  Rule rot_home_rot_flies when troupe(?p) and royalCall(pentrice) and nightOver(rierdan) and distinct(?p, clemency) and at(?p, rot_flies) and not holdingAct(rierdan) { Retract at(?p, rot_flies). Assert at(?p, sparrow_loft). }
+  Rule rot_home_rot_box when troupe(?p) and royalCall(pentrice) and nightOver(rierdan) and distinct(?p, clemency) and at(?p, rot_box) and not holdingAct(rierdan) { Retract at(?p, rot_box). Assert at(?p, sparrow_loft). }
+  Relation heraldNews(place).
+  Rule herald_news when verdictRead(pentrice) and not heraldNews(pentrice) and not heraldGone(pentrice) and inCity()
+    says "The crier of the Chepe, who has the Bench's verdict by heart, has a second piece of news and gives it with the same lungs: a herald of the King's Household is in the yard of the Painted Moon, in blue, and will wait there for the players of the Wheel till the afternoon, and not after." { Assert heraldNews(pentrice). }
 }
