@@ -405,6 +405,19 @@ describe("The King's Players, Act V: the Command", () => {
     expect(k.holds('commandDone', 'rierdan')).toBe(true);
     expect(k.measure('chaos', 'rierdan')).toBeLessThan(4);
   }, 290000);
+  // The ending is the Act III outcome; the coda over it is Act IV's and V's. Eight outcomes, eight endings.
+  for (const [flag, ending] of [['ysoltSealed', 'grave'], ['buriedUnseen', 'pebble'], ['verrallResigned', 'chain'], ['verrallShamed', 'shamed'],
+    ['bodyTaken', 'sea'], ['bodyStaged', 'staged'], ['lucanFled', 'exile'], ['bodyRiver', 'river']] as const) {
+    it(`ends as ${ending} when Act III ended in ${flag}`, async () => {
+      const flags = flag === 'verrallResigned' ? ['verrallResigned', 'pardoned'] : flag === 'verrallShamed' ? ['verrallShamed', 'pardoned'] : [flag];
+      const k = await staged(`kp5-${ending}`, 'noteGone', 'ghostSatisfied', ...flags);
+      k.j.roll('pass');
+      for (let n = 0; n < 7; n++) { await k.play('Give Hepzibah the nod for the next scene'); if (n === 5) await k.play('Give Gosse the Chorus, and let him say it as it is written'); }
+      expect(k.j.choices().map(c => c.label)).not.toContain('Give Hepzibah the nod for the next scene');
+      await k.play('Take the company down for the call, in front of the bear');
+      expect(reached(k)).toEqual([p(ending)]);
+    }, 290000);
+  }
   it('lets the player answer the company in the wings: Dorcas, Hepzibah and Kit each go one way or the other', async () => {
     const k = await KP.start('kp5c');
     k.assert('royalCall', 'pentrice').assert('raskCharmed', 'party').assert('twinsMet', 'party');
