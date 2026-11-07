@@ -3,7 +3,7 @@ Module pentrice "Gosse's Company" {
   // The Margravate of Harrowmere. The old Margrave died in his orchard last spring of a bite the physicians cannot
   // find; his brother Rolf wears the chain and has married the widow. The Prince, Tiernan, twenty-one, has been seen
   // on the rampart talking to the dark. The Chancellor hires the company, nominally to play at the court and in fact
-  // to keep the Prince alive, which is very difficult, because he is brilliant, reckless, funny and has decided
+  // to keep the Prince alive, which is difficult, because he is brilliant, reckless, funny and has decided
   // that his own safety is the least interesting thing in the Margravate. Then the Margrave sends the Prince away
   // 'for his health' with a sealed letter to the Margrave of Orlay, to be carried by the company: a letter that
   // says, in the courteous hand of a man ordering a fish, that its bearers are to be put to death. Act II of the
@@ -49,31 +49,31 @@ Module pentrice "Gosse's Company" {
   Relation e3Grave(place). Relation e3Escape(place). Relation e3Misdelivered(place). Relation e3Done(place).
   Relation x1(place). Relation x2(place). Relation x3(place). Relation x1c(place). Relation x2c(place). Relation x3c(place).
   Relation tiernanTrust(group). Relation tiernanScorn(group). Relation tiernanLonely(group). Relation e3PrinceAlong(place). Relation swaleHand(group). Relation swaleVain(group).
-  Measure harm(place). Measure e3LockedAt(place). Measure e3Start(place).
+  Measure harm(place). Measure e3X1At(place). Measure e3X2At(place). Measure e3X3At(place). Measure e3LockedAt(place). Measure e3Start(place).
 
   Person tiernan "Prince Tiernan" at hm_study {
     Role "the Prince of Harrowmere, twenty-one". Ancestry human. Calling bard. Level 3. Peaceable. Pronouns he. Manner jovial.
-    Greets "A tall, ink-stained, laughing young man in black, sitting on his desk with his boots on a chair. 'Ah,' says the Prince. 'My bodyguards. How very sad for you. I am the least guardable man in the Margravate; ask anyone. I have been trying to be assassinated since the spring and the court is simply not up to it.'".
+    Greets "A tall, ink-stained, laughing young man in black, sitting on his desk with his boots on a chair. 'Ah,' says the Prince. 'My bodyguards. How sad for you. I am the least guardable man in the Margravate; ask anyone. I have been trying to be assassinated since the spring and the court is simply not up to it.'".
   }
   Person rolf "Margrave Rolf" at hm_hall {
     Role "the Margrave of Harrowmere, the Prince's uncle". Ancestry human. Peaceable. Pronouns he. Manner jovial.
-    Greets "A large, easy man with the Margrave's chain a size too tight. 'My nephew,' says Rolf, 'is a wonderful boy. Keep the boy alive, there's a good fellow, and if you can make him a little less interesting, there is a purse in it. Do what you can.'".
+    Greets "The Margrave's chain is a size too tight on a large, easy man. 'My nephew,' says Rolf, 'is a wonderful boy. Keep the boy alive, there's a good fellow, and if you can make him a little less interesting, there is a purse in it. Do what you can.'".
   }
   Person iseult "Margravine Iseult" at hm_hall {
     Role "the Margrave's wife, the Prince's mother". Ancestry human. Peaceable. Pronouns she. Manner stoic.
-    Greets "A woman who has been very beautiful and has decided to be still. 'You are to stand where he can see you,' she says. 'He does not do foolish things where he can see a witness. He does them to prove he is right.'".
+    Greets "Beauty, once, and now a decision to be still: the Margravine. 'You are to stand where he can see you,' she says. 'He does not do foolish things where he can see a witness. He does them to prove he is right.'".
   }
   Person fosbury "Chancellor Fosbury" at hm_hall {
     Role "the Chancellor". Ancestry human. Peaceable. Pronouns he. Manner proud.
-    Greets "A little man in a very big furred gown who keeps a notebook open on his forearm. 'I have been the Chancellor of three Margraves,' he says, 'and this is the first time one of them has been dead and sitting down. I will pay you thirty pieces. Keep him off the roof.'".
+    Greets "A little man in a big furred gown who keeps a notebook open on his forearm. 'I have been the Chancellor of three Margraves,' he says, 'and this is the first time one of them has been dead and sitting down. I will pay you thirty pieces. Keep him off the roof.'".
   }
   Person ysenne "Ysenne Fosbury" at hm_chapel {
     Role "the Chancellor's daughter". Ancestry human. Peaceable. Pronouns she. Manner cheerful.
-    Greets "A girl of nineteen at the altar rail, who has stopped praying to look at you. 'He says things,' she says, 'that sound like jokes and are not.'".
+    Greets "At the altar rail a girl of nineteen has stopped praying to look at you. 'He says things,' she says, 'that sound like jokes and are not.'".
   }
   Person spargo "Sir Dunmow Spargo" at hm_hall {
     Role "a young courtier of the Prince's, his friend". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
-    Greets "A fair young man with an anxious smile and a very new sword. 'The Prince's friend,' he says. 'Dunmow. I am to go with him wherever he goes, which is the one thing, I think, that frightens me.'".
+    Greets "Fair, anxious, smiling, with a new sword he keeps touching: a young man. 'The Prince's friend,' he says. 'Dunmow. I am to go with him wherever he goes, which is the one thing, I think, that frightens me.'".
   }
   Person quillan "Sir Cullen Quillan" at hm_hall {
     Role "a courtier, the Prince's friend". Ancestry human. Peaceable. Pronouns he. Manner stoic.
@@ -85,12 +85,12 @@ Module pentrice "Gosse's Company" {
   }
   Person berengar "Margravine Aldith" at or_hall {
     Role "the Margravine of Orlay". Ancestry human. Peaceable. Pronouns she. Manner compassionate.
-    Greets "A small old woman in a large chair, who looks at you over a pile of letters. 'From Rolf,' she says, tapping the pile. 'Does he think I read these? Sit. You look as if you've been walking.'".
+    Greets "Over a pile of letters, from a large chair, a small old woman looks at you. 'From Rolf,' she says, tapping the pile. 'Does he think I read these? Sit. You look as if you've been walking.'".
   }
 
   // The commission: the Chancellor engages the company.
   Topic fosbury_job with fosbury "Ask the Chancellor what he wants of the company" when true once {
-    Says "'Of the Players: a play, the Margrave has asked it, and it will be very good for the court's appearance. Of you: that you keep the Prince alive.' He closes the notebook. 'He goes to the south rampart at midnight to speak to what is not there. He fences the captains for money. He prays, and then does not do what he went to the chapel to do. He says he is going to prove a point. I do not know what the point is. The point is a number of people at present, and the Margrave is one of them.'".
+    Says "'Of the Players: a play, the Margrave has asked it, and it will be good for the court's appearance. Of you: that you keep the Prince alive.' He closes the notebook. 'He goes to the south rampart at midnight to speak to what is not there. He fences the captains for money. He prays, and then does not do what he went to the chapel to do. He says he is going to prove a point. I do not know what the point is. The point is a number of people at present, and the Margrave is one of them.'".
     On discuss { Assert e3On(rierdan). Set e3Start(rierdan) to watch(clock). }
   }
 
@@ -99,17 +99,17 @@ Module pentrice "Gosse's Company" {
   Observe e3_swale_told at hm_hall when e3On(rierdan) and troupe(swale) and not e3Done(rierdan) "Ambrose Swale has been fetched up from the Fourways in the Chancellor's cart, with his make-up box on his knee, looking as if he had been asked to criticise a ghost.".
 
   // The Prince is hard to guard. Three exploits, each with a counter, each costing him a harm if the company is absent.
-  Rule rp_x1 when e3On(rierdan) and not x1(rierdan) and watch(clock) >= e3Start(rierdan) + 12 {
-    Assert x1(rierdan). Retract at(tiernan, hm_study). Assert at(tiernan, hm_rampart). }
-  Rule rp_x1h when x1(rierdan) and not x1c(rierdan) and watch(clock) >= e3Start(rierdan) + 18 {
+  Rule rp_x1 when e3On(rierdan) and not x1(rierdan) and (hour(clock) >= 23 or hour(clock) < 4) and watch(clock) >= e3Start(rierdan) + 12 {
+    Assert x1(rierdan). Set e3X1At(rierdan) to watch(clock). Retract at(tiernan, hm_study). Assert at(tiernan, hm_rampart). }
+  Rule rp_x1h when x1(rierdan) and not x1c(rierdan) and watch(clock) >= e3X1At(rierdan) + 6 {
     Assert x1c(rierdan). Increase harm(rierdan) by 1. Retract at(tiernan, hm_rampart). Assert at(tiernan, hm_study). }
-  Rule rp_x2 when x1c(rierdan) and not x2(rierdan) and watch(clock) >= e3Start(rierdan) + 30 and at(tiernan, ?q) {
-    Assert x2(rierdan). Retract at(tiernan, ?q). Assert at(tiernan, hm_yard). }
-  Rule rp_x2h when x2(rierdan) and not x2c(rierdan) and watch(clock) >= e3Start(rierdan) + 36 {
+  Rule rp_x2 when x1c(rierdan) and not x2(rierdan) and hour(clock) >= 9 and hour(clock) < 17 and watch(clock) >= e3X1At(rierdan) + 18 and at(tiernan, ?q) {
+    Assert x2(rierdan). Set e3X2At(rierdan) to watch(clock). Retract at(tiernan, ?q). Assert at(tiernan, hm_yard). }
+  Rule rp_x2h when x2(rierdan) and not x2c(rierdan) and watch(clock) >= e3X2At(rierdan) + 6 {
     Assert x2c(rierdan). Increase harm(rierdan) by 1. Retract at(tiernan, hm_yard). Assert at(tiernan, hm_study). }
-  Rule rp_x3 when x2c(rierdan) and not x3(rierdan) and watch(clock) >= e3Start(rierdan) + 48 and at(tiernan, ?q) {
-    Assert x3(rierdan). Retract at(tiernan, ?q). Assert at(tiernan, hm_chapel). Assert at(rolf, hm_chapel). }
-  Rule rp_x3h when x3(rierdan) and not x3c(rierdan) and watch(clock) >= e3Start(rierdan) + 54 {
+  Rule rp_x3 when x2c(rierdan) and not x3(rierdan) and hour(clock) >= 17 and hour(clock) < 22 and watch(clock) >= e3X2At(rierdan) + 12 and at(tiernan, ?q) {
+    Assert x3(rierdan). Set e3X3At(rierdan) to watch(clock). Retract at(tiernan, ?q). Assert at(tiernan, hm_chapel). Assert at(rolf, hm_chapel). }
+  Rule rp_x3h when x3(rierdan) and not x3c(rierdan) and watch(clock) >= e3X3At(rierdan) + 6 {
     Assert x3c(rierdan). Increase harm(rierdan) by 1. Retract at(tiernan, hm_chapel). Assert at(tiernan, hm_study). Retract at(rolf, hm_chapel). Assert at(rolf, hm_hall). }
   Observe x1_told near tiernan when x1(rierdan) and at(tiernan, hm_rampart) "The Prince stands at the third merlon in the dark with his sword out, talking at the air in a voice he has plainly rehearsed. A cold comes up off the stones. Beyond him the orchard glows, faintly, white.".
   Observe x2_told near captain when x2(rierdan) and at(tiernan, hm_yard) and not x2c(rierdan) "The Prince has two foils and a bet of fifty crowns that he can touch the captain before the captain touches him. The captain is much the bigger. He is also drunk, but has not been told that this is the wrong kind.".
@@ -162,7 +162,7 @@ Module pentrice "Gosse's Company" {
     Result "Swale gives it in the Prince's own lines, to the hall, in a flat reading voice: a sleeper in an orchard, a poured cup, a brother. The Margrave takes his chain in both hands. He does not move. He asks for wine, and does not drink it, and goes out. The Prince, at the back, is breathing hard and has not looked at you once.".
     Otherwise "Swale begins well and then, from habit, adds an ornament. The Margrave smiles at it: a verse is a verse. The Prince, in the corner, closes his eyes.".
   }
-  Observe spies_scene near quillan when x1c(rierdan) and not e3Done(rierdan) and not e3Spies(rierdan) "Sir Cullen Quillan is at the Prince's desk turning over the Prince's papers. He puts them down very gently when you look, and goes on being agreeable.".
+  Observe spies_scene near quillan when x1c(rierdan) and not e3Done(rierdan) and not e3Spies(rierdan) "Sir Cullen Quillan is at the Prince's desk turning over the Prince's papers. He puts them down gently when you look, and goes on being agreeable.".
   Action watch_friends(actor: group, site: place) "Watch the Prince's two friends: where they go when he is not looking" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, hm_hall) and e3On(rierdan) and not e3Watched(actor) and not e3Spies(rierdan).
     Time 2.
@@ -204,7 +204,7 @@ Module pentrice "Gosse's Company" {
   // The letter.
   Kind rolf_letter "the Margrave's letter to Orlay" is document teaching letter_read described "A single folded sheet, sealed with the Margrave's own signet in green wax, addressed in the Chancellor's fair hand: To my good neighbour the Margravine of Orlay, by the hand of the Players and my nephew.".
   Discovery letter_read "The Margrave's letter, read: 'Dear neighbour, receive the bearers kindly and see to it that none of them is alive by the end of the week, beginning with my nephew. R.'".
-  Rule rp_letter when x3c(rierdan) and not e3Letter(rierdan) and harm(rierdan) < 3 and watch(clock) >= e3Start(rierdan) + 60 {
+  Rule rp_letter when x3c(rierdan) and not e3Letter(rierdan) and harm(rierdan) < 3 and watch(clock) >= e3X3At(rierdan) + 12 {
     Assert e3Letter(rierdan). Give rolf_letter to party. Assert at(tiernan, hm_hall). Assert at(spargo, hm_hall). Assert at(quillan, hm_hall). }
   Observe letter_told at hm_hall when e3Letter(rierdan) and not e3Done(rierdan) "The Margrave has given the company a sealed letter for Orlay, 'a courtesy,' and sent his nephew along for his health. Sir Dunmow Spargo and Sir Cullen Quillan are to go as well, to see the Prince comfortable, with a smaller packet of their own. Nobody looks at the Chancellor, who is looking at the floor.".
  
@@ -238,11 +238,15 @@ Module pentrice "Gosse's Company" {
     Resolve check(actor, performance, dc_fair).
     On success { Assert e3Forged(rierdan). Spend second_sheet from actor. }
     On failure { Spend second_sheet from actor. }
-    Result "Swale takes the seal, a pen and a scruple of the Margrave's best ink, and for twenty minutes is not an actor but a clerk. The new letter asks the Margravine of Orlay, with the Margrave's compliments, to receive Sir Dunmow Spargo and Sir Cullen Quillan very kindly, and to see that they are not alive at the end of the week. He signs it with a flourish. 'Why,' he says, 'that is the best part I have had since Lear.'".
+    Result "Swale takes the seal, a pen and a scruple of the Margrave's best ink, and for twenty minutes is not an actor but a clerk. The new letter asks the Margravine of Orlay, with the Margrave's compliments, to receive Sir Dunmow Spargo and Sir Cullen Quillan kindly, and to see that they are not alive at the end of the week. He signs it with a flourish. 'Why,' he says, 'that is the best part I have had since Lear.'".
     Otherwise "'Oh,' says Swale, looking at his work, 'oh dear. That is the Duke of Pentrice's hand. I was thinking of someone else.' The sheet is spoiled.". 
   }
+  Topic ysenne_letter with ysenne "Ask Ysenne Fosbury what her father has been copying" when e3Letter(rierdan) and not e3Done(rierdan) once {
+    Says "Ysenne looks at the altar rail and not at you. 'He copies the Margrave's letters,' she says. 'He copied one for Orlay on Thursday and did not sleep. He kept saying it was a courtesy, and that a courtesy is whatever the man who sealed it says it is.' She twists a thread from her sleeve. 'Do not let anyone carry it who cannot read.'".
+    On discuss { Assert e3Warned(rierdan). }
+  }
   Action burn_letter(actor: group, site: place) "Burn the Margrave's letter in the nearest hearth" {
-    Requires able(actor) and company(actor) and at(actor, site) and (at(actor, hm_inn) or at(actor, hm_hall)) and e3Letter(rierdan) and e3Read(rierdan) and holding(actor, rolf_letter) and not e3Burned(rierdan) and not e3Forged(rierdan).
+    Requires able(actor) and company(actor) and at(actor, site) and (at(actor, hm_inn) or at(actor, hm_hall)) and e3Letter(rierdan) and (e3Read(rierdan) or e3Warned(rierdan)) and holding(actor, rolf_letter) and not e3Burned(rierdan) and not e3Forged(rierdan).
     Time 2.
     On success { Assert e3Burned(rierdan). Spend rolf_letter from actor. }
     Result "It goes up in a small bright flower. The Prince, who is watching, applauds. 'Beautifully done. A little late, but the form was perfect.'".
@@ -275,7 +279,7 @@ Module pentrice "Gosse's Company" {
     On success { Assert e3Exposed(rierdan). Assert e3Done(rierdan). Spend rolf_letter from actor. }
     On failure { Assert f_conf(rierdan). Assert e3Dismissed(rierdan). Assert e3Done(rierdan). }
     Result "You lay it down, sealed, with his own signet on it, and say what it asks, and of whom. The court has stopped breathing. The Margrave looks at the green wax for a long moment, and then at his nephew, and takes it up and puts it in the fire himself. 'It is a courtesy,' he says, 'that was not meant.' Nobody in the hall will say what it was meant for. He sends the Prince to his mother, and goes out.".
-    Otherwise "'My seal,' says the Margrave, pleasantly, 'on a thing you were not to open. You have been very diligent.' He takes it from you. The court watches the company go out of the hall; by morning the company's wagon is on the road with a guard beside it.".
+    Otherwise "'My seal,' says the Margrave, pleasantly, 'on a thing you were not to open. You have been diligent.' He takes it from you. The court watches the company go out of the hall; by morning the company's wagon is on the road with a guard beside it.".
   }
   Observe e3_exposed_told near rolf when e3Exposed(rierdan) "The Margrave has not come out of his rooms. The Chancellor says the court is in mourning for something it cannot name, and has paid the company in full, in advance, to be gone by dawn.".
   Observe e3_dismissed_told at hm_hall when e3Dismissed(rierdan) "The hall is cold and the Prince is not in it. The Chancellor will not meet your eye as he counts out the fee.".
@@ -284,16 +288,16 @@ Module pentrice "Gosse's Company" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, or_hall) and at(berengar, or_hall) and e3Forged(rierdan) and not e3Delivered(rierdan) and not e3Misdelivered(rierdan).
     Time 0.
     Resolve check(actor, persuasion, dc_fair).
-    On success { Assert e3Delivered(rierdan). }
-    On failure { Assert e3Delivered(rierdan). Assert e3ForgeBlown(rierdan). }
-    Result "The Margravine reads it twice. You stand very straight and look like people who have been sent with a letter.".
+    On success { Assert e3Delivered(rierdan). Spend rolf_letter from actor. }
+    On failure { Assert e3Delivered(rierdan). Assert e3ForgeBlown(rierdan). Spend rolf_letter from actor. }
+    Result "The Margravine reads it twice. You stand straight and look like people who have been sent with a letter.".
     Otherwise "She reads it, and then holds the signature against a letter of the Margrave's she keeps in her sleeve. The two hands do not agree about the loop of an R.".
   }
   Action present_letter(actor: group, site: place) "Hand the Margravine of Orlay the letter you were given" {
     Speaker berengar.
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, or_hall) and at(berengar, or_hall) and e3Letter(rierdan) and holding(actor, rolf_letter) and not e3Forged(rierdan) and not e3Mixed(rierdan) and not e3Delivered(rierdan) and not e3Misdelivered(rierdan) and not e3Burned(rierdan).
     Time 0.
-    On success { Assert e3Delivered(rierdan). }
+    On success { Assert e3Delivered(rierdan). Spend rolf_letter from actor. }
     Result "The Margravine reads it twice, with her lips moving. She looks up. Her face does not alter. 'Leave it with me,' she says.".
   }
   Action present_the_basket(actor: group, site: place) "Present what the carrier brings: the basket of parcels" {
@@ -312,7 +316,7 @@ Module pentrice "Gosse's Company" {
   Observe e3_cracked_told at or_hall when e3CrackedSaved(rierdan) "The Margravine turns the sheet over and sees the seam in the seal. She turns it in the light. 'This has been opened,' she says, 'and closed by somebody who does not do it for a living.' She does not ask what it said. 'I should not like to have to act on a letter I cannot swear to. Go out by the kitchen. Run.'".
   Observe e3_forged_told at or_hall when e3Seized(rierdan) "The Margravine reads it, and looks at the two young men in the doorway, who are smiling at her, and says: 'Seize them.' She looks at you. 'The Margrave my neighbour has never been so definite.'".
   Observe e3_blown_told at or_hall when e3ForgeBlown(rierdan) "The Margravine folds the letter in four, and then in eight. 'That is a clever hand,' she says, 'but I have had thirty years of his R. I do not like to be written to by a boy.' She makes a small sign, and the guards close the door.".
-  Observe e3_genuine_told at or_hall when e3Bellerophon(rierdan) and not e3ForgeBlown(rierdan) "The Margravine reads it twice, with her lips moving. Her face does not alter. 'My neighbour is very clear,' she says. 'I don't like it. I'd like it less if I disobeyed him.' She makes a small sign, and the guards close the door.".
+  Observe e3_genuine_told at or_hall when e3Bellerophon(rierdan) and not e3ForgeBlown(rierdan) "The Margravine reads it twice, with her lips moving. Her face does not alter. 'My neighbour is clear,' she says. 'I don't like it. I'd like it less if I disobeyed him.' She makes a small sign, and the guards close the door.".
   Action explain_no_letter(actor: group, site: place) "Tell the Margravine you come without the Margrave's letter, and why the Prince is with you" {
     Speaker berengar.
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, or_hall) and at(berengar, or_hall) and e3Burned(rierdan) and not e3Done(rierdan).
@@ -320,7 +324,7 @@ Module pentrice "Gosse's Company" {
     Resolve check(actor, persuasion, dc_hard).
     On success { Assert e3Explained(rierdan). Assert e3Escape(rierdan). Assert e3Done(rierdan). }
     On failure { Assert e3TurnedAway(rierdan). Assert e3Done(rierdan). }
-    Result "You say that you were given a letter and that it burned, and who gave it, and what it asked, and that the Prince is here to be out of the house it came from. The Margravine puts down her pen. 'That is a very odd cover story,' she says, 'for a truth. Sit down. You will want ham.'".
+    Result "You say that you were given a letter and that it burned, and who gave it, and what it asked, and that the Prince is here to be out of the house it came from. The Margravine puts down her pen. 'That is a odd cover story,' she says, 'for a truth. Sit down. You will want ham.'".
     Otherwise "'A letter that burned,' says the Margravine. 'On the road. With a prince in your company. I have not heard a story I liked less.' She has you shown to the gate, politely, and the gate is shut behind you. The Prince looks back at it once.".
   }
   Observe e3_confessed_told at hm_hall when e3Confessed(rierdan) and e3Letter(rierdan) and not e3Done(rierdan) "The Margrave has not met anyone's eye since the chapel. The letter was written that night, in a steady hand, by a man who has been shown himself and would rather not have been; it is the courteous page, and the seal is green.".
@@ -329,7 +333,7 @@ Module pentrice "Gosse's Company" {
   Observe e3_killed_trust near tiernan when e3Killed(rierdan) and tiernanTrust(party) "'You stood on the wall with me,' says the Prince, to you, 'and then you let me choose this. I do not know whether to thank you.'".
   Observe e3_killed_scorn near tiernan when e3Killed(rierdan) and tiernanScorn(party) and not tiernanTrust(party) "'You told me to wait, and watch, and be sure,' says the Prince. 'And then the first time I could act, you handed me the pen.'".
   Observe e3_killed_spies near tiernan when e3Killed(rierdan) and e3Spies(rierdan) "'You knew about them,' says the Prince. 'You knew before I did. That is why you let it be them.' He is not angry. He is tired.".
-  Observe e3_bell_told near berengar when e3Bellerophon(rierdan) "The company is in the Orlay larder among the hams, behind a good oak door. The Margravine has sent down bread and a note: that she is very sorry, that it is in the letter, and that she will take it as a kindness if nobody tries the door before the week is out.".
+  Observe e3_bell_told near berengar when e3Bellerophon(rierdan) "The company is in the Orlay larder among the hams, behind a good oak door. The Margravine has sent down bread and a note: that she is sorry, that it is in the letter, and that she will take it as a kindness if nobody tries the door before the week is out.".
   Observe or_larder_scene at or_larder when true "A cold stone room hung with hams and strings of onions, one window the width of a hand, and a bench. The door is oak and has a bar on the outside. Someone has left a loaf and a note.".
   Rule rp_bell_lock when e3Bellerophon(rierdan) and not e3Locked(rierdan) { Assert e3Locked(rierdan). Set e3LockedAt(rierdan) to watch(clock). Assert at(party, or_larder). }
   Rule rp_unlock_trust when e3Locked(rierdan) and not e3Unlocked(rierdan) and tiernanTrust(party) and watch(clock) >= e3LockedAt(rierdan) + 432 { Assert e3Unlocked(rierdan). }
@@ -354,7 +358,7 @@ Module pentrice "Gosse's Company" {
   Observe e3_escape_scorn near tiernan when e3Escape(rierdan) and not e3Held(rierdan) and tiernanScorn(party) and not tiernanTrust(party) and not tiernanLonely(party) "'You told me to wait and be sure,' says the Prince, not unkindly, with his mouth full. 'It turns out that when one is sure, one is generally somewhere else.'".
   Observe e3_escape_spared near tiernan when e3Escape(rierdan) and not e3Held(rierdan) and e3Spared(rierdan) "The Prince sits a little apart. 'I had my sword out in the chapel,' he says. 'You took my sleeve. I have not decided whether to thank you.' He turns the ham over. 'I have not decided whether I wished you hadn't.'".
   Observe e3_mis_told near tiernan when e3Misdelivered(rierdan) "The Prince has heard the Margravine of Orlay's reply, which is a ham and an offer of marriage, and is lying on the ground at the gate of Orlay, laughing, with tears down his face. 'My uncle,' he says, 'has proposed to the wrong woman. The wrong woman has said yes.' He is quiet. 'It is the first time,' he says, 'that I have thought we might get out of this.'".
-  Rule rp_grave when x3c(rierdan) and not e3Letter(rierdan) and not e3Grave(rierdan) and harm(rierdan) >= 3 and watch(clock) >= e3Start(rierdan) + 60 {
+  Rule rp_grave when x3c(rierdan) and not e3Letter(rierdan) and not e3Grave(rierdan) and harm(rierdan) >= 3 and watch(clock) >= e3X3At(rierdan) + 12 {
     Assert e3Grave(rierdan). Assert e3Done(rierdan). }
   Observe e3_grave_gate at hm_gate when e3Grave(rierdan) "A bell is going at the Margravate chapel, one stroke to a breath. The gate guard has taken his helmet off and does not seem to know where to put it.".
   Observe e3_grave_told at hm_hall when e3Grave(rierdan) "At the match the Margrave drinks to his nephew in a cup he does not drink from. The foil is not blunt. The Prince, who has been wounded twice already this month, goes down on the grass in the sun with his mother's name in his mouth. He has time to say 'Well,' and nothing more. In the chapel the stone Margrave has a new neighbour and the Margravine has the space for the next. The company plays that night because the Margrave commands it, and Swale does not remember a word.".
@@ -380,4 +384,5 @@ Module pentrice "Gosse's Company" {
   Relation e3SheetTaken(place).
   Relation f_conf(place).
   Relation f_lock(place).
+  Relation e3Warned(place).
 }
