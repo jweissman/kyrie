@@ -1,5 +1,6 @@
 import { ModuleWriter } from '../lang/module-writer';
 import type { World } from '../lang/world';
+import type { Row } from './choice-grouping';
 
 // Who in the company takes something it picks up or buys, so that taking is one choice rather than a list of hands:
 // a companion already carrying something of the same kind, else whoever carries least. The pack can hand it on.
@@ -11,5 +12,20 @@ export class Carriers {
       .map(r => ({ member: r.args[0]!, items: world.relatedTo('ownedItem', r.args[0]!).map(o => o.args[0]!) }));
     const same = loads.find(l => l.items.some(i => world.one('itemKind', i) === kind));
     return (same ?? [...loads].sort((a, b) => a.items.length - b.items.length)[0])?.member;
+  }
+  // Who takes each thing the choices offer to take, by what is done with it ("take_item|the rope"): the one carrier()
+  // would hand it to, where a choice offers it to them; else the first the choices offer it to. Two of the company
+  // with one name are offered as one ("Collect a coil of rope for Harbek", for the first of them: PlayerView.alike),
+  // and the one who carried least had been the other, so that a thing was offered to no one and was not at hand at
+  // all: a rope, a wand and an elixir in a barrow's hall of bones came and went as either brother picked something
+  // up, and a casket's gift and the king's crown were never there (the fresh playtest of 7 November).
+  static hands(rows: readonly Row[], carrier: (item: string) => string | undefined): Map<string, string> {
+    const hands = new Map<string, string>();
+    for (const { action } of rows) {
+      const { find, recipient } = action.bindings ?? {}, key = `${action.schema ?? action.id}|${find}`;
+      const to = find && recipient ? carrier(find) : undefined;
+      if (to && (!hands.has(key) || recipient === to)) { hands.set(key, recipient!); }
+    }
+    return hands;
   }
 }
