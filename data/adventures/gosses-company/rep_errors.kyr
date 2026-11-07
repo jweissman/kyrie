@@ -57,11 +57,11 @@ Module pentrice "Gosse's Company" {
   }
   Person tilde "Tilde Ashlar" at m_house {
     Role "the Marlcross Corbet's wife". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
-    Greets "A lean, handsome woman with her sleeves up and a spoon she is not using for anything. 'Corbet came home at noon,' she says, 'and ate my dinner, and called my sister his heart, and asked for the key to a chest we have not got.'".
+    Greets "Sleeves up, spoon in hand though there is nothing in the pot, Tilde Ashlar is lean and handsome and furious. 'Corbet came home at noon,' she says, 'and ate my dinner, and called my sister his heart, and asked for the key to a chest we have not got.'".
   }
   Person luce "Luce Hatherley" at m_house {
     Role "Tilde's sister, who is staying". Ancestry human. Peaceable. Pronouns she. Manner cheerful.
-    Greets "A young woman of nineteen with ink on her thumb and a brother-in-law she is no longer sure of. 'He called me his heart,' she says, 'and I thought, that's new.'".
+    Greets "Luce Hatherley is nineteen, with ink on her thumb and a brother-in-law she is no longer sure of. 'He called me his heart,' she says, 'and I thought, that's new.'".
   }
   Person gleed "Gideon Gleed" at m_shop {
     Role "a goldsmith". Ancestry human. Peaceable. Pronouns he. Manner proud.
@@ -77,11 +77,11 @@ Module pentrice "Gosse's Company" {
   }
   Person grabb "Walt Grabb" at m_square {
     Role "the bailiff of the Fair". Ancestry human. Peaceable. Pronouns he. Manner jovial.
-    Greets "A big man with pastry on his chin and a staff he waves like a conductor. 'Arrests!' says Grabb. 'Any arrests? I have had a quiet morning.'".
+    Greets "Pastry on his chin, a staff waving at the sky: the bailiff. 'Arrests!' says Grabb. 'Any arrests? I have had a quiet morning.'".
   }
   Person tuckett "Dr Tuckett" at m_square {
     Role "a schoolmaster who also exorcises". Ancestry human. Peaceable. Pronouns he. Manner stoic.
-    Greets "A thin, dry man with three books under his arm and a bottle in his pocket. 'Possession,' he says, with satisfaction, 'is generally of someone behaving unlike himself. This is my field. I have not yet found anyone who was behaving like himself.'".
+    Greets "Three books under one arm and a bottle in the pocket: Dr Tuckett, thin and dry as a stick. 'Possession,' he says, with satisfaction, 'is generally of someone behaving unlike himself. This is my field. I have not yet found anyone who was behaving like himself.'".
   }
   Person everard "Mother Everard" at m_priory {
     Role "the Prioress of the Shore-Mother". Ancestry human. Peaceable. Pronouns she. Manner compassionate.
@@ -229,7 +229,7 @@ Module pentrice "Gosse's Company" {
     On discuss { Assert sideCorbet(actor). }
   }
   Topic luce_heart with luce "Ask Luce what the man who called her his heart said next" when e1On(rierdan) and knows(actor, saw_cv_known) once {
-    Says "Luce turns the ink on her thumb. 'That he was not married,' she says, 'and that he had a house in Evesholm with a view of a mill. I thought, that is a very particular lie.' She laughs; it goes wrong. 'He was kind. Kit was kind, too, when he came to the door with the dog.'".
+    Says "Luce turns the ink on her thumb. 'That he was not married,' she says, 'and that he had a house in Evesholm with a view of a mill. I thought, that is a particular lie.' She laughs; it goes wrong. 'He was kind. Kit was kind, too, when he came to the door with the dog.'".
   }
   Topic kit_marlcross with kit "Ask Kit what he made of Marlcross" when e1Done(rierdan) once {
     Says "Kit has been quiet since the town came right. 'I held the door for her,' he says. 'Luce. She looked at me like I was a person.' He pulls at his sleeve. 'I do not know what to do about that.'".
@@ -243,13 +243,13 @@ Module pentrice "Gosse's Company" {
     On discuss { Assert kitHolds(actor). }
   }
   Topic kit_a3 with kit "Say nothing; put a hand on his shoulder" answering kit_marlcross when true {
-    Says "He leans, a very little, into the hand. It does not last, but he does not forget it.".
+    Says "He leans, a little, into the hand. It does not last, but he does not forget it.".
     On discuss { Assert kitLeaned(actor). }
   }
   Relation kitSaysSo(group). Relation kitHolds(group). Relation kitLeaned(group).
   Observe kit_heart_a near kit when kitSaysSo(party) "Kit has begun to talk in a voice that is not any of the girls', lower than he expected, and has not stopped being embarrassed by it.".
   Observe kit_heart_b near kit when kitHolds(party) "Kit has put on Dorcas's second-best Juliet voice, and is wearing it like a mask he has no intention of removing.".
-  Observe kit_heart_c near kit when kitLeaned(party) "Kit keeps near you, lately, the way a boy keeps near the one grown thing he thinks will not laugh.".
+  Observe kit_heart_c near kit when kitLeaned(party) "Kit finds a reason to be wherever you are, lately, and does not say what the reason is.".
 
   // Madam Cinnabar holds the ring: one Corbet gave it against a chain that was never sent; the other sent her away.
   Relation ringBack(place).

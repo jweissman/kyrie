@@ -8,12 +8,12 @@ it. Source: `data/adventures/gosses-company/rep_circuit.kyr`, `rep_errors.kyr`, 
 ## The frame: why the tour comes before the Command
 
 The brief was a tour *after* the command performance. The engine will not allow it: an `Ending` closes the book (`doc/authoring/guide.md`, "How the
-story ends"), and Act V has **eight** Endings (grave, pebble, chain, shamed, sea, staged, exile, river) that fire on `commandDone`, with a coda over
+story ends"), and Act V has **eleven** Endings that fire on `commandDone`, with a coda over
 whichever is reached (fiasco at `chaos >= standingR + 4`). Asserting `commandDone` and waiting an hour leaves the page with no choices. (The
 Command itself, the rules that fire before the Ending, can be played, and several of the tour's rules read it: see below.) So the tour opens at
 **`commandOn`**, the days between the Wick being theirs and the Command being played, and the Command is *held* while the company is away:
 
-- `tour_gathers` lodges at the inn **whoever is in the troupe** (`troupe(?p)`, bar Clemency, who joined later), remembering where each stood
+- `tour_gathers` (and `tour_regather`, whenever the party passes the Fourways) lodges at the inn **whoever is in the troupe** (`troupe(?p)`, bar Clemency, who joined later), remembering where each stood
   (`touredFrom`). There is no fixed roster: a Dorcas or a Swale who has gone away (`dorcasGone`, `swaleGone`) is not in `troupe` and is not fetched.
 - `tour_holds` pushes Act V's `commandDay` two days out every tick the company is away; `tour_home` puts each tourer back when the party reaches the
   River Gate and `tour_home_clock` sets the Command a day off (the hold is switched off by `tourHomeSet` so the day-off is exact). The Fourways road is
@@ -21,10 +21,10 @@ Command itself, the rules that fire before the Ending, can be played, and severa
 - **Standing is Act V's own.** Each finished engagement raises `repertoire`; Act V's `standing_a` / `standing_b` turn two and four plays into `standingR`.
   This file adds nothing to it. It reads three things of the road on the night, in Act V's own scenes: `swaleHand` (Swale was kind to the Prince's speech)
   makes his blurt cost a point less (`rp_swale_soft`); `e4Price` (the name paid in the wood) leaves a hole in the Chamberlain's roll (`rp_name_roll`,
-  +1 chaos); a freed weaver leads the applause (`rp_loom_fan`, -2 chaos). Pudding's Pyramus answer asserts Act V's own `puddingBrave`
-  (read by `pudding_brave_holds`).
+  +1 chaos); a freed weaver leads the applause (`rp_loom_fan`: +1 `standingR`, the coda's slack, so it cannot be spent as less than itself); and a
+  Pudding who played Pyramus because the weaver did not come (`pyramusPlayed`, a flag of this file, not Act III's `puddingBrave`/`puddingFool`) takes a point off the first scene (`rp_pyramus_brave`).
 - **Credit** (`repertoire`) is for plays played through: not Ep 1's chaos, Ep 2's murder, Ep 3's grave, larder, turning-away, misdelivery or dismissal, and
-  Ep 4's fiasco only if the company acted (a protective act, a flower, the weaver freed) or chose to let it play (`leave_them`).
+  Ep 4's fiasco only if the company acted (a protective act, a flower, the weaver freed) or paid to let it play: `leave_them` takes an hour **standing at the edge of the wood with the lovers**, which is exactly where the Hunt comes.
 
 ## The map
 
@@ -59,7 +59,7 @@ silences the town (`e1Met`); the early ending needs both pairs chalked, and chal
 pledges the Corbets before +6 never sees. Then the day runs on to the Prioress, whose scene carries the reversal in every ending (in the early one she is sent for
 and speaks at the Mermaid). Each persuasion is one try: a failure latches (`f_grabb`, `f_tuckett`, `f_cv`, `f_cr`, `f_ring`).
 **Endings**: *early* (both pairs chalked, then both Corbets at one table before +26); *Priory* (the exorcist held); *chaos* (an exorcist reading over the wrong
-man; not credited). No verdict. Kit's three-way question (he held a door for Luce) is read in Ep 4.
+man; not credited). No verdict. Kit's three-way question (he held a door for Luce) is read in Ep 4. Kit is moved to Marlcross for the day and called back to the inn whenever the party next stands at the Fourways.
 
 ### 2. The Three (*Macbeth*)
 Lord Ranulf Valtry of Cairnholt, tired and honest, has been told by three women on the moor that he will be Warden of the March. He hires the company *first to test the
@@ -83,15 +83,15 @@ and a courteous letter asking Orlay's Margravine (Aldith) to put the bearers to 
 drawn in a chapel, the two friends who are the Margrave's ears (Spargo and Quillan: Rosencrantz and Guildenstern), the substituted letter. There is no sealed fencing match; the grave ending is the cut-down fifth act.
 *Reversal*: the company is the *carrier*, the Bellerophon bearer. **Differs from Act II**, which played the third act (the Mousetrap) as a night of horror: the trap here is an action (`set_trap`, Swale,
 a performance check) that works the Prince's one word into a speech and *sets what the Margrave does at the chapel*.
-- The ghost speaks to the Prince **only if the company stands by him**; the company hears nothing and the Prince tells them ("Orchard"), which is the key to the trap. A working trap makes the Margrave
-  confess to the stone (`e3Confessed`); without it the Prince must be held back (persuasion, hard; failure wounds him and raises `harm`). `watch_friends` (insight) learns that Spargo and Quillan report.
+- The three exploits are keyed to the clock (the rampart from 23:00 to 04:00, the tiltyard from 09:00 to 17:00, the chapel from 17:00 to 22:00), each with a deadline of an hour from when it begins. The ghost speaks to the Prince **only if the company stands by him**; the company hears nothing and the Prince tells them ("Orchard"), which is the key to the trap. A working trap makes the Margrave
+  confess to the stone (`e3Confessed`); without it the Prince must be held back (persuasion, hard; failure wounds him and raises `harm`). `watch_friends` (insight) learns that Spargo and Quillan report. Ysenne Fosbury, in the chapel, tells whoever asks that her father has copied a letter for Orlay and not slept (`ysenne_letter`): that warning stands for a read, so the letter may be burned unread.
 - **The letter is a choice.** The genuine letter is dangerous to its bearers. Handed over, read or unread, the Margravine Aldith (id `berengar`) obeys it: the company is **shut in the Orlay larder, and
   the door is really barred** (`or_larder`; the larder door opens only on a night of the Prince's trust, a seventh night, or a spoon: `pick_larder_lock`, trapwork, one try). It is not credited.
-  - **A cracked seal** (a failed read: three crowns and never learning what it says) saves the company because she will not act on a letter she cannot swear to, but she keeps the Prince as her guest (`e3Held`).
-  - **Burning** (`burn_letter`, an hour, only after a read) leaves no letter and no cover story: a hard persuasion at Orlay (failure: turned away, not credited).
+  - **A cracked seal** (a failed read: three crowns and never learning what it says) keeps the company from the larder because she will not act on a letter she cannot swear to, but she keeps the Prince as her guest (`e3Held`) and the play is **not credited**: a failed read is the worst outcome of the read.
+  - **Burning** (`burn_letter`, an hour, after a read or Ysenne's warning) leaves no letter and no cover story: a hard persuasion at Orlay (failure: turned away, not credited).
   - **Forging** needs a successful read, the Prince's consent (`tell_prince_letter`), his **one** sheet (`take_sheet`) and Swale; a failed forgery spends the sheet. At the table the forgery can be blown
     (`present_forged_letter`, persuasion): then it is the larder. If it holds, Spargo and Quillan are killed for it (the Prince's last lines change with trust, scorn and the spies).
-  - **The oilskin** (`seal_letter_away`) keeps the genuine letter whole; with it, and a read, `confront_margrave` lays the sealed letter before the Margrave in the hall (hard persuasion, one try: he burns it himself; failure: dismissed, not credited).
+  - **The oilskin** (`seal_letter_away`) keeps the genuine letter whole; with it, and a read, `confront_margrave` lays the sealed letter before the Margrave in the hall (hard persuasion, one try: he burns it himself; failure: dismissed, not credited); nothing of the letter (read, oilskin) is offered once it has been handed over.
   - **The inn.** Orlay shuts at dusk; the company sleeps at the Fox and Feather or in the hedge (cutpurses, once). At the inn the carrier packs the basket on a dice roll taken once on the morning (`dice(clock) <= 10`): a mixed basket is the
     farce of laundry lists, which is not credited and not a free win.
 **Endings**: *larder*, *escape* (cracked with the Prince kept, forged, explained, exposed), *turned away*, *dismissed*, *misdelivery*, *grave*.
@@ -101,7 +101,7 @@ A squire's wedding at dawn in a beech wood, entertained by village players (Loom
 Green with a hunt, a bog of lights, and an Ash that remembers. The wood scrambles `loves` at dusk-plus (Rafe loves Nan, Wat loves Idony). Beats: the weaver with an ass's head, the Lady in love with him, lovers lost in the wood, the love-flower,
 the play within the play, the wedding at dawn. A changeling boy the Lord and Lady are quarrelling over is what the weaver is bargained for. **Differs from nothing**: no earlier act plays this.
 - The Hunt and the bog are **telegraphed**: arriving at the edge, the horn is heard and the leaves turn; the hooves come two watches later and strike only an unprotected company (a failed dexterity save, 1d6). Protection
-  is an action, not a free reroll: turn the coats (woodcraft, one try), have Tam play the hautboy on the lawn (performance, one try), carry iron or a torch, or leave.
+  is an action, not a free reroll: turn the coats (woodcraft, one try), have Tam play the hautboy on the lawn (performance, one try), or carry **iron nails or a torch, which lie on the lawn in the stage-carpenter's hamper** (`wd_iron`, `wd_torch`), or leave.
 - **The two flowers differ.** Ofbit puts the pairs right (a woodcraft check; a failed hand spends the sprig; there are two). Poppy makes the four sleep and forget: they marry at dawn "between two people who like one another very much and cannot say why".
 - **Three ways to the weaver**: the Lord's bargain (persuasion, hard, one try); the Ash's memory of his name (`ask_the_ash`, an hour, one try, then `name_the_lord`, no price, which leaves him humbled); and, only after the bargain has failed,
   your own true name (`pay_name`), read on the night of the Command.
