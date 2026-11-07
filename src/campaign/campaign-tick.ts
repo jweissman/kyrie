@@ -241,8 +241,10 @@ export class CampaignTick {
       .map(r => r.args[0]!));
     const reads = this.idle.get(rule)?.reads ?? Reads.names(world.module, [rule.when]);
     if (!followers.size || reads.some(n => ties.includes(n))) { return effects; }
-    const moved = new Set(effects.filter(c => c.kind === 'assert' && c.call.name === 'at' && followers.has(c.call.args[0]!))
-      .map(c => c.call.args[0]!));
+    // Away from it, that is: a rule that brings one along where the company is (the Parliament's Almanack) is let be.
+    const here = world.one('at', player);
+    const moved = new Set(effects.filter(c => c.kind === 'assert' && c.call.name === 'at' && followers.has(c.call.args[0]!)
+      && c.call.args[1] !== here).map(c => c.call.args[0]!));
     return moved.size ? effects.filter(c => c.call.name !== 'at' || !moved.has(c.call.args[0]!)) : effects;
   }
   // The effect lists a rule contributes now: none, one, or one per satisfying binding of its ?variables. A rule that

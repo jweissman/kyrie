@@ -125,12 +125,16 @@ export class Overlays {
       const item = Canon.items[e.id], trades = item?.category === 'treasure' ? [] : this.trades(e.id, item);
       if (!item?.value || item.category !== 'treasure' && !(traded && trades.length)) { continue; }
       module.initial.push(set('worth', e.id, item.value),
-        ...item.category === 'treasure' ? [{ kind: 'assert' as const, call: ModuleWriter.call('valuable', e.id) }] : [],
+        ...item.category === 'treasure' ? [Overlays.fact('valuable', e.id)] : [],
         ...classes.filter(c => trades.some(t => c === t || c.endsWith(`__${t}`)))
-          .map(t => ({ kind: 'assert' as const, call: ModuleWriter.call('tradeOf', e.id, t) })),
+          .map(t => Overlays.fact('tradeOf', e.id, t)),
         // What a dealer pays: half its worth, at least one.
         ...measured.has('dealerPays') ? [set('dealerPays', e.id, Math.max(1, Math.floor(item.value / 2)))] : []);
     }
+  }
+  // What a world is made with (its constants), not what play writes.
+  private static fact(name: string, ...args: string[]) {
+    return { kind: 'assert' as const, call: ModuleWriter.call(name, ...args) };
   }
   private static set(name: string, id: string, value: number) {
     return { kind: 'set' as const, call: ModuleWriter.call(name, id), value: { kind: 'number' as const, value } };

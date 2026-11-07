@@ -6,7 +6,7 @@ import type { Promoted } from '../src/presentation/glance-types';
 
 // After every act the glance carries one frame (the cold review's REV-05, the systemic review's SYS-01): what was
 // attempted, what came of it, what changed in the company's state, and the act it has made relevant, when it has
-// made one. Played in kite, come home as kin: the bridge-foot come to, Alfric asked what he means to do, the notice
+// made one. Played in kite, come home as kin: the bridge-foot come to, Nicol asked what he means to do, the notice
 // on the well-post read; and on acts made up for it.
 class Made {
   static feedback(extra: Partial<ActionFeedback> = {}): ActionFeedback {
@@ -41,7 +41,7 @@ describe('the frame after an act, in kite', () => {
   it('says what an answer opened, and leads a company of one to the brother who would now join it', async () => {
     await g.perform('talk_to(drover__son)');
     const v = await g.perform('drover__son_plan');
-    expect(v.after).toMatchObject({ attempt: 'Ask Alfric what he means to do', result: '\'Go after him,\' says Alfric.' });
+    expect(v.after).toMatchObject({ attempt: 'Ask Nicol what he means to do', result: '\'Go after him,\' says Nicol.' });
     expect(v.after!.next).toMatchObject({ choice: 'drover__son#talk', command: 'recruit(drover__son)', why: 'means' });
     expect(v.acts.find(a => a.choice === 'drover__son#talk')).toMatchObject({ for: 'recruit(drover__son)',
       note: 'would join you' });
