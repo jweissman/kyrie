@@ -103,7 +103,7 @@ export class ModuleWriter {
     const lines = [`  Action ${action.id}${parameters} ${JSON.stringify(action.name)} {`,
       `    Description ${JSON.stringify(action.description)}.`,
       `    Requires ${ModuleWriter.predicate(action.requires)}.`,
-      `    Cost ${action.cost}. Time ${action.duration ? World.format(action.duration) : action.time}.`];
+      `    Cost ${action.cost}. Time ${action.duration ? ModuleWriter.value(action.duration) : action.time}.`];
     if (action.report) { lines.push(`    Result ${JSON.stringify(action.report)}.`); }
     if (action.otherwise) { lines.push(`    Otherwise ${JSON.stringify(action.otherwise)}.`); }
     for (const t of action.told ?? []) {

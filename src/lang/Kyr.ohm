@@ -16,6 +16,7 @@ Kyr {
           | "{" ThingPart* "}" -- parts
   ItemPlace = "at" ident -- at
             | kwIn ident -- in
+            | "nowhere" -- nowhere
   Concealed = "hidden" "until" ident
   ItemOwner = "owned" "by" ident
   HazardDecl = "Hazard" ident string "means" string "."
@@ -33,9 +34,11 @@ Kyr {
   Thing = "Thing" ident string ThingSite ThingKind? Concealed? "{" ThingPart* "}"
   // One end of a way: a thing on the way, or a line beside it, told only to a company at that end (GTR-08).
   WayEnd = "from" ident
+  // Nowhere, as a person may be: in no place until something puts it somewhere (M19-95).
   ThingSite = "at" ident -- at
             | "on" ident WayEnd? -- on
             | kwIn ident -- in
+            | "nowhere" -- nowhere
   ThingKind = "is" ident
   ThingPart = StatePart | ChangePart | HurtsPart | GuardsPart | HoldsPart | TriesPart
   HoldsPart = "Holds" "."
@@ -219,17 +222,21 @@ Kyr {
        | "Time" integer ("hours" | "hour") "." -- hours
        | "Time" "until" TimeUntil "." -- until
        | "Time" integer "." -- fixed
-       | "Time" Call "." -- measured
+       // As many watches as a value comes to: a measure, or measures and numbers added (Time crossing(way) + 2.: M19-96).
+       | "Time" Value "." -- measured
   // Until an hour of the clock, or of a day: "Time until hour 19.", "Time until day 2 hour 6." (WPC-10).
   TimeUntil = TimeDay? "hour" integer
   TimeDay = "day" integer
   Resolve = "Resolve" Call "."
   ChangeStatement = Change "."
-  Change = Assert | Retract | Set | Increase | Lessen | Decrease | Give | Spend | Restore | Slay
+  Change = Assert | Retract | Set | Increase | Lessen | Decrease | Give | Spend | Restore | Slay | Bring
   // Whole again: every hit point, no condition, risen if fallen or dead (LUL-01).
   Restore = "Restore" term
   // Dead in the story and in the body (BOF-25).
   Slay = "Slay" term
+  // Come to where whoever acts stands, or another named: a fight after a failed act (M19-94).
+  Bring = "Bring" term BringTo?
+  BringTo = "to" term
   Assert = "Assert" Call
   Give = "Give" GiveWhat "to" term
   // How many of a kind (Give 2 lamp_oil to actor), or one thing or one of a kind.

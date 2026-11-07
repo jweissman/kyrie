@@ -12,6 +12,7 @@ import type { InstalledModule } from './definition';
 import type { BundleSource } from './bundle-source';
 import type { Entity, Module } from '../lang/module';
 import { Superseded } from '../lang/superseded';
+import { Bringing } from '../lang/bringing';
 import { ModuleShadow } from './module-shadow';
 import { ModuleCanon } from './module-canon';
 import { FictionalTime } from './fictional-time';
@@ -172,7 +173,7 @@ export class ModuleBundle {
       relations: ModuleBundle.once(modules.flatMap(m => m.relations)), measures: modules.flatMap(m => m.measures),
       queries: modules.flatMap(m => m.queries), initial: modules.flatMap(m => m.initial),
       actions: modules.flatMap(m => m.actions), people: modules.flatMap(m => m.people ?? []),
-      pursuits: modules.flatMap(m => m.pursuits ?? []), rules: modules.flatMap(m => m.rules ?? []),
+      pursuits: modules.flatMap(m => m.pursuits ?? []), rules: Bringing.once(modules.flatMap(m => m.rules ?? [])),
       observations: modules.flatMap(m => m.observations ?? []), objectives: modules.flatMap(m => m.objectives ?? []),
       ...LocalKinds.merge(...modules.map(m => m.catalog)) });
   }

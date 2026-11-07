@@ -2,6 +2,7 @@ import type * as ohm from 'ohm-js';
 import { ModuleParser } from './module-parser';
 import { KyrText } from './kyr-text';
 import { Arithmetic } from './arithmetic';
+import { Bringing } from './bringing';
 
 type Node = ohm.Node;
 type Field = { field: string; value: unknown };
@@ -22,7 +23,10 @@ export class StatementParser {
   static Minutes(_time: Node, value: Node, _unit: Node, _dot: Node): Field {
     return { field: 'minutes', value: Number(value.sourceString) };
   }
-  static Duration(_time: Node, call: Node, _dot: Node): Field { return { field: 'duration', value: ModuleParser.ast(call) }; }
+  // "Time crossing(way) + 2.": as many watches as a value comes to, read as any value is when the action is begun.
+  static Duration(_time: Node, value: Node, _dot: Node): Field {
+    return { field: 'duration', value: ModuleParser.ast(value) };
+  }
   static Resolve(_resolve: Node, call: Node, _dot: Node): Field { return { field: 'resolve', value: ModuleParser.ast(call) }; }
   static Interruption(_interrupted: Node, _when: Node, predicate: Node, _dot: Node): Field {
     return { field: 'interrupt', value: ModuleParser.ast(predicate) };
@@ -57,6 +61,11 @@ export class StatementParser {
   // "Slay ?g.": whoever it names dead, slain for good (see Consequences.slay).
   static Slay(_slay: Node, group: Node) {
     return { kind: 'assert', call: { kind: 'call', name: 'struckDead', args: [group.sourceString] } };
+  }
+  // "Bring wolves.": whoever it names comes to where the one who acts stands, or another it names ("Bring wolves to
+  // party."), from wherever they were or from nowhere (see Bringing).
+  static Bring(_bring: Node, who: Node, to: Node) {
+    return Bringing.change(who.sourceString, to.children.length ? to.children[0]!.children[1]!.sourceString : 'actor');
   }
   static Set(_set: Node, call: Node, _to: Node, value: Node) {
     return { kind: 'set', call: ModuleParser.ast(call), value: ModuleParser.ast(value) };
