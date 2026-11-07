@@ -22,9 +22,10 @@ import { Glanced } from './support/glanced';
 // first time it comes to it.
 class Wild {
   static async start(): Promise<{ s: PlaySession; region: Region; meetings: Meeting[] }> {
-    const w = await WorldAssembler.assemble('jade', NodeBundleSource.shared, { origin: 'wanderer',
+    // kite: jade's assembled country no longer draws a cache (7 November), and the test wants one.
+    const w = await WorldAssembler.assemble('kite', NodeBundleSource.shared, { origin: 'wanderer',
       party: [{ name: 'Wenna', raceId: 'human', classId: 'ranger' }] });
-    const s = await PlaySession.start(w.path, 'jade', w.source);
+    const s = await PlaySession.start(w.path, 'kite', w.source);
     return { s, region: w.report.region, meetings: RegionMeetings.meetings(w.report.region) };
   }
   static knows(s: PlaySession, fact: string): boolean {

@@ -14,17 +14,20 @@ export class Tactics {
     const r = Effects.modifiers(target).resistances ?? {};
     return (r.all ?? 0) + (r[type] ?? (Content.rules.physicalDamage.includes(type) ? r.physical ?? 0 : 0));
   }
+  // Hit points within one blow or burst of falling.
+  static readonly frail = 10;
   static score(state: BattleState, command: Command): number {
     const actor = state.combatants.find(f => f.id === command.actor)!;
     const target = state.combatants.find(f => f.id === command.target)!;
     // A thing carried to use up is scored as what using it does (see ItemCatalog.use).
     const ability = Content.abilities.find(a => a.id === command.ability) ?? ItemCatalog.used(command.ability)!;
-    // An area catches whoever stands where it is aimed: each foe in it counts for it, and each friend (or itself)
-    // weighs more against it than a foe for it (see Positions).
+    // An area catches whoever stands where it is aimed: each foe in it counts for it, and each friend weighs far more
+    // against it than a foe for it, one it could fell most of all (see Positions): a cleric of a company of four had
+    // let a burst of radiance loose in the press at three glass men, and burned the warrior beside them to death.
     const area = Positions.area(ability);
     const caught = area ? Positions.caught(actor, command.target, area, state.combatants) : undefined;
-    const friends = caught?.filter(f => f.team === actor.team).length ?? 0;
-    let score = -15 * friends;
+    const ours = caught?.filter(f => f.team === actor.team) ?? [], friends = ours.length;
+    let score = ours.reduce((n, f) => n - (f.hp <= Tactics.frail ? 100 : 30), 0);
     for (const effect of ability.effects) {
       switch (effect.kind) {
         case 'attack': case 'damage': case 'drain': {

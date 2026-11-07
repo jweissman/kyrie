@@ -35,6 +35,9 @@ export class GeneralStores {
   private static size(region: Region, i: number): Size {
     return Foundings.of(region, i).kind === 'market' ? 'market' : 'town';
   }
+  // Kinds a country cannot name, the shared rules taking their names for a parameter (Put {cargo} in {box}): a town
+  // whose store drew Orsino's box would not compile ("Parameter shadows entity box").
+  static readonly unnamable = new Set(['box']);
   // What a store has on its shelves: what it always has at the town's size, then some of the rest of Orsino's stock
   // for its kind, drawn for the town, then what the town's own trade makes, cheaper there and more of it.
   static shelves(region: Region, i: number, kind: string): Ware[] {
@@ -45,7 +48,8 @@ export class GeneralStores {
     const cloth = new Set(this.table.clothing);
     const made = (this.table.trade[s.trade] ?? []).filter(k => (kind === 'clothier') === cloth.has(k));
     const rest = (store.pool ? RegionShops.stocks[store.pool]?.stock ?? [] : []).map(([what]) => what)
-      .filter(k => !always.includes(k) && !made.includes(k) && !cloth.has(k) && this.worth(k) <= 10);
+      .filter(k => !always.includes(k) && !made.includes(k) && !cloth.has(k) && this.worth(k) <= 10
+        && !GeneralStores.unnamable.has(k));
     const drawn = new Draw(`${region.name}:${s.id}:store:${kind}:shelves`).shuffle(rest).slice(0, store.drawn[size]);
     const local = new Set(made);
     return [...new Set([...always, ...drawn, ...made])].map(k => this.ware(k, local.has(k), size === 'market' ? 2 : 1));
