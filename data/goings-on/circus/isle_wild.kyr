@@ -3,7 +3,7 @@ Module circus "Wapshott's Peregrine Circus" {
   // The island keeps a day. The dawn-pipers sing the herd down; the lantern-necks wade, graze the plain, and sleep in
   // a ring at dusk; the tyrant walks the plain's edge at evening; the sail-wings launch at first light. A company that
   // comes back finds it at another hour. Six of its kinds are the island's small people, and each is a telegraph.
-  Relation piperHeard(group). Relation lanternWalked(group). Relation fenwickWept(group). Relation writShown(group).
+  Relation piperHeard(group). Relation fenwickWept(group). Relation writShown(group).
   Relation netsRotted(group). Relation tyrantBaited(group). Relation colonyLaunched(group).
 
   Entity piper_known: fact "The dawn-pipers sing an hour before the lantern-necks come down to the lake; the flock's crests are tuned to it.".
@@ -73,7 +73,7 @@ Module circus "Wapshott's Peregrine Circus" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, plain_south) and hour(clock) >= 17 and at(lantern_necks, plain_south).
     Time 0.
     Resolve check(actor, stealth, dc_fair).
-    On success { Assert tolerates(tyrant, actor). Assert lanternWalked(party). }
+    On success { Assert tolerates(tyrant, actor). }
     Result "You walk in among them as one walks into a wood: grey trunks, a roof of necks, the smell of hay and warm stone. Nothing stirs. Out in the dusk the tyrant comes along the plain's edge, looks at the herd, and turns away. In the morning your coat is damp with the breath of something tall as a house.".
     Otherwise "A foot as wide as a cartwheel is lifted and set down six inches from your head, and you are glad of the dusk.".
   }

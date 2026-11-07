@@ -70,6 +70,8 @@ Module circus "Wapshott's Peregrine Circus" {
   }
   Item hold_rope "a coil of the Sundial's lashing" is rope at hold.
   Item hold_rope_b "a second coil of lashing" is rope at hold.
+  Item hold_oil "a flask of the Sundial's lamp oil" is lamp_oil at hold.
+  Item hold_oil_b "a second flask of lamp oil" is lamp_oil at hold.
   Action go_below(actor: group, site: place) "Go below and wedge yourselves among the cages" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, deck) and stormOn(wapshotts) and not lashed(party).
     Time 0.
@@ -114,13 +116,13 @@ Module circus "Wapshott's Peregrine Circus" {
     Retract travels(hatchlings). Retract post(hatchlings, rk_beasts). Retract at(hatchlings, ?r). Assert at(hatchlings, hold). }
   Rule crew_aboard_home when homeward(wapshotts) and not dead(mudge) and away(mudge) { Retract away(mudge). Assert at(mudge, deck). }
   Rule cook_aboard_home when homeward(wapshotts) and away(nunn) { Retract away(nunn). Assert at(nunn, deck). }
-  Rule hull_leaks when homeward(wapshotts) and atSea(wapshotts) and hullHoled(wapshotts) and hour(clock) == 6 and bailedDay(wapshotts) < day(clock) { Set bailedDay(wapshotts) to day(clock). Decrease quantity(party, rations) by 2 or to nothing. }
+  Rule hull_leaks when homeward(wapshotts) and atSea(wapshotts) and hullHoled(wapshotts) and hour(clock) == 6 and bailedDay(wapshotts) < day(clock) { Set bailedDay(wapshotts) to day(clock). Decrease quantity(party, rations) by 2 or to nothing. Decrease waterCasks(wapshotts) by 1 or to nothing. }
   Measure bailedDay(concern).
   Observe hull_water at hold when homeward(wapshotts) and hullHoled(wapshotts) "Water slops over the hold floor at every roll, and Mr Mudge is bailing with a cage-bucket, singing.".
   Topic nunn_home with nunn "Ask Aggie what was in the stew" when homeward(wapshotts) and atSea(wapshotts) once {
     Says "'Mr Mudge,' says Aggie, and stirs. 'Mostly.'".
   }
-  Rule hatchlings_back when backFromSarn(wapshotts) and hatchlingsPenned(wapshotts) and not hatchlingsHome(party) and at(hatchlings, hold) { Retract at(hatchlings, hold). Assert travels(hatchlings). Assert post(hatchlings, rk_beasts). }
+  Rule hatchlings_back when backFromSarn(wapshotts) and hatchlingsPenned(wapshotts) and not hatchlingsHome(party) and not youngAshore(party) and at(hatchlings, hold) { Retract at(hatchlings, hold). Assert travels(hatchlings). Assert post(hatchlings, rk_beasts). }
   Action carry_young_ashore(actor: group, site: place) "Take the young hook-claws ashore in a sack" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, hold) and at(hatchlings, hold) and hatchlingsPenned(wapshotts) and not youngAshore(party) and not backFromSarn(wapshotts).
     Time 1.
@@ -131,8 +133,7 @@ Module circus "Wapshott's Peregrine Circus" {
   Rule home_from_sarn at green_a when voyaged(wapshotts) and homeward(wapshotts) and not backFromSarn(wapshotts) and not atSea(wapshotts) and at(party, green_a) {
     Assert backFromSarn(wapshotts). Retract away(wapshott). Retract away(fenwick). Retract away(billie). Retract away(mumchance). Retract away(crewe). Retract away(mudge). Retract away(nunn).
     Retract following(wapshott, party). Retract following(fenwick, party). Retract following(billie, party). Retract following(mumchance, party).
-    Set moveDay(wapshotts) to day(clock) + 1. Set homeDay(wapshotts) to day(clock). }
-  Measure homeDay(concern).
+    Set moveDay(wapshotts) to day(clock) + 1. }
   Chapter ch_voyage "The Sundial" when within(party, sundial) "Eleven days out, with a naturalist, a showman and a dead man's crew. The wagons are a long way behind.".
   Milestone m_clauses "had the contract read at sea" worth 100 when clausesRead(wapshotts).
   Milestone m_storm "rode out the storm with the Colonel" worth 150 when colonelCovered(wapshotts) or colonelNamedFear(wapshotts).
