@@ -2,7 +2,8 @@ import type { Choice } from '../../src/ui/choice-list';
 
 // What is said in a conversation, as attention holds it (the owner, 5 November: an innkeeper had stood with
 // twenty-five things to talk about at once): an answer owed first; then three things to say at most, the salient ones
-// (what the page leads this person with, what the last answer opened, then what has not been asked, as the author
+// (what the page leads this person with, what an aim of the company's asks of them, what the last answer opened, then
+// what has not been asked, as the author
 // ordered it); the rest a touch away, not yet asked before those that have been; and what is had of them for coin or
 // work (a bed, care, a song for supper, a lesson, a sale) set apart for trading, not among what is said.
 export class TalkFocus {
@@ -10,14 +11,15 @@ export class TalkFocus {
   // The kinds of act had of someone for coin or work (Choice.does, never the command's words).
   static readonly services = new Set(['take_lodging', 'take_lodging_guest', 'take_healing', 'work_keep', 'sing_supper',
     'sell', 'sell_valuable', 'sell_ware', 'buy_goods', 'train_member', 'learn_skill', 'learn_spell', 'learn_reward']);
-  static of(replies: Choice[], at: { led?: string; heard?: string[]; asked: string[] }) {
+  static of(replies: Choice[], at: { led?: string; heard?: string[]; asked: string[]; aims?: string[] }) {
     const answers = replies.filter(c => c.answer);
     const services = replies.filter(c => !c.answer && TalkFocus.service(c));
     const said = TalkFocus.beyond(replies.filter(c => !c.answer && !services.includes(c)));
     const spent = said.filter(c => at.asked.includes(c.id) || /_again(\(|$)/.test(c.command ?? ''));
     const fresh = said.filter(c => !spent.includes(c)), heard = new Set(at.heard ?? []);
-    const led = at.led ? fresh.filter(c => c.command === at.led || c.id === at.led
-      || !!c.children?.some(k => k.command === at.led)) : [];
+    const led = [...at.led ? fresh.filter(c => c.command === at.led || c.id === at.led
+      || !!c.children?.some(k => k.command === at.led)) : [], ...fresh.filter(c => TalkFocus.aimed(c, at.aims ?? []))]
+      .filter((c, i, all) => all.indexOf(c) === i);
     // New since the last thing said: not offered then (a group, if none of what it holds was).
     const opened = at.heard ? fresh.filter(c => !heard.has(c.id) && !c.children?.some(k => heard.has(k.id))
       && !led.includes(c)) : [];
@@ -25,6 +27,13 @@ export class TalkFocus {
     const room = Math.max(1, TalkFocus.most - (answers.length ? 1 : 0));
     return { answers, salient: ranked.slice(0, room), more: [...ranked.slice(room), ...spent], services,
       opened: new Set(opened.map(c => c.id)) };
+  }
+  // What an aim of the company's asks: "Ask Brom about the rats in the corn-store" is "Ask about the rats in the
+  // corn-store" said to Brom (the fresh playtest of 7 November: it stood sixth, under Something else, behind three
+  // rumours, when the notice on the well-post had sent the company to ask him).
+  private static aimed(c: Choice, aims: readonly string[]): boolean {
+    const said = c.label.replace(/^Ask (?:\S+ )?about /i, '').toLowerCase();
+    return /^Ask /i.test(c.label) && said.length > 6 && aims.some(a => a.toLowerCase().includes(` about ${said}`));
   }
   // What is told of the countries beyond this one (twenty and more at an inn), one thing to ask about, opened to them.
   private static beyond(said: Choice[]): Choice[] {

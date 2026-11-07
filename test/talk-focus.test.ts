@@ -26,6 +26,16 @@ describe('what is said, as attention holds it', () => {
     expect(f.opened.has('tower')).toBe(true);
     expect(f.more.at(-1)!.id).toBe('well');
   });
+  it('puts first what an aim of the company\'s asks of them', () => {
+    // The fresh playtest of 7 November: the notice on the well-post sent the company to Brom, and its question stood
+    // sixth, under Something else, behind three rumours.
+    const brom = [said('Ask about the old toll-house', 'r1'), said('Ask about the factor who buys old bronze', 'r2'),
+      said('Ask about the players stuck at Aldermead', 'r3'), said('Ask about the rats in the corn-store', 'rats')];
+    const f = TalkFocus.of(brom, { asked: [],
+      aims: ['Ask Brom about the rats in the corn-store at Elmford: the corn-store is locked.'] });
+    expect(f.salient[0]!.id).toBe('Ask about the rats in the corn-store');
+    expect(TalkFocus.of(brom, { asked: [] }).salient.map(c => c.id)).not.toContain('Ask about the rats in the corn-store');
+  });
   it('makes room for an answer owed', () => {
     const f = TalkFocus.of([said('yes', 'yes', { answer: true }), ...replies], { asked: [] });
     expect([f.answers.length, f.salient.length]).toEqual([1, 2]);
