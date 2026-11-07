@@ -3,7 +3,7 @@ import { ModuleWriter } from '../src/lang/module-writer';
 import { readFileSync } from 'node:fs';
 const lines = readFileSync(process.argv[2]!, 'utf8').split('\n').map(l => l.trim()).filter(l => l && !l.startsWith('#'));
 const quiet = process.argv.includes('--quiet');
-const P = (x: string) => x === 'party' ? x : (x.startsWith('pentrice__') ? x : 'pentrice__' + x);
+const P = (x: string) => ['party', 'hour', 'day', 'watch', 'clock', 'quantity'].includes(x) ? x : (x.startsWith('pentrice__') ? x : 'pentrice__' + x);
 const j = await Journey.start('test/fixtures/gosse/city.campaign.json', 'kp');
 const jj = j as any;
 for (const s of lines) {

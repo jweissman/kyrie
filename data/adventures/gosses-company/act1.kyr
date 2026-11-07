@@ -77,7 +77,7 @@ Module pentrice "Gosse's Company" {
   }
   Topic oriel_father with oriel "Yes. He has the right to know where his daughter is" answering oriel_ask when true {
     Says "'Then it was kind of you to ask first,' says Orrin, with a dreadful composure, and takes off the cap. 'I am Oriel Marchant. I shall go with you. I should like it to be known that I think you wrong.' She does not weep. She picks up the prompt-copy. 'But I shall not be taken. I shall go in my own time, and I shall go as myself.'".
-    On discuss { Assert orielToldFather(actor). Assert knows(actor, oriel_unmasked). }
+    On discuss { Assert orielToldFather(actor). Assert knows(actor, oriel_unmasked). Retract at(oriel, rot_wings). Assert at(oriel, marchant_hall). }
   }
   Topic oriel_help with oriel "I'd help you if I could. What do you want?" answering oriel_ask when true {
     Says "She looks you up and down with all the shrewdness the stage has given her. 'I want to play,' she says. 'Not in a box, not at a window, not at the end of a corridor with a husband at the other end. I want to play a part that is a person.' She takes off the cap. 'I am Oriel Marchant. I should like it very much if you helped me.'".
@@ -92,12 +92,12 @@ Module pentrice "Gosse's Company" {
     Otherwise "The page looks back at you with the guileless eyes of a Rotunda page, and the question goes by.".
   }
   Action reunite_twins(actor: group, site: place) "Bring Oriel and Cyprian into the same room" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, marchant_hall) and knows(actor, oriel_unmasked) and at(cyprian, marchant_hall) and not twinsMet(actor) and travelsWith(oriel, actor).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, marchant_hall) and knows(actor, oriel_unmasked) and at(cyprian, marchant_hall) and not twinsMet(actor) and (travelsWith(oriel, actor) or at(oriel, marchant_hall)).
     Time 1.
     On success { Assert twinsMet(actor). Increase favour(rierdan) by 1. }
     Result "They stop on either side of a pillar and look at each other for a long second, like a pair of mirrors. Then, at the same moment, in the same voice, they say 'You utter fool', and are in each other's arms, and the steward sits down quite hard on the stair. Lord Marchant says nothing at all, but he holds out a handkerchief to both of them, from the same pocket.".
   }
-  Topic oriel_join with oriel "Ask Oriel to come with the company, as herself" when knows(actor, oriel_unmasked) and not travelsWith(oriel, actor) once {
+  Topic oriel_join with oriel "Ask Oriel to come with the company, as herself" when knows(actor, oriel_unmasked) and not orielToldFather(actor) and not travelsWith(oriel, actor) once {
     Says "'Yes,' says Oriel at once, and then, more carefully, 'if I may be paid. I do not want to be a Marchant at a table. I want to be a person at a salary.'".
     On discuss { Assert willing(oriel, actor). Set hire(oriel) to 0. }
   }
@@ -126,7 +126,7 @@ Module pentrice "Gosse's Company" {
 
   // The audition: the Audience Chamber, and the King.
   Action audition_ghost(actor: group, site: place) "Play the King The Alderman's Ghost, the best scene, on the rug" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, audience) and masqueGhost(actor) and not auditioned(rierdan).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, audience) and masqueGhost(actor) and (gosseHonest2(actor) or not gosseSeen(actor)) and not auditioned(rierdan).
     Time 30.
     Resolve check(actor, performance, dc_hard).
     On success { Assert auditioned(rierdan). Increase favour(rierdan) by 3. Assert provisional(rierdan). Set auditionScore(rierdan) to 3. }
@@ -135,7 +135,7 @@ Module pentrice "Gosse's Company" {
     Otherwise "The scene goes up on the rug with perfect craft, and the King sleeps through the best of it. At the end he opens his eyes and says: 'Was it a comedy? I thought I heard a ghost.'".
   }
   Action audition_miser(actor: group, site: place) "Play the King The Miser's Wedding, as his grandfather had it" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, audience) and masqueMiser(actor) and not auditioned(rierdan).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, audience) and masqueMiser(actor) and (gosseHam(actor) or not gosseSeen(actor)) and not auditioned(rierdan).
     Time 30.
     Resolve check(actor, performance, dc_fair).
     On success { Assert auditioned(rierdan). Increase favour(rierdan) by 2. Assert provisional(rierdan). Set auditionScore(rierdan) to 2. }
@@ -152,8 +152,13 @@ Module pentrice "Gosse's Company" {
     Result "It is performed by two sets of players at once, in two different costumes, in front of a Chancellor who is also in it, by accident, and three Oriels. The King does not stop laughing. At the end he is wiping his eyes with the Chamberlain's book. 'That,' he says, 'is the first time since the Siege of Thrall that I have understood a joke before the end.'".
     Otherwise "The farce is a collision. Everyone talks at once. At the end the King says, kindly, that it was a great deal of play for one afternoon.".
   }
-  Observe king_verdict near casimir when auditioned(rierdan) and provisional(rierdan) "The King has had a stool brought to the foot of the rug and has been looking at the players for some time, with the air of a man who has found a drawer he forgot he had. 'I appoint you,' he says, 'for the season. Provisionally. The Chamberlain will draft something.'".
-  Observe king_verdict_no near casimir when auditioned(rierdan) and not provisional(rierdan) "The King pats your hand with a dry old palm. 'You must come again,' he says. The Chamberlain, who knows what that means, writes it down in the harder pencil.".
+  // The fiasco: whatever was played, the Audience Chamber ends full of the wrong people, and the Chamberlain, who has two
+  // lists open and one pencil, ticks the wrong company. The title is the players' by a clerk's slip.
+  Relation titleByAccident(place). Relation chamberlainMisled(place).
+  Rule slip_of_the_pencil at audience when auditioned(rierdan) and at(party, audience) and not titleByAccident(rierdan)
+    says "In the uproar the Chamberlain turns two pages at once. 'The King's Players,' says Sir Ferrand Pyke, writing it down in the harder pencil, in a voice of great relief, 'are to be the company from the Rotunda's green-room, the Pentrice people, and not the masquers.' He has ticked the wrong column. He does not know it yet. Behind him Osbert Mallam has seen, and is deciding whether to be a good clerk or a happy one." {
+    Assert titleByAccident(rierdan). Assert provisional(rierdan). }
+  Observe king_verdict near casimir when auditioned(rierdan) "The King has had a stool brought to the foot of the rug and sits on it, with his chin on his stick, looking at the wreck of the Audience Chamber, the two companies, three Marchants, a bear and a Chancellor under the throne, with the air of a man who has found a drawer he forgot he had. 'Do it again tomorrow,' he says. 'Somebody write that down.'".
   Topic gosse_audition with gosse "Ask Gosse how he wants the King to see him" when royalCall(pentrice) and not gosseSeen(party) once {
     Says "Gosse is standing at the window of the Sparrow's loft with his back to the room and his head a little on one side. 'Forty-one years,' he says. 'I have played for innkeepers, for bishops, for a duke who was drunk and a duchess who was not, and never for a King.' He does not turn. 'I can't hear him, you know. I can only hear that he is there.' He turns, and he is a very old man with a good face. 'Tell me how I should seem. As what I am, or as what I was?'".
   }
