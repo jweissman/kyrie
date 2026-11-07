@@ -6,7 +6,7 @@ Module muster "The Long Muster's Road" {
   // Centurion, the Archivist, the innkeeper and the reeve, each of whom wants to know one thing before they will
   // tell one thing.
   Measure prefectRegard(group). Relation interviewQ1(group). Relation interviewQ2(group). Relation interviewQ3(group).
-  Relation reeveNamed(group). Relation reeveNone(group). Relation orsaFair(group). Relation rheaFair(group). Relation giantAnswered(group). Relation orsaAnswered(group). Relation rheaAnswered(group).
+  Relation reeveNamed(group). Relation reeveNone(group). Relation orsaFair(group). Relation rheaFair(group). Relation orsaAnswered(group). Relation rheaAnswered(group).
   Relation mollAnswered(group). Relation mollSwore(group).
 
   // The Prefect's interview.
@@ -62,11 +62,11 @@ Module muster "The Long Muster's Road" {
   }
   Topic giant_yes with giant "Say that the king is still king, and sends his regards" answering giant_asks when true {
     Says "'Good,' says the giant, with relief. He puts down the iron and takes a leg of mutton off the hook and holds it out. 'Eat. Don't tell the little ones.'".
-    On discuss { Assert giantAnswered(party). Increase quantity(actor, rations) by 2. }
+    On discuss { Increase quantity(actor, rations) by 2. }
   }
   Topic giant_no with giant "Say that the king is dead, and so is his kingdom, and you are sorry" answering giant_asks when true {
     Says "The giant turns the iron in the fire. 'Then I keep the house for no one,' he says. 'That is easier. Go on. I'll mind the fire.' He does not offer the mutton. At the door he tells you, unasked, what the marmots do when he wakes, which is the one thing he knows that is of use to anybody.".
-    On discuss { Assert giantAnswered(party). Assert knows(actor, marmots_known). }
+    On discuss { Assert knows(actor, marmots_known). }
   }
 
   // The reeve's question.
@@ -109,14 +109,14 @@ Module muster "The Long Muster's Road" {
   }
 
   // The Archivist's question.
-  Topic moll_asks with fenwarden "Let the Archivist ask what it is you want of the Annals" when annalsOpen(party) once {
-    Says "'Before I show you a thing I must know what it will be used for,' says Fenwarden. 'A history in the wrong hand is a knife. What do you want to do with it?'".
+  Topic moll_asks with ostrander "Let the Archivist ask what it is you want of the Annals" when annalsOpen(party) once {
+    Says "'Before I show you a thing I must know what it will be used for,' says Ostrander. 'A history in the wrong hand is a knife. What do you want to do with it?'".
   }
-  Topic moll_ans_know with fenwarden "Say that you only want to know" answering moll_asks when true {
+  Topic moll_ans_know with ostrander "Say that you only want to know" answering moll_asks when true {
     Says "'That is what the first Archivist said, in that chair,' he says. 'It is the right reason and the most dangerous.' He turns a page. 'Read.'".
     On discuss { Assert mollAnswered(party). }
   }
-  Topic moll_ans_swear with fenwarden "Swear on the lamp of the shrine that you will not use it to harm the valley" answering moll_asks when true {
+  Topic moll_ans_swear with ostrander "Swear on the lamp of the shrine that you will not use it to harm the valley" answering moll_asks when true {
     Says "He considers the oath for a long time. 'It is a fine thing to swear on,' he says. 'Eleven hundred years of lamp.' He nods, once. 'I shall hold you to it.'".
     On discuss { Assert mollAnswered(party). Assert mollSwore(party). }
   }

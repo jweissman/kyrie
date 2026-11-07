@@ -12,7 +12,7 @@ Module muster "The Long Muster's Road" {
     Says "The reeve breaks no seal. He turns it over and reads the superscription, twice, and goes the colour of the dish he is standing by. 'There is a bishop at Hale who keeps the old archives,' he says. 'He will want this more than he has ever wanted anything. I shall send it by the next carrier, and I shall tell no one what it says, because I do not know what it says, and I should like to keep it so.' He counts out forty coin from the village purse. 'The Ford's thanks. It isn't much. It's what we have.'".
     On discuss { Spend dispatch from actor. Increase quantity(actor, gold) by 40. Assert dispatchSent(party). }
   }
-  Observe dispatch_news_inn at taproom when dispatchSent(party) "Maud Hennick has put a second lamp in the window.".
+  Observe dispatch_news_inn at taproom when dispatchSent(party) "Greta Hennick has put a second lamp in the window.".
   Observe dispatch_news_shrine at shrine when dispatchSent(party) "A new wax tablet has been pushed into the cracks, in a courier's hand: THE LETTER WENT NORTH. AWAIT THE ANSWER.".
   Observe ropeway_seen at via_n when knows(party, ropeway_known) "A pair of iron staples is driven into the north pier, new, bright, with a rope's worn groove.".
   Observe ropeway_seen_s at via_s when knows(party, ropeway_known) "Across the gap, the engineers' rope-way hangs from two staples, taut as a bowstring.".
@@ -36,7 +36,7 @@ Module muster "The Long Muster's Road" {
   Person column "the First Century's column" nowhere {
     Role "six soldiers of the Last Cohort in red cloaks, with the Centurion's cane at their head". Ancestry human. Calling warrior. Level 3. Numbers 6. Peaceable.
     Arrives at green when told_merula(party) and watch(clock) >= toldAt(party) + 900.
-    Arrives "A column of red cloaks comes down the north road in ranks, six strong, with a horn sounding at the head of it, and Kell Ford's dogs go mad. The woman at the front halts them at the trough, sets down her cane, and says in plain speech: 'I am a Centurion of the Last Cohort. We have come to see whether anyone is there.' Maud Hennick, in her inn door, says she supposes they will want feeding.".
+    Arrives "A column of red cloaks comes down the north road in ranks, six strong, with a horn sounding at the head of it, and Kell Ford's dogs go mad. The woman at the front halts them at the trough, sets down her cane, and says in plain speech: 'I am a Centurion of the Last Cohort. We have come to see whether anyone is there.' Greta Hennick, in her inn door, says she supposes they will want feeding.".
   }
   // told the Hearth: the sixth withheld; the Eagles' answer; a quarrel in the forum.
   Rule elpis_tallied_rule when told_elpis(party) and watch(clock) >= toldAt(party) + 200 and not elpisTallied(party) {
@@ -61,7 +61,7 @@ Module muster "The Long Muster's Road" {
   Milestone m_pass "passed the giant in the Giant's Pass" worth 250 when been(party, pass_s).
   Milestone m_gate "came down to the gate of the Last Cohort and was let in" worth 300 when been(party, forum) and admitted(party).
   Milestone m_rufus "read Rufus on every wall of the road" worth 300 when knows(party, rufus_1) and knows(party, rufus_2) and knows(party, rufus_3) and knows(party, rufus_4).
-  Milestone m_marcus "met the man who left the Sending" worth 250 when marcusMet(party) or marcusLetterShown(party).
+  Milestone m_marcus "met the man who left the Sending" worth 250 when marcusMet(party).
   Milestone m_letter "brought a son's letter to his mother" worth 300 when merulaKnowsSon(party).
   Milestone m_pontus "brought the lost courier's tag home" worth 250 when gaiusPontus(party).
   Milestone m_gold "found the gold wing of the standard" worth 400 when holding(party, golden_idol) or goldReturned(party).

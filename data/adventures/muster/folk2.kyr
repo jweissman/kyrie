@@ -15,16 +15,16 @@ Module muster "The Long Muster's Road" {
   Topic octa_pot_no with octa "Say that you can't promise that, on that road" answering octa_pot when true {
     Says "'No,' says Octa. 'Well. Honest.' She turns back to her oven. 'There's bread, if you'll pay for it.'".
   }
-  Topic maud_yeast with maud "Give Maud the pot of yeast from the valley" when holding(actor, yeast_pot) and not yeastGiven(party) once {
-    Says "Maud lifts the cloth, sniffs, and lifts her eyebrows. 'It's alive,' she says. 'Mine's been dead since my grandmother.' She puts it by the hearth as if it were a baby.".
+  Topic maud_yeast with greta "Give Greta the pot of yeast from the valley" when holding(actor, yeast_pot) and not yeastGiven(party) once {
+    Says "Greta lifts the cloth, sniffs, and lifts her eyebrows. 'It's alive,' she says. 'Mine's been dead since my grandmother.' She puts it by the hearth as if it were a baby.".
     On discuss { Spend yeast_pot from actor. Assert yeastGiven(party). }
   }
-  Observe yeast_inn at taproom when yeastGiven(party) "The Last Fire's bread has begun to taste of cumin. Maud will not say why. A boy is sent out twice a day to the hearth with a spoon.".
+  Observe yeast_inn at taproom when yeastGiven(party) "The Last Fire's bread has begun to taste of cumin. Greta will not say why. A boy is sent out twice a day to the hearth with a spoon.".
 
   // Ede Cassel: the Archivist's young hand, who thinks the valley should be told and says so.
   Person ede_cassel "Ede Cassel" at archive {
     Role "the Archivist's assistant". Ancestry human. Pronouns she. Manner cheerful. Peaceable.
-    Greets "A girl of twenty with ink to the elbow looks up from a copy she is making. 'You're the one from the north,' she says. 'Don't let Fenwarden make you wait a year. He'll say it's kindness.'".
+    Greets "A girl of twenty with ink to the elbow looks up from a copy she is making. 'You're the one from the north,' she says. 'Don't let Ostrander make you wait a year. He'll say it's kindness.'".
   }
   Topic pia_asks with ede_cassel "Ask Ede what she wants of you" when admitted(party) once {
     Says "Ede puts the pen down. 'There's a beam in this room with eleven hundred notches on it and nobody says a word,' she says. 'You've been over the Viaduct. Will you tell them? The Hearth, at least. Elpis will hear it from me if she hears it from someone who's seen the road.'".

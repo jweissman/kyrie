@@ -40,12 +40,12 @@ Module muster "The Long Muster's Road" {
     Retract travelsWith(marra, party). Assert at(marra, pass_n). Assert willing(marra, party). Set hire(marra) to 0.
   }
 
-  Person maud "Maud Hennick" at taproom {
+  Person greta "Greta Hennick" at taproom {
     Role "keeper of the Last Fire". Ancestry human. Profession innkeeper. Pronouns she. Manner acerbic. Peaceable.
-    Greets "Maud Hennick looks at your boots, and your packs, and the number of you. 'You've the look,' she says. 'Soft. Sit down and eat before you start, you'll not get a hot meal for three days.'".
+    Greets "Greta Hennick looks at your boots, and your packs, and the number of you. 'You've the look,' she says. 'Soft. Sit down and eat before you start, you'll not get a hot meal for three days.'".
   }
-  Topic maud_road with maud "Ask Maud about the road" when true {
-    Says "'It's the legion's road,' says Maud. 'Eleven thousand went over it and ten thousand came down the other side, if you believe the beams. It's two days' walk to the Eagle and then it's the Pass and then it's nobody. We send nobody. Every spring somebody's grandmother puts a lamp in the window, and I put one in the inn.'".
+  Topic maud_road with greta "Ask Greta about the road" when true {
+    Says "'It's the legion's road,' says Greta. 'Eleven thousand went over it and ten thousand came down the other side, if you believe the beams. It's two days' walk to the Eagle and then it's the Pass and then it's nobody. We send nobody. Every spring somebody's grandmother puts a lamp in the window, and I put one in the inn.'".
     On discuss { Assert knows(actor, cohort_known). }
   }
 
@@ -102,8 +102,8 @@ Module muster "The Long Muster's Road" {
   Entity red_cloak_known: fact "Nine springs ago a man in a red cloak, with a bow, stood on the far bank of the river below Kell Ford from dusk to dark, and did not cross.".
   Observe board_scene at green when true "The notice-board at the trough carries a column of names in the reeve's hand, each with a year: the people of Kell Ford who went over the Fells and did not come back, forty-one of them. At the head of the column, in a hand a hundred years older: THE ROAD IS THE LEGION'S. IT LEADS SOMEWHERE. Nobody has ever amended it.".
   Entity lamp_known: fact "Kell Ford puts a lamp in the window facing the north road every spring, and nobody knows for whom.".
-  Topic maud_sending with maud "Ask Maud why the village keeps a lamp in the window" when true {
-    Says "'Every spring,' says Maud. 'A hundred and some years, since my grandmother's grandmother. The first week of spring, a lamp in the window facing the road. Nobody knows why. My mother said it was for the ones who went, and my grandmother said it was for something that might come. She was cross about it.' She trims the wick. 'I put it in because I always have.'".
+  Topic maud_sending with greta "Ask Greta why the village keeps a lamp in the window" when true {
+    Says "'Every spring,' says Greta. 'A hundred and some years, since my grandmother's grandmother. The first week of spring, a lamp in the window facing the road. Nobody knows why. My mother said it was for the ones who went, and my grandmother said it was for something that might come. She was cross about it.' She trims the wick. 'I put it in because I always have.'".
     On discuss { Assert knows(actor, lamp_known). }
   }
 }

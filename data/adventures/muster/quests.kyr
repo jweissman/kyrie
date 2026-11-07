@@ -78,11 +78,11 @@ Module muster "The Long Muster's Road" {
   Initially Assert exposed(spring).
   Passage spring_path "the goats' path to the spring" is path between track1 and spring taking 20 minutes.
   Observe spring_scene at spring when true "A shelf of turf under an overhang, with a spring coming out of the rock into a stone trough, and two lines of goat-droppings that stop on either side of a white-painted stone, never crossing. On one side is a lean-to with a blue door. On the other, a lean-to with a red. Both are shut, and both are watched.".
-  Person hartnoll "Old Joss Hartnoll" at spring {
+  Person hartnoll "Old Anselm Hartnoll" at spring {
     Role "a goatherd of the red door". Ancestry human. Pronouns he. Manner grim. Peaceable.
     Greets "An old man on a milking stool on the red side of the stone does not turn his head. 'Marra Tellis sent you,' he says, 'or you'd not have found it. She's wrong. My father had the trough, and his before him. The Tellises took the water by dividing the stones in the night.'".
   }
-  Topic corrin_ask with hartnoll "Ask Joss Hartnoll what the quarrel is about" when true once {
+  Topic corrin_ask with hartnoll "Ask Anselm Hartnoll what the quarrel is about" when true once {
     Says "'A trough,' says Hartnoll. 'Two goats a day's water out of eleven hundred years of rain. It is not the water, it's who is asked.' He looks at the white stone. 'Would you ask me, if you had the choice? Would you ask her?'".
   }
   Topic corrin_me with hartnoll "Say you would ask whoever has the better claim" answering corrin_ask when true {
@@ -104,7 +104,7 @@ Module muster "The Long Muster's Road" {
     Otherwise "The lip comes out crooked. The water runs to the red door, and the blue door opens, and the quarrel resumes with more matter.".
   }
   Action persuade_spring(actor: group, site: place) "Persuade the old man to ask Marra's mother for the water, as a courtesy, and her to give it" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, spring) and not springSettled(actor) and not springSnubbed(actor).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, spring) and not springSettled(actor) and not springSnubbed(actor) and not marraAngry(actor) and springMarra(actor).
     Time 2.
     Resolve check(actor, persuasion, dc_hard).
     On success { Assert springSettled(actor). Assert knows(actor, spring_pact). }
@@ -133,15 +133,15 @@ Module muster "The Long Muster's Road" {
   // 6. The wolf-widow.
   Kind wolf_pelt_kind "a grey wolf's pelt, tanned" is treasure worth 8 weighing 3 described "A pelt tanned on the inn's wall for thirty years, grey going white at the muzzle, with a notch in the left ear.".
   Item wolf_pelt "the wolf's pelt on the inn wall" is wolf_pelt_kind at taproom.
-  Topic maud_pelt with maud "Ask Maud about the wolf's pelt on the wall" when true once {
-    Says "'My husband's,' says Maud, 'from the year the sheep went. A big male, a notch in his ear, took twenty ewes and a boy's dog. They put the shot in him on the causeway and my husband skinned him the same night.' She wipes a glass that is clean. 'There was a she-wolf. She sat on the ridge three nights in the frost and cried. She's the one they follow now. I would give a good deal not to have heard it.'".
+  Topic maud_pelt with greta "Ask Greta about the wolf's pelt on the wall" when true once {
+    Says "'My husband's,' says Greta, 'from the year the sheep went. A big male, a notch in his ear, took twenty ewes and a boy's dog. They put the shot in him on the causeway and my husband skinned him the same night.' She wipes a glass that is clean. 'There was a she-wolf. She sat on the ridge three nights in the frost and cried. She's the one they follow now. I would give a good deal not to have heard it.'".
   }
-  Topic maud_widow with maud "Ask Maud whether the she-wolf has ever been paid" answering maud_pelt when true {
-    Says "Maud stops wiping. 'Paid,' she says, as if trying the word for weight. 'I never thought you could pay a wolf.' She takes the pelt off its hook, shakes it, and holds it out. 'Take it. If you can put it where she'll find it, put it. I have had it thirty years. I would like to be rid of what it says.'".
+  Topic maud_widow with greta "Ask Greta whether the she-wolf has ever been paid" answering maud_pelt when true {
+    Says "Greta stops wiping. 'Paid,' she says, as if trying the word for weight. 'I never thought you could pay a wolf.' She takes the pelt off its hook, shakes it, and holds it out. 'Take it. If you can put it where she'll find it, put it. I have had it thirty years. I would like to be rid of what it says.'".
     On discuss { Assert widowAnswered(party). }
   }
   Action lay_pelt(actor: group, site: place) "Lay the old male's pelt on the causeway for the widow, and walk on without looking back" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, causeway2) and holding(actor, wolf_pelt_kind) and not pelt_laid(actor).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, causeway2) and holding(actor, wolf_pelt_kind) and widowAnswered(actor) and not pelt_laid(actor).
     Time 0.
     Resolve check(actor, insight, dc_fair).
     On success { Spend wolf_pelt_kind from actor. Assert pelt_laid(actor). Assert tolerates(wolves, actor). Assert wolvesTolerated(actor). }

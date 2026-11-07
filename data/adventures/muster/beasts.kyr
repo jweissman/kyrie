@@ -3,7 +3,7 @@ Module muster "The Long Muster's Road" {
   // The goats know the sound stone; the kites know what will fall; the marmots know the giant's mood; the wolves know
   // the dark; the wyvern knows noon. A company that reads them can go where one that fights them cannot.
   Relation kitesRead(group). Relation wolvesTolerated(group). Relation paidDeserters(group).
-  Relation marcusMet(group). Relation marcusLetterShown(group).
+  Relation marcusMet(group).
 
   // ── Ridge-goats ─────────────────────────────────────────────────────────────────────────────────────────────────
   Person goat_steep "a ridge-goat" at track1 {
@@ -96,6 +96,8 @@ Module muster "The Long Muster's Road" {
   Relation wyvernOut(group).
   Rule wyvern_leaves when hour(clock) >= 11 and hour(clock) < 14 and not state(sky, wind_sky) and at(wyvern, eyrie) and not dead(wyvern) {
     Retract at(wyvern, eyrie). Assert wyvernOut(wyvern). }
+  Rule wyvern_thief when wyvernOut(wyvern) and at(party, eyrie) and holding(party, dragons_tooth) and not dead(wyvern)
+    says "A shadow takes the sun off the shelf. It has not gone far, and it knows to the grain what was in its bed." { Assert at(wyvern, eyrie). Retract wyvernOut(wyvern). Assert strikes(wyvern_stoop, party). }
   Rule wyvern_returns when hour(clock) >= 14 and wyvernOut(wyvern) and not dead(wyvern) {
     Assert at(wyvern, eyrie). Retract wyvernOut(wyvern). }
   Observe nest_empty at eyrie when wyvernOut(wyvern) "The nest is a bed of charred bracken on a shelf, empty. Whatever slept in it left an hour ago, and left the heat of it behind.".
@@ -119,7 +121,7 @@ Module muster "The Long Muster's Road" {
     State toll blocking "Three deserters of the Last Cohort stand across the head of the Descent, spears down. The road goes through them.".
     Guards descend_in.
   }
-  Person marcus "Marcus Merula" at pass_s {
+  Person marcus "Aurel Merula" at pass_s {
     Role "who leads the men who left the Sending". Ancestry human. Calling ranger. Level 4. Pronouns he. Manner grim. Peaceable.
     Greets "A lean man in a red cloak gone brown sits on a boulder with a bow across his back and does not come down. 'Pay,' he says. 'Or don't tell the Prefect. Which are you?'".
   }
@@ -132,16 +134,16 @@ Module muster "The Long Muster's Road" {
   Action show_marcus_letter(actor: group, site: place) "Hold up the pouch addressed to the Centurion Lucilla Merula" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, pass_s) and at(deserters, pass_s) and able(deserters) and holding(actor, marcus_letter_kind) and not tolerates(deserters, actor).
     Time 0.
-    On success { Assert tolerates(deserters, actor). Assert marcusLetterShown(actor). Assert marcusMet(actor). }
-    Result "Marcus Merula comes down off the boulder faster than he meant to. He looks at the superscription, in his own hand, nine years old. 'Where was that?' he says. 'The Eagle. I left it on the stack the spring I went over.' He takes it. 'They never touch another man's. It was a rule.' The spears go up.".
+    On success { Assert tolerates(deserters, actor). Assert marcusMet(actor). }
+    Result "Aurel Merula comes down off the boulder faster than he meant to. He looks at the superscription, in his own hand, nine years old. 'Where was that?' he says. 'The Eagle. I left it on the stack the spring I went over.' He takes it. 'They never touch another man's. It was a rule.' The spears go up.".
   }
-  Topic marcus_why with marcus "Ask Marcus why he left the Cohort" when marcusMet(party) or tolerates(deserters, party) {
-    Says "'The lot fell on me,' says Marcus. 'Twenty-six. I took the pouch to the Eagle and wrote my mother a letter and left it on the stack. Then I went over the parapet on a rope.' He rubs his jaw. 'There's a village. Thirty houses and a trough. A woman on a stone, goats. I stood in the willows till dark. Didn't call.' He looks at the road. 'I came back over. Couldn't go home and say. I came here.'".
+  Topic marcus_why with marcus "Ask Aurel why he left the Cohort" when marcusMet(party) or tolerates(deserters, party) {
+    Says "'The lot fell on me,' says Aurel. 'Twenty-six. I took the pouch to the Eagle and wrote my mother a letter and left it on the stack. Then I went over the parapet on a rope.' He rubs his jaw. 'There's a village. Thirty houses and a trough. A woman on a stone, goats. I stood in the willows till dark. Didn't call.' He looks at the road. 'I came back over. Couldn't go home and say. I came here.'".
     On discuss { Assert marcusMet(party). Assert knows(actor, marcus_known). }
   }
-  Entity marcus_known: fact "Marcus Merula, who deserted the Sending, crossed the Viaduct by its parapet and saw a village of thirty houses round a trough on the north bank. He has never been able to tell his mother, the Centurion.".
-  Topic marcus_mother with marcus "Ask Marcus what he would say to his mother" when marcusMet(party) once {
-    Says "'That the boots held,' says Marcus, and does not seem to know why he said it. He turns the pouch over. 'She'll be on the wall at the evening call. She won't ask. Don't tell her unless she asks.'".
+  Entity marcus_known: fact "Aurel Merula, who deserted the Sending, crossed the Viaduct by its parapet and saw a village of thirty houses round a trough on the north bank. He has never been able to tell his mother, the Centurion.".
+  Topic marcus_mother with marcus "Ask Aurel what he would say to his mother" when marcusMet(party) once {
+    Says "'That the boots held,' says Aurel, and does not seem to know why he said it. He turns the pouch over. 'She'll be on the wall at the evening call. She won't ask. Don't tell her unless she asks.'".
   }
   Kind marcus_letter_kind "a courier's pouch addressed to Lucilla Merula" is document teaching marcus_letter_read described "A leather pouch, sealed with a wheel, addressed in a young man's square hand: TO THE CENTURION LUCILLA MERULA, FIRST CENTURY, FROM HER SON M. It has waited at the Eagle for nine springs.".
   Discovery marcus_letter_read "The pouch is a son's letter to his mother, left on the Eagle's stack nine springs ago: he means to cross the fifth arch to see what is there, and if he lives he will be in the Pass.".
