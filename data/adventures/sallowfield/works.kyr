@@ -13,9 +13,9 @@ Module sallowfield "Three Nights at Sallowfield" {
 
   Action build_barricade(actor: group, site: place) "Wall the ford with the coach, the inn's tables and the hurdles" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, ford_stones) and not barricadeUp(actor) and posted(?v, ford_stones).
-    Time 24.
+    Time 36.
     On success { Assert barricadeUp(party). Assert coachGone(party). Increase defence(ford_stones) by 4. }
-    Result "It takes four hours, six people, and every hurdle in the meadow. When it is done the coach is a wall: the body on its side, the wheels roped across the gap, the inn's tables behind for a firing-step. Teasdale watches the last wheel go up and says nothing, in the manner of a man who will say something afterward.".
+    Result "It takes six hours, six people, and every hurdle in the meadow. When it is done the coach is a wall: the body on its side, the wheels roped across the gap, the inn's tables behind for a firing-step. Teasdale watches the last wheel go up.".
   }
   Thing bridge_span "the packhorse bridge" at bridge {
     State standing "The bridge crosses on its two arches, the cobbles worn into hollows by three centuries of mules.".
@@ -39,7 +39,7 @@ Module sallowfield "Three Nights at Sallowfield" {
   Rule meadow_floods when sluiceOpen(party) and state(meadow_way, dry) { Assert state(meadow_way, flooded). }
   Action dig_pits(actor: group, site: place) "Dig pits in the ford meadow and lay hurdles over them" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, ford_meadow) and holding(actor, shovel) and not pitsDug(party) and not sluiceOpen(party).
-    Time 24.
+    Time 36.
     On success { Assert pitsDug(party). Increase defence(ford_stones) by 2. Increase defence(mill_yard) by 2. }
     Result "You dig until your hands blister and then you dig on. The pits are a yard deep, a yard wide, laid out in a staggered line from the hedge to the ford, and the hurdles lie over them as naturally as a hurdle can. The villagers who watch say nothing. A horse would not see them either.".
   }
@@ -51,11 +51,11 @@ Module sallowfield "Three Nights at Sallowfield" {
   }
   Action drill_levy(actor: group, site: place) "Drill the levy on the green with staves" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, green) and not drilledTwo(party) and watch(clock) < 330.
-    Time 18.
+    Time 30.
     Resolve check(actor, intimidation, dc_fair).
     On success { Increase drillBonus(party) by 1. Assert drilledOne(party). }
     On failure { Assert drilledOne(party). }
-    Result "You make them walk in a line and then in two lines, and carry staves, and strike at a post and at each other. By the third hour there are forty people on the green who know which way to point. Hob Wadsworth is now very good at the part where you shout.".
+    Result "You make them walk in a line and then in two lines, and carry staves, and strike at a post and at each other. By the third hour there are forty of the sixty on the green who know which way to point. Hob Wadsworth is now very good at the part where you shout.".
     Otherwise "It is not a success. The line wanders, and a goose gets in it, and Hob Wadsworth makes a speech.".
   }
   Rule drilled_twice when drilledOne(party) and drillBonus(party) >= 2 and not drilledTwo(party) { Assert drilledTwo(party). }
@@ -77,8 +77,10 @@ Module sallowfield "Three Nights at Sallowfield" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, bell_loft) and not bellRung(party) and watch(clock) >= assaultAt(wyre).
     Time 0.
     On success { Assert bellRung(party). Increase defence(ford_stones) by 2. Increase defence(bridge) by 2. Increase defence(mill_yard) by 2. Increase defence(nave) by 2. }
-    Result "The bell goes out over the vale like a great hand laid on every roof. In every house a door opens. You can hear, under the last note, forty people finding their feet.".
+    Result "The bell goes out over the vale like a great hand laid on every roof. In every house a door opens. You can hear, under the last note, forty of them finding their feet.".
   }
+  Rule numbers_help when knowsNumbers(party) and not numMod(party) { Assert numMod(party). Increase defence(ford_stones) by 1. Increase defence(bridge) by 1. Increase defence(mill_yard) by 1. Increase defence(nave) by 1. }
+  Relation numMod(group).
   Action scout_the_road(actor: group, site: place) "Count the column from the Scar" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, lookout) and watch(clock) >= 120 and not knowsNumbers(party).
     Time 6.

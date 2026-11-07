@@ -15,7 +15,7 @@
     "a sod-cutting shovel: Take",
     "Ask Peg Kersey what the iron is for",
     "Make the spikes",
-    "Work Peg Kersey's bellows for four hours while she makes the spikes",
+    "Work Peg Kersey's bellows for six hours while she makes the spikes",
     "Out to Sallowfield green",
     "Into the chapel of Saint Eadred",
     "Ask Mistress Cragg why she is counting arrows in a church",
@@ -124,7 +124,7 @@
     "Into the Ploughshare",
     "Ask the boy what he was doing in the reeds",
     "Tell the boy he will be fed and sent home when it is over",
-    "Send the boy back to Wyre with a message you have thought about",
+    "Send the boy back to Wyre with the truth",
     "Out to Sallowfield green",
     "To the ford meadow",
     "To the ford stones",
@@ -153,6 +153,26 @@
     "Into Kersey's forge",
     "Ask Peg Kersey what the iron is for",
     "Mend the axle",
+    "Out to Sallowfield green",
+    "Into the Ploughshare",
+    "Ask Nan Ashworth to hold the ford stones",
     "Out to Sallowfield green"
+  ],
+  "sendTruth": [
+    "Send the boy back to Wyre with the truth"
+  ],
+  "hobToTheMill": [
+    "To the ford meadow",
+    "To Sallowfield green",
+    "Into the Ploughshare",
+    "Ask Hob Wadsworth to hold Quarmby's mill yard",
+    "Out to Sallowfield green",
+    "To Quarmby's mill yard"
+  ],
+  "walkOnLate": [
+    "To Greenhalgh's farm",
+    "To the south road",
+    "=day 3 09:00",
+    "Walk on south, and do not look back"
   ]
 }

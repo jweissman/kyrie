@@ -30,12 +30,19 @@ Module sallowfield "Three Nights at Sallowfield" {
     Result "It does not take long. He tells you all of it very fast, looking at your hands. When he is done he says 'Please' once and then nothing, and you have what you wanted and none of it is as good as it should be.".
     Otherwise "You frighten him, and he is no use to anyone. He says the same three words over and over.".
   }
-  Action send_lowes_back(actor: group, site: place) "Send the boy back to Wyre with a message you have thought about" {
+  Action send_lowes_back(actor: group, site: place) "Send the boy back to Wyre with the truth: what you have built, and what you have not" {
     Speaker lowes.
     Requires able(actor) and company(actor) and at(actor, site) and at(lowes, site) and heldScout(lowes) and lowesKind(party) and not lowesCarries(party).
     Time 0.
-    On success { Assert lowesCarries(party). Retract at(lowes, site). Assert parleyOpen(party). }
-    Result "He puts on his boots on the barrel, and the coat, and stands there with your word in his mouth like a coin. 'I'll say it,' he says. 'I'll say it the way you said it.' He goes out by the cellar door and up the lane at a walk, which is a courage, and then at a run.".
+    On success { Assert lowesCarries(party). Assert lowesTruth(party). Retract at(lowes, site). Assert parleyOpen(party). }
+    Result "He puts on his boots on the barrel, and the coat, and stands there with your word in his mouth like a coin. 'I'll say it,' he says. 'All of it. The way you said it.' He goes out by the cellar door and up the lane at a walk, which is a courage, and then at a run.".
+  }
+  Action send_lowes_lying(actor: group, site: place) "Send the boy back to Wyre with a lie: that the ford is where the village is weak" {
+    Speaker lowes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(lowes, site) and heldScout(lowes) and lowesKind(party) and not lowesCarries(party).
+    Time 0.
+    On success { Assert lowesCarries(party). Assert lowesLie(party). Retract at(lowes, site). Assert parleyOpen(party). }
+    Result "'The ford,' says Kit Lowes. 'Soft at the ford. Two old men and a coach.' He says it twice, and the second time it is better than yours. He looks at you as if he would like to be told it is all right. You tell him it is.".
   }
   Rule carries_spoiled when lowesCarries(party) and grainSpoiled(party) and not wyreKnowsSpoiled(party) { Assert wyreKnowsSpoiled(party). }
 
@@ -58,9 +65,9 @@ Module sallowfield "Three Nights at Sallowfield" {
     On discuss { Assert parleyAsked(actor). }
   }
   Relation parleyAsked(group).
-  Topic wyre_pay with wyre "The reeve's sixty, the plate and the grain" answering wyre_q when knows(actor, reeve_would_pay) and plateGiven(actor) {
-    Says "'Hm,' says Wyre. He looks at Voll, who looks at the sky. 'Sixty and the plate and the grain.' He puts the glove on. 'It is too little and I'll take it. You understand that is not a mercy. In the spring I will want something else, and you will find you have already paid.' He holds out his hand, and you take it, and it is dry and warm.".
-    On discuss { Assert pact(actor). Assert winterShort(actor). }
+  Topic wyre_pay with wyre "The reeve's sixty, the plate and the grain" answering wyre_q when knows(actor, reeve_would_pay) and plateGiven(actor) and quantity(actor, gold) >= 10 {
+    Says "'Hm,' says Wyre. He looks at Voll, who looks at the sky. 'Sixty and the plate and the grain.' He puts the glove on. 'It is too little and I'll take it.' He holds out his hand, and you take it, and it is dry and warm.".
+    On discuss { Decrease quantity(actor, gold) by 10. Assert pact(actor). Assert winterShort(actor). }
   }
   Topic wyre_refuse with wyre "Nothing. We will not pay" answering wyre_q when true {
     Says "'No,' says Wyre, without any heat at all. 'I thought not. It is what I would say.' He looks past you at the village, the long way, as at a thing he will have to carry. 'I will come tonight. I would like you to know I would sooner not.'".
@@ -85,7 +92,7 @@ Module sallowfield "Three Nights at Sallowfield" {
     Requires able(actor) and company(actor) and at(actor, site) and at(voll, site) and grainSpoiled(party) and not vollLooked(party).
     Time 0.
     On success { Assert vollLooked(party). Assert wyreKnowsSpoiled(party). }
-    Result "Voll goes through the granary door with his bad knee and comes out in the time it takes to say a paternoster. He says four words to the captain, and the captain closes his eyes. 'Salt,' says Voll. 'And lamp. The lot.'".
+    Result "Voll goes through the granary door with his bad knee and comes out in the time it takes to boil an egg. He says four words to the captain, and the captain closes his eyes. 'Salt,' says Voll. 'And lamp. The lot.'".
   }
   Action bribe_fothergill(actor: group, site: place) "Offer Lieutenant Fothergill ten coin and a way home" {
     Speaker fothergill.

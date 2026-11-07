@@ -44,8 +44,8 @@ describe("Three Nights at Sallowfield", () => {
 
   it('is held at a cost: every work, the scout, the stone refused, the ford held by the company, the picked men argued off', async () => {
     const j = await start();
-    await j.play(...steps.muster, ...steps.works, 'To Sallowfield green', ...steps.reeds, ...steps.parley, ...steps.refuse,
-      ...steps.hobToTheFord);
+    await j.play(...steps.muster, ...steps.works, 'To Sallowfield green', ...steps.reeds, ...steps.sendTruth, ...steps.parley, ...steps.refuse,
+      ...steps.hobToTheMill);
     await toDawn(j, argue);
     expect(held(j, 'heldScout', 'lowes')).toBe(true);
     expect(held(j, 'barricadeUp', 'party')).toBe(true);
@@ -59,16 +59,42 @@ describe("Three Nights at Sallowfield", () => {
 
   it('the same play, saved at the stone and brought back, ends the same way', async () => {
     const j = await start();
-    await j.play(...steps.muster, ...steps.works, 'To Sallowfield green', ...steps.reeds, ...steps.parley, ...steps.refuse);
+    await j.play(...steps.muster, ...steps.works, 'To Sallowfield green', ...steps.reeds, ...steps.sendTruth, ...steps.parley, ...steps.refuse);
     const again = Journey.of(PlaySession.resume(JSON.parse(JSON.stringify(j.session.checkpoint()))));
     again.roll('pass');
     expect(again.at('party')).toBe('sallowfield__ford_stones');
     expect(held(again, 'bridgeCut', 'party')).toBe(true);
     expect(held(again, 'heldScout', 'lowes')).toBe(true);
-    await again.play(...steps.hobToTheFord);
+    await again.play(...steps.hobToTheMill);
     await toDawn(again, argue);
     expect(ending(again)).toBe('Held, at a Cost');
   }, 300000);
+
+  // What Wyre does depends on what the boy saw, or was told to say; and he saw what stood when he left, no later.
+  describe('the captain reads the works', () => {
+    const thrust = (j: Journey) => ['ford_stones', 'bridge', 'mill_yard'].map(p => j.measure('thrust', p));
+    const built = ['To the ford meadow', 'To Sallowfield green', 'To the packhorse bridge', 'Prise out the keystone of the near arch', 'To Sallowfield green'];
+    const toReeds = ['To the ford meadow', 'To the reed marsh', '=day 2 17:40'];
+    const held = ['Take the boy in the reeds before he sees you', 'To the ford meadow', 'To Sallowfield green', 'Into the Ploughshare',
+      'Ask the boy what he was doing in the reeds', 'Tell the boy he will be fed and sent home when it is over'];
+    const run = async (before: string[], after: string[]) => {
+      const j = await start();
+      await j.play(...steps.muster, ...steps.toTheFord, ...before, ...after, '=day 3 08:00');
+      return j;
+    };
+    it('leans on the mill when the boy sees the wall and the cut and goes loose', async () => {
+      const j = await run([...steps.wall, ...built, ...toReeds], ['=day 2 19:00']);
+      expect(thrust(j)).toEqual([6, 2, 12]);
+    }, 300000);
+    it('leans on the ford when the boy is held and sent back with a lie', async () => {
+      const j = await run([...steps.wall, ...built, ...toReeds], [...held, 'Send the boy back to Wyre with a lie']);
+      expect(thrust(j)).toEqual([14, 2, 0]);
+    }, 300000);
+    it('does not know what is built after the boy has gone', async () => {
+      const j = await run(toReeds, ['=day 2 19:00', 'To the ford meadow', 'To the ford stones', ...steps.wall, ...built]);
+      expect(thrust(j)).toEqual([12, 7, 3]);
+    }, 300000);
+  });
 
   it('is half saved when the ford is walled, the helpless sent up the fold, and the grain given', async () => {
     const j = await start();
@@ -116,7 +142,6 @@ describe("Three Nights at Sallowfield", () => {
   it('turns the lieutenant on his captain', async () => {
     const j = await start();
     await j.play(...steps.muster, ...steps.toTheFord, '=day 1 22:00', ...steps.reeds);
-    j.coin(20);
     await j.play(...steps.buyTheLieutenant);
     await toDawn(j);
     expect(held(j, 'fothergillTurned', 'party')).toBe(true);
@@ -131,7 +156,7 @@ describe("Three Nights at Sallowfield", () => {
 
   it('takes the coach on when the smith mends the axle instead', async () => {
     const j = await start();
-    await j.play(...steps.mendTheAxle, ...steps.walkOn);
+    await j.play(...steps.mendTheAxle, ...steps.walkOnLate);
     expect(held(j, 'coachMended', 'party')).toBe(true);
     expect(ending(j)).toBe('The Coach Goes On');
   }, 120000);

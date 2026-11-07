@@ -25,7 +25,7 @@ Module sallowfield "Three Nights at Sallowfield" {
   Person riders "two of Wyre's riders" nowhere {
     Role "a pair of troopers on lathered horses, in the Margrave's old green". Ancestry human. Calling warrior. Level 2. Numbers 2. Temperament wary. Refuge east_road.
     Arrives at ford_stones when watch(clock) >= 80.
-    Arrives "Two horsemen come down to the east bank in the last of the light and walk their horses into the river as if it were their own. They stop at the middle stone. One of them has a pencil.".
+    Arrives "Two horsemen come down to the east bank in the last of the light and walk their horses into the river as if it were their own. They stop at the middle stone. One of them has a slate.".
     Warns "The nearer trooper puts a hand on his hilt, without drawing. 'Evening,' he says. 'Nice night to be about.' Behind him the other has already turned his horse.".
     Flinches "The troopers wheel and are across the ford and gone up the east road at a canter, one of them swearing.".
   }
@@ -51,14 +51,14 @@ Module sallowfield "Three Nights at Sallowfield" {
   // anyone is about: a man posted at the ford or the bridge, a fire, a lantern. An empty ford means an easy town.
   Query watchedFord() means (posted(?v, ford_stones) and able(?v)) or (posted(?v, bridge) and able(?v)) or at(party, ford_stones) or at(party, bridge) or at(party, ford_meadow).
   Rule riders_look at ford_stones when at(riders, ford_stones) and watch(clock) >= 92 and not riders_gone(party) and watchedFord()
-    says "The troopers sit their horses at the middle stone for the length of a long breath. Someone on the bank has been seen. The man with the pencil writes a line and puts the pencil away." {
+    says "The troopers sit their horses at the middle stone for the length of a long breath. Someone on the bank has been seen. The man with the slate writes a line and wipes his thumb." {
     Assert riders_gone(party). Assert sawWatch(party). Retract at(riders, ford_stones). }
   Rule riders_look_empty at ford_stones when at(riders, ford_stones) and watch(clock) >= 92 and not riders_gone(party) and not watchedFord()
-    says "The troopers ride up the ford meadow as far as the hurdle, and sit there, and nothing at all happens. A dog barks, once, a long way off. The man with the pencil draws something on his knee, and they turn their horses, unhurried." {
+    says "The troopers ride up the ford meadow as far as the hurdle, and sit there, and nothing at all happens. A dog barks, once, a long way off. The man with the slate draws something on his knee, and they turn their horses, unhurried." {
     Assert riders_gone(party). Assert wyreEarly(party). Set assaultAt(wyre) to 222. Retract at(riders, ford_stones). }
   Rule riders_absent when at(riders, ford_stones) and not at(party, ford_stones) and watch(clock) >= 92 and not riders_gone(party) and not watchedFord() { Assert wyreEarly(party). }
   Observe riders_note near stansfield when wyreEarly(party) "The reeve has stopped writing. 'They looked,' he says. 'Nobody was there to be looked at.'".
-  Observe riders_mark near stansfield when sawWatch(party) and not wyreEarly(party) "The reeve is oddly calm. 'They saw us,' he says. 'I find I would sooner be seen.'".
+  Observe riders_mark near stansfield when sawWatch(party) and not wyreEarly(party) "'Good,' says the reeve, and sits.".
 
   // ── Night two: a scout, a raid ────────────────────────────────────────────────────────────────────────────────
   // Kit Lowes comes through the reeds for a last look at the works. He can be caught in them (the reed track or the
@@ -66,12 +66,18 @@ Module sallowfield "Three Nights at Sallowfield" {
   Rule lowes_comes when watch(clock) >= 200 and not lowesCame(party) {
     Assert lowesCame(party). Assert at(lowes, reed_marsh). }
   Rule lowes_sees when lowesCame(party) and at(lowes, reed_marsh) and watch(clock) >= 214 and not heldScout(lowes) {
-    Retract at(lowes, reed_marsh). Assert lowesGone(party). }
-  Relation lowesGone(group). Relation heldScout(group).
-  Rule lowes_saw_barricade when lowesGone(party) and barricadeUp(party) and not sawBarricade(party) { Assert sawBarricade(party). }
-  Rule lowes_saw_cut when lowesGone(party) and bridgeCut(party) and not sawCut(party) { Assert sawCut(party). }
-  Rule lowes_saw_flood when lowesGone(party) and sluiceOpen(party) and not sawFlood(party) { Assert sawFlood(party). }
-  Rule lowes_saw_tower when lowesGone(party) and posted(?v, nave) and able(?v) and not sawTower(party) { Assert sawTower(party). }
+    Retract at(lowes, reed_marsh). Assert lowesGone(party). Assert lowesTruth(party). }
+  Relation lowesGone(group). Relation heldScout(group). Relation lowesTruth(group). Relation lowesStamp(group). Relation lowesTold(group). Relation lowesLie(group). Relation lieMod(group).
+  // What the boy saw is what stood when he left (or when he was sent): the works are read once, at the stamp, and not after.
+  Rule lowes_saw_barricade when lowesTruth(party) and not lowesTold(party) and barricadeUp(party) and not sawBarricade(party) { Assert sawBarricade(party). }
+  Rule lowes_saw_cut when lowesTruth(party) and not lowesTold(party) and bridgeCut(party) and not sawCut(party) { Assert sawCut(party). }
+  Rule lowes_saw_flood when lowesTruth(party) and not lowesTold(party) and sluiceOpen(party) and not sawFlood(party) { Assert sawFlood(party). }
+  Rule lowes_saw_tower when lowesTruth(party) and not lowesTold(party) and posted(?v, nave) and able(?v) and not sawTower(party) { Assert sawTower(party). }
+  Rule lowes_stamp when lowesTruth(party) and not lowesStamp(party) { Assert lowesStamp(party). }
+  Rule lowes_told when lowesStamp(party) and not lowesTold(party) { Assert lowesTold(party). }
+  // A lie told him to carry: that the ford is the soft place. Wyre believes it, and leans on the ford.
+  Rule lowes_lie when planned(party) and lowesLie(party) and not lieMod(party) {
+    Assert lieMod(party). Increase thrust(ford_stones) by 4. Decrease thrust(bridge) by 3 or to nothing. Decrease thrust(mill_yard) by 3 or to nothing. }
   Observe lowes_in_reeds at reed_marsh when lowesCame(party) and not lowesGone(party) and not heldScout(lowes) "A boy is picking his way along the reed causeway in the dark with his boots round his neck, counting under his breath. He has not seen you.".
   Action seize_scout(actor: group, site: place) "Take the boy in the reeds before he sees you" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, reed_marsh) and at(lowes, reed_marsh) and not heldScout(lowes).
@@ -87,7 +93,7 @@ Module sallowfield "Three Nights at Sallowfield" {
   Relation farmRaided(group). Relation greenhalghSaved(group).
   Rule farm_burns when farmRaided(party) and not farmDefended(party) and not greenhalghSaved(party) { Assert farmBurned(party). }
   Relation farmDefended(group). Relation farmBurned(group).
-  Rule greenhalgh_hurt when farmBurned(party) and not farmDefended(party) and not evacuatedFarm(party) and not greenhalghDead(party) { Slay greenhalgh. Assert greenhalghDead(party). }
+  Rule greenhalgh_hurt when farmBurned(party) and not farmDefended(party) and not evacuatedFarm(party) and not greenhalghDead(party) { Slay greenhalgh. Assert felled(greenhalgh). Assert greenhalghDead(party). }
   Relation greenhalghDead(group). Relation evacuatedFarm(group).
   Observe farm_gone at lower_farm when farmBurned(party) "The long house is a roofless black shape and the barn is gone to its walls. The yard is empty of cattle. The dog sits where it sat and does not bark.".
 

@@ -38,3 +38,11 @@
 
 24. **The sum of a prepared company is lethal to a level-one party in one round.** Three level-3 veterans killed all six of the company in a single hit each. That is the point (a genuinely dangerous fight with non-combat alternatives: argue, yield the grain, warn, let by), but it means *What the Steel Said* is the default outcome of `Attack`, and the spec for it is two lines.
 25. **Hard-to-balance numbers are cheaper to balance by ending than by arithmetic.** The thrust, defence and bonus numbers were set by hand, probed with a score of explorer runs, and tuned (dice /10 → /20, bridge cut +6 → +10, flood +3 → +4) until: unprepared → *Ash*, walled and evacuated → *Half Saved*, fully prepared and the company at the right post → *Held, at a Cost*. A table of the numbers by route belongs in the treatment; I have not written it.
+
+## Found by the hostile review
+
+27. **A latch rule and the rules it guards run in definition order, in one tick.** `lowes_stamp` → `lowes_told` fired before the three "he saw the wall" rules defined after them, so the snapshot was blank until the guarded rules were written first. Nothing says rule order matters; it does. *Could:* simultaneous evaluation per tick, or a documented order.
+28. **A hired companion is a party member: `dead(x)` and `able(x)` are true/false of them from the hour they join.** The dawn fates told a player that the woman beside them had died in the nave. Every "did this person die" test needs its own relation (`felled`), asserted beside each `Slay`; the engine gives no way to ask "was this person killed by the story".
+29. **Endings that fire at the moment of dawn hide the dawn.** The epilogue closes the book before the fate Observes can be read; the endings wait an hour (`morning`) so the fates are told. *Could:* an ending that lists the scene's Observes first.
+30. **An "answer" action cannot take a parameter chosen by the player**, so "what the boy carries" is two actions (truth, lie) rather than a free message; each new content option is a new action and a new fixture label.
+31. **A topic can charge the purse** (`Decrease quantity(actor, gold)` in `On discuss`), which I had not tried; the peace now costs ten coin. Worth saying in the guide.

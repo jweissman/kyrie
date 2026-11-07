@@ -58,7 +58,7 @@ Wyre is never on the map. He is what the party's works *look like* from the east
 
 - Night one, his riders look at the ford. If someone is there to be looked at (a posted villager, the company), they report a watch and he comes on day 3. If no one is, he comes **a day early**, on the second night, with less time for everything.
 - What the riders see (a barricade, a cut, a flood, a man in the tower) becomes **thrust** at each post: a barricade draws him to the bridge, a cut to the ford, both to the mill. The flood he does not see; the pits he does not see; the grain he sees only if the boy tells him.
-- The boy in the reeds on night two is Lowes. If the party takes him, they have the plan. If they send him back with a message, he carries it, and **what the message was** changes what Wyre does.
+- The boy in the reeds on night two is Lowes. If he walks out of the reeds loose, Wyre knows what stood **at that moment** (a wall built after is not known to him). If the party takes him they choose what he carries: the truth (Wyre knows the same), a lie (that the ford is the soft place: Wyre leans on the ford, and the mill and bridge are left alone), or nothing (he stays in the cellar and Wyre plans blind). Measured: wall + cut, boy loose → thrust ford 6, bridge 2, mill 12; boy sent back with a lie → ford 14, bridge 2, mill 0; boy never reports → the base plan 12/7/3.
 - At noon on the third day he comes to the standing stone and says what he wants. The party can pay him (the reeve's sixty, Mowbray's plate, the grain), refuse, lie, or bribe Fothergill.
 - The lieutenant wants the village burned, and wants Wyre's job. That is the weakness.
 
@@ -86,7 +86,7 @@ The player chooses *where the company stands* and *whom to post where*; the engi
 
 ## Endings
 
-Ten, of which nine are specced:
+Eleven, of which nine are specced by played journeys (the table gives all eleven):
 
 | Title | How |
 |---|---|
@@ -99,12 +99,12 @@ Ten, of which nine are specced:
 | **The Captain's Own** | Fothergill is bought and turns on his captain. |
 | **The Road South** | The party walks on at once. |
 | **The Coach Goes On** | The smith mends the axle instead of the spikes. |
-| *Nobody Left* | Everybody else is dead and the company is alive. (Unspecced: see 2.) |
-| *What Was Left* | The fall-through. (Not reached by any spec.) |
+| *Nobody Left* | Everybody else is dead and the company is alive. (Unspecced; reachable in principle.) |
+| *What Was Left* | The fall-through: the village stands unburned but not held. (Reachable, e.g. by a bucket line and two lost posts; not specced.) |
 
 ## Tested
 
-`test/sallowfield.test.ts` (12 specs): lints clean; opens at the start; **nine endings played from the true start by labels, with no teleports** (checks are forced to pass where a scene would otherwise be a coin; the dice of the clash are not forced); a save and a reload at the standing stone, continued to *Held, at a Cost*. `test/adventure-names`, the adventure library, the province, the provinces and the countries specs pass with it.
+`test/sallowfield.test.ts` (15 specs, three of them measuring Wyre's thrust by what the boy saw): lints clean; opens at the start; **nine endings played from the true start by labels, with no teleports** (checks are forced to pass where a scene would otherwise be a coin; the dice of the clash are not forced); a save and a reload at the standing stone, continued to *Held, at a Cost*. `test/adventure-names`, the adventure library, the province, the provinces and the countries specs pass with it.
 
 The route to *Held, at a Cost* is about 90 labels.
 
@@ -139,3 +139,9 @@ The route to *Held, at a Cost* is about 90 labels.
 - The country marker is `wyre`, who is not on the map until the parley; the skyline line describes the vale, not the captain.
 - `Pursuit` is not used; Wyre's riders and raiders are `Arrives` persons. The pursuit that would hunt the party through the vale is unbuilt.
 - Companions have three beats each but no authored *leave* scene.
+
+## After the hostile review
+
+Fixed: the boy's report is a snapshot at his departure or at the sending, and a held boy carries what the player says (truth or lie); a separate `felled` relation records the dead (recruited companions are party members and read as `dead`, which had told the player at dawn that Ellen Cragg was dead beside them); companions with the company can fall at an overrun post; fates are told near the party, not only on the green, and the endings now wait an hour after dawn so they are read; the night reports are gated on who is actually posted; a purse of ten coin leaves with the bought peace; the axle is two days, so walking on at hour three is the road south, not the coach; the big works take longer (wall, pits, caltrops six hours, the drill five); the scout on the Scar gives +1 at every post; the silenced bell costs a point of drill; wording and numbers cleaned.
+
+Not fixed, and said plainly: the battle is still one inequality per post and the player acts once, not during, the night (no decisions at +6 and +12); not every work is excluded by another, so a patient player still fits most of them; passive waits (`Until first light`) still walk past the picked men's warning (engine, friction 8); the riders and the Scar riders are `Arrives` persons that the party sees only if standing at the ford, and no `Pursuit` is used; yielding the grain and arguing the picked men off end alike; Wyre is on the page twice; voices of the stoics are still close; `helplessLost`, `grainTaken`, `farmDefended`, `bluffed` and `plateKept` have thin or no readers.

@@ -28,7 +28,7 @@ Module sallowfield "Three Nights at Sallowfield" {
   Rule pinn_does_it when pinnRoof(party) and travelsWith(pinn, party) and watch(clock) >= assaultAt(wyre) + 6 and not pinnBrave(party) {
     Assert pinnBrave(party). Increase defence(nave) by 3. Increase defence(bridge) by 2. }
   Rule pinn_runs_out when pinnRisk(party) and not pinnRoof(party) and travelsWith(pinn, party) and watch(clock) >= assaultAt(wyre) + 12 and not pinnHome(party) and dice(pinn) <= 60 {
-    Assert pinnHome(party). Slay pinn. }
+    Assert pinnHome(party). Slay pinn. Assert felled(pinn). }
   Rule pinn_lucky when pinnRisk(party) and not pinnRoof(party) and travelsWith(pinn, party) and watch(clock) >= assaultAt(wyre) + 12 and not pinnHome(party) and dice(pinn) > 60 {
     Assert pinnHome(party). Assert pinnBrave(party). }
 
@@ -92,10 +92,10 @@ Module sallowfield "Three Nights at Sallowfield" {
     On discuss { Assert plateKept(actor). }
   }
   Action mowbray_raises(actor: group, site: place, v: group) "Ask Father Mowbray to say the rite over {v}, who fell" {
-    Requires company(actor) and at(actor, site) and travelsWith(mowbray, actor) and mowbrayPeace(actor) and not mowbrayRaised(actor) and dead(v) and villager(v) and watch(clock) >= assaultAt(wyre) + 12 and watch(clock) < assaultAt(wyre) + 42.
+    Requires company(actor) and at(actor, site) and travelsWith(mowbray, actor) and mowbrayPeace(actor) and not mowbrayRaised(actor) and felled(v) and villager(v) and watch(clock) >= assaultAt(wyre) + 12 and watch(clock) < assaultAt(wyre) + 42.
     Time 2.
     Resolve check(actor, rites, dc_hard).
-    On success { Restore v. Assert mowbrayRaised(actor). }
+    On success { Restore v. Retract felled(v). Assert mowbrayRaised(actor). }
     On failure { Assert mowbrayRaised(actor). }
     Result "Mowbray kneels in the blood, swearing steadily, and puts both hands on the body. The words are not elegant. They are, you slowly understand, in the vulgar tongue, and they are an argument. At the end of it {v} coughs.".
     Otherwise "He says the rite to the end. Then he says it again, with the swearing left out, which is worse. {v} does not stir.".
@@ -106,7 +106,7 @@ Module sallowfield "Three Nights at Sallowfield" {
     Says "'Forty years,' says Quarmby. 'My father's, and his. I know what you want it for.' He nods at the race. 'The gate. You would drown the meadow, and the meadow is Greenhalgh's winter hay, and there is a man called Greenhalgh who would burn the mill for it. Would you drown your own hay, if you were me?'".
   }
   Topic quarmby_yes with quarmby "If it saves the mill, yes" answering quarmby_mill when true {
-    Says "'Aye,' says Quarmby. 'That's my own thought, and I hate it.' He takes a key off a nail. 'It's the pin at the head. You'll want a bar.'".
+    Says "'Yes,' says Quarmby. 'That's my own thought, and I hate it.' He takes a key off a nail. 'It's the pin at the head. You'll want a bar.'".
     On discuss { Assert quarmbyAgrees(actor). }
   }
   Topic quarmby_no with quarmby "No. We will find another way" answering quarmby_mill when true {
@@ -149,10 +149,10 @@ Module sallowfield "Three Nights at Sallowfield" {
     Says "'Right,' says Kersey. She files the strap flat. 'Two days.' She does not look at you. 'I did not think you would stay, and I did not think you should.'".
     On discuss { Assert coachMended(actor). }
   }
-  Action work_the_forge(actor: group, site: place) "Work Peg Kersey's bellows for four hours while she makes the spikes" {
+  Action work_the_forge(actor: group, site: place) "Work Peg Kersey's bellows for six hours while she makes the spikes" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, forge) and ironForSpikes(actor) and not caltrops(party).
-    Time 24.
+    Time 36.
     On success { Assert caltrops(party). Increase defence(ford_stones) by 3. Increase defence(bridge) by 1. }
-    Result "Four hours of it. The bellows is a lung as big as a boy and it takes all of you in turn. By dusk the floor of the forge is a field of black points, and Peg Kersey is sweeping them into sacks with her hands, and not a drop of blood on her.".
+    Result "Six hours of it. The bellows is a lung as big as a boy and it takes all of you in turn. By dusk the floor of the forge is a field of black points, and Peg Kersey is sweeping them into sacks with her hands, and not a drop of blood on her.".
   }
 }

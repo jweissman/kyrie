@@ -5,6 +5,10 @@ Module sallowfield "Three Nights at Sallowfield" {
   // at each post, decided by what stands there (works, the posted, the drill, the company if it is present) against
   // what Wyre sent; the third is fire and the inward push; the fourth is his picked men, who come for the company.
   // A post that is overrun costs its people, by name.
+  Relation felled(group). Relation morning(group).
+  Rule bell_silent_costs when bellSilenced(party) and not bellMod(party) { Assert bellMod(party). Decrease drillBonus(party) by 1 or to nothing. }
+  Relation bellMod(group).
+  Rule morning_comes when watch(clock) >= assaultAt(wyre) + 54 and not morning(party) { Assert morning(party). }
   Relation stands(place). Relation overrun(place). Relation clashed(place). Relation counted(place).
   Relation casualtyDone(group). Relation p1done(group). Relation p3done(group). Relation p4done(group). Relation dawned(group).
   Relation greenBurns(group). Relation greenSaved(group). Relation helplessLost(group). Relation grainTaken(group). Relation bellSilenced(group).
@@ -41,10 +45,12 @@ Module sallowfield "Three Nights at Sallowfield" {
   Rule clash_nave when battleOn() and p1done(party) and watch(clock) >= assaultAt(wyre) + 6 and not clashed(nave) and not at(party, nave) and not at(party, bell_loft) and not at(party, tower_roof) and defence(nave) + 2 * count(posted(?v, nave) and able(?v)) + drillBonus(party) + 4 >= thrust(nave) + dice(nave) / 20 { Assert clashed(nave). Assert stands(nave). }
   Rule clash_nave_lost when battleOn() and p1done(party) and watch(clock) >= assaultAt(wyre) + 6 and not clashed(nave) and not at(party, nave) and not at(party, bell_loft) and not at(party, tower_roof) and defence(nave) + 2 * count(posted(?v, nave) and able(?v)) + drillBonus(party) + 4 < thrust(nave) + dice(nave) / 20 { Assert clashed(nave). Assert overrun(nave). }
 
+  Rule cas_company_lost when overrun(?p) and at(party, ?p) and travelsWith(?v, party) and able(?v) and not casualtyDone(?v) and dice(?v) <= 35 { Slay ?v. Assert felled(?v). Assert casualtyDone(?v). }
+  Rule cas_company_lost_spared when overrun(?p) and at(party, ?p) and travelsWith(?v, party) and able(?v) and not casualtyDone(?v) and dice(?v) > 35 { Assert casualtyDone(?v). }
   Rule count_overrun when overrun(?p) and not counted(?p) { Increase overrunCount(party) by 1. Assert counted(?p). }
-  Rule cas_lost when overrun(?p) and posted(?v, ?p) and able(?v) and not casualtyDone(?v) and dice(?v) <= 55 { Slay ?v. Assert casualtyDone(?v). }
+  Rule cas_lost when overrun(?p) and posted(?v, ?p) and able(?v) and not casualtyDone(?v) and dice(?v) <= 55 { Slay ?v. Assert felled(?v). Assert casualtyDone(?v). }
   Rule cas_lost_spared when overrun(?p) and posted(?v, ?p) and able(?v) and not casualtyDone(?v) and dice(?v) > 55 { Assert casualtyDone(?v). }
-  Rule cas_held when stands(?p) and posted(?v, ?p) and able(?v) and not casualtyDone(?v) and dice(?v) <= 15 { Slay ?v. Assert casualtyDone(?v). }
+  Rule cas_held when stands(?p) and posted(?v, ?p) and able(?v) and not casualtyDone(?v) and dice(?v) <= 15 { Slay ?v. Assert felled(?v). Assert casualtyDone(?v). }
   Rule cas_held_spared when stands(?p) and posted(?v, ?p) and able(?v) and not casualtyDone(?v) and dice(?v) > 15 { Assert casualtyDone(?v). }
 
   // Third movement: fire, and the push inward.
@@ -84,11 +90,14 @@ Module sallowfield "Three Nights at Sallowfield" {
   Relation parleyTried(group).
 
   // What the night looks like from wherever you are standing. Each report lives for the hours after its clash.
-  Observe night_ford_holds near party when stands(ford_stones) and watch(clock) < assaultAt(wyre) + 24 "From the ford, a long way off, the noise of the first rush stops, and starts, and stops. The coach has held.".
+  Observe night_ford_holds near party when stands(ford_stones) and barricadeUp(party) and watch(clock) < assaultAt(wyre) + 24 "From the ford, a long way off, the noise of the first rush stops, and starts, and stops. The coach has held.".
+  Observe night_ford_holds_bare near party when stands(ford_stones) and not barricadeUp(party) and watch(clock) < assaultAt(wyre) + 24 "From the ford, a long way off, the noise of the first rush stops, and starts, and stops. Nobody comes up the meadow.".
   Observe night_ford_falls near party when overrun(ford_stones) and watch(clock) < assaultAt(wyre) + 24 "The ford has gone. You know by the sound: the noise of the wall coming apart, and then the noise of men who no longer have to climb.".
-  Observe night_bridge_holds near party when stands(bridge) and watch(clock) < assaultAt(wyre) + 24 "Nothing comes over the packhorse bridge. A single voice shouts 'Again!' and it is Hob Wadsworth's.".
+  Observe night_bridge_holds near party when stands(bridge) and posted(wadsworth, bridge) and watch(clock) < assaultAt(wyre) + 24 "Nothing comes over the packhorse bridge. A single voice shouts 'Again!' and it is Hob Wadsworth's.".
+  Observe night_bridge_holds_plain near party when stands(bridge) and not posted(wadsworth, bridge) and watch(clock) < assaultAt(wyre) + 24 "Nothing comes over the packhorse bridge.".
   Observe night_bridge_falls near party when overrun(bridge) and watch(clock) < assaultAt(wyre) + 24 "The bridge has gone, and its people with it, and the road into the village is a lit road now.".
-  Observe night_mill_holds near party when stands(mill_yard) and watch(clock) < assaultAt(wyre) + 24 "The mill wheel is still turning. Somebody has put out a lantern in the yard and the dark is full of thrown meal.".
+  Observe night_mill_holds near party when stands(mill_yard) and posted(quarmby, mill_yard) and watch(clock) < assaultAt(wyre) + 24 "The mill wheel is still turning. Somebody has put out a lantern in the yard and the dark is full of thrown meal.".
+  Observe night_mill_holds_plain near party when stands(mill_yard) and not posted(quarmby, mill_yard) and watch(clock) < assaultAt(wyre) + 24 "The mill wheel is still turning.".
   Observe night_mill_falls near party when overrun(mill_yard) and watch(clock) < assaultAt(wyre) + 24 "The mill has stopped. You did not know how loud it was until it stopped.".
   Observe night_nave_holds near party when stands(nave) and watch(clock) < assaultAt(wyre) + 24 "The chapel door is shut, and has been hit, and is shut.".
   Observe night_nave_falls near party when overrun(nave) and watch(clock) < assaultAt(wyre) + 24 "Someone is in the chapel. The bell, which was ringing, has stopped in the middle of a stroke.".
