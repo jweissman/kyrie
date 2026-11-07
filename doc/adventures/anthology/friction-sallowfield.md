@@ -41,6 +41,7 @@
 
 ## Found by the hostile review
 
+26. **A Thing's state can close a way.** Drawing the flood-gate floods the ford meadow, and the passage from the ford stones to the meadow goes with it; the route back to the village is then by the mill race. Found in the explorer by the choice that stopped being offered; not obvious from the module's text.
 27. **A latch rule and the rules it guards run in definition order, in one tick.** `lowes_stamp` → `lowes_told` fired before the three "he saw the wall" rules defined after them, so the snapshot was blank until the guarded rules were written first. Nothing says rule order matters; it does. *Could:* simultaneous evaluation per tick, or a documented order.
 28. **A hired companion is a party member: `dead(x)` and `able(x)` are true/false of them from the hour they join.** The dawn fates told a player that the woman beside them had died in the nave. Every "did this person die" test needs its own relation (`felled`), asserted beside each `Slay`; the engine gives no way to ask "was this person killed by the story".
 29. **Endings that fire at the moment of dawn hide the dawn.** The epilogue closes the book before the fate Observes can be read; the endings wait an hour (`morning`) so the fates are told. *Could:* an ending that lists the scene's Observes first.
@@ -54,4 +55,7 @@
 37. **Group moves and Journey.** After a patrol moves a group, the group's `at` reads `undefined` (friction 33), and `count(... and not travelsWith(?v, party))` is how a module asks "villagers who are not with the company".
 38. **A topic cannot move another person to a place a rule will read, except by `Assert at`.** Walking Voll to the granary is `Assert at(voll, granary)` in a topic's `On discuss`; there is no escort that goes at the party's pace.
 39. **Rule order is a design tool.** The snapshot only worked because the guarded rules were written before the latch; the same trick (a rule placed before another) was needed for the dawn guesses. It deserves a sentence in the guide.
-40. **Unfixed from this review.** One free `Ask X to hold the ford` still satisfies the first-night watch; the nerve-0 reeve and clerk make Nobody Left near-unreachable; the company's hour is still only five actions.
+40. **Unfixed.** The company's hour is still only five actions; the first-night watch is one posted villager at the ford or bridge (now an hour's cost); *The Road South, by Firelight* is unspecced.
+41. **Weary is the engine's and a module can read it.** `weary(party)` is asserted by `data/rules/needs.kyr` after 108 watches awake; a module may read it and charge for it, and the sleep that clears it is the camp the company already has. (It was there all along and I had not looked.)
+42. **A post that can be re-asked changes a person's post.** `post_villager` is exclusive, so asking Hob to hold the ford after the rally put him at the bridge moves him; the Nobody Left spec needed that.
+43. **Numbering.** This file skipped 26 in an earlier revision; the items now run 1-43 without a gap.
