@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Glyphs } from '../creation/glyphs';
 import type { Screen } from '../../../src/ui/screen-types';
 import type { Choice } from '../../../src/ui/choice-list';
@@ -34,12 +33,11 @@ export class WorldStage {
   static View({ app }: { app: ReaderApp }) {
     const frame = app.state.frame!, screen = frame.screen, draw = Act.draw(app), up = Raised.up(app);
     const here = screen.place.id;
-    // What is chosen on the map, and whether the company has gone into the hex it stands in: both belong to this place.
-    const [chosen, choose] = useState<{ at: string; id?: string }>({ at: here });
-    const pick = (id?: string) => choose({ at: here, id });
+    // What is chosen on the map belongs to this place (see ReaderApp.charted).
+    const charted = app.state.charted, pick = (id?: string) => { app.setState({ charted: { at: here, id } }); };
     // Whether the map is up is the app's (see ReaderApp.outdoors): play begins on it, open country raises it, entering
     // or doing anything where the company is puts it away.
-    const overworld = !!app.state.outdoors && !!screen.region?.land, focus = chosen.at === here ? chosen.id : undefined;
+    const overworld = !!app.state.outdoors && !!screen.region?.land, focus = charted?.at === here ? charted.id : undefined;
     // A journey stopped here (a toll, a band on the road, a cart gone off it), and whether what stopped it means harm:
     // the map marks where, and says so (the owner, 4 November, night).
     const stopped = frame.travel && !frame.travel.arrived, threat = (app.menu.scene?.subjects ?? []).some(x => x.danger);
@@ -179,7 +177,10 @@ export class WorldStage {
   // reckon (the owner, 4 November, night: no hidden way out of what is here by the map).
   static Stopped({ app, danger }: { app: ReaderApp; danger: boolean }) {
     const frame = app.state.frame!, travel = frame.travel, bound = frame.bound;
-    const on = bound && (app.menu.destinations ?? []).find(c => c.id === `travel:${bound.id}`);
+    // The journey held, as the page has it, with what it risks; in a town, whose journeys are the map's (see
+    // MenuModel.inside), as the map sets out on it.
+    const on = bound && ((app.menu.destinations ?? []).find(c => c.id === `travel:${bound.id}`)
+      ?? (frame.screen.region?.land ? MapView.way(frame.screen, bound.id).go : undefined));
     const risks = (on?.marks ?? []).map(m => m.said);
     return <>
       {travel && !travel.arrived && <p className="about stopped">{Typography.curl(`On the way to ${travel.to}: `
@@ -203,7 +204,9 @@ export class WorldStage {
   }
   // A town chosen on the map: seen whole, how far and by what way, and travelled to; entered only once the company
   // has come to it (the owner, 5 November: seeing a town is not being there). Chosen, set out for, come to, entered:
-  // each its own state, the journey between walked on the map (see ReaderApp.walk).
+  // each its own state, the journey between walked on the map (see ReaderApp.walk). A journey stopped at a town on the
+  // way says why, and goes on from there, as one stopped anywhere else does: stopped at Ramrehes on the way to a lone
+  // tower, the card had said only "You stand at its gate" (the fresh playtest of 7 November).
   static Town({ app, screen, town, clear }: { app: ReaderApp; screen: Screen;
     town: NonNullable<Screen['region']>['areas'][number]; clear?: () => void }) {
     const { d, here, go } = MapView.way(screen, town.id), views = Scenery.views.settlement ?? [];
@@ -218,6 +221,7 @@ export class WorldStage {
         <p className="how">{here ? 'You stand at its gate.' : d ? `${Words.upper(Words.span(d.minutes))} by the ways `
           + `you know. ${MapView.arrival(screen, d.minutes)}` : go ? 'Across the country you can see.'
           : 'You know no way there yet.'}</p>
+        {here && <WorldStage.Stopped app={app} danger={(app.menu.scene?.subjects ?? []).some(x => x.danger)} />}
         {here ? <button type="button" className="enter" data-action="enter-hex" onClick={() => { app.outdoor(false); }}>
           Enter {Typography.curl(town.name)}</button>
           : go && <button type="button" className="enter travel" data-action="travel" onClick={() => { app.choose(go); }}>

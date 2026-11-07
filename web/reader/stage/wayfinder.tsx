@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import type { Choice } from '../../../src/ui/choice-list';
 import type { ExitRow, Screen } from '../../../src/ui/screen-types';
 import type { ReaderApp } from '../reader-app';
@@ -8,9 +9,12 @@ import { GlanceStage } from './glance';
 import { PlaceStage } from './place-stage';
 import { SceneSurface } from './scene-surface';
 
-// A way: what goes by it (c), and the way's own choice where that is a group of its acts (a door to listen at).
+// A way: what goes by it (c), and the way's own choice where that is a group of its acts (a door to listen at); whether
+// it goes where the aim followed names, or another aim held, and its place among the ways the aims name (see
+// Glance.aimed: the aim followed's first).
 export interface Way {
-  c: Choice; way: Choice; exit?: ExitRow; whither: string; name: string; aim: boolean; group: string;
+  c: Choice; way: Choice; exit?: ExitRow; whither: string; name: string; aim?: 'followed' | 'held'; rank?: number;
+  group: string;
   // A quarter of the town as one way: what is in it (its places' names, and their ids), gone to by its heart.
   quarter?: string[]; holds?: string[];
 }
@@ -63,7 +67,7 @@ export class Wayfinder {
     const keep = Wayfinder.keepers(screen, to);
     return (
       <aside className="wf-preview" aria-live="polite" data-way={c.id}>
-        {w.aim && <p className="wf-aim">Your aim</p>}
+        {w.aim && <p className="wf-aim">{w.aim === 'followed' ? 'Your aim' : 'Another aim'}</p>}
         <h3>{Typography.curl(Words.upper(w.name))}</h3>
         {how && <p className="wf-how">{Typography.curl(Words.upper(how))}</p>}
         {w.quarter && <p className="wf-holds">{Typography.curl(Words.upper(Words.listed(w.quarter)))}</p>}
@@ -72,11 +76,25 @@ export class Wayfinder {
         {c.disabled && <p className="wf-shut">{Typography.curl(Words.upper(c.disabled))}</p>}
         {(c.marks ?? []).map(m => <p key={m.kind} className={`wf-risk${m.danger ? ` danger-${m.danger}` : ''}`}>
           {Typography.curl(Words.upper(m.said))}</p>)}
-        {draw.index.has(c.id) ? <Act.View choice={c} draw={draw} quiet className="wf-go">{Wayfinder.going(w)}</Act.View>
-          : <button type="button" className="act wf-go" data-action="go" data-choice={c.id}
-            onClick={() => app.choose(c)}>{Wayfinder.going(w)}</button>}
+        {Wayfinder.goings(c).map(g => <Wayfinder.Go key={g.id} app={app} draw={draw} choice={g}>
+          {g === c ? Wayfinder.going(w) : Typography.curl(Words.upper(g.label))}</Wayfinder.Go>)}
       </aside>
     );
+  }
+  // How a way is gone by: by its own going; or, where it asks first who of the company goes first (the black water in
+  // the drift to the garrison strongroom), by each of those, one button each. Its one Go had opened them out of sight,
+  // and so did nothing (the fresh playtest of 7 November).
+  static goings(c: Choice): Choice[] {
+    return !c.command && !c.disabled && c.children?.length ? c.children : [c];
+  }
+  // A going: as the menu has it where it does; else done by its own command, and what it risks or cannot undo said
+  // under it when it is first chosen, as on any choice (see Act.View): a way that asks again had said nothing.
+  static Go({ app, draw, choice: c, children }: { app: ReaderApp; draw: Draw; choice: Choice; children: ReactNode }) {
+    if (draw.index.has(c.id)) { return <Act.View choice={c} draw={draw} quiet className="wf-go">{children}</Act.View>; }
+    const asks = Act.asks(c);
+    return <button type="button" className="act wf-go" data-action="go" data-choice={c.id} onClick={() => app.choose(c)}>
+      {children}{asks && app.state.confirming === c.id && <span className="grave-said" role="alert">
+        {Typography.curl(Act.asked(asks, !!c.grave))}</span>}</button>;
   }
   static readonly how: Record<string, string> = { Up: 'up', Down: 'down', Into: 'in', Out: 'out', Away: 'away from here',
     On: 'on', To: '' };
@@ -104,8 +122,11 @@ export class Wayfinder {
       const c = !way.command && !way.disabled ? way.children?.find(k => k.moves) ?? way : way;
       const whither = SceneSurface.whither(exit);
       const group = ['Out', 'Away'].includes(whither) && !exit?.local ? out : exit ? near : about;
+      const rank = aimed.findIndex(id => id === c.id || id === exit?.id || id.startsWith(`${exit?.id}/`));
+      const aim = rank < 0 ? undefined : !g?.following || g.following.includes(aimed[rank]!) ? 'followed' as const
+        : 'held' as const;
       return { c, way, exit, whither, group, name: exit?.destination.name ?? c.label.replace(/^To /, ''),
-        aim: aimed.some(id => id === c.id || id.startsWith(`${exit?.id}/`)) };
+        ...aim ? { aim, rank } : {} };
     });
     // By how they lie, and by name within each, to be found as in a gazetteer; a town with quarters by its parts.
     const parted = Wayfinder.quartered(screen, ways, { near, about });
@@ -126,6 +147,10 @@ export class Wayfinder {
     for (const w of ways) {
       const q = of(w);
       if (!q || q.here) { out.push(q ? { ...w, group: own } : w); continue; }
+      // A place an aim names in another quarter is listed by its own name as well, among the town's further places:
+      // the churchyard, in Karir's waterside, had been folded into the quarter's one row, gone by to the waterside, and
+      // nowhere on the sheet named or marked (the fresh playtest of 7 November).
+      if (w.aim && to(w) !== q.heart) { out.push({ ...w, group: at.about }); }
       if (out.some(o => o.quarter && o.name === q.name)) { continue; }
       const held = ways.filter(x => of(x) === q);
       const heart = held.find(x => to(x) === q.heart) ?? held[0]!;
@@ -137,8 +162,12 @@ export class Wayfinder {
   // in, where not yet been: the owner, 6 November, found Go… in the corn-store offering the way back out), else the first.
   static chosen(app: ReaderApp, ways: Way[]): Way | undefined {
     const keyed = app.state.keyed ? app.menu.choices[app.state.cursor]?.id : undefined;
-    return ways.find(w => w.c.id === keyed) ?? ways.find(w => w.c.id === app.state.hovered) ?? ways.find(w => w.aim)
+    return ways.find(w => w.c.id === keyed) ?? ways.find(w => w.c.id === app.state.hovered) ?? Wayfinder.aimed(ways)
       ?? Wayfinder.led(app, ways) ?? ways[0];
+  }
+  // The way your aim goes by first: the aim followed's before another's (see Glance.aimed).
+  static aimed(ways: Way[]): Way | undefined {
+    return ways.filter(w => w.aim).sort((a, b) => (a.rank ?? 0) - (b.rank ?? 0))[0];
   }
   // The way the page leads by: the first of the glance's ways that is one of these.
   static led(app: ReaderApp, ways: Way[]): Way | undefined {

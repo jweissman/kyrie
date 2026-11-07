@@ -67,6 +67,8 @@ export interface Glance {
   ways: string[];
   // Every choice id (an exit, a travel:) the company's aims name: the page's "your aim", decided here.
   aimed: string[];
+  // Of those, the ones that go where the aim followed names, first among them (the rest are other aims held).
+  following?: string[];
   // The aim, said when no act serves it, on a first arrival, or when it has changed.
   aim?: string;
   // The company's state, said only when something is wrong (hungry, hurt, weary, in the dark).

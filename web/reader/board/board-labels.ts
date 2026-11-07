@@ -1,6 +1,7 @@
 import { HexLand } from '../hex-land';
 import { type Camera, Vector3 } from 'three';
 import { BoardGlyphs } from './board-glyphs';
+import { BoardCamera } from './board-camera';
 import type { BoardHooks, BoardMark } from './board-types';
 
 interface Label {
@@ -104,15 +105,17 @@ export class BoardLabels {
   // Each kept over its place on the land (moved as a picture already drawn, its shadows not drawn again at every step
   // of the view), rising with its hex as it comes to be known; a name only when its place is pointed at, chosen, bound
   // for or has the keys' focus. You first, and nothing else over you; then towns' names, given up where they would
-  // cover one another, or what is over the map; a sign's told name given up where it would cover another label, and
-  // the sign itself where even its plate would. What is chosen, bound for or has the keys' focus is never given up.
+  // cover one another, or what is over the map; then the signs, each given up where its plate would cover what is
+  // placed already, but for one only heard of; then the names beside them, each given up where it would cover a sign
+  // or another name. What is chosen, bound for or has the keys' focus is never given up.
   place(camera: Camera, size: [number, number], [chosen, pointed, bound]: (string | number | undefined)[]): void {
-    const taken: DOMRect[] = [...document.querySelectorAll('.field-head, .field-tools, .field-map .plan, .field-shut')]
-      .map(e => e.getBoundingClientRect());
+    const taken: DOMRect[] = [...document.querySelectorAll(BoardCamera.covers)].map(e => e.getBoundingClientRect());
     const box = this.layer.getBoundingClientRect(), focused = document.activeElement, half = BoardLabels.HALF;
     this.placeYou(camera, size, box, taken);
-    for (const l of [...this.labels].sort((a, b) => Number(b.town) - Number(a.town))) {
-      const p = this.screen(l, camera, size), on = l.id === chosen || l.id === bound || l.el === focused;
+    const named: [Label, DOMRect, boolean][] = [], held = new Set(this.labels.filter(l => l.id === chosen
+      || l.id === bound || l.el === focused));
+    for (const l of [...this.labels].sort((a, b) => BoardLabels.rank(a, held) - BoardLabels.rank(b, held))) {
+      const p = this.screen(l, camera, size), on = held.has(l);
       l.el.classList.toggle('chosen', l.id === chosen); l.el.classList.toggle('bound', l.id === bound);
       l.el.classList.toggle('pointed', l.cell === pointed); l.el.classList.toggle('off', !p);
       const pressed = String(l.id === chosen);
@@ -121,16 +124,24 @@ export class BoardLabels {
       if (l.name) { l.name.hidden = !on && l.cell !== pointed && !l.told; }
       l.el.style.transform = `translate(${l.town ? '-50%, -100%' : `-${half}px, -50%`}) `
         + `translate3d(${p[0].toFixed(1)}px, ${p[1].toFixed(1)}px, 0)`;
-      let r = l.town ? new DOMRect(box.left + p[0] - l.w / 2 - 3, box.top + p[1] - l.h - 2, l.w + 6, l.h + 4)
-        : new DOMRect(box.left + p[0] - half, box.top + p[1] - l.h / 2, l.w, l.h);
-      let clash = BoardLabels.clash(r, taken);
-      // A told name that would cover another label gives way, its plate kept where there is room for that.
-      if (clash && !on && l.name && !l.name.hidden) {
-        l.name.hidden = true; r = new DOMRect(r.x, r.y, l.h, l.h); clash = BoardLabels.clash(r, taken);
-      }
-      l.el.classList.toggle('away', clash && !on); if (!clash || on) { taken.push(r); }
+      const r = l.town ? new DOMRect(box.left + p[0] - l.w / 2 - 3, box.top + p[1] - l.h - 2, l.w + 6, l.h + 4)
+        : new DOMRect(box.left + p[0] - half, box.top + p[1] - l.h / 2, l.h, l.h);
+      // A sign only heard of keeps its plate wherever it falls, being all the map shows of it (the owner: heard of
+      // is a marker); a lone tower heard of had been given up beside the town's card (the playtest of 7 November).
+      const clash = BoardLabels.clash(r, taken), kept = on || !!l.told;
+      l.el.classList.toggle('away', clash && !kept);
+      if (clash && !kept) { continue; }
+      taken.push(r);
+      if (l.name && !l.name.hidden && !l.town) { named.push([l, new DOMRect(r.right, r.y, l.w - l.h, l.h), on]); }
+    }
+    // The names beside the signs after every sign: a name that would cover a sign or another label gives way to it.
+    for (const [l, r, on] of named) {
+      if (!on && BoardLabels.clash(r, taken)) { l.name!.hidden = true; } else { taken.push(r); }
     }
   }
+  // Which labels are placed first: towns' names, what is chosen, bound for or has the keys' focus, what is only heard
+  // of, then the rest.
+  private static rank(l: Label, held: Set<Label>): number { return l.town ? 0 : held.has(l) ? 1 : l.told ? 2 : 3; }
   private static clash(r: DOMRect, taken: DOMRect[]): boolean {
     return taken.some(t => r.x < t.right && r.right > t.x && r.y < t.bottom && r.bottom > t.y);
   }
