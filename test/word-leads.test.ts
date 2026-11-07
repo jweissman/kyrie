@@ -32,7 +32,7 @@ describe('word that leads somewhere', () => {
     perform: command => s.perform(command) }, to);
   const zone = (s: PlaySession, id: string) => s.campaign.module.entities.find(e => e.id === id)!.space!.parent!;
 
-  it('makes the place a trouble is at somewhere to set out for, called as it is known', async () => {
+  it('makes the place a trouble is at somewhere to set out for, called by the name the word gives', async () => {
     const s = await start(), c = s.campaign;
     const tower = built.report.placements.find(p => p.scenario === 'unquiet-tower')!, id = `region__${tower.bindings.spire}`;
     expect(Itineraries.destinations(c).map(d => d.id)).not.toContain(id);
@@ -42,7 +42,9 @@ describe('word that leads somewhere', () => {
     const d = Itineraries.destinations(c).find(x => x.id === id)!;
     // The way there is the way the word tells, through the wood to where the tower's track starts: not toward it.
     expect([d.toward, d.name]).toEqual([undefined, ObservationText.label(c.world, id)]);
-    expect(d.name).not.toBe(c.module.entities.find(e => e.id === id)!.name);
+    // Word of it names it, so that every rumour of the one place is plainly of it (the owner, 7 November: two rumours
+    // of "a lone tower" had read as two towers).
+    expect(d.name).toBe(c.module.entities.find(e => e.id === id)!.name);
     const done = await go(s, id);
     expect(done.legs.length).toBeGreaterThan(0);
     expect(done.arrived || !!done.stopped).toBe(true);

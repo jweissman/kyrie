@@ -43,7 +43,7 @@ Module players "The players on the green" {
     State chained "A tall wagon, painted with a sun and a moon and the words GOSSE'S COMPANY in red letters gone pink, stands on {green} with its shafts down. A chain runs from its back wheel to a post, and the chain has a padlock on it.".
     State free "The players' wagon stands on {green} with its shafts up, loaded to the roof, a painted cloth rolled on top.".
   }
-  Observe green_players at green when stuck(gosse) and not gone(gosse) "A bear is asleep on the ground by the players' wagon, with a thin man for a pillow, and a big old man in a faded crimson coat sits on the wagon's tail-board looking at the sky as if it owed him money.".
+  Observe green_players at green when stuck(gosse) and not gone(gosse) "A bear is asleep on the ground by the players' wagon, with a thin man for a pillow, and a big old man in a faded crimson coat sits on the wagon's tail-board, squinting up at the sky.".
   Observe green_players_free at green when reckoned(gosse) and not gone(gosse) "Gosse is walking slowly round the wagon with his hands behind his back, inspecting its wheels as if he had just bought it.".
   Observe green_players_gone at green when gone(gosse) "There are wheel-ruts in the dust of {green}, and a ring of flattened ground where a bear lay.".
 

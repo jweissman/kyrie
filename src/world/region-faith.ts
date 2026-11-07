@@ -70,13 +70,19 @@ export class RegionFaith {
   private static pick<T>(list: T[], rng: Expressions): T { return list[rng.number(`1d${list.length}`) - 1]!; }
   // The shrine as Kyr: what stands there, whose it is and what it asks, and how it looks and is kept; in a shrine of
   // its own, or by the track where a hamlet keeps its god (a wayside shrine, told in a line).
+  // What is seen first is what stands there, then whose it is; then how it is kept. Its story goes in the company's
+  // notes on seeing it, not in the telling of it (doc/authoring/narratology.md).
   static lines(s: Settlement, cult: Cult, at = `${s.id}_shrine`, wayside?: string): string[] {
-    const q = JSON.stringify, altar = `${s.id}_altar`, a = /^[aeiou]/.test(cult.look) ? 'An' : 'A';
+    const q = JSON.stringify, altar = `${s.id}_altar`, seat = cult.seat.charAt(0).toUpperCase() + cult.seat.slice(1);
     const text = wayside ? `By the track stands ${wayside}: ${/^[aeiou]/.test(cult.look) ? 'an' : 'a'} ${cult.look} ${cult.form}, small and weathered, with offerings of ${s.trade} before it.`
-      : `${a} ${cult.look} ${cult.form} of ${cult.name}, ${cult.title}: ${cult.seat}. ${cult.practice} `
-        + `${cult.history} Offerings of ${s.trade} lie before it.`;
+      : `${seat}: the ${cult.look} ${cult.form} of ${cult.name}, ${cult.title}. ${cult.practice} `
+        + `Offerings of ${s.trade} lie before it.`;
+    const whose = `The ${cult.form} of ${cult.name} at ${s.name}`;
+    const past = wayside || !cult.history ? '' : /^It /.test(cult.history) ? cult.history.replace(/^It /, `${whose} `)
+      : `${whose}: ${cult.history}`;
     return [`  Thing ${altar} ${q(wayside ?? `the ${cult.form} of ${cult.name}`)} at ${at} is shrine { }`,
       `  Initially Assert shrineOf(${altar}, faith_${cult.domain}). Initially Set offering(${altar}) to ${cult.offering}.`,
-      `  Observe ${s.id}_holy at ${at} when true ${q(text.replace(/\s+/g, ' ').trim())}.`];
+      ...past ? [`  Entity ${s.id}_holy_past: fact ${q(past)}.`] : [],
+      `  Observe ${s.id}_holy at ${at} when true ${q(text.replace(/\s+/g, ' ').trim())}${past ? ` teaches ${s.id}_holy_past` : ''}.`];
   }
 }

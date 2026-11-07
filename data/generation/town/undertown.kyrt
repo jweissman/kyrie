@@ -22,11 +22,13 @@
   // Each locked way is a lock on it: whoever the job is given to holds its key and goes through as if it were open,
   // and anyone with lockwork can pick it instead (Mission 19, a calling's own way in: a thief need not ask).
   Thing {t}_u_store_lock "the corn-store padlock" on {t}_u_store_door {
-    State locked blocking "A padlock the size of a fist hangs on the corn-store door.".
+    // Locked, the padlock is said when the door is tried or the padlock looked at, not as part of the green.
+    State locked blocking "".
     State open "The corn-store padlock hangs open on its hasp.".
     Change pick "Pick the corn-store padlock" from locked to open needing lockwork.
     Change wrench "Wrench the padlock's hasp out of the old door" from locked to open needing brawn.
   }
+  Observe {t}_u_store_lock_shut near {t}_u_store_lock of {t}_u_store_lock when state({t}_u_store_lock, locked) "A padlock the size of a fist hangs on the corn-store door, its hasp bolted through the old oak.".
   Place {t}_u_yard "the churchyard" is room within {t} at 1, 2 outdoors.
   Passage {t}_u_yard_gate "the lych-gate" is gate between {t}_green and {t}_u_yard.
   Place {t}_u_pit "the old quarry pit" is room within {t} at 2, 2 outdoors.

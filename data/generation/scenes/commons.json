@@ -1,9 +1,9 @@
 {
   "about": "Where the people of a generated settlement work whose work has no place of its own built for it (src/world/community/commons.ts): by the water, in the fields, or in the lanes behind the heart; whoever works in the open of the heart (a carter, a tinker, a reeve) works there. The owner's review of Mission 18 found a green at eight in the morning with a thatcher, a weaver and a farmer standing on it. {place} is the settlement's name.",
   "places": {
-    "waterside": { "name": "the waterside at {place}", "scene": "Boats drawn up on the bank, nets drying on poles, a plank jetty, and the water going by. Whoever works the water works here, and talks to it." },
-    "fields": { "name": "the home fields of {place}", "scene": "Strips of field run out from the houses to the hedges, with a trodden track between them and somebody bent over in most of them. A dog watches the track for them." },
-    "lanes": { "name": "the lanes behind {place}", "scene": "Behind the heart the lanes run between yards and workshops: the sound of a hammer, a smell of bread or tallow, a door open on somebody's work, a cat asleep on a sill." }
+    "waterside": { "name": "the waterside at {place}", "scene": "Boats are drawn up on the bank, nets dry on poles, and a plank jetty runs out over the water. The water slaps against its piles, and the mud smells of weed." },
+    "fields": { "name": "the home fields of {place}", "scene": "Strips of field run out from the houses to the hedges, with a trodden track between them. Rooks rise and settle behind whoever is working, and the turned earth smells raw." },
+    "lanes": { "name": "the lanes behind {place}", "scene": "The lanes behind the houses run between yards and workshops: the ring of a hammer, a smell of bread or tallow, a door open on somebody's work, a cat asleep on a sill." }
   },
   "works": {
     "waterside": ["fisher", "eel_catcher", "ferryman", "boatwright", "net_maker", "laundress", "reed_cutter", "ice_cutter", "whaler", "salt_boiler"],
