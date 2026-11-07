@@ -45,7 +45,10 @@ export interface Act {
 }
 // underground: below the ground (a cellar, a crypt, a mine), where the town's walks and the map are not to hand; and
 // how many storeys down (see Depth).
-export interface PlaceRef { id: string; name: string; kind: string; underground?: boolean; depth?: number }
+// open: said to be under the sky though within a level or a building (a keep's bailey, a barrow's forecourt).
+export interface PlaceRef {
+  id: string; name: string; kind: string; underground?: boolean; open?: boolean; depth?: number;
+}
 export interface ExitRow {
   id: string; kind: 'exit'; name: string; destination: PlaceRef; transition: Transition; passage: Passage;
   scope?: string; via?: string; blocked?: string; visited: boolean; acts: Act[]; way?: string; hazard?: string;
