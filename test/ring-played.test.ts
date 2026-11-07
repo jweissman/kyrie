@@ -7,8 +7,8 @@ import { GeneratedWorld } from './support/generated';
 
 // The Ring as a player meets it in a drawn world (the play-through in doc/imbar/playtests/ring-and-lamp-player.md): the
 // signposts that send a company to the next country, the lieutenant who is still in his store long enough to be asked,
-// the Principal met by walking up his ladder (a warning running, as no `put` makes it), and each nerve's answer to being
-// shown the three ranks: he runs, he buys, he stands for an hour, or his own lieutenant has gone over.
+// the Principal met by walking up his ladder (a warning running, as no `put` makes it), and each nerve's answer to
+// being shown the three ranks: he runs, he buys, he stands for an hour, or his own lieutenant has gone over.
 type World = Awaited<ReturnType<typeof Ring.world>>;
 const F = (id: string) => `factors__${id}`;
 const T = (id: string) => `ptolleth__${id}`;
@@ -122,7 +122,7 @@ describe('the Principal, met at the loft with the warning running', () => {
     await stands.play('^Wait › An hour');
     expect(stands.holds('tolerates', F('principal'), 'party')).toBe(false);
     expect(stands.page).toMatch(/An hour\. After that I shall not be able to help/);
-    // A company that took the hour walked out of it: down the ladder, the Principal is still at his loft, and still there.
+    // A company that took the hour walked out of it, down the ladder, and the Principal is still at his loft.
     const leaves = fresh(2);
     await leaves.play('Lay the waybill, the leaf and the lieutenant', 'Out to Salt Row');
     await leaves.play('^Wait › An hour', '^Wait › An hour');

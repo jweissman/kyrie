@@ -94,11 +94,12 @@ fact, and an effect somewhere else.
 | pays the cellar-men, lies to them, or beats them (`seenSearch`, `routed`, `dead` of the cell) | **hires muscle**: two warriors (level 2-3, Deem) are posted at the counting-room within three hours | `hired`, `hireAt`, `bravos` | `ring-responds` 1 |
 | the same, and sleeps or waits in the largest town's taproom after dark | **sends its hands at night** to where the company is; five coin to have them sit on the stair | `bravos_by_night` | 2, with a reload |
 | searched the cellar and has not taken the book | **burns the evidence**: a day later the leaf is gone from the strongbox and ash is in the grate (a leaf the company already carries is not burned) | `evidence_burned`, `burnt` | 3, 4 |
-| talks to R. (any of the ways) | **sacrifices the lieutenant**: a letter to the harbourmaster, R. routed and taken from the store; a bill on the harbourmaster's door; the store swept; the Principal's circuit **leaves out the store** and he sits four days at the loft | `lieutenant_cut`, `routed(lieutenant)`, `ring_skips_store` | 5 |
+| talks to R. (any of the ways) | **sacrifices the lieutenant**, half an hour after he has talked (long enough to ask him where the Principal is tonight): a letter to the harbourmaster, R. routed and taken from the store; a bill on the harbourmaster's door; the store swept; the Principal's circuit **leaves out the store** and he sits four days at the loft | `lieutenant_cut`, `routed(lieutenant)`, `ring_skips_store` | 5 |
 | turns R. with the leaf's margin | R. is **not** sacrificed; he is the company's, and says where the Principal is | `turned` | 6 |
 | lays all three ranks before the Principal, **nerve 1** | **he flees the country for good**: `routed`, sent abroad; the Ring has no head | `principal_nerve_flees` | `ring-hierarchy` |
-| the same, **nerve 3** | **he buys**: sixty crowns and the company's face; refused, he turns | `offered`, `take_principal_silver` | `ring-hierarchy` |
-| the same, **nerve 2** | **he stands**: the warn stands, `tolerates` is withdrawn | | `ring-hierarchy` |
+| the same, **nerve 3** | **he buys**: sixty crowns and the company's face, no blow struck while he offers; refused, he turns | `offered`, `take_principal_silver` | `ring-hierarchy`, `ring-played` |
+| the same, **nerve 2** | **he stands**: an hour to be gone, then the warn runs again and a fight follows | `stood`, `standAt`, `principal_door_closes` | `ring-hierarchy`, `ring-played` |
+| the same, **his lieutenant turned** (any nerve above 1) | **he breaks**: "My man signed"; he goes to the boat | `principal_breaks` | `ring-played` |
 | asks the factor / buys back / names her at the inn | the Exchange's own six answers (`10-exchange.md`) | `suspects`, `exposed` | `exchange-responds` (unchanged) |
 
 Deem rolls choose which of the nerve rows a given world has; a different seed is a different head. The

@@ -174,7 +174,7 @@ Module dorothea "The Dorothea" {
   // nine days of paper up a hundred feet of dish-worn stair: it carries him, and the book stays on the bench (he says it
   // was only ever a reading), or it carries the book and Marren fetches him in the morning, if he is still there.
   Relation bookTaken(group). Relation coinLeft(group).
-  Kind lb_notebook "Oswin Tarn's notebook" is treasure worth 50 weighing 1 described "Nine days of readings in a surveyor's hand, in pencil, going lighter toward the end. The second column of the Prefect's Table is copied out in it as a tread, with a note in the margin: NOT A LIST.".
+  Kind lb_notebook "the surveyor's notebook" is treasure worth 50 weighing 1 described "Nine days of readings in a surveyor's hand, in pencil, going lighter toward the end. The second column of the Prefect's Table is copied out in it as a tread, with a note in the margin: NOT A LIST.".
   Action carry_oswin(actor: group, site: place) "Take Oswin Tarn back up the stair with you, and leave his book on the bench" {
     Description "A man who has not eaten in nine days, up a hundred feet of dish-worn stair. The book stays.".
     Requires able(actor) and company(actor) and at(actor, site) and at(oswin, site) and not oswinOut(actor) and not bookTaken(actor).

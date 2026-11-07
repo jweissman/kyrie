@@ -168,8 +168,10 @@ describe('the Lamp Below', () => {
     await back.play('To the far side of the wheel-floor');
     expect(back.at('party')).toBe(k('lb_far'));
   }, 300000);
+});
 
-  // What a descent costs and what it leaves (the play-through in doc/imbar/playtests/ring-and-lamp-player.md).
+// What a descent costs and what it leaves (the play-through in doc/imbar/playtests/ring-and-lamp-player.md).
+describe('the Lamp Below, what it costs and what it leaves', () => {
   it('makes Oswin Tarn a choice: carry the man and leave his book, or carry the book and leave the man to be fetched', async () => {
     const carry = await start();
     carry.put('party', k('lb_gallery'));
@@ -185,7 +187,7 @@ describe('the Lamp Below', () => {
     expect(book.holds(k('bookTaken'), 'party')).toBe(true);
     expect(book.matches('Take Oswin Tarn back up').length).toBe(0);
     expect(book.at(k('oswin'))).toBe(k('lb_gallery'));
-    expect(book.campaign.world.related('holding').some(f => f.args[1] === k('lb_notebook'))).toBe(true);
+    expect(book.matches("Pack › .*notebook").length).toBeGreaterThan(0);
     book.put('party', k('oil_store'));
     expect(seen(book)).toContain('You carried his paper up and left him with the lamp');
   }, 300000);

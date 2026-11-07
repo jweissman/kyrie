@@ -18,7 +18,9 @@ describe('every folk table casts only ancestries that may take the calling it is
       for (const [name, t] of Object.entries(tables)) {
         if (t.discriminator === 'folk') { continue; }
         for (const [terrain, group] of Object.entries(t.groups)) {
-          for (const e of group) { expect([m, name, terrain, value(e), !!classes(value(e))]).toEqual([m, name, terrain, value(e), true]); }
+          for (const e of group) {
+            expect([m, name, terrain, value(e), !!classes(value(e))]).toEqual([m, name, terrain, value(e), true]);
+          }
         }
       }
     }
@@ -73,6 +75,14 @@ describe('every folk table casts only ancestries that may take the calling it is
           }
         }
       }
+    }
+  });
+
+  it('casts the old-coin scholar, a mage, only as an ancestry that may be one', () => {
+    const tables = JSON.parse(readFileSync(`${dir}/oldcoin/tables.json`, 'utf8')) as Record<string, { groups: Record<string, Entry[]> }>;
+    expect(readFileSync(`${dir}/oldcoin/situation.kyr`, 'utf8')).toMatch(/Person scholar [^{]*\{ Role[^}]*Calling mage/);
+    for (const group of Object.values(tables.scholarFolk!.groups)) {
+      for (const e of group) { expect([value(e), classes(value(e))?.includes('mage')]).toEqual([value(e), true]); }
     }
   });
 });
