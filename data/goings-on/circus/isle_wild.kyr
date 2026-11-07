@@ -97,11 +97,11 @@ Module circus "Wapshott's Peregrine Circus" {
     On success { Assert tolerates(hook_claws, actor). }
     Result "Mumchance walks into the hollow with his hands open and sits down in the middle of the bare earth. The pack looks at him for a long time. One, then another, lowers its head to the earth. At the end of an hour the youngest has gone to sleep against his boot, and the rest have forgotten there was anyone to guard against.".
   }
-  Topic wap_let_go with wapshott "Ask the Colonel to put Dame Honorine down at the edge of the hollow" when at(party, hook_den) and colonelNamed(wapshotts) and not namedLetGo(wapshotts) and hatchlingsPenned(wapshotts) once {
-    Says "The littlest is on the Colonel's boot, as she has been since the sack was opened. The Colonel looks at the pack. 'She has not once asked me to be anything,' he says. He kneels. He takes her off his boot with both hands and holds her up, and then sets her down on the bare earth. She sits there looking at him. 'Go on,' he says. 'Go on, Honorine.'".
+  Topic wap_let_go with wapshott "Ask the Colonel to put the Duchess down at the edge of the hollow" when at(party, hook_den) and colonelNamed(wapshotts) and not namedLetGo(wapshotts) and youngAshore(party) once {
+    Says "The littlest is on the Colonel's boot, as she has been since the sack was opened. The Colonel looks at the pack. 'She has not once asked me to be anything,' he says. He kneels. He takes her off his boot with both hands and holds her up, and then sets her down on the bare earth. She sits there looking at him. 'Go on,' he says. 'Go on, Duchess.'".
     On discuss { Assert namedLetGo(wapshotts). Increase regard(billie) by 2. }
   }
-  Observe hatchling_clings at hook_den when colonelNamed(wapshotts) and not namedLetGo(wapshotts) and hatchlingsPenned(wapshotts) and not hookTolerates(party) "One hatchling has attached itself to the Colonel's boot, and every time the Colonel moves, it moves with the boot. The pack watches this with a patience that is almost courteous.".
+  Observe hatchling_clings at hook_den when colonelNamed(wapshotts) and not namedLetGo(wapshotts) and youngAshore(party) and not hookTolerates(party) "One hatchling has attached itself to the Colonel's boot, and every time the Colonel moves, it moves with the boot. The pack watches this with a patience that is almost courteous.".
 
   // Ways past the three-horn herd.
   Action lay_bamboo(actor: group, site: place) "Lay a bundle of bamboo shoots before the cow and back away" {
@@ -136,7 +136,7 @@ Module circus "Wapshott's Peregrine Circus" {
   }
   Topic fenwick_writ with fenwick "Ask Sir Gervase to show Captain Harrow the Society's charter" when at(party, harrow_camp) and clausesRead(wapshotts) and not writShown(party) once {
     Says "Sir Gervase unrolls the Society's charter on Harrow's camp-table, kindly, with a flourish, and explains in some detail that the collection of living animals in this region is under the Society's licence and that Captain Harrow's, regrettably, is not. Harrow listens, entirely pleasant. 'And you,' he says, 'are taking a pair of each.' Sir Gervase says it is not at all the same. There is a pause in which the whole island seems to look at the pair of them. 'Well,' says Harrow at last, 'a licence is a licence.' He folds his tents. He has, you notice, taken the calf's cage with him; and he has left it empty on the creek-bank.".
-    On discuss { Assert writShown(party). Assert harrowBeaten(party). Assert calfFreed(party). Assert hatchlingsHome(party). Retract at(harrow_men, harrow_camp). Retract at(harrow, harrow_camp). }
+    On discuss { Assert writShown(party). Assert harrowBeaten(party). Assert calfFreed(party). Retract at(harrow_men, harrow_camp). Retract at(harrow, harrow_camp). }
   }
   Observe harrow_gone at harrow_camp when writShown(party) "The camp is struck: a ring of black grass, a stockade of cut mangrove, a hippodrome flag nailed to a post by one corner, and a row of empty crates.".
 
@@ -148,7 +148,7 @@ Module circus "Wapshott's Peregrine Circus" {
   }
 
   // History beyond the story.
-  Observe cage_graves at cage_row when true "Beyond the last cage, under a casuarina, seven flat stones lie in a row, cut with a wheel and a name each: Warden Ansel, Warden Gunnar, Warden Ysolt, Warden Hob, and two that the moss has taken. The seventh has no stone, only a bronze key-plate set in the earth, and nothing in the slot.".
+  Observe cage_graves at cage_row when true "Beyond the last cage, under a casuarina, six flat stones lie in a row, cut with a wheel and a name each: Warden Osric, Warden Gunnar, Warden Ysolt, Warden Hob, and two that the moss has taken. A seventh place has no stone, only a bronze key-plate set in the earth, and nothing in the slot.".
   Observe cage_nine at cage_row when true "The ninth cage's door has a plate that has been wiped, recently, by hand: NO. 9. THE GREAT BEAST. SENT NORTH IN THE LAST PROGRESS, ON THE HASTY MARY. THE CAGE IS KEPT. The cage is swept. Nobody has swept it since the Wardens, and it is swept.".
   Observe founding_roll at preserve_hall when true "Burnt into the black beam over the hearth, a roll of names: the Founder-King, Aldred of the Wheel, who first went round his kingdom in a cart and ordered a Preserve laid out for the beasts he met on the way; the Wardens, seven; and, last, the Keepers of the Menagerie Royal, nine, the final name left blank." teaches founded_known.
   Entity founded_known: fact "The Preserve was laid out by Aldred of the Wheel, the first king to go round his kingdom, to keep the beasts of the southern sea; seven Wardens kept it, and nine Keepers after them.".
@@ -157,4 +157,14 @@ Module circus "Wapshott's Peregrine Circus" {
   Milestone m_crust "learned the scuttlers' line over the crust" worth 100 when knows(party, crust_safe).
   Milestone m_colony "saw the colony launch" worth 150 when knows(party, colony_known).
   Milestone m_founded "read the founding roll of the Preserve" worth 150 when knows(party, founded_known).
+
+  Action slip_channels(actor: group, site: place) "Wade the channels in the wake of the skimmers when they go back in" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, harrow_camp) and knows(actor, channels_warn) and hour(clock) >= 15 and at(delta_croc, channels) and not tolerates(delta_croc, actor).
+    Time 0.
+    On success { Assert tolerates(delta_croc, actor). }
+    Result "The skimmers go back into the water in a body, one after another, at the hour the old crocodile goes up the bank to sleep. You go in behind them. Nothing in the black water looks at you.".
+  }
+  Observe colony_coming at cliff_foot when knows(party, colony_known) and hour(clock) >= 4 and hour(clock) < 5 "The first sail-wings have begun to shift on the ledges above. In an hour the ledge will be empty.".
+  Observe herd_hour at plain_ridge when knows(party, herd_known) and hour(clock) >= 4 and hour(clock) < 5 "You know where to be at first light. You are in it.".
+  Observe map_warns at plain_mid when knows(party, map_read) and hour(clock) >= 15 and hour(clock) < 17 "The Warden's map says THE TYRANT HUNTS AT EVENING. It is not yet evening.".
 }

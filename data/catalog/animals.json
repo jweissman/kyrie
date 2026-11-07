@@ -2454,7 +2454,7 @@
       },
       "source": {
         "kyr": true,
-        "notes": "A pack hunter of the forest, hunting in sevens. Telegraphed by the click of the foot-claw on stone and by the whole pack going quiet. Its young are what Wapshott's crate held. No habitats are written for it, so no generated country draws it into a den: it lives on the Isle of Sarn alone (Wapshott's Fourth Act, doc/adventures/anthology/the-fourth-act.md). Its painting is not yet made (portrait left unset; data/paintings/animals.json would take animals/hook_claw)."
+        "notes": "A pack hunter of the forest, hunting in fives. Telegraphed by the click of the foot-claw on stone and by the whole pack going quiet. Its young are what Wapshott's crate held. No habitats are written for it, so no generated country draws it into a den: it lives on the Isle of Sarn alone (Wapshott's Fourth Act, doc/adventures/anthology/the-fourth-act.md). Its painting is not yet made (portrait left unset; data/paintings/animals.json would take animals/hook_claw)."
       }
     },
     "stilt_runner": {

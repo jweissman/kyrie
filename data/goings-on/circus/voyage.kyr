@@ -16,9 +16,9 @@ Module circus "Wapshott's Peregrine Circus" {
 
   Rule berth_set when voyageReady(wapshotts) and not berthA(wapshotts) and not berthS(wapshotts) and not atSea(wapshotts) and not voyaged(wapshotts) { Assert berthA(wapshotts). }
   Passage gangway_a "the Sundial's gangway" is passage between green_a and deck
-    opening when berthA(wapshotts) "The quay is empty but for a heap of rope and a gull.".
+    opening when berthA(wapshotts) "The gangway is drawn in.".
   Passage gangway_s "the gangway to the Progress's quay" is passage between deck and landing
-    opening when berthS(wapshotts) "The Sundial rides far out, and between her and the island there is nothing but water.".
+    opening when berthS(wapshotts) "The gangway is drawn in.".
 
   Observe deck_scene at deck when true "The Sundial is a brig of ninety tons, tarred, patched and spotless, with SUNDIAL cut over her taffrail and under it the name of a captain who is dead. Her crew of nine go about their work in a silence that is not hostile. The mate, who is her master now, keeps one hand on the rail as if it were someone's shoulder.".
   Observe hold_scene at hold when true "The hold smells of tar and bilge and the biscuit of a long voyage. Cages are stowed along both sides, empty, with fresh straw, built to Billie's measure in the fair town in a week; at the after end, lashed down, a big case of lamp-black and spirit that Sir Gervase calls his apparatus.".
@@ -47,7 +47,7 @@ Module circus "Wapshott's Peregrine Circus" {
     Retract atSea(wapshotts). Assert berthS(wapshotts). }
   Rule landfall_home when atSea(wapshotts) and homeward(wapshotts) and day(clock) >= sailDay(wapshotts) + 11 and hour(clock) >= 6 {
     Retract atSea(wapshotts). Assert berthA(wapshotts). }
-  Observe at_sea_out at deck when atSea(wapshotts) and outward(wapshotts) and not stormDone(wapshotts) "Nothing but water, in every direction, for the ninth hour of the third day. The log says eleven days. The wind says it will do as it likes.".
+  Observe at_sea_out at deck when atSea(wapshotts) and outward(wapshotts) and not stormDone(wapshotts) "Nothing but water in every direction. The log says eleven days. The wind says it will do as it likes.".
   Observe at_sea_after at deck when atSea(wapshotts) and outward(wapshotts) and stormDone(wapshotts) "The sea has gone the colour of slate, and the sky has been wrung out. Somewhere under the keel the bottom falls away to a depth that has no number.".
   Observe land_out at deck when berthS(wapshotts) "Land at last, a green line on the south horizon that does not move like a cloud. The smell comes out to meet you before the sight: wet earth, eggs, rot, hot stone, and the sweetness of an enormous number of flowers. A quay of cut stone stands at the mouth of a bay, with a post on it, and a wheel on the post.".
   Observe land_home at deck when berthA(wapshotts) and homeward(wapshotts) "The fair town's roofs, and the flag of the Hippodrome, and on the quay a heap of rope and a gull. Ada is not there. Ada, you will learn, has not left the ticket wagon in eleven days.".
@@ -61,14 +61,22 @@ Module circus "Wapshott's Peregrine Circus" {
   // The storm: the Colonel's hands on the rail.
   Rule storm_comes when atSea(wapshotts) and outward(wapshotts) and day(clock) >= sailDay(wapshotts) + 4 and hour(clock) >= 18 and not stormDone(wapshotts) and not stormOn(wapshotts) {
     Assert stormOn(wapshotts). Set stormAt(wapshotts) to watch(clock). }
-  Observe storm_scene at deck when stormOn(wapshotts) "The sky to windward has come down to the sea. Crewe shouts for hands to the sheets, and the Sundial lies over until her yards are in the water. Rain like thrown gravel. In the dark, at the lee rail, the Colonel is singing the Galop from the Grand Entry at the top of his voice, with both hands clamped white on the wood.".
+  Observe storm_scene at deck when stormOn(wapshotts) "The sky to windward has come down to the sea. Crewe is on the quarterdeck with a speaking-trumpet: 'BELOW, OR LASH! BELOW, OR LASH!' The Sundial lies over until her yards are in the water. Rain like thrown gravel. In the dark, at the lee rail, the Colonel is singing the Galop from the Grand Entry at the top of his voice, with both hands clamped white on the wood.".
   Action lash_down(actor: group, site: place) "Lash yourselves to the main-mast with a rope" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, deck) and stormOn(wapshotts) and holding(actor, rope) and not lashed(party).
     Time 0.
     On success { Assert lashed(party). }
     Result "You pass the line round the mast and round each other, and the sea comes over the rail.".
   }
-  Hazard storm_wave "A sea over the rail" means "Deal (3d6) physical damage to ally unless strength save against (14).".
+  Item hold_rope "a coil of the Sundial's lashing" is rope at hold.
+  Item hold_rope_b "a second coil of lashing" is rope at hold.
+  Action go_below(actor: group, site: place) "Go below and wedge yourselves among the cages" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, deck) and stormOn(wapshotts) and not lashed(party).
+    Time 0.
+    On success { Assert lashed(party). }
+    Result "The hatch slams over the storm. In the hold the cages bang like a bell-foundry, and Mr Mudge sings the whole time, and is quite wrong about the words.".
+  }
+  Hazard storm_wave "A sea over the rail" means "Deal (1d8) physical damage to ally unless strength save against (12).".
   Rule storm_breaks when stormOn(wapshotts) and watch(clock) >= stormAt(wapshotts) + 6 {
     Retract stormOn(wapshotts). Assert stormDone(wapshotts). Retract lashed(party). }
   Rule storm_strikes at deck when stormOn(wapshotts) and watch(clock) >= stormAt(wapshotts) + 3 and at(party, deck) and not lashed(party) and not stormHit(party)
@@ -88,7 +96,7 @@ Module circus "Wapshott's Peregrine Circus" {
   Rule calm_comes when atSea(wapshotts) and outward(wapshotts) and day(clock) >= sailDay(wapshotts) + 7 and hour(clock) >= 10 and not calmDone(wapshotts) { Assert calmDone(wapshotts). }
   Observe calm_scene at deck when calmDone(wapshotts) and atSea(wapshotts) and outward(wapshotts) "The wind has simply stopped. The sea is a sheet of hot lead; the sails hang like washing. The crew lie in the shade of the boat with their hats over their faces. A turtle, enormous, rides past on the surface with an air of having been invited.".
   Topic crewe_vance with crewe "Ask Mate Crewe about Captain Vance" when calmDone(wapshotts) and atSea(wapshotts) and not vanceKnown(wapshotts) once {
-    Says "'Born on Sarn,' says Crewe, after a long time. 'His grandfather was the last Warden. The Wardens stopped being paid the year the Progress was dissolved, and the last of them stayed thirty-one years keeping the books, and put his grandson on a trader at nine, with the Preserve's key round his neck and a note to keep it. The boy kept it forty years. He never went back, because there was nothing to go back to but a rule and a lot of animals. He read your letter at Port Dree. He said, a Keeper, and sat down on a bollard.' Crewe turns his hat. 'He took the last clutch off the beds himself. He said the Keeper had asked, and somebody ought to answer.' He puts the hat on. 'He has the key, the Captain. It's in the cabin. It opens a door that isn't there any more.'".
+    Says "'Born on Sarn,' says Crewe, after a time. 'His line held the Preserve's key since the Wardens, and the eldest son was put to sea at nine with it round his neck and told to keep it. That was Vance. He kept it forty years. He never went back, because there was nothing to go back to but a rule and a lot of animals. He read your letter at Port Dree. He said, a Keeper, and sat down on a bollard.' Crewe turns his hat. 'He took the last clutch off the beds himself. He said the Keeper had asked, and somebody ought to answer.' He puts the hat on. 'He has the key, the Captain. It's in the cabin. It opens a door that isn't there any more.'".
     On discuss { Assert vanceKnown(wapshotts). Give preserve_key to actor. }
   }
   Kind preserve_key "the Preserve's key" is gear worth 0 weighing 1 described "A bronze key as long as a hand with a crowned wheel for a bow, worn smooth by a boy's chest and a man's. It is the key of the Preserve-house door.".
@@ -102,7 +110,7 @@ Module circus "Wapshott's Peregrine Circus" {
   Observe hold_egg at hold when homeward(wapshotts) and takeEgg(wapshotts) "In a basket by the galley stove, wrapped in the Colonel's best coat and a damp cloth, a grey loaf-big egg. Somebody turns it every hour on the hour. It is, for the whole of the crew, a ship's pet.".
   Observe hold_empty at hold when homeward(wapshotts) and takeLeave(wapshotts) "The cages along both sides of the hold are empty, with the straw as fresh as it was. The Colonel, who is sitting among them with his back against a bar, says it is the best hold he has ever been in.".
 
-  Rule hatchlings_aboard when voyaged(wapshotts) and hatchlingsPenned(wapshotts) and not hatchlingsHome(party) and at(hatchlings, ?r) and distinct(?r, hold) {
+  Rule hatchlings_aboard when voyaged(wapshotts) and not backFromSarn(wapshotts) and hatchlingsPenned(wapshotts) and not hatchlingsHome(party) and at(hatchlings, ?r) and distinct(?r, hold) {
     Retract travels(hatchlings). Retract post(hatchlings, rk_beasts). Retract at(hatchlings, ?r). Assert at(hatchlings, hold). }
   Rule crew_aboard_home when homeward(wapshotts) and not dead(mudge) and away(mudge) { Retract away(mudge). Assert at(mudge, deck). }
   Rule cook_aboard_home when homeward(wapshotts) and away(nunn) { Retract away(nunn). Assert at(nunn, deck). }
@@ -112,6 +120,14 @@ Module circus "Wapshott's Peregrine Circus" {
   Topic nunn_home with nunn "Ask Aggie what was in the stew" when homeward(wapshotts) and atSea(wapshotts) once {
     Says "'Mr Mudge,' says Aggie, and stirs. 'Mostly.'".
   }
+  Rule hatchlings_back when backFromSarn(wapshotts) and hatchlingsPenned(wapshotts) and not hatchlingsHome(party) and at(hatchlings, hold) { Retract at(hatchlings, hold). Assert travels(hatchlings). Assert post(hatchlings, rk_beasts). }
+  Action carry_young_ashore(actor: group, site: place) "Take the young hook-claws ashore in a sack" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hold) and at(hatchlings, hold) and hatchlingsPenned(wapshotts) and not youngAshore(party) and not backFromSarn(wapshotts).
+    Time 1.
+    On success { Assert youngAshore(party). Retract at(hatchlings, hold). }
+    Result "They go into the sack in a heap and a good deal of complaint. It is a sack that breathes.".
+  }
+  Relation youngAshore(group).
   Rule home_from_sarn at green_a when voyaged(wapshotts) and homeward(wapshotts) and not backFromSarn(wapshotts) and not atSea(wapshotts) and at(party, green_a) {
     Assert backFromSarn(wapshotts). Retract away(wapshott). Retract away(fenwick). Retract away(billie). Retract away(mumchance). Retract away(crewe). Retract away(mudge). Retract away(nunn).
     Retract following(wapshott, party). Retract following(fenwick, party). Retract following(billie, party). Retract following(mumchance, party).

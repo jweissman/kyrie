@@ -29,7 +29,7 @@ Module circus "Wapshott's Peregrine Circus" {
   }
   Person tyrant "the tyrant" at tyrant_hollow {
     Role "the island's hunter, asleep or not". Species tyrant. Level 6. Numbers 1. Temperament territorial.
-    Warns "The ferns in the hollow rise. A head the length of a man comes up out of them with its mouth a little open, quite unhurried, and the teeth in it are the length of your hand.".
+    Warns "The ground ahead rises. A head the length of a man comes up out of the ferns with its mouth a little open, unhurried, and the teeth in it are the length of your hand.".
     Comes "It comes across the ground in three strides and the ground shakes at every one.".
     Lair tyrant_hollow.
   }
@@ -68,7 +68,7 @@ Module circus "Wapshott's Peregrine Circus" {
     Speaker harrow.
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, harrow_camp) and at(harrow, harrow_camp) and quantity(actor, gold) >= 40 and not calfBought(party) and not calfFreed(party).
     Time 0.
-    On success { Decrease quantity(actor, gold) by 40. Assert calfBought(party). Assert hatchlingsHome(party). Assert harrowFriend(party). }
+    On success { Decrease quantity(actor, gold) by 40. Assert calfBought(party). Assert harrowFriend(party). }
     Result "Harrow counts the coin twice, and nods at the least of the crates. 'You'll want the cage back,' he says. 'You will not get it.' Inside it a young hook-claw the size of a cat looks at you sidelong, with the whole of its face, and clicks once.".
   }
   Relation calfBought(group). Relation calfFreed(group).
@@ -80,7 +80,7 @@ Module circus "Wapshott's Peregrine Circus" {
   }
   Rule calf_freed_rule at harrow_camp when state(calf_cage, sprung) and not calfFreed(party)
     says "Harrow's men look up from their mugs at the sound, and do not move. The calf comes out of the crate in a single sideways flow, and is gone into the mangroves with its tail out straight." {
-    Assert calfFreed(party). Assert tolerates(hook_claws, party). Assert hookTolerates(party). Assert hatchlingsHome(party). Assert harrowBeaten(party). Retract tolerates(harrow_men, party).
+    Assert calfFreed(party). Assert tolerates(hook_claws, party). Assert hookTolerates(party). Assert harrowBeaten(party). Retract tolerates(harrow_men, party).
   }
   Action parley_harrow(actor: group, site: place) "Argue with Captain Harrow that the island is not his to thin" {
     Speaker harrow.
@@ -115,9 +115,9 @@ Module circus "Wapshott's Peregrine Circus" {
   // ── The hook-claws and the hatchlings ────────────────────────────────────────────────────────────────────────
   Action return_hatchlings(actor: group, site: place) "Set the young hook-claws down at the edge of the hollow and step back" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, hook_den) and at(hook_claws, hook_den) and able(hook_claws)
-      and (hatchlingsHome(party) or hatchlingsPenned(wapshotts)) and (not colonelNamed(wapshotts) or namedLetGo(wapshotts)) and not hookTolerates(party).
+      and youngAshore(party) and (not colonelNamed(wapshotts) or namedLetGo(wapshotts)) and not hookTolerates(party).
     Time 0.
-    On success { Assert hookTolerates(party). Assert tolerates(hook_claws, party). Assert hatchlingsHome(party). Retract at(hatchlings, hold). Retract travels(hatchlings). Retract post(hatchlings, rk_beasts). Assert at(hatchlings, hook_den). }
+    On success { Assert hookTolerates(party). Assert tolerates(hook_claws, party). Assert hatchlingsHome(party). Assert at(hatchlings, hook_den). Retract youngAshore(party). }
     Result "You open the sack and set them down in the bare earth, and step back, and nobody moves. One of the young goes forward in short, stopped runs, and the biggest of the pack lowers her head to it, and makes a sound you could not have told from a purr. The pack closes round them. When it opens, you are no longer in it, and no one has looked at you since.".
   }
   Observe hook_pack_soft at hook_den when hookTolerates(party) "The pack lies in the sun in its hollow with the young in the middle, and takes no notice of you at all.".
@@ -135,7 +135,7 @@ Module circus "Wapshott's Peregrine Circus" {
     Assert herdSeen(party).
   }
   Entity herd_known: fact "At dawn the lantern-necks come down out of the crater mist to wade and drink in the lake, with their calves between them, and are interested in nothing.".
-  Rule herd_stride_rule at lake_shore when at(party, lake_shore) and hour(clock) >= 6 and hour(clock) < 7 and herdSeen(party) and dice(clock) <= 2 and not tyrantFled(party)
+  Rule herd_stride_rule at lake_shore when at(party, lake_shore) and hour(clock) >= 6 and hour(clock) < 7 and herdSeen(party) and dice(clock) <= 2 and not tyrantFled(party) and not knows(party, piper_known)
     says "A wagon-wheel of a foot comes down in the shallows, too near." {
     Assert strikes(herd_stride, party).
   }
@@ -161,7 +161,7 @@ Module circus "Wapshott's Peregrine Circus" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, tar_pits) and holding(actor, rope) and not tarFreed(party).
     Time 6.
     Resolve check(actor, brawn, dc_hard).
-    On success { Assert tarFreed(party). Assert tolerates(three_horns, actor). Assert herdBlessed(party). Retract at(tar_calf, tar_pits). Assert hatchlingsHome(party). }
+    On success { Assert tarFreed(party). Assert tolerates(three_horns, actor). Assert herdBlessed(party). Retract at(tar_calf, tar_pits). }
     On failure { Assert strikes(bog_pitch, party). }
     Result "It takes all of you, and a rope round its horns, and an hour. At the end of it, a great black-skinned calf comes out of the pitch with a sound like a boot out of a bog, and lies quite still on the sulphur crust, and then lurches to its feet and goes off over the ridge calling for something that answers.".
     Otherwise "The rope slips. The pitch takes your boots to the ankle, and the animal looks at you with one dark and patient eye.".
@@ -185,7 +185,7 @@ Module circus "Wapshott's Peregrine Circus" {
 
   // ── The journal and the cages ─────────────────────────────────────────────────────────────────────────────────
   Kind warden_journal "Warden Orme's journal" is document teaching journal_read described "A leather-bound book swollen with damp, in a fair copperplate hand: the day-book of the last Warden of the Southern Preserve, Anselm Orme, who kept it for thirty-one years and left it on the table in the hall.".
-  Discovery journal_read "Warden Orme's journal: the Progress founded the Preserve four hundred years ago to keep beasts of the southern sea; the Great Beast sent north in the last Progress, to the King as a gift, was a lantern-neck, a calf of three summers, and went with a hook-claw cub from the forest to keep him company, whose foot-claw the diggers would one day find; the ship's master was told to feed him cabbages; the Preserve was left to itself when the Progress was disbanded; and the last entry is a note to whoever came after: PUT NOTHING IN A CAGE THAT CAN BE LET OUT OF ONE.".
+  Discovery journal_read "Warden Orme's journal: the Progress founded the Preserve four hundred years ago and went round its last time three hundred years since to keep beasts of the southern sea; the Great Beast sent north in the last Progress, to the King as a gift, was a lantern-neck, a calf of three summers, and went with a hook-claw cub from the forest to keep him company; the ship's master was told to feed him cabbages; the Preserve was left to itself when the Progress was disbanded; and the last entry is a note to whoever came after: PUT NOTHING IN A CAGE THAT CAN BE LET OUT OF ONE.".
   Item journal_item "Warden Orme's journal" is warden_journal at preserve_hall.
   Kind keepers_map "the Warden's map of the island" is document teaching map_read described "A map on tanned hide in the Warden's hand, with the island's six countries named and the beasts in each drawn in the margins, and a warning, in red, at the plain's north-west corner: THE TYRANT HUNTS AT EVENING.".
   Discovery map_read "The Warden's map names the island's six countries and the beasts in each, and warns of the tyrant at evening.".

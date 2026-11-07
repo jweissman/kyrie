@@ -12,15 +12,15 @@ Module circus "Wapshott's Peregrine Circus" {
   Observe tent_quinceys near hal when crateOpened(wapshotts) and not eggsHatched(wapshotts) "Hal and Dunstan Quincey, who have not spoken to each other in a month, are taking turns to sit up with the crate, and have agreed on it, in writing, on the back of a bill. It is the first thing they have agreed on since the pyramid. Neither of them has yet remarked on this.".
   Observe tent_mumchance near mumchance when crateOpened(wapshotts) and not eggsHatched(wapshotts) "Mumchance is sitting by the crate, quite still, with his white-gloved hands on his knees. One of the eggs, at the edge of the ring, has begun to rock toward him, slowly, and he has not moved a muscle, and has not taken his eyes from it, and is crying.".
   Observe tent_nance near nance when crateOpened(wapshotts) and not eggsHatched(wapshotts) "Nance Tibbet has read the crate as she reads a face. 'It's afraid of the dark,' she says, which is not a thing a crate can be, and then, to nobody: 'Afraid of the dark, and has been told there is a sea in it.'".
-  Observe tent_claw near jabez when crateOpened(wapshotts) and holding(party, marl_claw_kind) "The crowned wheel on the crate's lid is the same wheel as on the Bishop's shell and the claw's old wrapping. Whatever the Progress kept, it kept a good while, and in a good many places.".
+  Observe tent_claw near wapshott when crateOpened(wapshotts) and holding(party, marl_claw_kind) "The crowned wheel on the crate's lid is the same wheel as on the Bishop's shell and the claw's old wrapping. Whatever the Progress kept, it kept a good while, and in a good many places.".
 
   // The Colonel's mistake: he names things.
   Topic wap_no_names with wapshott "Ask the Colonel not to name them" when crateOpened(wapshotts) and not eggsHatched(wapshotts) and not namesForbidden(wapshotts) once {
     Says "The Colonel stares. 'Not name them?' he says. 'My dear sir. A creature unnamed is a creature unbilled.' Billie, who has been standing behind you for some time, says nothing in a particular way. The Colonel looks at her, and at you. 'Not till they are out,' he says, as though conceding Calais. 'On my honour.'".
     On discuss { Assert namesForbidden(wapshotts). }
   }
-  Rule colonel_names near wapshott when eggsHatched(wapshotts) and not namesForbidden(wapshotts) and not colonelNamed(wapshotts)
-    says "By breakfast the Colonel has named them. The big one is Hercules. The one who bit him is Mrs Pettigrew. The littlest, who has attached herself to the toe of his boot and will not be moved, is Dame Honorine. He is happier than you have seen him since the Warrant. Billie goes out of the tent without a word and comes back with a bucket she does not need." {
+  Rule colonel_names near wapshott when eggsHatched(wapshotts) and (not namesForbidden(wapshotts) or hatchlingsLoose(wapshotts)) and not colonelNamed(wapshotts)
+    says "By breakfast the Colonel has named them. The big one is Hercules. The one who bit him is Mrs Pettigrew. The littlest, who has attached herself to the toe of his boot and will not be moved, is the Duchess. He is happier than you have seen him since the Warrant. Billie goes out of the tent without a word and comes back with a bucket she does not need." {
     Assert colonelNamed(wapshotts). }
 
   // The night chase: a funny escalation, none of it a fight.
