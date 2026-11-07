@@ -12,7 +12,7 @@ Module circus "Wapshott's Peregrine Circus" {
   Relation trumpetPending(concern). Relation trumpetDone(concern). Relation colonelStopped(concern). Relation herdScattered(concern).
   Relation takeLeave(concern). Relation takeEgg(concern). Relation takeSpecimens(concern). Relation billieResigned(concern).
   Relation fenwickDispleased(concern). Relation colonelAwed(concern). Relation ruleRead(concern).
-  Measure crateDay(concern). Measure hatchLosses(concern).
+  Measure crateDay(concern). Measure hatchLosses(concern). Measure trumpetAt(concern).
 
   Person crewe "Tobiah Crewe" at tober_a {
     Role "mate of the brig Sundial, lately her master". Ancestry human. Peaceable. Pronouns he. Manner stoic.
@@ -153,12 +153,13 @@ Module circus "Wapshott's Peregrine Circus" {
     Says "The Colonel reads it aloud, as he reads everything, as if to a house. THE KEEPER IS ANSWERABLE TO THE BEAST. He stops. 'That is a hard thing to be told in a stranger's hall,' he says quietly. 'I thought it was the other way about.' He looks round for Billie, and finds her, and looks away.".
     On discuss { Assert ruleRead(wapshotts). }
   }
-  Rule trumpet_found at lake_shore when voyaged(wapshotts) and herdSeen(party) and not trumpetPending(wapshotts) and not trumpetDone(wapshotts)
+  Rule trumpet_found at lake_shore when at(party, lake_shore) and hour(clock) >= 5 and hour(clock) < 9 and voyaged(wapshotts) and herdSeen(party) and not trumpetPending(wapshotts) and not trumpetDone(wapshotts)
     says "The Colonel has stopped being awed. You see it happen: his chest comes up, his hand goes into his coat, and out of it, with a fumbling flourish, comes the trumpet. It is nine inches of brass with a ribbon on it. He is looking at ten lantern-necks and a lake with an expression of terrible joy." {
-    Assert trumpetPending(wapshotts). }
+    Assert trumpetPending(wapshotts). Set trumpetAt(wapshotts) to watch(clock). }
+  Rule trumpet_pocketed when trumpetPending(wapshotts) and not at(party, lake_shore) says "Behind you on the shore the Colonel has put the trumpet away, unblown. It is not a thing he can do in front of nobody." { Retract trumpetPending(wapshotts). }
   Action stop_colonel(actor: group, site: place) "Take the Colonel by the elbow before he blows" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, lake_shore) and trumpetPending(wapshotts).
-    Time 0.
+    Time 1.
     Resolve check(actor, persuasion, dc_fair).
     On success { Retract trumpetPending(wapshotts). Assert trumpetDone(wapshotts). Assert colonelStopped(wapshotts). }
     Result "'Colonel,' you say, and put your hand on his sleeve. He looks at you, and at the herd, and at his trumpet. After a time he lowers it. 'You are right,' he says, in a small voice. 'There are some audiences one does not play to.'".
@@ -170,7 +171,7 @@ Module circus "Wapshott's Peregrine Circus" {
     On success { Retract trumpetPending(wapshotts). Assert trumpetDone(wapshotts). Assert colonelStopped(wapshotts). }
     Result "Mumchance walks across the mud without a sound and stands beside him, and puts one white-gloved hand lightly on his sleeve. The Colonel does not look round. His breath goes out of him. He lowers the trumpet slowly, as a man lowers a flag, and after a moment he takes off his hat. The herd goes on drinking.".
   }
-  Rule trumpet_blown at lake_shore when trumpetPending(wapshotts) and not colonelStopped(wapshotts) and hour(clock) >= 6 and not trumpetDone(wapshotts)
+  Rule trumpet_blown at lake_shore when at(party, lake_shore) and trumpetPending(wapshotts) and not colonelStopped(wapshotts) and watch(clock) >= trumpetAt(wapshotts) + 2 and not trumpetDone(wapshotts)
     says "The Colonel blows. It is a beautiful note, bright, brazen, perfectly pitched, and it goes out over the lake like a thrown plate. The nearest lantern-neck turns its small head, slowly. The herd takes one step, all together, to the left, and the shore is a shore of mud and spray and vast grey legs." {
     Assert trumpetDone(wapshotts). Assert herdScattered(wapshotts). Assert strikes(herd_stride, party). Retract trumpetPending(wapshotts). }
 
