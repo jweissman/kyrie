@@ -1,7 +1,7 @@
 Module world_services "Lodging, goods and camping" {
   Kind service. Kind servicekind.
   Entity lodging: servicekind "Lodging". Entity healing: servicekind "Healing". Entity passage_fare: servicekind "Passage".
-  Entity raising: servicekind "Raising the dead".
+  Entity raising: servicekind "Raising the dead". Entity restoring: servicekind "Restoration".
   Relation offers(group, service). Relation serviceOf(service, servicekind). Relation sells(group, good).
   Measure fee(service). Measure goodsPrice(group, good).
   Goal false.
@@ -67,6 +67,17 @@ Module world_services "Lodging, goods and camping" {
     Time untilMorning(clock). Resolve raise(lost).
     On success { Decrease quantity(actor, gold) by fee(service). Increase quantity(healer, gold) by fee(service). }
     Result "{healer} keeps the vigil over {lost} through the long hours, and at the end of them {lost} draws a breath, and then another.".
+  }
+  // One the dead have drained of levels (a wraith's touch, a vampire's) has them back by a priest's restoration at the
+  // shrine: an hour's prayer, for a price; nothing else gives them back.
+  Action take_restoration(actor: group, healer: group, service: service, lost: member, site: place) "Ask {healer} to restore {lost}" {
+    Description "An hour's prayer at the shrine, and the price of it. Every level the dead took comes back.".
+    Requires able(actor) and able(healer) and distinct(actor, healer) and at(actor, site) and at(healer, site)
+      and not refusesService(healer, actor) and offers(healer, service) and serviceOf(service, restoring)
+      and memberOf(lost, actor) and levelDrained(lost) and quantity(actor, gold) >= fee(service).
+    Time 6. Resolve restore(lost).
+    On success { Decrease quantity(actor, gold) by fee(service). Increase quantity(healer, gold) by fee(service). }
+    Result "{healer} prays over {lost} for an hour, and the cold goes out of them, and they are themselves again.".
   }
   Action buy_goods(actor: group, seller: group, goods: good, site: place) "Buy one {goods} from {seller}" {
     Time 3 minutes.

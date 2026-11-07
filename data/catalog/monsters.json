@@ -1955,7 +1955,8 @@
         "curse",
         "fear",
         "life_drain",
-        "charm"
+        "charm",
+        "greater_energy_drain"
       ],
       "traits": [
         "undead",
@@ -2060,7 +2061,8 @@
       "abilities": [
         "curse",
         "fear",
-        "life_drain"
+        "life_drain",
+        "energy_drain"
       ],
       "traits": [
         "undead",

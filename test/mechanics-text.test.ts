@@ -14,8 +14,9 @@ describe('ability text comes from the typed mechanics', () => {
       + 'avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. Again after 3 turns.');
     expect(MechanicsText.ability(ability('second_wind'), actor).summary).toBe('Heal yourself for 1d10 + 3 (4–13).');
     expect(MechanicsText.full(ability('breathe_fire'), actor))
-      .toBe('2d6 + 6 (8–18) fire damage to every enemy (a Constitution save against 18 halves it; may cause burning: a '
-        + 'Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. Again after 3 turns.');
+      .toBe('2d6 + 6 (8–18) fire damage to everyone between you and where it is aimed, friend or foe (a Constitution '
+        + 'save against 18 halves it; may cause burning: a Constitution save against 15 avoids it). Burning: takes 1d3 '
+        + '(1–3) fire damage each turn. Again after 3 turns. 3 times a day, until a night\'s rest.');
     expect(MechanicsText.condition('defending')).toBe('Defending: 2 harder to hit.');
     expect(MechanicsText.condition('blessed')).toBe('Blessed: +1 to hit, +1 damage.');
   });

@@ -44,7 +44,7 @@
     "breathe_fire": {
       "name": "Fire breath",
       "kind": "natural",
-      "description": "Fire pours over everyone before the creature. A quick or hardy creature takes half. The fire takes a while to rekindle.",
+      "description": "Fire pours over everyone before the creature. A quick or hardy creature takes half. The fire takes a while to rekindle; three times a day at most.",
       "effects": [
         {
           "kind": "damage",
@@ -68,13 +68,14 @@
       "source": {
         "orsino": "weapon:fire_breath",
         "fidelity": "adapted",
-        "notes": "Area fire damage scales as 2d6 + 2 per creature level, with a breath save for half and a three-turn recharge. Maturity supplies a generated dragon level; its natural bite remains available."
-      }
+        "notes": "Area fire damage scales as 2d6 + 2 per creature level, with a breath save for half and a three-turn recharge. Maturity supplies a generated dragon level; its natural bite remains available. A cone: it catches whoever stands between the creature and where it is aimed, friend or foe (see Positions); three times a day, as the old games' dragons breathe (Kyr's own: Orsino's breath is a weapon, unlimited)."
+      },
+      "uses": 3
     },
     "breathe_cold": {
       "name": "Cold breath",
       "kind": "natural",
-      "description": "Breath strikes every enemy; a breath save halves damage. Recharges in three turns.",
+      "description": "Breath pours over everyone before the creature; a breath save halves damage. Recharges in three turns, and comes at most three times a day.",
       "effects": [
         {
           "kind": "damage",
@@ -96,13 +97,15 @@
       ],
       "recharge": 3,
       "source": {
-        "kyr": true
-      }
+        "kyr": true,
+        "notes": "A cone: it catches whoever stands between the creature and where it is aimed, friend or foe (see Positions); three times a day, as the old games' dragons breathe (Kyr's own: Orsino's breath is a weapon, unlimited)."
+      },
+      "uses": 3
     },
     "breathe_acid": {
       "name": "Acid breath",
       "kind": "natural",
-      "description": "Breath strikes every enemy; a breath save halves damage. Recharges in three turns.",
+      "description": "Breath pours over everyone before the creature; a breath save halves damage. Recharges in three turns, and comes at most three times a day.",
       "effects": [
         {
           "kind": "damage",
@@ -124,13 +127,15 @@
       ],
       "recharge": 3,
       "source": {
-        "kyr": true
-      }
+        "kyr": true,
+        "notes": "A cone: it catches whoever stands between the creature and where it is aimed, friend or foe (see Positions); three times a day, as the old games' dragons breathe (Kyr's own: Orsino's breath is a weapon, unlimited)."
+      },
+      "uses": 3
     },
     "breathe_lightning": {
       "name": "Lightning breath",
       "kind": "natural",
-      "description": "Breath strikes every enemy; a breath save halves damage. Recharges in three turns.",
+      "description": "Breath pours over everyone before the creature; a breath save halves damage. Recharges in three turns, and comes at most three times a day.",
       "effects": [
         {
           "kind": "damage",
@@ -152,13 +157,15 @@
       ],
       "recharge": 3,
       "source": {
-        "kyr": true
-      }
+        "kyr": true,
+        "notes": "A cone: it catches whoever stands between the creature and where it is aimed, friend or foe (see Positions); three times a day, as the old games' dragons breathe (Kyr's own: Orsino's breath is a weapon, unlimited)."
+      },
+      "uses": 3
     },
     "breathe_poison": {
       "name": "Poison breath",
       "kind": "natural",
-      "description": "Breath strikes every enemy; a breath save halves damage. Recharges in three turns.",
+      "description": "Breath pours over everyone before the creature; a breath save halves damage. Recharges in three turns, and comes at most three times a day.",
       "effects": [
         {
           "kind": "damage",
@@ -180,8 +187,10 @@
       ],
       "recharge": 3,
       "source": {
-        "kyr": true
-      }
+        "kyr": true,
+        "notes": "A cone: it catches whoever stands between the creature and where it is aimed, friend or foe (see Positions); three times a day, as the old games' dragons breathe (Kyr's own: Orsino's breath is a weapon, unlimited)."
+      },
+      "uses": 3
     },
     "conjure_light": {
       "name": "Light",
@@ -336,7 +345,7 @@
     "breathe_disintegration": {
       "name": "Disintegrating breath",
       "kind": "natural",
-      "description": "A breath that unmakes what it touches strikes every enemy; a breath save halves it. Recharges in three turns.",
+      "description": "A breath that unmakes what it touches pours over everyone before the creature; a breath save halves it. Recharges in three turns, and comes at most three times a day.",
       "effects": [
         {
           "kind": "damage",
@@ -359,13 +368,14 @@
       "recharge": 3,
       "source": {
         "kyr": true,
-        "notes": "A dragon lineage's breath weapon, of the shape every breath has: all its foes, a save vs breath for half, three turns to breathe again."
-      }
+        "notes": "A dragon lineage's breath weapon, of the shape every breath has: all its foes, a save vs breath for half, three turns to breathe again. A cone: it catches whoever stands between the creature and where it is aimed, friend or foe (see Positions); three times a day, as the old games' dragons breathe (Kyr's own: Orsino's breath is a weapon, unlimited)."
+      },
+      "uses": 3
     },
     "breathe_thunder": {
       "name": "Deafening breath",
       "kind": "natural",
-      "description": "A roar of breath strikes every enemy and deafens those who do not save; a breath save halves it. Recharges in three turns.",
+      "description": "A roar of breath pours over everyone before the creature and deafens those who do not save; a breath save halves it. Recharges in three turns, and comes at most three times a day.",
       "effects": [
         {
           "kind": "damage",
@@ -402,13 +412,14 @@
       "recharge": 3,
       "source": {
         "kyr": true,
-        "notes": "A dragon lineage's breath weapon, of the shape every breath has: all its foes, a save vs breath for half, three turns to breathe again."
-      }
+        "notes": "A dragon lineage's breath weapon, of the shape every breath has: all its foes, a save vs breath for half, three turns to breathe again. A cone: it catches whoever stands between the creature and where it is aimed, friend or foe (see Positions); three times a day, as the old games' dragons breathe (Kyr's own: Orsino's breath is a weapon, unlimited)."
+      },
+      "uses": 3
     },
     "breathe_blinding": {
       "name": "Blinding breath",
       "kind": "natural",
-      "description": "A glare of breath strikes every enemy and blinds those who do not save; a breath save halves it. Recharges in three turns.",
+      "description": "A glare of breath pours over everyone before the creature and blinds those who do not save; a breath save halves it. Recharges in three turns, and comes at most three times a day.",
       "effects": [
         {
           "kind": "damage",
@@ -445,13 +456,14 @@
       "recharge": 3,
       "source": {
         "kyr": true,
-        "notes": "A dragon lineage's breath weapon, of the shape every breath has: all its foes, a save vs breath for half, three turns to breathe again."
-      }
+        "notes": "A dragon lineage's breath weapon, of the shape every breath has: all its foes, a save vs breath for half, three turns to breathe again. A cone: it catches whoever stands between the creature and where it is aimed, friend or foe (see Positions); three times a day, as the old games' dragons breathe (Kyr's own: Orsino's breath is a weapon, unlimited)."
+      },
+      "uses": 3
     },
     "breathe_holy": {
       "name": "Holy breath",
       "kind": "natural",
-      "description": "A breath of searing light strikes every enemy; a breath save halves it. Recharges in three turns.",
+      "description": "A breath of searing light pours over everyone before the creature; a breath save halves it. Recharges in three turns, and comes at most three times a day.",
       "effects": [
         {
           "kind": "damage",
@@ -474,13 +486,14 @@
       "recharge": 3,
       "source": {
         "kyr": true,
-        "notes": "A dragon lineage's breath weapon, of the shape every breath has: all its foes, a save vs breath for half, three turns to breathe again."
-      }
+        "notes": "A dragon lineage's breath weapon, of the shape every breath has: all its foes, a save vs breath for half, three turns to breathe again. A cone: it catches whoever stands between the creature and where it is aimed, friend or foe (see Positions); three times a day, as the old games' dragons breathe (Kyr's own: Orsino's breath is a weapon, unlimited)."
+      },
+      "uses": 3
     },
     "breathe_madness": {
       "name": "Maddening breath",
       "kind": "natural",
-      "description": "A breath that turns the mind strikes every enemy and confuses those who do not save; a breath save halves it. Recharges in three turns.",
+      "description": "A breath that turns the mind pours over everyone before the creature and confuses those who do not save; a breath save halves it. Recharges in three turns, and comes at most three times a day.",
       "effects": [
         {
           "kind": "damage",
@@ -517,7 +530,72 @@
       "recharge": 3,
       "source": {
         "kyr": true,
-        "notes": "A dragon lineage's breath weapon, of the shape every breath has: all its foes, a save vs breath for half, three turns to breathe again."
+        "notes": "A dragon lineage's breath weapon, of the shape every breath has: all its foes, a save vs breath for half, three turns to breathe again. A cone: it catches whoever stands between the creature and where it is aimed, friend or foe (see Positions); three times a day, as the old games' dragons breathe (Kyr's own: Orsino's breath is a weapon, unlimited)."
+      },
+      "uses": 3
+    },
+    "energy_drain": {
+      "name": "Energy drain",
+      "kind": "natural",
+      "description": "A cold touch that takes a level of the one it lands on: their strength in a fight, their spells and their health, until a restoration gives it back.",
+      "effects": [
+        {
+          "kind": "attack",
+          "target": "enemy"
+        },
+        {
+          "kind": "enervate",
+          "amount": {
+            "kind": "literal",
+            "value": 1
+          },
+          "target": "enemy"
+        }
+      ],
+      "recharge": 3,
+      "source": {
+        "kyr": true,
+        "notes": "Kyr's own, the old games' energy drain (the wight's and the wraith's touch: a level for each that lands, no save); Orsino's undead drain no levels. Rests three turns, as Orsino's skills that name none."
+      }
+    },
+    "greater_energy_drain": {
+      "name": "Greater energy drain",
+      "kind": "natural",
+      "description": "A touch that takes two levels of the one it lands on, until a restoration gives them back.",
+      "effects": [
+        {
+          "kind": "attack",
+          "target": "enemy"
+        },
+        {
+          "kind": "enervate",
+          "amount": {
+            "kind": "literal",
+            "value": 2
+          },
+          "target": "enemy"
+        }
+      ],
+      "recharge": 3,
+      "source": {
+        "kyr": true,
+        "notes": "Kyr's own, the old games' vampire's and spectre's drain of two levels a touch; Orsino's undead drain no levels."
+      }
+    },
+    "restoration": {
+      "name": "Restoration",
+      "kind": "spell",
+      "description": "A prayer that gives back to one who was drained what the dead took: every level lost.",
+      "effect": "Remove drained from ally.",
+      "cost": 1,
+      "spell": {
+        "tradition": "divine",
+        "level": 4,
+        "domain": "life"
+      },
+      "source": {
+        "kyr": true,
+        "notes": "Kyr's own, the old games' restoration, the one remedy for energy drain (a temple's service, or a cleric's spell). It lifts every level taken at once, where the old games give back one a casting."
       }
     }
   }

@@ -1,5 +1,6 @@
 import { Canon } from './canon/canon';
 import { ItemCatalog } from './item-catalog';
+import { LevelDrain } from './rules/level-drain';
 import type { Creature } from './creature';
 import type { EncounterParticipant, Fighter, Team } from './model';
 
@@ -36,11 +37,18 @@ export class CombatProjection {
         // back from it as they went in (a warrior's climbing, taken up with a level, was gone at the next watch of a
         // torch burning: found by test/growth.test.ts).
         ...(original?.state.advances ? { advances: structuredClone(original.state.advances) } : {}),
-        ...(original?.state.skills ? { skills: [...original.state.skills] } : {}) } };
+        ...(original?.state.skills ? { skills: [...original.state.skills] } : {}),
+        ...fighter.daily ? { daily: structuredClone(fighter.daily) } : {} } };
   }
   // One of the company carries into a fight what it can use up there (see ItemCatalog.stock), each kind an ability
   // whose source is the first of that kind it has not used.
+  // One drained of levels fights at the level it stands at (see LevelDrain).
   static fighter(creature: Creature, team: Team): Fighter {
+    const fighter = CombatProjection.made(creature, team), drained = LevelDrain.levels(creature.state.conditions);
+    if (drained) { LevelDrain.lower(fighter, drained); }
+    return fighter;
+  }
+  private static made(creature: Creature, team: Team): Fighter {
     const stock = team === 'fighters' ? ItemCatalog.stock(creature) : {}, sources = { ...ItemCatalog.abilities(creature),
       ...Object.fromEntries(Object.entries(stock).map(([id, [first]]) => [id,
         { id: first!, kind: 'item' as const, name: ItemCatalog.used(id)!.name }])) };
@@ -60,6 +68,7 @@ export class CombatProjection {
       ...(creature.variations ? { variations: [...creature.variations] } : {}),
       // A creature of a kind with no calling: its kind's powers are its own, spells among them cast without slots.
       ...(Canon.isBody(creature.raceId) && !creature.classId ? { innate: [...creature.base.abilities] } : {}),
+      ...creature.state.daily ? { daily: structuredClone(creature.state.daily) } : {},
       team, cooldowns: {} };
   }
   // The uses left in each charged thing it carries into the fight (a wand): its own count, or its kind's when new.

@@ -10,7 +10,7 @@ import { Effects, type EffectContext } from './effects';
 import { Targeting } from './targeting'; import { Fighting } from './rules/fighting';
 import { Morale } from './rules/morale';
 import { Tactics } from './tactics';
-import { Quarry } from './quarry';
+import { Quarry } from './quarry'; import { Positions } from './rules/positions';
 import { ItemCatalog } from './item-catalog';
 import type { ArenaAbility } from './lang/parse';
 import type { BattleState, CombatEvent, Command, EncounterParticipant, Fighter, Moment, Outcome, Scenario, Team } from './model';
@@ -250,8 +250,9 @@ export class Battle {
       // only against that kind, and not at all when there is none.
       const kind = ability.effects.every(effect => effect.targetTrait);
       if (ability.effects.some(effect => !this.reachable(effect, actor, kind).length)) { return []; }
-      const targets = selected.length ? this.fighters.filter(target => selected.every(effect =>
-        this.reachable(effect, actor, kind).some(f => f.id === target.id))) : [actor];
+      // An area is aimed at a place a foe stands in, by the first foe there (see Positions).
+      const targets = selected.length ? this.fighters.filter(t => selected.every(effect =>
+        this.reachable(effect, actor, kind).some(f => f.id === t.id))) : Positions.aims(actor, this.fighters, ability);
       return targets.map(target => ({ actor: actor.id, ability: ability.id, target: target.id }));
     });
     const forced = commands.filter(c => taunters.includes(c.target));

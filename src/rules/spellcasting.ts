@@ -2,11 +2,13 @@ import { Creation } from './creation';
 import { Fighting } from './fighting';
 import { Content } from '../content';
 import type { Attribute } from '../creature';
+import { DailyUses, type Daily } from './daily-uses';
 
 // What a caster carries for spells: slots by spell level, the spell prepared in each, and which are still ready.
 // innate: a creature's own powers by its kind (a ghoul's paralysing touch, a vampire's drain), cast without slots.
-interface Caster { slots?: number[]; mana: number; prepared?: string[][]; ready?: string[][]; innate?: string[] }
-interface Spell { id?: string; cost?: number; spell?: { level: number } }
+interface Caster { slots?: number[]; mana: number; prepared?: string[][]; ready?: string[][]; innate?: string[];
+  level?: number; daily?: Daily }
+interface Spell { id?: string; cost?: number; spell?: { level: number }; uses?: number }
 
 // Old-school spellcasting. A caster has slots for each spell level, from its class table and level, and prepares a
 // known spell in each one (a spell of that level or lower). Casting spends a ready slot holding that spell; a cantrip
@@ -64,12 +66,16 @@ export class Spellcasting {
     for (let i = (ability.spell?.level ?? 1) - 1; i < ready.length; i++) { if (ready[i]!.includes(ability.id ?? '')) { return i; } }
     return undefined;
   }
+  // Whether it can be used now: what it costs is there, and what it can do only so often a day is not used up (an
+  // innate spell draws on its kind's spells a day: see DailyUses).
   static affordable(caster: Caster, ability: Spell): boolean {
+    if (!DailyUses.ready(caster, ability)) { return false; }
     if (ability.spell && caster.innate?.includes(ability.id ?? '')) { return true; }
     if (ability.spell) { return !this.needsSlot(ability) || this.slotFor(caster, ability) !== undefined; }
     return (ability.cost ?? 0) <= caster.mana;
   }
   static spend(caster: Caster, ability: Spell) {
+    DailyUses.spend(caster, ability);
     if (!ability.spell) { caster.mana -= ability.cost ?? 0; return; }
     if (!this.needsSlot(ability) || caster.innate?.includes(ability.id ?? '')) { return; }
     const i = this.slotFor(caster, ability);

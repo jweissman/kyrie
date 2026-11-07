@@ -129,7 +129,7 @@ export class SettlementWriter {
   private static priest(s: Settlement, f: Founding, at: { region: Region; cult: Cult }): string {
     const q = this.q, { region, cult } = at, h = Foundings.table.holy[f.holy];
     const where = f.holy === 'wayside' ? `${s.id}_green` : `${s.id}_shrine`;
-    return `  Person ${s.id}_priest ${q(s.priest)} at ${where} { Role ${q(Foundings.fill(h.role, { ...this.words(s), cult: cult.name }))}. ${this.of(s, 'priest', region)} Profession priest. Peaceable.${this.pronoun(s, 'priest', f)}${s.size === 'town' ? ' Offers raising "a raising of the dead" for 150 coin. Sells old_glossary for 80 coin from 1.' : ''} }`;
+    return `  Person ${s.id}_priest ${q(s.priest)} at ${where} { Role ${q(Foundings.fill(h.role, { ...this.words(s), cult: cult.name }))}. ${this.of(s, 'priest', region)} Profession priest. Peaceable.${this.pronoun(s, 'priest', f)}${s.size === 'town' ? ' Offers raising "a raising of the dead" for 150 coin. Offers restoring "a restoration" for 100 coin. Sells old_glossary for 80 coin from 1.' : ''} }`;
   }
   // The merchant a settlement's trade supports, with that kind of merchant's stock and what they will buy: in a shop,
   // or at their own door on the heart.

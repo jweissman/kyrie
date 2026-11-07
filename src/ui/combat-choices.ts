@@ -1,6 +1,7 @@
 import type { ArenaAbility } from '../lang/parse';
 import type { Command } from '../model';
 import { Targeting } from '../targeting';
+import { Positions } from '../rules/positions';
 
 export interface ActionChoice { ability: ArenaAbility; commands: Command[]; requiresTarget: boolean; scope: string }
 export class CombatChoices {
@@ -9,7 +10,9 @@ export class CombatChoices {
     for (const ability of abilities) {
       const commands = legal.filter(command => command.ability === ability.id);
       if (!commands.length) { continue; }
-      const requiresTarget = ability.effects.some(effect => Targeting.selected(effect.target));
+      // An area is aimed too: at where one of the foes stands (see Positions).
+      const requiresTarget = ability.effects.some(effect => Targeting.selected(effect.target))
+        || !!Positions.area(ability);
       const scopes = [...new Set(ability.effects.map(effect => effect.target))];
       choices.push({ ability, commands, requiresTarget, scope: requiresTarget ? 'choose target' : scopes.join(', ') });
     }

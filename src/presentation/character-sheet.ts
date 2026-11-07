@@ -105,14 +105,14 @@ export class CharacterSheets {
     const missile = weapon.missile === true, stat = missile ? combatant.dexterity : combatant.strength;
     const toHit = Fighting.statMod(stat) + (combatant.modifiers.toHit ?? 0);
     const bonus = Math.max(0, Fighting.statMod(stat));
-    const unarmoured = Fighting.thac0(c.base.level) - 10 - toHit, ac = Fighting.armorClass(combatant);
+    const unarmoured = Fighting.thac0(f.level) - 10 - toHit, ac = Fighting.armorClass(combatant);
     const worn = (c.state.inventory ?? []).find(i => i.equipped && Canon.items[i.definition]?.armor);
     return [
       { label: 'Strikes with', value: `${weapon.name.toLowerCase()}: ${weapon.damage}${bonus ? ` + ${bonus}` : ''} ${weapon.type}` },
       { label: 'To land a blow', value: `${Math.max(2, unarmoured)} or more on the die against someone unarmoured` },
       { label: 'Armour', value: worn ? Canon.items[worn.definition]!.name : 'none' },
       { label: 'To be struck', value: `a common foe needs ${Math.min(20, Math.max(2, Fighting.thac0(1) - ac))} or more` },
-      { label: 'Hit points', value: `${c.state.hp} of ${c.base.maxHp}` },
+      { label: 'Hit points', value: `${c.state.hp} of ${f.maxHp}` }, ...this.drained(c, f.level),
       { label: 'Each level adds', value: `1d${Canon.classes[c.classId ?? '']?.hitDie ?? 6}`
         + `${Fighting.statMod(c.base.constitution) ? ` ${this.signed(Fighting.statMod(c.base.constitution))}` : ''}`
         + ' hit points' }];
@@ -126,7 +126,13 @@ export class CharacterSheets {
       if (word) { by.set(quality, [...by.get(quality) ?? [], word]); }
     }
     return [...by].map(([quality, list]) => ({ label: `Against ${this.list(list)} (${this.names[quality]})`,
-      value: this.signed(Fighting.statMod(scores[quality]) + c.base.level + Effects.saveModifier(f)) }));
+      value: this.signed(Fighting.statMod(scores[quality]) + f.level + Effects.saveModifier(f)) }));
+  }
+  // Levels taken by the dead, said plainly: what they stand at now, and what gives the rest back (see LevelDrain).
+  static drained(c: Creature, level: number): Bearing[] {
+    const lost = c.base.level - level;
+    return lost ? [{ label: 'Drained', value: `${lost === 1 ? 'a level' : `${lost} levels`} taken: fighting as level ${level}`
+      + ` of ${c.base.level}, with the hit points and spells of it, until a restoration at a temple or by a cleric` }] : [];
   }
   // What each kind of save holds out against, in words (the same words the techniques use).
   static readonly harms: Record<string, string> = MechanicsText.harms;

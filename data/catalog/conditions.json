@@ -408,6 +408,18 @@
         "kyr": true,
         "notes": "Kyr's own: a company that drew something out to meet it where it waited (inhabitants.kyr) fights under it."
       }
+    },
+    "drained": {
+      "name": "Drained",
+      "description": "Levels taken by the touch of the dead: weaker in a fight, in spells and in health by each, until a restoration gives them back.",
+      "lifetime": "persistent",
+      "modifiers": {},
+      "drains": true,
+      "begins": "The cold goes into {target}, and a level of what they were goes out of them, until a restoration gives it back.",
+      "source": {
+        "kyr": true,
+        "notes": "Kyr's own energy drain (see LevelDrain): it counts the levels taken; until a restoration lifts it its holder stands that many levels lower, beyond the fight and in a saved game."
+      }
     }
   }
 }

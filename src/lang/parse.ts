@@ -6,7 +6,7 @@ import source from './Abilities.ohm' with { type: 'text' };
 export type Target = 'enemy' | 'ally' | 'self' | 'dead ally' | 'enemies' | 'allies' | 'party' | 'all' | 'random enemy'
   | 'random enemies';
 export type Amount = { kind: 'literal'; value: number } | { kind: 'deem'; expression: string };
-export type Resource = 'gold' | 'experience' | 'mana' | 'slots';
+export type Resource = 'gold' | 'experience' | 'mana' | 'slots' | 'uses';
 type EffectBody =
   // A weapon attack (Orsino's attack effect): an attack roll with the actor's weapon, then its damage. Spillover
   // carries lethal excess damage on to another enemy.
@@ -21,6 +21,9 @@ type EffectBody =
   | { kind: 'random' | 'cycle'; effects: Effect[]; target: Target }
   | { kind: 'cast'; ability: string; target: Target }
   | { kind: 'drain'; amount: Amount; damageType?: string; target: Target }
+  // Energy drain (the old games' wight and wraith): levels taken from the one touched, held down until a restoration
+  // lifts them (see LevelDrain).
+  | { kind: 'enervate'; amount: Amount; target: Target }
   | { kind: 'defend' | 'flee'; target: 'self' }
   | { kind: 'apply'; status: string; duration: number; clock?: 'owner-turn' | 'world-time' | 'until-removed'; target: Target }
   // pattern: Orsino's removeStatus, a case-insensitive pattern over condition names ("hidden|invisible", ".*").
@@ -50,7 +53,12 @@ export interface ArenaAbility {
   requires?: { status?: string; notStatus?: string; interceptWeapon?: true };
   // Wound up for a turn before it lands; a creature stunned in between loses it.
   windup?: string;
+  // How often a day it can be used, until a night's rest (a dragon breathes three times a day).
+  uses?: number;
+  // The shape of what it lets loose where it is aimed, catching friend and foe alike (see Positions).
+  area?: Area;
 }
+export type Area = 'burst' | 'cone';
 
 type Ast = Effect | Effect[] | Amount;
 type AstNode = ohm.Node & { ast(): Ast };
@@ -68,6 +76,7 @@ export class AbilityParser {
     Apply: AbilityParser.Apply,
     Remove: AbilityParser.Remove,
     Drain: AbilityParser.Drain,
+    DrainLevel: AbilityParser.DrainLevel,
     Revive: AbilityParser.Revive,
     Kill: AbilityParser.Kill,
     Flee: AbilityParser.Flee,
@@ -137,6 +146,9 @@ export class AbilityParser {
   }
   static Drain(_drain: ohm.Node, amount: ohm.Node, _health: ohm.Node, _from: ohm.Node, target: ohm.Node): Effect {
     return { kind: 'drain', amount: (amount as AstNode).ast() as Amount, target: target.sourceString as Target };
+  }
+  static DrainLevel(_drain: ohm.Node, amount: ohm.Node, _levels: ohm.Node, _from: ohm.Node, target: ohm.Node): Effect {
+    return { kind: 'enervate', amount: (amount as AstNode).ast() as Amount, target: target.sourceString as Target };
   }
   static Revive(_revive: ohm.Node, target: ohm.Node, _with: ohm.Node, amount: ohm.Node, _health: ohm.Node): Effect {
     return { kind: 'revive', amount: (amount as AstNode).ast() as Amount, target: target.sourceString as Target };

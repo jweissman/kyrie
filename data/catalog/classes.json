@@ -117,6 +117,7 @@
       "name": "Mage",
       "description": "Mages are masters of arcane magic, wielding powerful spells to manipulate the forces of the world.",
       "hitDie": 4,
+      "rank": "rear",
       "attributes": {
         "strength": -2,
         "dexterity": 1,

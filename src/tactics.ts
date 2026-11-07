@@ -4,6 +4,7 @@ import { Effects } from './effects';
 import { ItemCatalog } from './item-catalog';
 import type { BattleState, Command, Fighter } from './model';
 import { Quarry } from './quarry';
+import { Positions } from './rules/positions';
 
 // The automatic controller's choice: score each legal command, take the best. Ties are broken explicitly, never by
 // catalog order: first by the position of the ability in the actor's own ability list (its weapon attack last), then by
@@ -18,15 +19,21 @@ export class Tactics {
     const target = state.combatants.find(f => f.id === command.target)!;
     // A thing carried to use up is scored as what using it does (see ItemCatalog.use).
     const ability = Content.abilities.find(a => a.id === command.ability) ?? ItemCatalog.used(command.ability)!;
-    let score = 0;
+    // An area catches whoever stands where it is aimed: each foe in it counts for it, and each friend (or itself)
+    // weighs more against it than a foe for it (see Positions).
+    const area = Positions.area(ability);
+    const caught = area ? Positions.caught(actor, command.target, area, state.combatants) : undefined;
+    const friends = caught?.filter(f => f.team === actor.team).length ?? 0;
+    let score = -15 * friends;
     for (const effect of ability.effects) {
       switch (effect.kind) {
         case 'attack': case 'damage': case 'drain': {
-          score += 10 + (effect.target === 'enemies' || effect.target === 'random enemies' ?
-            state.combatants.filter(f => f.team !== actor.team && f.hp > 0).length * 5 : 0);
+          const all = effect.target === 'enemies' || effect.target === 'random enemies';
+          const foes = caught && Positions.spread(effect) ? caught.length - friends
+            : all ? state.combatants.filter(f => f.team !== actor.team && f.hp > 0).length : 0;
+          score += 10 + foes * 5;
           // The company finishes whoever is nearest falling; a foe goes for whom its kind would (see Quarry), and a
           // blow at all of them (a turret's volley) falls on that one too.
-          const all = effect.target === 'enemies' || effect.target === 'random enemies';
           score += actor.team === 'fighters' ? Math.max(0, 8 - target.hp)
             : all || Quarry.of(state, actor) === target.id ? 8 : 0;
           const type = effect.kind === 'attack' ? actor.equipment?.weapon?.type ?? 'bludgeoning'
@@ -34,6 +41,7 @@ export class Tactics {
           score -= 10 * Tactics.resistance(target, type);
           break;
         }
+        case 'enervate': score += target.team !== actor.team ? 15 : 0; break;
         case 'heal': score += Math.min(target.maxHp - target.hp, 10) * 3; break;
         case 'revive': score += 40; break;
         case 'remove': score += target.statuses.some(s => s.id === effect.status) ? 20 : 0; break;

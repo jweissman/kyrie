@@ -1,4 +1,6 @@
 import { Spellcasting } from './rules/spellcasting';
+import { DailyUses } from './rules/daily-uses';
+import { LevelDrain } from './rules/level-drain';
 import { Summoning } from './summoning';
 import { Content } from './content';
 import variations from '../data/catalog/variations.json';
@@ -6,7 +8,7 @@ import { Canon } from './canon/canon';
 import { CanonRuntime } from './canon/canon-runtime';
 import { Perks } from './rules/perks';
 import type { Condition, HookKey } from './canon/schema';
-import type { Effect } from './lang/parse';
+import type { Area, Effect } from './lang/parse';
 import type { Expressions } from './expressions';
 import type { CombatEvent, Fighter } from './model';
 import { Fighting, type Combatant } from './rules/fighting';
@@ -29,6 +31,8 @@ export interface EffectContext {
   spell?: boolean;
   // The creatures an ability drew at random, drawn once for all its effects and its resist saves.
   drawn?: Fighter[];
+  // Where an area is let loose, and its shape: whoever stands there is caught (see Positions).
+  aim?: { area: Area; at: string };
   // An ability another one casts (Orsino's cast effect) costs nothing.
   free?: boolean;
   // Outside a fight (a hazard met, a shrine's touch, a thing used in the field): what lasts a fight does not begin.
@@ -109,7 +113,7 @@ export class Effects {
     return context.expressions.integer(value, actor ? Effects.context(actor) : {});
   }
   static validate(effect: Effect, abilities: string[]) {
-    if (!['attack', 'damage', 'heal', 'drain', 'revive', 'defend', 'flee', 'apply', 'remove', 'kill', 'gain',
+    if (!['attack', 'damage', 'heal', 'drain', 'enervate', 'revive', 'defend', 'flee', 'apply', 'remove', 'kill', 'gain',
       'learn', 'summon', 'travel', 'random', 'cycle', 'cast'].includes(effect.kind)) { throw new Error('Unknown typed effect'); }
     if (effect.kind === 'random' || effect.kind === 'cycle') { effect.effects.forEach(e => Effects.validate(e, abilities)); }
     if (!['enemy', 'ally', 'self', 'dead ally', 'enemies', 'allies', 'party', 'all', 'random enemy', 'random enemies']
@@ -370,13 +374,14 @@ export class Effects {
         }
         break;
       case 'kill': if (target.hp > 0) { Effects.hp(target, target.hp, context); } break;
+      case 'enervate': context.events.push(...LevelDrain.take(target, rolled, context)); break;
       case 'apply': Effects.condition(effect, target, context); break;
       case 'remove': {
         // Removing what a creature does not have is not news. A pattern removes every condition it names: by its id,
         // its kind of harm (poison, disease, fear) or its name. By name alone, "cure disease" lifted nothing from the
         // Diseased, nor the restorations Kyr's lasting Poisoned (the review's A5).
         const removed = target.statuses.filter(s => Effects.removes(effect, s.id));
-        target.statuses = target.statuses.filter(s => !removed.includes(s));
+        LevelDrain.without(target, removed);
         for (const s of removed) { Effects.detail(context, target, { type: 'remove', detail: s.id }); }
         break;
       }
@@ -396,6 +401,11 @@ export class Effects {
   // Spell slots made ready again, mana up to its maximum, or coin and experience.
   private static gain(effect: Extract<Effect, { kind: 'gain' }>, target: Fighter, rolled: number,
     context: EffectContext) {
+    if (effect.resource === 'uses') {
+      const back = DailyUses.restore(target, rolled);
+      if (back) { Effects.detail(context, target, { type: 'gain', detail: back === 1 ? 'use' : 'uses', amount: back }); }
+      return;
+    }
     if (effect.resource === 'slots') {
       const restored = Spellcasting.restore(target, rolled);
       if (restored) {

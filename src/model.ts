@@ -3,6 +3,7 @@ export type { Creature } from './creature';
 
 import type { ArenaAbility } from './lang/parse';
 import type { Equipment } from './item-catalog';
+import type { Daily } from './rules/daily-uses';
 
 export type Team = 'fighters' | 'goblins';
 export interface EncounterParticipant {
@@ -37,6 +38,8 @@ export interface Fighter {
   variations?: string[];
   // A creature's own powers by its kind, cast without slots (see Spellcasting).
   innate?: string[];
+  // What it has used today of what it can do only so often a day (see DailyUses).
+  daily?: Daily;
   // Where it fights (urban, forest, cave...), for perks that hold only there.
   environment?: string;
   // Successful category saves in this encounter; Orsino fails a fourth success of one category automatically.

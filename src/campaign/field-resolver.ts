@@ -37,6 +37,7 @@ export class FieldResolver {
       return call.name === 'recover' ? [...shocked, ...FieldUse.train(creatures, actor.members, seed)] : shocked;
     }
     if (call.name === 'raise') { return FieldUse.raise(creatures, call.args[0]!); }
+    if (call.name === 'restore') { return FieldUse.restore(creatures, call.args[0]!); }
     if (call.name === 'reward') {
       return FieldUse.perform(creatures, [call.args[1]!], { ability: call.args[0]!, caster: call.args[1]!,
         target: call.args[1]!, seed, service: 'reward' });

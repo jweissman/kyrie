@@ -612,7 +612,7 @@ Also kept, without comment: swappable, improvable, learnable, skillOpen, featOpe
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 7 | 22 | 2 | 0 | 2 | 10 |
+| 7 | 23 | 2 | 0 | 2 | 10 |
 
 #### levelOf
 
@@ -632,9 +632,9 @@ How much a work that reads its reader back (a Manual) raises a quality, outside 
 
 One of the player's company who is not the one who plays: a fellow, a recruit, a hireling (kept by the engine). An authored line given to whoever of the company qualifies binds a companion by it, never a slot of a ready-made party: Rule … when memberOf(?m, party) and companion(?m) and awake(?m) and brings(?m, lore) says "{?m} …".
 
-#### awake, fallen, slain, needsCare, canCast, treatable
+#### awake, fallen, slain, levelDrained, needsCare, canCast, treatable
 
-*Kyr · relation(member); relation(member); relation(member); relation(member); relation(member, ability); relation(member, ability)* · `rule:care.awake`
+*Kyr · relation(member); relation(member); relation(member); relation(member); relation(member); relation(member, ability); relation(member, ability)* · `rule:care.awake`
 
 One who falls lies senseless (fallen) until a rest, when they come round or die where they fell (slain).
 
@@ -820,7 +820,7 @@ Also kept, without comment: matterOpen, matterDone, at, able, dead, distinct, cl
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 21 | 50 | 17 | 5 | 5 | 8 |
+| 21 | 51 | 17 | 5 | 5 | 8 |
 
 #### quarter, inQuarter, heartOf
 
@@ -875,6 +875,12 @@ The lie of the land a region is: what a party's perks of place (an elven tribe i
 *Kyr · kind; relation(place, landkind)* · `rule:world_core.landkind`
 
 Kinds no generator draws: an authored region says them (a sea of islands, a burning isle, a steaming green coast). The land a stretch of country is (a river's vale, a wood, a mere, a pass): what a chart draws it as. The names are prefixed, as every module shares them and an author's own place may well be called "pass".
+
+#### decks
+
+*Kyr · relation(entity, place)* · `rule:world_core.decks`
+
+A vessel's own decks (decks(hull, hull_site)): a place that is also a thing that is somewhere. Whoever is aboard is, for the map, where she is (see ChartModel.afloat).
 
 #### sizekind, townSize
 
@@ -2348,7 +2354,7 @@ Also kept, without comment: offers, serviceOf, sells, fee, goodsPrice.
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 2 | 5 | 3 | 0 | 0 | 8 |
+| 2 | 5 | 3 | 0 | 0 | 9 |
 
 #### onTheHouse
 
@@ -2435,6 +2441,22 @@ A priest who can call the dead back (Orsino's Raise Dead) does it at the shrine,
 A long vigil at the shrine, a night's worth of hours, and the price of it. They come back with half their health.
 
 > Needs: able(actor); able(healer); distinct(actor, healer); at(actor, site); at(healer, site); not (refusesService(healer, actor)); offers(healer, service); serviceOf(service, raising); memberOf(lost, actor); fallen(lost); quantity(actor, gold) >= fee(service)
+
+> Then: Decrease quantity(actor, gold) by fee(service). Increase quantity(healer, gold) by fee(service).
+
+#### take restoration
+
+*Kyr · action (group, group, service, member, place)* · `rule:world_services.take_restoration`
+
+- Shown as: Ask {healer} to restore {lost}
+- Takes: 60 minutes
+- Costs: 1
+
+One the dead have drained of levels (a wraith's touch, a vampire's) has them back by a priest's restoration at the shrine: an hour's prayer, for a price; nothing else gives them back.
+
+An hour's prayer at the shrine, and the price of it. Every level the dead took comes back.
+
+> Needs: able(actor); able(healer); distinct(actor, healer); at(actor, site); at(healer, site); not (refusesService(healer, actor)); offers(healer, service); serviceOf(service, restoring); memberOf(lost, actor); levelDrained(lost); quantity(actor, gold) >= fee(service)
 
 > Then: Decrease quantity(actor, gold) by fee(service). Increase quantity(healer, gold) by fee(service).
 
