@@ -14,7 +14,7 @@ manifest, never the sheets.
 """
 import importlib.util, json, os, sys
 from collections import deque
-from PIL import Image, ImageChops, ImageFilter, ImageStat
+from PIL import Image, ImageChops, ImageDraw, ImageFilter, ImageStat
 
 ROOT = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
 SET = sys.argv[1] if len(sys.argv) > 1 else 'animals'
@@ -84,21 +84,23 @@ def gutters(image, axis):
 
 def whole(cut):
     """A painting kept whole in a square (the owner, 7 November: a square cut of a wide cell had taken off heads,
-    horns and tails): the cell entire in the middle, its margins filled by drawing its own outer edge out to the square
-    and softening it, so nothing of the beast is doubled behind it (a blurred copy had ghosted above the heads)."""
+    horns and tails): the cell entire in the middle, on its own parchment, the colour its border mostly is, and
+    feathered into it where they meet (a blurred copy behind it had ghosted above the heads, and its edge drawn out had
+    streaked where a beast reached the edge of its cell)."""
     w, h = cut.size
     side = max(w, h)
-    out = Image.new('RGB', (side, side))
-    x, y = (side - w) // 2, (side - h) // 2
-    if h < side:
-        top = cut.crop((0, 0, w, 16)).resize((w // 8 or 1, 1)).resize((w, y or 1))
-        bottom = cut.crop((0, h - 16, w, h)).resize((w // 8 or 1, 1)).resize((w, side - h - y or 1))
-        out.paste(top.filter(ImageFilter.GaussianBlur(6)), (x, 0)); out.paste(bottom.filter(ImageFilter.GaussianBlur(6)), (x, y + h))
-    if w < side:
-        left = cut.crop((0, 0, 16, h)).resize((1, h // 8 or 1)).resize((x or 1, h))
-        right = cut.crop((w - 16, 0, w, h)).resize((1, h // 8 or 1)).resize((side - w - x or 1, h))
-        out.paste(left.filter(ImageFilter.GaussianBlur(6)), (0, y)); out.paste(right.filter(ImageFilter.GaussianBlur(6)), (x + w, y))
-    out.paste(cut, (x, y))
+    border = [cut.getpixel((x, y)) for x in range(0, w, 4) for y in (2, h - 3)] + \
+        [cut.getpixel((x, y)) for y in range(0, h, 4) for x in (2, w - 3)]
+    paper = tuple(sorted(c[k] for c in border)[len(border) // 2] for k in range(3))
+    out = Image.new('RGB', (side, side), paper)
+    feather = max(4, side // 40)
+    mask = Image.new('L', (w, h), 255)
+    edges = ImageDraw.Draw(mask)
+    for n in range(feather):
+        shade = int(255 * (n + 1) / (feather + 1))
+        if h < side: edges.line([(0, n), (w, n)], fill=shade); edges.line([(0, h - 1 - n), (w, h - 1 - n)], fill=shade)
+        if w < side: edges.line([(n, 0), (n, h)], fill=shade); edges.line([(w - 1 - n, 0), (w - 1 - n, h)], fill=shade)
+    out.paste(cut, ((side - w) // 2, (side - h) // 2), mask)
     return out
 
 
@@ -116,7 +118,7 @@ def square(cut):
 # Sheets whose things are cut out of their cells, not cut whole (the gear sheets: a crowbar's tip or a cloak's hem
 # crosses into the next cell, and some sheets are ruled): the thing alone, on a square of its own parchment.
 # Sheets ruled into equal thirds, painted to the edge, without frames, and how far in from a rule a cell is cut.
-GRID, GRID_INSET = {'animals'}, 0.03
+GRID, GRID_INSET = {'animals', 'monsters'}, 0.03
 ISOLATED = {'gear', 'valuables', 'arms', 'armour', 'consumables'}
 # How far a pixel's colour is from the parchment's to be of the thing, and the scale its pieces are found at.
 INK, SCALE = 34, 4

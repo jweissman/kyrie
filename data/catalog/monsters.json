@@ -2284,6 +2284,7 @@
       "name": "Tide-caller",
       "type": "aberration",
       "kind": "monster",
+      "portrait": "monsters/tide_caller",
       "description": "A thing that lives in the sea under certain shores and calls, in the voices of the drowned, to whoever is listening, and takes the ones who answer.",
       "looks": "Seen low in the water: a long grey back like a wet rope-coil, a ring of pale hands along it that open and close, and no face at all. Heard, it is anyone you have lost.",
       "statistics": {
@@ -2305,6 +2306,251 @@
       "source": {
         "kyr": true,
         "notes": "An author's own kind, for the Light on Skerrow Holm (doc/adventures/anthology/skerrow.md): no habitats (no generated den draws it); temperament from its type (an aberration lies in wait). Its painting is not yet made (portrait unset; data/paintings/monsters.json would take monsters/tide_caller)."
+      }
+    },
+    "grey_render": {
+      "name": "Grey Render",
+      "type": "aberration",
+      "kind": "monster",
+      "description": "A massive, hulking creature with a hide like stone and a relentless hunger for flesh.",
+      "looks": "A towering grey beast with thick, rocky skin, glowing eyes, and massive claws. This hulking biped has the mass of a giant. It has a stooped frame, a gray, hairless body, and broad shoulders. Its arms are long and sinewy, and its clawed hands scrape along the ground as it walks. Its sloped forehead bears six small, yellowish eyes. Its mouth is wide and powerful-looking, filled with black teeth",
+      "portrait": "monsters/grey_render",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 12,
+        "primary": "strength",
+        "weapon": "claws",
+        "armor": "hide_armor"
+      },
+      "abilities": [
+        "fear",
+        "charge"
+      ],
+      "traits": [],
+      "worth": {
+        "base": 200,
+        "perLevel": 75
+      },
+      "source": {
+        "kyr": true,
+        "notes": "An author's own creation, added by its record alone (the owner, 6 November)."
+      }
+    },
+    "lillend": {
+      "name": "Lillend",
+      "type": "fey",
+      "kind": "monster",
+      "description": "A graceful, otherworldly being with an enchanting presence and a connection to the natural world.",
+      "looks": "A tall, slender figure with delicate features, flowing hair, and eyes that shimmer like the forest canopy. Its movements are fluid and mesmerizing. The creature looks like a female human or elf with the lower torso of a multicolored serpent and huge, strikingly patterned wings like a bird's plumage.",
+      "portrait": "monsters/lillend",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 8,
+        "primary": "charisma",
+        "weapon": "song",
+        "armor": "none"
+      },
+      "abilities": [
+        "charm",
+        "song"
+      ],
+      "traits": [],
+      "worth": {
+        "base": 150,
+        "perLevel": 50
+      },
+      "source": {
+        "kyr": true,
+        "notes": "An author's own creation, added by its record alone (the owner, 6 November)."
+      }
+    },
+    "locatah": {
+      "name": "Locatah",
+      "type": "beast",
+      "kind": "monster",
+      "description": "The nomadic locathahnim dwell in warm coastal waters, hunting fish and gathering crustaceans for food. Although humanoid in shape, they are clearly more fish than human.",
+      "looks": "This humanoid is slender and a little shorter than a human. It has fine, yellow-green scales and large fins on its arms and legs.",
+      "portrait": "monsters/locatah",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 6,
+        "primary": "dexterity",
+        "weapon": "hooves",
+        "armor": "shell"
+      },
+      "abilities": [
+        "flee",
+        "keen_senses",
+        "rapid_strike"
+      ],
+      "traits": [],
+      "worth": {
+        "base": 50,
+        "perLevel": 20
+      },
+      "source": {
+        "kyr": true,
+        "notes": "An author's own creation, added by its record alone (the owner, 6 November)."
+      }
+    },
+    "pegasus": {
+      "name": "Pegasus",
+      "type": "beast",
+      "kind": "monster",
+      "description": "A majestic winged horse known for its grace and speed. The pegasus is a magnificent winged horse that sometimes serves the cause of good. Though highly prized as aerial steeds, pegasi are wild and shy creatures not easily tamed.",
+      "looks": "This creature looks like a horse but has two large, feathered wings. Its coat and wings are pure white and shimmer in the sunlight.",
+      "portrait": "monsters/pegasus",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 10,
+        "primary": "dexterity",
+        "weapon": "hooves",
+        "armor": "hide_armor"
+      },
+      "abilities": [
+        "fly",
+        "charge"
+      ],
+      "traits": [
+        "iron_will"
+      ],
+      "worth": {
+        "base": 100,
+        "perLevel": 50
+      },
+      "source": {
+        "kyr": true,
+        "notes": "An author's own creation, added by its record alone (the owner, 6 November)."
+      }
+    },
+    "unicorn": {
+      "name": "Unicorn",
+      "type": "beast",
+      "kind": "monster",
+      "description": "These fierce, noble beasts shun contact with all but sylvan creatures (dryads, pixies, and the like), showing themselves only to defend their woodland homes. Unicorns are elusive but occasionally allow themselves to be tamed and ridden by good human or elven maidens of pure heart.",
+      "looks": "This powerful, equine creature has a gleaming white coat and big, lively eyes. Long, silky white hair hangs down in a flowing mane and forelock. A single ivory-colored horn, about 2 feet long, grows from the center of the forehead. The hooves are cloven.",
+      "portrait": "monsters/unicorn",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 10,
+        "primary": "dexterity",
+        "weapon": "hooves",
+        "armor": "hide_armor"
+      },
+      "abilities": [
+        "charge",
+        "heal"
+      ],
+      "traits": [
+        "improved_turning",
+        "darkvision",
+        "wild_empathy"
+      ],
+      "dr": {
+        "magic": 10
+      },
+      "resist": {
+        "acid": 10,
+        "cold": 10,
+        "electricity": 10
+      },
+      "worth": {
+        "base": 150,
+        "perLevel": 50
+      },
+      "source": {
+        "kyr": true,
+        "notes": "An author's own creation, added by its record alone (the owner, 6 November)."
+      }
+    },
+    "xill": {
+      "name": "Xill",
+      "type": "outsider",
+      "kind": "monster",
+      "description": "Xills are extraplanar beings with insect-like features and a penchant for ambushing travelers. They are known for their agility and deadly combat skills. Malevolent in the extreme, xills are known for brutality and totalitarianism. They combine a healthy dose of evil with a keen love of cruelty.",
+      "looks": "This quasi-reptilian creature has four arms, bright red scales, and dark, penetrating eyes. It is not quite as tall as a human and has an overall iridescent color.",
+      "portrait": "monsters/xill",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 8,
+        "primary": "dexterity",
+        "weapon": "claws",
+        "armor": "natural_armor"
+      },
+      "abilities": [],
+      "traits": [
+        "planewalk",
+        "spell_resistance"
+      ],
+      "worth": {
+        "base": 120,
+        "perLevel": 40
+      },
+      "source": {
+        "kyr": true,
+        "notes": "An author's own creation, added by its record alone (the owner, 6 November)."
+      }
+    },
+    "yrthak": {
+      "name": "Yrthak",
+      "type": "outsider",
+      "kind": "monster",
+      "description": "A strange predator from desolate wastelands, the yrthak terrorizes the area it inhabits as an always hungry dragon might. A yrthak is blind. It senses sound and movement by means of a special organ on its long tongue. It emits powerfully focused beams of sound from the protrusion on its head. The creature is a yellowish-green color, with the wings and fin being more yellow and the head and body more green. The teeth are yellow.",
+      "looks": "This creature resembles an eyeless, yellow-green flying reptile with fleshy wings, a long tail, and a large fin on its back. It has single hornlike protrusion on its crocodilian head.",
+      "portrait": "monsters/yrthak",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 10,
+        "primary": "dexterity",
+        "weapon": "claws",
+        "armor": "natural_armor"
+      },
+      "abilities": [
+        "fly",
+        "sonic_lance"
+      ],
+      "traits": [
+        "blindsight",
+        "multiattack"
+      ],
+      "worth": {
+        "base": 150,
+        "perLevel": 50
+      },
+      "source": {
+        "kyr": true,
+        "notes": "An author's own creation, added by its record alone (the owner, 6 November)."
+      }
+    },
+    "yuanti": {
+      "name": "Yuanti",
+      "type": "outsider",
+      "kind": "monster",
+      "description": "Yuanti are serpentine outsiders with a genius intellect and a penchant for manipulation. They are known for their magical abilities and their ability to charm and deceive other creatures. The yuan-ti are descended from humans whose bloodlines have been mingled with those of snakes. Their evilness, cunning, and ruthlessness are legendary.",
+      "looks": "This being has the body of a lithe human with sharp features and unblinking eyes. Its skin is covered with gleaming scales, and a serpent's head, complete with long fangs and forked tongue, rises from its shoulders. Its eyes are sharp and calculating, and it exudes an aura of menace and intelligence.",
+      "portrait": "monsters/yuanti",
+      "statistics": {
+        "attributes": "rolled",
+        "hitDie": 8,
+        "primary": "dexterity",
+        "weapon": "claws",
+        "armor": "studded"
+      },
+      "abilities": [
+        "charm",
+        "dodge"
+      ],
+      "traits": [
+        "darkvision",
+        "alertness"
+      ],
+      "worth": {
+        "base": 120,
+        "perLevel": 40
+      },
+      "source": {
+        "kyr": true,
+        "notes": "An author's own creation, added by its record alone (the owner, 6 November)."
       }
     }
   }
