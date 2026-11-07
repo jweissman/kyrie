@@ -82,14 +82,14 @@ Module pentrice "Gosse's Company" {
 
   // The night. The Wick opens at seven; Pomfret is in the box till half past nine.
   Rule opening_begins when wickGranted(rierdan) and day(clock) >= openingDay(rierdan) and hour(clock) >= 19 and not openingNight(rierdan) and not heistOver(rierdan) {
-    Assert openingNight(rierdan). Assert holdingAct(rierdan). Set alarm(rierdan) to 0. Assert pomfretHeld(rierdan).
+    Assert openingNight(rierdan). Assert holdingAct(rierdan). Set alarm(rierdan) to 0.
     Assert at(crake, wick_box). Assert at(rask, wick_box). Assert at(gosse, lant_stage). Assert at(swale, lant_stage). Assert at(hepzibah, lant_ward).
     Assert at(dorcas, lant_stage). Assert at(kit, lant_ward). Assert at(pudding, lant_ward). Assert at(tam, lant_ward). }
   Place wick_box "Lord Rask's box" is room within lantern at 1, 1.
   Passage wick_box_door "the box stair" is steps between lant_stage and wick_box.
   Observe wick_box_scene at wick_box when true "Lord Rask's box at the Wick is a velvet cupboard over the stage left, with three chairs, a bottle and a very good view. Master Pomfret has the best chair and the whole of Rask's attention. Below, the house is full. The ghost-light has been put out for the first time in nine years, and somebody has remarked on it.".
   Rule opening_ends when openingNight(rierdan) and hour(clock) >= 22 and not heistOver(rierdan) {
-    Retract openingNight(rierdan). Retract pomfretHeld(rierdan). Retract holdingAct(rierdan). Assert heistOver(rierdan). }
+    Retract openingNight(rierdan). Retract holdingAct(rierdan). Assert heistOver(rierdan). }
   // The Wick opens even if no one steals anything. Dorcas keeps Pomfret in the box, or doesn't.
   Action charm_pomfret(actor: group, site: place) "Take Lord Rask's box for the evening, and a bottle, and Master Pomfret's whole attention" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, wick_box) and openingNight(rierdan) and planDorcas(actor) and not pomfretLocked(rierdan).

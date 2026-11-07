@@ -71,9 +71,9 @@ Module pentrice "Gosse's Company" {
     Role "the Marchants' steward". Ancestry human. Peaceable. Pronouns he. Manner stoic.
     Greets "The steward has the face of a boiled ham and the manner of one who has waited on the same family for forty years and has decided to say nothing about any of it. He looks at you, and at Kit if Kit is with you, and lets his eyes do the arithmetic.".
   }
-  Person oriel "Orrin" at rot_wings {
+  Person oriel "Oriel Marchant" at rot_wings {
     Role "a page of the Rotunda, small and sharp-faced". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
-    Known as "a page called Orrin" when not knows(party, oriel_unmasked).
+    Known as "Orrin, a page of the Rotunda" when not knows(party, oriel_unmasked).
     Greets "A slight page in the Rotunda's blue, with soot on one cheek and a prompt-copy under his arm, looks at you with sharp interest. 'You're players,' he says, and the word is a different word in his mouth than in anyone else's. 'Real ones. Not Master Fallow's.'".
   }
   Discovery oriel_unmasked "The Rotunda's page Orrin is Lady Oriel Marchant, the Chancellor's daughter, who has been living in the wings as a boy for six weeks.".

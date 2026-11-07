@@ -18,6 +18,7 @@ for (const s of lines) {
       else if (d === 'holds') { console.log(`HOLDS ${a.join(' ')}:`, j.holds(P(a[0]!), ...a.slice(1).map(P))); }
       else if (d === 'knows') { console.log(`KNOWS ${a[0]}:`, j.holds('knows', 'party', P(a[0]!))); }
       else if (d === 'measure') { console.log('MEASURE', a.join(' '), j.measure(P(a[0]!), ...a.slice(1).map(P))); }
+      else if (d === 'ways') { console.log('WAYS', j.choices().map(c => c.label).filter(l => /^(To|Out|Into|Up|Down|Back)/.test(l)).join(' | ')); }
       else if (d === 'show') { console.log('CHOICES', j.choices().map(c => c.label).filter(l => !/Give to|Set down|prepare spells|^Wait|Pack ›|: Light$|^Search|Examine/.test(l)).join(' | ').slice(0, 3000)); }
       continue;
     }

@@ -100,7 +100,7 @@ Module pentrice "Gosse's Company" {
   // ── The six ways through ──────────────────────────────────────────────────────────────────────────────────
   // 1. Help her bury him on the second night (the tragic path, if no one else acts: she is caught, and sealed).
   Action help_bury(actor: group, site: place) "Take a spade and help Ysolt Marrick lift the turf" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, field) and edictOn(rierdan) and not buriedNight(rierdan) and hour(clock) >= 23 and day(clock) >= exposeDay(rierdan) + 1 and ysoltBury(actor) and not actIIIDone(rierdan).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, field) and edictOn(rierdan) and not buriedNight(rierdan) and hour(clock) >= 23 and day(clock) >= exposeDay(rierdan) + 1 and ysoltBury(actor) and ysoltTrust(actor) >= 1 and not actIIIDone(rierdan).
     Time 10.
     Resolve check(actor, stealth, dc_hard).
     On success { Assert buriedNight(rierdan). Assert state(tarn_body, buried). }
@@ -112,9 +112,18 @@ Module pentrice "Gosse's Company" {
   // 2. Persuade the Warden himself, on the second night, at the Dust Gate. Needs the prophecy and a plea.
   Action beg_verrall(actor: group, site: place) "Tell the Warden what the blind man said, and what his son said, at the Dust Gate" {
     Speaker dray.
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, dust_gate) and at(dray, dust_gate) and edictOn(rierdan) and prophecyHeard(actor) and (lucanPleaded(actor) or lucanLoved(actor) or ysoltBury(actor)) and not actIIIDone(rierdan).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, dust_gate) and at(dray, dust_gate) and edictOn(rierdan) and (prophecyHeard(actor) or bellsOffered(actor)) and (lucanPleaded(actor) or lucanLoved(actor) or ysoltBury(actor)) and not verrallSoftened(actor) and not actIIIDone(rierdan).
     Time 5.
     Resolve check(actor, persuasion, dc_formidable).
+    On success { Assert pardoned(rierdan). Assert verrallResigned(rierdan). Assert ysoltFree(rierdan). Assert lucanLives(rierdan). Assert actIIIDone(rierdan). Assert state(tarn_body, taken). }
+    Result "Verrall hears it to the end, standing, in the lamp of the Gate. When you have finished he is silent for so long that Lucan, behind him, takes a step. 'I wrote it,' the Warden says. 'I wrote it as a just man.' He puts his hand into his coat and takes out the seal of the Warden of the Realm, and looks at it, and gives it to his son. 'You will take it to the King in the morning,' he says. 'And you will tell him I am an old man who has found the limit of what he can do. And then you will go and tell that girl she may bury her father.' He does not wait for an answer. He goes down the Dust Road, past the sextons, who stand aside, and sits on the wall of the Field in the dark with his back to the body, like a guard, until morning.".
+    Otherwise "The Warden listens with his head bowed. 'I know,' he says. 'I know what it will cost. I would rather it cost my house than my word.' He goes into the dark.".
+  }
+  Action beg_verrall_heard(actor: group, site: place) "Remind the Warden what he heard you say, and tell him what the blind man said, at the Dust Gate" {
+    Speaker dray.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, dust_gate) and at(dray, dust_gate) and edictOn(rierdan) and (prophecyHeard(actor) or bellsOffered(actor)) and (lucanPleaded(actor) or lucanLoved(actor) or ysoltBury(actor)) and verrallSoftened(actor) and not actIIIDone(rierdan).
+    Time 5.
+    Resolve check(actor, persuasion, dc_hard).
     On success { Assert pardoned(rierdan). Assert verrallResigned(rierdan). Assert ysoltFree(rierdan). Assert lucanLives(rierdan). Assert actIIIDone(rierdan). Assert state(tarn_body, taken). }
     Result "Verrall hears it to the end, standing, in the lamp of the Gate. When you have finished he is silent for so long that Lucan, behind him, takes a step. 'I wrote it,' the Warden says. 'I wrote it as a just man.' He puts his hand into his coat and takes out the seal of the Warden of the Realm, and looks at it, and gives it to his son. 'You will take it to the King in the morning,' he says. 'And you will tell him I am an old man who has found the limit of what he can do. And then you will go and tell that girl she may bury her father.' He does not wait for an answer. He goes down the Dust Road, past the sextons, who stand aside, and sits on the wall of the Field in the dark with his back to the body, like a guard, until morning.".
     Otherwise "The Warden listens with his head bowed. 'I know,' he says. 'I know what it will cost. I would rather it cost my house than my word.' He goes into the dark.".
@@ -194,4 +203,10 @@ Module pentrice "Gosse's Company" {
   Observe clem_hard_note near clemency when clemHard(party) and not actIIIDone(rierdan) "Clemency has a clean sheet on the desk headed ACT FIVE, and a line under it, and nothing else. She has been looking at it for an hour with the fixed brightness of someone who is waiting to be told what to write.".
   Milestone m_edict "stood in the Field of Exposure" worth 150 when edictOn(rierdan) and been(party, field).
   Milestone m_actiii "came to the end of the three nights" worth 400 when actIIIDone(rierdan).
+  Observe bell_for_tarn near ambros when bellsOffered(party) and not actIIIDone(rierdan) "Brother Ambros has put a black ribbon on the knotted rope. He will not say what it is for. He says only that the bells are on your side if they are rung.".
+  Observe body_taken_quay at salt_quay when bodyTaken(rierdan) "On the slip at the end of the Quay a handcart stands upturned with a few herring-scales in the bed. The Wives say it blew over in the night.".
+  Observe pardoned_court at king_court when pardoned(rierdan) "The petitioners' benches are full of whispering. The Warden of the Realm is on the end of one, in a plain coat, with his hands between his knees, waiting to be sent for.".
+  Observe lucan_fled_gate at river_gate when lucanFled(rierdan) "Sergeant Peverell has taken to polishing the bar of the gate that nobody has lifted since. He looks at the road a good deal.".
+  Observe verrall_stays_note at concourse when verrallStays(rierdan) and not verrallResigned(rierdan) and actIIIDone(rierdan) "The Warden of the Realm walks across the Concourse at noon as he has for twenty years, upright, alone, with his hand on the Edict he no longer has to read.".
+  Observe edict_exposed at concourse when edictOn(rierdan) and tarnExposed(rierdan) and not actIIIDone(rierdan) "Somebody has written under the Edict, in chalk: HE WAS NAMED BEFORE THE CITY. The sextons have rubbed it out twice.".
 }

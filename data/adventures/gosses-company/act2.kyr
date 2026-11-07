@@ -197,4 +197,5 @@ Module pentrice "Gosse's Company" {
   Milestone m_signet "was given the Duke's ring" worth 100 when holding(party, signet_kind).
   Milestone m_salt "had salt from the Wives" worth 100 when saltGiven(party).
   Milestone m_night "lived through the night of the Mousetrap" worth 350 when nightOver(rierdan).
+  Observe ghost_reached at concourse when nightOver(rierdan) and ghostScore(rierdan) >= 5 "A crowd stands in front of the Rotunda in the grey light looking at the doors. The frost on the front step has not melted. The Duke walked the whole way, they say, and has gone in.".
 }

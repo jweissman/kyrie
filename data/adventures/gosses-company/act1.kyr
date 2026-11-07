@@ -97,7 +97,7 @@ Module pentrice "Gosse's Company" {
     On success { Assert twinsMet(actor). Increase favour(rierdan) by 1. }
     Result "They stop on either side of a pillar and look at each other for a long second, like a pair of mirrors. Then, at the same moment, in the same voice, they say 'You utter fool', and are in each other's arms, and the steward sits down quite hard on the stair. Lord Marchant says nothing at all, but he holds out a handkerchief to both of them, from the same pocket.".
   }
-  Topic oriel_join with oriel "Ask Oriel to come with the company, as herself" when knows(actor, oriel_unmasked) and not orielToldFather(actor) and not travelsWith(oriel, actor) once {
+  Topic oriel_join with oriel "Ask Oriel to come with the company, as herself" when (orielSworn(actor) or orielHelped(actor)) and not orielToldFather(actor) and not travelsWith(oriel, actor) once {
     Says "'Yes,' says Oriel at once, and then, more carefully, 'if I may be paid. I do not want to be a Marchant at a table. I want to be a person at a salary.'".
     On discuss { Assert willing(oriel, actor). Set hire(oriel) to 0. }
   }
@@ -176,4 +176,6 @@ Module pentrice "Gosse's Company" {
   Milestone m_twins "brought the twins into one room" worth 200 when twinsMet(party).
   Milestone m_audition "played for the King" worth 250 when auditioned(rierdan).
   Milestone m_provisional "was appointed, for the season, provisionally" worth 250 when provisional(rierdan).
+  Observe audition_score near casimir when auditionScore(rierdan) >= 3 "The King has had the ghost scene played a second time in his head and is trying not to laugh at it again.".
+  Observe swale_told_gosse near gosse when gosseTold(party) and not auditioned(rierdan) "Gosse has not said a word to Ambrose Swale since the morning, which is how you know.".
 }
