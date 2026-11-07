@@ -28,8 +28,11 @@ export class RegionUndertown {
     return [...sections.flatMap(x => KyrTemplates.fill(x.lines, values)), ...this.catacombs(region, s),
       ...RegionMarket.home(region, s),
       ...open ? [`  Entity ${notice}: fact ${q(said)}.`,
-        `  Observe ${notice}_up at ${t}_green when (${open}) and not knows(party, ${notice})`
-          + ` ${q('A notice is nailed to the post by the well, in more than one hand.')}.`,
+        // The notice is a thing on the green, found among what is there to look at, not a line of the green's own
+        // description (the owner, 7 November: the place had read as a list of objects).
+        `  Thing ${notice}_post "the notice on the well-post" at ${t}_green { }`,
+        `  Observe ${notice}_up near ${notice}_post of ${notice}_post when (${open}) and not knows(party, ${notice})`
+          + ` ${q('Paper nailed to the post by the well, written over in several hands.')}.`,
         `  Action ${notice}_read(actor: group, site: place) "Read the notice on the well-post" {`,
         `    Requires able(actor) and at(actor, site) and at(actor, ${t}_green) and not knows(actor, ${notice})`
           + ` and (${open}).`,

@@ -56,6 +56,10 @@ describe('a settlement is what made it', () => {
     const screen = ScreenModel.build(s.campaign);
     expect(screen.place.id).toMatch(/_green$/);
     expect(screen.place.name).not.toMatch(/ green$/);
-    expect(screen.observed.some(o => o.id.endsWith('_why'))).toBe(true);
+    // Why it is there is history: noted on seeing it, not told in what is seen (doc/authoring/narratology.md).
+    const town = w.report.region.settlements.find(t => screen.place.id === `region__${t.id}_green`)!;
+    const why = Foundings.of(w.report.region as Region, w.report.region.settlements.indexOf(town)).why;
+    expect(screen.prose.join(' ')).not.toContain(why);
+    expect(screen.knowledge.map(k => k.text)).toContain(why);
   }, 60000);
 });

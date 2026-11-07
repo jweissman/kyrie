@@ -137,7 +137,7 @@
       "seen": [
         "{Name} the {trade} is weighing something on a small brass scale and frowning at it.",
         "{Name} is writing a column of figures on a slate and rubbing out the last of them.",
-        "{Name} has an apron with a pocket for every tool and is mending a hinge with the patience of the paid."
+        "{Name} has an apron with a pocket for every tool and is mending a hinge, tapping the pin home with a small hammer."
       ],
       "talk": [
         "'Everything has a price,' says {Name}. 'A {trade} only knows what it is first.'",

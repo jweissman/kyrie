@@ -62,10 +62,13 @@ export class SettlementWriter {
       this.priest(s, f, { region, cult }),
       this.merchant(s, f, region),
       ...RegionRecruits.traveller(s, i, region, has.taproom ? `${s.id}_taproom` : `${s.id}_green`),
-      `  Observe ${s.id}_day at ${s.id}_green as fixture when not dark() ${q(SettlementScenes.green(region, i, cult.name))}.`,
+      `  Observe ${s.id}_day at ${s.id}_green as fixture when not dark() ${q(SettlementScenes.green(region, i, cult.name))}`
+        + ` teaches ${s.id}_why.`,
       `  Observe ${s.id}_night at ${s.id}_green as fixture when dark() ${q(SettlementScenes.night(region, i))}.`,
       ...has.taproom ? [`  Observe ${s.id}_tap at ${s.id}_taproom as fixture when true ${q(SettlementScenes.taproom(region, i))}.`] : [],
-      `  Observe ${s.id}_why at ${s.id}_green as ambience when not dark() ${q(f.why)}.`,
+      // Why the place is there is history: it goes in the company's notes on first seeing the place, not in what is
+      // seen there (doc/authoring/narratology.md).
+      `  Entity ${s.id}_why: fact ${q(f.why)}.`,
       ...SettlementScenes.life(region, i) ? [`  Observe ${s.id}_life at ${s.id}_green as ambience when not dark() ${q(SettlementScenes.life(region, i)!)}.`] : [],
       ...RegionFaith.lines(s, cult, has.shrine ? `${s.id}_shrine` : `${s.id}_green`, this.wayside(f, cult)),
       // A chandlery, where the merchant is not a chandler (see Outfitters); the shops a town keeps besides.

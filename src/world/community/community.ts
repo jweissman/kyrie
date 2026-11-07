@@ -222,20 +222,22 @@ export class Communities {
     }
   }
   // How the dog of the house where travellers sleep is about the place; each its own way.
+  // An animal is told by what it is, not by a name nobody has said (doc/authoring/narratology.md: the owner, 7
+  // November, asked how the player would know a cat's name).
   static readonly innDogs = [
-    '{Name}, {dog}, lies across the doorstep of {inn} with {their} chin on {their} paws, and watches who comes.',
-    '{Name}, {dog}, sleeps against the wall of {inn} with one ear up for the door.',
-    '{Name}, {dog}, sits by the door of {inn} as if {they} kept it.',
-    '{Name}, {dog}, noses along the foot of the wall of {inn}, busy with something only {they} can smell.'];
+    '{Dog} lies across the doorstep of {inn} with {their} chin on {their} paws, and watches who comes.',
+    '{Dog} sleeps against the wall of {inn} with one ear up for the door.',
+    '{Dog}, a rough-coated hound, sits by the door of {inn}, thumping {their} tail on the step.',
+    '{Dog} noses along the foot of the wall of {inn}, following a smell from stone to stone.'];
   // A cat about the place, each her own way (one cat on one wall-top was in every country: the play-structure
   // investigation's PT-15), in any weather (a cat "in a patch of sun" in the rain: the cold evaluation).
   static readonly cats = [
-    '{Name}, a cat, sits on a wall-top with her eyes shut, which does not mean she is not watching.',
-    '{Name}, a cat, is washing a paw on a windowsill, and stops to stare at you in the middle of it.',
-    '{Name}, a cat, picks her way along the top of a fence as if it were a road built for her.',
-    '{Name}, a cat, sits in the middle of the way as if it were hers, and people step round her.',
-    '{Name}, a cat, sits in a window between two pots of herbs, keeping an eye on the street.',
-    '{Name}, a cat, watches a hole at the foot of a wall with the whole of herself.'];
+    'A grey cat sits on a wall-top with her eyes half shut and her tail hanging down the stones.',
+    'A tabby cat is washing a paw on a windowsill, and stops to stare at you in the middle of it.',
+    'A black cat picks her way along the top of a fence, setting each foot down with care.',
+    'A ginger cat sits in the middle of the way, and people step round her.',
+    'A white cat sits in a window between two pots of herbs, watching the street.',
+    'A thin brown cat crouches at the foot of a wall, watching a hole in it without a blink.'];
   // The animals about the place: the dog of the inn (or whatever house keeps travellers), always; a household's
   // animal where its work keeps one; a cat here and there.
   private static animals(s: Settlement, residents: Resident[],
@@ -245,24 +247,25 @@ export class Communities {
     const house = Foundings.fill(keeping.house, words), role = Foundings.fill(keeping.dog, words);
     const dog = this.animalName('dog', draw, beasts), inn = { id: `${s.id}_inndog`, species: 'dog', name: dog,
       pronoun: draw.chance(0.5) ? 'she' as const : 'he' as const, role, at: `${s.id}_green`,
-      seen: new Draw(`${s.name}:inn dog`).pick(this.innDogs).replace('{inn}', house).replace('{dog}', role) };
+      seen: this.upper(new Draw(`${s.name}:inn dog`).pick(this.innDogs).replace('{inn}', house).replace('{Dog}', role)) };
     out.push(inn);
     for (const r of residents.filter(x => x.work.animal)) {
       const species = r.work.animal!, name = this.animalName(species, draw, beasts);
       const pronoun = ['cow', 'goat', 'hen'].includes(species) || draw.chance(0.5) ? 'she' as const : 'he' as const;
       out.push({ id: `${r.id}_${species}`, species, name, pronoun, household: r.household,
         role: `${r.name}'s ${species}`, at: r.workplace ?? `${s.id}_green`,
-        seen: `{Name}, ${r.name}'s ${species}, is never far from ${r.name}.` });
+        seen: `${r.name}'s ${species} is never far away.` });
     }
     if (draw.chance(0.6)) {
       const r = draw.pick(residents);
       out.push({ id: `${s.id}_cat`, species: 'cat', name: this.animalName('cat', draw, beasts), pronoun: 'she', household: r.household,
         role: `the ${r.family}s' cat`, at: `${s.id}_green`,
         seen: new Draw(`${s.name}:cat`).pick(this.cats),
-        night: 'Two green eyes on a wall-top are {Name}, the cat, who sees you better than you see her.' });
+        night: 'Two green eyes shine on a wall-top: a cat, who sees you better than you see her.' });
     }
     return out;
   }
+  private static upper(text: string): string { return text.charAt(0).toUpperCase() + text.slice(1); }
   // An animal's name, unless another animal in the country has it already.
   private static animalName(species: string, draw: Draw, beasts: Set<string>): string {
     const names = this.folk.animal[species] ?? this.folk.animal.dog!, free = names.filter(n => !beasts.has(n));

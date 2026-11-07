@@ -85,11 +85,14 @@ describe('what the map knows of a place', () => {
     // The innkeeper tells of the light in the lone tower, and the way to it: a mark by the name it was told by, still
     // only heard of, but where the question was, on its hex, and the land the way goes over known with it.
     await GeneratedWorld.travel(s, s.campaign.world.one('at', 'region__s1_innkeeper')!.replace(/^region__/, ''));
-    await Knowing.take(s, /^Ask \S+ about the light in a lone tower$/);
+    await Knowing.take(s, /^Ask \S+ about the green light in a lone tower$/);
     const told = Knowing.of(s), tower = told.land.marks.find(m => m.id === 'region__w9')!;
     Knowing.kept(start, told);
-    // Heard of as what it is (a tower), not as a mark that says nothing (the owner, 4 November).
-    expect(tower).toMatchObject({ name: 'a lone tower', state: 'heard', kind: 'tower' });
+    // Heard of as what it is (a tower), not as a mark that says nothing (the owner, 4 November), and by its name, which
+    // the word of it says, so that every rumour of it is plainly of one place (the owner, 7 November).
+    const named = s.campaign.module.entities.find(e => e.id === 'region__w9')!.name;
+    expect(tower).toMatchObject({ name: named, state: 'heard', kind: 'tower' });
+    expect(named).not.toBe('a lone tower');
     // (Further off than the one ring known about a town at first, it was no question mark before it was told of.)
     // Hearing of it marks it, and reveals none of the land: only where the company has been, or stood beside, is
     // known (the owner, 4 November).

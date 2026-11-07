@@ -2,9 +2,9 @@
   "about": "Where a generated country's ordinary gear and clothing are bought (the owner, 7 November: market towns should make ordinary gear and clothing reasonably purchasable, through suitable shops and tradespeople, and what they stock should answer to the settlement's size, its economy and its circumstances, rather than be the same everywhere). A market town keeps a general store and a clothier besides its chandler and its two drawn shops; any other town a smaller general store (with a village's few clothes, where no clothier keeps a shop), and a clothier only where its trade is wool or furs; a village's chandler has a few more ordinary things than the outfit, its trade's among them; a hamlet keeps only what its keeper sells (src/world/general-stores.ts). Each shelf is what the store always has (the town's size says how much), then drawn for the town from the rest of Orsino's stock for its kind, then what its own trade makes; its trade's goods are cheaper there, and more of them. Prices are what the catalog says a thing is worth.",
   "kinds": {
     "general": { "role": "general dealer", "room": "{keeper}'s general store", "painting": "shopkeeper",
-      "scene": "Sacks on the floor, shelves to the beams, and a counter worn into a dip in the middle by forty years of things being put down on it." },
+      "scene": "Sacks stand on the floor and shelves climb to the beams, and the counter is worn into a dip in the middle by years of things set down on it. The air smells of meal, soap and lamp-oil." },
     "clothier": { "role": "clothier", "room": "{keeper}'s, the clothier's", "painting": "seamstress",
-      "scene": "Bolts of cloth stand on end along one wall like a congregation; tunics and hose hang from a pole across the window, boots wait in pairs along the floor, and on the counter a cloak lies pinned out for its hem." }
+      "scene": "Bolts of cloth stand on end along one wall like a congregation, and tunics and hose hang from a pole across the window. Boots wait in pairs along the floor, and on the counter a cloak lies pinned out for its hem." }
   },
   "stores": {
     "general": {

@@ -41,13 +41,13 @@
   ],
   "route": "tower.well",
   "found": {
-    "known": "The old well behind the tower goes down under its walls.",
+    "known": "The old well behind the tower with the green light goes down under its walls.",
     "told": "Pulling the nettles back from the well-head, you find the shaft open, and going down under the walls."
   },
   "hooks": [
     {
       "fact": "tower.lights",
-      "topic": "the light in {spire}",
+      "topic": "the green light in {spire}",
       "channels": [
         "tavern",
         "road"
@@ -64,7 +64,7 @@
     },
     {
       "fact": "tower.old_well",
-      "topic": "the old well at {spire}",
+      "topic": "the old well behind {spire}, where the green light burns",
       "channels": [
         "road",
         "market"

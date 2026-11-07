@@ -30,9 +30,7 @@ export class ScenarioWord {
     if (s.route && s.found && site) { this.searched(s.found, `{${firstSite}}`, { placement, lines, imports, declared: carriers }); }
     for (const [index, hook] of hooks.entries()) {
       const fact = `h${index + 1}`;
-      lines.push(`  Entity ${fact}: fact "What people say".`);
-      imports[fact] = WorldAssembler.ref(hook.fact, placement);
-      this.leads(fact, firstSite, { placement, lines, imports, declared: carriers, region });
+      lines.push(`  Entity ${fact}: fact "What people say".`); imports[fact] = WorldAssembler.ref(hook.fact, placement);
       if (s.route && hook.opens !== false) { lines.push(`  Initially Assert revealedBy(route_in, ${fact}).`); }
       // Carriers in the towns nearest the scenario, and members' contacts anywhere who hear that kind of news.
       const tellers = new Map<string, string>();
@@ -59,11 +57,13 @@ export class ScenarioWord {
           `  Initially Assert at(${topic}, ${room}).`);
         (placement.carriers[hook.fact] ??= []).push(carrier);
       }
+      this.leads(fact, firstSite, { placement, lines, imports, declared: carriers, region,
+        tellers: [...tellers.keys()] });
     }
     lines.push('  Goal false.', '}');
     const names = Object.keys(imports);
     const types = Object.fromEntries(names.map(n => [n, { type: n === 'party' ? 'group' : /^route_in$|^by_/.test(n)
-      ? 'passage' : /^h\d+$/.test(n) ? 'fact' : /_(taproom|shrine|shop|green)$|^at_/.test(n) ? 'place' : 'group' }]));
+      ? 'passage' : /^h\d+$|^named_/.test(n) ? 'fact' : /_(taproom|shrine|shop|green)$|^at_/.test(n) ? 'place' : 'group' }]));
     return { source: lines.join('\n'), imports,
       manifest: { version: 1, source: 'word.kyr', rules: ['world'], globals: ['party'], imports: names, roles: types } };
   }
@@ -89,13 +89,34 @@ export class ScenarioWord {
       return `{${local}}`;
     });
   }
+  // What people say of it names the place: two rumours of "a lone tower", one of a green light and one of an old well
+  // behind it, had left the owner unsure (7 November) whether they were one place. Heard from whoever tells it, it
+  // names the place, which is called by its name from then on, in every rumour of it and on the map; heard, not seen,
+  // so that no land is known by it.
+  private static names(fact: string, site: Region['sites'][number] | undefined, at: { placement: Placement;
+    lines: string[]; imports: Record<string, string>; declared: Set<string>; region: Region; tellers: string[] }) {
+    const seat = site && RegionGeography.seats(at.region).find(x => x.site.id === site.id);
+    if (!site || !seat) { return; }
+    const local = `named_${site.id}`, q = JSON.stringify, seen = RegionSites.seenAs(seat, at.region);
+    if (!at.declared.has(local)) {
+      at.lines.push(`  Entity ${local}: fact "Its name".`);
+      at.imports[local] = `${at.placement.rid}.${site.id}_named`; at.declared.add(local);
+    }
+    const said = `${seen.replace(/^an? /, 'The ')} they speak of is called ${site.name}.`;
+    for (const [i, carrier] of at.tellers.entries()) {
+      at.lines.push(`  Observe ${fact}_names${i} near ${carrier} as hearsay when knows(party, ${fact})`
+        + ` and not knows(party, ${local}) ${q(said)} teaches ${local}.`);
+    }
+  }
   // What people say of it says where it is, and the way there as the place's own way is told (RegionSites): the
   // trails through wild country to where its track starts, and the track. Before, a starting town told of five such
   // troubles and none of them could be set out for (the M16 deepening).
   private static leads(fact: string, role: string | undefined, at: { placement: Placement; lines: string[];
-    imports: Record<string, string>; declared: Set<string>; region: Region }) {
+    imports: Record<string, string>; declared: Set<string>; region: Region; tellers: string[];
+  }) {
     const id = role && at.placement.bindings[role], site = at.region.sites.find(s => s.id === id);
     if (!id) { return; }
+    this.names(fact, site, at);
     at.lines.push(`  Initially Assert leadsTo(${fact}, ${this.named(`{${role}}`, at.placement, at).slice(1, -1)}).`);
     const zone = RegionGeography.atlas(at.region).zones.find(z => z.id === site?.zone);
     for (const way of [...zone ? RegionZones.told(at.region, zone, site!.part ?? 0) : [], ...site ? [`${id}_track`] : []]) {

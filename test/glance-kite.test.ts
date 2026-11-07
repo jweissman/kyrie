@@ -77,7 +77,7 @@ describe('kite at a glance', () => {
     const first = Kite.g.words();
     const glance = await Kite.g.to('region__s2_green');
     expect(glance.arrival).toBe('return');
-    expect(glance.sight?.text).toBe('The road runs down between the houses of Brightbridge to the Redwater, goes straight in, and comes out on the far bank darker and wetter.');
+    expect(glance.sight?.text).toBe('The road runs down between the houses of Brightbridge and straight into the Redwater, and comes out on the far bank dark with wet.');
     expect(glance.life).toBeUndefined();
     expect(Kite.g.words().glance).toBeLessThan(first.glance);
     expect(glance.acts.slice(0, 2).map(a => a.why)).toEqual(['kin', 'named']);
