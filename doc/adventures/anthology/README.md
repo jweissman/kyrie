@@ -20,6 +20,8 @@ way of being explored:
 
 ## I. Tallow Deep
 
+*This treatment was written before anything was authored and was brought into line with the module after the hostile review of 7 November (the Company is sixty years gone, two custodians, one Settling Cistern, the Dial and not a Star Room, prices as Mistress Orpe pays them). Where it and the module differ, the module and [tallow-deep.md](tallow-deep.md) are right.*
+
 ### The place
 
 **Tallow Edge** is a long pale limestone ridge, and the river **Wend** is lost in it. The river goes in at the
@@ -30,13 +32,13 @@ peoples have made a place there for three different reasons, and each has left i
 1. **The Mathematical Age** (older than anyone's writing). A vertical bore, half a mile deep and four paces across,
    dead straight, cut through the ridge by something that did not use picks, with a gear-hall at its foot. It was an
    instrument for *looking up*: from the bottom of the bore, at noon, a star shows. The makers' remains are the
-   **Long Bore**, the **Gear-Hall**, and three **custodians** that have kept it since.
+   **Long Bore**, the **Gear-Hall**, and two **custodians** that have kept it since.
 2. **The Aenean Empire** (about eleven hundred years ago). Engineers of the legions found the Wend's swallow and
-   made the river a *conduit* — a tunnel-aqueduct from the Swallow down through two settling cisterns to the Rising —
+   made the river a *conduit* — a tunnel-aqueduct from the Swallow down through a settling cistern to the Rising —
    to water a legionary road-station at Swallet. They also cut the **Calx Way**, a road-tunnel under the ridge, to
    spare the legions the climb. They found the Bore and did not understand it: they built the Cistern Hall *around*
    its head, to cap it, and left a tally-wall in Aenean saying so.
-3. **The Brasiers' Company** (about two hundred years ago). Miners sinking for lead and the black ore the old
+3. **The Brasiers' Company** (sixty years ago, the winter of 'fifty-two). Miners sinking for lead and the black ore the old
    workings showed followed the Aenean galleries down. Their **Day-Level** adit, **winding-house** and
    **Blind Shaft** are the dungeon's upper storeys. In the winter of the **Breakthrough** they holed through the
    Aenean cap into the Bore's head. The Wend came into the works at once; fourteen men were left below; the Company
@@ -58,17 +60,17 @@ peoples have made a place there for three different reasons, and each has left i
                               |                                    |    (rats)         |
    L3  the Cistern    [Cistern Hall (flooded, ooze)]----[Foreman's Office]----[Ossuary (ghouls)]----[Aenean Tally-Wall]
                               |                                                      |
-   L4  the Bore       [Head of the Long Bore]--[Gear-Hall (custodians)]--[Quiet Gallery (hollow-stalkers)]--[The Star Room]
+   L4  the Bore       [Head of the Long Bore]--[Gear-Hall (custodians)]--[Quiet Gallery (hollow-stalkers)]--[The Dial]
 ```
 
 Four ways in, each a different expedition:
 
 | Way | Cost | Lands | Notes |
 |---|---|---|---|
-| **The Day-Level** (south, an adit) | a toll to the Tallymen, or stealth, or a fight | L1 Tally-Room | the easy way, and the way the Tallymen watch |
+| **The Day-Level** (south, an adit) | six coin to the Tallymen (and again each day), a lie, a game of cards, or a fight; nobody slips past them | L1 Tally-Room | the easy way, and the way the Tallymen watch; the way out is never barred |
 | **The Rising** (east, the river cave) | wade up the Wend; closed when it is in spate (after rain) | L1 Rising Gallery, then up | bats, a spider's ledge; a swimmer's way |
-| **The Swallow** (north, the sink) | rope, 3 hours' climb, an owlbear in the scrub | L2 Upper Conduit | quickest route to the depth; nothing to hold the rope but yourself |
-| **The Calx Way** (west, buried) | find the Foreman's letter below, or dig (shovel, a day) | L3 beside the Cistern | **the shortcut**: from the Ossuary to a portal two miles from Swallet; a second home road |
+| **The Swallow** (north, the sink) | rope, a two-hour climb, an owlbear in the scrub (bait it with two rations) | L2 Upper Conduit | quickest route to the depth; nothing to hold the rope but yourself |
+| **The Calx Way** (west, buried) | lamp oil for the pawl and a shovel for the fall at the west end; the ghouls between | L4 beside the Ossuary | **the shortcut**: from the Ossuary to a portal two miles from Swallet; a second home road |
 
 Loops: Day-Level → Winding-House → Blind Shaft down → Cistern → up the Calx Way is a circuit; so is Rising →
 Spider Gallery → Settling Cistern → Winding-House → Adit. A company never has to retrace.
@@ -81,19 +83,19 @@ Spider Gallery → Settling Cistern → Winding-House → Adit. A company never 
 | **Cave spiders** | Spider Gallery | hunt bats and the Tallymen's cats | webs, bat-wings in them, a cat's collar | burn the webs, go round by the Settling Cistern |
 | **Great rats** | the Day-Level stores, the Settling Cistern | scavenge the Tallymen | droppings, a gnawed boot, the Tallymen's poison dishes | ratsbane; or the rats are the ghouls' fear |
 | **Tallymen** (human smugglers) | Tally-Room | hold the adit; buy and sell | a lantern in the adit, a boy on watch | pay the toll, trade, hire a guide, or report them |
-| **Slump / ooze** | Cistern Hall | feeds on guano and the drowned | a clean-scoured floor, no rats | wade along the north wall; sound does not wake it, light does |
-| **Ghouls** | Ossuary | feed on the Breakthrough's dead; raid the rats | a charnel smell, scratch-marks high on the walls | cleansing the dead; chalk; or pass the Ossuary by the Calx Way |
-| **Hollow-stalkers** (two) | the Quiet Gallery | hunt by breath, take ghouls and lone Tallymen | an absence of every other creature | hold breath, water-noise, a bell as a lure |
-| **Clockwork custodians** | Gear-Hall | keep the instrument; attack what is not measured | slow ticking, a stopped step | set the escapement (learn from the chart) |
+| **Slump / ooze** | Cistern Hall | feeds on guano and the drowned | a clean-scoured floor, no rats | heap guano on the shore; it eats it |
+| **Ghouls** | Ossuary | feed on the Breakthrough's dead; raid the rats | a charnel smell, scratch-marks high on the walls | read the fourteen names from the Foreman's ledger, or say the Company's burial words (a rites check, easier for one who knows how the Foreman laid them) |
+| **Hollow-stalkers** (three) | the Quiet Gallery | hunt by breath, take ghouls and lone Tallymen | an absence of every other creature | blankets over boots and wet cloth over mouths: two hours of passage, one blanket each time |
+| **Clockwork custodians** | Gear-Hall | keep the instrument; attack what is not measured | slow ticking, a stopped step | set the escapement to the beat cut in the Tally-Wall (or read it off the chart) |
 | **An owlbear** | upland scrub at the Swallow | feeds in the heather; will not go below | torn turf, a calf's remains | bait, go round, or the rope in the dark |
 
 ### What a company takes out and why it matters
 
-*Treasure drawn from Orsino's inventory and the catalog, never "a chest of gold":* an **ancient orrery** (worth 500, the
-Gear-Hall) and a **celestial chart** (300, a scholar will pay in a city; and it is also the key to the custodians),
-a **lensing crystal** (18) and **antique compass** (60) from the Star Room, **bell-teeth** (8, from the Aenean wheel),
-a **dowsing rod** (12) the Brasiers' Company left in its assay office, **steel coin** and **toll silver** in the Tally-Room,
-a **zoological manual** (40) in the Foreman's office, **grave rings** from the Ossuary, a **climbing harness**,
+*Treasure drawn from Orsino's inventory and the catalog, never "a chest of gold":* an **ancient orrery** (Mistress Orpe pays 250, the
+Dial) and a **celestial chart** (150; and it is also the key to the custodians),
+a **lensing crystal** (30) and **antique compass** (90) from the Dial, **bell-teeth** (30, from the Aenean wheel),
+a **dowsing rod** (20) the Brasiers' Company left in its counting-house, **steel coin** and **toll silver** in the Tally-Room,
+a **zoological manual** (20) in the Foreman's office, **grave rings** from the Ossuary, a **climbing harness**,
 **piton**s and **rope** left by a failed party, **ratsbane** from the Tallymen's stores, **lamp oil** and **oil flasks**
 in the smithy, and — by chance, as Orsino's loot is drawn — whatever the engine's own tables add below. Stones: the
 assay-office holds a cased **rose quartz** and an uncut **jet**.
@@ -106,8 +108,8 @@ are the lures.
 *Herbs:* **feverwort** (limestone) and **gentian** and **alhuren** (rocky ground; silver leaves, blue flowers that
 glow faintly) grow at the Rising and on the Swallow rim; the Brasiers' bothy garden has run to seed — **foxglove**,
 **tansy**, **rue**, **poppy** — and the garden is the reason the Tallymen are healthy. **Kingsfoil** grows in one place
-in the whole hill (the Star Room's roof-light: the one place with sun), and a company that notices it can cure the
-poison of the cave spiders and the ghouls' rot on the way home, or sell it at 75. **Poppy** and **cinquefoil** (sleep)
+in the whole hill (the Swallow rim, where the spray keeps a green fringe), and a company that notices it can cure the
+poison of the cave spiders and the ghouls' rot on the way home. **Poppy** and **cinquefoil** (sleep)
 are used, by an authored action, to dose a pack animal or a guard-dog out of the stalkers' hearing. Where their
 "uses" (a plant good against fear, a plant that glows) are not read by any rule, the page says so (the engine
 section below).
@@ -116,10 +118,11 @@ section below).
 
 - *First expedition:* the Day-Level and the Rising, a short look below, a retreat with ore and an old book.
 - *Second:* by the Swallow, to the Cistern; a letter found; the Calx Way opened.
-- *Third:* by the Calx Way straight into the Ossuary's far side; the Bore at last; the Star Room.
-- Everything has a cost that persists: poison dishes thin the rats and let the ghouls spread; selling the Tallymen
-  out ends the toll and the market; burning the Spider Gallery's webs brings the bats' guano and the ooze nearer
-  the surface; and a company that sets the escapement wrong learns what a custodian's "measured" means.
+- *Third:* by the Calx Way straight into the Ossuary's far side; the Bore at last; the Dial.
+- Everything has a cost that persists: poison dishes thin the rats and send the spiders down to the water; selling
+  the Tallymen out ends the toll and the market; burning the Spider Gallery's webs sends the spiders into their vault
+  for a week; taking a grey thing off the Dial's shelf and not setting it back makes the Wend rise more often; and
+  a company that sets the escapement wrong learns what a custodian's "measured" means.
 
 ---
 

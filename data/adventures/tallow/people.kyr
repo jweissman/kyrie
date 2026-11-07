@@ -1,42 +1,41 @@
 Module tallow "Tallow Deep" {
   // ---------------------------------------------------------------------------------------------------------------
-  // Swallet: the village that does not look at the hill.
-  Person hester "Hester Pook" at taproom {
+  // Swallet: the village that keeps its back to the hill.
+  Person hester "Lowen Pook" at taproom {
     Role "landlady of the Chandler's Arms". Ancestry human. Profession innkeeper. Peaceable. Pronouns she. Manner acerbic.
-    Greets "Hester Pook wipes a pot that is already dry, as she has every evening since her brother Amos did not come home from the shift. 'You'll be going up the hill,' she says. 'They all do, sooner or later. There's the Rising, which is wet, and the portal, which is watched, and the Swallow, which is a rope. And there's the old road, which is nowhere.'".
+    Greets "Lowen Pook wipes a pot that is already dry, as she has every evening since her brother Abner did not come home from the shift. 'You'll be going up the hill,' she says. 'They all do, sooner or later. There's the Rising, which is wet, and the portal, which is watched, and the Swallow, which is a rope. And there's the old road, which is nowhere.'".
   }
-  Topic ask_rising with hester "Ask Hester about the Rising" when true {
-    Says "'It's the river coming out,' says Hester. 'It runs low in a dry week, and you can wade it up to the first gallery with your boots round your neck. When it's rained on the downs it's a mill-race by the next dawn, and it stays one for a day. Don't be under that hill when it rains.'".
-    On discuss { Assert knows(actor, spate_known). }
+  Topic ask_rising with hester "Ask Lowen about the Rising" when true {
+    Says "'It's the river coming out,' says Lowen. 'It runs low in a dry week, and you can wade it up to the first gallery with your boots round your neck. When it's rained on the downs it's a mill-race by the next dawn, and it stays one for a day. Don't be under that hill when it rains.'".
   }
-  Topic ask_portal with hester "Ask Hester about the Day-Level portal" when true {
-    Says "'The Tallymen,' says Hester. 'Smugglers. They've the Company's old workings for a cellar, and run salt and brandy under the hill. They don't hurt the village; they pay a tithe in brandy. They'll let you through for six coin. Don't call it a toll, they're particular.'".
+  Topic ask_portal with hester "Ask Lowen about the Day-Level portal" when true {
+    Says "'The Tallymen,' says Lowen. 'Smugglers. They've the Company's old workings for a cellar, and run salt and brandy under the hill. They don't hurt the village; they pay a tithe in brandy. They'll let you through for six coin. Don't call it a toll, they're particular.'".
   }
-  Topic ask_swallow with hester "Ask Hester about the Swallow" when true {
+  Topic ask_swallow with hester "Ask Lowen about the Swallow" when true {
     Says "'Where the river goes in. You can climb down it with a rope and a stout heart. I wouldn't. There's a she-bear up in the scrub that has taken two of my neighbour's calves, and a she-bear is not a thing you want to meet with a rope on your back.' She says it again, with the stress on 'bear'. It is not a bear.".
   }
-  Topic ask_trouble with hester "Ask Hester about the water-trouble" when true {
-    Says "'The Company holed into something, in the winter of 'fifty-two,' says Hester, 'and the river came into the works, and fourteen men didn't come out. The Company packed up in a season. Nobody speaks of it. If you want to hear it you'll want Dunstan Ibbot, and he won't tell it sober.'".
+  Topic ask_trouble with hester "Ask Lowen about the water-trouble" when true {
+    Says "'The Company holed into something, in the winter of 'fifty-two,' says Lowen, 'and the river came into the works, and fourteen men didn't come out. The Company packed up in a season. Nobody speaks of it. If you want to hear it you'll want Barrick Ibbot, and he won't tell it sober.'".
     On discuss { Assert knows(actor, breakthrough_known). }
   }
-  Topic ask_road with hester "Ask Hester about the old road" when true {
-    Says "'Under the ridge, there's a road,' says Hester slowly. 'My gran said so. A road the soldiers made, to save climbing. The west end's under a hill of stones, and the east end is wherever the Company holed into it. They say the dead men are in it.'".
+  Topic ask_road with hester "Ask Lowen about the old road" when true {
+    Says "'Under the ridge, there's a road,' says Lowen. 'My gran said so. A road the soldiers made, to save climbing. The west end's under a hill of stones, and the east end is wherever the Company holed into it. They say the dead men are in it.'".
     On discuss { Assert knows(actor, calx_known). }
   }
 
-  Person dunstan "Dunstan Ibbot" at taproom {
+  Person dunstan "Barrick Ibbot" at taproom {
     Role "an old miner". Ancestry human. Peaceable. Pronouns he. Manner grim.
     Greets "An old man by the fire holds his tankard in both hands, as if it might be taken. 'Going down,' he says, not asking.".
   }
-  Topic dunstan_tale with dunstan "Ask Dunstan what happened in 'fifty-two" when true {
-    Says "'We were following the lead down the Blind Shaft,' says Dunstan, 'and Foreman Carr put a shot in the north wall to see where the vein turned, and the wall wasn't a wall. It was a cap. Under it, a hall, and in the hall, water, and in the middle of the water, a thing hanging. Carr said he'd sooner not look at it again. The river came in at the shot like a door opening. I went up the shaft. Fourteen didn't.' He drinks. 'Carr kept a book. He wrote a letter to the Company before the lamp went. He left it where a man would look, if he were the Company. The Company never came to look.'".
+  Topic dunstan_tale with dunstan "Ask Barrick what happened in 'fifty-two" when true {
+    Says "'We were following the lead down the Blind Shaft,' says Barrick, 'and Foreman Carr had us set a fire against the north wall, to crack it and see where the vein turned, and the wall wasn't a wall. It was a cap. Under it, a hall, and in the hall, water, and in the middle of the water, a thing hanging. Carr said he'd sooner not look at it again. The river came in at the crack like a door opening. I went up the shaft. Fourteen didn't.' He drinks. 'Carr kept a book. He wrote a letter to the Company before the lamp went. He left it where a man would look, if he were the Company. The Company never came to look.'".
     On discuss { Assert knows(actor, breakthrough_known). Assert knows(actor, foreman_known). Assert knows(actor, cap_known). }
   }
-  Topic dunstan_stope with dunstan "Ask Dunstan about a way round the Tallymen" when knows(actor, breakthrough_known) {
-    Says "'There's a stope from the bat chimney to the old stores,' says Dunstan, 'that the Company cut for a drain. No one's looked at it since. You'll lose some skin. You'd come out behind the Tallymen's backs.'".
+  Topic dunstan_stope with dunstan "Ask Barrick about a way round the Tallymen" when knows(actor, breakthrough_known) {
+    Says "'There's a stope from the bat chimney to the old stores,' says Barrick, 'that the Company cut for a drain. No one's looked at it since. You'll lose some skin. You'd come out behind the Tallymen's backs.'".
     On discuss { Assert knows(actor, stope_known). }
   }
-  Topic dunstan_wheel with dunstan "Ask Dunstan about the Calx Gate" when knows(actor, calx_known) {
+  Topic dunstan_wheel with dunstan "Ask Barrick about the Calx Gate" when knows(actor, calx_known) {
     Says "'The old road,' he says. 'We broke into it by accident, down past the Breach, and it ran off west dead straight in the dark. There's a bronze gate across it, a few hundred paces on, with a wheel to raise it. Carr said the pawl was rusted solid. He wanted to oil it. He said the road went out west under the ridge's end and he could be out in an hour. That's what he said.'".
     On discuss { Assert knows(actor, gate_known). }
   }
@@ -56,14 +55,13 @@ Module tallow "Tallow Deep" {
     Greets "Mistress Orpe does not look up from a grey lump she is scoring with a nail. 'If it is black, I'll buy it. If it is not black, I will tell you what it is, for a penny. If you have a brass instrument, I will buy that, and ask no questions, because they are the only things from down there that are worth anything.'".
   }
   Topic orpe_black with orpe "Ask Mistress Orpe what the black ore is" when true {
-    Says "'Ironglass,' says Mistress Orpe. 'The Company was after lead, and found the lead sat on a seam of this. It takes an edge like nothing else in the country. You can't smelt it, so every ounce of the stuff has to be broken out by hand, and the seam goes down toward the cap. The Company's last fortnight was spent picking it. Foreman Carr kept the best of it back in a box in his office.'".
-    On discuss { Assert knows(actor, ironglass_known). }
+    Says "'Ironglass,' says Mistress Orpe. 'The Company was after lead, and the lead was sitting on a seam of this. It takes an edge like nothing else in the country and it will not smelt, so every ounce was broken out by hand, and the seam runs down toward the cap. The last fortnight they did nothing else. Carr kept the best of it back in a box in his office, and I would pay well for the box.'".
   }
   Topic orpe_cap with orpe "Ask Mistress Orpe about the Cap" when knows(actor, breakthrough_known) {
     Says "'A lid,' says Mistress Orpe. 'On something. The Aeneans made lids, they were fond of them. But Carr said it was not lead under that lid, and it was not water. The Company's secretary wrote to say the hall was to be sealed and nobody paid to look at it. I burned the letter. I have been sorry since.'".
   }
   Topic orpe_sample with orpe "Ask Mistress Orpe about the specimens on her counter" when true {
-    Says "'Calcite, from the Swallow rim, which glows a little in the dark; Aenean brick from the Settling Cistern; and the grey one is nothing I can name. It is a kind of metal and a kind of glass, and I have a piece the size of a thumb that came up the shaft in a dead man's pocket. It rings like a bell. If you find more of it I will pay thirty a tooth, and tell you what I think it is for.'".
+    Says "'Calcite, from the Swallow rim, which glows a little in the dark; Aenean brick from the Settling Cistern; and the grey one is nothing I can name. It is a kind of metal and a kind of glass, and I have a piece as long as a thumb that came up the shaft in a dead man's pocket. It rings like a bell. If you find more of it I will pay thirty a tooth, and tell you what I think it is for.'".
   }
 
   Person osk "Osk" at shop {
@@ -86,12 +84,12 @@ Module tallow "Tallow Deep" {
     Buys guano_sack for 3 coin.
     Joins "Osk takes his hammer from its nail and puts it in his belt, and hangs a card on the door that says BACK AFTER. 'I have never been under that hill,' he says. 'My grandfather would not go.'".
     Leaves "Osk shoulders his bag. 'I'll see to the shop,' he says. 'You have your own road.'".
-    Remarks at gear_hall "Osk stops on the last stair. He looks at the wheels, the teeth, the dark floor, and takes off his cap, which he has not done for a king. 'There,' he says very softly. 'No joints. It was never put together.'".
-    Remarks at cistern_hall "Osk lays a palm on a column. 'Aenean,' he says. 'Cut to a thumb. They were proud of it.' He takes the hand away. 'It is holding up a hall that is holding up a mountain, and has been told not to ask what for.'".
+    Remarks at gear_hall "Osk stops on the last stair. He looks at the wheels, the teeth, the dark floor, and takes off his cap, which he has not done for a king. 'There,' he says, low. 'No joints. It was never put together.'".
+    Remarks at cistern_hall "Osk lays a palm on a column. 'Aenean,' he says. 'Cut to a thumb.' He takes the hand away and rubs the thumb on the finger. 'Clean. Clean to the waterline. Water doesn't do that.'".
     Greets "Osk looks you over once, boots to hat, and begins taking things off the shelf. 'You want rope,' he says. 'Everyone wants rope. Buy oil with it.'".
   }
   Topic osk_gear with osk "Ask Osk what to take" when true {
-    Says "'A light for each of you, and oil for a day more than you think. Rope. A bar, in case a door is shut. Chalk, to mark where you've been, because the dark does not keep your steps for you. A whistle, for the others. And a shovel, if you've heard about the old road, because there's a hill of stones at the west end of it and a man with a shovel is worth ten with swords.'".
+    Says "'A light each. Oil for a day more than you think. Rope. A bar, for doors. Chalk, because the dark won't keep your steps. A whistle.' He considers the shelf. 'And a shovel. If you've heard of the old road, there's a hill of stones at the west end of it, and you'll want to come back up it. Shovel, not a sword.'".
   }
 
   // The Tallymen.
@@ -100,10 +98,10 @@ Module tallow "Tallow Deep" {
     Greets "The boy on the barrel is nine or ten and has the face of someone who has been told to say nothing. 'I'm not looking,' he says. 'Anyone can go in if they pay six at the bend. I'm not supposed to say.'".
   }
   Topic wick_ask with nib "Ask Nib about the Tallymen" when true {
-    Says "'There's Joss, who's the boss, and Meg and Hobb and Sib at the bend, and the dog. They don't hurt anyone who pays. They hurt people who don't, because it wouldn't be fair. They're nice, mostly. They go down the Blind Shaft sometimes, with rope, for the black stone. Hobb went down alone and didn't come up, and nobody's gone since.'".
+    Says "'There's Cador, who's the boss, and Enys and Treve and Sib at the bend, and the dog. They don't hurt anyone who pays. They hurt people who don't, because it wouldn't be fair. They're nice, mostly. They go down the Blind Shaft sometimes, with rope, for the black stone. Treve went up the Aenean stair after my cat, on a Tuesday three weeks gone, and didn't come down, and nobody's gone up since.'".
   }
-  Topic wick_hobb with nib "Ask Nib what happened to Hobb" when true {
-    Says "'He went down by the cage on a Tuesday,' says Nib, 'and the rope went slack on the Thursday, and Joss said not to ask. There's nothing living down there, he says. There's something that doesn't make a noise.'".
+  Topic wick_hobb with nib "Ask Nib what happened to Treve" when true {
+    Says "'He went up the Aenean stair after Biscuit,' says Nib, 'on a Tuesday, three weeks gone, with the tin lamp, and the lamp didn't come back. Cador said not to ask. There's spiders up there, he says. Treve's afraid of spiders.' He corrects himself. 'Was.'".
   }
 
   Person bend_watch "the Tallymen on watch" at adit {
@@ -112,11 +110,9 @@ Module tallow "Tallow Deep" {
     Comes "The three step in together, without a word.".
     Pleads "The tall one puts his hands up. 'Six is cheap,' he says, 'and you've made it dear.'".
     Lair adit. Refuge drift.
-    State bar blocking "The three Tallymen stand across the adit at the bend, one with the lantern, and nobody goes past them without paying.".
-    Guards adit_drift.
   }
 
-  Person joss "Joss Tarbet" at tally_room {
+  Person joss "Cador Tarbet" at tally_room {
     Role "master of the Tallymen". Ancestry human. Calling thief. Level 3. Peaceable. Pronouns he. Manner jovial.
     Sells rope for 2 coin from 6.
     Sells lamp_oil for 3 coin from 6.
@@ -125,22 +121,22 @@ Module tallow "Tallow Deep" {
     Sells waterskin for 2 coin from 4.
     Buys steel_coin for 3 coin.
     Buys bell_teeth for 10 coin.
-    Greets "A broad man in a good coat gets up from the ledger without hurry. 'Joss Tarbet,' he says. 'I keep the accounts of the Day-Level. You'll have paid? Of course you have. Sit down. I buy, if you have anything worth the walk, and I sell, at a profit, because the alternative is Swallet's prices. What brings you down?'".
+    Greets "A broad man in a good coat gets up from the ledger without hurry. 'Cador Tarbet,' he says. 'I keep the accounts of the Day-Level. You'll have paid? Of course you have. Sit down. I buy, if you have anything worth the walk, and I sell, at a profit, because the alternative is Swallet's prices. What brings you down?'".
   }
-  Topic joss_hill with joss "Ask Joss about the hill" when true {
-    Says "'It's a pie with a lot of crusts,' says Joss. 'The Company's works we use. Below the Blind Shaft there is a hall full of water that I have no use for, because it is full of water. Past the hall there's a stair that goes down a very long way, and what's at the bottom does not trouble anyone, because no one has been to the bottom and come up again. I have lost one man to the shaft, and I do not propose to lose another.'".
+  Topic joss_hill with joss "Ask Cador about the hill" when true {
+    Says "'It's a pie with a lot of crusts,' says Cador. 'The Company's works we use. Below the Blind Shaft there is a hall full of water that I have no use for, because it is full of water. Past the hall there's a stair that goes down further than I care to count, and what's at the bottom does not trouble anyone, because no one has been to the bottom and come up again. I have lost one man to the Aeneans' ledge, and I do not propose to lose another.'".
   }
-  Topic joss_road with joss "Ask Joss about the old road" when knows(actor, calx_known) {
-    Says "Joss does not smile. 'I'd give a great deal for that road,' he says. 'Two miles from the Swallet green to a place the excise does not look. Everyone who has looked for it has found the east end, which is a charnel house, and the gate, which is rusted shut. If you open it, I would very much like to hear.' He pauses. 'And I would very much like you not to tell the village.'".
+  Topic joss_road with joss "Ask Cador about the old road" when knows(actor, calx_known) {
+    Says "Cador does not smile. 'I'd give a great deal for that road,' he says. 'Two miles from the Swallet green to a place the excise never goes. Everyone who has looked for it has found the east end, which is a charnel house, and the gate, which is rusted shut. If you open it, I would very much like to hear.' He pauses. 'And I would very much like you not to tell the village.'".
     On discuss { Assert knows(actor, gate_known). }
   }
-  Topic joss_spiders with joss "Ask Joss about the spiders" when true {
-    Says "'The cat went up the service walk three weeks ago,' says Joss, 'and the spiders had her. They are the size of dogs, and they sit above you. They do not like smoke. If you can spare a torch and carry it up, you can burn a way through. Or you can go round by the Settling Cistern, but it is rats.'".
+  Topic joss_spiders with joss "Ask Cador about the spiders" when true {
+    Says "'The boy's cat went up the service walk three weeks ago, and Treve after her, and the spiders had them both. They have bodies like hounds, and they sit above you. They do not like smoke. If you can spare a torch and carry it up, you can burn a way through. Or you can go round by the Settling Cistern, but it is rats.'".
   }
-  Topic joss_hobb with joss "Ask Joss about Hobb" when true {
-    Says "'Hobb was greedy,' says Joss. 'He took a rope and a lantern and the cage, and went down the Blind Shaft on his own after the black stone. The cage came back up empty, and the rope was cut a hand above it: not broken, cut. Think about that.'".
+  Topic joss_hobb with joss "Ask Cador about Treve" when true {
+    Says "'Treve was soft,' says Cador. 'The boy's cat went up the service walk on a Tuesday, three weeks gone, and Treve took a lamp and went after her, along a ledge two paces wide above the Settling Cistern. I went as far as the stair and saw the silk. Think about that, if you were thinking of the walk.'".
   }
-  Topic joss_buy with joss "Ask Joss what he pays for" when true {
+  Topic joss_buy with joss "Ask Cador what he pays for" when true {
     Says "'Steel coin, which is Aenean, and the old toll-silver in the chest there, which isn't for sale. Bell-teeth, which the barge-men want. The little brass instruments the assayer likes, I don't touch; she gets them. Black stone I buy by weight, but I'll want to see it first, and I'll want to know where you had it.'".
   }
 
@@ -149,7 +145,7 @@ Module tallow "Tallow Deep" {
   }
 
   Thing strongbox "the brass-bound chest" at tally_room {
-    State chained closed "A brass-bound chest is chained to the wall by the stove. A padlock the size of a fist holds the chain.".
+    State chained closed "A brass-bound chest is chained to the wall by the stove. A padlock as big as a fist holds the chain.".
     State open "The chest stands open. The chain hangs loose, and the padlock lies beside it.".
     Change pick_chest "Pick the chest's padlock" from chained to open needing lockwork.
     Change force_chest "Force the chain with a bar" from chained to open needing crowbar.
@@ -158,9 +154,9 @@ Module tallow "Tallow Deep" {
   Item toll_sack "a season of the Toll" is toll_silver in strongbox owned by joss.
   Item joss_coin "a dull steel coin" is steel_coin in strongbox owned by joss.
   Topic osk_stone with osk "Ask Osk what he makes of the stone on the hill" when true {
-    Says "'The Company's work is dwarf-cut and it shows,' says Osk, 'and under it there is Aenean, which you can tell by the joints: the legions cut to a thumb's width and thought it was a boast. And under that,' he lifts a shoulder, 'there is something I was taught as a boy not to name, because my grandfather's master walked into a hall like it and came out and never cut a stone again. The joints do not show. You cannot find where it was made, only where it was stopped.'".
+    Says "'Company work is dwarf-cut. You can see it,' says Osk. 'Under that, Aenean. Cut to a thumb, and they thought it a boast.' He lifts a shoulder. 'Under that, something I was told as a boy not to name. My grandfather's master walked into a hall like it and never cut again. No joints. You can't find where it was made. Only where it was stopped.'".
   }
-  Topic hester_amos with hester "Ask Hester about her brother" when true once {
-    Says "'Amos,' says Hester, and sets the pot down. 'The fourth shift down, the winter of 'fifty-two. They said the water took the whole of it. Nobody has ever said whose names.' She picks the pot up again. 'I was nine. I have kept the inn so the door would be open when someone came to say.'".
+  Topic hester_amos with hester "Ask Lowen about her brother" when true once {
+    Says "'Abner,' says Lowen, and sets the pot down. 'The fourth shift down, the winter of 'fifty-two. They said the water took the whole of it. Nobody has ever said whose names.' She picks the pot up again. 'I was nine. I have kept the inn so the door would be open when someone came to say.'".
   }
 }
