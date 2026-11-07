@@ -40,7 +40,9 @@ describe('somewhere high', () => {
   it('shows, climbed, what is in sight of it, and each is somewhere to set out for after', async () => {
     const { c, told } = await High.climbed('larch');
     // (A country drawn from the seed's: Thrume's until every adventure became a province of the first country, Gate B.)
-    expect(told.some(t => /^To the north-east, not far off: the march-stone of \S+\.$/.test(t))).toBe(true);
+    // The Eastern Ocean's shore to the north-east since the world was shaped (7 November), a march-stone elsewhere.
+    expect(told).toContain('To the north-east, not far off: the shore of the Eastern Ocean.');
+    expect(told.some(t => /^To the [a-z-]+, not far off: the march-stone of \S+\.$/.test(t))).toBe(true);
     expect(told).toContain('To the north-east, not far off: a half-fallen tower.');
     const going = Itineraries.destinations(c).map(d => d.name);
     expect(going).toEqual(expect.arrayContaining(['a half-fallen tower']));

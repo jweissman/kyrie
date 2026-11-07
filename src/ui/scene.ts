@@ -15,8 +15,11 @@ export interface SceneSubject {
   says?: string[]; state?: TargetRow['state'];
   // Someone who would join the company: what they would bring (see CharacterSheets.recruit).
   recruit?: TargetRow['recruit'];
-  // Someone the company has a stake in, met before the rest (see Stakes).
+  // Someone the company has a stake in, met before the rest (see Stakes): only while there is something to say to them
+  // or do with them now (see SceneModel.live).
   stake?: boolean;
+  // Whether anything can be said to them or done with them now that is not only asking again what was answered.
+  live?: boolean;
   // Someone with something written to be asked of them.
   asked?: boolean;
 }
@@ -61,14 +64,21 @@ export class SceneModel {
     const [name, ...role] = s.title.split(', ');
     // Dead or down is said apart, in its colour, and not again in the note ("dead dead": the cold evaluation).
     const said = row?.state ? s.note?.replace(/(?:^| · )(?:dead|down)$/, '') : s.note;
-    const note = [role.join(', '), said].filter(Boolean).join(' · ');
+    const note = [role.join(', '), said].filter(Boolean).join(' · '), live = s.choices.some(c => SceneModel.live(c));
     return { id: s.id, kind, name: name!, ...note ? { note } : {}, ...s.about ? { about: s.about } : {},
       ...row?.reckoning ? { danger: ChoiceList.chances[row.reckoning.danger] } : {},
       ...row?.portrait ? { portrait: row.portrait } : {}, ...row?.emblem ? { emblem: row.emblem } : {},
       ...row?.says?.length ? { says: row.says } : {},
       ...row?.state ? { state: row.state } : {}, ...row?.recruit ? { recruit: row.recruit } : {},
-      ...row?.stake ? { stake: true } : {}, ...row?.asked ? { asked: true } : {},
+      ...row?.stake && live ? { stake: true } : {}, ...row?.asked ? { asked: true } : {}, ...live ? { live } : {},
       choices: s.choices.map(c => this.bare(c, name!)).map(c => row?.kind === 'animal' ? this.led(c) : c) };
+  }
+  // Something there is to say or do now (the owner, 7 November: a person ringed in gold after all they had to say was
+  // said, and companions whose likenesses opened conversations with nothing in them): a choice not shut, and not only
+  // asking again what was answered; a group of them, if any it holds is.
+  static live(c: Choice): boolean {
+    if (c.children?.length) { return c.children.some(k => SceneModel.live(k)); }
+    return !c.disabled && !/_again(\(|$)/.test(c.command ?? '') && !/^Ask \S+ again /.test(c.label);
   }
   // An animal is led and let go, not asked.
   private static led(c: Choice): Choice {

@@ -107,7 +107,8 @@ export class WorldStage {
     return (app.menu.leads ?? g?.acts ?? []).some(a => a.subject === x.id);
   }
   static Portrait({ subject: x, draw }: { subject: SceneSubject; draw: Draw }) {
-    const into = WorldStage.into(x), face = x.portrait
+    // One with nothing to say or do now is a likeness, not a way into a conversation with nothing in it.
+    const into = x.live || x.kind === 'animal' || x.kind === 'creature' ? WorldStage.into(x) : undefined, face = x.portrait
       ? <img src={x.portrait.src} alt="" decoding="async" style={{ objectPosition: `50% ${x.portrait.focus}%` }} />
       : <Glyphs.View id={x.emblem ?? (x.kind === 'animal' ? 'animal' : 'someone')} className="emblem" />;
     const body = <><span className="face" aria-hidden="true">{face}</span>

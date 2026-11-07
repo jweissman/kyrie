@@ -88,7 +88,8 @@ describe('The Bakery Inspection', () => {
     await c.play(...bakehouse, 'Lay a hand on the stone under the line');
     expect(City.knows(c, 'd_oven_coal')).toBe(true);
     // a failed reading is one try, and the old woman is still there
-    const f = await City.start('e', { party: party('mage') });
+    // (A seed whose dice the reading fails by: a mage's spellbook adds to her lore since the owner's ruling on tools.)
+    const f = await City.start('j', { party: party('mage') });
     await f.play(...bakehouse, 'Wipe the soot from the line');
     expect(City.knows(f, 'd_oven_coal')).toBe(false);
     expect(f.offers('Wipe the soot')).toBe(true);

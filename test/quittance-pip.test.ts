@@ -76,7 +76,9 @@ describe("Pip's Tin", () => {
   }, 120000);
 
   it('the words of a stranger do not take; the old woman says what would', async () => {
-    const j = await City.start('e');
+    // A seed whose dice the rite fails by: a cleric's holy symbol adds to her rites since the owner's ruling on tools
+    // (7 November), and in 'e' the words now take.
+    const j = await City.start('g');
     await j.play(...stair, ...learn, 'Say over the tin');
     expect(has(j, 'pt_rite_done')).toBe(false);
     expect(has(j, 'pt_rite_failed')).toBe(true);
