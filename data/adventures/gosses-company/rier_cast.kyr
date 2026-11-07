@@ -4,17 +4,25 @@ Module pentrice "Gosse's Company" {
   // The troupe goes ahead to the Brazen Sparrow; whoever follows finds them there, lodged on credit, rehearsing in a
   // loft with a chalk line down the middle. The company is not the only story in the city: the city has its own.
   Measure favour(place). Measure arrivedR(place). Measure standingR(place).
-  Relation heraldCame(place). Relation writHeld(group). Relation rierdanKnown(group).
+  Relation heraldCame(place). Relation writHeld(group). Relation rierdanKnown(group). Relation heraldGone(place).
+  // The Pentrice epilogue waits for the herald: it closes only when the writ is refused, ignored for three hours, or the
+  // book is not yet read. Once the company is summoned (and after, through Dun Rierdan) it does not close at all.
+  Query pentriceCloses() means not summoned(pentrice) and not royalCall(pentrice) and (heraldGone(pentrice) or not verdictRead(pentrice)).
+  Rule herald_leaves when verdictRead(pentrice) and not heraldGone(pentrice) and watch(clock) >= verdictAt(pentrice) + 18 { Assert heraldGone(pentrice). }
+  Topic aubrey_refuse with aubrey "Tell Aubrey Lintel the company has had enough of masters, and will stay" when verdictRead(pentrice) and not heraldGone(pentrice) once {
+    Says "'Ah,' says Aubrey Lintel, who has been refused by better, and says it kindly. 'I shall say you were indisposed. It is what the Household says, when it does not wish to know.' He remounts as though the yard had been laid for it. 'The King is eighty-one. He will not remember.'".
+    On discuss { Assert heraldGone(pentrice). }
+  }
 
   Person aubrey "Aubrey Lintel" nowhere {
     Role "a herald of the King's Household, in a tabard with a crowned tower on it". Ancestry human. Peaceable. Pronouns he. Manner proud.
-    Arrives at moon_yard when verdictRead(pentrice) and hour(clock) >= 9.
+    Arrives at moon_yard when verdictRead(pentrice).
     Arrives "A horse comes in under the Moon's arch with a man on it in a tabard of seven blue towers, and the whole yard stops to look. He dismounts as though the cobbles had been laid for it.".
     Greets "'I am sent,' says Aubrey Lintel, 'to the players that played The Alderman's Ghost, or the ones that did not, and to anyone who was in the house or says so.' He consults a roll, upside down, and rights it. 'His Majesty, Casimir of the House of Orvane, has been told a story of the Trial, and wishes the story to be played for him. That is all. It is not a command. It is not a command in a way that has never in the history of the Household been refused.'".
   }
   Topic aubrey_writ with aubrey "Take the King's writ" when verdictRead(pentrice) and not summoned(pentrice) once {
     Says "He gives you a writ, sealed in blue wax with a tower, and holds out the other hand for you to kiss it, and, on seeing your face, puts it away. The writ is addressed to GOSSE'S COMPANY OF PLAYERS AND SUCH AS GO WITH THEM, and it says: COME TO DUN RIERDAN BY THE KING'S ROAD, BEING FOUND SUFFICIENT, AND PLAY. Under it, in a different hand, someone has added: BRING THE BEAR.".
-    On discuss { Assert summoned(pentrice). Assert writHeld(actor). Assert knows(actor, writ_known). }
+    On discuss { Assert summoned(pentrice). Assert heraldGone(pentrice). Assert writHeld(actor). Assert knows(actor, writ_known). }
   }
   Discovery writ_known "King Casimir Orvane has sent a writ to Gosse's Company to come to Dun Rierdan by the King's Road, and play.".
   Topic aubrey_why with aubrey "Ask Aubrey Lintel why the King has heard of them" when true once {
@@ -32,11 +40,14 @@ Module pentrice "Gosse's Company" {
     Assert at(gosse, sparrow_loft). Assert at(hepzibah, sparrow_loft). Assert at(swale, sparrow_loft). Assert at(dorcas, sparrow_loft).
     Assert at(pudding, sparrow_loft). Assert at(kit, sparrow_loft). Assert at(tam, sparrow_loft). Assert at(the_bear, sparrow_taproom).
   }
+  // When the Crown gives the company the Wick, it lodges there: in the wardrobe, among the hampers.
+  Rule troupe_to_wick_loft when troupe(?p) and houseGranted(rierdan) and distinct(?p, clemency) and at(?p, sparrow_loft) and not holdingAct(rierdan) { Retract at(?p, sparrow_loft). Assert at(?p, lant_ward). }
+  Rule troupe_to_wick_taproom when troupe(?p) and houseGranted(rierdan) and distinct(?p, clemency) and at(?p, sparrow_taproom) and not holdingAct(rierdan) { Retract at(?p, sparrow_taproom). Assert at(?p, lant_ward). }
   Query rehoused() means houseGranted(rierdan).
   Relation houseGranted(place).
-  Rule rtroupe_taproom when troupe(?p) and royalCall(pentrice) and distinct(?p, clemency) and at(?p, sparrow_loft) and hour(clock) >= 18 and hour(clock) < 23 and not holdingAct(rierdan) {
+  Rule rtroupe_taproom when troupe(?p) and royalCall(pentrice) and distinct(?p, clemency) and at(?p, sparrow_loft) and hour(clock) >= 18 and hour(clock) < 23 and not holdingAct(rierdan) and not houseGranted(rierdan) {
     Retract at(?p, sparrow_loft). Assert at(?p, sparrow_taproom). }
-  Rule rtroupe_loft when troupe(?p) and royalCall(pentrice) and distinct(?p, clemency) and at(?p, sparrow_taproom) and (hour(clock) >= 23 or hour(clock) < 18) and not holdingAct(rierdan) {
+  Rule rtroupe_loft when troupe(?p) and royalCall(pentrice) and distinct(?p, clemency) and at(?p, sparrow_taproom) and (hour(clock) >= 23 or hour(clock) < 18) and not holdingAct(rierdan) and not houseGranted(rierdan) {
     Retract at(?p, sparrow_taproom). Assert at(?p, sparrow_loft). }
   Relation holdingAct(place).
 
@@ -110,9 +121,9 @@ Module pentrice "Gosse's Company" {
     Role "three old women of the guild of Salt, who keep the weather-lore of the city". Ancestry human. Numbers 3. Peaceable. Pronouns they. Manner acerbic.
     Greets "Three women in grey look up as one. The eldest says: 'Rain by Thursday.' The second says: 'And a fall by Friday.' The third says nothing at all, and smiles, and it is the smile of someone who has seen the end of the play.".
   }
-  Person crake "Master Isidore Pomfret" at crake_room {
+  Person crake "Master Isidore Mauger" at crake_room {
     Role "a moneylender of the Tower of Coin". Ancestry human. Peaceable. Pronouns he. Manner jovial.
-    Greets "Master Pomfret rises like a very friendly sunrise. 'The King's Players!' he says. 'Or soon to be. How very good of you to call. I have heard so much, and written down so much more.' He sits, and you notice you are sitting too.".
+    Greets "Master Mauger rises like a very friendly sunrise. 'The King's Players!' he says. 'Or soon to be. How very good of you to call. I have heard so much, and written down so much more.' He sits, and you notice you are sitting too.".
   }
   Person pardew "Mistress Pardew" at draper {
     Role "the draper, who dresses the Rotunda and everyone else". Ancestry human. Peaceable. Pronouns she. Manner acerbic.

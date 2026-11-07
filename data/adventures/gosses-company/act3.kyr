@@ -25,11 +25,12 @@ Module pentrice "Gosse's Company" {
   }
   Initially Assert state(tarn_body, lying).
   Person sextons "the sextons" at field {
-    Role "four grey-robed sextons, one at each corner of the Field". Ancestry human. Calling warrior. Level 2. Numbers 4. Temperament territorial.
+    Role "four grey-robed sextons, one at each corner of the Field". Ancestry human. Calling warrior. Level 2. Numbers 4. Peaceable.
+    Greets "The nearest sexton lowers his mattock from his shoulder. 'The Field is the Warden's three days,' he says. 'You will stand back to the wall.' They do not strike a visitor. They strike whoever puts a hand to the turf, and they wait, at the corners, for the one sort of thing the Edict allows them to hear: a verdict.".
     Warns "The nearest sexton lowers his mattock from his shoulder. 'The Field is the Warden's three days,' he says. 'You will stand back to the wall.'".
     Comes "The sextons come in from the corners with their mattocks level, in step.".
-    Lair field.
   }
+  Observe sexton_roll at sexton_hall when edictOn(rierdan) "The Sextons' roll hangs by the stove, a long column of names on grey paper. The newest, at the foot, in a fresh hand, is EDRIC MARRICK, LATE MARSHAL, with a line ruled under it and the days of his exposure ticked off in pencil. Under it a sexton has written, for his own use, in a smaller hand: 'Wardens decide. We hear.'".
   Observe edict_posted at concourse when edictOn(rierdan) and not actIIIDone(rierdan) "The Edict is nailed to the dead fountain in the Warden's hand: ON THE TRAITOR EDRIC MARRICK LATE MARSHAL OF THE WATCH. THREE DAYS UNDER THE SKY, UNWEPT, UNBURIED, AND THEN THE RIVER. WHOEVER COVERS HIM, OR MOURNS HIM IN PUBLIC, IS SEALED IN THE DUST. By order, C. VERRALL, WARDEN. Below it someone has pasted a ballad about the Marshal. Below that, someone has torn it down.".
 
   // The Warden. The Prince has told him. He is sorry. He will not move.
@@ -103,12 +104,12 @@ Module pentrice "Gosse's Company" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, field) and edictOn(rierdan) and not buriedNight(rierdan) and hour(clock) >= 23 and day(clock) >= exposeDay(rierdan) + 1 and ysoltBury(actor) and ysoltTrust(actor) >= 1 and not actIIIDone(rierdan).
     Time 0.
     Resolve check(actor, stealth, dc_hard).
-    On success { Assert buriedNight(rierdan). Assert state(tarn_body, buried). }
+    On success { Assert buriedNight(rierdan). Assert state(tarn_body, buried). Assert buriedUnseen(rierdan). Assert actIIIDone(rierdan). Assert lucanLives(rierdan). Assert verrallStays(rierdan). }
     On failure { Assert strikes(sexton_blow, actor). Assert buriedNight(rierdan). Assert state(tarn_body, buried). Assert caughtBurying(rierdan). }
     Result "The two sextons at the east corner are passing a flask. It is a clear night. You lift the turf in long strips, as she shows you, with a spade each, and lay it on a cloth, and dig, and the earth is loose and sweet. At the bottom she kneels and says the words of the Bells in a whisper. You cover him. Neither of you speaks, and when you lay the turf back in its strips you could not tell where it had been.".
     Otherwise "A boot scrapes. A sexton's lantern swings and a voice says, quite calmly: 'Who is it?'".
   }
-  Relation caughtBurying(place).
+  Relation caughtBurying(place). Relation buriedUnseen(place).
   // 2. Persuade the Warden himself, on the second night, at the Dust Gate. Needs the prophecy and a plea.
   Action beg_verrall(actor: group, site: place) "Tell the Warden what the blind man said, and what his son said, at the Dust Gate" {
     Speaker dray.
@@ -197,6 +198,7 @@ Module pentrice "Gosse's Company" {
   Observe clem_furious near clemency when clemFurious(rierdan) "Clemency Orde is sitting on the Wick's dark stage by the ghost-light with a play on her knee, and her face is something to avoid. 'Nobody died,' she says. 'In the Field of Exposure. In a Warden's city. Nobody died.' She turns the page. 'I have the best fifth act in Imbar and nobody to put in it.' She is crying, and furious about it.".
   Observe verrall_resigned near dray when verrallResigned(rierdan) "The Lord Warden Verrall has taken off the chain of office and put it on the table. He is looking at a window, like a man who has stopped being a wall.".
   Observe tarn_buried_field at field when state(tarn_body, buried) "The turf has been laid back in long strips, with care. There is no sign of the grave but a single white pebble, set on the grass, which is not a thing that grows there.".
+  Observe pebble_warden near dray when buriedUnseen(rierdan) "The Lord Warden Verrall comes back from the Field at first light with one white pebble in his gloved hand. He has seen the turf. He looks at the pebble for a time, and then at you, and puts the pebble in his pocket. 'The sextons report the body undisturbed,' he says, slowly, so that he cannot be misquoted. 'I have inspected it.' He does not say anything else. He will know, for the rest of his life, what he did not see; and so, now, will you.".
   Rule clem_comes when nightOver(rierdan) and not clemInWick(rierdan) { Assert clemInWick(rierdan). Assert at(clemency, lant_ward). }
   Relation clemInWick(place).
   Observe clem_soft_note near clemency when clemSoft(party) and not actIIIDone(rierdan) "Clemency has crossed out a great deal. The margin is a battlefield. She looks up and says, without being asked: 'I have given her a window. It is a very small window.'".

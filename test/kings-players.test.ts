@@ -2,6 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { Journey } from '../src/session/journey';
 import { PlaySession } from '../src/session/play-session';
 import { ModuleWriter } from '../src/lang/module-writer';
+import { readFileSync } from 'node:fs';
 
 // The King's Players (doc/adventures/anthology/the-kings-players.md): Gosse's Company in Dun Rierdan, played by the
 // labels a page offers, on the Pentrice city campaign with the Trial's verdict staged as read. Each act is a spec of
@@ -33,6 +34,50 @@ class KP {
     return this;
   }
 }
+
+// The natural route, played by labels with no teleport: the Trial's own fixture to the verdict, then the herald, the
+// writ, the East Street, the Eastgate and the King's Road. `Trial` returns a KP standing in the Moon's loft with the
+// verdict read; `toTheGate` walks it to Dun Rierdan.
+const steps = (name: string): string[] => {
+  const ph = JSON.parse(readFileSync(`test/fixtures/gosse/${name}.json`, 'utf8')) as Record<string, string[]> | string[];
+  return (Array.isArray(ph) ? ph : Object.values(ph).flat()).slice(0, -1);
+};
+const reached = (k: KP) => k.j.campaign.world.related('reached').map(r => r.args[0]);
+async function fromTrial(fixture = 'bow', seed = 'g1') {
+  const k = await KP.start(seed);
+  await k.play(...steps(fixture));
+  return k;
+}
+async function toTheGate(k: KP) {
+  await k.play('Wait › An hour', 'Out to the yard of the Painted Moon', "Take the King's writ", 'Out to the Westgate', 'To the Chepe',
+    'To Guildhall Square', 'To the Minster Close', 'To the Eastgate', "To the King's Road");
+  return k;
+}
+
+describe("The King's Players: from Pentrice by the natural route", () => {
+  it('holds the Pentrice epilogue open for the herald, then goes by the King\'s Road to the River Gate', async () => {
+    const k = await fromTrial();
+    expect(k.holds('verdictRead', 'pentrice')).toBe(true);
+    // A watch and a wait later, in the old code the book had closed. It must not.
+    await k.play('Wait › An hour');
+    expect(reached(k)).toEqual([]);
+    expect(k.j.choices().length).toBeGreaterThan(0);
+    await toTheGate(k);
+    expect(k.holds('summoned', 'pentrice')).toBe(true);
+    expect(k.holds('royalCall', 'pentrice')).toBe(true);
+    expect(k.at('party')).toBe(p('road_head'));
+    await k.play('To the River Gate');
+    expect(k.at('party')).toBe(p('river_gate'));
+    // Many hours in, in Acts II and III the Pentrice endings do not fire.
+    await k.play('Wait › An hour', 'Wait › An hour');
+    expect(reached(k)).toEqual([]);
+  }, 280000);
+  it('refuses the herald and the Pentrice ending closes the book as it always did', async () => {
+    const k = await fromTrial('bow', 'g1');
+    await k.play('Wait › An hour', 'Out to the yard of the Painted Moon', 'Tell Aubrey Lintel the company has had enough of masters, and will stay');
+    expect(reached(k).length).toBeGreaterThan(0);
+  }, 280000);
+});
 
 describe("The King's Players, Act I: the Marchants' Men", () => {
   it('goes in under a false name, takes Kit to the Chancellor, unmasks a page, and ends in a fiasco on the rug', async () => {
@@ -160,6 +205,25 @@ describe("The King's Players, Act III: the Unburied", () => {
     expect(k.holds('clemSatisfied', 'rierdan')).toBe(true);
     expect(k.holds('ysoltFree', 'rierdan')).toBe(false);
   }, 280000);
+  it('is a quiet grave by the natural route: walked to the Bells, to the Field, and the girl is helped; the Warden finds the pebble and says nothing', async () => {
+    const k = await staged();
+    await k.play('To the steps of the Tower of Bells', 'Into the Tower of Bells', 'Speak to the acolyte of the Bells, who is on her knees', 'Help you, if I can');
+    expect(k.holds('ysoltBury', 'party')).toBe(true);
+    // Out to the Gate of Dust and the Field, and wait through the first night and the second day to the second night.
+    await k.play('Out to the steps of the Tower of Bells', 'To the Gate of Dust', 'To the Field of Exposure', '=+144');
+    await k.play('=23:20');
+    expect(k.at('party')).toBe(p('field'));
+    k.j.roll('pass');
+    await k.play('Take a spade and help Ysolt Marrick lift the turf');
+    expect(k.holds('buriedUnseen', 'rierdan')).toBe(true);
+    expect(k.holds('actIIIDone', 'rierdan')).toBe(true);
+    expect(k.holds('ysoltSealed', 'rierdan')).toBe(false);
+    expect(k.holds('lucanDead', 'rierdan')).toBe(false);
+    // And the book goes on: a long wait does not leave Act III open.
+    k.j.roll(undefined);
+    await k.play('Wait › An hour');
+    expect(k.holds('wickGranted', 'rierdan')).toBe(true);
+  }, 280000);
   it('can be ended on the second night by a Warden who has heard the blind man and his own son: nobody dies, and the playwright is furious', async () => {
     const k = await staged();
     k.put('party', 'dust_gate');
@@ -202,62 +266,100 @@ describe("The King's Players, Act III: the Unburied", () => {
 });
 
 describe("The King's Players, Act IV: the Note", () => {
-  const staged = async () => {
-    const k = await KP.start('kp4');
+  // Act III's end is the one staged thing; everything after is walked and played by label.
+  const staged = async (seed = 'kp4') => {
+    const k = await KP.start(seed);
     k.assert('royalCall', 'pentrice').assert('auditioned', 'rierdan').assert('actIIIDone', 'rierdan').set('favour', 'rierdan', '3');
+    for (const who of ['gosse', 'hepzibah', 'swale', 'dorcas', 'pudding', 'kit', 'tam']) k.put(who, 'sparrow_loft');
     k.put('party', 'concourse');
     await k.play('Wait › A while');
     expect(k.holds('wickGranted', 'rierdan')).toBe(true);
     k.set('openingDay', 'rierdan', '0'); // the same evening, rather than waiting out the three days the lease allows
     return k;
   };
-  const prepare = async (k: KP) => {
-    k.put('party', 'lant_ward').put('hepzibah', 'lant_ward');
-    await k.play('Ask Hepzibah to gather the company about the note', "Jem's: a false clerk, a false summons, and a very good coat");
-    k.put('party', 'draper');
+  const plan = async (k: KP, label: string) => {
+    await k.play('To Playhouse Row', 'Into the Wick', "To the Wick's wardrobe", 'Ask Hepzibah to gather the company about the note', label);
+  };
+  const draper = async (k: KP) => {
+    await k.play("To the Wick's dark stage", 'Out to Playhouse Row', 'To the Salt Quay', "To Mistress Pardew's draper's");
     await k.play('Ask Mistress Pardew whether she dressed a clerk', "The note's a forgery. We mean to take it back");
     expect(k.holds('disguiseHad', 'party')).toBe(true);
     expect(k.holds('keyCopied', 'party')).toBe(true);
   };
-  it('is a caper: a false clerk, a wax key and a burnt forgery, with nothing in the city changed', async () => {
+  const backToWick = (k: KP) => k.play('To the Salt Quay', 'To Playhouse Row', 'Into the Wick');
+  const toExchange = (k: KP) => k.play('Out to Playhouse Row', 'To the Concourse of the Seven', 'To the Exchange under the Tower of Coin');
+  const charm = "Take Lord Rask's box for the evening, and a bottle, and Master Mauger's whole attention";
+  it('is a caper by the false clerk: a coat, a wax key, a burnt forgery, and nothing in the city changed', async () => {
     const k = await staged();
-    await prepare(k);
-    k.put('party', 'concourse');
+    await plan(k, "Jem's: a false clerk, a false summons, and a very good coat");
+    await draper(k);
+    await backToWick(k);
     await k.play('=19:10');
     expect(k.holds('openingNight', 'rierdan')).toBe(true);
-    k.put('party', 'wick_box');
     k.j.roll('pass');
-    await k.play("Take Lord Rask's box for the evening, and a bottle, and Master Pomfret's whole attention");
+    await k.play("To Lord Rask's box", charm);
     expect(k.holds('pomfretLocked', 'rierdan')).toBe(true);
-    k.put('party', 'exchange');
+    await k.play("To the Wick's dark stage");
+    await toExchange(k);
     await k.play("Walk in at the counting-room door in the clerk's coat, as if you worked there");
     expect(k.holds('inCounting', 'party')).toBe(true);
-    await k.play("Open Master Pomfret's strong-box, with a key or without");
+    await k.play("Open Master Mauger's strong-box, with a key or without");
     expect(k.holds('noteTaken', 'party')).toBe(true);
     await k.play('Go out by the way you came, with the paper, before the third act ends');
-    k.put('party', 'lant_stage');
-    await k.play("Burn the note in the Wick's ghost-light");
+    await k.play('To the Concourse of the Seven', 'To Playhouse Row', 'Into the Wick', "Burn the note in the Wick's ghost-light");
     expect(k.holds('noteGone', 'rierdan')).toBe(true);
     await k.play('=22:10');
     expect(k.holds('heistOver', 'rierdan')).toBe(true);
     expect(k.holds('caughtInCounting', 'party')).toBe(false);
-  }, 280000);
-  it('goes wrong: the company is caught in the counting-room, and the note stays with Pomfret', async () => {
-    const k = await staged();
-    await prepare(k);
-    k.put('party', 'concourse');
-    await k.play('=19:10');
-    k.put('party', 'exchange');
+  }, 290000);
+  it('is a caper by the sealed summons: Oriel sends the clerk away and the box is left on the latch', async () => {
+    const k = await staged('kp4o');
+    await plan(k, "Oriel's: a summons from the Chamberlain, sealed, to take the clerk away");
+    await k.play("To the Wick's dark stage", '=19:10');
+    expect(k.holds('openingNight', 'rierdan')).toBe(true);
+    await k.play('Out to Playhouse Row', 'To the Concourse of the Seven', 'To the Exchange under the Tower of Coin');
     k.j.roll('pass');
+    await k.play("Present the Chamberlain's sealed summons at the counting-room door, and send the chief clerk to the King's Court");
+    expect(k.holds('clerkLured', 'rierdan')).toBe(true);
+    await k.play("Open Master Mauger's strong-box, with a key or without");
+    expect(k.holds('noteTaken', 'party')).toBe(true);
+  }, 290000);
+  it('is a caper by Dorcas: she keeps the man in the box and the company goes in at the door', async () => {
+    const k = await staged('kp4d');
+    await plan(k, "Dorcas's: she keeps Master Mauger in the box, and Lord Rask looks the other way");
+    await draper(k);
+    await backToWick(k);
+    await k.play('=19:10');
+    k.j.roll('pass');
+    await k.play("To Lord Rask's box", charm);
+    await k.play("To the Wick's dark stage");
+    await toExchange(k);
+    await k.play('Slip in at the counting-room door while Dorcas has Master Mauger in the box, as the gentleman who is expected');
+    expect(k.holds('inCounting', 'party')).toBe(true);
+    await k.play("Open Master Mauger's strong-box, with a key or without");
+    expect(k.holds('noteTaken', 'party')).toBe(true);
+  }, 290000);
+  it('goes wrong when the charm fails: Mauger comes down early and the company is caught in his counting-room', async () => {
+    const k = await staged('kp4f');
+    await plan(k, "Jem's: a false clerk, a false summons, and a very good coat");
+    await draper(k);
+    await backToWick(k);
+    await k.play('=19:10');
+    k.j.roll('fail');
+    await k.play("To Lord Rask's box", charm);
+    expect(k.holds('pomfretBack', 'rierdan')).toBe(true);
+    expect(k.holds('pomfretLocked', 'rierdan')).toBe(false);
+    k.j.roll('pass');
+    await k.play("To the Wick's dark stage");
+    await toExchange(k);
     await k.play("Walk in at the counting-room door in the clerk's coat, as if you worked there");
-    k.set('alarm', 'rierdan', '3');
+    expect(k.measure('alarm', 'rierdan')).toBeGreaterThanOrEqual(2);
+    k.j.roll('fail');
     await k.play('Wait › An hour');
     expect(k.holds('caughtInCounting', 'party')).toBe(true);
-    k.j.roll(undefined);
     await k.play('=22:10');
-    expect(k.holds('heistOver', 'rierdan')).toBe(true);
     expect(k.holds('noteGone', 'rierdan')).toBe(false);
-  }, 280000);
+  }, 290000);
 });
 
 describe("The King's Players, Act V: the Command", () => {

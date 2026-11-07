@@ -48,7 +48,7 @@ Module pentrice "Gosse's Company" {
   Place seats "the Court of the Seven Seats" is room within law_tower at 0, 0.
   Place debt_yard "the debtors' yard" is room within law_tower at 1, 0.
   Place coin_tower "the Tower of Coin" is building within rierdan.
-  Place crake_room "Master Pomfret's counting-room" is room within coin_tower at 0, 0.
+  Place crake_room "Master Mauger's counting-room" is room within coin_tower at 0, 0.
   Place bell_tower "the Tower of Bells" is building within rierdan.
   Place bell_nave "the nave of the Bells" is room within bell_tower at 0, 0.
   Place ringers_loft "the ringers' loft" is room within bell_tower at 1, 0.
@@ -135,7 +135,7 @@ Module pentrice "Gosse's Company" {
   Observe terrace_scene at terrace when true "The terrace overlooks the Concourse from the King's Tower. Below, the ring of the Seven is a pattern of coloured stone. In the south corner a young man in black stands very still against the parapet, looking at nothing.".
   Observe seats_scene at seats when true "The Court of the Seven Seats is a round chamber with seven judge's chairs and a bar. Six of the chairs are occupied by an old man each, who look as if they had been there at the founding of the city. The seventh is empty, and has been polished.".
   Observe debt_yard_scene at debt_yard when true "The debtors' yard is a small stone court with a pump, a bench, a washing-line and thirty people living on it in good order. A man is teaching a child to read with a petition. Some of the prisoners can go out by day on their word, and do not.".
-  Observe crake_room_scene at crake_room when true "Master Pomfret's counting-room is warm, panelled and well-lit by a window on to the Exchange. A clerk sits at each of four desks. Crake himself is a plump pink man in a velvet coat who stands up to shake your hand, and you realise as you let it go that you have also signed something.".
+  Observe crake_room_scene at crake_room when true "Master Mauger's counting-room is warm, panelled and well-lit by a window on to the Exchange. A clerk sits at each of four desks. Crake himself is a plump pink man in a velvet coat who stands up to shake your hand, and you realise as you let it go that you have also signed something.".
   Observe bell_nave_scene at bell_nave when true "The nave of the Bells is a round hall with a floor of chalk-white stone, and in the middle of it a rope falls from the dark. Pilgrims wait in the shadows for the hour. A nun walks round the walls with a long brass key, winding the lamps.".
   Observe ringers_loft_scene at ringers_loft when true "The ringers' loft is a timber cage round the great bells' wheels. The air is thick with the smell of old rope and bronze. Eleven bell-ropes hang, and one is knotted at the end. The blind ringer sits on a stool with a hand on each of two ropes, feeling the tower hum.".
   Observe sexton_hall_scene at sexton_hall when true "The Sextons' hall is bare grey stone with a long table, a ledger and a lamp that burns without oil. A roll of names hangs on the wall, in three colours: the buried, the exposed and the owed.".
