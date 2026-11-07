@@ -1297,6 +1297,10 @@
         "undead",
         "regeneration"
       ],
+      "resistances": {
+        "physical": 0.5,
+        "fire": -0.5
+      },
       "habitats": [
         "barrow"
       ],
@@ -1313,7 +1317,7 @@
       "source": {
         "orsino": "monsterType:Mummy",
         "fidelity": "adapted",
-        "notes": "Composed by OrsinoMonsters (undead class, Mummy type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template."
+        "notes": "Composed by OrsinoMonsters (undead class, Mummy type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template. Its resistances are the old games' (a mummy is harmed by fire, and by a blade only by half; the fresh playtest of 7 November: two first-levels felled a barrow's king with swords as they would a corpse)."
       }
     },
     "nightmare": {

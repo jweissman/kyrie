@@ -2508,6 +2508,7 @@ Bone Resilience: Resists 50% of piercing, takes 100% more bludgeoning, immune to
 - Qualities: +12 strength, +8 dexterity, +12 constitution, +10 intelligence, +12 wisdom, +5 charisma
 - Attack: claws, 1d4 slashing
 - Hide: Clothing, armour 0
+- Resists: physical 50%, fire takes 50% more
 - Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
 - Found in: barrow
 - Worth: 300 + 50 experience a level
@@ -2532,7 +2533,7 @@ Regeneration: Heal 1d2 - 1 (0–1) each turn.
 
 *Left out — field:monsterGold: Orsino's 2d10 gold for the kill is not carried.*
 
-*Adapted: Composed by OrsinoMonsters (undead class, Mummy type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template.*
+*Adapted: Composed by OrsinoMonsters (undead class, Mummy type, wildtype aspect, any terrain, level 1); attributes rise by round(level / 8) and hit points by three a level, as the template. Its resistances are the old games' (a mummy is harmed by fire, and by a blade only by half; the fresh playtest of 7 November: two first-levels felled a barrow's king with swords as they would a corpse).*
 
 #### Revenant
 

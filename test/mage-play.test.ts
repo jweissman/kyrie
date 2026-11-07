@@ -39,8 +39,10 @@ describe('a mage in the king-barrow', () => {
   // In a1's barrow, at its end: cov7's beetles, since foes choose as their kind would and not always the frailest,
   // no longer go for the mage, and are told as no match.
   it('is told who could fall in a fight the company would win, and by whom', async () => {
-    // A thief beside her (with a warrior, since her invisibility works, the fight was only fair: no one would fall).
-    const s = await Barrow.start([Barrow.mage, { name: 'Tharash', raceId: 'human', classId: 'thief' }], 'a1');
+    // A warrior beside her: the barrow's dead are mummies, whom a blade bites only by half (their resistances, the
+    // fresh playtest of 7 November), so with his sword the fight is one they would likely win and she could fall in
+    // (a thief's knife had made it that before; now, with a thief, it could be lost).
+    const s = await Barrow.start([Barrow.mage, { name: 'Tharash', raceId: 'human', classId: 'warrior' }], 'a1');
     GeneratedWorld.put(s, 'w4_end');
     const dead = ScreenModel.build(s.campaign).people.find(p => /barrow-dead/.test(p.name))!;
     expect(dead.reckoning).toEqual({ danger: 'hard', text: 'Tharash reckons you would likely beat them, but Wenna could fall.' });

@@ -195,7 +195,9 @@ describe('a site\'s worthiest band', () => {
     expect(warrior.find(b => b.name?.startsWith('the barrow-king'))?.reckoning)
       .toEqual({ danger: 'grave', text: 'A fight with it could be lost. It will be long: your weapons barely bite '
         + 'it; fire or radiant would serve better.' });
-    expect(mage.find(b => b.name?.startsWith('the barrow-king'))?.reckoning.danger).toBe('deadly');
+    // A mage's fire bites it, as a blade bites it by half (a mummy's resistances: the fresh playtest of 7 November),
+    // so it is a grave fight for her too, no longer one beyond her.
+    expect(mage.find(b => b.name?.startsWith('the barrow-king'))?.reckoning.danger).toBe('grave');
     // A fresh company is of the first level: no band above it is a bare walkover.
     expect(warrior.filter(b => b.level > 1 && b.reckoning.danger === 'slight' && !/so long as/.test(b.reckoning.text)))
       .toEqual([]);
