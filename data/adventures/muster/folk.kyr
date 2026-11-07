@@ -45,26 +45,26 @@ Module muster "The Long Muster's Road" {
     Greets "Maud Hennick looks at your boots, and your packs, and the number of you. 'You've the look,' she says. 'Soft. Sit down and eat before you start, you'll not get a hot meal for three days.'".
   }
   Topic maud_road with maud "Ask Maud about the road" when true {
-    Says "'It's the legion's road,' says Maud. 'Eleven thousand went over it and ten thousand came down the other side, if you believe the beams. It's three days' miles to the Eagle and then it's the Pass and then it's nobody. We send nobody. Every spring somebody's grandmother puts a lamp in the window, and I put one in the inn.'".
+    Says "'It's the legion's road,' says Maud. 'Eleven thousand went over it and ten thousand came down the other side, if you believe the beams. It's two days' walk to the Eagle and then it's the Pass and then it's nobody. We send nobody. Every spring somebody's grandmother puts a lamp in the window, and I put one in the inn.'".
     On discuss { Assert knows(actor, cohort_known). }
   }
 
-  Person dray "Fenn Hallam" at taproom {
+  Person fenn_hallam "Fenn Hallam" at taproom {
     Role "a surveyor, resting a bad knee". Ancestry human. Pronouns he. Manner jovial. Peaceable.
     Buys antique_compass for 120 coin.
-    Buys ancient_map for 140 coin.
+    Buys ancient_map for 40 coin.
     Buys faded_map for 30 coin.
     Buys celestial_chart for 150 coin.
     Greets "A man with a roll of oiled paper and a leg up on a stool, who has been to the Viaduct and no further. 'It's the finest road in the world, and it's falling down,' he says. 'Sit.'".
   }
-  Topic dray_notes with dray "Ask the surveyor for his notes on the Viaduct" when true once {
+  Topic dray_notes with fenn_hallam "Ask the surveyor for his notes on the Viaduct" when true once {
     Says "Hallam unrolls a sketch: nine arches, one with a cross through it. 'The fifth,' he says. 'Three ways over, none of them kind. The parapet, if you can pin a line to it. The river, if it's low, and a climb. Or the rubble, if you like your fingers broken. The wind's worse on the parapet. The river's worse in a thaw. There's no soft one.'".
     On discuss { Give surveyor_notes to actor. }
   }
   Kind surveyor_notes "Hallam's notes on the Viaduct" is document teaching viaduct_notes described "A roll of oiled paper, in a surveyor's fine hand, showing the Viaduct from three sides.".
   Discovery viaduct_notes "The fifth arch of the Viaduct can be crossed by the parapet (pitons and a rope), by the river and the south abutment (not in a thaw), or by the fallen arch (a climb). The wind is worst on the parapet.".
 
-  Person hobday "Reeve Cattermole" at green {
+  Person cattermole "Reeve Cattermole" at green {
     Role "the reeve of Kell Ford". Ancestry human. Pronouns he. Manner grim. Peaceable.
     Greets "The reeve stands at the notice-board with a hammer, nailing up a notice nobody will read. 'If you don't come back,' he says, 'I'm to know where to write. Where would that be?'".
   }
@@ -101,7 +101,9 @@ Module muster "The Long Muster's Road" {
   }
   Entity red_cloak_known: fact "Nine springs ago a man in a red cloak, with a bow, stood on the far bank of the river below Kell Ford from dusk to dark, and did not cross.".
   Observe board_scene at green when true "The notice-board at the trough carries a column of names in the reeve's hand, each with a year: the people of Kell Ford who went over the Fells and did not come back, forty-one of them. At the head of the column, in a hand a hundred years older: THE ROAD IS THE LEGION'S. IT LEADS SOMEWHERE. Nobody has ever amended it.".
+  Entity lamp_known: fact "Kell Ford puts a lamp in the window facing the north road every spring, and nobody knows for whom.".
   Topic maud_sending with maud "Ask Maud why the village keeps a lamp in the window" when true {
     Says "'Every spring,' says Maud. 'A hundred and some years, since my grandmother's grandmother. The first week of spring, a lamp in the window facing the road. Nobody knows why. My mother said it was for the ones who went, and my grandmother said it was for something that might come. She was cross about it.' She trims the wick. 'I put it in because I always have.'".
+    On discuss { Assert knows(actor, lamp_known). }
   }
 }

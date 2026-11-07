@@ -8,7 +8,7 @@ Module muster "The Long Muster's Road" {
 
   Discovery ropeway_known "The Cohort's engineers will string a rope-way across the fifth arch of the Viaduct, from the north pier to the south abutment, for anyone the Cohort counts a friend.".
   Relation dispatchSent(group). Relation delegationCame(group). Relation elpisTallied(group).
-  Topic hobday_dispatch with hobday "Give the reeve the Prefect's dispatch" when holding(actor, dispatch) and not dispatchSent(party) once {
+  Topic hobday_dispatch with cattermole "Give the reeve the Prefect's dispatch" when holding(actor, dispatch) and not dispatchSent(party) once {
     Says "The reeve breaks no seal. He turns it over and reads the superscription, twice, and goes the colour of the dish he is standing by. 'There is a bishop at Hale who keeps the old archives,' he says. 'He will want this more than he has ever wanted anything. I shall send it by the next carrier, and I shall tell no one what it says, because I do not know what it says, and I should like to keep it so.' He counts out forty coin from the village purse. 'The Ford's thanks. It isn't much. It's what we have.'".
     On discuss { Spend dispatch from actor. Increase quantity(actor, gold) by 40. Assert dispatchSent(party). }
   }
@@ -27,16 +27,16 @@ Module muster "The Long Muster's Road" {
   Observe fate_kept_forum at forum when told_moll(party) and not state(standard, golden) "A black cloth hangs on the standard's pole, and nobody has said why. In the forum people go about in lowered voices, as the valley does when a physician is in the Prefect's house.".
   Observe fate_kept_archive at archive when told_moll(party) "The Archivist and the Prefect sit together at the cedar table with the Annals open between them and a lamp, and have been there since the noon call. Neither looks up.".
   Person delegates "the Cohort's delegation" nowhere {
-    Role "Dunya of the First Century and two soldiers, with a wheel on their packs". Ancestry human. Calling ranger. Level 3. Numbers 3. Peaceable.
+    Role "three soldiers of the First Century, with a wheel on their packs". Ancestry human. Calling ranger. Level 3. Numbers 3. Peaceable.
     Arrives at green when told_moll(party) and watch(clock) >= toldAt(party) + 600.
     Arrives "Three soldiers in red cloaks come down the north road to the trough at Kell Ford with the whole village standing in its doors. The leader takes off her helmet and says, in careful plain-speech: 'We are from the end of the road. We are told the lamps here are lit. May we see?'".
   }
   // told the Centurion: a century that knows what it is for; a column north.
   Observe fate_march_barracks at barracks when told_merula(party) "The First Century is in full marching order in the yard, packs on, spears up, and no one will say why. The Centurion stands at the head with her cane under her arm. She nods to you once.".
   Person column "the First Century's column" nowhere {
-    Role "thirty soldiers of the Last Cohort in red cloaks, with the Centurion's cane at their head". Ancestry human. Calling warrior. Level 3. Numbers 6. Peaceable.
+    Role "six soldiers of the Last Cohort in red cloaks, with the Centurion's cane at their head". Ancestry human. Calling warrior. Level 3. Numbers 6. Peaceable.
     Arrives at green when told_merula(party) and watch(clock) >= toldAt(party) + 900.
-    Arrives "A column of red cloaks comes down the north road in ranks, thirty strong, with a horn sounding at the head of it, and Kell Ford's dogs go mad. The woman at the front halts them at the trough, sets down her cane, and says in plain speech: 'I am a Centurion of the Last Cohort. We have come to see whether anyone is there.' Maud Hennick, in her inn door, says she supposes they will want feeding.".
+    Arrives "A column of red cloaks comes down the north road in ranks, six strong, with a horn sounding at the head of it, and Kell Ford's dogs go mad. The woman at the front halts them at the trough, sets down her cane, and says in plain speech: 'I am a Centurion of the Last Cohort. We have come to see whether anyone is there.' Maud Hennick, in her inn door, says she supposes they will want feeding.".
   }
   // told the Hearth: the sixth withheld; the Eagles' answer; a quarrel in the forum.
   Rule elpis_tallied_rule when told_elpis(party) and watch(clock) >= toldAt(party) + 200 and not elpisTallied(party) {

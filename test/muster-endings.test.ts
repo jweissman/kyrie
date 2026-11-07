@@ -22,7 +22,7 @@ describe('the endings of the crossing', () => {
     const j = await start();
     await j.play(...steps.prepare_light, ...steps.hire, ...steps.stock, ...steps.first_days);
     expect(j.at('party')).toBe('muster__octavius_hall');
-    await j.play('=day 9 08:00');
+    await j.play('=day 7 08:00');
     expect(ended(j)).toBe(true);
     expect(j.page).toContain('turned at Octavius');
   }, 290000);
@@ -31,7 +31,7 @@ describe('the endings of the crossing', () => {
     const j = await start();
     await toGate(j);
     await j.play('To the forum');
-    await j.play('=day 9 08:00');
+    await j.play('=day 7 08:00');
     expect(ended(j)).toBe(true);
     expect(j.page).toContain('passes shut behind you');
   }, 290000);
@@ -56,6 +56,28 @@ describe('the endings of the crossing', () => {
     await j.play('Out to the forum', ...homeNoRope.slice(1));
     expect(ended(j)).toBe(true);
     expect(j.page).toContain('one fewer');
+  }, 290000);
+
+  it('comes home having said nothing, when the valley is only walked through', async () => {
+    const j = await start();
+    await toGate(j);
+    await j.play('To the forum', 'To the gate of the Last Cohort', 'To the Long Descent', ...homeNoRope.slice(3));
+    expect(ended(j)).toBe(true);
+    expect(j.page).toContain('said nothing of what you knew');
+  }, 290000);
+
+  it('leaves the valley worse for the telling when the Prefect is told and the standard comes down', async () => {
+    const j = await start();
+    await toGate(j);
+    await j.play('To the forum', 'To the Praetorium', 'Let the Prefect put his first question', 'Say that nobody sent you: you came to see what the road led to',
+      'Let the Prefect put his second question', 'Say that it looks heavy: that it looks like something people carry',
+      'Let the Prefect put his last question', 'Say that you will not answer, because the answer is not yours to give',
+      'Tell the Prefect that the empire is gone');
+    expect(j.holds('told_prefect', 'party')).toBe(true);
+    await j.play('Out to the forum', 'To the gate of the Last Cohort', 'To the Long Descent', ...homeNoRope.slice(3));
+    expect(ended(j)).toBe(true);
+    expect(j.page).toContain('The Eagles took the Praetorium');
+    expect(j.page).toContain('was in it');
   }, 290000);
 
   it('has the Cohort come down the road after the Archivist is told, and the page ends on its arrival', async () => {
