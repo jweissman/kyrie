@@ -32,7 +32,7 @@ Module wrongboat "The Wrong Boat" {
     Greets "A big man with a cork-coloured face, on his fourth pint and his eighth opinion, hits the table with the flat of his hand. 'THIRTY VERSES!' he roars, at you, at the room. 'Tom Lowther wrote thirty and we have added a hundred and nineteen and I wrote the one about the goose! Sit down! Sit! Buy a man a pint and I will sing you the goose!'".
   }
   Topic parr_label with parr "Show Jack Parr the label on the hamper" when holding(actor, hamper_kind) once {
-    Says "He peers at it, wipes his eyes, peers again. 'DO NOT OPEN,' he reads, with great feeling. 'That is Hob's hand! Hob Garrod's! He writes a D like a man falling off a roof!' He lowers his voice to a shout. 'Hob has left that with the old girl to be carried somewhere he's not going himself. I'd not want to be the one carrying it.' He drinks. 'Not that I'd say so. I'm very discreet.'".
+    Says "He peers at it, wipes his eyes, peers again. 'DO NOT OPEN,' he reads, with great feeling. 'That is Hob's hand! Hob Garrod's! He writes a D like a roof coming off!' He lowers his voice to a shout. 'Hob has left that with the old girl to be carried somewhere he's not going himself. I'd not want to be the one carrying it.' He drinks. 'Not that I'd say so. I'm very discreet.'".
   }
   Topic parr_woman with parr "Ask Jack Parr about a woman asking after a box" when since(20) {
     Says "'The toll-clerk? Bess?' roars Parr. 'Gone up the Maud, I'd say, with a face like a bailiff! Mind, she'd have gone up the wrong one! She can't tell a Maud from a Mary at forty paces, it's the eyes!' He is perfectly sure. He is wrong, and he will be wrong again tomorrow.".
@@ -54,8 +54,8 @@ Module wrongboat "The Wrong Boat" {
     Says "'Mrs Brabant will use you,' says Dolly. 'Keep clear of the copper.' You will be peeling till Pelham, and you will know every cry on this boat by name.".
     On discuss { Assert dollyFare(actor). Assert galleyDuty(actor). }
   }
-  Rule put_ashore at deck when at(party, deck) and since(10) and not dollyFare(party)
-    says "Dolly takes her pipe out. 'Fare or galley,' she says, 'and I asked twice. Over you go.' It is done with great good humour, by Shim, at the next landing, with the hamper handed after you like a baby." {
+  Rule put_ashore at deck when at(party, deck) and bargeAt(2) and not dollyFare(party)
+    says "Dolly takes her pipe out. 'Fare or galley,' she says, 'and I asked twice. Over you go.' It is done with great good humour, by Shim, with the hamper handed after you across the reeds like a baby." {
     Assert at(party, fen_landing). }
   Topic dolly_hamper with dolly "Tell Dolly there is a hamper for the Maud's cook" when holding(actor, hamper_kind) or hamperOpened(actor) {
     Says "'The Maud's cook is a man with a wooden leg called Pegleg,' says Dolly. 'He has not got a hamper. He's got an opinion. Give it to Mrs Brabant. She'll eat it.' She looks at the water, and at you. 'This river,' she says, 'thinks everything is a parcel.'".
@@ -81,14 +81,14 @@ Module wrongboat "The Wrong Boat" {
     Says "'Nothing,' says Mrs Brabant, wiping her face with the back of the spoon-hand. 'Have you ever lost a thing you couldn't say you'd lost, because nobody would know what you meant?'".
   }
   Topic teague_yes with teague "Yes. It was a person" answering teague_lost when true {
-    Says "'Ah,' she says. 'Well, then.' She puts down the spoon. 'There was a man on this barge twenty years who wrote the song they sing at me over the washing-up. For his wife. He went over the side at the Wend weir in a flood and Hob Garrod would not stop the barge. The singing started the next day.' She picks the spoon up. 'You'll stand in my steam, if you want to stand somewhere. Nobody looks through me.'".
+    Says "She nods. 'Then you know.' She puts down the spoon. 'There was a man worked this barge twenty years, and wrote the song they sing at me over the washing-up. For his wife. He went over the side at the mill weir, four years back, in a flood, and Hob Garrod would not stop the barge. The singing started the next day.' She picks the spoon up. 'You'll stand in my steam, if you want to stand somewhere. Nobody looks through me.'".
     On discuss { Assert teagueOpen(actor). }
   }
   Topic teague_no with teague "No. I've never lost anything" answering teague_lost when true {
     Says "'Lucky,' says Mrs Brabant, kindly, as to a child. 'Peel those.' She does not say what the matter is.".
   }
   Topic teague_thing with teague "Ask Mrs Brabant if she knows the song the crew sings" when true {
-    Says "'Tom's,' she says. 'Tom Lowther's. He had thirty verses and the crew have added a hundred and nineteen, all terrible.' She stirs. 'There was a box made to play it. His wife had it. I never saw it go.' Her spoon stops.".
+    Says "'Tom's,' she says. 'Tom Lowther's. He left them the tune, and they have been ruining it since.' She stirs. 'There was a box made to play it. His wife had it. I never saw it go.' Her spoon stops.".
     On discuss { Assert knows(actor, tune_known). }
   }
   Topic teague_box with teague "Show Mrs Brabant the music box" when holding(actor, music_box) and not teagueSaw(party) once {
@@ -102,18 +102,18 @@ Module wrongboat "The Wrong Boat" {
     Greets "A lad of nineteen, all knees and rope-burns, comes down the tiller-deck three planks at a time and shouts the news of every barge on the river at nobody. 'Passengers!' he says. 'Passengers on the Mary! Dolly, they've got a hamper, are we on fire?'".
     Joins "Shim swings his bundle over his shoulder and shouts something to the cook about the dinner. 'I've never been further than Pelham,' he says, delighted. 'I've no idea where we're going. I'm coming.'".
     Leaves "Shim stands on the far bank with his bundle and his hands hanging. 'I'll go back,' he says. 'I'll say you were decent. I don't know what else to say.'".
-    Remarks at pelham_inn "Shim stops at the door of the Magpie. On a board by the hatch, among the lost dogs and the quarter-day notices, there is a gaol list. He reads it with his lips. 'He's in,' he says. 'He's in the Pelham lock-up, for the eleven shillings.' It is his uncle.".
+    Remarks at pelham_inn "Shim stops at the door of the Magpie. On a board by the hatch, among the lost dogs and the quarter-day notices, there is a gaol list. He reads it with his lips. 'He's in,' he says. 'He's in the Pelham lock-up.' It is his uncle.".
     Remarks at weir "Shim looks at the white water going over the apron. 'That's where Tom went in,' he says. 'He was on the bow. They say he was singing.' He does not say anything else for the length of the weir.".
   }
   Topic shim_side with shim "Ask Shim whose side he is on" when true once {
     Says "'The boat's,' says Shim at once. Then, rubbing his neck: 'My uncle's, I think. He's the one who has the boat. He gave me the job when my father died.' He kicks a coil. 'But if he's done what I think he's done, what would you do? If it was yours?'".
   }
   Topic shim_tell with shim "Tell him you'd go to the one wronged" answering shim_side when true {
-    Says "He nods. He keeps nodding, a long time after it has stopped meaning anything. 'That's Bess,' he says. 'Aye. I'll come with you to the end of the river. I might not be much use.'".
+    Says "He nods. He keeps nodding, a long time after it has stopped meaning anything. 'That's Bess,' he says. 'Yeah. I'll come with you to the end of the river. I might not be much use.'".
     On discuss { Assert willing(shim, actor). Set hire(shim) to 0. Assert shimBetrayed(actor). }
   }
   Topic shim_hold with shim "Tell him blood is blood, and you'd say nothing" answering shim_side when true {
-    Says "'Aye,' says Shim, low, and looks relieved, and is not. 'Aye. I'll come. I'll help.'".
+    Says "'Yeah,' says Shim, low, and looks relieved, and is not. 'Right. I'll come. I'll help.'".
     On discuss { Assert willing(shim, actor). Set hire(shim) to 0. Assert shimLoyal(actor). }
   }
   Topic shim_dunno with shim "Tell him you don't know him well enough to say" answering shim_side when true {
@@ -121,10 +121,10 @@ Module wrongboat "The Wrong Boat" {
     On discuss { Assert willing(shim, actor). Set hire(shim) to 0. }
   }
   Topic shim_uncle with shim "Ask Shim what he means to do about his uncle in the lock-up" when at(party, pelham_inn) and travelsWith(shim, party) once {
-    Says "Shim leans on the hatch with his chin in his hands, among the lost dogs and the quarter-day notices. 'He's in for eleven shillings,' he says. 'Mother Cobbold's. He could have paid it any day this month if he hadn't sold what wasn't his.' He looks at you sideways. 'If I go and look at him he'll say it was all for me. That's what he always says. What do I do?'".
+    Says "Shim leans on the hatch with his chin in his hands, among the lost dogs and the quarter-day notices. 'He's in for the Heron's bill,' he says. 'Mother Cobbold's. He could have paid it any day this month if he hadn't sold what wasn't his.' He looks at you sideways. 'If I go and look at him he'll say it was all for me. That's what he always says. What do I do?'".
   }
   Topic shim_visit with shim "Tell him to go and look his uncle in the face" answering shim_uncle when true {
-    Says "'Aye,' says Shim. He goes in at the lock-up door behind the Magpie with his hat in his hands and is gone twenty minutes, and when he comes out he is white and walking carefully, like a man with a full cup. 'He cried,' he says. 'And then he asked me for tobacco.' He sits on the step.".
+    Says "'Right,' says Shim. He goes in at the lock-up door behind the Magpie with his hat in his hands and is gone twenty minutes, and when he comes out he is white and walking carefully, with a full cup's walk. 'He cried,' he says. 'And then he asked me for tobacco.' He sits on the step.".
     On discuss { Assert shimSeesHob(actor). }
   }
   Topic shim_skip with shim "Tell him to leave the man to his own mess" answering shim_uncle when true {
@@ -157,7 +157,7 @@ Module wrongboat "The Wrong Boat" {
     On discuss { Assert dallyLoves(actor). Assert willing(dally, actor). Set hire(dally) to 0. }
   }
   Topic dally_no with dally "You look like a man in flight" answering dally_love when true {
-    Says "'Ah,' says Mr Dally, and sits down. 'Ah. Yes.' He takes the flower out of his buttonhole. 'Well. I should like to be in flight with company, then, if I might. I understand it is a matter of not looking back.'".
+    Says "'Oh,' says Mr Dally, and sits down. 'Oh. Yes.' He takes the flower out of his buttonhole. 'Well. I should like to be in flight with company, then, if I might. I understand it is a matter of not looking back.'".
     On discuss { Assert dallyBolted(actor). Assert willing(dally, actor). Set hire(dally) to 0. }
   }
   Topic dally_dunno with dally "You look like a man with a cold" answering dally_love when true {
@@ -171,7 +171,7 @@ Module wrongboat "The Wrong Boat" {
   Observe dally_flying near dally when dallyNoted(party) and dallyBolted(party) "Mr Dally has found a barrel to stand behind and is standing behind it with a great show of studying a gingerbread stall.".
   Observe dally_cold near dally when dallyNoted(party) and not dallyLoves(party) and not dallyBolted(party) "Mr Dally is blowing his nose with great thoroughness and watching the bonnet over the handkerchief.".
   Topic dally_go with dally "Tell Mr Dally to go to the church" when dallyNoted(party) and not dallyWed(party) and not dallyBolted(party) once {
-    Says "He looks at you as a man looks at a hand held out over a drop. 'You think I should,' he says. Then, with a sudden grin of pure terror: 'Yes. By God, yes.' He tugs his coat straight and puts the dead flower back. 'If you hear a shot, it was a wedding.' He is gone through the crowd at a stiff-legged walk, and the crowd closes round him like water.".
+    Says "He looks at you the way you look at a hand held out over a drop. 'You think I should,' he says. Then, with a sudden grin of pure terror: 'Yes. By God, yes.' He tugs his coat straight and puts the dead flower back. 'If you hear a shot, it was a wedding.' He is gone through the crowd at a stiff-legged walk, and the crowd closes round him like water.".
     On discuss { Assert dallyWed(party). Retract travelsWith(dally, party). Retract at(dally, fairground). }
   }
   Topic dally_stay with dally "Tell Mr Dally he is under no obligation" when dallyNoted(party) and not dallyWed(party) and not dallyBolted(party) once {
@@ -185,14 +185,14 @@ Module wrongboat "The Wrong Boat" {
 
   // Hob Garrod, in the lock-up, who is not a villain either.
   Person hob "Hob Garrod" at lockup {
-    Role "owner of the Patient Mary, in for eleven shillings". Ancestry human. Peaceable. Pronouns he. Manner jovial.
-    Greets "The man on the bench lifts the hat off his face and sees three strangers and a hamper-shaped silence. 'Ah,' he says. 'You'll have come about the box. Sit. Sit! I've nothing to offer but the bench.' He is perhaps fifty, with a fine ruined voice. 'It was only against a debt. It was only the one thing she kept. Tom would have wanted her to have a regular income.'".
+    Role "owner of the Patient Mary, in for a debt". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Greets "The man on the bench lifts the hat off his face and sees three strangers and a hamper-shaped silence. 'Well,' he says. 'You'll have come about the box. Sit. Sit! I've nothing to offer but the bench.' He is perhaps fifty, with a fine ruined voice. 'It was only against a debt. It was only the one thing she kept. Tom would have wanted her to have a regular income.'".
   }
   Topic hob_ask with hob "Ask Hob what he thinks he has done" when true once {
     Says "'What I have done,' says Hob, sitting up, 'is nothing the Trust would call a crime. A man dies owing, and the owing goes to his master, which is me, and I take what I am owed. Where I went wrong,' he says, 'is I took it from the widow herself, and did not sit down first and let her say what it was.' He looks at his boots. 'Do you think she'd forgive me?'".
   }
   Topic hob_yes with hob "Say she might, if he told her to her face" answering hob_ask when true {
-    Says "'Ha,' says Hob, and the laugh is half a sob. 'Her face. Aye.' He lies back and puts the hat over his eyes. 'Tell her I'm in the lock-up. Tell her I've no money. Tell her it's the one place on the river she'll know where to find me.'".
+    Says "'To her face,' says Hob, and the laugh is half a sob. 'Aye.' He lies back and puts the hat over his eyes. 'Tell her I'm in the lock-up. Tell her I've no money. Tell her it's the one place on the river she'll know where to find me.'".
     On discuss { Assert hobMet(actor). Assert hobKnown(actor). }
   }
   Topic hob_no with hob "Say no. Nobody forgives that" answering hob_ask when true {
@@ -200,6 +200,6 @@ Module wrongboat "The Wrong Boat" {
     On discuss { Assert hobMet(actor). }
   }
   Topic hob_run with hob "Ask how a man in a lock-up sold a box at Highfoot" when hobMet(party) {
-    Says "'I didn't,' says Hob. 'I left it to be carried, and went out for a breath, and a Trust sergeant who had been waiting for me since Whitsun put me in a cell with a hatch. The box is a free agent, now. You'll excuse me if I don't wish it ill.'".
+    Says "'I didn't,' says Hob. 'I left it to be carried, and went out for a breath, and a Trust sergeant who had been waiting for me all spring put me in a cell with a hatch. The box is a free agent, now. You'll excuse me if I don't wish it ill.'".
   }
 }

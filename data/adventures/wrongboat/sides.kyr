@@ -7,19 +7,41 @@ Module wrongboat "The Wrong Boat" {
     Says "She does not take it at once. She puts both hands under it as you would under a bird. It starts to play, because the spring is loose, and she stands there with her eyes shut, and the whole of the river has the grace to make less noise.".
     On discuss { Spend music_box from actor. Assert boxReturned(actor). Assert bessMet(party). }
   }
-  Topic bess_hob with bess "Tell her it was Hob Garrod who put it aboard" answering bess_where when true {
+  Topic bess_give_hamper with bess "Put the hamper in her hands" answering bess_where when holding(actor, hamper_kind) and not holding(actor, music_box) {
+    Says "She takes it, and turns it to the label, and reads it twice. 'DO NOT OPEN,' she says. She sets it on her hip the way Mother Cobbold did, and her mouth does something that is not a smile. 'I'll open it at home.'".
+    On discuss { Spend hamper_kind from actor. Assert boxReturned(actor). Assert bessMet(party). }
+  }
+  Topic bess_hob with bess "Tell her it was Hob Garrod who put it aboard" answering bess_where when hobKnown(actor) or knows(actor, wage_slip_read) or hobMet(actor) {
     Says "'I know it was,' says Bess. 'I came to Staithe to be told by someone else.' She sits down on a bollard, or a sack, or the ground. 'Come with me, then. Come and say it to his face. I'll not hurt you. Nobody on the river thinks I could.'".
     On discuss { Assert bessAlly(actor). Assert bessMet(party). Assert following(bess, actor). }
   }
-  Topic bess_yours with bess "Say it is not hers to ask for" answering bess_where when true {
-    Says "She takes this without moving her face. 'No,' she says. 'It is not.' She lets it lie. 'Then you will want to be a long way off by Saturday, because the Trust's lads think it is theirs, and they do not ask.' She turns and goes, and she is the least dignified thing you have seen all week.".
-    On discuss { Assert bessMet(party). Assert bessKnows(party). Assert bessPitied(actor). Set trailLostAt(party) to watch(clock). }
+  // Without anything in your hands to show it, "it was Hob Garrod" is a thing you heard shouted on a quay.
+  Action bess_hob_bluff(actor: group, site: place) "Tell Bess the porter shouted Hob Garrod's name, and you know no more" {
+    Speaker bess.
+    Requires able(actor) and company(actor) and at(actor, site) and at(bess, site) and confronted(party) and not bessMet(party) and not bessAlly(party) and accused(party) and not hobKnown(actor) and not knows(actor, wage_slip_read) and not hobMet(actor).
+    Time 0.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert bessAlly(actor). Assert bessMet(party). Assert following(bess, actor). }
+    On failure { Assert bessKnows(party). }
+    Result "'Shouted,' says Bess. 'On a quay. By a porter.' She looks at you for the length of time it takes to count. 'It isn't much,' she says. 'But I have been walking on less since Tuesday.' She falls in beside you without another word.".
+    Otherwise "'A porter shouted a name,' says Bess. 'You have a hamper and a porter. Give me the box and I will go and ask Hob myself.' She holds out her hands, and for the first time her voice is not level.".
+  }
+  // Standing on it is a gamble: if she believes it she goes, and if she does not she has the box and her thanks.
+  Action stand_on_it(actor: group, site: place) "Tell her it is not hers to ask for" {
+    Speaker bess.
+    Requires able(actor) and company(actor) and at(actor, site) and at(bess, site) and confronted(party) and not bessMet(party) and not bessAlly(party).
+    Time 0.
+    Resolve check(actor, intimidation, dc_hard).
+    On success { Retract confronted(party). Assert bessMet(party). Assert bessKnows(party). Assert bessPitied(actor). Set trailLostAt(party) to watch(clock). }
+    On failure { Assert bessTook(party). }
+    Result "She takes this without moving her face. 'No,' she says. 'It is not.' She lets it lie. 'Then you will want to be a long way off, because the Trust's lads think it is theirs, and they do not ask.' She turns and goes, and she is the least dignified thing you have seen all week.".
+    Otherwise "'Not mine,' says Bess. 'No.' She says it so quietly that for a moment you think you have won. Then both her hands are under the box, and it is hers, and she is very gentle about it.".
   }
   Topic bess_wage with bess "Ask Bess what she is owed and by whom" when bessMet(party) or bessAlly(party) {
     Says "'Three months by the Trust,' says Bess. 'Seven by Hob Garrod, for a man dead four years. I could have lived on the first and I could not on the second.' She turns the coin-scale in her hand. 'Sergeant Brill has the idea that if I come home without the box I lose the room over the toll-house. He has the idea that if I come home with it I lose it anyway, because he wants it. He is not a stupid man, and nor am I.'".
   }
   Topic bess_hob_known with bess "Tell her Hob is in the Pelham lock-up and asking for her" when bessMet(party) and hobMet(party) and not bessAlly(party) once {
-    Says "She stands very still. 'In the lock-up,' she says. 'Eleven shillings.' She laughs once, a little, through her nose. 'Then he will keep,' she says. 'Then he will keep till Saturday.' She does not ask for the box. She asks you the way to the Magpie.".
+    Says "She stands very still. 'In the lock-up,' she says. 'For a bill.' She laughs once, a little, through her nose. 'Then he will keep,' she says. She does not ask for the box. She asks you the way to the Magpie.".
     On discuss { Assert bessPitied(actor). }
   }
 
@@ -31,15 +53,18 @@ Module wrongboat "The Wrong Boat" {
   Topic una_cross with una "Ask Una to put you across" when true once {
     Says "'Carrying?' says Una.".
   }
-  Topic una_truth with una "Tell her what is in the hamper" answering una_cross when true {
+  Topic una_refuse with una "Ask Una again, with the pair on the stage" answering una_cross when stageHot() {
+    Says "Una looks past you to the planks, and then at the chain, and then at nothing. 'No,' she says. It is the longest speech you have had from her. 'Not with them there. I take people over. I don't take them away from things.' She picks up the boathook and turns her back.".
+  }
+  Topic una_truth with una "Tell her what is in the hamper" answering una_cross when not stageHot() {
     Says "'Aye.' She puts down the boathook. 'Tom,' she says. 'The song.' She goes to the ferry. The chain rattles. She takes no money.".
     On discuss { Assert ferryPaid(actor). Assert unaSung(actor). }
   }
-  Topic una_nothing with una "Say nothing but yourselves" answering una_cross when true {
+  Topic una_nothing with una "Say nothing but yourselves" answering una_cross when not stageHot() {
     Says "'Two coin.' She holds out a hand like a root.".
     On discuss { Decrease quantity(actor, gold) by 2 or to nothing. Assert ferryPaid(actor). }
   }
-  Topic una_tune with una "Wind the box and let her listen" answering una_cross when holding(actor, music_box) {
+  Topic una_tune with una "Wind the box and let her listen" answering una_cross when holding(actor, music_box) and not stageHot() {
     Says "You wind it. Una listens to all of it with her eyes on the middle distance. At the end she gets up and takes the chain in both hands. At the far bank: 'Hob. Behind you. Always.'".
     On discuss { Assert ferryPaid(actor). Assert unaSung(actor). Assert boxWound(actor). }
   }
@@ -54,15 +79,19 @@ Module wrongboat "The Wrong Boat" {
   // The failable climax of the river: Bess or the lads at the stage and the ferry on the far bank. A rope over the
   // water on the chain, hand over hand; or a rush at the ferry when it is brought across.
   Action cross_by_chain(actor: group, site: place) "Go hand over hand along the ferry chain, over the water" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ferry_stage) and not ferryPaid(actor) and (at(bess, ferry_stage) or at(lads, ferry_stage)) and not chained(actor).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ferry_stage) and not ferryPaid(actor) and stageHot() and not chained(actor).
     Time 1.
     Resolve check(actor, climbing, dc_hard).
     On success { Assert chained(actor). Assert ferryPaid(actor). }
-    On failure { Assert chained(actor). Spend music_box from actor. Assert dropped(actor). Assert chainFell(actor). }
+    On failure { Assert chained(actor). Assert chainFell(actor). }
     Result "The chain is cold and wet and thick as your wrist, and it sings in the middle. You do not look down. On the other bank you are on your face on the stones, all three of you, hands burning, and behind you on the stage two small figures are standing very still at the water's edge, looking.".
     Otherwise "The chain swings. You swing with it, and then the pack does, and the box in it, and there is a moment when you see it all quite clearly: the hamper, the strap, the water. You hold on to the chain. The box does not.".
   }
   Relation chained(group). Relation chainFell(group).
+  Rule chain_drops_box when chainFell(party) and holding(party, music_box) { Spend music_box from party. Assert dropped(party). }
+  Rule chain_drops_hamper when chainFell(party) and holding(party, hamper_kind) { Spend hamper_kind from party. }
+  // The ferry is the company's, and goes back to being Una's the moment it has crossed.
+  Rule ferry_returns when ferryPaid(party) and at(party, far_bank) { Retract ferryPaid(party). }
 
   // ── Pelham on fair-day ──────────────────────────────────────────────────────────────────────────────────────────
   Person dealer "Joel Sunderland" at horse_lines {
@@ -81,7 +110,7 @@ Module wrongboat "The Wrong Boat" {
     On discuss { Decrease quantity(actor, gold) by 4. Assert disguised(actor). }
   }
   Topic dress_bride with tunney "A bridegroom's party, in lavender" answering draper_what when quantity(actor, gold) >= 7 {
-    Says "'Ah,' says Orpha Tunney. 'A man who wants to be looked at, so he will not be seen.' It costs seven coin and you leave in a waistcoat that can be heard from the next field.".
+    Says "'Mm,' says Orpha Tunney. 'A man who wants to be looked at, so he will not be seen.' It costs seven coin and you leave in a waistcoat that can be heard from the next field.".
     On discuss { Decrease quantity(actor, gold) by 7. Assert disguised(actor). Assert flamboyant(actor). }
   }
   Topic dress_none with tunney "Nothing. I was only measuring" answering draper_what when true {
@@ -95,20 +124,20 @@ Module wrongboat "The Wrong Boat" {
     Says "'The Wicked Toll-Clerk,' says Hoby. 'A king, a crocodile, a baby that is a sausage, and a gap where a villain goes. Name me one.'".
   }
   Topic hoby_bess with hoby "A toll-clerk with a coin-scale" answering hoby_villain when true {
-    Says "'Perfect!' says Hoby. 'Hands on the scale, a face like a closed door, a long black sleeve!' He is already chalking it on the wall. By tomorrow every child in Pelham will boo a woman they have never met, and will know her on sight.".
+    Says "'Perfect!' says Hoby. 'Hands on the scale, a face like a closed door, a long black sleeve!' He is already chalking it on the wall. 'By tomorrow,' he says, 'every child in Pelham will boo a woman they have never met, and will know her on sight.'".
     On discuss { Assert hobyPlay(actor). }
   }
   Topic hoby_hob with hoby "A bargeman who owes everybody" answering hoby_villain when true {
-    Says "'Ha!' says Hoby. 'A bargeman! Done! He falls in the river in the second act and nobody helps!' He is delighted. He rubs out the toll-clerk.".
+    Says "'A bargeman!' says Hoby. 'Done! He falls in the river in the second act and nobody helps!' He rubs out the toll-clerk with his sleeve, whistling.".
   }
   Topic hoby_me with hoby "Yourself, for putting up with this" answering hoby_villain when true {
     Says "He puts down the crocodile. 'I'll put you on,' he says. 'I'll give you the baby.' He is very pleased with himself, and you have, for the length of a fair-day, the best hiding place in Pelham.".
     On discuss { Assert hiding(actor). }
   }
   Action hide_in_booth(actor: group, site: place) "Duck behind the puppet-cloth and take a head" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, puppet_booth) and not hiding(actor).
-    Time 0.
-    On success { Assert hiding(actor). }
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, puppet_booth) and not hiding(actor) and quantity(actor, rations) >= 1.
+    Time 1.
+    On success { Assert hiding(actor). Decrease quantity(actor, rations) by 1. }
     Result "You take the crocodile. It is lighter than you expected, and shaped to the arm. Outside, a roar of children. Nobody looks at the man behind the cloth.".
   }
   // The quay-warden sees what he is shown.
@@ -128,7 +157,7 @@ Module wrongboat "The Wrong Boat" {
     Resolve check(actor, performance, dc_fair).
     On success { Assert wardenBluffed(actor). Assert hiding(actor). }
     On failure { Assert wardenBluffed(actor). Assert accused(actor). }
-    Result "You wear the lavender as a man wears a medal. 'Born in Cuckold Lane,' you tell him, 'in the third house.' There is no Cuckold Lane in Pelham, but he is looking at the waistcoat, and not at you, and the waistcoat is saying it is a bridegroom's party and in a hurry.".
+    Result "You wear the lavender like a medal. 'Born in Cuckold Lane,' you tell him, 'in the third house.' There is no Cuckold Lane in Pelham, but he is looking at the waistcoat, and not at you, and the waistcoat is saying it is a bridegroom's party and in a hurry.".
     Otherwise "'Cuckold Lane,' says the warden. 'There's no Cuckold Lane.' He takes out his bell.".
   }
   Relation wardenBluffed(group).
@@ -141,7 +170,7 @@ Module wrongboat "The Wrong Boat" {
     Says "'To tell the lost where the road is,' says the man in the bell-cot. He is perhaps seventy, all beard and mild attention. 'How long would you wait for somebody who might not come?'".
   }
   Topic noll_forever with noll "As long as it took" answering noll_wait when true {
-    Says "'Aye,' says Noll. 'That's what I said once.' He pulls the rope. 'You'll sit in the loft, then, if anyone comes looking. I'll say I never saw a soul. I've said it before.'".
+    Says "'Yes,' says Noll. 'That's what I said once.' He pulls the rope. 'You'll sit in the loft, then, if anyone comes looking. I'll say I never saw a soul. I've said it before.'".
     On discuss { Assert nollWaited(actor). }
   }
   Topic noll_sunset with noll "Until sunset, and no longer" answering noll_wait when true {
@@ -160,9 +189,9 @@ Module wrongboat "The Wrong Boat" {
     Result "A cake in a cloth, in a skiff, tied up as if by someone in a hurry who did not wish to be seen leaving it. It looks, you think, like a lie that has had its hair done.".
   }
   Action hide_in_bellcot(actor: group, site: place) "Hunker in the bell-cot's loft behind the rope" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, bell_cot) and not hiding(actor).
-    Time 0.
-    On success { Assert hiding(actor). }
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, bell_cot) and not hiding(actor) and quantity(actor, rations) >= 1.
+    Time 1.
+    On success { Assert hiding(actor). Decrease quantity(actor, rations) by 1. }
     Result "The loft smells of tallow and cold iron. The rope passes inches from your ear. Noll has not looked up.".
   }
 
@@ -172,7 +201,7 @@ Module wrongboat "The Wrong Boat" {
     Greets "A big red-armed woman looks up from the sack. 'Don't stand there like a lot of sacks yourselves!' she shouts. 'If you want the kitchen it's through the door and mind the cat, if you want a job it's the flour, and if you're running from something I've a pie and I never saw you!'".
   }
   Topic tabitha_flour with tabitha "Ask Mrs Auster whether you are running from a man or toward one" when true once {
-    Says "'Ha!' says Tabitha, and beats the sack. 'Well, which is it? It makes a difference to the pie. If it's from, you want the cold end of the kitchen with the door shut. If it's toward, you want hot tea and no one to see you drink it, because you'll cry.'".
+    Says "'Well?' says Tabitha, and beats the sack. 'Well, which is it? It makes a difference to the pie. If it's from, you want the cold end of the kitchen with the door shut. If it's toward, you want hot tea and no one to see you drink it, because you'll cry.'".
   }
   Topic tabitha_from with tabitha "From. Most definitely from" answering tabitha_flour when true {
     Says "'The cold end,' says Tabitha at once. 'And I'll say you were the new carter.'".
@@ -198,18 +227,18 @@ Module wrongboat "The Wrong Boat" {
     Assert ladsSwept(party). Retract at(lads, weir).
   }
   Observe sluice_news at weir when ladsSwept(party) "Below the apron the water has taken back a stretch of bank, and two grey coats are far down the stream, going away in the current with their arms moving.".
-  Action pay_lads(actor: group, site: place) "Pay the lads fifteen coin to find the wrong woman" {
+  Action pay_lads(actor: group, site: place) "Pay the lads eight coin to find the wrong woman" {
     Speaker lads.
-    Requires able(actor) and company(actor) and at(actor, site) and at(lads, site) and quantity(actor, gold) >= 15 and able(lads) and not tolerates(lads, actor).
+    Requires able(actor) and company(actor) and at(actor, site) and at(lads, site) and quantity(actor, gold) >= 8 and ladsMetAt(party) > 0 and not ladsPaid(actor) and not ladsRouted(actor) and not ladsSwept(actor) and not caught(actor).
     Time 0.
-    On success { Decrease quantity(actor, gold) by 15. Assert tolerates(lads, actor). }
-    Result "The larger lad counts them twice. 'There's a woman at Highfoot,' he says, without conviction, 'who's got the look.' They go off along the bank, arguing about who will say what to the sergeant.".
+    On success { Decrease quantity(actor, gold) by 8. Assert ladsPaid(actor). Retract at(lads, site). }
+    Result "The larger lad counts them, twice, in his palm. 'There's a woman at Highfoot,' he says, without conviction, 'who's got the look.' They go off along the bank, arguing about who will say what to the sergeant.".
   }
 
   // ── The Last Pint, and the man who was to have bought it ────────────────────────────────────────────────────────
   Person quill "Barnaby Fosse" at inn_room {
     Role "innkeeper, and a mender of clocks". Ancestry human. Peaceable. Pronouns he. Manner grim.
-    Greets "A thin man with a cough and a loupe on a string looks up from a clock with its back off. 'You've brought it,' he says. 'Garrod's message said a box. I've been expecting it since Whitsun.'".
+    Greets "A thin man with a cough and a loupe on a string looks up from a clock with its back off. 'You've brought it,' he says. 'Garrod's message said a box. I've been expecting it a month.'".
   }
   Topic quill_ask with quill "Ask Mr Fosse what he wants with a music box" when true once {
     Says "'Movement,' says Fosse. 'Forty. The question is not the price.' He coughs. 'Who are you to sell it?'".
