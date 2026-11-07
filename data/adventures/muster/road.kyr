@@ -120,27 +120,27 @@ Module muster "The Long Muster's Road" {
     State at_ease "The giant sits by his hearth with the fire-iron laid by, and nods you through.".
     Guards pass_on.
   }
-  Rule giant_at_ease when tolerates(giant, party) and state(giant, astride) { Assert state(giant, at_ease). }
+  Rule giant_at_ease when tolerates(giant, party) and state(giant, astride) { Assert state(giant, at_ease). Retract warned(giant, party). }
   Relation giantPaid(group).
   Action pay_iron(actor: group, site: place) "Give the giant a crowbar for his toll" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, roadhouse) and at(giant, roadhouse) and able(giant)
       and holding(actor, crowbar) and not tolerates(giant, actor).
     Time 0.
-    On success { Spend crowbar from actor. Assert tolerates(giant, actor). Assert giantPaid(actor). }
+    On success { Spend crowbar from actor. Assert tolerates(giant, actor). Retract warned(giant, actor). Assert giantPaid(actor). }
     Result "The giant turns the bar over, bends it in the middle, bends it back, and puts it on the hearth with the rest. 'Iron,' he says. 'Good.' He sits down on the far side of the fire.".
   }
   Action pay_spikes(actor: group, site: place) "Give the giant a bag of iron spikes for his toll" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, roadhouse) and at(giant, roadhouse) and able(giant)
       and holding(actor, iron_spikes) and not tolerates(giant, actor).
     Time 0.
-    On success { Spend iron_spikes from actor. Assert tolerates(giant, actor). Assert giantPaid(actor). }
+    On success { Spend iron_spikes from actor. Assert tolerates(giant, actor). Retract warned(giant, actor). Assert giantPaid(actor). }
     Result "The giant counts the spikes in his palm, lips moving, up to forty, and then loses count and gives up and lets you by.".
   }
   Action tell_giant(actor: group, site: place) "Tell the giant a story for his toll" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, roadhouse) and at(giant, roadhouse) and able(giant) and not tolerates(giant, actor) and not storyFailed(actor).
     Time 0.
     Resolve check(actor, performance, dc_hard).
-    On success { Assert tolerates(giant, actor). Assert giantPaid(actor). }
+    On success { Assert tolerates(giant, actor). Retract warned(giant, actor). Assert giantPaid(actor). }
     On failure { Assert storyFailed(actor). Decrease quantity(actor, rations) by 1 or to nothing. }
     Result "You tell the one about the king who lost his beard in the river, and the giant listens with his mouth open, and laughs where it should be laughed at, and at the end he wipes his eyes with a fleece.".
     Otherwise "The giant listens to the first of it with his head on one side. 'I've heard that one,' he says. 'He gets the beard back.' He takes a ration out of your pack as the fee for the telling. He will not hear another.".

@@ -3,7 +3,7 @@ import { Journey } from '../src/session/journey';
 import steps from './fixtures/muster/journey.json';
 
 // Every ending of the crossing, played by its labels from the Ford: no staging of position, only of the clock
-// (the season turns on the ninth day, the delegation walks four days; a test waits).
+// (the season turns on the seventh day, the delegation walks four days; a test waits).
 const campaign = 'data/campaigns/muster.campaign.json';
 const start = () => Journey.start(campaign, 'muster');
 // Home from the gate: the Viaduct is crossed by its parapet (the line is fixed) unless the Cohort has shown the rope-way.

@@ -18,7 +18,7 @@ Module muster "The Long Muster's Road" {
     On discuss { Assert interviewQ1(party). Increase prefectRegard(party) by 2. }
   }
   Topic corvin_q1_north with corvin "Say that the north sent you: you are what the Emperor's silence looks like" answering corvin_q1 when true {
-    Says "A pause in which the water-clock can be heard. 'That is a very fine sentence,' says Corvin. 'Whoever taught you to say it was not wrong.' He looks down. 'I do not believe you are what you say, and I am glad you said it.'".
+    Says "A pause in which the water-clock can be heard. 'That is a fine sentence,' says Corvin. 'Whoever taught you to say it was not wrong.' He looks down. 'I do not believe you are what you say, and I am glad you said it.'".
     On discuss { Assert interviewQ1(party). Increase prefectRegard(party) by 1. }
   }
   Topic corvin_q1_private with corvin "Say that you would tell him alone, and no one else" answering corvin_q1 when true {
@@ -37,7 +37,7 @@ Module muster "The Long Muster's Road" {
     On discuss { Assert interviewQ2(party). Increase prefectRegard(party) by 2. }
   }
   Topic corvin_q2_metal with corvin "Say that it is metal on a pole, and the people are the thing" answering corvin_q2 when true {
-    Says "'Metal on a pole,' says Corvin, without heat. 'That is what the Hearth says. It is also what my fathers said in the plague winter, in private, with the doors shut.' He looks at the doors. 'I have never heard it said in the Praetorium.'".
+    Says "'Metal on a pole,' says Corvin, without heat. 'That is what the Hearth says. It is also what my fathers said in the plague winter, in private, with the doors shut.' The doors get his attention. 'I have never heard it said in the Praetorium.'".
     On discuss { Assert interviewQ2(party). }
   }
   Topic corvin_q3 with corvin "Let the Prefect put his last question" when interviewQ2(party) and not interviewQ3(party) once {
@@ -89,7 +89,7 @@ Module muster "The Long Muster's Road" {
 
   // The apothecary's question.
   Topic orsa_asks with orsa "Let Dame Orsa ask what herbs you carried over the Fells" when true once {
-    Says "She sets down the pestle and looks at you very straight. 'Tell me honestly,' she says. 'You carried herbs over thirty miles of fell to sell to a woman you hadn't met. What did you think they were worth?'".
+    Says "She sets down the pestle and looks at you straight. 'Tell me honestly,' she says. 'You carried herbs over thirty miles of fell to sell to a woman you hadn't met. What did you think they were worth?'".
   }
   Topic orsa_ans_fair with orsa "Say that you asked a fair price, and would take a fair one" answering orsa_asks when true {
     Says "'Then I shall be fair,' she says, and is pleased, and does not hide it. She opens a drawer. 'Kingsfoil, ninety. Is that fair?' She counts twelve coin into your hand for the herbs you carried, and one more, and says that is the bread.".

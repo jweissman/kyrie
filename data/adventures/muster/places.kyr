@@ -88,7 +88,7 @@ Module muster "The Long Muster's Road" {
   Initially Assert exposed(hollow). Initially Assert exposed(pass_n). Initially Assert exposed(roadhouse).
   Initially Assert exposed(goat_path). Initially Assert exposed(pass_s). Initially Assert exposed(descent).
   Initially Assert unlit(gallery2). Initially Assert unlit(gallery3).
-  Initially Assert unlit(archive).
+ 
 
   // ------------------------------------------------------------------------------------------------------------
   Passage kell_road "the Kell road" is road between road and green taking 20 minutes.

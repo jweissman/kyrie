@@ -43,3 +43,6 @@
 33. **A rule that moves a person into `Retract`/`Assert at` must name the new place**; `Retract` alone leaves the person where the rule found them for the next query.
 34. **An ending that holds for a companion needs a rule that ends the hold**; otherwise any trust level the player cannot reach is a softlock (round 4's blocker).
 35. **A Python replace on a string read earlier and never written back silently drops the edit**; four ending texts and two rules were lost this way and found only by grep.
+36. **The "will wait ten minutes more" line is read from `warned`, which a bargain does not clear**; the engine's `Patience.of` is not edited, and every bargain Action retracts `warned` itself.
+37. **There was never a companion cap**: what looked like one was the purse against each companion's `hire`. A limit that is really a price should be documented as one.
+38. **A topic gated on `not annalsOpen` is re-offered when `annalsOpen` is retracted**; to shut a thing, gate its opener on a separate latch.
