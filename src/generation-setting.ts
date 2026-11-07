@@ -12,6 +12,7 @@ import weatherTables from '../data/generation/tables/weather.json';
 import treasureTables from '../data/generation/tables/treasure.json';
 import treasureTemplates from '../data/generation/templates/treasure.json';
 import gems from '../data/catalog/items/gems.json';
+import { LootTables } from './loot-tables';
 
 // Kyr's Deem setting, split by domain (who a creature is drawn as, names, places) as the Deem CLI reads the folder:
 // each file adds tables or templates, and no name may be defined twice.
@@ -30,11 +31,17 @@ export class GenerationSetting {
   // background of a kind: lookup(backgroundKind, wild).
   static readonly tables = GenerationSetting.merge<Record<string, unknown>>(creatureTables, nameTables,
     placeTables, tradeTables, peopleTables, ecologyTables, faithTables, weatherTables,
-    treasureTables, GenerationSetting.stones(),
+    GenerationSetting.orsino(), LootTables.table(), GenerationSetting.stones(),
     GenerationSetting.tablesOf(backgroundTables)) as typeof creatureTables
     & typeof nameTables & typeof placeTables & typeof tradeTables;
   // Orsino's gemstone tables, from the catalog's stones (data/catalog/items/gems.json): the stones by rank, and the
   // cuts, sizes and clarities a stone found may have.
+  // Orsino's treasure file, but its tiers: those are within the catalog's own table (see LootTables).
+  static orsino(): Record<string, unknown> {
+    const rest: Record<string, unknown> = { ...treasureTables };
+    delete rest.treasure;
+    return rest;
+  }
   static stones(): Record<string, unknown> {
     const byRank: Record<string, string[]> = {}, any = GenerationSetting.any;
     for (const [id, g] of Object.entries(gems.items)) { (byRank[g.rank] ??= []).push(id); }

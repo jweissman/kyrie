@@ -5,7 +5,9 @@
     "stunned": "stun"
   },
   "traits": {},
-  "items": {},
+  "items": {
+    "healingdraught": "minor_healing_potion"
+  },
   "classes": {
     "fighter": "warrior",
     "magic_user": "mage"

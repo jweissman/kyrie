@@ -16,7 +16,7 @@ class Carried {
     const content = new Content(seed);
     const hero = content.createCreature('hero', { raceId: 'human', classId: 'warrior' });
     hero.state.inventory = [{ id: 'fire1', definition: 'alchemist_fire' }, { id: 'fire2', definition: 'alchemist_fire' },
-      { id: 'draught', definition: 'healingdraught' }];
+      { id: 'draught', definition: 'minor_healing_potion' }];
     const foe = content.createCreature('foe', { raceId: 'goblin', classId: 'thief' });
     const store = new CreatureStore([hero, foe]);
     const battle = Battle.encounter(store, [{ creatureId: 'hero', team: 'fighters' },
@@ -39,7 +39,7 @@ describe('what the company carries, in a fight', () => {
     Carried.toHero(battle);
     expect(battle.legalCommands()).toEqual(expect.arrayContaining([
       { actor: 'hero', ability: 'item-alchemist_fire', target: 'foe' },
-      { actor: 'hero', ability: 'item-healingdraught', target: 'hero' }]));
+      { actor: 'hero', ability: 'item-minor_healing_potion', target: 'hero' }]));
     const screen = CombatModel.build(battle);
     expect(screen.abilities.find(a => a.id === 'item-alchemist_fire')).toMatchObject({ name: 'Use alchemist\'s fire',
       carried: 2 });

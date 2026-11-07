@@ -1976,6 +1976,7 @@ Each thing is carried by one companion. A weapon or armour works only for a call
 | Arcane Conduit | 2d8 | bludgeoning | staff | light |  | Faithful |
 | battleaxe | 1d8 | slashing | axe | heavy |  | Faithful |
 | bec de corbin | 1d8+1 | piercing | polearm | heavy |  | Faithful |
+| bident | 1d6+1 | piercing | trident | medium | sets against a charge | Kyr |
 | Bolt Blade | 1d8 | slashing | blade | medium |  | Faithful |
 | broadsword | 2d4 | slashing | blade | medium |  | Faithful |
 | claymore | 2d4 | slashing | blade | heavy |  | Faithful |
@@ -2037,6 +2038,7 @@ Each thing is carried by one companion. A weapon or armour works only for a call
 | nunchaku | 1d6+2 | bludgeoning | club | light |  | Faithful |
 | Phoenix Talon | 2d8 | piercing | blade | light |  | Faithful |
 | pike | 1d10+1 | piercing | polearm | heavy | sets against a charge | Faithful |
+| pilum | 1d6+1 | piercing | javelin | medium | missile | Kyr |
 | pole arm | 1d6+1 | piercing | polearm | medium | sets against a charge | Faithful |
 | quarterstaff | 1d6+2 | bludgeoning | staff | light |  | Faithful |
 | rapier | 1d6+2 | piercing | blade | light |  | Faithful |
@@ -2450,14 +2452,6 @@ Used: You are lamplit for 6 hours.
 
 > A stoppered flask of lamp oil: enough to keep a lantern burning six hours.
 
-#### Lamplighters' seal
-
-*Kyr · gear* · `item:lamplighter_seal`
-
-- Worth: 10
-
-> A brass seal on a chain, a lamp with a hand closed round it: the Charter's mark, which the old doors of the Lamplighters still answer to.
-
 #### Lantern
 
 *Adapted · equipment* · `item:lantern`
@@ -2729,14 +2723,6 @@ Used: You are lamplit for 6 hours.
 - Worth: 2
 
 > A cast iron skillet for cooking meals over a campfire.
-
-#### Notched rod
-
-*Kyr · tool* · `item:sluice_rod`
-
-- Worth: 1
-
-> A staff of black wood shod at both ends in bronze, the bronze notched along its edge in a close, careful pattern.
 
 #### Soap
 
@@ -3017,16 +3003,6 @@ Used: Heal one ally for 1d4 + 1 (2–5).
 Used: Heal one ally for 3d4 + 3 (6–15).
 
 > A vial of shimmering red liquid that restores a moderate amount of health when consumed.
-
-#### Minor healing potion
-
-*Adapted · consumable* · `item:healingdraught`
-
-Used: Heal one ally for 2d4 + 2 (4–10).
-
-> A single dose restores 2d4 + 2 health to a living companion.
-
-*Adapted: Exact 2d4 + 2 healing.*
 
 #### Heather
 
@@ -3348,7 +3324,9 @@ resists 5% of all.
 
 > An ancient waystone that enhances the traveler's endurance and resilience. When in proximity it may point the way to Dun Rì, the city of seven towers.
 
-*Not playable — revealLocation: Kyr does not execute this Orsino effect yet.*
+*Not playable — revealLocation: It points to Dun Rì, the City of Seven Towers (the canon's dun_ri); it will lead its bearer there once a world builds the city and names the place it is (seatOf(dun_ri, …)). No world does yet.*
+
+*Adapted: Orsino's revealLocation: dun_ri. Dun Rìerdan is the City of Seven Towers, a metropolis of Imbar (the owner, 6 November); the waystone keeps that identity and function, not a generic finding-stone.*
 
 #### Gloves of Dexterity
 
@@ -3725,6 +3703,8 @@ Used: Paralyzing Touch, at no cost.
 
 *Faithful · treasure* · `item:ancient_crown`
 
+<img src="../../web/reader/paintings/valuables/ancient_crown.webp" alt="" width="128">
+
 - Worth: 250
 
 > An ancient crown rumored to have belonged to a long-lost king.
@@ -3732,6 +3712,8 @@ Used: Paralyzing Touch, at no cost.
 #### Ancient map
 
 *Faithful · treasure* · `item:ancient_map`
+
+<img src="../../web/reader/paintings/valuables/ancient_map.webp" alt="" width="128">
 
 - Worth: 75
 
@@ -3741,6 +3723,8 @@ Used: Paralyzing Touch, at no cost.
 
 *Faithful · treasure* · `item:ancient_orrery`
 
+<img src="../../web/reader/paintings/valuables/ancient_orrery.webp" alt="" width="128">
+
 - Worth: 500
 
 > A complex orrery that models the movements of celestial bodies.
@@ -3748,6 +3732,8 @@ Used: Paralyzing Touch, at no cost.
 #### Ancient tome
 
 *Faithful · treasure* · `item:ancient_tome`
+
+<img src="../../web/reader/paintings/valuables/ancient_tome.webp" alt="" width="128">
 
 - Worth: 40
 
@@ -3757,6 +3743,8 @@ Used: Paralyzing Touch, at no cost.
 
 *Faithful · treasure* · `item:antique_compass`
 
+<img src="../../web/reader/paintings/valuables/antique_compass.webp" alt="" width="128">
+
 - Worth: 60
 
 > An antique compass that always points true north.
@@ -3764,6 +3752,8 @@ Used: Paralyzing Touch, at no cost.
 #### Bell-teeth
 
 *Kyr · treasure* · `item:bell_teeth`
+
+<img src="../../web/reader/paintings/valuables/bell_teeth.webp" alt="" width="128">
 
 - Worth: 8
 
@@ -3773,6 +3763,8 @@ Used: Paralyzing Touch, at no cost.
 
 *Faithful · treasure* · `item:broken_crown`
 
+<img src="../../web/reader/paintings/valuables/broken_crown.webp" alt="" width="128">
+
 - Worth: 25
 
 > Missing several jewels and tarnished with age.
@@ -3780,6 +3772,8 @@ Used: Paralyzing Touch, at no cost.
 #### Broken dagger
 
 *Faithful · treasure* · `item:broken_dagger`
+
+<img src="../../web/reader/paintings/valuables/broken_dagger.webp" alt="" width="128">
 
 - Worth: 2
 
@@ -3789,6 +3783,8 @@ Used: Paralyzing Touch, at no cost.
 
 *Faithful · treasure* · `item:broken_flute`
 
+<img src="../../web/reader/paintings/valuables/broken_flute.webp" alt="" width="128">
+
 - Worth: 15
 
 > A cracked wooden flute, hand-carved with delicate patterns.
@@ -3796,6 +3792,8 @@ Used: Paralyzing Touch, at no cost.
 #### Broken pipe
 
 *Faithful · treasure* · `item:broken_pipe`
+
+<img src="../../web/reader/paintings/valuables/broken_pipe.webp" alt="" width="128">
 
 - Worth: 1
 
@@ -3805,6 +3803,8 @@ Used: Paralyzing Touch, at no cost.
 
 *Faithful · treasure* · `item:broken_scepter`
 
+<img src="../../web/reader/paintings/valuables/broken_scepter.webp" alt="" width="128">
+
 - Worth: 30
 
 > A broken scepter, its head shattered and its shaft cracked.
@@ -3812,6 +3812,8 @@ Used: Paralyzing Touch, at no cost.
 #### Bronze bearing
 
 *Kyr · treasure* · `item:bronze_bearing`
+
+<img src="../../web/reader/paintings/valuables/bronze_bearing.webp" alt="" width="128">
 
 - Worth: 12
 
@@ -3821,6 +3823,8 @@ Used: Paralyzing Touch, at no cost.
 
 *Faithful · treasure* · `item:bronze_bracelet`
 
+<img src="../../web/reader/paintings/valuables/bronze_bracelet.webp" alt="" width="128">
+
 - Worth: 8
 
 > A bronze bracelet with intricate designs etched into its surface.
@@ -3828,6 +3832,8 @@ Used: Paralyzing Touch, at no cost.
 #### Bronze statue
 
 *Faithful · treasure* · `item:bronze_statue`
+
+<img src="../../web/reader/paintings/valuables/bronze_statue.webp" alt="" width="128">
 
 - Worth: 10
 
@@ -3837,6 +3843,8 @@ Used: Paralyzing Touch, at no cost.
 
 *Faithful · treasure* · `item:celestial_chart`
 
+<img src="../../web/reader/paintings/valuables/celestial_chart.webp" alt="" width="128">
+
 - Worth: 300
 
 > An ancient chart mapping the stars and constellations.
@@ -3844,6 +3852,8 @@ Used: Paralyzing Touch, at no cost.
 #### Chapel plate
 
 *Kyr · treasure* · `item:chapel_plate`
+
+<img src="../../web/reader/paintings/valuables/chapel_plate.webp" alt="" width="128">
 
 - Worth: 24
 
@@ -3853,6 +3863,8 @@ Used: Paralyzing Touch, at no cost.
 
 *Faithful · treasure* · `item:cloth_pouch`
 
+<img src="../../web/reader/paintings/valuables/cloth_pouch.webp" alt="" width="128">
+
 - Worth: 1
 
 > A small cloth pouch, frayed at the edges.
@@ -3861,21 +3873,17 @@ Used: Paralyzing Touch, at no cost.
 
 *Faithful · treasure* · `item:cloth_tunic`
 
+<img src="../../web/reader/paintings/valuables/cloth_tunic.webp" alt="" width="128">
+
 - Worth: 3
 
 > A simple cloth tunic, worn and faded.
 
-#### A letter of the Collegium of Lesser Instruments
-
-*Kyr · treasure* · `item:collegium_letter`
-
-- Worth: 5
-
-> A folded letter in a cramped, delighted hand, bearing the seal of the Collegium of Lesser Instruments at Corran: the bearer is a friend of the Collegium and of working things, and is to be admitted where the Collegium's name opens doors, which is fewer places than the Collegium believes.
-
 #### Crystal eye
 
 *Faithful · treasure* · `item:crystal_eye`
+
+<img src="../../web/reader/paintings/valuables/crystal_eye.webp" alt="" width="128">
 
 - Worth: 600
 
@@ -3885,6 +3893,8 @@ Used: Paralyzing Touch, at no cost.
 
 *Faithful · treasure* · `item:crystal_orb`
 
+<img src="../../web/reader/paintings/valuables/crystal_orb.webp" alt="" width="128">
+
 - Worth: 100
 
 > A small crystalline sphere that glimmers faintly in the light.
@@ -3892,6 +3902,8 @@ Used: Paralyzing Touch, at no cost.
 #### Diamond eye
 
 *Faithful · treasure* · `item:diamond_eye`
+
+<img src="../../web/reader/paintings/valuables/diamond_eye.webp" alt="" width="128">
 
 - Worth: 20000
 
@@ -3901,6 +3913,8 @@ Used: Paralyzing Touch, at no cost.
 
 *Faithful · treasure* · `item:diamond_necklace`
 
+<img src="../../web/reader/paintings/valuables/diamond_necklace.webp" alt="" width="128">
+
 - Worth: 10000
 
 > A necklace adorned with a single, flawless diamond.
@@ -3908,6 +3922,8 @@ Used: Paralyzing Touch, at no cost.
 #### Divine scepter
 
 *Faithful · treasure* · `item:divine_scepter`
+
+<img src="../../web/reader/paintings/valuables/divine_scepter.webp" alt="" width="128">
 
 - Worth: 1000
 
@@ -3917,6 +3933,8 @@ Used: Paralyzing Touch, at no cost.
 
 *Faithful · treasure* · `item:diviners_eye`
 
+<img src="../../web/reader/paintings/valuables/diviners_eye.webp" alt="" width="128">
+
 - Worth: 5000
 
 > A mystical eye that grants visions of distant places and hidden truths.
@@ -3924,6 +3942,8 @@ Used: Paralyzing Touch, at no cost.
 #### Dowsing rod
 
 *Faithful · treasure* · `item:dowsing_rod`
+
+<img src="../../web/reader/paintings/valuables/dowsing_rod.webp" alt="" width="128">
 
 - Worth: 12
 
@@ -3933,6 +3953,8 @@ Used: Paralyzing Touch, at no cost.
 
 *Faithful · treasure* · `item:dragons_egg`
 
+<img src="../../web/reader/paintings/valuables/dragons_egg.webp" alt="" width="128">
+
 - Worth: 2000
 
 > A rare and valuable dragon's egg, warm to the touch.
@@ -3940,6 +3962,8 @@ Used: Paralyzing Touch, at no cost.
 #### Dragons tooth
 
 *Faithful · treasure* · `item:dragons_tooth`
+
+<img src="../../web/reader/paintings/valuables/dragons_tooth.webp" alt="" width="128">
 
 - Worth: 150
 
@@ -3949,6 +3973,8 @@ Used: Paralyzing Touch, at no cost.
 
 *Faithful · treasure* · `item:eternal_flame`
 
+<img src="../../web/reader/paintings/valuables/eternal_flame.webp" alt="" width="128">
+
 - Worth: 4000
 
 > A small, ever-burning flame contained within a glass orb.
@@ -3956,6 +3982,8 @@ Used: Paralyzing Touch, at no cost.
 #### Faded map
 
 *Faithful · treasure* · `item:faded_map`
+
+<img src="../../web/reader/paintings/valuables/faded_map.webp" alt="" width="128">
 
 - Worth: 10
 
@@ -3965,6 +3993,8 @@ Used: Paralyzing Touch, at no cost.
 
 *Faithful · treasure* · `item:faded_painting`
 
+<img src="../../web/reader/paintings/valuables/faded_painting.webp" alt="" width="128">
+
 - Worth: 12
 
 > A faded painting on canvas, its colors dulled by time.
@@ -3972,6 +4002,8 @@ Used: Paralyzing Touch, at no cost.
 #### Faded tome
 
 *Faithful · treasure* · `item:faded_tome`
+
+<img src="../../web/reader/paintings/valuables/faded_tome.webp" alt="" width="128">
 
 - Worth: 20
 
@@ -3981,6 +4013,8 @@ Used: Paralyzing Touch, at no cost.
 
 *Faithful · treasure* · `item:fallen_star`
 
+<img src="../../web/reader/paintings/valuables/fallen_star.webp" alt="" width="128">
+
 - Worth: 500
 
 > A fragment of a fallen star, radiating a faint magical aura.
@@ -3988,6 +4022,8 @@ Used: Paralyzing Touch, at no cost.
 #### Golden idol
 
 *Faithful · treasure* · `item:golden_idol`
+
+<img src="../../web/reader/paintings/valuables/golden_idol.webp" alt="" width="128">
 
 - Worth: 400
 
@@ -3997,6 +4033,8 @@ Used: Paralyzing Touch, at no cost.
 
 *Kyr · treasure* · `item:grave_rings`
 
+<img src="../../web/reader/paintings/valuables/grave_rings.webp" alt="" width="128">
+
 - Worth: 15
 
 > Rings, brooches and coffin buckles taken from the dead, threaded on a grave-cord.
@@ -4004,6 +4042,8 @@ Used: Paralyzing Touch, at no cost.
 #### Hand mirror
 
 *Faithful · treasure* · `item:hand_mirror`
+
+<img src="../../web/reader/paintings/valuables/hand_mirror.webp" alt="" width="128">
 
 - Worth: 2
 
@@ -4013,6 +4053,8 @@ Used: Paralyzing Touch, at no cost.
 
 *Faithful · treasure* · `item:intelligent_book`
 
+<img src="../../web/reader/paintings/valuables/intelligent_book.webp" alt="" width="128">
+
 - Worth: 3000
 
 > A book that possesses its own consciousness and can communicate with its reader.
@@ -4020,6 +4062,8 @@ Used: Paralyzing Touch, at no cost.
 #### Intelligent painting
 
 *Faithful · treasure* · `item:intelligent_painting`
+
+<img src="../../web/reader/paintings/valuables/intelligent_painting.webp" alt="" width="128">
 
 - Worth: 2500
 
@@ -4029,6 +4073,8 @@ Used: Paralyzing Touch, at no cost.
 
 *Faithful · treasure* · `item:iron_figurine`
 
+<img src="../../web/reader/paintings/valuables/iron_figurine.webp" alt="" width="128">
+
 - Worth: 4
 
 > A small iron figurine, rusted and pitted with age.
@@ -4036,6 +4082,8 @@ Used: Paralyzing Touch, at no cost.
 #### Iron idol
 
 *Faithful · treasure* · `item:iron_idol`
+
+<img src="../../web/reader/paintings/valuables/iron_idol.webp" alt="" width="128">
 
 - Worth: 20
 
@@ -4045,6 +4093,8 @@ Used: Paralyzing Touch, at no cost.
 
 *Faithful · treasure* · `item:iron_torc`
 
+<img src="../../web/reader/paintings/valuables/iron_torc.webp" alt="" width="128">
+
 - Worth: 4
 
 > A simple iron torc, slightly bent and rusted.
@@ -4052,6 +4102,8 @@ Used: Paralyzing Touch, at no cost.
 #### Jade idol
 
 *Kyr · treasure* · `item:jade_idol`
+
+<img src="../../web/reader/paintings/valuables/jade_idol.webp" alt="" width="128">
 
 - Worth: 30
 
@@ -4061,6 +4113,8 @@ Used: Paralyzing Touch, at no cost.
 
 *Faithful · treasure* · `item:jeweled_box`
 
+<img src="../../web/reader/paintings/valuables/jeweled_box.webp" alt="" width="128">
+
 - Worth: 150
 
 > A small empty box encrusted with jewels, its lid slightly ajar.
@@ -4068,6 +4122,8 @@ Used: Paralyzing Touch, at no cost.
 #### Jeweled crown
 
 *Faithful · treasure* · `item:jeweled_crown`
+
+<img src="../../web/reader/paintings/valuables/jeweled_crown.webp" alt="" width="128">
 
 - Worth: 80
 
@@ -4077,6 +4133,8 @@ Used: Paralyzing Touch, at no cost.
 
 *Faithful · treasure* · `item:jeweled_dagger`
 
+<img src="../../web/reader/paintings/valuables/jeweled_dagger.webp" alt="" width="128">
+
 - Worth: 300
 
 > A dagger with a hilt encrusted with precious gems.
@@ -4084,6 +4142,8 @@ Used: Paralyzing Touch, at no cost.
 #### Jeweled statue
 
 *Faithful · treasure* · `item:jeweled_statue`
+
+<img src="../../web/reader/paintings/valuables/jeweled_statue.webp" alt="" width="128">
 
 - Worth: 1200
 
@@ -4093,6 +4153,8 @@ Used: Paralyzing Touch, at no cost.
 
 *Faithful · treasure* · `item:jeweled_torc`
 
+<img src="../../web/reader/paintings/valuables/jeweled_torc.webp" alt="" width="128">
+
 - Worth: 500
 
 > A torc adorned with precious jewels as balustrades.
@@ -4100,6 +4162,8 @@ Used: Paralyzing Touch, at no cost.
 #### Jeweled zodiac
 
 *Faithful · treasure* · `item:jeweled_zodiac`
+
+<img src="../../web/reader/paintings/valuables/jeweled_zodiac.webp" alt="" width="128">
 
 - Worth: 1500
 
@@ -4109,6 +4173,8 @@ Used: Paralyzing Touch, at no cost.
 
 *Kyr · treasure* · `item:keeper_mask`
 
+<img src="../../web/reader/paintings/valuables/keeper_mask.webp" alt="" width="128">
+
 - Worth: 4
 
 > A smooth face of grey fired clay, without eyes or mouth, with a single notch where a brow would be. It rings when it is struck.
@@ -4116,6 +4182,8 @@ Used: Paralyzing Touch, at no cost.
 #### Kraken claw
 
 *Faithful · treasure* · `item:kraken_claw`
+
+<img src="../../web/reader/paintings/valuables/kraken_claw.webp" alt="" width="128">
 
 - Worth: 800
 
@@ -4125,6 +4193,8 @@ Used: Paralyzing Touch, at no cost.
 
 *Faithful · treasure* · `item:lensing_crystal`
 
+<img src="../../web/reader/paintings/valuables/lensing_crystal.webp" alt="" width="128">
+
 - Worth: 18
 
 > A cracked lens that once belonged to a powerful magnifying glass.
@@ -4132,6 +4202,8 @@ Used: Paralyzing Touch, at no cost.
 #### Lost tome
 
 *Faithful · treasure* · `item:lost_tome`
+
+<img src="../../web/reader/paintings/valuables/lost_tome.webp" alt="" width="128">
 
 - Worth: 350
 
@@ -4141,6 +4213,8 @@ Used: Paralyzing Touch, at no cost.
 
 *Faithful · treasure* · `item:music_box`
 
+<img src="../../web/reader/paintings/valuables/music_box.webp" alt="" width="128">
+
 - Worth: 50
 
 > A beautifully crafted music box that plays a haunting melody.
@@ -4149,29 +4223,17 @@ Used: Paralyzing Touch, at no cost.
 
 *Faithful · treasure* · `item:opalescent_skull`
 
+<img src="../../web/reader/paintings/valuables/opalescent_skull.webp" alt="" width="128">
+
 - Worth: 2500
 
 > A skull made of opalescent material, shimmering with various colors.
 
-#### The green lens of a Pharos
-
-*Kyr · treasure* · `item:pharos_lens`
-
-- Worth: 40
-
-> A lens of green glass the width of a dinner plate, in an iron ring, heavy as a sleeping child. Round its rim are twelve settings for small stones; eleven hold a pale stone each, and the twelfth is an empty socket, bright, as if something had been taken out of it not long ago or a very long time ago. On the iron ring, cut small: a fish, and over it a flame.
-
-#### A rubbing of the Prefect's table
-
-*Kyr · treasure* · `item:pharos_rubbing`
-
-- Worth: 8
-
-> A long strip of rag paper rubbed black with charcoal, taken from a table of bronze in the lamp room of the Pharos on Skerrow: columns of Aenean numerals, and beside them, in a second column that was scrubbed and never quite cleared, a series of strokes that are not Aenean. The rubbing is faithful, and says nothing of what it means.
-
 #### Philosophers stone
 
 *Faithful · treasure* · `item:philosophers_stone`
+
+<img src="../../web/reader/paintings/valuables/philosophers_stone.webp" alt="" width="128">
 
 - Worth: 10000
 
@@ -4181,21 +4243,17 @@ Used: Paralyzing Touch, at no cost.
 
 *Faithful · treasure* · `item:phoenix_feather`
 
+<img src="../../web/reader/paintings/valuables/phoenix_feather.webp" alt="" width="128">
+
 - Worth: 700
 
 > A rare feather from a phoenix, said to have healing properties.
 
-#### A copy of a Prefect's writ of keeping
-
-*Kyr · treasure* · `item:prefects_writ`
-
-- Worth: 10
-
-> A monk's copy, in a clerkly hand, of a writ of the Prefect of the Marches giving a House the keeping of a wall it did not build: CUSTODIA, NON DOMINIUM. The Latin is plain. The reading of it has been disputed for eight hundred years.
-
 #### Priceless painting
 
 *Faithful · treasure* · `item:priceless_painting`
+
+<img src="../../web/reader/paintings/valuables/priceless_painting.webp" alt="" width="128">
 
 - Worth: 1000
 
@@ -4205,6 +4263,8 @@ Used: Paralyzing Touch, at no cost.
 
 *Faithful · treasure* · `item:royal_crown`
 
+<img src="../../web/reader/paintings/valuables/royal_crown.webp" alt="" width="128">
+
 - Worth: 500
 
 > An ornate crown once worn by royalty, studded with precious gems.
@@ -4212,6 +4272,8 @@ Used: Paralyzing Touch, at no cost.
 #### Royal scepter
 
 *Faithful · treasure* · `item:royal_scepter`
+
+<img src="../../web/reader/paintings/valuables/royal_scepter.webp" alt="" width="128">
 
 - Worth: 150
 
@@ -4221,6 +4283,8 @@ Used: Paralyzing Touch, at no cost.
 
 *Faithful · treasure* · `item:sacred_idol`
 
+<img src="../../web/reader/paintings/valuables/sacred_idol.webp" alt="" width="128">
+
 - Worth: 3000
 
 > A sacred idol revered by an ancient civilization.
@@ -4228,6 +4292,8 @@ Used: Paralyzing Touch, at no cost.
 #### Simple ring
 
 *Faithful · treasure* · `item:simple_ring`
+
+<img src="../../web/reader/paintings/valuables/simple_ring.webp" alt="" width="128">
 
 - Worth: 5
 
@@ -4237,6 +4303,8 @@ Used: Paralyzing Touch, at no cost.
 
 *Faithful · treasure* · `item:smoking_pipe`
 
+<img src="../../web/reader/paintings/valuables/smoking_pipe.webp" alt="" width="128">
+
 - Worth: 7
 
 > A well-used smoking pipe made of clay, with a few chips and cracks.
@@ -4244,6 +4312,8 @@ Used: Paralyzing Touch, at no cost.
 #### Soul gem
 
 *Faithful · treasure* · `item:soul_gem`
+
+<img src="../../web/reader/paintings/valuables/soul_gem.webp" alt="" width="128">
 
 - Worth: 1000
 
@@ -4253,6 +4323,8 @@ Used: Paralyzing Touch, at no cost.
 
 *Faithful · treasure* · `item:steel_coin`
 
+<img src="../../web/reader/paintings/valuables/steel_coin.webp" alt="" width="128">
+
 - Worth: 3
 
 > A dull steel coin, worn smooth from years of handling.
@@ -4261,29 +4333,17 @@ Used: Paralyzing Touch, at no cost.
 
 *Faithful · treasure* · `item:steel_torc`
 
+<img src="../../web/reader/paintings/valuables/steel_torc.webp" alt="" width="128">
+
 - Worth: 7
 
 > A simple steel torc, slightly bent and tarnished.
 
-#### The Ninth Valuer's note on a surety
-
-*Kyr · treasure* · `item:surety_terms`
-
-- Worth: 6
-
-> A strip of ruled paper in a hand like type: A SURETY ANSWERS FOR THE KEEPING NAMED. WHERE NO KEEPING IS NAMED, FOR ALL. Under it, a small exact mark where a name would be, and the word RECEIVED.
-
-#### A rubbing of a keeper's tally
-
-*Kyr · treasure* · `item:tally_rubbing`
-
-- Worth: 8
-
-> A wax-and-cloth rubbing of the underside of a stone bench, three notations deep: a long stroke for a ship, short ones under it, a flame cut into some, a paw into others; the oldest rows in marks no one reads, the middle in Aenean numerals, the last in an island's own. It is a bilingual, of a kind: the numerals gloss the strokes.
-
 #### Tattered map
 
 *Faithful · treasure* · `item:tattered_map`
+
+<img src="../../web/reader/paintings/valuables/tattered_map.webp" alt="" width="128">
 
 - Worth: 3
 
@@ -4293,6 +4353,8 @@ Used: Paralyzing Touch, at no cost.
 
 *Faithful · treasure* · `item:tattered_tome`
 
+<img src="../../web/reader/paintings/valuables/tattered_tome.webp" alt="" width="128">
+
 - Worth: 15
 
 > A tattered tome with frayed pages and a broken spine.
@@ -4300,6 +4362,8 @@ Used: Paralyzing Touch, at no cost.
 #### Tin lantern
 
 *Kyr · treasure* · `item:tin_lantern`
+
+<img src="../../web/reader/paintings/valuables/tin_lantern.webp" alt="" width="128">
 
 - Worth: 1
 
@@ -4309,6 +4373,8 @@ Used: Paralyzing Touch, at no cost.
 
 *Faithful · treasure* · `item:titan_statue`
 
+<img src="../../web/reader/paintings/valuables/titan_statue.webp" alt="" width="128">
+
 - Worth: 800
 
 > A massive statue carved from stone, depicting a titan of old.
@@ -4316,6 +4382,8 @@ Used: Paralyzing Touch, at no cost.
 #### Toll silver
 
 *Kyr · treasure* · `item:toll_silver`
+
+<img src="../../web/reader/paintings/valuables/toll_silver.webp" alt="" width="128">
 
 - Worth: 40
 
@@ -4325,6 +4393,8 @@ Used: Paralyzing Touch, at no cost.
 
 *Faithful · treasure* · `item:triskelion_amulet`
 
+<img src="../../web/reader/paintings/valuables/triskelion_amulet.webp" alt="" width="128">
+
 - Worth: 6
 
 > An amulet bearing a spiraling symbol with threefold symmetry, made of bronze.
@@ -4332,6 +4402,8 @@ Used: Paralyzing Touch, at no cost.
 #### Unholy symbol
 
 *Faithful · treasure* · `item:unholy_symbol`
+
+<img src="../../web/reader/paintings/valuables/unholy_symbol.webp" alt="" width="128">
 
 - Worth: 75
 
@@ -4341,6 +4413,8 @@ Used: Paralyzing Touch, at no cost.
 
 *Faithful · treasure* · `item:unusual_seashell`
 
+<img src="../../web/reader/paintings/valuables/unusual_seashell.webp" alt="" width="128">
+
 - Worth: 25
 
 > A large seashell with an unusual spiral pattern and iridescent sheen.
@@ -4348,6 +4422,8 @@ Used: Paralyzing Touch, at no cost.
 #### Vial of phoenix tears
 
 *Faithful · treasure* · `item:vial_of_phoenix_tears`
+
+<img src="../../web/reader/paintings/valuables/vial_of_phoenix_tears.webp" alt="" width="128">
 
 - Worth: 1500
 
@@ -4357,21 +4433,17 @@ Used: Paralyzing Touch, at no cost.
 
 *Faithful · treasure* · `item:vial_of_unicorn_blood`
 
+<img src="../../web/reader/paintings/valuables/vial_of_unicorn_blood.webp" alt="" width="128">
+
 - Worth: 1800
 
 > A small vial containing the blood of a unicorn, prized for its magical properties.
 
-#### A Watch's tally-stick
-
-*Kyr · treasure* · `item:watch_tally`
-
-- Worth: 3
-
-> A stick of grey wood the length of a forearm, cut with eleven close notches and a space for a twelfth. It is warm to the hand. It was cut by someone who has not been asked, in a very long time, for anything.
-
 #### Wooden bowl
 
 *Faithful · treasure* · `item:wooden_bowl`
+
+<img src="../../web/reader/paintings/valuables/wooden_bowl.webp" alt="" width="128">
 
 - Worth: 1
 
@@ -4381,6 +4453,8 @@ Used: Paralyzing Touch, at no cost.
 
 *Faithful · treasure* · `item:wooden_figurine`
 
+<img src="../../web/reader/paintings/valuables/wooden_figurine.webp" alt="" width="128">
+
 - Worth: 2
 
 > A small wooden figurine, roughly carved and unfinished.
@@ -4388,6 +4462,8 @@ Used: Paralyzing Touch, at no cost.
 #### Wooden idol
 
 *Faithful · treasure* · `item:wooden_idol`
+
+<img src="../../web/reader/paintings/valuables/wooden_idol.webp" alt="" width="128">
 
 - Worth: 15
 
@@ -4397,6 +4473,8 @@ Used: Paralyzing Touch, at no cost.
 
 *Faithful · treasure* · `item:zodiac_medallion`
 
+<img src="../../web/reader/paintings/valuables/zodiac_medallion.webp" alt="" width="128">
+
 - Worth: 20
 
 > A medallion inscribed with zodiac symbols, made of silver.
@@ -4405,9 +4483,31 @@ Used: Paralyzing Touch, at no cost.
 
 *Faithful · treasure* · `item:zoological_manual`
 
+<img src="../../web/reader/paintings/valuables/zoological_manual.webp" alt="" width="128">
+
 - Worth: 40
 
 > A detailed manual describing various fantastical creatures.
+
+#### Golden torc
+
+*Kyr · treasure* · `item:golden_torc`
+
+<img src="../../web/reader/paintings/valuables/golden_torc.webp" alt="" width="128">
+
+- Worth: 200
+
+> A torc made of gold, intricately designed and polished.
+
+#### Golden amulet
+
+*Kyr · treasure* · `item:golden_amulet`
+
+<img src="../../web/reader/paintings/valuables/golden_amulet.webp" alt="" width="128">
+
+- Worth: 250
+
+> An amulet made of gold, intricately designed and polished.
 
 #### Amaranth
 

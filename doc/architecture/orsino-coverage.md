@@ -231,7 +231,7 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `gear:thieves_tools` | `item:thieves_tools` | executable | adapted | Starting gear of the locksmith overlay; the lockwork skill does the work. |
 | `gear:shovel` | `item:shovel` | executable | adapted | Starting gear of the miner overlay; the digging skill does the work. |
 | `equipment:longsword_of_flames` | `item:longsword_of_flames` | play-validated | faithful | A 1d8 piercing weapon whose onAttackHit hook deals 1d6 fire, as in Orsino. |
-| `consumable:minor_healing_potion` | `item:healingdraught` | play-validated | adapted | Exact 2d4+2 healing to a living self or ally. Kyr price and consumption. |
+| `consumable:minor_healing_potion` | `item:minor_healing_potion` | play-validated | adapted | Exact 2d4+2 healing to a living self or ally. Kyr price and consumption. |
 | `consumable:antidote` | `item:antidote` | play-validated | adapted | Orsino removes the status named Poison; Kyr removes its poisoned condition. |
 | `divineSpell:luminous_touch` | `ability:luminous_touch` | executable | adapted | Exact 1d2 + level healing to self or ally. Kyr mana cost replaces Orsino spell slots. |
 | `divineSpell:cure_minor` | `ability:cure_minor` | executable | adapted | Kyr mana cost replaces Orsino spell slots. |
@@ -1016,7 +1016,6 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `gear:holy_water` | `item:holy_water` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
 | `consumable:kingsfoil` | `item:kingsfoil` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `consumable:major_healing_potion` | `item:major_healing_potion` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
-| `consumable:minor_healing_potion` | `item:minor_healing_potion` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `consumable:potion_of_barkskin` | `item:potion_of_barkskin` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `consumable:rashers` | `item:rashers` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `gear:vinegar` | `item:vinegar` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |

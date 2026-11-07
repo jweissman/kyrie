@@ -799,9 +799,9 @@
    "title": "Player's Handbook",
    "counts": {
     "faithful": 777,
-    "adapted": 369,
+    "adapted": 368,
     "represented": 4,
-    "kyr": 546,
+    "kyr": 541,
     "unsupported": 68,
     "unreachable": 4,
     "data-only": 12
@@ -890,9 +890,9 @@
      "title": "Equipment",
      "counts": {
       "faithful": 249,
-      "adapted": 76,
+      "adapted": 75,
       "represented": 0,
-      "kyr": 96,
+      "kyr": 91,
       "unsupported": 7,
       "unreachable": 0,
       "data-only": 0
@@ -6149,6 +6149,13 @@
    "section": "equipment/weapons"
   },
   {
+   "id": "item:bident",
+   "title": "bident",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/weapons"
+  },
+  {
    "id": "item:bolt_blade",
    "title": "Bolt Blade",
    "status": "faithful",
@@ -6572,6 +6579,13 @@
    "id": "item:pike",
    "title": "pike",
    "status": "faithful",
+   "book": "phb",
+   "section": "equipment/weapons"
+  },
+  {
+   "id": "item:pilum",
+   "title": "pilum",
+   "status": "kyr",
    "book": "phb",
    "section": "equipment/weapons"
   },
@@ -7101,13 +7115,6 @@
    "section": "equipment/gear"
   },
   {
-   "id": "item:lamplighter_seal",
-   "title": "Lamplighters' seal",
-   "status": "kyr",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
    "id": "item:lantern",
    "title": "Lantern",
    "status": "adapted",
@@ -7279,13 +7286,6 @@
    "id": "item:skillet",
    "title": "Skillet",
    "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:sluice_rod",
-   "title": "Notched rod",
-   "status": "kyr",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -7475,13 +7475,6 @@
    "id": "item:healing_potion",
    "title": "Potion of Healing",
    "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:healingdraught",
-   "title": "Minor healing potion",
-   "status": "adapted",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -8046,13 +8039,6 @@
    "section": "equipment/gear"
   },
   {
-   "id": "item:collegium_letter",
-   "title": "A letter of the Collegium of Lesser Instruments",
-   "status": "kyr",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
    "id": "item:crystal_eye",
    "title": "Crystal eye",
    "status": "faithful",
@@ -8298,20 +8284,6 @@
    "section": "equipment/gear"
   },
   {
-   "id": "item:pharos_lens",
-   "title": "The green lens of a Pharos",
-   "status": "kyr",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:pharos_rubbing",
-   "title": "A rubbing of the Prefect's table",
-   "status": "kyr",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
    "id": "item:philosophers_stone",
    "title": "Philosophers stone",
    "status": "faithful",
@@ -8322,13 +8294,6 @@
    "id": "item:phoenix_feather",
    "title": "Phoenix feather",
    "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:prefects_writ",
-   "title": "A copy of a Prefect's writ of keeping",
-   "status": "kyr",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -8392,20 +8357,6 @@
    "id": "item:steel_torc",
    "title": "Steel torc",
    "status": "faithful",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:surety_terms",
-   "title": "The Ninth Valuer's note on a surety",
-   "status": "kyr",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
-   "id": "item:tally_rubbing",
-   "title": "A rubbing of a keeper's tally",
-   "status": "kyr",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -8480,13 +8431,6 @@
    "section": "equipment/gear"
   },
   {
-   "id": "item:watch_tally",
-   "title": "A Watch's tally-stick",
-   "status": "kyr",
-   "book": "phb",
-   "section": "equipment/gear"
-  },
-  {
    "id": "item:wooden_bowl",
    "title": "Wooden bowl",
    "status": "faithful",
@@ -8518,6 +8462,20 @@
    "id": "item:zoological_manual",
    "title": "Zoological manual",
    "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:golden_torc",
+   "title": "Golden torc",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:golden_amulet",
+   "title": "Golden amulet",
+   "status": "kyr",
    "book": "phb",
    "section": "equipment/gear"
   },

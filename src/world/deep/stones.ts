@@ -1,5 +1,5 @@
 import gems from '../../../data/catalog/items/gems.json';
-import treasure from '../../../data/generation/tables/treasure.json';
+import { LootTables } from '../../loot-tables';
 import { Canon } from '../../canon/canon';
 import { Content } from '../../content';
 import { ItemNames } from '../../item-names';
@@ -13,9 +13,9 @@ export interface DeepStone { kind: string; type: string; name: string; worth: nu
 interface Way { worth?: number; says?: string; name?: string; unsaid?: boolean }
 
 export class Stones {
-  // Orsino's treasure tiers, as its Deem setting drew them (data/generation/tables/treasure.json, with its loot and
-  // gemstone templates): what a room may hold, by tier, of the catalog's kinds.
-  static readonly tiers = treasure.treasure.groups as Record<string, string[]>;
+  // What a room may hold, by tier: the catalog's own kinds by their worth, Orsino's choices among them the more often
+  // (LootTables).
+  static readonly tiers = LootTables.tiers;
   static readonly kinds = new Set(Object.keys(gems.items));
   static readonly ranks = gems.ranks as Record<string, { worth: number }>;
   static readonly cuts = gems.cuts as Record<string, Way>;

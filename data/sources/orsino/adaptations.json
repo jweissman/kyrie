@@ -473,13 +473,13 @@
     {
       "orsino": "consumable:minor_healing_potion",
       "kyr": [
-        "item:healingdraught"
+        "item:minor_healing_potion"
       ],
       "support": "play-validated",
       "fidelity": "adapted",
       "note": "Exact 2d4+2 healing to a living self or ally. Kyr price and consumption.",
       "evidence": [
-        "test/shared-item-effects.test.ts#healingdraught"
+        "test/shared-item-effects.test.ts#minor_healing_potion"
       ]
     },
     {

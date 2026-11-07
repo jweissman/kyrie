@@ -187,6 +187,9 @@ export interface ItemKind {
   // What it points its bearer toward: one of the canon's identities (data/imbar), never a place or a map's cell, so it
   // resolves to wherever a world builds that one (the Dun Rìerdan waystone: dun_ri, the City of Seven Towers).
   points?: string;
+  // Where it lies among the loot a room may hold (see LootTables): its own tier, where its worth would put it wrong;
+  // or none, where it is no ruin's to hold (a pack mule).
+  tier?: string; drops?: boolean;
 }
 export interface Domain {
   name: string; alignment: 'good' | 'neutral' | 'evil'; description?: string; spellDomain?: string;

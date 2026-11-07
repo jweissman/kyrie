@@ -6564,7 +6564,6 @@
    "status": "integrated",
    "mechanics": "play-validated",
    "kyr": [
-    "item:healingdraught",
     "item:minor_healing_potion"
    ]
   },

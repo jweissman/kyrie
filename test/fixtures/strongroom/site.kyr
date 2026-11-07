@@ -30,7 +30,7 @@ Module strongroom "The cartographer's strongroom" {
     Change smash "Smash the chest open" from locked to broken needing brawn.
   }
   Item chart "the cartographer's best map" is map in chest.
-  Item vial "a vial of physic" is healingdraught in chest.
+  Item vial "a vial of physic" is minor_healing_potion in chest.
   Thing lock "the chest's lock" at study {
     State armed "".
     State disarmed "The needle from the chest's lock lies on the windowsill, harmless.".

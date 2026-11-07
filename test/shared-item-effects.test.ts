@@ -75,7 +75,7 @@ describe('shared item and environmental effects', () => {
     expect(store.get('hero').state.conditions.find(s => s.id === 'warded')?.tempHp).toBe(14 + 2 * 4);
   });
   it('rejects invalid targets without spending an owned dose, and repeats seeded trap saves exactly', () => {
-    const store = ItemFixture.setup(); Items.take(store, 'hero', { id: 'dose-1', definition: 'healingdraught' });
+    const store = ItemFixture.setup(); Items.take(store, 'hero', { id: 'dose-1', definition: 'minor_healing_potion' });
     const before = store.snapshot;
     expect(() => Items.consume(store, { owner: 'hero', target: 'missing', id: 'dose-1', seed: 'invalid' })).toThrow();
     expect(store.snapshot).toEqual(before);

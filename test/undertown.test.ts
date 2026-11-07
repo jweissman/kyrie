@@ -76,7 +76,7 @@ describe('under the town the company begins in', () => {
     expect(await Town.take(s, /^Tell Carmine the dead under the churchyard are laid, and who raised them/))
       .toContain('a charm of ashwood');
     const kit = c.readout.creatures[0]!.state.inventory!.map(i => i.definition);
-    expect([kit.includes('ashwood_charm'), kit.filter(k => k === 'healingdraught').length]).toEqual([true, 2]);
+    expect([kit.includes('ashwood_charm'), kit.filter(k => k === 'minor_healing_potion').length]).toEqual([true, 2]);
   }, 120000);
   // The Hobb boy saw "a big one at the back": she is there, over her eggs, and they are not burned while she lives
   // (Mission 19: the eggs had hung alone, and nothing the boy saw was there to fight).

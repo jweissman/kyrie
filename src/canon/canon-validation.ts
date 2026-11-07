@@ -3,6 +3,8 @@ import monsterPaintings from '../../data/paintings/monsters.json';
 import plantPaintings from '../../data/paintings/plants.json';
 import gemPaintings from '../../data/paintings/gems.json';
 import gearPaintings from '../../data/paintings/gear.json';
+import valuablePaintings from '../../data/paintings/valuables.json';
+import armsPaintings from '../../data/paintings/arms.json';
 import geology from '../../data/catalog/geology.json';
 import { Canon } from './canon';
 import type { Modifiers } from './schema';
@@ -21,7 +23,7 @@ export class CanonValidation {
   // A creature is painted by one of the collection's creature concepts.
   static readonly paintings = new Set([...PaintingConcepts.creatures,
     ...[...animalPaintings.portraits, ...monsterPaintings.portraits, ...plantPaintings.portraits,
-      ...gemPaintings.portraits, ...gearPaintings.portraits]
+      ...gemPaintings.portraits, ...gearPaintings.portraits, ...valuablePaintings.portraits, ...armsPaintings.portraits]
       .map(p => p.file.replace(/^paintings\/|\.webp$/g, ''))]);
   // What a plant's grounds may name: a formation (granite), or a soil one makes (loam, sand).
   static readonly grounds = new Set([...Object.keys(geology.formations), ...Object.values(geology.formations)

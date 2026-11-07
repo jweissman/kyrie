@@ -1,5 +1,5 @@
 import { Likeness } from '../paintings/likeness'; import { CompanyPortraits } from '../paintings/company-portraits';
-import { CreaturePortraits } from '../paintings/creature-portraits';
+import { CreaturePortraits } from '../paintings/creature-portraits'; import { ItemPlates } from '../paintings/item-plates';
 import { Emblems } from '../presentation/emblems';
 import { CharacterSheets } from '../presentation/character-sheet';
 import { Itineraries } from './itinerary';
@@ -322,9 +322,10 @@ export class ScreenModel {
     const note = p.condition && p.type !== 'scenery' ? p.condition : p.within ? `in ${p.within}` : forSale ? 'for sale' : p.type === 'source' ? (p.intact === false ? 'destroyed' : acts.length ? 'can be read' : 'already read')
       : coin ? `${coin} coin` : food ? `${food} ration${food === 1 ? '' : 's'} left` : p.type === 'mechanism' ? 'mechanism' : undefined;
     const look = p.type === 'item' ? this.described(w, p.id, p.name) : undefined;
+    const plate = p.type === 'item' ? ItemPlates.of(w, p.id) : undefined;
     // A treasure lying here, not for sale: what a delve is for, and led with (see Affordances).
     return { id: p.id, kind: ['mechanism', 'door'].includes(p.type) ? 'feature' : 'thing', name: p.name,
-      ...(note ? { note } : {}), ...(look ? { look } : {}),
+      ...(note ? { note } : {}), ...(look ? { look } : {}), ...plate ? { portrait: plate } : {},
       ...(p.type === 'item' && !forSale && Treasure.valuable(w, p.id) ? { valuable: true } : {}), acts };
   }
   // A thing to be had, seen for what it is in its kind's own words (the follow-up review found a singer's token that
