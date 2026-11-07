@@ -13,7 +13,7 @@ Module skerrow "The Light on Skerrow Holm" {
   Initially Assert state(tide, high).
   Measure reachedAt(entity). Measure bellUntil(entity). Measure lastRang(entity). Measure lastCall(entity). Measure callN(entity).
   Measure oil(entity). Measure oilTick(entity). Measure flasks(entity). Measure refills(entity). Measure lowAt(entity). Measure outAt(entity).
-  Relation oilGiven(group).
+  Relation lampForbidden(group).
   Rule tide_falls when state(tide, high) and hour(clock) >= 11 and hour(clock) < 14 { Assert state(tide, low). }
   Rule tide_rises when state(tide, low) and (hour(clock) >= 14 or hour(clock) < 11) { Assert state(tide, high). }
   Rule marks_arrival when at(party, landing) and reachedAt(tide) == 0 { Set reachedAt(tide) to watch(clock). }
@@ -69,13 +69,13 @@ Module skerrow "The Light on Skerrow Holm" {
     Increase oil(lamp) by 4. Decrease refills(lamp) by 1.
   }
   Action fill_lamp(actor: group, site: place) "Fill the lamp from a flask out of the store" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lamp_room) and oilGiven(party) and flasks(store) > 0 and oil(lamp) < 10.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lamp_room) and (not lampForbidden(party) or not orrinPost(orrin)) and flasks(store) > 0 and oil(lamp) < 10.
     Time 1.
     On success { Decrease flasks(store) by 1. Increase oil(lamp) by 4. }
     Result "You carry the flask up the iron stair and fill the reservoir through the brass funnel, and the flame stands up again. The oil smells of fish.".
   }
   Action bring_flasks(actor: group, site: place) "Take two flasks of oil up to the lamp room and leave them by the funnel" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, store) and oilGiven(party) and flasks(store) > 1.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, store) and (not lampForbidden(party) or not orrinPost(orrin)) and flasks(store) > 1.
     Time 1.
     On success { Decrease flasks(store) by 2. Increase oil(lamp) by 8. }
     Result "Two flasks, one under each arm, up the dark stair. You pour them in together, and stand with your hands wet, listening to the lens turn.".
@@ -88,16 +88,18 @@ Module skerrow "The Light on Skerrow Holm" {
   }
   Initially Assert state(fog_bell, hanging).
   Query bellRecent() means watch(clock) < bellUntil(tide).
-  Query hunting() means dark() and state(tide, high) and not bellRecent().
+  // A sunk lamp is the clock: while it is out the bell does not hold the Caller below.
+  Query hunting() means dark() and state(tide, high) and (not bellRecent() or state(lamp, out)).
   Query calling() means hunting() and not state(lamp, bright).
+  Observe seddon_store at lamp_room when at(orrin, lamp_room) and orrinPost(orrin) and oil(lamp) < 3 "Seddon turns the empty oil-can in his hands. 'I don't go in the store after dark,' he says. 'The hatch.' He does not say whose errand that makes it.".
   Observe cord_pulled at lamp_room when at(orrin, lamp_room) and bellRecent() and lastRang(tide) > 0 "Seddon has the bell-cord in his fist, and pulls to a count he does not say. Far out on the east point the bell answers.".
   Rule orrin_rings when orrinPost(orrin) and dark() and state(tide, high) and watch(clock) >= lastRang(tide) + 10 and not bellRecent()
     says "From the east point the bell begins: slow, evenly, a stroke to every breath." {
     Set bellUntil(tide) to watch(clock) + 4. Set lastRang(tide) to watch(clock).
   }
   Action ring_bell(actor: group, site: place) "Take the bell-cord and ring the fog-bell for an hour" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lamp_room).
-    Time 1.
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lamp_room) and not bellRecent().
+    Time 2.
     On success { Set bellUntil(tide) to watch(clock) + 6. }
     Result "The cord is warm where a hand has worn it, and it pulls back. The bell goes out over the fog, a long bronze note and a long silence, and the sea, which has been listening, goes a little further off.".
   }

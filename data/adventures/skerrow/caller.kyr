@@ -34,15 +34,15 @@ Module skerrow "The Light on Skerrow Holm" {
   Rule knocks when hunting() and state(lamp, bright) and within(party, holm) and watch(clock) >= lastKnock(tide) + 6 {
     Set lastKnock(tide) to watch(clock).
   }
-  Observe knock near tide as sound when hunting() and state(lamp, bright) and within(party, holm) and lastKnock(tide) > 0 and watch(clock) < lastKnock(tide) + 2 "Under the floor of the tower something knocks, twice, patiently. Then it stops.".
+  Observe knock within holm as sound when hunting() and state(lamp, bright) and lastKnock(tide) > 0 and watch(clock) < lastKnock(tide) + 7 "Under the floor of the tower something knocks, twice, patiently. Then it stops.".
   Rule the_call when calling() and within(party, holm) and watch(clock) >= lastCall(tide) + 6 {
     Increase callN(tide) by 1. Set lastCall(tide) to watch(clock).
   }
-  Observe call_one near tide as sound when callN(tide) == 1 and within(party, holm) and not bellRecent() and watch(clock) < lastCall(tide) + 2 "Out on the water a man shouts, a long way off, one word, as you would shout across a river. It might be a gull.".
-  Observe call_two near tide as sound when callN(tide) == 2 and within(party, holm) and not bellRecent() and watch(clock) < lastCall(tide) + 2 "A woman's voice, nearer, from under the window. 'Is anyone there?' She says it kindly, like someone who already knows.".
-  Observe call_three near tide as sound when callN(tide) == 3 and within(party, holm) and not bellRecent() and watch(clock) < lastCall(tide) + 2 "From the sea-side of the rock a man's voice, easy, calls a boy's name, and laughs, and calls it again, nearer than the laugh.".
-  Observe call_four near tide as sound when callN(tide) == 4 and within(party, holm) and not bellRecent() and watch(clock) < lastCall(tide) + 2 "The voice is at the foot of the tower. It is no one you have to guess at. It says a name as it was said at home.".
-  Observe call_five near tide as sound when callN(tide) >= 5 and within(party, holm) and not bellRecent() and watch(clock) < lastCall(tide) + 2 "The voices have stopped being separate. A whole street of them is in the cistern, all saying the one name, softly, over and over, and waiting.".
+  Observe call_one within holm as sound when calling() and callN(tide) == 1 and watch(clock) < lastCall(tide) + 7 "Out on the water a man shouts, a long way off, one word, as you would shout across a river. It might be a gull.".
+  Observe call_two within holm as sound when calling() and callN(tide) == 2 and watch(clock) < lastCall(tide) + 7 "A woman's voice, nearer, from under the window. 'Is anyone there?' She says it kindly, like someone who already knows.".
+  Observe call_three within holm as sound when calling() and callN(tide) == 3 and watch(clock) < lastCall(tide) + 7 "From the sea-side of the rock a man's voice, easy, calls a boy's name, and laughs, and calls it again, nearer than the laugh.".
+  Observe call_four within holm as sound when calling() and callN(tide) == 4 and watch(clock) < lastCall(tide) + 7 "The voice is at the foot of the tower. It is no one you have to guess at. It says a name as it was said at home.".
+  Observe call_five within holm as sound when calling() and callN(tide) >= 5 and watch(clock) < lastCall(tide) + 7 "The voices have stopped being separate. A whole street of them is in the cistern, all saying the one name, softly, over and over, and waiting.".
 
   // What it does in the room it has climbed to. A party in a dark room does not need to answer anything.
   Hazard taken_by_the_sea "Answering the sea" means "Kill ally.".
@@ -75,9 +75,9 @@ Module skerrow "The Light on Skerrow Holm" {
     Requires able(actor) and company(actor) and at(actor, site) and (at(actor, landing) or at(actor, gallery)) and calling() and watch(clock) < lastCall(tide) + 3 and not answeredFalse(actor).
     Time 0.
     Resolve check(actor, deception, dc_hard).
-    On success { Assert answeredFalse(actor). Set bellUntil(tide) to watch(clock) + 8. Increase callN(tide) by 1. }
+    On success { Assert answeredFalse(actor). Set bellUntil(tide) to watch(clock) + 8. }
     On failure { Assert answeredFalse(actor). Assert strikes(taken_by_the_sea, actor). }
-    Result "You say a name that is not yours, in a voice that is not yours, and put into it everything you have been afraid of. A long silence. The water turns over once, like a sleeper changing sides, and goes out. It will come back knowing more.".
+    Result "You say a name that is not yours, in a voice that is not yours, and put into it everything you have been afraid of. A long silence. The water turns over once, like a sleeper changing sides, and goes out.".
     Otherwise "You say the false name. The voice stops. Then, tenderly, it says your own.".
   }
 

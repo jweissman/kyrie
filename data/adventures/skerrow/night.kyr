@@ -24,7 +24,7 @@ Module skerrow "The Light on Skerrow Holm" {
     Time 0.
     Resolve check(actor, intimidation, dc_fair).
     On success { Assert gaffHushed(party). }
-    Result "Gaff's eyes go wide over your hand, and then a good deal softer. He nods. He does not make another sound the whole of the night, which, for Gaff, is a kind of heroism.".
+    Result "Gaff's eyes go wide over your hand, and then softer. He nods. He does not make another sound the whole of the night, which, for Gaff, is a kind of heroism.".
     Otherwise "He shoves you off cheerfully, and takes a breath to say something enormous.".
   }
 
@@ -37,26 +37,26 @@ Module skerrow "The Light on Skerrow Holm" {
     Requires able(actor) and company(actor) and at(actor, site) and at(dib, site) and not dibWatched(party) and not dibTaken(party).
     Time 0.
     On success { Assert dibWatched(party). Assert following(dib, party). }
-    Result "'Aw,' says Dib. He lets himself be held. After a moment he leans on you, as if by accident, and falls to watching the lens go round.".
+    Result "'Aw,' says Dib. He lets himself be held. After a moment he leans on you, by accident, and falls to watching the lens go round.".
   }
 
   // Corrie: she answers the second call, unless she has been paid. A voice that is not offering coin is not worth her answer.
   Rule corrie_answers when callN(tide) >= 2 and not corrieSold(party) and not corrieLost(party) and watch(clock) >= lastCall(tide) + 3 and at(corrie, kitchen)
-    and at(corrie, ?p) says "Corrie Fenwether has put her coil down on the bench, carefully, as one puts down what one will want again. 'Sister?' she says to the door, in a voice you have not heard from her. She is through it before the dog has moved." {
+    and at(corrie, ?p) says "Corrie Fenwether has put her coil down on the bench, carefully, where she can reach it. 'Sister?' she says to the door, in a voice you have not heard from her. She is through it before the dog has moved." {
     Assert corrieLost(party). Retract at(corrie, ?p).
   }
 
   // Lowrie: he rings, if he is asked, and does not come back.
-  Topic lowrie_ring with lowrie "Ask Mr Lowrie whether he would ring the bell until morning" when lowrieOffers(party) and dark() and not lowrieRang(party) once {
-    Says "'You ask,' says Lowrie. He stands. He is taller than the coat. 'It is a good use. It is the only use I have found.' He goes out into the fog with no light, and you hear his feet on the rock, and, after some time, the bell.".
-    On discuss { Assert lowrieRang(party). Retract at(lowrie, keeper_room). Assert at(lowrie, bell_hut). Set bellUntil(tide) to watch(clock) + 36. }
+  Topic lowrie_ring with lowrie "Ask Mr Lowrie whether he would ring the bell for you" when lowrieOffers(party) and dark() and not lowrieRang(party) once {
+    Says "'You ask,' says Lowrie. He stands. He is taller than the coat. 'Two hours is what I have in my arms. It is a good use.' He goes out into the fog with no light, and you hear his feet on the rock, and, after some time, the bell.".
+    On discuss { Assert lowrieRang(party). Retract at(lowrie, keeper_room). Assert at(lowrie, bell_hut). Set bellUntil(tide) to watch(clock) + 12. }
   }
   Rule lowrie_done when lowrieRang(party) and watch(clock) >= bellUntil(tide) and not lowrieGone(party)
     and at(lowrie, ?p) says "The bell stops, in the middle of a stroke. On the east point the rope swings, and no one is holding it." {
     Assert lowrieGone(party). Retract at(lowrie, ?p).
   }
   Rule lowrie_walks when callN(tide) >= 5 and reachedAt(tide) > 0 and watch(clock) >= reachedAt(tide) + 150 and not lowrieRang(party) and not lowrieSpared(party) and not lowrieGone(party) and hunting()
-    and at(lowrie, ?p) says "Mr Lowrie has stood up. He walks past you as if you were a post. 'I am called,' he says, politely, to the room, and goes out into the fog." {
+    and at(lowrie, ?p) says "Mr Lowrie has stood up. He walks past you without turning his head. 'I am called,' he says, politely, to the room, and goes out into the fog." {
     Assert lowrieGone(party). Retract at(lowrie, ?p).
   }
 
@@ -74,11 +74,11 @@ Module skerrow "The Light on Skerrow Holm" {
     Assert hettieDecided(party). Assert hettieKept(party).
   }
   Rule hettie_walks_a when callN(tide) >= 4 and not hettieDecided(party) and not hettieHeld(party) and not orrinDeclared(party) and not hettieTaken(party) and not hettieKept(party)
-    and at(hettie, ?p) says "At the fourth call Hettie gets up from the table as if she had remembered something. 'That's Tam,' she says. 'Excuse me.' She takes her shawl from the peg, with great dignity, and goes out of the door, and down to the landing, in her best black, with her basket." {
+    and at(hettie, ?p) says "At the fourth call Hettie gets up from the table, remembering something. 'That's Tam,' she says. 'Excuse me.' She takes her shawl from the peg, with great dignity, and goes out of the door, and down to the landing, in her best black, with her basket." {
     Assert hettieDecided(party). Assert hettieWalking(party). Set walkAt(tide) to watch(clock). Retract at(hettie, ?p). Assert at(hettie, landing).
   }
   Rule hettie_walks_b when callN(tide) >= 4 and not hettieDecided(party) and not hettieHeld(party) and orrinDeclared(party) and not at(hettie, lamp_room) and not hettieTaken(party) and not hettieKept(party)
-    and at(hettie, ?p) says "At the fourth call Hettie gets up from the table as if she had remembered something. 'That's Tam,' she says. 'Excuse me.' She goes out of the door, and down to the landing, in her best black, with her basket." {
+    and at(hettie, ?p) says "At the fourth call Hettie gets up from the table, remembering something. 'That's Tam,' she says. 'Excuse me.' She goes out of the door, and down to the landing, in her best black, with her basket." {
     Assert hettieDecided(party). Assert hettieWalking(party). Set walkAt(tide) to watch(clock). Retract at(hettie, ?p). Assert at(hettie, landing).
   }
   Rule hettie_goes when hettieWalking(party) and watch(clock) >= walkAt(tide) + 4 and not hettieKept(party) and not hettieTaken(party) and not orrinChasing(party)
@@ -133,7 +133,7 @@ Module skerrow "The Light on Skerrow Holm" {
 
   // Piers: noon of the second day, if no one has told him to wait for them.
   Topic piers_escort_t with piers "Tell Piers you will walk him over at noon, and he is to wait" when reachedAt(tide) > 0 and not piersEscort(party) once {
-    Says "Piers's whole body unwinds. 'At noon,' he says. 'Together. With the rope.' He takes his hat off his knee and puts it on, as if the matter were already settled. 'Thank you. I shall be perfectly ready. I have been ready since Tuesday.'".
+    Says "Piers's whole body unwinds. 'At noon,' he says. 'Together. With the rope.' He takes his hat off his knee and puts it on. 'Thank you. I shall be perfectly ready. I have been ready since Tuesday.'".
     On discuss { Assert piersEscort(party). }
   }
   Rule piers_leaves when state(tide, low) and hour(clock) >= 11 and reachedAt(tide) > 0 and watch(clock) >= reachedAt(tide) + 90 and not piersEscort(party) and not piersLost(party) and not at(party, shore_road) and at(piers, kitchen)

@@ -35,9 +35,12 @@ describe('The Light on Skerrow Holm', () => {
     await j.play(...steps.to_lamp, '=22:00');
     expect(j.holds('state', 'lamp', 'bright')).toBe(true);
     expect(j.measure('callN', 'tide')).toBe(0);
+    expect(j.page).toContain('knocks, twice');
+    expect(j.page).not.toContain('Is anyone there');
     await j.play('=02:00', '=until at(caller, keeper_room)');
     expect(j.holds('state', 'lamp', 'low')).toBe(true);
     expect(j.measure('callN', 'tide')).toBeGreaterThan(0);
+    expect(j.page).toContain('shouts');
     await j.play(fill, fill);
     expect(j.holds('state', 'lamp', 'bright')).toBe(true);
     await j.play('=until at(caller, cistern)');
@@ -125,7 +128,7 @@ describe('The Light on Skerrow Holm', () => {
       'Hear what Hettie asks you over the tea', 'No. They are gone', 'Ask Hettie why she comes to this rock',
       'Take Gaff\'s question', 'Tell him to keep his voice down tonight, and mean it',
       'Let Dib show you what he found', 'I\'d want to. Stay by me tonight, and we\'ll listen together',
-      'Buy a coil of Corrie\'s line');
+      'Ask Corrie Fenwether what she is doing on a rock in the fog', 'Buy a coil of Corrie\'s line');
     j.roll('pass');
     await j.play(...steps.declare_in_kitchen, ...nightFromKitchen);
     expect(j.holds('orrinTaken', 'party')).toBe(true);
@@ -169,13 +172,70 @@ describe('The Light on Skerrow Holm', () => {
 
   it('lets Corrie answer the second call unless she has been paid', async () => {
     const j = await start();
-    await j.play(...steps.cross_in, ...steps.talk.slice(0, -1), '=02:30');
+    await j.play(...steps.cross_in, ...steps.talk.slice(0, -2), '=02:30');
     expect(j.holds('corrieLost', 'party')).toBe(true);
   }, 200000);
 
+  it('has the sound of every call on the page, by the hour it is made', async () => {
+    const j = await start();
+    await j.play(...steps.cross_in, ...steps.talk, ...steps.to_lamp, '=05:00');
+    for (const text of ['shouts', 'Is anyone there', 'calls a boy', 'foot of the tower']) { expect(j.page).toContain(text); }
+  }, 200000);
+
+  it('does not let the lamp be touched when Seddon has said not to', async () => {
+    const j = await start();
+    await j.play(...steps.cross_in, "Answer Seddon's question about the night", "No. We'd sooner sleep", ...steps.to_lamp);
+    expect(j.find('Fill the lamp from a flask out of the store')).toBeUndefined();
+  }, 200000);
+
+  it('carries oil up in a single trip, and rings the bell once an hour at a cost', async () => {
+    const j = await start();
+    await j.play(...steps.cross_in, "Answer Seddon's question about the night", "We can. Say what we're to do", 'To the oil store');
+    const oil = j.measure('oil', 'lamp'), flasks = j.measure('flasks', 'store');
+    await j.play('Take two flasks of oil up to the lamp room and leave them by the funnel');
+    expect(j.measure('flasks', 'store')).toBe(flasks - 2);
+    expect(j.measure('oil', 'lamp')).toBeGreaterThan(oil);
+    await j.play("To the keeper's kitchen", ...steps.to_lamp);
+    const ring = 'Take the bell-cord and ring the fog-bell for an hour';
+    await j.play(ring);
+    expect(j.measure('bellUntil', 'tide')).toBeGreaterThan(j.watch());
+    expect(j.find(ring)).toBeUndefined();
+  }, 200000);
+
+  it('drives it back with holy water found on the store shelf', async () => {
+    const j = await start();
+    await j.play(...steps.cross_in, 'To the oil store', 'Bran: light a torch', 'Take', "To the keeper's kitchen", "To the keeper's room", '=until at(caller, keeper_room)');
+    await j.play('Throw holy water where the hands are opening', '=until at(caller, open_water)');
+    expect(j.at('skerrow__caller')).toBe('skerrow__open_water');
+  }, 290000);
+
+  it('lies to it at a price: the bell is bought, and no one is lost', async () => {
+    const k = await start();
+    await k.play(...steps.cross_in, '=until calling()', "Out to the holm's landing");
+    k.roll('pass');
+    await k.play("Answer the voice with someone else's name, and make it sound afraid");
+    expect(k.measure('bellUntil', 'tide')).toBeGreaterThan(k.watch());
+    expect(k.campaign.fighters.filter(f => f.hp > 0).length).toBe(3);
+  }, 290000);
+
+  it('lets Mr Lowrie ring for two hours, and then be gone', async () => {
+    const j = await start();
+    await j.play(...steps.cross_in, "To the keeper's room", 'Ask Mr Lowrie what he knows of the night', 'Ask Mr Lowrie who he was before the sea',
+      'All of us. Every one', '=until dark()', 'Ask Mr Lowrie whether he would ring the bell for you');
+    expect(j.holds('lowrieRang', 'party')).toBe(true);
+    await j.play('=until lowrieGone(party)');
+    expect(j.holds('lowrieGone', 'party')).toBe(true);
+  }, 290000);
+
+  it("ends The Keeper's Last Winter when the notice has been given and Hettie is lost", async () => {
+    const j = await start();
+    await j.play(...steps.cross_in, ...steps.talk, "Put the Board's notice into Seddon's hand, and stay while he reads it", ...nightFromKitchen, ...steps.morning_stays, ...steps.cross_out);
+    expect(reached(j)).toBe("The Keeper's Last Winter");
+  }, 290000);
+
   it('lets a rope-seller be paid: Corrie sells a line, and answers no voice that offers no coin', async () => {
     const j = await start();
-    await j.play(...steps.cross_in, 'Buy a coil of Corrie\'s line');
+    await j.play(...steps.cross_in, 'Ask Corrie Fenwether what she is doing on a rock in the fog', 'Buy a coil of Corrie\'s line');
     expect(j.holds('corrieSold', 'party')).toBe(true);
   }, 120000);
 

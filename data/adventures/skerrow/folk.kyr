@@ -15,14 +15,13 @@ Module skerrow "The Light on Skerrow Holm" {
   }
   Topic orrin_yes with orrin "We can. Say what we're to do" answering orrin_asks when true {
     Says "'Good,' says Seddon. 'If anyone calls, say nothing.' He turns the cup in his hands. 'Oil's in the store. Take what you want of it.'".
-    On discuss { Assert oilGiven(party). }
   }
   Topic orrin_no with orrin "No. We'd sooner sleep" answering orrin_asks when true {
-    Says "'Sleep, then,' says Seddon. 'Shutters down.' He turns his back. 'I'll take the lamp. Nobody touches the lamp.'".
+    Says "'Sleep, then,' says Seddon. 'Shutters down.' He turns his back. 'I'll take the lamp. Touch it and you answer to me.'".
+    On discuss { Assert lampForbidden(party). }
   }
   Topic orrin_what with orrin "Ask what happens at night" answering orrin_asks when true {
     Says "'Tide comes in,' says Seddon. 'Dark comes down.' He thinks about it. 'People hear things. It's a rock. Say nothing if anyone calls. The oil's in the store, if you're up.'".
-    On discuss { Assert oilGiven(party). }
   }
   Relation orrinSpoke(group). Relation orrinDeclared(group). Relation orrinTried(group). Relation hettieUpTried(group). Relation holdTried(group).
   Relation hettieSecret(group). Relation hettieKept(group). Relation hettieTaken(group). Relation hettieWalking(group). Relation hettieHeld(group).
@@ -58,7 +57,7 @@ Module skerrow "The Light on Skerrow Holm" {
     Greets "A man built like a barn door fills the best chair, his boots in the fender and a mug the size of a bucket on his knee. 'FRIENDS!' he says. 'Come in, come in, there's tea and there's something to put in the tea. Gaff Mullen. Forty-two cheeses and a dog. Not a word to the revenue, they're all under the sacking.'".
   }
   Topic gaff_asks with gaff "Take Gaff's question" when true once {
-    Says "'Here's a thing,' says Gaff, loudly. 'Last time I came this way a fellow at the slipway told me the rock likes a loud man. Likes him a good deal, he said. Ha! What d'you make of that? You've the look of folk who've been about.'".
+    Says "'Here's a thing,' says Gaff, loudly. 'Last time I came this way a fellow at the slipway told me the rock likes a loud man. Likes him, he said. Ha! What d'you make of that? You've the look of folk who've been about.'".
   }
   Topic gaff_hush with gaff "Tell him to keep his voice down tonight, and mean it" answering gaff_asks when true {
     Says "Gaff's laugh stops. He puts the mug down. 'Eh,' he says, and the great face goes small. 'Is that so.' He turns the mug a quarter-turn on his knee. The dog has not moved from the door in an hour. 'I'll keep my mouth shut, then. First time for everything.'".
@@ -97,12 +96,13 @@ Module skerrow "The Light on Skerrow Holm" {
     Greets "A square woman in a man's waxed coat sits at the end of the bench with a coil of tarred line across her knees, counting the strands of it with her thumb. 'Fenwether,' she says. 'Cordage. Four pence the fathom, three if you take the lot, and I am not to be haggled with on a rock.' She does not look up from the coil. 'I was at the slipway at twelve and I am on the wrong side of the tide for it. That is a day's trade gone.'".
   }
   Topic corrie_asks with corrie "Ask Corrie Fenwether what she is doing on a rock in the fog" when true once {
-    Says "'Selling,' says Corrie. 'Nothing sells like a rope on a day the tide's in.' She winds a turn of line round her thumb. 'I was here last year. I heard my sister in that cistern. She is alive, and in Hull. I was out of this place a good deal quicker than the rest.'".
+    Says "'Selling,' says Corrie. 'Nothing sells like a rope on a day the tide's in.' She winds a turn of line round her thumb. 'I was here last year. I heard my sister in that cistern. She is alive, and in Hull. I was out of this place quickly.'".
+    On discuss { Assert corrieSister(party). }
   }
   Item corrie_line "a coil of Corrie's tarred line" is rope at kitchen.
-  Relation corrieSold(group).
-  Topic corrie_buy with corrie "Buy a coil of Corrie's line" when true once {
-    Says "'Four pence the fathom,' says Corrie, and does not haggle. She weighs a coil in her hand, puts it in yours, and shuts her ledger. 'A voice that isn't offering coin is not worth an answer. I find.'".
+  Relation corrieSold(group). Relation corrieSister(group).
+  Topic corrie_buy with corrie "Buy a coil of Corrie's line" when corrieSister(party) once {
+    Says "'Four pence the fathom,' says Corrie, and does not haggle. She weighs a coil in her hand and puts it in yours. 'The price is the other thing. If you hear her tonight, you come and tell me it was her.' She shuts her ledger. 'Then I shall stay in my seat and let her come to me.'".
     On discuss { Assert corrieSold(party). Give corrie_line to actor. }
   }
 
@@ -128,7 +128,7 @@ Module skerrow "The Light on Skerrow Holm" {
     Greets "A man sits upright on the bunk in a keeper's coat that does not fit, with his hands on his knees and his eyes on the window. He does not turn his head. 'It is that you came in by the door,' he says. 'The door is a good way. The sea is not a way.' The skin of his hands is the colour of candle-wax and does not look wet, though it is.".
   }
   Topic lowrie_rule with lowrie "Ask Mr Lowrie what he knows of the night" when true once {
-    Says "'The sea keeps what it is given,' says Lowrie. 'I was given. I was kept. I have been let go on a loan.' He says it as one says a lesson, to a window. 'I said more once and was heard.'".
+    Says "'The sea keeps what it is given,' says Lowrie. 'I was given. I was kept. I have been let go on a loan.' He says it to a window. 'I said more once and was heard.'".
     On discuss { Assert lowrieHeard(party). }
   }
   Topic lowrie_who with lowrie "Ask Mr Lowrie who he was before the sea" when lowrieHeard(party) once {

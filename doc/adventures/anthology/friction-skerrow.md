@@ -37,3 +37,13 @@
 30. **A condition at one hour and an event an hour later interact with a bell on a ten-watch cycle.** A window of four watches in ten means a taking can be missed by a step. The delay had to be chosen so a silent stretch always falls inside it, and found by running the night.
 31. **`j.at('caller')` is undefined while a Thing is between rooms** (Retract then Assert in one tick); a spec must `=until at(caller, X)` rather than read it after a wait.
 32. **A party member "alone" is not a thing.** The company is one group at one place, so "the Caller takes whoever is alone, in the dark, off the lamp" can only be "takes one of the company in a dark room". *Could:* a split party.
+
+## Added after the second review
+
+33. **`Observe … near X as sound` hears only where X is.** `near` is "same place as X" (`LocalObservations.perceives`), so five calls and the knock, anchored near a Thing on the sands, were never perceived by anyone on the holm, and no probe of the lint or the lamp could show it: the page simply lacked the text. `within <area> as sound` is what an area-wide sound wants, and a spec must assert the text. *Could:* a lint for a sound whose anchor no `Person` can stand at, and a guide line on `near` vs `within`.
+34. **A sound Observe is told on the step that ends while it holds, not when it begins.** A one-hour wait ends up to six watches after a call, so a window shorter than the longest step loses the call. The window must exceed the step (here seven watches). *Could:* tell an Observe once when its condition first becomes true.
+35. **Quote typography in `j.page`.** A page asserts on curled quotes (`boy\u2019s`), so `toContain("boy's name")` fails with a page that plainly says it. Specs assert on a phrase without an apostrophe.
+36. **A Rule with `at <area>` and `says` never speaks** when the party stands in a room inside the area; `at` means the room. (The first fix for the sounds was five such Rules, and they were silent.) Area anchoring is for `Observe … within`.
+37. **A cost on a repeatable action needs a gate as well as a price.** `ring_bell` was free and repeatable; "weary an hour" was not expressible as a cost, only as `not bellRecent()` and `Time 2`.
+38. **`Take` in a dark room is a bare label** (one `Take` for whatever is there); it found the holy water only after a torch was lit. The nudge is now a label on the shelf in the room's own text.
+39. **`=until dark()`** is the way to land on dusk; `=20:30` is before it on some days.
