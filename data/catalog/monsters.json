@@ -2347,12 +2347,11 @@
         "attributes": "rolled",
         "hitDie": 8,
         "primary": "charisma",
-        "weapon": "song",
-        "armor": "none"
+        "weapon": "longsword",
+        "armor": "cloth"
       },
       "abilities": [
-        "charm",
-        "song"
+        "charm"
       ],
       "traits": [],
       "worth": {
@@ -2375,12 +2374,11 @@
         "attributes": "rolled",
         "hitDie": 6,
         "primary": "dexterity",
-        "weapon": "hooves",
+        "weapon": "dagger",
         "armor": "shell"
       },
       "abilities": [
         "flee",
-        "keen_senses",
         "rapid_strike"
       ],
       "traits": [],
@@ -2404,16 +2402,13 @@
         "attributes": "rolled",
         "hitDie": 10,
         "primary": "dexterity",
-        "weapon": "hooves",
+        "weapon": "kick",
         "armor": "hide_armor"
       },
       "abilities": [
-        "fly",
         "charge"
       ],
-      "traits": [
-        "iron_will"
-      ],
+      "traits": [],
       "worth": {
         "base": 100,
         "perLevel": 50
@@ -2434,18 +2429,14 @@
         "attributes": "rolled",
         "hitDie": 10,
         "primary": "dexterity",
-        "weapon": "hooves",
+        "weapon": "horns",
         "armor": "hide_armor"
       },
       "abilities": [
         "charge",
         "heal"
       ],
-      "traits": [
-        "improved_turning",
-        "darkvision",
-        "wild_empathy"
-      ],
+      "traits": [],
       "dr": {
         "magic": 10
       },
@@ -2465,7 +2456,7 @@
     },
     "xill": {
       "name": "Xill",
-      "type": "outsider",
+      "type": "aberration",
       "kind": "monster",
       "description": "Xills are extraplanar beings with insect-like features and a penchant for ambushing travelers. They are known for their agility and deadly combat skills. Malevolent in the extreme, xills are known for brutality and totalitarianism. They combine a healthy dose of evil with a keen love of cruelty.",
       "looks": "This quasi-reptilian creature has four arms, bright red scales, and dark, penetrating eyes. It is not quite as tall as a human and has an overall iridescent color.",
@@ -2475,13 +2466,10 @@
         "hitDie": 8,
         "primary": "dexterity",
         "weapon": "claws",
-        "armor": "natural_armor"
+        "armor": "chitin"
       },
       "abilities": [],
-      "traits": [
-        "planewalk",
-        "spell_resistance"
-      ],
+      "traits": [],
       "worth": {
         "base": 120,
         "perLevel": 40
@@ -2493,7 +2481,7 @@
     },
     "yrthak": {
       "name": "Yrthak",
-      "type": "outsider",
+      "type": "beast",
       "kind": "monster",
       "description": "A strange predator from desolate wastelands, the yrthak terrorizes the area it inhabits as an always hungry dragon might. A yrthak is blind. It senses sound and movement by means of a special organ on its long tongue. It emits powerfully focused beams of sound from the protrusion on its head. The creature is a yellowish-green color, with the wings and fin being more yellow and the head and body more green. The teeth are yellow.",
       "looks": "This creature resembles an eyeless, yellow-green flying reptile with fleshy wings, a long tail, and a large fin on its back. It has single hornlike protrusion on its crocodilian head.",
@@ -2503,16 +2491,10 @@
         "hitDie": 10,
         "primary": "dexterity",
         "weapon": "claws",
-        "armor": "natural_armor"
+        "armor": "scale"
       },
-      "abilities": [
-        "fly",
-        "sonic_lance"
-      ],
-      "traits": [
-        "blindsight",
-        "multiattack"
-      ],
+      "abilities": [],
+      "traits": [],
       "worth": {
         "base": 150,
         "perLevel": 50
@@ -2524,7 +2506,7 @@
     },
     "yuanti": {
       "name": "Yuanti",
-      "type": "outsider",
+      "type": "humanoid",
       "kind": "monster",
       "description": "Yuanti are serpentine outsiders with a genius intellect and a penchant for manipulation. They are known for their magical abilities and their ability to charm and deceive other creatures. The yuan-ti are descended from humans whose bloodlines have been mingled with those of snakes. Their evilness, cunning, and ruthlessness are legendary.",
       "looks": "This being has the body of a lithe human with sharp features and unblinking eyes. Its skin is covered with gleaming scales, and a serpent's head, complete with long fangs and forked tongue, rises from its shoulders. Its eyes are sharp and calculating, and it exudes an aura of menace and intelligence.",
@@ -2540,10 +2522,7 @@
         "charm",
         "dodge"
       ],
-      "traits": [
-        "darkvision",
-        "alertness"
-      ],
+      "traits": [],
       "worth": {
         "base": 120,
         "perLevel": 40
