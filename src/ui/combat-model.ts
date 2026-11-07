@@ -12,6 +12,7 @@ import { CombatChoices } from './combat-choices';
 import { CombatPresenter } from './combat-presenter';
 import { CombatTelling } from './combat-telling';
 import { Tactics } from '../tactics';
+import { Positions } from '../rules/positions';
 import { DangerSense } from '../presentation/danger-sense';
 import { ItemCatalog } from '../item-catalog';
 import { ItemNames } from '../item-names';
@@ -129,7 +130,11 @@ export class CombatModel {
     const against = strongest >= 1 ? 'immune' : strongest > 0 ? 'resists' : strongest < 0 ? 'vulnerable' : '';
     const blow = target && ability.effects.some(e => e.kind === 'attack');
     const odds = blow ? Fighting.chance(Effects.combatant(actor), Effects.combatant(target)) : undefined;
-    return { id, name: target?.name ?? id, ...against ? { against } : {}, ...odds !== undefined ? { odds } : {} };
+    // An area is aimed at a place, and says whom it would catch there, friend or foe.
+    const area = target && Positions.area(ability);
+    const name = area ? `${Positions.where(Positions.zone(target, state.combatants), actor)}: ${Positions
+      .caught(actor, id, area, state.combatants).map(f => f.name).join(', ')}` : target?.name ?? id;
+    return { id, name, ...against ? { against } : {}, ...odds !== undefined ? { odds } : {} };
   }
   private static name(state: BattleState, id: string): string {
     return state.combatants.find(f => f.id === id)?.name ?? id;

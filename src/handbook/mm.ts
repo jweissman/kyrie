@@ -66,6 +66,8 @@ export class MonsterManual {
       ...armor?.armor ? [['Hide', `${armor.name}, armour ${armor.armor.ac}`] as [string, string]] : [],
       ...s.resistances && Object.keys(s.resistances).length ? [['Resists', MonsterManual.resistances(s.resistances)] as
         [string, string]] : [],
+      ...(s.abilities ?? []).some(a => Canon.abilities[a]?.spell) ? [['Spells a day', MonsterManual.castings()] as
+        [string, string]] : [],
       ...s.temperament ? [['Temperament', s.temperament] as [string, string]] : [],
       ...s.habitats?.length ? [['Found in', s.habitats.map(h => h.replace(/_/g, ' ')).join(', ')] as [string, string]] : [],
       ['Worth', worth]];
@@ -79,6 +81,11 @@ export class MonsterManual {
       refs: [...(s.abilities ?? []).map(a => `ability:${a}`), ...(s.traits ?? []).filter(t => MonsterManual.natured(t))
         .map(t => `trait:${t}`), ...s.variantOf ? [`species:${Canon.resolve('species', s.variantOf).split('/')[0]}`] : []],
       ...this.painted(id) };
+  }
+  // How many of its own spells a creature with no calling casts a day, until it rests (see DailyUses).
+  static castings(): string {
+    const { base, perLevel } = Canon.rules.combat.castings;
+    return `${base} + ${perLevel === 1 ? '' : `${perLevel} × `}its level, its own powers drawing on them, back after a night's rest`;
   }
   // Its blow, or each of the blows of its round, one roll each (a dragon's claws, claws and bite: see AttackRoutine).
   static attacks(weapons: string[]): string {

@@ -3,6 +3,7 @@ import { CompoundEffects } from './compound-effects';
 import { Spellcasting } from './rules/spellcasting';
 import { Effects, type EffectContext } from './effects';
 import { Targeting } from './targeting';
+import { Positions } from './rules/positions';
 import type { Expressions } from './expressions';
 import type { ArenaAbility, Effect, Save } from './lang/parse';
 import type { Fighter } from './model';
@@ -49,7 +50,10 @@ export class AbilityUse {
     const actor = context.actor;
     const candidates = actor ? Targeting.candidates(effect.target, actor, context.recipients ?? context.fighters)
       : context.recipients!.filter(f => effect.target === 'dead ally' ? f.hp === 0 : f.hp > 0);
-    const chosen = effect.target === 'random enemy' || effect.target === 'random enemies'
+    // An area falls on whoever stands where it reaches, friend or foe, not on whom its words name (see Positions).
+    const chosen = context.aim && actor && Positions.spread(effect)
+      ? Positions.caught(actor, context.aim.at, context.aim.area, context.fighters)
+      : effect.target === 'random enemy' || effect.target === 'random enemies'
       ? context.drawn ??= AbilityUse.draw(effect, candidates, expressions, context)
       : Targeting.selected(effect.target) ? candidates.filter(f => f.id === targetId) : candidates;
     return effect.targetTrait ? chosen.filter(f => f.traits?.includes(effect.targetTrait!)) : chosen;
@@ -69,8 +73,9 @@ export class AbilityUse {
   // the first effect that succeeds on no target ends the ability (a missed attack, a saved debuff).
   static perform(ability: ArenaAbility, chosenId: string, expressions: Expressions, context: EffectContext) {
     AbilityUse.validate(ability, context);
-    const actor = context.actor, outer = context.drawn;
+    const actor = context.actor, outer = context.drawn, aimed = context.aim, area = actor && Positions.area(ability);
     context.drawn = undefined;
+    context.aim = area ? { area, at: chosenId } : undefined;
     const targetId = AbilityUse.guarded(ability, chosenId, context);
     context.expressions = expressions;
     context.hook ??= AbilityUse.hooks.bind(AbilityUse);
@@ -99,7 +104,7 @@ export class AbilityUse {
     if (ability.resist && actor) {
       const dc = expressions.amount(ability.resist.difficulty, Effects.context(actor));
       const touched = new Set(effects.flatMap(e => AbilityUse.targets(e, targetId, expressions, context)));
-      for (const t of [...touched].filter(t => t.team !== actor.team)) {
+      for (const t of [...touched].filter(t => area || t.team !== actor.team)) {
         if (Effects.save(t, ability.resist.kind, dc, context)) { resisted.add(t.id); }
       }
     }
@@ -120,7 +125,7 @@ export class AbilityUse {
     }
     if (applied) { PerkTriggers.after(ability, actor, alive, context); }
     Reactions.cast(ability, actor, context);
-    context.drawn = outer;
+    context.drawn = outer; context.aim = aimed;
     return { outcome: applied ? failed ? 'partial' as const : 'success' as const : 'failure' as const,
       actor: actor?.id, source: context.source?.id ?? actor!.id, targets: [...touched], mana: ability.cost ?? 0 };
   }

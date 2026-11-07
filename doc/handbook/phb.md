@@ -5756,7 +5756,7 @@ Call 1d4 + floor((level / 2)) creatures, each one of: rat, spider, centipede, to
 
 *Faithful · level 1 arcane spell, evocation* · `ability:thunderclap`
 
-1d3 (1–3) sonic damage to every enemy (halved if resisted; may cause deafened: a Constitution save against 15 avoids it; may cause migraine: a Wisdom save against 15 avoids it); every enemy is deafened for 5 turns (a Constitution save against 13 + level + the caster's spell bonus avoids it). Deafened: −2 to hit, 2 easier to hit, −2 damage, −1 to every save, resists 50% of sonic. Migraine: takes 200% more radiant, takes 200% more sonic. An arcane spell of the first level. Takes a first-level slot.
+1d3 (1–3) sonic damage to everyone but you where it bursts, friend or foe (halved if resisted; may cause deafened: a Constitution save against 15 avoids it; may cause migraine: a Wisdom save against 15 avoids it); each caught is deafened for 5 turns (a Constitution save against 13 + level + the caster's spell bonus avoids it). Deafened: −2 to hit, 2 easier to hit, −2 damage, −1 to every save, resists 50% of sonic. Migraine: takes 200% more radiant, takes 200% more sonic. An arcane spell of the first level. Takes a first-level slot.
 
 > Create a burst of thunderous sound that damages and deafens enemies nearby.
 
@@ -5766,7 +5766,7 @@ Call 1d4 + floor((level / 2)) creatures, each one of: rat, spider, centipede, to
 
 *Faithful · level 2 arcane spell, conjuration* · `ability:acid_spray`
 
-3d6 (3–18) acid damage to every enemy (halved if resisted; may cause acid burn: a Constitution save against 15 avoids it). Acid Burn: takes 1d6 (1–6) acid damage each turn. An arcane spell of the second level. Takes a second-level slot.
+3d6 (3–18) acid damage to everyone between you and where it is aimed, friend or foe (halved if resisted; may cause acid burn: a Constitution save against 15 avoids it). Acid Burn: takes 1d6 (1–6) acid damage each turn. An arcane spell of the second level. Takes a second-level slot.
 
 > Spray a cone of acid at your foes.
 
@@ -5782,7 +5782,7 @@ You are augured for 3 turns; you gain sage's insight for 3 turns. Augured: +5 in
 
 *Faithful · level 2 arcane spell, evocation* · `ability:burning_hands`
 
-2d6 (2–12) fire damage to every enemy (may cause burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the second level. Takes a second-level slot.
+2d6 (2–12) fire damage to everyone between you and where it is aimed, friend or foe (may cause burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the second level. Takes a second-level slot.
 
 > Unleash a cone of fire, dealing 1d6 damage to all enemies in the area.
 
@@ -5998,7 +5998,7 @@ You are hidden for 5 turns. Hidden: 4 harder to hit, +10 evasion; and on attacki
 
 *Faithful · level 3 arcane spell, evocation* · `ability:sandstorm`
 
-3d6 (3–18) bludgeoning damage to every enemy (may cause stunned: a Constitution save against 15 avoids it); every enemy is blinded for 3 turns (a Constitution save against 15 + level + the caster's spell bonus avoids it). Stunned: −2 to every roll, cannot act. Blinded: −4 to hit, −10 evasion, −2 to every roll. An arcane spell of the third level. Takes a third-level slot.
+3d6 (3–18) bludgeoning damage to everyone but you where it bursts, friend or foe (may cause stunned: a Constitution save against 15 avoids it); each caught is blinded for 3 turns (a Constitution save against 15 + level + the caster's spell bonus avoids it). Stunned: −2 to every roll, cannot act. Blinded: −4 to hit, −10 evasion, −2 to every roll. An arcane spell of the third level. Takes a third-level slot.
 
 > Create a swirling sandstorm that damages and blinds enemies within it for 3 rounds.
 
@@ -6056,7 +6056,7 @@ One enemy is distracted for 3 turns (a Wisdom save against 14 + level + the cast
 
 *Faithful · level 4 arcane spell, evocation* · `ability:earthquake`
 
-3d8 (3–24) bludgeoning damage to every enemy (none if resisted; may cause stunned: a Constitution save against 15 avoids it); every enemy is prone for 3 turns (a Constitution save against 12 + level + the caster's spell bonus avoids it). Stunned: −2 to every roll, cannot act. Prone: Dexterity −2, cannot act. An arcane spell of the fourth level. Takes a fourth-level slot.
+3d8 (3–24) bludgeoning damage to everyone but you where it bursts, friend or foe (none if resisted; may cause stunned: a Constitution save against 15 avoids it); each caught is prone for 3 turns (a Constitution save against 12 + level + the caster's spell bonus avoids it). Stunned: −2 to every roll, cannot act. Prone: Dexterity −2, cannot act. An arcane spell of the fourth level. Takes a fourth-level slot.
 
 > Cause the ground to shake.
 
@@ -6080,7 +6080,7 @@ You gain false life for 3 turns. False Life: 10d6 + 2 × level more hit points (
 
 *Faithful · level 4 arcane spell, evocation* · `ability:fireball`
 
-6d6 (6–36) fire damage to every enemy (halved if resisted; may cause burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the fourth level. Takes a fourth-level slot.
+6d6 (6–36) fire damage to everyone but you where it bursts, friend or foe (halved if resisted; may cause burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the fourth level. Takes a fourth-level slot.
 
 > Hurl a destructive ball of energy that explodes in a fiery blast.
 
@@ -6160,7 +6160,7 @@ On one enemy, one of these, drawn at random: 4d6 (4–24) fire damage to it (hal
 
 *Adapted · level 5 arcane spell, evocation* · `ability:cone_of_cold`
 
-3d12 (3–36) cold damage to 1d6 + floor((level / 2)) different enemies, drawn at random (halved if resisted; may cause frozen: a Dexterity save against 15 avoids it). Frozen: Dexterity −5, cannot act. An arcane spell of the fifth level. Takes a fifth-level slot.
+3d12 (3–36) cold damage to everyone between you and where it is aimed, friend or foe (halved if resisted; may cause frozen: a Dexterity save against 15 avoids it). Frozen: Dexterity −5, cannot act. An arcane spell of the fifth level. Takes a fifth-level slot.
 
 > Blast enemies in a cone with intense cold.
 
@@ -6218,7 +6218,7 @@ One enemy is insane for 3 turns (a Wisdom save against 18 + level + the caster's
 
 *Faithful · level 5 arcane spell, conjuration* · `ability:poison_cloud`
 
-3d4 + level poison damage to every enemy (may cause poison: a Constitution save against 15 avoids it). Poison: takes 1d4 (1–4) true damage each turn. An arcane spell of the fifth level. Takes a fifth-level slot.
+3d4 + level poison damage to everyone but you where it bursts, friend or foe (may cause poison: a Constitution save against 15 avoids it). Poison: takes 1d4 (1–4) true damage each turn. An arcane spell of the fifth level. Takes a fifth-level slot.
 
 > Release a cloud of toxic gas.
 
@@ -6294,7 +6294,7 @@ End polymorphed or shapechanged on one enemy. An arcane spell of the sixth level
 
 *Faithful · level 6 arcane spell, evocation* · `ability:fire_storm`
 
-6d6 (6–36) fire damage to every enemy (halved if resisted; may cause burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the sixth level. Takes a sixth-level slot.
+6d6 (6–36) fire damage to everyone but you where it bursts, friend or foe (halved if resisted; may cause burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the sixth level. Takes a sixth-level slot.
 
 > Produce a raging firestorm that engulfs enemies in flames.
 
@@ -6310,7 +6310,7 @@ One enemy is petrified for 10 turns (a Constitution save against 18 + level + th
 
 *Faithful · level 6 arcane spell, evocation* · `ability:gravity`
 
-10d6 (10–60) force damage to every enemy (halved if resisted; may cause fatigued: a Constitution save against 15 avoids it). Fatigued: −1 to every roll, Strength −1, Dexterity −1, Constitution −1. An arcane spell of the sixth level. Takes a sixth-level slot.
+10d6 (10–60) force damage to everyone but you where it bursts, friend or foe (halved if resisted; may cause fatigued: a Constitution save against 15 avoids it). Fatigued: −1 to every roll, Strength −1, Dexterity −1, Constitution −1. An arcane spell of the sixth level. Takes a sixth-level slot.
 
 > Create a powerful gravitational collapse at a target location, damaging all enemies within the area.
 
@@ -6318,7 +6318,7 @@ One enemy is petrified for 10 turns (a Constitution save against 18 + level + th
 
 *Faithful · level 6 arcane spell, evocation* · `ability:ice_storm`
 
-4d12 (4–48) cold damage to every enemy (halved if resisted; may cause frozen: a Dexterity save against 15 avoids it); 1d8 (1–8) bludgeoning damage to every enemy (halved if resisted; may cause stunned: a Constitution save against 15 avoids it). Frozen: Dexterity −5, cannot act. Stunned: −2 to every roll, cannot act. An arcane spell of the sixth level. Takes a sixth-level slot.
+4d12 (4–48) cold damage to everyone but you where it bursts, friend or foe (halved if resisted; may cause frozen: a Dexterity save against 15 avoids it); 1d8 (1–8) bludgeoning damage to each caught (halved if resisted; may cause stunned: a Constitution save against 15 avoids it). Frozen: Dexterity −5, cannot act. Stunned: −2 to every roll, cannot act. An arcane spell of the sixth level. Takes a sixth-level slot.
 
 > Create a storm of ice and hail that damages enemies within the area.
 
@@ -6938,7 +6938,7 @@ You are hidden for 3 turns; you are fox's cunning for 3 turns. Hidden: 4 harder 
 
 *Faithful · level 1 divine spell, nature domain* · `ability:entangle`
 
-Every enemy is entangled for 3 turns (a Dexterity save against 15 + level + the caster's spell bonus avoids it). Entangled: −2 to hit, −5 evasion, −5 initiative, Dexterity −5. A divine spell of the first level. Takes a first-level slot.
+Everyone but you where it bursts, friend or foe is entangled for 3 turns (a Dexterity save against 15 + level + the caster's spell bonus avoids it). Entangled: −2 to hit, −5 evasion, −5 initiative, Dexterity −5. A divine spell of the first level. Takes a first-level slot.
 
 > Summon vines to entangle your foes.
 
@@ -7014,7 +7014,7 @@ One enemy is paralyzed for 3 turns (only humanoid creatures; a Strength save aga
 
 *Faithful · level 2 divine spell, war domain* · `ability:holy_wrath`
 
-3d6 (3–18) radiant damage to every enemy (halved if resisted; may cause blinded: a Dexterity save against 15 avoids it); every enemy is stunned for 3 turns (a Wisdom save against 16 + level + the caster's spell bonus avoids it). Blinded: −4 to hit, −10 evasion, −2 to every roll. Stunned: −2 to every roll, cannot act. A divine spell of the second level. Takes a second-level slot.
+3d6 (3–18) radiant damage to everyone but you where it bursts, friend or foe (halved if resisted; may cause blinded: a Dexterity save against 15 avoids it); each caught is stunned for 3 turns (a Wisdom save against 16 + level + the caster's spell bonus avoids it). Blinded: −4 to hit, −10 evasion, −2 to every roll. Stunned: −2 to every roll, cannot act. A divine spell of the second level. Takes a second-level slot.
 
 > Unleash a burst of holy energy that damages and stuns enemies.
 
@@ -7094,7 +7094,7 @@ One ally is shielded for 10 turns. Shielded: 1 harder to hit, +1 against magic, 
 
 *Faithful · level 2 divine spell, nature domain* · `ability:spike_growth`
 
-2d6 (2–12) piercing damage to every enemy (may cause bleeding: a Constitution save against 15 avoids it); every enemy gains slow for 3 turns (a Dexterity save against 15 + level + the caster's spell bonus avoids it). Bleeding: takes 1d2 (1–2) bleed damage each turn. Slow: −10 initiative, Dexterity −5, -1 more blows a turn. A divine spell of the second level. Takes a second-level slot.
+2d6 (2–12) piercing damage to everyone but you where it bursts, friend or foe (may cause bleeding: a Constitution save against 15 avoids it); each caught gains slow for 3 turns (a Dexterity save against 15 + level + the caster's spell bonus avoids it). Bleeding: takes 1d2 (1–2) bleed damage each turn. Slow: −10 initiative, Dexterity −5, -1 more blows a turn. A divine spell of the second level. Takes a second-level slot.
 
 > Cause the ground to sprout painful spikes.
 
@@ -7136,7 +7136,7 @@ One enemy is charmed for 3 turns (only humanoid creatures; a Wisdom save against
 
 *Faithful · level 3 divine spell, storm domain* · `ability:cloudburst`
 
-Every enemy is drenched for 8 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Drenched: −2 to hit, takes 100% more lightning, takes 200% more cold. A divine spell of the third level. Takes a third-level slot.
+Everyone but you where it bursts, friend or foe is drenched for 8 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Drenched: −2 to hit, takes 100% more lightning, takes 200% more cold. A divine spell of the third level. Takes a third-level slot.
 
 > Summon a storm cloud that drenches enemies in an area.
 
@@ -7240,7 +7240,7 @@ Call one of: bear, wolf, eagle, to fight for you until the fight ends. A divine 
 
 *Faithful · level 3 divine spell, ocean domain* · `ability:tidal_wave`
 
-1d10 (1–10) cold damage to every enemy (halved if resisted; may cause frozen: a Dexterity save against 15 avoids it); every enemy is drenched for 6 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it); every enemy is prone for 3 turns (a Constitution save against 18 + level + the caster's spell bonus avoids it). Frozen: Dexterity −5, cannot act. Drenched: −2 to hit, takes 100% more lightning, takes 200% more cold. Prone: Dexterity −2, cannot act. A divine spell of the third level. Takes a third-level slot.
+1d10 (1–10) cold damage to everyone but you where it bursts, friend or foe (halved if resisted; may cause frozen: a Dexterity save against 15 avoids it); each caught is drenched for 6 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it); each caught is prone for 3 turns (a Constitution save against 18 + level + the caster's spell bonus avoids it). Frozen: Dexterity −5, cannot act. Drenched: −2 to hit, takes 100% more lightning, takes 200% more cold. Prone: Dexterity −2, cannot act. A divine spell of the third level. Takes a third-level slot.
 
 > Summon a massive wave to crash down on your enemies.
 
@@ -7342,11 +7342,19 @@ Raise a fallen ally with 50% of their health. A divine spell of the fourth level
 
 > Restore life to the dead.
 
+##### Restoration
+
+*Kyr · level 4 divine spell, life domain* · `ability:restoration`
+
+End drained on one ally. A divine spell of the fourth level. Takes a fourth-level slot.
+
+> A prayer that gives back to one who was drained what the dead took: every level lost.
+
 ##### Storm Wind
 
 *Faithful · level 4 divine spell, nature domain* · `ability:storm_wind`
 
-4d6 + level bludgeoning damage to every enemy (halved if resisted; may cause stunned: a Constitution save against 15 avoids it); every enemy is prone for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Stunned: −2 to every roll, cannot act. Prone: Dexterity −2, cannot act. A divine spell of the fourth level. Takes a fourth-level slot.
+4d6 + level bludgeoning damage to everyone but you where it bursts, friend or foe (halved if resisted; may cause stunned: a Constitution save against 15 avoids it); each caught is prone for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Stunned: −2 to every roll, cannot act. Prone: Dexterity −2, cannot act. A divine spell of the fourth level. Takes a fourth-level slot.
 
 > Summon a fierce wind to buffet your enemies.
 
@@ -7354,7 +7362,7 @@ Raise a fallen ally with 50% of their health. A divine spell of the fourth level
 
 *Faithful · level 4 divine spell, storm domain* · `ability:thunderstorm`
 
-2d8 + level electric damage to every enemy (halved if resisted); 1d4 + level sonic damage to every enemy (halved if resisted; may cause deafened: a Constitution save against 15 avoids it; may cause migraine: a Wisdom save against 15 avoids it); every enemy is deafened for 3 turns (a Constitution save against 16 + level + the caster's spell bonus avoids it). Deafened: −2 to hit, 2 easier to hit, −2 damage, −1 to every save, resists 50% of sonic. Migraine: takes 200% more radiant, takes 200% more sonic. A divine spell of the fourth level. Takes a fourth-level slot.
+2d8 + level electric damage to everyone but you where it bursts, friend or foe (halved if resisted); 1d4 + level sonic damage to each caught (halved if resisted; may cause deafened: a Constitution save against 15 avoids it; may cause migraine: a Wisdom save against 15 avoids it); each caught is deafened for 3 turns (a Constitution save against 16 + level + the caster's spell bonus avoids it). Deafened: −2 to hit, 2 easier to hit, −2 damage, −1 to every save, resists 50% of sonic. Migraine: takes 200% more radiant, takes 200% more sonic. A divine spell of the fourth level. Takes a fourth-level slot.
 
 > Create a thunderstorm that damages and deafens enemies in an area.
 
@@ -7388,7 +7396,7 @@ You are charming for 3 turns. Charming: Charisma +3, Intelligence +2, Wisdom +1;
 
 *Faithful · level 5 divine spell, poison domain* · `ability:cloudkill`
 
-1d8 (1–8) poison damage to every enemy (halved if resisted; may cause poison: a Constitution save against 15 avoids it); every enemy gains poison for 3 turns (a Constitution save against 14 + level + the caster's spell bonus avoids it). Poison: takes 1d4 (1–4) true damage each turn. A divine spell of the fifth level. Takes a fifth-level slot.
+1d8 (1–8) poison damage to everyone but you where it bursts, friend or foe (halved if resisted; may cause poison: a Constitution save against 15 avoids it); each caught gains poison for 3 turns (a Constitution save against 14 + level + the caster's spell bonus avoids it). Poison: takes 1d4 (1–4) true damage each turn. A divine spell of the fifth level. Takes a fifth-level slot.
 
 > Create a cloud of poisonous gas that damages enemies within it.
 
@@ -7468,7 +7476,7 @@ You gain pure strike for 3 turns. Pure Strike: +4 to hit, +4 damage; and on land
 
 *Faithful · level 5 divine spell, light domain* · `ability:sunburst`
 
-4d6 (4–24) radiant damage to every enemy (halved if resisted; may cause blinded: a Dexterity save against 15 avoids it). Blinded: −4 to hit, −10 evasion, −2 to every roll. A divine spell of the fifth level. Takes a fifth-level slot.
+4d6 (4–24) radiant damage to everyone but you where it bursts, friend or foe (halved if resisted; may cause blinded: a Dexterity save against 15 avoids it). Blinded: −4 to hit, −10 evasion, −2 to every roll. A divine spell of the fifth level. Takes a fifth-level slot.
 
 > A brilliant burst of solar energy injures your foes.
 
@@ -7486,7 +7494,7 @@ Heal one ally for 4d8 (4–32). A divine spell of the sixth level. Takes a sixth
 
 *Faithful · level 6 divine spell, ocean domain* · `ability:flood`
 
-3d10 (3–30) cold damage to every enemy (halved if resisted; may cause frozen: a Dexterity save against 15 avoids it); every enemy is drenched for 6 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it); every enemy gains slow for 3 turns (a Constitution save against 18 + level + the caster's spell bonus avoids it). Frozen: Dexterity −5, cannot act. Drenched: −2 to hit, takes 100% more lightning, takes 200% more cold. Slow: −10 initiative, Dexterity −5, -1 more blows a turn. A divine spell of the sixth level. Takes a sixth-level slot.
+3d10 (3–30) cold damage to everyone but you where it bursts, friend or foe (halved if resisted; may cause frozen: a Dexterity save against 15 avoids it); each caught is drenched for 6 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it); each caught gains slow for 3 turns (a Constitution save against 18 + level + the caster's spell bonus avoids it). Frozen: Dexterity −5, cannot act. Drenched: −2 to hit, takes 100% more lightning, takes 200% more cold. Slow: −10 initiative, Dexterity −5, -1 more blows a turn. A divine spell of the sixth level. Takes a sixth-level slot.
 
 > Summon a flood that engulfs your enemies, dealing damage and hindering their movement.
 
@@ -7566,7 +7574,7 @@ Call one of: earth elemental, air elemental, fire elemental, water elemental, to
 
 *Faithful · level 6 divine spell, poison domain* · `ability:venom_burst`
 
-2d8 (2–16) poison damage to every enemy (halved if resisted; may cause poison: a Constitution save against 15 avoids it); every enemy gains poison for 3 turns (a Constitution save against 18 + level + the caster's spell bonus avoids it). Poison: takes 1d4 (1–4) true damage each turn. A divine spell of the sixth level. Takes a sixth-level slot.
+2d8 (2–16) poison damage to everyone but you where it bursts, friend or foe (halved if resisted; may cause poison: a Constitution save against 15 avoids it); each caught gains poison for 3 turns (a Constitution save against 18 + level + the caster's spell bonus avoids it). Poison: takes 1d4 (1–4) true damage each turn. A divine spell of the sixth level. Takes a sixth-level slot.
 
 > Explode with venomous energy, damaging nearby enemies.
 
@@ -7672,7 +7680,7 @@ Call a lich, of level 10, to fight for you until the fight ends. A divine spell 
 
 *Faithful · level 7 divine spell, ocean domain* · `ability:tempest`
 
-4d10 + level cold damage to every enemy (halved if resisted; may cause frozen: a Dexterity save against 15 avoids it); every enemy is drenched for 8 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it); every enemy gains slow for 3 turns (a Constitution save against 20 + level + the caster's spell bonus avoids it). Frozen: Dexterity −5, cannot act. Drenched: −2 to hit, takes 100% more lightning, takes 200% more cold. Slow: −10 initiative, Dexterity −5, -1 more blows a turn. A divine spell of the seventh level. Takes a seventh-level slot.
+4d10 + level cold damage to everyone but you where it bursts, friend or foe (halved if resisted; may cause frozen: a Dexterity save against 15 avoids it); each caught is drenched for 8 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it); each caught gains slow for 3 turns (a Constitution save against 20 + level + the caster's spell bonus avoids it). Frozen: Dexterity −5, cannot act. Drenched: −2 to hit, takes 100% more lightning, takes 200% more cold. Slow: −10 initiative, Dexterity −5, -1 more blows a turn. A divine spell of the seventh level. Takes a seventh-level slot.
 
 > Unleash a violent storm that damages and hinders your enemies.
 
@@ -7770,7 +7778,7 @@ You gain scaleskin for 3 turns. Scaleskin: 8 harder to hit, resists 25% of fire.
 
 *Faithful · level 8 divine spell, storm domain* · `ability:stormsurge`
 
-4d8 + level × 2 electric damage to every enemy (halved if resisted). A divine spell of the eighth level. Takes an eighth-level slot.
+4d8 + level × 2 electric damage to everyone but you where it bursts, friend or foe (halved if resisted). A divine spell of the eighth level. Takes an eighth-level slot.
 
 > Unleash a powerful surge of storm energy that damages all enemies in an area.
 
@@ -7790,7 +7798,7 @@ You gain scaleskin for 3 turns. Scaleskin: 8 harder to hit, resists 25% of fire.
 
 *Faithful · level 9 divine spell, death domain* · `ability:apocalypse`
 
-6d6 (6–36) fire damage to every enemy (halved if resisted; may cause burning: a Constitution save against 15 avoids it); 6d6 (6–36) cold damage to every enemy (halved if resisted; may cause frozen: a Dexterity save against 15 avoids it); 6d6 (6–36) lightning damage to every enemy (halved if resisted; may cause paralyzed: a Strength save against 15 avoids it); every enemy is doomed for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Burning: takes 1d3 (1–3) fire damage each turn. Frozen: Dexterity −5, cannot act. Paralyzed: Strength −5, Dexterity −5, cannot act. Doomed: Strength −4, Dexterity −4, Constitution −4, Intelligence −4, Wisdom −4, Charisma −4. A divine spell of the ninth level. Takes a ninth-level slot.
+6d6 (6–36) fire damage to everyone but you where it bursts, friend or foe (halved if resisted; may cause burning: a Constitution save against 15 avoids it); 6d6 (6–36) cold damage to each caught (halved if resisted; may cause frozen: a Dexterity save against 15 avoids it); 6d6 (6–36) lightning damage to each caught (halved if resisted; may cause paralyzed: a Strength save against 15 avoids it); each caught is doomed for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Burning: takes 1d3 (1–3) fire damage each turn. Frozen: Dexterity −5, cannot act. Paralyzed: Strength −5, Dexterity −5, cannot act. Doomed: Strength −4, Dexterity −4, Constitution −4, Intelligence −4, Wisdom −4, Charisma −4. A divine spell of the ninth level. Takes a ninth-level slot.
 
 > Unleash a cataclysmic storm of elemental fury upon all enemies.
 
@@ -7798,7 +7806,7 @@ You gain scaleskin for 3 turns. Scaleskin: 8 harder to hit, resists 25% of fire.
 
 *Faithful · level 9 divine spell, darkness domain* · `ability:black_hole`
 
-12d6 (12–72) cold damage to every enemy (halved if resisted; may cause frozen: a Dexterity save against 15 avoids it). Frozen: Dexterity −5, cannot act. A divine spell of the ninth level. Takes a ninth-level slot.
+12d6 (12–72) cold damage to everyone but you where it bursts, friend or foe (halved if resisted; may cause frozen: a Dexterity save against 15 avoids it). Frozen: Dexterity −5, cannot act. A divine spell of the ninth level. Takes a ninth-level slot.
 
 > Create a devastating black hole that damages and pulls in enemies.
 
@@ -7806,7 +7814,7 @@ You gain scaleskin for 3 turns. Scaleskin: 8 harder to hit, resists 25% of fire.
 
 *Faithful · level 9 divine spell, poison domain* · `ability:death_fog`
 
-6d8 (6–48) poison damage to every enemy (halved if resisted; may cause poison: a Constitution save against 15 avoids it); slay every enemy (a Constitution save against 22 + level + the caster's spell bonus avoids it). Poison: takes 1d4 (1–4) true damage each turn. A divine spell of the ninth level. Takes a ninth-level slot.
+6d8 (6–48) poison damage to everyone but you where it bursts, friend or foe (halved if resisted; may cause poison: a Constitution save against 15 avoids it); slay each caught (a Constitution save against 22 + level + the caster's spell bonus avoids it). Poison: takes 1d4 (1–4) true damage each turn. A divine spell of the ninth level. Takes a ninth-level slot.
 
 > Create a deadly fog that severely poisons enemies within it.
 
@@ -7846,7 +7854,7 @@ You gain scaleskin for 3 turns. Scaleskin: 8 harder to hit, resists 25% of fire.
 
 *Faithful · level 9 divine spell, storm domain* · `ability:maelstrom`
 
-5d8 + level × 3 electric damage to every enemy (halved if resisted); every enemy is stunned for 3 turns (a Wisdom save against 24 + level + the caster's spell bonus avoids it). Stunned: −2 to every roll, cannot act. A divine spell of the ninth level. Takes a ninth-level slot.
+5d8 + level × 3 electric damage to everyone but you where it bursts, friend or foe (halved if resisted); each caught is stunned for 3 turns (a Wisdom save against 24 + level + the caster's spell bonus avoids it). Stunned: −2 to every roll, cannot act. A divine spell of the ninth level. Takes a ninth-level slot.
 
 > Create a devastating maelstrom of storm energy that damages and stuns all enemies in an area.
 
@@ -7862,7 +7870,7 @@ Heal one ally for 10d8 + level; end diseased, poison, cursed, blinded, slow, par
 
 *Faithful · level 9 divine spell, ocean domain* · `ability:oceans_wrath`
 
-6d10 + level × 2 cold damage to every enemy (halved if resisted; may cause frozen: a Dexterity save against 15 avoids it); every enemy is drenched for 10 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it); every enemy is prone for 3 turns (a Constitution save against 22 + level + the caster's spell bonus avoids it). Frozen: Dexterity −5, cannot act. Drenched: −2 to hit, takes 100% more lightning, takes 200% more cold. Prone: Dexterity −2, cannot act. A divine spell of the ninth level. Takes a ninth-level slot.
+6d10 + level × 2 cold damage to everyone but you where it bursts, friend or foe (halved if resisted; may cause frozen: a Dexterity save against 15 avoids it); each caught is drenched for 10 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it); each caught is prone for 3 turns (a Constitution save against 22 + level + the caster's spell bonus avoids it). Frozen: Dexterity −5, cannot act. Drenched: −2 to hit, takes 100% more lightning, takes 200% more cold. Prone: Dexterity −2, cannot act. A divine spell of the ninth level. Takes a ninth-level slot.
 
 > Call upon the full fury of the ocean to devastate your enemies.
 
@@ -7878,7 +7886,7 @@ You gain steelskin for 3 turns. Steelskin: 10 harder to hit, resists 50% of pier
 
 *Faithful · level 9 divine spell, light domain* · `ability:sunsphere`
 
-10d6 (10–60) radiant damage to every enemy (halved if resisted; may cause blinded: a Dexterity save against 15 avoids it). Blinded: −4 to hit, −10 evasion, −2 to every roll. A divine spell of the ninth level. Takes a ninth-level slot.
+10d6 (10–60) radiant damage to everyone but you where it bursts, friend or foe (halved if resisted; may cause blinded: a Dexterity save against 15 avoids it). Blinded: −4 to hit, −10 evasion, −2 to every roll. A divine spell of the ninth level. Takes a ninth-level slot.
 
 > Create a massive sphere of sunlight that damages enemies.
 
@@ -8467,7 +8475,7 @@ One enemy is taunted for 3 turns (a Wisdom save against 18 + level + the caster'
 
 - Again after: 3 turns
 
-1d3 (1–3) fire damage to every enemy (halved if resisted; may cause burning: a Constitution save against 15 avoids it); every enemy is confused for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Burning: takes 1d3 (1–3) fire damage each turn. Confused: acts at random. Again after 3 turns.
+1d3 (1–3) fire damage to everyone but you where it bursts, friend or foe (halved if resisted; may cause burning: a Constitution save against 15 avoids it); each caught is confused for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Burning: takes 1d3 (1–3) fire damage each turn. Confused: acts at random. Again after 3 turns.
 
 > Toss a firebomb that damages and confuses enemies.
 
@@ -9295,6 +9303,12 @@ Fights for the other side, does as whoever gave it bids.
 Strength −4, Dexterity −4, Constitution −4, Intelligence −4, Wisdom −4, Charisma −4.
 
 > Marked for inevitable demise.
+
+### Drained
+
+*Kyr · lasts beyond a fight* · `condition:drained`
+
+> Levels taken by the touch of the dead: weaker in a fight, in spells and in health by each, until a restoration gives them back.
 
 ### Drenched
 

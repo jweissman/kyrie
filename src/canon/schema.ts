@@ -30,6 +30,8 @@ export interface Condition {
   compel?: string; forceTarget?: true;
   // Whoever applied it stands in front of its holder: a blow aimed at the holder strikes them instead.
   guard?: true;
+  // Levels taken (energy drain): its holder stands as many levels lower as it counts, until it is lifted.
+  drains?: true;
   stacking?: 'source-refresh'; omits?: Omissions; unsupported?: Omissions; source?: Source;
   // A capability its holder brings to the company while it lasts (a lit torch brings light), and what is said
   // when it runs out.
@@ -83,6 +85,9 @@ export interface Ability {
   resist?: { kind: string; difficulty: string };
   // A status the user must hold (Charge needs Preparing to Charge), or must not (a countdown not already ticking).
   requires?: { status?: string; notStatus?: string; interceptWeapon?: true };
+  // How often a day it can be used, until a night's rest; and the shape of what it lets loose, which catches whoever
+  // stands where it is aimed (see Positions). Orsino's areas name no shape: the rules' combat.areas give them one.
+  uses?: number; area?: 'burst' | 'cone';
   unsupported?: Omissions; source?: Source;
 }
 export interface Ancestry {
@@ -154,6 +159,8 @@ export interface CharacterClass {
   // Spell slots by spell level for each character level (row 0 is level 1); a casting attribute of 14 or more adds a
   // first-level slot. Cantrips need no slot.
   spellcasting?: { attribute: Attribute; slots: number[][] };
+  // Where it stands in a fight: in the rear, behind those who fight hand to hand (a mage), or in front (unstated).
+  rank?: 'rear';
   omits?: Omissions; source: Source;
 }
 export interface CallingFeature { level: number; abilities?: string[]; traits?: string[] }
@@ -232,5 +239,8 @@ export interface Combat {
   deathSave: number; triggerSave: number; triggerTurns: number; summons: { base: number; perLevels: number };
   flee: { die: string; atMost: number }[]; systemShock: number; recharge: { technique: number; free: string[] };
   fist: { id: string; name: string; damage: string; type: string; natural: boolean };
-  ids: { slain: string; raising: string; roughRest: string; shelteredRest: string };
+  ids: { slain: string; raising: string; roughRest: string; shelteredRest: string; drained: string };
+  // Orsino's spells a day for a creature with no calling (Combat.maxSpellSlotsForLevel: 2 + level), which its own
+  // powers draw on; and the shapes of the areas the catalog's abilities name none for.
+  castings: { base: number; perLevel: number }; areas: Record<'burst' | 'cone', string[]>;
 }

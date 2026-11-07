@@ -34,6 +34,11 @@ export class Formations {
     }
     return { missing, spare };
   }
+  // Where a fighter stands in its side's formation in a fight: in the rear, if it fights from there (with a missile,
+  // or by a calling that stands back: a mage), else in front, hand to hand (see Positions).
+  static rear(f: { classId?: string; equipment?: { weapon?: { missile?: boolean } } }): boolean {
+    return !!f.equipment?.weapon?.missile || (!!f.classId && Canon.classes[f.classId]?.rank === 'rear');
+  }
   // A formation a player's company could ever make: every class or ancestry it names can be chosen.
   static possible(trait: Trait): boolean {
     const company = trait.requires!.company!;

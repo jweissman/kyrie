@@ -18,6 +18,7 @@ import { PartyCapabilities } from './party-capabilities';
 import { Advancement } from '../rules/advancement';
 import { Perks, type PerkContext } from '../rules/perks';
 import { Environment } from './environment';
+import { LevelDrain } from '../rules/level-drain';
 
 type Entity = Module['entities'][number];
 interface Declared {
@@ -32,7 +33,7 @@ export class CreatureFacts {
   // Every relation or measure `project` writes.
   static readonly written = ['capable', 'memberOf', 'companion', 'awake', 'needsCare', 'ownedItem', 'wearing', 'proficient', 'canTrain',
     'treatable', 'relieves', 'canCast', 'able', 'dead', 'quantity', 'swappable', 'company', 'improvable', 'learnable',
-    'brings', 'featOpen', 'skillOpen', 'temperament', 'fallen', 'slain', 'craft', 'levelOf', 'hasCalling', 'learned'];
+    'brings', 'featOpen', 'skillOpen', 'temperament', 'fallen', 'slain', 'craft', 'levelOf', 'hasCalling', 'learned', 'levelDrained'];
   static readonly crafts = ['wild', 'roads', 'mechanisms', 'shadows', 'healing', 'faith', 'learning', 'earth', 'arms',
     'water', 'stage', 'trade', 'court', 'margins'];
   // Every relation or measure a projection writes or reads besides the creatures (see Projection).
@@ -187,6 +188,10 @@ export class CreatureFacts {
     changes.push({ kind: c.state.hp < c.base.maxHp || c.state.conditions.length ? 'assert' : 'retract',
       call: ModuleWriter.call('needsCare', reference) });
     if (has.has('fallen')) { changes.push({ kind: c.state.hp === 0 ? 'assert' : 'retract', call: ModuleWriter.call('fallen', reference) }); }
+    if (has.has('levelDrained')) {
+      changes.push({ kind: LevelDrain.levels(c.state.conditions) ? 'assert' : 'retract',
+        call: ModuleWriter.call('levelDrained', reference) });
+    }
     if (has.has('slain')) {
       const slain = c.state.hp === 0 && c.state.conditions.some(s => s.id === 'slain');
       changes.push({ kind: slain ? 'assert' : 'retract', call: ModuleWriter.call('slain', reference) });
@@ -224,7 +229,7 @@ export class CreatureFacts {
     }
     // Orsino's gate outside combat too: a spell or levelled skill above ⌈level / 2⌉ cannot be used yet.
     const usable = scope.field.filter(a => ready && known.has(a.id) && Spellcasting.affordable(c.state, a)
-      && (a.spell?.level ?? a.level ?? 0) <= Fighting.maxSpellLevel(c.base.level));
+      && (a.spell?.level ?? a.level ?? 0) <= Fighting.maxSpellLevel(LevelDrain.level(c)));
     changes.push(...this.set(scope, 'treatable', reference, useful.map(a => a.id)),
       ...this.set(scope, 'canCast', reference, usable.map(a => a.id)));
     return changes;

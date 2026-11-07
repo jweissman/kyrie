@@ -801,7 +801,7 @@
     "faithful": 777,
     "adapted": 368,
     "represented": 4,
-    "kyr": 541,
+    "kyr": 543,
     "unsupported": 68,
     "unreachable": 4,
     "data-only": 12
@@ -918,7 +918,7 @@
       "faithful": 246,
       "adapted": 4,
       "represented": 0,
-      "kyr": 2,
+      "kyr": 3,
       "unsupported": 32,
       "unreachable": 0,
       "data-only": 0
@@ -970,7 +970,7 @@
       "faithful": 128,
       "adapted": 26,
       "represented": 0,
-      "kyr": 32,
+      "kyr": 33,
       "unsupported": 18,
       "unreachable": 0,
       "data-only": 0
@@ -997,7 +997,7 @@
     "faithful": 238,
     "adapted": 29,
     "represented": 27,
-    "kyr": 284,
+    "kyr": 286,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 198
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 257,
+      "kyr": 259,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -1063,7 +1063,7 @@
     "faithful": 126,
     "adapted": 143,
     "represented": 10,
-    "kyr": 88,
+    "kyr": 90,
     "unsupported": 4,
     "unreachable": 0,
     "data-only": 104
@@ -1115,7 +1115,7 @@
       "faithful": 0,
       "adapted": 2,
       "represented": 0,
-      "kyr": 10,
+      "kyr": 12,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -10608,6 +10608,13 @@
    "section": "magic/spells-divine/spells-divine-4"
   },
   {
+   "id": "ability:restoration",
+   "title": "Restoration",
+   "status": "kyr",
+   "book": "phb",
+   "section": "magic/spells-divine/spells-divine-4"
+  },
+  {
    "id": "ability:storm_wind",
    "title": "Storm Wind",
    "status": "faithful",
@@ -11927,6 +11934,13 @@
    "id": "condition:doom",
    "title": "Doomed",
    "status": "faithful",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
+   "id": "condition:drained",
+   "title": "Drained",
+   "status": "kyr",
    "book": "phb",
    "section": "conditions"
   },
@@ -14025,7 +14039,7 @@
   },
   {
    "id": "rule:care.awake",
-   "title": "awake, fallen, slain, needsCare, canCast, treatable",
+   "title": "awake, fallen, slain, levelDrained, needsCare, canCast, treatable",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-care"
@@ -14194,6 +14208,13 @@
   {
    "id": "rule:world_core.landkind",
    "title": "landkind, landform",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-core"
+  },
+  {
+   "id": "rule:world_core.decks",
+   "title": "decks",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-core"
@@ -15356,6 +15377,13 @@
   {
    "id": "rule:world_services.take_raising",
    "title": "take raising",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-services"
+  },
+  {
+   "id": "rule:world_services.take_restoration",
+   "title": "take restoration",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-services"
@@ -19834,9 +19862,23 @@
    "section": "natural-abilities"
   },
   {
+   "id": "ability:energy_drain",
+   "title": "Energy drain",
+   "status": "kyr",
+   "book": "mm",
+   "section": "natural-abilities"
+  },
+  {
    "id": "ability:breathe_fire",
    "title": "Fire breath",
    "status": "adapted",
+   "book": "mm",
+   "section": "natural-abilities"
+  },
+  {
+   "id": "ability:greater_energy_drain",
+   "title": "Greater energy drain",
+   "status": "kyr",
    "book": "mm",
    "section": "natural-abilities"
   },

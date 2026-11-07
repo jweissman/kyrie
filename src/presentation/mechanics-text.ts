@@ -3,7 +3,8 @@ import { Content } from '../content';
 import { Deem } from 'deem';
 import { Canon } from '../canon/canon';
 import { FantasyRules } from '../fantasy-rules';
-import type { Amount, ArenaAbility, Effect, Save, Target } from '../lang/parse';
+import type { Amount, Area, ArenaAbility, Effect, Save, Target } from '../lang/parse';
+import { Positions } from '../rules/positions';
 import type { Modifiers } from '../rules/modifiers';
 
 type Expression = Parameters<Deem['explain']>[0] & object;
@@ -26,16 +27,20 @@ export class MechanicsText {
   static ability(ability: ArenaAbility, actor?: Record<string, number>): AbilityText {
     // Enemies drawn at random are drawn once: a later effect falls on the same ones; one enemy or ally, named once, is
     // "it" after.
+    const area = Positions.area(ability);
     const parts = ability.effects.map((e, i) => {
       const before = ability.effects.slice(0, i).some(p => p.target === e.target);
-      return this.effect(e, actor, e.target === 'random enemies' ? before
-        : before && e.target === 'enemy' ? 'it' : before && e.target === 'ally' ? 'that ally' : false);
+      return this.effect(e, actor, area && Positions.spread(e) ? before ? 'each caught' : MechanicsText.areas[area]
+        : e.target === 'random enemies' ? before
+          : before && e.target === 'enemy' ? 'it' : before && e.target === 'ally' ? 'that ally' : false);
     });
     const level = ability.spell?.level ?? 0;
     const costs = [level ? `Takes ${level === 8 ? 'an' : 'a'} ${Spellcasting.ordinal(level)}-level slot.`
       : ability.spell ? `${/^[aeiou]/.test(ability.spell.tradition) ? 'An' : 'A'} ${ability.spell.tradition} cantrip, cast at will.`
         : ability.cost ? `Costs ${ability.cost} mana.` : '',
-    ability.cooldown ? `${this.capitalize(this.again(ability.cooldown))}.` : ''].filter(Boolean);
+    ability.cooldown ? `${this.capitalize(this.again(ability.cooldown))}.` : '',
+    ability.uses ? `${ability.uses === 1 ? 'Once' : ability.uses === 2 ? 'Twice' : `${ability.uses} times`} a day, until a night's rest.` : '']
+      .filter(Boolean);
     const details = [...new Set(ability.effects.flatMap(e => e.kind === 'apply' ? [e.status]
       : this.triggered(e).map(([id]) => id)))].map(id => this.condition(id, actor)).filter((d): d is string => !!d);
     const kind = ability.spell?.tradition ?? '', an = /^[aeiou]/.test(kind) ? 'An' : 'A';
@@ -43,6 +48,11 @@ export class MechanicsText {
       : [];
     return { summary: `${this.capitalize(parts.join('; '))}.`, details: [...details, ...spell, ...costs] };
   }
+  // Whom an area catches where it is aimed (see Positions).
+  static readonly areas: Record<Area, string> = {
+    burst: 'everyone but you where it bursts, friend or foe',
+    cone: 'everyone between you and where it is aimed, friend or foe',
+  };
   static again(cooldown: number): string { return `again after ${cooldown === 1 ? 'a turn' : `${cooldown} turns`}`; }
   // What an ability does besides the blow its card's odds tell, in a few words for the fight card: "it is prone for
   // 3 turns · again after 3 turns", "heal yourself for 1d10 + 1 (2–11) · again after 3 turns". The cards had said
@@ -80,6 +90,7 @@ export class MechanicsText {
         case 'cycle': return `on ${to}, each the next of these in turn: ${MechanicsText.inner(e.effects, actor)}`;
         case 'cast': return `${Canon.abilities[e.ability]?.name ?? e.ability}, at no cost`;
         case 'drain': return `drain ${amount} health from ${to}`;
+        case 'enervate': return `take ${amount === '1' ? 'a level' : `${amount} levels`} from ${to}, until a restoration`;
         case 'defend': return 'guard until your next turn';
         case 'flee': return `try to get away from the fight (${MechanicsText.flight()})`;
         case 'apply': return `${this.holds(e.target === 'self' ? 'you' : to, e.status)} `

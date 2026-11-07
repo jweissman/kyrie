@@ -1,6 +1,7 @@
 import { AbilityUse } from './ability-use';
 import { Content } from './content';
 import { Targeting } from './targeting';
+import { Positions } from './rules/positions';
 import type { Effect } from './lang/parse';
 import type { EffectContext } from './effects';
 import type { Expressions } from './expressions';
@@ -31,7 +32,9 @@ export class CompoundEffects {
     if (!actor || !inner) { return false; }
     const aimed = inner.effects.find(e => Targeting.selected(e.target));
     const candidates = aimed ? Targeting.candidates(aimed.target, actor, options.context.fighters) : [];
-    const chosen = !aimed ? actor.id : candidates.some(c => c.id === target.id) ? target.id : candidates[0]?.id;
+    // An area it casts is let loose where this one is aimed (a scroll of fireball read at the foe's rear).
+    const loose = Positions.area(inner) ? target.id : actor.id;
+    const chosen = !aimed ? loose : candidates.some(c => c.id === target.id) ? target.id : candidates[0]?.id;
     if (!chosen) { return false; }
     const result = AbilityUse.perform(inner, chosen, options.expressions, { ...options.context, free: true });
     return result.outcome === 'failure' ? false : result.outcome === 'partial' ? 'partial' : 'full';

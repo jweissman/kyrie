@@ -27,10 +27,15 @@ export class CanonRuntime {
   static ability(id: string, a: Ability): ArenaAbility {
     const common = { cost: a.cost ?? 0, cooldown: this.recharge(id, a), ...a.spell ? { spell: a.spell } : {},
       ...a.level !== undefined ? { level: a.level } : {}, ...a.requires ? { requires: a.requires } : {},
-      ...a.windup ? { windup: a.windup } : {},
+      ...a.windup ? { windup: a.windup } : {}, ...a.uses !== undefined ? { uses: a.uses } : {},
+      ...this.area(id, a) ? { area: this.area(id, a)! } : {},
       ...a.resist ? { resist: { kind: a.resist.kind, difficulty: this.amount(a.resist.difficulty) } } : {} };
     if (a.effects) { return { id, name: a.name, effects: a.effects, ...common, description: a.description ?? a.name }; }
     return { ...parseAbility(id, a.name, a.effect!), description: a.effect!, ...common };
+  }
+  // The shape of what it lets loose, its own or the rules' for it (Orsino's areas name none: see Positions).
+  static area(id: string, a: Ability): 'burst' | 'cone' | undefined {
+    return a.area ?? (['burst', 'cone'] as const).find(shape => Canon.rules.combat.areas[shape].includes(id));
   }
   // The turns an ability rests after use. Orsino rests every one of its skills that names none for three (Combat.ts:
   // action.cooldown || 3), all but the moves every fighter has (a weapon's blow, waiting, getting away); Kyr had read

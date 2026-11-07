@@ -1,4 +1,5 @@
 import { Advancement } from '../rules/advancement';
+import { LevelDrain } from '../rules/level-drain';
 import { Canon } from '../canon/canon';
 import type { CampaignActor } from './definition';
 import { ModuleWriter } from '../lang/module-writer';
@@ -55,6 +56,18 @@ export class FieldUse {
       c.state.hp = Math.max(c.state.hp, 1, Math.floor(percent / 100 * c.base.maxHp)); c.state.conditions = [];
       lease.commit([c]);
       return [{ type: 'revive', turn: 0, actor: id, target: id, detail: 'returned to life', amount: c.state.hp }];
+    } finally { lease.release(); }
+  }
+  // A companion drained of levels restored at a temple: what the restoration spell does (Remove drained), done by the
+  // shrine's priest, whatever the companion could cast: every level taken comes back (see LevelDrain).
+  static restore(store: CreatureStore, id: string): CombatEvent[] {
+    const lease = store.acquire([id]);
+    try {
+      const c = lease.creatures[0]!, lifted = c.state.conditions.filter(s => LevelDrain.drains(s.id));
+      if (!lifted.length) { return []; }
+      c.state.conditions = c.state.conditions.filter(s => !lifted.includes(s));
+      lease.commit([c]);
+      return lifted.map(s => ({ type: 'remove' as const, turn: 0, actor: id, target: id, detail: s.id }));
     } finally { lease.release(); }
   }
   // Orsino's system shock: at a rest, each who has fallen and not died rolls a d20 and their Constitution against 10.

@@ -1,5 +1,6 @@
 import { ItemCatalog } from './item-catalog';
 import { Canon } from './canon/canon';
+import { DailyUses, type Daily } from './rules/daily-uses';
 export type Attribute = 'strength' | 'dexterity' | 'intelligence' | 'wisdom' | 'constitution' | 'charisma';
 export type Attributes = Record<Attribute, number>;
 // by: the creature that applied it (Orsino's `by`, read by forceTarget). tempHp: what remains of its temporary hit
@@ -35,6 +36,8 @@ export interface Creature {
     // The skills taken up with developments, beyond what background, calling and gear bring (see Advancement).
     skills?: string[];
     learnedAbilities: string[]; conditions: ConditionInstance[]; inventory?: ItemInstance[];
+    // What it has used today of what it can do only so often a day, until it rests (see DailyUses).
+    daily?: Daily;
   };
 }
 
@@ -50,6 +53,7 @@ export class CreatureSchema {
     if (!Array.isArray(skills) || skills.some(id => typeof id !== 'string' || !id) || new Set(skills).size !== skills.length) {
       throw new Error(`Invalid skills: ${creature.id}`);
     }
+    if (!DailyUses.validate(creature.state.daily)) { throw new Error(`Invalid uses a day: ${creature.id}`); }
   }
   static readonly attributes: Attribute[] = [
     'strength', 'dexterity', 'intelligence', 'wisdom', 'constitution', 'charisma',

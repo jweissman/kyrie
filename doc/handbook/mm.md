@@ -24,6 +24,7 @@ Each kind, with what it fights with, by type. Habitat says where it is met. Temp
 - Qualities: +18 strength, +17 dexterity, +18 constitution, +24 intelligence, +23 wisdom, +14 charisma
 - Attack: tentacles, 1d4+1 bludgeoning
 - Hide: Hide Armor, armour 1
+- Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
 - Found in: cave
 - Worth: 600 + 50 experience a level
 
@@ -83,6 +84,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Qualities: +18 strength, +17 dexterity, +18 constitution, +25 intelligence, +22 wisdom, +14 charisma
 - Attack: tentacles, 1d4+1 bludgeoning
 - Hide: Hide Armor, armour 1
+- Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
 - Found in: cave
 - Worth: 600 + 50 experience a level
 
@@ -120,6 +122,7 @@ Planar Adaptation: +2 against magic, resists 50% of fire, resists 50% of cold, r
 - Qualities: +18 strength, +17 dexterity, +23 constitution, +23 intelligence, +20 wisdom, +14 charisma
 - Attack: tentacles, 1d4+1 bludgeoning
 - Hide: Hide Armor, armour 1
+- Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
 - Found in: cave
 - Worth: 600 + 50 experience a level
 
@@ -133,7 +136,7 @@ Charm Person: One enemy is charmed for 3 turns (only humanoid creatures; a Wisdo
 
 Mind Melt: 2d6 (2–12) psychic damage to every enemy (may cause confused: a Wisdom save against 15 avoids it; may cause insane: an Intelligence save against 15 avoids it); every enemy is stunned for 3 turns (a Constitution save against 20 + level + the caster's spell bonus avoids it); every enemy is charmed for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Confused: acts at random. Insane: −1 to every roll, −2 to will saves, acts at random. Stunned: −2 to every roll, cannot act. Charmed: fights for the other side. An arcane spell of the second level. Takes a second-level slot.
 
-Acid Spray: 3d6 (3–18) acid damage to every enemy (halved if resisted; may cause acid burn: a Constitution save against 15 avoids it). Acid Burn: takes 1d6 (1–6) acid damage each turn. An arcane spell of the second level. Takes a second-level slot.
+Acid Spray: 3d6 (3–18) acid damage to everyone between you and where it is aimed, friend or foe (halved if resisted; may cause acid burn: a Constitution save against 15 avoids it). Acid Burn: takes 1d6 (1–6) acid damage each turn. An arcane spell of the second level. Takes a second-level slot.
 
 Planar Adaptation: +2 against magic, resists 50% of fire, resists 50% of cold, resists 50% of lightning.
 
@@ -157,6 +160,7 @@ Regeneration: Heal 1d2 - 1 (0–1) each turn.
 - Qualities: +18 strength, +17 dexterity, +24 constitution, +19 intelligence, +17 wisdom, +14 charisma
 - Attack: tentacles, 1d4+1 bludgeoning
 - Hide: Hide Armor, armour 1
+- Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
 - Found in: cave
 - Worth: 600 + 50 experience a level
 
@@ -317,6 +321,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Qualities: +5 strength, +7 dexterity, +5 constitution, +4 intelligence, +5 wisdom, +4 charisma
 - Attack: bite, 1d6 piercing
 - Hide: Chitin Armor, armour 2
+- Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
 - Found in: wood, cave
 - Worth: 10 experience a level
 
@@ -340,6 +345,7 @@ Venomous Bite: 1d6 (1–6) poison damage to one enemy (halved if resisted; may c
 - Qualities: +17 strength, +12 dexterity, +11 constitution, +3 intelligence, +3 wisdom, +3 charisma
 - Attack: claws, 1d4 slashing
 - Hide: Hide Armor, armour 1
+- Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
 - Found in: heights
 - Worth: 150 + 50 experience a level
 
@@ -353,7 +359,7 @@ Rage: You are raging for 3 turns. Raging: +1 to hit, 3 easier to hit, +2 damage.
 
 Poison Bite: 1d4 (1–4) poison damage to one enemy (may cause poison: a Constitution save against 15 avoids it). Poison: takes 1d4 (1–4) true damage each turn. Again after 3 turns.
 
-Fireball: 6d6 (6–36) fire damage to every enemy (halved if resisted; may cause burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the fourth level. Takes a fourth-level slot.
+Fireball: 6d6 (6–36) fire damage to everyone but you where it bursts, friend or foe (halved if resisted; may cause burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the fourth level. Takes a fourth-level slot.
 
 Lightning Bolt: 3d8 (3–24) electric damage to 2 different enemies, drawn at random (halved if resisted); each of them is paralyzed for 3 turns (a Strength save against 15 + level + the caster's spell bonus avoids it). Paralyzed: Strength −5, Dexterity −5, cannot act. An arcane spell of the fourth level. Takes a fourth-level slot.
 
@@ -1322,6 +1328,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Qualities: +7 strength, +6 dexterity, +7 constitution, +6 intelligence, +6 wisdom, +6 charisma
 - Attack: bite, 1d6 piercing
 - Hide: Scale Mail, armour 4
+- Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
 - Found in: heath, desert, fen, cave
 - Worth: 10 experience a level
 
@@ -1344,6 +1351,7 @@ Venomous Bite: 1d6 (1–6) poison damage to one enemy (halved if resisted; may c
 - Qualities: rolled (3d6 each)
 - Attack: bite, 1d6 piercing
 - Hide: Chitin Armor, armour 2
+- Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
 - Temperament: ambush
 - Found in: wood, cave
 - Worth: 150 experience a level
@@ -1451,6 +1459,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Qualities: +18 strength, +8 dexterity, +12 constitution, +3 intelligence, +3 wisdom, +3 charisma
 - Attack: claws, 1d4 slashing
 - Hide: Hide Armor, armour 1
+- Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
 - Worth: 150 + 50 experience a level
 
 Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to it (may cause stunned: a Constitution save against 15 avoids it); it is bleeding for 3 turns (a Constitution save against 15 + level + the caster's spell bonus avoids it). Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn. Again after 2 turns.
@@ -1548,6 +1557,7 @@ Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 
 - Qualities: +20 strength, +19 dexterity, +16 constitution, +15 intelligence, +22 wisdom, +22 charisma
 - Attack: longsword, 1d8 slashing
 - Hide: Chain Mail, armour 5
+- Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
 - Worth: 450 + 50 experience a level
 
 Smite Evil: 1d8 + level radiant damage to one enemy (may cause blinded: a Dexterity save against 15 avoids it). Blinded: −4 to hit, −10 evasion, −2 to every roll. A divine spell of the first level. Takes a first-level slot.
@@ -1582,6 +1592,7 @@ Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, 
 - Qualities: +21 strength, +20 dexterity, +16 constitution, +15 intelligence, +21 wisdom, +21 charisma
 - Attack: longsword, 1d8 slashing
 - Hide: Chain Mail, armour 5
+- Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
 - Worth: 450 + 50 experience a level
 
 Smite Evil: 1d8 + level radiant damage to one enemy (may cause blinded: a Dexterity save against 15 avoids it). Blinded: −4 to hit, −10 evasion, −2 to every roll. A divine spell of the first level. Takes a first-level slot.
@@ -1612,6 +1623,7 @@ Celestial Radiance: +1d4 healing, resists 50% of radiant, resists 50% of necroti
 - Qualities: +20 strength, +19 dexterity, +16 constitution, +15 intelligence, +23 wisdom, +21 charisma
 - Attack: longsword, 1d8 slashing
 - Hide: Chain Mail, armour 5
+- Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
 - Worth: 450 + 50 experience a level
 
 Smite Evil: 1d8 + level radiant damage to one enemy (may cause blinded: a Dexterity save against 15 avoids it). Blinded: −4 to hit, −10 evasion, −2 to every roll. A divine spell of the first level. Takes a first-level slot.
@@ -1644,6 +1656,7 @@ Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, 
 - Qualities: +22 strength, +20 dexterity, +16 constitution, +15 intelligence, +22 wisdom, +22 charisma
 - Attack: longsword, 1d8 slashing
 - Hide: Chain Mail, armour 5
+- Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
 - Worth: 450 + 50 experience a level
 
 Smite Evil: 1d8 + level radiant damage to one enemy (may cause blinded: a Dexterity save against 15 avoids it). Blinded: −4 to hit, −10 evasion, −2 to every roll. A divine spell of the first level. Takes a first-level slot.
@@ -1772,13 +1785,14 @@ Constructed Resilience: Resists 50% of bludgeoning, resists 50% of piercing, res
 - Qualities: +20 strength, +17 dexterity, +17 constitution, +12 intelligence, +11 wisdom, +9 charisma
 - Attack: claws, 1d4 slashing
 - Hide: Leather Armor, armour 2
+- Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
 - Worth: 400 + 50 experience a level
 
 Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the caster's spell bonus avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine cantrip, cast at will.
 
 Terror: One enemy is frightened for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. A divine spell of the second level. Takes a second-level slot.
 
-Burning Hands: 2d6 (2–12) fire damage to every enemy (may cause burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the second level. Takes a second-level slot.
+Burning Hands: 2d6 (2–12) fire damage to everyone between you and where it is aimed, friend or foe (may cause burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the second level. Takes a second-level slot.
 
 Mass Curse: Every enemy is cursed for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine spell of the third level. Takes a third-level slot.
 
@@ -1802,13 +1816,14 @@ Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm
 - Qualities: +18 strength, +16 dexterity, +16 constitution, +12 intelligence, +11 wisdom, +9 charisma
 - Attack: claws, 1d4 slashing
 - Hide: Leather Armor, armour 2
+- Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
 - Worth: 400 + 50 experience a level
 
 Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the caster's spell bonus avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine cantrip, cast at will.
 
 Terror: One enemy is frightened for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. A divine spell of the second level. Takes a second-level slot.
 
-Burning Hands: 2d6 (2–12) fire damage to every enemy (may cause burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the second level. Takes a second-level slot.
+Burning Hands: 2d6 (2–12) fire damage to everyone between you and where it is aimed, friend or foe (may cause burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the second level. Takes a second-level slot.
 
 Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm.
 
@@ -1830,15 +1845,16 @@ Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm
 - Qualities: +19 strength, +18 dexterity, +17 constitution, +12 intelligence, +11 wisdom, +9 charisma
 - Attack: claws, 1d4 slashing
 - Hide: Leather Armor, armour 2
+- Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
 - Worth: 400 + 50 experience a level
 
 Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the caster's spell bonus avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine cantrip, cast at will.
 
 Terror: One enemy is frightened for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. A divine spell of the second level. Takes a second-level slot.
 
-Burning Hands: 2d6 (2–12) fire damage to every enemy (may cause burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the second level. Takes a second-level slot.
+Burning Hands: 2d6 (2–12) fire damage to everyone between you and where it is aimed, friend or foe (may cause burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the second level. Takes a second-level slot.
 
-Fireball: 6d6 (6–36) fire damage to every enemy (halved if resisted; may cause burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the fourth level. Takes a fourth-level slot.
+Fireball: 6d6 (6–36) fire damage to everyone but you where it bursts, friend or foe (halved if resisted; may cause burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the fourth level. Takes a fourth-level slot.
 
 Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm.
 
@@ -1860,13 +1876,14 @@ Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm
 - Qualities: +19 strength, +18 dexterity, +16 constitution, +12 intelligence, +11 wisdom, +9 charisma
 - Attack: claws, 1d4 slashing
 - Hide: Leather Armor, armour 2
+- Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
 - Worth: 400 + 50 experience a level
 
 Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the caster's spell bonus avoids it). Cursed: Strength −1, Dexterity −1, Intelligence −1, Wisdom −1, Charisma −1, Constitution −1. A divine cantrip, cast at will.
 
 Terror: One enemy is frightened for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. A divine spell of the second level. Takes a second-level slot.
 
-Burning Hands: 2d6 (2–12) fire damage to every enemy (may cause burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the second level. Takes a second-level slot.
+Burning Hands: 2d6 (2–12) fire damage to everyone between you and where it is aimed, friend or foe (may cause burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the second level. Takes a second-level slot.
 
 Rapid Strike: Weapon attack against one enemy; weapon attack against it; weapon attack against it. Again after 3 turns.
 
@@ -2084,6 +2101,7 @@ Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of fo
 - Qualities: +18 strength, +6 dexterity, +18 constitution, +3 intelligence, +8 wisdom, +3 charisma
 - Attack: slam, 1d6 piercing
 - Hide: Hide Armor, armour 1
+- Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
 - Temperament: territorial
 - Found in: fen, river, cave
 - Worth: 200 experience a level
@@ -2107,6 +2125,7 @@ Earth Affinity: Resists 50% of bludgeoning, takes 100% more lightning, immune to
 - Qualities: +9 strength, +17 dexterity, +10 constitution, +11 intelligence, +12 wisdom, +18 charisma
 - Attack: dagger, 1d4 piercing
 - Hide: Leather Armor, armour 2
+- Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
 - Found in: grove
 - Worth: 250 + 50 experience a level
 
@@ -2137,6 +2156,7 @@ Call Animal Companion: Call the beast your people keep company with, to fight fo
 - Qualities: +9 strength, +12 dexterity, +10 constitution, +11 intelligence, +16 wisdom, +19 charisma
 - Attack: dagger, 1d4 piercing
 - Hide: Leather Armor, armour 2
+- Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
 - Found in: grove, lake
 - Worth: 250 + 50 experience a level
 
@@ -2167,6 +2187,7 @@ Call Animal Companion: Call the beast your people keep company with, to fight fo
 - Qualities: +9 strength, +18 dexterity, +10 constitution, +11 intelligence, +12 wisdom, +18 charisma
 - Attack: dagger, 1d4 piercing
 - Hide: Leather Armor, armour 2
+- Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
 - Found in: grove
 - Worth: 250 + 50 experience a level
 
@@ -2197,6 +2218,7 @@ Confuse: One enemy is confused for 3 turns (a Wisdom save against 15 + level + t
 - Qualities: +9 strength, +16 dexterity, +10 constitution, +11 intelligence, +12 wisdom, +17 charisma
 - Attack: dagger, 1d4 piercing
 - Hide: Leather Armor, armour 2
+- Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
 - Found in: grove, wood
 - Worth: 250 + 50 experience a level
 
@@ -2225,6 +2247,7 @@ Hide: You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on a
 - Qualities: +9 strength, +18 dexterity, +10 constitution, +11 intelligence, +12 wisdom, +17 charisma
 - Attack: dagger, 1d4 piercing
 - Hide: Leather Armor, armour 2
+- Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
 - Found in: grove
 - Worth: 250 + 50 experience a level
 
@@ -2326,6 +2349,7 @@ Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, 
 - Qualities: +30 strength, +16 dexterity, +27 constitution, +16 intelligence, +18 wisdom, +17 charisma
 - Attack: greatsword, 1d10 slashing
 - Hide: Chain Mail, armour 5
+- Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
 - Worth: 500 + 50 experience a level
 
 Maul: Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to it (may cause stunned: a Constitution save against 15 avoids it); it is bleeding for 3 turns (a Constitution save against 15 + level + the caster's spell bonus avoids it). Stunned: −2 to every roll, cannot act. Bleeding: takes 1d2 (1–2) bleed damage each turn. Again after 2 turns.
@@ -2336,7 +2360,7 @@ Charge: End preparing to charge on yourself; 3d8 + 1 + level bludgeoning damage 
 
 Taunt: One enemy is taunted for 3 turns (a Wisdom save against 18 + level + the caster's spell bonus avoids it). Taunted: whoever has it can strike at nobody but whoever gave it. Again after 3 turns.
 
-Earthquake: 3d8 (3–24) bludgeoning damage to every enemy (none if resisted; may cause stunned: a Constitution save against 15 avoids it); every enemy is prone for 3 turns (a Constitution save against 12 + level + the caster's spell bonus avoids it). Stunned: −2 to every roll, cannot act. Prone: Dexterity −2, cannot act. An arcane spell of the fourth level. Takes a fourth-level slot.
+Earthquake: 3d8 (3–24) bludgeoning damage to everyone but you where it bursts, friend or foe (none if resisted; may cause stunned: a Constitution save against 15 avoids it); each caught is prone for 3 turns (a Constitution save against 12 + level + the caster's spell bonus avoids it). Stunned: −2 to every roll, cannot act. Prone: Dexterity −2, cannot act. An arcane spell of the fourth level. Takes a fourth-level slot.
 
 Titanic Strength: +2 to hit, +2 damage.
 
@@ -2381,6 +2405,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Qualities: +8 strength, +8 dexterity, +6 constitution, +10 intelligence, +13 wisdom, +11 charisma
 - Attack: claws, 1d4 slashing
 - Hide: Clothing, armour 0
+- Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
 - Found in: barrow
 - Worth: 300 + 50 experience a level
 
@@ -2411,6 +2436,7 @@ Ethereal Form: +5 evasion, resists 50% of bludgeoning, resists 50% of piercing, 
 - Qualities: +11 strength, +11 dexterity, +10 constitution, +10 intelligence, +9 wisdom, +5 charisma
 - Attack: claws, 1d4 slashing
 - Hide: Clothing, armour 0
+- Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
 - Found in: barrow, ruin, fen
 - Worth: 300 + 50 experience a level
 
@@ -2443,6 +2469,7 @@ Regeneration: Heal 1d2 - 1 (0–1) each turn.
 - Qualities: +8 strength, +8 dexterity, +16 constitution, +16 intelligence, +12 wisdom, +5 charisma
 - Attack: claws, 1d4 slashing
 - Hide: Clothing, armour 0
+- Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
 - Found in: barrow
 - Worth: 300 + 50 experience a level
 
@@ -2481,6 +2508,7 @@ Bone Resilience: Resists 50% of piercing, takes 100% more bludgeoning, immune to
 - Qualities: +12 strength, +8 dexterity, +12 constitution, +10 intelligence, +12 wisdom, +5 charisma
 - Attack: claws, 1d4 slashing
 - Hide: Clothing, armour 0
+- Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
 - Found in: barrow
 - Worth: 300 + 50 experience a level
 
@@ -2518,6 +2546,7 @@ Regeneration: Heal 1d2 - 1 (0–1) each turn.
 - Attack: claws, 1d4 slashing
 - Hide: Clothing, armour 0
 - Resists: physical 50%, radiant takes 100% more, fire takes 50% more
+- Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
 - Found in: fen, barrow
 - Worth: 300 experience a level
 
@@ -2544,6 +2573,7 @@ Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may cause
 - Qualities: +8 strength, +8 dexterity, +6 constitution, +14 intelligence, +14 wisdom, +5 charisma
 - Attack: claws, 1d4 slashing
 - Hide: Clothing, armour 0
+- Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
 - Found in: ruin, barrow
 - Worth: 300 + 50 experience a level
 
@@ -2580,6 +2610,7 @@ Ethereal Form: +5 evasion, resists 50% of bludgeoning, resists 50% of piercing, 
 - Qualities: +8 strength, +12 dexterity, +6 constitution, +10 intelligence, +9 wisdom, +10 charisma
 - Attack: claws, 1d4 slashing
 - Hide: Clothing, armour 0
+- Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
 - Found in: ruin
 - Worth: 300 + 50 experience a level
 
@@ -2590,6 +2621,8 @@ Scream: Every enemy is frightened for 3 turns (a Wisdom save against 12 + level 
 Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may cause diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the second level. Takes a second-level slot.
 
 Charm Person: One enemy is charmed for 3 turns (only humanoid creatures; a Wisdom save against 18 + level + the caster's spell bonus avoids it). Charmed: fights for the other side. An arcane spell of the first level. Takes a first-level slot.
+
+Greater energy drain: Weapon attack against one enemy; take 2 levels from it, until a restoration. Again after 3 turns.
 
 Undead Nature: Takes 100% more radiant, immune to poison, immune to charm, immune to sleep, immune to disease.
 
@@ -2612,6 +2645,7 @@ Regeneration: Heal 1d2 - 1 (0–1) each turn.
 - Qualities: +8 strength, +13 dexterity, +6 constitution, +10 intelligence, +13 wisdom, +5 charisma
 - Attack: claws, 1d4 slashing
 - Hide: Clothing, armour 0
+- Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
 - Found in: barrow, ruin
 - Worth: 300 + 50 experience a level
 
@@ -2620,6 +2654,8 @@ Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the c
 Scream: Every enemy is frightened for 3 turns (a Wisdom save against 12 + level + the caster's spell bonus avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. Again after 6 turns.
 
 Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may cause diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the second level. Takes a second-level slot.
+
+Energy drain: Weapon attack against one enemy; take a level from it, until a restoration. Again after 3 turns.
 
 Undead Nature: Takes 100% more radiant, immune to poison, immune to charm, immune to sleep, immune to disease.
 
@@ -2665,6 +2701,7 @@ Engines, wards, barriers, charges and vessels: things that take part in a fight 
 - Hit points: 8
 - Qualities: +3 strength, +3 dexterity, +3 constitution, +3 intelligence, +3 wisdom, +3 charisma
 - Attack: slam, 1d6 piercing
+- Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
 - Temperament: obedient
 - Worth: 200 experience a level
 
@@ -2740,6 +2777,7 @@ Inanimate Nature: Immune to charm, immune to fear, immune to stun, immune to sle
 - Hit points: 8
 - Qualities: +3 strength, +3 dexterity, +3 constitution, +3 intelligence, +3 wisdom, +3 charisma
 - Attack: slam, 1d6 piercing
+- Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
 - Temperament: obedient
 - Worth: 200 experience a level
 
@@ -2851,59 +2889,75 @@ What creatures do with their bodies: bites, breath, howls. A blow that must be w
 
 *Kyr · natural ability* · `ability:breathe_acid`
 
-2d6 + 2 × level acid damage to every enemy (a Constitution save against 15 + level halves it; may cause acid burn: a Constitution save against 15 avoids it). Acid Burn: takes 1d6 (1–6) acid damage each turn. Again after 3 turns.
+2d6 + 2 × level acid damage to everyone between you and where it is aimed, friend or foe (a Constitution save against 15 + level halves it; may cause acid burn: a Constitution save against 15 avoids it). Acid Burn: takes 1d6 (1–6) acid damage each turn. Again after 3 turns. 3 times a day, until a night's rest.
 
-> Breath strikes every enemy; a breath save halves damage. Recharges in three turns.
+> Breath pours over everyone before the creature; a breath save halves damage. Recharges in three turns, and comes at most three times a day.
 
 ### Blinding breath
 
 *Kyr · natural ability* · `ability:breathe_blinding`
 
-2d6 + 2 × level radiant damage to every enemy (a Constitution save against 15 + level halves it; may cause blinded: a Dexterity save against 15 avoids it); every enemy is blinded for 2 turns (a Constitution save against 15 + level avoids it). Blinded: −4 to hit, −10 evasion, −2 to every roll. Again after 3 turns.
+2d6 + 2 × level radiant damage to everyone between you and where it is aimed, friend or foe (a Constitution save against 15 + level halves it; may cause blinded: a Dexterity save against 15 avoids it); each caught is blinded for 2 turns (a Constitution save against 15 + level avoids it). Blinded: −4 to hit, −10 evasion, −2 to every roll. Again after 3 turns. 3 times a day, until a night's rest.
 
-> A glare of breath strikes every enemy and blinds those who do not save; a breath save halves it. Recharges in three turns.
+> A glare of breath pours over everyone before the creature and blinds those who do not save; a breath save halves it. Recharges in three turns, and comes at most three times a day.
 
 ### Cold breath
 
 *Kyr · natural ability* · `ability:breathe_cold`
 
-2d6 + 2 × level cold damage to every enemy (a Constitution save against 15 + level halves it; may cause frozen: a Dexterity save against 15 avoids it). Frozen: Dexterity −5, cannot act. Again after 3 turns.
+2d6 + 2 × level cold damage to everyone between you and where it is aimed, friend or foe (a Constitution save against 15 + level halves it; may cause frozen: a Dexterity save against 15 avoids it). Frozen: Dexterity −5, cannot act. Again after 3 turns. 3 times a day, until a night's rest.
 
-> Breath strikes every enemy; a breath save halves damage. Recharges in three turns.
+> Breath pours over everyone before the creature; a breath save halves damage. Recharges in three turns, and comes at most three times a day.
 
 ### Deafening breath
 
 *Kyr · natural ability* · `ability:breathe_thunder`
 
-2d6 + 2 × level thunder damage to every enemy (a Constitution save against 15 + level halves it); every enemy is deafened for 2 turns (a Constitution save against 15 + level avoids it). Deafened: −2 to hit, 2 easier to hit, −2 damage, −1 to every save, resists 50% of sonic. Again after 3 turns.
+2d6 + 2 × level thunder damage to everyone between you and where it is aimed, friend or foe (a Constitution save against 15 + level halves it); each caught is deafened for 2 turns (a Constitution save against 15 + level avoids it). Deafened: −2 to hit, 2 easier to hit, −2 damage, −1 to every save, resists 50% of sonic. Again after 3 turns. 3 times a day, until a night's rest.
 
-> A roar of breath strikes every enemy and deafens those who do not save; a breath save halves it. Recharges in three turns.
+> A roar of breath pours over everyone before the creature and deafens those who do not save; a breath save halves it. Recharges in three turns, and comes at most three times a day.
 
 ### Disintegrating breath
 
 *Kyr · natural ability* · `ability:breathe_disintegration`
 
-2d6 + 2 × level force damage to every enemy (a Constitution save against 15 + level halves it; may cause fatigued: a Constitution save against 15 avoids it). Fatigued: −1 to every roll, Strength −1, Dexterity −1, Constitution −1. Again after 3 turns.
+2d6 + 2 × level force damage to everyone between you and where it is aimed, friend or foe (a Constitution save against 15 + level halves it; may cause fatigued: a Constitution save against 15 avoids it). Fatigued: −1 to every roll, Strength −1, Dexterity −1, Constitution −1. Again after 3 turns. 3 times a day, until a night's rest.
 
-> A breath that unmakes what it touches strikes every enemy; a breath save halves it. Recharges in three turns.
+> A breath that unmakes what it touches pours over everyone before the creature; a breath save halves it. Recharges in three turns, and comes at most three times a day.
+
+### Energy drain
+
+*Kyr · natural ability* · `ability:energy_drain`
+
+Weapon attack against one enemy; take a level from it, until a restoration. Again after 3 turns.
+
+> A cold touch that takes a level of the one it lands on: their strength in a fight, their spells and their health, until a restoration gives it back.
 
 ### Fire breath
 
 *Adapted · natural ability* · `ability:breathe_fire`
 
-2d6 + 2 × level fire damage to every enemy (a Constitution save against 15 + level halves it; may cause burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. Again after 3 turns.
+2d6 + 2 × level fire damage to everyone between you and where it is aimed, friend or foe (a Constitution save against 15 + level halves it; may cause burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. Again after 3 turns. 3 times a day, until a night's rest.
 
-> Fire pours over everyone before the creature. A quick or hardy creature takes half. The fire takes a while to rekindle.
+> Fire pours over everyone before the creature. A quick or hardy creature takes half. The fire takes a while to rekindle; three times a day at most.
 
-*Adapted: Area fire damage scales as 2d6 + 2 per creature level, with a breath save for half and a three-turn recharge. Maturity supplies a generated dragon level; its natural bite remains available.*
+*Adapted: Area fire damage scales as 2d6 + 2 per creature level, with a breath save for half and a three-turn recharge. Maturity supplies a generated dragon level; its natural bite remains available. A cone: it catches whoever stands between the creature and where it is aimed, friend or foe (see Positions); three times a day, as the old games' dragons breathe (Kyr's own: Orsino's breath is a weapon, unlimited).*
+
+### Greater energy drain
+
+*Kyr · natural ability* · `ability:greater_energy_drain`
+
+Weapon attack against one enemy; take 2 levels from it, until a restoration. Again after 3 turns.
+
+> A touch that takes two levels of the one it lands on, until a restoration gives them back.
 
 ### Holy breath
 
 *Kyr · natural ability* · `ability:breathe_holy`
 
-2d6 + 2 × level radiant damage to every enemy (a Constitution save against 15 + level halves it; may cause blinded: a Dexterity save against 15 avoids it). Blinded: −4 to hit, −10 evasion, −2 to every roll. Again after 3 turns.
+2d6 + 2 × level radiant damage to everyone between you and where it is aimed, friend or foe (a Constitution save against 15 + level halves it; may cause blinded: a Dexterity save against 15 avoids it). Blinded: −4 to hit, −10 evasion, −2 to every roll. Again after 3 turns. 3 times a day, until a night's rest.
 
-> A breath of searing light strikes every enemy; a breath save halves it. Recharges in three turns.
+> A breath of searing light pours over everyone before the creature; a breath save halves it. Recharges in three turns, and comes at most three times a day.
 
 ### Howl
 
@@ -2917,17 +2971,17 @@ Every enemy is frightened for 2 turns (a Wisdom save against 12 avoids it). Frig
 
 *Kyr · natural ability* · `ability:breathe_lightning`
 
-2d6 + 2 × level lightning damage to every enemy (a Constitution save against 15 + level halves it; may cause paralyzed: a Strength save against 15 avoids it). Paralyzed: Strength −5, Dexterity −5, cannot act. Again after 3 turns.
+2d6 + 2 × level lightning damage to everyone between you and where it is aimed, friend or foe (a Constitution save against 15 + level halves it; may cause paralyzed: a Strength save against 15 avoids it). Paralyzed: Strength −5, Dexterity −5, cannot act. Again after 3 turns. 3 times a day, until a night's rest.
 
-> Breath strikes every enemy; a breath save halves damage. Recharges in three turns.
+> Breath pours over everyone before the creature; a breath save halves damage. Recharges in three turns, and comes at most three times a day.
 
 ### Maddening breath
 
 *Kyr · natural ability* · `ability:breathe_madness`
 
-2d6 + 2 × level psychic damage to every enemy (a Constitution save against 15 + level halves it; may cause confused: a Wisdom save against 15 avoids it; may cause insane: an Intelligence save against 15 avoids it); every enemy is confused for 2 turns (a Constitution save against 15 + level avoids it). Confused: acts at random. Insane: −1 to every roll, −2 to will saves, acts at random. Again after 3 turns.
+2d6 + 2 × level psychic damage to everyone between you and where it is aimed, friend or foe (a Constitution save against 15 + level halves it; may cause confused: a Wisdom save against 15 avoids it; may cause insane: an Intelligence save against 15 avoids it); each caught is confused for 2 turns (a Constitution save against 15 + level avoids it). Confused: acts at random. Insane: −1 to every roll, −2 to will saves, acts at random. Again after 3 turns. 3 times a day, until a night's rest.
 
-> A breath that turns the mind strikes every enemy and confuses those who do not save; a breath save halves it. Recharges in three turns.
+> A breath that turns the mind pours over everyone before the creature and confuses those who do not save; a breath save halves it. Recharges in three turns, and comes at most three times a day.
 
 ### Maul
 
@@ -2945,9 +2999,9 @@ Weapon attack against one enemy; 1d6 + statMod(strength) bludgeoning damage to i
 
 *Kyr · natural ability* · `ability:breathe_poison`
 
-2d6 + 2 × level poison damage to every enemy (a Constitution save against 15 + level halves it; may cause poison: a Constitution save against 15 avoids it). Poison: takes 1d4 (1–4) true damage each turn. Again after 3 turns.
+2d6 + 2 × level poison damage to everyone between you and where it is aimed, friend or foe (a Constitution save against 15 + level halves it; may cause poison: a Constitution save against 15 avoids it). Poison: takes 1d4 (1–4) true damage each turn. Again after 3 turns. 3 times a day, until a night's rest.
 
-> Breath strikes every enemy; a breath save halves damage. Recharges in three turns.
+> Breath pours over everyone before the creature; a breath save halves damage. Recharges in three turns, and comes at most three times a day.
 
 ## Creature traits
 
