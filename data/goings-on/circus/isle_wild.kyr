@@ -92,16 +92,16 @@ Module circus "Wapshott's Peregrine Circus" {
     Result "They do not like it. One by one the barred heads lower, and the pack goes out of the hollow by the dry stream-bed like water running out of a basin, clicking, its tails out straight. The bare earth where it lay is yours, and you know, quite clearly, that you have made an enemy of the hollow.".
   }
   Action sit_with_hooks(actor: group, site: place) "Ask Mumchance to sit down alone in the middle of the hollow" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hook_den) and mumchanceAboard(wapshotts) and at(hook_claws, hook_den) and not tolerates(hook_claws, actor).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hook_den) and mumchanceAboard(wapshotts) and (mumYes(wapshotts) or mumMatters(wapshotts)) and at(hook_claws, hook_den) and not tolerates(hook_claws, actor).
     Time 0.
     On success { Assert tolerates(hook_claws, actor). }
-    Result "Mumchance walks into the hollow with his hands open and sits down in the middle of the bare earth. The pack looks at him for a very long time. One, then another, lowers its head to the earth. At the end of an hour the youngest has gone to sleep against his boot, and the rest have forgotten there was anyone to guard against.".
+    Result "Mumchance walks into the hollow with his hands open and sits down in the middle of the bare earth. The pack looks at him for a long time. One, then another, lowers its head to the earth. At the end of an hour the youngest has gone to sleep against his boot, and the rest have forgotten there was anyone to guard against.".
   }
   Topic wap_let_go with wapshott "Ask the Colonel to put Dame Honorine down at the edge of the hollow" when at(party, hook_den) and colonelNamed(wapshotts) and not namedLetGo(wapshotts) and hatchlingsPenned(wapshotts) once {
-    Says "The littlest is on the Colonel's boot. She has been on his boot for eleven days and nights, and has eaten off his hand, and has learned, in her own way, to answer to a name. The Colonel looks at the pack. 'She is the only creature,' he says, in a voice you have never heard, 'who has not once asked me to be anything.' He kneels. He takes her off his boot with both hands, and holds her up, and for a moment it is entirely possible that he will not. Then he sets her down on the bare earth. She sits there looking at him. 'Go on,' he says. 'Go on, Honorine.' It is the first time he has ever said a name and meant the opposite of keeping.".
+    Says "The littlest is on the Colonel's boot, as she has been since the sack was opened. The Colonel looks at the pack. 'She has not once asked me to be anything,' he says. He kneels. He takes her off his boot with both hands and holds her up, and then sets her down on the bare earth. She sits there looking at him. 'Go on,' he says. 'Go on, Honorine.'".
     On discuss { Assert namedLetGo(wapshotts). Increase regard(billie) by 2. }
   }
-  Observe hatchling_clings near hatchlings when colonelNamed(wapshotts) and not namedLetGo(wapshotts) and at(party, hook_den) "One hatchling has attached itself to the Colonel's boot, and every time the Colonel moves, it moves with the boot. The pack watches this with a patience that is almost courteous.".
+  Observe hatchling_clings at hook_den when colonelNamed(wapshotts) and not namedLetGo(wapshotts) and hatchlingsPenned(wapshotts) and not hookTolerates(party) "One hatchling has attached itself to the Colonel's boot, and every time the Colonel moves, it moves with the boot. The pack watches this with a patience that is almost courteous.".
 
   // Ways past the three-horn herd.
   Action lay_bamboo(actor: group, site: place) "Lay a bundle of bamboo shoots before the cow and back away" {
@@ -116,13 +116,13 @@ Module circus "Wapshott's Peregrine Circus" {
     Resolve check(actor, stealth, dc_hard).
     On success { Assert tolerates(three_horns, actor). }
     Result "You walk as they graze: three steps, a stop, three steps, a stop. You do not look at the calf. The cow's head follows you across the clay like a weathervane, and lets you go.".
-    Otherwise "The cow has a very exact idea of how far away you are, and it is not as far as you thought.".
+    Otherwise "The cow has a exact idea of how far away you are, and it is not as far as you thought.".
   }
   Action sit_with_herd(actor: group, site: place) "Ask Mumchance to sit by the calf" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, plain_mid) and at(three_horns, plain_mid) and mumchanceAboard(wapshotts) and not tolerates(three_horns, actor).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, plain_mid) and at(three_horns, plain_mid) and mumchanceAboard(wapshotts) and (mumNo(wapshotts) or mumMatters(wapshotts)) and not tolerates(three_horns, actor).
     Time 0.
     On success { Assert tolerates(three_horns, actor). }
-    Result "He sits down on the clay by the calf's flank with his white-gloved hands in his lap. The cow looks at him, and her breath goes in and out, three times, and she lowers her head and goes on tearing at the ferns. Mumchance has the look of someone whose life has led him, by a long road, to the only audience that would not need him to do anything.".
+    Result "He sits down on the clay by the calf's flank with his white-gloved hands in his lap. The cow looks at him, and her breath goes in and out, three times, and she lowers her head and goes on tearing at the ferns. Mumchance does not move for an hour.".
   }
 
   // Ways past Captain Harrow: parley, purchase, the cage, the nets, the Society's writ, or a fight with four men.
@@ -141,14 +141,14 @@ Module circus "Wapshott's Peregrine Circus" {
   Observe harrow_gone at harrow_camp when writShown(party) "The camp is struck: a ring of black grass, a stockade of cut mangrove, a hippodrome flag nailed to a post by one corner, and a row of empty crates.".
 
   // Sir Gervase, who is not wrong, at the lake.
-  Observe fenwick_weeps near fenwick when at(party, lake_shore) and herdSeen(party) and hour(clock) >= 5 and hour(clock) < 9 "Sir Gervase Fenwick has sat down in the mud with his drawing-block on his knee and is drawing and weeping at once. He has drawn his own hand in the margin four times, and has not noticed. 'Ten,' he says. 'Ten, and the calves. There are ten, and I have a pair of each in a hold.' He draws a line under it. 'I shall not be able to explain this to anyone.'".
-  Topic fenwick_lake with fenwick "Sit down in the mud beside Sir Gervase and ask what he sees" when at(party, lake_shore) and herdSeen(party) and not fenwickWept(party) once {
-    Says "'A mind,' says Sir Gervase, 'that has no use for us.' He is smiling through it. 'I have spent my life being kind to specimens. I have never once seen an animal that did not want to be one.' He wipes his glass on his sleeve. 'I shall take my pair. I shall take them as gently as I can. And I shall go home and spend what is left of my life trying to argue that no one should ever do it again, and I shall be wrong about every word of it, and I shall do it anyway.'".
+  Observe fenwick_weeps near fenwick when at(party, lake_shore) and herdSeen(party) and hour(clock) >= 5 and hour(clock) < 9 "Sir Gervase Fenwick has sat down in the mud with his drawing-block on his knee and is drawing and weeping at once. He has drawn his own hand in the margin four times, and has not noticed. 'Ten,' he says. 'Ten, and the calves.' He draws a line under it.".
+  Topic fenwick_lake with fenwick "Sit down in the mud beside Sir Gervase" when at(party, lake_shore) and herdSeen(party) and not fenwickWept(party) once {
+    Says "'Ten,' says Sir Gervase, and cannot go on. He offers you a biscuit. You eat it together.".
     On discuss { Assert fenwickWept(party). }
   }
 
   // History beyond the story.
-  Observe cage_graves at cage_row when true "Beyond the last cage, under a casuarina, seven flat stones lie in a row, cut with a wheel and a name each: Warden Ansel, Warden Gunnar, Warden Ysolt, Warden the Younger Ansel, and three that the moss has taken. The seventh has no stone, only a bronze key-plate set in the earth, and nothing in the slot.".
+  Observe cage_graves at cage_row when true "Beyond the last cage, under a casuarina, seven flat stones lie in a row, cut with a wheel and a name each: Warden Ansel, Warden Gunnar, Warden Ysolt, Warden Hob, and two that the moss has taken. The seventh has no stone, only a bronze key-plate set in the earth, and nothing in the slot.".
   Observe cage_nine at cage_row when true "The ninth cage's door has a plate that has been wiped, recently, by hand: NO. 9. THE GREAT BEAST. SENT NORTH IN THE LAST PROGRESS, ON THE HASTY MARY. THE CAGE IS KEPT. The cage is swept. Nobody has swept it since the Wardens, and it is swept.".
   Observe founding_roll at preserve_hall when true "Burnt into the black beam over the hearth, a roll of names: the Founder-King, Aldred of the Wheel, who first went round his kingdom in a cart and ordered a Preserve laid out for the beasts he met on the way; the Wardens, seven; and, last, the Keepers of the Menagerie Royal, nine, the final name left blank." teaches founded_known.
   Entity founded_known: fact "The Preserve was laid out by Aldred of the Wheel, the first king to go round his kingdom, to keep the beasts of the southern sea; seven Wardens kept it, and nine Keepers after them.".

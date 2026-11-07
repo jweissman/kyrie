@@ -1,7 +1,7 @@
 Module circus "Wapshott's Peregrine Circus" {
   // ── Act IV: the crate, the hatchlings, the Sundial, and what comes home ───────────────────────────────────────
   // After the Revels. A crate comes for the Keeper of the Menagerie Royal, which the Colonel is, because he wrote a
-  // letter in the first week of his Keepership, to the one address in the Keepers' Book he had not tried. The eggs in
+  // letter in the first week of whatever the Revels made of him, to the one address in the Keepers' Book he had not tried. The eggs in
   // it hatch within a day. What the company does with a clutch of frightened, clever animals decides how the town
   // takes it; what they are decides where the Colonel goes next; and where he goes next is a place his Keepership
   // should have been about from the beginning.
@@ -16,7 +16,7 @@ Module circus "Wapshott's Peregrine Circus" {
 
   Person crewe "Tobiah Crewe" at tober_a {
     Role "mate of the brig Sundial, lately her master". Ancestry human. Peaceable. Pronouns he. Manner stoic.
-    Greets "A thin, weathered man in a salt-stiff coat stands in the yard with his hat in both hands, looking at the wagons the way a man looks at a church he has been told is his. 'Crewe,' he says. 'Tobiah. Mate of the Sundial, brig, out of Port Dree. Master, now.' He turns the hat. 'I've a crate for the Keeper of the Menagerie Royal. I was told to give it into his hand and no other. I've been looking for his hand a month.'".
+    Greets "A thin, weathered man in a salt-stiff coat stands in the yard with his hat in both hands, reading the names on the wagons. 'Crewe,' he says. 'Tobiah. Mate of the Sundial, brig, out of Port Dree. Master, now.' He turns the hat. 'I've a crate for a Colonel Wapshott, who wrote to Port Dree and signed himself Keeper of the Menagerie Royal. I was told to give it into his hand and no other. I've been looking for his hand a month.'".
   }
   Initially Assert offstage(crewe).
   Topic crewe_who with crewe "Ask Mate Crewe who sent the crate" when true {
@@ -27,7 +27,7 @@ Module circus "Wapshott's Peregrine Circus" {
     Says "'At the quay in the fair town, with half her crew in the taverns,' says Crewe. 'She's sound. She'll go south to Sarn for anyone who'll pay her master's wages and her bond. It's twelve days if the wind holds. It never holds.' He looks at the crate. 'It's an island nobody's been to since I was a lad. Vance said it was full.'".
     On discuss { Assert knows(actor, ship_known). }
   }
-  Entity crate_known: fact "A crate has come for the Keeper of the Menagerie Royal from the late Captain Vance of the brig Sundial, with a paper that says: the last clutch.".
+  Entity crate_known: fact "A crate has come for Colonel Wapshott, who signed himself Keeper of the Menagerie Royal from the late Captain Vance of the brig Sundial, with a paper that says: the last clutch.".
   Entity ship_known: fact "The brig Sundial lies at the quay in the fair town, her master Tobiah Crewe, and will go south to the Isle of Sarn for anyone who pays her bond.".
   Entity eggs_known: fact "The crate holds a clutch of grey eggs, the size of loaves, packed in sawdust and warm.".
   Entity sarn_known: fact "The crate came from the Isle of Sarn, which the Keepers' Book names in the margin of the Southern Preserve, and where the Progress once kept its beasts.".
@@ -35,13 +35,14 @@ Module circus "Wapshott's Peregrine Circus" {
   Thing sea_crate "the sea-captain's crate" at tober_a is scenery {
     State sealed "A sea-captain's crate stands in the wagon-yard, as long as a coffin, with SARN burnt into the lid and a crowned wheel burnt under it. It is warm to the hand.".
     State opened "The lid of the crate has been prised off. A bed of sawdust, still warm, and in it a ring of grey eggs, loaf-big.".
-    State hatched "The crate lies in splinters in the yard, and the sawdust has been scraped into nests by very small feet.".
+    State hatched "The crate lies in splinters in the yard, and the sawdust has been scraped into nests by small feet.".
   }
   Initially Assert offstage(sea_crate). Initially Assert state(sea_crate, sealed).
   Rule crate_comes when revelsDone(wapshotts) and pitched(wapshotts) and day(clock) >= revelsDay(wapshotts) + 2 and hour(clock) >= 10 and not crateCome(wapshotts)
     and current(wapshotts, ?g) and groundRoom(?g, rk_yard, ?r) {
     Assert crateCome(wapshotts). Retract offstage(sea_crate). Retract offstage(crewe). Assert at(sea_crate, ?r). Assert at(crewe, ?r).
     Assert travels(sea_crate). Assert post(sea_crate, rk_yard). Set crateDay(wapshotts) to day(clock). }
+  Rule fenwick_returns when crateCome(wapshotts) and offstage(fenwick) and not backFromSarn(wapshotts) and day(clock) >= crateDay(wapshotts) { Retract offstage(fenwick). Assert travels(fenwick). Assert post(fenwick, rk_tober). Assert fenwickCome(fenwick). }
   Rule crewe_stays when crateCome(wapshotts) and not voyaged(wapshotts) and current(wapshotts, ?g) and groundRoom(?g, rk_yard, ?r) and not at(crewe, ?r) and not away(crewe) { Assert at(crewe, ?r). }
   Observe crate_scene near sea_crate when state(sea_crate, sealed) "A sea-captain's crate is in the yard, burnt with SARN and a crowned wheel, and the wagon-hands are keeping a yard away from it.".
 
@@ -49,7 +50,7 @@ Module circus "Wapshott's Peregrine Circus" {
     Requires able(actor) and company(actor) and at(actor, site) and at(sea_crate, site) and state(sea_crate, sealed) and not crateOpened(wapshotts).
     Time 3.
     On success { Assert crateOpened(wapshotts). Assert state(sea_crate, opened). }
-    Result "The lid comes up with a shriek of nails and a breath of warm air that smells of eggs and the sea. In the sawdust, in a ring, eleven loaf-big grey eggs lie in a ring like a clutch of stones. One of them rocks, a very little, as you watch.".
+    Result "The lid comes up with a shriek of nails and a breath of warm air that smells of eggs and the sea. In the sawdust, in a ring, eleven loaf-big grey eggs lie in a ring like a clutch of stones. One of them rocks, a little, as you watch.".
   }
   Observe eggs_taught near sea_crate when state(sea_crate, opened) "Eleven eggs lie in the sawdust, warm. One rocks." teaches eggs_known.
 
@@ -105,7 +106,7 @@ Module circus "Wapshott's Peregrine Circus" {
     Time 3.
     Resolve check(actor, stealth, dc_fair).
     On success { Retract hatchlingsLoose(wapshotts). Assert hatchlingsPenned(wapshotts). Assert peaceable(hatchlings). Assert travels(hatchlings). Assert post(hatchlings, rk_beasts). }
-    Result "You sit. You are very still for a very long time. A small barred animal climbs on to your knee, looks into your face, and lies down on your boot. Then the rest come, as if you had been a trough. At the end of it Billie takes them one at a time from you into a sack, with an expression of faint professional jealousy.".
+    Result "You sit. You are still for a long time. A small barred animal climbs on to your knee, looks into your face, and lies down on your boot. Then the rest come, as if you had been a trough. At the end of it Billie takes them one at a time from you into a sack, with an expression of faint professional jealousy.".
     Otherwise "You sit down on the horse-trough and they all watch you do it. When you reach for the nearest, it takes a piece out of your thumb and runs up the pump.".
   }
   Action coax_billie(actor: group, site: place) "Ask Billie to bring them in" {
@@ -136,7 +137,7 @@ Module circus "Wapshott's Peregrine Circus" {
     On discuss { Assert billieAboard(wapshotts). Increase regard(billie) by 1. }
   }
   Topic mum_sail with mumchance "Ask Mumchance to come to Sarn" when voyageReady(wapshotts) and regard(mumchance) >= 2 and not mumchanceAboard(wapshotts) once {
-    Says "Mumchance looks at you a full minute with his clown's face. Then he nods, once, and goes to get his coat. He is the only man in the circus who has ever managed to stand perfectly still in front of the Colonel when the Colonel is excited, and it has occurred to you that this may be what an island is for.".
+    Says "Mumchance looks at you a good while with his clown's face. Then he nods, once, and goes to get his coat. He is the only man in the circus who has ever managed to stand perfectly still in front of the Colonel when the Colonel is excited, and it has occurred to you that this may be what an island is for.".
     On discuss { Assert mumchanceAboard(wapshotts). }
   }
 
@@ -145,7 +146,7 @@ Module circus "Wapshott's Peregrine Circus" {
   Observe wap_landing near wapshott when voyaged(wapshotts) and at(party, landing) and not colonelMoved(wapshotts) "Colonel Wapshott stands at the end of the quay with his hat in his hand, looking up the jungle. He has not spoken since the gangway. On the post by his hand the crowned wheel is cut deep, with a crown over it, and a date, and a name he has been told all his life was a legend.".
   Relation colonelMoved(concern).
   Topic wap_what with wapshott "Ask the Colonel what he sees" when voyaged(wapshotts) and at(party, landing) and not colonelMoved(wapshotts) once {
-    Says "'Mud,' says the Colonel. 'A very great deal of mud.' He puts his hat back on. He takes it off again. He has been trying, for some minutes, to say something to the jungle, and it has not been listening.".
+    Says "'Mud,' says the Colonel. 'A great deal of mud.' He puts his hat back on. He takes it off again. He has been trying, for some minutes, to say something to the jungle, and it has not been listening.".
     On discuss { Assert colonelMoved(wapshotts). }
   }
   Topic wap_rule with wapshott "Show the Colonel the Rule of the Preserve over the hearth" when voyaged(wapshotts) and at(party, preserve_hall) and not ruleRead(wapshotts) once {
@@ -173,30 +174,11 @@ Module circus "Wapshott's Peregrine Circus" {
     says "The Colonel blows. It is a beautiful note, bright, brazen, perfectly pitched, and it goes out over the lake like a thrown plate. The nearest lantern-neck turns its small head, slowly. The herd takes one step, all together, to the left, and the shore is a shore of mud and spray and vast grey legs." {
     Assert trumpetDone(wapshotts). Assert herdScattered(wapshotts). Assert strikes(herd_stride, party). Retract trumpetPending(wapshotts). }
 
-  // Leaving: what to take, and who decides. Each is the Colonel's, and each costs someone.
-  Topic wap_leave with wapshott "Hold the Colonel to the Rule: nothing is to be taken that cannot be fed" when voyaged(wapshotts) and at(party, landing) and (ruleRead(wapshotts) or knows(actor, journal_read)) and not takeLeave(wapshotts) and not takeEgg(wapshotts) and not takeSpecimens(wapshotts) once {
-    Says "The Colonel looks at the quay, and at Billie, and at his own hands. 'It is a hard thing,' he says, 'to go home without the thing you came for.' He breathes in. 'But I came for it because I thought it was a menagerie. It is a Preserve.' He takes off his hat and holds it against his chest. 'Nothing is taken,' he says, 'that cannot be fed. I shall write that over the door of the Rest.' Billie, behind him, lets out a breath she seems to have been holding since the gangway.".
-    On discuss { Assert takeLeave(wapshotts). Increase regard(billie) by 2. Assert fenwickDispleased(wapshotts). }
-  }
-  Topic wap_egg with wapshott "Let the Colonel carry one egg home for the King's Rest" when voyaged(wapshotts) and at(party, landing) and holding(actor, dragons_egg) and not takeLeave(wapshotts) and not takeEgg(wapshotts) and not takeSpecimens(wapshotts) once {
-    Says "The Colonel takes it in both hands. It is warm. 'One,' he says. 'For the Rest. In the oven, with a damp cloth, for the next fortnight, and Honoria shall turn it.' He does not look at Billie. 'It will be the first thing hatched in a royal estate in three hundred years.' Billie says, evenly, 'I'll give you a month's notice,' and goes to see to the ropes.".
-    On discuss { Assert takeEgg(wapshotts). Assert billieResigned(wapshotts). }
-  }
-  Topic wap_specimens with fenwick "Give Sir Gervase his pair of each for the Society" when voyaged(wapshotts) and at(party, landing) and not takeLeave(wapshotts) and not takeEgg(wapshotts) and not takeSpecimens(wapshotts) once {
-    Says "Sir Gervase is already half-way through the first crate, cheerful, careful and entirely without mercy. 'A pair of everything,' he says, 'as the contract has it. Preserved where necessary, alive where possible.' He does not look at the cages. 'The Society will endow a chair on it. We shall know more of the Southern Preserve than the Progress did.' It is, you realise, not wrong. Billie has gone to sit on the quay with her back to the whole thing.".
-    On discuss { Assert takeSpecimens(wapshotts). Assert billieResigned(wapshotts). }
-  }
-
-  // Home: the circus takes up where it left off, and shows what was done.
-  Observe sarn_home_leave near wapshott when backFromSarn(wapshotts) and takeLeave(wapshotts) "The Colonel has had a board painted and nailed over the beast-tent flap, in his largest hand: NOTHING IS TO BE TAKEN THAT CANNOT BE FED. Underneath, in Ada's: Mr Wapshott's own, and he means it.".
-  Observe sarn_home_egg near wapshott when backFromSarn(wapshotts) and takeEgg(wapshotts) "A grey egg the size of a loaf lies in a basket by Honoria's oven under a damp cloth, and she turns it with a wooden spoon every hour, on the hour. Billie has not been seen at the beast tent since Tuesday.".
-  Observe sarn_home_specimens near wapshott when backFromSarn(wapshotts) and takeSpecimens(wapshotts) "Sir Gervase has a dozen crates in the yard and a clerk from the Royal Society with a ledger. The beast tent is quiet, and Billie's coat is not on its peg.".
-
-  Chapter ch_crate "The Crate" when crateCome(wapshotts) and not voyaged(wapshotts) "A sea-captain's crate has come for the Keeper of the Menagerie Royal. It is warm, and it is burnt with a crowned wheel, and the Colonel has seen the lid.".
+  Chapter ch_crate "The Crate" when crateCome(wapshotts) and not voyaged(wapshotts) "A sea-captain's crate has come for Colonel Wapshott, who signed himself Keeper of the Menagerie Royal. It is warm, and it is burnt with a crowned wheel, and the Colonel has seen the lid.".
   Chapter ch_sarn "The Isle of Sarn" when voyaged(wapshotts) and within(party, sarn) "A hundred and fifty miles south of the Cape, on a quay with a crowned wheel on every post, in a jungle where nothing has been shown for four hundred years.".
   Chapter ch_after_sarn "After Sarn" when backFromSarn(wapshotts) "The Sundial has put them down at the fair town's quay. The wagons are where they were. Nothing else is.".
 
-  Objective crate_ask when crateCome(wapshotts) and not knows(party, crate_known) "A crate has come for the Keeper of the Menagerie Royal. Mate Crewe in the yard will say who sent it.".
+  Objective crate_ask when crateCome(wapshotts) and not knows(party, crate_known) "A crate has come for Colonel Wapshott, who signed himself Keeper of the Menagerie Royal. Mate Crewe in the yard will say who sent it.".
   Objective hatch_ask when crateOpened(wapshotts) and not eggsHatched(wapshotts) "The eggs will not wait. Billie, Honoria's oven, a lamp: they hatch tonight.".
   Objective loose_ask when hatchlingsLoose(wapshotts) "Eleven young hook-claws are loose in the town, and the geese are screaming.".
   Objective sarn_ask when knows(party, sarn_known) and not voyaged(wapshotts) "The crate came from the Isle of Sarn, where the Progress once kept its beasts. Sir Gervase will charter the Sundial.".

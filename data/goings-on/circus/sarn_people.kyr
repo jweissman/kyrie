@@ -60,11 +60,11 @@ Module circus "Wapshott's Peregrine Circus" {
     On discuss { Assert mumYes(wapshotts). }
   }
   Topic mum_a2 with mumchance "Write: no, they have never heard of us" answering mum_slate when true {
-    Says "He nods, slowly. He writes: THAT IS WHAT I THOUGHT. IT IS A GREAT RELIEF. He smiles for the first time since Port Dree.".
+    Says "He nods. He writes: THAT IS WHAT I THOUGHT. He smiles.".
     On discuss { Assert mumNo(wapshotts). Increase regard(mumchance) by 1. }
   }
   Topic mum_a3 with mumchance "Write: it makes no difference" answering mum_slate when true {
-    Says "He looks at it a full minute. Then he writes, very small, in the corner: IT DOES TO ME. He wipes it before you can read it twice.".
+    Says "He looks at it a good while. Then he writes, small, in the corner: IT DOES TO ME. He wipes it before you can read it twice.".
     On discuss { Assert mumMatters(wapshotts). Increase regard(mumchance) by 2. }
   }
 
@@ -73,16 +73,16 @@ Module circus "Wapshott's Peregrine Circus" {
     Says "Sir Gervase has his list on his knee. 'Which would you let me take?' he says. He is asking. It is the first time he has asked anyone.".
   }
   Topic fenwick_a1 with fenwick "Say none, and let the Society have your drawings instead" answering fenwick_scope when true {
-    Says "He is silent a full minute. 'I should have to explain to the committee,' he says, 'that I went to the end of the world and drew a picture.' He laughs. 'I find I should like that very much.' He crosses out the whole page.".
-    On discuss { Assert scopeNone(wapshotts). Assert fenwickYielded(wapshotts). Assert takeLeave(wapshotts). }
+    Says "He is silent some time. 'I should have to explain to the committee,' he says, 'that I went to the end of the world and drew a picture.' He laughs. 'I find I should like that much.' He crosses out the whole page.".
+    On discuss { Assert scopeNone(wapshotts). Assert fenwickYielded(wapshotts). }
   }
   Topic fenwick_a2 with fenwick "Say only the small and plentiful: the runners, the skimmers, the lizards" answering fenwick_scope when true {
     Says "'Plentiful,' he says. 'Yes. Yes, that is a principle.' He writes it down as though it were. 'A pair of each of the small. I can defend that to any committee in England.' He looks, you think, as though he had been let off.".
-    On discuss { Assert scopeSmall(wapshotts). Assert specimensSmall(wapshotts). Assert takeSpecimens(wapshotts). }
+    On discuss { Assert scopeSmall(wapshotts). Assert specimensSmall(wapshotts). Assert fenwickWants(wapshotts). }
   }
-  Topic fenwick_a3 with fenwick "Say all of them, if it saves forty hunters" answering fenwick_scope when true {
-    Says "He takes his pencil out. He does not write anything. 'You are very kind,' he says, 'and you have not understood me at all.' He puts the pencil away. 'But it is what I wrote in the contract.'".
-    On discuss { Assert scopeAll(wapshotts). Assert takeSpecimens(wapshotts). }
+  Topic fenwick_a3 with fenwick "Say all of them, if it keeps the Colonel in the Society's good books" answering fenwick_scope when not thorneBuried(party) {
+    Says "He takes his pencil out. He does not write anything. 'You are kind,' he says, 'and you have not understood me at all.' He puts the pencil away. 'But it is what I wrote in the contract.'".
+    On discuss { Assert scopeAll(wapshotts). Assert fenwickWants(wapshotts). }
   }
 
   // ── Mate Crewe: a man who has been asked to be master of a dead man's ship ──────────────────────────────────────
@@ -91,7 +91,7 @@ Module circus "Wapshott's Peregrine Circus" {
     On discuss { Assert creweAsked(wapshotts). }
   }
   Topic crewe_a1 with crewe "Say it was right, and that the Captain wanted to go" answering crewe_asks when true {
-    Says "'I know he did,' says Crewe. 'That's not what I asked.' He puts the hat on. 'But I thank you for the answer.' He sets the course a point to starboard for no reason.".
+    Says "'I know he did,' says Crewe. 'Was it right, I said.' He puts the hat on. 'But I thank you for the answer.' He sets the course a point to starboard for no reason.".
     On discuss { Assert crewePardoned(wapshotts). }
   }
   Topic crewe_a2 with crewe "Say it was not, and that a dying man should not have been asked" answering crewe_asks when true {
@@ -100,7 +100,7 @@ Module circus "Wapshott's Peregrine Circus" {
   }
   Topic crewe_a3 with crewe "Say you cannot know, and that the clutch is alive" answering crewe_asks when true {
     Says "He looks at the hold, where the sound of something small is coming up through the hatch. 'That's so,' he says. 'There's that.'".
-    On discuss { Assert crewePardoned(wapshotts). Increase regard(billie) by 0. }
+    On discuss { Assert crewePardoned(wapshotts). }
   }
 
   // ── The boy in the hold ────────────────────────────────────────────────────────────────────────────────────────
@@ -124,7 +124,7 @@ Module circus "Wapshott's Peregrine Circus" {
   }
   Topic dab_a1 with dab "Say you will tell Mr Crewe, and stand beside him when you do" answering dab_asks when true {
     Says "Crewe cuffs him, as the law requires, and then gives him a tin plate and a place at the galley. 'I was eleven once,' says Crewe. Dab eats his biscuit with a face like a saint's.".
-    On discuss { Assert dabTold(wapshotts). }
+    On discuss { Assert dabTold(wapshotts). Retract away(dab). }
   }
   Topic dab_a2 with dab "Say nothing, and tell him to stay out of the way" answering dab_asks when true {
     Says "'I will,' says Dab, and vanishes into the straw with the dignity of a great man. For the rest of the voyage things go missing: a biscuit, a candle, one of the Colonel's gloves.".
@@ -132,7 +132,7 @@ Module circus "Wapshott's Peregrine Circus" {
   }
   Topic dab_a3 with dab "Take him to the Colonel" answering dab_asks when true {
     Says "The Colonel hears it standing, with his hat on. 'A boy,' he says, 'who has stowed away to see the unseen.' He looks round for something grand to say, and says it. 'Master Dab, you are appointed Assistant Zoologist to the Menagerie Royal, at a salary of nothing, with all the privileges.' Dab salutes with both hands.".
-    On discuss { Assert dabColonel(wapshotts). Increase regard(billie) by 0. }
+    On discuss { Assert dabColonel(wapshotts). }
   }
   Topic dab_glide with dab "Ask Dab what he has seen from the foretop" when dabColonel(wapshotts) and at(party, cycad_aisle) and not knows(actor, hollow_way_known) once {
     Says "'Them lizards,' says Dab, who has climbed a cycad without being asked. 'They all go the same road at supper. Look. There.' He points. 'All to the notch in the trees.'".
@@ -151,7 +151,7 @@ Module circus "Wapshott's Peregrine Circus" {
     On discuss { Assert crewStranded(wapshotts). }
   }
   Topic harrow_a2 with harrow "Say no, and that you will make good what they are owed" answering harrow_story when true {
-    Says "'That is very handsome,' says Harrow. 'It is not what I asked.' He sends for the men. 'Lads. These people will stand your wages in the fair town if you come aboard with them.' There is a long silence, and then a net-man puts down his mug.".
+    Says "'That is handsome,' says Harrow. 'Handsome. I would have settled for yes.' He sends for the men. 'Lads. These people will stand your wages in the fair town if you come aboard with them.' There is a long silence, and then a net-man puts down his mug.".
     On discuss { Assert crewLeft(wapshotts). Assert harrowBeaten(party). Retract at(harrow_men, harrow_camp). }
   }
   Topic harrow_a3 with harrow "Say they might do well in a circus, and that you can ask the Colonel" answering harrow_story when true {
@@ -190,7 +190,7 @@ Module circus "Wapshott's Peregrine Circus" {
 
   // ── The Coldharbour camp ─────────────────────────────────────────────────────────────────────────────────────────
   Observe wreck_camp_scene at wreck_camp when true "A camp thirty years old, on the sand above the tide-line: six tents rotted to ribs, a table with a chart nailed to it, and a row of specimen-cases burst and emptied by weather. Three skeletons lie in the shade of the largest tent, side by side, with their boots still on. Someone has put a tarpaulin over one, and the tarpaulin has been eaten to lace.".
-  Kind thorne_journal "Dr Thorne's field-book" is document teaching thorne_read described "A salt-stained field-book in a small neat hand, the last entry dated nine days before the others. The drawings are very good.".
+  Kind thorne_journal "Dr Thorne's field-book" is document teaching thorne_read described "A salt-stained field-book in a small neat hand, the last entry dated nine days before the others. The drawings are good.".
   Discovery thorne_read "Dr Edmund Thorne of Coldharbour came to Sarn with five companions in the year of the old king's death; they took fever from the delta water; he drew the lantern-necks at the lake, and wrote that he had never been so happy.".
   Item thorne_item "Dr Thorne's field-book" is thorne_journal at wreck_camp.
   Item thorne_glass "a brass spyglass, green with age" is spyglass at wreck_camp.
@@ -207,4 +207,13 @@ Module circus "Wapshott's Peregrine Circus" {
     On discuss { Assert thorneRead(party). Spend thorne_journal from actor. Increase regard(fenwick) by 2. }
   }
   Milestone m_thorne "found what became of Dr Thorne" worth 250 when thorneRead(party).
+
+  Rule epitaph_pardons when epitaphDone(party) and not creweBlamed(wapshotts) and not crewePardoned(wapshotts) { Assert crewePardoned(wapshotts). }
+  Observe bottle_afloat at deck when calmDone(wapshotts) and atSea(wapshotts) and bottleCast(party) "A green bottle rides past on the swell, a long way off, with its wax glinting. Nobody remarks on it. Crewe watches it out of sight.".
+  Observe stranded_men at landing when crewStranded(wapshotts) and berthS(wapshotts) "Four net-men sit on the strand by the delta path in a row with their boots off, drinking, and singing a song about a woman at Dunmere with a hundred names.".
+  Rule fenwick_thorne_soft when thorneRead(party) and thorneBuried(party) and not fenwickYielded(wapshotts) { Assert fenwickYielded(wapshotts). }
+  Topic crewe_bottle with crewe "Give Crewe the letter from the Hasty Mary's bottle" when holding(actor, mary_bottle) once {
+    Says "Crewe reads it with his lips. 'The boy who sang back,' he says. 'There'll have been a boy.' He folds it into his hat.".
+    On discuss { Spend mary_bottle from actor. Assert bottleKept(party). }
+  }
 }

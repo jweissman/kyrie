@@ -11,7 +11,7 @@ Module circus "Wapshott's Peregrine Circus" {
     Role "grey-feathered runners as tall as a man, feeding in the ferns". Species stilt_runner. Numbers 5. Peaceable.
   }
   Person hook_claws "the hook-claws" at hook_den {
-    Role "a pack of seven, barred green and rust, on their own ground". Species hook_claw. Level 3. Numbers 5. Temperament territorial.
+    Role "a pack of five, barred green and rust, on their own ground". Species hook_claw. Level 3. Numbers 5. Temperament territorial.
     Warns "The click stops. All round the hollow, in the ferns, there are heads: long, barred, bright-eyed, turned. They do not hurry. One, nearer than the others, lifts a single hooked foot clear of the ground and lowers it.".
     Comes "The nearest hook-claw goes down on its hocks and comes, and the ferns close behind it with five others in them.".
     Lair hook_den. Refuge kingsfoil_hollow.
@@ -28,9 +28,9 @@ Module circus "Wapshott's Peregrine Circus" {
     Role "ten of the island's greatest animals, wading, with their calves between them". Species lantern_neck. Level 8. Numbers 3. Peaceable.
   }
   Person tyrant "the tyrant" at tyrant_hollow {
-    Role "the island's hunter, asleep or not". Species tyrant. Level 6. Numbers 1. Temperament ambush.
+    Role "the island's hunter, asleep or not". Species tyrant. Level 6. Numbers 1. Temperament territorial.
     Warns "The ferns in the hollow rise. A head the length of a man comes up out of them with its mouth a little open, quite unhurried, and the teeth in it are the length of your hand.".
-    Comes "It comes out of the hollow in three strides and the ground shakes at every one.".
+    Comes "It comes across the ground in three strides and the ground shakes at every one.".
     Lair tyrant_hollow.
   }
   Person delta_croc "the delta-lurker" at channels {
@@ -73,7 +73,7 @@ Module circus "Wapshott's Peregrine Circus" {
   }
   Relation calfBought(group). Relation calfFreed(group).
   Thing calf_cage "the hook-claw's cage" at harrow_camp {
-    State locked closed "In the least of the crates a young hook-claw sits very upright with its tail wrapped round its feet, looking out between the slats.".
+    State locked closed "In the least of the crates a young hook-claw sits upright with its tail wrapped round its feet, looking out between the slats.".
     State sprung "The crate stands open, empty.".
     Change spring_cage "Spring the calf's crate" from locked to sprung needing crowbar or lockwork.
     Holds.
@@ -117,7 +117,7 @@ Module circus "Wapshott's Peregrine Circus" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, hook_den) and at(hook_claws, hook_den) and able(hook_claws)
       and (hatchlingsHome(party) or hatchlingsPenned(wapshotts)) and (not colonelNamed(wapshotts) or namedLetGo(wapshotts)) and not hookTolerates(party).
     Time 0.
-    On success { Assert hookTolerates(party). Assert tolerates(hook_claws, party). Assert hatchlingsHome(party). }
+    On success { Assert hookTolerates(party). Assert tolerates(hook_claws, party). Assert hatchlingsHome(party). Retract at(hatchlings, hold). Retract travels(hatchlings). Retract post(hatchlings, rk_beasts). Assert at(hatchlings, hook_den). }
     Result "You open the sack and set them down in the bare earth, and step back, and nobody moves. One of the young goes forward in short, stopped runs, and the biggest of the pack lowers her head to it, and makes a sound you could not have told from a purr. The pack closes round them. When it opens, you are no longer in it, and no one has looked at you since.".
   }
   Observe hook_pack_soft at hook_den when hookTolerates(party) "The pack lies in the sun in its hollow with the young in the middle, and takes no notice of you at all.".
@@ -135,7 +135,7 @@ Module circus "Wapshott's Peregrine Circus" {
     Assert herdSeen(party).
   }
   Entity herd_known: fact "At dawn the lantern-necks come down out of the crater mist to wade and drink in the lake, with their calves between them, and are interested in nothing.".
-  Rule herd_stride_rule at lake_shore when at(party, lake_shore) and hour(clock) >= 6 and hour(clock) < 7 and herdSeen(party) and dice(clock) <= 8 and not tyrantFled(party)
+  Rule herd_stride_rule at lake_shore when at(party, lake_shore) and hour(clock) >= 6 and hour(clock) < 7 and herdSeen(party) and dice(clock) <= 2 and not tyrantFled(party)
     says "A wagon-wheel of a foot comes down in the shallows, too near." {
     Assert strikes(herd_stride, party).
   }
@@ -150,7 +150,7 @@ Module circus "Wapshott's Peregrine Circus" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, plain_mid) and tolerates(three_horns, actor) and hour(clock) >= 15.
     Time 0.
     On success { Assert tolerates(tyrant, actor). Assert tyrantFled(party). }
-    Result "The cows have drawn into a ring with the calf in the middle and you in with the calf, and not one of them objects. Something very large goes past the ring in the dusk without turning its head, and the herd does not move a muscle. Afterwards the biggest cow looks at you, just once, like a landlady.".
+    Result "The cows have drawn into a ring with the calf in the middle and you in with the calf, and not one of them objects. Something large goes past the ring in the dusk without turning its head, and the herd does not move a muscle. Afterwards the biggest cow looks at you, just once, like a landlady.".
   }
 
   // ── The tar-pit: something dying that could be saved, or not ─────────────────────────────────────────────────
@@ -169,7 +169,7 @@ Module circus "Wapshott's Peregrine Circus" {
   Action end_tar_calf(actor: group, site: place) "Put the sunk animal out of its misery" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, tar_pits) and not tarFreed(party) and not tarEnded(party).
     Time 1.
-    On success { Assert tarEnded(party). Retract at(tar_calf, tar_pits). Increase regard(billie) by 0. }
+    On success { Assert tarEnded(party). Retract at(tar_calf, tar_pits). }
     Result "It takes only a moment, and you are not proud of it, and it was the kind thing.".
   }
   Relation tarEnded(group).
@@ -185,7 +185,7 @@ Module circus "Wapshott's Peregrine Circus" {
 
   // ── The journal and the cages ─────────────────────────────────────────────────────────────────────────────────
   Kind warden_journal "Warden Orme's journal" is document teaching journal_read described "A leather-bound book swollen with damp, in a fair copperplate hand: the day-book of the last Warden of the Southern Preserve, Anselm Orme, who kept it for thirty-one years and left it on the table in the hall.".
-  Discovery journal_read "Warden Orme's journal: the Progress founded the Preserve four hundred years ago to keep beasts of the southern sea; the Great Beast sent north in the last Progress, to the King as a gift, was a lantern-neck, a calf of three summers; the ship's master was told to feed him cabbages; the Preserve was left to itself when the Progress was disbanded; and the last entry is a note to whoever came after: PUT NOTHING IN A CAGE THAT CAN BE LET OUT OF ONE.".
+  Discovery journal_read "Warden Orme's journal: the Progress founded the Preserve four hundred years ago to keep beasts of the southern sea; the Great Beast sent north in the last Progress, to the King as a gift, was a lantern-neck, a calf of three summers, and went with a hook-claw cub from the forest to keep him company, whose foot-claw the diggers would one day find; the ship's master was told to feed him cabbages; the Preserve was left to itself when the Progress was disbanded; and the last entry is a note to whoever came after: PUT NOTHING IN A CAGE THAT CAN BE LET OUT OF ONE.".
   Item journal_item "Warden Orme's journal" is warden_journal at preserve_hall.
   Kind keepers_map "the Warden's map of the island" is document teaching map_read described "A map on tanned hide in the Warden's hand, with the island's six countries named and the beasts in each drawn in the margins, and a warning, in red, at the plain's north-west corner: THE TYRANT HUNTS AT EVENING.".
   Discovery map_read "The Warden's map names the island's six countries and the beasts in each, and warns of the tyrant at evening.".
@@ -203,7 +203,7 @@ Module circus "Wapshott's Peregrine Circus" {
   Discovery delta_bamboo_hid "The bamboo is gathered, not found.".
   Item delta_bamboo_1 "a length of bamboo" is bamboo_gathered in delta_bamboo hidden until delta_bamboo_hid.
   Initially Assert crop(delta_bamboo_1, delta_bamboo).
-  Thing edge_cinnamon "the cinnamon" at forest_edge is scenery { State growing "A small tree with aromatic bark grows in a clearing by the first cycads. Its bark has been stripped in places by something with a very small beak.". }
+  Thing edge_cinnamon "the cinnamon" at forest_edge is scenery { State growing "A small tree with aromatic bark grows in a clearing by the first cycads. Its bark has been stripped in places by something with a small beak.". }
   Initially Assert grows(edge_cinnamon).
   Discovery edge_cinnamon_hid "The cinnamon tree is gathered, not found.".
   Item edge_cinnamon_1 "a curl of cinnamon bark" is cinnamon_gathered in edge_cinnamon hidden until edge_cinnamon_hid.
@@ -233,7 +233,7 @@ Module circus "Wapshott's Peregrine Circus" {
   Item pitch_b "a second lump of island pitch" is sarn_pitch at tar_pits.
   Item tooth_a "a shed tooth the length of a hand" is dragons_tooth at bone_beds.
   Item tooth_b "a second shed tooth, chipped" is dragons_tooth at bone_beds.
-  Item tooth_c "a very large tooth, black at the root" is dragons_tooth at tyrant_hollow.
+  Item tooth_c "a large tooth, black at the root" is dragons_tooth at tyrant_hollow.
   Item shell_a "an unusual seashell, the size of a fist" is unusual_seashell at landing.
   Item star_a "a fallen star, pitted and black, cold" is fallen_star at tar_pits.
   Item bracelet_a "a bronze bracelet on a warden's wrist-bone" is bronze_bracelet at bone_beds.

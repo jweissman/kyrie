@@ -4,7 +4,7 @@ Module circus "Wapshott's Peregrine Circus" {
   // as a preserve for the beasts of the southern sea, kept by wardens until the last Progress, then forgotten by
   // everyone but the Ormes' empty cages. An open place, not a gauntlet: six regions, no order, and a dozen ways to be
   // useful or foolish in each. It is reached only by the brig Sundial, from the fair town's quay once Sir Gervase has
-  // chartered her (act4.kyr).
+  // chartered her (voyage.kyr).
   Place sarn "The Isle of Sarn" is region.
   Place s_shore "the Progress's shore" is wilderness within sarn at 1, 3.
   Place s_delta "the mangrove delta" is wilderness within sarn at 0, 2.
@@ -37,7 +37,7 @@ Module circus "Wapshott's Peregrine Circus" {
   Place ledges "the nesting ledges" is room within s_cliffs at 3, 2 outdoors.
   Place cliff_top "the top of the cliffs" is room within s_cliffs at 3, 1 outdoors.
 
-  // The ferry belongs to act4.kyr (sarn_ferry), because it is a thing the circus does.
+  // The gangways belong to voyage.kyr.
   Passage landing_row "the cage-row" is path between landing and cage_row taking 5 minutes.
   Passage row_hall "the Preserve-house door" is door between cage_row and preserve_hall.
   Passage landing_delta "the shore path to the delta" is path between landing and delta_edge taking 30 minutes.
@@ -66,12 +66,12 @@ Module circus "Wapshott's Peregrine Circus" {
   // ── The sights, told as the preserve's own ──────────────────────────────────────────────────────────────────
   Observe landing_scene at landing when true "A stone quay stands at the mouth of a green bay, built by people who meant it to be seen from the sea. On every post is cut a crowned wheel, and the posts are hung with creeper. The jungle comes down to the quay and stops, as if told to.".
   Observe cage_row_scene at cage_row when true "A row of iron-barred cages along the shore, each as big as a hay-cart and each open, with a bronze plate on its door that was once legible. Every floor is a sheet of fern-green. Something small has been using the nearest cage for a nest, and the bars have been rubbed bright at a height of two feet.".
-  Observe preserve_hall_scene at preserve_hall when true "A hall with a vaulted roof of black timber, still sound, and a floor of tiles with the crowned wheel in the middle. Long tables stand along the walls under sheets of rotted canvas, and over the hearth a painted board gives the Rule of the Preserve in letters a hand high. Dust lies on everything, and in the dust, quite recent, there are the prints of very small three-toed feet.".
+  Observe preserve_hall_scene at preserve_hall when true "A hall with a vaulted roof of black timber, still sound, and a floor of tiles with the crowned wheel in the middle. Long tables stand along the walls under sheets of rotted canvas, and over the hearth a painted board gives the Rule of the Preserve in letters a hand high. Dust lies on everything, and in the dust, quite recent, there are the prints of small three-toed feet.".
   Observe delta_edge_scene at delta_edge when true "The shore gives out into a delta: mangroves on their stilt roots, black water in green channels, and mud banks marked with the tracks of things that came down to nest. The air is hot, wet and smells of eggs. A boardwalk of old timber runs out over the mud.".
   Observe egg_beds_scene at egg_beds when true "Mounds of sand and rotted leaf rise out of the mud, each as big as a table, each warm to the hand. Eggs lie in rings in the nearest, grey and loaf-big. The ground is covered in the three-toed tracks of the animals that guard them, and there are no animals here now, which is the worst of it.".
   Observe harrow_camp_scene at harrow_camp when true "A camp of tents and a stockade of cut mangrove, with nets drying on poles and a row of crates, some of which are breathing. A flag with a hippodrome painted on it hangs limp over the largest tent. Men in oilskins sit about with mugs and look at you without moving.".
   Observe channels_scene at channels when true "The mangrove roots close overhead into a green tunnel. The water is black and perfectly still. Things have been dragged to the bank and eaten there, and a crocodile's bones, picked clean, are propped against a root as if somebody had thought of it as a warning.".
-  Observe forest_edge_scene at forest_edge when true "The jungle begins in a wall of cycads: palms like pineapples on trunks, crowned in fronds taller than a man, and under them ferns to the waist. Light comes down in green coins. Something very small runs ahead of you on the path, in short, stopped runs, looking back.".
+  Observe forest_edge_scene at forest_edge when true "The jungle begins in a wall of cycads: palms like pineapples on trunks, crowned in fronds taller than a man, and under them ferns to the waist. Light comes down in green coins. Something small runs ahead of you on the path, in short, stopped runs, looking back.".
   Observe cycad_aisle_scene at cycad_aisle when true "A long aisle where something large has pushed a way through the cycads and left it. The ferns are laid flat in a trough as broad as a cart. The air is full of pollen and the click of insects, and ahead the click stops, all at once, and the whole forest is listening.".
   Observe hook_den_scene at hook_den when true "A hollow in the forest floor, trodden bare, with a litter of stripped bones and, in the middle, a clutch-ring of scraped earth, empty. The place is full of the smell of wet feathers. A single great curved claw lies in the dirt where a body has dragged it, as long as a scythe-blade.".
   Observe kingsfoil_hollow_scene at kingsfoil_hollow when true "A sheltered hollow where the cycads open and let in the sun. Nothing in it is large. Moss and low herbs grow on a bank by a spring, and the ground is dry, and every animal on the island seems to have agreed to leave it alone.".
@@ -81,7 +81,7 @@ Module circus "Wapshott's Peregrine Circus" {
   Observe plain_ridge_scene at plain_ridge when true "A low ridge of grey rock stands above the plain, and from it the whole of the plain can be seen: the herd-trails like roads, the dark line of the forest, the lake, and a cloud of steam on the north horizon where the ground itself boils. Nothing on the plain is in a hurry. It is the first place on the island where it seems safe to sit.".
   Observe tyrant_hollow_scene at tyrant_hollow when true "A hollow in the plain where the ferns have been flattened into a bed. The hollow is ringed with bones, stripped and split, and the biggest are the ribs of something as large as an ox. Some of the bones have been cracked for the marrow. The ground here is the colour of old blood, and quiet.".
   Observe basin_rim_scene at basin_rim when true "The rim looks down on a bowl of yellow ground, steaming, with pools of every colour from jade to rust. Geysers breathe in the distance. A smell of bad eggs comes up with the heat, and nothing grows on the flat except yellow crust.".
-  Observe bone_beds_scene at bone_beds when true "A shelf of ground below the rim where, over a very long time, things have come to die. The bones are piled as the sea piles wrack, in drifts, white and black and brown, and the biggest of them are the length of a ship's mast. Among them lie teeth, shed in the ordinary way of things, each as long as a hand.".
+  Observe bone_beds_scene at bone_beds when true "A shelf of ground below the rim where, over a long time, things have come to die. The bones are piled as the sea piles wrack, in drifts, white and black and brown, and the biggest of them are the length of a ship's mast. Among them lie teeth, shed in the ordinary way of things, each as long as a hand.".
   Observe tar_pits_scene at tar_pits when true "A flat of black pitch between yellow crusts, skinned with a rainbow, and in the middle of it something that has been dying for a long while: a three-horned head and a bowed back, sunk to the shoulders, with its eye turned towards you.".
   Observe cliff_foot_scene at cliff_foot when true "The land ends in a wall of black rock a hundred and fifty feet high, rough with ledges, and every ledge is white with droppings. The air over it is full of wings. A fish-smell hangs on the wind, and the sound is a single great quarrel, going on for ever.".
   Observe ledges_scene at ledges when true "A broad ledge in the face of the cliff, a floor of old nests, and eggs in them, long and leathery, in their hundreds. The colony watches with a thousand heads of bony crest and long bills, and does not move. The wind off the sea tears at your coat.".
@@ -98,7 +98,7 @@ Module circus "Wapshott's Peregrine Circus" {
   // ── Hazards of the island ─────────────────────────────────────────────────────────────────────────────────────
   Hazard hot_ground "The hot crust" means "Deal (2d6) fire damage to ally unless dexterity save against (13).".
   Hazard sulphur_gas "The sulphur gas" means "Deal (1d6) poison damage to ally unless constitution save against (13). Apply poisoned to ally for 3 turns unless constitution save against (13).".
-  Hazard herd_stride "A herd crossing" means "Deal (4d6) physical damage to ally unless dexterity save against (15).".
+  Hazard herd_stride "A herd crossing" means "Deal (2d6) physical damage to ally unless dexterity save against (14).".
   Hazard tyrant_rush "The tyrant's rush" means "Deal (5d6) physical damage to ally unless dexterity save against (16).".
   Hazard bog_pitch "The pitch" means "Deal (1d6) physical damage to ally unless strength save against (13).".
 }

@@ -6,26 +6,26 @@ Module circus "Wapshott's Peregrine Circus" {
   // what the word meant to the people who had it first.
   Relation legKnown(concern). Relation colonelGrieved(concern). Relation legPromised(concern). Relation widowLetter(concern).
 
-  Topic jabez_sarn with jabez "Ask Jabez what is written in the Southern column of the Book" when knows(actor, margins_known) and not knows(actor, sarn_known) once {
+  Topic jabez_sarn with jabez "Ask Jabez what is written in the Southern column of the Book" when knows(actor, margins_known) once {
     Says "Jabez Orme turns the Book to a column the others have skipped. 'The Southern Preserve,' he says. 'Nobody reads it. The Wardens' hand, not the Keepers'. My grandfather's grandfather swept these cages because the last Warden wrote, and I have it by heart: SOMEONE MUST KEEP THE DOORS FOR WHEN THEY ARE ASKED FOR. We have been keeping them.' He closes the Book. 'Nobody has asked.'".
     On discuss { Assert knows(actor, sarn_known). }
   }
   Observe tortoise_knows near methuselah when exhibit(methuselah) and crateCome(wapshotts) and not voyaged(wapshotts) "In his pen the Bishop has raised his head, which he does for cabbages, and is holding it up towards the yard, towards the crate, with his old eyes shut, as if he were smelling the sea.".
   Observe ada_crate near ada when crateCome(wapshotts) and not voyaged(wapshotts) "Ada Thripp has stopped writing the Brigand's Bride and is writing, in the book of the circus's accounts, a column headed SARN, in which every figure is a question.".
 
-  Topic wap_great_beast with wapshott "Tell the Colonel what the Warden's journal says of the Great Beast" when voyaged(wapshotts) and knows(actor, journal_read) and not legKnown(wapshotts) once {
-    Says "You read it to him: the Great Beast sent north in the last Progress, a lantern-neck calf of three summers, for the King's wonder-cabinet; the ship's master told to feed him cabbages. The Colonel says 'The Leg.' He says it again. 'In the shrine. The children bring it flowers.' He sits down on the quay. 'Do you know what the stone said? HERE THE KINGS DIGGERS STOPT. NOT DEAD ENOUGH.' He puts both hands over his face. 'They buried it breathing. It walked all the way from here to be a wonder, and they buried it because it would not die on time.' After a long while: 'I have put a rope round a good many things and called it a Cabinet.'".
-    On discuss { Assert legKnown(wapshotts). Assert colonelGrieved(wapshotts). Increase regard(billie) by 1. }
+  Topic wap_great_beast with wapshott "Show the Colonel the page of the Warden's journal about the Great Beast" when voyaged(wapshotts) and knows(actor, journal_read) and not legKnown(wapshotts) once {
+    Says "The Colonel reads it standing. At the line about the stone he says 'Ha.' He walks to the end of the quay and back, twice. 'HE WAS NOT DEAD ENOUGH,' he says to the sea, in his ring voice, and then, in nobody's: 'Oh, the beggars.'".
+    On discuss { Assert legKnown(wapshotts). Assert colonelGrieved(wapshotts). }
   }
   Topic wap_leg_promise with wapshott "Ask the Colonel what he will do about the Leg in the shrine" when legKnown(wapshotts) and voyaged(wapshotts) and not legPromised(wapshotts) once {
-    Says "'The calf comes home,' says the Colonel. 'Not the bones: the bones are the town's, they have prayed over them. The name. I shall have it cut on the shrine's step, and the Rest's, and over the beast tent: that his name was asked, and that he was brought a long way, and that he was a child.' He looks up the jungle. 'Billie,' he says, 'what was he called?' Billie, who has been standing a little behind him for some time, says: 'Nobody knows. That was the point of the Rule.'".
+    Says "'The calf comes home,' says the Colonel. 'Not the bones: the bones are the town's, they have prayed over them. The name. I shall have it cut on the shrine's step, and the Rest's, and over the beast tent: that his name was asked, and that he was brought a long way, and that he was a child.' He looks up the jungle. 'Billie,' he says, 'what was he called?' Billie says: 'Nobody knows.'".
     On discuss { Assert legPromised(wapshotts). }
   }
   Observe leg_promise_home near wapshott when backFromSarn(wapshotts) and legPromised(wapshotts) "On the step of the third town's shrine, new-cut: HE WAS ASKED FOR, AND BROUGHT, AND HE WAS A CHILD. The children have put flowers on it. The Colonel will not talk about it, and goes round by the other door.".
 
   // The Colonel on the cliff-top, with the colony launching: the other kind of audience.
   Topic wap_widow with wapshott "Ask the Colonel who he is writing to on the cliff-top" when voyaged(wapshotts) and at(party, cliff_top) and not widowLetter(wapshotts) once {
-    Says "He folds the page before you can see it. 'A woman at Dunmere,' he says, 'to whom I owe a coin a week, and a good deal more than a coin. She is the widow of a flyer who fell on my account.' He looks at the colony going off the edge, wing on wing, the whole sky tearing. 'I have written to say that I have seen it. That I have seen a thing nobody paid to see.' His voice shakes. 'He would have liked to have been in the house.'".
+    Says "He folds the page before you can see it. 'A woman at Dunmere,' he says, 'to whom I owe a coin a week.' The colony goes off the edge, wing on wing. 'I have written to say I have seen it. He would have liked the house.'".
     On discuss { Assert widowLetter(wapshotts). Increase regard(billie) by 0. }
   }
   Milestone m_leg "learned what the Leg in the shrine was" worth 300 when legKnown(wapshotts).

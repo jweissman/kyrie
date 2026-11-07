@@ -287,7 +287,7 @@ Module circus "Wapshott's Peregrine Circus" {
   Rule rest_kept when warrantOurs(wapshotts) and revelsDone(wapshotts) and nextGround(tober_a, tober_b) and current(wapshotts, tober_c) { Retract nextGround(tober_a, tober_b). Assert nextGround(tober_a, tober_r). }
   Rule court_goes when revelsDone(wapshotts) and day(clock) > revelsDay(wapshotts) and hour(clock) >= 9 and not offstage(dowager) {
     Assert offstage(dowager). Assert offstage(steward). Retract away(fenwick). Retract jabezBusy(jabez). }
-  Rule fenwick_home when revelsDone(wapshotts) and day(clock) > revelsDay(wapshotts) + 1 and not warrantFenwick(wapshotts) and travels(fenwick) { Retract travels(fenwick). Assert offstage(fenwick). }
+  Rule fenwick_home when revelsDone(wapshotts) and day(clock) > revelsDay(wapshotts) + 1 and not warrantFenwick(wapshotts) and travels(fenwick) and (not crateCome(wapshotts) or backFromSarn(wapshotts)) { Retract travels(fenwick). Assert offstage(fenwick). }
   Rule hench_leaves near hench when henchGoes(hench) and revelsDone(wapshotts) and day(clock) > revelsDay(wapshotts) and travels(hench)
     says "Hench leaves with the Dowager's household in the morning, his trunk on the back of her carriage, in a new black coat. He shakes hands with everyone in the backyard, formally, and with Bucephalus, and goes. The wardrobe wagon is very quiet. On its steps, folded, is the Margravine's green spangle, on a note: FOR THE RAVEN." {
     Retract travels(hench). Assert offstage(hench). }
