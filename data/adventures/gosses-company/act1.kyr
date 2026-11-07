@@ -22,7 +22,7 @@ Module pentrice "Gosse's Company" {
     On discuss { Assert posing(actor). }
   }
   Topic gate_truth with tallis "We are Gosse's Company, with the King's own writ" answering gate_ask when holding(actor, writ_kind) {
-    Says "'The King's,' says Peverell, and takes the writ, and reads it the wrong way up, and then the right way, and goes pink. 'It's real,' he says. 'Mallam!' A boy in a clerk's coat comes at a run. 'It's real. They're the King's. The King's what, I couldn't say, but it's real.' You are walked up the Gate Street by two men who are afraid of you and one who is only curious.".
+    Says "'The King's,' says Peverell, and takes the writ, and reads it the wrong way up, and then the right way, and goes pink. 'It's real,' he says. 'Mallam!' A young clerk in the Household's blue, a lanky cheerful twenty-two, comes at a run. 'It's real. They're the King's. The King's what, I couldn't say, but it's real.' You are walked up the Gate Street by two men who are afraid of you and one who is only curious.".
     On discuss { Assert gateTruth(actor). Increase favour(rierdan) by 1. }
   }
   Topic gate_nobody with tallis "Nobody's. We want a bed and the price of one" answering gate_ask when true {
@@ -144,7 +144,7 @@ Module pentrice "Gosse's Company" {
     Otherwise "The King recites every line before Swale can, and then remarks to the Chamberlain, quite audibly, that the company is old-fashioned.".
   }
   Action audition_farce(actor: group, site: place) "Play the King The Marchants' Men, with the two companies and the two Oriels" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, audience) and masqueFarce(actor) and realMasquers(rierdan) and not auditioned(rierdan).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, audience) and masqueFarce(actor) and realMasquers(rierdan) and (kitTaken(actor) or kitProved(actor)) and (twinsMet(actor) or orielSworn(actor)) and not auditioned(rierdan).
     Time 30.
     Resolve check(actor, performance, dc_hard).
     On success { Assert auditioned(rierdan). Increase favour(rierdan) by 4. Assert provisional(rierdan). Set auditionScore(rierdan) to 4. }
@@ -178,4 +178,5 @@ Module pentrice "Gosse's Company" {
   Milestone m_provisional "was appointed, for the season, provisionally" worth 250 when provisional(rierdan).
   Observe audition_score near casimir when auditionScore(rierdan) >= 3 "The King has had the ghost scene played a second time in his head and is trying not to laugh at it again.".
   Observe swale_told_gosse near gosse when gosseTold(party) and not auditioned(rierdan) "Gosse has not said a word to Ambrose Swale since the morning, which is how you know.".
+  Observe marchant_note at sparrow_loft when posing(party) and not kitTaken(party) and not kitProved(party) "A note in the Marchants' crest has been pushed under the loft door: HIS LORDSHIP THE CHANCELLOR WILL RECEIVE THE MASQUERS ON LAMP HILL, AND DESIRES TO SEE THE BOY WHO PLAYS THE GIRLS. Hepzibah has underlined the last six words twice, in the hard pencil.".
 }

@@ -160,8 +160,19 @@ Module pentrice "Gosse's Company" {
     Says "Dorcas is quite still. 'Yes,' she says. 'I thought you would say that. You are very kind.' Her voice does not shake. 'I shall be Lady Rask by Michaelmas, and I shall have a box, and I shall never again be hungry on a Tuesday.' She smiles. 'Nobody will see me play.' She puts out the candle.".
     On discuss { Assert dorcasLeaves(actor). }
   }
-  Topic hepzibah_heart with hepzibah "Ask Hepzibah whether she has ever told Gosse" when royalCall(pentrice) and not hepzibahSpoke(party) and not hepzibahSilent(party) once {
+  Topic hepzibah_heart with hepzibah "Ask Hepzibah whether she has ever told Gosse" when royalCall(pentrice) and not proposed(gosse) and not emptyWing(gosse) and not hepzibahSpoke(party) and not hepzibahSilent(party) once {
     Says "Hepzibah does not move her pencil. 'No,' she says. 'Thirty-four years.' She does not need to say what. 'He is going deaf. He is going to go on until he cannot, and then he will stop in the middle of a speech, and I shall prompt him.' She puts the pencil down. 'It is not necessary to say. Is it?'".
+  }
+  Topic hepzibah_wife with hepzibah "Ask Hepzibah how she likes being Mrs Gosse" when royalCall(pentrice) and (proposed(gosse) or emptyWing(gosse)) and not hepzibahSpoke(party) and not hepzibahSilent(party) once {
+    Says "Hepzibah does not move her pencil. 'He says it to the King's face now,' she says. 'Mrs Gosse. As if it were a part.' She turns a page. 'He is going deaf. He will go on until he cannot, and then he will stop in the middle of a speech, and I shall prompt him, and nobody will know it is not the line.' The pencil goes down the margin. 'Is it enough, do you think, to have been asked?'".
+  }
+  Topic hepw_enough with hepzibah "It is enough. It is more than most are given" answering hepzibah_wife when true {
+    Says "'Yes,' says Hepzibah. 'I thought you would say so. You are kind.' She writes a line in the margin. It is not the line in the book.".
+    On discuss { Assert hepzibahSpoke(actor). }
+  }
+  Topic hepw_more with hepzibah "No. Say it out loud, once, before the King" answering hepzibah_wife when true {
+    Says "'I should die,' says Hepzibah. She considers it. 'I should die very happily.' She picks up the book and holds it against her chest, like a woman at a window.".
+    On discuss { Assert hepzibahSilent(actor). }
   }
   Topic hep_say with hepzibah "Tell him. A man ought to know" answering hepzibah_heart when true {
     Says "'I thought you would say that,' says Hepzibah, with her small dry look. She picks up the book and goes to the window of the loft, where Gosse is standing with his head on one side. You do not hear what she says. You see him turn round. He takes her hand and puts it in the crook of his elbow like a man receiving a bishop. They look out at the Rotunda's roof for a long time.".
@@ -209,4 +220,37 @@ Module pentrice "Gosse's Company" {
   Observe spandrel_chancellor at lant_stage when maskersSeen(party) "Spandrel, in the Chancellor's robe borrowed from the real one, is playing the Chancellor in the Wick's afterpiece, and the real Chancellor is in the second tier, mouthing the lines.".
   Observe twins_after near oriel when twinsSorted(party) and commandDone(rierdan) "Oriel and Cyprian stand together on the Wick's stage after the call with their arms linked, a matched pair, and the house is saying their names in the wrong order.".
   Observe pomfret_sat near crake when pomfretStood(party) and commandDone(rierdan) "Master Mauger sits through the afterpiece with the note in his hand and the smile of a man who knows he has been outplayed but not by whom.".
+
+  // ── What the arcs were for ───────────────────────────────────────────────────────────────────────────────────────
+  // Each answer given in the wings or the wardrobe is paid out in the command performance, once, by something that reads it.
+  Relation payTam(place). Relation payPudding(place). Relation swaleStood(place). Relation swaleBlurted(place). Relation cyprianSorted(place).
+  Rule tam_pays when holdingCommand(rierdan) and sceneV(rierdan) == 1 and not payTam(rierdan) and (tamBack(party) or tamStood(party)) and at(party, lant_stage)
+    says "Tam has seen to the flats. They are up, or they are not, according to whether the carpenters were paid, and the stage-hands whisper it between scenes." {
+    Assert payTam(rierdan). }
+  Rule tam_back_holds when payTam(rierdan) and tamBack(party) and not tamPaid(rierdan) { Assert tamPaid(rierdan). Decrease chaos(rierdan) by 1 or to nothing. }
+  Rule tam_strike_costs when payTam(rierdan) and tamStood(party) and not tamPaid(rierdan) { Assert tamPaid(rierdan). Increase chaos(rierdan) by 1. }
+  Relation tamPaid(place).
+  Rule pudding_pays when holdingCommand(rierdan) and sceneV(rierdan) == 1 and not payPudding(rierdan) and (puddingBrave(party) or puddingFool(party)) and at(party, lant_stage)
+    says "Pudding is in the wings, where he is always, with an onion in each hand; and you do not know whether he is going to throw them." {
+    Assert payPudding(rierdan). }
+  Rule pudding_brave_holds when payPudding(rierdan) and puddingBrave(party) and not puddingPaid(rierdan) { Assert puddingPaid(rierdan). Decrease chaos(rierdan) by 1 or to nothing. }
+  Rule pudding_fool_costs when payPudding(rierdan) and puddingFool(party) and not puddingPaid(rierdan) { Assert puddingPaid(rierdan). Increase chaos(rierdan) by 1. }
+  Relation puddingPaid(place).
+  Rule swale_blurts when holdingCommand(rierdan) and sceneV(rierdan) == 4 and swaleHidden(party) and not gosseTold(party) and not noteGone(rierdan) and not swaleBlurted(rierdan) and at(party, lant_stage)
+    says "Swale is on his feet in the third row before Mauger has finished the sentence. 'It is not Gosse's hand!' he cries, in the voice of the Ghost. 'It is mine! I wrote it! Eighty crowns! A tailor!' The house, which has not been told what the play is, applauds." {
+    Assert swaleBlurted(rierdan). Assert s4Done(rierdan). Increase chaos(rierdan) by 2. }
+  Rule swale_stands when holdingCommand(rierdan) and sceneV(rierdan) == 4 and swaleOwned(party) and gosseTold(party) and not noteGone(rierdan) and not swaleStood(rierdan) and at(party, lant_stage)
+    says "Swale rises in the stalls before Mauger has finished, and says in a good plain voice that the hand on the note is his, that Mr Gosse has known since the spring, and that Mr Gosse has forgiven it. He sits. Gosse, on the stage, does not turn his head. 'I did,' he says, to the house, in the voice that fills the Wick. 'Go on.'" {
+    Assert swaleStood(rierdan). Assert s4Done(rierdan). }
+  Rule cyprian_sorts when holdingCommand(rierdan) and sceneV(rierdan) == 5 and cyprianWith(party) and not s5Done(rierdan) and not cyprianSorted(rierdan) and at(party, lant_stage)
+    says "Cyprian does not wait to be sent for. He walks onto the stage in the Watch's grey, takes his sister by the elbow, and presents her, with Kit at her other side, to their father in the second tier as a man presents a surprise party he is not certain is wanted. 'Sir,' he says. 'We should like to be forgiven in the interval.'" {
+    Assert cyprianSorted(rierdan). Assert s5Done(rierdan). Assert twinsSorted(party). }
+  Rule kit_goes when kitLeaves(party) and troupe(kit) { Retract troupe(kit). Assert at(kit, marchant_hall). }
+  Observe s5_kitgone at lant_stage when sceneV(rierdan) == 5 and kitLeaves(party) and (twinsMet(party) or kitTaken(party)) "Oriel is on, who was not to go on. Cyprian is in the wings in the Watch's grey with his mouth open. On the other side, where Kit should be, there is a gap the width of a sixteen-year-old; he has gone to the Marchants' house, and sits in the second tier next to the Chancellor in a blue coat that does not fit, looking at his hands.".
+  Observe s7_dorcas_gone at lant_stage when sceneV(rierdan) == 7 and dorcasLeaves(party) "The line comes down for the call and there is a gap in it where a woman of forty-eight should be. Lord Rask is in his box with a woman in a gown on his arm who does not look at the stage.".
+  Observe s7_dorcas_stays at lant_stage when sceneV(rierdan) == 7 and dorcasStays(party) "Dorcas is in the line in a gown that is not all hers, and takes Gosse's hand without looking at him, and Lord Rask, in his box, claps once, and is the only man in the house who knows why she is crying.".
+  Observe s7_hep_spoke at lant_stage when sceneV(rierdan) == 7 and hepzibahSpoke(party) "At the end of the line Gosse puts out his arm without looking, and Hepzibah, with the prompt-book under her other arm, takes it.".
+  Observe s7_hep_silent at lant_stage when sceneV(rierdan) == 7 and hepzibahSilent(party) "At the end of the line Hepzibah stands with the prompt-book against her chest, apart, and watches the back of Gosse's head. He bows. He does not turn round.".
+  Observe s7_book_kept at lant_stage when sceneV(rierdan) == 7 and mallamKept(party) "The Chamberlain's book lies open on the royal arm with the title in the wrong column, and Osbert Mallam, who put it there, applauds with his whole face.".
+  Observe s7_book_mended at lant_stage when sceneV(rierdan) == 7 and bookCorrected(party) "Osbert Mallam is in the second tier with the Chamberlain's book in his lap, corrected, and as the bear sits down he crosses out a word and writes it in again, a little larger, and is very red.".
 }

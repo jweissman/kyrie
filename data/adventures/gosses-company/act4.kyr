@@ -28,7 +28,7 @@ Module pentrice "Gosse's Company" {
   }
 
   // Swale owns it, or doesn't; Gosse is told, or isn't.
-  Topic swale_ask with swale "Ask Swale why he looks like a man at his own funeral" when wickGranted(rierdan) and not swaleOwned(party) and not swaleHidden(party) once {
+  Topic swale_ask with swale "Ask Swale why he cannot meet your eye" when wickGranted(rierdan) and troupe(swale) and not swaleOwned(party) and not swaleHidden(party) once {
     Says "Ambrose Swale rises, magnificently, and sits again. 'There is a paper,' he says. 'In Isidore Mauger's strong-box. It has Gosse's name on it, and Gosse did not write it. I did.' He looks at his hands. 'I was owed a part. I was owed the Hamlet in Pentrice, and Gosse gave it to the boy. I thought: a trifle. Eighty crowns, to settle a tailor, and a man of my gifts being sat on by a tailor.' He closes his eyes. 'Gosse has never raised his voice to me in nineteen years. I cannot bear to tell him. What would you do?'".
   }
   Topic swale_tell with swale "Tell Gosse yourself, tonight, before Mauger does" answering swale_ask when true {
@@ -40,7 +40,7 @@ Module pentrice "Gosse's Company" {
     On discuss { Assert swaleHidden(actor). }
   }
   Topic swale_blame with swale "Let it be a company debt. We'll all say we agreed it" answering swale_ask when true {
-    Says "Swale stares. 'You'd lie,' he says. 'For me.' 'For the company,' you say, and he accepts that, because it lets him. 'Gosse will know,' he says, 'whatever we say.' 'Then he'll know,' you say. It is the kindest and least honest thing you have ever said, and it will matter in the fifth act.".
+    Says "Swale stares. 'You'd lie,' he says. 'For me.' 'For the company,' you say, and he accepts that, because it lets him. 'Gosse will know,' he says, 'whatever we say.' 'Then he'll know,' you say. It is the kindest and least honest thing you have ever said, and Swale has not stopped looking at the door.".
     On discuss { Assert swaleHidden(actor). Assert swaleOwned(actor). }
   }
 
@@ -49,10 +49,10 @@ Module pentrice "Gosse's Company" {
     Says "The company is in the Wick's wardrobe among the hampers. Four people begin speaking at once and Hepzibah rings the prompt-bell, which is how you tell it is serious. 'Jem has a plan,' she says. 'Dorcas has a plan. Tam has a plan. The Marchant girl has a plan, and so far hers is the only one with a seal in it. I have put them in order. I should like you to choose, because if I do I shall be blamed for the result.'".
   }
   Topic plan_pudding with hepzibah "Jem's: a false clerk, a false summons, and a very good coat" answering hepzibah_plan when true {
-    Says "Jem Pudding stands on a hamper, in the dim, in one of Mauger's own clerk's coats that has been taken in by Pardew. 'I've been a clerk,' he says. 'I was one for six weeks in my youth, in Marl. I was dismissed for singing.' He bows. 'I shall be perfectly dull.'".
+    Says "Jem Pudding stands on a hamper, in the dim, in one of Mauger's own clerk's coats that has been taken in by Pardew. 'I have juggled for clerks,' he says. 'Eleven years of them, in every town in Imbar. They are the worst house there is; they never once look at the stage.' He bows. 'I know exactly what they do not look at. I shall be perfectly dull.'".
     On discuss { Assert planPudding(actor). }
   }
-  Topic plan_dorcas with hepzibah "Dorcas's: she keeps Master Mauger in the box, and Lord Rask looks the other way" answering hepzibah_plan when true {
+  Topic plan_dorcas with hepzibah "Dorcas's: she keeps Master Mauger in the box, and Lord Rask looks the other way" answering hepzibah_plan when troupe(dorcas) {
     Says "Dorcas is sitting on a hamper with her chin up. 'I'm forty-eight,' she says. 'A girl of twenty can't do what I can do to an old man's attention.' She does not look at anyone. 'Lord Rask has a very large box and a very small mind. I shall keep Isidore Mauger in it till nine.'".
     On discuss { Assert planDorcas(actor). }
   }

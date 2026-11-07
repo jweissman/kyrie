@@ -32,13 +32,48 @@ Module pentrice "Gosse's Company" {
   // The troupe goes ahead. They lodge at the Sparrow until they have a house of their own.
   Rule royal_arrival when at(party, road_head) and summoned(pentrice) and not royalCall(pentrice) {
     Assert royalCall(pentrice). Set arrivedR(rierdan) to day(clock). Set favour(rierdan) to 0.
-    Assert troupe(clemency).
-    Retract at(gosse, moon_loft). Retract at(hepzibah, moon_loft). Retract at(swale, moon_loft). Retract at(dorcas, moon_loft).
-    Retract at(pudding, moon_loft). Retract at(kit, moon_loft). Retract at(tam, moon_loft). Retract at(the_bear, moon_yard).
-    Retract at(gosse, moon_taproom). Retract at(hepzibah, moon_taproom). Retract at(swale, moon_taproom). Retract at(dorcas, moon_taproom).
-    Retract at(pudding, moon_taproom). Retract at(kit, moon_taproom). Retract at(tam, moon_taproom).
-    Assert at(gosse, sparrow_loft). Assert at(hepzibah, sparrow_loft). Assert at(swale, sparrow_loft). Assert at(dorcas, sparrow_loft).
-    Assert at(pudding, sparrow_loft). Assert at(kit, sparrow_loft). Assert at(tam, sparrow_loft). Assert at(the_bear, sparrow_taproom).
+    Assert at(the_bear, sparrow_taproom). }
+  // Whoever is still of the company lodges at the Sparrow; whoever left it in Pentrice is found where they went.
+  Relation lodged(group). Relation dorcasFound(group). Relation swaleFound(group). Relation clemArrived(group).
+  Rule lodge_troupe when royalCall(pentrice) and troupe(?p) and not lodged(?p) and not houseGranted(rierdan) { Assert lodged(?p). Assert at(?p, sparrow_loft). }
+  Rule lodge_troupe_wick when royalCall(pentrice) and troupe(?p) and not lodged(?p) and houseGranted(rierdan) { Assert lodged(?p). Assert at(?p, lant_ward). }
+  Rule dorcas_found when royalCall(pentrice) and dorcasGone(dorcas) and not dorcasFound(dorcas) { Assert dorcasFound(dorcas). Assert at(dorcas, rot_front). }
+  Rule swale_found when royalCall(pentrice) and swaleGone(swale) and not swaleFound(swale) { Assert swaleFound(swale). Assert at(swale, sparrow_taproom). }
+  Rule clem_follows when royalCall(pentrice) and not clemArrived(clemency) { Assert clemArrived(clemency). Assert troupe(clemency). Assert lodged(clemency). }
+  Topic dorcas_return with dorcas "Ask Dorcas whether the Rotunda is all she thought it would be" when royalCall(pentrice) and dorcasGone(dorcas) once {
+    Says "Dorcas Quaile is sitting in the Rotunda's front of house in a gown she did not pay for, drinking something clear. 'It has a roof,' she says. 'It has a Fallow. It has a Lord Rask who is the second-largest man in the realm and the first-most-patient.' She turns the glass. 'Master Gosse is the King's, they say. Is there a part?' It is the nearest she will come to saying it.".
+  }
+  Topic dorcas_home with dorcas "There is a part, and a wardrobe, and a Gosse who has not got over you" answering dorcas_return when true {
+    Says "'He has not,' says Dorcas. 'He told me a thing in Pentrice and I was a coward.' She puts down the glass. 'I shall come. I shall want it in writing that I was not asked to.' She is already getting up.".
+    On discuss { Assert dorcasHome(actor). }
+  }
+  Topic dorcas_stay_rask with dorcas "Stay where you are, then. The roof is real" answering dorcas_return when true {
+    Says "Dorcas looks at you for a long time. 'Thank you,' she says. 'Nobody has said that to me and meant it.' She finishes the glass.".
+  }
+  Relation dorcasHome(group). Relation swaleHome(group).
+  Rule dorcas_returns when dorcasHome(party) and dorcasGone(dorcas) { Retract dorcasGone(dorcas). Assert troupe(dorcas). Assert lodged(dorcas). Assert at(dorcas, lant_ward). }
+  Topic swale_return with swale "Ask Swale what brings a man of his gifts to a taproom in Dun Rierdan" when royalCall(pentrice) and swaleGone(swale) once {
+    Says "Ambrose Swale rises, magnificently, and sits again. 'I heard,' he says. 'In a coach, from a tallow-chandler, that Gosse had been sent for by the King. I thought: he will want a Ghost.' He studies his hands. 'I did not think: he will not want me. I thought it afterward, on the road, and I am here, and I am very drunk, and it is a splendid city.'".
+  }
+  Topic swale_back with swale "He wants you. He has never said so" answering swale_return when true {
+    Says "Swale puts both hands over his face. 'He has not,' he says through them. 'Nineteen years. He has not said it once.' He drops them. 'Take me to him before I think better of it.'".
+    On discuss { Assert swaleHome(actor). }
+  }
+  Rule swale_returns when swaleHome(party) and swaleGone(swale) { Retract swaleGone(swale). Assert troupe(swale). Assert lodged(swale). Assert at(swale, lant_ward). }
+  // The Trial's outcome, carried by the people it happened to.
+  Observe gosse_patent near gosse when royalCall(pentrice) and patentWon(pentrice) "Gosse has the Patent of the Wheel in a leather tube, and takes it out to look at when he thinks nobody sees. It does not say what he thought it would say. It says he owes the Office a quarter's rent.".
+  Observe gosse_pension near gosse when royalCall(pentrice) and pensionTaken(gosse) "Gosse wears Fallow's thirty crowns like a good coat that belongs to someone else. He is very gracious about it and does not speak of the Trial.".
+  Observe gosse_neither near gosse when royalCall(pentrice) and not patentWon(pentrice) and not pensionTaken(gosse) "Gosse has no Patent and no pension, and the grey patience of a man who has been refused a roof before, in a better year.".
+  Observe hepzibah_wife near hepzibah when royalCall(pentrice) and (proposed(gosse) or emptyWing(gosse)) "Hepzibah Dimmock is Mrs Gosse, and writes it in the prompt-book's margin in a very small hand when she thinks nobody is looking, and then rubs it out.".
+  Observe kit_voice near kit when royalCall(pentrice) and kitVoiceHeld(kit) "Kit Arden's voice has held through the winter, on a spoonful of honey a day and a great deal of will. He is sixteen, and plays girls, and is aware that this is a loan.".
+  Observe kit_broke near kit when royalCall(pentrice) and not kitVoiceHeld(kit) "Kit Arden's voice broke somewhere between Pentrice and the River Gate, and he plays the girls now in a falsetto he hates, and knows exactly how many more months it has.".
+  Observe fallow_won near fallow when royalCall(pentrice) and not patentWon(pentrice) "Corin Fallow holds the Patent of the Wheel and is, accordingly, a power in a bigger room, which he has taken the trouble to learn the shape of.".
+  Observe fallow_lost near fallow when royalCall(pentrice) and patentWon(pentrice) "Corin Fallow lost the Patent of the Wheel to Gosse's Company and has been given the Rotunda by way of a consolation. He is gracious about it, and has made a list.".
+  Topic clem_left with clemency "Ask Clemency Orde why she left the Office of Plain Speech" when royalCall(pentrice) and clemBowed(clemency) once {
+    Says "'I stood up on the stage of the Wheel before the City and said I had written it,' says Clemency Orde, 'and a Master of Plain Speech cannot be seen to have written a play. It is an Ordinance. I wrote the Ordinance.' She smooths the page. 'My father was the Lord Mayor Gosse made a fool of. I did not forgive Gosse for forty years. I have been surprised to find that I would like to be in the room when he is forgiven.'".
+  }
+  Topic clem_leave with clemency "Ask Clemency Orde what a Master of Plain Speech wants in a theatre" when royalCall(pentrice) and not clemBowed(clemency) once {
+    Says "'I am on leave,' says Clemency Orde, 'which is to say that I did not ask permission.' She does not smile. 'My father was a Lord Mayor Gosse made a fool of, and he loved me, and he is dead. I wrote a play about him for the man who mocked him, which is not what the Office calls plain.' She looks at the stage. 'I should like to see what he does with it. In a room where nobody is counting.'".
   }
   // When the Crown gives the company the Wick, it lodges there: in the wardrobe, among the hampers.
   Rule troupe_to_wick_loft when troupe(?p) and houseGranted(rierdan) and distinct(?p, clemency) and at(?p, sparrow_loft) and not holdingAct(rierdan) { Retract at(?p, sparrow_loft). Assert at(?p, lant_ward). }
@@ -62,7 +97,7 @@ Module pentrice "Gosse's Company" {
   }
   Person mallam "Osbert Mallam" at closet {
     Role "the Chamberlain's clerk". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
-    Greets "Osbert Mallam is twenty-two and has been up all night. 'The masquers,' he says, brightly. 'Have the masquers come? Oh, you have. Splendid. Which of you is the one who does the voices?'".
+    Greets "Osbert Mallam is twenty-two and has been up all night, and is in the best of spirits about it. 'The masquers!' he cries. 'Have the masquers come? Oh, you have. Splendid. Do sit. Is that a bear?' 'Have the masquers come? Oh, you have. Splendid. Which of you is the one who does the voices?'".
   }
   Person lothar "Prince Lothar Orvane" at terrace {
     Role "the King's grandson and heir, nineteen". Ancestry human. Peaceable. Pronouns he. Manner grim.
@@ -83,7 +118,7 @@ Module pentrice "Gosse's Company" {
     Greets "The steward has the face of a boiled ham and the manner of one who has waited on the same family for forty years and has decided to say nothing about any of it. He looks at you, and at Kit if Kit is with you, and lets his eyes do the arithmetic.".
   }
   Person oriel "Oriel Marchant" at rot_wings {
-    Role "a page of the Rotunda, small and sharp-faced". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
+    Role "a page of the Rotunda, small and sharp-faced". Ancestry human. Peaceable. Pronouns she. Manner cheerful.
     Known as "Orrin, a page of the Rotunda" when not knows(party, oriel_unmasked).
     Greets "A slight page in the Rotunda's blue, with soot on one cheek and a prompt-copy under his arm, looks at you with sharp interest. 'You're players,' he says, and the word is a different word in his mouth than in anyone else's. 'Real ones. Not Master Fallow's.'".
   }

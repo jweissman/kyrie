@@ -20,6 +20,12 @@ class KP {
     c.campaign.commitWorld(c.campaign.world.apply([{ kind: 'set', call: ModuleWriter.call(p(name), ...args), value: ModuleWriter.number(value) }]));
     return this;
   }
+  retract(name: string, ...args: string[]) {
+    const c = this.j as unknown as { campaign: { world: { apply(c: unknown[]): unknown }; commitWorld(w: unknown): void } };
+    c.campaign.commitWorld(c.campaign.world.apply([{ kind: 'retract', call: ModuleWriter.call(p(name), ...args.map(p)) }]));
+    return this;
+  }
+  get pages() { return this.j.taken.map(x => `[${x.label}] ${x.page} ${x.told}`).join('\n'); }
   put(who: string, place: string) { this.j.put(p(who), p(place)); return this; }
   holds(name: string, ...args: string[]) { return this.j.holds(p(name), ...args.map(p)); }
   knows(f: string) { return this.j.holds('knows', 'party', p(f)); }
@@ -269,11 +275,15 @@ describe("The King's Players, Act IV: the Note", () => {
   // Act III's end is the one staged thing; everything after is walked and played by label.
   const staged = async (seed = 'kp4') => {
     const k = await KP.start(seed);
-    k.assert('royalCall', 'pentrice').assert('auditioned', 'rierdan').assert('actIIIDone', 'rierdan').set('favour', 'rierdan', '3');
-    for (const who of ['gosse', 'hepzibah', 'swale', 'dorcas', 'pudding', 'kit', 'tam']) k.put(who, 'sparrow_loft');
+    k.assert('royalCall', 'pentrice').assert('auditioned', 'rierdan').set('favour', 'rierdan', '3');
     k.put('party', 'concourse');
+    await k.play('Wait › An hour'); // the company is lodged at the Sparrow, as the arrival leaves it
+    expect(k.at('hepzibah')).toBe(p('sparrow_loft'));
+    k.assert('actIIIDone', 'rierdan');
     await k.play('Wait › A while');
     expect(k.holds('wickGranted', 'rierdan')).toBe(true);
+    await k.play('Wait › An hour'); // the company, lodged at the Sparrow, moves into the Wick it was given
+    expect(k.at('hepzibah')).toBe(p('lant_ward'));
     k.set('openingDay', 'rierdan', '0'); // the same evening, rather than waiting out the three days the lease allows
     return k;
   };
@@ -418,9 +428,38 @@ describe("The King's Players, Act V: the Command", () => {
       expect(reached(k)).toEqual([p(ending)]);
     }, 290000);
   }
+  it('pays the Swale arc: the one who hid it blurts in scene 4, the one who owned it stands, and the stakes differ', async () => {
+    const hid = await staged('kp5h');
+    hid.assert('swaleHidden', 'party');
+    hid.j.roll('pass');
+    for (let n = 0; n < 4; n++) await hid.play('Give Hepzibah the nod for the next scene');
+    expect(hid.pages).toMatch(/It is mine! I wrote it!/);
+    expect(hid.holds('swaleBlurted', 'rierdan')).toBe(true);
+    const owned = await staged('kp5o');
+    owned.assert('swaleOwned', 'party').assert('gosseTold', 'party');
+    for (let n = 0; n < 4; n++) await owned.play('Give Hepzibah the nod for the next scene');
+    expect(owned.pages).toMatch(/Mr Gosse has forgiven it/);
+    expect(owned.holds('swaleStood', 'rierdan')).toBe(true);
+    expect(owned.measure('chaos', 'rierdan')).toBeLessThan(hid.measure('chaos', 'rierdan'));
+  }, 290000);
+  it('lets someone who left Pentrice be found in Dun Rierdan and asked home, and does not hard-code a roster', async () => {
+    const k = await KP.start('kp-found');
+    k.assert('dorcasGone', 'dorcas').retract('troupe', 'dorcas').assert('swaleGone', 'swale').retract('troupe', 'swale');
+    k.assert('royalCall', 'pentrice');
+    await k.play('Wait › An hour');
+    expect(k.at('dorcas')).toBe(p('rot_front'));
+    expect(k.at('swale')).toBe(p('sparrow_taproom'));
+    expect(k.at('gosse')).toBe(p('sparrow_loft'));
+    k.put('party', 'rot_front');
+    await k.play('Ask Dorcas whether the Rotunda is all she thought it would be', 'There is a part, and a wardrobe, and a Gosse who has not got over you');
+    await k.play('Wait › An hour');
+    expect(k.holds('troupe', 'dorcas')).toBe(true);
+    expect(k.holds('dorcasGone', 'dorcas')).toBe(false);
+  }, 200000);
   it('lets the player answer the company in the wings: Dorcas, Hepzibah and Kit each go one way or the other', async () => {
     const k = await KP.start('kp5c');
     k.assert('royalCall', 'pentrice').assert('raskCharmed', 'party').assert('twinsMet', 'party');
+    for (const w of ['dorcas', 'hepzibah', 'kit']) k.assert('lodged', w);
     k.put('party', 'lant_ward').put('dorcas', 'lant_ward').put('hepzibah', 'lant_ward').put('kit', 'lant_ward');
     await k.play('Ask Dorcas what Lord Rask said in the box', 'Stay. You\'d never forgive the house for the loss of you');
     await k.play('Ask Hepzibah whether she has ever told Gosse', 'Tell him. A man ought to know');
