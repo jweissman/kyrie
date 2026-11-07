@@ -99,7 +99,8 @@ Module tallow "Tallow Deep" {
   Passage portal_path "the track to the Day-Level" is path between garden and adit_mouth taking 10 minutes.
   Passage upland_climb "the upland climb" is path between green and upland_track taking 1 hour.
   Passage scrub_path "the track through the scrub" is path between upland_track and scrub taking 30 minutes.
-  Passage rim_path "the track to the Swallow" is path between scrub and swallow_rim taking 20 minutes.
+  Passage rim_path "the track to the Swallow" is path between scrub and swallow_rim taking 20 minutes
+    opening when tolerates(owlbear, party) or not able(owlbear) "The she-owlbear stands across the track to the Swallow, broad as the heather, and does not intend to be passed.".
   Passage west_track "the west road" is road between lane and west_end taking 1 hour.
   Passage buried_way "the scree below the ridge's end" is path between west_end and calx_portal taking 20 minutes.
 
@@ -119,7 +120,8 @@ Module tallow "Tallow Deep" {
   Passage gallery_settling "the Wend's channel, upstream" is tunnel between rising_gallery and settling taking 30 minutes.
   Passage settling_service "the service walk's lower stair" is steps between settling and aenean_walk.
   Passage service_spiders "the service walk" is passage between aenean_walk and spider_gallery taking 20 minutes.
-  Passage spiders_upper "the Upper Conduit" is passage between spider_gallery and upper_conduit taking 20 minutes.
+  Passage spiders_upper "the Upper Conduit" is passage between spider_gallery and upper_conduit taking 20 minutes
+    opening when not at(spiders, spider_gallery) or not able(spiders) or tolerates(spiders, party) "Tier on tier of web hangs across the way to the Upper Conduit, and the spiders sit in it.".
   Passage upper_foot "the Aenean channel" is passage between upper_conduit and swallow_foot.
   Passage upper_sluice "the sluice steps" is steps between upper_conduit and sluice_house.
   Passage swallow_climb "the Swallow's throat" is shaft between swallow_foot and swallow_rim taking 2 hours needing rope or climbing.
@@ -134,17 +136,21 @@ Module tallow "Tallow Deep" {
   Passage hall_landing "the south shore" is passage between cistern_hall and south_landing taking 10 minutes.
   Passage hall_wall "the way along the west wall" is passage between south_landing and tally_wall taking 20 minutes.
   Passage hall_cap "the causeway to the Cap" is passage between cistern_hall and the_cap taking 10 minutes
-    opening when state(sluice, wound) "The causeway to the Cap lies a hand under black water, and the water is deep on either side. Nothing crosses it while the river runs.".
+    opening when state(sluice, wound) or been(party, the_cap) "The causeway to the Cap lies a hand under black water, and the water is deep on either side. Nothing crosses it while the river runs."
+    opening when tolerates(slump, party) or not able(slump) "The black water along the causeway stands up in a smooth wall, between you and the Cap.".
   Passage landing_settling "the siphon-house stair" is stair between south_landing and settling taking 20 minutes.
 
   // The Bore.
   Passage cap_upper "the Long Stair, upper flights" is stair between the_cap and breach taking 30 minutes.
   Passage breach_ossuary "the miners' breach" is passage between breach and ossuary.
-  Passage ossuary_gate "the Calx Way, east end" is passage between ossuary and gate_house.
+  Passage ossuary_gate "the Calx Way, east end" is passage between ossuary and gate_house
+    opening when laid(party) or dead(ghouls) or not able(ghouls) or tolerates(ghouls, party) "The ghouls crouch in the way to the Calx Way, long hands flat on the stacked boots.".
   Passage gate_way "the Calx Gate" is gate between gate_house and calx_way.
   Passage way_portal "the Calx Way, west" is tunnel between calx_way and calx_inner taking 1 hour.
   Passage portal_inner "the buried portal's face" is gate between calx_inner and calx_portal.
   Passage breach_gear "the Long Stair, lower flights" is stair between breach and gear_hall taking 30 minutes.
-  Passage gear_quiet "the Quiet Gallery's mouth" is passage between gear_hall and quiet_gallery.
-  Passage quiet_dial "the Quiet Gallery, far end" is passage between quiet_gallery and dial_room.
+  Passage gear_quiet "the Quiet Gallery's mouth" is passage between gear_hall and quiet_gallery
+    opening when not able(custodians) or tolerates(custodians, party) "The custodians stand across the mouth of the Quiet Gallery, side by side, and do not move.".
+  Passage quiet_dial "the Quiet Gallery, far end" is passage between quiet_gallery and dial_room
+    opening when not able(stalkers) or tolerates(stalkers, party) "Far down the gallery three heads are turned toward you on the ceiling, every pit of them pointed at your mouth.".
 }

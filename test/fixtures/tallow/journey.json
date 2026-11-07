@@ -3,10 +3,10 @@
   "To Swallet lane",
   "To Swallet green",
   "Into the Chandler's Arms",
-  "Ask Hester about the water-trouble",
-  "Ask Hester about the old road",
-  "Ask Dunstan what happened in 'fifty-two",
-  "Ask Dunstan about the Calx Gate",
+  "Ask Lowen about the water-trouble",
+  "Ask Lowen about the old road",
+  "Ask Barrick what happened in 'fifty-two",
+  "Ask Barrick about the Calx Gate",
   "Out to Swallet green"
  ],
  "shop": [
@@ -18,6 +18,10 @@
   "Buy › A twist of ratsbane",
   "Out to Swallet green",
   "To the Brasiers' garden"
+ ],
+ "to_adit": [
+  "To the Day-Level portal",
+  "To the adit"
  ],
  "descend": [
   "To the Day-Level portal",
@@ -45,14 +49,15 @@
   "To the sump of the Blind Shaft",
   "To the north walk",
   "To the Foreman's office",
-  "Bran: light a torch",
+  "?Bran: light a torch",
   "Lift the stone and open the desk",
   "Foreman Carr's letter: Take from the Foreman's desk",
   "the Company's ledger: Take from the Foreman's desk",
   "a dagger of black glass: Take from the Foreman's desk",
   "Foreman Carr's box: Take from the Foreman's desk",
   "a zoological manual, water-stained: Take",
-  "a foreman carr's letter: Read"
+  "a foreman carr's letter: Read",
+  "the Company's ledger: Read"
  ],
  "home": [
   "To the north walk",
@@ -60,7 +65,7 @@
   "To the head of the Blind Shaft",
   "To the winding-house",
   "To the Tally-Room",
-  "Ask Joss what he pays for",
+  "Ask Cador what he pays for",
   "To the long drift",
   "To the adit",
   "To the Day-Level portal",
@@ -86,14 +91,22 @@
   "Buy › A torch",
   "Buy › A torch",
   "Buy › A torch",
+  "Buy › A torch",
+  "Buy › A torch",
   "Buy › A twist of ratsbane",
-  "Out to Swallet green"
+  "Buy › A ration",
+  "Buy › A ration"
+ ],
+ "osk": [
+  "Ask Osk to come and look at the Cap",
+  "Yes. If it asks to be left alone",
+  "Ask Osk to join the company"
  ],
  "rising": [
   "To the bank below the Rising",
   "To the mouth of the Rising",
   "To the Rising Gallery",
-  "Bran: light a torch",
+  "?Bran: light a torch",
   "To the bat chimney",
   "a sack of guano: Take",
   "To the Rising Gallery",
@@ -101,45 +114,35 @@
   "Lay ratsbane along the mud-bank",
   "To the Aenean service walk",
   "To the Spider Gallery",
+  "?Bran: light a torch",
   "Put a flame to the webs",
   "To the Upper Conduit"
  ],
  "conduit": [
   "To the sluice-house",
-  "Bran: light a torch",
+  "?Bran: light a torch",
   "Wind the sluice-wheel shut",
   "To the Upper Conduit",
+  "?Bran: light a torch",
   "To the Cistern Hall",
-  "Heap guano on the shore for the slump",
+  "Heap guano on the shore for the slump"
+ ],
+ "wall": [
+  "?Bran: light a torch",
   "To the south landing",
   "To the Tally-Wall",
   "To the south landing",
   "To the Cistern Hall",
   "To the Cap"
  ],
+ "ring": [
+  "Turn the Cap's bronze ring to hold the river back another four hours"
+ ],
  "bore": [
-  "Bran: light a torch",
+  "?Bran: light a torch",
   "To the Brasiers' Breach",
   "Bind blankets over boots and wrap wet cloth across mouths",
-  "To the Gear-Hall",
-  "Set the escapement to the beat cut in the Tally-Wall",
-  "To the Quiet Gallery",
-  "To the Dial",
-  "Bran: light a torch"
- ],
- "out": [
-  "To the Ossuary",
-  "Say the Company's burial words over the stacked dead",
-  "To the gate-house of the Calx Way",
-  "To the Calx Way — free the gate-wheel's pawl with lamp oil",
-  "To the Calx Way — turn the wheel and raise the Calx Gate",
-  "Elen: light a candle",
-  "To the Calx Way",
-  "To the inside of the buried portal",
-  "To the buried portal — dig the earth out of the portal",
-  "To the buried portal",
-  "To the west road's end",
-  "To Swallet lane"
+  "To the Gear-Hall"
  ],
  "dial": [
   "an orrery of grey metal: Take",
@@ -151,5 +154,67 @@
   "To the Quiet Gallery",
   "To the Gear-Hall",
   "To the Brasiers' Breach"
+ ],
+ "out": [
+  "To the Ossuary",
+  "Read the fourteen names aloud over the stacked dead",
+  "To the gate-house of the Calx Way",
+  "?Elen: light a candle",
+  "To the Calx Way — free the gate-wheel's pawl with lamp oil",
+  "?Bran: light a torch",
+  "To the Calx Way — turn the wheel and raise the Calx Gate",
+  "?Bran: light a torch",
+  "?Elen: light a candle",
+  "To the Calx Way",
+  "To the inside of the buried portal",
+  "?Bran: light a torch",
+  "To the buried portal — dig the earth out of the portal",
+  "To the buried portal",
+  "To the west road's end",
+  "To Swallet lane"
+ ],
+ "gear": [
+  "Set the escapement to the beat cut in the Tally-Wall",
+  "To the Quiet Gallery",
+  "To the Dial",
+  "?Bran: light a torch"
+ ],
+ "hall_shop": [
+  "Into Osk's store",
+  "Buy › A torch",
+  "Buy › A torch",
+  "Buy › A torch",
+  "Buy › A torch",
+  "Buy › A twist of ratsbane",
+  "Buy › A ration",
+  "Buy › A ration",
+  "Buy › A ration",
+  "Out to Swallet green"
+ ],
+ "sib_shop": [
+  "Into Osk's store",
+  "Buy › A torch",
+  "Buy › A torch",
+  "Buy › A twist of ratsbane",
+  "Out to Swallet green",
+  "To the Brasiers' garden"
+ ],
+ "sib_hire": [
+  "Ask Sib what a woman does on the bend of a smugglers' adit",
+  "Open it. A lock is an opinion",
+  "Ask Sib Wray to join the company"
+ ],
+ "to_settling": [
+  "To the long drift",
+  "To the adit",
+  "To the Day-Level portal",
+  "To the Brasiers' garden",
+  "To Swallet green",
+  "To the bank below the Rising",
+  "To the mouth of the Rising",
+  "To the Rising Gallery",
+  "?Bran: light a torch",
+  "To the Settling Cistern",
+  "Lay ratsbane along the mud-bank"
  ]
 }
