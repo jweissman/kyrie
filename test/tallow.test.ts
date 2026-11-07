@@ -95,4 +95,21 @@ describe('Tallow Deep', () => {
     await j.step('Turn the Cap\'s bronze ring to hold the river back another four hours');
     expect(j.measure('shutAt', 'sluice')).toBeGreaterThan(before);
   }, 120000);
+
+  it('puts questions to the asker, and what is answered is remembered', async () => {
+    const j = await Journey.start(campaign, 'tallow');
+    await j.play('To Swallet lane', 'To Swallet green', "Into the Chandler's Arms", 'Say why you are going up the hill', 'For the men who did not come out');
+    expect(j.holds('motiveDead', 'party')).toBe(true);
+    await j.play("Tell Dunstan you came for the men who did not come out");
+    j.put('party', 'tally_room');
+    j.give('excise_item');
+    await j.play('Ask Sib what a woman does on the bend of a smugglers\' adit', 'Open it. A lock is an opinion');
+    expect(j.holds('willing', 'sib', 'party')).toBe(true);
+    await j.play('Show Sib the letter from the drowned man', 'Burn it where she can see');
+    expect(j.holds('sibBurned', 'party')).toBe(true);
+    j.put('party', 'adit_mouth');
+    j.give('vault_collar');
+    await j.play('Ask Nib why he watches the portal so hard', 'Give Nib the cat\'s collar', 'No. It was not quick');
+    expect(j.holds('nibTold', 'party')).toBe(true);
+  }, 120000);
 });

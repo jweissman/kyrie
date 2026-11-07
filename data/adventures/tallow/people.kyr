@@ -84,6 +84,10 @@ Module tallow "Tallow Deep" {
     Sells ratsbane for 3 coin from 4.
     Sells climbing_harness for 6 coin from 2.
     Buys guano_sack for 3 coin.
+    Joins "Osk takes his hammer from its nail and puts it in his belt, and hangs a card on the door that says BACK AFTER. 'I have never been under that hill,' he says. 'My grandfather would not go.'".
+    Leaves "Osk shoulders his bag. 'I'll see to the shop,' he says. 'You have your own road.'".
+    Remarks at gear_hall "Osk stops on the last stair. He looks at the wheels, the teeth, the dark floor, and takes off his cap, which he has not done for a king. 'There,' he says very softly. 'No joints. It was never put together.'".
+    Remarks at cistern_hall "Osk lays a palm on a column. 'Aenean,' he says. 'Cut to a thumb. They were proud of it.' He takes the hand away. 'It is holding up a hall that is holding up a mountain, and has been told not to ask what for.'".
     Greets "Osk looks you over once, boots to hat, and begins taking things off the shelf. 'You want rope,' he says. 'Everyone wants rope. Buy oil with it.'".
   }
   Topic osk_gear with osk "Ask Osk what to take" when true {
