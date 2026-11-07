@@ -43,19 +43,28 @@ export class Sittings {
     }
     return sat;
   }
-  // Everyone the paintings are of, country by country: each country's own likenesses taken first, then each of its
-  // people given the next that fits.
+  // Everyone the paintings are of, in the order the world came to hold them: each country's own likenesses taken
+  // first, then each person given the next that fits their country, apart from what was given before them elsewhere.
+  // Painted country by country, a country drawn later beyond the march, sharing the world's outermost place with the
+  // first, had been painted before a ship's crew held long before it, and changed their faces (Aggie Nunn, when the
+  // Wapshotts' fourth act came in): whoever the world holds later is painted after everyone it held before.
   private static sitting(campaign: Campaign): Map<string, string | undefined> {
-    const chosen = new Map<string, string | undefined>(), held = new Set<string>();
+    const chosen = new Map<string, string | undefined>(), given = new Map<string, string>();
     const creatures = new Map(campaign.readout.creatures.map(c => [c.id, c]));
-    for (const people of this.countries(campaign, creatures)) {
-      const taken = new Set(people.flatMap(id => this.own(campaign, id) ?? []));
-      for (const id of people) {
-        const painting = this.fit(campaign, id, { taken, held, creatures });
-        chosen.set(id, painting);
-        if (painting) { taken.add(painting); }
-      }
-      for (const painting of taken) { held.add(painting); }
+    const countries = this.countries(campaign, creatures), of = new Map<string, number>(), taken: Set<string>[] = [];
+    countries.forEach((people, n) => {
+      taken.push(new Set(people.flatMap(id => this.own(campaign, id) ?? [])));
+      for (const id of people) { of.set(id, n); }
+    });
+    for (const id of campaign.module.entities.map(e => e.id).filter(x => of.has(x))) {
+      const n = of.get(id)!, held = new Set([...given].filter(([, c]) => c !== String(n)).map(([p]) => p));
+      // A country drawn beyond the march gives its own people none the world holds already: where none is left,
+      // they are met by their emblem (a ship's cook and an eel-man over the march had shared one).
+      const beyond = /^x[mp]\d+y[mp]?\d+__/.test(id);
+      const painting = this.fit(campaign, id, beyond ? { taken: new Set([...taken[n]!, ...held]), creatures }
+        : { taken: taken[n]!, held, creatures });
+      chosen.set(id, painting);
+      if (painting) { taken[n]!.add(painting); if (!given.has(painting)) { given.set(painting, String(n)); } }
     }
     return chosen;
   }
@@ -63,6 +72,7 @@ export class Sittings {
   // turn, so that whoever the world comes to hold later is painted after everyone it held before.
   private static countries(campaign: Campaign, creatures: Map<string, Creature>): string[][] {
     const entities = campaign.module.entities, parent = new Map(entities.map(e => [e.id, e.space?.parent]));
+    const kind = new Map(entities.map(e => [e.id, e.space?.kind]));
     const start = new Map<string, string>(), by = new Map<string, string[]>(), groups = campaign.readout.inhabitants;
     for (const c of campaign.module.initial) {
       if (c.kind === 'assert' && c.call.name === 'at' && !start.has(c.call.args[0]!)) {
@@ -72,8 +82,12 @@ export class Sittings {
     for (const e of entities) {
       if (!Object.hasOwn(groups, e.id) || !this.member(campaign, e.id, creatures)) { continue; }
       let place = start.get(e.id) ?? '';
-      for (let up = parent.get(place); up; up = parent.get(place)) { place = up; }
-      by.set(place, [...by.get(place) ?? [], e.id]);
+      for (let up = parent.get(place); up && kind.get(place) !== 'region'; up = parent.get(place)) { place = up; }
+      // One who begins nowhere (offstage, to come aboard later) is a country of their own, painted where the world
+      // first held them: lumped with everyone else who begins nowhere, a country drawn later beyond the march had
+      // taken a circus cook's painting from her (Aggie Nunn, when the Wapshotts' fourth act came in).
+      const country = place || `@${e.id}`;
+      by.set(country, [...by.get(country) ?? [], e.id]);
     }
     return [...by.values()];
   }

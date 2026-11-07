@@ -83,7 +83,7 @@ export class WorldStage {
     return (
       <ul className={`portraits${many > WorldStage.crowd ? ' crowd' : ''}`} aria-label="Who is here">
         {[...company, ...shown].map(x => <li key={x.id} data-subject={x.id}
-          className={`${x.kind}${x.danger ? ' danger' : ''}${WorldStage.led(app, x) ? ' led' : ''}`
+          className={`${x.kind}${x.danger ? ' danger' : ''}${WorldStage.aimed(app, x) ? ' led' : ''}`
             + `${x.stake ? ' stake' : ''}${x.owed ? ' owed' : ''}`}>
           <WorldStage.Portrait subject={x} draw={draw} /></li>)}
       </ul>
@@ -110,6 +110,12 @@ export class WorldStage {
   static led(app: ReaderApp, x: SceneSubject): boolean {
     const g = app.state.frame?.leaf.glance;
     return (app.menu.leads ?? g?.acts ?? []).some(a => a.subject === x.id);
+  }
+  // Whether the glance leads with them for the aim followed: only those are ringed in gold (the owner, 7 November:
+  // gold for the aim the company follows and nothing else; a brother ringed for being kin had read as a quest).
+  static aimed(app: ReaderApp, x: SceneSubject): boolean {
+    const g = app.state.frame?.leaf.glance;
+    return (app.menu.leads ?? g?.acts ?? []).some(a => a.subject === x.id && GlanceStage.aiming.has(a.why));
   }
   static Portrait({ subject: x, draw }: { subject: SceneSubject; draw: Draw }) {
     // One with nothing to say or do now is a likeness, not a way into a conversation with nothing in it.

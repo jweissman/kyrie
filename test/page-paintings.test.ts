@@ -22,6 +22,16 @@ class Census {
     }
     return held;
   }
+  // The country someone begins in: the region of where they first stand, or a country of their own where they begin
+  // nowhere (see Sittings.countries).
+  static country(s: PlaySession, id: string): string {
+    const m = s.campaign.module, parent = new Map(m.entities.map(e => [e.id, e.space?.parent]));
+    const kind = new Map(m.entities.map(e => [e.id, e.space?.kind]));
+    const start = m.initial.find(c => c.kind === 'assert' && c.call.name === 'at' && c.call.args[0] === id);
+    let place = start?.kind === 'assert' ? start.call.args[1]! : '';
+    for (let up = parent.get(place); up && kind.get(place) !== 'region'; up = parent.get(place)) { place = up; }
+    return place || `@${id}`;
+  }
   static twice(held: Map<string, string[]>): [string, string[]][] {
     return [...held].filter(([, ids]) => ids.length > 1);
   }
@@ -80,7 +90,9 @@ describe('the people on a page', () => {
     expect((await new Frontier('a1', NodeBundleSource.shared).expand(s.campaign))?.rid).toBe('xm1y0');
     const after = Census.take(s), beyond = [...after.values()].flat().filter(id => id.startsWith('xm1y0__'));
     expect(beyond.length).toBeGreaterThan(20);
-    const country = (id: string) => id.startsWith('xm1y0') ? 'beyond' : 'first';
+    // Each by the country they begin in, as the census reads it: the outermost place they start at (the circus's
+    // cook, Aggie Nunn, begins aboard the Sundial, a place of its own, and may share a painting a country away).
+    const country = (id: string) => Census.country(s, id);
     const shared = Census.twice(after);
     expect(shared.filter(([, ids]) => ids.some(id => id.startsWith('xm1y0__')))).toEqual([]);
     expect(shared.filter(([, ids]) => new Set(ids.map(country)).size < ids.length)).toEqual([]);
