@@ -73,11 +73,12 @@ export class MapView {
     return aim && who.length && !MapView.aim(app, screen) ? { aim, who: MapView.who(screen) } : undefined;
   }
   private static aim(app: ReaderApp, screen: Screen): string | undefined {
-    // The aim followed, where it names somewhere the company knows the way to; else the one the page leads toward.
+    // The aim followed, where it names somewhere the company knows the way to; else where the page leads toward it.
+    // Another aim held is not the map's to open on (the owner's play of 7 November: "your aim" is the one followed).
     const followed = Followed.of(screen);
     const named = followed && Aims.named(screen, screen.destinations ?? [], followed)?.id;
     if (named && screen.region?.land && MapView.way(screen, named).go) { return named; }
-    const id = app.state.frame?.leaf.glance?.aimed?.find(a => a.startsWith('travel:'))?.slice('travel:'.length);
+    const id = app.state.frame?.leaf.glance?.following?.find(a => a.startsWith('travel:'))?.slice('travel:'.length);
     if (id && screen.region?.land && MapView.way(screen, id).go) { return id; }
     // Where the aim is, on the map, though no way there is known yet: chosen, its card says so.
     const land = screen.region?.land, marked = new Set([...land?.marks.map(m => m.id) ?? [],
@@ -154,7 +155,7 @@ export class MapView {
         <p className="label">{MapView.told(region, chosen, here)}</p>
         <h2 className="to" tabIndex={-1}>{Typography.curl(Words.upper(name))}</h2>
         {d && <ol className="legs">{d.legs.map((l, i) => <li key={i}>{Typography.curl(Words.leg(l.way, l.to))}
-          <span className="note">{Words.span(l.minutes)}</span></li>)}</ol>}
+          {' '}<span className="note">{Words.span(l.minutes)}</span></li>)}</ol>}
         <p className="how">{d ? `${Words.upper(Words.span(d.minutes))} in all${d.toward ? `, as far as ${d.toward}` : ''}. ${
           MapView.arrival(screen, d.minutes)}`
           : here ? 'You are here already.' : go ? 'Across the country you can see, the quickest way.'

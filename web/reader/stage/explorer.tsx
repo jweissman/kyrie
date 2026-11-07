@@ -55,8 +55,11 @@ export class Explorer {
   static open(app: ReaderApp, part?: Part) {
     const wait = part === 'wait' ? Pastime.wait(app)?.id : undefined;
     const held = part === 'look' ? AtHand.led(app, AtHand.of(app)) ?? AtHand.of(app)[0] : undefined;
-    // Put away, what was told in it stays told (not said again on the place at rest); opened, it begins afresh.
+    // Put away, what was told in it stays told (not said again on the place at rest); opened, it begins afresh. A way
+    // touched once in Go… that asked first is asked again (it goes at a click now: see Wayfinder.go), not taken by the
+    // next touch of it elsewhere.
     app.setState({ exploring: part, hovered: held?.id, kept: part ? false : app.state.kept, keyed: false,
+      confirming: undefined,
       open: wait ? [wait] : held ? held.opens : app.state.open });
   }
   // The keys while one is open: up and down through its own choices only, Enter on the one they are on (or the way

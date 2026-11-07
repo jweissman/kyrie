@@ -115,7 +115,9 @@ export class GlanceStage {
   }
   // At rest in a place (the owner, 4 November, late, and 5 November: a settled contract), what is told: the place
   // whole, always (5 November, late: never folded away), how the company came, and what came of what was last done
-  // here, under it; a danger in its own block.
+  // here, under it; a danger in its own block. On the game's first page, the first goal the company's own errand
+  // gives it, said once in so many words (the owner's play of 7 November: the opening told the story of the father's
+  // cart, and nothing said that it was something to do).
   // The column says when more of it lies below (see Scrolled), and what was just done here is brought into view in it
   // (see Told.Happened).
   static Rest({ app, glance: g }: { app: ReaderApp; glance: Glance }) {
@@ -130,6 +132,8 @@ export class GlanceStage {
       {screen.dark && <p className="dark-note">It is dark here. You have no light to see by.</p>}
       <Told.Setting app={app} />
       <GlanceStage.Life app={app} glance={g} />
+      {g.goal && <p className="first-goal" data-id="goal"><span className="label">Your first goal</span>
+        {Typography.curl(Words.upper(g.goal))}</p>}
       {g.changed.length > 0 && <div className="changed">
         <p className="label">Since you were last here</p>
         {g.changed.map((l, i) => <p key={i}>{Typography.curl(l)}</p>)}
@@ -141,6 +145,9 @@ export class GlanceStage {
   // And what can be done from it: only what will not wait (a danger, an answer owed, a warning, the dark), each one
   // line, never a way; then a few quiet touches, each opening one thing for one purpose (see Explorer): Go… (where to
   // go), Look… (the things at hand, where there are any), Wait… and Search. Who is here is on the picture.
+  // A touch is marked (its dot) only where what it opens serves the aim the company follows: Go… where a way goes
+  // where that aim does, Look… where a thing at hand is what it is about (the owner's play of 7 November: "Go…" in
+  // gold on every page, and a dot beside "Look…", while the notes said nothing was asked of the company yet).
   static Resting({ app, draw, acts, top }: { app: ReaderApp; draw: Draw; acts: Promoted[]; top?: string }) {
     const shown = GlanceStage.pressing(acts), search = Pastime.search(app), hand = AtHand.of(app);
     const ways = Wayfinder.ways(app), only = GlanceStage.only(app), posted = GlanceStage.posted(app);
@@ -149,10 +156,11 @@ export class GlanceStage {
       <p className="openers">
         {posted && <Act.View choice={posted} draw={draw} quiet className="opener opens-posted">
           {Typography.curl(posted.label)}</Act.View>}
-        {only ? <Act.View choice={only.c} draw={draw} quiet className="opener opens-go">
+        {only ? <Act.View choice={only.c} draw={draw} quiet
+          className={`opener opens-go${only.aim === 'followed' ? ' led' : ''}`}>
           {Typography.curl(`To ${only.name}…`)}</Act.View>
-          : <Explorer.Opener app={app} part="go" label="Go…" led={ways.some(w => w.aim)} />}
-        {hand.length > 0 && <Explorer.Opener app={app} part="look" label="Look…" led={!!AtHand.led(app, hand)} />}
+          : <Explorer.Opener app={app} part="go" label="Go…" led={!!Wayfinder.aimed(ways)} />}
+        {hand.length > 0 && <Explorer.Opener app={app} part="look" label="Look…" led={GlanceStage.serves(app, hand)} />}
         {Pastime.wait(app) && <Explorer.Opener app={app} part="wait" label="Wait…" glyph="wait" />}
         {search && <Act.View choice={search} draw={draw} quiet className="opener search by-glyph">
           <Glyphs.View id="search" className="opener-glyph" label="Search" /></Act.View>}
@@ -164,6 +172,14 @@ export class GlanceStage {
   static posted(app: ReaderApp): Choice | undefined {
     return (app.menu.scene?.you ?? []).find(c => SceneModel.own(c) && /^Read /.test(c.label) && !c.disabled);
   }
+  // Whether a thing at hand is led with for the aim followed: what that aim names, or is about (see Affordances).
+  static serves(app: ReaderApp, hand: ReturnType<typeof AtHand.of>): boolean {
+    const g = app.state.frame?.leaf.glance, ids = new Set((app.menu.leads ?? g?.acts ?? [])
+      .filter(a => GlanceStage.aiming.has(a.why)).flatMap(a => GlanceStage.choice(app, a.choice)?.id ?? []));
+    return hand.some(h => h.choices.some(c => ids.has(c.id)) || h.opens.some(id => ids.has(id)));
+  }
+  // The reasons a lead is the aim followed's: what it names, a way toward it, what it is about here.
+  static readonly aiming = new Set(['named', 'toward', 'about']);
   // The one way on, where there is only one and it can be taken: offered as itself, not behind Go… (the owner, 6
   // November: two clicks for no choice).
   static only(app: ReaderApp): ReturnType<typeof Wayfinder.ways>[number] | undefined {
@@ -211,7 +227,7 @@ export class GlanceStage {
     const place = followed && Aims.named(screen, screen.destinations ?? [], followed);
     return (
       <p className={`aim${followed ? ' followed' : ''}`} data-id="aim"><span className="label">
-        {followed ? 'Following' : 'Your aim'}</span>{Typography.curl(Words.upper(aim))}
+        {followed ? 'Following' : 'An aim'}</span>{Typography.curl(Words.upper(aim))}
         {place && <button type="button" className="act set-out" data-action="aim-map" data-id={place.id}
           onClick={() => app.choose(MenuModel.country)}>{`${place.name}, on the map`}</button>}</p>
     );

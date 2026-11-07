@@ -71,6 +71,8 @@ export interface Glance {
   following?: string[];
   // The aim, said when no act serves it, on a first arrival, or when it has changed.
   aim?: string;
+  // On the game's first page, the first goal the company's own errand gives it, said once in so many words.
+  goal?: string;
   // The company's state, said only when something is wrong (hungry, hurt, weary, in the dark).
   need?: string[];
   // After an act: what was attempted, what came of it, what it changed, and the act it made relevant (REV-05).

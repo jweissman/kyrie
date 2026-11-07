@@ -219,23 +219,30 @@ export class WorldStage {
   // each its own state, the journey between walked on the map (see ReaderApp.walk). A journey stopped at a town on the
   // way says why, and goes on from there, as one stopped anywhere else does: stopped at Ramrehes on the way to a lone
   // tower, the card had said only "You stand at its gate" (the fresh playtest of 7 November).
+  // Already within it, the company is where it stands in it, and goes back there from the card: the map opened from
+  // Uarin's forge in Greycastle had said "You stand at its gate" and "Enter Greycastle" (the evidence sessions of 7
+  // November). At its gate is the game's first page, or a town just come to across the map.
   static Town({ app, screen, town, clear }: { app: ReaderApp; screen: Screen;
     town: NonNullable<Screen['region']>['areas'][number]; clear?: () => void }) {
     const { d, here, go } = MapView.way(screen, town.id), views = Scenery.views.settlement ?? [];
     const view = views.length ? views[Scenery.hash(town.id) % views.length] : undefined;
     const come = here && app.state.frame?.travel?.arrived;
+    const inside = here && !app.state.frame?.travel && !!screen.elapsed;
+    const where = Typography.curl(Words.upper(screen.place.name));
     return (
-      <section className="enter-card" data-id={town.id} data-state={here ? come ? 'arrived' : 'here' : 'chosen'}
-        aria-live="polite">
+      <section className="enter-card" data-id={town.id} data-state={here ? come ? 'arrived' : inside ? 'inside' : 'here'
+        : 'chosen'} aria-live="polite">
         {view && <div className="enter-view"><PlaceStage.Country view={view} /></div>}
-        <p className="label">{come ? 'You have come to' : here ? 'You are at' : town.visited ? 'A town you know' : 'A town'}</p>
+        <p className="label">{come ? 'You have come to' : inside ? 'You are in' : here ? 'You are at'
+          : town.visited ? 'A town you know' : 'A town'}</p>
         <h2 className="to">{Typography.curl(town.name)}</h2>
-        <p className="how">{here ? 'You stand at its gate.' : d ? `${Words.upper(Words.span(d.minutes))} by the ways `
+        <p className="how">{inside ? `${where}.` : here ? 'You stand at its gate.'
+          : d ? `${Words.upper(Words.span(d.minutes))} by the ways `
           + `you know. ${MapView.arrival(screen, d.minutes)}` : go ? 'Across the country you can see.'
           : 'You know no way there yet.'}</p>
         {here && <WorldStage.Stopped app={app} danger={(app.menu.scene?.subjects ?? []).some(x => x.danger)} />}
         {here ? <button type="button" className="enter" data-action="enter-hex" onClick={() => { app.outdoor(false); }}>
-          Enter {Typography.curl(town.name)}</button>
+          {inside ? `Back to ${where.replace(/^The /, 'the ')}` : `Enter ${Typography.curl(town.name)}`}</button>
           : go && <button type="button" className="enter travel" data-action="travel" onClick={() => { app.choose(go); }}>
             Travel to {Typography.curl(town.name)}</button>}
         {clear && <button type="button" className="option quiet" data-action="unchoose" onClick={clear}>Back</button>}

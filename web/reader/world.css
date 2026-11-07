@@ -41,6 +41,8 @@
 .chosen-place .label { margin: 0; }
 .chosen-place .how { margin: 0; font-size: 14px; color: var(--dim); }
 .focus > .plan { position: relative; padding: 18px 20px; overflow-y: auto; }
+/* Each leg's time apart from its place's name ("Harir10 minutes": the evidence sessions of 7 November). */
+.focus > .plan .legs .note { margin-left: .5em; color: var(--dim); white-space: nowrap; }
 /* Its quiet cross, as on the map's own card: it had been drawn as a bare grey button the card's width. */
 .focus > .plan .unchoose { all: unset; position: absolute; right: 6px; top: 6px; width: 32px; height: 32px; display: grid;
   place-items: center; cursor: pointer; color: var(--dim); }

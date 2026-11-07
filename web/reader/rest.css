@@ -20,6 +20,9 @@
 .setting .presence { margin: 0; }
 .setting .presence p { margin: 0 0 .6em; font: 400 14.5px/1.55 var(--told); color: var(--dim); }
 .told-col .life { font-size: 15px; }
+.told-col .first-goal { margin: .2em 0 .8em; font: 400 15.5px/1.5 var(--told); color: var(--ivory); }
+.told-col .first-goal .label { display: block; margin-bottom: 2px; font: 500 11px/1.4 var(--do); letter-spacing: .2em;
+  text-transform: uppercase; color: var(--gold); }
 .told-col .came { margin: 0 0 .7em; font: italic 400 15px/1.5 var(--told); color: var(--dim); }
 
 .openers { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 22px; margin: 6px 0 0; padding-top: 12px;
@@ -29,8 +32,9 @@
   border-bottom: 1px solid transparent; transition: color var(--quick), border-color var(--quick); }
 .openers .opener::before, .openers .act.opener::before { display: none; }
 /* Go…, or the one way on; and a notice posted here not yet read, which is read, not gone by (its own class, so that
-   whatever finds the way on by .opens-go finds only that). */
-.openers .opens-go, .openers .opens-posted { color: var(--gold); }
+   whatever finds the way on by .opens-go finds only that). In the line's own light: gold is the aim followed's, and
+   only a dot says that what a touch opens serves it (the owner's play of 7 November: Go… in gold on every page meant
+   nothing). */
 /* Wait and Search by their glyphs, in the line's own light (the owner, 6 November). */
 .openers .by-glyph { padding: 2px 0; line-height: 0; }
 .openers .opener-glyph { width: 22px; height: 22px; fill: none; stroke: var(--ivory); stroke-width: 1.6;
@@ -69,10 +73,15 @@
 .wf-where h2 { margin: 2px 0 0; font: 300 clamp(24px, 2.4vw, 32px)/1.15 var(--do); color: var(--ivory); }
 .wf-where .in { margin: 2px 0 0; font: italic 400 15px/1.4 var(--told); color: var(--dim); }
 .wf-where .aim { margin: 8px 0 0; font-size: 14px; }
-.wf-list { min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 10px 0 0; display: flex;
-  flex-wrap: wrap; align-content: flex-start; gap: 0 clamp(18px, 3vw, 40px); }
-.wf-group { flex: 1 1 15rem; min-width: 0; margin: 0 0 14px; }
-.wf-group h3 { margin: 0 0 4px; font: 500 11px/1.4 var(--do); letter-spacing: .2em; text-transform: uppercase; color: var(--gold); }
+/* The ways close by down the first column, the rest of the town and the ways out down the second, so that the ways
+   out are in view beside a long list of the places round a town's heart (a heart that keeps its shops had pushed
+   them under it, a scroll away). One column on a screen held upright. */
+.wf-list { min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 10px 0 0; display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: auto auto auto 1fr; align-items: start;
+  column-gap: clamp(18px, 3vw, 40px); }
+.wf-group { grid-column: 2; min-width: 0; margin: 0 0 14px; }
+.wf-group:first-child { grid-column: 1; grid-row: 1 / -1; }
+.wf-group h3 { margin: 0 0 4px; font: 500 11px/1.4 var(--do); letter-spacing: .2em; text-transform: uppercase; color: var(--dim); }
 .wf-group ul { list-style: none; margin: 0; padding: 0; }
 .wf-row { all: unset; box-sizing: border-box; width: 100%; display: grid; grid-template-columns: 16px minmax(0, 1fr) auto;
   align-items: baseline; gap: 8px; padding: 5px 8px 5px 6px; cursor: pointer; border-left: 2px solid transparent;
@@ -81,23 +90,22 @@
 .wf-row .glyph { font: 400 12px/1 var(--do); color: var(--faint); text-align: center; }
 .wf-row .t { font: 400 12px/1 var(--do); color: var(--faint); letter-spacing: .04em; }
 .wf-row:hover, .wf-row:focus-visible { background: rgba(236, 230, 217, .05); }
-.wf-row.chosen { border-left-color: var(--gold); background: rgba(236, 230, 217, .07); }
+/* The way under the pointer or the keys, said beside the list: lit, not gilded. Gold is the aim followed's way's alone. */
+.wf-row.chosen { border-left-color: var(--ivory); background: rgba(236, 230, 217, .07); }
 .wf-row.aimed .n::after { content: ' ◆'; font-size: 9px; color: var(--gold); vertical-align: 2px; }
-/* The way the page leads by, where no aim says: deeper in, not yet been. */
-.wf-row.led:not(.aimed) .n { color: var(--ivory); }
-.wf-row.led:not(.aimed) .glyph { color: var(--gold); }
+.wf-row.aimed { border-left-color: var(--gold-line); }
 .wf-row.shut { color: var(--dim); }
 .wf-preview { min-height: 0; overflow-y: auto; padding: 14px 0 0; display: flex; flex-direction: column; gap: 6px; }
 .wf-preview h3 { margin: 0; font: 400 clamp(22px, 2.2vw, 28px)/1.2 var(--told); color: var(--ivory); }
 .wf-preview p { margin: 0; }
 .wf-preview .wf-aim { font: 500 11px/1.4 var(--do); letter-spacing: .2em; text-transform: uppercase; color: var(--gold); }
+.wf-preview .wf-aim.held { color: var(--dim); }
 .wf-preview .wf-how { font: 500 12.5px/1.5 var(--do); letter-spacing: .08em; color: var(--dim); }
 .wf-preview .wf-been, .wf-preview .wf-keeps { font: italic 400 15px/1.45 var(--told); color: var(--dim); }
 .wf-preview .wf-holds { font: 400 16px/1.5 var(--told); color: var(--ivory); margin: 0 0 6px; }
 .wf-preview .wf-shut { font: 400 15px/1.45 var(--told); color: var(--ember, #c4552e); }
 .wf-preview .wf-risk { font: 400 14px/1.45 var(--told); color: var(--gold); }
-.wf-preview .act.wf-go { margin: 12px 0 0; align-self: flex-start; min-width: 11rem; justify-content: center;
-  border-color: var(--gold-line); }
+.wf-preview .act.wf-go { margin: 12px 0 0; align-self: flex-start; min-width: 11rem; justify-content: center; }
 .wf-preview .act.wf-go::before { display: none; }
 
 /* Look…: the things at hand down the side, the one chosen in its pane: what it is, what is said of it, what came of
@@ -125,6 +133,7 @@
 
 @media (max-width: 899px), (orientation: portrait) {
   .wayfinder { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr) auto; }
+  .wf-list { display: block; }
   .wf-preview { border-top: 1px solid var(--gold-line); padding: 10px 0 0; max-height: 40vh; }
   .at-hand { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); }
   .ah-list { border-right: 0; border-bottom: 1px solid var(--edge); max-height: 30vh; }
