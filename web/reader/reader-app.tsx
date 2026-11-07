@@ -25,6 +25,7 @@ import { Shell } from './shell';
 import { Stage } from './stage/stage';
 import { Act } from './stage/act';
 import { GlanceStage } from './stage/glance';
+import { Folds } from './folds';
 
 export type Phase = 'title' | 'options' | 'campaigns' | 'company' | 'loading' | 'play';
 // A journey under way: from where, to where, by what way and how long. Said while the engine works it out, never
@@ -173,21 +174,12 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   }
   // A choice made: what it opens is shown beneath it (or put away again); a fight goes on; or the company does it.
   readonly choose = (choice: Choice) => {
-    const { frame, pending, open } = this.state;
+    const { frame, pending } = this.state;
     if (pending || choice.disabled || !frame) { return; }
     if (frame.combat?.outcome) { this.onward(); return; }
     const turned = Conversation.turn(choice);
     if (turned) { this.attend(choice, turned); return; }
-    if (choice.children) {
-      const shut = open.includes(choice.id), siblings = MenuModel.siblings(this.menu, choice.id);
-      // In the company, a member's row is the member: their sheet is shown as what they can do opens (a caster's row
-      // opened their spells and left the first member's sheet, the follow-up review found).
-      const member = this.state.view === 'company' && frame.screen.party.some(m => m.id === choice.id)
-        ? choice.id : this.state.member;
-      this.setState({ open: shut ? open.filter(id => id !== choice.id)
-        : [...open.filter(id => !siblings.includes(id)), choice.id], hovered: undefined, member });
-      return;
-    }
+    if (choice.children) { Folds.toggle(this, choice); return; }
     if (!choice.command) { if (this.state.view === 'company') { this.setState({ member: choice.id }); } return; }
     // A pointer to a book (a development to spend is spent in the character).
     const book = /^view:(\w+)(?::(.+))?$/.exec(choice.command);

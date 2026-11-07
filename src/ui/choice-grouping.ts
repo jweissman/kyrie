@@ -11,6 +11,7 @@ import type { PublicChoice } from '../presentation/action-presentation';
 import type { ExitActs } from './passages';
 import type { Act, Passage } from './screen-types';
 import { Exposure } from './exposure';
+import { Carriers } from './carriers';
 
 type Slot = 'exit' | 'target' | 'item' | 'member' | 'camp';
 interface Rule {
@@ -39,6 +40,8 @@ export interface GroupingContext {
   tell?: (id: string) => string | undefined;
   // Who takes an item the company picks up or buys; the other hands are not offered.
   carrier?: (item: string) => string | undefined;
+  // Whom each thing is offered to, of those the choices offer it to (see Carriers.hands).
+  hands?: Map<string, string>;
   // One who has come alone does everything themselves: who would do a thing is not said ("A torch · Ilse").
   solo?: boolean;
   // The world as it is, by which a choice is reckoned as long as the clock will reckon it (ActionTime): a step through
@@ -178,8 +181,8 @@ export class ChoiceGrouping {
       if (to && way) { ways.set(to, (ways.get(to) ?? new Set()).add(way)); }
     }
     const several = new Set([...ways].filter(([, w]) => w.size > 1).map(([d]) => d));
-    const struck = this.struck(rows);
-    for (const row of rows) { this.place(out, row, { ...context, several, struck }); }
+    const struck = this.struck(rows), hands = context.carrier ? Carriers.hands(rows, context.carrier) : undefined;
+    for (const row of rows) { this.place(out, row, { ...context, several, struck, ...hands ? { hands } : {} }); }
     for (const acts of [...out.targets.values(), ...out.items.values(), ...out.members.values(), out.camp,
       ...[...out.exits.values()].map(e => e.acts)]) { this.distinguish(acts); }
     return out;
@@ -282,8 +285,8 @@ export class ChoiceGrouping {
     if (told) { leaf.about = told; }
     const data = { choice: choice.name, b, context };
     const path = rule.path.map(text => this.fill(text, data));
-    if (rule.path.at(-1)?.startsWith('for {recipient}') && b.find && b.recipient && context.carrier?.(b.find)) {
-      if (context.carrier(b.find) !== b.recipient) { return; }
+    if (rule.path.at(-1)?.startsWith('for {recipient}') && b.recipient && context.hands?.has(`${schema}|${b.find}`)) {
+      if (context.hands.get(`${schema}|${b.find}`) !== b.recipient) { return; }
       path.pop(); if (!context.solo) { leaf.by = [context.names.get(b.recipient) ?? b.recipient]; }
     } else if (context.solo && rule.path.at(-1) === 'for {recipient}') { path.pop(); }
     const doer = rule.doer && b[rule.doer];
