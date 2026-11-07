@@ -1,0 +1,100 @@
+Module skerrow "The Light on Skerrow Holm" {
+  // ── The sea, the fog, the lamp, the bell, and what lives under the tower ───────────────────────────────────────
+  // The rules a player is meant to infer and never be told: the Caller comes up with the high tide in the dark; it is
+  // held below by a bright lamp and put back to sea for an hour by the bell; it calls in the voices of the drowned;
+  // it takes whoever answers. The causeway dries from eleven to two, every day, and is fogged all hours but one to two.
+  Place open_water "the open water" is room within sands at 3, 3 outdoors.
+
+  Thing tide "the tide" at sands_mid is scenery {
+    State low "The sea is out. Mud, posts, a wet shine to the horizon.".
+    State high "The sea is over the causeway, brown and quick, and the posts stand in it like a drowned fence.".
+  }
+  Initially Assert state(tide, high).
+  Measure reachedAt(entity). Measure bellUntil(entity). Measure lastRang(entity). Measure lastCall(entity). Measure callN(entity).
+  Measure oil(entity). Measure oilTick(entity). Measure flasks(entity).
+  Rule tide_falls when state(tide, high) and hour(clock) >= 11 and hour(clock) < 14 { Assert state(tide, low). }
+  Rule tide_rises when state(tide, low) and (hour(clock) >= 14 or hour(clock) < 11) { Assert state(tide, high). }
+  Rule marks_arrival when at(party, landing) and reachedAt(tide) == 0 { Set reachedAt(tide) to watch(clock). }
+
+  // The fog is thick at every hour but one to two; a party on the sands in it is lost unless it has a line.
+  Thing fog "the fog" at landing is scenery {
+    State thick "The fog has come in off the sea and stands against the tower like a wall. The bell is the only direction there is.".
+    State thin "The fog is thin enough to see the posts, the first dozen, and nothing beyond.".
+  }
+  Initially Assert state(fog, thick).
+  Rule fog_thickens when state(fog, thin) and (hour(clock) >= 14 or hour(clock) < 13) { Assert state(fog, thick). }
+  Rule fog_thins when state(fog, thick) and hour(clock) >= 13 and hour(clock) < 14 { Assert state(fog, thin). }
+  Relation lined(group). Relation lostTold(group).
+  Hazard mud_lost "The sands in fog" means "Deal (2d6) physical damage to ally unless constitution save against (13).".
+  Rule sands_fog at sands_mid when at(party, sands_mid) and state(fog, thick) and not lined(party) and not lostTold(party)
+    says "The posts stop. You walk the way the posts were, and the mud takes you to the knee, and the tower is behind you now, or beside you. The bell, when it comes, comes from everywhere." {
+    Assert strikes(mud_lost, party). Assert lostTold(party).
+  }
+  Rule lost_clears when lostTold(party) and not at(party, sands_mid) { Retract lostTold(party). }
+  Hazard cold_wade "The sea coming in over the causeway" means "Deal (2d6) cold damage to ally unless strength save against (13).".
+  Rule sea_comes at sands_mid when at(party, sands_mid) and state(tide, high)
+    says "The sea comes over the mud from both sides at once, quietly, and then it is at your knees and pulling. You wade for the light, because it is the only direction." {
+    Assert strikes(cold_wade, party). Assert at(party, landing).
+  }
+  Action peg_line(actor: group, site: place) "Peg a guide-line along the posts" {
+    Requires able(actor) and company(actor) and at(actor, site) and (at(actor, shore_road) or at(actor, landing)) and holding(actor, rope) and state(tide, low) and not lined(actor).
+    Time 3.
+    On success { Assert lined(actor). }
+    Result "You tie the rope to the first post, and the second, and the third, hand over hand, a long grey line of it paying out into the fog. It will take you out. It will bring you back.".
+  }
+  Action take_bearing(actor: group, site: place) "Listen for the bell and take a bearing on it" {
+    Requires able(actor) and company(actor) and at(actor, site) and (at(actor, shore_road) or at(actor, landing)) and state(tide, low) and not lined(actor).
+    Time 1.
+    Resolve check(actor, wayfinding, dc_hard).
+    On success { Assert lined(actor). }
+    Result "The bell tolls once, a long way off and to the left of where it ought to be. Twice more. You pace it out against the posts. After that you know where the line of the posts is, which is the same as having a rope.".
+    Otherwise "The bell comes from the right, and then the left, and then both. You cannot say where it is.".
+  }
+
+  // The lamp: oil is time. Orrin fills it while he keeps his post; when he does not, someone must.
+  Thing lamp "the lamp" at lamp_room is scenery {
+    State bright "The lamp burns white.".
+    State low "The lamp has sunk to a blue bead.".
+    State out "The lamp is out.".
+  }
+  Initially Assert state(lamp, bright). Initially Set oil(lamp) to 12. Initially Set flasks(store) to 10.
+  Relation orrinPost(group). Initially Assert orrinPost(orrin).
+  Rule oil_burns when reachedAt(tide) > 0 and watch(clock) >= oilTick(lamp) + 6 and oil(lamp) > 0 { Decrease oil(lamp) by 1 or to nothing. Set oilTick(lamp) to watch(clock). }
+  Rule lamp_goes_low when oil(lamp) < 4 and oil(lamp) > 0 and not state(lamp, low) { Assert state(lamp, low). }
+  Rule lamp_goes_out when oil(lamp) <= 0 and not state(lamp, out) { Assert state(lamp, out). }
+  Rule lamp_brightens when oil(lamp) >= 4 and not state(lamp, bright) { Assert state(lamp, bright). }
+  Rule orrin_fills when orrinPost(orrin) and oil(lamp) < 6 and flasks(store) > 0 {
+    Increase oil(lamp) by 4. Decrease flasks(store) by 1.
+  }
+  Action fill_lamp(actor: group, site: place) "Fill the lamp from a flask out of the store" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, lamp_room) and flasks(store) > 0 and oil(lamp) < 10.
+    Time 1.
+    On success { Decrease flasks(store) by 1. Increase oil(lamp) by 4. }
+    Result "You carry the flask up the iron stair and fill the reservoir through the brass funnel, and the flame stands up again. The oil smells of fish.".
+  }
+  Action bring_flasks(actor: group, site: place) "Take two flasks of oil up to the lamp room and leave them by the funnel" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, store) and flasks(store) > 1.
+    Time 1.
+    On success { Decrease flasks(store) by 2. Increase oil(lamp) by 8. }
+    Result "Two flasks, one under each arm, up the dark stair. You pour them in together, and stand with your hands wet, listening to the lens turn.".
+  }
+
+  // The bell: an hour under the bell, the Caller is put back to sea. Orrin rings it every second hour of the dark.
+  Thing fog_bell "the fog-bell" at bell_hut is scenery {
+    State hanging "The bronze bell hangs from its beam, still.".
+  }
+  Initially Assert state(fog_bell, hanging).
+  Query bellRecent() means watch(clock) < bellUntil(tide).
+  Query hunting() means dark() and state(tide, high) and not bellRecent().
+  Rule orrin_rings when orrinPost(orrin) and dark() and state(tide, high) and watch(clock) >= lastRang(tide) + 10 and not bellRecent()
+    says "From the east point the bell begins: slow, evenly, a stroke to every breath." {
+    Set bellUntil(tide) to watch(clock) + 4. Set lastRang(tide) to watch(clock).
+  }
+  Action ring_bell(actor: group, site: place) "Ring the fog-bell for an hour" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, bell_hut).
+    Time 1.
+    On success { Set bellUntil(tide) to watch(clock) + 6. }
+    Result "The rope is warm where Orrin's hands have worn it. The bell goes out over the fog, a long bronze note and a long silence, and the sea, which has been listening, goes a little further off.".
+  }
+
+}

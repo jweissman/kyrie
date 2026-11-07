@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "source": [
+    "places.kyr",
+    "scenes.kyr",
+    "sea.kyr",
+    "caller.kyr",
+    "folk.kyr",
+    "night.kyr",
+    "morning.kyr",
+    "wake.kyr",
+    "placed.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "canon": [
+    "imbar"
+  ],
+  "imports": [
+    "party"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    }
+  },
+  "exports": {
+    "party": "party",
+    "region": "coast",
+    "road": "shore_road"
+  }
+}
