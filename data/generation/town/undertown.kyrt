@@ -336,8 +336,39 @@
   Objective {t}_u_floor_sought when been(party, {t}_u_undercroft) and not knows(party, {t}_u_vault_found) "Something is under the floor of {{t}_u_undercroft}: one flag cut with letters does not sit level. The same ring may be cut somewhere in the ways down to it.".
   Place {t}_u_undercroft "the undercroft" is room within {t} at 1, 5 underground 2 down.
   Passage {t}_u_drain_mouth "the mouth of the drain" is passage between {t}_u_drain and {t}_u_undercroft.
-  Passage {t}_u_ossuary_steps "steps down behind the bone-heaps" is steps between {t}_u_ossuary and {t}_u_undercroft.
-  Passage {t}_u_gallery_breach "a breach in the gallery floor" is crawl between {t}_u_gallery and {t}_u_undercroft.
+  // Each way down is more than the room its job ends in (the owner, 8 November: a dungeon is more than one or two
+  // rooms): behind the bone-heaps a charnel passage where the raiser's first tries were left to stand, and off the
+  // gallery the old working face the spiders came up from, a beetles' nest now.
+  Place {t}_u_charnel "the charnel passage" is room within {t} at 1, 4 underground 2 down.
+  Passage {t}_u_charnel_arch "a low arch behind the bone-heaps" is passage between {t}_u_ossuary and {t}_u_charnel.
+  Passage {t}_u_ossuary_steps "steps down behind the bone-heaps" is steps between {t}_u_charnel and {t}_u_undercroft.
+  Initially Assert unlit({t}_u_charnel).
+  Observe {t}_u_charnel_scene at {t}_u_charnel as fixture when true "A long low passage lined with shelves of the older dead, wrapped in cloth gone brown. Some of the shelves are empty, and the cloth on the floor under them is torn.".
+  Person {t}_u_shamblers "the dead in the charnel passage" at {t}_u_charnel {
+    Role "the raiser's first tries, stood up off the shelves and left where they stood". Species zombie. Numbers {brood}. Level 1. Temperament territorial. Lair {t}_u_charnel.
+  }
+  Initially Set encounterXp({t}_u_shamblers) to 30.
+  Discovery {t}_u_charnel_goods "On the last shelf, under a fall of cloth, what the old dead were buried with: nobody has been down to take it." {
+    Found by searching {t}_u_charnel "Under the cloth on the last shelf, something hard and cold.".
+  }
+  Item {t}_u_charnel_plate "a silver grave-plate" is chapel_plate at {t}_u_charnel hidden until {t}_u_charnel_goods.
+  Item {t}_u_charnel_torc "an iron torc" is iron_torc at {t}_u_charnel hidden until {t}_u_charnel_goods.
+  Item {t}_u_charnel_bracelet "a bronze bracelet" is bronze_bracelet at {t}_u_charnel hidden until {t}_u_charnel_goods.
+  Place {t}_u_face "the old working face" is room within {t} at 2, 5 underground 2 down.
+  Passage {t}_u_face_way "a cut going on past the web" is passage between {t}_u_gallery and {t}_u_face.
+  Passage {t}_u_gallery_breach "a breach in the gallery floor" is crawl between {t}_u_face and {t}_u_undercroft.
+  Initially Assert unlit({t}_u_face).
+  Observe {t}_u_face_scene at {t}_u_face as fixture when true "Where the quarrymen stopped: a face of stone with the pick-marks still on it, a rotten ladder, and the floor broken through in one corner into somewhere older underneath. Things click and scuttle in the spoil.".
+  Person {t}_u_beetles "the beetles in the spoil" at {t}_u_face {
+    Role "beetles as long as a forearm, nesting in the quarrymen's spoil". Species beetle. Numbers {brood}. Level 1. Temperament defensive. Lair {t}_u_face.
+  }
+  Initially Set encounterXp({t}_u_beetles) to 20.
+  Discovery {t}_u_face_tools "Under the ladder, a quarryman's bag, left when the face was given up: his tools, and his wages, never collected." {
+    Found by searching {t}_u_face "A leather bag under the ladder, stiff with age.".
+  }
+  Item {t}_u_face_crowbar "a quarryman's crowbar" is crowbar at {t}_u_face hidden until {t}_u_face_tools.
+  Item {t}_u_face_purse "a quarryman's wages" is steel_coin at {t}_u_face hidden until {t}_u_face_tools.
+  Item {t}_u_face_garnet "a garnet in the spoil" is garnet at {t}_u_face hidden until {t}_u_face_tools.
   Initially Assert unlit({t}_u_drain). Initially Assert unlit({t}_u_undercroft).
   Observe {t}_u_drain_scene at {t}_u_drain as fixture when true "An old drain of fitted stone, tall enough to stoop along, with a black trickle down the middle of it and the walls furred with something pale that moves when the light touches it.".
   Observe {t}_u_undercroft_scene at {t}_u_undercroft as fixture when true "A long room of round pillars, older than anything above it: the corn-store, the church and the quarry were all dug down into it, from three sides, by people who did not know it was here.".
