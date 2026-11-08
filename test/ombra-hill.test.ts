@@ -197,6 +197,7 @@ describe('exploring', () => {
     const o = await start('wander', 'bard');
     let n = 0;
     for (let i = 0; i < 200; i++) {
+      if (!o.running) { break; }
       const offered = o.j.choices()
         .filter(c => !/^(Pack|a |an |the |some )/i.test(c.full) && !/Set down/.test(c.label) && !/^Wait/.test(c.label));
       if (!offered.length || i % 7 === 6) { await o.play('Wait › An hour'); continue; }

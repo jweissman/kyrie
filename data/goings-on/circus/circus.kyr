@@ -281,27 +281,27 @@ Module circus "Wapshott's Peregrine Circus" {
   // ── What the towns say of it, wherever it is ──────────────────────────────────────────────────────────────────
   Entity heard_circus: fact "Wapshott's Grand Peregrine Circus is going round the country, three days in a town: {town_a}, then {town_b}, then {town_c}, and back. It plays nightly at seven, a coin a head.".
   Initially Assert established(heard_circus).
-  Topic keeper_a_here with keeper_a "Ask {keeper_a} about the circus" when here(tober_a) {
+  Topic keeper_a_here with keeper_a "Ask {keeper_a} about the circus" when here(tober_a) once {
     Says "'Wapshott's,' says {keeper_a}, with the face of someone who has had a circus in the house before. 'Out in the field past the green. They'll play tonight at seven, and the Colonel will come in here after and order the best of everything on account. Go and see them. Pay at the flap. Don't lend the Colonel anything; he means to pay you back, that's what makes him dangerous.'".
     On discuss { Assert knows(actor, heard_circus). }
   }
-  Topic keeper_a_away with keeper_a "Ask {keeper_a} about the circus" when not here(tober_a) {
+  Topic keeper_a_away with keeper_a "Ask {keeper_a} about the circus" when not here(tober_a) once {
     Says "'Wapshott's? Gone round the circuit,' says {keeper_a}. 'They're three days in a town: here, then {town_b}, then {town_c}, and back here again, round and round like a horse in a ring. You'll find them at one of the three, or on the road between, eleven wagons and a horse in front setting the pace. They're always back here for the Goose Fair, if there's a Fair this year. They say this year there is.'".
     On discuss { Assert knows(actor, heard_circus). }
   }
-  Topic keeper_b_here with keeper_b "Ask {keeper_b} about the circus" when here(tober_b) {
+  Topic keeper_b_here with keeper_b "Ask {keeper_b} about the circus" when here(tober_b) once {
     Says "'Out on the pond meadow,' says {keeper_b}. 'The geese are beside themselves. Last time they were here a goose got into the big top and went on in the middle of the Sylph and got the biggest hand of the night. I'm going tonight. Everybody's going tonight. My mother's going and she hasn't been out of the house since the flood.'".
     On discuss { Assert knows(actor, heard_circus). }
   }
-  Topic keeper_b_away with keeper_b "Ask {keeper_b} about the circus" when not here(tober_b) {
+  Topic keeper_b_away with keeper_b "Ask {keeper_b} about the circus" when not here(tober_b) once {
     Says "'Wapshott's?' says {keeper_b}. 'Round and about. Three days in {town_a}, three here, three in {town_c}. A man comes ahead of them with a paste-pot and bills everything that stands still. Last time he billed the vicar's cow. You'll know they're near when the cow says COMING.'".
     On discuss { Assert knows(actor, heard_circus). }
   }
-  Topic keeper_c_here with keeper_c "Ask {keeper_c} about the circus" when here(tober_c) {
+  Topic keeper_c_here with keeper_c "Ask {keeper_c} about the circus" when here(tober_c) once {
     Says "'Up at the cross field,' says {keeper_c}. 'They come through every round and we're always the last and the smallest and the Colonel always says we are his favourite, and the thing is, I think he means it. Go tonight. The old clown, Mumchance, doesn't say a word the whole night and you laugh till you have to sit down in the road.'".
     On discuss { Assert knows(actor, heard_circus). }
   }
-  Topic keeper_c_away with keeper_c "Ask {keeper_c} about the circus" when not here(tober_c) {
+  Topic keeper_c_away with keeper_c "Ask {keeper_c} about the circus" when not here(tober_c) once {
     Says "'They'll be round,' says {keeper_c}. 'Wapshott's goes {town_a}, {town_b}, here, and back; three days a town. If you want them sooner, ask at {town_a}: that's where they winter, when they can afford a winter, and where the Fair is.'".
     On discuss { Assert knows(actor, heard_circus). }
   }
