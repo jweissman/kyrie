@@ -6709,6 +6709,11 @@
    "form": "landscape",
    "shows": "a palace above terraced gardens, a fountain, statues and skeps",
    "era": "late"
+  },
+  "scene-nymphaeum": {
+   "form": "interior",
+   "shows": "a nymphaeum: a grotto of a spring dressed with columns, statues and falling water",
+   "era": "late"
   }
  }
 }

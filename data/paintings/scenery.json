@@ -127,6 +127,7 @@
     {"kind": "furs", "words": ["fur", "furs", "pelts", "trading-post", "drying-frames"], "ground": ["scene-fur-post"]},
     {"kind": "dovecote", "words": ["dovecote", "dovecot", "columbarium", "doocot", "pigeon-house"], "ground": ["scene-dovecote"]},
     {"kind": "solarium", "words": ["solarium", "orangery", "conservatory", "hothouse", "glass-house", "glasshouse"], "room": ["scene-solarium"], "ground": ["scene-solarium"]},
+    {"kind": "nymphaeum", "words": ["nymphaeum", "fountain-house", "spring-house", "nymph"], "room": ["scene-nymphaeum"], "ground": ["scene-nymphaeum"]},
     {"kind": "maze", "words": ["maze", "labyrinth", "hedge-maze"], "ground": ["scene-labyrinth"]},
     {"kind": "garden", "words": ["garden", "gardens", "statuary", "parterre", "topiary", "pleasaunce"], "ground": ["scene-garden", "scene-statuary"]},
     {"kind": "menagerie", "words": ["menagerie", "aviary", "zoo", "beast-house", "cages"], "ground": ["scene-menagerie"]},
