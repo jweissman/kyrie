@@ -41,7 +41,7 @@ export class Narration {
     const told = new RegExp('falls|fight is (won|lost)|clear of the fight|neither side|ground is yours|experience|dies'
       + '|reaches level|flees|gets away|(is|are) down|at you|yields?\\.$');
     return clean.filter((l, i) => told.test(l) || kept.has(l) || this.fell(clean, i + 1)
-      || (this.fell(clean, i + 2) && this.struck(l, clean[i + 1]))).map(l => l.replace(/ \(d20 [^)]*\)/, ''));
+      || (this.fell(clean, i + 2) && this.struck(l, clean[i + 1]))).map(l => l.replace(/ \((?:d20 |rolled \d)[^)]*\)/, ''));
   }
   private static fell(lines: string[], i: number): boolean { return / falls\.$/.test(lines[i] ?? ''); }
   // The strike the damage after it came from: one that hits whoever takes it ("Rharash hits the mud." before "The mud

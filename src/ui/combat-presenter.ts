@@ -18,7 +18,9 @@ export class CombatPresenter {
     const m = event.modifiers;
     const parts = m ? [m.critical ? `critical +${m.critical}` : '', m.halfSave ? 'save halves' : '',
       m.bonus ? `bonus ${m.bonus >= 0 ? '+' : ''}${m.bonus}` : '',
-      m.resistance ? `resistance ${Math.round(m.resistance * 100)}%` : '', m.reduction ? `reduction ${m.reduction}` : '',
+      // Said as what it is, not as the engine's fraction ("resistance -100%": the second fresh playtest, M19-121).
+      m.resistance ? m.resistance > 0 ? m.resistance >= 1 ? 'no harm to it' : `${Math.round(m.resistance * 100)}% resisted`
+        : m.resistance <= -1 ? 'double, it is vulnerable' : `${Math.round(-m.resistance * 100)}% more, it is vulnerable` : '', m.reduction ? `reduction ${m.reduction}` : '',
       m.absorbed ? `${m.absorbed} absorbed` : ''].filter(Boolean) : [];
     const calculation = [`roll ${event.rolled}`, ...parts].join(', ');
     return `${target} takes ${event.amount} ${event.damageType ?? ''} damage (${foe ? '' : `${event.hp} HP; `}${calculation}).`;
@@ -75,8 +77,7 @@ export class CombatPresenter {
       case 'skip': return `${actor} cannot act.`;
       case 'random': return `${actor} is not in their right mind, and does whatever comes first.`;
       case 'attack': return `${actor} ${event.success ? event.critical ? 'critically hits' : 'hits' : event.evaded
-        ? 'is evaded by' : 'misses'} ${target} (d20 ${event.die}, needing ${event.need}: THAC0 less AC ${event.armorClass}`
-        + ` less to-hit ${event.toHit}).`;
+        ? 'is evaded by' : 'misses'} ${target} (rolled ${event.die}, needed ${event.need}).`;
       case 'flee': return event.success ? `${actor} gets away.` : `${actor} tries to get away, and cannot.`;
       case 'initiative': return `Initiative: ${event.order.map(o => `${state.combatants.find(f => f.id === o.id)?.name ?? o.id}`
         + ` ${o.roll}`).join(', ')}.`;

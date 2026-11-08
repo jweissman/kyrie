@@ -46,7 +46,7 @@ describe('two fights in one', () => {
   it('keeps the blow that felled each who fell, and not what happened just before it', () => {
     const lines = ['Initiative: Wenna, the first of the pack, Mabon.', 'Mabon misses the first of the pack.',
       'Wenna takes 3 bludgeoning damage (0 HP left).', 'Wenna falls.',
-      'Rharash hits the first of the pack (d20 15, needing 9: THAC0 less AC 11 less to-hit 4).',
+      'Rharash hits the first of the pack (rolled 15, needed 9).',
       'The first of the pack takes 1 slashing damage.', 'The first of the pack falls.',
       'The fight is won.'];
     expect(Narration.tidy(lines, lines.length)).toEqual(['Wenna takes 3 bludgeoning damage (0 HP left).', 'Wenna falls.',
