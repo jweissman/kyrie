@@ -45,7 +45,7 @@ describe('the painting of a place', () => {
     }
   });
   it('is of a town\'s open places by what each is: a market a street, a gate a wall, a road a road', () => {
-    expect(['scene-fishmonger', 'chapel']).toContain(Scene.seen(Scene.room('region__s1_green', 'the market-place of Newmeet'))!);
+    expect(['scene-market', 'scene-fishmonger']).toContain(Scene.seen(Scene.room('region__s1_green', 'the market-place of Newmeet'))!);
     const foot = Scene.room('region__s2_green', 'the bridge-foot at Brightbridge');
     const gate = Scene.room('circus__rest_gate', 'the gatehouse of the King\'s Rest');
     const road = Scene.room('region__s1_s4_way', 'the road between Newmeet and Brockfield');
@@ -65,7 +65,8 @@ describe('the painting of a place', () => {
     expect(['scene-cellar', 'scene-salt-warehouse']).toContain(cellar!);
     for (const [id, name] of [['region__s2_u_warren', 'the rat-runs'], ['region__s2_u_nest', 'the nest'],
       ['region__s2_u_brood', 'the brood-chamber'], ['region__s2_u_drain', 'the old drain']] as const) {
-      expect(Scene.seen(Scene.room(id, name, under))).toBeUndefined();
+      // The owner's paintings of 8 November: the runs and the drain, a burrow or a culvert; the brood, its webbed cave.
+      expect(['scene-burrow', 'scene-sewer-drain', 'scene-spider-chamber']).toContain(Scene.seen(Scene.room(id, name, under))!);
     }
     const dead = ['scene-crypt', 'scene-ossuary', 'scene-barrow-interior', 'perdition'];
     const crypt = Scene.seen(Scene.room('region__s2_u_crypt', 'the crypt', under));
@@ -94,7 +95,7 @@ describe('the painting of a place', () => {
     // A room named for what it would be in the open ("the crossing") deep in a mine is of the mine, not a ford.
     const mine: PlaceRef = { id: 'region__s2_ud_adit', name: 'the adit level', kind: 'level' };
     const crossing = Scene.room('region__s2_ud_adit_crossing', 'the crossing', under);
-    expect(Scene.seen(crossing, [site, mine])).toBeUndefined();
+    expect(['scene-mine-gallery', 'scene-mine-shaft']).toContain(Scene.seen(crossing, [site, mine])!);
     const cave: PlaceRef = { id: 'raidersHold__lair', name: 'the cave', kind: 'site' };
     expect(Scene.seen(Scene.room('raidersHold__cavern', 'the smoky cavern', under), [wild, cave])).toBe('scene-cave');
     expect(Scene.seen(Scene.room('sink__nest', 'the nest', under), [wild, cave])).not.toBe('library');

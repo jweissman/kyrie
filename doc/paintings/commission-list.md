@@ -1,25 +1,23 @@
 # Scene paintings to commission
 
-## Still wanted, 8 November (after the owner's scene paintings of 7 and 8 November)
+## Still wanted (8 November, after the owner's paintings of 8 November)
+
+Covered now: the rat-runs (a burrow), the drain, the spiders' brood, a mine's gallery and shaft, a cell, a shop's
+counter, a cave mouth, the stair down from a street, a town's green, lane and gate, a keep's bailey and gatehouse, the
+market and the clothier's without figures, and a door from the House of Doors to every plane, inner and outer.
 
 Most wanted first. Each without anyone in the foreground, wide (landscape), and seen as the place is.
 
-1. **Under a town:** the rat-runs and a nest (an earth crawlway, gnawed brick); an old drain or culvert (brick, water
-   along its floor); a spiders' brood-chamber (web and egg-sacs). These show a dim ground today.
-2. **A mine from within** (two or three): a timbered gallery, a shaft with a ladder, tubs on rails. A dim ground today.
-3. **A cell or gaol:** a stone cell, a barred door, straw. A dim ground today.
-4. **A shop counter** of no trade in particular: shelves to the beams, a worn counter. A dim ground today.
-5. **A cave mouth** from outside (a dark opening in a hillside, a scree fan): a rocky gorge stands in.
-6. **Ways underground:** a stair going down into the dark; a long passage of dressed stone; a pillared hall. Old
-   masters' vaults stand in.
-7. **A town at its heart** (three): a green with houses round it, a lane between yards, a town gate in its wall. Old
-   masters' villages and castles stand in, some with figures.
-8. **A keep's bailey and a gatehouse from within.**
-9. **The market-place and the clothier's without anyone in them** (the present paintings have figures, and are held
-   back).
-10. **Planes:** the Positive and Negative Energy Planes, Mechanus, the outer planes (Hades, Gehenna, the Abyss,
-    Arcadia, Ysgard). The ice and lightning portals are in the corpus but no plane of ice or storm is yet in the
-    world.
+1. **Ways underground:** a long passage of dressed stone, a pillared hall under the ground (old masters' vaults stand
+   in for both).
+2. **The planes from within**, wide: the House's doors show each plane through its arch, from the House; a plane's
+   own country, once the company is through, still falls to old masters' paintings with figures (Hades, Gehenna, the
+   Abyss, Limbo, Pandemonium) or to nothing (Mechanus, Nirvana, Zephyrus, the Positive and Negative Energy Planes).
+3. **The doors wide:** the portals are tall, and the stage, which is wide, crops their arches; a wide version of each
+   (or of the hall) would show whole.
+4. **The Positive and Negative Energy Planes' doors**, and planes of ice and storm for the ice and lightning doors
+   (painted, not yet in the world).
+5. **A tower's roof** (leads and battlements open to the sky), and **a guardroom's** second painting.
 
 Below, the full list as it was drawn up on 7 November.
 

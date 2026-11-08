@@ -6434,6 +6434,146 @@
    "form": "interior",
    "shows": "a carved door standing open on deep bright water and falling waves",
    "era": "late"
+  },
+  "scene-market": {
+   "form": "landscape",
+   "shows": "a market-place of stalls under awnings round a fountain, a castle above the town",
+   "era": "late"
+  },
+  "scene-clothier": {
+   "form": "interior",
+   "shows": "a clothier's: bolts of cloth to the ceiling, a cutting table, garments on a rail",
+   "era": "late"
+  },
+  "scene-burrow": {
+   "form": "interior",
+   "shows": "an earth burrow: a crawlway of roots and gnawed earth opening into dark",
+   "era": "late"
+  },
+  "scene-cave-mouth": {
+   "form": "landscape",
+   "shows": "a dark cave mouth in a crag over a path, trees about it",
+   "era": "late"
+  },
+  "scene-cell": {
+   "form": "interior",
+   "shows": "a stone cell: a barred door, a pallet of straw, light from a high grating",
+   "era": "late"
+  },
+  "scene-keep-bailey": {
+   "form": "landscape",
+   "shows": "a keep's bailey inside curtain walls: a yard, sheds, a round tower",
+   "era": "late"
+  },
+  "scene-keep-gatehouse": {
+   "form": "interior",
+   "shows": "a gatehouse within: a portcullis raised on the road, a stair, banners",
+   "era": "late"
+  },
+  "scene-mine-gallery": {
+   "form": "interior",
+   "shows": "a timbered mine gallery: rails, an ore tub, lanterns going on into the dark",
+   "era": "late"
+  },
+  "scene-mine-shaft": {
+   "form": "interior",
+   "shows": "a mine shaft: a ladder going up into daylight between timbers",
+   "era": "late"
+  },
+  "scene-sewer-drain": {
+   "form": "interior",
+   "shows": "an old drain: a brick culvert running with water, great pipes",
+   "era": "late"
+  },
+  "scene-spider-chamber": {
+   "form": "interior",
+   "shows": "a cave hung with web and great egg-sacs, water on its floor",
+   "era": "late"
+  },
+  "scene-town-gate": {
+   "form": "landscape",
+   "shows": "a town gate between two round towers, the street going in",
+   "era": "late"
+  },
+  "scene-town-green": {
+   "form": "landscape",
+   "shows": "a village green with an old tree and a well, cottages round it",
+   "era": "late"
+  },
+  "scene-town-lane": {
+   "form": "landscape",
+   "shows": "a narrow lane between yards and workshops, doors open",
+   "era": "late"
+  },
+  "scene-town-merchant": {
+   "form": "interior",
+   "shows": "a merchant's shop: a worn counter, scales, shelves to the beams",
+   "era": "late"
+  },
+  "scene-town-stairs-to-darkness": {
+   "form": "landscape",
+   "shows": "steps going down from a street into a dark archway under the town",
+   "era": "late"
+  },
+  "scene-house-of-doors-abyss-portal": {
+   "form": "interior",
+   "shows": "a carved door standing open on abyss",
+   "era": "late"
+  },
+  "scene-house-of-doors-arcadia-portal": {
+   "form": "interior",
+   "shows": "a carved door standing open on arcadia",
+   "era": "late"
+  },
+  "scene-house-of-doors-cthelll-portal": {
+   "form": "interior",
+   "shows": "a carved door standing open on cthelll",
+   "era": "late"
+  },
+  "scene-house-of-doors-exaltation-portal": {
+   "form": "interior",
+   "shows": "a carved door standing open on exaltation",
+   "era": "late"
+  },
+  "scene-house-of-doors-gehenna-portal": {
+   "form": "interior",
+   "shows": "a carved door standing open on gehenna",
+   "era": "late"
+  },
+  "scene-house-of-doors-hades-portal": {
+   "form": "interior",
+   "shows": "a carved door standing open on hades",
+   "era": "late"
+  },
+  "scene-house-of-doors-limbo-portal": {
+   "form": "interior",
+   "shows": "a carved door standing open on limbo",
+   "era": "late"
+  },
+  "scene-house-of-doors-mechanus-portal": {
+   "form": "interior",
+   "shows": "a carved door standing open on mechanus",
+   "era": "late"
+  },
+  "scene-house-of-doors-nirvana-portal": {
+   "form": "interior",
+   "shows": "a carved door standing open on nirvana",
+   "era": "late"
+  },
+  "scene-house-of-doors-pandemonium-portal": {
+   "form": "interior",
+   "shows": "a carved door standing open on pandemonium",
+   "era": "late"
+  },
+  "scene-house-of-doors-ysgard-portal": {
+   "form": "interior",
+   "shows": "a carved door standing open on ysgard",
+   "era": "late"
+  },
+  "scene-house-of-doors-zephyrus-portal": {
+   "form": "interior",
+   "shows": "a carved door standing open on zephyrus",
+   "era": "late"
   }
  }
 }
