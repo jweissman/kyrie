@@ -7,7 +7,9 @@ import { PlaceStage } from './place-stage';
 // A place as it is seen, the play's surface wherever the company is not out in the wild (the owner, 4 November,
 // evening: the painting is the place; a graph of rooms is not a map). Its painting, always (the owner, 6 November:
 // never words where the picture goes): of the country it stands in (a town, a site above ground), or of a room of its
-// kind (a cave, a crypt, a dim room) under a roof or the ground; in the dark, the same barely seen, its shapes only.
+// kind (a taproom, a crypt, a tower's stair) under a roof or the ground; in the dark, the same barely seen, its shapes
+// only. Where no painting is of its kind (a forge, the rat-runs), a dim ground, not a wrong picture (the owner, 7
+// November: a dark room is better than a cathedral for a taproom).
 // Nothing is set over the picture (it is sacrosanct); what is said of the place is beside it (see Told.Setting), and how
 // deep it is at the page's head.
 export class SceneSurface {
@@ -16,7 +18,7 @@ export class SceneSurface {
     return (
       <div className={`scene-surface painted${screen.dark ? ' unlit' : ''}${screen.place.underground ? ' under' : ''}`}
         data-region="scene-surface">
-        <div className="scene-view"><PlaceStage.Country view={view} /></div>
+        <div className={`scene-view${view ? '' : ' plain'}`}>{view && <PlaceStage.Country view={view} />}</div>
       </div>
     );
   }
