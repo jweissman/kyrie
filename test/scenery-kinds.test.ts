@@ -49,7 +49,7 @@ describe('the painting of a place', () => {
     const foot = Scene.room('region__s2_green', 'the bridge-foot at Brightbridge');
     const gate = Scene.room('circus__rest_gate', 'the gatehouse of the King\'s Rest');
     const road = Scene.room('region__s1_s4_way', 'the road between Newmeet and Brockfield');
-    expect(['bridge', 'arcadia']).toContain(Scene.seen(foot)!);
+    expect(['scene-bridge', 'bridge', 'arcadia']).toContain(Scene.seen(foot)!);
     expect(['castle', 'redoubt']).toContain(Scene.seen(gate)!);
     expect(['road', 'arcadia']).toContain(Scene.seen(road, [])!);
     const camp = Scene.room('region__s5_green', 'the camp at Windscar');

@@ -6714,6 +6714,36 @@
    "form": "interior",
    "shows": "a nymphaeum: a grotto of a spring dressed with columns, statues and falling water",
    "era": "late"
+  },
+  "scene-adyton": {
+   "form": "interior",
+   "shows": "an adyton: a statue in a niche behind curtains, an altar, lamps, incense",
+   "era": "late"
+  },
+  "scene-bridge": {
+   "form": "landscape",
+   "shows": "an old stone bridge of three arches over a still river, a villa beyond",
+   "era": "late"
+  },
+  "scene-falconry-mews": {
+   "form": "landscape",
+   "shows": "a falconry mews: an arcade of perches round a courtyard",
+   "era": "late"
+  },
+  "scene-necromanteion": {
+   "form": "landscape",
+   "shows": "a necromanteion: a dark doorway between painted columns, steam from below, the moon",
+   "era": "late"
+  },
+  "scene-sphaeristerium": {
+   "form": "landscape",
+   "shows": "a sphaeristerium: a walled ball-court of beaten earth under painted arcades",
+   "era": "late"
+  },
+  "scene-temple": {
+   "form": "landscape",
+   "shows": "a temple of columns on a stepped base, fires burning before it",
+   "era": "late"
   }
  }
 }
