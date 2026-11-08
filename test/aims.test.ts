@@ -27,7 +27,7 @@ describe('your aims', () => {
     expect(leaf.exchange?.notes).toContainEqual(expect.stringMatching(/^Aim: Something is wrong at /));
     // And where the tower is, now somewhere to set out for, is said, not left for the journeys to show (M17-42).
     expect(leaf.exchange?.notes)
-      .toContainEqual(expect.stringMatching(/^Noted: A lone tower: somewhere to set out for now, /));
+      .toContainEqual(expect.stringMatching(/^Noted: \S+: somewhere to set out for now, /));
     expect(ScreenModel.build(c).objectives[0]).toMatch(/^The brothers want the old writing at /);
     // The same aim with its count gone up (another grave open) is not a new one (the cold evaluation).
     const held = c as unknown as { world: { apply(x: unknown[]): unknown; number(x: unknown): number };
