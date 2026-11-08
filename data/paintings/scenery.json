@@ -113,6 +113,8 @@
     {"kind": "salt", "words": ["salt", "saltpans", "salterns", "saltern", "pans", "salt-house", "salthouse", "boiling-house"], "ground": ["scene-salt-pans"], "room": ["scene-salt-warehouse"]},
     {"kind": "timber", "words": ["timber", "sawpit", "sawmill", "lumber", "timber-yard"], "ground": ["scene-timber-yard"]},
     {"kind": "furs", "words": ["fur", "furs", "pelts", "stockade", "trading-post"], "ground": ["scene-fur-post"]},
+    {"kind": "dovecote", "words": ["dovecote", "dovecot", "columbarium", "doocot", "pigeon-house"], "ground": ["scene-dovecote"]},
+    {"kind": "solarium", "words": ["solarium", "orangery", "conservatory", "hothouse", "glass-house", "glasshouse"], "room": ["scene-solarium"], "ground": ["scene-solarium"]},
     {"kind": "garden", "words": ["garden", "gardens", "statuary", "parterre", "topiary", "pleasaunce"], "ground": ["scene-garden", "scene-statuary"]},
     {"kind": "menagerie", "words": ["menagerie", "aviary", "zoo", "beast-house", "cages"], "ground": ["scene-menagerie"]},
     {"kind": "oasis", "words": ["oasis", "oases"], "ground": ["scene-oasis"]},

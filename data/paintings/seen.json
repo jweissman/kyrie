@@ -6624,6 +6624,16 @@
    "form": "landscape",
    "shows": "a sculpture garden: statues along a colonnade and a fountain",
    "era": "late"
+  },
+  "scene-dovecote": {
+   "form": "landscape",
+   "shows": "a round stone dovecote among cypresses, doves about it",
+   "era": "late"
+  },
+  "scene-solarium": {
+   "form": "interior",
+   "shows": "a glass-roofed solarium of orange trees, a fountain, cushions and a sundial floor",
+   "era": "late"
   }
  }
 }
