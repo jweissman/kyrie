@@ -6634,6 +6634,56 @@
    "form": "interior",
    "shows": "a glass-roofed solarium of orange trees, a fountain, cushions and a sundial floor",
    "era": "late"
+  },
+  "scene-ballroom": {
+   "form": "interior",
+   "shows": "a ballroom: chandeliers, a painted ceiling, a polished floor between columns",
+   "era": "late"
+  },
+  "scene-gloriet": {
+   "form": "interior",
+   "shows": "a gloriet: an open pavilion of columns and rich cushions over a garden and a fountain",
+   "era": "late"
+  },
+  "scene-great-hall": {
+   "form": "interior",
+   "shows": "a great hall: a hearth, banners, chandeliers, a high table on a dais",
+   "era": "late"
+  },
+  "scene-harbor": {
+   "form": "landscape",
+   "shows": "a harbour of a white city: ships at the quay, cargo, a hill of towers behind",
+   "era": "late"
+  },
+  "scene-spicery": {
+   "form": "interior",
+   "shows": "a spicery: jars and sacks of spices, scales, herbs hanging, a marble counter",
+   "era": "late"
+  },
+  "scene-stockade": {
+   "form": "landscape",
+   "shows": "a timber stockade with watch-towers and a gate over a ditch, a camp before it",
+   "era": "late"
+  },
+  "scene-sudatorium": {
+   "form": "interior",
+   "shows": "a bath-house's steam room: a basin, a lion fountain, painted walls in steam",
+   "era": "late"
+  },
+  "scene-tower-roof": {
+   "form": "landscape",
+   "shows": "a tower's roof: battlements and a turret, a banner, the country far below",
+   "era": "late"
+  },
+  "scene-underground-passage": {
+   "form": "interior",
+   "shows": "a long vaulted passage under the ground, statues in niches, torches",
+   "era": "late"
+  },
+  "scene-volcanic-isle": {
+   "form": "landscape",
+   "shows": "a green island under a smoking volcano, a sea about it",
+   "era": "late"
   }
  }
 }

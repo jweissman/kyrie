@@ -63,10 +63,12 @@ export class SceneKinds {
     const own = parent && id.startsWith(`${parent}_`) ? id.slice(parent.length + 1) : id.split('__').pop()!;
     return own.split('_');
   }
-  // A name's words, and its hyphened ones whole besides ("the corn-store cellar": corn-store, corn, store, cellar).
+  // A name's words, and its hyphened ones whole besides ("the corn-store cellar": corn, store, corn-store, cellar): the
+  // whole after its parts, so that where it names a kind it is that kind ("the drying-frames" a fur post's, not the
+  // drying-ground's; "the bee-garden" bees, not a garden).
   static words(text: string): string[] {
     return text.toLowerCase().split(/[^a-z-]+/).filter(Boolean)
-      .flatMap(w => w.includes('-') ? [w, ...w.split('-').filter(Boolean)] : [w]);
+      .flatMap(w => w.includes('-') ? [...w.split('-').filter(Boolean), w] : [w]);
   }
   // How a kind is painted where the place is: under the ground, only from within (never a country underground: "the
   // landing" of a cistern is not a quay); under a roof, from within, or a kind seen only from the open where it is high
