@@ -1,3 +1,4 @@
+import type { SkillRow } from '../../src/presentation/character-sheet';
 import { useState } from 'react';
 import type { MemberRow, Screen } from '../../src/ui/screen-types';
 import { Glyphs } from './creation/glyphs';
@@ -171,10 +172,16 @@ export class CharacterPage {
         {a.price && <small>{a.price}{CharacterPage.yet(m, a.price)}</small>}</button></li>)}</ul>
       {shown && <p className="read"><b>{shown.name}.</b> {Typography.curl(shown.text)}</p>}
       <CharacterPage.Prepared member={m} swaps={swaps} draw={draw} />
-      {sheet && sheet.skills.length > 0 && <><h3>Knows</h3><p className="skill-line">{sheet.skills.map((k, i) =>
-        <span key={k.id} title={Typography.curl(`${k.from}. ${k.text}`)}>{i > 0 && ' · '}{k.name}
-          {k.check !== undefined && <small> {CharacterPage.signed(k.check)}</small>}</span>)}</p></>}
+      {sheet && <CharacterPage.Skills heading="Knows" skills={sheet.skills.filter(k => !k.means)} />}
+      {sheet && <CharacterPage.Skills heading="Holds" skills={sheet.skills.filter(k => k.means)} />}
     </section>;
+  }
+  // What they know (a craft learned) and, apart, what they hold (a means: a light, an oath they have been given).
+  static Skills({ heading, skills }: { heading: string; skills: SkillRow[] }) {
+    if (!skills.length) { return null; }
+    return <><h3>{heading}</h3><p className="skill-line">{skills.map((k, i) =>
+      <span key={k.id} title={Typography.curl(`${k.from}. ${k.text}`)}>{i > 0 && ' · '}{k.name}
+        {k.check !== undefined && <small> {CharacterPage.signed(k.check)}</small>}</span>)}</p></>;
   }
   // What they carry: what is in hand and worn first, then the rest, the same things together.
   static Carries({ member: m, screen }: { member: MemberRow; screen: Screen }) {

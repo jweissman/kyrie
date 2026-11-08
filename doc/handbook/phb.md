@@ -1442,34 +1442,6 @@ The prayers and forms that give the dead rest; what keeps the unquiet in their g
 
 Strength used with judgement: lifting a fallen weight clear, wrenching a lock off its hasp, holding a door.
 
-### Light
-
-*Kyr* · `skill:light`
-
-- Brought by: Jar of moonlight
-
-Carrying a light that shows the way in unlit places.
-
-### The singers' knell
-
-*Kyr* · `skill:knell`
-
-The Stone-Singers' knell for their dead, rung on their own bell as they rang it: what stills the song they sang into their hall.
-
-### The Wardens' oath
-
-*Kyr* · `skill:oath`
-
-The oath the Water-Wardens swore over the still water, read aloud from the tablet it was cut in: what the still water cannot abide.
-
-### Sunlight
-
-*Kyr* · `skill:sunlight`
-
-- Brought by: Jar of noonlight
-
-Carrying daylight itself: it shows the way where other light dies, and things of the dark cannot bear it.
-
 ### Persuasion
 
 *Kyr* · `skill:persuasion`
@@ -1518,6 +1490,38 @@ Going down on purpose and coming up unhurt: the fall, the roll, the cartwheel, t
 - Tools of the trade: Musical instrument
 
 Holding a house: a tune, a turn, a spiel, a face pulled at the right moment; the art of being watched and making it worth it.
+
+### Means held
+
+What a company has to hand, or has been given to say, opens a way as a skill does, but is not learned: carried, lit, or spoken while it is held.
+
+#### Light
+
+*Kyr* · `skill:light`
+
+- Brought by: Jar of moonlight
+
+Carrying a light that shows the way in unlit places.
+
+#### The singers' knell
+
+*Kyr* · `skill:knell`
+
+The Stone-Singers' knell for their dead, rung on their own bell as they rang it: what stills the song they sang into their hall.
+
+#### The Wardens' oath
+
+*Kyr* · `skill:oath`
+
+The oath the Water-Wardens swore over the still water, read aloud from the tablet it was cut in: what the still water cannot abide.
+
+#### Sunlight
+
+*Kyr* · `skill:sunlight`
+
+- Brought by: Jar of noonlight
+
+Carrying daylight itself: it shows the way where other light dies, and things of the dark cannot bear it.
 
 ## Traits
 

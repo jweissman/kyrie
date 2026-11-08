@@ -172,7 +172,10 @@ export interface Background {
   kind?: string; omits?: Omissions;
 }
 // The quality a check of it rests on (a d20 and that quality's modifier: see Checks), for a skill that is tried.
-export interface Skill { name: string; description: string; source: Source; rests?: Attribute }
+// A means held (`means`): what the company has to hand, or has been given to say (a light, the Wardens' oath), not a
+// craft learned: it opens what needs it as a skill does, and is listed apart from what anyone knows (the owner, 7
+// November: Light and the singers' knell had been listed among the skills).
+export interface Skill { name: string; description: string; source: Source; rests?: Attribute; means?: boolean }
 export interface WeaponStats {
   damage: string; type: string; kind?: string; weight?: string; missile?: true; intercept?: true; natural?: true;
 }

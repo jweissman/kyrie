@@ -1,3 +1,4 @@
+import type { Skill } from '../canon/schema';
 import { Canon } from '../canon/canon';
 import { PerkText } from '../presentation/perk-text';
 import { MechanicsText } from '../presentation/mechanics-text';
@@ -89,19 +90,25 @@ export class CompanyChapters {
       + 'or the named ancestries, is recognised as a formation when it sets out. Every member holds it for good. Each named '
       + 'calling or ancestry is needed as many times as it is named.'], entries };
   }
+  // The skills, and apart from them the means a company holds (a light, an oath given it), which open ways as a skill
+  // does but are not learned.
   static skills(): Section {
-    const entries = Object.entries(Canon.skills).map(([id, s]): Entry => {
-      const from = [...Object.entries(Canon.classes).filter(([, c]) => c.skills?.includes(id)).map(([, c]) => c.name),
-        ...Object.entries(Canon.backgroundKinds).filter(([, k]) => k.skills?.includes(id)).map(([, k]) => `${k.name} backgrounds`),
-        ...Object.values(Canon.items).filter(i => i.grants?.skill === id || i.aids?.includes(id)).map(i => i.name)];
-      const tools = Object.values(Canon.items).filter(i => i.tool?.includes(id)).map(i => i.name);
-      return { id: `skill:${id}`, title: s.name, status: HandbookStatus.of(s), rules: [s.description],
-        facts: [...from.length ? [['Brought by', from.join(', ')] as [string, string]] : [],
-          ...tools.length ? [['Tools of the trade', tools.join(', ')] as [string, string]] : []] };
-    });
+    const entries = Object.entries(Canon.skills).filter(([, s]) => !s.means).map(([id, s]): Entry => this.skill(id, s));
+    const means = Object.entries(Canon.skills).filter(([, s]) => s.means).map(([id, s]): Entry => this.skill(id, s));
     return { id: 'skills', title: 'Skills', intro: ['Kyr does not roll for a skill. A company either has someone who '
       + 'brings it, and can do what needs it, or does not. The way that needs it says so. Searching is the exception: the '
-      + 'company\'s best searcher takes 10 on Orsino\'s check (Wisdom modifier and search bonuses, against 15).'], entries };
+      + 'company\'s best searcher takes 10 on Orsino\'s check (Wisdom modifier and search bonuses, against 15).'], entries,
+    sections: [{ id: 'means', title: 'Means held', intro: ['What a company has to hand, or has been given to say, opens a '
+      + 'way as a skill does, but is not learned: carried, lit, or spoken while it is held.'], entries: means }] };
+  }
+  private static skill(id: string, s: Skill): Entry {
+    const from = [...Object.entries(Canon.classes).filter(([, c]) => c.skills?.includes(id)).map(([, c]) => c.name),
+      ...Object.entries(Canon.backgroundKinds).filter(([, k]) => k.skills?.includes(id)).map(([, k]) => `${k.name} backgrounds`),
+      ...Object.values(Canon.items).filter(i => i.grants?.skill === id || i.aids?.includes(id)).map(i => i.name)];
+    const tools = Object.values(Canon.items).filter(i => i.tool?.includes(id)).map(i => i.name);
+    return { id: `skill:${id}`, title: s.name, status: HandbookStatus.of(s), rules: [s.description],
+      facts: [...from.length ? [['Brought by', from.join(', ')] as [string, string]] : [],
+        ...tools.length ? [['Tools of the trade', tools.join(', ')] as [string, string]] : []] };
   }
   static equipment(): Section {
     const items = Object.entries(Canon.items);

@@ -1878,6 +1878,8 @@ A company that sleeps grows weary eighteen hours after it last woke from sleep (
 
 *Kyr · rule* · `rule:world_needs.hunger`
 
+A hungry company fights weary, as a sleepless one does (see Environment.weary).
+
 > When: eats(?g); watch(clock) >= nextMeal(?g); quantity(?g, rations) < 1; not (hungry(?g))
 
 > Then: Assert hungry(?g).

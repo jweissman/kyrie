@@ -166,7 +166,8 @@ export class TalkStage {
         <p className="bearing">{Typography.curl(r.sheet.fighting.map(b => `${b.label}: ${b.value}`).join(' · '))}</p>
         <p className="qualities-line">{r.sheet.qualities.map(q => `${q.name} ${q.score}`).join(' · ')}</p>
         {(r.sheet.skills.length > 0 || r.techniques.length > 0) && <p className="skills-line">{Typography.curl([
-          r.sheet.skills.length ? `Knows ${r.sheet.skills.map(s => s.name.toLowerCase()).join(', ')}.` : '',
+          r.sheet.skills.some(s => !s.means)
+            ? `Knows ${r.sheet.skills.filter(s => !s.means).map(s => s.name.toLowerCase()).join(', ')}.` : '',
           r.techniques.length ? `Can ${r.techniques.map(x => x.name.toLowerCase()).join(', ')}.` : ''].filter(Boolean).join(' '))}</p>}
       </section>
     );

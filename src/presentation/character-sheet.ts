@@ -19,7 +19,7 @@ export interface QualityRow {
   fight: number; check: number;
   rests: string;
 }
-export interface SkillRow { id: string; name: string; text: string; from: string; check?: number }
+export interface SkillRow { id: string; name: string; text: string; from: string; check?: number; means?: boolean }
 export interface Bearing { label: string; value: string }
 // What a member is, worked out by the rules the game plays by, never written beside them: their qualities as they
 // stand (equipment, wounds and conditions counted), how they fight and are fought, their saves, and their skills.
@@ -140,6 +140,7 @@ export class CharacterSheets {
   static skills(c: Creature): SkillRow[] {
     return Object.entries(Canon.skills).filter(([id]) => PartyCapabilities.brings(id, c))
       .map(([id, s]) => ({ id, name: s.name, text: s.description, from: this.from(c, id),
+        ...s.means ? { means: true } : {},
         ...Checks.qualities[id] ? { check: Checks.total(c, id) } : {} }));
   }
   private static from(c: Creature, id: string): string {
