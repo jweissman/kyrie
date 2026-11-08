@@ -801,7 +801,7 @@
     "faithful": 770,
     "adapted": 375,
     "represented": 4,
-    "kyr": 554,
+    "kyr": 556,
     "unsupported": 68,
     "unreachable": 4,
     "data-only": 12
@@ -892,7 +892,7 @@
       "faithful": 242,
       "adapted": 82,
       "represented": 0,
-      "kyr": 102,
+      "kyr": 103,
       "unsupported": 7,
       "unreachable": 0,
       "data-only": 0
@@ -918,7 +918,7 @@
       "faithful": 246,
       "adapted": 4,
       "represented": 0,
-      "kyr": 3,
+      "kyr": 4,
       "unsupported": 32,
       "unreachable": 0,
       "data-only": 0
@@ -1063,7 +1063,7 @@
     "faithful": 126,
     "adapted": 143,
     "represented": 10,
-    "kyr": 118,
+    "kyr": 119,
     "unsupported": 4,
     "unreachable": 0,
     "data-only": 104
@@ -1141,7 +1141,7 @@
       "faithful": 0,
       "adapted": 7,
       "represented": 0,
-      "kyr": 47,
+      "kyr": 48,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -7521,6 +7521,13 @@
    "section": "equipment/gear"
   },
   {
+   "id": "item:betony",
+   "title": "Betony",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
    "id": "item:holy_water",
    "title": "Holy water",
    "status": "adapted",
@@ -10289,6 +10296,13 @@
    "id": "ability:heat_drain",
    "title": "Heat Drain",
    "status": "faithful",
+   "book": "phb",
+   "section": "magic/spells-divine/spells-divine-1"
+  },
+  {
+   "id": "ability:hornet_swarm",
+   "title": "Hornet Swarm",
+   "status": "kyr",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-1"
   },
@@ -20571,6 +20585,13 @@
   {
    "id": "plant:bay",
    "title": "Bay",
+   "status": "kyr",
+   "book": "mm",
+   "section": "plants"
+  },
+  {
+   "id": "plant:betony_plant",
+   "title": "Betony",
    "status": "kyr",
    "book": "mm",
    "section": "plants"

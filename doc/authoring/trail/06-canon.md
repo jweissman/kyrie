@@ -28,18 +28,43 @@ author can set it in a module (`Species x.`, `Variant y.`). A record with `habit
 dens of those habitats by its record alone (`RegionEcology.recorded`, `src/world/region-ecology.ts:54`), though no
 record in the catalog yet sets `abundance` (22 of 61 animals have `habitats`, 3 of 64 monsters).
 
-**In progress on main (6 November, not in this checkout):** each kind's danger measured by the game's own fights
-against a lone first-level warrior (`data/catalog/challenge.json`, `src/world/challenge.ts`, measured by `bin/kyrie
-bestiary challenge <kind>`), and deep sites and dens composing parties within a budget from what each record says
-(`src/world/parties.ts`). The owner's working notes record a monster (the hollow-stalker) and a plant (self-heal, with
-its item) added by their records alone and met in generated countries. Until that lands, a new kind is not measured,
-and its danger is not reckoned before a fight; when it lands, the recipe is: add the record with `habitats` and
-`abundance`, run `bin/kyrie bestiary challenge <kind>`, and meet it in a generated site. This page will need its
-example then.
+**Landed since (7 November):** each kind's danger measured by the game's own fights against a lone first-level
+warrior (`data/catalog/challenge.json`, `src/world/challenge.ts`, measured by `bin/kyrie bestiary challenge <kind>`),
+and deep sites and dens composing parties within a budget from what each record says (`src/world/parties.ts`). A
+monster (the hollow-stalker) was added by its record alone and met in generated countries (1c149c0a); a plant added
+so, self-heal, was later removed at the owner's word, the authoring proof made the owner's hazel (d7edde06). The recipe
+for a creature: add the record with `habitats` and `abundance`, run `bin/kyrie bestiary challenge <kind>`, and meet
+it in a generated site. For a plant, an item and a spell, see below.
 
 Specs that hold the pipeline: `test/creature-pipeline.test.ts`, `test/creature-variation.test.ts`,
 `test/natural-history.test.ts`, `test/devices.test.ts`. The design is
 [mission-19/creatures.md](../../architecture/mission-19/creatures.md).
+
+## A new plant, item or spell, end to end (journey 5, 7 November)
+
+Mission 19's journey 5 added a plant (`betony_plant`, plants.json), the item gathered from it (`betony`,
+items/consumables.json) and a spell (`hornet_swarm`, abilities.json), each marked demonstration content in its
+`source.notes`, with no engine change. The path, and what it showed:
+
+- **A plant** names its `habitats` (habitats.json, or an alias of aliases.json: `forest` is the wood), its `grounds`
+  (geology.json's formations, or a soil), an `abundance` from one to ten (without one it grows only where nothing
+  more particular does), and `yields`, an item of the catalog. With an abundance it stands, by that chance, in every
+  stretch of its habitats (it was in Look on a road of meadow). `bin/kyrie validate` checks the names.
+- **An item** is a line of its file under `items`; `use` is Kyr's effect language (`Heal (1d4+1) health to ally.
+  Remove bleed from ally.`), which the pack and the Encyclopedia both read. Without a `portrait` the pack shows an
+  empty square: the plates are the owner's paintings, cut from sheets by `scripts/animal-portraits.py` into
+  `data/paintings/*.json`, so a new kind waits for its plate; leave `portrait` unset until it has one.
+- **A spell** is a record of `kind: "spell"` with `spell: { tradition, level, school or domain }` and typed `effects`
+  (copy one of Orsino's in `data/catalog/orsino/abilities.json`: `damage` with a `damageType`, `apply` with a `status`
+  of conditions.json or orsino/conditions.json, a `duration` and a `save`). The effects are what the fight does, and the
+  creation page's line ("1d4 piercing to every foe, and distracts them"), the Encyclopedia's "In play" and the fight's
+  log are all said from them. A spell of a domain is offered to clerics of that domain at its level, and may be among
+  those a new cleric starts with (Hornet Swarm was one of a nature cleric's three at once); `cost: 1` spends a slot.
+  Piercing harm can set bleeding on its own (a Constitution save): no need to write it.
+- **Seen**: `bin/kyrie validate`, then `bun run web:build` (the browser's bundles and the Encyclopedia, which is
+  written from the catalog at build: the new plant and spell had their entries at once), and `bin/kyrie handbook` for
+  the generated handbooks. Then the game: the spell chosen at creation and cast at the rats under the corn-store, the
+  plant gathered in a wood, the item carried and given.
 
 ## Boundaries
 

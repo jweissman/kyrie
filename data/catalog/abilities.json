@@ -597,6 +597,45 @@
         "kyr": true,
         "notes": "Kyr's own, the old games' restoration, the one remedy for energy drain (a temple's service, or a cleric's spell). It lifts every level taken at once, where the old games give back one a casting."
       }
+    },
+    "hornet_swarm": {
+      "name": "Hornet Swarm",
+      "kind": "spell",
+      "description": "A prayer to the wild that is answered out of the nearest hollow tree: a brown cloud of hornets over every foe, stinging, so that they strike wild while it lasts.",
+      "effects": [
+        {
+          "kind": "damage",
+          "amount": {
+            "kind": "deem",
+            "expression": "1d4"
+          },
+          "damageType": "piercing",
+          "target": "enemies"
+        },
+        {
+          "kind": "apply",
+          "status": "distracted",
+          "duration": 2,
+          "target": "enemies",
+          "save": {
+            "kind": "reflex",
+            "difficulty": {
+              "kind": "deem",
+              "expression": "15 + #level + #bonusSpellDC"
+            }
+          }
+        }
+      ],
+      "cost": 1,
+      "spell": {
+        "tradition": "divine",
+        "level": 1,
+        "domain": "nature"
+      },
+      "source": {
+        "kyr": true,
+        "notes": "Demonstration content (Mission 19, journey 5, 7 November): a spell added by its record alone, for clerics of nature, and cast in a fight in a generated country."
+      }
     }
   }
 }

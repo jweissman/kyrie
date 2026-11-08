@@ -21,7 +21,7 @@ Each kind, with what it fights with, by type. Habitat says where it is met. Temp
 - Type: aberration (monster)
 - Hit points: 34 + Constitution modifier + 3 a level
 - Actions a turn: 2
-- Qualities: +18 strength, +17 dexterity, +18 constitution, +24 intelligence, +23 wisdom, +14 charisma
+- Qualities: strength 18, dexterity 17, constitution 18, intelligence 24, wisdom 23, charisma 14
 - Attack: tentacles, 1d4+1 bludgeoning
 - Hide: Hide Armor, armour 1
 - Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
@@ -100,7 +100,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Type: aberration (monster)
 - Hit points: 34 + Constitution modifier + 3 a level
 - Actions a turn: 2
-- Qualities: +18 strength, +17 dexterity, +18 constitution, +25 intelligence, +22 wisdom, +14 charisma
+- Qualities: strength 18, dexterity 17, constitution 18, intelligence 25, wisdom 22, charisma 14
 - Attack: tentacles, 1d4+1 bludgeoning
 - Hide: Hide Armor, armour 1
 - Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
@@ -138,7 +138,7 @@ Planar Adaptation: +2 against magic, resists 50% of fire, resists 50% of cold, r
 - Type: aberration (monster)
 - Hit points: 34 + Constitution modifier + 3 a level
 - Actions a turn: 2
-- Qualities: +18 strength, +17 dexterity, +23 constitution, +23 intelligence, +20 wisdom, +14 charisma
+- Qualities: strength 18, dexterity 17, constitution 23, intelligence 23, wisdom 20, charisma 14
 - Attack: tentacles, 1d4+1 bludgeoning
 - Hide: Hide Armor, armour 1
 - Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
@@ -176,7 +176,7 @@ Regeneration: Heal 1d2 - 1 (0–1) each turn.
 - Type: aberration (monster)
 - Hit points: 34 + Constitution modifier + 3 a level
 - Actions a turn: 2
-- Qualities: +18 strength, +17 dexterity, +24 constitution, +19 intelligence, +17 wisdom, +14 charisma
+- Qualities: strength 18, dexterity 17, constitution 24, intelligence 19, wisdom 17, charisma 14
 - Attack: tentacles, 1d4+1 bludgeoning
 - Hide: Hide Armor, armour 1
 - Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
@@ -248,7 +248,7 @@ Charm Person: One enemy is charmed for 3 turns (only humanoid creatures; a Wisdo
 
 - Type: beast (animal)
 - Hit points: 4 + Constitution modifier + 1 a level
-- Qualities: +6 strength, +5 dexterity, +6 constitution, +5 intelligence, +5 wisdom, +5 charisma
+- Qualities: strength 6, dexterity 5, constitution 6, intelligence 5, wisdom 5, charisma 5
 - Attack: claws, 1d4 slashing
 - Hide: Hide Armor, armour 1
 - Found in: wood, meadow
@@ -268,7 +268,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 - Type: beast (animal)
 - Hit points: 3 + Constitution modifier + 1 a level
-- Qualities: +4 strength, +6 dexterity, +4 constitution, +4 intelligence, +5 wisdom, +6 charisma
+- Qualities: strength 4, dexterity 6, constitution 4, intelligence 4, wisdom 5, charisma 6
 - Attack: bite, 1d6 piercing
 - Hide: Fur Armor, armour 0
 - Found in: wood, cave
@@ -313,7 +313,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 - Type: beast (animal)
 - Hit points: 3 + Constitution modifier + 1 a level
-- Qualities: +5 strength, +5 dexterity, +6 constitution, +4 intelligence, +5 wisdom, +4 charisma
+- Qualities: strength 5, dexterity 5, constitution 6, intelligence 4, wisdom 5, charisma 4
 - Attack: mandibles, 1d6 piercing
 - Hide: Chitin Armor, armour 2
 - Found in: wood, cave
@@ -369,7 +369,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 - Type: beast (animal)
 - Hit points: 3 + Constitution modifier + 1 a level
-- Qualities: +4 strength, +8 dexterity, +5 constitution, +5 intelligence, +6 wisdom, +7 charisma
+- Qualities: strength 4, dexterity 8, constitution 5, intelligence 5, wisdom 6, charisma 7
 - Attack: flutter, 1d2 bludgeoning
 - Hide: Chitin Armor, armour 2
 - Found in: meadow
@@ -408,7 +408,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 - Type: beast (animal)
 - Hit points: 3 + Constitution modifier + 1 a level
-- Qualities: +5 strength, +7 dexterity, +5 constitution, +4 intelligence, +5 wisdom, +4 charisma
+- Qualities: strength 5, dexterity 7, constitution 5, intelligence 4, wisdom 5, charisma 4
 - Attack: bite, 1d6 piercing
 - Hide: Chitin Armor, armour 2
 - Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
@@ -432,7 +432,7 @@ Venomous Bite: 1d6 (1–6) poison damage to one enemy (halved if resisted; may c
 - Type: beast (monster)
 - Hit points: 9 + Constitution modifier + 3 a level
 - Actions a turn: 2
-- Qualities: +17 strength, +12 dexterity, +11 constitution, +3 intelligence, +3 wisdom, +3 charisma
+- Qualities: strength 17, dexterity 12, constitution 11, intelligence 3, wisdom 3, charisma 3
 - Attack: claws, 1d4 slashing
 - Hide: Hide Armor, armour 1
 - Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
@@ -509,7 +509,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 - Type: beast (animal)
 - Hit points: 3 + Constitution modifier + 1 a level
-- Qualities: +5 strength, +8 dexterity, +5 constitution, +8 intelligence, +6 wisdom, +6 charisma
+- Qualities: strength 5, dexterity 8, constitution 5, intelligence 8, wisdom 6, charisma 6
 - Attack: beak, 1d4 piercing
 - Hide: Feather Armor, armour -1
 - Found in: meadow, fells
@@ -529,7 +529,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 - Type: beast (animal)
 - Hit points: 3 + Constitution modifier + 1 a level
-- Qualities: +3 strength, +7 dexterity, +3 constitution, +3 intelligence, +6 wisdom, +4 charisma
+- Qualities: strength 3, dexterity 7, constitution 3, intelligence 3, wisdom 6, charisma 4
 - Attack: flutter, 1d2 bludgeoning
 - Temperament: wary
 - Found in: heath, meadow, fen
@@ -565,7 +565,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 - Type: beast (animal)
 - Hit points: 4 + Constitution modifier + 1 a level
-- Qualities: +5 strength, +7 dexterity, +5 constitution, +5 intelligence, +6 wisdom, +5 charisma
+- Qualities: strength 5, dexterity 7, constitution 5, intelligence 5, wisdom 6, charisma 5
 - Attack: antlers, 1d6 piercing
 - Hide: Hide Armor, armour 1
 - Found in: wood, heath
@@ -622,7 +622,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 - Type: beast (animal)
 - Hit points: 3 + Constitution modifier + 1 a level
-- Qualities: +4 strength, +8 dexterity, +5 constitution, +5 intelligence, +6 wisdom, +9 charisma
+- Qualities: strength 4, dexterity 8, constitution 5, intelligence 5, wisdom 6, charisma 9
 - Attack: flutter, 1d2 bludgeoning
 - Hide: Chitin Armor, armour 2
 - Found in: fen, river
@@ -660,7 +660,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 - Type: beast (animal)
 - Hit points: 4 + Constitution modifier + 1 a level
-- Qualities: +5 strength, +8 dexterity, +5 constitution, +5 intelligence, +6 wisdom, +5 charisma
+- Qualities: strength 5, dexterity 8, constitution 5, intelligence 5, wisdom 6, charisma 5
 - Attack: talons, 1d8 piercing
 - Hide: Feather Armor, armour -1
 - Found in: heights, fells
@@ -722,7 +722,7 @@ Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 
 
 - Type: beast (animal)
 - Hit points: 4 + Constitution modifier + 1 a level
-- Qualities: +6 strength, +6 dexterity, +6 constitution, +6 intelligence, +6 wisdom, +6 charisma
+- Qualities: strength 6, dexterity 6, constitution 6, intelligence 6, wisdom 6, charisma 6
 - Attack: talons, 1d8 piercing
 - Hide: Feather Armor, armour -1
 - Found in: heath, heights
@@ -760,7 +760,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 - Type: beast (animal)
 - Hit points: 4 + Constitution modifier + 1 a level
-- Qualities: +5 strength, +7 dexterity, +6 constitution, +6 intelligence, +6 wisdom, +6 charisma
+- Qualities: strength 5, dexterity 7, constitution 6, intelligence 6, wisdom 6, charisma 6
 - Attack: bite, 1d6 piercing
 - Hide: Fur Armor, armour 0
 - Found in: heath
@@ -780,7 +780,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 - Type: beast (animal)
 - Hit points: 4 + Constitution modifier + 1 a level
-- Qualities: +6 strength, +7 dexterity, +6 constitution, +6 intelligence, +6 wisdom, +6 charisma
+- Qualities: strength 6, dexterity 7, constitution 6, intelligence 6, wisdom 6, charisma 6
 - Attack: bite, 1d6 piercing
 - Hide: Fur Armor, armour 0
 - Found in: wood, meadow, heath
@@ -800,7 +800,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 - Type: beast (animal)
 - Hit points: 3 + Constitution modifier + 1 a level
-- Qualities: +4 strength, +6 dexterity, +5 constitution, +4 intelligence, +5 wisdom, +5 charisma
+- Qualities: strength 4, dexterity 6, constitution 5, intelligence 4, wisdom 5, charisma 5
 - Attack: tongue, 1d4 bludgeoning
 - Hide: Hide Armor, armour 1
 - Found in: fen, river
@@ -838,7 +838,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 - Type: beast (animal)
 - Hit points: 4 + Constitution modifier + 1 a level
-- Qualities: +6 strength, +5 dexterity, +6 constitution, +5 intelligence, +5 wisdom, +6 charisma
+- Qualities: strength 6, dexterity 5, constitution 6, intelligence 5, wisdom 5, charisma 6
 - Attack: headbutt, 1d4 bludgeoning
 - Hide: Fur Armor, armour 0
 - Found in: fells, heights
@@ -858,7 +858,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 - Type: beast (animal)
 - Hit points: 3 + Constitution modifier + 1 a level
-- Qualities: +3 strength, +7 dexterity, +3 constitution, +3 intelligence, +6 wisdom, +4 charisma
+- Qualities: strength 3, dexterity 7, constitution 3, intelligence 3, wisdom 6, charisma 4
 - Attack: flutter, 1d2 bludgeoning
 - Temperament: wary
 - Found in: heath, fells
@@ -876,7 +876,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 - Type: beast (animal)
 - Hit points: 4 + Constitution modifier + 1 a level
-- Qualities: +6 strength, +7 dexterity, +6 constitution, +6 intelligence, +7 wisdom, +6 charisma
+- Qualities: strength 6, dexterity 7, constitution 6, intelligence 6, wisdom 7, charisma 6
 - Attack: talons, 1d8 piercing
 - Hide: Feather Armor, armour -1
 - Found in: heath, fells
@@ -896,7 +896,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 - Type: beast (animal)
 - Hit points: 3 + Constitution modifier + 1 a level
-- Qualities: +5 strength, +5 dexterity, +6 constitution, +5 intelligence, +6 wisdom, +5 charisma
+- Qualities: strength 5, dexterity 5, constitution 6, intelligence 5, wisdom 6, charisma 5
 - Attack: spines, 1d6 piercing
 - Hide: Spine Armor, armour 1
 - Found in: meadow, wood
@@ -994,7 +994,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 - Type: beast (animal)
 - Hit points: 3 + Constitution modifier + 1 a level
-- Qualities: +4 strength, +8 dexterity, +5 constitution, +5 intelligence, +6 wisdom, +7 charisma
+- Qualities: strength 4, dexterity 8, constitution 5, intelligence 5, wisdom 6, charisma 7
 - Attack: beak, 1d4 piercing
 - Hide: Feather Armor, armour -1
 - Found in: desert
@@ -1069,7 +1069,7 @@ Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 
 
 - Type: beast (animal)
 - Hit points: 3 + Constitution modifier + 1 a level
-- Qualities: +3 strength, +7 dexterity, +3 constitution, +3 intelligence, +6 wisdom, +4 charisma
+- Qualities: strength 3, dexterity 7, constitution 3, intelligence 3, wisdom 6, charisma 4
 - Attack: flutter, 1d2 bludgeoning
 - Temperament: wary
 - Found in: meadow, heath
@@ -1129,7 +1129,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 - Type: beast (animal)
 - Hit points: 3 + Constitution modifier + 1 a level
-- Qualities: +5 strength, +6 dexterity, +5 constitution, +5 intelligence, +5 wisdom, +5 charisma
+- Qualities: strength 5, dexterity 6, constitution 5, intelligence 5, wisdom 5, charisma 5
 - Attack: bite, 1d6 piercing
 - Hide: Scale Mail, armour 4
 - Found in: desert, heath
@@ -1189,7 +1189,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 - Type: beast (animal)
 - Hit points: 4 + Constitution modifier + 1 a level
-- Qualities: +5 strength, +6 dexterity, +5 constitution, +5 intelligence, +5 wisdom, +5 charisma
+- Qualities: strength 5, dexterity 6, constitution 5, intelligence 5, wisdom 5, charisma 5
 - Attack: bite, 1d6 piercing
 - Hide: Fur Armor, armour 0
 - Found in: meadow
@@ -1209,7 +1209,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 - Type: beast (animal)
 - Hit points: d4 a level
-- Qualities: +4 strength, +12 dexterity, +6 constitution, +7 intelligence, +10 wisdom, +6 charisma
+- Qualities: strength 4, dexterity 12, constitution 6, intelligence 7, wisdom 10, charisma 6
 - Attack: bite, 1d6 piercing
 - Hide: Fur Armor, armour 0
 - Found in: wood, grove
@@ -1227,7 +1227,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 - Type: beast (animal)
 - Hit points: 3 + Constitution modifier + 1 a level
-- Qualities: +4 strength, +8 dexterity, +5 constitution, +5 intelligence, +6 wisdom, +7 charisma
+- Qualities: strength 4, dexterity 8, constitution 5, intelligence 5, wisdom 6, charisma 7
 - Attack: flutter, 1d2 bludgeoning
 - Hide: Chitin Armor, armour 2
 - Found in: wood
@@ -1266,7 +1266,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Type: beast (monster)
 - Hit points: 9 + Constitution modifier + 3 a level
 - Actions a turn: 2
-- Qualities: +16 strength, +13 dexterity, +11 constitution, +3 intelligence, +3 wisdom, +3 charisma
+- Qualities: strength 16, dexterity 13, constitution 11, intelligence 3, wisdom 3, charisma 3
 - Attack: claws, 1d4 slashing
 - Hide: Hide Armor, armour 1
 - Worth: 150 + 50 experience a level
@@ -1299,7 +1299,7 @@ Wild: +2 to hit, +2 damage, +2 evasion, +1 to every roll, resists 10% of all.
 
 - Type: beast (animal)
 - Hit points: 4 + Constitution modifier + 1 a level
-- Qualities: +6 strength, +7 dexterity, +6 constitution, +6 intelligence, +6 wisdom, +6 charisma
+- Qualities: strength 6, dexterity 7, constitution 6, intelligence 6, wisdom 6, charisma 6
 - Attack: bite, 1d6 piercing
 - Hide: Fur Armor, armour 0
 - Found in: river, lake
@@ -1319,7 +1319,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 - Type: beast (animal)
 - Hit points: 4 + Constitution modifier + 1 a level
-- Qualities: +5 strength, +7 dexterity, +5 constitution, +6 intelligence, +7 wisdom, +5 charisma
+- Qualities: strength 5, dexterity 7, constitution 5, intelligence 6, wisdom 7, charisma 5
 - Attack: talons, 1d8 piercing
 - Hide: Feather Armor, armour -1
 - Found in: wood
@@ -1340,7 +1340,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Type: beast (monster)
 - Hit points: 9 + Constitution modifier + 3 a level
 - Actions a turn: 2
-- Qualities: +17 strength, +8 dexterity, +11 constitution, +3 intelligence, +3 wisdom, +3 charisma
+- Qualities: strength 17, dexterity 8, constitution 11, intelligence 3, wisdom 3, charisma 3
 - Attack: claws, 1d4 slashing
 - Hide: Hide Armor, armour 1
 - Found in: wood
@@ -1488,7 +1488,7 @@ Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 
 
 - Type: beast (animal)
 - Hit points: 4 + Constitution modifier + 1 a level
-- Qualities: +7 strength, +6 dexterity, +7 constitution, +5 intelligence, +5 wisdom, +6 charisma
+- Qualities: strength 7, dexterity 6, constitution 7, intelligence 5, wisdom 5, charisma 6
 - Attack: kick, 1d2 bludgeoning
 - Hide: Hide Armor, armour 1
 - Found in: heath, fells
@@ -1508,7 +1508,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 - Type: beast (animal)
 - Hit points: 5 + Constitution modifier + 1 a level
-- Qualities: +4 strength, +6 dexterity, +5 constitution, +5 intelligence, +6 wisdom, +5 charisma
+- Qualities: strength 4, dexterity 6, constitution 5, intelligence 5, wisdom 6, charisma 5
 - Attack: bite, 1d6 piercing
 - Hide: Fur Armor, armour 0
 - Found in: meadow, heath
@@ -1528,7 +1528,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 - Type: beast (animal)
 - Hit points: 4 + Constitution modifier + 1 a level
-- Qualities: +7 strength, +5 dexterity, +7 constitution, +5 intelligence, +5 wisdom, +5 charisma
+- Qualities: strength 7, dexterity 5, constitution 7, intelligence 5, wisdom 5, charisma 5
 - Attack: horns, 1d4 bludgeoning
 - Hide: Hide Armor, armour 1
 - Found in: fells, heights
@@ -1548,7 +1548,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 - Type: beast (animal)
 - Hit points: d2 a level
-- Qualities: +4 strength, +10 dexterity, +6 constitution, +3 intelligence, +10 wisdom, +3 charisma
+- Qualities: strength 4, dexterity 10, constitution 6, intelligence 3, wisdom 10, charisma 3
 - Attack: bite, 1d6 piercing
 - Hide: Fur Armor, armour 0
 - Temperament: wary
@@ -1571,7 +1571,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 - Type: beast (animal)
 - Hit points: 3 + Constitution modifier + 1 a level
-- Qualities: +5 strength, +7 dexterity, +5 constitution, +6 intelligence, +6 wisdom, +6 charisma
+- Qualities: strength 5, dexterity 7, constitution 5, intelligence 6, wisdom 6, charisma 6
 - Attack: beak, 1d4 piercing
 - Hide: Feather Armor, armour -1
 - Found in: fells, heights
@@ -1705,7 +1705,7 @@ Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 
 
 - Type: beast (animal)
 - Hit points: 3 + Constitution modifier + 1 a level
-- Qualities: +7 strength, +6 dexterity, +7 constitution, +6 intelligence, +6 wisdom, +6 charisma
+- Qualities: strength 7, dexterity 6, constitution 7, intelligence 6, wisdom 6, charisma 6
 - Attack: bite, 1d6 piercing
 - Hide: Scale Mail, armour 4
 - Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
@@ -1754,7 +1754,7 @@ Ensnare: One enemy is entangled for 3 turns (a Dexterity save against 12 + level
 
 - Type: beast (animal)
 - Hit points: 2 + Constitution modifier + 1 a level
-- Qualities: +4 strength, +7 dexterity, +5 constitution, +6 intelligence, +6 wisdom, +5 charisma
+- Qualities: strength 4, dexterity 7, constitution 5, intelligence 6, wisdom 6, charisma 5
 - Attack: bite, 1d6 piercing
 - Hide: Fur Armor, armour 0
 - Found in: wood
@@ -1794,7 +1794,7 @@ Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 
 
 - Type: beast (animal)
 - Hit points: 4 + Constitution modifier + 1 a level
-- Qualities: +5 strength, +7 dexterity, +6 constitution, +6 intelligence, +6 wisdom, +6 charisma
+- Qualities: strength 5, dexterity 7, constitution 6, intelligence 6, wisdom 6, charisma 6
 - Attack: bite, 1d6 piercing
 - Hide: Fur Armor, armour 0
 - Found in: heath, fells, snow
@@ -1857,7 +1857,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 - Type: beast (animal)
 - Hit points: 4 + Constitution modifier + 1 a level
-- Qualities: +5 strength, +4 dexterity, +8 constitution, +5 intelligence, +6 wisdom, +5 charisma
+- Qualities: strength 5, dexterity 4, constitution 8, intelligence 5, wisdom 6, charisma 5
 - Attack: bite, 1d6 piercing
 - Hide: Shell Armor, armour 4
 - Found in: river, lake
@@ -1920,7 +1920,7 @@ Heal Ally: Heal one ally for 4d8 + level; end diseased, poison, cursed, blinded,
 - Type: beast (monster)
 - Hit points: 9 + Constitution modifier + 3 a level
 - Actions a turn: 2
-- Qualities: +18 strength, +8 dexterity, +12 constitution, +3 intelligence, +3 wisdom, +3 charisma
+- Qualities: strength 18, dexterity 8, constitution 12, intelligence 3, wisdom 3, charisma 3
 - Attack: claws, 1d4 slashing
 - Hide: Hide Armor, armour 1
 - Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
@@ -2033,7 +2033,7 @@ Defend: You are defending for a turn. Defending: 2 harder to hit. Again after 4 
 - Type: celestial (monster)
 - Hit points: 25 + Constitution modifier + 3 a level
 - Actions a turn: 2
-- Qualities: +20 strength, +19 dexterity, +16 constitution, +15 intelligence, +22 wisdom, +22 charisma
+- Qualities: strength 20, dexterity 19, constitution 16, intelligence 15, wisdom 22, charisma 22
 - Attack: longsword, 1d8 slashing
 - Hide: Chain Mail, armour 5
 - Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
@@ -2068,7 +2068,7 @@ Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, 
 - Type: celestial (monster)
 - Hit points: 25 + Constitution modifier + 3 a level
 - Actions a turn: 2
-- Qualities: +21 strength, +20 dexterity, +16 constitution, +15 intelligence, +21 wisdom, +21 charisma
+- Qualities: strength 21, dexterity 20, constitution 16, intelligence 15, wisdom 21, charisma 21
 - Attack: longsword, 1d8 slashing
 - Hide: Chain Mail, armour 5
 - Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
@@ -2099,7 +2099,7 @@ Celestial Radiance: +1d4 healing, resists 50% of radiant, resists 50% of necroti
 - Type: celestial (monster)
 - Hit points: 25 + Constitution modifier + 3 a level
 - Actions a turn: 2
-- Qualities: +20 strength, +19 dexterity, +16 constitution, +15 intelligence, +23 wisdom, +21 charisma
+- Qualities: strength 20, dexterity 19, constitution 16, intelligence 15, wisdom 23, charisma 21
 - Attack: longsword, 1d8 slashing
 - Hide: Chain Mail, armour 5
 - Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
@@ -2132,7 +2132,7 @@ Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, 
 - Type: celestial (monster)
 - Hit points: 25 + Constitution modifier + 3 a level
 - Actions a turn: 2
-- Qualities: +22 strength, +20 dexterity, +16 constitution, +15 intelligence, +22 wisdom, +22 charisma
+- Qualities: strength 22, dexterity 20, constitution 16, intelligence 15, wisdom 22, charisma 22
 - Attack: longsword, 1d8 slashing
 - Hide: Chain Mail, armour 5
 - Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
@@ -2168,7 +2168,7 @@ Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, 
 
 - Type: construct (monster)
 - Hit points: 6 + Constitution modifier + 3 a level
-- Qualities: +15 strength, +7 dexterity, +15 constitution, +9 intelligence, +9 wisdom, +8 charisma
+- Qualities: strength 15, dexterity 7, constitution 15, intelligence 9, wisdom 9, charisma 8
 - Attack: slam, 1d6 piercing
 - Hide: Plate Mail, armour 7
 - Worth: 350 + 50 experience a level
@@ -2199,7 +2199,7 @@ Constructed Resilience: Resists 50% of bludgeoning, resists 50% of piercing, res
 
 - Type: construct (monster)
 - Hit points: 6 + Constitution modifier + 3 a level
-- Qualities: +15 strength, +7 dexterity, +16 constitution, +9 intelligence, +9 wisdom, +8 charisma
+- Qualities: strength 15, dexterity 7, constitution 16, intelligence 9, wisdom 9, charisma 8
 - Attack: slam, 1d6 piercing
 - Hide: Plate Mail, armour 7
 - Worth: 350 + 50 experience a level
@@ -2232,7 +2232,7 @@ Disciplined: +1 to hit, +1 damage, +3 evasion, +2 against magic.
 
 - Type: construct (monster)
 - Hit points: 6 + Constitution modifier + 3 a level
-- Qualities: +17 strength, +7 dexterity, +17 constitution, +9 intelligence, +9 wisdom, +8 charisma
+- Qualities: strength 17, dexterity 7, constitution 17, intelligence 9, wisdom 9, charisma 8
 - Attack: slam, 1d6 piercing
 - Hide: Plate Mail, armour 7
 - Resists: immune to poison
@@ -2261,7 +2261,7 @@ Constructed Resilience: Resists 50% of bludgeoning, resists 50% of piercing, res
 - Type: demon (monster)
 - Hit points: 20 + Constitution modifier + 3 a level
 - Actions a turn: 2
-- Qualities: +20 strength, +17 dexterity, +17 constitution, +12 intelligence, +11 wisdom, +9 charisma
+- Qualities: strength 20, dexterity 17, constitution 17, intelligence 12, wisdom 11, charisma 9
 - Attack: claws, 1d4 slashing
 - Hide: Leather Armor, armour 2
 - Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
@@ -2292,7 +2292,7 @@ Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm
 - Type: demon (monster)
 - Hit points: 20 + Constitution modifier + 3 a level
 - Actions a turn: 2
-- Qualities: +18 strength, +16 dexterity, +16 constitution, +12 intelligence, +11 wisdom, +9 charisma
+- Qualities: strength 18, dexterity 16, constitution 16, intelligence 12, wisdom 11, charisma 9
 - Attack: claws, 1d4 slashing
 - Hide: Leather Armor, armour 2
 - Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
@@ -2321,7 +2321,7 @@ Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm
 - Type: demon (monster)
 - Hit points: 20 + Constitution modifier + 3 a level
 - Actions a turn: 2
-- Qualities: +19 strength, +18 dexterity, +17 constitution, +12 intelligence, +11 wisdom, +9 charisma
+- Qualities: strength 19, dexterity 18, constitution 17, intelligence 12, wisdom 11, charisma 9
 - Attack: claws, 1d4 slashing
 - Hide: Leather Armor, armour 2
 - Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
@@ -2352,7 +2352,7 @@ Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm
 - Type: demon (monster)
 - Hit points: 20 + Constitution modifier + 3 a level
 - Actions a turn: 2
-- Qualities: +19 strength, +18 dexterity, +16 constitution, +12 intelligence, +11 wisdom, +9 charisma
+- Qualities: strength 19, dexterity 18, constitution 16, intelligence 12, wisdom 11, charisma 9
 - Attack: claws, 1d4 slashing
 - Hide: Leather Armor, armour 2
 - Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
@@ -2384,7 +2384,7 @@ Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm
 
 - Type: dragon (monster)
 - Hit points: 99
-- Qualities: +35 strength, +28 dexterity, +32 constitution, +29 intelligence, +27 wisdom, +31 charisma
+- Qualities: strength 35, dexterity 28, constitution 32, intelligence 29, wisdom 27, charisma 31
 - Attack: claws, 1d4 slashing; claws, 1d4 slashing; bite, 1d6 piercing, in one round
 - Hide: Scale Mail, armour 4
 - Temperament: proud
@@ -2408,7 +2408,7 @@ Aerial Mobility: +1 to hit, +5 evasion.
 - Type: dragon (monster)
 - Hit points: 85 + Constitution modifier + 3 a level
 - Actions a turn: 3
-- Qualities: +31 strength, +29 dexterity, +30 constitution, +28 intelligence, +27 wisdom, +29 charisma
+- Qualities: strength 31, dexterity 29, constitution 30, intelligence 28, wisdom 27, charisma 29
 - Attack: bite, 1d6 piercing
 - Hide: Scale Mail, armour 4
 - Found in: fells, heights
@@ -2434,7 +2434,7 @@ Aerial Mobility: +1 to hit, +5 evasion.
 
 - Type: dragon (animal)
 - Hit points: 3 + Constitution modifier + 1 a level
-- Qualities: +8 strength, +7 dexterity, +8 constitution, +8 intelligence, +8 wisdom, +8 charisma
+- Qualities: strength 8, dexterity 7, constitution 8, intelligence 8, wisdom 8, charisma 8
 - Attack: bite, 1d6 piercing
 - Hide: Scale Mail, armour 4
 - Found in: wood, heights
@@ -2455,7 +2455,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Type: dragon (monster)
 - Hit points: 85 + Constitution modifier + 3 a level
 - Actions a turn: 3
-- Qualities: +34 strength, +28 dexterity, +32 constitution, +30 intelligence, +28 wisdom, +30 charisma
+- Qualities: strength 34, dexterity 28, constitution 32, intelligence 30, wisdom 28, charisma 30
 - Attack: bite, 1d6 piercing
 - Hide: Scale Mail, armour 4
 - Found in: heights
@@ -2481,7 +2481,7 @@ Aerial Mobility: +1 to hit, +5 evasion.
 
 - Type: dragon (animal)
 - Hit points: 2 + Constitution modifier + 1 a level
-- Qualities: +10 strength, +5 dexterity, +9 constitution, +11 intelligence, +11 wisdom, +10 charisma
+- Qualities: strength 10, dexterity 5, constitution 9, intelligence 11, wisdom 11, charisma 10
 - Attack: bite, 1d6 piercing
 - Hide: Scale Mail, armour 4
 - Found in: heights, desert
@@ -2502,7 +2502,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 - Type: dragon (monster)
 - Hit points: 85 + Constitution modifier + 3 a level
 - Actions a turn: 3
-- Qualities: +32 strength, +30 dexterity, +30 constitution, +27 intelligence, +27 wisdom, +29 charisma
+- Qualities: strength 32, dexterity 30, constitution 30, intelligence 27, wisdom 27, charisma 29
 - Attack: bite, 1d6 piercing
 - Hide: Scale Mail, armour 4
 - Found in: heights
@@ -2530,7 +2530,7 @@ Aerial Mobility: +1 to hit, +5 evasion.
 
 - Type: elemental (monster)
 - Hit points: 16 + Constitution modifier + 3 a level
-- Qualities: +16 strength, +19 dexterity, +16 constitution, +12 intelligence, +13 wisdom, +12 charisma
+- Qualities: strength 16, dexterity 19, constitution 16, intelligence 12, wisdom 13, charisma 12
 - Attack: slam, 1d6 piercing
 - Hide: Scale Mail, armour 4
 - Worth: 200 + 50 experience a level
@@ -2553,7 +2553,7 @@ Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of fo
 
 - Type: elemental (monster)
 - Hit points: 16 + Constitution modifier + 3 a level
-- Qualities: +12 strength, +20 dexterity, +8 constitution, +12 intelligence, +13 wisdom, +12 charisma
+- Qualities: strength 12, dexterity 20, constitution 8, intelligence 12, wisdom 13, charisma 12
 - Attack: slam, 1d6 piercing
 - Hide: Scale Mail, armour 4
 - Worth: 200 + 50 experience a level
@@ -2577,7 +2577,7 @@ Elemental Affinity: Resists 10% of acid, resists 10% of sonic, resists 10% of fo
 - Type: elemental (monster)
 - Hit points: d12 a level
 - Actions a turn: 2
-- Qualities: +18 strength, +6 dexterity, +18 constitution, +3 intelligence, +8 wisdom, +3 charisma
+- Qualities: strength 18, dexterity 6, constitution 18, intelligence 3, wisdom 8, charisma 3
 - Attack: slam, 1d6 piercing
 - Hide: Hide Armor, armour 1
 - Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
@@ -2601,7 +2601,7 @@ Earth Affinity: Resists 50% of bludgeoning, takes 100% more lightning, immune to
 
 - Type: fey (monster)
 - Hit points: 12 + Constitution modifier + 3 a level
-- Qualities: +9 strength, +17 dexterity, +10 constitution, +11 intelligence, +12 wisdom, +18 charisma
+- Qualities: strength 9, dexterity 17, constitution 10, intelligence 11, wisdom 12, charisma 18
 - Attack: dagger, 1d4 piercing
 - Hide: Leather Armor, armour 2
 - Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
@@ -2650,7 +2650,7 @@ Charm Person: One enemy is charmed for 3 turns (only humanoid creatures; a Wisdo
 
 - Type: fey (monster)
 - Hit points: 12 + Constitution modifier + 3 a level
-- Qualities: +9 strength, +12 dexterity, +10 constitution, +11 intelligence, +16 wisdom, +19 charisma
+- Qualities: strength 9, dexterity 12, constitution 10, intelligence 11, wisdom 16, charisma 19
 - Attack: dagger, 1d4 piercing
 - Hide: Leather Armor, armour 2
 - Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
@@ -2681,7 +2681,7 @@ Call Animal Companion: Call the beast your people keep company with, to fight fo
 
 - Type: fey (monster)
 - Hit points: 12 + Constitution modifier + 3 a level
-- Qualities: +9 strength, +18 dexterity, +10 constitution, +11 intelligence, +12 wisdom, +18 charisma
+- Qualities: strength 9, dexterity 18, constitution 10, intelligence 11, wisdom 12, charisma 18
 - Attack: dagger, 1d4 piercing
 - Hide: Leather Armor, armour 2
 - Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
@@ -2712,7 +2712,7 @@ Confuse: One enemy is confused for 3 turns (a Wisdom save against 15 + level + t
 
 - Type: fey (monster)
 - Hit points: 12 + Constitution modifier + 3 a level
-- Qualities: +9 strength, +16 dexterity, +10 constitution, +11 intelligence, +12 wisdom, +17 charisma
+- Qualities: strength 9, dexterity 16, constitution 10, intelligence 11, wisdom 12, charisma 17
 - Attack: dagger, 1d4 piercing
 - Hide: Leather Armor, armour 2
 - Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
@@ -2741,7 +2741,7 @@ Hide: You are hidden for 3 turns. Hidden: 4 harder to hit, +10 evasion; and on a
 
 - Type: fey (monster)
 - Hit points: 12 + Constitution modifier + 3 a level
-- Qualities: +9 strength, +18 dexterity, +10 constitution, +11 intelligence, +12 wisdom, +17 charisma
+- Qualities: strength 9, dexterity 18, constitution 10, intelligence 11, wisdom 12, charisma 17
 - Attack: dagger, 1d4 piercing
 - Hide: Leather Armor, armour 2
 - Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
@@ -2774,7 +2774,7 @@ Magic Missile: 1d4 + floor((level / 3)) force damage to 2 + round((level / 2)) d
 
 - Type: giant (monster)
 - Hit points: 48 + Constitution modifier + 3 a level
-- Qualities: +27 strength, +16 dexterity, +24 constitution, +16 intelligence, +18 wisdom, +17 charisma
+- Qualities: strength 27, dexterity 16, constitution 24, intelligence 16, wisdom 18, charisma 17
 - Attack: greatsword, 1d10 slashing
 - Hide: Chain Mail, armour 5
 - Found in: fells
@@ -2810,7 +2810,7 @@ Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, 
 
 - Type: giant (monster)
 - Hit points: 48 + Constitution modifier + 3 a level
-- Qualities: +26 strength, +16 dexterity, +23 constitution, +16 intelligence, +18 wisdom, +17 charisma
+- Qualities: strength 26, dexterity 16, constitution 23, intelligence 16, wisdom 18, charisma 17
 - Attack: greatsword, 1d10 slashing
 - Hide: Chain Mail, armour 5
 - Worth: 500 + 50 experience a level
@@ -2843,7 +2843,7 @@ Formidable: +3 to hit, +3 damage, +2 to will saves, resists 10% of bludgeoning, 
 
 - Type: giant (monster)
 - Hit points: 48 + Constitution modifier + 3 a level
-- Qualities: +30 strength, +16 dexterity, +27 constitution, +16 intelligence, +18 wisdom, +17 charisma
+- Qualities: strength 30, dexterity 16, constitution 27, intelligence 16, wisdom 18, charisma 17
 - Attack: greatsword, 1d10 slashing
 - Hide: Chain Mail, armour 5
 - Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
@@ -2921,7 +2921,7 @@ Flee: Try to get away from the fight (1 in 2, then 3 in 4, then sure).
 
 - Type: undead (monster)
 - Hit points: 10 + Constitution modifier + 3 a level
-- Qualities: +8 strength, +8 dexterity, +6 constitution, +10 intelligence, +13 wisdom, +11 charisma
+- Qualities: strength 8, dexterity 8, constitution 6, intelligence 10, wisdom 13, charisma 11
 - Attack: claws, 1d4 slashing
 - Hide: Clothing, armour 0
 - Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
@@ -2952,7 +2952,7 @@ Ethereal Form: +5 evasion, resists 50% of bludgeoning, resists 50% of piercing, 
 
 - Type: undead (monster)
 - Hit points: 10 + Constitution modifier + 3 a level
-- Qualities: +11 strength, +11 dexterity, +10 constitution, +10 intelligence, +9 wisdom, +5 charisma
+- Qualities: strength 11, dexterity 11, constitution 10, intelligence 10, wisdom 9, charisma 5
 - Attack: claws, 1d4 slashing
 - Hide: Clothing, armour 0
 - Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
@@ -2985,7 +2985,7 @@ Regeneration: Heal 1d2 - 1 (0–1) each turn.
 
 - Type: undead (monster)
 - Hit points: 10 + Constitution modifier + 3 a level
-- Qualities: +8 strength, +8 dexterity, +16 constitution, +16 intelligence, +12 wisdom, +5 charisma
+- Qualities: strength 8, dexterity 8, constitution 16, intelligence 16, wisdom 12, charisma 5
 - Attack: claws, 1d4 slashing
 - Hide: Clothing, armour 0
 - Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
@@ -3024,7 +3024,7 @@ Bone Resilience: Resists 50% of piercing, takes 100% more bludgeoning, immune to
 
 - Type: undead (monster)
 - Hit points: 10 + Constitution modifier + 3 a level
-- Qualities: +12 strength, +8 dexterity, +12 constitution, +10 intelligence, +12 wisdom, +5 charisma
+- Qualities: strength 12, dexterity 8, constitution 12, intelligence 10, wisdom 12, charisma 5
 - Attack: claws, 1d4 slashing
 - Hide: Clothing, armour 0
 - Resists: physical 50%, fire takes 50% more
@@ -3090,7 +3090,7 @@ Life Drain: Drain 1d6 (1–6) health from one enemy (none if resisted; may cause
 
 - Type: undead (monster)
 - Hit points: 10 + Constitution modifier + 3 a level
-- Qualities: +8 strength, +8 dexterity, +6 constitution, +14 intelligence, +14 wisdom, +5 charisma
+- Qualities: strength 8, dexterity 8, constitution 6, intelligence 14, wisdom 14, charisma 5
 - Attack: claws, 1d4 slashing
 - Hide: Clothing, armour 0
 - Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
@@ -3127,7 +3127,7 @@ Ethereal Form: +5 evasion, resists 50% of bludgeoning, resists 50% of piercing, 
 
 - Type: undead (monster)
 - Hit points: 10 + Constitution modifier + 3 a level
-- Qualities: +8 strength, +12 dexterity, +6 constitution, +10 intelligence, +9 wisdom, +10 charisma
+- Qualities: strength 8, dexterity 12, constitution 6, intelligence 10, wisdom 9, charisma 10
 - Attack: claws, 1d4 slashing
 - Hide: Clothing, armour 0
 - Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
@@ -3162,7 +3162,7 @@ Regeneration: Heal 1d2 - 1 (0–1) each turn.
 
 - Type: undead (monster)
 - Hit points: 10 + Constitution modifier + 3 a level
-- Qualities: +8 strength, +13 dexterity, +6 constitution, +10 intelligence, +13 wisdom, +5 charisma
+- Qualities: strength 8, dexterity 13, constitution 6, intelligence 10, wisdom 13, charisma 5
 - Attack: claws, 1d4 slashing
 - Hide: Clothing, armour 0
 - Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
@@ -3219,7 +3219,7 @@ Engines, wards, barriers, charges and vessels: things that take part in a fight 
 
 - Type: ward (device)
 - Hit points: 8
-- Qualities: +3 strength, +3 dexterity, +3 constitution, +3 intelligence, +3 wisdom, +3 charisma
+- Qualities: strength 3, dexterity 3, constitution 3, intelligence 3, wisdom 3, charisma 3
 - Attack: slam, 1d6 piercing
 - Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
 - Temperament: obedient
@@ -3251,7 +3251,7 @@ Defender: 2 harder to hit, resists 20% of bludgeoning, resists 20% of piercing, 
 
 - Type: barrier (device)
 - Hit points: 8
-- Qualities: +3 strength, +3 dexterity, +3 constitution, +3 intelligence, +3 wisdom, +3 charisma
+- Qualities: strength 3, dexterity 3, constitution 3, intelligence 3, wisdom 3, charisma 3
 - Attack: slam, 1d6 piercing
 - Temperament: obedient
 - Worth: 200 experience a level
@@ -3274,7 +3274,7 @@ Defender: 2 harder to hit, resists 20% of bludgeoning, resists 20% of piercing, 
 
 - Type: charge (device)
 - Hit points: 8
-- Qualities: +3 strength, +3 dexterity, +3 constitution, +3 intelligence, +3 wisdom, +3 charisma
+- Qualities: strength 3, dexterity 3, constitution 3, intelligence 3, wisdom 3, charisma 3
 - Attack: slam, 1d6 piercing
 - Temperament: obedient
 - Worth: 200 experience a level
@@ -3295,7 +3295,7 @@ Inanimate Nature: Immune to charm, immune to fear, immune to stun, immune to sle
 
 - Type: vessel (device)
 - Hit points: 8
-- Qualities: +3 strength, +3 dexterity, +3 constitution, +3 intelligence, +3 wisdom, +3 charisma
+- Qualities: strength 3, dexterity 3, constitution 3, intelligence 3, wisdom 3, charisma 3
 - Attack: slam, 1d6 piercing
 - Spells a day: 2 + its level, its own powers drawing on them, back after a night's rest
 - Temperament: obedient
@@ -3323,7 +3323,7 @@ Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm
 
 - Type: engine (device)
 - Hit points: 8
-- Qualities: +3 strength, +3 dexterity, +3 constitution, +3 intelligence, +3 wisdom, +3 charisma
+- Qualities: strength 3, dexterity 3, constitution 3, intelligence 3, wisdom 3, charisma 3
 - Attack: slam, 1d6 piercing
 - Temperament: obedient
 - Worth: 200 experience a level
@@ -3840,7 +3840,7 @@ What grows wild in Imbar, and where: each is met where its country is, and more 
 <img src="../../web/reader/paintings/plants/actaea.webp" alt="" width="128">
 
 - Grows in: wood, meadow
-- Does best on: loam, clay_vale
+- Does best on: loam, clay vale
 - Gathered: a handful of actaea flowers
 - Good for: love, courage, protection
 - Found: seldom
@@ -3880,7 +3880,7 @@ What grows wild in Imbar, and where: each is met where its country is, and more 
 <img src="../../web/reader/paintings/plants/amaranth.webp" alt="" width="128">
 
 - Grows in: meadow, farm and settlement
-- Does best on: loam, clay_vale
+- Does best on: loam, clay vale
 - Gathered: a handful of amaranth
 - Good for: medicine, food, protection, invisibility
 - Found: seldom
@@ -3896,7 +3896,7 @@ Amaranth: Heal (1) health to ally.
 <img src="../../web/reader/paintings/plants/aster.webp" alt="" width="128">
 
 - Grows in: meadow, farm and settlement
-- Does best on: loam, clay_vale
+- Does best on: loam, clay vale
 - Gathered: a handful of aster
 - Good for: medicine, decoration, love
 - Found: here and there
@@ -3910,7 +3910,7 @@ Amaranth: Heal (1) health to ally.
 <img src="../../web/reader/paintings/plants/bamboo.webp" alt="" width="128">
 
 - Grows in: wood, farm and settlement
-- Does best on: loam, clay_vale
+- Does best on: loam, clay vale
 - Gathered: a stalk of bamboo
 - Good for: construction, crafting, protection, luck, wishes
 - Found: here and there
@@ -3924,7 +3924,7 @@ Amaranth: Heal (1) health to ally.
 <img src="../../web/reader/paintings/plants/banewort.webp" alt="" width="128">
 
 - Grows in: wood, meadow
-- Does best on: loam, clay_vale
+- Does best on: loam, clay vale
 - Gathered: a sprig of banewort
 - Good for: medicine, protection, curses, poison
 - Found: seldom
@@ -3938,7 +3938,7 @@ Amaranth: Heal (1) health to ally.
 <img src="../../web/reader/paintings/plants/bay.webp" alt="" width="128">
 
 - Grows in: wood, farm and settlement
-- Does best on: loam, clay_vale
+- Does best on: loam, clay vale
 - Gathered: a sprig of bay
 - Good for: medicine, cooking, protection, purification, healing
 - Found: seldom
@@ -3947,6 +3947,20 @@ Bay: Heal (1d4) health to ally.
 
 > A shrub with aromatic leaves and small yellow flowers.
 
+### Betony
+
+*Kyr · plant* · `plant:betony_plant`
+
+- Grows in: wood, meadow
+- Does best on: clay vale, limestone
+- Gathered: a twist of betony
+- Good for: medicine
+- Found: seldom
+
+Betony: Heal (1d4+1) health to ally. Remove bleed from ally.
+
+> A hairy square stem a foot high, a rosette of scalloped leaves at its foot, and a short dense spike of purple-red flowers.
+
 ### Bloodroot
 
 *Kyr · plant* · `plant:bloodroot`
@@ -3954,7 +3968,7 @@ Bay: Heal (1d4) health to ally.
 <img src="../../web/reader/paintings/plants/bloodroot.webp" alt="" width="128">
 
 - Grows in: wood, meadow
-- Does best on: loam, clay_vale
+- Does best on: loam, clay vale
 - Gathered: a sprig of bloodroot
 - Good for: medicine, protection, healing, purification, love
 - Found: seldom
@@ -3970,7 +3984,7 @@ Bloodroot: Heal (1d4) health to ally.
 <img src="../../web/reader/paintings/plants/bruisewort.webp" alt="" width="128">
 
 - Grows in: wood, meadow
-- Does best on: loam, clay_vale
+- Does best on: loam, clay vale
 - Gathered: a handful of bruisewort leaves
 - Good for: safety, healing, protection
 - Found: seldom
@@ -3986,7 +4000,7 @@ Bruisewort: Heal (1d4) health to ally.
 <img src="../../web/reader/paintings/plants/carenfil.webp" alt="" width="128">
 
 - Grows in: farm and settlement, meadow
-- Does best on: loam, clay_vale
+- Does best on: loam, clay vale
 - Gathered: a handful of carenfil flowers
 - Good for: protection, love
 - Found: seldom
@@ -4000,7 +4014,7 @@ Bruisewort: Heal (1d4) health to ally.
 <img src="../../web/reader/paintings/plants/cedron.webp" alt="" width="128">
 
 - Grows in: farm and settlement, meadow
-- Does best on: loam, clay_vale
+- Does best on: loam, clay vale
 - Gathered: a sprig of cedron
 - Good for: medicine, purification, love
 - Found: seldom
@@ -4014,7 +4028,7 @@ Bruisewort: Heal (1d4) health to ally.
 <img src="../../web/reader/paintings/plants/celandine.webp" alt="" width="128">
 
 - Grows in: wood, meadow
-- Does best on: loam, clay_vale
+- Does best on: loam, clay vale
 - Gathered: a sprig of celandine
 - Good for: medicine, protection, healing, escape, happiness
 - Found: seldom
@@ -4030,7 +4044,7 @@ Celandine: Heal (1d4) health to ally.
 <img src="../../web/reader/paintings/plants/cherry.webp" alt="" width="128">
 
 - Grows in: farm and settlement, meadow
-- Does best on: loam, clay_vale
+- Does best on: loam, clay vale
 - Gathered: a handful of cherries
 - Good for: divination, love
 - Found: seldom
@@ -4044,7 +4058,7 @@ Celandine: Heal (1d4) health to ally.
 <img src="../../web/reader/paintings/plants/cinnamon.webp" alt="" width="128">
 
 - Grows in: farm and settlement, wood
-- Does best on: loam, clay_vale
+- Does best on: loam, clay vale
 - Gathered: a stick of cinnamon bark
 - Good for: protection, love, healing, magic
 - Found: seldom
@@ -4060,7 +4074,7 @@ Cinnamon: Heal (1d4) health to ally.
 <img src="../../web/reader/paintings/plants/cinquefoil.webp" alt="" width="128">
 
 - Grows in: meadow, wood
-- Does best on: loam, clay_vale
+- Does best on: loam, clay vale
 - Gathered: a sprig of cinquefoil
 - Good for: medicine, protection, prophecy, sleep
 - Found: seldom
@@ -4074,7 +4088,7 @@ Cinnamon: Heal (1d4) health to ally.
 <img src="../../web/reader/paintings/plants/cloudberry.webp" alt="" width="128">
 
 - Grows in: heights, fells, snowfields
-- Does best on: peat_moor, granite
+- Does best on: peat moor, granite
 - Gathered: a few cloudberries
 - Good for: food, medicine
 - Found: here and there
@@ -4090,7 +4104,7 @@ Cloudberry: Heal (1d4+1) health to ally.
 <img src="../../web/reader/paintings/plants/comfrey.webp" alt="" width="128">
 
 - Grows in: river and bank, meadow
-- Does best on: clay_vale
+- Does best on: clay vale
 - Gathered: some comfrey leaves
 - Good for: medicine
 - Found: here and there
@@ -4106,7 +4120,7 @@ Comfrey: Heal (2d4) health to ally. Remove bleed from ally.
 <img src="../../web/reader/paintings/plants/daffodil.webp" alt="" width="128">
 
 - Grows in: farm and settlement, meadow
-- Does best on: loam, clay_vale
+- Does best on: loam, clay vale
 - Gathered: a sprig of daffodil
 - Good for: medicine, love, luck, fertility
 - Found: seldom
@@ -4120,7 +4134,7 @@ Comfrey: Heal (2d4) health to ally. Remove bleed from ally.
 <img src="../../web/reader/paintings/plants/dandelion.webp" alt="" width="128">
 
 - Grows in: meadow, farm and settlement
-- Does best on: clay_vale, limestone
+- Does best on: clay vale, limestone
 - Gathered: a handful of dandelion
 - Good for: medicine, food
 - Found: often
@@ -4136,7 +4150,7 @@ Dandelion: Heal (1d3) health to ally. Remove poison from ally.
 <img src="../../web/reader/paintings/plants/dragonwort.webp" alt="" width="128">
 
 - Grows in: wood, farm and settlement
-- Does best on: loam, clay_vale
+- Does best on: loam, clay vale
 - Gathered: a sprig of dragonwort
 - Good for: medicine, protection, fertility
 - Found: seldom
@@ -4150,7 +4164,7 @@ Dandelion: Heal (1d3) health to ally. Remove poison from ally.
 <img src="../../web/reader/paintings/plants/dropberry.webp" alt="" width="128">
 
 - Grows in: farm and settlement, meadow
-- Does best on: loam, clay_vale
+- Does best on: loam, clay vale
 - Gathered: a handful of dropberries
 - Good for: protection, love, healing, magic
 - Found: seldom
@@ -4182,7 +4196,7 @@ Dulse: Heal (1) health to ally.
 <img src="../../web/reader/paintings/plants/euphrosyne.webp" alt="" width="128">
 
 - Grows in: meadow, farm and settlement
-- Does best on: loam, clay_vale
+- Does best on: loam, clay vale
 - Gathered: a sprig of eyebright
 - Good for: medicine, prophecy
 - Found: seldom
@@ -4196,7 +4210,7 @@ Dulse: Heal (1) health to ally.
 <img src="../../web/reader/paintings/plants/feverwort.webp" alt="" width="128">
 
 - Grows in: meadow, wood
-- Does best on: limestone, clay_vale
+- Does best on: limestone, clay vale
 - Gathered: some feverwort
 - Good for: medicine
 - Found: here and there
@@ -4212,7 +4226,7 @@ Feverwort: Heal (1d6) health to ally.
 <img src="../../web/reader/paintings/plants/foxglove.webp" alt="" width="128">
 
 - Grows in: wood, heath and moor
-- Does best on: granite, slate, sandstone
+- Does best on: granite, slate country, sandstone
 - Gathered: a foxglove spire
 - Good for: poison, medicine
 - Found: here and there
@@ -4256,7 +4270,7 @@ Foxglove: Heal (1d4+2) health to ally. Remove poison from ally. Remove fatigue f
 <img src="../../web/reader/paintings/plants/gilliflower.webp" alt="" width="128">
 
 - Grows in: farm and settlement, meadow
-- Does best on: loam, clay_vale
+- Does best on: loam, clay vale
 - Gathered: a sprig of gilliflower
 - Good for: medicine, protection, love, strength, healing
 - Found: seldom
@@ -4288,7 +4302,7 @@ Goodberry: Heal (1d4+1) health to ally.
 <img src="../../web/reader/paintings/plants/groundbread.webp" alt="" width="128">
 
 - Grows in: meadow, farm and settlement
-- Does best on: loam, clay_vale
+- Does best on: loam, clay vale
 - Gathered: a handful of groundbread leaves
 - Good for: fertility, protection, happiness
 - Found: seldom
@@ -4302,7 +4316,7 @@ Goodberry: Heal (1d4+1) health to ally.
 <img src="../../web/reader/paintings/plants/hazel.webp" alt="" width="128">
 
 - Grows in: wood, farm and settlement
-- Does best on: loam, clay_vale
+- Does best on: loam, clay vale
 - Gathered: a sprig of hazel
 - Good for: medicine, magic, protection, luck, fertility, wishes
 - Found: seldom
@@ -4316,7 +4330,7 @@ Goodberry: Heal (1d4+1) health to ally.
 <img src="../../web/reader/paintings/plants/heather.webp" alt="" width="128">
 
 - Grows in: heath and moor, fells
-- Does best on: granite, sandstone, peat_moor
+- Does best on: granite, sandstone, peat moor
 - Gathered: a bunch of heather
 - Good for: medicine
 - Found: often
@@ -4332,7 +4346,7 @@ Heather: Heal (1d3+1) health to ally. Remove fatigue from ally.
 <img src="../../web/reader/paintings/plants/hyssop.webp" alt="" width="128">
 
 - Grows in: farm and settlement, meadow
-- Does best on: loam, clay_vale
+- Does best on: loam, clay vale
 - Gathered: a sprig of hyssop
 - Good for: medicine, protection, magic, purification
 - Found: seldom
@@ -4376,7 +4390,7 @@ Healing herbs: Heal (1d6) health to ally.
 <img src="../../web/reader/paintings/plants/ofbit.webp" alt="" width="128">
 
 - Grows in: wood, meadow
-- Does best on: loam, clay_vale
+- Does best on: loam, clay vale
 - Gathered: a handful of ofbit flowers
 - Good for: love, protection, luck
 - Found: seldom
@@ -4390,7 +4404,7 @@ Healing herbs: Heal (1d6) health to ally.
 <img src="../../web/reader/paintings/plants/pennyroyal.webp" alt="" width="128">
 
 - Grows in: farm and settlement, meadow
-- Does best on: loam, clay_vale
+- Does best on: loam, clay vale
 - Gathered: a sprig of pennyroyal
 - Good for: strength, protection, peace
 - Found: seldom
@@ -4404,7 +4418,7 @@ Healing herbs: Heal (1d6) health to ally.
 <img src="../../web/reader/paintings/plants/poppy.webp" alt="" width="128">
 
 - Grows in: farm and settlement, meadow
-- Does best on: loam, clay_vale
+- Does best on: loam, clay vale
 - Gathered: a sprig of poppy
 - Good for: fertility, love, sleep, luck, invisibility
 - Found: seldom
@@ -4418,7 +4432,7 @@ Healing herbs: Heal (1d6) health to ally.
 <img src="../../web/reader/paintings/plants/purslane.webp" alt="" width="128">
 
 - Grows in: farm and settlement, meadow
-- Does best on: loam, clay_vale
+- Does best on: loam, clay vale
 - Gathered: a sprig of purslane
 - Good for: sleep, protection, love, luck, happiness
 - Found: seldom
@@ -4432,7 +4446,7 @@ Healing herbs: Heal (1d6) health to ally.
 <img src="../../web/reader/paintings/plants/rosemary.webp" alt="" width="128">
 
 - Grows in: farm and settlement, meadow
-- Does best on: loam, clay_vale
+- Does best on: loam, clay vale
 - Gathered: a sprig of rosemary
 - Good for: protection, love, purification, healing, sleep
 - Found: seldom
@@ -4448,7 +4462,7 @@ Rosemary: Heal (1d4) health to ally.
 <img src="../../web/reader/paintings/plants/rosenoble.webp" alt="" width="128">
 
 - Grows in: farm and settlement, wood
-- Does best on: loam, clay_vale
+- Does best on: loam, clay vale
 - Gathered: a sprig of rosenoble
 - Good for: love, healthy, protection
 - Found: seldom
@@ -4462,7 +4476,7 @@ Rosemary: Heal (1d4) health to ally.
 <img src="../../web/reader/paintings/plants/rue.webp" alt="" width="128">
 
 - Grows in: farm and settlement, meadow
-- Does best on: loam, clay_vale
+- Does best on: loam, clay vale
 - Gathered: a sprig of rue
 - Good for: healing, love, health, magic
 - Found: seldom
@@ -4493,7 +4507,7 @@ Bandages: Heal (1d4 + 1) health to ally.
 <img src="../../web/reader/paintings/plants/staggerweed.webp" alt="" width="128">
 
 - Grows in: meadow, wood
-- Does best on: loam, clay_vale
+- Does best on: loam, clay vale
 - Gathered: a sprig of staggerweed
 - Good for: medicine, magic, health, protection
 - Found: seldom
@@ -4507,7 +4521,7 @@ Bandages: Heal (1d4 + 1) health to ally.
 <img src="../../web/reader/paintings/plants/starwort.webp" alt="" width="128">
 
 - Grows in: farm and settlement, meadow
-- Does best on: loam, clay_vale
+- Does best on: loam, clay vale
 - Gathered: a handful of starwort flowers
 - Good for: fidelity, love
 - Found: seldom
@@ -4521,7 +4535,7 @@ Bandages: Heal (1d4 + 1) health to ally.
 <img src="../../web/reader/paintings/plants/stellaria.webp" alt="" width="128">
 
 - Grows in: farm and settlement, meadow
-- Does best on: loam, clay_vale
+- Does best on: loam, clay vale
 - Gathered: a sprig of stellaria
 - Good for: medicine, love
 - Found: seldom
@@ -4535,7 +4549,7 @@ Bandages: Heal (1d4 + 1) health to ally.
 <img src="../../web/reader/paintings/plants/sweetgrass.webp" alt="" width="128">
 
 - Grows in: farm and settlement, meadow
-- Does best on: loam, clay_vale
+- Does best on: loam, clay vale
 - Gathered: a sprig of sweetgrass
 - Good for: protection, love, healing, magic
 - Found: seldom
@@ -4551,7 +4565,7 @@ Sweetgrass: Heal (1d4) health to ally.
 <img src="../../web/reader/paintings/plants/tansy.webp" alt="" width="128">
 
 - Grows in: farm and settlement, meadow
-- Does best on: loam, clay_vale
+- Does best on: loam, clay vale
 - Gathered: a sprig of tansy
 - Good for: protection, love, healing, magic
 - Found: seldom
@@ -4567,7 +4581,7 @@ Tansy: Heal (1d4) health to ally.
 <img src="../../web/reader/paintings/plants/thistle.webp" alt="" width="128">
 
 - Grows in: farm and settlement, meadow
-- Does best on: loam, clay_vale
+- Does best on: loam, clay vale
 - Gathered: a sprig of thistle
 - Good for: protection, love, healing, magic
 - Found: seldom
@@ -4583,7 +4597,7 @@ Thistle: Heal (1d4) health to ally.
 <img src="../../web/reader/paintings/plants/thyme.webp" alt="" width="128">
 
 - Grows in: farm and settlement, meadow
-- Does best on: loam, clay_vale
+- Does best on: loam, clay vale
 - Gathered: a sprig of thyme
 - Good for: protection, love, healing, purification
 - Found: seldom
@@ -4614,7 +4628,7 @@ Willow bark: Heal (1d6) health to ally.
 <img src="../../web/reader/paintings/plants/woodbine.webp" alt="" width="128">
 
 - Grows in: wood, farm and settlement
-- Does best on: loam, clay_vale
+- Does best on: loam, clay vale
 - Gathered: a sprig of woodbine
 - Good for: love, protection, magic
 - Found: seldom
