@@ -66,6 +66,36 @@
   Item {m}_stand_1 "a bunch of woundwort" is herbs in {m}_stand hidden until {m}_stand_hid.
   Item {m}_stand_2 "a bunch of woundwort" is herbs in {m}_stand hidden until {m}_stand_hid.
   Initially Assert crop({m}_stand_1, {m}_stand). Initially Assert crop({m}_stand_2, {m}_stand).
+--- wood honey 3
+  // Demonstration content (Mission 19, journey 5, 7 November: an author's meeting, added as an option of this
+  // template and nothing else). A honey-hunter at a wild bees' oak, one-handed on a ladder with the smoke-pot swung
+  // out of reach: steadied, the comb is cut, and the thanks are what grows at the foot of the oak, the betony of
+  // the catalog (data/catalog/plants.json), for stings; asked, the honey-hunter tells of the place beyond.
+  Person {m}_hunter "the honey-hunter" at {tract} {
+    Role "a honey-hunter up a ladder of lashed poles at a hollow oak, a veil of sacking over the face". Ancestry {folk}. Background laborer. Peaceable. Pronouns {he}. Manner cheerful. Seen when hour(clock) >= 6 and hour(clock) < 20.
+  }
+  Thing {m}_oak "the bees' oak" at {tract} {
+    State humming "A ladder of lashed poles leans on a hollow oak, and the honey-hunter at the top of it is cutting comb out of the hollow one-handed, while the smoke-pot on its string swings out of reach and the bees rise.".
+    State cut "The bees' oak hums quietly again, the hollow stopped with turf, a slab of comb gone out of it.".
+    Change steady "Hold the ladder, and swing the smoke-pot up under the hollow while the comb is cut" from humming to cut.
+  }
+  Thing {m}_stand "the betony" at {tract} is scenery {
+    State growing "Betony grows thick at the foot of the bees' oak, purple-spiked: the honey-hunter's cure for stings.".
+  }
+  Initially Assert grows({m}_stand).
+  Discovery {m}_stand_hid "What grows here is gathered, not found.".
+  Item {m}_stand_1 "a twist of betony" is betony in {m}_stand hidden until {m}_stand_hid.
+  Item {m}_stand_2 "a twist of betony" is betony in {m}_stand hidden until {m}_stand_hid.
+  Initially Assert crop({m}_stand_1, {m}_stand). Initially Assert crop({m}_stand_2, {m}_stand).
+  Topic {m}_hunter_ask with {m}_hunter "Ask the honey-hunter about the wood" when not knows(actor, {site}_found) once {
+    Says "'Bees go where they like, so I go where they go,' says the honey-hunter, pushing the sacking up. 'Except {toward}, where there's {seen}. They don't go near it, and nor do I.' And you are told the way, tree by tree.".
+    On discuss { Assert knows(actor, {site}_named). Assert knows(actor, {site}_found). }
+  }
+  Topic {m}_hunter_thanks with {m}_hunter "Tell the honey-hunter the comb is down safe" when state({m}_oak, cut) and not wildSpent({m}_oak) once {
+    Says "'Not stung once, and that's a first,' says the honey-hunter, and breaks you off a corner of the comb to eat there and then, and pulls two twists of betony from the foot of the oak. 'For the next time. Chew it and lay it on; it takes the sting out, and stops a cut as well.'".
+    On discuss { Give 2 betony to actor. Assert wildSpent({m}_oak). }
+  }
+>> lead
 --- fell shepherd 3
   // A shepherd out after strays, who knows every fold and stone of the fell: asked, tells of the place the flock is
   // kept from, and the way; a ewe cragfast on a ledge is a thing a company could help with.

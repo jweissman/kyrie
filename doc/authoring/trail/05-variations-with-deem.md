@@ -56,6 +56,30 @@ each followed:
    `bun scripts/redigest-trace.ts wren-tower-climbed` to see whether a kept trace's play moved.
 5. `bun run web:build` so the browser bundles the changed data.
 
+## A meeting of your own, found and met (journey 5, 7 November)
+
+Mission 19's journey 5 added one option to `data/generation/wild/meetings.kyrt`, `--- wood honey 3` (a honey-hunter
+at a bees' oak; marked there as demonstration content), and met it in the browser. What it took:
+
+1. **Write the option** after the others of its land: `--- <land> <name> <weight>`, its lines ordinary Kyr with the
+   template's holes (`{m}` the meeting's id, `{tract}` the stretch, `{folk}`, `{he}`, and with a `>> lead` line
+   `{site}`, `{seen}`, `{toward}`). Copy a neighbour's shape: the woundwort's for a stand to gather from, the burner's for
+   a person with a lead and thanks.
+2. **Find where it was drawn.** `bin/kyrie world <seed>` ends with a `Meetings:` list, each stretch by its id, the
+   name the map gives it, how many stretches it lies from its nearest town, and the option drawn there:
+   `t169 the woods of Asholt (2 from Fearnmaere): wood honey`. A new option takes some stretches from the others
+   (each stretch draws by weight among its land's options), so the list is also how to see what your weight did.
+3. **Walk there.** Many stretches share one name ("the woods of Asholt"), so go by the town and the count: out of the
+   town to its own stretch, then a stretch at a time on the map toward it. A meeting stops the company the first time
+   it crosses or enters the stretch ("Someone is here").
+4. **Open the same country in the browser**: `site/index.html?world=<seed>` begins a new game in the seed you
+   inspected (New game on the title draws a seed of its own). The journey first pinned the page's random seed in the
+   console before finding the address, which no page of the trail had named.
+
+What the journey met that an author should know: the thanks given by kind (`Give 2 betony to actor`) and the stand's
+own items (`Item … "a twist of betony" is betony`) are two rows in the pack ("A twist of betony", "Two
+betonies"), because a named item is its own thing; and the kind's name is made plural by a rule ("betonies").
+
 ## What is not yet data
 
 Most of what a country holds is still written by TypeScript that emits Kyr text: 27 of the 61 files in `src/world`
