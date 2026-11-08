@@ -27,7 +27,7 @@ describe('a country reached partway through a day', () => {
     await GeneratedWorld.travel(s, 'gate_longman');
     const reached = c.state.elapsed;
     await new Frontier('thorn', NodeBundleSource.shared).expand(c);
-    const storm = Days.due(c.module.rules!.find(r => r.id.endsWith('__storm_comes'))!.when)!;
+    const storm = Days.due(c.module.rules!.find(r => r.id.endsWith('__storm_comes') && !r.id.startsWith('circus__'))!.when)!;
     // Its third day at noon, as written (312 watches from a morning), counted from the first morning after it was
     // reached: never sooner, and not a day later.
     expect([(storm - 312) % 144, storm - 312 >= reached, storm - 312 - reached < 144]).toEqual([0, true, true]);

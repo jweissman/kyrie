@@ -11,7 +11,8 @@ describe('Quittance: the Receipt, the rhyme, and the Great Tithe', () => {
     expect(City.state(j, 'receipt', 'fading')).toBe(true);
     await j.play('=day 8 12:00');
     expect(City.state(j, 'receipt', 'faint')).toBe(true);
-    expect(j.choices().some(c => /Receipt.*Look closely/.test(c.full))).toBe(true);
+    // What it has faded to is told with the court, not behind a close look that would find only that (LookAnswers).
+    expect(City.pages(j)).toContain('RECEIVED OF THE CITY');
   }, 240000);
 
   it('sings the day\'s line in Brick Lane', async () => {
