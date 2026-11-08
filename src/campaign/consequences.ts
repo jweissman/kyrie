@@ -102,6 +102,11 @@ export class Consequences {
       // kind (a key given with a job had opened nothing: the owner's town quests, 3 November).
       if (made) { this.make(world, made.id, label); changes.push(this.fact('itemKind', made.id, kind)); }
       changes.push(...[...world.related('at', item), ...world.related('inside', item)].map(r => this.retract(r)));
+      // A thing given is the company's: whoever owned it no longer says "That is mine" of it (M19-178).
+      if (world.relates('owns')) {
+        changes.push(...world.related('owns').filter(r => r.args[1] === item && r.args[0] !== group && !members.includes(r.args[0]!))
+          .map(r => this.retract(r)));
+      }
     }
     this.together(combat, from);
     for (const [group, what] of spent.map(r => r.args as [string, string])) {

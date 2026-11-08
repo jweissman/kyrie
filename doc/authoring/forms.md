@@ -14,6 +14,7 @@ see it in context.
 | End the game when the company falls | an ending `when not able(party)` | `able(party)` is the company still standing. |
 | Count time | `watch(clock)` | A watch is ten minutes: 6 an hour, 144 a day. |
 | A check's failure told | `Otherwise "…"` after `Result "…"` | `On failure { … }` for its effects. A failed check is offered again unless you latch it (M19-124). |
+| Read a world event (a fall of a house, a war) | `befell(event)` in a condition, with the event's id listed in the module manifest's `"canon"` | Without the listing the compiler refuses it as an invalid argument (M19-175). |
 | A thing hidden until found | `Item x "…" is kind at place hidden until fact` with a `Discovery fact "…" { Found by searching place "…". }` | The fact may also be taught by a rule or a topic. |
 
 ## In a journey (a spec played by the page's labels)

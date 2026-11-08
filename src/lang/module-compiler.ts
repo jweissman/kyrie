@@ -243,8 +243,12 @@ export class ModuleCompiler {
       const type = bindings[arg] ?? this.type(module, arg);
       const expected = signature.types[i];
       if (!type || (expected !== 'entity' && type !== 'entity' && type !== expected)) {
+        // A world event read by name needs naming in the module's manifest canon (M19-175: eight authors met this
+        // refusal and it did not say so).
+        const canon = !type && /(^|__)befell$/.test(call.name)
+          ? `; a world event is read by listing ${arg} in the manifest's "canon"` : '';
         throw new Error(`Invalid argument ${arg} in ${World.format(call)}${type ? signature.roles ? `; it is ${this.shape(signature)}` : ''
-          : this.unrun(arg, expected) ?? this.known(module, expected)}`);
+          : this.unrun(arg, expected) ?? this.known(module, expected)}${canon}`);
       }
     });
   }
