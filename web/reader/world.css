@@ -83,6 +83,10 @@
   filter: saturate(.9) brightness(.9); }
 .scene-surface .scene-view .scenery::after { content: ''; position: absolute; inset: 0;
   background: linear-gradient(180deg, transparent 45%, rgba(12, 13, 17, .55) 72%, rgba(12, 13, 17, .92)); }
+/* A place no painting is of: a dim ground, lit a little from where the company stands. */
+.scene-surface .scene-view.plain {
+  background: radial-gradient(ellipse 70% 60% at 50% 55%, #2a2622 0%, #16151a 55%, #0c0d11 100%); }
+.scene-surface.unlit .scene-view.plain { background: #08080a; }
 .scene-surface.unlit .scene-view .scenery img { filter: brightness(.16) saturate(.35) contrast(1.15); }
 .scene-surface.unlit .scene-view .scenery::after {
   background: radial-gradient(ellipse 58% 62% at 50% 46%, transparent 20%, rgba(6, 6, 8, .82) 78%, #050506); }
