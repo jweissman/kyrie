@@ -142,6 +142,7 @@
   }
   Objective {t}_u_rats_job_owed when {t}_u_done({t}_u_rats_job) and {t}_u_nest_cleared({t}_u_rats_job) and not {t}_u_paid({t}_u_rats_job) "Tell {{t}_merchant} the rats and their nest are dealt with, at {{merchantat}}: the rest of the pay, and a lantern.".
 >> 'RATS in the old corn-store, as big as cats. Ten coin, and a lantern. Ask {{t}_merchant} for the key.'
+  Rule {t}_u_rats_onward when {t}_u_done({t}_u_rats_job) and not {t}_u_done({t}_u_onward) { Assert {t}_u_done({t}_u_onward). }
 --- yard dead
   // The dead: they have not come up of themselves. Someone has been opening graves by night and raising what was in
   // them with a black candle in the ossuary; the churchyard, the crypt and the lodger at the inn say so to whoever
@@ -247,6 +248,7 @@
   }
   Objective {t}_u_dead_job_owed when {t}_u_done({t}_u_dead_job) and {t}_u_done({t}_u_raiser) and not {t}_u_paid({t}_u_dead_job) "Tell {{t}_priest} the dead are laid and who raised them, at {{priestat}}: fifteen coin, and what the shrine can give.".
 >> 'Whoever will go down into the catacombs under the churchyard, where something has come up: fifteen coin, and the shrine's thanks. Ask {{t}_priest}.'
+  Rule {t}_u_dead_onward when {t}_u_done({t}_u_dead_job) and not {t}_u_done({t}_u_onward) { Assert {t}_u_done({t}_u_onward). }
 --- pit spiders
   // The spiders: the quarry's gate is the inn's, given with the job; the Hobb boy who went in after his ferret saw the
   // mother at the back and dropped his father's knife; the spiders dead and their egg-sacs burned, the inn pays in what
@@ -321,9 +323,17 @@
   }
   Objective {t}_u_spiders_job_owed when {t}_u_done({t}_u_spiders_job) and state({t}_u_eggs, burnt) and not {t}_u_paid({t}_u_spiders_job) "Tell {{t}_innkeeper} the spiders are dead and their eggs burned, at {{innkeeperat}}: twelve coin, salve and rope.".
 >> 'SPIDERS in the old quarry. Twelve coin from the house. Ask {{t}_innkeeper} for the gate key.'
+  Rule {t}_u_spiders_onward when {t}_u_done({t}_u_spiders_job) and not {t}_u_done({t}_u_onward) { Assert {t}_u_done({t}_u_onward). }
 --- below
   Place {t}_u_drain "the old drain" is room within {t} at 0, 5 underground 2 down.
   Passage {t}_u_drain_way "a culvert going down" is crawl between {t}_u_warren and {t}_u_drain.
+  // A job done under the town is not the end of what is under it (the owner, 8 November: a dungeon is more than one or
+  // two rooms; the undertown's three ways meet, and go on down, and nothing had said so). Each trouble, done, says the
+  // old ways go on; the undercroft they meet in is the next place to go, its floor the next thing to try, its vault's
+  // keeper the next to face; and below him the deep site (see RegionUndertown).
+  Entity {t}_u_onward: fact "".
+  Objective {t}_u_onward_sought when {t}_u_done({t}_u_onward) and not been(party, {t}_u_undercroft) "The old ways under {town} go on past where the job ended: the rat-runs into an old drain, the ossuary down steps behind the bone-heaps, the quarry gallery through a breach in its floor. They meet below, in {{t}_u_undercroft}.".
+  Objective {t}_u_floor_sought when been(party, {t}_u_undercroft) and not knows(party, {t}_u_vault_found) "Something is under the floor of {{t}_u_undercroft}: one flag cut with letters does not sit level. Search there.".
   Place {t}_u_undercroft "the undercroft" is room within {t} at 1, 5 underground 2 down.
   Passage {t}_u_drain_mouth "the mouth of the drain" is passage between {t}_u_drain and {t}_u_undercroft.
   Passage {t}_u_ossuary_steps "steps down behind the bone-heaps" is steps between {t}_u_ossuary and {t}_u_undercroft.
