@@ -333,7 +333,7 @@
   // keeper the next to face; and below him the deep site (see RegionUndertown).
   Entity {t}_u_onward: fact "".
   Objective {t}_u_onward_sought when {t}_u_done({t}_u_onward) and not been(party, {t}_u_undercroft) "The old ways under {town} go on past where the job ended: the rat-runs into an old drain, the ossuary down steps behind the bone-heaps, the quarry gallery through a breach in its floor. They meet below, in {{t}_u_undercroft}.".
-  Objective {t}_u_floor_sought when been(party, {t}_u_undercroft) and not knows(party, {t}_u_vault_found) "Something is under the floor of {{t}_u_undercroft}: one flag cut with letters does not sit level. Search there.".
+  Objective {t}_u_floor_sought when been(party, {t}_u_undercroft) and not knows(party, {t}_u_vault_found) "Something is under the floor of {{t}_u_undercroft}: one flag cut with letters does not sit level. The same ring may be cut somewhere in the ways down to it.".
   Place {t}_u_undercroft "the undercroft" is room within {t} at 1, 5 underground 2 down.
   Passage {t}_u_drain_mouth "the mouth of the drain" is passage between {t}_u_drain and {t}_u_undercroft.
   Passage {t}_u_ossuary_steps "steps down behind the bone-heaps" is steps between {t}_u_ossuary and {t}_u_undercroft.
@@ -352,8 +352,37 @@
   }
   Item {t}_u_drain_purse "a mouldy purse" is steel_coin at {t}_u_drain hidden until {t}_u_drain_cache_found.
 --- vault
-  Discovery {t}_u_vault_found "The lettered flag in the undercroft floor lifts: under it, a stair going down into the dark." {
-    Found by searching {t}_u_undercroft "The flag cut with letters is not set like the others: it rocks under your foot.".
+  // The lettered flag is a lock with no keyhole (the owner, 8 November: a dungeon has at least one puzzle). Its ring of
+  // letters is the makers' own, and the same ring is cut, smaller, in each of the three ways down to it, over the
+  // oldest thing there: read in any of them, the letters to press are the three cut deeper than the rest. One who
+  // knows old writing reads them off the flag itself. A strong arm can lever it up instead, slowly, and loudly.
+  Entity {t}_u_vault_found: fact "The lettered flag in the undercroft floor lifts: under it, a stair going down into the dark.".
+  Discovery {t}_u_letters "The ring of letters on the undercroft's flag is cut here too, small, over the oldest stone: three of its letters are cut deeper than the rest, worn smooth by thumbs." {
+    Found by searching {t}_u_ossuary "Over the oldest niche, behind the bone-heaps, a ring of letters cut small, three of them deeper than the rest.".
+    Found by searching {t}_u_brood "Under the webs, on the one dressed stone in the chamber's wall, a ring of letters cut small, three of them worn deep.".
+    Found by searching {t}_u_drain "On the keystone where the drain meets the old work, a ring of letters cut small, three of them worn deep.".
+  }
+  Action {t}_u_flag_pressed(actor: group, site: place) "Press the three deep-cut letters on the flag, as the ring below has them" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_u_undercroft) and knows(actor, {t}_u_letters) and not knows(actor, {t}_u_vault_found).
+    Time 1.
+    On success { Assert knows(actor, {t}_u_vault_found). }
+    Result "One, and the next, and the last: each gives a little under your thumb, with a click somewhere under the floor. The flag sinks a finger's width, and slides aside on its own weight. Under it, a stair goes down into the dark.".
+  }
+  Action {t}_u_flag_read(actor: group, site: place) "Read the ring of letters on the flag" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_u_undercroft) and capable(actor, lore) and not knows(actor, {t}_u_letters) and not knows(actor, {t}_u_vault_found).
+    Time 1.
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert knows(actor, {t}_u_letters). }
+    Result "The letters are the makers' own, and run round the flag twice over in a pattern that is not a word at all but a count: three of them, read as numbers, are cut deeper than the rest. Pressed in their order, they would be the key.".
+    Otherwise "The letters are the makers' own, and you cannot make them out. The same ring may be cut somewhere else, where whoever cut it meant it to be read.".
+  }
+  Action {t}_u_flag_levered(actor: group, site: place) "Lever the lettered flag up by main force" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_u_undercroft) and not knows(actor, {t}_u_vault_found).
+    Time 6.
+    Resolve check(actor, brawn, dc_hard).
+    On success { Assert knows(actor, {t}_u_vault_found). }
+    Result "It takes most of an hour, and the edge of everything you have that will take a strain. The flag comes up grinding, and something in the floor below breaks with a sound like a bell. Under it, a stair goes down into the dark, and below, something has heard you.".
+    Otherwise "The flag does not move, and an hour is gone. It was not made to be lifted.".
   }
   Place {t}_u_vault "the sealed vault" is room within {t} at 1, 6 underground 3 down.
   Passage {t}_u_vault_stair "the stair under the lettered flag" is stair between {t}_u_undercroft and {t}_u_vault hidden until {t}_u_vault_found.

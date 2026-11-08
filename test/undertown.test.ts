@@ -102,7 +102,8 @@ describe('under the town the company begins in', () => {
     expect(way?.places).toEqual(expect.arrayContaining(['region__s1_u_crypt', 'region__s1_u_yard']));
     expect(screen.objectives.join(' ')).toMatch(/up out of .+, from the king's bier|up out of /);
   }, 120000);
-  it('joins its three ways down in an undercroft, under which only a search finds the stair to the sealed vault', async () => {
+  // The flag is a puzzle (the owner, 8 November): forced, or opened by the letters cut small in the ways down to it.
+  it('joins its three ways down in an undercroft, whose lettered flag opens to the letters found below', async () => {
     const s = await Town.start(), c = s.campaign;
     const shown = () => PlayerView.choices(c).map(x => x.choice.name);
     const k = c as unknown as { world: { apply(c: unknown[]): unknown }; commit(w: unknown): void };
@@ -110,8 +111,11 @@ describe('under the town the company begins in', () => {
       { kind: 'retract', call: ModuleWriter.call('at', 'region__s1_u_crawler', 'region__s1_u_drain') }]));
     expect(['the old drain', 'steps down behind the bone-heaps', 'a breach in the gallery floor']
       .every(way => shown().some(n => n.includes(way)))).toBe(true);
-    expect(shown().some(n => /lettered flag/.test(n))).toBe(false);
-    await Town.take(s, /^Light a torch/, /^Search the undercroft/);
+    expect(shown().some(n => /stair under the lettered flag/.test(n))).toBe(false);
+    expect(shown().some(n => /^Lever the lettered flag/.test(n))).toBe(true);
+    expect(shown().some(n => /^Press the three/.test(n))).toBe(false);
+    k.commit(k.world.apply([{ kind: 'assert', call: ModuleWriter.call('knows', 'party', 'region__s1_u_letters') }]));
+    await Town.take(s, /^Light a torch/, /^Press the three/);
     expect(shown().some(n => /stair under the lettered flag/.test(n))).toBe(true);
     // One place under the town (M19-40): from the rats' run, by the drain, the undercroft and the steps up behind
     // the bone-heaps, into the crypt.
