@@ -157,6 +157,10 @@ export class Origins {
     return { values: { ...this.approach(region, s), merchant: s.merchant, after: after.said,
       lost: (tables.lost as Record<string, string>)[s.trade] ?? 'a cartload of goods' },
     start: { place: `${s.id}_shop` }, imports: { shop: [`region.${s.id}_shop`, 'place'],
+      // Where the creditor says work is asked after; a town with no inn, the shop itself.
+      ...SettlementWriter.rooms(region, s).taproom
+        ? { inn: this.inn(s), keeper: [`region.${s.id}_innkeeper`, 'group'] as [string, string] }
+        : { inn: [`region.${s.id}_shop`, 'place'] as [string, string], keeper: [`region.${s.id}_merchant`, 'group'] as [string, string] },
       creditor: [`region.${s.id}_merchant`, 'group'], ...after.imports } };
   }
   // What a debt paid leaves (the play-structure investigation's PT-01: a resolution had ended in "Nothing more is

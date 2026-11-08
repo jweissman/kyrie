@@ -2,7 +2,7 @@ Module origin "What is owed" {
   Kind chapter. Entity title: chapter "What is owed".
   Entity party: group "You".
   Place shop "The shop" is room.
-  Entity creditor: group "The merchant". Entity loan: debt "What you owe".
+  Entity creditor: group "The merchant". Entity keeper: group "Whoever keeps the inn". Entity loan: debt "What you owe".
   // The work the merchant tells of once paid, and the way there (see Origins.after; PT-01).
   Entity named: fact "Where it is". Entity found: fact "The way there".
   Kind debt. Measure owed(debt).
@@ -41,7 +41,12 @@ Module origin "What is owed" {
     Says "{creditor} takes it without a word, and without looking at you. It is paid. It is not forgotten.".
     On discuss { Decrease quantity(actor, gold) by owed(loan). Set owed(loan) to 0. Retract inDebtTo(actor, creditor). Assert squared(actor). Retract refusesService(creditor, actor). }
   }
-  Objective owing when owed(loan) > 0 and not called(party) "You owe {creditor} at {homename} {owed(loan)} coin, by market day.".
+  // The debt said where the company can do something about it: first the creditor; once spoken to or left, the inn, where
+  // the creditor said work is asked after; with the coin in hand, the creditor again. The aim had led back to the shop
+  // the company had just left with nothing to pay (the owner, 7 November: aims still chaotic).
+  Objective owing when owed(loan) > 0 and not called(party) and not spoke(party) and at(party, shop) "You owe {creditor} at {homename} {owed(loan)} coin, by market day.".
+  Objective owing_work when owed(loan) > 0 and not called(party) and (spoke(party) or not at(party, shop)) and quantity(party, gold) < owed(loan) "You owe {creditor} {owed(loan)} coin by market day. There is work for someone with nothing to lose: ask {keeper} at {inn}.".
+  Objective owing_paid when owed(loan) > 0 and not called(party) and (spoke(party) or not at(party, shop)) and quantity(party, gold) >= owed(loan) "You have the {owed(loan)} coin you owe {creditor}: pay it at {shop}, before market day.".
   Objective owing_late when owed(loan) > 0 and called(party) "{creditor} has called in what you owe: {owed(loan)} coin.".
   Goal squared(party).
 }

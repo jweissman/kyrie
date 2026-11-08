@@ -187,7 +187,11 @@ export class Glance {
   // Whom the aim followed names leads to where they stand, where the company knows the place: the merchant with the
   // corn-store's key, in his shop off the green, had been one face among many, and nothing on the green led to him
   // (the owner's play, 6 November: M19-86).
+  // Not where the aim names a place of its own: "ask at the inn" of a debt is the inn, and the creditor named in it had
+  // led back to the shop the company had just left with nothing to pay (the owner, 7 November).
   private static whereabouts(campaign: Campaign, screen: Screen, ids: Set<string>): Set<string> {
+    const byId = EntityIndex.of(campaign.module.entities).byId;
+    if ([...ids].some(id => byId.get(id)?.space?.kind === 'room')) { return ids; }
     const w = campaign.world, known = new Set([...screen.map.map(p => p.id),
       ...screen.exits.map(e => e.destination.id)]);
     const at = [...ids].flatMap(id => {
