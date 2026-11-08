@@ -443,6 +443,8 @@
 .thing .face .n { font: 300 clamp(32px, 3.8vw, 52px)/1.08 var(--do); margin: 0 0 12px; text-wrap: balance; }
 .thing .face .when { margin: 0 0 24px; }
 .thing .face .r { font: 500 12px/1.4 var(--do); letter-spacing: .14em; text-transform: uppercase; color: var(--dim); }
+.thing .face .entry a { font: 500 11px/1 var(--do); letter-spacing: .14em; text-transform: uppercase; color: var(--dim);
+  text-decoration: underline; text-underline-offset: 3px; }
 .thing .face .seen { font-size: 19.5px; line-height: 1.6; }
 .thing .face .happened { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--edge); }
 .thing .uses { min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: clamp(64px, 9vh, 88px) clamp(20px, 3vw, 40px) 28px;

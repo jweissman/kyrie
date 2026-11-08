@@ -13,6 +13,8 @@ export interface SceneSubject {
   emblem?: string;
   // What can be seen of them now ("Nest is driving geese along the green"), and whether they are dead or down.
   says?: string[]; state?: TargetRow['state'];
+  // A creature's entry in the encyclopedia (see EncyclopediaEntry).
+  entry?: TargetRow['entry'];
   // Someone who would join the company: what they would bring (see CharacterSheets.recruit).
   recruit?: TargetRow['recruit'];
   // Someone the company has a stake in, met before the rest (see Stakes): only while there is something to say to them
@@ -73,6 +75,7 @@ export class SceneModel {
       ...row?.portrait ? { portrait: row.portrait } : {}, ...row?.emblem ? { emblem: row.emblem } : {},
       ...row?.says?.length ? { says: row.says } : {},
       ...row?.state ? { state: row.state } : {}, ...row?.recruit ? { recruit: row.recruit } : {},
+      ...row?.entry ? { entry: row.entry } : {},
       ...row?.stake && live ? { stake: true } : {}, ...row?.asked ? { asked: true } : {}, ...live ? { live } : {},
       ...row?.owed && live ? { owed: true } : {},
       choices: s.choices.map(c => this.bare(c, name!)).map(c => row?.kind === 'animal' ? this.led(c) : c) };

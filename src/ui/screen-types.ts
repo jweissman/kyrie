@@ -94,6 +94,8 @@ export interface TargetRow {
   asked?: boolean;
   // Someone with something for the company now: a thing to be said to them, open now, that pays it (see Owed).
   owed?: boolean;
+  // A creature's kind, for its entry in the encyclopedia: the base kind's id, and the kind's name to search by.
+  entry?: { id: string; name: string };
 }
 export interface ItemRow {
   // kind: the catalog's id for what it is (torch, lamp_oil), not its name.

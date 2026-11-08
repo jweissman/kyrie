@@ -1,3 +1,4 @@
+import { EncyclopediaEntry } from '../../../src/ui/encyclopedia-entry';
 import type { Examined } from '../../../src/ui/attention';
 import type { Choice } from '../../../src/ui/choice-list';
 import type { ReaderApp } from '../reader-app';
@@ -28,6 +29,8 @@ export class ThingStage {
           <h1 className="n">{Typography.curl(Words.upper(thing.name))}</h1>
           <Stage.When frame={frame} extra={frame.screen.place.name} />
           {thing.note && <p className="r">{Typography.curl(thing.note)}</p>}
+          {thing.entry && <p className="entry"><a className="quiet-word" href={EncyclopediaEntry.href(thing.entry)}
+            target="_blank" rel="noopener">{`${thing.entry.name} in the encyclopedia`}</a></p>}
           {seen.map((p, i) => <p key={i} className="seen">
             {Typography.curl(p)}</p>)}
           {s.pending ? <Told.Working pending={s.pending} /> : told && <Told.Happened exchange={told} said app={app} />}

@@ -1,6 +1,6 @@
 import { Likeness } from '../paintings/likeness'; import { CompanyPortraits } from '../paintings/company-portraits';
 import { CreaturePortraits } from '../paintings/creature-portraits'; import { ItemPlates } from '../paintings/item-plates';
-import { Emblems } from '../presentation/emblems';
+import { Emblems } from '../presentation/emblems'; import { EncyclopediaEntry } from './encyclopedia-entry';
 import { CharacterSheets } from '../presentation/character-sheet';
 import { Itineraries } from './itinerary';
 import type { World } from '../lang/world';
@@ -312,8 +312,9 @@ export class ScreenModel {
       // A beast by the beast's emblem, keeping the peace or not (hounds denned in a room are beasts too).
       const beast = !playable && !!member && Canon.isSpecies(member.raceId) && Canon.creature(member.raceId).kind === 'animal';
       const emblem = animal || beast ? 'animal' : playable && Emblems.has(member!.raceId) ? member!.raceId : undefined;
+      const entry = !playable && member && !dark ? EncyclopediaEntry.creature(member.raceId) : undefined;
       return { id: p.id, kind: playable || soul ? 'person' : animal ? 'animal' : 'creature', name, ...(note ? { note } : {}),
-        ...portrait ? { portrait } : {}, ...emblem ? { emblem } : {},
+        ...portrait ? { portrait } : {}, ...emblem ? { emblem } : {}, ...entry ? { entry } : {},
         ...(p.members?.length ?? 0) > 1 ? { many: true } : {},
         ...(!dark && !p.state && p.activity ? { activity: p.activity } : {}), ...(look ? { look } : {}),
         ...(p.state ? { state: p.state === 'dead' ? 'dead' as const : 'down' as const } : {}), acts };
