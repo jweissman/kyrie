@@ -6574,6 +6574,56 @@
    "form": "interior",
    "shows": "a carved door standing open on zephyrus",
    "era": "late"
+  },
+  "scene-archive": {
+   "form": "interior",
+   "shows": "an archive: shelves of books to a coffered ceiling, ladders, a desk with a globe and a bust",
+   "era": "late"
+  },
+  "scene-arena": {
+   "form": "landscape",
+   "shows": "an arena seen from its gallery: tiers of seats round a sanded floor, banners",
+   "era": "late"
+  },
+  "scene-crystal-grotto": {
+   "form": "interior",
+   "shows": "a grotto of crystal and blue stone over a still pool, a statue at its edge",
+   "era": "late"
+  },
+  "scene-floating-city": {
+   "form": "landscape",
+   "shows": "a city on an island floating in cloud, waterfalls falling from it",
+   "era": "late"
+  },
+  "scene-garden": {
+   "form": "landscape",
+   "shows": "a walled garden of hedges, a fountain, cypresses and statues",
+   "era": "late"
+  },
+  "scene-jungle": {
+   "form": "landscape",
+   "shows": "a jungle valley of great trees and falls in misty light",
+   "era": "late"
+  },
+  "scene-library": {
+   "form": "interior",
+   "shows": "a library: galleries of shelves, an armillary sphere, a reading table",
+   "era": "late"
+  },
+  "scene-menagerie": {
+   "form": "landscape",
+   "shows": "a menagerie court of cages and an aviary, a peacock and a deer",
+   "era": "late"
+  },
+  "scene-oasis": {
+   "form": "landscape",
+   "shows": "an oasis of palms and flowers by a pool under red desert cliffs",
+   "era": "late"
+  },
+  "scene-statuary": {
+   "form": "landscape",
+   "shows": "a sculpture garden: statues along a colonnade and a fountain",
+   "era": "late"
   }
  }
 }
