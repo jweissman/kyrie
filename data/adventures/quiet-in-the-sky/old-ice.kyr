@@ -24,6 +24,10 @@ Module larum "The Quiet in the Sky" {
     Otherwise "You go along the back of the shelf, and find nothing but ice, and the bear's prints going everywhere.".
   }
 
+  // A search that found nothing may be made again by a company that has gone away and come back: the latch had held
+  // for good, so whether the Sitters were found at all came down to one roll (the Imbar authors' friction, M19-205).
+  Rule stair_search_again when searchedStair(party) and not at(party, ice_stair) { Retract searchedStair(party). }
+
   // ── The bear ──────────────────────────────────────────────────────────────────────────────────────────────────────
   // A war-bear of a dwarven host, dead nine hundred years, who mends at the Hour like anyone. It is the Sitters', and
   // likes honey and roast ox, and does not like strangers on its stair.
