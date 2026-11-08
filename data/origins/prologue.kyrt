@@ -1,62 +1,163 @@
-# prologue: what is going on on the way in, for a new life to meet before the first town (the owner, 6 November: a brief playable opening, not a told one).
+# prologue: who is met on the way in, for a new life to answer before the first town (the owner, 6 November: a brief playable opening, not a told one; 7 November: someone met on the road, with a decision that reveals your character early).
 // A Kyr template (see src/world/kyr-template.ts), written into an origin's module (see src/world/origins.ts) at the way
-// into the first town ({approach}); one option drawn for each country by its seed. Each is a small human situation
-// with more than one answer (walking on among them), one a calling or a thing carried can meet that another cannot,
-// and what was done remembered in the town ({inn}, the inn's taproom; {green}, its green), where whoever was met goes
-// on to and says so. {home} is the town; {folk} its people. Add an option to add an
-// opening; nothing in the engine needs to change.
+// into the first town ({approach}); one option drawn for each country by its seed. Each is someone met with something
+// that wants deciding, and more than one answer to it: help, strike a bargain, take what is going, stand up to
+// someone, or walk on. One a calling can meet that another cannot (a thief's quiet hands, a liar's tongue). What was
+// answered stays with the company: something in hand, a fact of what it did that it knows of itself (its notes keep
+// it, as the town will), and whoever was met going on to {home}'s inn ({inn}, the inn's taproom), where they remember.
+// The opening sets the meeting apart before the first place (see Prologue): the `meeting`, said near whoever is met,
+// and every act of theirs whose id begins with theirs (carter_…, poacher_…) as its answers, until `answered(party)`.
+// {home} is the town; {folk} its people. Add an option to add a meeting; nothing in the engine needs to change.
 --- base
-  // The town's inn, where whoever was met goes on to (the region's own, as the way in is).
-  Place {inn} "the inn" is room.
-  // What was done on the way in, once.
-  Relation wayIn(entity).
+  // The town's inn, where whoever was met goes on to, is the origin's own (the region's taproom: see Origins.write).
+  // What was done on the way in, once; and whether whoever was met there has been answered, one way or another.
+  Relation wayIn(entity). Relation answered(group).
 --- road carter 2
-  // A carter whose wheel has gone off the crown of the road into the ditch: put a shoulder to it, lever it with
-  // something long, or walk on; or, while his back is to you, take something off the load. What was done goes into
+  // A carter whose wheel has gone off the crown of the road into the ditch: lead the horse while he heaves, ask a
+  // share of the load for it, walk on; or, while his back is to you, take something off it. What was done goes into
   // {home} with him.
   Person carter "the wagoner" at {approach} {
     Role "a wagoner up to his knees in the ditch, his shoulder to a wheel that will not come". Ancestry {folk}. Peaceable. Pronouns he. Manner grim.
   }
+  Observe meeting near carter when not answered(party) "A cart stands canted at the side of the road, one wheel down in the ditch to the hub, the horse blowing in the shafts, a sack of meal burst on the bed. The wagoner is up to his knees in the ditch with his shoulder to the wheel. He looks round at the sound of you and does not ask. He has asked enough people today.".
   Thing cart "the cart" at {approach} {
     State ditched "A cart stands canted at the side of the road, one wheel down in the ditch to the hub, the horse in the shafts blowing and stamping. Sacks of meal are roped on the bed; one has burst.".
     State righted "The cart stands square on the road again, its load roped down, the horse quiet.".
     Change heave "Put your shoulder to the wheel with him" from ditched to righted needing brawn or crowbar.
     }
-  Topic carter_ask with carter "Ask the wagoner what he is carrying, and where" when state(cart, ditched) once {
-    Says "'Meal, for {home}, and late with it,' he says, and spits. 'Three days on the road and the last mile does this. You'd not have a back on you that could lift?'".
-  }
-  Topic carter_thanks with carter "Tell the wagoner the wagon is on the road again" when state(cart, righted) and not wayIn(cart_righted) once {
+  Topic carter_thanks with carter "Tell the wagoner the wagon is on the road again" when state(cart, righted) and not wayIn(cart_righted) and not wayIn(cart_bargained) once {
     Says "'You'll eat at my cost, then,' says the wagoner, wiping his hands down his coat. 'Ask for me at the inn tonight; there's always a bowl for whoever gets a man out of a ditch.' He presses two coins on you as well, and will not have them back.".
-    On discuss { Assert wayIn(cart_righted). Increase quantity(actor, gold) by 2. }
+    On discuss { Assert wayIn(cart_righted). Assert knows(actor, cart_righted). Increase quantity(actor, gold) by 2. }
   }
-  Topic carter_leave with carter "Tell the wagoner you cannot stop" when state(cart, ditched) and not wayIn(cart_left) once {
-    Says "'No more could the last six,' says the wagoner, and turns back to his wheel without looking at you.".
-    On discuss { Assert wayIn(cart_left). }
-  }
+  // However it came out of the ditch, it was answered.
+  Rule carter_answered when state(cart, righted) and not answered(party) { Assert answered(party). }
   // The cart on the road again, the carter goes on into {home} ahead of whoever is still on the way in, to the inn.
   Rule carter_goes_on when state(cart, righted) and at(carter, {approach}) and not at(party, {approach}) {
     Retract at(carter, {approach}). Assert at(carter, {inn}).
   }
-  Entity cart_righted: fact "You got the carter's wheel out of the ditch on the way into {home}.".
-  Entity cart_left: fact "You left the carter in the ditch on the way into {home}.".
-  Entity cart_robbed: fact "You lifted a sack off the carter's load on the way into {home}, while his back was to you.".
+  Entity cart_righted: fact "On the way into {home} you got a wagoner's wheel out of the ditch, and would take nothing for it but his thanks.".
+  Entity cart_bargained: fact "On the way into {home} you got a wagoner out of the ditch for a sack of his meal and a coin.".
+  Entity cart_left: fact "On the way into {home} you left a wagoner in the ditch, and did not stop.".
+  Entity cart_robbed: fact "On the way into {home} you lifted a sack off a wagoner's load while his back was to you.".
+  // Anyone can take the horse's head while he heaves: slower, and the horse has its own mind.
+  Action carter_lead(actor: group, site: place) "Take the horse's head and lead it on while the wagoner heaves" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {approach}) and state(cart, ditched).
+    Time 3.
+    On success { Retract state(cart, ditched). Assert state(cart, righted). Assert answered(actor). }
+    Result "The horse throws its head twice and then leans into the collar, and with the wagoner roaring at the wheel the cart comes up out of the ditch with a lurch and a slither of meal.".
+  }
   // One who can go unseen can lift a sack while his back is to the road: something to sell, and a man in {home} who
   // counts his sacks.
   Action carter_lift(actor: group, site: place) "Lift a sack of meal off the back of the cart while he is at the wheel" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, {approach}) and capable(actor, stealth) and state(cart, ditched) and not wayIn(cart_robbed).
     Time 1.
-    On success { Assert wayIn(cart_robbed). Give rations to actor. }
+    On success { Assert wayIn(cart_robbed). Assert answered(actor). Assert knows(actor, cart_robbed). Give rations to actor. }
     Result "The sack comes off the tail of the cart without a sound. The wagoner, shoulder to the wheel, curses the wheel and does not turn round.".
   }
-  // Anyone can take the horse's head while he heaves: slower, and the horse has its own mind.
-  Action carter_lead(actor: group, site: place) "Take the horse's head and lead it on while the wagoner heaves" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {approach}) and state(cart, ditched).
+  // A hand for a price: a sack of the meal and a coin, and the wagoner's opinion of you.
+  // A bargain struck, not thanks owed: said to him, and done (an act, so that the wagoner is not badged as owing
+  // before anything is done for him: Owed reads what a topic would pay).
+  Action carter_bargain(actor: group, site: place) "Offer him a hand, for a share of the load" {
+    Speaker carter.
+    Requires able(actor) and company(actor) and at(actor, site) and at(carter, site) and state(cart, ditched) and not answered(actor).
     Time 3.
-    On success { Retract state(cart, ditched). Assert state(cart, righted). }
-    Result "The horse throws its head twice and then leans into the collar, and with the wagoner roaring at the wheel the cart comes up out of the ditch with a lurch and a slither of meal.".
+    On success { Retract state(cart, ditched). Assert state(cart, righted). Assert wayIn(cart_bargained). Assert answered(actor).
+      Assert knows(actor, cart_bargained). Increase quantity(actor, gold) by 1. Give rations to actor. }
+    Result "'A share,' says the wagoner, and looks at you a long moment. 'A sack, then, and a coin, and be quick about it.' Between you and the horse the cart comes up out of the ditch. He counts the coin into your hand as though each one hurt him. 'You'll go far,' he says. He does not say it kindly.".
+  }
+  Topic carter_leave with carter "Tell the wagoner you cannot stop" when state(cart, ditched) and not wayIn(cart_left) once {
+    Says "'No more could the last six,' says the wagoner, and turns back to his wheel without looking at you.".
+    On discuss { Assert wayIn(cart_left). Assert answered(actor). Assert knows(actor, cart_left). }
+  }
+  // A question, not an answer: kept out of the meeting's answers by its id (Prologue.meeting takes carter_…).
+  Topic ask_wagoner with carter "Ask the wagoner what he is carrying, and where" when state(cart, ditched) once {
+    Says "'Meal, for {home}, and late with it,' he says, and spits. 'Three days on the road and the last mile does this. You'd not have a back on you that could lift?'".
   }
   // In {home}, at the inn, what was done on the road is remembered.
   Topic carter_inn with carter "Sit with the wagoner" when at(carter, {inn}) and wayIn(cart_righted) once {
     Says "'Here's the one,' says the wagoner to the room, and pushes a bowl along the board to you. 'Got me out of the ditch at the top of the hill. Eat.' He knows the road and the town both, and talks while you eat.".
     On discuss { Retract hungry(actor). }
   }
+--- road poacher 2
+  // A poacher's boy with a hare in a snare and the keeper up the road: talk the keeper past him, hold him for the
+  // keeper, buy the hare, or walk on. A liar's tongue is tried; anyone can be honest, or buy, or go by.
+  Person poacher "the boy" at {approach} {
+    Role "a boy down in the bracken with a hare in a snare". Ancestry {folk}. Peaceable. Pronouns he. Manner proud.
+  }
+  Observe meeting near poacher when not answered(party) "A boy is down on his knees in the bracken at the side of the road, a hare kicking in a wire snare under his hands. Up the road a whistle goes, twice, and a man's voice calls a dog: the keeper. The boy looks up at you with the hare held against his chest, and says nothing at all.".
+  Entity hare_hidden: fact "On the way into {home} you stood in the road and talked the keeper past a poacher's boy.".
+  Entity hare_given: fact "On the way into {home} you held a poacher's boy for the keeper, who paid you for it.".
+  Entity hare_bought: fact "On the way into {home} you bought a snared hare off a poacher's boy, the keeper's whistle coming.".
+  Entity hare_left: fact "On the way into {home} you walked past a poacher's boy and left him to the keeper.".
+  Action poacher_cover(actor: group, site: place) "Stand in the road and talk to the keeper while the boy gets away" {
+    Speaker poacher.
+    Requires able(actor) and company(actor) and at(actor, site) and at(poacher, site) and not answered(actor).
+    Time 5 minutes.
+    Resolve check(actor, deception, dc_fair).
+    On success { Assert answered(actor). Assert wayIn(hare_hidden). Assert knows(actor, hare_hidden). Give rations to actor. }
+    On failure { Assert answered(actor). Assert wayIn(hare_hidden). Assert knows(actor, hare_hidden). }
+    Result "'Keeper,' you say, and he stops to hear what you want, and by the time you have asked him the way to {home} twice over the bracken is empty. Further on, on a stone where you cannot miss it, someone has left the hare.".
+    Otherwise "The keeper hears you out, and looks past you at the bracken, and back at you. The boy is gone. The keeper will know your face again.".
+  }
+  Topic poacher_hold with poacher "Hold the boy by the collar until the keeper comes" when not answered(actor) once {
+    Says "The boy fights like a cat and then goes still. The keeper comes up through the bracken with his dog, takes the hare and the boy's ear in one hand, and gives you two coin with the other. 'There's few on this road would,' he says. The boy looks back at you once, going.".
+    On discuss { Assert answered(actor). Assert wayIn(hare_given). Assert knows(actor, hare_given). Increase quantity(actor, gold) by 2. }
+  }
+  Topic poacher_buy with poacher "Offer the boy a coin for the hare" when not answered(actor) and quantity(actor, gold) >= 1 once {
+    Says "He looks at the coin, and at the road, and puts the hare in your hands and the coin in his mouth, and is gone into the bracken before the whistle comes again.".
+    On discuss { Assert answered(actor). Assert wayIn(hare_bought). Assert knows(actor, hare_bought). Decrease quantity(actor, gold) by 1. Give rations to actor. }
+  }
+  Topic poacher_leave with poacher "Walk on, and leave him to it" when not answered(actor) once {
+    Says "Behind you, after a while, a dog gives tongue, and somebody yells.".
+    On discuss { Assert answered(actor). Assert wayIn(hare_left). Assert knows(actor, hare_left). }
+  }
+  // Whatever came of it, the boy turns up in {home}, unless the keeper has him; one who stood in the road for him is
+  // owed, and paid.
+  Rule poacher_goes_on when answered(party) and at(poacher, {approach}) and not at(party, {approach}) and not wayIn(hare_given) {
+    Retract at(poacher, {approach}). Assert at(poacher, {inn}).
+  }
+  Topic poacher_inn with poacher "Sit with the boy" when at(poacher, {inn}) and wayIn(hare_hidden) once {
+    Says "He slides in beside you on the bench as if he had always been there. 'That was my brother's,' he says, and puts a sling on the board in front of you, the stones in a twist of cloth. 'He's no use for it now. You keep it.' Then he is gone again, with half your bread.".
+    On discuss { Give sling to actor. }
+  }
+--- road pedlar 2
+  // A pedlar being robbed on the road: stand up to the two men, buy them off, help yourself with them, or keep to the
+  // far side and walk on. What a pedlar's pack holds goes to whoever ends up with it; the pedlar tells the inn.
+  Person pedlar "the pedlar" at {approach} {
+    Role "a pedlar sitting in the ditch with a hand to his head". Ancestry {folk}. Peaceable. Pronouns he. Manner stoic.
+  }
+  Observe meeting near pedlar when not answered(party) "Two men have a pedlar's pack open in the middle of the road and are going through it, while the pedlar sits in the ditch with a hand to his head and blood between the fingers. One of them holds a lantern up to the light and laughs. Then they see you, and stop laughing, and wait to see what you are.".
+  Entity pack_saved: fact "On the way into {home} you stood up to two men robbing a pedlar on the road.".
+  Entity pack_bought: fact "On the way into {home} you paid off two men robbing a pedlar.".
+  Entity pack_shared: fact "On the way into {home} you took a pedlar's lantern while two men robbed him.".
+  Entity pack_left: fact "On the way into {home} you kept to the far side of the road while a pedlar was robbed.".
+  Action pedlar_stand(actor: group, site: place) "Tell them to put it all back, and mean it" {
+    Speaker pedlar.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pedlar, site) and not answered(actor).
+    Time 2 minutes.
+    Resolve check(actor, intimidation, dc_fair).
+    On success { Assert answered(actor). Assert wayIn(pack_saved). Assert knows(actor, pack_saved). Give lantern to actor. }
+    On failure { Assert answered(actor). Assert wayIn(pack_saved). Assert knows(actor, pack_saved). }
+    Result "They look at you, and at each other, and drop the lantern in the road and go off over the field without hurrying. The pedlar gets up, picks the lantern out of the mud, and puts it in your hands. 'Keep it. It's the least of what they'd have had.'".
+    Otherwise "The bigger of them puts you on your back in the road with one shove, and they go off over the field laughing, with a fistful of the pack. But they go. The pedlar helps you up. 'Brave,' he says, 'and a fool. I'll say so at the inn, both.'".
+  }
+  Topic pedlar_pay with pedlar "Offer them three coin to leave the pack and go" when not answered(actor) and quantity(actor, gold) >= 3 once {
+    Says "The one with the lantern weighs your coin in one hand and the lantern in the other, and tosses the lantern into the ditch beside the pedlar. 'Fair,' he says, and they go. The pedlar is a long time thanking you, and gives you a flask of lamp oil out of the pack for what you paid.".
+    On discuss { Assert answered(actor). Assert wayIn(pack_bought). Assert knows(actor, pack_bought). Decrease quantity(actor, gold) by 3. Give lamp_oil to actor. }
+  }
+  Topic pedlar_share with pedlar "Help yourself to the pack while they are at it" when not answered(actor) once {
+    Says "'Now there's a sensible face,' says the one with the lantern, and lets you have it. You go on into {home} with it swinging at your side. Behind you the pedlar says nothing at all, and remembers you.".
+    On discuss { Assert answered(actor). Assert wayIn(pack_shared). Assert knows(actor, pack_shared). Give lantern to actor. }
+  }
+  Topic pedlar_leave with pedlar "Keep to the far side of the road, and walk on" when not answered(actor) once {
+    Says "Nobody stops you. Nobody, afterwards, will be able to say you did anything at all.".
+    On discuss { Assert answered(actor). Assert wayIn(pack_left). Assert knows(actor, pack_left). }
+  }
+  Rule pedlar_goes_on when answered(party) and at(pedlar, {approach}) and not at(party, {approach}) {
+    Retract at(pedlar, {approach}). Assert at(pedlar, {inn}).
+  }
+  Topic pedlar_inn with pedlar "Sit with the pedlar" when at(pedlar, {inn}) and (wayIn(pack_saved) or wayIn(pack_bought)) once {
+    Says "The pedlar has a clean bandage round his head and a jug in front of him, and pushes it across. 'They'll not be back on this road while you're on it,' he says, 'and that's worth a drink.' He knows every door in {home} that buys, and which of them pays.".
+    On discuss { Retract hungry(actor). }
+  }
+  Observe pedlar_tells near pedlar when at(pedlar, {inn}) and wayIn(pack_shared) "The pedlar from the road is at a table by the door. He sees you come in, and says something to the people with him, and they all turn and look at you.".

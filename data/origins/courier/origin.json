@@ -1,0 +1,3 @@
+{ "id": "courier", "title": "The sealed letter", "experience": 200, "binder": "courier", "source": "origin.kyr", "background": "messenger", "coin": 6,
+  "gear": ["scrollcase"],
+  "choice": "You carry a letter under seal from {sender} to the merchant at {destname}, into no other hands. Half your fee is paid; the other half is at the far end." }

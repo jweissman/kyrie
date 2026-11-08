@@ -41,7 +41,7 @@ export class CreationPage {
     return (
       <div className="creation" data-mode="create">
         <div className="creation-body" data-page={step.id}>
-          <div className="creation-inner">
+          <div className="creation-inner" key={step.id}>
             <h1 className="ask">{Typography.curl(step.ask)}</h1>
             <step.View app={app} onward={onward} />
           </div>

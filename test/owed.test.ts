@@ -14,9 +14,11 @@ import { RegionShops } from '../src/world/region-shops';
 // whose words would pay the company now is owed (Owed), and only while they would; and a jeweller keeps stones.
 class Causeway {
   static async start() {
-    const w = await WorldAssembler.assemble('mere', NodeBundleSource.shared,
+    // Kite, where the wagoner is who is met on the way in (data/origins/prologue.kyrt draws one meeting a country:
+    // Mere's, since the meetings were three, is a pedlar).
+    const w = await WorldAssembler.assemble('kite', NodeBundleSource.shared,
       { origin: 'kin', party: [{ name: 'Maud', raceId: 'human', classId: 'warrior' }] });
-    return PlaySession.start(w.path, 'mere', w.source);
+    return PlaySession.start(w.path, 'kite', w.source);
   }
   static async act(s: PlaySession, pattern: RegExp) {
     const c = PlayerView.choices(s.campaign).find(x => pattern.test(x.choice.id));

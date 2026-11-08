@@ -33,9 +33,10 @@ describe('kite at a glance', () => {
   it('opens on the road in with one way to go on, toward the aim, and the carter in the ditch', () => {
     const glance = Kite.g.glance;
     expect(glance.arrival).toBe('opening');
-    // The way on first; then what is going on there, the road's prologue (data/origins/prologue.kyrt).
+    // The way on first; then whoever is met on the road, whose meeting is said near them, and their cart
+    // (data/origins/prologue.kyrt).
     expect(glance.acts.map(a => [a.choice, a.why])).toEqual([['exit:region__s2_green', 'toward'],
-      ['origin__cart#look', 'own'], ['origin__carter#talk', 'asked']]);
+      ['origin__carter#talk', 'life'], ['origin__cart#look', 'own']]);
     expect(glance.aim).toMatch(/^Your father went out by the bridge/);
     expect(glance.aimed).toContain('exit:region__s2_green');
     Kite.drawn(Kite.g, glance);

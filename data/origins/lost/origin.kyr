@@ -1,0 +1,15 @@
+Module origin "Gone under" {
+  Kind chapter. Entity title: chapter "Gone under".
+  Entity party: group "You".
+  Place approach "The way in" is room. Place delving "Where she went" is room.
+  // Where she went, and the way, as her letter told it: the aim is on the map (Origins.delve).
+  Entity named: fact "Where it is". Entity found: fact "The way there".
+  Initially Assert knows(party, named). Initially Assert knows(party, found).
+  Observe arrival at approach as fixture when true "{scene}".
+  Observe letter at approach as feature when watch(clock) < 1 "Her last letter is in your coat, read so often it has come apart at the folds: she was going out to {work}, in {where}, with two men from {home} who swore there was silver in it, and she would write when she was rich. The two men came back at the end of the summer. She did not, and they will not say why.".
+  // What is left of her there: found by one who looks, at the door she went in by.
+  Discovery pin_found "In the dust just inside the door, where the light gives out, something small catches it: a cloak-pin of twisted copper. Your mother gave it to her the day she left." { Found by searching delving. }
+  Item pin "your sister's cloak-pin" is cloak_pin at delving hidden until pin_found.
+  Objective gone when not carries(party, pin) "Your sister went into {delving}, out in {where}, and did not come out. Search there for what became of her.".
+  Goal carries(party, pin).
+}

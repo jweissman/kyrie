@@ -10,7 +10,7 @@ import { Narration } from './narration';
 import { Spoken } from './spoken';
 import { ModuleWriter } from '../lang/module-writer';
 import { Chapters } from '../lang/chapters';
-import type { Opening } from './prologue';
+import type { Opening, Told as Opened } from './prologue';
 import { Glance } from './glance';
 import type { Glance as GlanceView } from './glance-types';
 
@@ -31,7 +31,7 @@ export interface Leaf {
   // Taken up again from a save: what the company is about, and the last thing it did, and when (see EngineHost).
   recap?: { aim?: string; last?: { said: string; told: string; at: string } };
   // A new game's opening, told apart before the first place where the page asks it to be (see Prologue).
-  prologue?: { title: string; beats: string[] };
+  prologue?: Opened;
   // The place at a glance: what the page leads with, decided here (see Glance).
   glance?: GlanceView;
 }

@@ -1,0 +1,2 @@
+{ "id": "map", "title": "A dead man's map", "experience": 300, "binder": "map", "source": "origin.kyr", "background": "drifter", "coin": 8,
+  "choice": "You won a map at dice off a drover who was dead by morning. It marks {work}, out in {where}, and a cross at its door." }

@@ -75,9 +75,11 @@ export class Origins {
     at.files[`${dir}/module.json`] = JSON.stringify({ version: 1, source: 'origin.kyr', rules: ['world'],
       globals: ['party'], imports: ['party', ...names], ...o.manifest.experience ? { experience: o.manifest.experience } : {},
       roles: Object.fromEntries([['party', { type: 'group' }], ...names.map(n => [n, { type: bound.imports[n]![1] }])]) });
+    // The inn, wherever whoever was met on the road goes on to or the origin's aim sends the company, is the origin's
+    // once, however many ask for it.
+    const lines = [...bound.imports.inn ? ['  Place inn "the inn" is room.'] : [], ...prologue?.lines ?? []];
     const source = this.fill(o.source, values);
-    at.files[`${dir}/origin.kyr`] = prologue
-      ? source.replace(/\}\s*$/, `${prologue.lines.join('\n')}\n}\n`) : source;
+    at.files[`${dir}/origin.kyr`] = lines.length ? source.replace(/\}\s*$/, `${lines.join('\n')}\n}\n`) : source;
     return { request: { id: 'origin', bundle: `${dir}/module.json`,
       imports: { party: 'region.party', ...Object.fromEntries(names.map(n => [n, bound.imports[n]![0]])) } },
     start: bound.start, coin: o.manifest.coin ?? 10 };
@@ -88,8 +90,9 @@ export class Origins {
     const s = region.settlements.find(x => x.id === bound.start.approach?.settlement);
     if (!s || !bound.imports.approach || !SettlementWriter.rooms(region, s).taproom) { return undefined; }
     const lines = OriginPrologue.lines(region.name, { approach: 'approach', inn: 'inn', home: s.name, folk: region.ancestry });
-    return lines.length ? { lines, inn: [`region.${s.id}_taproom`, 'place'] } : undefined;
+    return lines.length ? { lines, inn: this.inn(s) } : undefined;
   }
+  private static inn(s: Settlement): [string, string] { return [`region.${s.id}_taproom`, 'place']; }
   // A name as it can stand in the module's text: no braces (which would name an entity, or be filled again as a
   // template word) and its quotes and backslashes escaped (Wen"na and {creditor} broke Begin: the architecture
   // review's A12).
@@ -109,6 +112,9 @@ export class Origins {
       case 'herbs': return this.herbs(region, placements);
       case 'order': return this.order(region);
       case 'wanderer': return this.wanderer(region, placements);
+      case 'map': return this.delve(region, 0);
+      case 'lost': return this.delve(region, 1);
+      case 'courier': return this.courier(region);
       default: return undefined;
     }
   }
@@ -198,7 +204,7 @@ export class Origins {
   private static nearest(region: Region, s: Settlement, works: Region['sites']): Region['sites'][number] | undefined {
     return [...works].sort((a, b) => this.away(region, s, a) - this.away(region, s, b))[0];
   }
-  private static away(region: Region, s: Settlement, w: Region['sites'][number]): number {
+  private static away(region: Region, s: Settlement, w: { cell?: number }): number {
     const [x, y] = RegionGeography.spot(region, s.cell!), [a, b] = RegionGeography.spot(region, w.cell!);
     return Math.hypot(a - x, b - y);
   }
@@ -210,11 +216,53 @@ export class Origins {
     const { start, approach } = this.arriving(region, s), values = this.approach(region, s);
     const met = arrivals.arrivals.map(a => ({ a, p: placements.find(p => p.scenario === a.scenario && p.rid === 'region'
       && p.bindings.town === s.id) })).find(x => x.p);
-    if (!met) { return { values: { ...values, incident: '' }, start, imports: { approach } }; }
+    if (!met) { return this.unhired(region, s, { values, start, imports: { approach } }); }
     const text = JSON.stringify(this.fill(met.a.text, { home: s.name }));
     return { values: { ...values, incident: `  Entity trouble: fact "What is the matter here". Initially Assert knows(party, trouble).\n`
       + `  Observe incident at approach as feature when watch(clock) < 1 ${text}.` },
       start, imports: { approach, trouble: [this.fact(met.a.fact, met.p!), 'fact'] } };
+  }
+  // Come over the hills to no trouble in particular, the first aim is the inn, where work is heard of (the owner, 7
+  // November: every origin leads plainly into its first goal); a town with no inn leaves the road to the player.
+  private static unhired(region: Region, s: Settlement, bound: Bound): Bound {
+    if (!SettlementWriter.rooms(region, s).taproom) { return { ...bound, values: { ...bound.values, incident: '' } }; }
+    return { ...bound, imports: { ...bound.imports, inn: this.inn(s) }, values: { ...bound.values, incident:
+      '  Objective work when not been(party, inn) "There is work in {home} for someone who will do what others will '
+      + 'not, and the place to hear of it is {inn}.".' } };
+  }
+  // A life drawn to one of the makers' lesser works by something of its own there (a dead man's map, a sister who did
+  // not come out of it): the nth nearest the first town, or the nearest, begun on the way into that town,
+  // the work named and its way known from the first, so that the aim is on the map; the work's own place imported, for
+  // what lies there to be found by searching.
+  private static delve(region: Region, nth: number): Bound | undefined {
+    const s = region.settlements[0], works = region.sites.filter(w => w.work && !w.work.great && !w.work.deep);
+    const near = s ? [...works].sort((a, b) => this.away(region, s, a) - this.away(region, s, b)) : [];
+    // Another than the nearest only where it is hardly farther: a sister's barrow nine hours off had made a first
+    // goal of a day's walk.
+    const pick = near[nth] && s && this.away(region, s, near[nth]) <= 1.5 * this.away(region, s, near[0]!) ? nth : 0;
+    const work = near[pick];
+    const seat = work && RegionGeography.seats(region).find(x => x.site === work);
+    if (!s || !work || !seat) { return undefined; }
+    const { start, approach } = this.arriving(region, s);
+    return { values: { ...this.approach(region, s), work: work.name, where: RegionSites.where(seat, region) }, start,
+      imports: { approach, delving: [`region.${work.id}`, 'place'], named: [`region.${work.id}_named`, 'fact'],
+        found: [`region.${work.id}_found`, 'fact'] } };
+  }
+  // A letter carried from over the hills to the merchant of the next town on from the first: begun on the way into
+  // the first, the next town on the map; and, delivered, the merchant tells of work near there as a creditor squared
+  // does (Origins.after).
+  private static courier(region: Region): Bound | undefined {
+    const s = region.settlements[0], others = region.settlements.filter(t => t !== s && t.cell !== undefined);
+    const dest = s?.cell === undefined ? undefined
+      : [...others].sort((a, b) => this.away(region, s, a) - this.away(region, s, b))[0];
+    if (!s || !dest) { return undefined; }
+    const { start, approach } = this.arriving(region, s), after = this.after(region, dest);
+    const sender = (tables.senders as string[])[region.name.length % tables.senders.length]!;
+    const values = { ...this.approach(region, s), destname: dest.name, merchant: dest.merchant, sender,
+      after: after.said };
+    return { values, start,
+      imports: { approach, dest: [`region.${dest.id}`, 'place'], addressee: [`region.${dest.id}_merchant`, 'group'],
+        ...after.imports } };
   }
   // A scenario's fact (module.fact, as its hooks name it) where the placement installed it: its modules take their
   // own ids, numbered after the first instance (as WorldAssembler installs them).
