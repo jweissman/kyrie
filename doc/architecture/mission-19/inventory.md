@@ -21,7 +21,7 @@ which holds only what is played.
 | Species and creatures | 124 | 124 | 96 named by a generator, table, template or adventure (measured by a search for each id as a word: an id named in `data/generation`, `data/adventures`, `data/situations`, `data/goings-on`, `data/rules`, `data/imbar`, `src/world`); the rest only by family through the creature tables, or not at all | 175 in *Creatures* |
 | Items | 396 | 363 shown, see the handbooks for the rest | 296 named by a generator, table, template or adventure (same measure); each trade sells what it makes, every village and town has a chandler (1eb58ad4) | 363 in *Arms, gear and treasure* |
 | Authored adventures | 21 | 21 | every one a province of the first country, its rumour told in every town (countries.json); each played by its own journeys; **never played together by one protagonist** (NAV-10) | 21 in *Lands of rumour*, by what is said of them |
-| Orsino's generation tables (rooms, traps, wonders, riddles, shops) | ≈500 | 0 | not used | — |
+| Orsino's generation tables (rooms, traps, wonders, riddles, shops) | ≈500 | wonders, traps, riddles | wonders and traps drawn in every generated country and deep site (orsino-world.json, RegionMarvels); riddle caskets in deep sites; rooms and shops not drawn (M19-207, 8 November) | — |
 | Orsino's companions, deities' drafts, dungeons | 27, 85, 5 | 0 | not held | — |
 | Languages | the `languages` package | yes | place names in each people's tongue; Common names in the human heartland; townsfolk's pronoun from the name (8a5dd206) | not yet |
 | Planes and Imbar's canon | `data/imbar` | yes | the House of Doors, the planes of the adventures that go to them | not yet |
