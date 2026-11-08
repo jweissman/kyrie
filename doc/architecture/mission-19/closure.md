@@ -81,7 +81,7 @@ engine, page objects for the few browser flows).
 
 ## 7. Residual register and the next mission
 
-The register ([register.md](register.md)) holds 159 rows: 109 fixed, 15 partial, 2 open, 31 deferred to Mission 20 with a reason each, 2 superseded. The rows inherited from Mission 18 ([inherited.md](inherited.md)): 44 open risks, known and accepted as risks, not repairs; 24 partial, each carried to Mission 20 with what remains; 44 deferred. Of the open and partial, two partial are P0 (M19-46, play as places moved through; M19-155, the
+The register ([register.md](register.md)) holds 174 rows: 114 fixed, 16 partial, 1 open, 41 deferred to Mission 20 with a reason each, 2 superseded. The rows inherited from Mission 18 ([inherited.md](inherited.md)): 44 open risks, known and accepted as risks, not repairs; 24 partial, each carried to Mission 20 with what remains; 44 deferred. Of the open and partial, two partial are P0 (M19-46, play as places moved through; M19-155, the
 Still open in Mission 19: M19-69 (ModuleShadow, an open risk) and M19-122 (the reckoning). Partial and awaiting a person's play or the owner's judgment: M19-46 and M19-155 (P0: play as a world moved through; the dungeon), and M19-49, 57, 59, 60, 75, 85, 87, 108, 116, 117, 121, 144, 147.
 
 Recommended for the next mission, in order:
