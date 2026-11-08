@@ -194,7 +194,7 @@ export class Origins {
     const where = RegionSites.where(seat, region);
     const holy = Foundings.holyPlace(region, s);
     return { values: { ...this.approach(region, s), work: work.name, cult: cult.name, where }, start: { place: holy },
-      imports: { shrine: [`region.${holy}`, 'place'],
+      imports: { shrine: [`region.${holy}`, 'place'], delving: [`region.${work.id}`, 'place'],
         priest: [`region.${s.id}_priest`, 'group'], named: [`region.${work.id}_named`, 'fact'],
         found: [`region.${work.id}_found`, 'fact'], history: [`region.history_${makers.art}`, 'fact'],
         fate: [`region.history_${makers.art}_fate`, 'fact'] } };

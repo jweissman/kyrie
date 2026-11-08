@@ -64,6 +64,12 @@
 .world-page .surface .portraits .portrait .face { width: min(54px, calc(100% - 6px)); height: auto; aspect-ratio: 1; }
 .world-page .surface .portraits .animal .portrait .face { width: min(44px, calc(100% - 14px)); }
 .world-page .surface .portraits .portrait .pn { max-width: 100%; }
+/* The fallen, drawn fallen: the likeness greyed and sunk, and said under the name (see WorldStage.Portrait). */
+.world-page .surface .portraits .portrait.fallen .face { filter: grayscale(1) brightness(.45); transform: rotate(-8deg); }
+.world-page .surface .portraits .portrait.fallen .pn { color: var(--dim); text-decoration: line-through; }
+.world-page .surface .portraits .portrait .fell { font: 600 9px/1 var(--do); letter-spacing: .16em; text-transform: uppercase;
+  color: var(--dim); }
+.world-page .surface .portraits .portrait.down .fell { color: var(--danger, #c0614f); }
 /* Led with, or one the company has a stake in (whom its aim names, its kin): ringed in gold (M19-86). */
 .portraits li.led .portrait .face { border-color: var(--gold); box-shadow: 0 0 0 2px rgba(214, 178, 94, .35); }
 /* One with something for the company now (thanks that pay, a payment owed: see Owed): a green seal on the shoulder of

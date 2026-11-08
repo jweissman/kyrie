@@ -313,7 +313,8 @@ export class PlaceStage {
   }
   // Every way the company's aims name (where a way goes, a walk about the town, a place to set out for), as the engine
   // decides it (see Glance.aimed): the page had matched an aim's words against places' names.
-  static aimed(app: ReaderApp): string[] { return app.state.frame?.leaf.glance?.aimed ?? []; }
+  // The ways of the aim followed: only those are gilded (other aims' ways are not, nor all of them when it has none).
+  static aimed(app: ReaderApp): string[] { return app.state.frame?.leaf.glance?.following ?? []; }
   // Where a way goes, as the choice says it ("Into the Wooden Wolf"), or the place it leads to.
   private static to(c: Choice, exit: ExitRow): string {
     const said = c.label.replace(/ — .*$/, '');

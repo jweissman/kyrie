@@ -14,6 +14,9 @@
   transform: scaleX(0); transition: transform var(--settle) var(--ease); }
 .sheet-key:hover, .sheet-key:focus-visible { color: var(--ivory); outline: none; }
 .sheet-key[aria-pressed="true"] { color: var(--gold); }
+/* The map, when the aim followed is gone to by a journey: it holds the way there (see Act.Sheets). */
+.sheet-key.led { color: var(--gold); }
+.sheet-key.led::before { content: "\25C6"; font-size: 8px; color: var(--gold); }
 .sheet-key[aria-pressed="true"]::after { transform: scaleX(1); }
 .book-page h2, .sheet h2 { font: 300 34px/1.1 var(--do); letter-spacing: .01em; color: var(--ivory); }
 .sheet h3 { font: 500 11px/1.2 var(--do); letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin: 30px 0 10px; }

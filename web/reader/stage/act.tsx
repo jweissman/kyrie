@@ -79,9 +79,13 @@ export class Act {
     const many = (app.state.frame?.screen.party.length ?? 0) > 1;
     const sheets: [View, string, string][] = [['company', many ? 'Company' : 'Character', 'c'], ['journal', 'Notes', 'j'],
       ['pack', 'Pack', 'i'], ['map', 'Map', 'm'], ['story', 'Story', 'h']];
+    // An aim followed that is gone to by a journey lights the map, where the way to it is, and not every way from here
+    // (the owner, 7 November).
+    const led = (app.state.frame?.leaf.glance?.following ?? []).some(id => id.startsWith('travel:'));
     return (
       <ul className="sheets" aria-label="Books">{sheets.map(([view, label, key]) => <li key={view}><button type="button"
-        className="sheet-key" data-action="mode" data-view={view} data-key={key} aria-pressed={app.state.view === view}
+        className={`sheet-key${led && view === 'map' ? ' led' : ''}`} data-action="mode" data-view={view} data-key={key}
+        aria-pressed={app.state.view === view}
         onClick={Act.open.bind(null, app)}>{label}<kbd>{key.toUpperCase()}</kbd></button></li>)}</ul>
     );
   }

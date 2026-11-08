@@ -6,7 +6,6 @@ import { Typography } from '../../../src/presentation/typography';
 import { Words } from '../words';
 import { Act, type Draw } from './act';
 import { GlanceStage } from './glance';
-import { PlaceStage } from './place-stage';
 import { SceneSurface } from './scene-surface';
 
 // A way: what goes by it (c), and the way's own choice where that is a group of its acts (a door to listen at); whether
@@ -132,7 +131,7 @@ export class Wayfinder {
   // Every way from here: the doors and lanes off this place, the town's further places, and the ways out of it; never
   // a way to where the company stands (Go… had marked the place the player stood in as the one place to go).
   static ways(app: ReaderApp): Way[] {
-    const frame = app.state.frame!, screen = frame.screen, g = frame.leaf.glance, aimed = PlaceStage.aimed(app);
+    const frame = app.state.frame!, screen = frame.screen, g = frame.leaf.glance, aimed = g?.aimed ?? [];
     const town = Wayfinder.town(screen), ranked = g ? [...g.acts.map(a => a.choice), ...g.ways] : [];
     const near = town ? 'Close by' : 'From here', about = town ? `About ${town}` : 'Further', out = town ? `Out of ${town}` : 'Out';
     const ways = SceneSurface.open(screen, SceneSurface.choices(app), ranked).map(({ c: way, exit }) => {
@@ -141,8 +140,9 @@ export class Wayfinder {
       const whither = SceneSurface.whither(exit);
       const group = ['Out', 'Away'].includes(whither) && !exit?.local ? out : exit ? near : about;
       const rank = aimed.findIndex(id => id === c.id || id === exit?.id || id.startsWith(`${exit?.id}/`));
-      const aim = rank < 0 ? undefined : !g?.following || g.following.includes(aimed[rank]!) ? 'followed' as const
-        : 'held' as const;
+      // Gold for the aim followed's ways alone: with none of its own from here (an aim out of the country, gone to by
+      // the map), every way of every other aim held had been gilded as followed (the owner, 7 November).
+      const aim = rank < 0 ? undefined : g?.following?.includes(aimed[rank]!) ? 'followed' as const : 'held' as const;
       return { c, way, exit, whither, group, name: exit?.destination.name ?? c.label.replace(/^To /, ''),
         ...aim ? { aim, rank } : {} };
     }).filter(w => Wayfinder.to(w) !== screen.place.id);

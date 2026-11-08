@@ -95,7 +95,7 @@
   Initially Set encounterXp({t}_u_buck) to 40.
   Entity {t}_u_rats_job: fact "Clear the rats out of the corn-store cellar, under the old corn-store at {town}.".
   Entity {t}_u_rats_source: fact "The rats come up into the cellar by a run of their own from their nest below, over the old drain.".
-  Topic {t}_u_rats_job_ask with {t}_merchant "Ask {{t}_merchant} about the rats in the corn-store" when not {t}_u_given({t}_u_rats_job) once {
+  Topic {t}_u_rats_job_ask with {t}_merchant "Ask {{t}_merchant} about the rats in the corn-store" when not {t}_u_given({t}_u_rats_job) and not {t}_u_done({t}_u_rats_job) once {
     Says "'They've got into the old corn-store from underneath,' says {{t}_merchant}. 'Rats the size of cats. I've lost a third of the grain.' A key comes off a nail behind the counter. 'There's a trapdoor in the floor. Kill them, and find where they're getting in, or they'll be back by harvest. Ten coin, and I'll see you right for a lantern besides.' And, looking you over: 'Or lay ratsbane where they come up, if you'd sooner not be bitten. It wants a night.'".
     On discuss { Assert knows(actor, {t}_u_rats_job). Assert {t}_u_given({t}_u_rats_job). Give corn_store_key to actor. Assert keyholder(actor, {t}_u_store_lock). }
   }
@@ -125,7 +125,7 @@
     Result "You lay the ratsbane in twists along the foot of the wall where the droppings are thickest. Something scrabbles behind the brick, and goes quiet. By morning, it will have done its work.".
   }
   Rule {t}_u_rats_poisoned when {t}_u_baited({t}_u_rats) and able({t}_u_rats) and watch(clock) >= {t}_u_baited_at({t}_u_rats) + 36 { Slay {t}_u_rats. }
-  Objective {t}_u_rats_job_sought when knows(party, {t}_u_notice) and not {t}_u_given({t}_u_rats_job) "Ask {{t}_merchant} about the rats in the corn-store at {town}: the corn-store is locked.".
+  Objective {t}_u_rats_job_sought when knows(party, {t}_u_notice) and not {t}_u_given({t}_u_rats_job) and not {t}_u_done({t}_u_rats_job) "Ask {{t}_merchant} about the rats in the corn-store at {town}: the corn-store is locked.".
   Objective {t}_u_rats_job_aim when {t}_u_given({t}_u_rats_job) and not {t}_u_done({t}_u_rats_job) "Clear the rats out of {{t}_u_cellar}, under {{t}_u_store} at {town}, and find where they get in.".
   Objective {t}_u_rats_job_run when {t}_u_done({t}_u_rats_job) and knows(party, {t}_u_rats_source) and not {t}_u_nest_cleared({t}_u_rats_job) and not {t}_u_paid({t}_u_rats_job) "Clear the rats' nest, down their run from {{t}_u_warren} under {{t}_u_store}, and the old buck rat that keeps it, or they will be back.".
   Topic {t}_u_rats_job_paid with {t}_merchant "Tell {{t}_merchant} the rats under the corn-store are dead, nest and all" when {t}_u_done({t}_u_rats_job) and {t}_u_nest_cleared({t}_u_rats_job) and not {t}_u_halved({t}_u_rats_job) and not {t}_u_paid({t}_u_rats_job) once {
@@ -169,7 +169,9 @@
     Change pinch "Pinch out the black candle" from alight to snuffed when not at({t}_u_raiser, {t}_u_ossuary) or not able({t}_u_raiser) "The man with the black candle stands over it, and the dead are his while it burns.".
   }
   Entity {t}_u_dead_job: fact "Lay the dead in the crypt under the churchyard at {town}.".
-  Topic {t}_u_dead_job_ask with {t}_priest "Ask {{t}_priest} about the noises under the churchyard" when not {t}_u_given({t}_u_dead_job) once {
+  // Not once the job is done: a warrior who forced the crypt door and laid the dead had still been offered the job,
+  // and the key, after the pay (the owner, 7 November). So for each job asked of.
+  Topic {t}_u_dead_job_ask with {t}_priest "Ask {{t}_priest} about the noises under the churchyard" when not {t}_u_given({t}_u_dead_job) and not {t}_u_done({t}_u_dead_job) once {
     Says "{{t}_priest} looks at the floor. 'The catacombs. Something has come up out of the bone-heaps, and there have been lights in the churchyard at night that were not mine.' The crypt key is unhooked from a belt. 'I cannot ask anyone to go. If you will, lay them, and find out who is doing it. Fifteen coin, and what the shrine can give besides.'".
     On discuss { Assert knows(actor, {t}_u_dead_job). Assert {t}_u_given({t}_u_dead_job). Give crypt_key to actor. Assert keyholder(actor, {t}_u_crypt_lock). }
   }
@@ -223,7 +225,7 @@
   Rule {t}_u_dead_lie when state({t}_u_candle, snuffed) and at({t}_u_dead, {t}_u_ossuary) and able({t}_u_dead) says "With the candle out, the dead fold down into the bone-heaps like coats let fall, and are only bones again." { Retract at({t}_u_dead, {t}_u_ossuary). Assert {t}_u_done({t}_u_dead_job). }
   Rule {t}_u_dead_cleared when not able({t}_u_dead) and not {t}_u_done({t}_u_dead_job) { Assert {t}_u_done({t}_u_dead_job). }
   Rule {t}_u_raiser_ended when not able({t}_u_raiser) and not {t}_u_done({t}_u_raiser) { Assert {t}_u_done({t}_u_raiser). }
-  Objective {t}_u_dead_job_sought when knows(party, {t}_u_notice) and not {t}_u_given({t}_u_dead_job) "Ask {{t}_priest} about what has come up under the churchyard at {town}: the crypt is locked.".
+  Objective {t}_u_dead_job_sought when knows(party, {t}_u_notice) and not {t}_u_given({t}_u_dead_job) and not {t}_u_done({t}_u_dead_job) "Ask {{t}_priest} about what has come up under the churchyard at {town}: the crypt is locked.".
   Objective {t}_u_dead_job_aim when {t}_u_given({t}_u_dead_job) and not {t}_u_done({t}_u_dead_job) "Lay the dead in {{t}_u_crypt} under {{t}_u_yard} at {town}, and find out who raised them.".
   Topic {t}_u_dead_job_paid with {t}_priest "Tell {{t}_priest} the dead under the churchyard are laid, and who raised them" when {t}_u_done({t}_u_dead_job) and {t}_u_done({t}_u_raiser) and not {t}_u_halved({t}_u_dead_job) and not {t}_u_paid({t}_u_dead_job) once {
     Says "{{t}_priest} hears it all with eyes shut, and at the end says the names of the three in the opened graves, one after another. Then 15 coin, and from the shrine's own chest a charm of ashwood and bronze wire, and two small stoppered bottles. 'The charm was made for those who go among the dead,' {{t}_priest} says. 'The bottles are for after.'".
@@ -256,7 +258,7 @@
   Entity {t}_u_spiders_job: fact "Burn the spiders out of the quarry adit under the old quarry pit at {town}.".
   Entity {t}_u_spiders_eggs: fact "At the back of the old workings the spiders' mother has hung her eggs: the spiders will come again unless they are burned.".
   Kind hobb_knife "a bone-handled knife" like dagger worth 2 weighing 1 described "A working man's knife with a bone handle, H burned into it.".
-  Topic {t}_u_spiders_job_ask with {t}_innkeeper "Ask {{t}_innkeeper} about the old quarry" when not {t}_u_given({t}_u_spiders_job) once {
+  Topic {t}_u_spiders_job_ask with {t}_innkeeper "Ask {{t}_innkeeper} about the old quarry" when not {t}_u_given({t}_u_spiders_job) and not {t}_u_done({t}_u_spiders_job) once {
     Says "'Nobody goes in the old quarry now,' says {{t}_innkeeper}. 'There's webs across the adit thick as sailcloth, and the Hobb boy went in after a ferret and came out white. We put a gate on it.' A small key, put down on the counter. 'Twelve coin from the house to whoever burns them out, and a pot of the salve the firemen use. Talk to the boy first. He saw more than he says.'".
     On discuss { Assert knows(actor, {t}_u_spiders_job). Assert {t}_u_given({t}_u_spiders_job). Give quarry_key to actor. Assert keyholder(actor, {t}_u_adit_lock). }
   }
@@ -292,7 +294,7 @@
     Result "The flask bursts against the web and the fire runs up it into the dark of the cutting, faster than you would have thought. Something screams in a voice like wet wood in a grate. When it has burned out, nothing moves in there.".
   }
   Rule {t}_u_spiders_cleared when not able({t}_u_spiders) and not {t}_u_done({t}_u_spiders_job) { Assert {t}_u_done({t}_u_spiders_job). }
-  Objective {t}_u_spiders_job_sought when knows(party, {t}_u_notice) and not {t}_u_given({t}_u_spiders_job) "Ask {{t}_innkeeper} about the old quarry at {town}: its gate is locked.".
+  Objective {t}_u_spiders_job_sought when knows(party, {t}_u_notice) and not {t}_u_given({t}_u_spiders_job) and not {t}_u_done({t}_u_spiders_job) "Ask {{t}_innkeeper} about the old quarry at {town}: its gate is locked.".
   Objective {t}_u_spiders_job_aim when {t}_u_given({t}_u_spiders_job) and not {t}_u_done({t}_u_spiders_job) "Burn the spiders out of {{t}_u_adit} under {{t}_u_pit} at {town}.".
   Objective {t}_u_spiders_job_eggs when {t}_u_done({t}_u_spiders_job) and knows(party, {t}_u_spiders_eggs) and state({t}_u_eggs, hanging) "Deal with the spiders' mother in {{t}_u_brood} behind the quarry's gallery, and burn her eggs, or the spiders will come again.".
   Topic {t}_u_spiders_job_paid with {t}_innkeeper "Tell {{t}_innkeeper} the spiders in the old quarry are dead, and their eggs burned" when {t}_u_done({t}_u_spiders_job) and state({t}_u_eggs, burnt) and not {t}_u_halved({t}_u_spiders_job) and not {t}_u_paid({t}_u_spiders_job) once {

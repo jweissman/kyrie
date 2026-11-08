@@ -125,11 +125,14 @@ export class WorldStage {
     const name = Typography.curl(Words.upper(x.name));
     const body = <><span className="face" aria-hidden="true">{face}</span>
       {x.owed && <span className="owed-mark" role="img" aria-label="Has something for you" title="Has something for you" />}
-      <span className="pn" title={name}>{name}</span></>;
-    if (!into) { return <span className="portrait still">{body}</span>; }
+      <span className="pn" title={name}>{name}</span>
+      {x.state && <span className="fell">{x.state === 'dead' ? 'Dead' : 'Down'}</span>}</>;
+    // The fallen are drawn fallen (the owner, 7 November: the dead had stood in their likenesses as if alive).
+    const fell = x.state ? ` fallen ${x.state}` : '';
+    if (!into) { return <span className={`portrait still${fell}`}>{body}</span>; }
     // An animal's own page is the page's to open (no command of the engine's), and is opened as one.
-    return draw.index.has(into.id) ? <Act.View choice={into} draw={draw} quiet className="portrait">{body}</Act.View>
-      : <button type="button" className="act portrait" data-action="look-at" data-choice={into.id}
+    return draw.index.has(into.id) ? <Act.View choice={into} draw={draw} quiet className={`portrait${fell}`}>{body}</Act.View>
+      : <button type="button" className={`act portrait${fell}`} data-action="look-at" data-choice={into.id}
         onClick={() => draw.app.choose(into)}>{body}</button>;
   }
   // What touching a likeness opens: talking to a person; an animal's or a creature's own page, with what can be done
