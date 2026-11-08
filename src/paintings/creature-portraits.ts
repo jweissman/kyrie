@@ -6,6 +6,11 @@ import { Likeness } from './likeness';
 // portrait, else its base's, up the variantOf chain. None, and it is drawn by its emblem.
 export class CreaturePortraits {
   static painting(raceId: string): string | undefined {
+    // A kind made undead is not painted as the living beast (a beagle for a skeletal hound: the second fresh playtest
+    // of 7 November): by the undead's own painting where it has one, else none, and its emblem.
+    const [, ...made] = Canon.resolve('species', raceId).split('/');
+    const undeath = made.find(v => Canon.variations[v]?.axis === 'undeath');
+    if (undeath) { return this.undead[undeath] && Canon.species[this.undead[undeath]]?.portrait; }
     const seen = new Set<string>();
     // An old name or a composed kind (golem/glass) by what it is: a composed kind by its base's.
     // Each step by what it names (a module's kind may be like an old name: like cave_hound, the hound in the cave).
@@ -16,6 +21,8 @@ export class CreaturePortraits {
     }
     return undefined;
   }
+  // The undead whose painting stands for a kind made so.
+  private static readonly undead: Record<string, string> = { zombie: 'zombie', spectral: 'spirit' };
   private static named(id?: string): string | undefined { return id && Canon.resolve('species', id).split('/')[0]; }
   // As a fight's card shows a face (see CompanyPortraits): the small copy, and the large for a page.
   static face(raceId: string): { id: string; src: string; medium: string } | undefined {

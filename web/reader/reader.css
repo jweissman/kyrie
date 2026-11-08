@@ -185,6 +185,9 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--dim); border: 1px solid var(--e
 .character .development h3 { margin-top: 0; color: var(--ink); }
 .character .development .how { font: 400 14.5px/1.45 var(--do); color: var(--grey); max-width: 34em; }
 .character .options { list-style: none; padding: 0; margin: 4px 0 16px; }
+/* A development's choices are read, not pressed in passing: in the sentence case they are written in (the second
+   fresh playtest of 7 November: development choices in long capitals). */
+.character .development .take, .character .development .take .n { text-transform: none; letter-spacing: .01em; }
 .character .option { margin: 0 0 12px; }
 .character .option .take { font-weight: 500; }
 .character .option .take.still { font: 500 16.5px var(--do); color: var(--grey); }
