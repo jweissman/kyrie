@@ -256,7 +256,7 @@ export class EngineHost {
     if (!session) { throw new Error('No game is under way'); }
     const trail: Trail = { legs: [] };
     this.bound = destination;
-    this.boundFor = Undertakings.followed(session.campaign)?.id;
+    this.boundFor = Undertakings.aimedAt(session.campaign, destination);
     const done = await Travel.go({ campaign: session.campaign, perform: this.leg.bind(this, trail) }, destination);
     const plan = Itineraries.plan(session.campaign, destination);
     // Come there, or with no way on known from where it stopped, nothing is held: the page had said "Go on to …

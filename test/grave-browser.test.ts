@@ -57,7 +57,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a grave act on the page', () => {
     await driver.settle();
     await page.locator('[data-choice^="p__sluice/"][data-choice*=":Wind"]').first().click();
     await driver.settle();
-    expect(await page.locator('.ah-pane').innerText()).toContain('The water in the basin goes down');
+    // Said where the act's result is told: the thing's pane, or the page once Look… has gone with the act done.
+    expect(await page.evaluate(() => document.body.innerText)).toContain('The water in the basin goes down');
     expect(errors).toEqual([]);
   }, 120000);
   // Low Water's 5 and the Liberty of the Ice's 10 (AUT-03, ICE-10): a question put to the company is answered by its

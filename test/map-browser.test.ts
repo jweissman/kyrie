@@ -74,9 +74,13 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the map and the notes, to plan with
     await driver.settle();
     // Gone on with, as the page offers it on the map's card ("Go on to the march-stone of …"), past whatever stops it
     // on the road (something going on there stops a journey, as a toll or nightfall would).
-    for (let k = 0; k < 6 && (await driver.inspect()).place?.id !== 'region__edge_north'; k++) {
-      await page.waitForSelector('[data-action="go-on"]', { timeout: 30000 });
-      await driver.click('[data-action="go-on"]');
+    // A meeting on the road is a hex to enter, not passed by (the owner, 6 November): entered, it is gone on from.
+    for (let k = 0; k < 8 && (await driver.inspect()).place?.id !== 'region__edge_north'; k++) {
+      await driver.settle();
+      if (await page.locator('[data-action="go-on"]').count()) { await driver.click('[data-action="go-on"]'); continue; }
+      if (await page.locator('[data-action="enter-hex"]').count()) { await driver.click('[data-action="enter-hex"]'); }
+      // In the place the meeting is, the journey is gone on with as the page offers it ("Go on to …").
+      else { await driver.pick(c => /^Go on to /.test(c.label), 'go on'); }
     }
     expect((await driver.inspect()).place?.id).toBe('region__edge_north');
     expect(errors).toEqual([]);

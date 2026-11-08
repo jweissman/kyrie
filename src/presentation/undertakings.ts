@@ -48,6 +48,17 @@ export class Undertakings {
     if (id && !this.held(campaign).some(o => o.id === id)) { throw new Error(`No aim ${id} is held`); }
     if (id) { current.following = { id, chosen: true }; } else { delete current.following; }
   }
+  // The aim followed, where a journey set out for is a place it names (or within one): only such a journey ends when
+  // the aim changes. One of the player's own (a march-stone on the map) had been dropped on the road when the debt
+  // went on from "you owe" to "ask at the inn", and could not be gone on with.
+  static aimedAt(campaign: Campaign, destination: string): string | undefined {
+    const followed = this.followed(campaign);
+    if (!followed) { return undefined; }
+    const def = (campaign.module.objectives ?? []).find(o => o.id === followed.id);
+    const byId = EntityIndex.of(campaign.module.entities).byId;
+    const within = Spatial.ancestry(byId, destination).map(e => e.id);
+    return def && this.places(campaign, def).some(p => within.includes(p)) ? followed.id : undefined;
+  }
   // The aims as the page shows them: the one followed first, then as they bear on where the company stands (see
   // Stakes.here); in words, and by id.
   static shown(campaign: Campaign, held: { id: string; text: string }[], here: string) {

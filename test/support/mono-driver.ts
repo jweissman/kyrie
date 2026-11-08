@@ -64,7 +64,7 @@ export class MonoDriver {
   // or More: see Raised), or, where there are no such sheets (a road), every way. Out in the wild, on the world map,
   // the hex the company stands in is entered first (nothing is done in a hex from the map).
   async tap(index: number) {
-    const choice = `[data-action="choice"][data-index="${index}"]`, sheet = '.intentions [aria-modal="true"]';
+    const choice = `[data-action="choice"][data-index="${index}"]`, sheet = '.intentions :is([aria-modal="true"], .explorer)';
     const raised = `${sheet} ${choice} >> visible=true`, shown = `.intentions ${choice} >> visible=true`;
     const has = async (s: string) => (await this.page.locator(s).count()) > 0;
     if (await has(raised)) { await this.click(raised); return; }
@@ -92,7 +92,7 @@ export class MonoDriver {
   // Look…; or Wait….
   private async opened(index: number, raised: string): Promise<boolean> {
     const has = async (s: string) => (await this.page.locator(s).count()) > 0;
-    const shut = '.intentions [aria-modal="true"] [data-action="explore-shut"]';
+    const shut = '.intentions .explorer [data-action="explore-shut"]';
     // What is done about someone or something on the picture is done from its own page, opened by its likeness.
     const id = (await this.inspect()).choices[index]?.id ?? '', subject = id.split(/[/#]/)[0] ?? '';
     const likeness = `.surface .portraits [data-subject="${subject}"] .portrait`;
