@@ -82,10 +82,11 @@ export class SiteBuild {
       + 'return r.text();}).then(function(t){if(seen&&t&&t!==seen){location.reload();}seen=t||seen;})'
       + '.catch(function(){});},1000);})();</script>');
   }
-  // The page's stylesheets, in the order index.html links them: the lantern's ground, controls and books; the shell,
-  // title and creation; then each composition of play; then the light the company carries, over all of them.
-  static readonly sheets = ['reader.css', 'frame.css', 'stage.css', 'glance.css', 'world.css', 'rest.css', 'talk.css', 'fight.css', 'book.css',
-    'light.css'];
+  // The page's stylesheets, in the order index.html links them: the foundations every phase shares (faces, colours,
+  // type, surfaces, the shared controls); the lantern's ground, choices and books; the shell, title and creation; then
+  // each composition of play; then the light the company carries, over all of them.
+  static readonly sheets = ['foundations.css', 'reader.css', 'frame.css', 'stage.css', 'glance.css', 'world.css',
+    'rest.css', 'talk.css', 'fight.css', 'book.css', 'light.css'];
   // The page, its title the game's name (src/presentation/identity.ts) and the given script before its end.
   private static async page(out: string, script: string) {
     const html = (await readFile(join(this.root, 'web/reader/index.html'), 'utf8'))

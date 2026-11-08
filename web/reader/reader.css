@@ -3,40 +3,7 @@
    under the SIL Open Font License, served from fonts/. Gold is where attention is (your choice, your aim, your turn);
    ember is harm and what cannot be undone; verdigris is something learned or found; azure is water and what is only
    heard; violet is magic and wonder; rose is kin and affection. Never colour alone: each has its words beside it. */
-@font-face { font-family: 'Jost'; src: url(fonts/jost-normal-latin.woff2) format('woff2'); font-weight: 300 800; font-display: swap;
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
-@font-face { font-family: 'Jost'; src: url(fonts/jost-normal-latin-ext.woff2) format('woff2'); font-weight: 300 800; font-display: swap;
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
-@font-face { font-family: 'Newsreader'; src: url(fonts/newsreader-normal-latin.woff2) format('woff2'); font-weight: 300 700; font-display: swap;
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
-@font-face { font-family: 'Newsreader'; src: url(fonts/newsreader-normal-latin-ext.woff2) format('woff2'); font-weight: 300 700; font-display: swap;
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
-@font-face { font-family: 'Newsreader'; font-style: italic; src: url(fonts/newsreader-italic-latin.woff2) format('woff2'); font-weight: 300 700; font-display: swap; }
-
-
-:root {
-  --ground: #0A0B0E; --surface: #121318; --raised: #191B21; --lift: #22252D; --deep: #07080A;
-  --ivory: #ECE6D9; --dim: #A59F94; --faint: #6E6A62; --edge: rgba(236, 230, 217, .10); --edge-strong: rgba(236, 230, 217, .24);
-  --gold: #F2BD4C; --gold-glow: rgba(242, 189, 76, .16); --gold-line: rgba(242, 189, 76, .55);
-  /* Under the finger or the keys: light, not gold, which is the aim's and what is marked first (PD-10). */
-  --touch: rgba(236, 230, 217, .62); --touch-glow: rgba(236, 230, 217, .07);
-  --ember: #FF6B45; --ember-glow: rgba(255, 107, 69, .14); --verdigris: #5FD3B6; --azure: #79AEF7; --violet: #B49CFF;
-  --rose: #EF9FAE; --life: #79D58F;
-  /* The hour's light, which tints the ground: set on the shell by the time of day. */
-  --hour: rgba(242, 189, 76, .10);
-  /* The names the compositions knew the old page's colours by, now the lantern's. */
-  --paper: var(--surface); --ink: var(--ivory); --grey: var(--dim); --hair: var(--edge); --wash: var(--raised);
-  --blue: var(--gold); --red: var(--ember); --yellow: var(--verdigris); --river: var(--azure);
-  --land: #15171C; --known: #1B1E24; --wood: #17221D; --fell: #221F1A; --heath: #241C1F; --fen: #16211F;
-  --peak: #24232A; --water: #142235;
-  --do: 'Jost', 'Futura', 'Avenir Next', 'Helvetica Neue', Arial, sans-serif;
-  --told: 'Newsreader', 'Iowan Old Style', 'Charter', Georgia, serif;
-  --display: var(--do); --text: var(--told);
-  /* Motion: quick for what answers a touch, settling for what arrives. */
-  --quick: 120ms; --settle: 280ms; --ease: cubic-bezier(.2, .7, .2, 1);
-  color-scheme: dark;
-}
-@media (prefers-reduced-motion: reduce) { :root { --quick: 0ms; --settle: 0ms; } }
+/* The faces, colours, type scale, surfaces and shared controls are the foundations' (foundations.css), read first. */
 
 * { box-sizing: border-box; }
 html, body { margin: 0; height: 100%; }
