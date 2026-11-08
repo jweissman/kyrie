@@ -167,7 +167,13 @@ th { color: var(--dim); font-weight: 500; } tr:target td { color: var(--gold); }
       index.filter(([t]) => t.toLowerCase().includes(q)).slice(0, 40).forEach(([t, k, href]) => {
         const li = document.createElement('li'), a = document.createElement('a'); a.href = href; a.textContent = t;
         li.appendChild(a); if (k) { const s = document.createElement('span'); s.className = 'k'; s.textContent = k;
-          li.appendChild(s); } found.appendChild(li); }); }); }
+          li.appendChild(s); } found.appendChild(li); }); });
+    // Opened from the game at an entry (?id=item-lantern) or a name (?q=lantern): to the entry, or its search.
+    const asked = new URLSearchParams(location.search), id = asked.get('id'), q = asked.get('q');
+    const at = id && index.find(([, , href]) => href.endsWith('#' + id));
+    if (at) { location.replace(at[2]); }
+    else if (q || id) { all.value = q || id.replace(/^[a-z]+-/, '').replace(/-/g, ' '); all.dispatchEvent(new Event('input')); }
+  }
 })();
 `;
 }

@@ -327,6 +327,8 @@
 .pack-chosen h4 { margin: 0 0 4px; font: 400 26px/1.15 var(--told); color: var(--ivory); }
 .pack-chosen .pack-note { margin: 0 0 8px; font: 500 11.5px/1.4 var(--do); letter-spacing: .14em; text-transform: uppercase;
   color: var(--dim); }
+.pack-chosen .pack-entry { display: inline-block; margin-top: 10px; font: 500 11px/1 var(--do); letter-spacing: .14em;
+  text-transform: uppercase; color: var(--dim); text-decoration: underline; text-underline-offset: 3px; }
 .pack-chosen .pack-about { margin: 0 0 14px; font: 400 15.5px/1.55 var(--told); color: var(--ivory); }
 @media (max-width: 899px), (orientation: portrait) {
   .pack-body { grid-template-columns: minmax(0, 1fr); gap: 18px; }

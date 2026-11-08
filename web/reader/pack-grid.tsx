@@ -46,6 +46,10 @@ export class PackGrid {
     return <button type="button" className={classes} data-pick={c.id} aria-pressed={chosen}
       onClick={() => app.setState({ hovered: c.id })}>{body}</button>;
   }
+  // Its kind's entry in the encyclopedia, opened beside the game, not instead of it (M19-147: nothing in play led to
+  // it, and going there from a game and back found no game to carry on). Found there by its id (see
+  // EncyclopediaHtml.script); a kind with no entry of its own opens the search for its name.
+  static entry(kind: string): string { return `encyclopedia/index.html?id=item-${kind.replace(/_/g, '-')}`; }
   // The thing chosen: its plate large, its name, what it is, and what can be done with it.
   static Chosen({ draw, choice: c, item }: { draw: Draw; choice: Choice; item?: ItemRow }) {
     const acts = draw.open.has(c.id) ? c.children ?? [] : [];
@@ -56,6 +60,8 @@ export class PackGrid {
         {c.note && <p className="pack-note">{Typography.curl(c.note)}</p>}
         {c.about && <p className="pack-about">{Typography.curl(c.about)}</p>}
         {acts.length > 0 && <Act.List choices={acts} draw={draw} className="column" />}
+        {item && <a className="pack-entry quiet-word" href={PackGrid.entry(item.kind)} target="_blank" rel="noopener">
+          In the encyclopedia</a>}
       </section>
     );
   }
