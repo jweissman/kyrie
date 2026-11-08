@@ -24,7 +24,13 @@ describe('the old ways under a town', () => {
     expect(await aims()).toContain('region__s1_u_onward_sought');
     put('region__s1_u_undercroft');
     expect(await aims()).toEqual(expect.arrayContaining(['region__s1_u_floor_sought']));
-    change({ kind: 'retract', call: ModuleWriter.call('able', 'region__s1_u_keeper') });
+    // The keeper felled: held down by its hit points, which the projection keeps able by.
+    type Lease = { creatures: { state: { hp: number } }[]; commit(c: unknown): void; release(): void };
+    const store = (c as unknown as { creatures: { acquire(ids: string[]): Lease } }).creatures;
+    const keeper = c.tickState.definition.actors.find(a => a.id === 'region__s1_u_keeper')!.members;
+    const lease = store.acquire(keeper);
+    try { lease.creatures.forEach(k => { k.state.hp = 0; }); lease.commit(lease.creatures); }
+    finally { lease.release(); }
     put('region__s1_u_vault');
     expect(await aims()).toContain('region__s1_ud_below');
   }, 120000);

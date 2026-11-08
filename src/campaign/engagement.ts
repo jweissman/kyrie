@@ -1,3 +1,4 @@
+import { CreatureFacts } from './creature-facts';
 import { ModuleWriter } from '../lang/module-writer';
 import type { Change, Operator } from '../lang/module';
 import type { CampaignEvent } from './campaign-types';
@@ -54,7 +55,8 @@ export class Engagement {
   // "The gate sentry comes at you!": the name without its role, and the verb for how many they are.
   static told(host: TickHost, foe: string): string {
     const name = (host.world.module.entities.find(e => e.id === foe)?.name ?? foe).split(', ')[0]!;
-    const many = (host.tickState.definition.actors.find(a => a.id === foe)?.members.length ?? 1) > 1;
+    const many = (host.tickState.definition.actors.find(a => a.id === foe)?.members.length ?? 1) > 1
+      || CreatureFacts.plural(name);
     return `${name.charAt(0).toUpperCase()}${name.slice(1)} ${many ? 'come' : 'comes'} at you!`;
   }
   // The attack the company is drawn into: the standard attack, against the assailant, where they stand. A company

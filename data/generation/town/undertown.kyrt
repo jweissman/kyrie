@@ -8,6 +8,9 @@
 // lines are what is said of it on the notice on the green. Add an option to add a trouble; nothing in the engine
 // needs to change.
 --- base
+  // Each fight under the town is worth three times its plain worth, so that a company that clears all of it (some
+  // thousand) comes to the stair below the vault at the second level, not the first (the builder's descent of 8
+  // November: a lone warrior cleared the town's ten fights at level one, and died at the first of the deep site).
   Relation {t}_u_paid(entity). Relation {t}_u_done(entity). Relation {t}_u_given(entity).
   // A job half paid for (done, its cause not yet seen to) is paid only the rest when it is finished (REV-21: the
   // half and then the whole had both been paid).
@@ -88,11 +91,11 @@
   Person {t}_u_rats "the rats under the corn-store" at {t}_u_warren {
     Role "rats as big as cats, that have eaten their way into the corn-store from below". Species great_rat. Numbers {brood}. Level 1. Temperament territorial. Lair {t}_u_warren.
   }
-  Initially Set encounterXp({t}_u_rats) to 20.
+  Initially Set encounterXp({t}_u_rats) to 60.
   Person {t}_u_buck "the old buck rat" at {t}_u_nest {
     Role "a rat the size of a dog, grey at the muzzle, with a torn ear and the run of the drain". Species great_rat. Variant elder. Numbers 1. Level 2. Temperament territorial. Lair {t}_u_nest.
   }
-  Initially Set encounterXp({t}_u_buck) to 40.
+  Initially Set encounterXp({t}_u_buck) to 120.
   Entity {t}_u_rats_job: fact "Clear the rats out of the corn-store cellar, under the old corn-store at {town}.".
   Entity {t}_u_rats_source: fact "The rats come up into the cellar by a run of their own from their nest below, over the old drain.".
   Topic {t}_u_rats_job_ask with {t}_merchant "Ask {{t}_merchant} about the rats in the corn-store" when not {t}_u_given({t}_u_rats_job) and not {t}_u_done({t}_u_rats_job) once {
@@ -158,12 +161,12 @@
     Role "dead things raised out of the bone-heaps, hungry". Species ghoul. Numbers {brood}. Level 1. Temperament territorial. Lair {t}_u_ossuary.
   }
   Initially Assert tolerates({t}_u_dead, party).
-  Initially Set encounterXp({t}_u_dead) to 25.
+  Initially Set encounterXp({t}_u_dead) to 75.
   Person {t}_u_raiser "the man with the black candle" at {t}_u_ossuary {
     Role "a grave-robber who has read a book he should not have, and is trying what it says". Ancestry human. Calling mage. Level 2. Temperament defensive. Lair {t}_u_ossuary. Pronouns he.
     Warns "A man in a muddy coat stands up behind a burning black candle, among the bones. 'Go back up,' he says. 'This is not yours.'".
   }
-  Initially Set encounterXp({t}_u_raiser) to 30.
+  Initially Set encounterXp({t}_u_raiser) to 90.
   Thing {t}_u_candle "the black candle" at {t}_u_ossuary {
     State alight "A black candle burns on a skull in the middle of the bone-heaps, with a flame that does not move.".
     State snuffed "The black candle is out, and smells of something worse than tallow.".
@@ -257,18 +260,20 @@
   Person {t}_u_spiders "the spiders in the old workings" at {t}_u_gallery {
     Role "cave spiders the size of dogs, that have strung the old workings with web". Species cave_spider. Numbers {brood}. Level 1. Temperament territorial. Lair {t}_u_gallery.
   }
-  Initially Set encounterXp({t}_u_spiders) to 20.
+  Initially Set encounterXp({t}_u_spiders) to 60.
   Person {t}_u_mother "the spiders' mother" at {t}_u_brood {
     Role "a spider the size of a pony, swollen and slow, crouched over the eggs at the back of the web". Species cave_spider. Variant brood_mother. Numbers 1. Level 2. Temperament defensive. Lair {t}_u_brood.
   }
-  Initially Set encounterXp({t}_u_mother) to 40.
+  Initially Set encounterXp({t}_u_mother) to 120.
   Person {t}_u_hobb "Dannel Hobb" at {innkeeperat} { Role "a boy of ten with a white streak in his hair, kept indoors". Ancestry human. Peaceable. Pronouns he. }
   Entity {t}_u_spiders_job: fact "Burn the spiders out of the quarry adit under the old quarry pit at {town}.".
   Entity {t}_u_spiders_eggs: fact "At the back of the old workings the spiders' mother has hung her eggs: the spiders will come again unless they are burned.".
   Kind hobb_knife "a bone-handled knife" like dagger worth 2 weighing 1 described "A working man's knife with a bone handle, H burned into it.".
+  // With the key, a remedy for the bite: a cave spider's venom stays in the blood after the fight, and a lone first
+  // company bitten once had died of it at full health (the builder's descent of 8 November).
   Topic {t}_u_spiders_job_ask with {t}_innkeeper "Ask {{t}_innkeeper} about the old quarry" when not {t}_u_given({t}_u_spiders_job) and not {t}_u_done({t}_u_spiders_job) once {
-    Says "'Nobody goes in the old quarry now,' says {{t}_innkeeper}. 'There's webs across the adit thick as sailcloth, and the Hobb boy went in after a ferret and came out white. We put a gate on it.' A small key, put down on the counter. 'Twelve coin from the house to whoever burns them out, and a pot of the salve the firemen use. Talk to the boy first. He saw more than he says.'".
-    On discuss { Assert knows(actor, {t}_u_spiders_job). Assert {t}_u_given({t}_u_spiders_job). Give quarry_key to actor. Assert keyholder(actor, {t}_u_adit_lock). }
+    Says "'Nobody goes in the old quarry now,' says {{t}_innkeeper}. 'There's webs across the adit thick as sailcloth, and the Hobb boy went in after a ferret and came out white. We put a gate on it.' A small key, put down on the counter. 'Twelve coin from the house to whoever burns them out, and a pot of the salve the firemen use. Talk to the boy first. He saw more than he says.' A stoppered phial follows it, the cork waxed. 'Hobb's mother made that, for the bite. Drink it the moment one has you, not after.'".
+    On discuss { Assert knows(actor, {t}_u_spiders_job). Assert {t}_u_given({t}_u_spiders_job). Give quarry_key to actor. Give antidote to actor. Assert keyholder(actor, {t}_u_adit_lock). }
   }
   Topic {t}_u_hobb_told with {t}_u_hobb "Ask Dannel Hobb what he saw in the old quarry" when knows(actor, {t}_u_spiders_job) and not knows(actor, {t}_u_spiders_eggs) once {
     Says "The boy looks at the door before he answers. 'There's a big one at the back,' he says. 'Bigger than a dog. And bags. Hanging up, white, like puddings. They was moving.' He swallows. 'I dropped Dad's knife. Don't tell him.'".
@@ -347,7 +352,7 @@
   Person {t}_u_shamblers "the dead in the charnel passage" at {t}_u_charnel {
     Role "the raiser's first tries, stood up off the shelves and left where they stood". Species zombie. Numbers {brood}. Level 1. Temperament territorial. Lair {t}_u_charnel.
   }
-  Initially Set encounterXp({t}_u_shamblers) to 30.
+  Initially Set encounterXp({t}_u_shamblers) to 90.
   Discovery {t}_u_charnel_goods "On the last shelf, under a fall of cloth, what the old dead were buried with: nobody has been down to take it." {
     Found by searching {t}_u_charnel "Under the cloth on the last shelf, something hard and cold.".
   }
@@ -362,7 +367,7 @@
   Person {t}_u_beetles "the beetles in the spoil" at {t}_u_face {
     Role "beetles as long as a forearm, nesting in the quarrymen's spoil". Species beetle. Numbers {brood}. Level 1. Temperament defensive. Lair {t}_u_face.
   }
-  Initially Set encounterXp({t}_u_beetles) to 20.
+  Initially Set encounterXp({t}_u_beetles) to 60.
   Discovery {t}_u_face_tools "Under the ladder, a quarryman's bag, left when the face was given up: his tools, and his wages, never collected." {
     Found by searching {t}_u_face "A leather bag under the ladder, stiff with age.".
   }
@@ -370,6 +375,9 @@
   Item {t}_u_face_purse "a quarryman's wages" is steel_coin at {t}_u_face hidden until {t}_u_face_tools.
   Item {t}_u_face_garnet "a garnet in the spoil" is garnet at {t}_u_face hidden until {t}_u_face_tools.
   Initially Assert unlit({t}_u_drain). Initially Assert unlit({t}_u_undercroft).
+  // Where the three ways meet, nothing lives: a company can rest there between them (the builder's descent of 8
+  // November: nowhere under the town could a company recover, and a lone warrior went into her seventh fight hurt).
+  Initially Assert restful({t}_u_undercroft).
   Observe {t}_u_drain_scene at {t}_u_drain as fixture when true "An old drain of fitted stone, tall enough to stoop along, with a black trickle down the middle of it and the walls furred with something pale that moves when the light touches it.".
   Observe {t}_u_undercroft_scene at {t}_u_undercroft as fixture when true "A long room of round pillars, older than anything above it: the corn-store, the church and the quarry were all dug down into it, from three sides, by people who did not know it was here.".
   // The flag is a sign of its own, so the page says it apart and searching is the act it leads with.
@@ -377,7 +385,7 @@
   Person {t}_u_crawler "a great centipede" at {t}_u_drain {
     Role "a centipede as long as a man, living in the old drain". Species great_centipede. Numbers 1. Level 2. Lair {t}_u_drain.
   }
-  Initially Set encounterXp({t}_u_crawler) to 20.
+  Initially Set encounterXp({t}_u_crawler) to 60.
   Discovery {t}_u_drain_cache_found "Wedged in the drain where the water would have carried it, a purse someone dropped down a grating long ago." {
     Found by searching {t}_u_drain "Something wedged in the drain, where the water left it.".
   }
@@ -420,10 +428,10 @@
   Initially Assert unlit({t}_u_vault).
   Observe {t}_u_vault_scene at {t}_u_vault as fixture when true "A small square vault, dry as an oven, with a stone chair at the far end and niches in the walls where something was kept, and a smell of old spice.".
   Person {t}_u_keeper "the keeper of the vault" at {t}_u_vault {
-    Role "the last of whoever built the undercroft, long dead and still at its post". Species ghoul. Numbers 1. Level 3. Lair {t}_u_vault.
+    Role "the last of whoever built the undercroft, long dead and still at its post". Species ghoul. Numbers 1. Level 2. Temperament territorial. Lair {t}_u_vault.
     Warns "Something stands up from a stone chair at the far end of the vault, slowly, as if it had been waiting a long time.".
   }
-  Initially Set encounterXp({t}_u_keeper) to 60.
+  Initially Set encounterXp({t}_u_keeper) to 300.
   Item {t}_u_vault_rings "a cord of old rings" is grave_rings at {t}_u_vault.
   Item {t}_u_vault_stone "a moonstone the size of a thumb" is moonstone at {t}_u_vault.
   Milestone {t}_u_vault_reached "found the sealed vault under the undercroft" worth 25 when been(party, {t}_u_vault).
