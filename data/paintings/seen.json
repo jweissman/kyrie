@@ -6684,6 +6684,31 @@
    "form": "landscape",
    "shows": "a green island under a smoking volcano, a sea about it",
    "era": "late"
+  },
+  "scene-archipelago": {
+   "form": "landscape",
+   "shows": "an archipelago: green islands in clear shallows, a harbour tower, sails",
+   "era": "late"
+  },
+  "scene-baths": {
+   "form": "interior",
+   "shows": "a bath-house: a pool under painted arches, steam, a lion fountain",
+   "era": "late"
+  },
+  "scene-labyrinth": {
+   "form": "landscape",
+   "shows": "a hedge labyrinth with a statue at its heart, a garden gate beyond",
+   "era": "late"
+  },
+  "scene-manor": {
+   "form": "landscape",
+   "shows": "a stone manor-house with gables and chimneys behind its garden",
+   "era": "late"
+  },
+  "scene-palace": {
+   "form": "landscape",
+   "shows": "a palace above terraced gardens, a fountain, statues and skeps",
+   "era": "late"
   }
  }
 }

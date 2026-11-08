@@ -25,8 +25,8 @@
     "wild:jungle": ["scene-jungle"],
     "volcanic": ["scene-volcanic-isle"],
     "wild:volcanic": ["scene-volcanic-isle"],
-    "archipelago": ["scene-volcanic-isle"],
-    "wild:archipelago": ["scene-volcanic-isle"]
+    "archipelago": ["scene-archipelago", "scene-volcanic-isle"],
+    "wild:archipelago": ["scene-archipelago", "scene-volcanic-isle"]
   },
   "approaches": {
     "forest": ["forest", "herd", "chapel"],
@@ -70,7 +70,7 @@
   },
   "kinds": [
     {"kind": "ballroom", "words": ["ballroom", "ball-room"], "room": ["scene-ballroom"]},
-    {"kind": "baths", "words": ["baths", "bath", "bath-house", "bathhouse", "sudatorium", "hammam", "steam-room"], "room": ["scene-sudatorium"]},
+    {"kind": "baths", "words": ["baths", "bath", "bath-house", "bathhouse", "sudatorium", "hammam", "steam-room"], "room": ["scene-baths", "scene-sudatorium"]},
     {"kind": "gloriet", "words": ["gloriet", "loggia", "belvedere", "pavilion", "summer-house", "gazebo"], "room": ["scene-gloriet"], "ground": ["scene-gloriet"]},
     {"kind": "taproom", "words": ["taproom", "alehouse", "tavern", "inn", "canteen", "guest"], "room": ["scene-inn-town", "scene-inn-village", "scene-inn-hamlet"]},
     {"kind": "larder", "words": ["kitchen", "cook", "provision", "provisions", "bakehouse", "general", "chandlery", "chandler", "larder"], "room": ["scene-general-store", "scene-town-merchant"]},
@@ -103,6 +103,8 @@
     {"kind": "guard", "words": ["guardroom", "guard", "guards", "guardhouse", "watch-post", "watchroom", "garrison"], "room": ["scene-guard-room"]},
     {"kind": "city", "words": ["dun", "city"], "ground": ["scene-city-seven-towers", "scene-city-gate"]},
     {"kind": "stockade", "words": ["stockade", "palisade", "outpost"], "ground": ["scene-stockade"]},
+    {"kind": "palace", "words": ["palace", "palazzo", "residence"], "ground": ["scene-palace"], "room": ["scene-great-hall", "scene-ballroom", "scene-gloriet"]},
+    {"kind": "manor", "words": ["manor", "manor-house", "grange", "hall-house", "mansion"], "ground": ["scene-manor"], "room": ["scene-great-hall"]},
     {"kind": "fort", "words": ["keep", "gate", "gatehouse", "gates", "fort", "castle", "citadel", "barbican"], "ground": ["scene-town-gate", "castle", "redoubt"], "room": ["scene-keep-gatehouse", "scene-great-hall"]},
     {"kind": "tower", "words": ["tower", "turret", "watchtower", "spire"], "ground": ["tower", "redoubt", "bolt"], "room": ["scene-tower-hall", "meditation"]},
     {"kind": "abbey", "words": ["abbey", "cloister", "priory", "monastery", "brothers"], "ground": ["abbey", "fane"], "room": ["scene-commandery", "breviary"]},
@@ -125,6 +127,7 @@
     {"kind": "furs", "words": ["fur", "furs", "pelts", "trading-post", "drying-frames"], "ground": ["scene-fur-post"]},
     {"kind": "dovecote", "words": ["dovecote", "dovecot", "columbarium", "doocot", "pigeon-house"], "ground": ["scene-dovecote"]},
     {"kind": "solarium", "words": ["solarium", "orangery", "conservatory", "hothouse", "glass-house", "glasshouse"], "room": ["scene-solarium"], "ground": ["scene-solarium"]},
+    {"kind": "maze", "words": ["maze", "labyrinth", "hedge-maze"], "ground": ["scene-labyrinth"]},
     {"kind": "garden", "words": ["garden", "gardens", "statuary", "parterre", "topiary", "pleasaunce"], "ground": ["scene-garden", "scene-statuary"]},
     {"kind": "menagerie", "words": ["menagerie", "aviary", "zoo", "beast-house", "cages"], "ground": ["scene-menagerie"]},
     {"kind": "oasis", "words": ["oasis", "oases"], "ground": ["scene-oasis"]},
