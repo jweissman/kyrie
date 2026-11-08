@@ -13,13 +13,18 @@ describe('every province in one world', () => {
   it('installs together, one after another, as a company goes to each gate', async () => {
     const w = await WorldAssembler.assemble('thorn', NodeBundleSource.shared, { region: { terrain: 'mountain' } });
     const s = await PlaySession.start(w.path, 'thorn', w.source), frontier = new Frontier('thorn', NodeBundleSource.shared);
-    const ids = (countries.countries as { id: string; province?: boolean }[]).filter(c => c.province).map(c => c.id);
+    // Each province this world has: a country that asks for land beside it this one lacks is not placed here (thorn,
+    // in the mountains, has no hills or marsh to the west for Tallow, nor Sallowfield's), and every one is in kite's
+    // (adventure-library's "holds every adventure as a province").
+    const placed = new Set(w.report.region.provinces!.map(p => p.country));
+    const ids = (countries.countries as { id: string; province?: boolean }[])
+      .filter(c => c.province && placed.has(c.id)).map(c => c.id);
+    expect(ids.length).toBeGreaterThanOrEqual(25);
     const failed: string[] = [];
     for (const id of ids) {
       try { await GeneratedWorld.travel(s, `gate_${id}`); await frontier.expand(s.campaign); }
       catch (e) { failed.push(`${id}: ${(e as Error).message.slice(0, 200)}`); }
     }
-    console.log("FAILED", JSON.stringify(failed));
     expect(failed).toEqual([]);
     expect(s.campaign.installed.length).toBeGreaterThanOrEqual(ids.length);
   }, 1500000);

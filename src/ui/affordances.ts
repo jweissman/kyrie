@@ -45,7 +45,8 @@ export class Affordances {
     // The way back is led only from a fight the company could lose, or a warning, or the dark: from every fight it had
     // been the second thing led with, and a player following the page went out of each site at its first foe (the
     // owner, 4 November: "it always guides you back out").
-    const losing = scene.subjects.filter(s => SceneModel.threat(s)).some(s => !['slight', 'fair']
+    // A hard fight is one the company would likely win, so it is not one it could lose: grave and deadly are.
+    const losing = scene.subjects.filter(s => SceneModel.threat(s)).some(s => !['slight', 'fair', 'hard']
       .includes(screen.people.find(p => p.id === s.id)?.reckoning?.danger ?? ''));
     // The way back is led from danger only: from the dark it had led straight back into the ossuary the company had
     // just left its raiser in, and the follower went to and fro between them a hundred and fifty times. In the dark,

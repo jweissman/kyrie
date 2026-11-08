@@ -85,11 +85,11 @@ describe('the Water-Wardens\' cisterns from the same generator as the mine', () 
     expect(Cisterns.seen(s).some(t => t.startsWith('Only a trickle comes out from under the sill now'))).toBe(true);
     Cisterns.enter(s, room('galleries_pump'));
     expect(await Cisterns.take(s, /^Drive the bronze pin home/)).toContain('water comes up out of the deep cistern');
-    // A watch's worth of water at a time, however much is done in the watch: a look at the rods takes none.
+    // A watch's worth of water at a time, however much is done in the watch: coupling the rods took none of it. (A
+    // close look at them had been the act that takes no time; since LookAnswers it is offered only where it finds
+    // something.)
     const water = () => s.campaign.world.number(ModuleWriter.call('region__deepWater', room('cistern')));
-    const pumped = water();
-    await Cisterns.take(s, /^Look closely at the pump-rods$/);
-    expect([pumped, water()]).toEqual([11, 11]);
+    expect(water()).toBe(11);
     let heard = '';
     for (let i = 0; i < 4 && !heard.includes('the deep cistern empty'); i++) { heard = await Cisterns.take(s, /^Wait an hour$/); }
     expect(heard).toContain('the deep cistern empty');

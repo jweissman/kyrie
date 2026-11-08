@@ -576,7 +576,7 @@
    "province": true,
    "bundle": "tallow/placed.json",
    "entry": "road",
-   "marker": "joss",
+   "marker": "tally_room",
    "side": "west",
    "beside": [
     "hills",
@@ -637,7 +637,7 @@
    "id": "skerrow",
    "province": true,
    "bundle": "skerrow/placed.json",
-   "entry": "shore_road",
+   "entry": "road",
    "marker": "fog_bell",
    "side": "east",
    "beside": [

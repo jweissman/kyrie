@@ -108,7 +108,9 @@ describe('kite at a glance', () => {
       ['danger', 'den__beasts']]);
     const [gentle, attack] = glance.acts;
     expect(gentle!.command).toMatch(/^den__smoke_out\(/);
-    expect(attack!.marks).toEqual([expect.objectContaining({ kind: 'fight', danger: 'fair' })]);
+    // Won, if not unhurt: fair, or hard where the trials found a fall (a lone warrior's fall ends the game).
+    expect(attack!.marks).toEqual([expect.objectContaining({ kind: 'fight' })]);
+    expect(['fair', 'hard']).toContain((attack!.marks[0] as { danger: string }).danger);
     expect(glance.acts.some(a => a.why === 'retreat')).toBe(false);
     Kite.drawn(Kite.g, glance);
   });
