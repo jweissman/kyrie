@@ -16,3 +16,17 @@ played through the interface. The owner, 7 November: "the adventuring loop isn't
 | IX. Architectural integrity | — | Engine declarations from the AST; typed contracts | ModuleShadow rewrites text (M19-69, open risk) | — |
 | X. The Encyclopedia | 6 | Exists (M19-15 partial); journey 6 found its entries agree with play for an Orsino monster, an item and a plant, and an author's new plant and spell in it at the next build; scores and grounds now read as words (M19-139) | Reached from the title only, and from nothing in play (M19-147); no authored adventure's entries (M19-148); not reviewed as a product | — |
 | Closure (§XIII) | — | A draft of the seven accounts, 8 November ([closure.md](closure.md)), not accepted | The owner's acceptance; PD-14's cold players; journey 4 (a dungeon and back) end to end | after the loop is acceptable |
+
+## Since 7 November (8 November)
+
+| Priority | What changed | Where |
+|---|---|---|
+| III. The adventuring loop | The undertown leads on from a job done to the undercroft, a puzzle at its flag, the vault's keeper and four levels below; each wing three or four rooms; the undercroft restful; a full clearance worth the second level, slept on at the inn; a remedy given with the quarry job. Walked headless from the green to the stair below in three worlds (two cleared, one lost to the ossuary's dead) | M19-155, M19-158 |
+| IV. The player-facing product | Gold for the aim followed alone, the Map key lit for an aim reached by a journey; the fallen drawn fallen; forty of the owner's scene paintings matched to places by kind; the fight's telling without THAC0; Look… tells first what the story turns on, and a used-up thing's result apart; means held listed apart from skills | M19-152, M19-154, M19-121, M19-142, M19-144, M19-159 |
+| V. Identity consequential | Unchanged; talk that knows a calling deferred | M19-141 |
+| VI. Content activation | The book on the bones is there; a band named many is spoken of as many | M19-143, M19-149 |
+| VII. Human-scale authorship | doc/authoring/forms.md: the forms the anthology's authors wrote around | M19-127 |
+| VIII. World coherence | Aims name their places by id (the order's work, the debt's inn); a journey of the player's own kept when an aim moves on | M19-151, M19-156 |
+| IX. Architectural integrity | Engine and language gaps deferred to Mission 20 with a reason each | register |
+| X. The Encyclopedia | Reached from a thing in the pack, at its entry | M19-147 |
+| Closure (§XIII) | The seven accounts drafted; every open row of both registers decided | [closure.md](closure.md) |
