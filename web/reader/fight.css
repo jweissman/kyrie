@@ -79,6 +79,8 @@
 .fight .fighter .face { position: absolute; top: 0; bottom: 0; left: 0; width: var(--panel); overflow: hidden;
   background: var(--lift); border-right: 1px solid var(--edge); transition: border-color var(--quick); }
 .fight .fighter .face img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 60% 28%; }
+.fight .fighter .face.whole { background: #e9cf9c; }
+.fight .fighter .face.whole img { object-fit: contain; object-position: 50% 50%; }
 .fight .fighter .face.plate { display: grid; place-items: center; font: 300 34px/1 var(--told); color: var(--dim); }
 .fight .fighter.acting .face { border-right-color: var(--gold); }
 .fight .fighter.down .face { filter: grayscale(1); }

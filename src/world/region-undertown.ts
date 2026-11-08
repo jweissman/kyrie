@@ -18,6 +18,8 @@ export class RegionUndertown {
     // Where each who pays is to be found (their own room, or the green), for the aim that says what is owed; and how
     // many of the first foes a trouble sets, for the company that takes it (M19-87).
     const t = s.id, q = JSON.stringify, values = { t, town: s.name, brood: company > 1 ? '2' : '1',
+      // A pack of the small kind, and a pair of the middling: never one rat called the rats (the owner, 8 November).
+      pack: company > 1 ? '5' : '3', pair: company > 1 ? '3' : '2', runts: company > 1 ? '' : ' Variant runt.',
       ...Object.fromEntries((['merchant', 'priest', 'innkeeper'] as const)
         .map(role => [`${role}at`, SettlementWriter.standing(region, s, role)])) };
     const sections = KyrTemplates.choose(this.template, `${region.name}:${t}:undertown`);

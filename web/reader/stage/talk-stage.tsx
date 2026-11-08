@@ -29,6 +29,10 @@ export class TalkStage {
     const led = frame.leaf.glance?.acts.find(a => a.subject === who.id)?.for;
     const focus = TalkFocus.of(rest, { ...led ? { led } : {}, ...s.heard ? { heard: s.heard } : {}, asked: s.asked,
       aims: (frame.screen.aims ?? []).map(a => a.text) });
+    // What the aim followed asks of them is drawn in its gold, as their likeness is (the owner, 8 November: the
+    // merchant the rats job sent the company to, and the question to ask her, had been drawn like any other).
+    const followed = (frame.screen.aims ?? []).filter(a => a.followed).map(a => a.text);
+    const aimed = (c: Choice) => c.command === led || TalkFocus.aimed(c, followed);
     return (
       <div className="talk" id="page">
         <TalkStage.Sitter app={app} name={name!} role={role.join(' · ')}>
@@ -47,7 +51,7 @@ export class TalkStage {
                     .map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw} />)}</ol></>}
                 <ol className="replies" aria-label={`What you might say to ${name}`}>
                   {focus.salient.map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw}
-                    fresh={focus.opened.has(c.id)} />)}
+                    fresh={focus.opened.has(c.id)} aimed={aimed(c)} />)}
                 </ol>
                 {focus.more.length > 0 && <details className="more-talk">
                   <summary>Something else…</summary>
@@ -188,9 +192,10 @@ export class TalkStage {
     </section>;
   }
   // A question already put stays to be put again, quieter, and says so; one the last answer opened is marked new.
-  static Reply({ choice: c, draw, asked, fresh }: { choice: Choice; draw: Draw; asked?: boolean; fresh?: boolean }) {
+  static Reply({ choice: c, draw, asked, fresh, aimed }: { choice: Choice; draw: Draw; asked?: boolean; fresh?: boolean;
+    aimed?: boolean }) {
     return (
-      <li className={asked ? 'asked' : fresh ? 'fresh' : undefined}>
+      <li className={[asked ? 'asked' : fresh ? 'fresh' : '', aimed ? 'aimed' : ''].filter(Boolean).join(' ') || undefined}>
         <Act.View choice={c} draw={draw}><i>{(draw.index.get(c.id) ?? 0) + 1}</i>{Typography.curl(c.label)}
           {c.note && <small> · {c.note}</small>}{asked && <small> · asked</small>}</Act.View>
         {c.children && draw.open.has(c.id) && <ol className="opened-list">{c.children.map(k => <TalkStage.Reply key={k.id}

@@ -120,7 +120,9 @@ export class WorldStage {
   static Portrait({ subject: x, draw }: { subject: SceneSubject; draw: Draw }) {
     // One with nothing to say or do now is a likeness, not a way into a conversation with nothing in it.
     const into = x.live || x.kind === 'animal' || x.kind === 'creature' ? WorldStage.into(x) : undefined, face = x.portrait
-      ? <img src={x.portrait.src} alt="" decoding="async" style={{ objectPosition: `50% ${x.portrait.focus}%` }} />
+      ? /(^|\/)(animals|monsters)\//.test(x.portrait.src)
+        ? <img className="whole" src={x.portrait.src} alt="" decoding="async" />
+        : <img src={x.portrait.src} alt="" decoding="async" style={{ objectPosition: `50% ${x.portrait.focus}%` }} />
       : <Glyphs.View id={Glyphs.met(x)} className="emblem" />;
     const name = Typography.curl(Words.upper(x.name));
     const body = <><span className="face" aria-hidden="true">{face}</span>

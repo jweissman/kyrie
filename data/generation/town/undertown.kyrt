@@ -2,7 +2,8 @@
 // A Kyr template (see src/world/kyr-template.ts). {t} is the town's id, {town} its name; "{{t}_merchant}" is
 // written "{s2_merchant}", the merchant's name when it is read. The base and below are always written; of each other
 // group one option is drawn for the town. An option of the store, the yard or the pit is a trouble: its name is the
-// {brood} is how many of the first foes each trouble sets: two for a company of more than one, one for a company of
+// {pack} and {pair} are how many of the small and middling foes a trouble sets (three and two for one, five and three for
+// a company); {brood} is how many of the first foes each trouble sets: two for a company of more than one, one for a company of
 // one, as a player begins (a lone first-level mage had died to the corn-store's two great rats three times in four).
 // id of the foe it sets there ({t}_u_<option>) and of the job of being rid of it ({t}_u_<option>_job), and its ">>"
 // lines are what is said of it on the notice on the green. Add an option to add a trouble; nothing in the engine
@@ -91,7 +92,7 @@
   // the section below).
   Observe {t}_u_store_scene at {t}_u_store as fixture when true "Sacks stacked to the rafters, and the smell of mice; a trapdoor in the floor with a sack of grain weighting it down, and gnawed holes along the foot of every wall.".
   Person {t}_u_rats "the rats under the corn-store" at {t}_u_warren {
-    Role "rats as big as cats, that have eaten their way into the corn-store from below". Species great_rat. Numbers {brood}. Level 1. Temperament territorial. Lair {t}_u_warren.
+    Role "rats, fat and bold, that have eaten their way into the corn-store from below". Species rat.{runts} Numbers {pack}. Level 1. Temperament territorial. Lair {t}_u_warren.
   }
   Initially Set encounterXp({t}_u_rats) to 60.
   Person {t}_u_buck "the old buck rat" at {t}_u_nest {
@@ -101,7 +102,7 @@
   Entity {t}_u_rats_job: fact "Clear the rats out of the corn-store cellar, under the old corn-store at {town}.".
   Entity {t}_u_rats_source: fact "The rats come up into the cellar by a run of their own from their nest below, over the old drain.".
   Topic {t}_u_rats_job_ask with {t}_merchant "Ask {{t}_merchant} about the rats in the corn-store" when not {t}_u_given({t}_u_rats_job) and not {t}_u_done({t}_u_rats_job) once {
-    Says "'They've got into the old corn-store from underneath,' says {{t}_merchant}. 'Rats the size of cats. I've lost a third of the grain.' A key comes off a nail behind the counter. 'There's a trapdoor in the floor. Kill them, and find where they're getting in, or they'll be back by harvest. Ten coin, and I'll see you right for a lantern besides.' And, looking you over: 'Or lay ratsbane where they come up, if you'd sooner not be bitten. It wants a night.'".
+    Says "'They've got into the old corn-store from underneath,' says {{t}_merchant}. 'Rats, a whole nest of them, and bold with it. I've lost a third of the grain.' A key comes off a nail behind the counter. 'There's a trapdoor in the floor. Kill them, and find where they're getting in, or they'll be back by harvest. Ten coin, and I'll see you right for a lantern besides.' And, looking you over: 'Or lay ratsbane where they come up, if you'd sooner not be bitten. It wants a night.'".
     On discuss { Assert knows(actor, {t}_u_rats_job). Assert {t}_u_given({t}_u_rats_job). Give corn_store_key to actor. Assert keyholder(actor, {t}_u_store_lock). }
   }
   Observe {t}_u_rats_run_seen at {t}_u_warren as sign when not knows(party, {t}_u_rats_source) "Along the back wall of the runs the rats have worn a path in the dirt, and it goes down through the old brickwork, toward the smell of the drain." teaches {t}_u_rats_source.
@@ -154,7 +155,7 @@
     On discuss { Increase quantity(actor, gold) by 6. Assert {t}_u_halved({t}_u_rats_job). }
   }
   Objective {t}_u_rats_job_owed when {t}_u_done({t}_u_rats_job) and {t}_u_nest_cleared({t}_u_rats_job) and not {t}_u_paid({t}_u_rats_job) "Tell {{t}_merchant} the rats and their nest are dealt with, at {{merchantat}}: the rest of the pay, and a lantern.".
->> 'RATS in the old corn-store, as big as cats. Ten coin, and a lantern. Ask {{t}_merchant} for the key.'
+>> 'RATS in the old corn-store, a nest of them. Ten coin, and a lantern. Ask {{t}_merchant} for the key.'
   Rule {t}_u_rats_onward when {t}_u_done({t}_u_rats_job) and not {t}_u_done({t}_u_onward) { Assert {t}_u_done({t}_u_onward). }
 --- yard dead
   // The dead: they have not come up of themselves. Someone has been opening graves by night and raising what was in
@@ -368,7 +369,7 @@
   Initially Assert unlit({t}_u_charnel).
   Observe {t}_u_charnel_scene at {t}_u_charnel as fixture when true "A long low passage lined with shelves of the older dead, wrapped in cloth gone brown. Some of the shelves are empty, and the cloth on the floor under them is torn.".
   Person {t}_u_shamblers "the dead in the charnel passage" at {t}_u_charnel {
-    Role "the raiser's first tries, stood up off the shelves and left where they stood". Species zombie. Numbers {brood}. Level 1. Temperament territorial. Lair {t}_u_charnel.
+    Role "the raiser's first tries, stood up off the shelves and left where they stood". Species zombie. Numbers {pair}. Level 1. Temperament territorial. Lair {t}_u_charnel.
   }
   Initially Set encounterXp({t}_u_shamblers) to 90.
   Discovery {t}_u_charnel_goods "On the last shelf, under a fall of cloth, what the old dead were buried with: nobody has been down to take it." {
@@ -383,7 +384,7 @@
   Initially Assert unlit({t}_u_face).
   Observe {t}_u_face_scene at {t}_u_face as fixture when true "Where the quarrymen stopped: a face of stone with the pick-marks still on it, a rotten ladder, and the floor broken through in one corner into somewhere older underneath. Things click and scuttle in the spoil.".
   Person {t}_u_beetles "the beetles in the spoil" at {t}_u_face {
-    Role "beetles as long as a forearm, nesting in the quarrymen's spoil". Species beetle. Numbers {brood}. Level 1. Temperament defensive. Lair {t}_u_face.
+    Role "beetles as long as a forearm, nesting in the quarrymen's spoil". Species beetle. Numbers {pack}. Level 1. Temperament defensive. Lair {t}_u_face.
   }
   Initially Set encounterXp({t}_u_beetles) to 60.
   Discovery {t}_u_face_tools "Under the ladder, a quarryman's bag, left when the face was given up: his tools, and his wages, never collected." {

@@ -142,9 +142,12 @@ export class FightStage {
   // come, by the first letter of their name in the same panel.
   static Face({ fighter: f }: { fighter: CombatantRow }) {
     const [failed, fail] = useState(false), painted = f.face && !failed, at = f.face?.at;
-    return <span className={`face${painted ? '' : ' plate'}`} aria-hidden="true">
+    // A beast's or a monster's plate is the whole creature on its parchment, shown whole, never cut to the panel (the
+    // owner, 8 November: the dog's and the rat's had been cropped); a person's portrait fills it, held by the face.
+    const whole = painted && /(^|\/)(animals|monsters)\//.test(f.face!.medium);
+    return <span className={`face${painted ? whole ? ' whole' : '' : ' plate'}`} aria-hidden="true">
       {painted ? <img src={f.face!.medium} alt="" decoding="async" onError={() => fail(true)}
-        style={at ? { objectPosition: `${Math.round(at[0] * 100)}% 0%` } : undefined} />
+        style={at && !whole ? { objectPosition: `${Math.round(at[0] * 100)}% 0%` } : undefined} />
         : f.name.replace(/^(the|an?) /i, '').charAt(0).toUpperCase()}</span>;
   }
 }

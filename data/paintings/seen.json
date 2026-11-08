@@ -6744,6 +6744,86 @@
    "form": "landscape",
    "shows": "a temple of columns on a stepped base, fires burning before it",
    "era": "late"
+  },
+  "scene-atrium": {
+   "form": "interior",
+   "shows": "an atrium: a pool open to the sky, painted walls, a mosaic floor",
+   "era": "late"
+  },
+  "scene-granary": {
+   "form": "landscape",
+   "shows": "a stone granary raised on piers, its doors open on sacks and jars",
+   "era": "late"
+  },
+  "scene-herbarium": {
+   "form": "interior",
+   "shows": "a herbarium: herbs drying from the beams, jars, pressed leaves on the wall",
+   "era": "late"
+  },
+  "scene-infirmary": {
+   "form": "interior",
+   "shows": "an infirmary: beds behind curtains, a table of jars and basins",
+   "era": "late"
+  },
+  "scene-kitchen": {
+   "form": "interior",
+   "shows": "a kitchen: a great hearth with a pot over the fire, a scrubbed table",
+   "era": "late"
+  },
+  "scene-larder": {
+   "form": "interior",
+   "shows": "a larder: hams and game hanging, cheeses, jars and baskets on shelves",
+   "era": "late"
+  },
+  "scene-large-oak": {
+   "form": "landscape",
+   "shows": "a great oak alone in a meadow at the edge of a wood",
+   "era": "late"
+  },
+  "scene-macellum": {
+   "form": "landscape",
+   "shows": "a macellum: a round market hall of stalls about a fountain",
+   "era": "late"
+  },
+  "scene-oast-house": {
+   "form": "landscape",
+   "shows": "an oast-house: round kilns with white cowls beside a barn",
+   "era": "late"
+  },
+  "scene-orangery": {
+   "form": "interior",
+   "shows": "an orangery: orange trees in great pots under tall windows",
+   "era": "late"
+  },
+  "scene-peristyle": {
+   "form": "landscape",
+   "shows": "a peristyle: a garden court within a colonnade, a fountain",
+   "era": "late"
+  },
+  "scene-psychomanteum": {
+   "form": "interior",
+   "shows": "a psychomanteum: a dark pool in a curtained chamber, lamps and incense",
+   "era": "late"
+  },
+  "scene-saucery": {
+   "form": "interior",
+   "shows": "a saucery: copper pans over a fire, herbs and jars along the walls",
+   "era": "late"
+  },
+  "scene-scullery": {
+   "form": "interior",
+   "shows": "a scullery: a stone sink with running water, tubs and dishes",
+   "era": "late"
+  },
+  "scene-theatre-stone": {
+   "form": "landscape",
+   "shows": "a stone theatre: tiers of seats round a timber stage with a painted cloth",
+   "era": "late"
+  },
+  "scene-undercroft": {
+   "form": "interior",
+   "shows": "an undercroft: low vaults on round pillars, barrels, a stair up to daylight",
+   "era": "late"
   }
  }
 }

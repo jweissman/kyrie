@@ -115,14 +115,19 @@ export class Affordances {
     const errand = !screen.aims || !!screen.aims.find(a => a.followed)?.own;
     const word = s.note?.split(' · ')[0], ours = r.named.has(s.id) || (!!word?.startsWith('your ') && errand);
     const owed = s.stake && (!talked || fresh.some(c => !r.done.has(c.command!)));
-    const answer = leaves.find(c => c.answer), kin = owed && ours, held = owed && !ours;
+    // Whom the aim followed names is led for that aim (gilded as the aim's), family on the company's own errand as kin:
+    // the merchant the rats job sends the company to had been led as kin, and not drawn in the aim's gold (the owner, 8
+    // November).
+    const named = owed && r.named.has(s.id);
+    const answer = leaves.find(c => c.answer), kin = owed && ours && !named, held = owed && !ours;
     const feature = screen.things.find(t => t.id === s.id)?.kind === 'feature';
     const looked = leaves.find(c => r.schema.get(c.command!) === 'look_closely' && !r.done.has(c.command!));
     // A treasure lying here is what the delve was for: taken up, led with (the vault's rings and moonstone had been
     // under Look about once its keeper fell: OWN-57's play).
     const spoils = screen.things.find(t => t.id === s.id)?.valuable
       && leaves.some(c => /^(take_item|take_out)\(/.test(c.command!));
-    const whys: Why[] = [...answer ? ['answer' as const] : [], ...kin ? ['kin' as const] : [], ...held ? ['held' as const] : [], ...spoils ? ['spoils' as const] : [],
+    const whys: Why[] = [...answer ? ['answer' as const] : [], ...named ? ['named' as const] : [], ...kin ? ['kin' as const] : [],
+      ...held ? ['held' as const] : [], ...spoils ? ['spoils' as const] : [],
       ...this.about(fresh, r) || this.there(s, leaves, r) ? ['about' as const] : [],
       ...person && r.life === s.id && !talked ? ['life' as const] : [],
       ...this.ownWhy(leaves, r), ...r.signs.has(s.id) ? ['sign' as const] : [],
@@ -130,14 +135,14 @@ export class Affordances {
     const needs = this.served(leaves, r), asked = fresh.find(c => !r.done.has(c.command!));
     const base = { subject: s.id, kind: person ? 'talk' as const : 'act' as const, r };
     return [this.candidate(opener, { ...base, whys: [...whys, ...needs.map(n => n.why)], notes: {
-      ...answer ? { answer: answer.label } : {}, ...kin ? { kin: word?.startsWith('your ') ? word : 'your aim' } : {},
+      ...answer ? { answer: answer.label } : {}, ...kin || named ? { kin: word?.startsWith('your ') ? word : 'your aim' } : {},
       ...held ? { held: word?.startsWith('your ') ? word : 'another aim' } : {},
       ...Object.fromEntries(needs.map(n => [n.why, n.note])) },
     ...answer?.command ? { command: answer.command } : {},
     // Led for an aim that names them, what it is led for is the first new thing to ask them, not their first reply
     // (the priest led for his job had stood for his care of the wounded, the innkeeper for a bed); else what the
     // company needs of them.
-    ...!answer && (kin || held) && asked ? { for: asked.command! }
+    ...!answer && (kin || named || held) && asked ? { for: asked.command! }
       : !answer && needs[0]?.choice?.command ? { for: needs[0].choice.command } : {} })];
   }
   // What someone here offers that the company needs now: a bed at night in a settlement, healing for one hurt; and
