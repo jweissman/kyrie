@@ -17,6 +17,8 @@ open finding ([../architecture/findings/index.md](../architecture/findings/index
 | 8 | [Testing reachability, consequences, save and reload](trail/08-testing.md) | prove what a player reaches, what an act changes, and that it survives a reload | yes |
 | 9 | [When the contracts are not enough](trail/09-extending.md) | know where an engine change belongs, and how to record what you could not do | yes |
 
+**Before writing a flag by hand,** see [forms the engine already has](forms.md).
+
 **The reference behind the trail.** The [authoring guide](guide.md) is the full manual of the language: every
 construct, with the adventure friction that shaped it; its examples are played by `test/authoring-guide.test.ts`.
 [narrative.md](narrative.md) is how the page's words should read. [data/README.md](../../data/README.md) says where

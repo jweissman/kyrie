@@ -20,11 +20,14 @@ export interface Held { id: string; name: string; note?: string; seen: string[];
 // what was done to one is told in its pane, which stays until put away.
 export class AtHand {
   static View({ app, draw }: { app: ReaderApp; draw: Draw }) {
-    const held = AtHand.of(app), chosen = held.find(h => h.id === app.state.hovered) ?? AtHand.led(app, held) ?? held[0];
-    // What was done may have used up the thing it was done to (a notice read, a bill taken down): what came of it is
-    // still told here.
-    if (!chosen) { return <div className="at-hand"><AtHand.Pane app={app} draw={draw}
-      held={{ id: 'gone', name: app.state.frame!.screen.place.name, seen: [], choices: [], opens: [] }} /></div>; }
+    const s = app.state, held = AtHand.of(app);
+    // What was done may have used up the thing it was done to (a notice read, a bill taken down, a padlock picked):
+    // what came of it is told in a pane of its own, not under the next thing's name (the padlock's result had been
+    // told under "The dandelion": M19-142).
+    const gone = !!s.kept && !!s.hovered && !held.some(h => h.id === s.hovered);
+    const chosen = gone ? undefined : held.find(h => h.id === s.hovered) ?? AtHand.led(app, held) ?? held[0];
+    const done = { id: 'gone', name: s.frame!.screen.place.name, seen: [], choices: [], opens: [] };
+    if (!chosen && !held.length) { return <div className="at-hand"><AtHand.Pane app={app} draw={draw} held={done} /></div>; }
     return (
       <div className="at-hand" data-region="at-hand">
         <nav className="ah-list" aria-label="What is at hand">
@@ -33,7 +36,7 @@ export class AtHand {
               aria-pressed={h === chosen} onClick={() => AtHand.pick(app, h)}>
               {Typography.curl(Words.upper(h.name))}</button></li>)}</ul>
         </nav>
-        <AtHand.Pane app={app} draw={draw} held={chosen} />
+        <AtHand.Pane app={app} draw={draw} held={chosen ?? done} />
       </div>
     );
   }
@@ -82,7 +85,12 @@ export class AtHand {
     const posted = GlanceStage.posted(app);
     const own = scene.you.filter(c => SceneModel.own(c) && c !== posted).map(c => ({ id: c.id, name: Words.upper(c.label), seen: [], choices: [c],
       opens: [] }));
-    return [...own, ...things, ...ways];
+    // What the story turns on first: what the glance leads with or an aim is about (the fresh ruts), then the rest as
+    // the place has them (Look… on a road through meadow had listed twenty-three plants before the ruts: M19-144).
+    const leads = new Set((app.menu.leads ?? leaf.glance?.acts ?? []).flatMap(a => [a.choice, a.subject ?? '']));
+    const first = (t: Held) => leads.has(t.id) || t.opens.some(id => leads.has(id))
+      || t.choices.some(c => leads.has(c.id)) || !!kept.find(x => x.id === t.id)?.stake;
+    return [...own, ...things.filter(first), ...things.filter(t => !first(t)), ...ways];
   }
   // Whether a thing has something real to show or do (the owner's own play, 7 November: Look… "has never shown anything
   // but 'it is what it seems'", a cart, a lockup door and a bill each offered for a close look that found nothing): an
