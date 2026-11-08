@@ -201,7 +201,7 @@ export class ReaderOpening {
       // Play begins on the map, where the country has one (the owner, 4 November, late).
       this.app.setState({ phase: 'play', frame, view: 'here', cursor: 0, open: [], member: '', leaving: false,
         outdoors: !!frame.screen.region?.land,
-        prologue: frame.leaf.prologue ? 0 : undefined, beat: performance.now() });
+        prologue: frame.leaf.prologue ? 0 : undefined, told: frame.leaf.prologue, beat: performance.now() });
     } catch (error) { this.fail(error, otherwise); }
   }
   private fail(error: unknown, phase?: 'title' | 'campaigns' | 'company') {

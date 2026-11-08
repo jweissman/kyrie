@@ -22,5 +22,7 @@
     "charcoal": "a cartload of charcoal", "timber": "a raft of timber", "honey": "a cart of honey", "eels": "a cart of smoked eels",
     "reed": "a load of reed", "salt": "a cart of salt", "slate": "a cart of slate", "wool": "a cart of wool",
     "tin": "a cart of tin", "furs": "a bale of furs", "whale oil": "a cart of oil", "peat": "a cart of peat"
-  }
+  },
+  "senders": ["the reeve of a town over the hills", "a wool-factor three valleys off", "an old woman in a house by the sea",
+    "a magistrate who did not give his name", "a widow in the town you came from", "a priest on the far side of the pass"]
 }

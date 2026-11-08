@@ -1,0 +1,19 @@
+Module origin "The sealed letter" {
+  Kind chapter. Entity title: chapter "The sealed letter".
+  Entity party: group "You".
+  Place approach "The way in" is room. Place dest "{destname}" is settlement.
+  Entity addressee: group "The merchant".
+  // The work the merchant tells of once the letter is in hand, and the way there (see Origins.after).
+  Entity named: fact "Where it is". Entity found: fact "The way there".
+  Relation delivered(group).
+  Initially Assert expects(addressee, party).
+  Observe arrival at approach as fixture when true "{scene}".
+  Observe errand at approach as feature when watch(clock) < 1 "The scroll-case has not been off your shoulder in eleven days: a letter under the seal of {sender}, for {merchant} at {destname} and to be put into no other hands. Half the fee was paid at the start. The other half, and whatever {merchant} thinks it worth, is at the far end of the road. {destname} is the next town on from {homename}.".
+  Topic deliver with addressee "Give {merchant} the sealed letter" when holding(actor, scrollcase) and not delivered(actor) once {
+    Says "{merchant} breaks the seal with a thumbnail, reads it standing, and then sits down and reads it again. For a long moment nothing is said. Then fifteen coin are counted out onto the board, slowly. 'You did not read it,' {merchant} says. It is not a question.{after}".
+    On discuss { Spend scrollcase from actor. Assert delivered(actor). Retract expects(addressee, actor). Increase quantity(actor, gold) by 15.
+      Assert knows(actor, named). Assert knows(actor, found). }
+  }
+  Objective carry when not delivered(party) and expects(addressee, party) "Carry the sealed letter to {merchant} at {dest}, into no other hands.".
+  Goal delivered(party).
+}

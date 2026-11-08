@@ -34,7 +34,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a place at rest, and the pack', () 
   afterAll(async () => { await browser?.close(); await rm(site, { recursive: true, force: true }); });
 
   it.each([[1280, 800], [1024, 1366]] as const)('at %ix%i', async (width, height) => {
-    const { page, errors, driver: d } = await MonoBrowser.page(browser, { width, height }, { site, query: '?world=mere' });
+    const { page, errors, driver: d } = await MonoBrowser.page(browser, { width, height }, { site, query: '?world=kite' });
     await page.waitForSelector('[data-action="start"]', { timeout: 120000 });
     await d.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
@@ -57,8 +57,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a place at rest, and the pack', () 
     await d.away();
     expect(await Rest.count(page, `${carter}.owed`)).toBe(0);
     await d.click('.opens-go');
-    // Everyone in the market-place on the picture, none folded away; no likeness in the telling.
-    expect(await Rest.count(page, '.surface .portraits > li')).toBeGreaterThan(7);
+    // Everyone in the market-place on the picture (Kite's has seven), none folded away; no likeness in the telling.
+    expect(await Rest.count(page, '.surface .portraits > li')).toBeGreaterThan(5);
     expect([await Rest.count(page, '.portrait.more'), await Rest.count(page, '.told-col img')]).toEqual([0, 0]);
     await d.mode('i');
     expect(await Rest.count(page, '.pack-grid .pack-tile .pack-plate img')).toBeGreaterThan(2);

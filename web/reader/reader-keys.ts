@@ -83,16 +83,9 @@ export class ReaderKeys {
     return document.querySelector<HTMLElement>(`ol.led > li[data-promoted="${n}"] [data-choice]`)?.dataset.choice;
   }
   // A new game's opening: Enter, Space or an arrow on brings the next beat (and after the last, the place), once it
-  // has been shown a moment (see PrologueStage.next), and never by a key held down; Esc goes straight on. Nothing
-  // reaches the place's choices under it, unseen.
-  private prologue(key: string, held: boolean): boolean {
-    if (/^(Enter| |ArrowRight|ArrowDown)$/.test(key)) {
-      if (!held) { PrologueStage.next(this.app); }
-      return true;
-    }
-    if (key === 'Escape') { PrologueStage.done(this.app); return true; }
-    return /^([1-9]|ArrowUp|ArrowLeft)$/.test(key);
-  }
+  // has been shown a moment (see PrologueStage.next), and never by a key held down; a digit answers whoever is met on
+  // the road; Esc goes straight on. Nothing reaches the place's choices under it, unseen.
+  private prologue(key: string, held: boolean): boolean { return PrologueStage.key(this.app, key, held); }
   private letter(key: string): boolean {
     const app = this.app;
     if (key === 't' && app.state.frame?.combat) { app.auto(); return true; }

@@ -56,7 +56,7 @@ describe('an origin', () => {
   it('is offered only where the country holds what it needs', async () => {
     const w = await WorldAssembler.assemble('a1', NodeBundleSource.shared);
     const offered = Origins.choices(await Origins.load(NodeBundleSource.shared), w.report.region, w.report.placements);
-    expect(offered.map(o => o.id)).toEqual(['kin', 'order', 'debt', 'wanderer']);
+    expect(offered.map(o => o.id)).toEqual(['kin', 'order', 'debt', 'wanderer', 'map', 'lost', 'courier']);
     // The drover's family lives where the drover's story is set: a settlement with an inn to mourn him in.
     const home = w.report.region.settlements.find(t => t.id === w.report.placements.find(p => p.scenario === 'drover')!.bindings.town)!;
     expect(offered[0]!.choice).toContain(`Your father, a drover of ${home.name}`);
@@ -67,7 +67,8 @@ describe('an origin', () => {
     const w = await WorldAssembler.assemble('a1', NodeBundleSource.shared);
     const offered = Origins.choices(await Origins.load(NodeBundleSource.shared), w.report.region, w.report.placements);
     expect(Object.fromEntries(offered.map(o => [o.id, o.background]))).toEqual(
-      { kin: 'herdsman', order: 'scribe', debt: 'trader', wanderer: undefined });
+      { kin: 'herdsman', order: 'scribe', debt: 'trader', wanderer: undefined, map: 'drifter', lost: 'prospector',
+        courier: 'messenger' });
     const as = async (origin: string) => {
       const s = await PlaySession.start(...await Opening.world(origin, 'mercenary'));
       return s.campaign.readout.creatures.find(c => s.campaign.readout.partyIds.includes(c.id))!.backgroundId;

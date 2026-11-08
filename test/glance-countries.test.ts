@@ -59,7 +59,7 @@ describe('the glance in other countries', () => {
   it('thorn: the causeway in, toward the aim, the gate-yard, a way about it, and back', async () => {
     const g = await Glanced.country('thorn');
     expect(g.glance.acts.map(a => [a.choice, a.why])).toEqual([['exit:region__s5_green', 'toward'],
-      ['origin__cart#look', 'own'], ['origin__carter#talk', 'asked']]);
+      ['origin__carter#talk', 'life'], ['origin__cart#look', 'own']]);
     const yard = await g.perform(g.glance.acts[0]!.command!);
     expect(yard.acts.slice(0, 2).map(a => [a.choice, a.why])).toEqual([['drover__son#talk', 'kin'],
       ['exit:region__s4_s5_way', 'named']]);

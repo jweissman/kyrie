@@ -1,7 +1,7 @@
 import { Followed } from './followed';
 import { Component, type ReactNode } from 'react';
 import type { Choice } from '../../src/ui/choice-list';
-import type { Catalog, CompanyView, Entry, Frame, Member, Message, Setting } from '../engine/protocol';
+import type { Catalog, CompanyView, Entry, Frame, Leaf, Member, Message, Setting } from '../engine/protocol';
 import { EngineClient } from './engine-client';
 import { JourneyCourse } from './journey-course';
 import { MenuModel, type Menu, type View } from './menu-model';
@@ -45,8 +45,9 @@ export interface AppState {
   memorial?: import('../../src/world/memorial').Memorial;
   frame?: Frame; view: View; cursor: number; hovered?: string; member: string;
   // The aim the player follows, chosen in the Notes (see Followed).
-  // Which beat of a new game's opening is shown, while it is, and when it came (see PrologueStage).
-  prologue?: number; beat?: number;
+  // Which beat of a new game's opening is shown, while it is, and when it came; and the opening itself, kept while it
+  // is told, past the meeting on the road answered in it (see PrologueStage).
+  prologue?: number; beat?: number; told?: Leaf['prologue'];
   // Whether the company is setting out from the choice of a life: the page says only that, over the country.
   leaving?: boolean;
   // Whether the world map is up: the one map, the whole stage. Play begins on it; coming into open country raises it;
