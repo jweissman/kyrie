@@ -113,6 +113,14 @@
     On success { Spend oil_firebomb from actor. Slay {t}_u_buck. }
     Result "The flask bursts on the shelf and the straw goes up at once. Something big comes out of it screaming and goes into the water, and does not come up again.".
   }
+  // A magician's way with the rats themselves: a spell of sleep laid over the run, and the rats done for where they lie
+  // (Mission 19's Priority Three), for one who would not be bitten.
+  Action {t}_u_rats_slept(actor: group, site: place) "Lay a spell of sleep over the rats in the run, and do for them where they lie" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_u_warren) and able({t}_u_rats) and memberOf(?m, actor) and awake(?m) and (hasCalling(?m, calling_mage) or learned(?m, sleep)).
+    Time 1.
+    On success { Slay {t}_u_rats. }
+    Result "The words go out over the run like a breath of cold air, and the rats slow, and stagger, and lie down where they were. It is quick, after that, and not pleasant, and none of them wakes for it.".
+  }
   Rule {t}_u_rats_cleared when not able({t}_u_rats) and not {t}_u_done({t}_u_rats_job) { Assert {t}_u_done({t}_u_rats_job). }
   Relation {t}_u_nest_cleared(entity).
   Rule {t}_u_nest_ended when not able({t}_u_buck) and not {t}_u_nest_cleared({t}_u_rats_job) { Assert {t}_u_nest_cleared({t}_u_rats_job). }
@@ -299,6 +307,14 @@
     Time 1.
     On success { Spend oil_firebomb from actor. Slay {t}_u_mother. Retract state({t}_u_eggs, hanging). Assert state({t}_u_eggs, burnt). }
     Result "The flask bursts somewhere behind the web, and the crack fills with light. Something heavy thrashes in there a long while, and then the only sound is the sacs popping in the heat.".
+  }
+  // A magician's way (Mission 19's Priority Three: a magician's spells should make actual alternatives): fire from the
+  // hands, thrown through the crack as the flask is, for no flask.
+  Action {t}_u_brood_spelled(actor: group, site: place) "Burn the brood-chamber through the crack with a magician's fire" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_u_gallery) and able({t}_u_mother) and memberOf(?m, actor) and awake(?m) and (hasCalling(?m, calling_mage) or learned(?m, firebolt) or learned(?m, burning_hands) or learned(?m, scald)).
+    Time 1.
+    On success { Slay {t}_u_mother. Retract state({t}_u_eggs, hanging). Assert state({t}_u_eggs, burnt). }
+    Result "The words come out cold and the fire comes out hot: it goes through the crack in a sheet, and the web catches like paper. Something heavy thrashes behind it a long while, and then the only sound is the sacs popping in the heat.".
   }
   // A way through for a company that would not stand in the web: an oil firebomb thrown into it from the adit, and the
   // fire runs up it into the gallery. The egg-sacs at the back are still to be seen to.
