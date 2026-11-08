@@ -62,7 +62,8 @@ export class PaintingConcepts {
     const bg = id.replace(/-/g, '_'), family = Object.entries(kinds).find(([, ids]) => ids.includes(bg))?.[0];
     const occupations = this.used.get(id);
     const extra = { ...family ? { backgrounds: [bg] } : {}, ...occupations ? { occupations } : {} };
-    if (this.places.includes(id)) { return { kind: 'place', ...extra }; }
+    // A scene painted for a kind of place (scene-forge, scene-inn-town: data/paintings/scenery.json) is a place.
+    if (this.places.includes(id) || id.startsWith('scene-')) { return { kind: 'place', ...extra }; }
     if (this.creatures.includes(id)) { return { kind: 'creature', ...extra }; }
     if (this.events.includes(id)) { return { kind: 'event', ...extra }; }
     if (this.objects.includes(id)) { return { kind: 'object', ...extra }; }

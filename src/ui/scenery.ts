@@ -43,7 +43,9 @@ export class Scenery {
   static of(screen: Screen): string | undefined {
     const roofed = this.roofed(screen), season = /; (\w+)$/.exec(screen.date?.long ?? '')?.[1];
     if (roofed && !this.places[screen.place.id]) { return undefined; }
-    if (screen.dark) { return this.pick(this.seasonal(this.views.night ?? [], season), screen.place.id); }
+    // A town by night is a town's night, its windows lit, not the wild's moon over dark country.
+    const night = this.views[`night:${this.where(screen)}`] ?? this.views.night ?? [];
+    if (screen.dark) { return this.pick(this.seasonal(night, season), screen.place.id); }
     if (this.places[screen.place.id]) { return this.places[screen.place.id]; }
     const where = this.where(screen), named = SceneKinds.of(screen);
     const known = named && SceneKinds.painted(named.kind, { roofed: false, underground: false });

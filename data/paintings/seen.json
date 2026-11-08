@@ -6129,6 +6129,206 @@
    "age": "child",
    "station": "middling",
    "face": 22
+  },
+  "scene-alchemist-still": {
+   "form": "interior",
+   "shows": "an alchemist's still-room: a copper still, retorts, a fire, books",
+   "era": "late"
+  },
+  "scene-apothecary": {
+   "form": "interior",
+   "shows": "an apothecary: jars to the ceiling, a ladder on a rail, scales on the counter",
+   "era": "late"
+  },
+  "scene-barrow-interior": {
+   "form": "interior",
+   "shows": "a stone-lined barrow chamber with niches and a stone bier, a passage beyond",
+   "era": "late"
+  },
+  "scene-barrow": {
+   "form": "landscape",
+   "shows": "a grassed burial mound with a stone-lined entrance on a heath",
+   "era": "late"
+  },
+  "scene-bee-garden": {
+   "form": "landscape",
+   "shows": "a walled bee-garden of straw skeps among flowers",
+   "era": "late"
+  },
+  "scene-bog": {
+   "form": "landscape",
+   "shows": "a misty bog of black pools and tussocks at dusk",
+   "era": "late"
+  },
+  "scene-cave": {
+   "form": "interior",
+   "shows": "a cave chamber with stalactites over a still pool",
+   "era": "late"
+  },
+  "scene-cellar": {
+   "form": "interior",
+   "shows": "a low brick cellar, barrels and a spilled sack of grain",
+   "era": "late"
+  },
+  "scene-churchyard": {
+   "form": "landscape",
+   "shows": "a lych-gate before a churchyard and a squat stone church",
+   "era": "late"
+  },
+  "scene-cistern": {
+   "form": "interior",
+   "shows": "a drowned vaulted cistern, pillars standing in black water",
+   "era": "late"
+  },
+  "scene-commandery": {
+   "form": "interior",
+   "shows": "the hall of a knightly order: long tables, banners with red crosses, a fire",
+   "era": "late"
+  },
+  "scene-counting-house": {
+   "form": "interior",
+   "shows": "a counting-house: scales, ledgers, an abacus, a barred window",
+   "era": "late"
+  },
+  "scene-crypt": {
+   "form": "interior",
+   "shows": "a vaulted crypt of stone tombs, light from one window",
+   "era": "late"
+  },
+  "scene-desert": {
+   "form": "landscape",
+   "shows": "dunes under a low sun",
+   "era": "late"
+  },
+  "scene-drowned-room": {
+   "form": "interior",
+   "shows": "a drowned room in green water light",
+   "era": "late"
+  },
+  "scene-enchanted-glade": {
+   "form": "landscape",
+   "shows": "sunbeams over a glade with a deer, an old oak and a stream",
+   "era": "late"
+  },
+  "scene-estuary": {
+   "form": "landscape",
+   "shows": "an estuary at low water, shingle, a boat drawn up",
+   "era": "late"
+  },
+  "scene-forest": {
+   "form": "landscape",
+   "shows": "a track through deep green woods under old oaks",
+   "era": "late"
+  },
+  "scene-forge": {
+   "form": "interior",
+   "shows": "a forge glowing in a dark smithy, an anvil, tongs on the wall",
+   "era": "late"
+  },
+  "scene-general-store": {
+   "form": "interior",
+   "shows": "a general store: shelves to the beams, sacks, a worn counter",
+   "era": "late"
+  },
+  "scene-guard-room": {
+   "form": "interior",
+   "shows": "a guardroom with a brazier and a rack of weapons",
+   "era": "late"
+  },
+  "scene-heath": {
+   "form": "landscape",
+   "shows": "open heather under a big sky, a lone tree and stones",
+   "era": "late"
+  },
+  "scene-inn-hamlet": {
+   "form": "interior",
+   "shows": "a hamlet inn's one room: a fire, barrels, one long table",
+   "era": "late"
+  },
+  "scene-inn-town": {
+   "form": "interior",
+   "shows": "a town inn's long beamed taproom with a gallery and fires",
+   "era": "late"
+  },
+  "scene-inn-village": {
+   "form": "interior",
+   "shows": "a village inn's low room by a hearth, pewter and benches",
+   "era": "late"
+  },
+  "scene-ironmongery": {
+   "form": "interior",
+   "shows": "an ironmonger's: hooks, chain, tools and a counter",
+   "era": "late"
+  },
+  "scene-ossuary": {
+   "form": "interior",
+   "shows": "an ossuary: skulls and bones stacked in arched niches",
+   "era": "late"
+  },
+  "scene-rocky-waste": {
+   "form": "landscape",
+   "shows": "a rocky waste of crags under storm light",
+   "era": "late"
+  },
+  "scene-rustic-home": {
+   "form": "interior",
+   "shows": "a cottage room: hearth, table, a bed in an alcove",
+   "era": "late"
+  },
+  "scene-salt-warehouse": {
+   "form": "interior",
+   "shows": "a salt-house: sacks and barrels of salt, scales",
+   "era": "late"
+  },
+  "scene-scriveners": {
+   "form": "interior",
+   "shows": "a scrivener's room: a sloping desk, pigeon-holes, books",
+   "era": "late"
+  },
+  "scene-ship-deck": {
+   "form": "landscape",
+   "shows": "a ship's deck at sea, rigging and a rail at sunset",
+   "era": "late"
+  },
+  "scene-tower-hall": {
+   "form": "interior",
+   "shows": "a round tower hall with a stair rising along the wall",
+   "era": "late"
+  },
+  "scene-town-night": {
+   "form": "landscape",
+   "shows": "a town by a river at night, lit windows under the moon",
+   "era": "late"
+  },
+  "scene-town-snowbound": {
+   "form": "landscape",
+   "shows": "a walled town in snow by a frozen river",
+   "era": "late"
+  },
+  "scene-willow-strand": {
+   "form": "landscape",
+   "shows": "a rushing river under willows",
+   "era": "late"
+  },
+  "scene-woodland-shrine": {
+   "form": "interior",
+   "shows": "a woodland shrine: a standing stone under shingles, lamps and offerings",
+   "era": "late"
+  },
+  "scene-city-seven-towers": {
+   "form": "landscape",
+   "shows": "a great white city of many towers over a river, a crowd small in the street",
+   "era": "late"
+  },
+  "scene-city-gate": {
+   "form": "landscape",
+   "shows": "the great gate of a white city, figures small beneath",
+   "era": "late"
+  },
+  "scene-fishmonger": {
+   "form": "landscape",
+   "shows": "a fish stall under an awning on a quay, a harbour beyond",
+   "era": "late"
   }
  }
 }

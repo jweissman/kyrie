@@ -30,14 +30,14 @@ describe('the painting of a place', () => {
   it('is of a town\'s rooms by what each is, never a vault of a church or a library', () => {
     const inn: PlaceRef = { id: 'region__s2_inn', name: 'the Ancient Boar', kind: 'building' };
     const taproom = Scene.seen(Scene.room('region__s2_taproom', 'the taproom of the Ancient Boar'), [Scene.town, inn]);
-    expect(['journal', 'food']).toContain(taproom!);
-    expect(['journal', 'food']).toContain(Scene.seen(Scene.room('region__s3_taproom', 'Milo\'s alehouse'))!);
-    expect(['poppy', 'orb']).toContain(Scene.seen(Scene.room('region__s1_shop', 'Falkor\'s herb-shop'))!);
-    expect(['silver', 'cup']).toContain(Scene.seen(Scene.room('region__s1_jewelry', 'Joan\'s jewel-shop'))!);
+    expect(['scene-inn-town', 'scene-inn-village', 'scene-inn-hamlet']).toContain(taproom!);
+    expect(['scene-inn-town', 'scene-inn-village', 'scene-inn-hamlet']).toContain(Scene.seen(Scene.room('region__s3_taproom', 'Milo\'s alehouse'))!);
+    expect(['scene-apothecary', 'scene-alchemist-still']).toContain(Scene.seen(Scene.room('region__s1_shop', 'Falkor\'s herb-shop'))!);
+    expect(['scene-counting-house', 'silver', 'cup']).toContain(Scene.seen(Scene.room('region__s1_jewelry', 'Joan\'s jewel-shop'))!);
     expect(Scene.seen(Scene.room('region__s1_scriv', 'the scrivener\'s'))).toBe('breviary');
     expect(Scene.seen(Scene.room('region__s2_byre', 'the byre'))).toBe('horse');
-    // A forge: nothing in the corpus is one without a smith who could be taken for someone met, so a dim ground.
-    expect(Scene.seen(Scene.room('region__s3_forge', 'the smithy'))).toBeUndefined();
+    // A forge: the owner's smithy with no smith in it (7 November); before it, a dim ground.
+    expect(['scene-forge', 'scene-ironmongery']).toContain(Scene.seen(Scene.room('region__s3_forge', 'the smithy'))!);
     for (const [id, name] of [['region__s2_taproom', 'Corrin\'s alehouse'],
       ['region__s2_chandlery', 'Wat\'s chandlery'],
       ['region__s2_shrine', 'the shrine of Boann'], ['region__s2_houses', 'the houses of Millholm']] as const) {
@@ -45,7 +45,7 @@ describe('the painting of a place', () => {
     }
   });
   it('is of a town\'s open places by what each is: a market a street, a gate a wall, a road a road', () => {
-    expect(Scene.seen(Scene.room('region__s1_green', 'the market-place of Newmeet'))).toBe('chapel');
+    expect(['scene-fishmonger', 'chapel']).toContain(Scene.seen(Scene.room('region__s1_green', 'the market-place of Newmeet'))!);
     const foot = Scene.room('region__s2_green', 'the bridge-foot at Brightbridge');
     const gate = Scene.room('circus__rest_gate', 'the gatehouse of the King\'s Rest');
     const road = Scene.room('region__s1_s4_way', 'the road between Newmeet and Brockfield');
@@ -62,12 +62,12 @@ describe('the painting of a place', () => {
   });
   it('is of what lies under a town by what it is, and of no grotto, library or well', () => {
     const cellar = Scene.seen(Scene.room('region__s2_u_cellar', 'the corn-store cellar', under));
-    expect(['food', 'journal']).toContain(cellar!);
+    expect(['scene-cellar', 'scene-salt-warehouse']).toContain(cellar!);
     for (const [id, name] of [['region__s2_u_warren', 'the rat-runs'], ['region__s2_u_nest', 'the nest'],
       ['region__s2_u_brood', 'the brood-chamber'], ['region__s2_u_drain', 'the old drain']] as const) {
       expect(Scene.seen(Scene.room(id, name, under))).toBeUndefined();
     }
-    const dead = ['perdition', 'death', 'vanity', 'dissolution'];
+    const dead = ['scene-crypt', 'scene-ossuary', 'scene-barrow-interior', 'perdition'];
     const crypt = Scene.seen(Scene.room('region__s2_u_crypt', 'the crypt', under));
     const ossuary = Scene.seen(Scene.room('region__s2_u_ossuary', 'the ossuary', under));
     const vault = Scene.seen(Scene.room('region__s2_u_vault', 'the sealed vault', under));
@@ -82,7 +82,7 @@ describe('the painting of a place', () => {
       ['back_stone', 'the back-stone'], ['recess', 'a side recess'], ['recess2', 'the north recess'],
       ['vent', 'the light-box']]
       .map(([id, name]) => Scene.seen(Scene.room(`${level.id}_${id}`, name!, under), [site, level]));
-    for (const v of rooms) { expect(['perdition', 'death', 'vanity', 'dissolution']).toContain(v!); }
+    for (const v of rooms) { expect(['scene-crypt', 'scene-ossuary', 'scene-barrow-interior', 'perdition']).toContain(v!); }
     expect(new Set(rooms).size).toBeGreaterThanOrEqual(3);
     const wild: PlaceRef = { id: 'region__z1', name: 'Birchwood', kind: 'wilderness' };
     const tower: PlaceRef = { id: 'tower__tower', name: 'The tower', kind: 'site' };
@@ -96,7 +96,7 @@ describe('the painting of a place', () => {
     const crossing = Scene.room('region__s2_ud_adit_crossing', 'the crossing', under);
     expect(Scene.seen(crossing, [site, mine])).toBeUndefined();
     const cave: PlaceRef = { id: 'raidersHold__lair', name: 'the cave', kind: 'site' };
-    expect(Scene.seen(Scene.room('raidersHold__cavern', 'the smoky cavern', under), [wild, cave])).toBeUndefined();
+    expect(Scene.seen(Scene.room('raidersHold__cavern', 'the smoky cavern', under), [wild, cave])).toBe('scene-cave');
     expect(Scene.seen(Scene.room('sink__nest', 'the nest', under), [wild, cave])).not.toBe('library');
   });
   it('keeps the painting an author chose for a place of theirs', () => {
