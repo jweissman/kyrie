@@ -115,7 +115,10 @@ export class DangerSense {
     // And one won every time but only just (a lone cleric left at a hit point by the corn-store's rats, which kill one
     // in four: told "You should beat them", she died: M19-87) is played six more times too.
     const first = played.filter(t => t.won).length / this.trials, near = played.some(t => t.won && t.hurt > 0.6);
-    for (let trial = this.trials; first > 0 && (first < 0.9 || near) && trial < this.trials * 2; trial++) {
+    // One whose first six fall between the bands (a third to nine in ten) is played eighteen times in all: twelve had
+    // reckoned an owlbear a novice beats sixteen times in forty as one he would likely beat (M19-122).
+    const more = first > 0.3 && first < 0.9 ? this.trials * 3 : this.trials * 2;
+    for (let trial = this.trials; first > 0 && (first < 0.9 || near) && trial < more; trial++) {
       played.push(this.trial(ours, foes, `${key}:${trial}`, place));
     }
     const won = played.filter(t => t.won), falls = new Map<string, number>();
@@ -193,7 +196,10 @@ export class DangerSense {
     const people = foes.length > 1 || foes.some(f => !!Canon.ancestries[f.raceId]);
     const one = foes.length === 1 && people ? foes[0]!.name.split(', ')[0] : undefined;
     const they = one ? `${one} is` : people ? 'they are' : 'it is', them = one ?? (people ? 'them' : 'it');
-    const danger: Danger = fight.odds < 0.25 ? 'deadly' : fight.odds < 0.6 ? 'grave'
+    // Alone, a fight lost is the end of the game, so "likely" is three in four, not three in five (a lone warrior told
+    // she would likely beat the quarry's spiders died to them: the builder's descent of 8 November, M19-122).
+    const grave = ours.length === 1 ? 0.75 : 0.6;
+    const danger: Danger = fight.odds < 0.25 ? 'deadly' : fight.odds < grave ? 'grave'
       : fight.odds < 0.9 || fight.fallen > 0 ? 'hard' : fight.hurt > 0.25 ? 'fair' : 'slight';
     // The most seasoned says it; of one who would fall, someone else does.
     const judge = [...ours].sort((a, b) => Number(a.id === fight.frail) - Number(b.id === fight.frail)
