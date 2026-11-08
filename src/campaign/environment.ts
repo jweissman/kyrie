@@ -28,9 +28,11 @@ export class Environment {
     return at.actor && at.against && world.related('awaits', at.actor).some(r => r.args[1] === at.against)
       ? { ready: members } : {};
   }
-  // A company weary for want of sleep (needs.kyr): its members fight weary.
+  // A company weary for want of sleep, or hungry for want of food (needs.kyr): its members fight weary. Hunger had cost
+  // nothing, so that a company waited a thousand watches without rations and lost nothing (M19-130).
   static weary(world: World, actor: string | undefined, members: string[]): { weary?: string[] } {
-    return actor && world.related('weary', actor).length ? { weary: members } : {};
+    return actor && (world.related('weary', actor).length || world.related('hungry', actor).length)
+      ? { weary: members } : {};
   }
   // The laws of where an actor stands: every law of its place and of each place it is within (a plane's, a
   // temple's), as the catalog conditions they name.

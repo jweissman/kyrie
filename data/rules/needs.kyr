@@ -11,6 +11,7 @@ Module world_needs "Food and sleep" {
   Rule meal when eats(?g) and watch(clock) >= nextMeal(?g) and quantity(?g, rations) >= 1 {
     Decrease quantity(?g, rations) by 1. Increase nextMeal(?g) by 144. Retract hungry(?g).
   }
+  // A hungry company fights weary, as a sleepless one does (see Environment.weary).
   Rule hunger when eats(?g) and watch(clock) >= nextMeal(?g) and quantity(?g, rations) < 1 and not hungry(?g) {
     Assert hungry(?g).
   }
