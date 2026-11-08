@@ -1,5 +1,28 @@
 # Scene paintings to commission
 
+## Still wanted, 8 November (after the owner's scene paintings of 7 and 8 November)
+
+Most wanted first. Each without anyone in the foreground, wide (landscape), and seen as the place is.
+
+1. **Under a town:** the rat-runs and a nest (an earth crawlway, gnawed brick); an old drain or culvert (brick, water
+   along its floor); a spiders' brood-chamber (web and egg-sacs). These show a dim ground today.
+2. **A mine from within** (two or three): a timbered gallery, a shaft with a ladder, tubs on rails. A dim ground today.
+3. **A cell or gaol:** a stone cell, a barred door, straw. A dim ground today.
+4. **A shop counter** of no trade in particular: shelves to the beams, a worn counter. A dim ground today.
+5. **A cave mouth** from outside (a dark opening in a hillside, a scree fan): a rocky gorge stands in.
+6. **Ways underground:** a stair going down into the dark; a long passage of dressed stone; a pillared hall. Old
+   masters' vaults stand in.
+7. **A town at its heart** (three): a green with houses round it, a lane between yards, a town gate in its wall. Old
+   masters' villages and castles stand in, some with figures.
+8. **A keep's bailey and a gatehouse from within.**
+9. **The market-place and the clothier's without anyone in them** (the present paintings have figures, and are held
+   back).
+10. **Planes:** the Positive and Negative Energy Planes, Mechanus, the outer planes (Hades, Gehenna, the Abyss,
+    Arcadia, Ysgard). The ice and lightning portals are in the corpus but no plane of ice or storm is yet in the
+    world.
+
+Below, the full list as it was drawn up on 7 November.
+
 For the owner, 7 November 2026. The scene behind a place is chosen by `src/ui/scenery.ts` and
 `src/ui/scene-kinds.ts` from [data/paintings/scenery.json](../../data/paintings/scenery.json). Until the evening of 7
 November it knew only a settlement by its terrain, wild country by its land, any site, the night, and four interiors

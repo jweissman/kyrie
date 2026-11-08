@@ -35,7 +35,7 @@ describe('the painting of a place', () => {
     expect(['scene-apothecary', 'scene-alchemist-still']).toContain(Scene.seen(Scene.room('region__s1_shop', 'Falkor\'s herb-shop'))!);
     expect(['scene-counting-house', 'silver', 'cup']).toContain(Scene.seen(Scene.room('region__s1_jewelry', 'Joan\'s jewel-shop'))!);
     expect(Scene.seen(Scene.room('region__s1_scriv', 'the scrivener\'s'))).toBe('breviary');
-    expect(Scene.seen(Scene.room('region__s2_byre', 'the byre'))).toBe('horse');
+    expect(Scene.seen(Scene.room('region__s2_byre', 'the byre'))).toBe('scene-stable');
     // A forge: the owner's smithy with no smith in it (7 November); before it, a dim ground.
     expect(['scene-forge', 'scene-ironmongery']).toContain(Scene.seen(Scene.room('region__s3_forge', 'the smithy'))!);
     for (const [id, name] of [['region__s2_taproom', 'Corrin\'s alehouse'],

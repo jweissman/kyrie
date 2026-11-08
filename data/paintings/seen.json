@@ -6329,6 +6329,111 @@
    "form": "landscape",
    "shows": "a fish stall under an awning on a quay, a harbour beyond",
    "era": "late"
+  },
+  "scene-bloomery": {
+   "form": "interior",
+   "shows": "a bloomery: a clay furnace glowing under a timber roof, ore and charcoal in baskets",
+   "era": "late"
+  },
+  "scene-carnival": {
+   "form": "landscape",
+   "shows": "a fair at dusk: striped tents, booths and painted wagons in the mud",
+   "era": "late"
+  },
+  "scene-charcoal-clamps": {
+   "form": "landscape",
+   "shows": "turf-covered charcoal clamps smoking in a woodland clearing",
+   "era": "late"
+  },
+  "scene-fur-post": {
+   "form": "landscape",
+   "shows": "a fur post in a stockade: pelts on racks, a watch-tower, a jetty",
+   "era": "late"
+  },
+  "scene-mill-floor": {
+   "form": "interior",
+   "shows": "a mill floor: millstones, a hopper, sacks, the wheel through a window",
+   "era": "late"
+  },
+  "scene-peat-banks": {
+   "form": "landscape",
+   "shows": "black peat banks cut in steps on a moor, stacked turves, a spade",
+   "era": "late"
+  },
+  "scene-quarry-adit": {
+   "form": "landscape",
+   "shows": "a timbered adit into a quarry face, cut stone and tools before it",
+   "era": "late"
+  },
+  "scene-reed-ricks": {
+   "form": "landscape",
+   "shows": "ricks of reed taller than a house on a fen at sunset",
+   "era": "late"
+  },
+  "scene-salt-pans": {
+   "form": "landscape",
+   "shows": "square salt-pans on a shore, white heaps of salt, a boiling-house",
+   "era": "late"
+  },
+  "scene-stable": {
+   "form": "interior",
+   "shows": "a timber stable: stalls, a manger, harness, straw, an open door",
+   "era": "late"
+  },
+  "scene-theatre-woods": {
+   "form": "landscape",
+   "shows": "a players' stage in a wood: curtains, a painted backcloth, benches",
+   "era": "late"
+  },
+  "scene-timber-yard": {
+   "form": "landscape",
+   "shows": "a timber yard: stacked trunks, a sawpit, trestles, a crane",
+   "era": "late"
+  },
+  "scene-wood-wright": {
+   "form": "interior",
+   "shows": "a woodwright's shop: a bench, shavings, wheels and a cart half made",
+   "era": "late"
+  },
+  "scene-house-of-doors-inner": {
+   "form": "interior",
+   "shows": "a great hall of doors, each opening on another world: fire, water, ice, storm",
+   "era": "late"
+  },
+  "scene-house-of-doors-outer": {
+   "form": "interior",
+   "shows": "galleries of doors over a polished floor, a stair rising between them",
+   "era": "late"
+  },
+  "scene-house-of-doors-air-portal": {
+   "form": "interior",
+   "shows": "a carved door standing open on cloud islands in an endless sky",
+   "era": "late"
+  },
+  "scene-house-of-doors-earth-portal": {
+   "form": "interior",
+   "shows": "a carved door standing open on crags and falls in green light",
+   "era": "late"
+  },
+  "scene-house-of-doors-fire-portal": {
+   "form": "interior",
+   "shows": "a carved door standing open on rivers of fire under a burning sky",
+   "era": "late"
+  },
+  "scene-house-of-doors-ice-portal": {
+   "form": "interior",
+   "shows": "a carved door standing open on falls of ice under the aurora",
+   "era": "late"
+  },
+  "scene-house-of-doors-lightning-portal": {
+   "form": "interior",
+   "shows": "a carved door standing open on a storm of violet lightning",
+   "era": "late"
+  },
+  "scene-house-of-doors-water-portal": {
+   "form": "interior",
+   "shows": "a carved door standing open on deep bright water and falling waves",
+   "era": "late"
   }
  }
 }
