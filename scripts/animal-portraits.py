@@ -87,8 +87,10 @@ def whole(cut):
     horns and tails): the cell entire in the middle, on its own parchment, the colour its border mostly is, and
     feathered into it where they meet (a blurred copy behind it had ghosted above the heads, and its edge drawn out had
     streaked where a beast reached the edge of its cell)."""
+    cut = trimmed(cut)
     w, h = cut.size
-    side = max(w, h)
+    # A little room about it, so that what fills its cell (a long neck, a tail) does not touch the plate's edge.
+    side = int(max(w, h) * 1.06)
     border = [cut.getpixel((x, y)) for x in range(0, w, 4) for y in (2, h - 3)] + \
         [cut.getpixel((x, y)) for y in range(0, h, 4) for x in (2, w - 3)]
     paper = tuple(sorted(c[k] for c in border)[len(border) // 2] for k in range(3))
@@ -98,10 +100,33 @@ def whole(cut):
     edges = ImageDraw.Draw(mask)
     for n in range(feather):
         shade = int(255 * (n + 1) / (feather + 1))
-        if h < side: edges.line([(0, n), (w, n)], fill=shade); edges.line([(0, h - 1 - n), (w, h - 1 - n)], fill=shade)
-        if w < side: edges.line([(n, 0), (n, h)], fill=shade); edges.line([(w - 1 - n, 0), (w - 1 - n, h)], fill=shade)
+        edges.line([(0, n), (w, n)], fill=shade); edges.line([(0, h - 1 - n), (w, h - 1 - n)], fill=shade)
+        edges.line([(n, 0), (n, h)], fill=shade); edges.line([(w - 1 - n, 0), (w - 1 - n, h)], fill=shade)
     out.paste(cut, ((side - w) // 2, (side - h) // 2), mask)
     return out
+
+
+def trimmed(cut):
+    """A cell without the sheet's margin about it: a painting set on the sheet as a panel of its own, on a paper
+    darker than the sheet's (the anthology's beasts, the great beasts of 7 November), had been padded out in the
+    sheet's colour, a box about it (the owner, 7 November: some cuts still rough). Rows and columns from each side
+    that are nearly all the margin's colour are taken off; what is left is padded in its own paper's colour."""
+    w, h = cut.size
+    px = cut.load()
+    edge = [px[x, y] for x in range(0, w, 3) for y in (1, h - 2)] + [px[x, y] for y in range(0, h, 3) for x in (1, w - 2)]
+    margin = tuple(sorted(c[k] for c in edge)[len(edge) // 2] for k in range(3))
+    near = lambda c: sum(abs(c[k] - margin[k]) for k in range(3)) < 30
+    def plain_row(y): return sum(near(px[x, y]) for x in range(0, w, 3)) / len(range(0, w, 3)) > 0.97
+    def plain_col(x): return sum(near(px[x, y]) for y in range(0, h, 3)) / len(range(0, h, 3)) > 0.97
+    top, bottom, left, right = 0, h - 1, 0, w - 1
+    while top < bottom and plain_row(top): top += 1
+    while bottom > top and plain_row(bottom): bottom -= 1
+    while left < right and plain_col(left): left += 1
+    while right > left and plain_col(right): right -= 1
+    # Only a margin is taken off, never the painting: a cell trimmed to less than half is left as it was.
+    if (right - left) < w / 2 or (bottom - top) < h / 2:
+        return cut
+    return cut.crop((left, top, right + 1, bottom + 1))
 
 
 def square(cut):
