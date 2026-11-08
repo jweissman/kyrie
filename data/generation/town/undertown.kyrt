@@ -210,6 +210,12 @@
     Result "You go back the way you came, and round, along the foot of the bone-heaps where his candle throws no light, and come up behind him. He hears nothing until the flame is a wisp between your fingers. He turns, sees the dead fall, and runs: up the stair and out of {town} before morning. The book he leaves on the bones.".
     Otherwise "A skull rolls off the course under your hand and goes down the heap, knocking. He turns with the candle held high, and the dead turn with him.".
   }
+  // The book he leaves on the bones, as each ending says, is there to be taken (M19-143: it was told, and Search found
+  // nothing): left when he goes, or dropped when he falls.
+  Kind raiser_book "a book of the dead" is gear worth 6 weighing 1 described "A small fat book in a scraped calf binding, copied out by several hands over a long time: rites for the dead, and in the margins, in a newer hand, how they might be called back up. Someone has drawn the chalk ring on the last page and got it wrong.".
+  Entity {t}_u_book_left: fact "The raiser's book of the dead lies on the bones in the ossuary.".
+  Item {t}_u_raiser_book "a book of the dead" is raiser_book at {t}_u_ossuary hidden until {t}_u_book_left.
+  Rule {t}_u_book_dropped when ({t}_u_done({t}_u_raiser) or not able({t}_u_raiser)) and at(party, {t}_u_ossuary) and not knows(party, {t}_u_book_left) says "His book lies on the bones." teaches {t}_u_book_left { }
   Entity {t}_u_dead_read: fact "The marks round the chalk ring are copied from an old book of the dead, and copied badly: the warding line is left out. The dead are held only while the candle burns, and whoever holds them is not safe from them.".
   Observe {t}_u_crypt_marks at {t}_u_crypt as sign when capable(party, lore) and knows(party, {t}_u_dead_raised) and not knows(party, {t}_u_dead_read) "You know these marks from the old scripts. Round the chalk ring they say what they are for, and they are copied badly: the warding line, the one that keeps the dead off whoever calls them, is not there." teaches {t}_u_dead_read.
   Action {t}_u_raiser_read(actor: group, site: place) "Tell the man with the black candle what his book left out of the ring" {

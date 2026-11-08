@@ -71,7 +71,10 @@ export class CreatureFacts {
     const own = kinds.size === 1 && kind && words.has(kind) && !peaceable;
     const temper = given ?? (own ? kind : undefined);
     if (!temper) { return []; }
-    const scripted = world.related('state', group).length > 0, many = members.length > 1;
+    const scripted = world.related('state', group).length > 0;
+    // Many by number, or by name: one great rat called "the rats under the corn-store" is spoken of as they are named
+    // ("the rats … is here … stands its ground": M19-149).
+    const many = members.length > 1 || this.plural(world.module.entities.find(e => e.id === group)?.name ?? '');
     // One who is of a people is someone, not something: not "it stands its ground" (a robbers' captain).
     const person = !many && members.some(c => !!Canon.ancestries[c.raceId]);
     const said = scripted ? [] : (['warning', 'onslaught', 'flinch', 'withdraw', 'sign'] as const).flatMap(name => {
@@ -84,6 +87,12 @@ export class CreatureFacts {
     });
     return [...given ? [] : [ModuleWriter.call('temperament', group, temper)], ...said]
       .map(call => ({ kind: 'assert' as const, call }));
+  }
+  // A name whose head word, before any preposition, is plural ("the rats under the corn-store", "the hounds").
+  static plural(name: string): boolean {
+    const head = name.toLowerCase().split(/\s+(?:under|in|of|at|from|by|on|beneath|behind|near)\s+/)[0]!
+      .split(/\s+/).at(-1) ?? '';
+    return /[^su]s$/.test(head) || ['men', 'folk', 'people', 'mice', 'geese', 'children', 'dead'].includes(head);
   }
   // The temperaments a module declares, and the plain words of each, by their unprefixed ids.
   private static readonly worded = new WeakMap<Module, Map<string, string>>();
