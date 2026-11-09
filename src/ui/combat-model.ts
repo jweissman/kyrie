@@ -78,7 +78,8 @@ export class CombatModel {
     let over = false;
     for (const e of told) {
       over = e.type === 'end' || (over && e.type !== 'initiative');
-      if (over && e.type !== 'action') { lines.push(CombatPresenter.format(e, state)); }
+      const line = over && e.type !== 'action' ? CombatPresenter.format(e, state) : '';
+      if (line) { lines.push(line); }
     }
     return { ...this.build(battle, called, faces), after: [...new Set(Narration.tidy(lines.filter(Boolean)))] };
   }

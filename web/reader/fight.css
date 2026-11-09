@@ -79,7 +79,7 @@
 .fight .fighter .face { position: absolute; top: 0; bottom: 0; left: 0; width: var(--panel); overflow: hidden;
   background: var(--lift); border-right: 1px solid var(--edge); transition: border-color var(--quick); }
 .fight .fighter .face img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 60% 28%; }
-.fight .fighter .face.whole { background: #e9cf9c; }
+.fight .fighter .face.whole { background: var(--lift); }
 .fight .fighter .face.whole img { object-fit: contain; object-position: 50% 50%; }
 .fight .fighter .face.plate { display: grid; place-items: center; font: 300 34px/1 var(--told); color: var(--dim); }
 .fight .fighter.acting .face { border-right-color: var(--gold); }
@@ -168,3 +168,9 @@
 .fight .aftermath { margin: 14px 0 0; padding: 10px 0 0; border-top: 1px solid var(--edge); display: grid; gap: 6px;
   font: 400 14.5px/1.45 var(--do); color: var(--ivory); }
 .fight .aftermath .label { margin: 0 10px 0 0; display: inline; color: var(--verdigris); }
+/* Whom to strike, opened from a card: side by side as the hand's own cards are, not a column that runs under the foot
+   of the hand (the owner, 8 November: the second and third rats were out of reach behind "The fight so far"). */
+.fight .moves .opened-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 4px; padding-left: 0; border-left: 0; }
+.fight .moves .opened-list > li { margin: 0; }
+.fight .moves .opened-list .act { min-height: 48px; min-width: 8rem; }
+.fight .moves section > .opened-list { grid-column: 1 / -1; }

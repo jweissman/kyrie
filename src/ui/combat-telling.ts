@@ -36,7 +36,7 @@ export class CombatTelling {
       ...bark ? [bark] : []];
     // Two conditions that come to the same thing ("cannot act") are said once.
     return { text: [...new Set(sentences.filter(Boolean).map(s => s.charAt(0).toUpperCase() + s.slice(1)))].join(' '),
-      detail: group.map(e => CombatPresenter.format(e, told.state)).filter(l => !l.startsWith('Initiative')).join(' '),
+      detail: group.map(e => CombatPresenter.format(e, told.state)).filter(l => l && !l.startsWith('Initiative')).join(' '),
       round, ...first?.type === 'action' ? { actor: first.command.actor } : {} };
   }
   // Bleeding is told once it has lasted, as it bleeds ("Bruni bleeds, for 1"), and not as the wound is dealt: a bite

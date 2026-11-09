@@ -81,7 +81,9 @@ export class CombatPresenter {
       case 'flee': return event.success ? `${actor} gets away.` : `${actor} tries to get away, and cannot.`;
       case 'initiative': return `Initiative: ${event.order.map(o => `${state.combatants.find(f => f.id === o.id)?.name ?? o.id}`
         + ` ${o.roll}`).join(', ')}.`;
-      case 'save': return this.save(event, target);
+      // A foe's death save is nothing to the player ("the rat fails the death save … against 25": the owner, 8
+      // November).
+      case 'save': return event.kind === 'death' && this.foe(event, state) ? '' : this.save(event, target);
       case 'check': return this.check(event, actor);
       case 'status': if (this.told(event.detail, 'begins')) { return this.told(event.detail, 'begins')!.replace('{target}', target); }
         return `${target} gains ${event.detail} `

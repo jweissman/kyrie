@@ -272,7 +272,7 @@ describe('a warning', () => {
     expect(choices.every(c => marked.includes(c) === ((c.minutes ?? 0) >= warned.left && !toward(c)))).toBe(true);
     expect(choices.some(c => /^attack\(/.test(c.command!) && toward(c) && !marked.includes(c))).toBe(true);
     // And the page says how long they will wait (the Banns at Hessel's friction 23).
-    expect(Narrator.leaf(s.campaign, screen).presence).toContain(`The wolves will wait ${warned.left} minutes more, no longer.`);
+    expect(Narrator.leaf(s.campaign, screen).presence).toContain(`The wolves will give you ${warned.left} minutes, no more.`);
   }, 60000);
 });
 

@@ -269,7 +269,7 @@ export class Narrator {
     return lines.filter((l, i) => lines.indexOf(l) === i);
   }
   static waits(w: { by: string; left: number }): string {
-    return `${this.upper(w.by)} will wait ${w.left <= 5 ? 'a few minutes' : `${w.left} minutes`} more, no longer.`;
+    return `${this.upper(w.by)} will give you ${w.left <= 5 ? 'a few minutes' : `${w.left} minutes`}, no more.`;
   }
   static readonly bare = new RegExp(`^(${['the', 'a', 'an', 'his', 'her', 'their', 'your', 'my', 'our', 'who', 'whose',
     'of', 'in', 'at', 'on', 'from', 'with', 'by', 'under', 'out', 'off', 'back', 'home', 'newly', 'lately'].join('|')}) `, 'i');
