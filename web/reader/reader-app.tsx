@@ -1,3 +1,4 @@
+import { MapView } from './map-view';
 import { Followed } from './followed';
 import { Component, type ReactNode } from 'react';
 import type { Choice } from '../../src/ui/choice-list';
@@ -339,7 +340,13 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     if (this.state.frame?.combat && view !== 'here') { return; }
     // The map is the one map, wherever the company is in a country that has one: raised over the stage, not a page,
     // and left by entering where the company stands (its card's ENTER), not by asking for the map again.
-    if (view === 'map' && this.state.frame?.screen.region?.land) { this.outdoor(true); return; }
+    if (view === 'map' && this.state.frame?.screen.region?.land) {
+      // Opened for the aim followed, the map has it chosen, its way and set-out on the card (the owner, 8 November: the
+      // map lit for the road the father went out by, and opened on where the company stood).
+      const screen = this.state.frame.screen, here = screen.place.id, aim = MapView.aimed(this, screen);
+      if (aim && this.state.charted?.at !== here) { this.setState({ charted: { at: here, id: aim } }); }
+      this.outdoor(true); return;
+    }
     const member = who ?? (this.state.member || (this.state.frame?.screen.party[0]?.id ?? ''));
     this.setState({ view: this.state.view === view ? 'here' : view, cursor: 0, open: [], hovered: undefined, member });
     if (view === 'story' && this.state.view !== 'story') {

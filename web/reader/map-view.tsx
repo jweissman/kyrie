@@ -72,17 +72,23 @@ export class MapView {
     const aim = Followed.of(screen), who = screen.aims?.find(a => a.followed)?.who ?? [];
     return aim && who.length && !MapView.aim(app, screen) ? { aim, who: MapView.who(screen) } : undefined;
   }
+  static aimed(app: ReaderApp, screen: Screen): string | undefined { return MapView.aim(app, screen); }
   private static aim(app: ReaderApp, screen: Screen): string | undefined {
     // The aim followed, where it names somewhere the company knows the way to; else where the page leads toward it.
     // Another aim held is not the map's to open on (the owner's play of 7 November: "your aim" is the one followed).
     const followed = Followed.of(screen);
     const named = followed && Aims.named(screen, screen.destinations ?? [], followed)?.id;
     if (named && screen.region?.land && MapView.way(screen, named).go) { return named; }
-    const id = app.state.frame?.leaf.glance?.following?.find(a => a.startsWith('travel:'))?.slice('travel:'.length);
+    // The aim's journey, or the way out into the country it leads by (the road the father went out by).
+    const following = app.state.frame?.leaf.glance?.following ?? [];
+    const id = following.find(a => a.startsWith('travel:'))?.slice('travel:'.length)
+      ?? screen.exits.find(e => following.includes(e.id) && e.transition === 'travel')?.destination.id;
     if (id && screen.region?.land && MapView.way(screen, id).go) { return id; }
     // Where the aim is, on the map, though no way there is known yet: chosen, its card says so.
     const land = screen.region?.land, marked = new Set([...land?.marks.map(m => m.id) ?? [],
       ...(screen.region?.areas ?? []).filter(a => a.kind === 'settlement').map(a => a.id)]);
+    // The way out it leads by, marked on the map (the road the father went out by), chosen though it is a step away.
+    if (id && marked.has(id)) { return id; }
     return land ? Aims.named(screen, [...marked].map(m => ({ id: m })), followed)?.id : undefined;
   }
   // Opened, the map takes the keys' focus and holds it: what is under it is out of reach (and unread) until it

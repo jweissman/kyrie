@@ -110,6 +110,8 @@
 .corner-keys { position: absolute; z-index: 5; top: 14px; right: 16px; display: flex; gap: 8px; }
 .corner-keys .corner { position: static; }
 .corner-keys .corner.icon { padding: 0 12px; }
+/* The map, when the aim followed is gone to by a journey (see Stage.Corner). */
+.corner-keys .corner.icon.led { color: var(--gold); border-color: var(--gold-line); box-shadow: inset 0 -2px 0 var(--gold); }
 .corner-keys .corner svg path { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linejoin: round; }
 .corner-keys .corner[data-action="book"] svg path { fill: currentColor; stroke: none; }
 @media (max-width: 699px) { .corner-keys .corner .corner-label { display: none; } .corner-keys .corner { padding: 0 11px; } }

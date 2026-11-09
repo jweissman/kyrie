@@ -1,3 +1,4 @@
+import { Stage } from './stage';
 import type { MouseEvent, ReactNode } from 'react';
 import type { Choice } from '../../../src/ui/choice-list';
 import type { Mark } from '../../../src/presentation/glance-types';
@@ -81,7 +82,7 @@ export class Act {
       ['pack', 'Pack', 'i'], ['map', 'Map', 'm'], ['story', 'Story', 'h']];
     // An aim followed that is gone to by a journey lights the map, where the way to it is, and not every way from here
     // (the owner, 7 November).
-    const led = (app.state.frame?.leaf.glance?.following ?? []).some(id => id.startsWith('travel:'));
+    const led = Stage.mapLed(app);
     return (
       <ul className="sheets" aria-label="Books">{sheets.map(([view, label, key]) => <li key={view}><button type="button"
         className={`sheet-key${led && view === 'map' ? ' led' : ''}`} data-action="mode" data-view={view} data-key={key}

@@ -25,7 +25,10 @@ export class BoardCamera {
   private readonly page: Node;
   private readonly listening = new AbortController();
   // What lies over the board on the page: its own tools, and the card that says what is chosen or where you are.
-  static readonly covers = '.field-head, .field-tools, .field-map .plan, .field-shut, .world-page.scale-board .focus';
+  // What sits over the map, which nothing on it is drawn under: its own head and tools and card, and the world page's
+  // heading and its keys (a place's name had been drawn across the date: the owner, 8 November).
+  static readonly covers = '.field-head, .field-tools, .field-map .plan, .field-shut, .world-page.scale-board .focus, '
+    + '.world-page.scale-board .world-bar .title-block, .world-page.scale-board .corner-keys';
   constructor(private readonly element: HTMLElement, private readonly home: Vector2, private readonly still: boolean) {
     this.page = element.getRootNode();
     const aspect = element.clientWidth / Math.max(1, element.clientHeight), tall = Math.max(1, 1.45 / aspect) ** 0.5;

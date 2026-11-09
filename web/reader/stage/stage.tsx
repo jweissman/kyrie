@@ -105,6 +105,14 @@ export class Stage {
       </p>
     );
   }
+  // Whether the aim followed is gone to by the map: a journey, or a way out into the open country, which is crossed on
+  // the map and not offered in Go… (the owner, 8 November: the road the father went out by was led with and nowhere
+  // to be chosen, and nothing pointed to the map).
+  static mapLed(app: ReaderApp): boolean {
+    const frame = app.state.frame, exits = frame?.screen.exits ?? [];
+    return (frame?.leaf.glance?.following ?? []).some(id => id.startsWith('travel:')
+      || exits.find(e => e.id === id)?.transition === 'travel');
+  }
   // The book in the corner: yourself, the notes, the pack, the map and the story, opened from one control that stands
   // quiet in the corner of every page until it is wanted (and by their keys: C, J, I, M, H). At a place, the map and
   // yourself beside it, each a quiet icon (OWN-19: the Book, the map and the character as quiet icons).
@@ -118,9 +126,12 @@ export class Stage {
       </button>
     );
     if (!full) { return book; }
+    // An aim followed that is gone to by a journey lights the map, where the way to it is (see Act.Sheets).
+    const led = Stage.mapLed(app);
     return (
       <nav className="corner-keys" aria-label="Your books">
-        <button type="button" className="corner icon" data-action="mode" data-view="map" data-key="m" aria-label="The map"
+        <button type="button" className={`corner icon${led ? ' led' : ''}`} data-action="mode" data-view="map" data-key="m"
+          aria-label="The map"
           onClick={() => app.show('map')}>
           <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 6.5l6-2.5 6 2.5 6-2.5v13.5l-6 2.5-6-2.5-6
             2.5V6.5zM9 4v13.5M15 6.5V20" /></svg>
