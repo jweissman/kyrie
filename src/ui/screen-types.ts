@@ -57,6 +57,11 @@ export interface ExitRow {
   // A way about the settlement or site the company is in (a lane to the hall, a shaft to the level below), however
   // long it takes: not a way out.
   local?: boolean;
+  // A way into another hex of the country (the next stretch of the wild, the road's next hex, a town further off):
+  // taken on the world map only (see Passages.crosses).
+  crosses?: boolean;
+  // The cell of the land it comes to, for the map to take it from.
+  cell?: number;
   // A way into an enclosure that more than one way leads into: said by its own name.
   several?: boolean;
   // A way that goes one way only (the great pipe, feet first): said by its own name, and asked about again.

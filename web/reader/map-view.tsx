@@ -190,10 +190,20 @@ export class MapView {
     // A place the page plans no way to is not set out for (a journey that knows no way leaves nothing to go on with),
     // unless its hex is country the company can see: then across it, to the place's hex (a barrow heard of, beside
     // the wood the company stands in, had been "no way there yet": Mission 19's play).
-    const go: Choice | undefined = d ? MenuModel.journey(d) : here ? undefined
-      : mark ? MapView.across(land, land.known.includes(mark.cell) ? mark.cell : undefined, name)
-        : MapView.across(land, cell, name);
+    const go: Choice | undefined = d ? MenuModel.journey(d) : here ? undefined : MapView.step(screen, id, cell)
+      ?? (mark ? MapView.across(land, land.known.includes(mark.cell) ? mark.cell : undefined, name)
+        : MapView.across(land, cell, name));
     return { cell, name, d, here, go };
+  }
+  // A way from where the company stands into the hex chosen, or to the place chosen, which the page leaves to the
+  // map (see Passages.crosses): every such way is the map's to take, so none is lost with the page's (the owner, 9
+  // November: cross-hex movement on the world map alone; Sarn's fern plains had no plan the map could set out on).
+  private static step(screen: Screen, id: string, cell?: string): Choice | undefined {
+    const e = screen.exits.find(x => x.crosses && !x.blocked
+      && (x.destination.id === id || (cell !== undefined && x.cell === Number(cell))));
+    const act = e?.acts.find(a => a.command && !a.children);
+    return e && act ? { id: e.id, label: `Go to ${e.destination.name.replace(/^The /, 'the ')}`, tone: 'way',
+      command: act.command } : undefined;
   }
   // Where no way is known, across the open country to the hex: a hex chosen, the hex a place seen stands on, or one
   // with something on it not yet made out, at the edge of what is known (going to look is how it is found out); never
