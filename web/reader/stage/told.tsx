@@ -26,7 +26,11 @@ export class Told {
   static Place({ app, journey = true, here, headed = true, whole }: { app: ReaderApp; journey?: boolean;
     here?: ReactNode; headed?: boolean; whole?: boolean }) {
     const s = app.state, frame = s.frame!, leaf = frame.leaf, screen = frame.screen, exchange = leaf.exchange;
-    const told = !whole && exchange && (exchange.lines.length || exchange.notes.length) ? exchange : undefined;
+    // What the place says already is not told again as what came of coming here (the hiring line at the Stormy Horn
+    // was told twice, once with the place and once, in italic, as the arrival: the builder's browser walk, 8 November).
+    const placed = new Set(leaf.situation.map(t => Typography.curl(t)));
+    const kept = exchange && { ...exchange, lines: exchange.lines.filter(l => !placed.has(Typography.curl(l.text))) };
+    const told = !whole && kept && (kept.lines.length || kept.notes.length) ? kept : undefined;
     const stayed = !leaf.moved && !!told;
     // Hurt on the way in, what happened comes before the place (see Narration.placeFirst).
     const struck = !stayed && !!told && !Narration.placeFirst(true, told.lines);

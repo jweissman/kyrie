@@ -251,6 +251,9 @@ export class GlanceStage {
   static Life({ app, glance: g }: { app: ReaderApp; glance: Glance }) {
     const life = g.life, subject = life?.subject ? app.menu.scene?.subjects.find(x => x.id === life.subject) : undefined;
     if (!life) { return null; }
+    // Not a line the place has told already (the Stormy Horn's hiring line, told with the place and again here).
+    const told = (app.state.frame?.leaf.situation ?? []).map(t => Typography.curl(t));
+    if (!life.danger && told.includes(Typography.curl(life.text))) { return null; }
     // How a fight would go is said once, on the attack led with when it is (see Marks), and here when it is not.
     const reckoned = g.acts.some(a => a.marks.some(m => m.kind === 'fight'));
     if (life.danger && subject) { return <GlanceStage.Danger subject={subject} text={life.text} reckoned={reckoned} />; }
