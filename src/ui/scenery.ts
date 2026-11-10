@@ -86,8 +86,9 @@ export class Scenery {
     const lit = screen.dark ? { ...screen, dark: false } : screen;
     return (screen.dark && !this.roofed(screen) ? this.of(screen) : undefined) ?? this.of(lit) ?? this.inside(lit);
   }
+  // Or said itself to be indoors: the old corn-store, in the town's open, had been shown as the granary from outside.
   static roofed(screen: Screen): boolean {
-    return !!screen.place.underground
+    return !!screen.place.underground || !!screen.place.indoors
       || (!screen.place.open && screen.path.some(p => p.kind === 'building' || p.kind === 'level'));
   }
   private static where(screen: Screen): 'site' | 'settlement' | 'wild' {

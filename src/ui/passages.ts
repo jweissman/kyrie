@@ -26,7 +26,8 @@ export class Passages {
     const depth = Depth.of(this.entities, this.world, id);
     return { id, name: e?.name ?? id, kind: e?.space?.kind ?? 'place',
       ...e?.space?.shelter === 'underground' ? { underground: true } : {},
-      ...e?.space?.shelter === 'outdoors' ? { open: true } : {}, ...depth ? { depth } : {} };
+      ...e?.space?.shelter === 'outdoors' ? { open: true } : {}, ...e?.space?.shelter === 'indoors' ? { indoors: true } : {},
+      ...depth ? { depth } : {} };
   }
   path(id: string): PlaceRef[] {
     return Spatial.ancestry(this.entities, id).reverse().map(e => ({ id: e.id, name: e.name, kind: e.space!.kind }));
