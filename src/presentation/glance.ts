@@ -362,9 +362,12 @@ export class Glance {
   }
   // The ways into a site (a barrow, a cave, a ruin) not yet taken, or further into the one the company is in, by the
   // world's own nesting of its places, never by their names: from its outside its way in, from each room the rooms
-  // beyond. Not out of one site into another.
+  // beyond. Not out of one site into another. In a town, only a way straight into a site (the cellar under it), not
+  // out to the ground a site stands in: the landing at Thornhaven had led a newcomer out to Lapisrecs' mound, "further
+  // in", where its mummy waits (register M19-233; Mission 20).
   private static inward(campaign: Campaign, screen: Screen): Set<string> {
     const byId = EntityIndex.of(campaign.module.entities).byId, here = this.siteOf(byId, screen.place.id);
+    const town = screen.path.some(p => p.kind === 'settlement');
     // A site's outside (the mound a barrow's door is in) is the way into it too: a place outside any site a way joins
     // to one of its rooms (the barrow's mound, beside the wood, had been only under Every way).
     const outsides = new Map(campaign.world.related('connects').flatMap(r => [[r.args[1]!, r.args[2]!],
@@ -373,7 +376,8 @@ export class Glance {
       return site && !this.siteOf(byId, a) ? [[a, site] as const] : [];
     }));
     const inward = new Set(screen.exits.filter(e => {
-      const there = !e.visited && !e.blocked && (this.siteOf(byId, e.destination.id) ?? outsides.get(e.destination.id));
+      const there = !e.visited && !e.blocked
+        && (this.siteOf(byId, e.destination.id) ?? (town ? undefined : outsides.get(e.destination.id)));
       return there && (!here || there === here) && e.destination.id !== screen.place.id;
     }).map(e => e.id));
     return inward.size || !here ? inward : this.onward(campaign, screen, { byId, site: here });
