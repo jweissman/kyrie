@@ -160,7 +160,10 @@ export class DeepSites {
       `    On discuss { Assert knows(actor, ${w}_named). Assert knows(actor, ${w}_found). }`, '  }',
       ...second && trade ? [`  Topic ${w}_rumour2 with ${values.merchant} ${q(`Ask {${values.merchant}} ${trade.topic}`)} when true once {`,
         `    Says ${q(`${second} {${values.merchant}} ${trade.says}`)}.`,
-        ...purpose.objective.goal ? [`    On discuss { Assert knows(actor, ${values.w}_story). }`] : [], '  }'] : [],
+        // What he names, the map names too (he says Lapisrecs; the mound had stayed "a great long mound with a door of
+        // stone", and a cold player went to another: Mission 20's third round, D 104), though not the way there.
+        `    On discuss { Assert knows(actor, ${values.w}_named).${purpose.objective.goal ? ` Assert knows(actor, ${values.w}_story).`
+          : ''} }`, '  }'] : [],
       ...ore ? [`  Initially Set pays(${values.merchant}, ${ore.kind}) to ${ore.worth}.`] : [],
       ...this.home(purpose, values)];
   }

@@ -19,7 +19,8 @@ describe('a calling\'s own way in the first town', () => {
     const warrior = await start('warrior');
     await warrior.step('To the landing at Lowmouth');
     expect(warrior.offers('pick the corn-store padlock')).toBe(false);
-    expect(await warrior.step('Wrench the padlock')).toMatch(/hangs open on its hasp/);
+    // Torn out, not opened: the hasp hangs by one bolt, and the store's owner will know (Mission 20).
+    expect(await warrior.step('Wrench the padlock')).toMatch(/hasp hangs out of the corn-store door/);
   }, 120000);
   it('lets a cleric lay the dead by the rite, and a mage end it by what the ring says', async () => {
     const cleric = await start('cleric');
