@@ -3,7 +3,7 @@ import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { MonoBrowser } from './support/mono-browser';
-import { TestSite } from './support/test-site';
+import { SiteBuild } from '../src/cli/site-build';
 
 // The reference first hour, played through the page by its leads alone, with a picture of every step (KYRIE_TOUR; the
 // pictures to KYRIE_SHOTS): a fixed world (kahitude), an ordinary warrior, the debt. At a place, what the glance leads
@@ -15,7 +15,7 @@ describe.skipIf(!process.env.KYRIE_TOUR)('the reference hour, through the page',
     const out = process.env.KYRIE_SHOTS ?? await mkdtemp(join(tmpdir(), 'kyrie-tour-'));
     await mkdir(out, { recursive: true });
     const site = await mkdtemp(join(tmpdir(), 'kyrie-tour-site-'));
-    await TestSite.build(site, {});
+    await SiteBuild.site(site, {});
     const browser = await MonoBrowser.launch();
     const { page, errors, driver: d } = await MonoBrowser.page(browser, { width: 1280, height: 800 },
       { site, query: '?world=kahitude' });
@@ -51,7 +51,8 @@ describe.skipIf(!process.env.KYRIE_TOUR)('the reference hour, through the page',
         await page.keyboard.press('Escape'); await d.settle();
         continue;
       }
-      if (st.mode === 'map') {
+      // The map over the place (the board) or as its own page: setting out from it, when it offers that.
+      if (st.mode === 'map' || await page.locator('[data-action="set-out"]').count()) {
         const go = page.locator('[data-action="set-out"]').first();
         log.push(`${step} map: ${await go.count() ? (await go.textContent())?.trim() : 'nothing to set out on'}`);
         if (!await go.count()) { break; }

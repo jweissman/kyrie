@@ -4,7 +4,7 @@ import { mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import type { Page } from 'playwright-core';
-import { TestSite } from './support/test-site';
+import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
 
 // The last page of creation as a player meets it (the owner, 2026-10-30): how you present, a woman, a man or neither,
@@ -26,7 +26,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the name and how you present', () =
   let site = '', browser: Awaited<ReturnType<typeof MonoBrowser.launch>>;
   beforeAll(async () => {
     site = await mkdtemp(join(tmpdir(), 'kyrie-naming-'));
-    await TestSite.build(site, {});
+    await SiteBuild.site(site, {});
     browser = await MonoBrowser.launch();
   }, 300000);
   afterAll(async () => { await browser?.close(); await rm(site, { recursive: true, force: true }); });

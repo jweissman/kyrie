@@ -84,18 +84,21 @@ take a crossing as a journey leg (`PlaySession.leg`), and drivers of the page's 
 
 | Measure | Before | After | Where |
 |---|---|---|---|
-| CI wall clock | 45 m 40 s (the review's run at c56669b4) | see the register's CI row | GitHub, branch m19-contracts |
-| Browser shard 1, test step | 14 m 37 s | 14 m 54 s | GitHub |
+| CI wall clock | 45 m 40 s, shard 1 cancelled at its limit (the review's run at c56669b4) | 45 m 16 s, shard 1 cancelled at its limit; shards 2–5 pass in 25–42 min | GitHub, run 42748386693 on m19-contracts |
+| Player contracts job | — | 2 m 31 s, including checkout and install | GitHub |
+| Reference hour through the page | — | 2 m 31 s | GitHub |
 | Building the browser site, once | — | **2 s** | GitHub |
+| Browser shard 1, test step, site built once | 14 m 37 s | 14 m 54 s | GitHub |
 | `test:intent`: target, hex, choices, stakes (12 tests) | — | 47 s, one process | local |
 | `test:honest`: the opening, two journeys | — | 20 s | local |
 | `test:quick` (572 tests) | — | 42 s | local, 16 workers |
 | A save after about 25 commands (kahitude) | — | 22 MB | honest probe |
 
-**The site was not the lever.** Building it once saved no measurable time: one build takes two seconds, so the
-twenty-six specs' rebuilds cost under a minute. The throughput review's hypothesis that site rebuilds drove browser
-time is not borne out; the time is in the journeys themselves. The change stays (it removes duplicated work) but is
-not reported as a speed-up.
+**The site was not the lever.** One build takes two seconds, so the twenty-six specs' rebuilds cost under a minute;
+building it once changed the shard's time by nothing measurable. The shared site also was not equivalent: built with
+every fixture, its larger bundle made the handbook specs time out. It was reverted. The throughput review's
+hypothesis that site rebuilds drove browser time is not borne out; the time is in the journeys themselves. Shard 1
+of the suite runs to its 45-minute limit before and after this pass: its balance is the next CI lever.
 
 New in CI: a **player contracts** job (`test:intent`, `test:honest`) that answers in minutes, before the suite's
 verdict; and a **reference hour** job that plays the debt's opening through the page by its leads and keeps a

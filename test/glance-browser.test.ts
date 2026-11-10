@@ -4,7 +4,7 @@ import { mkdir, mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import type { Page } from 'playwright-core';
-import { TestSite } from './support/test-site';
+import { SiteBuild } from '../src/cli/site-build';
 import { HexBoundary } from '../src/hex-boundary';
 import { Journey } from '../src/session/journey';
 import { MonoBrowser } from './support/mono-browser';
@@ -82,7 +82,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a place at a glance', () => {
   let site = '', browser: Awaited<ReturnType<typeof MonoBrowser.launch>>;
   beforeAll(async () => {
     site = await mkdtemp(join(tmpdir(), 'kyrie-glance-'));
-    await TestSite.build(site, { fixtures: true });
+    await SiteBuild.site(site, { fixtures: true });
     browser = await MonoBrowser.launch();
   }, 300000);
   afterAll(async () => { await browser?.close(); await rm(site, { recursive: true, force: true }); });

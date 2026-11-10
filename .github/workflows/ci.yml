@@ -90,10 +90,8 @@ jobs:
         with: { bun-version: 1.4.3 }
       - run: bun install --frozen-lockfile
       - run: bunx playwright-core install --with-deps chromium
-      # The page the specs play, built once for the shard (see test/support/test-site.ts), not once by each spec.
-      - run: bun scripts/build-test-site.ts "${{ runner.temp }}/site"
       - run: bun test --shard=${{ matrix.shard }}/2 $(ls test/*-browser.test.ts) --reporter=junit --reporter-outfile=junit.xml
-        env: { KYRIE_BROWSER: "1", KYRIE_SITE: "${{ runner.temp }}/site" }
+        env: { KYRIE_BROWSER: "1" }
       - if: always()
         run: bun scripts/test-summary.ts junit.xml --title "Browser specs, shard ${{ matrix.shard }} of 2" --none-skipped
   # The reference first hour played through the page by its leads alone, a picture of every step kept as the run's

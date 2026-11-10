@@ -3,7 +3,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'bun:test';
 import { mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { TestSite } from './support/test-site';
+import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
 
 // The handbooks in the built site: reached from the options (the title opens the Encyclopedia), searchable,
@@ -13,7 +13,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the handbooks in the browser', () =
   let site = '', browser: Awaited<ReturnType<typeof MonoBrowser.launch>>;
   beforeAll(async () => {
     site = await mkdtemp(join(tmpdir(), 'kyrie-handbook-'));
-    await TestSite.build(site);
+    await SiteBuild.site(site);
     browser = await MonoBrowser.launch();
   }, 60_000);
   afterAll(async () => { await browser?.close(); await rm(site, { recursive: true, force: true }); });
