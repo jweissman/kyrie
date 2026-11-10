@@ -12,6 +12,8 @@ Module kit_teller "One who tells of a placement" {
   Rule told_out when stale(word) and testimony(teller, asked) { Retract testimony(teller, asked). }
   Topic thanks with teller "Tell {teller} about {asked}" when stale(word) once {
     Says "{teller} has heard already, as people hear everything, and will not take your money tonight. 'Drink up,' {teller} says. 'There's more than me glad of it.'".
+    // And means it: a bed on the house (a cold player was told so, and charged three coin for the bed: Mission 20).
+    On discuss { Assert onTheHouse(teller, actor). }
   }
   Goal false.
 }
