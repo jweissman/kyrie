@@ -335,9 +335,16 @@ export class Glance {
       // No known way to it, but a way from here into the site it is in: that (the far end of a hold not yet walked,
       // through its door just opened).
       const site = Spatial.ancestry(byId, id).find(e => e.space?.kind === 'site')?.id;
-      const exit = first ? screen.exits.find(e => e.destination.id === first) : site ? screen.exits.find(e =>
-        Spatial.ancestry(byId, e.destination.id).some(a => a.id === site) && !e.blocked) : undefined;
-      if (exit && !out.has(exit.id)) { out.set(exit.id, why); }
+      // Where no way to it is known yet, the heart of the town's quarter it stands in: from Tuck's yard, the landing
+      // the inn stands on had been led only as somewhere not yet been, not as the way toward the aim (Mission 20).
+      const to = first ?? (near && id !== here ? screen.quarters?.find(q => q.places.includes(id))?.heart : undefined);
+      const exit = to && to !== here ? screen.exits.find(e => e.destination.id === to)
+        : site ? screen.exits.find(e => Spatial.ancestry(byId, e.destination.id).some(a => a.id === site) && !e.blocked)
+          : undefined;
+      // Or the walk about the town that goes there.
+      const walk = !exit && to && screen.around?.some(d => d.id === to) ? `travel:${to}` : undefined;
+      const way = exit?.id ?? walk;
+      if (way && !out.has(way)) { out.set(way, why); }
     }
     // No known way toward the aim shown, nor a journey to it: in the open country, the step that goes nearest it
     // (REV-08).

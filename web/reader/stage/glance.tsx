@@ -151,6 +151,7 @@ export class GlanceStage {
   static Resting({ app, draw, acts, top }: { app: ReaderApp; draw: Draw; acts: Promoted[]; top?: string }) {
     const shown = GlanceStage.pressing(acts), search = Pastime.search(app), hand = AtHand.of(app);
     const ways = Wayfinder.ways(app), only = GlanceStage.only(app), posted = GlanceStage.posted(app);
+    const found = GlanceStage.found(app, hand);
     return <>
       {shown.length > 0 && <GlanceStage.Acts app={app} draw={draw} acts={shown} top={top} />}
       <p className="openers">
@@ -160,6 +161,7 @@ export class GlanceStage {
           className={`opener opens-go${only.aim === 'followed' ? ' led' : ''}`}>
           {Typography.curl(`To ${only.name}…`)}</Act.View>
           : <Explorer.Opener app={app} part="go" label="Go…" led={!!Wayfinder.aimed(ways)} />}
+        {found && <Explorer.Opener app={app} part="look" label={`${found.name}…`} led={GlanceStage.serves(app, [found])} />}
         {hand.length > 0 && <Explorer.Opener app={app} part="look" label="Look…" led={GlanceStage.serves(app, hand)} />}
         {Pastime.wait(app) && <Explorer.Opener app={app} part="wait" label="Wait…" glyph="wait" />}
         {search && <Act.View choice={search} draw={draw} quiet className="opener search by-glyph">
@@ -171,6 +173,13 @@ export class GlanceStage {
   // under Look…, one thing among others): the place's own offer to read it. Read, it is at hand like the rest.
   static posted(app: ReaderApp): Choice | undefined {
     return (app.menu.scene?.you ?? []).find(c => SceneModel.own(c) && /^Read /.test(c.label) && !c.disabled);
+  }
+  // A find the place leads with (the stolen bell in the hobs' plunder, a treasure in a vault), named on the scene with
+  // its own touch, as an unread notice is: it had been only under Look…, undotted for another aim's, and nothing on the
+  // page said it was there (the reference tour of Mission 20 stopped at it). Look… opens on it (see Explorer.open).
+  static found(app: ReaderApp, hand: ReturnType<typeof AtHand.of>): ReturnType<typeof AtHand.of>[number] | undefined {
+    const h = AtHand.led(app, hand), subject = h && app.menu.scene?.subjects.find(x => x.id === h.id);
+    return subject?.kind === 'thing' ? h : undefined;
   }
   // Whether a thing at hand is led with for the aim followed: what that aim names, or is about (see Affordances).
   static serves(app: ReaderApp, hand: ReturnType<typeof AtHand.of>): boolean {

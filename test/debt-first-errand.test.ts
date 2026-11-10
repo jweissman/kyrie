@@ -11,6 +11,14 @@ const debtor = async () => Journey.of(await DrawnWorld.start('kahitude', { origi
 // in", where the mummy that kills a newcomer waits; the inn no longer told of deep halls, but the town led there. A
 // site's ground is not "further in" from a town's street (Glance.inward).
 describe('the landing, on the way to the inn', () => {
+  // From Tuck's yard, before any way to the inn is known, the aim's way is the heart of the quarter the inn is in: it
+  // had been led only as somewhere not yet been (Glance.toward).
+  it('is led to from Tuck’s yard as the way toward the aim', async () => {
+    const j = await debtor();
+    await j.play('Tell Tuck');
+    const first = Glanced.of(j.session).glance.acts[0];
+    expect([first?.label, first?.why]).toEqual(['To the landing at Thornhaven', 'toward']);
+  }, 120000);
   it('does not lead out to the king-barrow', async () => {
     const j = await debtor();
     await j.play('Tell Tuck', 'To the landing');

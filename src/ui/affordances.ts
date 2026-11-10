@@ -265,8 +265,9 @@ export class Affordances {
       kind: 'travel' as const, order: 0, marks: d.minutes > 10 && Marks.journey(screen.elapsed, d.minutes) ? [Marks.dusk] : [],
       minutes: d.minutes, visited: visited.has(d.id),
       pointed: r.pointed.has(d.id), whys: [...r.named.has(d.id) && !r.idle?.has(d.id) ? ['named' as const] : [],
+        ...r.toward.has(`travel:${d.id}`) ? [r.toward.get(`travel:${d.id}`)!] : [],
         ...r.held.has(d.id) && !r.idle?.has(d.id) ? ['held' as const] : [], ...visited.has(d.id) ? [] : ['unvisited' as const]],
-      notes: { named: 'your aim', held: 'another aim' } }));
+      notes: { named: 'your aim', held: 'another aim', toward: 'toward your aim' } }));
   }
   // A journey to where the aim shown is, further than the ways from here, by the way the company knows (as far as it
   // is known), unless it goes only as far as here: a far aim had been set out for from the map alone (the owner, 31
