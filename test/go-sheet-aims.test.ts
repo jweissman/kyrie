@@ -12,6 +12,8 @@ import { Act } from '../web/reader/stage/act';
 import { Wayfinder } from '../web/reader/stage/wayfinder';
 import type { AppState, ReaderApp } from '../web/reader/reader-app';
 import { Glanced } from './support/glanced';
+import { DrawnWorld } from '../src/world/drawn-world';
+import { Journey } from '../src/session/journey';
 
 // The page as Go… sees it, where the company stands now.
 class Page {
@@ -83,4 +85,16 @@ describe('Go… and the places the aims name', () => {
     page.state = { ...page.state, hovered: aimed[0]!.c.id };
     expect(page.said()).toEqual(['Another aim', 'The market-place of Newmeet']);
   }, 60000);
+
+});
+
+// A place an aim names, followed or not: the old quarry pit, given with its key and its job at the inn, sat folded in
+// the edge of town's one row until its aim was followed from the Notes (Mission 20's fourth round, F 43).
+describe('Go… and a place an aim names, not followed', () => {
+  it('lists the old quarry pit by its own name once its job is given', async () => {
+    const j = Journey.of(await DrawnWorld.start('kahitude', { origin: 'wanderer',
+      party: [{ name: 'Rangrim', raceId: 'dwarf', classId: 'warrior' }] }, NodeBundleSource.shared));
+    await j.play('>s1_taproom', 'about the old quarry');
+    expect(Page.at(Glanced.of(j.session)).ways().map(w => w.name)).toContain('the old quarry pit');
+  }, 120000);
 });

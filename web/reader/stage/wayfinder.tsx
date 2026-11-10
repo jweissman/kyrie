@@ -183,7 +183,11 @@ export class Wayfinder {
     // A place an aim names in another quarter is listed by its own name as well, among the town's further places: the
     // churchyard, in Karir's waterside, had been folded into the quarter's one row, gone by to the waterside, and
     // nowhere on the sheet named or marked (the fresh playtest of 7 November).
-    const named = new Set(ways.filter(w => w.aim && of(w) && !of(w)!.here && to(w) !== of(w)!.heart).map(w => w.c.id));
+    // So is one any aim held names, led to or not: the old quarry pit, given with its key and its job, had been folded
+    // into the edge of town until its aim was followed from the Notes (Mission 20's fourth round, F 43).
+    const aimed = new Set((screen.aims ?? []).flatMap(a => a.places ?? []));
+    const named = new Set(ways.filter(w => (w.aim || aimed.has(to(w))) && of(w) && !of(w)!.here
+      && to(w) !== of(w)!.heart).map(w => w.c.id));
     const done = new Set<string>();
     for (const w of ways) {
       const q = of(w);

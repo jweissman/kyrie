@@ -129,7 +129,7 @@
     {"kind": "abbey", "words": ["abbey", "cloister", "priory", "monastery", "brothers"], "ground": ["abbey", "fane"], "room": ["scene-commandery", "breviary"]},
     {"kind": "ruin", "words": ["ruin", "ruins", "ruined", "porch", "arch", "arches"], "ground": ["ruin", "arch", "rest", "fane"]},
     {"kind": "toll-house", "words": ["toll-house", "tollhouse", "toll-houses"], "ground": ["ruin", "arch", "rest", "fane"]},
-    {"kind": "stones", "words": ["stones", "march", "standing", "dolmen", "menhir", "henge", "cairn"], "ground": ["trilith"], "parts": {"path": ["scene-ruins-hill"], "hall": ["scene-ruins-tribunal"], "dome": ["scene-ruins-cenotaph"], "tree": ["scene-ancient-tree"]}},
+    {"kind": "stones", "words": ["stones", "march", "standing", "dolmen", "menhir", "henge", "cairn"], "ground": ["trilith"], "parts": {"path": ["scene-ruins-hill"], "stones": ["scene-ruins-hill"], "hall": ["scene-ruins-tribunal"], "dome": ["scene-ruins-cenotaph"], "tree": ["scene-ancient-tree"]}},
     {"kind": "fair", "words": ["circus", "tober", "carnival", "booths"], "ground": ["scene-carnival"]},
     {"kind": "stage", "words": ["theatre", "theater", "players", "playhouse", "playbill"], "ground": ["scene-theatre-stone", "scene-theatre-woods"]},
     {"kind": "arena", "words": ["arena", "colosseum", "amphitheatre", "amphitheater"], "ground": ["scene-arena"]},

@@ -13,9 +13,13 @@ export class Quarters {
   // A place of another module standing in the town with no quarter of its own (a going-on's ground, a scenario's
   // yard): in the quarter its role names (the last word of its id, as the town's quarters table has them), else in the
   // quarter of a place of the town it opens off, else none.
+  // A room of a site standing in the town (the Hall, the old stones on the hill) is in the quarter of the place it
+  // opens off, if it opens off one: they had stood apart from every quarter, a group of their own at the green.
   private static placed(world: World, e: Entity, at: { town: string; chain: Entity[]; own: Set<string> }):
     string | undefined {
-    if (e.space?.parent !== at.town || e.space.kind === 'settlement' || e.space.shelter === 'underground') {
+    const sited = at.chain.some(a => a.space?.kind === 'site' && a.space.parent === at.town);
+    if ((e.space?.parent !== at.town && !sited) || e.space?.kind === 'settlement' || e.space?.kind === 'site'
+      || e.space?.shelter === 'underground') {
       return undefined;
     }
     const role = e.id.replace(/_[a-z]$/, '').split(/_+/).at(-1) ?? '';

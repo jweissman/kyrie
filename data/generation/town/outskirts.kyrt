@@ -8,7 +8,7 @@
   // The Hall: the house of whoever holds the land round the town now, at the top of an avenue from the town's heart.
   // Lived in, and safe; its household's things are theirs.
   Place {t}_manor "{town} Hall" is site within {t} at 5, 0.
-  Place {t}_manor_front "the forecourt" is room within {t}_manor at 1, 1 outdoors.
+  Place {t}_manor_front "the forecourt of {town} Hall" is room within {t}_manor at 1, 1 outdoors.
   Place {t}_manor_hall "the great hall" is room within {t}_manor at 1, 0 indoors.
   Place {t}_manor_loggia "the loggia" is room within {t}_manor at 2, 0 indoors.
   Place {t}_manor_library "the library" is room within {t}_manor at 0, 0 indoors.
@@ -65,7 +65,7 @@
   // The old stones: the first makers' ruin on the hill above the town, up a path from its heart. A view, a hall with
   // their writing in it, a dome where the lights are after dark, and a tree the folk still tie rags to.
   Place {t}_stones "the old stones above {town}" is site within {t} at 6, 0.
-  Place {t}_stones_top "the hill-path" is room within {t}_stones at 1, 1 outdoors.
+  Place {t}_stones_top "the hill-path to the old stones" is room within {t}_stones at 1, 1 outdoors.
   Place {t}_stones_hall "the judgement hall" is room within {t}_stones at 1, 0 outdoors.
   Place {t}_stones_dome "the dome" is room within {t}_stones at 2, 0 indoors.
   Place {t}_stones_tree "the old tree" is room within {t}_stones at 0, 1 outdoors.

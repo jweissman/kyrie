@@ -201,9 +201,17 @@ export class Itineraries {
     // thirty minutes off, and the town's walks had offered the ossuary (OWN-57's play).
     if (!town || byId.get(here)?.space?.shelter === 'underground') { return []; }
     return campaign.module.entities.filter(e => e.type === 'place' && e.space?.kind === 'room' && e.id !== here
-      && e.space.shelter !== 'underground' && Spatial.ancestry(byId, e.id).some(a => a.id === town.id))
+      && e.space.shelter !== 'underground' && Spatial.ancestry(byId, e.id).some(a => a.id === town.id)
+      && this.entrance(campaign, byId, e.id))
       .flatMap(r => { const p = this.route(campaign, r.id, true); return p && p.legs.length > 1 ? [p] : []; })
       .sort((a, b) => a.minutes - b.minutes);
+  }
+  // Of a site standing in the town (the Hall), only the way into it: its inner rooms are gone to from within it (the
+  // old tree on the hill had been listed among the town's walks).
+  private static entrance(campaign: Campaign, byId: Map<string, Entity>, id: string): boolean {
+    const site = this.area(byId, id);
+    return site?.space?.kind !== 'site' || campaign.world.related('connects').some(c => (c.args[1] === id
+      && this.area(byId, c.args[2]!) !== site) || (c.args[2] === id && this.area(byId, c.args[1]!) !== site));
   }
   // A place set out for, with how big it is where it is a site (see SiteScale).
   private static scaled(campaign: Campaign, d: Itinerary, names: Map<string, Entity>): NonNullable<Screen['destinations']>[number] {
