@@ -176,8 +176,10 @@ export class ActionFeedbackView {
   // bone hounds come at you."), then theirs.
   private static fights(event: CampaignEvent, before: PlayerSnapshot,
     names: Parameters<typeof CombatPresenter.format>[1]): string[] {
-    const split = event.prelude?.fought, onset = event.prelude?.response;
-    if (!split) { return this.blows(event.combat, before, names); }
+    // Set upon in the midst of something done with no fight of its own (a firebomb thrown through a crack), what came
+    // of it is told before the fight, not lost (two cold players learned the brood was burned only from the reward).
+    const split = event.prelude?.fought ?? 0, onset = event.prelude?.response;
+    if (!event.prelude) { return this.blows(event.combat, before, names); }
     return [...this.blows(event.combat.slice(0, split), before, names), ...onset ? [onset] : [],
       ...this.blows(event.combat.slice(split), before, names)];
   }

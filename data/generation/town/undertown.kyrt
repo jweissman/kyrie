@@ -110,7 +110,7 @@
   // Nothing done to the nest from far off: the buck rat is too old for bait, but not for fire.
   Action {t}_u_nest_burned(actor: group, site: place) "Throw an oil firebomb into the nest" {
     Requires able(actor) and company(actor) and at(actor, site) and (at(actor, {t}_u_warren) or at(actor, {t}_u_drain)) and holding(actor, oil_firebomb) and able({t}_u_buck).
-    Time 1.
+    Time 1 minutes.
     On success { Spend oil_firebomb from actor. Slay {t}_u_buck. }
     Result "The flask bursts on the shelf and the straw goes up at once. Something big comes out of it screaming and goes into the water, and does not come up again.".
   }
@@ -118,7 +118,7 @@
   // (Mission 19's Priority Three), for one who would not be bitten.
   Action {t}_u_rats_slept(actor: group, site: place) "Lay a spell of sleep over the rats in the run, and do for them where they lie" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_u_warren) and able({t}_u_rats) and memberOf(?m, actor) and awake(?m) and (hasCalling(?m, calling_mage) or learned(?m, sleep)).
-    Time 1.
+    Time 1 minutes.
     On success { Slay {t}_u_rats. }
     Result "The words go out over the run like a breath of cold air, and the rats slow, and stagger, and lie down where they were. It is quick, after that, and not pleasant, and none of them wakes for it.".
   }
@@ -303,9 +303,11 @@
     Change burn "Burn the egg-sacs" from hanging to burnt needing flame when not able({t}_u_mother) "The spiders' mother crouches over them, and will not let you near.".
   }
   // An oil firebomb thrown through the crack does for the mother and the eggs both, for a company that would not go in.
+  // A flask thrown, or a spell said, takes moments, not a turn of the clock: taking a turn, it had been cut short by the
+  // spiders' patience, and a cold player threw it into a fight that said nothing of it (Mission 20, log E32).
   Action {t}_u_brood_burned(actor: group, site: place) "Throw an oil firebomb through the crack into the brood-chamber" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_u_gallery) and holding(actor, oil_firebomb) and able({t}_u_mother).
-    Time 1.
+    Time 1 minutes.
     On success { Spend oil_firebomb from actor. Slay {t}_u_mother. Retract state({t}_u_eggs, hanging). Assert state({t}_u_eggs, burnt). }
     Result "The flask bursts somewhere behind the web, and the crack fills with light. Something heavy thrashes in there a long while, and then the only sound is the sacs popping in the heat.".
   }
@@ -313,7 +315,7 @@
   // hands, thrown through the crack as the flask is, for no flask.
   Action {t}_u_brood_spelled(actor: group, site: place) "Burn the brood-chamber through the crack with a magician's fire" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_u_gallery) and able({t}_u_mother) and memberOf(?m, actor) and awake(?m) and (hasCalling(?m, calling_mage) or learned(?m, firebolt) or learned(?m, burning_hands) or learned(?m, scald)).
-    Time 1.
+    Time 1 minutes.
     On success { Slay {t}_u_mother. Retract state({t}_u_eggs, hanging). Assert state({t}_u_eggs, burnt). }
     Result "The words come out cold and the fire comes out hot: it goes through the crack in a sheet, and the web catches like paper. Something heavy thrashes behind it a long while, and then the only sound is the sacs popping in the heat.".
   }
@@ -321,7 +323,7 @@
   // fire runs up it into the gallery. The egg-sacs at the back are still to be seen to.
   Action {t}_u_spiders_burned(actor: group, site: place) "Throw an oil firebomb into the web across the cutting" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_u_adit) and holding(actor, oil_firebomb) and able({t}_u_spiders).
-    Time 1.
+    Time 1 minutes.
     On success { Spend oil_firebomb from actor. Slay {t}_u_spiders. }
     Result "The flask bursts against the web and the fire runs up it into the dark of the cutting, faster than you would have thought. Something screams in a voice like wet wood in a grate. When it has burned out, nothing moves in there.".
   }
