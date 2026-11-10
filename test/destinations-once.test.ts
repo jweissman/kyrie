@@ -20,9 +20,9 @@ describe('places to set out for', () => {
     told.commit(told.world.apply([{ kind: 'assert', call: ModuleWriter.call('knows', 'party', lead) }]));
     GeneratedWorld.put(s, 'w2');
     const into = PlayerView.choices(c).find(x => /^go\(/.test(x.choice.id) && !/track/.test(x.choice.name))!;
-    await s.perform(into.choice.id);
+    await s.leg(into.choice.id);
     GeneratedWorld.put(s, start);
-    await s.perform('wait');
+    await s.leg('wait');
     expect(Itineraries.destinations(c).map(d => d.name).filter(n => n === 'Campancol')).toEqual(['Campancol']);
   }, 120000);
 });

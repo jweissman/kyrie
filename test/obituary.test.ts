@@ -20,7 +20,7 @@ describe('the ending', () => {
     c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('at', 'party', hall) },
       { kind: 'retract', call: ModuleWriter.call('unlit', hall) }]));
     for (let i = 0; i < 30 && s.campaign.readout.creatures.some(x => s.campaign.readout.partyIds.includes(x.id)
-      && x.state.hp > 0); i++) { await s.perform('wait'); }
+      && x.state.hp > 0); i++) { await s.leg('wait'); }
     const told = Obituary.of(s.campaign);
     expect(told.title).toBe('Wenna is dead');
     expect(told.lines).toContain('You were set upon as you went to wait a while.');

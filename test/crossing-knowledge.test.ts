@@ -25,7 +25,7 @@ describe('knowledge and a country joined later', () => {
     await GeneratedWorld.travel(s, 'edge_west');
     const drawn = await new Frontier('a1', NodeBundleSource.shared).expand(s.campaign);
     const road = PlayerView.choices(s.campaign).find(x => /road across the march/.test(x.choice.name))!;
-    expect((await s.perform(road.choice.id)).result).toBe('success');
+    expect((await s.leg(road.choice.id)).result).toBe('success');
     expect(s.campaign.world.one('at', 'party')).toStartWith(`${drawn!.rid}__`);
   }, 180000);
   it('still refuses a module that gives the company to know what is not so', async () => {

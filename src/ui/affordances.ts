@@ -241,7 +241,9 @@ export class Affordances {
         ? [r.named.has(dest) || r.held.has(dest) ? 'own' as const : 'unlooked' as const] : []];
     // A try on a way barred (look at the portcullis) is something done there, not a way.
     const kind = tried ? 'act' as const : exit.bearing ? 'step' as const : 'way' as const;
-    return [this.candidate(c, { exit: exit.id, kind, whys, r,
+    // A way into the next hex is set out on from the map, as a journey there (see HexBoundary): led with, it is that
+    // journey, never the way's own command, which the campaign refuses (the travel-contract review, 9 November).
+    return [this.candidate(c, { exit: exit.id, kind, whys, r, ...exit.crosses && !tried ? { command: `travel:${dest}` } : {},
       notes: { retreat: dest === r.back ? 'the way you came' : 'up, toward the light', named: 'your aim', toward: 'toward your aim', held: 'another aim',
         deeper: 'further in', onward: 'toward the rest of it',
         night: 'a bed for the night', unlooked: exit.blocked ?? '' }, visited: exit.visited,

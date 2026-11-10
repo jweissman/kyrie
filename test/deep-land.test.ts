@@ -34,7 +34,7 @@ describe('the land at a deep site\'s door', () => {
     const s = await Door.start('warrior');
     const lease = (s.campaign as unknown as { creatures: CreatureStore }).creatures.acquire(['region__w9_keeper_person']);
     try { lease.creatures[0]!.state.hp = 0; lease.commit(lease.creatures); } finally { lease.release(); }
-    await s.perform('wait');
+    await s.leg('wait');
     expect(Door.seen(s)).toContain('a wheatear has a nest in the spoil');
     expect(Door.seen(s)).not.toContain('The heather stops a long stride short');
   }, 60000);

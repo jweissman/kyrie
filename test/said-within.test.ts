@@ -11,11 +11,11 @@ describe('a rule said within a city', () => {
   it('waits below, and is told when the company comes up into the city', async () => {
     const s = await PlaySession.start('test/fixtures/probes/within/probe.campaign.json', 'within', NodeBundleSource.shared);
     const voted = () => s.campaign.world.test(ModuleWriter.call('p__voted', 'p__board'));
-    const below = await s.perform('wait_hour');
+    const below = await s.leg('wait_hour');
     expect((below.perceptions ?? []).map(p => p.text).join(' ')).not.toContain('Bells');
     expect(voted()).toBe(false);
     const up = PlayerView.choices(s.campaign).find(c => c.choice.id.startsWith('go(p__sea_stair'))!;
-    const event = await s.perform(up.choice.id);
+    const event = await s.leg(up.choice.id);
     expect((event.perceptions ?? []).map(p => p.text)).toContain('Bells across the city: the Board has voted.');
     expect(voted()).toBe(true);
   }, 60000);

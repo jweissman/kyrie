@@ -69,7 +69,7 @@ describe('the Exchange answers being asked', () => {
     // Low Water, entered later, finds no lot and a bare cloth; Halm says why.
     await GeneratedWorld.travel(s, 'gate_lowwater'); await frontier.expand(s.campaign);
     await GeneratedWorld.travel(s, 'plowwater__dig');
-    await s.perform('wait');
+    await s.leg('wait');
     expect(PlayerView.observe(s.campaign).observations.map(o => o.text).join(' ')).toContain('there is nothing. A tin tag lies on it');
     expect(j.holds('keeps', 'plowwater__halm', 'plongman__teeth')).toBe(false);
     // The island's agent has lost his buyer: the Dorothea, entered later, brings it to Skerrow.

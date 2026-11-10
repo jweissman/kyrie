@@ -18,8 +18,8 @@ describe('a rule written once', () => {
       'ro.campaign.json': JSON.stringify({ version: 1, name: 'ro', modules: [{ id: 'p', bundle: 'ro/module.json' }],
         party: [{ name: 'Ama', raceId: 'human', classId: 'warrior' }] }) });
     const s = await PlaySession.start(source.resolve('ro.campaign.json'), 'ro', source);
-    const first = await s.perform('wait');
-    for (let i = 0; i < 3; i++) { await s.perform('wait'); }
+    const first = await s.leg('wait');
+    for (let i = 0; i < 3; i++) { await s.leg('wait'); }
     const n = (name: string) => s.campaign.world.number({ kind: 'call', name, args: ['party'] });
     expect([n('p__rung'), n('p__tolled') > 1]).toEqual([1, true]);
     expect((first.perceptions ?? []).map(p => p.text)).toContain('A bell rings once.');

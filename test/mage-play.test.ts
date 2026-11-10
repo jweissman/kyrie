@@ -90,7 +90,7 @@ describe('a mage in the king-barrow', () => {
     for (let n = 0; n < 8; n++) {
       const ask = PlayerView.choices(s.campaign).find(c => /^Ask Tharash (?!again)/.test(c.choice.name));
       if (!ask) { break; }
-      await s.perform(ask.choice.id);
+      await s.leg(ask.choice.id);
     }
     expect(PlayerView.choices(s.campaign).some(c => /^Ask Tharash (?!again)/.test(c.choice.name))).toBe(false);
     expect(ScreenModel.build(s.campaign).people.filter(p => p.companion).map(p => p.name.split(',')[0])).toEqual(['Tharash']);

@@ -14,7 +14,7 @@ describe('the odds of a fight, before it and in it', () => {
     for (const c of ['go(march__shop_door,march__shop_floor)', 'buy_item(march__nera_torch_1,march__member_party_1)',
       'go(march__shop_door,march__quay)', 'go(march__causeway_path,march__causeway)', 'go(march__ridge_track,march__ridge)',
       'go(sink__sink_path,sink__lip)', 'go(sink__shaft,sink__cave)', 'light_item(march__nera_torch_1)',
-      'change_thing(brood__webs_hack)', 'go(sink__web_gallery,sink__nest)']) { await s.perform(c); }
+      'change_thing(brood__webs_hack)', 'go(sink__web_gallery,sink__nest)']) { await s.leg(c); }
     const foreseen = DangerSense.reckon(s.campaign, 'brood__brood')!;
     const battle = s.campaign.encounterBattle(PlayerView.resolve(s.campaign, 'attack(brood__brood)'));
     expect(DangerSense.of(battle)).toBe(foreseen);

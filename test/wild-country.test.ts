@@ -68,7 +68,7 @@ describe('wild country', () => {
   it('can be crossed: its edge leads to more than one road or settlement', async () => {
     const { s } = await Wood.start();
     GeneratedWorld.put(s, 'z3_edge');
-    await s.perform('wait');
+    await s.leg('wait');
     const out = PlayerView.choices(s.campaign)
       .filter(c => /_green\)$/.test(c.choice.id) || /^Take .* to the road /.test(c.choice.name));
     expect(out.length).toBeGreaterThanOrEqual(2);
@@ -76,7 +76,7 @@ describe('wild country', () => {
   it('can be struck across between places the company has been, can lose it, and lets it find its way again', async () => {
     const { s } = await Wood.start();
     GeneratedWorld.put(s, 'z3_edge');
-    await s.perform('wait');
+    await s.leg('wait');
     await Wood.take(s, /to the charcoal-burners' clearing in Oakhurst$/);
     await Wood.take(s, /to the old bank( in Oakhurst)?$/);
     expect(s.campaign.world.one('at', 'party')).toBe('region__z3_deep');
@@ -105,7 +105,7 @@ describe('wild country', () => {
     const view = zone && RegionZones.landmarks(region, zone).find(l => l.view);
     expect(view).toBeDefined();
     GeneratedWorld.put(s, view!.id);
-    await s.perform('wait');
+    await s.leg('wait');
     await Wood.take(s, /^Climb up and look out over/);
     expect(s.campaign.world.test(ModuleWriter.call('knows', 'party', `region__${zone!.id}_mapped`))).toBe(true);
   }, 60000);

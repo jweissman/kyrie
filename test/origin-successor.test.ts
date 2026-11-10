@@ -22,7 +22,7 @@ class Ended {
   static async purse(s: PlaySession, gold: number) {
     const lease = (s.campaign as unknown as { creatures: CreatureStore }).creatures.acquire(s.campaign.state.partyIds);
     try { lease.creatures[0]!.state.gold = gold; lease.commit(lease.creatures); } finally { lease.release(); }
-    await s.perform('wait');
+    await s.leg('wait');
   }
   static async take(s: PlaySession, pattern: RegExp) {
     const c = PlayerView.choices(s.campaign).find(x => pattern.test(x.choice.name));
@@ -53,7 +53,7 @@ describe('an origin\'s ending', () => {
     const c = s.campaign as unknown as { world: World; commit(w: World): void };
     c.commit(c.world.apply([`history_${art}`, `history_${art}_fate`].map(f =>
       ({ kind: 'assert' as const, call: ModuleWriter.call('knows', 'party', `region__${f}`) }))));
-    await s.perform('wait');
+    await s.leg('wait');
     expect(Ended.knows(s, `region__${great.id}_found`)).toBe(true);
   }, 120000);
 });

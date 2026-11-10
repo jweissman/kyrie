@@ -46,7 +46,7 @@ describe('the family of one come home', () => {
       .map(e => given(e.id));
     expect(['drover__wife', 'drover__son'].filter(id => others.includes(given(id)))).toEqual([]);
     GeneratedWorld.put(s, `${town}_green`);
-    await s.perform('wait');
+    await s.leg('wait');
     const met = Home.face(s, son);
     expect(Home.age(met)).not.toBe('old');
     const greeted = await Home.act(s, /^talk_to\(drover__son\)$/);
@@ -54,7 +54,7 @@ describe('the family of one come home', () => {
     await Home.act(s, /to join the company$/);
     expect(Home.face(s, son)).toBe(met);
     GeneratedWorld.put(s, `${town}_taproom`);
-    await s.perform('wait');
+    await s.leg('wait');
     expect(Home.age(Home.face(s, 'drover__wife'))).not.toBe('young');
     const turned = PlayerView.observe(s.campaign), mother = await Home.act(s, /^talk_to\(drover__wife\)$/);
     const line = (e: typeof mother) => (e.voiced ?? []).find(v => v.kind === 'address')!;
@@ -85,13 +85,13 @@ describe('the family of one come home', () => {
   it('has the brother speak of the oxen once the cart is behind the company', async () => {
     const { s, town } = await Home.start();
     GeneratedWorld.put(s, `${town}_green`);
-    await s.perform('wait');
+    await s.leg('wait');
     await Home.act(s, /^talk_to\(drover__son\)$/);
     await Home.act(s, /what he means to do$/);
     await Home.act(s, /to join the company$/);
     const c = s.campaign as unknown as { world: { apply(c: unknown[]): unknown }; commit(w: unknown): void };
     c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('knows', 'party', 'drover__found_cart') }]));
-    const told = await s.perform('wait');
+    const told = await s.leg('wait');
     expect((told.perceptions ?? []).map(p => p.text).join(' ')).toMatch(/has said nothing since the ditch/);
     expect(ScreenModel.build(s.campaign).objectives.some(a => /took the drover.s oxen/.test(a))).toBe(true);
   }, 120000);

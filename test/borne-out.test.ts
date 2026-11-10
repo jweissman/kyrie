@@ -33,6 +33,11 @@ class Told {
   static async perform(host: EngineHost, command: string): Promise<Frame> {
     return await host.handle({ kind: 'perform', command }) as Frame;
   }
+  // A step as the page takes it: a way into the next hex set out on, as from the map; anything else done.
+  static async step(host: EngineHost, s: PlaySession, command: string): Promise<Frame> {
+    const over = s.crosses(command);
+    return over ? await host.handle({ kind: 'travel', destination: over }) as Frame : this.perform(host, command);
+  }
   // Goes to the innkeeper where they are now, waiting for them as need be (asleep, or about their day), and asks of
   // the site; and what the page noted.
   static async ask(host: EngineHost, s: PlaySession, at: { site: string; keeper: string }): Promise<string[]> {
@@ -48,10 +53,7 @@ class Told {
   static async walk(host: EngineHost, s: PlaySession, place: string): Promise<string[]> {
     const notes: string[] = [];
     for (const [passage, to] of GeneratedWorld.path(s, place)) {
-      // A way into the next hex is set out on, as the page does it from the map.
-      const command = `go(${passage},${to})`, over = s.crosses(command);
-      const frame = over ? await host.handle({ kind: 'travel', destination: over }) as Frame : await this.perform(host, command);
-      notes.push(...frame.leaf.exchange?.notes ?? []);
+      notes.push(...(await this.step(host, s, `go(${passage},${to})`)).leaf.exchange?.notes ?? []);
     }
     return notes;
   }
@@ -79,7 +81,7 @@ describe('as you were told', () => {
     // Said once: not on the next thing done there, nor on coming back.
     expect(Told.borne((await Told.perform(host, 'wait')).leaf.exchange?.notes ?? [])).toEqual([]);
     const away = GeneratedWorld.path(s, at!.room)[0]!;
-    await Told.perform(host, `go(${away[0]},${away[1]})`);
+    await Told.step(host, s, `go(${away[0]},${away[1]})`);
     expect(Told.borne(await Told.walk(host, s, at!.site))).toEqual([]);
   }, 90000);
   it('bears out nothing seen for itself, and what is heard of a place come to already is heard and seen at once',

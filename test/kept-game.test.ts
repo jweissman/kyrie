@@ -21,7 +21,7 @@ class Kept {
     for (let i = from; i < from + steps; i++) {
       const ids = PlayerView.choices(s.campaign).map(c => c.choice.id)
         .filter(id => /^(go|wait|talk_to|take_leave|ask)/.test(id));
-      const event = await s.perform(ids[(i * 7) % ids.length]!);
+      const event = await s.leg(ids[(i * 7) % ids.length]!);
       done.push(JSON.stringify([event.action, event.changes]));
     }
     return done;

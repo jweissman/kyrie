@@ -17,14 +17,14 @@ describe('a journey toward a place in wild country', () => {
     const s = await PlaySession.start(w.path, 'kite', w.source), c = s.campaign;
     const held = c as unknown as { world: { apply(c: unknown[]): unknown }; commit(x: unknown): void };
     held.commit(held.world.apply([{ kind: 'assert', call: ModuleWriter.call('knows', 'party', 'region__w3_named') }]));
-    const traveller = { campaign: c, perform: (command: string) => s.perform(command) }, commands: string[] = [];
+    const traveller = { campaign: c, perform: (command: string) => s.leg(command) }, commands: string[] = [];
     let stopped: string | undefined;
     for (let tries = 0; tries < 6; tries++) {
       const done = await Travel.go(traveller, 'region__w3');
       commands.push(...done.legs.map(l => l.command));
       stopped = done.stopped;
       if (done.arrived || /^You know no way on/.test(stopped ?? '')) { break; }
-      await s.perform('wait_hour');
+      await s.leg('wait_hour');
     }
     expect(commands.length).toBeGreaterThan(0);
     expect(commands.every(x => x.startsWith('go('))).toBe(true);

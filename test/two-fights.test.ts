@@ -30,7 +30,7 @@ describe('two fights in one', () => {
       { kind: 'set', call: ModuleWriter.call('patience', hounds), value: ModuleWriter.number(0) }]));
     const before = PlayerView.observe(s.campaign);
     const attack = PlayerView.choices(s.campaign).find(x => x.choice.name === 'Attack the rats')!;
-    const event = await s.perform(attack.choice.id);
+    const event = await s.leg(attack.choice.id);
     const told = { event, feedback: ActionFeedbackView.read(s.campaign, event, before), said: attack.choice.name,
       moved: false };
     const leaf = Narrator.leaf(s.campaign, ScreenModel.build(s.campaign), told);

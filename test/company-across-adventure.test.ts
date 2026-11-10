@@ -21,11 +21,11 @@ describe('a company made in play', () => {
       await s.leg(`go(${passage},${to})`);
     }
     const offered = () => PlayerView.choices(c).map(r => r.choice.id);
-    if (offered().includes(`talk_to(${brother})`)) { await s.perform(`talk_to(${brother})`); }
+    if (offered().includes(`talk_to(${brother})`)) { await s.leg(`talk_to(${brother})`); }
     // He says he will come, asked what he means to do; then he is asked to.
-    await s.perform('drover__son_plan');
+    await s.leg('drover__son_plan');
     expect(offered()).toContain(`recruit(${brother})`);
-    await s.perform(`recruit(${brother})`);
+    await s.leg(`recruit(${brother})`);
     expect(c.readout.partyIds).toHaveLength(2);
     await GeneratedWorld.travel(s, 'gate_longman');
     const before = new Set(c.module.entities.map(e => e.id));

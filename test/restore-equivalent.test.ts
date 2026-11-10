@@ -23,12 +23,12 @@ describe('a game opened from its save', () => {
   it('is the game played on, step for step', async () => {
     const drawn = { party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] as never, origin: 'wanderer' };
     const live = await DrawnWorld.start('thorn', drawn, NodeBundleSource.shared);
-    for (let i = 0; i < 10; i++) { await live.perform(Lockstep.pick(live, i), PlaySession.auto); }
+    for (let i = 0; i < 10; i++) { await live.leg(Lockstep.pick(live, i), PlaySession.auto); }
     const opened = PlaySession.resume(JSON.parse(JSON.stringify(live.checkpoint())) as SessionCheckpoint,
       { trusted: false }).extend(new Frontier('thorn', NodeBundleSource.shared));
     for (let i = 10; i < 16; i++) {
       const c = Lockstep.pick(live, i);
-      await live.perform(c, PlaySession.auto); await opened.perform(c, PlaySession.auto);
+      await live.leg(c, PlaySession.auto); await opened.perform(c, PlaySession.auto);
       expect(opened.canonical()).toBe(live.canonical());
     }
   }, 240000);

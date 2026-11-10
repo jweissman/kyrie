@@ -23,11 +23,11 @@ describe('what is out in the country round', () => {
         party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
       const s = await PlaySession.start(w.path, seed, w.source);
       GeneratedWorld.put(s, 's1_taproom');
-      await s.perform('wait');
+      await s.leg('wait');
       const before = Country.marks(s).length;
       const ask = PlayerView.choices(s.campaign).find(c => / what is out in the country round$/.test(c.choice.name));
       expect(ask).toBeDefined();
-      const told = await s.perform(ask!.choice.id) as { response?: string };
+      const told = await s.leg(ask!.choice.id) as { response?: string };
       expect(told.response).toMatch(/Nobody goes to them that has any sense/);
       const sites = w.report.region.sites.map(x => x.name);
       const heard = Country.marks(s).filter(m => sites.includes(m.name));
@@ -35,7 +35,7 @@ describe('what is out in the country round', () => {
       expect(heard.length).toBeGreaterThanOrEqual(3);
       // And there is a way to set out on toward one, out of doors in the town (the journeys the map offers).
       GeneratedWorld.put(s, 's1_green');
-      await s.perform('wait');
+      await s.leg('wait');
       const dests = (ScreenModel.build(s.campaign).destinations ?? []).map(d => d.name);
       expect(heard.some(m => dests.some(d => d.includes(m.name)))).toBe(true);
     }

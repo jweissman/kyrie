@@ -36,7 +36,7 @@ describe('a place known only by its look', () => {
     const info = InformationView.observe(c);
     expect(told([info.location?.name ?? '', ...info.choices.map(x => x.name)])).not.toMatch(/Grimwater|Hollis/);
     const go = PlayerView.choices(c).find(r => r.action.schema === 'go')!;
-    const e = await s.perform(go.choice.id);
+    const e = await s.leg(go.choice.id);
     expect(told((e.voiced ?? []).map(v => v.text))).not.toMatch(/Grimwater/);
   }, 60000);
 });

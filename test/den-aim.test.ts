@@ -17,7 +17,7 @@ describe('a den in the wild, heard of', () => {
     const aims = () => ScreenModel.build(s.campaign).objectives.filter(a => / den at /.test(a));
     expect(aims()).toEqual([expect.stringMatching(/^Something has made its den at /)]);
     GeneratedWorld.put(s, den);
-    await s.perform('wait');
+    await s.leg('wait');
     expect(aims()).toHaveLength(1);
     expect(aims()[0]).not.toMatch(/^Something/);
     expect(aims()[0]).toMatch(/ have a den at /);

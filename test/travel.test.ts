@@ -52,7 +52,7 @@ describe('the way into Merrowdale', () => {
     const [to] = Itineraries.destinations(c);
     expect(to?.name).toBe('the way into Merrowdale');
     expect(to!.legs.length).toBeGreaterThan(1);
-    const done = await Travel.go({ campaign: c, perform: command => s.perform(command) }, to!.id);
+    const done = await Travel.go({ campaign: c, perform: command => s.leg(command) }, to!.id);
     expect([done.arrived, done.stopped, done.legs.length]).toEqual([true, undefined, to!.legs.length]);
     // Told as one journey: it sets out once, not on every leg, and the land is not told twice over (the free play
     // read "You set out from …, and the rain sets out with you" on four legs running).
@@ -73,7 +73,7 @@ describe('the way into Merrowdale', () => {
     await GeneratedWorld.travel(s, 's1_s4_way');
     const bridge = PlayerView.choices(c).find(x => x.choice.id.includes('region__road_s1_s4_on'))!;
     expect(bridge.choice.name).toStartWith('Take the bridge over the Alquarant');
-    const land = ((await s.perform(bridge.choice.id)).voiced ?? []).filter(v => v.kind === 'journey-land');
+    const land = ((await s.leg(bridge.choice.id)).voiced ?? []).filter(v => v.kind === 'journey-land');
     expect(land.map(v => v.id)).toEqual([expect.stringMatching(/^journey-land\.river\.bridge\./)]);
   }, 120000);
   // The Bushweald play read "By the track to {region__w13}" in the legs of a journey home from the site it led to.

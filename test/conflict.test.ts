@@ -25,8 +25,8 @@ class March {
     const members = companies.companies.find(c => c.id === 'fellowship')!.members as CreatureGenerationContext[];
     return PlaySession.start('test/fixtures/march/serewater-march.campaign.json', 'serewater', NodeBundleSource.shared, members);
   }
-  static async walk(s: PlaySession, commands: string[]) { for (const c of commands) { await s.perform(c); } }
-  static async until(s: PlaySession, tick: number) { while (s.campaign.state.elapsed < tick) { await s.perform('wait'); } }
+  static async walk(s: PlaySession, commands: string[]) { for (const c of commands) { await s.leg(c); } }
+  static async until(s: PlaySession, tick: number) { while (s.campaign.state.elapsed < tick) { await s.leg('wait'); } }
   static fact(s: PlaySession, name: string, ...args: string[]) {
     return s.campaign.world.test(ModuleWriter.call(name, ...args));
   }
@@ -71,7 +71,7 @@ describe('the register of names: a power that acts while the company is elsewher
     const world = s.campaign.world.apply([{ kind: 'retract', call: ModuleWriter.call('at', 'party', 'march__quay') },
       { kind: 'assert', call: ModuleWriter.call('at', 'party', 'tower__study') }]);
     (s.campaign as unknown as { commit(w: unknown): void }).commit(world);
-    await s.perform('change_thing(tower__lantern_smash)');
+    await s.leg('change_thing(tower__lantern_smash)');
     expect([March.fact(s, 'tower__ended', 'tower__necromancer'), March.fact(s, 'serves', 'rising__digger', 'tower__necromancer')])
       .toEqual([true, false]);
     await March.until(s, 400);
@@ -86,14 +86,14 @@ describe('the register of names: a power that acts while the company is elsewher
     expect(March.where(s, 'east__agnes')).toBe('march__shrine');
     // From Sorgen's bone store (the hound is left alone), the rings; then to Agnes, who fled to the Reedwake shrine.
     March.put(s, 'tower__ossuary');
-    await s.perform('light_item(march__nera_torch_1)');
-    await s.perform('take_item(tower__rings,march__member_party_1)');
+    await s.leg('light_item(march__nera_torch_1)');
+    await s.leg('take_item(tower__rings,march__member_party_1)');
     March.put(s, 'march__shrine');
     expect(March.legal(s)).toContain('give_valuable(tower__rings,east__agnes)');
-    await s.perform('give_valuable(tower__rings,east__agnes)');
-    await s.perform('rising__iron_band');
+    await s.leg('give_valuable(tower__rings,east__agnes)');
+    await s.leg('rising__iron_band');
     March.put(s, 'east__churchyard');
-    await s.perform('change_thing(rising__gravewarden_name_him)');
+    await s.leg('change_thing(rising__gravewarden_name_him)');
     expect([March.fact(s, 'state', 'rising__gravewarden', 'rising__laid'), March.fact(s, 'holds', 'tower__necromancer', 'east__churchyard')])
       .toEqual([true, false]);
     await March.until(s, 200);
@@ -119,7 +119,7 @@ describe('the register of names: a power that acts while the company is elsewher
     March.put(s, 'march__shrine');
     await March.walk(s, ['give_valuable(tower__rings,east__agnes)', 'rising__iron_band']);
     March.put(s, 'east__churchyard');
-    await s.perform('change_thing(rising__gravewarden_name_him)');
+    await s.leg('change_thing(rising__gravewarden_name_him)');
     await March.until(s, 220);
     expect([March.fact(s, 'rising__hallowed', 'east__churchyard'), March.fact(s, 'rising__hurt', 'rising__morwen')])
       .toEqual([true, false]);
@@ -144,10 +144,10 @@ describe('the register of names: what a company does to forestall the power, and
     const s = await March.start();
     await March.walk(s, March.take);
     expect(March.legal(s)).toContain('give(hill__register_copy,keepers__keeper)');
-    await s.perform('give(hill__register_copy,keepers__keeper)');
+    await s.leg('give(hill__register_copy,keepers__keeper)');
     expect(March.fact(s, 'keeps', 'keepers__keeper', 'hill__register_copy')).toBe(true);
     expect(s.campaign.events.at(-1)!.perceptions!.some(p => p.text.includes('You have brought them home'))).toBe(true);
-    await s.perform('keepers__custody_given');
+    await s.leg('keepers__custody_given');
     expect(March.fact(s, 'knows', 'party', 'keepers__custody_writ')).toBe(true);
     // Corvin searches the refuge in vain, goes home, and is sent again, by night, to the shrine. The company stays in
     // the shrine through the night: Corvin comes, and cannot take the register while they are there.
@@ -162,7 +162,7 @@ describe('the register of names: what a company does to forestall the power, and
     // Waiting an hour at a time by day and until first light by night: a long wait breaks off when someone arrives.
     let roused = '';
     for (let i = 0; i < 80 && !roused; i++) {
-      const event = await s.perform(March.legal(s).includes('wait_for_light') ? 'wait_for_light' : 'wait_hour');
+      const event = await s.leg(March.legal(s).includes('wait_for_light') ? 'wait_for_light' : 'wait_hour');
       // A wait broken off fails, and says what broke it off.
       if (event.result === 'failure' && event.response) { roused = event.response; }
     }
@@ -182,7 +182,7 @@ describe('the register of names: what a company does to forestall the power, and
       { kind: 'assert', call: ModuleWriter.call('at', 'party', 'hill__founders') }]);
     (s.campaign as unknown as { commit(w: unknown): void }).commit(world);
     expect(March.legal(s)).toContain('rising__keep_custody(hill__founders)');
-    await s.perform('rising__keep_custody(hill__founders)');
+    await s.leg('rising__keep_custody(hill__founders)');
     await March.until(s, 360);
     expect(March.fact(s, 'rising__slumbers', 'rising__compact', 'hill__founders')).toBe(true);
     expect(March.decisions(s).some(d => d.action.startsWith('rising__complete_rite'))).toBe(false);
@@ -196,7 +196,7 @@ describe('the register of names: what a company does to forestall the power, and
     (s.campaign as unknown as { commit(w: unknown): void }).commit(world);
     // The company sees what is happening, and Dori speaks the keepers' rites over the plinths.
     expect(PlayerView.observe(s.campaign).observations.map(o => o.text).join(' ')).toContain('reading names into the dark');
-    await s.perform('rising__keep_custody(hill__founders)');
+    await s.leg('rising__keep_custody(hill__founders)');
     await March.until(s, 280);
     expect(March.decisions(s).some(d => d.goal === 'obstructed' && d.action.startsWith('rising__complete_rite'))).toBe(true);
     expect([March.fact(s, 'rising__slumbers', 'rising__compact', 'hill__founders'),

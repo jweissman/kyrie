@@ -18,7 +18,7 @@ describe("a raiders' cave", () => {
       { kind: 'assert', call: ModuleWriter.call('at', 'party', 'raidersHold__cavern') },
       ...there.map(g => ({ kind: 'assert', call: ModuleWriter.call('tolerates', g, 'party') }))]));
     const look = PlayerView.choices(c).find(x => x.choice.id === 'look_closely(raidersHold__smoke_hole)')!;
-    const event = await s.perform(look.choice.id);
+    const event = await s.leg(look.choice.id);
     expect(c.world.test(ModuleWriter.call('knows', 'party', 'raidersHold__backway_known'))).toBe(true);
     expect(event.perceptions?.map(p => p.text))
       .toContainEqual(expect.stringMatching(/^Up the smoke-hole there is daylight/));

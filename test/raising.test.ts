@@ -38,21 +38,21 @@ describe('a fallen companion', () => {
     const { w, s } = await Fallen.start(), town = w.report.region.settlements.find(t => t.size === 'town')!;
     const elen = () => s.campaign.state.party.find(m => m.name === 'Elen')!;
     GeneratedWorld.put(s, `${town.id}_shrine`);
-    await s.perform('wait');
+    await s.leg('wait');
     // She cannot hand anything over; the others take it from her.
     const given = PlayerView.choices(s.campaign).map(x => x.choice.id);
     expect(given.some(id => id.startsWith('transfer_item(region__party_1__'))).toBe(false);
     expect(given.some(id => id.startsWith('transfer_item(region__party_2__'))).toBe(true);
     const take = Fallen.choice(s, /^Take a coil of rope from Elen for Bran$/);
     expect(take).toBeDefined();
-    expect((await s.perform(take!.choice.id) as { response?: string }).response).toContain('Bran takes a coil of rope from Elen');
+    expect((await s.leg(take!.choice.id) as { response?: string }).response).toContain('Bran takes a coil of rope from Elen');
     const gold = s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'));
     const raise = Fallen.choice(s, /^Ask .* to raise Elen from the dead/)!;
     expect(raise).toBeDefined();
     // What it costs is on the choice, as a bed's price is.
     const acts = ScreenModel.build(s.campaign).people.flatMap(p => p.acts.map(a => a.label));
     expect(acts).toContain('Ask them to raise Elen from the dead — 150 coin');
-    await s.perform(raise.choice.id);
+    await s.leg(raise.choice.id);
     expect(elen().hp).toBe(Math.floor(elen().maxHp / 2));
     expect(s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'))).toBe(gold - 150);
     expect(Fallen.choice(s, /^Ask .* to raise Elen/)).toBeUndefined();
@@ -60,15 +60,15 @@ describe('a fallen companion', () => {
   it('dead, can be laid to rest, and leaves the company; senseless, cannot', async () => {
     expect(await Fallen.start().then(async ({ w, s }) => {
       GeneratedWorld.put(s, `${w.report.region.settlements[0]!.id}_green`);
-      await s.perform('wait');
+      await s.leg('wait');
       return Fallen.choice(s, /^Lay Elen to rest$/);
     })).toBeUndefined();
     const { w, s } = await Fallen.start(true), town = w.report.region.settlements[0]!;
     GeneratedWorld.put(s, `${town.id}_green`);
-    await s.perform('wait');
+    await s.leg('wait');
     const rest = Fallen.choice(s, /^Lay Elen to rest$/)!;
     expect(rest).toBeDefined();
-    await s.perform(rest.choice.id);
+    await s.leg(rest.choice.id);
     expect(s.campaign.state.party.map(m => m.name)).toEqual(['Bran', 'Dori']);
     expect(Fallen.choice(s, /Elen/)).toBeUndefined();
     // Kept and opened again, the company is still the two of them.
@@ -76,7 +76,7 @@ describe('a fallen companion', () => {
     expect(back.campaign.state.party.map(m => m.name)).toEqual(['Bran', 'Dori']);
     // Nor does she come back when the country beyond is drawn and installed.
     GeneratedWorld.put(s, 'edge_west');
-    await s.perform('wait');
+    await s.leg('wait');
     expect(await new Frontier('a1', NodeBundleSource.shared).expand(s.campaign)).toBeDefined();
     expect(s.campaign.state.party.map(m => m.name)).toEqual(['Bran', 'Dori']);
     expect(Fallen.choice(s, /Elen/)).toBeUndefined();
@@ -105,7 +105,7 @@ describe('a fallen companion', () => {
   it('is not raised by a village priest', async () => {
     const { w, s } = await Fallen.start(), village = w.report.region.settlements.find(t => t.size !== 'town')!;
     GeneratedWorld.put(s, `${village.id}_shrine`);
-    await s.perform('wait');
+    await s.leg('wait');
     expect(Fallen.choice(s, /to raise Elen/)).toBeUndefined();
   }, 60000);
 });

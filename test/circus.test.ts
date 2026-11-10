@@ -282,10 +282,10 @@ describe("Wapshott's in a generated country", () => {
     expect(w.report.region.settlements.find(s => s.id === a)!.size).toBe('town');
     const s = await PlaySession.start(w.path, 'thorn', w.source);
     GeneratedWorld.put(s, `${a}_green`);
-    while (s.campaign.state.elapsed < 40) { await s.perform('wait'); }
+    while (s.campaign.state.elapsed < 40) { await s.leg('wait'); }
     await GeneratedWorld.travel(s, c('tober_a'));
     expect(PlayerView.observe(s.campaign).observations.map(o => o.text).join(' ')).toContain('The big top stands in the middle of the field');
-    while (s.campaign.state.elapsed < 480) { await s.perform('wait_hour'); }
+    while (s.campaign.state.elapsed < 480) { await s.leg('wait_hour'); }
     expect([c('wagons_b'), c('ring_b'), `region__${b}_green`]).toContain(s.campaign.world.one('at', c('wapshott'))!);
     expect(s.campaign.world.test(ModuleWriter.call(c('here'), c('tober_a')))).toBe(false);
   }, 120000);

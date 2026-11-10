@@ -13,7 +13,7 @@ describe('the brothers\' errand', () => {
       { origin: 'order', party: [{ name: 'Tobin', raceId: 'human', classId: 'thief' }] });
     const s = await PlaySession.start(w.path, 'a1', w.source);
     const give = PlayerView.choices(s.campaign).find(c => /^Give .* the brothers' letter$/.test(c.choice.name))!;
-    const told = await s.perform(give.choice.id);
+    const told = await s.leg(give.choice.id);
     expect(told.response).toContain('take the shrine\'s rope');
     expect(ScreenModel.build(s.campaign).items.map(i => i.name)).toContain('the shrine\'s coil of rope');
   }, 60000);

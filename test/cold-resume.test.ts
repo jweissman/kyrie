@@ -14,7 +14,7 @@ describe('a kept game with a thing of its own kind', () => {
     const s = await PlaySession.start(resolve(import.meta.dir, 'fixtures/probes/local-kind/probe.campaign.json'),
       'cold', NodeBundleSource.shared);
     const take = PlayerView.choices(s.campaign).find(c => /^Collect a little ox of dreg/.test(c.choice.name))!;
-    await s.perform(take.choice.id);
+    await s.leg(take.choice.id);
     const kept = JSON.parse(JSON.stringify(s.checkpoint()));
     // A fresh page: no kinds but the catalog's.
     LocalKinds.reset();

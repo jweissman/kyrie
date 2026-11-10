@@ -65,7 +65,7 @@ describe('the smaller defects', () => {
     const s = await PlaySession.start(source.resolve('ms.campaign.json'), 'seed', source);
     await s.leg(PlayerView.choices(s.campaign).find(c => c.choice.name === 'Do the deed')!.choice.id);
     expect(Smaller.xp(s)).toEqual([100, 100]);
-    for (let i = 0; i < 4; i++) { await s.perform('wait'); }
+    for (let i = 0; i < 4; i++) { await s.leg('wait'); }
     expect(s.campaign.world.test({ kind: 'call', name: 'achieved', args: ['b__far_off'] })).toBe(true);
     expect(Smaller.xp(s)).toEqual([100, 100]);
   }, 60000);

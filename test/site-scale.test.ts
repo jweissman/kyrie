@@ -70,7 +70,7 @@ describe('a site set out for', () => {
     put('tower__bailey');
     await s.leg('go(tower__chapel_arch,tower__chapel)');
     put('region__s1_green');
-    await s.perform('wait');
+    await s.leg('wait');
     const going = ScreenModel.build(c).destinations ?? [];
     expect(going.find(d => d.id === 'region__w9')?.scale).toBe('level upon level');
     expect(going.map(d => d.id)).not.toContain('tower__tower');

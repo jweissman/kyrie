@@ -28,14 +28,14 @@ describe('a command and what comes of it', () => {
     it(`are undone together when what comes after fails${installs ? ', after installing' : ''}`, async () => {
       const s = await PlaySession.start(ordinary, 'atomic', source), before = s.canonical();
       s.extend(Failing.after(installs));
-      await expect(s.perform('wait')).rejects.toThrow(/could not be read/);
+      await expect(s.leg('wait')).rejects.toThrow(/could not be read/);
       expect(s.canonical()).toBe(before);
       expect(s.transcript.steps).toEqual([]);
       expect(s.campaign.history.length).toBe(0);
       expect(s.campaign.installed).not.toContain('nook');
       // Done again with what comes after it as it should be, it is the game the failure never happened in.
       s.extend({ expand: () => Promise.resolve(undefined) });
-      await s.perform('wait');
+      await s.leg('wait');
       const plain = await PlaySession.start(ordinary, 'atomic', source);
       await plain.perform('wait');
       expect(s.canonical()).toBe(plain.canonical());

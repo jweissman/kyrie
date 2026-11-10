@@ -71,7 +71,7 @@ describe('composing kits', () => {
   }, 60000);
   it('places a kit into a campaign already under way, taking nothing already taken', async () => {
     const s = await PlaySession.start(Compose.fells, 'fells', NodeBundleSource.shared);
-    await s.perform('wait_hour');
+    await s.leg('wait_hour');
     const before = s.campaign.world.describe().filter(f => f.startsWith('at('));
     const later = await Composition.introduce(NodeBundleSource.shared.resolve(Compose.fells),
       { kit: Compose.kit, id: 'later' }, { seed: 'fells', source: NodeBundleSource.shared });
@@ -101,15 +101,15 @@ describe('a kit that builds on another', () => {
       const at = source.resolve(`test/fixtures/fells/fells-${patron}.campaign.json`);
       const s = await PlaySession.start(at, 'fells', new OverlayBundleSource(source, { [at]: JSON.stringify(manifest) }));
       Compose.put(s, 'fells__ford_green');
-      await s.perform(Compose.legal(s).find(c => c.startsWith('pricePatron__offer'))!);
+      await s.leg(Compose.legal(s).find(c => c.startsWith('pricePatron__offer'))!);
       // The offer says where the raiders hold out, and puts it on the company's map: somewhere to set out for.
       expect(s.campaign.world.test(ModuleWriter.call('leadsTo', 'pricePatron__price', 'fells__knot_foot'))).toBe(true);
       const c = s.campaign as unknown as { world: { apply(c: unknown[]): unknown }; commit(w: unknown): void };
       c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('routed', 'knotFolk__raiders') },
         { kind: 'assert', call: ModuleWriter.call('routed', 'knotFolk__gaffer') }]));
-      await s.perform('wait');
+      await s.leg('wait');
       const gold = s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'));
-      await s.perform(Compose.legal(s).find(c => c.startsWith('pricePatron__claim'))!);
+      await s.leg(Compose.legal(s).find(c => c.startsWith('pricePatron__claim'))!);
       expect(s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold')) - gold).toBe(patron === 'widow' ? 15 : 25);
     }
   }, 120000);
@@ -119,10 +119,10 @@ describe('the raider-hold kit in play', () => {
   it('lets the hobs\' own stolen bell drive them off their gate', async () => {
     const s = await PlaySession.start(Compose.fells, 'fells', NodeBundleSource.shared);
     Compose.put(s, 'knotHold__pit');
-    await s.perform('field_spell(fells__member_party_3,conjure_light,fells__member_party_3)');
-    await s.perform(Compose.legal(s).find(c => c.startsWith('take_out(knotFolk__handbell'))!);
+    await s.leg('field_spell(fells__member_party_3,conjure_light,fells__member_party_3)');
+    await s.leg(Compose.legal(s).find(c => c.startsWith('take_out(knotFolk__handbell'))!);
     Compose.put(s, 'knotHold__ditch');
-    const event = await s.perform(Compose.legal(s).find(c => c.startsWith('knotFolk__ring_bell'))!);
+    const event = await s.leg(Compose.legal(s).find(c => c.startsWith('knotFolk__ring_bell'))!);
     expect([event.response, ...(event.perceptions ?? []).map(p => p.text)].join(' ')).toContain('run, howling');
     expect(Compose.legal(s)).toContain('go(knotHold__stake_gate,knotHold__yard)');
   }, 60000);
@@ -136,8 +136,8 @@ describe('the raider-hold kit in play', () => {
     c.commit(c.world.apply([{ kind: 'retract', call: ModuleWriter.call('at', 'knotFolk__gaffer',
       c.world.one('at', 'knotFolk__gaffer')) }, { kind: 'assert', call: ModuleWriter.call('at', 'knotFolk__gaffer',
       'knotHold__pit') }]));
-    await s.perform('field_spell(fells__member_party_3,conjure_light,fells__member_party_3)');
-    const event = await s.perform(Compose.legal(s).find(x => x.startsWith('take_out(knotFolk__rings'))!);
+    await s.leg('field_spell(fells__member_party_3,conjure_light,fells__member_party_3)');
+    const event = await s.leg(Compose.legal(s).find(x => x.startsWith('take_out(knotFolk__rings'))!);
     expect([event.response, ...(event.perceptions ?? []).map(p => p.text)].join(' ')).toContain('Said don\'t touch nothing');
     expect(s.campaign.world.test(ModuleWriter.call('hostile', 'knotFolk__gaffer', 'party'))).toBe(true);
   }, 60000);
@@ -146,12 +146,12 @@ describe('the raider-hold kit in play', () => {
     Compose.put(s, 'fells__alders');
     let stopped;
     for (let h = 0; h < 10 && !stopped; h++) {
-      const e = await s.perform('wait_hour');
+      const e = await s.leg('wait_hour');
       if ([e.response, ...(e.perceptions ?? []).map(p => p.text)].join(' ').includes('Road-money')) { stopped = e; }
     }
     expect(stopped).toBeDefined();
     const pay = Compose.legal(s).find(c => c.startsWith('fellFolk__pay_road_money'))!;
-    const paid = await s.perform(pay);
+    const paid = await s.leg(pay);
     expect(paid.combat).toHaveLength(0);
     expect(s.campaign.world.test(ModuleWriter.call('tolerates', 'fellFolk__band', 'party'))).toBe(true);
   }, 60000);
@@ -159,7 +159,7 @@ describe('the raider-hold kit in play', () => {
     const s = await PlaySession.start(Compose.outlaws, 'a', NodeBundleSource.shared);
     Compose.put(s, 'fells__alders');
     const demanding = () => s.campaign.world.test(ModuleWriter.call('fellFolk__demanding', 'fellFolk__band'));
-    for (let h = 0; h < 10 && !demanding(); h++) { await s.perform('wait_hour'); }
+    for (let h = 0; h < 10 && !demanding(); h++) { await s.leg('wait_hour'); }
     expect(demanding()).toBe(true);
     const c = s.campaign as unknown as { creatures: CreatureStore;
       tickState: { definition: { actors: { id: string; members: string[] }[] } } };
@@ -169,7 +169,7 @@ describe('the raider-hold kit in play', () => {
       lease.commit(lease.creatures);
     } finally { lease.release(); }
     const told: string[] = [];
-    for (let w = 0; w < 3; w++) { told.push(...((await s.perform('wait')).perceptions ?? []).map(p => p.text)); }
+    for (let w = 0; w < 3; w++) { told.push(...((await s.leg('wait')).perceptions ?? []).map(p => p.text)); }
     expect(told.join(' ')).not.toContain('Have it your way');
     expect(demanding()).toBe(false);
     expect(Compose.legal(s).some(id => id.startsWith('fellFolk__pay_road_money'))).toBe(false);
@@ -211,20 +211,20 @@ describe('kits in generated regions', () => {
     const holds = (name: string, ...args: string[]) => c.world.test(ModuleWriter.call(name, ...args));
     const gold = () => c.world.number(ModuleWriter.call('quantity', 'party', 'gold'));
     GeneratedWorld.put(s, 'w6');
-    await s.perform(Compose.legal(s).find(id => id.startsWith('raidersFolk__hail'))!);
+    await s.leg(Compose.legal(s).find(id => id.startsWith('raidersFolk__hail'))!);
     expect(holds('tolerates', 'raidersFolk__band', 'party')).toBe(true);
     const right = c.module.actions.find(a => a.id.startsWith('region__w6_riddle_word')
       && a.success.some(x => x.kind === 'retract'))!;
-    const opened = await s.perform(Compose.legal(s).find(id => id.startsWith(`${right.id}(`))!);
+    const opened = await s.leg(Compose.legal(s).find(id => id.startsWith(`${right.id}(`))!);
     expect([opened.response, ...(opened.perceptions ?? []).map(p => p.text)].join(' '))
       .toContain('Whatever was in it is out now, and it\'s us that live next door');
     expect(opened.combat).toHaveLength(0);
     expect(holds('tolerates', 'raidersFolk__band', 'party')).toBe(false);
-    for (let w = 0; w < 3; w++) { await s.perform('wait'); }
+    for (let w = 0; w < 3; w++) { await s.leg('wait'); }
     expect(holds('alarmed', 'raidersFolk__hamo') || holds('hostile', 'raidersFolk__hamo', 'party')).toBe(false);
     expect(Compose.legal(s).some(id => id.startsWith('raidersFolk__hail'))).toBe(false);
     const purse = gold();
-    await s.perform(Compose.legal(s).find(id => id.startsWith('raidersFolk__make_amends'))!);
+    await s.leg(Compose.legal(s).find(id => id.startsWith('raidersFolk__make_amends'))!);
     expect([gold(), holds('tolerates', 'raidersFolk__band', 'party')]).toEqual([purse - 5, true]);
   }, 120000);
 });

@@ -30,16 +30,16 @@ describe('the greatest of the makers\' works', () => {
     expect(great.work!.plan).toBe('great_cistern');
     const track = s.campaign.world.related('connects').find(c => c.args[0] === `region__${great.id}_track`)!;
     GeneratedWorld.put(s, track.args[1]!.replace('region__', ''));
-    await s.perform('wait');
+    await s.leg('wait');
     expect(PlayerView.choices(s.campaign).some(c => c.choice.id.includes(`region__${great.id}_track`))).toBe(false);
     GeneratedWorld.put(s, `${great.id}_tower`);
-    await s.perform('wait');
+    await s.leg('wait');
     expect(GreatWork.has(s, /^Take the bottom of the stair/)).toBe(false);
     const wind = PlayerView.choices(s.campaign).find(c => /^Wind the three great wheels/.test(c.choice.name))!;
-    const opened = await s.perform(wind.choice.id) as { perceptions?: { text: string }[] };
+    const opened = await s.leg(wind.choice.id) as { perceptions?: { text: string }[] };
     expect(opened.perceptions!.some(p => /there are houses where the water was/.test(p.text))).toBe(true);
     GeneratedWorld.put(s, `${great.id}_face`);
-    await s.perform('wait');
+    await s.leg('wait');
     expect(GreatWork.has(s, /^Take the bottom of the stair to the drowned street$/)).toBe(true);
     expect(s.campaign.world.test(ModuleWriter.call('knows', 'party', `region__${great.id}_found`))).toBe(false);
   }, 60000);
@@ -52,7 +52,7 @@ describe('the greatest of the makers\' works', () => {
     const lease = store.acquire(s.campaign.state.partyIds);
     try { lease.creatures[0]!.state.gold = 100; lease.commit(lease.creatures); } finally { lease.release(); }
     GeneratedWorld.put(s, `${w.report.region.settlements.find(t => t.size === 'town')!.id}_shrine`);
-    await s.perform('wait');
+    await s.leg('wait');
     await GreatWork.take(s, /^Buy a glossary of the old script for Bran/);
     await GreatWork.take(s, /^Equip a glossary of the old script on Bran$/);
     const galleries = sites.find(x => x.work?.plan === 'galleries')!;

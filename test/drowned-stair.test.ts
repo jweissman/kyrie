@@ -28,7 +28,7 @@ describe('a drowned level', () => {
     await take(/^Search the foot of the stair/);
     expect(ways()).toBe(false);
     c.commit(c.world.apply([{ kind: 'set', call: water, value: { kind: 'number', value: 0 } }]));
-    await s.perform('wait');
+    await s.leg('wait');
     expect(seen()).toContain('grey silt');
     expect(ways()).toBe(true);
   }, 120000);

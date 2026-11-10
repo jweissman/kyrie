@@ -27,7 +27,7 @@ describe('an adventure that names what the shared rules name', () => {
       ['p: confided', 'p: fellow', 'p: action light_lamp']);
     const s = await PlaySession.start(Shadow.probe, 'shadow', NodeBundleSource.shared);
     const light = PlayerView.choices(s.campaign).find(c => c.choice.name === 'Light the lamp on the pole')!;
-    expect((await s.perform(light.choice.id)).result).toBe('success');
+    expect((await s.leg(light.choice.id)).result).toBe('success');
     expect(PlayerView.observe(s.campaign).observations.map(o => o.text))
       .toContain('The lamp is lit, and the barley knows you now.');
     expect(s.campaign.world.test(ModuleWriter.call('p__own_confided', 'party'))).toBe(true);
@@ -54,7 +54,7 @@ describe('an adventure that names what the shared rules name', () => {
       const s = await PlaySession.start(join(dir, 'probe.campaign.json'), 'every', NodeBundleSource.shared);
       expect(PlayerView.observe(s.campaign).observations.map(o => o.text)).toContain('The barley is quiet.');
       const open = PlayerView.choices(s.campaign).find(c => c.choice.name === 'Open the gate')!;
-      expect((await s.perform(open.choice.id)).result).toBe('success');
+      expect((await s.leg(open.choice.id)).result).toBe('success');
       expect(PlayerView.observe(s.campaign).observations.map(o => o.text)).toContain('The gate stands open.');
     } finally { rmSync(dir, { recursive: true, force: true }); }
   }, 120000);

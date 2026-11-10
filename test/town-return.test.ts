@@ -17,7 +17,7 @@ class Back {
       lease.creatures[0]!.state.gold = won.gold ?? 0; lease.creatures[0]!.state.experience = won.experience ?? 0;
       lease.commit(lease.creatures);
     } finally { lease.release(); }
-    await s.perform('wait');
+    await s.leg('wait');
     const k = c as unknown as { world: { apply(c: Change[]): unknown }; commit(w: unknown): void };
     k.commit(k.world.apply([{ kind: 'assert', call: ModuleWriter.call('at', 'party', room) },
       ...won.rings ? [{ kind: 'retract' as const, call: ModuleWriter.call('at', 'tower__rings', c.world.one('at', 'tower__rings')!) },

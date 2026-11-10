@@ -90,10 +90,10 @@ describe('rivals for a deep site\'s prize', () => {
     const s = await Rivals.start(), bottom = Rivals.where(s, 'fallen');
     Rivals.stage(s, 5);
     Rivals.put(s, bottom);
-    await s.perform('wait');
+    await s.leg('wait');
     expect(Rivals.test(s, 'foiled', Rivals.id)).toBe(false);
     Rivals.put(s, 'region__s1_green');
-    await s.perform('wait');
+    await s.leg('wait');
     expect(Rivals.test(s, 'foiled', Rivals.id)).toBe(true);
     expect(Rivals.pays(s)).toBe(1500);
     expect(await Rivals.take(s, /^Ask the prior what became of the brothers$/)).toContain('find 1500 coin for it');
@@ -107,7 +107,7 @@ describe('rivals for a deep site\'s prize', () => {
     Rivals.slay(s, 'region__w9_keeper_person');
     Rivals.stage(s, 5);
     Rivals.put(s, 'region__s1_green');
-    await s.perform('wait');
+    await s.leg('wait');
     expect([Rivals.test(s, 'won', Rivals.id), Rivals.test(s, 'keeps', 'region__w9_head', 'region__w9_heart'),
       Rivals.test(s, 'region__w9_raised')]).toEqual([true, true, true]);
     expect(Rivals.seen(s)).toContain('The heart of the vein lies in Gothgiba now, under a cloth');

@@ -55,7 +55,7 @@ class Journey {
     const members = companies.companies.find(c => c.id === company)!.members as CreatureGenerationContext[];
     return PlaySession.start('test/fixtures/march/serewater-march.campaign.json', 'serewater', NodeBundleSource.shared, members);
   }
-  static async walk(s: PlaySession, commands: readonly string[]) { for (const c of commands) { await s.perform(c); } }
+  static async walk(s: PlaySession, commands: readonly string[]) { for (const c of commands) { await s.leg(c); } }
   static experience(s: PlaySession) {
     return s.campaign.state.party.map(f => s.campaign.state.creatures.find(c => c.id === f.id)!.state.experience);
   }
@@ -113,12 +113,12 @@ describe('the Serewater March, three expeditions with one company', () => {
       'go(east__landing_lane,east__holt_green)']);
     const opened = () => s.campaign.world.number(ModuleWriter.call('tower__opened', 'tower__churchyard'));
     expect([Journey.test(s, 'at', 'tower__risen', 'tower__hall'), opened()]).toEqual([true, 5]);
-    while (!Journey.test(s, 'dark')) { await s.perform('wait'); }
+    while (!Journey.test(s, 'dark')) { await s.leg('wait'); }
     // On the green after dark: the dead stand about it, and nobody stands at the foot of the tower stair.
     expect(Journey.test(s, 'at', 'tower__risen', 'east__holt_green')).toBe(true);
     expect(Journey.test(s, 'watched', 'tower__stair')).toBe(false);
     expect(PlayerView.choices(s.campaign).map(c => c.choice.id)).toContain('attack(tower__risen)');
-    await s.perform('wait_for_light');
+    await s.leg('wait_for_light');
     expect([Journey.test(s, 'at', 'tower__risen', 'tower__hall'), Journey.test(s, 'watched', 'tower__stair'), opened()])
       .toEqual([true, true, 6]);
   }, 120000);

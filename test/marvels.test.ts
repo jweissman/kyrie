@@ -58,7 +58,7 @@ describe('wonders and traps', () => {
     const key = wonder.replace('region__wonder_', '') as keyof typeof met.wonders, how = met.wonders[key];
     expect(how.where).toBe('wild');
     GeneratedWorld.put(s, s.campaign.world.one('at', wonder)!.replace('region__', ''));
-    await s.perform('wait');
+    await s.leg('wait');
     const before = JSON.stringify(Marvels.body(s).state);
     const told = Marvels.told(await Marvels.act(s, new RegExp(`^${how.verb} ${how.name}$`)));
     expect(told[0]).toBe(how.taken);
@@ -85,7 +85,7 @@ describe('wonders and traps', () => {
     const name = s.campaign.module.entities.find(e => e.id === snare)!.name.replace(/^the /, '');
     const how = snares.mechanisms[name as keyof typeof snares.mechanisms];
     GeneratedWorld.put(s, from.replace('region__', ''));
-    await s.perform('wait');
+    await s.leg('wait');
     const hp = Marvels.body(s).state.hp;
     expect(PlayerView.choices(s.campaign).some(c => c.choice.name === how.ways[0]!.label)).toBe(false);
     expect(Marvels.told(await Marvels.act(s, /^Look closely at the /))).toContain(how.seen);
@@ -106,7 +106,7 @@ describe('wonders and traps', () => {
     const s = await Marvels.start(), snare = Marvels.things(s, /_snare$/)[0]!;
     const way = s.campaign.world.one('on', snare)!, from = s.campaign.world.related('connects', way)[0]!.args[1]!;
     GeneratedWorld.put(s, from.replace('region__', ''));
-    await s.perform('wait');
+    await s.leg('wait');
     const hp = Marvels.body(s).state.hp, told = Marvels.told(await Marvels.act(s, /^Risk the /));
     const trap = Object.values(world.traps).find(t => told.includes(`${t.text}.`));
     expect(trap).toBeDefined();

@@ -31,6 +31,6 @@ describe('a generated world', () => {
     c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('at', 'party', room) },
       { kind: 'retract', call: ModuleWriter.call('unlit', room) }]));
     const meet = PlayerView.choices(s.campaign).find(x => /the glowing symbols$/.test(x.choice.name))!;
-    expect((await s.perform(meet.choice.id)).result).toBe('success');
+    expect((await s.leg(meet.choice.id)).result).toBe('success');
   }, 180000);
 });

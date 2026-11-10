@@ -23,7 +23,7 @@ describe('a rule that teaches as it speaks', () => {
       'tq.campaign.json': JSON.stringify({ version: 1, name: 'tq', modules: [{ id: 'p', bundle: 'tq/module.json' }],
         party: [{ name: 'Ama', raceId: 'human', classId: 'warrior' }] }) });
     const s = await PlaySession.start(source.resolve('tq.campaign.json'), 'tq', source);
-    const before = PlayerView.observe(s.campaign), event = await s.perform('wait');
+    const before = PlayerView.observe(s.campaign), event = await s.leg('wait');
     const feedback = ActionFeedbackView.read(s.campaign, event, before);
     const told = Narrator.leaf(s.campaign, ScreenModel.build(s.campaign), { event, feedback, moved: false }).exchange!;
     const lines = told.lines.map(l => l.text);

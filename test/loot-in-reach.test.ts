@@ -37,7 +37,7 @@ class Reach {
     const s = await this.start(seed, son);
     const green = s.campaign.world.one('at', 'drover__son')!;
     this.set(s, [{ kind: 'assert', call: ModuleWriter.call('at', 'party', green) }]);
-    for (const id of ['talk_to(drover__son)', 'drover__son_plan', 'recruit(drover__son)']) { await s.perform(id); }
+    for (const id of ['talk_to(drover__son)', 'drover__son_plan', 'recruit(drover__son)']) { await s.leg(id); }
     return s;
   }
   // Into a room of the barrow by light, with whoever lives there gone (or, with them, to fight them).
@@ -62,7 +62,7 @@ describe('what lies in a deep site, with a brother of one\'s own name in the com
     expect(s.campaign.world.related('memberOf').filter(r => r.args[1] === 'party').length).toBe(2);
     Reach.enter(s, 'region__w8_halls_well');
     const before = Reach.hand(s);
-    await s.perform([...before.get('a torch')!][0]!);
+    await s.leg([...before.get('a torch')!][0]!);
     const after = Reach.hand(s);
     for (const name of ['a coil of rope', 'a potion of barkskin', 'a scroll of domination']) {
       expect([name, after.get(name)?.length]).toEqual([name, 1]);
@@ -75,13 +75,13 @@ describe('what lies in a deep site, with a brother of one\'s own name in the com
     const gift = module.entities.find(e => e.id === `${casket}_gift`)!;
     const right = module.actions.find(a => a.id.startsWith(`${casket}_word`) && !ChoiceGrouping.hurts(a))!;
     expect(Reach.hand(s).has(gift.name)).toBe(false);
-    await s.perform(right.id);
+    await s.leg(right.id);
     expect(Reach.hand(s).get(gift.name)?.[0]).toStartWith(`take_out(${gift.id},${casket},`);
   }, 30000);
   it('offers the king\'s crown once the king has fallen', async () => {
     Reach.enter(s, 'region__w8_grave_heart', false);
     const attack = PlayerView.choices(s.campaign).find(c => c.choice.id.startsWith('attack(region__w8_keeper'))!;
-    await s.perform(attack.choice.id);
+    await s.leg(attack.choice.id);
     expect(s.campaign.world.test(ModuleWriter.call('able', 'region__w8_keeper'))).toBe(false);
     expect(Reach.hand(s).get('the crown of the first king')?.[0]).toStartWith('take_item(region__w8_heart,');
   }, 30000);

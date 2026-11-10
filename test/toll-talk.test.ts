@@ -36,10 +36,10 @@ describe('a toll', () => {
     const outcomes = await Promise.all(['ash', 'kite', 'larch', 'thorn'].map(async seed => {
       const { s, way, on } = await Toll.stopped(seed), talk = `tollKeepers__talk_toll(party,${way})`;
       expect(Toll.legal(s)).toContain(talk);
-      await s.perform(talk);
+      await s.leg(talk);
       if (Toll.fact(s, 'tolerates', 'tollKeepers__keepers', 'party')) {
         // Believed: the company goes on along the road, and has not run the toll.
-        await s.perform(on);
+        await s.leg(on);
         expect(Toll.fact(s, 'hostile', 'tollKeepers__chief', 'party')).toBe(false);
         return 'believed';
       }

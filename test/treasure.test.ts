@@ -20,7 +20,7 @@ class Hoard {
   // The grave-goods of a1's barrow, in Elen's hands.
   static async goods(s: PlaySession, barrow: string) {
     GeneratedWorld.put(s, `${barrow}_right`);
-    await s.perform('wait');
+    await s.leg('wait');
     await Hoard.choose(s, /^Light a torch$/);
     await Hoard.choose(s, /^Collect .* for Elen$/);
   }
@@ -38,7 +38,7 @@ describe('treasure', () => {
     const { w, s } = await Hoard.start(), region = w.report.region;
     const barrow = region.sites.find(x => x.work?.plan === 'barrow')!;
     GeneratedWorld.put(s, `${barrow.id}_right`);
-    await s.perform('wait');
+    await s.leg('wait');
     const goods = s.campaign.world.one('itemKind', `region__${barrow.id}_goods`)!.replace(/^.*__/, '');
     expect(Canon.items[goods]!.category).toBe('treasure');
     const worth = Canon.items[goods]!.value!, xp = () => s.campaign.state.party.map(m => m.experience);
@@ -48,7 +48,7 @@ describe('treasure', () => {
     await Hoard.choose(s, /^Collect .* for Elen$/);
     expect(xp()).toEqual(before.map(x => x + Math.floor(worth / 4)));
     GeneratedWorld.put(s, `${region.settlements[0]!.id}_shop`);
-    await s.perform('wait');
+    await s.leg('wait');
     const [gold, experience] = [s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold')), xp()];
     await Hoard.choose(s, /^Sell .* to /);
     expect(s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'))).toBe(gold + Math.floor(worth / 2));
@@ -63,11 +63,11 @@ describe('treasure', () => {
     const lease = c.creatures.acquire(c.tickState.definition.actors.find(a => a.id === `region__${town}_merchant`)!.members);
     try { lease.creatures[0]!.state.gold = 0; lease.commit(lease.creatures); } finally { lease.release(); }
     GeneratedWorld.put(s, `${town}_shop`);
-    await s.perform('wait');
+    await s.leg('wait');
     const shown = await Hoard.choose(s, /^Show .* to /);
     expect(shown.response).toContain('come back in the morning');
     for (let h = 0; h < 30 && !PlayerView.choices(s.campaign).some(x => /^Sell .* to /.test(x.choice.name)); h++) {
-      await s.perform('wait_hour');
+      await s.leg('wait_hour');
     }
     const gold = s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'));
     await Hoard.choose(s, /^Sell .* to /);

@@ -29,7 +29,7 @@ describe('text with variables', () => {
       Rule counts when at(?g, yard) and purse(?g) > 5 and not told(?g) says "{?g} counts {purse(?g)} coins." { Assert told(?g). }
       Ending wealth "Wealth" when rich(?g) "{?g} leaves rich.".
       Action enrich(actor: group) "Make Ann rich" { Requires company(actor). Time 1. On success { Assert rich(ann). } }`);
-    const first = await s.perform('wait');
+    const first = await s.leg('wait');
     expect((first.perceptions ?? []).map(p => p.text)).toContain('Ann counts 7 coins.');
     await s.leg(PlayerView.choices(s.campaign).find(c => c.choice.name === 'Make Ann rich')!.choice.id);
     expect(Endings.reached(s.campaign.world, [])?.lines).toEqual(['Ann leaves rich.']);

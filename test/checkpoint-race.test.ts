@@ -20,7 +20,7 @@ class Race {
 describe('a checkpoint', () => {
   it('is refused while a command is under way, and agrees with its transcript after', async () => {
     const s = await PlaySession.start('test/fixtures/probes/ordinary/ordinary.campaign.json', 'race', NodeBundleSource.shared);
-    const gate = Race.slow(s), pending = s.perform(Race.go(s));
+    const gate = Race.slow(s), pending = s.leg(Race.go(s));
     await gate.entered;
     expect(() => s.checkpoint()).toThrow('Save only between campaign commands');
     gate.release(); await pending;

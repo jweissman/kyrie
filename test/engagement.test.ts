@@ -79,7 +79,7 @@ describe('people who fall on the company', () => {
     }
     expect(Watch.where(s)).toBe('longman__leak');
     const attack = PlayerView.choices(s.campaign).find(c => /^Attack the Wet/.test(c.choice.name))!.choice.id;
-    const event = await s.perform(attack, Watch.run);
+    const event = await s.leg(attack, Watch.run);
     expect(event.combat.filter(e => e.type === 'end').length).toBe(1);
     expect([event.fledTo, Watch.where(s)]).toEqual(['longman__crest', 'longman__crest']);
     expect(JSON.stringify(event)).not.toContain('comes down the gallery at you');
@@ -90,7 +90,7 @@ describe('people who fall on the company', () => {
     await s.leg('go(world__gate,world__gatehouse)');
     // Through the arch is a minute; the patrol comes while the company waits, and falls on it.
     let fought = await s.leg('go(world__arch,world__yard)');
-    for (let n = 0; !fought.prelude && n < 3; n++) { fought = await s.perform('wait_hour'); }
+    for (let n = 0; !fought.prelude && n < 3; n++) { fought = await s.leg('wait_hour'); }
     expect(fought.prelude?.response).toContain('yard patrol');
     expect(fought.combat.some(e => e.type === 'end')).toBe(true);
   }, 60000);

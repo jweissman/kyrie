@@ -18,8 +18,8 @@ describe('an action that waits on someone having joined', () => {
     const s = await PlaySession.start(probe, 'joined', NodeBundleSource.shared);
     const choice = (name: string) => PlayerView.choices(s.campaign).find(c => c.choice.name.startsWith(name));
     expect(choice('Thank Wil for coming')).toBeUndefined();
-    await s.perform(choice('Ask Wil Hobb')!.choice.id);
-    expect((await s.perform(choice('Thank Wil for coming')!.choice.id)).result).toBe('success');
+    await s.leg(choice('Ask Wil Hobb')!.choice.id);
+    expect((await s.leg(choice('Thank Wil for coming')!.choice.id)).result).toBe('success');
   }, 60000);
 });
 

@@ -23,7 +23,7 @@ class Bar {
     const reeve = s.campaign.module.entities.find(e => e.id.endsWith('__chief')
       && s.campaign.world.test(ModuleWriter.call('at', e.id, 'region__s2_s3_way')))!.id;
     const talk = PlayerView.choices(s.campaign).find(x => x.choice.id === `talk_to(${reeve})`)!;
-    await s.perform(talk.choice.id);
+    await s.leg(talk.choice.id);
     return { s, reeve };
   }
   static leaving(s: PlaySession, reeve: string) {
@@ -48,7 +48,7 @@ describe('the dead', () => {
     const { s, reeve } = await Bar.start();
     const c = s.campaign as unknown as { world: { apply(c: Change[]): unknown }; commit(w: unknown): void };
     c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('hostile', reeve, 'party') }]));
-    await s.perform('wait');
+    await s.leg('wait');
     expect(s.campaign.world.test(ModuleWriter.call('addressed', reeve, 'party'))).toBe(false);
   }, 60000);
 });

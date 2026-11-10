@@ -52,9 +52,9 @@ describe('a recruit seen before hiring', () => {
       { origin: 'kin', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
     const s = await PlaySession.start(w.path, 'mere', w.source), c = s.campaign;
     GeneratedWorld.put(s, c.world.one('at', 'region__s1_traveller')!.replace(/^region__/, ''));
-    await s.perform('wait');
+    await s.leg('wait');
     const brings = PlayerView.choices(c).find(x => /^Ask .* whether .* would come along/.test(x.choice.name))!;
-    await s.perform(brings.choice.id);
+    await s.leg(brings.choice.id);
     const row = ScreenModel.build(c).people.find(p => p.id === 'region__s1_traveller')!;
     expect(row.recruit).toMatchObject({ level: 1, hire: 3 });
     expect(row.recruit!.sheet.fighting.map(b => b.label)).toContain('Hit points');

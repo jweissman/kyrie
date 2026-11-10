@@ -51,7 +51,7 @@ class Played {
     }
   }
   static go(s: PlaySession, to: string) {
-    return Travel.go({ campaign: s.campaign, perform: command => s.perform(command) }, this.place(s, to));
+    return Travel.go({ campaign: s.campaign, perform: command => s.leg(command) }, this.place(s, to));
   }
   // Each site's worthiest band, by what its members are worth (as the fragile-start audit chose a ruin's climax), and
   // how one fresh of a calling, alone, reckons it.
@@ -129,7 +129,7 @@ describe('a journey', () => {
       Person hobs "the hobs" at a { Role "hobs on the road". Ancestry goblin. Calling thief. Level 1. Numbers 2.
         Temperament territorial. Refuge den. }
       Initially Assert warnedOff(hobs, party). Initially Assert tolerates(hobs, party).`);
-    const event = await s.perform('wait');
+    const event = await s.leg('wait');
     expect(s.campaign.world.one('at', Played.place(s, 'the hobs'))).toBe(Played.place(s, 'the den'));
     expect(event.perceptions?.map(p => p.text)).toContainEqual(expect.stringMatching(/^The hobs give ground/));
   }, 60000);
@@ -148,7 +148,7 @@ describe('a risk that fails', () => {
         Hurts with torrent when high then fallen.
       }`);
     const risk = PlayerView.choices(s.campaign).find(c => /^Risk deep water.*; Ama goes first/.test(c.choice.name))!;
-    const done = await s.perform(risk.choice.id);
+    const done = await s.leg(risk.choice.id);
     expect(done.response).toContain('The torrent brings Ama down, and the company does not cross.');
     expect(done.response).not.toContain('exposed adventurer');
   }, 60000);
@@ -163,7 +163,7 @@ describe('in the dark', () => {
     expect(screen.dark).toBe(true);
     const cast = ChoiceList.all(ChoiceList.explore(screen)).find(c => c.label === 'Osric: cast Light')!;
     expect(cast.command).toMatch(/^field_spell\(.*conjure_light/);
-    await s.perform(cast.command!);
+    await s.leg(cast.command!);
     expect(ScreenModel.build(s.campaign).dark).toBe(false);
   }, 60000);
 });
@@ -211,14 +211,14 @@ describe('one of the company who is down', () => {
     const store = (s.campaign as unknown as { creatures: CreatureStore }).creatures, bo = s.campaign.state.partyIds[1]!;
     const lease = store.acquire([bo]);
     try { lease.creatures[0]!.state.hp = 0; lease.commit(lease.creatures); } finally { lease.release(); }
-    await s.perform('wait');
+    await s.leg('wait');
     expect(ScreenModel.build(s.campaign).party.map(m => m.fallen)).toEqual([undefined, Standing.senseless]);
     const again = store.acquire([bo]);
     try {
       again.creatures[0]!.state.conditions.push({ id: 'slain', remaining: 1, clock: 'until-removed' });
       again.commit(again.creatures);
     } finally { again.release(); }
-    await s.perform('wait');
+    await s.leg('wait');
     expect(ScreenModel.build(s.campaign).party[1]!.fallen).toBe(Standing.dead);
   }, 60000);
   // Someone dead is said to be once, beside their name, not twice ("Sir Hamo Ashdown … · dead  dead": the cold
@@ -233,7 +233,7 @@ describe('one of the company who is down', () => {
       lease.creatures[0]!.state.hp = 0; lease.creatures[0]!.state.conditions.push({ id: 'slain', remaining: 1, clock: 'until-removed' });
       lease.commit(lease.creatures);
     } finally { lease.release(); }
-    await s.perform('wait');
+    await s.leg('wait');
     const her = SceneModel.build(ScreenModel.build(s.campaign)).subjects.find(x => x.name === 'Mira')!;
     expect([her.state, her.note]).toEqual(['dead', 'a carter']);
   }, 60000);
@@ -244,7 +244,7 @@ describe('one of the company who is down', () => {
     const store = (s.campaign as unknown as { creatures: CreatureStore }).creatures, bo = s.campaign.state.partyIds[1]!;
     const lease = store.acquire([bo]);
     try { lease.creatures[0]!.state.hp = 0; lease.commit(lease.creatures); } finally { lease.release(); }
-    await s.perform('wait');
+    await s.leg('wait');
     const screen = ScreenModel.build(s.campaign), name = screen.party[1]!.name;
     const taking = ChoiceList.explore(screen).flatMap(x => x.choices).filter(c => /^Take /.test(c.label));
     expect(taking.map(c => c.label)).toEqual([`Take from ${name}`]);
@@ -283,14 +283,14 @@ describe('a night in the open', () => {
       { origin: 'wanderer', party: [{ name: 'Osric', raceId: 'human', classId: 'mage' }] });
     const s = await PlaySession.start(w.path, 'seed2', w.source);
     GeneratedWorld.put(s, 's1_s3_way');
-    await s.perform('wait');
+    await s.leg('wait');
     const camp = ScreenModel.build(s.campaign).camp.flatMap(a => a.children ?? [a]).find(a => a.command?.startsWith('camp('));
     expect(camp?.grave).toMatch(/^The cold on the \S+ comes down after dark, and there is no shelter here\.$/);
     // After dark, the way onto it says so too (the laboratory's mage walked onto it at two hit points, and died).
     GeneratedWorld.put(s, 's1_green');
     // Something may come by on the green before dark (a circus parades there on the first afternoon) and break the
     // wait off; wait again until it is dark.
-    for (let n = 0; n < 4 && !s.campaign.world.test(ModuleWriter.call('dark')); n++) { await s.perform('wait_for_dark'); }
+    for (let n = 0; n < 4 && !s.campaign.world.test(ModuleWriter.call('dark')); n++) { await s.leg('wait_for_dark'); }
     const onto = ChoiceList.all(ChoiceList.explore(ScreenModel.build(s.campaign)))
       .find(c => c.command?.startsWith('go(') && c.command.endsWith(',region__s1_s3_way)'));
     expect(onto?.grave).toMatch(/^The cold on the \S+ is down already, and there is no shelter there\.$/);

@@ -170,7 +170,7 @@ describe('Thrume: the Paymasters\' hall', () => {
     await j.play(...toWages);
     const attack = j.choices().find(c => c.label === 'Attack')!;
     expect(T.measure(s, 'thrume__stirring', 'thrume__fells')).toBe(2);
-    const event = await s.perform(attack.command, T.fighter);
+    const event = await s.leg(attack.command, T.fighter);
     expect(event.combat.some(e => e.type === 'end')).toBe(true);
     expect(T.holds(s, 'dead', 'thrume__paid')).toBe(true);
     expect(T.measure(s, 'thrume__stirring', 'thrume__fells')).toBe(3);

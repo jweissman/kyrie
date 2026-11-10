@@ -40,7 +40,7 @@ describe('an observation at a place its condition finds', () => {
         'oh.campaign.json': JSON.stringify({ version: 1, name: 'oh', modules: [{ id: 'p', bundle: 'oh/module.json' }],
           party: [{ name: 'Ama', raceId: 'human', classId: 'warrior' }] }) });
       const s = await PlaySession.start(source.resolve('oh.campaign.json'), 'oh', source);
-      const e = await s.perform('p__ring(party,p__yard)');
+      const e = await s.leg('p__ring(party,p__yard)');
       return (e.perceptions ?? []).map(p => p.text).join(' ');
     };
     expect(await start('yard')).toContain('Nan juggles three apples.');

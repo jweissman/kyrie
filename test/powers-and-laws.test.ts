@@ -22,7 +22,7 @@ class Proving {
 describe('powers and laws', () => {
   it('lets a power that covets an empty stronghold take it by night, with the men it posts', async () => {
     const s = await Proving.start();
-    for (let i = 0; i < 30 && !Proving.holds(s, 'holds', 'world__thane', 'world__gatehouse'); i++) { await s.perform('wait_hour'); }
+    for (let i = 0; i < 30 && !Proving.holds(s, 'holds', 'world__thane', 'world__gatehouse'); i++) { await s.leg('wait_hour'); }
     expect(Proving.holds(s, 'holds', 'world__thane', 'world__gatehouse')).toBe(true);
     expect(Proving.holds(s, 'at', 'world__men', 'world__gatehouse')).toBe(true);
     expect(Proving.holds(s, 'vacant', 'world__gatehouse')).toBe(false);

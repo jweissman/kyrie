@@ -40,7 +40,7 @@ describe('what the company witnesses', () => {
       'probe/witness/m.kyr': kyr });
     const s = await PlaySession.start(source.resolve('probe/witness/campaign.json'), 'witness', source), c = s.campaign;
     const go = PlayerView.choices(c).find(r => r.action.schema === 'go')!, before = PlayerView.observe(c);
-    const e = await s.perform(go.choice.id);
+    const e = await s.leg(go.choice.id);
     // Both were done, as the road began; the company saw neither.
     expect((e.npc ?? []).length).toBe(2);
     expect(ActionFeedbackView.read(c, e, before).immediate.filter(t => t.startsWith('You witness'))).toEqual([]);

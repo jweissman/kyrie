@@ -47,7 +47,7 @@ describe('what the autoplay laboratory found', () => {
       ['assert', 'at', 'raidersFolk__band', road], ['assert', 'raidersFolk__demanding', 'raidersFolk__band'],
       ['assert', 'halts', 'raidersFolk__band', 'party']].map(([kind, name, ...args]) =>
       ({ kind, call: ModuleWriter.call(name!, ...args) }))));
-    const waited = await s.perform('wait');
+    const waited = await s.leg('wait');
     expect(waited.combat).toEqual([]);
     expect(PlayerView.choices(c).some(x => /pay_road_money\(/.test(x.choice.id))).toBe(true);
   }, 180000);

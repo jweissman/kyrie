@@ -42,17 +42,17 @@ describe('the authoring guide', () => {
     expect(Guide.legal(s)).toContain('buy_item(world__osk_rope_1,world__member_party_1)');
     expect(Guide.legal(s)).toContain('buy_goods(rations,world__osk)');
     expect(Guide.legal(s)).toContain('take_healing(world__osk,world__osk_healing)');
-    for (const c of ['go(world__chandlery_door,world__green)', 'go(world__heron_door,world__taproom)']) { await s.perform(c); }
+    for (const c of ['go(world__chandlery_door,world__green)', 'go(world__heron_door,world__taproom)']) { await s.leg(c); }
     expect(Guide.legal(s)).toContain('take_lodging(world__wenna_lodging,world__wenna)');
     const start = s.campaign.state.elapsed;
-    for (const c of ['go(world__heron_door,world__green)', 'go(world__shore_path,world__strand)']) { await s.perform(c); }
+    for (const c of ['go(world__heron_door,world__green)', 'go(world__shore_path,world__strand)']) { await s.leg(c); }
     // A minute through the door, an hour on the shore path.
     expect(s.campaign.state.elapsed - start).toBe(6);
     expect(Guide.legal(s)).toContain('camp(world__strand)');
     for (const c of ['go(world__ford,world__porch)', 'go(world__chapel_door,world__nave)',
-      'go(world__crypt_stair,world__stair_foot)']) { await s.perform(c); }
+      'go(world__crypt_stair,world__stair_foot)']) { await s.leg(c); }
     expect(Guide.legal(s)).toContain('change_thing(world__grille_pick)');
-    await s.perform('change_thing(world__grille_pick)');
+    await s.leg('change_thing(world__grille_pick)');
     await s.leg('go(world__ossuary_arch,world__ossuary)');
     expect(s.campaign.world.test({ kind: 'call', name: 'state', args: ['rescue__guest', 'rescue__pinned'] })).toBe(true);
   }, 60000);

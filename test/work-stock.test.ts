@@ -23,9 +23,9 @@ describe('a makers\' work, stocked', () => {
     expect(takes()).toEqual([]);
     // The barrow is dark: a light first, as anyone going down would.
     const light = PlayerView.choices(c).find(x => /^Light /.test(x.choice.name));
-    if (light) { await s.perform(light.choice.id); }
+    if (light) { await s.leg(light.choice.id); }
     const search = PlayerView.choices(c).find(x => x.choice.id.startsWith('search('))!;
-    const said = (await s.perform(search.choice.id)).response ?? '';
+    const said = (await s.leg(search.choice.id)).response ?? '';
     expect(c.world.test(ModuleWriter.call('knows', 'party', 'region__w1_cache_found'))).toBe(true);
     expect(said + JSON.stringify(PlayerView.observe(c))).toMatch(/loose/);
     expect(takes().length).toBeGreaterThan(0);
@@ -42,7 +42,7 @@ describe('a makers\' work, stocked', () => {
     await GeneratedWorld.travel(s, site.id);
     const after = xp();
     expect(after - before).toBeGreaterThanOrEqual(20);
-    await s.perform('wait');
+    await s.leg('wait');
     await GeneratedWorld.travel(s, w.report.region.settlements[0]!.id + '_green');
     await GeneratedWorld.travel(s, site.id);
     expect(xp()).toBe(after);

@@ -20,9 +20,9 @@ class March {
   static async perform(s: PlaySession, command: string) {
     if (!this.legal(s).includes(command) && this.fact(s, 'benighted', 'party')) {
       const torch = this.legal(s).find(c => c.startsWith('light_item(march__nera_torch_'));
-      if (torch) { await s.perform(torch); }
+      if (torch) { await s.leg(torch); }
     }
-    return s.perform(command);
+    return s.leg(command);
   }
   static legal(s: PlaySession) { return PlayerView.choices(s.campaign).map(c => c.choice.id); }
   static fact(s: PlaySession, name: string, ...args: string[]) {
@@ -74,7 +74,7 @@ describe('Censer Hill, reconstructed', () => {
     await March.perform(s, 'go(hill__court_arch,hill__crypt)');
     for (const c of March.outByChalk.slice(2)) { await March.perform(s, c); }
     expect(March.legal(s)).toContain('keepers__writ');
-    await s.perform('keepers__writ');
+    await s.leg('keepers__writ');
     expect(March.fact(s, 'knows', 'party', 'keepers__custody_writ')).toBe(true);
     expect(March.fact(s, 'assumesFalse', 'keepers__keeper', 'keepers__register_survives')).toBe(false);
     for (const c of ['go(march__shrine_door,march__quay)', 'go(march__causeway_path,march__causeway)',
@@ -112,15 +112,15 @@ describe('salvage against the dead', () => {
       'go(world__ladder_shaft,world__lower_gallery)', 'go(world__drift_seal,world__drowned_drift)',
       'take_item(salvage__offering,world__member_party_2)');
     const expires = s.campaign.world.number(ModuleWriter.call('salvage__expiresAt', 'salvage__permit'));
-    for (let i = 0; i < 80 && !March.fact(s, 'salvage__departed', 'salvage__salvager'); i++) { await s.perform('wait'); }
+    for (let i = 0; i < 80 && !March.fact(s, 'salvage__departed', 'salvage__salvager'); i++) { await s.leg('wait'); }
     expect(s.campaign.state.elapsed).toBeGreaterThanOrEqual(expires);
     expect(March.where(s, 'salvage__salvager')).toBe('world__green');
     for (const c of ['go(world__drift_seal,world__lower_gallery)', 'go(world__ladder_shaft,world__upper_gallery)',
       'go(world__gallery_way,world__adit)', 'go(world__adit_mouth,world__quarry_floor)',
       // Snow has closed the beck lane by now (Caught Below's closing way); the fell track is the long way round.
-      'go(world__fell_descent,world__fell_track)', 'go(world__fell_climb,world__green)']) { await s.perform(c); }
+      'go(world__fell_descent,world__fell_track)', 'go(world__fell_climb,world__green)']) { await s.leg(c); }
     const gold = s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'));
-    await s.perform('sell(salvage__offering,salvage__salvager)');
+    await s.leg('sell(salvage__offering,salvage__salvager)');
     expect(s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'))).toBe(gold + 10);
     expect(March.legal(s)).not.toContain('sell(salvage__prize,salvage__salvager)');
     await s.leg('go(world__chapel_door,world__chapel)');

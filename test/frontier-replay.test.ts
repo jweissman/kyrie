@@ -20,7 +20,7 @@ class March {
       const way = this.next(s);
       const go = PlayerView.choices(s.campaign).find(c => c.choice.id === `go(${way[0]},${way[1]})`);
       if (!go) { throw new Error(`No way on to ${way[1]}`); }
-      await s.perform(go.choice.id);
+      await s.leg(go.choice.id);
     }
   }
   private static next(s: PlaySession): [string, string] {

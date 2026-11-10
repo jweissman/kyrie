@@ -8,6 +8,7 @@ import { PlayerView } from '../presentation/player-view';
 import { Telling } from '../narrative/telling';
 import type { Memorial } from '../world/memorial';
 import { Crossing } from '../campaign/crossing';
+import { Travel } from './travel';
 import { HexBoundary } from '../hex-boundary';
 import { Undertakings } from '../presentation/undertakings';
 import { Digest } from './digest';
@@ -84,11 +85,19 @@ export class PlaySession {
   // A step of a scripted journey (a spec's, a driver's), taken as a player takes it: a way into the next hex is set
   // out on from the map, a leg of a journey there (Campaign.travelling), and anything else is done as it is. Never the
   // page's own path for what the player chooses (see perform), which has no such leave.
+  // A journey (travel:place), as the page sets out on one from the map: leg by leg (Travel.go), its last told.
   async leg(command: string, controller: CombatController = PlaySession.auto): Promise<CampaignEvent> {
+    if (command.startsWith('travel:')) {
+      const done = await Travel.go({ campaign: this.campaign, perform: this.travelled.bind(this) },
+        command.slice('travel:'.length));
+      return done.legs.at(-1)?.event ?? this.perform('wait', controller);
+    }
     const to = this.whither(command);
     return to ? this.campaign.crossing.travelling(to, () => this.perform(command, controller))
       : this.perform(command, controller);
   }
+  // A leg of a journey, as Travel.go takes it (its words aside).
+  private travelled(command: string): Promise<CampaignEvent> { return this.perform(command); }
   // Where an offered command goes, if it goes anywhere; and, for a driver of the page's engine, where it goes if that
   // is into another hex, which the page sets out on as a journey (a travel request), never as the command itself.
   whither(command: string): string | undefined {

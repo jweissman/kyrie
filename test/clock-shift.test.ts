@@ -22,7 +22,7 @@ class Late {
     const s = await PlaySession.start(w.path, seed, w.source);
     (s.campaign as unknown as { current: { elapsed: number } }).current.elapsed = 18 * 144;
     GeneratedWorld.put(s, `edge_${side}`);
-    await s.perform('wait');
+    await s.leg('wait');
     await new Frontier(seed, NodeBundleSource.shared).expand(s.campaign);
     return s;
   }
@@ -63,7 +63,7 @@ describe('a module installed late', () => {
     for (const rule of timed) {
       expect(Number(Late.fixed.exec(JSON.stringify(rule.when))![1])).toBeGreaterThan(18 * 144);
     }
-    const said = await s.perform('wait') as { perceptions?: { text: string }[] };
+    const said = await s.leg('wait') as { perceptions?: { text: string }[] };
     expect(said.perceptions?.some(p => /has died/.test(p.text)) ?? false).toBe(false);
   }, 120000);
   it('counts its own time from when it was installed', async () => {
@@ -82,7 +82,7 @@ describe('a module installed late', () => {
     for (const rule of running) {
       expect(Number(Late.own.exec(JSON.stringify(rule.when))![1])).toBeGreaterThanOrEqual(18 * 144);
     }
-    const said = await s.perform('wait') as { perceptions?: { text: string }[] };
+    const said = await s.leg('wait') as { perceptions?: { text: string }[] };
     expect(said.perceptions?.some(p => /has died|gone out on the road alone/.test(p.text)) ?? false).toBe(false);
   }, 120000);
 });

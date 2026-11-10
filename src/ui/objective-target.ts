@@ -25,7 +25,8 @@ export class ObjectiveTarget {
     // The most particular of the places: one that no other named place lies within.
     const inner = places.filter(p => !places.some(q => q !== p && Spatial.ancestry(byId, q).some(e => e.id === p)));
     const actionAt = inner[0], subject = others.find(id => id !== campaign.playerActor && id !== 'party');
-    return { ...subject ? { subject } : {}, ...actionAt ? { actionAt, routeTo: actionAt } : {},
+    const routeTo = o.route ?? actionAt;
+    return { ...subject ? { subject } : {}, ...actionAt ? { actionAt } : {}, ...routeTo ? { routeTo } : {},
       source: o.toward?.length ? 'authored' : 'legacy', ...!o.toward?.length && inner.length > 1 ? { ambiguous: true } : {} };
   }
 }

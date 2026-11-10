@@ -34,11 +34,11 @@ describe('a level gained', () => {
     expect(PlayerView.choices(c).some(x => x.choice.id.startsWith('go(region__w3_south'))).toBe(false);
     const climbing = ScreenModel.build(c).party[0]!.development!.options.find(o => o.id === 'climbing')!;
     expect(climbing.opens?.length).toBeGreaterThan(0);
-    await s.perform(climbing.command!);
+    await s.leg(climbing.command!);
     expect(PlayerView.choices(c).some(x => x.choice.id.startsWith('go(region__w3_south'))).toBe(true);
     // And it is kept: through the watches of the torch burning, which once lost it (a creature made again from how it
     // stands in a fight kept everything of its state but the skills taken up).
-    await s.perform('wait_hour');
+    await s.leg('wait_hour');
     expect(c.state.creatures.find(x => x.id === c.state.partyIds[0])!.state.skills).toEqual(['climbing']);
     await s.leg(PlayerView.choices(c).find(x => x.choice.id.startsWith('go(region__w3_south'))!.choice.id);
     expect(c.world.one('at', 'party')).toBe('region__w3_right');

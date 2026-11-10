@@ -59,14 +59,14 @@ describe('a weary company\'s fights', () => {
   // fights there; and the game is the same kept, opened again, and played again from its commands.
   it('fights in one cave gallery, walks on into the next, and fights again, kept and replayed alike', async () => {
     const s = await Weary.start();
-    for (const wait of ['wait_for_dark', 'wait_watch']) { await s.perform(wait); }
+    for (const wait of ['wait_for_dark', 'wait_watch']) { await s.leg(wait); }
     expect(s.campaign.world.test(ModuleWriter.call('weary', 'party'))).toBe(true);
     await GeneratedWorld.travel(s, 'w9_adit_mouth');
-    await s.perform(Weary.attack(s));
+    await s.leg(Weary.attack(s));
     expect(Weary.party(s).filter(id => id === 'weary')).toEqual([]);
-    await s.perform('light_item(region__party_1__torch)');
+    await s.leg('light_item(region__party_1__torch)');
     await GeneratedWorld.travel(s, 'w9_adit_crossing');
-    const second = await s.perform(Weary.attack(s));
+    const second = await s.leg(Weary.attack(s));
     expect(second.combat.some(e => e.type === 'end')).toBe(true);
     expect(PlaySession.resume(s.checkpoint()).canonical()).toBe(s.canonical());
     const replay = await Weary.start();

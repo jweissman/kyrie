@@ -25,7 +25,7 @@ class Ring {
   static async tryOn(s: PlaySession, thing: string, label: string): Promise<CampaignEvent> {
     const c = this.choices(s).find(x => new RegExp(label, 'i').test(x.label) && x.command.includes(thing));
     if (!c) { throw new Error(`No /${label}/ on ${thing}`); }
-    return s.perform(c.command);
+    return s.leg(c.command);
   }
   static async until(s: PlaySession, watch: number): Promise<string> {
     let said = '';

@@ -118,7 +118,7 @@ describe('a generated region lies on real land', () => {
     Land.put(s, `region__${pass.way}`);
     let said = '';
     while (s.campaign.state.elapsed < 90) {
-      const e = await s.perform('wait_hour');
+      const e = await s.leg('wait_hour');
       said += ` ${(e.perceptions ?? []).map(p => p.text).join(' ')}`;
     }
     expect(said.match(/Night comes down on the/g)?.length).toBe(1);
@@ -139,7 +139,7 @@ describe('a generated region keeps a calendar and weather', () => {
       // To the morning after first light: 6 a.m. is the watch 144 n - 12 of day n.
       while (s.campaign.state.elapsed < 144 * (day + 1) - 11) {
         const ids = PlayerView.choices(s.campaign).map(c => c.choice.id);
-        await s.perform(['wait_for_light', 'wait_for_dark', 'wait_hour'].find(id => ids.includes(id))!);
+        await s.leg(['wait_for_light', 'wait_for_dark', 'wait_hour'].find(id => ids.includes(id))!);
       }
       const names = PlayerView.choices(s.campaign).map(c => c.choice.name).filter(n => n.includes(river));
       days.push({ sky: sky(), up: up(), risk: names.some(n => n.startsWith(`Risk the ${river}`)) });

@@ -28,8 +28,8 @@ class Empty {
   // A night waited out, whatever happens in it to break the wait (the ring's goings-on come by night).
   static async night(s: PlaySession) {
     const offered = (id: string) => PlayerView.choices(s.campaign).some(c => c.choice.id === id);
-    for (let k = 0; k < 4 && offered('wait_for_dark'); k++) { await s.perform('wait_for_dark'); }
-    for (let k = 0; k < 4 && offered('wait_for_light'); k++) { await s.perform('wait_for_light'); }
+    for (let k = 0; k < 4 && offered('wait_for_dark'); k++) { await s.leg('wait_for_dark'); }
+    for (let k = 0; k < 4 && offered('wait_for_light'); k++) { await s.leg('wait_for_light'); }
   }
   static choice(s: PlaySession, pattern: RegExp) {
     return PlayerView.choices(s.campaign).find(c => pattern.test(c.choice.name));
@@ -41,7 +41,7 @@ describe('a work left empty', () => {
     const { w, s, barrow } = await Empty.start(), town = RegionGeography.near(w.report.region, barrow).id;
     Empty.kill(s, `region__${barrow.id}_dead`);
     GeneratedWorld.put(s, `${town}_taproom`);
-    await s.perform('wait');
+    await s.leg('wait');
     expect(Empty.choice(s, /what is out at/)).toBeUndefined();
     let nights = 0;
     while (!Empty.choice(s, /what is out at/) && nights < 12) {
@@ -49,14 +49,14 @@ describe('a work left empty', () => {
     }
     expect(nights).toBeGreaterThanOrEqual(4);
     expect(s.campaign.world.one('at', `region__${barrow.id}_newcomers`)).toBe(`region__${barrow.id}_passage`);
-    const news = await s.perform(Empty.choice(s, /what is out at/)!.choice.id) as { response?: string };
+    const news = await s.leg(Empty.choice(s, /what is out at/)!.choice.id) as { response?: string };
     expect(news.response).toContain(`Moved into ${barrow.name} while it stood empty`);
     const green = await s.leg(`go(region__${town}_inn_door,region__${town}_green)`) as { perceptions?: { text: string }[] };
     expect(green.perceptions!.some(p => /The flocks have been brought in close/.test(p.text))).toBe(true);
     Empty.kill(s, `region__${barrow.id}_newcomers`);
     await s.leg(`go(region__${town}_inn_door,region__${town}_taproom)`);
     const gold = s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'));
-    await s.perform(Empty.choice(s, /dealt with$/)!.choice.id);
+    await s.leg(Empty.choice(s, /dealt with$/)!.choice.id);
     expect(s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'))).toBeGreaterThan(gold);
     expect(Empty.choice(s, /dealt with$/)).toBeUndefined();
   }, 120000);

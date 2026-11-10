@@ -31,13 +31,13 @@ describe('a hurt companion', () => {
     expect(Hurt.tending(s)).toEqual([]);
     const elen = ScreenModel.build(s.campaign).party.find(m => m.name === 'Elen')!;
     Hurt.wound(s, elen.id, 3);
-    await s.perform('wait');
+    await s.leg('wait');
     const [tend, ...others] = Hurt.tending(s);
     expect(others).toEqual([]);
     expect(tend).toMatchObject({ label: 'Tend Elen', note: '3 of 11' });
     expect(tend!.children!.map(c => c.label)).toEqual(['Dori: cast Cure Minor Wounds', 'Dori: use bandages',
       'Dori: use healing herbs']);
-    await s.perform(tend!.children![0]!.command!);
+    await s.leg(tend!.children![0]!.command!);
     const after = ScreenModel.build(s.campaign).party.find(m => m.name === 'Elen')!;
     expect(after.hp).toBeGreaterThan(3);
     expect(Hurt.tending(s)[0]?.note ?? 'mended').not.toBe('3 of 11');

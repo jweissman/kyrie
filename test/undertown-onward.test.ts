@@ -18,7 +18,7 @@ describe('the old ways under a town', () => {
     const change = (...x: unknown[]) => held.commit(held.world.apply(x));
     const put = (p: string) => change({ kind: 'retract', call: ModuleWriter.call('at', 'party', held.world.one('at', 'party')) },
       { kind: 'assert', call: ModuleWriter.call('at', 'party', p) });
-    const aims = async () => { await s.perform('wait'); return Undertakings.held(c).map(o => o.id); };
+    const aims = async () => { await s.leg('wait'); return Undertakings.held(c).map(o => o.id); };
     expect(await aims()).not.toContain('region__s1_u_onward_sought');
     change({ kind: 'assert', call: ModuleWriter.call('region__s1_u_done', 'region__s1_u_rats_job') });
     expect(await aims()).toContain('region__s1_u_onward_sought');

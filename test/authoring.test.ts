@@ -17,7 +17,7 @@ class House {
   static async act(s: PlaySession, prefix: string): Promise<CampaignEvent> {
     const id = this.legal(s).find(c => c.startsWith(prefix));
     if (!id) { throw new Error(`Not offered: ${prefix} among ${this.legal(s).join(', ')}`); }
-    return s.perform(id);
+    return s.leg(id);
   }
   static holds(s: PlaySession, name: string, ...args: string[]) {
     return s.campaign.world.test(ModuleWriter.call(name, ...args));

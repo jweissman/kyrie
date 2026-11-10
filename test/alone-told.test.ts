@@ -29,7 +29,7 @@ describe('one who comes alone', () => {
       const told = () => Narrator.leaf(s.campaign, ScreenModel.build(s.campaign)).situation.join(' ');
       expect(told()).toContain(`${town.traveller} there is looking for work`);
       const ask = PlayerView.choices(s.campaign).find(c => c.choice.id.includes(`${traveller}_brings`))!;
-      await s.perform(ask.choice.id);
+      await s.leg(ask.choice.id);
       expect(PlayerView.observe(s.campaign).observations.map(o => o.text).join(' ')).not.toContain('looking for work');
     }, 120000);
 });

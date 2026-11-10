@@ -122,7 +122,7 @@ it('advances world-time wards during ordinary campaign actions, saves their cloc
 it('commits a fatal hazard as failure without crossing, and rejects later invalid commands atomically', async () => {
   const s = await ContractProbe.start();
   for (const command of ['go(march__causeway_path,march__causeway)', 'change_thing(hill__boar_pass)', 'go(hill__low_path,hill__drain_mouth)',
-    'go(hill__culvert,hill__workshop)']) { await s.perform(command); }
+    'go(hill__culvert,hill__workshop)']) { await s.leg(command); }
   const checkpoint = s.checkpoint();
   checkpoint.save.creatures.find(c => c.id === checkpoint.save.state.partyIds[1])!.state.hp = 1;
   checkpoint.save.state.world = CreatureFacts.project(new World(checkpoint.save.module, checkpoint.save.state.world),
@@ -174,7 +174,7 @@ it('keeps offscreen ongoing effects in the canonical receipt without leaking the
   const initialHp = npc.state.hp;
   cp.save.state.world = CreatureFacts.project(new World(cp.save.module, cp.save.state.world),
     cp.save.definition!.actors, new CreatureStore(cp.save.creatures)).snapshot;
-  const s = PlaySession.resume(cp), event = await s.perform('wait');
+  const s = PlaySession.resume(cp), event = await s.leg('wait');
   expect(s.campaign.state.creatures.find(c => c.id === npc.id)!.state.hp).toBe(initialHp - 2);
   expect(event.combat.some(e => 'actor' in e && e.actor === 'private-needle')).toBe(false);
   expect(event.resolution?.events.some(e => 'actor' in e && e.actor === 'private-needle'
@@ -243,7 +243,7 @@ it('commits deaths during delayed recovery instead of throwing and rolling back 
     cp.save.definition!.actors, new CreatureStore(cp.save.creatures)).snapshot;
   const s = PlaySession.resume(cp), command = PlayerView.observe(s.campaign).choices
     .find(c => c.id.startsWith('take_lodging'))!.id;
-  const before = s.campaign.state.elapsed, event = await s.perform(command);
+  const before = s.campaign.state.elapsed, event = await s.leg(command);
   expect(event.result).toBe('failure'); expect(event.resolution?.outcome).toBe('failure');
   expect(s.campaign.state.elapsed).toBeGreaterThan(before);
   expect(s.campaign.state.creatures.filter(c => s.campaign.state.partyIds.includes(c.id)).every(c => c.state.hp === 0))

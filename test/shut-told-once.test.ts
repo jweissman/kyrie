@@ -30,7 +30,7 @@ class Shut {
   static async through(s: PlaySession, to: string): Promise<string[]> {
     const c = s.campaign, before = PlayerView.observe(c);
     const go = PlayerView.choices(c).find(x => x.choice.id.startsWith('go(p__gate') && x.choice.id.endsWith(`${to})`))!;
-    const event = await s.perform(go.choice.id), feedback = ActionFeedbackView.read(c, event, before);
+    const event = await s.leg(go.choice.id), feedback = ActionFeedbackView.read(c, event, before);
     return Narrator.leaf(c, ScreenModel.build(c), { event, feedback, said: go.choice.name, moved: true }).situation;
   }
 }

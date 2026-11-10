@@ -49,7 +49,7 @@ describe('rows the recheck found still open', () => {
   Rule bob_to_yard when at(party, hall) { Assert at(bob, yard). }
   Goal false.
 }`);
-    await s.perform('wait');
+    await s.leg('wait');
     expect(s.campaign.world.one('at', 'p__bob')).toBe('p__hall');
   }, 60000);
   // LOR-16: a level declared outdoors (a ship's upper deck) lent its rooms no shelter to the rules, which called them

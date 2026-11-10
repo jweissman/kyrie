@@ -52,7 +52,7 @@ describe('a settlement is what made it', () => {
     const { w } = await Founded.region('thorn');
     const s = await PlaySession.start(w.path, 'thorn', w.source);
     const into = ScreenModel.build(s.campaign).exits.find(e => e.destination.id.endsWith('_green'))!;
-    await s.perform(into.acts[0]!.command!);
+    await s.leg(into.acts[0]!.command!);
     const screen = ScreenModel.build(s.campaign);
     expect(screen.place.id).toMatch(/_green$/);
     expect(screen.place.name).not.toMatch(/ green$/);

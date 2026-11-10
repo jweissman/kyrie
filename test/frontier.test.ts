@@ -40,7 +40,7 @@ describe('the world beyond a region', () => {
     const west = region.beyond!.west!;
     expect(west.terrain).toBe(WorldGrid.drawn('a1', -1, 0).terrain);
     GeneratedWorld.put(s, 'edge_west');
-    const seen = await s.perform('wait') as { perceptions?: { text: string }[] };
+    const seen = await s.leg('wait') as { perceptions?: { text: string }[] };
     expect(seen.perceptions!.some(p => p.text.includes(`into ${west.name}`))).toBe(true);
   }, 60000);
   it('draws the country beyond the first time the company comes to the march, and joins it by the road', async () => {

@@ -12,7 +12,7 @@ import { GeneratedWorld } from './support/generated';
 class Inn {
   // What a wait there tells, and what the place shows after it.
   static async said(s: PlaySession): Promise<string[]> {
-    const event = await s.perform('wait') as { perceptions?: { text: string }[] };
+    const event = await s.leg('wait') as { perceptions?: { text: string }[] };
     const now = PlayerView.observe(s.campaign).observations.map(o => o.text);
     return [...(event.perceptions ?? []).map(p => p.text), ...now].filter(t => /nailed up where travellers/.test(t));
   }
@@ -28,7 +28,7 @@ describe('the talk of the notices at an inn', () => {
     expect(await Inn.said(s)).toEqual([]);
     expect(await Inn.said(s)).toEqual([]);
     GeneratedWorld.put(s, room.replace(/taproom$/, 'green'));
-    await s.perform('wait');
+    await s.leg('wait');
     GeneratedWorld.put(s, room);
     expect(await Inn.said(s)).toEqual([]);
     expect(PlayerView.choices(s.campaign).some(c => /^Read /.test(c.choice.name))).toBe(true);

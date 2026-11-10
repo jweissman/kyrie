@@ -9,9 +9,9 @@ import { Words } from '../web/reader/words';
 describe('a wait broken off', () => {
   it('is marked so by the engine, and told as begun, with what broke it off', async () => {
     const s = await PlaySession.start('data/campaigns/the-long-man.campaign.json', 'merrow', NodeBundleSource.shared);
-    while (s.campaign.state.elapsed < 300) { await s.perform('wait_hour'); }
+    while (s.campaign.state.elapsed < 300) { await s.leg('wait_hour'); }
     // Watching until something changes, the company is in the dale when the storm comes on the third day.
-    const watched = await s.perform('wait_watch');
+    const watched = await s.leg('wait_watch');
     expect([watched.cut, watched.response]).toEqual([true, expect.stringContaining('The wind goes round to the north')]);
     // Told in the action's own words, which have a verb where a heading's choice may not ("Until first light").
     const name = s.campaign.operator(watched.action)!.name;

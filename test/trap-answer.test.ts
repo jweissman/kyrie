@@ -29,13 +29,13 @@ describe('a trap on the way', () => {
   }, 60000);
   it('shows a cleric its answer on a closer look, and the way is gone by unharmed', async () => {
     const s = await Switch.start();
-    await s.perform('look_closely(p__hall_snare)');
+    await s.leg('look_closely(p__hall_snare)');
     const ways = Switch.ways(s), worn = ways.find(c => c.command === 'change_thing(p__hall_snare_worn)');
     expect(worn?.label).toMatch(/worn by hands that knew to miss the switch/);
     expect(ways.find(c => c.risk)?.note ?? '').not.toContain(ChoiceList.unexamined);
     const before = Switch.hp(s);
-    await s.perform(worn!.command!);
-    await s.perform(Switch.ways(s).find(c => /^To the gallery$/.test(c.label))!.command!);
+    await s.leg(worn!.command!);
+    await s.leg(Switch.ways(s).find(c => /^To the gallery$/.test(c.label))!.command!);
     expect(Switch.hp(s)).toBe(before);
     expect(s.campaign.world.one('at', 'party')).toBe('p__gallery');
   }, 60000);
@@ -59,7 +59,7 @@ describe('a snare in a generated country', () => {
     k.commit(k.world.apply([{ kind: 'assert', call: ModuleWriter.call('at', 'party', 'region__w5_counting') }]));
     expect(c.world.test(ModuleWriter.call('knows', 'party', 'region__w5_snare_known'))).toBe(false);
     const light = PlayerView.choices(c).find(x => /^Light/.test(x.choice.name))!;
-    await s.perform(light.choice.id);
+    await s.leg(light.choice.id);
     expect(c.world.test(ModuleWriter.call('knows', 'party', 'region__w5_snare_known'))).toBe(true);
     expect(PlayerView.choices(c).some(x => /^Say over it what quiets such things/.test(x.choice.name))).toBe(true);
   }, 120000);
@@ -75,9 +75,9 @@ describe('a snare in a generated country', () => {
       .map(r => ({ kind: 'retract', call: ModuleWriter.call('ownedItem', r.args[0]!, r.args[1]!) }));
     k.commit(k.world.apply([...poles, { kind: 'assert', call: ModuleWriter.call('at', 'party', 'region__w5_counting') }]));
     const light = PlayerView.choices(c).find(x => /^Light/.test(x.choice.name));
-    if (light) { await s.perform(light.choice.id); }
+    if (light) { await s.leg(light.choice.id); }
     const look = PlayerView.choices(c).find(x => /^look_closely\(region__w5_snare/.test(x.choice.id))!;
-    const seen = (await s.perform(look.choice.id)).perceptions?.map(p => p.text).join(' ') ?? '';
+    const seen = (await s.leg(look.choice.id)).perceptions?.map(p => p.text).join(' ') ?? '';
     expect(seen).toMatch(/None of you knows how to deal with it as you are: it wants .+\./);
   }, 120000);
 });

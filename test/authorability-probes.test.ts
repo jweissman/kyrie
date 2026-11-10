@@ -25,7 +25,7 @@ class Probe {
   static async act(s: PlaySession, label: string) {
     const c = this.choices(s).find(x => new RegExp(label, 'i').test(x.label));
     if (!c) { throw new Error(`No /${label}/ among ${this.choices(s).map(x => x.label).join(' | ')}`); }
-    const e = await s.perform(c.command!);
+    const e = await s.leg(c.command!);
     return [...(e.perceptions ?? []).map(p => p.text), e.response ?? ''].join(' ');
   }
   static holds(s: PlaySession, name: string, ...args: string[]) {
@@ -119,11 +119,11 @@ describe('Authorability probes', () => {
     const gate = (x: { command?: string }) => x.command?.startsWith('go(p__gate,') ?? false;
     expect(Probe.choices(s).some(gate)).toBe(false);
     expect(ScreenModel.build(s.campaign).observed.map(o => o.text).join(' ')).toContain('By day it is only a ring.');
-    await s.perform('wait_for_dark');
+    await s.leg('wait_for_dark');
     expect(Probe.choices(s).some(gate)).toBe(true);
-    await s.perform(Probe.choices(s).find(gate)!.command!);
+    await s.leg(Probe.choices(s).find(gate)!.command!);
     expect(s.campaign.world.one('at', 'party')).toBe('p__garden');
-    await s.perform('wait_for_light');
+    await s.leg('wait_for_light');
     expect(Probe.choices(s).some(gate)).toBe(false);
   }, 60000);
 

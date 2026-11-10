@@ -32,7 +32,7 @@ class Probe {
   static async act(s: PlaySession, label: string) {
     const c = this.choices(s).find(x => new RegExp(label, 'i').test(x.label));
     if (!c) { throw new Error(`No /${label}/ among ${this.choices(s).map(x => x.label).join(' | ')}`); }
-    const e = await s.perform(c.command!);
+    const e = await s.leg(c.command!);
     return [...(e.perceptions ?? []).map(p => p.text), e.response ?? ''].join(' ');
   }
   static holds(s: PlaySession, name: string, ...args: string[]) {

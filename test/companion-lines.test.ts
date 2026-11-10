@@ -30,13 +30,13 @@ const said = (s: PlaySession) => JSON.stringify(s.campaign.history);
 describe('a line for whoever of the company is fit for it', () => {
   it('is given to the companion who can, by name', async () => {
     const s = await play([{ name: 'Ama', classId: 'warrior' }, { name: 'Bede', classId: 'mage' }]);
-    await s.perform('wait');
+    await s.leg('wait');
     expect(said(s)).toContain('Bede leans close to the stone');
     expect(s.campaign.world.test(ModuleWriter.call('p__inscriptionRead'))).toBe(true);
   }, 60000);
   it('is not given to the one who plays, though they can, nor to anyone else in their stead', async () => {
     const s = await play([{ name: 'Ama', classId: 'mage' }, { name: 'Bede', classId: 'warrior' }]);
-    await s.perform('wait');
+    await s.leg('wait');
     expect(said(s)).not.toContain('leans close to the stone');
   }, 60000);
   it('is not said while the one who can is down', async () => {
@@ -47,7 +47,7 @@ describe('a line for whoever of the company is fit for it', () => {
     const store = (s.campaign as unknown as { creatures: { acquire(ids: string[]): Lease } }).creatures;
     const lease = store.acquire([s.campaign.state.partyIds[1]!]);
     try { lease.creatures[0]!.state.hp = 0; lease.commit(lease.creatures); } finally { lease.release(); }
-    await s.perform('wait');
+    await s.leg('wait');
     expect([bede.length > 0, said(s).includes('leans close to the stone')]).toEqual([true, false]);
   }, 60000);
   // What only one who brings lore would notice is credited to the companion who does, and to no one when it is the
@@ -55,7 +55,7 @@ describe('a line for whoever of the company is fit for it', () => {
   it('credits what is noticed to the companion who noticed it', async () => {
     const seen = async (party: { name: string; classId: string }[]) => {
       const s = await play(party);
-      await s.perform('wait');
+      await s.leg('wait');
       return JSON.stringify(Narrator.leaf(s.campaign, ScreenModel.build(s.campaign)));
     };
     expect(await seen([{ name: 'Ama', classId: 'warrior' }, { name: 'Bede', classId: 'mage' }]))

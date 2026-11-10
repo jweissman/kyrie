@@ -28,7 +28,7 @@ class Fellowship {
   // Meets the traveller at a settlement's inn and takes them on.
   static async hire(s: PlaySession, town: string, name: string) {
     GeneratedWorld.put(s, `${town}_taproom`);
-    await s.perform('wait');
+    await s.leg('wait');
     await this.take(s, new RegExp(`^Ask ${name} whether (he|she|they) would come along`));
     await this.take(s, new RegExp(`^Ask ${name} to join the company`));
   }
@@ -44,7 +44,7 @@ describe('a fellow traveller', () => {
     const { s } = await Fellowship.start();
     await Fellowship.hire(s, 's1', 'Cyril');
     GeneratedWorld.put(s, 's1_green');
-    await s.perform('wait');
+    await s.leg('wait');
     expect(ScreenModel.build(s.campaign).people.find(p => p.companion)?.name).toBe('Cyril, pedlar');
     expect((await Fellowship.take(s, /^Ask Cyril about home$/)).response).toContain('Mistshaw. My cousin');
     const news = await Fellowship.take(s, /^Ask Cyril for the news$/);
@@ -73,7 +73,7 @@ describe('a fellow traveller', () => {
     const before = s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'rations'));
     // Where Osborn is: behind the counter of an inn, or on the green of a hamlet that has none.
     GeneratedWorld.put(s, s.campaign.world.one('at', 'region__s4_innkeeper')!.replace(/^region__/, ''));
-    await s.perform('wait');
+    await s.leg('wait');
     expect(s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'rations'))).toBeGreaterThanOrEqual(before + 2);
     expect((await Fellowship.take(s, /^Ask Osborn about Cyril$/)).response).toContain('Cyril');
   }, 60000);
@@ -85,7 +85,7 @@ describe('a fellow traveller', () => {
     const c = s.campaign as unknown as { world: { apply(c: unknown[]): unknown }; commit(w: unknown): void };
     c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('at', 'party', `region__${zone.id}_lost`) },
       { kind: 'assert', call: ModuleWriter.call(`region__${zone.id}_heading`, 'party', goal) }]));
-    const event = await s.perform('wait');
+    const event = await s.leg('wait');
     expect(s.campaign.world.one('at', 'party')).toBe(goal);
     expect(event.perceptions?.map(p => p.text).join(' ')).toContain(town.traveller);
   }, 60000);

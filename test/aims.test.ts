@@ -20,7 +20,7 @@ describe('your aims', () => {
     const s = await PlaySession.start(w.path, 'kite', w.source), c = s.campaign;
     const before = PlayerView.observe(c);
     const ask = PlayerView.choices(c).find(x => /opened graves/.test(x.choice.name))!;
-    const event = await s.perform(ask.choice.id);
+    const event = await s.leg(ask.choice.id);
     const feedback = ActionFeedbackView.read(c, event, before);
     expect(feedback.aims).toEqual([expect.stringMatching(/^Something is wrong at /)]);
     const leaf = Narrator.leaf(c, ScreenModel.build(c), { event, feedback, said: ask.choice.name, moved: false });
@@ -34,7 +34,7 @@ describe('your aims', () => {
       commit(x: unknown): void };
     const graves = ModuleWriter.call('tower__opened', 'tower__churchyard'), later = PlayerView.observe(c);
     held.commit(held.world.apply([{ kind: 'set', call: graves, value: ModuleWriter.number(held.world.number(graves) + 1) }]));
-    const waited = await s.perform('wait');
+    const waited = await s.leg('wait');
     expect(PlayerView.observe(c).objectives?.map(o => o.text)).not.toEqual(later.objectives?.map(o => o.text));
     expect(ActionFeedbackView.read(c, waited, later).aims ?? []).toEqual([]);
   }, 120000);

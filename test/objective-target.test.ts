@@ -17,6 +17,10 @@ describe('an aim’s target', () => {
   it('is parsed as its author writes it, and refused when it names nothing', () => {
     expect(ModuleParser.parse(tiny('toward keeper, inn')).objectives?.[0]?.toward).toEqual(['keeper', 'inn']);
     expect(ModuleParser.parse(tiny('')).objectives?.[0]?.toward).toBeUndefined();
+    expect(ModuleParser.parse(tiny('toward keeper by inn')).objectives?.[0]).toMatchObject({ toward: ['keeper'],
+      route: 'inn' });
+    expect(() => new ModuleCompiler().instantiate(ModuleParser.parse(tiny('toward keeper by nowhere')), 'seed'))
+      .toThrow(/toward nowhere, which is not an entity/);
     expect(() => new ModuleCompiler().instantiate(ModuleParser.parse(tiny('toward nobody')), 'seed'))
       .toThrow(/toward nobody, which is not an entity/);
   });
@@ -28,9 +32,9 @@ describe('an aim’s target', () => {
     // The courier's letter: toward whoever it is for, installed as the town's own merchant.
     const carry = Stakes.target(c, def('origin__carry'));
     expect(carry).toEqual({ subject: 'region__s3_merchant', source: 'authored' });
-    // The first town's rats: where the job is done, the cellar, never the corn-store over it.
+    // The first town's rats: done in the cellar, gone to by the corn-store over it (toward cellar by store).
     const rats = Stakes.target(c, def('region__s1_u_rats_job_aim'));
-    expect([rats.actionAt, rats.routeTo, rats.source]).toEqual(['region__s1_u_cellar', 'region__s1_u_cellar', 'authored']);
+    expect([rats.actionAt, rats.routeTo, rats.source]).toEqual(['region__s1_u_cellar', 'region__s1_u_store', 'authored']);
     // One its author gave none is read from its words, and says so.
     const legacy = c.module.objectives!.find(o => !o.toward && /\{/.test(o.text))!;
     expect(Stakes.target(c, legacy).source).toBe('legacy');

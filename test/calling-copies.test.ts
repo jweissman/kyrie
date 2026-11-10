@@ -33,7 +33,7 @@ ${voice('yard')}
         { id: 'yard', bundle: 'copies/yard.json', imports: { party: 'hall.party' } }],
       party: [{ name: 'Ama', raceId: 'human', classId: 'warrior' }] }) });
     const s = await PlaySession.start(src.resolve('copies.campaign.json'), 'copies', src);
-    await s.perform('wait');
+    await s.leg('wait');
     const w = s.campaign.world;
     expect(['hall', 'yard'].map(m => w.test(ModuleWriter.call(`${m}__heard_${m}`, 'party')))).toEqual([true, true]);
   }, 60000);

@@ -24,7 +24,7 @@ describe('weariness', () => {
       value: ModuleWriter.number(watch - 108) }]));
     const before = PlayerView.observe(c), name = 'Climb the tower and look out over Newmeet';
     const climb = PlayerView.choices(c).find(x => x.choice.name === name)!;
-    const event = await s.perform(climb.choice.id), feedback = ActionFeedbackView.read(c, event, before);
+    const event = await s.leg(climb.choice.id), feedback = ActionFeedbackView.read(c, event, before);
     const lines = Narrator.leaf(c, ScreenModel.build(c), { event, feedback, said: name, moved: false })
       .exchange!.lines.map(l => l.text);
     expect(lines).toContain('The way down is the stair you came up.');

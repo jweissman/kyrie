@@ -31,11 +31,11 @@ describe('the later kingdom\'s works', () => {
   it('an abbey\'s glossary lets a company with no scholar read the old script', async () => {
     const { w, s } = await Later.start('a1'), abbey = w.report.region.sites.find(x => x.work?.plan === 'abbey')!;
     GeneratedWorld.put(s, `${abbey.id}_chapter`);
-    await s.perform('wait');
+    await s.leg('wait');
     await Later.choose(s, /^Blow the dust off the chronicle/);
     expect(Later.knows(s, 'history_successors')).toBe(true);
     GeneratedWorld.put(s, `${abbey.id}_scriptorium`);
-    await s.perform('wait');
+    await s.leg('wait');
     // Without the old script the copies cannot be read.
     expect(Later.has(s, /^Read the copied inscriptions/)).toBe(false);
     await Later.choose(s, /^Pick the book-press's lock/);
@@ -46,26 +46,26 @@ describe('the later kingdom\'s works', () => {
     // The copies say who the old people were; how they ended is cut in the oldest stone, which the brothers made
     // their altar.
     expect([Later.knows(s, `history_${first}`), Later.knows(s, `history_${first}_fate`)]).toEqual([true, false]);
-    await s.perform('wait');
+    await s.leg('wait');
     expect(Later.knows(s, `${great.id}_found`)).toBe(false);
     GeneratedWorld.put(s, `${abbey.id}_church`);
-    await s.perform('wait');
+    await s.leg('wait');
     await Later.choose(s, /^Read the old script on the back of the altar/);
     expect(Later.knows(s, `history_${first}_fate`)).toBe(true);
     // The whole story of the first makers shows the way to the greatest of their works, which no one told of.
-    await s.perform('wait');
+    await s.leg('wait');
     expect(Later.knows(s, `${great.id}_found`)).toBe(true);
   }, 60000);
   it('a keep\'s roll tells how the kingdom fell, and its wall shows the way to another site', async () => {
     const { w, s } = await Later.start('ash'), keep = w.report.region.sites.find(x => x.work?.plan === 'keep')!;
     GeneratedWorld.put(s, `${keep.id}_solar`);
-    await s.perform('wait');
+    await s.leg('wait');
     const read = await Later.choose(s, /^Untie the castle roll/) as { perceptions?: { text: string }[] };
     const fell = /eleven times|horses, one by one|cut in two|ships in sight/;
     expect(read.perceptions!.some(p => fell.test(p.text))).toBe(true);
     expect(Later.knows(s, 'history_successors')).toBe(true);
     GeneratedWorld.put(s, `${keep.id}_walk`);
-    const seen = await s.perform('wait') as { perceptions?: { text: string }[] };
+    const seen = await s.leg('wait') as { perceptions?: { text: string }[] };
     expect(seen.perceptions!.some(p => /Far off to the .* the lord's men would have seen/.test(p.text))).toBe(true);
     expect(w.report.region.sites.some(x => x !== keep && Later.knows(s, `${x.id}_found`))).toBe(true);
   }, 60000);

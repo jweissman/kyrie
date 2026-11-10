@@ -32,7 +32,7 @@ class Opening {
     const store = (s.campaign as unknown as { creatures: CreatureStore }).creatures;
     const lease = store.acquire(s.campaign.state.partyIds);
     try { lease.creatures[0]!.state.gold = gold; lease.commit(lease.creatures); } finally { lease.release(); }
-    await s.perform('wait');
+    await s.leg('wait');
   }
   // What the world now holds besides (a fact learnt elsewhere).
   static grant(s: PlaySession, changes: Change[]) {
@@ -114,7 +114,7 @@ describe('an origin', () => {
     const aims = () => ScreenModel.build(c).objectives.join(' ');
     expect(PlayerView.choices(c).some(x => /^Ask .* about the child$/.test(x.choice.name))).toBe(false);
     expect(aims()).not.toContain('feverwort you carry');
-    for (let h = 0; h < 9; h++) { await s.perform('wait_hour'); }
+    for (let h = 0; h < 9; h++) { await s.leg('wait_hour'); }
     expect(c.world.test(ModuleWriter.call('fever__dosed', 'fever__mother'))).toBe(false);
     expect(aims()).toContain('the herbs are spent');
     expect(aims()).not.toContain('feverwort you carry');
@@ -168,7 +168,7 @@ describe('an origin', () => {
     await Opening.take(s, new RegExp(`^Ask ${name} to join`));
     const c = s.campaign as unknown as { world: { apply(c: unknown[]): unknown }; commit(w: unknown): void };
     c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('at', 'party', `region__${road}`) }]));
-    await s.perform('wait');
+    await s.leg('wait');
     const before = PlayerView.observe(s.campaign), found = await Opening.take(s, /^Search/);
     // To the drover's child he is their father, and the brother's kneeling is seen, not filed as something known
     // (the M16 free play read "a man under it", and "Kildrak knelt by the cart" under what it knew).
@@ -219,7 +219,7 @@ describe('an origin', () => {
     expect(ScreenModel.build(s.campaign).objectives.join(' ')).toContain("You owe Mik, salter at Mik's salt-house, at Lowmouth 50 coin, by market day");
     for (let n = 0; n < 30 && !s.campaign.world.test(ModuleWriter.call('origin__called', 'party')); n++) {
       const until = PlayerView.choices(s.campaign).find(c => ['wait_for_dark', 'wait_for_light'].includes(c.choice.id));
-      await s.perform(until?.choice.id ?? 'wait_hour');
+      await s.leg(until?.choice.id ?? 'wait_hour');
     }
     expect(s.campaign.world.test(ModuleWriter.call('refusesService', 'region__s1_merchant', 'party'))).toBe(true);
   }, 120000);

@@ -20,7 +20,7 @@ describe('a price on a power', () => {
     const s = await PlaySession.start(w.path, 'ember', w.source), c = s.campaign;
     await GeneratedWorld.travel(s, c.world.one('at', 'pricePatron__widow')!.replace(/^region__/, ''));
     const offer = PlayerView.choices(c).find(x => /what she is waiting for/.test(x.choice.name))!;
-    expect((await s.perform(offer.choice.id)).response).toContain('looking toward a toll-house by the water');
+    expect((await s.leg(offer.choice.id)).response).toContain('looking toward a toll-house by the water');
     const hold = Itineraries.destinations(c).find(d => d.name === 'a toll-house by the water')!;
     expect([hold.toward, hold.legs.length]).toEqual(['Thornholt', 1]);
   }, 120000);
@@ -31,7 +31,7 @@ describe('a price on a power', () => {
       party: [{ name: 'Aud', raceId: 'elf', classId: 'ranger' }] });
     const s = await PlaySession.start(w.path, 'ember', w.source), c = s.campaign;
     GeneratedWorld.put(s, 'w6');
-    await s.perform('wait');
+    await s.leg('wait');
     const acts: Act[] = [], screen = ScreenModel.build(c);
     for (const a of [...screen.people, ...screen.things].flatMap(r => r.acts)) { acts.push(a, ...a.children ?? []); }
     expect(acts.find(a => /^Call Sir Hamo out/.test(a.label))?.reckoned)
@@ -39,7 +39,7 @@ describe('a price on a power', () => {
     await s.leg(PlayerView.choices(c).find(x => /^Call Sir Hamo out/.test(x.choice.name))!.choice.id);
     for (let i = 0; i < 12 && c.running; i++) {
       const strike = PlayerView.choices(c).find(x => /Strike/.test(x.choice.name)) ?? PlayerView.choices(c)[0]!;
-      await s.perform(strike.choice.id);
+      await s.leg(strike.choice.id);
     }
     expect(Obituary.of(c).lines).toContain('It began when you chose to call Sir Hamo out to fight.');
   }, 120000);
@@ -53,7 +53,7 @@ describe('a price on a power', () => {
     // Whichever traveller the country draws (their names change as the country's people do), one of them tells it.
     const asks = PlayerView.choices(c).filter(x => /^Ask \S+ about the country off the road/.test(x.choice.name));
     const told: string[] = [];
-    for (const ask of asks) { told.push((await s.perform(ask.choice.id)).response ?? ''); }
+    for (const ask of asks) { told.push((await s.leg(ask.choice.id)).response ?? ''); }
     expect(told.join(' ')).toContain('Fyrsteport, a toll-house by the water in Thornholt');
   }, 120000);
 });

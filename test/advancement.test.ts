@@ -57,16 +57,16 @@ describe('advancement', () => {
     for (const c of ['go(march__causeway_path,march__causeway)', 'go(march__ridge_track,march__ridge)',
       'take_item(brood__spare_torch,march__member_party_2)', 'go(sink__sink_path,sink__lip)', 'go(sink__shaft,sink__cave)',
       'light_item(brood__spare_torch)']) {
-      await s.perform(c);
+      await s.leg(c);
     }
-    const burn = await s.perform('change_thing(brood__webs_burn)');
+    const burn = await s.leg('change_thing(brood__webs_burn)');
     expect(burn.combat.filter(e => e.type === 'gain' && e.detail.startsWith('experience')).map(e => 'amount' in e && e.amount))
       .toEqual([750, 750, 750]);
     // Experience changes what members may train; a save taken at once must still be consistent.
     expect(PlaySession.resume(JSON.parse(JSON.stringify(s.checkpoint()))).campaign.state.elapsed)
       .toBe(s.campaign.state.elapsed);
     const xp = () => s.campaign.state.creatures.filter(c => c.id.includes('party')).map(c => c.state.experience);
-    await s.perform('wait');
+    await s.leg('wait');
     expect(xp()).toEqual([750, 750, 750]);
   }, 120000);
 });
@@ -80,7 +80,7 @@ describe('experience for a module someone else resolves', () => {
     // Garth goes for his fire after a second night of losing ewes; the company sleeps in town until he has.
     for (let night = 0; night < 5 && s.campaign.state.modules?.find(m => m.id === 'brood')?.outcome
       !== 'success'; night++) {
-      await s.perform('take_lodging(region__s1_innkeeper_lodging,region__s1_innkeeper)');
+      await s.leg('take_lodging(region__s1_innkeeper_lodging,region__s1_innkeeper)');
     }
     expect(s.campaign.state.modules?.find(m => m.id === 'brood')).toMatchObject({ outcome: 'success' });
     expect(s.campaign.state.creatures.filter(c => c.id.includes('party')).map(c => c.state.experience)).toEqual([0, 0, 0]);
@@ -130,7 +130,7 @@ describe('a level gained', () => {
       lease.commit(lease.creatures);
     } finally { lease.release(); }
     await s.leg('go(march__oar_door,march__taproom)');
-    await s.perform('take_lodging(march__maud_lodging,march__maud)');
+    await s.leg('take_lodging(march__maud_lodging,march__maud)');
     const ids = PlayerView.choices(s.campaign).map(c => c.choice.id);
     expect(ids).toContain('raise_quality(march__member_party_3,intelligence)');
     expect(ids).toContain('raise_quality(march__member_party_1,strength)');
@@ -139,8 +139,8 @@ describe('a level gained', () => {
     expect(ids.some(id => id.startsWith('learn_spell(march__member_party_1,'))).toBe(false);
     const ivo = () => s.campaign.state.creatures.find(c => c.id === s.campaign.state.partyIds[2])!;
     const before = ivo().base.intelligence;
-    await s.perform('raise_quality(march__member_party_3,intelligence)');
-    await s.perform(lesson);
+    await s.leg('raise_quality(march__member_party_3,intelligence)');
+    await s.leg(lesson);
     expect(ivo().base.intelligence).toBe(before + 1);
     expect(ivo().state.learnedAbilities).toContain(lesson.slice(lesson.indexOf(',') + 1, -1));
     const after = PlayerView.choices(s.campaign).map(c => c.choice.id);
@@ -176,12 +176,12 @@ describe('a feat at the fifth level', () => {
       lease.commit(lease.creatures);
     } finally { lease.release(); }
     await s.leg('go(march__oar_door,march__taproom)');
-    await s.perform('take_lodging(march__maud_lodging,march__maud)');
+    await s.leg('take_lodging(march__maud_lodging,march__maud)');
     const warrior = s.campaign.state.creatures.find(c => s.campaign.state.partyIds.includes(c.id) && c.classId === 'warrior')!;
     const ref = `march__member_${warrior.id.replace(/^march__/, '')}`;
     const feats = PlayerView.choices(s.campaign).map(c => c.choice.id).filter(id => id.startsWith(`take_feat(${ref},`));
     expect(feats.sort()).toEqual([`take_feat(${ref},barbarian)`, `take_feat(${ref},battle_cry)`, `take_feat(${ref},knight)`]);
-    await s.perform(`take_feat(${ref},knight)`);
+    await s.leg(`take_feat(${ref},knight)`);
     expect(s.campaign.state.creatures.find(c => c.id === warrior.id)!.traits).toContain('knight');
     expect(PlayerView.choices(s.campaign).some(c => c.choice.id.startsWith(`take_feat(${ref},`))).toBe(false);
   }, 60000);
@@ -217,11 +217,11 @@ describe('a skill taken up with a level', () => {
       lease.commit(lease.creatures);
     } finally { lease.release(); }
     await s.leg('go(march__oar_door,march__taproom)');
-    await s.perform('take_lodging(march__maud_lodging,march__maud)');
+    await s.leg('take_lodging(march__maud_lodging,march__maud)');
     const ids = PlayerView.choices(s.campaign).map(c => c.choice.id);
     const skill = ids.find(id => id.startsWith('learn_skill(march__member_party_1,'))!;
     expect(skill).toBeDefined();
-    await s.perform(skill);
+    await s.leg(skill);
     const first = s.campaign.state.creatures.find(c => c.id === s.campaign.state.partyIds[0])!;
     expect(first.state.skills).toEqual([skill.slice(skill.indexOf(',') + 1, -1)]);
     const after = PlayerView.choices(s.campaign).map(c => c.choice.id);

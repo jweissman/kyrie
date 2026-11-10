@@ -72,7 +72,7 @@ describe('what lies in wait can be read on the approach', () => {
     expect(Covenant.said(near)).toMatch(/Something is lying in wait in the low gallery/);
     expect(near.combat).toEqual([]);
     expect(Covenant.holds(s, 'betrayed', 'p__spider', 'party')).toBe(true);
-    const again = await s.perform('wait_hour');
+    const again = await s.leg('wait_hour');
     expect(Covenant.said(again)).not.toMatch(/lying in wait/);
     let opening: string | undefined;
     const sprung = await s.leg('go(p__crawl,p__gallery)', battle => {

@@ -35,19 +35,19 @@ describe('a place the company has not learned the name of', () => {
     const rooms = Named.world!.report.region.settlements.flatMap(t => ['taproom', 'shrine', 'shop'].map(r => `${t.id}_${r}`));
     for (const room of rooms) {
       GeneratedWorld.put(s, room);
-      await s.perform('wait');
+      await s.leg('wait');
       if (PlayerView.choices(s.campaign).some(c => c.choice.id === 'region__w1_hook')) { break; }
     }
     expect(ObservationText.label(s.campaign.world, 'region__w1')).toBe(seen);
     expect(Named.names(s).some(n => n.includes(site.name))).toBe(false);
-    const e = await s.perform('region__w1_hook');
+    const e = await s.leg('region__w1_hook');
     expect([e.response ?? '', ...(e.perceptions ?? []).map(p => p.text)].join(' ')).toContain(site.name);
     expect(ObservationText.label(s.campaign.world, 'region__w1')).toBe(site.name);
   }, 60000);
   it('is named by what is cut over the door of an old site, on arrival', async () => {
     const s = await Named.start();
     GeneratedWorld.put(s, 'w1');
-    await s.perform('wait');
+    await s.leg('wait');
     expect(ObservationText.label(s.campaign.world, 'region__w1')).toBe(Named.site().name);
   }, 60000);
   it('is written as authored', () => {

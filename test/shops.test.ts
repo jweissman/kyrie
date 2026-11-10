@@ -25,11 +25,11 @@ describe("a town's shops", () => {
     const shop = shops.find(x => Math.min(...RegionShops.stocks[x.k]!.stock.map(([, fee]) => fee)) <= 12)!.id;
     const s = await PlaySession.start(w.path, 'kite', w.source);
     GeneratedWorld.put(s, shop);
-    await s.perform('wait');
+    await s.leg('wait');
     const buy = PlayerView.choices(s.campaign).find(c => c.choice.id.startsWith(`buy_item(region__${shop}_keeper_`))!;
     expect(buy).toBeDefined();
     const gold = s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'));
-    await s.perform(buy.choice.id);
+    await s.leg(buy.choice.id);
     expect(s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'))).toBeLessThan(gold);
   }, 60000);
   // A general store had the eight cheapest things of its kinds by name, a bedroll, a bell, dice and firewood, and no
@@ -63,7 +63,7 @@ describe('a purchase the company cannot afford', () => {
       { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
     const s = await PlaySession.start(w.path, 'mere', w.source), c = s.campaign;
     GeneratedWorld.put(s, 's1_chandlery');
-    await s.perform('wait');
+    await s.leg('wait');
     const cc = c as unknown as { world: { apply(c: unknown[]): unknown }; commit(w: unknown): void };
     cc.commit(cc.world.apply([{ kind: 'set', call: ModuleWriter.call('quantity', 'party', 'gold'),
       value: { kind: 'number', value: 3 } }]));

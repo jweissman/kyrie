@@ -14,7 +14,7 @@ class Making {
     const j = await Journey.start('test/fixtures/probes/making/probe.campaign.json', seed);
     for (const k of ['bark,willow_bark', 'sweet,herbs', 'oil,lamp_oil', 'rag,bandages']) {
       const [item, kind] = k.split(',');
-      await j.session.perform(`take_item(party,p__${item},${kind},p__member_party_1,p__bank)`);
+      await j.session.leg(`take_item(party,p__${item},${kind},p__member_party_1,p__bank)`);
     }
     return j.session;
   }
@@ -38,7 +38,7 @@ describe('making a thing of two', () => {
   it('makes a remedy to use or sell, or spoils the first of what it takes', async () => {
     const outcomes = new Map<string, PlaySession>();
     for (const seed of ['m', 'n', 'o', 'p', 'q']) {
-      const s = await Making.start(seed), done = await s.perform(Making.remedy);
+      const s = await Making.start(seed), done = await s.leg(Making.remedy);
       outcomes.set(done.result, s);
     }
     const made = outcomes.get('success')!, spoiled = outcomes.get('failure')!;
@@ -57,7 +57,7 @@ describe('making a thing of two', () => {
   }, 120000);
   it('of plain work, anyone does at once', async () => {
     const s = await Making.start('m');
-    const done = await s.perform('make_plain(party,p__member_party_1,oil_and_rag,p__oil,lamp_oil,p__rag,bandages,oil_firebomb)');
+    const done = await s.leg('make_plain(party,p__member_party_1,oil_and_rag,p__oil,lamp_oil,p__rag,bandages,oil_firebomb)');
     expect([done.result, Making.kinds(s).includes('oil_firebomb'), Making.kinds(s).includes('lamp_oil')])
       .toEqual(['success', true, false]);
   }, 60000);

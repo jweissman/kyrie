@@ -29,7 +29,7 @@ describe('what the slain leave', () => {
     const take = PlayerView.choices(s.campaign).filter(c => /^Collect /.test(c.choice.name));
     expect(take.length).toBe(carried.length);
     const first = take[0]!.choice.id.split(',')[1]!;
-    await s.perform(take[0]!.choice.id);
+    await s.leg(take[0]!.choice.id);
     expect(s.campaign.world.one('at', first)).toBeUndefined();
   }, 60000);
 });

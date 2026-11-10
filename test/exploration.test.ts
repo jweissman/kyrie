@@ -53,7 +53,7 @@ describe('exploring the open country', () => {
     expect(Itineraries.plan(j.campaign, tower!.id)).toBeDefined();
     // A meeting on the way (a boar, in this draw of the country) stops a journey; it is taken up again from
     // where it stopped.
-    const go = () => Travel.go({ campaign: j.campaign, perform: (c: string) => j.session.perform(c) }, tower!.id);
+    const go = () => Travel.go({ campaign: j.campaign, perform: (c: string) => j.session.leg(c) }, tower!.id);
     let done = await go();
     for (let k = 0; k < 4 && !done.arrived && done.stopped; k++) { done = await go(); }
     expect(done.arrived).toBe(true);

@@ -23,7 +23,7 @@ describe('a thing looked at', () => {
     const scene = () => SceneModel.build(ScreenModel.build(s.campaign));
     const notebook = scene().subjects.find(x => /notebook/.test(x.name))!;
     const read = PlayerView.choices(s.campaign).find(x => /^Unstrap the notebook/.test(x.choice.name))!;
-    await s.perform(read.choice.id);
+    await s.leg(read.choice.id);
     expect(scene().subjects.some(x => x.id === notebook.id)).toBe(false);
     expect(Attending.thing(scene(), notebook.id)?.subject.name).toBe(notebook.name);
   }, 60000);

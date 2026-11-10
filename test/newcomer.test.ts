@@ -39,7 +39,7 @@ class Newcomer {
     const back = pick ?? (to ? undefined : offered.find(o => /^go\(/.test(o.id)));
     if (to) {
       this.since = 0;
-      const done = await Travel.go({ campaign: c, perform: command => this.s.perform(command) }, to.id);
+      const done = await Travel.go({ campaign: c, perform: command => this.s.leg(command) }, to.id);
       // A journey that got nowhere is a try spent, and so is one that stops again where no way on is known (the
       // brothers' errand to the nearest of the makers' works, past the edge of wild country whose way the letter
       // tells); one stopped on the way only wants taking up again.
@@ -52,7 +52,7 @@ class Newcomer {
     }
     if (!back) { throw new Error(`Nothing new to do at ${c.world.one('at', c.playerActor!)}`); }
     this.since += 1;
-    await this.s.perform(back.id);
+    await this.s.leg(back.id);
     return false;
   }
   // Stopped by the dark or by weariness: a night's rest where one is offered, or else waiting for the light.

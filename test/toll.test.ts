@@ -55,7 +55,7 @@ describe('the lord\'s toll at the bridge', () => {
     const s = await Toll.start(), purse = () => s.campaign.readout.creatures
       .find(c => c.id === s.campaign.state.partyIds[0])!.state.gold ?? 0;
     const pay = s.campaign.module.actions!.find(a => /^Pay the lord's toll/.test(a.name))!;
-    const paid = (await s.perform(`${pay.id}(party,region__s2_s3_way)`)).response ?? '';
+    const paid = (await s.leg(`${pay.id}(party,region__s2_s3_way)`)).response ?? '';
     expect(paid).toContain('Good both ways till this day next week');
     const left = purse();
     for (const on of ['region__road_s2_s3,region__s2_green', 'region__road_s2_s3,region__s2_s3_way',

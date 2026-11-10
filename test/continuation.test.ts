@@ -13,7 +13,7 @@ describe('a country begun again after a death in it', () => {
     const w = await WorldAssembler.assemble('thorn', NodeBundleSource.shared, { memorial });
     const s = await PlaySession.start(w.path, 'thorn', w.source);
     GeneratedWorld.put(s, 's1_green');
-    await s.perform('wait');
+    await s.leg('wait');
     const seen = PlayerView.observe(s.campaign).observations.map(o => o.text).join(' ');
     expect(seen).toContain('Stones are heaped by the way here over Wenna, who died here. Wolves killed Wenna.');
   }, 60000);

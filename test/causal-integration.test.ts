@@ -24,7 +24,7 @@ class Causal {
   static async act(s: PlaySession, prefix: string) {
     const c = PlayerView.observe(s.campaign).choices.find(c => c.id.startsWith(prefix));
     if (!c) { throw new Error(`No available ${prefix}`); }
-    return s.perform(c.id);
+    return s.leg(c.id);
   }
   static has(s: PlaySession, name: string, ...args: string[]) {
     return s.campaign.world.test(ModuleWriter.call(name, ...args));
@@ -131,19 +131,19 @@ it('preserves a timed spell through field use and consumes its duration only at 
 
 it('connects an ordinary object transition, equipment, a witnessed attack and a lasting service consequence', async () => {
   const s = await Causal.start();
-  for (const c of Causal.workshop) { await s.perform(c); }
-  await s.perform('change_thing(hill__padlock_pick)'); await s.leg('go(hill__stores_door,hill__stores)');
+  for (const c of Causal.workshop) { await s.leg(c); }
+  await s.leg('change_thing(hill__padlock_pick)'); await s.leg('go(hill__stores_door,hill__stores)');
   await Causal.act(s, 'take_item(rescue__bar'); await s.leg('go(hill__stores_door,hill__workshop)');
-  const valve = await s.perform('change_thing(hill__steam_pipe_close)');
+  const valve = await s.leg('change_thing(hill__steam_pipe_close)');
   expect(Causal.has(s, 'state', 'hill__steam_pipe', 'hill__shut')).toBe(true);
   expect(valve.changes.some(c => c.includes('state(hill__steam_pipe, hill__shut)'))).toBe(true);
   await s.leg('go(hill__boiler_arch,hill__boiler)');
   // Orsino's Longsword of Flames has no weapon kind, so only a warrior (proficient with all weapons) can wield it.
-  await s.perform('take_item(hill__ward_sword,march__member_party_2)');
-  await s.perform('equip_item(hill__ward_sword,march__member_party_2)');
+  await s.leg('take_item(hill__ward_sword,march__member_party_2)');
+  await s.leg('equip_item(hill__ward_sword,march__member_party_2)');
   await s.leg('go(hill__pipe_walk,hill__gallery)');
   expect(PlayerView.observe(s.campaign).choices.some(c => c.id.startsWith('take_healing(hill__hesta'))).toBe(true);
-  const fight = await s.perform('attack(hill__hound)');
+  const fight = await s.leg('attack(hill__hound)');
   expect(Causal.has(s, 'witnessedAttack', 'hill__hesta', 'party', 'hill__hound')).toBe(true);
   expect(Causal.has(s, 'witnessedAttack', 'march__nera', 'party', 'hill__hound')).toBe(false);
   expect(Causal.has(s, 'refusesService', 'hill__hesta', 'party')).toBe(true);
@@ -159,7 +159,7 @@ it('connects an ordinary object transition, equipment, a witnessed attack and a 
 }, 60000);
 
 it('offers the risky hazard approach, records its actual physical source, and keeps nearby witnesses private', async () => {
-  const s = await Causal.start(); for (const c of Causal.workshop) { await s.perform(c); }
+  const s = await Causal.start(); for (const c of Causal.workshop) { await s.leg(c); }
   const event = await Causal.act(s, 'risk(hill__steam_pipe');
   expect(event.combat[0]).toMatchObject({ type: 'action', source: { id: 'hill__steam_pipe', kind: 'trap' } });
   expect(Causal.has(s, 'state', 'hill__steam_pipe', 'hill__vented')).toBe(true);

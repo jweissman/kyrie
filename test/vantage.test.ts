@@ -23,14 +23,14 @@ class High {
     const view = c.module.entities.find(e => /_view$/.test(e.id) && !/_shrine_view$/.test(e.id))!;
     GeneratedWorld.put(s, view.id.replace(/^region__/, '').replace(/_view$/, ''));
     const climb = PlayerView.choices(c).find(x => /^Climb/.test(x.choice.name))!;
-    const told = (await s.perform(climb.choice.id)).perceptions?.map(p => p.text) ?? [];
+    const told = (await s.leg(climb.choice.id)).perceptions?.map(p => p.text) ?? [];
     return { s, c, told };
   }
   // The climb as the page tells it: what happened, what the place says under it, and what is noted in the margin.
   static async page(s: PlaySession, name: string) {
     const c = s.campaign, before = PlayerView.observe(c);
     const climb = PlayerView.choices(c).find(x => x.choice.name === name)!;
-    const event = await s.perform(climb.choice.id), feedback = ActionFeedbackView.read(c, event, before);
+    const event = await s.leg(climb.choice.id), feedback = ActionFeedbackView.read(c, event, before);
     const leaf = Narrator.leaf(c, ScreenModel.build(c), { event, feedback, said: name, moved: false });
     return { lines: leaf.exchange!.lines.map(l => l.text), notes: leaf.exchange!.notes, situation: leaf.situation };
   }
@@ -105,7 +105,7 @@ describe('somewhere high', () => {
     const s = await PlaySession.start(w.path, 'pine', w.source), c = s.campaign;
     await GeneratedWorld.travel(s, 's1_shop');
     const buy = PlayerView.choices(c).find(x => x.choice.name === 'Buy a spyglass for Elen · 15 coin')!;
-    await s.perform(buy.choice.id);
+    await s.leg(buy.choice.id);
     await GeneratedWorld.travel(s, 's1_shrine');
     const climb = PlayerView.choices(c).find(x => /^Climb the tower/.test(x.choice.name))!;
     const { lines } = await High.page(s, climb.choice.name);

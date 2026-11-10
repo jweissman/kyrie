@@ -82,7 +82,7 @@ describe('A Parliament of Books: the Road', () => {
       const legal = b.legalCommands();
       return Promise.resolve(legal.find(c => c.ability === 'melee') ?? legal.find(c => c.ability !== 'flee') ?? legal[0]!);
     };
-    const event = await j.session.perform(attack.command, fighter as never);
+    const event = await j.session.leg(attack.command, fighter as never);
     expect(event.combat.some(e => e.type === 'end')).toBe(true);
     const r = j.campaign.readout;
     const fallen = r.creatures.filter(c => r.partyIds.includes(c.id) && !c.state.hp).length;

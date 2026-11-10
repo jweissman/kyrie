@@ -23,7 +23,7 @@ class Roads {
   static async until(s: PlaySession, hour: number) {
     while (this.hour(s) !== hour) {
       const ids = PlayerView.choices(s.campaign).map(c => c.choice.id);
-      await s.perform(ids.includes('wait') ? 'wait' : ids.find(id => /^wait/.test(id))!);
+      await s.leg(ids.includes('wait') ? 'wait' : ids.find(id => /^wait/.test(id))!);
     }
   }
   static at(s: PlaySession, id: string) { return s.campaign.world.one('at', `region__${id}`); }
@@ -44,7 +44,7 @@ describe('who is on the roads', () => {
     expect(here.says?.join(' ')).toContain(road.to.name);
     const news = PlayerView.choices(s.campaign).find(c => / for news of /.test(c.choice.name))!;
     expect(news.choice.name).toContain(road.from.name);
-    expect((await s.perform(news.choice.id)).response).toContain(road.from.name);
+    expect((await s.leg(news.choice.id)).response).toContain(road.from.name);
     // By evening (a cart in the ditch sorted, if it went in) they are at the other end, and the road shows which way
     // they went.
     GeneratedWorld.put(s, safe);
@@ -63,7 +63,7 @@ describe('who is on the roads', () => {
     const help = PlayerView.choices(s.campaign).find(c => c.choice.id.startsWith(`region__${t}_help(`));
     if (s.campaign.world.test(ModuleWriter.call('region__inTrouble', `region__${t}`))) {
       const gold = s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'));
-      await s.perform(help!.choice.id);
+      await s.leg(help!.choice.id);
       expect(s.campaign.world.test(ModuleWriter.call('grateful', `region__${t}`, 'party'))).toBe(true);
       expect(s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'))).toBeGreaterThan(gold);
     } else { expect(help).toBeUndefined(); }

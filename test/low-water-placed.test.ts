@@ -29,7 +29,7 @@ describe('the Bowl of Ammerlin in the one country', () => {
       .toContain(`"right":{"kind":"number","value":${Math.ceil(elapsed / 144) * 144}}`);
     // Isaura waits at the head of the Stair for the Assessor; the Office's commission is the country's own.
     const head = PlayerView.choices(s.campaign).find(x => /head of the Stair/.test(x.choice.name))!;
-    await s.perform(head.choice.id);
+    await s.leg(head.choice.id);
     expect(PlayerView.choices(s.campaign).some(x => /waiting for you/.test(x.choice.name))).toBe(true);
     // Gone back out to the country for the best part of ten days, the company comes back to a Bowl gone on without it.
     const go = async (re: RegExp) =>

@@ -36,7 +36,7 @@ class Party {
   static async choose(s: PlaySession, prefix: string) {
     const id = PlayerView.choices(s.campaign).map(c => c.choice.id).find(c => c.startsWith(prefix));
     if (!id) { throw new Error(`Not offered: ${prefix}`); }
-    return s.perform(id);
+    return s.leg(id);
   }
 }
 
@@ -78,7 +78,7 @@ describe('a formation in play', () => {
       const s = await Party.start(party);
       expect(PartyCapabilities.has('woodcraft', Party.members(s))).toBe(false);
       Party.change(s, 'assert', 'at', 'party', 'world__switchbacks');
-      await s.perform('search(world__switchbacks)');
+      await s.leg('search(world__switchbacks)');
       return s.campaign.world.test(ModuleWriter.call('knows', 'party', 'world__goat_path_known'));
     };
     const plain = Party.of(['human', 'thief'], ['human', 'mage'], ['dwarf', 'warrior']);

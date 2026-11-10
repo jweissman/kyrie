@@ -119,7 +119,7 @@ describe('a way across country, told as it goes', () => {
     // On to the town at the far end, not back to the one it left.
     const left = out.action.split(',')[1]!, onward = PlayerView.choices(s.campaign)
       .find(c => /_green\)$/.test(c.choice.id) && !c.choice.id.startsWith(`go(${left},`))!;
-    const on = await s.perform(onward.choice.id);
+    const on = await s.leg(onward.choice.id);
     expect((on.voiced ?? []).some(v => v.kind === 'journey-arrive')).toBe(true);
     // Never the same sentence twice in a row of journeys.
     const said = [...out.voiced ?? [], ...on.voiced ?? []].map(v => v.id);
@@ -163,7 +163,7 @@ describe('the hour, as the voice tables have it', () => {
     const w = await WorldAssembler.assemble('wren', NodeBundleSource.shared,
       { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
     const s = await PlaySession.start(w.path, 'wren', w.source);
-    await s.perform('wait_for_dark');
+    await s.leg('wait_for_dark');
     const hour = () => { const v = VoiceContext.of(s.campaign, { kind: 'farewell' } as never, new Set()); return [v.time, v.shelter]; };
     expect(hour()).toEqual(['night', 'outdoors']);
     GeneratedWorld.put(s, 'w9_adit_crossing');

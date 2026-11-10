@@ -20,14 +20,14 @@ describe('a riddle at a door', () => {
     expect(words.length).toBe(4);
     const right = words.find(a => a.success.some(c => c.kind === 'retract'))!, wrong = words.find(a => a !== right)!;
     GeneratedWorld.put(s, work);
-    await s.perform('wait');
+    await s.leg('wait');
     const offered = () => PlayerView.choices(s.campaign).map(c => c.choice.id);
     expect(offered().some(id => id.startsWith(`go(region__${work}_in,`))).toBe(false);
     const hp = ScreenModel.build(s.campaign).party[0]!.hp;
-    await s.perform(offered().find(id => id.startsWith(`${wrong.id}(`))!);
+    await s.leg(offered().find(id => id.startsWith(`${wrong.id}(`))!);
     expect(ScreenModel.build(s.campaign).party[0]!.hp).toBeLessThanOrEqual(hp);
     expect(offered().some(id => id.startsWith(`go(region__${work}_in,`))).toBe(false);
-    const opened = await s.perform(offered().find(id => id.startsWith(`${right.id}(`))!);
+    const opened = await s.leg(offered().find(id => id.startsWith(`${right.id}(`))!);
     expect(opened.response).toContain('the way in is open');
     expect(offered().some(id => id.startsWith(`go(region__${work}_in,`))).toBe(true);
     expect(offered().some(id => id.startsWith(`${right.id}(`))).toBe(false);

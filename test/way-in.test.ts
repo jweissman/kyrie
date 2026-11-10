@@ -18,7 +18,7 @@ describe('a hidden way in', () => {
     const names = () => PlayerView.choices(s.campaign).map(c => c.choice.name);
     expect(names().some(n => n.startsWith('Take the sink path'))).toBe(false);
     const search = PlayerView.choices(s.campaign).find(c => c.choice.name.startsWith('Search'))!;
-    const e = await s.perform(search.choice.id);
+    const e = await s.leg(search.choice.id);
     expect((e.perceptions ?? []).map(p => p.text).join(' ')).toContain('trodden into a path going down');
     expect(names().some(n => n.startsWith('Take the sink path'))).toBe(true);
   }, 120000);

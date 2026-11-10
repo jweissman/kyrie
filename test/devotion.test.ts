@@ -21,7 +21,7 @@ class Shrine {
   static offers(s: PlaySession): string[] {
     return PlayerView.choices(s.campaign).map(c => c.choice.id).filter(id => id.startsWith('make_offering('));
   }
-  static offer(s: PlaySession, member: string) { return s.perform(this.offers(s).find(id => id.includes(member))!); }
+  static offer(s: PlaySession, member: string) { return s.leg(this.offers(s).find(id => id.includes(member))!); }
   static gold(s: PlaySession) { return s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold')); }
   static member(s: PlaySession, id: string) { return s.campaign.state.creatures.find(c => c.id === id)!; }
 }
@@ -43,7 +43,7 @@ describe('a shrine in a generated region', () => {
   it('gives the god\'s favour for an offering, once a day', async () => {
     const { s } = await Shrine.start();
     GeneratedWorld.put(s, 's1_shrine');
-    await s.perform('wait');
+    await s.leg('wait');
     const gold = Shrine.gold(s);
     expect(Shrine.offers(s)).toHaveLength(3);
     await Shrine.offer(s, 'member_party_1');
@@ -53,16 +53,16 @@ describe('a shrine in a generated region', () => {
     expect(Canon.conditions.favor_light!.modifiers).toEqual(Canon.domains.light!.blessing!.modifiers);
     expect(Shrine.offers(s)).toEqual([]);
     // The next morning the observance can be kept again.
-    while (s.campaign.state.elapsed < 140) { await s.perform('wait_hour'); }
+    while (s.campaign.state.elapsed < 140) { await s.leg('wait_hour'); }
     GeneratedWorld.put(s, 's1_shrine');
-    await s.perform('wait');
+    await s.leg('wait');
     expect(Shrine.offers(s)).toHaveLength(3);
   }, 60000);
   it('hurts a little at a god\'s shrine that is not good', async () => {
     const { w, s } = await Shrine.start(), cults = RegionFaith.cults(w.report.region);
     const i = cults.findIndex(c => Canon.domains[c.domain]?.alignment !== 'good');
     GeneratedWorld.put(s, `${w.report.region.settlements[i]!.id}_shrine`);
-    await s.perform('wait');
+    await s.leg('wait');
     const e = await Shrine.offer(s, 'member_party_2');
     expect((e.combat ?? []).some(x => x.type === 'damage' && x.target === 'region__party_2')).toBe(true);
     expect(Shrine.member(s, 'region__party_2').state.conditions.map(c => c.id)).toContain(`favor_${cults[i]!.domain}`);

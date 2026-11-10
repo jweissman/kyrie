@@ -22,7 +22,7 @@ describe('an action the rules offer', () => {
     const folded = offered.find(id => !shown.includes(id))!;
     expect(shown.length).toBe(1);
     expect(folded).toBeDefined();
-    expect((await s.perform(folded)).result).toBe('success');
-    await expect(s.perform('take_item(p__nothing,p__nobody)')).rejects.toThrow('Unavailable command');
+    expect((await s.leg(folded)).result).toBe('success');
+    await expect(s.leg('take_item(p__nothing,p__nobody)')).rejects.toThrow('Unavailable command');
   }, 60000);
 });

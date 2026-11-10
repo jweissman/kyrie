@@ -17,7 +17,7 @@ describe('the road across a march', () => {
     await GeneratedWorld.travel(s, 'edge_west');
     await frontier.expand(s.campaign);
     const road = PlayerView.choices(s.campaign).find(c => /^Take the road across the march/.test(c.choice.name))!;
-    const event = await s.perform(road.choice.id);
+    const event = await s.leg(road.choice.id);
     const land = (event.voiced ?? []).find(v => v.kind === 'journey-land');
     const behind = RegionGeography.terrain(w.report.region.terrain), ahead = RegionGeography.terrain(WorldGrid.drawn('a1', -1, 0).terrain);
     expect(land?.id).toMatch(/^journey-land\.march\./);

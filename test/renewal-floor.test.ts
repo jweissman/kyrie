@@ -16,7 +16,7 @@ describe('a country going on', () => {
       party: [{ name: 'Aud', raceId: 'human', classId: 'warrior' }] }, NodeBundleSource.shared), c = s.campaign;
     GeneratedWorld.put(s, 's1_taproom');
     const installed = c.installed.length;
-    while (c.readout.elapsed < Renewal.first) { await s.perform('wait_hour'); }
+    while (c.readout.elapsed < Renewal.first) { await s.leg('wait_hour'); }
     expect(c.installed.length).toBeGreaterThan(installed);
     expect(c.installed).toContain(Renewal.id(1));
     const talk = c.module.observations!.find(o => /_talk_/.test(o.id))!;
@@ -34,11 +34,11 @@ describe('a country going on', () => {
   it('begins something new on the first day, once the den is dealt with', async () => {
     const s = await DrawnWorld.start('kite', { origin: 'wanderer',
       party: [{ name: 'Aud', raceId: 'human', classId: 'warrior' }] }, NodeBundleSource.shared), c = s.campaign;
-    await s.perform('wait');
+    await s.leg('wait');
     expect(c.installed).not.toContain(Renewal.id(1));
     const w = c as unknown as { world: { apply(x: unknown[]): unknown }; commit(w: unknown): void };
     w.commit(w.world.apply([{ kind: 'assert', call: ModuleWriter.call('den__driven', 'den__beasts') }]));
-    await s.perform('wait');
+    await s.leg('wait');
     expect([Renewal.ended(c), c.readout.elapsed < Renewal.first]).toEqual([1, true]);
     expect(c.installed).toContain(Renewal.id(1));
   }, 240000);

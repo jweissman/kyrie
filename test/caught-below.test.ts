@@ -10,7 +10,7 @@ class Situation {
   static readonly quarry = 'test/fixtures/march/skellfold.campaign.json';
   static async start(manifest = Situation.river, ...commands: string[]) {
     const s = await PlaySession.start(manifest, 'serewater', NodeBundleSource.shared);
-    for (const c of commands) { await s.perform(c); }
+    for (const c of commands) { await s.leg(c); }
     return s;
   }
   static fact(s: PlaySession, name: string, ...args: string[]) {
@@ -31,7 +31,7 @@ class Situation {
     'go(hill__stores_door,hill__workshop)', 'go(hill__gallery_steps,hill__gallery)', 'change_thing(hill__hound_soothe)',
     'go(hill__hoist_passage,hill__hoist)'];
   static async waitUntil(s: PlaySession, test: () => boolean, limit = 30) {
-    for (let i = 0; i < limit && !test(); i++) { await s.perform('wait'); }
+    for (let i = 0; i < limit && !test(); i++) { await s.leg('wait'); }
   }
 }
 
@@ -57,7 +57,7 @@ describe('passages are physical and two-sided', () => {
     await s.leg('go(hill__tram_crawl,hill__stores)'); await s.leg('go(hill__stores_door,hill__workshop)');
     await s.leg('go(hill__gallery_steps,hill__gallery)');
     expect(Situation.legal(s)).not.toContain('go(hill__hoist_passage,hill__hoist)');
-    await s.perform('change_thing_paying(hill__hound_feed)');
+    await s.leg('change_thing_paying(hill__hound_feed)');
     expect(Situation.state(s, 'hill__hound')).toBe('hill__calm');
     expect(Situation.legal(s)).toContain('go(hill__hoist_passage,hill__hoist)');
     await s.leg('go(hill__hoist_passage,hill__hoist)');
@@ -86,12 +86,12 @@ describe('the rescued person has intentions, not a flag', () => {
   it('levering frees them unhurt; they wait while you are there, then make their own way home', async () => {
     const s = await Situation.start(Situation.river, ...Situation.toPell);
     expect(Situation.legal(s)).not.toContain('lead(rescue__guest)');
-    await s.perform('rescue__lever_free(party,hill__hoist)');
+    await s.leg('rescue__lever_free(party,hill__hoist)');
     expect([Situation.state(s, 'rescue__rack'), Situation.state(s, 'rescue__guest')]).toEqual(['rescue__propped', 'rescue__hurt']);
     expect(Situation.fact(s, 'hobbled', 'rescue__guest')).toBe(false);
-    await s.perform('wait');
+    await s.leg('wait');
     expect(Situation.where(s, 'rescue__guest')).toBe('hill__hoist');
-    await s.perform('send_off(rescue__guest)');
+    await s.leg('send_off(rescue__guest)');
     await Situation.waitUntil(s, () => Situation.fact(s, 'rescue__returned', 'rescue__guest'));
     expect(Situation.where(s, 'rescue__guest')).toBe('march__ferry_room');
     expect(Situation.fact(s, 'rescue__escortedHome', 'rescue__guest', 'party')).toBe(false);
@@ -101,10 +101,10 @@ describe('the rescued person has intentions, not a flag', () => {
     const s = await Situation.start(Situation.river, ...Situation.toPell, 'rescue__lever_free(party,hill__hoist)', 'lead(rescue__guest)');
     for (const c of ['go(hill__hoist_passage,hill__gallery)', 'go(hill__gallery_steps,hill__workshop)',
       'go(hill__workshop_door,hill__vestibule)', 'go(hill__arch,hill__yard)']) {
-      await s.perform(c);
+      await s.leg(c);
       expect(Situation.where(s, 'rescue__guest')).toBe(Situation.where(s, 'party'));
     }
-    for (const c of ['go(hill__yard_track,march__ridge)', 'go(march__ridge_track,march__causeway)']) { await s.perform(c); }
+    for (const c of ['go(hill__yard_track,march__ridge)', 'go(march__ridge_track,march__causeway)']) { await s.leg(c); }
     const quay = await s.leg('go(march__causeway_path,march__quay)');
     expect(Situation.seen(quay).join(' ')).toContain('Wren sees Pell, and runs.');
     expect(Situation.fact(s, 'following', 'rescue__guest', 'party')).toBe(false);
@@ -118,12 +118,12 @@ describe('the rescued person has intentions, not a flag', () => {
     expect([Situation.state(s, 'rescue__rack'), Situation.state(s, 'rescue__guest')]).toEqual(['rescue__toppled', 'rescue__lame']);
     const bran = s.campaign.state.creatures.find(c => c.name === 'Bran')!;
     expect(bran.state.hp).toBeLessThan(bran.base.maxHp);
-    await s.leg('go(hill__hoist_passage,hill__gallery)'); await s.perform('wait'); await s.perform('wait');
+    await s.leg('go(hill__hoist_passage,hill__gallery)'); await s.leg('wait'); await s.leg('wait');
     expect(Situation.where(s, 'rescue__guest')).toBe('hill__hoist');
-    await s.leg('go(hill__hoist_passage,hill__hoist)'); await s.perform('lead(rescue__guest)');
+    await s.leg('go(hill__hoist_passage,hill__hoist)'); await s.leg('lead(rescue__guest)');
     await s.leg('go(hill__hoist_passage,hill__gallery)');
     expect(Situation.where(s, 'rescue__guest')).toBe('hill__gallery');
-    await s.perform('rescue__set_leg(party,hill__gallery)');
+    await s.leg('rescue__set_leg(party,hill__gallery)');
     expect(Situation.state(s, 'rescue__guest')).toBe('rescue__hurt');
   }, 90000);
   it('when every way home is shut to them, they say so instead of pretending to travel', async () => {
@@ -135,7 +135,7 @@ describe('the rescued person has intentions, not a flag', () => {
     expect(Situation.where(s, 'rescue__guest')).toBe('hill__hoist');
     expect(PlayerView.observe(s.campaign).present.find(p => p.id === 'rescue__guest')?.activity)
       .toBe('making for the ferry house, but no way is open to them');
-    await s.perform('lead(rescue__guest)'); await s.leg('go(hill__tram_crawl,hill__stores)');
+    await s.leg('lead(rescue__guest)'); await s.leg('go(hill__tram_crawl,hill__stores)');
     expect(Situation.where(s, 'rescue__guest')).toBe('hill__stores');
   }, 90000);
 });
@@ -157,7 +157,7 @@ describe('actions apply to what is actually there', () => {
     expect(Situation.legal(s)).not.toContain('rescue__lever_free(party,hill__hoist)');
     expect(Situation.legal(s)).toContain('rescue__dig_free(party,hill__hoist)');
     const started = s.campaign.state.elapsed;
-    const event = await s.perform('rescue__dig_free(party,hill__hoist)');
+    const event = await s.leg('rescue__dig_free(party,hill__hoist)');
     expect(event.elapsed).toBe(started + 4);
     expect(Situation.state(s, 'rescue__rack')).toBe('rescue__dug');
     expect(Situation.legal(s).some(c => c.includes('heave_free'))).toBe(false);

@@ -24,9 +24,9 @@ class Works {
   // Stands in a room of a work with a light, and does the one thing there that matches.
   static async there(s: PlaySession, room: string, pattern: RegExp) {
     GeneratedWorld.put(s, room);
-    await s.perform('wait');
+    await s.leg('wait');
     const torch = PlayerView.choices(s.campaign).find(c => /^Light a torch$/.test(c.choice.name));
-    if (torch) { await s.perform(torch.choice.id); }
+    if (torch) { await s.leg(torch.choice.id); }
     const c = PlayerView.choices(s.campaign).find(x => pattern.test(x.choice.name));
     if (!c) { throw new Error(`No choice like ${pattern} at ${room}`); }
     return s.leg(c.choice.id);

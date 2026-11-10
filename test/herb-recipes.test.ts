@@ -23,10 +23,10 @@ class Herbs {
       'herbs.campaign.json': JSON.stringify({ version: 1, name: 'herbs', modules: [{ id: 'h', bundle: 'herbs/module.json' }],
         party: [{ name: 'Ama', raceId: 'human', classId: 'cleric' }] }) });
     const s = await PlaySession.start(src.resolve('herbs.campaign.json'), 'herbs', src);
-    await s.perform('wait');
+    await s.leg('wait');
     for (const thing of ['bay', 'bandages', 'healing herbs']) {
       const take = PlayerView.choices(s.campaign).find(c => c.choice.name.startsWith('Collect') && c.choice.name.includes(thing));
-      if (take) { await s.perform(take.choice.id); }
+      if (take) { await s.leg(take.choice.id); }
     }
     return s;
   }

@@ -13,7 +13,7 @@ class Fixture {
   static yard = 'test/fixtures/wolf-yard/campaign.json';
   static start(seed = 'slice', manifest = this.yard) { return PlaySession.start(manifest, seed, NodeBundleSource.shared); }
   static async play(session: PlaySession, commands: string[]) {
-    for (const command of commands) { await session.perform(command); }
+    for (const command of commands) { await session.leg(command); }
     return session;
   }
 }
@@ -23,9 +23,9 @@ describe('browser session command handling', () => {
   it('accepts only legal commands and leaves state untouched otherwise', async () => {
     const session = await Fixture.start();
     const before = session.campaign.save();
-    await expect(session.perform('pay(world__grey)')).rejects.toThrow('Unavailable command');
+    await expect(session.leg('pay(world__grey)')).rejects.toThrow('Unavailable command');
     await expect(session.leg('go(party,world__byre_door,world__yard,world__hall)')).rejects.toThrow('Unavailable command');
-    await expect(session.perform('attack(world__nobody)')).rejects.toThrow('Unavailable command');
+    await expect(session.leg('attack(world__nobody)')).rejects.toThrow('Unavailable command');
     expect(session.campaign.save()).toEqual(before);
     expect(session.transcript.steps).toEqual([]);
     await session.leg('go(world__byre_door,world__byre)');
@@ -55,7 +55,7 @@ describe('browser session command handling', () => {
     const session = await Fixture.play(await Fixture.start(), ['wait']);
     const before = session.campaign.save();
     let turns = 0;
-    await expect(session.perform('attack(world__grey)', battle => {
+    await expect(session.leg('attack(world__grey)', battle => {
       turns++;
       const legal = battle.legalCommands()[0]!;
       return Promise.resolve(turns < 2 ? legal : { ...legal, target: 'nobody' });
@@ -64,17 +64,17 @@ describe('browser session command handling', () => {
     expect(session.campaign.save()).toEqual(before);
     expect(session.transcript.steps).toHaveLength(1);
     expect(session.acting).toBe(false);
-    await session.perform('attack(world__grey)');
+    await session.leg('attack(world__grey)');
     expect(session.campaign.events).toHaveLength(2);
   });
   it('rejects overlapping commands while an encounter awaits the player', async () => {
     const session = await Fixture.play(await Fixture.start(), ['wait']);
     let release: (c: Command) => void = () => undefined;
-    const pending = session.perform('attack(world__grey)', () => new Promise<Command>(resolve => { release = resolve; }));
+    const pending = session.leg('attack(world__grey)', () => new Promise<Command>(resolve => { release = resolve; }));
     await Promise.resolve();
     expect(session.acting).toBe(true);
     expect(() => session.checkpoint()).toThrow('Save only between campaign commands');
-    await expect(session.perform('wait')).rejects.toThrow('already in progress');
+    await expect(session.leg('wait')).rejects.toThrow('already in progress');
     release({ actor: '', ability: '', target: '' });
     await expect(pending).rejects.toThrow('Illegal combat command');
   });
@@ -104,7 +104,7 @@ describe('browser persistence', () => {
     const imported = PlaySession.fromSave(parsed as CampaignSave);
     expect(imported.transcript).toMatchObject({ seed: 'slice', complete: false, steps: [] });
     await imported.perform('wait');
-    await session.perform('wait');
+    await session.leg('wait');
     expect(imported.campaign.save()).toEqual(session.campaign.save());
     expect(() => CheckpointStore.parse('{"version":1}')).toThrow(`Not a ${Identity.spoken()} session checkpoint`);
     expect(() => CheckpointStore.parse(JSON.stringify({ transcript: { version: 1 }, save: {} }))).toThrow('Invalid session');

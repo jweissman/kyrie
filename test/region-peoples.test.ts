@@ -70,7 +70,7 @@ describe('a den holds what lives where it is', () => {
     await GeneratedWorld.travel(s, den);
     const ids = PlayerView.choices(s.campaign).map(c => c.choice.id);
     expect(ids).not.toContain(`${module}__smoke_out(party,region__${den})`);
-    await s.perform(`${module}__lay_to_rest(party,region__${den})`);
+    await s.leg(`${module}__lay_to_rest(party,region__${den})`);
     expect(s.campaign.world.test(ModuleWriter.call(`${module}__laid`, `${module}__beasts`))).toBe(true);
     expect(PlayerView.choices(s.campaign).map(c => c.choice.id)).toContain(`${module}__plunder(party,region__${den})`);
   }, 60000);

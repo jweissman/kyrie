@@ -22,7 +22,7 @@ class Dale {
       const all = this.leaves(ChoiceList.all(ChoiceList.explore(ScreenModel.build(s.campaign))));
       const c = all.find(x => x.command && new RegExp(label, 'i').test(x.label));
       if (!c) { throw new Error(`No /${label}/ among ${all.map(x => x.label).slice(0, 25).join(' | ')}`); }
-      events.push(await s.perform(c.command!));
+      events.push(await s.leg(c.command!));
     }
     return events;
   }

@@ -8,8 +8,9 @@ type Field = { field: string; value: unknown };
 // "…": see ObjectiveTarget), and its words.
 export class ObjectiveParser {
   static of(id: Node, when: Node, toward: Node, text: Node): Field {
-    const ids = toward.children[0]?.children[1]!.asIteration().children.map(c => c.sourceString) ?? [];
+    const aim = toward.children[0], ids = aim?.children[1]!.asIteration().children.map(c => c.sourceString) ?? [];
+    const route = aim?.children[2]?.children[0]?.children[1]?.sourceString;
     return { field: 'objective', value: { id: id.sourceString, when: ModuleParser.ast(when),
-      text: ModuleParser.ast(text), ...ids.length ? { toward: ids } : {} } };
+      text: ModuleParser.ast(text), ...ids.length ? { toward: ids } : {}, ...route ? { route } : {} } };
   }
 }

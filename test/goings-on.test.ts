@@ -30,18 +30,18 @@ describe('a drover who did not come home', () => {
     const { w, s } = await Town.start(), placed = w.report.placements.find(p => p.scenario === 'drover')!;
     const { town, road } = placed.bindings as { town: string; road: string };
     GeneratedWorld.put(s, `${town}_green`);
-    await s.perform('wait');
+    await s.leg('wait');
     expect(PlayerView.observe(s.campaign).observations.map(o => o.text).join(' ')).toContain('A grey dog lies by the door of');
     GeneratedWorld.put(s, road);
-    await s.perform('wait');
+    await s.leg('wait');
     expect(Town.said(await Town.act(s, /^Search/))).toContain('a cart lies on its side in the ditch');
     GeneratedWorld.put(s, `${town}_green`);
-    await s.perform('wait');
+    await s.leg('wait');
     expect(Town.said(await Town.act(s, /^Tell .* what you found$/))).toContain('I am coming with you');
     await Town.act(s, /to join the company$/);
     expect(s.campaign.state.party).toHaveLength(4);
     GeneratedWorld.put(s, `${town}_taproom`);
-    await s.perform('wait');
+    await s.leg('wait');
     const gold = s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'));
     expect(Town.said(await Town.act(s, /what you found on the road$/))).toContain('The dog knew');
     expect(s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'))).toBe(gold + 6);
@@ -51,7 +51,7 @@ describe('a drover who did not come home', () => {
   it('has its dog tell once what it has been through', async () => {
     const { w, s } = await Town.start(), town = w.report.placements.find(p => p.scenario === 'drover')!.bindings.town!;
     GeneratedWorld.put(s, `${town}_green`);
-    await s.perform('wait');
+    await s.leg('wait');
     const before = PlayerView.observe(s.campaign), event = await Town.act(s, /^Make much of the grey dog$/);
     const told = ActionFeedbackView.read(s.campaign, event, before).observations;
     expect(told.filter(t => /ditch-mud/.test(t))).toHaveLength(1);
@@ -62,7 +62,7 @@ describe('a drover who did not come home', () => {
   it('has his knife in his belt until it is taken', async () => {
     const { w, s } = await Town.start(), placed = w.report.placements.find(p => p.scenario === 'drover')!;
     GeneratedWorld.put(s, placed.bindings.road!);
-    await s.perform('wait');
+    await s.leg('wait');
     await Town.act(s, /^Search/);
     const seen = () => PlayerView.observe(s.campaign).observations.map(o => o.text);
     expect(seen()).toContain('His knife is still in his belt.');
@@ -77,39 +77,39 @@ describe('a drover who did not come home', () => {
     const { town, road } = placed.bindings as { town: string; road: string };
     const seen = () => PlayerView.observe(s.campaign).observations.map(o => o.text).join(' ');
     GeneratedWorld.put(s, road);
-    await s.perform('wait');
+    await s.leg('wait');
     await Town.act(s, /^Search/);
     await Town.act(s, /^Cover him with the cart's sheet/);
     expect(seen()).toContain('his whip stands up in the bank');
     GeneratedWorld.put(s, `${town}_taproom`);
-    await s.perform('wait');
+    await s.leg('wait');
     expect(Town.said(await Town.act(s, /what you found on the road$/))).toContain('we will go for him in the morning');
     await Town.act(s, /^Wait until dark$/);
     await Town.act(s, /^Wait until first light$/);
     GeneratedWorld.put(s, `${town}_green`);
-    await s.perform('wait');
+    await s.leg('wait');
     expect(seen()).toContain('there is a new grave, with a drover\'s whip laid along it');
     expect(Town.said(await Town.act(s, /^Stand a while at the grave$/))).toContain('nothing needs saying');
     const other = await Town.start();
     GeneratedWorld.put(other.s, road);
-    await other.s.perform('wait');
+    await other.s.leg('wait');
     await Town.act(other.s, /^Search/);
     await Town.act(other.s, /^Bury him by the road/);
     expect(PlayerView.observe(other.s.campaign).observations.map(o => o.text))
       .toEqual(expect.arrayContaining([expect.stringContaining('a cairn of ditch-stones'),
         expect.stringContaining('His knife lies on the cairn')]));
     GeneratedWorld.put(other.s, `${town}_taproom`);
-    await other.s.perform('wait');
+    await other.s.leg('wait');
     expect(Town.said(await Town.act(other.s, /what you found on the road$/))).toContain('He would like that');
     GeneratedWorld.put(other.s, road);
-    await other.s.perform('wait');
+    await other.s.leg('wait');
     expect(PlayerView.choices(other.s.campaign).map(c => c.choice.name)).toContain('Stand a while at the grave');
   }, 90000);
   it('goes out after his father himself if nobody brings word by the second evening', async () => {
     const { w, s } = await Town.start(), town = w.report.placements.find(p => p.scenario === 'drover')!.bindings.town!;
     GeneratedWorld.put(s, `${town}_green`);
     let said = '';
-    while (s.campaign.state.elapsed < 210) { said += Town.said(await s.perform('wait_hour')); }
+    while (s.campaign.state.elapsed < 210) { said += Town.said(await s.leg('wait_hour')); }
     expect(said).toContain("has taken his father's old spear and gone out on the road alone");
   }, 60000);
 });
@@ -120,10 +120,10 @@ describe('a fever on the green', () => {
     const { town, road } = placed.bindings as { town: string; road: string };
     // The road the mother remembers runs by water, and willows grow there as she said, for anyone to gather.
     GeneratedWorld.put(s, road);
-    expect(Town.said(await s.perform('wait'))).toContain('Willows lean out over the water');
+    expect(Town.said(await s.leg('wait'))).toContain('Willows lean out over the water');
     await Town.act(s, /^Gather some willow bark/);
     GeneratedWorld.put(s, `${town}_green`);
-    await s.perform('wait');
+    await s.leg('wait');
     const mother = ObservationText.label(s.campaign.world, 'fever__mother');
     expect(mother).not.toContain('fever');
     expect(Town.said(await Town.act(s, new RegExp(`^Give some willow bark to ${mother}$`))))
@@ -143,15 +143,15 @@ describe('a fever on the green', () => {
       const { w, s } = await Town.start(), placed = w.report.placements.find(p => p.scenario === 'fever')!;
       const { town, road } = placed.bindings as { town: string; road: string };
       GeneratedWorld.put(s, road);
-      await s.perform('wait');
+      await s.leg('wait');
       await Town.act(s, /^Gather some willow bark/);
       GeneratedWorld.put(s, `${town}_green`);
-      await s.perform('wait');
+      await s.leg('wait');
       const mother = ObservationText.label(s.campaign.world, 'fever__mother');
       await Town.act(s, new RegExp(`^Give some willow bark to ${mother}$`));
       if (asked) { expect(Town.said(await Town.act(s, /^Speak with/))).toContain('I can do the cups'); }
       let said = '';
-      for (let h = 0; h < 9; h++) { said += Town.said(await s.perform('wait_hour')); }
+      for (let h = 0; h < 9; h++) { said += Town.said(await s.leg('wait_hour')); }
       const mended = s.campaign.world.test(ModuleWriter.call('fever__mended', 'fever__mother'));
       expect([mended, said.includes(asked ? 'the fever has broken' : 'The fever has come back hotter')]).toEqual([asked, true]);
       if (!asked) { expect(s.campaign.world.test(ModuleWriter.call('fever__dosed', 'fever__mother'))).toBe(false); }
@@ -162,7 +162,7 @@ describe('a fever on the green', () => {
     GeneratedWorld.put(s, `${town}_green`);
     let said = '';
     // The third morning: first light on day 3 is the 276th watch.
-    while (s.campaign.state.elapsed < 280) { said += Town.said(await s.perform('wait_hour')); }
+    while (s.campaign.state.elapsed < 280) { said += Town.said(await s.leg('wait_hour')); }
     expect(said).toContain('The child on the green has died');
   }, 60000);
 });
@@ -172,7 +172,7 @@ describe('a stranger who pays in old coin', () => {
     const { w, s } = await Town.start('ash', 4), placed = w.report.placements.find(p => p.scenario === 'oldcoin')!;
     const { town, ruin } = placed.bindings as { town: string; ruin: string };
     GeneratedWorld.put(s, `${town}_taproom`);
-    await s.perform('wait');
+    await s.leg('wait');
     expect(Town.said(await Town.act(s, /about the old coin$/))).toContain('Ten of these when we get there');
     await Town.act(s, /to come with you$/);
     await GeneratedWorld.travel(s, `${town}_green`);
@@ -193,15 +193,15 @@ describe('the boundary stones', () => {
   it('are set back by whoever finds the old holes, and the inn remembers it', async () => {
     const { w, s } = await Town.start('ash'), town = w.report.placements.find(p => p.scenario === 'quarrel')!.bindings.town!;
     GeneratedWorld.put(s, `${town}_taproom`);
-    await s.perform('wait');
+    await s.leg('wait');
     expect(Town.said(await Town.act(s, /about the stones$/))).toContain('A stride of my garden');
     await Town.act(s, /back door of the inn/);
     expect(Town.said(await Town.act(s, /^Search/))).toContain('The stones were moved');
     GeneratedWorld.put(s, `${town}_shop`);
-    await s.perform('wait');
+    await s.leg('wait');
     expect(Town.said(await Town.act(s, /about the old holes under the grass$/))).toContain('I will set them back');
     GeneratedWorld.put(s, `${town}_taproom`);
-    await s.perform('wait');
+    await s.leg('wait');
     const gold = s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'));
     await Town.act(s, /the stones are going back$/);
     expect(s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'))).toBe(gold + 6);
@@ -209,13 +209,13 @@ describe('the boundary stones', () => {
   it('cost the company the inn if it takes the merchant\'s coin', async () => {
     const { w, s } = await Town.start('ash'), town = w.report.placements.find(p => p.scenario === 'quarrel')!.bindings.town!;
     GeneratedWorld.put(s, `${town}_shop`);
-    await s.perform('wait');
+    await s.leg('wait');
     // Offered first, when the stones are asked about; then taken.
     expect(PlayerView.choices(s.campaign).some(c => /five coin and say nothing$/.test(c.choice.name))).toBe(false);
     await Town.act(s, /about the stones$/);
     await Town.act(s, /five coin and say nothing$/);
     GeneratedWorld.put(s, `${town}_taproom`);
-    await s.perform('wait');
+    await s.leg('wait');
     expect(PlayerView.choices(s.campaign).some(c => /^Take a bed|^Buy/.test(c.choice.name))).toBe(false);
   }, 60000);
 });
@@ -230,7 +230,7 @@ describe('your brother on the road', () => {
       { origin: 'kin', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
     const s = await PlaySession.start(w.path, 'mere', w.source), placed = w.report.placements.find(p => p.scenario === 'drover')!;
     GeneratedWorld.put(s, `${placed.bindings.town}_green`);
-    await s.perform('wait');
+    await s.leg('wait');
     await Town.act(s, /^Ask .* what he means to do$/);
     await Town.act(s, /to join the company$/);
     expect(Town.said(await Town.act(s, /^Ask .* about home$/))).toContain('eels in it the size of oxen');
@@ -238,7 +238,7 @@ describe('your brother on the road', () => {
     const dark = s.campaign.world.related('unlit')[0]!.args[0]!.replace(/^region__/, '');
     GeneratedWorld.put(s, dark);
     const light = PlayerView.choices(s.campaign).find(x => /^light_item\(/.test(x.choice.id));
-    const lit = await s.perform(light ? light.choice.id : 'wait');
+    const lit = await s.leg(light ? light.choice.id : 'wait');
     expect(Town.said(lit)).toContain('keeps to the middle of the light');
     // Asked what he will do, once the cart is found.
     const c = s.campaign as unknown as { world: { apply(c: unknown[]): unknown }; commit(w: unknown): void };

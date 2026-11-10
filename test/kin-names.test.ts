@@ -20,7 +20,7 @@ describe('the family come home to', () => {
     expect(kin.length).toBe(2);
     expect(kin).not.toContain('Harbek');
     GeneratedWorld.put(s, 's1_general');
-    await s.perform('wait');
+    await s.leg('wait');
     expect(PlayerView.choices(s.campaign).some(c => /^Buy a blanket for Harbek/.test(c.choice.name))).toBe(true);
   }, 120000);
 });

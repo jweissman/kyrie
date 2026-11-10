@@ -127,7 +127,9 @@ export interface Observation {
 }
 // toward: whom or where the aim is pursued at, as its author says (Objective … toward keeper "…"): the page leads
 // there and to nothing else its words name (see Stakes.named).
-export interface Objective { id: string; when: Predicate; text: string; toward?: string[] }
+// route: where a way toward it leads until the company is there or at what it is toward (toward crypt by yard: the
+// churchyard is gone to, and the crypt under it found from there).
+export interface Objective { id: string; when: Predicate; text: string; toward?: string[]; route?: string }
 // A role while something holds; whole, what they are called instead of their name and role ("Known as").
 export interface Person { role?: string; roles?: { role: string; when: Predicate; whole?: boolean }[];
   // Set where it stands as a device (Device turret.), not met as a creature of a kind (Species wolf.).

@@ -14,7 +14,7 @@ class Dark {
     const members = companies.companies.find(c => c.id === party)!.members as CreatureGenerationContext[];
     const s = await PlaySession.start('test/fixtures/march/serewater-march.campaign.json', 'serewater', NodeBundleSource.shared,
       members);
-    for (const c of commands) { await s.perform(c); }
+    for (const c of commands) { await s.leg(c); }
     return s;
   }
   static legal(s: PlaySession) { return PlayerView.choices(s.campaign).map(c => c.choice.id); }
@@ -31,24 +31,24 @@ describe('light and the dark', () => {
     expect(PlayerView.observe(s.campaign).observations.map(o => o.id)).toEqual(['darkness']);
     // The kitchen's crock warning cannot be read in the dark; with the torch lit it can.
     expect(Dark.legal(s)).not.toContain('examine(hill__crock_label)');
-    await s.perform('light_item(march__nera_torch_1)');
+    await s.leg('light_item(march__nera_torch_1)');
     expect(Dark.benighted(s)).toBe(false);
     expect(Dark.legal(s)).toContain('examine(hill__crock_label)');
-    for (let i = 0; i < 6; i++) { await s.perform('wait'); }
+    for (let i = 0; i < 6; i++) { await s.leg('wait'); }
     expect(Dark.benighted(s)).toBe(true);
     expect(s.campaign.events.flatMap(e => e.combat).some(e => e.type === 'expire' && e.detail === 'torchlit')).toBe(true);
   }, 60000);
   it('a mage can conjure a light for two hours instead', async () => {
     // Every mage learns Light as an apprentice; Ivo starts the day with it prepared.
     const s = await Dark.play('delvers', ...Dark.toStores);
-    await s.perform('field_spell(march__member_party_3,conjure_light,march__member_party_3)');
+    await s.leg('field_spell(march__member_party_3,conjure_light,march__member_party_3)');
     expect(s.campaign.world.test(ModuleWriter.call('capable', 'party', 'light'))).toBe(true);
     // The page says so, as it says what a torch has left (the cold playtest read "Nothing lit" under its Light).
     expect(ScreenModel.build(s.campaign).expedition.light).toMatch(/^Ivo's conjured light, .+ left · /);
     // Twelve watches of ten minutes, the first spent in the casting.
-    for (let i = 0; i < 10; i++) { await s.perform('wait'); }
+    for (let i = 0; i < 10; i++) { await s.leg('wait'); }
     expect(s.campaign.world.test(ModuleWriter.call('capable', 'party', 'light'))).toBe(true);
-    for (let i = 0; i < 2; i++) { await s.perform('wait'); }
+    for (let i = 0; i < 2; i++) { await s.leg('wait'); }
     expect(s.campaign.world.test(ModuleWriter.call('capable', 'party', 'light'))).toBe(false);
   }, 60000);
 });

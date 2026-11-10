@@ -29,7 +29,7 @@ describe('word that leads somewhere', () => {
     c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('knows', 'party', fact) }]));
   };
   const go = (s: PlaySession, to: string) => Travel.go({ campaign: s.campaign,
-    perform: command => s.perform(command) }, to);
+    perform: command => s.leg(command) }, to);
   const zone = (s: PlaySession, id: string) => s.campaign.module.entities.find(e => e.id === id)!.space!.parent!;
 
   it('makes the place a trouble is at somewhere to set out for, called by the name the word gives', async () => {

@@ -94,8 +94,10 @@ export class Undertakings {
     const target = Stakes.target(campaign, o), at = target.subject ? w.one('at', target.subject) : undefined;
     const addressed = at ? Spatial.ancestry(byId, at).slice(1)
       .filter(e => ['settlement', 'site'].includes(e.space?.kind ?? '')).map(e => e.id) : [];
+    // And the places its words say, which the company has been told ("the child at the market-place").
+    const told = [...Stakes.said(campaign, o)].filter(id => byId.get(id)?.space);
     return [...new Set([...target.routeTo ? [target.routeTo] : [], ...named, ...joined, ...around, ...sought,
-      ...addressed])];
+      ...addressed, ...told])];
   }
   // Those an aim names who are someone (said with a he, a she or a they), by the names the company knows them by: who
   // might know where it is, when the map cannot show it (the product-design review's PD-12).

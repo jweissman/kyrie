@@ -22,7 +22,7 @@ it('an opponent that flees is reported as fleeing, is routed, and no longer hold
   const s = await PlaySession.start('test/fixtures/march/serewater-march.campaign.json', 'rout', NodeBundleSource.shared);
   for (const c of ['go(march__causeway_path,march__causeway)', 'change_thing(hill__boar_pass)',
     'go(hill__low_path,hill__drain_mouth)', 'go(hill__culvert,hill__workshop)', 'go(hill__gallery_steps,hill__gallery)']) {
-    await s.perform(c);
+    await s.leg(c);
   }
   const blocked = () => s.campaign.world.test(ModuleWriter.call('obstructed', 'hill__hoist_passage'));
   expect(blocked()).toBe(true);

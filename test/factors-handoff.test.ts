@@ -31,7 +31,7 @@ class World {
     return s.leg(c.choice.id);
   }
   static async until(s: PlaySession, watch: number) {
-    for (let i = 0; i < 600 && s.campaign.state.elapsed < watch; i++) { await s.perform('wait'); }
+    for (let i = 0; i < 600 && s.campaign.state.elapsed < watch; i++) { await s.leg('wait'); }
   }
 }
 
@@ -69,13 +69,13 @@ describe('the factor who buys old bronze', () => {
     // Only now does the company go south. Low Water is installed, and its Halm already has what the carter brought.
     await GeneratedWorld.travel(s, 'gate_lowwater');
     await frontier.expand(s.campaign);
-    await s.perform('wait');
+    await s.leg('wait');
     expect(World.holds(s, 'keeps', 'plowwater__halm', 'plongman__teeth')).toBe(true);
     expect(World.holds(s, 'keeps', 'factors__carter', 'plongman__teeth')).toBe(false);
     expect(w.report.placements.filter(p => p.scenario === 'factors').length).toBe(1);
     // At the dig the company finds the lot on a cloth, and Halm says where it came from.
     await GeneratedWorld.travel(s, 'plowwater__dig');
-    await s.perform('wait');
+    await s.leg('wait');
     expect(PlayerView.observe(s.campaign).observations.map(o => o.text).join(' ')).toContain('twelve teeth of green bronze');
     expect(World.said(await World.choose(s, /^Ask Halm where the bell-teeth/))).toContain('Founders\' Exchange in the north');
   }, 600000);
@@ -97,7 +97,7 @@ describe('the factor who buys old bronze', () => {
     expect(World.holds(s, 'factors__carterGone', 'factors__carter')).toBe(false);
     await GeneratedWorld.travel(s, 'gate_lowwater');
     await frontier.expand(s.campaign);
-    await s.perform('wait');
+    await s.leg('wait');
     expect(World.holds(s, 'keeps', 'plowwater__halm', 'plongman__teeth')).toBe(false);
   }, 600000);
 });

@@ -9,7 +9,7 @@ class Steps {
   static async played() {
     const s = await this.start();
     for (const command of ['go(world__byre_door,world__byre)', 'wait', 'go(world__byre_door,world__yard)']) {
-      await s.perform(command);
+      await s.leg(command);
     }
     return s;
   }

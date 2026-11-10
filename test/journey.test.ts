@@ -51,7 +51,7 @@ describe('journeys', () => {
     const arrival = await s.leg('go(world__brake,world__thicket)');
     expect(Ford.said(arrival)).toContain('An owlbear stands its ground and watches you.');
     expect(arrival.combat).toEqual([]);
-    const stayed = await s.perform('wait_hour');
+    const stayed = await s.leg('wait_hour');
     expect(stayed.combat.some(e => e.type === 'end')).toBe(true);
     expect(Ford.said(stayed.prelude ?? {})).toContain('An owlbear comes at you.');
   });
@@ -66,7 +66,7 @@ describe('journeys', () => {
   // the way was judged by the ice the risk itself was breaking.
   it('keeps a company that risked what lies on a long way going, to the far end', async () => {
     const s = await PlaySession.start('test/fixtures/probes/long-risk/probe.campaign.json', 'risk', NodeBundleSource.shared);
-    const climb = await s.perform(Journey.of(s).find('risk ice on the links')!.command);
+    const climb = await s.leg(Journey.of(s).find('risk ice on the links')!.command);
     expect(climb.response ?? '').not.toContain('no longer open');
     expect([Ford.at(s), s.campaign.state.elapsed, climb.result]).toEqual(['p__ledge', 72, 'success']);
     expect(Ford.holds(s, 'state', 'p__ice', 'p__broken')).toBe(true);
@@ -76,7 +76,7 @@ describe('journeys', () => {
   it('keeps a way open under whoever is crossing it, and lets a way always dangerous be risked', async () => {
     const s = await PlaySession.start('test/fixtures/probes/crossing/probe.campaign.json', 'cross', NodeBundleSource.shared);
     const choice = (name: RegExp) => PlayerView.choices(s.campaign).find(c => name.test(c.choice.name))!.choice.id;
-    const over = await s.perform(choice(/^Take the sands/));
+    const over = await s.leg(choice(/^Take the sands/));
     expect([Ford.at(s), over.result, Ford.holds(s, 'unopened', 'p__sands')]).toEqual(['p__holm', 'success', true]);
     const t = await PlaySession.start('test/fixtures/probes/crossing/probe.campaign.json', 'edge', NodeBundleSource.shared);
     const risk = PlayerView.choices(t.campaign).find(c => /^Risk the wind/.test(c.choice.name))!;

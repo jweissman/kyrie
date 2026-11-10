@@ -60,7 +60,7 @@ describe('what is offered', () => {
   it('ends with the fight what lasts a fight: a charge prepared and not made is not carried away', async () => {
     const s = await PlaySession.start('test/fixtures/wolf-yard/campaign.json', 'legality', NodeBundleSource.shared);
     let prepared = false;
-    await s.perform('attack(world__grey)', battle => {
+    await s.leg('attack(world__grey)', battle => {
       const legal = battle.legalCommands(), prepare = legal.find(c => c.ability === 'prepare_charge');
       if (prepare && !prepared) { prepared = true; return Promise.resolve(prepare); }
       return Promise.resolve(legal.find(c => c.ability === 'charge') ?? legal.find(c => c.ability === 'melee') ?? legal[0]!);

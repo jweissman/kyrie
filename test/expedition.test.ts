@@ -7,7 +7,7 @@ import { ModuleWriter } from '../src/lang/module-writer';
 class Trip {
   static async start(...commands: string[]) {
     const s = await PlaySession.start('test/fixtures/march/serewater-march.campaign.json', 'expedition', NodeBundleSource.shared);
-    for (const c of commands) { await s.perform(c); }
+    for (const c of commands) { await s.leg(c); }
     return s;
   }
   static n(s: PlaySession, name: string, ...args: string[]) {
@@ -18,7 +18,7 @@ class Trip {
   }
   static legal(s: PlaySession) { return PlayerView.choices(s.campaign).map(c => c.choice.id); }
   static coins(s: PlaySession) { return s.campaign.state.creatures.reduce((sum, c) => sum + c.state.gold, 0); }
-  static async waitUntil(s: PlaySession, tick: number) { while (s.campaign.state.elapsed < tick) { await s.perform('wait'); } }
+  static async waitUntil(s: PlaySession, tick: number) { while (s.campaign.state.elapsed < tick) { await s.leg('wait'); } }
 }
 
 describe('time follows distance', () => {
@@ -29,7 +29,7 @@ describe('time follows distance', () => {
     expect(times).toContainEqual(['go(march__causeway_path,march__causeway)', 6]);
     await s.leg('go(march__causeway_path,march__causeway)');
     expect(s.campaign.state.elapsed).toBe(6);
-    await s.perform('change_thing(hill__boar_pass)');
+    await s.leg('change_thing(hill__boar_pass)');
     const before = s.campaign.state.elapsed;
     await s.leg('go(hill__low_path,hill__drain_mouth)');
     expect(s.campaign.state.elapsed - before).toBe(3);
@@ -73,10 +73,10 @@ describe('food and rest', () => {
     const elen = () => s.campaign.state.creatures.find(c => c.name === 'Elen')!;
     expect(elen().state.hp).toBeLessThan(elen().base.maxHp);
     for (const c of ['go(hill__hoist_passage,hill__gallery)', 'go(hill__gallery_steps,hill__workshop)', 'go(hill__culvert,hill__drain_mouth)',
-      'go(hill__low_path,march__causeway)', 'go(march__causeway_path,march__quay)', 'go(march__oar_door,march__taproom)']) { await s.perform(c); }
+      'go(hill__low_path,march__causeway)', 'go(march__causeway_path,march__quay)', 'go(march__oar_door,march__taproom)']) { await s.leg(c); }
     const coins = Trip.coins(s), maud = () => s.campaign.state.creatures.find(c => c.name === 'Maud')!.state.gold;
     const maudBefore = maud(), started = s.campaign.state.elapsed;
-    await s.perform('take_lodging(march__maud_lodging,march__maud)');
+    await s.leg('take_lodging(march__maud_lodging,march__maud)');
     expect(s.campaign.state.elapsed - started).toBe(48);
     expect(Trip.coins(s)).toBe(coins);
     expect(maud() - maudBefore).toBe(3);
@@ -85,7 +85,7 @@ describe('food and rest', () => {
   it('goods are counted stock: buying moves coin to the seller and one ration to the company', async () => {
     const s = await Trip.start('go(march__shop_door,march__shop_floor)');
     const coins = Trip.coins(s), stock = Trip.n(s, 'quantity', 'march__nera', 'rations');
-    await s.perform('buy_goods(rations,march__nera)');
+    await s.leg('buy_goods(rations,march__nera)');
     expect(Trip.coins(s)).toBe(coins);
     expect(Trip.n(s, 'quantity', 'march__nera', 'rations')).toBe(stock - 1);
     expect(Trip.n(s, 'quantity', 'party', 'rations')).toBe(2);

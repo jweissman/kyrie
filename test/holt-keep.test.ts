@@ -25,7 +25,7 @@ class Keep {
     campaign.commit(campaign.world.apply([{ kind: 'retract', call: ModuleWriter.call('at', 'party', here) },
       { kind: 'assert', call: ModuleWriter.call('at', 'party', place) }]));
   }
-  static async walk(s: PlaySession, commands: string[]) { for (const c of commands) { await s.perform(c); } }
+  static async walk(s: PlaySession, commands: string[]) { for (const c of commands) { await s.leg(c); } }
   static legal(s: PlaySession) { return PlayerView.choices(s.campaign).map(c => c.choice.id); }
   static fact(s: PlaySession, name: string, ...args: string[]) {
     return s.campaign.world.test(ModuleWriter.call(name, ...args));
@@ -41,7 +41,7 @@ describe('Holt keep', () => {
     expect(Keep.legal(s)).toContain('go(tower__postern,tower__crypt)');
     expect(Keep.legal(s).some(c => c.startsWith('go(tower__gate') || c.startsWith('go(tower__breach'))).toBe(false);
     Keep.put(s, 'tower__bailey');
-    await s.perform('change_thing(tower__winch_wind)');
+    await s.leg('change_thing(tower__winch_wind)');
     expect(Keep.fact(s, 'state', 'tower__portcullis', 'tower__raised')).toBe(true);
     await s.leg('go(tower__gate,east__tower_foot)');
     expect(Keep.legal(s)).toContain('go(tower__gate,tower__bailey)');
@@ -59,7 +59,7 @@ describe('Holt keep', () => {
     const s = await Keep.start();
     await Keep.walk(s, Keep.crypt);
     expect(Keep.legal(s)).not.toContain('go(tower__crypt_steps,tower__study)');
-    await s.perform('examine(tower__worn_steps)');
+    await s.leg('examine(tower__worn_steps)');
     expect(Keep.legal(s)).toContain('go(tower__crypt_steps,tower__study)');
   }, 60000);
   it('keeps its strongroom behind black water: swum at a cost, or drained by someone told where the sluice is', async () => {
@@ -84,9 +84,9 @@ describe('Holt keep', () => {
     Keep.put(s, 'tower__chapel');
     expect(Keep.legal(s)).not.toContain('tower__captain_named');
     Keep.put(s, 'tower__library');
-    await s.perform('examine(tower__roll)');
+    await s.leg('examine(tower__roll)');
     Keep.put(s, 'tower__chapel');
-    await s.perform('tower__captain_named');
+    await s.leg('tower__captain_named');
     expect([Keep.fact(s, 'knows', 'party', 'tower__sluice_known'), Keep.fact(s, 'at', 'tower__captain', 'tower__chapel')])
       .toEqual([true, false]);
   }, 60000);
@@ -101,13 +101,13 @@ describe('Holt keep', () => {
   it('lets Sorgen call his sister back once he has the register; told what she asks, he puts out the lantern himself', async () => {
     const s = await Keep.start();
     // Left alone, Corvin brings him the register in the night; by morning she has her voice.
-    while (!Keep.fact(s, 'state', 'tower__maren', 'tower__named') && s.campaign.state.elapsed < 200) { await s.perform('wait_hour'); }
+    while (!Keep.fact(s, 'state', 'tower__maren', 'tower__named') && s.campaign.state.elapsed < 200) { await s.leg('wait_hour'); }
     expect(Keep.fact(s, 'state', 'tower__maren', 'tower__named')).toBe(true);
     Keep.put(s, 'tower__cell');
-    await s.perform('light_item(march__nera_torch_1)');
-    await s.perform('tower__maren_asks');
+    await s.leg('light_item(march__nera_torch_1)');
+    await s.leg('tower__maren_asks');
     Keep.put(s, 'tower__study');
-    await s.perform('tower__tell_him');
+    await s.leg('tower__tell_him');
     expect([Keep.fact(s, 'tower__ended', 'tower__necromancer'), Keep.fact(s, 'serves', 'rising__digger', 'tower__necromancer')])
       .toEqual([true, false]);
   }, 120000);

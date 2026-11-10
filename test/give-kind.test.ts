@@ -18,12 +18,12 @@ describe('giving a kind of thing', () => {
       'gk.campaign.json': JSON.stringify({ version: 1, name: 'gk', modules: [{ id: 'p', bundle: 'gk/module.json' }],
         party: [{ name: 'Ama', raceId: 'human', classId: 'warrior' }] }) });
     const s = await PlaySession.start(source.resolve('gk.campaign.json'), 'gk', source);
-    await s.perform('p__thank(party,p__yard)');
-    await s.perform('p__thank(party,p__yard)');
+    await s.leg('p__thank(party,p__yard)');
+    await s.leg('p__thank(party,p__yard)');
     const kept = s.campaign.readout.creatures[0]!.state.inventory!.filter(i => /keepsake/.test(i.definition));
     expect(kept.length).toBe(2);
     // As many as are given at once, of a kind of the catalog too (a priest's two draughts had been one).
-    await s.perform('p__stock(party,p__yard)');
+    await s.leg('p__stock(party,p__yard)');
     expect(s.campaign.readout.creatures[0]!.state.inventory!.filter(i => i.definition === 'torch').length).toBe(4);
   }, 60000);
 });

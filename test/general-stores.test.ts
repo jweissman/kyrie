@@ -86,12 +86,12 @@ describe("a country's general stores and clothiers", () => {
     const region = w.report.region as Region, i = Country.market(region)[0]!, s = region.settlements[i]!;
     const session = await PlaySession.start(w.path, seed, w.source);
     GeneratedWorld.put(session, `${s.id}_clothier`);
-    await session.perform('wait');
+    await session.leg('wait');
     const buy = PlayerView.choices(session.campaign)
       .find(c => c.choice.id.startsWith(`buy_item(region__${s.id}_clothier_keeper_`) && c.choice.id.includes('cloak'));
     expect(buy).toBeDefined();
     const gold = session.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'));
-    await session.perform(buy!.choice.id);
+    await session.leg(buy!.choice.id);
     expect(session.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'))).toBeLessThan(gold);
   }, 180000);
 });

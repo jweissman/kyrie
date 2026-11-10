@@ -53,7 +53,7 @@ describe('backgrounds and professions are typed overlays from Orsino', () => {
     const toWorkshop = ['go(march__causeway_path,march__causeway)', 'go(march__ridge_track,march__ridge)',
       'go(hill__yard_track,hill__yard)', 'go(hill__arch,hill__vestibule)', 'go(hill__workshop_door,hill__workshop)'];
     const trained = await Party.start(Party.river), plain = await Party.start(Party.river, Party.plain);
-    for (const s of [trained, plain]) { for (const c of toWorkshop) { await s.perform(c); } }
+    for (const s of [trained, plain]) { for (const c of toWorkshop) { await s.leg(c); } }
     expect(Party.legal(trained)).toContain('change_thing(hill__padlock_pick)');
     expect(Party.legal(plain)).not.toContain('change_thing(hill__padlock_pick)');
     for (const s of [trained, plain]) { await s.leg('go(hill__gallery_steps,hill__gallery)'); }

@@ -33,14 +33,14 @@ class Settled {
   static async find(s: PlaySession, people: { id: string }[], pattern: RegExp) {
     for (const r of people) {
       GeneratedWorld.put(s, this.at(s, r.id)!.replace(/^region__/, ''));
-      await s.perform('wait');
+      await s.leg('wait');
       const c = PlayerView.choices(s.campaign).find(x => pattern.test(x.choice.name));
       if (c) { return c; }
     }
     return undefined;
   }
   static async until(s: PlaySession, hour: number) {
-    while (Math.floor((8 * 60 + s.campaign.state.elapsed * 10) / 60) % 24 !== hour) { await s.perform('wait'); }
+    while (Math.floor((8 * 60 + s.campaign.state.elapsed * 10) / 60) % 24 !== hour) { await s.leg('wait'); }
   }
   static region(w: Awaited<ReturnType<typeof WorldAssembler.assemble>>): Region { return w.report.region as Region; }
 }
@@ -64,7 +64,7 @@ describe('a settlement is the people who live in it', () => {
     const { w, s } = await Settled.start(), region = Settled.region(w), town = region.settlements[0]!;
     const c = Communities.plan(region, town), worker = c.residents.find(r => r.workplace)!;
     const drinker = c.residents.find(r => r.evening === 'inn');
-    await s.perform('wait');
+    await s.leg('wait');
     expect(Settled.at(s, worker.id)).toBe(`region__${worker.workplace}`);
     await Settled.until(s, 19);
     if (drinker) { expect(Settled.at(s, drinker.id)).toBe(`region__${town.id}_taproom`); }
@@ -88,15 +88,15 @@ describe('a settlement is the people who live in it', () => {
     const c = Communities.plan(region, town), owner = c.residents.find(r => r.id === c.concern!.resident)!;
     const goat = c.animals.find(a => a.id === c.concern!.animal)!;
     GeneratedWorld.put(s, Settled.at(s, goat.id)!.replace(/^region__/, ''));
-    await s.perform('wait');
+    await s.leg('wait');
     await Settled.act(s, new RegExp(`^Ask ${goat.name} to come with you$`));
     const gold = s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'));
     while (Settled.at(s, goat.id) !== `region__${town.id}_green`) {
       const home = PlayerView.choices(s.campaign).find(x => x.choice.id.endsWith(`region__${town.id}_green)`));
       if (!home) { break; }
-      await s.perform(home.choice.id);
+      await s.leg(home.choice.id);
     }
-    await s.perform('wait');
+    await s.leg('wait');
     expect(s.campaign.world.test(ModuleWriter.call('grateful', `region__${owner.id}`, 'party'))).toBe(true);
     expect(s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'))).toBe(gold + 1);
   }, 120000);
@@ -153,7 +153,7 @@ describe('what people know by their work', () => {
     const ask = await Settled.find(s, region.settlements.flatMap(t => Communities.plan(region, t).residents),
       / where willow grows$/);
     expect(ask).toBeDefined();
-    const told = await s.perform(ask!.choice.id);
+    const told = await s.leg(ask!.choice.id);
     const said = told.response ?? '';
     const named = RegionGrowth.places(region).filter(p => said.includes(p.name));
     expect(named.length).toBeGreaterThan(0);
@@ -166,7 +166,7 @@ describe('what people know by their work', () => {
       /^Talk shop with /);
     expect(shop).toBeDefined();
     const rations = s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'rations'));
-    await s.perform(shop!.choice.id);
+    await s.leg(shop!.choice.id);
     expect(s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'rations'))).toBe(rations + 1);
   }, 60000);
 });

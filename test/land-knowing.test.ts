@@ -111,7 +111,7 @@ describe('what the map knows of a place', () => {
       .toEqual([true, true, 'cave']);
     // Set out for it by the way the page plans, and come to it: known whole, by the name cut over its door, the land
     // about it with it.
-    const done = await Travel.go({ campaign: s.campaign, perform: (c: string) => s.perform(c) }, ruin.id);
+    const done = await Travel.go({ campaign: s.campaign, perform: (c: string) => s.leg(c) }, ruin.id);
     expect(done.arrived).toBe(true);
     const been = Knowing.of(s);
     Knowing.kept(high, been);

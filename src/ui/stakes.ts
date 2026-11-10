@@ -55,7 +55,8 @@ export class Stakes {
     });
     return new Set(o.toward?.length ? under : under.filter(id => ids.has(id)));
   }
-  private static said(campaign: Campaign, o: Objective): Set<string> {
+  // What an aim's words name (or its condition, when its words name nothing): what the company has been told.
+  static said(campaign: Campaign, o: Objective): Set<string> {
     const ids = new Set<string>();
     ObservationText.map(o.text, call => { call.args.forEach(a => ids.add(a)); return ''; }, id => { ids.add(id); return ''; });
     if (!ids.size) {

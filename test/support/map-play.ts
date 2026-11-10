@@ -20,7 +20,7 @@ export class MapPlay {
       .extend(new Frontier(seed, NodeBundleSource.shared, DrawnWorld.options(drawn))));
   }
   static go(j: Journey, destination: string) {
-    return Travel.go({ campaign: j.campaign, perform: (c: string) => j.session.perform(c) }, destination);
+    return Travel.go({ campaign: j.campaign, perform: (c: string) => j.session.leg(c) }, destination);
   }
   // Gone on with, as the page's "Go on to" would, past whatever stopped it on the way (a toll, pikes across the road,
   // nightfall).

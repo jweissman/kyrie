@@ -12,7 +12,7 @@ class Sink {
   static readonly down = ['go(sink__sink_path,sink__lip)', 'go(sink__shaft,sink__cave)', 'light_item(march__nera_torch_1)'];
   static async play(...commands: string[]) {
     const s = await PlaySession.start('test/fixtures/march/silkholme.campaign.json', 'silk', NodeBundleSource.shared);
-    for (const c of commands) { await s.perform(c); }
+    for (const c of commands) { await s.leg(c); }
     return s;
   }
   static state(s: PlaySession, id: string) {
@@ -33,21 +33,21 @@ describe('Silkholme: one quarrel, several ways through it', () => {
       'go(sink__sink_path,march__ridge)', 'brood__carcass', ...Sink.down, 'change_thing(brood__webs_hack)',
       'go(sink__web_gallery,sink__nest)');
     expect(Sink.legal(s)).not.toContain('change_thing(brood__webs_burn)');
-    await s.perform('change_thing_paying(brood__mother_feed)');
+    await s.leg('change_thing_paying(brood__mother_feed)');
     expect(Sink.holds(s, 'brood__sated', 'brood__brood')).toBe(true);
     expect(Sink.legal(s)).not.toContain('attack(brood__brood)');
-    for (const c of ['go(sink__web_gallery,sink__cave)', 'go(sink__seep,sink__frames)']) { await s.perform(c); }
+    for (const c of ['go(sink__web_gallery,sink__cave)', 'go(sink__seep,sink__frames)']) { await s.leg(c); }
     expect(Sink.state(s, 'brood__frames')).toBe('brood__winding');
     expect(Sink.legal(s)).toContain('buy_goods(silk,brood__odile)');
     const before = Sink.coins(s);
-    await s.perform('brood__grateful');
+    await s.leg('brood__grateful');
     expect(Sink.coins(s)).toBe(before + 4);
-    for (const c of ['go(sink__terrace_steps,sink__lip)', 'go(sink__sink_path,march__ridge)']) { await s.perform(c); }
+    for (const c of ['go(sink__terrace_steps,sink__lip)', 'go(sink__sink_path,march__ridge)']) { await s.leg(c); }
     expect(Sink.legal(s)).toContain('brood__wait_and_see');
     // Both told, the aim of telling them is done (play 9 kept it after both were told).
-    await s.perform('brood__wait_and_see');
+    await s.leg('brood__wait_and_see');
     expect(Sink.aims(s).some(a => /will want to know/.test(a))).toBe(false);
-    while (s.campaign.state.elapsed < 90) { await s.perform('wait'); }
+    while (s.campaign.state.elapsed < 90) { await s.leg('wait'); }
     expect(s.campaign.world.number(ModuleWriter.call('brood__lost', 'brood__garth'))).toBe(1);
     expect(Sink.state(s, 'brood__garth')).toBe('brood__easy');
     expect(Sink.legal(s)).toContain('brood__paid_fed');
@@ -58,11 +58,11 @@ describe('Silkholme: one quarrel, several ways through it', () => {
   // take.
   it('shows the way to feed the brood-mother where the world says it is', async () => {
     const s = await Sink.play(...Sink.ridge, 'go(sink__sink_path,sink__lip)', 'go(sink__terrace_steps,sink__frames)');
-    expect((await s.perform('brood__plea')).response).toContain('behind his fold');
+    expect((await s.leg('brood__plea')).response).toContain('behind his fold');
     for (const c of ['go(sink__terrace_steps,sink__lip)', 'go(sink__shaft,sink__cave)', 'light_item(march__nera_torch_1)',
-      'change_thing(brood__webs_hack)', 'go(sink__web_gallery,sink__nest)']) { await s.perform(c); }
+      'change_thing(brood__webs_hack)', 'go(sink__web_gallery,sink__nest)']) { await s.leg(c); }
     const offer = PlayerView.choices(s.campaign).find(c => /^Hold out your empty hands/.test(c.choice.name))!;
-    expect((await s.perform(offer.choice.id)).response).toContain('a ewe');
+    expect((await s.leg(offer.choice.id)).response).toContain('a ewe');
   }, 120000);
   it('a torch to the webs drives the brood out, and burns Odile out with it', async () => {
     const s = await Sink.play(...Sink.ridge, 'take_item(brood__spare_torch,march__member_party_2)', ...Sink.down,
@@ -75,16 +75,16 @@ describe('Silkholme: one quarrel, several ways through it', () => {
   it('left alone, Garth loses a ewe a night, and after the second night burns Silkholme himself', async () => {
     const s = await Sink.play(...Sink.ridge);
     const lost = () => s.campaign.world.number(ModuleWriter.call('brood__lost', 'brood__garth'));
-    while (s.campaign.state.elapsed < 100) { await s.perform('wait'); }
+    while (s.campaign.state.elapsed < 100) { await s.leg('wait'); }
     // The first night costs him a ewe; he is worried, not yet angry.
     expect([lost(), Sink.state(s, 'brood__garth'), Sink.state(s, 'brood__webs')])
       .toEqual([2, 'brood__worried', 'brood__whole']);
-    while (s.campaign.state.elapsed < 260) { await s.perform('wait'); }
+    while (s.campaign.state.elapsed < 260) { await s.leg('wait'); }
     expect(Sink.state(s, 'brood__webs')).toBe('brood__burnt');
     expect(s.campaign.events.flatMap(e => e.npc ?? []).some(d => d.actor === 'brood__garth'
       && d.action.startsWith('change_thing(brood__garth,brood__webs_burn'))).toBe(true);
     expect(Sink.state(s, 'brood__odile')).toBe('brood__bitter');
-    while (s.campaign.state.elapsed < 400) { await s.perform('wait'); }
+    while (s.campaign.state.elapsed < 400) { await s.leg('wait'); }
     expect(lost()).toBe(3);
   }, 120000);
   it('the brood is three spiders in one fight; killing them leaves Odile grieving', async () => {
@@ -99,12 +99,12 @@ describe('Silkholme: one quarrel, several ways through it', () => {
     const quay = () => JSON.stringify(PlayerView.observe(s.campaign));
     expect(quay()).toContain('Barges nose into reed-fringed piles');
     expect(quay()).toContain("A shepherd's boy is telling anyone");
-    while (s.campaign.state.elapsed < 78) { await s.perform('wait'); }
+    while (s.campaign.state.elapsed < 78) { await s.leg('wait'); }
     expect(Sink.holds(s, 'dark')).toBe(true);
     expect(quay()).toContain('The quay is dark and empty');
     expect(quay()).not.toContain("A shepherd's boy");
     expect(Sink.legal(s)).toContain('wait_for_light');
-    await s.perform('wait_for_light');
+    await s.leg('wait_for_light');
     expect(s.campaign.state.elapsed).toBe(132);
     expect(Sink.holds(s, 'dark')).toBe(false);
     expect(Sink.legal(s)).not.toContain('wait_for_light');

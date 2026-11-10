@@ -13,7 +13,7 @@ class Companies {
   static async at(id: string, ...commands: string[]) {
     const s = await PlaySession.start('test/fixtures/march/serewater-march.campaign.json', 'serewater', NodeBundleSource.shared,
       this.party(id));
-    for (const c of commands) { await s.perform(c); }
+    for (const c of commands) { await s.leg(c); }
     return ChoiceList.all(ChoiceList.explore(ScreenModel.build(s.campaign)));
   }
   static find(choices: Choice[], label: string): Choice | undefined {

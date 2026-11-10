@@ -37,7 +37,7 @@ describe('the narrator', () => {
       { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
     const s = await PlaySession.start(w.path, 'b2', w.source);
     GeneratedWorld.put(s, 's4_green');
-    await s.perform('wait');
+    await s.leg('wait');
     const presence = Narrator.leaf(s.campaign, ScreenModel.build(s.campaign)).presence.join(' ');
     expect(presence).toContain('Gale, who speaks for Harrehes');
     expect(presence).not.toContain('a who');
@@ -52,7 +52,7 @@ describe('the narrator', () => {
     // Whoever keeps the inn where the drover's story is set has heard of him.
     for (const n of [1, 2, 3, 4, 5]) {
       GeneratedWorld.put(s, s.campaign.world.one('at', `region__s${n}_innkeeper`)!.replace(/^region__/, ''));
-      await s.perform('wait');
+      await s.leg('wait');
       if (PlayerView.choices(s.campaign).some(c => / about the drover/.test(c.choice.name))) { break; }
     }
     const asked = await Telling.take(s, /^Ask (\w+) about the drover/);
@@ -140,7 +140,7 @@ describe('the narrator', () => {
     const willows = world.related('grows').map(r => r.args[0]!).filter(id => id.endsWith('_willow'));
     const told = async (stand: string) => {
       GeneratedWorld.put(s, world.one('at', stand)!.replace(/^region__/, ''));
-      await s.perform('wait');
+      await s.leg('wait');
       const screen = ScreenModel.build(s.campaign);
       return { said: Narrator.leaf(s.campaign, screen).presence.some(p => p.startsWith('Willows lean out')),
         there: screen.things.some(t => t.id === stand) };

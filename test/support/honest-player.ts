@@ -34,7 +34,7 @@ export class HonestPlayer {
       this.log.push(`  says: ${pick.label}`);
       await g.perform(pick.command);
     } else if (lead.command?.startsWith('travel:')) {
-      const done = await Travel.go({ campaign: this.s.campaign, perform: (c: string) => this.s.perform(c) },
+      const done = await Travel.go({ campaign: this.s.campaign, perform: (c: string) => this.s.leg(c) },
         lead.command.slice('travel:'.length));
       this.log.push(`  journey: ${done.arrived ? 'arrived' : done.stopped}`);
       await g.perform('wait');

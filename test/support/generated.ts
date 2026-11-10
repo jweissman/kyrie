@@ -33,12 +33,12 @@ export class GeneratedWorld {
   static async hear(s: PlaySession, placement: Placement, n: number) {
     const { id, room } = this.carrier(s, placement), c = s.campaign;
     this.put(s, room);
-    await s.perform('wait');
+    await s.leg('wait');
     const asks = PlayerView.choices(c).map(x => x.choice.id).filter(x => x.startsWith(`ask(region__${id},word`));
     const ours = (x: string) => c.world.related('reveals', /,(.+)\)$/.exec(x)?.[1] ?? '')
       .some(r => placement.modules.some(m => r.args[1]!.startsWith(`${m}__`)));
     const ask = asks.find(x => x.startsWith(`ask(region__${id},word${n}__`) && ours(x)) ?? asks.find(ours);
     if (!ask) { throw new Error(`No one at ${room} to ask about ${placement.scenario}`); }
-    return s.perform(ask);
+    return s.leg(ask);
   }
 }

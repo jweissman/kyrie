@@ -27,13 +27,13 @@ describe('at the inn', () => {
   it('lets the company work for its keep, and then sleep on the house', async () => {
     const s = await Inn.at('warrior');
     const work = Inn.find(s, /^Work for .+ for your keep$/)!;
-    await s.perform(work.choice.id);
+    await s.leg(work.choice.id);
     expect(Inn.find(s, /, on the house$/)).toBeDefined();
     expect(Inn.find(s, /^Sing for your supper/)).toBeUndefined();
   }, 120000);
   it('lets a bard sing for the supper, for coin, once an evening', async () => {
     const s = await Inn.at('bard'), before = Inn.gold(s);
-    await s.perform(Inn.find(s, /^Sing for your supper at /)!.choice.id);
+    await s.leg(Inn.find(s, /^Sing for your supper at /)!.choice.id);
     expect([1, 5]).toContain(Inn.gold(s) - before);
     expect(Inn.find(s, /^Sing for your supper at /)).toBeUndefined();
   }, 120000);

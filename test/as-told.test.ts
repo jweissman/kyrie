@@ -59,7 +59,7 @@ describe('as the company would tell it', () => {
     const tear = PlayerView.choices(s.campaign).find(c => c.choice.name === 'Tear the bronze plate from the gate')!;
     // What tearing the plate wakes falls on the company, which backs away in the moment before it closes (PT-10): the
     // test is not about the fight, which a warrior wins on one night's dice and loses on another's.
-    await s.perform(tear.choice.id, b => Promise.resolve(b.opening
+    await s.leg(tear.choice.id, b => Promise.resolve(b.opening
       ? b.legalCommands().find(c => c.ability === 'flee')! : Tactics.choose(b.state, b.legalCommands())));
     expect(Thorn.names(s).filter(n => /^(Push and pull at|Listen at|Pry at) the seal/.test(n))).toEqual([]);
     Thorn.put(s, 'w8_gatehouse_gate_hall');

@@ -137,8 +137,8 @@ export class Glance {
       .filter(([k]) => !['actor', 'site'].includes(k)).map(([, v]) => v)]));
     const touches = new Map(rows.map(r => [r.choice.id,
       new Set((r.action.success ?? []).flatMap(c => c.call?.args ?? []))]));
-    const named = this.inside(campaign, screen, this.whereabouts(campaign, screen, this.named(campaign),
-      this.addressed(campaign)));
+    const named = this.routed(campaign, screen, this.inside(campaign, screen, this.whereabouts(campaign, screen,
+      this.named(campaign), this.addressed(campaign))));
     const held = this.inside(campaign, screen,
       new Set([...screen.aimed ?? []].filter(id => !named.has(id) && id !== campaign.playerActor)));
     const idle = new Set([...screen.around ?? [], ...screen.destinations ?? []].map(d => d.id)
@@ -147,11 +147,7 @@ export class Glance {
     const commands = this.commands(screen);
     const authored = new Set(rows.filter(r => this.changes.includes(r.action.schema ?? '')).map(r => r.choice.id));
     const aim = screen.aims?.find(a => a.followed)?.text, advances = this.advances(campaign, rows);
-    const holding = new Set([...named].flatMap(id => {
-      const at = EntityIndex.of(campaign.module.entities).byId.get(id)?.space ? id : campaign.world.one('at', id);
-      return at ? Spatial.ancestry(EntityIndex.of(campaign.module.entities).byId, at)
-        .filter(e => !['region', 'plane'].includes(e.space?.kind ?? '')).map(e => e.id) : [];
-    }));
+    const holding = this.holding(campaign, named);
     return { ...aim ? { aim } : {}, ...advances.size ? { advances } : {}, holding, schema, args, touches, authored,
       speakers: new Set(rows.filter(r => r.action.speaker).map(r => r.choice.id)),
       named, held,
@@ -254,8 +250,34 @@ export class Glance {
     return a.name === b.name && a.args.length === b.args.length
       && a.args.every((x, i) => x === b.args[i] || x.startsWith('?') || b.args[i]!.startsWith('?'));
   }
+  // The places that hold what the aim names (its town, its site), and the outside a site it names is entered from (the
+  // ground before Lunalac's door, set out for to bring its reading-glass up): a journey to any of them is toward it.
+  private static holding(campaign: Campaign, named: Set<string>): Set<string> {
+    const byId = EntityIndex.of(campaign.module.entities).byId;
+    const held = new Set([...named].flatMap(id => {
+      const at = byId.get(id)?.space ? id : campaign.world.one('at', id);
+      return at ? Spatial.ancestry(byId, at).filter(e => !['region', 'plane'].includes(e.space?.kind ?? ''))
+        .map(e => e.id) : [];
+    }));
+    for (const r of campaign.world.related('connects')) {
+      for (const [a, b] of [[r.args[1]!, r.args[2]!], [r.args[2]!, r.args[1]!]] as const) {
+        const site = this.siteOf(byId, b);
+        if (site && held.has(site) && !this.siteOf(byId, a)) { held.add(a); }
+      }
+    }
+    return held;
+  }
   private static reads(p: Predicate, into: Call[]) {
     ModuleWriter.conditionCalls(p, call => { into.push(call); return call; });
+  }
+  // Where its author says the aim is gone to by (toward crypt by yard), that place too, until the company is in it or
+  // at what the aim is toward: the churchyard lit from the shrine, and nothing lit back out of the crypt.
+  private static routed(campaign: Campaign, screen: Screen, named: Set<string>): Set<string> {
+    const def = Undertakings.followed(campaign), t = def && Stakes.target(campaign, def);
+    if (!t?.routeTo || t.routeTo === t.actionAt) { return named; }
+    const byId = EntityIndex.of(campaign.module.entities).byId, line = Spatial.ancestry(byId, screen.place.id);
+    const there = line.some(e => e.id === t.routeTo || e.id === t.actionAt);
+    return there ? named : new Set([...named, t.routeTo]);
   }
   private static addressed(campaign: Campaign): Set<string> {
     const def = Undertakings.followed(campaign);

@@ -29,7 +29,7 @@ class Expedition {
   static kind(s: PlaySession, item: string) { return s.campaign.world.one('itemKind', `region__${item}`)!; }
   static async take(s: PlaySession, room: string, things: RegExp[]) {
     GeneratedWorld.put(s, room);
-    await s.perform('wait');
+    await s.leg('wait');
     if (PlayerView.choices(s.campaign).some(x => x.choice.name === 'Light a torch')) {
       await Expedition.choose(s, /^Light a torch$/);
     }
@@ -55,7 +55,7 @@ describe('an expedition among Orsino\'s things', () => {
       .toEqual(expect.arrayContaining(['ring_of_strength', 'amulet_of_health']));
     // Home by the ways the world joins them, from the mine's mouth to the jeweller's.
     GeneratedWorld.put(s, 'w9_adit_adit');
-    await s.perform('wait');
+    await s.leg('wait');
     await GeneratedWorld.travel(s, 's1_jewelry');
     expect(s.campaign.world.one('at', 'party')).toBe('region__s1_jewelry');
     let gold = Expedition.gold(s);

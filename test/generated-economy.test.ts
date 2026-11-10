@@ -65,7 +65,7 @@ describe('generated campaigns', () => {
     const toll = await Economy.toll('ash'), { s } = await Economy.start('ash');
     const [way, from, to] = [`region__${toll.way}`, toll.from, toll.to];
     const base = Economy.num(s, 'goodsPrice', `region__${toll.elsewhere}_innkeeper`, 'rations');
-    await s.perform('wait');
+    await s.leg('wait');
     expect(Economy.fact(s, 'tolls', 'tollKeepers__keepers', way)).toBe(true);
     expect(Economy.num(s, 'goodsPrice', `region__${from}_innkeeper`, 'rations')).toBeGreaterThan(base);
     expect(Economy.num(s, 'goodsPrice', `region__${toll.elsewhere}_innkeeper`, 'rations')).toBe(base);
@@ -79,16 +79,16 @@ describe('generated campaigns', () => {
   }, 120000);
   it('buys the deserters\' bread on credit at the inn; bought empty, the inn is robbed in the night', async () => {
     const { market } = await Economy.toll('ash'), fed = await Economy.start('ash');
-    for (let h = 0; h < 72; h++) { await fed.s.perform('wait_hour'); }
+    for (let h = 0; h < 72; h++) { await fed.s.leg('wait_hour'); }
     expect(Economy.num(fed.s, 'owes', 'tollKeepers__chief', `region__${market}_innkeeper`)).toBeGreaterThan(0);
     const starved = await Economy.start('ash');
     Economy.put(starved.s, `region__${market}_taproom`);
     // They start with three rations and eat one a night: by the fourth night they need bread.
     for (let h = 0; h < 100; h++) {
       for (let id; (id = Economy.legal(starved.s).find(x => x.startsWith(`buy_goods(rations,region__${market}_innkeeper)`)));) {
-        await starved.s.perform(id);
+        await starved.s.leg(id);
       }
-      await starved.s.perform('wait_hour');
+      await starved.s.leg('wait_hour');
     }
     expect(Economy.num(starved.s, 'losses', `region__${market}_green`)).toBeGreaterThanOrEqual(2);
   }, 240000);

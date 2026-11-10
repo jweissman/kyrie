@@ -10,9 +10,9 @@ describe('a greeting', () => {
   it('is taken as they are, fretting, whatever their manner', async () => {
     const s = await PlaySession.start('test/fixtures/march/silkholme.campaign.json', 'silk', NodeBundleSource.shared);
     for (const c of [...ridge, 'go(sink__sink_path,sink__lip)', 'go(sink__terrace_steps,sink__frames)']) {
-      await s.perform(c);
+      await s.leg(c);
     }
-    const e = await s.perform('talk_to(brood__odile)');
+    const e = await s.leg('talk_to(brood__odile)');
     const greeting = (e.voiced ?? []).find(v => v.kind === 'address' && v.actor === 'brood__odile');
     expect(greeting?.id).toMatch(/^address\.troubled\.first\./);
   }, 60000);

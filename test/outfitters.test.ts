@@ -22,7 +22,7 @@ describe('the outfitters of a generated country', () => {
     for (const t of towns) {
       const keeper = `region__${t.id}_${Outfitters.needed(t) ? 'chandler' : 'merchant'}`;
       GeneratedWorld.put(s, s.campaign.world.one('at', keeper)!.replace(/^region__/, ''));
-      await s.perform('wait');
+      await s.leg('wait');
       const sold = ScreenModel.build(s.campaign).trade.find(c => c.id === keeper)?.sells.map(x => x.name) ?? [];
       expect([t.name, sold]).toEqual([t.name, expect.arrayContaining(['Ration', 'Torch', 'Lantern',
         'Flask of lamp oil', 'Coil of rope', 'Crowbar'])]);

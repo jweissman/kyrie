@@ -75,7 +75,7 @@ describe('the open country\'s meetings', () => {
     // Tracks seen are a way toward the site they go to; followed, the way to it (REV-08).
     const tracks = meetings.find(m => m.section.option === 'tracks')!;
     GeneratedWorld.put(s, RegionTracts.id(tracks.cell));
-    await s.perform('wait');
+    await s.leg('wait');
     expect(Wild.knows(s, `wm${tracks.cell}_trail`)).toBe(true);
     for (let k = 0; k < 8 && !Wild.knows(s, `${tracks.lead!.site.id}_found`); k++) {
       await Wild.said(s, /^Follow the tracks/);
@@ -84,7 +84,7 @@ describe('the open country\'s meetings', () => {
     // A cache: its sign first, then found by searching, then there to take.
     const cache = meetings.find(m => m.section.option === 'cache')!;
     GeneratedWorld.put(s, RegionTracts.id(cache.cell));
-    await s.perform('wait');
+    await s.leg('wait');
     expect(Wild.seen(s)).toContain('Three stones are set one on another');
     expect(Wild.led(s)).toContainEqual([`search(region__t${cache.cell})`, 'sign']);
     expect(await Wild.said(s, /^Search /)).toContain('a bundle done up in oilcloth');
@@ -94,7 +94,7 @@ describe('the open country\'s meetings', () => {
     const plain = RegionTracts.cells(region).find(c => !standing.has(c)
       && meetings.every(m => Terrain.distance(land, m.cell, c) > 3))!;
     GeneratedWorld.put(s, RegionTracts.id(plain));
-    await s.perform('wait');
+    await s.leg('wait');
     expect(Wild.led(s).filter(([c]) => c.startsWith('search('))).toEqual([]);
     expect(PlayerView.choices(s.campaign).some(c => /^Search /.test(c.choice.name))).toBe(false);
     // Crossing the country past a meeting not yet come to, the journey stops there.
@@ -103,8 +103,8 @@ describe('the open country\'s meetings', () => {
     const from = about[0]!, to = about.find(c => c !== from && !RegionTracts.neighbours(from, land.width, land.height)
       .includes(c))!;
     GeneratedWorld.put(s, RegionTracts.id(from));
-    await s.perform('wait');
-    const done = await Travel.go({ campaign: s.campaign, perform: (c: string) => s.perform(c) }, `region__t${to}`);
+    await s.leg('wait');
+    const done = await Travel.go({ campaign: s.campaign, perform: (c: string) => s.leg(c) }, `region__t${to}`);
     expect(done.legs.at(-1)?.command).toEndWith(`,region__t${other.cell})`);
     expect([done.arrived, done.stopped]).toEqual([false, 'Something is going on here']);
   }, 120000);

@@ -24,7 +24,7 @@ describe('the names the language writes', () => {
     await expect(Reserved.start('Relation concluded(). Ending won "Won" when watch(clock) >= 1 "It is done.".'))
       .rejects.toThrow('concluded');
     const s = await Reserved.start('Relation reached(group). Ending won "Won" when watch(clock) >= 1 "It is done.".');
-    await s.perform('wait');
+    await s.leg('wait');
     expect(Endings.reached(s.campaign.world, [])?.title).toBe('Won');
   }, 60000);
 });

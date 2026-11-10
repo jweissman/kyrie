@@ -42,7 +42,7 @@ describe('the thing that took the oxen', () => {
       expect(w.report.placements.find(p => p.instance === den)!.bindings.den).toBe(drover.bindings.lair);
       Oxen.set(s, [{ kind: 'assert', call: ModuleWriter.call('knows', 'party', 'drover__found_cart') }]);
       GeneratedWorld.put(s, `${drover.bindings.town}_green`);
-      await s.perform('wait');
+      await s.leg('wait');
       // The son read the trail, and tells it.
       expect((await Oxen.take(s, /what he means to do now$/)).response).toContain('I want the yoke back');
       expect(Oxen.holds(s, 'knows', 'party', 'oxen__trail')).toBe(true);
@@ -51,10 +51,10 @@ describe('the thing that took the oxen', () => {
       // Dealt with (driven off, as smoke does), the den gives up the yoke.
       Oxen.set(s, [{ kind: 'assert', call: ModuleWriter.call('peaceable', `${den}__beasts`) }]);
       GeneratedWorld.put(s, drover.bindings.lair!);
-      await s.perform('wait');
+      await s.leg('wait');
       await Oxen.take(s, /^Collect the drover's ox-yoke for Wenna$/);
       GeneratedWorld.put(s, `${drover.bindings.town}_taproom`);
-      await s.perform('wait');
+      await s.leg('wait');
       const hung = await Oxen.take(s, /^Hang the yoke over the hearth/);
       expect(Oxen.holds(s, 'oxen__hung', 'party')).toBe(true);
       expect(hung.combat.some(e => e.type === 'gain' && e.detail === 'experience: the thing that took the oxen, seen through'))
@@ -64,7 +64,7 @@ describe('the thing that took the oxen', () => {
   it('follows the ruts the road speaks of, over the edge to the cart', async () => {
     const { w, s } = await Oxen.start(), drover = w.report.placements.find(p => p.scenario === 'drover')!;
     GeneratedWorld.put(s, drover.bindings.road!);
-    await s.perform('wait');
+    await s.leg('wait');
     const followed = await Oxen.take(s, /^Follow the ruts over the edge$/);
     expect(Oxen.holds(s, 'knows', 'party', 'drover__found_cart')).toBe(true);
     expect((followed.perceptions ?? []).map(p => p.text).join(' ')).toContain('a cart lies on its side in the ditch');

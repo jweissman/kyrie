@@ -37,7 +37,7 @@ class Search {
     const rummage = spyOn(Items, 'rummage');
     try {
       const search = PlayerView.choices(s.campaign).find(x => /^Search /.test(x.choice.name))!;
-      const event = await s.perform(search.choice.id);
+      const event = await s.leg(search.choice.id);
       return { event, rummaged: rummage.mock.calls.length };
     } finally { rummage.mockRestore(); }
   }

@@ -117,7 +117,7 @@ describe('what it takes, as the page tells it', () => {
     expect(draws).toEqual(['Draw out what is in the long gallery, and wait for it here',
       'Draw out what is in the ossuary, and wait for it here']);
     const draw = PlayerView.choices(s.campaign).find(x => /^Draw out what is in the long gallery/.test(x.choice.name))!;
-    const e = await s.perform(draw.choice.id);
+    const e = await s.leg(draw.choice.id);
     expect(s.campaign.world.one('at', 'region__w8_halls_gallery_dwellers')).toBe('region__w8_halls_bone_hall');
     const first = e.combat.find(x => x.type === 'initiative');
     expect(first?.type === 'initiative' && first.order[0]!.id).toBe('region__party_1');
@@ -131,7 +131,7 @@ describe('what it takes, as the page tells it', () => {
     const store = (s.campaign as unknown as { creatures: CreatureStore }).creatures;
     const lease = store.acquire([s.campaign.readout.partyIds[0]!]);
     try { lease.creatures[0]!.state.hp -= 3; lease.commit(lease.creatures); } finally { lease.release(); }
-    await s.perform('wait');
+    await s.leg('wait');
     expect(offered()).toBe(true);
   }, 60000);
   it('goes on from a question into who asked it', () => {

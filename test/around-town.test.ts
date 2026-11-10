@@ -20,7 +20,7 @@ describe('going about a town', () => {
     expect(taproom.legs.map(l => l.to)).toHaveLength(2);
     // Nothing a step away is offered twice: the green, from the shop, is a way about the place.
     expect(around.some(d => ScreenModel.build(c).exits.some(e => e.destination.id === d.id))).toBe(false);
-    const done = await Travel.go({ campaign: c, perform: (command: string) => s.perform(command) }, taproom.id);
+    const done = await Travel.go({ campaign: c, perform: (command: string) => s.leg(command) }, taproom.id);
     expect([done.arrived, c.world.one('at', 'party')]).toEqual([true, taproom.id]);
   }, 120000);
 });

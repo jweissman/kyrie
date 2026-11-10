@@ -82,7 +82,8 @@ export class ModuleNamespace {
   // An aim, its condition, words and target in the installation's own names.
   private objective(o: NonNullable<Module['objectives']>[number]): NonNullable<Module['objectives']>[number] {
     return { ...o, id: `${this.bindings.id}__${o.id}`, when: this.predicate(o.when), text: this.text(o.text),
-      ...o.toward ? { toward: o.toward.map(t => this.entities[t] ?? t) } : {} };
+      ...o.toward ? { toward: o.toward.map(t => this.entities[t] ?? t) } : {},
+      ...o.route ? { route: this.entities[o.route] ?? o.route } : {} };
   }
   draft(): ModuleDraft {
     const original = this.instance.module, definition = this.instance.campaign!;
