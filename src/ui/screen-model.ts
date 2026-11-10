@@ -365,15 +365,15 @@ export class ScreenModel {
       .map(t => ({ name: t!.name, perks: (t!.perks ?? []).map(p => PerkText.of(p)) }));
   }
   private static party(view: PlayerSnapshot, campaign: Campaign, grouped: Grouped): MemberRow[] {
-    const entities = campaign.module.entities;
+    const entities = campaign.module.entities, taken = new Set<string>();
     return view.party.map(m => {
-      const ref = entities.find(e => e.creatureId === m.id)?.id;
-      const race = Content.race(m.raceId)?.name ?? m.raceId;
+      const ref = entities.find(e => e.creatureId === m.id)?.id, race = Content.race(m.raceId)?.name ?? m.raceId;
       const klass = Content.classes[m.classId as keyof typeof Content.classes]?.name ?? m.classId;
       const background = m.backgroundId ? Canon.backgrounds[m.backgroundId]?.name : undefined;
       const likeness = campaign.readout.creatures.find(c => c.id === m.id)?.likeness ?? Portraits.met(campaign, ref);
       const pronoun = ref ? CompanyPortraits.said(campaign.world, ref) : undefined;
-      const face = CompanyPortraits.member(m, { ...pronoun ? { pronoun } : {}, ...likeness ? { likeness } : {} });
+      const face = CompanyPortraits.member(m, { ...pronoun ? { pronoun } : {}, ...likeness ? { likeness } : {} },
+        taken);
       const emblems = [m.raceId, m.classId].filter((x): x is string => !!x && Emblems.has(x));
       return { id: m.id, ...(ref ? { ref } : {}), name: m.name, line: `${race} ${klass}`.toLowerCase(), emblems,
         ...likeness && Likeness.ids.has(likeness) ? { portrait: Likeness.portrait(likeness) } : {},

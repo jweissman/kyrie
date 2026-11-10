@@ -33,20 +33,27 @@ export class CompanyPortraits {
   static readonly names = this.given();
   // A member of the company as the game holds them, with what the world says of them: their pronouns (on the entity
   // that stands for them) and the likeness chosen for them at creation, where either is said.
+  // taken: the faces given the company so far, not given again where the paintings have another (a hired sword had worn
+  // the player's own face: Mission 20's second round); the face given is added to it.
   static member(m: { id: string; name: string; raceId: string; classId?: string; backgroundId?: string },
-    said: { pronoun?: string; likeness?: string }): Face | undefined {
+    said: { pronoun?: string; likeness?: string }, taken = new Set<string>()): Face | undefined {
     const presentation = this.presentation({ ...said, name: m.name });
-    return this.of({ ...m.classId ? { classId: m.classId } : {}, raceId: m.raceId,
+    const face = this.of({ ...m.classId ? { classId: m.classId } : {}, raceId: m.raceId,
       ...m.backgroundId ? { backgroundId: m.backgroundId } : {}, ...presentation ? { presentation } : {},
-      key: `${m.name}|${m.id}` });
+      key: `${m.name}|${m.id}` }, taken);
+    // Only that face for them, and given already: their own likeness instead, where they have one (the soldier hired).
+    if (face && taken.has(face.id) && said.likeness) { return undefined; }
+    if (face) { taken.add(face.id); }
+    return face;
   }
-  static of(who: Sitting): Face | undefined {
+  static of(who: Sitting, taken: ReadonlySet<string> = new Set()): Face | undefined {
     const kind = this.kind(who), ancestry = who.raceId;
     if (!kind || !ancestry) { return undefined; }
     // Unsaid, how they present is drawn from who they are: the same each time, and the other if it is not painted.
     const drawn: Presentation[] = this.hash(who.key) % 2 ? ['woman', 'man'] : ['man', 'woman'];
     for (const as of who.presentation ? [who.presentation] : drawn) {
-      const fit = this.usable.filter(p => p.class === kind && p.ancestry === ancestry && p.presentation === as);
+      const all = this.usable.filter(p => p.class === kind && p.ancestry === ancestry && p.presentation === as);
+      const fresh = all.filter(p => !taken.has(p.id)), fit = fresh.length ? fresh : all;
       const chosen = fit[this.hash(`${who.key}:${as}`) % Math.max(1, fit.length)];
       if (chosen) {
         return { id: chosen.id, src: chosen.file, medium: chosen.medium, at: [chosen.at[0]!, chosen.at[1]!] };
