@@ -33,9 +33,11 @@ export class OriginStep {
     return b ? `Makes you ${Words.article(b.name.toLowerCase())}${b.text ? `, who ${b.text.replace('; ', ' and ')}` : ''}.`
       : 'You bring your own trade: one your calling knows, until you choose another under Details when you are named.';
   }
-  // A trade by the rules: what it adds to the qualities, the coin it starts with, and what it carries.
-  static facts(b: Catalog['backgrounds'][number], catalog: Catalog): string[] {
-    return [PeopleStep.adds(b.qualities, catalog), `${b.coin} coin to start with.`,
+  // A trade by the rules: what it adds to the qualities, the coin it starts with, and what it carries. Not the coin
+  // where an origin begins the game: the origin's purse is what one starts with (a monster hunter had been promised
+  // "100 coin to start with" and begun with 22: Mission 20's fourth round, F 20).
+  static facts(b: Catalog['backgrounds'][number], catalog: Catalog, origin?: string): string[] {
+    return [PeopleStep.adds(b.qualities, catalog), ...origin ? [] : [`${b.coin} coin to start with.`],
       ...b.gear.length ? [`Carries ${b.gear.map(g => Words.article(g)).join(', ')}.`] : []];
   }
 }

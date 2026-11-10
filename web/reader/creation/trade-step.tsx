@@ -18,7 +18,7 @@ export class TradeStep {
     const kinds = catalog.kinds.filter(k => open.some(b => b.kind === k.id)), mine = open.find(b => b.id === m.backgroundId);
     const wants = catalog.callings.find(c => c.id === m.classId)?.qualities;
     return <>
-      {mine && <Card.Particulars title={Words.upper(mine.name)} facts={OriginStep.facts(mine, catalog)} />}
+      {mine && <Card.Particulars title={Words.upper(mine.name)} facts={OriginStep.facts(mine, catalog, s.origin)} />}
       {kinds.map(k => {
         const rows = open.filter(b => b.kind === k.id), most = TradeStep.most(rows.map(b => b.text)), held = m.backgroundId;
         const alike = TradeStep.alike(rows, most, { held, wants: wants ?? {} });
@@ -36,14 +36,15 @@ export class TradeStep {
       })}
     </>;
   }
-  // A trade as a row: its name, what it knows and carries where that is not its kind's usual, its coin.
+  // A trade as a row: its name, what it knows and carries where that is not its kind's usual, its coin (not where an
+  // origin begins the game, whose purse it is).
   static Row({ app, trade: b, most }: { app: ReaderApp; trade: Trade; most?: string }) {
     const m = app.state.party[0]!;
     return <li><button type="button" className="kit-row" data-nav aria-pressed={m.backgroundId === b.id}
       data-choice={`backgroundId:${b.id}`} onClick={() => app.opening.edit(0, 'backgroundId', b.id)}>
       <span className="name">{Words.upper(b.name)}</span>
       <span className="what">{Typography.curl(b.text && b.text !== most ? `${Words.upper(b.text.replace('; ', ', and '))}.` : '')}</span>
-      <span className="tag">{b.coin} coin</span>
+      {!app.state.origin && <span className="tag">{b.coin} coin</span>}
     </button></li>;
   }
   // Those alike in what they give, but for the one held and the one most fit for the calling (its qualities, then
