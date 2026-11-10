@@ -13,6 +13,15 @@ Reproduce headlessly with `bun /var/tmp/kyrie/m20/tools/leads.ts <origin> <race/
    trouble: one in front, threads tied, the decisive choice made in exchange, the road meetings kept). Supersedes, for
    the moment after the prologue only, M19's "start on the one full-screen map": the first screen is the place the
    origin puts the company in; the map stays the way to travel. Excludes B and C.
+2. **10 November, evening — working expectation and priorities.** Adds: no pausing for approval at ordinary
+   checkpoints (pause only for a consequential design choice outside the commission, a scope or resource conflict, an
+   external action, or a blocker); agent-play builds immutable while played. Priorities, in order: (1) CI on `5a6618a0`
+   green and a verified candidate; (2) fewer early aims, a clearer hierarchy, the golden path kept; (3) keys that name
+   their locks, consequences told when they happen (the firebomb), creation glitches, repeated paintings; (4) an
+   engaging opening: difficulty, preparation, danger, negotiation, retreat, consequence — fair, not lethal or padded;
+   (5) the title, creation, introduction and key pages as one designed whole; (6) a third cold round on a frozen
+   candidate, testing unfamiliar intentions, boredom, tactics and wish to go on. Then the other phases. Invite the
+   owner's play when the candidate is worth it, and keep working meanwhile.
 
 ## Rounds of cold play
 
