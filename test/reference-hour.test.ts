@@ -19,7 +19,7 @@ describe.skipIf(!process.env.KYRIE_TOUR)('the reference hour, through the page',
     const browser = await MonoBrowser.launch();
     const { page, errors, driver: d } = await MonoBrowser.page(browser, { width: 1280, height: 800 },
       { site, query: '?world=kahitude' });
-    const log: string[] = [];
+    const log: string[] = [], seen = new Map<string, number>();
     let n = 0;
     const shot = async (what: string) => {
       await d.settle(); await page.waitForTimeout(600); n++;
@@ -59,16 +59,21 @@ describe.skipIf(!process.env.KYRIE_TOUR)('the reference hour, through the page',
         await go.click(); await shot('set-out');
         continue;
       }
-      // A thing looked at (a find led with, in Look… or on its own page): taken, as its pane offers; then the place.
-      const offered = page.getByRole('button', { name: /^Take\b/ });
+      // A thing looked at (a find led with, in Look… or on its own page): the first thing its pane offers to do (Take,
+      // Gather), then the place again.
+      const offered = page.locator('.ah-pane .acts button:visible, [data-mode="examine"] .acts button:visible');
       if (st.mode === 'examine' || await offered.count()) {
-        const take = offered.first();
-        log.push(`${step} look: ${await take.count() ? 'Take' : 'nothing to take'}`);
-        if (await take.count()) { await take.click(); await shot('take'); }
+        const act = offered.first(), said = (await act.textContent().catch(() => ''))?.trim() ?? '';
+        log.push(`${step} look: ${said || 'nothing to do'}`);
+        if (said) { await act.click(); await shot(`look-${said}`); }
         await page.keyboard.press('Escape'); await d.settle();
         continue;
       }
       const lead = st.glance?.acts[0];
+      // The same lead three times over is where the page stopped leading anywhere new.
+      const key = `${st.place?.id}|${lead?.choice}`;
+      seen.set(key, (seen.get(key) ?? 0) + 1);
+      if ((seen.get(key) ?? 0) > 3) { log.push(`  the page leads with ${lead?.choice} again: stopped`); break; }
       log.push(`${step} @${st.place?.name}: lead [${lead?.why ?? '-'}] ${st.choices.find(c => c.id === lead?.choice)?.label ?? lead?.choice ?? '(none)'}`);
       if (!lead) { break; }
       // A journey is the map's: the Map key is lit, and the map opens with the way chosen (see Stage.mapLed).
