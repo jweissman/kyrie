@@ -22,6 +22,12 @@ Reproduce headlessly with `bun /var/tmp/kyrie/m20/tools/leads.ts <origin> <race/
    (5) the title, creation, introduction and key pages as one designed whole; (6) a third cold round on a frozen
    candidate, testing unfamiliar intentions, boredom, tactics and wish to go on. Then the other phases. Invite the
    owner's play when the candidate is worth it, and keep working meanwhile.
+3. **10 November, evening — one app on main.** Supersedes the `m20` branch and any candidate workflow: Westernesse is
+   one application, developed on `main` and deployed by GitHub Pages. Small verified increments go to main often;
+   short-lived branches and worktrees only for isolated work. Restore Pages first and verify the deployed app loads and
+   plays; show the deployed commit. Agents test a locally served build pinned to a commit (a fixture, not a product);
+   the owner plays the Pages app. The owner keeps committing art to main; no freeze. If main breaks, restoring it comes
+   first.
 
 ## Rounds of cold play
 
