@@ -38,8 +38,8 @@ The brief's priorities (brief.md §III–X) and journeys (§XII) as they stand. 
 | Knowledge to action (PD-08) | **Partial** | §3.1 | Notes are still a state viewer (M19-228) |
 | Cross-hex movement structural (M19-224) | **Implemented; verified in generated countries** | hex-ways (the campaign refuses; a journey takes it), choice-contract (a map choice set out on) | Authored countries' walks between their own places, left to their authors (§6) |
 
-The register ([register.md](register.md)) is reconciled row by row there; at this writing it holds 251 M19 and PD
-rows: 144 fixed, 24 partial, 26 open, 49 deferred to Mission 20 (each with a reason), 1 open risk, 4 not
+The register ([register.md](register.md)) is reconciled row by row there; at this writing it holds 252 M19 and PD
+rows: 144 fixed, 24 partial, 27 open, 49 deferred to Mission 20 (each with a reason), 1 open risk, 4 not
 reproduced, 1 not borne out, 2 superseded. *Fixed* means implemented and checked by a spec or the builder's play; none is a player's
 acceptance.
 
@@ -84,7 +84,8 @@ take a crossing as a journey leg (`PlaySession.leg`), and drivers of the page's 
 
 | Measure | Before | After | Where |
 |---|---|---|---|
-| CI wall clock | 45 m 40 s, shard 1 cancelled at its limit (the review's run at c56669b4) | 45 m 16 s, shard 1 cancelled at its limit; shards 2–5 pass in 25–42 min | GitHub, run 42748386693 on m19-contracts |
+| CI wall clock | 45 m 40 s, suite shard 1 of 5 cancelled at its limit, as in every run seen (the review's run at c56669b4) | **40 m 35 s, every job passing**: six suite shards of 22–41 min, both browser shards, the long descents, the player contracts, the reference hour | GitHub, run 42767926775; main fast-forwarded to it |
+| Spec files with no kept timing | 160 (about 180 test-minutes the shards could not weigh) | 0, read from a complete CI run | test/timings.json |
 | Player contracts job | — | 2 m 31 s, including checkout and install | GitHub |
 | Reference hour through the page | — | 2 m 31 s | GitHub |
 | Building the browser site, once | — | **2 s** | GitHub |
@@ -98,7 +99,10 @@ take a crossing as a journey leg (`PlaySession.leg`), and drivers of the page's 
 building it once changed the shard's time by nothing measurable. The shared site also was not equivalent: built with
 every fixture, its larger bundle made the handbook specs time out. It was reverted. The throughput review's
 hypothesis that site rebuilds drove browser time is not borne out; the time is in the journeys themselves. Shard 1
-of the suite runs to its 45-minute limit before and after this pass: its balance is the next CI lever.
+of five had been cancelled at its 45-minute limit in every run seen, so its specs were never seen to pass: 160 spec
+files had no kept timing, and the shards could not weigh them. A sixth shard and the missing timings, read from a
+complete CI run, made the whole suite pass for the first time in this mission's record. The shards still range from
+22 to 41 minutes; their balance is the next CI lever, before any cache or fixture service.
 
 New in CI: a **player contracts** job (`test:intent`, `test:honest`) that answers in minutes, before the suite's
 verdict; and a **reference hour** job that plays the debt's opening through the page by its leads and keeps a
