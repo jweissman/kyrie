@@ -1,4 +1,4 @@
-import { PlaySession } from './play-session';
+import { PlaySession, type CombatController } from './play-session';
 import { NodeBundleSource } from '../campaign/node-bundle-source';
 import type { BundleSource } from '../campaign/bundle-source';
 import type { CampaignEvent } from '../campaign/campaign';
@@ -204,9 +204,15 @@ export class Journey {
   }
   // Performs a command, and keeps what came back and what the page told of it (and, for one that cannot be undone,
   // what the page asked before it: never tested, it executed on its first choice, Hessel friction 7).
-  async perform(command: string, label = command, grave?: string): Promise<string> {
+  // A step whose fight is fought as the spec says (flee, defend, a scripted order: PlaySession.scripted), not as the
+  // company's own tactics would: authors had read engagement.ts to drive the session by hand (register M19-186).
+  async fight(step: string, how: CombatController = PlaySession.auto): Promise<string> {
+    const c = this.chosen(step);
+    return this.perform(c.command, c.label, c.grave, how);
+  }
+  async perform(command: string, label = command, grave?: string, how?: CombatController): Promise<string> {
     const before = PlayerView.observe(this.campaign);
-    const event = await this.session.leg(command);
+    const event = await this.session.leg(command, how);
     const moved = before.location?.id !== this.at(this.campaign.playerActor ?? 'party');
     const leaf = Narrator.leaf(this.campaign, this.screen(),
       { event, feedback: ActionFeedbackView.read(this.campaign, event, before), said: label, moved });
@@ -288,7 +294,14 @@ export class Journey {
     } finally { lease.release(); }
     this.campaign.refreshProjection();
   }
-  at(who: string): string | undefined { return this.campaign.world.one('at', who); }
+  // Where someone is, named as holds and measure name things (the module's own id, or region__ or an installation's
+  // prefix left off): only the full id had found anyone (register M19-185).
+  at(who: string): string | undefined {
+    return this.campaign.world.one('at', who) ?? this.campaign.world.one('at', this.named('at', [who, who]).args[0]!);
+  }
+  // What the company sees where it stands now: every Observe told of the place, the room's own words among them, which
+  // a step's page tells only on arrival (authors had written their own seen(): register M19-187).
+  seen(): string { return PlayerView.observe(this.campaign).observations.map(o => o.text).join(' '); }
   // For a test: every check from now on comes out so (a natural twenty, or a one), until roll() lets the die fall again
   // (Quittance's friction 7, QTC-07: a test of a failed check was a search over seeds, pinned to the steps before it).
   roll(outcome?: 'pass' | 'fail') { this.campaign.forced = outcome; }

@@ -245,10 +245,18 @@ export class CampaignLint {
     const grounded = ActionSchemas.targeted(this.module, this.session.campaign.actors, failed);
     for (const [id, why] of failed) { this.add('error', 'applicability', `action ${id} cannot be grounded: ${why}`); }
     for (const schema of this.session.campaign.schemas.filter(x => x.id.includes('__'))) {
-      if (!grounded.has(schema.id)) {
-        this.add('warning', 'applicability', `action ${schema.id} has no possible target in this world`);
-      }
+      if (grounded.has(schema.id)) { continue; }
+      // One that waits on a world event (befell) no module of this world brings about is meant to wait: advice, not a
+      // warning on every reader of a canonical event (register M19-177).
+      const waits = CampaignLint.befell(schema.requires);
+      this.add(waits ? 'advice' : 'warning', 'applicability', waits
+        ? `action ${schema.id} waits on a world event this world has not brought about` : `action ${schema.id} has no possible target in this world`);
     }
+  }
+  private static befell(p: unknown): boolean {
+    if (!p || typeof p !== 'object') { return false; }
+    const o = p as { kind?: string; name?: string };
+    return (o.kind === 'call' && o.name === 'befell') || Object.values(p).some(v => CampaignLint.befell(v));
   }
   // A choice names what tells it apart from another: an action over any item of a kind (a flask of lamp oil) that
   // leaves the item out of its label offers two choices of one name once two such items are carried.

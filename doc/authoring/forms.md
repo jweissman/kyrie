@@ -15,6 +15,9 @@ see it in context.
 | Count time | `watch(clock)` | A watch is ten minutes: 6 an hour, 144 a day. |
 | A check's failure told | `Otherwise "…"` after `Result "…"` | `On failure { … }` for its effects. A failed check is offered again unless you latch it (M19-124). |
 | Read a world event (a fall of a house, a war) | `befell(event)` in a condition, with the event's id listed in the module manifest's `"canon"` | Without the listing the compiler refuses it as an invalid argument (M19-175). |
+| Ask a companion's calling | `memberOf(?m, party) and hasCalling(?m, calling_mage)` for one in the company (recruited ones are members); `travelsWith(?h, party) and memberOf(?m, ?h) and hasCalling(?m, calling_mage)` for an escort who only travels with it | Callings are on the member, not the person's own name (M19-183; `test/hired-calling.test.ts`). |
+| Charge for something said | `On discuss { Decrease quantity(actor, gold) by 5. }` in a Topic | As the debt's "Pay" topic does (`data/origins/debt/origin.kyr`). |
+| Say what an aim is about | `Objective x when … toward keeper "…"`; `toward crypt by yard` where it is gone to by somewhere else first | The page leads there and to nothing else its words name; `bin/kyrie lint` advises where an aim without one is ambiguous (M19-225). |
 | A thing hidden until found | `Item x "…" is kind at place hidden until fact` with a `Discovery fact "…" { Found by searching place "…". }` | The fact may also be taught by a rule or a topic. |
 
 ## In a journey (a spec played by the page's labels)
@@ -26,6 +29,10 @@ See the head of `src/session/journey.ts`. The steps people missed:
 - `>place` walks to a place by the shortest way.
 - `@command` performs a command by its id.
 - `Endings.reached(world)?.title` (src/lang/endings.ts) says which ending was come to.
+- `j.fight(step, how)` takes a step whose fight is fought as the spec says: `PlaySession.scripted([...])`, or a
+  controller of its own (M19-186).
+- `j.seen()` is what the company sees where it stands now, every Observe of the place (M19-187).
+- `j.at(who)` and `j.holds`/`j.measure` take a name with or without its module's prefix (M19-185).
 
 ## Words already taken
 
