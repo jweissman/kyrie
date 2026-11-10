@@ -4,8 +4,11 @@
 # bun from the lockfile, so a clean clone needs no sibling checkouts. Orsino, whose registry one spec regenerates byte
 # for byte, is checked out beside Kyrie at the revision the registry names. See doc/architecture/verification.md.
 name: CI
+# The owner's paintings arrive in assets/bg as they are made, which nothing builds from until they are placed (as
+# assets/portraits/scene-*): a push of those alone starts no run, and so cancels none in flight.
 on:
   push:
+    paths-ignore: ['assets/bg/**']
   pull_request:
   workflow_dispatch:
 permissions: { contents: read }
