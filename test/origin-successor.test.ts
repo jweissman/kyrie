@@ -7,6 +7,7 @@ import { ScreenModel } from '../src/ui/screen-model';
 import { ModuleWriter } from '../src/lang/module-writer';
 import type { CreatureStore } from '../src/creature-store';
 import type { World } from '../src/lang/world';
+import { RegionRumours } from '../src/world/region-rumours';
 
 // An origin's ending leaves a successor (the play-structure investigation's PT-01: a resolution had ended in "Nothing
 // more is asked of you"). The drover's child is pointed on by the oxen's trail (test/oxen.test.ts); the debtor, square,
@@ -37,15 +38,20 @@ describe('an origin\'s ending', () => {
     const { w, s } = await Ended.start('debt');
     await Ended.purse(s, 60);
     const paid = await Ended.take(s, /^Pay .* what you owe$/);
-    const keep = w.report.region.sites.find(x => x.name === 'Ísencepan')!;
-    expect(paid.response).toContain('If you want work, and have the stomach for it: Ísencepan, out in the fen');
+    // The nearest work but the one the inn tells of first, where the debt has sent the company already (Mission 20:
+    // paid, Tuck had pointed back to the place just come back from).
+    const said = /If you want work, and have the stomach for it: (.+?), out in /.exec(paid.response ?? '')?.[1];
+    const keep = w.report.region.sites.find(x => x.name === said)!;
+    const town = w.report.region.settlements.find(t => t.size === 'town') ?? w.report.region.settlements[0]!;
+    const first = RegionRumours.nearest(w.report.region, town, RegionRumours.told(w.report.region))[0]?.site;
+    expect([!!keep?.work, keep === first]).toEqual([true, false]);
     expect([Ended.knows(s, `region__${keep.id}_named`), Ended.knows(s, `region__${keep.id}_found`)]).toEqual([true, true]);
     // And the notes have it from the merchant, as said, not as known before the company set out (NAR-12).
     const note = PlayerView.observe(s.campaign).knowledge.find(k => k.id === `region__${keep.id}_named`)!;
     expect([note.source, note.from]).toEqual(['heard', 'Mik, salter']);
     const screen = ScreenModel.build(s.campaign);
-    expect(screen.objectives).toContainEqual(expect.stringContaining('Ísencepan'));
-    expect(screen.destinations?.map(d => d.name)).toContain('Ísencepan');
+    expect(screen.objectives).toContainEqual(expect.stringContaining(keep.name));
+    expect(screen.destinations?.map(d => d.name)).toContain(keep.name);
   }, 120000);
   it('with the makers\' story whole, has where their greatest work lies', async () => {
     const { w, s } = await Ended.start('order');
