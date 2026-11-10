@@ -82,6 +82,13 @@ describe.skipIf(!process.env.KYRIE_TOUR)('the reference hour, through the page',
         await d.key('m'); await shot('map');
         continue;
       }
+      // A find led with is named on the scene with its own touch (GlanceStage.found): opened, its pane's first act is
+      // the next step's.
+      const found = page.locator('.openers .opens-look').first(), named = st.choices.find(c => c.id === lead.choice)?.label;
+      if (named && await found.count() && (await found.textContent())?.toLowerCase().startsWith(named.toLowerCase())) {
+        await found.click(); await d.settle(); await shot(`found-${named}`);
+        continue;
+      }
       try { await d.pick(c => c.id === lead.choice, lead.choice); } catch (e) { log.push(`  could not take it: ${String(e).slice(0, 120)}`); break; }
       await shot(lead.choice);
     }
