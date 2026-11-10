@@ -8,6 +8,7 @@ import { BoardField } from './board-field';
 import { Aims } from './aims';
 import { PackGrid } from './pack-grid';
 import { Followed } from './followed';
+import { AimNear } from './aim-near';
 
 // What takes the right-hand side's place when asked for: your notes (what is unfinished, what you know, and how sure
 // you can be of it), the story so far, what you carry, the company. The book's head goes back to what is here (a back
@@ -67,19 +68,19 @@ export class Sheet {
   }
   // The aim followed, large; the rest under it, smaller, each a line with its own touches, so that a company newly come
   // is not handed ten things at once as equals (the owner, 4 November), and none of them is behind a fold.
-  // Apart from what it has taken on, the old places it has only heard named (each work's "somewhere to go", {w}_sought):
-  // a cold player had about ten aims within minutes of talking to Tuck, most of them places said to be out there
-  // (Mission 20's second round).
+  // The rest under it by where they are, so that what is to hand reads apart from what is only told of further off: a
+  // cold player had about ten aims within minutes of talking to Tuck, as equals (Mission 20's second round). The aims'
+  // places hold what they lie in (see Undertakings.places), so a job in the town names the town.
   static Aims({ app }: { app: ReaderApp }) {
     const screen = app.state.frame!.screen, [first, ...rest] = Sheet.ordered(app, [...screen.deadlines, ...screen.objectives]);
-    const heard = new Set((screen.aims ?? []).filter(a => /_sought$/.test(a.id)).map(a => a.text));
-    const taken = rest.filter(o => !heard.has(o)), places = rest.filter(o => heard.has(o));
+    const town = AimNear.town(screen), here = rest.filter(o => town && AimNear.near(screen, o));
+    const far = rest.filter(o => !here.includes(o));
     return <>
       <ul className="aims"><Sheet.Aim app={app} aim={first!} /></ul>
-      {taken.length > 0 && <div className="aims-more"><h3>You could also take up</h3>
-        <ul className="aims rest">{taken.map(o => <Sheet.Aim key={o} app={app} aim={o} />)}</ul></div>}
-      {places.length > 0 && <div className="aims-more"><h3>Heard of, not yet looked into</h3>
-        <ul className="aims rest">{places.map(o => <Sheet.Aim key={o} app={app} aim={o} />)}</ul></div>}
+      {here.length > 0 && <div className="aims-more"><h3>{Typography.curl(`To hand in ${town!.name}`)}</h3>
+        <ul className="aims rest">{here.map(o => <Sheet.Aim key={o} app={app} aim={o} />)}</ul></div>}
+      {far.length > 0 && <div className="aims-more"><h3>{town ? 'Further off' : 'You could also take up'}</h3>
+        <ul className="aims rest">{far.map(o => <Sheet.Aim key={o} app={app} aim={o} />)}</ul></div>}
     </>;
   }
   // An aim, to follow or not, and where it names a place the company knows, that place on the map: going anywhere is the

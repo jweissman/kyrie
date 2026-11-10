@@ -13,6 +13,7 @@ import { Moments } from './moments';
 import { Told } from './told';
 import { Wares, type Ware } from '../wares';
 import { TalkFocus } from '../talk-focus';
+import { AimNear } from '../aim-near';
 
 // Speaking with someone. Their painting, large, with their name on it; beside it the conversation: what they were
 // doing when you came over, what they said to you and you to them, in order, and what you came to know, which scrolls
@@ -20,6 +21,11 @@ import { TalkFocus } from '../talk-focus';
 // (an instrumented session spent four of its ten scrolls reaching "Take your leave": the play-structure
 // investigation's PT-42). Nothing else on the stage: the place is where you left it.
 export class TalkStage {
+  // A new aim as said in talk: taken up where it is to hand, noted where it is further off (see AimNear).
+  static aimed(app: ReaderApp | undefined, text: string): string {
+    const screen = app?.state.frame?.screen;
+    return !screen || AimNear.near(screen, text) ? 'A new aim' : 'Noted, further off';
+  }
   // Whether the reply the page leads them with is one had in trade.
   static traded(services: Choice[], led?: string): boolean {
     return !!led && services.some(c => c.command === led || !!c.children?.some(k => k.command === led));
@@ -121,7 +127,7 @@ export class TalkStage {
             : levelled ? <Moments.Levelled key={i} levels={[levelled]} />
             : l.kind === 'learned' || l.kind === 'aim'
               ? <p key={i} ref={i === from ? newest : undefined} className={`line learned ${l.kind}`}>
-                <b>{l.label ?? (l.kind === 'aim' ? 'A new aim' : 'You know now')}</b>{Typography.curl(l.text)}
+                <b>{l.label ?? (l.kind === 'aim' ? TalkStage.aimed(app, l.text) : 'You know now')}</b>{Typography.curl(l.text)}
                 {app && l.kind === 'aim' && <Told.Follow app={app} aim={l.text} />}</p>
               : <p key={i} ref={i === from ? newest : undefined} className={`line ${l.kind}`}>{Typography.curl(l.text)}</p>;
         })}

@@ -5,6 +5,7 @@ import type { ReaderApp, Travel } from '../reader-app';
 import { Typography } from '../../../src/presentation/typography';
 import { Narration } from '../../../src/presentation/narration';
 import { Words } from '../words';
+import { AimNear } from '../aim-near';
 import { MenuModel } from '../menu-model';
 import { Moments } from './moments';
 import { Panorama } from './panorama';
@@ -208,10 +209,15 @@ export class Told {
   static aims(notes: string[]): string[] { return notes.filter(n => /^Aim: /.test(n)); }
   // Several aims taken up at once (a notice of three jobs) are one note, a line each, not a block each (the
   // product-design review's PD-11: three quest paragraphs in the town's telling).
+  // Those further off than the town the company is in are counted, not listed (see AimNear).
   static Aims({ app, aims }: { app?: ReaderApp; aims: string[] }) {
-    return <li className="learned aims-many"><span className="label">{`${aims.length} new aims`}</span>
-      <ul>{aims.map(n => { const aim = n.replace(Words.noted, ''); return <li key={n}>{Typography.curl(aim)}
-        {app && <Told.Follow app={app} aim={aim} />}</li>; })}</ul></li>;
+    const screen = app?.state.frame?.screen, plain = aims.map(n => n.replace(Words.noted, ''));
+    const near = plain.filter(a => !screen || AimNear.near(screen, a)), far = plain.length - near.length;
+    return <li className="learned aims-many"><span className="label">{near.length === 1 ? 'A new aim'
+      : near.length ? `${near.length} new aims` : 'Noted'}</span>
+      <ul>{near.map(aim => <li key={aim}>{Typography.curl(aim)}{app && <Told.Follow app={app} aim={aim} />}</li>)}
+        {far > 0 && <li className="far">{far === 1 ? 'One thing further off, in your notes.'
+          : `${far} things further off, in your notes.`}</li>}</ul></li>;
   }
   // A new aim not followed (the company's own errand is, or another the player chose), to follow instead: as an
   // RPG's journal offers to track a quest just taken up (see Undertakings).
