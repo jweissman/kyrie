@@ -139,7 +139,7 @@ From the honest-start probes (kahitude, a lone warrior, the kin and debt opening
   authored countries to the hex rule turned the walks of every authored adventure into refusals, so the rule holds
   over generated countries; an authored country's own map keeps its author's walks until each is reviewed (M20).
 * Inference remains for every objective without `toward` (about 200 in the corpus). The resolver marks them
-  `legacy`; an author lint for the ambiguous ones is not yet written.
+  `legacy`, and the campaign lint advises where one is ambiguous (CampaignLint.targets).
 * The campaign takes a crossing only as a leg it was told of by `Travel.go`. Any new driver must use
   `PlaySession.leg` or a travel request, or be refused. That is the intent, and a cost to spec authors.
 
