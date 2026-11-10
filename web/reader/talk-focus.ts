@@ -35,9 +35,12 @@ export class TalkFocus {
   // Beak the rats under the corn-store are dead": a job done, reported fifth, under Something else, in the second
   // fresh playtest of 7 November), and taking them on, when they are looking for work (Traubon's "Would you come
   // along?" had stood seventh, though the innkeeper had just pointed him out), and what is out in the country round,
-  // the way to the old places near a town for a company that wants something to go to (RegionRumours).
+  // the way to the old places near a town for a company that wants something to go to (RegionRumours). And settling
+  // up, and asking someone to come along: "Pay Tuck what you owe", the debt's end, and "Ask whether he would come
+  // along" had both stood under Something else (both cold players of Mission 20's first round).
   private static weighty(c: Choice): boolean {
-    return /^Tell /.test(c.label) || c.does === 'recruit' || / what is out in the country round$/.test(c.label);
+    return /^(Tell|Pay) /.test(c.label) || c.does === 'recruit' || / what is out in the country round$/.test(c.label)
+      || / would come along\??$/.test(c.label);
   }
   // What is told of the countries beyond this one (twenty and more at an inn), one thing to ask about, opened to them.
   private static beyond(said: Choice[]): Choice[] {

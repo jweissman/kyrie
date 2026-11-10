@@ -45,6 +45,11 @@ describe('what is said, as attention holds it', () => {
     expect(TalkFocus.of(beak, { asked: [] }).salient[0]!.id).toMatch(/^Tell Beak the rats/);
     const traubon = [...beak.slice(0, 4), said('Would you come along?', 'recruit(traubon)')];
     expect(TalkFocus.of(traubon, { asked: [] }).salient[0]!.id).toBe('Would you come along?');
+    // Mission 20's first cold round: the debt paid, a sellsword hired and the players' reckoning paid were all under
+    // Something else, each an authored topic with no kind of its own.
+    for (const weighty of ['Pay Tuck what you owe', 'Ask whether he would come along', "Pay the players' reckoning"]) {
+      expect(TalkFocus.of([...beak.slice(0, 4), said(weighty, 'topic_x')], { asked: [] }).salient[0]!.id).toBe(weighty);
+    }
   });
   it('makes room for an answer owed', () => {
     const f = TalkFocus.of([said('yes', 'yes', { answer: true }), ...replies], { asked: [] });
