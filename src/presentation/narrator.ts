@@ -248,7 +248,9 @@ export class Narrator {
       if (own) { lines.push(...own); }
       if (own && (!['person', 'creature'].includes(t.kind) || own.some(l => l.toLowerCase().includes(name)))) { continue; }
       if (t.state) {
-        const lie = t.many ? (t.state === 'dead' ? 'lie dead' : 'are down') : t.state === 'dead' ? 'lies dead' : 'is down';
+        // A device is broken, not dead ("A dark vessel lies dead" of a warding thing: register M19-238).
+        const dead = 'device' in t && t.device ? 'broken' : 'dead';
+        const lie = t.many ? (t.state === 'dead' ? `lie ${dead}` : 'are down') : t.state === 'dead' ? `lies ${dead}` : 'is down';
         lines.push(`${this.upper(this.short(t.name))} ${lie}.`); continue;
       }
       // Whoever and whatever is here is said to be (the goblins, the bats), unless it has its own telling.

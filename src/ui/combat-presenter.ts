@@ -63,6 +63,8 @@ export class CombatPresenter {
         const name = state.combatants.find(f => f.id === event.command.actor)?.name ?? event.command.actor;
         const ability = Content.abilities.find(a => a.id === event.command.ability)?.name ?? event.command.ability;
         if (event.source?.kind === 'trap') { return `${event.source.name ?? ability} triggers.`; }
+        // A blow is told by its hit or miss, not as "uses Melee Attack" before it (register M19-121).
+        if (['melee', 'ranged'].includes(event.command.ability) && !event.source) { return ''; }
         const carried = event.source?.kind === 'item' && ItemCatalog.used(event.command.ability);
         return `${name} uses ${carried ? ItemNames.called(event.source!.name ?? ability)
           : event.source?.kind === 'item' ? event.source.name ?? ability : ability}.`;

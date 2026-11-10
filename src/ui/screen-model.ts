@@ -315,7 +315,7 @@ export class ScreenModel {
       const entry = !playable && member && !dark ? EncyclopediaEntry.creature(member.raceId) : undefined;
       return { id: p.id, kind: playable || soul ? 'person' : animal ? 'animal' : 'creature', name, ...(note ? { note } : {}),
         ...portrait ? { portrait } : {}, ...emblem ? { emblem } : {}, ...entry ? { entry } : {},
-        ...(p.members?.length ?? 0) > 1 ? { many: true } : {},
+        ...(p.members?.length ?? 0) > 1 ? { many: true } : {}, ...Canon.isDevice(member?.raceId ?? '') && { device: true },
         ...(!dark && !p.state && p.activity ? { activity: p.activity } : {}), ...(look ? { look } : {}),
         ...(p.state ? { state: p.state === 'dead' ? 'dead' as const : 'down' as const } : {}), acts };
     }

@@ -30,6 +30,10 @@ export class RegionMarvels {
   // No trap in a work does more harm than a fall down a short stair would: three dice of six at the most. Deeper in
   // a deep site, worse ones are set (see within).
   static readonly traps = RegionMarvels.within(10.5);
+  // A trap by its name and its article: "a tripwire", "an arrow", and "falling rocks", not "a falling rocks".
+  static counted(name: string): string {
+    return /[^s]s$/.test(name) ? name : `${/^[aeiou]/i.test(name) ? 'an' : 'a'} ${name}`;
+  }
   // The traps that do no more harm than so much on an average roll.
   static within(cap: number): [string, Trap][] {
     return Object.entries((world as unknown as { traps: Record<string, Trap> }).traps)
@@ -106,7 +110,7 @@ export class RegionMarvels {
       ...how.ways.map(w => `    Change ${w.id} ${q(w.label)} from primed to ${w.to} needing ${w.needing} after learning ${id}_known.`),
       `    Hurts with ${site.id}_trap when primed then sprung.`, '  }',
       `  Event ${id}_goes beside ${way} when state(${id}, sprung) ${q(`${at.under ? t.text.replace(/^Vines erupt/, 'Roots burst out') : t.text}.`)}.`,
-      `  Event ${id}_drawn beside ${way} when state(${id}, drawn) ${q(`The ${t.mechanism} goes off at the pole's end: ${/^[aeiou]/i.test(t.name) ? 'an' : 'a'} ${t.name}, spent on nothing.`)}.`,
+      `  Event ${id}_drawn beside ${way} when state(${id}, drawn) ${q(`The ${t.mechanism} goes off at the pole's end: ${RegionMarvels.counted(t.name)}, spent on nothing.`)}.`,
       `  Observe ${id}_read beside ${way} of ${id} when tried(${id}, looking) and state(${id}, primed) ${q(how.seen)} teaches ${id}_known.`,
       ...this.knowing(id, way, how), ...this.beyond(id, way, how)];
   }

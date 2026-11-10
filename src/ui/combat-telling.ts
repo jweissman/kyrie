@@ -36,7 +36,9 @@ export class CombatTelling {
       ...bark ? [bark] : []];
     // Two conditions that come to the same thing ("cannot act") are said once.
     return { text: [...new Set(sentences.filter(Boolean).map(s => s.charAt(0).toUpperCase() + s.slice(1)))].join(' '),
-      detail: group.map(e => CombatPresenter.format(e, told.state)).filter(l => l && !l.startsWith('Initiative')).join(' '),
+      // Each sentence begun as one ("The fourth bat misses Ralf", not "the fourth bat misses Ralf").
+      detail: group.map(e => CombatPresenter.format(e, told.state)).filter(l => l && !l.startsWith('Initiative'))
+        .map(l => `${l.charAt(0).toUpperCase()}${l.slice(1)}`).join(' '),
       round, ...first?.type === 'action' ? { actor: first.command.actor } : {} };
   }
   // Bleeding is told once it has lasted, as it bleeds ("Bruni bleeds, for 1"), and not as the wound is dealt: a bite
@@ -166,7 +168,9 @@ export class CombatTelling {
     const phrase = CombatTelling.phrases[id];
     if (phrase) { return phrase.replace(/\{t\}'s (\w+)/, (_, w: string) => CombatTelling.whose(this.name(target), w)).replace('{t}', this.name(target)); }
     const name = ConditionSense.name(id).toLowerCase();
-    return /(ed|ing)\b/.test(name.split(' ')[0]!) ? `${this.name(target)} is ${name}.`
+    // A state said as one ("is insane", "is blind"), not "is under insane" (the playtest of 7 November).
+    return /(ed|ing|ane|ind|eaf|ick|ble|ous|ful|ent|ant|ive|al|ic|id|y)\b/.test(name.split(' ')[0]!)
+      ? `${this.name(target)} is ${name}.`
       : `${this.name(target)} is under ${name}.`;
   }
 }

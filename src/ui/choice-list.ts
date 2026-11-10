@@ -111,7 +111,8 @@ export class ChoiceList {
   static subject(t: TargetRow, fresh: string[] = []): Section {
     const tone: Tone = t.kind === 'person' ? 'person' : ['creature', 'animal'].includes(t.kind) ? 'creature' : 'thing';
     const glyph = t.state ? '✝' : tone === 'person' ? '☺' : tone === 'creature' ? '◆' : t.kind === 'feature' ? '▣' : '·';
-    const note = [t.activity ?? t.note, t.state === 'dead' ? 'dead' : t.state ? 'down' : ''].filter(Boolean).join(' · ');
+    const dead = t.device ? 'broken' : 'dead';
+    const note = [t.activity ?? t.note, t.state === 'dead' ? dead : t.state ? 'down' : ''].filter(Boolean).join(' · ');
     const about = [...t.says ?? [], t.look, t.activity ? `${t.name.split(', ')[0]}: ${t.activity}.` : '',
       t.reckoning?.text].filter(Boolean).join(' ');
     // A fight or a risk comes after the gentler ways with the same subject, so Enter on arrival is never a blow; an
