@@ -109,6 +109,15 @@ describe('the painting of a place', () => {
     expect(Scene.seen(Scene.room('raidersHold__cavern', 'the smoky cavern', under), [wild, cave])).toBe('scene-cave');
     expect(Scene.seen(Scene.room('sink__nest', 'the nest', under), [wild, cave])).not.toBe('library');
   });
+  it('is of a small town\'s own places, not a castle\'s or a chapel\'s', () => {
+    // The owner's paintings of 10 November: Brockminster's gate-yard had been a gothic castle's, the lanes a chapel.
+    const open = { open: true };
+    expect(Scene.seen(Scene.room('region__s2_gate', 'the gate-yard', open))).toBe('scene-village-gate-yard');
+    expect(['scene-town-lane', 'scene-town-lanes']).toContain(Scene.seen(Scene.room('region__s2_lanes', 'the lanes behind Millholm', open))!);
+    expect(Scene.seen(Scene.room('region__s2_houses', 'the houses of Millholm', open))).toBe('scene-town-houses');
+    expect(['scene-vault-sealed', 'scene-crypt', 'scene-ossuary'])
+      .toContain(Scene.seen(Scene.room('region__s2_u_vault', 'the sealed vault', under))!);
+  });
   it('keeps the painting an author chose for a place of theirs', () => {
     expect(Scenery.places.infinite_library_threshold).toBe('library');
     expect(Scene.seen(Scene.room('infinite_library_threshold', 'the threshold of the Library'), [])).toBe('library');

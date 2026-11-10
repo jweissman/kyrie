@@ -6899,6 +6899,26 @@
    "form": "interior",
    "shows": "a vaulted grain cellar: sacks and bins of grain, baskets, a lantern, a padlocked door",
    "era": "late"
+  },
+  "scene-town-houses": {
+   "form": "exterior",
+   "shows": "a row of stone cottages along a cobbled street at evening, thatch and smoking chimneys, a town gate beyond",
+   "era": "late"
+  },
+  "scene-town-lanes": {
+   "form": "exterior",
+   "shows": "a narrow lane between old houses: washing hung across, a well with a windlass, baskets and jars, a tower beyond",
+   "era": "late"
+  },
+  "scene-vault-sealed": {
+   "form": "interior",
+   "shows": "a small burial vault seen from above under a lifted flag: steps down, a carved sarcophagus, a ring and pots in niches, one candle",
+   "era": "late"
+  },
+  "scene-village-gate-yard": {
+   "form": "exterior",
+   "shows": "a small town's gate-yard at dusk: a timber gate in a stone wall, a guard's shed with spears and a brazier, carts and barrels",
+   "era": "late"
   }
  }
 }

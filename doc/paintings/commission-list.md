@@ -8,7 +8,7 @@ whole, was named every time; a slightly wrong building rarely was.
 
 Covered the same day by the owner's paintings: a mine's working face, ore pass, winze, sump, pump-room, furnace hall
 and a tunnel by one candle; a barrow's forecourt, passage, corbelled chamber, recess and stair; an undercroft unlit;
-a grain cellar.
+a grain cellar; a sealed vault under a lifted flag; a small town's gate-yard, its lanes and its houses.
 
 Most wanted first:
 
@@ -18,11 +18,9 @@ Most wanted first:
    muck pit in a cave floor with someone in it (now a barred prison cell).
 2. **A spider brood-chamber burnt**: blackened sacs, ash, webs burnt to threads (the brood painting shows the sacs
    whole after the player has burned them; the scene would also need to switch on the brood's state).
-3. **A small sealed burial vault** under a lifted flag: niches and one sarcophagus (now an ossuary).
-4. **The first town's places**: a small town's gate-yard with a timber gate and a guard's shed (Brockminster's is a
-   gothic castle gate); narrow lanes with washing and a well (now a chapel); a row of cottages from the street; a
-   militia drill-yard with a practice post and a spear rack (now a herd); boat-sheds with hulls on trestles (now a
-   mill); a river landing with a jetty and barrels (now a trapper).
+3. **The first town's other places**: a militia drill-yard with a practice post and a spear rack (now a herd);
+   boat-sheds with hulls on trestles (now a mill); a river landing with a jetty and barrels (now a trapper).
+4. **A toll-house** standing, of dressed stone by the water (Seolforfyrd's is shown as a ruined arch).
 5. **Fallbacks**, quiet and nearly empty, for rooms no kind names (there is no indoor one at all, and three old
    masters' vaults for under the ground): a bare plastered room by day; the same by one candle; rough rock by one
    flame; a dressed-stone corridor by one flame.
