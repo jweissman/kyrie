@@ -117,7 +117,7 @@ export class Told {
     // Nor what the opening's pages have just told (the road into the town, coming into sight), now that play begins on
     // the place it left the company in (Mission 20's amendment 1).
     const opened = Told.opened(app);
-    const situation = leaf.situation.filter(p => !beside.has(Typography.curl(p)) && !opened(p))
+    const situation = Told.ranked(app, leaf.situation.filter(p => !beside.has(Typography.curl(p)) && !opened(p)))
       .slice(0, Told.situationAtRest);
     return <div className="setting" data-region="setting">
       {situation.map((p, i) => <p key={i} className={i ? undefined : 'lead'}>{Typography.curl(p)}</p>)}
@@ -126,7 +126,16 @@ export class Told {
   }
   // How many of what is about the place the scene tells (the owner, 6 November: the scene still too busy); the rest is
   // what Look… shows.
-  static readonly presenceAtRest = 2;
+  static readonly presenceAtRest = 1;
+  // The place's own words first, then what bears on what the company holds an aim about (a name its aims say: the
+  // bell gone to Seolforfyrd, for one told of Seolforfyrd), then the rest as told.
+  static ranked(app: ReaderApp, lines: string[]): string[] {
+    const said = (app.state.frame!.screen.aims ?? []).map(a => a.text).join(' ');
+    const names = (l: string) => [...l.matchAll(/(?<=[a-z,;] )[A-Z][a-zà-ÿ]{4,}/g)].map(m => m[0]);
+    const bears = (l: string) => names(l).some(n => said.includes(n));
+    const [first, ...rest] = lines;
+    return first === undefined ? [] : [first, ...rest.filter(bears), ...rest.filter(l => !bears(l))];
+  }
   // Whether a line is one the opening's pages told, by its first sentence.
   static opened(app: ReaderApp): (line: string) => boolean {
     const beats = (app.state.opened ?? []).map(b => Typography.curl(b));
@@ -135,14 +144,14 @@ export class Told {
       return beats.some(b => b.includes(first));
     };
   }
-  // And of what is going on there, the place's own words and the first three things after them: the landing at
+  // And of what is going on there, the place's own words and the two after them that matter most: the landing at
   // Thornhaven had told seven at one weight, a bear, a rumour, a stolen bell, a gangway, a hull being tarred (Mission
   // 20's design A: one trouble in front, others mentioned, the rest found by looking).
-  static readonly situationAtRest = 4;
+  static readonly situationAtRest = 3;
   // What the place at rest leaves out of its telling, for Look… to tell (see AtHand.of).
   static surplus(app: ReaderApp): string[] {
     const leaf = app.state.frame!.leaf;
-    return [...leaf.situation.slice(Told.situationAtRest),
+    return [...Told.ranked(app, leaf.situation).slice(Told.situationAtRest),
       ...leaf.presence.slice(Told.presenceAtRest).filter(l => !Told.roll(l))].map(l => Typography.curl(l));
   }
   static Presence({ lines, subjects, quiet }: { app: ReaderApp; lines: string[]; subjects: SceneSubject[];
