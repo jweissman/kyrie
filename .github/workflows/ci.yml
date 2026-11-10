@@ -25,6 +25,22 @@ jobs:
       - run: bun install --frozen-lockfile
       - run: bun run lint
       - run: bun run typecheck
+  # The player's contracts, first and on their own, so that a broken one says so in minutes rather than at the end
+  # of the suite (the reviews of 9 November): an aim's target, the map's journeys and the campaign's refusal of any
+  # other way into the next hex, the choices on the page; and the opening played as a player who knows only the page.
+  # The suite below runs them again with everything else.
+  intent:
+    name: player contracts
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with: { path: kyrie }
+      - uses: oven-sh/setup-bun@v2
+        with: { bun-version: 1.4.3 }
+      - run: bun install --frozen-lockfile
+      - run: bun run test:intent
+      - run: bun run test:honest
   # The suite in five shards, balanced by the time each spec file took when the timings were last kept
   # (test/timings.json): in three, a shard had come to 27 of its 30 minutes, and past them once the Book of Faces'
   # hour of journeys came in (3 November).

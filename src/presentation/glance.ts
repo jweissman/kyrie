@@ -1,5 +1,5 @@
 import type { Campaign } from '../campaign/campaign';
-import type { Entity, Module, Objective, Predicate } from '../lang/module';
+import type { Call, Entity, Module, Objective, Predicate } from '../lang/module';
 import type { WayInfo } from '../ui/passage-model';
 import { Spatial } from '../spatial';
 import { ModuleWriter } from '../lang/module-writer';
@@ -232,25 +232,30 @@ export class Glance {
   // What, done, changes what the aim followed waits on: its effects assert or retract, or change a measure, of a
   // relation its condition reads (telling the drover's wife what was found, told(wife); giving the brothers' letter,
   // expects(priest, party)). Where the company goes is not it: every way asserts at.
+  // Matched call by call, not by a relation's name: knows(party, told) is made so by being told what is out in the
+  // country round, not by everything that teaches the company anything (a bed at the inn, its talk overheard, had
+  // been drawn as the debt's); a rule's own unknowns (?i) stand for anything.
   private static advances(campaign: Campaign, rows: ReturnType<typeof PlayerView.choices>): Set<string> {
     const def = Undertakings.followed(campaign);
     if (!def) { return new Set(); }
-    const names = new Set<string>();
-    this.reads(def.when, names);
+    const wanted: Call[] = [];
+    this.reads(def.when, wanted);
     // And, a rule away, what makes it so: the herbs given the fever's mother are kept, and a rule doses the child.
-    const made = new Set<string>();
+    const made: Call[] = [];
     for (const rule of campaign.module.rules ?? []) {
-      if (rule.effects.some(c => !!c.call && names.has(c.call.name))) { this.reads(rule.when, made); }
+      if (rule.effects.some(c => !!c.call && wanted.some(w => this.meets(c.call!, w)))) { this.reads(rule.when, made); }
     }
-    for (const n of made) { names.add(n); }
-    // Nor what is in the purse: every bed and every torch changes it (the debt's aim reads the company's gold, and a
-    // bed at the inn had been drawn as the aim's).
-    names.delete('at'); names.delete('quantity');
+    // Nor where the company is, nor what is in the purse: every way and every torch changes them.
+    const calls = [...wanted, ...made].filter(c => !['at', 'quantity'].includes(c.name));
     return new Set(rows.filter(r => !r.action.movement && (r.action.success ?? [])
-      .some(c => !!c.call && names.has(c.call.name))).map(r => r.choice.id));
+      .some(c => !!c.call && calls.some(w => this.meets(c.call!, w)))).map(r => r.choice.id));
   }
-  private static reads(p: Predicate, into: Set<string>) {
-    ModuleWriter.conditionCalls(p, call => { into.add(call.name); return call; });
+  private static meets(a: Call, b: Call): boolean {
+    return a.name === b.name && a.args.length === b.args.length
+      && a.args.every((x, i) => x === b.args[i] || x.startsWith('?') || b.args[i]!.startsWith('?'));
+  }
+  private static reads(p: Predicate, into: Call[]) {
+    ModuleWriter.conditionCalls(p, call => { into.push(call); return call; });
   }
   private static addressed(campaign: Campaign): Set<string> {
     const def = Undertakings.followed(campaign);

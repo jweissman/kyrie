@@ -128,9 +128,9 @@ export class Affordances {
     // November: the innkeeper led fifteen times over, each time for another of the lands beyond). Family on the
     // company's own errand as kin, while there is anything new to say to them.
     const moving = leaves.filter(c => r.advances?.has(c.command!) && !r.done.has(c.command!));
+    // Not a question for being asked where the aim is: every question in the creditor's shop binds the shop.
     const serving = [...moving, ...fresh.filter(c => !moving.includes(c) && !r.done.has(c.command!)
-      && (AimAsks.asks(c.label, r.aim ? [r.aim] : []) || (r.args.get(c.command!) ?? []).some(a => r.named.has(a)
-        && a !== s.id)))];
+      && AimAsks.asks(c.label, r.aim ? [r.aim] : []))];
     const owed = s.stake && (r.named.has(s.id) ? !talked || serving.length > 0
       : !talked || fresh.some(c => !r.done.has(c.command!)));
     // Led for that aim, gilded as the aim's (the merchant the rats job sends the company to had been led as kin, and
