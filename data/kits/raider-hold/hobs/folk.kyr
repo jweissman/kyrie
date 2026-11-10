@@ -76,7 +76,7 @@ Module hob_folk "Hobs" {
   Objective bell_within when knows(party, bell_taken) and been(party, outside) and not regained(handbell) toward handbell
     "The stolen bell is somewhere in the hobs' hold at {outside}, where bells hang on the walls with their clappers torn out.".
   // Got back, it belongs over the well it was taken from; hung there, what people said of it is old news.
-  Objective bell_home when regained(handbell) and not hung(handbell)
+  Objective bell_home when regained(handbell) and not hung(handbell) toward chapel
     "The bell the hobs took belongs back in its frame over the well at {parish}.".
   Action hang_bell(actor: group, site: place) "Hang the bell back in its frame" {
     Description "Lift it up into the frame over the well, where it hung before the hobs came for it.".

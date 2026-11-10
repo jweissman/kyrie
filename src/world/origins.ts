@@ -181,7 +181,10 @@ export class Origins {
   // nearest the town, whose name and way the company then knows, and so an aim. A country with no lesser work leaves
   // the debt where it ends.
   private static after(region: Region, s: Settlement): { said: string; imports: Record<string, [string, string]> } {
-    const works = region.sites.filter(w => w.work && !w.work.great && !w.work.deep);
+    // Not the one the inn tells of first, which the debt has sent the company to already: paid, Tuck had said of
+    // Seolforfyrd, just come back from, that nobody had been inside it in living memory (Mission 20's second round).
+    const first = RegionRumours.nearest(region, s, RegionRumours.told(region))[0]?.site;
+    const works = region.sites.filter(w => w.work && !w.work.great && !w.work.deep && w !== first);
     const work = this.nearest(region, s, works);
     const seat = work && RegionGeography.seats(region).find(x => x.site === work);
     if (!work || !seat) { return { said: '', imports: {} }; }
