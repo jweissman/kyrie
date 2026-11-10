@@ -138,17 +138,11 @@ export class Glance {
     const touches = new Map(rows.map(r => [r.choice.id,
       new Set((r.action.success ?? []).flatMap(c => c.call?.args ?? []))]));
     const named = this.routed(campaign, screen, this.inside(campaign, screen, this.whereabouts(campaign, screen,
-      this.named(campaign), { addresses: this.addressed(campaign) })));
-    // Another aim held, and where what it names stands where the company knows the place (the notice on the green's
-    // well-post: register M19-234).
-    const held = this.inside(campaign, screen, this.others(campaign, screen, named));
-    // Not idle where a thing an aim names still stands (the notice on the well-post, passed by unread on the way home).
-    const byId = EntityIndex.of(campaign.module.entities).byId;
-    const standing = new Set([...named, ...held].filter(id => byId.get(id)?.type === 'thing')
-      .map(id => campaign.world.one('at', id)));
+      this.named(campaign), this.addressed(campaign))));
+    const held = this.inside(campaign, screen,
+      new Set([...screen.aimed ?? []].filter(id => !named.has(id) && id !== campaign.playerActor)));
     const idle = new Set([...screen.around ?? [], ...screen.destinations ?? []].map(d => d.id)
-      .concat(screen.exits.map(e => e.destination.id), [...named], [...held])
-      .filter(id => recall.idle(id) && !standing.has(id)));
+      .concat(screen.exits.map(e => e.destination.id), [...named], [...held]).filter(id => recall.idle(id)));
     const back = recall.came && screen.exits.find(e => e.destination.id === recall.came)?.destination.id;
     const commands = this.commands(screen);
     const authored = new Set(rows.filter(r => this.changes.includes(r.action.schema ?? '')).map(r => r.choice.id));
@@ -204,22 +198,10 @@ export class Glance {
   // Not where the aim names a place of its own: "ask at the inn" of a debt is the inn, and the creditor named in it had
   // led back to the shop the company had just left with nothing to pay (the owner, 7 November).
   // Where the aim gives their address ("Lothar at Brockfield"), they are sought there, wherever in it they stand.
-  // What the other aims held name, and where a thing one names stands, where the company knows the place (the notice
-  // on the green's well-post: register M19-234). Not where the people the company has a stake in happen to be, who
-  // come and go: following them had sent the page from the chapel to the churchyard and back.
-  private static others(campaign: Campaign, screen: Screen, named: Set<string>): Set<string> {
+  private static whereabouts(campaign: Campaign, screen: Screen, ids: Set<string>, addresses: Set<string>):
+    Set<string> {
     const byId = EntityIndex.of(campaign.module.entities).byId;
-    const ids = new Set([...screen.aimed ?? []].filter(id => !named.has(id) && id !== campaign.playerActor));
-    const things = new Set([...ids].filter(id => byId.get(id)?.type === 'thing'));
-    const found = this.whereabouts(campaign, screen, things, { addresses: new Set(), many: true });
-    return new Set([...ids, ...found]);
-  }
-  // Of many aims at once (those held), each by itself: one that names a room of its own does not keep another's thing
-  // from being found where it stands.
-  private static whereabouts(campaign: Campaign, screen: Screen, ids: Set<string>,
-    how: { addresses: Set<string>; many?: boolean }): Set<string> {
-    const byId = EntityIndex.of(campaign.module.entities).byId, addresses = how.addresses;
-    if (!how.many && [...ids].some(id => byId.get(id)?.space?.kind === 'room')) { return ids; }
+    if ([...ids].some(id => byId.get(id)?.space?.kind === 'room')) { return ids; }
     const w = campaign.world, known = new Set([...screen.map.map(p => p.id),
       ...screen.exits.map(e => e.destination.id)]);
     const at = [...ids].flatMap(id => {

@@ -101,9 +101,7 @@ export class Promotion {
     return whys;
   }
   private static best(whys: Why[]): Why { return [...whys].sort((a, b) => this.rank(a) - this.rank(b))[0]!; }
-  // Another aim held is an aim, drawn as one, but led with after what the company needs: a bed at night before the
-  // notice on the green, now that a notice seen is an aim held (register M19-234).
-  private static rank(w: Why): number { const [tier, n] = this.tiers[w]; return w === 'held' ? 25 : tier * 10 + n; }
+  private static rank(w: Why): number { const [tier, n] = this.tiers[w]; return tier * 10 + n; }
   private static way(c: Candidate): boolean { return ['way', 'travel', 'step'].includes(c.kind); }
   // What it is led with for, and what of it is pressing, aimed, new or only known.
   private static promoted(c: Candidate, why: Why, whys: Why[]): Promoted {

@@ -46,8 +46,8 @@ to read, not a gate.
 1. **Kin.** The brother, the road, the ruts, home, the mother told: the aim retired.
 2. **Debt.** The promise to the creditor, the inn, the innkeeper's question, the nearest place told of, set out for
    and arrived at, kept over a save and a restore.
-3. **Kin continued.** Its errand done, the son is led back to the notice on the green, then down under the town, to
-   a fight won and something found.
+3. **Kin continued.** Its errand done, the son is led about the town (unvisited places, people with something to say)
+   and down under it, to a fight won and something found. He does not find the notice of jobs: M19-234 is open.
 
 **Does not prove:**
 - That the leads are understood, or pleasant to follow.

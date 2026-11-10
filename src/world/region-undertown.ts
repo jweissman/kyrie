@@ -32,20 +32,13 @@ export class RegionUndertown {
       ...open ? [`  Entity ${notice}: fact ${q(said)}.`,
         // The notice is a thing on the green, found among what is there to look at, not a line of the green's own
         // description (the owner, 7 November: the place had read as a list of objects).
-        // Read as an act of the notice's own, so that whatever leads to the notice leads to reading it (an aim held for
-        // it had been beside a place's act no aim knew of: register M19-234).
-        `  Thing ${notice}_post "the notice on the well-post" at ${t}_green {`,
-        `    State posted ${q('Paper nailed to the post by the well, written over in several hands.')}.`,
-        `    State read ${q('The notice on the well-post, read.')}.`,
-        `    Change read "Read the notice on the well-post" from posted to read.`, '  }',
-        `  Rule ${notice}_learned when state(${notice}_post, read) and not knows(party, ${notice}) says ${q(said)}`
-          + ` teaches ${notice} { }`,
-        // Seen and not read, it is something to come back to: an aim held, which the page leads to when nothing else is
-        // followed (a son with his errand done had been led about the town greeting people, and never to the notice of
-        // its jobs: register M19-234). Never followed for the player (see Undertakings.after).
-        `  Objective ${notice}_seen when been(party, ${t}_green) and not knows(party, ${notice}) and (${open})`
-          + ` toward ${notice}_post ${q(`A notice is nailed to the post by the well on {${t}_green}: work, by the look of it.`)}.`,
-        ] : []];
+        `  Thing ${notice}_post "the notice on the well-post" at ${t}_green { }`,
+        `  Observe ${notice}_up near ${notice}_post of ${notice}_post when (${open}) and not knows(party, ${notice})`
+          + ` ${q('Paper nailed to the post by the well, written over in several hands.')}.`,
+        `  Action ${notice}_read(actor: group, site: place) "Read the notice on the well-post" {`,
+        `    Requires able(actor) and at(actor, site) and at(actor, ${t}_green) and not knows(actor, ${notice})`
+          + ` and (${open}).`,
+        '    Time 1.', `    On success { Assert knows(actor, ${notice}). }`, `    Result ${q(said)}.`, '  }'] : []];
   }
   // Under the vault, behind its keeper's chair, a stair down into what the town was built over: the barrow of the
   // country's first dead, three levels more (the passage-grave, the halls of the dead, the king's grave), written by

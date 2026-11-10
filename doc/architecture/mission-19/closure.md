@@ -29,11 +29,12 @@ message of the handoff.
   - **A lethal encounter with no warning (M19-233, partial).** Deep halls are no longer told of, but at the hobs'
     toll-house the page leads with taking their plunder, which brings their raiders down on a lone company.
   - **Light runs out within the hour (M19-170).**
-  - **Corrected, with evidence:**
-    - **Jobs without a selected aim (M19-234) are fixed.** A notice seen is an aim held, and honest-start shows a son,
-      his errand done, led back to it and on into the undertown.
-    - **Empty conversational leads were not reproduced as the page's (M19-235).** The probe had chosen greetings; the
-      people led to have topics. Talk with nothing but leave is withdrawn (M19-227).
+  - **Jobs are not found without a selected aim (M19-234).** A fix (a notice seen becoming an aim held) was reverted
+    at closure: in campaigns with no origin it displaced the aim the company had taken up, and it broke a kept trace
+    (CI run 42825614645). With its errand done, honest-start's son still finds the undertown, but by exploring, not by
+    the notice.
+  - **Empty conversational leads (M19-235), corrected with evidence:** not reproduced as the page's. The probe had
+    chosen greetings; the people led to have topics. Talk with nothing but leave is withdrawn (M19-227).
 - **Large saves.** A save is 22 MB after about 25 commands (M19-236).
 - **CI is still long.** Full CI passes, in about 40 minutes. The fast contract tests (about 2.5 minutes on CI) are a
   real improvement in feedback, not a replacement for the corpus, which still runs on every push.
@@ -41,7 +42,7 @@ message of the handoff.
 ## 2. The register, in four classes
 
 [register.md](register.md) holds 297 rows:
-- **The mission's own 252 rows (M19-01..238, PD-01..14):** 151 fixed, 25 partial, 18 open, 49 deferred to M20, 1 open
+- **The mission's own 252 rows (M19-01..238, PD-01..14):** 150 fixed, 25 partial, 19 open, 49 deferred to M20, 1 open
   risk, 5 not reproduced, 1 not borne out, 2 superseded.
 - **The closing audit's 45 rows (M19-239..283):** findings and forward recommendations, not M19 completion
   requirements (1 fixed, 5 partial, 39 open).
@@ -54,14 +55,13 @@ Changes with specific supporting tests. "Verified" means a spec or CI artifact, 
 |---|---|---|
 | M19-224 | Cross-hex movement refused by the campaign outside a map journey, in generated countries | `hex-ways`, `choice-contract`; CI player contracts |
 | M19-225 (contract part) | Objective target: `toward … by …`, one resolver, legacy marked, lint advice | `objective-target`, `go-sheet-aims`, `stakes`; honest-start |
-| M19-234 | A notice seen is an aim held, led back to after needs | `honest-start` (journey 3), `glance-kite` |
 | M19-230 | Pack in three, starting things' provenance | `pack-stacked`, pack specs |
 | M19-232 | Chandlery painting and kind | `scenery-kinds`, paintings specs |
 | M19-177, 183, 185, 186, 187 | Author harness: befell advice, a companion's calling, `at`, `fight`, `seen` | `journey-fight`, `hired-calling`; forms.md |
 | M19-238 | A device broken, not dead | quick suite |
 | — (CI) | Six shards and complete timings: the first full-suite verdict on record | CI runs 42767926775, 42772673502 |
 
-Plus the 151 mission rows marked Fixed before closure, each with its commit and how it was checked.
+Plus the mission rows marked Fixed before closure, each with its commit and how it was checked.
 
 ### 2.2 Implemented but not player-accepted
 
@@ -81,6 +81,7 @@ What materially affects the first hour:
 | Area | Rows |
 |---|---|
 | Danger | M19-233 (plunder lead), M19-87 and M19-117 (balance for a lone company), M19-252 (a bare Take in a warned room) |
+| Finding work | M19-234 (jobs without an aim; a fix reverted at closure) |
 | Light | M19-170 |
 | Conversation | M19-227 (exchange), M19-141 (calling-aware talk, deferred) |
 | Narrative presentation | M19-228 (Notes and Story), M19-229 (perception), M19-121 (fight words, partial), M19-116 (results below the fold), PD-08, PD-13 |
@@ -125,7 +126,6 @@ From the three reviews: not immediate defects.
 
 **The opening.**
 - The inn and the debt tell of no deep halls.
-- A notice seen is an aim held, read as the post's own act.
 - The debt's aim goes from the inn to the nearest place told of there.
 
 **Presentation.**

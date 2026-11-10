@@ -10,7 +10,7 @@ describe('whom an open job names', () => {
   it('leads from the green toward the merchant with the corn-store\'s key, and puts him first where he is', async () => {
     const g = await Glanced.country('kite'), c = g.campaign;
     await g.to('region__s2_green');
-    await g.choose(/^change_thing\(region__s2_u_notice_post_read\)/);
+    await g.choose(/^region__s2_u_notice_read\(/);
     Undertakings.follow(c, 'region__s2_u_rats_job_sought');
     const glance = await g.choose(/^wait$/);
     const shop = c.world.one('at', 'region__s2_merchant')!;

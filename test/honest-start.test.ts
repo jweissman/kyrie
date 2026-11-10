@@ -43,7 +43,5 @@ describe('the opening, as the page leads it', () => {
       && x.outcome === 'fighters'));
     expect(await p.until(() => won() && carried().some(id => !before.has(id)), 50)).toBe(true);
     expect(p.s.campaign.world.one('at', 'party')).toMatch(/_u_|_ud/);
-    // With no aim of its own, led back to the notice of the town's jobs and to whoever gives one (M19-234).
-    expect(p.log.join('\n')).toMatch(/the notice on the well-post/);
   }, 300000);
 });

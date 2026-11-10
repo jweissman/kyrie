@@ -26,8 +26,9 @@ acceptance (PD-14) on that build.
    - **Light.** It runs out within the hour (M19-170), and a trap was led to in the dark.
    - **Conversation's dead ends.** Talk with nothing but leave is withdrawn (M19-227, partial), but the people of the
      first hour still offer topics, not an exchange.
-   - **Jobs found without an aim** were fixed in M19 (M19-234: a notice seen is an aim held and led back to). Confirm
-     it in a person's play.
+   - **Jobs found without an aim (M19-234).** With nothing followed, the page never points to the notice of the town's
+     jobs. A fix (the notice as an aim held) was reverted at M19's closure: in campaigns with no origin it displaced the
+     aim taken up. The cure must not let a heard-of aim become the followed one.
 2. **Complete one ordinary public-action journey through an actual adventure**, from Begin to the debt paid or a job's
    pay, its consequences seen, and a save and reload, by the page's leads, rendered. Fix on the way what that journey
    meets:
