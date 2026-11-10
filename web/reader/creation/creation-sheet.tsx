@@ -11,7 +11,9 @@ export interface SheetHead { kind?: string; glyph?: string; face?: string; summa
 // what kind of thing it is, its name and its sentence), else its title centred in the hand of creation's questions;
 // its words beneath, scrolling downward; and Back to the cards at the foot (the first sheet had been a boxed dialog
 // with a header bar, heavy furniture for a line). Close in the corner, Escape (see ReaderKeys) or the dark beside it
-// puts it away too; while it is open the keys are its own. It is drawn over the whole page, outside the stage.
+// puts it away too; while it is open the keys are its own. It is drawn over the whole page, outside the stage. A
+// portal's clicks bubble to whatever opened it in React's tree: one on Close or Back to choosing had gone on to the card
+// or the step under it, and a cold player was carried a page or two on (Mission 20's second round, B 03–08).
 export class CreationSheet {
   static View({ title, onClose, children, head }: { title: string; onClose: () => void; children: ReactNode;
     head?: SheetHead }) {
@@ -19,7 +21,7 @@ export class CreationSheet {
     useEffect(() => { close.current?.focus({ preventScroll: true }); }, []);
     return createPortal(
       <div className="creation-sheet" role="dialog" aria-modal="true" aria-label={title}
-        onClick={(e: MouseEvent) => { if (e.target === e.currentTarget) { onClose(); } }}>
+        onClick={(e: MouseEvent) => { e.stopPropagation(); if (e.target === e.currentTarget) { onClose(); } }}>
         <button type="button" ref={close} className="quiet-word sheet-close" data-nav data-action="close"
           onClick={onClose}>Close</button>
         <div className={`sheet-panel${head ? ' headed' : ''}`}>
