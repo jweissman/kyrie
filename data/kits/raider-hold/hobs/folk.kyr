@@ -23,7 +23,10 @@ Module hob_folk "Hobs" {
     Role "two hobs keeping the way in". Ancestry goblin. Calling thief. Level 1. Numbers 2.
     Called "Snig", "Tatterlip".
     Guards gate.
-    State watching blocking "Two hobs squat just inside the way in, dicing with knucklebones and watching who comes.".
+    // The way in by its name (the brambles across a cave's mouth, a ring-fort's stake gate): at Seolforfyrd, whose
+    // toll-house stands beside the hobs' cave, a player called in went into the toll-house and found nobody (Mission
+    // 20's second cold round).
+    State watching blocking "Two hobs squat just inside {gate}, dicing with knucklebones and watching who comes.".
     State roving "The hobs who kept the gate have gone out raiding themselves; the way in is unwatched.".
   }
   Person raiders "the raiding party" at hall {
