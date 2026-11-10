@@ -123,11 +123,15 @@ export class TalkStage {
         {lines.map((l, i) => {
           // Something seen through, or a level gained, is set apart here as on the place's page.
           const ended = Moments.ending.exec(l.text), levelled = Moments.levelled.exec(l.text);
+          // Things learned together are one "You know now", a line each: four of them, each under its own label, had
+          // filled the room for talk, and only the first label was in view (Mission 20's fourth round, E 34).
+          const more = l.kind === 'learned' && !l.label && lines[i - 1]?.kind === 'learned' && !lines[i - 1]?.label;
           return ended ? <Moments.SeenThrough key={i} ended={ended} ready={ready} />
             : levelled ? <Moments.Levelled key={i} levels={[levelled]} />
             : l.kind === 'learned' || l.kind === 'aim'
-              ? <p key={i} ref={i === from ? newest : undefined} className={`line learned ${l.kind}`}>
-                <b>{l.label ?? (l.kind === 'aim' ? TalkStage.aimed(app, l.text) : 'You know now')}</b>{Typography.curl(l.text)}
+              ? <p key={i} ref={i === from ? newest : undefined} className={`line learned ${l.kind}${more ? ' more' : ''}`}>
+                {!more && <b>{l.label ?? (l.kind === 'aim' ? TalkStage.aimed(app, l.text) : 'You know now')}</b>}
+                {Typography.curl(l.text)}
                 {app && l.kind === 'aim' && <Told.Follow app={app} aim={l.text} />}</p>
               : <p key={i} ref={i === from ? newest : undefined} className={`line ${l.kind}`}>{Typography.curl(l.text)}</p>;
         })}

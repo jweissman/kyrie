@@ -40,6 +40,8 @@
   background: linear-gradient(90deg, rgba(95, 211, 182, .08), transparent 60%); }
 .lines .line.learned b { display: block; font: 500 10.5px var(--do); letter-spacing: .2em; text-transform: uppercase;
   color: var(--verdigris); margin-bottom: 2px; }
+/* The next of things learned together goes on in the same block, under the one label. */
+.lines .line.learned.more { margin-top: -.8em; padding-top: 2px; }
 .lines .line.learned.aim { border-left-color: var(--gold); background: linear-gradient(90deg, var(--gold-glow), transparent 60%); }
 .lines .line.learned.aim b { color: var(--gold); }
 /* What can be chosen gives way and scrolls within itself, fading at its foot when there is more; the leave stays. */

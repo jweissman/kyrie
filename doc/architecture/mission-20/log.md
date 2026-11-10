@@ -107,7 +107,7 @@ Sources: the builder's probes (P), cold round 1 player A / B (screenshot numbers
 | E58 | P2 | The aims the game hands out are all kill or loot; peaceful errands (Gosse's offer, the circus larder) are not kept in Notes; the followed aim switches to a dungeon on its own | R4-E §3, §6; R4-F 124 | open |
 | E59 | P2 | A trade promises coin it does not give (monster hunter: "100 coin to start with", began with 22) | R4-F 20 | **fixed** (where an origin begins the game, its purse is the coin; a trade no longer promises its own) |
 | E60 | P2 | The crypt's way to the churchyard greyed in Go… with no reason; the way out only under Look… | R4-F 115–118 | **fixed** (a way shut is shown in Go… with what opens it: the stone door's lock to set a shoulder to) |
-| E61 | P2 | Clipped boxes in the picture: the danger box cuts off the sergeant's words; "You know now" an empty label | R4-E 34, 61 | open |
+| E61 | P2 | Clipped boxes in the picture: the danger box cuts off the sergeant's words; "You know now" an empty label | R4-E 34, 61 | **fixed** (a danger is told before the place's telling; things learned together are one "You know now", a line each) |
 | E62 | P3 | Small: Escape does not close talk; "Nowhere to sleep here" in an inn whose bed is under Trade; the inn's back garden one-way in one town; the circus gone from the map; fight log "(roll 10)" and "Tatterlip"; paintings of the charnel passage, ossuary and shrine against their text | R4-E, R4-F | open |
 | E8 | — | Headless scripts could not take a map journey | — | **fixed** bf62b137 (`map:<place>`) |
 | E21 | — | Cold agents under automation skip the prologue; next rounds use `&opening` | P | noted (harness) |

@@ -130,8 +130,10 @@ export class GlanceStage {
       {struck && told && <Told.Happened exchange={told} ready={Moments.ready(screen)} app={app} />}
       {g.came && <GlanceStage.Came app={app} came={g.came} />}
       {screen.dark && <p className="dark-note">It is dark here. You have no light to see by.</p>}
+      {/* A danger before the place's telling: under it, its words had been below the fold (round 4, E 61). */}
+      {g.life?.danger && <GlanceStage.Life app={app} glance={g} />}
       <Told.Setting app={app} />
-      <GlanceStage.Life app={app} glance={g} />
+      {!g.life?.danger && <GlanceStage.Life app={app} glance={g} />}
       {g.goal && !s.opened && <p className="first-goal" data-id="goal"><span className="label">Your first goal</span>
         {Typography.curl(Words.upper(g.goal))}</p>}
       {g.changed.length > 0 && <div className="changed">
