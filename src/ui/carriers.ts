@@ -1,4 +1,5 @@
 import { ModuleWriter } from '../lang/module-writer';
+import { Burden } from '../rules/burden';
 import type { World } from '../lang/world';
 import type { Row } from './choice-grouping';
 
@@ -14,9 +15,18 @@ export class Carriers {
     const loads = world.relatedTo('memberOf', actor).filter(r => world.test(ModuleWriter.call('awake', r.args[0]!)))
       .map(r => ({ member: r.args[0]!, items: world.relatedTo('ownedItem', r.args[0]!).map(o => o.args[0]!) }));
     const same = loads.find(l => l.items.some(i => world.one('itemKind', i) === kind));
-    const least = [...loads].sort((a, b) => a.items.length - b.items.length)[0], own = loads[0];
+    // Nobody is handed what would leave them carrying more than they can, while another has room for it: a pot of
+    // pitch given to the one the player plays had laden the company, and Sallowfield's causeway came an hour too late.
+    const room = loads.filter(l => Carriers.fits(world, l.member, kind));
+    const able = room.length ? room : loads;
+    const least = [...able].sort((a, b) => a.items.length - b.items.length)[0], own = able.find(l => l === loads[0]);
     const mine = own && least && own.items.length - least.items.length < Carriers.burdened ? own : least;
-    return (same ?? mine)?.member;
+    return (same && able.includes(same) ? same : mine)?.member;
+  }
+  private static fits(world: World, member: string, kind?: string): boolean {
+    if (!world.module.measures?.some(m => m.name === 'capacity')) { return true; }
+    const mass = kind ? world.number(ModuleWriter.call('mass', kind)) || Burden.mass(kind.split('__').pop()!) : 0;
+    return world.number(ModuleWriter.call('carried', member)) + mass <= world.number(ModuleWriter.call('capacity', member));
   }
   // Who takes each thing the choices offer to take, by what is done with it ("take_item|the rope"): the one carrier()
   // would hand it to, where a choice offers it to them; else the first the choices offer it to. Two of the company

@@ -39,10 +39,14 @@ export class DangerSense {
     if (!foes.length || !ours.length) { return undefined; }
     // What each has in hand is part of it: a sword bought since is a different fight.
     // So is the level one stands at (drained of some), and what one has used today.
-    // And whether the company has a light to fight by: in the dark it had been "easily won" of what nobody could see.
-    const dark = Environment.dark(campaign.world, campaign.playerActor, read.partyIds);
-    const key = JSON.stringify([group, !!dark.dark, ...[...ours, ...foes].map(c => [c.id, c.state.hp, c.state.mana,
-      LevelDrain.level(c), c.state.conditions.map(s => s.id),
+    // And whether the company has a light to fight by where it stands with them: in the dark it had been "easily won"
+    // of what nobody could see. A band elsewhere is not reckoned by the light here, which is not the light there.
+    const w = campaign.world, actor = campaign.playerActor;
+    const together = !!actor && w.one('at', group) === w.one('at', actor);
+    const dark = together ? Environment.dark(w, actor, read.partyIds) : {};
+    // (The key seeds the trials: a fight in the light is keyed, and so reckoned, as it was before darkness counted.)
+    const key = JSON.stringify([group, ...dark.dark ? ['dark'] : [], ...[...ours, ...foes].map(c => [c.id, c.state.hp,
+      c.state.mana, LevelDrain.level(c), c.state.conditions.map(s => s.id),
       (c.state.inventory ?? []).filter(i => i.equipped).map(i => i.definition), c.state.daily ?? {}])]);
     // A bout is reckoned as it will be fought, and said to be one: the odds of a sparring bout had read as a killing
     // (the Quiet in the Sky's QIS-04).
