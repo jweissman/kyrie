@@ -6824,6 +6824,11 @@
    "form": "interior",
    "shows": "an undercroft: low vaults on round pillars, barrels, a stair up to daylight",
    "era": "late"
+  },
+  "scene-chandlery": {
+   "form": "interior",
+   "shows": "a chandlery: candles on every shelf, dipped tapers drying from a hoop, lanterns, wax and wicks on the bench",
+   "era": "late"
   }
  }
 }
