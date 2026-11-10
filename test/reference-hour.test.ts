@@ -59,9 +59,10 @@ describe.skipIf(!process.env.KYRIE_TOUR)('the reference hour, through the page',
         await go.click(); await shot('set-out');
         continue;
       }
-      // A thing looked at (a find led with): taken, as its pane offers; then the place again.
-      if (st.mode === 'examine') {
-        const take = page.getByRole('button', { name: /^Take\b/ }).first();
+      // A thing looked at (a find led with, in Look… or on its own page): taken, as its pane offers; then the place.
+      const offered = page.getByRole('button', { name: /^Take\b/ });
+      if (st.mode === 'examine' || await offered.count()) {
+        const take = offered.first();
         log.push(`${step} look: ${await take.count() ? 'Take' : 'nothing to take'}`);
         if (await take.count()) { await take.click(); await shot('take'); }
         await page.keyboard.press('Escape'); await d.settle();

@@ -106,6 +106,16 @@ picture of every step as the run's artifact. That job is evidence, not a gate.
 
 Running the full suite locally with sixteen workers took the machine down on 9 November. Full runs belong to CI.
 
+### 4.1 The reference hour through the page
+
+The CI tour (run 42753530116, its pictures the run's artifact) played the debt's opening in Chromium by the page's
+leads alone: the creditor's talk with the promise gilded; out to the landing and into the Stormy Horn; Aiden's
+question gilded; the Map key lit, and the map opened over the place with Lapisrecs chosen, its route, its hour of
+arrival and "Set out for Lapisrecs"; into the barrow by the forecourt and the long passage; the bats fought with the
+new bar (Attack, Abilities, Other, one size); a torch lit; the flute's own pane with Take. What it showed amiss: a
+warding thing told as "lies dead" after the fight (M19-238), and the fight's detail line still in the engine's words
+(M19-121). This is a script following leads; it is not a person's play.
+
 ## 5. Defects found by playing as the page leads
 
 From the honest-start probes (kahitude, a lone warrior, the kin and debt openings), every step the page's own lead:

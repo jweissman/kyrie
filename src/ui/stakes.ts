@@ -56,7 +56,14 @@ export class Stakes {
     return new Set(o.toward?.length ? under : under.filter(id => ids.has(id)));
   }
   // What an aim's words name (or its condition, when its words name nothing): what the company has been told.
+  // Read once for each aim of a module: the page asks it at every glance.
+  private static readonly sayings = new WeakMap<object, Map<string, Set<string>>>();
   static said(campaign: Campaign, o: Objective): Set<string> {
+    const module = campaign.module, kept = this.sayings.get(module) ?? this.sayings.set(module, new Map()).get(module)!;
+    if (!kept.has(o.id)) { kept.set(o.id, this.reading(o)); }
+    return kept.get(o.id)!;
+  }
+  private static reading(o: Objective): Set<string> {
     const ids = new Set<string>();
     ObservationText.map(o.text, call => { call.args.forEach(a => ids.add(a)); return ''; }, id => { ids.add(id); return ''; });
     if (!ids.size) {

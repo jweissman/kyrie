@@ -234,17 +234,26 @@ export class Glance {
   private static advances(campaign: Campaign, rows: ReturnType<typeof PlayerView.choices>): Set<string> {
     const def = Undertakings.followed(campaign);
     if (!def) { return new Set(); }
-    const wanted: Call[] = [];
-    this.reads(def.when, wanted);
-    // And, a rule away, what makes it so: the herbs given the fever's mother are kept, and a rule doses the child.
-    const made: Call[] = [];
-    for (const rule of campaign.module.rules ?? []) {
-      if (rule.effects.some(c => !!c.call && wanted.some(w => this.meets(c.call!, w)))) { this.reads(rule.when, made); }
-    }
-    // Nor where the company is, nor what is in the purse: every way and every torch changes them.
-    const calls = [...wanted, ...made].filter(c => !['at', 'quantity'].includes(c.name));
+    const calls = this.waits(campaign.module, def);
+    if (!calls.length) { return new Set(); }
     return new Set(rows.filter(r => !r.action.movement && (r.action.success ?? [])
       .some(c => !!c.call && calls.some(w => this.meets(c.call!, w)))).map(r => r.choice.id));
+  }
+  // What an aim waits on, call by call, and a rule away what makes it so (the herbs given the fever's mother are
+  // kept, and a rule doses the child); never where the company is, nor what is in the purse, which every way and
+  // every torch changes. Read once for each aim of a module.
+  private static readonly waiting = new WeakMap<Module, Map<string, Call[]>>();
+  private static waits(module: Module, def: Objective): Call[] {
+    const kept = this.waiting.get(module) ?? this.waiting.set(module, new Map()).get(module)!;
+    if (kept.has(def.id)) { return kept.get(def.id)!; }
+    const wanted: Call[] = [], made: Call[] = [];
+    this.reads(def.when, wanted);
+    for (const rule of module.rules ?? []) {
+      if (rule.effects.some(c => !!c.call && wanted.some(w => this.meets(c.call!, w)))) { this.reads(rule.when, made); }
+    }
+    const calls = [...wanted, ...made].filter(c => !['at', 'quantity'].includes(c.name));
+    kept.set(def.id, calls);
+    return calls;
   }
   private static meets(a: Call, b: Call): boolean {
     return a.name === b.name && a.args.length === b.args.length
@@ -259,6 +268,9 @@ export class Glance {
       return at ? Spatial.ancestry(byId, at).filter(e => !['region', 'plane'].includes(e.space?.kind ?? ''))
         .map(e => e.id) : [];
     }));
+    // Only where a site is among them is the land read for its way in.
+    const sites = [...held].filter(id => byId.get(id)?.space?.kind === 'site');
+    if (!sites.length) { return held; }
     for (const r of campaign.world.related('connects')) {
       for (const [a, b] of [[r.args[1]!, r.args[2]!], [r.args[2]!, r.args[1]!]] as const) {
         const site = this.siteOf(byId, b);
