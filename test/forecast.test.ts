@@ -13,7 +13,9 @@ describe('a forecast', () => {
     // come out "hard" (M19-122: the reckoning's few trials, open).
     expect(ForecastTool.beyond.has(of('world__owlbear').by.mage!)).toBe(true);
     expect(['hard', ...ForecastTool.beyond] as string[]).toContain(of('world__owlbear').by.warrior!);
-    expect(Object.values(of('world__brock').by)).toEqual(['slight', 'slight']);
+    // A brock is slight for a novice warrior; a novice mage carries no light where the ford-road begins, and in the
+    // dark (in_the_dark: −2 to strike and to dodge) it is hard.
+    expect(of('world__brock').by).toEqual({ warrior: 'slight', mage: 'hard' });
     expect(of('world__owlbear').temperament).toBe('territorial');
   }, 60000);
 });

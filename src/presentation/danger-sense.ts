@@ -39,12 +39,14 @@ export class DangerSense {
     if (!foes.length || !ours.length) { return undefined; }
     // What each has in hand is part of it: a sword bought since is a different fight.
     // So is the level one stands at (drained of some), and what one has used today.
-    const key = JSON.stringify([group, ...[...ours, ...foes].map(c => [c.id, c.state.hp, c.state.mana,
+    // And whether the company has a light to fight by: in the dark it had been "easily won" of what nobody could see.
+    const dark = Environment.dark(campaign.world, campaign.playerActor, read.partyIds);
+    const key = JSON.stringify([group, !!dark.dark, ...[...ours, ...foes].map(c => [c.id, c.state.hp, c.state.mana,
       LevelDrain.level(c), c.state.conditions.map(s => s.id),
       (c.state.inventory ?? []).filter(i => i.equipped).map(i => i.definition), c.state.daily ?? {}])]);
     // A bout is reckoned as it will be fought, and said to be one: the odds of a sparring bout had read as a killing
     // (the Quiet in the Sky's QIS-04).
-    const place = Environment.encounter(campaign.world, campaign.playerActor, [], group);
+    const place = { ...Environment.encounter(campaign.world, campaign.playerActor, [], group), ...dark };
     const reckoning = this.kept(key, () => {
       const reckoning = this.judge(this.play(ours, foes, key, place), ours, foes);
       return place.terms?.yields ? { ...reckoning, text: `${reckoning.text} ${DangerSense.bout}` } : reckoning;

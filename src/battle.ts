@@ -85,7 +85,7 @@ export class Battle {
   private static holding(id: string) { return { id, remaining: 1, clock: 'until-removed' as const, source: Battle.held }; }
   static encounter(store: CreatureStore, participants: Pick<EncounterParticipant, 'creatureId' | 'team'>[],
     options: { seed: string; abilities?: ArenaAbility[]; maxTurns?: number; environment?: string; laws?: string[];
-      weary?: string[]; ready?: string[]; moment?: Moment; terms?: Scenario['terms'] }):
+      weary?: string[]; ready?: string[]; dark?: string[]; moment?: Moment; terms?: Scenario['terms'] }):
     Battle {
     const lease = store.acquire(participants.map(p => p.creatureId));
     try {
@@ -94,10 +94,11 @@ export class Battle {
       const combatants = participants.map((p, i) => {
         const f = CombatProjection.fighter(lease.creatures[i]!, p.team);
         // Those too long without sleep fight weary; those who drew it out and waited for it meet it ready.
-        const tired = options.weary?.includes(p.creatureId) && Canon.conditions.weary ? [Battle.holding('weary')] : [];
-        const ready = options.ready?.includes(p.creatureId) && Canon.conditions.ready ? [Battle.holding('ready')] : [];
+        // And those with no light fight in the dark.
+        const held = ([['weary', options.weary], ['ready', options.ready], ['in_the_dark', options.dark]] as const)
+          .filter(([id, who]) => who?.includes(p.creatureId) && Canon.conditions[id]).map(([id]) => Battle.holding(id));
         // Each once: one carrying it already (a fighter set upon after a fight of its own) does not carry it twice.
-        const fresh = [...laws, ...tired, ...ready].filter(l => !f.statuses.some(s => s.id === l.id));
+        const fresh = [...laws, ...held].filter(l => !f.statuses.some(s => s.id === l.id));
         return { ...f, statuses: [...f.statuses, ...fresh],
           ...options.environment ? { environment: options.environment } : {} };
       });

@@ -383,6 +383,19 @@
         "notes": "Orsino's system shock: one who has fallen and fails it at a rest has bled out (Dungeoneer.rest, Tavern, SystemShock)."
       }
     },
+    "in_the_dark": {
+      "name": "In the dark",
+      "description": "Fighting without a light: striking at sounds, and slow to see a blow coming.",
+      "lifetime": "encounter",
+      "modifiers": {
+        "toHit": -2,
+        "evasion": -2
+      },
+      "source": {
+        "kyr": true,
+        "notes": "Kyr's own: a company with no light where it fights (benighted) fights under it (Mission 20: darkness had cost nothing)."
+      }
+    },
     "weary": {
       "name": "Weary",
       "description": "Too long without sleep: slow to strike and slow to dodge, until a night's sleep.",

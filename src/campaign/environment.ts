@@ -11,10 +11,11 @@ export class Environment {
   // What a fight where an actor stands is fought under: the ground (Orsino's environment), the place's laws,
   // whether the members fighting are weary, or ready for what they fight, and what it is for (see Terms).
   static encounter(world: World, actor: string | undefined, members: string[] = [], against?: string):
-    { environment?: string; laws: string[]; weary?: string[]; ready?: string[]; terms?: Terms } {
+    { environment?: string; laws: string[]; weary?: string[]; ready?: string[]; dark?: string[]; terms?: Terms } {
     const environment = Environment.of(world, actor), terms = Environment.terms(world, against);
     return { ...environment ? { environment } : {}, laws: Environment.laws(world, actor),
       ...Environment.weary(world, actor, members), ...Environment.ready(world, { actor, against }, members),
+      ...Environment.dark(world, actor, members),
       ...terms ? { terms } : {} };
   }
   // A band its author says yields, or breaks (core.kyr), fights so; any other to the death, as it always has.
@@ -30,6 +31,11 @@ export class Environment {
   }
   // A company weary for want of sleep, or hungry for want of food (needs.kyr): its members fight weary. Hunger had cost
   // nothing, so that a company waited a thousand watches without rations and lost nothing (M19-130).
+  // A company with no light where it fights fights in the dark: walking on and fighting there had cost nothing, and the
+  // dark had said "easily won" of what nobody could see (Mission 20's third round, D 59–74).
+  static dark(world: World, actor: string | undefined, members: string[]): { dark?: string[] } {
+    return actor && world.declares('benighted') && world.test(ModuleWriter.call('benighted', actor)) ? { dark: members } : {};
+  }
   static weary(world: World, actor: string | undefined, members: string[]): { weary?: string[] } {
     return actor && (world.related('weary', actor).length || world.related('hungry', actor).length)
       ? { weary: members } : {};
