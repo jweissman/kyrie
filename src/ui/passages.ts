@@ -12,7 +12,7 @@ import { HexBoundary } from '../hex-boundary';
 export interface ExitActs { acts: Act[]; passage?: Passage; via?: string }
 interface Known {
   destination: string; passage: Passage; via?: string; blocked?: string; name?: string; mode?: Transition;
-  way?: string; hazard?: string; harm?: number; oneWay?: boolean; unmarked?: boolean;
+  way?: string; hazard?: string; harm?: number; oneWay?: boolean; unmarked?: boolean; keyed?: boolean;
 }
 
 // Exits the party knows from its current place. Movement legality still comes only from the command list:
@@ -116,7 +116,7 @@ export class Passages {
       const passage: Passage = w.status === 'guarded' ? 'guarded' : w.status === 'hazard' ? 'hazard'
         : w.status === 'needs' ? 'climb' : w.status === 'blocked' ? 'door' : 'open';
       rows.push({ destination: w.to, passage, way: w.name, ...(w.via ? { via: w.via } : {}),
-        ...w.oneWay ? { oneWay: true } : {}, ...this.unmarked(w.passage) ? { unmarked: true } : {}, ...(w.status === 'hazard' ? { hazard: w.reason!, ...w.harm ? { harm: w.harm } : {} } : {}),
+        ...w.oneWay ? { oneWay: true } : {}, ...this.unmarked(w.passage) ? { unmarked: true } : {}, ...w.keyed ? { keyed: true } : {}, ...(w.status === 'hazard' ? { hazard: w.reason!, ...w.harm ? { harm: w.harm } : {} } : {}),
         ...(['blocked', 'guarded', 'needs'].includes(w.status) ? { blocked: w.reason! } : {}) });
     }
     for (const e of spatial?.exits ?? []) {
@@ -151,7 +151,8 @@ export class Passages {
         ...(prior?.hazard ? { hazard: prior.hazard, ...prior.harm ? { harm: prior.harm } : {} } : {}),
         ...(g.via ?? prior?.via ? { via: g.via ?? prior?.via } : {}), ...(prior?.name ? { name: prior.name } : {}),
         ...(prior?.mode ? { mode: prior.mode } : {}), ...(prior?.blocked ? { blocked: prior.blocked } : {}),
-        ...prior?.oneWay ? { oneWay: true } : {}, ...prior?.unmarked ? { unmarked: true } : {} });
+        ...prior?.oneWay ? { oneWay: true } : {}, ...prior?.unmarked ? { unmarked: true } : {},
+        ...prior?.keyed ? { keyed: true } : {} });
     }
     return [...merged.values()].map(k => this.row(here, k, grouped.get(k.destination)?.acts ?? [], options.visited))
       .sort((a, b) => Number(!!a.blocked) - Number(!!b.blocked) || Passages.order(a) - Passages.order(b)
@@ -176,6 +177,7 @@ export class Passages {
       ...(k.way ? { way: k.way } : {}), ...(k.hazard ? { hazard: k.hazard, ...k.harm ? { harm: k.harm } : {} } : {}),
       ...several ? { several } : {},
       ...k.oneWay ? { oneWay: true } : {}, ...k.unmarked && !visited.has(k.destination) ? { unmarked: true } : {},
+      ...k.keyed ? { keyed: true } : {},
       visited: visited.has(k.destination), acts };
   }
   // Whether a way goes from the hex of the country the company stands in to another (see HexBoundary): the map's to

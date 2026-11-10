@@ -11,6 +11,8 @@ export type WayStatus = 'open' | 'blocked' | 'hazard' | 'guarded' | 'needs';
 export interface WayInfo {
   passage: string; name: string; from: string; to: string; oneWay: boolean; status: WayStatus;
   reason?: string; via?: string;
+  // Open to this company only because it holds what opens the thing that bars it (its key): said where it is looked at.
+  keyed?: boolean;
   // What a hazard on it does to whoever goes first, on an average roll (see Harm).
   harm?: number;
 }
@@ -93,6 +95,10 @@ export class PassageModel {
       return { ...base, status: 'blocked', via: this.label(t),
         reason: (dark ? undefined : this.describe(t)) ?? PassageModel.inTheWay(this.label(t), dark) };
     }
+    // Barred to anyone else, and the company holds the key: the corn-store's padlock said only "pick" and "wrench" to
+    // a player with its key in hand, three times over (Mission 20's cold rounds).
+    if (this.first(this.all(`locked:${passage}`, this.call('on', '?t', passage), this.call('state', '?t', '?s'),
+      this.call('blocksWhen', '?t', '?s')))) { Object.assign(base, { keyed: true }); }
     if (this.world.test(this.call('unopened', passage))) {
       return { ...base, status: 'blocked', via: base.name, reason: this.shut(passage) ?? `${this.label(passage)} does not open now.` };
     }

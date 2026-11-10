@@ -77,7 +77,8 @@ export class AtHand {
       const acts = w.choices.slice(1), thing = acts.find(c => c.children?.length);
       return { id: w.exit.id, name: PlaceStage.thing(thing?.label ?? w.exit.way ?? w.exit.destination.name),
         note: Words.upper(`${w.exit.way ?? 'the way'} to ${w.exit.destination.name}`),
-        seen: w.exit.blocked ? [w.exit.blocked] : [], choices: acts.flatMap(c => c.children?.length ? c.children : [c]),
+        seen: w.exit.blocked ? [w.exit.blocked] : w.exit.keyed ? ['It is locked, and you have the key: the way through it is open to you.'] : [],
+        choices: acts.flatMap(c => c.children?.length ? c.children : [c]),
         opens: acts.filter(c => c.children?.length).map(c => c.id) };
     });
     // What the place itself offers, each by what it is (the notice on the well-post, read).

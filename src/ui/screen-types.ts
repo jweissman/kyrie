@@ -66,6 +66,8 @@ export interface ExitRow {
   several?: boolean;
   // A way that goes one way only (the great pipe, feet first): said by its own name, and asked about again.
   oneWay?: boolean;
+  // Locked, and the company holds what opens it (see PassageModel.way).
+  keyed?: boolean;
   // A way that does not say where it goes, to a company that has not been there: said by its own name (LOR-11).
   unmarked?: boolean;
   // Which way a step across the open country goes (north-east), as the land lies (see Headings).

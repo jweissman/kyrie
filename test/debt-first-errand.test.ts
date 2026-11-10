@@ -70,12 +70,24 @@ describe('the hobs’ store, after a parley', () => {
   it('leads a thief to slip past the hobs on the gate, and not a warrior', async () => {
     const steps = ['Tell Tuck', 'To the landing', 'Into the Stormy Horn', 'Ask Aiden what is out', 'map:Seolforfyrd'];
     const leads = async (raceId: string, classId: string) => {
-      const j = Journey.of(await DrawnWorld.start('kahitude', { origin: 'debt', party: [{ name: 'Mialee', raceId, classId }] },
-        NodeBundleSource.shared));
+      const party = [{ name: 'Mialee', raceId, classId }];
+      const j = Journey.of(await DrawnWorld.start('kahitude', { origin: 'debt', party }, NodeBundleSource.shared));
       await j.play(...steps);
       return Glanced.of(j.session).glance.acts.map(a => a.label).join(' | ');
     };
     expect(await leads('elf', 'thief')).toMatch(/slip past the hobs/);
     expect(await leads('human', 'warrior')).not.toMatch(/slip past/);
+  }, 200000);
+  // A lock whose key the company holds says so where it is looked at: Tuck's corn-store key; its padlock had offered
+  // only pick and wrench (both cold rounds; log E33).
+  it('marks the corn-store way open to the holder of its key', async () => {
+    const keyed = async (first: string) => {
+      const j = await debtor();
+      await j.play(first, 'To the landing');
+      return Glanced.of(j.session).screen.exits.find(e => e.destination.name === 'the old corn-store');
+    };
+    expect((await keyed('Ask Tuck about the rats'))?.keyed).toBe(true);
+    const shut = await keyed('Tell Tuck');
+    expect([shut?.keyed, !!shut?.blocked]).toEqual([undefined, true]);
   }, 200000);
 });
