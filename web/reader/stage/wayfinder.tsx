@@ -92,8 +92,8 @@ export class Wayfinder {
         {c.disabled && <p className="wf-shut">{Typography.curl(Words.upper(c.disabled))}</p>}
         {(c.marks ?? []).map(m => <p key={m.kind} className={`wf-risk${m.danger ? ` danger-${m.danger}` : ''}`}>
           {Typography.curl(Words.upper(m.said))}</p>)}
-        {Wayfinder.goings(c).map(g => <Wayfinder.Go key={g.id} app={app} draw={draw} choice={g}>
-          {g === c ? Wayfinder.going(w) : Typography.curl(Words.upper(g.label))}</Wayfinder.Go>)}
+        {[...Wayfinder.goings(c), ...Wayfinder.opens(app, w)].map(g => <Wayfinder.Go key={g.id} app={app} draw={draw}
+          choice={g}>{g === c ? Wayfinder.going(w) : Typography.curl(Words.upper(g.label))}</Wayfinder.Go>)}
       </aside>
     );
   }
@@ -102,6 +102,15 @@ export class Wayfinder {
   // and so did nothing (the fresh playtest of 7 November).
   static goings(c: Choice): Choice[] {
     return !c.command && !c.disabled && c.children?.length ? c.children : [c];
+  }
+  // A way shut that can be opened (a stone door's lock to set a shoulder to) is shown with what opens it: the crypt's way
+  // up had been greyed in Go… with its opening only under Look… (Mission 20's fourth round, F 115–118).
+  static opens(app: ReaderApp, w: Way): Choice[] {
+    const commands = new Set((w.c.disabled ? w.exit?.acts ?? [] : []).map(a => a.command).filter(Boolean));
+    if (!commands.size) { return []; }
+    const all = (cs: Choice[]): Choice[] => cs.flatMap(c => [c, ...all(c.children ?? [])]);
+    return all(SceneSurface.choices(app)).filter(c => !c.disabled && c.command && commands.has(c.command))
+      .filter((c, i, cs) => cs.findIndex(x => x.command === c.command) === i);
   }
   // A going: as the menu has it where it does; else done by its own command, and what it risks or cannot undo said
   // under it when it is first chosen, as on any choice (see Act.View): a way that asks again had said nothing.
