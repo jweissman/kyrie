@@ -9,6 +9,16 @@ Module drover "The drover who did not come home" {
   Initially Assert established(missing). Initially Assert staged(road, missing).
 
   Person wife "The drover's wife" at taproom { Role "the drover's wife, who cooks at the inn". Pronouns she. Peaceable. }
+  // Someone outside the family who saw him go, and has a thought about what took the oxen: nobody but the family could
+  // be asked about the father or the cart, not the wagoner who knows the road nor anyone at the inn (Mission 20's third
+  // round, C §6).
+  Person hedger "the hedger" at taproom { Role "a hedger who drinks his supper at the inn". Pronouns he. Peaceable. Manner stoic. }
+  Topic hedger_saw with hedger "Ask the hedger whether he saw the drover go" when not knows(party, found_cart) once {
+    Says "'Three nights back, at dusk,' says the hedger. 'Out on {road}, cart up high, the oxen going well. Said he'd be home by full dark.' He turns his cup round. 'He wasn't singing. He always sings on that road.'".
+  }
+  Topic hedger_oxen with hedger "Ask the hedger what would take two oxen and leave the man" when knows(party, found_cart) once {
+    Says "The hedger puts his cup down. 'Wolves would take one and tear it where it fell. Whatever took both took them uphill, alive, and wanted them whole.' He looks at the window. 'There's an old drove road over the tops nobody uses now. My father wouldn't. Ask him why, he'd say: because of what minds it.'".
+  }
   Person son "The drover's son" at green { Role "the drover's son, who wants to go after his father". Pronouns he. Peaceable. }
   // The dog that came home: a real dog, lame in the off forefoot, who lets anyone who is kind to her look at her; and
   // whoever does sees where she has been.
