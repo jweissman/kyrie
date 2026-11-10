@@ -6944,6 +6944,31 @@
    "form": "interior",
    "shows": "a quay warehouse within: bales hung from a hoist, a loft of crates, a cart, water at a door",
    "era": "late"
+  },
+  "scene-portico": {
+   "form": "exterior",
+   "shows": "an open loggia of columns and arches along a house, roses in pots, a lake and hills beyond",
+   "era": "late"
+  },
+  "scene-ruins-tribunal": {
+   "form": "exterior",
+   "shows": "a long roofless hall of the ancients: tall worn statues on a dais, steps, broken benches, light through the fallen roof",
+   "era": "late"
+  },
+  "scene-ruins-cenotaph": {
+   "form": "exterior",
+   "shows": "a vast ancient stone dome open at its crown, a beam of light falling through, ruins and still water before it",
+   "era": "late"
+  },
+  "scene-ancient-tree": {
+   "form": "exterior",
+   "shows": "an immense ancient tree, its roots heaving up the turf, a ruined arch at its edge in golden light",
+   "era": "late"
+  },
+  "scene-ruins-hill": {
+   "form": "exterior",
+   "shows": "a broken tower and a lone arch on a hill over a wide valley, a path going up past an old tree",
+   "era": "late"
   }
  }
 }

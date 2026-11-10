@@ -1,0 +1,109 @@
+# outskirts: two places a short walk from the town the company begins in, to go and look at: a lived-in great house and the first makers' stones on the hill (the owner, 10 November 2026: a stately home and an ancient ruin near the starting town, each with a few things to find, neither an errand nor on the way to anything).
+// A Kyr template (see src/world/kyr-template.ts), written for the starting town only, as the undertown is. {t} is the
+// town's id, {town} its name; {old} the first makers as the folk call them ("the Barrow-Kin"), {craft} and {belief} what they did and held, {makersfact}
+// their story; {kingdom} the kingdom after them; {sight} the nearest work, {sightseen} how it looks from a height and
+// {sightside} which way. The base is always written; of each other group one option is drawn for the town. Nothing here
+// is an aim: the places are found by walking out of the town, and asked about at the Hall.
+--- base
+  // The Hall: the house of whoever holds the land round the town now, at the top of an avenue from the town's heart.
+  // Lived in, and safe; its household's things are theirs.
+  Place {t}_manor "{town} Hall" is site within {t} at 5, 0.
+  Place {t}_manor_front "the forecourt" is room within {t}_manor at 1, 1 outdoors.
+  Place {t}_manor_hall "the great hall" is room within {t}_manor at 1, 0 indoors.
+  Place {t}_manor_loggia "the loggia" is room within {t}_manor at 2, 0 indoors.
+  Place {t}_manor_library "the library" is room within {t}_manor at 0, 0 indoors.
+  Place {t}_manor_garden "the walled garden" is room within {t}_manor at 2, 1 outdoors.
+  Passage {t}_manor_avenue "the avenue up to {town} Hall" is path between {t}_green and {t}_manor_front taking 10 minutes.
+  Passage {t}_manor_door "the Hall's front door" is door between {t}_manor_front and {t}_manor_hall.
+  Passage {t}_manor_arches "the arches into the loggia" is arch between {t}_manor_hall and {t}_manor_loggia.
+  Passage {t}_manor_libdoor "the library door" is door between {t}_manor_hall and {t}_manor_library.
+  Passage {t}_manor_steps "the steps down into the garden" is steps between {t}_manor_loggia and {t}_manor_garden.
+  Passage {t}_manor_gate "a door in the garden wall" is door between {t}_manor_garden and {t}_manor_front.
+  Observe {t}_manor_front_scene at {t}_manor_front when true "A house of the grey stone of the hill, long and gabled, its windows set in rows, smoke going up from three chimneys. The forecourt is raked gravel round a mounting-block. Somebody keeps all this, and keeps it well.".
+  Observe {t}_manor_hall_scene at {t}_manor_hall when true "The hall goes up the whole height of the house to a roof of dark beams. A fire is laid in a hearth carved with the arms of the house, and the long table under the windows is set for nobody.".
+  Observe {t}_manor_loggia_scene at {t}_manor_loggia when true "An open walk of columns along the garden side of the house, out of the wind. The country goes away below it to the river, and above the roofs of {town} the hill stands up with its old stones on top.".
+  Observe {t}_manor_library_scene at {t}_manor_library when true "Books to the ceiling on three walls, a ladder on a rail, and a table under the window with the house's papers squared on it.".
+  Observe {t}_manor_garden_scene at {t}_manor_garden when true "A garden inside high walls, clipped hedges and gravel walks round a fountain. In the walls, here and there, a stone is cut with marks that were not made by the masons who laid it.".
+  Observe {t}_manor_marks at {t}_manor_garden as sign noticed by lore when true "The marked stones in the garden wall are dressed in the way of {old}: the house was built, in part, of what was carried down off the hill.".
+  Person {t}_manor_steward "the steward of the Hall" at {t}_manor_hall {
+    Role "the steward who keeps the Hall while the family is away, a precise person with a ring of keys". Ancestry human. Background caretaker. Level 1. Peaceable. Manner stoic. Seen when hour(clock) >= 7 and hour(clock) < 21.
+    Resents "The steward looks at what you have in your hands, and then at you, for a long moment. 'I shall have to ask you to go,' the steward says, 'and not to come back.' And opens the front door, and stands by it until you do.".
+  }
+  Topic {t}_manor_steward_house with {t}_manor_steward "Ask {{t}_manor_steward} about the Hall" when true once {
+    Says "'The family is at court for the season, and the Hall is kept for them,' says {{t}_manor_steward}. 'There has been a house here since the kingdom of {kingdom}, and stone in it older than that. You may look round, if you touch nothing. The library is open to anyone who can read.'".
+  }
+  Topic {t}_manor_steward_hill with {t}_manor_steward "Ask {{t}_manor_steward} about the stones on the hill" when true once {
+    Says "'That was {old}, up there, before anybody,' says {{t}_manor_steward}. 'There is a hall of theirs with no roof, and a dome, and a tree older than either. Go up by day. After dark there are lights in the dome, and the last boy who went up to see what they were came down not knowing his own name for a week.'".
+  }
+  // What is in the house is the household's: carried where the steward can see it, it is resented, the company is
+  // shown out, and both doors are shut to it after (round 3's D: taking what was not his had changed nothing).
+  Item {t}_manor_box "a silver music box" is music_box at {t}_manor_library.
+  Initially Assert owns({t}_manor_steward, {t}_manor_box).
+  Thing {t}_manor_bar "the Hall's front door" on {t}_manor_door {
+    State open "The front door stands open.".
+    State barred blocking "The front door of the Hall is shut, and stays shut to you.".
+  }
+  Thing {t}_manor_bar2 "the garden door" on {t}_manor_gate {
+    State open "The door in the garden wall is on the latch.".
+    State barred blocking "The door in the garden wall is bolted on the far side.".
+  }
+  Rule {t}_manor_shut when objected({t}_manor_steward, ?i) and state({t}_manor_bar, open) {
+    Retract state({t}_manor_bar, open). Assert state({t}_manor_bar, barred).
+    Retract state({t}_manor_bar2, open). Assert state({t}_manor_bar2, barred).
+  }
+  Rule {t}_manor_out when state({t}_manor_bar, barred) and at(party, {t}_manor_hall) {
+    Retract at(party, {t}_manor_hall). Assert at(party, {t}_manor_front).
+  }
+  Observe {t}_manor_talk at {t}_green when state({t}_manor_bar, barred) "Word has come down from the Hall: people stop talking when you come near, and start again when you have gone by.".
+  Thing {t}_manor_book "the history of the house" at {t}_manor_library {
+    State shut "A thick book bound in calf lies on the table, the house's arms on the cover: its history, written by somebody with time on their hands.".
+    State read "The history of the house begins long before the house, with {old} on the hill, and goes on to the kingdom of {kingdom} and who held the land under it.".
+    Change read "Sit down and read the history of the house" from shut to read.
+  }
+  Observe {t}_manor_book_learned at {t}_manor_library of {t}_manor_book as reading when state({t}_manor_book, read) "{craft} {belief} So the house's historian says of {old}, and that the dome on the hill was where they laid their dead, or meant to, and that the folk would not go near it even then." teaches {makersfact}.
+
+  // The old stones: the first makers' ruin on the hill above the town, up a path from its heart. A view, a hall with
+  // their writing in it, a dome where the lights are after dark, and a tree the folk still tie rags to.
+  Place {t}_stones "the old stones above {town}" is site within {t} at 6, 0.
+  Place {t}_stones_top "the hill-path" is room within {t}_stones at 1, 1 outdoors.
+  Place {t}_stones_hall "the judgement hall" is room within {t}_stones at 1, 0 outdoors.
+  Place {t}_stones_dome "the dome" is room within {t}_stones at 2, 0 indoors.
+  Place {t}_stones_tree "the old tree" is room within {t}_stones at 0, 1 outdoors.
+  Passage {t}_stones_way "the path up the hill to the old stones" is path between {t}_green and {t}_stones_top taking 20 minutes.
+  Passage {t}_stones_up "broken steps up into the roofless hall" is steps between {t}_stones_top and {t}_stones_hall.
+  Passage {t}_stones_arch "the great arch of the dome" is arch between {t}_stones_hall and {t}_stones_dome.
+  Passage {t}_stones_round "the path round the hilltop to the tree" is path between {t}_stones_top and {t}_stones_tree.
+  Observe {t}_stones_top_scene at {t}_stones_top when true "The path comes out on the top of the hill among fallen stones. An arch stands on its own against the sky, and beyond it the broken wall of something long and high. Below, {town} is all roofs and smoke.".
+  Observe {t}_stones_view at {t}_stones_top when not dark() "From up here the country lies open. Far off to the {sightside} you can make out {sightseen}." teaches {sight}_found.
+  Observe {t}_stones_hall_scene at {t}_stones_hall when true "A long hall with no roof. Steps go up at the far end to a dais, and on it stand figures cut from the stone, taller than men, their faces worn smooth. Grass grows between the floor-slabs.".
+  Observe {t}_stones_dome_scene at {t}_stones_dome when true "A dome of stone as wide as a church, open to the sky in its crown, so that a round of light moves slowly over the floor through the day. Round the walls are low slabs, each with a hollow in it the length of a body, and nothing in any of them.".
+  Observe {t}_stones_tree_scene at {t}_stones_tree when true "A tree older than the stones, its trunk wider than a cart is long, its roots heaving up the turf. Strips of cloth are tied to its lowest branches, old and new: the folk of {town} still come up here.".
+  Thing {t}_stones_words "the writing on the dais" at {t}_stones_hall {
+    State unread "Letters are cut along the edge of the dais, deep and square, in no hand anyone in {town} could read.".
+    State read "The letters along the dais say what the hall was for: here {old} sat in judgement, and the figures are the judges.".
+    Change read "Make out the writing along the dais" from unread to read needing lore.
+  }
+  Observe {t}_stones_words_learned at {t}_stones_hall of {t}_stones_words as reading when state({t}_stones_words, read) "{craft} {belief} That is what {old} cut into their judgement-seat, for anyone after them to read." teaches {makersfact}.
+  Thing {t}_stones_rags "the rags on the old tree" at {t}_stones_tree {
+    State bare "There is room on the low branches for another strip of cloth.".
+    State tied "A strip of your own cloth hangs among the others on the old tree, and moves in the wind with them.".
+    Change tie "Tie a strip of cloth to the old tree, as the folk do" from bare to tied.
+  }
+  Item {t}_stones_bracelet "a bronze bracelet green with age" is bronze_bracelet at {t}_stones_tree hidden until {t}_stones_roots.
+  Discovery {t}_stones_roots "Under the old tree's roots something was put there a long time ago." {
+    Found by searching {t}_stones_tree "Where a root has heaved up the turf there is a gap, and in it, green with age, a bronze bracelet: an offering of somebody's, before there was a {town}.".
+  }
+--- dome wisps 3
+  Person {t}_stones_wisps "lights in the dome" at {t}_stones_dome {
+    Role "pale lights that go round and round the empty graves of the dome after dark". Species wisp. Numbers 2. Level 1. Temperament territorial. Lair {t}_stones_dome.
+    Seen when hour(clock) >= 19 or hour(clock) < 6.
+    Warns "Two pale lights come off the empty slabs and go round you, slowly, at the height a man carries a candle. The air goes cold.".
+  }
+  Initially Set encounterXp({t}_stones_wisps) to 40.
+  Observe {t}_stones_glow at {t}_green as sign when able({t}_stones_wisps) and (hour(clock) >= 19 or hour(clock) < 6) "Up on the hill above the roofs, in the dome of the old stones, a pale light goes round and round.".
+  Topic {t}_manor_steward_lights with {t}_manor_steward "Tell {{t}_manor_steward} the lights in the dome are put out" when not able({t}_stones_wisps) and state({t}_manor_bar, open) once {
+    Says "'Are they,' says {{t}_manor_steward}, and for once looks at you properly. 'Then the family will be glad of it, and so will the boy's mother.' From the ring of keys a small purse comes out. 'For your trouble. Not a word to anybody that I paid it.'".
+    On discuss { Give 8 gold to actor. }
+  }
+--- dome quiet 1
+  Observe {t}_stones_owls at {t}_stones_dome when true "Owls nest in the crown of the dome, and their pellets lie in the empty graves. Whatever the folk say comes up here after dark, it is only owls.".

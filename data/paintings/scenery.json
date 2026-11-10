@@ -121,7 +121,7 @@
     {"kind": "city", "words": ["dun", "city"], "ground": ["scene-city-seven-towers", "scene-city-gate"]},
     {"kind": "stockade", "words": ["stockade", "palisade", "outpost"], "ground": ["scene-stockade"]},
     {"kind": "palace", "words": ["palace", "palazzo", "residence"], "ground": ["scene-palace"], "room": ["scene-great-hall", "scene-ballroom", "scene-atrium", "scene-gloriet"]},
-    {"kind": "manor", "words": ["manor", "manor-house", "grange", "hall-house", "mansion"], "ground": ["scene-manor"], "room": ["scene-great-hall"]},
+    {"kind": "manor", "words": ["manor", "manor-house", "grange", "hall-house", "mansion"], "ground": ["scene-manor"], "room": ["scene-great-hall"], "parts": {"forecourt": ["scene-manor"], "hall": ["scene-great-hall"], "gloriet": ["scene-portico"], "library": ["scene-library"], "garden": ["scene-garden", "scene-orangery"]}},
     {"kind": "villa", "words": ["villa", "atrium", "peristyle", "domus"], "ground": ["scene-peristyle"], "room": ["scene-atrium"]},
     {"kind": "gate-yard", "words": ["gate-yard", "gateyard", "gate-yards"], "ground": ["scene-village-gate-yard"]},
     {"kind": "fort", "words": ["keep", "gate", "gatehouse", "gates", "fort", "castle", "citadel", "barbican"], "ground": ["scene-town-gate", "castle", "redoubt"], "room": ["scene-keep-gatehouse", "scene-great-hall"]},
@@ -129,7 +129,7 @@
     {"kind": "abbey", "words": ["abbey", "cloister", "priory", "monastery", "brothers"], "ground": ["abbey", "fane"], "room": ["scene-commandery", "breviary"]},
     {"kind": "ruin", "words": ["ruin", "ruins", "ruined", "porch", "arch", "arches"], "ground": ["ruin", "arch", "rest", "fane"]},
     {"kind": "toll-house", "words": ["toll-house", "tollhouse", "toll-houses"], "ground": ["ruin", "arch", "rest", "fane"]},
-    {"kind": "stones", "words": ["stones", "march", "standing", "dolmen", "menhir", "henge", "cairn"], "ground": ["trilith"]},
+    {"kind": "stones", "words": ["stones", "march", "standing", "dolmen", "menhir", "henge", "cairn"], "ground": ["trilith"], "parts": {"path": ["scene-ruins-hill"], "hall": ["scene-ruins-tribunal"], "dome": ["scene-ruins-cenotaph"], "tree": ["scene-ancient-tree"]}},
     {"kind": "fair", "words": ["circus", "tober", "carnival", "booths"], "ground": ["scene-carnival"]},
     {"kind": "stage", "words": ["theatre", "theater", "players", "playhouse", "playbill"], "ground": ["scene-theatre-stone", "scene-theatre-woods"]},
     {"kind": "arena", "words": ["arena", "colosseum", "amphitheatre", "amphitheater"], "ground": ["scene-arena"]},
@@ -169,7 +169,9 @@
     {"kind": "passage", "words": ["passage", "gallery", "corridor", "throat", "tunnel"], "room": ["scene-underground-passage", "perdition", "meditation"]},
     {"kind": "forecourt", "words": ["forecourt", "forecourts"]},
     {"kind": "recess", "words": ["recess", "recesses", "niche", "niches", "alcove"]},
+    {"kind": "path", "words": ["path", "hill-path", "footpath", "avenue"]},
+    {"kind": "dome", "words": ["dome", "rotunda", "cenotaph"]},
     {"kind": "shop", "words": ["shop", "store"], "room": ["scene-town-merchant"]}
   ],
-  "generic": ["hall", "passage", "shop", "home", "forecourt", "recess"]
+  "generic": ["hall", "passage", "shop", "home", "forecourt", "recess", "path", "dome"]
 }

@@ -21,7 +21,7 @@ export interface SceneKind {
 // place is, where the kind paints that part its own way.
 export interface Named { kind: SceneKind; word?: string; part?: string }
 export class SceneKinds {
-  static readonly kinds: SceneKind[] = table.kinds;
+  static readonly kinds = table.kinds as SceneKind[];
   static readonly generic = new Set<string>(table.generic);
   // The kind a place is, by its own words (and which word said it), or by those of what it lies within, the nearest
   // first; its own where that is shown there at all (fits: "the crossing" deep in a mine is no ford, but the mine's).
@@ -55,6 +55,8 @@ export class SceneKinds {
   // and a plain kind (a hall, a passage) only before the preposition, and only where nothing else is said ("the way
   // into Tolleth and the Skerrow passage" is no passage).
   static named(place: PlaceRef, parent?: string): Named | undefined {
+    // A name that says only a plain kind gives way to an id that says more ("Thornhaven Hall", s1_manor, is a manor).
+    let plain: Named | undefined;
     for (const words of [this.words(place.name), this.ownId(place.id, parent)]) {
       const cut = words.findIndex(w => this.prepositions.has(w)), at = cut < 0 ? words.length : cut;
       const said = words.flatMap((w, i) => {
@@ -67,9 +69,10 @@ export class SceneKinds {
         return [{ kind, word: w, rank }];
       });
       const best = said.reduce<typeof said[number] | undefined>((a, b) => !a || b.rank < a.rank ? b : a, undefined);
-      if (best) { return { kind: best.kind, word: best.word }; }
+      if (best && !this.generic.has(best.kind.kind)) { return { kind: best.kind, word: best.word }; }
+      plain ??= best && { kind: best.kind, word: best.word };
     }
-    return undefined;
+    return plain;
   }
   static readonly prepositions = new Set(['of', 'at', 'by', 'behind', 'below', 'under', 'over', 'above', 'into', 'in',
     'on', 'past', 'between', 'through', 'beyond', 'to', 'from', 'with', 'near', 'across', 'along']);

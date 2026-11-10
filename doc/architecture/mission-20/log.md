@@ -28,6 +28,11 @@ Reproduce headlessly with `bun /var/tmp/kyrie/m20/tools/leads.ts <origin> <race/
    plays; show the deployed commit. Agents test a locally served build pinned to a commit (a fixture, not a product);
    the owner plays the Pages app. The owner keeps committing art to main; no freeze. If main breaks, restoring it comes
    first.
+4. **10 November, late — environment pass.** Adds, bounded and subordinate to the first hour's acceptance: place
+   existing paintings in existing rooms where the match is strong, batched rather than per arriving file; two modest
+   explorable places near the starting town, a stately home and an ancient ruin, reusing structure before adding it,
+   each with coherent ways, fitting scenery, a few details, a plausible tie to the world, no elaborate quest. Excludes
+   rooms made only to hold a painting, and anything the opening journey depends on.
 
 ## Rounds of cold play
 
@@ -87,6 +92,9 @@ Sources: the builder's probes (P), cold round 1 player A / B (screenshot numbers
 | E44 | P1 | Tuck names Lapisrecs in his rumour of the crown, but the map keeps the mound by its look ("a great long mound with a door of stone"): the merchant's rumour teaches its story, not its name | R3-D 104 | open — teach the name with the story |
 | E45 | P1 | No consequence for dishonesty: the corn-store padlock wrenched off and Tuck paid all the same; graves robbed under the dead who keep the bounds | R3-D §8 | open |
 | E46 | P1 | Nobody but family can be asked about the main story (the father, the cart): not the wagoner who knows the road, not the pilgrim on it; greetings copied word for word across people | R3-C §6 | open |
-| E47 | P2 | Darkness stops nothing: walking and fighting go on in pitch dark with no penalty, and the dark still says "easily won" of what cannot be seen | R3-D 59–74 | open |
+| E47 | P2 | Darkness stops nothing: walking and fighting go on in pitch dark with no penalty, and the dark still says "easily won" of what cannot be seen | R3-D 59–74 | **fixed** 283d4bee (in the dark: −2 to strike and to dodge, and the reckoning weighs it) |
+| E48 | P2 | Paintings against the place: a cathedral for a barrow's chamber, a scholar's room for its passage, candles in a forgotten undercroft, a castle for a village gate-yard, a chapel for the lanes, a trapper's hut for the landing; the old working face had none | R1, R3-C, R3-D | **fixed** 9aed0b7d, 9ed50e33, b5cc7908, b5beb232 (the owner's 27 paintings of 10 November; a kind paints its own parts; a kindless site takes its map mark's kind) |
+| E49 | — | Every CI run on main was cancelled by the next push of a painting before it finished | — | **fixed** 397022c2 (pushes of `assets/bg` alone start no run) |
+| E50 | P2 | The start town had nothing to walk out to that was not an errand (amendment 4) | owner | the Hall and the old stones (`outskirts.kyrt`): neither an aim nor led to; the Hall resents what is carried off and shuts its doors (E45's kind of consequence) |
 | E8 | — | Headless scripts could not take a map journey | — | **fixed** bf62b137 (`map:<place>`) |
 | E21 | — | Cold agents under automation skip the prologue; next rounds use `&opening` | P | noted (harness) |

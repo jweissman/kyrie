@@ -391,8 +391,10 @@ export class Glance {
       const site = this.siteOf(byId, b);
       return site && !this.siteOf(byId, a) ? [[a, site] as const] : [];
     }));
+    // From a town's own ground, only a way down into a site under it: the Hall and the old stones on the hill, a walk
+    // from the landing, had been led as "further in" ahead of the town's own people (Mission 20's outskirts).
     const inward = new Set(screen.exits.filter(e => {
-      const there = !e.visited && !e.blocked
+      const there = !e.visited && !e.blocked && (!town || here || e.destination.underground)
         && (this.siteOf(byId, e.destination.id) ?? (town ? undefined : outsides.get(e.destination.id)));
       return there && (!here || there === here) && e.destination.id !== screen.place.id;
     }).map(e => e.id));
