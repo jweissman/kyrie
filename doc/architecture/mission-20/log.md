@@ -77,5 +77,10 @@ Sources: the builder's probes (P), cold round 1 player A / B (screenshot numbers
 | E35 | P1 | A calling's own ways are buried: slipping past the gate-hobs was in Look… under the brambles, the main list only Parley and Attack; nobody reacts to ancestry (an elf, not even the other elf) | R2-B 88, §6 | partly fixed: cc5f84e3 (a thief led to slip past), 056e3ad0 (hasAncestry; the elf factor speaks to an elf) |
 | E36 | P2 | Aiden's antidote on a poisoned hireling: "to no effect"; Aiden "will not take your money tonight", then charges for the bed | R2-B 164, 146 | the bed **fixed** ec2ceecc (the thanks gives it on the house); the antidote open |
 | E37 | P3 | Paintings the first hour lacks (for the owner's art, not code): a toll-house's hall and counting-house interior (now a church narthex, a still life); a warehouse (shares the one cellar painting with two cellars); a muck pit (a barred cell); a few more cave interiors | R2-A, R2-B | needs art |
+| E38 | P1 | Loot and purchases went to the hireling's pack unasked | R2-A, R2-B, R3-C 134 | **fixed** 7bad3a4d (the player's own character takes, unless a companion carries its like) |
+| E39 | P1 | Escape did not put the map away; a player lost minutes on it | R3-D 88 | **fixed** 6311003e |
+| E40 | P1 | A sellsword for 3 coin made every fight of the first hour free | R1, R2 | **fixed** f89d80d0 (6–8 coin: a real choice beside a 7–21 coin purse and a 50 coin debt) |
+| E41 | P2 | Two old mounds north of Thornhaven, told apart only by "great" and "a door of stone"; a player went to Dolorechies for the king-barrow's crown | R1-B 46, R3-D 104 | open — check that the castellan's word names Lapisrecs on the map |
+| E42 | P3 | Tuck, the debt's creditor, is a halfling in kahitude, drawn by his people's emblem (an acorn): likenesses are only of peoples who look like the paintings' folk, by an earlier design decision | R1, R2 | by design; noted |
 | E8 | — | Headless scripts could not take a map journey | — | **fixed** bf62b137 (`map:<place>`) |
 | E21 | — | Cold agents under automation skip the prologue; next rounds use `&opening` | P | noted (harness) |
