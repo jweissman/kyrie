@@ -3,15 +3,20 @@ import type { World } from '../lang/world';
 import type { Row } from './choice-grouping';
 
 // Who in the company takes something it picks up or buys, so that taking is one choice rather than a list of hands:
-// a companion already carrying something of the same kind, else whoever carries least. The pack can hand it on.
+// a companion already carrying something of the same kind, else the one the player plays, unless they carry far more
+// than another, who takes it then. The pack can hand it on. Whoever carried least had taken everything, so a hired
+// sword just joined took every find and every purchase, and players asked why (Mission 20's cold rounds).
 export class Carriers {
+  static readonly burdened = 6;
   // Read by the world's indexes (it had gone through every fact the world held, for each thing that could be taken).
   static carrier(world: World, actor: string, item: string): string | undefined {
     const kind = world.one('itemKind', item);
     const loads = world.relatedTo('memberOf', actor).filter(r => world.test(ModuleWriter.call('awake', r.args[0]!)))
       .map(r => ({ member: r.args[0]!, items: world.relatedTo('ownedItem', r.args[0]!).map(o => o.args[0]!) }));
     const same = loads.find(l => l.items.some(i => world.one('itemKind', i) === kind));
-    return (same ?? [...loads].sort((a, b) => a.items.length - b.items.length)[0])?.member;
+    const least = [...loads].sort((a, b) => a.items.length - b.items.length)[0], own = loads[0];
+    const mine = own && least && own.items.length - least.items.length < Carriers.burdened ? own : least;
+    return (same ?? mine)?.member;
   }
   // Who takes each thing the choices offer to take, by what is done with it ("take_item|the rope"): the one carrier()
   // would hand it to, where a choice offers it to them; else the first the choices offer it to. Two of the company
