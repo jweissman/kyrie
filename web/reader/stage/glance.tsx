@@ -151,12 +151,14 @@ export class GlanceStage {
   static Resting({ app, draw, acts, top }: { app: ReaderApp; draw: Draw; acts: Promoted[]; top?: string }) {
     const shown = GlanceStage.pressing(acts), search = Pastime.search(app), hand = AtHand.of(app);
     const ways = Wayfinder.ways(app), only = GlanceStage.only(app), posted = GlanceStage.posted(app);
-    const found = GlanceStage.found(app, hand);
+    const found = GlanceStage.found(app, hand), yours = GlanceStage.yours(app, acts, [posted, search]);
     return <>
       {shown.length > 0 && <GlanceStage.Acts app={app} draw={draw} acts={shown} top={top} />}
       <p className="openers">
         {posted && <Act.View choice={posted} draw={draw} quiet className="opener opens-posted">
           {Typography.curl(posted.label)}</Act.View>}
+        {yours && <Act.View choice={yours} draw={draw} quiet className="opener opens-yours led">
+          {Typography.curl(yours.label)}</Act.View>}
         {only ? <Act.View choice={only.c} draw={draw} quiet
           className={`opener opens-go${only.aim === 'followed' ? ' led' : ''}`}>
           {Typography.curl(`To ${only.name}…`)}</Act.View>
@@ -173,6 +175,14 @@ export class GlanceStage {
   // under Look…, one thing among others): the place's own offer to read it. Read, it is at hand like the rest.
   static posted(app: ReaderApp): Choice | undefined {
     return (app.menu.scene?.you ?? []).find(c => SceneModel.own(c) && /^Read /.test(c.label) && !c.disabled);
+  }
+  // What the company itself can do that the place leads with first (ring the bell it carries, among the hobs), as a
+  // touch of its own, as an unread notice is: led with and drawn nowhere but Look…, the reference tour had stopped at
+  // it (Mission 20).
+  static yours(app: ReaderApp, acts: Promoted[], drawn: (Choice | undefined)[]): Choice | undefined {
+    const lead = acts.find(a => a.tier > 0 && !a.exit && !a.choice.startsWith('travel:') && !a.subject);
+    const c = lead && (app.menu.scene?.you ?? []).find(x => x.id === lead.choice);
+    return c && !c.disabled && !drawn.some(d => d?.id === c.id) ? c : undefined;
   }
   // A find the place leads with (the stolen bell in the hobs' plunder, a treasure in a vault), named on the scene with
   // its own touch, as an unread notice is: it had been only under Look…, undotted for another aim's, and nothing on the
