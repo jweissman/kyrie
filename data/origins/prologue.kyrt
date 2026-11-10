@@ -28,7 +28,7 @@
     State righted "The cart stands square on the road again, its load roped down, the horse quiet.".
     Change heave "Put your shoulder to the wheel with him" from ditched to righted needing brawn or crowbar.
     }
-  Topic carter_thanks with carter "Hear the wagoner out" when state(cart, righted) and not wayIn(cart_righted) and not wayIn(cart_bargained) once {
+  Topic carter_thanks with carter "Let him thank you" when state(cart, righted) and not wayIn(cart_righted) and not wayIn(cart_bargained) once {
     Says "'You'll eat at my cost, then,' says the wagoner, wiping his hands down his coat. 'Ask for me at the inn tonight; there's always a bowl for whoever gets a man out of a ditch.' He presses two coins on you as well, and will not have them back.".
     On discuss { Assert wayIn(cart_righted). Assert knows(actor, cart_righted). Increase quantity(actor, gold) by 2. }
   }

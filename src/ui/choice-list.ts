@@ -93,7 +93,7 @@ export class ChoiceList {
   private static lamps(screen: Screen): Choice[] {
     const lamp = [...screen.items.flatMap(i => i.acts), ...screen.camp, ...screen.unplaced]
       .flatMap(a => a.children ?? [a]).find(a => a.command?.startsWith('light_lamp('));
-    return lamp ? [{ id: 'light:lamp', label: 'Fill the lantern and light it', tone: 'item' as const,
+    return lamp ? [{ id: 'light:lamp', label: 'Fill a lantern and light it', tone: 'item' as const,
       command: lamp.command! }] : [];
   }
   // And a caster with a spell that gives light casts it there, if it can now (see Illumination).
