@@ -8,8 +8,9 @@ Module quarrel "The boundary stones" {
   Entity keeper: group "The innkeeper".
   Entity trader: group "The merchant".
   Entity priest: group "The priest".
-  Relation restored(group). Relation bought(group). Relation offered(group).
+  Relation restored(group). Relation bought(group). Relation offered(group). Relation asked(group).
   Entity feud: fact "The innkeeper and the merchant have not spoken since the boundary stones moved.".
+  Entity priest_knows: fact "The priest knows where the boundary stones stood, and will not say it to the merchant's face.".
   Initially Assert established(feud).
 
   Place garden "the inn's back garden" is room within town at 1, 2.
@@ -38,12 +39,28 @@ Module quarrel "The boundary stones" {
   }
   Topic priest_stones with priest "Ask {priest} about the stones" when not restored(trader) once {
     Says "'They were moved in the spring,' says {priest}. 'I married {keeper}'s parents in that garden; I know where the stones stood. But {trader} gives the most at the shrine, and I have a roof to mend.'".
+    On discuss { Assert knows(actor, priest_knows). }
+  }
+  // A talker's own way to settle it (Mission 20's fourth round, E 140: three accounts of the stones gathered and no way
+  // to use them): the priest talked round to say it to the merchant's face.
+  Action priest_witness(actor: group, site: place) "Talk {priest} round to say where the stones stood, to {trader}'s face" {
+    Speaker priest. Time 30 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and at(priest, site) and knows(actor, priest_knows)
+      and not restored(trader) and not bought(actor) and not asked(priest).
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert asked(priest). Assert restored(trader). }
+    On failure { Assert asked(priest). }
+    Result "{priest} is quiet a long time. Then: 'The roof can leak.' You go together to {trader}'s, and {priest} says where the stones stood, and who married whom in that garden, and {trader} hears it out red to the ears. 'All right,' {trader} says at last. 'They go back.'".
+    Otherwise "{priest} shakes their head. 'I have said it to you. That will have to do.'".
   }
   Topic keeper_thanks with keeper "Tell {keeper} the stones are going back" when restored(trader) and not bought(actor) once {
     Says "{keeper} puts down the cup, and pushes six coin back across the counter. 'For your trouble. Nobody else in this town would have said it to {trader}.'".
     On discuss { Increase quantity(actor, gold) by 6. }
   }
 
-  Objective stones when knows(party, feud) and not restored(trader) and not bought(party) "The innkeeper and the merchant are at odds over the boundary stones behind the inn.".
+  // Where the stones are, and once their old holes are found, who must hear of it: the aim had said only that there was
+  // a quarrel, and a player who gathered every account of it found nothing to do with them (round 4, E 140–144).
+  Objective stones when knows(party, feud) and not knows(party, holes) and not restored(trader) and not bought(party) toward garden "The innkeeper and the merchant are at odds over the boundary stones in the inn's back garden.".
+  Objective stones_holes when knows(party, holes) and not restored(trader) and not bought(party) toward trader "The boundary stones were moved: their old holes are under the grass by the hedge, and {trader} has not been told so to their face.".
   Goal restored(trader).
 }
