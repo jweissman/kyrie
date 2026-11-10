@@ -88,6 +88,8 @@ html, body { overflow: hidden; }
 /* The light the title stands in: a warm glow behind the name, low and wide, as off a hearth; the painting drifting
    very slowly closer once the title is up; and sparks going up through it (TitlePage.Motes). Still for one who asks
    for less motion. */
+.title-page .build { position: absolute; right: max(20px, env(safe-area-inset-right)); bottom: max(16px, env(safe-area-inset-bottom));
+  margin: 0; font: 400 11px var(--do); letter-spacing: .06em; color: var(--faint); }
 .title-page::before { content: ''; position: absolute; inset: 0; pointer-events: none;
   background: radial-gradient(ellipse 46% 30% at 50% 40%, rgba(242, 189, 76, .10), transparent 70%),
     linear-gradient(180deg, transparent 55%, rgba(10, 11, 14, .65)); }

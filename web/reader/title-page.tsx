@@ -5,6 +5,7 @@ import { Toast } from './toast';
 import { Likeness } from '../../src/paintings/likeness';
 import { Identity } from '../../src/presentation/identity';
 import { Ident } from './ident';
+import { Build } from './build';
 
 type Beat = 'ident' | 'dark' | 'reveal' | 'ready';
 // Where the gold mark stands within the menu: the chosen way's name, from its left edge and its middle, and how wide.
@@ -58,6 +59,7 @@ export class TitlePage {
         </main>
         {beat !== 'ident' && <TitlePage.Motes />}
         {beat !== 'ident' && credit && <p className="credit" aria-hidden="true">{credit}</p>}
+        {beat !== 'ident' && <p className="build" data-id="build">{`build ${Build.commit}`}</p>}
         <Toast.View app={app} />
       </div>
     );

@@ -49,13 +49,18 @@ export class SiteBuild {
     const engine = await this.engine(minify, dirs);
     const result = await Bun.build({ entrypoints: [join(this.root, 'web/reader/reader-main.tsx')], target: 'browser',
       format: 'iife', outdir: out, naming: 'mono.js', minify, sourcemap: minify ? 'linked' : 'none',
-      define: { 'process.env.NODE_ENV': '"production"' },
+      define: { 'process.env.NODE_ENV': '"production"', KYRIE_COMMIT: JSON.stringify(SiteBuild.commit()) },
       plugins: [{ name: 'engine-source', setup: SiteBuild.embed.bind(SiteBuild, engine) }] });
     if (!result.success) { throw new AggregateError(result.logs, 'Reader build failed'); }
     const board = await Bun.build({ entrypoints: [join(this.root, 'web/reader/board/board-main.ts')], target: 'browser',
       format: 'iife', outdir: out, naming: 'board.js', minify });
     if (!board.success) { throw new AggregateError(board.logs, 'Board build failed'); }
     return result.outputs.reduce((sum, o) => sum + o.size, 0);
+  }
+  // The commit built (CI's, else the checkout's), shown on the title page and in version.json.
+  static commit(): string {
+    const sha = process.env.GITHUB_SHA ?? Bun.spawnSync(['git', 'rev-parse', 'HEAD'], { cwd: this.root }).stdout.toString();
+    return sha.trim().slice(0, 8) || 'local';
   }
   static embed(engine: string, build: PluginBuilder) {
     build.onResolve({ filter: /^kyrie:engine$/ }, () => ({ path: 'kyrie:engine', namespace: 'kyrie' }));
@@ -68,6 +73,7 @@ export class SiteBuild {
     const size = await this.reader(out, true, options.fixtures ? ['test/fixtures'] : []);
     await this.page(out, '');
     await writeFile(join(out, '.nojekyll'), '');
+    await writeFile(join(out, 'version.json'), `${JSON.stringify({ commit: this.commit(), built: new Date().toISOString() })}\n`);
     const handbooks = new Handbooks(this.root);
     await HandbookPublisher.html(handbooks, join(out, 'handbook'));
     await HandbookPublisher.encyclopedia(handbooks, join(out, 'encyclopedia'));
