@@ -61,6 +61,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the portraits as drawn', () => {
     await page.waitForSelector('[data-action="start"]');
     await d.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
+    // Play begins on the place (Mission 20's amendment 1): M raises the map, where the company's likeness stands.
+    await page.keyboard.press('m');
     await page.waitForSelector('.board-you .you-plate.faced img', { timeout: 30000 });
     expect(await Measure.plate(page)).toEqual({ fits: true, transform: 'none', top: '0px' });
     await d.enter();

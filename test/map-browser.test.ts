@@ -66,6 +66,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the map and the notes, to plan with
     await page.click('[data-action="origin"][data-id="debt"]');
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
+    // Play begins in the town (Mission 20's amendment 1): M raises the map.
+    await page.keyboard.press('m');
     // North: east of every first country is the Eastern Ocean, whose shore no road goes over (see WorldShape).
     await page.waitForSelector('[data-action="map-place"][data-id="region__edge_north"]', { timeout: 120000 });
     await page.focus('[data-action="map-place"][data-id="region__edge_north"]');
@@ -98,6 +100,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the map and the notes, to plan with
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
+    // Play begins in the town (Mission 20's amendment 1): M raises the map.
+    await page.keyboard.press('m');
     await page.waitForSelector('.field-land.board[data-board="ready"] .board-you', { timeout: 120000 });
     await page.waitForTimeout(2000);
     const fit = await page.evaluate(() => {
@@ -126,6 +130,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the map and the notes, to plan with
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
+    // Play begins in the town (Mission 20's amendment 1): M raises the map.
+    await page.keyboard.press('m');
     const from = (await driver.inspect()).place?.id;
     await page.waitForSelector('.field-land.board[data-board="ready"]', { timeout: 180000 });
     await page.waitForTimeout(6000);
