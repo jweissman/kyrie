@@ -52,6 +52,11 @@ export class Scenery {
     // A kind seen from within (a taproom, a cellar) is not painted as the country, nor is one with nothing to show.
     if (known && (!named!.kind.ground || !known.length)) { return undefined; }
     if (known) { return this.pick(this.seasonal(known, season), screen.place.id); }
+    // A site's ground, named by a name and no kind (Seolforfyrd), by the kind the map knows it for (a ruin): the
+    // toll-house of dressed stone on the water had been a sunny glade with stags in it (Mission 20's first cold round).
+    const mark = screen.region?.land?.marks.find(m => m.id === screen.place.id);
+    const sited = mark && SceneKinds.kinds.find(k => k.kind === mark.kind)?.ground;
+    if (sited?.length) { return this.pick(this.seasonal(sited, season), screen.place.id); }
     const area = screen.region?.areas.find(a => a.here);
     const form = area?.form?.replace(/^land_/, ''), terrain = screen.region?.terrain?.replace(/^.*__/, '');
     const keys = where === 'site' ? ['site']

@@ -4,13 +4,15 @@ Module cave_hold "A cave hold" {
   Place land "The region" is region.
   Place outside "The approach" is room.
 
+  // Its rooms past the mouth are under the hill: painted from within, and no sky told (the side-cave had been shown as
+  // a sunlit cave-mouth seen from outside, by torchlight: Mission 20's reference tour).
   Place lair "the cave" is site within land.
   Place mouth "the cave mouth" is room within lair at 0, 1.
-  Place cavern "the smoky cavern" is room within lair at 1, 1.
-  Place ledge "the high ledge" is room within lair at 1, 0.
-  Place pit "the captives' pit" is room within lair at 2, 1.
-  Place cache "a dry side-cave" is room within lair at 2, 0.
-  Place crack "the spy-crack" is room within lair at 0, 0.
+  Place cavern "the smoky cavern" is room within lair at 1, 1 underground.
+  Place ledge "the high ledge" is room within lair at 1, 0 underground.
+  Place pit "the captives' pit" is room within lair at 2, 1 underground.
+  Place cache "a dry side-cave" is room within lair at 2, 0 underground.
+  Place crack "the spy-crack" is room within lair at 0, 0 underground.
   Place hillside "the hillside above the cave" is room within lair at 1, 2.
   Initially Assert unlit(pit). Initially Assert unlit(cache). Initially Assert unlit(crack). Initially Assert indoors(cavern).
 
