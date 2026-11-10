@@ -43,6 +43,14 @@ describe('the glance ranks', () => {
     expect(picked[0]!.facets).toEqual(['here', 'aimed', 'urgent']);
     expect(picked[1]!.marks).toEqual([fight]);
   });
+  // Mission 20's honest play: a lone warrior led to attack the hobs' raiding party, "beyond you", fell.
+  it('leads with the way back before an attack the company reckons deadly', () => {
+    const s = { ...Made.calm, threat: true };
+    const deadly = { kind: 'fight' as const, said: 'beyond you', ask: true, danger: 'deadly' as const };
+    const cands = [Made.c('raiders/attack', ['danger'], { subject: 'raiders', kind: 'attack', marks: [deadly] }),
+      Made.c('exit:pit', ['retreat'], { kind: 'way', subject: undefined })];
+    expect(Made.ids(cands, s)).toEqual(['exit:pit', 'raiders/attack']);
+  });
   it('never leads with a wait, a step but toward the aim, study, a bare search, a camp or rest unneeded, the barred', () => {
     const never = [Made.c('wait', ['life'], { kind: 'wait' }), Made.c('north', ['unvisited'], { kind: 'step' }),
       Made.c('prepare', ['own'], { kind: 'study' }), Made.c('search', ['own'], { kind: 'search' }),

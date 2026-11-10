@@ -401,6 +401,26 @@ export class Glance {
       const exit = first && screen.exits.find(e => e.destination.id === first && !e.blocked);
       if (exit) { return new Set([`~${exit.id}`]); }
     }
+    return this.outward(graph, screen, at);
+  }
+  // Nothing in it left to go into: the way back out of it, toward the nearest place outside it (the hobs' hold walked
+  // to its last room, and the page had led with nothing at all: Mission 20's honest play).
+  private static outward(graph: Map<string, WayInfo[]>, screen: Screen,
+    at: { byId: Map<string, Entity>; site: string }): Set<string> {
+    const firsts = new Map<string, string>([[screen.place.id, '']]);
+    for (let frontier = [screen.place.id]; frontier.length;) {
+      const next: string[] = [];
+      for (const w of frontier.flatMap(from => (graph.get(from) ?? []).map(w => ({ from, w })))) {
+        if (firsts.has(w.w.to)) { continue; }
+        const first = firsts.get(w.from) || w.w.to;
+        if (this.siteOf(at.byId, w.w.to) !== at.site) {
+          const exit = screen.exits.find(e => e.destination.id === first && !e.blocked);
+          return new Set(exit ? [`^${exit.id}`] : []);
+        }
+        firsts.set(w.w.to, first); next.push(w.w.to);
+      }
+      frontier = next;
+    }
     return new Set();
   }
   private static siteOf(byId: Map<string, Entity>, id: string): string | undefined {

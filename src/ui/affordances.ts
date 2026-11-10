@@ -245,7 +245,7 @@ export class Affordances {
     // journey, never the way's own command, which the campaign refuses (the travel-contract review, 9 November).
     return [this.candidate(c, { exit: exit.id, kind, whys, r, ...exit.crosses && !tried ? { command: `travel:${dest}` } : {},
       notes: { retreat: dest === r.back ? 'the way you came' : 'up, toward the light', named: 'your aim', toward: 'toward your aim', held: 'another aim',
-        deeper: 'further in', onward: 'toward the rest of it',
+        deeper: 'further in', onward: r.inward.has(`^${exit.id}`) ? 'back out' : 'toward the rest of it',
         night: 'a bed for the night', unlooked: exit.blocked ?? '' }, visited: exit.visited,
       pointed: r.pointed.has(dest) })];
   }
@@ -253,7 +253,7 @@ export class Affordances {
   // end toward the rest of it, after what the room has to do (see Glance.inward).
   private static inward(c: Choice, exit: string, r: Reading): Why[] {
     if (c.id !== exit || c.risk) { return []; }
-    return r.inward.has(exit) ? ['deeper'] : r.inward.has(`~${exit}`) ? ['onward'] : [];
+    return r.inward.has(exit) ? ['deeper'] : r.inward.has(`~${exit}`) || r.inward.has(`^${exit}`) ? ['onward'] : [];
   }
   private static firstTry(c: Choice, exit: ExitRow): boolean {
     return c.id === `${exit.id}/${exit.acts[0]?.key ?? ''}`;

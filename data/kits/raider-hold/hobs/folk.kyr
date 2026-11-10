@@ -159,21 +159,26 @@ Module hob_folk "Hobs" {
   Rule gaffer_fights when together(gaffer, party) and able(gaffer) and alarmed(gaffer) and not tolerates(gaffer, party)
     says "The Gaffer comes off his fleeces with a knife in each hand, cackling." { Assert assails(gaffer, party). }
 
-  // A bell rung where hobs are, or within earshot of them, sends them running out of the back way.
+  // A bell rung where hobs are, or within earshot of them, sends them running out of the back way: every time, for
+  // hobs creep back to the fire (it had worked once, and rung again over the boy's pit it did nothing: Mission 20).
   Action ring_bell(actor: group, site: place) "Ring the bell" {
     Description "Swing it hard. Whatever is within earshot will hear it.".
-    Requires able(actor) and at(actor, site) and holding(actor, bell) and not rung(site).
+    // Only where a hob would hear it: offered in every room and road with the bell in hand, it had been led with on
+    // every page after the hold was empty (Mission 20's honest play).
+    Requires able(actor) and at(actor, site) and holding(actor, bell) and not rung(site)
+      and (at(raiders, site) or at(watchers, site) or at(gaffer, site) or (connects(?w, site, ?q)
+        and (at(raiders, ?q) or at(watchers, ?q) or at(gaffer, ?q)))).
     On success { Assert rung(site). }
     Result "The bell's voice goes out over everything.".
   }
-  Rule bell_watchers when rung(?p) and able(watchers) and not routed(watchers) and (at(watchers, ?p) or (connects(?w, ?p, ?q) and at(watchers, ?q)))
+  Rule bell_watchers when rung(?p) and able(watchers) and not at(watchers, bolt) and (at(watchers, ?p) or (connects(?w, ?p, ?q) and at(watchers, ?q)))
     says "The hobs clap their hands over their ears and run, howling, the way hobs run from a bell." {
     Assert routed(watchers). Retract state(watchers, watching). Assert at(watchers, bolt).
   }
-  Rule bell_raiders when rung(?p) and able(raiders) and not routed(raiders) and (at(raiders, ?p) or (connects(?w, ?p, ?q) and at(raiders, ?q)))
+  Rule bell_raiders when rung(?p) and able(raiders) and not at(raiders, bolt) and (at(raiders, ?p) or (connects(?w, ?p, ?q) and at(raiders, ?q)))
     says "Somewhere close a hob shrieks, and feet go scrabbling away." { Assert routed(raiders). Assert at(raiders, bolt). }
   Rule bell_gaffer when rung(?p) and able(gaffer) and (at(gaffer, ?p) or (connects(?w, ?p, ?q) and at(gaffer, ?q)))
-    and not routed(gaffer) says "The Gaffer screams like a kettle and goes out of the back way with his mitre over his ears." {
+    and not at(gaffer, bolt) says "The Gaffer screams like a kettle and goes out of the back way with his mitre over his ears." {
     Assert routed(gaffer). Assert at(gaffer, bolt).
   }
   Rule bell_fades when rung(?p) { Retract rung(?p). }

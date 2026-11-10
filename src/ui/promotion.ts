@@ -45,7 +45,7 @@ export class Promotion {
     // A risk of the place's own (skittles) is led with only when there is nothing else.
     const choices = new Set(eligible.map(x => x.c.choice));
     const fit = eligible.filter(x => !(x.c.own && x.c.risk && x.best === 'own' && choices.size > 1));
-    fit.sort((a, b) => this.rank(a.best) - this.rank(b.best) || Number(a.c.kind === 'attack') - Number(b.c.kind === 'attack')
+    fit.sort((a, b) => this.ranked(a) - this.ranked(b) || Number(a.c.kind === 'attack') - Number(b.c.kind === 'attack')
       || a.c.order - b.c.order);
     const subjects = new Set(fit.map(x => x.c.subject ?? x.c.choice)), picked: Promoted[] = [];
     // Someone to talk to is drawn on their own plate, edged (see the reader's MenuModel.leads), not among the three:
@@ -99,6 +99,11 @@ export class Promotion {
     if (c.kind === 'search') { return whys.filter(w => w === 'sign' || w === 'named'); }
     if (c.kind === 'camp' || c.kind === 'rest') { return whys.filter(w => this.tiers[w][0] === 2); }
     return whys;
+  }
+  // Where it is drawn among the rest: by its best reason, but an attack the company's own reckoning calls deadly after
+  // the way back from it (a lone warrior led to attack the hobs' raiding party, "beyond you", fell: Mission 20).
+  private static ranked(x: { c: Candidate; best: Why }): number {
+    return this.rank(x.best) + (x.c.kind === 'attack' && x.c.marks.some(m => m.danger === 'deadly') ? 5 : 0);
   }
   private static best(whys: Why[]): Why { return [...whys].sort((a, b) => this.rank(a) - this.rank(b))[0]!; }
   private static rank(w: Why): number { const [tier, n] = this.tiers[w]; return tier * 10 + n; }

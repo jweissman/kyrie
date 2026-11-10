@@ -11,9 +11,11 @@ export class Treasure {
   // Whose a thing is, when it is someone's other than the company's: theirs, not spoils to be led to (the page led with
   // the hobs' rings in their own store after "Don't touch nothing", and brought the raiders down on a lone newcomer:
   // register M19-233).
+  // Not once they have been routed from it: the Gaffer gone out of the back way from the bell, his chest is plunder.
   static theirs(w: World, id: string, company: string): string | undefined {
     const owner = w.relates('owns') ? w.related('owns').find(r => r.args[1] === id && r.args[0] !== company)?.args[0]
       : undefined;
-    return owner ? ObservationText.label(w, owner) : undefined;
+    const routed = !!owner && w.relates('routed') && w.test(ModuleWriter.call('routed', owner));
+    return owner && !routed ? ObservationText.label(w, owner) : undefined;
   }
 }
