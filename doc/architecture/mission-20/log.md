@@ -14,6 +14,13 @@ Reproduce headlessly with `bun /var/tmp/kyrie/m20/tools/leads.ts <origin> <race/
    the moment after the prologue only, M19's "start on the one full-screen map": the first screen is the place the
    origin puts the company in; the map stays the way to travel. Excludes B and C.
 
+## Rounds of cold play
+
+| Round | Build | Players | Outcome |
+|---|---|---|---|
+| 1 | `7302392c` (M19 freeze), prologue skipped | A: debt warrior; B: map, birdfolk ranger | A paid the debt by star-iron under the town, unled; B did the spiders, was locked out of the hobs' hold after a parley |
+| 2 | `78c9b45c`, the real opening | A: debt warrior; B: debt, **elf thief** | **Both paid the debt**: A on Day 1 by the hobs' hold (bell, boy, loot sold to Tuck); B on Day 2 by ratsbane, the hold by the bell, the spiders and the catacombs. Both reloaded and kept their game |
+
 ## Barriers
 
 Sources: the builder's probes (P), cold round 1 player A / B (screenshot numbers in their reports).
@@ -51,5 +58,8 @@ Sources: the builder's probes (P), cold round 1 player A / B (screenshot numbers
 | E31 | P2 | Paintings repeated in one site (one cellar image three times), a cathedral for the toll-hall, a barred cell for a muck pit; a painting's credit caption on the scene; the hireling's portrait is the player's | R2-A 82–129 | open |
 | E32 | P1 | An act that brings on a fight is told as an attack: "Throw an oil firebomb through the crack into the brood-chamber" began a fight narrated "You attack the spiders in the old workings", and its own result (the mother dead, the eggs burned) was learned only from the reward afterwards | R1-B 82–91; R2-B 170 | open — reproduce headlessly at the quarry's gallery |
 | E33 | P2 | A lock whose key the company carries offers "pick" and "wrench" and never says the key opens it, though Go… lets it through (PassageModel lets a keyholder by via `opens`; nothing carries that to the lock's pane) | R1-A 76–79; R2-B 154, 181 | open — carry `keyed` from PassageModel.way through Passages.known/merge to ExitRow and AtHand |
+| E34 | P1 | The world does not notice what was done: the bell carried home under "Nobody has gone after it"; a second shepherd's boy telling of Silkholme beside the rescued one; the Gaffer "comes off his fleeces" after he was dead | R2-B 130, 123, §10.1 | partly fixed 87f1c799 (the frame waits for the bell; the herd-girl); the Gaffer's line open |
+| E35 | P1 | A calling's own ways are buried: slipping past the gate-hobs was in Look… under the brambles, the main list only Parley and Attack; nobody reacts to ancestry (an elf, not even the other elf) | R2-B 88, §6 | open |
+| E36 | P2 | Aiden's antidote on a poisoned hireling: "to no effect"; Aiden "will not take your money tonight", then charges for the bed | R2-B 164, 146 | open — reproduce |
 | E8 | — | Headless scripts could not take a map journey | — | **fixed** bf62b137 (`map:<place>`) |
 | E21 | — | Cold agents under automation skip the prologue; next rounds use `&opening` | P | noted (harness) |
