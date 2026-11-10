@@ -12,11 +12,14 @@ import type { PlaceRef, Screen } from './screen-types';
 // or its site's ("the cross-chamber" of "the passage-grave" is a room of the dead, not any hall), and a room's own
 // plain kind (a hall, a passage, a shop) gives way to its level's or site's where that has one.
 // owner: a kind its words name by whose room it is ("the necromancer's study"), not lowered as a possessor.
+// parts: how its own rooms of a kind are painted (a barrow's chamber, its passage, its stair), not as any hall's.
 export interface SceneKind {
   kind: string; words: string[]; ground?: string[]; room?: string[]; plain?: boolean; owner?: boolean;
+  parts?: Record<string, string[]>;
 }
-// A kind, and the word of the place's own that named it (none where it is its level's or site's).
-export interface Named { kind: SceneKind; word?: string }
+// A kind, the word of the place's own that named it (none where it is its level's or site's), and the part of it the
+// place is, where the kind paints that part its own way.
+export interface Named { kind: SceneKind; word?: string; part?: string }
 export class SceneKinds {
   static readonly kinds: SceneKind[] = table.kinds;
   static readonly generic = new Set<string>(table.generic);
@@ -25,12 +28,25 @@ export class SceneKinds {
   static of(screen: Screen, fits?: (kind: SceneKind) => boolean): Named | undefined {
     const parent = screen.path.filter(p => p.id !== screen.place.id).at(-1);
     const own = this.named(screen.place, parent?.id);
-    if (own && !this.generic.has(own.kind.kind) && (!fits || fits(own.kind))) { return own; }
     const inner = [...screen.path].reverse()
       .filter(p => p.id !== screen.place.id && ['level', 'site'].includes(p.kind));
-    const kin = inner.map(p => this.named(p)?.kind)
-      .find(k => k && !this.generic.has(k.kind) && (k.room || k.plain));
+    const kins = inner.map(p => this.named(p)?.kind ?? (p.kind === 'site' ? this.marked(screen, p) : undefined))
+      .filter(k => !!k && !this.generic.has(k.kind)) as SceneKind[];
+    // A part of the nearest that paints it its own way: a barrow's chamber is its chamber, not a cathedral's hall.
+    if (own && kins[0]?.parts?.[own.kind.kind]) { return { kind: kins[0], part: own.kind.kind }; }
+    if (own && !this.generic.has(own.kind.kind) && (!fits || fits(own.kind))) { return own; }
+    const kin = kins.find(k => k.room || k.plain);
     return kin ? { kind: kin } : own;
+  }
+  // A site named by a name and no kind (Dolorechies) is what the map marks the ground it opens from for (a barrow):
+  // its chambers had been a cathedral's and a scholar's room (Mission 20's third cold round, D 114, 124).
+  private static marked(screen: Screen, site: PlaceRef): SceneKind | undefined {
+    const mark = screen.region?.land?.marks.find(m => site.id.startsWith(`${m.id}_`));
+    return mark && this.kinds.find(k => k.kind === mark.kind);
+  }
+  // How a place of the kind is painted where it is: as its part, where the kind paints that part, else as the kind.
+  static views(named: Named, at: { roofed: boolean; underground: boolean }): string[] | undefined {
+    return (named.part && named.kind.parts?.[named.part]) || this.painted(named.kind, at);
   }
   // The kind the place's name says, else its id. Its head is the last word naming a kind before the name's first
   // preposition ("Green Cave" is a cave, "the tower roof" a roof), else the first after it ("the shrine of Lugh",

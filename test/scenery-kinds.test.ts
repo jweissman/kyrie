@@ -83,8 +83,17 @@ describe('the painting of a place', () => {
       ['back_stone', 'the back-stone'], ['recess', 'a side recess'], ['recess2', 'the north recess'],
       ['vent', 'the light-box']]
       .map(([id, name]) => Scene.seen(Scene.room(`${level.id}_${id}`, name!, under), [site, level]));
-    for (const v of rooms) { expect(['scene-crypt', 'scene-ossuary', 'scene-barrow-interior', 'perdition']).toContain(v!); }
+    // Each of its parts as a barrow's: a forecourt with its seal-stone, a passage of slabs, a corbelled chamber, a
+    // recess, not a cathedral's hall or a scholar's room (Mission 20's third cold round).
+    expect(rooms.slice(0, 5)).toEqual(['scene-barrow-forecourt', 'scene-barrow-passage', 'scene-barrow-chamber',
+      'scene-barrow-chamber', 'scene-barrow-recess']);
     expect(new Set(rooms).size).toBeGreaterThanOrEqual(3);
+    // A barrow known by a name and no kind (Dolorechies) is what the map marks its ground for.
+    const named: PlaceRef = { id: 'region__w1_site', name: 'Dolorechies', kind: 'site' };
+    const end = Scene.room('region__w1_end', 'the round chamber', under);
+    const marked = { ...Scene.of(end, [named]), region: { areas: [], terrain: 'forest', edges: [], within: {},
+      land: { marks: [{ id: 'region__w1', kind: 'barrow' }] } } } as unknown as Screen;
+    expect(Scenery.seen(marked)).toBe('scene-barrow-chamber');
     const wild: PlaceRef = { id: 'region__z1', name: 'Birchwood', kind: 'wilderness' };
     const tower: PlaceRef = { id: 'tower__tower', name: 'The tower', kind: 'site' };
     expect(['tower', 'redoubt', 'bolt']).toContain(Scenery.seen(Scene.of(tower, [wild]))!);

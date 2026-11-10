@@ -48,7 +48,7 @@ export class Scenery {
     if (screen.dark) { return this.pick(this.seasonal(night, season), screen.place.id); }
     if (this.places[screen.place.id]) { return this.places[screen.place.id]; }
     const where = this.where(screen), named = SceneKinds.of(screen);
-    const known = named && SceneKinds.painted(named.kind, { roofed: false, underground: false });
+    const known = named && SceneKinds.views(named, { roofed: false, underground: false });
     // A kind seen from within (a taproom, a cellar) is not painted as the country, nor is one with nothing to show.
     if (known && (!named!.kind.ground || !known.length)) { return undefined; }
     if (known) { return this.pick(this.seasonal(known, season), screen.place.id); }
@@ -74,7 +74,7 @@ export class Scenery {
     if (this.places[screen.place.id]) { return this.places[screen.place.id]; }
     const at = { roofed: this.roofed(screen), underground: !!screen.place.underground };
     const named = SceneKinds.of(screen, k => !!SceneKinds.painted(k, at));
-    const known = named && SceneKinds.painted(named.kind, at);
+    const known = named && SceneKinds.views(named, at);
     if (known) { return this.varied(known, screen, named!); }
     const site = screen.path.some(p => p.kind === 'site');
     const views = at.underground ? this.within[site ? 'underground:site' : 'underground'] : this.within.indoors;

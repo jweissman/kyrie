@@ -6864,6 +6864,41 @@
    "form": "interior",
    "shows": "a cold furnace hall below ground: stone hearths under a chimney, slag and ore heaped, a tub on rails",
    "era": "late"
+  },
+  "scene-barrow-forecourt": {
+   "form": "exterior",
+   "shows": "a barrow's forecourt at dusk: a kerb of stones before a grassed mound, a great seal-stone across its door",
+   "era": "late"
+  },
+  "scene-barrow-passage": {
+   "form": "interior",
+   "shows": "a megalithic passage: upright slabs under capstones, one lamp on a stone, the passage going on into the dark",
+   "era": "late"
+  },
+  "scene-barrow-chamber": {
+   "form": "interior",
+   "shows": "a corbelled stone chamber: a stone cist with grave goods, pots, a lamp in a niche",
+   "era": "late"
+  },
+  "scene-barrow-recess": {
+   "form": "interior",
+   "shows": "a side recess in a barrow: a skeleton laid among pots, a ring in a niche, one lamp",
+   "era": "late"
+  },
+  "scene-barrow-stairs": {
+   "form": "interior",
+   "shows": "steps going down between slabs into a barrow, small lamps in niches",
+   "era": "late"
+  },
+  "scene-undercroft-dark": {
+   "form": "interior",
+   "shows": "an empty undercroft unlit: rib vaults on square pillars, a wet flagged floor, the arches going on into black",
+   "era": "late"
+  },
+  "scene-grain-cellar": {
+   "form": "interior",
+   "shows": "a vaulted grain cellar: sacks and bins of grain, baskets, a lantern, a padlocked door",
+   "era": "late"
   }
  }
 }

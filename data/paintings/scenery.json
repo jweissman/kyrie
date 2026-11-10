@@ -92,11 +92,12 @@
     {"kind": "forge", "words": ["forge", "smithy", "smith", "ironmongery", "ironmonger", "tools"], "room": ["scene-forge", "scene-ironmongery"]},
     {"kind": "stable", "words": ["stable", "stables", "byre", "stall", "cowshed"], "room": ["scene-stable"]},
     {"kind": "churchyard", "words": ["churchyard", "graveyard", "lych"], "ground": ["scene-churchyard", "chapel"]},
-    {"kind": "grave", "words": ["crypt", "ossuary", "vault", "bone", "bones", "tomb", "tombs", "grave", "graves", "dead", "mourners", "embalmers", "coffin", "barrow", "burial", "catacomb", "catacombs", "sepulchre", "mound"], "ground": ["scene-barrow", "trilith"], "room": ["scene-crypt", "scene-ossuary", "scene-barrow-interior", "perdition"]},
+    {"kind": "barrow", "words": ["barrow", "barrows", "mound", "cairn", "howe", "passage-grave"], "ground": ["scene-barrow", "scene-barrow-forecourt"], "room": ["scene-barrow-chamber", "scene-barrow-passage", "scene-barrow-interior"], "parts": {"forecourt": ["scene-barrow-forecourt"], "hall": ["scene-barrow-chamber"], "passage": ["scene-barrow-passage"], "stair": ["scene-barrow-stairs"], "recess": ["scene-barrow-recess"]}},
+    {"kind": "grave", "words": ["crypt", "ossuary", "vault", "bone", "bones", "tomb", "tombs", "grave", "graves", "dead", "mourners", "embalmers", "coffin", "burial", "catacomb", "catacombs", "sepulchre"], "ground": ["scene-barrow", "trilith"], "room": ["scene-crypt", "scene-ossuary", "scene-barrow-interior", "perdition"]},
     {"kind": "shrine", "words": ["shrine", "chapel", "altar", "temple", "church", "oratory", "sanctuary", "adyton", "sanctum", "naos", "cella"], "ground": ["scene-temple", "chapel", "abbey"], "room": ["scene-woodland-shrine", "scene-adyton", "breviary"]},
     {"kind": "granary", "words": ["corn-store", "granary", "grain-store", "barn", "garner"], "ground": ["scene-granary"], "room": ["scene-granary"]},
-    {"kind": "undercroft", "words": ["undercroft", "undercrofts"], "room": ["scene-undercroft"]},
-    {"kind": "cellar", "words": ["cellar", "warehouse"], "room": ["scene-cellar"]},
+    {"kind": "undercroft", "words": ["undercroft", "undercrofts"], "room": ["scene-undercroft-dark"]},
+    {"kind": "cellar", "words": ["cellar", "warehouse"], "room": ["scene-cellar", "scene-grain-cellar"]},
     {"kind": "brood", "words": ["brood", "brood-chamber", "web", "webs", "spider", "spiders", "egg-sacs"], "room": ["scene-spider-chamber"]},
     {"kind": "drain", "words": ["drain", "culvert", "sewer", "sewers", "outfall"], "room": ["scene-sewer-drain"]},
     {"kind": "vermin", "words": ["rat", "rats", "runs", "warren", "nest", "burrow", "crawl"], "room": ["scene-burrow"]},
@@ -159,7 +160,9 @@
     {"kind": "home", "words": ["houses", "house", "cottage", "home", "lodge"], "room": ["scene-rustic-home", "food"]},
     {"kind": "hall", "words": ["hall", "halls", "chamber", "antechamber", "choir", "solar", "pillared", "colonnade"], "room": ["dissolution", "narthex"]},
     {"kind": "passage", "words": ["passage", "gallery", "corridor", "throat", "tunnel"], "room": ["scene-underground-passage", "perdition", "meditation"]},
+    {"kind": "forecourt", "words": ["forecourt", "forecourts"]},
+    {"kind": "recess", "words": ["recess", "recesses", "niche", "niches", "alcove"]},
     {"kind": "shop", "words": ["shop", "store"], "room": ["scene-town-merchant"]}
   ],
-  "generic": ["hall", "passage", "shop", "home"]
+  "generic": ["hall", "passage", "shop", "home", "forecourt", "recess"]
 }
