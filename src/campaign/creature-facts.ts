@@ -24,7 +24,7 @@ type Entity = Module['entities'][number];
 interface Declared {
   has: Set<string>; measures: Set<string>; abilityIds: Set<string>; declared: ArenaAbility[]; field: ArenaAbility[];
   capabilities: Entity[]; items: Entity[]; kinds: Entity[]; references: Map<string, string>; itemIds: Set<string>;
-  callings: Map<string, string[]>;
+  callings: Map<string, string[]>; ancestries: Map<string, string[]>;
 }
 // What the module declares, with the world the projection reads what holds now from (see `set`).
 interface Scope extends Declared { world: World; at?: PerkContext }
@@ -33,7 +33,8 @@ export class CreatureFacts {
   // Every relation or measure `project` writes.
   static readonly written = ['capable', 'memberOf', 'companion', 'awake', 'needsCare', 'ownedItem', 'wearing', 'proficient', 'canTrain',
     'treatable', 'relieves', 'canCast', 'able', 'dead', 'quantity', 'swappable', 'company', 'improvable', 'learnable',
-    'brings', 'featOpen', 'skillOpen', 'temperament', 'fallen', 'slain', 'craft', 'levelOf', 'hasCalling', 'learned', 'levelDrained'];
+    'brings', 'featOpen', 'skillOpen', 'temperament', 'fallen', 'slain', 'craft', 'levelOf', 'hasCalling', 'learned', 'levelDrained',
+    'hasAncestry'];
   static readonly crafts = ['wild', 'roads', 'mechanisms', 'shadows', 'healing', 'faith', 'learning', 'earth', 'arms',
     'water', 'stage', 'trade', 'court', 'margins'];
   // Every relation or measure a projection writes or reads besides the creatures (see Projection).
@@ -127,7 +128,8 @@ export class CreatureFacts {
       // plongman__calling_mage): a world of many modules has one of each module's, and a module's rules ask for its own
       // (the Imbar author's calling-portability audit: only the last installed had been given, so every module's voices
       // but one were silent).
-      callings: CreatureFacts.callings(entities),
+      callings: CreatureFacts.callings(entities, 'callingkind', 'calling'),
+      ancestries: CreatureFacts.callings(entities, 'ancestrykind', 'ancestry'),
       references: new Map(entities.filter(e => e.creatureId).map(e => [e.creatureId!, e.id])) };
     this.declarations.set(module, { lengths, declared: made });
     return made;
@@ -243,10 +245,11 @@ export class CreatureFacts {
       ...this.set(scope, 'canCast', reference, usable.map(a => a.id)));
     return changes;
   }
-  private static callings(entities: Entity[]): Map<string, string[]> {
-    const out = new Map<string, string[]>();
-    for (const e of entities.filter(x => x.type === 'callingkind')) {
-      const id = e.id.replace(/^.*__calling_|^calling_/, '');
+  // Each calling (or ancestry) by its class (or race), under every id an installation gave it.
+  private static callings(entities: Entity[], type: string, prefix: string): Map<string, string[]> {
+    const out = new Map<string, string[]>(), named = new RegExp(`^.*__${prefix}_|^${prefix}_`);
+    for (const e of entities.filter(x => x.type === type)) {
+      const id = e.id.replace(named, '');
       out.set(id, [...out.get(id) ?? [], e.id]);
     }
     return out;
@@ -254,7 +257,10 @@ export class CreatureFacts {
   // A member's calling, and what they have learned of the abilities the world names (the Book of Faces' BOF-13).
   private static calling(c: Creature, reference: string, scope: Scope, learned: string[]): Change[] {
     const callings = (c.classId && scope.callings.get(c.classId)) || [];
+    const ancestries = scope.ancestries.get(c.raceId) ?? [];
+    // And their people, for whoever would notice (an elf met by an elf: Mission 20's second round, B §6).
     return [...scope.has.has('hasCalling') ? this.set(scope, 'hasCalling', reference, callings) : [],
+      ...scope.has.has('hasAncestry') ? this.set(scope, 'hasAncestry', reference, ancestries) : [],
       ...scope.has.has('learned') ? this.set(scope, 'learned', reference, learned.filter(id => scope.abilityIds.has(id)))
         : []];
   }
@@ -277,7 +283,7 @@ export class CreatureFacts {
   // The relations the projection writes from a member to many things: item first for what a member owns or wears,
   // the member first for the rest.
   static readonly sets: Record<string, 0 | 1> = { ownedItem: 1, wearing: 1, proficient: 0, canTrain: 0, treatable: 0,
-    relieves: 0, canCast: 0, hasCalling: 0, learned: 0 };
+    relieves: 0, canCast: 0, hasCalling: 0, learned: 0, hasAncestry: 0 };
   private static set(scope: Scope, name: string, reference: string, now: string[]): Change[] {
     const want = new Set(now), item = this.sets[name]!;
     // What holds now of this member, read by the member's place among the relation's arguments.

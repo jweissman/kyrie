@@ -31,6 +31,12 @@ Module factors "The factor who buys old bronze" {
   Topic factor_exchange with factor "Ask {factor} what the Founders' Exchange is" when true once {
     Says "'A dozen houses, from here down to the sea,' says {factor}. 'Every founder who ever hung a bell wants old bronze for the melt, and every founder is too proud to go and dig it. So they pay me.' {factor} turns a pen over. 'Some of the lots do not go to the melt. A learned society in the south pays double for the ones that ring. They want them whole.' A shrug. 'I find that sort of buyer is the more interesting kind.'".
   }
+  // One of the company of the factor's own people is spoken to as one (an elf thief had found that nobody noticed she was
+  // an elf, not even the elf factor: Mission 20's second round); and is told a little more than another would be.
+  Topic factor_kin with factor "Ask {factor} how one of your people comes to be buying bronze in a town of men" when memberOf(?m, actor)
+    and hasAncestry(?m, ancestry_elf) and memberOf(?f, factor) and hasAncestry(?f, ancestry_elf) once {
+    Says "{factor} answers in the old speech first, and then, for the room, in the common one. 'Slowly, and against advice. The way any of us comes to be anywhere.' A look at your hands. 'Our people have a word for a bell that was rung for the dead. Men do not. The Exchange buys those too, and asks less. Keep that between us.'".
+  }
   Topic factor_north with factor "Ask {factor} where the bronze comes from, in the north" when true once {
     Says "'From farmers, mostly. From stewards, when a house is short of money.' {factor} does not blink. 'A steward is the best seller there is. A steward has the key, and a sense of how little to say.' The pen goes down. 'If you are asking whether I have bought from a great wall, I do not know a wall from a gatepost. I know what is brought to me, and what it weighs.'".
     On discuss { Assert lotKnown(actor). Assert suspects(factor, actor). }

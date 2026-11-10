@@ -123,6 +123,12 @@ Module world_core "Bodies, places, time and the shared catalog" {
   Entity calling_thief: callingkind "thief". Entity calling_cleric: callingkind "cleric".
   Entity calling_bard: callingkind "bard". Entity calling_ranger: callingkind "ranger".
   Entity calling_monk: callingkind "monk". Entity calling_commoner: callingkind "commoner".
+  // The people each of the company is of (their ancestry), for whoever would notice: an elf met by the elf factor had
+  // been met as anyone (Mission 20's second round).
+  Kind ancestrykind. Relation hasAncestry(member, ancestrykind).
+  Entity ancestry_human: ancestrykind "human". Entity ancestry_elf: ancestrykind "elf".
+  Entity ancestry_dwarf: ancestrykind "dwarf". Entity ancestry_catfolk: ancestrykind "catfolk".
+  Entity ancestry_birdfolk: ancestrykind "birdfolk".
   // How someone carries themselves, which shows in what they say (Orsino's personalities); and the words they are
   // spoken of in. Someone with no manner given has one all the same (see VoiceContext).
   Kind manner. Relation manner(group, manner).
