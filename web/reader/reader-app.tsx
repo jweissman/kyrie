@@ -329,6 +329,10 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     else if (s.exploring) { this.setState({ exploring: undefined }); }
     else if (s.trading) { this.setState({ trading: undefined, cursor: 0 }); }
     else if (s.open.length) { this.setState({ open: s.open.slice(0, -1), cursor: 0 }); }
+    // The map raised over a town or a building: a hex chosen on it let go of, then the map put away (a cold player could
+    // not leave it by Escape: Mission 20's third round). Out in the wild country the map is the place itself.
+    else if (s.outdoors && s.frame && !WorldStage.wild(s.frame.screen)) { this.outdoor(false); this.setState({ charted: undefined }); }
+    else if (s.outdoors && s.charted?.id) { this.setState({ charted: undefined }); }
     else if (s.view !== 'here') { this.setState({ view: 'here', cursor: 0 }); }
     else if (s.attention.kind === 'person' && this.menu.talk) { this.choose(this.menu.talk.leave); }
     else if (s.attention.kind !== 'place') { this.setState({ attention: Conversation.place, cursor: 0 }); }
