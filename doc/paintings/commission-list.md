@@ -1,5 +1,37 @@
 # Scene paintings to commission
 
+## Still wanted (10 November, from the first hour)
+
+Drawn from every room a first-hour player can reach in `kahitude` (which painting each gets) and from three rounds of
+cold play. **Light and state matter more than subject**: a pitch-dark room painted lit, or a burnt chamber painted
+whole, was named every time; a slightly wrong building rarely was.
+
+Covered the same day by the owner's paintings: a mine's working face, ore pass, winze, sump, pump-room, furnace hall
+and a tunnel by one candle; a barrow's forecourt, passage, corbelled chamber, recess and stair; an undercroft unlit;
+a grain cellar.
+
+Most wanted first:
+
+1. **The hobs' hold and the toll-house** (Seolforfyrd, the debt's first expedition): a ruined stone toll-hall with a
+   tariff board and a barrier pole (now a church porch); a small counting-room with scales and an iron-bound chest; a
+   smoky lived-in cave with fleeces, a fire, plunder heaped and bells hung clapperless (now the cave mouth again); a
+   muck pit in a cave floor with someone in it (now a barred prison cell).
+2. **A spider brood-chamber burnt**: blackened sacs, ash, webs burnt to threads (the brood painting shows the sacs
+   whole after the player has burned them; the scene would also need to switch on the brood's state).
+3. **A small sealed burial vault** under a lifted flag: niches and one sarcophagus (now an ossuary).
+4. **The first town's places**: a small town's gate-yard with a timber gate and a guard's shed (Brockminster's is a
+   gothic castle gate); narrow lanes with washing and a well (now a chapel); a row of cottages from the street; a
+   militia drill-yard with a practice post and a spear rack (now a herd); boat-sheds with hulls on trestles (now a
+   mill); a river landing with a jetty and barrels (now a trapper).
+5. **Fallbacks**, quiet and nearly empty, for rooms no kind names (there is no indoor one at all, and three old
+   masters' vaults for under the ground): a bare plastered room by day; the same by one candle; rough rock by one
+   flame; a dressed-stone corridor by one flame.
+6. **Second paintings** for kinds that have one, where one painting stands for many places: a stable, a shop, a
+   granary, a stair, a guardroom.
+
+Not paintings, but near: an **iron torc** item icon (the torc shows gold and dragon-headed); **Tuck's portrait** (he
+shows a halfling's acorn emblem, not a face).
+
 ## Still wanted (8 November, after the owner's paintings of 8 November)
 
 Covered now: the rat-runs (a burrow), the drain, the spiders' brood, a mine's gallery and shaft, a cell, a shop's
