@@ -117,6 +117,10 @@ describe('the painting of a place', () => {
     expect(Scene.seen(Scene.room('region__s2_houses', 'the houses of Millholm', open))).toBe('scene-town-houses');
     expect(['scene-vault-sealed', 'scene-crypt', 'scene-ossuary'])
       .toContain(Scene.seen(Scene.room('region__s2_u_vault', 'the sealed vault', under))!);
+    expect(Scene.seen(Scene.room('region__s2_green', 'the landing at Millholm', open))).toBe('scene-landing');
+    expect(Scene.seen(Scene.room('region__s2_sheds', 'the boat-sheds', open))).toBe('scene-boat-sheds');
+    expect(Scene.seen(Scene.room('region__w7_counting', 'the counting-room'))).toBe('scene-counting-room');
+    expect(Scene.seen(Scene.room('region__w7_store', 'the warehouse'))).toBe('scene-warehouse');
   });
   it('keeps the painting an author chose for a place of theirs', () => {
     expect(Scenery.places.infinite_library_threshold).toBe('library');

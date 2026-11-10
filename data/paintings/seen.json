@@ -6919,6 +6919,31 @@
    "form": "exterior",
    "shows": "a small town's gate-yard at dusk: a timber gate in a stone wall, a guard's shed with spears and a brazier, carts and barrels",
    "era": "late"
+  },
+  "scene-boat-sheds": {
+   "form": "exterior",
+   "shows": "boat-sheds on a quay at evening: hulls on trestles under timber roofs, barrels, a moored boat, a town and bridge beyond",
+   "era": "late"
+  },
+  "scene-counting-room": {
+   "form": "interior",
+   "shows": "a counting-room by daylight: scales and a ledger on a table, a purse and coins, an iron-bound chest",
+   "era": "late"
+  },
+  "scene-indoors-plain": {
+   "form": "interior",
+   "shows": "a bare plastered room by daylight: a window, a table and bench, a jug and bowl, a candle unlit",
+   "era": "late"
+  },
+  "scene-landing": {
+   "form": "exterior",
+   "shows": "a small river landing: a timber jetty with a moored ferry, barrels and sacks, stone houses along the water",
+   "era": "late"
+  },
+  "scene-warehouse": {
+   "form": "interior",
+   "shows": "a quay warehouse within: bales hung from a hoist, a loft of crates, a cart, water at a door",
+   "era": "late"
   }
  }
 }
