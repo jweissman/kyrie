@@ -96,3 +96,22 @@ jobs:
         env: { KYRIE_BROWSER: "1", KYRIE_SITE: "${{ runner.temp }}/site" }
       - if: always()
         run: bun scripts/test-summary.ts junit.xml --title "Browser specs, shard ${{ matrix.shard }} of 2" --none-skipped
+  # The reference first hour played through the page by its leads alone, a picture of every step kept as the run's
+  # artifact (test/reference-hour.test.ts): evidence of where the page stops leading, read by a person, not a gate.
+  tour:
+    name: reference hour, through the page
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+        with: { path: kyrie }
+      - uses: oven-sh/setup-bun@v2
+        with: { bun-version: 1.4.3 }
+      - run: bun install --frozen-lockfile
+      - run: bunx playwright-core install --with-deps chromium
+      - run: bun test test/reference-hour.test.ts
+        env: { KYRIE_TOUR: "1", KYRIE_SHOTS: "${{ runner.temp }}/tour" }
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with: { name: reference-hour, path: "${{ runner.temp }}/tour" }
