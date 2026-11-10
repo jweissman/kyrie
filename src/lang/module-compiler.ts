@@ -122,7 +122,13 @@ export class ModuleCompiler {
       this.predicate(module, p);
     }
     ModuleCompiler.unique((module.objectives ?? []).map(o => o.id), 'objective');
-    for (const o of module.objectives ?? []) { this.predicate(module, o.when); this.text(module, o.text); }
+    for (const o of module.objectives ?? []) { this.objective(module, o); }
+  }
+  // An aim's condition and words, and what it is toward: entities, each of them.
+  private objective(module: Module, o: NonNullable<Module['objectives']>[number]) {
+    this.predicate(module, o.when); this.text(module, o.text);
+    const missing = (o.toward ?? []).find(t => !this.type(module, t));
+    if (missing) { throw new Error(`Objective ${o.id} is toward ${missing}, which is not an entity`); }
   }
   private action(module: Module, action: Module['actions'][number]) {
     if (!Number.isSafeInteger(action.cost) || action.cost < 0

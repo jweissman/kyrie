@@ -61,7 +61,8 @@ Kyr {
          | "near" term -- near
          | "beside" ident WayEnd? -- beside
          | "within" term -- within
-  Objective = "Objective" ident "when" Predicate string "."
+  Objective = "Objective" ident "when" Predicate ObjectiveToward? string "."
+  ObjectiveToward = "toward" NonemptyListOf<ident, ",">
   Milestone = "Milestone" ident string MilestoneWorth
   MilestoneWorth = "worth" integer MilestoneWhen
   MilestoneWhen = "when" Predicate "."

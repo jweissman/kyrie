@@ -15,19 +15,21 @@ export class RegionRumours {
     const q = JSON.stringify, seats = RegionGeography.seats(region).filter(s => !s.site.work?.great);
     return region.settlements.flatMap(town => {
       const near = RegionRumours.nearest(region, town, seats);
-      if (!near.length) { return []; }
+      // That it has been told, for an aim to go on from (the debt: asked at the inn, out to what was told of).
+      const told = [`  Entity ${town.id}_country_told: fact ${q(`What is out in the country round ${town.name}`)}.`];
+      if (!near.length) { return told; }
       const keeper = `${town.id}_innkeeper`;
-      const told = near.map(s => `${s.site.name}: ${RegionSites.look(s.site, region)} in ${RegionSites.where(s, region)}`);
-      return [`  Topic ${town.id}_country_asked with ${keeper} ${q(`Ask {${keeper}} what is out in the country round`)}`
+      const named = near.map(s => `${s.site.name}: ${RegionSites.look(s.site, region)} in ${RegionSites.where(s, region)}`);
+      return [...told, `  Topic ${town.id}_country_asked with ${keeper} ${q(`Ask {${keeper}} what is out in the country round`)}`
         + ' when true once {',
-      `    Says ${q(`{${keeper}} counts them off on a hand. '${told.join('. ')}. Nobody goes to them that has any sense,'`
+      `    Says ${q(`{${keeper}} counts them off on a hand. '${named.join('. ')}. Nobody goes to them that has any sense,'`
         + ` and {${keeper}} tells you how each is come to.`)}.`,
       `    On discuss { ${near.map(s => `Assert knows(actor, ${s.site.id}_named). Assert knows(actor, ${s.site.id}_found).`)
-        .join(' ')} }`, '  }'];
+        .join(' ')} Assert knows(actor, ${town.id}_country_told). }`, '  }'];
     });
   }
   // The sites nearest a town, by the land between.
-  private static nearest(region: Region, town: Region['settlements'][number], seats: Seat[]): Seat[] {
+  static nearest(region: Region, town: Region['settlements'][number], seats: Seat[]): Seat[] {
     const land = RegionGeography.atlas(region).land;
     if (town.cell === undefined) { return []; }
     return seats.filter(s => s.site.cell !== undefined)

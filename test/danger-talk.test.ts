@@ -22,7 +22,8 @@ describe('a danger', () => {
 describe('one of the family', () => {
   it('is talked to as what they are to you', () => {
     const mother: SceneSubject = { id: 'm', kind: 'person', name: 'Jassin Galanodel', note: 'your mother', stake: true,
-      choices: [{ id: 't', label: 'Talk to Jassin Galanodel', command: 'talk_to(party,m,inn)', does: 'talk_to', tone: 'person' }] };
+      choices: [{ id: 't', label: 'Talk to Jassin Galanodel', command: 'talk_to(party,m,inn)', does: 'talk_to', tone: 'person' },
+        { id: 'a', label: 'Ask her about the cart', command: 'ask(m,cart)', tone: 'person' }] };
     const [talk] = Attending.place({ near: [], far: [], you: [], subjects: [mother] }).subjects[0]!.choices;
     expect(talk!.label).toBe('Talk to your mother');
   });

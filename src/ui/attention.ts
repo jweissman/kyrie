@@ -30,7 +30,9 @@ export class Attending {
       // What is done about them, not said to them, stands beside talking to them (Behind the Wainscot's F3).
       const deeds = s.choices.filter(c => c.deed && !c.children);
       const rest = this.replies(s.choices.filter(c => !deeds.includes(c)));
-      if (!rest.length && !talk && deeds.length) { return { ...s, choices: deeds }; }
+      // Someone with nothing to be said to them but goodbye is there, not someone to talk to (the owner, 9 November:
+      // a likeness clicked, a conversation opened, and only "Take your leave" in it). What is done about them stays.
+      if (!rest.length) { return { ...s, choices: deeds }; }
       return { ...s, choices: [{ id: `${s.id}#talk`, label: `Talk to ${this.called(s)}`, tone: 'person',
         ...talk?.command ? { command: talk.command, does: 'talk_to' } : {}, children: rest.length ? rest : [] }, ...deeds] };
     }

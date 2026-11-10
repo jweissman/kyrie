@@ -89,7 +89,13 @@ export class Undertakings {
       .filter(e => !['plane', 'region'].includes(e.space?.kind ?? '')).map(e => e.id));
     // And where whoever it names is found, where its words do not say (see AimWords): tell Kellen the dead are still.
     const sought = AimWords.strangers(w, o).flatMap(id => AimWords.whereabouts(w, id));
-    return [...new Set([...named, ...joined, ...around, ...sought])];
+    // Toward someone its author names, the town or site they are in (Naillil at Elmham): not the room, which the map
+    // has no business knowing before the company does.
+    const target = Stakes.target(campaign, o), at = target.subject ? w.one('at', target.subject) : undefined;
+    const addressed = at ? Spatial.ancestry(byId, at).slice(1)
+      .filter(e => ['settlement', 'site'].includes(e.space?.kind ?? '')).map(e => e.id) : [];
+    return [...new Set([...target.routeTo ? [target.routeTo] : [], ...named, ...joined, ...around, ...sought,
+      ...addressed])];
   }
   // Those an aim names who are someone (said with a he, a she or a they), by the names the company knows them by: who
   // might know where it is, when the map cannot show it (the product-design review's PD-12).
@@ -107,6 +113,8 @@ export class Undertakings {
   }
   // After a command, from the aims held before it: the aim followed, gone, goes on into the one aim that arose with
   // its going, where that is the errand's or the player chose the one gone; an aim heard of is never followed for them.
+  // The story an aim is part of: the installation it was written in.
+  private static story(id: string): string { return id.replace(/__.*$/, ''); }
   static after(campaign: Campaign, before: string[]) {
     const current = campaign.tickState.current, kept = current.following, held = this.held(campaign);
     const was = new Set(before), now = new Set(held.map(o => o.id));
@@ -114,7 +122,10 @@ export class Undertakings {
     const then = (campaign.module.objectives ?? []).filter(o => was.has(o.id));
     const followed = then.some(o => o.id === kept?.id) ? kept!.id : this.followed(campaign, then)?.id;
     if (followed && gone.includes(followed)) {
-      const next = arisen.length === 1 && (kept?.chosen || this.errand(campaign, arisen[0]!)) ? arisen[0] : undefined;
+      // Or the one aim of the same story that arose with its going: the feverwort given, keeping the cups (the owner, 9
+      // November: the errand's next part had been one aim among the town's, and the page had led off to the rats).
+      const next = arisen.length === 1 && (kept?.chosen || this.errand(campaign, arisen[0]!)
+        || this.story(arisen[0]!.id) === this.story(followed)) ? arisen[0] : undefined;
       if (next) { current.following = { id: next.id, ...kept?.chosen ? { chosen: true } : {} }; }
       else { delete current.following; }
     }

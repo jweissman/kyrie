@@ -79,6 +79,11 @@ export class ModuleNamespace {
     return ObservationText.scope(text, call => this.call(call, bound),
       id => bound.includes(id) ? id : this.entities[id] ?? id);
   }
+  // An aim, its condition, words and target in the installation's own names.
+  private objective(o: NonNullable<Module['objectives']>[number]): NonNullable<Module['objectives']>[number] {
+    return { ...o, id: `${this.bindings.id}__${o.id}`, when: this.predicate(o.when), text: this.text(o.text),
+      ...o.toward ? { toward: o.toward.map(t => this.entities[t] ?? t) } : {} };
+  }
   draft(): ModuleDraft {
     const original = this.instance.module, definition = this.instance.campaign!;
     const actors = definition.actors.map(a => ({ ...structuredClone(a), id: this.entities[a.id]!,
@@ -107,8 +112,7 @@ export class ModuleNamespace {
         ...(r.place ? { place: this.entities[r.place] ?? r.place } : {}),
         ...this.words(r),
         ...(r.teaches ? { teaches: this.entities[r.teaches]! } : {}) })),
-      objectives: original.objectives?.map(o => ({ ...o, id: `${this.bindings.id}__${o.id}`,
-        when: this.predicate(o.when), text: this.text(o.text) })),
+      objectives: original.objectives?.map(o => this.objective(o)),
       observations: original.observations?.map(o => ({ ...o, id: `${this.bindings.id}__${o.id}`,
         place: o.place.startsWith('?') ? o.place : this.entities[o.place]!, when: this.predicate(o.when),
         ...o.from ? { from: this.entities[o.from] ?? o.from } : {},

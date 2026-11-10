@@ -6,6 +6,7 @@ import type { Placement } from './world-assembler';
 import { RegionFaith } from './region-faith';
 import { Foundings } from './founding';
 import { RegionSites } from './region-sites';
+import { RegionRumours } from './region-rumours';
 import { RegionGeography } from './region-geography';
 import tables from '../../data/origins/tables.json';
 import arrivals from '../../data/origins/wanderer/arrivals.json';
@@ -153,15 +154,28 @@ export class Origins {
   private static debt(region: Region): Bound | undefined {
     const s = region.settlements.find(t => t.size === 'town') ?? region.settlements[0];
     if (!s) { return undefined; }
-    const after = this.after(region, s);
-    return { values: { ...this.approach(region, s), merchant: s.merchant, after: after.said,
+    const after = this.after(region, s), inn = !!SettlementWriter.rooms(region, s).taproom;
+    const near = inn ? this.near(region, s) : {};
+    // Told at the inn of the old places round about, the aim is the nearest of them, where there may be what pays.
+    const out = near.near ? '  Place near "the old place" is site.\n  Objective owing_out when owed(loan) > 0 and not '
+      + 'called(party) and (spoke(party) or not at(party, shop)) and quantity(party, gold) < owed(loan) and knows(party, '
+      + 'told) toward near "You owe {creditor} {owed(loan)} coin by market day. {keeper} told of {near}, nearest of the '
+      + 'old places round about: what is in such places could pay it.".\n' : '';
+    return { values: { ...this.approach(region, s), merchant: s.merchant, after: after.said, out,
       lost: (tables.lost as Record<string, string>)[s.trade] ?? 'a cartload of goods' },
     start: { place: `${s.id}_shop` }, imports: { shop: [`region.${s.id}_shop`, 'place'],
       // Where the creditor says work is asked after; a town with no inn, the shop itself.
-      ...SettlementWriter.rooms(region, s).taproom
-        ? { inn: this.inn(s), keeper: [`region.${s.id}_innkeeper`, 'group'] as [string, string] }
+      ...inn
+        ? { inn: this.inn(s), keeper: [`region.${s.id}_innkeeper`, 'group'] as [string, string],
+          told: [`region.${s.id}_country_told`, 'fact'] as [string, string], ...near }
         : { inn: [`region.${s.id}_shop`, 'place'] as [string, string], keeper: [`region.${s.id}_merchant`, 'group'] as [string, string] },
       creditor: [`region.${s.id}_merchant`, 'group'], ...after.imports } };
+  }
+  // The nearest of the old places the innkeeper tells of, for the debt's aim once told (see RegionRumours).
+  private static near(region: Region, s: Settlement): { near?: [string, string] } {
+    const seats = RegionGeography.seats(region).filter(x => !x.site.work?.great);
+    const site = RegionRumours.nearest(region, s, seats)[0]?.site;
+    return site ? { near: [`region.${site.id}`, 'place'] } : {};
   }
   // What a debt paid leaves (the play-structure investigation's PT-01: a resolution had ended in "Nothing more is
   // asked of you"): the merchant, square, says where there is work for someone with nothing to lose, the makers' work
@@ -231,7 +245,7 @@ export class Origins {
   private static unhired(region: Region, s: Settlement, bound: Bound): Bound {
     if (!SettlementWriter.rooms(region, s).taproom) { return { ...bound, values: { ...bound.values, incident: '' } }; }
     return { ...bound, imports: { ...bound.imports, inn: this.inn(s) }, values: { ...bound.values, incident:
-      '  Objective work when not been(party, inn) "There is work in {home} for someone who will do what others will '
+      '  Objective work when not been(party, inn) toward inn "There is work in {home} for someone who will do what others will '
       + 'not, and the place to hear of it is {inn}.".' } };
   }
   // A life drawn to one of the makers' lesser works by something of its own there (a dead man's map, a sister who did

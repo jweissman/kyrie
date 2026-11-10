@@ -10,6 +10,6 @@ Module origin "Gone under" {
   // What is left of her there: found by one who looks, at the door she went in by.
   Discovery pin_found "In the dust just inside the door, where the light gives out, something small catches it: a cloak-pin of twisted copper. Your mother gave it to her the day she left." { Found by searching delving. }
   Item pin "your sister's cloak-pin" is cloak_pin at delving hidden until pin_found.
-  Objective gone when not carries(party, pin) "Your sister went into {delving}, out in {where}, and did not come out. Search there for what became of her.".
+  Objective gone when not carries(party, pin) toward delving "Your sister went into {delving}, out in {where}, and did not come out. Search there for what became of her.".
   Goal carries(party, pin).
 }

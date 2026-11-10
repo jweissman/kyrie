@@ -1,8 +1,10 @@
 import type { Campaign } from '../campaign/campaign';
-import type { Entity, Objective, Predicate } from '../lang/module';
+import type { Objective, Predicate } from '../lang/module';
 import { ModuleWriter } from '../lang/module-writer';
 import { ObservationText } from '../lang/observation-text';
 import { EntityIndex } from '../lang/entity-index';
+import { Spatial } from '../spatial';
+import { ObjectiveTarget, type ResolvedTarget } from './objective-target';
 
 // Whom and what the company has a stake in, met first wherever they are: its own family, and whoever and wherever an
 // aim it holds now turns on, as the aim's condition or its words name them (Garret held in the vault; the bridge the
@@ -19,17 +21,45 @@ export class Stakes {
     }
     return ids;
   }
-  // What one aim names, in its words, or in its condition when its words name nothing, and the places of a site it
-  // names, however deep: the way to its mouth is the way to it. What its condition holds of is what it waits on, not
-  // what it is about once its words say (the rats' run stopped had stayed "your aim" after it was packed).
+  // What one aim is about: what its words name, or its condition when its words name nothing, at its most particular.
+  // A place named only as where something else it names is ("the cellar, under the old corn-store at Fearnmaere";
+  // "Lothar at Brockfield") is that thing's address, not the aim (see addresses): the corn-store above the cellar
+  // and every lane of Brockfield had been "your aim", and the page had led out of the cellar and about the town (the
+  // owner, 9 November: aims that lead out of the structure the goal is in, every route lit gold). What its condition
+  // holds of is what it waits on, not what it is about once its words say (the rats' run stopped had stayed "your
+  // aim" after it was packed).
+  // Where its author says what it is pursued toward (Objective … toward keeper), that, and nothing else it names: "You
+  // owe Tuck … ask Aiden at the inn" is Aiden's, not the creditor's whose yard the page had led back to.
   static named(campaign: Campaign, o: Objective): Set<string> {
-    const ids = new Set<string>(), byId = EntityIndex.of(campaign.module.entities).byId;
+    if (o.toward?.length) { return new Set(o.toward); }
+    return Stakes.read(campaign, o);
+  }
+  // The aim's target, resolved once (see ObjectiveTarget).
+  static target(campaign: Campaign, o: Objective): ResolvedTarget {
+    return ObjectiveTarget.of(campaign, o, () => Stakes.read(campaign, o));
+  }
+  // An aim its author gave no target, read from its words (see named).
+  private static read(campaign: Campaign, o: Objective): Set<string> {
+    const ids = Stakes.said(campaign, o), addresses = Stakes.addresses(campaign, o);
+    return new Set([...ids].filter(id => !addresses.has(id)));
+  }
+  // The places an aim names only as where something else it names stands: those holding another thing it names, or
+  // the place someone it names is at.
+  // Toward someone its author names, wherever they are is where they are sought.
+  static addresses(campaign: Campaign, o: Objective): Set<string> {
+    const ids = o.toward?.length ? new Set(o.toward) : Stakes.said(campaign, o);
+    const byId = EntityIndex.of(campaign.module.entities).byId, w = campaign.world;
+    const under = [...ids].flatMap(id => {
+      const at = byId.get(id)?.space ? id : w.one('at', id);
+      return at ? Spatial.ancestry(byId, at).filter(e => e.id !== id).map(e => e.id) : [];
+    });
+    return new Set(o.toward?.length ? under : under.filter(id => ids.has(id)));
+  }
+  private static said(campaign: Campaign, o: Objective): Set<string> {
+    const ids = new Set<string>();
     ObservationText.map(o.text, call => { call.args.forEach(a => ids.add(a)); return ''; }, id => { ids.add(id); return ''; });
     if (!ids.size) {
       ModuleWriter.conditionCalls(o.when, call => { call.args.forEach(a => ids.add(a)); return call; });
-    }
-    for (const e of campaign.module.entities.filter(x => x.space?.parent && Stakes.inside(x.id, ids, byId))) {
-      ids.add(e.id);
     }
     return ids;
   }
@@ -47,17 +77,15 @@ export class Stakes {
     return def && Stakes.own(def) ? 1 : 2;
   }
   // The company's own errand: the aim its origin sets, or one that holds while it has kin in the matter (the kin
-  // origin's errand is the drover's going-on, asked of the drover's wife as the company's mother).
+  // origin's errand is the drover's going-on, asked of the drover's wife as the company's mother), or while someone
+  // is waiting on the company (expects(mother, party): the herb-wife's feverwort, carried to the fever's mother, had
+  // been one aim among the town's, and the page had led to the rats).
   static own(o: Objective): boolean { return /^origin__/.test(o.id) || Stakes.kin(o.when); }
   private static kin(p: Predicate): boolean {
     switch (p.kind) {
-      case 'call': return p.name === 'kin' || p.name === 'kinship';
+      case 'call': return p.name === 'kin' || p.name === 'kinship' || (p.name === 'expects' && p.args[1] === 'party');
       case 'and': case 'or': return Stakes.kin(p.left) || Stakes.kin(p.right);
       default: return false;
     }
-  }
-  private static inside(id: string, ids: Set<string>, byId: Map<string, Entity>): boolean {
-    for (let p = byId.get(id)?.space?.parent; p; p = byId.get(p)?.space?.parent) { if (ids.has(p)) { return true; } }
-    return false;
   }
 }

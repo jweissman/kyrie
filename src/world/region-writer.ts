@@ -249,7 +249,8 @@ export class RegionWriter {
     const ids = ['party', 'region', ...region.settlements.flatMap(s => {
       const has = SettlementWriter.rooms(region, s);
       return [s.id, `${s.id}_green`, ...has.taproom ? [`${s.id}_taproom`] : [], ...has.shrine ? [`${s.id}_shrine`] : [],
-        ...has.shop ? [`${s.id}_shop`] : [], `${s.id}_innkeeper`, `${s.id}_priest`, `${s.id}_merchant`, `${s.id}_traveller`];
+        ...has.shop ? [`${s.id}_shop`] : [], `${s.id}_innkeeper`, `${s.id}_priest`, `${s.id}_merchant`, `${s.id}_traveller`,
+        `${s.id}_country_told`];
     }),
     ...region.sites.flatMap(w => [w.id, `${w.id}_track`, `${w.id}_named`, `${w.id}_found`]), ...ways,
     ...roads.map(r => r.land),

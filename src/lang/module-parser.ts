@@ -12,7 +12,7 @@ import { CatalogParser } from './catalog-parser'; import { Milestones } from './
 import { InformationParser } from './information-parser'; import { Endings } from './endings';
 import { LocalKinds } from '../canon/local-catalog';
 import { ModuleDeclarations } from './module-declarations'; import { ActionParts } from './action-parts';
-import { Superseded } from './superseded'; import { Bringing } from './bringing';
+import { Superseded } from './superseded'; import { Bringing } from './bringing'; import { ObjectiveParser } from './objective-parser';
 
 type Node = ohm.Node;
 type AstNode = ohm.Node & { ast(): unknown };
@@ -243,8 +243,8 @@ export class ModuleParser {
   }
   static EventEffects(_then: Node, _open: Node, changes: Node, _close: Node) { return ModuleParser.list(changes); }
   static EventPlain(_dot: Node) { return []; }
-  static Objective(_o: Node, id: Node, _when: Node, when: Node, text: Node, _dot: Node): Field {
-    return { field: 'objective', value: { id: id.sourceString, when: ModuleParser.ast(when), text: ModuleParser.ast(text) } };
+  static Objective(_o: Node, id: Node, _when: Node, when: Node, toward: Node, text: Node, _dot: Node): Field {
+    return ObjectiveParser.of(id, when, toward, text);
   }
   static Seen(_s: Node, text: Node, _dot: Node): Field { return { field: 'seen', value: ModuleParser.ast(text) }; }
   static Exit(_e: Node, id: Node, name: Node, _from: Node, origin: Node, _to: Node, destination: Node,

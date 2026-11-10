@@ -1,5 +1,5 @@
 import type { Campaign } from '../campaign/campaign';
-import type { Entity, Module, Objective } from '../lang/module';
+import type { Entity, Module, Objective, Predicate } from '../lang/module';
 import type { WayInfo } from '../ui/passage-model';
 import { Spatial } from '../spatial';
 import { ModuleWriter } from '../lang/module-writer';
@@ -60,7 +60,7 @@ export class Glance {
     // The game's first page says the company's own errand as its first goal, once (the owner's play of 7 November).
     const goal = arrival === 'opening' ? screen.aims?.find(a => a.followed && a.own)?.text : undefined;
     return { arrival, ...lines.sight ? { sight: lines.sight } : {}, ...lines.life ? { life: lines.life } : {},
-      changed: lines.changed, acts, ways: Promotion.ways(cands, acts, s), ...this.aimed(screen, reading),
+      changed: lines.changed, acts, ways: Promotion.ways(cands, acts, s), ...this.aimed(campaign, screen, reading),
       ...said ? { aim } : {}, ...goal ? { goal } : {}, ...need.length ? { need } : {}, ...after ? { after } : {} };
   }
   // What came of the act just done, and what it made relevant (REV-05; see DecisionFrame).
@@ -113,16 +113,21 @@ export class Glance {
   // aim followed first, and said apart (following), so that the page's "your aim" is that aim's and no other's. In
   // Karir's chandlery, following the crypt, the corn-store of another aim had stood alone as "your aim", the
   // churchyard's walk folded into its quarter (the fresh playtest of 7 November).
-  private static aimed(screen: Screen, r: Reading): Pick<View, 'aimed' | 'following'> {
-    const following = [...new Set(this.going(screen, r, r.named, 'toward'))];
-    const aimed = [...new Set([...following, ...this.going(screen, r, r.held, 'held')])];
+  private static aimed(campaign: Campaign, screen: Screen, r: Reading): Pick<View, 'aimed' | 'following'> {
+    const byId = EntityIndex.of(campaign.module.entities).byId;
+    const following = [...new Set(this.going({ screen, r, byId }, r.named, 'toward'))];
+    const aimed = [...new Set([...following, ...this.going({ screen, r, byId }, r.held, 'held')])];
     return { aimed, ...following.length ? { following } : {} };
   }
   // The ways and journeys to the places some aims name, and the ways toward them.
-  private static going(screen: Screen, r: Reading, aims: Set<string>, why: 'toward' | 'held'): string[] {
+  private static going(at: { screen: Screen; r: Reading; byId: Map<string, Entity> }, aims: Set<string>,
+    why: 'toward' | 'held'): string[] {
+    const { screen, r, byId } = at;
     const journeys = [...screen.destinations ?? [], ...screen.around ?? [], ...screen.roads ?? []];
+    // A journey to a town or a site the aim is in goes toward it (to Elmham, for Naillil at Elmham).
     return [...screen.exits.filter(e => aims.has(e.destination.id) || r.toward.get(e.id) === why).map(e => e.id),
-      ...journeys.filter(d => aims.has(d.id)).map(d => `travel:${d.id}`)];
+      ...journeys.filter(d => aims.has(d.id) || [...aims].some(id => Itineraries.within(byId, id, d.id)))
+        .map(d => `travel:${d.id}`)];
   }
   private static reading(campaign: Campaign, screen: Screen,
     at: { recall: CompanyRecall; life?: string; pointed: Set<string> }): Reading {
@@ -132,7 +137,8 @@ export class Glance {
       .filter(([k]) => !['actor', 'site'].includes(k)).map(([, v]) => v)]));
     const touches = new Map(rows.map(r => [r.choice.id,
       new Set((r.action.success ?? []).flatMap(c => c.call?.args ?? []))]));
-    const named = this.inside(campaign, screen, this.whereabouts(campaign, screen, this.named(campaign)));
+    const named = this.inside(campaign, screen, this.whereabouts(campaign, screen, this.named(campaign),
+      this.addressed(campaign)));
     const held = this.inside(campaign, screen,
       new Set([...screen.aimed ?? []].filter(id => !named.has(id) && id !== campaign.playerActor)));
     const idle = new Set([...screen.around ?? [], ...screen.destinations ?? []].map(d => d.id)
@@ -140,7 +146,13 @@ export class Glance {
     const back = recall.came && screen.exits.find(e => e.destination.id === recall.came)?.destination.id;
     const commands = this.commands(screen);
     const authored = new Set(rows.filter(r => this.changes.includes(r.action.schema ?? '')).map(r => r.choice.id));
-    return { schema, args, touches, authored,
+    const aim = screen.aims?.find(a => a.followed)?.text, advances = this.advances(campaign, rows);
+    const holding = new Set([...named].flatMap(id => {
+      const at = EntityIndex.of(campaign.module.entities).byId.get(id)?.space ? id : campaign.world.one('at', id);
+      return at ? Spatial.ancestry(EntityIndex.of(campaign.module.entities).byId, at)
+        .filter(e => !['region', 'plane'].includes(e.space?.kind ?? '')).map(e => e.id) : [];
+    }));
+    return { ...aim ? { aim } : {}, ...advances.size ? { advances } : {}, holding, schema, args, touches, authored,
       speakers: new Set(rows.filter(r => r.action.speaker).map(r => r.choice.id)),
       named, held,
       ...this.ways(campaign, screen, { named, held, idle }),
@@ -189,14 +201,17 @@ export class Glance {
   // (the owner's play, 6 November: M19-86).
   // Not where the aim names a place of its own: "ask at the inn" of a debt is the inn, and the creditor named in it had
   // led back to the shop the company had just left with nothing to pay (the owner, 7 November).
-  private static whereabouts(campaign: Campaign, screen: Screen, ids: Set<string>): Set<string> {
+  // Where the aim gives their address ("Lothar at Brockfield"), they are sought there, wherever in it they stand.
+  private static whereabouts(campaign: Campaign, screen: Screen, ids: Set<string>, addresses: Set<string>):
+    Set<string> {
     const byId = EntityIndex.of(campaign.module.entities).byId;
     if ([...ids].some(id => byId.get(id)?.space?.kind === 'room')) { return ids; }
     const w = campaign.world, known = new Set([...screen.map.map(p => p.id),
       ...screen.exits.map(e => e.destination.id)]);
     const at = [...ids].flatMap(id => {
       const place = w.one('at', id);
-      return place && known.has(place) && !ids.has(place) ? [place] : [];
+      const told = !!place && Spatial.ancestry(byId, place).some(e => addresses.has(e.id));
+      return place && (known.has(place) || told) && !ids.has(place) ? [place] : [];
     });
     return at.length ? new Set([...ids, ...at]) : ids;
   }
@@ -213,6 +228,33 @@ export class Glance {
       }
     }
     return fronts.size ? new Set([...[...ids].filter(id => !fronts.has(id)), site]) : ids;
+  }
+  // What, done, changes what the aim followed waits on: its effects assert or retract, or change a measure, of a
+  // relation its condition reads (telling the drover's wife what was found, told(wife); giving the brothers' letter,
+  // expects(priest, party)). Where the company goes is not it: every way asserts at.
+  private static advances(campaign: Campaign, rows: ReturnType<typeof PlayerView.choices>): Set<string> {
+    const def = Undertakings.followed(campaign);
+    if (!def) { return new Set(); }
+    const names = new Set<string>();
+    this.reads(def.when, names);
+    // And, a rule away, what makes it so: the herbs given the fever's mother are kept, and a rule doses the child.
+    const made = new Set<string>();
+    for (const rule of campaign.module.rules ?? []) {
+      if (rule.effects.some(c => !!c.call && names.has(c.call.name))) { this.reads(rule.when, made); }
+    }
+    for (const n of made) { names.add(n); }
+    // Nor what is in the purse: every bed and every torch changes it (the debt's aim reads the company's gold, and a
+    // bed at the inn had been drawn as the aim's).
+    names.delete('at'); names.delete('quantity');
+    return new Set(rows.filter(r => !r.action.movement && (r.action.success ?? [])
+      .some(c => !!c.call && names.has(c.call.name))).map(r => r.choice.id));
+  }
+  private static reads(p: Predicate, into: Set<string>) {
+    ModuleWriter.conditionCalls(p, call => { into.add(call.name); return call; });
+  }
+  private static addressed(campaign: Campaign): Set<string> {
+    const def = Undertakings.followed(campaign);
+    return def ? Stakes.addresses(campaign, def) : new Set();
   }
   private static names(campaign: Campaign, def: Objective): Set<string> {
     let kept = this.namings.get(campaign.module);

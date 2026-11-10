@@ -1,3 +1,4 @@
+import { AimAsks } from '../../src/ui/aim-asks';
 import type { Choice } from '../../src/ui/choice-list';
 
 // What is said in a conversation, as attention holds it (the owner, 5 November: an innkeeper had stood with
@@ -28,16 +29,8 @@ export class TalkFocus {
     return { answers, salient: ranked.slice(0, room), more: [...ranked.slice(room), ...spent], services,
       opened: new Set(opened.map(c => c.id)) };
   }
-  // What an aim of the company's asks: "Ask Brom about the rats in the corn-store" is "Ask about the rats in the
-  // corn-store" said to Brom (the fresh playtest of 7 November: it stood sixth, under Something else, behind three
-  // rumours, when the notice on the well-post had sent the company to ask him).
-  // And "Ask Aiden what is out in the country round", asked as the aim says it, with or without an about.
-  static aimed(c: Choice, aims: readonly string[]): boolean {
-    const about = c.label.replace(/^Ask (?:\S+ )?about /i, '').toLowerCase();
-    const what = c.label.replace(/^Ask (?:\S+ )?/i, '').toLowerCase();
-    return /^Ask /i.test(c.label) && aims.some(a => (about.length > 6 && a.toLowerCase().includes(` about ${about}`))
-      || (!/^about /.test(what) && what.length > 12 && a.toLowerCase().includes(` ${what}`)));
-  }
+  // What the aim followed asks to be asked of them (see AimAsks).
+  static aimed(c: Choice, aims: readonly string[]): boolean { return AimAsks.asks(c.label, aims); }
   // What the company has come to say or to settle with them, before what they might tell it: news it brings ("Tell
   // Beak the rats under the corn-store are dead": a job done, reported fifth, under Something else, in the second
   // fresh playtest of 7 November), and taking them on, when they are looking for work (Traubon's "Would you come

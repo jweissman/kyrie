@@ -125,7 +125,9 @@ export interface Observation {
   // Another observation it is told in place of, while it holds (see Superseded): lowered as the module is joined.
   instead?: string;
 }
-export interface Objective { id: string; when: Predicate; text: string }
+// toward: whom or where the aim is pursued at, as its author says (Objective … toward keeper "…"): the page leads
+// there and to nothing else its words name (see Stakes.named).
+export interface Objective { id: string; when: Predicate; text: string; toward?: string[] }
 // A role while something holds; whole, what they are called instead of their name and role ("Known as").
 export interface Person { role?: string; roles?: { role: string; when: Predicate; whole?: boolean }[];
   // Set where it stands as a device (Device turret.), not met as a creature of a kind (Species wolf.).

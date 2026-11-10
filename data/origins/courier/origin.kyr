@@ -14,6 +14,6 @@ Module origin "The sealed letter" {
     On discuss { Spend scrollcase from actor. Assert delivered(actor). Retract expects(addressee, actor). Increase quantity(actor, gold) by 15.
       Assert knows(actor, named). Assert knows(actor, found). }
   }
-  Objective carry when not delivered(party) and expects(addressee, party) "Carry the sealed letter to {merchant} at {dest}, into no other hands.".
+  Objective carry when not delivered(party) and expects(addressee, party) toward addressee "Carry the sealed letter to {merchant} at {dest}, into no other hands.".
   Goal delivered(party).
 }

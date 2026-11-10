@@ -5,6 +5,8 @@ Module origin "What is owed" {
   Entity creditor: group "The merchant". Entity keeper: group "Whoever keeps the inn". Entity loan: debt "What you owe".
   // The work the merchant tells of once paid, and the way there (see Origins.after; PT-01).
   Entity named: fact "Where it is". Entity found: fact "The way there".
+  // What the innkeeper tells of the country round, once asked (see RegionRumours).
+  Entity told: fact "What is out in the country round".
   Kind debt. Measure owed(debt).
   Relation extended(group). Relation called(group). Relation squared(group). Relation termed(group).
   // Once answered, the creditor's greeting is not said again.
@@ -18,6 +20,9 @@ Module origin "What is owed" {
     Says "'See that I do,' says {creditor}, going back to the tally. 'There's no shortage of work for someone with nothing to lose. Ask at the inn.'".
     On discuss { Assert spoke(actor). }
   }
+  // Gone out of the shop, the creditor has been heard: the aim does not go back to the shop on coming in again (the owner,
+  // 9 November: the aim had turned from the inn to the shop and back each time the company went through its door).
+  Rule heard_out when not spoke(party) and not at(party, shop) { Assert spoke(party). }
   // Asked for, the terms are said; taken, they are kept (the follow-up review asked, and owed five coin more).
   Topic more_time with creditor "Ask {creditor} for five days more" when owed(loan) > 0 and not extended(actor)
     and not termed(actor) and not called(actor) once {
@@ -44,9 +49,10 @@ Module origin "What is owed" {
   // The debt said where the company can do something about it: first the creditor; once spoken to or left, the inn, where
   // the creditor said work is asked after; with the coin in hand, the creditor again. The aim had led back to the shop
   // the company had just left with nothing to pay (the owner, 7 November: aims still chaotic).
-  Objective owing when owed(loan) > 0 and not called(party) and not spoke(party) and at(party, shop) "You owe {creditor} at {homename} {owed(loan)} coin, by market day.".
-  Objective owing_work when owed(loan) > 0 and not called(party) and (spoke(party) or not at(party, shop)) and quantity(party, gold) < owed(loan) "You owe {creditor} {owed(loan)} coin by market day. There is work for someone with nothing to lose: ask {keeper} at {inn} what is out in the country round.".
-  Objective owing_paid when owed(loan) > 0 and not called(party) and (spoke(party) or not at(party, shop)) and quantity(party, gold) >= owed(loan) "You have the {owed(loan)} coin you owe {creditor}: pay it at {shop}, before market day.".
-  Objective owing_late when owed(loan) > 0 and called(party) "{creditor} has called in what you owe: {owed(loan)} coin.".
+  Objective owing when owed(loan) > 0 and not called(party) and not spoke(party) and at(party, shop) toward creditor "You owe {creditor} at {homename} {owed(loan)} coin, by market day.".
+  Objective owing_work when owed(loan) > 0 and not called(party) and (spoke(party) or not at(party, shop)) and quantity(party, gold) < owed(loan) and not knows(party, told) toward keeper "You owe {creditor} {owed(loan)} coin by market day. There is work for someone with nothing to lose: ask {keeper} at {inn} what is out in the country round.".
+{out}
+  Objective owing_paid when owed(loan) > 0 and not called(party) and (spoke(party) or not at(party, shop)) and quantity(party, gold) >= owed(loan) toward creditor "You have the {owed(loan)} coin you owe {creditor}: pay it at {shop}, before market day.".
+  Objective owing_late when owed(loan) > 0 and called(party) toward creditor "{creditor} has called in what you owe: {owed(loan)} coin.".
   Goal squared(party).
 }

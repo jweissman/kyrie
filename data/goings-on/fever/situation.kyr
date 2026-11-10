@@ -80,8 +80,8 @@ Module fever "A fever on the green" {
   // Sent with the herb-wife's feverwort, the company means to bring it: told only in the opening of the game, the
   // errand had been in neither the notes nor the aim, and one who carried the cure was told the child needed herbs.
   Objective herbs when knows(party, sick) and not expects(mother, party) and not brought(mother) and not dosed(mother) and not mended(mother) and not lost(mother) "A child at {green} has a fever; it needs herbs, or willow bark from where willows grow by water.".
-  Objective sent when expects(mother, party) and not brought(mother) and not dosed(mother) and not mended(mother) and not lost(mother) "The child at {green} has had the fever three days, and its mother is waiting for the feverwort you carry.".
+  Objective sent when expects(mother, party) and not brought(mother) and not dosed(mother) and not mended(mother) and not lost(mother) toward mother "The child at {green} has had the fever three days, and its mother is waiting for the feverwort you carry.".
   Objective again when brought(mother) and not dosed(mother) and not mended(mother) and not lost(mother) "The fever came back at {green} when nobody kept the cups, and the herbs are spent: it needs herbs again, or willow bark from where willows grow by water.".
-  Objective nursing when dosed(mother) and not mended(mother) and not lost(mother) "The child at {green} has the herbs, a cup every hour; someone must keep the cups until the fever breaks, and her mother has not slept in three days.".
+  Objective nursing when dosed(mother) and not mended(mother) and not lost(mother) toward mother "The child at {green} has the herbs, a cup every hour; someone must keep the cups until the fever breaks, and her mother has not slept in three days.".
   Goal mended(mother).
 }

@@ -10,6 +10,6 @@ Module origin "A dead man's map" {
   // What the cross marks: under the door-stone, for one who looks, a dead man's hoard.
   Discovery cache_found "Under the stone at the door, where the map put its cross, the earth has been dug and filled again; a hand's depth down is a box wrapped in oilcloth." { Found by searching delving. }
   Item cache "the dead man's box" is jeweled_box at delving hidden until cache_found.
-  Objective marked when not carries(party, cache) "The dead man's map marks {delving}, out in {where}, with a cross at its door. Search there.".
+  Objective marked when not carries(party, cache) toward delving "The dead man's map marks {delving}, out in {where}, with a cross at its door. Search there.".
   Goal carries(party, cache).
 }

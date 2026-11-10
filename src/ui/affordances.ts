@@ -1,3 +1,4 @@
+import { AimAsks } from './aim-asks';
 import type { Why } from '../presentation/glance-types';
 import { Attending } from './attention';
 import type { Choice } from './choice-list';
@@ -11,6 +12,11 @@ import type { ExitRow, Screen } from './screen-types';
 // it came, the signs and the life it has just seen, what it has done here and whom it has spoken with, and its needs.
 // All of it from what the company has perceived and the module declares, never from a choice's words.
 export interface Reading {
+  // The words of the aim followed, for what it asks to be asked (see AimAsks); the choices whose doing changes what it
+  // waits on (see Glance.advances).
+  aim?: string; advances?: Set<string>;
+  // The places that hold what the aim followed names (its town, its site): a journey there goes toward it.
+  holding?: Set<string>;
   schema: Map<string, string>; args: Map<string, string[]>; speakers: Set<string>;
   // What each choice's success changes the standing of: the entities its effects name (the rite of rest, the raiser).
   touches?: Map<string, Set<string>>;
@@ -99,7 +105,10 @@ export class Affordances {
       notes: { danger: s.danger ?? '' } })] : []];
   }
   private static gentle(choices: Choice[], r: Reading): Choice | undefined {
-    const open = choices.filter(c => this.command(c) && !c.disabled && !this.risky(c) && this.kind(c, r) !== 'attack');
+    // Never leaving a talk: led with, a danger talked to had been "Take your leave" and then talked to again, round and
+    // round (the owner, 9 November).
+    const open = choices.filter(c => this.command(c) && !c.disabled && !this.risky(c) && this.kind(c, r) !== 'attack'
+      && !Attending.leaving(c) && r.schema.get(this.command(c) ?? '') !== 'take_leave');
     return open.find(c => c.own) ?? open[0];
   }
   // Someone to talk to, or something to look at: one choice that opens what can be done; it is led with for anything
@@ -114,10 +123,18 @@ export class Affordances {
     // names, or family while a job is, after it (the owner, 4 November: a sister marked first while the rats job was).
     const errand = !screen.aims || !!screen.aims.find(a => a.followed)?.own;
     const word = s.note?.split(' · ')[0], ours = r.named.has(s.id) || (!!word?.startsWith('your ') && errand);
-    const owed = s.stake && (!talked || fresh.some(c => !r.done.has(c.command!)));
-    // Whom the aim followed names is led for that aim (gilded as the aim's), family on the company's own errand as kin:
-    // the merchant the rats job sends the company to had been led as kin, and not drawn in the aim's gold (the owner, 8
-    // November).
+    // Whom the aim followed names is led for what the aim asks of them, until it is asked (the question its words put,
+    // or one about what it names), and for a first word: never for every question they could be asked (the owner, 9
+    // November: the innkeeper led fifteen times over, each time for another of the lands beyond). Family on the
+    // company's own errand as kin, while there is anything new to say to them.
+    const moving = leaves.filter(c => r.advances?.has(c.command!) && !r.done.has(c.command!));
+    const serving = [...moving, ...fresh.filter(c => !moving.includes(c) && !r.done.has(c.command!)
+      && (AimAsks.asks(c.label, r.aim ? [r.aim] : []) || (r.args.get(c.command!) ?? []).some(a => r.named.has(a)
+        && a !== s.id)))];
+    const owed = s.stake && (r.named.has(s.id) ? !talked || serving.length > 0
+      : !talked || fresh.some(c => !r.done.has(c.command!)));
+    // Led for that aim, gilded as the aim's (the merchant the rats job sends the company to had been led as kin, and
+    // not drawn in the aim's gold: the owner, 8 November).
     const named = owed && r.named.has(s.id);
     const answer = leaves.find(c => c.answer), kin = owed && ours && !named, held = owed && !ours;
     const feature = screen.things.find(t => t.id === s.id)?.kind === 'feature';
@@ -132,7 +149,9 @@ export class Affordances {
       ...person && r.life === s.id && !talked ? ['life' as const] : [],
       ...this.ownWhy(leaves, r), ...r.signs.has(s.id) ? ['sign' as const] : [],
       ...person && s.asked && !talked ? ['asked' as const] : [], ...feature && looked ? ['unlooked' as const] : []];
-    const needs = this.served(leaves, r), asked = fresh.find(c => !r.done.has(c.command!));
+    const needs = this.served(leaves, r);
+    const asked = named ? serving[0] ?? (talked ? undefined : fresh.find(c => !r.done.has(c.command!)))
+      : fresh.find(c => !r.done.has(c.command!));
     const base = { subject: s.id, kind: person ? 'talk' as const : 'act' as const, r };
     return [this.candidate(opener, { ...base, whys: [...whys, ...needs.map(n => n.why)], notes: {
       ...answer ? { answer: answer.label } : {}, ...kin || named ? { kin: word?.startsWith('your ') ? word : 'your aim' } : {},
@@ -168,8 +187,10 @@ export class Affordances {
       ...lesson ? [{ why: 'means' as const, note: `a lesson in ${lesson.label.replace(/^Train (\S+ )?(in )?| — .+$/g, '')}` }]
         : []];
   }
-  private static within(id: string, named: Set<string>): boolean {
-    return named.has(id) || [...named].some(n => n.startsWith(`${id}_`));
+  // Whether a place is, or holds, something the aim names, by the world's nesting (never by its id's spelling: the road
+  // between Fearnmaere and Brockminster, region__s2_s5_way, had been "in" Fearnmaere, region__s2).
+  private static within(id: string, named: Set<string>, r?: Reading): boolean {
+    return named.has(id) || !!r?.holding?.has(id);
   }
   // Whether a way on from here is still not taken (not the road out): searching where the aim is comes after going
   // on (at the churchyard the aim names, the stair down to the crypt first), and never where someone the aim names
@@ -252,11 +273,16 @@ export class Affordances {
   private static journeys(screen: Screen, r: Reading): Candidate[] {
     // Not while a site the company is at has ways in not yet taken: it is gone into before it is left (the owner, 4
     // November: deep in a barrow the page had led with setting out for town).
-    if (r.inward.size) { return []; }
+    // Only from within a site: from a town, a barrow a step off the green is no reason not to set out where the aim is
+    // (the owner, 9 November: a letter for Elmham, and the page had led into the barrow by the green).
+    if (r.inward.size && screen.path.some(p => p.kind === 'site')) { return []; }
     const near = new Set((screen.around ?? []).map(d => d.id)), here = screen.place.name.toLowerCase();
     // Named by the aim is named in anything in it: an aim names a work's rooms and its site, never the place it is
     // set out for by (Lunalac's reading-glass named every room of it, and nothing led toward it: OWN-56).
-    return (screen.destinations ?? []).filter(d => !near.has(d.id) && this.within(d.id, r.named) && !r.idle?.has(d.id)
+    // The towns the country's roads go to are set out for as any other (a letter for Elmham, by the ford road).
+    const journeys = [...screen.destinations ?? [], ...(screen.roads ?? [])
+      .filter(d => !(screen.destinations ?? []).some(x => x.id === d.id))];
+    return journeys.filter(d => !near.has(d.id) && this.within(d.id, r.named, r) && !r.idle?.has(d.id)
       && d.toward?.toLowerCase() !== here).map(d => ({ choice: `travel:${d.id}`, command: `travel:${d.id}`,
       kind: 'travel' as const, order: 0, label: `Set out ${d.toward ? 'toward' : 'for'} ${d.name}`, minutes: d.minutes,
       marks: Marks.journey(screen.elapsed, d.minutes) ? [Marks.dusk] : [], whys: ['named' as const],
