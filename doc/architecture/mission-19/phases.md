@@ -1,5 +1,9 @@
 # Mission 19: the phases, honestly
 
+**Closed 10 November 2026** as an implementation mission with player-experience acceptance unmet: see
+[closure.md](closure.md) for the final account, and [../mission-20/opening-brief.md](../mission-20/opening-brief.md)
+for what comes next.
+
 The brief's eight priorities and six journeys (brief.md §XII), each with what has been shown through the interface,
 what has not, and what is in hand. Kept beside the register; a priority is not done while its journey has not been
 played through the interface. The owner, 7 November: "the adventuring loop isn't close to acceptable yet". PD-14
