@@ -183,6 +183,9 @@
     Warns "A man in a muddy coat stands up behind a burning black candle, among the bones. 'Go back up,' he says. 'This is not yours.'".
   }
   Initially Set encounterXp({t}_u_raiser) to 90.
+  // His dead stand with him while the candle burns: a fight with him is with them (the man died to one blow, alone,
+  // with his dead looking on: Mission 20's fourth round, F 100–101). Pinching the candle out is still the way past.
+  Initially Assert beside({t}_u_dead, {t}_u_raiser).
   Thing {t}_u_candle "the black candle" at {t}_u_ossuary {
     State alight "A black candle burns on a skull in the middle of the bone-heaps, with a flame that does not move.".
     State snuffed "The black candle is out, and smells of something worse than tallow.".
