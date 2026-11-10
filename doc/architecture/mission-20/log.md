@@ -44,5 +44,10 @@ Sources: the builder's probes (P), cold round 1 player A / B (screenshot numbers
 | E24 | P2 | Look… had no word of the stolen bell lying in the plunder: a led find was not named on the scene | CI tour 482c5f6f | **fixed** 11c27557 |
 | E25 | P3 | Save size (M19-236): measured in the browser after a reload, the world is kept once (1.9 MB) and a state is a diff (61 KB after a few commands); both cold players reloaded without loss. The 22 MB is the downloadable whole-game file | P: preview /eval | deferred (no obstacle to play measured) |
 | E26 | — | Story after a reload seemed to show only what happened since | P: preview | not reproduced: the log is kept and restored (EngineHost); the Story tells only what happened, and little had |
+| E27 | P1 | After the parley a player searched the toll-house for the hobs (the gate-hobs "just inside the way in"); the Gaffer asks for "a pretty" but nothing can be given him | R2-A 82–100, 119 | partly fixed be12fc54 (the way in named); Give open |
+| E28 | P1 | The bell hung back: nobody acknowledged it; Tuck, paid, pointed to Seolforfyrd "nobody has been inside it" | R2-A 145, 150 | **fixed** eecbd346 (the parish's purse), fa40d68b (the next place is another) |
+| E29 | P1 | No challenge: every fight a free win, the debt paid on Day 1, the deadline never mattered | R2-A §8, R1-B §8 | open — measure before tuning |
+| E30 | P2 | Creation: screen order differs between runs, BACK from ancestry jumps to the reason, a chosen calling once did not stick ("An elf thief") | R2-A 04–14 | open — reproduce first |
+| E31 | P2 | Paintings repeated in one site (one cellar image three times), a cathedral for the toll-hall, a barred cell for a muck pit; a painting's credit caption on the scene; the hireling's portrait is the player's | R2-A 82–129 | open |
 | E8 | — | Headless scripts could not take a map journey | — | **fixed** bf62b137 (`map:<place>`) |
 | E21 | — | Cold agents under automation skip the prologue; next rounds use `&opening` | P | noted (harness) |
