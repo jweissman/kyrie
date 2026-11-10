@@ -23,24 +23,29 @@ export class Sheet {
       </section>
     );
   }
-  // The notes as a journal, in layers (the cold review's REV-18 and REV-24): what is followed and the other aims;
-  // leads, heard and not yet seen; what is known; what is done, folded. It had been one column of every kind of note
-  // at once, thirty destinations alike.
+  // The notes as a journal, in layers (the cold review's REV-18 and REV-24): what is followed, then everything else the
+  // company could take up, in sight; beside each other, what it has heard of and not yet seen, and what it knows;
+  // under them what it has seen through. Nothing folded (Mission 20: both cold players found aims piled up behind a
+  // fold and what was done lingering among the leads; the owner's M19 notes asked for no stacks of disclosures).
   private static journal(app: ReaderApp, frame: Frame) {
     const screen = frame.screen, facts = screen.knowledge.filter(k => !screen.objectives.includes(k.text));
     const leads = facts.filter(k => k.kind === 'reported'), known = facts.filter(k => k.kind !== 'reported');
     return (
       <article className="journal" data-region="knowledge">
         <h2>Notes</h2>
-        <h3>What you mean to do</h3>
-        {screen.objectives.length || screen.deadlines.length ? <Sheet.Aims app={app} /> : <p className="none">
-          {Sheet.idle(screen, facts)}</p>}
-        {leads.length > 0 && <div data-region="leads"><h3>Leads: heard, not yet seen</h3>
-          <Sheet.Facts list={leads} /></div>}
-        {known.length > 0 && <details className="known" data-region="known"><summary>
-          {`What you know (${known.length})`}</summary><Sheet.Facts list={known} /></details>}
-        {screen.done.length > 0 && <details data-region="done"><summary>{`Done (${screen.done.length})`}</summary>
-          <ul>{screen.done.map(d => <li key={d}>{d}</li>)}</ul></details>}
+        <section className="notes-aims">
+          <h3>What you mean to do</h3>
+          {screen.objectives.length || screen.deadlines.length ? <Sheet.Aims app={app} /> : <p className="none">
+            {Sheet.idle(screen, facts)}</p>}
+        </section>
+        {(leads.length > 0 || known.length > 0) && <div className="notes-columns">
+          {leads.length > 0 && <section data-region="leads"><h3>Heard of, not yet seen</h3>
+            <Sheet.Facts list={leads} /></section>}
+          {known.length > 0 && <section className="known" data-region="known"><h3>What you know</h3>
+            <Sheet.Facts list={known} /></section>}
+        </div>}
+        {screen.done.length > 0 && <section className="done" data-region="done"><h3>Seen through</h3>
+          <ul>{screen.done.map(d => <li key={d}>{Typography.curl(d)}</li>)}</ul></section>}
         {!facts.length && <p className="none">You know nothing here yet but what you see.</p>}
         <p className="keep">
           <button type="button" className="option" data-action="export" onClick={app.download}>Download a save file</button>
@@ -60,15 +65,14 @@ export class Sheet {
     const followed = app.state.frame && Followed.of(app.state.frame.screen);
     return followed ? [followed, ...aims.filter(a => a !== followed)] : aims;
   }
-  // The aim followed, and the rest folded under it, so that a company newly come is not handed ten things at once (the
-  // owner, 4 November).
+  // The aim followed, large; the rest under it, smaller, each a line with its own touches, so that a company newly come
+  // is not handed ten things at once as equals (the owner, 4 November), and none of them is behind a fold.
   static Aims({ app }: { app: ReaderApp }) {
     const screen = app.state.frame!.screen, [first, ...rest] = Sheet.ordered(app, [...screen.deadlines, ...screen.objectives]);
     return <>
       <ul className="aims"><Sheet.Aim app={app} aim={first!} /></ul>
-      {rest.length > 0 && <details className="aims-more">
-        <summary>{rest.length === 1 ? 'One more you could take up' : `${rest.length} more you could take up`}</summary>
-        <ul className="aims">{rest.map(o => <Sheet.Aim key={o} app={app} aim={o} />)}</ul></details>}
+      {rest.length > 0 && <div className="aims-more"><h3>You could also take up</h3>
+        <ul className="aims rest">{rest.map(o => <Sheet.Aim key={o} app={app} aim={o} />)}</ul></div>}
     </>;
   }
   // An aim, to follow or not, and where it names a place the company knows, that place on the map: going anywhere is the

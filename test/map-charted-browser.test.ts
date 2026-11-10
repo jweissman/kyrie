@@ -28,7 +28,6 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('an aim\'s place, on the map from th
     await page.waitForSelector('.world-page.scale-scene', { timeout: 180000 });
     await driver.go('s2_green');
     await driver.mode('j');
-    await page.click('.aims-more summary');
     await page.click('[data-action="aim-map"][data-id="region__w1"]');
     await page.waitForSelector('.field-land.board[data-board="ready"]', { timeout: 180000 });
     await page.waitForTimeout(2500);

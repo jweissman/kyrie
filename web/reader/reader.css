@@ -82,16 +82,21 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--dim); border: 1px solid var(--e
 .journal li.learned, .story .learned { border-left: 4px solid var(--yellow); padding-left: 10px; list-style: none; margin-left: -1.1em; }
 /* The notes as a game's book, not a document: aims and what is known as cards, no bullets (the owner's report). */
 .journal ul { list-style: none; padding: 0; }
-.journal > div > ul > li, .journal .aims .aim-card { margin: 0 0 6px; padding: 10px 14px; border: 1px solid var(--hair);
+.journal .aims .aim-card { margin: 0 0 6px; padding: 10px 14px; border: 1px solid var(--hair);
   background: var(--paper); font: 400 16px/1.45 var(--told); }
 .journal .aims .aim-card { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 14px;
   border-left: 3px solid var(--yellow); }
 .journal .aims .aim-acts { display: flex; flex-wrap: wrap; gap: 8px; }
-/* The rest of what the company could take up, folded under the aim it follows (the owner, 4 November). */
-.journal .aims-more, .journal > details { margin: 4px 0 18px; }
-.journal .aims-more > summary, .journal > details > summary { cursor: pointer; font: 500 13px var(--do); letter-spacing: .08em; text-transform: uppercase;
-  color: var(--grey); padding: 6px 0; }
-.journal .aims-more[open] > summary, .journal > details[open] > summary { margin-bottom: 8px; }
+/* The rest of what the company could take up, under the aim it follows, smaller and in sight (Mission 20). */
+.book-page:has(.journal) { max-width: 62rem; }
+.journal .aims-more h3 { margin-top: 22px; }
+.journal .aims.rest .aim-card { padding: 7px 12px; font-size: 15px; border-left-color: var(--hair); background: none; }
+.journal .aims .aim-card .aim-acts .option { padding: 5px 10px; font-size: 10.5px; min-height: 0; }
+.journal .aims .aim-card .option.follow[aria-pressed="true"] { border: 0; padding-left: 0; color: var(--gold); opacity: 1; }
+.journal .notes-columns { display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: 0 32px; }
+.journal .notes-columns li, .journal .done li { margin: 0 0 6px; padding: 8px 12px; border: 1px solid var(--hair);
+  background: var(--paper); font: 400 15px/1.45 var(--told); }
+.journal .done li { color: var(--grey); background: none; }
 .journal .keep { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
 
 /* The head of a book's page: where, and which book. */
