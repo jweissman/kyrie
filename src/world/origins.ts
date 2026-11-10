@@ -158,7 +158,7 @@ export class Origins {
     const near = inn ? this.near(region, s) : {};
     // Told at the inn of the old places round about, the aim is the nearest of them, where there may be what pays.
     const out = near.near ? '  Place near "the old place" is site.\n  Objective owing_out when owed(loan) > 0 and not '
-      + 'called(party) and (spoke(party) or not at(party, shop)) and quantity(party, gold) < owed(loan) and knows(party, '
+      + 'called(party) and (spoke(party) or not at(party, shop)) and quantity(party, gold) < owed(loan) and not laden(party) and knows(party, '
       + 'told) toward near "You owe {creditor} {owed(loan)} coin by market day. {keeper} told of {near}, nearest of the '
       + 'old places round about: what is in such places could pay it.".\n' : '';
     return { values: { ...this.approach(region, s), merchant: s.merchant, after: after.said, out,

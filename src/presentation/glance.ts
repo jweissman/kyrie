@@ -234,10 +234,19 @@ export class Glance {
   private static advances(campaign: Campaign, rows: ReturnType<typeof PlayerView.choices>): Set<string> {
     const def = Undertakings.followed(campaign);
     if (!def) { return new Set(); }
-    const calls = this.waits(campaign.module, def);
-    if (!calls.length) { return new Set(); }
-    return new Set(rows.filter(r => !r.action.movement && (r.action.success ?? [])
-      .some(c => !!c.call && calls.some(w => this.meets(c.call!, w)))).map(r => r.choice.id));
+    const calls = this.waits(campaign.module, def), coin = this.short(def);
+    if (!calls.length && !coin) { return new Set(); }
+    // An aim short of coin is advanced by selling (the debtor home with the hold's music box, at Tuck's, who buys such
+    // things, had been led to ask him every question he knew: Mission 20); the purse is otherwise never waited on.
+    // Nor ever by spending (what the debt carries would sell; a ten-foot pole bought is not that).
+    return new Set(rows.filter(r => !r.action.movement && !(coin && /^buy_/.test(r.action.schema ?? ''))
+      && ((r.action.success ?? []).some(c => !!c.call && calls.some(w => this.meets(c.call!, w)))
+        || (coin && /^sell_/.test(r.action.schema ?? '')))).map(r => r.choice.id));
+  }
+  private static short(def: Objective): boolean {
+    const read: Call[] = [];
+    this.reads(def.when, read);
+    return read.some(c => c.name === 'quantity' && c.args[1] === 'gold');
   }
   // What an aim waits on, call by call, and a rule away what makes it so (the herbs given the fever's mother are
   // kept, and a rule doses the child); never where the company is, nor what is in the purse, which every way and

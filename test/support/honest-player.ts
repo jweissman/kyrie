@@ -27,6 +27,8 @@ export class HonestPlayer {
       const sub = Attending.place(SceneModel.build(g.screen)).subjects.find(x => x.id === person.id);
       const replies = Attending.all(sub?.choices ?? []).filter(c => c.command && !/^(buy|sell)_/.test(c.command));
       const aims = (g.screen.aims ?? []).filter(a => a.followed).map(a => a.text);
+      // A sale led for the aim is in Trade, drawn in the aim's gold: opened, and the sale made (see TalkStage.traded).
+      if (lead.for && /^sell_/.test(lead.for)) { this.log.push(`  trades: ${lead.for}`); await g.perform(lead.for); return true; }
       const gold = replies.filter(c => c.command === lead.for || TalkFocus.aimed(c, aims));
       const shown = TalkFocus.of(replies, { ...lead.for ? { led: lead.for } : {}, asked: [], aims }).salient;
       const pick = gold[0] ?? shown[0];
@@ -38,8 +40,15 @@ export class HonestPlayer {
         lead.command.slice('travel:'.length));
       this.log.push(`  journey: ${done.arrived ? 'arrived' : done.stopped}`);
       await g.perform('wait');
+    } else if (!lead.command) {
+      // A thing led with (a find, a chest): its first act, as its pane offers it (the reference tour's rule).
+      const thing = Attending.place(SceneModel.build(g.screen)).subjects.find(x => x.id === lead.subject);
+      const act = Attending.all(thing?.choices ?? []).find(c => c.command && !/#look$/.test(c.id));
+      if (!act?.command) { this.log.push('  nothing to do with it'); return false; }
+      this.log.push(`  does: ${act.label}`);
+      await g.perform(act.command);
     } else {
-      await g.perform(lead.command!);
+      await g.perform(lead.command);
     }
     return true;
   }

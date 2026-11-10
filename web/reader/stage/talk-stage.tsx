@@ -20,6 +20,10 @@ import { TalkFocus } from '../talk-focus';
 // (an instrumented session spent four of its ten scrolls reaching "Take your leave": the play-structure
 // investigation's PT-42). Nothing else on the stage: the place is where you left it.
 export class TalkStage {
+  // Whether the reply the page leads them with is one had in trade.
+  static traded(services: Choice[], led?: string): boolean {
+    return !!led && services.some(c => c.command === led || !!c.children?.some(k => k.command === led));
+  }
   static View({ app, talk }: { app: ReaderApp; talk: Talk }) {
     const s = app.state, frame = s.frame!, who = talk.subject, draw = Act.draw(app);
     // A name begins with a capital where it heads the page ("The wagoner", not "the wagoner": the owner, 7 November).
@@ -58,9 +62,11 @@ export class TalkStage {
                   <ol className="replies">{focus.more.map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw}
                     asked={s.asked.includes(c.id) || /_again(\(|$)/.test(c.command ?? '')} />)}</ol>
                 </details>}
+                {/* In the aim's gold where what the aim asks of them is had in trade (a sale, to the debtor home with
+                    what would fetch coin: Mission 20). */}
                 {(wares.length > 0 || focus.services.length > 0 || (counter?.buys.length ?? 0) > 0)
-                  && <p className="to-trade"><button type="button" className="option" data-action="trade"
-                    onClick={() => app.trade(true)}>Trade</button></p>}
+                  && <p className="to-trade"><button type="button" className={`option${TalkStage.traded(focus.services, led)
+                    ? ' aimed' : ''}`} data-action="trade" onClick={() => app.trade(true)}>Trade</button></p>}
               </>}
             </div>
             <p className="leave"><Act.View choice={talk.leave} draw={draw}>

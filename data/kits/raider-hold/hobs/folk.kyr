@@ -159,15 +159,17 @@ Module hob_folk "Hobs" {
   Rule gaffer_fights when together(gaffer, party) and able(gaffer) and alarmed(gaffer) and not tolerates(gaffer, party)
     says "The Gaffer comes off his fleeces with a knife in each hand, cackling." { Assert assails(gaffer, party). }
 
+  // Hobs here or a way off who have not already run from a bell (those out of the back way are past hearing it).
+  Query unrung(p: place) means (at(raiders, p) and not at(raiders, bolt)) or (at(watchers, p) and not at(watchers, bolt))
+    or (at(gaffer, p) and not at(gaffer, bolt)).
+  Query earshot(p: place) means unrung(p) or (connects(?w, p, ?q) and unrung(?q)).
   // A bell rung where hobs are, or within earshot of them, sends them running out of the back way: every time, for
   // hobs creep back to the fire (it had worked once, and rung again over the boy's pit it did nothing: Mission 20).
   Action ring_bell(actor: group, site: place) "Ring the bell" {
     Description "Swing it hard. Whatever is within earshot will hear it.".
     // Only where a hob would hear it: offered in every room and road with the bell in hand, it had been led with on
     // every page after the hold was empty (Mission 20's honest play).
-    Requires able(actor) and at(actor, site) and holding(actor, bell) and not rung(site)
-      and (at(raiders, site) or at(watchers, site) or at(gaffer, site) or (connects(?w, site, ?q)
-        and (at(raiders, ?q) or at(watchers, ?q) or at(gaffer, ?q)))).
+    Requires able(actor) and at(actor, site) and holding(actor, bell) and not rung(site) and earshot(site).
     On success { Assert rung(site). }
     Result "The bell's voice goes out over everything.".
   }

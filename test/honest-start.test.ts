@@ -44,4 +44,14 @@ describe('the opening, as the page leads it', () => {
     expect(await p.until(() => won() && carried().some(id => !before.has(id)), 50)).toBe(true);
     expect(p.s.campaign.world.one('at', 'party')).toMatch(/_u_|_ud/);
   }, 300000);
+  // Mission 20's reference journey, as far as the page's leads take a lone warrior: out to Seolforfyrd, the parley, the
+  // stolen bell rung to send the hobs running, the boy untied, the hold walked through and left, the toll-house's
+  // music box found, and home to Tuck, who buys such things, to sell it: within a few coin of the debt.
+  it('takes a debtor out through the hobs’ hold and home to sell what was found to the creditor', async () => {
+    const p = await start('debt');
+    const sold = () => p.log.some(l => /trades: sell_valuable/.test(l));
+    expect(await p.until(sold, 110)).toBe(true);
+    expect(p.log.join('\n')).toMatch(/Ring the bell[\s\S]*Untie/);
+    expect(p.glanced.screen.party.every(m => m.hp > 0)).toBe(true);
+  }, 400000);
 });
