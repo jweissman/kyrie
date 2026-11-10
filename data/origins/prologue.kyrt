@@ -17,7 +17,7 @@
   // share of the load for it, walk on; or, while his back is to you, take something off it. What was done goes into
   // {home} with him.
   Person carter "the wagoner" at {approach} {
-    Role "a wagoner up to his knees in the ditch, his shoulder to a wheel that will not come". Ancestry {folk}. Peaceable. Pronouns he. Manner grim.
+    Role "a wagoner hauling meal into {home}". Ancestry {folk}. Peaceable. Pronouns he. Manner grim.
   }
   Observe meeting near carter when not answered(party) "A cart stands canted at the side of the road, one wheel down in the ditch to the hub, the horse blowing in the shafts, a sack of meal burst on the bed. The wagoner is up to his knees in the ditch with his shoulder to the wheel. He looks round at the sound of you and does not ask. He has asked enough people today.".
   Thing cart "the cart" at {approach} {
@@ -35,7 +35,9 @@
   Rule carter_goes_on when state(cart, righted) and at(carter, {approach}) and not at(party, {approach}) {
     Retract at(carter, {approach}). Assert at(carter, {inn}).
   }
-  Entity cart_righted: fact "On the way into {home} you got a wagoner's wheel out of the ditch, and would take nothing for it but his thanks.".
+  // Said as what he gave (he pressed two coins on you, and would not have them back): it had said you took nothing
+  // but his thanks, under the two coins (Mission 20's third round, C 24).
+  Entity cart_righted: fact "On the way into {home} you got a wagoner's wheel out of the ditch, and he pressed two coins on you for it.".
   Entity cart_bargained: fact "On the way into {home} you got a wagoner out of the ditch for a sack of his meal and a coin.".
   Entity cart_left: fact "On the way into {home} you left a wagoner in the ditch, and did not stop.".
   Entity cart_robbed: fact "On the way into {home} you lifted a sack off a wagoner's load while his back was to you.".

@@ -97,7 +97,9 @@ Module drover "The drover who did not come home" {
   // Until he has somewhere to go, the son keeps the green by day and comes in to his mother after dark.
   Rule son_goes_in when dark() and at(son, green) and not willing(son, party) { Assert at(son, taproom). }
   Rule son_comes_out when not dark() and at(son, taproom) and not willing(son, party) { Assert at(son, green). }
-  Observe son_kin_ready near son when kin(party, son) and told(son) and not knows(party, found_cart) "Your brother is waiting by the rail with the spear, ready when you are.".
+  // At the rail, not wherever he is: come along with the company, he had been "waiting by the rail" two storeys under
+  // the town (Mission 20's third round, C).
+  Observe son_kin_ready near son when kin(party, son) and told(son) and not knows(party, found_cart) and not travelsWith(son, party) "Your brother is waiting by the rail with the spear, ready when you are.".
   // Told, she knows he is not coming: she had still looked up at the door (play 10).
   Observe wife_kin_told near wife when kin(party, wife) and told(wife) "Your mother is at the hearth, at her work. She has stopped looking at the door.".
   Topic wife_where with wife "Ask your mother where he was going" when kin(actor, wife) and not told(wife) once {
