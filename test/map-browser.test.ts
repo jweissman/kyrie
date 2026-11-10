@@ -108,7 +108,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the map and the notes, to plan with
       const map = document.querySelector('.field-land canvas')!.getBoundingClientRect();
       const stage = document.querySelector('.world-page .surface')!.getBoundingClientRect();
       const you = document.querySelector('.board-you')!.getBoundingClientRect();
-      const plan = document.querySelector('.world-page .focus > section')!.getBoundingClientRect();
+      // Raised by M the map opens on the aim followed (its plan), or else where the company is: whichever card it is.
+      const plan = document.querySelector('.world-page .focus > *')!.getBoundingClientRect();
       return { names: document.querySelectorAll('.board-labels [data-action="map-place"]').length,
         whole: map.width >= stage.width - 1 && map.height >= stage.height - 1,
         you: you.left >= 0 && you.right <= innerWidth && you.top >= 0 && you.bottom <= innerHeight,
