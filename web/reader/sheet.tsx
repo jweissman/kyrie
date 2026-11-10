@@ -39,7 +39,7 @@ export class Sheet {
             {Sheet.idle(screen, facts)}</p>}
         </section>
         {(leads.length > 0 || known.length > 0) && <div className="notes-columns">
-          {leads.length > 0 && <section data-region="leads"><h3>Heard of, not yet seen</h3>
+          {leads.length > 0 && <section data-region="leads"><h3>Told you, not yet seen for yourself</h3>
             <Sheet.Facts list={leads} /></section>}
           {known.length > 0 && <section className="known" data-region="known"><h3>What you know</h3>
             <Sheet.Facts list={known} /></section>}
