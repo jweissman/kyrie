@@ -98,11 +98,11 @@ describe('Silkholme: one quarrel, several ways through it', () => {
     const s = await Sink.play();
     const quay = () => JSON.stringify(PlayerView.observe(s.campaign));
     expect(quay()).toContain('Barges nose into reed-fringed piles');
-    expect(quay()).toContain("A shepherd's boy is telling anyone");
+    expect(quay()).toContain("A herd-girl from up the hill is telling anyone");
     while (s.campaign.state.elapsed < 78) { await s.leg('wait'); }
     expect(Sink.holds(s, 'dark')).toBe(true);
     expect(quay()).toContain('The quay is dark and empty');
-    expect(quay()).not.toContain("A shepherd's boy");
+    expect(quay()).not.toContain("A herd-girl");
     expect(Sink.legal(s)).toContain('wait_for_light');
     await s.leg('wait_for_light');
     expect(s.campaign.state.elapsed).toBe(132);

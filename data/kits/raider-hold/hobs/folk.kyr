@@ -65,7 +65,7 @@ Module hob_folk "Hobs" {
   Initially Assert established(bell_taken).
   // Told, not only seen: under the frame people say where the bell went, by the name of the place it went to, which
   // the fact it teaches holds (see KitWord): the line had said only "Hobs", and the company knew where without being told.
-  Observe empty_frame at chapel when not hung(handbell) "The bell is gone from its frame over the well. 'Hobs,' people say, and spit. 'Hobs out of {outside}, where they've made their hold.' Nobody has gone after it." teaches bell_taken.
+  Observe empty_frame at chapel when not hung(handbell) and not regained(handbell) "The bell is gone from its frame over the well. 'Hobs,' people say, and spit. 'Hobs out of {outside}, where they've made their hold.' Nobody has gone after it." teaches bell_taken.
   Observe clappers at outside when true "Up on the hold, things hang where anyone coming can see them: among them bells, every one with its clapper torn out." teaches bell_taken.
   // Heard of, the hold is somewhere to go; come to, its bells say the stolen one is inside; the bell in hand, neither
   // is asked of the company any longer.
@@ -86,6 +86,9 @@ Module hob_folk "Hobs" {
     On success { Assert hung(handbell). Assert stale(bell_taken). Spend bell from actor. Increase quantity(actor, gold) by 10. }
     Result "The bell goes up into its frame, and somebody gives the rope a pull before you have your hands off it. Doors open all round the well. An old woman pushes through and puts a purse in your hand without a word, and holds your hand shut on it: ten coin, gathered round the parish while you were gone.".
   }
+  // Got back and not yet hung, it is not "gone, and nobody has gone after it" (a cold player carried it home under
+  // that line: Mission 20's second round, B 130).
+  Observe frame_waits at chapel when regained(handbell) and not hung(handbell) "The frame over the well stands empty still. People look at what you are carrying, and then at the frame, and nobody says anything yet.".
   Observe bell_back at chapel when hung(handbell) "The bell hangs in its frame over the well again, and the children are not let near the rope.".
   // What the boy knows: the back way out, and what the hobs are afraid of.
   Entity bell_dread: fact "Hobs cannot abide the sound of a bell: ring one where they are and they run.".

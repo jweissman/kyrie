@@ -131,8 +131,9 @@ Module brood_hollow "A brood under the hill" {
   Topic mourning with odile "Speak with {odile}" when state(odile, grieving) {
     Says "'Garth will be pleased,' says {odile}. 'I suppose the silk is gone the way of the sheep.'".
   }
-
-  Observe rumour at gossip when not quieted(brood) and not asked(garth, party) and not dark() "A shepherd's boy is telling anyone who will listen that something comes up out of {hollow} at night and takes a ewe from the flock by {pasture}, and that {garth} means to burn it out.".
+  // A herd-girl, not a shepherd's boy: the hobs keep a shepherd's boy captive in the same country, and two cold players
+  // took the one telling of Silkholme on the quay for the one they had just untied (Mission 20's second round).
+  Observe rumour at gossip when not quieted(brood) and not asked(garth, party) and not dark() "A herd-girl from up the hill is telling anyone who will listen that something comes up out of {hollow} at night and takes a ewe from the flock by {pasture}, and that {garth} means to burn it out.".
   Entity ewes: fact "At night something comes out by {pasture} and takes a ewe from {garth}'s flock. {garth} means to burn it out.".
   Entity no_silk: fact "{odile}, who winds silk at the sink by {pasture}, has had none for a week, and is frightened for her spiders.".
   Initially Assert established(ewes). Initially Assert established(no_silk).

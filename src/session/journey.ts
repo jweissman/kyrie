@@ -412,7 +412,7 @@ export class Journey {
   private async setOut(name: string): Promise<string> {
     const pattern = new RegExp(`^${name}$`, 'i');
     const place = this.campaign.module.entities.find(e => e.type === 'place' && pattern.test(e.name)
-      && Itineraries.plan(this.campaign, e.id));
+      && !!Itineraries.plan(this.campaign, e.id)?.legs.length);
     if (!place) { throw Journey.unoffered(`No known way to /${name}/ at watch ${this.watch()}`); }
     return this.perform(`travel:${place.id}`, `Set out for ${place.name}`);
   }
