@@ -6969,6 +6969,21 @@
    "form": "exterior",
    "shows": "a broken tower and a lone arch on a hill over a wide valley, a path going up past an old tree",
    "era": "late"
+  },
+  "scene-granary-interior": {
+   "form": "interior",
+   "shows": "inside a granary: grain bins raised on stone piers, sacks and a barrel, a ladder, a cart at the open door",
+   "era": "late"
+  },
+  "scene-loggia": {
+   "form": "exterior",
+   "shows": "a loggia of arches under a vine, a table set with a jug and fruit, a bust in a niche, a town's towers beyond",
+   "era": "late"
+  },
+  "scene-town-stable": {
+   "form": "interior",
+   "shows": "a town stable: two horses looking over their stalls, harness and saddles, straw, an arch onto a yard",
+   "era": "late"
   }
  }
 }
