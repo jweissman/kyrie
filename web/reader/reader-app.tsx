@@ -51,8 +51,8 @@ export interface AppState {
   // The aim the player follows, chosen in the Notes (see Followed).
   // Which beat of a new game's opening is shown, while it is, and when it came; and the opening itself, kept while it
   // is told, past the meeting on the road answered in it (see PrologueStage).
-  // opened: the opening's pages were shown, and said the first goal (the first place does not say it again).
-  prologue?: number; beat?: number; told?: Leaf['prologue']; opened?: boolean;
+  // opened: the opening's beats, when its pages were shown (the first place says neither them nor the first goal again).
+  prologue?: number; beat?: number; told?: Leaf['prologue']; opened?: string[];
   // Whether the company is setting out from the choice of a life: the page says only that, over the country.
   leaving?: boolean;
   // Whether the world map is up: the one map, the whole stage. Play begins on it; coming into open country raises it;

@@ -122,7 +122,10 @@ export class PrologueStage {
   // Straight on into play, whatever page it is at (Esc): where the opening left the company (see WorldStage.begins).
   static done(app: ReaderApp) {
     const frame = app.state.frame;
-    app.setState({ prologue: undefined, told: undefined, opened: true, outdoors: !!frame && WorldStage.begins(frame) });
+    // What came of the answer on the road was told on the opening's last page: not again on the place under it.
+    app.setState({ prologue: undefined, told: undefined, opened: app.state.told?.beats ?? [],
+      ...frame ? { frame: { ...frame, leaf: { ...frame.leaf, exchange: undefined } } } : {},
+      outdoors: !!frame && WorldStage.begins(frame) });
   }
   // The opening's keys: on, a digit for an answer, Esc straight on; nothing reaches the place's choices under it.
   static key(app: ReaderApp, key: string, held: boolean): boolean {

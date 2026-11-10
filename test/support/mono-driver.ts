@@ -103,7 +103,8 @@ export class MonoDriver {
       if (await has(shown)) { await this.click(shown); return true; }
     }
     for (const part of ['go', 'look', 'wait'] as const) {
-      const opener = `.opens-${part}`;
+      // The place's own Look… (a find led with has a touch of its own before it, opening the same: GlanceStage.found).
+      const opener = `.opens-${part} >> nth=-1`;
       if (!await has(opener)) { continue; }
       await this.click(opener);
       // Waiting, opened, is Wait… itself: its lengths are what it shows.

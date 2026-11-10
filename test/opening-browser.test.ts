@@ -233,7 +233,6 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
       await page.keyboard.press('m');
       await page.waitForSelector('.world-page.scale-board', { timeout: 60000 });
       const mapped = await Stage.bounds(page);
-      await page.click('[data-action="enter-hex"]');
       // Creation is the whole screen, as the title is (OWN-14: no window frame), and so is the world map (the owner,
       // 5 November: edge to edge); a place entered keeps the stage's margins.
       expect([creating.inside, creating.margin, creating.scrolls]).toEqual([true, 0, false]);
