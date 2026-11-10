@@ -43,6 +43,6 @@ Sources: the builder's probes (P), cold round 1 player A / B (screenshot numbers
 | E23 | P1 | In the hobs' hold the page led with "Attack (beyond you)"; the bell routed once and rung again did nothing; the bell was led in every room; the exhausted hold led nowhere | P: honest.ts | **fixed** e989a704 |
 | E24 | P2 | Look… had no word of the stolen bell lying in the plunder: a led find was not named on the scene | CI tour 482c5f6f | **fixed** 11c27557 |
 | E25 | P3 | Save size (M19-236): measured in the browser after a reload, the world is kept once (1.9 MB) and a state is a diff (61 KB after a few commands); both cold players reloaded without loss. The 22 MB is the downloadable whole-game file | P: preview /eval | deferred (no obstacle to play measured) |
-| E26 | P2 | Story after a reload shows only what happened since | P: preview | open |
+| E26 | — | Story after a reload seemed to show only what happened since | P: preview | not reproduced: the log is kept and restored (EngineHost); the Story tells only what happened, and little had |
 | E8 | — | Headless scripts could not take a map journey | — | **fixed** bf62b137 (`map:<place>`) |
 | E21 | — | Cold agents under automation skip the prologue; next rounds use `&opening` | P | noted (harness) |
