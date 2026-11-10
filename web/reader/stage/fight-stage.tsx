@@ -89,10 +89,12 @@ export class FightStage {
   // review's PD-13: an end that told what was won, never what it cost or what remained).
   static Aftermath({ app }: { app: ReaderApp }) {
     const frame = app.state.frame!, combat = frame.combat!, began = app.state.fight?.began ?? {};
+    // Hurt and healed in it is said so (a warrior brought to 6 of 16 by the goblin chief, his second wind taken, had
+    // been "unhurt": Mission 20's first cold round).
     const cost = combat.allies.map(f => {
-      const was = began[f.id] ?? f.hp;
+      const was = began[f.id] ?? f.hp, low = Math.min(f.hp, app.state.fight?.low?.[f.id] ?? was);
       return f.hp === 0 ? `${f.name} down` : f.hp < was ? `${f.name} ${f.hp} of ${f.maxHp}, ${was - f.hp} lost`
-        : `${f.name} unhurt`;
+        : low < was ? `${f.name} brought to ${low} of ${f.maxHp}, now ${f.hp}` : `${f.name} unhurt`;
     });
     const aim = Followed.of(frame.screen);
     return <div className="aftermath" data-region="aftermath">
