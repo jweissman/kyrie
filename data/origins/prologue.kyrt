@@ -18,6 +18,9 @@
   // {home} with him.
   Person carter "the wagoner" at {approach} {
     Role "a wagoner hauling meal into {home}". Ancestry {folk}. Peaceable. Pronouns he. Manner grim.
+    // Spoken to once the wheel is out, not as a stranger's: "If it's trouble, I have enough of my own" had greeted
+    // whoever had just got him out of the ditch (three cold rounds running: R3-C, R4-E 18, R4-F 19).
+    Greets "The wagoner straightens up from the wheel, blowing, and looks at you properly for the first time. 'Well,' he says." when state(cart, righted).
   }
   Observe meeting near carter when not answered(party) "A cart stands canted at the side of the road, one wheel down in the ditch to the hub, the horse blowing in the shafts, a sack of meal burst on the bed. The wagoner is up to his knees in the ditch with his shoulder to the wheel. He looks round at the sound of you and does not ask. He has asked enough people today.".
   Thing cart "the cart" at {approach} {
@@ -25,7 +28,7 @@
     State righted "The cart stands square on the road again, its load roped down, the horse quiet.".
     Change heave "Put your shoulder to the wheel with him" from ditched to righted needing brawn or crowbar.
     }
-  Topic carter_thanks with carter "Tell the wagoner the wagon is on the road again" when state(cart, righted) and not wayIn(cart_righted) and not wayIn(cart_bargained) once {
+  Topic carter_thanks with carter "Hear the wagoner out" when state(cart, righted) and not wayIn(cart_righted) and not wayIn(cart_bargained) once {
     Says "'You'll eat at my cost, then,' says the wagoner, wiping his hands down his coat. 'Ask for me at the inn tonight; there's always a bowl for whoever gets a man out of a ditch.' He presses two coins on you as well, and will not have them back.".
     On discuss { Assert wayIn(cart_righted). Assert knows(actor, cart_righted). Increase quantity(actor, gold) by 2. }
   }
