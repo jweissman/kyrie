@@ -67,12 +67,19 @@ export class Sheet {
   }
   // The aim followed, large; the rest under it, smaller, each a line with its own touches, so that a company newly come
   // is not handed ten things at once as equals (the owner, 4 November), and none of them is behind a fold.
+  // Apart from what it has taken on, the old places it has only heard named (each work's "somewhere to go", {w}_sought):
+  // a cold player had about ten aims within minutes of talking to Tuck, most of them places said to be out there
+  // (Mission 20's second round).
   static Aims({ app }: { app: ReaderApp }) {
     const screen = app.state.frame!.screen, [first, ...rest] = Sheet.ordered(app, [...screen.deadlines, ...screen.objectives]);
+    const heard = new Set((screen.aims ?? []).filter(a => /_sought$/.test(a.id)).map(a => a.text));
+    const taken = rest.filter(o => !heard.has(o)), places = rest.filter(o => heard.has(o));
     return <>
       <ul className="aims"><Sheet.Aim app={app} aim={first!} /></ul>
-      {rest.length > 0 && <div className="aims-more"><h3>You could also take up</h3>
-        <ul className="aims rest">{rest.map(o => <Sheet.Aim key={o} app={app} aim={o} />)}</ul></div>}
+      {taken.length > 0 && <div className="aims-more"><h3>You could also take up</h3>
+        <ul className="aims rest">{taken.map(o => <Sheet.Aim key={o} app={app} aim={o} />)}</ul></div>}
+      {places.length > 0 && <div className="aims-more"><h3>Heard of, not yet looked into</h3>
+        <ul className="aims rest">{places.map(o => <Sheet.Aim key={o} app={app} aim={o} />)}</ul></div>}
     </>;
   }
   // An aim, to follow or not, and where it names a place the company knows, that place on the map: going anywhere is the
