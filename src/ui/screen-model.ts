@@ -87,7 +87,7 @@ export class ScreenModel {
       capabilities: (view.capabilities ?? []).map(c => `${c.name} — ${c.providers.join(', ')}`),
       formations: this.formations(campaign),
       trade: here ? TradeModel.at(world, here, names) : [], services: Services.of(campaign, names),
-      ...Undertakings.shown(campaign, view.objectives ?? [], here),
+      ...Undertakings.shown(campaign, view.objectives ?? [], here), ...Owed.shown(campaign),
       ...stakes.size ? { aimed: [...stakes] } : {},
       ...charted,
       expedition: this.expedition(world, view, items, here),

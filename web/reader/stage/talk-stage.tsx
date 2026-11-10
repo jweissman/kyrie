@@ -24,6 +24,8 @@ export class TalkStage {
   // A new aim as said in talk: taken up where it is to hand, noted where it is further off (see AimNear).
   static aimed(app: ReaderApp | undefined, text: string): string {
     const screen = app?.state.frame?.screen;
+    // A place's own aim folded into an aim held for it is what is known of that place, not an aim of its own.
+    if (screen?.aims?.some(a => a.about?.includes(text))) { return 'Of your aim'; }
     return !screen || AimNear.near(screen, text) ? 'A new aim' : 'Noted, further off';
   }
   // Whether the reply the page leads them with is one had in trade.
@@ -38,7 +40,7 @@ export class TalkStage {
     const counter = frame.screen.trade.find(c => c.id === who.id), { wares, rest } = Wares.of(counter, talk.replies);
     const led = frame.leaf.glance?.acts.find(a => a.subject === who.id)?.for;
     const focus = TalkFocus.of(rest, { ...led ? { led } : {}, ...s.heard ? { heard: s.heard } : {}, asked: s.asked,
-      aims: (frame.screen.aims ?? []).map(a => a.text) });
+      aims: (frame.screen.aims ?? []).map(a => a.text), paying: frame.screen.paying ?? [] });
     // What the aim followed asks of them is drawn in its gold, as their likeness is (the owner, 8 November: the
     // merchant the rats job sent the company to, and the question to ask her, had been drawn like any other).
     const followed = (frame.screen.aims ?? []).filter(a => a.followed).map(a => a.text);
@@ -61,7 +63,7 @@ export class TalkStage {
                     .map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw} />)}</ol></>}
                 <ol className="replies" aria-label={`What you might say to ${name}`}>
                   {focus.salient.map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw}
-                    fresh={focus.opened.has(c.id)} aimed={aimed(c)} />)}
+                    fresh={focus.opened.has(c.id)} aimed={aimed(c)} pays={TalkFocus.pays(c, frame.screen.paying)} />)}
                 </ol>
                 {focus.more.length > 0 && <details className="more-talk">
                   <summary>Something else…</summary>
@@ -208,12 +210,15 @@ export class TalkStage {
     </section>;
   }
   // A question already put stays to be put again, quieter, and says so; one the last answer opened is marked new.
-  static Reply({ choice: c, draw, asked, fresh, aimed }: { choice: Choice; draw: Draw; asked?: boolean; fresh?: boolean;
-    aimed?: boolean }) {
+  // What pays the company is marked green, as the likeness that has something for it is (see Owed).
+  static Reply({ choice: c, draw, asked, fresh, aimed, pays }: { choice: Choice; draw: Draw; asked?: boolean;
+    fresh?: boolean; aimed?: boolean; pays?: boolean }) {
     return (
-      <li className={[asked ? 'asked' : fresh ? 'fresh' : '', aimed ? 'aimed' : ''].filter(Boolean).join(' ') || undefined}>
+      <li className={[asked ? 'asked' : fresh ? 'fresh' : '', aimed ? 'aimed' : '', pays ? 'pays' : '']
+        .filter(Boolean).join(' ') || undefined}>
         <Act.View choice={c} draw={draw}><i>{(draw.index.get(c.id) ?? 0) + 1}</i>{Typography.curl(c.label)}
-          {c.note && <small> · {c.note}</small>}{asked && <small> · asked</small>}</Act.View>
+          {c.note && <small> · {c.note}</small>}{asked && <small> · asked</small>}
+          {pays && <small className="for-you"> · for you</small>}</Act.View>
         {c.children && draw.open.has(c.id) && <ol className="opened-list">{c.children.map(k => <TalkStage.Reply key={k.id}
           choice={k} draw={draw} />)}</ol>}
       </li>

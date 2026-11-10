@@ -88,7 +88,10 @@ export class Sheet {
   static Aim({ app, aim }: { app: ReaderApp; aim: string }) {
     const screen = app.state.frame?.screen, following = !!screen && Followed.of(screen) === aim;
     const place = screen && Aims.named(screen, screen.destinations ?? [], aim);
-    return <li className={`aim-card${following ? ' followed' : ''}`}><span>{Typography.curl(aim)}</span>
+    // What is known of the place it is about, from the place's own aim folded into it (see Undertakings.folded).
+    const about = screen?.aims?.find(a => a.text === aim)?.about ?? [];
+    return <li className={`aim-card${following ? ' followed' : ''}`}><span>{Typography.curl(aim)}
+      {about.map(t => <small key={t} className="aim-about">{Typography.curl(t)}</small>)}</span>
       <span className="aim-acts"><button type="button" className="option follow" data-action="follow"
         aria-pressed={following} disabled={following} onClick={() => app.follow(aim)}>
         {following ? 'Following' : 'Follow this'}</button>

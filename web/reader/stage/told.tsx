@@ -184,7 +184,7 @@ export class Told {
   static Happened({ exchange, said, ready, app }: { exchange: Exchange; said?: boolean; ready?: string; app?: ReaderApp }) {
     const echo = said && exchange.said ? Words.echo(Words.lastSaid(exchange.said)) : undefined;
     const { plain, rest, sights, ended, levels } = Moments.of(exchange.lines);
-    const notes = Told.few(Panorama.unsaid(exchange.notes, sights)), at = useRef<HTMLElement>(null);
+    const notes = Told.few(Told.folded(app, Panorama.unsaid(exchange.notes, sights))), at = useRef<HTMLElement>(null);
     Scrolled.useNewest(at, exchange, !!said);
     return (
       <section ref={at} className={`happened tone-${exchange.tone}`} data-id="response" aria-live="polite">
@@ -216,6 +216,12 @@ export class Told {
     return [...aims, ...rest.slice(0, room), ...more > 0 ? [`And ${more === 1 ? 'one thing more' : `${more} things more`}, in the Book.`] : []];
   }
   static aims(notes: string[]): string[] { return notes.filter(n => /^Aim: /.test(n)); }
+  // A place's own aim folded into an aim held for it is something known of where that aim leads, not an aim to follow
+  // beside it (see Undertakings.folded).
+  static folded(app: ReaderApp | undefined, notes: string[]): string[] {
+    const about = new Set((app?.state.frame?.screen.aims ?? []).flatMap(a => a.about ?? []));
+    return notes.map(n => /^Aim: /.test(n) && about.has(n.replace(Words.noted, '')) ? n.replace(/^Aim: /, 'Noted: ') : n);
+  }
   // Several aims taken up at once (a notice of three jobs) are one note, a line each, not a block each (the
   // product-design review's PD-11: three quest paragraphs in the town's telling).
   // Those further off than the town the company is in are counted, not listed (see AimNear).

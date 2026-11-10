@@ -12,14 +12,17 @@ export class TalkFocus {
   // The kinds of act had of someone for coin or work (Choice.does, never the command's words).
   static readonly services = new Set(['take_lodging', 'take_lodging_guest', 'take_healing', 'work_keep', 'sing_supper',
     'sell', 'sell_valuable', 'sell_ware', 'buy_goods', 'train_member', 'learn_skill', 'learn_spell', 'learn_reward']);
-  static of(replies: Choice[], at: { led?: string; heard?: string[]; asked: string[]; aims?: string[] }) {
+  static of(replies: Choice[],
+    at: { led?: string; heard?: string[]; asked: string[]; aims?: string[]; paying?: string[] }) {
     const answers = replies.filter(c => c.answer);
     const services = replies.filter(c => !c.answer && TalkFocus.service(c));
     const said = TalkFocus.beyond(replies.filter(c => !c.answer && !services.includes(c)));
     const spent = said.filter(c => at.asked.includes(c.id) || /_again(\(|$)/.test(c.command ?? ''));
     const fresh = said.filter(c => !spent.includes(c)), heard = new Set(at.heard ?? []);
-    const led = [...at.led ? fresh.filter(c => c.command === at.led || c.id === at.led
-      || !!c.children?.some(k => k.command === at.led)) : [], ...fresh.filter(c => TalkFocus.aimed(c, at.aims ?? [])),
+    // What pays the company first: someone marked as having something for it says what (see Owed).
+    const led = [...fresh.filter(c => TalkFocus.pays(c, at.paying)), ...at.led ? fresh.filter(c => c.command === at.led
+      || c.id === at.led || !!c.children?.some(k => k.command === at.led)) : [],
+    ...fresh.filter(c => TalkFocus.aimed(c, at.aims ?? [])),
     ...fresh.filter(c => TalkFocus.weighty(c))].filter((c, i, all) => all.indexOf(c) === i);
     // New since the last thing said: not offered then (a group, if none of what it holds was).
     const opened = at.heard ? fresh.filter(c => !heard.has(c.id) && !c.children?.some(k => heard.has(k.id))
@@ -28,6 +31,10 @@ export class TalkFocus {
     const room = Math.max(1, TalkFocus.most - (answers.length ? 1 : 0));
     return { answers, salient: ranked.slice(0, room), more: [...ranked.slice(room), ...spent], services,
       opened: new Set(opened.map(c => c.id)) };
+  }
+  // Whether saying it pays the company (see Owed).
+  static pays(c: Choice, paying?: string[]): boolean {
+    return !!c.command && !!paying?.includes(c.command.replace(/\(.*$/, ''));
   }
   // What the aim followed asks to be asked of them (see AimAsks).
   static aimed(c: Choice, aims: readonly string[]): boolean { return AimAsks.asks(c.label, aims); }

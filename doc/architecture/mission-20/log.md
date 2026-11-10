@@ -34,6 +34,19 @@ Reproduce headlessly with `bun /var/tmp/kyrie/m20/tools/leads.ts <origin> <race/
    each with coherent ways, fitting scenery, a few details, a plausible tie to the world, no elaborate quest. Excludes
    rooms made only to hold a painting, and anything the opening journey depends on.
 
+5. **10 November, night — the owner's play ([user-notes.md](user-notes.md)).** Adds, in order: (1) trust in quest and
+   interaction guidance: a visible mark must answer to an action or an explained state; active aims, clues, rumours,
+   actions and rewards told apart; related aims made legible (the Albustagn sister and springs; a green-marked person
+   with nothing in their talk; gold and green meaning different things in different places); (2) a subtraction and
+   composition pass on the title (embers, no blurry painting), the introduction (text centred, not at the foot), and a
+   scene-led layout (painting to the viewport, controls in restrained overlays), compared in screenshots at desktop and
+   phone sizes; the top rail, buttons and link-like controls; (3) travel as a journey: slower and legible, what is
+   passed through seen without its secrets told, ETA and rations and rest before setting out, consulting the map apart
+   from setting out, the rail's Map reconsidered; (4) first-hour combat challenge, with a small diagnostic, not
+   monster-by-monster inflation; (5) gendered professions and titles from one meaning (no male abbess), creation's
+   glitches and order, the Encyclopedia inside the game; (6) the larger ideas recorded as design opportunities, not
+   built. Excludes new openings, adventures and world-generation redesign in this pass.
+
 ## Rounds of cold play
 
 | Round | Build | Players | Outcome |
@@ -109,5 +122,8 @@ Sources: the builder's probes (P), cold round 1 player A / B (screenshot numbers
 | E60 | P2 | The crypt's way to the churchyard greyed in Go… with no reason; the way out only under Look… | R4-F 115–118 | **fixed** (a way shut is shown in Go… with what opens it: the stone door's lock to set a shoulder to) |
 | E61 | P2 | Clipped boxes in the picture: the danger box cuts off the sergeant's words; "You know now" an empty label | R4-E 34, 61 | **fixed** (a danger is told before the place's telling; things learned together are one "You know now", a line each) |
 | E62 | P3 | Small: Escape does not close talk; "Nowhere to sleep here" in an inn whose bed is under Trade; the inn's back garden one-way in one town; the circus gone from the map; fight log "(roll 10)" and "Tatterlip"; paintings of the charnel passage, ossuary and shrine against their text | R4-E, R4-F | open |
+| E63 | P0 | A likeness marked green as having something for you had nothing in its talk to answer it: the paying reply could lie folded under Something else, and nothing in the talk was marked | owner 10 Nov | **fixed** (the engine names what pays; the talk leads with it, marked green, "for you") |
+| E64 | P0 | One search shown as two quests for one place: "Your sister went into Albustagn" beside "The springs … under Albustagn" (a work's own somewhere-to-go aim), neither saying what the other was to it | owner 10 Nov | **fixed** (a work's own aim is folded into an aim held for its site, told under it as what is known of the place; noted, not offered to follow) |
+| E65 | P1 | Gold and green meant different things in different places: the Notes' aim card was edged in green, the colour of what is for you and what you learn | owner 10 Nov | **fixed** (gold: your aim and the way to it; green: what is for you, learned or gained; ember: danger) |
 | E8 | — | Headless scripts could not take a map journey | — | **fixed** bf62b137 (`map:<place>`) |
 | E21 | — | Cold agents under automation skip the prologue; next rounds use `&opening` | P | noted (harness) |

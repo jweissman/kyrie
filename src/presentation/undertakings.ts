@@ -72,7 +72,27 @@ export class Undertakings {
         ...def && Stakes.own(def) ? { own: true as const } : {},
         ...def ? { places: this.places(campaign, def) } : {}, ...def && this.who(campaign, def).length
           ? { who: this.who(campaign, def) } : {} }));
-    return { objectives: ordered.map(o => o.text), ...ordered.length ? { aims: ordered } : {} };
+    const folded = this.folded(campaign, ordered);
+    return { objectives: folded.map(o => o.text), ...folded.length ? { aims: folded } : {} };
+  }
+  // A work's own aim (somewhere named, to be gone into: its _sought) is part of another aim held for the same site,
+  // not an aim beside it: "Your sister went into Albustagn" and "The springs … were held somewhere under Albustagn"
+  // had stood as two quests for one place, neither saying what the other was to it (the owner's play of 10 November).
+  // It is told under that aim as what is known of the place; followed, it stands alone.
+  private static folded<T extends { id: string; text: string; followed?: true; places?: string[] }>(
+    campaign: Campaign, aims: T[]): (T & { about?: string[] })[] {
+    const byId = EntityIndex.of(campaign.module.entities).byId, into = new Map<string, string>();
+    for (const b of aims.filter(x => /_sought$/.test(x.id) && !x.followed)) {
+      // The work itself: the first, most particular place its aim names (its outside, or its site).
+      const work = b.places?.[0], site = work && (this.site(byId, work) ?? work);
+      const host = work && aims.find(a => a !== b && !/_sought$/.test(a.id)
+        && (a.places ?? []).some(p => p === work || p === site || this.site(byId, p) === site));
+      if (host) { into.set(b.id, host.id); }
+    }
+    return aims.filter(a => !into.has(a.id)).map(a => {
+      const about = aims.filter(b => into.get(b.id) === a.id).map(b => b.text);
+      return about.length ? { ...a, about } : a;
+    });
   }
   // The places an aim is about, by id, most particular first: those its words or condition name; then the outside of
   // a site among them (the barrow's outside, where the map has it); then what they lie in (the inn's town). For the

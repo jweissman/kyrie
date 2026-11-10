@@ -244,7 +244,7 @@ export class MenuModel {
       const sold = talk && Wares.of(frame?.screen.trade.find(c => c.id === talk.subject.id), talk.replies);
       const led = talk && frame?.leaf.glance?.acts.find(a => a.subject === talk.subject.id)?.for;
       const focus = TalkFocus.of(sold?.rest ?? [], { ...led ? { led } : {}, ...heard ? { heard } : {}, asked,
-        aims: (frame?.screen.aims ?? []).map(a => a.text) });
+        aims: (frame?.screen.aims ?? []).map(a => a.text), paying: frame?.screen.paying ?? [] });
       const buys = (sold?.wares ?? []).flatMap(w => w.buy ? [w.buy] : []), can = buys.filter(b => !b.disabled);
       const said = [...focus.answers, ...focus.salient, ...focus.more], spent = said.every(c => asked.includes(c.id));
       const choices = talk && (trading ? [...can, ...focus.services, ...buys.filter(b => b.disabled)]

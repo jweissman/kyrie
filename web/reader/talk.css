@@ -57,6 +57,9 @@
 /* What the aim followed asks of them, in the aim's gold (see TalkStage.Reply). */
 .replies li.aimed > .act { border-color: var(--gold-line); box-shadow: inset 2px 0 0 var(--gold); }
 .replies li.aimed > .act i { color: var(--gold); }
+/* Green, as the likeness marked as having something for you: what pays you to say (see Owed). */
+.replies li.pays > .act { border-color: rgba(95, 211, 182, .5); box-shadow: inset 2px 0 0 var(--verdigris); }
+.replies li.pays > .act i, .replies li.pays .for-you { color: var(--verdigris); }
 .replies .act i, .dialogue .leave .act i { font: 500 12px/1 var(--do); font-style: normal; color: var(--dim); flex: none;
   width: 22px; height: 22px; display: inline-grid; place-items: center; border: 1px solid var(--edge-strong);
   transform: translateY(-1px); transition: color var(--quick), border-color var(--quick), background var(--quick); }

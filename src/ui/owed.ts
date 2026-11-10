@@ -11,10 +11,22 @@ import { Treasure } from './treasure';
 // and not the tools of an errand (the key to a quarry an innkeeper hands over with the job is no reward).
 export class Owed {
   static of(campaign: Campaign): Set<string> {
+    return new Set(Owed.paying(campaign).map(o => o.speaker!));
+  }
+  // And what is to be said to them that pays: the talk leads with it, marked as the likeness is, so that the mark on
+  // someone is a thing that can be said (the owner's play of 10 November: a likeness marked green, and nothing in the
+  // talk that answered it).
+  static topics(campaign: Campaign): string[] {
+    return [...new Set(Owed.paying(campaign).map(o => o.id.replace(/\(.*$/, '')))];
+  }
+  static shown(campaign: Campaign): { paying?: string[] } {
+    const paying = Owed.topics(campaign);
+    return paying.length ? { paying } : {};
+  }
+  private static paying(campaign: Campaign) {
     const actor = campaign.playerActor, world = campaign.world;
-    if (!actor) { return new Set(); }
-    return new Set(campaign.offered().filter(o => o.topic && o.speaker && Owed.pays(o, actor, world))
-      .map(o => o.speaker!));
+    if (!actor) { return []; }
+    return campaign.offered().filter(o => o.topic && o.speaker && Owed.pays(o, actor, world));
   }
   // Whether doing it pays the company: more of what it counts (coin, rations), so many of a kind given, or a thing
   // of worth given.
