@@ -1,12 +1,13 @@
-import { useRef, useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
+import type { Choice } from '../../../src/ui/choice-list';
 import type { CombatantRow } from '../../../src/ui/screen-types';
 import type { ReaderApp } from '../reader-app';
 import { Typography } from '../../../src/presentation/typography';
 import { Words } from '../words';
 import { Followed } from '../followed';
 import { FightLog } from '../fight-log';
-import { Act } from './act';
 import { Scrolled } from './scrolled';
+import { FightMoves, type Aiming } from './fight-moves';
 
 // A fight. The company on one side and what it fights on the other, each with how hurt they are, what they are under
 // and (for a foe) what it means to do; between them what has just happened, large, the latest last, the blows just
@@ -23,7 +24,15 @@ export class FightStage {
   // The acts and the sides each say when more of them lies below (see Scrolled).
   static View({ app }: { app: ReaderApp }) {
     const [log, show] = useState(false), moves = useRef(null), sides = useRef(null);
-    const s = app.state, frame = s.frame!, combat = frame.combat!, mark = s.fight, draw = Act.draw(app);
+    const [aiming, aim] = useState<Aiming | undefined>(), [panel, open] = useState<string | undefined>();
+    const s = app.state, frame = s.frame!, combat = frame.combat!, mark = s.fight;
+    // Aiming and an open kind are let go with Escape, and whenever the fight moves on.
+    useEffect(() => { aim(undefined); open(undefined); }, [combat.round, combat.actorName, combat.exchanges.length]);
+    useEffect(() => {
+      const key = (e: KeyboardEvent) => { if (e.key === 'Escape') { aim(undefined); open(undefined); } };
+      window.addEventListener('keydown', key);
+      return () => window.removeEventListener('keydown', key);
+    }, []);
     const seen = mark?.seen ?? 0, recent = combat.exchanges.filter(e => e.n >= seen);
     // The blows before, quieter, above the last: the middle of the page had been white under one line (Mission 17).
     const earlier = combat.exchanges.filter(e => e.n < seen).slice(-FightStage.kept);
@@ -31,7 +40,7 @@ export class FightStage {
     const turn = combat.outcome ? 'The fight is over.' : combat.ours ? `${combat.actorName}’s turn` : `${combat.actorName} acts`;
     Scrolled.useCue(moves, combat); Scrolled.useCue(sides, combat); Scrolled.useHeld(sides, '.ours', combat);
     return (
-      <div className="fight" id="page">
+      <div className={`fight${aiming ? ' aiming' : ''}`} id="page">
         <p className="status"><span>A fight</span><span>Round {Math.max(1, combat.round)}</span>
           <span data-id="place">{Typography.curl(frame.screen.place.name)}</span>
           {combat.standing && <span className={`standing ${combat.standing.danger}`} data-region="standing">
@@ -39,7 +48,7 @@ export class FightStage {
         {(combat.laws ?? []).map(l => <p key={l.name} className="law"><b>{l.name}.</b> {l.text}</p>)}
         <div className="sides" ref={sides}>
           <ul className="side ours" aria-label="The company">{combat.allies.map(f => <FightStage.Card key={`${f.id}:${f.hp}`} fighter={f}
-            took={mark ? (mark.hp[f.id] ?? f.hp) - f.hp : 0} />)}</ul>
+            took={mark ? (mark.hp[f.id] ?? f.hp) - f.hp : 0} app={app} target={aiming?.targets.get(f.id)} />)}</ul>
           <div className="beat" aria-live="polite">{log ? <FightLog.Memo exchanges={combat.exchanges} /> : <>
             {first && frame.opening.filter(Boolean).map((l, i) => <p key={`o${i}`} className="began">{Typography.curl(l)}</p>)}
             {combat.moment && <p className="moment">{Typography.curl([combat.reckoned ?? '', combat.moment === 'seen'
@@ -54,7 +63,8 @@ export class FightStage {
             {!recent.length && !first && !after.length && <p className="quiet">Nothing has changed.</p>}
           </>}</div>
           <ul className="side foes" aria-label="Against you">{combat.foes.map(f => <FightStage.Card key={`${f.id}:${f.hp}`} fighter={f}
-            took={mark ? (mark.hp[f.id] ?? f.hp) - f.hp : 0} foe dark={!!frame.screen.dark} />)}</ul>
+            took={mark ? (mark.hp[f.id] ?? f.hp) - f.hp : 0} foe dark={!!frame.screen.dark} app={app}
+            target={aiming?.targets.get(f.id)} />)}</ul>
         </div>
         <div className="turn"><p className="now">{turn}
           {s.pending && <span className="working"> · {Typography.curl(Words.lastSaid(s.pending.said))}…</span>}</p>
@@ -62,11 +72,8 @@ export class FightStage {
             {combat.order.map((n, i) => <li key={`${i}:${n}`} className={i ? undefined : 'next'}>
               {Typography.curl(Words.upper(n))}</li>)}</ol>}</div>
         <div className="moves" ref={moves}>
-          {app.menu.sections.filter(sec => sec.choices.length).map(sec => <section key={sec.id} data-section={sec.id}>
-            {sec.title && <p className="label">{sec.title}</p>}
-            <Act.List choices={sec.choices} draw={draw} className="cards" />
-          </section>)}
-          {combat.ours && !combat.outcome && app.menu.sections.length > 0 && <p className="auto">
+          <FightMoves.View app={app} aiming={aiming} aim={aim} panel={panel} open={open} />
+          {combat.ours && !combat.outcome && app.menu.sections.length > 0 && !aiming && <p className="auto">
             <button type="button" className="option quiet" data-action="auto" onClick={app.auto}>
               Let {combat.actorName} fight this turn <kbd>T</kbd></button></p>}
           {combat.ours && !combat.outcome && FightStage.decided(combat) && <p className="through">
@@ -103,11 +110,14 @@ export class FightStage {
   }
   // A foe by how it looks, never its hit points (the owner, 7 November: what one can see, not what one counts): its
   // hurt in words and a bar of four bands; in the dark only whether it stands.
-  static Card({ fighter: f, took, foe, dark }: { fighter: CombatantRow; took: number; foe?: boolean; dark?: boolean }) {
+  // Aimed at, the card is the choice: lit, with how likely it is, chosen by clicking it (see FightMoves).
+  static Card({ fighter: f, took, foe, dark, app, target }: { fighter: CombatantRow; took: number; foe?: boolean;
+    dark?: boolean; app?: ReaderApp; target?: Choice }) {
     const hurt = foe && dark ? (f.hp > 0 ? 'standing' : 'down') : Words.hurt(f.hp, f.maxHp);
     const band = foe ? FightStage.band(f, dark) : f.maxHp ? (f.hp / f.maxHp) * 100 : 0;
     // A face panel for one of the company, and for a foe that has a painting (a den's wolves, the rats).
-    const marks = [!foe || f.face ? ' faced' : '', f.down ? ' down' : '', f.acting ? ' acting' : '', took > 0 ? ' struck' : ''];
+    const marks = [!foe || f.face ? ' faced' : '', f.down ? ' down' : '', f.acting ? ' acting' : '', took > 0 ? ' struck' : '',
+      target ? ' target' : ''];
     return (
       <li className={`fighter${marks.join('')}`} data-fighter={f.id}>
         {(!foe || f.face) && <FightStage.Face fighter={f} />}
@@ -120,6 +130,9 @@ export class FightStage {
             <span className="sep" aria-hidden="true"> · </span>{part}</span>)}</span></p>
         {foe && !f.down && f.intent && <FightStage.Intent intent={f.intent} />}
         {foe && !f.down && f.defenses && <p className="defenses">{Words.upper(f.defenses)}.</p>}
+        {target && <span className="chance">{Typography.curl(target.note?.split(' · ')[0] ?? '')}</span>}
+        {target && app && <button type="button" className="pick" data-action="target" data-choice={target.id}
+          aria-label={Typography.curl(target.label)} onClick={() => app.choose(target)} />}
       </li>
     );
   }

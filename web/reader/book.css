@@ -334,3 +334,7 @@
   .pack-body { grid-template-columns: minmax(0, 1fr); gap: 18px; }
 }
 .sheet .pack-chosen ul.acts, .sheet .pack-chosen .opened-list { padding-left: 0; }
+/* The pack in three: worn and in hand, supplies, carried (the owner, 9 November), each its own small grid. */
+.pack-kept { display: grid; gap: 18px; align-content: start; }
+.pack-stow h4 { margin: 0 0 8px; font: 500 11px/1 var(--do); letter-spacing: .2em; text-transform: uppercase; color: var(--dim); }
+.pack-chosen .pack-packed { font: italic 400 14px/1.45 var(--do); color: var(--dim); }

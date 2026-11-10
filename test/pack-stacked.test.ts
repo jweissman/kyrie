@@ -7,7 +7,7 @@ import type { ItemRow, Screen } from '../src/ui/screen-types';
 // Night's playtest went down with eight torches, and the pack was a torch eight times (AUT-22).
 describe('the pack', () => {
   const row = (id: string, name: string, extra: Partial<ItemRow> = {}): ItemRow => ({ id, name, kind: name,
-    description: '', owner: 'elen', ownerName: 'Elen', equipped: false,
+    description: '', owner: 'elen', ownerName: 'Elen', equipped: false, stow: 'supplies',
     acts: [{ key: `light:${id}`, label: 'Light', command: `light_item(${id})` },
       { key: `put:${id}`, label: 'Set down here', command: `put_item(${id})` }],
     ...extra });

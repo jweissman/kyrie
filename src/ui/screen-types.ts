@@ -106,6 +106,10 @@ export interface ItemRow {
   // kind: the catalog's id for what it is (torch, lamp_oil), not its name.
   id: string; name: string; kind: string; description: string; owner: string; ownerName: string;
   equipped: boolean; slot?: string; acts: Act[];
+  // Where it is kept: worn or in hand, among the supplies a journey uses up, or carried (see ItemStow); and, for what
+  // was packed at the start, where from (the calling's kit, the background's), so a bundle of firewood is accounted
+  // for (the owner, 9 November: "firewood in my inventory without understanding how or why").
+  stow: 'worn' | 'supplies' | 'carried'; packed?: string;
   // Using it brings light.
   light?: boolean;
   // What it is kept for, when its use is not offered now (see ItemUses).

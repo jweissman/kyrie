@@ -18,6 +18,10 @@ export class PackGrid {
       : <section key={sec.id}><h3>{sec.title}</h3><Act.List choices={sec.choices} draw={draw} className="column" /></section>)}
     </>;
   }
+  // What is worn or in hand, the supplies a journey uses up, and everything else carried, each apart (the owner, 9
+  // November: everything carried and worn had been one grid).
+  static readonly stows: [ItemRow['stow'], string][] = [['worn', 'Worn and in hand'], ['supplies', 'Supplies'],
+    ['carried', 'Carried']];
   // One of the company's things: the grid, and the one chosen beside it.
   static Owner({ app, draw, section, items }: { app: ReaderApp; draw: Draw; section: Section; items: ItemRow[] }) {
     const chosen = section.choices.find(c => c.id === app.state.hovered) ?? section.choices.find(c => draw.open.has(c.id));
@@ -25,9 +29,14 @@ export class PackGrid {
       <section className="pack-owner" data-owner={section.id}>
         <h3>{section.title}</h3>
         <div className="pack-body">
-          <ul className="pack-grid" aria-label={section.title}>{section.choices.map(c => <li key={c.id}>
-            <PackGrid.Tile app={app} draw={draw} choice={c} item={items.find(i => i.id === c.id)}
-              chosen={c === chosen} /></li>)}</ul>
+          <div className="pack-kept">{PackGrid.stows.map(([stow, title]) => {
+            const kept = section.choices.filter(c => (items.find(i => i.id === c.id)?.stow ?? 'carried') === stow);
+            return kept.length ? <div key={stow} className={`pack-stow ${stow}`} data-stow={stow}>
+              <h4>{title}</h4>
+              <ul className="pack-grid" aria-label={`${section.title}: ${title}`}>{kept.map(c => <li key={c.id}>
+                <PackGrid.Tile app={app} draw={draw} choice={c} item={items.find(i => i.id === c.id)}
+                  chosen={c === chosen} /></li>)}</ul></div> : null;
+          })}</div>
           {chosen && <PackGrid.Chosen draw={draw} choice={chosen} item={items.find(i => i.id === chosen.id)} />}
         </div>
       </section>
@@ -40,7 +49,7 @@ export class PackGrid {
     const body = <><span className={`pack-plate${item?.plate ? '' : ' blank'}`} aria-hidden="true">
       {item?.plate && <img src={item.plate.src} alt="" decoding="async" />}</span>
       <span className="n">{Typography.curl(Words.upper(c.label))}</span>
-      {item?.equipped && <span className="in-use">in use</span>}</>;
+      </>;
     const classes = `pack-tile${chosen ? ' chosen' : ''}`;
     if (c.children) { return <Act.View choice={c} draw={draw} quiet className={classes}>{body}</Act.View>; }
     return <button type="button" className={classes} data-pick={c.id} aria-pressed={chosen}
@@ -59,6 +68,7 @@ export class PackGrid {
         <h4>{Typography.curl(Words.upper(c.label))}</h4>
         {c.note && <p className="pack-note">{Typography.curl(c.note)}</p>}
         {c.about && <p className="pack-about">{Typography.curl(c.about)}</p>}
+        {item?.packed && <p className="pack-packed">{Typography.curl(item.packed)}</p>}
         {acts.length > 0 && <Act.List choices={acts} draw={draw} className="column" />}
         {item && <a className="pack-entry quiet-word" href={PackGrid.entry(item.kind)} target="_blank" rel="noopener">
           In the encyclopedia</a>}

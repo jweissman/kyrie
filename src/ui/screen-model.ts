@@ -28,7 +28,7 @@ import { ChoiceGrouping, type Grouped } from './choice-grouping';
 import { Passages } from './passages';
 import { ObservationText } from '../lang/observation-text';
 import { ChartModel } from './chart-model'; import { Carriers } from './carriers'; import { CarriedFlame } from './carried-flame';
-import { Overlays } from '../overlays'; import { PerkText } from '../presentation/perk-text'; import { Exposure } from './exposure';
+import { Overlays } from '../overlays'; import { ItemStow } from './item-stow'; import { PerkText } from '../presentation/perk-text'; import { Exposure } from './exposure';
 import { Services } from './services'; import { Headings } from './headings'; import { TradeModel } from './trade-model'; import { ItemUses } from './item-uses'; import { Skies } from './skies';
 import { Seats } from '../world/seats';
 import { Stakes } from './stakes'; import { Quarters } from './quarters'; import { TownPlan } from './town-plan'; import { Undertakings } from '../presentation/undertakings';
@@ -439,7 +439,7 @@ export class ScreenModel {
       const plate = ItemPlates.kind(i.definition);
       return { id: i.id, name: ItemNames.shown(entities.get(i.id)?.name, d.name), kind: i.definition,
         description: d.description, ...plate ? { plate } : {},
-        owner: c.id, ownerName: c.name, equipped: !!i.equipped, ...(d.slot ? { slot: d.slot } : {}),
+        owner: c.id, ownerName: c.name, equipped: !!i.equipped, ...ItemStow.of(c, i, this.lights(d.use)),
         ...(this.lights(d.use) ? { light: true } : {}), acts, ...kept ? { kept } : {}, ...points ? { points } : {} };
     }));
   }
