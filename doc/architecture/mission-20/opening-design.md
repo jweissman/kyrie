@@ -4,7 +4,18 @@ For the owner's decision before any large change to the opening. Bounded repairs
 Evidence: the builder's own play of the opening at `7302392c` (headless and rendered), and two cold-agent plays
 (reports in `doc/architecture/mission-20/cold/round-1/`).
 
-## What a newcomer meets now
+## Status (10 November, evening)
+
+**Decided:** design A, and the place first after the opening (the owner's amendment 1; see [log.md](log.md)).
+
+| | State |
+|---|---|
+| Implemented | the place first (`306e9a0e`); composition of the landing (`3c81f363`); Tuck's exchange that opens the choices and knows a thief (`8857b3aa`); the town's threads tied (the bell's line names the hold; the gate-hobs at the cave by name); the hold playable by its leads (`bf62b137`…`87f1c799`); the debt's loop home to sell (`78c9b45c`); Notes in sight (`be74676b`, `021c232e`); a thief's own way past the gate (`cc5f84e3`) |
+| Technically verified | `test:honest` journey 4 (debt, page leads only: out through the hold, home to sell to Tuck); `debt-first-errand` (7 cases); intent contracts; CI per push |
+| Independently agent-played | round 2 (`78c9b45c`): a debt warrior and an elf thief each paid the debt by a different route, and kept the game over a reload; their reports in [cold/round-2](cold/round-2/) |
+| Human-accepted | **not yet**: no person has played a candidate (PD-14's five remain pending) |
+
+## What a newcomer meets now (before M20)
 
 1. **Creation** (good): eight origin cards, ancestry, calling, a way, a past trade, a name. Handsome, quick; "Set out
    now" skips it.
