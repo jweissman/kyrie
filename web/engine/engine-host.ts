@@ -203,7 +203,9 @@ export class EngineHost {
     const session = this.session, game = this.game;
     if (!session) { throw new Error('No game is under way'); }
     const campaign = session.campaign, before = PlayerView.observe(campaign), started = performance.now();
-    this.fought = undefined; this.began = campaign.history.length;
+    // Pressing on is for the fight it was pressed in: carried on, the next two fights at the hobs' hold, their chief's
+    // among them, were fought out with no page at all (Mission 20's fourth round, F 144, 147).
+    this.fought = undefined; this.began = campaign.history.length; this.pressing = false;
     this.doing = PlayerView.choices(campaign).find(r => r.choice.id === command)?.choice.name;
     try {
       const event = await session.perform(command, this.controlling(game));
