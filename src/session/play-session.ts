@@ -157,7 +157,9 @@ export class PlaySession {
   async replay(steps: TranscriptStep[]): Promise<void> {
     for (const [i, step] of steps.entries()) {
       const controller = PlaySession.scripted(step.combat ?? []);
-      await this.perform(step.command, controller);
+      // A step kept was done when it was played: a way into the next hex kept was a journey's leg, and is again (a
+      // game kept before the campaign held the rule replays as it was played).
+      await this.leg(step.command, controller);
       const recorded = this.steps[this.steps.length - 1]!;
       if ((recorded.combat?.length ?? 0) !== (step.combat?.length ?? 0)) {
         throw new Error(`Transcript combat for ${step.command} did not match the encounter`);

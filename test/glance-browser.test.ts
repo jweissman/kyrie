@@ -5,6 +5,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import type { Page } from 'playwright-core';
 import { TestSite } from './support/test-site';
+import { HexBoundary } from '../src/hex-boundary';
 import { Journey } from '../src/session/journey';
 import { MonoBrowser } from './support/mono-browser';
 import type { MonoDriver } from './support/mono-driver';
@@ -43,7 +44,13 @@ class Glancing {
   // Each step on the shortest way from one place to another, as the world joins them.
   static async way(from: string, to: string): Promise<string[]> {
     const g = await Glanced.country('kite');
-    return Journey.way(g.campaign.world, from, to).map(([passage, place]) => `go(${passage},${place})`);
+    // A step into the next hex is set out on, as the page does it from the map (the campaign refuses it otherwise).
+    let at = from;
+    return Journey.way(g.campaign.world, from, to).map(([passage, place]) => {
+      const step = HexBoundary.crosses(g.campaign.module, at, place) ? `travel:${place}` : `go(${passage},${place})`;
+      at = place;
+      return step;
+    });
   }
   // The Liberty of the Ice down to Freezeland Street, as its glance test plays it: each command it did.
   static async freezeland(): Promise<string[]> {

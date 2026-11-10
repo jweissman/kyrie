@@ -70,11 +70,11 @@ describe('browser session command handling', () => {
   it('rejects overlapping commands while an encounter awaits the player', async () => {
     const session = await Fixture.play(await Fixture.start(), ['wait']);
     let release: (c: Command) => void = () => undefined;
-    const pending = session.leg('attack(world__grey)', () => new Promise<Command>(resolve => { release = resolve; }));
+    const pending = session.perform('attack(world__grey)', () => new Promise<Command>(resolve => { release = resolve; }));
     await Promise.resolve();
     expect(session.acting).toBe(true);
     expect(() => session.checkpoint()).toThrow('Save only between campaign commands');
-    await expect(session.leg('wait')).rejects.toThrow('already in progress');
+    await expect(session.perform('wait')).rejects.toThrow('already in progress');
     release({ actor: '', ability: '', target: '' });
     await expect(pending).rejects.toThrow('Illegal combat command');
   });

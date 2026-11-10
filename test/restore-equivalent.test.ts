@@ -28,7 +28,7 @@ describe('a game opened from its save', () => {
       { trusted: false }).extend(new Frontier('thorn', NodeBundleSource.shared));
     for (let i = 10; i < 16; i++) {
       const c = Lockstep.pick(live, i);
-      await live.leg(c, PlaySession.auto); await opened.perform(c, PlaySession.auto);
+      await live.leg(c, PlaySession.auto); await opened.leg(c, PlaySession.auto);
       expect(opened.canonical()).toBe(live.canonical());
     }
   }, 240000);

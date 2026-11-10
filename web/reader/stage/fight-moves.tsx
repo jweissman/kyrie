@@ -2,6 +2,7 @@ import type { Choice, Section } from '../../../src/ui/choice-list';
 import type { ReaderApp } from '../reader-app';
 import { Typography } from '../../../src/presentation/typography';
 import { Words } from '../words';
+import { Act } from './act';
 
 // What the one whose turn it is can do, as a few things to do and not every act the rules allow (the owner, 9
 // November: "something like eighteen action buttons"; Attack had opened a list of names). Across the foot: Attack, and
@@ -16,10 +17,8 @@ export class FightMoves {
     panel?: string; open: (p?: string) => void }) {
     const sections = app.menu.sections, strike = sections.find(s => s.id === 'strike')?.choices ?? [];
     const onward = sections.find(s => s.id === 'onward')?.choices[0];
-    if (onward) {
-      return <div className="bar"><button type="button" className="move main" data-action="onward"
-        onClick={() => app.choose(onward)}>Go on</button></div>;
-    }
+    // Going on from a fight that has ended is the page's own choice, as anywhere (keys and taps find it by its place).
+    if (onward) { return <div className="bar"><Act.View choice={onward} draw={Act.draw(app)} className="move main" /></div>; }
     const attack = strike[0], shown = FightMoves.section(sections, strike, panel);
     const take = (c: Choice) => FightMoves.take(app, c, aim, open);
     if (aiming) {
