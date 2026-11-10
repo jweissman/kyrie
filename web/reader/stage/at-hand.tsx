@@ -90,7 +90,10 @@ export class AtHand {
     const leads = new Set((app.menu.leads ?? leaf.glance?.acts ?? []).flatMap(a => [a.choice, a.subject ?? '']));
     const first = (t: Held) => leads.has(t.id) || t.opens.some(id => leads.has(id))
       || t.choices.some(c => leads.has(c.id)) || !!kept.find(x => x.id === t.id)?.stake;
-    return [...own, ...things.filter(first), ...things.filter(t => !first(t)), ...ways];
+    // What the place at rest leaves untold (Told.surplus), first, to be read as the rest of the place.
+    const more = Told.surplus(app), about = more.length
+      ? [{ id: 'about', name: 'About the place', seen: more, choices: [], opens: [] }] : [];
+    return [...about, ...own, ...things.filter(first), ...things.filter(t => !first(t)), ...ways];
   }
   // Whether a thing has something real to show or do (the owner's own play, 7 November: Look… "has never shown anything
   // but 'it is what it seems'", a cart, a lockup door and a bill each offered for a close look that found nothing): an

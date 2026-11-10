@@ -49,6 +49,8 @@ export class Narrator {
     return one ? 'It is a long time since you slept. You are weary, and will fight the worse for it until you sleep.'
       : 'It is a long time since anyone slept. The company is weary, and will fight the worse for it until it sleeps.';
   }
+  // The composer's naming of a place for a kit's word (see KitWord.requests): it teaches, and says nothing.
+  static readonly naming = /Name__named(@|$)/;
   // opening: what an opening told before the first place (see Prologue), which the place leaves out.
   static leaf(campaign: Campaign, screen: Screen, told?: Told, opening?: Opening): Leaf {
     const defs = this.defs(campaign), shelter = this.shelter(campaign, screen.place.id);
@@ -93,8 +95,14 @@ export class Narrator {
     const placed = situation.join(' ');
     // What was seen on coming here and is gone by the time the page is drawn (a word chalked on a gate, whose seeing
     // taught what it says) is told with the place, this once (the Banns at Hessel's friction 4, HSL-04).
+    // Not one still here and only named anew by what it taught (the bell gone from its frame, the hobs' hold first "a
+    // toll-house by the water", then Seolforfyrd: the landing had told it twice, under each name: Mission 20).
+    // Nor what only carries a place's name along with the word just told of it (KitWord's naming, whose own words were
+    // "Hereabouts the place has a name, and whoever speaks of it uses it", on every page it taught: both cold players).
+    const renamed = new Set((told?.event.perceptions ?? []).filter(p => screen.observed.some(o => o.id === p.id)
+      || Narrator.naming.test(p.id)).map(p => FictionalTime.prose(p.text)));
     const gone = told?.moved ? told.feedback.observations.filter(t => !placed.includes(t)
-      && !screen.observed.some(o => FictionalTime.prose(o.text) === t)) : [];
+      && !screen.observed.some(o => FictionalTime.prose(o.text) === t) && !renamed.has(t)) : [];
     const familiar = this.familiar(campaign, screen);
     const presence = this.presence(screen).filter(p => !echoed.has(Narration.sentence(p)) && !placed.includes(p)
       && !familiar.has(p));

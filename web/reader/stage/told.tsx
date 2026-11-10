@@ -113,7 +113,7 @@ export class Told {
     const leaf = app.state.frame!.leaf, subjects = app.menu.scene?.subjects ?? [];
     const beside = new Set(subjects.flatMap(x => PlaceStage.danger(x) ? x.says?.slice(0, 1) ?? []
       : x.kind === 'person' ? x.says ?? [] : []).map(Typography.curl));
-    const situation = leaf.situation.filter(p => !beside.has(Typography.curl(p)));
+    const situation = leaf.situation.filter(p => !beside.has(Typography.curl(p))).slice(0, Told.situationAtRest);
     return <div className="setting" data-region="setting">
       {situation.map((p, i) => <p key={i} className={i ? undefined : 'lead'}>{Typography.curl(p)}</p>)}
       <Told.Presence app={app} lines={leaf.presence.slice(0, Told.presenceAtRest)} subjects={subjects} quiet={false} />
@@ -122,6 +122,16 @@ export class Told {
   // How many of what is about the place the scene tells (the owner, 6 November: the scene still too busy); the rest is
   // what Look… shows.
   static readonly presenceAtRest = 2;
+  // And of what is going on there, the place's own words and the first three things after them: the landing at
+  // Thornhaven had told seven at one weight, a bear, a rumour, a stolen bell, a gangway, a hull being tarred (Mission
+  // 20's design A: one trouble in front, others mentioned, the rest found by looking).
+  static readonly situationAtRest = 4;
+  // What the place at rest leaves out of its telling, for Look… to tell (see AtHand.of).
+  static surplus(app: ReaderApp): string[] {
+    const leaf = app.state.frame!.leaf;
+    return [...leaf.situation.slice(Told.situationAtRest),
+      ...leaf.presence.slice(Told.presenceAtRest).filter(l => !Told.roll(l))].map(l => Typography.curl(l));
+  }
   static Presence({ lines, subjects, quiet }: { app: ReaderApp; lines: string[]; subjects: SceneSubject[];
     quiet: boolean }) {
     // A danger's first line is told in its own block, with how a fight would go ("A boar has rooted up the low path"
