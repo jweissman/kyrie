@@ -239,11 +239,14 @@ export class Affordances {
       // After the place's own acts (the notice before a padlock), unless an aim is about what lies behind it.
       ...tried && !c.disabled && c.command && r.authored.has(c.command) && !r.done.has(c.command)
         ? [r.named.has(dest) || r.held.has(dest) ? 'own' as const : 'unlooked' as const] : []];
-    // A try on a way barred (look at the portcullis) is something done there, not a way.
+    // A try on a way barred (look at the portcullis) is something done there, not a way. Slipping past who keeps it is
+    // that danger's own gentle way, led with it: a thief had found it only under Look… (Mission 20, round 2, B 88).
     const kind = tried ? 'act' as const : exit.bearing ? 'step' as const : 'way' as const;
+    const slip = tried && !c.disabled && r.schema.get(c.command ?? '') === 'slip_past' ? r.args.get(c.command!)?.[3] : undefined;
+    if (slip) { whys.unshift('danger'); }
     // A way into the next hex is set out on from the map, as a journey there (see HexBoundary): led with, it is that
     // journey, never the way's own command, which the campaign refuses (the travel-contract review, 9 November).
-    return [this.candidate(c, { exit: exit.id, kind, whys, r, ...exit.crosses && !tried ? { command: `travel:${dest}` } : {},
+    return [this.candidate(c, { exit: exit.id, kind, whys, r, ...slip ? { subject: slip } : {}, ...exit.crosses && !tried ? { command: `travel:${dest}` } : {},
       notes: { retreat: dest === r.back ? 'the way you came' : 'up, toward the light', named: 'your aim', toward: 'toward your aim', held: 'another aim',
         deeper: 'further in', onward: r.inward.has(`^${exit.id}`) ? 'back out' : 'toward the rest of it',
         night: 'a bed for the night', unlooked: exit.blocked ?? '' }, visited: exit.visited,

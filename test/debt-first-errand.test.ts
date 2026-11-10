@@ -65,4 +65,17 @@ describe('the hobs’ store, after a parley', () => {
     expect(cavern.screen.people.some(p => /raiding party/.test(p.name))).toBe(false);
     expect(cavern.glance.acts.map(a => a.label).join(' | ')).toMatch(/captives/);
   }, 120000);
+  // A thief's own way past the gate-hobs is led with them, as their gentle way: it had been only under Look…, the page
+  // offering Parley and Attack (Mission 20's second round, B 88). A warrior is not offered it.
+  it('leads a thief to slip past the hobs on the gate, and not a warrior', async () => {
+    const steps = ['Tell Tuck', 'To the landing', 'Into the Stormy Horn', 'Ask Aiden what is out', 'map:Seolforfyrd'];
+    const leads = async (raceId: string, classId: string) => {
+      const j = Journey.of(await DrawnWorld.start('kahitude', { origin: 'debt', party: [{ name: 'Mialee', raceId, classId }] },
+        NodeBundleSource.shared));
+      await j.play(...steps);
+      return Glanced.of(j.session).glance.acts.map(a => a.label).join(' | ');
+    };
+    expect(await leads('elf', 'thief')).toMatch(/slip past the hobs/);
+    expect(await leads('human', 'warrior')).not.toMatch(/slip past/);
+  }, 200000);
 });
