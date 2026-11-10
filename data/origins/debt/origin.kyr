@@ -20,6 +20,21 @@ Module origin "What is owed" {
     Says "'See that I do,' says {creditor}, going back to the tally. 'There's no shortage of work for someone with nothing to lose. Ask at the inn.'".
     On discuss { Assert spoke(actor). }
   }
+  // Asked where fifty coin is to be had, the creditor says what the town holds: day-work that will not pay it, the
+  // notice of jobs, and the inn where those who go out are told where; and says it differently to one whose trade is
+  // other people's locks (Mission 20's design A: the first conversation an exchange that opens the choices, and one
+  // that knows who it is talking to).
+  Relation sized(group).
+  Topic where_coin with creditor "Ask {creditor} where a person finds fifty coin" when owed(loan) > 0 and not called(actor)
+    and not sized(actor) and not capable(actor, lockwork) once {
+    Says "{creditor} snorts. 'Not by honest work, in ten days. If there's a notice up by the well, it'll have a job or two that pay by the coin, and they'll keep you fed. For fifty, you go out where nobody else will go. {keeper} at {inn} hears where that is.'".
+    On discuss { Assert sized(actor). Assert spoke(actor). }
+  }
+  Topic where_coin_thief with creditor "Ask {creditor} where a person finds fifty coin" when owed(loan) > 0 and not called(actor)
+    and not sized(actor) and capable(actor, lockwork) once {
+    Says "{creditor} looks at your hands, and then at the drawer the coin is in, and moves the tally over it. 'Not in this town,' says {creditor}. 'Not in my shop. Look at the notice by the well, if you like your work honest, and {keeper} at {inn} knows of places where nobody minds what you take. Go and find one.'".
+    On discuss { Assert sized(actor). Assert spoke(actor). }
+  }
   // Gone out of the shop, the creditor has been heard: the aim does not go back to the shop on coming in again (the owner,
   // 9 November: the aim had turned from the inn to the shop and back each time the company went through its door).
   Rule heard_out when not spoke(party) and not at(party, shop) { Assert spoke(party). }
