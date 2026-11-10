@@ -16,7 +16,7 @@ describe('the plan of a level', () => {
     const record = readFileSync(new URL('./fixtures/descent/wren.choices', import.meta.url), 'utf8').split('\n');
     for (const step of record.slice(0, record.indexOf('cage in the shaft') + 1)) {
       const c = PlayerView.choices(s.campaign).find(x => new RegExp(step, 'i').test(x.choice.name))!;
-      await s.perform(c.choice.id);
+      await s.leg(c.choice.id);
     }
     const chart = ScreenModel.build(s.campaign).chart!;
     expect(chart.levels).toEqual([{ name: 'the adit level', here: false }, { name: 'the deep galleries', here: true }]);

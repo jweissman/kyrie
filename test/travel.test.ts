@@ -42,11 +42,11 @@ describe('the way into Merrowdale', () => {
     // Every town's keeper of travellers can tell it, named for what it is about.
     const told = c.module.actions.filter(a => a.id.startsWith('region__gate_longman_beyond_told_'));
     expect(told.length).toBe(w.report.region.settlements.length);
-    await s.perform(PlayerView.choices(c).find(x => /bailey/.test(x.choice.name))!.choice.id);
-    await s.perform(PlayerView.choices(c).find(x => /Wooden Wolf/.test(x.choice.name))!.choice.id);
+    await s.leg(PlayerView.choices(c).find(x => /bailey/.test(x.choice.name))!.choice.id);
+    await s.leg(PlayerView.choices(c).find(x => /Wooden Wolf/.test(x.choice.name))!.choice.id);
     expect(names()).toContain('Read a notice from Merrowdale');
     expect(Itineraries.destinations(c)).toEqual([]);
-    await s.perform(PlayerView.choices(c).find(x => x.choice.name === 'Ask Fargrim about the forty crowns in Merrowdale')!
+    await s.leg(PlayerView.choices(c).find(x => x.choice.name === 'Ask Fargrim about the forty crowns in Merrowdale')!
       .choice.id);
     // Known, the way in is somewhere to set out for, by the country's roads.
     const [to] = Itineraries.destinations(c);

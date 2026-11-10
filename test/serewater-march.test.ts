@@ -123,7 +123,7 @@ describe('salvage against the dead', () => {
     await s.perform('sell(salvage__offering,salvage__salvager)');
     expect(s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'))).toBe(gold + 10);
     expect(March.legal(s)).not.toContain('sell(salvage__prize,salvage__salvager)');
-    await s.perform('go(world__chapel_door,world__chapel)');
+    await s.leg('go(world__chapel_door,world__chapel)');
     expect(March.fact(s, 'refusesService', 'world__sexton', 'party')).toBe(true);
     expect(March.legal(s).some(c => c.startsWith('take_healing(world__sexton'))).toBe(false);
   }, 180000);

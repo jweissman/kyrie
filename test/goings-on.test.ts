@@ -20,7 +20,7 @@ class Town {
   static async act(s: PlaySession, pattern: RegExp): Promise<CampaignEvent> {
     const c = PlayerView.choices(s.campaign).find(x => pattern.test(x.choice.name));
     if (!c) { throw new Error(`No ${pattern} among ${PlayerView.choices(s.campaign).map(x => x.choice.name).join(' | ')}`); }
-    return s.perform(c.choice.id);
+    return s.leg(c.choice.id);
   }
   static said(e: CampaignEvent) { return [e.response ?? '', ...(e.perceptions ?? []).map(p => p.text)].join(' '); }
 }

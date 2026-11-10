@@ -23,7 +23,7 @@ class Expedition {
   static choose(s: PlaySession, pattern: RegExp) {
     const c = PlayerView.choices(s.campaign).find(x => pattern.test(x.choice.name));
     if (!c) { throw new Error(`No choice like ${pattern}`); }
-    return s.perform(c.choice.id);
+    return s.leg(c.choice.id);
   }
   static gold(s: PlaySession) { return s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold')); }
   static kind(s: PlaySession, item: string) { return s.campaign.world.one('itemKind', `region__${item}`)!; }

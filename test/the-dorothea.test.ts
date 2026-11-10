@@ -192,7 +192,7 @@ describe('The Dorothea, in the ordinary world', () => {
     await GeneratedWorld.travel(s, 'gate_tolleth');
     await frontier.expand(s.campaign);
     const c = PlayerView.choices(s.campaign).find(x => /^Take the road on into/.test(x.choice.name))!;
-    await s.perform(c.choice.id);
+    await s.leg(c.choice.id);
     const t0 = Math.ceil(s.campaign.state.elapsed / 144) * 144;
     await j.play('^To Tolleth quay', 'Ask Captain Bascom for passage', 'Pay Captain Bascom six', "^To the Dorothea's waist");
     j.assert('ptolleth__seaQuiet', 'ptolleth__hull'); // a fixed timeline: the sea table is off here

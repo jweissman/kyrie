@@ -29,7 +29,7 @@ class Works {
     if (torch) { await s.perform(torch.choice.id); }
     const c = PlayerView.choices(s.campaign).find(x => pattern.test(x.choice.name));
     if (!c) { throw new Error(`No choice like ${pattern} at ${room}`); }
-    return s.perform(c.choice.id);
+    return s.leg(c.choice.id);
   }
   static knows(s: PlaySession, fact: string) { return s.campaign.world.test(ModuleWriter.call('knows', 'party', fact)); }
 }

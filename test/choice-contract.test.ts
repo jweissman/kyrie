@@ -8,6 +8,7 @@ import { Attending } from '../src/ui/attention';
 import { Wares } from '../web/reader/wares';
 import { Glanced } from './support/glanced';
 import { MapView } from '../web/reader/map-view';
+import { Travel } from '../src/session/travel';
 import { Itineraries } from '../src/ui/itinerary';
 
 // What the page shows is what the engine can do (the architecture review's P0): every choice drawn either executes, its
@@ -48,8 +49,15 @@ describe('the choices on the page', () => {
     const offered = land.known.map(cell => MapView.way(screen, `hex:${cell}`).go).filter(c => c?.command);
     expect(offered.length).toBeGreaterThan(0);
     for (const go of offered) {
+      expect(go!.command).toStartWith('travel:');
       const to = go!.command!.slice('travel:'.length);
       expect([to, !!Itineraries.plan(s.campaign, to)]).toEqual([to, true]);
     }
+    // And one is set out on, as the map does: a plan alone would not find a journey the campaign refuses. It may be
+    // met on the way (a road's meeting stops it); it is never refused.
+    const to = offered[0]!.command!.slice('travel:'.length), from = s.campaign.world.one('at', 'party');
+    const done = await Travel.go({ campaign: s.campaign, perform: (c: string) => s.perform(c) }, to);
+    expect(done.legs.length).toBeGreaterThan(0);
+    expect(s.campaign.world.one('at', 'party')).not.toBe(from);
   }, 120000);
 });

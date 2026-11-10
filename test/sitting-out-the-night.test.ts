@@ -42,7 +42,7 @@ class Night {
   static async take(s: PlaySession, pattern: RegExp) {
     const c = PlayerView.choices(s.campaign).find(x => pattern.test(x.choice.name));
     if (!c) { throw new Error(`No ${pattern}: ${PlayerView.choices(s.campaign).map(x => x.choice.name).join(' | ')}`); }
-    await s.perform(c.choice.id);
+    await s.leg(c.choice.id);
   }
   // What is left of each light the company has burning, by its kind, and the flasks of oil it carries.
   static lights(s: PlaySession) {

@@ -56,11 +56,11 @@ describe('backgrounds and professions are typed overlays from Orsino', () => {
     for (const s of [trained, plain]) { for (const c of toWorkshop) { await s.perform(c); } }
     expect(Party.legal(trained)).toContain('change_thing(hill__padlock_pick)');
     expect(Party.legal(plain)).not.toContain('change_thing(hill__padlock_pick)');
-    for (const s of [trained, plain]) { await s.perform('go(hill__gallery_steps,hill__gallery)'); }
+    for (const s of [trained, plain]) { await s.leg('go(hill__gallery_steps,hill__gallery)'); }
     expect(Party.legal(trained)).toContain('change_thing(hill__hound_soothe)');
     expect(Party.legal(plain)).not.toContain('change_thing(hill__hound_soothe)');
     expect(Party.legal(plain)).toContain('change_thing_paying(hill__hound_feed)');
-    await trained.perform('change_thing(hill__hound_soothe)'); await trained.perform('go(hill__hoist_passage,hill__hoist)');
+    await trained.perform('change_thing(hill__hound_soothe)'); await trained.leg('go(hill__hoist_passage,hill__hoist)');
     await trained.perform('rescue__heave_free(march__member_party_2)');
     expect(Party.legal(trained)).toContain('rescue__set_leg(party,hill__hoist)');
   }, 90000);
@@ -74,7 +74,7 @@ describe('backgrounds and professions are typed overlays from Orsino', () => {
   }, 60000);
   it('a profession gives a person offers and a routine; an authored offer of the same kind wins', async () => {
     const s = await Party.start(Party.river);
-    await s.perform('go(march__oar_door,march__taproom)');
+    await s.leg('go(march__oar_door,march__taproom)');
     const maud = ScreenModel.build(s.campaign).people.find(p => p.id === 'march__maud')!;
     expect(maud.acts.map(a => a.label)).toContain('Take a bed and supper — 3 coin');
     expect(s.campaign.module.pursuits?.some(p => p.actor === 'march__maud' && p.label === 'keeping the inn')).toBe(true);

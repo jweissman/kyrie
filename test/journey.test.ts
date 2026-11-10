@@ -25,7 +25,7 @@ class Ford {
 describe('journeys', () => {
   it('spends a journey on the way, and arrives for its last watch', async () => {
     const s = await Ford.start();
-    await s.perform('go(world__road,world__ford)');
+    await s.leg('go(world__road,world__ford)');
     expect([Ford.at(s), s.campaign.state.elapsed]).toEqual(['world__ford', 6]);
     // A rule watching the road saw the company on it.
     expect(Ford.holds(s, 'world__seenOnRoad', 'party')).toBe(true);
@@ -33,22 +33,22 @@ describe('journeys', () => {
   });
   it('meets the company with whoever keeps the far end, and leaves it time to answer', async () => {
     const s = await Ford.start();
-    const arrival = await s.perform('go(world__road,world__ford)');
+    const arrival = await s.leg('go(world__road,world__ford)');
     // The wolf warns as the company comes, and does not fall on it: an hour on the road is not an hour at the ford.
     expect(Ford.said(arrival)).toContain('hackles high');
     expect(arrival.combat).toEqual([]);
-    const away = await s.perform('go(world__road,world__green)');
+    const away = await s.leg('go(world__road,world__green)');
     expect([Ford.at(s), away.combat]).toEqual(['world__green', []]);
   });
   it('lets a savage creature fall on the company as it arrives', async () => {
     const s = await Ford.start();
-    const arrival = await s.perform('go(world__lane,world__copse)');
+    const arrival = await s.leg('go(world__lane,world__copse)');
     expect(arrival.combat.some(e => e.type === 'end')).toBe(true);
     expect(Ford.said(arrival.prelude ?? {})).toContain('out of the hazel');
   });
   it('gives a creature the place gave no words the plain words of its temperament', async () => {
     const s = await Ford.start();
-    const arrival = await s.perform('go(world__brake,world__thicket)');
+    const arrival = await s.leg('go(world__brake,world__thicket)');
     expect(Ford.said(arrival)).toContain('An owlbear stands its ground and watches you.');
     expect(arrival.combat).toEqual([]);
     const stayed = await s.perform('wait_hour');
@@ -57,8 +57,8 @@ describe('journeys', () => {
   });
   it('turns the company back when the way closes under it', async () => {
     const s = await Ford.start();
-    await s.perform('go(world__road,world__ford)');
-    const crossing = await s.perform('go(world__causeway,world__mill)');
+    await s.leg('go(world__road,world__ford)');
+    const crossing = await s.leg('go(world__causeway,world__mill)');
     expect([Ford.at(s), s.campaign.state.elapsed, crossing.result]).toEqual(['world__ford', 9, 'failure']);
     expect(crossing.response).toBe('The way is no longer open. You turn back to the ford.');
   });

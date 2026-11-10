@@ -69,7 +69,7 @@ describe('a recruit seen before hiring', () => {
       lease.commit(lease.creatures);
     } finally { lease.release(); }
     const coin = () => c.world.number(ModuleWriter.call('quantity', 'party', 'gold')), before = coin();
-    await s.perform(PlayerView.choices(c).find(x => /^recruit\(.*s1_traveller/.test(x.choice.id))!.choice.id);
+    await s.leg(PlayerView.choices(c).find(x => /^recruit\(.*s1_traveller/.test(x.choice.id))!.choice.id);
     expect([c.state.partyIds.length, coin()]).toEqual([2, before - 3]);
   }, 120000);
 });

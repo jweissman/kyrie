@@ -54,13 +54,13 @@ describe('passages are physical and two-sided', () => {
       'go(hill__workshop_door,hill__workshop)', 'change_thing(hill__padlock_pick)', 'go(hill__stores_door,hill__stores)',
       'go(hill__tram_crawl,hill__hoist)');
     expect(Situation.legal(s)).not.toContain('go(hill__hoist_passage,hill__gallery)');
-    await s.perform('go(hill__tram_crawl,hill__stores)'); await s.perform('go(hill__stores_door,hill__workshop)');
-    await s.perform('go(hill__gallery_steps,hill__gallery)');
+    await s.leg('go(hill__tram_crawl,hill__stores)'); await s.leg('go(hill__stores_door,hill__workshop)');
+    await s.leg('go(hill__gallery_steps,hill__gallery)');
     expect(Situation.legal(s)).not.toContain('go(hill__hoist_passage,hill__hoist)');
     await s.perform('change_thing_paying(hill__hound_feed)');
     expect(Situation.state(s, 'hill__hound')).toBe('hill__calm');
     expect(Situation.legal(s)).toContain('go(hill__hoist_passage,hill__hoist)');
-    await s.perform('go(hill__hoist_passage,hill__hoist)');
+    await s.leg('go(hill__hoist_passage,hill__hoist)');
     expect(Situation.legal(s)).toContain('go(hill__hoist_passage,hill__gallery)');
   }, 60000);
   it('a hidden way exists for nobody who has not learned of it', async () => {
@@ -105,7 +105,7 @@ describe('the rescued person has intentions, not a flag', () => {
       expect(Situation.where(s, 'rescue__guest')).toBe(Situation.where(s, 'party'));
     }
     for (const c of ['go(hill__yard_track,march__ridge)', 'go(march__ridge_track,march__causeway)']) { await s.perform(c); }
-    const quay = await s.perform('go(march__causeway_path,march__quay)');
+    const quay = await s.leg('go(march__causeway_path,march__quay)');
     expect(Situation.seen(quay).join(' ')).toContain('Wren sees Pell, and runs.');
     expect(Situation.fact(s, 'following', 'rescue__guest', 'party')).toBe(false);
     expect(Situation.fact(s, 'rescue__escortedHome', 'rescue__guest', 'party')).toBe(true);
@@ -118,10 +118,10 @@ describe('the rescued person has intentions, not a flag', () => {
     expect([Situation.state(s, 'rescue__rack'), Situation.state(s, 'rescue__guest')]).toEqual(['rescue__toppled', 'rescue__lame']);
     const bran = s.campaign.state.creatures.find(c => c.name === 'Bran')!;
     expect(bran.state.hp).toBeLessThan(bran.base.maxHp);
-    await s.perform('go(hill__hoist_passage,hill__gallery)'); await s.perform('wait'); await s.perform('wait');
+    await s.leg('go(hill__hoist_passage,hill__gallery)'); await s.perform('wait'); await s.perform('wait');
     expect(Situation.where(s, 'rescue__guest')).toBe('hill__hoist');
-    await s.perform('go(hill__hoist_passage,hill__hoist)'); await s.perform('lead(rescue__guest)');
-    await s.perform('go(hill__hoist_passage,hill__gallery)');
+    await s.leg('go(hill__hoist_passage,hill__hoist)'); await s.perform('lead(rescue__guest)');
+    await s.leg('go(hill__hoist_passage,hill__gallery)');
     expect(Situation.where(s, 'rescue__guest')).toBe('hill__gallery');
     await s.perform('rescue__set_leg(party,hill__gallery)');
     expect(Situation.state(s, 'rescue__guest')).toBe('rescue__hurt');
@@ -135,7 +135,7 @@ describe('the rescued person has intentions, not a flag', () => {
     expect(Situation.where(s, 'rescue__guest')).toBe('hill__hoist');
     expect(PlayerView.observe(s.campaign).present.find(p => p.id === 'rescue__guest')?.activity)
       .toBe('making for the ferry house, but no way is open to them');
-    await s.perform('lead(rescue__guest)'); await s.perform('go(hill__tram_crawl,hill__stores)');
+    await s.perform('lead(rescue__guest)'); await s.leg('go(hill__tram_crawl,hill__stores)');
     expect(Situation.where(s, 'rescue__guest')).toBe('hill__stores');
   }, 90000);
 });
@@ -173,7 +173,7 @@ describe('consequences are perceived where they happen', () => {
     expect(Situation.state(away, 'rescue__water')).toBe('rescue__closed');
     expect(events.join(' ')).not.toContain('closes over');
     const s = await Situation.start(Situation.river, ...Situation.toPell.slice(0, -1));
-    expect(Situation.seen(await s.perform('go(hill__hoist_passage,hill__hoist)')).join(' ')).toContain('Mind the fallen timber rack');
+    expect(Situation.seen(await s.leg('go(hill__hoist_passage,hill__hoist)')).join(' ')).toContain('Mind the fallen timber rack');
   }, 90000);
 });
 

@@ -34,7 +34,7 @@ class Wild {
   static async said(s: PlaySession, name: RegExp): Promise<string> {
     const c = PlayerView.choices(s.campaign).find(x => name.test(x.choice.name));
     if (!c) { throw new Error(`Nothing to do like ${name}`); }
-    const before = PlayerView.observe(s.campaign), event = await s.perform(c.choice.id);
+    const before = PlayerView.observe(s.campaign), event = await s.leg(c.choice.id);
     const f = ActionFeedbackView.read(s.campaign, event, before);
     return [f.result, ...f.observations, ...f.events, ...f.immediate].join(' ');
   }

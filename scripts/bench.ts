@@ -17,7 +17,7 @@ class Bench {
     const s = await this.time('load (warm)', () => PlaySession.start(campaign, 'bench', NodeBundleSource.shared));
     const choices = await this.time('choices', () => PlayerView.choices(s.campaign));
     await this.time('observe', () => PlayerView.observe(s.campaign));
-    await this.time('go causeway (6 ticks)', () => s.perform('go(march__causeway_path,march__causeway)'));
+    await this.time('go causeway (6 ticks)', () => s.leg('go(march__causeway_path,march__causeway)'));
     await this.time('wait x1', () => s.perform('wait'));
     await this.time('wait x6', async () => { for (let i = 0; i < 6; i++) { await s.perform('wait'); } });
     await this.time('camp', () => s.perform('camp(march__causeway)'));

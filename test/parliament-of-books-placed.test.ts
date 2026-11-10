@@ -21,7 +21,7 @@ describe('Calamy in the one country', () => {
     expect(s.campaign.module.entities.some(e => e.id === L('sewing_beam'))).toBe(true);
     // No ending is installed in a world that goes on.
     expect(s.campaign.module.entities.some(e => e.id === L('lending'))).toBe(false);
-    const go = async (re: RegExp) => { const c = PlayerView.choices(s.campaign).find(x => re.test(x.choice.name)); if (!c) { throw new Error(`No ${re} among ${PlayerView.choices(s.campaign).map(x => x.choice.name).join(' | ')}`); } return s.perform(c.choice.id); };
+    const go = async (re: RegExp) => { const c = PlayerView.choices(s.campaign).find(x => re.test(x.choice.name)); if (!c) { throw new Error(`No ${re} among ${PlayerView.choices(s.campaign).map(x => x.choice.name).join(' | ')}`); } return s.leg(c.choice.id); };
     await go(/road on into Calamy/);
     expect(s.campaign.world.one('at', 'party')).toBe(L('causey'));
     await go(/causeway into the Hithe/);

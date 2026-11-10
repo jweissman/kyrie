@@ -31,7 +31,7 @@ class Masked {
     return PlayerView.choices(s.campaign).map(c => c.choice.name).filter(n => /Tibb|old man|stove/.test(n));
   }
   static async choose(s: PlaySession, name: RegExp): Promise<string> {
-    const event = await s.perform(PlayerView.choices(s.campaign).find(c => name.test(c.choice.name))!.choice.id);
+    const event = await s.leg(PlayerView.choices(s.campaign).find(c => name.test(c.choice.name))!.choice.id);
     return (event.voiced ?? []).map(v => v.text).join(' ');
   }
 }

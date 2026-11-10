@@ -25,7 +25,7 @@ class Ring {
     const { s, j, frontier, town } = world;
     await GeneratedWorld.travel(s, 'gate_longman'); await frontier.expand(s.campaign);
     const c = PlayerView.choices(s.campaign).find(x => /^Take the road on into Merrowdale/.test(x.choice.name))!;
-    await s.perform(c.choice.id);
+    await s.leg(c.choice.id);
     const t0 = s.campaign.state.elapsed;
     await j.play(`=${t0 + 330}`);
     await GeneratedWorld.travel(s, `${town}_taproom`);
@@ -117,7 +117,7 @@ describe('what the Exchange\'s fall does on an island', () => {
     expect(j.holds('routed', 'factors__hands')).toBe(true);
     await GeneratedWorld.travel(s, 'gate_tolleth'); await frontier.expand(s.campaign);
     const c = PlayerView.choices(s.campaign).find(x => /^Take the road on into/.test(x.choice.name))!;
-    await s.perform(c.choice.id);
+    await s.leg(c.choice.id);
     const t0 = Math.ceil(s.campaign.state.elapsed / 144) * 144;
     await j.play('^To Tolleth quay', 'Ask Captain Bascom for passage', 'Pay Captain Bascom six', "^To the Dorothea's waist");
     j.assert('ptolleth__seaQuiet', 'ptolleth__hull'); // fixed timeline: the sea table (weather.kyr) is off

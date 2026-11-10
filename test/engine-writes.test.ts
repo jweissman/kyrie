@@ -56,7 +56,7 @@ describe('where the company has stood', () => {
     const s = await PlaySession.start('test/fixtures/ford-road/campaign.json', 'been', NodeBundleSource.shared);
     const been = () => s.campaign.world.related('been').filter(r => r.args[0] === 'party').map(r => r.args[1]);
     expect(been()).toEqual(['world__green']);
-    await s.perform('go(world__lane,world__copse)');
+    await s.leg('go(world__lane,world__copse)');
     expect(been()).toEqual(['world__green', 'world__copse']);
   }, 60000);
 });

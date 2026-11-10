@@ -12,7 +12,7 @@ describe('a place with two ways in', () => {
     const s = await PlaySession.start('test/fixtures/probes/two-ways-in/probe.campaign.json', 'two', NodeBundleSource.shared);
     const ways = () => ChoiceList.ways(ScreenModel.build(s.campaign).exits).choices.map(c => c.label).sort();
     expect(ways()).toEqual(['Into the hut', 'Into the tower by the door', 'To the garden']);
-    await s.perform('go(p__walk,p__garden)');
+    await s.leg('go(p__walk,p__garden)');
     expect(ways()).toEqual(['Into the tower by the old well-shaft', 'To the yard']);
   }, 60000);
 });

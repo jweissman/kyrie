@@ -16,7 +16,7 @@ describe('a level gained', () => {
     const w = await WorldAssembler.assemble('wren', NodeBundleSource.shared,
       { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
     const s = await PlaySession.start(w.path, 'wren', w.source), c = s.campaign;
-    const take = (pattern: RegExp) => s.perform(PlayerView.choices(c).find(x => pattern.test(x.choice.id))!.choice.id);
+    const take = (pattern: RegExp) => s.leg(PlayerView.choices(c).find(x => pattern.test(x.choice.id))!.choice.id);
     const store = (c as unknown as { creatures: CreatureStore }).creatures, lease = store.acquire(c.state.partyIds);
     try {
       lease.creatures.forEach(x => { x.state.experience = Advancement.threshold(2); });
@@ -40,7 +40,7 @@ describe('a level gained', () => {
     // stands in a fight kept everything of its state but the skills taken up).
     await s.perform('wait_hour');
     expect(c.state.creatures.find(x => x.id === c.state.partyIds[0])!.state.skills).toEqual(['climbing']);
-    await s.perform(PlayerView.choices(c).find(x => x.choice.id.startsWith('go(region__w3_south'))!.choice.id);
+    await s.leg(PlayerView.choices(c).find(x => x.choice.id.startsWith('go(region__w3_south'))!.choice.id);
     expect(c.world.one('at', 'party')).toBe('region__w3_right');
   }, 180000);
 });

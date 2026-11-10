@@ -39,7 +39,7 @@ describe('Half the Hive in the world', () => {
     // And down the road, whoever keeps travellers has heard, and says so.
     const back = c.module.actions.find(a => a.id.startsWith('region__gate_hume_beyond_back_'))!;
     await GeneratedWorld.travel(s, c.world.one('at', back.speaker!)!.replace(/^region__/, ''));
-    const heard = (await s.perform(PlayerView.choices(c).find(x => x.choice.id.includes(back.id))!.choice.id)).response ?? '';
+    const heard = (await s.leg(PlayerView.choices(c).find(x => x.choice.id.includes(back.id))!.choice.id)).response ?? '';
     expect(heard).toContain('You smell of honey');
   }, 900000);
 });

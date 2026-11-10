@@ -22,7 +22,7 @@ class Either {
   }
   static names(s: PlaySession) { return PlayerView.choices(s.campaign).map(c => c.choice.name); }
   static async take(s: PlaySession, what: RegExp) {
-    await s.perform(PlayerView.choices(s.campaign).find(c => what.test(c.choice.name))!.choice.id);
+    await s.leg(PlayerView.choices(s.campaign).find(c => what.test(c.choice.name))!.choice.id);
   }
 }
 

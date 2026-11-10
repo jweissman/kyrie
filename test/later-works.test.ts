@@ -17,7 +17,7 @@ class Later {
   static async choose(s: PlaySession, pattern: RegExp) {
     const c = PlayerView.choices(s.campaign).find(x => pattern.test(x.choice.name));
     if (!c) { throw new Error(`No choice like ${pattern}`); }
-    return s.perform(c.choice.id);
+    return s.leg(c.choice.id);
   }
   static has(s: PlaySession, pattern: RegExp) {
     return PlayerView.choices(s.campaign).some(x => pattern.test(x.choice.name));

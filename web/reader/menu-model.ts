@@ -135,11 +135,11 @@ export class MenuModel {
   }
   // Going out of a town or a site into the country: the map, where the country is crossed.
   static readonly country: Choice = { id: 'view:map', label: 'Open the world map', tone: 'way', command: 'view:map' };
-  // Whether the company is anywhere in a country whose land is drawn in hexes, generated or authored (a town, a site,
-  // the open country, a road, Sarn's fern plains): there, crossing from hex to hex is the map's. Its walks within a
-  // hex (the Strand at Skeel, the parts of a province on one hex) stay its pages'.
+  // Whether the company is anywhere in a generated country, whose land is in hexes (a town, a site, the open country,
+  // a road): there, crossing from hex to hex is the map's, as the campaign holds it (see HexBoundary). An authored
+  // country's walks between its own places (the Strand at Skeel, Sarn's fern plains) stay its pages', its author's.
   static inside(screen: Frame['screen']): boolean {
-    return !!screen.region?.land;
+    return !!screen.region?.land?.tracts;
   }
   // Every choice as drawn, what is open under its opener (and what is in a way, always: see inWay).
   private static unfolded(choices: Choice[], opened: Set<string>): Choice[] {

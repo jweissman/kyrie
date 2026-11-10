@@ -55,7 +55,7 @@ describe('a game kept in the browser', () => {
       { party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
     const s = await PlaySession.start(w.path, 'kite', w.source), first = KeptGame.keyed(s.checkpoint(true));
     for (const re of [/^Take Falkor's door/, /^Ask .* about the rats/]) {
-      await s.perform(PlayerView.choices(s.campaign).find(x => re.test(x.choice.name))!.choice.id);
+      await s.leg(PlayerView.choices(s.campaign).find(x => re.test(x.choice.name))!.choice.id);
     }
     const checkpoint = s.checkpoint(true);
     expect(KeptGame.still(first, checkpoint)).toBe(false);

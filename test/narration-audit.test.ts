@@ -59,7 +59,7 @@ class Audit {
         .flatMap(c => this.favoured.test(c.choice.id) ? [c, c, c] : [c]);
       if (!choices.length) { break; }
       const c = choices[rng.number(`1d${choices.length}`) - 1]!, before = PlayerView.observe(s.campaign);
-      const was = this.present(s), event = await s.perform(c.choice.id);
+      const was = this.present(s), event = await s.leg(c.choice.id);
       const feedback = ActionFeedbackView.read(s.campaign, event, before), now = this.present(s);
       const moved = before.location?.id !== s.campaign.world.one('at', 'party');
       const told = { event, feedback, said: c.choice.name, moved };

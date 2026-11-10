@@ -37,7 +37,9 @@ export class CompositionBuild {
       const c = PlayerView.choices(campaign).find(x => re.test(x.choice.name));
       if (!c) { throw new Error(`The wren record has no choice for step ${n}: ${lines[n - 1]}`); }
       fights = [];
-      const frame = await host.handle({ kind: 'perform', command: c.choice.id });
+      // A way into the next hex is set out on, as the page does it from the map.
+      const over = inner.session.crosses(c.choice.id);
+      const frame = await host.handle(over ? { kind: 'travel', destination: over } : { kind: 'perform', command: c.choice.id });
       out.steps[n] = { said: c.choice.name, id: c.choice.id };
       if (keep.has(n)) { out.frames[n] = frame as Frame; if (fights.length) { out.fights[n] = fights; } }
     }

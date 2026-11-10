@@ -45,16 +45,16 @@ export class Shrinker {
       for (const step of steps) {
         if (!s.campaign.running) { break; }
         if (!PlayerView.choices(s.campaign).some(c => c.choice.id === step.command)) { continue; }
-        await s.perform(step.command, new Following(step.combat ?? []).next);
+        await s.leg(step.command, new Following(step.combat ?? []).next);
       }
       if (last && s.campaign.running) { await this.move(s, last); }
     } catch (error) { return (error as Error).message; }
     return [...Invariants.creatures(s), ...Invariants.offered(s), ...Invariants.party(s)][0]?.message;
   }
-  private static performing(s: PlaySession, command: string) { return s.perform(command); }
+  private static performing(s: PlaySession, command: string) { return s.leg(command); }
   private static async move(s: PlaySession, move: Move) {
     if (move.kind === 'travel') {
       await Travel.go({ campaign: s.campaign, perform: this.performing.bind(this, s) }, move.to);
-    } else if (PlayerView.choices(s.campaign).some(c => c.choice.id === move.id)) { await s.perform(move.id); }
+    } else if (PlayerView.choices(s.campaign).some(c => c.choice.id === move.id)) { await s.leg(move.id); }
   }
 }

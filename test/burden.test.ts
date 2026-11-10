@@ -24,7 +24,7 @@ class Load {
   static async take(s: PlaySession, pattern: RegExp) {
     const c = PlayerView.choices(s.campaign).find(x => pattern.test(x.choice.name));
     if (!c) { throw new Error(`No ${pattern}: ${PlayerView.choices(s.campaign).map(x => x.choice.name).join(' | ')}`); }
-    const before = PlayerView.observe(s.campaign), event = await s.perform(c.choice.id);
+    const before = PlayerView.observe(s.campaign), event = await s.leg(c.choice.id);
     const f = ActionFeedbackView.read(s.campaign, event, before);
     return { said: [f.result, ...f.events, ...f.observations].join(' '), time: f.time };
   }

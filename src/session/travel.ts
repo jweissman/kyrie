@@ -42,7 +42,8 @@ export class Travel {
       // A way that goes one way only is the player's to take, asked about, not the journey's (PT-17).
       if (this.oneWay(t.campaign, leg)) { done.stopped = `There is no coming back by ${leg.way}`; break; }
       const before = this.condition(t.campaign);
-      const event = await t.perform(choice.choice.id, choice.choice.name);
+      // The leg is the journey's: it may cross into the next hex, as no command of the page's may (Campaign.bounded).
+      const event = await t.campaign.crossing.travelling(leg.to, () => t.perform(choice.choice.id, choice.choice.name));
       done.legs.push({ command: choice.choice.id, said: choice.choice.name, event });
       const why = this.interrupted(t.campaign, event, before, leg);
       if (this.at(t.campaign, destination)) { done.arrived = true; break; }

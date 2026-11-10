@@ -23,7 +23,7 @@ describe('the company\'s light', () => {
     // to spare" beside it, the pack's kinds being counted by their names. (Everyone sets out with a torch and a
     // candle: the cold evaluation.)
     expect(ScreenModel.build(s.campaign).expedition.light).toBe('Nothing lit · 1 torch, 1 candle to spare');
-    await s.perform(PlayerView.choices(s.campaign).find(x => x.choice.name === 'Light a torch')!.choice.id);
+    await s.leg(PlayerView.choices(s.campaign).find(x => x.choice.name === 'Light a torch')!.choice.id);
     expect(ScreenModel.build(s.campaign).expedition.light)
       .toMatch(/^Wenna's torch, (an hour|\d+ minutes) left · 1 candle to spare$/);
     // Out in the day the torch is put out, and keeps what is left of it: said as burning, it read as burning on

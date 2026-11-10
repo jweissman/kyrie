@@ -49,7 +49,7 @@ describe('making a thing of two', () => {
     expect(Making.kinds(spoiled)).not.toContain('willow_bark');
     expect(Making.kinds(spoiled)).not.toContain('minor_healing_potion');
     // Made, it is the company's: the herb-wife buys it.
-    await made.perform('go(party,p__lane,p__bank,p__green)');
+    await made.leg('go(party,p__lane,p__bank,p__green)');
     const sale = PlayerView.choices(made.campaign).find(c => /^Sell .*Healing to Nan Aske/i.test(c.choice.name));
     expect(sale).toBeDefined();
     await made.perform(sale!.choice.id);

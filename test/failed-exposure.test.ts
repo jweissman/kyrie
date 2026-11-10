@@ -26,7 +26,7 @@ class Exposed {
     return PlaySession.start(source.resolve('fx.campaign.json'), 'fx', source);
   }
   static async choose(s: PlaySession, name: RegExp) {
-    return s.perform(PlayerView.choices(s.campaign).find(c => name.test(c.choice.name))!.choice.id);
+    return s.leg(PlayerView.choices(s.campaign).find(c => name.test(c.choice.name))!.choice.id);
   }
 }
 describe('a failed exposure', () => {

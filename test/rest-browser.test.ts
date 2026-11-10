@@ -4,7 +4,7 @@ import { mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import type { Page } from 'playwright-core';
-import { SiteBuild } from '../src/cli/site-build';
+import { TestSite } from './support/test-site';
 import { MonoBrowser } from './support/mono-browser';
 
 // The place at rest and the pack as the owner's own play of 7 November met them, coming home to Broadholm: Look…
@@ -28,7 +28,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a place at rest, and the pack', () 
   let site = '', browser: Awaited<ReturnType<typeof MonoBrowser.launch>>;
   beforeAll(async () => {
     site = await mkdtemp(join(tmpdir(), 'kyrie-rest-'));
-    await SiteBuild.site(site);
+    await TestSite.build(site);
     browser = await MonoBrowser.launch();
   }, 300000);
   afterAll(async () => { await browser?.close(); await rm(site, { recursive: true, force: true }); });

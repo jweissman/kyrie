@@ -19,7 +19,7 @@ describe('a drowned level', () => {
     const water = { kind: 'call', name: 'region__deepWater', args: ['region__w8_drowned'] };
     c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('at', 'party', foot) }]));
     const take = async (re: RegExp) =>
-      s.perform(PlayerView.choices(s.campaign).find(x => re.test(x.choice.name))!.choice.id);
+      s.leg(PlayerView.choices(s.campaign).find(x => re.test(x.choice.name))!.choice.id);
     const seen = () => PlayerView.observe(s.campaign).observations.map(o => o.text).join(' ');
     const ways = () => PlayerView.choices(s.campaign).some(x => /^Take the drift/.test(x.choice.name));
     await take(/^Light a torch/);

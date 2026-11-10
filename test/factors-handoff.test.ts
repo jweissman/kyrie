@@ -28,7 +28,7 @@ class World {
   static choose(s: PlaySession, pattern: RegExp) {
     const c = PlayerView.choices(s.campaign).find(x => pattern.test(x.choice.name));
     if (!c) { throw new Error(`No ${pattern} among ${PlayerView.choices(s.campaign).map(x => x.choice.name).slice(0, 20).join(' | ')}`); }
-    return s.perform(c.choice.id);
+    return s.leg(c.choice.id);
   }
   static async until(s: PlaySession, watch: number) {
     for (let i = 0; i < 600 && s.campaign.state.elapsed < watch; i++) { await s.perform('wait'); }

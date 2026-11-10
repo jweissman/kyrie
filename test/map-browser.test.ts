@@ -3,7 +3,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'bun:test';
 import { mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { SiteBuild } from '../src/cli/site-build';
+import { TestSite } from './support/test-site';
 import { MonoBrowser } from './support/mono-browser';
 
 // The map is a thing to plan with (the play-structure investigation's PT-27: it could not be clicked), and the one
@@ -15,7 +15,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the map and the notes, to plan with
   let site = '', browser: Awaited<ReturnType<typeof MonoBrowser.launch>>;
   beforeAll(async () => {
     site = await mkdtemp(join(tmpdir(), 'kyrie-map-'));
-    await SiteBuild.site(site, {});
+    await TestSite.build(site, {});
     browser = await MonoBrowser.launch();
   }, 300000);
   afterAll(async () => { await browser?.close(); await rm(site, { recursive: true, force: true }); });

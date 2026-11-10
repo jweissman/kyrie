@@ -12,7 +12,7 @@ describe('a role that holds while something does', () => {
     const s = await PlaySession.start('test/fixtures/probes/role-when/probe.campaign.json', 'role', NodeBundleSource.shared);
     const dunn = () => ScreenModel.build(s.campaign).people.find(p => p.id === 'p__dunn')!.name;
     expect(dunn()).toBe('Corporal Dunn, a corporal in a new coat');
-    await s.perform(PlayerView.choices(s.campaign).find(c => /^Throw the coat/.test(c.choice.name))!.choice.id);
+    await s.leg(PlayerView.choices(s.campaign).find(c => /^Throw the coat/.test(c.choice.name))!.choice.id);
     expect(dunn()).toBe('Corporal Dunn, a corporal in his shirtsleeves, dripping');
   }, 60000);
 });

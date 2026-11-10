@@ -28,7 +28,7 @@ class Marvels {
   static async act(s: PlaySession, pattern: RegExp) {
     const c = PlayerView.choices(s.campaign).find(x => pattern.test(x.choice.name) || pattern.test(x.choice.id));
     if (!c) { throw new Error(`No ${pattern} among ${PlayerView.choices(s.campaign).map(x => x.choice.name).join(' | ')}`); }
-    const before = PlayerView.observe(s.campaign), event = await s.perform(c.choice.id);
+    const before = PlayerView.observe(s.campaign), event = await s.leg(c.choice.id);
     const after = PlayerView.observe(s.campaign), feedback = ActionFeedbackView.read(s.campaign, event, before);
     return Narrator.leaf(s.campaign, ScreenModel.build(s.campaign),
       { event, feedback, said: c.choice.name, moved: before.location?.id !== after.location?.id });

@@ -129,7 +129,7 @@ describe('a level gained', () => {
       lease.creatures.forEach(c => { c.state.experience = 1000; });
       lease.commit(lease.creatures);
     } finally { lease.release(); }
-    await s.perform('go(march__oar_door,march__taproom)');
+    await s.leg('go(march__oar_door,march__taproom)');
     await s.perform('take_lodging(march__maud_lodging,march__maud)');
     const ids = PlayerView.choices(s.campaign).map(c => c.choice.id);
     expect(ids).toContain('raise_quality(march__member_party_3,intelligence)');
@@ -175,7 +175,7 @@ describe('a feat at the fifth level', () => {
       lease.creatures.forEach(c => { c.state.experience = Advancement.threshold(5); });
       lease.commit(lease.creatures);
     } finally { lease.release(); }
-    await s.perform('go(march__oar_door,march__taproom)');
+    await s.leg('go(march__oar_door,march__taproom)');
     await s.perform('take_lodging(march__maud_lodging,march__maud)');
     const warrior = s.campaign.state.creatures.find(c => s.campaign.state.partyIds.includes(c.id) && c.classId === 'warrior')!;
     const ref = `march__member_${warrior.id.replace(/^march__/, '')}`;
@@ -216,7 +216,7 @@ describe('a skill taken up with a level', () => {
       lease.creatures.forEach(c => { c.state.experience = 1000; });
       lease.commit(lease.creatures);
     } finally { lease.release(); }
-    await s.perform('go(march__oar_door,march__taproom)');
+    await s.leg('go(march__oar_door,march__taproom)');
     await s.perform('take_lodging(march__maud_lodging,march__maud)');
     const ids = PlayerView.choices(s.campaign).map(c => c.choice.id);
     const skill = ids.find(id => id.startsWith('learn_skill(march__member_party_1,'))!;

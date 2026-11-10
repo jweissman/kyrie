@@ -201,9 +201,11 @@ export class MapView {
   private static step(screen: Screen, id: string, cell?: string): Choice | undefined {
     const e = screen.exits.find(x => x.crosses && !x.blocked
       && (x.destination.id === id || (cell !== undefined && x.cell === Number(cell))));
-    const act = e?.acts.find(a => a.command && !a.children);
-    return e && act ? { id: e.id, label: `Go to ${e.destination.name.replace(/^The /, 'the ')}`, tone: 'way',
-      command: act.command } : undefined;
+    // Set out on as any journey is, leg by leg (Travel.go), the one way the campaign carries a company over into the
+    // next hex: the way's own command had been handed to the map and crossed with no journey (the travel-contract
+    // review, 9 November).
+    return e ? { id: `travel:${e.destination.id}`, label: `Go to ${e.destination.name.replace(/^The /, 'the ')}`,
+      tone: 'way', command: `travel:${e.destination.id}` } : undefined;
   }
   // Where no way is known, across the open country to the hex: a hex chosen, the hex a place seen stands on, or one
   // with something on it not yet made out, at the edge of what is known (going to look is how it is found out); never

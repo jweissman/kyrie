@@ -20,7 +20,7 @@ describe('word that leads somewhere', () => {
   }, 120000);
   const start = async () => {
     const s = await PlaySession.start(built.path, 'wren', built.source);
-    await s.perform(PlayerView.choices(s.campaign).find(x => /^go\(/.test(x.choice.id))!.choice.id);
+    await s.leg(PlayerView.choices(s.campaign).find(x => /^go\(/.test(x.choice.id))!.choice.id);
     return s;
   };
   // Told something, as a tale or a topic would tell it.

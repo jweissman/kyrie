@@ -24,7 +24,7 @@ class March {
   static choose(s: PlaySession, pattern: RegExp) {
     const c = PlayerView.choices(s.campaign).find(x => pattern.test(x.choice.name));
     if (!c) { throw new Error(`No choice like ${pattern}`); }
-    return s.perform(c.choice.id);
+    return s.leg(c.choice.id);
   }
   // How the way from where the company stands to a place is told: across country, or through a planar threshold.
   static way(s: PlaySession, to: string) {

@@ -31,9 +31,9 @@ describe('a power answering the company', () => {
     const s = await Lord.start();
     Lord.change(s, ['assert', 'at', 'party', 'region__s2_green']);
     await s.perform('wait');
-    const stopped = await s.perform('go(region__road_s2_s3,region__s2_s3_way)');
+    const stopped = await s.leg('go(region__road_s2_s3,region__s2_s3_way)');
     expect(Lord.told(stopped)).toContain('The lord\'s toll');
-    const ran = await s.perform('go(region__road_s2_s3_on,region__s3_green)');
+    const ran = await s.leg('go(region__road_s2_s3_on,region__s3_green)');
     expect(Lord.fact(s, 'hostile', 'tollKeepers__chief', 'party')).toBe(true);
     expect(Lord.told(ran)).toContain('riders out to');
     expect(s.campaign.world.one('at', 'tollKeepers__riders')).toBe('region__s2_green');
@@ -42,7 +42,7 @@ describe('a power answering the company', () => {
     const met = await s.perform('wait');
     expect(Lord.told(met)).toContain('Twenty coin for his toll-house');
     expect(Lord.fact(s, 'refusesService', 'region__s2_innkeeper', 'party')).toBe(true);
-    await s.perform(PlayerView.choices(s.campaign).find(c => c.choice.id.startsWith('tollKeepers__pay_fine'))!.choice.id);
+    await s.leg(PlayerView.choices(s.campaign).find(c => c.choice.id.startsWith('tollKeepers__pay_fine'))!.choice.id);
     expect([Lord.fact(s, 'hostile', 'tollKeepers__chief', 'party'), Lord.fact(s, 'refusesService', 'region__s2_innkeeper', 'party'),
       s.campaign.world.one('at', 'tollKeepers__riders')]).toEqual([false, false, 'tollKeepers__hall']);
   }, 120000);

@@ -18,7 +18,7 @@ class Toll {
     const c = s.campaign as unknown as { world: { apply(c: Change[]): unknown }; commit(w: unknown): void };
     c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('at', 'party', 'region__s3_green') }]));
     // Over the bridge from Sedgebrook, to the bar.
-    await s.perform('go(region__road_s2_s3_on,region__s2_s3_way)');
+    await s.leg('go(region__road_s2_s3_on,region__s2_s3_way)');
     return s;
   }
   static outlawed(s: PlaySession) {
@@ -30,10 +30,10 @@ class Toll {
 describe('the lord\'s toll at the bridge', () => {
   it('is not run by turning off the road into the wood, nor by turning back', async () => {
     const wood = await Toll.start();
-    await wood.perform('go(region__z3_way2,region__z3_deep)');
+    await wood.leg('go(region__z3_way2,region__z3_deep)');
     expect(Toll.outlawed(wood)).toBe(false);
     const back = await Toll.start();
-    await back.perform('go(region__road_s2_s3_on,region__s3_green)');
+    await back.leg('go(region__road_s2_s3_on,region__s3_green)');
     expect(Toll.outlawed(back)).toBe(false);
   }, 120000);
   // Played in cov7: up to the bar from the town, off by a track to a barrow and back, and home down the same road,
@@ -43,9 +43,9 @@ describe('the lord\'s toll at the bridge', () => {
     for (const [on, outlawed] of [['region__road_s2_s3_on,region__s3_green', false],
       ['region__road_s2_s3,region__s2_green', true]] as const) {
       const s = await Toll.start();
-      await s.perform('go(region__z3_way2,region__z3_deep)');
-      await s.perform('go(region__z3_way2,region__s2_s3_way)');
-      await s.perform(`go(${on})`);
+      await s.leg('go(region__z3_way2,region__z3_deep)');
+      await s.leg('go(region__z3_way2,region__s2_s3_way)');
+      await s.leg(`go(${on})`);
       expect([on, Toll.outlawed(s)]).toEqual([on, outlawed]);
     }
   }, 120000);
@@ -60,14 +60,14 @@ describe('the lord\'s toll at the bridge', () => {
     const left = purse();
     for (const on of ['region__road_s2_s3,region__s2_green', 'region__road_s2_s3,region__s2_s3_way',
       'region__road_s2_s3_on,region__s3_green', 'region__road_s2_s3_on,region__s2_s3_way']) {
-      await s.perform(`go(${on})`);
+      await s.leg(`go(${on})`);
     }
-    await s.perform('go(region__road_s2_s3,region__s2_green)');
+    await s.leg('go(region__road_s2_s3,region__s2_green)');
     expect([Toll.outlawed(s), purse()]).toEqual([false, left]);
   }, 120000);
   it('is run by going on along the road without paying', async () => {
     const s = await Toll.start();
-    await s.perform('go(region__road_s2_s3,region__s2_green)');
+    await s.leg('go(region__road_s2_s3,region__s2_green)');
     expect(Toll.outlawed(s)).toBe(true);
   }, 60000);
 });

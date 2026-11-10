@@ -23,7 +23,7 @@ class Fellowship {
   static async take(s: PlaySession, pattern: RegExp) {
     const c = PlayerView.choices(s.campaign).find(x => pattern.test(x.choice.name));
     if (!c) { throw new Error(`No choice like ${pattern}: ${this.ways(s).join(' | ')}`); }
-    return s.perform(c.choice.id);
+    return s.leg(c.choice.id);
   }
   // Meets the traveller at a settlement's inn and takes them on.
   static async hire(s: PlaySession, town: string, name: string) {

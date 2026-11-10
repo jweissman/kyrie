@@ -51,7 +51,7 @@ class Knowing {
     return [cell, ...HexLand.neighbours(cell, land.width, land.height)];
   }
   static async take(s: PlaySession, name: RegExp): Promise<void> {
-    await s.perform(PlayerView.choices(s.campaign).find(c => name.test(c.choice.name))!.choice.id);
+    await s.leg(PlayerView.choices(s.campaign).find(c => name.test(c.choice.name))!.choice.id);
   }
   // Each place not made out: its hex, with no name or id of its own; seen by its shape where it is a site of a kind
   // (a tower, a barrow: the owner, 4 November, not a "?"), and a question only where it is not.

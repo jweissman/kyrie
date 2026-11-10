@@ -23,7 +23,7 @@ describe('one end of a way', () => {
     const told = () => LocalObservations.read(s.campaign.world, s.campaign.playerActor!).map(o => o.text).join(' ');
     expect(told()).toContain('FORD');
     expect(told()).not.toContain('deep step');
-    await s.perform('go(p__ford,p__far)');
+    await s.leg('go(p__ford,p__far)');
     expect(told()).toContain('deep step');
     expect(told()).not.toContain('FORD');
   }, 60000);

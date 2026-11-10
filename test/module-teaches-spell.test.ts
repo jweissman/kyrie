@@ -26,7 +26,7 @@ class Taught {
     return [...c.base.abilities, ...c.state.learnedAbilities].includes('drench');
   }
   static async read(s: PlaySession) {
-    return s.perform(PlayerView.choices(s.campaign).find(c => /drowned book/.test(c.choice.name))!.choice.id);
+    return s.leg(PlayerView.choices(s.campaign).find(c => /drowned book/.test(c.choice.name))!.choice.id);
   }
 }
 

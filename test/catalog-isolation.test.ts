@@ -25,7 +25,7 @@ class Two {
   }
   static async uses(source: OverlayBundleSource, dir: string): Promise<string[]> {
     const s = await PlaySession.start(source.resolve(`det/${dir}.campaign.json`), 'seed', source);
-    await s.perform(PlayerView.choices(s.campaign).find(c => c.choice.id.startsWith('take_item'))!.choice.id);
+    await s.leg(PlayerView.choices(s.campaign).find(c => c.choice.id.startsWith('take_item'))!.choice.id);
     return PlayerView.choices(s.campaign).map(c => c.choice.id).filter(id => id.startsWith('use_item'));
   }
 }

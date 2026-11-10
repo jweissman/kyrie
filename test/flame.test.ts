@@ -22,7 +22,7 @@ describe('the flame the company carries', () => {
     const c = s.campaign as unknown as { world: { apply(c: Change[]): unknown }; commit(w: unknown): void };
     c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('at', 'party', 'region__w8_barrow_chamber') }]));
     expect(ScreenModel.build(s.campaign).expedition.flame).toBeUndefined();
-    await s.perform(PlayerView.choices(s.campaign).find(x => x.choice.name === 'Light a torch')!.choice.id);
+    await s.leg(PlayerView.choices(s.campaign).find(x => x.choice.name === 'Light a torch')!.choice.id);
     const lit = ScreenModel.build(s.campaign).expedition.flame;
     expect(lit).toMatchObject({ kind: 'torch', who: 'Wenna' });
     expect(lit!.left).toBeGreaterThan(Flame.low);

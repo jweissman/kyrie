@@ -21,7 +21,7 @@ describe('a hazard that strikes a member', () => {
         party: [{ name: 'Ama', raceId: 'human', classId: 'warrior' }, { name: 'Bel', raceId: 'human', classId: 'thief' }] }) });
     for (const seed of ['a', 'b', 'c']) {
       const s = await PlaySession.start(source.resolve('sm.campaign.json'), seed, source);
-      await s.perform(PlayerView.choices(s.campaign).find(c => c.choice.name === 'Pick the lock')!.choice.id);
+      await s.leg(PlayerView.choices(s.campaign).find(c => c.choice.name === 'Pick the lock')!.choice.id);
       expect(s.campaign.readout.creatures.map(c => c.base.maxHp - c.state.hp), seed).toEqual([0, 3]);
     }
   }, 60000);

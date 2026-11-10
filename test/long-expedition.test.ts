@@ -42,7 +42,7 @@ class Expedition {
     for (const step of steps) {
       const re = new RegExp(step, 'i'), c = PlayerView.choices(s.campaign).find(x => re.test(x.choice.name));
       if (!c) { throw new Error(`No choice ${step}: ${PlayerView.choices(s.campaign).map(x => x.choice.name).join(' | ')}`); }
-      await s.perform(c.choice.id);
+      await s.leg(c.choice.id);
     }
   }
 }

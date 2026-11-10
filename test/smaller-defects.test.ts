@@ -63,7 +63,7 @@ describe('the smaller defects', () => {
   it('a milestone met by others far from the company is not the company\'s', async () => {
     const source = new OverlayBundleSource(NodeBundleSource.shared, Smaller.files());
     const s = await PlaySession.start(source.resolve('ms.campaign.json'), 'seed', source);
-    await s.perform(PlayerView.choices(s.campaign).find(c => c.choice.name === 'Do the deed')!.choice.id);
+    await s.leg(PlayerView.choices(s.campaign).find(c => c.choice.name === 'Do the deed')!.choice.id);
     expect(Smaller.xp(s)).toEqual([100, 100]);
     for (let i = 0; i < 4; i++) { await s.perform('wait'); }
     expect(s.campaign.world.test({ kind: 'call', name: 'achieved', args: ['b__far_off'] })).toBe(true);

@@ -31,7 +31,7 @@ class Watch {
 describe('people who fall on the company', () => {
   it('a sentry falls on a company that comes through the gate without the word, and the fight is fought there', async () => {
     const s = await Watch.start();
-    const event = await s.perform('go(world__gate,world__gatehouse)');
+    const event = await s.leg('go(world__gate,world__gatehouse)');
     expect(event.prelude?.response).toContain('comes at you');
     expect(event.combat.some(e => e.type === 'end')).toBe(true);
     expect(s.campaign.world.test(ModuleWriter.call('assails', 'world__sentry', 'party'))).toBe(false);
@@ -39,12 +39,12 @@ describe('people who fall on the company', () => {
   it('lets by a company that knows the word', async () => {
     const s = await Watch.start();
     Watch.know(s, 'world__password');
-    const event = await s.perform('go(world__gate,world__gatehouse)');
+    const event = await s.leg('go(world__gate,world__gatehouse)');
     expect([event.prelude, event.combat.length, Watch.where(s)]).toEqual([undefined, 0, 'world__gatehouse']);
   }, 60000);
   it('puts a company that runs from the fight back where it came from', async () => {
     const s = await Watch.start();
-    const event = await s.perform('go(world__gate,world__gatehouse)', Watch.run);
+    const event = await s.leg('go(world__gate,world__gatehouse)', Watch.run);
     expect([event.fledTo, Watch.where(s)]).toEqual(['world__lane', 'world__lane']);
     // The sentry is still at his post, and will challenge them again.
     expect(s.campaign.world.test(ModuleWriter.call('at', 'world__sentry', 'world__gatehouse'))).toBe(true);
@@ -54,7 +54,7 @@ describe('people who fall on the company', () => {
   it('gives the company a moment before the sentry closes, to get back the way it came', async () => {
     const s = await Watch.start();
     let opening: string | undefined;
-    const event = await s.perform('go(world__gate,world__gatehouse)', battle => { opening ??= battle.opening; return Watch.run(battle); });
+    const event = await s.leg('go(world__gate,world__gatehouse)', battle => { opening ??= battle.opening; return Watch.run(battle); });
     expect(opening).toBe('seen');
     expect(event.combat.find(e => e.type === 'flee')).toMatchObject({ success: true });
     expect(Watch.where(s)).toBe('world__lane');
@@ -63,7 +63,7 @@ describe('people who fall on the company', () => {
   // wheel-room, a fresh play read "You begin to attack the wheel-keeper. The wheel-keeper comes at you!" (play 7).
   it('tells the way the company took, not an attack it never made, when it is fallen on there', async () => {
     const s = await Watch.start(), before = PlayerView.observe(s.campaign);
-    const event = await s.perform('go(world__gate,world__gatehouse)', Watch.run);
+    const event = await s.leg('go(world__gate,world__gatehouse)', Watch.run);
     const feedback = ActionFeedbackView.read(s.campaign, event, before);
     const leaf = Narrator.leaf(s.campaign, ScreenModel.build(s.campaign),
       { event, feedback, said: 'Through the gate', moved: true });
@@ -75,7 +75,7 @@ describe('people who fall on the company', () => {
   it('puts a company that runs from a fight it chose back the way it came, and nothing falls on it there', async () => {
     const s = await PlaySession.start('data/campaigns/the-long-man.campaign.json', 'merrow', NodeBundleSource.shared);
     for (const way of [/Merrow green/, /Hall yard/, /crest/, /sinkhole/]) {
-      await s.perform(PlayerView.choices(s.campaign).find(c => way.test(c.choice.name))!.choice.id);
+      await s.leg(PlayerView.choices(s.campaign).find(c => way.test(c.choice.name))!.choice.id);
     }
     expect(Watch.where(s)).toBe('longman__leak');
     const attack = PlayerView.choices(s.campaign).find(c => /^Attack the Wet/.test(c.choice.name))!.choice.id;
@@ -87,16 +87,16 @@ describe('people who fall on the company', () => {
   it('sends the patrol after a company that gets into the yard, and they fall on it there', async () => {
     const s = await Watch.start();
     Watch.know(s, 'world__password');
-    await s.perform('go(world__gate,world__gatehouse)');
+    await s.leg('go(world__gate,world__gatehouse)');
     // Through the arch is a minute; the patrol comes while the company waits, and falls on it.
-    let fought = await s.perform('go(world__arch,world__yard)');
+    let fought = await s.leg('go(world__arch,world__yard)');
     for (let n = 0; !fought.prelude && n < 3; n++) { fought = await s.perform('wait_hour'); }
     expect(fought.prelude?.response).toContain('yard patrol');
     expect(fought.combat.some(e => e.type === 'end')).toBe(true);
   }, 60000);
   it('replays an ambush to the same world from the transcript', async () => {
     const s = await Watch.start();
-    await s.perform('go(world__gate,world__gatehouse)');
+    await s.leg('go(world__gate,world__gatehouse)');
     const replay = await Watch.start();
     await replay.replay(s.transcript.steps);
     expect(replay.canonical()).toBe(s.canonical());

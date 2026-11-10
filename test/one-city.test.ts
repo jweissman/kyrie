@@ -53,7 +53,7 @@ describe('one city, two adventures', () => {
     const take = async (part: string) => {
       const row = PlayerView.choices(c).find(x => x.choice.id.includes(part));
       if (!row) { throw new Error(`No ${part} among ${PlayerView.choices(c).map(x => x.choice.id).join(' ')}`); }
-      return s.perform(row.choice.id);
+      return s.leg(row.choice.id);
     };
     c.commitWorld(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('at', 'party', k('two_poles')) }]));
     await take(q('keeper_stones'));

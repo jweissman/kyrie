@@ -3,7 +3,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'bun:test';
 import { mkdtemp, rm, mkdir } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { SiteBuild } from '../src/cli/site-build';
+import { TestSite } from './support/test-site';
 import { MonoBrowser } from './support/mono-browser';
 import type { MonoDriver } from './support/mono-driver';
 
@@ -23,7 +23,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('What Tessary Owes in the browser', 
   let site = '', browser: Awaited<ReturnType<typeof MonoBrowser.launch>>;
   beforeAll(async () => {
     site = await mkdtemp(join(tmpdir(), 'kyrie-tessary-'));
-    await SiteBuild.site(site);
+    await TestSite.build(site);
     browser = await MonoBrowser.launch();
   }, 300000);
   afterAll(async () => { await browser?.close(); await rm(site, { recursive: true, force: true }); });

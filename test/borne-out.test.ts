@@ -48,7 +48,10 @@ class Told {
   static async walk(host: EngineHost, s: PlaySession, place: string): Promise<string[]> {
     const notes: string[] = [];
     for (const [passage, to] of GeneratedWorld.path(s, place)) {
-      notes.push(...(await this.perform(host, `go(${passage},${to})`)).leaf.exchange?.notes ?? []);
+      // A way into the next hex is set out on, as the page does it from the map.
+      const command = `go(${passage},${to})`, over = s.crosses(command);
+      const frame = over ? await host.handle({ kind: 'travel', destination: over }) as Frame : await this.perform(host, command);
+      notes.push(...frame.leaf.exchange?.notes ?? []);
     }
     return notes;
   }

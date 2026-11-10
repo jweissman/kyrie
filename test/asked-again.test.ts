@@ -9,7 +9,7 @@ describe('a question asked again', () => {
   it('is answered as it was, and does nothing it did again', async () => {
     const s = await PlaySession.start('data/campaigns/the-long-man.campaign.json', 'merrow', NodeBundleSource.shared);
     const c = s.campaign, named = (pattern: RegExp) => PlayerView.choices(c).find(x => pattern.test(x.choice.name));
-    await s.perform('go(longman__south_road,longman__green)');
+    await s.leg('go(longman__south_road,longman__green)');
     expect(named(/^Ask the people at the well again about the Long Man/)).toBeUndefined();
     const first = await s.perform(named(/^Ask the people at the well about the Long Man/)!.choice.id);
     expect(named(/^Ask the people at the well about the Long Man/)).toBeUndefined();

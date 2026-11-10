@@ -21,7 +21,7 @@ class Again {
     return PlaySession.start(source.resolve('ga.campaign.json'), 'ga', source);
   }
   static async choose(s: PlaySession, name: RegExp) {
-    const event = await s.perform(PlayerView.choices(s.campaign).find(c => name.test(c.choice.name))!.choice.id);
+    const event = await s.leg(PlayerView.choices(s.campaign).find(c => name.test(c.choice.name))!.choice.id);
     return (event.voiced ?? []).map(v => v.text).join(' ');
   }
 }

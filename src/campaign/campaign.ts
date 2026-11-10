@@ -29,6 +29,7 @@ import { ActionTime } from './action-time'; import { Engagement } from './engage
 
 export type { ModuleStatus, CampaignState, NpcDecision, CampaignSave, CampaignEvent } from './campaign-types';
 import type { CampaignState, CampaignSave, CampaignEvent, Restored } from './campaign-types';
+import { Crossing, type ExecutionContext } from './crossing';
 export class Campaign implements WatchHost {
   private compiled: Module;
   get module(): Module { return this.compiled; }
@@ -223,15 +224,16 @@ export class Campaign implements WatchHost {
       ...assault ? { moment: Engagement.moment(this, group) } : {} });
   }
 
-  private action(id: string): Operator {
+  // The offered action of that id, if it may be done as it is asked (a way into another hex, only on a journey).
+  private action(id: string, via: ExecutionContext): Operator {
     const action = structuredClone(this.offered().find(candidate => candidate.id === id));
     if (!action) { throw new Error(`Unavailable campaign action: ${id}`); }
+    this.crossing.bound(this, action, via);
     return action;
   }
-  execute(id: string, play: (battle: Battle) => void = Campaign.autofight): CampaignEvent {
-    const action = this.action(id), checkpoint = this.begun = this.checkpoint();
-    this.executing = true;
-    let battle: Battle | undefined;
+  execute(id: string, play: (battle: Battle) => void = Campaign.autofight, via: ExecutionContext = {}): CampaignEvent {
+    const action = this.action(id, via), checkpoint = this.begun = this.checkpoint();
+    this.executing = true; let battle: Battle | undefined;
     try {
       battle = action.resolve?.name === 'combat' ? this.encounterBattle(id) : undefined;
       if (battle) { play(battle); }
@@ -240,13 +242,11 @@ export class Campaign implements WatchHost {
       battle = this.encounterBattle(assault.id, true); play(battle);
       const fight = this.complete(assault, this.checkpoint(), battle);
       return Engagement.after(this, event, fight, assault.bindings!.opponent!);
-    } catch (error) { this.rollback(battle, checkpoint); throw error; }
-    finally { this.executing = false; }
+    } catch (error) { this.rollback(battle, checkpoint); throw error; } finally { this.executing = false; }
   }
-  async executeAsync(id: string, play: (battle: Battle) => Promise<void>): Promise<CampaignEvent> {
-    const action = this.action(id), checkpoint = this.begun = this.checkpoint();
-    this.executing = true;
-    let battle: Battle | undefined;
+  async executeAsync(id: string, play: (battle: Battle) => Promise<void>, via: ExecutionContext = {}) {
+    const action = this.action(id, via), checkpoint = this.begun = this.checkpoint();
+    this.executing = true; let battle: Battle | undefined;
     try {
       battle = action.resolve?.name === 'combat' ? this.encounterBattle(id) : undefined;
       if (battle) { await play(battle); }
@@ -255,9 +255,11 @@ export class Campaign implements WatchHost {
       battle = this.encounterBattle(assault.id, true); await play(battle);
       const fight = this.complete(assault, this.checkpoint(), battle);
       return Engagement.after(this, event, fight, assault.bindings!.opponent!);
-    } catch (error) { this.rollback(battle, checkpoint); throw error; }
-    finally { this.executing = false; }
+    } catch (error) { this.rollback(battle, checkpoint); throw error; } finally { this.executing = false; }
   }
+  // Made when first asked for: a campaign forked or restored is made without its fields (see fork).
+  private crossed?: Crossing;
+  get crossing(): Crossing { return this.crossed ??= new Crossing(); }
   // What a command undoes to if it throws, and what its receipt is told against: the world itself and the creature
   // store's records, which are replaced when they change and never changed where they lie, so neither is copied.
   // It holds the module and definition too, so that what came of a command after it (the country beyond it drew,

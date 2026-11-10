@@ -20,7 +20,7 @@ class GreatWork {
   }
   // Takes the first choice offered whose name matches.
   static take(s: PlaySession, pattern: RegExp) {
-    return s.perform(PlayerView.choices(s.campaign).find(c => pattern.test(c.choice.name))!.choice.id);
+    return s.leg(PlayerView.choices(s.campaign).find(c => pattern.test(c.choice.name))!.choice.id);
   }
 }
 

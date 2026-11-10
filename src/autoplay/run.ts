@@ -128,10 +128,10 @@ export class AutoplayRun {
       else if (!done.stopped) { throw new Error(`A journey to ${move.to} neither arrived nor said why it stopped`); }
       return;
     }
-    this.counted(await s.perform(move.id, player.controller), move.id, metrics);
+    this.counted(await s.leg(move.id, player.controller), move.id, metrics);
   }
   private static async performing(s: PlaySession, player: AutoPlayer, metrics: Metrics, command: string) {
-    return this.counted(await s.perform(command, player.controller), command, metrics);
+    return this.counted(await s.leg(command, player.controller), command, metrics);
   }
   private static counted(event: CampaignEvent, command: string, metrics: Metrics): CampaignEvent {
     metrics.commands++;

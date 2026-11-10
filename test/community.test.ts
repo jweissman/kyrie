@@ -26,7 +26,7 @@ class Settled {
   static async act(s: PlaySession, pattern: RegExp) {
     const c = PlayerView.choices(s.campaign).find(x => pattern.test(x.choice.name) || pattern.test(x.choice.id));
     if (!c) { throw new Error(`No ${pattern} among ${PlayerView.choices(s.campaign).map(x => x.choice.name).join(' | ')}`); }
-    return s.perform(c.choice.id);
+    return s.leg(c.choice.id);
   }
   static at(s: PlaySession, id: string) { return s.campaign.world.one('at', `region__${id}`); }
   // Goes to each of some people where they are until one offers a choice like the pattern.

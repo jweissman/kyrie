@@ -23,7 +23,7 @@ class Causeway {
   static async act(s: PlaySession, pattern: RegExp) {
     const c = PlayerView.choices(s.campaign).find(x => pattern.test(x.choice.id));
     if (!c) { throw new Error(`No ${pattern}: ${PlayerView.choices(s.campaign).map(x => x.choice.id).join(' | ')}`); }
-    return s.perform(c.choice.id);
+    return s.leg(c.choice.id);
   }
   static carter(s: PlaySession) {
     return SceneModel.build(ScreenModel.build(s.campaign)).subjects.find(x => x.id === 'origin__carter');

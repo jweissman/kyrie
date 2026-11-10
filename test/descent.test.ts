@@ -44,7 +44,7 @@ class Descent {
       const re = new RegExp(step, 'i'), c = PlayerView.choices(s.campaign).find(x => re.test(x.choice.name));
       const offered = () => PlayerView.choices(s.campaign).map(x => x.choice.name).join(' | ');
       if (!c) { throw new Error(`Choice ${i + 1}, ${step}, is not offered: ${offered()}`); }
-      await s.perform(c.choice.id);
+      await s.leg(c.choice.id);
     }
     return s;
   }

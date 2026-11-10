@@ -36,7 +36,7 @@ describe('a price on a power', () => {
     for (const a of [...screen.people, ...screen.things].flatMap(r => r.acts)) { acts.push(a, ...a.children ?? []); }
     expect(acts.find(a => /^Call Sir Hamo out/.test(a.label))?.reckoned)
       .toEqual({ danger: 'deadly', text: 'Sir Hamo Ashdown is more than you can take.' });
-    await s.perform(PlayerView.choices(c).find(x => /^Call Sir Hamo out/.test(x.choice.name))!.choice.id);
+    await s.leg(PlayerView.choices(c).find(x => /^Call Sir Hamo out/.test(x.choice.name))!.choice.id);
     for (let i = 0; i < 12 && c.running; i++) {
       const strike = PlayerView.choices(c).find(x => /Strike/.test(x.choice.name)) ?? PlayerView.choices(c)[0]!;
       await s.perform(strike.choice.id);

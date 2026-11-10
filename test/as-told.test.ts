@@ -63,7 +63,7 @@ describe('as the company would tell it', () => {
       ? b.legalCommands().find(c => c.ability === 'flee')! : Tactics.choose(b.state, b.legalCommands())));
     expect(Thorn.names(s).filter(n => /^(Push and pull at|Listen at|Pry at) the seal/.test(n))).toEqual([]);
     Thorn.put(s, 'w8_gatehouse_gate_hall');
-    await s.perform(PlayerView.choices(s.campaign).find(c => c.choice.name === 'Gather up the coins')!.choice.id);
+    await s.leg(PlayerView.choices(s.campaign).find(c => c.choice.name === 'Gather up the coins')!.choice.id);
     expect(Thorn.names(s)).not.toContain('Look closely at scattered coins');
     // A goat on a road, whoever's and wherever the country's people put it.
     const goat = s.campaign.module.entities.find(e => /_goat$/.test(e.id) && e.type === 'group')!;
@@ -75,7 +75,7 @@ describe('as the company would tell it', () => {
   it('does not look again at a notebook read, nor call anything wildtype', async () => {
     const s = await Thorn.start();
     Thorn.put(s, 'w8_galleries_colonnade');
-    await s.perform(PlayerView.choices(s.campaign).find(c => c.choice.name === 'Unstrap the notebook and read it')!.choice.id);
+    await s.leg(PlayerView.choices(s.campaign).find(c => c.choice.name === 'Unstrap the notebook and read it')!.choice.id);
     expect(Thorn.names(s)).not.toContain('Look closely at a damp notebook');
     // And what the party that camped there carried against the worst is in their pack (hoards.json#left).
     const left = s.campaign.module.entities.filter(e => e.id.startsWith('region__w8_galleries_colonnade_left'));

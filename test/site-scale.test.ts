@@ -68,7 +68,7 @@ describe('a site set out for', () => {
     { kind: 'assert', call: ModuleWriter.call('at', 'party', place) }]));
     held.commit(held.world.apply([{ kind: 'assert', call: ModuleWriter.call('knows', 'party', 'region__w9_named') }]));
     put('tower__bailey');
-    await s.perform('go(tower__chapel_arch,tower__chapel)');
+    await s.leg('go(tower__chapel_arch,tower__chapel)');
     put('region__s1_green');
     await s.perform('wait');
     const going = ScreenModel.build(c).destinations ?? [];

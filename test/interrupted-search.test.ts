@@ -20,7 +20,7 @@ class Search {
     let s = await PlaySession.start(w.path, 'a1', w.source);
     const c = s.campaign as unknown as { world: { apply(c: Change[]): unknown }; commit(w: unknown): void };
     c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('at', 'party', 'region__w8_barrow_passage') }]));
-    await s.perform(PlayerView.choices(s.campaign).find(x => x.choice.name === 'Light a torch')!.choice.id);
+    await s.leg(PlayerView.choices(s.campaign).find(x => x.choice.name === 'Light a torch')!.choice.id);
     if (left !== undefined) {
       const checkpoint = s.checkpoint();
       for (const m of checkpoint.save.creatures.filter(x => checkpoint.save.state.partyIds.includes(x.id))) {

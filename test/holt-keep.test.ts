@@ -43,14 +43,14 @@ describe('Holt keep', () => {
     Keep.put(s, 'tower__bailey');
     await s.perform('change_thing(tower__winch_wind)');
     expect(Keep.fact(s, 'state', 'tower__portcullis', 'tower__raised')).toBe(true);
-    await s.perform('go(tower__gate,east__tower_foot)');
+    await s.leg('go(tower__gate,east__tower_foot)');
     expect(Keep.legal(s)).toContain('go(tower__gate,tower__bailey)');
   }, 60000);
   it('lets a company that climbs come over the breach into the bailey, where a locksmith would take the postern', async () => {
     const pilgrims = await Keep.start('pilgrims');
     expect([Keep.legal(pilgrims).includes('go(tower__breach,tower__bailey)'),
       Keep.legal(pilgrims).includes('go(tower__postern,tower__crypt)')]).toEqual([true, false]);
-    await pilgrims.perform('go(tower__breach,tower__bailey)');
+    await pilgrims.leg('go(tower__breach,tower__bailey)');
     // Over the wall they are in the bailey, with the tower door ahead and no way to wind the gate.
     expect([Keep.legal(pilgrims).includes('go(tower__door,tower__hall)'),
       Keep.legal(pilgrims).some(c => c.startsWith('change_thing(tower__winch'))]).toEqual([true, false]);

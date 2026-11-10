@@ -18,7 +18,7 @@ describe('a company made in play', () => {
     expect(c.readout.partyIds).toHaveLength(1);
     const brother = 'drover__son', at = () => c.world.one('at', 'party')!;
     for (const [passage, to] of Journey.way(c.world, at(), c.world.one('at', brother)!)) {
-      await s.perform(`go(${passage},${to})`);
+      await s.leg(`go(${passage},${to})`);
     }
     const offered = () => PlayerView.choices(c).map(r => r.choice.id);
     if (offered().includes(`talk_to(${brother})`)) { await s.perform(`talk_to(${brother})`); }

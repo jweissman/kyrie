@@ -3,7 +3,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'bun:test';
 import { mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { SiteBuild } from '../src/cli/site-build';
+import { TestSite } from './support/test-site';
 import { MonoBrowser } from './support/mono-browser';
 
 // A generated world begun in the browser, as a player begins it: the creation page read for a while, then Begin.
@@ -15,7 +15,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a generated world in the browser', 
   let site = '', browser: Awaited<ReturnType<typeof MonoBrowser.launch>>;
   beforeAll(async () => {
     site = await mkdtemp(join(tmpdir(), 'kyrie-world-'));
-    await SiteBuild.site(site, {});
+    await TestSite.build(site, {});
     browser = await MonoBrowser.launch();
   }, 300000);
   afterAll(async () => { await browser?.close(); await rm(site, { recursive: true, force: true }); });

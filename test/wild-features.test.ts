@@ -29,7 +29,7 @@ class Wild {
   static async act(s: PlaySession, name: RegExp): Promise<string[]> {
     const c = PlayerView.choices(s.campaign).find(x => name.test(x.choice.name));
     if (!c) { throw new Error(`No ${name} among ${PlayerView.choices(s.campaign).map(x => x.choice.name).join(' | ')}`); }
-    return (await s.perform(c.choice.id)).perceptions?.map(p => p.text) ?? [];
+    return (await s.leg(c.choice.id)).perceptions?.map(p => p.text) ?? [];
   }
   static seen(s: PlaySession): string[] { return ScreenModel.build(s.campaign).observed.map(o => o.text); }
 }

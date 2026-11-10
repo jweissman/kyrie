@@ -17,7 +17,7 @@ class Town {
   }
   static async act(s: PlaySession, name: RegExp) {
     const c = PlayerView.choices(s.campaign).find(x => name.test(x.choice.name))!;
-    return (await s.perform(c.choice.id)).perceptions?.filter(p => p.kind === 'observation').map(p => p.text) ?? [];
+    return (await s.leg(c.choice.id)).perceptions?.filter(p => p.kind === 'observation').map(p => p.text) ?? [];
   }
 }
 

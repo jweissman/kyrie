@@ -44,7 +44,7 @@ describe('back in town with what was won', () => {
     const w = await WorldAssembler.assemble('kite', NodeBundleSource.shared,
       { party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
     const s = await Session.start(w.path, 'kite', w.source);
-    await s.perform(PlayerView.choices(s.campaign).find(x => /^Ask .*old cisterns/.test(x.choice.name))!.choice.id);
+    await s.leg(PlayerView.choices(s.campaign).find(x => /^Ask .*old cisterns/.test(x.choice.name))!.choice.id);
     expect(Glanced.of(s).glance.acts[0]).toMatchObject({ label: 'Set out for Lunalac', why: 'named' });
   }, 120000);
 });

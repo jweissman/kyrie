@@ -30,7 +30,7 @@ class Shrine {
   static async take(s: PlaySession, pattern: RegExp) {
     const c = PlayerView.choices(s.campaign).find(x => pattern.test(x.choice.name));
     if (!c) { throw new Error(`No ${pattern}: ${this.names(s).join(' | ')}`); }
-    const before = PlayerView.observe(s.campaign), event = await s.perform(c.choice.id);
+    const before = PlayerView.observe(s.campaign), event = await s.leg(c.choice.id);
     const f = ActionFeedbackView.read(s.campaign, event, before);
     return [f.result, ...f.observations, ...f.events, ...f.immediate, ...f.discoveries].join(' ');
   }
@@ -49,7 +49,7 @@ class Shrine {
 describe('the walled stair, argued at the shrine', () => {
   it('tells the dice of a check apart from what came of it, so that a reader may leave them untold', async () => {
     const s = await Shrine.start(), c = PlayerView.choices(s.campaign).find(x => /^Watch Baern/.test(x.choice.name))!;
-    const before = PlayerView.observe(s.campaign), event = await s.perform(c.choice.id);
+    const before = PlayerView.observe(s.campaign), event = await s.leg(c.choice.id);
     const feedback = ActionFeedbackView.read(s.campaign, event, before);
     const lines = Narrator.leaf(s.campaign, ScreenModel.build(s.campaign),
       { event, feedback, said: c.choice.name, moved: false }).exchange!.lines;

@@ -24,7 +24,7 @@ class Barrow {
   static async take(s: PlaySession, pattern: RegExp) {
     const c = PlayerView.choices(s.campaign).find(x => pattern.test(x.choice.name));
     if (!c) { throw new Error(`No ${pattern}`); }
-    return s.perform(c.choice.id);
+    return s.leg(c.choice.id);
   }
   // Into a room, with light to see by.
   static put(s: PlaySession, room: string) {

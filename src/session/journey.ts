@@ -206,7 +206,7 @@ export class Journey {
   // what the page asked before it: never tested, it executed on its first choice, Hessel friction 7).
   async perform(command: string, label = command, grave?: string): Promise<string> {
     const before = PlayerView.observe(this.campaign);
-    const event = await this.session.perform(command);
+    const event = await this.session.leg(command);
     const moved = before.location?.id !== this.at(this.campaign.playerActor ?? 'party');
     const leaf = Narrator.leaf(this.campaign, this.screen(),
       { event, feedback: ActionFeedbackView.read(this.campaign, event, before), said: label, moved });

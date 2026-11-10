@@ -38,7 +38,7 @@ describe('the authoring guide', () => {
   it('plays: the inn and the chandlery trade, the ford takes time, the grille yields to the locksmith', async () => {
     const s = await PlaySession.start(campaign, 'guide', NodeBundleSource.shared);
     expect(Guide.legal(s).some(c => c.startsWith('camp'))).toBe(false);
-    await s.perform('go(world__chandlery_door,world__counter)');
+    await s.leg('go(world__chandlery_door,world__counter)');
     expect(Guide.legal(s)).toContain('buy_item(world__osk_rope_1,world__member_party_1)');
     expect(Guide.legal(s)).toContain('buy_goods(rations,world__osk)');
     expect(Guide.legal(s)).toContain('take_healing(world__osk,world__osk_healing)');
@@ -53,7 +53,7 @@ describe('the authoring guide', () => {
       'go(world__crypt_stair,world__stair_foot)']) { await s.perform(c); }
     expect(Guide.legal(s)).toContain('change_thing(world__grille_pick)');
     await s.perform('change_thing(world__grille_pick)');
-    await s.perform('go(world__ossuary_arch,world__ossuary)');
+    await s.leg('go(world__ossuary_arch,world__ossuary)');
     expect(s.campaign.world.test({ kind: 'call', name: 'state', args: ['rescue__guest', 'rescue__pinned'] })).toBe(true);
   }, 60000);
   it('gives authored people the mechanics their ancestry, class, traits and equipment name', async () => {

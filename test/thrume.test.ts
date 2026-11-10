@@ -102,7 +102,7 @@ describe('the Heart-Tomb', () => {
   const start = async () => {
     const s = await T.start('test/fixtures/thrume-tomb/tomb.campaign.json');
     // A torch lit, whoever's: everyone sets out with one now (the cold evaluation), and the first offered is lit.
-    await s.perform(PlayerView.choices(s.campaign).find(c => c.choice.name === 'Light a torch')!.choice.id);
+    await s.leg(PlayerView.choices(s.campaign).find(c => c.choice.name === 'Light a torch')!.choice.id);
     return s;
   };
   it('kills whoever strikes the Gate with iron, and stirs the sleeper', async () => {

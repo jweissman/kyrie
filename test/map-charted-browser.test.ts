@@ -3,7 +3,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'bun:test';
 import { mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { SiteBuild } from '../src/cli/site-build';
+import { TestSite } from './support/test-site';
 import { MonoBrowser } from './support/mono-browser';
 
 // The fresh playtest of 7 November: "A lone tower, on the map", in the Notes, opened the map on the town, the tower
@@ -14,7 +14,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('an aim\'s place, on the map from th
   let site = '', browser: Awaited<ReturnType<typeof MonoBrowser.launch>>;
   beforeAll(async () => {
     site = await mkdtemp(join(tmpdir(), 'kyrie-charted-'));
-    await SiteBuild.site(site, {});
+    await TestSite.build(site, {});
     browser = await MonoBrowser.launch(['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader']);
   }, 300000);
   afterAll(async () => { await browser?.close(); await rm(site, { recursive: true, force: true }); });

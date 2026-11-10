@@ -28,7 +28,7 @@ class Tower {
   static say(s: PlaySession, words: RegExp): Promise<unknown> {
     const choice = PlayerView.choices(s.campaign).find(c => words.test(c.choice.name));
     if (!choice) { throw new Error(`Nothing to say like ${words}: ${PlayerView.choices(s.campaign).map(c => c.choice.name).join('; ')}`); }
-    return s.perform(choice.choice.id);
+    return s.leg(choice.choice.id);
   }
 }
 

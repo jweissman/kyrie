@@ -71,7 +71,7 @@ describe('the map', () => {
     const s = await PlaySession.start(w.path, 'a1', w.source);
     for (const way of [/s1_green\)$/, /to the edge of Oakhurst/, /charcoal-burners/]) {
       const c = PlayerView.choices(s.campaign).find(x => way.test(x.choice.name) || way.test(x.choice.id))!;
-      await s.perform(c.choice.id);
+      await s.leg(c.choice.id);
     }
     const region = ScreenModel.build(s.campaign).region!, land = region.land!;
     const clearing = land.marks.find(m => m.name.startsWith('the charcoal-burners\' clearing'))!;

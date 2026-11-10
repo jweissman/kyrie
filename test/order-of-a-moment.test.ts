@@ -7,7 +7,7 @@ import { ModuleWriter } from '../src/lang/module-writer';
 
 class Moment {
   static choose(s: PlaySession, label: string) {
-    return s.perform(PlayerView.choices(s.campaign).find(c => c.choice.name === label)!.choice.id);
+    return s.leg(PlayerView.choices(s.campaign).find(c => c.choice.name === label)!.choice.id);
   }
   static measure(s: PlaySession, name: string): number {
     return s.campaign.world.number(ModuleWriter.call(`p__${name}`, 'party'));

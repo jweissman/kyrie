@@ -13,7 +13,7 @@ describe('setting out in a frost country', () => {
       origin: 'debt', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
     const s = await PlaySession.start(w.path, 'kite', w.source), told: string[] = [];
     for (const [passage, to] of GeneratedWorld.path(s, `${w.report.region.settlements[1]!.id}_green`)) {
-      const event = await s.perform(`go(${passage},${to})`);
+      const event = await s.leg(`go(${passage},${to})`);
       told.push(...(event.voiced ?? []).filter(v => v.kind === 'journey-depart').map(v => v.id));
     }
     expect(told.length).toBeGreaterThan(0);

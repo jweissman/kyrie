@@ -7,7 +7,7 @@ import { PassageModel } from './passage-model';
 import { ModuleCanon } from '../campaign/module-canon';
 import { Depth } from './depth';
 import { EntityIndex } from '../lang/entity-index';
-import { AuthoredLand } from '../world/authored-land';
+import { HexBoundary } from '../hex-boundary';
 
 export interface ExitActs { acts: Act[]; passage?: Passage; via?: string }
 interface Known {
@@ -178,30 +178,12 @@ export class Passages {
       ...k.oneWay ? { oneWay: true } : {}, ...k.unmarked && !visited.has(k.destination) ? { unmarked: true } : {},
       visited: visited.has(k.destination), acts };
   }
-  // Whether a way goes from the hex of the country the company stands in to another: the map's to take, and only the
-  // map's (the owner, 9 November: travel between hexes on the world map alone, by what the world is, not by which
-  // buttons are hidden). A hex is the open country, town or site a place lies in, drawn at its square of the land;
-  // the parts of an authored province, all on the one hex of its way in, are one hex.
+  // Whether a way goes from the hex of the country the company stands in to another (see HexBoundary): the map's to
+  // take, and only the map's. A planar threshold is the map's too, on the page: it is no way about the place.
   private crosses(here: string, there: string, transition: Transition): boolean {
-    if (transition === 'cross_plane') { return true; }
-    const a = this.hex(here), b = this.hex(there);
-    return !!a && !!b && a !== b;
+    return transition === 'cross_plane' || HexBoundary.crosses(this.world.module, here, there);
   }
-  // The cell of its country's land a place stands at (its own, or its site's, settlement's or wild country's). A
-  // place on no land drawn (a ship's deck, a house between the worlds) is on no hex, and going to it crosses none.
-  private hex(id: string): string | undefined {
-    const line = Spatial.ancestry(this.entities, id), land = line.findLast(e => e.space!.kind === 'region');
-    const chart = land ? AuthoredLand.of(this.world.module, land.id) : undefined, cell = this.cell(id);
-    if (chart && cell !== undefined) { return `${land!.id}:${cell}`; }
-    // A road runs over many cells and stands at none: going onto it or off it is a journey on the map.
-    const road = chart?.roads && line.find(e => chart.roads[e.id] !== undefined);
-    return road ? `${land!.id}:road:${road.id}` : undefined;
-  }
-  private cell(id: string): number | undefined {
-    const line = Spatial.ancestry(this.entities, id), land = line.findLast(e => e.space!.kind === 'region');
-    const chart = land ? AuthoredLand.of(this.world.module, land.id) : undefined;
-    return chart?.places ? line.map(e => chart.places[e.id]).find(c => c !== undefined) : undefined;
-  }
+  private cell(id: string): number | undefined { return HexBoundary.cell(this.world.module, id); }
   private static order(row: ExitRow): number {
     return ['walk', 'enter', 'leave', 'level', 'ascend', 'descend', 'travel', 'cross_plane'].indexOf(row.transition);
   }

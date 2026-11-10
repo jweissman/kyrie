@@ -193,7 +193,7 @@ export class Tour {
   private offered(): string[] { return PlayerView.choices(this.s.campaign).map(x => x.choice.id); }
   private async perform(command: string): Promise<CampaignEvent> {
     this.commands++;
-    const event = await this.s.perform(command);
+    const event = await this.s.leg(command);
     for (const end of event.combat.filter(e => e.type === 'end')) {
       if (end.type !== 'end') { continue; }
       if (end.outcome === 'fighters') { this.fights.won++; } else if (end.outcome === 'escaped') { this.fights.fled++; }

@@ -21,7 +21,7 @@ describe('the Bowl of Ammerlin in the one country', () => {
     const rid = 'plowwater';
     expect(s.campaign.module.entities.some(e => e.id === `${rid}__deep_gate`)).toBe(true);
     const c = PlayerView.choices(s.campaign).find(x => /road on into the Bowl/.test(x.choice.name))!;
-    await s.perform(c.choice.id);
+    await s.leg(c.choice.id);
     expect(s.campaign.world.one('at', 'party')).toBe(`${rid}__rim_road`);
     // Its Hearing at its own watch 888, its watch read as the watches since the morning after it was reached.
     expect(s.campaign.world.number({ kind: 'call', name: `${rid}__hearingAt`, args: [`${rid}__bowl`] })).toBe(888);
@@ -33,7 +33,7 @@ describe('the Bowl of Ammerlin in the one country', () => {
     expect(PlayerView.choices(s.campaign).some(x => /waiting for you/.test(x.choice.name))).toBe(true);
     // Gone back out to the country for the best part of ten days, the company comes back to a Bowl gone on without it.
     const go = async (re: RegExp) =>
-      s.perform(PlayerView.choices(s.campaign).find(x => re.test(x.choice.name))!.choice.id);
+      s.leg(PlayerView.choices(s.campaign).find(x => re.test(x.choice.name))!.choice.id);
     await go(/north road, at the Rim/);
     await go(/way into the Bowl/);
     while (s.campaign.state.elapsed < elapsed + 1300) { await go(/^Wait an hour|An hour/); }

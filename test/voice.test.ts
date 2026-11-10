@@ -14,7 +14,7 @@ class Household {
   static async act(s: PlaySession, label: string): Promise<CampaignEvent> {
     const c = PlayerView.choices(s.campaign).find(x => new RegExp(label, 'i').test(x.choice.name));
     if (!c) { throw new Error(`No /${label}/ among ${PlayerView.choices(s.campaign).map(x => x.choice.name).join(' | ')}`); }
-    return s.perform(c.choice.id);
+    return s.leg(c.choice.id);
   }
 }
 
@@ -106,7 +106,7 @@ describe('a way across country, told as it goes', () => {
       { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
     const s = await PlaySession.start(w.path, 'thorn', w.source);
     const go = async (re: RegExp) =>
-      s.perform(PlayerView.choices(s.campaign).find(c => re.test(c.choice.name) || re.test(c.choice.id))!.choice.id);
+      s.leg(PlayerView.choices(s.campaign).find(c => re.test(c.choice.name) || re.test(c.choice.id))!.choice.id);
     await go(/_green\)$/);
     // No bar across the road: this is the telling of the way, not a toll on it.
     const c = s.campaign as unknown as { world: { apply(c: unknown[]): unknown }; commit(w: unknown): void };
@@ -128,7 +128,7 @@ describe('a way across country, told as it goes', () => {
     // in sight (the follow-up review read familiar journeys in full).
     const back = (e: { action: string }) => {
       const [, way, from] = /^go\((.+)\)$/.exec(e.action)![1]!.split(',');
-      return s.perform(`go(${way},${from})`);
+      return s.leg(`go(${way},${from})`);
     };
     for (const e of [await back(on), await back(out)]) {
       expect((e.voiced ?? []).map(v => v.kind).filter(k => k === 'journey-land' || k === 'journey-arrive')).toEqual([]);

@@ -21,7 +21,7 @@ class Errand {
   static async act(s: PlaySession, name: RegExp) {
     const c = PlayerView.choices(s.campaign).find(x => name.test(x.choice.name));
     if (!c) { throw new Error(`Nothing like ${name}: ${PlayerView.choices(s.campaign).map(x => x.choice.name).join(' | ')}`); }
-    return s.perform(c.choice.id);
+    return s.leg(c.choice.id);
   }
   // The site whose way the company has been told: the place its revealed track leads to.
   static told(s: PlaySession): string {

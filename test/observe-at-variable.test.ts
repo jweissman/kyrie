@@ -21,7 +21,7 @@ describe('an observation at a place its condition finds', () => {
     const s = await PlaySession.start(source.resolve('oa.campaign.json'), 'oa', source);
     const told = () => LocalObservations.read(s.campaign.world, s.campaign.playerActor!).map(o => o.text).join(' ');
     expect(told()).not.toContain('Striped tents');
-    await s.perform(`go(p__gap,p__lane)`);
+    await s.leg(`go(p__gap,p__lane)`);
     expect(told()).toContain('Striped tents stand in the lane.');
   }, 60000);
   // A rule heard only near whoever its condition finds (the circus's friction 3: `near ?v` failed to load).

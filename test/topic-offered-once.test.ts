@@ -28,7 +28,7 @@ class Topics {
       .filter(c => /what he is doing/.test(c.label)).map(() => x.title));
   }
   static async choose(s: PlaySession, name: RegExp) {
-    return s.perform(PlayerView.choices(s.campaign).find(c => name.test(c.choice.name))!.choice.id);
+    return s.leg(PlayerView.choices(s.campaign).find(c => name.test(c.choice.name))!.choice.id);
   }
   static labels(s: PlaySession): string[] { return PlayerView.choices(s.campaign).map(c => c.choice.name); }
 }

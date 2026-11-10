@@ -29,7 +29,7 @@ export class Ring {
   static choose(s: PlaySession, pattern: RegExp) {
     const c = PlayerView.choices(s.campaign).find(x => pattern.test(x.choice.name));
     if (!c) { throw new Error(`No ${pattern}`); }
-    return s.perform(c.choice.id);
+    return s.leg(c.choice.id);
   }
   // A measure made so, for a branch of the Deem table a test wants to walk whichever world it was drawn in.
   static set(j: Journey, name: string, who: string, value: number) {

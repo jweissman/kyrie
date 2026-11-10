@@ -11,7 +11,7 @@ describe('a way that a rule opens', () => {
     const s = await PlaySession.start('test/fixtures/probes/admitted/probe.campaign.json', 'admitted', NodeBundleSource.shared);
     const ways = () => PlayerView.choices(s.campaign).map(c => c.choice.id).filter(id => id.startsWith('go('));
     expect(ways()).toEqual(['go(p__walk,p__porch)']);
-    const event = await s.perform('go(p__walk,p__porch)');
+    const event = await s.leg('go(p__walk,p__porch)');
     expect((event.perceptions ?? []).map(p => p.text)).toContain('The porter sees you on the porch and lifts the bar.');
     expect(ways()).toContain('go(p__inner,p__hall)');
   }, 60000);

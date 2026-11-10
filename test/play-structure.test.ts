@@ -47,7 +47,7 @@ class Played {
   static async walk(s: PlaySession, ...ways: string[]) {
     for (const way of ways) {
       const id = this.place(s, way);
-      await s.perform(PlayerView.choices(s.campaign).find(c => c.choice.id.startsWith(`go(${id},`))!.choice.id);
+      await s.leg(PlayerView.choices(s.campaign).find(c => c.choice.id.startsWith(`go(${id},`))!.choice.id);
     }
   }
   static go(s: PlaySession, to: string) {

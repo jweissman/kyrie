@@ -20,7 +20,7 @@ export class ProvincePlay {
     await new Frontier(seed, NodeBundleSource.shared).expand(c);
     const rid = `p${id}`, entry = PlayerView.choices(c).find(x => x.choice.id.startsWith('go(')
       && x.choice.id.includes(`,${rid}__`));
-    const went = entry ? await s.perform(entry.choice.id) : undefined;
+    const went = entry ? await s.leg(entry.choice.id) : undefined;
     // What coming in told: the place's own lines and whatever else was perceived on arriving.
     const came = [went?.response ?? '', ...(went?.perceptions ?? []).map(p => p.text)].join(' ');
     return { w, s, c, told, came, rid, k: (x: string) => `${rid}__${x}` };
@@ -31,6 +31,6 @@ export class ProvincePlay {
     if (!topic) { return ''; }
     await GeneratedWorld.travel(s, c.world.one('at', topic.speaker!)!.replace(/^region__/, ''));
     const choice = PlayerView.choices(c).find(x => x.choice.id.includes(topic.id));
-    return choice ? (await s.perform(choice.choice.id)).response ?? '' : '';
+    return choice ? (await s.leg(choice.choice.id)).response ?? '' : '';
   }
 }

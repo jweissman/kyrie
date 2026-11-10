@@ -32,7 +32,7 @@ class Strongroom {
 describe('containers and what is inside them', () => {
   it('shows what an open chest holds, and lets it be taken out; a shut chest shows nothing', async () => {
     const s = await Strongroom.start();
-    await s.perform('go(world__study_door,world__study)');
+    await s.leg('go(world__study_door,world__study)');
     expect(Strongroom.present(s)).not.toContain('world__chart');
     // Nell eases the needle out once she has seen the tell, then picks the lock and lifts the lid.
     await s.perform('look_closely(world__chest)');
@@ -48,7 +48,7 @@ describe('containers and what is inside them', () => {
   }, 60000);
   it('springs the needle on whoever opens the lock without dealing with it', async () => {
     const s = await Strongroom.start();
-    await s.perform('go(world__study_door,world__study)');
+    await s.leg('go(world__study_door,world__study)');
     const picked = await s.perform('change_thing(world__chest_pick)');
     expect(Strongroom.state(s, 'world__lock')).toBe('world__sprung');
     // It goes for one of them; whether it gets into a hand is the hand's quickness, rolled.
@@ -71,18 +71,18 @@ describe('containers and what is inside them', () => {
 describe('things hidden until found', () => {
   it('keeps the alcove and what is in it out of reach until the study is searched', async () => {
     const s = await Strongroom.start();
-    await s.perform('go(world__study_door,world__study)');
+    await s.leg('go(world__study_door,world__study)');
     expect(Strongroom.legal(s).some(c => c.includes('alcove'))).toBe(false);
     const said = await Strongroom.said(s, 'search(world__study)');
     expect(said).toContain('Behind the hanging map');
     expect(Strongroom.fact(s, 'knows', 'party', 'world__alcove_known')).toBe(true);
-    await s.perform('go(world__alcove_way,world__alcove)');
+    await s.leg('go(world__alcove_way,world__alcove)');
     expect(Strongroom.present(s)).toContain('world__rings');
   }, 60000);
   it('says so when a search or a try finds nothing', async () => {
     const s = await Strongroom.start();
     expect(await Strongroom.said(s, 'search(world__hall)')).toContain('You have been over the whole of it, and nothing is hidden here.');
-    await s.perform('go(world__study_door,world__study)');
+    await s.leg('go(world__study_door,world__study)');
     expect(await Strongroom.said(s, 'push(world__wall_map)')).toContain('It does not shift, either way.');
   }, 60000);
 });

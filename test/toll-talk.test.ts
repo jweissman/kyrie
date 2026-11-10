@@ -20,7 +20,7 @@ class Toll {
     const road = RegionGeography.roads(w.report.region).find(r => `region__${r.way}` === placed.post)!;
     const s = await PlaySession.start(w.path, seed, w.source), way = `region__${road.way}`;
     GeneratedWorld.put(s, `${road.from.id}_green`);
-    await s.perform(`go(region__road_${road.from.id}_${road.to.id},${way})`);
+    await s.leg(`go(region__road_${road.from.id}_${road.to.id},${way})`);
     return { s, way, on: `go(region__road_${road.from.id}_${road.to.id}_on,region__${road.to.id}_green)` };
   }
   static legal(s: PlaySession) { return PlayerView.choices(s.campaign).map(c => c.choice.id); }

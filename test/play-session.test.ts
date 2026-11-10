@@ -24,11 +24,11 @@ describe('browser session command handling', () => {
     const session = await Fixture.start();
     const before = session.campaign.save();
     await expect(session.perform('pay(world__grey)')).rejects.toThrow('Unavailable command');
-    await expect(session.perform('go(party,world__byre_door,world__yard,world__hall)')).rejects.toThrow('Unavailable command');
+    await expect(session.leg('go(party,world__byre_door,world__yard,world__hall)')).rejects.toThrow('Unavailable command');
     await expect(session.perform('attack(world__nobody)')).rejects.toThrow('Unavailable command');
     expect(session.campaign.save()).toEqual(before);
     expect(session.transcript.steps).toEqual([]);
-    await session.perform('go(world__byre_door,world__byre)');
+    await session.leg('go(world__byre_door,world__byre)');
     // Through a door is a minute: no watch has passed, but the minute has.
     expect([session.campaign.state.elapsed, session.campaign.readout.minutes]).toEqual([0, 1]);
     expect(session.transcript.steps).toEqual([{ command: 'go(world__byre_door,world__byre)', digest: expect.any(String) }]);

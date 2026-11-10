@@ -6,16 +6,16 @@ import { ModuleWriter } from '../src/lang/module-writer';
 import type { Change, Entity } from '../src/lang/module';
 import { ScreenModel } from '../src/ui/screen-model';
 import { Spatial } from '../src/spatial';
-import { AuthoredLand } from '../src/world/authored-land';
 import { MenuModel } from '../web/reader/menu-model';
 import { Glanced } from './support/glanced';
+import { Travel } from '../src/session/travel';
 
 // The owner, 9 November: "the world map handles travel between hexes; local navigation handles movement among places
 // and structures within the current hex. Enforce this as a structural invariant." In generated countries, from every
 // place out of doors (the open country, a road, a town's green and lanes, a site's mouth), nothing the page offers
 // (its choices, its ways a step off, Go…'s walks) goes to a place on another cell of the land, read from the land
-// itself; such a way is offered as going out to the map, and the map can take it. Authored lands with hexes (the
-// circus's Sarn) are held to it too.
+// itself; such a way is offered as going out to the map, and the map can take it. An authored country's own map (the
+// circus's Sarn) keeps its author's walks: see HexBoundary.
 describe('a way to another hex is the map’s alone', () => {
   for (const seed of ['kahitude', 'kite']) {
     it(`in ${seed}`, async () => {
@@ -27,8 +27,8 @@ describe('a way to another hex is the map’s alone', () => {
       const byId = new Map(c.module.entities.map(e => [e.id, e] as [string, Entity]));
       const cell = (id: string) => {
         const line = Spatial.ancestry(byId, id), region = line.findLast(e => e.space?.kind === 'region');
-        const land = region && AuthoredLand.of(c.module, region.id);
-        if (!land) { return undefined; }
+        const land = region && c.module.charts?.[region.id];
+        if (!land || !Object.keys(land.places).some(id => /__t\d+$/.test(id))) { return undefined; }
         const at = line.map(e => land.places[e.id]).find(x => x !== undefined);
         return at !== undefined ? `${region.id}:${at}` : line.find(e => land.roads?.[e.id]) ? `road:${id}` : undefined;
       };
@@ -61,4 +61,25 @@ describe('a way to another hex is the map’s alone', () => {
       expect(lost).toEqual([]);
     }, 300000);
   }
+});
+
+// Beneath the page: the campaign itself refuses a way into another hex sent as an ordinary command, and changes
+// nothing; the same way taken as a leg of a journey set out on from the map is gone by; a way within the hex is
+// gone by as always (the travel-contract review, 9 November: the rule had been the page's alone).
+describe('the campaign crosses into another hex only on a journey', () => {
+  it('refuses the way sent alone, takes it as a journey, and keeps ways within the hex', async () => {
+    const w = await WorldAssembler.assemble('kahitude', NodeBundleSource.shared, { origin: 'kin',
+      party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
+    const s = await PlaySession.start(w.path, 'kahitude', w.source), c = s.campaign;
+    const local = ScreenModel.build(c).exits.find(e => !e.crosses && !e.blocked)!;
+    await s.perform(local.acts.find(a => a.command)!.command!);
+    expect(c.world.one('at', 'party')).toBe(local.destination.id);
+    const out = ScreenModel.build(c).exits.find(e => e.crosses && !e.blocked && e.transition !== 'cross_plane')!;
+    const command = out.acts.find(a => a.command)!.command!, here = c.world.one('at', 'party'), clock = c.history.length;
+    await expect(s.perform(command)).rejects.toThrow(/from the map/);
+    expect([c.world.one('at', 'party'), c.history.length]).toEqual([here, clock]);
+    const done = await Travel.go({ campaign: c, perform: (x: string) => s.perform(x) }, out.destination.id);
+    expect(done.legs.length).toBeGreaterThan(0);
+    expect(c.world.one('at', 'party')).not.toBe(here);
+  }, 120000);
 });

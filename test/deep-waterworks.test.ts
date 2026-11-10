@@ -44,7 +44,7 @@ class Cisterns {
   static async take(s: PlaySession, pattern: RegExp) {
     const c = PlayerView.choices(s.campaign).find(x => pattern.test(x.choice.name));
     if (!c) { throw new Error(`No ${pattern}: ${this.names(s).join(' | ')}`); }
-    const before = PlayerView.observe(s.campaign), event = await s.perform(c.choice.id);
+    const before = PlayerView.observe(s.campaign), event = await s.leg(c.choice.id);
     const f = ActionFeedbackView.read(s.campaign, event, before);
     return [f.result, ...f.observations, ...f.events].join(' ');
   }

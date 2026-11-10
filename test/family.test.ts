@@ -25,7 +25,7 @@ class Home {
   static async act(s: PlaySession, pattern: RegExp) {
     const c = PlayerView.choices(s.campaign).find(x => pattern.test(x.choice.name) || pattern.test(x.choice.id));
     if (!c) { throw new Error(`No ${pattern}: ${PlayerView.choices(s.campaign).map(x => x.choice.name).join(' | ')}`); }
-    return s.perform(c.choice.id);
+    return s.leg(c.choice.id);
   }
   static age(src = '') {
     return (seen as unknown as { paintings: Record<string, { age?: string }> }).paintings[/([\w-]+)\.webp$/.exec(src)?.[1] ?? '']?.age;

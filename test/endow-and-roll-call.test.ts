@@ -11,7 +11,7 @@ const start = (campaign: string) => PlaySession.start(campaign, 'p', NodeBundleS
 const act = async (s: PlaySession, re: RegExp) => {
   const c = PlayerView.choices(s.campaign).find(x => re.test(x.choice.name));
   if (!c) { throw new Error(`No ${re} among ${PlayerView.choices(s.campaign).map(x => x.choice.name).join(' | ')}`); }
-  return s.perform(c.choice.id);
+  return s.leg(c.choice.id);
 };
 
 describe('a Manual and a roll call', () => {

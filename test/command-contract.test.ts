@@ -110,7 +110,7 @@ it('advances world-time wards during ordinary campaign actions, saves their cloc
   checkpoint.save.state.world = CreatureFacts.project(new World(checkpoint.save.module, checkpoint.save.state.world),
     checkpoint.save.definition!.actors, new CreatureStore(checkpoint.save.creatures)).snapshot;
   const restored = PlaySession.resume(checkpoint);
-  const event = await restored.perform('go(march__causeway_path,march__causeway)');
+  const event = await restored.leg('go(march__causeway_path,march__causeway)');
   expect(event.resolution?.outcome).toBe('success');
   expect(event.resolution?.bodies.some(c => c.id === id)).toBe(true);
   expect(event.resolution?.world.some(c => c.call.name === 'at')).toBe(true);
@@ -233,7 +233,7 @@ it('keeps world clocks separate from owner-turn clocks across encounter projecti
 });
 
 it('commits deaths during delayed recovery instead of throwing and rolling back the fatal clock', async () => {
-  const initial = await ContractProbe.start(); await initial.perform('go(march__oar_door,march__taproom)');
+  const initial = await ContractProbe.start(); await initial.leg('go(march__oar_door,march__taproom)');
   const cp = initial.checkpoint();
   for (const c of cp.save.creatures.filter(c => cp.save.state.partyIds.includes(c.id))) {
     c.state.hp = 1;

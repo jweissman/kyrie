@@ -21,7 +21,7 @@ describe('the projection of creatures into the world', () => {
     try {
       for (const name of [/^Wait an hour/, /^Take /, /^Wait an hour/]) {
         const c = PlayerView.choices(s.campaign).find(x => name.test(x.choice.name))!;
-        await s.perform(c.choice.id);
+        await s.leg(c.choice.id);
       }
     } finally { project.mockRestore(); }
     // Everyone's at first, the campaign's projection being new; after that, only those whose part changed.

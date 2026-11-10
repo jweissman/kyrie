@@ -33,7 +33,7 @@ export class Glanced {
   get campaign() { return this.s.campaign; }
   get glance(): View { return this.leaf.glance!; }
   async perform(command: string): Promise<View> {
-    const c = this.s.campaign, before = PlayerView.observe(c), event = await this.s.perform(command);
+    const c = this.s.campaign, before = PlayerView.observe(c), event = await this.s.leg(command);
     const moved = before.location?.id !== c.world.one('at', c.playerActor ?? 'party');
     this.screen = ScreenModel.build(c);
     this.told = { event, feedback: ActionFeedbackView.read(c, event, before), said: command, moved };
@@ -49,7 +49,7 @@ export class Glanced {
   // Walks to a place by the shortest way the world joins them, a way at a time, and is told of the last.
   async to(place: string): Promise<View> {
     const path = Journey.way(this.s.campaign.world, this.s.campaign.world.one('at', 'party')!, place);
-    for (const [passage, to] of path.slice(0, -1)) { await this.s.perform(`go(${passage},${to})`); }
+    for (const [passage, to] of path.slice(0, -1)) { await this.s.leg(`go(${passage},${to})`); }
     const [passage, to] = path.at(-1)!;
     return this.perform(`go(${passage},${to})`);
   }

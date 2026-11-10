@@ -24,7 +24,7 @@ class Telling {
   static async take(s: PlaySession, pattern: RegExp) {
     const c = PlayerView.choices(s.campaign).find(x => pattern.test(x.choice.name) || pattern.test(x.choice.id));
     if (!c) { throw new Error(`No choice like ${pattern}`); }
-    const before = PlayerView.observe(s.campaign), event = await s.perform(c.choice.id);
+    const before = PlayerView.observe(s.campaign), event = await s.leg(c.choice.id);
     const feedback = ActionFeedbackView.read(s.campaign, event, before);
     const moved = before.location?.id !== s.campaign.world.one('at', 'party');
     return Narrator.leaf(s.campaign, ScreenModel.build(s.campaign), { event, feedback, said: c.choice.name, moved });

@@ -22,7 +22,7 @@ class Town {
     for (const re of steps) {
       const c = PlayerView.choices(s.campaign).find(x => re.test(x.choice.name));
       if (!c) { throw new Error(`No ${re} at ${s.campaign.world.one('at', 'party')}`); }
-      said = (await s.perform(c.choice.id)).response ?? '';
+      said = (await s.leg(c.choice.id)).response ?? '';
     }
     return said;
   }

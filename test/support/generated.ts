@@ -14,7 +14,7 @@ export class GeneratedWorld {
   // Walks the company to a place by the shortest way the world joins them, taking each way as the company can (a
   // place of the first region by its own name; of another, by its id: x0y1__edge_east).
   static async travel(s: PlaySession, place: string) {
-    for (const [passage, to] of this.path(s, place)) { await s.perform(`go(${passage},${to})`); }
+    for (const [passage, to] of this.path(s, place)) { await s.leg(`go(${passage},${to})`); }
   }
   // The ways to take, passage by passage, from where the company stands to a place.
   static path(s: PlaySession, place: string): [string, string][] {

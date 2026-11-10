@@ -23,7 +23,7 @@ class Delve {
   static async take(s: PlaySession, pattern: RegExp) {
     const choice = PlayerView.choices(s.campaign).find(c => pattern.test(c.choice.name));
     if (!choice) { throw new Error(`No choice ${pattern}: ${this.names(s).join(' | ')}`); }
-    const before = PlayerView.observe(s.campaign), event = await s.perform(choice.choice.id);
+    const before = PlayerView.observe(s.campaign), event = await s.leg(choice.choice.id);
     const feedback = ActionFeedbackView.read(s.campaign, event, before), f = feedback;
     const leaf = Narrator.leaf(s.campaign, ScreenModel.build(s.campaign), { event, feedback, said: choice.choice.name,
       moved: before.location?.id !== s.campaign.world.one('at', 'party') });

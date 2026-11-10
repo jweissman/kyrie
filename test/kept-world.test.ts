@@ -52,9 +52,9 @@ describe('a game kept in the browser', () => {
     const session = (host as unknown as { session: PlaySession }).session;
     // Out to a march-stone by the ways the page offers, where the country beyond is drawn: the world then grows past
     // what the browser has room for.
-    for (const [passage, to] of GeneratedWorld.path(session, 'edge_west')) {
+    for (const [, to] of GeneratedWorld.path(session, 'edge_west')) {
       if (to === 'region__edge_west') { store.limit = store.used + 400_000; }
-      await host.handle({ kind: 'perform', command: `go(${passage},${to})` });
+      await host.handle({ kind: 'travel', destination: to });
       await settle();
     }
     expect(session.campaign.installed.length).toBeGreaterThanOrEqual(18);

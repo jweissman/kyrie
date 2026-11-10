@@ -13,7 +13,7 @@ import { ModuleWriter } from '../src/lang/module-writer';
 class Home {
   static async go(s: PlaySession, to: string) {
     const c = PlayerView.choices(s.campaign).find(x => x.choice.id.startsWith('go(') && x.choice.id.endsWith(`${to})`))!;
-    const before = PlayerView.observe(s.campaign), event = await s.perform(c.choice.id);
+    const before = PlayerView.observe(s.campaign), event = await s.leg(c.choice.id);
     const feedback = ActionFeedbackView.read(s.campaign, event, before);
     return Narrator.leaf(s.campaign, ScreenModel.build(s.campaign),
       { event, feedback, said: c.choice.name, moved: true });

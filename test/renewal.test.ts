@@ -51,10 +51,10 @@ describe('a work left empty', () => {
     expect(s.campaign.world.one('at', `region__${barrow.id}_newcomers`)).toBe(`region__${barrow.id}_passage`);
     const news = await s.perform(Empty.choice(s, /what is out at/)!.choice.id) as { response?: string };
     expect(news.response).toContain(`Moved into ${barrow.name} while it stood empty`);
-    const green = await s.perform(`go(region__${town}_inn_door,region__${town}_green)`) as { perceptions?: { text: string }[] };
+    const green = await s.leg(`go(region__${town}_inn_door,region__${town}_green)`) as { perceptions?: { text: string }[] };
     expect(green.perceptions!.some(p => /The flocks have been brought in close/.test(p.text))).toBe(true);
     Empty.kill(s, `region__${barrow.id}_newcomers`);
-    await s.perform(`go(region__${town}_inn_door,region__${town}_taproom)`);
+    await s.leg(`go(region__${town}_inn_door,region__${town}_taproom)`);
     const gold = s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'));
     await s.perform(Empty.choice(s, /dealt with$/)!.choice.id);
     expect(s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'))).toBeGreaterThan(gold);

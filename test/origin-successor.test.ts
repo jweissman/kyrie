@@ -27,7 +27,7 @@ class Ended {
   static async take(s: PlaySession, pattern: RegExp) {
     const c = PlayerView.choices(s.campaign).find(x => pattern.test(x.choice.name));
     if (!c) { throw new Error(`No choice like ${pattern}`); }
-    return s.perform(c.choice.id);
+    return s.leg(c.choice.id);
   }
   static knows(s: PlaySession, fact: string) { return s.campaign.world.test(ModuleWriter.call('knows', 'party', fact)); }
 }

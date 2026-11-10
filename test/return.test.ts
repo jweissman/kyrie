@@ -16,7 +16,7 @@ describe('coming back from Merrowdale', () => {
   it('finds the talk of it gone old, and the notice taken down when the keeper is told', async () => {
     const w = await WorldAssembler.assemble('thorn', NodeBundleSource.shared, { region: { terrain: 'mountain' } });
     const s = await PlaySession.start(w.path, 'thorn', w.source), c = s.campaign;
-    const choose = async (re: RegExp) => s.perform(PlayerView.choices(c).find(x => re.test(x.choice.name))!.choice.id);
+    const choose = async (re: RegExp) => s.leg(PlayerView.choices(c).find(x => re.test(x.choice.name))!.choice.id);
     // Merrowdale a province of the country (Gate B): its way in on the country's land, the road on into it.
     const word = 'region__gate_longman_beyond';
     await GeneratedWorld.travel(s, 'gate_longman');

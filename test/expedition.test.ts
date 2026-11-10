@@ -27,11 +27,11 @@ describe('time follows distance', () => {
     const times = PlayerView.choices(s.campaign).filter(c => c.action.schema === 'go').map(c => [c.choice.id, c.choice.time]);
     expect(times).toContainEqual(['go(march__oar_door,march__taproom)', 1]);
     expect(times).toContainEqual(['go(march__causeway_path,march__causeway)', 6]);
-    await s.perform('go(march__causeway_path,march__causeway)');
+    await s.leg('go(march__causeway_path,march__causeway)');
     expect(s.campaign.state.elapsed).toBe(6);
     await s.perform('change_thing(hill__boar_pass)');
     const before = s.campaign.state.elapsed;
-    await s.perform('go(hill__low_path,hill__drain_mouth)');
+    await s.leg('go(hill__low_path,hill__drain_mouth)');
     expect(s.campaign.state.elapsed - before).toBe(3);
   }, 30000);
   it('a person following the company walks an hour-long road with it, and arrives when it does', async () => {
@@ -42,7 +42,7 @@ describe('time follows distance', () => {
       'lead(rescue__guest)', 'go(hill__hoist_passage,hill__gallery)', 'go(hill__gallery_steps,hill__workshop)',
       'go(hill__culvert,hill__drain_mouth)', 'go(hill__low_path,march__causeway)');
     const before = s.campaign.state.elapsed;
-    await s.perform('go(march__causeway_path,march__quay)');
+    await s.leg('go(march__causeway_path,march__quay)');
     const guest = s.campaign.world.snapshot.relations.find(r => r.name === 'at' && r.args[0] === 'rescue__guest');
     expect([s.campaign.state.elapsed, guest?.args[1]]).toEqual([before + 6, 'march__quay']);
   }, 60000);

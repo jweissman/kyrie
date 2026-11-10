@@ -7,6 +7,8 @@ import { Tactics } from '../tactics';
 import { PlayerView } from '../presentation/player-view';
 import { Telling } from '../narrative/telling';
 import type { Memorial } from '../world/memorial';
+import { Crossing } from '../campaign/crossing';
+import { HexBoundary } from '../hex-boundary';
 import { Undertakings } from '../presentation/undertakings';
 import { Digest } from './digest';
 
@@ -78,6 +80,24 @@ export class PlaySession {
   checkpoint(live = false): SessionCheckpoint {
     if (this.busy) { throw new Error('Save only between campaign commands'); }
     return { version: 1, transcript: this.transcript, save: this.campaign.save(true, live) };
+  }
+  // A step of a scripted journey (a spec's, a driver's), taken as a player takes it: a way into the next hex is set
+  // out on from the map, a leg of a journey there (Campaign.travelling), and anything else is done as it is. Never the
+  // page's own path for what the player chooses (see perform), which has no such leave.
+  async leg(command: string, controller: CombatController = PlaySession.auto): Promise<CampaignEvent> {
+    const to = this.whither(command);
+    return to ? this.campaign.crossing.travelling(to, () => this.perform(command, controller))
+      : this.perform(command, controller);
+  }
+  // Where an offered command goes, if it goes anywhere; and, for a driver of the page's engine, where it goes if that
+  // is into another hex, which the page sets out on as a journey (a travel request), never as the command itself.
+  whither(command: string): string | undefined {
+    const id = PlayerView.resolve(this.campaign, command), action = this.campaign.offered().find(a => a.id === id);
+    return action && Crossing.whither(action);
+  }
+  crosses(command: string): string | undefined {
+    const to = this.whither(command), from = this.campaign.world.one('at', this.campaign.playerActor ?? 'party');
+    return to && from && HexBoundary.crosses(this.campaign.module, from, to) ? to : undefined;
   }
   async perform(command: string, controller: CombatController = PlaySession.auto): Promise<CampaignEvent> {
     if (this.busy) { throw new Error('A command is already in progress'); }
