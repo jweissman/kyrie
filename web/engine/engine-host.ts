@@ -45,7 +45,8 @@ export class EngineHost {
   // A generated world goes on past its edges: the country beyond is drawn when the company first comes to one.
   private frontier?: Frontier;
   private log: Entry[] = [];
-  private opening: string[] = [];
+  // doing: the act under way, by its label (see begun).
+  private opening: string[] = []; private doing?: string;
   // How long the story was when the command under way began: what was told before it did not start its fight.
   private began = 0;
   private screen?: Screen;
@@ -203,6 +204,7 @@ export class EngineHost {
     if (!session) { throw new Error('No game is under way'); }
     const campaign = session.campaign, before = PlayerView.observe(campaign), started = performance.now();
     this.fought = undefined; this.began = campaign.history.length;
+    this.doing = PlayerView.choices(campaign).find(r => r.choice.id === command)?.choice.name;
     try {
       const event = await session.perform(command, this.controlling(game));
       if (game !== this.game) { throw new Error('That game is no longer under way.'); }
@@ -309,12 +311,15 @@ export class EngineHost {
   });
   // What was seen and said in the moment the company was set upon, if it was: never what was told before the command
   // that began it (a fight with bats begun by the company opened on "Brann lights a torch.": play 13).
+  // Or, set upon in the midst of something done (a firebomb thrown through a crack at what will not wait for it), that
+  // it was done: the fight had opened on nothing, and the act was told after it as an attack (Mission 20's cold play).
   private begun(): string[] {
     const history = this.session?.campaign.history ?? [];
     const last = history.length > this.began ? history.at(-1) : undefined;
     const seen = [...(last?.perceptions ?? []).filter(p => p.kind === 'event').map(p => p.text),
       ...(last?.response ? [last.response] : [])];
-    return seen.length ? [...new Set(seen)] : [''];
+    const did = !seen.length && this.doing && !/^(Attack|Fight)\b/.test(this.doing) ? `You ${this.doing.charAt(0).toLowerCase()}${this.doing.slice(1)}.` : undefined;
+    return seen.length ? [...new Set(seen)] : [did ?? ''];
   }
   // The companion's choice, as one of the commands the fight allows them now; none, and they fight on their own.
   private fight(choice?: string) {
