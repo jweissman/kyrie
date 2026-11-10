@@ -102,7 +102,7 @@ Sources: the builder's probes (P), cold round 1 player A / B (screenshot numbers
 | E53 | P1 | The wagoner, just pulled out of the ditch, greets "If it's trouble, I have enough of my own" | R4-E 18, R4-F 19, R3-C | **fixed** (his own greeting once the wheel is out; the thanks topic "Hear the wagoner out") |
 | E54 | P1 | A place given a key or an errand is not in Go… or on the map until its aim is followed from Notes | R4-F 43; R2-B 149, 179 | **fixed** (any aim's place in another quarter is listed by its own name in Go…, followed or not) |
 | E55 | P1 | A talker gathers three accounts of the moved boundary stones and can do nothing with them; the aim names no place | R4-E 140–144 | **fixed** in the worktree (the aim leads to the garden, then to the merchant; the priest can be talked round to say it to the merchant's face) |
-| E56 | P2 | "What it cost: Xyn unhurt" while Xyn is at 10/14, bleeding | R4-F 74, 84, 96 | open |
+| E56 | P2 | "What it cost: Xyn unhurt" while Xyn is at 10/14, bleeding | R4-F 74, 84, 96 | **fixed** (unhurt only at full strength; a blow before the page first showed the fight had not been counted) |
 | E57 | P2 | The world forgets: Fenwick still says the players are stuck hours after the reckoning is paid; they leave without a line; the sergeant's speech word for word the next day | R4-E 79, 103 | open |
 | E58 | P2 | The aims the game hands out are all kill or loot; peaceful errands (Gosse's offer, the circus larder) are not kept in Notes; the followed aim switches to a dungeon on its own | R4-E §3, §6; R4-F 124 | open |
 | E59 | P2 | A trade promises coin it does not give (monster hunter: "100 coin to start with", began with 22) | R4-F 20 | open |

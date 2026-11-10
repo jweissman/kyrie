@@ -94,7 +94,10 @@ export class FightStage {
     const cost = combat.allies.map(f => {
       const was = began[f.id] ?? f.hp, low = Math.min(f.hp, app.state.fight?.low?.[f.id] ?? was);
       return f.hp === 0 ? `${f.name} down` : f.hp < was ? `${f.name} ${f.hp} of ${f.maxHp}, ${was - f.hp} lost`
-        : low < was ? `${f.name} brought to ${low} of ${f.maxHp}, now ${f.hp}` : `${f.name} unhurt`;
+        : low < was ? `${f.name} brought to ${low} of ${f.maxHp}, now ${f.hp}`
+          // Unhurt only at full strength: a bite before the page first showed the fight was not counted as lost, and
+          // Xyn at 10 of 14, bleeding, had been "unhurt" (Mission 20's fourth round, F 74).
+          : f.hp < f.maxHp ? `${f.name} ${f.hp} of ${f.maxHp}` : `${f.name} unhurt`;
     });
     const aim = Followed.of(frame.screen);
     return <div className="aftermath" data-region="aftermath">
