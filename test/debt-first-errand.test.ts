@@ -34,4 +34,16 @@ describe('the hobs’ store, after a parley', () => {
     expect(rings?.valuable).toBeUndefined();
     expect(g.glance.acts.map(a => a.label).join(' | ')).not.toMatch(/rings/);
   }, 120000);
+  // The bell the hobs took is led to where it lies (the aim names it); taken under their eyes it raises the hold, and
+  // rung it sends them out of the back way, where they stay (they had been put back by the fire they ran from).
+  it('leads to the stolen bell, and rung, the hobs run and do not come back to the fire', async () => {
+    const j = await debtor();
+    await j.play('Tell Tuck', 'To the landing', 'Into the Stormy Horn', 'Ask Aiden what is out', 'map:Seolforfyrd',
+      'Call to the hobs', 'Into the cave mouth', 'To the smoky cavern', 'To a dry side-cave', 'light a torch');
+    expect(Glanced.of(j.session).glance.acts.map(a => a.label)).toContain('a chapel handbell');
+    await j.play('handbell: Take', 'Ring the bell', 'To the smoky cavern');
+    const cavern = Glanced.of(j.session);
+    expect(cavern.screen.people.some(p => /raiding party/.test(p.name))).toBe(false);
+    expect(cavern.glance.acts.map(a => a.label).join(' | ')).toMatch(/captives/);
+  }, 120000);
 });

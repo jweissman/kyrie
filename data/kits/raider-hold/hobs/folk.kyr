@@ -70,7 +70,7 @@ Module hob_folk "Hobs" {
   Rule bell_regained when carries(party, handbell) and not regained(handbell) { Assert regained(handbell). }
   Objective bell_sought when knows(party, bell_taken) and not been(party, outside) and not regained(handbell)
     "Hobs took a bell from its frame, and hold out at {outside}.".
-  Objective bell_within when knows(party, bell_taken) and been(party, outside) and not regained(handbell)
+  Objective bell_within when knows(party, bell_taken) and been(party, outside) and not regained(handbell) toward handbell
     "The stolen bell is somewhere in the hobs' hold at {outside}, where bells hang on the walls with their clappers torn out.".
   // Got back, it belongs over the well it was taken from; hung there, what people said of it is old news.
   Objective bell_home when regained(handbell) and not hung(handbell)
@@ -139,7 +139,8 @@ Module hob_folk "Hobs" {
   Observe raided at town when losses(town) >= 1 and losses(town) <= 2 "Hobs were at the farms again in the night: a ewe gone, a hen-house kicked in, and little muddy footprints on a windowsill.".
   Observe raided_hard at town when losses(town) >= 3 "The farms round about have been robbed night after night. People are sleeping in their byres with pitchforks, and talking about leaving.".
   // A raiding party that was beaten stays home three nights; if it is gone, the gate-hobs take to the road instead.
-  Rule lie_low when routed(raiders) and able(raiders) and not quiet(raiders) {
+  // Not one the bell sent out of the back way: it had been put straight back by the fire it ran from (Mission 20).
+  Rule lie_low when routed(raiders) and able(raiders) and not quiet(raiders) and not at(raiders, bolt) {
     Assert quiet(raiders). Set shame(raiders) to 3. Assert at(raiders, hall).
   }
   Rule lick_wounds when quiet(raiders) and not paid(gaffer) and untilLight(clock) == 1 and shame(raiders) >= 1 {
