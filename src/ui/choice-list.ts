@@ -53,8 +53,9 @@ export class ChoiceList {
   // What the company can do by itself: light a light in the dark, tend whoever is hurt (see Tending), camp, rest and
   // the rest, and prepare spells.
   private static company(screen: Screen): Section[] {
-    const choices = [...this.lighting(screen), ...Tending.choices(screen),
-      ...this.flatten([...screen.camp, ...screen.unplaced], 'company', 'company'), ...this.preparing(screen)];
+    const lighting = this.lighting(screen), lit = new Set(lighting.map(c => c.command));
+    const choices = [...lighting, ...Tending.choices(screen), ...this.flatten([...screen.camp, ...screen.unplaced],
+      'company', 'company').filter(c => !lit.has(c.command)), ...this.preparing(screen)];
     return choices.length ? [{ id: 'company', title: 'The company', tone: 'company', glyph: '○', choices }] : [];
   }
   // Warned off, whatever would take the company past the minutes they will wait says so (see Patience).
@@ -75,7 +76,8 @@ export class ChoiceList {
   // a torch is lit, and a flask of lamp oil is spent on whoever carries it.
   private static lighting(screen: Screen): Choice[] {
     if (!screen.dark) { return []; }
-    return screen.items.filter(i => i.light).flatMap((i): Choice[] => {
+    // The lantern first: it burns longest.
+    return this.lamps(screen).concat(screen.items.filter(i => i.light).flatMap((i): Choice[] => {
       const acts = i.acts.flatMap(a => a.children ?? [a]);
       const own = acts.find(a => a.command?.startsWith('light_item('))
         ?? acts.find(a => a.command?.startsWith('use_item(') && a.bound?.includes(i.ownerName));
@@ -84,7 +86,15 @@ export class ChoiceList {
         : `a ${i.name.toLowerCase()}`;
       return own?.command ? [{ id: `light:${i.id}`, label: `${i.ownerName}: light ${name}`, tone: 'item' as const,
         command: own.command, about: i.description }] : [];
-    }).filter((c, n, all) => all.findIndex(o => o.label === c.label) === n).concat(this.castLight(screen));
+    }).filter((c, n, all) => all.findIndex(o => o.label === c.label) === n), this.castLight(screen));
+  }
+  // A lantern, filled from a flask of its oil and lit: never offered in the dark, so a lantern given for the rats with
+  // two flasks of oil could not be lit when a torch died in a barrow (Mission 20's third round, D 136).
+  private static lamps(screen: Screen): Choice[] {
+    const lamp = [...screen.items.flatMap(i => i.acts), ...screen.camp, ...screen.unplaced]
+      .flatMap(a => a.children ?? [a]).find(a => a.command?.startsWith('light_lamp('));
+    return lamp ? [{ id: 'light:lamp', label: 'Fill the lantern and light it', tone: 'item' as const,
+      command: lamp.command! }] : [];
   }
   // And a caster with a spell that gives light casts it there, if it can now (see Illumination).
   private static castLight(screen: Screen): Choice[] {

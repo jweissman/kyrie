@@ -35,6 +35,7 @@ Reproduce headlessly with `bun /var/tmp/kyrie/m20/tools/leads.ts <origin> <race/
 |---|---|---|---|
 | 1 | `7302392c` (M19 freeze), prologue skipped | A: debt warrior; B: map, birdfolk ranger | A paid the debt by star-iron under the town, unled; B did the spiders, was locked out of the hobs' hold after a parley |
 | 2 | `78c9b45c`, the real opening | A: debt warrior; B: debt, **elf thief** | **Both paid the debt**: A on Day 1 by the hobs' hold (bell, boy, loot sold to Tuck); B on Day 2 by ratsbane, the hold by the bell, the spiders and the catacombs. Both reloaded and kept their game |
+| 3 | `09664cf0` (main), pinned locally; unfamiliar intentions | C: *Coming home*, **elf mage**, cautious, postponing the errand; D: debt, **dwarf warrior**, reckless and unscrupulous | C: the scrivener's teacher, the brood burned through the crack, a found letter-ring opening the vault, then the father found and buried — "curiosity paid off three times"; D: the crown sought, Dolorechies' riddle door solved, never threatened. Ratings (C/D): clarity 3/3, beauty 4/4, interest 4/4, **challenge 2/1**, wish to continue 3/3 |
 
 ## Barriers
 
@@ -82,5 +83,10 @@ Sources: the builder's probes (P), cold round 1 player A / B (screenshot numbers
 | E40 | P1 | A sellsword for 3 coin made every fight of the first hour free | R1, R2 | **fixed** f89d80d0 (6–8 coin: a real choice beside a 7–21 coin purse and a 50 coin debt) |
 | E41 | P2 | Two old mounds north of Thornhaven, told apart only by "great" and "a door of stone"; a player went to Dolorechies for the king-barrow's crown | R1-B 46, R3-D 104 | open — check that the castellan's word names Lapisrecs on the map |
 | E42 | P3 | Tuck, the debt's creditor, is a halfling in kahitude, drawn by his people's emblem (an acorn): likenesses are only of peoples who look like the paintings' folk, by an earlier design decision | R1, R2 | by design; noted |
+| E43 | P0 | A lantern with oil could not be lit in the dark: the fill-and-light act was only among the company's acts (under Wait…), never offered or led with the lights | R3-D 136; R1-A 61 | fixed in the worktree (lamps lit first, led in the dark); verifying |
+| E44 | P1 | Tuck names Lapisrecs in his rumour of the crown, but the map keeps the mound by its look ("a great long mound with a door of stone"): the merchant's rumour teaches its story, not its name | R3-D 104 | open — teach the name with the story |
+| E45 | P1 | No consequence for dishonesty: the corn-store padlock wrenched off and Tuck paid all the same; graves robbed under the dead who keep the bounds | R3-D §8 | open |
+| E46 | P1 | Nobody but family can be asked about the main story (the father, the cart): not the wagoner who knows the road, not the pilgrim on it; greetings copied word for word across people | R3-C §6 | open |
+| E47 | P2 | Darkness stops nothing: walking and fighting go on in pitch dark with no penalty, and the dark still says "easily won" of what cannot be seen | R3-D 59–74 | open |
 | E8 | — | Headless scripts could not take a map journey | — | **fixed** bf62b137 (`map:<place>`) |
 | E21 | — | Cold agents under automation skip the prologue; next rounds use `&opening` | P | noted (harness) |
