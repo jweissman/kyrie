@@ -66,7 +66,8 @@
     "outer_zephyrus_threshold": "scene-house-of-doors-zephyrus-portal",
     "inner_air_land": "scene-floating-city",
     "sennet__air_land": "scene-floating-city",
-    "hessel__assembly": "scene-ballroom"
+    "hessel__assembly": "scene-ballroom",
+    "hessel__pump_room": "scene-baths"
   },
   "kinds": [
     {"kind": "ballroom", "words": ["ballroom", "ball-room"], "room": ["scene-ballroom"]},
@@ -100,9 +101,15 @@
     {"kind": "drain", "words": ["drain", "culvert", "sewer", "sewers", "outfall"], "room": ["scene-sewer-drain"]},
     {"kind": "vermin", "words": ["rat", "rats", "runs", "warren", "nest", "burrow", "crawl"], "room": ["scene-burrow"]},
     {"kind": "cell", "words": ["cell", "prison", "gaol", "jail", "lockup", "captives", "dungeon", "hold"], "room": ["scene-cell"]},
-    {"kind": "mine", "words": ["mine", "adit", "cut", "stope", "shaft", "haulage", "workings", "seam", "quarry", "pit-head", "pithead"], "ground": ["scene-quarry-adit", "quarrier"], "room": ["scene-mine-gallery", "scene-mine-shaft"]},
+    {"kind": "mine", "words": ["mine", "adit", "cut", "stope", "shaft", "haulage", "workings", "seam", "quarry", "pit-head", "pithead"], "ground": ["scene-quarry-adit", "quarrier"], "room": ["scene-mine-gallery", "scene-mine-shaft", "scene-mine-tunnel"]},
+    {"kind": "face", "words": ["working", "lode"], "ground": [], "room": ["scene-mine-face"]},
+    {"kind": "ore", "words": ["ore", "chute", "chutes"], "ground": [], "room": ["scene-mine-ore-pass"]},
+    {"kind": "winze", "words": ["winze", "winzes", "windlass"], "ground": [], "room": ["scene-mine-winze"]},
+    {"kind": "sump", "words": ["sump", "sumps"], "ground": [], "room": ["scene-mine-sump"]},
+    {"kind": "pump", "words": ["pump", "pumps", "pump-room"], "ground": [], "room": ["scene-mine-pump-room"]},
+    {"kind": "furnace", "words": ["furnace", "furnaces"], "ground": [], "room": ["scene-mine-furnace-hall"]},
     {"kind": "cave", "words": ["cave", "caves", "cavern", "caverns", "grotto", "den", "lair", "sink"], "ground": ["scene-cave-mouth"], "room": ["scene-cave", "scene-crystal-grotto"]},
-    {"kind": "cistern", "words": ["cistern", "drowned", "pipe", "pump", "waterworks", "reservoir"], "room": ["scene-cistern", "scene-drowned-room", "dissolution"]},
+    {"kind": "cistern", "words": ["cistern", "drowned", "pipe", "waterworks", "reservoir"], "room": ["scene-cistern", "scene-drowned-room", "dissolution"]},
     {"kind": "stair", "words": ["stair", "stairs", "steps", "ladder", "spiral"], "room": ["meditation"], "ground": ["scene-town-stairs-to-darkness"]},
     {"kind": "roof", "words": ["roof", "leads", "battlements", "parapet", "wall-walk", "walls"], "ground": ["scene-tower-roof", "tower", "redoubt"]},
     {"kind": "bailey", "words": ["bailey", "courtyard", "ward"], "ground": ["scene-keep-bailey"]},

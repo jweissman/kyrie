@@ -6829,6 +6829,41 @@
    "form": "interior",
    "shows": "a chandlery: candles on every shelf, dipped tapers drying from a hoop, lanterns, wax and wicks on the bench",
    "era": "late"
+  },
+  "scene-mine-face": {
+   "form": "interior",
+   "shows": "a mine's working face: a seam in the rock, picks left against a prop, a lantern, an ore tub on rails",
+   "era": "late"
+  },
+  "scene-mine-ore-pass": {
+   "form": "interior",
+   "shows": "an ore pass: a timbered chute spilling ore onto a plank floor, a rail, a lantern, a shovel",
+   "era": "late"
+  },
+  "scene-mine-pump-room": {
+   "form": "interior",
+   "shows": "a pump-room below ground: a rusted beam pump and wheel drawing black water up into a pipe, a lantern",
+   "era": "late"
+  },
+  "scene-mine-sump": {
+   "form": "interior",
+   "shows": "a flooded mine level: black water to the timbers, a lantern on a post, the gallery going on into the dark",
+   "era": "late"
+  },
+  "scene-mine-tunnel": {
+   "form": "interior",
+   "shows": "a timbered mine tunnel in the dark, lit only by one candle in the foreground, black beyond",
+   "era": "late"
+  },
+  "scene-mine-winze": {
+   "form": "interior",
+   "shows": "a winze in the workings: a windlass and rope over a square shaft going down, a ladder, a coiled rope, a lantern",
+   "era": "late"
+  },
+  "scene-mine-furnace-hall": {
+   "form": "interior",
+   "shows": "a cold furnace hall below ground: stone hearths under a chimney, slag and ore heaped, a tub on rails",
+   "era": "late"
   }
  }
 }

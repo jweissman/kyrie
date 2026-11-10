@@ -95,7 +95,7 @@ describe('the painting of a place', () => {
     // A room named for what it would be in the open ("the crossing") deep in a mine is of the mine, not a ford.
     const mine: PlaceRef = { id: 'region__s2_ud_adit', name: 'the adit level', kind: 'level' };
     const crossing = Scene.room('region__s2_ud_adit_crossing', 'the crossing', under);
-    expect(['scene-mine-gallery', 'scene-mine-shaft']).toContain(Scene.seen(crossing, [site, mine])!);
+    expect(['scene-mine-gallery', 'scene-mine-shaft', 'scene-mine-tunnel']).toContain(Scene.seen(crossing, [site, mine])!);
     const cave: PlaceRef = { id: 'raidersHold__lair', name: 'the cave', kind: 'site' };
     expect(Scene.seen(Scene.room('raidersHold__cavern', 'the smoky cavern', under), [wild, cave])).toBe('scene-cave');
     expect(Scene.seen(Scene.room('sink__nest', 'the nest', under), [wild, cave])).not.toBe('library');
