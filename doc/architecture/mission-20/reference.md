@@ -36,3 +36,13 @@ the first page).
 **What it costs to reproduce a first-hour defect:** a headless `bin/kyrie play` with the labels to the defect
 (6–15 s per try), or the play server (`scripts/play-server.ts`, one Chromium, 1–3 s a step) for a rendered one. The
 rendered reference tour exists only on CI (2.5 min), and stops at the hobs' toll-house.
+
+## Deployment (amendment 3: one app on main)
+
+- **The app is https://jweissman.github.io/kyrie/**, deployed by `.github/workflows/pages.yml` on every push to
+  `main`. The title page shows the commit it was built from (`build <sha>`), and the site carries `version.json`.
+- **10 November:** the deploy of `7302392c` had timed out at the action's ten-minute limit with Pages' deployment
+  still *queued* (earlier deploys of the same artifact had taken 10–15 s): a stuck queue, not the artifact. Re-run, it
+  deployed; the live app was then loaded in Chromium and a game begun (debt, kahitude) to check it plays.
+- **Agents** play a local build pinned to a commit (`KYRIE_SITE_DIR=<dir> bun run web:build` at that commit, served by
+  `scripts/play-server.ts` from a copy beside it), never rebuilt during their session. The owner plays the Pages app.
