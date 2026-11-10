@@ -182,5 +182,8 @@ Module players "The players on the green" {
 
   Objective players when knows(party, on_green) and stuck(gosse) and not gone(gosse) "Gosse's Company, players, are stuck at {town} until someone pays their reckoning.".
   Objective players_west when knows(party, joined) "Be at the Painted Moon by the Westgate of Pentrice, over the march west, before the Trial of the Wheel.".
+  // Once the reckoning is paid the word of them stuck is old: Fenwick at Elmham had still told of the wagon chained, hours
+  // after (Mission 20's fourth round, E 79).
+  Rule word_old when reckoned(gosse) and not stale(on_green) { Assert stale(on_green). }
   Goal reckoned(gosse).
 }
