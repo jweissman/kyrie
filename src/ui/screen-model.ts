@@ -319,19 +319,19 @@ export class ScreenModel {
         ...(!dark && !p.state && p.activity ? { activity: p.activity } : {}), ...(look ? { look } : {}),
         ...(p.state ? { state: p.state === 'dead' ? 'dead' as const : 'down' as const } : {}), acts };
     }
-    const counted = w.module.measures.some(m => m.name === 'quantity');
-    const coin = counted ? w.number(ModuleWriter.call('quantity', p.id, 'gold')) : 0;
-    const food = counted ? w.number(ModuleWriter.call('quantity', p.id, 'rations')) : 0;
+    const counted = w.module.measures.some(m => m.name === 'quantity'), [coin, food] = ['gold', 'rations']
+      .map(of => counted ? w.number(ModuleWriter.call('quantity', p.id, of)) : 0) as [number, number];
     const forSale = w.module.relations.some(r => r.name === 'forSale') && w.test(ModuleWriter.call('forSale', p.id));
+    const owner = p.type === 'item' ? Treasure.theirs(w, p.id, at.campaign?.playerActor ?? 'party') : undefined;
     // Something growing is told by how it grows (its description), not by the name of its state.
-    const note = p.condition && p.type !== 'scenery' ? p.condition : p.within ? `in ${p.within}` : forSale ? 'for sale' : p.type === 'source' ? (p.intact === false ? 'destroyed' : acts.length ? 'can be read' : 'already read')
+    const note = p.condition && p.type !== 'scenery' ? p.condition : owner ? `${owner}'s` : p.within ? `in ${p.within}` : forSale ? 'for sale' : p.type === 'source' ? (p.intact === false ? 'destroyed' : acts.length ? 'can be read' : 'already read')
       : coin ? `${coin} coin` : food ? `${food} ration${food === 1 ? '' : 's'} left` : p.type === 'mechanism' ? 'mechanism' : undefined;
     const look = p.type === 'item' ? this.described(w, p.id, p.name) : undefined;
     const plate = p.type === 'item' ? ItemPlates.of(w, p.id) : undefined;
     // A treasure lying here, not for sale: what a delve is for, and led with (see Affordances).
     return { id: p.id, kind: ['mechanism', 'door'].includes(p.type) ? 'feature' : 'thing', name: p.name,
       ...(note ? { note } : {}), ...(look ? { look } : {}), ...plate ? { portrait: plate } : {},
-      ...(p.type === 'item' && !forSale && Treasure.valuable(w, p.id) ? { valuable: true } : {}), acts };
+      ...(p.type === 'item' && !forSale && !owner && Treasure.valuable(w, p.id) ? { valuable: true } : {}), acts };
   }
   // A thing to be had, seen for what it is in its kind's own words (the follow-up review found a singer's token that
   // offered nothing but Take, though its kind is described); none where those words are only its name.

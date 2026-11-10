@@ -19,6 +19,7 @@ import { EndingOrder } from '../lang/ending-order';
 import { Consequences } from '../campaign/consequences';
 import type { TickHost } from '../campaign/campaign-tick';
 import { Provinces } from '../world/provinces';
+import { Itineraries } from '../ui/itinerary';
 
 // A choice the page offers, as an author names it in a step: its label ("Examine › Push and pull at it", "Pack › A
 // torch › Light", "a torch: Light"), and the same under the heading it is offered beneath ("the Sleeper's left
@@ -174,6 +175,7 @@ export class Journey {
     if (step.startsWith('@')) { return this.perform(step.slice(1), step); }
     if (step.startsWith('~')) { return this.through(step.slice(1)); }
     if (step.startsWith('>')) { return this.go(step.slice(1)); }
+    if (step.startsWith('map:')) { return this.setOut(step.slice(4)); }
     const c = this.chosen(step);
     return this.perform(c.command, c.label, c.grave);
   }
@@ -404,6 +406,16 @@ export class Journey {
   }
   // A choice waited for until it is offered and comes off: a way until the company is through it, anything else
   // once it has been done (a purchase written with it was bought again and again: Hessel friction 16).
+  // A journey set out on from the map (map:Seolforfyrd), to a place by its name, as its "Set out for …" does: only to a
+  // place the company knows a way to (see Travel). Without it a driver could go no further than the first town except
+  // by a place's id (the reference hour's defects past the town were reproduced only in the browser: Mission 20).
+  private async setOut(name: string): Promise<string> {
+    const pattern = new RegExp(`^${name}$`, 'i');
+    const place = this.campaign.module.entities.find(e => e.type === 'place' && pattern.test(e.name)
+      && Itineraries.plan(this.campaign, e.id));
+    if (!place) { throw Journey.unoffered(`No known way to /${name}/ at watch ${this.watch()}`); }
+    return this.perform(`travel:${place.id}`, `Set out for ${place.name}`);
+  }
   private async through(pattern: string): Promise<string> {
     for (let tries = 0; tries < 12 && this.campaign.running; tries++) {
       const here = this.at(this.campaign.playerActor ?? 'party'), c = this.offers(pattern) ? this.chosen(pattern) : undefined;
