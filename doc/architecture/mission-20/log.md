@@ -26,12 +26,12 @@ Sources: the builder's probes (P), cold round 1 player A / B (screenshot numbers
 | E9 | P0 | After a successful parley, no way into the hold: its rooms counted as another hex, left to the map | B 112–118, 127, 133 | **fixed** 84f6a444 |
 | E10 | P0 | The bell routed the raiders, and they were put straight back by the fire, "beyond you" | P | **fixed** b4e39e0a |
 | E11 | P1 | The decisive acts hidden under "Something else…": pay what you owe, hire Xyn, pay the players' reckoning | A 165, 73; B 58, 102 | **fixed** a8d4e689 (`talk-focus`) |
-| E12 | P1 | The followed aim does not follow the player (pointed at Seolforfyrd with the debt's coin in hand); aims pile to 9–10 on day 1; done things linger as leads | A §3, 165; B 88, 90, 125 | open |
+| E12 | P1 | The followed aim does not follow the player (pointed at Seolforfyrd with the debt's coin in hand); aims pile to 9–10 on day 1; done things linger as leads | A §3, 165; B 88, 90, 125 | partly fixed: 78c9b45c (the debt aim follows what the company carries home to sell), be74676b (Notes: nothing folded, done apart) |
 | E13 | P1 | Go… from the first place lists five places, not the town; the inn and corn-store appear only from the landing | A 18; B 23→44 | partly fixed 11c27557: the way toward the aim's place in town is led and gilded (the landing, for the inn); Go… itself unchanged |
 | E5 | P1 | The landing tells eight threads in one paragraph at one weight | P; B 24 | partly fixed 3c81f363: the place and three goings-on at rest, the rest About the place under Look…; the column still runs past the fold with the new aims |
 | E4 | P1 | The town's threads not tied (the inn names Seolforfyrd without the hobs) | P | partly fixed bf62b137 (the bell's line names the hold) |
 | E7 | P1 | The stolen bell, which an aim says is in the hold, was not led to where it lies | P | **fixed** b4e39e0a |
-| E14 | P1 | Fight forecasts and summaries wrong ("Easily won" at 9/16 poisoned; "unhurt" after 10 HP lost); "shrugs off the poison… is poisoned"; "true damage", "magic save" | A 27–50, 152; B 129 | open |
+| E14 | P1 | Fight forecasts and summaries wrong ("Easily won" at 9/16 poisoned; "unhurt" after 10 HP lost); "shrugs off the poison… is poisoned"; "true damage", "magic save" | A 27–50, 152; B 129 | partly fixed c2582c9f (hurt and healed is not "unhurt"); the forecast's words open |
 | E15 | P1 | Words and pictures contradict the place: hillside and daylight underground, lit lanterns in sealed rooms, stags for a toll-house, a sunny card at midnight | A 107–110; B 75, 80, 91, 111, 137 | open |
 | E16 | P2 | Prose repeated: the cart twice (the opening skipped); a creature's name five times in a danger box; a sentence in two rooms; "Hereabouts the place has a name…" | A; B 18, 80, 89 | partly fixed 3c81f363 (the naming line; the bell's line told twice) |
 | E17 | P2 | Controls move under the pointer (Attack under "Press on"; the Go list under "Following"; the bottom-left control turns into a way) | A 49, 136, 153 | open |
@@ -39,8 +39,10 @@ Sources: the builder's probes (P), cold round 1 player A / B (screenshot numbers
 | E19 | P2 | Fights mostly trivial (one in six with tension in A; none in B) | A, B §6 | open — measure first |
 | E20 | P2 | The dead man's map ends in an empty box with no word of who emptied it (B's origin) | B 121 | open |
 | E6 | P2 | A warrior led to "wrench the padlock's hasp" off the town corn-store, whose key the notice says Tuck has | P | open |
-| E22 | P1 | After the hold the debt's coin is in finds (a music box worth 50, the Gaffer's chalice, rings) that must be sold, but nothing leads a company carrying treasure home to a buyer; the strongroom needs a crowbar or lockwork, which nothing said to bring | P: honest.ts | open |
+| E22 | P1 | After the hold the debt's coin is in finds (a music box worth 50, the Gaffer's chalice, rings) that must be sold, but nothing leads a company carrying treasure home to a buyer; the strongroom needs a crowbar or lockwork, which nothing said to bring | P: honest.ts | **fixed** 78c9b45c (`owing_laden`, sales advance a coin-short aim; honest-start's fourth journey) |
 | E23 | P1 | In the hobs' hold the page led with "Attack (beyond you)"; the bell routed once and rung again did nothing; the bell was led in every room; the exhausted hold led nowhere | P: honest.ts | **fixed** e989a704 |
 | E24 | P2 | Look… had no word of the stolen bell lying in the plunder: a led find was not named on the scene | CI tour 482c5f6f | **fixed** 11c27557 |
+| E25 | P3 | Save size (M19-236): measured in the browser after a reload, the world is kept once (1.9 MB) and a state is a diff (61 KB after a few commands); both cold players reloaded without loss. The 22 MB is the downloadable whole-game file | P: preview /eval | deferred (no obstacle to play measured) |
+| E26 | P2 | Story after a reload shows only what happened since | P: preview | open |
 | E8 | — | Headless scripts could not take a map journey | — | **fixed** bf62b137 (`map:<place>`) |
 | E21 | — | Cold agents under automation skip the prologue; next rounds use `&opening` | P | noted (harness) |
