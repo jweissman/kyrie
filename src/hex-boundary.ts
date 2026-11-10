@@ -1,4 +1,4 @@
-import type { Module } from './lang/module';
+import type { Entity, Module } from './lang/module';
 import { EntityIndex } from './lang/entity-index';
 import { Spatial } from './spatial';
 
@@ -27,7 +27,34 @@ export class HexBoundary {
     const line = Spatial.ancestry(EntityIndex.of(module.entities).byId, id);
     const land = line.findLast(e => e.space!.kind === 'region');
     const chart = land ? this.land(module, land.id) : undefined;
-    return chart?.places ? line.map(e => chart.places[e.id]).find(c => c !== undefined) : undefined;
+    return chart?.places ? line.map(e => chart.places[e.id] ?? (e.space!.kind === 'site' ? this.door(module, e.id)
+      : undefined)).find(c => c !== undefined) : undefined;
+  }
+  // The cell a site the chart does not draw stands in: that of the place outside it its way in opens onto. A
+  // toll-house's hall, and the hobs' cave behind it, had stood in the middle of their wild country, a hex from their
+  // own doorstep, so the page left the way in to the map: a player invited in found no way in (Mission 20's cold play).
+  private static readonly doors = new WeakMap<Module, Map<string, number>>();
+  private static door(module: Module, site: string): number | undefined {
+    let doors = this.doors.get(module);
+    if (!doors) { this.doors.set(module, doors = this.opened(module)); }
+    return doors.get(site);
+  }
+  private static opened(module: Module): Map<string, number> {
+    const byId = EntityIndex.of(module.entities).byId, out = new Map<string, number>();
+    for (const c of module.initial) {
+      if (c.kind !== 'assert' || c.call.name !== 'connects') { continue; }
+      const [, a, b] = c.call.args;
+      for (const [inside, outside] of [[a!, b!], [b!, a!]] as const) {
+        const site = this.siteOf(byId, inside);
+        if (!site || out.has(site) || this.siteOf(byId, outside)) { continue; }
+        const cell = this.cell(module, outside);
+        if (cell !== undefined) { out.set(site, cell); }
+      }
+    }
+    return out;
+  }
+  private static siteOf(byId: Map<string, Entity>, id: string): string | undefined {
+    return Spatial.ancestry(byId, id).find(e => e.space!.kind === 'site')?.id;
   }
   // A generated country's land: drawn with it, in tracts of open country.
   private static land(module: Module, region: string) {

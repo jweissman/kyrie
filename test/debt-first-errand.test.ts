@@ -34,6 +34,17 @@ describe('the hobs’ store, after a parley', () => {
     expect(rings?.valuable).toBeUndefined();
     expect(g.glance.acts.map(a => a.label).join(' | ')).not.toMatch(/rings/);
   }, 120000);
+  // Called in, the way in is a step from the doorstep, not a journey: the cave and the toll-house's own hall had stood
+  // in their wild country's middle cell, a hex from Seolforfyrd, and the page left them to the map (HexBoundary.door).
+  it('lets the company in from the doorstep once the hobs have called it in', async () => {
+    const j = await debtor();
+    await j.play('Tell Tuck', 'To the landing', 'Into the Stormy Horn', 'Ask Aiden what is out', 'map:Seolforfyrd',
+      'Call to the hobs');
+    const ways = Glanced.of(j.session).screen.exits;
+    for (const into of ['the cave mouth', 'the toll-hall']) {
+      expect(ways.find(e => e.destination.name === into)?.crosses).toBeFalsy();
+    }
+  }, 120000);
   // The bell the hobs took is led to where it lies (the aim names it); taken under their eyes it raises the hold, and
   // rung it sends them out of the back way, where they stay (they had been put back by the fire they ran from).
   it('leads to the stolen bell, and rung, the hobs run and do not come back to the fire', async () => {
