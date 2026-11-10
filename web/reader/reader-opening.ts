@@ -3,6 +3,7 @@ import type { ReaderApp } from './reader-app';
 import { Rolls } from '../../src/rules/rolls';
 import { CreationRules } from './creation-rules';
 import { CreationDefaults } from './creation-defaults';
+import { WorldStage } from './stage/world-stage';
 
 // Before play: the title, the choice of campaign, forming the company, and setting out (or carrying on).
 export class ReaderOpening {
@@ -198,9 +199,9 @@ export class ReaderOpening {
     try {
       const frame = await request;
       // A game begun opens on its opening, where the engine told one apart; one taken up again, on where it was.
-      // Play begins on the map, where the country has one (the owner, 4 November, late).
+      // Play begins where the company is (see WorldStage.begins).
       this.app.setState({ phase: 'play', frame, view: 'here', cursor: 0, open: [], member: '', leaving: false,
-        outdoors: !!frame.screen.region?.land,
+        outdoors: WorldStage.begins(frame),
         prologue: frame.leaf.prologue ? 0 : undefined, told: frame.leaf.prologue, beat: performance.now() });
     } catch (error) { this.fail(error, otherwise); }
   }

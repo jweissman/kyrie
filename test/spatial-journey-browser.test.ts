@@ -58,10 +58,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a journey through the world, laid o
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
-    // Play begins on the map, with the town the company stands in described over it; entered, the town as it is
-    // painted, nothing over the picture but whoever is here, and no list of ways.
-    expect(await w.page_()).toContain('scale-board');
-    await page.click('[data-action="enter-hex"]');
+    // Play begins in the town, as it is painted (Mission 20's amendment 1: no longer on the map), nothing over the
+    // picture but whoever is here, and no list of ways.
     expect(await w.page_()).toContain('scale-scene');
     expect(await page.locator('.scene-surface button, .scene-surface nav, .focus .ways-here').count()).toBe(0);
     await w.to('region__s2_green');

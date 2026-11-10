@@ -132,7 +132,7 @@ export class GlanceStage {
       {screen.dark && <p className="dark-note">It is dark here. You have no light to see by.</p>}
       <Told.Setting app={app} />
       <GlanceStage.Life app={app} glance={g} />
-      {g.goal && <p className="first-goal" data-id="goal"><span className="label">Your first goal</span>
+      {g.goal && !s.opened && <p className="first-goal" data-id="goal"><span className="label">Your first goal</span>
         {Typography.curl(Words.upper(g.goal))}</p>}
       {g.changed.length > 0 && <div className="changed">
         <p className="label">Since you were last here</p>

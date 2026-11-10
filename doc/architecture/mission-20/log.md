@@ -9,7 +9,10 @@ Reproduce headlessly with `bun /var/tmp/kyrie/m20/tools/leads.ts <origin> <race/
 
 ## Amendments from the owner
 
-(None yet.)
+1. **10 November — the opening design.** Adds: design A of [opening-design.md](opening-design.md) (a town with
+   trouble: one in front, threads tied, the decisive choice made in exchange, the road meetings kept). Supersedes, for
+   the moment after the prologue only, M19's "start on the one full-screen map": the first screen is the place the
+   origin puts the company in; the map stays the way to travel. Excludes B and C.
 
 ## Barriers
 

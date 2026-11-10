@@ -24,8 +24,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('an aim\'s place, on the map from th
       { site, pointer: false, query: '?world=kite' });
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
     await page.click('[data-action="start"]');
-    await page.waitForSelector('.enter-card [data-action="enter-hex"]', { timeout: 180000 });
-    await page.click('.enter-card [data-action="enter-hex"]');
+    // Play begins in the town (Mission 20's amendment 1).
+    await page.waitForSelector('.world-page.scale-scene', { timeout: 180000 });
     await driver.go('s2_green');
     await driver.mode('j');
     await page.click('.aims-more summary');

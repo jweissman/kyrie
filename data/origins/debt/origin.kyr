@@ -49,7 +49,7 @@ Module origin "What is owed" {
   // The debt said where the company can do something about it: first the creditor; once spoken to or left, the inn, where
   // the creditor said work is asked after; with the coin in hand, the creditor again. The aim had led back to the shop
   // the company had just left with nothing to pay (the owner, 7 November: aims still chaotic).
-  Objective owing when owed(loan) > 0 and not called(party) and not spoke(party) and at(party, shop) toward creditor "You owe {creditor} at {homename} {owed(loan)} coin, by market day.".
+  Objective owing when owed(loan) > 0 and not called(party) and not spoke(party) and at(party, shop) toward creditor "{owed(loan)} coin by market day, owed to {creditor}.".
   Objective owing_work when owed(loan) > 0 and not called(party) and (spoke(party) or not at(party, shop)) and quantity(party, gold) < owed(loan) and not knows(party, told) toward keeper "You owe {creditor} {owed(loan)} coin by market day. There is work for someone with nothing to lose: ask {keeper} at {inn} what is out in the country round.".
 {out}
   Objective owing_paid when owed(loan) > 0 and not called(party) and (spoke(party) or not at(party, shop)) and quantity(party, gold) >= owed(loan) toward creditor "You have the {owed(loan)} coin you owe {creditor}: pay it at {shop}, before market day.".

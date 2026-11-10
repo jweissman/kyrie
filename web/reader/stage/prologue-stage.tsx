@@ -3,6 +3,7 @@ import type { Meeting } from '../../../src/presentation/prologue';
 import { Scenery } from '../../../src/ui/scenery';
 import { Typography } from '../../../src/presentation/typography';
 import { Likeness } from '../../../src/paintings/likeness';
+import { WorldStage } from './world-stage';
 import { Glyphs } from '../creation/glyphs';
 
 // Which page of the opening is up: a beat (the last of them, where no one is met, closing it), the meeting on the
@@ -118,10 +119,10 @@ export class PrologueStage {
     if (page.kind === 'beat' && !page.last) { app.setState({ prologue: page.at + 1, beat: performance.now() }); }
     else { PrologueStage.done(app); }
   }
-  // Straight on into play, whatever page it is at (Esc): on the map, where the country has one, as play begins.
+  // Straight on into play, whatever page it is at (Esc): where the opening left the company (see WorldStage.begins).
   static done(app: ReaderApp) {
     const frame = app.state.frame;
-    app.setState({ prologue: undefined, told: undefined, outdoors: !!frame?.screen.region?.land && !frame.combat });
+    app.setState({ prologue: undefined, told: undefined, opened: true, outdoors: !!frame && WorldStage.begins(frame) });
   }
   // The opening's keys: on, a digit for an answer, Esc straight on; nothing reaches the place's choices under it.
   static key(app: ReaderApp, key: string, held: boolean): boolean {

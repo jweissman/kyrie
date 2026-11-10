@@ -1,5 +1,6 @@
 import { Glyphs } from '../creation/glyphs';
 import type { Screen } from '../../../src/ui/screen-types';
+import type { Frame } from '../../engine/protocol';
 import type { Choice } from '../../../src/ui/choice-list';
 import type { SceneSubject } from '../../../src/ui/scene';
 import { Typography } from '../../../src/presentation/typography';
@@ -146,6 +147,11 @@ export class WorldStage {
     return PlaceStage.into(x);
   }
   // Whether the company stands in the open country, where the world map is the surface.
+  // Whether play begins on the map: only where the company begins out in the wild country. Begun in a town or under a
+  // roof, it begins on the place itself: the opening had sent the debtor "straight to Tuck's door", and the first page
+  // was the whole world map saying "You stand at its gate" under the heading "Tuck's wood-yard" (both cold players of
+  // Mission 20's first round; the owner's amendment 1 of 10 November, superseding "play begins on the map" there).
+  static begins(frame: Frame): boolean { return !frame.combat && WorldStage.wild(frame.screen); }
   static wild(screen: Screen): boolean {
     return PlaceStage.kind(screen) === 'wild' && !!screen.region?.land;
   }

@@ -26,7 +26,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the map\'s board, in three dimensio
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
     const from = (await driver.inspect()).place?.id;
-    // Play begins on the map; M raises it again wherever the company is, and keeps it up.
+    // Play begins in the town (Mission 20's amendment 1); M raises the map wherever the company is, and keeps it up.
     await driver.mode('m');
     await page.waitForSelector('.field-land.board[data-board="ready"]', { timeout: 180000 });
     const drawn = await page.evaluate(() => {

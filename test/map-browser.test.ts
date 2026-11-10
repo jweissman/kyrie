@@ -27,6 +27,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the map and the notes, to plan with
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
     const from = (await driver.inspect()).place?.id;
+    // Play begins where the company is, in the town (Mission 20's amendment 1); M raises the map over it.
+    expect(await page.locator('.world-page.scale-scene').count()).toBe(1);
+    await driver.mode('m');
     expect(await page.locator('.world-page.scale-board').count()).toBe(1);
     // By the keys: the town is reached by Tab and chosen with Enter (on the board, once it is drawn).
     await page.waitForSelector('[data-action="map-place"][data-id="region__s4"]', { timeout: 120000 });
