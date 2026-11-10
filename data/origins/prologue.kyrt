@@ -30,7 +30,7 @@
     }
   Topic carter_thanks with carter "Let him thank you" when state(cart, righted) and not wayIn(cart_righted) and not wayIn(cart_bargained) once {
     Says "'You'll eat at my cost, then,' says the wagoner, wiping his hands down his coat. 'Ask for me at the inn tonight; there's always a bowl for whoever gets a man out of a ditch.' He presses two coins on you as well, and will not have them back.".
-    On discuss { Assert wayIn(cart_righted). Assert knows(actor, cart_righted). Increase quantity(actor, gold) by 2. }
+    On discuss { Assert wayIn(cart_righted). Increase quantity(actor, gold) by 2. }
   }
   // However it came out of the ditch, it was answered.
   Rule carter_answered when state(cart, righted) and not answered(party) { Assert answered(party). }
@@ -40,7 +40,10 @@
   }
   // Said as what he gave (he pressed two coins on you, and would not have them back): it had said you took nothing
   // but his thanks, under the two coins (Mission 20's third round, C 24).
-  Entity cart_righted: fact "On the way into {home} you got a wagoner's wheel out of the ditch, and he pressed two coins on you for it.".
+  Entity cart_righted: fact "On the way into {home} you got a wagoner's wheel out of the ditch.".
+  // What the company did, known as done: learnt from his thanks, it had been filed as the wagoner's word, "told you,
+  // not yet seen for yourself" (two cold rounds and the owner's play of 10 November).
+  Observe carter_deed near carter when state(cart, righted) and not wayIn(cart_bargained) "The wheel is out of the ditch, and the wagoner's meal is on the road again because of you." teaches cart_righted.
   Entity cart_bargained: fact "On the way into {home} you got a wagoner out of the ditch for a sack of his meal and a coin.".
   Entity cart_left: fact "On the way into {home} you left a wagoner in the ditch, and did not stop.".
   Entity cart_robbed: fact "On the way into {home} you lifted a sack off a wagoner's load while his back was to you.".
