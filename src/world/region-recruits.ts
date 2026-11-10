@@ -84,7 +84,9 @@ export class RegionRecruits {
     const wanted = this.classes[s.calling], calling = wanted && allowed.includes(wanted) ? wanted
       : (wanted ? this.near[wanted] ?? [] : []).find(c => allowed.includes(c))
         ?? allowed.find(c => Canon.classes[c]?.adventuring !== false) ?? 'commoner';
-    const hire = 3 + i, brings = this.brings[s.calling] ?? this.table.passing;
+    // A real price beside what a newcomer has and owes: at three coin a sellsword was no decision, and fought every
+    // fight of the first hour for a debtor fifty in debt (Mission 20's cold rounds: "no fight cost a hit point").
+    const hire = 6 + (i % 3), brings = this.brings[s.calling] ?? this.table.passing;
     const pronoun = s.pronouns?.traveller, they = { he: 'he', she: 'she' }[pronoun ?? ''] ?? 'they';
     return [`  Person ${id} ${q(s.traveller)} at ${at} { Role ${q(s.calling)}. Ancestry ${ancestry}. Calling ${calling}. Peaceable.`
       + `${pronoun ? ` Pronouns ${pronoun}.` : ''} }`,

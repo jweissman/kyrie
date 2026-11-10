@@ -56,7 +56,7 @@ describe('a recruit seen before hiring', () => {
     const brings = PlayerView.choices(c).find(x => /^Ask .* whether .* would come along/.test(x.choice.name))!;
     await s.leg(brings.choice.id);
     const row = ScreenModel.build(c).people.find(p => p.id === 'region__s1_traveller')!;
-    expect(row.recruit).toMatchObject({ level: 1, hire: 3 });
+    expect(row.recruit).toMatchObject({ level: 1, hire: 6 });
     expect(row.recruit!.sheet.fighting.map(b => b.label)).toContain('Hit points');
     expect(row.recruit!.techniques.length).toBeGreaterThan(0);
     expect(row.recruit!.line).toMatch(/^[a-z]+ [a-z]+$/);
@@ -70,6 +70,6 @@ describe('a recruit seen before hiring', () => {
     } finally { lease.release(); }
     const coin = () => c.world.number(ModuleWriter.call('quantity', 'party', 'gold')), before = coin();
     await s.leg(PlayerView.choices(c).find(x => /^recruit\(.*s1_traveller/.test(x.choice.id))!.choice.id);
-    expect([c.state.partyIds.length, coin()]).toEqual([2, before - 3]);
+    expect([c.state.partyIds.length, coin()]).toEqual([2, before - 6]);
   }, 120000);
 });
