@@ -219,9 +219,12 @@ export class Affordances {
     // A way not yet taken from a place an aim names is the way on into what it is about (the stair down from the
     // churchyard, to the crypt the priest's trouble is in), when no known way is pointed off elsewhere.
     // Not while what it is about is here to be dealt with (the rats' run, not the old drain past it).
-    const present = [...screen.things, ...screen.people].some(t => r.named.has(t.id));
-    const on = exit.local && !exit.visited && !exit.blocked && dest !== r.back && !present
-      && (r.named.has(r.here) ? 'toward' as const : r.held.has(r.here) ? 'held' as const : undefined);
+    // Nor, for another aim held, while the thing it is about stands here (the notice on the green, not every lane off
+    // it).
+    const here = [...screen.things, ...screen.people], present = here.some(t => r.named.has(t.id));
+    const by = here.some(t => r.held.has(t.id));
+    const on = exit.local && !exit.visited && !exit.blocked && dest !== r.back
+      && (r.named.has(r.here) ? !present && 'toward' as const : r.held.has(r.here) && !by ? 'held' as const : undefined);
     const toward = r.toward.get(exit.id) ?? (on || undefined);
     // A way about the place not yet taken is worth taking by day; at night, the way to a bed.
     const up = at.lightless && ['ascend', 'leave'].includes(exit.transition ?? '');

@@ -9,7 +9,7 @@ describe('an aim not yet on the map', () => {
     const s = await AutoplayRun.start({ seed: 'a1', origin: 'wanderer', policy: 'follow', steps: 0,
       protagonist: { name: 'Wenna', raceId: 'human', classId: 'cleric' } });
     await s.leg('go(party,region__s1_approach_way,region__s1_approach,region__s1_green)');
-    await s.leg('region__s1_u_notice_read(party,region__s1_green)');
+    await s.leg('change_thing(region__s1_u_notice_post_read)');
     const aims = ScreenModel.build(s.campaign).aims ?? [];
     const dead = aims.find(a => /under the churchyard/.test(a.text));
     // Whom to ask, and where: said in the aim itself (the owner's own session, 7 November), so the map needs no

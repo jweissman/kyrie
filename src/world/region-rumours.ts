@@ -12,7 +12,7 @@ import type { Region } from './region-writer';
 export class RegionRumours {
   static readonly most = 3;
   static lines(region: Region): string[] {
-    const q = JSON.stringify, seats = RegionGeography.seats(region).filter(s => !s.site.work?.great);
+    const q = JSON.stringify, seats = RegionRumours.told(region);
     return region.settlements.flatMap(town => {
       const near = RegionRumours.nearest(region, town, seats);
       // That it has been told, for an aim to go on from (the debt: asked at the inn, out to what was told of).
@@ -27,6 +27,13 @@ export class RegionRumours {
       `    On discuss { ${near.map(s => `Assert knows(actor, ${s.site.id}_named). Assert knows(actor, ${s.site.id}_found).`)
         .join(' ')} Assert knows(actor, ${town.id}_country_told). }`, '  }'];
     });
+  }
+  // What an innkeeper tells a newcomer of: not the makers' great works, nor their deep ones, whose halls go down to
+  // what kills a company new to the road (the debt's first errand, sent to the nearest, had come to Lapisrecs' long
+  // gallery and a mummy that killed a lone first-level warrior at its door: register M19-233). Those are found later,
+  // by the way down under a town or by word of them.
+  static told(region: Region): Seat[] {
+    return RegionGeography.seats(region).filter(s => !s.site.work?.great && !s.site.work?.deep);
   }
   // The sites nearest a town, by the land between.
   static nearest(region: Region, town: Region['settlements'][number], seats: Seat[]): Seat[] {

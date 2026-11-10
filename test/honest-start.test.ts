@@ -21,20 +21,27 @@ describe('the opening, as the page leads it', () => {
     expect(await p.until(() => !held(p, 'tell_kin'), 16)).toBe(true);
     expect(p.log.join('\n')).toMatch(/says: Tell your mother what you found/);
   }, 180000);
-  it('takes a debtor from the shop to the inn, to the place told of there, through a fight to what is found, kept over a save',
-    async () => {
-      const p = await start('debt'), c = p.s.campaign;
-      expect(await p.until(() => held(p, 'owing_out'), 10)).toBe(true);
-      expect(p.log.join('\n')).toMatch(/says: Ask what is out in the country round/);
-      // Things found there, in the pack (what was carried in, a torch burned, aside).
-      const carried = () => p.glanced.screen.items.map(i => i.id), before = new Set(carried());
-      const found = () => carried().filter(id => !before.has(id)).length;
-      expect(await p.until(() => found() >= 2, 14)).toBe(true);
-      expect(p.log.join('\n')).toMatch(/journey: arrived/);
-      expect(c.history.some(e => e.combat.some(x => x.type === 'end'))).toBe(true);
-      const restored = PlaySession.resume(JSON.parse(JSON.stringify(p.s.checkpoint())));
-      expect(restored.campaign.world.one('at', 'party')).toBe(c.world.one('at', 'party'));
-      expect(new HonestPlayer(restored).glanced.screen.items.map(i => i.id)).toEqual(carried());
-      expect(new HonestPlayer(restored).aim()).toBe(p.aim());
-    }, 240000);
+  it('takes a debtor from the shop to the inn, and out to the place told of there, kept over a save', async () => {
+    const p = await start('debt'), c = p.s.campaign;
+    expect(await p.until(() => held(p, 'owing_out'), 10)).toBe(true);
+    expect(p.log.join('\n')).toMatch(/says: Ask what is out in the country round/);
+    // Out by the map's journey to the nearest place told of, and there.
+    expect(await p.until(() => /journey: arrived/.test(p.log.join('\n')), 4)).toBe(true);
+    const restored = PlaySession.resume(JSON.parse(JSON.stringify(p.s.checkpoint())));
+    expect(restored.campaign.world.one('at', 'party')).toBe(c.world.one('at', 'party'));
+    expect(new HonestPlayer(restored).aim()).toBe(p.aim());
+  }, 240000);
+  // Its errand done, the son goes about the town as the page leads, and is led down under it: a fight won and
+  // something found there, by the page's leads alone.
+  it('leads a son with his errand done down under the town, to a fight won and something found', async () => {
+    const p = await start('kin'), c = p.s.campaign;
+    expect(await p.until(() => held(p, 'tell_kin'), 12)).toBe(true);
+    expect(await p.until(() => !held(p, 'tell_kin'), 16)).toBe(true);
+    const carried = () => p.glanced.screen.items.map(i => i.id), before = new Set(carried());
+    // A fight the company's side won (its side is the fighters).
+    const won = () => c.history.some(e => e.combat.some(x => x.type === 'end' && 'outcome' in x
+      && x.outcome === 'fighters'));
+    expect(await p.until(() => won() && carried().some(id => !before.has(id)), 50)).toBe(true);
+    expect(p.s.campaign.world.one('at', 'party')).toMatch(/_u_|_ud/);
+  }, 300000);
 });

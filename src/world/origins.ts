@@ -173,8 +173,7 @@ export class Origins {
   }
   // The nearest of the old places the innkeeper tells of, for the debt's aim once told (see RegionRumours).
   private static near(region: Region, s: Settlement): { near?: [string, string] } {
-    const seats = RegionGeography.seats(region).filter(x => !x.site.work?.great);
-    const site = RegionRumours.nearest(region, s, seats)[0]?.site;
+    const site = RegionRumours.nearest(region, s, RegionRumours.told(region))[0]?.site;
     return site ? { near: [`region.${site.id}`, 'place'] } : {};
   }
   // What a debt paid leaves (the play-structure investigation's PT-01: a resolution had ended in "Nothing more is
