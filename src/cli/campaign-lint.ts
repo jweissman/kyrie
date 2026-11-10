@@ -1,4 +1,5 @@
 import { ActionSchemas } from '../campaign/action-schemas';
+import { Stakes } from '../ui/stakes';
 import { PlaySession } from '../session/play-session';
 import { ItemCatalog } from '../item-catalog';
 import { Canon } from '../canon/canon';
@@ -34,6 +35,17 @@ export class CampaignLint {
   // A name a module has that the shared rules have too is the module's own within it: worth knowing, not an error.
   shadows() {
     for (const s of this.session.campaign.save().definition?.shadows ?? []) { this.add('warning', 'shadow', s); }
+  }
+  // An aim its author gave no target is read from its words (see ObjectiveTarget); where they name places neither of
+  // which holds the other, the page cannot tell which is meant, and where they name nothing to go to or speak with it
+  // can lead nowhere: say it with `toward … by …` (the quest-intent and travel-contract review, 9 November).
+  targets() {
+    for (const o of this.module.objectives ?? []) {
+      if (o.toward?.length) { continue; }
+      const t = Stakes.target(this.session.campaign, o);
+      if (t.ambiguous) { this.add('advice', 'target', `${o.id} names more than one place and none holds the others: say which it is toward`); }
+      else if (!t.subject && !t.actionAt) { this.add('advice', 'target', `${o.id} names no one and nowhere: say what it is toward`); }
+    }
   }
   // A rule anchored at a place is heard there, but happens wherever the company is, whenever its condition holds: two
   // authors met it apart (a purse lifted at Pellam's fair from a company a mile off on the road; a chair at Hessel run

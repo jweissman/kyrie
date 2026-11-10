@@ -105,7 +105,7 @@ export class KyrLint {
     lint.identity(); lint.shadows(); lint.containment(); lint.passages(); lint.traversal(); lint.geography();
     lint.applicability(); lint.labels(); lint.items(); lint.prose(); lint.domain(); lint.hazards(); lint.placeholders();
     lint.roles();
-    lint.anchors(); lint.keeps(); lint.movers(); lint.endings(); lint.writeOnly(); lint.commitments();
+    lint.anchors(); lint.targets(); lint.keeps(); lint.movers(); lint.endings(); lint.writeOnly(); lint.commitments();
     AuthorLint.run(lint);
     return lint.findings;
   }
