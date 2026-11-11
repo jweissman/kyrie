@@ -14,7 +14,8 @@ const r = (id: string) => `region__${id}`;
 describe('the silent lord: consequences that leave the keep', () => {
   it('can be ended by a cup: the herald dies at the feast, the garrison paid, the lie holds, the town’s levy is remitted, and a save keeps it', async () => {
     const j = await Keep.start();
-    await Keep.arrive(j, 'ward', '=day 12 11:00');
+    await Keep.arrive(j, 'kitchen');
+    await j.play('=day 12 11:00', '>keep__ward');
     j.coin(100);
     await j.play('Ask .* how the garrison stands', 'Put eighty crowns');
     await j.play('>keep__kitchen', 'Ask .* what is in the jar', 'Peel and chop', 'Ask .* for the jar of monkshood');
@@ -38,7 +39,8 @@ describe('the silent lord: consequences that leave the keep', () => {
 
   it('turns the household on a company that names the seal a forgery with nothing to lay beside it: the herald’s men fall on them', async () => {
     const j = await Keep.start();
-    await Keep.arrive(j, 'hall', '=day 12 20:00');
+    await Keep.arrive(j, 'kitchen');
+    await j.play('=day 12 20:00', '>keep__hall');
     Placed.knows(j, k('lord_dead'));
     Placed.knows(j, k('herald_false'));
     await j.play('=day 12 21:10');
@@ -68,7 +70,8 @@ describe('the silent lord: consequences that leave the keep', () => {
 
   it('lets a garrison that is not paid take the keep when the death is told: the castellan goes to her own oubliette, and unpaid spearmen ask a toll on the first town’s green', async () => {
     const j = await Keep.start();
-    await Keep.arrive(j, 'hall', '=day 12 20:00');
+    await Keep.arrive(j, 'kitchen');
+    await j.play('=day 12 20:00', '>keep__hall');
     Placed.knows(j, k('lord_dead'));
     Placed.knows(j, k('herald_false'));
     await j.play('=day 12 21:10');

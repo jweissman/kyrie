@@ -76,7 +76,7 @@ Module silent_lord "The silent lord" {
   }
   Relation herald_goes(group). Relation herald_bought(group). Relation read_out(group). Relation poison_deed(group).
   Rule herald_leaves when herald_goes(house) and at(herald, ?p) and at(bravos, ?q) and distinct(?p, outside) and not dead(herald)
-    says "The herald's baggage goes down the stair before the household is up, and the herald after it, and the two men after him." {
+    says "The herald's baggage is carried down and out of the keep, and the herald after it, and the two men after him, with the household watching." {
     Assert occupied(herald). Assert occupied(bravos). Retract at(herald, ?p). Assert at(herald, outside). Retract at(bravos, ?q). Assert at(bravos, outside).
   }
   Rule herald_dies_unmasks when dead(herald) and not unmasked(house) { Assert unmasked(house). }

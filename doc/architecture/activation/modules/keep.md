@@ -123,4 +123,48 @@ A new king in his second year, a coronation court far off, a marshal and a queen
 
 ## 12. What was built, proved and not proved
 
-*(Filled in after the build; see the final report.)*
+**Implemented** (data only; no TypeScript beyond the registration of data, see the list of shared files): the scenario `silent-lord`, one line in `standing.json`; a new additive site kind `hold` (`sites.json`, `siteKind` and `siteNoun` in `places.json`); the module `data/situations/silent-lord` (nine Kyr files, `tables.json`, `templates.json`): 19 rooms, 12 named inhabitants and 6 groups, 17 mechanisms, a household routine by the hour (`duty(person, period, room)` and one generic rule), a feast with a clock, a reckoning into five states, and the first town's levy, crier, deserters, rider and writ.
+
+**Automatically verified** (focused specs, `bun test test/silent-lord*.test.ts`; each plays by the page's own labels, and says where it puts the company down to skip a walk):
+
+| Spec | Proves |
+|---|---|
+| placed in 7 seeds | the standing scenario takes a generated `hold` site in every first country sampled (forest, marsh, mountain, frost; human and dwarf), bound to the first town |
+| names, leaguer | 11 inhabitants named from the country's folk, one leaguer drawn |
+| heard, walked, entered | the crier's notice on the green teaches the way; the map's set-out arrives; the gate is a gate |
+| the regency | marshal paid, chaplain, clerk, castellan won, press opened, will and spring letter read, seals compared, the king's seal laid before the hall at the feast, the regency holds, the levy is commuted |
+| the gate at night; the hounds and the bone; the houndsman's trust; the dead watch | the curfew gate opens to a civil word or three crowns; hounds are loosed and answered; the sentries leave the wall between two and three |
+| the drain | the outfall is found by searching; bad air is cleared by propping the grating; rats fought; the old vault; the oubliette; the rider freed |
+| the poisoned cup | the herald dies at the feast, the lie holds, the levy is remitted on the green, the innkeeper's collection is paid, the state survives a save and reload |
+| a wrong word before the hall | the herald's men are turned loose and the household is hunted |
+| the gate shut and the cooling | the gate is refused to a hunted company and relents after three days (the hunt is made by assertion in that spec; the fight that would make it kills a level-one warrior alone) |
+| an unpaid garrison | the death told with no pay: the garrison takes the keep, the castellan is put in her own oubliette, deserters ask a toll at Thornhaven's green, the levy is abandoned |
+| forgery and the rider | the clerk's remission quashes the levy at the crier; his rider posts the writ on the next green |
+
+**Experienced:** three scripted journeys, driven by `scripts/play-transcript.ts` over the page's own labels and written as the page told them, are in `transcripts/silent-lord-approach.txt`, `-night.txt` and `-regency.txt`. They were read by their author. They are not an independent player's play and prove nothing about whether a stranger finds it clear or wants to go on.
+
+**Not verified:** the browser; the paintings (rooms are named for existing kinds; the great hall, solar, kennels and mews have no matching room painting: see the commission list below); a cold human player; the full suite; fights beyond what the specs trigger (the mastiffs, rats, and the herald's men were begun, not balanced); the Reckoning's other combinations (usurped, and a regency whose herald is bought off) are in the Kyr and not each walked; the companion hire of the freed rider is not built.
+
+## 13. Requests (continuing kyr-deem-requests.md; prefixed `s`)
+
+**R15s. A scenario cannot import the first town's authored people and facts.** The region module exports a fixed list of ids (`RegionWriter.manifest`: greens, rooms, innkeeper, priest, merchant, traveller, sites, ways). Reproduce: in `silent-lord.scenario.json` add `"reeve": "@home.reeve"`: `Unresolved module import reeve: region.s1_reeve`. So the keep cannot read `s1_rooke_reported` or `s1_forged`, and meets the bailiff story only by its own clerk, rider and notice on the next green. *Proposal:* export every id a town template declares (the parser knows them), or let `@role.part` resolve any region entity.
+
+**R16s. A new kind of site is three data edits in three files.** `sites.json` (how it looks), the `siteKind` groups (per terrain) and `siteNoun` (names), and nothing says so; a kind absent from any silently fails to place. *Proposal:* one `kinds` entry in `sites.json` with `terrains` and `nouns`.
+
+**R17s. A person who is both `Peaceable` and has a `Temperament` still warns and fights on arrival.** Reproduce: `Person sentries ... Peaceable. Temperament territorial. Warns "..."`, put the company in its place: the warning is told and the fight begins. The guide says a peaceable person "comes at nobody". I worked round it with two groups (day and night sentries) appearing and vanishing by rule. *Proposal:* let a rule assert or retract a temperament, or make `Peaceable` suppress `Warns`.
+
+**R18s. No routine for people who keep hours.** Seven periods and eleven people are a relation `duty(person, period, room)` and one rule; it works, and the lint cannot see it. *Proposal:* a `Keeps <room> from <hour> to <hour>.` line on a Person.
+
+**R19s. A shared relation name taken for a module's own gives "Unknown predicate" at the spec, not at the load.** `settled`, `trusts` and `won` are shared; my own were renamed by the shadowing and the spec could not find them. (Cf. R10, the noisy error.) *Proposal:* the load says "your `settled` is shadowed as `own_settled`".
+
+**R20s. A topic whose effect takes coin from a person who has none is quietly never offered** (`Decrease quantity(keeper, gold) by 8` on an innkeeper with less). The page shows no reason. *Proposal:* say so in the lint, or let a topic pay from nothing.
+
+**R21s. Two topics with one label, only one eligible, are not offered.** Four "Ask {keeper} how the muster went" topics (one per outcome) offered none until their labels differed.
+
+## 14. Shared files touched
+
+`data/generation/scenes/sites.json` (one kind), `data/generation/tables/places.json` (`hold` in five `siteKind` groups, one `siteNoun` group), `data/scenarios/standing.json` (one line), `data/paintings/scenery.json` (two `places` keys: the hall and solar take the great-hall painting), `test/fixtures/traces/wren-tower-climbed.transcript.json` (digests only: `bun scripts/redigest-trace.ts wren-tower-climbed` says "it comes where it came"), `web/bundles.generated.json` (regenerated), `scripts/play-transcript.ts` (new, a developer tool). Merge notes: `standing.json` takes one line from each of the three standing modules; `places.json` and `sites.json` are additive; the trace and bundles are regenerated, not merged.
+
+## 15. Painting commissions
+
+A great hall with a high table and an empty seat (the hall takes `dissolution` from its kind word; the scenery table's `places` could name `scene-great-hall`); a kennel-yard with hounds in pens and a mews; a bier in a vault with candles in a ring.

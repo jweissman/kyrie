@@ -33,7 +33,7 @@ Module silent_lord "The silent lord" {
     says "The blots and the long-tailed d in the herald's letter are the clerk's. It is his hand." teaches hand_clerk { }
 
   // ---- The muster day: set when the company first comes in at the gate, never earlier than the twelfth day.
-  Rule entering when at(party, gatehouse) and not entered(house) { Assert entered(house). Set feastDay(house) to max(12, day(clock) + 2). }
+  Rule entering when within(party, hold) and not entered(house) { Assert entered(house). Set feastDay(house) to max(12, day(clock) + 2). }
   Rule feast_opens heard at hall when now(p_feast) and hour(clock) < 21 and not read_out(house) and not unmasked(house) and not dead(herald)
     says "The doors of the hall stand open, and the feast is laid: the long tables loaded, the high seat's cup filled, the herald placed at the castellan's right hand, where the lord's heir would sit. The household takes its seats in order of rank and watches the door." { }
   Rule herald_reads heard at hall when now(p_feast) and hour(clock) >= 21 and not read_out(house) and not unmasked(house) and not dead(herald)

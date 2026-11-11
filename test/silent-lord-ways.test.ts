@@ -1,5 +1,4 @@
 import { describe, expect, it } from 'bun:test';
-import { Journey } from '../src/session/journey';
 import { Placed } from './support/placed';
 import { Keep } from './support/keep';
 
