@@ -45,8 +45,13 @@ export class GlanceLines {
   // of who changed what (changedBy), and the line's own subject, never the words.
   private static left(campaign: Campaign, screen: Screen, defs: Map<string, Observation>): string[] {
     const ours = new Set(['party', campaign.playerActor ?? '']);
-    const changed = new Set(campaign.world.related('changedBy').filter(r => ours.has(r.args[1]!)).map(r => r.args[0]!));
-    return screen.observed.filter(o => changed.has(this.def(defs, o.id)?.about ?? ''))
+    const w = campaign.world, changed = new Set(w.related('changedBy').filter(r => ours.has(r.args[1]!)).map(r => r.args[0]!));
+    // Not whoever goes with the company: a shepherd's boy untied and following "rubs his wrists" had been news at
+    // every place he came to (round 5).
+    const along = new Set(['following', 'memberOf'].filter(n => w.relates(n))
+      .flatMap(n => w.related(n).filter(r => ours.has(r.args[1]!)).map(r => r.args[0]!)));
+    return screen.observed.filter(o => changed.has(this.def(defs, o.id)?.about ?? '')
+      && !along.has(this.def(defs, o.id)?.about ?? ''))
       .map(o => FictionalTime.prose(o.text));
   }
   // The place's lead line: in the dark, the dark; else its own lasting line before its passing life, the first written.

@@ -9,6 +9,18 @@ Module back "A strongroom left open, and come back to" {
     State open "The iron chest stands open, and empty.".
     Change lift "Lift the chest's lid" from shut to open.
   }
+  // Someone the company changed who comes along with it: not news at a place come back to (round 5).
+  Person boy "the boy" at strongroom { Role "a boy taken off the farms". Ancestry human. Peaceable. Pronouns he.
+    State tied "A boy sits against the wall with his hands tied.".
+    State loose "The boy rubs his wrists and looks at the door.".
+    Change untie "Untie the boy" from tied to loose.
+    Uses go. Plans 12 steps.
+  }
+  Pursuit stay_close for boy "keeping close to you" priority 30 when following(boy, party) seeks together(boy, party).
+  Topic boy_come with boy "Ask the boy to come with you" when not following(boy, actor) once {
+    Says "'All right,' says the boy.".
+    On discuss { Assert following(boy, actor). }
+  }
   Observe strong_scene at strongroom when true "A low vaulted room. The walls sweat. There is one door.".
   Observe stair_scene at stair when true "A turning stair.".
   Goal false.

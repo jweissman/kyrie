@@ -18,4 +18,16 @@ describe('a place come back to', () => {
     expect(back.arrival).toBe('return');
     expect(back.changed).toContain('The iron chest stands open, and empty.');
   }, 30000);
+  it('says nothing of whoever came along with the company', async () => {
+    const j = await Journey.start('test/fixtures/probes/come-back/probe.campaign.json', 'q');
+    const g = Glanced.of((j as unknown as { session: PlaySession }).session);
+    const go = (re: RegExp) => g.perform(PlayerView.choices(g.campaign).find(x => re.test(x.choice.name))!.choice.id);
+    await go(/^Untie the boy/);
+    await go(/^Ask the boy to come/);
+    await go(/stair$/);
+    expect(g.campaign.world.one('at', 'p__boy')).toBe('p__stair');
+    const back = await go(/strongroom$/);
+    expect(back.arrival).toBe('return');
+    expect(back.changed.join(' ')).not.toContain('rubs his wrists');
+  }, 30000);
 });
