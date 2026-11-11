@@ -1,0 +1,108 @@
+# troubles: small situations in the first town that are played, not paid: someone missing, someone to be escorted, animals behaving oddly, a theft with a culprit.
+// A Kyr template (see src/world/kyr-template.ts), written for the first town with neighbours.kyrt (it needs its people:
+// {t}_hesper, {t}_anselm, {t}_boy ...). {station} where the country has the Empire's posting-house. The culprit of the theft
+// and the cause of the animals' trouble are drawn per country (groups "thief" and "animals"), each writing its own clues, so
+// the same situation has a different answer in a different seed; a wrong answer has a cost.
+--- base
+  Relation {t}_hesper_gone(group). Relation {t}_hesper_found(group). Relation {t}_theft_solved(group). Relation {t}_theft_wrong(group).
+  Relation {t}_animals_known(group). Relation {t}_pilgrim_asked(group).
+  // ---- Missing: Hesper Lowe goes to take her own pattern, and does not come back.
+  Rule {t}_hesper_goes when {t}_hesper_told(party) and not {t}_bell_cast(party) and watch(clock) >= 40 and not {t}_hesper_gone(party) says "The apprentice's apron is found on the well-curb, soot-side out, and nobody has seen her since the forenoon." { Assert {t}_hesper_gone(party). }
+  Rule {t}_hesper_moves when {t}_hesper_gone(party) and not {t}_hesper_found(party) and at({t}_hesper, {t}_green) { Retract at({t}_hesper, {t}_green). Assert at({t}_hesper, {t}_stones_under). }
+  Observe {t}_hesper_missed at {t}_green when {t}_hesper_gone(party) and not {t}_hesper_found(party) "The merchant keeps looking toward the hill. The apprentice's apron hangs on the well-curb, soot-side out, and the sheds have not heard the hammer since yesterday.".
+  Objective {t}_hesper_aim when {t}_hesper_gone(party) and not {t}_hesper_found(party) toward {t}_merchant "Hesper Lowe's apron was found on the well-curb and she has not been seen since: ask {{t}_merchant}, who has not slept.".
+  Topic {t}_hesper_lead with {t}_merchant "Ask {{t}_merchant} where Hesper Lowe has gone" when {t}_hesper_gone(party) and not {t}_hesper_found(party) once {
+    Says "{{t}_merchant} has not slept. 'She asked me yesterday,' they say, 'which way the wind blew from the quarry, and whether I had ever heard of a way in under the Hall. I said no. She said she had a rope.' A breath. 'She is nineteen, she is clever, and she has never been afraid of anything that was not a person. Go. I will give you what I have.'".
+    On discuss { Give 10 gold to actor. }
+  }
+  Observe {t}_hesper_rope at {t}_manor_cellar when {t}_hesper_gone(party) and not {t}_hesper_found(party) "One of the Hall's small grey bricks has been pulled right out of the old wall, and a coil of good boat-rope runs from a rack-leg down into the dark of a passage you had not found." teaches {t}_tunnel_found.
+  Observe {t}_hesper_there at {t}_stones_under when {t}_hesper_gone(party) and not {t}_hesper_found(party) "A girl sits against the wall under the lowest niche with her leg out straight at a bad angle and a strip of wax in her fist, white to the lips. 'I did not want to go back to the sheds with nothing,' she says. 'The slab came down behind me. I have been counting.'".
+  Topic {t}_hesper_help with {t}_hesper "Help Hesper Lowe up, and get her home" when {t}_hesper_gone(party) and not {t}_hesper_found(party) once {
+    Says "Hesper Lowe weighs less than the rope she brought. You splint the leg with the shaft of a pole, and she says nothing at all until you are through the tunnel and in the Hall cellar, and then she says: 'Do not tell the wright I cried.' She presses what she has into your hand: ten silver. 'The wax is ours. I shall cast it all the same. But you will not be thanked at the sheds.'".
+    On discuss { Assert {t}_hesper_found(party). Assert {t}_bell_cast(party). Give 10 gold to actor. }
+  }
+  Rule {t}_hesper_home when {t}_hesper_found(party) and at({t}_hesper, {t}_stones_under) { Retract at({t}_hesper, {t}_stones_under). Assert at({t}_hesper, {t}_green). }
+  Observe {t}_hesper_after at {t}_green when {t}_hesper_found(party) "A girl on a crutch sits on an upturned hull at the sheds, with a mould in her lap, and a look that says she is not to be spoken to about wisdom.".
+  // ---- Escort: an old pilgrim who will walk to the place of his wife's coin whatever anyone says.
+  Person {t}_pilgrim "Osmund Pyle" at {t}_taproom {
+    Role "an old man with a stick and a bad hip, who means to walk to the place his wife used to leave a coin, and has been told by everyone that he will not get there". Ancestry human. Peaceable. Manner stoic. Pronouns he.
+    Greets "An old man puts a coin on the table by the door and does not look up from it. 'I am going,' says Osmund Pyle. 'I will go slowly, and I will go alone if I must, and I would rather not.'".
+  }
+  Initially Assert acceptsEscort({t}_pilgrim, party). Initially Set thanks({t}_pilgrim) to 14.
+  Topic {t}_pilgrim_why with {t}_pilgrim "Ask Osmund Pyle where he is going" when true once {
+    Says "'To leave her coin,' says Osmund Pyle. 'Thirty years she left one, at the stone where the old people leave theirs, for a safe road for whoever was out on it. She said it was manners. She died in the spring, and I find I have not been manners about anything since.' He turns the coin over. 'I cannot walk far in a day. I will need to sit. I shall tell you when to stop, and you will find it irritating.'".
+    On discuss { Assert {t}_pilgrim_asked(party). }
+  }
+--- pilgrim road 1 if station
+  Initially Assert home({t}_pilgrim, {station}).
+--- pilgrim tree 1 unless station
+  Initially Assert home({t}_pilgrim, {t}_stones_tree).
+--- thief hesper 1
+  // The offering-box at the shrine was emptied: the culprit is the apprentice, who needed the bronze.
+  Thing {t}_box "the shrine's offering-box" at {t}_shrine {
+    State shut "The offering-box by the lamp is shut, its lock whole, and light in the hand: the little bronze things that were left in it have gone, and the coppers have not.".
+    State seen "Inside: a green-black smear on the lid's edge, as of oily bronze handled by someone with soot in their palms, and two coppers left, because whoever took the rest did not want coin.".
+    Change look "Look closely at the offering-box" from shut to seen.
+  }
+  Observe {t}_box_learned at {t}_shrine of {t}_box as reading when state({t}_box, seen) "Somebody took only the bronze: rings, a bracelet, a little bell. Somebody who wanted metal, not money." teaches {t}_theft_clue.
+  Entity {t}_theft_clue: fact "The shrine's offering-box was emptied of its bronze only, and left its coppers, with a soot-smear on the lid.".
+  Topic {t}_theft_ask with {t}_innkeeper "Ask {{t}_innkeeper} who was near the shrine last night" when knows(party, {t}_theft_clue) once {
+    Says "'Nobody,' says {{t}_innkeeper}, too quickly. 'The merchant was at the sheds, and the traveller was in here till late. And the girl from the landing was about, she is always about, she has been about the shrine since the bell went. But she is a good girl.' They stop. 'I should not have said that.'".
+  }
+  Topic {t}_accuse_right with {t}_anselm "Tell {{t}_anselm} the bronze was taken by Hesper Lowe" when knows(party, {t}_theft_clue) and not {t}_theft_solved(party) and not {t}_theft_wrong(party) once {
+    Says "{{t}_anselm} shuts his eyes. 'She came to me in the spring,' he says. 'She asked whether a thing that had been offered could be melted for a better thing. I said no, and gave her a lecture.' He opens them. 'I am the one who should be sorry. I will tell the priest the box is as it should be, and that I have a debt to the shrine and will pay it. And I will see she gets bronze.'".
+    On discuss { Assert {t}_theft_solved(party). Give 8 gold to actor. }
+  }
+  Topic {t}_accuse_wrong with {t}_anselm "Tell {{t}_anselm} the bronze was taken by the traveller at the inn" when knows(party, {t}_theft_clue) and not {t}_theft_solved(party) and not {t}_theft_wrong(party) once {
+    Says "{{t}_anselm} goes very white. 'You are sure?' he says. 'You have seen the traveller's hands? You have seen the metal?' He has already taken a step toward the door. 'I will not do it,' he says. 'But the priest will. I should have asked you what you saw first.'".
+    On discuss { Assert {t}_theft_wrong(party). }
+  }
+  Observe {t}_theft_wrong_after at {t}_taproom when {t}_theft_wrong(party) "The traveller's pack stands by the door, packed, and the traveller is not in the room: the priest has had a word with the castellan, and nobody at the inn will look at the stairs.".
+--- thief traveller 1
+  Thing {t}_box "the shrine's offering-box" at {t}_shrine {
+    State shut "The offering-box by the lamp is shut, its lock whole, and light in the hand: the little bronze things that were left in it have gone, and the coppers have not.".
+    State seen "Inside: a thread of travelling-cloth caught on the lid's hinge, the grey of a road-cloak, and a smear where a hand slid in sideways.".
+    Change look "Look closely at the offering-box" from shut to seen.
+  }
+  Observe {t}_box_learned at {t}_shrine of {t}_box as reading when state({t}_box, seen) "Somebody on the road, in a road-cloak, who did not mind being seen leaving." teaches {t}_theft_clue.
+  Entity {t}_theft_clue: fact "The shrine's offering-box was emptied of its bronze, with a thread of a grey road-cloak on the hinge.".
+  Topic {t}_theft_ask with {t}_innkeeper "Ask {{t}_innkeeper} about the traveller who left in a hurry" when knows(party, {t}_theft_clue) once {
+    Says "'Left at dawn,' says {{t}_innkeeper}. 'Paid in full. Said they had a debt to meet at the coast, and looked like a person who had been sitting on a stone for a week. They had a bad bag of coin. They sold something at the sheds, and it rang.' A pause. 'I should say the girl at the landing was out late. But she is always about.'".
+  }
+  Topic {t}_accuse_right with {t}_anselm "Tell {{t}_anselm} the bronze was taken by the traveller who left at dawn" when knows(party, {t}_theft_clue) and not {t}_theft_solved(party) and not {t}_theft_wrong(party) once {
+    Says "{{t}_anselm} lets out a breath. 'Bronze,' he says. 'Sold at the sheds, so the sheds will have it, and I can buy it back.' He stops. 'I had been about to think it was a person of the house. I am ashamed of how long I was about to think it.' He presses coin into your hand. 'For the walking.'".
+    On discuss { Assert {t}_theft_solved(party). Give 8 gold to actor. }
+  }
+  Topic {t}_accuse_wrong with {t}_anselm "Tell {{t}_anselm} the bronze was taken by Hesper Lowe" when knows(party, {t}_theft_clue) and not {t}_theft_solved(party) and not {t}_theft_wrong(party) once {
+    Says "{{t}_anselm} stares. 'The apprentice? She has never taken a thing in her life that she did not make.' But he is already thinking about the bell, and the bronze, and the soot on her hands, and you see him decide, against his own judgement. 'I will have to speak to the priest,' he says.".
+    On discuss { Assert {t}_theft_wrong(party). }
+  }
+  Observe {t}_theft_wrong_after at {t}_green when {t}_theft_wrong(party) "At the sheds a girl in a leather apron stands with her arms folded and her chin up, and nobody has spoken to her since noon; the merchant is pretending to count barrels.".
+--- animals vixen 1
+  Observe {t}_animals_seen at {t}_green when not {t}_animals_known(party) "The geese are kept in a bunch at the well, hissing at the lane to the Hall, and three hens have gone from the inn's yard since Tuesday.".
+  Thing {t}_tracks "the marks under the garden wall" at {t}_manor_garden {
+    State unread "Under the garden wall, in the soft earth by the fountain, there are small tracks, like a dog's, narrower, going in a line to the wall and under it.".
+    State read "A fox's, with young: a vixen, with kits. The line goes under the wall by a gap that leads toward the Hall cellar.".
+    Change read "Follow the marks under the garden wall" from unread to read.
+  }
+  Observe {t}_tracks_learned at {t}_manor_garden of {t}_tracks as reading when state({t}_tracks, read) "A vixen is bringing kits up in the old wall of the Hall's cellar, and has been taking what the town cannot count." teaches {t}_animals_fact.
+  Entity {t}_animals_fact: fact "A vixen has her kits in the old wall behind the Hall cellar's racks and has been taking the town's hens.".
+  Topic {t}_animals_cook with {t}_manor_cook "Tell {{t}_manor_cook} about the vixen in the wall" when knows(party, {t}_animals_fact) and not {t}_animals_known(party) once {
+    Says "'A *vixen*,' says {{t}_manor_cook}, and then, to nobody, 'in my walls.' She puts the spoon down. 'The steward will want her out and the hens paid for. I have fourteen mouths in the kitchen and three eggs a day. Leave her be till the kits are weaned, and I will make it right with the town in hens.' A look. 'Or drive her off, if you like. I will not say a word. It is not a thing I should enjoy.'".
+    On discuss { Assert {t}_animals_known(party). Give 6 gold to actor. }
+  }
+  Observe {t}_animals_after at {t}_green when {t}_animals_known(party) "The geese have gone back to the pond. Somebody has left a half-dozen hens at the inn's door with a note in a cook's blunt hand: FOR THE TOWN.".
+--- animals tune 1
+  Observe {t}_animals_seen at {t}_green when not {t}_animals_known(party) "At dusk every dog in the town lifts its head and faces the hill, and the geese go silent, and nobody says why.".
+  Thing {t}_draught "the mouth of the old passage" at {t}_manor_cellar {
+    State still "The back of the cellar is quiet. The bricks that cover the old way are cold to the hand and do not hum.".
+    State heard "With your ear against the old wall you can hear it: a low, even tone, three down and one up, coming up the passage like breath through a flute. It is the draught.".
+    Change listen "Listen at the old wall" from still to heard.
+  }
+  Observe {t}_draught_learned at {t}_manor_cellar of {t}_draught as reading when state({t}_draught, heard) "At dusk the wind comes round into the passage and sounds the chime's four notes without anyone to strike it. The dogs hear it before we do." teaches {t}_animals_fact.
+  Entity {t}_animals_fact: fact "At dusk the wind sounds the undercroft's four notes through the old passage and the Hall cellar's wall: that is what the town's dogs face the hill for.".
+  Topic {t}_animals_cook with {t}_manor_cook "Tell {{t}_manor_cook} it is only the wind in the old passage" when knows(party, {t}_animals_fact) and not {t}_animals_known(party) once {
+    Says "{{t}_manor_cook} wipes her hands slowly. 'Wind,' she says. 'Hmm. The boy hums that tune, and wind does not hum it to a boy.' A long pause. 'I do not say you are wrong. I say a thing that has been waiting to be asked a question for a thousand years will answer in the draught if it is the only voice it has.' She does not look at you. 'Do not tell the steward. Tell Anselm. He will know what to do with a thing that is two things.'".
+    On discuss { Assert {t}_animals_known(party). Give 6 gold to actor. }
+  }
+  Observe {t}_animals_after at {t}_green when {t}_animals_known(party) "At dusk the dogs lift their heads, as ever, and then lie down again. Somebody has hung a bit of cloth across the cellar-grating, and the notes are quieter.".

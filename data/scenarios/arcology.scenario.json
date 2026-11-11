@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "id": "arcology",
+  "name": "The Numbered House",
+  "kind": "adventure",
+  "instances": 1,
+  "places": {
+    "works": { "site": ["ruin"] },
+    "town": { "settlement": "near:works" },
+    "first": { "settlement": "largest" }
+  },
+  "modules": [
+    {
+      "id": "arcology",
+      "bundle": "../situations/arcology/module.json",
+      "imports": {
+        "party": "@party",
+        "land": "@works.land",
+        "outside": "@works",
+        "gossip": "@town.green",
+        "shrine": "@town.shrine",
+        "keeper": "@town.priest",
+        "first_taproom": "@first.taproom"
+      }
+    }
+  ],
+  "route": "arcology.culvert",
+  "found": {
+    "known": "Where the brook goes under the road-wall at the bend, there is an arch half choked with silt.",
+    "told": "Where the brook goes under the road-wall there is an arch half choked with silt, and the water coming out of it is warm."
+  },
+  "hooks": [
+    { "fact": "arcology.rumour", "topic": "the bend in the old road at {works}", "channels": ["road", "tavern", "market"], "opens": false },
+    { "fact": "arcology.hum_talk", "topic": "the hum in the hollow beyond {works}", "channels": ["temple", "tavern"], "opens": false },
+    { "fact": "arcology.culvert_talk", "topic": "the arch where the brook comes out under the road at {works}", "channels": ["road", "market"] }
+  ]
+}

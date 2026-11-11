@@ -1,0 +1,170 @@
+Module arcology "The Numbered House" {
+  // Three parties have been here before the company, and none of them agrees about the stair: the Empire's surveyors
+  // (who chalked what they were told and wrote a tablet that the road must go round), a monastic party (who cut a
+  // ladder to the Ledge and then cut it down again), and someone this decade, who left a lantern-tin. Each of them
+  // wrote down the order of the stair's plates; only one of them wrote it down right, and which one depends on the
+  // country (Deem draws it).
+  Kind seqpat. Entity pat_a: seqpat "the surveyors' order". Entity pat_b: seqpat "the monks' order". Entity pat_c: seqpat "the tin's order".
+  Relation pattern(thing, seqpat). Relation stepOne(seqpat, thing). Relation stepTwo(seqpat, thing). Relation stepThree(seqpat, thing).
+  Relation plate(thing). Measure progress(thing). Measure offered(group). Measure errors(group).
+  Kind voicekind. Entity voice_chime: voicekind "a chime". Entity voice_rasp: voicekind "a rasp". Entity voice_hush: voicekind "a hush".
+  Relation voiced(group, voicekind).
+
+  // --- the Bend ------------------------------------------------------------------------------------------------
+  Observe bend_green at outside when true "What the folk call the fallen walls are the lips of terraces sunk under turf: course on course of dressed stone, each set a little back from the one below, climbing the hillside until the hill takes them. The old road comes up out of the country straight as a rule for a mile, and here it bends once, hard, round all that green, as if round a sleeper.".
+  Observe bend_hum at outside as felt when true "Lay a palm on the kerb and the stone is not quite still. It is a hum too low to hear, like a cart passing a mile off on a road that has no cart on it.".
+  Thing bend_stone "the milestone at the Bend" at outside {
+    State unread "A milestone stands at the kerb with two counts cut on it, one beneath the other. The upper count has been struck through with a chisel; the lower is eight miles more.".
+    State read "The upper count is the road as the Posts laid it, straight; the lower is the road as they were made to lay it, and the difference is the Bend. Under both, in a smaller and later hand: NOT TO BE STRAIGHTENED.".
+    Change read "Read the figures on the milestone" from unread to read needing lore.
+  }
+  Observe bend_felt at outside as sign when state(bend_stone, unread) "Someone has been at the milestone with a chisel who meant it, and has cut a third line beneath the two, and a fourth over that, and then given up.".
+
+  // --- the Landing ---------------------------------------------------------------------------------------------
+  Observe landing_scene at landing when true "A broad shelf of dressed stone runs along the foot of the terraces, wide enough to turn a post-wagon, and behind it stand doors three times the height of a man, the colour of old brass. One has swung a hand's breadth open. Warm air comes out of the gap, smelling of oil and rain-wet metal.".
+  Observe landing_gone at landing as sign when true "Three parties have stood here before you. Chalk covers the wall by the doors; the stumps of a ladder lean against the face; a flat tin lies under the lintel with its lid sprung.".
+  Thing survey_chalk "the survey party's chalk" at landing {
+    State unread "Chalk covers the wall by the doors in a clerk's tidy hand, gone pale with weather. Near the top, nine upright strokes with a tenth laid across them, and beside the tenth a little loop of cord. Lower down, a row of three marks, bar-bar, bar-bar-bar, bar, and beside them the drawing of a flight of steps with three discs set in its lowest tread, each carrying bars of its own.".
+    State read "The chalk reads, in the Empire's numerals: NINE ENTERED, ONE LED. TEN COUNTED. THE ASS REMAINS WITHOUT. Under it: THE THREE DISCS OF THE FIRST TREAD STRUCK IN THE ORDER OF THE FIGURES, TWO, ONE, THREE; AND BY THE SMALL DISC, HIGH; BY THE GREAT, LOW. And lower: DO NOT STAND ON THE DECK WITH MORE THAN THE POSTED LIMIT. WE WERE TOLD TO COUNT AND TO GO ROUND. WE COUNTED.".
+    Change read "Read the survey party's chalk" from unread to read needing lore.
+  }
+  Discovery cairn_here "The survey party left things under the cairn by the doors." { Found by searching landing "Under the top stone of the survey's cairn there is a bronze tablet, and a plate of polished metal on a hinge.". }
+  Item prefect_tablet "the Prefect's tablet" is prefect_kind at landing hidden until cairn_here.
+  Item mirror "the surveyors' signal-plate" is mirror_kind at landing hidden until cairn_here.
+  Item chalk_stub "a stub of the survey's chalk" is chalk at landing hidden until cairn_here.
+  Kind prefect_kind "the Prefect's tablet" is document teaching detour_order worth 30 weighing 2 described "A bronze tablet the size of a hand, closed with a seal of lead stamped with a wheel and a wing. It orders the road round the Works, forbids a stage to be built within nine miles, and enjoins that no officer of the Posts enter or number what is within. It is signed with the Office of the Road's mark and no name.".
+  Discovery detour_order "The Office of the Road ordered the Posts to carry the road round the Works and to build no stage near it; whether to keep people out, or something in, the tablet does not say.".
+  Kind mirror_kind "the surveyors' signal-plate" is gear worth 4 weighing 1 described "A hinged plate of polished bronze, bright still, with a sighting-slot cut through its middle. The Posts used them to send a word down the road by sunlight; held to a lantern, one throws a hard small spot a long way.".
+
+  Thing ledge_way "the goat-path" on ledge_up {
+    State plain "A goat-path zigzags up the face from the shelf: ledges the width of a boot, and a few iron staples hammered into the rock by someone who wanted to get up without passing under the doors.".
+  }
+
+  // --- the Goat Ledge ------------------------------------------------------------------------------------------
+  Observe ledge_scene at ledge when true "The Ledge is the width of a cart-track, cut along the cliff by something that never meant it for walking, and ravens use it. Below, the shelf and the road; ahead, the green flank of the hill running away to the north, and in the flank, where the turf has slipped, a curved wall of dark metal pitted red, rising out of the hillside for the length of a village.".
+  Observe ledge_hull at ledge as feature when true "The wall is rust and old paint, riveted in courses as high as a house, and it does not stop where the turf does: it goes on under the hill. Scratched into the rock beside it in the Empire's hand: HVLL, struck through; HILL, written over; and beneath, too faint to read, a third attempt." teaches hull_seen.
+  Discovery hull_seen "Under the green flank of the hill, a curved wall of riveted metal runs on for the length of a village; the Empire's surveyors argued over whether to call it a hull or a hill.".
+  Person goats "the ledge-goats" at ledge {
+    Role "wild goats, sure-footed". Species goat. Numbers 3. Peaceable.
+    State grazing "Three goats graze the Ledge, as unconcerned as if it were a meadow, and one stands on the lip of the third balcony with all four feet on it, chewing, looking at you.".
+  }
+  Observe goats_tracks at ledge as sign noticed by woodcraft when true "The droppings on the Ledge are old and new together, and the hoof-marks go up and down the Narrow Stair in two lines, one deep, one light: the goats are carrying nothing, and something heavier than a goat goes up it every few days, and comes down. The deep prints are not a man's.".
+  Observe goats_sign at ledge as sign when true "Where the Ledge stairs go on to the terraces, the goats go up and down them without looking at their feet. Whatever else is wrong with the Narrow Stair, it carries a goat's weight, and a heavy one.".
+
+  // --- the Lodge, and the Count --------------------------------------------------------------------------------
+  Observe lodge_scene at lodge when true "Behind the brass doors a long hall runs back into the dark, its floor worn into a shallow trough by the feet of people who queued here. A rail of brass posts, the height of a waist, makes a lane down the middle of it. At the end of the lane stands a taller post with a dial in its face, and beyond it a stair rises out of the floor.".
+  Person usher "the Usher" at lodge {
+    Role "the keeper of the Lodge". Species automaton. Level 2. Temperament obedient. Lair lodge. Guards counting_stair.
+    Warns "At the end of the lane a figure of riveted brass plates turns its lamp-glass eyes on you. It stands across the stair and does not move. A voice comes out of the dial in the post, and the chime goes through you like a bell struck under a bowl: ARE YOU COUNTED?" when voiced(usher, voice_chime).
+    Warns "At the end of the lane a figure of riveted brass plates turns its lamp-glass eyes on you. It stands across the stair and does not move. A rasp comes out of the dial, like a file drawn along a saw, and makes a word of itself: ARE YOU COUNTED?" when voiced(usher, voice_rasp).
+    Warns "At the end of the lane a figure of riveted brass plates turns its lamp-glass eyes on you. It stands across the stair and does not move. The word comes as a hush, very close, as if someone had leaned out of the dark and said it into your ear: ARE YOU COUNTED?" when voiced(usher, voice_hush).
+    Comes "The Usher steps off the stair and comes down the lane at you, as it was made to, the brass of its joints shrieking.".
+    State posted blocking "The Usher stands across the foot of the stair with its hands at its sides.".
+    State stood_aside "The Usher has stepped back from the stair and stands with its head a little bowed, in the attitude of a servant whose master has come.".
+  }
+  Thing post "the counting-post" at lodge {
+    State waiting "The tall post at the end of the lane has a dial in its face, a brass tray under it, and a plate of numerals; its needle rests at nothing.".
+    State counted "The needle of the dial stands at the figure it was given, and the post is warm to the touch, as if it had thought about it.".
+  }
+  Observe post_plate at lodge of post as reading when state(post, waiting) "The plate under the dial has one line cut on it, and it is a question: HOW MANY ARE YOU, AND HOW MANY LED? It does not say which hand to count with.".
+  Action give_one(actor: group, site: place) "Give the post your number: one" {
+    Description "The post asks how many you are, and how many you lead.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(usher, site) and not counted(actor) and not dead(usher) and state(post, waiting).
+    Time 1 minute. On success { Set offered(actor) to 1. }
+    Result "You give the post your number. The needle swings and waits.".
+  }
+  Action give_two(actor: group, site: place) "Give the post your number: two" {
+    Description "The post asks how many you are, and how many you lead.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(usher, site) and not counted(actor) and not dead(usher) and state(post, waiting).
+    Time 1 minute. On success { Set offered(actor) to 2. }
+    Result "You give the post your number. The needle swings and waits.".
+  }
+  Action give_three(actor: group, site: place) "Give the post your number: three" {
+    Description "The post asks how many you are, and how many you lead.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(usher, site) and not counted(actor) and not dead(usher) and state(post, waiting).
+    Time 1 minute. On success { Set offered(actor) to 3. }
+    Result "You give the post your number. The needle swings and waits.".
+  }
+  Action give_four(actor: group, site: place) "Give the post your number: four" {
+    Description "The post asks how many you are, and how many you lead.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(usher, site) and not counted(actor) and not dead(usher) and state(post, waiting).
+    Time 1 minute. On success { Set offered(actor) to 4. }
+    Result "You give the post your number. The needle swings and waits.".
+  }
+  Action give_five(actor: group, site: place) "Give the post your number: five" {
+    Description "The post asks how many you are, and how many you lead.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(usher, site) and not counted(actor) and not dead(usher) and state(post, waiting).
+    Time 1 minute. On success { Set offered(actor) to 5. }
+    Result "You give the post your number. The needle swings and waits.".
+  }
+  Action give_six(actor: group, site: place) "Give the post your number: six" {
+    Description "The post asks how many you are, and how many you lead.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(usher, site) and not counted(actor) and not dead(usher) and state(post, waiting).
+    Time 1 minute. On success { Set offered(actor) to 6. }
+    Result "You give the post your number. The needle swings and waits.".
+  }
+  Rule count_right when offered(party) >= 1 and not counted(party)
+    and offered(party) == count(memberOf(?m, party)) + count(following(?f, party))
+    says "The needle settles on the figure and the dial gives a single soft note. The Usher lifts its head. COUNTED, says the voice, and the figure steps aside from the stair with a sound of springs. Somewhere above you, very far up, a lamp that has been out for longer than the Empire has been in becomes a little less out." {
+    Assert counted(party). Assert tolerates(usher, party). Assert state(usher, stood_aside). Assert state(post, counted).
+    Retract warned(usher, party). Retract halts(usher, party). Set offered(party) to 0. Set errors(party) to 0.
+  }
+  Rule count_wrong when offered(party) >= 1 and not counted(party) and errors(party) == 0
+    says "The needle jerks and falls back to nothing, and the dial gives a flat note that is somehow worse than a shout. The Usher takes one step forward. THE NUMBER IS NOT THE NUMBER, says the voice. Count again." {
+    Set offered(party) to 0. Set errors(party) to 1. Increase hum(house) by 1. Set humAt(house) to watch(clock).
+  }
+  Rule count_wrong_twice when offered(party) >= 1 and not counted(party) and errors(party) >= 1
+    says "The dial gives the flat note a second time. The Usher does not wait for a third: it comes off the stair with its arms rising, saying only COUNT, COUNT, COUNT." {
+    Set offered(party) to 0. Increase hum(house) by 2. Set humAt(house) to watch(clock). Assert assails(usher, party).
+  }
+  Topic usher_who with usher "Ask the Usher who is permitted" when state(usher, posted) once {
+    Says "The voice comes from the dial, not the figure. THE PERMITTED ARE THE COUNTED. A pause, as of a clerk finding a line. THE COUNTED ARE THOSE WHO PASS UNDER THE ARCH, AND THOSE LED. THE ASS IS NOT A HEAD. ANYTHING THAT TALKS IS.".
+  }
+  Topic usher_queue with usher "Ask the Usher what happens to those who are not counted" when state(usher, posted) once {
+    Says "THEY WAIT, says the voice. It says nothing more for long enough that you begin to turn away. THEY WAIT FOR THEIR NUMBER. The needle turns a little, and stops. NO NUMBER HAS BEEN CALLED SINCE THE LAST ONE.".
+  }
+
+  // --- the Stair That Counts -----------------------------------------------------------------------------------
+  Observe stair_scene at lodge when state(treads, sounding) "The stair rises from the floor in treads of grey stone, thirty of them, each as wide as the hall. In the face of the lowest tread three bronze discs are set in a row like the heads of nails, one small, one larger, one larger still, and each is marked with bars.".
+  Thing treads "the treads of the Stair That Counts" on counting_stair {
+    State sounding dangerous "Each tread of the stair gives a note under the foot, and the notes are not the same from one tread to the next. Climb it as it is and the treads let go under you one by one, so that you go up it as a man goes up a landslide.".
+    State stilled "The stair stands quiet, and its treads are only stone.".
+    Change wedge "Wedge the discs still with the bar" from sounding to stilled needing crowbar.
+    Hurts with tread_fall when sounding then sounding.
+  }
+  Hazard tread_fall "The treads give way underfoot" means "Deal (1d6) physical damage to ally unless dexterity save against (11).".
+  Thing plate_low "the great disc in the first tread" at lodge {
+    State ready "The largest of the three discs is set in the face of the first tread, marked with three bars. Struck, it would sound low.".
+    State rung "The great disc is still ringing, low and long.".
+    Change strike_low "Strike the great disc" from ready to rung when state(treads, sounding) "The stair is quiet already.".
+  }
+  Thing plate_mid "the middle disc in the first tread" at lodge {
+    State ready "The middle disc of the three is set in the face of the first tread, marked with two bars.".
+    State rung "The middle disc is still ringing.".
+    Change strike_mid "Strike the middle disc" from ready to rung when state(treads, sounding) "The stair is quiet already.".
+  }
+  Thing plate_high "the small disc in the first tread" at lodge {
+    State ready "The smallest of the three discs is set in the face of the first tread, marked with one bar. Struck, it would sound high.".
+    State rung "The small disc is still ringing, thin and high.".
+    Change strike_high "Strike the small disc" from ready to rung when state(treads, sounding) "The stair is quiet already.".
+  }
+  Initially Assert plate(plate_low). Initially Assert plate(plate_mid). Initially Assert plate(plate_high).
+  Initially Assert stepOne(pat_a, plate_mid). Initially Assert stepTwo(pat_a, plate_high). Initially Assert stepThree(pat_a, plate_low).
+  Initially Assert stepOne(pat_b, plate_low). Initially Assert stepTwo(pat_b, plate_high). Initially Assert stepThree(pat_b, plate_mid).
+  Initially Assert stepOne(pat_c, plate_high). Initially Assert stepTwo(pat_c, plate_mid). Initially Assert stepThree(pat_c, plate_low).
+  Rule seq_one when plate(?p) and state(?p, rung) and pattern(treads, ?q) and stepOne(?q, ?p) and progress(treads) == 0
+    says "A true note, and the stair holds its breath." { Set progress(treads) to 1. Assert state(?p, ready). }
+  Rule seq_two when plate(?p) and state(?p, rung) and pattern(treads, ?q) and stepTwo(?q, ?p) and progress(treads) == 1
+    says "A second note answers the first, a fifth above it." { Set progress(treads) to 2. Assert state(?p, ready). }
+  Rule seq_three when plate(?p) and state(?p, rung) and pattern(treads, ?q) and stepThree(?q, ?p) and progress(treads) == 2
+    says "The third note goes down through the floor and comes back up the stair as a chord, and the treads settle one after another like a long sigh." {
+    Set progress(treads) to 3. Assert state(?p, ready). Assert state(treads, stilled).
+  }
+  Rule seq_wrong when plate(?p) and state(?p, rung)
+    says "The disc rings wrong. The note goes up the stair and does not come back, and through the whole hall the brass posts take it up a little, and drop it." {
+    Set progress(treads) to 0. Assert state(?p, ready). Increase hum(house) by 1. Set humAt(house) to watch(clock).
+  }
+  Observe wear_a at lodge as sign noticed by perception when pattern(treads, pat_a) and state(treads, sounding) "Round the three discs the stone is worn in an arc, the way it is round a latch that is lifted every day. The wear is deepest by the middle disc, and the arc runs from there to the small one, and ends at the great.".
+  Observe wear_b at lodge as sign noticed by perception when pattern(treads, pat_b) and state(treads, sounding) "Round the three discs the stone is worn in an arc, the way it is round a latch that is lifted every day. The wear is deepest by the great disc, and the arc runs from there to the small one, and ends at the middle.".
+  Observe wear_c at lodge as sign noticed by perception when pattern(treads, pat_c) and state(treads, sounding) "Round the three discs the stone is worn in an arc, the way it is round a latch that is lifted every day. The wear is deepest by the small disc, and the arc runs from there to the middle one, and ends at the great.".
+}

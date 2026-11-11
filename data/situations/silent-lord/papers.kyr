@@ -1,0 +1,200 @@
+Module silent_lord "The silent lord" {
+  // ---- What can be learned in the keep, as the journal will say it.
+  Discovery lord_trays "Meals go up to the lord's solar twice a day and come down as heavy as they went. The high seat's cup is filled at every meal and cleared untouched. The household behaves as though he lives." { Known by cook. }
+  Discovery dog_howls "The lord's old dog has howled toward the chapel every night for nine nights." { Known by houndsman. }
+  Discovery lord_dead "The lord of the keep is dead. He lies on a bier in the crypt under the chapel, and the household has agreed not to say so.".
+  Discovery seal_plain "The herald's writ is sealed with a plain crown.".
+  Discovery seal_ears "The court's present seal is a crown between two ears of wheat. The old one, from before the coronation, was a plain crown.".
+  Discovery herald_false "The herald's writ is sealed with the court's old seal. No court has issued a paper under it since the coronation, and the king's rider's writ, and the court's own letter in the chancery, are sealed with the new one.".
+  Discovery captive_story "The prisoner says he rode from the court with the king's writ for the lord, that the herald's men took his satchel at the ford and the herald brought him in 'as a thief', and that he has been in the oubliette nine days.".
+  Discovery granary_short "The granary holds forty bushels less than the steward's tally board says.".
+  Discovery ledger_sold "The steward's ledger shows forty bushels of the levy-corn sold to a factor in the autumn, and the garrison's wages for a month paid out of the money.".
+  Discovery arrears "The garrison is owed eighty crowns, which the marshal will take as pay for thirty-one men and no more questions.".
+  Discovery will_read "The lord's will names his ward {heir}, aged fourteen, at the abbey, as his heir; the castellan as her regent until she is sixteen; and begs the king's assent. It is signed by the chaplain and two witnesses. The date is the day before he died.".
+  Discovery heir_sought "The lord's ward {heir} is at the abbey, and the chaplain has written for her; she has not been told her uncle is dead.".
+  Discovery bailiff_dues "A woman with a lead seal is collecting 'dues for the keeping of the road' from three settlements in the castellan's name. The castellan never granted it, and the clerk has written to her three times about a hayrick.".
+  Discovery dead_watch "The sentries come off the walls to the gatehouse brazier between two and three in the morning, and the wall-walk stands empty for the hour.".
+  Discovery hounds_bone "The kennel hounds are loosed in the ward at curfew and will take a marrow-bone from a stranger's hand; they will not take a stranger.".
+  Discovery poison_known "The jar on the cook's shelf, tied with paper, is monkshood, kept for the rats and counted every week.".
+  Discovery vault_known "A vault older than the keep lies behind the oubliette's back wall; a crawl from it comes out in the ditch.".
+  Discovery reading_chapel "The chaplain reads the end of the Empire as a judgement: a proud thing that was told to stop, and stopped.".
+  Discovery reading_garrison "The marshal reads the end of the Empire as a pay-day that did not come: the legions went home when the money did not, and nobody gave the order.".
+  Discovery reading_chancery "The clerk reads the end of the Empire as a closing: the Office of the Road dissolved itself by its own rule, and its papers were sealed 'until called for'.".
+  Discovery quirk_tally "The steward writes his sevens with a bar through them.".
+  Discovery quirk_roll "The marshal counts his tens in fives and strokes, as a man does who learned his figures on a tally-stick.".
+  Discovery quirk_index "The clerk ends every line with a blot, and draws the tail of his d long.".
+  Discovery letter_marks_steward "The letter in the herald's trunk writes its sevens with a bar through them.".
+  Discovery letter_marks_marshal "The letter in the herald's trunk counts its tens in fives and strokes.".
+  Discovery letter_marks_clerk "The letter in the herald's trunk ends its lines with a blot and draws its d with a long tail.".
+  Discovery hand_steward "The herald's friend inside the keep is the steward: the sevens are his.".
+  Discovery hand_marshal "The herald's friend inside the keep is the marshal: the tens are his.".
+  Discovery hand_clerk "The herald's friend inside the keep is the clerk: the blots and the tails are his.".
+
+  // ---- The papers themselves. Each is read where it lies, and says what it says.
+  Thing tally "the steward's tally board" at granary {
+    State unread "A board nailed to the granary door carries the steward's tally in chalk and ink, in a square, careful hand.".
+    State read "TWO HUNDRED AND TWELVE BUSHELS, wheat and barley, the autumn's stores, and under it the levy's share, in lines. The sevens have a bar through them.".
+    Change read "Read the tally board" from unread to read.
+  }
+  Observe tally_learned at granary of tally as reading when state(tally, read) "The figures are neat, and the steward has leant on the nib at every seven." teaches quirk_tally.
+  Action count_sacks(actor: group, site: place) "Count the sacks, row by row" {
+    Requires able(actor) and at(actor, site) and at(actor, granary) and state(tally, read) and not knows(actor, granary_short).
+    Time 6.
+    On success { Assert knows(actor, granary_short). }
+    Result "You count them twice, because the second count has to agree with the first: seventeen rows of ten and a row of two. A hundred and seventy-two. The board says two hundred and twelve.".
+  }
+  Thing ledger "the steward's ledger" at strongroom {
+    State shut "A tall ledger lies on the desk with a strip of leather round it.".
+    State read "The ledger is a fair copy of the keep's year. Under the autumn, forty bushels of the levy-corn are entered as sold to a factor at the fair, for forty crowns, and a month of the garrison's wages as paid out of it the same week. The sevens have a bar through them.".
+    Change read "Unbuckle the ledger and read it" from shut to read.
+  }
+  Observe ledger_learned at strongroom of ledger as reading when state(ledger, read) "The steward has been spending the levy to pay the men whose lord the levy is for, and has put every penny in a column." teaches ledger_sold.
+  Observe ledger_hand at strongroom of ledger as reading when state(ledger, read) "He has written it all in the same square, careful hand as the granary board." teaches quirk_tally.
+
+  Thing receipt "a factor's receipt spiked on the undercroft desk" at undercroft {
+    State spiked "A narrow desk stands against the far wall of the undercroft, with a spike on it, and on the spike a slip of paper.".
+    State read "Received of the steward of the keep forty bushels of the autumn corn, at the fair, forty crowns in good silver, for the factor's house. The mark is a ship, and the steward's name is under it, with a bar through every seven.".
+    Change read "Read the slip on the spike" from spiked to read.
+  }
+  Observe receipt_learned at undercroft of receipt as reading when state(receipt, read) "The levy corn was sold, and he kept the receipt." teaches ledger_sold.
+  Thing pay_roll "the garrison's pay-roll" at armoury {
+    State shut "A roll of vellum lies under a stone on the bench, ruled in columns.".
+    State read "Thirty-one names, and against each, a row of marks: paid, paid, paid, and then nothing since midsummer. The marshal has kept the tally in fives and strokes. At the foot, in the same hand: EIGHTY, and under it, struck through twice, NOT ASKED.".
+    Change read "Read the pay-roll" from shut to read.
+  }
+  Observe roll_learned at armoury of pay_roll as reading when state(pay_roll, read) "He has asked for nothing, and written down to the penny what that has cost." teaches arrears.
+  Observe roll_hand at armoury of pay_roll as reading when state(pay_roll, read) "His tens are drawn in fives and strokes." teaches quirk_roll.
+
+  Thing index "the press index" at chancery {
+    State shut "A narrow book lies open at the end of the long table, a list of what the press holds, in a quick hand.".
+    State read "Wills, grants, the court's letters, the matrices. The press is the first of the heads. Every line ends in a blot, and every d has a tail like a fishing-line.".
+    Change read "Read the index of the press" from shut to read.
+  }
+  Observe index_hand at chancery of index as reading when state(index, read) "The clerk's blots, and his long-tailed d." teaches quirk_index.
+
+  Thing plan "a plan of the undercroft pinned to the wall" at chancery {
+    State pinned "An old plan of the undercroft is pinned over the pigeon-holes, drawn by a surveyor with a fine pen: the casks and bins, and, at the north-east corner, a dotted line that runs off the edge of the sheet toward the ditch.".
+    State studied "The dotted line is a drain from a chamber behind the oubliette, out under the north wall to the ditch, and the surveyor has written beside it, in a fine small hand: SOUND. DO NOT STOP.".
+    Change study "Study the plan of the undercroft" from pinned to studied.
+  }
+  Observe plan_learned at chancery of plan as reading when state(plan, studied) "A chamber behind the oubliette, a drain under the north wall, and an outfall in the ditch. Whoever surveyed it could not say what the chamber was for." teaches vault_known.
+  Observe plan_learned_drain at chancery of plan as reading when state(plan, studied) "The outfall is on the road side, in the ditch below the north wall." teaches drain_known.
+
+  Thing chapel_step "the altar step" at chapel {
+    State worn "The step before the altar is paler than the rest of the floor, with a band of cut letters on it worn nearly smooth.".
+    State read "The letters are the Empire's: a line in praise of an officer of the Road, and below it, scored out by a different hand with a chisel, a single word. The chaplain says it is JUDGED. It is hard to tell.".
+    Change read "Read the letters on the altar step" from worn to read needing lore.
+  }
+
+  Thing shield_boss "the old shield-boss over the armoury door" at armoury {
+    State hung "A round boss of bronze, green with age, is nailed over the door, with a mark stamped in it.".
+    State read "The stamp is a small square counter: PAID TO THE CALENDS. Whoever carried this shield was paid up to a day, and then, the marshal says, was not.".
+    Change read "Look at the stamp on the shield-boss" from hung to read.
+  }
+
+  Thing closing_fragment "a torn leaf in the seal-chest" at chancery {
+    State folded "A leaf of ancient vellum lies folded at the bottom of the seal-chest, the writing run into a brown stain along the fold.".
+    State read "A fragment. ' … in accordance with the third article, the Office is closed, and its papers sealed until called for.' Below it, the stamp: a wheel with a wing.".
+    Change read "Unfold the torn leaf and read it" from folded to read needing lore.
+  }
+
+  // ---- The herald's trunk and what is in it.
+  Thing trunk "the herald's brass-bound trunk" at guest {
+    Holds.
+    State locked closed "A brass-bound trunk stands at the foot of the bed. The lock is a good one, and the herald wears the key on a cord.".
+    State open "The trunk stands open.".
+    Change pick "Pick the trunk's lock" from locked to open needing lockwork.
+    Change force "Break the trunk's lock with a crowbar" from locked to open needing crowbar.
+  }
+  Thing letter "a letter folded in the trunk" in trunk {
+    State folded "A letter lies folded under the herald's linen, with a green wax seal, broken.".
+    State read "The letter is to {patron}: the writer will see that the gate is opened to the herald, the garrison's loyalty counted for what it is worth, and the castellan 'found wanting at the feast'. It is unsigned. It is not in a hand that was taught to disguise itself.".
+    Change read "Unfold and read the letter" from folded to read.
+  }
+  Observe letter_steward at guest of letter as reading when state(letter, read) and leaguer(steward) "The sevens in the date have a bar through them." teaches letter_marks_steward.
+  Observe letter_marshal at guest of letter as reading when state(letter, read) and leaguer(marshal) "The sums of the garrison's strength are counted in fives and strokes." teaches letter_marks_marshal.
+  Observe letter_clerk at guest of letter as reading when state(letter, read) and leaguer(clerk) "Every line ends in a blot, and the d's have tails like fishing-lines." teaches letter_marks_clerk.
+  Thing purse "the herald's purse" in trunk {
+    State lying "A purse of fifty crowns in the court's new coin lies under the linen.".
+    State taken "The herald's purse is gone from the trunk.".
+    Change take_purse "Take the herald's purse" from lying to taken.
+  }
+  Event purse_pays near purse when state(purse, taken) "The purse is heavy: fifty crowns, all in the new coin of the court." then { Increase quantity(party, gold) by 50. }
+  Thing writ "the herald's writ" in trunk {
+    State rolled "A scroll in a leather case, with a plain crown pressed in the wax, lies on top of the linen.".
+    State read "The king's writ commands the lord of the keep to bring twenty spears and a hundred bushels to the muster of the March on the twelfth day, or to send his heir, 'and to present himself or his heir at the king's court at the feast of the coronation, in the second year of the reign'. The seal is a crown, plain.".
+    Change read "Read the herald's writ" from rolled to read.
+  }
+  Observe writ_seal at guest of writ as reading when state(writ, read) "A plain crown in red wax, struck from a good die." teaches seal_plain.
+
+  // ---- What the strong-room holds, and what the chancery's press does.
+  Thing strong_lock_a "the steward's lock" on strong_door {
+    State locked "The strong-room door has three locks, one above another. The first is plain and heavy.".
+    State turned "The first lock stands turned.".
+    Change key_a "Turn the steward's key in the first lock" from locked to turned needing steward_key_kind.
+    Change pick_a "Pick the first lock" from locked to turned needing lockwork.
+  }
+  Thing strong_lock_b "the castellan's lock" on strong_door {
+    State locked "The second lock is finer than the first and has been oiled lately.".
+    State turned "The second lock stands turned.".
+    Change key_b "Turn the castellan's key in the second lock" from locked to turned needing castellan_key_kind.
+    Change pick_b "Pick the second lock" from locked to turned needing lockwork.
+  }
+  Thing strong_lock_c "the chaplain's lock" on strong_door {
+    State locked "The third lock is small, a chapel lock, with a cross cut in the plate.".
+    State turned "The third lock stands turned.".
+    Change key_c "Turn the chaplain's key in the third lock" from locked to turned needing chaplain_key_kind.
+    Change pick_c "Pick the third lock" from locked to turned needing lockwork.
+  }
+  Rule strong_open when state(strong_lock_a, turned) and state(strong_lock_b, turned) and state(strong_lock_c, turned)
+    and not state(strong_door_leaf, ajar) says "The third lock gives, and the door can be pushed." { Assert state(strong_door_leaf, ajar). }
+  Thing strong_door_leaf "the strong-room door" on strong_door {
+    State shut blocking "The door itself is oak sheeted in iron, and the three locks hold it.".
+    State ajar "The door stands ajar.".
+    Change force "Force the strong-room door with a crowbar, locks and all" from shut to ajar needing crowbar.
+  }
+  Rule strong_forced when state(strong_door_leaf, ajar) and state(strong_lock_a, locked) and not hunted(house) says "The door gives with a crack that rings through the undercroft and up the buttery steps." { Assert hunted(house). }
+
+  Thing strongbox "the keep's strongbox" at strongroom {
+    Holds.
+    State locked closed "An iron chest, bolted to the floor, with a hasp and a padlock.".
+    State open "The strongbox stands open.".
+    Change pick "Pick the strongbox's padlock" from locked to open needing lockwork.
+    Change smash "Break the padlock with a crowbar" from locked to open needing crowbar.
+    Change key "Open the strongbox with the steward's key" from locked to open needing steward_key_kind.
+  }
+  Event strongbox_pays near strongbox when state(strongbox, open) "In the bottom, under a folded cloth, forty crowns in a leather bag, and nothing else." then { Increase quantity(party, gold) by 40. }
+  Thing satchel "a rider's satchel" at strongroom {
+    Holds.
+    State lying "A rider's satchel with a worn strap lies on the shelf beside the plate, its buckle torn.".
+    State empty "The satchel lies empty on the shelf.".
+    Change take_writ "Take the writ from the rider's satchel" from lying to empty.
+  }
+  Event satchel_gives near satchel when state(satchel, empty) "Inside the lining, where a rider would sew what he cannot afford to lose, is a roll in an oiled case. You take it." then { Give true_writ_kind to party. }
+  Kind true_writ_kind "the king's writ, from the satchel" is document teaching seal_ears described "A roll in an oiled case: the king's writ for the lord of the keep, in the second year of the reign, sealed with a crown between two ears of wheat. It summons the lord or his heir to the coronation court; the muster, it says, is 'for the matter of the March'.".
+  Kind steward_key_kind "the steward's key" is treasure worth 1 weighing 1 described "A long iron key worn bright where a thumb has held it.".
+  Kind castellan_key_kind "the castellan's key" is treasure worth 1 weighing 1 described "A slender steel key on a loop of red cord.".
+  Kind chaplain_key_kind "the chaplain's key" is treasure worth 1 weighing 1 described "A small brass key with a cross for a bow.".
+  Kind press_key_kind "the press key" is treasure worth 1 weighing 1 described "A black key as long as a hand.".
+  Kind hatch_key_kind "the oubliette key" is treasure worth 1 weighing 1 described "A heavy key with a ring of stained leather.".
+  Kind armoury_key_kind "the armoury key" is treasure worth 1 weighing 1 described "A flat steel key stamped with a tower.".
+  Kind bone_kind "a marrow-bone" is gear worth 1 weighing 1 described "A great beef bone, cracked and full, wrapped in a cloth.".
+  Kind monkshood_kind "a jar of monkshood" is gear worth 4 weighing 1 described "A small stoneware jar with paper tied over the neck. In it, dark roots, dry and wrinkled. The cook's hand has written on the paper: RATS. DO NOT.".
+  Kind will_kind "the lord's will" is document teaching will_read described "A sheet of good vellum, folded in three, the lord's seal on the tail, the signatures of a chaplain and two others.".
+  Kind spring_kind "the court's letter of spring" is document teaching seal_ears described "A letter from the court in the lord's last spring, the king's own, thanking him for his loyalty; it is the only paper in the keep with the new seal on it.".
+  Kind die_kind "a bronze die" is treasure worth 40 weighing 1 described "A bronze die as long as a thumb with a handle, cut for pressing into wax. The face is worn but clear.".
+  Kind remission_kind "a remission in the lord's hand" is document described "A paper, sealed with the keep's tower and star, in the lord's own writing: the lord remits the levy of men to the towns of his march this year, 'on account of the winter', and asks the king's indulgence.".
+  Kind order_kind "a pay-order in the lord's hand" is document described "A paper, sealed with the keep's tower and star, in the lord's own writing: the steward is to pay the garrison its arrears from the strongbox, forthwith.".
+  Kind writ_kind "a writ against the bailiff" is document described "A paper in the castellan's name, sealed with the keep's tower and star: no dues are asked of any hearth in the march for the keeping of any road, and any who collect them in the keep's name do so against its law.".
+  Item will_item "the lord's will" is will_kind in muniment_press.
+  Item spring_item "the court's letter of spring" is spring_kind in muniment_press.
+  Item vault_die "a bronze die" is die_kind at vault.
+  Thing muniment_press "the muniment press" at chancery {
+    Holds.
+    State locked closed "A press of black oak bound in iron stands against the wall, its double doors shut with a lock the size of a book.".
+    State open "The muniment press stands open on its shelves.".
+    Change key "Open the press with the clerk's key" from locked to open needing press_key_kind.
+    Change pick "Pick the press's lock" from locked to open needing lockwork.
+    Change force "Break the press's doors with a crowbar" from locked to open needing crowbar.
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "source": ["house.kyr", "entry.kyr", "tiers.kyr", "halls.kyr", "deeps.kyr", "kept.kyr", "world.kyr"],
+  "rules": ["world"],
+  "globals": ["party"],
+  "imports": ["party", "land", "outside", "gossip", "shrine", "keeper", "first_taproom"],
+  "roles": {
+    "party": { "type": "group" },
+    "land": { "type": "place" },
+    "outside": { "type": "place" },
+    "gossip": { "type": "place" },
+    "shrine": { "type": "place" },
+    "keeper": { "type": "group" },
+    "first_taproom": { "type": "place" }
+  },
+  "exports": {
+    "rumour": "rumour",
+    "culvert_talk": "culvert_talk",
+    "hum_talk": "hum_talk",
+    "culvert": "culvert",
+    "works": "works",
+    "landing": "landing",
+    "lodge": "lodge",
+    "terrace": "terrace",
+    "hall": "hall",
+    "quiet": "quiet"
+  },
+  "generation": {
+    "type": "arcology",
+    "templates": "templates.json",
+    "tables": "tables.json"
+  },
+  "experience": 2400,
+  "unclocked": "the House counts on without anyone: the hum lets fall by the hour, and the town's spring does not mend of itself"
+}

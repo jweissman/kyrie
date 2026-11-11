@@ -1,0 +1,36 @@
+# bond: what a companion asks of the company, what the company's answers show of it, and what the companion gives for being understood.
+// A Kyr template (see src/world/kyr-template.ts), filled for each companion from data/generation/town/companions.json
+// by src/world/region-bonds.ts: the same situation (a companion with questions of their own, regard that moves by what
+// the company answers, an appraisal that says what they have seen, and a paragon quest that ends in a keepsake that
+// grants what they know) varied by whatever the author writes in the table. {c} the companion's id, {name} their
+// name, {n} a question's number, {ask}, {when}, {label}, {says}, {trait}, {regard}: the table's.
+// Conversation here is two-way: the question is the companion's, said unprompted (a rule), and what answers it is the
+// company's to choose among; none is right, each shows something, and the companion remembers which.
+--- base
+  Measure {c}_regard(group). Relation {c}_rank2(group). Relation {c}_paragon(group).
+  Relation {c}_shown_candour(group). Relation {c}_shown_mercy(group). Relation {c}_shown_thrift(group).
+  Rule {c}_rank when travelsWith({c}, party) and {c}_regard(party) >= 3 and not {c}_rank2(party) says "{rankup}" { Assert {c}_rank2(party). }
+  Topic {c}_how with {c} "Ask {name} how they find travelling with you" when travelsWith({c}, party) once {
+    Says "{howtext}".
+  }
+--- question
+  Relation {c}_q{n}_asked(group). Relation {c}_q{n}_done(group).
+  Rule {c}_q{n}_ask when travelsWith({c}, party) and {!when} and not {c}_q{n}_asked(party) says "{ask}" { Assert {c}_q{n}_asked(party). }
+--- answer
+  Topic {c}_q{n}_{a} with {c} "{label}" when {c}_q{n}_asked(party) and not {c}_q{n}_done(party) once {
+    Says "{says}".
+    On discuss { Assert {c}_q{n}_done(party). Assert {c}_shown_{trait}(party). Increase {c}_regard(party) by {regard}. }
+  }
+--- appraisal
+  Topic {c}_seen_{trait} with {c} "Ask {name} what they have made of you" when travelsWith({c}, party) and {c}_shown_{trait}(party) and {c}_q3_done(party) once {
+    Says "{says}".
+  }
+--- paragon
+  Kind {c}_gift_kind "{giftname}" like ashwood_charm granting {capability} worth 6 weighing 1 described "{giftdesc}".
+  Entity {c}_gift_fact: fact "{giftname}, set down on the stone for whoever will carry it.".
+  Item {c}_gift "{giftname}" is {c}_gift_kind at {place} hidden until {c}_gift_fact.
+  Topic {c}_paragon_topic with {c} "{label}" when travelsWith({c}, party) and {c}_rank2(party) and at(party, {place}) and not {c}_paragon(party) once {
+    Says "{says}".
+    On discuss { Assert {c}_paragon(party). Assert knows(actor, {c}_gift_fact). {!effect} }
+  }
+  Observe {c}_paragon_after at {place} when {c}_paragon(party) "{after}".

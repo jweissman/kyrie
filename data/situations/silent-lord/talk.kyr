@@ -1,0 +1,196 @@
+Module silent_lord "The silent lord" {
+  // ---- The gate, and the porter. Shut from nine to six; asked nicely, or paid, he opens the wicket.
+  Topic porter_gate with porter "Ask {porter} about the gate" when true once {
+    Says "'Shut at nine and open at six,' says {porter}, 'and I open it for nobody between, which the castellan said, and the marshal said, and the herald said he would be sorry to hear. There is the bell, if you must. I am a poor sort of porter if I cannot be woken. A person could ask me civilly.' He rubs his neck. 'Or pay me. I am not proud.' A glance at the north wall. 'Whatever you do, keep out of the ditch on that side. It floods foul and the dogs will not go near it.'".
+  }
+  Action ring_bell(actor: group, site: place) "Ring the bell and ask the porter to open the wicket" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, outside) and (hour(clock) >= 21 or hour(clock) < 6)
+      and not night_open(house) and not hunted(house).
+    Time 5 minutes.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert night_open(house). }
+    Result "The bell rings somewhere inside, and goes on ringing. After a while a lamp comes to the grating and a voice asks who comes at this hour. You tell it. The wicket opens a hand's breadth, and then enough.".
+    Otherwise "The bell rings. The lamp comes to the grating, goes away again, and does not come back. The wicket stays as it was.".
+  }
+  Action bribe_porter(actor: group, site: place) "Slip the porter three crowns through the grating" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, outside) and (hour(clock) >= 21 or hour(clock) < 6)
+      and not night_open(house) and not hunted(house) and quantity(actor, gold) >= 3.
+    Time 5 minutes.
+    On success { Decrease quantity(actor, gold) by 3. Increase quantity(porter, gold) by 3. Assert night_open(house). }
+    Result "The porter says nothing, and the three crowns go in through the grating and do not come back. The wicket opens. 'You were never here,' he says, 'but mind the dogs.'".
+  }
+  Action ask_wicket(actor: group, site: place) "Ask the porter to let you out by the wicket" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gatehouse) and at(porter, gatehouse)
+      and (hour(clock) >= 21 or hour(clock) < 6) and not night_open(house).
+    Time 2 minutes.
+    Resolve check(actor, persuasion, dc_easy).
+    On success { Assert night_open(house). }
+    Result "'Out is easier than in,' says the porter, and unlocks the wicket.".
+    Otherwise "'Not till six,' says the porter, who has said it to the herald already.".
+  }
+  Rule gate_dawn when hour(clock) >= 6 and hour(clock) < 21 and night_open(house) { Retract night_open(house). }
+
+  // ---- The kennels. The hounds are loosed at curfew; the houndsman's trust opens the dogs and the way in.
+  Topic hounds_ask with houndsman "Ask {houndsman} about the dogs" when true once {
+    Says "'They are loosed in the ward at the bell,' says {houndsman}, 'and called in at dawn, and they do not know a stranger from a thief, and nor do I.' She jerks her chin at a brindled old dog lying across the end pen. 'That one was his lordship's. He has howled at the chapel nine nights. Nobody has thought to ask him why.' She takes a bone out of the pail, looks at it, puts it back. 'A marrow-bone would quiet the lot of them. The cook will give you one, if she likes you.'".
+    On discuss { Assert knows(actor, hounds_bone). Assert knows(actor, dog_howls). }
+  }
+  Action make_much(actor: group, site: place) "Sit with the lord's old dog in the straw" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, kennels) and at(old_dog, kennels) and at(houndsman, kennels)
+      and not warms_to(houndsman, actor).
+    Time 3.
+    On success { Assert warms_to(houndsman, actor). }
+    Result "You sit down in the straw and let the old dog work out who you are. It takes some time. When it puts its chin on your knee, {houndsman} stops what she is doing, and does not say anything, and goes on not saying it for a while.".
+  }
+  Topic hounds_way with houndsman "Ask {houndsman} how a person might come and go when the gate is shut" when warms_to(houndsman, actor) and not knows(actor, drain_known) once {
+    Says "{houndsman} looks at the door, and at the dog, and at you. 'There is a drain,' she says at last, 'that goes under the north wall from somewhere under the keep. The old lord sent me down it when I was a girl, after a pup. It comes out in the ditch behind the weed. The air is bad past the second bend; prop the old grating and it clears.' She whistles, low, and the hounds in the pens put their heads down. 'They will not trouble you in the ward, not tonight. I have told them.'".
+    On discuss { Assert knows(actor, drain_known). Assert knows(actor, vault_known). Assert tolerates(hounds, actor). }
+  }
+  Action throw_bone(actor: group, site: place) "Throw the hounds the marrow-bone" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(hounds, site) and able(hounds) and holding(actor, bone_kind)
+      and not tolerates(hounds, actor).
+    Time 1.
+    On success { Spend bone_kind from actor. Assert tolerates(hounds, actor). Retract warned(hounds, actor). }
+    Result "You roll the bone across the dirt. The first hound is on it, and the other two are on the first, and while they decide among themselves you walk past them as if you had been invited.".
+  }
+  Rule hounds_slain when dead(hounds) and not grudge(houndsman) says "From the dark by the kennels a woman's voice says, quite quietly, a single word, and then nothing." { Assert grudge(houndsman). Retract warms_to(houndsman, party). }
+  Relation grudge(group). Relation cross(group).
+  Topic porter_regency with porter "Ask {porter} how the keep stands, with the banner low" when state(banner, regency) once {
+    Says "'Half-mast till the burial,' says {porter}, 'and the chaplain tolls from dawn. I am to say that the household keeps open house for the lord's funeral, and that the castellan is regent for the lord's ward, who is on her way.' He lowers his voice. 'There was a day I thought we were done. I would not like to say what held it, but I have my guesses, and they are not far from where you are standing.'".
+  }
+  Topic porter_hushed with porter "Ask {porter} how the keep stands, with the herald gone" when state(banner, hushed) once {
+    Says "'The same as ever,' says {porter}, not quite meeting your eye. 'The herald left and the lord is indisposed. The castellan signs for him. I am to say all is well, and so I say it.' A pause. 'It will not keep, you know. A thing like this does not. But it will keep until the next court.'".
+  }
+  Topic porter_usurped with porter "Ask {porter} whose keep it is now" when state(banner, usurped) once {
+    Says "'It is {patron}'s now,' says {porter}, 'by the king's writ, they say. The castellan is in her solar with two of his men outside. I have kept my post, and my post has kept me.' He glances over his shoulder. 'If you are the sort who finds a way in, there is more than one. I did not say so.'".
+  }
+  Topic porter_mutinous with porter "Ask {porter} who sits in the lord's chair" when state(banner, mutinous) once {
+    Says "'The marshal sits in the lord's chair,' says {porter}, 'and the castellan is in the oubliette with her own bar over her. There was no killing. They only ... stopped, and then began something else.' He shakes his head. 'I let you in. I will let you out. That is all the gate can promise.'".
+  }
+
+  // ---- The kitchen. The cook knows what a house knows, and counts the monkshood.
+  Topic cook_herald with cook "Ask {cook} what the kitchen makes of the herald" when true once {
+    Says "'He sends his plate back if it is not hot enough to scald him,' says {cook}, 'and he thanks me for it as if I had been born to be thanked by him. The two with him eat like horses and look at the doors.' She sets her knife down. 'And I take his lordship's tray up twice a day and it comes down untouched. A man does not stop eating for a cold in the head. You may think what you like. I do not say what I think.'".
+    On discuss { Assert knows(actor, lord_trays). }
+  }
+  Topic cook_bone with cook "Ask {cook} for a marrow-bone for the dogs" when knows(actor, hounds_bone) and not holding(actor, bone_kind) once {
+    Says "{cook} wraps a great beef bone in a cloth without a word, and puts it in your hand, and then, because you did not ask for anything else, a heel of bread too.".
+    On discuss { Give bone_kind to actor. }
+  }
+  Topic cook_jar with cook "Ask {cook} what is in the jar with the paper tied over it" when not knows(actor, poison_known) once {
+    Says "'Monkshood,' says {cook}. 'For the rats. I count it every Saturday against the steward's chalk, and if one root goes it will be found in somebody's soup before it is found in the cellar.' A small hard smile. 'Do not touch it.'".
+    On discuss { Assert knows(actor, poison_known). }
+  }
+  Action peel_for_cook(actor: group, site: place) "Peel and chop for the feast, as the cook directs" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, kitchen) and at(cook, kitchen) and not befriended(cook, actor).
+    Time 12.
+    On success { Assert befriended(cook, actor). }
+    Result "Two hours of onions and then a goose. By the end the cook has stopped explaining things to you, which is how you know it went well. 'Sit,' she says, and puts something hot in front of you.".
+  }
+  Topic cook_jar_given with cook "Ask {cook} for the jar of monkshood, and not to ask why" when befriended(cook, actor) and knows(actor, poison_known) and not holding(actor, monkshood_kind) once {
+    Says "{cook} looks at the shelf, and then at the ceiling, and then, with great care, at nothing at all. 'I have been wondering where that got to,' she says. 'I expect it fell behind the dresser.'".
+    On discuss { Give monkshood_kind to actor. }
+  }
+  Action take_jar(actor: group, site: place) "Slip the jar of monkshood off the shelf while the cook's back is turned" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, kitchen) and knows(actor, poison_known) and not holding(actor, monkshood_kind)
+      and not befriended(cook, actor).
+    Time 1.
+    Resolve check(actor, stealth, dc_hard).
+    On success { Give monkshood_kind to actor. }
+    On failure { Assert cross(cook). }
+    Result "The cook turns to the fire. The jar is in your coat before she has finished turning back.".
+    Otherwise "The cook's hand closes on your wrist without her having looked round. 'Put it back,' she says, 'and get out of my kitchen, and do not think I will forget your face.'".
+  }
+  Action dose_jug(actor: group, site: place) "Stir the monkshood into the herald's jug" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, kitchen) and holding(actor, monkshood_kind) and not dosed(house)
+      and day(clock) == feastDay(house) and hour(clock) < 21 and hour(clock) >= 12.
+    Time 1.
+    Resolve check(actor, stealth, dc_fair).
+    On success { Spend monkshood_kind from actor. Assert dosed(house). }
+    On failure { Assert hunted(house). Assert cross(cook). }
+    Result "The herald's jug stands on the dresser with his arms painted on it. You tip the roots into the wine and shake the jug, and it looks exactly like wine.".
+    Otherwise "A scullion comes round the dresser with a bucket and sees your hand in the jug and the jar in the other. He drops the bucket. By the time the cook arrives you are on the screens passage and the whole kitchen is shouting.".
+  }
+  Relation dosed(group).
+
+  // ---- The steward. Counted loaves, counted sacks, counted keys, and a shortfall he has been paying the garrison with.
+  Topic steward_granary with steward "Ask {steward} how the granary stands" when true once {
+    Says "'Two hundred and twelve bushels, on the board, as I have chalked it every Saturday,' says {steward}, and his hand goes to the ring at his belt. 'If you doubt the board, doubt it to the castellan, who will tell you what the castellan tells everyone.'".
+  }
+  Topic steward_confront with steward "Put the shortfall and the ledger to {steward}, quietly" when knows(actor, granary_short) and knows(actor, ledger_sold) and not confessed(steward) once {
+    Says "{steward} looks at the door, and at you, and then he sits down on a sack. 'The levy corn,' he says. 'Forty bushels, at the fair, to a factor who asked no questions. The garrison had not had a penny since midsummer, and the marshal would not ask, and I watched thirty men eat bread and go on. It paid a month.' He looks up. 'I wrote it down. I have never taken a farthing of it. I would like that understood before I am hanged.'".
+    On discuss { Assert confessed(steward). }
+  }
+  Relation confessed(group). Relation shamed(group). Relation steward_hears(group).
+  Topic steward_kind with steward "Tell {steward} you understand why he did it" when confessed(steward) and not befriended(steward, actor) once {
+    Says "'Then you are the first,' says {steward}, and he is silent for a moment. He takes a long iron key from the ring and puts it in your hand. 'The first lock of the strong-room. If anyone is going to look in it, I would rather it were somebody who has heard the reason.'".
+    On discuss { Assert befriended(steward, actor). Give steward_key_kind to actor. }
+  }
+  Topic steward_threat with steward "Tell {steward} the key to the strong-room, or the castellan hears of the ledger" when confessed(steward) and not befriended(steward, actor) once {
+    Says "{steward} goes the colour of tallow. He takes the key from the ring with fingers that will not do what he tells them, and lets it fall in your palm. 'It was for the men,' he says. 'You will remember that I said so.'".
+    On discuss { Assert shamed(steward). Give steward_key_kind to actor. }
+  }
+  Rule steward_tells when shamed(steward) and now(p_noon) and not hunted(house) says "At the high table the steward leans to the castellan and says something short. She does not look at you, and the doorward's halberd, which was across his knees, is in his hands." { Assert hunted(house). }
+
+  // ---- The chaplain. The lord's death is hers to have written, and the Empire's end is a judgement.
+  Topic chaplain_reading with chaplain "Ask {chaplain} what became of the Empire" when true once {
+    Says "'It was told to stop,' says {chaplain}, 'and it was too proud to hear it, and then it had stopped.' She looks at the altar step. 'You will say that is not a reason. I think it is the only kind of reason there is. Ask the marshal; he has another. Ask the clerk; he has a third. They are all of them sure, and they have never once sat at one table about it.'".
+    On discuss { Assert knows(actor, reading_chapel). Assert heard_out(chaplain, actor). }
+  }
+  Topic chaplain_sleep with chaplain "Ask {chaplain} how she is" when not knows(actor, lord_dead) once {
+    Says "'Tired,' says {chaplain}. 'We keep vigil in this house for a good many things.' She picks a candle-end off the floor and puts it in her pocket. 'If you want the crypt, you will need to ask me properly. Not today.'".
+  }
+  Topic chaplain_suspect with chaplain "Ask {chaplain} about the lord's cup, and the old dog, and why the trays come back" when knows(actor, lord_trays) and knows(actor, dog_howls) and not knows(actor, lord_dead) once {
+    Says "{chaplain} looks at you for a long moment. 'You have counted what a household does not say aloud,' she says. 'Then I will say it. He is in the crypt, and has been eleven days, and I have kept the candles.' Her voice shakes, and steadies. 'I would sooner you heard it from me than found it with a crowbar.'".
+    On discuss { Assert knows(actor, lord_dead). Assert befriended(chaplain, actor). Assert knows(actor, heir_sought). }
+  }
+  Topic chaplain_told with chaplain "Tell {chaplain} you have seen the lord on his bier" when knows(actor, lord_dead) and not befriended(chaplain, actor) once {
+    Says "{chaplain} sits down on the altar step, slowly, like a woman setting something down. 'Eleven days,' she says. 'He died at table, and the castellan said: not before the herald has gone. Then the herald stayed.' She presses the heel of her hand to her eyes. 'His will is in the press in the chancery. He made it the day before. His ward {heir} is at the abbey and I have written, in my own hand, and not said why. If you mean to do anything, do it so that he is buried.'".
+    On discuss { Assert befriended(chaplain, actor). Assert knows(actor, heir_sought). }
+  }
+  Topic chaplain_key with chaplain "Ask {chaplain} for the key to the chapel lock on the strong-room" when befriended(chaplain, actor) and not holding(actor, chaplain_key_kind) once {
+    Says "She takes a small brass key from her girdle. 'The crypt, and the third lock below. Bring it back, or do not; I will not be needing it for what it was for.'".
+    On discuss { Give chaplain_key_kind to actor. }
+  }
+  Topic chaplain_speak with chaplain "Ask {chaplain} to tell the hall the truth at the feast" when befriended(chaplain, actor) and knows(actor, will_read) and not chaplain_ready(house) once {
+    Says "'In front of the herald, and the marshal, and the castellan?' She is quiet. 'With the will in my hand, and someone beside me who will not run. Yes. I will do it when the cups are filled.'".
+    On discuss { Assert chaplain_ready(house). }
+  }
+  Relation chaplain_ready(group). Relation castellan_ready(group).
+
+  // ---- The marshal. Thirty-one men, eighty crowns, and a long memory of being not asked.
+  Topic marshal_garrison with marshal "Ask {marshal} how the garrison stands" when true once {
+    Says "'Thirty-one men and not a mutiny among them,' says {marshal}, 'and the pay-roll in the armoury says why. It is the nearest thing to a miracle I have seen in the service. Eighty crowns is what they are owed since midsummer, and I have not asked, and I will not, and you can write that down.'".
+    On discuss { Assert knows(actor, arrears). }
+  }
+  Topic marshal_reading with marshal "Ask {marshal} what became of the Empire" when true once {
+    Says "'Pay,' says {marshal}. 'They stopped being paid and went home. Nobody gave the order to break up an army; nobody had to. I have seen it in miniature.' He taps the stick against his boot. 'When the herald talks about the king's muster I think of that. A muster is a promise to pay, and I know what I have heard.'".
+    On discuss { Assert knows(actor, reading_garrison). Assert heard_out(marshal, actor). }
+  }
+  Action pay_garrison(actor: group, site: place) "Put eighty crowns into the marshal's hand for the garrison" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(marshal, site) and knows(actor, arrears) and not paid_off(house)
+      and quantity(actor, gold) >= 80.
+    Time 2 minutes.
+    On success { Decrease quantity(actor, gold) by 80. Increase quantity(marshal, gold) by 80. Assert paid_off(house). Assert befriended(marshal, actor). }
+    Result "{marshal} counts it, twice, because a man who has been owed money counts it twice. 'It will be paid out at noon,' he says. 'In the hall, in front of them. I would be glad if you would be there.' He does not say thank you. He holds your eye for a moment longer than he needs to, and that is the same thing.".
+  }
+  Action show_order(actor: group, site: place) "Show {marshal} the pay-order in the lord's hand, and say the castellan sent you" {
+    Speaker marshal.
+    Requires able(actor) and company(actor) and at(actor, site) and at(marshal, site) and holding(actor, order_kind) and not paid_off(house).
+    Time 2 minutes.
+    Resolve check(actor, deception, dc_fair).
+    On success { Spend order_kind from actor. Assert paid_off(house). Assert befriended(marshal, actor). }
+    On failure { Assert cross(marshal). }
+    Result "{marshal} reads it, and holds it to the window, and reads the seal. 'His hand,' he says slowly. 'Eleven days late for it, but his hand.' He does not ask how a stranger came by it. 'It will be paid.'".
+    Otherwise "{marshal} reads it through twice. 'A good hand,' he says. 'A very good hand. I have not seen the steward given an order by it before.' He folds it small and gives it back. 'I think we will wait for the castellan.'".
+  }
+  Topic marshal_key with marshal "Ask {marshal} for the key to the oubliette hatch" when paid_off(house) and not holding(actor, hatch_key_kind) once {
+    Says "{marshal} takes a heavy key from his belt. 'I put him there on her word,' he says. 'He is not a thief. I have known thieves.' He weighs the key in his hand. 'Bring him out through the front, and I will not have seen it.'".
+    On discuss { Give hatch_key_kind to actor. }
+  }
+  Topic marshal_armoury with marshal "Ask {marshal} for the armoury key" when befriended(marshal, actor) and not holding(actor, armoury_key_kind) once {
+    Says "'To look at the roll, or the boss, or to take a spear? Look. Do not take.' The flat key is warm from his belt.".
+    On discuss { Give armoury_key_kind to actor. }
+  }
+  Relation cross_marshal(group).
+}

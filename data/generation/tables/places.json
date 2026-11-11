@@ -468,6 +468,9 @@
         },
         {
           "_key": "grove"
+        },
+        {
+          "_key": "hold"
         }
       ],
       "marsh": [
@@ -485,6 +488,9 @@
         {
           "_key": "bog",
           "__weight": 2
+        },
+        {
+          "_key": "hold"
         }
       ],
       "mountain": [
@@ -504,6 +510,9 @@
         },
         {
           "_key": "sinkhole"
+        },
+        {
+          "_key": "hold"
         }
       ],
       "frost": [
@@ -520,6 +529,9 @@
         },
         {
           "_key": "tower"
+        },
+        {
+          "_key": "hold"
         }
       ],
       "desert": [
@@ -535,6 +547,9 @@
         },
         {
           "_key": "barrow"
+        },
+        {
+          "_key": "hold"
         }
       ]
     }
@@ -581,6 +596,11 @@
         "sink",
         "swallet",
         "pot"
+      ],
+      "hold": [
+        "keep",
+        "hold",
+        "garth"
       ]
     }
   },

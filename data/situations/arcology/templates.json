@@ -1,0 +1,48 @@
+{
+  "arcology": {
+    "__no_id": true,
+    "terrain": "forest",
+    "ancestry": "human",
+    "name": "The Numbered House",
+    "creatures": [],
+    "actors": { "order": [] },
+    "casting": "=gen(house_casting)",
+    "facts": "=concat(gen(house_pattern), gen(house_voice), gen(house_water), gen(house_growth))",
+    "initial": [],
+    "outcomes": [
+      { "id": "counted", "predicate": "counted(party)" },
+      { "id": "quieted", "predicate": "state(spring, running)" }
+    ]
+  },
+  "house_casting": {
+    "__no_id": true,
+    "salvager": "=gen(house_salvager)"
+  },
+  "house_salvager": {
+    "__no_id": true,
+    "_drawn": "=lookup(townsfolkName, #ancestry)",
+    ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, #ancestry, 'he:house_salvager')",
+    ">raceId": "=#ancestry",
+    ">classId": "=lookup(salvagerCalling, #ancestry)"
+  },
+  "house_pattern": {
+    "__no_id": true,
+    ">name": "pattern",
+    "args": "=concat('treads', lookup(housePattern, default))"
+  },
+  "house_voice": {
+    "__no_id": true,
+    ">name": "voiced",
+    "args": "=concat('usher', lookup(houseVoice, default))"
+  },
+  "house_water": {
+    "__no_id": true,
+    ">name": "water",
+    "args": "=concat('house', lookup(houseWater, #terrain))"
+  },
+  "house_growth": {
+    "__no_id": true,
+    ">name": "growth",
+    "args": "=concat('house', lookup(houseGrowth, #terrain))"
+  }
+}

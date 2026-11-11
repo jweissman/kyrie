@@ -1,0 +1,77 @@
+{
+  "bound_howe": {
+    "__no_id": true,
+    "terrain": "forest",
+    "ancestry": "human",
+    "name": "The Bound Howe",
+    "creatures": [],
+    "actors": {
+      "order": []
+    },
+    "casting": "=gen(howe_casting)",
+    "facts": "=concat(gen(howe_fate), gen(howe_air), gen(howe_flute))",
+    "initial": [],
+    "outcomes": [
+      {
+        "id": "sealed",
+        "predicate": "howe_kept(party)"
+      },
+      {
+        "id": "broken",
+        "predicate": "bound_broken(party)"
+      }
+    ]
+  },
+  "howe_casting": {
+    "__no_id": true,
+    "king": "=gen(howe_king)",
+    "captain": "=gen(howe_captain)",
+    "warden": "=gen(howe_warden)",
+    "clerk": "=gen(howe_clerk)",
+    "surgeon": "=gen(howe_surgeon)"
+  },
+  "howe_king": {
+    "__no_id": true,
+    ">name": "=lookup(kinKing, #terrain)"
+  },
+  "howe_captain": {
+    "__no_id": true,
+    "_drawn": "=lookup(townsfolkName, #ancestry)",
+    ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, #ancestry, 'she:howe_captain')",
+    ">raceId": "=#ancestry",
+    ">classId": "=lookup(captainCalling, #ancestry)"
+  },
+  "howe_warden": {
+    "__no_id": true,
+    "_drawn": "=lookup(townsfolkName, #ancestry)",
+    ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, #ancestry, 'she:howe_warden')",
+    ">raceId": "=#ancestry"
+  },
+  "howe_clerk": {
+    "__no_id": true,
+    "_drawn": "=lookup(townsfolkName, #ancestry)",
+    ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, #ancestry, 'he:howe_clerk')",
+    ">raceId": "=#ancestry"
+  },
+  "howe_surgeon": {
+    "__no_id": true,
+    "_drawn": "=lookup(townsfolkName, #ancestry)",
+    ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, #ancestry, 'he:howe_surgeon')",
+    ">raceId": "=#ancestry"
+  },
+  "howe_fate": {
+    "__no_id": true,
+    ">name": "fate",
+    "args": "=concat('howe', lookup(howeFate, #terrain))"
+  },
+  "howe_air": {
+    "__no_id": true,
+    ">name": "airs",
+    "args": "=concat('howe', lookup(howeAir, #terrain))"
+  },
+  "howe_flute": {
+    "__no_id": true,
+    ">name": "kinflute",
+    "args": "=concat(lookup(howeFlute, #terrain))"
+  }
+}

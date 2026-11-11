@@ -1,0 +1,175 @@
+{
+  "keepLeaguer": {
+    "about": "Which of the three who hold a key or a ledger in the household has written to the herald's master. All three are open in every country; the draw is the country's.",
+    "discriminator": "terrain",
+    "groups": {
+      "forest": [
+        "steward",
+        "marshal",
+        "clerk"
+      ],
+      "marsh": [
+        "clerk",
+        "steward",
+        "marshal"
+      ],
+      "mountain": [
+        "marshal",
+        "clerk",
+        "steward"
+      ],
+      "frost": [
+        "steward",
+        "clerk",
+        "marshal"
+      ],
+      "desert": [
+        "clerk",
+        "marshal",
+        "steward"
+      ]
+    }
+  },
+  "keepDeath": {
+    "about": "How the lord died, which the bier shows and the chaplain tells.",
+    "discriminator": "terrain",
+    "groups": {
+      "forest": [
+        "fall",
+        "fever"
+      ],
+      "marsh": [
+        "fever",
+        "seizure"
+      ],
+      "mountain": [
+        "fall",
+        "seizure"
+      ],
+      "frost": [
+        "fever",
+        "fall"
+      ],
+      "desert": [
+        "seizure",
+        "fever"
+      ]
+    }
+  },
+  "keepVault": {
+    "about": "Who made the old vault under the keep: the Office of the Road, the warlord house that raised the keep, or the first makers.",
+    "discriminator": "terrain",
+    "groups": {
+      "forest": [
+        "makers_made",
+        "office_made",
+        "founders_made"
+      ],
+      "marsh": [
+        "office_made",
+        "makers_made",
+        "founders_made"
+      ],
+      "mountain": [
+        "founders_made",
+        "makers_made",
+        "office_made"
+      ],
+      "frost": [
+        "makers_made",
+        "founders_made",
+        "office_made"
+      ],
+      "desert": [
+        "office_made",
+        "founders_made",
+        "makers_made"
+      ]
+    }
+  },
+  "keepPatron": {
+    "about": "The house the herald serves, as the folk of this country would name a great neighbour.",
+    "discriminator": "terrain",
+    "groups": {
+      "forest": [
+        "the Warden of the Greenmarch",
+        "the Lord of Ashby Moor",
+        "the Verderer-General"
+      ],
+      "marsh": [
+        "the Warden of the Fen March",
+        "the Lord of Reedmere",
+        "the Sheriff of the Wash"
+      ],
+      "mountain": [
+        "the Warden of the High March",
+        "the Lord of the Passes",
+        "the Marcher Earl"
+      ],
+      "frost": [
+        "the Warden of the Northern March",
+        "the Lord of the Long Water",
+        "the Marcher Earl"
+      ],
+      "desert": [
+        "the Warden of the Dry March",
+        "the Lord of the Wells",
+        "the Sheriff of the Sands"
+      ]
+    }
+  },
+  "keepChaplainCalling": {
+    "about": "A chaplain is a cleric where the people have clerics, and a lay brother where they do not.",
+    "discriminator": "ancestry",
+    "groups": {
+      "human": [
+        "cleric"
+      ],
+      "dwarf": [
+        "cleric"
+      ],
+      "elf": [
+        "commoner"
+      ],
+      "halfling": [
+        "commoner"
+      ],
+      "half_elf": [
+        "cleric"
+      ],
+      "catfolk": [
+        "cleric"
+      ],
+      "birdfolk": [
+        "cleric"
+      ]
+    }
+  },
+  "keepHoundCalling": {
+    "about": "A houndsman is a ranger where the people have rangers.",
+    "discriminator": "ancestry",
+    "groups": {
+      "human": [
+        "ranger"
+      ],
+      "dwarf": [
+        "warrior"
+      ],
+      "elf": [
+        "ranger"
+      ],
+      "halfling": [
+        "warrior"
+      ],
+      "half_elf": [
+        "ranger"
+      ],
+      "catfolk": [
+        "ranger"
+      ],
+      "birdfolk": [
+        "ranger"
+      ]
+    }
+  }
+}

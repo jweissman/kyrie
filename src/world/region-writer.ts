@@ -7,6 +7,8 @@ import { RegionWeather } from './region-weather';
 import { RegionRoads } from './region-roads';
 import { RegionUndertown } from './region-undertown';
 import { RegionOutskirts } from './region-outskirts';
+import { RegionTies } from './region-ties';
+import { RegionThreads } from './region-threads';
 import { RegionZones } from './region-zones';
 import { RegionSights } from './region-sights';
 import { RegionBorders } from './region-borders';
@@ -57,7 +59,7 @@ export interface Settlement extends Naming {
 export interface Site extends Naming { id: string; kind: string; name: string; hours: number; near?: string;
   cell?: number; zone?: string; part?: number;
   // The makers' work it is, if it is one (see Histories): by which plan and art.
-  work?: { plan: string; art: string; great?: boolean; deep?: boolean } }
+  work?: { plan: string; art: string; great?: boolean; deep?: boolean; imperial?: boolean } }
 export interface Region extends Naming {
   name: string; terrain: string; ancestry: string; domain: string; deity: string;
   settlements: Settlement[]; sites: Site[]; wonder: { kind: string; description: string };
@@ -209,7 +211,8 @@ export class RegionWriter {
     // Under the town the company begins in, an adventure a step from its door (see RegionUndertown).
     const home = region.settlements.find(t => t.id === (a?.settlement ?? /^(s\d+)_/.exec(company.start?.place ?? '')?.[1]))
       ?? region.settlements[0]!;
-    lines.push(...RegionUndertown.lines(region, home, company.size), ...RegionOutskirts.lines(region, home));
+    lines.push(...RegionUndertown.lines(region, home, company.size), ...RegionOutskirts.lines(region, home),
+      ...RegionTies.lines(region), ...RegionThreads.lines(region));
     lines.push(`  Company party ${q(company.size > 1 ? 'Your company' : 'You')} of ${company.size} at ${company.start?.place ?? `${region.settlements[0]!.id}_green`}.`,
       `  Initially Set quantity(party, gold) to ${company.coin ?? 12}. Initially Set quantity(party, rations) to 2.`, '  Goal false.');
     return lines;
@@ -277,7 +280,9 @@ export class RegionWriter {
       .map(id => ['landmark', id]);
     const commitments = [['terrain', 'region', region.terrain], ...ways.map(w => ['onRoad', w]), ...held, ...known,
       ...region.settlements.map(s => ['keeper', `${s.id}_innkeeper`, `${s.id}_green`]),
-      ...region.sites.map(w => ['siteKind', w.id, w.kind]), ...Object.entries(taken).map(([w, by]) => ['taken', w, by])];
+      ...region.sites.map(w => ['siteKind', w.id, w.kind]), ...Object.entries(taken).map(([w, by]) => ['taken', w, by]),
+      // The Empire's posting-house is no band's hold: a kit may not take it, as no scenario may.
+      ...region.sites.filter(w => w.work?.imperial && !taken[w.id]).map(w => ['taken', w.id, 'empire'])];
     return { version: 1, source: sources, rules: ['world', 'elements', 'devotion'], globals: ['party'],
       canon: [ModuleCanon.imbar, ...region.settlements.flatMap(s => s.seat ? [s.seat] : [])], ...beyond ? { imports: ['party'], roles: { party: { type: 'group' } } } : {},
       exports: Object.fromEntries([...ids.map(id => [id, id]), ...lands]), assembly: { commitments },

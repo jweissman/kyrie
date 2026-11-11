@@ -1,0 +1,72 @@
+{
+  "version": 1,
+  "id": "bound-howe",
+  "name": "The Bound Howe",
+  "instances": 1,
+  "weight": 1,
+  "places": {
+    "howe": {
+      "site": [
+        "barrow",
+        "cave"
+      ]
+    },
+    "town": {
+      "settlement": "near:howe"
+    },
+    "first": {
+      "settlement": "largest"
+    }
+  },
+  "modules": [
+    {
+      "id": "howe",
+      "bundle": "../situations/bound-howe/module.json",
+      "imports": {
+        "party": "@party",
+        "land": "@howe.land",
+        "outside": "@howe",
+        "town": "@town",
+        "green": "@town.green",
+        "taproom": "@town.taproom",
+        "shrine": "@town.shrine",
+        "keeper": "@town.innkeeper",
+        "priest": "@town.priest",
+        "first_taproom": "@first.taproom"
+      }
+    }
+  ],
+  "route": "howe.sheepway",
+  "found": {
+    "known": "Behind the wall at the foot of the ridge a sheep-way goes off along the slope, keeping under the skyline.",
+    "told": "Where the wall meets the scree, a sheep-way goes off along the slope, keeping well under the skyline."
+  },
+  "hooks": [
+    {
+      "fact": "howe.ridge_told",
+      "topic": "the diggers on the ridge above {howe}",
+      "channels": [
+        "tavern",
+        "road"
+      ],
+      "opens": true
+    },
+    {
+      "fact": "howe.levy_told",
+      "topic": "the clerk's call for iron and gold, and the king's torc",
+      "channels": [
+        "market",
+        "road"
+      ],
+      "opens": false
+    },
+    {
+      "fact": "howe.warden_told",
+      "topic": "the old woman who keeps the hearth on the ridge",
+      "channels": [
+        "temple"
+      ],
+      "opens": false
+    }
+  ]
+}

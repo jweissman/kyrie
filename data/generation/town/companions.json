@@ -1,0 +1,290 @@
+{
+ "about": "The companions of the first town and what each asks of the company, for bond.kyrt (src/world/region-bonds.ts): the questions are the companion's own, said unprompted when their condition holds; each has three answers, each answer a trait shown (candour, mercy, thrift) and regard gained; a paragon quest at a place, open at regard three, ends in a keepsake that grants a capability.",
+ "companions": [
+  {
+   "id": "{t}_manor_keeper",
+   "name": "Wystan Hale",
+   "capability": "woodcraft",
+   "rankup": "Wystan Hale walks a little way ahead for a while, and when he drops back he does not say why, only: 'I have decided you are people I should be ashamed to lie to. I did not expect that.'",
+   "howtext": "'Like being let off a chain,' says Wystan Hale, 'and finding I had forgotten the use of my legs.' He thinks. 'You ask me what I think, which my sergeant never did. I find I am thinking it.'",
+   "questions": [
+    {
+     "when": "knows(party, {t}_roadwood_grant)",
+     "ask": "Wystan Hale falls into step beside you. 'A thing, if I may. You have read the paper. The family kept it shut for forty years and I stood at their chain for seven. If you had found it and nobody had asked you, would you have said so? Or let the chain stand, and the quarrel with it, because it was not yours?'",
+     "answers": [
+      {
+       "label": "'I should have said so at once, and let them be angry.'",
+       "says": "'Hm,' says Wystan Hale. 'That is how my corporal would have said it. It cost him his place.' He nods slowly. 'I would rather be told the truth by a man who knows what it costs.'",
+       "trait": "candour",
+       "regard": 2
+      },
+      {
+       "label": "'I should have told the reeve and let him decide what to do with it.'",
+       "says": "Wystan Hale considers this. 'Kind,' he says. 'And it puts the weight on the one who has least to carry it with. But kind.'",
+       "trait": "mercy",
+       "regard": 1
+      },
+      {
+       "label": "'I should have kept it until it was worth something.'",
+       "says": "Wystan Hale does not say anything for a while. 'That is honest,' he says at last, in the voice of a man putting a hand on a hot kettle to see. 'I wish it were not.'",
+       "trait": "thrift",
+       "regard": 0
+      }
+     ]
+    },
+    {
+     "when": "at(party, {t}_green) and {t}_roadwood_shared(party)",
+     "ask": "Wystan Hale stops at the well-curb. 'I have not spoken to Aldous Fenn in six years about anything but oak. He will be at the sheds. What would you say to him, if you were me? I find I want an answer more than I want to go.'",
+     "answers": [
+      {
+       "label": "'Tell him the plain truth: you stood at the chain because you were told to, and you were wrong to.'",
+       "says": "'Wrong to,' says Wystan Hale, trying it. 'Yes.' He straightens. 'I am going to say that. And then I am going to buy him a drink.'",
+       "trait": "candour",
+       "regard": 2
+      },
+      {
+       "label": "'Say nothing. Stand beside him until he speaks.'",
+       "says": "Wystan Hale lets out a long breath. 'My corporal did that,' he says. 'It always worked. It was like being forgiven by weather.'",
+       "trait": "mercy",
+       "regard": 2
+      },
+      {
+       "label": "'Offer him the wardens' oak, now the chain is down. He will talk about that.'",
+       "says": "'He will,' says Wystan Hale, and smiles for the first time in the telling. 'It is not the same as saying sorry. But it is a good second.'",
+       "trait": "thrift",
+       "regard": 1
+      }
+     ]
+    },
+    {
+     "when": "at(party, {t}_stones_tree)",
+     "ask": "Wystan Hale touches a rag on the old tree. 'My corporal's mother tied one here the day he left for the castellan's company. She told him if he came back he was to take it down himself. He did not come back. Aldous's father was my corporal, I think I said. I do not know what to do about the rag.'",
+     "answers": [
+      {
+       "label": "'Tie another beside it. Leave the first. Let it be a company.'",
+       "says": "'A company,' says Wystan Hale. 'Yes. That is more than he ever had.'",
+       "trait": "mercy",
+       "regard": 2
+      },
+      {
+       "label": "'Take it down. A promise is a promise, and she made it.'",
+       "says": "Wystan Hale goes still, then nods once, as at an order. 'She would have wanted that,' he says. 'I am not sure I do.'",
+       "trait": "candour",
+       "regard": 1
+      },
+      {
+       "label": "'Leave it. It is not ours to settle.'",
+       "says": "'No,' says Wystan Hale. He sounds almost relieved. 'No. It is not.'",
+       "trait": "thrift",
+       "regard": 1
+      }
+     ]
+    }
+   ],
+   "appraise": {
+    "candour": "'You say what you think and you pay for it,' says Wystan Hale. 'I knew men like that. They were not easy to serve under, and I would have followed any of them into a ditch.'",
+    "mercy": "'You think first of what it does to the one who has least,' says Wystan Hale. 'It will get you killed one day. I should like to be there to see it does not.'",
+    "thrift": "'You count,' says Wystan Hale. 'Always the cost, always the use. I used to think that was cold. I stood at a chain for seven years because someone counted a different sum from mine. I begin to see its use.'"
+   },
+   "paragon": {
+    "place": "{t}_stones_tree",
+    "label": "Tie a rag on the old tree beside the corporal's, with Wystan Hale",
+    "says": "Wystan Hale takes a strip of grey cloth from his coat, which he has evidently carried for a long time, and ties it beside an older one gone white with weather. He stands a while with his hand on the knot. 'There,' he says. 'Corporal Fenn. I have stood at the wrong chain. I would like you to have known that I knew.' He turns to you. 'I have a whistle of his that he gave me when I was nineteen. It was for calling the line in a wood. It will call the line for you. I have never given it to anyone.'",
+    "giftname": "the corporal's whistle",
+    "giftdesc": "A boxwood whistle on a thong, worn pale where a thumb goes, that calls a scattered line together in a wood. It knows the trees as a corporal knew them, which is by their sound.",
+    "effect": "",
+    "after": "On the old tree two strips of cloth hang side by side, a grey one still dark with its dye and a white one gone to thread."
+   }
+  },
+  {
+   "id": "{t}_iv",
+   "name": "Isaure Venn",
+   "capability": "lore",
+   "rankup": "Isaure Venn stops, in the middle of a sentence about an inscription, and says without looking up: 'I have started to read your face the way I read stone. Please do not take it as an insult. It is the highest thing I know how to do.'",
+   "howtext": "'Like being a footnote,' says Isaure Venn, 'in a book that is finally being *written*. I have copied things for years that nobody has done anything with. You *do* things. It is rather alarming and I do not wish it to stop.'",
+   "questions": [
+    {
+     "when": "at(party, {t}_stones_hall)",
+     "ask": "Isaure Venn looks up at the dais and not at you. 'May I ask something of the sort one should not? If the stone told us the hall was a place of judgement, and the stone were wrong, and the folk had spent four hundred years leaving offerings to the *wrong thing*, would you tell them?'",
+     "answers": [
+      {
+       "label": "'Yes. They have a right to know what they are doing.'",
+       "says": "'Yes,' says Isaure Venn, and lets out a breath. 'Yes. I thought you would, and I was afraid you would, and I am glad.'",
+       "trait": "candour",
+       "regard": 2
+      },
+      {
+       "label": "'Not unless it hurt them. A custom can be wrong and kind.'",
+       "says": "'Kind,' says Isaure Venn, turning the word over. 'A good scholar would say a wrong thing kept alive is an error preserved. But I have eaten the bread of a custom, so I will not say it.'",
+       "trait": "mercy",
+       "regard": 1
+      },
+      {
+       "label": "'Depends who is paying for the truth.'",
+       "says": "Isaure Venn laughs, not unkindly. 'You are the first person who has said that aloud. Everyone else thought it.'",
+       "trait": "thrift",
+       "regard": 0
+      }
+     ]
+    },
+    {
+     "when": "{t}_roadwood_shared(party)",
+     "ask": "Isaure Venn catches up with you at the end of a lane. 'I must ask. You settled the quarrel by reading a paper. If the paper had said the Hall was right, and the wardens would have lost their living, would you have shown it to the reeve?'",
+     "answers": [
+      {
+       "label": "'Yes. The paper does not know who is poor.'",
+       "says": "'The paper does not know,' says Isaure Venn. 'I am going to write that down. May I? I shall not say it is yours.'",
+       "trait": "candour",
+       "regard": 2
+      },
+      {
+       "label": "'I should have found some way to soften it first.'",
+       "says": "'Soften,' says Isaure Venn, with care. 'It is a verb scholars use for ink. I had not thought of using it for people.'",
+       "trait": "mercy",
+       "regard": 2
+      },
+      {
+       "label": "'No. I should have kept it, and taken a fee for not showing it.'",
+       "says": "Isaure Venn's pen stops. 'I see,' she says. 'I think that is very likely what most people with papers do. I have been very naive about that, and I thank you for the lesson.'",
+       "trait": "thrift",
+       "regard": 0
+      }
+     ]
+    },
+    {
+     "when": "knows(party, {t}_boy_tune)",
+     "ask": "Isaure Venn waits until you are quite alone with her. 'Can I tell you why I came? Not the paper. My teacher had four notes in his notebook, with no word beside. He died last winter. If it turns out they are the chime, and what the chime means is something that would unmake what he spent his life on, would you want me to tell you?'",
+     "answers": [
+      {
+       "label": "'Tell me. All of it. I would rather be unmade by the truth.'",
+       "says": "'Unmade by the truth,' says Isaure Venn. 'I am going to remember you said that when I am frightened.'",
+       "trait": "candour",
+       "regard": 2
+      },
+      {
+       "label": "'Tell me what you can bear, and we will decide the rest together.'",
+       "says": "Her face does something complicated. 'Together,' she says. 'Yes.'",
+       "trait": "mercy",
+       "regard": 2
+      },
+      {
+       "label": "'Tell me what it is worth first.'",
+       "says": "'Honest,' says Isaure Venn, after a moment, and laughs. 'And fair. Truth is worth what the person who needs it will pay.' She does not seem to mind.'",
+       "trait": "thrift",
+       "regard": 1
+      }
+     ]
+    }
+   ],
+   "appraise": {
+    "candour": "'You want the thing as it is,' says Isaure Venn. 'It makes you a hard travelling companion for someone who likes a theory. I hope you never change.'",
+    "mercy": "'You keep wondering who it will hurt,' says Isaure Venn. 'I had thought that was a failing in a person who wants the truth. I am revising the opinion.'",
+    "thrift": "'You ask what everything is *for*,' says Isaure Venn. 'It irritates me and it is perfectly right: the Empire asked the same, and look what it left us.'"
+   },
+   "paragon": {
+    "place": "{t}_stones_hall",
+    "label": "Read the scored-out word on the dais with Isaure Venn",
+    "says": "Isaure Venn climbs the dais at last, and kneels with her cheek almost to the stone, and reads aloud in the flat voice of a clerk reading a deed. 'There,' she says. 'The first makers' letters, and over them, scored through hard, an Aenean word: IUDICIUM. Judgement. A surveyor's hand, a later one. The Empire did not find a judgement-hall. It *named* it one. And the figures are not holding scales.' She sits back on her heels. 'They are holding rods. Something to be measured against. I do not know what. But the people who came after wrote over what they could not read, and everyone since has read the wrong thing.' She is crying a little and does not seem to mind. 'I want you to have my primer. It will not teach you to read the old script, but it will teach you to doubt it properly, which is better.'",
+    "giftname": "Isaure's primer",
+    "giftdesc": "A thumbed paper primer of the old script's commonest words, in a young scholar's hand, with the margins full of doubts. It teaches the habit of reading the stone before the label on it.",
+    "effect": "Assert knows(actor, {t}_rubbed_word).",
+    "after": "Chalked under the dais, in a small, quick hand: THE LABEL IS NOT THE STONE. I.V."
+   }
+  },
+  {
+   "id": "{t}_anselm",
+   "name": "Brother Anselm Tarr",
+   "capability": "insight",
+   "rankup": "Brother Anselm Tarr has been quiet for a mile. 'I said my office this morning,' he says at last, 'and found I had said it *at* you. As a witness. I do not know if I am permitted that. I find that I do not mind.'",
+   "howtext": "'Like a doubt with legs,' says Brother Anselm Tarr, with the nearest thing to a smile you have seen on him. 'My master says a priest should not travel except to a pulpit. You are all my pulpit. I shall be very bad at it.'",
+   "questions": [
+    {
+     "when": "state({t}_stones_niche, restored)",
+     "ask": "Brother Anselm Tarr looks at the cup in its dust, and not at you. 'May I ask a thing? You put it back. If the cup had been worth a hundred coin to a collector, and the dead had not been watching, and there were a family to feed in the town: would you have put it back?'",
+     "answers": [
+      {
+       "label": "'Yes. The dead are watching even when they are not.'",
+       "says": "'Even when they are not,' says Brother Anselm Tarr. 'There is a text on that. It is not very good. You have said it better.'",
+       "trait": "candour",
+       "regard": 2
+      },
+      {
+       "label": "'I should have wanted to, and I do not know that I should have.'",
+       "says": "He looks at you for a long time. 'Thank you,' he says. 'That is the first honest thing anyone has said to me about faith.'",
+       "trait": "mercy",
+       "regard": 2
+      },
+      {
+       "label": "'No. The living come first.'",
+       "says": "'Yes,' says Brother Anselm Tarr, very quietly. 'I thought you might say so. I will not tell you that you are wrong, because I am not sure.'",
+       "trait": "thrift",
+       "regard": 0
+      }
+     ]
+    },
+    {
+     "when": "{t}_death_told(party) or {t}_fenn_truth(party)",
+     "ask": "Brother Anselm Tarr stops you by the shrine door. 'You told someone a thing, lately, about a death or a father. I do not ask what. I ask this: when you decide what to tell the grieving, how do you decide?'",
+     "answers": [
+      {
+       "label": "'By what they would want to know, if they could see it all.'",
+       "says": "'If they could see it all,' says Brother Anselm Tarr. 'That is God's view, and not a bad rule for a man to borrow for an afternoon.'",
+       "trait": "candour",
+       "regard": 2
+      },
+      {
+       "label": "'By what they can carry.'",
+       "says": "'Yes,' says Brother Anselm Tarr, and for a moment he is very young. 'That is what the priest does for forty years. I am surprised to hear it from someone who is not one.'",
+       "trait": "mercy",
+       "regard": 2
+      },
+      {
+       "label": "'By what it will cost me.'",
+       "says": "He is silent. 'It is a fair answer,' he says. 'It is how most of us decide, and it is a good deal more honest than the ones with a lantern on the cover.'",
+       "trait": "thrift",
+       "regard": 0
+      }
+     ]
+    },
+    {
+     "when": "at(party, {t}_stones_under)",
+     "ask": "Brother Anselm Tarr speaks very low, in the niches' dark. 'If I find, after all this, that what the coins are is nothing: manners, habit, a long forgetting. Will you think less of me for having asked so loudly?'",
+     "answers": [
+      {
+       "label": "'No. A question you do not ask is a vow you have not taken.'",
+       "says": "'Not taken,' says Brother Anselm Tarr, as if tasting it. 'I shall use that. I shall not say whose it is.'",
+       "trait": "candour",
+       "regard": 2
+      },
+      {
+       "label": "'I should think more of you. It is brave.'",
+       "says": "He laughs, once, painfully. 'Brave. I have never been called brave. I have been called difficult.'",
+       "trait": "mercy",
+       "regard": 2
+      },
+      {
+       "label": "'I should think it a waste of a good lamp.'",
+       "says": "'It might be,' says Brother Anselm Tarr. 'Thank you for the practicality. It is a form of respect.'",
+       "trait": "thrift",
+       "regard": 1
+      }
+     ]
+    }
+   ],
+   "appraise": {
+    "candour": "'You speak plainly even where plain speech is a risk,' says Brother Anselm Tarr. 'It is not a virtue the house teaches. I should like to know where you learned it.'",
+    "mercy": "'You are gentle,' says Brother Anselm Tarr, 'at some cost, I think. I have seen that in saints. I have also seen it in people who were afraid. I cannot tell which you are. I do not think it matters.'",
+    "thrift": "'You count the cost,' says Brother Anselm Tarr. 'The house calls that worldliness. The house has not walked three days to find out whether a coin is idolatry. I am not sure the house is right.'"
+   },
+   "paragon": {
+    "place": "{t}_stones_under",
+    "label": "Keep a vigil in the undercroft with Brother Anselm Tarr",
+    "says": "Brother Anselm Tarr kneels at the foot of the niches and does not pray, quite; he sits with his hands open in his lap and lets the dark do what it will. You sit beside him a long time. Somewhere in the stone the chime stirs and does not ring. 'There,' he says at length, very softly. 'That is the thing I could not find in the books. It does not ask. The dead do not ask for anything. They are only *kept*.' He wipes his face, unashamed. 'The faith says the dead are in the god's keeping. I think it is simpler than that, and I think the god would not mind. Whoever keeps them, keeps them. I have decided to be a person who keeps things.' He takes a small grey lamp from his cloak. 'It was my first. It burns whether or not anyone is looking. Have it.'",
+    "giftname": "the acolyte's grey lamp",
+    "giftdesc": "A small grey tin lamp, trimmed with care, that burns steadily with a light that lets you see what a person means as well as what they say. Brother Anselm Tarr carried it for ten years and never once let it go out.",
+    "effect": "",
+    "after": "A grey lamp burns, trimmed and steady, on the ledge of the lowest niche: the only light in the undercroft that has not been brought in by someone."
+   }
+  }
+ ]
+}

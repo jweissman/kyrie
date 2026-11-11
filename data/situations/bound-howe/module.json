@@ -1,0 +1,67 @@
+{
+  "version": 1,
+  "source": "situation.kyr",
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "imports": [
+    "party",
+    "land",
+    "outside",
+    "town",
+    "green",
+    "taproom",
+    "shrine",
+    "keeper",
+    "priest",
+    "first_taproom"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    },
+    "land": {
+      "type": "place"
+    },
+    "outside": {
+      "type": "place"
+    },
+    "town": {
+      "type": "place"
+    },
+    "green": {
+      "type": "place"
+    },
+    "taproom": {
+      "type": "place"
+    },
+    "shrine": {
+      "type": "place"
+    },
+    "keeper": {
+      "type": "group"
+    },
+    "priest": {
+      "type": "group"
+    },
+    "first_taproom": {
+      "type": "place"
+    }
+  },
+  "exports": {
+    "sheepway": "sheepway",
+    "ridge_told": "ridge_told",
+    "levy_told": "levy_told",
+    "warden_told": "warden_told"
+  },
+  "generation": {
+    "type": "bound_howe",
+    "templates": "templates.json",
+    "tables": "tables.json"
+  },
+  "experience": 2000,
+  "unclocked": "the salvagers dig a little deeper each week; the dead keep to their niches until the seal is opened or the torc is lifted"
+}

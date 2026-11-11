@@ -1,0 +1,50 @@
+# ties: what each settlement has to do with the nearest place in the country that is not a settlement, and what that place has to say back.
+// A Kyr template (see src/world/kyr-template.ts), written for every settlement and its nearest site (not a great work,
+// a deep site or the Empire's posting-house). {t} the town's id, {town} its name, {site} the site's id, {sitename} its
+// name, {where} how it is told, and the people of the town by reference ({{t}_innkeeper}, {{t}_priest},
+// {{t}_merchant}, {{t}_traveller}). One shape is drawn for each. Every shape is the same situation told from two
+// ends: someone in the town wants something that is at the site; the site holds a trace that sends the company back;
+// and the town changes when it comes. Add a shape by adding a section; nothing in the engine needs to change.
+--- base
+  Relation {t}_tie_done(group).
+--- shape kin 3
+  Kind {t}_tie_kind "a hand-sewn pouch" is treasure worth 3 weighing 1 described "A small pouch of grey linen, sewn by someone who took care, with two letters stitched on the flap in red thread: the way a mother marks what her child will carry.".
+  Item {t}_tie_token "a hand-sewn pouch" is {t}_tie_kind at {site}.
+  Topic {t}_tie_ask with {t}_innkeeper "Ask {{t}_innkeeper} why the lamp is kept in the window" when not knows(actor, {site}_named) once {
+    Says "'For a lad who went out to {sitename}, in {where},' says {{t}_innkeeper}, 'for a bet, or a girl, or to be somebody; and did not come back, and I kept his bed. Seven winters. I know. I know. But if somebody were to go and see, and bring me what they found, whatever it was, I should sleep.'".
+    On discuss { Assert knows(actor, {site}_named). Assert knows(actor, {site}_found). }
+  }
+  Observe {t}_tie_seen at {site} when not holding(party, {t}_tie_kind) and not {t}_tie_done(party) "A cold fire-ring, a crushed bed of bracken, and under a stone a small grey pouch sewn with red letters. Someone slept here once, and meant to be back.".
+  Topic {t}_tie_back with {t}_innkeeper "Show {{t}_innkeeper} the pouch from {sitename}" when holding(party, {t}_tie_kind) and not {t}_tie_done(party) once {
+    Says "{{t}_innkeeper} holds the pouch in both hands and does not open it. 'Her stitching,' they say. 'My mother's.' They are very quiet, and then they go and take the lamp from the window, and put it out, and bring it back lit. 'It is a different light when you know. Here. You have earned more than this.'".
+    On discuss { Assert {t}_tie_done(party). Give 14 gold to actor. }
+  }
+  Observe {t}_tie_after at {t}_green when {t}_tie_done(party) "The lamp in the window of the inn burns with the door open now, and the innkeeper has been seen to carry a stool out to the green and sit in the sun, which nobody has seen in years.".
+--- shape debt 3
+  Kind {t}_tie_kind "a brass-bound measure" is treasure worth 6 weighing 2 described "A brass-bound dry measure with the merchant's pierced mark struck in the rim and a dent on the side: lent to somebody who needed to know how much a thing was worth, and not brought back.".
+  Item {t}_tie_token "a brass-bound measure" is {t}_tie_kind at {site}.
+  Topic {t}_tie_ask with {t}_merchant "Ask {{t}_merchant} what they have lent that was not returned" when not knows(actor, {site}_named) once {
+    Says "'A measure,' says {{t}_merchant}. 'Brass-bound. Eight years since. I lent it to a surveyor, or a man who said so, who wanted to value what lay at {sitename}, in {where}. It is not the brass; it is that every weight I sell is matched to it. I have been selling the town short by a thimble ever since and nobody has said.'".
+    On discuss { Assert knows(actor, {site}_named). Assert knows(actor, {site}_found). }
+  }
+  Observe {t}_tie_seen at {site} when not holding(party, {t}_tie_kind) and not {t}_tie_done(party) "Under a flat stone by the way in lies something brass-bound and dented, put down carefully by someone who meant to come back for it with company.".
+  Topic {t}_tie_back with {t}_merchant "Give {{t}_merchant} back the measure from {sitename}" when holding(party, {t}_tie_kind) and not {t}_tie_done(party) once {
+    Says "{{t}_merchant} sets the measure on the counter and fills it with water from a jug, and then with sand, and stands looking at the level for a long time. 'Honest,' they say. 'I have been selling honest by accident for eight years and short by principle for none.' A purse comes out. 'It is the town's, really. Take your share.'".
+    On discuss { Assert {t}_tie_done(party). Give 12 gold to actor. }
+  }
+  Observe {t}_tie_after at {t}_green when {t}_tie_done(party) "At the stalls the weights are being set out again, matched by eye to a brass-bound measure on the merchant's counter, and people are checking them with the faces of folk who have been given something back.".
+--- shape custom 2
+  Thing {t}_tie_cairn "the cairn of offerings" at {site} {
+    State fallen "A cairn of stones lies tumbled at the foot of the way in, with scraps of old bread, a bead, a knotted cord and a child's clay bird among the stones: a place where somebody has come every year, and somebody has kicked it over.".
+    State mended "The cairn has been built up again, stone on stone, the bread and the bead and the clay bird set back in the top of it.".
+    Change mend "Build the cairn up again, stone on stone" from fallen to mended.
+  }
+  Topic {t}_tie_ask with {t}_priest "Ask {{t}_priest} about the bread that is carried out of {town}" when not knows(actor, {site}_named) once {
+    Says "'Every spring,' says {{t}_priest}, 'the children of {town} walk out to {sitename}, in {where}, with a heel of bread each, and leave it on a heap of stones. Nobody remembers why. I have never forbidden it. But I hear it has been kicked over, and I cannot go, and I do not like a thing done for four hundred years to end because nobody could spare the morning.'".
+    On discuss { Assert knows(actor, {site}_named). Assert knows(actor, {site}_found). }
+  }
+  Topic {t}_tie_back with {t}_priest "Tell {{t}_priest} the cairn at {sitename} stands again" when state({t}_tie_cairn, mended) and not {t}_tie_done(party) once {
+    Says "{{t}_priest} closes their eyes. 'Then it will be done this spring,' they say, 'and I shall not have to explain why not.' They put a few coins in your hand without looking at them, as if embarrassed to be seen paying for something that ought to be free.".
+    On discuss { Assert {t}_tie_done(party). Give 10 gold to actor. }
+  }
+  Observe {t}_tie_after at {t}_green when {t}_tie_done(party) "Somebody has chalked a small clay-bird on the well-curb, and under it, in a child's hand, a date in the spring.".

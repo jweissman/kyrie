@@ -1,0 +1,143 @@
+Module arcology "The Numbered House" {
+  // The terraces, the garden, the gantry and the Bridge of Weights; the Great Void, its stalled lift and its floor.
+
+  // --- the Terrace of Tiers ------------------------------------------------------------------------------------
+  Observe terrace_scene at terrace when true "Ring on ring of balconied terraces climb the cliff above you, each set back from the one beneath, until the highest is a ledge against the sky. Ivy has taken every balustrade; the stone beneath it is the colour of a hearth. Out of the fourth ring a waterfall comes, falls the height of a church tower, and vanishes into a mist that smells of iron.".
+  Observe terrace_numbers at terrace as feature when true "Every door that opens onto the terrace has a number cut over it, in the figures the post at the Lodge used, and every number has been cut a little deeper than the last. Beside the door numbered one, someone has cut a smaller figure, and beside that a smaller still, as a child learns to write.".
+  Observe terrace_ways at terrace when true "An arch leads into a row of doors; a walk between flowerbeds runs out along the fourth ring; a gantry door stands shut beside a long span that crosses the dark. A brass gate at the head of a shaft is the lift. A gallery runs round the inside of the terraces to the rim of the Great Void.".
+  Observe terrace_heavy at terrace when growth(house, growth_heavy) "Roots have split the paving in a hundred places and the ivy has come down off the balustrades onto the floor of the terrace; a young ash is growing out of the doorway of number nine.".
+  Observe terrace_light at terrace when growth(house, growth_light) "The terrace is almost bare: lichen on the balustrade, a drift of wind-blown grit in every corner, a few small stubborn plants in the cracks that have lived on nothing for a long time.".
+  Observe terrace_hum at terrace as felt when hum(house) >= 1 "The ivy on the balustrade trembles in a way that has nothing to do with the wind.".
+  Observe terrace_lift at terrace when state(cage_gear, stalled) "The cage of the lift hangs in its shaft halfway down, tilted a little, with something moving inside it.".
+
+  // --- Tenants' Row, and a dwelling ----------------------------------------------------------------------------
+  Observe row_scene at row when true "Doors on both sides of a long passage, a dozen to a side, each with a numeral over it and a hand-worn sill. The ceiling is low and the air dry and still. The doors on the left stand open on rooms that have lost their furniture; the doors on the right have been shut so long that the paint has become part of the wood.".
+  Observe row_quarrel at row as sign when true "Scratched into the lintel of the fourth door, over and over, by different hands and different tools: THE ROLL IS THE RESIDENTS'. Under it in a firmer cut: THE ROLL IS THE HOUSE'S. Under that, last and smallest: THE ROLL IS NOBODY'S TO CLOSE." teaches quarrel_known.
+  Discovery quarrel_known "The people of the House quarrelled over who the Roll belonged to: the residents, or the House; and someone scratched that it was no one's to close.".
+  Observe row_marks at row when true "The doorposts are scored at the height of children, one mark to a year, each with a number and a date in a system of figures that is not the Empire's. On one post the marks stop at a child's shoulder, and the last has no date at all.".
+  Observe dwelling_scene at dwelling when true "Two rooms and a back room, with a hearth in the larger and a window onto the Void in the smaller. There is a bed-frame, a table with one leg shorter than the rest (a folded slate under it), and a ring on the hob where a kettle stood. The window is shuttered. Someone left this home with the intention of coming back to it before dark.".
+  Observe dwelling_slate at dwelling as sign when true "The slate under the table's leg is written over: a column of figures, the sums done twice and the difference between the two struck out. Someone was checking the count of something, and the answer they were checking against is cut into the sill: it is the same sum.".
+  Item dwelling_oil "a jar of lamp-oil" is lamp_oil at dwelling hidden until dwelling_cupboard.
+  Discovery dwelling_cupboard "A cupboard by the hearth has an oil-jar in it, sealed with wax." { Found by searching dwelling "Behind the shutter of the cupboard by the hearth, a jar of lamp-oil, sealed with wax, still full.". }
+  Item dwelling_board "a child's counting-board" is counting_board at dwelling.
+  Kind counting_board "a child's counting-board" is treasure worth 6 weighing 1 described "A wooden frame strung with beads on wires, three rows to a side. The beads are worn smooth where thumbs went, and a row of notches along the frame counts up in sevens, which is no count the Empire used.".
+
+  // --- the Hanging Garden --------------------------------------------------------------------------------------
+  Observe garden_scene at garden when true "The fourth ring has been given over to beds: terraced troughs of black soil run along it in tiers, spilling over their lips in a green that has never been cut, and the waterfall comes out of the rock above them and runs down a series of stone channels through all of them. Bell-lilies hang in thousands, white and heavy-headed, and the air under them is warm and sweet and thick enough to lean on.".
+  Observe garden_wilt at garden when state(blossoms, wilting) "The channels that watered the beds have run to a trickle, and the bell-lilies hang withered on their stems, their heads brown, their scent gone to a thin sourness.".
+  Thing blossoms "the bell-lilies of the fourth ring" on garden_walk {
+    State open dangerous "Bell-lilies hang over the walk in white thousands, their mouths open, and a faint gold dust comes out of them each time the air moves. It smells of honey and of nothing you have smelled in a field. Breathing it, your eyelids grow heavy with the sweetness of it.".
+    State folded "The bell-lilies have closed their mouths for the dark, and hang like a hundred thousand small shut fists.".
+    State veiled "The bell-lilies hang over the walk with their mouths open, but the company walk behind wet cloths, and the sweetness reaches them only as a smell.".
+    State wilting "The bell-lilies hang over the walk, brown and withered, and no dust comes out of them.".
+    Change veil "Tie wet cloth over your mouths and go through" from open to veiled needing veil_kind or waterskin or bandages.
+    Hurts with sleep_dust when open then open.
+  }
+  Hazard sleep_dust "The gold dust of the bell-lilies" means "Apply asleep to ally for 1 hour unless constitution save against (12).".
+  Rule lilies_close when dark() and state(blossoms, open) says "As the light goes, the bell-lilies close, one after another, like a held breath let out in the dark." { Assert state(blossoms, folded). }
+  Rule lilies_open when not dark() and state(blossoms, folded) { Assert state(blossoms, open). }
+  Rule lilies_wilt_town when state(wheel_town, open) and not state(blossoms, wilting) says "Far below the Void, a great wheel has been turned, and the water that fed the fourth ring has gone somewhere else. The waterfall thins to a thread, and the bell-lilies lean." { Assert state(blossoms, wilting). }
+  Rule lilies_wilt_dry when state(wheel_garden, stopped) and not state(blossoms, wilting) says "The waterfall stops as if a hand had closed on it." { Assert state(blossoms, wilting). }
+  Rule lilies_revive when state(wheel_garden, open) and state(wheel_town, stopped) and state(blossoms, wilting) says "The waterfall comes back with a cough and a roar, and runs down the channels of the fourth ring, and the beds drink." { Assert state(blossoms, open). }
+  Observe garden_waterfall at garden as feature when not state(blossoms, wilting) "The waterfall comes out of a square mouth cut in the rock, carrying a thin sunlit rainbow of its own, and drops past the garden's lip into the dark of the Great Void. There is a sound in it like a hundred people breathing in.".
+  Person gardener "the Gardener" at terrace {
+    Role "keeper of the fourth ring". Species dryad. Level 2. Peaceable. Pronouns she.
+    Greets "A woman stands between two beds with her hands in the soil to the wrist, looking at you as the wind looks at a field. 'You are counted?' she says, and then, seeing the answer on your faces: 'No. That is all right. The bells do not count.'".
+    State tending "The Gardener moves along the tiers with a stooping unhurried tread, doing in each bed what is needed there, and something else besides, that is not gardening.".
+    State grieving "The Gardener stands among the withered beds with a dead bell-lily in each hand and does not look up.".
+  }
+  Rule gardener_grieves when state(blossoms, wilting) and state(gardener, tending) says "The Gardener stops where she stands, and a long moment later bends and picks a dead bell from the bed, and holds it as one holds a child's tooth." {
+    Assert state(gardener, grieving).
+  }
+  Topic gardener_bells with gardener "Ask the Gardener about the bell-lilies" when state(gardener, tending) once {
+    Says "'They open with the light and shut with the dark,' she says, 'and in between they breathe on whatever comes. They mean no harm by it, but they are many.' She wipes a smear of earth from her wrist. 'Wet your cloths at the channel and tie them over your mouths. Or come at night. Or ask the House for less water, which would be unkind to me.'".
+    On discuss { Assert knows(actor, bells_known). }
+  }
+  Discovery bells_known "The bell-lilies breathe sleep by day and shut at dark; wet cloth over the mouth will stop it.".
+  Topic gardener_cloth with gardener "Ask the Gardener for something to tie over your faces" when state(gardener, tending) and knows(party, bells_known) once {
+    Says "She goes to a trough by the first bed and soaks a handful of grey linen strips in it, and wrings them out into the soil, and gives them to you with a little bow, as one gives a guest a napkin. 'Over the mouth and nose. Wet again at the channel, halfway, if you are slow.'".
+    On discuss { Give veil_kind to actor. }
+  }
+  Kind veil_kind "wet strips of linen" is gear worth 0 weighing 0 described "Strips of grey linen, wrung out in the Gardener's trough, cool and smelling of green things. Tied over the mouth and nose, they will filter the air of the fourth ring.".
+  Topic gardener_house with gardener "Ask the Gardener what the House is for" when state(gardener, tending) once {
+    Says "'To keep a number alive,' she says, without hesitating. 'Everything in it was made to be counted and so was kept. I tend what is mine, and the count tends me.' She looks at you for a long moment. 'Ask the tablets what it is for, if you want a different answer. They have one too.'".
+  }
+  Topic gardener_water with gardener "Ask the Gardener where the water comes from" when state(gardener, tending) once {
+    Says "'From under,' she says, 'by three wheels in the dark below the Void, and each wheel sends it somewhere. One feeds me. One feeds a place with a shrine over it, a long way from here, where it was once taken for good, and was then forgotten.' She turns a lily in her hand. 'I would be sorry to lose my water. But the other place has a claim too. I have never decided.'".
+    On discuss { Assert knows(actor, wheels_known). }
+  }
+  Discovery wheels_known "Three wheels below the Void send the water: one to the garden, one to a shrine a long way off, one to drain the cistern.".
+  Topic gardener_pod with gardener "Ask the Gardener for a seed-pod of the bells" when state(gardener, tending) and been(party, roots) once {
+    Says "She laughs, a single astonished sound. 'You have been below, then. You know what the pods are for.' She goes down the bed and comes back with a pod the size of a closed fist, papery and warm. 'Plant it where there is water and the sun comes, and call it by a name you will remember.'".
+    On discuss { Give garden_pod_kind to actor. }
+  }
+  Kind garden_pod_kind "a seed-pod of the bell-lilies" is treasure worth 25 weighing 1 described "A papery pod the size of a fist, warm as a hen's egg, that rattles when it is shaken. Tied to it with a thread is a leaf, and on the leaf, in a small clear hand, the figure of a count.".
+
+  // --- the counterweight gantry, and the Bridge of Weights -----------------------------------------------------
+  Observe gantry_scene at gantry when true "A gallery cut into the cliff, half a flight of stairs above the terrace, with a window onto the gulf and two great capstans bolted to the floor. A chain as thick as a man's arm runs from each across the gap and out of sight, through slots in the glass. The air is hot with the smell of oil. The brass of the capstans shows the shine of recent hands.".
+  Measure limit(entity). Measure cantedAt(entity).
+  Initially Set limit(deck) to 10.
+  Thing winch_a "the near capstan" at gantry {
+    State slack "The near capstan stands with its pawl in the third notch of a rack of twelve, a spoked wheel on a drum. Its chain runs out across the window, taut.".
+    State wound "The near capstan has been wound to the last notch. Out in the gulf, a weight as tall as a man has gone up the cliff.".
+    Change wind_a "Wind the near capstan to the last notch" from slack to wound needing brawn.
+  }
+  Thing winch_b "the far capstan" at gantry {
+    State rusted "The far capstan's pawl is seized in its rack with a rust-red crust of oil gone to varnish; the chain it works runs out across the gulf, slack.".
+    State wound "The far capstan has been freed and wound. Across the gulf, another weight has gone up the cliff on its chain.".
+    Change free_b "Break the far capstan's pawl free and wind it" from rusted to wound needing crowbar.
+  }
+  Relation lifted(thing).
+  Rule lift_a when state(winch_a, wound) and not lifted(winch_a) says "Out across the gulf, a chain tightens, and a weight the size of a bell goes up the cliff-face through a slot in the glass, slowly." { Assert lifted(winch_a). Increase limit(deck) by 5. }
+  Rule lift_b when state(winch_b, wound) and not lifted(winch_b) says "The far capstan turns under its pawl, grunting, and out in the gulf a second weight begins to climb." { Assert lifted(winch_b). Increase limit(deck) by 5. }
+  Observe gantry_plate at gantry as reading when true "On the bronze plate over the window, cut in the Empire's numerals and in a form of figures they did not use: THE DECK BEARS {limit(deck) in words} TO THE HEAD. THE WEIGHTS ADD FIVE EACH." teaches deck_known.
+  Discovery deck_known "The Bridge of Weights bears only a certain load to the head, and the two counterweights on the gantry add to it.".
+
+  Observe bridge_near_scene at bridge_near when true "A railed landing juts out over the gulf, with the first span of the Bridge going out from it into the dark: a long ribbed deck of bronze plates on arched girders, hung from chains on pylons that stand on nothing. The chains hum a little. At your feet a heap of bundles, rolls and rusted tools lies against the rail where people put them down.".
+  Observe bridge_heap at bridge_near as sign when true "In the heap: a surveyor's tripod with a leg gone; four water-skins with their necks cut off; two pairs of boots; a rolled tent; a rusted chest. It is what a party sheds when it is told, at the foot of a bridge, what the bridge will bear.".
+  Observe bridge_plate at bridge_near when true "A plate on the rail is cut with a line of the Empire's numerals and a drawing of a figure with a sack, over which a scale tilts. {limit(deck) in words} to the head, the numerals say, and something of the survey's, chalked beside, that the hand was too hurried to finish: LESS IN WIND." teaches deck_known.
+  Thing deck "the deck of the Bridge" on bridge_a {
+    State level "The deck lies flat and quiet on its chains.".
+    State canted blocking "The deck has tipped, one side down, sloping the whole length of the span like a roof. Nothing you carried could be got along it.".
+  }
+  Query overweight(a: group) means memberOf(?m, a) and carried(?m) > limit(deck).
+  Observe bridge_mid_scene at bridge_mid when true "The middle of the Bridge hangs over a drop you cannot see the bottom of. The deck underfoot is bronze plate set in ribs, and it gives a little, the way a plank does over a ditch. The chains sing. Away to the right, a gap in the dark shows the inside of the Great Void, a hundred feet of light and balconies, and the small clear sound of falling water.".
+  Observe bridge_far_scene at bridge_far when true "The far landing is a bronze platform with a rail, and an arch behind it into a hall that breathes warm, dry air. A crowd of tablets stands inside, as far as the light goes; the hum is louder here.".
+  Rule deck_gives at bridge_mid when at(party, bridge_mid) and state(deck, level) and overweight(party)
+    says "The deck gives under you, a hand's breadth, and then another, and the whole span begins to lean. You lose your footing, grab for the rail, and are carried backwards down the slope in a rush of bronze and noise." {
+    Assert state(deck, canted). Set cantedAt(deck) to watch(clock). Retract at(party, bridge_mid). Assert at(party, bridge_near).
+    Assert strikes(slide, party).
+  }
+  Hazard slide "The deck throws you down the span" means "Deal (1d6) physical damage to ally unless dexterity save against (12).".
+  Rule deck_rights when state(deck, canted) and cantedAt(deck) + 6 <= watch(clock) says "Somewhere in the gulf, a catch drops, and the deck comes back to level with a long groan of chains." { Assert state(deck, level). }
+  Observe bridge_canted at bridge_near when state(deck, canted) "The deck lies tilted, slanting down to the left, and the chains are quivering. Whatever happened out there, the Bridge will not hold anyone until it rights itself.".
+
+  // --- the Great Void: the rim, the stalled lift, and the foot -------------------------------------------------
+  Observe rim_scene at rim when true "A gallery on the inside of the Great Void, a hundred feet below its glass roof and a hundred feet above its floor. The roof has broken open in a dozen places and the light comes down through them in shafts that turn in the dust. Tiers and bridges of bronze and stone climb the walls round you, ivy-hung, and on every balcony there is a door. A waterfall goes down the far wall into mist.".
+  Observe rim_birds at rim when not dark() "Swifts make their rounds of the well in a flock so dense that it keeps its shape. Nothing else lives up here but the ravens; the rest of the Void, below, belongs to what falls.".
+  Observe rim_drop at rim as sign when true "There is a smell of carrion coming up from below, faint and old, and a worn place on the rail where a rope has been tied and untied.".
+  Observe cage_scene at cage when true "The cage is a box of brass lattice the size of a closet, hung in its shaft from a single chain gone red with age, tilted a few degrees off true. Its door has been forced open and propped with a boot. Through the lattice you can see up the shaft to the terrace and down it to the floor of the Void, where something white lies among the rubble.".
+  Thing cage_gear "the lift's engine" at cage {
+    State stalled "A drum of bronze gears is bolted above the cage, with one missing from the train: an empty spindle where a governor should turn, and a clean ring on the housing where it was.".
+    State running "The lift's engine has its governor fitted; the gears turn together and the cage hangs level in the shaft. A brass lever on the lattice wall is marked UP and DOWN in the Empire's numerals.".
+    Change fit "Fit the governor and free the cage" from stalled to running needing governor_kind consuming governor_kind.
+  }
+  Observe foot_scene at foot when true "The floor of the Void is a bowl of rubble and fallen leaves, a hundred feet down from the sky and a hundred paces across, grown over with ferns that live on the light from the broken roof. The waterfall lands in a pool at one side and goes down through a grating. The air is damp and cool and the sound of the waterfall fills it to the edges.".
+  Observe foot_things at foot as sign when true "Things have fallen here. A bundle of tent-cloth; a pair of boots, one with a foot still in it; the shaft of a surveyor's tripod; a lantern with its glass cracked. Part of a ladder, cut square at both ends. A white scatter of bones.".
+  Observe foot_bones at foot as sign noticed by rites when true "The bones are three people's, and a fourth's that is not human, and none of them is more than a lifetime old. Two were monks, from the cut of their sandals; one fell, and one was carried here and laid among the ferns with his hands folded, by someone who was not the owlbear.".
+  Item foot_pouch "a salvaged pouch of coin" is pouch_kind at foot hidden until foot_searched.
+  Discovery foot_searched "Among what fell into the Void, a pouch with a few coin in it." { Found by searching foot "Under the tent-cloth is a leather pouch with a few coin in it, and a note in a clerk's hand: ALL OF IT ARE OWED.". }
+  Kind pouch_kind "a pouch of old coin" is treasure worth 18 weighing 1 described "A leather pouch, stiff with damp, with a handful of thin coin in it stamped with a wheel and a wing. A slip of lead is tied to the neck with the legend OWED, and a number.".
+  Person owlbear "the owlbear" at foot {
+    Role "a great shaggy thing, fed by what falls". Species owlbear. Level 2. Temperament territorial.
+    Warns "Something huge uncoils among the ferns at the edge of the pool and turns its head to look at you. It is covered in feathers and fur in equal parts, and its eyes are round and yellow. It breathes in, slowly, through a beak the length of your forearm. It will not have you here long.".
+    Comes "The owlbear comes out of the ferns at a rolling run, all beak and claws and a hoarse falsetto scream.".
+  }
+  Action bait_owlbear(actor: group, site: place) "Leave rations at the edge of the pool for the owlbear" {
+    Description "Beasts that live on what falls will take what is put down.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(owlbear, site) and able(owlbear) and quantity(actor, rations) >= 1 and not tolerates(owlbear, actor).
+    Time 3 minutes.
+    On success { Decrease quantity(actor, rations) by 1. Assert tolerates(owlbear, actor). Retract warned(owlbear, actor). }
+    Result "You put your rations down at the edge of the pool and back away. The owlbear looks at you, and then at the food, and then, with great dignity, stops looking at you.".
+  }
+}
