@@ -117,3 +117,22 @@ barrow's two- and three-fold groups last two to six rounds where they lasted one
   no more"), then in the first round takes the warrior from 14 to 1; with a flee order at half hit points the flight is not legal at 1 hit point and
   the warrior falls in the second round. That is the picture the requests file asks to make legible.
 - Focused tests: see the branch's final report.
+
+## 6. The depth pass on the Numbered House and the Silent Lord (`adventure/p3-depth`)
+
+`bun scripts/encounter-audit.ts scenarios --trials 12` before and after: **unchanged for every band it reads** (the House's Usher,
+owlbear, eels, beetles, slump; the keep's door-ward and rats) because the audit reads only bands that are not `Peaceable` at install, and the
+new foes (Brannock's hands, Thole's Hands, Ansel) are made hostile by a rule, in play, by what the company does. Measured by hand
+with the audit's own `measure` (12 trials, human warriors, solo level-1 warrior / four level-3 characters):
+
+| foe | solo wiped | four: rounds to win | four: wiped | four: mean hurt |
+|---|---|---|---|---|
+| Brannock's hands, first drawn as 4 x L2 (too lethal) | 1.0 | 15.3 | .75 | .88 |
+| Brannock's hands as shipped, 4 x L1 | 1.0 | 10.1 | .42 | .76 |
+| Thole and the Hands, 3 x L2 | 1.0 | 14.2 | .42 | .81 |
+| Ansel, 1 x L2 (a first-fall bout) | .58 | 3.3 | 0 | .10 |
+
+These are long, dangerous fights a four can lose, and a solo first-hour company cannot win: every one of them warns first, in the
+ward (*a guest who counts trays*), on the span (*that's a toll*), across the ward (*the king's champion*), and has three or more
+ways round (toll, talk, a calling's reading, the marshal, the pawl, the paid garrison). Left unmeasured: the rival's fights as a
+company would meet them on a tipped deck or at a stair's head, which the audit cannot set up.

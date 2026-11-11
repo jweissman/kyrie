@@ -74,6 +74,7 @@ describe('the silent lord: consequences that leave the keep', () => {
     // Ansel has been won (given as a fact: the duel and the misunderstanding have their own specs), or he would call the
     // company out across the hall at the second cup and halt it where it stands.
     j.assert('befriended', k('ansel'), 'party');
+    j.assert('tolerates', k('hands'), 'party'); // (and the Hands, unpaid, would halt a company that knows the lord is dead)
     await j.play('=day 12 20:00', '>keep__hall');
     Placed.knows(j, k('lord_dead'));
     Placed.knows(j, k('herald_false'));

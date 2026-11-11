@@ -25,7 +25,7 @@ Module arcology "The Numbered House" {
     Greets again "{quill} lifts the pencil from the page and does not put it down.".
   }
   Person crew "Brannock's hands" at landing {
-    Role "a salvage foreman and four hands of Merrow and Son, brass-factors". Ancestry human. Calling warrior. Numbers 4. Level 2. Peaceable. Pronouns they.
+    Role "a salvage foreman and four hands of Merrow and Son, brass-factors". Ancestry human. Calling warrior. Numbers 4. Level 1. Peaceable. Pronouns they.
     Greets "A broad man with a short iron bar over one shoulder looks you over as a man looks over a cart he is thinking of buying. Behind him four hands sit on bales and do not get up. 'Dobb Brannock,' he says. 'Foreman. Merrow and Son, brass-factors of the town, that has the cartage. If you want the Prior she is inside counting things, and if you want me you have found me. We are not hiring.'".
     Warns "Brannock's hands have put themselves across the way, two to the rail and two behind, with the foreman in the middle with the short bar across his knees. 'That's a toll,' says Brannock, not unkindly, 'and I'll say it the once. We wound this and we wedged that and we have the right of it. Pay, or turn round, or we find out together what a long drop is for.'".
     Comes "Brannock says nothing at all. He gets up, and the four get up with him, and the bar comes off his knee.".
