@@ -212,8 +212,10 @@ export class DangerSense {
     // No match for you only where no fight played went badly and none left anyone poisoned or otherwise hurt past its
     // end: a great centipede told "no match" bit a thief from eight to four and poisoned her (Mission 20's sixth round,
     // J 46–47), its venom a save, round the armour the fights played had mostly kept it from.
+    // Nor "should be won", alone, where a fight won had still left the one who fought it near the end: a great
+    // centipede reckoned so took five of a lone thief's seven at its first bite and poisoned her (round 7, K 43).
     const danger: Danger = fight.odds < 0.25 ? 'deadly' : fight.odds < grave ? 'grave'
-      : fight.odds < 0.9 || fight.fallen > 0 ? 'hard'
+      : fight.odds < 0.9 || fight.fallen > 0 || (ours.length === 1 && fight.worst > 0.6) ? 'hard'
         : fight.hurt > 0.25 || fight.worst > 0.4 || fight.harmed ? 'fair' : 'slight';
     // The most seasoned says it; of one who would fall, someone else does.
     const judge = [...ours].sort((a, b) => Number(a.id === fight.frail) - Number(b.id === fight.frail)
