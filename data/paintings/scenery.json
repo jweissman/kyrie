@@ -124,7 +124,7 @@
     {"kind": "manor", "words": ["manor", "manor-house", "grange", "hall-house", "mansion"], "ground": ["scene-manor"], "room": ["scene-great-hall"], "parts": {"forecourt": ["scene-manor"], "hall": ["scene-great-hall"], "gloriet": ["scene-portico"], "library": ["scene-library"], "garden": ["scene-garden", "scene-orangery"]}},
     {"kind": "villa", "words": ["villa", "atrium", "peristyle", "domus"], "ground": ["scene-peristyle"], "room": ["scene-atrium"]},
     {"kind": "gate-yard", "words": ["gate-yard", "gateyard", "gate-yards"], "ground": ["scene-village-gate-yard"]},
-    {"kind": "fort", "words": ["keep", "gate", "gatehouse", "gates", "fort", "castle", "citadel", "barbican"], "ground": ["scene-town-gate", "castle", "redoubt"], "room": ["scene-keep-gatehouse", "scene-great-hall"]},
+    {"kind": "fort", "words": ["keep", "gate", "gatehouse", "gates", "fort", "castle", "citadel", "barbican"], "ground": ["scene-town-gate", "castle", "redoubt"], "room": ["scene-keep-gatehouse"]},
     {"kind": "tower", "words": ["tower", "turret", "watchtower", "spire"], "ground": ["tower", "redoubt", "bolt"], "room": ["scene-tower-hall", "meditation"]},
     {"kind": "abbey", "words": ["abbey", "cloister", "priory", "monastery", "brothers"], "ground": ["abbey", "fane"], "room": ["scene-commandery", "breviary"]},
     {"kind": "ruin", "words": ["ruin", "ruins", "ruined", "porch", "arch", "arches"], "ground": ["ruin", "arch", "rest", "fane"]},

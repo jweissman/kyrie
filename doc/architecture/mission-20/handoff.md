@@ -107,5 +107,9 @@ These are from the log, with the owner's material concerns first.
 - **The world forgets** what was done (E34, E57).
 - **Dishonesty has no consequence** (E45).
 - **Prose against the moment** (E15, E114).
+- **Paintings for the owner's review** (E140, round 7): the old drain (a steampunk sewer), a broken keep's face (a
+  classical portico), the hobs' muck pit (a prison cell), a webbed adit (a working mine), a castle in nettles (a
+  pristine one), a painting that follows a place's state (the brood burned), and evening or night in a painting's
+  light.
 
 ## 4. Round 7 (to be filled after the cold play on the deployed build)
