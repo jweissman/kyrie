@@ -99,12 +99,10 @@ export class Glance {
   // A journey just made, in one line: by where, and when it came there, or why it stopped.
   static came(glance: View, travel: { to: string; arrived: boolean; stopped?: string;
     legs: { place: string; at: string }[] }): View {
-    const last = travel.legs.at(-1);
-    if (!last) { return glance; }
+    const last = travel.legs.at(-1); if (!last) { return glance; }
     const via = [...new Set(travel.legs.slice(0, -1).map(l => l.place))].slice(-2);
     // The hour ends with its own stop ("1:32 p.m."), and is not given a second ("1:32 p.m..").
-    const at = last.at.replace(/\.$/, '');
-    const came = travel.arrived ? `${via.length ? `By ${via.join(' and ')}, to` : 'To'} ${travel.to}: ${at}.`
+    const at = last.at.replace(/\.$/, ''), came = travel.arrived ? `${via.length ? `By ${via.join(' and ')}, to` : 'To'} ${travel.to}: ${at}.`
       : travel.stopped ?? `On the way to ${travel.to}: ${at}.`;
     return { ...glance, came };
   }
@@ -329,7 +327,11 @@ export class Glance {
     // landing, the first leg of the way round to the crypt, and at the landing nothing (the playtest of 7 November).
     const direct = new Set([...screen.exits.map(e => e.destination.id), ...(screen.around ?? []).map(d => d.id)]);
     const straight = [...aims.named].some(id => direct.has(id) && id !== here && !around.has(id) && !aims.idle.has(id));
-    const places = [...straight ? [] : [...aims.named].map(id => [id, 'toward'] as const),
+    // Someone the aim names is gone to where the company has seen them (the merchant owed word of the nest, from the
+    // nest: nothing had led back up toward him, round 7); never where it has not been.
+    const seen = new Set(screen.map.filter(p => p.visited).map(p => p.id)), named = [...aims.named]
+      .map(id => byId.get(id)?.space ? id : campaign.world.one('at', id) ?? id).filter(id => byId.get(id)?.space && (seen.has(id) || aims.named.has(id)));
+    const places = [...straight ? [] : named.map(id => [id, 'toward'] as const),
       ...held.map(id => [id, 'held'] as const)]
       .filter(([id]) => byId.get(id)?.space && !around.has(id) && !been.has(id) && !aims.idle.has(id)
         && !direct.has(id))
