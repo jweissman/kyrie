@@ -22,7 +22,7 @@ import { ChoiceWording } from './choice-wording';
 import { Masked } from './masked'; import { EntityIndex } from '../lang/entity-index';
 import { Frozen } from './frozen';
 import { CompanyKnowledge } from './company-knowledge';
-import { CompanyMap } from './company-map';
+import { CompanyMap } from './company-map'; import { Undertakings } from './undertakings';
 
 export interface SpatialScene {
   ancestry: { id: string; name: string; kind: string }[];
@@ -69,7 +69,8 @@ export interface PlayerSnapshot {
   deadlines: { situation: string; pressure: string; at: number; passed: boolean }[];
   capabilities?: { name: string; providers: string[] }[];
   choices: PublicChoice[];
-  objectives?: { id: string; text: string }[];
+  // The aims held, and the one followed (see Undertakings), by its id.
+  objectives?: { id: string; text: string }[]; followed?: string | undefined;
   map: {
     places: ({ id: string; name: string; visited: boolean } & SceneMetadata)[];
     links: { from: string; to: string; status?: string }[];
@@ -256,7 +257,7 @@ export class PlayerView {
       capabilities: this.about(world, 'capable', actor, entities).map(e => ({ name: e.name,
         providers: PartyCapabilities.providers(e.id, state.creatures.filter(c => state.partyIds.includes(c.id)))
           .map(c => `${c.name} (${c.raceId} ${c.classId})`) })),
-      choices: publicChoices.map(c => c.choice),
+      choices: publicChoices.map(c => c.choice), followed: perceiving ? Undertakings.followed(campaign)?.id : undefined,
       ...(campaign.module.objectives?.length ? { objectives: perceiving ? AimWords.held(world,
         campaign.module.objectives).toSorted((a, b) => PlayerView.own(a.id) - PlayerView.own(b.id)) : [] } : {}),
       map: CompanyMap.of(campaign, actor, publicChoices.filter(c => c.choice.category === 'travel').map(c => c.action)) };

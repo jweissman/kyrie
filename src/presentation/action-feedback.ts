@@ -42,7 +42,16 @@ export class ActionFeedbackView {
     const gone = new Set(had.filter(b => !now.some(o => o.id === b.id)).map(b => this.opening(b.text)));
     const fresh = now.filter(o => !had.some(b => b.id === o.id));
     return { aims: fresh.filter(o => !gone.has(this.opening(o.text))).map(o => FictionalTime.prose(o.text)),
-      amended: fresh.filter(o => gone.has(this.opening(o.text))).map(o => FictionalTime.prose(o.text)) };
+      amended: [...fresh.filter(o => gone.has(this.opening(o.text))), ...this.resumed(before, after)]
+        .map(o => FictionalTime.prose(o.text)) };
+  }
+  // The aim followed again when the one followed has ended: the company's own errand taken up once more, said as the
+  // aim now (round 4's talker saw the aim followed go back to a dungeon on its own, with nothing to say so).
+  private static resumed(before: PlayerSnapshot, after: PlayerSnapshot): { id: string; text: string }[] {
+    const had = before.objectives ?? [], now = after.objectives ?? [];
+    const was = before.followed;
+    if (!was || was === after.followed || now.some(o => o.id === was)) { return []; }
+    return now.filter(o => o.id === after.followed && had.some(b => b.id === o.id));
   }
   // An aim's first sentence, which says what it is about.
   static opening(text: string): string { return Sentences.first(text); }
