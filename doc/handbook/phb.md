@@ -2933,11 +2933,11 @@ Used: Heal one ally for 3d4 (3–12).
 
 <img src="../../web/reader/paintings/consumables/antidote.webp" alt="" width="128">
 
-Used: End poisoned on one ally.
+Used: End poisoned on one ally; end poison on that ally.
 
 > A single dose removes the poisoned condition from a living companion.
 
-*Adapted: Orsino removes the status named Poison; Kyr removes poisoned.*
+*Adapted: Orsino removes the status named Poison; Kyr removes poisoned, the world's, and poison, the fight's, so that one given in a fight does its work (round 7: "to no effect" on a bitten companion).*
 
 #### Bandages
 

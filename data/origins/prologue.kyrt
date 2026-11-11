@@ -43,7 +43,8 @@
   Entity cart_righted: fact "On the way into {home} you got a wagoner's wheel out of the ditch.".
   // What the company did, known as done: learnt from his thanks, it had been filed as the wagoner's word, "told you,
   // not yet seen for yourself" (two cold rounds and the owner's play of 10 November).
-  Observe carter_deed near carter when state(cart, righted) and not wayIn(cart_bargained) "The wheel is out of the ditch, and the wagoner's meal is on the road again because of you." teaches cart_righted.
+  // Once: it had been said wherever the wagoner was, five times by the evening and again after a reload (round 7).
+  Observe carter_deed near carter when state(cart, righted) and not wayIn(cart_bargained) and not knows(party, cart_righted) "The wheel is out of the ditch, and the wagoner's meal is on the road again because of you." teaches cart_righted.
   Entity cart_bargained: fact "On the way into {home} you got a wagoner out of the ditch for a sack of his meal and a coin.".
   Entity cart_left: fact "On the way into {home} you left a wagoner in the ditch, and did not stop.".
   Entity cart_robbed: fact "On the way into {home} you lifted a sack off a wagoner's load while his back was to you.".

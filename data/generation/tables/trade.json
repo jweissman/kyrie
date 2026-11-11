@@ -29,7 +29,7 @@
         "trades": ["apothecary"],
         "role": "herb-wife", "profession": "herbalist", "shop": "herb-shop", "scene": "Bunches of herbs hang drying from every beam, and the jars along the wall are labelled in a cramped brown hand. Something bitter is simmering at the back.",
         "stock": [["herbs", 1, 4], ["bandages", 1, 4], ["yarrow_poultice", 2, 2], ["antidote", 3, 2], ["rations", 2, 3]],
-        "buys": [["minor_healing_potion", 8], ["antidote", 5]]
+        "buys": [["minor_healing_potion", 8]]
       },
       "smith": {
         "trades": ["weapons", "armory"],
