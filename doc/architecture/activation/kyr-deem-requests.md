@@ -539,3 +539,11 @@ A warrior reading armed men, a cleric reading an oath, a thief reading a gate ar
 
 *Problem.* `Observe … noticed by <skill>` needs a catalogue skill; the warrior's are `brawn` and `intimidation`, and the Bound Howe borrows `intimidation` for "the diggers watch the hill, not the road" (`crew.kyr`, `lee_warrior`, `rv_camp_warrior`). A ranger's `woodcraft` does the same job for tracks, a scholar's `lore` for inscriptions, a cleric's `rites` and `insight`; the warrior has no `arms`-sense that is *noticed by*.
 *Request.* A skill `tactics` (or `arms`) granted to warrior, and to the ranger and the monk at half weight, in `data/catalog/skills.json` and `classes.json`; no engine change.
+
+## Branch `adventure/first-steps` (consolidation decisions, R96 to R99)
+
+### R96. A province cannot be held back from some worlds
+Every authored province is placed in every generated world (the census: 27 of 27 in 6 of 6 worlds); `data/adventures/countries.json` constrains only which side and terrain a country sits beside. The dramatic assessment (§5.1) recommended holding back two of the eight "altered law" modules per world (`the-lull`, `house-that-grows`, `quiet-in-the-sky`), so that a world does not read as eight variations on one grammar. *Reproduction:* `bun scripts/activation-census.ts --seeds kahitude,a1,b2` and read "Authored adventures": every row is `6 of 6`. *Proposal:* an optional `"weight"` or `"group"` and `"keep": N` in the `countries.json` entry, read by `Provinces`, so that a world holds N of a named group chosen by the world's seed (the same Deem draw the scenarios use). Not done, because it is a change to `src/world/provinces.ts`.
+
+### R97. Retiring a scenario that an origin's arrival names
+The assessment proposed folding the two thinnest goings-on, `oldcoin` and `quarrel`, into a larger shared-state conflict. They are named by `data/origins/wanderer/arrivals.json` (the wanderer origin's arrival facts `quarrel.feud` and `oldcoin.coin_talk`), by `data/situations/brood-hollow/module.json` and by four specs, so retiring them is a change to M20's first hour. *Not done.* *Proposal:* when M20 next touches the wanderer origin, point those two arrival facts at the Walk of the Milestones' hooks (`walk_heard`) and the Fellowship's, then remove both from `library.json`; the files can stay as fixtures.
