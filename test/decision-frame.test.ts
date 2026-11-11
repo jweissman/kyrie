@@ -14,7 +14,7 @@ class Made {
       observations: [], available: [], unavailable: [], events: [], ...extra };
   }
   static act(choice: string, why: Promoted['why'], extra: Partial<Promoted> = {}): Promoted {
-    return { choice, command: choice, label: choice, why, facets: ['here'], tier: 3, marks: [], ...extra };
+    return { choice, command: choice, label: choice, why, facets: ['here'], tier: 3, aspects: [], marks: [], ...extra };
   }
   static acted(extra: Partial<ActionFeedback> = {}, moved = false, failed = false): Acted {
     return { feedback: Made.feedback(extra), moved, failed, place: 'the mill' };

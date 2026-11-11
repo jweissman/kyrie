@@ -77,7 +77,7 @@ export class Glance {
   static held(glance: View, host: Host): View {
     const bound = host.bound && { choice: `travel:${host.bound.id}`, command: `travel:${host.bound.id}`,
       label: `Go on to ${host.bound.name}`, why: 'bound' as const, facets: ['here' as const, 'aimed' as const],
-      tier: 1 as const, note: 'where you set out for',
+      tier: 1 as const, aspects: ['undertaking' as const], note: 'where you set out for',
       marks: Marks.journey(host.elapsed ?? 0, host.bound.minutes) ? [Marks.dusk] : [] };
     const acts = bound ? this.first(glance.acts, bound) : glance.acts;
     return { ...glance, ...host.resumed ? { arrival: 'resume' as const } : {}, acts,

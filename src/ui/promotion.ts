@@ -1,4 +1,5 @@
 import type { Facet, Mark, Promoted, Tier, Why } from '../presentation/glance-types';
+import { Aspects } from '../presentation/aspects';
 
 // What a choice is, as far as leading with it goes: talking to someone, an act on someone or something, an attack, a
 // way (a step across the open country apart), a journey about the town, lighting a light, waiting, studying (preparing
@@ -120,7 +121,7 @@ export class Promotion {
     return { choice: c.choice, ...c.command ? { command: c.command } : {}, ...c.for ? { for: c.for } : {},
       ...c.subject ? { subject: c.subject } : {},
       ...c.exit ? { exit: c.exit } : {}, label: c.label, why, facets, tier: this.tiers[why][0],
-      ...note ? { note } : {}, marks: c.marks };
+      aspects: Aspects.of([why, ...whys.filter(w => w !== why)], c.marks), ...note ? { note } : {}, marks: c.marks };
   }
   // The quiet row of ways under the acts, none of them led with already: those the aims name, those the lines told now
   // name, those not yet taken (nearest first), then the rest; three at most. In the open country, the compass.

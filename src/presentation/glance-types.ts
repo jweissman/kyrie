@@ -11,6 +11,9 @@ export type Arrival = 'opening' | 'first' | 'return' | 'stay' | 'resume';
 // what the company is about; something is pressing or has just changed; it is new to the company. One only known (done
 // before, nothing new about it) is never led with.
 export type Facet = 'here' | 'aimed' | 'urgent' | 'new' | 'known';
+// What an opportunity is to the company that sees it (see Aspects): the aim it follows, somewhere worth exploring,
+// something to gain, something to learn, a danger, a wonder. Meaning, not colour.
+export type Aspect = 'undertaking' | 'exploration' | 'payoff' | 'knowledge' | 'danger' | 'wonder';
 // Why a choice was led with, best first by tier (Promotion.tiers).
 export type Why =
   // Must: an answer to a question just put, a danger here, a way back from it, someone warning the company off, the
@@ -47,6 +50,8 @@ export interface Promoted {
   subject?: string; exit?: string;
   label: string;
   why: Why; facets: Facet[]; tier: Tier;
+  // What it is to the company, chiefly first (see Aspects); none for a need or the way back.
+  aspects: Aspect[];
   // What the reason is, in words beside it: "your brother", "your aim", "the way you came", how a fight would go.
   note?: string;
   marks: Mark[];
