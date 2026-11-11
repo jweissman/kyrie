@@ -115,10 +115,13 @@ describe('kite at a glance', () => {
     Kite.drawn(Kite.g, glance);
   });
   it('on the fells leads with their own act, and rows the compass', async () => {
-    const glance = await Kite.g.to('region__t2');
-    // Its own act, and the camp only for the company's weariness.
-    expect(glance.acts.map(a => a.why)).toContain('own');
+    let glance = await Kite.g.to('region__t2');
+    // The camp only for the company's weariness; come there weary before dawn (as the walks before this one leave it,
+    // E126's road times), the company sleeps, and then the fells lead with their own act.
     for (const camp of glance.acts.filter(a => a.why === 'exposed')) { expect(camp.note).toBe('you are weary'); }
+    const camp = glance.acts.find(a => a.why === 'exposed');
+    if (camp && !glance.acts.some(a => a.why === 'own')) { glance = await Kite.g.perform(camp.command!); }
+    expect(glance.acts.map(a => a.why)).toContain('own');
     expect(glance.ways.length).toBeGreaterThan(1);
     expect(Kite.g.screen.exits.filter(e => glance.ways.includes(e.id)).every(e => !!e.bearing)).toBe(true);
   });

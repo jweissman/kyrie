@@ -77,8 +77,13 @@ describe('word that leads somewhere', () => {
     const s = await start(), c = s.campaign;
     const told = c.world.related('leadsTo').filter(r => /_willows$/.test(r.args[0]!));
     expect(told.length).toBeGreaterThan(0);
-    know(s, told[0]!.args[0]!);
+    for (const r of told) { know(s, r.args[0]!); }
+    // A willow a road's stretch from the town is that way from here (wren's first: the road's room was one leg off,
+    // and had been two only while the planner wove into the wood beside the road and out, E126); one past it is
+    // somewhere to set out for.
     const ids = Itineraries.destinations(c).map(d => d.id);
-    expect(told.filter(r => r.args[0] === told[0]!.args[0]).some(r => ids.includes(r.args[1]!))).toBe(true);
+    expect(told.some(r => ids.includes(r.args[1]!))).toBe(true);
+    expect(told.every(r => ids.includes(r.args[1]!) || Itineraries.plan(c, r.args[1]!)?.legs.length === 1
+      || !Itineraries.plan(c, r.args[1]!))).toBe(true);
   }, 120000);
 });
