@@ -1,5 +1,5 @@
 Module bound_howe "The Bound Howe" {
-  Description "A king's howe on a wind-scoured ridge, half robbed already. A salvage crew digs in its lee for the gold; an old woman keeps the dead's rest with a hearth and a tally-stick; the shire-reeve's clerk wants the king's torc; and beneath the Barrow-Kin's floor lies what the Kin were put there to keep. Go in prepared, go in quietly, go in by the robbers' shaft, or seal it, and decide what the country pays.".
+  Description "A king's howe on a wind-scoured ridge, and a week in which four parties are racing for or against it. The shire-reeve's licence-men are cutting through the howe's flank; a second company, with a patron's letter and a ram, is a day behind them; an old woman keeps the dead's rest with a hearth and a tally-stick; and the dead themselves answer every door that is opened. Whoever is first, the howe is not the same after. Go in prepared, go in quietly, go in by the robbers' shaft, break the cutting, turn a captain, or seal it, and decide what the country pays.".
   Entity party: group "Your company".
   Place land "The ridge country" is region.
   Place outside "The foot of the ridge" is room.
@@ -8,12 +8,13 @@ Module bound_howe "The Bound Howe" {
   Place taproom "The taproom" is room.
   Place shrine "The shrine" is room.
   Place first_taproom "The first town's taproom" is room.
+  Place first_green "The first town's green" is room.
   Entity first_keeper: group "The first town's innkeeper".
   Entity keeper: group "The innkeeper".
   Entity priest: group "The priest".
 
   // ---- What Deem draws for the country (templates.json): how the howe was left, what the ridge's weather is, and which
-  // of the three flutes is the king's. The king, the captain, the warden, the clerk and the surgeon are named from it.
+  // of the three flutes is the king's. The king, the foreman, the warden, the clerk and the surgeon are named from it.
   Kind fatekind. Entity fate_sealed: fatekind "sealed". Entity fate_broken: fatekind "broken".
   Kind howe_airkind. Entity air_mist: howe_airkind "mist". Entity air_rain: howe_airkind "rain". Entity air_wind: howe_airkind "wind".
   Entity air_snow: howe_airkind "snow". Entity air_dust: howe_airkind "dust".
@@ -125,10 +126,10 @@ Module bound_howe "The Bound Howe" {
   Initially Set encounterXp(sworn) to 300.
   Initially Assert serves(sworn, king).
   Person household "the household of the king" at gallery {
-    Role "the king's dead household". Species ghoul. Numbers 3. Level 3. Temperament obedient. Lair gallery.
+    Role "the king's dead household". Species ghoul. Numbers 4. Level 4. Temperament obedient. Lair gallery.
     Warns "Along the gallery the seated dead turn their heads toward you, one after another, all the way to the end. The nearest rises from its niche with a sound like a sack of knuckles.".
   }
-  Initially Set encounterXp(household) to 150.
+  Initially Set encounterXp(household) to 240.
   Initially Assert serves(household, king).
   Person mounts "the king's dead horses" at horses {
     Role "the king's mounts, picketed in bone and bronze". Species horse. Undead skeletal. Numbers 3. Level 4. Temperament territorial. Lair horses.
@@ -157,12 +158,12 @@ Module bound_howe "The Bound Howe" {
   }
   Initially Set encounterXp(crew) to 200.
   Initially Assert breaks(crew).
-  Person captain "Someone" at lee {
-    Role "the captain of the Spade-Company". Ancestry human. Level 4. Temperament territorial. Lair lee. Pronouns she.
-    Warns "The captain comes out of the biggest tent with a ledger under her arm and does not put it down. 'Company,' she says, to your face and to the hands behind her, 'what do you want? Because the licence I hold says nobody digs here but us, and it says it in the shire-reeve's own hand.'".
+  Person foreman "Someone" at lee {
+    Role "the foreman of the Spade-Company". Ancestry human. Level 4. Temperament territorial. Lair lee. Pronouns she.
+    Warns "The foreman comes out of the biggest tent with a ledger under her arm and does not put it down. 'State your business,' she says, to your face and to the hands behind her. 'Short. I have a face to get through by Thursday, a clerk to pay by Michaelmas and a woman on the high ground who is trying to steal both. The licence I hold says nobody digs here but us. It says it in the reeve's own hand, and I have read it twice, which is more than he has.'".
   }
-  Initially Set encounterXp(captain) to 250.
-  Initially Assert serves(crew, captain). Initially Assert serves(watchers, captain). Initially Assert serves(captain, clerk).
+  Initially Set encounterXp(foreman) to 250.
+  Initially Assert serves(crew, foreman). Initially Assert serves(watchers, foreman). Initially Assert serves(foreman, clerk).
   Person surgeon "Someone" at lee {
     Role "the camp's cook and surgeon". Ancestry human. Peaceable. Pronouns he.
     Sells rations for 2 coin from 8.
@@ -178,13 +179,13 @@ Module bound_howe "The Bound Howe" {
     Sells oil_flask for 3 coin from 3.
     Greets "The camp's cook and surgeon looks up from a pot with a bone spoon in one hand and a needle in the other. 'If it is blood you want stopped, sit. If it is anything else, I do not make the decisions.'".
   }
-  Initially Assert serves(surgeon, captain).
+  Initially Assert serves(surgeon, foreman).
   Person sentry "the pit sentry" at shaft_head {
     Role "a salvager on the shaft winch". Ancestry human. Calling warrior. Level 3. Temperament territorial. Lair shaft_head.
-    Warns "The man on the winch stands up and puts his hand on the bell-cord. 'Not down there,' he says. 'Captain's orders. There's nothing down there but our dead, and we mean to keep it quiet.'".
+    Warns "The man on the winch stands up and puts his hand on the bell-cord. 'Not down there,' he says. 'Foreman's orders. There's nothing down there but our dead, and we mean to keep it quiet.'".
   }
   Initially Set encounterXp(sentry) to 100.
-  Initially Assert serves(sentry, captain).
+  Initially Assert serves(sentry, foreman).
   Person warden "Someone" at hearth {
     Role "the warden of the ridge". Ancestry human. Peaceable. Pronouns she.
     Greets "The old woman on the stone seat does not rise. 'I know why you have come,' she says. 'Everyone comes for the same reason, and goes away with a different one. Sit by the fire. The fire is the only thing on this ridge that has never lied.'".
@@ -241,13 +242,13 @@ Module bound_howe "The Bound Howe" {
   Observe lookout_scene at lookout when true "The lookout is a ring of dry stone on the ridge's knuckle with a roof of turf, and from it a person with a horn can see the steep path from foot to crest.".
   Observe lookout_view at lookout as feature when true "From here the whole western approach is open, the ring of stones black and small on the high ground and the howe long and grassed behind it. A line of smoke rises from the camp in the lee of the hill, to the south-east.".
   Observe watchers_there at lookout when able(watchers) and not tolerates(watchers, party) "The ground in front of the wall is trodden bare. Anyone coming up the steep path would be in plain view for half an hour.".
-  Action pay_watch(actor: group, site: place) "Pay the watch four coin and give your name to the captain" {
+  Action pay_watch(actor: group, site: place) "Pay the watch four coin and give your name to the foreman" {
     Requires able(actor) and at(actor, site) and at(watchers, site) and able(watchers) and not tolerates(watchers, actor) and quantity(actor, gold) >= 4.
     On success { Decrease quantity(actor, gold) by 4. Increase quantity(watchers, gold) by 4. Assert tolerates(watchers, actor). }
-    Result "The one with the horn counts the coin into her palm without looking at it. 'Go by the post,' she says, 'and mind where you put your feet. The captain will want a word.'".
+    Result "The one with the horn counts the coin into her palm without looking at it. 'Go by the post,' she says, 'and mind where you put your feet. The foreman will want a word.'".
   }
   Topic watch_levy with watchers "Tell the watch you have come about the shire-reeve's levy" when knows(actor, levy_told) once {
-    Says "The one with the crossbow looks at the one with the horn. 'The levy,' says the one with the horn. 'You're from the clerk, then.' She does not believe it, but she lowers the horn. 'Go down to the lee and say it to the captain. If it is a lie, she will know before you do.'".
+    Says "The one with the crossbow looks at the one with the horn. 'The levy,' says the one with the horn. 'You're from the clerk, then.' She does not believe it, but she lowers the horn. 'Go down to the lee and say it to the foreman. If it is a lie, she will know before you do.'".
     On discuss { Assert tolerates(watchers, actor). }
   }
   Thing cans "the line of tins across the gap" on fold_up {
@@ -313,31 +314,31 @@ Module bound_howe "The Bound Howe" {
     Says "'Nothing,' she says. 'I would have you leave it, and be thanked by nobody. But you are not going to, because someone has told you there is gold. So: take salt; take barley, for the horses are the first thing the Kin fed and the last thing they forgot; take rope, and a pole, and more light than you think. And when you come out, close the door behind you. A door left open is the most dangerous thing in the world.'".
   }
 
-  // ---- The camp in the lee, the captain, and the trench.
+  // ---- The camp in the lee, the foreman, and the trench.
   Observe lee_scene at lee when true "The camp is pitched in the lee of the howe's shoulder where the wind cannot reach it, a dozen canvas shelters round a fire-ring, with the spoil of a great cutting heaped to the south. A line of salt has been laid across every track in.".
   Observe lee_salt at lee as sign when true "Every path into the camp has a white line across it. Beyond it, the heather is bare in a half-ring, as if something comes down to it at night and goes no further.".
-  Observe lee_ledger at lee when not tolerates(captain, party) and able(captain) "The captain stands with the ledger open on her forearm, ticking something off with a pencil.".
-  Topic captain_ask with captain "Ask {captain} what the company is digging for" when true once {
-    Says "'What do you think?' says {captain}. 'Gold. The king was buried with twenty horse-loads of it, if you believe the shepherds, and a torc you could pay a regiment with, if you believe the shire-reeve. The licence is ours. I will not pretend there isn't a price. But I'll tell you something free: I have lost eight hands under the hill, and nothing has paid for them yet.'".
-    On discuss { Assert knows(actor, captain_lost). }
+  Observe lee_ledger at lee when not tolerates(foreman, party) and able(foreman) "The foreman stands with the ledger open on her forearm, ticking something off with a pencil.".
+  Topic foreman_ask with foreman "Ask {foreman} what the company is digging for" when true once {
+    Says "'What do you think?' says {foreman}. 'Gold. The king was buried with twenty horse-loads of it, if you believe the shepherds, and a torc you could pay a regiment with, if you believe the shire-reeve. The licence is ours. I will not pretend there isn't a price. But I'll tell you something free: I have lost eight hands under the hill, and nothing has paid for them yet.'".
+    On discuss { Assert knows(actor, foreman_lost). }
   }
-  Discovery captain_lost "The Spade-Company lost eight hands under the howe, in the flooded works below the robbers' shaft, and has not been below since.".
-  Action buy_leave(actor: group, site: place) "Pay {captain} twelve coin for the freedom of the camp" {
-    Requires able(actor) and at(actor, site) and at(captain, site) and able(captain) and not tolerates(captain, actor) and quantity(actor, gold) >= 12.
-    On success { Decrease quantity(actor, gold) by 12. Increase quantity(captain, gold) by 12. Assert tolerates(captain, actor). }
-    Result "{captain} makes a mark in the ledger. 'Twelve,' she says. 'You are welcome in my camp and on my hill. You are not welcome to what we find. The winch is the sentry's, and the sentry is mine. Ask him nicely.'".
+  Discovery foreman_lost "The Spade-Company lost eight hands under the howe, in the flooded works below the robbers' shaft, and has not been below since.".
+  Action buy_leave(actor: group, site: place) "Pay {foreman} twelve coin for the freedom of the camp" {
+    Requires able(actor) and at(actor, site) and at(foreman, site) and able(foreman) and not tolerates(foreman, actor) and quantity(actor, gold) >= 12.
+    On success { Decrease quantity(actor, gold) by 12. Increase quantity(foreman, gold) by 12. Assert tolerates(foreman, actor). }
+    Result "{foreman} makes a mark in the ledger. 'Twelve,' she says. 'You are welcome in my camp and on my hill. You are not welcome to what we find. The winch is the sentry's, and the sentry is mine. Ask him nicely.'".
   }
-  Action turn_captain(actor: group, site: place) "Tell {captain} what the torc will cost the country" {
-    Speaker captain.
-    Requires able(actor) and at(actor, site) and at(captain, site) and able(captain) and knows(actor, torc_price) and not turned(captain).
+  Action turn_foreman(actor: group, site: place) "Tell {foreman} what the torc will cost the country" {
+    Speaker foreman.
+    Requires able(actor) and at(actor, site) and at(foreman, site) and able(foreman) and knows(actor, torc_price) and not turned(foreman).
     Resolve check(actor, persuasion, dc_hard).
-    On success { Assert tolerates(captain, actor). Assert turned(captain). Assert at(captain, taproom). Retract at(captain, site). }
-    Result "{captain} is silent so long that the hands behind her stop pretending to dig. Then she shuts the ledger. 'The shire-reeve's licence,' she says, 'does not cover the dead walking down the lane to the town where my sister lives.' She calls the hands in, one at a time, by name, and gives each of them a coin from her own purse. By dusk the tents are down. 'I'll be in the taproom,' she says, 'if anyone wants to ask me about it.'".
-    Otherwise "{captain} hears you out with her pencil still. 'A very fine story,' she says. 'Now say it to the shire-reeve, who pays for this.'".
+    On success { Assert tolerates(foreman, actor). Assert turned(foreman). Assert at(foreman, taproom). Retract at(foreman, site). }
+    Result "{foreman} is silent so long that the hands behind her stop pretending to dig. Then she shuts the ledger. 'The shire-reeve's licence,' she says, 'does not cover the dead walking down the lane to the town where my sister lives.' She calls the hands in, one at a time, by name, and gives each of them a coin from her own purse. By dusk the tents are down. 'I'll be in the taproom,' she says, 'if anyone wants to ask me about it.'".
+    Otherwise "{foreman} hears you out with her pencil still. 'A very fine story,' she says. 'Now say it to the shire-reeve, who pays for this.'".
   }
   Relation turned(group).
-  Rule camp_welcome when tolerates(captain, party) and able(captain) { Assert tolerates(crew, party). Assert tolerates(watchers, party). Assert tolerates(sentry, party). Assert restful(lee). }
-  Rule camp_broken when turned(captain) { Assert tolerates(crew, party). Assert tolerates(sentry, party). Assert tolerates(watchers, party). Assert restful(lee). Retract at(crew, lee). Assert at(crew, taproom). }
+  Rule camp_welcome when tolerates(foreman, party) and able(foreman) { Assert tolerates(crew, party). Assert tolerates(watchers, party). Assert tolerates(sentry, party). Assert restful(lee). }
+  Rule camp_broken when turned(foreman) { Assert tolerates(crew, party). Assert tolerates(sentry, party). Assert tolerates(watchers, party). Assert restful(lee). Retract at(crew, lee). Assert at(crew, taproom). }
   Observe trench_scene at trench when true "The trench is a raw cutting driven into the howe's flank, twenty paces long and the height of two men, shored with split timber and sheared at the end into a slope of broken stone. Water seeps from the walls.".
   Thing props "the props of the trench" on trench_floor {
     State loose dangerous "Half the props along the trench floor are splintered and slewed over, and a lip of wet spoil hangs above them, ready to come down. Whoever is working here has plainly been working elsewhere.".
@@ -351,8 +352,8 @@ Module bound_howe "The Bound Howe" {
   Observe props_sign at trench as sign when state(props, loose) "A fresh tongue of spoil lies at the foot of the trench wall, and the timber above it has been slewed sideways. A spade stands upright in it, as if it were put there as a marker.".
   Observe shaft_scene at shaft_head when true "The shaft is a round hole as wide as a cart, timbered at the lip and fitted with a winch and a boom. The winch drum is wound with a hundred feet of rope. A bell hangs on a cord from the boom to the camp.".
   Observe shaft_voices at shaft_head as sound when true "From the shaft, very faint, a voice calls up out of the dark: 'Rope! Drop the rope! Hob, are you there?' It calls again, always the same, and always a little higher in the throat.".
-  Topic sentry_down with sentry "Ask {sentry} to let the company down the shaft" when tolerates(captain, actor) once {
-    Says "'The captain says to,' says {sentry}. He turns the winch-handle once, and the boom swings out. 'Mind the voice. Down there it calls for Hob. Hob was my brother. If you find a man who answers to Hob, that's not Hob.'".
+  Topic sentry_down with sentry "Ask {sentry} to let the company down the shaft" when tolerates(foreman, actor) once {
+    Says "'The foreman says to,' says {sentry}. He turns the winch-handle once, and the boom swings out. 'Mind the voice. Down there it calls for Hob. Hob was my brother. If you find a man who answers to Hob, that's not Hob.'".
     On discuss { Assert tolerates(sentry, actor). }
   }
 
@@ -505,7 +506,7 @@ Module bound_howe "The Bound Howe" {
   Observe king_seated at throne when able(king) and at(king, throne) "On the seat sits a king larger than the others, in a cloak gone to dust, with a sword laid across his knees. His skull is bowed.".
   Observe king_torc_seen at throne when able(king) and at(king, throne) and at(king_torc_item, throne) "A torc of braided gold and iron lies around his neck, bright as the day it was made.".
   Observe king_gone at throne when dead(king) "The king lies in the dust before his seat, where he fell, and his sword beside him.".
-  Event torc_lifted at throne when ownedItem(king_torc_item, ?m) and memberOf(?m, party) and not bound_broken(party) "The torc comes away from the cold, with a sound like a breath drawn in. In the high chamber behind you, something sits up." then { Assert bound_broken(party). Retract tolerates(king, party). Retract tolerates(sworn, party). Retract tolerates(household, party). Retract peaceable(last). Assert assails(king, party). }
+  Event torc_lifted at throne when ownedItem(king_torc_item, ?m) and memberOf(?m, party) and not bound_broken(party) and not torc_taken_elsewhere() and not torc_restored() "The torc comes away from the cold, with a sound like a breath drawn in. In the high chamber behind you, something sits up." then { Assert bound_broken(party). Retract tolerates(king, party). Retract tolerates(sworn, party). Retract tolerates(household, party). Retract peaceable(last). Assert assails(king, party). }
   Relation bound_broken(group). Relation howe_kept(group). Relation oath_sworn(group). Relation levy_met(group).
   Topic king_answer with king "Answer {king}: the company keeps the bound" when tolerates(king, actor) and knows(actor, asked_bound) once {
     Grave "A promise made to the dead is held to by them.".
@@ -580,9 +581,9 @@ Module bound_howe "The Bound Howe" {
   // ---- The town: the clerk, the levy, the walking dead, and what the country is told.
   Observe green_levy at green when not levy_met(party) and not bound_broken(party) "A notice is nailed to the clerk's trestle by the well, under the shire-reeve's mark: THE TALLY OF IRON AND GOLD IS TO BE MADE UP BY MIDWINTER. FOR THE WEIGHT OF IRON AND GOLD WANTING, SEE THE CLERK.".
   Observe green_levy_met at green when levy_met(party) "The clerk's notice by the well has been struck through, and the clerk's writing-board stands empty on the trestle.".
-  Observe green_walkers at green when bound_broken(party) and dark() and able(household) "Down the lane, in the dark, come dead folk in grave-clothes, who stand about the green swaying, with their faces to the north. They are the dead of the ridge, and they have come to see what became of the bound.".
-  Rule walk_town when bound_broken(party) and dark() and not at(household, green) and able(household) and not tolerates(household, party) { Retract at(household, gallery). Retract at(household, forecourt). Assert at(household, green). }
-  Rule walk_back when bound_broken(party) and not dark() and at(household, green) { Retract at(household, green). Assert at(household, gallery). }
+  Observe green_walkers at green when host_abroad() and dark() and able(household) "Down the lane, in the dark, come dead folk in grave-clothes, who stand about the green swaying, with their faces to the north. They are the dead of the ridge, and they have come to see what became of the bound.".
+  Rule walk_town when host_abroad() and dark() and not at(household, green) and able(household) { Retract at(household, gallery). Retract at(household, forecourt). Assert at(household, green). }
+  Rule walk_back when not dark() and at(household, green) { Retract at(household, green). Assert at(household, gallery). }
   Topic clerk_levy with clerk "Ask {clerk} what iron and gold he is short of" when true once {
     Says "'The shire-reeve,' says {clerk}, 'is short of a hundred weight of iron and gold by midwinter. The king's torc would do. It would melt down to a good third of it, and the shire-reeve would put the rest in a ditch. I would not ask you to fetch it for love. I will pay by the weight: eighty for the king's, and thirty for any other torc of the Kin that is brought to me whole.'".
     On discuss { Assert knows(actor, levy_told). }
@@ -617,30 +618,24 @@ Module bound_howe "The Bound Howe" {
   Relation thanked(group, group).
   Observe green_kept at green when howe_kept(party) and not dark() "People say the ridge has been quiet since the Spade-Company went off it, and that the clerk has stopped counting.".
 
-  // ---- Rumours, said by the people the world gives them to.
-  // The first town hears of the diggers too, from the drovers who use the ridge road: a line in the taproom from the
-  // second day, once, and gone when it is known. (The scenario's own word reaches only the town nearest the howe and
-  // its neighbour on the road, which a company beginning elsewhere has never visited.)
-  Observe drovers_tell at first_taproom as hearsay when day(clock) >= 2 and not knows(party, ridge_told) "Two drovers at the end of the bench are comparing the ridge road. One says there are two columns of smoke on the skyline above the old mound where last year there was one, and that the second is no shepherd's. The other says it is the shire-reeve's licence-men digging into the barrow, that they keep a watch on the steep path now, and that they have been burying men." teaches ridge_told.
-  Topic drovers_ask with first_keeper "Ask {first_keeper} about the drovers' talk of the ridge road" when knows(actor, ridge_told) once {
-    Says "'Drovers,' says {first_keeper}, and shrugs. 'They use the ridge road, and what they say of it is mostly weather. But they have the digging right, I think. The shire-reeve's licence-men have camped at {outside}, in {land}, and you will see their smoke from the road. It is some days along the roads from here, out of town by the ford and on towards the hills. Keep to the road, and if they ask your business, have an answer ready.'".
-  }
+  // ---- Rumours: the first town hears of the ridge from the Spade-Company's own cart on its green (town.kyr), not from overheard drovers.
   Entity ridge_told: fact "A salvage crew, the Spade-Company, has made a camp on the ridge above {outside} and is digging into the flank of a great howe, under the shire-reeve's licence. They keep a watch on the steep path, and they have lost men under the hill.".
+  Entity rival_told: fact "A second company, with lanterns for its sign, has gone up the ridge road to {outside} and means to be at the howe before the diggers are through.".
   Entity levy_told: fact "The shire-reeve's clerk is raising a levy and is short of iron and gold. He will pay by the weight for the torc of the king of the great howe on the ridge, or for any torc of the Barrow-Kin.".
   Entity warden_told: fact "An old woman keeps a fire on the ridge above {outside}, in sight of the king's howe. The priest says she is the last who still keeps the dead's rest.".
-  Initially Assert established(ridge_told). Initially Assert established(levy_told). Initially Assert established(warden_told).
+  Initially Assert established(ridge_told). Initially Assert established(levy_told). Initially Assert established(warden_told). Initially Assert established(rival_told).
   Initially Assert established(weather_known). Initially Assert established(king_named).
   Initially Assert established(survey_known).
 
   // ---- What is said and seen in the town after.
-  Observe taproom_captain at taproom when turned(captain) and at(captain, taproom) "The captain of the Spade-Company sits at the corner table with her ledger shut under her hand, and her diggers are at the far end of the room, as far from a spade as she could seat them.".
-  Topic captain_tap with captain "Ask {captain} what she makes of the ridge now" when turned(captain) and at(captain, taproom) once {
-    Says "'Quiet,' says {captain}, and does not drink. 'The clerk has asked me twice what I did with his licence. I told him I used it to light the fire.' She pushes a scrap of hide across the table: a nail-scratched drawing of a shaft, a drift and a drowned working. 'It is not much. But it is what is under there, and I would sooner someone had it who would not dig.'".
+  Observe taproom_foreman at taproom when turned(foreman) and at(foreman, taproom) "The foreman of the Spade-Company sits at the corner table with her ledger shut under her hand, and her diggers are at the far end of the room, as far from a spade as she could seat them.".
+  Topic foreman_tap with foreman "Ask {foreman} what she makes of the ridge now" when turned(foreman) and at(foreman, taproom) once {
+    Says "'Quiet,' says {foreman}, and does not drink. 'The clerk has asked me twice what I did with his licence. I told him I used it to light the fire.' She pushes a scrap of hide across the table: a nail-scratched drawing of a shaft, a drift and a drowned working. 'It is not much. But it is what is under there, and I would sooner someone had it who would not dig.'".
     On discuss { Give sketch to actor. }
   }
-  Observe green_licence at green when dead(captain) and not levy_met(party) "The shire-reeve's clerk has crossed a name out of his tally with some force: the Spade-Company's licence, now there is no one left to hold it.".
-  Observe green_turned at green when turned(captain) and not dark() "The diggers who came down from the ridge are drinking in the taproom, and have taken the clerk's licence-notice off the post to light their pipes.".
-  Observe taproom_walkers at taproom when bound_broken(party) and not dark() "Someone has scratched a line of salt across the threshold of the taproom, and nobody will say who.".
+  Observe green_licence at green when dead(foreman) and not levy_met(party) "The shire-reeve's clerk has crossed a name out of his tally with some force: the Spade-Company's licence, now there is no one left to hold it.".
+  Observe green_turned at green when turned(foreman) and not dark() "The diggers who came down from the ridge are drinking in the taproom, and have taken the clerk's licence-notice off the post to light their pipes.".
+  Observe taproom_walkers at taproom when host_abroad() and not dark() "Someone has scratched a line of salt across the threshold of the taproom, and nobody will say who.".
 
   // ---- Aims.
   Objective ridge_aim when knows(party, ridge_told) and not been(party, lee) and not been(party, hearth) toward outside "A salvage crew is digging into a king's howe on the ridge above {outside}; the shire-reeve's clerk wants its torc; and an old woman keeps the dead's rest from a hearth to the north.".
@@ -660,7 +655,7 @@ Module bound_howe "The Bound Howe" {
   Milestone m_plan "put the plan together" worth 150 when knows(party, plan_whole).
   Milestone m_well "stood at the well" worth 200 when been(party, well).
   Milestone m_kept "shut the howe behind them" worth 150 when howe_kept(party).
-  Rule kept_rule when state(seal, set) and been(party, gallery) and not bound_broken(party) and not howe_kept(party) says "The stone settles into its groove with the sound of a door closing in a house that has been quiet for a long time." { Assert howe_kept(party). }
+  Rule kept_rule when state(seal, set) and been(party, gallery) and not bound_broken(party) and not howe_kept(party) and not state(face_wall, broken) and torc_home() says "The stone settles into its groove with the sound of a door closing in a house that has been quiet for a long time." { Assert howe_kept(party). }
   Rule unkept_rule when howe_kept(party) and not state(seal, set) { Retract howe_kept(party). }
   Goal howe_kept(party) or levy_met(party).
 }

@@ -1,0 +1,119 @@
+Module bound_howe "The Bound Howe" {
+  // ---- The towns. The first town (where the company begins) meets the ridge by day 2: a cart of labourers on its green, a notice,
+  // a hiring-man who sells what a company going up the ridge wants. The town below the ridge calls its levy on day 3 and sees what
+  // the week does to it. What was done on the ridge is what both towns show afterwards.
+  Measure noticeDay(group).
+  Relation tam_paid(). Relation promised_tam(group).
+
+  // ---- The first town: the Spade-Company's hirer and his cart.
+  Person hirer "Someone" nowhere {
+    Role "the Spade-Company's hiring-man, with a cart". Ancestry human. Peaceable. Pronouns he.
+    Arrives at first_green when day(clock) >= 2.
+    Arrives "A cart comes up the street behind a tired mule, with a hurdle across the back for sitting on and a board nailed to the tail-gate. The man on the box has a voice that has been used on markets for thirty years, and he uses it.".
+    Sells rope for 3 coin from 4.
+    Sells iron_spikes for 2 coin from 8.
+    Sells torch for 2 coin from 8.
+    Sells lamp_oil for 3 coin from 4.
+    Sells shovel for 4 coin from 2.
+    Greets "'Spades!' cries the hiring-man, to the whole green, and then to you: 'Four a day and found, a share in what the hill gives up, and a licence from the shire-reeve in the foreman's own hand! Diggers, mostly. Not many questions. Not many answers either, I grant you.' He lowers his voice by one note. 'You look like you could carry something.'".
+  }
+  Observe hire_notice at first_green as sign when day(clock) >= 2 and not raid_done() and not howe_overrun(party) and not knows(party, ridge_told) "A board is nailed to the tail-gate of the hiring-man's cart: WANTED, DIGGERS, FOR THE SPADE-COMPANY'S WORKS ON THE LONG RIDGE, ABOVE A GRASSED MOUND, IN THE HILLS. FOUR A DAY AND FOUND. BY LICENCE OF THE SHIRE-REEVE. Under it, in a child's chalk: DON'T." teaches ridge_told.
+  Topic hirer_work with hirer "Ask {hirer} where the work is" when day(clock) >= 2 once {
+    Says "'The Long Ridge,' says {hirer}, and points the whip at the sky in a direction that is mostly east. 'Above {outside}, in {land}: a day, or two, along the roads. You can't miss the smoke. Two columns now, they tell me, and a third by the stones. The licence-men are digging into a barrow, and they will pay whoever carries spoil, and they do not ask what you were before.' He leans down. 'Between us, I take them up and I do not always bring them back. That is not the company's doing.'".
+    On discuss { Assert knows(actor, ridge_told). }
+  }
+  Topic hirer_sign with hirer "Sign on with {hirer} as a digger for the Spade-Company" when day(clock) >= 2 and not foreman_hired(actor) and not raid_done() once {
+    Says "{hirer} makes a mark in a book and gives you a brass tally on a string. 'Four coin in hand,' he says. 'Show it at the lookout and say you are the foreman's. She will say you are not, and then she will say you are. She does that.' He counts out four coin and does not look at your face. 'Don't go in the hill. I mean it kindly.'".
+    On discuss { Assert foreman_hired(actor). Assert tolerates(foreman, actor). Assert tolerates(crew, actor). Assert tolerates(watchers, actor). Assert tolerates(sentry, actor). Increase quantity(actor, gold) by 4. Assert knows(actor, ridge_told). }
+  }
+  Observe hire_empty at first_green as sign when raid_done() and not dead(hirer) "The hiring-man's cart stands unharnessed on the green with the board face-down on the cobbles. Nobody has picked it up.".
+  Topic hirer_after with hirer "Ask {hirer} what has happened to his hands" when raid_done() once {
+    Says "{hirer} has been drinking since the cart came in, and has not stopped to be drunk. 'Twelve,' he says. 'Twelve, I took up. Four a day. I brought down three. One of them is in the back with his leg wrong, and the other two will not say.' He turns the cup on the cobbles. 'I did not lie to them. I never said it was a job. I said it was *work*.'".
+    On discuss { Assert knows(actor, raid_told). }
+  }
+  Entity raid_told: fact "The dead of the howe came out of the hill by night and broke the Spade-Company's camp; the diggers that lived came down by cart.".
+  Person wounded "Someone" nowhere {
+    Role "a digger of the Spade-Company, laid on a hurdle". Ancestry human. Peaceable. Pronouns he.
+    Arrives at first_green when raid_done() and day(clock) >= stirDay(crew) + 2.
+    Arrives "A hurdle is carried in off the road by two men who do not want to be thanked, and set down by the well. The man on it is the grey of old candle-wax.".
+    Greets "The man on the hurdle opens one eye. 'Horses,' he says, quite clearly. 'Bone ones. They never made a sound until they were in the tents.' He shuts it again. 'It was bells. Tell the foreman it was bells. She said it was nothing, and it was bells.'".
+  }
+  Observe wounded_seen at first_green as sign when raid_done() and at(wounded, first_green) "A crowd that does not look at the hurdle stands round it anyway. The first town has begun to say a word it did not say last week: barrow.".
+
+  // ---- What the first town shows afterwards, by the day.
+  Observe first_closed at first_green as sign when howe_overrun(party) and day(clock) >= stirDay(crew) + 3 "A paper has gone over the Spade-Company's on the post by the well: THE RIDGE ROAD IS CLOSED BY THE SHIRE-REEVE'S ORDER UNTIL FURTHER NOTICE. Someone has scratched underneath: WHO'S GOING TO TELL THEM.".
+  Observe first_kept at first_green as sign when howe_kept(party) and not howe_overrun(party) and day(clock) >= 5 "The Spade-Company's board has been struck through in clerk's black: THE LICENCE IS WITHDRAWN. The hiring-man has gone, and the carters who used to see the smoke from the ridge road tell each other, as news, that they do not.".
+  Observe first_sacked at first_green as sign when ridge_sacked() and day(clock) >= 5 "A rumour is going about the market that a company went through the south road with a heavy pack and no spades. Its captain is said to have been crying. Nobody can say which company.".
+  Topic keeper_ridge_a with first_keeper "Ask {first_keeper} about the ridge and its diggers" when knows(actor, ridge_told) and not host_stirs() once {
+    Says "'The licence-men?' says {first_keeper}, and polishes a cup that is polished. 'Their cart has been up and down the road since the thaw. Four a day and found. I had two of mine go, last week, and one asked for his wages in advance, which is the first time he has had a good idea.' {first_keeper} looks at the door. 'It is {outside}, in {land}. Some days along, out by the ford. Go up with a rope and a candle, and take somebody who will say your name.'".
+  }
+  Topic keeper_ridge_b with first_keeper "Ask {first_keeper} what is being said about the ridge now" when host_stirs() and not howe_overrun(party) once {
+    Says "'There is a hurdle on the green,' says {first_keeper}, 'and a cart with its board face down, and the man who owns it is in the back room under a coat.' {first_keeper} sets a cup down very gently. 'They say the dead of the old mound have got up. I say they have been getting up for a hundred years, and nobody minded when they stayed on the hill.'".
+  }
+  Topic keeper_ridge_c with first_keeper "Ask {first_keeper} about the ridge road" when howe_overrun(party) and day(clock) >= stirDay(crew) + 3 once {
+    Says "'Closed,' says {first_keeper}. 'By the shire-reeve, in the shire-reeve's name, and with the shire-reeve's seal, and with the reeve himself not to be found.' {first_keeper} turns the cup upside down. 'The drovers have gone round by the south road. They say there are nine houses in Brockminster with an empty place at the table, and a line of salt on every sill.'".
+  }
+  Observe first_taproom_closed at first_taproom as hearsay when howe_overrun(party) and day(clock) >= stirDay(crew) + 3 "Two drovers at the end of the bench are comparing the south road. One says there is salt on every sill in Brockminster and nobody will say why; the other says it is the dead from the hill and has been three nights. They both stop when you look at them.".
+
+  // ---- The town below the ridge: smoke over the roofs, the levy, and the clerk.
+  Observe green_smoke at green as sign when not howe_overrun(party) "Above the roofs, to the east, two columns of smoke stand on the ridge: one thick and black from the digging, one thin and white from the old woman's fire." teaches ridge_told.
+  Observe green_smoke_third at green as sign when rival_step(rcaptain) >= 1 and rival_step(rcaptain) < 7 "There is a third column on the ridge since yesterday, tidy and new, from the high ground by the stones. Nobody on the green has an opinion about it, which is an opinion.".
+  Observe green_smoke_none at green as sign when howe_overrun(party) "There is no smoke on the ridge at all. The nearer town has noticed, and has taken to looking at the east road in the evening.".
+  Person levy_men "the reeve's levy" nowhere {
+    Role "five townsmen called out under the reeve's tally". Ancestry human. Calling warrior. Level 2. Numbers 5. Peaceable.
+    Arrives at green when day(clock) >= 3.
+    Arrives "Five men come to the well in their working clothes with spades and a bill-hook between them, and a sixth with a list. Nobody cheers. Nobody has been asked to.".
+    Greets "'Called out,' says the one with the list, who is a baker. 'The reeve's levy. We are told to go up and hold the camp, and see the licence-men are not troubled.' He folds the list. 'It is haying week. I have said so, and I have been told so is everybody.'".
+  }
+  Observe green_levy_called at green as sign when at(levy_men, green) "Five men with spades sit on the edge of the well and do not talk. A paper over their heads says: THE LEVY IS CALLED. GOOD MEN OF THE TOWN, TO MARCH WHEN THE CLERK SAYS.".
+  Rule levy_marches heard at green when at(levy_men, green) and day(clock) >= breachDay(crew) - 1 and not levy_marched() and not levy_against()
+    says "The levy goes up the east road in a ragged file, with its spades over its shoulders. A woman walks the first mile with them and then turns back." {
+    Assert levy_marched(). Retract at(levy_men, green). Assert at(levy_men, lee). Assert tolerates(levy_men, party). }
+  Rule levy_marches_against heard at green when at(levy_men, green) and day(clock) >= breachDay(crew) - 1 and not levy_marched() and levy_against()
+    says "The levy goes up the east road with salt in sacks and mattocks over its shoulders. The priest walks at its head, and does not look at the clerk." {
+    Assert levy_marched(). Retract at(levy_men, green). Assert at(levy_men, trench). Assert tolerates(levy_men, party).
+    Assert crew_fled(). Retract at(crew, lee). Assert at(crew, taproom). Retract at(foreman, lee). Assert at(foreman, taproom).
+    Assert state(face_wall, buried). }
+  Rule levy_lost when raid_done() and at(levy_men, lee) and not dark() and not dead(riders) and not at(party, lee) { Slay levy_men. }
+  Observe green_levy_lost at green as sign when dead(levy_men) "Five houses on the green have a shutter closed that was open yesterday. The baker's door is shut, and a loaf lies on the step with a cloth over it.".
+  Observe green_levy_buried at green as sign when levy_marched() and levy_against() and state(face_wall, buried) "The levy came home with its spades clean, and the baker with a look as if he had won an argument with God and was not sure how.".
+  Topic levy_ask with levy_men "Ask the levy what it was called out for" when at(levy_men, green) and not levy_marched() once {
+    Says "'To hold the camp,' says the baker, 'against the other company. There is another company. The clerk says the reeve says the licence is sound, and we are not to say anything about the dead.' He looks at the spade in his hands as if it had been handed to him by a stranger. 'Nobody has said anything about the dead. I think that is what the dead are.'".
+  }
+
+  // ---- The clerk. A dry man, and a rattled one.
+  Topic clerk_letter with clerk "Show {clerk} the patron's letter, with the reeve's seal" when holding(actor, letter_kind) and not levy_against() once {
+    Says "{clerk} reads it with his lips moving, and then reads it again with his lips still. 'This is the reeve's seal,' he says. 'It is the one he keeps in his own coat.' He puts the letter down, picks it up, and puts it down in a different place. 'Two companies. A levy. I was told of the one, and told it was prudence.' He takes his pen out of its tray and looks at it. 'I did not read the small print. It seems I do not read anything. I shall go to the shrine, and speak to the priest, and ask him to ask the levy to go up with salt instead of spades. That is not in my powers. I shall do it anyway.'".
+    On discuss { Assert levy_against(). Assert knows(actor, reeve_double). }
+  }
+  Topic priest_rally with priest "Tell {priest} what the cutting will let out of the hill" when knows(actor, face_thin) and knows(actor, torc_price) and not levy_against() and not levy_marched() once {
+    Says "{priest} hears you out with both hands on the altar rail, as if it might move. 'I have been telling them,' says {priest}, 'that the dead keep to their niches, for forty years, to people who were more comfortable believing me.' The priest straightens. 'I shall go to the clerk. Between us we can call it a levy of mercy. The reeve cannot hang a priest, and he cannot be found.'".
+    On discuss { Assert levy_against(). }
+  }
+  Topic warden_rally with warden "Ask {warden} to come down and speak for the howe to the town" when trusted(warden, actor) and knows(actor, warden_lore) and not levy_against() and not levy_marched() once {
+    Says "{warden} is quiet for a very long time. 'Forty years,' she says. 'I have not been below the sheepfold since my mother was buried.' She puts out the fire with her foot, and it takes three goes. 'The goat stays. She will not go down the hill; she is the wiser of the two of us.' She takes up her stick. 'Say nothing to me until we are there.'".
+    On discuss { Assert levy_against(). Retract at(warden, hearth). Assert at(warden, shrine). Retract restful(hearth). }
+  }
+  Observe hearth_cold at hearth as sign when not at(warden, hearth) and levy_against() "The hearth is cold. The salt ring is as it was, unbroken; the goat is at the stake, and looking down the hill.".
+
+  // ---- Tam, a frightened labourer, and what it costs to be afraid in a camp.
+  Person tam "Someone" at lee {
+    Role "a young digger with a barrow". Ancestry human. Peaceable. Pronouns he.
+    Greets "A digger no more than seventeen is pushing a barrow of spoil to the heap, very fast, very straight, and does not stop when you speak. 'I'm only on the barrow,' he says, to the barrow.".
+  }
+  Topic tam_ask with tam "Ask {tam} what is wrong" when not raid_done() once {
+    Says "'Nothing. Nobody. I'm on the barrow.' {tam} puts the barrow down, picks it up again, puts it down. 'I signed for trench. I said *trench*. Then Hob went under, and I said I'd not, and she said that was all right, and then the face started. You can hear it at night. A bell, on the other side. I told her. She said it was the wind.' He wipes his face with the back of a hand that is shaking. 'It is not the wind. The wind does not ring *once*.'".
+    On discuss { Assert knows(actor, face_thin). }
+  }
+  Action pay_tam(actor: group, site: place) "Pay {tam} his wages and a road home, six coin" {
+    Requires able(actor) and at(actor, site) and at(tam, site) and not tam_paid() and quantity(actor, gold) >= 6 and knows(actor, face_thin).
+    On success { Decrease quantity(actor, gold) by 6. Assert tam_paid(). Give paykey_kind to actor. Retract at(tam, lee). Assert at(tam, green). }
+    Result "{tam} stares at the coin, and then at you, and then he is crying, and trying to do it quietly, which is worse. He gives you a key on a bootlace. 'She keeps the pay-chest under her cot,' he says. 'I carried the chest. This is the key. I took it when I got my wages, and she said what wages, and I took it.' He runs for the road. He does not run back.".
+  }
+  Kind paykey_kind "a small key on a bootlace" is gear worth 0 weighing 0 described "A key the size of a thumbnail, worn bright, on a bootlace knotted in a boy's knot.".
+  Observe tam_green at green as sign when at(tam, green) "A boy in a digger's cap is sitting on the well-kerb, not drinking from it, not leaving. Every so often he looks at the east road and puts his head on his knees.".
+  Topic tam_after with tam "Ask {tam} what he saw" when at(tam, green) and raid_done() once {
+    Says "'The bells,' says {tam}. 'It was the bells, and then the horses. Nobody could hear the horses. They wasn't *making* noise. I was on the spoil-heap, and I lay down, and I was a spade.' He looks at his hands. 'I never said thank you. For the six. Mam says you got to say thank you for things.' He says it then, and it is very small, and he has been practising.".
+    On discuss { Assert knows(actor, raid_told). }
+  }
+}

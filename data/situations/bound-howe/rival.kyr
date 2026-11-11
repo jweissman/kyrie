@@ -1,0 +1,201 @@
+Module bound_howe "The Bound Howe" {
+  // ---- The Lantern Company: a second expedition, with its own captain, its own letter, its own ram, and its own reasons.
+  // They are not villains. A patron has paid them half to bring him the king's torc by midwinter and will have the other half,
+  // or the company's bond, if it is not there. The captain and the licence-men's foreman were partners once, and split over a
+  // pay-chest. Each of them calls the other a thief, and each is a little right.
+  //
+  // rival_step(rcaptain): 0 not on the ridge; 1 camped; 2 at the door with the ram; 3 door forced (or already open);
+  // 4 through the gallery, at the flutes; 5 at the throne; 6 out with the torc, hands dead; 7 gone; 8 beaten at the gallery
+  // or by a wrong flute; 9 called off, or its captain dead.
+  Measure ramDelay(group).
+  Relation ram_spoiled(). Relation rival_flute_told(). Relation rival_told_low(). Relation rival_told_mid(). Relation rival_told_high().
+  Relation rival_allied(group). Relation letter_given(). Relation chest_robbed(). Relation foreman_hired(group).
+
+  Person rcaptain "Someone" nowhere {
+    Role "the captain of the Lantern Company". Ancestry human. Level 4. Temperament territorial. Lair rival_camp. Pronouns she.
+    Arrives at rival_camp when day(clock) >= rivalDay(crew).
+    Arrives "A file of lanterns comes along the ridge-path, though it is broad day: pack-ponies, a dozen men, and a woman in a good cloak walking at the head of them with her hat in her hand.".
+    Warns "A woman in a good cloak gets up from a camp-stool and does not reach for anything. 'I do apologise,' she says. 'This is a private camp. We are the Lantern Company, and I hold a letter from a patron who would very much like you to go away. I would so much rather you did it on your own feet.'".
+  }
+  Person rhands "the Lantern hands" nowhere {
+    Role "three hands of the Lantern Company, in good boots and the same hat". Ancestry human. Calling warrior. Level 3. Numbers 3. Temperament territorial. Lair rival_camp.
+    Arrives at rival_camp when day(clock) >= rivalDay(crew).
+    Warns "Three men in the same brown hats stand up from the fire together, the way men do who have drilled it. One has a mallet across his shoulders. 'The captain's talking,' says the one with the mallet. 'Let her.'".
+  }
+  Person rscout "the Lantern scout" nowhere {
+    Role "the Lantern Company's scout, who goes first into everything". Ancestry human. Calling thief. Level 3. Temperament ambush. Lair rival_camp.
+    Arrives at rival_camp when day(clock) >= rivalDay(crew).
+    Warns "A thin man steps out of the heather where there was no one, a crossbow already up. 'Don't,' he says, pleasantly. 'Whatever it is.'".
+  }
+  Person rscholar "Someone" nowhere {
+    Role "the Lantern Company's reader, the captain's nephew". Ancestry human. Calling mage. Level 3. Temperament territorial. Lair rival_camp. Pronouns he.
+    Arrives at rival_camp when day(clock) >= rivalDay(crew).
+    Warns "A young man with ink to his elbows looks up from a rubbing of stone and says, much too quickly, 'It's Kinmark, you know, the whole lintel, you can read it, they say what they *are*,' and then sees what you are carrying and puts the rubbing behind his back.".
+  }
+  Initially Set encounterXp(rcaptain) to 300. Initially Set encounterXp(rhands) to 240. Initially Set encounterXp(rscout) to 100. Initially Set encounterXp(rscholar) to 120.
+  Initially Assert serves(rhands, rcaptain). Initially Assert serves(rscout, rcaptain). Initially Assert serves(rscholar, rcaptain).
+
+  // ---- What they carry and what they do with it.
+  Thing ram "the Lantern Company's ram" at rival_camp {
+    State whole "A ram-beam of green ash lies on two trestles, iron-shod, with six rope-loops lashed along its length for the men who will swing it. A pot of pitch stands beside it, for the lashings.".
+    State spoiled "The ram's iron shoe is split along its length and the lashings are cut through. A new beam will have to be felled and shod.".
+    Tries looking.
+  }
+  Action spoil_ram(actor: group, site: place) "Split the iron shoe of the ram and cut its lashings" {
+    Requires able(actor) and at(actor, site) and at(actor, rival_camp) and state(ram, whole).
+    Resolve check(actor, stealth, dc_fair).
+    On success { Assert state(ram, spoiled). Assert ram_spoiled(). Set ramDelay(crew) to 2. }
+    On failure { Assert assails(rscout, actor). }
+    Result "The shoe goes with one blow of a borrowed chisel, and the lashings are easy. You are out of the camp before the pitch-pot has stopped rocking.".
+    Otherwise "The pot rocks, and the scout is at your shoulder before you have the chisel out of your belt.".
+  }
+  Thing rival_chest "the captain's strongbox" at rival_camp {
+    State locked closed "A strongbox of black oak with iron corners stands under the captain's cot, with a lock the size of a fist.".
+    State open "The captain's strongbox stands open, and a letter lies on top of her papers.".
+    Tries looking.
+  }
+  Kind letter_kind "the patron's letter" is document teaching reeve_double described "A single sheet in a clerk's hand, closed with a seal. It binds the Lantern Company to bring the king's torc to the patron by midwinter, on pain of the forfeit of the company's bond, and it is sealed with the shire-reeve's own mark.".
+  Discovery reeve_double "The shire-reeve has hired two companies for one howe, and told his clerk of one.".
+  Item patron_letter "the patron's letter" is letter_kind nowhere.
+  Action rob_strongbox(actor: group, site: place) "Pick the lock of the captain's strongbox" {
+    Requires able(actor) and at(actor, site) and at(actor, rival_camp) and state(rival_chest, locked) and capable(actor, lockwork).
+    Resolve check(actor, lockwork, dc_fair).
+    On success { Assert state(rival_chest, open). Give patron_letter to actor. }
+    On failure { Assert assails(rscout, actor). }
+    Result "The lock opens with the small sound of a bird walking on a roof. On top of the papers is a letter. You read it, and then you read the seal.".
+    Otherwise "The pick turns in the lock and something inside it answers with a click that is not yours. Behind you a crossbow is wound.".
+  }
+
+  // ---- Their steps, by the day. Unless someone acts, they happen.
+  Rule rv_arrive when day(clock) >= rivalDay(crew) and rival_step(rcaptain) == 0 { Set rival_step(rcaptain) to 1. }
+  Rule rv_to_door heard at forecourt when rival_step(rcaptain) == 1 and day(clock) >= rivalDay(crew) + 1 and hour(clock) >= 7 and able(rcaptain)
+    says "Down through the grey grass, on the long way round the stones, come men and a ram. They set it on its trestles in the forecourt and begin to wind pitch-soaked rope about the beam. The captain walks round the door once with her hat under her arm, and says something to the one with ink on his hands, who begins to read the lintel aloud." {
+    Set rival_step(rcaptain) to 2.
+    Retract at(rhands, rival_camp). Assert at(rhands, forecourt).
+    Retract at(rcaptain, rival_camp). Assert at(rcaptain, forecourt).
+    Retract at(rscholar, rival_camp). Assert at(rscholar, forecourt).
+  }
+  Rule rv_door_set heard at forecourt when rival_step(rcaptain) == 2 and day(clock) >= rivalDay(crew) + 2 + ramDelay(crew) and able(rcaptain) and state(seal, set)
+    says "The ram goes in at the seal-stone, three times, on the captain's count. The third time the stone leaves its groove with a sound that is felt in the teeth, and slews across the pavement, and the dark behind it breathes out, cold, like a held breath let go." {
+    Set rival_step(rcaptain) to 3. Assert state(seal, forced). }
+  Rule rv_door_open when rival_step(rcaptain) == 2 and day(clock) >= rivalDay(crew) + 2 + ramDelay(crew) and able(rcaptain) and not state(seal, set) { Set rival_step(rcaptain) to 3. }
+  Rule rv_gallery_win heard at forecourt when rival_step(rcaptain) == 3 and day(clock) >= rivalDay(crew) + 3 + ramDelay(crew) and able(rcaptain)
+    and (dead(household) or tolerates(household, rcaptain) or dice(clock) <= 40)
+    says "In the howe, a long way in, there is shouting, and the flat knock of something heavy being dropped, and shouting again, and then, at last, the captain's voice, calling a name, and a name. Four go in. Four come back out and go in again, with a light." {
+    Set rival_step(rcaptain) to 4.
+    Retract at(rhands, forecourt). Assert at(rhands, flutes). Retract at(rcaptain, forecourt). Assert at(rcaptain, flutes).
+    Retract at(rscholar, forecourt). Assert at(rscholar, flutes). Retract at(rscout, rival_camp). Assert at(rscout, flutes). }
+  Rule rv_gallery_lose heard at forecourt when rival_step(rcaptain) == 3 and day(clock) >= rivalDay(crew) + 3 + ramDelay(crew) and able(rcaptain)
+    and not dead(household) and not tolerates(household, rcaptain) and dice(clock) > 40
+    says "In the howe, a long way in, there is shouting, and then a different sound, and then no shouting. The captain comes out of the dark alone with her cloak torn and one hand holding the other. The scholar comes after, dragged by the collar by someone who is also crying. Nobody else comes out." {
+    Set rival_step(rcaptain) to 8. Slay rhands.
+    Retract at(rcaptain, forecourt). Assert at(rcaptain, rival_camp). Retract at(rscholar, forecourt). Assert at(rscholar, rival_camp). }
+  Rule rv_flute_right heard at flutes when rival_step(rcaptain) == 4 and day(clock) >= rivalDay(crew) + 4 + ramDelay(crew) and able(rcaptain)
+    and ((rival_told_low() and kinflute(flute_low)) or (rival_told_mid() and kinflute(flute_mid)) or (rival_told_high() and kinflute(flute_high))
+      or (not rival_flute_told() and dice(clock) <= 34))
+    says "A boy's hand lifts a flute of bone to his mouth and plays, and the whole chamber answers him: many people, breathing slowly together. Then a voice near every ear. 'Who keeps the bound now?' 'We do,' says a woman's voice, quickly, and very politely." {
+    Set rival_step(rcaptain) to 5. Assert king_asks(). Assert tolerates(king, rcaptain). Assert tolerates(sworn, rcaptain).
+    Retract at(rhands, flutes). Assert at(rhands, throne). Retract at(rcaptain, flutes). Assert at(rcaptain, throne).
+    Retract at(rscholar, flutes). Assert at(rscholar, throne). Retract at(rscout, flutes). Assert at(rscout, throne). }
+  Rule rv_flute_wrong heard at flutes when rival_step(rcaptain) == 4 and day(clock) >= rivalDay(crew) + 4 + ramDelay(crew) and able(rcaptain)
+    and not ((rival_told_low() and kinflute(flute_low)) or (rival_told_mid() and kinflute(flute_mid)) or (rival_told_high() and kinflute(flute_high)))
+    and (rival_flute_told() or dice(clock) > 34)
+    says "A boy's hand lifts a flute of bone to his mouth. The sound is not a flute's. Every wall of the chamber answers it, and the boy goes down on his knees with his hands to his ears, and the captain's voice, which has not once been raised, rises." {
+    Set rival_step(rcaptain) to 8. Slay rscholar.
+    Retract at(rhands, flutes). Assert at(rhands, rival_camp). Retract at(rcaptain, flutes). Assert at(rcaptain, rival_camp). Retract at(rscout, flutes). Assert at(rscout, rival_camp). }
+  Rule rv_tread heard at flutes when rival_step(rcaptain) == 5 and state(tread, armed) and able(rscout)
+    says "The scout goes up the steps with his hand on the wall, and the third stair has a bright edge, and he looks at it as a man looks at a friend before he steps on him. There is a sound of iron and stone, and a short silence, and a longer one." { Assert state(tread, sprung). Slay rscout. }
+  Rule rv_torc heard at throne when rival_step(rcaptain) == 5 and day(clock) >= rivalDay(crew) + 5 + ramDelay(crew) and torc_home() and able(king)
+    says "'Forgive me,' says a woman's voice, from the high chamber, to something, and the howe draws breath. Then the king stands, and the howe says, from every wall at once: 'You said you would keep it.' Three men do not come out. A woman does, and a young man, with a torc of braided gold in a cloak." {
+    Set rival_step(rcaptain) to 6. Slay rhands. Retract at(king_torc_item, throne). Assert at(king_torc_item, rival_camp).
+    Retract at(rcaptain, throne). Assert at(rcaptain, rival_camp). Retract at(rscholar, throne). Assert at(rscholar, rival_camp).
+    Retract tolerates(king, rcaptain). Retract tolerates(sworn, rcaptain). Retract tolerates(household, party). }
+  Rule rv_leave heard at rival_camp when rival_step(rcaptain) == 6 and day(clock) >= rivalDay(crew) + 7 + ramDelay(crew)
+    says "By morning the Lantern Company's camp is a ring of trampled heather and a burnt trestle. The ponies went at dawn, by the road to the south." {
+    Set rival_step(rcaptain) to 7. Retract at(rcaptain, rival_camp). Retract at(rscholar, rival_camp). Retract at(king_torc_item, rival_camp). }
+  Rule rv_leave_beaten heard at rival_camp when (rival_step(rcaptain) == 8 or rival_step(rcaptain) == 9) and day(clock) >= rivalDay(crew) + 7 + ramDelay(crew) and at(rcaptain, rival_camp)
+    says "The Lantern Company's camp is cold. Someone has left a lantern on a stake, lit, in the middle of the trampled heather, and it has burned all night." {
+    Retract at(rcaptain, rival_camp). Retract at(rscholar, rival_camp). Retract at(rhands, rival_camp). Retract at(rscout, rival_camp). }
+  Rule rv_ended when rival_step(rcaptain) < 7 and rival_step(rcaptain) > 0 and dead(rcaptain) { Set rival_step(rcaptain) to 9. }
+
+  // ---- What the ridge shows of them.
+  Observe rv_smoke_foot at outside as sign when rival_step(rcaptain) >= 1 and rival_step(rcaptain) < 7 "A third column of smoke has come up on the ridge since yesterday, thin and tidy, north of the other two, from the high ground by the stones.".
+  Observe rv_lanterns at rise as sign when rival_step(rcaptain) >= 1 and rival_step(rcaptain) < 7 and dark() "Along the ring of stones, a string of small lights, steady, a long way off. Lanterns, and a good many.".
+  Observe rv_horns at lee as sound when rival_step(rcaptain) >= 1 and rival_step(rcaptain) < 7 and crew_digging() "A horn calls from the high ground, twice. The hands at the camp look up, and one of them puts down his spade and picks up a spade-handle instead, and puts it down again.".
+  Observe rv_tracks at ring as sign noticed by woodcraft when rival_step(rcaptain) >= 1 "Four shod ponies came up the steep path in file, a day behind a dozen boots, and one of the dozen is a woman's. They carried something long and heavy lashed under a tarpaulin, and they carried it carefully, and it was not a tent.".
+  Observe rv_forecourt_ram at forecourt as sign when rival_step(rcaptain) == 2 or (rival_step(rcaptain) == 3 and state(seal, forced) and not dead(rcaptain) and not dead(rhands)) "A trestle stands in the forecourt with a beam on it, green ash, iron-shod, and pitch-soaked rope wound about it. The pavement before the door is scored with long fresh marks where the trestle was dragged.".
+  Observe rv_ram_trace at forecourt as sign when rival_step(rcaptain) >= 3 and state(seal, forced) and dead(rhands) "A ram-beam lies abandoned across the forecourt, with its iron shoe split, and its rope wound about it. The seal-stone has been driven half out of its groove and the pavement behind it scored white.".
+  Observe rv_gone_camp at rival_camp when rival_step(rcaptain) >= 7 "The Lantern Company's camp is trampled heather, a burnt trestle, and the shape of a great many boots. A paper has been left under a stone: THE PATRON'S MEN WILL CALL. It has been signed, and the signature scratched out.".
+  Observe rv_camp_scene at rival_camp when true "The camp is pitched on the heather in a neat square: six tents, a picket-line for the ponies, a fire with its stones numbered. Every object is where it was last time, and every man knows where it is.".
+  Observe rv_camp_warrior at rival_camp as sign noticed by intimidation when rival_step(rcaptain) >= 1 and rival_step(rcaptain) < 7 and able(rhands) "The hands sit with their weapons where their hands fall and their faces to the ridge where the Spade-Company is, not to the howe. They are afraid of the diggers, and they are not afraid of the dead. That is a company which has not yet seen the dead.".
+  Observe rv_camp_cleric at rival_camp as sign noticed by insight when able(rcaptain) and at(rcaptain, rival_camp) "The captain is the only one in the camp who is not eating. She has been counting something on her fingers for some time, and her lips are moving. It is a number, and it is not small.".
+
+  // ---- The captain, and the captain's reasons.
+  Topic rcap_ask with rcaptain "Ask {rcaptain} what the Lantern Company is doing on the ridge" when able(rcaptain) once {
+    Says "'Collecting,' says {rcaptain}. 'A client of ours has a taste for the unusual, and I have a letter, and the letter has a number in it, and I should like to reach the end of the number.' She smiles, and it is a tired smile. 'The man in the lee has a licence. I have a better one, and I have seen his, and I will not say what I think of the spelling.'".
+    On discuss { Assert knows(actor, rival_aim). }
+  }
+  Discovery rival_aim "The Lantern Company is on the ridge for a patron's commission: the king's torc by midwinter.".
+  Topic rcap_foreman with rcaptain "Ask {rcaptain} about the foreman in the lee" when able(rcaptain) and knows(actor, rival_aim) once {
+    Says "'Wulfrun? Is that what she is calling herself?' says {rcaptain}, and laughs, so that one of her hands looks round. 'We kept a company together for eleven years, she and I. There was a chest. It was a perfectly ordinary chest. If you see her, ask her what is in it.'".
+    On discuss { Assert knows(actor, chest_quarrel). }
+  }
+  Discovery chest_quarrel "The Lantern Company's captain and the Spade-Company's foreman kept one company for eleven years, and split over a pay-chest.".
+  Topic rcap_bond with rcaptain "Tell {rcaptain} you know what the patron's bond is" when able(rcaptain) and knows(actor, reeve_double) once {
+    Says "{rcaptain} sits a long while with her hat in her hands. 'Then you know,' she says, 'that I have been paid by the same hand that pays the people I am here to beat.' She looks at the camp: the dozen hats, the neat tents. 'I would be ashamed to tell them. I have been ashamed since Thursday.'".
+    On discuss { Assert knows(actor, captain_ashamed). }
+  }
+  Discovery captain_ashamed "The Lantern Company's captain knows the shire-reeve is her patron and also the foreman's.".
+  Topic rcap_roll with rcaptain "Sell {rcaptain} the roll of kings, for a share of what the company takes" when able(rcaptain) and knows(actor, king_named) and rival_step(rcaptain) >= 1 and rival_step(rcaptain) <= 3 once {
+    Says "{rcaptain} listens with her whole attention, and writes it down in a small neat hand, name after name. 'A share,' she says. 'Of course. Sixty in coin now, and a fifth of whatever is not the torc.' She counts the sixty into your hand herself. 'I do keep my word. I want you to know that, because I am going to need it.'".
+    On discuss { Assert tolerates(household, rcaptain). Assert rival_allied(actor). Assert tolerates(rcaptain, actor). Assert tolerates(rhands, actor). Assert tolerates(rscout, actor). Assert tolerates(rscholar, actor). Increase quantity(actor, gold) by 60. }
+  }
+  Topic rcap_flute_low with rcaptain "Tell {rcaptain} the king's flute is the low one" when able(rcaptain) and knows(actor, stave_known) and not rival_flute_told() and rival_step(rcaptain) >= 1 and rival_step(rcaptain) <= 4 once {
+    Says "{rcaptain} repeats it back to her scholar, who writes it on his cuff. 'The low one. Thank you. I shall remember this.'".
+    On discuss { Assert rival_told_low(). Assert rival_flute_told(). }
+  }
+  Topic rcap_flute_mid with rcaptain "Tell {rcaptain} the king's flute is the middle one" when able(rcaptain) and knows(actor, stave_known) and not rival_flute_told() and rival_step(rcaptain) >= 1 and rival_step(rcaptain) <= 4 once {
+    Says "{rcaptain} repeats it back to her scholar, who writes it on his cuff. 'The middle one. Thank you. I shall remember this.'".
+    On discuss { Assert rival_told_mid(). Assert rival_flute_told(). }
+  }
+  Topic rcap_flute_high with rcaptain "Tell {rcaptain} the king's flute is the high one" when able(rcaptain) and knows(actor, stave_known) and not rival_flute_told() and rival_step(rcaptain) >= 1 and rival_step(rcaptain) <= 4 once {
+    Says "{rcaptain} repeats it back to her scholar, who writes it on his cuff. 'The high one. Thank you. I shall remember this.'".
+    On discuss { Assert rival_told_high(). Assert rival_flute_told(). }
+  }
+  Action turn_rival(actor: group, site: place) "Tell {rcaptain} what the torc will cost the country, and the town below" {
+    Speaker rcaptain.
+    Requires able(actor) and at(actor, site) and at(rcaptain, site) and able(rcaptain) and knows(actor, torc_price) and rival_step(rcaptain) < 6 and not turned_rival().
+    Resolve check(actor, persuasion, dc_formidable).
+    On success { Assert turned_rival(). Set rival_step(rcaptain) to 9. Assert tolerates(rcaptain, actor). Assert tolerates(rhands, actor). Assert tolerates(rscholar, actor). Assert tolerates(rscout, actor). }
+    Result "{rcaptain} listens, and for the first time she does not smile. 'I was given a number,' she says. 'Not a town.' She puts on her hat. 'My patron will find me a difficult woman to collect from. I think I should like that.' By evening the trestles are down.".
+    Otherwise "{rcaptain} hears you out, kindly. 'That is exactly what I should say,' she says, 'if I were you.'".
+  }
+  Action turn_rival_proved(actor: group, site: place) "Show {rcaptain} the shire-reeve's seal on her patron's letter" {
+    Speaker rcaptain.
+    Requires able(actor) and at(actor, site) and at(rcaptain, site) and able(rcaptain) and holding(actor, letter_kind) and rival_step(rcaptain) < 6 and not turned_rival().
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert turned_rival(). Set rival_step(rcaptain) to 9. Assert tolerates(rcaptain, actor). Assert tolerates(rhands, actor). Assert tolerates(rscholar, actor). Assert tolerates(rscout, actor). }
+    Result "{rcaptain} reads it standing, twice, and then a third time sitting down. 'Hired both,' she says. 'Of course he did. A reeve would.' She stands up. 'Hats,' she says. 'We are going home.'".
+    Otherwise "{rcaptain} reads it without moving her face. 'A forgery would be very like this,' she says. 'I have made two.'".
+  }
+  Relation turned_rival().
+  Rule rival_gone_home heard at rival_camp when turned_rival() and rival_step(rcaptain) == 9 and day(clock) >= rivalDay(crew) + 1 and at(rcaptain, rival_camp)
+    says "By dusk the Lantern Company's tents are down. The captain stands at the head of the file with her hat on, and does not look back at the howe." {
+    Retract at(rcaptain, rival_camp). Retract at(rhands, rival_camp). Retract at(rscout, rival_camp). Retract at(rscholar, rival_camp). }
+  Topic rscholar_lintel with rscholar "Ask {rscholar} what he has read on the lintel" when able(rscholar) once {
+    Says "'It says what they *are*!' says {rscholar}, and then, lower, 'It says what they *are for*. Do you know that? They didn't bury him. They *appointed* him. Every one of them is an appointment, and the door is just where the roll is kept.' He puts the rubbing in your hands. 'You can have it. I've another. I shall have to say it wrong to my aunt.'".
+    On discuss { Assert knows(actor, kin_greeting). }
+  }
+  Topic rscholar_afraid with rscholar "Ask {rscholar} whether his aunt knows what the howe will do" when able(rscholar) and knows(actor, rival_aim) once {
+    Says "{rscholar} looks over his shoulder. 'She does not want to,' he says. 'She doesn't want to know. That is not the same as not knowing.' He looks at the ground. 'If it were my choice, I'd read the wall, and put it back, and go home. I'm not allowed to say that either.'".
+    On discuss { Assert knows(actor, scholar_afraid). }
+  }
+  Discovery scholar_afraid "The Lantern Company's reader would sooner read the wall and go home.".
+  Observe rcap_ledger_cheer at rival_camp as sign when dead(rhands) and able(rcaptain) and at(rcaptain, rival_camp) "The tents that held the hands' kit are open and empty. The captain has not moved from the fire.".
+  Topic rcap_after with rcaptain "Ask {rcaptain} what happened in the howe" when at(rcaptain, rival_camp) and (rival_step(rcaptain) == 6 or rival_step(rcaptain) == 8) once {
+    Says "{rcaptain} does not look up. 'I told them it would be a good week,' she says. 'Three of them. Tomas, who had a daughter, and the two Pelhams, who had each other.' She looks at the torc at her feet, if she has it, or at her hands if she has not. 'Do you want to say it, or shall I? I shall. We were wrong.'".
+    On discuss { Assert knows(actor, rival_cost). }
+  }
+  Discovery rival_cost "The Lantern Company went into the howe and came out with its captain, a boy, and nothing it had gone for, or nothing it could keep.".
+  Observe rcap_torc_seen at rival_camp when at(king_torc_item, rival_camp) "At the captain's feet, in a cloak she has not unwrapped, a torc of braided gold and iron wire is showing at one end, as bright as the day it was made.".
+}

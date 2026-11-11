@@ -1,5 +1,7 @@
 # The Bound Howe: two played routes
 
+*Recorded against the first version of the module. The howe has since been re-engined (branch `adventure/p3-howe`): the captain is a foreman, the drovers' overheard line is a hiring-man's cart, the draws moved (kahitude now leaves the Kin's seal set), and the week has a clock. See `bound-howe-race.txt` for the routes played against the new module.*
+
 Recorded 11 November 2026 on branch `adventure/fs-expedition`. Each `[...]` is a step by the page's own label, then the page as it told it (cut at 650 characters). Played by the author through the command line; not a cold player, not the browser.
 
 ## 1. From the starting town, alone: a first-level warrior

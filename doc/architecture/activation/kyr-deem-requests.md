@@ -497,3 +497,28 @@ A warrior reading armed men, a cleric reading an oath, a thief reading a gate ar
 
 ### R91. A hazard struck on a company other than the party is unverified
 `Assert strikes(slide, crew)` is written for a rival group's fall; the Bridge spec checks where they land, not that they were hurt. *Proposal:* a spec helper to read a group's hit points, and a line in the guide saying hazards strike any group.
+
+## Branch `adventure/p3-howe` (the Bound Howe re-engined as an escalating crisis; R92 to R95)
+
+*Met while giving the howe a clock, a rival expedition and a levy (`data/situations/bound-howe/`: `crisis.kyr`, `rival.kyr`, `crew.kyr`, `town.kyr`). Each was worked round in Kyr and Deem alone; each names the smallest repro and the narrowest change.*
+
+### R92. Two bands off-screen cannot fight each other, so a rival's fight with the dead is a die and a `Slay`
+
+*Problem.* A rival expedition goes into the gallery and either beats the household or does not. Nothing in the engine resolves band against band: `rv_gallery_win` and `rv_gallery_lose` in `rival.kyr` are two rules split on `dice(clock) <= 40` (or a `tolerates` the company sold), and the loser is `Slay`ed whole. A rival that is *hurt* when the company meets it, or a household that has lost one of three, cannot be said.
+*Reproduce.* `bun bin/kyrie play --world a1 "=day 9 09:00"` and read `rival_step` (`--probe "#howe__rival_step howe__rcaptain"`): the outcome at the gallery is a coin, not a fight.
+*Request.* An effect `Skirmish <band> against <band>.` in a rule, resolved by `Battle` with each band's own statistics (headless, as `scripts/encounter-audit.ts` does), leaving each survivor at its remaining hit points and `Slay`ing only at zero. `src/lang` (effect), `src/campaign` (resolution), a spec. A few dozen lines; the audit already has the loop.
+
+### R93. A band cannot lose a member
+
+*Problem.* `Numbers 3` is all or nothing: the Lantern hands die together. To give the tread a victim the Lantern scout is a separate one-man `Person` in `rival.kyr`; to let the first company of three survive a fight with one gone there is no way.
+*Request.* `Reduce <band> by n.` (an effect, down to `able` at zero numbers), and `count(<band>)` readable in a condition, so a rule can say "one of the three does not come out" and a later meeting is with two.
+
+### R94. A crisis in one place cannot be seen from another that has a view of it
+
+*Problem.* Smoke on the ridge is visible from the near town's green and not from the first town, which is days away; `Observe … at <place>` is told wherever the company stands in that place, about a thing that happens elsewhere, with no way to say "from here, a day away, you can see". The first town needed a messenger (a hiring-man's cart, a hurdle). That is better drama, but a sighting at a distance (a beacon, smoke over a ford, a light on a tor) has no form.
+*Request.* `Observe name at <place> from <place> when …` (seen at the first from the second), sharing the perception rule of `near`/`within`; the lint can check that the two places are linked by a road within a day.
+
+### R95. A warrior reading armed men has no skill to be noticed by
+
+*Problem.* `Observe … noticed by <skill>` needs a catalogue skill; the warrior's are `brawn` and `intimidation`, and the Bound Howe borrows `intimidation` for "the diggers watch the hill, not the road" (`crew.kyr`, `lee_warrior`, `rv_camp_warrior`). A ranger's `woodcraft` does the same job for tracks, a scholar's `lore` for inscriptions, a cleric's `rites` and `insight`; the warrior has no `arms`-sense that is *noticed by*.
+*Request.* A skill `tactics` (or `arms`) granted to warrior, and to the ranger and the monk at half weight, in `data/catalog/skills.json` and `classes.json`; no engine change.
