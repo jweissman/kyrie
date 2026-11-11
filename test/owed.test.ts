@@ -13,11 +13,11 @@ import { RegionShops } from '../src/world/region-shops';
 // that telling him so would pay two coin. A look is offered only where something reads it (LookAnswers); someone
 // whose words would pay the company now is owed (Owed), and only while they would; and a jeweller keeps stones.
 class Causeway {
-  static async start() {
+  static async start(classId = 'warrior') {
     // Kite, where the wagoner is who is met on the way in (data/origins/prologue.kyrt draws one meeting a country:
     // Mere's, since the meetings were three, is a pedlar).
     const w = await WorldAssembler.assemble('kite', NodeBundleSource.shared,
-      { origin: 'kin', party: [{ name: 'Maud', raceId: 'human', classId: 'warrior' }] });
+      { origin: 'kin', party: [{ name: 'Maud', raceId: 'human', classId }] });
     return PlaySession.start(w.path, 'kite', w.source);
   }
   static async act(s: PlaySession, pattern: RegExp) {
@@ -55,4 +55,12 @@ describe('a jeweller', () => {
     expect(stones.every(([id, fee]) => Canon.items[id]?.category === 'treasure' && fee <= 300)).toBe(true);
     expect(RegionShops.stones('weapons', { means: 300, key: 'spec' })).toEqual([]);
   });
+  // A sack lifted off his load answers the meeting: the horse's head had still been offered, and his thanks after it
+  // (round 6, the register's WM-03).
+  it('offers no hand with the cart to one who has robbed it', async () => {
+    const s = await Causeway.start('thief');
+    await Causeway.act(s, /carter_lift/);
+    expect(PlayerView.choices(s.campaign).map(c => c.choice.id).filter(id => /carter_(lead|bargain)/.test(id)))
+      .toEqual([]);
+  }, 120000);
 });

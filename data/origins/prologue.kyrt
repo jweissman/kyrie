@@ -48,9 +48,12 @@
   Entity cart_bargained: fact "On the way into {home} you got a wagoner out of the ditch for a sack of his meal and a coin.".
   Entity cart_left: fact "On the way into {home} you left a wagoner in the ditch, and did not stop.".
   Entity cart_robbed: fact "On the way into {home} you lifted a sack off a wagoner's load while his back was to you.".
-  // Anyone can take the horse's head while he heaves: slower, and the horse has its own mind.
+  // Anyone can take the horse's head while he heaves: slower, and the horse has its own mind. Not once the meeting is
+  // answered otherwise: a sack lifted off his load, the horse's head had still been offered, and his thanks after it
+  // (round 6, the register's WM-03).
   Action carter_lead(actor: group, site: place) "Take the horse's head and lead it on while the wagoner heaves" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {approach}) and state(cart, ditched).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {approach}) and state(cart, ditched)
+      and not answered(actor).
     Time 3.
     On success { Retract state(cart, ditched). Assert state(cart, righted). Assert answered(actor). }
     Result "The horse throws its head twice and then leans into the collar, and with the wagoner roaring at the wheel the cart comes up out of the ditch with a lurch and a slither of meal.".
