@@ -230,3 +230,23 @@ three reasons: the Prior's charter, the crew's brass, and the House's own count)
 **Painting audit.** Earn their painting: the Bridge (a toll, a tipped deck, a mechanism on the gantry), the Ring-walk (an
 operable sight and an answer), the Reckoning Room (the rival goes down it), the Ledge's hull (the Collegium's chalk argues
 the verb). Left as scenery: the rim and Terrace (large, but they only carry the clock); not changed, and said so.
+
+**Painting pass (`adventure/p3-paintings`): the owner's ruins-* batch.** Ten new Mathematical Age paintings arrived; the
+mechanism is the one the module already uses (`places`, keyed by the module's place id, in `data/paintings/scenery.json`),
+so no Kyr request was needed (R4, an author's own painting for a room, and R11, a painting that follows the room's state,
+are what this works around). Each was bound only where the room's own text describes what the picture shows:
+
+| Room | Now shows | Why it is that room |
+|---|---|---|
+| the Landing (`arcology__landing`) | `scene-ruins-gates` | the text: doors three times a man's height, the colour of old brass, one a hand's breadth open, on a shelf of dressed stone; the painting is exactly that, with a balustrade and the terraces beyond (the Landing had no painting) |
+| the Terrace of Tiers (`arcology__terrace`) | `scene-ruins-citadel` | "ring on ring of balconied terraces climb the cliff, ivy, a waterfall out of the fourth ring" is the picture; it replaces `scene-ecumenopolis`, a city to the horizon from a balcony, now dormant |
+| the rim of the Great Void (`arcology__rim`) | `scene-ruins-terrace` | a lamplit gallery on the inside of a glass-roofed void, bridges across, falls down the far walls; replaces `scene-ruins-arcology` here (that still holds the Bridge's two ends) |
+| the Hanging Garden (`arcology__garden`) | `scene-ruins-garden` | stepped beds, channels and a stair under a vault, a pool with falls; replaces the generic `scene-enchanted-glade` |
+| the Drowned Level (`arcology__drowned`) | `scene-ruins-flooded` | pillars standing in still water, a valve-wheel on a pipe, shafts of light from above; replaces `scene-cistern`. It is the full-water picture: when the level is drained the room's text says silt, and the painting is wrong (request R11, still open) |
+| the stalled lift (`arcology__cage`) | `scene-ruins-elevator-station` | by the `lift` kind (word "lift"): a stop on a cabled tower with crates, a lantern and a banner. A moderate fit: the room is the cage, the painting its stop; said so rather than claimed |
+
+Not bound, with reasons in `doc/architecture/activation/dormant.json`: `scene-ruins-bridge` (the Bridge of Weights is bronze
+plate on chains, this is a stone arch), `scene-ruins-hall` (the House has no room that is that colonnade), `scene-ruins-elevator`
+and `scene-ruins-elevator-base` (a tower seen whole from outside; the lift here is inside). Not verified by eye in the
+browser: the six bindings are verified by a script that asks the page's own `Scenery.seen` for each room (`bun scripts/rooms-painted.ts`
+for the generated ones; the arcology rooms with `arcology__`-prefixed ids by a `Journey` placed at each).
