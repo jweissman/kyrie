@@ -130,10 +130,14 @@ export class ScenarioWord {
   }
   // The way in is found by looking about where it starts, as well as by hearing of the trouble: a company that came
   // on the place by itself is not shut out of it (the follow-up review searched a pit and found no way down into it).
+  static readonly sign = 'There is more here than the way you came by, and the place would bear searching.';
   private static searched(found: { known: string; told: string }, role: string,
     at: { placement: Placement; lines: string[]; imports: Record<string, string>; declared: Set<string> }) {
     const place = this.named(role, at.placement, at).slice(1, -1), q = JSON.stringify;
     at.lines.push(`  Discovery way_found ${q(found.known)} {`, `    Found by searching ${place} ${q(found.told)}.`, '  }',
-      '  Initially Assert revealedBy(route_in, way_found).');
+      '  Initially Assert revealedBy(route_in, way_found).',
+      // Said where the way starts, so that a company come there without the word is told the place bears searching:
+      // the mouth of Silkholme sink had stood with no way in and nothing said of one (the owner, 10 November).
+      `  Observe way_sign at ${place} as sign when not knows(party, way_found) ${q(ScenarioWord.sign)}.`);
   }
 }
