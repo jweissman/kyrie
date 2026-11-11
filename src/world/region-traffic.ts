@@ -121,7 +121,8 @@ export class RegionTraffic {
   }
   // A place off the road they know of, near one of its ends, and would tell a company that asked about the country.
   private static knows(region: Region, t: Traveller): string[] {
-    const q = JSON.stringify, seat = RegionGeography.seats(region).find(x => !x.site.work?.great
+    const q = JSON.stringify, seat = RegionGeography.seats(region)
+      .find(x => !x.site.work?.great && !x.site.work?.imperial
       && [t.road.from.id, t.road.to.id].includes(x.town.id));
     if (!seat) { return []; }
     const named = `${seat.site.id}_named`, look = RegionSites.look(seat.site, region), called = RegionSites.seenAs(seat, region);

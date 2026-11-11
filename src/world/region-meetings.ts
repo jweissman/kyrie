@@ -76,7 +76,8 @@ export class RegionMeetings {
   // looking for it, and not one standing here.
   static lead(region: Region, cell: number): Seat | undefined {
     const land = RegionGeography.atlas(region).land;
-    return RegionGeography.seats(region).filter(s => !s.site.work?.great && s.site.cell !== cell)
+    return RegionGeography.seats(region)
+      .filter(s => !s.site.work?.great && !s.site.work?.imperial && s.site.cell !== cell)
       .map(s => ({ s, d: Terrain.distance(land, s.site.cell!, cell) })).filter(x => x.d <= 8)
       .sort((a, b) => a.d - b.d)[0]?.s;
   }

@@ -1,0 +1,208 @@
+# outskirts-deep: the Hall below stairs and in its papers, and the old stones below the dome: the starting town's two near places, made deeper.
+// A Kyr template (see src/world/kyr-template.ts), added to the two places of outskirts.kyrt without changing them: it
+// hangs new rooms, people and troubles on their ids ({t}_manor_*, {t}_stones_*). {t} is the town's id, {town} its name;
+// {old}, {craft}, {belief}, {makersfact}, {kingdom} as there; {station}, {stationname} and {stationwhere} the Empire's
+// posting-house on the old road (the group "road" says "if station", so is written only in a country that has one). Nothing here is an aim:
+// every part of it is found by walking, asking, or reading what is lying about. Drawn by the town's own key.
+//
+// The cast, and what they want apart from the company:
+//   Orla Pennick, the Hall's cook: feeds forty on a budget for ten, hates the steward's rules, and is fond of Tam.
+//   Tam, the kitchen boy: the one who went up to the dome and came down not knowing his own name.
+//   Wystan Hale, the gamekeeper: a castellan's soldier once; sworn to the Hall's chain across the road-wood, and sick of it.
+//   Aldous Fenn, reeve of the wood-wardens at the green: his father was dismissed from the Hall; he would like to be proved right.
+// A quarrel over the road-wood joins them all, and an Imperial grant (the road is no one's, and must be kept) settles it.
+--- base
+  // ---- The Hall, below stairs: a kitchen, a cellar, and the papers.
+  Place {t}_manor_kitchen "the Hall kitchen" is room within {t}_manor at 0, 1 indoors.
+  Place {t}_manor_cellar "the Hall cellar" is room within {t}_manor at 0, 2 underground.
+  Place {t}_manor_muniments "the muniment room" is room within {t}_manor at 1, 2 indoors.
+  Passage {t}_manor_kdoor "the kitchen door" is door between {t}_manor_front and {t}_manor_kitchen.
+  Passage {t}_manor_cellar_steps "the cellar steps" is steps between {t}_manor_kitchen and {t}_manor_cellar.
+  Passage {t}_manor_pressdoor "the press-door in the library" is door between {t}_manor_library and {t}_manor_muniments.
+  Initially Assert unlit({t}_manor_cellar). Initially Assert unlit({t}_manor_muniments).
+  Observe {t}_manor_kitchen_scene at {t}_manor_kitchen when true "A flagged kitchen with a hearth you could stable a horse in, a table scarred by a century of cleavers, copper pans in rows, and a dresser with a missing plate. Everything in it is clean, and nothing is where you would put it; the room is arranged to the convenience of one person only.".
+  Observe {t}_manor_cellar_scene at {t}_manor_cellar when true "A vaulted cellar, cold and dry, with barrels on their sides in racks and a smell of apples. The back wall is not like the others: a bay of larger stone, dressed smooth, with a rounded top, bricked in with the Hall's small grey bricks.".
+  Observe {t}_manor_muniments_scene at {t}_manor_muniments when true "A windowless room lined with presses and chests, each with a tag in a different hand, none of them recent. The air is dry as biscuit. Papers lie where the last person left them, in a fan, under a paperweight of green glass.".
+  Person {t}_manor_cook "Orla Pennick" at {t}_manor_kitchen {
+    Role "the cook of the Hall, who feeds forty on a budget for ten". Ancestry human. Peaceable. Manner acerbic. Pronouns she.
+    Greets "Orla Pennick does not stop what she is doing. 'If you want feeding, the answer is no. If you want hiding, the answer is also no. If you want to be useful, there's a sack of onions.'".
+  }
+  Person {t}_manor_boy "Tam" at {t}_manor_kitchen {
+    Role "the kitchen boy, who went up to the dome and came back not knowing his name". Ancestry human. Peaceable. Manner stoic. Pronouns he.
+  }
+  Observe {t}_manor_boy_seen at {t}_manor_kitchen when true "A boy of ten or so sits on the settle by the hearth turning the same potato over and over in his hands. Every so often he hums, three notes down and one up, and stops, and looks surprised.".
+  Topic {t}_manor_cook_hall with {t}_manor_cook "Ask {{t}_manor_cook} about the steward" when true once {
+    Says "'The steward,' says {{t}_manor_cook}, 'has counted the spoons every night for eleven years. There are fourteen. There have always been fourteen. I have asked her what she thinks will happen to the fifteenth.' She lifts a pan, looks at it, puts it down. 'She is a good woman and I would not give her my gravy.'".
+  }
+  // A small trouble to be got out of the way for a cook who will not ask: the rats in her cellar.
+  Person {t}_manor_rats "rats in the cellar" at {t}_manor_cellar {
+    Role "rats grown bold on the Hall's apples, that have come up from the old wall behind the racks". Species rat. Numbers 3. Level 1. Temperament territorial. Lair {t}_manor_cellar.
+    Warns "The racks shiver. Three brown rats the length of your forearm come out of the dark behind the barrels and do not run.".
+  }
+  Topic {t}_manor_cook_rats with {t}_manor_cook "Ask {{t}_manor_cook} what is the matter with the cellar" when able({t}_manor_rats) once {
+    Says "'Rats,' says {{t}_manor_cook}, flatly. 'Bolder than the steward. The steward says it's a matter for the cat. I've told her the cat has handed in her notice.' She does not look at you. 'There's eight silver in it, if someone happened to go down.'".
+  }
+  Topic {t}_manor_cook_ratsdone with {t}_manor_cook "Tell {{t}_manor_cook} the cellar is clear" when not able({t}_manor_rats) and at(party, {t}_manor_kitchen) once {
+    Says "'Well,' says {{t}_manor_cook}. She goes to the dresser and takes down a coin-dish, and counts out eight silver, and then stands there with a mutton pie she did not appear to be holding a moment ago. 'Sit. Eat. Nobody in this house has said thank you in nine years, so you may have the pie instead.'".
+    On discuss { Give 8 gold to actor. Assert {t}_manor_ratsdone(party). }
+  }
+  Relation {t}_manor_ratsdone(group). Relation {t}_manor_keyknown(group).
+  Entity {t}_manor_key_told: fact "The cook knows where the old press key is kept: on a nail behind the dresser, where she hung it when the steward lost it.".
+  Topic {t}_manor_cook_key with {t}_manor_cook "Ask {{t}_manor_cook} about the muniment press" when {t}_manor_ratsdone(party) once {
+    Says "'The press? The steward has not had the key in forty years and she knows it, and she would sooner be dead than ask me.' {{t}_manor_cook} reaches behind the dresser without looking and takes down a black iron key on a loop of string. 'It was there when I came. Nobody has asked.'".
+    On discuss { Assert knows(actor, {t}_manor_key_told). }
+  }
+  Kind {t}_manor_key_kind "the old press key" is treasure worth 1 weighing 1 described "A black iron key on a loop of string, long as a hand, with a bit cut like a castle.".
+  Item {t}_manor_key "the old press key" is {t}_manor_key_kind at {t}_manor_kitchen hidden until {t}_manor_key_told.
+  Thing {t}_manor_press "the muniment-press door" on {t}_manor_pressdoor {
+    State locked blocking "The press-door in the library is shut, and has been so long that the paint has joined it to the frame. It has a keyhole, a good one.".
+    State open "The press-door is open.".
+    Change key "Unlock the press-door with the old key" from locked to open needing {t}_manor_key_kind.
+    Change pick "Pick the press-door's lock" from locked to open needing lockwork.
+    Change force "Break the press-door's lock with a crowbar" from locked to open needing crowbar.
+  }
+  // Whoever opens the press otherwise than by the key has been seen to by the house: broken, it is spoken of.
+  Observe {t}_manor_press_forced at {t}_manor_library when state({t}_manor_press, open) and not holding(party, {t}_manor_key_kind) "The press-door is open, and the paint-seam has been cracked right across it. The steward will not like that.".
+  // ---- The old wall in the cellar: the way under the hill.
+  Discovery {t}_tunnel_found "The old wall at the back of the Hall cellar is not the Hall's: it is dressed in the way of {old}, and a passage behind it goes under the hill." {
+    Found by searching {t}_manor_cellar "Behind the rats' run, one of the Hall's small grey bricks comes away in your hand, and the stone beyond is cold as a well, cut true, and there is a draught.".
+    Found by searching {t}_stones_under "In the south wall of the undercroft a low arch has been walled up, from this side, with the same grey bricks the Hall is built of.".
+  }
+  Passage {t}_stones_tunnel "the old passage under the hill" is crawl between {t}_manor_cellar and {t}_stones_under taking 20 minutes hidden until {t}_tunnel_found.
+  // ---- The old stones, below the dome.
+  Place {t}_stones_under "the undercroft below the dome" is room within {t}_stones at 2, 1 underground.
+  Initially Assert unlit({t}_stones_under).
+  Observe {t}_stones_under_scene at {t}_stones_under when true "A round chamber under the dome, cut in the living rock. A ring of niches in the wall, each the length of a body, each with a lamp-hollow at its head. The air is stale but quite clean; the dead were not left to rot here. A bronze chime hangs from the roof by a chain, as long as a man's arm, and sways in the draught from the tunnel.".
+  Discovery {t}_slab_found "One slab among the low graves of the dome has been moved, and moved back: its edge is rubbed pale, and a thumb's width of black shows." {
+    Found by searching {t}_stones_dome "One slab among the graves has a bright edge where hands have shifted it. Under it, a stair goes down, steep and narrow.".
+  }
+  Passage {t}_stones_slabstair "the stair under the slab" is stair between {t}_stones_dome and {t}_stones_under hidden until {t}_slab_found needing brawn or crowbar.
+  Thing {t}_stones_chime "the bronze chime" at {t}_stones_under {
+    State still "The chime hangs from the roof on its chain, and the tongue is tied back with a strip of cloth.".
+    State struck "The chime has been struck: three notes down, one up, and the sound lingers in the stone like an answered question.".
+    Change strike "Cut the cloth and strike the chime" from still to struck.
+  }
+  Observe {t}_stones_chime_learned at {t}_stones_under of {t}_stones_chime as revelation when state({t}_stones_chime, struck) "It is Tam's four notes, exactly, and the chamber rings with them. Whoever the makers were, they sent this signal to their dead, or from them. {craft}" teaches {t}_boy_tune.
+  Entity {t}_boy_tune: fact "Tam's humming is the old stones' chime: three notes down, one up. He must have heard it struck.".
+  Kind {t}_stones_cup_kind "a bronze cup of the old stones" is treasure worth 35 weighing 1 described "A shallow bronze cup no bigger than a hand, green with age, with a lip bent from being dropped. It was the offering of the least of the dead, placed at the foot of the niche that is lowest. Taken, it is stolen from the dead; returned, it is only a cup.".
+  Item {t}_stones_cup "a bronze cup of the old stones" is {t}_stones_cup_kind at {t}_stones_under.
+  Thing {t}_stones_niche "the lowest niche" at {t}_stones_under {
+    State bare "At the foot of the lowest niche a ring of dust shows where a small thing stood a long time and was lifted.".
+    State restored "The bronze cup stands again in its ring of dust at the foot of the lowest niche.".
+    Change set "Set the bronze cup back in its ring of dust" from bare to restored needing {t}_stones_cup_kind.
+  }
+  Relation {t}_tam_well(group).
+  Rule {t}_tam_mends when state({t}_stones_niche, restored) and not {t}_tam_well(party) says "Somewhere above, in the Hall, a boy stops humming." { Assert {t}_tam_well(party). }
+  Topic {t}_manor_cook_tam with {t}_manor_cook "Ask {{t}_manor_cook} about the boy" when true once {
+    Says "'Tam,' says {{t}_manor_cook}, and her voice does something it has not done all day. 'He went up the hill on a dare, in the autumn, and he came down a week after at the back door in his stockinged feet, and did not know me. He knows me now. He does not know what he did. He hums.' She puts a spoon in the pot and takes it out again. 'If you are going up there, and you are, bring me the hearing of it. I do not care what it costs me.'".
+  }
+  Topic {t}_manor_boy_talk with {t}_manor_boy "Ask Tam what he heard on the hill" when true once {
+    Says "{{t}_manor_boy} turns the potato over. 'There was a bell,' he says. 'Not a real one, under. I went down to see it. It was only a bell.' He stops. 'Does she know I took the cup?' He is white. 'It was lying there on its own. I only wanted to keep it till I had looked at it. I put it in my shirt and I went up the stair, and then I don't know.'".
+    On discuss { Assert knows(actor, {t}_boy_tune). }
+  }
+  Observe {t}_manor_tam_after at {t}_manor_kitchen when {t}_tam_well(party) "Tam is at the table peeling onions with a ferocity that makes the cook raise an eyebrow, and humming nothing at all. When he sees you he gets up and gives you, solemnly, the only thing he has in his pocket, which is a clean pebble.".
+  // ---- The road-wood: who owns the timber along the old road?
+  Person {t}_reeve "Aldous Fenn" at {t}_green {
+    Role "reeve of the wood-wardens, who regulate who cuts what in the woods round {town}". Ancestry human. Peaceable. Manner proud. Pronouns he.
+    Greets "Aldous Fenn looks you over with the air of a man sizing up timber. 'You'll be walking out to the Hall, I suppose. Everyone with boots does.'".
+  }
+  Relation {t}_roadwood_open(group). Relation {t}_roadwood_shared(group). Relation {t}_roadwood_hall(group).
+  Entity {t}_roadwood_grant: fact "The Empire's grant of the road, in the Hall's muniments: fifty paces either side of the road belong to the road, not to the Hall or the town; whoever cuts there owes the road its keeping.".
+  Topic {t}_reeve_chain with {t}_reeve "Ask {{t}_reeve} about the chain at the Hall" when true once {
+    Says "'The chain across the old road at the Hall's end,' says {{t}_reeve}, 'was put up six years ago, when the family stopped coming. The steward says the road-wood is the Hall's and always was. The wardens have cut there since before there was a Hall. My father swore to it.' He studies his boots. 'My father was put out of that house for saying so, and the family never paid his last quarter. I am not asking you to be unfair. I am asking you to find the paper. There is one. There is always one.'".
+    On discuss { Assert {t}_roadwood_open(party). }
+  }
+  Topic {t}_manor_steward_chain with {t}_manor_steward "Ask {{t}_manor_steward} about the chain across the road" when {t}_roadwood_open(party) once {
+    Says "'The chain stays,' says {{t}_manor_steward}. 'The road-wood is the Hall's. The family's charter says so in plain words. The reeve and his wardens have cut there by sufferance and have forgotten it was sufferance.' A pause that is a quarter of an inch too long. 'There is, I believe, an older paper that bears on the matter. The press in the library. I have not had the key since I was a girl, and I will not ask the cook.'".
+  }
+  Topic {t}_manor_keeper_chain with {t}_manor_keeper "Ask {{t}_manor_keeper} about the chain" when true once {
+    Says "'I stand here,' says {{t}_manor_keeper}. 'Six years. A man comes to cut, I say not today. He goes. I like the reeve. His father was my corporal. I have not said a word to him that was not about oak since the autumn I started.' He looks at the chain as if it were an old injury. 'I would very much like to be told it was somebody else's business.'".
+    On discuss { Assert {t}_roadwood_open(party). }
+  }
+  Topic {t}_steward_reads with {t}_manor_steward "Ask {{t}_manor_steward} to read the parchment in the press" when state({t}_manor_press, open) and not knows(party, {t}_roadwood_grant) once {
+    Says "{{t}_manor_steward} takes the parchment from you as if it might bite. She reads it with a finger under each line, her lips moving, and her colour goes, line by line, until she is quite grey. 'That is the Emperor's hand,' she says. 'I was taught it as a girl, for the Hall's seals. I never thought I should be asked to use it.' She reads it aloud, slowly, to the end, and sits down on the nearest chest. 'Well,' she says. 'Well.'".
+    On discuss { Assert knows(actor, {t}_roadwood_grant). }
+  }
+  Thing {t}_manor_deed "the road-grant in the press" at {t}_manor_muniments {
+    State folded "Among the papers in the fan, under the green paperweight, a sheet of thin cream parchment is folded in thirds, with a hanging seal of grey lead: a wheel with a wing. The script is the old script.".
+    State read "The grant of the road: the Emperor's own, to the district, for the keeping of the Posts. The road and fifty paces either side are held for the road, by none, and are to be kept clear and mended by whoever shall have the use of them, and no private person shall set a chain upon them. The clause that names the road's bounds stops short, at a bend, in four words: AS FAR AS THE WORKS. Beneath, in a hand a thousand years later and a different ink: SEEN BY ME, ISENHEALD'S CLERK, AND NOT UNDERSTOOD.".
+    Change read "Read the grant that is under the paperweight" from folded to read needing lore.
+  }
+  Observe {t}_manor_deed_learned at {t}_manor_muniments of {t}_manor_deed as reading when state({t}_manor_deed, read) "It is not a charter of the Hall's. It is older than the Hall by a long age, and by a kingdom or two. And the chain, and the family's charter, and the reeve's father, all hang from a sentence nobody has read in a thousand years." teaches {t}_roadwood_grant.
+  Observe {t}_manor_deed_seen at {t}_manor_muniments when not state({t}_manor_deed, read) "A sheet of cream parchment with a lead seal lies in the fan of papers, and has been lying there since someone put it down and did not pick it up again.".
+  // Settling it: shared between the two, on the condition both keep the road; or given to the Hall alone.
+  Topic {t}_reeve_settled with {t}_reeve "Tell {{t}_reeve} what the grant says" when knows(party, {t}_roadwood_grant) and not {t}_roadwood_shared(party) and not {t}_roadwood_hall(party) once {
+    Says "{{t}_reeve} listens to the end with his hat in his hand. 'Fifty paces either side belong to the road,' he says. 'Not to the Hall. Not to the wardens. To the road, and the road wants keeping.' He laughs, once, a short rough laugh. 'My father was wrong and the steward was wrong, and each is a little right. The wardens will keep the road from the green to the Hall's gate. If the Hall keeps it from there to the ford, I will cut nothing without a licence.' He presses twelve silver on you, and will not take it back.".
+    On discuss { Assert {t}_roadwood_shared(party). Increase quantity(actor, gold) by 12. }
+  }
+  Topic {t}_steward_settled with {t}_manor_steward "Show {{t}_manor_steward} the grant" when knows(party, {t}_roadwood_grant) and {t}_roadwood_shared(party) once {
+    Says "{{t}_manor_steward} reads it twice, at arm's length, and her mouth thins. Then something goes out of her shoulders that has been in them a long time. 'The Hall keeps its half of the road,' she says. 'Tell Hale he may take the chain down. Tell him it was the family's chain, and the family was wrong, and I will write it so to the family myself, in my own hand. Thank you. I mean that.' From the ring of keys she takes a small purse. 'The Hall is not ungrateful. It merely takes a long while to say so.'".
+    On discuss { Give 10 gold to actor. Assert willing({t}_manor_keeper, actor). Set hire({t}_manor_keeper) to 0. }
+  }
+  Topic {t}_steward_hall_only with {t}_manor_steward "Give {{t}_manor_steward} the grant, and say nothing to the reeve" when knows(party, {t}_roadwood_grant) and not {t}_roadwood_shared(party) once {
+    Says "{{t}_manor_steward} reads it, and folds it, and puts it in her sleeve. 'I will see that the family hears of it,' she says. 'The chain stays, for now, until the family decides.' She gives you a handful of silver and does not meet your eye. 'The reeve need not trouble himself with the paper.'".
+    On discuss { Give 15 gold to actor. Assert {t}_roadwood_hall(party). }
+  }
+  Observe {t}_roadwood_talk at {t}_green when {t}_roadwood_shared(party) "The wardens are cutting the road-wood again, in a line, with a licence-stick each, and a boy running ahead of them with a billhook trimming the verge. It is the first time anyone has seen the road clear in six years, and the Hall's carts are on it.".
+  Observe {t}_roadwood_sour at {t}_green when {t}_roadwood_hall(party) "The wood-wardens go about with their hats low. Nobody has told the reeve anything, and he knows, and the whole green knows he knows.".
+  Observe {t}_keeper_free at {t}_manor_front when {t}_roadwood_shared(party) and at({t}_manor_keeper, {t}_manor_front) "The chain hangs on its post, coiled, and Wystan Hale stands beside it without a task, looking, for the first time, as if he does not know what to do with his hands.".
+--- tam voice 3
+  Topic {t}_manor_boy_voice with {t}_manor_boy "Ask Tam what he saw" when true once {
+    Says "'Lights,' says {{t}_manor_boy}. 'Round and round. They had faces, nearly. They were singing something that wasn't singing, it was counting. One of them came right up to me and looked in my eyes and I said my name, and she took it.'".
+  }
+--- tam fall 2
+  Topic {t}_manor_boy_voice with {t}_manor_boy "Ask Tam what he saw" when true once {
+    Says "'Nothing,' says {{t}_manor_boy}, 'I fell.' He turns the potato over. 'There was a slab, and it moved, and I went down a stair that was not there, and I woke up in the dark with my head wet. I called, and called. Somebody called back, but it was only me, a long way off.'".
+  }
+--- tam silence 1
+  Topic {t}_manor_boy_voice with {t}_manor_boy "Ask Tam what he saw" when true once {
+    Says "{{t}_manor_boy} says nothing at all, for a long time, and then begins to hum, and the three notes down and the one up go round the kitchen, and the cook, at the far end of it, puts both hands flat on the table and looks at the wall.".
+  }
+--- quarrel oak 2
+  Observe {t}_quarrel_oak at {t}_green when not {t}_roadwood_shared(party) "The boat-sheds are short of oak this year, and every boatwright will tell you why: the Hall has chained the road-wood, and the good timber is behind it.".
+--- quarrel herd 2
+  Observe {t}_quarrel_herd at {t}_green when not {t}_roadwood_shared(party) "The town herd has been driven twice this month from the verge of the old road by the Hall's keeper, and the swineherd has opinions about it that he is happy to share with anyone who will stand still.".
+--- under revenant 2
+  Person {t}_stones_warden "the keeper of the bounds" at {t}_stones_under {
+    Role "the long dead of the old stones, whose duty it was to keep the bounds, and who has kept it past reason". Species revenant. Level 2. Temperament wary. Lair {t}_stones_under.
+    Warns "In the niche nearest the stair something sits up, slowly, the way a sleeper sits who has been woken before. It looks at the cup in your hand, if you have it, and then at you.".
+  }
+  Observe {t}_stones_warden_sign at {t}_stones_dome as sign noticed by perception when able({t}_stones_warden) "A groove is worn from the dome's centre-slab to the edge of the floor, as if something heavy had been dragged back and forth along it for a very long time.".
+--- under bats 2
+  Person {t}_stones_bats "bats in the undercroft" at {t}_stones_under {
+    Role "a colony of bats in the roof of the undercroft, which wheel down when a light comes in". Species bat. Numbers 6. Level 1. Temperament territorial. Lair {t}_stones_under.
+    Warns "The roof comes alive, leather and squeal, a cloud of bats with the light in their eyes.".
+  }
+--- under quiet 1
+  Observe {t}_stones_quiet at {t}_stones_under when true "Nothing lives here. The dust lies in a smooth skin on everything and has your footprints in it alone, and, a long way back, the print of one small bare foot.".
+--- road station 1 if station
+  Topic {t}_manor_steward_road with {t}_manor_steward "Ask {{t}_manor_steward} about the old road" when true once {
+    Says "'The old paved road?' says {{t}_manor_steward}. 'There is a stage-house on it, I am told, out in {stationwhere}: {stationname}. The family has some right in the ground about it. We have never used it. The papers would say.'".
+    On discuss { Assert knows(actor, {station}_named). Assert knows(actor, {station}_found). }
+  }
+  Observe {t}_station_deed_lead at {t}_manor_muniments when state({t}_manor_deed, read) "The grant's margin names the stage-house at {stationname}, the nearest of the Posts' houses on this road, and says the road's own papers are kept there." teaches {station}_named.
+  Observe {t}_station_deed_found at {t}_manor_muniments when state({t}_manor_deed, read) "The way to {stationname} is set down plainly in the clerk's hand: the road itself, past the ford, and the arch on the right." teaches {station}_found.
+--- keeper road 1 if station
+  Person {t}_manor_keeper "Wystan Hale" at {t}_manor_front {
+    Role "the gamekeeper of the Hall, once a castellan's spearman, who has been told to stand at the road-wood chain and let nobody cut". Ancestry human. Calling ranger. Background hunter. Level 2. Peaceable. Manner stoic. Pronouns he.
+    Seen when hour(clock) >= 6 and hour(clock) < 20.
+    Greets "Wystan Hale does not move from the end of the chain. 'Not today,' he says, not unkindly. 'Tell the reeve it's not today. Tell him it's not been today for six years.'".
+    Joins "Wystan Hale unhooks the chain, coils it, hangs it on the nearest post as if it were a snake gone to sleep, and shoulders his bow. 'Seven years,' he says. 'I never once wanted to be this man. Where are we going?'".
+    Leaves "Wystan Hale looks at the trees for a moment. 'There's something I should see to,' he says. 'I'll be at the Hall. I always know where the Hall is.'" to {t}_manor_front.
+    Remarks at {t}_stones_hall "Wystan Hale stands at the foot of the dais and looks up at the figures. 'My mother's people would not come up here,' he says. 'They said the judges were still sitting. I never believed it. I would like to know now who they were judging.'".
+    Remarks at {t}_stones_under "Wystan Hale stops in the arch with his hand on his bow and does not draw it. 'I have walked this hill since I was seven,' he says, very low, 'and it was here under me the whole time.'".
+    Remarks at {t}_manor_kitchen "Wystan Hale takes off his hat in the kitchen doorway, as he has not done at the front door in seven years. 'Orla,' he says. 'I am not here for the chain.' The cook does not look round. 'Then wipe your boots,' she says.".
+    Remarks at {station}_yard "Wystan Hale walks to the middle of the cobbled yard and turns slowly round. 'The road,' he says. 'Somebody kept this, and I was told to keep a chain across the end of it.' He is quiet a while. 'I should like to have kept it properly.'".
+    Remarks at {station}_shrine "Wystan Hale takes off his hat to the figure, with no particular ceremony, and puts it back on. 'My corporal's old saying,' he says. 'Wave on the tired.'".
+  }
+--- keeper plain 1 unless station
+  Person {t}_manor_keeper "Wystan Hale" at {t}_manor_front {
+    Role "the gamekeeper of the Hall, once a castellan's spearman, who has been told to stand at the road-wood chain and let nobody cut". Ancestry human. Calling ranger. Background hunter. Level 2. Peaceable. Manner stoic. Pronouns he.
+    Seen when hour(clock) >= 6 and hour(clock) < 20.
+    Greets "Wystan Hale does not move from the end of the chain. 'Not today,' he says, not unkindly. 'Tell the reeve it's not today. Tell him it's not been today for six years.'".
+    Joins "Wystan Hale unhooks the chain, coils it, hangs it on the nearest post as if it were a snake gone to sleep, and shoulders his bow. 'Seven years,' he says. 'I never once wanted to be this man. Where are we going?'".
+    Leaves "Wystan Hale looks at the trees for a moment. 'There's something I should see to,' he says. 'I'll be at the Hall. I always know where the Hall is.'" to {t}_manor_front.
+    Remarks at {t}_stones_hall "Wystan Hale stands at the foot of the dais and looks up at the figures. 'My mother's people would not come up here,' he says. 'They said the judges were still sitting. I never believed it. I would like to know now who they were judging.'".
+    Remarks at {t}_stones_under "Wystan Hale stops in the arch with his hand on his bow and does not draw it. 'I have walked this hill since I was seven,' he says, very low, 'and it was here under me the whole time.'".
+    Remarks at {t}_manor_kitchen "Wystan Hale takes off his hat in the kitchen doorway, as he has not done at the front door in seven years. 'Orla,' he says. 'I am not here for the chain.' The cook does not look round. 'Then wipe your boots,' she says.".
+  }

@@ -56,7 +56,7 @@ export interface Settlement extends Naming {
 export interface Site extends Naming { id: string; kind: string; name: string; hours: number; near?: string;
   cell?: number; zone?: string; part?: number;
   // The makers' work it is, if it is one (see Histories): by which plan and art.
-  work?: { plan: string; art: string; great?: boolean; deep?: boolean } }
+  work?: { plan: string; art: string; great?: boolean; deep?: boolean; imperial?: boolean } }
 export interface Region extends Naming {
   name: string; terrain: string; ancestry: string; domain: string; deity: string;
   settlements: Settlement[]; sites: Site[]; wonder: { kind: string; description: string };

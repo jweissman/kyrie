@@ -33,7 +33,8 @@ export class RegionRumours {
   // gallery and a mummy that killed a lone first-level warrior at its door: register M19-233). Those are found later,
   // by the way down under a town or by word of them.
   static told(region: Region): Seat[] {
-    return RegionGeography.seats(region).filter(s => !s.site.work?.great && !s.site.work?.deep);
+    return RegionGeography.seats(region)
+      .filter(s => !s.site.work?.great && !s.site.work?.deep && !s.site.work?.imperial);
   }
   // The sites nearest a town, by the land between.
   static nearest(region: Region, town: Region['settlements'][number], seats: Seat[]): Seat[] {
