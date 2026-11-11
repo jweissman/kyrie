@@ -1,4 +1,3 @@
-import type { CSSProperties } from 'react';
 import { Glyphs } from '../creation/glyphs';
 import type { Aspect } from '../../../src/presentation/glance-types';
 import { Emphasis, type Tone } from '../emphasis';
@@ -19,6 +18,7 @@ import { Act, type Draw } from './act';
 import { GlanceStage } from './glance';
 import { Explorer } from './explorer';
 import { SceneRail } from './scene-rail';
+import { Pip } from './pip';
 import { LookAbout } from './look-about';
 import { MorePane } from './more-pane';
 import { PlaceStage } from './place-stage';
@@ -52,7 +52,7 @@ export class WorldStage {
       <article className={`world-page scale-${overworld ? 'board' : 'scene'} kind-${PlaceStage.kind(screen)}`
         + `${screen.dark ? ' dark' : ''}${up ? ` raised-${up}` : ''}`
         + `${stopped ? ' interrupted' : ''}${threat ? ' threatened' : ''}`} id="page">
-        <header className="world-bar"><div className="title-block"><Told.Heading frame={frame} /></div></header>
+        <header className="world-bar"><div className="title-block"><Told.Heading frame={frame} app={app} /></div></header>
         <div className="world-body">
           <section className="surface" aria-label="Where you are">
             {overworld ? <WorldStage.Board app={app} screen={screen} chosen={focus} choose={pick} />
@@ -98,7 +98,7 @@ export class WorldStage {
           className={`${x.kind}${x.danger ? ' danger' : ''}${seen.gilded ? ' led' : ''}`
             + `${x.stake ? ' stake' : ''}${x.owed ? ' owed' : ''}${seen.tone ? ` toned tone-${seen.tone}` : ''}`}
           data-aspects={seen.aspects.join(' ') || undefined}>
-          <WorldStage.Portrait subject={x} draw={draw} ring={seen.prism} /></li>; })}
+          <WorldStage.Portrait subject={x} draw={draw} pip={seen} /></li>; })}
       </ul>
     );
   }
@@ -128,16 +128,17 @@ export class WorldStage {
   // aspects of those, together, never a claim that each thing to be done with them has them all. Gold only where they
   // are the aim's next step and the way is shown (see Guidance); several, a ring through their tones (the owner, 11
   // November: a person aggregates the known aspects of what can be done with them).
-  static seen(app: ReaderApp, x: SceneSubject): { aspects: Aspect[]; gilded: boolean; tone?: Tone; prism?: string } {
+  // Drawn as one pip by the likeness (see Pip); a danger the company perceives in them is among them.
+  static seen(app: ReaderApp, x: SceneSubject): { aspects: Aspect[]; gilded: boolean; tone?: Tone; fill?: string;
+    label: string } {
     const acts = (app.state.frame?.leaf.glance?.acts ?? []).filter(a => a.subject === x.id);
     const gilded = acts.some(a => a.continues) && Guidance.shown(app);
-    const all = [...acts.flatMap(a => a.aspects), ...x.owed ? ['payoff' as const] : []];
+    const all = [...acts.flatMap(a => a.aspects), ...x.owed ? ['payoff' as const] : [], ...x.danger ? ['danger' as const] : []];
     const aspects = all.filter((a, i) => all.indexOf(a) === i).sort((a, b) => Number(b === 'undertaking') - Number(a === 'undertaking'));
-    const { tone } = Emphasis.of(aspects, gilded);
-    const prism = Emphasis.prism(aspects, gilded)?.replace('linear-gradient(in oklab 180deg,', 'conic-gradient(in oklab,');
-    return { aspects, gilded, ...tone ? { tone } : {}, ...prism ? { prism } : {} };
+    const { tone } = Emphasis.of(aspects, gilded), fill = Pip.fill(aspects, gilded);
+    return { aspects, gilded, ...tone ? { tone } : {}, ...fill ? { fill } : {}, label: Pip.words(aspects, gilded) };
   }
-  static Portrait({ subject: x, draw, ring }: { subject: SceneSubject; draw: Draw; ring?: string }) {
+  static Portrait({ subject: x, draw, pip }: { subject: SceneSubject; draw: Draw; pip?: { fill?: string; label: string } }) {
     // One with nothing to say or do now is a likeness, not a way into a conversation with nothing in it.
     const into = x.live || x.kind === 'animal' || x.kind === 'creature' ? WorldStage.into(x) : undefined, face = x.portrait
       ? /(^|\/)(animals|monsters)\//.test(x.portrait.src)
@@ -145,9 +146,8 @@ export class WorldStage {
         : <img src={x.portrait.src} alt="" decoding="async" style={{ objectPosition: `50% ${x.portrait.focus}%` }} />
       : <Glyphs.View id={Glyphs.met(x)} className="emblem" />;
     const name = Typography.curl(Words.upper(x.name));
-    const body = <>{ring && <span className="aspect-ring" aria-hidden="true" style={{ '--ring': ring } as CSSProperties} />}
-      <span className="face" aria-hidden="true">{face}</span>
-      {x.owed && <span className="owed-mark" role="img" aria-label="Has something for you" title="Has something for you" />}
+    const body = <><span className="face" aria-hidden="true">{face}</span>
+      <Pip.View fill={pip?.fill} label={pip?.label} />
       <span className="pn" title={name}>{name}</span>
       {x.state && <span className="fell">{x.state === 'dead' ? 'Dead' : 'Down'}</span>}</>;
     // The fallen are drawn fallen (the owner, 7 November: the dead had stood in their likenesses as if alive).

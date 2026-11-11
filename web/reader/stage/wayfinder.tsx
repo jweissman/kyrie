@@ -9,6 +9,7 @@ import { GlanceStage } from './glance';
 import { SceneSurface } from './scene-surface';
 import { Glyphs } from '../creation/glyphs';
 import { Emphasis } from '../emphasis';
+import { Pip } from './pip';
 
 // A way: what goes by it (c), and the way's own choice where that is a group of its acts (a door to listen at); whether
 // it goes where the aim followed names, or another aim held, and its place among the ways the aims name (see
@@ -81,12 +82,14 @@ export class Wayfinder {
   static Marks({ app, way: w }: { app: ReaderApp; way: Way }) {
     const to = Wayfinder.to(w), sensed = app.state.frame?.leaf.glance?.sensed?.find(x => x.to === to
       || w.holds?.includes(x.to));
-    const crosses = !!w.exit?.crosses || (w.c.id.startsWith('travel:') && !w.exit);
+    // A walk about the town is a journey in the engine's words, and no going over into other country.
+    const walk = (app.state.frame?.screen.around ?? []).some(d => d.id === to);
+    const crosses = !!w.exit?.crosses || (w.c.id.startsWith('travel:') && !w.exit && !walk);
     const said = sensed && (sensed.far === 1 ? 'someone who might join you' : 'perhaps someone, farther on');
     if (!crosses && !sensed) { return <span className="wf-marks" />; }
     return <span className="wf-marks">
-      {sensed && <span className={`wf-mark sensed tone-${Emphasis.tones[sensed.aspect]}`} title={said}>
-        <Glyphs.View id="companion" className="wf-glyph" /><span className="said">{said}</span></span>}
+      {sensed && <span className="wf-mark sensed" title={said}>
+        <Pip.View fill={`var(--tone-${Emphasis.tones[sensed.aspect]})`} faint /><span className="said">{said}</span></span>}
       {crosses && <Glyphs.View id="journey" className="wf-mark journey" label="into the next stretch of country" />}
     </span>;
   }

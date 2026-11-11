@@ -51,21 +51,14 @@
 .tone-red { --tone: var(--ember); --tone-glow: var(--ember-glow); }
 .tone-violet { --tone: var(--violet); --tone-glow: rgba(180, 156, 255, .12); }
 .tone-rose { --tone: var(--coral); --tone-glow: rgba(255, 128, 140, .12); }
-.act.led-act[class*="tone-"] .why-said { color: var(--tone); }
-.act.led-act[class*="tone-"]::before { border-color: var(--tone); }
-.act.led-act .why-said .also { display: inline-block; width: 5px; height: 5px; margin: 0 0 2px 8px; border-radius: 50%;
-  background: var(--tone); }
+/* Colour in one place: the indicator at the left (.prism-bar), and a modest tint of the title; the rest neutral. */
+.act.led-act[class*="tone-"] .n { color: color-mix(in oklab, var(--tone) 28%, var(--ivory)); }
 .act.led-act .key { grid-column: 2; grid-row: 1; }
-.act.led-act .led-mark { grid-column: 1 / -1; font: 400 13.5px/1.4 var(--do); letter-spacing: 0; color: var(--ember); }
-.act.led-act .led-mark::before { content: ''; display: inline-block; width: 5px; height: 5px; margin: 0 8px 2px 0;
-  background: currentColor; transform: rotate(45deg); }
-.act.led-act .led-mark:is(.mark-night, .mark-unlooked, .mark-heard) { color: var(--azure); }
+.act.led-act .led-mark { grid-column: 1 / -1; font: 400 13.5px/1.4 var(--do); letter-spacing: 0; color: var(--ivory); }
 .act.led-act:is(.risk, .grave)::after { grid-column: 1 / -1; }
 /* What a mark says in words is not said again as a tag ("a risk" under a fight and how it would go). */
 .act.led-act:has(> .led-mark)::after { content: none; }
-.act.led-act.first { border-color: var(--edge-strong); box-shadow: inset 3px 0 0 var(--tone, var(--ivory));
-  background: linear-gradient(90deg, var(--tone-glow, rgba(236, 230, 217, .06)), transparent 80%), var(--raised); }
-.act.led-act.first::before { background: var(--tone, var(--ivory)); border-color: var(--tone, var(--ivory)); }
+.act.led-act.first { border-color: var(--edge-strong); background: var(--raised); }
 .act.led-act.first .n { font-size: 17.5px; }
 
 /* The quiet row: the nearest ways; then the keys to every way, everyone and everything here, and yourself. */
@@ -166,7 +159,7 @@
 /* Someone's plate, when talking to them is what the glance ranks first: marked as a first lead is (see GlanceStage). */
 .act.plate.first { border-color: var(--accent-line); box-shadow: inset 3px 0 0 var(--accent);
   background: linear-gradient(90deg, var(--accent-glow), transparent 80%), var(--raised); }
-.plate.first .why-said { display: block; font: 400 13px/1.35 var(--do); color: var(--accent); }
+.plate.first .why-said { display: block; font: 400 13px/1.35 var(--do); color: var(--dim); }
 
 /* ---- The glance in two (the owner, 4 November: "you shouldn't have to scroll to see all the things you can do
    somewhere"). What is told scrolls in its own column; what can be done is held in view beside it, in a rail of its
@@ -236,14 +229,14 @@
   --tone-red: var(--ember); --tone-violet: var(--violet); --tone-rose: var(--coral); }
 /* What is truly several things at once: its edge a slow gradient through its tones, mixed in OKLab; still where the
    reader asks for less motion. */
-.act.led-act.prism { position: relative; }
+.act.led-act:has(> .prism-bar) { position: relative; }
 .act.led-act .prism-bar { position: absolute; left: -1px; top: -1px; bottom: -1px; width: 3px; background: var(--prism);
   background-size: 100% 300%; animation: prism-drift 9s ease-in-out infinite alternate; }
-.act.led-act.prism.first { box-shadow: none; }
+.act.led-act:not(.prism) .prism-bar { animation: none; }
 @keyframes prism-drift { from { background-position: 50% 0%; } to { background-position: 50% 100%; } }
 @media (prefers-reduced-motion: reduce) { .act.led-act .prism-bar { animation: none; background-size: 100% 100%; } }
-/* A led choice's own glyphs (see GlanceStage.Icons): who could join you, in the companion's tone; going over into the
-   next stretch of country, quiet. Beside the words, never instead of them. */
+/* A led choice's own glyphs (see GlanceStage.Icons): who could join you, and going over into the next stretch of
+   country, quiet and neutral (its colour is the indicator's). Beside the words, never instead of them. */
 .led-act .led-icon { width: 15px; height: 15px; margin-left: 8px; vertical-align: -2px; fill: none; stroke: var(--dim);
   stroke-width: 1.6; }
-.led-act.tone-rose .led-icon:first-of-type, .led-act[data-aspects~="companionship"] .led-icon:first-of-type { stroke: var(--coral); }
+

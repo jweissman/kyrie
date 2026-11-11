@@ -136,6 +136,24 @@
         "someone": "M24 8c-6 0-10 5-10 11 0 5 3 9 6 10h8c3-1 6-5 6-10 0-6-4-11-10-11zM20 22c1 2 2.5 3 4 3s3-1 4-3M10 42c1-7 6-11 14-11s13 4 14 11"
       }
     },
+    "places": {
+      "about": "What kind of place the company stands in, at the head of its scene beside where and when (the owner, 11 November): a town, a ruin, a shrine, a cave or a delving, a road, open country. Its accent below is the tone of what the company knows it can do there (see PlaceMark). Each family names the scene kinds (data/paintings/scenery.json) it takes in; a kind in none goes by what the place is: a settlement a town, a site a ruin, the wild open country, under the ground a cave.",
+      "kinds": {
+        "shrine": ["churchyard", "shrine", "abbey", "stones", "dome", "nymphaeum"],
+        "cave": ["vault", "grave", "undercroft", "cellar", "brood", "drain", "vermin", "cell", "mine", "face", "ore", "winze", "sump", "pump", "furnace", "cave", "cistern", "stair", "recess", "passage"],
+        "ruin": ["barrow", "ruin", "tower", "fort", "stockade", "bailey", "guard", "forecourt", "hall"],
+        "road": ["crossing", "road", "path", "toll-house"],
+        "wild": ["fields", "peat", "reeds", "timber", "charcoal", "tree", "oasis", "bees", "sea", "huts", "salt", "furs"]
+      },
+      "paths": {
+        "place_town": "M6 40V24l9-8 9 8v16M24 40V20l9-8 9 8v20M6 40h36M13 40v-7h4v7",
+        "place_ruin": "M14 42V14l4 4 4-6 4 5 4-3v28M10 42h28M20 26h8v8",
+        "place_shrine": "M10 42V24l14-12 14 12v18M6 42h36M24 30v12M24 4v6M21 7h6",
+        "place_cave": "M6 42c0-20 8-32 18-32s18 12 18 32M14 42c0-10 4-18 10-18s10 8 10 18",
+        "place_road": "M18 42l4-34M30 42l-4-34M24 40v-6M24 28v-5M24 18v-4",
+        "place_wild": "M4 40l12-18 8 10 7-9 13 17M4 40h40"
+      }
+    },
     "acts": {
       "about": "What the company does of itself, wherever it is: waiting and searching, shown by their glyphs where words would crowd the scene (the owner, 6 November). Waiting is an hourglass: two bulbs meeting at a narrow neck between its caps, sand settled in the upper and heaped in the lower, its two sides never crossing (the owner, 7 November: the first, its sides drawn across each other, read as a twisted ribbon). The rail of the scene (amendment 6): going is a way that bends on into the distance; looking an open eye; the map a sheet folded in four; the book a book lying open.",
       "paths": {

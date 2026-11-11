@@ -72,19 +72,9 @@
 .world-page .surface .portraits .portrait .fell { font: 600 9px/1 var(--do); letter-spacing: .16em; text-transform: uppercase;
   color: var(--dim); }
 .world-page .surface .portraits .portrait.down .fell { color: var(--danger, #c0614f); }
-/* Led with, or one the company has a stake in (whom its aim names, its kin): ringed in gold (M19-86). */
-.portraits li.led .portrait .face { border-color: var(--gold); box-shadow: 0 0 0 2px rgba(214, 178, 94, .35); }
 /* One with something for the company now (thanks that pay, a payment owed: see Owed): a green seal on the shoulder of
    the likeness, whatever ring it has, never the gold of a lead nor the red of danger (the owner, 7 November). */
 .portraits .portrait { position: relative; }
-.portraits li.owed:not(.danger) .portrait .face { border-color: var(--verdigris);
-  box-shadow: 0 0 0 2px rgba(95, 211, 182, .35), 0 4px 14px rgba(0, 0, 0, .55); }
-.portraits .portrait .owed-mark { position: absolute; top: -4px; left: calc(50% + 11px); width: 19px; height: 19px;
-  border-radius: 50%; background: var(--verdigris); border: 2px solid #14151a; box-sizing: border-box;
-  box-shadow: 0 0 0 2px rgba(95, 211, 182, .35), 0 2px 6px rgba(0, 0, 0, .6); }
-.portraits .portrait .owed-mark::after { content: ''; position: absolute; inset: 3.5px; border-radius: 50%;
-  border: 1.5px solid #14151a; }
-.portraits li.owed .portrait .pn { color: var(--verdigris); }
 
 /* What is opened: over the whole stage under the place bar, one purpose, put away by its cross or Esc. Look… over the
    picture alone, the telling and the place's touches beside it still to hand (see Explorer). */
@@ -121,23 +111,22 @@
 .wf-row .glyph { font: 400 12px/1 var(--do); color: var(--faint); text-align: center; }
 .wf-row .t { font: 400 12px/1 var(--do); color: var(--faint); letter-spacing: .04em; }
 /* A way's own marks (see Wayfinder.Marks): going over into the next stretch of country, in one quiet glyph; and what is
-   sensed off along it, faint: an outline of its tone and a word, never filled, never lit (faint is not dim). */
+   sensed off along it, a soft pip and a neutral word (faint is not dim). */
 .wf-marks { display: inline-flex; align-items: center; gap: 8px; }
 .wf-mark.journey { width: 15px; height: 15px; fill: none; stroke: var(--dim); stroke-width: 1.6; }
-.wf-mark.sensed { display: inline-flex; align-items: center; gap: 5px; padding: 2px 7px 2px 5px; border-radius: 999px;
-  border: 1px dashed color-mix(in oklab, var(--tone) 70%, transparent); color: color-mix(in oklab, var(--tone) 85%, var(--ivory));
-  font: italic 400 12px/1.2 var(--told); opacity: .85; }
+.wf-mark.sensed { display: inline-flex; align-items: center; gap: 5px; color: var(--dim); font: italic 400 12.5px/1.2 var(--told); }
+
 .wf-mark.sensed .wf-glyph { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.6; }
 .wf-row:hover, .wf-row:focus-visible { background: rgba(236, 230, 217, .05); }
 /* The way under the pointer or the keys, said beside the list: lit, not gilded. Gold is the aim followed's way's alone. */
 .wf-row.chosen { border-left-color: var(--ivory); background: rgba(236, 230, 217, .07); }
-.wf-row.aimed .n::after { content: ' ◆'; font-size: 9px; color: var(--gold); vertical-align: 2px; }
-.wf-row.aimed { border-left-color: var(--gold-line); }
+/* The aim's way: its gold in the row's leading edge alone. */
+.wf-row.aimed { border-left-color: var(--gold); }
 .wf-row.shut { color: var(--dim); }
 .wf-preview { min-height: 0; overflow-y: auto; padding: 14px 0 0; display: flex; flex-direction: column; gap: 6px; }
 .wf-preview h3 { margin: 0; font: 400 clamp(22px, 2.2vw, 28px)/1.2 var(--told); color: var(--ivory); }
 .wf-preview p { margin: 0; }
-.wf-preview .wf-aim { font: 500 11px/1.4 var(--do); letter-spacing: .2em; text-transform: uppercase; color: var(--gold); }
+.wf-preview .wf-aim { font: 500 11px/1.4 var(--do); letter-spacing: .2em; text-transform: uppercase; color: var(--dim); }
 .wf-preview .wf-aim.held { color: var(--dim); }
 .wf-preview .wf-how { font: 500 12.5px/1.5 var(--do); letter-spacing: .08em; color: var(--dim); }
 .wf-preview .wf-been, .wf-preview .wf-keeps { font: italic 400 15px/1.45 var(--told); color: var(--dim); }
@@ -245,12 +234,11 @@
 /* The way not shown (?guide=quiet, a company without a cleric: see Guidance): the aim's marks elsewhere on the page
    are drawn as anything else is, so that nothing tells the one right answer. */
 .shell.guide-quiet .openers .opener.led::after { content: none; }
-.shell.guide-quiet .wf-row.aimed .n::after { content: none; }
 .shell.guide-quiet .wf-preview .wf-aim { display: none; }
+.shell.guide-quiet .wf-row.aimed { border-left-color: transparent; }
 .shell.guide-quiet .replies li.aimed > .act { border-color: var(--edge); box-shadow: none; }
 .shell.guide-quiet .replies li.aimed > .act i { color: var(--dim); }
 .shell.guide-quiet .corner-keys .corner.icon.led { color: inherit; box-shadow: none; }
-.shell.guide-quiet .portraits li.led .portrait .face { border-color: var(--edge-strong); box-shadow: none; }
 /* Dim: nothing new to give for now (a place left twice with nothing done and nothing since; a question already
    asked). Not shut, not another kind of opportunity: it can be chosen, and is lit again when the world changes. */
 .wf-row.dim { opacity: .5; }
@@ -284,9 +272,8 @@
 .rail-mark:hover, .rail-mark:focus-visible, .rail-mark[aria-expanded="true"] { color: var(--ivory); background: rgba(236, 230, 217, .1);
   outline: none; }
 /* Lit: something new in it, or the aim's (where the way is shown), in that tone, with its dot. */
-.rail-mark.lit { color: var(--tone); }
-.rail-mark.lit::after { content: ''; position: absolute; top: 6px; right: 6px; width: 5px; height: 5px; border-radius: 50%;
-  background: var(--tone); }
+/* Lit: the icon stays neutral, brighter; its small dot alone carries the tone (one indicator). */
+.rail-mark.lit { color: var(--ivory); }
 /* Dim: nothing new for now; it still opens. Shut: nothing in it to do, and its title says why. */
 .rail-mark.dim { opacity: .42; }
 .rail-mark.dim:hover, .rail-mark.dim:focus-visible { opacity: .8; }
@@ -295,8 +282,11 @@
 .shell.scene-full .focus > .explorer { position: static; inset: auto; background: none; border: 0; box-shadow: none;
   backdrop-filter: none; max-height: inherit; }
 @media (max-width: 899px), (orientation: portrait) {
-  .shell.scene-full .world-page.scale-scene .world-body > .focus { top: auto; left: 0; right: 0; max-height: 56dvh;
-    padding-bottom: 64px; }
+  /* A card inside the safe margins, standing clear above the rail: what is told and chosen never runs under the rail
+     or to the screen's edge (the owner, 11 November). */
+  .shell.scene-full .world-page.scale-scene .world-body > .focus { top: auto; left: var(--safe-x); right: var(--safe-x);
+    bottom: calc(max(14px, env(safe-area-inset-bottom)) + 60px); max-height: calc(100dvh - 300px);
+    padding-bottom: 14px; border-width: 1px; }
   .scene-rail { bottom: max(14px, env(safe-area-inset-bottom)); }
   /* Who is here, over the painting under the place's name, not under the sheet (as the phone rule above). */
   .shell.scene-full .world-page.scale-scene .surface .portraits { top: 150px; bottom: auto; }
@@ -315,19 +305,12 @@
 .shell.scene-full .focus > .explorer .wf-list { display: block; overflow: visible; }
 .shell.scene-full .focus > .explorer .wf-group { margin: 0 0 10px; }
 .shell.scene-full .focus > .explorer .wf-where { display: none; }
-/* Someone here by what can be done with them now (see WorldStage.seen): their ring in that tone, or, where it is
-   several things, a ring turning slowly through their tones (still where less motion is asked). */
-.portraits li.toned:not(.led):not(.danger) .portrait .face { border-color: var(--tone); }
+/* The one indicator (see Pip): a small pip of the tone of what can be done, or through several tones where several
+   meet; soft where only perceived. Beside a likeness at its shoulder, by a rail mark at its corner, on a way before its
+   word. Frames, outlines and surfaces round it stay neutral (the owner, 11 November). */
+.pip { display: inline-block; flex: none; width: 9px; height: 9px; border-radius: 50%; background: var(--pip);
+  box-shadow: 0 0 0 2px rgba(10, 11, 14, .85); pointer-events: auto; }
+.pip.faint { width: 7px; height: 7px; opacity: .5; box-shadow: 0 0 0 1px rgba(236, 230, 217, .55), 0 0 0 3px rgba(10, 11, 14, .7); }
 .portrait { position: relative; }
-.portrait .aspect-ring { position: absolute; z-index: 1; left: 50%; top: -3px; width: 60px; aspect-ratio: 1;
-  transform: translateX(-50%); border-radius: 50%; pointer-events: none; background: var(--ring);
-  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2.5px));
-  mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2.5px));
-  animation: ring-turn 14s linear infinite; }
-@keyframes ring-turn { to { transform: translateX(-50%) rotate(1turn); } }
-@media (prefers-reduced-motion: reduce) { .portrait .aspect-ring { animation: none; } }
-/* A rail mark with something perceived off along it: a dashed ring of the tone, faint, never filled (lit is a filled
-   tone; dim, a mark with nothing new). */
-.rail-mark.faint::before { content: ''; position: absolute; inset: 3px; border-radius: 50%; pointer-events: none;
-  border: 1px dashed color-mix(in oklab, var(--coral) 75%, transparent); opacity: .9; }
-.rail-mark.faint-rose::before { border-color: color-mix(in oklab, var(--coral) 75%, transparent); }
+.portraits .portrait > .pip { position: absolute; z-index: 2; top: 1px; left: calc(50% + 15px); }
+.rail-mark > .pip { position: absolute; top: 6px; right: 6px; }

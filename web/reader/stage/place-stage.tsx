@@ -39,7 +39,7 @@ export class PlaceStage {
         + `${up ? ` raised-${up}` : ''}`} id="page">
         <header className={`place-head${view ? ' painted' : ''}`}>
           {view && <PlaceStage.Country view={view} />}
-          <div className="title-block"><Told.Heading frame={frame} /></div>
+          <div className="title-block"><Told.Heading frame={frame} app={app} /></div>
         </header>
         <section className="scene" aria-label="The place">
           <div className="measure">{frame.leaf.glance ? <GlanceStage.View app={app} draw={draw} />

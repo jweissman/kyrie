@@ -41,15 +41,14 @@
 .lines .line.speech { font-size: 20.5px; line-height: 1.55; }
 .lines .line.telling, .lines .line.change { color: var(--ivory); }
 .lines .line.event, .lines .line.tally { font: 400 14.5px/1.45 var(--do); color: var(--dim); }
-.lines .line.learned { border-left: 2px solid var(--azure); padding: 4px 0 4px 12px; font: 400 15px/1.45 var(--do);
-  background: linear-gradient(90deg, rgba(121, 174, 247, .08), transparent 60%); }
+/* Things learned: their tone in the left edge alone, the label and the words neutral (the owner, 11 November). */
+.lines .line.learned { border-left: 2px solid var(--azure); padding: 4px 0 4px 12px; font: 400 15px/1.45 var(--do); }
 .lines .line.learned b { display: block; font: 500 10.5px var(--do); letter-spacing: .2em; text-transform: uppercase;
-  color: var(--azure); margin-bottom: 2px; }
+  color: var(--dim); margin-bottom: 2px; }
 /* The next of things learned together goes on in the same block, under the one label. */
 .lines .line.learned.more { margin-top: -.8em; padding-top: 2px; }
 /* A new aim, not yet followed, is a lead worth exploring: silver, not the followed aim's gold (amendment 6, C). */
-.lines .line.learned.aim { border-left-color: #D7DBE4; background: linear-gradient(90deg, rgba(215, 219, 228, .1), transparent 60%); }
-.lines .line.learned.aim b { color: #D7DBE4; }
+.lines .line.learned.aim { border-left-color: #D7DBE4; }
 /* What can be chosen gives way and scrolls within itself, fading at its foot when there is more; the leave stays. */
 .dialogue .answer { flex: 0 1 auto; min-height: 0; display: flex; flex-direction: column; overflow: hidden;
   border-top: 1px solid var(--edge-strong); padding: 14px 0 18px; }
@@ -63,8 +62,7 @@
 .replies .act::before, .dialogue .leave .act::before { display: none; }
 .replies .act > .said { flex: 1 1 0; min-width: 0; }
 /* What the aim followed asks of them, in the aim's gold (see TalkStage.Reply). */
-.replies li.aimed > .act { border-color: var(--gold-line); box-shadow: inset 2px 0 0 var(--gold); }
-.replies li.aimed > .act i { color: var(--gold); }
+.replies li.aimed > .act { box-shadow: inset 2px 0 0 var(--gold); }
 /* Green, as the likeness marked as having something for you: what pays you to say (see Owed). */
 .replies li.pays > .act { border-color: rgba(95, 211, 182, .5); box-shadow: inset 2px 0 0 var(--verdigris); }
 .replies li.pays > .act i, .replies li.pays .for-you { color: var(--verdigris); }
@@ -101,13 +99,13 @@
 .counter .ware.several .for { min-height: 36px; font-size: 13px; }
 .counter .buys { margin: 8px 0 0; color: var(--dim); font-size: 13.5px; }
 /* Someone who would join you, as they would come. */
-.recruit { margin: 0 0 16px; padding: 12px 14px; border: 1px solid rgba(239, 159, 174, .4);
-  background: linear-gradient(90deg, rgba(239, 159, 174, .07), transparent 70%); }
+.recruit { margin: 0 0 16px; padding: 12px 14px; border: 1px solid var(--edge-strong);
+  box-shadow: inset 2px 0 0 var(--coral); }
 .recruit .summary { margin: 0 0 4px; font: 500 15px var(--do); color: var(--ivory); }
 .recruit .bearing, .recruit .qualities-line, .recruit .skills-line { margin: 4px 0; color: var(--dim); font: 400 14px/1.45 var(--do); }
 
-.close { all: unset; cursor: pointer; position: absolute; top: max(10px, env(safe-area-inset-top));
-  right: max(12px, env(safe-area-inset-right)); width: 44px; height: 44px; display: grid; place-items: center;
+.close { all: unset; cursor: pointer; position: absolute; top: var(--safe-y, max(16px, env(safe-area-inset-top)));
+  right: var(--safe-x, max(16px, env(safe-area-inset-right))); width: 44px; height: 44px; display: grid; place-items: center;
   font: 300 28px/1 var(--do); color: var(--dim); z-index: 6; }
 .close:hover, .close:focus-visible { color: var(--accent); outline: none; }
 /* In a conversation, or with one thing looked at, the book is a quiet mark beside the close. */
@@ -144,3 +142,8 @@
 .trading .label { margin: 14px 0 8px; color: var(--accent); display: flex; justify-content: space-between; gap: 12px; }
 .trading .label:first-child { margin-top: 0; }
 .trading .label .purse { color: var(--dim); }
+/* On a narrow screen the rail of the map and the book stands at the foot right (see SceneRail.Books): the way to
+   leave stands clear above it, never under it (the owner, 11 November: the safe zone). */
+@media (max-width: 899px), (orientation: portrait) {
+  .shell.scene-full .mode-talk .dialogue .answer > .leave { margin-bottom: 64px; }
+}

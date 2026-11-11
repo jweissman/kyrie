@@ -1,4 +1,5 @@
 import { SceneRail } from './scene-rail';
+import { PlaceMark } from './place-mark';
 import type { Frame } from '../../engine/protocol';
 import type { Screen } from '../../../src/ui/screen-types';
 import type { ReaderApp } from '../reader-app';
@@ -95,12 +96,14 @@ export class Stage {
   // Where and when, said once and quietly under the heading of what is before you: "Bretheltaure, Galadhtaure ·
   // Morning, fair, 24 Wolfmoon". Its mark is the light of the hour: the morning's, the afternoon's, the evening's, or
   // none at night.
-  static When({ frame, extra }: { frame: Frame; extra?: string }) {
+  // With the app, the place's own mark leads it, in place of the hour's (see PlaceMark).
+  static When({ frame, extra, app }: { frame: Frame; extra?: string; app?: ReaderApp }) {
     // From the nearest to the widest, none said twice (the market-place of a town says the town).
     const [country, ...within] = Stage.where(frame), all = [...extra ? [extra] : [], ...within.toReversed(), country!];
     const where = all.filter((w, i) => w && !all.slice(0, i).some(o => o.toLowerCase().includes(w.toLowerCase())));
     return (
-      <p className={`when light-${FictionalTime.part(frame.screen.elapsed)}`} data-id="clock">
+      <p className={`when light-${FictionalTime.part(frame.screen.elapsed)}${app ? ' marked' : ''}`} data-id="clock">
+        {app && <PlaceMark.View app={app} />}
         <span className="at">{Typography.curl(where.join(', '))}</span>
         {/* How deep under the ground the company is (the owner, 4 November). */}
         {frame.screen.place.depth && <span className="depth" data-id="depth">

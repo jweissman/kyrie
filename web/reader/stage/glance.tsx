@@ -347,16 +347,18 @@ export class GlanceStage {
         const gilded = !!a.continues && Guidance.shown(app), label = GlanceStage.label(app, a, c);
         const said = GlanceStage.note(a, c, label), aimed = !!said && GlanceStage.aimWords.test(said);
         const note = (aimed && !gilded ? undefined : said) ?? Emphasis.said(a.aspects, gilded);
-        const { tone, also } = Emphasis.of(a.aspects, gilded), prism = Emphasis.prism(a.aspects, gilded);
+        // One indicator at the left carries what it is: its tone, or through its tones where several meet; the rest of
+        // it stays neutral (the owner, 11 November: colour concentrated, sparing, consistent).
+        const { tone } = Emphasis.of(a.aspects, gilded), prism = Emphasis.prism(a.aspects, gilded);
+        const mark = prism ?? (tone ? `var(--tone-${tone})` : undefined);
         return <li key={a.choice} data-promoted={i + 1} data-why={a.why} data-aspects={a.aspects?.join(' ') || undefined}
           data-continues={a.continues || undefined}
           data-next={app.state.frame?.leaf.glance?.after?.next?.choice === a.choice || undefined}>
           <Act.View choice={c} draw={draw}
             className={`led-act${c.id === top ? ' first' : ''}${tone ? ` tone-${tone}` : ''}${prism ? ' prism' : ''}`}>
-            {prism && <i className="prism-bar" aria-hidden="true" style={{ '--prism': prism } as CSSProperties} />}
+            {mark && <i className="prism-bar" aria-hidden="true" style={{ '--prism': mark } as CSSProperties} />}
             <span className="n">{Typography.curl(label)}<GlanceStage.Icons app={app} a={a} c={c} /></span>
-            {note && <span className="why-said">{Typography.curl(note)}
-              {also.map(t => <i key={t} className={`also tone-${t}`} aria-hidden="true" />)}</span>}
+            {note && <span className="why-said">{Typography.curl(note)}</span>}
             <kbd className="key" aria-hidden="true">{i + 1}</kbd>
             {a.marks.map(m => <span key={m.kind} className={`led-mark mark-${m.kind}${m.danger ? ` danger-${m.danger}` : ''}`}>{Typography.curl(Words.upper(m.said))}</span>)}
           </Act.View>

@@ -46,7 +46,7 @@ export class Told {
     // critique).
     const recap = leaf.recap && { ...leaf.recap, aim: frame.bound ? leaf.recap.aim : undefined };
     return <>
-      {headed && <Told.Heading frame={frame} />}
+      {headed && <Told.Heading frame={frame} app={app} />}
       {recap && (recap.aim || recap.last) && <Told.Recap recap={recap} />}
       {screen.dark && !Told.says(leaf, /\bdark\b/i) && <p className="dark-note">It is dark here. You have no light to see by.</p>}
       {s.pending && !whole && <Told.Working pending={{ ...s.pending, stage: s.stage }} />}
@@ -67,13 +67,13 @@ export class Told {
   }
   static readonly harm = Narration.harm;
   // The chapter a place opens (a country come into, a story's chapter), the place's name, and where and when.
-  static Heading({ frame }: { frame: Frame }) {
+  static Heading({ frame, app }: { frame: Frame; app?: ReaderApp }) {
     const heading = frame.leaf.heading;
     return <>
       {heading && <p className={`chapter kind-${heading.kind}`}>{Typography.curl(heading.kind === 'country'
         ? `Into ${heading.title}` : heading.title)}</p>}
       <h1 className="place" data-id="place">{Typography.curl(Words.upper(frame.screen.place.name))}</h1>
-      <Stage.When frame={frame} />
+      <Stage.When frame={frame} {...app ? { app } : {}} />
     </>;
   }
   // The way here, on arriving: a journey along known ways leg by leg, or what the way was like.

@@ -17,6 +17,16 @@
 .when.light-afternoon::before { background: var(--gold); box-shadow: 0 0 8px var(--gold); }
 .when.light-evening::before { background: linear-gradient(90deg, var(--ember), var(--violet)); }
 .when.light-night::before { background: var(--azure); opacity: .7; }
+/* The place's own mark in place of the hour's (see PlaceMark): its kind in a small glyph, and beneath it a short accent
+   in the tone of what can be done here, quiet; running through several tones where several meet; dim with nothing new. */
+.when.marked::before { content: none; }
+.place-mark { display: inline-grid; justify-items: center; gap: 3px; margin-right: 2px; }
+.place-mark .pm-glyph { width: 16px; height: 16px; fill: none; stroke: var(--ivory); stroke-width: 1.5; opacity: .85; }
+.place-mark .pm-accent { display: block; width: 18px; height: 2px; border-radius: 1px; background: var(--pm);
+  opacity: .7; }
+.place-mark.prism .pm-accent { opacity: .9; background-size: 200% 100%; animation: prism-drift 9s ease-in-out infinite alternate; }
+.place-mark.dim { opacity: .4; }
+@media (prefers-reduced-motion: reduce) { .place-mark.prism .pm-accent { animation: none; } }
 .chapter { font: var(--type-kicker); letter-spacing: var(--track-kicker); text-transform: uppercase; color: var(--accent); margin: 0 0 8px; }
 .place { font: 300 clamp(30px, 3.4vw, 46px)/1.08 var(--do); letter-spacing: .01em; margin: 0 0 10px; text-wrap: balance;
   color: var(--ivory); }

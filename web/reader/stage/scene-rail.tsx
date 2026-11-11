@@ -8,6 +8,7 @@ import { Pastime } from './pastime';
 import { GlanceStage } from './glance';
 import { Guidance } from '../guidance';
 import { Emphasis, type Tone } from '../emphasis';
+import { Pip } from './pip';
 
 // How a touch on the rail stands now (amendment 6, the owner's notes of 11 November): lit, by the tone of what it has
 // that is new or the aim's; ordinary, with something in it still useful; dim, with nothing new for now (it can still
@@ -45,26 +46,29 @@ export class SceneRail {
       {onMap ? <button type="button" className="rail-mark pressed" data-action="back-to-place" aria-pressed="true"
         aria-label="The map: back to where you are" title="Back to where you are" onClick={() => app.outdoor(false)}>
         <Glyphs.View id="the_map" className="rail-glyph" /></button>
-        : <button type="button" className={`rail-mark${SceneRail.mapLit(app) ? ' lit tone-gold' : ''}`}
+        : <button type="button" className={`rail-mark${SceneRail.mapLit(app) ? ' lit' : ''}`}
           data-action="mode" data-view="map" data-key="m" aria-label="The map" title="The map"
-          onClick={() => app.show('map')}><Glyphs.View id="the_map" className="rail-glyph" /></button>}
+          onClick={() => app.show('map')}><Glyphs.View id="the_map" className="rail-glyph" />
+          {SceneRail.mapLit(app) && <Pip.View fill="var(--tone-gold)" />}</button>}
       <button type="button" className="rail-mark" data-action="book" aria-label="Your book" title="Your book"
         onClick={() => app.show('journal')}><Glyphs.View id="the_book" className="rail-glyph" /></button>
     </>;
     return alone ? <nav className={`scene-rail${onMap ? ' on-map' : ''}`} aria-label="The map and your book">{marks}</nav>
       : marks;
   }
-  // faint: something perceived off along a way from here (see Perception), drawn as an outline of its tone, apart from
-  // lit (something here) and dim (nothing new).
+  // Its pip (see Pip): lit, of the tone of something here; soft, of the tone of something perceived off along a way
+  // from here (see Perception); none with nothing; and the whole mark lowered (dim) with nothing new.
   static Mark({ app, part, glyph, words, standing, faint }: { app: ReaderApp; part: 'go' | 'look' | 'wait';
     glyph: string; words: string; standing: Standing; faint?: Tone }) {
     const shut = 'shut' in standing ? standing.shut : undefined, lit = 'lit' in standing ? standing.lit : undefined;
     const said = shut ? `${words}: ${shut}` : faint ? `${words}: someone who might join you, that way` : words;
-    return <button type="button" className={`rail-mark opens-${part}${lit ? ` lit tone-${lit}` : ''}`
-      + `${'dim' in standing ? ' dim' : ''}${faint && !shut ? ` faint faint-${faint}` : ''}`} data-action="explore" data-part={part} aria-haspopup="dialog"
+    return <button type="button" className={`rail-mark opens-${part}${lit ? ' lit' : ''}`
+      + `${'dim' in standing ? ' dim' : ''}${faint && !shut && !lit ? ' faint' : ''}`} data-action="explore" data-part={part} aria-haspopup="dialog"
       aria-expanded={app.state.exploring === part} aria-label={said} title={said} disabled={!!shut}
       onClick={() => Explorer.open(app, app.state.exploring === part ? undefined : part)}>
-      <Glyphs.View id={glyph} className="rail-glyph" /></button>;
+      <Glyphs.View id={glyph} className="rail-glyph" />
+      {!shut && <Pip.View fill={lit ? `var(--tone-${lit})` : faint ? `var(--tone-${faint})` : undefined} faint={!lit} />}
+    </button>;
   }
   // Go: shut with no way from here; lit for the aim's way (where the way is shown) or a way not yet taken; dim where
   // every way goes somewhere left with nothing done and nothing new since.

@@ -242,7 +242,6 @@
 .portraits .portrait .pn { font: 500 11.5px/1.15 var(--do); color: var(--ivory); text-align: center; max-width: 72px;
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-shadow: 0 1px 3px #000, 0 0 8px rgba(0, 0, 0, .8); }
 .portraits .animal .portrait .face { width: 44px; height: 44px; }
-.portraits .danger .portrait .face { border-color: var(--ember, #c4552e); }
 .portraits .portrait:hover .face, .portraits .portrait.sel .face, .portraits .portrait:focus-visible .face {
   transform: translateY(-2px); border-color: var(--accent); }
 .focus .explore-keys { display: flex; gap: 8px; margin: 14px 0 0; }
@@ -285,4 +284,4 @@
 .hex-card .stopped { color: var(--accent); }
 .hex-card .go { margin: 0; }
 .world-page .surface .portraits li.danger:not(.danger ~ .danger) { margin-left: auto; }
-.portraits .danger .portrait .face { border-width: 3px; box-shadow: 0 0 0 2px rgba(196, 85, 46, .35), 0 4px 14px rgba(0, 0, 0, .55); }
+
