@@ -45,9 +45,10 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('Low Water in the browser', () => {
     await d.key('Escape');
     await Page_.act(d, '^To the head of the Stair', '^Talk to Isaura', 'waiting for you', 'join the company');
     await d.away();
-    // The channel head is opened from what the place leads with, and its view kept after the gauging until it is left.
-    await Page_.act(d, '^To the Rim Gauge', 'the channel head$', 'Gauge the Fulling', '^Back$', '^Talk to Isaura',
-      'what is troubling');
+    // The channel head's gauging is done, and the company is at the place again with Isaura to hand: no page of the
+    // thing's is left open to go back from (the owner's corn-store notes, 11 November: concrete acts drawn out of what
+    // only gathered them).
+    await Page_.act(d, '^To the Rim Gauge', 'the channel head$', 'Gauge the Fulling', '^Talk to Isaura', 'what is troubling');
     expect(await Page_.text(page)).toContain('Forty ells a day');
     await d.away();
     await Page_.act(d, '^To the head of the Stair', '^To Measures Square', "^To the Dyers' Walk", "^To the edge of the Dyers' Basin",

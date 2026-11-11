@@ -137,6 +137,11 @@ export class Undertakings {
   // its going, where that is the errand's or the player chose the one gone; an aim heard of is never followed for them.
   // The story an aim is part of: the installation it was written in.
   private static story(id: string): string { return id.replace(/__.*$/, ''); }
+  // Whether one aim is the next part of another: their ids alike but for the last word (…_rats_job_aim, …_job_run).
+  private static part(id: string, of: string): boolean {
+    const a = id.split('_'), b = of.split('_');
+    return a.length === b.length && a.length > 2 && a.slice(0, -1).join('_') === b.slice(0, -1).join('_');
+  }
   static after(campaign: Campaign, before: string[]) {
     const current = campaign.tickState.current, kept = current.following, held = this.held(campaign);
     const was = new Set(before), now = new Set(held.map(o => o.id));
@@ -146,8 +151,13 @@ export class Undertakings {
     if (followed && gone.includes(followed)) {
       // Or the one aim of the same story that arose with its going: the feverwort given, keeping the cups (the owner, 9
       // November: the errand's next part had been one aim among the town's, and the page had led off to the rats).
-      const next = arisen.length === 1 && (kept?.chosen || this.errand(campaign, arisen[0]!)
+      // Or, among several that arose, the one that is the same job's next part, by its id alone (the rats' cellar
+      // cleared, the nest down their run, beside the old ways onward: the owner's play of 11 November had fallen back
+      // from the rats, chosen, to the errand, and no way was gold).
+      const part = arisen.filter(o => this.part(o.id, followed));
+      const lone = arisen.length === 1 && (kept?.chosen || this.errand(campaign, arisen[0]!)
         || this.story(arisen[0]!.id) === this.story(followed)) ? arisen[0] : undefined;
+      const next = part.length === 1 ? part[0] : lone;
       if (next) { current.following = { id: next.id, ...kept?.chosen ? { chosen: true } : {} }; }
       else { delete current.following; }
     }
