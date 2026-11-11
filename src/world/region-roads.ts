@@ -1,6 +1,8 @@
 import text from '../../data/generation/wild/roads.kyrt' with { type: 'text' };
 import scenes from '../../data/generation/scenes/roads.json';
 import { Draw } from './land/draw';
+import type { Cover } from './land/land-cover';
+import { Roads } from './land/roads';
 import { KyrTemplates } from './kyr-template';
 import { RegionEcology } from './region-ecology';
 import { RegionGeography, type Road } from './region-geography';
@@ -20,7 +22,7 @@ export class RegionRoads {
   }
   private static road(road: Road, region: Region): string[] {
     const q = JSON.stringify, { from, to, land, way, form } = road, [x, y] = road.spot, n = this.names(road, region);
-    const [out, on] = this.halves(road);
+    const [out, on] = this.halves(road, region);
     const lines = [`  Place ${land} ${q(n.land)} is wilderness within region at ${x}, ${y}.`,
       `  Place ${way} ${q(n.way)} is room within ${land} at 1, 1.`,
       `  Passage road_${from.id}_${to.id} ${q(n.out)} is road between ${from.id}_green and ${way} taking ${out}.`,
@@ -32,11 +34,21 @@ export class RegionRoads {
     if (road.route.over) { lines.push(...this.pass(road)); }
     return lines;
   }
-  // The time each half of a road takes, in the minutes Kyr counts, to the nearest ten.
-  private static halves(road: Road): [string, string] {
+  // The time each half of a road takes, in the minutes Kyr counts, to the nearest ten: each half the ground it goes
+  // over, out to where the way room stands (its crossing, or its middle). Halved evenly, a ford a hex from one end had
+  // been as far from it as from the other, and a way through the wild beside the road came out quicker than the road
+  // (the owner, 11 November: a journey had woven in and out of a wood between every stretch of road).
+  private static halves(road: Road, region: Region): [string, string] {
     const total = Math.max(40, Math.round(road.route.hours * this.minutesPerHour / 10) * 10);
-    const first = Math.max(20, Math.round(total / 20) * 10);
+    const land = RegionGeography.atlas(region).land, cells = road.route.cells;
+    const share = this.going(land, cells.slice(1, this.room(road) + 1))
+      / Math.max(1e-9, this.going(land, cells.slice(1)));
+    const first = Math.min(total - 20, Math.max(20, Math.round(total * share / 10) * 10));
     return [this.time(first), this.time(Math.max(20, total - first))];
+  }
+  // The hours the ground of some cells asks.
+  private static going(land: { cover: readonly Cover[] }, cells: number[]): number {
+    return cells.reduce((sum, c) => sum + Roads.hours[land.cover[c]!], 0);
   }
   static time(minutes: number): string {
     return minutes % 60 === 0 ? `${minutes / 60} hour${minutes === 60 ? '' : 's'}` : `${minutes} minutes`;
@@ -63,9 +75,12 @@ export class RegionRoads {
   }
   // The end of a road its crossing, or its middle, lies nearer.
   private static nearer(road: Road): Road['from'] {
+    return this.room(road) > (road.route.cells.length - 1) / 2 ? road.to : road.from;
+  }
+  // Where along a road its way room stands: its crossing, or its middle.
+  static room(road: Road): number {
     const cells = road.route.cells, at = road.route.crossings[0]?.cell;
-    const i = at === undefined ? Math.floor(cells.length / 2) : cells.indexOf(at);
-    return i > (cells.length - 1) / 2 ? road.to : road.from;
+    return at === undefined ? Math.floor(cells.length / 2) : cells.indexOf(at);
   }
   // What a road and its land are called, and how it looks, by what it crosses or runs through. Each half of it is
   // walked both ways, so it is named for neither end: the Karavor road, taken up from Gothgiba or down to Muzgkom.

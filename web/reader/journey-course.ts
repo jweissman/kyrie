@@ -49,20 +49,33 @@ export class JourneyCourse {
   // country is its own hex. The chart had a stretch within the wide country or wood it lies in, and the walk to the
   // next hex went by that country's middle, hexes away (the owner, 11 November: "the route preview and executed
   // travel still disagree"; next door, north of Thornhaven, went 221, 140, 90, 201).
+  // A landmark of wild country is a stop of its own, at its own hex: the trails across the country had been one stop,
+  // and the walk had gone straight from the way in to the way out (the owner, 11 November: routes doubling back).
   private static stop(region: RegionChart, id: string): string {
+    return JourneyCourse.tract(region, id) !== undefined || JourneyCourse.mark(region, id) !== undefined
+      ? id : region.within[id] ?? id;
+  }
+  private static area(region: RegionChart, id: string): string {
     return JourneyCourse.tract(region, id) === undefined ? region.within[id] ?? id : id;
+  }
+  private static mark(region: RegionChart, id: string): number | undefined {
+    return region.within[id] !== undefined && region.within[id] !== id
+      ? region.land?.marks.find(m => m.id === id)?.cell : undefined;
   }
   private static tract(region: RegionChart, id: string): number | undefined {
     const prefix = region.land?.tracts, n = prefix && id.startsWith(prefix) ? Number(id.slice(prefix.length)) : NaN;
     return Number.isInteger(n) ? n : undefined;
   }
   private static cell(region: RegionChart, id: string): number | undefined {
-    const t = JourneyCourse.tract(region, id), a = t === undefined ? region.areas.find(x => x.id === id) : undefined;
+    const t = JourneyCourse.tract(region, id) ?? JourneyCourse.mark(region, id);
+    const a = t === undefined ? region.areas.find(x => x.id === id) : undefined;
     return t ?? (a && a.y * region.land!.width + a.x);
   }
   // From one place to the next: the course of the known way between them, as it runs from the first; else straight to
   // where the next stands.
-  private static between(region: RegionChart, from: string, to: string, last: number): number[] {
+  private static between(region: RegionChart, stop: string, next: string, last: number): number[] {
+    const from = JourneyCourse.area(region, stop), to = JourneyCourse.area(region, next);
+    if (from === to) { const c = JourneyCourse.cell(region, next); return c === undefined ? [] : [c]; }
     const e = region.edges.find(x => x.course?.length
       && (x.from === from && x.to === to || x.from === to && x.to === from));
     if (e) {
@@ -71,7 +84,7 @@ export class JourneyCourse {
       const c = e.course!, w = region.land!.width;
       return JourneyCourse.far(c.at(-1)!, last, w) < JourneyCourse.far(c[0]!, last, w) ? [...c].reverse() : c;
     }
-    const t = JourneyCourse.cell(region, to);
+    const t = JourneyCourse.cell(region, next);
     return t === undefined ? [] : [t];
   }
 

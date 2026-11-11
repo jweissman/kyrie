@@ -21,7 +21,9 @@ export interface Landmark { id: string; cell: number; part: number; name: string
   view?: boolean; water?: string; side?: string; kind?: string; things?: Feature[] }
 // Where a way into wild country starts: a road running by it, or a settlement near it; the cell it starts from, and
 // the settlement it is known by.
-interface Start { from: string; cell: number; through: boolean; by: string }
+// at: for a way off a road, the hex the road's own room stands on (its crossing, or its middle: see RegionRoads), which
+// a track to the wild from that room is timed from.
+interface Start { from: string; cell: number; through: boolean; by: string; at?: number }
 
 // The wild country of a generated region as places on the ground. Each wood, fen, moor or run of fells holds
 // landmarks where they stand on the land: an edge where people come in from a road or a settlement, the places
@@ -196,7 +198,8 @@ export class RegionZones {
       const near = [...r.route.cells].sort((a, b) => this.gap(zone, land, a) - this.gap(zone, land, b))[0]!;
       const through = r.route.cells.some(c => zone.cells.includes(c));
       const by = this.nearest(land, towns, near).name;
-      return this.gap(zone, land, near) <= 1 ? [{ from: r.way, cell: near, through, by, route: r.route }] : [];
+      const at = r.route.cells[RegionRoads.room(r)]!;
+      return this.gap(zone, land, near) <= 1 ? [{ from: r.way, cell: near, through, by, route: r.route, at }] : [];
     });
     // A settlement beside the country has a way of its own into it; one a little further off has one only if no road
     // of its own runs by the country, for if one does, the way in is off that road.
@@ -214,7 +217,10 @@ export class RegionZones {
   private static entries(zone: Wilds, region: Region, marks: Landmark[]): string[] {
     const q = JSON.stringify, land = RegionGeography.atlas(region).land, t = this.table[zone.wild];
     return this.ways(zone, region, marks).map(({ s, to }, i) => {
-      const minutes = Math.max(30, Math.round(Terrain.distance(land, to.cell, s.cell) * 40 / 10) * 10);
+      // From where the way starts: a track off a road from the hex the road's room stands on, not the road's hex
+      // nearest the wild, which had made the wild a short cut between a town and its own road (the owner, 11 November:
+      // a journey had woven in and out of a wood between every stretch of road).
+      const minutes = Math.max(30, Math.round(Terrain.distance(land, to.cell, s.at ?? s.cell) * 40 / 10) * 10);
       const way = s.through ? `a track off the road into ${zone.naming.name}` : this.fill(t.into, { zone: zone.naming.name });
       return `  Passage ${zone.id}_way${i + 1} ${q(way)} is path between ${s.from} and ${to.id} taking ${RegionRoads.time(minutes)}.`;
     });
