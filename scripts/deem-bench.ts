@@ -36,14 +36,14 @@ class DeemBench {
     this.time(`traced: ${count} creatures (CLI)`, () => {
       let events = 0;
       for (let i = 0; i < count; i++) {
-        events += runGeneration({ settingDir: process.cwd(), scenario: 'generation', type: 'creature',
+        events += runGeneration({ settingDir: process.cwd(), scenario: 'generation', type: 'attributes',
           seed: `bench-${i}`, trace: true }).trace.length;
       }
       return events;
     }, events => `${(events / count).toFixed(0)} events each`);
     this.time(`untraced: ${count} creatures (CLI)`, () => {
       for (let i = 0; i < count; i++) {
-        runGeneration({ settingDir: process.cwd(), scenario: 'generation', type: 'creature', seed: `bench-${i}` });
+        runGeneration({ settingDir: process.cwd(), scenario: 'generation', type: 'attributes', seed: `bench-${i}` });
       }
     });
     const text = this.time(`serialize: ${made.length} creatures`, () => JSON.stringify(made), t => `${t.length} bytes`);

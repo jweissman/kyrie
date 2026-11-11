@@ -77,13 +77,15 @@ export class SimBench {
   }
   // A: the campaign alone, its fights by its own tactics.
   private static async simulate(s: PlaySession, id: string): Promise<boolean> {
-    const event = await s.campaign.executeAsync(id, SimBench.fight);
+    const to = s.whither(id);
+    const event = to ? await s.campaign.crossing.travelling(to, () => s.campaign.executeAsync(id, SimBench.fight))
+      : await s.campaign.executeAsync(id, SimBench.fight);
     return event.combat.some(e => e.type === 'end');
   }
   static async fight(this: void, battle: Battle) { await Promise.resolve(); Campaign.autofight(battle); }
   // B: the session's command, what is perceived before and after, its feedback, and the next choices.
   private static async session(s: PlaySession, command: string): Promise<boolean> {
-    const before = PlayerView.observe(s.campaign), event = await s.perform(command);
+    const before = PlayerView.observe(s.campaign), event = await s.leg(command);
     ActionFeedbackView.read(s.campaign, event, before);
     PlayerView.choices(s.campaign);
     return event.combat.some(e => e.type === 'end');

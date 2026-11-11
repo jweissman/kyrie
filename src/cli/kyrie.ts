@@ -29,10 +29,12 @@ import { Terminal } from './terminal';
 import { Frontier } from '../world/frontier';
 import { DrawnWorld } from '../world/drawn-world';
 import { AdventureNames } from './adventure-names';
+import { CheckpointStore } from '../session/checkpoint-store';
 
 export class KyrieCli {
   static readonly usage = [
-    'Play:      bin/kyrie campaign <campaign.json> [seed] | resume <save.json> | replay <transcript.json>',
+    'Play:      bin/kyrie adventure --world <seed> [--origin o] [--as race/calling/Name] | resume <save.json>',
+    '           bin/kyrie campaign <campaign.json> [seed] | replay <transcript.json>',
     'Author:    bin/kyrie new <id> ["Title"] | new scene|item|chapter|character <id> --in <adventure> | new site <id>',
     '           bin/kyrie lint [campaign.json] [--errors] [--inventory] | compile <module.kyr> | names <surname ...>',
     '           bin/kyrie preview <campaign.json> [--port 8080]',
@@ -76,11 +78,29 @@ export class KyrieCli {
       case 'forecast': return ForecastTool.main(rest);
       case 'transcripts': return TranscriptsTool.main(rest);
       case 'prose': return ProseTool.main(rest);
-      case 'campaign': await Terminal.play(await Campaign.load(path, argument ?? 'campaign', NodeBundleSource.shared)); return 0;
+      case 'adventure': return this.adventure(rest);
+      case 'campaign': await Terminal.playCampaign(await Campaign.load(path, argument ?? 'campaign', NodeBundleSource.shared)); return 0;
       case 'replay': return this.replay(path);
-      case 'resume': await Terminal.play(Campaign.restore(JSON.parse(await readFile(path, 'utf8')))); return 0;
+      case 'resume': return this.resume(path);
       default: return this.lookUp(mode, path, argument);
     }
+  }
+  private static async adventure(args: string[]): Promise<number> {
+    const options = PlayTool.parse(args);
+    if (!options.world && !options.campaign) { console.error(PlayTool.usage); return 1; }
+    const started = await PlayTool.start(options);
+    await Terminal.play(started.journey.session);
+    return 0;
+  }
+  private static async resume(path: string): Promise<number> {
+    const parsed = CheckpointStore.parse(await readFile(path, 'utf8'));
+    const session = 'transcript' in parsed ? PlaySession.resume(parsed) : PlaySession.fromSave(parsed, path);
+    const drawn = session.transcript.drawn;
+    if (drawn && Frontier.generated(session.scenario)) {
+      session.extend(new Frontier(session.seed, NodeBundleSource.shared, DrawnWorld.options(drawn)));
+    }
+    await Terminal.play(session);
+    return 0;
   }
   // A game saved from the browser kept as a regression test (see Traces).
   private static async keep(path: string, name?: string): Promise<number> {
