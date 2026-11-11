@@ -67,7 +67,7 @@ export class Card {
       return () => { watch.disconnect(); };
     }, [n]);
     return (
-      <section className={`deck deck-${kind}`} style={size} ref={deck}>
+      <section className={`deck deck-${kind}${n >= 7 ? ' deck-many' : ''}`} style={size} ref={deck}>
         <div className="cards">{children}</div>
         <p className="chosen-lead" aria-live="polite">{chosen?.text && Typography.curl(Card.sentence(chosen.text))}</p>
         {after}

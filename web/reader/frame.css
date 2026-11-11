@@ -193,8 +193,11 @@ html, body { overflow: hidden; }
 @keyframes glyph-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
 @media (prefers-reduced-motion: reduce) { .creation-inner, .creation .cards .card, .creation .card.chosen .glyph path {
   animation: none !important; } }
+/* Inside the safe margins, as the scene's controls are (the owner, 11 November: creation's Back and Set out now had
+   stood 14px from the top). */
 .creation-edge { position: absolute; top: 0; left: 0; right: 0; display: flex; justify-content: space-between;
-  padding: max(14px, env(safe-area-inset-top)) clamp(16px, 3vw, 40px) 0; pointer-events: none; }
+  padding: max(24px, calc(env(safe-area-inset-top) + 8px)) max(20px, 3vw, calc(env(safe-area-inset-right) + 8px)) 0;
+  pointer-events: none; }
 .creation-edge > .quiet-word { pointer-events: auto; }
 .creation-edge .set-out-now { margin-left: auto; }
 /* The life chosen so far, its emblems in a small row in the corner, the likeness last once it is settled. */
@@ -214,6 +217,28 @@ html, body { overflow: hidden; }
 .creation .cards { --gap: 16px; width: 100%; max-width: calc(var(--row) * var(--card) + (var(--row) - 1) * var(--gap));
   display: flex; flex-wrap: wrap; justify-content: center; gap: var(--gap); padding: 10px 0 2px; }
 @media (max-width: 1279px) { .deck { --card: var(--card-narrow); } .creation .cards, .creation .first-spells { --row: var(--row-narrow); } }
+/* Many to choose among (seven or more: the schools, the callings) on a landscape screen under 1280 wide: one row of
+   smaller cards, less tall, not two rows of tall ones under which the page ran on past the screen (the owner, 11
+   November: school selection on an iPad scrolled within itself; a choosing page should fit). */
+@media (max-width: 1279px) and (min-width: 900px) and (orientation: landscape) {
+  .deck-many { --card: calc((min(100vw, 1180px) - 64px - 7 * 12px) / 8); }
+  .creation .deck-many .cards { --row: inherit; --gap: 12px; }
+  .creation .deck-many .card { aspect-ratio: 5 / 6; padding: 8px 6px; }
+  .deck-many .card-name { letter-spacing: .07em; padding-left: .07em; }
+}
+/* On a tablet held upright: the many in rows of square cards, not tall ones (fourteen backgrounds had run past the foot
+   of an iPad's screen). */
+@media (min-width: 600px) and (orientation: portrait) {
+  .creation .deck-many .card { aspect-ratio: 1; padding: 8px 6px; }
+}
+/* On a phone: four to a row, square, by name and emblem; what the chosen one is, said beneath them (its sentence). */
+@media (max-width: 599px) {
+  .deck-many { --card: calc((100vw - 32px - 3 * 8px) / 4); }
+  .creation .deck-many .cards { --row: 4; --gap: 8px; }
+  .creation .deck-many .card { width: var(--card); aspect-ratio: 1; padding: 6px 3px; }
+  .creation .deck-many .card .card-line { display: none; }
+  .deck-many .card-name { font-size: 9.5px; letter-spacing: .04em; padding-left: .04em; }
+}
 .creation .card { width: min(var(--card, 150px), calc((100% - 20px) / 3)); aspect-ratio: 3 / 4; min-height: 0;
   container-type: inline-size; gap: 0; padding: 10px 9px; border-radius: 3px;
   background: var(--card-ground);
@@ -247,17 +272,12 @@ html, body { overflow: hidden; }
 .chosen-lead { min-height: 3em; max-width: 40rem; margin: clamp(16px, 2.6vh, 26px) auto 0; text-align: center;
   font: var(--type-lead); color: var(--ivory); text-wrap: pretty; }
 .deck-specialties .chosen-lead { min-height: 1.5em; }
-/* The way on, kept in sight at the foot of a page longer than the screen, over a fade where the page runs beneath it
-   (the fade only while there is more to scroll to: a page that fits has none). */
+/* The way on, kept in sight at the foot of a page longer than the screen. */
 .creation-go { position: sticky; bottom: 0; z-index: 2; display: flex; align-items: center; justify-content: center;
   gap: 28px; width: 100%; margin: clamp(10px, 2vh, 20px) 0 0; padding: 10px 0 max(24px, env(safe-area-inset-bottom)); }
-.creation-go::before { content: ''; position: absolute; inset: -40px -16px 0; z-index: -1; pointer-events: none; opacity: 0;
-  background: linear-gradient(180deg, transparent, rgba(9, 10, 13, .95) 50%);
-  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
-@supports (animation-timeline: scroll()) {
-  .creation-go::before { animation: go-fade linear both; animation-timeline: scroll(nearest block); }
-  @keyframes go-fade { from, 92% { opacity: 1; } to { opacity: 0; } }
-}
+/* No fade beneath it: driven by a scroll timeline that did not follow the page's own scroller, it stayed dark at the
+   page's end (the owner, 11 November: a black gradient at the foot of school selection), and a page that fits needs
+   none. */
 .creation-go .option.go { min-width: 11rem; }
 .spells-choose { display: flex; justify-content: center; margin: 14px 0 0; }
 
