@@ -1,0 +1,116 @@
+Module arcology "The Numbered House" {
+  Description "A house older than the Empire stands in a hillside beside the old road, and counts everything that passes under its arches. Its keepers are bookkeepers that have outlived their books. Be counted, or go round; learn what weighs, what rings and what hums; and decide what the town below is to be told.".
+  Entity party: group "Your company".
+  Place land "The region" is region.
+  Place outside "The Bend" is room.
+  Place gossip "Where news is passed on" is room.
+  Place shrine "The shrine" is room.
+  Entity keeper: group "The priest".
+
+  // The House as one thing, for the numbers it keeps: the hum, which every answer and every wrong key raises and an hour
+  // lets fall; the Roll, which the counted are on.
+  Entity house: thing "the House".
+  Measure hum(entity). Measure humAt(entity).
+  Relation counted(group). Relation tenant(group). Relation owed(group).
+  Relation seated(group). Measure seatedFor(group).
+
+  // The shape of the place, from the road in and down: the shelf, the tiers, the Great Void, the halls, the deeps and
+  // the kept floor.
+  Place works "The Numbered House" is site within land at 3, 1.
+  Place outerlevel "the shelf below the doors" is level within works.
+  Place tiers "the tiers" is level within works.
+  Place well "the Great Void" is level within works.
+  Place shaft "the lift shaft" is level within works.
+  Place wellfloor "the floor of the Void" is level within works.
+  Place roof "the roof" is level within works.
+  Place halls "the halls of the answering" is level within works.
+  Place deeps "the deeps" is level within works.
+  Place kept "the kept floor" is level within works.
+
+  Place landing "the Landing" is room within outerlevel at 0, 0 outdoors.
+  Place ledge "the Goat Ledge" is room within outerlevel at 1, 0 outdoors.
+  Place lodge "the Lodge" is room within outerlevel at 0, 1 indoors.
+
+  Place terrace "the Terrace of Tiers" is room within tiers at 1, 1 outdoors.
+  Place row "Tenants' Row" is room within tiers at 0, 1 indoors.
+  Place dwelling "a dwelling on the third ring" is room within tiers at 0, 2 indoors.
+  Place garden "the Hanging Garden" is room within tiers at 2, 1 outdoors.
+  Place gantry "the counterweight gantry" is room within tiers at 1, 0 indoors.
+  Place bridge_near "the near end of the Bridge of Weights" is room within tiers at 2, 0 outdoors.
+  Place bridge_mid "the middle of the Bridge of Weights" is room within tiers at 3, 0 outdoors.
+  Place bridge_far "the far landing of the Bridge" is room within tiers at 4, 0 outdoors.
+
+  Place rim "the rim of the Great Void" is room within well at 0, 0 outdoors.
+  Place cage "the stalled lift" is room within shaft at 0, 0 indoors.
+  Place foot "the foot of the Great Void" is room within wellfloor at 0, 0 underground.
+
+  Place hall "the Question Hall" is room within halls at 0, 0 indoors.
+  Place drawers "the Drawer Gallery" is room within halls at 1, 0 indoors.
+  Place bay "the Keepers' Bay" is room within halls at 0, 1 indoors.
+  Place reckoning "the Reckoning Room" is room within halls at 1, 1 indoors.
+  Place ring_walk "the Ring-walk" is room within roof at 0, 0 outdoors.
+
+  Place drowned "the Drowned Level" is room within deeps at 0, 0 underground.
+  Place valves "the valve gallery" is room within deeps at 1, 0 underground.
+  Place race "the sluice-race" is room within deeps at 0, 1 underground.
+  Place roots "the Roots" is room within deeps at 1, 1 underground.
+  Place pool "the glowing pool" is room within deeps at 2, 1 underground.
+  Place vault "the seed-vault" is room within deeps at 2, 0 underground.
+
+  Place quiet "the Quiet Floor" is room within kept at 0, 0 indoors.
+  Place table_room "the laid room" is room within kept at 1, 0 indoors.
+  Place serviceway "the Service Way" is room within kept at 0, 1 underground.
+  Place cliff "the cliff door" is room within kept at 1, 1 underground.
+
+  Initially Assert unlit(lodge). Initially Assert unlit(row). Initially Assert unlit(dwelling). Initially Assert unlit(gantry).
+  Initially Assert unlit(cage). Initially Assert unlit(hall). Initially Assert unlit(drawers). Initially Assert unlit(bay).
+  Initially Assert unlit(valves). Initially Assert unlit(race). Initially Assert unlit(vault). Initially Assert unlit(serviceway).
+  Initially Assert unlit(cliff). Initially Assert unlit(foot). Initially Assert unlit(drowned).
+
+  // From the road. The hidden way is the culvert; the front is the Landing.
+  Passage approach "the shelf of dressed stone" is path between outside and landing taking 10 minutes.
+  Passage culvert "the culvert where the brook goes under the road-wall" is crawl between outside and race taking 30 minutes.
+  Passage brass_doors "the brass doors" is door between landing and lodge.
+  Passage ledge_up "the goat-path up the face" is climb between landing and ledge needing climbing or rope.
+  Passage ledge_across "the narrow stair along the cliff" is path between ledge and terrace taking 20 minutes.
+  Passage counting_stair "the Stair That Counts" is stair between lodge and terrace taking 4 minutes.
+
+  Passage row_arch "the arch into Tenants' Row" is arch between terrace and row.
+  Passage dwelling_door "the numbered door" is door between row and dwelling.
+  Passage garden_walk "the walk between the beds" is path between terrace and garden taking 10 minutes.
+  Passage gantry_door "the gantry door" is door between terrace and gantry.
+  Passage gantry_way "the gantry gallery" is doorway between gantry and bridge_near.
+  Passage bridge_a "the first span of the Bridge of Weights" is bridge between bridge_near and bridge_mid taking 4 minutes.
+  Passage bridge_b "the second span of the Bridge of Weights" is bridge between bridge_mid and bridge_far taking 4 minutes.
+  Passage chains "the counterweight chains" is climb between bridge_near and bridge_far needing climbing taking 20 minutes.
+  Passage bridge_arch "the arch into the Question Hall" is arch between bridge_far and hall.
+  Passage rim_walk "the gallery along the Void" is path between terrace and rim taking 20 minutes.
+  Passage rim_drop "the drop to the foot of the Void" is shaft between rim and foot needing rope taking 10 minutes.
+  Passage cage_top "the shaft above the cage" is shaft between terrace and cage needing rope or climbing taking 10 minutes.
+  Passage cage_foot "the shaft below the cage" is shaft between cage and foot needing rope or climbing taking 10 minutes.
+  Passage lift_ride "the lift" is shaft between terrace and foot taking 2 minutes
+    opening when state(cage_gear, running) "The cage hangs dead in its shaft, halfway down, and the lift is no use to anyone.".
+
+  Passage drawers_arch "the arch into the Drawer Gallery" is arch between hall and drawers
+    opening when not state(keepers, posted) "The keepers stand across the arch into the gallery, shoulder to shoulder, with their hands at their sides.".
+  Passage bay_arch "the arch into the Keepers' Bay" is arch between hall and bay.
+  Passage reck_door "the Reckoners' door" is door between hall and reckoning
+    opening when not state(keepers, posted) "The keepers stand across the Reckoners' door, shoulder to shoulder, with their hands at their sides.".
+  Passage drawers_ladder "the rolling ladder to the rim" is ladder between drawers and rim.
+  Passage dome_stair "the stair in the dome wall" is stair between reckoning and ring_walk.
+  Passage disc_way "the floating disc" is shaft between reckoning and quiet taking 3 minutes
+    opening when counted(party) "The disc does not stir for anyone it has not counted.".
+
+  Passage foot_steps "the cistern steps" is steps between foot and drowned.
+  Passage walkway "the valve walkway" is passage between drowned and valves taking 10 minutes.
+  Passage race_gate "the grating into the race" is doorway between drowned and race.
+  Passage roots_door "the garden door" is door between drowned and roots.
+  Passage pool_path "the path down to the pool" is passage between roots and pool taking 10 minutes.
+  Passage vault_door "the vault door" is door between roots and vault.
+  Passage gardeners_stair "the gardeners' stair" is stair between roots and serviceway hidden until stair_found.
+
+  Passage quiet_arch "the arch into the laid room" is arch between quiet and table_room.
+  Passage quiet_service "the plain door at the back of the Quiet Floor" is door between quiet and serviceway.
+  Passage service_run "the Service Way's long brick passage" is tunnel between serviceway and cliff taking 30 minutes.
+  Passage shrine_way "the passage under the hills to the shrine" is tunnel between cliff and shrine taking 3 hours hidden until slab_known.
+}

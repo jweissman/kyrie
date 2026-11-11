@@ -110,3 +110,55 @@ The honest summary: the *prose* of generated places is mostly already data (`.ky
 *Problem.* `take_feat` offers a companion a feat at levels five, ten and fifteen, from `featOpen(member, feat)`, which the engine derives (`creature-facts.ts`, `Advancement.feats`); no Kyr effect grants a trait or opens a feat. A paragon quest that should end in a feat can only end in a keepsake granting a capability (`bond.kyrt`).
 *Request.* `Assert featOpen(member, feat)` accepted from authored rules for feats the author declares, or `Grant trait <id> to <member>` as an effect, with the feat's own prerequisites checked.
 *Reproduce.* Add `Assert featOpen(actor, veteran)` to any topic's `On discuss`: the engine rejects it as engine-written.
+
+## D. Requests from the Numbered House (module 1, `adventure/fs-wonder`, 11 November 2026)
+
+*Each met while building the arcology as a standing scenario, worked around in Kyr, and left with the case that reproduces it. The module is `data/situations/arcology`; every case below can be reproduced in it.*
+
+### R15. A scenario cannot name, describe or place the site it generates
+
+*Problem.* A scenario that asks for `"site": ["ruin"]` gets a site named by the country's tongue (`Foliumporta`, "leaf gate"), described in its kind's generic words ("Fallen walls in rough grass; someone built here once.", then "Over the door, cut in the old script: …"), laid by `Atlases.place` wherever the ruin's ground is best hidden, and told of by the nearest settlement and its neighbour on a road. The author cannot say "a day from the first town", "beside the old road", or "this is what it looks like", and the generic lines come first on the page, before the module's own. For a place that is meant to be remembered, the first sentence is the generic one.
+*Request.* In a scenario's `places` entry: `"near": "road"` or `"within": {"hours": [4, 12], "of": "start"}`; `"look": "…"` and `"seen": "…"` to replace the kind's generic sentences for this site; and `"cut": "…"`/`"cut": false` to drop or write the name over the door.
+*Reproduce.* `bin/kyrie play --world kahitude --as human/warrior/Ralf ">w13"`: the first sentences are the ruin kind's.
+
+### R16. A passage that bears a weight (R7, with what exists now)
+
+*Problem.* R7 asked for a deck that tilts under what it carries. `carried(member)` and `capacity(member)` exist (`belongings.kyr`), so the Bridge of Weights is a `Query overweight(a)` over `carried(?m) > limit(deck)` and a rule that, when the company is standing in the middle room, throws it back to the near room and strikes a hazard. It works, but a crossing cannot be refused at the near end for what is carried (the rule fires after the company is already on the span), and the bridge needs three rooms where one passage would do.
+*Request.* `Passage … needing load <= N`, or `Change … when carried(?m) <= N` on a passage's thing, evaluated at the foot of the way with the same refusal text as `opening when`.
+*Reproduce.* `data/situations/arcology/tiers.kyr`, `deck_gives`; `test/arcology.test.ts`, "tips a company that carries more than ten".
+
+### R17. No way to choose a number
+
+*Problem.* A lock that wants a number the player works out (the drawer ring in the Drawer Gallery) cannot take one: an action has no numeric argument, a topic no free text. It is a measure turned a notch at a time by one action and tested by another (`turn_ring`, `press_ring`, `ring_opens`, `ring_jams`), and the Count at the Lodge is six actions (`give_one` … `give_six`) differing in one digit.
+*Request.* `Action name(actor: group, n: number) "Give the post your number: {n}" for n in 1..6`, offered once per value, or a `Dial` thing with `Change turn "…" from n to n+1`.
+*Reproduce.* `data/situations/arcology/entry.kyr`, `give_one` … `give_six`.
+
+### R18. An action's site is not tied to what it acts on
+
+*Problem.* `Action turn_ring(actor: group, site: place)` with `Requires at(actor, site) and state(drawer, locked)` was offered in *every* room the company stood in, because nothing ties `site` to the drawer's place. It was found in the first minute of play ("Turn the ring one notch" at the Landing). Nothing warned.
+*Request.* A lint advice: an action whose requirement names a thing's state and a `site: place` parameter, and never `at(thing, site)`.
+*Reproduce.* Remove `and at(drawer, site)` from `turn_ring` in `halls.kyr`; `bun scripts/play-at.ts …` at any other room.
+
+### R19. A guard's posted state is told from the far end too
+
+*Problem.* A person who `Guards` a way is told at both its ends in the words of their state. The keepers' niched state ("three tall figures of brass plate stand among the tablets") was told in the Reckoning Room, two rooms from any niche, and the Usher's "across the foot of the stair" from the Terrace above. The way round was `opening when not state(keepers, posted) "…"` on the passage, with no guard.
+*Request.* `Guards way from end.` (as `Thing … on way from end` already does), or a state text per end.
+*Reproduce.* Give `keepers` `Guards reck_door.` again and stand in the Reckoning Room.
+
+### R20. A cast person's name is lost to a conditional role
+
+*Problem.* A person declared "Someone" and named by generation, with `Role "…" when …`, is called "Someone" on the page (the entity's name is right: `arcology__salvager` is "Oswy"). With an unconditional `Role` the page says "Oswy, salvager".
+*Request.* Let the name stand when the role is conditional (name alone, or name and the role that is true).
+*Reproduce.* `Role "a salvager shut in the lift cage" when at(salvager, cage).` in `world.kyr` before the fix.
+
+### R21. Deem facts cannot select among authored sections
+
+*Problem.* The stair's order is one of three, and the true source of it differs by country. Generation can assert `pattern(treads, pat_b)`, but Kyr has no way to read a table into a rule except by writing the rule for each value (`seq_one/two/three` read `stepOne(?q, ?p)` facts, `steps_a/b/c` and `wear_a/b/c` are one each). Three values cost nine observations and rules; a fourth would cost three more.
+*Request.* A way for a Kyr `Observe` or `Rule` to take a Deem-drawn text hole (`{!pattern:words}`) so that one line serves every value, as `.kyrt` templates do.
+*Reproduce.* `data/situations/arcology/entry.kyr`, `wear_a`, `wear_b`, `wear_c`.
+
+### R22. Effects written after a `Spend` in a topic are lost
+
+*Problem.* `On discuss { Spend spoons from party. Retract owed(party). }` took the spoon and left `owed(party)` standing; `{ Retract owed(party). Spend spoon_kind from actor. }` kept the spoon (a module's own *kind* is not spent by its name) and the fact. The cure was an `Assert settled(party)` and a rule that retracts `owed`; the shrine's lamp-chain topic puts its `Spend` last for the same reason.
+*Request.* Either apply every effect in the list, or lint a `Spend` that is not the last effect of its block. Say in the guide that a module's own kind is spent by the item's id.
+*Reproduce.* `data/situations/arcology/kept.kyr`, `host_account`: put `Retract owed(party).` back after the `Spend` and run the Quiet Floor spec in `test/arcology.test.ts`.
