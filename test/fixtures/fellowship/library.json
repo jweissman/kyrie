@@ -1,0 +1,4 @@
+{
+  "about": "A library of the fellowship alone, for the spec that draws it (test/fellowship.test.ts); the real one is placed by data/scenarios/standing.json.",
+  "scenarios": ["../../../data/scenarios/fellowship.scenario.json"]
+}
