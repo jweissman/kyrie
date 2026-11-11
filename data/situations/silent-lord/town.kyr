@@ -44,14 +44,14 @@ Module silent_lord "The silent lord" {
   Rule gate_admits when not hunted(house) and state(gate_refusal, refuses) { Assert state(gate_refusal, admits). }
 
   // ---- What the first town's people say of it.
-  Topic keeper_crier with keeper "Ask {keeper} about the crier" when state(levy_post, called) or state(levy_post, postponed) once {
+  Topic keeper_crier with keeper "Ask {keeper} about the crier" when day(clock) >= 2 and (state(levy_post, called) or state(levy_post, postponed)) once {
     Says "'Twenty spears out of this town and the two nearest,' says {keeper}, 'and a hundred bushels, and he reads it off like the price of eggs. The lord used to ride through at Michaelmas and have one cup at this bar and pay for two. He has not come. The castellan signs for him.' A pause. 'The castellan has a name for being careful. I would like to see what she is being careful of.'".
     On discuss { Assert knows(actor, levy_called). Assert knows(actor, lord_unseen). }
   }
   Topic priest_candle with priest "Ask {priest} whether the lord has been to the shrine" when knows(actor, lord_unseen) and not decided(house) once {
     Says "'He keeps a candle on the anniversary of his wife's death,' says {priest}, 'and has done for twenty-two years, and sends his man a day ahead with the oil. This year no man came.' {priest} looks at the candle on the altar. 'I lit it myself. I do not know what for.'".
   }
-  Topic trader_levy with trader "Ask {trader} what the levy will cost the town" when state(levy_post, called) or state(levy_post, postponed) once {
+  Topic trader_levy with trader "Ask {trader} what the levy will cost the town" when day(clock) >= 2 and (state(levy_post, called) or state(levy_post, postponed)) once {
     Says "'A hundred bushels at the keep's price, which is a third under the market's,' says {trader}, 'and twenty men who will not be in the fields at harvest. We shall get the straw. I do not say it is not the king's right. I say it is a good deal of rights to carry in one year.'".
   }
   Topic keeper_after_regency with keeper "Ask {keeper} how the muster went, now the regent has signed" when state(levy_post, commuted) and not paid_keeper(house) once {

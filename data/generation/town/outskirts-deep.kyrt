@@ -23,6 +23,10 @@
   Observe {t}_manor_kitchen_scene at {t}_manor_kitchen when true "A flagged kitchen with a hearth you could stable a horse in, a table scarred by a century of cleavers, copper pans in rows, and a dresser with a missing plate. Everything in it is clean, and nothing is where you would put it; the room is arranged to the convenience of one person only.".
   Observe {t}_manor_cellar_scene at {t}_manor_cellar when true "A vaulted cellar, cold and dry, with barrels on their sides in racks and a smell of apples. The back wall is not like the others: a bay of larger stone, dressed smooth, with a rounded top, bricked in with the Hall's small grey bricks.".
   Observe {t}_manor_muniments_scene at {t}_manor_muniments when true "A windowless room lined with presses and chests, each with a tag in a different hand, none of them recent. The air is dry as biscuit. Papers lie where the last person left them, in a fan, under a paperweight of green glass.".
+  // A light for the dark rooms below: the cellar, the muniment room and the undercroft are unlit, and a torch is an hour.
+  Item {t}_manor_lantern "a horn lantern" is lantern at {t}_manor_kitchen.
+  Item {t}_manor_lamp_oil "a flask of lamp oil" is lamp_oil at {t}_manor_kitchen.
+  Observe {t}_manor_kitchen_light at {t}_manor_kitchen when true "A horn lantern hangs on a nail by the kitchen door with a flask of oil beneath it, and beyond the dresser the cellar steps go down into a dark that no kitchen fire reaches. Whoever goes down wants a light that will last, and a torch is only an hour.".
   Person {t}_manor_cook "Orla Pennick" at {t}_manor_kitchen {
     Role "the cook of the Hall, who feeds forty on a budget for ten". Ancestry human. Peaceable. Manner acerbic. Pronouns she.
     Greets "Orla Pennick does not stop what she is doing. 'If you want feeding, the answer is no. If you want hiding, the answer is also no. If you want to be useful, there's a sack of onions.'".
@@ -41,7 +45,7 @@
   }
   Initially Set encounterXp({t}_manor_rats) to 50.
   Topic {t}_manor_cook_rats with {t}_manor_cook "Ask {{t}_manor_cook} what is the matter with the cellar" when able({t}_manor_rats) once {
-    Says "'Rats,' says {{t}_manor_cook}, flatly. 'Bolder than the steward. The steward says it's a matter for the cat. I've told her the cat has handed in her notice.' She does not look at you. 'There's eight silver in it, if someone happened to go down. Take a light. Unless you enjoy it.'".
+    Says "'Rats,' says {{t}_manor_cook}, flatly. 'Bolder than the steward. The steward says it's a matter for the cat. I've told her the cat has handed in her notice.' She does not look at you. 'There's eight silver in it, if someone happened to go down. The lantern on the nail by the door, and the oil under it: a torch will not see you to the bottom and back, and I am not carrying anyone up. Bring the lantern back.'".
   }
   Topic {t}_manor_cook_ratsdone with {t}_manor_cook "Tell {{t}_manor_cook} the cellar is clear" when not able({t}_manor_rats) and at(party, {t}_manor_kitchen) once {
     Says "'Well,' says {{t}_manor_cook}. She goes to the dresser and takes down a coin-dish, and counts out eight silver, and then stands there with a mutton pie she did not appear to be holding a moment ago. 'Sit. Eat. Nobody in this house has said thank you in nine years, so you may have the pie instead.'".
@@ -84,6 +88,9 @@
   }
   Observe {t}_stones_chime_learned at {t}_stones_under of {t}_stones_chime as revelation when state({t}_stones_chime, struck) "It is Wimble's four notes, exactly, and the chamber rings with them. Whoever the makers were, they sent this signal to their dead, or from them. {craft}" teaches {t}_boy_tune.
   Entity {t}_boy_tune: fact "Wimble's humming is the old stones' chime: three notes down, one up. He must have heard it struck.".
+  Observe {t}_stones_cup_sign at {t}_stones_under when at({t}_stones_cup, {t}_stones_under) "At the foot of the lowest niche a small bronze cup stands in a ring of dust. Of everything in the round room it alone has been set out, as a place is laid for someone; the ring says it has stood so for longer than the Hall has had a name. To lift it would be to take from the dead what the dead were given.".
+  Relation {t}_cup_felt(group).
+  Rule {t}_cup_taken when holding(party, {t}_stones_cup_kind) and at(party, {t}_stones_under) and not {t}_cup_felt(party) says "The stillness of the undercroft changes the moment the cup is out of its ring: not a sound, nothing moves, but it is no longer the stillness of a place left alone. The bare ring at the foot of the niche waits, exactly the size of what you hold. Whatever sent a boy up the stair with his name gone, you have just done a part of it." { Assert {t}_cup_felt(party). }
   Kind {t}_stones_cup_kind "a bronze cup of the old stones" is treasure worth 35 weighing 1 described "A shallow bronze cup no bigger than a hand, green with age, with a lip bent from being dropped. It was the offering of the least of the dead, placed at the foot of the niche that is lowest. Taken, it is stolen from the dead; returned, it is only a cup.".
   Item {t}_stones_cup "a bronze cup of the old stones" is {t}_stones_cup_kind at {t}_stones_under.
   Thing {t}_stones_niche "the lowest niche" at {t}_stones_under {

@@ -2,9 +2,18 @@
 
 *11 November 2026. Branch `adventure/fs-expedition`. The storyboard was written first (image, then dramatic function, then mechanism) and revised against the build; this is the revised text. The last section says what is proved and what is not.*
 
-**One line.** A king's howe on a wind-scoured ridge, half robbed already: a salvage crew digs in its lee for the gold; an old woman keeps the dead's rest with a hearth and a tally-stick; the castellan's clerk wants the king's torc; the dead keep their law in the gallery, the horse-hall and the chamber of flutes; and under the Barrow-Kin's floor lies something older than the Kin, which they were set to keep down.
+**One line.** A king's howe on a wind-scoured ridge, half robbed already: a salvage crew digs in its lee for the gold; an old woman keeps the dead's rest with a hearth and a tally-stick; the shire-reeve's clerk wants the king's torc; the dead keep their law in the gallery, the horse-hall and the chamber of flutes; and under the Barrow-Kin's floor lies something older than the Kin, which they were set to keep down.
 
-**Where it is in the world.** A *standing scenario* (`data/scenarios/bound-howe.scenario.json`, registered in `standing.json` after the circus): every first country holds one. The scenario takes a generated site of kind `barrow` (or `cave` in a mountain country, where no barrow stands) and the settlement nearest to it. The generated site is the Kin's small *marker-barrow* at the foot of the ridge; the module (`data/situations/bound-howe/`) builds the rest within it: the ridge, the king-howe, what lies under it. The country's people tell of it by three hooks (the diggers, the castellan's levy, the old woman on the ridge); the way in is the steep path, or a sheep-way told of by the rumour or found by searching at the foot.
+**Where it is in the world.** A *standing scenario* (`data/scenarios/bound-howe.scenario.json`, registered in `standing.json` after the circus): every first country holds one. The scenario takes a generated site of kind `barrow` (or `cave` in a mountain country, where no barrow stands) and the settlement nearest to it. The generated site is the Kin's small *marker-barrow* at the foot of the ridge; the module (`data/situations/bound-howe/`) builds the rest within it: the ridge, the king-howe, what lies under it. The country's people tell of it by three hooks (the diggers, the shire-reeve's levy, the old woman on the ridge); the way in is the steep path, or a sheep-way told of by the rumour or found by searching at the foot.
+
+**Told in the first town too (integration, 11 November 2026).** The hooks reach only the town nearest the howe and its
+road neighbour (in `kahitude` Brockminster and Fearnmaere), which a blind playtest never visited. The scenario now also
+binds `first` to the `largest` settlement (s1) and imports its taproom, where two drovers are overheard from the second
+day (`Observe drovers_tell ... as hearsay when day(clock) >= 2 and not knows(party, ridge_told) ... teaches ridge_told`),
+one line, gone once heard; it teaches the diggers' hook, which opens the sheep-way. The clerk, green, shrine and walkers
+stay with `town` (`near:howe`). The castellan of this module is now the *shire-reeve* (and the levy a call for iron and gold),
+so that a country holding the Silent Lord, whose castellan and levy are another's, does not hear one office twice. The
+specs read the howe's site and town from the placement, not from `w13`/`s5`.
 
 **Intended party, and what a prepared one does.** Three or four, **levels 3 to 5**, level 4 the middle. It is the starting country's deep end, beyond its dens, its towers and the Hall's cellar. A first-level company can climb the ridge, pay the watch, hear the warden, take the fold's salt and read the survey stone (transcript 1), and should not go on; one that does is met at the forecourt by an ambush the page has already described. Measured with the engine's auto-fight (seed `kahitude`; four of level four unless said): the household of three ghouls falls with no loss; the dead horses and the riders that wake with their bells kill four of level three and are taken by four of level four with no one down; the king with his two sworn is taken by four of level four or five with one casualty (the mage); the camp (four hands and the captain) is broken by four of level four; the Mouth in the well is *not* won by auto-attacks at levels four to six (a casualty or more each time), which is as designed: it is answered by fire and by not going down. Every danger is foreshadowed in the outer works, answerable by preparation or ingenuity, and the way out is the way in. The price of the prize is moral and national, not lethal.
 
@@ -53,9 +62,9 @@ THE RIDGE (open air; the generated marker-barrow is its foot)                   
 | Faction | Who | Wants | Relations |
 |---|---|---|---|
 | **The Kin-host** | the household (3 ghouls), the king's riders (2 revenants), the dead horses (3), the king (revenant) and his two sworn (revenants); the last of the Kin (4 spirits, if the Kin sealed themselves in) | the bound kept: the door shut, the mounts fed, the roll answered, the torc left | at war with the salvagers; will not harm the warden; bound to what lies in the well by the same oath |
-| **The Spade-Company** | the captain (named per country), four hands, two watchers, the pit sentry, the cook and surgeon | the torc's weight in coin; the castellan's licence honoured; to be paid | afraid of the household by night (salt across every track into the camp); the warden has salted their tracks; owed by the clerk |
+| **The Spade-Company** | the captain (named per country), four hands, two watchers, the pit sentry, the cook and surgeon | the torc's weight in coin; the shire-reeve's licence honoured; to be paid | afraid of the household by night (salt across every track into the camp); the warden has salted their tracks; owed by the clerk |
 | **The warden** | an old woman at a hearth, the last lay-keeper | the bound kept, the salvagers gone; she will not draw a blade | knows the greeting, the tune's mark and what the torc is; trusts salt |
-| **The castellan's clerk** | at the nearest town's green | the levy made up by midwinter; pays by the weight: 80 for the king's torc, 30 for any other torc of the Kin (three make a levy) | holds the salvagers' licence; knows more of the cairn than he says |
+| **The shire-reeve's clerk** | at the nearest town's green | the levy made up by midwinter; pays by the weight: 80 for the king's torc, 30 for any other torc of the Kin (three make a levy) | holds the salvagers' licence; knows more of the cairn than he says |
 | **What lies in the well** | the Mouth (mouther) | out | speaks in the voices of whoever it has taken (the drowned crew call for "Hob") |
 
 ## 3. Hazards, each with its clue and its answers
@@ -121,9 +130,9 @@ THE RIDGE (open air; the generated marker-barrow is its foot)                   
 3. **The captain.** Turned (a hard persuasion with the torc's cost): the tents come down, the captain and the hands go to the town's taproom, the licence-notice is taken off the post, and she gives the sketch. Killed: the clerk strikes the licence off his tally. Paid: the camp is a rest and the shaft is open.
 4. **The warden.** Trusted by salt: the tally and the greeting. A kept howe leaves her hearth lit.
 5. **The oath.** Sworn to the king (after the flute): broken, with a voice from the stone, if the torc is taken.
-6. **The cairn.** The plate's wheel-and-wing, shown to the clerk, makes him put it in a drawer: "do not show it to the castellan; he will build something." Unresolved; the threads motif.
+6. **The cairn.** The plate's wheel-and-wing, shown to the clerk, makes him put it in a drawer: "do not show it to the shire-reeve; he will build something." Unresolved; the threads motif.
 
-*Not built:* an interest of Wystan Hale (the Hall's keeper, once the castellan's spearman) in the howe, because the region module does not export him (request R15g).
+*Not built:* an interest of Wystan Hale (the Hall's keeper, once the castellan's spearman) in the howe, because the region module does not export him (request R37, was R15g).
 
 ## 8. Variation by country (Deem: `tables.json`, `templates.json`)
 

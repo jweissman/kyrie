@@ -152,6 +152,15 @@ generates a new site when none is free (a makers' work is never taken: `!w.work`
 (`RegionSites.start`); a settlement `near:` it is bound; hooks are told by that settlement's keepers and by its
 neighbour along the road. See the status table for what each seed shows.
 
+**Told in the first town too (integration, 11 November 2026).** A blind playtest found the House undiscoverable: those
+hooks are told only in the town nearest the site (in `kahitude` Brockminster, s5, a day's walk from the first town), which
+a company beginning in the first town has no reason to visit. The scenario now also binds `first` to the `largest`
+settlement (s1 in every seed) and imports its taproom, where the module itself overhears a carter from the third day
+(`Observe carters_tell ... as hearsay when day(clock) >= 3 and not knows(party, rumour) ... teaches rumour`): one line,
+nothing on the first or second day, gone once heard. Hearing `rumour` shows the Bend on the map and the aim; the page's own
+card then says "Leave the landing at Thornhaven and set out for the fallen walls". `town` stays `near:works`: the spring,
+the shrine, the Service Way and the salvager are the near town's. Nothing in the module is bound to `first` but the line.
+
 ## 8. Variation through Kyr and Deem
 
 Each country draws (`data/situations/arcology/tables.json`, `templates.json`): the Usher's voice (chime, rasp, hush)

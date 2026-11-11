@@ -145,21 +145,21 @@ A new king in his second year, a coronation court far off, a marshal and a queen
 
 **Not verified:** the browser; the paintings (rooms are named for existing kinds; the great hall, solar, kennels and mews have no matching room painting: see the commission list below); a cold human player; the full suite; fights beyond what the specs trigger (the mastiffs, rats, and the herald's men were begun, not balanced); the Reckoning's other combinations (usurped, and a regency whose herald is bought off) are in the Kyr and not each walked; the companion hire of the freed rider is not built.
 
-## 13. Requests (continuing kyr-deem-requests.md; prefixed `s`)
+## 13. Requests (renumbered R38 to R44 in `kyr-deem-requests.md`, where their full text now stands)
 
-**R15s. A scenario cannot import the first town's authored people and facts.** The region module exports a fixed list of ids (`RegionWriter.manifest`: greens, rooms, innkeeper, priest, merchant, traveller, sites, ways). Reproduce: in `silent-lord.scenario.json` add `"reeve": "@home.reeve"`: `Unresolved module import reeve: region.s1_reeve`. So the keep cannot read `s1_rooke_reported` or `s1_forged`, and meets the bailiff story only by its own clerk, rider and notice on the next green. *Proposal:* export every id a town template declares (the parser knows them), or let `@role.part` resolve any region entity.
+**R38 (was R15s). A scenario cannot import the first town's authored people and facts.** The region module exports a fixed list of ids (`RegionWriter.manifest`: greens, rooms, innkeeper, priest, merchant, traveller, sites, ways). Reproduce: in `silent-lord.scenario.json` add `"reeve": "@home.reeve"`: `Unresolved module import reeve: region.s1_reeve`. So the keep cannot read `s1_rooke_reported` or `s1_forged`, and meets the bailiff story only by its own clerk, rider and notice on the next green. *Proposal:* export every id a town template declares (the parser knows them), or let `@role.part` resolve any region entity.
 
-**R16s. A new kind of site is three data edits in three files.** `sites.json` (how it looks), the `siteKind` groups (per terrain) and `siteNoun` (names), and nothing says so; a kind absent from any silently fails to place. *Proposal:* one `kinds` entry in `sites.json` with `terrains` and `nouns`.
+**R39 (was R16s). A new kind of site is three data edits in three files.** `sites.json` (how it looks), the `siteKind` groups (per terrain) and `siteNoun` (names), and nothing says so; a kind absent from any silently fails to place. *Proposal:* one `kinds` entry in `sites.json` with `terrains` and `nouns`.
 
-**R17s. A person who is both `Peaceable` and has a `Temperament` still warns and fights on arrival.** Reproduce: `Person sentries ... Peaceable. Temperament territorial. Warns "..."`, put the company in its place: the warning is told and the fight begins. The guide says a peaceable person "comes at nobody". I worked round it with two groups (day and night sentries) appearing and vanishing by rule. *Proposal:* let a rule assert or retract a temperament, or make `Peaceable` suppress `Warns`.
+**R40 (was R17s). A person who is both `Peaceable` and has a `Temperament` still warns and fights on arrival.** Reproduce: `Person sentries ... Peaceable. Temperament territorial. Warns "..."`, put the company in its place: the warning is told and the fight begins. The guide says a peaceable person "comes at nobody". I worked round it with two groups (day and night sentries) appearing and vanishing by rule. *Proposal:* let a rule assert or retract a temperament, or make `Peaceable` suppress `Warns`.
 
-**R18s. No routine for people who keep hours.** Seven periods and eleven people are a relation `duty(person, period, room)` and one rule; it works, and the lint cannot see it. *Proposal:* a `Keeps <room> from <hour> to <hour>.` line on a Person.
+**R41 (was R18s). No routine for people who keep hours.** Seven periods and eleven people are a relation `duty(person, period, room)` and one rule; it works, and the lint cannot see it. *Proposal:* a `Keeps <room> from <hour> to <hour>.` line on a Person.
 
-**R19s. A shared relation name taken for a module's own gives "Unknown predicate" at the spec, not at the load.** `settled`, `trusts` and `won` are shared; my own were renamed by the shadowing and the spec could not find them. (Cf. R10, the noisy error.) *Proposal:* the load says "your `settled` is shadowed as `own_settled`".
+**R42 (was R19s). A shared relation name taken for a module's own gives "Unknown predicate" at the spec, not at the load.** `settled`, `trusts` and `won` are shared; my own were renamed by the shadowing and the spec could not find them. (Cf. R10, the noisy error.) *Proposal:* the load says "your `settled` is shadowed as `own_settled`".
 
-**R20s. A topic whose effect takes coin from a person who has none is quietly never offered** (`Decrease quantity(keeper, gold) by 8` on an innkeeper with less). The page shows no reason. *Proposal:* say so in the lint, or let a topic pay from nothing.
+**R43 (was R20s). A topic whose effect takes coin from a person who has none is quietly never offered** (`Decrease quantity(keeper, gold) by 8` on an innkeeper with less). The page shows no reason. *Proposal:* say so in the lint, or let a topic pay from nothing.
 
-**R21s. Two topics with one label, only one eligible, are not offered.** Four "Ask {keeper} how the muster went" topics (one per outcome) offered none until their labels differed.
+**R44 (was R21s). Two topics with one label, only one eligible, are not offered.** Four "Ask {keeper} how the muster went" topics (one per outcome) offered none until their labels differed.
 
 ## 14. Shared files touched
 
@@ -168,3 +168,12 @@ A new king in his second year, a coronation court far off, a marshal and a queen
 ## 15. Painting commissions
 
 A great hall with a high table and an empty seat (the hall takes `dissolution` from its kind word; the scenery table's `places` could name `scene-great-hall`); a kennel-yard with hounds in pens and a mews; a bier in a vault with candles in a ring.
+
+## 16. After the integration (11 November 2026)
+
+The keep was the model for the others: `home` is the `largest` settlement, the crier arrives on its green on the second day,
+and the aim ("a crier in the castellan's colours has read a levy on the green") leads to the keep by the map's own card.
+One defect found: "Ask <keeper> about the crier" and "Ask <trader> what the levy will cost the town" were offered on the
+first day, before the crier had come, so they are now gated `day(clock) >= 2`. The three modules' tellers are distinct: the
+crier on the green (day 2, official, in the castellan's colours), the drovers in the taproom (day 2, gossip), the carter in
+the taproom (day 3, a road-lore).

@@ -111,98 +111,170 @@ The honest summary: the *prose* of generated places is mostly already data (`.ky
 *Request.* `Assert featOpen(member, feat)` accepted from authored rules for feats the author declares, or `Grant trait <id> to <member>` as an effect, with the feat's own prerequisites checked.
 *Reproduce.* Add `Assert featOpen(actor, veteran)` to any topic's `On discuss`: the engine rejects it as engine-written.
 
-## D. Requests from the Numbered House (module 1, `adventure/fs-wonder`, 11 November 2026)
+## D. Requests from the three standing modules (one sequence, R23 to R47)
+
+*The three deep modules were authored apart, each numbering its requests from R15 (the Numbered House R15 to R22; the Bound Howe R15a to R15g; the Silent Lord R15s to R21s), and the integration (`adventure/fs-integrate`, 11 November 2026) renumbered them into one sequence. Where the old number is quoted in a commit, a transcript or a storyboard written before it, this table says what it is now.*
+
+| Old | New | Module | Subject |
+|---|---|---|---|
+| R15 | R23 | Numbered House | a scenario cannot name, describe or place the site it generates |
+| R16 | R24 | Numbered House | a passage that bears a weight |
+| R17 | R25 | Numbered House | no way to choose a number |
+| R18 | R26 | Numbered House | an action's site is not tied to what it acts on |
+| R19 | R27 | Numbered House | a guard's posted state is told from the far end too |
+| R20 | R28 | Numbered House | a cast person's name is lost to a conditional role |
+| R21 | R29 | Numbered House | Deem facts cannot select among authored sections |
+| R22 | R30 | Numbered House | effects written after a `Spend` in a topic are lost |
+| R15a | R31 | Bound Howe | a standing scenario cannot say which towns hear of it |
+| R15b | R32 | Bound Howe | nothing can be written asleep |
+| R15c | R33 | Bound Howe | a light cannot be put out by an authored effect |
+| R15d | R34 | Bound Howe | a generated site keeps room text the module cannot replace |
+| R15e | R35 | Bound Howe | a lone creature at a high level has the action economy of one |
+| R15f | R36 | Bound Howe | a fight in a spec cannot use an item |
+| R15g | R37 | Bound Howe | a scenario cannot speak to the first town's authored people |
+| R15s | R38 | Silent Lord | a scenario cannot import the first town's authored people and facts (the same as R37) |
+| R16s | R39 | Silent Lord | a new kind of site is three data edits in three files |
+| R17s | R40 | Silent Lord | a person both `Peaceable` and with a `Temperament` still warns on arrival |
+| R18s | R41 | Silent Lord | no routine for people who keep hours |
+| R19s | R42 | Silent Lord | a shared relation name taken for a module's own fails at the spec, not at the load |
+| R20s | R43 | Silent Lord | a topic whose effect takes coin from a person who has none is never offered |
+| R21s | R44 | Silent Lord | two topics with one label, only one eligible, are not offered |
+| (new) | R45 | integration | two bound places cannot be compared, so a rumour told by the first town and by the near town can double |
+| (new) | R46 | integration | passive hearsay has no once-only line, so a wait shows two modules' lines together |
+
+### The Numbered House (module 1, `adventure/fs-wonder`, 11 November 2026)
 
 *Each met while building the arcology as a standing scenario, worked around in Kyr, and left with the case that reproduces it. The module is `data/situations/arcology`; every case below can be reproduced in it.*
 
-### R15. A scenario cannot name, describe or place the site it generates
+### R23. A scenario cannot name, describe or place the site it generates
 
 *Problem.* A scenario that asks for `"site": ["ruin"]` gets a site named by the country's tongue (`Foliumporta`, "leaf gate"), described in its kind's generic words ("Fallen walls in rough grass; someone built here once.", then "Over the door, cut in the old script: …"), laid by `Atlases.place` wherever the ruin's ground is best hidden, and told of by the nearest settlement and its neighbour on a road. The author cannot say "a day from the first town", "beside the old road", or "this is what it looks like", and the generic lines come first on the page, before the module's own. For a place that is meant to be remembered, the first sentence is the generic one.
 *Request.* In a scenario's `places` entry: `"near": "road"` or `"within": {"hours": [4, 12], "of": "start"}`; `"look": "…"` and `"seen": "…"` to replace the kind's generic sentences for this site; and `"cut": "…"`/`"cut": false` to drop or write the name over the door.
 *Reproduce.* `bin/kyrie play --world kahitude --as human/warrior/Ralf ">w13"`: the first sentences are the ruin kind's.
 
-### R16. A passage that bears a weight (R7, with what exists now)
+### R24. A passage that bears a weight (R7, with what exists now)
 
 *Problem.* R7 asked for a deck that tilts under what it carries. `carried(member)` and `capacity(member)` exist (`belongings.kyr`), so the Bridge of Weights is a `Query overweight(a)` over `carried(?m) > limit(deck)` and a rule that, when the company is standing in the middle room, throws it back to the near room and strikes a hazard. It works, but a crossing cannot be refused at the near end for what is carried (the rule fires after the company is already on the span), and the bridge needs three rooms where one passage would do.
 *Request.* `Passage … needing load <= N`, or `Change … when carried(?m) <= N` on a passage's thing, evaluated at the foot of the way with the same refusal text as `opening when`.
 *Reproduce.* `data/situations/arcology/tiers.kyr`, `deck_gives`; `test/arcology.test.ts`, "tips a company that carries more than ten".
 
-### R17. No way to choose a number
+### R25. No way to choose a number
 
 *Problem.* A lock that wants a number the player works out (the drawer ring in the Drawer Gallery) cannot take one: an action has no numeric argument, a topic no free text. It is a measure turned a notch at a time by one action and tested by another (`turn_ring`, `press_ring`, `ring_opens`, `ring_jams`), and the Count at the Lodge is six actions (`give_one` … `give_six`) differing in one digit.
 *Request.* `Action name(actor: group, n: number) "Give the post your number: {n}" for n in 1..6`, offered once per value, or a `Dial` thing with `Change turn "…" from n to n+1`.
 *Reproduce.* `data/situations/arcology/entry.kyr`, `give_one` … `give_six`.
 
-### R18. An action's site is not tied to what it acts on
+### R26. An action's site is not tied to what it acts on
 
 *Problem.* `Action turn_ring(actor: group, site: place)` with `Requires at(actor, site) and state(drawer, locked)` was offered in *every* room the company stood in, because nothing ties `site` to the drawer's place. It was found in the first minute of play ("Turn the ring one notch" at the Landing). Nothing warned.
 *Request.* A lint advice: an action whose requirement names a thing's state and a `site: place` parameter, and never `at(thing, site)`.
 *Reproduce.* Remove `and at(drawer, site)` from `turn_ring` in `halls.kyr`; `bun scripts/play-at.ts …` at any other room.
 
-### R19. A guard's posted state is told from the far end too
+### R27. A guard's posted state is told from the far end too
 
 *Problem.* A person who `Guards` a way is told at both its ends in the words of their state. The keepers' niched state ("three tall figures of brass plate stand among the tablets") was told in the Reckoning Room, two rooms from any niche, and the Usher's "across the foot of the stair" from the Terrace above. The way round was `opening when not state(keepers, posted) "…"` on the passage, with no guard.
 *Request.* `Guards way from end.` (as `Thing … on way from end` already does), or a state text per end.
 *Reproduce.* Give `keepers` `Guards reck_door.` again and stand in the Reckoning Room.
 
-### R20. A cast person's name is lost to a conditional role
+### R28. A cast person's name is lost to a conditional role
 
 *Problem.* A person declared "Someone" and named by generation, with `Role "…" when …`, is called "Someone" on the page (the entity's name is right: `arcology__salvager` is "Oswy"). With an unconditional `Role` the page says "Oswy, salvager".
 *Request.* Let the name stand when the role is conditional (name alone, or name and the role that is true).
 *Reproduce.* `Role "a salvager shut in the lift cage" when at(salvager, cage).` in `world.kyr` before the fix.
 
-### R21. Deem facts cannot select among authored sections
+### R29. Deem facts cannot select among authored sections
 
 *Problem.* The stair's order is one of three, and the true source of it differs by country. Generation can assert `pattern(treads, pat_b)`, but Kyr has no way to read a table into a rule except by writing the rule for each value (`seq_one/two/three` read `stepOne(?q, ?p)` facts, `steps_a/b/c` and `wear_a/b/c` are one each). Three values cost nine observations and rules; a fourth would cost three more.
 *Request.* A way for a Kyr `Observe` or `Rule` to take a Deem-drawn text hole (`{!pattern:words}`) so that one line serves every value, as `.kyrt` templates do.
 *Reproduce.* `data/situations/arcology/entry.kyr`, `wear_a`, `wear_b`, `wear_c`.
 
-### R22. Effects written after a `Spend` in a topic are lost
+### R30. Effects written after a `Spend` in a topic are lost
 
 *Problem.* `On discuss { Spend spoons from party. Retract owed(party). }` took the spoon and left `owed(party)` standing; `{ Retract owed(party). Spend spoon_kind from actor. }` kept the spoon (a module's own *kind* is not spent by its name) and the fact. The cure was an `Assert settled(party)` and a rule that retracts `owed`; the shrine's lamp-chain topic puts its `Spend` last for the same reason.
 *Request.* Either apply every effect in the list, or lint a `Spend` that is not the last effect of its block. Say in the guide that a module's own kind is spent by the item's id.
 *Reproduce.* `data/situations/arcology/kept.kyr`, `host_account`: put `Retract owed(party).` back after the `Spend` and run the Quiet Floor spec in `test/arcology.test.ts`.
-## D. Requests from the expedition module (The Bound Howe, branch `adventure/fs-expedition`)
+### The Bound Howe (module 3, `adventure/fs-expedition`)
 
-*Numbered R15a… so that the other two authors' R16x, R17x continue without collision. Each was met while writing `data/situations/bound-howe` and worked around in Kyr; none is a bug.*
+*Numbered R31… so that the other two authors' R16x, R17x continue without collision. Each was met while writing `data/situations/bound-howe` and worked around in Kyr; none is a bug.*
 
-### R15a. A standing scenario cannot say which towns hear of it
+### R31. A standing scenario cannot say which towns hear of it
+
+*Worked round by the integration (11 November): each of the Howe and the House now carries a `first` place bound to the `largest` settlement and tells the news itself, as a passive overheard line in that town's taproom (`Observe ... as hearsay when day(clock) >= N`). The request stands: the hearsay is authored twice, once in each module, and the carrier-made topics for the near town stay as they were.*
 
 *Problem.* A scenario's hooks are told by the nearest settlement to its first site and that settlement's road neighbour (`ScenarioWord.of`, `home = RegionWriter.near(region, site)`), with the member contacts. A standing scenario meant to be found from the first town has no way to ask that the first town's people tell of it: in `kahitude` the Bound Howe's three rumours are told in Brockminster and Fearnmaere, not in Thornhaven (`bin/kyrie world kahitude`: `hook howe.ridge_told: told by s5_innkeeper, s5_traveller, s2_innkeeper, s2_traveller`); in `a1`, `thorn`, `b2`, `c3`, `d4` the first town does hear. The howe is reachable from the start by walking to the neighbour (spec: `is reached from the starting town by the page's own labels`), which is ordinary exploration, but it depends on the seed.
 *Request.* A hook field `"towns": ["first"]` (or `"also": "largest"`) adding that settlement's channels' carriers to the tellers.
 *Reproduce.* `bin/kyrie world kahitude | grep -A4 boundhowe`.
 
-### R15b. Nothing can be written asleep, so a sleeping band cannot be struck first or crept past
+### R32. Nothing can be written asleep, so a sleeping band cannot be struck first or crept past
 
 *Problem.* `asleep` is engine-written (`engine-writes.ts`); `attack` requires `not peaceable(opponent)`, so a `Peaceable` band that sits in its niches cannot be attacked at all, and a band that is not peaceable falls on the company on arrival (obedient/savage) or warns (territorial). The howe's household "sits until the roll is answered" had to be written as hostile-on-arrival with a rite, a greeting or a roll (`tolerates`) to avoid the fight, and "asleep by day, walking by night" as a rule that moves them (`household_out`). A company cannot surprise sleepers, nor pass them by a stealth check.
 *Request.* `Dormant.` on a Person (or `Dormant until <condition>`): not hostile, may be attacked (the company acts first), woken by a rule or by noise (`Assert woken(x)`), and passed by a `check(actor, stealth, …)` Action that the author writes.
 *Reproduce.* Add `Peaceable.` to `household` in `data/situations/bound-howe/situation.kyr`, enter the gallery: no "Attack" is offered.
 
-### R15c. A light cannot be put out by an authored effect
+### R33. A light cannot be put out by an authored effect
 
 *Problem.* The chamber of flutes was designed with a draught that snuffs flames (light as a resource the company must carry more of). The player can put a light out; no effect lets a rule do it (`Retract lit(…)` is engine-state). The draught became a sound clue only.
 *Request.* An effect `Douse ?c.` (or `Snuff ?light.`) that puts out a carried light as the player's own "Put out" does and spends what is left, so a draught, a wet passage or a gust is a hazard.
 *Reproduce.* Try `Rule draught when at(party, flutes) { Retract torchlit(party). }` in the module: rejected as engine-written.
 
-### R15d. A site generated for a scenario keeps room text the module cannot replace
+### R34. A site generated for a scenario keeps room text the module cannot replace
 
 *Problem.* A barrow-kind site generated for a scenario is described by its generic room (`A long grassed mound with a stone-lined entrance. Owl pellets lie on the lintel… in the old script: SPINATUMULO.`), which says the room is a barrow's door. The module wanted that room to be the Kin's small marker-barrow at the foot of a ridge, and wrote around it. To replace it a module would write `Observe … instead of w13_scene`, but the generated observation's id is not importable.
 *Request.* `@site.scene` (and `@site.letters`) as scenario references, so that a module can say `instead of` them; or a manifest field `"scene": "own"` that omits them for a site the scenario describes itself.
 *Reproduce.* `bun scripts/dump-region.ts kahitude w13`.
 
-### R15e. A lone creature at a high level has the action economy of one
+### R35. A lone creature at a high level has the action economy of one
 
 *Problem.* A level-13 revenant has about 85 hit points and acts once a round; four level-4 characters kill it in two or three rounds with a single casualty. "Level" raises hit points and damage but not the turns a boss takes. The king was given two sworn revenants in the same room (joining the fight by being beside him) to be a fight at all.
 *Request.* `Actions 2.` on a Person (the catalog's `statistics.actions` exists for some species); or a variation (`boss`, `legendary`) that adds one.
 *Reproduce.* Set `Level 13` on `king` and delete `sworn`; `bun $PA kahitude warrior,warrior,cleric,mage 4 howe__throne "Pack › A torch › Light" "FIGHT Attack"`.
 
-### R15f. A fight in a spec cannot use an item
+### R36. A fight in a spec cannot use an item
 
 *Problem.* `Journey.fight` plays the fight with the auto controller (attacks and the creature's own abilities). Preparation that acts in a fight (oil against what regenerates, holy water against the dead, a held door) cannot be shown by a spec, only its alternatives (barley prevents the horses' fight, salt keeps the household in, a rite opens the door). The auto controller never throws oil.
 *Request.* A `CombatController` in `test/support` that takes a list of items to use in the first round (`Journey.fight(label, Fighting.using('oil_flask'))`).
 
-### R15g. A scenario cannot speak to the first town's authored people
+### R37. A scenario cannot speak to the first town's authored people
 
 *Problem.* A scenario reference `@role.part` resolves to `<module>.<role>_<part>` and the region module exports only settlement roles (green, innkeeper, merchant, priest, traveller, taproom, shrine, shop). The Hall's keeper `s1_manor_keeper` (Wystan Hale, who can join the company) is declared in the first town's template but not exported, so an expedition cannot give him a remark at a barrow's door or a topic after the howe is sealed: `"veteran": "@first.manor_keeper"` fails to load with `Unresolved module import veteran: region.s1_manor_keeper`. The "companion's interest" the commission asked for therefore stayed unwritten.
 *Request.* Export the first town's named authored people (`{t}_manor_keeper`, `{t}_reeve`, `{t}_iv`, `{t}_anselm`, `{t}_hesper`) from the region module, or let a scenario reach any entity by its full id (`"veteran": "region.s1_manor_keeper"` with a declared stand-in).
 *Reproduce.* Add `"first": {"settlement": "largest"}` to `data/scenarios/bound-howe.scenario.json` and `"veteran": "@first.manor_keeper"` to the module's imports; `bin/kyrie world kahitude`.
+
+### The Silent Lord (module 2, `adventure/fs-social`; text moved here from `modules/keep.md` section 13)
+
+### R38. A scenario cannot import the first town's authored people and facts (was R15s)
+
+*Problem.* The region module exports a fixed list of ids (`RegionWriter.manifest`: greens, rooms, innkeeper, priest, merchant, traveller, sites, ways). *Reproduce.* In `silent-lord.scenario.json` add `"reeve": "@home.reeve"`: `Unresolved module import reeve: region.s1_reeve`. The same as R37.
+
+### R39. A new kind of site is three data edits in three files (was R16s)
+
+*Problem.* `sites.json` (how it looks), the `siteKind` groups (per terrain) and `siteNoun` (names), and nothing says so; a kind absent from any silently fails to place. *Request.* One `kinds` entry in `sites.json` with `terrains` and `nouns`.
+
+### R40. A person who is both `Peaceable` and has a `Temperament` still warns and fights on arrival (was R17s)
+
+*Reproduce.* `Person sentries ... Peaceable. Temperament territorial. Warns "..."`, put the company in its place: the warning is told and the fight begins. The guide says a peaceable person "comes at nobody". Worked round with two groups (day and night sentries) appearing and vanishing by rule.
+
+### R41. No routine for people who keep hours (was R18s)
+
+*Problem.* Seven periods and eleven people are a relation `duty(person, period, room)` and one rule; it works, and the lint cannot see it. *Request.* A `Keeps <room> from <hour> to <hour>.` line on a Person.
+
+### R42. A shared relation name taken for a module's own gives "Unknown predicate" at the spec, not at the load (was R19s)
+
+*Problem.* `settled`, `trusts` and `won` are shared; the module's own were renamed by the shadowing and the spec could not find them (cf. R10). *Request.* The load says "your `settled` is shadowed as `own_settled`". For the three standing modules in one country this was checked (section "Cross-module coherence" of the integration notes): every module's own ids are prefixed by its module (`keep__`, `howe__`, `arcology__`), so the shadowing is within a module only.
+
+### R43. A topic whose effect takes coin from a person who has none is quietly never offered (was R20s)
+
+*Problem.* `Decrease quantity(keeper, gold) by 8` on an innkeeper with less; the page shows no reason. *Request.* Say so in the lint, or let a topic pay from nothing.
+
+### R44. Two topics with one label, only one eligible, are not offered (was R21s)
+
+*Problem.* Four "Ask {keeper} how the muster went" topics (one per outcome) offered none until their labels differed.
+
+### R45. Two bound places cannot be compared (integration)
+
+*Problem.* The House and the Howe now tell their news in the first town (`first`, the largest) as well as in the town nearest the site (`town`). In a country where those are one town (a1, b2, thorn: the House; kite: the Howe) the town's own carriers and the module's overheard line both speak. They do not double (the overheard line is gated on `not knows(party, fact)`, so it is gone once an Ask has taught it, and an Ask is not offered once heard), but the module cannot say "only when first is not town". *Request.* A condition `same(first_taproom, taproom)` or a scenario field `"unless": "town"` that drops a role when it binds the same place as another.
+*Reproduce.* `bin/kyrie world a1`: `arcology {"works":"w12","town":"s1"}`.
+
+### R46. Passive hearsay has no once-only line (integration)
+
+*Problem.* An overheard line (`Observe ... as hearsay ... teaches fact`) is shown whenever the company is in the room and the condition holds, so a wait spanning days shows two modules' lines together (`=day 3` from the taproom). *Request.* `Observe ... once`, or a hearsay kind that is told at the first entry after its condition holds and not on waits.

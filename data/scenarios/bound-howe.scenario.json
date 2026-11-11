@@ -13,6 +13,9 @@
     },
     "town": {
       "settlement": "near:howe"
+    },
+    "first": {
+      "settlement": "largest"
     }
   },
   "modules": [
@@ -28,7 +31,8 @@
         "taproom": "@town.taproom",
         "shrine": "@town.shrine",
         "keeper": "@town.innkeeper",
-        "priest": "@town.priest"
+        "priest": "@town.priest",
+        "first_taproom": "@first.taproom"
       }
     }
   ],
@@ -49,7 +53,7 @@
     },
     {
       "fact": "howe.levy_told",
-      "topic": "the castellan's levy and the torc",
+      "topic": "the clerk's call for iron and gold, and the king's torc",
       "channels": [
         "market",
         "road"

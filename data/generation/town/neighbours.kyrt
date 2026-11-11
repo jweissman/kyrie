@@ -57,18 +57,26 @@
     Greets "A girl in a leather apron, with soot to the elbows and a roll of paper under her arm, looks at you the way a carpenter looks at timber. 'Can you carry? Can you keep quiet? Can you stand still while somebody takes a measurement?'".
   }
   Topic {t}_hesper_bell with {t}_hesper "Ask Hesper Lowe about the drawing" when true once {
-    Says "'A bell,' says Hesper Lowe. 'The town had one over the well and the hobs took it, and the wright I am bound to says a bell is a lump of metal and a good one is luck. It is not luck. It is the shape of the lip and the thickness of the shoulder, and the old people knew it, and I have a sixth of the knowledge and no pattern. If I could put my hands on one good bell, or on anything that rings true and was made by somebody who meant it...' She stops. 'Do not laugh. Everyone does.'".
+    Says "'A bell,' says Hesper Lowe. 'The town had one over the well and the hobs took it, and the wright I am bound to says a bell is a lump of metal and a good one is luck. It is not luck. It is the shape of the lip and the thickness of the shoulder, and the old people knew it, and I have a sixth of the knowledge and no pattern. If I could put my hands on one good bell, or on anything that rings true and was made by somebody who meant it. They say the Hall's boy comes home humming four notes from the hill, three down and one up, and that something up there rings them. If I had the shape of it...' She stops. 'Do not laugh. Everyone does.'".
     On discuss { Assert {t}_hesper_told(party). }
   }
   Thing {t}_chime_wax "the wax for a bell-maker" at {t}_stones_under {
-    State plain "At the lip of the bronze chime the dust is smooth, as if a thing had been set against it and taken away: nobody has ever pressed anything to it.".
-    State taken "A thumb-thick strip of wax lies in your hands, pressed to the lip of the chime and drawn away, with the shape of the bronze in it, as true as a bell-wright could ask.".
+    State plain "At the lip of the bronze chime the dust is smooth, as if a thing had been set against it and taken away: nobody has ever pressed anything to it. A bell-wright, you think, would give a good deal to know the shape of that lip.".
+    State taken "A thumb-thick strip of wax lies in your hands, pressed to the lip of the chime and drawn away, with the shape of the bronze in it, as true as a bell-wright could ask. The girl at the landing who wants to cast a bell, Hesper Lowe, has been asking everyone for exactly this.".
     Change take "Press a strip of soft wax to the chime's lip, and draw it away" from plain to taken.
   }
   Topic {t}_hesper_wax with {t}_hesper "Show Hesper Lowe the wax from the chime" when state({t}_chime_wax, taken) and not {t}_bell_cast(party) once {
-    Says "Hesper Lowe takes the wax in both hands and holds it to the light for a long time without breathing. 'Somebody *meant* this,' she says. 'Look at the shoulder. Look at the lip. It has been ringing for longer than my town has had a name.' She gives you what coin she has, which is twenty-five, and then the apron. 'I will cast it in a month. Tell nobody where it came from. Tell Anselm if you must, and watch his face.'".
+    Says "Hesper Lowe takes the wax in both hands and holds it to the light for a long time without breathing. 'Somebody *meant* this,' she says. 'Look at the shoulder. Look at the lip. It has been ringing for longer than my town has had a name.' She gives you what coin she has, which is twenty-five, and then the apron. 'I will cast it tonight. Tell nobody where it came from. Tell Anselm if you must, and watch his face.'".
     On discuss { Give 25 gold to actor. Assert {t}_bell_cast(party). }
   }
+  // The new bell hangs over the well once Hesper has cast it, and is rung from the green; what answers is the way under the hill.
+  Thing {t}_new_bell "the new bell over the well" nowhere {
+    State hung "A small dark bell hangs over the well in the old frame, a little crooked, its rope coiled on the curb.".
+    State rung "The bell over the well has been rung: four notes, three down and one up, and the whole green stopped to listen.".
+    Change ring "Ring the new bell" from hung to rung.
+  }
+  Rule {t}_bell_hung when {t}_bell_cast(party) and not at({t}_new_bell, {t}_green) { Assert at({t}_new_bell, {t}_green). }
+  Rule {t}_bell_answered when state({t}_new_bell, rung) and not knows(party, {t}_tunnel_found) says "The four notes go out over the roofs, and from the direction of the Hall, faint and late, something answers with one: and then, in the Hall's cellar, the sound of a brick falling out of a wall." teaches {t}_tunnel_found { }
   Observe {t}_bell_new at {t}_green when {t}_bell_cast(party) "A new bell hangs over the well, small and dark and a little crooked in the hanging, and when the wind moves it it does not clang. It says four notes, three down and one up, and the children have started to hum them.".
   Topic {t}_anselm_wax with {t}_anselm "Tell {{t}_anselm} you took a wax from the chime" when state({t}_chime_wax, taken) once {
     Says "{{t}_anselm} goes quite still. 'You took a pattern off the dead's own bell,' he says. 'For a girl who means to ring it in a market.' A long breath. 'I do not know if that is theft or the only sort of remembering anyone is going to do. Do not ask me yet.'".

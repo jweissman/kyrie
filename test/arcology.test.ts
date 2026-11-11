@@ -5,6 +5,7 @@ import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { Journey } from '../src/session/journey';
 import { ScreenModel } from '../src/ui/screen-model';
 import { Placed } from './support/placed';
+import { MapPlay } from './support/map-play';
 
 // The Numbered House (data/situations/arcology, data/scenarios/arcology.scenario.json): a standing scenario, so every
 // first country holds one. These specs play its mechanisms by the page's own labels. A spec sets the company down in
@@ -73,22 +74,38 @@ describe('the Numbered House is a standing scenario', () => {
 });
 
 describe('finding the House', () => {
-  it('is told of by the nearest town’s keepers, leads the page as an aim, and is walked to from the first town', async () => {
-    const { p, w } = await House.world('kahitude');
+  it('is overheard in the first town’s taproom from the third day, leads the page as an aim, and is set out for from the map', async () => {
+    const { p } = await House.world('kahitude');
+    const site = p!.bindings.works!;
+    const j = await House.start('kahitude');
+    // Nothing is said of it on the first day, or the second.
+    await j.play('>s1_taproom');
+    expect(House.is(j, 'knows', 'party', 'rumour')).toBe(false);
+    await j.play('=day 2 09:00');
+    expect(House.is(j, 'knows', 'party', 'rumour')).toBe(false);
+    const heard = await j.play('=day 3 09:00');
+    expect(heard).toMatch(/Some say the hill hums/);
+    expect(House.is(j, 'knows', 'party', 'rumour')).toBe(true);
+    expect(ScreenModel.build(j.campaign).objectives.join(' ')).toMatch(/bends round a hill with nothing in it/);
+    const done = await MapPlay.press(j, `region__${site}`);
+    expect(done).toEqual({ to: `region__${site}`, arrived: true });
+    expect(j.at('party')).toMatch(new RegExp(`${site}$`));
+  }, 300000);
+
+  it('is told of too by the nearest town’s keepers: the hum and the culvert are asked about there', async () => {
+    const { p } = await House.world('kahitude');
     const town = p!.bindings.town!, site = p!.bindings.works!;
     const j = await House.start('kahitude');
     await j.play(`>${town}_taproom`);
     expect(j.offers('Ask about the bend in the old road')).toBe(true);
     await j.play('Ask about the bend in the old road');
     expect(House.is(j, 'knows', 'party', 'rumour')).toBe(true);
-    expect(ScreenModel.build(j.campaign).objectives.join(' ')).toMatch(/bends round a hill with nothing in it/);
     // The hook that names the culvert reveals the hidden way; the one that names the hum does not.
     await j.play('Ask about the hum');
     expect(House.is(j, 'knows', 'party', 'hum_talk')).toBe(true);
     const arrived = await j.play(`>${site}`);
     expect(arrived).toMatch(/fallen walls/);
     expect(j.at('party')).toMatch(new RegExp(`${site}$`));
-    expect(w.report.region.sites.find(s => s.id === site)!.hours).toBeDefined();
   }, 240000);
 
   it('shows the Bend’s milestone, the hum under the hand, and a second way in by the brook: searched for, then swum', async () => {

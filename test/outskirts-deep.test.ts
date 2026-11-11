@@ -79,4 +79,31 @@ describe('the old stones, below the dome', () => {
     await j.play('Set the bronze cup back in its ring of dust');
     expect(Placed.holds(j, 'region__s1_boy_well', 'party')).toBe(true);
   }, 240000);
+
+  it('shows the cup as laid out for the dead before it is taken, and says what taking it has done', async () => {
+    const j = await start();
+    const seen = await j.play('>s1_manor_kitchen');
+    expect(seen).toMatch(/horn lantern hangs on a nail/);
+    Placed.at(j, r('s1_stones_under'));
+    const under = await j.play('Wait › A while');
+    expect(under).toMatch(/To lift it would be to take from the dead what the dead were given/);
+    const taken = await j.play('cup of the old stones: Take').catch(() => '');
+    expect(Placed.carried(j, r('s1_stones_cup'))).toBe(true);
+    expect(taken + await j.play('Wait › A while')).toMatch(/no longer the stillness of a place left alone/);
+  }, 240000);
+
+  it('gives the wax from the chime somewhere to go: the girl at the landing casts a bell, and the bell, rung, opens the way under the hill', async () => {
+    const j = await start();
+    Placed.at(j, r('s1_stones_under'));
+    expect(await j.play('Wait › A while')).toMatch(/bell-wright, you think, would give a good deal/);
+    await j.play('Press a strip of soft wax to the chime');
+    expect(j.takes('Into the old stones')).toBe(false);
+    Placed.at(j, r('s1_green'));
+    await j.play('Show Hesper Lowe the wax from the chime');
+    expect(Placed.holds(j, 'region__s1_bell_cast', 'party')).toBe(true);
+    await j.play('Wait › A while');
+    const rung = await j.play('Ring the new bell');
+    expect(rung + await j.play('Wait › A while')).toMatch(/brick falling out of a wall/);
+    expect(Placed.holds(j, 'knows', 'party', r('s1_tunnel_found'))).toBe(true);
+  }, 240000);
 });

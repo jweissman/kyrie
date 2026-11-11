@@ -12,6 +12,10 @@ Module arcology "The Numbered House" {
   Entity rumour: fact "The old paved road bends once at {outside}, eight miles round a hill that has nothing in it to bend for. Carters leave a coin at the bend and do not stop. Some say the hill hums.".
   Entity culvert_talk: fact "At {outside}, where the brook goes under the road-wall, the arch is wide enough to crawl in, and the water that comes out of it is warmer than brook water has any right to be.".
   Entity hum_talk: fact "Dogs will not go into the hollow beyond {outside}, and an old priest said the ground there hummed on feast days, a long low note that the monks of the old order tried to sing against, and could not.".
+  // The first town hears it too, from the carters: a line in the taproom from the third day, once, and gone when it is known.
+  // (The scenario's own word is told only in the town nearest the House and its neighbour on the road; a company that
+  // began elsewhere would never have been told of a House eight miles round a hill.)
+  Observe carters_tell at first_taproom as hearsay when day(clock) >= 3 and not knows(party, rumour) "A carter with the road to his knees is telling the long table that the old paved road runs dead straight for forty miles and then bends once, round a hill with nothing in it, and that every carter leaves a coin at the bend and drives past without turning his head. 'Some say the hill hums,' he says. 'I never stopped to hear.'" teaches rumour.
   Initially Assert established(rumour). Initially Assert established(culvert_talk). Initially Assert established(hum_talk).
   Objective heard when (knows(party, rumour) or knows(party, hum_talk)) and not been(party, landing) toward outside "The old road bends round a hill with nothing in it at {outside}, and the ground there is said to hum.".
   Objective doors when been(party, landing) and not counted(party) and not been(party, terrace) toward lodge "The brass doors of the House stand a hand's breadth open, and something inside it is counting.".

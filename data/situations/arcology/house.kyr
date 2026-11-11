@@ -5,6 +5,7 @@ Module arcology "The Numbered House" {
   Place outside "The Bend" is room.
   Place gossip "Where news is passed on" is room.
   Place shrine "The shrine" is room.
+  Place first_taproom "The first town's taproom" is room.
   Entity keeper: group "The priest".
 
   // The House as one thing, for the numbers it keeps: the hum, which every answer and every wrong key raises and an hour

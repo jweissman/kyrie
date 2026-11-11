@@ -4,6 +4,8 @@ import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { Journey } from '../src/session/journey';
 import { Placed } from './support/placed';
 import { ScreenModel } from '../src/ui/screen-model';
+import { WorldAssembler } from '../src/world/world-assembler';
+import { MapPlay } from './support/map-play';
 
 // The Bound Howe (data/situations/bound-howe, data/scenarios/bound-howe.scenario.json): a standing scenario, so every
 // first country holds one. A king's howe on a ridge, a salvage crew in its lee, a warden at a hearth, and under the
@@ -14,8 +16,13 @@ import { ScreenModel } from '../src/ui/screen-model';
 const R = (id: string) => `howe__${id}`;
 const company = (...calls: string[]) =>
   calls.map((classId, i) => ({ name: `Mira${i}`, raceId: 'human', classId, level: 4 }));
-// The nearest town to the howe in the reference country is Brockminster (s5): its clerk, shrine and taproom.
-const TOWN = (part: string) => `region__s5_${part}`;
+// Where the howe stands in the reference country (kahitude) is read from the world, never written here: the
+// settlements and sites scenarios take are numbered in the order they are placed, so a scenario added before this one
+// moves them. The town is the one nearest the howe (its clerk, shrine and taproom); the first town tells of it too.
+const PLACED = (await WorldAssembler.assemble('kahitude', NodeBundleSource.shared, {})).report.placements
+  .find(x => x.scenario === 'bound-howe')!.bindings;
+const SITE = `region__${PLACED.howe}`;
+const TOWN = (part: string) => `region__${PLACED.town}_${part}`;
 const FOUR = company('warrior', 'cleric', 'thief', 'mage');
 const levelled = (level: number, ...calls: string[]) => company(...calls).map(m => ({ ...m, level }));
 // Countries by what they drew: kahitude, thorn and d4 left the howe broken; a1, b2 and c3 sealed it from within.
@@ -55,18 +62,32 @@ describe('the Bound Howe is a standing scenario', () => {
     expect(['flute_low', 'flute_mid', 'flute_high'].filter(f => Howe.holds(j, R('kinflute'), R(f))).length).toBe(1);
   }, 180000);
 
-  it('is reached from the starting town by the page’s own labels: told in a neighbouring town, set out for, and walked up to', async () => {
+  it('is reached from the starting town by the page’s own labels: overheard in the first town’s taproom after the first day, set out for from the map, and walked up to', async () => {
     const j = await Howe.start(company('warrior'));
-    await j.play('>s5_taproom');
-    expect(j.offers('Ask about the diggers on the ridge')).toBe(true);
-    await j.play('Ask about the diggers on the ridge');
+    // Nothing is said on the first day: the first hour is not buried.
+    await j.play('>s1_taproom');
+    expect(Howe.holds(j, 'knows', 'party', R('ridge_told'))).toBe(false);
+    await j.play('=day 2 09:00');
     expect(Howe.holds(j, 'knows', 'party', R('ridge_told'))).toBe(true);
-    await j.play('>w13');
-    expect(j.campaign.world.one('at', 'party')).toBe('region__w13');
+    expect(ScreenModel.build(j.campaign).objectives.join(' ')).toContain('salvage crew is digging');
+    const done = await MapPlay.press(j, SITE);
+    expect(done).toEqual({ to: SITE, arrived: true });
+    expect(j.campaign.world.one('at', 'party')).toBe(SITE);
     // The sheep-way was told of: it is a way on from the foot, beside the steep path.
     expect(j.takes('Into the old sheepfold')).toBe(true);
     expect(j.takes('lookout')).toBe(true);
-    expect(ScreenModel.build(j.campaign).objectives.join(' ')).toContain('salvage crew is digging');
+  }, 300000);
+
+  it('is told of too in the town nearest it: asked of at the taproom there', async () => {
+    const j = await Howe.start(company('warrior'));
+    await j.play(`>${PLACED.town}_taproom`);
+    if (!Howe.holds(j, 'knows', 'party', R('ridge_told'))) {
+      expect(j.offers('Ask about the diggers on the ridge')).toBe(true);
+      await j.play('Ask about the diggers on the ridge');
+    }
+    expect(Howe.holds(j, 'knows', 'party', R('ridge_told'))).toBe(true);
+    await j.play(`>${PLACED.howe}`);
+    expect(j.campaign.world.one('at', 'party')).toBe(SITE);
   }, 300000);
 });
 
@@ -75,13 +96,13 @@ describe('the ridge: weather, a watch, a line of tins, a ring of grey grass', ()
     const j = await Howe.at('lookout');
     // Cloud brewing is a sign at the foot; white cloud on the path hurts whoever crosses.
     j.assert('state', R('weather'), R('white'));
-    Placed.at(j, 'region__w13');
+    Placed.at(j, SITE);
     const before = Howe.hp(j);
     expect(j.offers('risk the weather')).toBe(true);
-    for (let i = 0; i < 6 && Howe.hp(j) >= before; i++) { Placed.at(j, 'region__w13'); await j.play('risk the weather on the steep path'); }
+    for (let i = 0; i < 6 && Howe.hp(j) >= before; i++) { Placed.at(j, SITE); await j.play('risk the weather on the steep path'); }
     expect(Howe.hp(j)).toBeLessThan(before);
     j.assert('state', R('weather'), R('clear'));
-    Placed.at(j, 'region__w13');
+    Placed.at(j, SITE);
     const clear = Howe.hp(j);
     await j.play('Into the (salvagers|Long Ridge)');
     expect(Howe.hp(j)).toBe(clear);
@@ -97,7 +118,7 @@ describe('the ridge: weather, a watch, a line of tins, a ring of grey grass', ()
     expect(Howe.holds(j, 'tolerates', R('watchers'), 'party')).toBe(true);
     const k = await Howe.at('lookout');
     Placed.knows(k, R('levy_told'));
-    expect(k.offers('you have come about the castellan')).toBe(true);
+    expect(k.offers('you have come about the shire-reeve')).toBe(true);
   }, 240000);
 
   it('hides the quiet way round behind a line of tins: a thief cuts it, a clumsy company rings it and the watch comes down', async () => {
@@ -144,7 +165,7 @@ describe('the camp in the lee: a captain, a crew, a cook, and four ways with the
     }
     // A hard persuasion: one company may need a second try; the Journey takes it by the page's own offer.
     if (Howe.fact(j, 'turned', R('captain'))) {
-      expect(Howe.where(j, 'captain')).toBe('region__s5_taproom');
+      expect(Howe.where(j, 'captain')).toBe(TOWN('taproom'));
       expect(Howe.holds(j, 'tolerates', R('crew'), 'party')).toBe(true);
     } else {
       expect(j.offers('what the torc will cost the country')).toBe(false);

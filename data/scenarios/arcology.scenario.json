@@ -6,7 +6,8 @@
   "instances": 1,
   "places": {
     "works": { "site": ["ruin"] },
-    "town": { "settlement": "near:works" }
+    "town": { "settlement": "near:works" },
+    "first": { "settlement": "largest" }
   },
   "modules": [
     {
@@ -18,7 +19,8 @@
         "outside": "@works",
         "gossip": "@town.green",
         "shrine": "@town.shrine",
-        "keeper": "@town.priest"
+        "keeper": "@town.priest",
+        "first_taproom": "@first.taproom"
       }
     }
   ],
