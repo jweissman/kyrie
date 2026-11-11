@@ -124,6 +124,20 @@ Two situations were lifted out of one-off writing into **templates the author va
 
 *What is not possible today:* the commission asked for **feats** granted for rising in a companion's regard. A feat is taken at a level threshold by the engine (`featOpen` is derived from the member's level and calling), and Kyr has no effect that grants a trait. The capability-granting keepsake is the closest authorable thing (request R14). Regard here is a plain measure of this author's, not a shared "approval" system.
 
+### 2.9 Small situations played, and a conflict with a person who means harm (implemented): `troubles.kyrt`, `conflict.kyrt`
+
+The first-region rubric asks for situations that are *played*, not tasks that trigger reward text, and for tone beyond the gentle. These were added to close that.
+
+| Situation | Shape | What is played | What changes |
+|---|---|---|---|
+| **Someone missing** | Hesper Lowe, after she has told the company of her bell, goes under the hill for her own pattern (a clock: she goes after 40 watches) | the apron on the well-curb; the merchant's last conversation with her; a rope into a passage that was not there; a girl with a broken leg and a strip of wax; splinting, the tunnel, the cellar | bell cast, a coin, and a girl on a crutch at the sheds who does not wish to be asked about wisdom |
+| **An escort** | Osmund Pyle, an old man with a bad hip, will walk to where his wife left her coin (the posting-house's post, or the old tree) | he is slow; he will say when to stop; the engine's own "brought home" thanks | a widower's coin left |
+| **Strange animals** | drawn per country: a vixen with kits in the Hall cellar wall (the geese, the hens), or the wind sounding the chime's four notes in the old passage (the dogs facing the hill) | the clue (tracks; the draught at the old wall); the cook who knows the house | hens left at the inn with a note, or cloth across the grating and a thing that is "two things" |
+| **A theft with a culprit** | the shrine's offering-box emptied of its bronze; drawn per country: the apprentice (needed metal) or a traveller (left at dawn) | the box's evidence differs by culprit; the innkeeper's slip; **a wrong accusation has a cost** (the apprentice shunned at the sheds, or the traveller's pack by the door) | the acolyte repays, or a wrongly accused person is looked at |
+| **A bailiff** | Maudlin Rooke collects "dues for the keeping of the road" from the first town and the two nearest settlements, with a lead seal that is a wheel and no wing | three dues-receipts to read in three towns; the grant's seal (or the posting-house's tariff) to compare; **three ways to answer** (report her through the reeve and the castellan's clerk and wait; buy her silence for half and be remembered for it; stand by the accusation, after a stated warning, against two deserters, which a lone starter can lose) | towns' purses, a chalk on a post (A WHEEL HAS A WING), or a hayrick burned and prices doubled **whether or not the company is watching** |
+
+*Malice that is not a monster:* Rooke is intelligent, has read enough of the Keepers of the Road to know how a people will pay for a road they half-remember, and is exactly as dangerous to a hamlet as the company allows. The conflict has a clock (48 watches: the price rises; 120: a rick burns), three communities, a Hall and the wardens, and three outcomes, each with a different cost. The wrong answer is available and teaches something.
+
 ## 3. Tested routes through the opening region (exercised)
 
 All by the page's own labels from a fresh character (`test/outskirts-deep.test.ts`, `test/roadstation.test.ts`; seed `kahitude`, a warrior unless said):
