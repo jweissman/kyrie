@@ -21,14 +21,14 @@ The brief asked also for the older situations and scenarios that are not the thr
 
 ## How the corpus was read, and how far
 
-These are 1.9 MB of Kyr. I could not and did not read all of it. I read the shortest module (the Long Man) in full, read every first meeting and every return greeting in all nine, ran phrase counts over all nine (`ngram` over quoted strings), and read the rules, discoveries and endings of the others by structure. Each review says what it read. Claims about weak prose are claims about the passages I read; the phrase counts are over everything.
+These are 1.9 MB of Kyr. I could not and did not read all of it. I read the shortest module (the Long Man) in full, read every first meeting and every return greeting in all nine, ran phrase counts over the quoted text of all nine, and read the rules, discoveries and endings of the others by structure. Each review says what it read. Claims about weak prose are claims about the passages I read; the phrase counts are over everything.
 
 ## What the nine have in common
 
 Measured over all nine modules (3-, 5- and 6-grams of quoted text):
 
-1. **The look.** "she/he looks at you / looks at the / does not look at" appears 250 times, in every module; 107 of 195 first meetings and `Warns` lines contain one. It is the corpus's default first beat, and in the Grand Tour (111) and Wrayford (84) it is a house style. In small doses it is good; where it opens a third of the cast it flattens them.
-2. **Return greetings were an afterthought.** Winter in Carth, the Grand Tour and the Lull had them almost everywhere (29/32, 25/29, 21/26) and nearly all were a single gesture under 120 characters. The Dorothea, Wrayford, Tessary, Wrongboat and Thrume had none, and the Long Man one. 100 now exist where there were none, and 47 thin ones are rewritten.
+1. **The look.** "she/he looks at you / looks at the / does not look at" (the five commonest forms) appears about 200 times, in every module; 107 of the `Greets`, `Comes`, `Warns` and `Objects` lines contain a look or a stare. It is the corpus's default first beat, and in the Grand Tour (111) and Wrayford (84) it is a house style. In small doses it is good; where it opens a third of the cast it flattens them.
+2. **Return greetings were an afterthought.** Winter in Carth, the Grand Tour and the Lull had them almost everywhere (29/32, 25/29, 21/26) and nearly all were a single gesture under 120 characters. The Dorothea, Wrayford, Tessary, Wrongboat and Thrume had none, and the Long Man one. 113 now exist where there were none, and 47 thin ones are rewritten.
 3. **One-shot topics.** `Topic … when true once` is 53 of 83 topics in the Dorothea and 47 of 119 in Tessary: a character is asked once and has nothing more to say. The longer modules gate on `knows` (the Grand Tour 123 of 157), which is the cure, not the symptom.
 4. **No aim for the page to lead with.** Wrayford, Winter in Carth, the Dorothea and the Grand Tour had no `Objective`, though the page's gold lead is made from one (`doc/authoring/trail/10-scenes-and-opportunities.md`). Eleven now exist in three of them.
 5. **Few signs.** `Observe … as sign` (the page's "knowledge" aspect) appears 40 times in the Grand Tour and a handful in the Long Man, Lull and Dorothea; none in Wrayford, Carth, Tessary, Thrume, Wrongboat.
