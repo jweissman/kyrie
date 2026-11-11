@@ -1,3 +1,4 @@
+import { useEffect, useState, type ReactNode } from 'react';
 import { Glyphs } from '../creation/glyphs';
 import type { Aspect } from '../../../src/presentation/glance-types';
 import { Emphasis, type Tone } from '../emphasis';
@@ -138,6 +139,19 @@ export class WorldStage {
     const { tone } = Emphasis.of(aspects, gilded), fill = Pip.fill(aspects, gilded);
     return { aspects, gilded, ...tone ? { tone } : {}, ...fill ? { fill } : {}, label: Pip.words(aspects, gilded) };
   }
+  // A likeness with nothing to open, touched, says why beneath it for a moment, rather than nothing (round 6: three taps
+  // on the factor's hands, and on an enemy, did nothing, and nothing said why).
+  static Still({ subject: x, fell, children }: { subject: SceneSubject; fell: string; children: ReactNode }) {
+    const [told, tell] = useState(false), why = WorldStage.why(x);
+    useEffect(() => { if (!told) { return; } const t = setTimeout(() => tell(false), 3200); return () => clearTimeout(t); }, [told]);
+    return <button type="button" className={`portrait still${fell}${told ? ' told' : ''}`} aria-disabled="true"
+      aria-label={`${x.name}: ${why}`} onClick={() => tell(true)}>{children}
+      {told && <span className="still-why" role="status">{why}</span>}</button>;
+  }
+  static why(x: SceneSubject): string {
+    if (x.state) { return x.state === 'dead' ? 'Dead.' : 'Down, and not getting up yet.'; }
+    return x.danger ? 'Means you harm: what can be done is in the scene.' : 'Nothing more to say to you now.';
+  }
   static Portrait({ subject: x, draw, pip }: { subject: SceneSubject; draw: Draw; pip?: { fill?: string; label: string } }) {
     // One with nothing to say or do now is a likeness, not a way into a conversation with nothing in it.
     const into = x.live || x.kind === 'animal' || x.kind === 'creature' ? WorldStage.into(x) : undefined, face = x.portrait
@@ -152,7 +166,7 @@ export class WorldStage {
       {x.state && <span className="fell">{x.state === 'dead' ? 'Dead' : 'Down'}</span>}</>;
     // The fallen are drawn fallen (the owner, 7 November: the dead had stood in their likenesses as if alive).
     const fell = x.state ? ` fallen ${x.state}` : '';
-    if (!into) { return <span className={`portrait still${fell}`}>{body}</span>; }
+    if (!into) { return <WorldStage.Still subject={x} fell={fell}>{body}</WorldStage.Still>; }
     // An animal's own page is the page's to open (no command of the engine's), and is opened as one.
     return draw.index.has(into.id) ? <Act.View choice={into} draw={draw} quiet className={`portrait${fell}`}>{body}</Act.View>
       : <button type="button" className={`act portrait${fell}`} data-action="look-at" data-choice={into.id}

@@ -314,3 +314,10 @@
 .portrait { position: relative; }
 .portraits .portrait > .pip { position: absolute; z-index: 2; top: 1px; left: calc(50% + 15px); }
 .rail-mark > .pip { position: absolute; top: 6px; right: 6px; }
+/* A likeness with nothing to open: a quiet button, which says why beneath it when touched (see WorldStage.Still). */
+.portraits button.portrait.still { all: unset; box-sizing: border-box; position: relative; display: grid; justify-items: center;
+  gap: 4px; cursor: default; }
+.portraits button.portrait.still:focus-visible { outline: 1px solid var(--edge-strong); outline-offset: 3px; }
+.portrait .still-why { position: absolute; top: calc(100% + 4px); left: 50%; transform: translateX(-50%); width: max-content;
+  max-width: 14rem; padding: 4px 8px; font: italic 400 12.5px/1.35 var(--told); color: var(--ivory); text-align: center;
+  background: rgba(12, 13, 17, .88); border: 1px solid var(--edge); z-index: 3; }
