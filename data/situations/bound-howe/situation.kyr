@@ -1,0 +1,650 @@
+Module bound_howe "The Bound Howe" {
+  Description "A king's howe on a wind-scoured ridge, half robbed already. A salvage crew digs in its lee for the gold; an old woman keeps the dead's rest with a hearth and a tally-stick; the castellan's clerk wants the king's torc; and beneath the Barrow-Kin's floor lies what the Kin were put there to keep. Go in prepared, go in quietly, go in by the robbers' shaft, or seal it, and decide what the country pays.".
+  Entity party: group "Your company".
+  Place land "The ridge country" is region.
+  Place outside "The foot of the ridge" is room.
+  Place town "The town below" is settlement.
+  Place green "The green" is room.
+  Place taproom "The taproom" is room.
+  Place shrine "The shrine" is room.
+  Entity keeper: group "The innkeeper".
+  Entity priest: group "The priest".
+
+  // ---- What Deem draws for the country (templates.json): how the howe was left, what the ridge's weather is, and which
+  // of the three flutes is the king's. The king, the captain, the warden, the clerk and the surgeon are named from it.
+  Kind fatekind. Entity fate_sealed: fatekind "sealed". Entity fate_broken: fatekind "broken".
+  Kind airkind. Entity air_mist: airkind "mist". Entity air_rain: airkind "rain". Entity air_wind: airkind "wind".
+  Entity air_snow: airkind "snow". Entity air_dust: airkind "dust".
+  Relation fate(place, fatekind). Relation airs(place, airkind). Relation kinflute(entity).
+
+  // ---- The ridge, the howe and what lies under it.
+  Place hearth "the warden's hearth" is room within ridge at 0, 0 outdoors.
+  Place fold "the old sheepfold" is room within ridge at 0, 1 outdoors.
+  Place lookout "the salvagers' lookout" is room within ridge at 1, 0 outdoors.
+  Place rise "the heather rise" is room within ridge at 2, 0 outdoors.
+  Place lee "the camp in the lee" is room within ridge at 3, 0 outdoors.
+  Place trench "the robbers' trench" is room within ridge at 4, 0 outdoors.
+  Place shaft_head "the head of the robbers' shaft" is room within ridge at 4, 1 outdoors.
+  Place ring "the ring of standing stones" is room within ridge at 2, 2 outdoors.
+  Place survey "the survey cairn" is room within ridge at 3, 2 outdoors.
+  Place howe "The king-howe" is site within land at 3, 1.
+  Place ridge "The Long Ridge" is site within land at 3, 3.
+  Place inner "The howe" is level within howe.
+  Place below "Under the howe" is level within howe.
+  Place forecourt "the forecourt of the howe" is room within ridge at 3, 1 outdoors.
+  Place gallery "the gallery of kings" is room within inner at 1, 0 underground.
+  Place horses "the horse-hall" is room within inner at 1, 1 underground.
+  Place harness "the harness-store" is room within inner at 0, 1 underground.
+  Place bench "the riders' bench" is room within inner at 2, 1 underground.
+  Place flutes "the chamber of flutes" is room within inner at 2, 0 underground.
+  Place throne "the high chamber" is room within inner at 3, 0 underground.
+  Place behind "the room behind the seat" is room within inner at 3, 1 underground.
+  Place shaft_foot "the foot of the robbers' shaft" is room within below at 0, 0 underground.
+  Place dig "the robbers' dig-camp" is room within below at 1, 0 underground.
+  Place sump "the sump" is room within below at 2, 0 underground.
+  Place ancient "the older chamber" is room within below at 3, 0 underground.
+  Place well "the listening well" is room within below at 3, 1 underground.
+  Initially Assert unlit(gallery). Initially Assert unlit(horses). Initially Assert unlit(harness). Initially Assert unlit(bench).
+  Initially Assert unlit(flutes). Initially Assert unlit(throne). Initially Assert unlit(behind). Initially Assert unlit(shaft_foot).
+  Initially Assert unlit(dig). Initially Assert unlit(sump). Initially Assert unlit(ancient). Initially Assert unlit(well).
+  Initially Assert restful(hearth). Initially Assert restful(harness).
+
+  Passage steep "the steep path" is path between outside and lookout taking 30 minutes.
+  Passage sheepway "the sheep-way" is track between outside and fold taking 40 minutes.
+  Passage fold_up "the gap in the fold wall" is path between fold and rise taking 20 minutes.
+  Passage post_on "the path past the lookout" is path between lookout and rise taking 10 minutes.
+  Passage goat_track "the goat-track" is path between rise and hearth taking 20 minutes.
+  Passage camp_way "the way down to the lee" is path between rise and lee taking 10 minutes.
+  Passage ring_way "the path to the stones" is path between rise and ring taking 20 minutes.
+  Passage lee_ring "the track from the camp to the stones" is path between lee and ring taking 20 minutes.
+  Passage cutting "the cutting" is path between lee and trench taking 10 minutes.
+  Passage trench_floor "the trench floor" is path between trench and shaft_head taking 10 minutes.
+  Passage shaft "the robbers' shaft" is shaft between shaft_head and shaft_foot needing rope or climbing.
+  Passage flank "the path along the flank" is path between ring and survey taking 20 minutes.
+  Passage sunwise "the sunwise way round the stones" is path between ring and forecourt taking 20 minutes.
+  Passage across "the straight way across the grey grass" is path between ring and forecourt taking 5 minutes.
+  Passage door "the howe's door" is door between forecourt and gallery.
+  Passage stalls "the stall-arch" is arch between gallery and horses.
+  Passage store_door "the harness-store door" is door between horses and harness.
+  Passage riders_arch "the riders' recess" is arch between horses and bench.
+  Passage gallery_end "the gallery's end" is passage between gallery and flutes.
+  Passage steps "the steps up" is steps between flutes and throne.
+  Passage behind_way "the way behind the seat" is crawl between throne and behind.
+  Passage foot_way "the robbers' crawl" is crawl between shaft_foot and dig.
+  Passage robbers_hole "the robbers' hole" is crawl between dig and harness.
+  Passage drift "the low drift" is crawl between dig and sump.
+  Passage sump_way "the flooded passage" is crawl between sump and ancient.
+  Passage well_steps "the well-steps" is steps between ancient and well.
+  Passage first_stair "the first folk's stair" is stair between ancient and behind hidden until plan_whole.
+
+  // ---- Hazards.
+  Hazard ridge_cold "The weather on the ridge" means "Deal (1d8) cold damage to ally unless constitution save against (15).".
+  Hazard grey_chill "The grey grass" means "Deal (2d6) cold damage to ally unless constitution save against (16). Apply weakened to ally for 6 hours unless constitution save against (16).".
+  Hazard spoil_slide "A slide of spoil" means "Deal (2d6) physical damage to ally unless dexterity save against (13).".
+  Hazard tread_pit "The middle tread" means "Deal (2d6) physical damage to ally unless dexterity save against (13).".
+  Hazard shriek "The wrong flute" means "Deal (1d8) physical damage to ally unless constitution save against (13).".
+  Hazard foul_air "The foul air" means "Deal (1d6) poison damage to ally unless constitution save against (13).".
+  Hazard black_water "Black water" means "Deal (1d6) physical damage to ally unless constitution save against (12).".
+  Hazard mouth_pull "The voice from the well" means "Deal (1d6) physical damage to ally unless wisdom save against (13).".
+
+  // ---- Things that are carried, and the plan that is put together from three finds.
+  Kind salt_kind "a twist of salt" is gear worth 1 weighing 1 described "Coarse grey salt in a twist of cloth. Shepherds lay it down for the sheep; the Barrow-Kin's dead, it is said, will not cross it.".
+  Entity barley: good "sack of barley".
+  Kind kin_torc "a torc of the Barrow-Kin" is treasure worth 120 weighing 5 described "A twisted collar of iron and bronze as thick as a wrist. The Kin buried their lesser kings in them.".
+  Kind king_torc "the king's torc" is treasure worth 600 weighing 14 described "A torc of braided gold and iron wire, heavy as a child. Cut into its terminal is a line of the Kin's marks: WHILE THIS IS WORN THE BOUND IS KEPT.".
+  Kind sketch_kind "a salvager's sketch of the workings" is document teaching sketch_read described "A scrap of hide scratched with a nail: a shaft, a low drift, a drowned working, and a line of dots that goes in under the howe.".
+  Kind tally_kind "the warden's tally-stick" is document teaching tally_read described "An ash stick notched in threes down its length, with three signs burnt into the head and one ringed.".
+  Kind plate_kind "a bronze plate from the survey cairn" is document teaching plate_read described "A thumb-thick plate of bronze, squared and flat, cut with a wheel and a wing and a ladder of fine lines. It fits no measure you know.".
+  Kind banner_kind "a bound-banner of horsehair" is treasure worth 40 weighing 1 described "A bunch of plaited horsehair on an ash staff, the Kin's sign of a mount fed and a rider at rest.".
+  Discovery sketch_read "The diggers' sketch: a shaft down from the trench, a robbers' hole up into the harness-store, a low drift beyond the dig-camp with foul air in it, and a sump beyond that, drowned.".
+  Discovery tally_read "The warden's tally-stick: three signs for the three flutes in the chamber of flutes, and the ringed one is the king's.".
+  Discovery plate_read "The bronze plate's ladder of lines, laid against the howe, gives the depth of a chamber far below the Kin's floor, and a stair that goes up from it.".
+  Item salt_lick "a twist of salt" is salt_kind at fold.
+  Item lesser_a "a torc of the Barrow-Kin" is kin_torc at harness.
+  Item lesser_b "a torc of the Barrow-Kin" is kin_torc at gallery.
+  Item bronze_bits "a bridle of green bronze" is bronze_bearing at harness.
+  Item king_torc_item "the king's torc" is king_torc at throne.
+  Item sketch "a salvager's sketch of the workings" is sketch_kind at dig.
+  Item tally "the warden's tally-stick" is tally_kind nowhere.
+  Item plate "a bronze plate from the survey cairn" is plate_kind nowhere.
+  Item crew_rope "a coil of robbers' rope" is rope at shaft_head.
+
+  // ---- Persons.
+  Person king "Someone" at throne {
+    Role "the last king of the Barrow-Kin". Species revenant. Level 13. Temperament territorial. Lair throne. Pronouns he.
+    Warns "On the seat the king lifts his skull from his chest. The dark in his eyes finds you. He stands, and the sword comes up off his knees, and the air in the high chamber turns as cold as the inside of a bell.".
+  }
+  Initially Set encounterXp(king) to 600.
+  Person sworn "the king's sworn" at throne {
+    Role "two of the king's sworn men". Species revenant. Numbers 2. Level 6. Temperament obedient. Lair throne.
+    Warns "Two figures in rotted mail stand from either side of the seat, where you took them for part of the stone, and set their spears.".
+  }
+  Initially Set encounterXp(sworn) to 300.
+  Initially Assert serves(sworn, king).
+  Person household "the household of the king" at gallery {
+    Role "the king's dead household". Species ghoul. Numbers 3. Level 3. Temperament obedient. Lair gallery.
+    Warns "Along the gallery the seated dead turn their heads toward you, one after another, all the way to the end. The nearest rises from its niche with a sound like a sack of knuckles.".
+  }
+  Initially Set encounterXp(household) to 150.
+  Initially Assert serves(household, king).
+  Person mounts "the king's dead horses" at horses {
+    Role "the king's mounts, picketed in bone and bronze". Species horse. Undead skeletal. Numbers 3. Level 4. Temperament territorial. Lair horses.
+    State starved "Three horses stand picketed along the hall in full harness, nothing left of them but bone and the green bronze of their bits. Their long heads have turned toward the door. Before each is an empty manger, and they are pawing at the stone.".
+    State fed "The dead horses stand quiet at their mangers, their heads lowered over the barley. Their jaws do not move. The bells on the pickets hang still.".
+    State down "Three heaps of horse-bones lie in their harness along the hall, and the bells on the pickets are still.".
+    Warns "As you come in, the three dead horses lift their heads together. The bells on their pickets stir, and the nearest sets its forefoot on the stone and drags it back, once, empty trough before it, as a horse does that has been left without.".
+    Change feed "Pour barley into the empty mangers" from starved to fed consuming barley.
+  }
+  Initially Set encounterXp(mounts) to 200.
+  Rule mounts_fed when state(mounts, fed) and not tolerates(mounts, party) { Assert tolerates(mounts, party). }
+  Person riders "the king's riders" at bench {
+    Role "the king's two riders". Species revenant. Numbers 2. Level 6. Temperament ambush. Lair bench.
+    Warns "On the bench the two dead riders sit up together, as men do who have been woken by a trumpet and know what it means. Their spears come down.".
+  }
+  Initially Set encounterXp(riders) to 300.
+
+  Person watchers "the salvagers' watch" at lookout {
+    Role "two of the Spade-Company, on the hill's knuckle". Ancestry human. Calling warrior. Level 3. Numbers 2. Temperament territorial. Lair lookout.
+    Warns "Two people in patched leather rise from behind the lookout wall, one with a crossbow resting on the stones and one with a horn at her belt. 'That's far enough,' says the one with the horn. 'You're on the Spade-Company's hill. Say what you've come for, or get down off it.'".
+  }
+  Initially Set encounterXp(watchers) to 100.
+  Person crew "the Spade-Company's hands" at lee {
+    Role "four diggers of the Spade-Company". Ancestry human. Calling warrior. Level 3. Numbers 4. Temperament territorial. Lair lee.
+    Warns "Spades go down all along the camp as the diggers straighten. 'Hold,' says someone, and four hands in canvas and iron caps move between you and the trench, not drawing yet. They are looking over your shoulder for who else is with you.".
+  }
+  Initially Set encounterXp(crew) to 200.
+  Initially Assert breaks(crew).
+  Person captain "Someone" at lee {
+    Role "the captain of the Spade-Company". Ancestry human. Level 4. Temperament territorial. Lair lee. Pronouns she.
+    Warns "The captain comes out of the biggest tent with a ledger under her arm and does not put it down. 'Company,' she says, to your face and to the hands behind her, 'what do you want? Because the licence I hold says nobody digs here but us, and it says it in the castellan's own hand.'".
+  }
+  Initially Set encounterXp(captain) to 250.
+  Initially Assert serves(crew, captain). Initially Assert serves(watchers, captain). Initially Assert serves(captain, clerk).
+  Person surgeon "Someone" at lee {
+    Role "the camp's cook and surgeon". Ancestry human. Peaceable. Pronouns he.
+    Sells rations for 2 coin from 8.
+    Sells torch for 1 coin from 8.
+    Sells lamp_oil for 2 coin from 4.
+    Sells rope for 2 coin from 3.
+    Sells barley for 3 coin from 3.
+    Sells salt_kind for 1 coin from 4.
+    Sells bandages for 1 coin from 4.
+    Sells candle for 1 coin from 6.
+    Sells shovel for 3 coin from 2.
+    Sells iron_spikes for 1 coin from 6.
+    Sells oil_flask for 3 coin from 3.
+    Greets "The camp's cook and surgeon looks up from a pot with a bone spoon in one hand and a needle in the other. 'If it is blood you want stopped, sit. If it is anything else, I do not make the decisions.'".
+  }
+  Initially Assert serves(surgeon, captain).
+  Person sentry "the pit sentry" at shaft_head {
+    Role "a salvager on the shaft winch". Ancestry human. Calling warrior. Level 3. Temperament territorial. Lair shaft_head.
+    Warns "The man on the winch stands up and puts his hand on the bell-cord. 'Not down there,' he says. 'Captain's orders. There's nothing down there but our dead, and we mean to keep it quiet.'".
+  }
+  Initially Set encounterXp(sentry) to 100.
+  Initially Assert serves(sentry, captain).
+  Person warden "Someone" at hearth {
+    Role "the warden of the ridge". Ancestry human. Peaceable. Pronouns she.
+    Greets "The old woman on the stone seat does not rise. 'I know why you have come,' she says. 'Everyone comes for the same reason, and goes away with a different one. Sit by the fire. The fire is the only thing on this ridge that has never lied.'".
+  }
+  Person clerk "Someone" at green {
+    Role "the castellan's clerk". Ancestry human. Peaceable. Pronouns he.
+    Greets "The castellan's clerk looks up from a writing-board and a stack of tallies. 'You are not here to pay the levy,' he says, 'so you must be here about the torc. Everyone is.'".
+  }
+  Person mouth "the Mouth" at well {
+    Role "what lies in the well". Species mouther. Level 7. Temperament ambush. Lair well.
+    Warns "The black water in the well-mouth shivers and folds, and a voice speaks out of it in a voice you know: your own, a little behind, saying the last thing you said. Then it laughs, in no voice at all.".
+  }
+  Initially Set encounterXp(mouth) to 500.
+  Person drowned "the drowned crew" at sump {
+    Role "robbers who drowned in the sump". Species zombie. Numbers 3. Level 3. Lair sump.
+    Warns "The black water at the sump's edge moves where nothing is, and then three figures in rotted canvas and iron caps stand up out of it, streaming, and turn their faces to the light.".
+  }
+  Initially Set encounterXp(drowned) to 120.
+  Person iron_caps "the iron-capped dead" at forecourt {
+    Role "robbers the king's night left on the grass". Species zombie. Numbers 2. Level 2. Lair forecourt.
+    Warns "Two figures that were lying face down in the grey grass get up without using their hands. They wear iron caps, and picks are still tied to their wrists.".
+  }
+  Initially Set encounterXp(iron_caps) to 80.
+  Person last "the last of the Barrow-Kin" at behind {
+    Role "a dozen of the Kin, lying together". Species spirit. Numbers 4. Level 3. Peaceable.
+    Greets "Of the dozen on the floor, one lifts a hand from the one beside it, as a sleeper does when the door is opened a little. The hand lowers again.".
+  }
+
+  // ---- Weather on the steep path: a path that is easy in clear air, and an edge in the white.
+  Thing weather "the weather on the steep path" on steep is scenery {
+    State clear "The steep path climbs the ridge in the clear, a pale scar through heather and scree.".
+    State brewing "Cloud is feeling its way down the ridge from the howe, in long grey strokes; the path is clear, for now.".
+    State white dangerous "Cloud lies down on the steep path, white and wet. The path is a ledge of wet scree in it, and the drop beside it is not to be seen.".
+    Hurts with ridge_cold when white then white.
+  }
+  Rule weather_brews when state(weather, clear) and dice(clock) <= 8 { Assert state(weather, brewing). }
+  Rule weather_closes when state(weather, brewing) and dice(clock) <= 35 { Assert state(weather, white). }
+  Rule weather_lifts when state(weather, white) and dice(clock) <= 20 { Assert state(weather, clear). }
+  Observe weather_sign at outside as sign when state(weather, brewing) "Cloud has begun to come down the ridge from the howe in long grey strokes. The smoke from the lookout, which stood straight up, now lies along the hill." teaches weather_known.
+  Discovery weather_known "A white-out comes down the steep path out of the howe's cloud, and the path is no place to be in it.".
+  Observe air_mist at outside when airs(howe, air_mist) "A mist lies in the low ground below the ridge and thins as it climbs, so that the howe on the skyline appears and goes in it like something breathing.".
+  Observe air_rain at outside when airs(howe, air_rain) "Rain has been on the ridge for an hour and is coming down the hill in grey sheets, and the howe stands under it, black on the skyline, unmoved.".
+  Observe air_wind at outside when airs(howe, air_wind) "The wind on the ridge is steady and cold and smells of rock. It has combed the grass on the howe flat in one direction.".
+  Observe air_snow at outside when airs(howe, air_snow) "Snow lies in the lee of every wall and none on the howe, which stands black and bare on the skyline as if the cold went round it.".
+  Observe air_dust at outside when airs(howe, air_dust) "Dust moves along the ridge in sheets, and the howe stands up out of it, long and pale.".
+  Observe foot_ridge at outside as feature when true "Above the mound a long ridge climbs to the east, bare and brown, and along its crest, three times the height of any mound below it, a great howe lies against the sky. This low one at your feet is a marker, set where the Barrow-Kin's land began.".
+  Observe foot_smoke at outside as sign when true "Two columns of smoke stand on the ridge above you: one thick and black, from some digging on the near side, and one thin and white and steady, from higher ground to the north.".
+  Observe foot_wall at outside when true "A drystone wall climbs the slope beside the mound, and the steep path goes up along it, a pale scar in the heather.".
+
+  // ---- The lookout, the fold, and the cans.
+  Observe lookout_scene at lookout when true "The lookout is a ring of dry stone on the ridge's knuckle with a roof of turf, and from it a person with a horn can see the steep path from foot to crest.".
+  Observe lookout_view at lookout as feature when true "From here the whole western approach is open, the ring of stones black and small on the high ground and the howe long and grassed behind it. A line of smoke rises from the camp in the lee of the hill, to the south-east.".
+  Observe watchers_there at lookout when able(watchers) and not tolerates(watchers, party) "The ground in front of the wall is trodden bare. Anyone coming up the steep path would be in plain view for half an hour.".
+  Action pay_watch(actor: group, site: place) "Pay the watch four coin and give your name to the captain" {
+    Requires able(actor) and at(actor, site) and at(watchers, site) and able(watchers) and not tolerates(watchers, actor) and quantity(actor, gold) >= 4.
+    On success { Decrease quantity(actor, gold) by 4. Increase quantity(watchers, gold) by 4. Assert tolerates(watchers, actor). }
+    Result "The one with the horn counts the coin into her palm without looking at it. 'Go by the post,' she says, 'and mind where you put your feet. The captain will want a word.'".
+  }
+  Topic watch_levy with watchers "Tell the watch you have come about the castellan's levy" when knows(actor, levy_told) once {
+    Says "The one with the crossbow looks at the one with the horn. 'The levy,' says the one with the horn. 'You're from the clerk, then.' She does not believe it, but she lowers the horn. 'Go down to the lee and say it to the captain. If it is a lie, she will know before you do.'".
+    On discuss { Assert tolerates(watchers, actor). }
+  }
+  Thing cans "the line of tins across the gap" on fold_up {
+    State strung blocking "Where the fold wall has fallen in, a gap leads up to the heather. Across it at ankle height runs a line of rusted tins, each with a pebble in it, strung from stake to stake on a thread of gut.".
+    State cut "The line of tins hangs slack across the gap, the thread cut.".
+    State rung "The tins lie scattered in the gap, where the line was torn down.".
+    Change cut_line "Cut the thread, tin by tin" from strung to cut needing lockwork or trapwork.
+    Tries looking, pushing.
+  }
+  Action step_over_cans(actor: group, site: place) "Lift your feet over the line of tins, one at a time" {
+    Requires able(actor) and at(actor, site) and at(actor, fold) and state(cans, strung).
+    Resolve check(actor, stealth, dc_fair).
+    On success { Assert state(cans, cut). }
+    On failure { Assert state(cans, rung). Assert alerted(). Retract at(watchers, lookout). Assert at(watchers, fold). }
+    Result "You go over the line with the tins ticking against your boots, and the thread slackens behind you. Nothing sounds.".
+    Otherwise "A toe finds the thread. The tins go off all at once, rattling away over the heather like a handful of thrown gravel, and from the knuckle of the hill a horn answers.".
+  }
+  Observe cans_seen at fold as sign noticed by woodcraft when state(cans, strung) "A line of rusted tins is strung across the gap in the wall above you, low, where it would take a foot. The grass beneath it is not trodden.".
+  Observe cans_pole at fold as sign when tried(cans, pushing) and state(cans, strung) "The tins clatter as the pole touches the line, and the sound goes away over the heather like a handful of thrown gravel.".
+  Rule cans_clatter when state(cans, strung) and at(party, rise) and not tolerates(watchers, party) and not alerted() says "Behind you the tins on the wall go off like a flock of birds. Over the heather a horn answers, once." { Assert alerted(). Assert state(cans, rung). Retract at(watchers, lookout). Assert at(watchers, rise). }
+  Relation alerted().
+  Observe fold_scene at fold when true "The fold is a ring of tumbled drystone in the lee of the ridge, grassed over inside, with a hay-rack of grey wood and a flat stone worn hollow by sheep's tongues. A track comes up the wall from the sheep-way.".
+  Observe fold_salt at fold when true "A flat stone worn into a hollow by sheep holds the white crust of what they have licked from it: salt. Beside it lies a twist of the stuff in a cloth, left by a shepherd who did not come back for it.".
+
+  // ---- The heather rise, the warden's hearth, and what she knows.
+  Observe rise_scene at rise when true "The rise is a plain of heather and pale grass with the wind on it, the highest ground before the howe. Paths go off from it: north on a goat-track, down to the diggers' camp, and out toward the black stones of the ring.".
+  Observe rise_howe at rise as feature when true "The howe lies a long bowshot to the east, three times the height of any mound you have seen, steep-sided and green. The grass on it does not move in the wind.".
+  Observe hearth_scene at hearth when true "A turf hut stands in the hollow of the hill with a fire before it, and a goat tethered to a stake. The smoke is thin and white and goes straight up.".
+  Observe hearth_ash at hearth when true "Around the hut a pale ring has been laid on the ground in salt, unbroken, and in every opening of the hut a bundle of iron nails is tied with red wool.".
+  Topic warden_howe with warden "Ask {warden} about the howe" when true once {
+    Says "'It is a king's,' says {warden}. 'The last king of the Kin: {king}. They laid him on his seat with his sword across his knees and set the stone behind him, and what they believed was this: that the dead keep the bounds of the land, and a people that has no barrows has no country. So the dead keep the bound. They do not like to be disturbed. I have kept a fire in sight of the door for forty years, so that they should remember there is a living kind that still does.'".
+    On discuss { Assert knows(actor, warden_lore). }
+  }
+  Discovery warden_lore "The Kin held that the dead keep the bounds of the land. The warden keeps a fire in sight of the howe's door so the dead remember the living.".
+  Topic warden_salvagers with warden "Ask {warden} about the people in the lee" when true once {
+    Says "'The Spade-Company,' says {warden}, as another woman might say a plague of wasps. 'They hold the castellan's licence and a bad conscience. They dug a trench into the king's flank for his gold and broke through into something under the howe that was not the king's at all, and eight of them went down after the gold and none came up. They have not been under since. They are afraid, and I do not blame them. But they are going to take the torc, and I do blame them for that.'".
+  }
+  Topic warden_torc with warden "Ask {warden} about the torc" when knows(actor, warden_lore) once {
+    Says "'It is cut,' says {warden}. 'Read it, if you can read. While this is worn the bound is kept. It is the same word as the one on the stone behind the seat. The Kin were not fools, child. They knew the dead walk when the bound breaks. They put the torc on the king so there should be one thing in the howe worth stealing, and it should be the one thing that cannot be stolen without telling everyone for a hundred miles why they should have left it.'".
+    On discuss { Assert knows(actor, torc_price). }
+  }
+  Discovery torc_price "While the king's torc is worn, the bound is kept. Taken, the dead walk.".
+  Topic warden_other with warden "Ask {warden} whether anything else would meet the levy" when knows(actor, levy_told) and knows(actor, torc_price) once {
+    Says "{warden} is quiet a while. 'The lesser kings wore torcs too,' she says. 'They lie in the harness-store and in the gallery's niches, the iron and bronze ones, three or four of them. They are heavier than they look. If the castellan only wants metal, there is metal there. It would still be a theft. But it would be a theft that does not bring the dead down the lane.'".
+    On discuss { Assert knows(actor, lesser_torc_known). }
+  }
+  Discovery lesser_torc_known "The lesser kings' torcs, in the harness-store and the gallery, would meet the levy as well as the king's, and would not break the bound.".
+  Topic warden_greeting with warden "Ask {warden} how a living kin is greeted at the king's door" when knows(actor, warden_lore) and trusted(warden, actor) once {
+    Says "'The lintel says whose house it is,' says {warden}. 'Say his name to the stone, and say that you come for the bound and not the gold, and the stone will hear it, because the Kin's stone was made to hear one thing. If your hands are too clean for a rite, say it anyway: the dead are not particular about what you are, only that you ask.'".
+    On discuss { Assert knows(actor, kin_greeting). }
+  }
+  Discovery kin_greeting "At the king's door, to ask in his name for the bound's sake, and not for gold, is the greeting the Kin's stone was made to hear.".
+  Action give_salt(actor: group, site: place) "Give {warden} a twist of salt for her ring" {
+    Requires able(actor) and at(actor, site) and at(warden, site) and holding(actor, salt_kind) and not trusted(warden, actor).
+    On success { Spend salt_kind from actor. Assert trusted(warden, actor). Give tally to actor. }
+    Result "{warden} takes the twist in two fingers, smells it, and for the first time looks at you. 'Somebody has taught you something,' she says. She goes into the hut and comes back with an ash stick notched in threes. 'My mother's, and her mother's. Do not lose it. It is the only map there is.'".
+  }
+  Relation trusted(group, group).
+  Topic warden_tally with warden "Ask {warden} what the tally-stick says" when trusted(warden, actor) and holding(actor, tally_kind) once {
+    Says "{warden} runs a thumbnail down the notches. 'It is the way down to the flutes, and what is in them. Three signs, and the one that is ringed. That is the flute the king played: the others are for the household and the horses, and if you play them the howe will answer you in the wrong voice. I cannot say which sign is the low and which the high. I never went in. But one of the three flutes is worn smooth by hands, and a hand knows.'".
+  }
+  Topic warden_mind with warden "Ask {warden} what she would have you do" when knows(actor, warden_lore) once {
+    Says "'Nothing,' she says. 'I would have you leave it, and be thanked by nobody. But you are not going to, because someone has told you there is gold. So: take salt; take barley, for the horses are the first thing the Kin fed and the last thing they forgot; take rope, and a pole, and more light than you think. And when you come out, close the door behind you. A door left open is the most dangerous thing in the world.'".
+  }
+
+  // ---- The camp in the lee, the captain, and the trench.
+  Observe lee_scene at lee when true "The camp is pitched in the lee of the howe's shoulder where the wind cannot reach it, a dozen canvas shelters round a fire-ring, with the spoil of a great cutting heaped to the south. A line of salt has been laid across every track in.".
+  Observe lee_salt at lee as sign when true "Every path into the camp has a white line across it. Beyond it, the heather is bare in a half-ring, as if something comes down to it at night and goes no further.".
+  Observe lee_ledger at lee when not tolerates(captain, party) and able(captain) "The captain stands with the ledger open on her forearm, ticking something off with a pencil.".
+  Topic captain_ask with captain "Ask {captain} what the company is digging for" when true once {
+    Says "'What do you think?' says {captain}. 'Gold. The king was buried with twenty horse-loads of it, if you believe the shepherds, and a torc you could pay a regiment with, if you believe the castellan. The licence is ours. I will not pretend there isn't a price. But I'll tell you something free: I have lost eight hands under the hill, and nothing has paid for them yet.'".
+    On discuss { Assert knows(actor, captain_lost). }
+  }
+  Discovery captain_lost "The Spade-Company lost eight hands under the howe, in the flooded works below the robbers' shaft, and has not been below since.".
+  Action buy_leave(actor: group, site: place) "Pay {captain} twelve coin for the freedom of the camp" {
+    Requires able(actor) and at(actor, site) and at(captain, site) and able(captain) and not tolerates(captain, actor) and quantity(actor, gold) >= 12.
+    On success { Decrease quantity(actor, gold) by 12. Increase quantity(captain, gold) by 12. Assert tolerates(captain, actor). }
+    Result "{captain} makes a mark in the ledger. 'Twelve,' she says. 'You are welcome in my camp and on my hill. You are not welcome to what we find. The winch is the sentry's, and the sentry is mine. Ask him nicely.'".
+  }
+  Action turn_captain(actor: group, site: place) "Tell {captain} what the torc will cost the country" {
+    Speaker captain.
+    Requires able(actor) and at(actor, site) and at(captain, site) and able(captain) and knows(actor, torc_price) and not turned(captain).
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert tolerates(captain, actor). Assert turned(captain). Assert at(captain, taproom). Retract at(captain, site). }
+    Result "{captain} is silent so long that the hands behind her stop pretending to dig. Then she shuts the ledger. 'The castellan's licence,' she says, 'does not cover the dead walking down the lane to the town where my sister lives.' She calls the hands in, one at a time, by name, and gives each of them a coin from her own purse. By dusk the tents are down. 'I'll be in the taproom,' she says, 'if anyone wants to ask me about it.'".
+    Otherwise "{captain} hears you out with her pencil still. 'A very fine story,' she says. 'Now say it to the castellan, who pays for this.'".
+  }
+  Relation turned(group).
+  Rule camp_welcome when tolerates(captain, party) and able(captain) { Assert tolerates(crew, party). Assert tolerates(watchers, party). Assert tolerates(sentry, party). Assert restful(lee). }
+  Rule camp_broken when turned(captain) { Assert tolerates(crew, party). Assert tolerates(sentry, party). Assert tolerates(watchers, party). Assert restful(lee). Retract at(crew, lee). Assert at(crew, taproom). }
+  Observe trench_scene at trench when true "The trench is a raw cutting driven into the howe's flank, twenty paces long and the height of two men, shored with split timber and sheared at the end into a slope of broken stone. Water seeps from the walls.".
+  Thing props "the props of the trench" on trench_floor {
+    State loose dangerous "Half the props along the trench floor are splintered and slewed over, and a lip of wet spoil hangs above them, ready to come down. Whoever is working here has plainly been working elsewhere.".
+    State shored "The props have been wedged and spiked into line, and the spoil above them hangs quiet.".
+    State slipped "The spoil has come down off the wall in a long tongue across the floor. What is left of the roof is hard as a ceiling.".
+    Hurts with spoil_slide when loose then slipped.
+    Change shore "Wedge the props and spike them back into line" from loose to shored needing iron_spikes.
+    Change brace "Brace the leaning props with a pole and wedge them hard" from loose to shored needing pole.
+    Tries pushing.
+  }
+  Observe props_sign at trench as sign when state(props, loose) "A fresh tongue of spoil lies at the foot of the trench wall, and the timber above it has been slewed sideways. A spade stands upright in it, as if it were put there as a marker.".
+  Observe shaft_scene at shaft_head when true "The shaft is a round hole as wide as a cart, timbered at the lip and fitted with a winch and a boom. The winch drum is wound with a hundred feet of rope. A bell hangs on a cord from the boom to the camp.".
+  Observe shaft_voices at shaft_head as sound when true "From the shaft, very faint, a voice calls up out of the dark: 'Rope! Drop the rope! Hob, are you there?' It calls again, always the same, and always a little higher in the throat.".
+  Topic sentry_down with sentry "Ask {sentry} to let the company down the shaft" when tolerates(captain, actor) once {
+    Says "'The captain says to,' says {sentry}. He turns the winch-handle once, and the boom swings out. 'Mind the voice. Down there it calls for Hob. Hob was my brother. If you find a man who answers to Hob, that's not Hob.'".
+    On discuss { Assert tolerates(sentry, actor). }
+  }
+
+  // ---- The ring, the grey grass, the survey cairn.
+  Observe ring_scene at ring when true "The ring stands on the shoulder of the ridge, fourteen stones taller than a man on a horse, grey and lichened and set in a circle that has not given a hand's breadth in all the years since. Inside it the grass is long and pale, and does not move in the wind.".
+  Observe ring_bones at ring as sign when true "In the grey grass a few paces in, the bones of a mule lie in harness, its pack-saddle slumped beside it. The deer-track, trodden hard into the heather, goes the long way round the outside of the stones.".
+  Thing grass "the grey grass inside the stones" on across {
+    State quiet dangerous "The grass here is the grey of ashes, and the cold comes up out of it like a breath from a cellar. Nothing grazes on it. Your feet will leave marks that do not spring back.".
+    Hurts with grey_chill when quiet then quiet.
+    Tries looking, pushing.
+  }
+  Observe grass_tried at ring as sign when tried(grass, looking) "Looking closely, you see that nothing lives in the grass: no beetle, no spider, no seed. The deer have kept the whole circuit of the stones trodden to dust, and not once put a hoof inside.".
+  Observe survey_scene at survey when true "A squared block of dressed stone stands in the howe's flank where the turf has slumped away from it, set deep and level as no shepherd's cairn is. A groove has been chiselled into its top, and a ladder of fine lines runs down one face.".
+  Thing cairn "the survey cairn" at survey {
+    State sealed "A bronze plate is let into the block's face, green with age, cut with a wheel and a wing and a ladder of fine lines. Someone has tried to prise it out with a chisel and given up.".
+    State plateless "The bronze plate has been prised out of the block's face, leaving a squared hollow.".
+    Change prise "Prise the bronze plate out of the cairn" from sealed to plateless needing brawn or crowbar.
+    Tries looking.
+  }
+  Observe cairn_wheel at survey as sign noticed by lore when state(cairn, sealed) "The wheel on the plate has a wing cut into its rim, and the ladder beside it measures something in units that are not yours. Whoever set it here set it before the Kin raised the howe over the place, or after: the howe's flank has slumped around it, and either could be so." teaches survey_known.
+  Discovery survey_known "A stone of dressed work stands in the howe's flank, cut with a wheel and a wing and a ladder of lines. It is either far older than the Kin or far newer, and no one living can say which.".
+  Rule plate_given when state(cairn, plateless) and not holding(party, plate_kind) and not plate_taken() { Give plate to party. Assert plate_taken(). }
+  Relation plate_taken().
+
+  // ---- The forecourt, the seal-stone, and the household.
+  Observe forecourt_scene at forecourt when true "A forecourt paved with flat stones, open to the sky, walled by the horns of the howe's mound. The bones of oxen lie along the walls, where feasts were left for the dead. At the back, a door of three great stones: two uprights and a lintel, with a stone like a wheel standing in it.".
+  Observe forecourt_lintel at forecourt when true "On the lintel, cut deep and filled with something dark, run the Barrow-Kin's marks. They say: HERE SITS {king}, AND THE KINGS BEFORE HIM. THE STONE KEEPS THEM. LET IT BE." teaches king_named.
+  Discovery king_named "The howe is the seat of the last king of the Barrow-Kin, {king}, and of the kings before him.".
+  Observe forecourt_quiet at forecourt as sign when able(household) and at(household, gallery) and state(seal, set) "Nothing grows in the cracks between the paving stones, and no bird has settled on the howe's grass. The air is as still as the inside of a jar.".
+  Thing seal "the great seal-stone" on door {
+    State set blocking "A round stone twice the height of a man fills the doorway, in a groove cut for it. Its face has been worn smooth by hands at shoulder height, and around the rim run the same marks as on the lintel. The groove's lip is scored where something has been pried at it, and given up on.".
+    State rolled "The seal-stone stands rolled aside in its groove, and the dark of the howe breathes out past it, smelling of cold earth and old oil.".
+    State forced "The seal-stone lies half out of its groove where it was heaved, a long white scar on the pavement behind it. The dark beyond smells of cold earth.".
+    Change rite "Speak the rites of the dead at the seal-stone and ask, in the king's name, to be let in" from set to rolled needing rites.
+    Change hail "Give the king's greeting to the seal-stone" from set to rolled when knows(party, kin_greeting) and knows(party, king_named).
+    Change roll "Put your shoulders to the seal-stone and heave it aside" from set to forced needing brawn.
+    Change shut_rolled "Heave the seal-stone back into its groove" from rolled to set needing brawn.
+    Change shut_forced "Heave the seal-stone back into its groove" from forced to set needing brawn.
+    Tries pushing.
+  }
+  Rule seal_known_broken when fate(howe, fate_broken) and state(seal, set) and not seal_fate_applied() { Assert state(seal, forced). Assert seal_fate_applied(). }
+  Relation seal_fate_applied().
+  Rule seal_welcome when state(seal, rolled) and not tolerates(household, party) { Assert tolerates(household, party). }
+  Rule seal_roused when state(seal, forced) and tolerates(household, party) and fate(howe, fate_sealed) { Retract tolerates(household, party). }
+  Event seal_forced_noise at forecourt when state(seal, forced) and at(party, forecourt) and fate(howe, fate_sealed) and not forced_told() "As the stone grinds out of its groove, something inside the howe answers: a long dry sound, like the turning of many pages." then { Assert forced_told(). }
+  Relation forced_told().
+  Relation salted().
+  Action salt_door(actor: group, site: place) "Lay a line of salt across the howe's door" {
+    Requires able(actor) and at(actor, site) and holding(actor, salt_kind) and not salted().
+    On success { Spend salt_kind from actor. Assert salted(). }
+    Result "You kneel and lay a line of salt across the sill, unbroken, thick as a finger, the way the shepherds lay it for the sheep. It shines grey in the light.".
+  }
+  Rule household_out when dark() and not state(seal, set) and not salted() and at(household, gallery) and able(household) and not tolerates(household, party) { Retract at(household, gallery). Assert at(household, forecourt). }
+  Rule household_in when not dark() and at(household, forecourt) and able(household) { Retract at(household, forecourt). Assert at(household, gallery). }
+  Observe household_walks at forecourt as sign when at(household, forecourt) and able(household) "The dead household stands on the paving in the dark, swaying a little, as the dead do who are waiting for their orders.".
+  Observe household_gone at forecourt as sign when not at(household, gallery) and not at(household, forecourt) and able(household) "The grass about the stones is trodden flat in a ring, as if something had walked round it all night.".
+  Observe walks_trodden at ring as sign noticed by woodcraft when fate(howe, fate_broken) and state(seal, forced) "A path of bare, trodden earth goes round the outside of the stones and back, and the dew has not lifted it. Something comes out of the howe by night, and walks the bound, and goes back.".
+  Rule iron_caps_up when dark() and at(party, forecourt) and not state(seal, set) and not iron_caps_risen() says "The dark has the weight of a hand laid on the back of the neck." { Assert iron_caps_risen(). }
+  Relation iron_caps_risen().
+  Observe caps_lie at forecourt as sign when not iron_caps_risen() and not dead(iron_caps) "Two figures lie face down in the pale grass at the foot of the wall, in iron caps, with picks tied to their wrists. They have lain there long enough for the grass to grow through them.".
+
+  // ---- The gallery of kings.
+  Observe gallery_scene at gallery when true "A long gallery of great stones roofed with greater. In niches along both walls the kings of the Barrow-Kin sit as they were set, their skulls bowed over their knees. The newest are nearest the door. The household of the last king sits among them.".
+  Observe gallery_names at gallery as feature when true "Under each niche the name of the king who sits in it is cut in the Kin's marks, and the last name, nearest the door, is {king}'s." teaches king_named.
+  Observe gallery_torcs at gallery when at(lesser_b, gallery) "In the third niche from the door a torc of iron and bronze hangs on the king's neck, tarnished, a smaller thing than you would expect.".
+  Action answer_roll(actor: group, site: place) "Call the roll of kings into the open door, and answer it for the king" {
+    Requires able(actor) and at(actor, site) and at(actor, forecourt) and not state(seal, set) and at(household, gallery) and able(household) and not tolerates(household, actor) and knows(actor, king_named).
+    On success { Assert tolerates(household, actor). }
+    Result "You stand in the door and say the king's name into the long dark, and then the names of the kings before him, one after another, as they are cut under their niches. Down the gallery the seated dead lower their faces, and are still.".
+  }
+
+  // ---- The horse-hall, the harness-store, and the riders.
+  Observe horses_scene at horses when true "A low hall to one side of the gallery, longer than the gallery, with a stone manger along the whole of one wall. The horses of the dead lie, or stand, in it: skeleton horses, in rows, in harness, their long heads bare, the bronze of their bits green as a pond.".
+  Observe horses_empty at horses as sign when state(mounts, starved) "Every manger is clean and dry. A pattern of fine scratching runs along their rims, as if something had been licked at them for a very long time.".
+  Observe horses_bells at horses as sound when true "At each picket-post a small bronze bell hangs from a cord of plaited horsehair, stirring on the air from somewhere, almost silent, almost.".
+  Observe store_scene at harness when true "A narrow room off the horse-hall where the harness is kept, hung in rows from pegs: bridles, saddle-trees, breast-collars of studded leather, all of it gone brown and stiff. Sacks are stacked against the far wall.".
+  Relation sacks_taken().
+  Action take_barley(actor: group, site: place) "Shoulder the old sacks of barley" {
+    Requires able(actor) and at(actor, site) and not sacks_taken().
+    On success { Increase quantity(actor, barley) by 2. Assert sacks_taken(). }
+    Result "You lift two of the sacks. They are heavy, and sound, and smell of nothing: the barley has been kept dry for a century in a place where nothing grows. Somebody fed these horses, once, every day, and the last sacks were left against need.".
+  }
+  Observe store_robbed at harness when true "In the floor, under the sacks, a hole has been broken through the flagstones from below, with a crowbar. The edges are fresh.".
+  Observe bench_scene at bench when true "A recess off the horse-hall, half the width of the hall, with a long bench of stone along its back wall. On the bench two men lie with their spears across their chests, in the leather of the king's riders.".
+  Thing bells "the bells on the pickets" at horses {
+    State hung "Bells on cords of horsehair hang by every manger, shaking on the draught.".
+    State ringing "The bells on the pickets are ringing, all of them, a thin bright sound that goes on and on.".
+    State stilled "Every bell on the pickets has been packed with wax and rag, and hangs mute.".
+    Change still "Pack wax and rag round the bell-clappers" from hung to stilled needing candle consuming candle.
+    Tries listening, looking.
+  }
+  Rule bells_ring when state(bells, hung) and at(party, horses) and not tolerates(mounts, party) and able(mounts) and lingered(party) >= 1 says "The nearest horse sets its forefoot down hard on the stone, and every bell on every picket answers it at once." { Assert state(bells, ringing). }
+  Rule riders_wake when state(bells, ringing) and at(riders, bench) and able(riders) { Retract at(riders, bench). Assert at(riders, horses). Assert assails(riders, party). }
+  Rule bells_stop when state(bells, ringing) and not at(party, horses) and not at(party, bench) { Assert state(bells, hung). }
+
+  // ---- The chamber of flutes: sound as hazard, and a key.
+  Observe flutes_scene at flutes when true "A round chamber whose walls are set with bones of the arm and the leg, cut and bored, hundreds of them: flutes. Air moves through the howe from somewhere, and they sound, faintly, all the time, too low to call a note. Three of them, set at the height of a hand, are larger than the rest.".
+  Observe flutes_dark at flutes as sound when true "In the black, a sound like many people breathing slowly together, from all sides, as if the walls were asleep.".
+  Thing flute_low "the low flute" at flutes {
+    State idle "The low flute is a long bone, set at hip height.".
+    State sounded "The low flute is sounding.".
+    Change play_low "Play the low flute" from idle to sounded.
+  }
+  Thing flute_mid "the middle flute" at flutes {
+    State idle "The middle flute is a bone of the leg, set at the height of the heart.".
+    State sounded "The middle flute is sounding.".
+    Change play_mid "Play the middle flute" from idle to sounded.
+  }
+  Thing flute_high "the high flute" at flutes {
+    State idle "The high flute is a slender bone, set at the height of the mouth.".
+    State sounded "The high flute is sounding.".
+    Change play_high "Play the high flute" from idle to sounded.
+  }
+  Observe flutes_worn_low at flutes as felt when kinflute(flute_low) "Of the three larger flutes, two are rough with dust under the hand. The lowest is smooth as a handle, worn by hands that played it year on year.".
+  Observe flutes_worn_mid at flutes as felt when kinflute(flute_mid) "Of the three larger flutes, two are rough with dust under the hand. The middle is smooth as a handle, worn by hands that played it year on year.".
+  Observe flutes_worn_high at flutes as felt when kinflute(flute_high) "Of the three larger flutes, two are rough with dust under the hand. The highest is smooth as a handle, worn by hands that played it year on year.".
+  Rule low_right when state(flute_low, sounded) and kinflute(flute_low) { Assert state(flute_low, idle). Assert voice_answered(). }
+  Rule mid_right when state(flute_mid, sounded) and kinflute(flute_mid) { Assert state(flute_mid, idle). Assert voice_answered(). }
+  Rule high_right when state(flute_high, sounded) and kinflute(flute_high) { Assert state(flute_high, idle). Assert voice_answered(). }
+  Rule low_wrong when state(flute_low, sounded) and not kinflute(flute_low) says "The low flute speaks in a voice that is not a flute's. All the walls of the chamber answer it." { Assert state(flute_low, idle). Assert strikes(shriek, party). Assert flute_roused(). }
+  Rule mid_wrong when state(flute_mid, sounded) and not kinflute(flute_mid) says "The middle flute speaks in a voice that is not a flute's. All the walls of the chamber answer it." { Assert state(flute_mid, idle). Assert strikes(shriek, party). Assert flute_roused(). }
+  Rule high_wrong when state(flute_high, sounded) and not kinflute(flute_high) says "The high flute speaks in a voice that is not a flute's. All the walls of the chamber answer it." { Assert state(flute_high, idle). Assert strikes(shriek, party). Assert flute_roused(). }
+  Relation voice_answered(). Relation flute_roused().
+  Rule flute_rouses when flute_roused() and at(party, flutes) and able(household) and not tolerates(household, party) and at(household, gallery) { Bring household to party. Assert assails(household, party). Retract flute_roused(). }
+  Rule flute_calm when flute_roused() { Retract flute_roused(). }
+  Event voice_answers at flutes when voice_answered() and not king_asks() "Through the flutes, very faint, comes the sound of many people breathing slowly together, and then one voice, near your ear: 'Who keeps the bound now?'" teaches asked_bound then { Assert king_asks(). Assert tolerates(king, party). Assert tolerates(sworn, party). }
+  Relation king_asks().
+  Discovery asked_bound "The dead of the howe asked, through the flute, who keeps the bound now.".
+  Observe stave_low at flutes as feature when kinflute(flute_low) "On the lintel of the steps, three signs are cut in a row, from the lowest up: a ring, a short bar, a long bar. The ring is the king's." teaches stave_known.
+  Observe stave_mid at flutes as feature when kinflute(flute_mid) "On the lintel of the steps, three signs are cut in a row, from the lowest up: a short bar, a ring, a long bar. The ring is the king's." teaches stave_known.
+  Observe stave_high at flutes as feature when kinflute(flute_high) "On the lintel of the steps, three signs are cut in a row, from the lowest up: a short bar, a long bar, a ring. The ring is the king's." teaches stave_known.
+  Discovery stave_known "On the lintel of the steps up from the chamber of flutes, three signs are cut, and the king's flute is ringed.".
+
+  // ---- The steps up: a stair that lies to the careless.
+  Thing tread "the middle tread of the steps" on steps {
+    State armed dangerous "The steps up to the high chamber are seven wide stairs of grey stone. The middle one has the bright, polished edge of a stone that is stepped on, and the others have the dull edge of stones that are not. At the foot of the steps lie the bones of a man in an iron cap, his spade beside him.".
+    State shored "The middle tread has been wedged with iron where it hangs, and will hold.".
+    State sprung "The middle tread has tipped away and hangs, black, over a drop into the dark.".
+    Hurts with tread_pit when armed then sprung.
+    Change wedge "Wedge the middle tread with iron" from armed to shored needing iron_spikes.
+    Change prod "Prod the middle tread with a pole until it tips, and step over" from armed to sprung needing pole.
+    Tries looking, pushing.
+  }
+  Observe tread_tell at flutes as sign when tried(tread, pushing) and state(tread, armed) "The pole pushes the middle tread and it moves, a hand's breadth, on a pin you cannot see, and a draught comes out of the gap that smells of a deep place.".
+  Observe tread_robber at flutes as sign when state(tread, armed) "At the foot of the steps a man lies on his face in an iron cap, one hand stretched toward the third stair. The bones of his other hand are bent into the stone as if he had hung from it.".
+
+  // ---- The high chamber and the king.
+  Observe throne_scene at throne when true "The high chamber is the heart of the howe. A seat of stone stands at its end, and behind the seat a single stone makes the wall.".
+  Observe king_seated at throne when able(king) and at(king, throne) "On the seat sits a king larger than the others, in a cloak gone to dust, with a sword laid across his knees. His skull is bowed.".
+  Observe king_torc_seen at throne when able(king) and at(king, throne) and at(king_torc_item, throne) "A torc of braided gold and iron lies around his neck, bright as the day it was made.".
+  Observe king_gone at throne when dead(king) "The king lies in the dust before his seat, where he fell, and his sword beside him.".
+  Event torc_lifted at throne when ownedItem(king_torc_item, ?m) and memberOf(?m, party) and not bound_broken(party) "The torc comes away from the cold, with a sound like a breath drawn in. In the high chamber behind you, something sits up." then { Assert bound_broken(party). Retract tolerates(king, party). Retract tolerates(sworn, party). Retract tolerates(household, party). Retract peaceable(last). Assert assails(king, party). }
+  Relation bound_broken(group). Relation howe_kept(group). Relation oath_sworn(group). Relation levy_met(group).
+  Topic king_answer with king "Answer {king}: the company keeps the bound" when tolerates(king, actor) and knows(actor, asked_bound) once {
+    Grave "A promise made to the dead is held to by them.".
+    Says "The king bows his skull. The dark in his eyes is not hostile. 'Then keep it,' he says, in a voice that has no tongue in it. 'Close the door behind you. Take what the bound can spare. Do not take what holds it.' He takes his sword off his knees and lays it by his foot.".
+    On discuss { Assert oath_sworn(actor). Assert peaceable(king). }
+  }
+  Event oath_broken at throne when oath_sworn(party) and bound_broken(party) "A voice comes out of the stone, from nowhere, from the whole howe at once: 'You said you would keep it.'" then { Retract oath_sworn(party). }
+
+  // ---- The room behind the seat: sealed from within, or broken.
+  Thing lastseal "the stone behind the seat" on behind_way {
+    State set blocking "The stone behind the seat is cut with a seal, the Kin's marks running round it in a ring. There is no groove and no handle: it was set from the other side.".
+    State open "The stone behind the seat has been drawn aside, and the little room beyond is open.".
+    State broken "The stone behind the seat has been broken through.".
+    Change draw_aside "Draw the stone aside from this side" from set to open at behind.
+    Change break "Break through the stone behind the seat" from set to broken needing brawn.
+  }
+  Rule last_fate_broken when fate(howe, fate_broken) and state(lastseal, set) and not last_fate_applied() { Assert state(lastseal, broken). Assert last_fate_applied(). Retract at(last, behind). }
+  Relation last_fate_applied().
+  Rule last_broken_unkept when state(lastseal, broken) and not bound_broken(party) and fate(howe, fate_sealed) { Assert bound_broken(party). }
+  Observe last_sealed at behind when fate(howe, fate_sealed) and at(last, behind) "In the little room beyond, the last of the Barrow-Kin lie together on the floor, a dozen of them, old and young, their arms about each other as they lay down. On the back of the stone they set behind them, cut by someone working in the dark: WE HAVE KEPT THE BOUND AS LONG AS THERE WERE LIVING TO KEEP IT FOR. NOW WE ARE THE BOUND." teaches last_known.
+  Observe last_broken at behind when fate(howe, fate_broken) "The stone into this little room was broken through with picks, a long time ago, and the room beyond is empty. On every wall, cut deep, three words over and over: LET THEM WALK." teaches last_known.
+  Discovery last_known "The last of the Barrow-Kin went into the room behind the seat and set the stone from within, or strangers broke it open before the Kin were at rest.".
+  Rule first_stair_dis when knows(party, sketch_read) and knows(party, tally_read) and knows(party, plate_read) and not plan_made() says "You lay the three finds side by side: the diggers' sketch of the shaft and the drift, the warden's tally of the flutes, the bronze plate's ladder of lines. They are the same plan, drawn by three hands in three ages. It shows a stair that goes up from the older chamber, under the howe's floor, to a little room behind the king's seat." teaches plan_whole { Assert plan_made(). }
+  Relation plan_made().
+  Discovery plan_whole "A stair of the first folk goes up from the older chamber under the howe to the room behind the king's seat.".
+
+  // ---- Under the howe: the shaft foot, the dig-camp, the foul drift, the sump, the older chamber, the well.
+  Observe shaft_foot_scene at shaft_foot when true "The shaft lets you down into a rough-cut chamber where the robbers' work gave out: a round of dressed stone broken through with picks, a heap of spoil, and a winch-rope that swings from above and does not quite reach the floor.".
+  Observe foot_cage at shaft_foot as sign when true "A wicker cage hangs from a hook in the wall, and in it a jay lies on its back with its feet in the air.".
+  Observe dig_scene at dig when true "The robbers' lower works: a low chamber blasted out of the rock, with props, a rickety table, a lantern-hook, and the stink of damp men. A plan has been nailed to a post. Two dozen picks lie where they were dropped.".
+  Observe dig_dead at dig as sign when true "Against the far wall lie the dead of the Spade-Company, laid in a row, with their picks across their chests. Somebody tended them. Somebody, afterwards, did not come back.".
+  Observe dig_hole at dig as feature when true "A hole as wide as a door has been broken upward through the roof, into a room above.".
+  Observe drift_scene at dig as sign when state(drift_air, foul) "The drift that goes on from here is low and dry and breathes out a sweetness like old fruit. A candle flame stands up in it blue, and dies.".
+  Thing drift_air "the air in the low drift" on drift {
+    State foul dangerous "The low drift runs on into the dark. The air in it is thick and sweet, and there is a chill of damp earth that has never seen a draught.".
+    State sweet "The air in the low drift moves, cold and clean. A thin stream of daylight comes in from a vent in the roof.".
+    Hurts with foul_air when foul then foul.
+    Change open_vent "Dig out the choked vent at the drift's head" from foul to sweet needing shovel or digging.
+    Tries looking.
+  }
+  Observe sump_scene at sump when true "The sump is a drowned working, a long low chamber half under black water, the roof sagging, the ribs of fallen props standing out of the surface like the bones of a boat. A ledge of dry rock runs along one wall.".
+  Observe sump_voices at sump as sound when true "Out of the black water, from somewhere ahead and below, a voice calls: 'Hob? Is that you, Hob? Drop the rope.' The voice is very tired. It calls again, exactly as before.".
+  Thing flood "the black water in the flooded passage" on sump_way {
+    State deep dangerous "Black water fills the passage to within a hand of its roof. Whoever goes through goes under, in the dark, for as long as it takes.".
+    State lined "A line runs through the black water from end to end, fixed to ring-bolts in the roof. Anyone can haul through on it now, holding their breath.".
+    State drained "The passage is drained to a mud floor, slick and stinking.".
+    Hurts with black_water when deep then lined.
+    Change haul "Make fast the robbers' line and haul through" from deep to lined needing rope.
+    Change drain_it "Open the old sluice and let the passage drain" from deep to drained after learning sluice_known.
+    Tries looking.
+  }
+  Discovery sluice_known "A sluice under the dig-camp's floor drains the flooded passage to the older chamber." {
+    Source plan_post "a plan nailed to a post" at dig readable by party.
+  }
+  Observe ancient_scene at ancient when true "The older chamber is round, and roofed with a single dome of pale stone that is not the Kin's, with no joint in it. In the middle of the floor a stone basin as wide as a table stands empty, and from its rim a flight of narrow steps goes down into a well.".
+  Observe ancient_pale at ancient as feature when true "The stone here is not grey like the howe's, but white as bone, and cut so true that a knife will not go between the courses. Nothing the Kin made was ever finished like this.".
+  Thing basin "the stone basin" at ancient {
+    State cold "A stone basin as wide as a table stands in the middle of the chamber. Its bowl is dry, and has been dry a long time.".
+    State alight "The basin burns with a steady yellow flame that fills the chamber to the dome.".
+    Change fuel "Pour lamp oil into the basin and light it" from cold to alight needing lamp_oil consuming lamp_oil.
+  }
+  Rule basin_lit when state(basin, alight) and unlit(ancient) { Retract unlit(ancient). Retract unlit(well). }
+  Observe well_scene at well when true "The well is a shaft in the floor, rimmed in the same white stone, going down into water that has no bottom. The water is still. Steps run down into it, and under it.".
+  Observe well_voices at well as sound when true "From the water, close, a voice says: 'Hob, drop the rope.' Then, in a different voice, a woman's, 'Mind the step.' Then your own, saying the last thing you said.".
+  Observe well_lip at well as sign when true "On the white stone round the well's lip, deep scratches run down into the water, from outside, as if things had tried to climb out and been taken back.".
+  Rule mouth_voice when at(party, ancient) and dice(clock) <= 12 says "From the well comes a voice you have heard, calling for a rope." { Assert strikes(mouth_pull, party). }
+  Rule mouth_fed when dead(mouth) and not mouth_down() says "The water in the well goes still for the last time, and stays still." { Assert mouth_down(). }
+  Relation mouth_down().
+
+  // ---- The town: the clerk, the levy, the walking dead, and what the country is told.
+  Observe green_levy at green when not levy_met(party) and not bound_broken(party) "A notice is nailed to the post by the well, under the castellan's mark: THE LEVY IS TO BE MADE UP BY MIDWINTER. FOR THE WEIGHT OF IRON AND GOLD WANTING, SEE THE CLERK.".
+  Observe green_levy_met at green when levy_met(party) "The levy notice by the well has been struck through, and the clerk's writing-board stands empty on the trestle.".
+  Observe green_walkers at green when bound_broken(party) and dark() and able(household) "Down the lane, in the dark, come dead folk in grave-clothes, who stand about the green swaying, with their faces to the north. They are the dead of the ridge, and they have come to see what became of the bound.".
+  Rule walk_town when bound_broken(party) and dark() and not at(household, green) and able(household) and not tolerates(household, party) { Retract at(household, gallery). Retract at(household, forecourt). Assert at(household, green). }
+  Rule walk_back when bound_broken(party) and not dark() and at(household, green) { Retract at(household, green). Assert at(household, gallery). }
+  Topic clerk_levy with clerk "Ask {clerk} about the levy" when true once {
+    Says "'The castellan,' says {clerk}, 'is short of a hundred weight of iron and gold by midwinter. The king's torc would do. It would melt down to a good third of it, and the castellan would put the rest in a ditch. I would not ask you to fetch it for love. I will pay by the weight: eighty for the king's, and thirty for any other torc of the Kin that is brought to me whole.'".
+    On discuss { Assert knows(actor, levy_told). }
+  }
+  Topic clerk_howe with clerk "Ask {clerk} what he knows of the howe" when knows(actor, levy_told) once {
+    Says "'Less than I'd like,' says {clerk}. 'The Spade-Company holds a licence signed in my office. I did not read the small print. The howe is older than the county. There is a stone in its flank, on the south side, squared like a mason's work, with the castellan's own predecessor's mark on it, and some other mark beneath that I cannot read. I am told it is a shepherd's cairn. It is not a shepherd's cairn.'".
+  }
+  Topic clerk_cairn with clerk "Show {clerk} the plate from the survey cairn" when knows(actor, plate_read) once {
+    Says "{clerk} turns the plate over twice and sets it down on his board as if it were hot. 'I have seen that wheel,' he says. 'On a milestone, and on the seal of a bailiff who is not what he says. Whether it is the road's mark or the Kin's, I would not put it in a report. I would put it in a drawer.' He pushes it back across the board. 'Do not show it to the castellan. He will build something.'".
+  }
+  Action hand_king_torc(actor: group, site: place) "Hand {clerk} the king's torc" {
+    Requires able(actor) and at(actor, site) and at(clerk, site) and holding(actor, king_torc) and not levy_met(actor).
+    On success { Spend king_torc from actor. Increase quantity(actor, gold) by 80. Assert levy_met(actor). }
+    Result "{clerk} weighs it in both hands, and sets it on the board, and for the first time does not look at the tally. 'That is the levy,' he says, 'and a good deal over.' He counts out eighty coin.".
+  }
+  Action hand_kin_torc(actor: group, site: place) "Hand {clerk} a torc of the Barrow-Kin" {
+    Requires able(actor) and at(actor, site) and at(clerk, site) and holding(actor, kin_torc) and not levy_met(actor).
+    On success { Spend kin_torc from actor. Increase quantity(actor, gold) by 30. Increase torcs_given(clerk) by 1. }
+    Result "{clerk} weighs it in his hand and nods once. He makes a mark on a tally and counts out thirty coin.".
+  }
+  Measure torcs_given(group).
+  Rule levy_by_lesser when torcs_given(clerk) >= 3 and not levy_met(party) { Assert levy_met(party). }
+  Topic priest_kin with priest "Ask {priest} about the howe on the ridge" when true once {
+    Says "'The Barrow-Kin,' says {priest}, 'said that the dead keep the bounds, and I have heard worse theology from bishops. I do not like to hear that the castellan's people are digging at a king's door. I like less that they have not told the shrine. If the dead do walk, I shall hear it first, because they will come to the churchyard to see whether it is still kept.'".
+    On discuss { Assert knows(actor, priest_told). }
+  }
+  Entity priest_told: fact "The priest of the town fears the dead of the ridge will walk if the king's rest is broken.".
+  Topic priest_thanks with priest "Tell {priest} the howe is shut and the king's rest is kept" when howe_kept(actor) and not thanked(priest, actor) once {
+    Says "{priest} bows to you, as one does to a thing of long standing. 'Then we shall sleep tonight,' says {priest}, and gives you the shrine's holy water, two flasks, and a blessing that is meant.".
+    On discuss { Give 2 holy_water to actor. Assert thanked(priest, actor). }
+  }
+  Relation thanked(group, group).
+  Observe green_kept at green when howe_kept(party) and not dark() "People say the ridge has been quiet since the Spade-Company went off it, and that the clerk has stopped counting.".
+
+  // ---- Rumours, said by the people the world gives them to.
+  Entity ridge_told: fact "A salvage crew, the Spade-Company, has made a camp on the ridge above {outside} and is digging into the flank of a great howe, under the castellan's licence. They keep a watch on the steep path, and they have lost men under the hill.".
+  Entity levy_told: fact "The castellan's clerk is raising a levy and is short of iron and gold. He will pay by the weight for the torc of the king of the great howe on the ridge, or for any torc of the Barrow-Kin.".
+  Entity warden_told: fact "An old woman keeps a fire on the ridge above {outside}, in sight of the king's howe. The priest says she is the last who still keeps the dead's rest.".
+  Initially Assert established(ridge_told). Initially Assert established(levy_told). Initially Assert established(warden_told).
+  Initially Assert established(weather_known). Initially Assert established(king_named).
+  Initially Assert established(survey_known).
+
+  // ---- What is said and seen in the town after.
+  Observe taproom_captain at taproom when turned(captain) and at(captain, taproom) "The captain of the Spade-Company sits at the corner table with her ledger shut under her hand, and her diggers are at the far end of the room, as far from a spade as she could seat them.".
+  Topic captain_tap with captain "Ask {captain} what she makes of the ridge now" when turned(captain) and at(captain, taproom) once {
+    Says "'Quiet,' says {captain}, and does not drink. 'The clerk has asked me twice what I did with his licence. I told him I used it to light the fire.' She pushes a scrap of hide across the table: a nail-scratched drawing of a shaft, a drift and a drowned working. 'It is not much. But it is what is under there, and I would sooner someone had it who would not dig.'".
+    On discuss { Give sketch to actor. }
+  }
+  Observe green_licence at green when dead(captain) and not levy_met(party) "The castellan's clerk has crossed a name out of his tally with some force: the Spade-Company's licence, now there is no one left to hold it.".
+  Observe green_turned at green when turned(captain) and not dark() "The diggers who came down from the ridge are drinking in the taproom, and have taken the clerk's licence-notice off the post to light their pipes.".
+  Observe taproom_walkers at taproom when bound_broken(party) and not dark() "Someone has scratched a line of salt across the threshold of the taproom, and nobody will say who.".
+
+  // ---- Aims.
+  Objective ridge_aim when knows(party, ridge_told) and not been(party, lee) and not been(party, hearth) toward outside "A salvage crew is digging into a king's howe on the ridge above {outside}; the castellan's clerk wants its torc; and an old woman keeps the dead's rest from a hearth to the north.".
+  Objective warden_aim when knows(party, warden_told) and not trusted(warden, party) toward hearth "An old woman keeps a fire on the ridge in sight of the howe. She knows what the dead will bear, and she wants salt.".
+  Objective levy_aim when knows(party, levy_told) and not levy_met(party) and not bound_broken(party) toward clerk "The castellan's clerk will pay by the weight for the torc of the king of the howe, or for any torc of the Barrow-Kin.".
+  Objective howe_aim when been(party, forecourt) and not been(party, throne) toward forecourt "The king of the Barrow-Kin sits on his seat at the heart of the howe, with his sword across his knees. The way in is the great stone, the gallery, and the steps up.".
+  Objective plan_aim when (knows(party, sketch_read) or knows(party, tally_read) or knows(party, plate_read)) and not knows(party, plan_whole) toward outside "Three hands drew the plan of the howe: the diggers' sketch, the warden's tally, the cairn's plate. Put them together.".
+  Objective close_aim when been(party, throne) and not howe_kept(party) and not bound_broken(party) toward forecourt "Whatever was taken, shut the door behind you.".
+  Objective report_aim when (holding(party, king_torc) or holding(party, kin_torc)) and not levy_met(party) toward clerk "Take the torc to the castellan's clerk, who will pay by the weight.".
+
+  // ---- Milestones.
+  Milestone m_ridge "came up onto the ridge" worth 40 when been(party, rise).
+  Milestone m_forecourt "stood before the king's door" worth 60 when been(party, forecourt).
+  Milestone m_horses "passed the dead horses" worth 120 when state(mounts, fed) or dead(mounts).
+  Milestone m_flute "played the king's flute" worth 120 when voice_answered().
+  Milestone m_throne "stood before the king" worth 150 when been(party, throne).
+  Milestone m_plan "put the plan together" worth 150 when knows(party, plan_whole).
+  Milestone m_well "stood at the well" worth 200 when been(party, well).
+  Milestone m_kept "shut the howe behind them" worth 150 when howe_kept(party).
+  Rule kept_rule when state(seal, set) and been(party, gallery) and not bound_broken(party) and not howe_kept(party) says "The stone settles into its groove with the sound of a door closing in a house that has been quiet for a long time." { Assert howe_kept(party). }
+  Rule unkept_rule when howe_kept(party) and not state(seal, set) { Retract howe_kept(party). }
+  Goal howe_kept(party) or levy_met(party).
+}
