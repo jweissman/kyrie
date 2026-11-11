@@ -75,3 +75,6 @@ colour was implicit in the CSS.
 5. **Compound opportunities.** One subject with several approaches (talk, threaten, sneak past, fight) is several
    choices grouped by subject. There is no authored *opportunity* that names its approaches. Proposed: keep grouping by
    subject, and give an authored situation a way to name its approaches if play shows the need.
+6. **What the company has seen where.** A way into a room where it saw a deadly band carries no danger of its own:
+   the company remembers what it perceived (`CompanyRecall`), not who was where when it left. Proposed: recall a
+   band's place as last seen, so a way can carry its danger (red) without telling where the band has since gone.
