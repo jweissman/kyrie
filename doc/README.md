@@ -9,10 +9,10 @@ to [archive/](archive/README.md) with a stub where it stood.
 | If you want to know | Read |
 |---|---|
 | what Westernesse is meant to be | [design/VISION.md](design/VISION.md), the owner's creative vision; then [design/ATLAS.md](design/ATLAS.md) |
-| how to write something for it today | [authoring/README.md](authoring/README.md), the authoring trail (nine short pages, every command run) |
+| how to write something for it today | [authoring/README.md](authoring/README.md), the authoring trail (ten short pages, every command run) |
 | how it is built and where a change belongs | [architecture/overview.md](architecture/overview.md), then [CONTRACT.md](CONTRACT.md) and [architecture/verification.md](architecture/verification.md) |
 | what has been promised, built, left broken, or only wished | [architecture/findings/index.md](architecture/findings/index.md): every register's ids, their last status and kind; [gaps](architecture/findings/gaps.md); [briefs](architecture/findings/briefs.md) |
-| what the current mission is doing | [architecture/mission-19/brief.md](architecture/mission-19/brief.md), [register.md](architecture/mission-19/register.md), [inherited.md](architecture/mission-19/inherited.md), [progress.md](architecture/mission-19/progress.md), [evidence.md](architecture/mission-19/evidence.md) |
+| what the current mission is doing | Mission 20, the first good hour: [opening-brief.md](architecture/mission-20/opening-brief.md), its [log](architecture/mission-20/log.md) (amendments, cold rounds, every finding E1 onward), [amendment-6.md](architecture/mission-20/amendment-6.md) and [opportunities.md](architecture/mission-20/opportunities.md) (the scene-first design and its model), [design-opportunities.md](architecture/mission-20/design-opportunities.md) (ideas kept for later). Mission 19's [register](architecture/mission-19/register.md) and [closure](architecture/mission-19/closure.md) are what it inherited |
 
 ## How to read a document's standing
 
