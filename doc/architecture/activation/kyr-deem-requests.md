@@ -459,3 +459,28 @@ Numbered after R46. The integrator renumbers if a sibling branch also continued 
 
 *Problem.* `DeepGroup` (`src/world/deep/deep-purposes.ts`) is species, count, label, role, temperament and variations, and `DeepRooms.dwellers` writes only those; the keeper alone takes `words`. So the most-trodden fights, the rooms of a generated deep site, have the plain words of their temperament and no alternative (the placed troubles have them: smoke, rites, a thrown bone, a ewe).
 *Request.* `DeepGroup.words: { Warns, Comes, Flinches }`, passed through as the keeper's are, and `DeepGroup.ways: [{ label, needs, effect }]` for one authored alternative a group may be given (a lure of the kind's food, the rites for the dead), written as the situations' `Change ... needing <skill>` is, so a purpose can say how its ghouls are laid and its hounds thrown a bone.
+
+## F. Requests from `adventure/p3-enthusiasm` (the Walk of the Milestones; R85 to R88)
+
+*From `modules/walk.md`. Each was met by a workaround in the module; the workaround is named.*
+
+### R85. A standing scenario cannot read or move the first town's own people (R38 again, now with a cost)
+
+*Problem.* The Walk is a movement the first region's bailiff conflict (Maudlin Rooke, `data/generation/town/conflict.kyrt`) should answer to: Rooke's dues are the thing the reform creed refuses, and Rooke's clock should quicken as the Walk spreads. A scenario module can import only what `RegionWriter.manifest` exports (greens, rooms, innkeeper, priest, merchant, traveller, sites, ways), so it can neither read `s1_rooke_end` nor set a clock of hers. The module names her in words only (Dray and Pettifer each speak of "a woman with a lead seal") and the independent assessment's "Numbering of the Road" (Rooke's table taking more as devotion rises) cannot be built.
+*Reproduce.* In `data/scenarios/walking.scenario.json` add `"rooke": "@a.rooke"` to the module's imports: `Unresolved module import rooke: region.s1_rooke` (the id is in `conflict.kyrt` as `{t}_rooke`).
+*Request.* Export every entity a town template declares (the parser already knows them: `KyrTemplates`), or let `@role.part` resolve any region entity. About 20 lines in `RegionWriter.manifest`. With it the Walk would set `{t}_rooke_end` when the Walk is licensed, and a seed's reform creed would move her table from the second green to the third.
+
+### R86. A person who is `nowhere` has no `at` fact, and the page says nothing of it
+
+*Problem.* `Person x … nowhere` holds no `at(x, ?p)`; a rule written `at(x, ?p)` to move them (as the guide's example for leaving does) never fires for someone not yet in the story. `at` is exclusive, so the cure is to assert the new place and not retract the old, but nothing says so, and the lint is silent about a rule whose `at(x, ?p)` can never hold. Twenty-three of this module's first moves were written the wrong way round before the first spec found it.
+*Request.* A sentence in guide §3 ("Someone not yet in the story…") and a lint advisory: a rule that binds `at(x, ?p)` for a person declared `nowhere` and never given an `Arrives`. No engine change.
+
+### R87. A check cannot be set against a crowd, only against a fixed difficulty
+
+*Problem.* The Gathering's crowd is a thing with a mood (`host`, `strife`). A speaker should find it easier to calm a crowd the Walk has not worked up, harder in a riot-ripe one; `Resolve check(actor, persuasion, dc_fair)` takes only the four named difficulties. The module uses fixed ones and lets the strife measure do the work outside the roll (`muster_stewards` lowers the sum).
+*Request.* `Resolve check(actor, persuasion, dc_for(strife(walk)))`: a difficulty read from a measure (a table of three bands in `core.kyr`). About 25 lines in the resolver.
+
+### R88. A spec cannot choose which standing scenarios a world holds
+
+*Problem.* `WorldAssembler.standing` is a `static readonly` path; a spec of a scenario that its integrator has not yet listed has to write over it by a cast (`test/support/walking.ts`). And `test/fellowship.test.ts` fails on the base: with `library` set to its fixture and `towns: 1` the fellowship is placed twice (`Module already installed`), since the fellowship is now standing.
+*Request.* `options.standing?: string` in `WorldAssembler.assemble`; and have `fellowship.test.ts` pass `scenarios: 0, towns: 0`.

@@ -1,0 +1,57 @@
+Module walk "The Walk of the Milestones" {
+  Description "A company of the barefoot is walking the old road from town to town, chalking its milestones and calling their numbers. The Bench wants it stopped, the priests cannot agree what it is, and someone is paying for the bread.".
+  Entity party: group "Your company".
+  Place town_a "The first town" is settlement. Place town_b "The second town" is settlement.
+  Place town_c "The third town" is settlement. Place town_d "The fourth town" is settlement.
+  Place green_a "The first green" is room. Place green_b "The second green" is room.
+  Place green_c "The third green" is room. Place green_d "The fourth green" is room.
+  Entity innkeeper_a: group "The innkeeper". Entity innkeeper_b: group "The innkeeper". Entity innkeeper_c: group "The innkeeper". Entity innkeeper_d: group "The innkeeper".
+  Entity priest_a: group "The priest". Entity priest_b: group "The priest". Entity priest_c: group "The priest". Entity priest_d: group "The priest".
+  Entity merchant_a: group "The merchant". Entity merchant_b: group "The merchant". Entity merchant_c: group "The merchant". Entity merchant_d: group "The merchant".
+
+  // ---- The movement itself: one entity for the Walk, one for its band in each town, and the measures they carry.
+  Entity walk: group "The Walk".
+  Entity walk_a: group "The Walk in the first town". Entity walk_b: group "The Walk in the second town".
+  Entity walk_c: group "The Walk in the third town". Entity walk_d: group "The Walk in the fourth town".
+  Measure host(group). Measure boost(group). Measure damp(group). Measure strife(group). Measure leg(group). Measure at_leg(group).
+
+  // ---- What Deem draws for each country (templates.json); the nouns are drawn with it (labels).
+  Entity c_remembrance: fact "". Entity c_penance: fact "". Entity c_reform: fact "".
+  Entity f_b: fact "". Entity f_c: fact "". Entity f_d: fact "".
+  Entity p_dowager: fact "". Entity p_cousin: fact "". Entity p_factor: fact "".
+  Entity m_kin: fact "". Entity m_duty: fact "". Entity m_debt: fact "".
+  Entity l_scrivener: fact "". Entity l_soldier: fact "". Entity l_widow: fact "". Entity l_novice: fact "". Entity l_drover: fact "".
+  Entity s_profit: fact "". Entity s_resent: fact "".
+  Entity e_licensed: fact "". Entity e_suppressed: fact "". Entity e_schism: fact "". Entity e_usurped: fact "". Entity e_riot: fact "". Entity e_fades: fact "".
+  Relation creed(entity). Relation flashpoint(entity). Relation patron_is(entity). Relation bound_by(entity). Relation leader_kind(entity).
+  Relation stance(group, entity). Relation ending(entity).
+  Entity creed_line: fact "that the road ought to be walked". Entity creed_cry: fact "Mile and mile".
+  Entity leader_was: fact "a walker who will not say how they began". Entity patron_name: fact "someone with money". Entity patron_wants: fact "something from the crowd".
+
+  // ---- What the Walk has come to, in states the world keeps: the clock moves them; the company can move them too.
+  Relation decided(group). Relation licensed(group). Relation reprieve(group). Relation exposed(group). Relation raided(group). Relation raid_off(group).
+  Relation gaunt_down(group). Relation gaunt_parleyed(group). Relation curate_gone(group). Relation duel_settled(group). Relation round_led(group).
+  Relation names_spoken(group). Relation grant_shown(group). Relation ledger_shown(group). Relation stewards_set(group). Relation lads_allied(group).
+  Relation kept(group). Relation interdict(group). Relation roll_lost(group). Relation patron_ready(group). Relation bench_read(group).
+  Relation cough_tended(group). Relation strife_counted(group). Relation gate_held(group). Relation mob_loosed(group).
+  Initially Assert patron_ready(walk).
+
+  Entity rumour: fact "A company of the barefoot is walking the old road from town to town, chalking the milestones and calling out their numbers, and the Bench does not like it.".
+  Initially Assert established(rumour).
+  Entity walk_heard: fact "A band of barefoot walkers keeps the old road's miles, and the Bailiff of the Hundred means to stop them.".
+  Entity gathering_known: fact "The Walk is to meet at the Station of one town on the tenth day, to speak the names of the road's dead.".
+  Entity riders_known: fact "A troop of heavy-shod horse has come in from the north by night and gone round the Gathering town, not through it.".
+  Entity stone_true: fact "The first milestone's inscription gives the road to whoever keeps it: the Office's own grant to the wayfarer.".
+  Entity ledger_found: fact "The steward's ledger shows a purse to the chalk-seller at every camp, and a note on the Bailiff's debt.".
+  Entity hal_named: fact "Hal Dray, the Bailiff's brother, is on Annet's roll of the road's dead.".
+  Entity bound_seen: fact "What moves the Bailiff.".
+  Entity skim_known: fact "the chalk-seller skims the Walk's tithe-box.".
+  Entity orme_seen: fact "A grey steward in a good plain coat brings the Walk a purse by night, through the chalk-seller.".
+  Entity cough_known: fact "The Mile-Keeper is coughing blood, and will not say.".
+
+  // ---- Things carried. A chalk stub, the roll of the names, the Mile-Keeper's staff.
+  Kind chalk_kind "a stub of the true chalk" is treasure worth 1 weighing 0 described "A stub of white chalk, rubbed smooth at one end. Pettifer Gule swears it came from the Mile-Keeper's first mile, or near enough.".
+  Kind roll_kind "Annet's roll of the road's dead" is document described "Forty-one names in a small hand on bark-paper, each with a place on the road and a year. Some have a line through them where a name was wrong and another has been written over it.".
+  Kind ledger_kind "the steward's ledger" is document described "A narrow book in a good plain hand: dates, towns and sums, one line to each camp, and at the foot of the last page a note about a bailiff's debt.".
+  Kind staff_kind "an ash staff of the Walk" is treasure worth 1 weighing 0 described "A man's height of ash, peeled and rubbed with ash and tallow, notched once for every mile its walker has kept.".
+}

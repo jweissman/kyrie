@@ -1,0 +1,178 @@
+Module walk "The Walk of the Milestones" {
+
+  // ---- What the Reckoning leaves, in every town: the chalk, the notice, the bailiff's chair, the stock, the Station's gate, the
+  // people. Each is read from the ending reached, and stays.
+  Thing station_door_a "the Station's gate" on arch_a {
+    State open "The Station arch stands open, with the old stone beyond it.".
+    State sealed blocking "The Station's gate is held shut from within by the Brethren, who will not open it to the Bench, or to you, or to anyone who has not said the names. Staves show in the slats.".
+    State boarded blocking "The Station's arch has been boarded up with new planks, and the Hundred's ash-and-keys burnt into the middle one with a hot iron. A bench-man sits on the bench opposite, bored.".
+    State burnt blocking "The Station is a black hollow under a fallen slate roof. The arch stands, and nothing else. The old milestone is on its side, and someone has chalked a number on it, and rubbed it out, and chalked it again.".
+  }
+  Initially Assert state(station_door_a, open).
+  Thing station_door_b "the Station's gate" on arch_b {
+    State open "The Station arch stands open, with the old stone beyond it.".
+    State sealed blocking "The Station's gate is held shut from within by the Brethren, who will not open it to the Bench, or to you, or to anyone who has not said the names. Staves show in the slats.".
+    State boarded blocking "The Station's arch has been boarded up with new planks, and the Hundred's ash-and-keys burnt into the middle one with a hot iron. A bench-man sits on the bench opposite, bored.".
+    State burnt blocking "The Station is a black hollow under a fallen slate roof. The arch stands, and nothing else. The old milestone is on its side, and someone has chalked a number on it, and rubbed it out, and chalked it again.".
+  }
+  Initially Assert state(station_door_b, open).
+  Thing station_door_c "the Station's gate" on arch_c {
+    State open "The Station arch stands open, with the old stone beyond it.".
+    State sealed blocking "The Station's gate is held shut from within by the Brethren, who will not open it to the Bench, or to you, or to anyone who has not said the names. Staves show in the slats.".
+    State boarded blocking "The Station's arch has been boarded up with new planks, and the Hundred's ash-and-keys burnt into the middle one with a hot iron. A bench-man sits on the bench opposite, bored.".
+    State burnt blocking "The Station is a black hollow under a fallen slate roof. The arch stands, and nothing else. The old milestone is on its side, and someone has chalked a number on it, and rubbed it out, and chalked it again.".
+  }
+  Initially Assert state(station_door_c, open).
+  Thing station_door_d "the Station's gate" on arch_d {
+    State open "The Station arch stands open, with the old stone beyond it.".
+    State sealed blocking "The Station's gate is held shut from within by the Brethren, who will not open it to the Bench, or to you, or to anyone who has not said the names. Staves show in the slats.".
+    State boarded blocking "The Station's arch has been boarded up with new planks, and the Hundred's ash-and-keys burnt into the middle one with a hot iron. A bench-man sits on the bench opposite, bored.".
+    State burnt blocking "The Station is a black hollow under a fallen slate roof. The arch stands, and nothing else. The old milestone is on its side, and someone has chalked a number on it, and rubbed it out, and chalked it again.".
+  }
+  Initially Assert state(station_door_d, open).
+
+  Rule after_licensed_a when ending(e_licensed) and state(chalk_a, ?s) and not state(chalk_a, after_licensed) { Assert state(chalk_a, after_licensed). Assert state(notice_a, end_licensed). }
+  Rule after_licensed_b when ending(e_licensed) and state(chalk_b, ?s) and not state(chalk_b, after_licensed) { Assert state(chalk_b, after_licensed). Assert state(notice_b, end_licensed). }
+  Rule after_licensed_c when ending(e_licensed) and state(chalk_c, ?s) and not state(chalk_c, after_licensed) { Assert state(chalk_c, after_licensed). Assert state(notice_c, end_licensed). }
+  Rule after_licensed_d when ending(e_licensed) and state(chalk_d, ?s) and not state(chalk_d, after_licensed) { Assert state(chalk_d, after_licensed). Assert state(notice_d, end_licensed). }
+  Rule after_suppressed_a when ending(e_suppressed) and state(chalk_a, ?s) and not state(chalk_a, after_suppressed) { Assert state(chalk_a, after_suppressed). Assert state(notice_a, end_suppressed). }
+  Rule after_suppressed_b when ending(e_suppressed) and state(chalk_b, ?s) and not state(chalk_b, after_suppressed) { Assert state(chalk_b, after_suppressed). Assert state(notice_b, end_suppressed). }
+  Rule after_suppressed_c when ending(e_suppressed) and state(chalk_c, ?s) and not state(chalk_c, after_suppressed) { Assert state(chalk_c, after_suppressed). Assert state(notice_c, end_suppressed). }
+  Rule after_suppressed_d when ending(e_suppressed) and state(chalk_d, ?s) and not state(chalk_d, after_suppressed) { Assert state(chalk_d, after_suppressed). Assert state(notice_d, end_suppressed). }
+  Rule after_schism_a when ending(e_schism) and state(chalk_a, ?s) and not state(chalk_a, after_schism) { Assert state(chalk_a, after_schism). Assert state(notice_a, end_schism). }
+  Rule after_schism_b when ending(e_schism) and state(chalk_b, ?s) and not state(chalk_b, after_schism) { Assert state(chalk_b, after_schism). Assert state(notice_b, end_schism). }
+  Rule after_schism_c when ending(e_schism) and state(chalk_c, ?s) and not state(chalk_c, after_schism) { Assert state(chalk_c, after_schism). Assert state(notice_c, end_schism). }
+  Rule after_schism_d when ending(e_schism) and state(chalk_d, ?s) and not state(chalk_d, after_schism) { Assert state(chalk_d, after_schism). Assert state(notice_d, end_schism). }
+  Rule after_usurped_a when ending(e_usurped) and state(chalk_a, ?s) and not state(chalk_a, after_usurped) { Assert state(chalk_a, after_usurped). Assert state(notice_a, end_usurped). }
+  Rule after_usurped_b when ending(e_usurped) and state(chalk_b, ?s) and not state(chalk_b, after_usurped) { Assert state(chalk_b, after_usurped). Assert state(notice_b, end_usurped). }
+  Rule after_usurped_c when ending(e_usurped) and state(chalk_c, ?s) and not state(chalk_c, after_usurped) { Assert state(chalk_c, after_usurped). Assert state(notice_c, end_usurped). }
+  Rule after_usurped_d when ending(e_usurped) and state(chalk_d, ?s) and not state(chalk_d, after_usurped) { Assert state(chalk_d, after_usurped). Assert state(notice_d, end_usurped). }
+  Rule after_riot_a when ending(e_riot) and state(chalk_a, ?s) and not state(chalk_a, after_riot) { Assert state(chalk_a, after_riot). Assert state(notice_a, end_riot). }
+  Rule after_riot_b when ending(e_riot) and state(chalk_b, ?s) and not state(chalk_b, after_riot) { Assert state(chalk_b, after_riot). Assert state(notice_b, end_riot). }
+  Rule after_riot_c when ending(e_riot) and state(chalk_c, ?s) and not state(chalk_c, after_riot) { Assert state(chalk_c, after_riot). Assert state(notice_c, end_riot). }
+  Rule after_riot_d when ending(e_riot) and state(chalk_d, ?s) and not state(chalk_d, after_riot) { Assert state(chalk_d, after_riot). Assert state(notice_d, end_riot). }
+  Rule after_fades_a when ending(e_fades) and state(chalk_a, ?s) and not state(chalk_a, after_fades) { Assert state(chalk_a, after_fades). Assert state(notice_a, end_fades). }
+  Rule after_fades_b when ending(e_fades) and state(chalk_b, ?s) and not state(chalk_b, after_fades) { Assert state(chalk_b, after_fades). Assert state(notice_b, end_fades). }
+  Rule after_fades_c when ending(e_fades) and state(chalk_c, ?s) and not state(chalk_c, after_fades) { Assert state(chalk_c, after_fades). Assert state(notice_c, end_fades). }
+  Rule after_fades_d when ending(e_fades) and state(chalk_d, ?s) and not state(chalk_d, after_fades) { Assert state(chalk_d, after_fades). Assert state(notice_d, end_fades). }
+  Rule station_suppressed_b when ending(e_suppressed) and flashpoint(f_b) and not station_set(walk) { Assert state(station_door_b, boarded). Assert station_set(walk). }
+  Rule station_schism_b when ending(e_schism) and flashpoint(f_b) and not station_set(walk) { Assert state(station_door_b, sealed). Assert station_set(walk). }
+  Rule station_riot_b when ending(e_riot) and flashpoint(f_b) and not station_set(walk) { Assert state(station_door_b, burnt). Assert station_set(walk). }
+  Rule station_suppressed_c when ending(e_suppressed) and flashpoint(f_c) and not station_set(walk) { Assert state(station_door_c, boarded). Assert station_set(walk). }
+  Rule station_schism_c when ending(e_schism) and flashpoint(f_c) and not station_set(walk) { Assert state(station_door_c, sealed). Assert station_set(walk). }
+  Rule station_riot_c when ending(e_riot) and flashpoint(f_c) and not station_set(walk) { Assert state(station_door_c, burnt). Assert station_set(walk). }
+  Rule station_suppressed_d when ending(e_suppressed) and flashpoint(f_d) and not station_set(walk) { Assert state(station_door_d, boarded). Assert station_set(walk). }
+  Rule station_schism_d when ending(e_schism) and flashpoint(f_d) and not station_set(walk) { Assert state(station_door_d, sealed). Assert station_set(walk). }
+  Rule station_riot_d when ending(e_riot) and flashpoint(f_d) and not station_set(walk) { Assert state(station_door_d, burnt). Assert station_set(walk). }
+  Relation station_set(group).
+  Rule seat_dray when decided(walk) and not ending(e_usurped) and day(clock) >= 11 and not seat_set(walk) { Assert at(dray, moot_a). Assert seat_set(walk). Assert state(bench_chair, held_dray). }
+  Rule seat_orme when ending(e_usurped) and not seat_set(walk) and at(dray, ?w) and at(orme, ?o) {
+    Assert at(dray, nowhere_gone). Assert at(orme, moot_a). Assert seat_set(walk). Assert state(bench_chair, held_orme).
+  }
+  Place nowhere_gone "Elsewhere" is room.
+  Relation seat_set(group).
+  Rule after_orme_said heard at green_a when ending(e_usurped) and day(clock) >= 11 and not orme_said(walk)
+    says "The moot-house has a new man in the bailiff's chair, and it is the grey steward in the good plain coat. Bailiff Dray is not at the table, and nobody on the green will say where he is, in the voice of people who have been told. The clerk, very pale, has been told the new bailiff's name and is writing it out for the post." { Assert orme_said(walk). }
+  Relation orme_said(group).
+  Rule leader_taken when ending(e_suppressed) and not leader_set(walk) says "The Mile-Keeper is taken in the night by the Bench, quietly, on a cart, with the staff laid in beside. Nobody on the green saw it. Everyone on the green knows." { Assert at(leader, nowhere_gone). Assert leader_set(walk). }
+  Rule leader_dies when ending(e_riot) and not leader_set(walk) says "The Mile-Keeper was in the middle of it, saying a number. It is said that the number was never finished. It is said by someone who was not there." { Assert at(leader, nowhere_gone). Assert leader_set(walk). }
+  Relation leader_set(group).
+  Rule walk_ends_a when decided(walk) and not ending(e_licensed) and not ending(e_schism) and day(clock) >= 11 and at(band_a, ?a) { Retract at(band_a, ?a). }
+  Rule walk_ends_b when decided(walk) and not ending(e_licensed) and not ending(e_schism) and day(clock) >= 11 and at(band_b, ?a) { Retract at(band_b, ?a). }
+  Rule walk_ends_c when decided(walk) and not ending(e_licensed) and not ending(e_schism) and day(clock) >= 11 and at(band_c, ?a) { Retract at(band_c, ?a). }
+  Rule walk_ends_d when decided(walk) and not ending(e_licensed) and not ending(e_schism) and day(clock) >= 11 and at(band_d, ?a) { Retract at(band_d, ?a). }
+
+  Relation bands_set(group).
+  Rule stock_licensed_a when ending(e_licensed) and not stocked_a(walk) { Increase quantity(merchant_a, rations) by 6. Increase quantity(innkeeper_a, rations) by 6. Assert stocked_a(walk). }
+  Rule stock_suppressed_a when ending(e_suppressed) and not stocked_a(walk) { Set quantity(merchant_a, rations) to 3. Assert stocked_a(walk). }
+  Rule stock_usurped_a when ending(e_usurped) and not stocked_a(walk) { Set quantity(innkeeper_a, rations) to 2. Assert stocked_a(walk). }
+  Rule stock_riot_a when ending(e_riot) and day(clock) > fed_a(walk) { Set fed_a(walk) to day(clock). Set quantity(merchant_a, rations) to 0. Set quantity(innkeeper_a, rations) to 0. }
+  Relation stocked_a(group).
+  Rule stock_licensed_b when ending(e_licensed) and not stocked_b(walk) { Increase quantity(merchant_b, rations) by 6. Increase quantity(innkeeper_b, rations) by 6. Assert stocked_b(walk). }
+  Rule stock_suppressed_b when ending(e_suppressed) and not stocked_b(walk) { Set quantity(merchant_b, rations) to 3. Assert stocked_b(walk). }
+  Rule stock_usurped_b when ending(e_usurped) and not stocked_b(walk) { Set quantity(innkeeper_b, rations) to 2. Assert stocked_b(walk). }
+  Rule stock_riot_b when ending(e_riot) and day(clock) > fed_b(walk) { Set fed_b(walk) to day(clock). Set quantity(merchant_b, rations) to 0. Set quantity(innkeeper_b, rations) to 0. }
+  Relation stocked_b(group).
+  Rule stock_licensed_c when ending(e_licensed) and not stocked_c(walk) { Increase quantity(merchant_c, rations) by 6. Increase quantity(innkeeper_c, rations) by 6. Assert stocked_c(walk). }
+  Rule stock_suppressed_c when ending(e_suppressed) and not stocked_c(walk) { Set quantity(merchant_c, rations) to 3. Assert stocked_c(walk). }
+  Rule stock_usurped_c when ending(e_usurped) and not stocked_c(walk) { Set quantity(innkeeper_c, rations) to 2. Assert stocked_c(walk). }
+  Rule stock_riot_c when ending(e_riot) and day(clock) > fed_c(walk) { Set fed_c(walk) to day(clock). Set quantity(merchant_c, rations) to 0. Set quantity(innkeeper_c, rations) to 0. }
+  Relation stocked_c(group).
+  Rule stock_licensed_d when ending(e_licensed) and not stocked_d(walk) { Increase quantity(merchant_d, rations) by 6. Increase quantity(innkeeper_d, rations) by 6. Assert stocked_d(walk). }
+  Rule stock_suppressed_d when ending(e_suppressed) and not stocked_d(walk) { Set quantity(merchant_d, rations) to 3. Assert stocked_d(walk). }
+  Rule stock_usurped_d when ending(e_usurped) and not stocked_d(walk) { Set quantity(innkeeper_d, rations) to 2. Assert stocked_d(walk). }
+  Rule stock_riot_d when ending(e_riot) and day(clock) > fed_d(walk) { Set fed_d(walk) to day(clock). Set quantity(merchant_d, rations) to 0. Set quantity(innkeeper_d, rations) to 0. }
+  Relation stocked_d(group).
+  Topic inn_after_licensed_a with innkeeper_a "Ask {innkeeper_a} how the Walk ended" when ending(e_licensed) once {
+    Says "'Dear God, the bread,' says {innkeeper_a}, with a catch of laughter. 'You were not there at the Station? The bailiff walked the first mile. In his boots, it is true. But he walked it, and the clerk read the leave out in the round hand, and the old priest came out and said the response in a voice I have not heard from him since I was a boy. They have kept the Walk every year since, on the first of the thaw. There are forty people in my yard and not one of them has asked for credit.'".
+  }
+  Topic inn_after_licensed_b with innkeeper_b "Ask {innkeeper_b} how the Walk ended" when ending(e_licensed) once {
+    Says "'Dear God, the bread,' says {innkeeper_b}, with a catch of laughter. 'You were not there at the Station? The bailiff walked the first mile. In his boots, it is true. But he walked it, and the clerk read the leave out in the round hand, and the old priest came out and said the response in a voice I have not heard from him since I was a boy. They have kept the Walk every year since, on the first of the thaw. There are forty people in my yard and not one of them has asked for credit.'".
+  }
+  Topic inn_after_licensed_c with innkeeper_c "Ask {innkeeper_c} how the Walk ended" when ending(e_licensed) once {
+    Says "'Dear God, the bread,' says {innkeeper_c}, with a catch of laughter. 'You were not there at the Station? The bailiff walked the first mile. In his boots, it is true. But he walked it, and the clerk read the leave out in the round hand, and the old priest came out and said the response in a voice I have not heard from him since I was a boy. They have kept the Walk every year since, on the first of the thaw. There are forty people in my yard and not one of them has asked for credit.'".
+  }
+  Topic inn_after_licensed_d with innkeeper_d "Ask {innkeeper_d} how the Walk ended" when ending(e_licensed) once {
+    Says "'Dear God, the bread,' says {innkeeper_d}, with a catch of laughter. 'You were not there at the Station? The bailiff walked the first mile. In his boots, it is true. But he walked it, and the clerk read the leave out in the round hand, and the old priest came out and said the response in a voice I have not heard from him since I was a boy. They have kept the Walk every year since, on the first of the thaw. There are forty people in my yard and not one of them has asked for credit.'".
+  }
+  Topic inn_after_suppressed_a with innkeeper_a "Ask {innkeeper_a} how the Walk ended" when ending(e_suppressed) once {
+    Says "'They broke it up,' says {innkeeper_a}, with no expression at all. 'The Bench and the sergeant's men. Not with swords, much. With the flat, and the horses. A lot of them ran and a lot of them were taken, and you will have seen the green.' A very long wipe of the bar. 'It is quiet. I said I wanted it quiet. Nobody tell me I said it.'".
+  }
+  Topic inn_after_suppressed_b with innkeeper_b "Ask {innkeeper_b} how the Walk ended" when ending(e_suppressed) once {
+    Says "'They broke it up,' says {innkeeper_b}, with no expression at all. 'The Bench and the sergeant's men. Not with swords, much. With the flat, and the horses. A lot of them ran and a lot of them were taken, and you will have seen the green.' A very long wipe of the bar. 'It is quiet. I said I wanted it quiet. Nobody tell me I said it.'".
+  }
+  Topic inn_after_suppressed_c with innkeeper_c "Ask {innkeeper_c} how the Walk ended" when ending(e_suppressed) once {
+    Says "'They broke it up,' says {innkeeper_c}, with no expression at all. 'The Bench and the sergeant's men. Not with swords, much. With the flat, and the horses. A lot of them ran and a lot of them were taken, and you will have seen the green.' A very long wipe of the bar. 'It is quiet. I said I wanted it quiet. Nobody tell me I said it.'".
+  }
+  Topic inn_after_suppressed_d with innkeeper_d "Ask {innkeeper_d} how the Walk ended" when ending(e_suppressed) once {
+    Says "'They broke it up,' says {innkeeper_d}, with no expression at all. 'The Bench and the sergeant's men. Not with swords, much. With the flat, and the horses. A lot of them ran and a lot of them were taken, and you will have seen the green.' A very long wipe of the bar. 'It is quiet. I said I wanted it quiet. Nobody tell me I said it.'".
+  }
+  Topic inn_after_schism_a with innkeeper_a "Ask {innkeeper_a} how the Walk ended" when ending(e_schism) once {
+    Says "'There are two of them now,' says {innkeeper_a}. 'The ones who want the leave, and went home, and the Brethren, who held the Station and will not give it up. It is the old story. Both of them say they are the Walk.' A sigh. 'There is a chain on the shrine door and a stave at the Station gate. And on every milestone from here to the border there is a wheel and a cross, side by side, and every night someone rubs out the one, and every morning someone puts it back.'".
+  }
+  Topic inn_after_schism_b with innkeeper_b "Ask {innkeeper_b} how the Walk ended" when ending(e_schism) once {
+    Says "'There are two of them now,' says {innkeeper_b}. 'The ones who want the leave, and went home, and the Brethren, who held the Station and will not give it up. It is the old story. Both of them say they are the Walk.' A sigh. 'There is a chain on the shrine door and a stave at the Station gate. And on every milestone from here to the border there is a wheel and a cross, side by side, and every night someone rubs out the one, and every morning someone puts it back.'".
+  }
+  Topic inn_after_schism_c with innkeeper_c "Ask {innkeeper_c} how the Walk ended" when ending(e_schism) once {
+    Says "'There are two of them now,' says {innkeeper_c}. 'The ones who want the leave, and went home, and the Brethren, who held the Station and will not give it up. It is the old story. Both of them say they are the Walk.' A sigh. 'There is a chain on the shrine door and a stave at the Station gate. And on every milestone from here to the border there is a wheel and a cross, side by side, and every night someone rubs out the one, and every morning someone puts it back.'".
+  }
+  Topic inn_after_schism_d with innkeeper_d "Ask {innkeeper_d} how the Walk ended" when ending(e_schism) once {
+    Says "'There are two of them now,' says {innkeeper_d}. 'The ones who want the leave, and went home, and the Brethren, who held the Station and will not give it up. It is the old story. Both of them say they are the Walk.' A sigh. 'There is a chain on the shrine door and a stave at the Station gate. And on every milestone from here to the border there is a wheel and a cross, side by side, and every night someone rubs out the one, and every morning someone puts it back.'".
+  }
+  Topic inn_after_usurped_a with innkeeper_a "Ask {innkeeper_a} how the Walk ended" when ending(e_usurped) once {
+    Says "'There is a new man in the bailiff's chair,' says {innkeeper_a}, 'and it is the steward. He has kept the Walk. He has put a penny on it. A stone-penny, he says, which is for the road's keeping. It is a great deal for a poor walker and not very much for a rich one, and he says that is what a toll is.' A look. 'I find I have heard that argument before. From a woman with a lead seal.'".
+  }
+  Topic inn_after_usurped_b with innkeeper_b "Ask {innkeeper_b} how the Walk ended" when ending(e_usurped) once {
+    Says "'There is a new man in the bailiff's chair,' says {innkeeper_b}, 'and it is the steward. He has kept the Walk. He has put a penny on it. A stone-penny, he says, which is for the road's keeping. It is a great deal for a poor walker and not very much for a rich one, and he says that is what a toll is.' A look. 'I find I have heard that argument before. From a woman with a lead seal.'".
+  }
+  Topic inn_after_usurped_c with innkeeper_c "Ask {innkeeper_c} how the Walk ended" when ending(e_usurped) once {
+    Says "'There is a new man in the bailiff's chair,' says {innkeeper_c}, 'and it is the steward. He has kept the Walk. He has put a penny on it. A stone-penny, he says, which is for the road's keeping. It is a great deal for a poor walker and not very much for a rich one, and he says that is what a toll is.' A look. 'I find I have heard that argument before. From a woman with a lead seal.'".
+  }
+  Topic inn_after_usurped_d with innkeeper_d "Ask {innkeeper_d} how the Walk ended" when ending(e_usurped) once {
+    Says "'There is a new man in the bailiff's chair,' says {innkeeper_d}, 'and it is the steward. He has kept the Walk. He has put a penny on it. A stone-penny, he says, which is for the road's keeping. It is a great deal for a poor walker and not very much for a rich one, and he says that is what a toll is.' A look. 'I find I have heard that argument before. From a woman with a lead seal.'".
+  }
+  Topic inn_after_riot_a with innkeeper_a "Ask {innkeeper_a} how the Walk ended" when ending(e_riot) once {
+    Says "'It was a day,' says {innkeeper_a}, 'that I do not want to see twice.' The hands on the bar are quite steady. 'Nine dead that anyone will admit to. The stalls burnt. The Bench's men, and the sergeant, and the Brethren, and the lads, and God help us a crowd of people who had never in their lives hit anyone. There is curfew at dusk. I have nothing in the larder; I do not think anyone in the town does.' A pause. 'The Mile-Keeper did not finish the number.'".
+  }
+  Topic inn_after_riot_b with innkeeper_b "Ask {innkeeper_b} how the Walk ended" when ending(e_riot) once {
+    Says "'It was a day,' says {innkeeper_b}, 'that I do not want to see twice.' The hands on the bar are quite steady. 'Nine dead that anyone will admit to. The stalls burnt. The Bench's men, and the sergeant, and the Brethren, and the lads, and God help us a crowd of people who had never in their lives hit anyone. There is curfew at dusk. I have nothing in the larder; I do not think anyone in the town does.' A pause. 'The Mile-Keeper did not finish the number.'".
+  }
+  Topic inn_after_riot_c with innkeeper_c "Ask {innkeeper_c} how the Walk ended" when ending(e_riot) once {
+    Says "'It was a day,' says {innkeeper_c}, 'that I do not want to see twice.' The hands on the bar are quite steady. 'Nine dead that anyone will admit to. The stalls burnt. The Bench's men, and the sergeant, and the Brethren, and the lads, and God help us a crowd of people who had never in their lives hit anyone. There is curfew at dusk. I have nothing in the larder; I do not think anyone in the town does.' A pause. 'The Mile-Keeper did not finish the number.'".
+  }
+  Topic inn_after_riot_d with innkeeper_d "Ask {innkeeper_d} how the Walk ended" when ending(e_riot) once {
+    Says "'It was a day,' says {innkeeper_d}, 'that I do not want to see twice.' The hands on the bar are quite steady. 'Nine dead that anyone will admit to. The stalls burnt. The Bench's men, and the sergeant, and the Brethren, and the lads, and God help us a crowd of people who had never in their lives hit anyone. There is curfew at dusk. I have nothing in the larder; I do not think anyone in the town does.' A pause. 'The Mile-Keeper did not finish the number.'".
+  }
+  Topic inn_after_fades_a with innkeeper_a "Ask {innkeeper_a} how the Walk ended" when ending(e_fades) once {
+    Says "'It just stopped,' says {innkeeper_a}. 'There was no Bench and no Brethren and no steward at the end of it. They went home. They said the names and went home, on the road, the way you leave a feast when it is over. It rained on the chalk.' A shrug. 'I miss the singing. I did not think I should.'".
+  }
+  Topic inn_after_fades_b with innkeeper_b "Ask {innkeeper_b} how the Walk ended" when ending(e_fades) once {
+    Says "'It just stopped,' says {innkeeper_b}. 'There was no Bench and no Brethren and no steward at the end of it. They went home. They said the names and went home, on the road, the way you leave a feast when it is over. It rained on the chalk.' A shrug. 'I miss the singing. I did not think I should.'".
+  }
+  Topic inn_after_fades_c with innkeeper_c "Ask {innkeeper_c} how the Walk ended" when ending(e_fades) once {
+    Says "'It just stopped,' says {innkeeper_c}. 'There was no Bench and no Brethren and no steward at the end of it. They went home. They said the names and went home, on the road, the way you leave a feast when it is over. It rained on the chalk.' A shrug. 'I miss the singing. I did not think I should.'".
+  }
+  Topic inn_after_fades_d with innkeeper_d "Ask {innkeeper_d} how the Walk ended" when ending(e_fades) once {
+    Says "'It just stopped,' says {innkeeper_d}. 'There was no Bench and no Brethren and no steward at the end of it. They went home. They said the names and went home, on the road, the way you leave a feast when it is over. It rained on the chalk.' A shrug. 'I miss the singing. I did not think I should.'".
+  }
+}
