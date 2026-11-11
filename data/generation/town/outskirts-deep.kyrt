@@ -6,8 +6,8 @@
 // every part of it is found by walking, asking, or reading what is lying about. Drawn by the town's own key.
 //
 // The cast, and what they want apart from the company:
-//   Orla Pennick, the Hall's cook: feeds forty on a budget for ten, hates the steward's rules, and is fond of Tam.
-//   Tam, the kitchen boy: the one who went up to the dome and came down not knowing his own name.
+//   Orla Pennick, the Hall's cook: feeds forty on a budget for ten, hates the steward's rules, and is fond of Wimble.
+//   Wimble, the kitchen boy: the one who went up to the dome and came down not knowing his own name.
 //   Wystan Hale, the gamekeeper: a castellan's soldier once; sworn to the Hall's chain across the road-wood, and sick of it.
 //   Aldous Fenn, reeve of the wood-wardens at the green: his father was dismissed from the Hall; he would like to be proved right.
 // A quarrel over the road-wood joins them all, and an Imperial grant (the road is no one's, and must be kept) settles it.
@@ -27,7 +27,7 @@
     Role "the cook of the Hall, who feeds forty on a budget for ten". Ancestry human. Peaceable. Manner acerbic. Pronouns she.
     Greets "Orla Pennick does not stop what she is doing. 'If you want feeding, the answer is no. If you want hiding, the answer is also no. If you want to be useful, there's a sack of onions.'".
   }
-  Person {t}_manor_boy "Tam" at {t}_manor_kitchen {
+  Person {t}_manor_boy "Wimble" at {t}_manor_kitchen {
     Role "the kitchen boy, who went up to the dome and came back not knowing his name". Ancestry human. Peaceable. Manner stoic. Pronouns he.
   }
   Observe {t}_manor_boy_seen at {t}_manor_kitchen when true "A boy of ten or so sits on the settle by the hearth turning the same potato over and over in his hands. Every so often he hums, three notes down and one up, and stops, and looks surprised.".
@@ -82,8 +82,8 @@
     State struck "The chime has been struck: three notes down, one up, and the sound lingers in the stone like an answered question.".
     Change strike "Cut the cloth and strike the chime" from still to struck.
   }
-  Observe {t}_stones_chime_learned at {t}_stones_under of {t}_stones_chime as revelation when state({t}_stones_chime, struck) "It is Tam's four notes, exactly, and the chamber rings with them. Whoever the makers were, they sent this signal to their dead, or from them. {craft}" teaches {t}_boy_tune.
-  Entity {t}_boy_tune: fact "Tam's humming is the old stones' chime: three notes down, one up. He must have heard it struck.".
+  Observe {t}_stones_chime_learned at {t}_stones_under of {t}_stones_chime as revelation when state({t}_stones_chime, struck) "It is Wimble's four notes, exactly, and the chamber rings with them. Whoever the makers were, they sent this signal to their dead, or from them. {craft}" teaches {t}_boy_tune.
+  Entity {t}_boy_tune: fact "Wimble's humming is the old stones' chime: three notes down, one up. He must have heard it struck.".
   Kind {t}_stones_cup_kind "a bronze cup of the old stones" is treasure worth 35 weighing 1 described "A shallow bronze cup no bigger than a hand, green with age, with a lip bent from being dropped. It was the offering of the least of the dead, placed at the foot of the niche that is lowest. Taken, it is stolen from the dead; returned, it is only a cup.".
   Item {t}_stones_cup "a bronze cup of the old stones" is {t}_stones_cup_kind at {t}_stones_under.
   Thing {t}_stones_niche "the lowest niche" at {t}_stones_under {
@@ -91,16 +91,16 @@
     State restored "The bronze cup stands again in its ring of dust at the foot of the lowest niche.".
     Change set "Set the bronze cup back in its ring of dust" from bare to restored needing {t}_stones_cup_kind.
   }
-  Relation {t}_tam_well(group).
-  Rule {t}_tam_mends when state({t}_stones_niche, restored) and not {t}_tam_well(party) says "Somewhere above, in the Hall, a boy stops humming." { Assert {t}_tam_well(party). }
+  Relation {t}_boy_well(group).
+  Rule {t}_boy_mends when state({t}_stones_niche, restored) and not {t}_boy_well(party) says "Somewhere above, in the Hall, a boy stops humming." { Assert {t}_boy_well(party). }
   Topic {t}_manor_cook_tam with {t}_manor_cook "Ask {{t}_manor_cook} about the boy" when true once {
-    Says "'Tam,' says {{t}_manor_cook}, and her voice does something it has not done all day. 'He went up the hill on a dare, in the autumn, and he came down a week after at the back door in his stockinged feet, and did not know me. He knows me now. He does not know what he did. He hums.' She puts a spoon in the pot and takes it out again. 'If you are going up there, and you are, bring me the hearing of it. I do not care what it costs me.'".
+    Says "'Wimble,' says {{t}_manor_cook}, and her voice does something it has not done all day. 'He went up the hill on a dare, in the autumn, and he came down a week after at the back door in his stockinged feet, and did not know me. He knows me now. He does not know what he did. He hums.' She puts a spoon in the pot and takes it out again. 'If you are going up there, and you are, bring me the hearing of it. I do not care what it costs me.'".
   }
-  Topic {t}_manor_boy_talk with {t}_manor_boy "Ask Tam what he heard on the hill" when true once {
+  Topic {t}_manor_boy_talk with {t}_manor_boy "Ask Wimble what he heard on the hill" when true once {
     Says "{{t}_manor_boy} turns the potato over. 'There was a bell,' he says. 'Not a real one, under. I went down to see it. It was only a bell.' He stops. 'Does she know I took the cup?' He is white. 'It was lying there on its own. I only wanted to keep it till I had looked at it. I put it in my shirt and I went up the stair, and then I don't know.'".
     On discuss { Assert knows(actor, {t}_boy_tune). }
   }
-  Observe {t}_manor_tam_after at {t}_manor_kitchen when {t}_tam_well(party) "Tam is at the table peeling onions with a ferocity that makes the cook raise an eyebrow, and humming nothing at all. When he sees you he gets up and gives you, solemnly, the only thing he has in his pocket, which is a clean pebble.".
+  Observe {t}_manor_boy_after at {t}_manor_kitchen when {t}_boy_well(party) "Wimble is at the table peeling onions with a ferocity that makes the cook raise an eyebrow, and humming nothing at all. When he sees you he gets up and gives you, solemnly, the only thing he has in his pocket, which is a clean pebble.".
   // ---- The road-wood: who owns the timber along the old road?
   Person {t}_reeve "Aldous Fenn" at {t}_green {
     Role "reeve of the wood-wardens, who regulate who cuts what in the woods round {town}". Ancestry human. Peaceable. Manner proud. Pronouns he.
@@ -151,15 +151,15 @@
   Observe {t}_roadwood_sour at {t}_green when {t}_roadwood_hall(party) "The wood-wardens go about with their hats low. Nobody has told the reeve anything, and he knows, and the whole green knows he knows.".
   Observe {t}_keeper_free at {t}_manor_front when {t}_roadwood_shared(party) and at({t}_manor_keeper, {t}_manor_front) "The chain hangs on its post, coiled, and Wystan Hale stands beside it without a task, looking, for the first time, as if he does not know what to do with his hands.".
 --- tam voice 3
-  Topic {t}_manor_boy_voice with {t}_manor_boy "Ask Tam what he saw" when true once {
+  Topic {t}_manor_boy_voice with {t}_manor_boy "Ask Wimble what he saw" when true once {
     Says "'Lights,' says {{t}_manor_boy}. 'Round and round. They had faces, nearly. They were singing something that wasn't singing, it was counting. One of them came right up to me and looked in my eyes and I said my name, and she took it.'".
   }
 --- tam fall 2
-  Topic {t}_manor_boy_voice with {t}_manor_boy "Ask Tam what he saw" when true once {
+  Topic {t}_manor_boy_voice with {t}_manor_boy "Ask Wimble what he saw" when true once {
     Says "'Nothing,' says {{t}_manor_boy}, 'I fell.' He turns the potato over. 'There was a slab, and it moved, and I went down a stair that was not there, and I woke up in the dark with my head wet. I called, and called. Somebody called back, but it was only me, a long way off.'".
   }
 --- tam silence 1
-  Topic {t}_manor_boy_voice with {t}_manor_boy "Ask Tam what he saw" when true once {
+  Topic {t}_manor_boy_voice with {t}_manor_boy "Ask Wimble what he saw" when true once {
     Says "{{t}_manor_boy} says nothing at all, for a long time, and then begins to hum, and the three notes down and the one up go round the kitchen, and the cook, at the far end of it, puts both hands flat on the table and looks at the wall.".
   }
 --- quarrel oak 2

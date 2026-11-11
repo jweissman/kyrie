@@ -8,7 +8,7 @@ The five stages the commission names, collapsed to what each kind of content can
 
 | Content | Authored | Loadable | Installed / eligible | In a generated world | Discoverable in play | Actionable |
 |---|---|---|---|---|---|---|
-| **Authored adventures** (`data/adventures`) | 27 directories, about 90,000 lines of Kyr (Book of Faces 12,131; Gosse's Company 6,363; Quittance 6,164 …) | all 27 | **all 27 are provinces of every first country** (`countries.json`) | all 27 in every sampled world | each has a spoken *rumour*; five also have a posted *notice*; ten say how the talk goes *after* | by their own design; the first-hour reference (M20) only exercises the debt and the first town's jobs |
+| **Authored adventures** (`data/adventures`) | 27 directories, about 75,000 lines of Kyr in top-level files (Book of Faces 12,131; Gosse's Company 6,363; Quittance 6,164 …) | all 27 | **all 27 are provinces of every first country** (`countries.json`) | all 27 in every sampled world | each has a spoken *rumour*; five also have a posted *notice*; ten say how the talk goes *after* | by their own design; the first-hour reference (M20) only exercises the debt and the first town's jobs |
 | **Scenarios** (`data/scenarios`) | 12 manifests | library + standing + heralds + city-bound | 8 library, 1 standing (circus), 3 heralds (factors, players), 1 city-bound (`hessel-quarrel`) | 3-4 of 8 fit-and-placed per country (three draws) | a hook per scenario, told by a named teller | yes (dens, tower, drover, fever, oldcoin, quarrel, disputation) |
 | **Works** (`data/generation/works`) | 14 plans + a section library (`riddle-door`), 1 added here | registered in `region-works.ts` | by an art, a successor kind, or `imperial` | `keep` 6/6 and the new posting-house 6/6 seeds; singing halls, cisterns, galleries 2/6; **the great watch-tower 0/6** | a hook per plan, a view from a height, an aim when named | rooms, things, people |
 | **Creatures** (`data/catalog/monsters.json`, `animals.json`) | 146 species (54 + 81 + others) | all | den / open / deep paths decided from habitats + abundance | 56 met in 6 sampled worlds; 34 more eligible but unmet (sample size, rarity) | by ordinary play | combat, negotiation, avoidance |
@@ -46,7 +46,7 @@ The five stages the commission names, collapsed to what each kind of content can
 
 ## 4. Where behaviour lives in TypeScript that an author would write
 
-See [kyr-deem-requests.md](kyr-deem-requests.md) §B. In short: the *prose* of generated places is already data; what is TypeScript is the **selection** (which section for which place) and the **composition** (what holes a template gets). Two migrations were made and tested; ten narrowly specified requests are listed with reproductions.
+See [kyr-deem-requests.md](kyr-deem-requests.md) §B. In short: the *prose* of generated places is already data; what is TypeScript is the **selection** (which section for which place) and the **composition** (what holes a template gets). Two migrations were made and tested; twelve narrowly specified requests are listed with reproductions.
 
 ## 5. What stayed untouched
 

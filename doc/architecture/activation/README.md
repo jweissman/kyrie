@@ -12,7 +12,7 @@ The commission asked, in three phases, for a deeper starting region (Phase One),
 | [census.md](census.md) | The reproducible content-activation census (`bun scripts/activation-census.ts`): paintings, creatures, works, items, scenarios, adventures. |
 | [dormant.json](dormant.json) | The ledger of intentional dormancy, with reasons. |
 | [storyboard.md](storyboard.md) | The spatial storyboard of the Hall, the old stones and the Empire's posting-house, with painting briefs, and the storyboard-first method. |
-| [kyr-deem-requests.md](kyr-deem-requests.md) | Two migrations done (`@count`, template `if`/`unless`), a survey of what else is TypeScript, eleven narrowly specified requests with reproductions. |
+| [kyr-deem-requests.md](kyr-deem-requests.md) | Two migrations done (`@count`, template `if`/`unless`), a survey of what else is TypeScript, thirteen narrowly specified requests with reproductions. |
 | [transcripts/](transcripts) | Two played routes by the page's own labels (`bin/kyrie play`): the road-wood quarrel from the landing to a companion joining, and a walk to the posting-house and what its papers say. |
 | [arcology.md](arcology.md) | A conception, not built: a ruined Mathematical Age arcology, twelve environmental moments, ecology, motives. |
 

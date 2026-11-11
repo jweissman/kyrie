@@ -77,6 +77,6 @@ describe('the old stones, below the dome', () => {
     await j.fight('Attack').catch(() => '');
     expect(Placed.carried(j, r('s1_stones_cup'))).toBe(true);
     await j.play('Set the bronze cup back in its ring of dust');
-    expect(Placed.holds(j, 'region__s1_tam_well', 'party')).toBe(true);
+    expect(Placed.holds(j, 'region__s1_boy_well', 'party')).toBe(true);
   }, 240000);
 });

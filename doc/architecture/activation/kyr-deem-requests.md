@@ -73,7 +73,7 @@ The honest summary: the *prose* of generated places is mostly already data (`.ky
 
 ### R8. A name from the town's folk in a template
 
-*Problem.* The Hall's cook, boy, keeper and reeve have fixed names (Orla Pennick, Tam, Wystan Hale, Aldous Fenn) because a template has no hole for "a name from the town's people". Fixed names are good for authored recurring characters (a deliberate choice here) and wrong for anyone a template draws more than once.
+*Problem.* The Hall's cook, boy, keeper and reeve have fixed names (Orla Pennick, Wimble, Wystan Hale, Aldous Fenn) because a template has no hole for "a name from the town's people". Fixed names are good for authored recurring characters (a deliberate choice here) and wrong for anyone a template draws more than once.
 *Request.* `{!name:folk:woman}`, drawing from `names.json` by the town's folk and sex, so the cook can be an Orla in one country and an Aelfgyth in another while remaining the cook.
 
 ### R9. Duplicate words in a way's label
@@ -92,3 +92,15 @@ The honest summary: the *prose* of generated places is mostly already data (`.ky
 *Problem.* A room has one painting (or one of a list by hash) whatever has happened in it: a lit undercroft and an unlit one are two paintings, but only one is shown (`scene-undercroft-dark`; the lit `scene-undercroft` is unmapped); a spiders' brood is painted whole after it has been burned (the 10 November commission list, item 2).
 *Request.* `scenery.json` kinds accept `when`: a fact or state name, with the painting list for each (`"room": {"dark": ["scene-undercroft-dark"], "lit": ["scene-undercroft"]}`), read from the same relations the page already reads for darkness.
 *Reproduce.* `bun scripts/rooms-painted.ts kahitude s1_manor_cellar`, then light a torch in it and run it again: the painting is the same.
+
+### R12. A topic that takes an item from the company
+
+*Problem.* A topic can `Give n gold to actor` and assert and retract relations, but there is no plain way to say "this person takes that item from the company" (the generic `Give to › X` act exists only for someone who `Wants` the kind). The Hall's amends after a theft (the cook takes the silver box back through the kitchen, and the steward's doors reopen) cannot be written.
+*Request.* An effect in `On discuss { … }` such as `Take {item} from actor.`, over the same ownership relations the generic give already uses.
+*Reproduce.* `bun scripts/play-at.ts kahitude warrior s1_manor_library "Take" ">s1_manor_hall" ">s1_manor_kitchen" "zzqq"`: the box is carried, the doors are shut, and nothing offered in the kitchen can return it.
+
+### R13. One name added to a country re-picks every kin's name
+
+*Problem.* `FantasyRules.another` chooses a kin's given name as `free[hash % free.length]`, where `free` is the pool minus every name already in the country. Adding or removing *one* name from the pool's side changes `free.length` and so re-picks the name of everyone drawn this way: authoring a kitchen boy called "Tam" in the first town turned the drover's son in seed `kite` from Nicol into Hamo (the raiders' chief's name), and would have changed the reference world's brother and mother the same way. Content authors cannot name a person without risking the country's cast.
+*Request.* Pick by rendezvous (highest-random-weight) hashing over the pool, so that removing a name changes only the person who held it; or have authors' bare names checked against the pool (the lint can say "Tam is a given name of the folk: choose another or accept a re-cast").
+*Reproduce.* In `outskirts-deep.kyrt` rename the kitchen boy "Wimble" to "Tam" and run `bun test test/decision-frame.test.ts`: the spec fails with Hamo for Nicol.
