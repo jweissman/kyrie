@@ -42,8 +42,18 @@
 .act.led-act::before { left: 16px; }
 .act.led-act .n { grid-column: 1; font: 500 16.5px/1.3 var(--do); }
 .act.led-act .why-said { grid-column: 1; font: 400 13px/1.35 var(--do); color: var(--dim); letter-spacing: .02em; }
-/* Why, in gold only where it is the aim's or the act marked first (PD-10). */
-.act.led-act.first .why-said, .led > li:is([data-why="named"], [data-why="toward"], [data-why="kin"]) .why-said { color: var(--gold); }
+/* What it is, in its tone (amendment 6, C; see Emphasis): gold only for the aim followed. The tone is the diamond and
+   the words of why; the first led stands out in its own tone, not always in gold. */
+.tone-gold { --tone: var(--gold); --tone-glow: var(--gold-glow); }
+.tone-silver { --tone: #D7DBE4; --tone-glow: rgba(215, 219, 228, .12); }
+.tone-green { --tone: var(--verdigris); --tone-glow: rgba(95, 211, 182, .12); }
+.tone-blue { --tone: var(--azure); --tone-glow: rgba(121, 174, 247, .12); }
+.tone-red { --tone: var(--ember); --tone-glow: var(--ember-glow); }
+.tone-violet { --tone: var(--violet); --tone-glow: rgba(180, 156, 255, .12); }
+.act.led-act[class*="tone-"] .why-said { color: var(--tone); }
+.act.led-act[class*="tone-"]::before { border-color: var(--tone); }
+.act.led-act .why-said .also { display: inline-block; width: 5px; height: 5px; margin: 0 0 2px 8px; border-radius: 50%;
+  background: var(--tone); }
 .act.led-act .key { grid-column: 2; grid-row: 1; }
 .act.led-act .led-mark { grid-column: 1 / -1; font: 400 13.5px/1.4 var(--do); letter-spacing: 0; color: var(--ember); }
 .act.led-act .led-mark::before { content: ''; display: inline-block; width: 5px; height: 5px; margin: 0 8px 2px 0;
@@ -52,9 +62,9 @@
 .act.led-act:is(.risk, .grave)::after { grid-column: 1 / -1; }
 /* What a mark says in words is not said again as a tag ("a risk" under a fight and how it would go). */
 .act.led-act:has(> .led-mark)::after { content: none; }
-.act.led-act.first { border-color: var(--gold-line); box-shadow: inset 3px 0 0 var(--gold);
-  background: linear-gradient(90deg, var(--gold-glow), transparent 80%), var(--raised); }
-.act.led-act.first::before { background: var(--gold); border-color: var(--gold); }
+.act.led-act.first { border-color: var(--edge-strong); box-shadow: inset 3px 0 0 var(--tone, var(--ivory));
+  background: linear-gradient(90deg, var(--tone-glow, rgba(236, 230, 217, .06)), transparent 80%), var(--raised); }
+.act.led-act.first::before { background: var(--tone, var(--ivory)); border-color: var(--tone, var(--ivory)); }
 .act.led-act.first .n { font-size: 17.5px; }
 
 /* The quiet row: the nearest ways; then the keys to every way, everyone and everything here, and yourself. */

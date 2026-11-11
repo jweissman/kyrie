@@ -10,6 +10,7 @@ import { MenuModel } from '../menu-model';
 import { Followed } from '../followed';
 import { Aims } from '../aims';
 import { Words } from '../words';
+import { Emphasis } from '../emphasis';
 import { Act, type Draw } from './act';
 import { Journey } from './journey';
 import { Moments } from './moments';
@@ -79,7 +80,8 @@ export class GlanceStage {
           <div className="do-list">
             {!apart && <GlanceStage.Aim app={app} said={g.aim} />}
             {g.need && <p className="need" data-id="need">{g.need.map(n => <span key={n}>{Typography.curl(n)}</span>)}</p>}
-            {apart ? <GlanceStage.Resting app={app} draw={draw} acts={acts} top={top} />
+            {apart ? <GlanceStage.Resting app={app} draw={draw} top={top}
+              acts={(app.menu.leads ?? g.acts).filter(a => GlanceStage.choice(app, a.choice)?.id !== MenuModel.country.id)} />
               : <><GlanceStage.Acts app={app} draw={draw} acts={acts} top={top} />
                 <GlanceStage.People app={app} draw={draw} led={new Set(acts.map(a => GlanceStage.choice(app, a.choice)?.id))}
                   leading={leading} top={top} why={g.acts[0]?.note} />
@@ -151,9 +153,12 @@ export class GlanceStage {
   // where that aim does, Look… where a thing at hand is what it is about (the owner's play of 7 November: "Go…" in
   // gold on every page, and a dot beside "Look…", while the notes said nothing was asked of the company yet).
   static Resting({ app, draw, acts, top }: { app: ReaderApp; draw: Draw; acts: Promoted[]; top?: string }) {
-    const shown = GlanceStage.pressing(acts), search = Pastime.search(app), hand = AtHand.of(app);
-    const ways = Wayfinder.ways(app), only = GlanceStage.only(app), posted = GlanceStage.posted(app);
-    const found = GlanceStage.found(app, hand), yours = GlanceStage.yours(app, acts, [posted, search]);
+    const search = Pastime.search(app), hand = AtHand.of(app), posted = GlanceStage.posted(app);
+    // What a touch of its own draws (a notice, the one way on) is not drawn again among what is led with.
+    const ways = Wayfinder.ways(app), only = GlanceStage.only(app), touched = [posted?.id, only?.c.id, search?.id];
+    const shown = GlanceStage.foreground(app, acts).filter(a => !touched.includes(GlanceStage.choice(app, a.choice)?.id));
+    const drawn = shown.map(a => GlanceStage.choice(app, a.choice));
+    const found = GlanceStage.found(app, hand), yours = GlanceStage.yours(app, acts, [posted, search, ...drawn]);
     return <>
       {shown.length > 0 && <GlanceStage.Acts app={app} draw={draw} acts={shown} top={top} />}
       <p className="openers">
@@ -218,10 +223,20 @@ export class GlanceStage {
     const light = urgent.find(a => a.why === 'dark');
     return [...light ? [light] : [], ...urgent.filter(a => a !== light).slice(0, 2)];
   }
+  // What a place offers, at rest: what will not wait, then the few other things the glance finds worth doing here,
+  // four at most (amendment 6, B: two to four genuinely different opportunities, never filler). Whoever is here is on
+  // the picture, a journey on the map, and what the place's own touches open (a notice, a find) is drawn by them.
+  static foreground(app: ReaderApp, acts: Promoted[]): Promoted[] {
+    const pressing = GlanceStage.pressing(acts), person = (a: Promoted) => !!a.subject
+      && (app.menu.scene?.subjects ?? []).some(x => x.id === a.subject && ['person', 'companion'].includes(x.kind));
+    const rest = acts.filter(a => !pressing.includes(a) && !a.choice.startsWith('travel:') && !person(a));
+    return [...pressing, ...rest].slice(0, 4);
+  }
   // What a place at rest draws that can be chosen: whoever is here, on the picture, and what is pressing.
   static atRest(app: ReaderApp): Set<string> {
     const g = app.state.frame?.leaf.glance, subjects = app.menu.scene?.subjects ?? [];
-    const pressing = g ? GlanceStage.pressing(app.menu.leads ?? g.acts).flatMap(a => GlanceStage.choice(app, a.choice)?.id ?? []) : [];
+    const pressing = g ? GlanceStage.foreground(app, app.menu.leads ?? g.acts)
+      .flatMap(a => GlanceStage.choice(app, a.choice)?.id ?? []) : [];
     return new Set([...pressing, ...Pastime.search(app)?.id ?? [], ...GlanceStage.only(app)?.c.id ?? [], ...GlanceStage.posted(app)?.id ?? [], ...subjects.filter(x => ['companion', 'person'].includes(x.kind))
       .flatMap(x => PlaceStage.into(x)?.id ?? [])]);
   }
@@ -306,12 +321,16 @@ export class GlanceStage {
     if (!shown.length) { return null; }
     return (
       <ol className="led" aria-label="What you could do now">{shown.map(({ a, c }, i) => {
-        const label = GlanceStage.label(app, a, c), note = GlanceStage.note(a, c, label);
-        return <li key={a.choice} data-promoted={i + 1} data-why={a.why}
+        // What it is to the company, drawn by the page's one table of tones (see Emphasis), and said in words.
+        const label = GlanceStage.label(app, a, c), note = GlanceStage.note(a, c, label) ?? Emphasis.said(a.aspects);
+        const { tone, also } = Emphasis.of(a.aspects);
+        return <li key={a.choice} data-promoted={i + 1} data-why={a.why} data-aspects={a.aspects?.join(' ') || undefined}
           data-next={app.state.frame?.leaf.glance?.after?.next?.choice === a.choice || undefined}>
-          <Act.View choice={c} draw={draw} className={`led-act${c.id === top ? ' first' : ''}`}>
+          <Act.View choice={c} draw={draw}
+            className={`led-act${c.id === top ? ' first' : ''}${tone ? ` tone-${tone}` : ''}`}>
             <span className="n">{Typography.curl(label)}</span>
-            {note && <span className="why-said">{Typography.curl(note)}</span>}
+            {note && <span className="why-said">{Typography.curl(note)}
+              {also.map(t => <i key={t} className={`also tone-${t}`} aria-hidden="true" />)}</span>}
             <kbd className="key" aria-hidden="true">{i + 1}</kbd>
             {a.marks.map(m => <span key={m.kind} className={`led-mark mark-${m.kind}${m.danger ? ` danger-${m.danger}` : ''}`}>{Typography.curl(Words.upper(m.said))}</span>)}
           </Act.View>
