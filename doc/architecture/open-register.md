@@ -419,3 +419,38 @@ they were not done.
     The other first-hour blockers it named (M19-233 plunder, M19-170 light) are closed by E2/E3 and E43/E79.
 13. **The findings reconciliation's instruction** that each UNT gap row "wants a row in the register of the mission
     that takes it up" was never carried out (DC-02).
+
+## 16. From the adventure branch (`adventure/first-steps`, 11 November) and round 7
+
+Carried from that branch's `doc/architecture/activation/kyr-deem-requests.md` (R1–R95, triaged) and `handoff.md`, read
+on 11 November. The branch itself is not merged: the owner is not ready to integrate it.
+
+**A scratch merge was verified in part.** `adventure/fs-integrate` was merged onto main at 33cf0777 as 7386d608 on
+`review/fs-integrate`.
+- Conflicts: one, the wren trace's transcript.
+- Passed: typecheck, the Kyr lint and the quick suite.
+- Its own specs that passed: arcology 41, authorable-generation 2, Bound Howe 40, neighbours 9, outskirts-deep 7,
+  roadstation 10.
+- Not run: the Silent Lord's specs, standing-modules-found, ties, troubles, and main's key specs on the merged tree.
+  It must be merged again onto current main when the owner wants it.
+
+| id | item | sources | status | severity | home |
+|---|---|---|---|---|---|
+| AB-01 | A killing blow told by the 1 its mark had left, not its weight | R81 | **fixed** 5d55fbad (test/fight-told-once) | P1 | — |
+| AB-02 | Wounds never told; the written "hurt" lines never said | R82 | **fixed** 5d55fbad (Barks.wounded) | P2 | — |
+| AB-03 | A creature's damage does not grow with its level (a level-12 mummy's 1d4) | R83 | open | P2 | M21 |
+| AB-04 | The CLI and journeys fight a whole fight in one step; a fallen company is left with nothing offered and no ending | R80 | open | P2 | M21 |
+| AB-05 | A dark room does not say that a light is cheap or where it is sold | the branch's handoff §5 | open | P2 | M21 |
+| AB-06 | People and bands that move on a clock (Route/Pursuit on a person) | R41, R54, R89, R32 | open | P2 | M21 (authoring) |
+| AB-07 | A scenario reading and moving the first town's own people | R37, R38, R85 | open | P2 | M21 (authoring) |
+| AB-08 | Band against band; bands that lose members | R92, R93, R94 | open | P2 | M21 |
+| AB-09 | A calling-specific read of a scene; a check against a crowd | R90, R95, R87 | open | P2 | M21, with the atlas's build-dependent perception |
+| AB-10 | Topics that change on repeat (98% of the first town's are `once`) | R60, R46, R57 | open | P2 | M21 |
+| AB-11 | A scenario's reach beyond its seat (members in other towns and countries) | R72, R73, R74, R31 | open | P3 | M21 |
+| AB-12 | A Deem template that invokes Kyr (a drawn fact selecting an authored section) | R75, R29, R55 | open | P2 | M21 (authoring) |
+| AB-13 | Specs that choose which standing scenarios a world holds | R88 | open | P2 | M21 (testing) |
+| AB-14 | Declarations that fail late: shared relation names, a new site kind needing three edits, a module without milestones | R42, R39, R59 | open | P2 | M21 (authoring) |
+| R7-01 | Torches die in the middle of an act, and nothing says so | round 7, L 84, 96 | open | P2 | M20 close |
+| R7-02 | Fights trivial with a warrior in the company; a bard "barely played" (lore, Charm Person, gliding never came up); a speaking castellan with no way to answer | round 7, L | open | P1 | M21 (with CB-01) |
+| R7-03 | Go… lists every place in town as "20 minutes"; the conversation log grows without end | round 7, L | open | P3 | M21 |
+| R7-04 | A town known only by report has no route line before setting out (the owner's rule of 29 October: heard of is a marker only); both players missed one | round 7, K, L | by design; worth the owner's look | P3 | owner |
