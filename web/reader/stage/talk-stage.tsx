@@ -112,16 +112,20 @@ export class TalkStage {
     );
   }
   // What has passed between you, newest last and kept in view; when the newest is longer than there is room for, from
-  // its beginning (what you said), not its end.
+  // its beginning (what you said), not its end; but a new aim it brings is kept in view whole, before its beginning
+  // (round 5: "A new aim" fell below the room for talk, and was seen only in the notes).
   static Lines({ lines, pending, ready, app }: { lines: TalkLine[]; pending?: string; ready?: string; app?: ReaderApp }) {
     const end = useRef<HTMLDivElement>(null), newest = useRef<HTMLParagraphElement>(null);
-    const from = Math.max(0, lines.map(l => l.kind).lastIndexOf('you'));
+    const aim = useRef<HTMLParagraphElement>(null);
+    const from = Math.max(0, lines.map(l => l.kind).lastIndexOf('you')), last = lines.map(l => l.kind).lastIndexOf('aim');
     useLayoutEffect(() => {
       end.current?.scrollIntoView({ block: 'nearest' });
       const box = end.current?.parentElement, first = newest.current;
       if (box && first && first.getBoundingClientRect().top < box.getBoundingClientRect().top) {
         box.scrollTop -= box.getBoundingClientRect().top - first.getBoundingClientRect().top;
       }
+      const below = box && aim.current ? aim.current.getBoundingClientRect().bottom - box.getBoundingClientRect().bottom : 0;
+      if (box && below > 0) { box.scrollTop += below; }
     }, [lines.length, pending]);
     return (
       <div className="lines" aria-live="polite">
@@ -130,11 +134,14 @@ export class TalkStage {
           const ended = Moments.ending.exec(l.text), levelled = Moments.levelled.exec(l.text);
           // Things learned together are one "You know now", a line each: four of them, each under its own label, had
           // filled the room for talk, and only the first label was in view (Mission 20's fourth round, E 34).
-          const more = l.kind === 'learned' && !l.label && lines[i - 1]?.kind === 'learned' && !lines[i - 1]?.label;
+          // By what the label says, given or not: notes from the engine carry "You know now" as theirs (round 5's three).
+          const prior = lines[i - 1], said = (x: TalkLine) => x.label ?? 'You know now';
+          const more = l.kind === 'learned' && prior?.kind === 'learned' && said(l) === said(prior);
           return ended ? <Moments.SeenThrough key={i} ended={ended} ready={ready} />
             : levelled ? <Moments.Levelled key={i} levels={[levelled]} />
             : l.kind === 'learned' || l.kind === 'aim'
-              ? <p key={i} ref={i === from ? newest : undefined} className={`line learned ${l.kind}${more ? ' more' : ''}`}>
+              ? <p key={i} ref={i === from ? newest : i === last && last > from ? aim : undefined}
+                className={`line learned ${l.kind}${more ? ' more' : ''}`}>
                 {!more && <b>{l.label ?? (l.kind === 'aim' ? TalkStage.aimed(app, l.text) : 'You know now')}</b>}
                 {Typography.curl(l.text)}
                 {app && l.kind === 'aim' && <Told.Follow app={app} aim={l.text} />}</p>
