@@ -177,6 +177,9 @@ Module hob_folk "Hobs" {
     // Only where a hob would hear it: offered in every room and road with the bell in hand, it had been led with on
     // every page after the hold was empty (Mission 20's honest play).
     Requires able(actor) and at(actor, site) and holding(actor, bell) and not rung(site) and earshot(site).
+    // A moment's act: taken for one of ten minutes, it had been marked "Not with the raiding party here", as what the
+    // company is not let take its time over beside a danger, and it was the very thing to do (round 7, K 105).
+    Time 1.
     On success { Assert rung(site). }
     Result "The bell's voice goes out over everything.".
   }
