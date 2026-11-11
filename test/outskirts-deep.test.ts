@@ -29,6 +29,16 @@ describe('the Hall, below stairs and in its papers', () => {
     expect(j.campaign.world.one('at', 'party')).toBe(r('s1_manor_muniments'));
   }, 180000);
 
+  it('lets a thief in without the cook: the press-door is broken, the house notices, and the steward reads it all the same', async () => {
+    const j = await start('thief');
+    await j.play('>s1_manor_library');
+    expect(j.offers('Unlock the press-door with the old key')).toBe(false);
+    await j.play('Pick the press-door\'s lock');
+    expect(Placed.holds(j, 'state', r('s1_manor_press'), 'region__broken')).toBe(true);
+    await j.play('>s1_manor_hall', 'Ask the steward of the Hall to read the parchment in the press');
+    expect(Placed.holds(j, 'knows', 'party', r('s1_roadwood_grant'))).toBe(true);
+  }, 180000);
+
   it('settles the road-wood by the Empire’s grant, read aloud by the steward: reeve pays, Hall thanks, keeper joins, town remembers', async () => {
     const j = await start();
     await key(j);

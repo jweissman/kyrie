@@ -39,8 +39,9 @@
     Role "rats grown bold on the Hall's apples, that have come up from the old wall behind the racks". Species rat. Numbers 3. Level 1. Temperament territorial. Lair {t}_manor_cellar.
     Warns "The racks shiver. Three brown rats the length of your forearm come out of the dark behind the barrels and do not run.".
   }
+  Initially Set encounterXp({t}_manor_rats) to 50.
   Topic {t}_manor_cook_rats with {t}_manor_cook "Ask {{t}_manor_cook} what is the matter with the cellar" when able({t}_manor_rats) once {
-    Says "'Rats,' says {{t}_manor_cook}, flatly. 'Bolder than the steward. The steward says it's a matter for the cat. I've told her the cat has handed in her notice.' She does not look at you. 'There's eight silver in it, if someone happened to go down.'".
+    Says "'Rats,' says {{t}_manor_cook}, flatly. 'Bolder than the steward. The steward says it's a matter for the cat. I've told her the cat has handed in her notice.' She does not look at you. 'There's eight silver in it, if someone happened to go down. Take a light. Unless you enjoy it.'".
   }
   Topic {t}_manor_cook_ratsdone with {t}_manor_cook "Tell {{t}_manor_cook} the cellar is clear" when not able({t}_manor_rats) and at(party, {t}_manor_kitchen) once {
     Says "'Well,' says {{t}_manor_cook}. She goes to the dresser and takes down a coin-dish, and counts out eight silver, and then stands there with a mutton pie she did not appear to be holding a moment ago. 'Sit. Eat. Nobody in this house has said thank you in nine years, so you may have the pie instead.'".
@@ -57,12 +58,11 @@
   Thing {t}_manor_press "the muniment-press door" on {t}_manor_pressdoor {
     State locked blocking "The press-door in the library is shut, and has been so long that the paint has joined it to the frame. It has a keyhole, a good one.".
     State open "The press-door is open.".
+    State broken "The press-door is open, and the paint-seam has been cracked right across it. The steward will not like that.".
     Change key "Unlock the press-door with the old key" from locked to open needing {t}_manor_key_kind.
-    Change pick "Pick the press-door's lock" from locked to open needing lockwork.
-    Change force "Break the press-door's lock with a crowbar" from locked to open needing crowbar.
+    Change pick "Pick the press-door's lock" from locked to broken needing lockwork.
+    Change force "Break the press-door's lock with a crowbar" from locked to broken needing crowbar.
   }
-  // Whoever opens the press otherwise than by the key has been seen to by the house: broken, it is spoken of.
-  Observe {t}_manor_press_forced at {t}_manor_library when state({t}_manor_press, open) and not holding(party, {t}_manor_key_kind) "The press-door is open, and the paint-seam has been cracked right across it. The steward will not like that.".
   // ---- The old wall in the cellar: the way under the hill.
   Discovery {t}_tunnel_found "The old wall at the back of the Hall cellar is not the Hall's: it is dressed in the way of {old}, and a passage behind it goes under the hill." {
     Found by searching {t}_manor_cellar "Behind the rats' run, one of the Hall's small grey bricks comes away in your hand, and the stone beyond is cold as a well, cut true, and there is a draught.".
@@ -120,7 +120,11 @@
     On discuss { Assert {t}_roadwood_open(party). }
   }
   Topic {t}_steward_reads with {t}_manor_steward "Ask {{t}_manor_steward} to read the parchment in the press" when state({t}_manor_press, open) and not knows(party, {t}_roadwood_grant) once {
-    Says "{{t}_manor_steward} takes the parchment from you as if it might bite. She reads it with a finger under each line, her lips moving, and her colour goes, line by line, until she is quite grey. 'That is the Emperor's hand,' she says. 'I was taught it as a girl, for the Hall's seals. I never thought I should be asked to use it.' She reads it aloud, slowly, to the end, and sits down on the nearest chest. 'Well,' she says. 'Well.'".
+    Says "{{t}_manor_steward} goes through the press-door as if into cold water, and comes back with a parchment held out in front of her as if it might bite. She reads it with a finger under each line, her lips moving, and her colour goes, line by line, until she is quite grey. 'That is the Emperor's hand,' she says. 'I was taught it as a girl, for the Hall's seals. I never thought I should be asked to use it.' She reads it aloud, slowly, to the end, and sits down on the nearest chest. 'Well,' she says. 'Well.'".
+    On discuss { Assert knows(actor, {t}_roadwood_grant). }
+  }
+  Topic {t}_steward_reads_broken with {t}_manor_steward "Ask {{t}_manor_steward} to read the parchment in the press" when state({t}_manor_press, broken) and not knows(party, {t}_roadwood_grant) once {
+    Says "{{t}_manor_steward} looks at the cracked paint of the press-door for a long moment, says nothing about it in a way that costs you more than saying it would, and goes through to come back with a parchment held out in front of her as if it might bite. She reads it with a finger under each line, her lips moving, and her colour goes, line by line, until she is quite grey. 'That is the Emperor's hand,' she says. 'I was taught it as a girl, for the Hall's seals. I never thought I should be asked to use it.' She reads it aloud, slowly, to the end, and sits down on the nearest chest. 'Well,' she says. 'Well.'".
     On discuss { Assert knows(actor, {t}_roadwood_grant). }
   }
   Thing {t}_manor_deed "the road-grant in the press" at {t}_manor_muniments {
@@ -167,12 +171,14 @@
     Role "the long dead of the old stones, whose duty it was to keep the bounds, and who has kept it past reason". Species revenant. Level 2. Temperament wary. Lair {t}_stones_under.
     Warns "In the niche nearest the stair something sits up, slowly, the way a sleeper sits who has been woken before. It looks at the cup in your hand, if you have it, and then at you.".
   }
+  Initially Set encounterXp({t}_stones_warden) to 120.
   Observe {t}_stones_warden_sign at {t}_stones_dome as sign noticed by perception when able({t}_stones_warden) "A groove is worn from the dome's centre-slab to the edge of the floor, as if something heavy had been dragged back and forth along it for a very long time.".
 --- under bats 2
   Person {t}_stones_bats "bats in the undercroft" at {t}_stones_under {
     Role "a colony of bats in the roof of the undercroft, which wheel down when a light comes in". Species bat. Numbers 6. Level 1. Temperament territorial. Lair {t}_stones_under.
     Warns "The roof comes alive, leather and squeal, a cloud of bats with the light in their eyes.".
   }
+  Initially Set encounterXp({t}_stones_bats) to 40.
 --- under quiet 1
   Observe {t}_stones_quiet at {t}_stones_under when true "Nothing lives here. The dust lies in a smooth skin on everything and has your footprints in it alone, and, a long way back, the print of one small bare foot.".
 --- road station 1 if station
