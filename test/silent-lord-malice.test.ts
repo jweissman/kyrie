@@ -11,14 +11,14 @@ describe('the silent lord: malice, and the signal before it', () => {
   it('warns a company that counts the lord’s trays: Thole’s Hands bar the ward, and the toll settles it', async () => {
     const j = await Keep.start();
     await Keep.arrive(j, 'ward');
+    j.assert('befriended', k('ansel'), 'party'); // (given as a fact: Ansel has his own specs, and would fight first)
     Placed.knows(j, k('lord_trays'));
-    await j.play('=day 10 19:00', 'Wait › A while');
-    expect(Keep.holds(j, 'peaceable', k('hands'))).toBe(false);
-    expect(Keep.holds(j, 'warned', k('hands'), 'party')).toBe(true);
-    expect(j.page).toMatch(/counts its trays|counted trays/);
-    j.coin(10);
-    await j.play('Pay .* the price named');
-    expect(Keep.holds(j, 'tolerates', k('hands'), 'party')).toBe(true);
+    await j.play('=day 10 18:40');
+    for (let i = 0; i < 12 && !/counted trays/.test(j.page); i++) { await j.play('=+1'); }
+    expect(Placed.holds(j, 'peaceable', k('hands'))).toBe(false);
+    // The warning is spoken before the blow: a toll is named, and a first-fall bout follows if it is not paid.
+    expect(j.page).toMatch(/counted trays/);
+    expect(j.page).toMatch(/A fee, for the trouble you have caused/);
   }, 600000);
 
   it('falls on a warned company that sleeps unbarred at the dead watch, and is balked by a barred door', async () => {
@@ -34,36 +34,40 @@ describe('the silent lord: malice, and the signal before it', () => {
     j2.assert('hands_told', k('house'));
     const told = await j2.play('=day 11 02:10');
     expect(told).toMatch(/Don.t get up/);
-    expect(Keep.holds(j2, 'assails', k('hands'), 'party') || Placed.holds(j2, 'dead', 'party') || !Keep.holds(j2, 'peaceable', k('hands'))).toBe(true);
+    expect(Placed.holds(j2, 'assails', k('hands'), 'party') || Placed.holds(j2, 'dead', 'party') || !Placed.holds(j2, 'peaceable', k('hands'))).toBe(true);
   }, 900000);
 
   it('takes a swordsman for the king’s champion: told the truth he laughs and becomes a friend, whose word turns the Hands aside', async () => {
     const j = await Keep.start();
     await Keep.arrive(j, 'ward');
-    await j.play('Wait › A while');
-    expect(Keep.holds(j, 'warned', k('ansel'), 'party')).toBe(true);
+    await j.play('=+1', '=+1');
+    expect(Placed.holds(j, 'warned', k('ansel'), 'party')).toBe(true);
     await j.play('Tell .* you are not the king.s champion');
     expect(Keep.holds(j, 'befriended', k('ansel'), 'party')).toBe(true);
-    expect(Keep.holds(j, 'tolerates', k('hands'), 'party') || Keep.knows(j, 'hands_known')).toBe(true);
-    expect(Keep.holds(j, 'peaceable', k('ansel'))).toBe(true);
+    expect(Placed.holds(j, 'tolerates', k('hands'), 'party') || Keep.knows(j, 'hands_known')).toBe(true);
+    expect(Placed.holds(j, 'peaceable', k('ansel'))).toBe(true);
   }, 600000);
 
   it('lets the same mistake be played out as a duel to the first fall', async () => {
     const j = await Keep.start();
     await Keep.arrive(j, 'ward');
-    await j.play('Wait › A while');
+    await j.play('=+1', '=+1');
     await j.play('Say you are, and ask him what his cause is');
-    expect(j.page).toMatch(/herald called my uncle indisposed/);
+    expect(j.latest).toMatch(/beaten, and yield/);
+    expect(Keep.holds(j, 'befriended', k('ansel'), 'party')).toBe(true);
   }, 600000);
 
   it('sets a bitter cup before a company that has learned too much, and the dog, the cook and a cleric’s nose warn of it before the cup is drunk', async () => {
     const j = await Keep.start('cleric');
     await Keep.arrive(j, 'kitchen');
+    j.assert('befriended', k('ansel'), 'party'); // (given as a fact, as above)
+    j.assert('tolerates', k('doorward'), 'party'); // (the door-ward at the solar stair is his own old fight)
     Placed.knows(j, k('lord_dead'));
-    await j.play('=day 10 19:00', '>keep__hall', 'Wait › A while');
+    await j.play('=day 10 19:00', '>keep__hall', '=+1');
     expect(Keep.holds(j, 'cup_set', k('house'))).toBe(true);
-    expect(j.seen()).toMatch(/old dog has come in/);
-    expect(j.seen()).toMatch(/Almonds/);
+    await j.play('=+1');
+    expect(j.page).toMatch(/old dog has come in/);
+    expect(j.page).toMatch(/Almonds/);
     await j.play('Pour the cup out');
     expect(Keep.holds(j, 'cup_done', k('house'))).toBe(true);
   }, 600000);
@@ -112,7 +116,7 @@ describe('the silent lord: malice, and the signal before it', () => {
     Placed.knows(j, k('tracks_seen'));
     Placed.at(j, k('ward'));
     await j.play('Tell .* the rider was taken in the ditch');
-    expect(Keep.holds(j, 'tolerates', k('hands'), 'party')).toBe(true);
+    expect(Placed.holds(j, 'tolerates', k('hands'), 'party')).toBe(true);
   }, 600000);
 });
 

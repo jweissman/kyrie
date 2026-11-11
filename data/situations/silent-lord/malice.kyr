@@ -86,7 +86,7 @@ Module silent_lord "The silent lord" {
   Initially Assert duty(ansel, p_dawn, ward). Initially Assert duty(ansel, p_morning, ward). Initially Assert duty(ansel, p_noon, hall).
   Initially Assert duty(ansel, p_afternoon, stables). Initially Assert duty(ansel, p_eve, hall). Initially Assert duty(ansel, p_feast, hall).
   // A ridiculous misunderstanding: the porter told him a man of the king's would come, and he has been waiting for his duel.
-  Rule ansel_mistakes when entered(house) and not unmasked(house) and peaceable(ansel) and not ansel_cleared(house) and not tolerates(ansel, party) and together(ansel, party) {
+  Rule ansel_mistakes when entered(house) and not unmasked(house) and peaceable(ansel) and not ansel_cleared(house) and not befriended(ansel, party) and not tolerates(ansel, party) and together(ansel, party) {
     Retract peaceable(ansel). Assert temperament(ansel, temper_territorial).
   }
   Topic ansel_denies with ansel "Tell {ansel} you are not the king's champion" when warned(ansel, actor) once {
@@ -99,6 +99,11 @@ Module silent_lord "The silent lord" {
   }
   Rule ansel_bested when routed(ansel) and not befriended(ansel, party)
     says "Ansel sits down in the dirt of the ward with his sword across his knees and looks at you with the wide open face of someone who has just learnt what it is. 'Again,' he says. Then, 'No. Not again. That was... that was a lesson.' He holds up a hand to be pulled up. 'If you are the king's champion the king is better off than I thought, and if you are not, I should like to know what you are.'" {
+    Assert befriended(ansel, party). Assert ansel_cleared(house). Assert peaceable(ansel). Retract temperament(ansel, temper_territorial). Assert tolerates(ansel, party). Assert tolerates(hands, party).
+  }
+  // And if it is the company that falls: a first-fall bout lost to a boy who wanted a champion is the funniest thing that has happened to him.
+  Rule ansel_wins when yielded(party, ansel) and not befriended(ansel, party)
+    says "Ansel stands over you with his sword at the guard and his face is bright. Then it falls, a piece at a time. 'You did not even... you weren't trying,' he says. 'You are not the king's champion. The king's champion would have taken my ears.' He sits down in the dirt of the ward, quite suddenly, and begins to laugh until he is in danger of hiccups. 'I have just beaten a tinker. I shall never be allowed to forget it.' He holds out a hand. 'Get up. I am Ansel. I am so very sorry. Do you know what Thole does at night?'" teaches hands_known {
     Assert befriended(ansel, party). Assert ansel_cleared(house). Assert peaceable(ansel). Retract temperament(ansel, temper_territorial). Assert tolerates(ansel, party). Assert tolerates(hands, party).
   }
   // The feast: an insult is taken from a smile. Ansel, who has not been won, challenges across the hall.
