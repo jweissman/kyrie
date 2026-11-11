@@ -134,7 +134,7 @@
   Discovery {t}_u_nest_hoard "Under the nest's sacking, what the rats dragged in over the years." {
     Found by searching {t}_u_nest "Under the chewed sacking something catches the light.".
   }
-  Item {t}_u_nest_ring "a tarnished silver ring" is grave_rings at {t}_u_nest hidden until {t}_u_nest_hoard.
+  Item {t}_u_nest_ring "a cord of grave rings" is grave_rings at {t}_u_nest hidden until {t}_u_nest_hoard.
   // A way through that needs no fight for the brood in the runs (a lone mage or thief had no way through the first
   // jobs): ratsbane from the chandler's, laid where the rats come up into the cellar, does its work by morning.
   Relation {t}_u_baited(group). Measure {t}_u_baited_at(group).
