@@ -93,7 +93,7 @@ claims nothing beyond what the sources say.
 | CB-04 | Placed road troubles kill any lone novice who stands and fights, a warrior included (deserters 0.00 / 93%) | UNT-124 | Open risk, unverified since 6 Nov | P1 | M21 |
 | CB-05 | A failed check is free to retry; there is no `Resolve … once` or `tries N`; a final check is not said to be final; a Topic cannot carry a check; a check's difficulty cannot read a measure | M19-124, M19-125, BOF-09, BOF-10, UNT-112, R6-I top1 | Deferred, unverified since 8 Nov; seen again in round 6 (11 Nov) | P1 | M21 |
 | CB-06 | The Gaffer alone on his ledge dies in a round or without a choice | E52 (remainder), R4-F top1 | Open (11 Nov) | P2 | M20 close |
-| CB-07 | Sleep/stun traps drop the company into the warned barrow-dead's room: lying still is certain death, no agency | E102, log queue 2, mem:m20-state-nov11 A | Open (11 Nov) | P1 | M20 close |
+| CB-07 | Sleep/stun traps drop the company into the warned barrow-dead's room: lying still is certain death, no agency | E102, log queue 2, mem:m20-state-nov11 A | **Fixed** (E147, test/sleep-warned) | P1 | — |
 | CB-08 | Danger thin in ordinary exploration: the silver walker meets one fight in 13 hours; dangers met are mostly grave or deadly; frequency to be told apart from balance; bounded first-hour danger; no walker write-up | E100, E105, log queue 4, amendment 8, mem:m20-state-nov11 #8 | Open (11 Nov) | P1 | M20 close (write-up) / M21 |
 | CB-09 | A bare Take in a warned room can start the fight, and the label does not say the watchers will not wait | M19-252 | Open (10 Nov) | P3 | M20 close |
 | CB-10 | Antidote on a poisoned hireling "to no effect" | E36 (antidote open) | Open (11 Nov) | P2 | M20 close |

@@ -107,20 +107,25 @@ Module inhabitants "How creatures that live somewhere answer those who come into
   Rule temper_rallies when routed(?g) and refuge(?g, ?r) and at(?g, ?r) and untilLight(clock) == 1 {
     Retract routed(?g).
   }
+  // Lying where a trap left it, asleep or held, a company is not staying against a warning: whoever warned it waits
+  // until it can answer, and then gives it the time it gave (E102: a sleep in the barrow-dead's room had been certain
+  // death, with nothing to choose).
+  Rule temper_waits_helpless when warned(?g, ?c) and company(?c) and not able(?c) and not dead(?c)
+    and patience(?g) <= watch(clock) + 1 { Set patience(?g) to watch(clock) + 2. }
   // A warning spent: whoever stayed is fallen on (for a defensive one, only in its lair).
-  Rule temper_closes when warned(?g, ?c) and together(?g, ?c) and able(?g) and not routed(?g) and not tolerates(?g, ?c)
+  Rule temper_closes when warned(?g, ?c) and together(?g, ?c) and able(?g) and able(?c) and not routed(?g) and not tolerates(?g, ?c)
     and patience(?g) <= watch(clock) and not temperament(?g, temper_defensive) and not temperament(?g, temper_seizing)
     and not temperament(?g, temper_obedient) and onslaught(?g, ?o) says "{?o}" {
     Assert assails(?g, ?c). Retract warned(?g, ?c).
   }
   // A seizing one takes whoever stayed, and there is no fight (What Tessary Owes' W9: two bailiffs of bronze who
   // cannot be fought were dismantled by a level-three cleric).
-  Rule temper_seizes when warned(?g, ?c) and together(?g, ?c) and able(?g) and not routed(?g) and not tolerates(?g, ?c)
+  Rule temper_seizes when warned(?g, ?c) and together(?g, ?c) and able(?g) and able(?c) and not routed(?g) and not tolerates(?g, ?c)
     and patience(?g) <= watch(clock) and temperament(?g, temper_seizing) and onslaught(?g, ?o) says "{?o}" {
     Assert captured(?g, ?c). Retract warned(?g, ?c).
   }
   Rule temper_defends when warned(?g, ?c) and temperament(?g, temper_defensive) and lair(?g, ?l) and at(?c, ?l)
-    and at(?g, ?l) and able(?g) and not routed(?g)
+    and at(?g, ?l) and able(?g) and able(?c) and not routed(?g)
     and not tolerates(?g, ?c) and patience(?g) <= watch(clock) and onslaught(?g, ?o) says "{?o}" {
     Assert assails(?g, ?c). Retract warned(?g, ?c).
   }
@@ -140,7 +145,7 @@ Module inhabitants "How creatures that live somewhere answer those who come into
     Assert warned(?g, ?c). Assert halts(?g, ?c). Set patience(?g) to watch(clock) + 1.
   }
   Rule temper_keeps_post when warned(?g, ?c) and temperament(?g, temper_obedient) and lair(?g, ?p) and at(?g, ?p)
-    and together(?g, ?c) and able(?g) and not routed(?g) and not tolerates(?g, ?c) and patience(?g) <= watch(clock)
+    and together(?g, ?c) and able(?g) and able(?c) and not routed(?g) and not tolerates(?g, ?c) and patience(?g) <= watch(clock)
     and onslaught(?g, ?o) says "{?o}" {
     Assert assails(?g, ?c). Retract warned(?g, ?c).
   }
