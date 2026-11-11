@@ -30,7 +30,7 @@ describe('the Walk, played by a scholar', () => {
     expect(Walking.holds(j, 'duel_settled', 'walk')).toBe(true);
     expect(Walking.holds(j, 'lads_allied', 'walk')).toBe(true);
     // The fourth town: the Brethren hold the Station from the eighth day; the names are the way in.
-    await said('>walk__camp_d', '=day 8 12:00');
+    await said('=day 7 06:00', '?To the bridge over the Deepwater', '?Pay the lord.s toll', '>walk__camp_d', '=day 8 12:00');
     expect(Walking.at(j, 'gaunt')).toBe('walk__station_d');
     await said('>walk__station_d');
     await said('Say the names of the road at the Station arch');
@@ -48,7 +48,8 @@ describe('the Walk, played by a scholar', () => {
     await said('=day 11 10:00');
     expect(Walking.drawn(j, 'ending')).toEqual(['e_licensed']);
     // On foot back to the first town: its green, its notice, its bailiff in his chair, and the innkeeper.
-    await said('>region__s1_green');
+    await said('=day 11 11:00');
+    await said('To the bridge over the Deepwater', '?Pay the lord.s toll', '?Tell the reeve you are on the lord.s own business', '>region__s2_green', '>region__s4_green', '>region__s1_green');
     const notice = j.choices().find(c => /notice/i.test(c.full));
     expect(Walking.state(j, 'notice_a')).toBe('walk__end_licensed');
     expect(notice).toBeDefined();
