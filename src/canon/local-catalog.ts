@@ -96,8 +96,13 @@ export class LocalKinds {
   // others, so a parse kept by these alone is good wherever they stand as they do (a new country's own kinds had made
   // every adventure's parse that country's alone: M19-49). An id that only occurs inside another word is kept too,
   // which costs a parse kept twice, never a wrong one.
+  // Not those it declares itself: its own parse installed them, and the same text read again (a generated country's
+  // first file, read for its places and then for play) had missed the cache and been parsed twice, three quarters of a
+  // second of a new country's start (the headless investigation, 11 November).
   static seen(text: string): string {
-    return [...this.installed].filter(k => text.includes(k.slice(k.indexOf(':') + 1))).sort().join(' ');
+    const own = new Set([...text.matchAll(/^\s*(?:Kind|Species) ([A-Za-z_][\w]*) "/gm)].map(m => m[1]!));
+    return [...this.installed].filter(k => { const id = k.slice(k.indexOf(':') + 1); return !own.has(id) && text.includes(id); })
+      .sort().join(' ');
   }
   // Takes every module's own kinds back out of the catalogs: a new campaign begins with the catalogs as they are.
   static reset() {
