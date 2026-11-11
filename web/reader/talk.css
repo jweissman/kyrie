@@ -28,6 +28,9 @@
   padding: max(30px, env(safe-area-inset-top)) clamp(24px, 4vw, 56px) env(safe-area-inset-bottom); }
 .lines { flex: 0 0 auto; max-height: 44%; min-height: 0; overflow-y: auto; overscroll-behavior: contain; margin: 0;
   padding: 0 64px 14px 0; }
+/* Trading, the lines hold their room from the first: each purchase told above had pushed the counter down, and the
+   next touch bought what had moved under it (round 5). */
+.dialogue:has(.trading) .lines { height: 44%; }
 /* A line is a block of its own: the place's foot's .aim and .you, flex rows, had laid a new aim's label out as a column
    three words high beside it (round 5). */
 .lines .line { display: block; margin: 0 0 .8em; animation: arrive var(--settle) var(--ease) both; }
