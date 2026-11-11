@@ -234,3 +234,16 @@
    there at its sides; put away, the place is as it was (amendment 6, A). */
 .shell.scene-full .book-frame { width: min(1120px, 100vw); margin: 0 auto; background: rgba(12, 13, 17, .9);
   backdrop-filter: blur(8px); border-inline: 1px solid var(--edge-strong); box-shadow: 0 0 80px rgba(0, 0, 0, .6); }
+/* The way not shown (?guide=quiet, a company without a cleric: see Guidance): the aim's marks elsewhere on the page
+   are drawn as anything else is, so that nothing tells the one right answer. */
+.shell.guide-quiet .openers .opener.led::after { content: none; }
+.shell.guide-quiet .wf-row.aimed .n::after { content: none; }
+.shell.guide-quiet .wf-preview .wf-aim { display: none; }
+.shell.guide-quiet .replies li.aimed > .act { border-color: var(--edge); box-shadow: none; }
+.shell.guide-quiet .replies li.aimed > .act i { color: var(--dim); }
+.shell.guide-quiet .corner-keys .corner.icon.led { color: inherit; box-shadow: none; }
+.shell.guide-quiet .portraits li.led .portrait .face { border-color: var(--edge-strong); box-shadow: none; }
+/* Dim: nothing new to give for now (a place left twice with nothing done and nothing since; a question already
+   asked). Not shut, not another kind of opportunity: it can be chosen, and is lit again when the world changes. */
+.wf-row.dim { opacity: .5; }
+.wf-row.dim:hover, .wf-row.dim:focus-visible { opacity: .85; }

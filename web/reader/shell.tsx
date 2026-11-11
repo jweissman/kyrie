@@ -5,6 +5,7 @@ import { FictionalTime } from '../../src/campaign/fictional-time';
 import { Stage } from './stage/stage';
 import { Flame } from './stage/flame';
 import { EncyclopediaOverlay } from './encyclopedia-overlay';
+import { Guidance } from './guidance';
 
 // The lantern: a dark ground with the country's painting far behind it, dim and out of focus and tinted by the hour,
 // and on it one bounded stage, lit, where the game is played. Every page is held inside the stage, with its margins
@@ -19,7 +20,8 @@ export class Shell {
     // The scene first (the owner's amendment 6, A): the painting over the whole screen and what is told and done in
     // restrained panels over it; ?scene=split keeps the bounded stage it replaced, to compare.
     const apart = `${creating ? ' creating' : ''}${Stage.prologue(app) ? ' prologue' : ''}`
-      + `${Stage.overworld(app) ? ' overworld' : ''}${app.props.query.get('scene') === 'split' ? '' : ' scene-full'}`;
+      + `${Stage.overworld(app) ? ' overworld' : ''}${app.props.query.get('scene') === 'split' ? '' : ' scene-full'}`
+      + `${Guidance.shown(app) ? '' : ' guide-quiet'}`;
     return (
       <div className={`shell phase-${s.phase} hour-${Shell.hour(app)}${apart}`} style={style}
         onClickCapture={e => EncyclopediaOverlay.caught(app, e)}>

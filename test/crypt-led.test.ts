@@ -46,5 +46,7 @@ describe('the dead under the churchyard, followed', () => {
     g = Glanced.of(s);
     expect(Crypt.aims(g)).toEqual(['To the ossuary']);
     expect(g.glance.acts.map(a => a.label).join(' | ')).not.toMatch(/Search here/);
+    // It is the one led act that carries the aim on (the owner, 11 November: exactly one).
+    expect(g.glance.acts.filter(a => a.continues).map(a => a.label)).toEqual(['To the ossuary']);
   }, 120000);
 });

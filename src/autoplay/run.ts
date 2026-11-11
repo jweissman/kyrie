@@ -105,8 +105,8 @@ export class AutoplayRun {
   // kept otherwise (amendment 6, H).
   private static led(s: PlaySession, prefer?: Aspect): string[] {
     const glance = Narrator.leaf(s.campaign, ScreenModel.build(s.campaign)).glance;
-    const acts = [...glance?.acts ?? []].sort((a, b) => Number(!!prefer && !a.aspects.includes(prefer))
-      - Number(!!prefer && !b.aspects.includes(prefer)));
+    const acts = [...glance?.acts ?? []]
+      .sort((a, b) => Number(!this.prefers(a, prefer)) - Number(!this.prefers(b, prefer)));
     // A conversation it leads with is opened as the page opens it, by talking to them; what it is led for in it is
     // done there (see Promoted.for), and nothing else said beside it in its place (a bed had been taken four times
     // over by ten in the morning, the innkeeper's first reply).
@@ -114,6 +114,11 @@ export class AutoplayRun {
       ? [...a.for ? [a.for] : [], ...a.command?.startsWith('ask(') ? [a.command] : [],
         `talk_to(${a.choice.slice(0, -'#talk'.length)})`]
       : a.command ? [a.command] : []);
+  }
+  // Whether a led act is what a walker prefers: the gold walker goes by the one the glance marks as carrying the aim
+  // on (Promoted.continues); the silver by what is worth exploring.
+  private static prefers(a: { aspects: Aspect[]; continues?: true }, prefer?: Aspect): boolean {
+    return prefer === 'undertaking' ? !!a.continues : !!prefer && a.aspects.includes(prefer);
   }
   // How each fight offered would go, as the page reckons it, for those it reckons (a group the company could fight).
   private static dangers(s: PlaySession, offered: { id: string }[]): Record<string, string> {

@@ -64,7 +64,15 @@ export class Promotion {
       if (x.best === 'own') { taken.own++; }
       picked.push(this.promoted(x.c, x.best, x.whys));
     }
-    return picked;
+    return this.continued(picked);
+  }
+  // Of what is led with, the one that carries the followed aim on, where any does: the first of the aim's, as ranked
+  // (the owner's play of 11 November: exactly one prominent choice is the truthful continuation of the aim followed,
+  // where a next step is known; none is invented where none is).
+  static continued(acts: Promoted[]): Promoted[] {
+    const next = acts.find(a => a.aspects.includes('undertaking'));
+    return acts.map(a => a === next ? { ...a, continues: true as const }
+      : a.continues ? Object.fromEntries(Object.entries(a).filter(([k]) => k !== 'continues')) as Promoted : a);
   }
   // Whether there is room for one more of its kind: never twice the same choice; one for each subject (a danger two,
   // and so may a place with nothing else); two ways; one of the place's own; a way not yet taken only while fewer than

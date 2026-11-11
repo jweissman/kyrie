@@ -52,6 +52,9 @@ export interface Promoted {
   why: Why; facets: Facet[]; tier: Tier;
   // What it is to the company, chiefly first (see Aspects); none for a need or the way back.
   aspects: Aspect[];
+  // The one led act that is the followed aim's known next step, where one is known (see Promotion.continued): the
+  // foreground's recommended continuation, whether or not the page shows it as such.
+  continues?: true;
   // What the reason is, in words beside it: "your brother", "your aim", "the way you came", how a fight would go.
   note?: string;
   marks: Mark[];
@@ -70,6 +73,9 @@ export interface Glance {
   acts: Promoted[];
   // At most three choice ids for the quiet row of ways, none of them among the acts.
   ways: string[];
+  // Places left twice having done nothing there, with nothing new since (see CompanyRecall.idle): a way to one has
+  // nothing new to give for now, and is drawn dim, though it can be taken (and is lit again when anything changes).
+  idle?: string[];
   // Every choice id (an exit, a travel:) the company's aims name: the page's "your aim", decided here.
   aimed: string[];
   // Of those, the ones that go where the aim followed names, first among them (the rest are other aims held).

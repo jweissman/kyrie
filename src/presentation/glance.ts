@@ -62,6 +62,7 @@ export class Glance {
     const goal = arrival === 'opening' ? screen.aims?.find(a => a.followed && a.own)?.text : undefined;
     return { arrival, ...lines.sight ? { sight: lines.sight } : {}, ...lines.life ? { life: lines.life } : {},
       changed: lines.changed, acts, ways: Promotion.ways(cands, acts, s), ...this.aimed(campaign, screen, reading),
+      ...reading.idle?.size ? { idle: [...reading.idle] } : {},
       ...said ? { aim } : {}, ...goal ? { goal } : {}, ...need.length ? { need } : {}, ...after ? { after } : {} };
   }
   // What came of the act just done, and what it made relevant (REV-05; see DecisionFrame).
@@ -90,7 +91,7 @@ export class Glance {
     const rest = acts.filter(a => a.choice !== bound.choice), at = rest.findIndex(a => a.tier > 0 && a.why !== 'about');
     const all = at < 0 ? [...rest, bound] : [...rest.slice(0, at), bound, ...rest.slice(at)];
     const ways = all.filter(a => (a.exit || a.choice.startsWith('travel:')) && a.why !== 'retreat');
-    return all.filter(a => !ways.slice(2).includes(a)).slice(0, Promotion.cap);
+    return Promotion.continued(all.filter(a => !ways.slice(2).includes(a)).slice(0, Promotion.cap));
   }
   // A journey just made, in one line: by where, and when it came there, or why it stopped.
   static came(glance: View, travel: { to: string; arrived: boolean; stopped?: string;

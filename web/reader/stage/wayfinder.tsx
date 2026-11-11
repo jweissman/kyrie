@@ -57,8 +57,10 @@ export class Wayfinder {
   }
   // A way in the list: its glyph, its name, how long; marked only where the aim followed goes by it.
   static Row({ app, draw, way: w, chosen }: { app: ReaderApp; draw: Draw; way: Way; chosen: boolean }) {
+    // Dim where it goes somewhere with nothing new to give for now (see Glance's idle), not shut: it can still be taken.
+    const dim = !!app.state.frame?.leaf.glance?.idle?.includes(Wayfinder.to(w));
     return <button type="button" className={`wf-row${chosen ? ' chosen' : ''}${w.c.disabled ? ' shut' : ''}`
-      + `${w.aim === 'followed' ? ' aimed' : ''}`} data-pick={w.c.id}
+      + `${w.aim === 'followed' ? ' aimed' : ''}${dim ? ' dim' : ''}`} data-pick={w.c.id}
       data-pick-index={draw.index.get(w.way.id) ?? draw.index.get(w.c.id) ?? -1} data-holds={w.holds?.join(' ')}
       onMouseEnter={() => Wayfinder.linger(app, w)} onMouseLeave={() => Wayfinder.passed()}
       onFocus={() => Wayfinder.pick(app, w)}

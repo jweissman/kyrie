@@ -11,14 +11,19 @@ export class Emphasis {
     knowledge: 'blue', danger: 'red', wonder: 'violet' };
   static readonly words: Record<Aspect, string> = { undertaking: 'your aim', exploration: 'worth a look',
     payoff: 'to gain', knowledge: 'to learn', danger: 'danger', wonder: 'uncanny' };
+  // The aspects as drawn: the aim's only on the one choice that carries it on, and only where the page shows the way
+  // (see Guidance); elsewhere such a choice is drawn as what else it is (somewhere worth exploring), or neutral.
+  static drawn(aspects: readonly Aspect[] | undefined, gilded = false): Aspect[] {
+    return (aspects ?? []).filter(a => a !== 'undertaking' || gilded);
+  }
   // The tone it is chiefly drawn in, and the quieter cues of its other aspects.
-  static of(aspects: readonly Aspect[] | undefined): { tone?: Tone; also: Tone[] } {
-    const [first, ...rest] = aspects ?? [];
+  static of(aspects: readonly Aspect[] | undefined, gilded = true): { tone?: Tone; also: Tone[] } {
+    const [first, ...rest] = this.drawn(aspects, gilded);
     return { ...first ? { tone: this.tones[first] } : {}, also: rest.map(a => this.tones[a]) };
   }
   // Said beside it where nothing else says why: the chief aspect's word.
-  static said(aspects: readonly Aspect[] | undefined): string | undefined {
-    const first = aspects?.[0];
+  static said(aspects: readonly Aspect[] | undefined, gilded = true): string | undefined {
+    const first = this.drawn(aspects, gilded)[0];
     return first && this.words[first];
   }
 }

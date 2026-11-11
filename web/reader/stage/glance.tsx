@@ -11,6 +11,7 @@ import { Followed } from '../followed';
 import { Aims } from '../aims';
 import { Words } from '../words';
 import { Emphasis } from '../emphasis';
+import { Guidance } from '../guidance';
 import { Act, type Draw } from './act';
 import { Journey } from './journey';
 import { Moments } from './moments';
@@ -230,7 +231,8 @@ export class GlanceStage {
     const pressing = GlanceStage.pressing(acts), person = (a: Promoted) => !!a.subject
       && (app.menu.scene?.subjects ?? []).some(x => x.id === a.subject && ['person', 'companion'].includes(x.kind));
     const rest = acts.filter(a => !pressing.includes(a) && !a.choice.startsWith('travel:') && !person(a));
-    return [...pressing, ...rest].slice(0, 4);
+    const aim = app.state.frame?.screen.aims?.find(x => x.followed)?.id ?? '';
+    return Guidance.placed([...pressing, ...rest].slice(0, 4), pressing.length, `${app.state.frame?.screen.place.id}:${aim}`);
   }
   // What a place at rest draws that can be chosen: whoever is here, on the picture, and what is pressing.
   static atRest(app: ReaderApp): Set<string> {
@@ -321,10 +323,14 @@ export class GlanceStage {
     if (!shown.length) { return null; }
     return (
       <ol className="led" aria-label="What you could do now">{shown.map(({ a, c }, i) => {
-        // What it is to the company, drawn by the page's one table of tones (see Emphasis), and said in words.
-        const label = GlanceStage.label(app, a, c), note = GlanceStage.note(a, c, label) ?? Emphasis.said(a.aspects);
-        const { tone, also } = Emphasis.of(a.aspects);
+        // What it is to the company, drawn by the page's one table of tones (see Emphasis), and said in words; the aim's
+        // gold and words only on the one choice that carries it on, where the page shows the way (see Guidance).
+        const gilded = !!a.continues && Guidance.shown(app), label = GlanceStage.label(app, a, c);
+        const said = GlanceStage.note(a, c, label), aimed = !!said && GlanceStage.aimWords.test(said);
+        const note = (aimed && !gilded ? undefined : said) ?? Emphasis.said(a.aspects, gilded);
+        const { tone, also } = Emphasis.of(a.aspects, gilded);
         return <li key={a.choice} data-promoted={i + 1} data-why={a.why} data-aspects={a.aspects?.join(' ') || undefined}
+          data-continues={a.continues || undefined}
           data-next={app.state.frame?.leaf.glance?.after?.next?.choice === a.choice || undefined}>
           <Act.View choice={c} draw={draw}
             className={`led-act${c.id === top ? ' first' : ''}${tone ? ` tone-${tone}` : ''}`}>
@@ -339,6 +345,8 @@ export class GlanceStage {
       })}</ol>
     );
   }
+  // The words that say a choice is the aim's: said only of the one that carries it on, where the way is shown.
+  static readonly aimWords = /^(your aim|toward your aim|where your aim is)$/;
   // As the player would say it: "Make much of the grey dog", "Look at the fresh ruts".
   static label(app: ReaderApp, a: Promoted, c: Choice): string {
     const subject = a.subject && app.menu.scene?.subjects.find(x => x.id === a.subject);
