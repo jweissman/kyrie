@@ -182,3 +182,30 @@ an approach, encounter resistance, learn something, and keep going without devel
 
 **The central standard is simple: the world should usually offer something worth doing, the interface should make it
 intelligible, and doing it should produce a believable response.**
+
+## Addendum (11 November, later): opportunities perceived, not commands ranked
+
+The prominent choices are not a ranked subset of raw command buttons, and their colours are not hard-coded
+presentation metadata. **The world contains meaningful opportunities, individual characters perceive different aspects
+of those opportunities, and the UI presents a small, truthful foreground drawn from what that character can currently
+recognize and act upon.**
+
+An opportunity may concern a place, person, object, threat, reward, clue, or unfolding situation, and may have several
+aspects at once: danger, knowledge, wonder, material gain, relevance to an active undertaking. Aspects are distinct from
+their visual representation; gold, silver, green, blue, red and violet are a provisional presentation vocabulary, most
+controls stay neutral, and several aspects may coexist.
+
+What the player can recognize depends on actual knowledge and character capabilities, not the omniscient world state:
+clerics may sense vows and righteous undertakings; warriors and rangers threats and creatures from farther off;
+wizards arcane and scholarly openings; thieves wealth, hidden access and weak security. These are a future direction,
+not rules to implement now. A compound opportunity may later merit a focused choice of up to four approaches; never
+fabricate four where one or two genuine responses exist.
+
+For M20: (1) inspect the existing objective, intent, knowledge and available-action machinery before any new
+abstraction; (2) ground the foreground's opportunities in real authored or generated state, known to the character,
+connected to executable public actions or intelligible investigations; (3) keep meaning, perception and presentation
+conceptually distinct, even if the first implementation is small; (4) where inexpensive, show two characters
+perceiving or prioritizing different aspects of the same situation without changing its facts; (5) record missing
+Kyr/Deem or player-view contracts for a later mission rather than new syntax or a generalized sensing engine now. Not a
+new workstream, and not a delay to first-hour acceptance: *let different characters see different possibilities in the
+same world.*
