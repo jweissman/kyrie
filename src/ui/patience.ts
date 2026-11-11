@@ -10,11 +10,19 @@ export class Patience {
     const world = campaign.world, company = campaign.playerActor, here = company && world.one('at', company);
     if (!here || !world.relates('warned')) { return {}; }
     const by = world.related('warned').map(r => r.args).filter(([g, c]) => c === company && world.one('at', g!) === here)
-      .map(([g]) => g!).find(g => world.number(ModuleWriter.call('patience', g)) > world.number(ModuleWriter.call('watch',
-        'clock')));
+      .map(([g]) => g!).filter(g => this.standing(world, g)).find(g => world.number(ModuleWriter.call('patience', g))
+        > world.number(ModuleWriter.call('watch', 'clock')));
     if (!by) { return {}; }
     const watches = world.number(ModuleWriter.call('patience', by)) - world.number(ModuleWriter.call('watch', 'clock'));
     return { warned: { by: ObservationText.label(world, by), left: watches * 10 - minutes, id: by } };
+  }
+  // Only one who could still come on: a robbers' captain dead on the floor had gone on giving the company seven
+  // minutes (round 5), as the rules' warning stands until it is spent (temper_closes asks able, not routed).
+  private static standing(world: Campaign['world'], g: string): boolean {
+    return this.holds(world, 'able', g) && !this.holds(world, 'routed', g);
+  }
+  private static holds(world: Campaign['world'], name: string, g: string): boolean {
+    return world.relates(name) && world.test(ModuleWriter.call(name, g));
   }
   // What a choice that takes them past their patience says beside it.
   static note(by: string): string { return `${by.charAt(0).toUpperCase()}${by.slice(1)} will not wait for it`; }
