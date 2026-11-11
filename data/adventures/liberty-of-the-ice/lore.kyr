@@ -1,0 +1,10 @@
+Module pellam "The Liberty of the Ice" {
+  Description "Links outward from Pellam: the almanack woman, who came for the Frost Fair and went on south with a card printed on the ice.".
+
+  // ── The almanack woman ──────────────────────────────────────────────────────────────────────────────────────────
+  Discovery lore_cattermole_ice "Jessamy Cattermole, who sells almanacks, had a card printed on the ice at Pellam with a ferryman's name on it, to take to a town on the Wray, and says the thaw will come in the first week of her calendar and not in anyone else's.".
+  Topic lore_noll_cattermole with noll "Ask Noll Brisket about the woman with the six calendars" when true once {
+    Says "'The almanack woman!' Noll does not stop the press, but he slows it, which for Noll is respect. 'Mrs Cattermole. She wanted a card with a name on it, and it was not hers, and not a sweetheart's. A ferryman, she said, at the Wray, who has hummed one tune on his stage for forty years and does not know where he had it.' He wipes the type with his thumb. 'I did it with a picture of a boat. She paid with a calendar. It has the moon right. It says the ice goes out on the fourth morning.' He looks at the sky, and at the calendar pinned inside his canvas. 'It is the only thing anyone has told me this week that I have not been sold.'".
+    On discuss { Assert knows(actor, lore_cattermole_ice). }
+  }
+}

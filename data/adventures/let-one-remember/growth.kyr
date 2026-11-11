@@ -1,0 +1,14 @@
+Module corrow "Let One Remember" {
+  // The Corrow resolves a great deal on its way to the one road, and until now paid for none of it: a company that named
+  // the Strays of Keld, caught a consul's secretary in a wrong face and learned how a mountain is brought down came out
+  // of it no richer than one that walked through. These are the things the Corrow itself counts as done.
+  Milestone m_strays "named the Strays of Keld, and gave each of them a place" worth 75 when namedStrays(keld).
+  Milestone m_hollow "learned who Keld Hollow left in the grey" worth 25 when knows(party, hollow_missing).
+  Milestone m_wrong_face "caught the consul's secretary in a face that was not his" worth 50 when knows(party, webb_wrong_face).
+  Milestone m_webb "learned what Corin Webb is" worth 100 when knows(party, webb_is_stray).
+  Milestone m_unsaid "learned what was let go in 412" worth 50 when knows(party, unsaid_is_name).
+  Milestone m_method "learned how the mountain is to come down" worth 75 when knows(party, method_known).
+  Milestone m_fragments "gathered the three fragments of the road" worth 75 when knows(party, road_fragments).
+  Milestone m_prew "brought Absalom Prew back to his wife" worth 50 when knows(party, prew_reunited).
+  Milestone m_road_ended "brought the road to its end" worth 200 when ended(beyond).
+}

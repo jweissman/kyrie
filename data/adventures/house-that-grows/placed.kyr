@@ -1,4 +1,14 @@
 Module hhg "The House That Grows" {
   // The Strewnfield as a country beyond a march: the company that comes in by the rim of Cobble Ring is the world's own.
   Entity party: group "Your company".
+  // What is said of the Strewnfield in the country behind it: once the council has voted, or the house has been
+  // answered, the rumour of a room that grows is old news there, told by how it ended.
+  Entity word: fact "What is said of the Strewnfield in the country behind it.".
+  Entity word_free: fact "What is said there of the girl who came down.".
+  Entity word_chair: fact "What is said there of the boy in the chair.".
+  Entity word_sold: fact "What is said there of the sale.".
+  Rule word_old when (voted(tessa) or nemeFree(party) or nemeSits(party)) and not stale(word) { Assert stale(word). }
+  Rule word_free_old when nemeFree(party) and not stale(word_free) { Assert stale(word_free). }
+  Rule word_chair_old when nemeSits(party) and not stale(word_chair) { Assert stale(word_chair). }
+  Rule word_sold_old when sold(annex) and not stale(word_sold) { Assert stale(word_sold). }
 }

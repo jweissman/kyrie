@@ -82,6 +82,21 @@
    "heard": "South of here lies the Strewnfield, where a room of glass fell into a barley field by Cobble Ring, and grows wherever nobody watches it.",
    "skyline": "a flash in the fields, like a window where no house stands",
    "far": "a room of glass fell into a barley field, and grows wherever nobody is watching it",
+   "after": {
+    "talk": "The carters down from the south say Cobble Ring has settled what to do about the room in the barley, and will not agree among themselves which way it went.",
+    "told": "{keeper} hears you out about Cobble Ring and the barley and the stools, and the long glass hall under the city. 'They voted to keep it,' {keeper} says at last. 'Sat up with it three nights and voted to go on sitting.' {keeper} turns a cup over. 'I'd have sold it. I'd have sold it and slept.'",
+    "by": {
+     "free": {
+      "told": "{keeper} hears you out, all of it, and for once does not interrupt. 'A girl,' {keeper} says. 'Come down out of the sky into a barley field, and nobody there to see.' {keeper} looks at the lamp in the window a long moment. 'The carters had it the town woke and the house was only glass. They could not say why.'"
+     },
+     "chair": {
+      "told": "{keeper} hears you out about the child's chair and the forty doors, and counts something on the table with a finger. 'The aunt's boy,' {keeper} says. 'Sitting up for the whole country.' A pause. 'Somebody ought to bring him a cushion.'"
+     },
+     "sold": {
+      "told": "{keeper} hears you out about the Company's guards on Cobble Ring's stools, and sets down the cup. 'Two thousand marks,' {keeper} says. 'For a thing that grows if you yawn. They sold it to the people least likely to stay up.'"
+     }
+    }
+   },
    "province": true,
    "covers": [
     "meadow",
@@ -107,7 +122,25 @@
    "rumour": "'West of here is the Corrow,' says {keeper}. 'There is a mountain hangs over it in the sky, on a chain, and they say it is drifting. And there is a well there nobody has been to the bottom of.'",
    "heard": "Away in the west of the country lies the Corrow, where a mountain hangs in the sky on a chain, drifting, over a well nobody has been to the bottom of.",
    "skyline": "a mountain hanging in the sky, with nothing under it but air",
-   "far": "a mountain hangs in the sky on a chain, drifting, over a well nobody has been to the bottom of"
+   "far": "a mountain hangs in the sky on a chain, drifting, over a well nobody has been to the bottom of",
+   "after": {
+    "talk": "The talk of the Corrow has changed: the mountain that hung in the sky on a chain is down, or gone, or was never there, depending whom the carter drinks with.",
+    "told": "{keeper} hears you out about the mountain, the well and the Margin, and says nothing for so long that the fire shifts. 'Down the Peleth road they say the Corrow remembered something,' {keeper} says at last. 'Out loud. All at once.' They look at the hearth. 'I have never heard of a place having a memory and wanting it back.'",
+    "by": {
+     "one": {
+      "told": "{keeper} hears you out about the one who keeps the jewel, and the town coming down the burnt road a day at a time. 'One a day,' {keeper} says. 'Like a tithe.' They refill your cup. 'I should like to know who remembers the rest. Somebody must. Somebody always does, when it matters.'"
+     },
+     "given": {
+      "told": "{keeper} hears you out about the heart that went home, and the empty houses of Keld Hollow standing in a field above Wendhead. 'In a field,' {keeper} says. 'With the doors open.' They give a short laugh with no amusement in it. 'You'd think somebody would have shut the doors.'"
+     },
+     "none": {
+      "told": "{keeper} hears you out about the Hush, and the hamlet, and the gloves, and the name of the mountain which everyone in the Corrow now knows. 'Everyone,' {keeper} says. 'All at once.' They wipe a cup. 'It would be a terrible thing to be told a name like that by the whole of a valley.'"
+     },
+     "followed": {
+      "told": "{keeper} hears you out about the names read on the rounds though there are no stones, because a girl insists. 'A girl,' {keeper} says. 'From Keld. Who cannot be forgotten.' They pour a cup for no one and set it on the board. 'Then somebody is doing it right.'"
+     }
+    }
+   }
   },
   {
    "id": "ghessil",
@@ -150,6 +183,18 @@
    "heard": "Away in the south of the country lies the Bowl of Ammerlin, a city down the inside of a crater, whose lake has been falling for three years; its Office of Measures wants someone from outside to measure it and say why.",
    "skyline": "the rim of a great crater, with smoke going up out of it",
    "far": "a city down the inside of a crater is losing its lake, and nobody there believes anybody else about why",
+   "after": {
+    "talk": "The talk of the Bowl of Ammerlin has gone off with the lake: the carters say the Office of Measures has put its name to an answer, and half of them say it was the right one.",
+    "told": "{keeper} hears you out about the Bowl, the Office of Measures and the lake going down, and is quiet a while. 'Three years,' {keeper} says. 'And nobody would believe anybody. And they sent for someone from outside.' They take a long breath. 'I always thought it would be the lake that was lying.'",
+    "by": {
+     "accord": {
+      "told": "{keeper} hears you out about the Measured Accord and the bells on the Stair. 'They agreed,' {keeper} says. 'Every Office. In the one room.' They set down their cup. 'I have never seen two guilds agree on a price. A lake, and nobody lying. I should like to go and be in it.'"
+     },
+     "false": {
+      "told": "{keeper} hears you out about the count that was falsified, and nods slowly, at the end of it, like a man who has suspected the sum. 'There is always a figure somebody wanted,' {keeper} says. 'It is generally the one that was written.' A pause. 'I hope the lake does not mind.'"
+     }
+    }
+   },
    "herald": {
     "scenario": "factors.scenario.json",
     "exports": [
@@ -283,7 +328,22 @@
    "rumour": "'West, up the country, where the North Road comes down to the Lisk, there's Pellam, the wool city,' says {keeper}. 'The river's frozen there for the first time in thirty-one winters, they say, bank to bank, and they're holding a Frost Fair on it: booths and a gin-tent and an ox roasting on the ice. And the ice has its own law while it lasts. A lie's no crime on it, and a handshake's the Court's.' {keeper} laughs. 'Half the rogues in the country will be there by now. The other half are on the way.'",
    "heard": "Away in the west of the country lies Pellam on the Lisk, a wool city whose river has frozen for the first time in thirty-one winters; they are holding a Frost Fair on the ice, under the ice's own law: a lie is no crime on it, and a handshake is the Court's.",
    "skyline": "a city on a river white with ice from bank to bank",
-   "far": "a river has frozen bank to bank under a wool city, and they hold a fair on it where a lie is no crime and a handshake is the law"
+   "far": "a river has frozen bank to bank under a wool city, and they hold a fair on it where a lie is no crime and a handshake is the law",
+   "after": {
+    "talk": "There is no Frost Fair talk on the north road any more; the carters say the Lisk went out in lumps on the fourth morning, and what was landed at the Glove Post before it did is good, and what was not, is not.",
+    "told": "{keeper} hears you out about the Fair, the Glove Post and the Court on the ice, and laughs in the places a lie is no crime, and once does not. 'Landed,' {keeper} says. 'Everything shaken before the thaw holds to the sea.' {keeper} looks at their own hand a moment, as if for the first time. 'I shall be careful who I shake with.'",
+    "by": {
+     "sold": {
+      "told": "{keeper} hears you out, and the laughter goes out of it by the middle. 'Five coin a head,' {keeper} says. 'Roped to a sledge, over the downs, and everyone on the Exchange knew the price.' They put a cup down quite carefully. 'The carters say nobody on the ice is called a liar this year. They call it a bargain.'"
+     },
+     "unsworn": {
+      "told": "{keeper} hears you out about the preacher and the unswearing, and is quiet. 'Unsworn,' {keeper} says at last. 'On the ice, in front of the Court, and entered in the book before the thaw.' They shake their head. 'My mother swore to a man once on a bridge and was sorry thirty years. I would give a good deal for that bridge to have been frozen.'"
+     },
+     "fled": {
+      "told": "{keeper} hears you out about the hired hands who went over the downs in the snow and not onto the sledges. 'Twenty of them,' {keeper} says. 'Walking.' A pause. 'Nobody has ever got away from Pellam on foot in a frost. I shall tell it that way until somebody tells me otherwise.'"
+     }
+    }
+   }
   },
   {
    "id": "hessel",
@@ -303,7 +363,19 @@
    "rumour": "'Up in the north of the country, down in the Lim valley, there's Hessel,' says {keeper}, 'where the water comes up out of the hill hot, and the old go to be mended and the young to be married. It's the end of their Season. They say there's a rich old woman there who cooked for the navvies, buying husbands for all her family before she dies, and a house in the best street that's kept its shutters closed nine years, with the fires lit, in the warm.'",
    "heard": "Up in the north of the country lies Hessel in the Lim valley, a spa where the water comes up hot and the old go to be mended and the young to be married; its Season is ending, a rich old woman there is buying husbands for her family before she dies, and a house in its best street has kept its shutters closed nine years.",
    "skyline": "steam going up out of a green valley, where the water comes up out of the hill hot",
-   "far": "the water comes up out of a hill hot, and the old go there to be mended and the young to be married"
+   "far": "the water comes up out of a hill hot, and the old go there to be mended and the young to be married",
+   "after": {
+    "talk": "The coaches down from the Lim valley are full of people who have been mended, married or merely billed, and none of them will say who won.",
+    "told": "{keeper} hears you out about the Season, the Pump Room and the shuttered house with the fires lit, and puts down the cloth. 'Nine years,' {keeper} says. 'With the fires on, and nobody in. And she cooked for navvies.' {keeper} shakes their head slowly. 'Well. Somebody had to know what was behind those shutters. I had rather it was somebody who tells it.'",
+    "by": {
+     "gone": {
+      "told": "{keeper} hears you out and does not interrupt, which is not like {keeper}. 'On the last morning,' they say. 'With the coaches waiting in the Abbey Yard and her family all in their best. And no will to be read, because she had written it already.' They wipe the same place on the board twice. 'The valley says it was the waters at the end. I say it was the Season.'"
+     },
+     "danced": {
+      "told": "{keeper} hears you out about the last dance and laughs, a short laugh, at the part with the coaches. 'On her own feet,' {keeper} says. 'At eighty-odd. Out of the Abbey Yard in a coach with all her family behind, and the shutters in the best street still closed.' They pour you a drink without being asked. 'The valley will take that to its grave. Which is the only place that tells it right.'"
+     }
+    }
+   }
   },
   {
    "id": "gaunt",

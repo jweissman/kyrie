@@ -1,4 +1,13 @@
 Module pellam "The Liberty of the Ice" {
   // The country beyond a march of a generated world: the company that comes in by the North Road is the world's own.
   Entity party: group "Your company".
+  // What is said of Pellam in the country behind it: once the ice has gone out the Frost Fair is old news there, told by how the three days came out.
+  Entity word: fact "What is said of the Lisk in the country behind it.".
+  Entity word_sold: fact "What is said there of the hired hands sold out of the town.".
+  Entity word_unsworn: fact "What is said there of the preacher and the Court's book.".
+  Entity word_fled: fact "What is said there of the hired who ran.".
+  Rule word_old when thawed(lisk) and not stale(word) { Assert stale(word). }
+  Rule word_sold_old when drownedSold(party) and not stale(word_sold) { Assert stale(word_sold). }
+  Rule word_unsworn_old when unsworn(lisk) and not stale(word_unsworn) { Assert stale(word_unsworn). }
+  Rule word_fled_old when hiredFled(lisk) and not stale(word_fled) { Assert stale(word_fled). }
 }

@@ -27,6 +27,7 @@
     "endings.kyr",
     "aftermath.kyr",
     "growth.kyr",
+    "lore.kyr",
     "placed.kyr"
   ],
   "rules": [
@@ -46,11 +47,21 @@
   },
   "experience": 900,
   "imports": [
-    "party"
+    "party",
+    "word",
+    "word_sold",
+    "word_unsworn",
+    "word_fled"
   ],
   "roles": {
     "party": {
       "type": "group"
     }
-  }
+  },
+  "optional": [
+    "word",
+    "word_sold",
+    "word_unsworn",
+    "word_fled"
+  ]
 }

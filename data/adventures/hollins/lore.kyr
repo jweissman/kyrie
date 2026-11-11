@@ -1,0 +1,10 @@
+Module hollins "Behind the Wainscot" {
+  Description "Links outward from Bootscrape: the almanack woman, who asked the hour of a clock the size of a church and was sold a candle.".
+
+  // ── The almanack woman ──────────────────────────────────────────────────────────────────────────────────────────
+  Discovery lore_cattermole_doorstep "Jessamy Cattermole, who sells almanacks, passed through Bootscrape on her way north-east, asked the carrier what hour it was, and has gone up to Merrowdale, where, she says, there is a notice offering forty crowns for a giant.".
+  Topic lore_arkle_cattermole with arkle "Ask Widow Arkle about the woman who sells almanacks" when true once {
+    Says "'Cattermole,' says Widow Arkle, as though it were a kind of weather. 'Six calendars, no two of them the same year. She bought one candle, which is more than the pedlars do, and asked me how long it burned. I told her. She wrote it in a book.' The dwarf squares a row of tapers that was square. 'She asked the carrier what hour it was, and he looked at the Long Clock behind the Slot, as we all do, and said, nearly twelve. She said it was a very handsome error. Then she went to Merrowdale, where she says they have a giant too, and nobody has asked him the time.'".
+    On discuss { Assert knows(actor, lore_cattermole_doorstep). }
+  }
+}

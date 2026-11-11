@@ -55,4 +55,15 @@ Module pellam "The Liberty of the Ice" {
   Observe quarle_sad near quarle when quarleRuined(quarle) "Mr. Quarle sits by his tub with his board turned face down, watching the water freeze, very slowly, as if it were the only thing in the world that had never let him down.".
   // Watermen set to cutting ice for him: work, which keeps the saws off the Reach.
   Observe quarle_men at freezeland_low when quarleHasMen(quarle) and at(quarle, freezeland_low) and not quarleCream(quarle) "Half a dozen young watermen are cutting blocks of ice out of the river by the printing booth with their great saws and packing them in straw for Mr. Quarle, singing, and getting paid for it.".
+
+  // What he says afterwards, and to whoever bought a share: he is sincere, and the page should let him go on being so.
+  Topic quarle_share_held with quarle "Show Mr. Quarle your share" when shareBought(actor) and not quarleRuined(quarle) and not quarleCream(quarle) once {
+    Says "He takes the certificate in both hands and holds it away from his chest, as one holds a baby that is going to be sick. 'Number four hundred and nine,' says Mr. Quarle, with love. 'The sun on it was my wife's notion. She said a company should look as if it was expecting weather.' He gives it back with a small bow. 'You are a partner. You will be sent the minutes. There are no minutes. I shall write some.'".
+  }
+  Topic quarle_ruined_talk with quarle "Ask Mr. Quarle how he does" when quarleRuined(quarle) once {
+    Says "'Observe,' says Mr. Quarle, without conviction, and points into the tub. The skin of ice has formed, as it always does, in an hour, and it is as perfect as the day he began. 'It is quite true, you know. All of it. A tub freezes.' He looks across the ice at the Exchange, and then back. 'Someone drew me a river on the floor with chalk and I could not find the error. I have been looking for it since. That is the worst of it. I cannot find it.'".
+  }
+  Topic quarle_cream_talk with quarle "Ask Mr. Quarle how the frost-cream goes" when quarleCream(quarle) once {
+    Says "He is packing salt round a pewter pot with his sleeves turned back, and does not stop. 'Four hundred pennies by Tuesday,' says Mr. Quarle, 'and every one of them a child who will remember that Pellam had ice at the right season.' He beams at the pot. 'I used to think of the river, you know. All of that water, all of that cold. Now I think of a boy with his tongue out. It is a smaller thing. It stays done.'".
+  }
 }

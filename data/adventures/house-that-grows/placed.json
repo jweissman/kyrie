@@ -17,7 +17,11 @@
     "party"
   ],
   "imports": [
-    "party"
+    "party",
+    "word",
+    "word_free",
+    "word_chair",
+    "word_sold"
   ],
   "roles": {
     "party": {
@@ -28,5 +32,11 @@
     "party": "party",
     "region": "strewnfield",
     "rim": "rim"
-  }
+  },
+  "optional": [
+    "word",
+    "word_free",
+    "word_chair",
+    "word_sold"
+  ]
 }

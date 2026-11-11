@@ -40,12 +40,20 @@
     "town_priest": "pyne"
   },
   "imports": [
-    "party"
+    "party",
+    "word",
+    "word_gone",
+    "word_danced"
   ],
   "roles": {
     "party": {
       "type": "group"
     }
   },
-  "experience": 800
+  "experience": 800,
+  "optional": [
+    "word",
+    "word_gone",
+    "word_danced"
+  ]
 }

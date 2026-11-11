@@ -1,4 +1,11 @@
 Module hessel "The Banns at Hessel" {
   // The country beyond a march of a generated world: the company that comes in by the south road is the world's own.
   Entity party: group "Your company".
+  // What is said of Hessel in the country behind it: once the Season is over, the talk of the old woman and the shuttered house is old news there, told by how it ended.
+  Entity word: fact "What is said of Hessel in the country behind it.".
+  Entity word_gone: fact "What is said there of the old woman who bought husbands.".
+  Entity word_danced: fact "What is said there of the last dance.".
+  Rule word_old when seasonOver() and cameToHessel(party) and not stale(word) { Assert stale(word). }
+  Rule word_gone_old when gone(cherrett) and not stale(word_gone) { Assert stale(word_gone). }
+  Rule word_danced_old when cherrettDanced(cherrett) and not stale(word_danced) { Assert stale(word_danced). }
 }

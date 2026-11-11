@@ -31,7 +31,8 @@
     "endings.kyr",
     "aftermath.kyr",
     "growth.kyr",
-    "company.kyr"
+    "company.kyr",
+    "lore.kyr"
   ],
   "rules": [
     "world"

@@ -26,6 +26,26 @@ Module hhg "The House That Grows" {
   Relation reunited(group).
   Observe quill_stays at sennu_kitchen as ambience when reunited(quill) and at(quill, sennu_kitchen) "Ottie sits by the loom winding cord for his mother, very badly, and she lets him.".
 
+  // Lowmere's net: the cribs on the plain, and the woman who walks them at first light.
+  Person ketu "Ketu Sorrell" at pond_arc {
+    Role "keeper of Lowmere's crib-line, who walks the wool-bale cribs at dawn to see what the city dropped". Ancestry human. Peaceable. Pronouns she.
+    Buys ithren_lamp for 2 coin.
+    Buys dreg for 2 coin.
+  }
+  Topic ketu_net with ketu "Ask Ketu Sorrell what the cribs have caught" when true once {
+    Says "'Wool, mostly, that the wind took off the city's washing-lines,' says Ketu. 'A pot. A pair of boots, once, with a man's feet gone out of them a long time since. And lamps.' She holds up her palm, flat, for the size of a pear. 'Dead as stones. The Company's clerk gives two marks apiece, and so do I, and the difference is that I do not write it on a slate.' She watches the sky the way other people watch a road. 'Nothing living, in my time. My mother's time, a girl. She said she walked home.'".
+  }
+  Topic ketu_boy with ketu "Ask Ketu Sorrell whether the cribs ever catch children" when not cameHome(quill) once {
+    Says "'The cribs are for wool,' says Ketu, too quickly. 'Sennu Arru asks me that every first light, and every first light I tell her.' She is looking at the red door. 'They do not let them fall. They put them down. There is a hatch, Sennu says, and a rope. If you know the knot on the rope you know the child went up and not down.' She turns away to her cribs. 'Ask her about the knot. Not me.'".
+  }
+  Topic sennu_knot with sennu "Ask Sennu Arru about the knot on the rope" when not cameHome(quill) and knows(actor, knot_custom) once {
+    Says "The shuttle stops, for the first time since you came in. 'The Netters' knot,' says Sennu. 'Tied like a fist, sealed with tar. My husband saw it once, on the rope they let down for the tax-man's barrel.' She puts her palm flat on the cord on the loom as if it were a face. 'You have seen where it goes.'".
+  }
+  Topic sennu_after with sennu "Ask Sennu Arru how the boy is" when reunited(quill) once {
+    Says "'Bad at it,' says Sennu, with enormous satisfaction. 'The winding. The knot. He pulls it the Netters' way and I have to take it out.' She will not look at the door, which is open, which is how a house with a red door says it has stopped waiting. 'He asks what the nights are for. He says up there he was told they were for being counted.' The shuttle goes across. 'I told him they were for the other thing.'".
+  }
+  Observe red_door_open at pond_arc as ambience when reunited(quill) "The red door of the house on the pond arc stands open in the daytime, which neighbours have noticed: nobody has seen it open in the daytime since the famine year.".
+
   Place offstage "elsewhere" is site within strewnfield at 3, 3.
   Place nowhere "nowhere" is room within offstage at 0, 0.
 }
