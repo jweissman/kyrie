@@ -82,6 +82,25 @@
     Warns "In the hall a man in rotted mail rises from the hearth-seat, and the cold of him reaches you across the floor. 'Who comes to the lord's hall?' His voice is dust.".
   }
   Observe {w}_smoke at {w} as sign noticed by perception when able({w}_castellan) "A thread of smoke goes up from inside the walls. Somebody keeps a fire in there.".
+  // His question answered (round 7, L 147: "Who comes to the lord's hall?", and nothing to answer him with but a
+  // blade or the door): in the lord's name, to see what is owed, he lets the company be; one who knows the old lords'
+  // story can tell him they are gone, and he gives the keep up.
+  Action {w}_answered(actor: group, site: place) "Answer him: you come in the lord's name, to see what he is owed" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {w}_hall) and at({w}_castellan, {w}_hall) and able({w}_castellan) and not tolerates({w}_castellan, actor).
+    Time 0.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert tolerates({w}_castellan, actor). }
+    Result "He looks at you a long time, out of the dark where his eyes were. 'Then see it,' he says, and sits again by the cold hearth. 'Count it. Tell him it is all there.'".
+    Otherwise "'The lord sends no one,' he says. 'Not for a long time now.' His hand goes to his sword.".
+  }
+  Action {w}_released(actor: group, site: place) "Tell him the lords are gone, and the keep is given up" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {w}_hall) and at({w}_castellan, {w}_hall) and able({w}_castellan) and capable(actor, lore).
+    Time 0.
+    Resolve check(actor, lore, dc_fair).
+    On success { Retract at({w}_castellan, {w}_hall). Assert tolerates({w}_castellan, actor). }
+    Result "You tell him what the books tell: the last lord, the year, the road the kingdom went down. He hears it out standing. Then he says 'Given up,' as if trying the words, and sits by the hearth, and is only bones in rotted mail.".
+    Otherwise "He does not know the names you give him. 'You were not here,' he says. 'I was.'".
+  }
 --- present crows 1
   Observe {w}_crows at {w}_hall when true "Crows have taken the hall. They lift off the walls all together as you come in, and settle again behind you.".
 --- hook toll 2
