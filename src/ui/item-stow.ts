@@ -21,9 +21,11 @@ export class ItemStow {
   private static packed(c: Creature, kind: string): string {
     const calling = c.classId ? Canon.classes[Canon.resolve('classes', c.classId)] : undefined;
     if (Overlays.classGear(c).includes(kind)) {
-      return `Packed when you set out: ${calling ? `a ${calling.name.toLowerCase()}'s` : 'your'} kit.`;
+      return `Packed when you set out: ${calling ? `${this.an(calling.name.toLowerCase())}'s` : 'your'} kit.`;
     }
     const life = c.backgroundId ? Canon.backgrounds[c.backgroundId] : undefined;
-    return life ? `Yours from your days as a ${life.name.toLowerCase()}.` : 'Yours when you set out.';
+    return life ? `Yours from your days as ${this.an(life.name.toLowerCase())}.` : 'Yours when you set out.';
   }
+  // "an explorer", not "a explorer" (round 5).
+  private static an(word: string): string { return `${/^[aeiou]/.test(word) ? 'an' : 'a'} ${word}`; }
 }
