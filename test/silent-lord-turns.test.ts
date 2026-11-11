@@ -31,7 +31,7 @@ describe('the silent lord: consequences that leave the keep', () => {
     expect(Keep.state(j, 'banner')).toBe(k('hushed'));
     const again = PlaySession.resume(JSON.parse(JSON.stringify(j.session.checkpoint())), { trusted: true });
     expect(again.campaign.world.one('state', k('banner'))).toBe(k('hushed'));
-    await j.play('=day 13 12:00', '>region__s1_green');
+    await j.play('=day 13 12:00', '>region__s2_green', '=until not state(region__s3_s2_way_water, region__spate)', '>region__s1_green');
     expect(Keep.state(j, 'levy_post')).toBe(k('quashed'));
     await j.play('>region__s1_taproom', 'Ask .* what the remission has done');
     expect(Keep.holds(j, 'paid_keeper', k('house'))).toBe(true);
@@ -83,7 +83,7 @@ describe('the silent lord: consequences that leave the keep', () => {
     await j.play('=day 12 23:30');
     expect(Keep.state(j, 'banner')).toBe(k('mutinous'));
     expect(j.at(k('castellan'))).toBe(k('oubliette'));
-    await j.play('=day 14 12:00', '>region__s1_green');
+    await j.play('=day 14 12:00', '>region__s2_green', '=until not state(region__s3_s2_way_water, region__spate)', '>region__s1_green');
     expect(j.at(k('deserters'))).toBe(r('s1_green'));
     expect(Keep.state(j, 'levy_post')).toBe(k('abandoned'));
   }, 600000);
@@ -105,7 +105,7 @@ describe('the silent lord: consequences that leave the keep', () => {
     await j.play('Ask .* to send the writ against the bailiff');
     expect(Keep.holds(j, 'rider_sent', k('house'))).toBe(true);
     j.roll('pass');
-    await j.play('>region__s1_green');
+    await j.play('>region__s2_green', '=until not state(region__s3_s2_way_water, region__spate)', '>region__s1_green');
     await j.play('Show .* the lord.s remission');
     j.roll();
     expect(Keep.state(j, 'levy_post')).toBe(k('quashed'));
