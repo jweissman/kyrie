@@ -350,7 +350,12 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   show(view: View, who?: string) {
     if (this.state.frame?.combat && view !== 'here') { return; }
     // The map is the one map, wherever the company is in a country that has one: raised over the stage, not a page,
-    // and left by entering where the company stands (its card's ENTER), not by asking for the map again.
+    // and left by entering where the company stands (its card's ENTER). Raised over a town or a building, asking for it
+    // again puts it away, as Escape does: a player who pressed Map to close it pressed set-out instead (round 5).
+    const s = this.state;
+    if (view === 'map' && s.outdoors && s.frame && !WorldStage.wild(s.frame.screen)) {
+      this.outdoor(false); this.setState({ charted: undefined }); return;
+    }
     if (view === 'map' && this.state.frame?.screen.region?.land) {
       // Opened for the aim followed, the map has it chosen, its way and set-out on the card (the owner, 8 November: the
       // map lit for the road the father went out by, and opened on where the company stood).
