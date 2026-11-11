@@ -94,7 +94,20 @@ export class AtHand {
     // What the place at rest leaves untold (Told.surplus), first, to be read as the rest of the place.
     const more = Told.surplus(app), about = more.length
       ? [{ id: 'about', name: 'About the place', seen: more, choices: [], opens: [] }] : [];
-    return [...about, ...own, ...things.filter(first), ...things.filter(t => !first(t)), ...ways];
+    return [...about, ...own, ...AtHand.grown(things.filter(first)), ...AtHand.grown(things.filter(t => !first(t))),
+      ...ways];
+  }
+  // What only grows here, and can only be gathered, is one thing to look at, not a list of every flower: the edge of a
+  // wood had offered ten plants, each its own pane, before anything else (the owner's play of 10 November). Named
+  // together; what each gives, gathered from the one pane.
+  static grown(held: Held[]): Held[] {
+    const plants = held.filter(h => h.choices.length > 0 && h.choices.every(c => /^Gather /.test(c.label)));
+    if (plants.length < 3) { return held; }
+    const names = plants.map(p => p.name.replace(/^the /i, ''));
+    const group: Held = { id: 'grown', name: 'What grows here', seen: [`${Words.upper(Words.listed(names))}.`],
+      choices: plants.flatMap(p => p.choices), opens: plants.flatMap(p => p.opens) };
+    const at = held.indexOf(plants[0]!);
+    return [...held.slice(0, at).filter(h => !plants.includes(h)), group, ...held.slice(at).filter(h => !plants.includes(h))];
   }
   // Whether a thing has something real to show or do (the owner's own play, 7 November: Look… "has never shown anything
   // but 'it is what it seems'", a cart, a lockup door and a bill each offered for a close look that found nothing): an
