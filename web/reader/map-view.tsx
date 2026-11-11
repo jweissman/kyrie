@@ -17,6 +17,7 @@ import { FictionalTime } from '../../src/campaign/fictional-time';
 import { Marks } from '../../src/ui/marks';
 import { Words } from './words';
 import { Act } from './stage/act';
+import { RouteCard } from './route-card';
 
 // The map (Mission 18, the owner's correction): the whole screen, the country as an illustrated hex crawl, with as
 // little else over it as will do. Every hex the company knows is drawn as its land, the ring just beyond as country
@@ -203,26 +204,7 @@ export class MapView {
         <p className="label">Your aim</p><p className="aim-unplaced">{Typography.curl(aim)}</p>
         <p className="how">{Typography.curl(MapView.who(screen))}</p></aside> : null;
     }
-    const { cell, name, d, here, go } = MapView.way(screen, chosen);
-    return (
-      <aside className={`plan${over ? ' over' : ''}`} aria-label={`The way to ${name}`} data-id={chosen}
-        aria-live={over ? 'off' : 'polite'}>
-        <p className="label">{MapView.told(region, chosen, here)}</p>
-        <h2 className="to" tabIndex={-1}>{Typography.curl(Words.upper(name))}</h2>
-        {d && <ol className="legs">{d.legs.map((l, i) => <li key={i}>{Typography.curl(Words.leg(l.way, l.to))}
-          {' '}<span className="note">{Words.span(l.minutes)}</span></li>)}</ol>}
-        <p className="how">{d ? `${Words.upper(Words.span(d.minutes))} in all${d.toward ? `, as far as ${d.toward}` : ''}. ${
-          MapView.arrival(screen, d.minutes)}`
-          : here ? 'You are here already.' : go ? 'Across the country you can see, the quickest way.'
-            : cell !== undefined && !MapView.walkable(land, Number(cell)) ? 'There is no going there on foot.'
-              : MapView.heard(screen, chosen) ? 'You know no way there yet: go into the country beside it, and the way will show.'
-                : 'You know no way there yet.'}</p>
-        {!over && go && <button type="button" className="act go" data-action="set-out" onClick={() => app.choose(go)}>
-          {Typography.curl(go.label)}</button>}
-        {clear && !over && <button type="button" className="unchoose" data-action="map-unchoose" aria-label={`Let go of ${name}`}
-          onClick={clear}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg></button>}
-      </aside>
-    );
+    return <RouteCard.View app={app} screen={screen} chosen={chosen} {...clear ? { clear } : {}} over={over} />;
   }
   // A hex or a place chosen: what it is called, the way the page plans there, whether you are there already, and how
   // to set out for it, if there is any way to.
@@ -286,7 +268,7 @@ export class MapView {
     return land.goes?.[cell] ?? `hex:${cell}`;
   }
   // Whether a hex is land to walk: the sea and the lakes have no stretch of country (see RegionTracts.cells).
-  private static walkable(land: NonNullable<RegionChart['land']>, cell: number): boolean {
+  static walkable(land: NonNullable<RegionChart['land']>, cell: number): boolean {
     return !['sea', 'lake'].includes(HexLand.covers[land.cover[cell] ?? '.'] ?? '');
   }
   // How much the company knows of where is chosen (see Knowing): a place, as the land says; a hex, as the town or the

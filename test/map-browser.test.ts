@@ -37,7 +37,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the map and the notes, to plan with
     await page.keyboard.press('Enter');
     const card = await page.textContent('.enter-card');
     expect(card).toContain('Brockfield');
-    expect(card).toMatch(/by the ways you know/);
+    // How long by the ways the company knows, and when it would come there, set out as facts (see RouteCard).
+    expect(card).toMatch(/TimeAbout \d+ hours?Arrive\d/);
     // Seen is not there: travelled to and come to on the map, still outside it, then entered (the owner, 5 November).
     await page.click('.enter-card [data-action="travel"]');
     await driver.settle();

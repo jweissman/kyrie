@@ -13,6 +13,7 @@ import { Canon } from '../../../src/canon/canon';
 import type { ReaderApp } from '../reader-app';
 import { BoardField } from '../board-field';
 import { MapView } from '../map-view';
+import { RouteCard } from '../route-card';
 import { Words } from '../words';
 import { Act, type Draw } from './act';
 import { GlanceStage } from './glance';
@@ -268,10 +269,11 @@ export class WorldStage {
         <p className="label">{come ? 'You have come to' : inside ? 'You are in' : here ? 'You are at'
           : town.visited ? 'A town you know' : 'A town'}</p>
         <h2 className="to">{Typography.curl(town.name)}</h2>
-        <p className="how">{inside ? `${where}.` : here ? 'You stand at its gate.'
-          : d ? `${Words.upper(Words.span(d.minutes))} by the ways `
-          + `you know. ${MapView.arrival(screen, d.minutes)}` : go ? 'Across the country you can see.'
-          : 'You know no way there yet.'}</p>
+        {/* How long, when and at what cost, set out as the route card sets them (see RouteCard). */}
+        {d && !here ? <dl className="rc-facts">{RouteCard.facts(screen, town.id, MapView.way(screen, town.id)).map(([k, v]) =>
+          <div key={k}><dt>{k}</dt><dd>{Typography.curl(v)}</dd></div>)}</dl>
+          : <p className="how">{inside ? `${where}.` : here ? 'You stand at its gate.'
+            : go ? 'Across the country you can see.' : 'You know no way there yet.'}</p>}
         {here && <WorldStage.Stopped app={app} danger={(app.menu.scene?.subjects ?? []).some(x => x.danger)} />}
         {here ? <button type="button" className="enter" data-action="enter-hex" onClick={() => { app.outdoor(false); }}>
           {inside ? `Back to ${where.replace(/^The /, 'the ')}` : `Enter ${Typography.curl(town.name)}`}</button>
