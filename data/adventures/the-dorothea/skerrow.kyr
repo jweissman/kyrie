@@ -33,6 +33,11 @@ Module dorothea "The Dorothea" {
     Says "'The bronze in the Pharos,' says Silas Quillon, pleasantly. 'A plate in the wall that no one can read, and a lens-frame, and a reflector that's worth, I'm told, a hundred and forty crowns to a foundry. The island gets sixty down, and the lease waived for ten years. Winter, you see, comes.' He turns a page. 'They give me their answer at the Gull on the second evening. I do not hurry a man who is going to say yes. Jory Kestle holds the pen, whatever his sister holds.' 'I'm not your enemy. Think of me as a man who can count.'".
     On discuss { Assert marlOffered(actor). }
   }
+  // The same buyer as the one on the coast road in the country behind (Merrowdale's Heron sells him bell-bronze by the
+  // pound): said as a trade, not as a plot, and only to someone who has already heard the offer.
+  Topic marl_others with marl "Ask Silas Quillon who else sells him old metal" when marlOffered(actor) once {
+    Says "'Everyone with a bell they have stopped hearing,' says Silas Quillon, and smiles at the page. 'Sluice-gates. Weir-teeth. A barge-master up a beck in the hills who brings me a dozen green teeth a year, and tells her hands they are ballast. It is a most agreeable country: it keeps the old things where I can find them, and no one asks what they were holding up.' He caps the ink. 'The Pharos is the first lamp I have been offered. I confess I find it more difficult. A lamp is not a thing one weighs.'".
+  }
   Topic jory_winter with kestle_jory "Ask Jory Kestle about the winter" when true once {
     Says "'It's the sixth bad cod season in nine,' says Jory. 'Hester's got every house in the book. Marren thinks I want to sell the Pharos. I want to sell it as a man wants to cut his hand off: I'd rather have a hand, and I'd rather eat.' He looks up the hill at the tower. 'My children have never once been warm in a room with that light in it. They don't know what it's for. I don't, either.'".
   }

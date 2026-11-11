@@ -278,3 +278,30 @@ The honest summary: the *prose* of generated places is mostly already data (`.ky
 ### R46. Passive hearsay has no once-only line (integration)
 
 *Problem.* An overheard line (`Observe ... as hearsay ... teaches fact`) is shown whenever the company is in the room and the condition holds, so a wait spanning days shows two modules' lines together (`=day 3` from the taproom). *Request.* `Observe ... once`, or a hearsay kind that is told at the first entry after its condition holds and not on waits.
+
+## E. Requests from Corpus review C (`adventure/p2-corpus-c`, R47 to R51)
+
+### R47. One `Pursuit` that seeks the company wherever it is
+
+*Problem.* `data/adventures/wrongboat/hunt.kyr` is sixty `Pursuit` lines, one per place the company can stand and per chaser, each of the form `Pursuit hunt_bess_X for bess "coming for you" priority 8 when huntBess() and at(party, X) seeks at(bess, X).` The module's header says why: "a pursuit that seeks a fixed place is an itinerary". *Request.* `Pursuit hunt_bess for bess "coming for you" priority 8 when huntBess() seeks at(party, ?p).` with `?p` bound to wherever the company is when the goal is chosen.
+*Reproduce.* `grep -c "^\s*Pursuit" data/adventures/wrongboat/hunt.kyr` (60); add a place to `places.kyr` and the chase silently does not go there until a sixty-first line is written.
+
+### R48. A choice from a table inside a module, per campaign seed
+
+*Problem.* Variation by seed is available to worlds (Deem tables, `.kyrt` sections) and not to an authored adventure played alone: nothing in a module's `.kyr` says "one of these three, drawn when the campaign starts". Wrongboat's central object (the hamper, its label, who it is for) is therefore fixed. *Request.* A `Draw hamper from { … }` that a module may read as `drawn(hamper, "a pie")` and that is fixed for the campaign.
+*Reproduce.* Try to make `Mother Cobbold`'s `Says` depend on a seed.
+
+### R49. A country's rumour is one string
+
+*Problem.* `countries.json` `rumour` is substituted only for `{keeper}` (`RegionBorders.rumour`), so every innkeeper tells it in the same words. `after` also requires a `talk` string even where the country has no `notice` (it is read only through the notice), which six of the nine corpus-C modules had to fill with prose nothing reads. *Request.* `rumour` as a list of frames chosen by the innkeeper's `Manner` (or by seed), and `after.talk` optional when there is no `notice`.
+*Reproduce.* `bin/kyrie play --world a1 …` and ask two innkeepers about the same country.
+
+### R50. `Greets again` cannot read state
+
+*Problem.* A return greeting is a literal. The corpus could say "Raistrick has not opened the book" but not "Raistrick has opened the book, now that you have found the ash": the person's return line cannot differ by what the company has done, so authors write lines that are true of every case and therefore say little. *Request.* `Greets again when <condition> "…".` repeatable, first match wins; and `Greets again drawn from <table>` for generated persons (see `corpus/deem-proposals.md`, 2).
+*Reproduce.* Any `Greets again` in `data/adventures/winter-in-carth/` after Hern is freed.
+
+### R51. An `Objective` has no 'until' and is true as long as its condition stands
+
+*Problem.* Eleven new objectives in the corpus each needed a hand-picked resolving fact (`not verdictGiven(consistory)`, `not jennetIced(jennet)`); where the module has none, the objective can never close. *Request.* `Objective … until <fact>` or an automatic close when the objective's `toward` person or place has been reached and asked.
+*Reproduce.* `Objective rune_oil` in `data/adventures/the-dorothea/house.kyr`: it closes only on `keptLamp`, `marlSold` or `lampOut`, none of which is the mate's selling stopping.

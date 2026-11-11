@@ -40,6 +40,11 @@ Module wrongboat "The Wrong Boat" {
     Says "'The toll-clerk? Bess?' roars Parr. 'Gone up the Maud, I'd say, with a face like a bailiff! Mind, she'd have gone up the wrong one! She can't tell a Maud from a Mary at forty paces, it's the eyes!' He is perfectly sure. He is wrong, and he will be wrong again tomorrow.".
   }
 
+  // Barge-talk from other rivers: Jack Parr knows every bargemaster between here and the coast, and what they carry.
+  Topic parr_rivers with parr "Ask Jack Parr what the bargemen say of other rivers" when true once {
+    Says "'Other rivers!' roars Parr, delighted. 'There's a woman called Rowell, master of the Heron, that works a beck in the hills to the north, a steward's beck, wool down and iron up, and for the last year a sack of green bronze that she sells on the coast road to a man in a good coat. She will not sing. Not the goose. Not any verse. I once heard her say the river was not a place for tunes.' He lowers his voice to a shout. 'I think it's the best thing I have ever heard a bargemaster say, and I disagree with every word.'".
+  }
+
   // The Patient Mary: Dolly Prout, her hands, her mate, her cook, and a passenger who should be on the other boat.
   Person dolly "Dolly Prout" at deck {
     Role "skipper of the Patient Mary". Ancestry human. Peaceable. Pronouns she. Manner jovial.
