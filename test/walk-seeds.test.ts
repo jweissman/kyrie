@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'bun:test';
 import { Walking } from './support/walking';
 
-// The Walk is placed in every first country the standing list names it for, its people are named for the country, and on the
+// The Walk is placed in every first country the standing list names it for, its people are named for the country,
+// and on the
 // second day a stranger standing on the first green sees it and is told of it (the lesson of the blind playtests: an
 // enthusiasm must be in the world itself, not only in a rumour).
 describe('the Walk, in several countries', () => {

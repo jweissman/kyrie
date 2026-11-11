@@ -1,8 +1,10 @@
 import { describe, expect, it } from 'bun:test';
 import { Walking } from './support/walking';
 
-// The Walk's danger comes out of its situation (seed a1: the Gathering at the fourth town, a penance Walk): the Marcher's
-// riders under Sergeant Hask (level 5, three riders at level 3: far beyond a first company), the night raid on the camp,
+// The Walk's danger comes out of its situation (seed a1: the Gathering at the fourth town, a penance Walk): the
+// Marcher's
+// riders under Sergeant Hask (level 5, three riders at level 3: far beyond a first company), the night raid on the
+// camp,
 // and the ways round it. Where a spec walks, it walks ('>place' spends the hours); the waits are the clock's.
 const park = async (calling: string) => {
   const w = await Walking.world('a1', calling);

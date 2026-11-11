@@ -3,7 +3,8 @@ import { readFileSync } from 'node:fs';
 import { Content } from '../src/content';
 import { RandomStreams } from '../src/random-streams';
 
-// The Walk of the Milestones, drawn (data/situations/walk): what Deem decides for a country, and that the draws stay coherent.
+// The Walk of the Milestones, drawn (data/situations/walk): what Deem decides for a country, and that the draws
+// stay coherent.
 const dir = 'data/situations/walk/';
 const setting = Content.settingWith(JSON.parse(readFileSync(`${dir}tables.json`, 'utf8')),
   JSON.parse(readFileSync(`${dir}templates.json`, 'utf8')));
@@ -23,7 +24,8 @@ describe('the Walk, drawn', () => {
       stances.add(g.facts.filter(f => f.name === 'stance').map(f => f.args[1]).join());
       lines.add(g.labels.creed_line!);
       combos.add([creed, patron, leader, one(g, 'flashpoint')].join('/'));
-      // Coherence: a grieving dowager pays for a penance or a remembrance, never a reform; a factor never pays for a penance;
+      // Coherence: a grieving dowager pays for a penance or a remembrance, never a reform; a factor never pays for a
+      // penance;
       // the Walk's leader is of a kind that suits what it is for.
       if (creed === 'c_reform') { expect(patron).not.toBe('p_dowager'); expect(['l_drover', 'l_soldier']).toContain(leader); }
       if (creed === 'c_penance') { expect(patron).not.toBe('p_factor'); expect(['l_widow', 'l_novice', 'l_soldier']).toContain(leader); }

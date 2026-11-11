@@ -5,7 +5,8 @@ import { Journey } from '../../src/session/journey';
 import { Placed } from './placed';
 import { ModuleWriter } from '../../src/lang/module-writer';
 
-// The Walk of the Milestones as a standing scenario (the line its integrator adds to data/scenarios/standing.json): specs
+// The Walk of the Milestones as a standing scenario (the line its integrator adds to
+// data/scenarios/standing.json): specs
 // set the standing list to test/fixtures/walk/standing.json, which is the five standing scenarios and the Walk.
 export class Walking {
   static readonly standing = 'test/fixtures/walk/standing.json';
@@ -28,8 +29,12 @@ export class Walking {
   static drawn(j: Journey, relation: string) { return j.campaign.world.related(this.k(relation)).map(r => r.args.join('|').replaceAll('walk__', '')); }
   static flash(j: Journey): string { return this.drawn(j, 'flashpoint')[0]!.replace('f_', ''); }
   static at(j: Journey, who: string) { return j.campaign.world.one('at', this.k(who)); }
-  static measure(j: Journey, name: string, who: string): number { const m = j.campaign.world.measured(this.k(name)).find(x => x.call.args[0] === this.k(who)); return m?.value ?? 0; }
-  // Put a relation of the Walk's module in or out outright: for specs that set the world where a long play would have, and
+  static measure(j: Journey, name: string, who: string): number {
+    const m = j.campaign.world.measured(this.k(name)).find(x => x.call.args[0] === this.k(who));
+    return m?.value ?? 0;
+  }
+  // Put a relation of the Walk's module in or out outright: for specs that set the world where a long play would
+  // have, and
   // say so in their name.
   static assert(j: Journey, relation: string, ...args: string[]) { this.apply(j, 'assert', relation, args); }
   static retract(j: Journey, relation: string, ...args: string[]) { this.apply(j, 'retract', relation, args); }

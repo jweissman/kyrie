@@ -83,7 +83,7 @@ From the second day the first town's green *shows* the Walk: a band comes up the
 
 ## 9. Built, proved, not proved
 
-**IMPLEMENTED** (data only; no TypeScript, no rules change): scenario `data/scenarios/walking.scenario.json`; module `data/situations/walk` (`walk.kyr`, `towns.kyr`, `people.kyr`, `powers.kyr`, `gathering.kyr`, `after.kyr`, `tables.json`, `templates.json`): 12 named or grouped people, 3 added rooms in each of four towns and a moot-house, 17 clocked rules for the host, 24 for people moving, 6 end states, 20 topics and 28 actions. The repetitive town sections were written by the scripts in `modules/walk-gen/` (python; the Kyr is what is checked in and is edited by hand from here).
+**IMPLEMENTED** (data only; no TypeScript, no rules change): scenario `data/scenarios/walking.scenario.json`; module `data/situations/walk` (`walk.kyr`, `towns.kyr`, `people.kyr`, `powers.kyr`, `gathering.kyr`, `after.kyr`, `tables.json`, `templates.json`): 18 people and bands (nine of them named from the country's folk), 2 added rooms in each of four towns and a moot-house, 202 rules (the host, the people's march, the notices, the strife, the Reckoning, the aftermath), 61 topics, 40 actions, 25 observations, 6 end states. The repetitive town sections were written by the scripts in `modules/walk-gen/` (python; the Kyr is what is checked in and is edited by hand from here).
 
 *One line for the integrator, to add to `data/scenarios/standing.json`:* `"walking.scenario.json"` (after `"fellowship.scenario.json"`). Until then `test/fixtures/walk/standing.json` is the same list for the specs.
 

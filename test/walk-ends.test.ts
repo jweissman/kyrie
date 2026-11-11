@@ -2,8 +2,10 @@ import { beforeAll, describe, expect, it } from 'bun:test';
 import { Walking } from './support/walking';
 import type { Journey } from '../src/session/journey';
 
-// Every end state of the Walk is reachable, and each leaves its marks in all four towns. The company is not walked here:
-// each spec sets the levers a long play would have set (named in the spec) and waits for the clock; test/walk-play.test.ts
+// Every end state of the Walk is reachable, and each leaves its marks in all four towns. The company is not walked
+// here:
+// each spec sets the levers a long play would have set (named in the spec) and waits for the clock; test/walk-
+// play.test.ts
 // plays some of them by the page's own labels, on foot.
 const towns = ['a', 'b', 'c', 'd'];
 let base: Journey, flash: string, placed: Record<string, string>;

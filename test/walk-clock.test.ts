@@ -12,7 +12,7 @@ describe('the Walk of the Milestones: its clock runs without the company', () =>
     await j.play('=day 9 12:00');
     seen.push(`d9 flash=${f} leader=${Walking.at(j, 'leader')} dray=${Walking.at(j, 'dray')} hask=${Walking.at(j, 'hask')} gaunt=${Walking.at(j, 'gaunt')} strife=${Walking.measure(j, 'strife', 'walk')}`);
     await j.play('=day 11 10:00');
-    seen.push(`d11 strife=${Walking.measure(j, 'strife', 'walk')} ending=${Walking.drawn(j, 'ending')} chalk=${['a','b','c','d'].map(x => Walking.state(j, `chalk_${x}`))} notice=${['a','b','c','d'].map(x => Walking.state(j, `notice_${x}`))} chair=${Walking.state(j, 'bench_chair')} door=${Walking.state(j, `station_door_${f}`)}`);
+    seen.push(`d11 strife=${Walking.measure(j, 'strife', 'walk')} ending=${Walking.drawn(j, 'ending').join()} chalk=${['a','b','c','d'].map(x => Walking.state(j, `chalk_${x}`)).join()} notice=${['a','b','c','d'].map(x => Walking.state(j, `notice_${x}`)).join()} chair=${Walking.state(j, 'bench_chair')} door=${Walking.state(j, `station_door_${f}`)}`);
     console.log(placed.bindings, seen.join('\n'));
     expect(Walking.drawn(j, 'ending')).toEqual(['e_riot']);
   }, 600000);
