@@ -247,7 +247,7 @@ export class WorldStage {
     const { a, c } = entry, gilded = !!a.continues && Guidance.shown(app);
     return <button type="button" className="enter entrance" data-action="choice" data-choice={c.id}
       onClick={() => { app.choose(c); }}>
-      <Pip.View fill={Pip.fill(a.aspects, gilded)} label={Pip.words(a.aspects, gilded)} />
+      <Pip.View fill={Pip.fill(a.aspects, gilded)} label={Pip.words(a.aspects, gilded)} faint={!!a.afar} />
       {Typography.curl(a.label)}</button>;
   }
   // Why the journey stopped here, and what going on from here risks: the way on's own marks (a band that will not let

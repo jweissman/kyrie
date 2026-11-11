@@ -141,7 +141,7 @@ export class Promotion {
       ...c.subject ? { subject: c.subject } : {},
       ...c.exit ? { exit: c.exit } : {}, label: c.label, why, facets, tier: this.tiers[why][0],
       aspects: Aspects.of([why, ...whys.filter(w => w !== why)], c.marks), ...note ? { note } : {}, marks: c.marks,
-      ...whys.includes('entry') ? { enters: true as const } : {} };
+      ...whys.includes('entry') ? { enters: true as const, afar: true as const } : {} };
   }
   // The quiet row of ways under the acts, none of them led with already: those the aims name, those the lines told now
   // name, those not yet taken (nearest first), then the rest; three at most. In the open country, the compass.

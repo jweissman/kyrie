@@ -380,7 +380,8 @@ export class GlanceStage {
           data-continues={a.continues || undefined}
           data-next={app.state.frame?.leaf.glance?.after?.next?.choice === a.choice || undefined}>
           <Act.View choice={c} draw={draw}
-            className={`led-act${c.id === top ? ' first' : ''}${tone ? ` tone-${tone}` : ''}${prism ? ' prism' : ''}`}>
+            className={`led-act${c.id === top ? ' first' : ''}${tone ? ` tone-${tone}` : ''}${prism ? ' prism' : ''}`
+              + `${a.afar ? ' afar' : ''}`}>
             {mark && <i className="prism-bar" role="img" aria-label={Emphasis.drawn(a.aspects, gilded).map(x => Emphasis.words[x])
               .join(', ')} style={{ '--prism': mark } as CSSProperties} />}
             <span className="n">{Typography.curl(label)}<GlanceStage.Icons app={app} a={a} c={c} /></span>

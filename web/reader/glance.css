@@ -233,6 +233,8 @@
 .act.led-act .prism-bar { position: absolute; left: -1px; top: -1px; bottom: -1px; width: 3px; background: var(--prism);
   background-size: 100% 300%; animation: prism-drift 9s ease-in-out infinite alternate; }
 .act.led-act:not(.prism) .prism-bar { animation: none; }
+/* Faint: what it is lies where it goes, known from here (a town's way in); not dim, which is nothing new. */
+.act.led-act.afar .prism-bar { opacity: .45; }
 @keyframes prism-drift { from { background-position: 50% 0%; } to { background-position: 50% 100%; } }
 @media (prefers-reduced-motion: reduce) { .act.led-act .prism-bar { animation: none; background-size: 100% 100%; } }
 /* A led choice's own glyphs (see GlanceStage.Icons): who could join you, and going over into the next stretch of

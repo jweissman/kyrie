@@ -62,6 +62,9 @@ export interface Promoted {
   continues?: true;
   // A way into a town from its own country (see Affordances, entry): the map's card for the hex offers it.
   enters?: true;
+  // What it is lies where it goes, perceived from here, not present: drawn faint (the owner, 11 November night: a road
+  // into a place inherits a fainter version of the place's known identity).
+  afar?: true;
   // What the reason is, in words beside it: "your brother", "your aim", "the way you came", how a fight would go.
   note?: string;
   marks: Mark[];
