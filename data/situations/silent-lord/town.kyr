@@ -82,7 +82,7 @@ Module silent_lord "The silent lord" {
 
   // ---- The next green: the clerk's rider and the writ against the bailiff.
   Person rider "the clerk's rider" nowhere {
-    Role "a boy in the castellan's colours on a lathered pony". Ancestry human. Calling ranger. Level 1. Peaceable. Manner cheerful. Pronouns he.
+    Role "a boy in the castellan's colours on a lathered pony". Ancestry human. Calling warrior. Level 1. Peaceable. Manner cheerful. Pronouns he.
     Greets "'From the castellan's clerk,' says the boy, with the ink still wet on his sleeve. 'The writ's up. Don't ask me what it says; I can't read; but the clerk was singing, and he never sings.'".
   }
   Thing writ_notice "the castellan's writ against the dues" at far_green {

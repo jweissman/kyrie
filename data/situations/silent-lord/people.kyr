@@ -10,7 +10,7 @@ Module silent_lord "The silent lord" {
     Greets "A stooped man with a ring of keys at his belt and a board under his arm counts you as you come in, to the nearest loaf. 'Guests,' says {steward}, without joy. 'Eat in the hall, sleep in the loft, and touch nothing that is counted.'".
   }
   Person chaplain "Someone" at chapel {
-    Role "the chaplain, who is also the keep's physician". Calling cleric. Level 2. Peaceable. Manner compassionate. Pronouns she.
+    Role "the chaplain, who is also the keep's physician". Level 2. Peaceable. Manner compassionate. Pronouns she.
     Greets "A broad, tired woman in a stained habit sets down a snuffer and turns. 'Peace on you,' says {chaplain}, and means it, and looks at you a moment too long, as people do who have not slept. 'The chapel is open at every hour. I would ask you to be quiet in it.'".
   }
   Person marshal "Someone" at ward {
@@ -22,7 +22,7 @@ Module silent_lord "The silent lord" {
     Greets "A thin young man in ink-stained sleeves does not look up. 'If it is the hay again,' says {clerk}, 'tell him I have written to the bailiff three times and I am about to write a fourth. If it is anything else, stand there and wait.'".
   }
   Person houndsman "Someone" at kennels {
-    Role "the houndsman, who has the lord's dogs and hawks". Calling ranger. Level 2. Peaceable. Manner grim. Pronouns she.
+    Role "the houndsman, who has the lord's dogs and hawks". Level 2. Peaceable. Manner grim. Pronouns she.
     Greets "A weathered woman with a hawk-glove on one hand and a pail of offal in the other nods once. 'Keep your hands where the dogs can see them,' says {houndsman}. 'They do not know you, and neither do I.'".
   }
   Person cook "Someone" at kitchen {

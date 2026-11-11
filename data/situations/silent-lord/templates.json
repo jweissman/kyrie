@@ -65,7 +65,8 @@
     "__no_id": true,
     "_drawn": "=lookup(townsfolkName, #ancestry)",
     ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, #ancestry, 'she:keep_chaplain')",
-    ">raceId": "=#ancestry"
+    ">raceId": "=#ancestry",
+    ">classId": "=lookup(keepChaplainCalling, #ancestry)"
   },
   "keep_marshal": {
     "__no_id": true,
@@ -83,7 +84,8 @@
     "__no_id": true,
     "_drawn": "=lookup(townsfolkName, #ancestry)",
     ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, #ancestry, 'she:keep_houndsman')",
-    ">raceId": "=#ancestry"
+    ">raceId": "=#ancestry",
+    ">classId": "=lookup(keepHoundCalling, #ancestry)"
   },
   "keep_cook": {
     "__no_id": true,

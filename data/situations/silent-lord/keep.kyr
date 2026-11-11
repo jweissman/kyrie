@@ -107,6 +107,7 @@ Module silent_lord "The silent lord" {
     Found by searching walk "Where the walk runs against the tower's flank, one shutter has a latch you could lift from outside, and a ledge below it that would carry a person.".
   }
   Discovery old_door_known "The oubliette's back wall is dry where every other wall weeps, and a slot at shoulder height takes an iron lever." {
+    Found by searching vault "At the end of the vault, behind a fall of stone, a door as old as the vault is bolted from this side by a lever in a slot.".
     Found by searching oubliette "Behind the captive's pallet the wall is dry and warm to the hand. A slot is cut in it at shoulder height, and in the slot, a lever.".
   }
 
