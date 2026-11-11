@@ -20,9 +20,10 @@ The commission asked, in three phases, for a deeper starting region (Phase One),
 
 - **The Empire's posting-house** (`data/generation/works/roadstation.kyrt`): an Aenean road station in every country; twelve rooms, three entries, documents in three voices, four unexplained endings, six occupant draws.
 - **The Hall below stairs and the old stones below the dome** (`data/generation/town/outskirts-deep.kyrt`): kitchen, cellar, muniment room, undercroft; four named people (a cook, a boy, a gamekeeper who can join the company, a reeve); a quarrel over the old road that an Empire's grant settles.
+- **The first town's neighbours** (`data/generation/town/neighbours.kyrt`): a scholar, an acolyte and an apprentice who can be companions or have arcs of their own; the generated innkeeper, priest, merchant and traveller given lives that touch them; a death at the landing with three readings; the reeve's father's papers; a spoon; the family's answer.
 - **A batch of the owner's paintings**, imported and placed (149 → 199 of 207 imported; 148 → 184 mapped): `scene-ruins`, `-waterworks`, `-crossroads`, `-lone-tower`, `-parchmentry` and 45 more, with 21 new scene kinds in `scenery.json`.
 - **`scripts/activation-census.ts`**, `scripts/dump-region.ts`, `scripts/play-at.ts`, `scripts/rooms-painted.ts`, `test/support/placed.ts`: the verification tools and helpers.
-- **Specs:** `test/roadstation.test.ts` (10), `test/outskirts-deep.test.ts` (5), `test/authorable-generation.test.ts` (2).
+- **Specs:** `test/roadstation.test.ts` (10), `test/outskirts-deep.test.ts` (5), `test/neighbours.test.ts` (8), `test/authorable-generation.test.ts` (2).
 
 ## Reproduce
 

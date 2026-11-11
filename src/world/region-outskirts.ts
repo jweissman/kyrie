@@ -1,6 +1,8 @@
 import text from '../../data/generation/town/outskirts.kyrt' with { type: 'text' };
 import deep from '../../data/generation/town/outskirts-deep.kyrt' with { type: 'text' };
+import neighbours from '../../data/generation/town/neighbours.kyrt' with { type: 'text' };
 import { KyrTemplates } from './kyr-template';
+import { SettlementWriter } from './settlement-writer';
 import { RegionGeography } from './region-geography';
 import { RegionSites } from './region-sites';
 import type { Region, Settlement } from './region-writer';
@@ -13,6 +15,7 @@ import type { Region, Settlement } from './region-writer';
 export class RegionOutskirts {
   static readonly template = KyrTemplates.parse(text);
   static readonly deepened = KyrTemplates.parse(deep);
+  static readonly neighbourly = KyrTemplates.parse(neighbours);
   static lines(region: Region, s: Settlement): string[] {
     const history = region.history, makers = history?.makers[0];
     if (!history || !makers) { return []; }
@@ -24,8 +27,15 @@ export class RegionOutskirts {
     // so itself ("if station") and is written only in a country that has one.
     const all = { ...values, ...this.station(region) };
     return [...KyrTemplates.choose(this.template, `${region.name}:${s.id}:outskirts`, all),
-      ...KyrTemplates.choose(this.deepened, `${region.name}:${s.id}:outskirts-deep`, all)]
+      ...KyrTemplates.choose(this.deepened, `${region.name}:${s.id}:outskirts-deep`, all),
+      ...this.neighbourly.sections.length && this.peopled(region, s)
+        ? KyrTemplates.choose(this.neighbourly, `${region.name}:${s.id}:neighbours`, all) : []]
       .flatMap(x => KyrTemplates.fill(x.lines, all));
+  }
+  // Whether the town has an inn, a shrine and a shop, whose people the neighbours' talk is of.
+  private static peopled(region: Region, s: Settlement): boolean {
+    const rooms = SettlementWriter.rooms(region, s);
+    return rooms.taproom && rooms.shrine && rooms.shop;
   }
   // The Empire's posting-house on the old road, where the country has one: its id, name and where it lies.
   private static station(region: Region): Record<string, string> {
