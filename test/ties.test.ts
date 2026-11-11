@@ -30,4 +30,17 @@ describe('a settlement and its nearest place', () => {
     await j.play('the cairn at');
     expect(Placed.holds(j, 'region__s1_tie_done', 'party')).toBe(true);
   }, 180000);
+
+  it('draws a different larger-world thread for each settlement, and companions notice a pattern in three', async () => {
+    const w = await WorldAssembler.assemble('kahitude', NodeBundleSource.shared, {});
+    const text = [...(w.source as unknown as { files: Map<string, string> }).files.values()].join('\n');
+    const kinds = ['s1', 's2', 's3', 's4', 's5'].map(t => new RegExp(`Entity ${t}_th_(\\w+)`).exec(text)?.[1]);
+    expect(kinds.every(Boolean)).toBe(true);
+    expect(new Set(kinds).size).toBe(5);
+    const j = Journey.of(await DrawnWorld.start('kahitude', { origin: 'debt',
+      party: [{ name: 'Ralf', raceId: 'human', classId: 'warrior' }] }, NodeBundleSource.shared));
+    Placed.at(j, 'region__s2_green');
+    await j.play('about the coin on the cord');
+    expect(Placed.holds(j, 'knows', 'party', 'region__s2_th_coin')).toBe(true);
+  }, 180000);
 });

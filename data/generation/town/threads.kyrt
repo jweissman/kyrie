@@ -1,0 +1,64 @@
+# threads: things in a town that belong to a larger story than the town's, left unresolved: a coin, a credential, a letter, a chronicle, a veteran's tale, a preacher, a find, a levy.
+// A Kyr template (see src/world/kyr-template.ts), written for a settlement by src/world/region-threads.ts, which draws a
+// different thread for each of a country's settlements (without repeating one), so that a country's towns carry
+// different intimations in each seed. {t} the town's id, {town} its name, {kingdom} the successor kingdom, {deity} the
+// country's god, {site}/{sitename}/{where} its nearest site; the town's people by reference. None is an aim or a quest:
+// each is something someone has, says or keeps, with two readings, and nothing decides between them. Motifs recur across
+// threads (a wheel with a wing; the Fourth Stone; a grey blank on a map called the Works; the Office of the Road) so that
+// a company who has heard three of them may notice the pattern, and is not told it. None says why the Empire ended, whether
+// anything of it survives, who will be king, or what the Works is. Each teaches one fact (Entity ..: fact) so that what the
+// company has heard is kept in its Journal as hearsay.
+--- thread coin 1
+  Entity {t}_th_coin: fact "A trader in {town} keeps a coin that is too bright for its age: a thin Imperial piece, the wheel with a wing on one face and a regnal year on the other that is higher than any list of reigns allows. Either it is a forgery, or the Empire went on striking coin after its records stop.".
+  Topic {t}_th_coin_ask with {t}_merchant "Ask {{t}_merchant} about the coin on the cord round their neck" when not knows(actor, {t}_th_coin) once {
+    Says "'This?' says {{t}_merchant}. 'A traveller left it for a night's lodging in the year of the hard winter. It is Imperial. The wheel with a wing; the Posts. I have shown it to two scholars. The first said it was a forgery because it is too bright. The second said it could not be, because whoever forged it knew a regnal year no forger would know.' They turn it in the light. 'It buys a loaf. I have never spent it.'".
+    On discuss { Assert knows(actor, {t}_th_coin). Increase heard_threads(party) by 1. }
+  }
+--- thread credential 1
+  Entity {t}_th_credential: fact "A veteran's family in {town} keeps a bronze tablet in the Empire's script: a courier's credential, bidding every stage pass the bearer toll-free 'by the Office of the Road', issued from a Prefecture of the Further Shore that appears in no chronicle of this country.".
+  Topic {t}_th_credential_ask with {t}_traveller "Ask {{t}_traveller} about the bronze tablet in their pack" when not knows(actor, {t}_th_credential) once {
+    Says "{{t}_traveller} unwraps a bronze tablet the size of a hand from oiled cloth, and does not give it to you to hold. 'My grandmother's,' they say. 'She said her grandfather was a post-rider of the old road, and that he was given this to carry to a stage that was not there when he arrived. It says pass the bearer, toll-free, by the Office of the Road. It says the Prefecture of the Further Shore.' A shrug that does not quite come off. 'I have asked three clerks where that is. They were all very certain. They did not agree.'".
+    On discuss { Assert knows(actor, {t}_th_credential). Increase heard_threads(party) by 1. }
+  }
+--- thread letters 1
+  Entity {t}_th_letters: fact "A merchant's factor writes to {town} of a rising lord over the water who is being 'shown to the guilds as the one the roads are being kept for', and of salt that has fallen by a third in the cities that have taken his side. The letters say nothing plainer.".
+  Topic {t}_th_letters_ask with {t}_merchant "Ask {{t}_merchant} what their factor writes from the coast" when not knows(actor, {t}_th_letters) once {
+    Says "{{t}_merchant} gives you the one letter they are willing to share, and reads the underlined part aloud. 'There is a lord over the water, they say,' they read, 'being shown to the guilds as the one the roads are being kept for. I do not know what it means and I would not put it in a letter if I did. Salt is down a third where he is liked.' They fold it. 'A merchant learns to read what is not said. This is a letter about something large that does not wish to be a letter.'".
+    On discuss { Assert knows(actor, {t}_th_letters). Increase heard_threads(party) by 1. }
+  }
+--- thread chronicles 1
+  Entity {t}_th_chronicles: fact "The shrine in {town} holds two chronicles of the kingdom of {kingdom} that disagree on how it began: one says the last Imperial prefect of the district crowned its first king with his own hand; the other, older, says no such prefect existed, and that the story was added by monks who wanted a pedigree.".
+  Topic {t}_th_chronicles_ask with {t}_priest "Ask {{t}_priest} why there are two chronicles of the kingdom" when not knows(actor, {t}_th_chronicles) once {
+    Says "'There are two,' says {{t}_priest}, 'because the shrine was once the only place that kept anything. The old one says {kingdom} was founded by a captain on the ruins of a war, and says nothing of the Empire at all. The newer one says the Empire's last prefect crowned him, with his own hand, and gave him the seal of the road. I keep both. I do not read the newer one aloud. It is a good story, and I should not like to be the priest who knew it was false, or the priest who knew it was true.'".
+    On discuss { Assert knows(actor, {t}_th_chronicles). Increase heard_threads(party) by 1. }
+  }
+--- thread veteran 1
+  Person {t}_th_veteran "Garrow Pelt" at {t}_green {
+    Role "an old soldier, who sits by the well and tells a story about a march over the water that nobody asks him to repeat". Ancestry human. Calling warrior. Level 2. Peaceable. Manner stoic. Pronouns he.
+  }
+  Entity {t}_th_veteran_fact: fact "An old soldier in {town} says that on a campaign over the water he saw a column marching in good order under a standard of a wheel with a wing, who did not speak the tongue and would not be spoken to. He cannot say whether they were in earnest or players in a show.".
+  Topic {t}_th_veteran_ask with {t}_th_veteran "Ask Garrow Pelt about the march over the water" when not knows(actor, {t}_th_veteran_fact) once {
+    Says "'It was the third summer,' says {{t}_th_veteran}. 'We came on them in a valley. A hundred, in good order, with a standard. A wheel with a wing. They did not look at us. They did not speak the tongue, and what they said to each other was not a tongue I knew. Our captain thought it was players, from a show, the way the circus goes round. I thought: players do not keep step like that, on a hill, with no audience.' He drinks. 'I have told it fourteen years. Nobody has ever said it could not have been so.'".
+    On discuss { Assert knows(actor, {t}_th_veteran_fact). Increase heard_threads(party) by 1. }
+  }
+--- thread preacher 1
+  Person {t}_th_preacher "Thessaly Brandt" at {t}_green {
+    Role "a wandering preacher of the Keepers of the Road, who teaches that the road was a gift and must be kept for the giver's return". Ancestry human. Calling cleric. Level 2. Peaceable. Manner compassionate. Pronouns she.
+  }
+  Entity {t}_th_preacher_fact: fact "A preacher in {town} belongs to the Keepers of the Road, who say the Empire's road was a gift to be kept clear for its givers' return, and tell the folk to pay the numbered posts. The local priest says it is old custom with a new coat of paint.".
+  Topic {t}_th_preacher_ask with {t}_th_preacher "Ask Thessaly Brandt what the Keepers of the Road believe" when not knows(actor, {t}_th_preacher_fact) once {
+    Says "'That a road is a promise,' says {{t}_th_preacher}. 'Whoever lays a road is saying: somebody will come. The people who laid this one are gone, or are somewhere else, and we do not know which. I say: keep it clear. Pay the numbered stone. Leave the lamp lit. If they never come, we have kept a road, and that is no bad thing for a people to have done.' She smiles. 'Your priest will tell you it is a fashion. It may be. A fashion that keeps a road clear for two hundred years is hard to argue with.'".
+    On discuss { Assert knows(actor, {t}_th_preacher_fact). Increase heard_threads(party) by 1. }
+  }
+--- thread plaque 1
+  Entity {t}_th_plaque: fact "The innkeeper in {town} props a door with a smooth black plaque a shepherd found: columns of marks in no script, which the one scholar who saw it said were sums that came out true in a way no sums should, and which are far older than the Empire.".
+  Topic {t}_th_plaque_ask with {t}_innkeeper "Ask {{t}_innkeeper} about the black plaque that props the door" when not knows(actor, {t}_th_plaque) once {
+    Says "'That?' says {{t}_innkeeper}. 'A shepherd brought it down from the high grazing and swapped it for a night's bed. Smooth, black, cold in summer. It has little marks on it in columns. A scholar came through, looked at it for an hour, and went white. She said they were sums, and that the sums were *true*: every column came out to a number, and the numbers came out to another number, and so on up, and it did not matter which way she added it. She said it was older than anything. Older than the road.' They scratch their head. 'It is a very good doorstop.'".
+    On discuss { Assert knows(actor, {t}_th_plaque). Increase heard_threads(party) by 1. }
+  }
+--- thread levy 1
+  Entity {t}_th_levy: fact "A tax-collector's notice in {town} raises the levy for a war with a neighbouring kingdom, and the granary-keeper says the measures they are told to use are not the measures the town has always used: someone higher up is quietly changing what a bushel is.".
+  Topic {t}_th_levy_ask with {t}_innkeeper "Ask {{t}_innkeeper} about the notice on the door about the levy" when not knows(actor, {t}_th_levy) once {
+    Says "'The levy,' says {{t}_innkeeper}, 'for a war with the neighbours that I have heard nothing of, and the collector looks tired. But look at the measures.' They tap the notice. 'A bushel, it says, by the new standard. Which is a bushel and a fifth. I asked the granary-keeper. They said somebody has been quietly changing what a bushel is for three years, up the line, so that the kingdom may collect a fifth more and never raise a levy.' They lower their voice. 'A kingdom that has to cheat its own measures is a kingdom that has been thinking about running out of something.'".
+    On discuss { Assert knows(actor, {t}_th_levy). Increase heard_threads(party) by 1. }
+  }
