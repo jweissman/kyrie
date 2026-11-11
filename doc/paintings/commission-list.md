@@ -30,6 +30,12 @@ Most wanted first:
 Not paintings, but near: an **iron torc** item icon (the torc shows gold and dragon-headed); **Tuck's portrait** (he
 shows a halfling's acorn emblem, not a face).
 
+Round 5 (11 November) asked again for the hobs' hold above (a cathedral for the toll-hall, a flooded grotto for "a dry
+side-cave", no fire in "the smoky cavern") and added: a **shepherd's boy** portrait (the boy shows a young woman); a
+stone **drain** stooping and dripping (now iron pipes and lanterns); a **painted gallery** in a barrow (the long passage
+stands for it); a **chalk hall**. Item plates with nothing to draw them: a **cloak**, a **bone flute**, a **bronze
+mirror**, and the betony herb.
+
 ## Still wanted (8 November, after the owner's paintings of 8 November)
 
 Covered now: the rat-runs (a burrow), the drain, the spiders' brood, a mine's gallery and shaft, a cell, a shop's

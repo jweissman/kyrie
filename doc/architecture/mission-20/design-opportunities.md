@@ -43,3 +43,7 @@ Each has what it would change, what it rests on now, and the first step if it is
     with the dice as they fell; measured against creation's (tried in M20), 144 of 183 kinds read weaker, which would
     enlarge every composed encounter. The first hour's bands are authored, not composed, so M20 leaves it.
 
+12. **Defence that a first-level foe can get through.** Round 5: a ranger in chain mail was hit only on 20–22, and a
+    mage behind a hired soldier was never touched; both players rated challenge 2. *Now:* armour from Orsino's tables,
+    foes from the bands of the first hour, measured against a warrior with unsuited rolls (11). *First step:* the
+    diagnostic's bands against a ranger in chain mail and a mage with a hireling, and how often a foe hits each.
