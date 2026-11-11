@@ -41,7 +41,7 @@ And a scenario manifest:
 
 | Can a manifest…? | Answer | Evidence |
 |---|---|---|
-| …bind roles to several different towns | **yes** | the circus (three) and the fellowship (four): `largest`, then `along:a`, `along:b`, `along:c` follow the roads; four distinct towns in each of 7 countries drawn (`test/fellowship.test.ts`) |
+| …bind roles to several different towns | **yes** | the circus (three) and the fellowship (four): `largest`, then `along:a`, `along:b`, `along:c` follow the roads; four distinct towns in each of 6 countries drawn (`test/fellowship.test.ts`) |
 | …use a different number of towns | **no** | a settlement role always binds, and every country has five (40 of 40 seeds) (R55) |
 | …give each town's people topics in a module | **yes** | the fellowship imports each town's `green`, `town` and `merchant`, and its Persons stand in rooms it adds `within` those towns; the merchants of all four towns take a topic (`seek_a`…`seek_d`) |
 | …have the module's own rooms in a town | **yes** | `Place hall_b … is room within town_b`, a `Passage … door` from the town's green |
@@ -122,8 +122,8 @@ It places last, shares the towns it uses, and was loaded together with the other
 | Drawn | Tables | Effect |
 |---|---|---|
 | a **leader** | `denLair` | `l_lead` puts a second creature in the den: a pack leader (`pack_leader` variation, for the animals that can take it, a whitelist of 62; the same species as the others if not), or an outlaw captain, level 3. **Smoke will not move the pack** (`smoke_out` now needs `not lairkind(beasts, l_lead)`): a ranger who would have driven the bear off must fight it, or lay it. A den's leader is attacked with the rest. |
-| what the den holds | `denFindCommon`, `denFindFine` | one thing from a table of eight (a snapped dagger, a gnawed pouch, a map chewed to lace, a lantern, a flask of oil…) and, one time in three, a better one (a stone, a small draught, a scroll of curing; one in sixteen a wand): fourteen items, each a real kind of the catalog, lying in the den's room |
-| a **marvel** | `denMarvel`, by terrain | most dens have none (four in seven); otherwise a warm **spring** (restores the company, once), a **hermit's inscription** (lore; twelve coin behind a stone), or a bed of **lamp-moss** (two torches). Each is offered only when the den is dealt with |
+| what the den holds | `denFindCommon`, `denFindFine` | one thing from a table of eight (a snapped dagger, a gnawed pouch, a map chewed to lace, a lantern, a flask of oil…) and, one time in three, a better one (a stone, a small draught, and in an outlaws' den a scroll of curing or, rarely, a wand): fourteen items, each a real kind of the catalog, lying in the den's room |
+| a **marvel** | `denMarvel`, by terrain | most dens have none (two in three); otherwise a warm **spring** (restores the company, once), a **hermit's inscription** (lore; twelve coin behind a stone), or a bed of **lamp-moss** (two torches). Each is offered only when the den is dealt with |
 
 Samples (seed: what lives there / leader / marvel / what lies there):
 
