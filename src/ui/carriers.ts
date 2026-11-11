@@ -2,12 +2,19 @@ import { ModuleWriter } from '../lang/module-writer';
 import { Burden } from '../rules/burden';
 import type { World } from '../lang/world';
 import type { Row } from './choice-grouping';
+import type { Campaign } from '../campaign/campaign';
 
 // Who in the company takes something it picks up or buys, so that taking is one choice rather than a list of hands:
 // a companion already carrying something of the same kind, else the one the player plays, unless they carry far more
 // than another, who takes it then. The pack can hand it on. Whoever carried least had taken everything, so a hired
 // sword just joined took every find and every purchase, and players asked why (Mission 20's cold rounds).
 export class Carriers {
+  // What the company has on or in hand, by item id (see ChoiceGrouping: selling it is asked about first).
+  static worn(campaign: Campaign): Set<string> {
+    const party = new Set(campaign.readout.partyIds);
+    return new Set(campaign.readout.creatures.filter(c => party.has(c.id))
+      .flatMap(c => (c.state.inventory ?? []).filter(i => i.equipped).map(i => i.id)));
+  }
   static readonly burdened = 6;
   // Read by the world's indexes (it had gone through every fact the world held, for each thing that could be taken).
   static carrier(world: World, actor: string, item: string): string | undefined {

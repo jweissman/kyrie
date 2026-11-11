@@ -54,6 +54,8 @@ export interface GroupingContext {
   reckon?: (group: string) => { danger: Danger; text: string } | undefined;
   // What an authored act that can hurt the company is done to (see ChoiceGrouping.hurts).
   struck?: Set<string>;
+  // What someone of the company has on or in hand, by the item's id: sold, it is asked about first.
+  worn?: Set<string>;
 }
 
 // Organizes legal commands by what the player is acting on. It never adds, removes or reinterprets a command;
@@ -222,6 +224,11 @@ export class ChoiceGrouping {
     if ((action.schema ?? action.id) === 'camp' && exposed) { Object.assign(leaf, { grave: Exposure.grave(exposed) }); }
     const bitter = context.night && context.exposed?.get(action.movement?.destination ?? b.destination ?? '');
     if (bitter) { Object.assign(leaf, { grave: Exposure.going(bitter) }); }
+    // Selling what someone has on or in hand is asked about first: a bard's only crossbow had gone at one key, and a
+    // companion's armour was on the counter with the rest (round 7).
+    if (/^sell/.test(action.schema ?? action.id) && b.ware && context.worn?.has(b.ware)) {
+      Object.assign(leaf, { grave: `${context.names.get(b.carrier ?? '') ?? 'they'} would go without it` });
+    }
     const foe = Provocation.of(action), reckoned = foe && context.reckon?.(foe);
     if (reckoned) { Object.assign(leaf, { reckoned, risk: true }); }
     const on = Object.entries(b).filter(([k]) => k !== 'actor' && k !== 'site').map(([, v]) => v);

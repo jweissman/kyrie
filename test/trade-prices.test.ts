@@ -7,7 +7,7 @@ import trade from '../data/generation/tables/trade.json';
 describe('the trades\' prices', () => {
   it('never pay more for a kind than the same trade asks for it', () => {
     type Trade = { stock?: [string, number, number][]; buys?: [string, number][] };
-    const types = trade.merchantType.groups as Record<string, Trade>;
+    const types = trade.merchantType.groups as unknown as Record<string, Trade>;
     const dear = Object.entries(types).flatMap(([name, t]) => {
       const asks = new Map((t.stock ?? []).map(([kind, price]) => [kind, price]));
       return (t.buys ?? []).filter(([kind, pays]) => asks.has(kind) && pays >= asks.get(kind)!)
