@@ -185,6 +185,7 @@
     {"kind": "farmstead", "words": ["farmhouse", "farmstead", "farm", "homestead"], "ground": ["scene-farmhouse"]},
     {"kind": "cabin", "words": ["cabin", "log-cabin"], "ground": ["scene-log-cabin"]},
     {"kind": "wheat", "words": ["wheat", "wheat-field", "cornfield", "corn-field"], "ground": ["scene-wheat-field"]},
+    {"kind": "firth", "words": ["firth", "estuary", "mudflats", "tideway"], "ground": ["scene-firth"]},
     {"kind": "home", "words": ["houses", "house", "cottage", "home", "lodge"], "ground": ["scene-town-houses"], "room": ["scene-rustic-home", "food"]},
     {"kind": "hall", "words": ["hall", "halls", "chamber", "antechamber", "choir", "solar", "pillared", "colonnade"], "room": ["dissolution", "narthex"]},
     {"kind": "passage", "words": ["passage", "gallery", "corridor", "throat", "tunnel"], "room": ["scene-underground-passage", "perdition", "meditation"]},

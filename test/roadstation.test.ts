@@ -82,4 +82,13 @@ describe('the Empire’s posting-house', () => {
     await j.play('=until untilLight(clock) == 1').catch(() => '');
     expect(Placed.holds(j, 'state', `region__${id}_flue`, 'region__wet')).toBe(true);
   }, 120000);
+
+  it('has, in one country in four, a copyist who reads aloud what a warrior cannot and joins the company when asked', async () => {
+    const { j, id } = await Station.at('warrior', 'hall', false, 'h8');
+    expect(j.offers('Read the notice on the door')).toBe(false);
+    await j.play('Ask the copyist to read the day-book aloud');
+    expect(Placed.holds(j, 'knows', 'party', `region__${id}_posts`)).toBe(true);
+    await j.play('Ask the copyist to come with you', 'Ask the copyist to join the company');
+    expect(j.campaign.world.related('travelsWith').some(x => x.args[0] === `region__${id}_scholar`)).toBe(true);
+  }, 120000);
 });
