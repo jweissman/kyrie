@@ -820,7 +820,7 @@ Also kept, without comment: matterOpen, matterDone, at, able, dead, distinct, cl
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 21 | 52 | 17 | 5 | 5 | 8 |
+| 22 | 53 | 17 | 5 | 5 | 8 |
 
 #### quarter, inQuarter, heartOf
 
@@ -1007,6 +1007,12 @@ The kind of work the company has done (its backgrounds' families): what those wh
 *Kyr · kind; relation(member, callingkind)* · `rule:world_core.callingkind`
 
 The calling each of the company follows (its class): who someone is, not only what they can do. A warrior's arc had asked capable(party, brawn), which a commoner who had learned brawn passed (the Book of Faces' BOF-13).
+
+#### ancestrykind, hasAncestry
+
+*Kyr · kind; relation(member, ancestrykind)* · `rule:world_core.ancestrykind`
+
+The people each of the company is of (their ancestry), for whoever would notice: an elf met by the elf factor had been met as anyone (Mission 20's second round).
 
 #### manner, manner
 

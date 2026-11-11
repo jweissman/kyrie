@@ -7,12 +7,12 @@ Kyr's capability audit against Orsino, one family of rules at a time. Each famil
 | Ancestries, callings, backgrounds and formations | 52 faithful, 249 adapted, 391 kyr, 5 not playable, 4 unreachable, 11 orsino data only |
 | Character creation | 16 faithful, 26 adapted, 1 kyr |
 | Progression, feats and high levels | 249 faithful, 8 adapted, 4 kyr, 35 not playable |
-| Action timing, reactions, conditions, costs and targeting | 180 faithful, 29 adapted, 38 kyr, 21 not playable |
+| Action timing, reactions, conditions, costs and targeting | 180 faithful, 29 adapted, 39 kyr, 21 not playable |
 | Spells: traditions, slots, durations and unusual magic | 246 faithful, 4 adapted, 4 kyr, 32 not playable |
 | Summoning, transformation, domination, movement, divination and travel | 38 faithful, 4 adapted, 7 represented, 13 not playable |
 | Creatures: families, special attacks, resistances, behaviour and difficulty | 126 faithful, 131 adapted, 10 represented, 71 kyr, 4 not playable, 104 orsino data only |
 | Equipment, treasure and magic items | 345 faithful, 114 adapted, 8 represented, 103 kyr, 7 not playable, 7 orsino data only |
-| Environment, world and planar rules | 3 adapted, 7 represented, 261 kyr, 180 orsino data only |
+| Environment, world and planar rules | 3 adapted, 7 represented, 262 kyr, 180 orsino data only |
 | Content authoring and generation | 32 kyr |
 
 ## Ancestries, callings, backgrounds and formations
@@ -77,7 +77,7 @@ Handbook sections: `phb:advancement`, `phb:feats`, `phb:magic`.
 
 ## Action timing, reactions, conditions, costs and targeting
 
-Entries: 180 faithful, 29 adapted, 38 kyr, 21 not playable.
+Entries: 180 faithful, 29 adapted, 39 kyr, 21 not playable.
 
 **What Orsino defines.** Initiative each round, actions a turn, haste and slow, preparation (Charge), compelled moves, wound-up blows, reactions on being attacked, on an enemy's melee, attack, cast or charge, on combat start, on a status expiring, on healing and on a kill; random multi-target spells.
 
@@ -177,7 +177,7 @@ Handbook sections: `phb:equipment`, `dmg:orsino-world/orsino-equipment`, `dmg:or
 
 ## Environment, world and planar rules
 
-Entries: 3 adapted, 7 represented, 261 kyr, 180 orsino data only.
+Entries: 3 adapted, 7 represented, 262 kyr, 180 orsino data only.
 
 **What Orsino defines.** Terrain and weather, light, traps with triggers and saves, wonders that grant, ten planes with alignment, terrain, domain and global effects applied to everyone resident.
 

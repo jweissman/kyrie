@@ -107,7 +107,7 @@ export class MechanicsText {
     })();
     const qualifiers = [e.when ? 'when its condition holds' : '', e.targetTrait ? `only ${e.targetTrait} creatures` : '',
       e.save ? this.save(e.save, actor) : '', e.onResist ? `${e.onResist === 'half' ? 'halved' : 'none'} if resisted` : '',
-      ...this.triggered(e).map(([id, c]) => `may cause ${this.conditionName(id)}: ${this.an(this.quality(c.saveKind ?? 'magic'))} `
+      ...this.triggered(e).map(([id, c]) => `may leave whoever it hurts ${this.conditionName(id)}: ${this.an(this.quality(c.saveKind ?? 'magic'))} `
         + 'save against 15 avoids it')]
       .filter(Boolean);
     return qualifiers.length ? `${text} (${qualifiers.join('; ')})` : text;

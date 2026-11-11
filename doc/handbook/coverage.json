@@ -801,7 +801,7 @@
     "faithful": 770,
     "adapted": 375,
     "represented": 4,
-    "kyr": 556,
+    "kyr": 557,
     "unsupported": 68,
     "unreachable": 4,
     "data-only": 12
@@ -970,7 +970,7 @@
       "faithful": 128,
       "adapted": 26,
       "represented": 0,
-      "kyr": 33,
+      "kyr": 34,
       "unsupported": 18,
       "unreachable": 0,
       "data-only": 0
@@ -997,7 +997,7 @@
     "faithful": 231,
     "adapted": 36,
     "represented": 27,
-    "kyr": 294,
+    "kyr": 295,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 198
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 262,
+      "kyr": 263,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -12358,6 +12358,13 @@
    "section": "conditions"
   },
   {
+   "id": "condition:in_the_dark",
+   "title": "In the dark",
+   "status": "kyr",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
    "id": "condition:infected",
    "title": "Infected",
    "status": "faithful",
@@ -14439,6 +14446,13 @@
   {
    "id": "rule:world_core.callingkind",
    "title": "callingkind, hasCalling",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-core"
+  },
+  {
+   "id": "rule:world_core.ancestrykind",
+   "title": "ancestrykind, hasAncestry",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-core"
