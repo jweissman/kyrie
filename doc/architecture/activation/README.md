@@ -13,7 +13,12 @@ The commission asked, in three phases, for a deeper starting region (Phase One),
 | [census.md](census.md) | The reproducible content-activation census (`bun scripts/activation-census.ts`): paintings, creatures, works, items, scenarios, adventures. |
 | [dormant.json](dormant.json) | The ledger of intentional dormancy, with reasons. |
 | [storyboard.md](storyboard.md) | The spatial storyboard of the Hall, the old stones and the Empire's posting-house, with painting briefs, and the storyboard-first method. |
-| [kyr-deem-requests.md](kyr-deem-requests.md) | Two migrations done (`@count`, template `if`/`unless`), a survey of what else is TypeScript, fourteen narrowly specified requests with reproductions. |
+| [kyr-deem-requests.md](kyr-deem-requests.md) | Two migrations done (`@count`, template `if`/`unless`), a survey of what else is TypeScript, and 95 numbered requests with reproductions. **Begins with a triage of the ten that matter.** |
+| [corpus/](corpus/README.md) | Phase Two corpus reviews of the 27 authored adventures: greetings, return greetings, aims, `after` news and cross-links, one page each, plus `deem-proposals.md`. |
+| [dramatic-assessment.md](dramatic-assessment.md) | A dramatic reading of the corpus (clocks, one-shot talk, parked violence, errands) and what to change. It drove the Phase Three modules below. |
+| [encounters.md](encounters.md) | Encounter audit and bands, generic combat observations (separate from scenario design), and the data tuning applied. |
+| [deem-variation.md](deem-variation.md) | Deem variation of scenarios: the Fellowship (a drawn institution with members in the first country) and what the engine would need to span the world. |
+| [modules/](modules) | The exemplary modules with storyboards, hazards, consequences and what is proved: *The Bound Howe* (an escalating crisis with a rival expedition), *The Numbered House* (a ruined arcology with a rival survey), *The Silent Lord* (a keep under siege and malice), and *The Walk of the Milestones* (a movement across four towns, six end states). |
 | [transcripts/](transcripts) | Two played routes by the page's own labels (`bin/kyrie play`): the road-wood quarrel from the landing to a companion joining, and a walk to the posting-house and what its papers say. |
 | [campaign-seeds.md](campaign-seeds.md) | The foreshadowing threads (coin, credential, letters, chronicles, veteran, preacher, plaque, levy, grant, grey blank): what each leaves open and what is deliberately not said. |
 | [arcology.md](arcology.md) | A conception, not built: a ruined Mathematical Age arcology, twelve environmental moments, ecology, motives. |

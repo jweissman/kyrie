@@ -26,8 +26,8 @@ Module bound_howe "The Bound Howe" {
     Retract tolerates(foreman, party). Retract tolerates(crew, party). Retract tolerates(watchers, party). Retract tolerates(sentry, party). }
 
   // ---- The foreman's pay-chest: the crew's security. A thief picks it; a frightened labourer gives the key.
-  Kind ledger_kind "the foreman's ledger" is document teaching reeve_double described "A long ledger in a careful square hand. Down one page, in the left column, go the Spade-Company's costs. Down the right go the sums paid by the shire-reeve's hand. At the foot, struck through twice: 'And to the Lantern Co., by the same hand, the same, for the same.'".
-  Item ledger_item "the foreman's ledger" is ledger_kind nowhere.
+  Kind howe_ledger_kind "the foreman's ledger" is document teaching reeve_double described "A long ledger in a careful square hand. Down one page, in the left column, go the Spade-Company's costs. Down the right go the sums paid by the shire-reeve's hand. At the foot, struck through twice: 'And to the Lantern Co., by the same hand, the same, for the same.'".
+  Item ledger_item "the foreman's ledger" is howe_ledger_kind nowhere.
   Thing pay_chest "the foreman's pay-chest" at lee {
     State locked closed "A pay-chest bound in brass stands under the foreman's cot, with a hasp and a good lock.".
     State open "The pay-chest under the foreman's cot stands open and light.".

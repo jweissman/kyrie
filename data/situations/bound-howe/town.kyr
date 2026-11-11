@@ -82,7 +82,7 @@ Module bound_howe "The Bound Howe" {
   }
 
   // ---- The clerk. A dry man, and a rattled one.
-  Topic clerk_letter with clerk "Show {clerk} the patron's letter, with the reeve's seal" when holding(actor, letter_kind) and not levy_against() once {
+  Topic clerk_letter with clerk "Show {clerk} the patron's letter, with the reeve's seal" when holding(actor, howe_letter_kind) and not levy_against() once {
     Says "{clerk} reads it with his lips moving, and then reads it again with his lips still. 'This is the reeve's seal,' he says. 'It is the one he keeps in his own coat.' He puts the letter down, picks it up, and puts it down in a different place. 'Two companies. A levy. I was told of the one, and told it was prudence.' He takes his pen out of its tray and looks at it. 'I did not read the small print. It seems I do not read anything. I shall go to the shrine, and speak to the priest, and ask him to ask the levy to go up with salt instead of spades. That is not in my powers. I shall do it anyway.'".
     On discuss { Assert levy_against(). Assert knows(actor, reeve_double). }
   }

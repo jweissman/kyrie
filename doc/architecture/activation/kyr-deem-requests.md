@@ -2,6 +2,23 @@
 
 *11 November 2026. Two isolated migrations out of TypeScript into data, both semantics-preserving and tested; a survey of what else is TypeScript that an author would rather write; and narrowly specified requests, each with a reproducible example. Nothing here changes the Kyr language or a shared architecture.*
 
+## Triage: the ten that matter (read this first)
+
+Ninety-five requests accumulated because every author who hit a wall wrote one down. Most are small. These ten recur across independent authors, and each one removes a workaround that more than one module carries today. They are ordered by how many modules pay for them.
+
+1. **Persons and groups that move on a clock (R41, R54, R89, R32).** The Bound Howe's rival, the Walk's host, the Numbered House's Collegium, the Silent Lord's Hands and the fellowship all re-implement "this party is here on day N, there on day M" as a rule per stage. A `Route`/`Pursuit` line on a person or band would replace dozens of rules per module and make clocks readable.
+2. **A scenario reading and moving the first town's own people (R37, R38, R85).** Three authors needed the keeper, the crier or the bailiff and each built an import workaround. One generic import would let every standing module touch the first town the same way.
+3. **Showing wounds and fight outcomes (R80, R81, R82, R83).** Combat is the weakest single legibility problem: a long fight's last blow reads as a one-hit kill, wounds are never told, and damage does not grow with level. This is an M20 matter more than an authoring one, and it limits every danger claim in the corpus.
+4. **Band against band, and bands that can lose members (R92, R93, R94).** Rival expeditions are decided by a die and an offscreen `Slay`. Without these, "a rival and a player race" cannot have a body.
+5. **A calling-specific read of a scene, and a check against a crowd (R90, R95, R87).** Every module has a "thief sees the wire, cleric hears the oath" beat and each builds it from a speaking rule. A generic `noticed by <calling>` and a crowd-difficulty check would make background play first-class.
+6. **Topics that change on repeat (R60, R46, R57).** 98% of the first town's topics are `once`. Counted and stateful `Greets again` would let people be addressed twice without bespoke relations.
+7. **Reach of a scenario beyond its seat (R72, R73, R74, R31).** The fellowship's members can only be folk of the seat town, news reaches two towns and no member lives in another country. A manifest that names more towns and a next-country slot would make an institution actually span the world.
+8. **A Deem template invoking Kyr (R75, R29, R55).** The ideal the commission named: a drawn fact that selects an authored section or a `.kyrt`. Today Deem facts cannot select among authored sections.
+9. **Choosing standing scenarios in a spec (R88).** Specs cannot say which standing modules a world holds, so each new standing module shifts every other module's draws and spec names. Every integration in this session paid for it.
+10. **Declarations that fail late or loudly (R42, R39, R59).** A shared relation name, a new kind of site (three edits in three files) and a module with no milestones all fail at the spec or not at all. Earlier errors would remove an hour from each author.
+
+The remainder (R1–R14, the narrow naming and label requests and the engine-specific hazards) are real but cheap to carry; leave them for whoever next touches the files concerned.
+
 ## A. Migrated (done, tested: `test/authorable-generation.test.ts`)
 
 ### A1. How many works of a kind a country holds: `@count N` in the plan

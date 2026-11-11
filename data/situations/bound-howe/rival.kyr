@@ -54,9 +54,9 @@ Module bound_howe "The Bound Howe" {
     State open "The captain's strongbox stands open, and a letter lies on top of her papers.".
     Tries looking.
   }
-  Kind letter_kind "the patron's letter" is document teaching reeve_double described "A single sheet in a clerk's hand, closed with a seal. It binds the Lantern Company to bring the king's torc to the patron by midwinter, on pain of the forfeit of the company's bond, and it is sealed with the shire-reeve's own mark.".
+  Kind howe_letter_kind "the patron's letter" is document teaching reeve_double described "A single sheet in a clerk's hand, closed with a seal. It binds the Lantern Company to bring the king's torc to the patron by midwinter, on pain of the forfeit of the company's bond, and it is sealed with the shire-reeve's own mark.".
   Discovery reeve_double "The shire-reeve has hired two companies for one howe, and told his clerk of one.".
-  Item patron_letter "the patron's letter" is letter_kind nowhere.
+  Item patron_letter "the patron's letter" is howe_letter_kind nowhere.
   Action rob_strongbox(actor: group, site: place) "Pick the lock of the captain's strongbox" {
     Requires able(actor) and at(actor, site) and at(actor, rival_camp) and state(rival_chest, locked) and capable(actor, lockwork).
     Resolve check(actor, lockwork, dc_fair).
@@ -172,7 +172,7 @@ Module bound_howe "The Bound Howe" {
   }
   Action turn_rival_proved(actor: group, site: place) "Show {rcaptain} the shire-reeve's seal on her patron's letter" {
     Speaker rcaptain.
-    Requires able(actor) and at(actor, site) and at(rcaptain, site) and able(rcaptain) and holding(actor, letter_kind) and rival_step(rcaptain) < 6 and not turned_rival().
+    Requires able(actor) and at(actor, site) and at(rcaptain, site) and able(rcaptain) and holding(actor, howe_letter_kind) and rival_step(rcaptain) < 6 and not turned_rival().
     Resolve check(actor, persuasion, dc_fair).
     On success { Assert turned_rival(). Set rival_step(rcaptain) to 9. Assert tolerates(rcaptain, actor). Assert tolerates(rhands, actor). Assert tolerates(rscholar, actor). Assert tolerates(rscout, actor). }
     Result "{rcaptain} reads it standing, twice, and then a third time sitting down. 'Hired both,' she says. 'Of course he did. A reeve would.' She stands up. 'Hats,' she says. 'We are going home.'".
