@@ -30,3 +30,16 @@ Each has what it would change, what it rests on now, and the first step if it is
 7. **Travel as passage.** Every hex crossed a chance of a meeting, what is passed through seen, rations and rest
    reckoned before setting out. *Now:* M20 makes travel slower and legible within the existing rules. *First step:*
    per-hex encounter rolls, if the M20 work shows the need.
+8. **Geography beyond the first atlas.** The first country is a 20×14-hex atlas; Thornhaven stands at its western
+   edge, and other countries open only at their way-into stones. *Now:* nothing west of the atlas, and the map does
+   not say why. *First step:* the map saying where the drawn country ends; later, Imbar's larger land and its oceans.
+9. **What a character can tell of what grows.** Plants are grouped at a place (M20); woodcraft or herb-lore could name
+   the species and what each gives, and an ordinary eye see only "flowers, herbs". *First step:* a known/unknown split
+   in "What grows here" by the company's woodcraft.
+10. **The mage at first level.** Created as creation makes one, an elf mage meets 11 of the first hour's 14 bands as
+    grave or deadly. *First step:* the diagnostic (tools/bands.ts) as a spec, and the mage's first spells and hit
+    points weighed against it.
+11. **Challenge measured against the warrior players make.** `bestiary challenge` measures kinds against a warrior
+    with the dice as they fell; measured against creation's (tried in M20), 144 of 183 kinds read weaker, which would
+    enlarge every composed encounter. The first hour's bands are authored, not composed, so M20 leaves it.
+
