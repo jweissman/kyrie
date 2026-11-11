@@ -88,23 +88,21 @@ Reproduce headlessly with `bun /var/tmp/kyrie/m20/tools/leads.ts <origin> <race/
    a reason; then cleanup and a small authoritative authoring path. Handoff distinguishes implemented, automated,
    agent-experienced and human-accepted.
 
-## Open queue (11 November, night)
+## Open queue (11 November, late)
 
-Kept here so that nothing asked is lost between sessions; taken in this order.
+Kept here so that nothing asked is lost between sessions; taken in this order. Done since the night's list: the rail,
+explorer and prism (79c26bdf); gold on the map (1b4cd55d, fb622d59); portraits ringed by their aspects (bc2d9436);
+the owner's blocking report: the trap (E101, 62cd387c), the route (E103) and the navigation (E104, fb622d59).
 
-1. Verify the rail, the explorer in the panel and the prism in rendered play (the ossuary's compound: attacking the man
-   with the black candle is the aim's and a danger), and push.
-2. Gold on the map (the owner's report): the company's mark, where it stands and what is chosen are drawn neutral; gold
-   only for the followed aim's way and destination.
-3. Route fidelity, end to end: the route shown against the hexes walked, the time and supplies spent, the land revealed
-   and the walk drawn; any change by an interruption or a rule said; a regression test if a mismatch is confirmed.
-4. Few lit opportunities after the opening (the owner's report): measured along walker runs, and told apart as a
-   projection defect, a want of knowledge or discovery, or sparse content (content is the first-steps thread's).
-5. A person's or a site's likeness carrying the aspects of what can be done with them, without saying each act has them.
-6. Round 6's findings (I, a dwarf cleric; J, a catfolk thief on a phone) into the barriers table.
-7. The silver walker's finding: the town absorbs exploration; danger met mostly grave or deadly; frequency apart from
+1. Ordinary exploration feels empty (the owner's blocking report, 3): told apart as missing content, installation,
+   encounter generation, discovery and projection, or the foreground; bounded improvements to what is met on the way,
+   not more monsters; content stays the first-steps thread's.
+2. E102: a trap that puts the company to sleep in the room of those who warn it off is certain death.
+3. Round 6's findings (I, a dwarf cleric; J, a catfolk thief on a phone) into the barriers table.
+4. The silver walker's finding: the town absorbs exploration; danger met mostly grave or deadly; frequency apart from
    balance; bounded first-hour danger.
-8. Then the register reconciled, consolidation, the CI shards rebalanced (shard 4 at 45 minutes against 24), and the
+5. Cold play on the new scene, map and rail.
+6. Then the register reconciled, consolidation, the CI shards rebalanced (shard 4 at 45 minutes against 24), and the
    handoff.
 
 ## Rounds of cold play
@@ -221,5 +219,7 @@ Sources: the builder's probes (P), cold round 1 player A / B (screenshot numbers
 | E98 | P3 | Orsino's traps drawn without regard to the makers: "an electrified floor" and "a lightning bolt" in a Barrow-Kin passage-grave | R5-H 85, 90 | open (DeepPacing.trap draws from every trap within the depth's harm; fitting them to the work's art changes every deep site's draw, so it waits for a world-generation pass) |
 | E99 | P1 | The gold walker (the autoplay lab following the page, preferring the aim) bought Tuck's shop out a pole at a time: "Talk to Tuck" for the debt was led *for* a ten-foot pole, buying counted as advancing the aim | walker, kahitude debt | **fixed** (buying advances no aim; wares are not what is new to say; led now for the promise to pay) |
 | E100 | P2 | Walkers, 120 steps, kahitude, debt, warrior and mage: the silver walker reaches 38–43 places but meets one fight in 13 hours; the gold walker stalls (11–20 places, 61–152 hours) shuttling between a barrow's forecourt and its gallery, where a deadly household waits in the dark | walker | the page is honest there (light first, the fight marked deadly, the way back): the shuttle is the walker's own careful rule against its fallback. The thin danger in ordinary exploration stands (E92) |
+| E103 | P0 | The way the map laid and the way travel went still disagreed: a stretch of open country was walked by the middle of the wood or country it lies in (next door north of Thornhaven went 221, 140, 90, 201); a hex chosen had no itinerary on the screen, and the board laid its own shortest way, which the journey need not take; a site in a wood was laid to the wood's edge and walked a hex on | the owner's play, 11 November (blocking); every set-out from the start measured (route-map: walked as laid 43 of 164 before, 141 after; the rest walks in the town, stops said, or the zone's last hex, then fixed) | **fixed** fb622d59 (a stretch is its own hex; the map asks the engine for the plan the journey goes by, for a hex or a held journey, and lays nothing until it has it; the way laid ends on the place's own hex; test/route-drawn's hex case) |
+| E104 | P1 | The map was in the book as a tab as well as on the rail and its key; over the map, and in talk, a bar of Map and Book stood across the top; the marker of the company on the map was ringed in gold | the owner's report, 11 November (nav cleanup) | **fixed** fb622d59 (the book is the dossier: character, notes, pack, story; the map opens on its own, no tabs over it; the rail at the foot right on every page of the scene, in talk, and over the map, where the map's mark is pressed and goes back; underground the plan offers the country; the marker ringed in ivory; rendered desktop and phone) |
 | E8 | — | Headless scripts could not take a map journey | — | **fixed** bf62b137 (`map:<place>`) |
 | E21 | — | Cold agents under automation skip the prologue; next rounds use `&opening` | P | noted (harness) |
