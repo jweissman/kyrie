@@ -10,8 +10,9 @@ import type { EncounterAudit, Row } from './encounter-audit';
 // The bands the audit reads from the game itself: those of generated countries (deep sites, wild bands, placed
 // troubles) and of the authored adventures and scenarios, as a campaign begun afresh holds them.
 export class EncounterBands {
-  static async rows(mode: string, args: string[], trials: number, only: string[], audit: typeof EncounterAudit): Promise<Row[]> {
-    const rows: Row[] = [];
+  static async rows(mode: string, run: { args: string[]; trials: number; only: string[] },
+    audit: typeof EncounterAudit): Promise<Row[]> {
+    const { args, trials, only } = run, rows: Row[] = [];
     if (mode === 'sites' || mode === 'scenarios') {
       const given = audit.option(args, 'seeds', mode === 'sites' ? '6' : 'a1,b2,kite,ash,wren,mere,thorn,cov2');
       const seeds = /^\d+$/.test(given) ? Array.from({ length: Number(given) }, (_, i) => `s${i + 1}`) : given.split(',');
@@ -24,7 +25,8 @@ export class EncounterBands {
           const foes = this.creatures(campaign, b.members);
           if (!foes.length) { continue; }
           if (mode === 'scenarios' && b.installation === 'region') { continue; }
-          rows.push(audit.row(`${seed}:${b.site ?? b.installation}`, { label: `${b.name} @${b.where}`, creatures: foes }, trials));
+          rows.push(audit.row(`${seed}:${b.site ?? b.installation}`,
+            { label: `${b.name} @${b.where}`, creatures: foes }, trials));
         }
       }
       return rows;
@@ -47,6 +49,7 @@ export class EncounterBands {
     return rows;
   }
   private static creatures(campaign: Campaign, ids: string[]) {
-    return ids.map(id => campaign.readout.creatures.find(c => c.id === id)).filter(c => !!c && c.state.hp > 0) as never[];
+    return ids.map(id => campaign.readout.creatures.find(c => c.id === id))
+      .filter(c => !!c && c.state.hp > 0) as never[];
   }
 }
