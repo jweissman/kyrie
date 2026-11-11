@@ -91,12 +91,12 @@
       { "species": "bat", "count": 4, "label": "the bats", "role": "bats that roost in the gate-hall's roof", "temperament": "wary" }
     ] },
     { "depth": 1, "groups": [
-      { "species": "mud_elemental", "count": 1, "label": "the mud", "role": "silt that has learned to move", "temperament": "territorial" },
-      { "species": "spirit", "count": 2, "label": "the drowned", "role": "Wardens who drowned at their posts, and keep them", "temperament": "savage" }
+      { "species": "mud_elemental", "count": 2, "label": "the mud", "role": "silt that has learned to move", "temperament": "territorial" },
+      { "species": "spirit", "count": 3, "label": "the drowned", "role": "Wardens who drowned at their posts, and keep them", "temperament": "savage" }
     ] },
     { "depth": 2, "groups": [
       { "species": "water_elemental", "count": 1, "label": "the cistern-water", "role": "water that has stood too long in the dark and wants something", "temperament": "territorial" },
-      { "species": "revenant", "count": 2, "label": "the drowned wardens", "role": "Wardens who went down with the cistern when the gates were shut", "temperament": "savage" }
+      { "species": "revenant", "count": 3, "label": "the drowned wardens", "role": "Wardens who went down with the cistern when the gates were shut", "temperament": "savage" }
     ] },
     { "depth": 3, "groups": [
       { "species": "salt_elemental", "count": 1, "label": "the salt", "role": "the salt the still water left on the shore, standing up", "temperament": "territorial" },

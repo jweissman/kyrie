@@ -1275,10 +1275,10 @@
           "wisdom": 12,
           "charisma": 5
         },
-        "weapon": "claws",
+        "weapon": "slam",
         "armor": "cloth",
         "primary": "strength",
-        "actions": 1,
+        "actions": 2,
         "growth": {
           "hitPoints": {
             "base": 10,
