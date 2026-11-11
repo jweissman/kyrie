@@ -208,7 +208,7 @@ claims nothing beyond what the sources say.
 | id | item (one line) | sources | status (as recorded, with date) | severity | home |
 |---|---|---|---|---|---|
 | US-01 | The "Gone under" origin's sister is silent at Seolforfyrd, with no one to ask: the hook goes quiet when followed | E111 (open part), R6-I top4, R6-I §14, H §3 | Open (11 Nov) | P1 | M20 close |
-| US-02 | Treasure payoff flat: two identical "empty" jewelled boxes; no hoard; a three-locked toll-chest holds one box | E118, R6-J top3, R6-J §14, H §3, OWN-75 | Open (11 Nov) | P2 | M21 |
+| US-02 | Treasure payoff flat: two identical "empty" jewelled boxes; no hoard; a three-locked toll-chest holds one box | E118, R6-J top3, R6-J §14, H §3, OWN-75 | Partly (11 Nov night: the map's box told, E142; the jewelled box no longer "empty"; no hoard yet) | P2 | M21 |
 | US-03 | The dead man's map ends in an empty box, with no word of who emptied it | E20, R1-B top4 | Open (11 Nov) | P2 | M20 close |
 | US-04 | Handed-out aims are all kill or loot; peaceful errands (Gosse's offer, the circus larder) not kept in Notes; promises with terms, decline and defer | E58, R4-E top2, BRF-99 | Open (11 Nov) | P2 | M21 |
 | US-05 | No successor threads after a resolution ("Nothing more is asked of you"); a lone company following the page earns no level in 200 steps | PT-01, M19-59, BRF-67 | Open risk / partial, unverified since 8 Nov | P2 | M21 |

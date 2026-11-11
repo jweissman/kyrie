@@ -1116,7 +1116,7 @@ Definitions shadowed at Orsino load time (abilities.json, then abilities/*.json;
 | `junk:iron_figurine` | `item:iron_figurine` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:iron_idol` | `item:iron_idol` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:iron_torc` | `item:iron_torc` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
-| `junk:jeweled_box` | `item:jeweled_box` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
+| `junk:jeweled_box` | `item:jeweled_box` | executable | adapted | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:jeweled_crown` | `item:jeweled_crown` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:jeweled_dagger` | `item:jeweled_dagger` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |
 | `junk:jeweled_statue` | `item:jeweled_statue` | executable | faithful | An authored record migrated from Orsino (data/catalog/items/). |

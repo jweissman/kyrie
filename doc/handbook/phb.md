@@ -4320,13 +4320,15 @@ Used: Paralyzing Touch, at no cost.
 
 #### Jeweled box
 
-*Faithful · treasure* · `item:jeweled_box`
+*Adapted · treasure* · `item:jeweled_box`
 
 <img src="../../web/reader/paintings/valuables/jeweled_box.webp" alt="" width="128">
 
 - Worth: 150
 
-> A small empty box encrusted with jewels, its lid slightly ajar.
+> A small box crusted with jewels, its lid slightly ajar; the stones alone are worth the carrying.
+
+*Adapted: Orsino's says empty; as a find (a dead man's map, a foreman's desk) it had read as nothing found (round 7, the register's E118).*
 
 #### Jeweled crown
 

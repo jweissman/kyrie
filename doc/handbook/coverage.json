@@ -798,8 +798,8 @@
   "phb": {
    "title": "Player's Handbook",
    "counts": {
-    "faithful": 770,
-    "adapted": 375,
+    "faithful": 769,
+    "adapted": 376,
     "represented": 4,
     "kyr": 557,
     "unsupported": 68,
@@ -889,8 +889,8 @@
      "id": "equipment",
      "title": "Equipment",
      "counts": {
-      "faithful": 242,
-      "adapted": 82,
+      "faithful": 241,
+      "adapted": 83,
       "represented": 0,
       "kyr": 103,
       "unsupported": 7,
@@ -997,7 +997,7 @@
     "faithful": 231,
     "adapted": 36,
     "represented": 27,
-    "kyr": 295,
+    "kyr": 296,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 198
@@ -1010,7 +1010,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 263,
+      "kyr": 264,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -8286,7 +8286,7 @@
   {
    "id": "item:jeweled_box",
    "title": "Jeweled box",
-   "status": "faithful",
+   "status": "adapted",
    "book": "phb",
    "section": "equipment/gear"
   },
@@ -14873,6 +14873,13 @@
   {
    "id": "rule:inhabitants.temper_rallies",
    "title": "temper_rallies",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
+   "id": "rule:inhabitants.temper_waits_helpless",
+   "title": "temper_waits_helpless",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-inhabitants"

@@ -1458,7 +1458,7 @@ Also kept, without comment: arrival, plea, greeting, greeted, petted, warned, yi
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 1 | 25 | 2 | 1 | 20 | 5 |
+| 1 | 25 | 2 | 1 | 21 | 5 |
 
 #### temperament
 
@@ -1578,6 +1578,16 @@ Says: "{?w}"
 
 > Then: Retract routed(?g).
 
+#### temper_waits_helpless
+
+*Kyr · rule* · `rule:inhabitants.temper_waits_helpless`
+
+Lying where a trap left it, asleep or held, a company is not staying against a warning: whoever warned it waits until it can answer, and then gives it the time it gave (E102: a sleep in the barrow-dead's room had been certain death, with nothing to choose).
+
+> When: warned(?g, ?c); company(?c); not (able(?c)); not (dead(?c)); patience(?g) <= (watch(clock) + 1)
+
+> Then: Set patience(?g) to (watch(clock) + 2).
+
 #### temper_closes
 
 *Kyr · rule* · `rule:inhabitants.temper_closes`
@@ -1586,7 +1596,7 @@ A warning spent: whoever stayed is fallen on (for a defensive one, only in its l
 
 Says: "{?o}"
 
-> When: warned(?g, ?c); together(?g, ?c); able(?g); not (routed(?g)); not (tolerates(?g, ?c)); patience(?g) <= watch(clock); not (temperament(?g, temper_defensive)); not (temperament(?g, temper_seizing)); not (temperament(?g, temper_obedient)); onslaught(?g, ?o)
+> When: warned(?g, ?c); together(?g, ?c); able(?g); able(?c); not (routed(?g)); not (tolerates(?g, ?c)); patience(?g) <= watch(clock); not (temperament(?g, temper_defensive)); not (temperament(?g, temper_seizing)); not (temperament(?g, temper_obedient)); onslaught(?g, ?o)
 
 > Then: Assert assails(?g, ?c). Retract warned(?g, ?c).
 
@@ -1598,7 +1608,7 @@ A seizing one takes whoever stayed, and there is no fight (What Tessary Owes' W9
 
 Says: "{?o}"
 
-> When: warned(?g, ?c); together(?g, ?c); able(?g); not (routed(?g)); not (tolerates(?g, ?c)); patience(?g) <= watch(clock); temperament(?g, temper_seizing); onslaught(?g, ?o)
+> When: warned(?g, ?c); together(?g, ?c); able(?g); able(?c); not (routed(?g)); not (tolerates(?g, ?c)); patience(?g) <= watch(clock); temperament(?g, temper_seizing); onslaught(?g, ?o)
 
 > Then: Assert captured(?g, ?c). Retract warned(?g, ?c).
 
@@ -1608,7 +1618,7 @@ Says: "{?o}"
 
 Says: "{?o}"
 
-> When: warned(?g, ?c); temperament(?g, temper_defensive); lair(?g, ?l); at(?c, ?l); at(?g, ?l); able(?g); not (routed(?g)); not (tolerates(?g, ?c)); patience(?g) <= watch(clock); onslaught(?g, ?o)
+> When: warned(?g, ?c); temperament(?g, temper_defensive); lair(?g, ?l); at(?c, ?l); at(?g, ?l); able(?g); able(?c); not (routed(?g)); not (tolerates(?g, ?c)); patience(?g) <= watch(clock); onslaught(?g, ?o)
 
 > Then: Assert assails(?g, ?c). Retract warned(?g, ?c).
 
@@ -1650,7 +1660,7 @@ Says: "{?w}"
 
 Says: "{?o}"
 
-> When: warned(?g, ?c); temperament(?g, temper_obedient); lair(?g, ?p); at(?g, ?p); together(?g, ?c); able(?g); not (routed(?g)); not (tolerates(?g, ?c)); patience(?g) <= watch(clock); onslaught(?g, ?o)
+> When: warned(?g, ?c); temperament(?g, temper_obedient); lair(?g, ?p); at(?g, ?p); together(?g, ?c); able(?g); able(?c); not (routed(?g)); not (tolerates(?g, ?c)); patience(?g) <= watch(clock); onslaught(?g, ?o)
 
 > Then: Assert assails(?g, ?c). Retract warned(?g, ?c).
 
