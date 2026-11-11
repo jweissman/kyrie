@@ -12,7 +12,7 @@ Module bound_howe "The Bound Howe" {
   Relation rival_allied(group). Relation letter_given(). Relation chest_robbed(). Relation foreman_hired(group).
 
   Person rcaptain "Someone" nowhere {
-    Role "the captain of the Lantern Company". Ancestry human. Level 5. Temperament territorial. Lair rival_camp. Pronouns she.
+    Role "the captain of the Lantern Company". Ancestry human. Level 4. Temperament territorial. Lair rival_camp. Pronouns she.
     Arrives at rival_camp when day(clock) >= rivalDay(crew).
     Arrives "A file of lanterns comes along the ridge-path, though it is broad day: pack-ponies, a dozen men, and a woman in a good cloak walking at the head of them with her hat in her hand.".
     Warns "A woman in a good cloak gets up from a camp-stool and does not reach for anything. 'I do apologise,' she says. 'This is a private camp. We are the Lantern Company, and I hold a letter from a patron who would very much like you to go away. I would so much rather you did it on your own feet.'".

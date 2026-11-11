@@ -126,10 +126,10 @@ Module bound_howe "The Bound Howe" {
   Initially Set encounterXp(sworn) to 300.
   Initially Assert serves(sworn, king).
   Person household "the household of the king" at gallery {
-    Role "the king's dead household". Species ghoul. Numbers 3. Level 3. Temperament obedient. Lair gallery.
+    Role "the king's dead household". Species ghoul. Numbers 4. Level 4. Temperament obedient. Lair gallery.
     Warns "Along the gallery the seated dead turn their heads toward you, one after another, all the way to the end. The nearest rises from its niche with a sound like a sack of knuckles.".
   }
-  Initially Set encounterXp(household) to 150.
+  Initially Set encounterXp(household) to 240.
   Initially Assert serves(household, king).
   Person mounts "the king's dead horses" at horses {
     Role "the king's mounts, picketed in bone and bronze". Species horse. Undead skeletal. Numbers 3. Level 4. Temperament territorial. Lair horses.

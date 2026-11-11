@@ -67,12 +67,14 @@ Module bound_howe "The Bound Howe" {
   Rule horses_dim when (not state(face_wall, broken) or dark()) and not unlit(horses) and not at(party, horses) { Assert unlit(horses). }
   Rule camp_raided heard at lee when state(face_wall, broken) and dark() and not raid_done() and not dead(riders)
     says "The dogs of the camp go quiet one after another. Then the bells, a long way off and coming, and a sound on the cutting-path that is hooves on stone: three horses that are bone, and on them two men who are not alive." {
-    Assert raid_done(). Retract at(riders, bench). Retract at(riders, horses). Assert at(riders, lee). Assert crew_fled().
+    Assert raid_done(). Retract at(riders, bench). Retract at(riders, horses). Assert at(riders, lee). Assert crew_fled(). Retract at(mounts, horses). Assert at(mounts, lee).
     Retract at(crew, lee). Assert at(crew, taproom). Retract at(foreman, lee). Assert at(foreman, taproom). Retract at(surgeon, lee). Assert at(surgeon, taproom). Retract at(tam, lee). Assert at(tam, green).
     Slay watchers.
   }
   Rule raiders_assail when raid_done() and at(riders, lee) and at(party, lee) and able(riders) and not tolerates(riders, party) { Assert assails(riders, party). }
   Rule raiders_return when raid_done() and not dark() and at(riders, lee) and not at(party, lee) { Retract at(riders, lee). Assert at(riders, bench). }
+  Rule mounts_assail when raid_done() and at(mounts, lee) and at(party, lee) and able(mounts) and not tolerates(mounts, party) { Assert assails(mounts, party). }
+  Rule mounts_return when raid_done() and not dark() and at(mounts, lee) and not at(party, lee) { Retract at(mounts, lee). Assert at(mounts, horses). }
   Observe lee_raided at lee as sign when raid_done() "The tents are down or ripped. A salt line has been scuffed across every path, and a dead man in a digger's cap lies across the fire-ring, with his own spade through the ledger.".
   Observe lookout_dead at lookout as sign when raid_done() and dead(watchers) "Two bodies lie behind the lookout wall. One has a horn under her hand. She did blow it.".
   Rule lower_wets heard at shaft_foot when state(face_wall, broken) and state(stopcock, open) and stirDay(crew) > 0 and day(clock) >= stirDay(crew) + 1 and state(lower, dry)
