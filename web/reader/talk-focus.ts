@@ -32,6 +32,13 @@ export class TalkFocus {
     return { answers, salient: ranked.slice(0, room), more: [...ranked.slice(room), ...spent], services,
       opened: new Set(opened.map(c => c.id)) };
   }
+  // A trader's services parted: what the company carries that they would buy, first, and the rest (a bed, care): below
+  // six wares and the fold, the sale a trader had promised ("bring me what the old folk buried") was not found for an
+  // hour (round 5).
+  static parted(services: Choice[]): { sales: Choice[]; rest: Choice[] } {
+    const sales = services.filter(c => /^Sell /.test(c.label));
+    return { sales, rest: services.filter(c => !sales.includes(c)) };
+  }
   // Whether saying it pays the company (see Owed).
   static pays(c: Choice, paying?: string[]): boolean {
     return !!c.command && !!paying?.includes(c.command.replace(/\(.*$/, ''));

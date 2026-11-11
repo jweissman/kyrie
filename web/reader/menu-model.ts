@@ -234,9 +234,9 @@ export class MenuModel {
   // Someone spoken with: what can be said to them, and taking leave. Something looked at: what can be done with it, by
   // kind, and turning away. The scene is kept whole, so what is said is said to them by name.
   // In the order the page draws them (see TalkFocus): an answer owed, the few salient things to say, the rest to say,
-  // what has been said; or, trading, the wares that can be had, the services, the rest of the wares; taking leave last
-  // of all, unless everything has been said, when it leads (the page led with "Ask again about the road your father
-  // took" for as long as a player went on pressing what it led with: the owner, 31 October).
+  // what has been said; or, trading, what the company can sell, the wares that can be had, the services, the rest of
+  // the wares; taking leave last of all, unless everything has been said, when it leads (the page led with "Ask again
+  // about the road your father took" for as long as a player went on pressing what it led with: the owner, 31 October).
   private static attending(scene: Scene, opened: Set<string>, { attention, asked = [], heard, trading }: {
     attention?: Attention; asked?: string[]; heard?: string[]; trading?: boolean }, frame?: Frame): Menu | undefined {
     if (attention?.kind === 'person') {
@@ -247,7 +247,9 @@ export class MenuModel {
         aims: (frame?.screen.aims ?? []).map(a => a.text), paying: frame?.screen.paying ?? [] });
       const buys = (sold?.wares ?? []).flatMap(w => w.buy ? [w.buy] : []), can = buys.filter(b => !b.disabled);
       const said = [...focus.answers, ...focus.salient, ...focus.more], spent = said.every(c => asked.includes(c.id));
-      const choices = talk && (trading ? [...can, ...focus.services, ...buys.filter(b => b.disabled)]
+      // Trading, what the company has to sell comes first, as the page draws it (see TalkFocus.parted).
+      const { sales, rest } = TalkFocus.parted(focus.services);
+      const choices = talk && (trading ? [...sales, ...can, ...rest, ...buys.filter(b => b.disabled)]
         .flatMap(c => this.ware(c, opened)).concat(talk.leave)
         : [...spent ? [talk.leave] : [], ...said.flatMap(c => this.unfold(c, opened)), ...spent ? [] : [talk.leave]]);
       return talk && { scene, talk, choices: choices!, sections: [{ id: talk.subject.id, title: talk.subject.name,

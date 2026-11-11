@@ -203,10 +203,14 @@ export class TalkStage {
   static Trading({ app, wares, services, buys, draw }: { app: ReaderApp; wares: Ware[]; services: Choice[];
     buys: Counter['buys']; draw: Draw }) {
     const coin = app.state.frame!.screen.purse.coin;
+    // What the company carries that they would buy, first (see TalkFocus.parted).
+    const { sales, rest } = TalkFocus.parted(services);
     return <section className="trading" aria-label="Trade">
+      {sales.length > 0 && <><p className="label">Yours to sell{wares.length ? '' : <span className="purse">{`you have ${coin} coin`}</span>}</p>
+        <ol className="replies">{sales.map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw} />)}</ol></>}
       <TalkStage.Counter wares={wares} buys={buys} coin={coin} draw={draw} />
-      {services.length > 0 && <><p className="label">Services{wares.length ? '' : <span className="purse">{`you have ${coin} coin`}</span>}</p>
-        <ol className="replies">{services.map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw} />)}</ol></>}
+      {rest.length > 0 && <><p className="label">Services{wares.length || sales.length ? '' : <span className="purse">{`you have ${coin} coin`}</span>}</p>
+        <ol className="replies">{rest.map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw} />)}</ol></>}
       {!wares.length && !services.length && <p className="label">You have {coin} coin</p>}
     </section>;
   }
