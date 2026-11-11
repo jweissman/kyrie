@@ -176,7 +176,7 @@ the drawer ring. The layout, the grammar and the dangers never change.
 
 ## 10. Verification, in three kinds
 
-**Implemented** is section 9. **Automatically verified** (`bun test test/arcology.test.ts`, __N__ tests; lint of the module in seven seeds with no finding; `bun run lint`; `test/traces.test.ts`, `decision-frame`, `scenery-kinds`, `page-paintings` pass with the one kept trace re-recorded):
+**Implemented** is section 9. **Automatically verified** (`bun test test/arcology.test.ts`, 40 tests; lint of the module in seven seeds with no finding; `bun run lint`; `test/traces.test.ts`, `decision-frame`, `scenery-kinds`, `page-paintings` pass with the one kept trace re-recorded):
 
 - installed, on a site generated for it, in `kahitude a1 b2 thorn c3 d4 kite`, told by two towns' keepers in three rumours;
 - walked to from the first town by the page's own `>place` (a way at a time; one hour in `thorn` to fourteen in `kahitude`), the rumour asked at the nearest taproom, and the aim leading the page;
