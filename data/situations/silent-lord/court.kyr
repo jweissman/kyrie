@@ -1,0 +1,163 @@
+Module silent_lord "The silent lord" {
+  // ---- The clerk. He has been writing the lord's hand for eleven days, and wants the bailiff stopped.
+  Topic clerk_hay with clerk "Ask {clerk} about the hay" when true once {
+    Says "{clerk} puts down his pen with the air of a man who has been waiting a week for the question. 'A woman with a lead seal,' he says, 'has been collecting what she calls dues for the keeping of the road, in the castellan's name, from three hearths-worth of the march. The castellan has not granted any such thing. Her men took a rick of the keep's hay, last Sunday, against the dues, and I have written to her three times, and she writes back that the seal is good.' His mouth is a line. 'Show me a seal that is better than hers and I will have her stopped by Thursday.'".
+    On discuss { Assert knows(actor, bailiff_dues). }
+  }
+  Topic clerk_reading with clerk "Ask {clerk} what became of the Empire" when true once {
+    Says "'Nothing became of it,' says {clerk}. 'It closed. Papers were sealed, and no order calling them out was ever written, so they are, in law, still sealed.' He looks very pleased with this. 'Everyone prefers a battle. A battle you can be sorry about. A closing, you have to read.'".
+    On discuss { Assert knows(actor, reading_chancery). Assert heard_out(clerk, actor). }
+  }
+  Thing practice "the spoiled sheets under the table" at chancery {
+    State heaped "A drift of spoiled sheets lies under the end of the long table, as if someone had been tidying badly.".
+    State read "Each sheet is a signature, written over and over: the lord's name, in the lord's slanting hand. The first are wild. By the bottom of the heap they are a perfect likeness.".
+    Change read "Pick through the spoiled sheets" from heaped to read.
+  }
+  Discovery clerk_forges "The clerk has been writing the lord's signature for eleven days; the sheets under his table show him learning it.".
+  Observe practice_learned at chancery of practice as reading when state(practice, read) "The same name, forty times, until it is the lord's own." teaches clerk_forges.
+  Topic clerk_practice with clerk "Put the spoiled sheets to {clerk}: the lord's name, written over and over" when knows(actor, clerk_forges) and not befriended(clerk, actor) once {
+    Says "{clerk} goes the colour of the paper. 'Eleven days,' he says. 'I did it because she asked, and because the alternative was to be the man who said the lord was dead and had no proof of anything.' He sits very straight. 'If you mean to take this to the herald, I will deny it to his face. If you mean to do something else, I am listening. I can write a good deal in his hand, and I know where the press key is.'".
+    On discuss { Assert befriended(clerk, actor). }
+  }
+  Topic clerk_key with clerk "Ask {clerk} for the press key" when befriended(clerk, actor) and not holding(actor, press_key_kind) once {
+    Says "He takes it from his sleeve and puts it in your hand without looking at it. 'The will and the court's spring letter are in the first shelf. The seals are in the chest by the window. Do not touch the seals.'".
+    On discuss { Give press_key_kind to actor. }
+  }
+  Topic clerk_remission with clerk "Ask {clerk} to write a remission of the levy of men, in the lord's hand" when befriended(clerk, actor) and not holding(actor, remission_kind) once {
+    Says "'On account of the winter,' says {clerk}, 'which is true in a sense nobody will check.' He writes it in one stroke, the lord's long-tailed g and all, and presses the keep's seal into the wax with the flat of his thumb. 'It will do for a crier. It would not do for a king.'".
+    On discuss { Give remission_kind to actor. }
+  }
+  Topic clerk_order with clerk "Ask {clerk} to write a pay-order for the garrison, in the lord's hand" when befriended(clerk, actor) and not holding(actor, order_kind) and not paid_off(house) once {
+    Says "'The steward is to pay the garrison its arrears,' says {clerk}, writing, 'from the strongbox, forthwith. The strongbox has forty crowns in it, the marshal can count, and it will not do for long.' He seals it. 'Better than nothing, which is what they have had.'".
+    On discuss { Give order_kind to actor. }
+  }
+  Topic clerk_rider with clerk "Ask {clerk} to send the writ against the bailiff by his own rider" when befriended(clerk, actor) and knows(actor, bailiff_dues) and holding(actor, die_kind) and vault_built(office_made) and not rider_sent(house) once {
+    Says "{clerk} turns the bronze die over in his fingers, and for a moment is no longer afraid. 'It is the right shape,' he says. 'Whatever she is using is a copy of a copy. I can seal a writ with this that the whole march will believe, and she will not believe it, and that is the difference.' He is already cutting a pen. 'There is a boy in the stable who rides like a bird. It will be at the next green before the week is out.'".
+    On discuss { Assert rider_sent(house). Set riderDay(house) to day(clock) + 2. }
+  }
+  Topic clerk_rider_plain with clerk "Ask {clerk} to send the writ against the bailiff by his own rider, under the keep's seal" when befriended(clerk, actor) and knows(actor, bailiff_dues) and not vault_built(office_made) and not rider_sent(house) once {
+    Says "{clerk} considers. 'The keep's seal is only the keep's,' he says. 'She has a seal that claims to be the Office's, and ours claims nothing but the keep. It is the weaker paper.' He is already cutting a pen. 'But she cannot read, and her men can, and I would like to see what they do with it.' A shrug. 'It will be at the next green before the week is out.'".
+    On discuss { Assert rider_sent(house). Set riderDay(house) to day(clock) + 2. }
+  }
+  Topic clerk_die with clerk "Sell {clerk} the bronze die" when holding(actor, die_kind) and not rider_sent(house) once {
+    Says "{clerk} will not touch it until he has washed his hands. 'Forty crowns,' he says, 'from the chancery's own account, which has the right to buy such things, and which I am the only man to read.' He counts it into your palm. 'I would keep it, if I were you. But I am not you, and I would not be able to sleep.'".
+    On discuss { Spend die_kind from actor. Increase quantity(actor, gold) by 40. }
+  }
+
+  // ---- The herald, and the court he claims to speak for.
+  Topic herald_writ with herald "Ask {herald} to show you the king's writ" when true once {
+    Says "{herald} unrolls it with the air of a man who has done it forty times and enjoys it every one. 'The king's hand,' he says, 'and the king's seal.' A plain crown in red wax, struck from a good die. 'Twenty spears and a hundred bushels by the twelfth, or the heir in person, and the lord at court for the feast. The lord is unwell, I am told. That is a pity. The king will hear of it.'".
+    On discuss { Assert knows(actor, seal_plain). }
+  }
+  Topic herald_court with herald "Ask {herald} what news the court has" when true once {
+    Says "'A new king in his second year,' says {herald}, 'and a court that has not quite learned to sit still. The marshal of the household has the king's ear, and the queen-mother's party has the rest of him.' He drinks, delicately. 'There is a matter in the March which wants men, and nobody on the council will say what it is, which is how you know it is serious. The levy is for that. I carry it. I do not read what I carry.'".
+  }
+  Action put_seals(actor: group, site: place) "Lay the court's spring letter beside the herald's writ, and ask which seal is the king's" {
+    Speaker herald.
+    Requires able(actor) and company(actor) and at(actor, site) and at(herald, site) and knows(actor, herald_false) and not unmasked(house)
+      and not now(p_feast).
+    Time 3 minutes.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert unmasked(house). Assert herald_goes(house). }
+    On failure { Retract peaceable(bravos). Assert assails(bravos, actor). Assert hunted(house). }
+    Result "{herald} looks at the two seals for a long time. 'I carry what I am given,' he says at last, quite softly. 'Whoever gave it me did not mean me to read it.' He folds his writ, and the colour has gone from his tabard. 'I will be on the road at first light.'".
+    Otherwise "'My dear sir,' says {herald}, smiling, 'you have been talking to a prisoner.' He does not raise his voice. The men behind him do not need him to.".
+  }
+  Action buy_off(actor: group, site: place) "Offer {herald} forty crowns to ride on without reading the writ" {
+    Speaker herald.
+    Requires able(actor) and company(actor) and at(actor, site) and at(herald, site) and not unmasked(house) and quantity(actor, gold) >= 40
+      and not now(p_feast).
+    Time 3 minutes.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Decrease quantity(actor, gold) by 40. Increase quantity(herald, gold) by 40. Assert unmasked(house). Assert herald_goes(house). Assert herald_bought(house). }
+    On failure { Assert hunted(house). Retract peaceable(bravos). Assert assails(bravos, actor). }
+    Result "{herald} counts it with his eyes, and then with his fingers. 'I am a man of the court,' he says. 'I would not dream of it.' He turns away to the window. 'But I do not read well in a bad light. I shall be on the road at first light, and my master will hear the keep was most hospitable.'".
+    Otherwise "{herald} sets down his cup. 'Did you mean that for a bribe?' he says, very gently, and nods once to the men by the door.".
+  }
+  Relation herald_goes(group). Relation herald_bought(group). Relation read_out(group). Relation poison_deed(group).
+  Rule herald_leaves when herald_goes(house) and at(herald, ?p) and at(bravos, ?q) and distinct(?p, outside) and not dead(herald)
+    says "The herald's baggage is carried down and out of the keep, and the herald after it, and the two men after him, with the household watching." {
+    Assert occupied(herald). Assert occupied(bravos). Retract at(herald, ?p). Assert at(herald, outside). Retract at(bravos, ?q). Assert at(bravos, outside).
+  }
+  Rule herald_dies_unmasks when dead(herald) and not unmasked(house) { Assert unmasked(house). }
+
+  // ---- The prisoner. The hatch is barred from above, and the marshal has the key.
+  Thing hatch_bar "the bar across the oubliette hatch" on hatch {
+    State barred blocking "An oak bar lies across the hatch in two iron brackets. It has been dropped with care, by someone who did not want it done twice.".
+    State lifted "The bar lies on the floor, and the hatch is open.".
+    Change lift "Lift the bar off the hatch" from barred to lifted needing brawn.
+    Change unbar "Unbar the hatch with the oubliette key" from barred to lifted needing hatch_key_kind.
+  }
+  Topic captive_who with captive "Ask the prisoner who he is" when true once {
+    Says "'{captive}, rider of the king's household,' he says, 'though I have not had a coat to prove it for nine days.' His voice is steady; his hands are not. 'I rode from the court with the king's writ for the lord of this keep. I was met at the ford by three men in a blue tabard who said they were going the same way. The herald's. They took my satchel and brought me in tied across a horse, and told the castellan I was a thief. She locked me in on his word.' He looks at you. 'The seal on my writ is the king's. It is a crown between two ears of wheat. His is a crown, plain. Ask the groom whose horse is whose.'".
+    On discuss { Assert knows(actor, captive_story). }
+  }
+  Topic captive_court with captive "Ask the rider what the king is like" when knows(actor, captive_story) once {
+    Says "The rider thinks. 'Younger than his portrait,' he says. 'He signs with his left hand and is ashamed of it. He listens to whoever spoke last. He sends for the lord of this keep because his father did, and because there is a war in the March he has not been told the whole of.' A bleak smile. 'I carried a great many papers from that court. I did not read one.'".
+  }
+  Topic captive_come with captive "Ask the rider to come out with you" when knows(actor, captive_story) and not following(captive, party) once {
+    Says "{captive} gets to his feet, which takes some time. 'Where to?' he says. 'The hall, I should think. I would like to be in it when the herald next speaks.'".
+    On discuss { Assert following(captive, actor). Assert freed(captive). }
+  }
+  Relation freed(group).
+
+  // ---- The castellan. She is a good soldier who has been lying for eleven days.
+  Topic cast_lord with castellan "Ask {castellan} when the lord will receive you" when not knows(actor, lord_dead) once {
+    Says "'His lordship is unwell,' says {castellan}, 'and sees no one but his physician.' She says it very smoothly, and has plainly said it a good many times, to a good many people, and each time a little more of the skin has come off her voice. 'I sign what he cannot. The keep is in good hands.'".
+  }
+  Topic cast_levy with castellan "Ask {castellan} what the king's levy means for the keep" when true once {
+    Says "'Twenty spears,' says {castellan}, 'of thirty-one. A hundred bushels, of what the steward tells me is a good deal more than a hundred. And the lord at court for the feast, or his heir, which I am told the herald does not think a joke.' She is looking at the window. 'I will raise what I can. I will not strip the march to fill the king's ditch in a war he cannot name.'".
+  }
+  Topic cast_confront with castellan "Tell {castellan} you have seen the lord on his bier" when knows(actor, lord_dead) and not heard_out(castellan, actor) and not hunted(house) once {
+    Grave "What you say now, the household hears. There is no unsaying it.".
+    Says "{castellan} sets her letter down and looks at you for a long time. 'Eleven days,' she says. 'The herald arrived the morning after. I thought: if I say it, the keep is his. The king's writ says the lord or the heir, and the heir is a child at an abbey, and the will has not been read by anyone with the right to read it.' Her voice is level. 'I have thirty-one men, and a steward who cannot add, and a clerk who writes better than I do. What do you want?'".
+    On discuss { Assert heard_out(castellan, actor). }
+  }
+  Topic cast_help with castellan "Offer to help her hold the keep until the heir comes" answering cast_confront when true {
+    Says "'Help,' says {castellan}, trying the word. 'No one has said it in this house for eleven days.' She takes a slender steel key from her belt and puts it in your hand. 'The second lock of the strong-room. The doorward will let you up to the solar, when you wish. Tell me what you find. I have been alone with this for a long time.'".
+    On discuss { Assert befriended(castellan, actor). Give castellan_key_kind to actor. Assert tolerates(doorward, actor). }
+  }
+  Topic cast_price with castellan "Say you will keep quiet, for a price" answering cast_confront when true {
+    Says "{castellan} does not look surprised. 'Thirty,' she says, and counts it from her own purse. 'And you will have forgotten the way down to the crypt. I would not like to find you on it twice.' She holds your eye. 'You were never here.'".
+    On discuss { Increase quantity(actor, gold) by 30. Assert bought(castellan). }
+  }
+  Topic cast_hall with castellan "Say the hall must be told" answering cast_confront when true {
+    Says "{castellan} stands. 'Then you are a danger to the household,' she says, without heat, and calls a name, and the doorward is there before she has finished. 'You will be shown out.'".
+    On discuss { Assert hunted(house). Retract peaceable(doorward). Assert assails(doorward, actor). }
+  }
+  Relation bought(group).
+  Topic cast_ready with castellan "Tell {castellan} the hall should hear it from her, at the feast" when befriended(castellan, actor) and knows(actor, will_read) and not castellan_ready(house) once {
+    Says "She is silent a long time. 'From me,' she says. 'In front of him.' Her hand has closed on the sword-belt. 'Yes. When the second cup is poured. If the will is what the chaplain says it is, I will not need to lie again.'".
+    On discuss { Assert castellan_ready(house). }
+  }
+
+  // ---- The feast. The whole household is in the hall, and so is the herald.
+  Action stand_and_tell(actor: group, site: place) "Rise at the high table and tell the hall the lord is dead" {
+    Grave "Said before the hall, it cannot be taken back.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hall) and now(p_feast) and knows(actor, lord_dead) and not proclaimed(house) and hour(clock) >= 21.
+    Time 2 minutes.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert proclaimed(house). }
+    On failure { Assert hunted(house). }
+    Result "The hall goes quiet in rings, as water does. You say it once and plainly. Nobody moves. Then the chaplain stands, and the castellan stands, and the room breathes out.".
+    Otherwise "'A stranger,' says someone, loudly, and the hall takes it up. 'A stranger at the lord's table, calling him dead.' The doorward is already coming round the dais.".
+  }
+  Action present_writ(actor: group, site: place) "Lay the king's own writ before the hall, beside the herald's" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hall) and now(p_feast) and (holding(actor, true_writ_kind) or holding(actor, spring_kind))
+      and knows(actor, herald_false) and not unmasked(house) and hour(clock) >= 21.
+    Time 2 minutes.
+    On success { Assert unmasked(house). Assert herald_goes(house). }
+    Result "The two seals lie side by side on the board in the torchlight, a crown and a crown between two ears of wheat, and the castellan leans over them and puts one finger on the plain one. 'This was struck before the coronation,' she says. 'Where did you have it from, sir?' The herald, who has been smiling, goes on smiling a moment longer than it can be done.".
+  }
+  Action name_forgery(actor: group, site: place) "Name the herald's seal a forgery before the hall, with nothing to lay beside it" {
+    Grave "A man named a liar before a hall can only answer with the sword.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hall) and now(p_feast) and knows(actor, herald_false) and not holding(actor, true_writ_kind) and not holding(actor, spring_kind)
+      and not unmasked(house) and hour(clock) >= 21.
+    Time 2 minutes.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert unmasked(house). Assert herald_goes(house). }
+    On failure { Assert hunted(house). Retract peaceable(bravos). Assert assails(bravos, actor). }
+    Result "Your words go down the hall like a dropped plate. The herald laughs, and nobody laughs with him, and the marshal says, loudly, 'Let him show the seal,' and the herald cannot.".
+    Otherwise "'Insolence,' says the herald, standing, and the hall, which has no reason to love you, does not stop him.".
+  }
+}

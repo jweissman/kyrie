@@ -41,6 +41,8 @@
     "underground:site": ["dissolution", "meditation", "perdition"]
   },
   "places": {
+    "keep__hall": "scene-great-hall",
+    "keep__solar": "scene-great-hall",
     "infinite_library_threshold": "library",
     "sennet__hall_of_doors": "scene-house-of-doors-inner",
     "sennet__sennet_house": "scene-house-of-doors-outer",
