@@ -88,6 +88,25 @@ Reproduce headlessly with `bun /var/tmp/kyrie/m20/tools/leads.ts <origin> <race/
    a reason; then cleanup and a small authoritative authoring path. Handoff distinguishes implemented, automated,
    agent-experienced and human-accepted.
 
+## Open queue (11 November, night)
+
+Kept here so that nothing asked is lost between sessions; taken in this order.
+
+1. Verify the rail, the explorer in the panel and the prism in rendered play (the ossuary's compound: attacking the man
+   with the black candle is the aim's and a danger), and push.
+2. Gold on the map (the owner's report): the company's mark, where it stands and what is chosen are drawn neutral; gold
+   only for the followed aim's way and destination.
+3. Route fidelity, end to end: the route shown against the hexes walked, the time and supplies spent, the land revealed
+   and the walk drawn; any change by an interruption or a rule said; a regression test if a mismatch is confirmed.
+4. Few lit opportunities after the opening (the owner's report): measured along walker runs, and told apart as a
+   projection defect, a want of knowledge or discovery, or sparse content (content is the first-steps thread's).
+5. A person's or a site's likeness carrying the aspects of what can be done with them, without saying each act has them.
+6. Round 6's findings (I, a dwarf cleric; J, a catfolk thief on a phone) into the barriers table.
+7. The silver walker's finding: the town absorbs exploration; danger met mostly grave or deadly; frequency apart from
+   balance; bounded first-hour danger.
+8. Then the register reconciled, consolidation, the CI shards rebalanced (shard 4 at 45 minutes against 24), and the
+   handoff.
+
 ## Rounds of cold play
 
 | Round | Build | Players | Outcome |

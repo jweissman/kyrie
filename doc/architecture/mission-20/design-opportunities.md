@@ -47,3 +47,11 @@ Each has what it would change, what it rests on now, and the first step if it is
     mage behind a hired soldier was never touched; both players rated challenge 2. *Now:* armour from Orsino's tables,
     foes from the bands of the first hour, measured against a warrior with unsuited rolls (11). *First step:* the
     diagnostic's bands against a ranger in chain mail and a mage with a hireling, and how often a foe hits each.
+13. **Facets beyond the six, perceived by degree.** The owner, 11 November: rare facets (the Mathematical Age's
+    significance, exceptional wonder, comic or mischievous openings with real social or tactical consequences);
+    recognition at different confidence and distance (lore, woodcraft, a calling's abilities or divination showing
+    signs of an opportunity several places or hexes before it is reached); advancement that widens what a character
+    perceives, not only its odds; and situations authored or generated to combine facets, so that compound
+    opportunities arise of themselves. *Now:* six aspects from the reasons the glance leads by, a sign gated by a
+    capability (`noticed by`), and a compound drawn as an OKLab gradient. *First step:* a sign's own aspect
+    (opportunities.md, gap 1) and one sign noticed at a distance.
