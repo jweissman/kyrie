@@ -11,5 +11,10 @@ Module origin "A dead man's map" {
   Discovery cache_found "Under the stone at the door, where the map put its cross, the earth has been dug and filled again; a hand's depth down is a box wrapped in oilcloth." { Found by searching delving. }
   Item cache "the dead man's box" is jeweled_box at delving hidden until cache_found.
   Objective marked when not carries(party, cache) toward delving "The dead man's map marks {delving}, out in {where}, with a cross at its door. Search there.".
+  // Found, it is seen through, and said: the cross on the map had given a box the catalog calls empty, with no word of
+  // it and nothing for the finding (round 7, K 139-142).
+  Relation mapOpened(entity).
+  Rule cache_opened when carries(party, cache) and not mapOpened(cache) says "Under the oilcloth the box is small and heavy, its lid crusted with stones that catch the light. It is empty but for a fold of paper with the drover's mark on it, and a name under it crossed through. Whoever buried it meant to come back for it. The stones on the lid are real enough to sell." { Assert mapOpened(cache). }
+  Milestone m_cache "found what the dead man's map marked" worth 100 when carries(party, cache).
   Goal carries(party, cache).
 }
