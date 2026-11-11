@@ -45,6 +45,10 @@ describe('the bell the hobs took, walked in from the bridge-foot', () => {
     expect(Walk.told(j)).toContain('nobody here will let you by');
     await j.play('^Ring the bell', '>raidersHold__cavern', '^Ring the bell');
     expect(Walk.told(j)).toContain('The Gaffer screams like a kettle');
+    // Out on the hillside they are as the bell left them, not at their dice, their fire or their fleeces (round 7).
+    for (const who of ['raidersFolk__gaffer', 'raidersFolk__raiders', 'raidersFolk__watchers']) {
+      expect(j.campaign.world.related('state', who).map(r => r.args[1])).toEqual(['raidersFolk__fled']);
+    }
     await j.play('>raidersHold__pit', '^Untie the shepherd');
     expect(Walk.told(j)).toContain('It\'s Brockfield.');
     expect(Walk.aims(j)).toContain('The shepherd\'s boy you untied in the hobs\' pens wants taking home to Brockfield.');

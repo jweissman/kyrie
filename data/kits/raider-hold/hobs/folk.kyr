@@ -28,17 +28,22 @@ Module hob_folk "Hobs" {
     // 20's second cold round).
     State watching blocking "Two hobs squat just inside {gate}, dicing with knucklebones and watching who comes.".
     State roving "The hobs who kept the gate have gone out raiding themselves; the way in is unwatched.".
+    // Run from a bell, out where the back way comes out: not at their dice by the gate (round 7, K 152).
+    State fled "Two hobs crouch among the rocks with their hands over their ears, ready to run again.".
   }
   Person raiders "the raiding party" at hall {
     Role "hobs who go out on the roads at night". Ancestry goblin. Calling thief. Level 1. Numbers 3.
     Called "Nettle", "Gristle", "Old Burdock".
     Uses go, assail. Plans 6 steps.
     State idle "Three hobs sharpen cudgels by the fire and argue about whose turn it is to carry the sack.".
+    // Run from a bell: their cudgels by the fire had been said of them out on the open hillside (round 7, K 152).
+    State fled "Three hobs crouch among the rocks with their hands over their ears, looking for the way back in.".
   }
   Person gaffer "the Gaffer" at den {
     Role "chief of the hobs". Ancestry goblin. Calling thief. Level 3.
     Wants grave_rings. Wants chapel_plate. Wants jade_idol. Wants toll_silver. Wants bronze_bearing.
     State presiding "The Gaffer sits on a heap of stolen fleeces in a bishop's mitre and somebody's spectacles, and watches you with very bright eyes.".
+    State fled "The Gaffer crouches behind a rock with his mitre crammed down over his ears, swearing at the sky.".
     Objects "'Said don't touch nothing!' The Gaffer comes up off his fleeces with the mitre over one eye. 'Thieves! In my own hold! THIEVES!'".
   }
   Initially Assert serves(watchers, gaffer). Initially Assert serves(raiders, gaffer).
@@ -148,7 +153,8 @@ Module hob_folk "Hobs" {
   // A raiding party that was beaten stays home three nights; if it is gone, the gate-hobs take to the road instead.
   // Not one the bell sent out of the back way: it had been put straight back by the fire it ran from (Mission 20).
   Rule lie_low when routed(raiders) and able(raiders) and not quiet(raiders) and not at(raiders, bolt) {
-    Assert quiet(raiders). Set shame(raiders) to 3. Assert at(raiders, hall).
+    Assert quiet(raiders). Set shame(raiders) to 3. Assert at(raiders, hall). Retract state(raiders, fled).
+    Assert state(raiders, idle).
   }
   Rule lick_wounds when quiet(raiders) and not paid(gaffer) and untilLight(clock) == 1 and shame(raiders) >= 1 {
     Decrease shame(raiders) by 1.
@@ -164,7 +170,13 @@ Module hob_folk "Hobs" {
     and (at(party, yard) or at(party, hall) or at(party, den) or at(party, pens) or at(party, lookout))
     seeks assails(raiders, party).
   Rule gaffer_fights when together(gaffer, party) and able(gaffer) and alarmed(gaffer) and not tolerates(gaffer, party)
-    says "The Gaffer comes off his fleeces with a knife in each hand, cackling." { Assert assails(gaffer, party). }
+    and at(gaffer, den) says "The Gaffer comes off his fleeces with a knife in each hand, cackling." {
+    Assert assails(gaffer, party). }
+  // Out of his den, not off his fleeces (round 7: said of him on the open hillside).
+  Rule gaffer_fights_out when together(gaffer, party) and able(gaffer) and alarmed(gaffer)
+    and not tolerates(gaffer, party) and not at(gaffer, den)
+    says "The Gaffer comes at you with a knife in each hand, his mitre over one ear, cackling." {
+    Assert assails(gaffer, party). }
 
   // Hobs here or a way off who have not already run from a bell (those out of the back way are past hearing it).
   Query unrung(p: place) means (at(raiders, p) and not at(raiders, bolt)) or (at(watchers, p) and not at(watchers, bolt))
@@ -185,13 +197,14 @@ Module hob_folk "Hobs" {
   }
   Rule bell_watchers when rung(?p) and able(watchers) and not at(watchers, bolt) and (at(watchers, ?p) or (connects(?w, ?p, ?q) and at(watchers, ?q)))
     says "The hobs clap their hands over their ears and run, howling, the way hobs run from a bell." {
-    Assert routed(watchers). Retract state(watchers, watching). Assert at(watchers, bolt).
+    Assert routed(watchers). Retract state(watchers, watching). Assert state(watchers, fled). Assert at(watchers, bolt).
   }
   Rule bell_raiders when rung(?p) and able(raiders) and not at(raiders, bolt) and (at(raiders, ?p) or (connects(?w, ?p, ?q) and at(raiders, ?q)))
-    says "Somewhere close a hob shrieks, and feet go scrabbling away." { Assert routed(raiders). Assert at(raiders, bolt). }
+    says "Somewhere close a hob shrieks, and feet go scrabbling away." {
+    Assert routed(raiders). Retract state(raiders, idle). Assert state(raiders, fled). Assert at(raiders, bolt). }
   Rule bell_gaffer when rung(?p) and able(gaffer) and (at(gaffer, ?p) or (connects(?w, ?p, ?q) and at(gaffer, ?q)))
     and not at(gaffer, bolt) says "The Gaffer screams like a kettle and goes out of the back way with his mitre over his ears." {
-    Assert routed(gaffer). Assert at(gaffer, bolt).
+    Assert routed(gaffer). Retract state(gaffer, presiding). Assert state(gaffer, fled). Assert at(gaffer, bolt).
   }
   Rule bell_fades when rung(?p) { Retract rung(?p). }
 
