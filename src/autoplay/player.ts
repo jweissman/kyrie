@@ -4,8 +4,10 @@ import type { Command } from '../model';
 import { Tactics } from '../tactics';
 import { DangerSense } from '../presentation/danger-sense';
 import { Draw } from './draw';
+import type { Aspect } from '../presentation/glance-types';
 
-export type Temper = 'wander' | 'intent' | 'fight' | 'investigate' | 'care' | 'expedition' | 'deviate' | 'follow';
+export type Temper = 'wander' | 'intent' | 'fight' | 'investigate' | 'care' | 'expedition' | 'deviate' | 'follow'
+  | 'silver' | 'gold';
 export type PolicyName = Temper | 'mixed';
 export interface Offered { id: string; name: string }
 export interface Situation {
@@ -29,6 +31,10 @@ export type Move = { kind: 'command'; id: string } | { kind: 'travel'; to: strin
 // Someone doing the unexpected takes on anything.
 export class AutoPlayer {
   static readonly tempers: Temper[] = ['wander', 'intent', 'fight', 'investigate', 'care', 'expedition', 'deviate'];
+  // Those who go by what the page leads with; the silver walker preferring what is worth exploring, the gold one the
+  // aim followed (amendment 6, H: whether the game goes on offering, and fulfilling, something worth doing).
+  static readonly paged: PolicyName[] = ['follow', 'silver', 'gold'];
+  static readonly prefers: Partial<Record<PolicyName, Aspect>> = { silver: 'exploration', gold: 'undertaking' };
   static readonly stretch = 24;
   // The kinds of choice, by the command's schema.
   static readonly kinds: Record<string, RegExp> = {
@@ -96,7 +102,7 @@ export class AutoPlayer {
       case 'expedition': return this.expedition(s) ?? this.command(d.pick(this.winnable(s)) ?? d.pick(this.fresh(s)));
       case 'deviate': return this.command(d.pick(s.offered));
       // One who follows the page: what it leads with that can be done, else as one who investigates.
-      case 'follow': return this.followed(s)
+      case 'follow': case 'silver': case 'gold': return this.followed(s)
         ?? this.command(d.pick(this.of(s, 'talk', 'look').filter(o => !this.tried.has(o.id)))) ?? this.command(d.pick(this.fresh(s)));
     }
   }

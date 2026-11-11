@@ -117,7 +117,10 @@ export class Affordances {
     const leaves = Attending.all(opener.children ?? []).filter(c => c.command && !c.disabled);
     // What is new to be said to them: not a question asked once more (its action the first's, "_again"), nor what
     // they sell; the page had led with "Talk to Adrik — your aim" for as long as he had an answer to repeat.
-    const fresh = leaves.filter(c => r.speakers.has(c.command!) && !/_again(\(|$)/.test(c.command!));
+    // Nor a ware: a talk led for the debt had been led for a ten-foot pole, and one who followed the page bought the
+    // shop out a pole at a time (the gold walker, amendment 6). A sale the aim waits on is serving's (see advances).
+    const fresh = leaves.filter(c => r.speakers.has(c.command!) && !/_again(\(|$)/.test(c.command!)
+      && !/^(buy|sell)_/.test(r.schema.get(c.command!) ?? ''));
     const talked = r.talked.has(s.id), person = s.kind === 'person';
     // Someone the aim followed names leads, and family while the company's own errand is followed; someone another aim
     // names, or family while a job is, after it (the owner, 4 November: a sister marked first while the rats job was).

@@ -239,7 +239,7 @@ export class Glance {
     // An aim short of coin is advanced by selling (the debtor home with the hold's music box, at Tuck's, who buys such
     // things, had been led to ask him every question he knew: Mission 20); the purse is otherwise never waited on.
     // Nor ever by spending (what the debt carries would sell; a ten-foot pole bought is not that).
-    return new Set(rows.filter(r => !r.action.movement && !(coin && /^buy_/.test(r.action.schema ?? ''))
+    return new Set(rows.filter(r => !r.action.movement && !/^buy_/.test(r.action.schema ?? '')
       && ((r.action.success ?? []).some(c => !!c.call && calls.some(w => this.meets(c.call!, w)))
         || (coin && /^sell_/.test(r.action.schema ?? '')))).map(r => r.choice.id));
   }

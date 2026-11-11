@@ -16,6 +16,7 @@ import { DangerSense } from '../presentation/danger-sense';
 import { ScreenModel } from '../ui/screen-model';
 import { Narrator } from '../presentation/narrator';
 import { ChoiceList, type Choice } from '../ui/choice-list';
+import type { Aspect } from '../presentation/glance-types';
 
 export interface Protagonist { name: string; raceId: string; classId: string }
 export interface RunSpec {
@@ -58,7 +59,8 @@ export class AutoplayRun {
     const from = this.watch(s);
     let kept: SessionCheckpoint | undefined = s.checkpoint(), failure: Failure | undefined;
     for (let step = 0; step < spec.steps && c.running && !failure; step++) {
-      const move = player.next(this.situation(s, step, spec.policy === 'follow'));
+      const move = player.next(this.situation(s, step, AutoPlayer.paged.includes(spec.policy),
+        AutoPlayer.prefers[spec.policy]));
       if (!move) { failure = { kind: 'softlock', message: 'nothing to choose', step }; break; }
       const said = move.kind === 'travel' ? undefined : this.said(s, move.id), from = this.minutes(s);
       try { await this.apply(s, move, player, metrics); } catch (error) {
@@ -92,19 +94,23 @@ export class AutoplayRun {
   private static leaves(choices: Choice[]): Choice[] {
     return choices.flatMap(c => c.children ? this.leaves(c.children) : [c]);
   }
-  static situation(s: PlaySession, step: number, led = false): Situation {
+  static situation(s: PlaySession, step: number, led = false, prefer?: Aspect): Situation {
     const c = s.campaign, offered = PlayerView.choices(c).map(x => ({ id: x.choice.id, name: x.choice.name }));
     return { offered, destinations: Itineraries.destinations(c).map(d => ({ id: d.id, name: d.name })),
       visited: VisitedPlaces.of(c, c.playerActor!), step, dangers: this.dangers(s, offered),
-      dark: Travel.dark(c), ...led ? { led: this.led(s) } : {} };
+      dark: Travel.dark(c), ...led ? { led: this.led(s, prefer) } : {} };
   }
-  // What the page leads with where the company stands, best first, by command (see Glance).
-  private static led(s: PlaySession): string[] {
+  // What the page leads with where the company stands, best first, by command (see Glance); for a walker that
+  // prefers an aspect (silver: what is worth exploring; gold: the aim followed), what has it first, the page's order
+  // kept otherwise (amendment 6, H).
+  private static led(s: PlaySession, prefer?: Aspect): string[] {
     const glance = Narrator.leaf(s.campaign, ScreenModel.build(s.campaign)).glance;
+    const acts = [...glance?.acts ?? []].sort((a, b) => Number(!!prefer && !a.aspects.includes(prefer))
+      - Number(!!prefer && !b.aspects.includes(prefer)));
     // A conversation it leads with is opened as the page opens it, by talking to them; what it is led for in it is
     // done there (see Promoted.for), and nothing else said beside it in its place (a bed had been taken four times
     // over by ten in the morning, the innkeeper's first reply).
-    return (glance?.acts ?? []).flatMap(a => a.choice.endsWith('#talk')
+    return acts.flatMap(a => a.choice.endsWith('#talk')
       ? [...a.for ? [a.for] : [], ...a.command?.startsWith('ask(') ? [a.command] : [],
         `talk_to(${a.choice.slice(0, -'#talk'.length)})`]
       : a.command ? [a.command] : []);
