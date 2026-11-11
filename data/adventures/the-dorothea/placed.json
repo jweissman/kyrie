@@ -21,6 +21,8 @@
     "ring.kyr",
     "lamp.kyr",
     "voices.kyr",
+    "endings.kyr",
+    "scarth.kyr",
     "placed.kyr"
   ],
   "rules": [
@@ -30,7 +32,12 @@
     "party"
   ],
   "canon": [
-    "imbar"
+    "imbar",
+    "scarth_kept",
+    "scarth_lost",
+    "pharos_lit",
+    "pharos_dark",
+    "pharos_fed"
   ],
   "exports": {
     "party": "party",
@@ -50,7 +57,9 @@
     "lieutenant_named",
     "principal_traced",
     "seal_seen",
-    "waybill_read"
+    "waybill_read",
+    "word_dark",
+    "word_fed"
   ],
   "optional": [
     "word",
@@ -62,7 +71,9 @@
     "lieutenant_named",
     "principal_traced",
     "seal_seen",
-    "waybill_read"
+    "waybill_read",
+    "word_dark",
+    "word_fed"
   ],
   "roles": {
     "party": {

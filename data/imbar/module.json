@@ -134,7 +134,10 @@
     "calx_opened",
     "tallow_names",
     "sallowfield_held",
-    "sallowfield_burned"
+    "sallowfield_burned",
+    "pharos_lit",
+    "pharos_dark",
+    "pharos_fed"
   ],
   "exports": {
     "imbar": "imbar",
@@ -259,6 +262,9 @@
     "calx_opened": "calx_opened",
     "tallow_names": "tallow_names",
     "sallowfield_held": "sallowfield_held",
-    "sallowfield_burned": "sallowfield_burned"
+    "sallowfield_burned": "sallowfield_burned",
+    "pharos_lit": "pharos_lit",
+    "pharos_dark": "pharos_dark",
+    "pharos_fed": "pharos_fed"
   }
 }
