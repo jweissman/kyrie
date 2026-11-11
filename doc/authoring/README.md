@@ -1,8 +1,8 @@
 # Authoring Westernesse: start here
 
 This is the one way in for someone who wants to write something new for Westernesse today. It is a short trail of
-nine pages, each a few minutes long, in the order you will need them. Every command on them was run on `fbf38d58`
-(6 November 2026) and its output is quoted. Where something does not yet work soundly, the page says so and names the
+ten pages, each a few minutes long, in the order you will need them. Every command on them was run on `fbf38d58`
+(6 November 2026) and its output is quoted; page 3's were run again, whole, on `5a8f652f` (11 November) and hold. Where something does not yet work soundly, the page says so and names the
 open finding ([../architecture/findings/index.md](../architecture/findings/index.md) lists every one).
 
 | | Page | You will be able to | Sound today? |
@@ -16,6 +16,7 @@ open finding ([../architecture/findings/index.md](../architecture/findings/index
 | 7 | [Contributing to a settlement or a city](trail/07-settlements.md) | add a place or a person to a generated town without duplicating it | for generated towns, yes; for an authored city shared by adventures, **no** (M19-77) |
 | 8 | [Testing reachability, consequences, save and reload](trail/08-testing.md) | prove what a player reaches, what an act changes, and that it survives a reload | yes |
 | 9 | [When the contracts are not enough](trail/09-extending.md) | know where an engine change belongs, and how to record what you could not do | yes |
+| 10 | [Scenes, opportunities and what a character perceives](trail/10-scenes-and-opportunities.md) | write a place the page paints, whose worthwhile acts reach the player's foreground, and whose signs only some characters notice | yes for what it describes; its "not built yet" list is open |
 
 **Before writing a flag by hand,** see [forms the engine already has](forms.md).
 
