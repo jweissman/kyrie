@@ -46,6 +46,7 @@ export class TalkStage {
     // merchant the rats job sent the company to, and the question to ask her, had been drawn like any other).
     const followed = (frame.screen.aims ?? []).filter(a => a.followed).map(a => a.text);
     const aimed = (c: Choice) => c.command === led || TalkFocus.aimed(c, followed);
+    const spent = (c: Choice) => s.asked.includes(c.id) || /_again(\(|$)/.test(c.command ?? '');
     return (
       <div className="talk" id="page">
         <TalkStage.Sitter app={app} name={name!} role={role.join(' · ')}>
@@ -68,9 +69,10 @@ export class TalkStage {
                     fresh={focus.opened.has(c.id)} aimed={aimed(c)} pays={TalkFocus.pays(c, frame.screen.paying)} />)}
                 </ol>
                 {focus.more.length > 0 && <details className="more-talk">
-                  <summary>Something else…</summary>
+                  {/* Only what was asked before is not "something else" (round 6, the register's FH-16). */}
+                  <summary>{focus.more.every(spent) ? 'Ask again…' : 'Something else…'}</summary>
                   <ol className="replies">{focus.more.map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw}
-                    asked={s.asked.includes(c.id) || /_again(\(|$)/.test(c.command ?? '')} />)}</ol>
+                    asked={spent(c)} />)}</ol>
                 </details>}
                 {/* In the aim's gold where what the aim asks of them is had in trade (a sale, to the debtor home with
                     what would fetch coin: Mission 20). */}

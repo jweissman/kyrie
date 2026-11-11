@@ -29,7 +29,11 @@ export class TalkFocus {
       && !led.includes(c)) : [];
     const ranked = [...led, ...opened, ...fresh.filter(c => !led.includes(c) && !opened.includes(c))];
     const room = Math.max(1, TalkFocus.most - (answers.length ? 1 : 0));
-    return { answers, salient: ranked.slice(0, room), more: [...ranked.slice(room), ...spent], services,
+    // What the last answer opened is among the few, but in its written place, after what is led: put first, it had
+    // moved every other topic down after each question (round 6, the register's FH-16).
+    const few = ranked.slice(0, room), first = few.filter(c => led.includes(c));
+    const salient = [...first, ...said.filter(c => few.includes(c) && !first.includes(c))];
+    return { answers, salient, more: [...ranked.slice(room), ...spent], services,
       opened: new Set(opened.map(c => c.id)) };
   }
   // A trader's services parted: what the company carries that they would buy, first, and the rest (a bed, care): below

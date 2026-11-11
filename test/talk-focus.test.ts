@@ -19,10 +19,12 @@ describe('what is said, as attention holds it', () => {
     expect(f.more[1]!.children!.map(c => c.id)).toEqual(['crowns', 'saltgrave', 'glass']);
     expect(f.services.map(c => c.id)).toEqual(['bed', 'song']);
   });
-  it('puts first what the page leads them with, then what the last answer opened, and last what was asked', () => {
+  // What the last answer opened is kept among the few, in its written place: put first, it had moved every other
+  // topic after each question (round 6, the register's FH-16).
+  it('puts first what the page leads them with, keeps what the last answer opened in its place, and last what was asked', () => {
     const f = TalkFocus.of(replies, { led: 'spiders_job_ask', heard: replies.filter(c => c.id !== 'tower').map(c => c.id),
       asked: ['well'] });
-    expect(f.salient.map(c => c.id)).toEqual(['quarry', 'tower', 'mound']);
+    expect(f.salient.map(c => c.id)).toEqual(['quarry', 'mound', 'tower']);
     expect(f.opened.has('tower')).toBe(true);
     expect(f.more.at(-1)!.id).toBe('well');
   });
