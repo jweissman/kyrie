@@ -25,11 +25,12 @@ export class Perception {
   static sensed(campaign: Campaign, screen: Screen): Sensed[] {
     const range = this.range(campaign, 'companionship'), who = Companions.possible(campaign);
     if (!range || !who.size) { return []; }
+    // Where each who could join stands: a few lookups, not every fact of where everyone is.
     const at = new Map<string, string[]>();
-    for (const r of campaign.world.related('at')) {
-      if (who.has(r.args[0]!)) { at.set(r.args[1]!, [...at.get(r.args[1]!) ?? [], r.args[0]!]); }
-    }
-    const links = campaign.world.related('connects'), out: Sensed[] = [];
+    for (const w of who) { const p = campaign.world.one('at', w); if (p) { at.set(p, [...at.get(p) ?? [], w]); } }
+    if (!at.size) { return []; }
+    // The ways between places, read only where the reach goes past the next place.
+    const links = range > 1 ? campaign.world.related('connects') : [], out: Sensed[] = [];
     for (const to of new Set(screen.exits.filter(e => !e.blocked).map(e => e.destination.id))) {
       const far = this.nearest(to, { links, here: screen.place.id, range, at });
       if (far !== undefined) { out.push({ to, aspect: 'companionship', far }); }
@@ -42,6 +43,7 @@ export class Perception {
     const seen = new Set([here, first]);
     for (let frontier = [first], far = 1; frontier.length && far <= range; far++) {
       if (frontier.some(p => at.has(p))) { return far; }
+      if (far === range) { break; }
       frontier = frontier.flatMap(p => links.filter(l => l.args[1] === p && !seen.has(l.args[2]!))
         .map(l => { seen.add(l.args[2]!); return l.args[2]!; }));
     }
