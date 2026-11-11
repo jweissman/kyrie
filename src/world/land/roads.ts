@@ -85,6 +85,16 @@ export class Roads {
     const river = Terrain.river(land, to) !== undefined && Terrain.river(land, from) === undefined ? 0.8 : 0;
     return (hours + climb + river) * (built.has(to) ? 0.6 : 1);
   }
+  // A road out from one town that runs through another on its way begins at the last it runs through: begun at the
+  // first, the way out of the country had gone from one town to the next and back through the first (wren: the road
+  // to Strewnfield from the town past Thornwick ran back through Thornwick's own hex, and the journey with it).
+  static begun(seats: readonly { cell: number }[], seat: number, cells: number[]): { seat: number; cells: number[] } {
+    for (let k = cells.length - 2; k > 0; k--) {
+      const at = seats.findIndex(s => s.cell === cells[k]);
+      if (at >= 0) { return { seat: at, cells: cells.slice(k) }; }
+    }
+    return { seat, cells };
+  }
   static road(land: Land, from: number, to: number, cells: number[]): Road {
     const crossings: Crossing[] = [], biggest = Math.max(1, ...land.water.rivers.map(r => r.flow));
     for (let i = 1; i < cells.length - 1; i++) {

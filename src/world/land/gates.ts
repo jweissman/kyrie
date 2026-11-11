@@ -40,10 +40,11 @@ export class Gates {
       for (const cell of this.cells(land, w.side, { covers, shore, keep }, clear)) {
         const firth = shore ? this.firth(land, cell, w.side, keep) : undefined;
         for (const { i } of order) {
-          const from = at.seats[i]!.cell, { cells } = Roads.route(land, from, cell, at.built);
+          const from = at.seats[i]!.cell, route = Roads.route(land, from, cell, at.built).cells;
           // Its road does not run where the firth will be.
-          if (cells.length && !firth?.some(c => cells.includes(c))) {
-            return { id: w.id, side: w.side, seat: i, cell, road: Roads.road(land, from, cell, cells),
+          if (route.length && !firth?.some(c => route.includes(c))) {
+            const { seat, cells } = Roads.begun(at.seats, i, route);
+            return { id: w.id, side: w.side, seat, cell, road: Roads.road(land, cells[0]!, cell, cells),
               ...firth?.length ? { firth } : {} };
           }
         }

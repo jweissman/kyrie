@@ -28,4 +28,18 @@ describe('a journey over a country', () => {
     expect(at.every(i => i >= 0)).toBe(true);
     expect(at).toEqual([...at].sort((a, b) => a - b));
   }, 120000);
+  // A road out of the country from one town that runs through another begins at the last it runs through: begun at
+  // the first, the way to Strewnfield from wren's first town went out to the next town and back through its own hex.
+  // What is left is a spur: into the town a road out begins at, and out again, a hex or two.
+  it('never comes back through the town it set out from, nor doubles back further than a spur', async () => {
+    const s = await start('wren'), screen = ScreenModel.build(s.campaign);
+    const plans = [...screen.destinations ?? [], ...screen.roads ?? []];
+    expect(plans.length).toBeGreaterThan(5);
+    for (const d of plans) {
+      const laid = JourneyCourse.planned(screen, d.id);
+      if (!laid || laid.length < 3) { continue; }
+      expect(laid.slice(1)).not.toContain(laid[0]);
+      expect(laid.length - new Set(laid).size).toBeLessThanOrEqual(2);
+    }
+  }, 120000);
 });

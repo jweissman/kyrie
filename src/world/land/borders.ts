@@ -24,8 +24,11 @@ export class Borders {
         for (const { i } of order) {
           const from = seats[i]!.cell;
           for (const cell of this.edge(land, side, from, slack)) {
-            const { cells } = Roads.route(land, from, cell, built);
-            if (cells.length) { return [{ side, seat: i, cell, road: Roads.road(land, from, cell, cells) }]; }
+            const route = Roads.route(land, from, cell, built).cells;
+            if (route.length) {
+              const { seat, cells } = Roads.begun(seats, i, route);
+              return [{ side, seat, cell, road: Roads.road(land, cells[0]!, cell, cells) }];
+            }
           }
         }
       }
