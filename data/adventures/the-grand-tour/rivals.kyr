@@ -11,12 +11,12 @@ Module sennet "The Grand Tour" {
     Role "a traveller from Cloudgate, in a coat the colour of a sunset, rather singed" when florianChanged(florian).
     Ancestry human. Calling warrior. Level 1. Peaceable. Pronouns he. Manner cheerful.
     Greets "A young man in a coat the colour of a sunset, with a parcel under each arm and another on his head, beams at you. 'Florian Mottram,' he says. 'I'd shake hands, but. Are you on the Tour? Isn't it marvellous? I've bought a fire-cloak, a brine-helm, two wind-jars, and a stuffed salamander, though Sone says that's cheating.' He lowers his voice. 'Sone's my bear-leader. She's been eleven times. She knows everything. It's frightfully restful.'".
-    Greets again "'Hullo!' says Florian Mottram, and drops a parcel.".
+    Greets again "'Hullo!' says Florian Mottram, and drops a parcel, and Miss Sone picks it up without breaking step. 'We are ahead of you,' he says. 'Or we were. There is a fair chance we are behind. Sone says it depends on the sort of woods one counts.'".
   }
   Person sone "Miss Agatha Sone" at glass_market {
     Role "a bear-leader, square and grey, with a sergeant's moustache of eyebrow". Ancestry human. Calling warrior. Trait strong_willed. Level 5. Peaceable. Pronouns she. Manner stoic.
     Greets "A square grey woman with an umbrella like a pike looks at you, and at Florian, and back, with the expression of a sheepdog that has been asked to mind a swan. 'Sone,' she says. 'Bear-leader. If he asks you to hold anything, don't.'".
-    Greets again "Miss Sone nods to you, once, like a sergeant to another sergeant.".
+    Greets again "Miss Sone nods to you, once, like a sergeant to another sergeant, and holds the umbrella a degree more upright. 'He has not been out of my sight since the harbour,' she says. 'Do not tell him I said so. It would make him feel watched, and he is quite right.'".
   }
   Initially Assert passesTo(florian, quance).
   Relation florianChanged(group). Relation soneAsked(group). Relation soneWithholds(group). Relation soneKnows(group).

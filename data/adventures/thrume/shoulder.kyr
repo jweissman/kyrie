@@ -76,6 +76,8 @@ Module thrume "Thrume" {
   Initially Assert serves(bloods, skarn).
   Person rememberer "the Rememberer" at hearth {
     Role "the thane's mother, keeper of the song". Species shoulder_giant. Level 10. Peaceable.
+    Greets "The Rememberer sits at the long hearth with her hands on her knees, as large and still as a standing stone, and the fire throws her shadow up the wall to the rafters. When she speaks the whole hall seems to lean in. 'A small one,' she says, 'who walked up the road. I have not spoken to a small one since the song was shorter.'".
+    Greets again "The Rememberer has not moved, and the shadow has moved for her. 'You came back,' she says. 'It takes the small ones a very long time to come back. I counted. It was less time than I had been told it would be.'".
     Wants heart_salt.
   }
   Person wolves "the hold's wolves" at kennels {
@@ -87,9 +89,13 @@ Module thrume "Thrume" {
   // The hostages.
   Person aud "Aud Brenning" at pens {
     Role "foreman of the Saltgrave miners". Ancestry dwarf. Calling warrior. Level 3. Peaceable.
+    Greets "Aud Brenning stands at the front of the pens with his arms crossed over a barrel of a chest, between you and the miners, and does not lower them. 'Foreman,' he says. 'Forty men and nine days of short rations, and a hall that treats us like guests. I would rather be treated like prisoners. A prisoner knows where he is.'".
+    Greets again "Aud Brenning moves a half-pace to one side, to let you see the men behind him, and does not pretend this is not what he is doing. 'Forty,' he says. 'Counted this morning. Counted again at noon. I do not intend to lose one by being careless of my sums.'".
   }
   Person kell "Tobias Kell" at pens {
     Role "a miner who will not meet your eye". Ancestry human. Calling thief. Level 2. Peaceable.
+    Greets "Tobias Kell is sitting with his back to the pen rail, facing the wall, and manages to talk to you without turning his head. 'Nothing to say,' he says. 'Nothing to hear. I am a miner. I dig. Ask Brenning about anything else.'".
+    Greets again "Tobias Kell has moved a hand's breadth along the rail, away from the others, and is working a splinter out of his palm with his teeth. 'You are going to ask me again,' he says. 'I will tell you I have nothing to say again, and we shall both feel the worse.'".
   }
 
   // The alarm. By day a stranger in the yard is challenged and has a little while to answer at the guest-pole; by

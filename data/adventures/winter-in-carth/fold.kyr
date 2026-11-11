@@ -9,7 +9,7 @@ Module gaunt "A Winter in Carth" {
   Person cuthbert "Cuthbert Thwaite" at fold {
     Role "a put-out mason of fifty, with his father's shoulders and a turf-spade, who looks at the city before he looks at you". Ancestry human. Peaceable. Pronouns he. Manner stoic.
     Greets "'Lost?' says the man with the turf-spade. 'Nobody comes out here that isn't lost or put out, and you've boots on.' He looks past you at Gaunt, the way everyone here does. 'Sit by the fire. It's peat we cut ourselves, so nobody owes anybody for it.'".
-    Greets again "Cuthbert Thwaite nods, and goes on looking at the city.".
+    Greets again "Cuthbert Thwaite nods, and his eyes go back to the walls of Gaunt, as to a window in a house he was put out of. 'I counted the bells at noon,' he says. 'You can count them from here. I got to forty before I lost it. There are not forty bells. I do not know what I was counting.'".
   }
   Relation cuthbertKnows(group). Relation cuthbertTold(group). Relation jobyToFold(group). Relation hernHeardFold(group).
   Discovery last_put_out "Nineteen years ago a young mason, Thwaite, was put out of Gaunt at the Gate of Ash for saying that the Fabric's men took the north tower down at night. Nobody has seen him since; nobody has looked.".

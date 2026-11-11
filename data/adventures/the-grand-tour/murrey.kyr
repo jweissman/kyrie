@@ -11,7 +11,7 @@ Module sennet "The Grand Tour" {
     Role "a guidebook man, with a pencil behind each ear" when travelsWith(fabian, party).
     Ancestry human. Calling commoner. Background scholar. Level 2. Peaceable. Pronouns he. Manner compassionate.
     Greets "A long thin man unfolds himself from behind a counter stacked with the same red book, knocks a pile of them over, catches two, and says, 'Murrey's. Handbook for Travellers through the Doors. Sixth edition. Three coin.' He looks at the pile on the floor. 'It's a bit out of date. Forty years. But the planes don't change much, do they?' A pause. 'I wouldn't know.'".
-    Greets again "'Oh! You,' says Fabian Murrey, and drops a pencil.".
+    Greets again "'Oh! You,' says Fabian Murrey, and drops a pencil, and gets down on all fours after it and talks from under the counter. 'Seventh edition. In preparation. I wondered if I might have your account of the Fire. I would give you a credit on the title-page. In very small type. Smaller than Murrey's.'".
     Joins "Fabian Murrey puts on his hat, and takes it off, and puts it on again, and puts a second pencil behind his other ear. 'I'll come,' he says. 'I've a notebook. I'll be no use at all in a fight, I want that understood.' He turns the sign on the shop door to CLOSED, and then, after a moment, turns it back to OPEN. 'Somebody might want a book.'".
     Leaves "'I'll be at the shop,' says Fabian Murrey. 'Writing it down. Come and tell me the rest.'".
   }

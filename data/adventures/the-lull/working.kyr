@@ -18,7 +18,7 @@ Module lull "The Lull" {
   Person davy "Davy Mote" at mill_bridge {
     Role "Aldith's brother, who wants to be a soldier". Ancestry human. Calling warrior. Level 1. Peaceable. Pronouns he. Manner cheerful.
     Greets "A gangling boy of seventeen with a stick he holds like a pike jumps down off the pier. 'Davy Mote. Are you a soldier? You look like a soldier. Have you been in a war?' He does not wait. 'I'm going to be a soldier. As soon as there's a Monday.'".
-    Greets again "Davy Mote salutes you with his stick.".
+    Greets again "Davy Mote salutes you with his stick, and the salute turns, halfway, into an attempt to straighten the stick, which is bent. 'Mended it twice,' he says. 'It is bent the same way both times. I think it has an opinion.'".
   }
   Initially Assert lullFolk(davy). Initially Assert dayAt(davy, mill_bridge). Initially Assert bedAt(davy, glossary).
   Topic davy_why with davy "Ask Davy Mote why he wants to be a soldier" when lullOpen() once {

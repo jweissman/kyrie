@@ -13,7 +13,7 @@ Module lull "The Lull" {
   Person jenet "Jenet Hollis" at chapel {
     Role "a young mother of Linger, with a baby in a shawl". Ancestry human. Peaceable. Pronouns she. Manner grim.
     Greets "A young woman is sitting on the bench round the wall of the chapel with a baby asleep in a shawl on her chest, watching the starlings in the basin. She has been crying, and has stopped, and is waiting to start again.".
-    Greets again "Jenet Hollis looks up from the baby, and down again.".
+    Greets again "Jenet Hollis glances up from the baby and down again, and has already begun to hum. 'Quiet today,' she says, to the child, or to you. 'It is always quiet today. That is the whole of what a Lull is, and I have never once got tired of it.'".
   }
   Initially Assert lullFolk(jenet). Initially Assert dayAt(jenet, chapel). Initially Assert bedAt(jenet, weavers_row).
   Relation jenetHealed(group).

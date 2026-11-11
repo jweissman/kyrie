@@ -39,34 +39,34 @@ Module gaunt "A Winter in Carth" {
     Role "a big silent man with a shovel, grey-faced, who does not look at anyone" when not nightfall() and not state(hearth, ablaze).
     Ancestry human. Peaceable. Pronouns he. Manner grim.
     Greets "A man's voice, out of the dark, low: 'Sit down where you are. Don't walk about. There's a child.'".
-    Greets again "Will Scaife says nothing. You can hear him breathing.".
+    Greets again "Will Scaife says nothing, and shifts the shovel to his other hand so that the blade is behind him. You can hear him breathing: the breath of a man who has kept a vigil one day longer than a man can, and has not been told whether to stop.".
   }
   Person annis "Annis Scaife" at house_place {
     Role "the farmer's wife, a sharp voice in the dark, never still" when nightfall() and not state(hearth, ablaze).
     Role "the farmer's wife, thin as a lath, with her sleeves rolled and her mouth set" when state(hearth, ablaze) or not nightfall().
     Ancestry human. Peaceable. Pronouns she. Manner acerbic.
     Greets "'You'll be the ones the snow brought,' says a woman's voice. 'There's oatmeal in water and there's a turnip, and you're welcome to your share of both, and of the dark. Sit on the floor by the wall. Don't touch the hearth.'".
-    Greets again "'Well?' says Annis Scaife.".
+    Greets again "'Well?' says Annis Scaife, not turning from the pot. 'Is there news from the road? I do not ask for good news. I ask whether the road is still there.'".
   }
   Person granny "Old Mother Scaife" at house_place {
     Role "an old woman in a shawl, a shape by the dead hearth that rocks a little" when not at(granny, carth_byre).
     Role "an old woman in the byre in the dark, sitting on a milking-stool by the hurdle, talking to someone" when at(granny, carth_byre).
     Ancestry human. Peaceable. Pronouns she. Manner compassionate.
     Greets "'Is that the Guest?' says an old voice by the hearth, quite calmly. Then: 'No. The Guest doesn't talk. Sit down, love. Ralph's in the byre. He'll not mind you.'".
-    Greets again "'Is that you, love?' says Old Mother Scaife.".
+    Greets again "'Is that you, love?' says Old Mother Scaife, to the dark by the hearth. 'You were quiet on the stair. You were always quiet on the stair. Ralph never was.' She has the habit of speaking to whoever has just come in as though it were someone she had been waiting for since before the snow.".
   }
   Person dowsie "Dowsie Scaife" at house_place {
     Role "a child in the box-bed, under every blanket in the house, coughing" when not dowsieDead(dowsie) and not nightOver(party).
     Role "a thin child in the box-bed with her hair stuck to her forehead, cool now, and very interested in you" when not dowsieDead(dowsie) and nightOver(party).
     Ancestry human. Peaceable. Pronouns she. Manner cheerful.
     Greets "A small hoarse voice from the wall: 'Are you from Gaunt? Is it true the Minster's so tall you can't see the top? Is it true they've a man there that's all stone, carrying another man?' A cough. 'Grandad walks at night. I've heard him. Mam says I haven't.'".
-    Greets again "'You're still here,' says Dowsie, pleased, and coughs.".
+    Greets again "'You didn't go,' says Dowsie, pleased, and coughs, and counts the cough on her fingers as it passes. 'That's the third today. Mam says three is good. I think three is just three.'".
     Seen when not dowsieDead(dowsie).
   }
   Person fly "Fly" at house_place {
     Role "the Scaifes' collie bitch, thin, who presses against your legs in the dark and shivers". Species dog. Peaceable. Pronouns she.
     Greets "Fly stays where she is, against your legs, and goes on shivering, which is as much welcome as you are going to get.".
-    Greets again "Fly's tail goes once against the floor.".
+    Greets again "Fly's tail goes once against the floor, and then, because she is a collie, she gets up and puts herself between you and the door, to be sure you will not leave without telling her where.".
   }
   Relation dowsieSafe(group). Relation dowsieBurning(group). Relation dowsieDead(group).
   Relation grannyIn(group). Relation grannyCold(group). Relation ralphLaid(group).
