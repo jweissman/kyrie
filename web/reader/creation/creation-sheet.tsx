@@ -19,6 +19,13 @@ export class CreationSheet {
     head?: SheetHead }) {
     const close = useRef<HTMLButtonElement>(null);
     useEffect(() => { close.current?.focus({ preventScroll: true }); }, []);
+    // The page beneath is out of reach while the sheet is open: a Continue behind it had been taken, and spells under it
+    // chosen, by touches meant for the sheet (Mission 20's sixth round, I 03, 12–17).
+    useEffect(() => {
+      const page = document.getElementById('mono');
+      page?.setAttribute('inert', '');
+      return () => { page?.removeAttribute('inert'); };
+    }, []);
     return createPortal(
       <div className="creation-sheet" role="dialog" aria-modal="true" aria-label={title}
         onClick={(e: MouseEvent) => { e.stopPropagation(); if (e.target === e.currentTarget) { onClose(); } }}>

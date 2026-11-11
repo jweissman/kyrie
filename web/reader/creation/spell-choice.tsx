@@ -29,7 +29,9 @@ export class SpellChoice {
       app.opening.spells(0, [...now, ...rest]);
     };
     return <>
-      <p className="creation-go"><button type="button" className="quiet-word" data-nav data-action="spells"
+      {/* In the page, above its way on: it had been a second footer, held to the foot of the screen under Continue
+          (Mission 20's sixth round, I 12). */}
+      <p className="spells-choose"><button type="button" className="quiet-word" data-nav data-action="spells"
         onClick={() => show(true)}>Choose first spells</button></p>
       {open && <CreationSheet.View title="Your first-level spells" onClose={close}>
         <p className="how">{Typography.curl(`Choose ${SpellChoice.n(first.count)}, one of them of ${way.of || way.name}. `
