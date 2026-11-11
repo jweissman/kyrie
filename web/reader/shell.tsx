@@ -16,8 +16,10 @@ export class Shell {
     const s = app.state, plate = Shell.plate(app);
     const creating = (s.phase === 'company' || (s.phase === 'loading' && !!s.leaving)) && !!s.setting?.generated;
     const style = { '--plate': plate ? `url(paintings/large/${plate}.webp)` : 'none' } as CSSProperties;
+    // ?scene=full: the experiment of the owner's play of 10 November, the painting over the whole screen and what is
+    // told and done in a panel over it, beside the bounded stage it is compared with.
     const apart = `${creating ? ' creating' : ''}${Stage.prologue(app) ? ' prologue' : ''}`
-      + `${Stage.overworld(app) ? ' overworld' : ''}`;
+      + `${Stage.overworld(app) ? ' overworld' : ''}${app.props.query.get('scene') === 'full' ? ' scene-full' : ''}`;
     return (
       <div className={`shell phase-${s.phase} hour-${Shell.hour(app)}${apart}`} style={style}
         onClickCapture={e => EncyclopediaOverlay.caught(app, e)}>
