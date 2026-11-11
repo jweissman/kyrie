@@ -139,7 +139,12 @@ export class CombatTelling {
     const who = this.name(e.target), what = e.against ? ConditionSense.name(e.against).toLowerCase() : '';
     // "stunned", "bleeding" are states one is or is not in; "armor shred" is a thing one takes or shrugs off.
     const state = /(ed|ing)$/.test(what.split(' ')[0] ?? '');
-    if (e.immune) { return !what ? `${who} is untouched by it.` : state ? `${who} cannot be ${what}.` : `${who} cannot suffer ${what}.`; }
+    // What cannot bleed does not; "cannot be bleeding" (a warded vessel, round 5) is said of no one.
+    if (e.immune && e.against === 'bleed') { return `${who} does not bleed.`; }
+    if (e.immune) {
+      return !what ? `${who} is untouched by it.` : /ing$/.test(what) ? `${who} is proof against ${what}.`
+        : state ? `${who} cannot be ${what}.` : `${who} cannot suffer ${what}.`;
+    }
     if (!e.success) { return undefined; }
     // What a bleeding wound may come to is said of the wound ("the second of the risen dead is not infected", after
     // its own blow on someone else, read as the blow's: play 8; the register's CMB-02).
