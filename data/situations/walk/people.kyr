@@ -1,0 +1,196 @@
+Module walk "The Walk of the Milestones" {
+
+  // ---- The Walk's own people. They move with its front on the road's timetable, whether or not anyone is with them:
+  // the first town on the second day, the second on the fourth, the third on the sixth, the fourth on the eighth, and the
+  // town of the Gathering on the ninth.
+  Person leader "Someone" nowhere {
+    Role "the Mile-Keeper, who walks at the head of the Walk". Calling warrior. Level 2. Peaceable. Manner stoic.
+    Greets "The Mile-Keeper is sitting, which is the first wrong thing; everyone else in the camp is on their feet. {leader_was}. An ash staff lies across the knees, notched to the top and past it. 'Mile,' says {leader}, and breathes, and says it again, as if the first had not been enough breath. 'And mile. You say that back. Then I know you are walking and not watching, and I can ask you what I like.'".
+    Greets again "{leader} looks up, counts you with the eyes, and nods once. 'Mile and mile,' {leader} says, quieter. The cough comes after, and is put away in a sleeve.".
+  }
+  Person pettifer "Someone" nowhere {
+    Role "a chalk-seller who has attached himself to the Walk". Calling thief. Level 2. Peaceable. Manner jovial. Pronouns he.
+    Sells chalk_kind for 1 coin from 30.
+    Sells staff_kind for 3 coin from 12.
+    Greets "A round man in a coat with too many pockets has stood a barrel on end by the well and laid out on it, in a row, fifteen stubs of chalk. 'My friend, my friend,' says {pettifer}. 'You have the face of someone who has been wondering where to put a mile. Here. A stub of the true chalk, one penny, from the very hand of the Mile-Keeper's first mile, or near enough, and if it is not near enough I have another, and that one is nearer.'".
+    Greets again "'My friend!' says {pettifer}. 'Back for more mile? There is always more mile. That is the beauty of it. Nobody has ever run out.'".
+  }
+  Person annet "Someone" nowhere {
+    Role "a walker who keeps the roll of the road's dead". Calling commoner. Level 1. Peaceable. Manner compassionate. Pronouns she.
+    Greets "A thin woman sits a little apart with a roll of bark-paper in her lap, folding and unfolding its edge. 'I am not,' says {annet}, and stops. 'They said there was someone new. I wondered if you had, no. You would not. Forgive me. It is only that for a moment I thought you might be from the north road.' She smooths the roll. 'Everyone on it is from the north road, you see. The ones I am looking for.'".
+    Greets again "{annet} looks up and makes a place for you on the bench without being asked, and then, as if that were too much, looks at her hands.".
+  }
+  Person lads "the Dunning lads" nowhere {
+    Role "three young men who joined the Walk for the walking and stayed for the fighting". Calling warrior. Numbers 3. Level 1. Peaceable. Manner jovial.
+    Greets "Three young men are pushing each other off the well's rim to see who can chalk highest. 'Oi,' says the nearest, a long boy with a ring through one ear and chalk to the elbow. 'You walking or watching? Watching costs a mile.' 'It does not,' says another. 'It does now,' says the first. 'I am Rhys. That is Cal. He is rubbish. That one has not said anything since Tuesday, we think he is holy.'".
+    Greets again "'Oi, it is the walker,' says Rhys, delighted, and tries to put you in a headlock, and is not offended when you decline.".
+  }
+  Person orme "Someone" nowhere {
+    Role "a steward in a good plain coat, travelling in the matter of the roads". Calling commoner. Level 3. Peaceable. Manner stoic. Pronouns he.
+    Greets "A grey, soft-spoken man is turning a ring on his finger while a boy holds his horse. 'I travel for my employer,' says {orme}, 'in the matter of the roads.' It is a sentence with no end and he does not offer one. 'My employer is interested in whatever is done to them. It is a hobby.' He smiles. 'You will forgive me if I do not say whose.'".
+    Greets again "{orme} inclines his head, courteous as a closed door.".
+  }
+  Thing orme_chest "the steward's travelling chest" nowhere {
+    State locked blocking "A small iron-bound chest sits at the steward's feet, with a good lock and a bad cover of sacking.".
+    State open "The steward's chest stands open: a purse of silver, a bundle of letters, and a narrow ledger.".
+    Change pick "Pick the lock of the steward's chest" from locked to open needing lockwork.
+    Change force "Force the steward's chest with a crowbar" from locked to open needing crowbar.
+  }
+  Initially Assert state(orme_chest, locked).
+  Person wenna "Someone" at green_a {
+    Role "the first town's curate, a girl in grey with her stole on crooked". Calling cleric. Level 1. Peaceable. Manner compassionate. Pronouns she.
+    Greets "A girl in a curate's grey comes at you with both hands out before you have finished stopping. 'You are from the town? Oh, good, someone from the town, I have been wanting to ask someone. Is it true that Father says the chain is for our own good? Because he said it to me, quite kindly, and I said, Father, there is nothing in the canons about a chain, and he said there did not need to be, and I thought, well, that is the sort of thing one says —' She stops for air. 'I am Wenna. I am not supposed to be talking to you. Is that all right?'".
+  }
+  Rule leg_leader_1 when day(clock) >= 2 and at_leg(leader) == 0 and not dead(leader) and at(leader, ?w) { Retract at(leader, ?w). Assert at(leader, camp_a). Set at_leg(leader) to 1. }
+  Rule leg_leader_2 when day(clock) >= 4 and at_leg(leader) == 1 and not dead(leader) and at(leader, ?w) { Retract at(leader, ?w). Assert at(leader, camp_b). Set at_leg(leader) to 2. }
+  Rule leg_leader_3 when day(clock) >= 6 and at_leg(leader) == 2 and not dead(leader) and at(leader, ?w) { Retract at(leader, ?w). Assert at(leader, camp_c). Set at_leg(leader) to 3. }
+  Rule leg_leader_4 when day(clock) >= 8 and at_leg(leader) == 3 and not dead(leader) and at(leader, ?w) { Retract at(leader, ?w). Assert at(leader, camp_d). Set at_leg(leader) to 4. }
+  Rule leg_leader_5b when flashpoint(f_b) and day(clock) >= 9 and at_leg(leader) == 4 and not dead(leader) and at(leader, ?w) { Retract at(leader, ?w). Assert at(leader, camp_b). Set at_leg(leader) to 5. }
+  Rule leg_leader_5c when flashpoint(f_c) and day(clock) >= 9 and at_leg(leader) == 4 and not dead(leader) and at(leader, ?w) { Retract at(leader, ?w). Assert at(leader, camp_c). Set at_leg(leader) to 5. }
+  Rule leg_leader_5d when flashpoint(f_d) and day(clock) >= 9 and at_leg(leader) == 4 and not dead(leader) and at(leader, ?w) { Retract at(leader, ?w). Assert at(leader, camp_d). Set at_leg(leader) to 5. }
+  Rule leg_annet_1 when day(clock) >= 2 and at_leg(annet) == 0 and not dead(annet) and at(annet, ?w) { Retract at(annet, ?w). Assert at(annet, camp_a). Set at_leg(annet) to 1. }
+  Rule leg_annet_2 when day(clock) >= 4 and at_leg(annet) == 1 and not dead(annet) and at(annet, ?w) { Retract at(annet, ?w). Assert at(annet, camp_b). Set at_leg(annet) to 2. }
+  Rule leg_annet_3 when day(clock) >= 6 and at_leg(annet) == 2 and not dead(annet) and at(annet, ?w) { Retract at(annet, ?w). Assert at(annet, camp_c). Set at_leg(annet) to 3. }
+  Rule leg_annet_4 when day(clock) >= 8 and at_leg(annet) == 3 and not dead(annet) and at(annet, ?w) { Retract at(annet, ?w). Assert at(annet, camp_d). Set at_leg(annet) to 4. }
+  Rule leg_annet_5b when flashpoint(f_b) and day(clock) >= 9 and at_leg(annet) == 4 and not dead(annet) and at(annet, ?w) { Retract at(annet, ?w). Assert at(annet, camp_b). Set at_leg(annet) to 5. }
+  Rule leg_annet_5c when flashpoint(f_c) and day(clock) >= 9 and at_leg(annet) == 4 and not dead(annet) and at(annet, ?w) { Retract at(annet, ?w). Assert at(annet, camp_c). Set at_leg(annet) to 5. }
+  Rule leg_annet_5d when flashpoint(f_d) and day(clock) >= 9 and at_leg(annet) == 4 and not dead(annet) and at(annet, ?w) { Retract at(annet, ?w). Assert at(annet, camp_d). Set at_leg(annet) to 5. }
+  Rule leg_pettifer_1 when day(clock) >= 2 and at_leg(pettifer) == 0 and not dead(pettifer) and at(pettifer, ?w) { Retract at(pettifer, ?w). Assert at(pettifer, green_a). Set at_leg(pettifer) to 1. }
+  Rule leg_pettifer_2 when day(clock) >= 4 and at_leg(pettifer) == 1 and not dead(pettifer) and at(pettifer, ?w) { Retract at(pettifer, ?w). Assert at(pettifer, green_b). Set at_leg(pettifer) to 2. }
+  Rule leg_pettifer_3 when day(clock) >= 6 and at_leg(pettifer) == 2 and not dead(pettifer) and at(pettifer, ?w) { Retract at(pettifer, ?w). Assert at(pettifer, green_c). Set at_leg(pettifer) to 3. }
+  Rule leg_pettifer_4 when day(clock) >= 8 and at_leg(pettifer) == 3 and not dead(pettifer) and at(pettifer, ?w) { Retract at(pettifer, ?w). Assert at(pettifer, green_d). Set at_leg(pettifer) to 4. }
+  Rule leg_pettifer_5b when flashpoint(f_b) and day(clock) >= 9 and at_leg(pettifer) == 4 and not dead(pettifer) and at(pettifer, ?w) { Retract at(pettifer, ?w). Assert at(pettifer, green_b). Set at_leg(pettifer) to 5. }
+  Rule leg_pettifer_5c when flashpoint(f_c) and day(clock) >= 9 and at_leg(pettifer) == 4 and not dead(pettifer) and at(pettifer, ?w) { Retract at(pettifer, ?w). Assert at(pettifer, green_c). Set at_leg(pettifer) to 5. }
+  Rule leg_pettifer_5d when flashpoint(f_d) and day(clock) >= 9 and at_leg(pettifer) == 4 and not dead(pettifer) and at(pettifer, ?w) { Retract at(pettifer, ?w). Assert at(pettifer, green_d). Set at_leg(pettifer) to 5. }
+  Rule leg_lads_1 when day(clock) >= 2 and at_leg(lads) == 0 and not dead(lads) and at(lads, ?w) { Retract at(lads, ?w). Assert at(lads, green_a). Set at_leg(lads) to 1. }
+  Rule leg_lads_2 when day(clock) >= 4 and at_leg(lads) == 1 and not dead(lads) and at(lads, ?w) { Retract at(lads, ?w). Assert at(lads, green_b). Set at_leg(lads) to 2. }
+  Rule leg_lads_3 when day(clock) >= 6 and at_leg(lads) == 2 and not dead(lads) and at(lads, ?w) { Retract at(lads, ?w). Assert at(lads, green_c). Set at_leg(lads) to 3. }
+  Rule leg_lads_4 when day(clock) >= 8 and at_leg(lads) == 3 and not dead(lads) and at(lads, ?w) { Retract at(lads, ?w). Assert at(lads, green_d). Set at_leg(lads) to 4. }
+  Rule leg_lads_5b when flashpoint(f_b) and day(clock) >= 9 and at_leg(lads) == 4 and not dead(lads) and at(lads, ?w) { Retract at(lads, ?w). Assert at(lads, green_b). Set at_leg(lads) to 5. }
+  Rule leg_lads_5c when flashpoint(f_c) and day(clock) >= 9 and at_leg(lads) == 4 and not dead(lads) and at(lads, ?w) { Retract at(lads, ?w). Assert at(lads, green_c). Set at_leg(lads) to 5. }
+  Rule leg_lads_5d when flashpoint(f_d) and day(clock) >= 9 and at_leg(lads) == 4 and not dead(lads) and at(lads, ?w) { Retract at(lads, ?w). Assert at(lads, green_d). Set at_leg(lads) to 5. }
+  Rule leg_orme_1 when day(clock) >= 3 and at_leg(orme) == 0 and not dead(orme) and at(orme, ?w) { Retract at(orme, ?w). Assert at(orme, green_a). Set at_leg(orme) to 1. }
+  Rule leg_orme_2 when day(clock) >= 4 and at_leg(orme) == 1 and not dead(orme) and at(orme, ?w) { Retract at(orme, ?w). Assert at(orme, green_b). Set at_leg(orme) to 2. }
+  Rule leg_orme_3 when day(clock) >= 6 and at_leg(orme) == 2 and not dead(orme) and at(orme, ?w) { Retract at(orme, ?w). Assert at(orme, green_c). Set at_leg(orme) to 3. }
+  Rule leg_orme_4 when day(clock) >= 8 and at_leg(orme) == 3 and not dead(orme) and at(orme, ?w) { Retract at(orme, ?w). Assert at(orme, green_d). Set at_leg(orme) to 4. }
+  Rule leg_orme_5b when flashpoint(f_b) and day(clock) >= 9 and at_leg(orme) == 4 and not dead(orme) and at(orme, ?w) { Retract at(orme, ?w). Assert at(orme, green_b). Set at_leg(orme) to 5. }
+  Rule leg_orme_5c when flashpoint(f_c) and day(clock) >= 9 and at_leg(orme) == 4 and not dead(orme) and at(orme, ?w) { Retract at(orme, ?w). Assert at(orme, green_c). Set at_leg(orme) to 5. }
+  Rule leg_orme_5d when flashpoint(f_d) and day(clock) >= 9 and at_leg(orme) == 4 and not dead(orme) and at(orme, ?w) { Retract at(orme, ?w). Assert at(orme, green_d). Set at_leg(orme) to 5. }
+  Rule wenna_goes when day(clock) >= 6 and not curate_gone(walk) and not dead(wenna) and at(wenna, ?w) {
+    Retract at(wenna, ?w). Assert at(wenna, camp_c). Assert curate_gone(walk). Assert interdict(walk_a). Assert state(shrine_door_a, chained). Set at_leg(wenna) to 3.
+  }
+  Rule wenna_leg4 when day(clock) >= 8 and at_leg(wenna) == 3 and not dead(wenna) and at(wenna, ?w) { Retract at(wenna, ?w). Assert at(wenna, camp_d). Set at_leg(wenna) to 4. }
+  Rule wenna_leg5b when flashpoint(f_b) and day(clock) >= 9 and at_leg(wenna) == 4 and not dead(wenna) and at(wenna, ?w) { Retract at(wenna, ?w). Assert at(wenna, camp_b). Set at_leg(wenna) to 5. }
+  Rule wenna_leg5c when flashpoint(f_c) and day(clock) >= 9 and at_leg(wenna) == 4 and not dead(wenna) and at(wenna, ?w) { Retract at(wenna, ?w). Assert at(wenna, camp_c). Set at_leg(wenna) to 5. }
+  Rule wenna_leg5d when flashpoint(f_d) and day(clock) >= 9 and at_leg(wenna) == 4 and not dead(wenna) and at(wenna, ?w) { Retract at(wenna, ?w). Assert at(wenna, camp_d). Set at_leg(wenna) to 5. }
+  Rule curate_gone_said heard at green_a when curate_gone(walk) and not wenna_said(walk)
+    says "The shrine door has a chain on it this morning, and a card. The curate's grey cloak is gone from its peg, and the old priest is standing on the step with his arms folded, looking at the road the way a man looks at a thing he has done and is not sure of." { Assert wenna_said(walk). }
+  Relation wenna_said(group).
+  // The camp is struck when the Walk goes: those who are there when it happens are told, the rest find the chalk.
+  Rule camp_struck_a heard at camp_a when at_leg(leader) >= 2 and not struck_a(walk) says "The camp at the first town is struck before light: the fire-rings kicked out, the staves gone, a wheel with a wing in chalk on the gatepost and under it a number, 'Two'." { Assert struck_a(walk). }
+  Rule camp_struck_b heard at camp_b when at_leg(leader) >= 3 and not struck_b(walk) says "The camp at the second town is struck: nothing left but fire-rings and a wheel with a wing on the gatepost." { Assert struck_b(walk). }
+  Relation struck_a(group). Relation struck_b(group).
+  Action keep_mile_a(actor: group, site: place) "Keep a mile with the walkers, barefoot, and chalk its number" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, green_a) and at(band_a, site) and not kept_a(actor).
+    Time 90 minutes.
+    On success { Assert kept(actor). Assert kept_a(actor). Increase boost(walk_a) by 1. }
+    Result "You take off your boots, because it is the rule, and walk the mile at the back of the band with a stave you were lent. The road is colder than you thought, and the song has more verses. At the stone someone puts a stub of chalk in your hand and you write the number, 'and mile', and a child hands you a heel-cloth without a word. It is, you find, a reasonable way to spend an hour.".
+  }
+  Relation kept_a(group).
+  Action keep_mile_b(actor: group, site: place) "Keep a mile with the walkers, barefoot, and chalk its number" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, green_b) and at(band_b, site) and not kept_b(actor).
+    Time 90 minutes.
+    On success { Assert kept(actor). Assert kept_b(actor). Increase boost(walk_b) by 1. }
+    Result "You take off your boots, because it is the rule, and walk the mile at the back of the band with a stave you were lent. The road is colder than you thought, and the song has more verses. At the stone someone puts a stub of chalk in your hand and you write the number, 'and mile', and a child hands you a heel-cloth without a word. It is, you find, a reasonable way to spend an hour.".
+  }
+  Relation kept_b(group).
+  Action keep_mile_c(actor: group, site: place) "Keep a mile with the walkers, barefoot, and chalk its number" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, green_c) and at(band_c, site) and not kept_c(actor).
+    Time 90 minutes.
+    On success { Assert kept(actor). Assert kept_c(actor). Increase boost(walk_c) by 1. }
+    Result "You take off your boots, because it is the rule, and walk the mile at the back of the band with a stave you were lent. The road is colder than you thought, and the song has more verses. At the stone someone puts a stub of chalk in your hand and you write the number, 'and mile', and a child hands you a heel-cloth without a word. It is, you find, a reasonable way to spend an hour.".
+  }
+  Relation kept_c(group).
+  Action keep_mile_d(actor: group, site: place) "Keep a mile with the walkers, barefoot, and chalk its number" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, green_d) and at(band_d, site) and not kept_d(actor).
+    Time 90 minutes.
+    On success { Assert kept(actor). Assert kept_d(actor). Increase boost(walk_d) by 1. }
+    Result "You take off your boots, because it is the rule, and walk the mile at the back of the band with a stave you were lent. The road is colder than you thought, and the song has more verses. At the stone someone puts a stub of chalk in your hand and you write the number, 'and mile', and a child hands you a heel-cloth without a word. It is, you find, a reasonable way to spend an hour.".
+  }
+  Relation kept_d(group).
+
+  // ---- The Mile-Keeper.
+  Topic leader_what with leader "Ask {leader} what the Walk is for" when true once {
+    Says "'To keep the road,' says {leader}. The creed comes out the way a creed does after the hundredth saying, worn smooth: {creed_line}. A breath. 'You may think that is not much. It is all of it. A mile is a long thing when you are barefoot. I did not know how long.' The cough. 'Walk one, and then ask me again.'".
+  }
+  Topic leader_where with leader "Ask {leader} where the Walk is going" when true once {
+    Says "'The Station,' says {leader}. 'The old milestone and its rest. On the tenth day the Walk comes to it, all of it, from every green, and speaks the names of the road: everyone who died on it, since the Office closed its books. Forty-one so far. Annet has them. It is to be said aloud, together. Out loud.' The staff turns once in the hands. 'The Bench would rather it were not said out loud. It is our whole difficulty.'".
+    On discuss { Assert knows(actor, gathering_known). }
+  }
+  Topic leader_where_b with leader "Ask {leader} which town keeps the Station for the Gathering" when knows(actor, gathering_known) and flashpoint(f_b) once { Says "'{town_b},' says {leader}. 'The Station there is the one with the old number in it. We will be at the others first, and then back, by the ninth.'". }
+  Topic leader_where_c with leader "Ask {leader} which town keeps the Station for the Gathering" when knows(actor, gathering_known) and flashpoint(f_c) once { Says "'{town_c},' says {leader}. 'The Station there is the one with the old number in it. We will be at the others first, and then back, by the ninth.'". }
+  Topic leader_where_d with leader "Ask {leader} which town keeps the Station for the Gathering" when knows(actor, gathering_known) and flashpoint(f_d) once { Says "'{town_d},' says {leader}. 'The Station there is the one with the old number in it. We will be at the others first, and then back, by the ninth.'". }
+  Topic leader_ask_again with leader "Ask {leader} again what the Walk is for" when kept(actor) once {
+    Says "{leader} watches your feet for a moment, which are as grey as anyone's. 'There,' says {leader}. 'You see? It is not a thing you can say. I think that is why it works.' A long pause, and then, lower: 'I will tell you the true thing, because you kept one. I do not think the Keepers of the Road are coming. I think we are. That is a thing I have not said to the others, because they need it to be the other. {patron_name} has been very kind about the bread.' The cough takes some time. 'Do not tell Pettifer I said that. He thinks I am ignorant of who pays for it.'".
+    On discuss { Assert knows(actor, bound_seen). }
+  }
+  Topic leader_cough with leader "Ask {leader} about the cough" when kept(actor) once {
+    Says "'It is the dust,' says {leader}. The sleeve is dark where it was held to the mouth. 'It is a great deal of dust, on a long road.' A look that does not leave room. 'If I am to get to the Station, I will get to it. Nobody is to be sent for. Do you hear?'".
+    On discuss { Assert knows(actor, cough_known). }
+  }
+  Action tend_leader(actor: group, site: place) "Bind the Mile-Keeper's chest and make the Mile-Keeper rest an hour" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(leader, site) and knows(actor, cough_known) and capable(actor, mending) and not cough_tended(actor).
+    Time 60 minutes.
+    Resolve check(actor, mending, dc_fair).
+    On success { Assert cough_tended(actor). Assert cough_tended(walk). }
+    Result "You make the Mile-Keeper lie down with a wet cloth and breathe on purpose. It takes an hour and the first half of it is argument. At the end of it the cough is a cough and not a threat. 'A day,' you say. 'No more, and not at the ford.' The Mile-Keeper looks at the ceiling. 'Mile,' says the Mile-Keeper, which is not an answer, and you take it for yes.".
+    Otherwise "The Mile-Keeper submits to your hands and does not mean a word of it. The rest does no good that you can see.".
+  }
+  Observe leader_cough_sign near leader as sign noticed by mending when not knows(party, cough_known) "A cloth held to the mouth, stained at the fold. The breath between refrains is too short for the size of the man; the walking is being done on what is left of the lungs." teaches cough_known.
+  Observe leader_cough_sign_i near leader as sign noticed by insight when not knows(party, cough_known) "The Mile-Keeper hides the sleeve each time, the way a person does who has already decided what is not to be discussed." teaches cough_known.
+
+  // ---- Pettifer Gule. He sells a good deal, and some of it is true.
+  Topic pettifer_chalk with pettifer "Ask {pettifer} where the chalk came from" when true once {
+    Says "'The chalk?' says {pettifer}, with a hand to his breast. 'The very chalk. The chalk that wrote the first number. In a manner of speaking.' He lowers his voice to a conspiracy. 'There is a quarry at the back of Marrow Lane. The Mile-Keeper has blessed it. I took the liberty of blessing it again, to be sure. Two blessings! No extra charge.' He wipes the barrel with a sleeve. 'Staves are three crowns. Ash, with the notches already cut. It saves a great deal of walking.'".
+  }
+  Topic pettifer_who with pettifer "Ask {pettifer} who it is that stands the Walk its bread" when true once {
+    Says "'Who?' says {pettifer}, and the voice goes up half a tone. 'Nobody. The Walk provides. The Walk is provided for. It is a great mystery.' He looks at the barrel. 'It is a good deal of bread for a mystery, I will grant you. A gentleman comes at night. I do not ask his name. I find that names are bad for trade.'".
+    On discuss { Assert knows(actor, orme_seen). }
+  }
+  Action pettifer_pay(actor: group, site: place) "Offer {pettifer} twelve crowns to say who it is" {
+    Speaker pettifer.
+    Requires able(actor) and company(actor) and at(actor, site) and at(pettifer, site) and quantity(actor, gold) >= 12 and not knows(actor, skim_known).
+    Time 5 minutes.
+    On success { Decrease quantity(actor, gold) by 12. Assert knows(actor, skim_known). Assert knows(actor, orme_seen). }
+    Result "'Twelve,' says {pettifer}, in the tone of a man being honest against his interest. 'A steward. Orme. Grey. I carry the tithe-box to him on the fifth night of every town, and he carries a purse back, and I keep a little back from both, for the trouble, naturally.' He stops. 'That last part was not for sale. I have a feeling I have sold it.'".
+  }
+  Action lift_tithe(actor: group, site: place) "Slip {pettifer}'s tithe-box out of the barrel and look at it" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(pettifer, site) and capable(actor, stealth) and not knows(actor, skim_known).
+    Time 10 minutes.
+    Resolve check(actor, stealth, dc_fair).
+    On success { Assert knows(actor, skim_known). }
+    Result "There is a false bottom in the barrel, and in it two boxes: the Walk's tithe, in pennies, and the other, in silver, which is not the Walk's. A ledger in a neat round hand says what has gone from one to the other, a little each night. You put the lid back and the barrel is exactly as it was.".
+    Otherwise "{pettifer} turns round at the wrong moment, and the smile does not slip, which is worse. 'My friend,' he says, softly, 'that barrel is the Walk's.'".
+  }
+
+  // ---- Annet.
+  Topic annet_names with annet "Ask {annet} what is on the roll" when true once {
+    Says "'The road's dead,' says {annet}. 'The ones who died on it, with no stone and no one to ask. Forty-one. Here.' She unrolls a little. 'Osric Thane, a carter, the year of the long frost, at the ford. A child, unnamed, at the third stone. Hal Dray, a bench-man's brother, who went to find the road's end and did not come back, and his mother has never put a stone for him.' She stops, and looks at the next name, and does not read it. 'It is not much of a roll. It is what I could find.'".
+    On discuss { Assert knows(actor, hal_named). }
+  }
+  Topic annet_boy with annet "Ask {annet} who she is walking for" when kept(actor) once {
+    Says "'My Tam,' says {annet}. She says it like a thing she has been carrying a long time and is glad to put down on a table. 'He went down the north road for the Bench's carter, he was fifteen, he was proud of it. They found the cart at the ford. They did not find him.' A small, awful laugh. 'I have been walking the road for him since Lammas and I am no nearer to him. I am nearer to everyone else.' She folds the corner of the roll. 'I would like to say his name at the Station. That is all. I do not need the Keepers.'".
+  }
+  Topic annet_copy with annet "Ask {annet} to let you copy the roll" when kept(actor) and knows(actor, hal_named) once {
+    Says "{annet} thinks about it for a long time. 'There is only the one,' she says, 'and the bark is old.' She takes a second roll from her sleeve, in the same small hand and a smaller one, and gives it to you as one would hand over a child. 'I have been copying it at night. In case. If the Bench comes, you see. They will take the roll. They will not think of two.'".
+    On discuss { Give roll_kind to actor. }
+  }
+
+  // ---- The Dunning lads: the comedy, and the first trouble.
+  Topic lads_bench with lads "Ask Rhys about the Bench's man" when true once {
+    Says "'Teague?' says Rhys, with enormous contempt. 'He has not smiled since the old king. Walks round the green like he is measuring it for a coffin. We put a bit of chalk on his door, that is all. It was a very small bit.' 'It was a very big bit,' says Cal. 'It said what he is.' 'It said TEAGUE,' says Rhys. 'It was only his name. It is not our fault what his name sounds like.'".
+  }
+  Topic lads_race with lads "Ask what the lads would give for a race" when true once {
+    Says "'A race?' says Rhys, and every one of them stops moving. 'A mile? Barefoot? On the hard road?' He shuts his eyes. 'A race would be the best thing that ever happened to this Walk. Who against?' 'The Bench,' says Cal, 'obviously.' 'The Bench would never.' 'The Bench would never,' agrees Cal, 'and then it would, because Teague cannot bear to be asked.'".
+  }
+}

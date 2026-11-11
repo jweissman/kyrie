@@ -1,0 +1,170 @@
+{
+  "walk": {
+    "__no_id": true,
+    "terrain": "forest",
+    "folk": "human",
+    "name": "The Walk of the Milestones",
+    "_creed": "=oneOf('remembrance', 'penance', 'reform')",
+    "_flash": "=oneOf('b', 'c', 'd')",
+    "_patron": "=lookup(walkPatron, #_creed)",
+    "_leader": "=lookup(walkLeader, #_creed)",
+    "_bound": "=lookup(walkBound, #_patron)",
+    "_sa": "=oneOf('profit', 'resent')",
+    "_sb": "=oneOf('profit', 'resent')",
+    "_sc": "=oneOf('profit', 'resent')",
+    "_sd": "=oneOf('profit', 'resent')",
+    "creatures": [],
+    "actors": {
+      "order": []
+    },
+    "casting": "=gen(wk_casting)",
+    "labels": "=gen(wk_labels)",
+    "facts": "=concat(gen(wk_creed), gen(wk_flash), gen(wk_patron), gen(wk_bound), gen(wk_leaderkind), gen(wk_sa), gen(wk_sb), gen(wk_sc), gen(wk_sd))",
+    "initial": [],
+    "outcomes": [
+      {
+        "id": "licensed",
+        "predicate": "ending(e_licensed)"
+      },
+      {
+        "id": "suppressed",
+        "predicate": "ending(e_suppressed)"
+      },
+      {
+        "id": "schism",
+        "predicate": "ending(e_schism)"
+      },
+      {
+        "id": "usurped",
+        "predicate": "ending(e_usurped)"
+      },
+      {
+        "id": "riot",
+        "predicate": "ending(e_riot)"
+      },
+      {
+        "id": "fades",
+        "predicate": "ending(e_fades)"
+      }
+    ]
+  },
+  "wk_casting": {
+    "__no_id": true,
+    "leader": "=gen(wk_leader)",
+    "pettifer": "=gen(wk_pettifer)",
+    "annet": "=gen(wk_annet)",
+    "wenna": "=gen(wk_wenna)",
+    "gaunt": "=gen(wk_gaunt)",
+    "dray": "=gen(wk_dray)",
+    "hask": "=gen(wk_hask)",
+    "orme": "=gen(wk_orme)",
+    "teague": "=gen(wk_teague)"
+  },
+  "wk_leader": {
+    "__no_id": true,
+    "_drawn": "=lookup(townsfolkName, #folk)",
+    ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, #folk, (#_leader == 'widow' || #_leader == 'novice') ? 'she:wk_leader' : 'he:wk_leader')",
+    ">raceId": "=#folk"
+  },
+  "wk_pettifer": {
+    "__no_id": true,
+    "_drawn": "=lookup(townsfolkName, #folk)",
+    ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, #folk, 'he:wk_pettifer')",
+    ">raceId": "=#folk"
+  },
+  "wk_annet": {
+    "__no_id": true,
+    "_drawn": "=lookup(townsfolkName, #folk)",
+    ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, #folk, 'she:wk_annet')",
+    ">raceId": "=#folk"
+  },
+  "wk_wenna": {
+    "__no_id": true,
+    "_drawn": "=lookup(townsfolkName, #folk)",
+    ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, #folk, 'she:wk_wenna')",
+    ">raceId": "=#folk"
+  },
+  "wk_gaunt": {
+    "__no_id": true,
+    "_drawn": "=lookup(townsfolkName, #folk)",
+    ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, #folk, 'he:wk_gaunt')",
+    ">raceId": "=#folk"
+  },
+  "wk_dray": {
+    "__no_id": true,
+    "_drawn": "=lookup(townsfolkName, #folk)",
+    ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, #folk, 'he:wk_dray')",
+    ">raceId": "=#folk"
+  },
+  "wk_hask": {
+    "__no_id": true,
+    "_drawn": "=lookup(townsfolkName, #folk)",
+    ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, #folk, 'he:wk_hask')",
+    ">raceId": "=#folk"
+  },
+  "wk_orme": {
+    "__no_id": true,
+    "_drawn": "=lookup(townsfolkName, #folk)",
+    ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, #folk, 'he:wk_orme')",
+    ">raceId": "=#folk"
+  },
+  "wk_teague": {
+    "__no_id": true,
+    "_drawn": "=lookup(townsfolkName, #folk)",
+    ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, #folk, 'he:wk_teague')",
+    ">raceId": "=#folk"
+  },
+  "wk_labels": {
+    "__no_id": true,
+    "creed_line": "=lookup(walkCreedLine, #_creed)",
+    "creed_cry": "=lookup(walkCreedCry, #_creed)",
+    "leader_was": "=lookup(walkLeaderWas, #_leader)",
+    "patron_name": "=lookup(walkPatronName, #_patron)",
+    "patron_wants": "=lookup(walkPatronWants, #_patron)"
+  },
+  "wk_creed": {
+    "__no_id": true,
+    ">name": "creed",
+    "args": "=concat('c_' + #_creed)"
+  },
+  "wk_flash": {
+    "__no_id": true,
+    ">name": "flashpoint",
+    "args": "=concat('f_' + #_flash)"
+  },
+  "wk_patron": {
+    "__no_id": true,
+    ">name": "patron_is",
+    "args": "=concat('p_' + #_patron)"
+  },
+  "wk_bound": {
+    "__no_id": true,
+    ">name": "bound_by",
+    "args": "=concat('m_' + #_bound)"
+  },
+  "wk_sa": {
+    "__no_id": true,
+    ">name": "stance",
+    "args": "=concat('walk_a', 's_' + #_sa)"
+  },
+  "wk_sb": {
+    "__no_id": true,
+    ">name": "stance",
+    "args": "=concat('walk_b', 's_' + #_sb)"
+  },
+  "wk_sc": {
+    "__no_id": true,
+    ">name": "stance",
+    "args": "=concat('walk_c', 's_' + #_sc)"
+  },
+  "wk_sd": {
+    "__no_id": true,
+    ">name": "stance",
+    "args": "=concat('walk_d', 's_' + #_sd)"
+  },
+  "wk_leaderkind": {
+    "__no_id": true,
+    ">name": "leader_kind",
+    "args": "=concat('l_' + #_leader)"
+  }
+}

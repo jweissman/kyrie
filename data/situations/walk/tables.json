@@ -1,0 +1,71 @@
+{
+  "walkPatron": {
+    "about": "Who pays for the Walk in secret, by what the Walk is for. A grieving dowager pays for a penance, never for a reform; a factor who wants the road free of tolls pays for a reform; a Warden's cousin, who wants the Bench's seat for a friend, pays for any.",
+    "discriminator": "creed",
+    "groups": {
+      "remembrance": ["cousin", "cousin", "dowager", "factor"],
+      "penance": ["dowager", "dowager", "cousin"],
+      "reform": ["factor", "factor", "cousin"]
+    }
+  },
+  "walkLeader": {
+    "about": "Who leads, by what the Walk is for.",
+    "discriminator": "creed",
+    "groups": {
+      "remembrance": ["scrivener", "soldier"],
+      "penance": ["widow", "novice", "soldier"],
+      "reform": ["drover", "soldier"]
+    }
+  },
+  "walkBound": {
+    "about": "What would move the bailiff, by who holds him. A bailiff in a patron's debt is moved by the proof of it; any other is moved by his own kin on the road, or by the book of his office.",
+    "discriminator": "patron",
+    "groups": {
+      "dowager": ["kin", "duty", "debt"],
+      "cousin": ["debt", "debt", "duty"],
+      "factor": ["debt", "kin", "duty"]
+    }
+  },
+  "walkCreedLine": {
+    "discriminator": "creed",
+    "groups": {
+      "remembrance": ["that the Keepers of the Road will come again to the road they kept, the day every mile of it has been spoken aloud by a living mouth"],
+      "penance": ["that the road carried our dead away when the Empire ended, and must be walked back, mile by mile, until they are home"],
+      "reform": ["that the road belongs to whoever walks it, and that a man who sets a toll on a mile he did not lay has stolen it"]
+    }
+  },
+  "walkCreedCry": {
+    "discriminator": "creed",
+    "groups": {
+      "remembrance": ["Keep it, keep it, keep it again"],
+      "penance": ["Bring them home, bring them home"],
+      "reform": ["No toll, no toll, no toll on the road"]
+    }
+  },
+  "walkLeaderWas": {
+    "discriminator": "leader",
+    "groups": {
+      "scrivener": ["a village scrivener who read the stones before anyone, and was laughed at, and went on reading"],
+      "soldier": ["a soldier turned off without his pay, who counted the road's miles on the way home and has not stopped counting"],
+      "widow": ["a widow who buried a husband and two sons from the road in one bad year, and began walking it to find where they went"],
+      "novice": ["a novice who left her house at night with her sandals in her hand, because a mile of the road had spoken to her"],
+      "drover": ["a drover whose hip was stove in by a cart on the old road, and who has walked on it ever since"]
+    }
+  },
+  "walkPatronName": {
+    "discriminator": "patron",
+    "groups": {
+      "dowager": ["the Dowager Lady Ysolde Vane", "the Dowager Lady Margery Tresk"],
+      "cousin": ["Sir Aldric Vane, the Warden's cousin", "Sir Gervase Holt, the Warden's cousin"],
+      "factor": ["the factor Osbert Wynne, of the wool-house", "the factor Hesper Calloway, of the salt-house"]
+    }
+  },
+  "walkPatronWants": {
+    "discriminator": "patron",
+    "groups": {
+      "dowager": ["that her son's name be said at the Station, which the church will not allow him, he having died on the road unshriven"],
+      "cousin": ["a crowd that will frighten the Hundred into asking a better man to sit in the bailiff's chair, and the better man is a friend of his"],
+      "factor": ["a road without a toll, and a Hundred without a bailiff to take one"]
+    }
+  }
+}

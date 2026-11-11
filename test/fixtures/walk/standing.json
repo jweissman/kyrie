@@ -1,0 +1,11 @@
+{
+  "about": "The five standing scenarios as data/scenarios/standing.json lists them, and the Walk of the Milestones (the line its integrator adds). Specs set WorldAssembler.standing to this file.",
+  "scenarios": [
+    "../../../data/scenarios/circus.scenario.json",
+    "../../../data/scenarios/arcology.scenario.json",
+    "../../../data/scenarios/bound-howe.scenario.json",
+    "../../../data/scenarios/silent-lord.scenario.json",
+    "../../../data/scenarios/fellowship.scenario.json",
+    "../../../data/scenarios/walking.scenario.json"
+  ]
+}
