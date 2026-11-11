@@ -12,7 +12,7 @@ The commission asked, in three phases, for a deeper starting region (Phase One),
 | [census.md](census.md) | The reproducible content-activation census (`bun scripts/activation-census.ts`): paintings, creatures, works, items, scenarios, adventures. |
 | [dormant.json](dormant.json) | The ledger of intentional dormancy, with reasons. |
 | [storyboard.md](storyboard.md) | The spatial storyboard of the Hall, the old stones and the Empire's posting-house, with painting briefs, and the storyboard-first method. |
-| [kyr-deem-requests.md](kyr-deem-requests.md) | Two migrations done (`@count`, template `if`/`unless`), a survey of what else is TypeScript, thirteen narrowly specified requests with reproductions. |
+| [kyr-deem-requests.md](kyr-deem-requests.md) | Two migrations done (`@count`, template `if`/`unless`), a survey of what else is TypeScript, fourteen narrowly specified requests with reproductions. |
 | [transcripts/](transcripts) | Two played routes by the page's own labels (`bin/kyrie play`): the road-wood quarrel from the landing to a companion joining, and a walk to the posting-house and what its papers say. |
 | [arcology.md](arcology.md) | A conception, not built: a ruined Mathematical Age arcology, twelve environmental moments, ecology, motives. |
 
@@ -21,9 +21,10 @@ The commission asked, in three phases, for a deeper starting region (Phase One),
 - **The Empire's posting-house** (`data/generation/works/roadstation.kyrt`): an Aenean road station in every country; twelve rooms, three entries, documents in three voices, four unexplained endings, six occupant draws.
 - **The Hall below stairs and the old stones below the dome** (`data/generation/town/outskirts-deep.kyrt`): kitchen, cellar, muniment room, undercroft; four named people (a cook, a boy, a gamekeeper who can join the company, a reeve); a quarrel over the old road that an Empire's grant settles.
 - **The first town's neighbours** (`data/generation/town/neighbours.kyrt`): a scholar, an acolyte and an apprentice who can be companions or have arcs of their own; the generated innkeeper, priest, merchant and traveller given lives that touch them; a death at the landing with three readings; the reeve's father's papers; a spoon; the family's answer.
+- **Two abstractions:** *ties* (every settlement is tied to its nearest place by one of three authored shapes, told from both ends so the countryside leads back to a named town person) and *bonds* (each companion asks three questions of their own, remembers what the answers showed, and, at regard three, offers a paragon quest ending in a keepsake that grants the company a capability).
 - **A batch of the owner's paintings**, imported and placed (149 → 199 of 207 imported; 148 → 184 mapped): `scene-ruins`, `-waterworks`, `-crossroads`, `-lone-tower`, `-parchmentry` and 45 more, with 21 new scene kinds in `scenery.json`.
 - **`scripts/activation-census.ts`**, `scripts/dump-region.ts`, `scripts/play-at.ts`, `scripts/rooms-painted.ts`, `test/support/placed.ts`: the verification tools and helpers.
-- **Specs:** `test/roadstation.test.ts` (10), `test/outskirts-deep.test.ts` (5), `test/neighbours.test.ts` (8), `test/authorable-generation.test.ts` (2).
+- **Specs:** `test/roadstation.test.ts` (10), `test/outskirts-deep.test.ts` (5), `test/neighbours.test.ts` (9), `test/ties.test.ts` (2), `test/authorable-generation.test.ts` (2).
 
 ## Reproduce
 

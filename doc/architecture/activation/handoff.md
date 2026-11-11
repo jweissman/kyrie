@@ -9,7 +9,7 @@
 | **Aenean** | the posting-house (`roadstation.kyrt`; `e1`; 12 rooms, 3 entries, 3 stationmasters × 4 endings × 6 occupants, hooks, a painted road that teaches the next place, a late coin) | the arcology expedition; four more stationmasters; a hedge-priest lamp-keeper; the oldcoin scholar's landing (needs R5) |
 | **Hall / stones** | kitchen, cellar, muniment room, undercroft, tunnel; Orla, Wimble, Wystan, Aldous; a cook's job, a boy's cup, a road-wood quarrel with three outcomes | a letter from the Hall as a reward; a town licence-trade; relationships across towns |
 | **Companions** | Wystan Hale (always) and the copyist (a quarter of countries): both use `willing`/`hire`/`Joins`/`Remarks`/`Leaves` | a disagreement when the company breaks the seal-lock; Wystan at the Bend; remaining at a stage for love of its books |
-| **Authoring** | `@count` in plans; `if`/`unless` in Kyr templates | R1–R13 (kyr-deem-requests.md) |
+| **Authoring** | `@count` in plans; `if`/`unless` in Kyr templates | R1–R14 (kyr-deem-requests.md) |
 | **Activation** | 50 paintings imported and 36 newly mapped (21 new scene kinds); the census and its ledger | the owner's newest 8 paintings (left for M20's batch); `scene-infinite-library` for the Infinite Library place; city paintings (need a city-only selection) |
 
 **Not done, said plainly:** no browser (Playwright) session and no independent cold player has played any of this; the route tests are specs that play by the page's own labels. The posting-house is reached on foot by a `map:` set-out in the transcript (`transcripts/posting-house.txt`: a meeting on the road, "the deserters' toll", is paid); the specs set the company down inside it. The paintings were checked by the registry/scenery specs and by `scripts/rooms-painted.ts`, not by eye on the page.
@@ -44,7 +44,7 @@ All edits are small, backward compatible, and mechanical. If you merge only the 
 
 ## 3. Add-only files (cannot conflict)
 
-`data/generation/works/roadstation.kyrt` · `data/generation/town/outskirts-deep.kyrt` · `data/generation/town/neighbours.kyrt` · `scripts/{activation-census,dump-region,play-at,rooms-painted}.ts` · `test/{roadstation,outskirts-deep,neighbours,authorable-generation}.test.ts` · `test/support/placed.ts` · `doc/architecture/activation/*` · 50 painting files each in three sizes.
+`data/generation/works/roadstation.kyrt` · `data/generation/town/outskirts-deep.kyrt` · `data/generation/town/neighbours.kyrt` · `data/generation/town/ties.kyrt` · `data/generation/town/bond.kyrt` · `data/generation/town/companions.json` · `src/world/region-ties.ts` · `src/world/region-bonds.ts` · `scripts/{activation-census,dump-region,play-at,rooms-painted}.ts` · `test/{roadstation,outskirts-deep,neighbours,authorable-generation}.test.ts` · `test/support/placed.ts` · `doc/architecture/activation/*` · 50 painting files each in three sizes.
 
 ## 4. How to merge without duplicating people, places or systems
 
@@ -56,7 +56,7 @@ All edits are small, backward compatible, and mechanical. If you merge only the 
 
 ## 5. Unresolved blockers and requests (precise)
 
-All in [kyr-deem-requests.md](kyr-deem-requests.md) §C with reproductions: R1 cross-section conditions; R2 a template function to find a site by plan; R3 `@riddle no`; R4 an author's painting for a room; R5 a scenario that binds a work site (so the old-coin scholar can go to the posting-house); R6 the `ownedItem` doc line; R7 a posted weight limit; R8 a name hole from the town's folk; R9 duplicate words in a way's label; R10 the state-name error noise; R11 a painting that depends on the state of the place; R12 a topic that takes an item from the company; R13 one name added to a country re-picks every kin's name (`FantasyRules.another`).
+All in [kyr-deem-requests.md](kyr-deem-requests.md) §C with reproductions: R1 cross-section conditions; R2 a template function to find a site by plan; R3 `@riddle no`; R4 an author's painting for a room; R5 a scenario that binds a work site (so the old-coin scholar can go to the posting-house); R6 the `ownedItem` doc line; R7 a posted weight limit; R8 a name hole from the town's folk; R9 duplicate words in a way's label; R10 the state-name error noise; R11 a painting that depends on the state of the place; R12 a topic that takes an item from the company; R13 one name added to a country re-picks every kin's name (`FantasyRules.another`); R14 a feat a companion's regard can open.
 
 Observed on the way, not mine to fix:
 - **A deserters' toll on the road** (`Sergeant Mawr`: "Pay the deserters' toll, four coin") meets the `map:` set-out toward the posting-house in `kahitude`; the transcript pays it (four coin). It is existing content, and well made; it means the way to the first new Aenean place has a fight-or-pay in it that this branch did not put there, and a company too poor to pay was not tried.
