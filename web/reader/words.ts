@@ -22,6 +22,8 @@ export class Words {
   // A note set apart by what it is (see Narrator): something learned, an aim taken up, or one as it stands now; or
   // something heard, borne out by coming to it.
   static readonly noted = /^(Noted|Aim|Aim now|Borne out): /;
+  // The narration's own label for an aim it took up (see Narrator), apart from what it learned.
+  static readonly aimed = /^Aim( now)?: /;
   static readonly notes: Record<string, string> = { Noted: 'You know now', Aim: 'A new aim', 'Aim now': 'The aim now',
     'Borne out': 'As you were told' };
   static label(note: string): string | undefined { return this.notes[this.noted.exec(note)?.[1] ?? '']; }

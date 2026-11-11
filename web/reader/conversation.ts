@@ -10,6 +10,8 @@ export interface TalkLine {
   kind: 'you' | 'speech' | 'telling' | 'event' | 'change' | 'fight' | 'roll' | 'opening' | 'revelation' | 'learned' | 'aim'
     | 'tally';
   text: string;
+  // An aim taken up: its id, by which it is followed.
+  aim?: string;
   // What a note is, said before it ("A new aim", "The aim now", "You know now").
   label?: string;
 }
@@ -42,9 +44,14 @@ export class Conversation {
     const exchange = frame.leaf.exchange, words = exchange?.said ?? said.split(' › ').at(-1)!;
     const restated = Words.restates(Words.echo(words), exchange?.lines[0]?.text);
     const you: TalkLine[] = /#talk$/.test(choice.id) || restated ? [] : [{ kind: 'you', text: words }];
+    // What it took up is said from the aims themselves, each by its id (see Exchange.aims); the narration's notes of
+    // them are the terminal's.
+    const aims = exchange?.aims ?? [];
     return [...you, ...(exchange?.lines ?? []).map(l => ({ kind: l.kind, text: l.text })),
-      ...(exchange?.notes ?? []).map(text => ({ kind: /^(Noted|Borne out): /.test(text) ? 'learned' as const
-        : /^Aim( now)?: /.test(text) ? 'aim' as const : 'tally' as const, text: text.replace(Words.noted, ''),
-        ...Words.label(text) ? { label: Words.label(text) } : {} }))];
+      ...(exchange?.notes ?? []).filter(text => !aims.length || !Words.aimed.test(text))
+        .map(text => ({ kind: /^(Noted|Borne out): /.test(text) ? 'learned' as const
+        : Words.aimed.test(text) ? 'aim' as const : 'tally' as const, text: text.replace(Words.noted, ''),
+        ...Words.label(text) ? { label: Words.label(text) } : {} })),
+      ...aims.map(a => ({ kind: 'aim' as const, text: a.text, aim: a.id }))];
   }
 }

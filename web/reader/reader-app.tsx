@@ -1,5 +1,4 @@
 import { MapView } from './map-view';
-import { Followed } from './followed';
 import { Component, type ReactNode } from 'react';
 import type { Choice } from '../../src/ui/choice-list';
 import type { Catalog, CompanyView, Entry, Frame, Leaf, Member, Message, Setting } from '../engine/protocol';
@@ -343,9 +342,9 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   };
   // An aim to follow, or none (the game follows for the player again): said on every page, and kept with the game
   // (see Followed).
-  follow = (aim?: string) => {
-    const screen = this.state.frame?.screen, id = screen && aim ? Followed.id(screen, aim) : undefined;
-    if (this.state.pending || (aim && !id)) { return; }
+  // An aim followed by its id (none: the game follows for the player again).
+  follow = (id?: string) => {
+    if (this.state.pending) { return; }
     void this.engine.request<Frame | null>({ kind: 'follow', ...id ? { aim: id } : {} })
       .then(frame => { if (frame) { this.setState({ frame }); } }).catch(this.failed);
   };

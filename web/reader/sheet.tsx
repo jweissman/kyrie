@@ -13,6 +13,8 @@ import { AimNear } from './aim-near';
 // What takes the right-hand side's place when asked for: your notes (what is unfinished, what you know, and how sure
 // you can be of it), the story so far, what you carry, the company. The book's head goes back to what is here (a back
 // of its own under the head made two: play 7); the world stays.
+// An aim as the notes list it: by its id where the company holds it; a deadline is only said.
+interface Held { id?: string; text: string }
 export class Sheet {
   static View({ app }: { app: ReaderApp }) {
     const s = app.state, frame = s.frame!, screen = frame.screen;
@@ -62,9 +64,11 @@ export class Sheet {
   // An aim, and, when it names somewhere the company knows the way to, setting out for it there: the notes had been a
   // document of bullets (the owner's interim report).
   // The aim followed first, then the rest as the company took them up.
-  private static ordered(app: ReaderApp, aims: string[]): string[] {
-    const followed = app.state.frame && Followed.of(app.state.frame.screen);
-    return followed ? [followed, ...aims.filter(a => a !== followed)] : aims;
+  // Each by its id where the company holds it (a deadline is only said), followed by that id.
+  private static ordered(app: ReaderApp, aims: Held[]): Held[] {
+    const followed = app.state.frame && Followed.held(app.state.frame.screen);
+    const first = aims.find(a => a.id !== undefined && a.id === followed);
+    return first ? [first, ...aims.filter(a => a !== first)] : aims;
   }
   // The aim followed, large; the rest under it, smaller, each a line with its own touches, so that a company newly come
   // is not handed ten things at once as equals (the owner, 4 November), and none of them is behind a fold.
@@ -72,31 +76,33 @@ export class Sheet {
   // cold player had about ten aims within minutes of talking to Tuck, as equals (Mission 20's second round). The aims'
   // places hold what they lie in (see Undertakings.places), so a job in the town names the town.
   static Aims({ app }: { app: ReaderApp }) {
-    const screen = app.state.frame!.screen, [first, ...rest] = Sheet.ordered(app, [...screen.deadlines, ...screen.objectives]);
-    const town = AimNear.town(screen), here = rest.filter(o => town && AimNear.near(screen, o));
+    const screen = app.state.frame!.screen, held: Held[] = screen.aims?.map(a => ({ id: a.id, text: a.text }))
+      ?? screen.objectives.map(text => ({ text }));
+    const [first, ...rest] = Sheet.ordered(app, [...screen.deadlines.map(text => ({ text })), ...held]);
+    const town = AimNear.town(screen), here = rest.filter(o => town && AimNear.near(screen, o.id ? { id: o.id } : o.text));
     const far = rest.filter(o => !here.includes(o));
     return <>
       <ul className="aims"><Sheet.Aim app={app} aim={first!} /></ul>
       {here.length > 0 && <div className="aims-more"><h3>{Typography.curl(`To hand in ${town!.name}`)}</h3>
-        <ul className="aims rest">{here.map(o => <Sheet.Aim key={o} app={app} aim={o} />)}</ul></div>}
+        <ul className="aims rest">{here.map(o => <Sheet.Aim key={o.id ?? o.text} app={app} aim={o} />)}</ul></div>}
       {far.length > 0 && <div className="aims-more"><h3>{town ? 'Further off' : 'You could also take up'}</h3>
-        <ul className="aims rest">{far.map(o => <Sheet.Aim key={o} app={app} aim={o} />)}</ul></div>}
+        <ul className="aims rest">{far.map(o => <Sheet.Aim key={o.id ?? o.text} app={app} aim={o} />)}</ul></div>}
     </>;
   }
   // An aim, to follow or not, and where it names a place the company knows, that place on the map: going anywhere is the
   // map's (the owner, 4 November: no setting out from any page but the world map's).
-  static Aim({ app, aim }: { app: ReaderApp; aim: string }) {
-    const screen = app.state.frame?.screen, following = !!screen && Followed.of(screen) === aim;
-    const place = screen && Aims.named(screen, screen.destinations ?? [], aim);
+  static Aim({ app, aim: { id, text: aim } }: { app: ReaderApp; aim: Held }) {
+    const screen = app.state.frame?.screen, held = id === undefined ? undefined : screen?.aims?.find(a => a.id === id);
+    const following = !!held?.followed, place = screen && Aims.named(screen, screen.destinations ?? [], aim);
     // What is known of the place it is about, from the place's own aim folded into it (see Undertakings.folded).
-    const about = screen?.aims?.find(a => a.text === aim)?.about ?? [];
+    const about = held?.about ?? [];
     return <li className={`aim-card${following ? ' followed' : ''}`}><span>{Typography.curl(aim)}
       {about.map(t => <small key={t} className="aim-about">{Typography.curl(t)}</small>)}</span>
       <span className="aim-acts"><button type="button" className="option follow" data-action="follow"
-        aria-pressed={following} disabled={following} onClick={() => app.follow(aim)}>
+        aria-pressed={following} disabled={following || !id} onClick={() => app.follow(id)}>
         {following ? 'Following' : 'Follow this'}</button>
       {place && <button type="button" className="option on-map" data-action="aim-map" data-id={place.id}
-        onClick={() => { app.follow(aim); app.chart(Sheet.charted(screen, place.id)); }}>{`${place.name}, on the map`}</button>}
+        onClick={() => { if (id) { app.follow(id); } app.chart(Sheet.charted(screen, place.id)); }}>{`${place.name}, on the map`}</button>}
       </span></li>;
   }
   // A place as the map knows it (its mark, its town, or the hex it lies in: see BoardField.whither).

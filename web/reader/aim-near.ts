@@ -7,8 +7,10 @@ export class AimNear {
   static town(screen: Screen): Screen['path'][number] | undefined {
     return [...screen.path].reverse().find(p => p.kind === 'settlement');
   }
-  static near(screen: Screen, text: string): boolean {
-    const town = this.town(screen), aim = screen.aims?.find(a => a.text === text);
-    return !town || !aim || !!aim.own || !!aim.followed || !!aim.places?.includes(town.id);
+  // By the aim's id (an aim the company holds), or for one only said (a deadline), by its words.
+  static near(screen: Screen, aim: string | { id: string }): boolean {
+    const town = this.town(screen);
+    const held = screen.aims?.find(a => typeof aim === 'string' ? a.text === aim : a.id === aim.id);
+    return !town || !held || !!held.own || !!held.followed || !!held.places?.includes(town.id);
   }
 }

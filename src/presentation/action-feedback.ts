@@ -25,6 +25,9 @@ export interface ActionFeedback {
   // Aims that take up one just gone, told as it stands now: a quarrel heard from its other side (play 9 was told "A new
   // aim" of the brood's when only what Odile said had been added to it).
   amended?: string[];
+  // The same aims, each by its id with its words: what the page follows and counts by (the owner, 11 November: an
+  // undertaking known by the game's state, never by its sentence).
+  taken?: { id: string; text: string; now?: true }[];
   // Places something learned leads to that nothing said where they are, now somewhere to set out for.
   leads?: string[];
   // What the company was told and has now seen for itself (come to the place, or the thing in its hands), and who told
@@ -37,13 +40,16 @@ export class ActionFeedbackView {
   // An aim is new when it was not one before: the same aim told again with its count gone up (graves opened, five,
   // six, seven) is not "A new aim" (the cold evaluation); one that takes up an aim just gone, opening as it did, is
   // that aim as it stands now.
-  static aims(before: PlayerSnapshot, after: PlayerSnapshot): { aims: string[]; amended: string[] } {
+  static aims(before: PlayerSnapshot, after: PlayerSnapshot): { aims: string[]; amended: string[];
+    taken: { id: string; text: string; now?: true }[] } {
     const had = before.objectives ?? [], now = after.objectives ?? [];
     const gone = new Set(had.filter(b => !now.some(o => o.id === b.id)).map(b => this.opening(b.text)));
     const fresh = now.filter(o => !had.some(b => b.id === o.id));
-    return { aims: fresh.filter(o => !gone.has(this.opening(o.text))).map(o => FictionalTime.prose(o.text)),
-      amended: [...fresh.filter(o => gone.has(this.opening(o.text))), ...this.resumed(before, after)]
-        .map(o => FictionalTime.prose(o.text)) };
+    const aims = fresh.filter(o => !gone.has(this.opening(o.text))).map(o => this.told(o));
+    const amended = [...fresh.filter(o => gone.has(this.opening(o.text))), ...this.resumed(before, after)]
+      .map(o => this.told(o));
+    return { aims: aims.map(a => a.text), amended: amended.map(a => a.text),
+      taken: [...aims, ...amended.map(a => ({ ...a, now: true as const }))] };
   }
   // The aim followed again when the one followed has ended: the company's own errand taken up once more, said as the
   // aim now (round 4's talker saw the aim followed go back to a dungeon on its own, with nothing to say so).
@@ -52,6 +58,9 @@ export class ActionFeedbackView {
     const was = before.followed;
     if (!was || was === after.followed || now.some(o => o.id === was)) { return []; }
     return now.filter(o => o.id === after.followed && had.some(b => b.id === o.id));
+  }
+  private static told(o: { id: string; text: string }): { id: string; text: string } {
+    return { id: o.id, text: FictionalTime.prose(o.text) };
   }
   // An aim's first sentence, which says what it is about.
   static opening(text: string): string { return Sentences.first(text); }
@@ -233,7 +242,7 @@ export class ActionFeedbackView {
     const unsaid = learned.filter(k => !spoken.has(k.id) && !shown.has(k.id));
     const changed = this.changed(campaign, event, { before, after, taught, known: new Set(learned.map(k => k.id)) });
     const old = new Set(before.choices.map(c => c.id)), now = new Set(after.choices.map(c => c.id));
-    const { aims, amended } = ActionFeedbackView.aims(before, after);
+    const { aims, amended, taken } = ActionFeedbackView.aims(before, after);
     const battleResult = ActionFeedbackView.ended(event, before, after);
     // A try or a search that turns up nothing says so, rather than leaving the player to wonder.
     const quiet = ActionFeedbackView.probes.includes(action.schema ?? '') && !learned.length && !changed.length
@@ -265,7 +274,7 @@ export class ActionFeedbackView {
       rolls, discoveries: learned.map(k => shown.get(k.id) ?? k.text),
       ...this.leads(campaign, learned, new Set(before.knowledge.map(k => k.id))),
       ...!response && battleResult ? { ended: true } : {}, ...aims.length ? { aims } : {},
-      ...amended.length ? { amended } : {}, ...this.borne(campaign, before, after),
+      ...amended.length ? { amended } : {}, ...taken.length ? { taken } : {}, ...this.borne(campaign, before, after),
       events: (event.perceptions ?? []).filter(p => p.kind === 'event').map(p => p.text),
       observations: changed.map(o => FictionalTime.prose(o.text)),
       available: before.location?.id === after.location?.id ?

@@ -20,7 +20,9 @@ import type { Glance as GlanceView } from './glance-types';
 export interface ExchangeLine {
   text: string; kind: 'speech' | 'telling' | 'event' | 'change' | 'fight' | 'roll' | 'opening' | 'revelation';
 }
-export interface Exchange { said?: string; lines: ExchangeLine[]; notes: string[]; tone: 'act' | 'fight' | 'fail' }
+// aims: the aims it took up, by id with their words (the notes say them too, in the narration's words).
+export interface Exchange { said?: string; lines: ExchangeLine[]; notes: string[]; tone: 'act' | 'fight' | 'fail';
+  aims?: { id: string; text: string; now?: true }[] }
 // What the page tells, kept apart by what it is for: the present situation (what this place is, and who and what
 // is here), what has changed since the company was last here, and what came of the last thing it did.
 export interface Leaf {
@@ -377,7 +379,8 @@ export class Narrator {
       ? { ...l, text: SecondPerson.turn(l.text, me) } : l)
       .map(l => revealed.has(this.plain(l.text)) ? { ...l, kind: 'revelation' as const } : l);
     return { ...told.said ? { said: begun ? Narrator.begun(begun) : told.said } : {},
-      lines: turned, notes, tone: fight ? 'fight' : event.result === 'failure' ? 'fail' : 'act' };
+      lines: turned, notes, tone: fight ? 'fight' : event.result === 'failure' ? 'fail' : 'act',
+      ...feedback.taken?.length ? { aims: feedback.taken } : {} };
   }
   // What the act brought to light that its author marked as a revelation (a body found, who drowned the miller): told
   // as one, set apart from what else happened, not in the run of it (NAR-14).

@@ -7,8 +7,8 @@ export class Followed {
   static of(screen: Screen): string | undefined {
     return screen.aims?.find(a => a.followed)?.text;
   }
-  // An aim's id, by its words as the page shows them.
-  static id(screen: Screen, aim: string): string | undefined {
-    return screen.aims?.find(a => a.text === aim)?.id;
+  // The aim followed, by its id.
+  static held(screen: Screen): string | undefined {
+    return screen.aims?.find(a => a.followed)?.id;
   }
 }

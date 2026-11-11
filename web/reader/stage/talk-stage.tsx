@@ -22,11 +22,12 @@ import { AimNear } from '../aim-near';
 // investigation's PT-42). Nothing else on the stage: the place is where you left it.
 export class TalkStage {
   // A new aim as said in talk: taken up where it is to hand, noted where it is further off (see AimNear).
-  static aimed(app: ReaderApp | undefined, text: string): string {
+  static aimed(app: ReaderApp | undefined, line: { text: string; aim?: string }): string {
     const screen = app?.state.frame?.screen;
     // A place's own aim folded into an aim held for it is what is known of that place, not an aim of its own.
-    if (screen?.aims?.some(a => a.about?.includes(text))) { return 'Of your aim'; }
-    return !screen || AimNear.near(screen, text) ? 'A new aim' : 'Noted, further off';
+    if (line.aim ? screen && !screen.aims?.some(a => a.id === line.aim)
+      : screen?.aims?.some(a => a.about?.includes(line.text))) { return 'Of your aim'; }
+    return !screen || AimNear.near(screen, line.aim ? { id: line.aim } : line.text) ? 'A new aim' : 'Noted, further off';
   }
   // Whether the reply the page leads them with is one had in trade.
   static traded(services: Choice[], led?: string): boolean {
@@ -143,9 +144,9 @@ export class TalkStage {
             : l.kind === 'learned' || l.kind === 'aim'
               ? <p key={i} ref={i === from ? newest : i === last && last > from ? aim : undefined}
                 className={`line learned ${l.kind}${more ? ' more' : ''}`}>
-                {!more && <b>{l.label ?? (l.kind === 'aim' ? TalkStage.aimed(app, l.text) : 'You know now')}</b>}
+                {!more && <b>{l.label ?? (l.kind === 'aim' ? TalkStage.aimed(app, l) : 'You know now')}</b>}
                 {Typography.curl(l.text)}
-                {app && l.kind === 'aim' && <Told.Follow app={app} aim={l.text} />}</p>
+                {app && l.aim && <Told.Follow app={app} id={l.aim} />}</p>
               : <p key={i} ref={i === from ? newest : undefined} className={`line ${l.kind}`}>{Typography.curl(l.text)}</p>;
         })}
         {pending && <p className="line you waiting">{Typography.curl(Words.lastSaid(pending))}</p>}

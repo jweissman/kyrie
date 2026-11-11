@@ -190,7 +190,11 @@ export class Told {
     const echo = said && exchange.said && !fought ? Words.echo(Words.lastSaid(exchange.said)) : undefined;
     const moments = Moments.of(exchange.lines), { sights, ended, levels } = moments;
     const [plain, rest] = [moments.plain, moments.rest].map(ls => fought ? ls.filter(l => l.kind !== 'fight') : ls);
-    const notes = Told.few(Told.folded(app, Panorama.unsaid(exchange.notes, sights)));
+    // The aims it took up, from the aims themselves, by id: those the company holds (one folded into another is told
+    // as something known of it: see folded); their notes are the narration's words for the terminal.
+    const held = app?.state.frame?.screen.aims, taken = (exchange.aims ?? []).filter(a => !held || held.some(h => h.id === a.id));
+    const notes = Told.few(Told.folded(app, Panorama.unsaid(exchange.notes, sights))
+      .filter(n => !exchange.aims?.length || !Words.aimed.test(n)), taken.length);
     Scrolled.useNewest(at, exchange, !!said);
     if (fought && !plain!.length && !rest!.length && !sights.length && !ended && !levels.length && !notes.length) {
       return null;
@@ -206,25 +210,21 @@ export class Told {
           ?? <p key={`r${i}`} className={l.kind}>{Typography.curl(l.text)}</p>)}
         {ended && <Moments.SeenThrough ended={ended} ready={ready} />}
         {levels.length > 0 && <Moments.Levelled levels={levels} />}
-        {notes.length > 0 && <ul className="notes">
-          {Told.aims(notes).length > 1 && <Told.Aims app={app} aims={Told.aims(notes)} />}
-          {notes.filter(n => Told.aims(notes).length < 2 || !Told.aims(notes).includes(n)).map(n => <li key={n}
-          className={Words.noted.test(n) ? 'learned' : undefined}>{Words.noted.test(n)
-            ? <><span className="label">{Words.label(n)}</span>
-              {` ${Typography.curl(n.replace(Words.noted, ''))}`}
-              {app && /^Aim( now)?: /.test(n) && <Told.Follow app={app} aim={n.replace(Words.noted, '')} />}</>
+        {(notes.length > 0 || taken.length > 0) && <ul className="notes">
+          {taken.length > 0 && <Told.Aims app={app} aims={taken} />}
+          {notes.map(n => <li key={n} className={Words.noted.test(n) ? 'learned' : undefined}>{Words.noted.test(n)
+            ? <><span className="label">{Words.label(n)}</span>{` ${Typography.curl(n.replace(Words.noted, ''))}`}</>
             : Typography.curl(n)}</li>)}</ul>}
       </section>
     );
   }
   // What came to be known, few enough to read before the choices: every new aim, first, then two things learned, and
   // how many more the Book holds (an arrival had stacked five notes over the choices, pushing them off the screen).
-  static few(notes: string[]): string[] {
-    const aims = notes.filter(n => /^Aim( now)?: /.test(n)), rest = notes.filter(n => !aims.includes(n));
-    const room = aims.length ? 1 : 2, more = rest.length - room;
+  static few(notes: string[], taken = 0): string[] {
+    const aims = notes.filter(n => Words.aimed.test(n)), rest = notes.filter(n => !aims.includes(n));
+    const room = aims.length || taken ? 1 : 2, more = rest.length - room;
     return [...aims, ...rest.slice(0, room), ...more > 0 ? [`And ${more === 1 ? 'one thing more' : `${more} things more`}, in the Book.`] : []];
   }
-  static aims(notes: string[]): string[] { return notes.filter(n => /^Aim: /.test(n)); }
   // A place's own aim folded into an aim held for it is something known of where that aim leads, not an aim to follow
   // beside it (see Undertakings.folded).
   static folded(app: ReaderApp | undefined, notes: string[]): string[] {
@@ -234,13 +234,14 @@ export class Told {
   // Several aims taken up at once (a notice of three jobs) are one note, a line each, not a block each (the
   // product-design review's PD-11: three quest paragraphs in the town's telling).
   // Those further off than the town the company is in are counted, not listed (see AimNear).
-  static Aims({ app, aims }: { app?: ReaderApp; aims: string[] }) {
-    const screen = app?.state.frame?.screen, plain = aims.map(n => n.replace(Words.noted, ''));
-    const near = plain.filter(a => !screen || AimNear.near(screen, a)), far = plain.length - near.length;
-    return <li className="learned aims-many"><span className="label">{near.length === 1 ? 'A new aim'
-      : near.length ? `${near.length} new aims` : 'Noted'}</span>
-      <ul>{near.map(aim => <li key={aim}>{Typography.curl(Told.title(aim))}{app && <Told.Follow app={app} aim={aim} />}
-      </li>)}
+  // One aim is said whole; several by their first words.
+  static Aims({ app, aims }: { app?: ReaderApp; aims: { id: string; text: string; now?: true }[] }) {
+    const screen = app?.state.frame?.screen;
+    const near = aims.filter(a => !screen || AimNear.near(screen, a)), far = aims.length - near.length;
+    return <li className="learned aims-many"><span className="label">{near.length === 1 ? near[0]!.now ? 'The aim now'
+      : 'A new aim' : near.length ? `${near.length} new aims` : 'Noted'}</span>
+      <ul>{near.map(a => <li key={a.id}>{Typography.curl(near.length > 1 ? Told.title(a.text) : a.text)}
+        {app && <Told.Follow app={app} id={a.id} />}</li>)}
         {far > 0 && <li className="far">{far === 1 ? 'One thing further off, in your notes.'
           : `${far} things further off, in your notes.`}</li>}</ul></li>;
   }
@@ -252,10 +253,10 @@ export class Told {
   }
   // A new aim not followed (the company's own errand is, or another the player chose), to follow instead: as an
   // RPG's journal offers to track a quest just taken up (see Undertakings).
-  static Follow({ app, aim }: { app: ReaderApp; aim: string }) {
-    const held = app.state.frame?.screen.aims?.find(a => a.text === aim);
+  static Follow({ app, id }: { app: ReaderApp; id: string }) {
+    const held = app.state.frame?.screen.aims?.find(a => a.id === id);
     return held && !held.followed ? <button type="button" className="follow-aim" data-action="follow"
-      onClick={() => app.follow(aim)}>Follow this</button> : null;
+      onClick={() => app.follow(id)}>Follow this</button> : null;
   }
   // Something under way: said at once, in the player's words; a journey says where it goes and how long it is.
   static Working({ pending }: { pending: { said: string; travel?: Travel; stage?: string } }) {
