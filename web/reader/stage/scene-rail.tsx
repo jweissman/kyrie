@@ -29,9 +29,14 @@ export class SceneRail {
         <SceneRail.Mark app={app} part="go" glyph="go_on" words="Go" standing={SceneRail.go(app)}
           faint={SceneRail.sensed(app)} />
         <SceneRail.Mark app={app} part="look" glyph="look_about" words="Look" standing={SceneRail.look(app)} />
-        {wait && <SceneRail.Mark app={app} part="wait" glyph="wait" words="Wait" standing={{}} />}
-        {search && <Act.View choice={search} draw={draw} quiet className="rail-mark by-glyph">
-          <Glyphs.View id="search" className="rail-glyph" label="Search" /></Act.View>}
+        {/* Each in its own place whether it can be done or not, shut and saying why when not: the rail's marks had moved
+            under the finger as the Search came and went, and a touch for the Eye opened Go (round 7, both players). */}
+        <SceneRail.Mark app={app} part="wait" glyph="wait" words="Wait"
+          standing={wait ? {} : { shut: 'nothing to wait for here' }} />
+        {search ? <Act.View choice={search} draw={draw} quiet className="rail-mark by-glyph">
+          <Glyphs.View id="search" className="rail-glyph" label="Search" /></Act.View>
+          : <button type="button" className="rail-mark by-glyph" disabled aria-label="Search: nothing here to search"
+            title="Search: nothing here to search"><Glyphs.View id="search" className="rail-glyph" /></button>}
         <span className="rail-gap" aria-hidden="true" />
         <SceneRail.Books app={app} />
       </nav>

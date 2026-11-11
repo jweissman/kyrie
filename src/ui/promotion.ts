@@ -33,13 +33,13 @@ export class Promotion {
   static readonly cap = 3;
   // Each reason's tier and its place in it.
   static readonly tiers: Record<Why, [Tier, number]> = {
-    helpless: [0, -1], answer: [0, 0], danger: [0, 1], warned: [0, 2], dark: [0, 3], retreat: [0, 4],
+    helpless: [0, -1], answer: [0, 0], danger: [0, 1], warned: [0, 2], dark: [0, 3], retreat: [0, 4], opened: [0, 5],
     bound: [1, 0], kin: [1, 1], about: [1, 2], named: [1, 3], toward: [1, 4], held: [1, 5], deeper: [1, 6],
     hungry: [2, 0], hurt: [2, 1], night: [2, 2], exposed: [2, 3],
     companion: [3, -3], spoils: [3, -2], means: [3, -1], life: [3, 0], own: [3, 1], sign: [3, 2], asked: [3, 3],
     unlooked: [3, 4],
     onward: [3, 5], entry: [3, -4],
-    unvisited: [4, 0],
+    unvisited: [4, 0], way: [4, 1],
   };
   static pick(cands: Candidate[], s: Situation): Promoted[] {
     const eligible = cands.filter(c => !c.barred).map(c => ({ c, whys: this.allowed(c, s) }))
@@ -65,7 +65,15 @@ export class Promotion {
       if (x.best === 'own') { taken.own++; }
       picked.push(this.promoted(x.c, x.best, x.whys));
     }
-    return this.continued(picked);
+    return this.continued(picked.length ? picked : this.bare(cands));
+  }
+  // Where nothing is led with, the ways on, two at most, by the order the quiet row keeps (the way the aim goes, a way
+  // the lines name, one not yet taken, then the rest): a gallery with nothing more to do in it had shown nothing at
+  // all, and the way up was only under Go… (round 7, both players).
+  private static bare(cands: Candidate[]): Promoted[] {
+    return cands.filter(c => !c.barred && (c.kind === 'way' || c.kind === 'travel'))
+      .sort((a, b) => this.placed(a) - this.placed(b) || a.order - b.order).slice(0, 2)
+      .map(c => this.promoted(c, 'way', ['way']));
   }
   // Of what is led with, the one that carries the followed aim on, where any does: the first of the aim's, as ranked
   // (the owner's play of 11 November: exactly one prominent choice is the truthful continuation of the aim followed,
@@ -95,7 +103,7 @@ export class Promotion {
     if (c.exit && picked.some(p => p.exit === c.exit)) { return false; }
     const most = (at.s.threat && x.best === 'danger') || at.lone ? 2 : 1;
     if ((at.taken.by.get(subject) ?? 0) >= most) { return false; }
-    if (this.way(c) && x.best !== 'retreat' && at.taken.ways >= 2) { return false; }
+    if (this.way(c) && !['retreat', 'opened'].includes(x.best) && at.taken.ways >= 2) { return false; }
     if (x.best === 'own' && at.taken.own >= 1) { return false; }
     return x.best !== 'unvisited' || picked.length - at.taken.plates < 2;
   }

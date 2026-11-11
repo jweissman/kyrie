@@ -46,7 +46,7 @@ export class Glance {
     const lines = GlanceLines.of(campaign, screen, { arrival, recall, kept: telling.kept, changed: telling.changed });
     const scene = Attending.place(SceneModel.build(screen));
     const sensed = Perception.sensed(campaign, screen), life = lines.life?.subject;
-    const reading = this.reading(campaign, screen, { recall, life, pointed: lines.pointed, sensed });
+    const reading = this.reading(campaign, screen, { recall, life, pointed: lines.pointed, sensed, told });
     const s: Situation = { threat: scene.subjects.some(x => SceneModel.threat(x)), warned: !!screen.warned,
       dark: !!screen.dark, settled: reading.needs.settled, open: reading.needs.open };
     const cands = Affordances.of(scene, screen, reading), acts = Promotion.pick(cands, s);
@@ -137,7 +137,7 @@ export class Glance {
         .map(d => `travel:${d.id}`)];
   }
   private static reading(campaign: Campaign, screen: Screen,
-    at: { recall: CompanyRecall; life?: string; pointed: Set<string>; sensed: Sensed[] }): Reading {
+    at: { recall: CompanyRecall; life?: string; pointed: Set<string>; sensed: Sensed[]; told?: Told }): Reading {
     const here = screen.place.id, recall = at.recall, rows = PlayerView.choices(campaign);
     const schema = new Map(rows.map(r => [r.choice.id, r.action.searchPlace ? 'search' : r.action.schema ?? r.action.id]));
     const args = new Map(rows.map(r => [r.choice.id, Object.entries(r.action.bindings ?? {})
@@ -158,7 +158,7 @@ export class Glance {
     return { ...aim ? { aim } : {}, ...advances.size ? { advances } : {}, holding, schema, args, touches, authored,
       speakers: new Set(rows.filter(r => r.action.speaker).map(r => r.choice.id)),
       named, held, companions: Companions.possible(campaign),
-      sensed: new Set(at.sensed.filter(x => x.far === 1).map(x => x.to)),
+      sensed: new Set(at.sensed.filter(x => x.far === 1).map(x => x.to)), opened: new Set(at.told?.feedback.opened),
       ...this.ways(campaign, screen, { named, held, idle }),
       ...back ? { back } : {}, here, signs: this.signs(campaign,
         screen, recall), ...at.life ? { life: at.life } : {}, pointed: at.pointed,

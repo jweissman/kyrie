@@ -76,8 +76,18 @@ describe('the glance ranks', () => {
     const lane = Made.c('exit:lane', ['unvisited'], { kind: 'way', minutes: 2 });
     expect(Made.ids([Made.c('dog', ['sign']), lane])).toEqual(['dog', 'exit:lane']);
     expect(Made.ids([Made.c('dog', ['sign']), Made.c('cat', ['sign']), lane])).toEqual(['dog', 'cat']);
-    expect(Made.ids([lane], { ...Made.calm, settled: false })).toEqual([]);
-    expect(Made.ids([lane], { ...Made.calm, threat: true })).toEqual([]);
+    // Outside a settlement, or with a danger here, it is not led as new; where nothing else is led, it is the way on,
+    // plainly, with nothing said of it (round 7: a scene with nothing more to do had shown nothing at all).
+    for (const s of [{ ...Made.calm, settled: false }, { ...Made.calm, threat: true }]) {
+      expect(Promotion.pick([lane], s).map(p => [p.choice, p.why, p.aspects])).toEqual([['exit:lane', 'way', []]]);
+    }
+  });
+  // What the company's last act opened (a padlock picked: the corn-store) is led first, ahead of the two ways led with
+  // already (round 7: the corn-store, just opened, had been only under Go…).
+  it('leads first with what the last act opened, past the two ways', () => {
+    const ways = [Made.c('exit:shop', ['named'], { kind: 'way' }), Made.c('exit:store', ['unvisited'], { kind: 'way' }),
+      Made.c('exit:corn', ['opened', 'unvisited'], { kind: 'way' })];
+    expect(Made.ids(ways)[0]).toBe('exit:corn');
   });
   it('breaks ties by the authored order, and is the same every time', () => {
     const cands = [Made.c('first', ['asked']), Made.c('second', ['asked']), Made.c('third', ['asked']),

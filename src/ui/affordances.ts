@@ -35,6 +35,8 @@ export interface Reading {
   // Who could join the company (see Companions); the places one way off where the company perceives someone who might
   // (see Perception).
   companions?: Set<string>; sensed?: Set<string>;
+  // What the company's last act opened, by command (see ActionFeedback.opened): led first, as what came of it.
+  opened?: Set<string>;
   // Places about the company it left having done nothing there, with nothing done since: no aim leads back to them.
   idle?: Set<string>;
   needs: { hungry: boolean; rations: number; hurt: Set<string>; night: boolean; weary: boolean; settled: boolean;
@@ -251,6 +253,7 @@ export class Affordances {
     // A try on a way barred (look at the portcullis) is something done there, not a way. Slipping past who keeps it is
     // that danger's own gentle way, led with it: a thief had found it only under Look… (Mission 20, round 2, B 88).
     const kind = tried ? 'act' as const : exit.bearing ? 'step' as const : 'way' as const;
+    if (!tried && r.opened?.has(this.command(c) ?? '')) { whys.unshift('opened'); }
     // Into a town from its own country: said as entering it, and with what the company perceives of it from here
     // (someone who might join), never what it has not (who is within, what they would ask).
     const town = !tried && !exit.crosses ? this.entered(screen, dest) : undefined;

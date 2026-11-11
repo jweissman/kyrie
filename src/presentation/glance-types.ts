@@ -37,7 +37,11 @@ export type Why =
   | 'unvisited'
   // A way into a settlement from its own country, the company outside it (the owner, 11 November late: in the hex of
   // Elmham the page had led toward a far aim and to look out over the country, and the town was only under Go…).
-  | 'entry';
+  | 'entry'
+  // A way or an act the company's last act opened (a padlock picked: the corn-store it held shut).
+  | 'opened'
+  // Nothing else to do here: a way on, so that a place is never left with nothing in front of the company.
+  | 'way';
 // What a choice risks, or needs said before it is chosen.
 export type MarkKind = 'one-way' | 'grave' | 'fight' | 'trap' | 'unlooked' | 'heard' | 'exposed' | 'warned' | 'night';
 // ask: the page asks again before it is done.
