@@ -23,6 +23,9 @@ interface Rule {
   tells?: string;
   // The path when the subject stands on a way rather than in the place: tries gather under one entry per thing.
   onWay?: string[];
+  // What a try is called standing alone, out of its group (see Act.alone): its thing named, and, for one on a way, the
+  // way where that is what it is done at (one listens at a door, not at its padlock: the owner, 11 November).
+  alone?: string; aloneOnWay?: string;
   // The binding who does it, said beside the choice rather than in it ("using the Abbess's Eye", by Elen).
   doer?: string;
 }
@@ -120,16 +123,18 @@ export class ChoiceGrouping {
     take_out: { slot: 'target', param: 'find', path: ['Take from {box}', 'for {recipient}'] },
     put_in: { slot: 'target', param: 'box', path: ['Put in', '{cargo}'] },
     search: { slot: 'camp', path: ['Search here'] },
-    look_closely: { slot: 'target', param: 'target', path: ['Examine', 'Look closely'], onWay: ['Look at {target}', 'Look closely'] },
+    look_closely: { slot: 'target', param: 'target', path: ['Examine', 'Look closely'], onWay: ['Look at {target}', 'Look closely'],
+      alone: 'Look closely at {target}' },
     prod: { slot: 'target', param: 'target', path: ['Examine', 'Prod it with the pole'],
-      onWay: ['Look at {target}', 'Prod it with the pole'] },
+      onWay: ['Look at {target}', 'Prod it with the pole'], alone: 'Prod {target} with the pole' },
     pry: { slot: 'target', param: 'target', path: ['Examine', 'Pry at it with the bar'],
-      onWay: ['Look at {target}', 'Pry at it with the bar'] },
+      onWay: ['Look at {target}', 'Pry at it with the bar'], alone: 'Pry at {target} with the bar' },
     burn: { slot: 'target', param: 'target', path: ['Examine', 'Hold a flame to it'],
-      onWay: ['Look at {target}', 'Hold a flame to it'] },
+      onWay: ['Look at {target}', 'Hold a flame to it'], alone: 'Hold a flame to {target}' },
     push: { slot: 'target', param: 'target', path: ['Examine', 'Push and pull at it'],
-      onWay: ['Look at {target}', 'Push and pull at it'] },
-    listen: { slot: 'target', param: 'target', path: ['Examine', 'Listen at it'], onWay: ['Look at {target}', 'Listen at it'] },
+      onWay: ['Look at {target}', 'Push and pull at it'], alone: 'Push and pull at {target}' },
+    listen: { slot: 'target', param: 'target', path: ['Examine', 'Listen at it'], onWay: ['Look at {target}', 'Listen at it'],
+      alone: 'Put an ear to {target}', aloneOnWay: 'Listen at {passage}' },
     // What it fetches is said before it is sold (the follow-up review sold a lamp and learned its price after).
     sell: { slot: 'target', param: 'buyer', path: ['Sell {ware} — {sellfee} coin'] },
     sell_valuable: { slot: 'target', param: 'buyer', path: ['Sell {ware} — {worthfee} coin'] },
@@ -294,8 +299,8 @@ export class ChoiceGrouping {
     if (rule.slot === 'exit' && path.length === 1 && b.way && context.several?.has(b.destination ?? '')) {
       path[0] = `${path[0]} by ${context.names.get(b.way) ?? b.way}`;
     }
-    const risky = { ...leaf, ...(rule.risk ? { risk: true } : {}) };
     const subject = rule.param ? b[rule.param] : undefined;
+    const risky = { ...leaf, ...(rule.risk ? { risk: true } : {}), ...this.alone(rule, subject, data) };
     const also = rule.also ? b[rule.also.param] : undefined;
     if (rule.also && also) {
       this.insert(this.slot(out.targets, also), rule.also.path.map(t => this.fill(t, data)), risky);
@@ -310,6 +315,13 @@ export class ChoiceGrouping {
     else if (rule.slot === 'item' && subject) { this.insert(this.slot(out.items, subject), path, risky); }
     else if (rule.slot === 'member' && subject) { this.insert(this.slot(out.members, subject), path, risky); }
     else { this.insert(out.camp, path, risky); }
+  }
+  // What a try is called standing alone (see Rule.alone): at the way, where it stands on one and that is what it is
+  // done at.
+  private static alone(rule: Rule, subject: string | undefined,
+    data: { choice: string; b: Record<string, string>; context: GroupingContext }): Pick<Act, 'alone'> {
+    const text = (subject && data.context.passageOf.has(subject) && rule.aloneOnWay) || rule.alone;
+    return text ? { alone: this.filled(text, data).replace(/^./, ch => ch.toUpperCase()) } : {};
   }
   private static fallback(out: Grouped, row: Row, context: GroupingContext, leaf: Partial<Act>) {
     // What it changes, or else what it asks of something in view (the words on a casket, right or wrong, are all
@@ -349,6 +361,7 @@ export class ChoiceGrouping {
   }
   private static filled(text: string, data: { choice: string; b: Record<string, string>; context: GroupingContext }) {
     return text.replace(/\{(\w+)\}/g, (_, key: string) => key === 'choice' ? data.choice :
+      key === 'passage' ? data.context.names.get(data.context.passageOf.get(data.b.target ?? '') ?? '') ?? 'it' :
       key === 'price' ? String(data.context.prices.get(data.b.find ?? '') ?? 0) :
       key === 'fee' ? String(data.context.fees?.get(data.b.service ?? '') ?? 0) :
       key === 'goodsfee' ? String(data.context.fees?.get(`${data.b.seller}:${data.b.goods}`) ?? 0) :

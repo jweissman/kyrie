@@ -245,7 +245,7 @@ export class PlaceStage {
       <PlaceStage.Opened choice={go!} draw={draw} />
       {also.map(c => c.children?.length ? <PlaceStage.Hazard key={c.id} choice={c} draw={draw} />
         : <Act.View key={c.id} choice={c} draw={draw} className="way also" marked>
-          {Typography.curl(Words.upper(PlaceStage.also(c.label)))}</Act.View>)}
+          {Typography.curl(c.alone ?? Words.upper(PlaceStage.also(c.label)))}</Act.View>)}
     </>;
   }
   // Something in the way and what can be done about it, each its own row under the thing's name: it had opened as a

@@ -28,7 +28,8 @@ export class Act {
       <button type="button" className={classes} data-action="choice" data-choice={c.id} data-index={i}
         aria-current={selected || undefined} aria-disabled={c.disabled ? true : undefined}
         aria-expanded={opens ? draw.open.has(c.id) : undefined} onClick={Act.click.bind(null, draw.app)}>
-        {children ?? <>{Typography.curl(Words.shown(c.label))}{c.note && <span className="note">{Typography.curl(c.note)}</span>}</>}
+        {children ?? <>{Typography.curl(c.alone ?? Words.shown(c.label))}{c.note
+          && <span className="note">{Typography.curl(c.note)}</span>}</>}
         {tags.map(m => <span key={m.kind} className={`mark-tag mark-${m.kind}${m.danger ? ` danger-${m.danger}` : ''}`} title={Typography.curl(m.said)}>
           {Act.marks[m.kind]}</span>)}
         {c.disabled && !quiet && <span className="why">{Typography.curl(c.disabled)}</span>}

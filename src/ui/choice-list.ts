@@ -12,6 +12,8 @@ export interface Choice {
   id: string; label: string; tone: Tone;
   command?: string; children?: Choice[];
   note?: string; about?: string; risk?: boolean; minutes?: number; disabled?: string;
+  // What it is called standing alone, out of its group (see Act.alone).
+  alone?: string;
   // What kind of act it is, and what it is done to or with (see Act.does, Act.targets).
   does?: string; targets?: string[];
   // Whether doing it takes the company somewhere (see Act.moves).
@@ -296,7 +298,7 @@ export class ChoiceList {
       ...(a.does ? { does: a.does } : {}), ...(a.targets ? { targets: a.targets } : {}),
       ...(a.moves ? { moves: true } : {}),
       ...(a.grave ? { grave: a.grave } : {}), ...(a.answer ? { answer: true } : {}), ...(a.own ? { own: true } : {}),
-      ...(a.deed ? { deed: true } : {}) };
+      ...(a.deed ? { deed: true } : {}), ...(a.alone ? { alone: a.alone } : {}) };
   }
   // The pack: each companion's things, and what each can do with them.
   static pack(screen: Screen): Section[] {

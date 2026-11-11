@@ -241,7 +241,29 @@ export class GlanceStage {
     const walks = new Set((app.state.frame?.screen.around ?? []).map(d => `travel:${d.id}`));
     const rest = acts.filter(a => !pressing.includes(a) && (!a.choice.startsWith('travel:') || walks.has(a.choice)
       || a.continues) && (!person(a) || a.continues));
-    return [...pressing, ...rest].slice(0, 4);
+    return [...pressing, ...rest].flatMap(a => GlanceStage.flat(app, a)).slice(0, 4);
+  }
+  // A choice that only gathers a few things to do, all of them to hand and each able to stand alone, is those things
+  // ("Look at the corn-store padlock" had opened onto "Push and pull at it" and "Listen at it": the owner, 11 November).
+  // Nothing is shown that is not offered already: only what the group holds, open now, is drawn out of it.
+  // A thing led by its name alone ("the tower of the shrine") is so too: what is done with it, said in its own words.
+  // Someone talked to is not: a conversation is theirs, and its questions speak of them ("Ask about his work").
+  static flat(app: ReaderApp, a: Promoted): Promoted[] {
+    const kids = a.choice.endsWith('#talk') ? [] : GlanceStage.choice(app, a.choice)?.children ?? [];
+    const alone = (k: Choice) => k.alone ?? (/\b(it|its|him|his|her|them|their)\b/i.test(k.label) ? undefined : k.label);
+    if (!kids.length || kids.length > 3 || !kids.every(k => k.command && !k.disabled && !k.children && alone(k))) { return [a]; }
+    return kids.map(k => {
+      const kid: Promoted = { ...a, choice: k.id, label: alone(k)!, command: k.command! };
+      delete kid.note;
+      return kid;
+    });
+  }
+  // Whom a choice is done with, where its own words do not name them: their name as the company knows it.
+  static whom(app: ReaderApp, a: Promoted, label: string): string | undefined {
+    const x = a.subject && app.menu.scene?.subjects.find(s => s.id === a.subject);
+    if (!x || !['person', 'animal', 'creature', 'companion'].includes(x.kind)) { return undefined; }
+    const name = Words.short(x.name);
+    return label.toLowerCase().includes(Words.bare(name).toLowerCase()) ? undefined : Words.upper(name);
   }
   // What a choice's own glyphs say apart from its colour: someone who could join you, and going over into the next
   // stretch of country (not a walk about the town), whatever else it is (the owner, 11 November).
@@ -346,7 +368,9 @@ export class GlanceStage {
         // gold and words only on the one choice that carries it on, where the page shows the way (see Guidance).
         const gilded = !!a.continues && Guidance.shown(app), label = GlanceStage.label(app, a, c);
         const said = GlanceStage.note(a, c, label), aimed = !!said && GlanceStage.aimWords.test(said);
-        const note = (aimed && !gilded ? undefined : said) ?? Emphasis.said(a.aspects, gilded);
+        // Beneath it only what it adds: never what kind of thing it is (its indicator says that), but whom it is done
+        // with where its words do not say (the owner, 11 November: "Offer the heel of a loaf": to whom?).
+        const note = (aimed && !gilded ? undefined : said) ?? GlanceStage.whom(app, a, label);
         // One indicator at the left carries what it is: its tone, or through its tones where several meet; the rest of
         // it stays neutral (the owner, 11 November: colour concentrated, sparing, consistent).
         const { tone } = Emphasis.of(a.aspects, gilded), prism = Emphasis.prism(a.aspects, gilded);
@@ -356,7 +380,8 @@ export class GlanceStage {
           data-next={app.state.frame?.leaf.glance?.after?.next?.choice === a.choice || undefined}>
           <Act.View choice={c} draw={draw}
             className={`led-act${c.id === top ? ' first' : ''}${tone ? ` tone-${tone}` : ''}${prism ? ' prism' : ''}`}>
-            {mark && <i className="prism-bar" aria-hidden="true" style={{ '--prism': mark } as CSSProperties} />}
+            {mark && <i className="prism-bar" role="img" aria-label={Emphasis.drawn(a.aspects, gilded).map(x => Emphasis.words[x])
+              .join(', ')} style={{ '--prism': mark } as CSSProperties} />}
             <span className="n">{Typography.curl(label)}<GlanceStage.Icons app={app} a={a} c={c} /></span>
             {note && <span className="why-said">{Typography.curl(note)}</span>}
             <kbd className="key" aria-hidden="true">{i + 1}</kbd>
@@ -371,6 +396,7 @@ export class GlanceStage {
   static readonly aimWords = /^(your aim|toward your aim|where your aim is)$/;
   // As the player would say it: "Make much of the grey dog", "Look at the fresh ruts".
   static label(app: ReaderApp, a: Promoted, c: Choice): string {
+    if (c.alone) { return c.alone; }
     const subject = a.subject && app.menu.scene?.subjects.find(x => x.id === a.subject);
     if (subject && /#look$/.test(c.id)) { return `Look at ${subject.name.replace(/^(The|A|An|Some) /, m => m.toLowerCase())}`; }
     // Something done to what bars a way, as the act ("Pick the corn-store padlock"), not the way it is on.

@@ -51,7 +51,7 @@ export class AtHand {
         {h.seen.map((p, i) => <p key={i} className="ah-seen">{Typography.curl(p)}</p>)}
         {s.pending ? <Told.Working pending={s.pending} /> : told && <Told.Happened exchange={told} said app={app} />}
         {shown.length > 0 && <ul className="acts column">{shown.map(c => <li key={c.id}>
-          <Act.View choice={c} draw={draw} marked>{Typography.curl(Words.upper(PlaceStage.also(c.label)))}</Act.View>
+          <Act.View choice={c} draw={draw} marked>{Typography.curl(c.alone ?? Words.upper(PlaceStage.also(c.label)))}</Act.View>
           <PlaceStage.Opened choice={c} draw={draw} />
         </li>)}</ul>}
       </section>

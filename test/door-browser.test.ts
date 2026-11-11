@@ -43,7 +43,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a thing on a way', () => {
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
     await page.click('.opens-look');
-    await page.locator('.ah-pane .act', { hasText: 'Push and pull at it' }).click();
+    await page.locator('.ah-pane .act', { hasText: /^Push and pull at the / }).click();
     await driver.settle();
     expect(await page.evaluate(() => document.body.innerText)).toContain('shifts an inch in its grooves');
     expect(errors).toEqual([]);
