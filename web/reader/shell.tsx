@@ -4,6 +4,7 @@ import { Scenery } from '../../src/ui/scenery';
 import { FictionalTime } from '../../src/campaign/fictional-time';
 import { Stage } from './stage/stage';
 import { Flame } from './stage/flame';
+import { EncyclopediaOverlay } from './encyclopedia-overlay';
 
 // The lantern: a dark ground with the country's painting far behind it, dim and out of focus and tinted by the hour,
 // and on it one bounded stage, lit, where the game is played. Every page is held inside the stage, with its margins
@@ -18,9 +19,11 @@ export class Shell {
     const apart = `${creating ? ' creating' : ''}${Stage.prologue(app) ? ' prologue' : ''}`
       + `${Stage.overworld(app) ? ' overworld' : ''}`;
     return (
-      <div className={`shell phase-${s.phase} hour-${Shell.hour(app)}${apart}`} style={style}>
+      <div className={`shell phase-${s.phase} hour-${Shell.hour(app)}${apart}`} style={style}
+        onClickCapture={e => EncyclopediaOverlay.caught(app, e)}>
         <div className="ambient" aria-hidden="true" />
         <div className="frame"><Flame.View app={app} />{children}</div>
+        <EncyclopediaOverlay.View app={app} />
       </div>
     );
   }

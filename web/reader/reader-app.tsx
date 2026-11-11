@@ -43,6 +43,8 @@ export interface AppState {
   phase: Phase; catalog?: Catalog; saved?: SavedGame; options: Options;
   campaign: string; seed: string; setting?: Setting; party: Member[]; preview?: CompanyView; editing: number;
   origin?: string;
+  // An encyclopedia entry open over the game, by its address (see EncyclopediaOverlay).
+  entry?: string;
   // Whether the protagonist's name is one the player wrote: a name drawn for them is drawn again for a new people.
   named?: boolean;
   // Someone who died in this country before, whom it will remember when it is begun again.
