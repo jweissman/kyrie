@@ -347,8 +347,8 @@ export class Narrator {
       ...spoken.map(text => ({ text, kind: 'speech' as const })),
       ...changing || fight ? [] : events,
       ...voiced,
-      ...feedback.immediate.map(text => ({ text: text.replace(/^You witness: /, ''),
-        kind: fight ? 'fight' as const : feedback.rolls.includes(text) ? 'roll' as const : 'event' as const })),
+      ...feedback.immediate.map(text => ({ text: text.replace(/^You witness: /, ''), kind: feedback.lapsed?.includes(text)
+        ? 'event' as const : fight ? 'fight' as const : feedback.rolls.includes(text) ? 'roll' as const : 'event' as const })),
       ...outcome,
       // What a fight set off is told after the blows that set it off: the Banns at Hessel read a man on his knees
       // saying "You'll live" before the blow that felled the footpad (its friction 3).

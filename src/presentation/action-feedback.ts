@@ -19,6 +19,9 @@ export interface ActionFeedback {
   observations: string[]; available: string[]; unavailable: string[]; events: string[];
   // Whether the result is how a fight ended, which is told after its blows.
   ended?: boolean;
+  // Of the immediate, what lasting conditions ran out while it was done (a torch guttering out in the middle of a
+  // search): told as what happened, not as a blow of a fight it fell beside (round 7: "the torch died silently").
+  lapsed?: string[];
   // Aims taken up or come to by it: reading the makers' marks made the brothers' errand "You have copied the old
   // writing at Riwustagn. Ruven at Faennsīe should see it.", and only the notes said so (play 7).
   aims?: string[];
@@ -207,6 +210,14 @@ export class ActionFeedbackView {
       && !(e.type === 'remove' && ActionFeedbackView.lacked(before, e.target, e.detail)))
       .map(e => CombatPresenter.format(e, names));
   }
+  // What lasting conditions ran out (a light, a ward): by the event, and the condition's lifetime.
+  private static lapsed(event: CampaignEvent, names: Parameters<typeof CombatPresenter.format>[1]):
+    { lapsed?: string[] } {
+    const lapsed = event.combat.filter(e => e.type === 'expire'
+      && Canon.conditions[Canon.resolve('conditions', e.detail)]?.lifetime === 'persistent')
+      .map(e => CombatPresenter.format(e, names)).filter(Boolean);
+    return lapsed.length ? { lapsed } : {};
+  }
   // How a fight ended, and who in the company fell in it.
   private static ended(event: CampaignEvent, before: PlayerSnapshot, after: PlayerSnapshot): string | undefined {
     const ended = event.combat.find(e => e.type === 'end');
@@ -271,7 +282,7 @@ export class ActionFeedbackView {
       time: this.time(before, { elapsed: event.elapsed, minutes: after.minutes }),
       immediate: [...combat, ...PlayerView.chronicle(campaign).filter(e => e.kind === 'npc'
         && e.at > before.elapsed && e.at <= event.elapsed).map(e => `You witness: ${e.text}`)],
-      rolls, discoveries: learned.map(k => shown.get(k.id) ?? k.text),
+      rolls, ...this.lapsed(event, names), discoveries: learned.map(k => shown.get(k.id) ?? k.text),
       ...this.leads(campaign, learned, new Set(before.knowledge.map(k => k.id))),
       ...!response && battleResult ? { ended: true } : {}, ...aims.length ? { aims } : {},
       ...amended.length ? { amended } : {}, ...taken.length ? { taken } : {}, ...this.borne(campaign, before, after),
