@@ -197,6 +197,7 @@
     Leaves "Wystan Hale looks at the trees for a moment. 'There's something I should see to,' he says. 'I'll be at the Hall. I always know where the Hall is.'" to {t}_manor_front.
     Remarks at {t}_stones_hall "Wystan Hale stands at the foot of the dais and looks up at the figures. 'My mother's people would not come up here,' he says. 'They said the judges were still sitting. I never believed it. I would like to know now who they were judging.'".
     Remarks at {t}_stones_under "Wystan Hale stops in the arch with his hand on his bow and does not draw it. 'I have walked this hill since I was seven,' he says, very low, 'and it was here under me the whole time.'".
+    Remarks at {t}_green "Wystan Hale stops at the well-curb and looks about for Aldous Fenn, and does not quite find him. 'Seven years,' he says, 'I have not once come down this road without a chain between us. I do not know what to say to him. I find I should like to say it with company.'".
     Remarks at {t}_manor_kitchen "Wystan Hale takes off his hat in the kitchen doorway, as he has not done at the front door in seven years. 'Orla,' he says. 'I am not here for the chain.' The cook does not look round. 'Then wipe your boots,' she says.".
     Remarks at {station}_yard "Wystan Hale walks to the middle of the cobbled yard and turns slowly round. 'The road,' he says. 'Somebody kept this, and I was told to keep a chain across the end of it.' He is quiet a while. 'I should like to have kept it properly.'".
     Remarks at {station}_shrine "Wystan Hale takes off his hat to the figure, with no particular ceremony, and puts it back on. 'My corporal's old saying,' he says. 'Wave on the tired.'".
@@ -210,5 +211,6 @@
     Leaves "Wystan Hale looks at the trees for a moment. 'There's something I should see to,' he says. 'I'll be at the Hall. I always know where the Hall is.'" to {t}_manor_front.
     Remarks at {t}_stones_hall "Wystan Hale stands at the foot of the dais and looks up at the figures. 'My mother's people would not come up here,' he says. 'They said the judges were still sitting. I never believed it. I would like to know now who they were judging.'".
     Remarks at {t}_stones_under "Wystan Hale stops in the arch with his hand on his bow and does not draw it. 'I have walked this hill since I was seven,' he says, very low, 'and it was here under me the whole time.'".
+    Remarks at {t}_green "Wystan Hale stops at the well-curb and looks about for Aldous Fenn, and does not quite find him. 'Seven years,' he says, 'I have not once come down this road without a chain between us. I do not know what to say to him. I find I should like to say it with company.'".
     Remarks at {t}_manor_kitchen "Wystan Hale takes off his hat in the kitchen doorway, as he has not done at the front door in seven years. 'Orla,' he says. 'I am not here for the chain.' The cook does not look round. 'Then wipe your boots,' she says.".
   }

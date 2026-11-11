@@ -65,7 +65,7 @@ Three rooms (kitchen, cellar, muniment room) and four people attached to the Hal
 | **The copyist** | posting-house (a quarter of countries) | the whole road, copied | — | brave in scholarship, afraid of everything else |
 | **The lamp-keeper** | way-shrine (draw) | the lamp lit "if the Posts come again" | the carters | will not say why |
 
-### 2.4 Companions (implemented: two; designed: arcs beyond)
+### 2.4 Companions (implemented: four; designed: arcs beyond)
 
 - **Wystan Hale** (always present in the first town). *Why he travels:* the settled road-wood frees him; he says so. *What he brings:* a ranger's woodcraft and the Hall's knowledge of the stretch of country that is about to become interesting. *What he says as he goes:* remarks at the stones' hall (his mother's people would not come up), the undercroft (the hill was under him the whole time), the Hall kitchen (the cook), and, where the country has a posting-house, the yard ("I should like to have kept it properly") and the shrine ("wave on the tired"). *When he leaves,* he goes home to the Hall, which remembers him. *Designed, not built:* a second remark when he stands at the Bend; his reaction if the company took the grant to the Hall only (he is *not offered* — the refusal is the consequence, tested).
 - **The copyist** (drawn: about a quarter of countries). *Why they travel:* the stage's painted road lists more stages, and they have run out of road. *What they bring:* reading — a capability, not an action (the engine's `lore` capability), so a warrior who would not otherwise read an old script, can. *What they say:* at the office (tagged pigeonholes, "somebody could find anything"), the shrine (she is *waving*), and the roof (the road bends round something). *Designed, not built:* their disagreement when the company chooses the crowbar over the seal; a request to be taken to the next stage; their choosing to remain at a stage for love of the books.
@@ -97,6 +97,22 @@ Every solid arrow is a shared id or a fact the world holds (`knows`, `teaches`, 
 - **A living folk practice** (the dish on the post, the Lady's bowl) that nobody can attribute.
 - **A legal instrument still in force** (the grant), and a *family* (the Hall) that holds title under something it cannot read: the "new king, royal family, court" thread has its first foothold in a steward who writes "to the family, in my own hand".
 - **What is *not* planted:** a hidden imperial rump state, the cause of the Empire's disappearance, time travel, a Dark Lord, a cult.
+
+### 2.7 The first town's neighbours (implemented): `neighbours.kyrt`
+
+A third layer on the first town (written only where it has an inn, a shrine and a shop). It does two things the first layers did not: it gives **the generated people lives that touch the authored ones**, and it adds **three companions whose business is not the company's**.
+
+*What the generated innkeeper, priest, merchant and traveller now say* (by reference, so their generated names stand): the innkeeper's slate of eleven months' ale chalked to two parties who each say the other pays; the priest's pride in and fear of the acolyte's question about the coins; the merchant's shame at the price of oak and pity for an apprentice with a drawing of a bell; the traveller's rivalry with the scholar ("take her to know where the road goes; take me to know where to stand when it comes").
+
+| Person | Wants | Arc, in the engine's own terms |
+|---|---|---|
+| **Isaure Venn**, scholar (inn) | to read every inscription before the frost | earned by asking (not bought); remarks at the dais, the muniments, the undercroft chime ("four notes; I have seen four notes, in my teacher's margin"), the kitchen, and, where there is a posting-house, its hall, office and roof; disagrees about forcing the press; reads the grant as a *writ of keeping*; **chooses to stay** at the stage to copy it (a rule moves her; a letter appears on the taproom board: "DO NOT COME BACK WITHOUT THE WORKS. P.S. SEND PAPER") |
+| **Brother Anselm Tarr**, acolyte (shrine) | to know whether the coins at the old post are idolatry or manners | counts the offering-book (the habit is two hundred years old, through plague and war); joins when told of the Lady of Wayfarers (or, with no posting-house, after the undercroft); insists the bronze cup be put back; is told the company took a wax from the dead's chime and says "do not ask me yet"; leaves a coin at the Lady's bowl and says it "does not refute me, and does not refute her" |
+| **Hesper Lowe**, boat-wright's apprentice (landing) | to cast a bell | the town's bell was taken by hobs; she has a drawing and a sixth of the knowledge; **a wax impression of the undercroft's chime** is the pattern; she pays, casts it, and a new bell hangs over the well that says the four notes and the children hum them. (Anselm's objection to the same wax is the quarrel between them.) |
+
+*Also here:* **a death at the landing** (Joss Hatherly, the wardens' scaler, laid out in the shrine: the bruise and the silt; the tally-stick behind the bar with the merchant's mark on every row; the innkeeper's "he was sober"; three readings, an accident for the daughter's sake, the merchant, or nothing proved: what is told to whom decides what the town says); **the old steward's papers on the reeve's father** (a dismissal for "sauce", a draft letter that says PLEASE, a note that says the grant was called a forgery by someone who knew it was not: tell the reeve the whole truth or only that his father was honest; a stone appears on the well-curb); **the fifteenth spoon** (the boy paid for the cup with the Hall's missing spoon; the steward laughs); **the family's answer** some days after the road-wood is shared (a rider; a letter; a postscript asking who read the Empire's grant: the first door left open at court).
+
+The companions' business continues without the company: Isaure writes from the stage, Hesper's bell rings, Wystan goes looking for the reeve, the town's talk changes with the truth told.
 
 ## 3. Tested routes through the opening region (exercised)
 
