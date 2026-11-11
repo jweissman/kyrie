@@ -60,7 +60,7 @@ claims nothing beyond what the sources say.
 | id | item (one line) | sources | status (as recorded, with date) | severity | home |
 |---|---|---|---|---|---|
 | FH-01 | No person has accepted the first hour: PD-14's five cold players have never been run | PD-14, BRF-01, BRF-14, BRF-40, opening-brief §5, opening-design.md, H status, M19 closure §1, mem:m20-owner-before-closure §6 | Open (11 Nov) | P0 | M20 close (gate) |
-| FH-02 | Round 7 cold play on the deployed build not run; handoff §4 empty | H §4, log amendment 8, mem:m20-state-nov12, mem:m20-owner-before-closure §6 | Pending (11 Nov) | P0 | M20 close |
+| FH-02 | Round 7 cold play on the deployed build not run; handoff §4 empty | H §4, log amendment 8, mem:m20-state-nov12, mem:m20-owner-before-closure §6 | **Done** (11 Nov night): two cold players, K and L, on fa374a83; reports in cold/round-7/, handoff §4, log E134–E143. Agents' ratings, not acceptance (FH-01 stays open) | P0 | M20 close |
 | FH-03 | Opening thin on replay: origin errands lose momentum. Owner directs a dense in-medias-res opening and wants the rats job dropped as the required first mission | H §3, adventure-to-career §1, user-notes, design-opp 1–2, M17-21 (feverwort errand ends in three actions) | Direction recorded, not built (11 Nov) | P1 | M21 |
 | FH-04 | With no aim followed, the page never points to the town's notice of jobs; the closure fix was reverted | M19-234, opening-brief §1, M19 closure §1 | **Checked 11 Nov**: with no errand (kahitude, the wanderer), the green leads "Read the notice on the well-post" among its few acts; from the town's other rooms nothing points to it in particular (its unvisited ways are led). Kept open at P2 for the case of an errand finished elsewhere in town | P2 | M21 |
 | FH-05 | Aims pile up (9–10 on day 1), a 27-rumour list, finished things linger as leads | E12, R1-A top3, R1-B top4, R2-A top2, R2-B top4, R3-C top3, amendment 2(2) | Partly fixed (11 Nov) | P1 | M20 close (see in round 7) |
@@ -96,7 +96,7 @@ claims nothing beyond what the sources say.
 | CB-07 | Sleep/stun traps drop the company into the warned barrow-dead's room: lying still is certain death, no agency | E102, log queue 2, mem:m20-state-nov11 A | **Fixed** (E147, test/sleep-warned) | P1 | — |
 | CB-08 | Danger thin in ordinary exploration: the silver walker meets one fight in 13 hours; dangers met are mostly grave or deadly; frequency to be told apart from balance; bounded first-hour danger; no walker write-up | E100, E105, log queue 4, amendment 8, mem:m20-state-nov11 #8 | Open (11 Nov) | P1 | M20 close (write-up) / M21 |
 | CB-09 | A bare Take in a warned room can start the fight, and the label does not say the watchers will not wait | M19-252 | Open (10 Nov) | P3 | M20 close |
-| CB-10 | Antidote on a poisoned hireling "to no effect" | E36 (antidote open) | Open (11 Nov) | P2 | M20 close |
+| CB-10 | Antidote on a poisoned hireling "to no effect" | E36 (antidote open), E137 | **Fixed** (11 Nov night, E137): the antidote takes away the fight's poison as well as the world's poisoned (test/antidote); not replayed on a hireling | P2 | M20 close |
 | CB-11 | A persuaded foe's portrait moves to the company's side (allies or not?) | R6-I §4 (74) | Not in log (11 Nov) | P3 | M20 close |
 | CB-12 | Fight bar seen only in the CI tour; the target-chips row did nothing on a phone; "telling blow … for 1"; a fight legible at a glance | M19-226 Partial, R6-J §5–6, BRF-05, BRF-28 | Partial (10 Nov); round 6 (11 Nov) | P2 | M20 close |
 | CB-13 | Odds hidden until after committing; techniques (Second Wind) say nothing | UNT-104 | Open risk, unverified since 6 Nov | P2 | M21 |
@@ -207,9 +207,9 @@ claims nothing beyond what the sources say.
 
 | id | item (one line) | sources | status (as recorded, with date) | severity | home |
 |---|---|---|---|---|---|
-| US-01 | The "Gone under" origin's sister is silent at Seolforfyrd, with no one to ask: the hook goes quiet when followed | E111 (open part), R6-I top4, R6-I §14, H §3 | Open (11 Nov) | P1 | M20 close |
+| US-01 | The "Gone under" origin's sister is silent at Seolforfyrd, with no one to ask: the hook goes quiet when followed | E111 (open part), R6-I top4, R6-I §14, H §3 | **Fixed** (11 Nov night): the inn's keeper at home can be asked of her and says where to look; the pin found is told and seen through (test/sister-asked); not replayed cold | P1 | M20 close |
 | US-02 | Treasure payoff flat: two identical "empty" jewelled boxes; no hoard; a three-locked toll-chest holds one box | E118, R6-J top3, R6-J §14, H §3, OWN-75 | Partly (11 Nov night: the map's box told, E142; the jewelled box no longer "empty"; no hoard yet) | P2 | M21 |
-| US-03 | The dead man's map ends in an empty box, with no word of who emptied it | E20, R1-B top4 | Open (11 Nov) | P2 | M20 close |
+| US-03 | The dead man's map ends in an empty box, with no word of who emptied it | E20, R1-B top4, E142 | **Fixed** for this origin (11 Nov night, E142): the box is told (the drover's mark, a name crossed out, stones to sell) and seen through, 100 experience (test/map-origin-find) | P2 | M20 close |
 | US-04 | Handed-out aims are all kill or loot; peaceful errands (Gosse's offer, the circus larder) not kept in Notes; promises with terms, decline and defer | E58, R4-E top2, BRF-99 | Open (11 Nov) | P2 | M21 |
 | US-05 | No successor threads after a resolution ("Nothing more is asked of you"); a lone company following the page earns no level in 200 steps | PT-01, M19-59, BRF-67 | Open risk / partial, unverified since 8 Nov | P2 | M21 |
 | US-06 | Gosse and Hepzibah lead nowhere after their first line | R6-I §4, R6-I §15 | Not in log (11 Nov) | P3 | M21 |

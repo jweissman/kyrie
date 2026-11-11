@@ -118,7 +118,7 @@ export class Origins {
       case 'order': return this.order(region);
       case 'wanderer': return this.wanderer(region, placements);
       case 'map': return this.delve(region, 0);
-      case 'lost': return this.delve(region, 1);
+      case 'lost': return this.lost(region);
       case 'courier': return this.courier(region);
       default: return undefined;
     }
@@ -271,6 +271,14 @@ export class Origins {
     return { values: { ...this.approach(region, s), work: work.name, where: RegionSites.where(seat, region) }, start,
       imports: { approach, delving: [`region.${work.id}`, 'place'], named: [`region.${work.id}_named`, 'fact'],
         found: [`region.${work.id}_found`, 'fact'] } };
+  }
+  // A sister gone under: the work, as a map's is, and someone at home to ask of her, whoever keeps its inn (or its
+  // merchant, where it has none): followed, the hook had gone quiet with no one to ask (round 6, the register's US-01).
+  private static lost(region: Region): Bound | undefined {
+    const bound = this.delve(region, 1), s = region.settlements[0];
+    if (!bound || !s) { return undefined; }
+    const keeper = SettlementWriter.rooms(region, s).taproom ? 'innkeeper' : 'merchant';
+    return { ...bound, imports: { ...bound.imports, keeper: [`region.${s.id}_${keeper}`, 'group'] } };
   }
   // A letter carried from over the hills to the merchant of the next town on from the first: begun on the way into
   // the first, the next town on the map; and, delivered, the merchant tells of work near there as a creditor squared
