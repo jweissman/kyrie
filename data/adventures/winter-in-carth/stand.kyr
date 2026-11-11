@@ -10,7 +10,7 @@ Module gaunt "A Winter in Carth" {
   Person clerk "the Stand's clerk" at the_stand {
     Role "a clerk in fingerless gloves at a high desk at the Stand's gate, with a ledger of backs and a box of tallies". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
     Greets "'Bearing or buying?' says the clerk, pen up. 'If buying, what is it and how many; if bearing, show me your feet.'".
-    Greets again "'Bearing or buying?' says the clerk.".
+    Greets again "'Bearing or buying?' says the clerk, pen up, and then, recognising you, writes your name in the margin, where it will be mistaken for a correction. 'Rates have changed since you were in. They go up on Ash Eve. I would buy today.'".
   }
   Topic clerk_rates with clerk "Ask the clerk how the Stand works" when true once {
     Says "'Simplest thing in Gaunt.' He taps the board. 'Somebody does a fault. The Penitentiary prices it. They come here with the tally. I find them a back; the back does it; the back gets paid; the Penitentiary gets its tithe; the Fabric gets a tithe of the tithe; the tower goes up.' He considers. 'The tower doesn't go up, as it happens. But that's the masons.' He leans down. 'Busiest week of the year, this. Everybody wants to be clean for Ash Day, when the Ladder's gilded. If you've a back to sell, I can sell it twice before Wednesday.'".
@@ -49,14 +49,14 @@ Module gaunt "A Winter in Carth" {
   Person dinsdale "Mistress Grizel Dinsdale" at dinsdale_brewhouse {
     Role "a brewster in a velvet bonnet at a high desk, doing sums of penance and of beer in two columns" when not dinsdaleWalked(dinsdale).
     Role "a brewster in a velvet bonnet and no shoes, with her chin up" when dinsdaleWalked(dinsdale). Ancestry human. Peaceable. Pronouns she. Manner proud.
-    Greets "Mistress Dinsdale looks you up and down as if estimating your capacity in gallons. 'If it's about the measures,' she says, 'they're paid for. Forty fasts, in advance. I could give short measure till Michaelmas and still be owed.'".
-    Greets again "'Well?' says Mistress Dinsdale, not looking up from her columns.".
+    Greets "Mistress Dinsdale sizes you up as if estimating your capacity in gallons. 'If it's about the measures,' she says, 'they're paid for. Forty fasts, in advance. I could give short measure till Michaelmas and still be owed.'".
+    Greets again "'Well?' says Mistress Dinsdale, not looking up from her columns. 'Have you come to tell me the measures are short, or to tell me they are long? Either way, I will say it was the cooper.'".
   }
   Person sowerby "Master Pentecost Sowerby" at sowerby_shop {
     Role "a draper with a measuring-rod he holds like a sceptre, and the look of a man who has been second for eleven years" when not sowerbyWalked(sowerby).
     Role "a draper with his feet in a bowl of warm water, looking surprised at himself" when sowerbyWalked(sowerby). Ancestry human. Peaceable. Pronouns he. Manner jovial.
     Greets "Master Sowerby comes round the counter with both hands out. 'A customer! Or a proxy? Either is welcome; the second more so, this week.' He lowers his voice. 'Eleven years second. Eleven. Behind Thackray I don't mind, Thackray's a saint. Behind a brewster.'".
-    Greets again "Master Sowerby beams at you over the broadcloth.".
+    Greets again "Master Sowerby beams at you over the broadcloth, and then, with the air of a man trying a new phrase, says, 'Eleven years second.' He tries it again. 'I said it aloud and nothing fell. I think I am a little different.'".
   }
   Relation sowerbyRaised(group). Relation standCornered(group). Relation ladderExposed(group).
   Relation sowerbyWalked(group). Relation dinsdaleWalked(group).
@@ -95,7 +95,7 @@ Module gaunt "A Winter in Carth" {
     Role "a long, gangly young man with colour in his face for the first time in a fortnight" when abelFed(abel).
     Ancestry human. Peaceable. Pronouns he. Manner cheerful.
     Greets "The young man in the pen says, 'Fasts, threepence a day, I'm the best in the Stand for fasts, I don't feel it any more,' all in one breath, and sways a little.".
-    Greets again "Abel Lumb smiles at you weakly over the hurdle.".
+    Greets again "Abel Lumb smiles at you weakly over the hurdle. He has been fed, you can see, but not for long enough to believe it. 'Threepence a day,' he says. 'Best in the Stand. I do not feel it. I would like to feel it. Is that a thing one asks for?'".
   }
   Relation abelFainted(group). Relation abelFed(group).
   Rule abel_routine_stand when daytime() and not at(abel, the_stand) and not abelAway(abel) and not licence() and not following(abel, party) { Assert at(abel, the_stand). }

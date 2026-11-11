@@ -28,6 +28,7 @@ Module wrayford "The Third Night" {
   Person maudie "Maudie Pardoe" at pardoe_kitchen {
     Role "a carter's widow of Wain Row". Ancestry human. Peaceable. Pronouns she. Manner stoic.
     Greets "Maudie Pardoe does not stop kneading.".
+    Greets again "Maudie Pardoe does not stop kneading, and does not say anything, and there is a loaf on the board beside the dough that has been set out for a guest, and one for the rail.".
     Leaves "Maudie Pardoe turns the dough, and pushes it away from her, and does not look up.".
   }
   Relation coatGiven(group). Relation maudieWelcomes(group).
@@ -108,7 +109,8 @@ Module wrayford "The Third Night" {
   // He drove the cart. Nobody knows but him, and Dunstan, who is dead.
   Person kit "Kit Pardoe" at carters_yards {
     Role "a carter's son, seventeen, with black under his nails". Ancestry human. Calling warrior. Level 1. Peaceable. Pronouns he. Manner grim.
-    Greets "Kit looks up, and looks away again.".
+    Greets "Kit is sitting on an upturned bucket with a harness in his lap, and every strap of it is already mended. He starts on the first again when he sees you, and keeps his eyes on his thumbs. 'If you want my father,' he says, 'he's on the rail.'".
+    Greets again "Kit has finished mending the harness and started on his own boots. 'If you see Hal Hulme,' he says, to the boot, 'tell him I am where I always am. He will know what that means. I don't.'".
     Joins "Kit wipes his hands on his trousers and comes, half a step behind, the way he used to.".
     Leaves "Kit nods, once, at the ground.".
     Seen when not at(kit, under_arches) or knows(viewer, kit_place).
@@ -170,6 +172,7 @@ Module wrayford "The Third Night" {
   Person bramble "Bramble" at gate_road {
     Role "a carter's dog, brindled, grey in the muzzle". Species dog. Pronouns he.
     Greets "The brindled dog under the gatehouse lifts his eyes to you, and not his head.".
+    Greets again "Bramble gets up from the gatehouse step with a slowness that he intends you to see, and lies down again with his back to the rail and his nose to the road.".
     Leaves "Bramble lies down in the swept place in the cart-shed, and when you go, he stays.".
   }
   Discovery bramble_there "Wat Pardoe's dog, Bramble, has lain under the gatehouse since they hanged him, and will not eat, and will not come away." {

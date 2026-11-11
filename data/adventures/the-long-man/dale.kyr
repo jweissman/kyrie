@@ -84,11 +84,13 @@ Module longman "The Long Man" {
   Person venn "Aldous Venn" at study {
     Role "steward of the Hall". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
     Greets "Aldous Venn gets up from his bills with a smile that arrives a moment before the rest of him. 'A traveller, and armed,' he says. 'You will have seen my notice.'".
+    Greets again "Aldous Venn gets up from his bills with the smile arriving ahead of him again, but a little thinner at the edges. 'You have been in the dale,' he says, 'and you have been asked questions, and you have come to tell me the answers. Do sit.'".
     Objects "Venn sees {?i} in your hands, and his face changes. 'That belongs to the Hall,' he says. 'Give it here.'".
   }
   Person dunnet "Dunnet" at yard {
     Role "foreman at the Hall". Ancestry human. Calling warrior. Peaceable. Pronouns he. Manner stoic.
-    Greets "Dunnet, a big man with a slow face, straightens up from the cart and looks at you, and then past you at the hill, as if you might have brought something down off it.".
+    Greets "Dunnet, a big man with a slow face, is lifting a cart-shaft that two men could manage, and sets it down gently when he sees you, as though it might wake. His eyes go past you to the hill, to see what you have brought down off it.".
+    Greets again "Dunnet has put the cart-shaft down and is rubbing his palm along the grain of it, over and over. 'It has not gone away,' he says, to the wood. 'Whatever you think I saw. I would like to be wrong. I have said so to nobody.'".
     Wants bandages. Wants tin_lantern.
     Objects "Dunnet looks at {?i}, and at you, and goes in to the steward without a word. The study door bangs.".
   }
@@ -96,7 +98,8 @@ Module longman "The Long Man" {
   Person ysolt "Mother Ysolt" at nave {
     Role "priest of the Chapel of the Ford". Ancestry human. Calling cleric. Peaceable. Pronouns she. Manner compassionate.
     Likeness "abbess".
-    Greets "Mother Ysolt looks up from the parish register with the eyes of someone who has buried half the parish and christened the rest. 'You'll be after the steward's forty crowns,' she says. 'Sit down first.'".
+    Greets "Mother Ysolt closes the parish register on one finger, in the manner of a woman who has buried half the parish and christened the rest. 'You'll be after the steward's forty crowns,' she says. 'Sit down first.'".
+    Greets again "Mother Ysolt has not moved from the font. 'You have been up the hill,' she says, 'or you would not stand like that. Tell me when you can say it without saying the word king.'".
     Wants keeper_mask.
   }
   Event mask_buried near ysolt when keeps(ysolt, ?face) and itemKind(?face, keeper_mask) "Mother Ysolt takes the grey face in both hands and looks at it a long time. That evening she buries it in the chapel yard with the words for the dead, and rings the bell once." then {
@@ -106,16 +109,19 @@ Module longman "The Long Man" {
   Person hob "Hob Teller" at millhouse {
     Role "the miller". Ancestry human. Peaceable. Pronouns he. Manner proud.
     Likeness "potter".
-    Greets "Hob Teller looks up from the hopper, and his eyes go to your boots, wet from the beck, and back to your face. 'Mill's not grinding today,' he says, though it is.".
+    Greets "'Mill's not grinding today,' says Hob Teller, over the noise of the wheel, and the flour settles on his shoulders as he says it. He has put himself, you notice, between you and the window that gives on the dyke path.".
+    Greets again "Hob Teller says nothing, over the noise of the wheel, in a way that carries across the room. The flour has fallen on his shoulders again and he has not brushed it off.".
   }
   Person nell "Gammer Coller" at reeve_room {
     Role "the dyke-reeve". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
-    Greets "Gammer Coller looks you over from her chair by the fire, slowly, the way she would look at a ditch. 'Well,' she says. 'Shut the door, or the cat will be out.'".
+    Greets "Gammer Coller does not get up from her chair by the fire. 'Well,' she says. 'Shut the door, or the cat will be out.' The cat, which is on her knee, has not moved since Lammas.".
+    Greets again "Gammer Coller does not get up. 'Shut the door,' she says, 'or the cat will be out.' The cat is on the fender now, and has plainly made her own arrangement with the door.".
     Objects "'That is the reeve's rod,' says Gammer Coller, very quietly. 'It is not yours, and it is not mine to lose. Put it back.'".
   }
   Person martin "Martin Pask" at taproom {
     Role "landlord of the Drowned Ox". Profession innkeeper. Peaceable. Pronouns he. Manner jovial.
     Greets "'A traveller!' says Martin Pask, loud enough for half the place to hear. 'Sit, sit. Or stand. What'll it be?'".
+    Greets again "Martin Pask has your drink before you have asked, and a story to go with it, and the story is about someone else's drink. 'Storm coming,' he says. 'Gammer Coller says. It is the one thing in Merrow I have ever heard her say twice.'".
     Sells rations for 2 coin from 6.
     Sells torch for 1 coin from 6.
   }
@@ -340,7 +346,8 @@ Module longman "The Long Man" {
   Person cass "Cass Rowell" at downriver {
     Role "master of the barge Heron". Ancestry human. Calling thief. Level 3. Peaceable. Pronouns she. Manner grim.
     Likeness "butcher".
-    Greets "Cass Rowell looks at you, and at your hands, and at the bank behind you, in that order. 'If it's passage, I'm full,' she says. 'If it's business, say it.'".
+    Greets "Cass Rowell has her back to the bank and her eye on it, which she manages by watching it in the water of a tin cup. 'If it's passage, I'm full,' she says. 'If it's business, say it.'".
+    Greets again "Cass Rowell does not turn round. 'You are back,' she says, to the tin cup. 'On any other river I would say you were following me. On this one there is only one way to go.'".
     Buys bell_teeth for 8 coin.
   }
   Person hands "the Heron's hands" at downriver {

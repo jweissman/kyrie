@@ -32,16 +32,19 @@ Module dorothea "The Dorothea" {
     Role "master of the ketch Dorothea". Ancestry human. Calling ranger. Level 4. Peaceable. Pronouns she. Manner stoic.
     Likeness "sailor".
     Greets "A broad woman in a man's coat, a clay pipe unlit between her teeth, stands with her arms folded at the foot of the Dorothea's gangway, counting casks as they go up. She counts them again as you speak to her. 'Passage to Skerrow,' she says. 'A night and a morning if the wind holds, two days if it doesn't, and I don't discuss the other thing.'".
+    Greets again "Captain Bascom has stopped counting casks, which is a sign that all the casks are counted. 'Passage,' she says, round the pipe, 'and no discount for knowing me.' 'The tide waits for no one, and I am the tide's friend.'".
   }
   Person pellow "Wat Garrick" at shop {
     Role "chandler". Ancestry human. Peaceable. Pronouns he. Manner jovial.
     Sells rope for 1 coin from 4. Sells rations for 2 coin from 6. Sells torch for 1 coin from 6.
     Sells dorothea_netting for 2 coin from 4.
     Greets "Wat Garrick looks up from a coil he is whipping, and at your boots, and says that nobody goes to Skerrow in those, and then sells you something.".
+    Greets again "Wat Garrick holds up a pair of boots, not yours, and shakes them to be sure they have no sea in them. 'Better,' he says, with approval. 'Now you look like someone who has been told what to buy.'".
   }
   Person harbourman "Dacey Hoe" at harbourmaster {
     Role "harbourmaster". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
     Greets "Dacey Hoe does not look up from the ledger. 'Sailings are chalked on the board,' she says. 'The Dorothea goes on the noon ebb, Bascom's never missed a tide in her life and has no intention of starting on yours.'".
+    Greets again "Dacey Hoe has rubbed out the Dorothea's time and chalked it in again an hour earlier, without comment. 'There,' she says. 'Now it is right. It was always right. I have only changed it to what it ought to be.'".
   }
   Person drinkers "the Anchor's regulars" at taproom {
     Role "seamen and pilots' men". Ancestry human. Numbers 4. Peaceable.
@@ -156,6 +159,7 @@ Module dorothea "The Dorothea" {
     Role "pilot of the Antlers race". Ancestry human. Calling ranger. Level 3. Peaceable. Pronouns he. Manner jovial.
     Likeness "sailor".
     Greets "A broad red man in a pilot's blue coat lies along a coil of rope at the foot of the notice board with his hat over his face and one boot off. 'Not drunk,' he says, without moving the hat. 'Resting my judgement. There is a difference, and it is eleven pints.'".
+    Greets again "Fenwick Pelham has swapped the boot he has off for the one he has on. 'Judgement,' he says, from under the hat, 'is not yet recovered. Come back at the turn. There will be a pilot then, I give you my word, and it might even be me.'".
   }
   Relation ruddSober(group).
   Topic rudd_race with rudd "Ask Fenwick Pelham about the Antlers race" when true once {

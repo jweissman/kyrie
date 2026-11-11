@@ -11,7 +11,7 @@ Module gaunt "A Winter in Carth" {
     Role "the Wood-reeve, a big soft man in a fur-lined gown, grey in the face, who has not been warm since yesterday" when nightAtCarth(thackray).
     Ancestry human. Peaceable. Pronouns he. Manner compassionate.
     Greets "The big man in the fur-lined gown turns to you with real pleasure. 'A stranger! Welcome to Gaunt. Have you somewhere warm? You must have somewhere warm.' He presses your hand. 'Wood is dear this winter, I'm afraid. Wood is always dear in a hard winter. It's a law of nature,' he says, and then looks as if he wished he had not.".
-    Greets again "Alderman Thackray turns from the scales and smiles at you, kindly, tiredly.".
+    Greets again "Alderman Thackray turns from the scales and smiles at you, kindly, tiredly, and, for once, says nothing about wood. He weighs a billet in his hand and sets it down. 'I am told the city talks of me,' he says. 'It is being done very courteously. I find I admire that, which I did not expect.'".
   }
   Discovery thackray_vigil "Alderman Hugh Thackray, the Wood-reeve, bought the Cold Vigil at Carth: forty nights, one for each of the forty-one who froze in the Row last winter when he held back wood to raise its price. He is sorry. He has not lowered the price.".
   Discovery reeve_to_thackray "Raistrick, the Ash-reeve, reports each morning at ten at the Wood Exchange, to Alderman Thackray.".

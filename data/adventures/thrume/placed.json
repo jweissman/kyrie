@@ -26,7 +26,8 @@
     "cloudgate_fell"
   ],
   "imports": [
-    "party"
+    "party",
+    "word"
   ],
   "roles": {
     "party": {
@@ -38,5 +39,8 @@
     "region": "fells",
     "saltgrave": "market",
     "salt_road": "salt_road"
-  }
+  },
+  "optional": [
+    "word"
+  ]
 }

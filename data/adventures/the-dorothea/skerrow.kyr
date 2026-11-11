@@ -6,15 +6,18 @@ Module dorothea "The Dorothea" {
     Sells rations for 2 coin from 6.
     Sells rag_paper for 1 coin from 4.
     Greets "Hester Gull has kept the Gull for thirty years and the debts of the island for thirty-one, and she keeps both with the same flat hand. 'You came on the Dorothea,' she says. 'Then you'll want to know who owes what. Everybody owes everything. It's how an island holds together.'".
+    Greets again "Hester Gull has added a line to the slate behind her. You do not see what it says, and she does not offer. 'Everybody owes everything,' she says. 'You are on the slate now. It is no insult; it is where I keep the people I mean to remember.'".
   }
   Person kestle_jory "Jory Kestle" at green {
     Role "fisherman, the keeper's brother". Ancestry human. Peaceable. Pronouns he. Manner stoic.
     Greets "A big man mending a net on the green, with three children under it and a fourth on his shoulders. He does not stop mending. 'You'll have been told about the Pharos,' he says. 'You'll have been told my sister keeps it. You'll not have been told what a family eats on in a winter when the cod don't come.'".
+    Greets again "Jory Kestle has a different child on his shoulders. 'The cod have not come,' he says, mending. 'You have the look of a person who might know why. I have the look of a person who does not want to be told.'".
   }
   Person marl "Silas Quillon" at gull_room {
     Role "agent of the Orsett factor". Ancestry human. Calling bard. Level 3. Pronouns he. Manner jovial.
     Likeness "merchant".
     Greets "A neat man in a neat coat, with a ledger open before him on the Gull's long table and a cup of the Gull's tea untouched at his elbow. He rises for you, which nobody else has. 'Silas Quillon, of Orsett. Agent. I'm here for the lease, and a matter of old metal. I'm told I'm not liked. I find it never matters.'".
+    Greets again "Silas Quillon rises again, and is again the only one in the room who has. 'Back,' he says. 'And I am no more liked, I find, though I take comfort that it never matters. The lease is not signed, the old metal is not sold, and I am enjoying the island more than I expected. How are you getting on with it?'".
   }
   Person islanders "the people of Skerrow" at green {
     Role "islanders". Ancestry human. Numbers 5. Peaceable.
@@ -29,6 +32,11 @@ Module dorothea "The Dorothea" {
   Topic marl_offer with marl "Ask Silas Quillon what he wants with old metal" when true once {
     Says "'The bronze in the Pharos,' says Silas Quillon, pleasantly. 'A plate in the wall that no one can read, and a lens-frame, and a reflector that's worth, I'm told, a hundred and forty crowns to a foundry. The island gets sixty down, and the lease waived for ten years. Winter, you see, comes.' He turns a page. 'They give me their answer at the Gull on the second evening. I do not hurry a man who is going to say yes. Jory Kestle holds the pen, whatever his sister holds.' 'I'm not your enemy. Think of me as a man who can count.'".
     On discuss { Assert marlOffered(actor). }
+  }
+  // The same buyer as the one on the coast road in the country behind (Merrowdale's Heron sells him bell-bronze by the
+  // pound): said as a trade, not as a plot, and only to someone who has already heard the offer.
+  Topic marl_others with marl "Ask Silas Quillon who else sells him old metal" when marlOffered(actor) once {
+    Says "'Everyone with a bell they have stopped hearing,' says Silas Quillon, and smiles at the page. 'Sluice-gates. Weir-teeth. A barge-master up a beck in the hills who brings me a dozen green teeth a year, and tells her hands they are ballast. It is a most agreeable country: it keeps the old things where I can find them, and no one asks what they were holding up.' He caps the ink. 'The Pharos is the first lamp I have been offered. I confess I find it more difficult. A lamp is not a thing one weighs.'".
   }
   Topic jory_winter with kestle_jory "Ask Jory Kestle about the winter" when true once {
     Says "'It's the sixth bad cod season in nine,' says Jory. 'Hester's got every house in the book. Marren thinks I want to sell the Pharos. I want to sell it as a man wants to cut his hand off: I'd rather have a hand, and I'd rather eat.' He looks up the hill at the tower. 'My children have never once been warm in a room with that light in it. They don't know what it's for. I don't, either.'".

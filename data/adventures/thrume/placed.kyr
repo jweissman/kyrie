@@ -1,4 +1,7 @@
 Module thrume "Thrume" {
   // Thrume as a country beyond a march: the company that comes in by the salt road is the world's own.
   Entity party: group "Your company".
+  // What is said of Thrume in the country behind it: once it is seen through, it is old news there.
+  Entity word: fact "What is said of Thrume and Saltgrave in the country behind it.".
+  Rule word_old when (woken(fells) or sungClean(fells) or sealed(fells) or cutOut(fells) or crossed(fells)) and not stale(word) { Assert stale(word). }
 }

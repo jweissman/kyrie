@@ -22,6 +22,7 @@ Module dorothea "The Dorothea" {
     Role "widow, paid by the House to keep the Holm". Ancestry human. Level 2. Peaceable. Pronouns she. Manner proud.
     Likeness "farmer".
     Greets "A woman of sixty with a gull on her shoulder and a net half knitted on her knee does not get up. 'Mind the step,' she says. 'It has had worse than you.' She looks at you for a while the way a person looks at the sea to see which of its moods it is in. 'You came across the Wrack Road. Most don't. They think they have time.'".
+    Greets again "Marit Oake lifts the gull off her shoulder and puts it on the net, where it sits, offended. 'You are back,' she says. 'Most are not. The sea gets a few, and the Holm gets the rest, and I do not always know which of us is the kinder.'".
   }
   Relation maritWilling(group). Relation raftLantern(group).
   Topic marit_rent with marit "Ask Marit Oake what the House pays her for" when true once {

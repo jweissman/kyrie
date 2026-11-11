@@ -27,7 +27,7 @@ Module sennet "The Grand Tour" {
     Ancestry human. Calling mage. Trait enchanter. Level 9. Peaceable. Pronouns she. Manner jovial.
     Wants fire_petal_kind. Wants earth_petal_kind. Wants water_petal_kind. Wants air_petal_kind. Wants perrin_notebook_kind.
     Greets "A tall woman of sixty in a gown sewn in four colours gets up from behind a desk the size of a boat, scattering books, and comes round it with both hands out. On her chain of office a ring of old keys clinks. 'A Tourist! A real one, from over the hill. Do sit. Throw those on the floor, they've been there for years.' She looks at you with enormous interest, as if you were the only interesting thing to have happened to her all week. 'Isadora Quance. I run this place, or it runs me. You've come about the Grand Tour. Everybody has. Most of them are idiots. Are you?'".
-    Greets again "'You!' says the Rector, delighted, and clinks.".
+    Greets again "'You!' says the Rector, delighted, and clinks, and then stops with her hand on the ring of old keys as if she had remembered something she would rather have dropped. 'Tolley has been taking down my memoirs all morning, and I have just discovered that I do not remember the Tour at all. Only the proclamation. Sit and tell me what it was like.'".
   }
   // Ascension Eve, six to seven: an hour on Old Bethan's crate (courant.kyr).
   Query isaEve() means day(clock) == 3 and hour(clock) == 18 and not cloudgateFell(sennet_bay).
@@ -91,7 +91,7 @@ Module sennet "The Grand Tour" {
   Person tolley "Mr. Edwin Tolley" at rector_study {
     Role "the Rector's amanuensis, a young man with a shorthand pad and no chin". Ancestry human. Peaceable. Pronouns he. Manner compassionate.
     Greets "A young man in a gown too big for him looks up from a shorthand pad and goes pink. 'Tolley,' he says. 'Amanuensis. I take down. The Rector's memoirs, mostly. Thresholds. The Courant prints them on Saturdays.' He looks at his pad. 'Very good they are. Everybody says so.'".
-    Greets again "Mr. Tolley looks up from his pad and goes pink.".
+    Greets again "Mr. Tolley looks up from his pad and goes pink, and tries to hide it by writing something, and the something is your name. 'Thresholds,' he says. 'I am doing thresholds. The Rector says everyone you meet is one. I have forty pages and I am only up to the harbour.'".
   }
   Initially Assert passesTo(tolley, quance).
   Relation tolleyFriend(group). Relation tolleyCredited(group). Relation tolleyNovel(group).
@@ -126,7 +126,7 @@ Module sennet "The Grand Tour" {
   Person cole "Dr. Evander Cole" at museum {
     Role "Curator of the Museum of the Tour, in a dusty frock-coat". Ancestry gnome. Peaceable. Pronouns he. Manner compassionate.
     Greets "A small gentleman in a frock-coat with dust in all its creases comes out from behind a cabinet with a feather duster. 'Cole. Curator. Two centuries of the Tour, and not one Tourist in fifty looks at any of it.' He dusts a bell jar. 'They look at the labels, to see whose name is on it.'".
-    Greets again "'Ah,' says Dr. Cole, and dusts something.".
+    Greets again "'Ah,' says Dr. Cole, and dusts something, and the something is a medal he has never dusted before. 'Two centuries of the Tour, and you are the first Tourist to come back and ask a second question. I took the liberty of putting it in the catalogue.'".
   }
   Relation emberFreed(place). Relation coleAgrees(group). Relation emberAsked(group).
   Rule cole_works when openHours() and not at(cole, museum) { Assert at(cole, museum). }
@@ -169,7 +169,7 @@ Module sennet "The Grand Tour" {
     State on_duty blocking "Mr. Threlkeld keeps the Fire Door and the Earth Door with his ledger open, and nobody goes through either without his say.".
     Guards fire_door. Guards earth_door.
     Greets "The little man at the desk looks up over half-spectacles. 'Threlkeld. Doorwarden. Name, licence, and are you sure.' He dips his pen. 'Everybody's sure. Then they come back through the Fire one with their eyebrows off.'".
-    Greets again "'Name, licence, and are you sure,' says Mr. Threlkeld, without looking up.".
+    Greets again "'Name, licence, and are you sure,' says Mr. Threlkeld, without looking up, and the pen goes down with a little more force than the words. 'I have a list of those who said yes to the last question. It is longer than the list of those who came back. Do take your time.'".
   }
   Rule tench_licensed when holding(party, tour_licence_kind) and not tolerates(tench, party) { Assert tolerates(tench, party). }
   Rule tench_lets_out when within(party, fire_land) and not tolerates(tench, party) { Assert tolerates(tench, party). }

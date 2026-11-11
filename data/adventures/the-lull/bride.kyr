@@ -7,7 +7,7 @@ Module lull "The Lull" {
     Role "the chandler's daughter, who dips candles". Ancestry human. Peaceable. Pronouns she. Manner cheerful.
     Likeness "apprentice".
     Greets "The girl at the candle-bench looks up with her tongue still between her teeth, and takes it in. 'Sorry. If I talk I get them lumpy.' She hangs a pair of wet candles on the rack by their wick. 'Wenna Spurling. You're a Sixer. Do you know Abel Rooke? Everybody out there knows Abel, he says.' She goes pink. 'He says that about everybody.'".
-    Greets again "Wenna Spurling lifts a dripping candle to you in greeting.".
+    Greets again "Wenna Spurling lifts a dripping candle to you in greeting, and a bead of wax runs down her wrist, and she lets it. 'Back before sunset,' she says. 'A good habit. Whatever you do here without meaning it goes with the light, and I mean this candle, so mind it.'".
     Wants keepsake_kind.
   }
   Initially Assert lullFolk(wenna). Initially Assert dayAt(wenna, spurling_shop). Initially Assert bedAt(wenna, spurling_shop).
@@ -81,7 +81,7 @@ Module lull "The Lull" {
     Role "a carver of Linger". Ancestry human. Peaceable. Pronouns he. Manner stoic.
     Likeness "craftsman".
     Greets "A quiet man in his thirties with shavings in his beard looks up from a block of limewood. He is shaping, you see, a woman's head. 'Sixer,' he says, not unkindly, and goes on shaping. 'If you're from the Waiting Woman, she's not here yet. She comes at nine.'".
-    Greets again "Piran Trewin nods, and goes on carving.".
+    Greets again "Piran Trewin nods, and goes on carving, and the thing under the knife is a little nearer to a face than it was. 'It does not matter what it is,' he says. 'It will come apart at sunset if I mean it. I am working very hard not to mean it.'".
     Wants keepsake_kind.
   }
   Initially Assert lullFolk(piran). Initially Assert dayAt(piran, piran_shop). Initially Assert bedAt(piran, piran_shop).

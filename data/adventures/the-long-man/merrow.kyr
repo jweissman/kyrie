@@ -1,0 +1,44 @@
+Module longman "The Long Man" {
+  Description "Merrow's talk as the three days go on: what the well says when the low field goes under, what is said of Pell once it is known, the miller's grandmother, and where the bronze goes when the Heron leaves.".
+
+  // ── The well, as the water rises ────────────────────────────────────────────────────────────────────────────────
+  // The people at the well have one thing to say on the first day (the giant, the Mower, the steward). They have
+  // other things to say by the third, and they say them differently: nobody tells a joke about the hill once the
+  // low field is under.
+  Topic folk_water with folk "Ask the people at the well about the low field" when drowned(low_field) and not broke(long_man) once {
+    Says "'It was a furrow yesterday,' says the woman with the eggs, and looks at her own boots, which are dry. 'Ned Rook went in over his boots by the springs on ground that was dry at Lammas, and Ned has never been afraid of a puddle in his life.' Behind her a man says the Gammer's rhyme under his breath, the second verse, and then, because it is the second verse, stops.".
+  }
+  Topic folk_pell with folk "Ask the people at the well about Pell" when pellKnown() once {
+    Says "'Pell,' says the woman with the eggs, and stops, and begins again. 'We were told he went down the river in the spring. His mother kept his boots by the door till Michaelmas.' Nobody says the steward's name. A boy is sent off to the yard with a loaf for Dunnet, and carries it as if it were something else.".
+  }
+  Topic folk_eased with folk "Ask the people at the well how the springs are running" when (state(leak_gate, mended) or drawn(hollow)) and not broke(long_man) once {
+    Says "'Clear,' says the boy who told you about the Mower, and then, before his mother can cuff him: 'Not like before. Before they were loud.' The woman with the eggs says she has lived beside those springs all her life and never once listened to them, and now she cannot stop.".
+  }
+
+  // ── The miller, and his grandmother's sheep ─────────────────────────────────────────────────────────────────────
+  // The wax rubbing from the sea-church has a hand the chapel cannot read; the miller's family can, and does not know
+  // that it can. (Told in Mother Ysolt's version at the chapel; this is the other end of the same thread.)
+  Topic hob_grandmother with hob "Show Hob Teller the stroke-and-ring on the wax rubbing" when knows(actor, lore_rubbing_notches) once {
+    Says "Hob holds the wax to the window with a floury thumb and a forefinger, the way you hold a coin you suspect. 'That's sheep,' he says. 'That's how my gran counted sheep: a stroke each, and a ring when you'd done a score. She'd do it on the gate with a nail.' He turns it over, and his voice has gone a little hoarse. 'She said she had it from her gran. I thought everyone did.' He gives it back as if it had got heavier. 'Don't say that to Ysolt. She'll make a sermon of it.'".
+  }
+  Topic hob_after with hob "Ask Hob Teller how the mill is running" when confessed(hob) once {
+    Says "'Slower,' says Hob, and for the first time since you met him it sounds like a boast. 'Ran dry every August till I put the spade to the springs, and I told myself the Lord had meant it for the mill. He hadn't.' He wipes his hands. 'I have staked what I cut. I'll not stake what I never cut, and there's a hundred other springs in that dale that were doing it long before me.' He does not say what he means by that. He looks at the hill.".
+  }
+
+  // ── Where the Heron goes ────────────────────────────────────────────────────────────────────────────────────────
+  // The dale knows the barge only as the Heron; the country below knows what the bronze is sold to. A rumour that
+  // leaves the dale, and does not say what it is: there is a buyer on the coast road who pays by the pound.
+  Discovery heron_road "The Heron goes down the beck to the river, and the river to the coast road, where a Founders' Exchange factor pays by the pound for old bronze and signs a receipt that is worse than none.".
+  Topic martin_heron with martin "Ask Martin Pask where the Heron goes when it leaves Merrow" when true once {
+    Says "'Down,' says Pask. 'Down the beck to the river, down the river to where it meets the coast road, and there's a hall there that buys what the steward sells. The Founders' Exchange, they call it, which I took for a chapel till Cass told me.' He wipes the bar slowly. 'They pay by the pound for green bronze and old bells and ask no questions, and they give you a receipt, which is a good deal worse than none, because it has your name on.' He puts the cloth down. 'She says they are very fond of the Hall's metal. I'd like to know what they want it for. I have never been asked to sell them anything.'".
+    On discuss { Assert knows(actor, heron_road). }
+  }
+  Topic cass_receipt with cass "Ask Cass Rowell about the receipts the Exchange gives" when knows(actor, heron_road) once {
+    Says "Cass turns her cup a quarter-turn on the hatch. 'Numbered,' she says. 'On thick paper, with a seal like two hands shaking. You'd think it a courtesy.' She looks at the sack of teeth, or the place where it was. 'I asked a clerk once what number I was. He said I was the thirty-first. He said it in the voice of a man who had been told not to say.' She drinks. 'That's every bargeman from here to the sea, with a number. I've never wanted to ask what they do with the numbers.'".
+  }
+
+  // ── Mother Ysolt, once the steward is exposed ───────────────────────────────────────────────────────────────────
+  Topic ysolt_letter with ysolt "Ask Mother Ysolt what she will do about the steward" when exposed(venn) once {
+    Says "'Write,' says Mother Ysolt. 'I have written to the bishop's registry in the cathedral town every Michaelmas for twenty years about the state of the chapel roof, and had no answer.' She smooths the register under her hand. 'This once, I think, there will be an answer. A steward who sells a parish's bell is a thing a bishop notices.' She is almost smiling. 'I shall write it on the thick paper. They do read the thick paper.'".
+  }
+}

@@ -49,6 +49,7 @@ Module wrongboat "The Wrong Boat" {
   Person una "Una Rendle" at ferry_hut {
     Role "the ferrywoman at Highfoot". Ancestry human. Peaceable. Pronouns she. Manner stoic.
     Greets "A small, brown, upright woman of sixty with a boathook for a stick looks at you. 'Yes,' she says.".
+    Greets again "Una Rendle's boathook comes down once on the ferry-stage, like a gavel. 'Yes,' she says. It is, you gather, a complete sentence, and a different one from last time.".
   }
   Topic una_cross with una "Ask Una to put you across" when true once {
     Says "'Carrying?' says Una.".
@@ -97,10 +98,12 @@ Module wrongboat "The Wrong Boat" {
   Person dealer "Joel Sunderland" at horse_lines {
     Role "a horse-dealer". Ancestry human. Peaceable. Pronouns he. Manner jovial.
     Greets "A man like a barrel with a whip tucked in his belt looks at your boots first, then your face, then your boots. 'I've a mare for you,' he says. 'Or I've a gelding for you. Or I've neither and I'm lying. Which would you like?'".
+    Greets again "Joel Sunderland looks at your boots, then your face, then your boots, and says the mare is gone. 'But I have a gelding,' he says, 'with a character. He has already thrown two men, and he has not thrown them far.'".
   }
   Person tunney "Orpha Tunney" at draper {
     Role "slop-seller". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
     Greets "The woman behind the counter takes a tape off her neck. 'I do not ask why,' she says. 'I measure.'".
+    Greets again "Orpha Tunney has the tape off her neck and round your shoulders before you have spoken. 'I do not ask why,' she says, again, and her mouth twitches. 'I measure. You have changed size. People always do, on the second visit.'".
   }
   Topic draper_what with tunney "Ask Mrs Tunney what she could make of you" when true once {
     Says "'What do you want to be taken for?' says Orpha Tunney, with the tape already out.".
@@ -119,6 +122,7 @@ Module wrongboat "The Wrong Boat" {
   Person hoby "Gabriel Hoby" at puppet_booth {
     Role "a puppet-man, between acts". Ancestry human. Peaceable. Pronouns he. Manner proud.
     Greets "A thin man in his shirt, with a king's head on one hand and a crocodile's on the other, looks round the edge of the cloth. 'The cast is always one short,' he says. 'Are you any good at falling over?'".
+    Greets again "Gabriel Hoby has the crocodile on his hand and the king on the other, and the king is losing the argument. 'The cast,' he says, from behind the cloth, 'is one short again. Are you any better at falling over than last time?'".
   }
   Topic hoby_villain with hoby "Ask Hoby what his play is about" when true once {
     Says "'The Wicked Toll-Clerk,' says Hoby. 'A king, a crocodile, a baby that is a sausage, and a gap where a villain goes. Name me one.'".
@@ -199,6 +203,7 @@ Module wrongboat "The Wrong Boat" {
   Person tabitha "Tabitha Auster" at millyard {
     Role "the miller's wife". Ancestry human. Peaceable. Pronouns she. Manner jovial.
     Greets "A big red-armed woman looks up from the sack. 'Don't stand there like a lot of sacks yourselves!' she shouts. 'If you want the kitchen it's through the door and mind the cat, if you want a job it's the flour, and if you're running from something I've a pie and I never saw you!'".
+    Greets again "Tabitha Auster is shouting something about flour before you are properly in the yard, and stops. 'It's you,' she says, at a quieter pitch that on anybody else would be a roar. 'Come in. The pie's on. I never saw you. I never saw you twice.'".
   }
   Topic tabitha_flour with tabitha "Ask Mrs Auster whether you are running from a man or toward one" when true once {
     Says "'Well?' says Tabitha, and beats the sack. 'Well, which is it? It makes a difference to the pie. If it's from, you want the cold end of the kitchen with the door shut. If it's toward, you want hot tea and no one to see you drink it, because you'll cry.'".
@@ -248,6 +253,7 @@ Module wrongboat "The Wrong Boat" {
   Person quill "Barnaby Fosse" at inn_room {
     Role "innkeeper, and a mender of clocks". Ancestry human. Peaceable. Pronouns he. Manner grim.
     Greets "A thin man with a cough and a loupe on a string looks up from a clock with its back off. 'You've brought it,' he says. 'Garrod's message said a box. I've been expecting it a month.'".
+    Greets again "Barnaby Fosse has the clock's back off and a spring in his teeth. 'You have the face of a man who has delivered a box,' he says, round the spring. 'Or lost one. I never could tell the two faces apart.'".
   }
   Topic quill_ask with quill "Ask Mr Fosse what he wants with a music box" when true once {
     Says "'Movement,' says Fosse. 'Forty. The question is not the price.' He coughs. 'Who are you to sell it?'".

@@ -31,5 +31,6 @@ Module dorothea "The Dorothea" {
     Role "keeper of the Pharos". Ancestry human. Peaceable. Pronouns she. Manner proud.
     Likeness "abbess".
     Greets "A tall woman in a seaman's jersey is on her knees at the lamp's brass foot with a rag, polishing a part of it that is already bright. 'Hold the stair rail,' she says, without turning, 'and don't breathe on the lens. My grandfather's grandfather's trimming-knife is on the shelf, if you need to see what I trim with. I have never been asked what the lamp is for. I have always been asked what I will take for it.'".
+    Greets again "Marren Kestle does not stop polishing. 'The lens is the same as you left it,' she says. 'Do you think it has changed? Everyone thinks it has changed. They come up the stair expecting a different light, and go down it with the same one.'".
   }
 }
