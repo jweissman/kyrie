@@ -20,7 +20,7 @@ type Standing = { lit?: Tone } | { dim: true } | { shut: string } | Record<strin
 // their own. Each says in words what it is, to a pointer and to a reader of the page.
 export class SceneRail {
   // Whether the scene is drawn first, the rail its touches (?scene=split keeps the bounded stage, and its rows).
-  static on(app: ReaderApp): boolean { return app.props.query.get('scene') !== 'split'; }
+  static on(app: ReaderApp): boolean { return app.props?.query?.get('scene') !== 'split'; }
   static View({ app, draw }: { app: ReaderApp; draw: Draw }) {
     const search = Pastime.search(app), wait = Pastime.wait(app);
     return (

@@ -7,7 +7,7 @@ import type { Promoted } from '../../src/presentation/glance-types';
 // any other promising thing to do, unless the company has a cleric, whose prayers show the way.
 export class Guidance {
   static shown(app: ReaderApp): boolean {
-    if (app.props.query.get('guide') !== 'quiet') { return true; }
+    if (app.props?.query?.get('guide') !== 'quiet') { return true; }
     return (app.state.frame?.screen.party ?? []).some(m => /\bcleric\b/i.test(m.line));
   }
   // The continuation among the rest, where its place is fixed by where the company is and what it follows, not always

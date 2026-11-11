@@ -1,3 +1,4 @@
+import { SceneRail } from '../web/reader/stage/scene-rail';
 import { beforeAll, describe, expect, it } from 'bun:test';
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
@@ -84,7 +85,9 @@ describe('Go… and the gold, for a player come home', () => {
     // not marked either.
     expect([...list.values()].flat().some(n => n.endsWith('◆'))).toBe(false);
     expect(page.preview()).toBe('');
-    expect(page.rest()).toMatch(/class="opener opens-go"/);
+    // Go… is the rail's (amendment 6), not one of the glance's openers, and is not lit as the aim's.
+    expect(page.rest()).not.toMatch(/opens-go/);
+    expect(SceneRail.go(page.app)).not.toEqual({ lit: 'gold' });
   }, 60000);
 
   it('goes by a way at one click, to a part of the town at its own open place, which has been', async () => {

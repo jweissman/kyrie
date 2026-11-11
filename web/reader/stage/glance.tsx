@@ -1,3 +1,4 @@
+import { SceneRail } from './scene-rail';
 import { useRef, type CSSProperties } from 'react';
 import { Glyphs } from '../creation/glyphs';
 import type { Glance, Promoted } from '../../../src/presentation/glance-types';
@@ -160,7 +161,7 @@ export class GlanceStage {
     const shown = GlanceStage.foreground(app, acts).filter(a => !touched.includes(GlanceStage.choice(app, a.choice)?.id));
     const drawn = shown.map(a => GlanceStage.choice(app, a.choice));
     const found = GlanceStage.found(app, hand), yours = GlanceStage.yours(app, acts, [posted, search, ...drawn]);
-    const railed = app.props.query.get('scene') !== 'split';
+    const railed = SceneRail.on(app);
     return <>
       {shown.length > 0 && <GlanceStage.Acts app={app} draw={draw} acts={shown} top={top} />}
       <p className="openers">
