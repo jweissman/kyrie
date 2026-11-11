@@ -201,7 +201,7 @@ Module wrayford "The Third Night" {
   Observe pawn_scene at pawnshop when true "A dark shop full of other people's things: clocks, Sunday coats, a fiddle, a trayful of rings under glass, a cradle. Each has a ticket on a string.".
   Person pratt "Dorothea Pratt" at pawnshop {
     Role "who keeps the pawnshop, Alderman Gidley's cousin". Ancestry human. Peaceable. Pronouns she. Manner proud.
-    Greets "Mistress Pratt looks at your hands before she looks at your face, to see what you have brought.".
+    Greets "Mistress Pratt reads your hands before she reads your face: what you carry, what you have lately stopped carrying, the pale band where a ring was. 'Pledge or redeem?' she says. 'Either way, the ticket is the thing, not the goods, and I do not discuss the goods.'".
   }
   Relation ringFreed(group). Relation chiselsBought(group).
   Topic pratt_ring with pratt "Ask Mistress Pratt about Joss Wilder's betrothal ring" when knows(actor, ring_missing) once {
@@ -281,7 +281,7 @@ Module wrayford "The Third Night" {
   Observe shambles_night at shambles when dark() "The Shambles at night: shutters, a smell, cattle shifting in the pens.".
   Person kemp "Saul Kemp" at shambles {
     Role "a butcher, master of the Shambles". Ancestry human. Peaceable. Pronouns he. Manner jovial.
-    Greets "Saul Kemp wipes a cleaver on his apron and looks you up and down, the way he looks at a beast in the pens, for the weight.".
+    Greets "Saul Kemp wipes a cleaver on his apron and sizes you up with it, the way he sizes a beast in the pens, for the weight. 'Not buying,' he says. 'Selling, then? No. You've the wrong hands.' He turns a carcase on its hook. 'If it's news you're after, that's different. The Shambles hears everything that was ever bled.'".
   }
   Person jack_kemp "Jack Kemp" at shambles {
     Role "the butcher's boy, who drives the offal cart". Ancestry human. Peaceable. Pronouns he. Manner cheerful.

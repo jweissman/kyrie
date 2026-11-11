@@ -27,7 +27,7 @@ Module wrayford "The Third Night" {
   }
   Person pinch "Amos Pinch" at gate_road {
     Role "the Bridge Company's collector, in a new black coat". Ancestry human. Peaceable. Pronouns he. Manner acerbic.
-    Greets "Amos Pinch looks up from his tally with the expression of a man who has been looked up from his tally all morning. 'A farthing, foot-passengers,' he says. 'Since the riot.'".
+    Greets "Amos Pinch has chalked the new rate on the gatehouse door and stands under it with his tally-stick, guarding a very small treasure. 'A farthing, foot-passengers,' he says, before you have put your hand to a purse. 'Since the riot.' He does not say whose riot it was, or why it should cost the foot-passenger.".
   }
   // The farthing, taken at the chain from everyone who goes on to the bridge while Pinch keeps the booth: once a day,
   // since he gives a tally-stick for it, and nobody but the Bench's freemen goes free.
@@ -115,11 +115,11 @@ Module wrayford "The Third Night" {
   // The watch: Sergeant Gault and four of the lord's riders, who keep the gatehouse until the captain comes.
   Person gault "Sergeant Gault" at gate_leads {
     Role "the riders' sergeant, a square man with a broken nose". Ancestry human. Calling warrior. Level 4. Peaceable. Pronouns he. Manner stoic.
-    Greets "Sergeant Gault looks at you the way a dog looks at another dog, without much interest either way.".
+    Greets "Sergeant Gault is oiling a stirrup-leather six feet from the rail, and goes on oiling it. 'They stay where they are till the captain says,' he tells the leather. 'If it is the dead you have business with, it is her you wait for. If it is the living, mind the chain.'".
   }
   Person riders "the lord's riders on the gate" at gate_leads {
     Role "four of the lord's riders, in buff coats, with the lord's badge". Ancestry human. Calling warrior. Level 2. Numbers 4. Peaceable. Pronouns they.
-    Greets "One of the riders looks round, and says something to the others, and they laugh.".
+    Greets "Four buff coats have dealt a hand of cards on a drum-head under the rail. One lays down a knave and says something low, and the others laugh a little too long. None of them looks up at what hangs over the cards, and none of them would sit with his back to it.".
   }
   Initially Assert takesPrisoners(gault). Initially Assert takesPrisoners(riders). Initially Assert serves(riders, gault).
   // They sleep in the small hours, on the nights before the captain comes; after, her own riders keep the bridge too,

@@ -168,7 +168,7 @@ Module wrayford "The Third Night" {
   // The young carters, and what they mean to do on the second night.
   Person carters "the young carters" at carters_yards {
     Role "half a dozen carters' sons, sitting on a dray". Ancestry human. Calling warrior. Level 1. Numbers 5. Peaceable. Pronouns they. Manner grim.
-    Greets "The young carters look at you, and at each other.".
+    Greets "Six carters' sons sit on a dray with its shafts in the air, passing one pipe, and fall quiet by halves as you come into the yard, the nearest first. The biggest is whittling a peg for no cart in the yard. 'Whose are you?' he says. 'Company's? Lord's? Nobody's?'".
   }
   Rule carters_evening when hour(clock) >= 18 and hour(clock) < 23 and not at(carters, wheels_taproom) and not cartersOut(carters) and not cartersTaken(carters) { Assert at(carters, wheels_taproom). }
   Rule carters_day when (hour(clock) >= 6 and hour(clock) < 18) and not at(carters, carters_yards) and not cartersOut(carters) and not cartersTaken(carters) { Assert at(carters, carters_yards). }

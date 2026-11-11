@@ -8,7 +8,7 @@ Module wrayford "The Third Night" {
   Observe study_scene at hulme_study when true "The reeve's study: books of the city's statutes, a map of the bridge with every arch numbered, a fire, two chairs, and a desk with the reeve's seal on it in a dish, and a stack of papers in a round careful clerk's hand.".
   Person hulme "Simon Hulme" at guild_hall {
     Role "the Reeve of Wrayford, grey and careful". Ancestry human. Peaceable. Pronouns he. Manner stoic.
-    Greets "Simon Hulme looks up, and you watch him decide, in the space of a breath, to be the reeve and not anything else.".
+    Greets "Simon Hulme stops signing, caps the ink, and you watch him decide, in the space of a breath, to be the reeve and not anything else. 'You have come about Tuesday,' he says. 'Everyone has. I will tell you what I tell everyone, and you may judge what it costs me.'".
   }
   Rule hulme_court when hour(clock) >= 9 and hour(clock) < 17 and not at(hulme, guild_hall) and not hulmeAway(hulme) { Assert at(hulme, guild_hall). }
   Rule hulme_home when (hour(clock) >= 17 or hour(clock) < 9) and not at(hulme, hulme_study) and not hulmeAway(hulme) { Assert at(hulme, hulme_study). }
@@ -53,7 +53,7 @@ Module wrayford "The Third Night" {
   // ── Hal ───────────────────────────────────────────────────────────────────────────────────────────────────────────
   Person hal "Hal Hulme" at guild_hall {
     Role "the reeve's son, who writes his father's papers". Ancestry human. Peaceable. Pronouns he. Manner compassionate.
-    Greets "Hal Hulme looks up, and for a moment he is twelve years old, and then he is not.".
+    Greets "Hal Hulme is copying a fair hand out of his father's rough one, and has a second sheet at his elbow that he lays face down, unhurriedly, before he stands. For a moment he is twelve years old and caught at it; then he is not. 'Father's papers,' he says. 'I write them. I do not decide them.'".
   }
   // His father's clerk by day; at dusk he goes down to the starling under the middle arch, where he always went; home.
   Relation halAway(group).
@@ -161,7 +161,7 @@ Module wrayford "The Third Night" {
   // Mistress Gidley, and the ice.
   Person honoria "Honoria Gidley" at gidley_parlour {
     Role "the Alderman's wife, in black for the aunt". Ancestry human. Peaceable. Pronouns she. Manner compassionate.
-    Greets "Mistress Gidley looks up from a sampler with a needle in her mouth, takes it out, and says, 'Oh. Visitors.'".
+    Greets "Mistress Gidley is working a sampler of the Bridge in black silk on black linen, which can be read only by tilting it to the window. She takes the needle from her mouth. 'Oh,' she says. 'Visitors. Prosper will be so glad. He has been so low.'".
   }
   Relation honoriaLobbies(group). Relation iceGiven(group).
   Topic honoria_aunt with honoria "Ask Mistress Gidley about her aunt" when true once {

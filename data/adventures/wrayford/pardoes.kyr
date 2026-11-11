@@ -108,7 +108,7 @@ Module wrayford "The Third Night" {
   // He drove the cart. Nobody knows but him, and Dunstan, who is dead.
   Person kit "Kit Pardoe" at carters_yards {
     Role "a carter's son, seventeen, with black under his nails". Ancestry human. Calling warrior. Level 1. Peaceable. Pronouns he. Manner grim.
-    Greets "Kit looks up, and looks away again.".
+    Greets "Kit is sitting on an upturned bucket with a harness in his lap, and every strap of it is already mended. He starts on the first again when he sees you, and keeps his eyes on his thumbs. 'If you want my father,' he says, 'he's on the rail.'".
     Joins "Kit wipes his hands on his trousers and comes, half a step behind, the way he used to.".
     Leaves "Kit nods, once, at the ground.".
     Seen when not at(kit, under_arches) or knows(viewer, kit_place).
