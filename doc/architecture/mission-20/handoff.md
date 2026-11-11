@@ -66,8 +66,13 @@ Each item is listed with how it was verified. Rows refer to `log.md`.
    walk go into the town and back out. This repeats at most two hexes over five seeds, in 16–23 ways a seed. A junction
    node where roads share hexes is the fix.
 8. **Startup.**
-   - About 5.5 s of the start is parsing about 1.2 MB of generated Kyr per country.
-   - Then compiling and checking, and structuredClone of parse results.
+   - Measured on 11 November night, a fresh country with no parse cache, headless: world assembly 0.6–0.7 s; session
+     start 9.7–10.4 s, of which parsing is 5.5–5.6 s (about 135 parses), the rest compiling and checking.
+     Resident memory 550–620 MB, heap 135–270 MB.
+   - Tried and reverted: a read-only path letting a generated region's files be parsed once and not copied for
+     composition and loading. A/B over three seeds showed no gain (10.26/9.89/10.36 s before, 10.26/9.69/10.26 s
+     after), and it added an uncopied shared module (the risk review's R4). The copies are not the cost; the parse
+     and the compile are.
    - Candidates: parse the generators' templates once and instantiate them, instead of parsing their output; or a
      compact intermediate form for generated regions.
    - Not a lazy-world rewrite.
