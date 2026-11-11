@@ -83,8 +83,18 @@ describe('a night waited out', () => {
     // The Delvers' hall is somewhere to rest: the rest is one of the ways of letting the night go.
     expect(lengths).toContain('Until first light');
     expect(lengths).toMatch(/Rest six hours|Try to rest/);
-    expect(sheet).not.toContain(Pastime.sleepless);
+    expect(sheet).not.toContain(Pastime.sleepless());
     Night.apply(s, [{ kind: 'retract', call: ModuleWriter.call('restful', 'region__w9_haulage_hall') }]);
-    expect(Night.sheet(s)).toContain(Pastime.sleepless);
+    expect(Night.sheet(s)).toContain(Pastime.sleepless());
+  }, 120000);
+
+  // In an inn after dark, the bed had of whoever keeps it is named, not "nowhere to sleep" (round 4, the register's
+  // UI-04).
+  it('names whoever here has a bed', async () => {
+    const s = await Night.start();
+    Night.apply(s, [{ kind: 'assert', call: ModuleWriter.call('at', 'party', 'region__s1_taproom') }]);
+    const sheet = Night.sheet(s);
+    expect(sheet).not.toContain(Pastime.sleepless());
+    expect(sheet).toMatch(/has a bed, under Trade/);
   }, 120000);
 });

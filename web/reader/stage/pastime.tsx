@@ -20,7 +20,7 @@ export class Pastime {
           <Pastime.Means app={app} />
           <ul className="pt-lengths">{[...lengths, ...sleeps].map(c => <li key={c.id}>
             <Act.View choice={c} draw={draw} className="pt-length" marked /></li>)}</ul>
-          {!sleeps.length && <p className="pt-no-sleep">{night ? Pastime.sleepless : Pastime.slept}</p>}
+          {!sleeps.length && <p className="pt-no-sleep">{night ? Pastime.sleepless(Pastime.host(app)) : Pastime.slept}</p>}
         </section>}
         <div className="pt-told" aria-live="polite">
           {s.pending ? <Told.Working pending={s.pending} /> : told && <Told.Happened exchange={told} said app={app} />}
@@ -56,10 +56,20 @@ export class Pastime {
   }
   // And where sleep is had, which is what brings back strength and spells: a caster who had spent both spells could not
   // find how to have them back, and a bed bought at a shrine was under its keeper's Trade (round 5).
-  static readonly sleepless = 'Nowhere to sleep here: a night waited out is no rest. A bed is had of an innkeeper or a '
-    + 'priest (under Trade), or a camp made out in the country.';
+  // Where someone here has a bed, they are named: in an inn, "Nowhere to sleep here" had stood over the innkeeper's bed
+  // under Trade (round 4, the register's UI-04).
+  static sleepless(host?: string): string {
+    return host ? `A night waited out is no rest: ${host} has a bed, under Trade.`
+      : 'Nowhere to sleep here: a night waited out is no rest. A bed is had of an innkeeper or a priest (under Trade), '
+        + 'or a camp made out in the country.';
+  }
   static readonly slept = 'Sleep brings back strength and spells: a bed had of an innkeeper or a priest (under Trade), '
     + 'or a camp made out in the country.';
+  // Whoever here would give the company a bed (see TalkFocus.services).
+  static host(app: ReaderApp): string | undefined {
+    const bed = (c: Choice): boolean => /^take_lodging/.test(c.does ?? '') || !!c.children?.some(bed);
+    return app.menu.scene?.subjects.find(x => x.choices.some(bed))?.name;
+  }
   // What else the company does of itself here: not waiting, sleeping or searching, nor what the place offers (see
   // AtHand).
   static also(app: ReaderApp): Choice[] {
