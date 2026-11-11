@@ -86,7 +86,7 @@ Module walk "The Walk of the Milestones" {
   }
   Action ledger_to_bench(actor: group, site: place) "Lay the steward's ledger before {dray}, with the note on his debt" {
     Speaker dray.
-    Requires able(actor) and company(actor) and at(actor, site) and at(dray, site) and holding(actor, ledger_kind) and not ledger_shown(walk).
+    Requires able(actor) and company(actor) and at(actor, site) and at(dray, site) and holding(actor, walk_ledger_kind) and not ledger_shown(walk).
     Time 10 minutes.
     On success { Assert ledger_shown(walk). Assert exposed(walk). Assert reprieve(walk). }
     Result "{dray} reads the last page and does not read the rest. The colour goes out of him, and then comes back, slowly, as anger. 'I have been,' he says, 'a very obliging man.' He closes the ledger. 'I will hold the Bench's hand until noon. And then I will have a word with a gentleman in a plain coat.'".
@@ -106,15 +106,15 @@ Module walk "The Walk of the Milestones" {
 
   // ---- The steward's chest and ledger. He goes where the Walk goes, a day behind it, and the thief's way is the lock.
   Action take_ledger(actor: group, site: place) "Take the ledger from the steward's open chest" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(orme_chest, site) and state(orme_chest, open) and not holding(actor, ledger_kind) and not ledger_taken(walk).
+    Requires able(actor) and company(actor) and at(actor, site) and at(orme_chest, site) and state(orme_chest, open) and not holding(actor, walk_ledger_kind) and not ledger_taken(walk).
     Time 5 minutes.
-    On success { Give ledger_kind to actor. Assert ledger_taken(walk). Assert knows(actor, ledger_found). Assert knows(actor, orme_seen). }
+    On success { Give walk_ledger_kind to actor. Assert ledger_taken(walk). Assert knows(actor, ledger_found). Assert knows(actor, orme_seen). }
     Result "You lift the ledger out from under the purse, and leave the purse, which makes it theft of a rarer kind. The last page has a note, in the same good plain hand: 'Dray's note, bought; 800 crowns; to be called when the Walk is at the Station.'".
   }
   Relation ledger_taken(group).
   Action confront_orme(actor: group, site: place) "Put the steward's ledger in {orme}'s hand, and watch his face" {
     Speaker orme.
-    Requires able(actor) and company(actor) and at(actor, site) and at(orme, site) and holding(actor, ledger_kind) and patron_ready(walk).
+    Requires able(actor) and company(actor) and at(actor, site) and at(orme, site) and holding(actor, walk_ledger_kind) and patron_ready(walk).
     Time 5 minutes.
     On success { Assert exposed(walk). }
     Result "{orme} holds the ledger as one holds something that has been returned from the dead. 'You have been,' he says, with some courtesy, 'thorough.' He turns the ring on his finger once. 'My employer will be disappointed in me. I shall not be disappointed in you. It is rare, in this line, to be bested by someone who then does not do a worse thing.' He gets on his horse. 'Tell the Mile-Keeper the bread will stop. And that I am sorry about it, which is true.'".

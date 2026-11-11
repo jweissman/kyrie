@@ -52,6 +52,6 @@ Module walk "The Walk of the Milestones" {
   // ---- Things carried. A chalk stub, the roll of the names, the Mile-Keeper's staff.
   Kind chalk_kind "a stub of the true chalk" is treasure worth 1 weighing 0 described "A stub of white chalk, rubbed smooth at one end. Pettifer Gule swears it came from the Mile-Keeper's first mile, or near enough.".
   Kind roll_kind "Annet's roll of the road's dead" is document described "Forty-one names in a small hand on bark-paper, each with a place on the road and a year. Some have a line through them where a name was wrong and another has been written over it.".
-  Kind ledger_kind "the steward's ledger" is document described "A narrow book in a good plain hand: dates, towns and sums, one line to each camp, and at the foot of the last page a note about a bailiff's debt.".
+  Kind walk_ledger_kind "the steward's ledger" is document described "A narrow book in a good plain hand: dates, towns and sums, one line to each camp, and at the foot of the last page a note about a bailiff's debt.".
   Kind staff_kind "an ash staff of the Walk" is treasure worth 1 weighing 0 described "A man's height of ash, peeled and rubbed with ash and tallow, notched once for every mile its walker has kept.".
 }

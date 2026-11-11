@@ -5,6 +5,7 @@
     "arcology.scenario.json",
     "bound-howe.scenario.json",
     "silent-lord.scenario.json",
-    "fellowship.scenario.json"
+    "fellowship.scenario.json",
+    "walking.scenario.json"
   ]
 }

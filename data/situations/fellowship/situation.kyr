@@ -23,7 +23,7 @@ Module fellowship "The fellowship and its halls" {
 
   Kind summons_kind "the head's summons" is document described "A sheet folded in three and sealed with the fellowship's mark. It bids a keeper answer the roll.".
   Kind token_kind "a hall-token" is treasure worth 0 weighing 0 described "A flat disc of horn, notched along one edge. Every hall holds one notch of the pattern, and the warden keeps the template.".
-  Kind tally_kind "the hall's split tally" is treasure worth 0 weighing 0 described "A hazel rod split down its length. One half stays with the hall, the other with the head, and the notches cut across both are the quarter's dues.".
+  Kind fellowship_tally_kind "the hall's split tally" is treasure worth 0 weighing 0 described "A hazel rod split down its length. One half stays with the hall, the other with the head, and the notches cut across both are the quarter's dues.".
 
   Entity rumour: fact "The head of {order} has had no word from one of its halls since the quarter-day, and has sent no one, for want of anyone who can be spared.".
   Initially Assert established(rumour).
@@ -103,13 +103,13 @@ Module fellowship "The fellowship and its halls" {
   }
   Topic heir_show with heir "Show {heir} the page in the roll" when knows(actor, page_known) and lapse(keeper, c_lapsed) once {
     Says "{heir} reads one line and then looks up as if the table had spoken. 'Entered,' says {heir}. 'It was entered. I thought it had only been said.' A rod of hazel comes down off its peg, split along its length, and is put into your hand. 'Take it to the head. Tell them the hall has a keeper, if they will have one so young.'".
-    On discuss { Give tally_kind to actor. Assert answered(actor). }
+    On discuss { Give fellowship_tally_kind to actor. Assert answered(actor). }
   }
   Action press_keeper(actor: group, site: place) "Put the summons to {keeper}, and do not leave the room until it is answered" {
     Requires able(actor) and at(actor, site) and at(keeper, site) and lapse(keeper, c_proud) and holding(actor, summons_kind) and not holding(actor, token_kind) and not answered(actor).
     Time 20 minutes.
     Resolve check(actor, persuasion, dc_hard).
-    On success { Assert answered(actor). Give tally_kind to actor. }
+    On success { Assert answered(actor). Give fellowship_tally_kind to actor. }
     Result "{keeper} reads the summons to the end, which takes some time, and then puts it down. 'Tell the head it is the same hall it ever was,' says {keeper}, and hands you the rod: one half of a hazel tally, to be carried back with the hall's answer.".
     Otherwise "{keeper} listens with the courtesy of someone who has already decided, and says that the summons has been read. That is all it says.".
   }
@@ -117,26 +117,26 @@ Module fellowship "The fellowship and its halls" {
     Requires able(actor) and at(actor, site) and at(keeper, site) and lapse(keeper, c_proud) and holding(actor, summons_kind) and holding(actor, token_kind) and not answered(actor).
     Time 20 minutes.
     Resolve check(actor, persuasion, dc_easy).
-    On success { Assert answered(actor). Give tally_kind to actor. }
+    On success { Assert answered(actor). Give fellowship_tally_kind to actor. }
     Result "The horn disc sits on the table next to the sheet, and {keeper} looks at it a long moment, because it is the only thing in the room that cannot be argued with. 'Very well,' says {keeper}. 'Take it. It was always theirs to ask for.' The half-tally is put into your hand.".
     Otherwise "{keeper} turns the disc over once, and puts it back in front of you. 'It means I may not bar the door,' says {keeper}. 'It does not mean I must be moved.'".
   }
   Action tend_keeper(actor: group, site: place) "Clean and bind the keeper's leg with what the woods give" {
     Requires able(actor) and at(actor, site) and at(keeper, site) and lapse(keeper, c_fallen) and capable(actor, woodcraft) and not tended(actor).
     Time 60 minutes.
-    On success { Assert tended(actor). Assert answered(actor). Give tally_kind to actor. }
+    On success { Assert tended(actor). Assert answered(actor). Give fellowship_tally_kind to actor. }
     Result "It takes the best part of an hour, and the keeper does not make a sound until the end of it. 'There was a fall on the stair,' says {keeper}, 'and nobody to send, and I would not be the keeper who sent the dues late.' The tally comes out from under the pallet, wrapped in a shirt, and is put into your hand.".
   }
   Action tend_keeper_sit(actor: group, site: place) "Sit up with the keeper through the night, with water and clean cloth" {
     Requires able(actor) and at(actor, site) and at(keeper, site) and lapse(keeper, c_fallen) and not tended(actor).
     Time 480 minutes.
-    On success { Assert tended(actor). Assert answered(actor). Give tally_kind to actor. }
+    On success { Assert tended(actor). Assert answered(actor). Give fellowship_tally_kind to actor. }
     Result "You do what can be done, which is little: water, a clean cloth, the leg straightened and bound, someone awake to hear the breathing change. By morning it has. 'There was a fall on the stair,' says {keeper}, 'and nobody to send, and I would not be the keeper who sent the dues late.' The tally comes out from under the pallet, wrapped in a shirt, and is put into your hand.".
   }
   Action tend_keeper_draught(actor: group, site: place) "Give the keeper a draught for the fever" {
     Requires able(actor) and at(actor, site) and at(keeper, site) and lapse(keeper, c_fallen) and holding(actor, minor_healing_potion) and not tended(actor).
     Time 10 minutes.
-    On success { Spend minor_healing_potion from actor. Assert tended(actor). Assert answered(actor). Give tally_kind to actor. }
+    On success { Spend minor_healing_potion from actor. Assert tended(actor). Assert answered(actor). Give fellowship_tally_kind to actor. }
     Result "The colour comes back into the keeper's face while you watch. 'There was a fall on the stair,' says {keeper}, 'and nobody to send.' The tally comes out from under the pallet, wrapped in a shirt, and is put into your hand.".
   }
 
@@ -163,32 +163,32 @@ Module fellowship "The fellowship and its halls" {
   Action redeem_a(actor: group, site: place) "Pay {merchant_a} for the tally" {
     Requires able(actor) and at(actor, site) and at(merchant_a, site) and buyer(merchant_a) and sought(merchant_a) and quantity(actor, gold) >= tally_price(order) and not answered(actor).
     Time 5 minutes.
-    On success { Decrease quantity(actor, gold) by tally_price(order). Assert answered(actor). Give tally_kind to actor. }
+    On success { Decrease quantity(actor, gold) by tally_price(order). Assert answered(actor). Give fellowship_tally_kind to actor. }
     Result "The coin is counted out and counted back, and the rod comes across the counter wrapped in a scrap of sacking.".
   }
   Action redeem_b(actor: group, site: place) "Pay {merchant_b} for the tally" {
     Requires able(actor) and at(actor, site) and at(merchant_b, site) and buyer(merchant_b) and sought(merchant_b) and quantity(actor, gold) >= tally_price(order) and not answered(actor).
     Time 5 minutes.
-    On success { Decrease quantity(actor, gold) by tally_price(order). Assert answered(actor). Give tally_kind to actor. }
+    On success { Decrease quantity(actor, gold) by tally_price(order). Assert answered(actor). Give fellowship_tally_kind to actor. }
     Result "The coin is counted out and counted back, and the rod comes across the counter wrapped in a scrap of sacking.".
   }
   Action redeem_c(actor: group, site: place) "Pay {merchant_c} for the tally" {
     Requires able(actor) and at(actor, site) and at(merchant_c, site) and buyer(merchant_c) and sought(merchant_c) and quantity(actor, gold) >= tally_price(order) and not answered(actor).
     Time 5 minutes.
-    On success { Decrease quantity(actor, gold) by tally_price(order). Assert answered(actor). Give tally_kind to actor. }
+    On success { Decrease quantity(actor, gold) by tally_price(order). Assert answered(actor). Give fellowship_tally_kind to actor. }
     Result "The coin is counted out and counted back, and the rod comes across the counter wrapped in a scrap of sacking.".
   }
   Action redeem_d(actor: group, site: place) "Pay {merchant_d} for the tally" {
     Requires able(actor) and at(actor, site) and at(merchant_d, site) and buyer(merchant_d) and sought(merchant_d) and quantity(actor, gold) >= tally_price(order) and not answered(actor).
     Time 5 minutes.
-    On success { Decrease quantity(actor, gold) by tally_price(order). Assert answered(actor). Give tally_kind to actor. }
+    On success { Decrease quantity(actor, gold) by tally_price(order). Assert answered(actor). Give fellowship_tally_kind to actor. }
     Result "The coin is counted out and counted back, and the rod comes across the counter wrapped in a scrap of sacking.".
   }
 
   // ---- Home again: the half-tally is laid against the head's half, and the roll is whole.
-  Topic head_report with head "Give {head} the hall's half of the tally" when holding(actor, tally_kind) once {
+  Topic head_report with head "Give {head} the hall's half of the tally" when holding(actor, fellowship_tally_kind) once {
     Says "{head} lays the rod against the other half on the table and the notches run across the join without a break. 'So,' says {head}. 'Whatever else it is, it is a hall again.' A purse comes out of the table's drawer, and a line goes into the roll in the fourth column, and for the first time that day {head} sits down.".
-    On discuss { Assert mended(order). Increase quantity(actor, gold) by 24. Spend tally_kind from actor. }
+    On discuss { Assert mended(order). Increase quantity(actor, gold) by 24. Spend fellowship_tally_kind from actor. }
   }
   Observe seat_mended at hall_a when mended(order) "The fourth column of the roll is ticked in the head's thin brown ink, all the way to the foot, and the sheet that was squared up on the table has gone.".
   Objective carry when knows(party, rumour) and not mended(order) "{order} has a hall that will not answer the roll.".
