@@ -38,6 +38,11 @@ export class CombatTelling {
     return events.filter((e, i) => e.type !== 'save' || !e.success || !e.against || !events.slice(i + 1)
       .some(f => f.type === 'status' && f.target === e.target && Canon.resolve('conditions', f.detail) === e.against));
   }
+  // How hard a blow struck: all of it where it laid its mark low, not only what the mark had left to lose (the
+  // adventure branch's R81: a blow of 9 on a rat with 1 left had read "for 1", and a long fight's end as a scratch).
+  private static blow(e: { amount?: number; rolled?: number; hp?: number }): number {
+    return e.hp === 0 && (e.rolled ?? 0) > (e.amount ?? 0) ? e.rolled! : e.amount ?? 0;
+  }
   // What is rolled for, whose numbers say how a blow fell.
   private static readonly rolled = new Set<CombatEvent['type']>(['attack', 'damage', 'save', 'check']);
   private static tell(group: CombatEvent[], round: number, told: CombatTelling, bark?: string): Telling {
@@ -96,7 +101,7 @@ export class CombatTelling {
       : Content.abilities.find(a => a.id === c.ability)?.name ?? c.ability;
     if (c.ability === 'wait') { return `${actor} waits.`; }
     const target = c.target && c.target !== c.actor ? ` on ${this.name(c.target)}` : '';
-    const landed = attack ? attack.success ? `, and it lands${damage?.amount ? `, for ${damage.amount}` : ''}` : ', and misses' : '';
+    const landed = attack ? attack.success ? `, and it lands${damage?.amount ? `, for ${CombatTelling.blow(damage)}` : ''}` : ', and misses' : '';
     // What came to nothing says so: "Ithil uses Soot Cloud." was all a cloud of soot told, with nothing hidden for it
     // to show (the play-structure investigation's PT-23).
     const nothing = !attack && !rest.some(e => e.type !== 'initiative' && e.type !== 'end') ? ', to no effect' : '';
@@ -118,7 +123,7 @@ export class CombatTelling {
       ? 'shoots' : 'hits';
     const with_ = natural || !weapon ? '' : ` with the ${weapon}`;
     // A blow that does no harm is not told with its nothing ("for 0"); what else it does is told after it.
-    return `${how} ${verb} ${target}${with_}${damage?.amount ? `, for ${damage.amount}` : ''}.`;
+    return `${how} ${verb} ${target}${with_}${damage?.amount ? `, for ${CombatTelling.blow(damage)}` : ''}.`;
   }
   // What followed: harm and healing not already told, conditions taken or shaken off, who fell or got away.
   private after(events: CombatEvent[]): string[] {
@@ -134,8 +139,8 @@ export class CombatTelling {
       case 'damage': if (!e.amount && e.modifiers?.resistance !== 1) { return undefined; }
         return e.modifiers?.resistance === 1 ? `${this.name(e.target)} is not harmed by it.`
         : e.damageType === 'bleed' ? `${this.name(e.target)} bleeds, for ${e.amount}.`
-        : e.damageType && e.damageType !== 'physical' ? `${this.name(e.target)} takes ${e.amount} ${e.damageType} damage.`
-          : `${this.name(e.target)} is hurt, for ${e.amount}.`;
+        : e.damageType && e.damageType !== 'physical' ? `${this.name(e.target)} takes ${CombatTelling.blow(e)} ${e.damageType} damage.`
+          : `${this.name(e.target)} is hurt, for ${CombatTelling.blow(e)}.`;
       case 'heal': return e.amount ? `${this.name(e.target)} recovers ${e.amount}.` : undefined;
       case 'save': return this.saved(e);
       case 'status': return this.condition(e.target, e.detail);

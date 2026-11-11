@@ -12,7 +12,8 @@ export class Barks {
   static readonly roles = ['novice', 'acolyte', 'cultist', 'gravedigger', 'bandit', 'tombrobber', 'necromancer'];
   // How often a turning point is remarked on, in hundredths: a fall always, a kill or a telling blow often, a miss
   // seldom.
-  static readonly chance: Record<string, number> = { fall: 100, kill: 55, crit: 45, flee: 60, engage: 40, miss: 12 };
+  static readonly chance: Record<string, number> = { fall: 100, kill: 55, crit: 45, flee: 60, engage: 40, miss: 12,
+    hurt: 70 };
   private readonly used = new Set<string>();
   constructor(private readonly fighters: Fighter[], private readonly seed: string) {}
   // The bark for one exchange, if it has a turning point worth one.
@@ -38,7 +39,19 @@ export class Barks {
     }
     const flee = events.find(e => e.type === 'flee' && e.success);
     if (flee && flee.type === 'flee') { return ['flee', flee.actor]; }
+    const hurt = this.wounded(events);
+    if (hurt) { return ['hurt', hurt]; }
     if (attack && attack.type === 'attack') { return attack.critical ? ['crit', attack.actor] : attack.success ? undefined : ['miss', attack.actor]; }
+    return undefined;
+  }
+  // Whom a blow took past half their strength, or past a quarter, and left standing: the lines for it had been written
+  // and never said, and a company could be worn down with nothing said of it (the adventure branch's R82).
+  private wounded(events: CombatEvent[]): string | undefined {
+    for (const e of events) {
+      if (e.type !== 'damage' || !e.amount || !e.hp) { continue; }
+      const max = this.fighters.find(f => f.id === e.target)?.maxHp ?? 0, was = e.hp + e.amount;
+      if (max && [0.5, 0.25].some(part => was > max * part && e.hp <= max * part)) { return e.target; }
+    }
     return undefined;
   }
   private team(id: string): string | undefined { return this.fighters.find(f => f.id === id)?.team; }
