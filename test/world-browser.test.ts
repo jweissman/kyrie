@@ -60,7 +60,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a generated world in the browser', 
   // the focus, from the place's head to the stage's foot, nothing across the foot and nothing to scroll; and the stage
   // keeps its margins, about a twentieth of the screen's width each side (Mission 18's A1, halved by the owner,
   // 4 November).
-  it('gives a place its surface and its focus side by side under its head, in a stage with its margins', async () => {
+  // The scene first (amendment 6, A): the painting is the whole screen, the place's head over its top and what is told
+  // and done in a panel over it, inside the screen.
+  it('gives a place its painting edge to edge, and its head and what is told over it', async () => {
     const { page, errors, driver } = await MonoBrowser.page(browser, { width: 1440, height: 900 },
       { site, pointer: false, query: '?world=mere' });
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
@@ -68,17 +70,21 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a generated world in the browser', 
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
     // Play begins on the map; entered, the place.
     await driver.enter();
+    // As it stands once it has settled, not while the place comes in.
+    await page.waitForTimeout(1500);
     const laid = await page.evaluate(() => {
       const box = (s: string) => document.querySelector(s)!.getBoundingClientRect();
       const [surface, focus, bar, page, frame] = ['.world-page .surface', '.world-page .focus', '.world-bar', '#page',
         '.frame'].map(box) as DOMRect[];
       const r = Math.round;
-      return { beside: r(focus!.left) >= r(surface!.right) - 1 && r(focus!.top) === r(surface!.top),
-        under: r(surface!.top) === r(bar!.bottom) && r(surface!.bottom) === r(page!.bottom),
+      return { whole: r(surface!.left) === 0 && r(surface!.top) === 0 && r(surface!.right) === innerWidth
+          && r(surface!.bottom) === r(page!.bottom),
+        over: r(focus!.left) > r(surface!.left) && r(focus!.right) <= innerWidth && r(focus!.bottom) <= innerHeight
+          && r(bar!.top) === r(surface!.top),
         scroll: document.scrollingElement!.scrollHeight > innerHeight + 1,
         margins: Math.min(r(frame!.left), r(innerWidth - frame!.right)) };
     });
-    expect([laid.beside, laid.under, laid.scroll, laid.margins >= 70]).toEqual([true, true, false, true]);
+    expect([laid.whole, laid.over, laid.scroll, laid.margins]).toEqual([true, true, false, 0]);
     expect(errors).toEqual([]);
     await page.close();
   }, 240000);

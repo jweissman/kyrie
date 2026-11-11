@@ -219,9 +219,10 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
       await page.close();
     }, 240000);
 
-  // A twentieth of a desktop's width each side (the owner, 4 November: room to play), not a tenth.
-  it.each([[1440, 900, 70], [1180, 820, 40], [820, 1180, 16], [390, 844, 0]])(
-    'at %i by %i holds the stage inside the screen, its margins kept, the page still', async (width, height, margin) => {
+  // The scene first (amendment 6, A): a place is the whole screen, its painting edge to edge and what is told over it;
+  // ?scene=split keeps the bounded stage it replaced. Never a page that scrolls.
+  it.each([[1440, 900], [1180, 820], [820, 1180], [390, 844]])(
+    'at %i by %i holds the scene to the screen, the page still', async (width, height) => {
       const { page, errors } = await MonoBrowser.page(browser, { width, height }, { site, pointer: width < 900,
         query: '?world=kite' });
       await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
@@ -233,11 +234,11 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
       await page.keyboard.press('m');
       await page.waitForSelector('.world-page.scale-board', { timeout: 60000 });
       const mapped = await Stage.bounds(page);
-      // Creation is the whole screen, as the title is (OWN-14: no window frame), and so is the world map (the owner,
-      // 5 November: edge to edge); a place entered keeps the stage's margins.
+      // Creation is the whole screen, as the title is (OWN-14: no window frame), and so are the world map (the owner,
+      // 5 November: edge to edge) and a place entered.
       expect([creating.inside, creating.margin, creating.scrolls]).toEqual([true, 0, false]);
       expect([mapped.inside, mapped.margin, mapped.scrolls]).toEqual([true, 0, false]);
-      expect([playing.inside, playing.margin >= margin, playing.scrolls]).toEqual([true, true, false]);
+      expect([playing.inside, playing.margin, playing.scrolls]).toEqual([true, 0, false]);
       expect(errors).toEqual([]);
       await page.close();
     }, 240000);

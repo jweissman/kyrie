@@ -60,6 +60,7 @@
 .replies .act, .dialogue .leave .act { display: flex; align-items: baseline; gap: 12px; width: 100%; min-height: 46px;
   padding: 11px 16px 11px 14px; font: 500 15.5px/1.35 var(--do); }
 .replies .act::before, .dialogue .leave .act::before { display: none; }
+.replies .act > .said { flex: 1 1 0; min-width: 0; }
 /* What the aim followed asks of them, in the aim's gold (see TalkStage.Reply). */
 .replies li.aimed > .act { border-color: var(--gold-line); box-shadow: inset 2px 0 0 var(--gold); }
 .replies li.aimed > .act i { color: var(--gold); }

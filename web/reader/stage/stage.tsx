@@ -114,8 +114,9 @@ export class Stage {
       || exits.find(e => e.id === id)?.transition === 'travel');
   }
   // The book in the corner: yourself, the notes, the pack, the map and the story, opened from one control that stands
-  // quiet in the corner of every page until it is wanted (and by their keys: C, J, I, M, H). At a place, the map and
-  // yourself beside it, each a quiet icon (OWN-19: the Book, the map and the character as quiet icons).
+  // quiet in the corner of every page until it is wanted (and by their keys: C, J, I, M, H). At a place, the map beside
+  // it: two quiet marks over the painting, not a bar of buttons (amendment 6, A: the top rail reduced; Character and
+  // Book one dossier).
   static Corner({ app, full }: { app: ReaderApp; full?: boolean }) {
     const book = (
       <button type="button" className="corner" data-action="book" onClick={() => app.show('journal')}
@@ -137,12 +138,7 @@ export class Stage {
             2.5V6.5zM9 4v13.5M15 6.5V20" /></svg>
           <span className="corner-label">Map</span>
         </button>
-        <button type="button" className="corner icon" data-action="mode" data-view="company" data-key="c"
-          aria-label="Yourself" onClick={() => app.show('company')}>
-          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 12.2a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4.5
-            20.5c.8-4 3.8-6.2 7.5-6.2s6.7 2.2 7.5 6.2" /></svg>
-          <span className="corner-label">You</span>
-        </button>
+        {/* Yourself is a page of the book, one dossier (amendment 6, A); C still opens it there. */}
         {book}
       </nav>
     );

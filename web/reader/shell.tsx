@@ -16,10 +16,10 @@ export class Shell {
     const s = app.state, plate = Shell.plate(app);
     const creating = (s.phase === 'company' || (s.phase === 'loading' && !!s.leaving)) && !!s.setting?.generated;
     const style = { '--plate': plate ? `url(paintings/large/${plate}.webp)` : 'none' } as CSSProperties;
-    // ?scene=full: the experiment of the owner's play of 10 November, the painting over the whole screen and what is
-    // told and done in a panel over it, beside the bounded stage it is compared with.
+    // The scene first (the owner's amendment 6, A): the painting over the whole screen and what is told and done in
+    // restrained panels over it; ?scene=split keeps the bounded stage it replaced, to compare.
     const apart = `${creating ? ' creating' : ''}${Stage.prologue(app) ? ' prologue' : ''}`
-      + `${Stage.overworld(app) ? ' overworld' : ''}${app.props.query.get('scene') === 'full' ? ' scene-full' : ''}`;
+      + `${Stage.overworld(app) ? ' overworld' : ''}${app.props.query.get('scene') === 'split' ? '' : ' scene-full'}`;
     return (
       <div className={`shell phase-${s.phase} hour-${Shell.hour(app)}${apart}`} style={style}
         onClickCapture={e => EncyclopediaOverlay.caught(app, e)}>
@@ -34,6 +34,11 @@ export class Shell {
   // seconds between the choice and the opening: the opening's critique); on the title, none (see TitlePage.motes).
   static plate(app: ReaderApp): string | undefined {
     const s = app.state;
+    // In the scene first, the place's own painting, so that talk, the dossier and a fight stand in the place, not
+    // on the country behind it (amendment 6, A); in the dark, nothing.
+    if (s.phase === 'play' && s.frame && app.props.query.get('scene') !== 'split') {
+      return s.frame.screen.dark ? undefined : Scenery.seen(s.frame.screen);
+    }
     if (s.phase === 'play' && s.frame) { return Scenery.of(s.frame.screen); }
     if ((s.phase === 'company' || (s.phase === 'loading' && s.leaving)) && s.setting) {
       return Scenery.country(s.setting.terrain, s.seed);

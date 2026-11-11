@@ -228,9 +228,10 @@ export class TalkStage {
     return (
       <li className={[asked ? 'asked' : fresh ? 'fresh' : '', aimed ? 'aimed' : '', pays ? 'pays' : '']
         .filter(Boolean).join(' ') || undefined}>
-        <Act.View choice={c} draw={draw}><i>{(draw.index.get(c.id) ?? 0) + 1}</i>{Typography.curl(c.label)}
-          {c.note && <small> · {c.note}</small>}{asked && <small> · asked</small>}
-          {pays && <small className="for-you"> · for you</small>}</Act.View>
+        {/* What is said beside its number, wrapping beside it: on a phone a long one had gone under its number. */}
+        <Act.View choice={c} draw={draw}><i>{(draw.index.get(c.id) ?? 0) + 1}</i><span className="said">
+          {Typography.curl(c.label)}{c.note && <small> · {c.note}</small>}{asked && <small> · asked</small>}
+          {pays && <small className="for-you"> · for you</small>}</span></Act.View>
         {c.children && draw.open.has(c.id) && <ol className="opened-list">{c.children.map(k => <TalkStage.Reply key={k.id}
           choice={k} draw={draw} />)}</ol>}
       </li>
