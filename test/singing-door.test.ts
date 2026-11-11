@@ -13,7 +13,7 @@ describe('the door of notes at Gaudumport', () => {
     const j = Journey.of(s);
     await j.play('^To the bridge-foot', '>w1', 'Piano', '>w1_porch', 'Prod it with the pole', 'risk the hidden switch',
       '^Wenna: light a torch');
-    expect(JSON.stringify(j.screen())).toContain('Needs lore: no one in the company has it. Carmine, priest of Lugh, '
+    expect(JSON.stringify(j.screen())).toContain('Needs lore: no one in the company has it. Carmine, priestess of Lugh, '
       + 'at the shrine of Lugh, sells a glossary of the old script.');
     expect(j.offers('hum back the note')).toBe(false);
     await j.step('door of notes › Listen at it');

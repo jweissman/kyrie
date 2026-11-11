@@ -12,6 +12,7 @@ import { RegionMarket } from './region-market';
 import { Outfitters } from './outfitters';
 import { GeneralStores } from './general-stores';
 import type { Region, Settlement } from './region-writer';
+import forms from '../../data/catalog/forms.json';
 
 // A merchant's trade: who they are, their shop and what it looks like inside (a salt-house had no words of its own:
 // play 7), and what they sell and buy.
@@ -133,7 +134,7 @@ export class SettlementWriter {
   private static priest(s: Settlement, f: Founding, at: { region: Region; cult: Cult }): string {
     const q = this.q, { region, cult } = at, h = Foundings.table.holy[f.holy];
     const where = f.holy === 'wayside' ? `${s.id}_green` : `${s.id}_shrine`;
-    return `  Person ${s.id}_priest ${q(s.priest)} at ${where} { Role ${q(Foundings.fill(h.role, { ...this.words(s), cult: cult.name }))}. ${this.of(s, 'priest', region)} Profession priest. Peaceable.${this.pronoun(s, 'priest', f)}${s.size === 'town' ? ' Offers raising "a raising of the dead" for 150 coin. Offers restoring "a restoration" for 100 coin. Sells old_glossary for 80 coin from 1.' : ''} }`;
+    return `  Person ${s.id}_priest ${q(s.priest)} at ${where} { Role ${q(this.titled(Foundings.fill(h.role, { ...this.words(s), cult: cult.name }), this.said(s, 'priest', f)))}. ${this.of(s, 'priest', region)} Profession priest. Peaceable.${this.pronoun(s, 'priest', f)}${s.size === 'town' ? ' Offers raising "a raising of the dead" for 150 coin. Offers restoring "a restoration" for 100 coin. Sells old_glossary for 80 coin from 1.' : ''} }`;
   }
   // The merchant a settlement's trade supports, with that kind of merchant's stock and what they will buy: in a shop,
   // or at their own door on the heart.
@@ -163,10 +164,20 @@ export class SettlementWriter {
   }
   // Whether a townsperson is he or she, as drawn, unless their place says (a guest-master or a prior of a brothers'
   // house is a brother; a herb-wife is a wife).
-  private static pronoun(s: Settlement, role: 'innkeeper' | 'priest' | 'merchant', f: Founding): string {
-    const said = role === 'innkeeper' && f.keeping === 'guesthouse' ? 'he' : role === 'priest' && f.holy === 'chapel' ? 'he'
+  private static said(s: Settlement, role: 'innkeeper' | 'priest' | 'merchant', f: Founding): string | undefined {
+    return role === 'innkeeper' && f.keeping === 'guesthouse' ? 'he' : role === 'priest' && f.holy === 'chapel' ? 'he'
       : role === 'merchant' && s.merchantType === 'herbwife' ? 'she' : s.pronouns?.[role];
+  }
+  private static pronoun(s: Settlement, role: 'innkeeper' | 'priest' | 'merchant', f: Founding): string {
+    const said = this.said(s, role, f);
     return said ? ` Pronouns ${said}.` : '';
+  }
+  // A role's first word as one of them is called (data/catalog/forms.json): a woman keeping a shrine is its priestess
+  // (round 5 met "Indira, priest of Cernunnos").
+  static titled(role: string, said: string | undefined): string {
+    const who = ({ she: 'woman', he: 'man', they: 'neither' } as const)[said as 'she' | 'he' | 'they'];
+    const [first = '', ...rest] = role.split(' '), form = (forms.forms as Record<string, Record<string, string>>)[first];
+    return who && form?.[who] ? [form[who].toLowerCase(), ...rest].join(' ') : role;
   }
   // A townsperson's people, as a Person says it.
   private static of(s: Settlement, role: 'innkeeper' | 'priest' | 'merchant' | 'traveller', region: Region): string {

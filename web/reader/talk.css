@@ -28,7 +28,9 @@
   padding: max(30px, env(safe-area-inset-top)) clamp(24px, 4vw, 56px) env(safe-area-inset-bottom); }
 .lines { flex: 0 0 auto; max-height: 44%; min-height: 0; overflow-y: auto; overscroll-behavior: contain; margin: 0;
   padding: 0 64px 14px 0; }
-.lines .line { margin: 0 0 .8em; animation: arrive var(--settle) var(--ease) both; }
+/* A line is a block of its own: the place's foot's .aim and .you, flex rows, had laid a new aim's label out as a column
+   three words high beside it (round 5). */
+.lines .line { display: block; margin: 0 0 .8em; animation: arrive var(--settle) var(--ease) both; }
 .lines .line.you { font: 500 12.5px/1.4 var(--do); letter-spacing: .06em; color: var(--gold); margin-top: 18px; }
 .lines .line.you::before { content: ''; display: inline-block; width: 6px; height: 6px; margin: 0 9px 1px 1px;
   background: var(--gold); transform: rotate(45deg); }
