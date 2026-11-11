@@ -44,7 +44,7 @@ All edits are small, backward compatible, and mechanical. If you merge only the 
 
 ## 3. Add-only files (cannot conflict)
 
-`data/generation/works/roadstation.kyrt` · `data/generation/town/outskirts-deep.kyrt` · `data/generation/town/neighbours.kyrt` · `data/generation/town/ties.kyrt` · `data/generation/town/threads.kyrt` · `src/world/region-threads.ts` · `doc/architecture/activation/campaign-seeds.md` · `data/generation/town/bond.kyrt` · `data/generation/town/companions.json` · `src/world/region-ties.ts` · `src/world/region-bonds.ts` · `scripts/{activation-census,dump-region,play-at,rooms-painted}.ts` · `test/{roadstation,outskirts-deep,neighbours,authorable-generation}.test.ts` · `test/support/placed.ts` · `doc/architecture/activation/*` · 50 painting files each in three sizes.
+`data/generation/works/roadstation.kyrt` · `data/generation/town/outskirts-deep.kyrt` · `data/generation/town/neighbours.kyrt` · `data/generation/town/ties.kyrt` · `data/generation/town/troubles.kyrt` · `data/generation/town/conflict.kyrt` · `data/generation/town/threads.kyrt` · `src/world/region-threads.ts` · `doc/architecture/activation/campaign-seeds.md` · `data/generation/town/bond.kyrt` · `data/generation/town/companions.json` · `src/world/region-ties.ts` · `src/world/region-bonds.ts` · `scripts/{activation-census,dump-region,play-at,rooms-painted}.ts` · `test/{roadstation,outskirts-deep,neighbours,ties,troubles,authorable-generation}.test.ts` · `test/support/placed.ts` · `doc/architecture/activation/*` · 50 painting files each in three sizes.
 
 ## 4. How to merge without duplicating people, places or systems
 
