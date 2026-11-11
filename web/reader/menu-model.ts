@@ -1,5 +1,6 @@
 import { ChoiceList, type Choice, type Section } from '../../src/ui/choice-list';
 import { TalkFocus } from './talk-focus';
+import { Guidance } from './guidance';
 import { ChoiceTree } from '../../src/ui/choice-tree';
 import { SceneModel, type Scene } from '../../src/ui/scene';
 import { Attending, type Attention, type Examined, type Talk } from '../../src/ui/attention';
@@ -95,7 +96,11 @@ export class MenuModel {
     const talked = new Set(scene.subjects.filter(x => x.kind === 'person' && !x.danger)
       .flatMap(x => x.choices.filter(c => /#talk$/.test(c.id)).map(c => c.id)));
     // But the aim's next step stays among them, whoever it is (see Promotion.continued).
-    const leads = glance?.acts.filter(a => !talked.has(a.choice) || a.continues) ?? [];
+    // Where the aim's next step stands among them is settled here, once, so that the page and the keys agree (see
+    // Guidance.placed): the keys had followed the glance's order while the page drew another.
+    const shown = glance?.acts.filter(a => !talked.has(a.choice) || a.continues) ?? [];
+    const leads = Guidance.placed(shown, shown.filter(a => a.tier === 0).length,
+      `${screen.place.id}:${screen.aims?.find(a => a.followed)?.id ?? ''}`);
     const leading = new Set(glance?.acts.filter(a => talked.has(a.choice)).map(a => a.choice) ?? []);
     // Underground, the world map is not a way out (a cellar under a corn-store had offered it beside the rat-runs).
     const going = inside ? [] : journeys, country = !screen.place.underground

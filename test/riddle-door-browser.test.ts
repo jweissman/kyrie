@@ -38,7 +38,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a riddle on a way', () => {
     await piano.click();
     await driver.settle();
     // Asked, and nothing done yet.
-    expect(await page.locator('.grave-said').innerText()).toContain('a wrong word, and the stone breathes out cold');
+    expect(await page.locator('.ah-pane .grave-said').innerText()).toContain('a wrong word, and the stone breathes out cold');
     expect(await page.evaluate(() => document.body.innerText)).not.toContain('The door swings open.');
     await piano.click();
     await driver.settle();

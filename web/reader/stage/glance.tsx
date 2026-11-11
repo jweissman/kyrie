@@ -238,8 +238,7 @@ export class GlanceStage {
     const walks = new Set((app.state.frame?.screen.around ?? []).map(d => `travel:${d.id}`));
     const rest = acts.filter(a => !pressing.includes(a) && (!a.choice.startsWith('travel:') || walks.has(a.choice)
       || a.continues) && (!person(a) || a.continues));
-    const aim = app.state.frame?.screen.aims?.find(x => x.followed)?.id ?? '';
-    return Guidance.placed([...pressing, ...rest].slice(0, 4), pressing.length, `${app.state.frame?.screen.place.id}:${aim}`);
+    return [...pressing, ...rest].slice(0, 4);
   }
   // What a place at rest draws that can be chosen: whoever is here, on the picture, and what is pressing.
   static atRest(app: ReaderApp): Set<string> {
