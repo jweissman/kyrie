@@ -162,3 +162,47 @@ The honest summary: the *prose* of generated places is mostly already data (`.ky
 *Problem.* `On discuss { Spend spoons from party. Retract owed(party). }` took the spoon and left `owed(party)` standing; `{ Retract owed(party). Spend spoon_kind from actor. }` kept the spoon (a module's own *kind* is not spent by its name) and the fact. The cure was an `Assert settled(party)` and a rule that retracts `owed`; the shrine's lamp-chain topic puts its `Spend` last for the same reason.
 *Request.* Either apply every effect in the list, or lint a `Spend` that is not the last effect of its block. Say in the guide that a module's own kind is spent by the item's id.
 *Reproduce.* `data/situations/arcology/kept.kyr`, `host_account`: put `Retract owed(party).` back after the `Spend` and run the Quiet Floor spec in `test/arcology.test.ts`.
+## D. Requests from the expedition module (The Bound Howe, branch `adventure/fs-expedition`)
+
+*Numbered R15a… so that the other two authors' R16x, R17x continue without collision. Each was met while writing `data/situations/bound-howe` and worked around in Kyr; none is a bug.*
+
+### R15a. A standing scenario cannot say which towns hear of it
+
+*Problem.* A scenario's hooks are told by the nearest settlement to its first site and that settlement's road neighbour (`ScenarioWord.of`, `home = RegionWriter.near(region, site)`), with the member contacts. A standing scenario meant to be found from the first town has no way to ask that the first town's people tell of it: in `kahitude` the Bound Howe's three rumours are told in Brockminster and Fearnmaere, not in Thornhaven (`bin/kyrie world kahitude`: `hook howe.ridge_told: told by s5_innkeeper, s5_traveller, s2_innkeeper, s2_traveller`); in `a1`, `thorn`, `b2`, `c3`, `d4` the first town does hear. The howe is reachable from the start by walking to the neighbour (spec: `is reached from the starting town by the page's own labels`), which is ordinary exploration, but it depends on the seed.
+*Request.* A hook field `"towns": ["first"]` (or `"also": "largest"`) adding that settlement's channels' carriers to the tellers.
+*Reproduce.* `bin/kyrie world kahitude | grep -A4 boundhowe`.
+
+### R15b. Nothing can be written asleep, so a sleeping band cannot be struck first or crept past
+
+*Problem.* `asleep` is engine-written (`engine-writes.ts`); `attack` requires `not peaceable(opponent)`, so a `Peaceable` band that sits in its niches cannot be attacked at all, and a band that is not peaceable falls on the company on arrival (obedient/savage) or warns (territorial). The howe's household "sits until the roll is answered" had to be written as hostile-on-arrival with a rite, a greeting or a roll (`tolerates`) to avoid the fight, and "asleep by day, walking by night" as a rule that moves them (`household_out`). A company cannot surprise sleepers, nor pass them by a stealth check.
+*Request.* `Dormant.` on a Person (or `Dormant until <condition>`): not hostile, may be attacked (the company acts first), woken by a rule or by noise (`Assert woken(x)`), and passed by a `check(actor, stealth, …)` Action that the author writes.
+*Reproduce.* Add `Peaceable.` to `household` in `data/situations/bound-howe/situation.kyr`, enter the gallery: no "Attack" is offered.
+
+### R15c. A light cannot be put out by an authored effect
+
+*Problem.* The chamber of flutes was designed with a draught that snuffs flames (light as a resource the company must carry more of). The player can put a light out; no effect lets a rule do it (`Retract lit(…)` is engine-state). The draught became a sound clue only.
+*Request.* An effect `Douse ?c.` (or `Snuff ?light.`) that puts out a carried light as the player's own "Put out" does and spends what is left, so a draught, a wet passage or a gust is a hazard.
+*Reproduce.* Try `Rule draught when at(party, flutes) { Retract torchlit(party). }` in the module: rejected as engine-written.
+
+### R15d. A site generated for a scenario keeps room text the module cannot replace
+
+*Problem.* A barrow-kind site generated for a scenario is described by its generic room (`A long grassed mound with a stone-lined entrance. Owl pellets lie on the lintel… in the old script: SPINATUMULO.`), which says the room is a barrow's door. The module wanted that room to be the Kin's small marker-barrow at the foot of a ridge, and wrote around it. To replace it a module would write `Observe … instead of w13_scene`, but the generated observation's id is not importable.
+*Request.* `@site.scene` (and `@site.letters`) as scenario references, so that a module can say `instead of` them; or a manifest field `"scene": "own"` that omits them for a site the scenario describes itself.
+*Reproduce.* `bun scripts/dump-region.ts kahitude w13`.
+
+### R15e. A lone creature at a high level has the action economy of one
+
+*Problem.* A level-13 revenant has about 85 hit points and acts once a round; four level-4 characters kill it in two or three rounds with a single casualty. "Level" raises hit points and damage but not the turns a boss takes. The king was given two sworn revenants in the same room (joining the fight by being beside him) to be a fight at all.
+*Request.* `Actions 2.` on a Person (the catalog's `statistics.actions` exists for some species); or a variation (`boss`, `legendary`) that adds one.
+*Reproduce.* Set `Level 13` on `king` and delete `sworn`; `bun $PA kahitude warrior,warrior,cleric,mage 4 howe__throne "Pack › A torch › Light" "FIGHT Attack"`.
+
+### R15f. A fight in a spec cannot use an item
+
+*Problem.* `Journey.fight` plays the fight with the auto controller (attacks and the creature's own abilities). Preparation that acts in a fight (oil against what regenerates, holy water against the dead, a held door) cannot be shown by a spec, only its alternatives (barley prevents the horses' fight, salt keeps the household in, a rite opens the door). The auto controller never throws oil.
+*Request.* A `CombatController` in `test/support` that takes a list of items to use in the first round (`Journey.fight(label, Fighting.using('oil_flask'))`).
+
+### R15g. A scenario cannot speak to the first town's authored people
+
+*Problem.* A scenario reference `@role.part` resolves to `<module>.<role>_<part>` and the region module exports only settlement roles (green, innkeeper, merchant, priest, traveller, taproom, shrine, shop). The Hall's keeper `s1_manor_keeper` (Wystan Hale, who can join the company) is declared in the first town's template but not exported, so an expedition cannot give him a remark at a barrow's door or a topic after the howe is sealed: `"veteran": "@first.manor_keeper"` fails to load with `Unresolved module import veteran: region.s1_manor_keeper`. The "companion's interest" the commission asked for therefore stayed unwritten.
+*Request.* Export the first town's named authored people (`{t}_manor_keeper`, `{t}_reeve`, `{t}_iv`, `{t}_anselm`, `{t}_hesper`) from the region module, or let a scenario reach any entity by its full id (`"veteran": "region.s1_manor_keeper"` with a declared stand-in).
+*Reproduce.* Add `"first": {"settlement": "largest"}` to `data/scenarios/bound-howe.scenario.json` and `"veteran": "@first.manor_keeper"` to the module's imports; `bin/kyrie world kahitude`.

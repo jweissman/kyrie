@@ -17,6 +17,7 @@ The commission asked, in three phases, for a deeper starting region (Phase One),
 | [transcripts/](transcripts) | Two played routes by the page's own labels (`bin/kyrie play`): the road-wood quarrel from the landing to a companion joining, and a walk to the posting-house and what its papers say. |
 | [campaign-seeds.md](campaign-seeds.md) | The foreshadowing threads (coin, credential, letters, chronicles, veteran, preacher, plaque, levy, grant, grey blank): what each leaves open and what is deliberately not said. |
 | [arcology.md](arcology.md) | A conception, not built: a ruined Mathematical Age arcology, twelve environmental moments, ecology, motives. |
+| [modules/barrow.md](modules/barrow.md) | **Module 3, built:** *The Bound Howe*, a dangerous expedition (a king's howe on a ridge; a salvage crew, a warden, the dead's three laws, something older beneath): storyboard, hazards with clues, encounters with levels, consequences, variation, what is proved and what is not. Requests R15a–R15f are in [kyr-deem-requests.md](kyr-deem-requests.md) §D. |
 
 ## What was built (all tested)
 

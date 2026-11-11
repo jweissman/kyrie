@@ -1,0 +1,128 @@
+{
+  "kinKing": {
+    "about": "The last king of the Barrow-Kin, name and by-name: the by-name is what his own people called him, and is why the house is remembered. Drawn for the country; never the howe's essence.",
+    "discriminator": "terrain",
+    "groups": {
+      "forest": [
+        "Aldwine Long-Sighted",
+        "Hrodmar Hound-Lord",
+        "Eorric Bridle-Breaker"
+      ],
+      "marsh": [
+        "Wulfric Reed-Walker",
+        "Beornoth the Patient",
+        "Aelfhere Low-Water"
+      ],
+      "mountain": [
+        "Ordgar Stone-Shouldered",
+        "Hildred Wind-Warden",
+        "Leofric Pass-Keeper"
+      ],
+      "frost": [
+        "Sigeric Hearth-Cold",
+        "Thurwald Snow-Rider",
+        "Osgar White-Mane"
+      ],
+      "desert": [
+        "Cenred Dust-Rider",
+        "Ealdred Well-Warden",
+        "Wiglaf Sun-Shy"
+      ]
+    }
+  },
+  "captainCalling": {
+    "discriminator": "ancestry",
+    "groups": {
+      "human": [
+        "warrior",
+        "thief",
+        "ranger"
+      ],
+      "elf": [
+        "ranger",
+        "thief"
+      ],
+      "dwarf": [
+        "warrior"
+      ]
+    }
+  },
+  "howeFate": {
+    "about": "How the howe was left: the Kin went in of their own will and sealed it from inside, or strangers broke the last stone before. Both are in the Barrow-Kin's own record (arts.json: fates).",
+    "discriminator": "terrain",
+    "groups": {
+      "forest": [
+        "fate_sealed",
+        "fate_broken"
+      ],
+      "marsh": [
+        "fate_sealed",
+        "fate_broken"
+      ],
+      "mountain": [
+        "fate_sealed",
+        "fate_broken"
+      ],
+      "frost": [
+        "fate_sealed",
+        "fate_broken"
+      ],
+      "desert": [
+        "fate_sealed",
+        "fate_broken"
+      ]
+    }
+  },
+  "howeAir": {
+    "about": "The ridge's weather by country.",
+    "discriminator": "terrain",
+    "groups": {
+      "forest": [
+        "air_rain"
+      ],
+      "marsh": [
+        "air_mist"
+      ],
+      "mountain": [
+        "air_wind"
+      ],
+      "frost": [
+        "air_snow"
+      ],
+      "desert": [
+        "air_dust"
+      ]
+    }
+  },
+  "howeFlute": {
+    "about": "Which of the three flutes in the chamber of flutes is the king's: the one worn smooth by hands.",
+    "discriminator": "terrain",
+    "groups": {
+      "forest": [
+        "flute_low",
+        "flute_mid",
+        "flute_high"
+      ],
+      "marsh": [
+        "flute_low",
+        "flute_mid",
+        "flute_high"
+      ],
+      "mountain": [
+        "flute_low",
+        "flute_mid",
+        "flute_high"
+      ],
+      "frost": [
+        "flute_low",
+        "flute_mid",
+        "flute_high"
+      ],
+      "desert": [
+        "flute_low",
+        "flute_mid",
+        "flute_high"
+      ]
+    }
+  }
+}

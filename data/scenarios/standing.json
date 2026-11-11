@@ -2,6 +2,7 @@
   "about": "Scenarios every first country holds, whatever else is drawn: placed after the drawn ones (WorldAssembler.settle), in that country alone, sharing the settlements they visit with whatever else is going on there.",
   "scenarios": [
     "circus.scenario.json",
-    "arcology.scenario.json"
+    "arcology.scenario.json",
+    "bound-howe.scenario.json"
   ]
 }
