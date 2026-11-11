@@ -58,6 +58,24 @@ Reproduce headlessly with `bun /var/tmp/kyrie/m20/tools/leads.ts <origin> <race/
    silver-path walker over headless sessions. In two phases: A, composition and information architecture with the
    action semantics kept; B, the opportunity foreground, the colours and the encounter flow. Excludes new adventures, a
    narrative grammar, world-generation refactors and an unbounded rewrite.
+   *Addendum, same day:* opportunities are perceived, not commands ranked: meaning (aspects), perception (what a
+   character knows and can notice) and presentation (colour) kept apart; see [opportunities.md](opportunities.md).
+7. **11 November, later — continue through closure.** The recent feedback clarifies the experience, it is not a run of
+   new commissions: carry on without checkpoints. (1) Finish the game-like experience: scene first, a foreground of two
+   to four opportunities with the rest reachable through the world, the semantic vocabulary, meaning, perception and
+   presentation kept apart, combat part of the same experience with real danger in ordinary exploration; never
+   beautiful but unplayable, nor functional but lifeless. (2) The character concept: make creation's skills,
+   background and spell choices clear and useful, distinctions that matter early, staged choices reused where they
+   help, a clean path to Kyr-authored character-defining moments; no feat/flaw/alignment/advancement redesign; the
+   setting's orientation constructive and heroic. (3) Test real journeys: honest starts, independent agents, a cheap
+   public-action gauntlet; keep implementation, automated checks, agent experience and human acceptance apart. (4) Then
+   consolidate by player impact, coherence and risk: inconsistencies, obsolete UI paths and heuristics, overlapping
+   tests, the verification loop measured, stale documents; not the whole register. (5) A bounded, current authoring
+   trail for Kyr and Deem: entry points, exemplary examples, the path to play, who owns what, superseded guides marked,
+   the scene and opportunity conventions as built. The Kyr/Deem shells review is M21 input; the independent authoring
+   thread is not a dependency. (6) One app on main; no competing preview. (7) An honest handoff: what the deployed build
+   offers, rendered and independent evidence, remaining defects, register resolved or deferred, authoritative docs, a
+   short M21 list grounded in what was observed.
 
 ## Rounds of cold play
 
