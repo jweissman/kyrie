@@ -11,7 +11,7 @@ Module arcology "The Numbered House" {
   }
   Rule dry_country when water(house, wet_low) and state(waterlevel, full) once { Assert state(waterlevel, low). }
   Person eels "the eels" at drowned {
-    Role "long pale eels, thick as a leg". Species eel. Numbers 3. Level 1. Temperament territorial.
+    Role "long pale eels, thick as a leg". Species eel. Numbers 3. Level 3. Temperament territorial.
     Warns "The water shivers about your legs, and then there are three long pale shapes in it, circling, thick as a leg and as quiet as thought. They have no eyes you can see. They know exactly where you are.".
     Comes "The eels come in all at once from three sides.".
     State circling "Something long and pale turns in the clear black water between the pillars.".
@@ -70,7 +70,7 @@ Module arcology "The Numbered House" {
   Observe roots_air at roots as sign when true "The air is warm and wet and smells of leaf-mould, and a faint high note comes from everywhere at once: a thousand insects tuning. Overhead, a vent in the vault turns slowly in a draught.".
   Discovery stair_found "Behind a bed of tall wheat, a narrow stair of worn brick climbs into the wall." { Found by searching roots "Behind a bed of tall wheat, where the stalks lean away from the wall in a pattern that is not wind, there is a low arch, and inside it a narrow stair going up.". }
   Person beetles "the beetles" at roots {
-    Role "great black beetles, as long as a dog". Species beetle. Variant great. Numbers 3. Level 2. Temperament territorial.
+    Role "great black beetles, as long as a dog". Species beetle. Variant great. Numbers 3. Level 4. Temperament territorial.
     Warns "The wheat rustles, and three great beetles come out of it on slow glittering legs: each as long as a dog, each with a pair of mandibles that can be heard opening. They have been fed here a long time, on what the beds let fall, and they do not know you from what the beds let fall.".
     Comes "The beetles come all at once, clicking.".
   }
@@ -96,7 +96,7 @@ Module arcology "The Numbered House" {
   Item shard "a shard of living crystal" is shard_kind at pool.
   Kind shard_kind "a shard of living crystal" like lantern described "A shaft of clear crystal the length of a hand, that gives a soft steady light without flame or oil, and is cool to the touch. In the dark it casts a shadow upward.".
   Person slump "the slump" at pool {
-    Role "a pale mass, drifting in the pool's shallows". Species slump. Level 2. Temperament territorial.
+    Role "a pale mass, drifting in the pool's shallows". Species slump. Level 4. Temperament territorial.
     Warns "Something in the shallows of the pool shifts. It is the colour of the pool and almost its shape, and it draws itself up out of the water in a slow glistening column, and leans toward you.".
     Comes "The slump comes out of the pool at you, in a rush like a wave.".
   }

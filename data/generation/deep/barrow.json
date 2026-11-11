@@ -80,13 +80,13 @@
       { "species": "beetle", "count": 3, "label": "the beetles", "role": "beetles as big as a hand, among the bones", "temperament": "wary" }
     ] },
     { "depth": 1, "groups": [
-      { "species": "ghoul", "count": 2, "label": "the ghouls", "role": "things that came down for the dead and stayed", "temperament": "savage" },
-      { "species": "bone_hound", "count": 2, "label": "the bone hounds", "role": "hounds of knitted bone, that keep the halls", "temperament": "territorial" },
-      { "species": "spirit", "count": 1, "label": "the restless dead", "role": "one of the laid dead, who does not lie still", "temperament": "savage" }
+      { "species": "ghoul", "count": 3, "label": "the ghouls", "role": "things that came down for the dead and stayed, and wait in the dark of the halls for what comes after them", "temperament": "territorial" },
+      { "species": "bone_hound", "count": 3, "label": "the bone hounds", "role": "hounds of knitted bone, that keep the halls", "temperament": "territorial" },
+      { "species": "spirit", "count": 2, "label": "the restless dead", "role": "two of the laid dead, who do not lie still", "temperament": "savage" }
     ] },
     { "depth": 2, "groups": [
-      { "species": "revenant", "count": 2, "label": "the king's men", "role": "the king's own, laid with him and risen with him", "temperament": "territorial" },
-      { "species": "wraith", "count": 1, "label": "the shade", "role": "a shade that walks the king's grave", "temperament": "savage" }
+      { "species": "revenant", "count": 3, "label": "the king's men", "role": "the king's own, laid with him and risen with him", "temperament": "territorial" },
+      { "species": "wraith", "count": 2, "label": "the shades", "role": "shades that walk the king's grave, and cool the air before them", "temperament": "territorial" }
     ] }
   ],
   "elites": [
@@ -94,23 +94,23 @@
       { "ancestry": "human", "calling": "warrior", "count": 1, "label": "the robbers' captain", "role": "the captain of the grave-robbers, who means to have the king's gold", "temperament": "territorial" }
     ] },
     { "depth": 1, "groups": [
-      { "species": "bone_hound", "count": 1, "label": "the great hound", "role": "the king's own hound, knitted of bones bigger than a horse's", "temperament": "territorial" },
-      { "species": "banshee", "count": 1, "label": "the mourner", "role": "a mourner who never stopped mourning", "temperament": "savage" }
+      { "species": "bone_hound", "count": 1, "label": "the great hound", "role": "the king's own hound, knitted of bones bigger than a horse's", "temperament": "territorial", "variations": ["great"] },
+      { "species": "banshee", "count": 2, "label": "the mourners", "role": "mourners who never stopped mourning, whose keening goes before them down the long halls", "temperament": "territorial" }
     ] },
     { "depth": 2, "groups": [
-      { "species": "revenant", "count": 1, "label": "the king's champion", "role": "the champion who was laid at the king's door", "temperament": "territorial" }
+      { "species": "revenant", "count": 2, "label": "the king's champions", "role": "the champions who were laid at the king's door, and stand there still", "temperament": "territorial", "variations": ["elder"] }
     ] }
   ],
   "keeper": {
     "species": "mummy",
     "label": "the king under the mound",
     "role": "the first king of the Barrow-Kin, who keeps the bounds",
-    "level": 8,
+    "level": 12,
     "temperament": "territorial",
     "refuge": "deep_grave",
     "fears": "sunlight",
     "words": {
-      "Warns": "The king sits up on his bier, slowly, the way a man sits up who has been called, and turns his face toward you. There is no face, only the crown.",
+      "Warns": "The king sits up on his bier, slowly, the way a man sits up who has been called, and turns his face toward you. There is no face, only the crown. Round his bier the shields of his household lie in a ring, and every one of them is split to the boss, and the floor between them is darker than the dark. He is in no hurry. He has never needed to be.",
       "Flinches": "The light of day comes into the king's hall with you, and the king puts up an arm against it as the living do, and goes back from it, step by step, into the deep grave behind the ring."
     }
   },
