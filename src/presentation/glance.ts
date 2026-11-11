@@ -239,9 +239,10 @@ export class Glance {
   // country round, not by everything that teaches the company anything (a bed at the inn, its talk overheard, had
   // been drawn as the debt's); a rule's own unknowns (?i) stand for anything.
   private static advances(campaign: Campaign, rows: ReturnType<typeof PlayerView.choices>): Set<string> {
-    const def = Undertakings.followed(campaign);
-    if (!def) { return new Set(); }
-    const calls = this.waits(campaign.module, def), coin = this.short(def);
+    const def = Undertakings.followed(campaign); if (!def) { return new Set(); }
+    // Not what the world holds already (more herbs for a mother keeping feverwort, led as the aim's: round 7, L 25).
+    const w = campaign.world, calls = this.waits(campaign.module, def)
+      .filter(c => !w.relates(c.name) || !w.related(c.name).some(r => this.meets(r, c))), coin = this.short(def);
     if (!calls.length && !coin) { return new Set(); }
     // An aim short of coin is advanced by selling (the debtor home with the hold's music box, at Tuck's, who buys such
     // things, had been led to ask him every question he knew: Mission 20); the purse is otherwise never waited on.
