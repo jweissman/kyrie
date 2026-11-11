@@ -12,7 +12,8 @@
     "casting": "=defined('beast') ? gen(den_species_casting) : gen(den_casting)",
     "labels": "=defined('beast') ? gen(den_species_labels) : gen(den_labels)",
     "initial": "=concat(gen(den_hoard))",
-    "facts": "=concat(gen(den_nature))",
+    "_lair": "=lookup(denLair, #_family)",
+    "facts": "=concat(gen(den_nature), gen(den_lair), gen(den_leader_at), gen(den_find_a), gen(den_find_b), gen(den_marvel))",
     "outcomes": [
       {
         "id": "cleared",
@@ -22,7 +23,8 @@
   },
   "den_casting": {
     "__no_id": true,
-    "beasts": "=gen(den_beast)"
+    "beasts": "=gen(den_beast)",
+    "leader": "=gen(den_leader)"
   },
   "den_beast": {
     "__no_id": true,
@@ -45,7 +47,8 @@
   },
   "den_species_casting": {
     "__no_id": true,
-    "beasts": "=gen(den_species_beast)"
+    "beasts": "=gen(den_species_beast)",
+    "leader": "=gen(den_species_leader)"
   },
   "den_species_beast": {
     "__no_id": true,
@@ -66,5 +69,44 @@
     "args": [
       "beasts"
     ]
+  },
+  "den_leader": {
+    "__no_id": true,
+    "role": "a captain of the outlaws",
+    "raceId": "=#_species",
+    "classId": "warrior",
+    "level": 3
+  },
+  "den_species_leader": {
+    "__no_id": true,
+    "role": "=defined('beastRole') ? #beastRole : 'a beast'",
+    "raceId": "=#beast",
+    "template": "=defined('beastTemplate') ? #beastTemplate : ''",
+    "variations": "=defined('beastTemplate') ? nihil : (hasValue(denLeaderBeast, #beast) ? concat('pack_leader') : nihil)"
+  },
+  "den_lair": {
+    "__no_id": true,
+    ">name": "lairkind",
+    "args": "=concat('beasts', #_lair)"
+  },
+  "den_find_a": {
+    "__no_id": true,
+    ">name": "at",
+    "args": "=concat('find_' + lookup(denFindCommon, #_family), 'den')"
+  },
+  "den_find_b": {
+    "__no_id": true,
+    ">name": "at",
+    "args": "=concat('find_' + lookup(denFindFine, #_family), 1d6 > 4 ? 'den' : 'gone')"
+  },
+  "den_marvel": {
+    "__no_id": true,
+    ">name": "marvelled",
+    "args": "=concat('beasts', lookup(denMarvel, #terrain))"
+  },
+  "den_leader_at": {
+    "__no_id": true,
+    ">name": "at",
+    "args": "=concat('leader', #_lair == 'l_lead' ? 'den' : 'gone')"
   }
 }

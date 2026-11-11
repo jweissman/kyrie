@@ -1,0 +1,134 @@
+{
+  "fellowship": {
+    "__no_id": true,
+    "terrain": "forest",
+    "domain": "nature",
+    "folk": "human",
+    "name": "The fellowship and its halls",
+    "_kind": "=lookup(fellowshipKind, #terrain)",
+    "_cause": "=lookup(fellowshipCause, #_kind)",
+    "_silent": "=oneOf('b', 'c', 'd')",
+    "_rival": "=pick(except(concat('a', 'b', 'c', 'd'), concat(#_silent)))",
+    "_face": "=lookup(fellowshipFace, #_kind)",
+    "_halls": "=sample(concat('hall_b', 'hall_c', 'hall_d'), 3)",
+    "_price": "=2d6 + 8",
+    "creatures": [],
+    "actors": {
+      "order": []
+    },
+    "casting": "=gen(fl_casting)",
+    "labels": "=gen(fl_labels)",
+    "facts": "=concat(gen(fl_style), gen(fl_lapse), gen(fl_buyer), gen(fl_keeper_at), gen(fl_heir_at), mapGenList(fl_post, #_halls, 'h'))",
+    "initial": "=concat(gen(fl_price))",
+    "outcomes": [
+      {
+        "id": "mended",
+        "predicate": "mended(order)"
+      }
+    ]
+  },
+  "fl_labels": {
+    "__no_id": true,
+    "order": "=#_kind == 'guild' ? 'the Guild of ' + lookup(fellowshipTrade, #terrain) : (#_kind == 'garrison' ? 'the ' + lookup(fellowshipWatch, #terrain) : 'the Chapter of ' + lookup(fellowshipChapter, #domain))",
+    "brethren": "=dig(#_face, 'brethren')",
+    "chief": "=dig(#_face, 'chief')",
+    "hall_a": "=dig(#_face, 'hall')",
+    "hall_b": "=dig(#_face, 'hall')",
+    "hall_c": "=dig(#_face, 'hall')",
+    "hall_d": "=dig(#_face, 'hall')",
+    "page_text": "=lookup(fellowshipPage, #_cause)",
+    "reply_a": "=#_rival == 'a' ? lookup(fellowshipReplyYes, default) + ' ' + #_price + ' coin, and I will not take a penny under it.' : lookup(fellowshipReplyNo, default)",
+    "reply_b": "=#_rival == 'b' ? lookup(fellowshipReplyYes, default) + ' ' + #_price + ' coin, and I will not take a penny under it.' : lookup(fellowshipReplyNo, default)",
+    "reply_c": "=#_rival == 'c' ? lookup(fellowshipReplyYes, default) + ' ' + #_price + ' coin, and I will not take a penny under it.' : lookup(fellowshipReplyNo, default)",
+    "reply_d": "=#_rival == 'd' ? lookup(fellowshipReplyYes, default) + ' ' + #_price + ' coin, and I will not take a penny under it.' : lookup(fellowshipReplyNo, default)"
+  },
+  "fl_casting": {
+    "__no_id": true,
+    "head": "=gen(fl_head)",
+    "treasurer": "=gen(fl_treasurer)",
+    "recorder": "=gen(fl_recorder)",
+    "warden": "=gen(fl_warden)",
+    "keeper": "=gen(fl_keeper)",
+    "heir": "=gen(fl_heir_person)"
+  },
+  "fl_head": {
+    "__no_id": true,
+    "_drawn": "=lookup(townsfolkName, #folk)",
+    ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, #folk, oneOf('he', 'she') + ':fl_head')",
+    ">raceId": "=#folk",
+    ">classId": "=dig(select(fellowshipClass, #folk, 'dig(#__it, \"_kinds\", #_kind)'), '_key')"
+  },
+  "fl_heir_person": {
+    "__no_id": true,
+    "_drawn": "=lookup(townsfolkName, #folk)",
+    ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, #folk, oneOf('he', 'she') + ':fl_heir')",
+    ">raceId": "=#folk",
+    ">classId": "=dig(select(fellowshipClass, #folk, 'dig(#__it, \"_kinds\", #_kind)'), '_key')"
+  },
+  "fl_price": {
+    "__no_id": true,
+    ">name": "tally_price",
+    "args": [
+      "order"
+    ],
+    "value": "=#_price"
+  },
+  "fl_treasurer": {
+    "__no_id": true,
+    "_drawn": "=lookup(townsfolkName, #folk)",
+    ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, #folk, oneOf('he', 'she') + ':fl_treasurer')",
+    ">raceId": "=#folk",
+    ">classId": "=dig(select(fellowshipClass, #folk, 'dig(#__it, \"_kinds\", #_kind)'), '_key')"
+  },
+  "fl_recorder": {
+    "__no_id": true,
+    "_drawn": "=lookup(townsfolkName, #folk)",
+    ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, #folk, oneOf('he', 'she') + ':fl_recorder')",
+    ">raceId": "=#folk",
+    ">classId": "=dig(select(fellowshipClass, #folk, 'dig(#__it, \"_kinds\", #_kind)'), '_key')"
+  },
+  "fl_warden": {
+    "__no_id": true,
+    "_drawn": "=lookup(townsfolkName, #folk)",
+    ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, #folk, oneOf('he', 'she') + ':fl_warden')",
+    ">raceId": "=#folk",
+    ">classId": "=dig(select(fellowshipClass, #folk, 'dig(#__it, \"_kinds\", #_kind)'), '_key')"
+  },
+  "fl_keeper": {
+    "__no_id": true,
+    "_drawn": "=lookup(townsfolkName, #folk)",
+    ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, #folk, oneOf('he', 'she') + ':fl_keeper')",
+    ">raceId": "=#folk",
+    ">classId": "=dig(select(fellowshipClass, #folk, 'dig(#__it, \"_kinds\", #_kind)'), '_key')"
+  },
+  "fl_style": {
+    "__no_id": true,
+    ">name": "styled",
+    "args": "=concat('order', #_kind)"
+  },
+  "fl_lapse": {
+    "__no_id": true,
+    ">name": "lapse",
+    "args": "=concat('keeper', 'c_' + #_cause)"
+  },
+  "fl_buyer": {
+    "__no_id": true,
+    ">name": "buyer",
+    "args": "=concat('merchant_' + #_rival)"
+  },
+  "fl_keeper_at": {
+    "__no_id": true,
+    ">name": "at",
+    "args": "=concat('keeper', #_cause == 'lapsed' ? 'gone' : 'hall_' + #_silent)"
+  },
+  "fl_heir_at": {
+    "__no_id": true,
+    ">name": "at",
+    "args": "=concat('heir', #_cause == 'lapsed' ? 'hall_' + #_silent : 'gone')"
+  },
+  "fl_post": {
+    "__no_id": true,
+    ">name": "at",
+    "args": "=concat(#_index == 0 ? 'treasurer' : (#_index == 1 ? 'recorder' : 'warden'), #h)"
+  }
+}

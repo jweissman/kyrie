@@ -1,0 +1,785 @@
+{
+  "fellowshipKind": {
+    "discriminator": "terrain",
+    "groups": {
+      "forest": [
+        "guild",
+        "guild",
+        "chapter",
+        "garrison"
+      ],
+      "marsh": [
+        "guild",
+        "chapter"
+      ],
+      "mountain": [
+        "garrison",
+        "garrison",
+        "guild",
+        "chapter"
+      ],
+      "frost": [
+        "garrison",
+        "chapter"
+      ],
+      "desert": [
+        "guild",
+        "garrison",
+        "chapter"
+      ]
+    }
+  },
+  "fellowshipCause": {
+    "discriminator": "kind",
+    "groups": {
+      "guild": [
+        "sold",
+        "sold",
+        "proud",
+        "lapsed"
+      ],
+      "garrison": [
+        "fallen",
+        "fallen",
+        "proud",
+        "lapsed"
+      ],
+      "chapter": [
+        "lapsed",
+        "lapsed",
+        "proud",
+        "sold",
+        "fallen"
+      ]
+    }
+  },
+  "fellowshipOffice": {
+    "discriminator": "any",
+    "groups": {
+      "default": [
+        "treasurer",
+        "recorder",
+        "warden",
+        "steward"
+      ]
+    }
+  },
+  "fellowshipTrade": {
+    "discriminator": "terrain",
+    "groups": {
+      "forest": [
+        "Charcoal-Burners",
+        "Coopers and Wheelwrights",
+        "Woodwards"
+      ],
+      "marsh": [
+        "Reed-Cutters",
+        "Eel-Catchers",
+        "Salters"
+      ],
+      "mountain": [
+        "Quarrymen",
+        "Drovers",
+        "Smelters"
+      ],
+      "frost": [
+        "Sledge-Wrights",
+        "Furriers",
+        "Ice-Cutters"
+      ],
+      "desert": [
+        "Well-Diggers",
+        "Caravan-Masters",
+        "Dyers"
+      ]
+    }
+  },
+  "fellowshipWatch": {
+    "discriminator": "terrain",
+    "groups": {
+      "forest": [
+        "Verderers' Watch",
+        "Greenwood Company",
+        "Ride of the Marches"
+      ],
+      "marsh": [
+        "Causeway Watch",
+        "Fen Wardens",
+        "Ford Company"
+      ],
+      "mountain": [
+        "Pass Garrison",
+        "Beacon Watch",
+        "Wall Company"
+      ],
+      "frost": [
+        "Ice Watch",
+        "Winter Company",
+        "Cairn Garrison"
+      ],
+      "desert": [
+        "Well Guard",
+        "Wall Watch",
+        "Salt-Road Company"
+      ]
+    }
+  },
+  "fellowshipChapter": {
+    "discriminator": "domain",
+    "groups": {
+      "life": [
+        "the Open Cup",
+        "the Mended Hand"
+      ],
+      "light": [
+        "the Lamp",
+        "the Unshuttered Window"
+      ],
+      "nature": [
+        "the Green Hand",
+        "the Standing Stone"
+      ],
+      "war": [
+        "the Spear",
+        "the Shield-Wall"
+      ],
+      "knowledge": [
+        "the Open Book",
+        "the Ninth Page"
+      ],
+      "death": [
+        "the Last Door",
+        "the Lowered Lamp"
+      ],
+      "storms": [
+        "the Hammer",
+        "the Drawn Bolt"
+      ],
+      "order": [
+        "the Scale",
+        "the Level Stone"
+      ],
+      "oceans": [
+        "the Tide",
+        "the Net"
+      ],
+      "default": [
+        "the Plain Word"
+      ]
+    }
+  },
+  "fellowshipFace": {
+    "discriminator": "kind",
+    "groups": {
+      "guild": [
+        {
+          "hall": "the guildhall",
+          "brethren": "the guildsmen",
+          "chief": "the Master"
+        },
+        {
+          "hall": "the guild's upper room",
+          "brethren": "the freemen of the guild",
+          "chief": "the Alderman"
+        }
+      ],
+      "garrison": [
+        {
+          "hall": "the barracks",
+          "brethren": "the garrison",
+          "chief": "the Captain"
+        },
+        {
+          "hall": "the guardroom",
+          "brethren": "the company",
+          "chief": "the Sergeant-Major"
+        }
+      ],
+      "chapter": [
+        {
+          "hall": "the chapter-house",
+          "brethren": "the brothers and sisters",
+          "chief": "the Prior"
+        },
+        {
+          "hall": "the cloister",
+          "brethren": "the chapter",
+          "chief": "the Reverend Mother"
+        }
+      ]
+    }
+  },
+  "fellowshipPage": {
+    "about": "What the hall's page in the roll shows, by what has become of the hall: the clue the recorder gives, one of two for each cause.",
+    "discriminator": "cause",
+    "groups": {
+      "proud": [
+        "The keeper's tick is there for every quarter back to the founding, and the last six are in a larger hand than the first. At the foot a line has been added in the keeper's own writing: 'Answered. Nothing owing.' The head has not seen it.",
+        "Every quarter is ticked, and every tick is correct, and under the last one a line in the keeper's hand has been scored across and written again, harder: 'The hall keeps its own counsel.' It has been written three times."
+      ],
+      "sold": [
+        "The tally-mark is there, and it is a good hand, but the ink is a day too new for the quarter it claims. Across the margin, small and level, a stranger's counting-mark: three upright strokes and a bar, the sign a factor makes when he has bought a thing outright.",
+        "The quarter is ticked in a hurry, and under it, rubbed out and half legible, the figure of a sum paid to the hall: paid in, not owed, and the date is the week the dues were due."
+      ],
+      "lapsed": [
+        "The column ends with a keeper's name and the line drawn under it that the fellowship draws under the dead. Below it a second name has been written in another hand and never ticked: the keeper's apprentice, entered as successor, and never confirmed.",
+        "The last tick is the winter's. After it the hall's column is blank except for a name, written small and low, and the word 'heir' beside it in the dead keeper's own hand, and nothing has been done with it since."
+      ],
+      "fallen": [
+        "Every tick is there, steady and square. The last is not: the stroke wanders off the line, and the mark beside it is a blot, as if the hand had been taken from the page. Nothing was written after.",
+        "The quarter's tick is made, and made in a hurry, and the dues column beside it holds only a number and the words 'by the first one who comes'. The hand is a good hand, and it is not steady."
+      ]
+    }
+  },
+  "fellowshipReplyYes": {
+    "discriminator": "any",
+    "groups": {
+      "default": [
+        "The drawer comes out with a hazel rod in it, split lengthways and notched across. 'A stranger sold it me for a song, and I paid the song, and I have been turning it over since. It is not a thing a shop can sell. If you want it, it is",
+        "A split hazel rod comes up out of the till, wrapped in sacking. 'That. A woman in a hurry sold it me. She said it was worth nothing, and she was wrong, and I knew it as she said it. I will let you have it for"
+      ]
+    }
+  },
+  "fellowshipReplyNo": {
+    "discriminator": "any",
+    "groups": {
+      "default": [
+        "The shopkeeper turns out the drawer under the counter, and the shelf behind it, and shakes their head. 'No. Nothing of the kind. I would remember a stick with notches.'",
+        "The shopkeeper listens to the whole of it and thinks a while. 'A tally? Hazel? No. I have bought a good deal of nothing from strangers this season, but not that.'"
+      ]
+    }
+  },
+  "fellowshipClass": {
+    "about": "Who can be what: each folk's callings (the catalog's), and the kinds of fellowship each calling suits. Every folk can be a commoner, so a kind never finds nobody.",
+    "discriminator": "folk",
+    "groups": {
+      "human": [
+        {
+          "_key": "warrior",
+          "_kinds": {
+            "garrison": true,
+            "guild": true
+          }
+        },
+        {
+          "_key": "mage",
+          "_kinds": {
+            "chapter": true
+          }
+        },
+        {
+          "_key": "thief",
+          "_kinds": {
+            "guild": true
+          }
+        },
+        {
+          "_key": "cleric",
+          "_kinds": {
+            "chapter": true,
+            "garrison": true
+          }
+        },
+        {
+          "_key": "bard",
+          "_kinds": {
+            "guild": true
+          }
+        },
+        {
+          "_key": "ranger",
+          "_kinds": {
+            "garrison": true
+          }
+        },
+        {
+          "_key": "monk",
+          "_kinds": {
+            "chapter": true
+          }
+        },
+        {
+          "_key": "commoner",
+          "_kinds": {
+            "guild": true,
+            "garrison": true,
+            "chapter": true
+          }
+        }
+      ],
+      "elf": [
+        {
+          "_key": "warrior",
+          "_kinds": {
+            "garrison": true,
+            "guild": true
+          }
+        },
+        {
+          "_key": "thief",
+          "_kinds": {
+            "guild": true
+          }
+        },
+        {
+          "_key": "ranger",
+          "_kinds": {
+            "garrison": true
+          }
+        },
+        {
+          "_key": "bard",
+          "_kinds": {
+            "guild": true
+          }
+        },
+        {
+          "_key": "mage",
+          "_kinds": {
+            "chapter": true
+          }
+        },
+        {
+          "_key": "commoner",
+          "_kinds": {
+            "guild": true,
+            "garrison": true,
+            "chapter": true
+          }
+        }
+      ],
+      "dwarf": [
+        {
+          "_key": "warrior",
+          "_kinds": {
+            "garrison": true,
+            "guild": true
+          }
+        },
+        {
+          "_key": "cleric",
+          "_kinds": {
+            "chapter": true,
+            "garrison": true
+          }
+        },
+        {
+          "_key": "commoner",
+          "_kinds": {
+            "guild": true,
+            "garrison": true,
+            "chapter": true
+          }
+        }
+      ],
+      "goblin": [
+        {
+          "_key": "thief",
+          "_kinds": {
+            "guild": true
+          }
+        },
+        {
+          "_key": "ranger",
+          "_kinds": {
+            "garrison": true
+          }
+        },
+        {
+          "_key": "commoner",
+          "_kinds": {
+            "guild": true,
+            "garrison": true,
+            "chapter": true
+          }
+        }
+      ],
+      "glimmerkin": [
+        {
+          "_key": "thief",
+          "_kinds": {
+            "guild": true
+          }
+        },
+        {
+          "_key": "ranger",
+          "_kinds": {
+            "garrison": true
+          }
+        },
+        {
+          "_key": "commoner",
+          "_kinds": {
+            "guild": true,
+            "garrison": true,
+            "chapter": true
+          }
+        },
+        {
+          "_key": "mage",
+          "_kinds": {
+            "chapter": true
+          }
+        }
+      ],
+      "halfling": [
+        {
+          "_key": "warrior",
+          "_kinds": {
+            "garrison": true,
+            "guild": true
+          }
+        },
+        {
+          "_key": "thief",
+          "_kinds": {
+            "guild": true
+          }
+        },
+        {
+          "_key": "bard",
+          "_kinds": {
+            "guild": true
+          }
+        },
+        {
+          "_key": "commoner",
+          "_kinds": {
+            "guild": true,
+            "garrison": true,
+            "chapter": true
+          }
+        }
+      ],
+      "gnome": [
+        {
+          "_key": "thief",
+          "_kinds": {
+            "guild": true
+          }
+        },
+        {
+          "_key": "bard",
+          "_kinds": {
+            "guild": true
+          }
+        },
+        {
+          "_key": "mage",
+          "_kinds": {
+            "chapter": true
+          }
+        },
+        {
+          "_key": "commoner",
+          "_kinds": {
+            "guild": true,
+            "garrison": true,
+            "chapter": true
+          }
+        }
+      ],
+      "half_elf": [
+        {
+          "_key": "warrior",
+          "_kinds": {
+            "garrison": true,
+            "guild": true
+          }
+        },
+        {
+          "_key": "mage",
+          "_kinds": {
+            "chapter": true
+          }
+        },
+        {
+          "_key": "thief",
+          "_kinds": {
+            "guild": true
+          }
+        },
+        {
+          "_key": "cleric",
+          "_kinds": {
+            "chapter": true,
+            "garrison": true
+          }
+        },
+        {
+          "_key": "bard",
+          "_kinds": {
+            "guild": true
+          }
+        },
+        {
+          "_key": "ranger",
+          "_kinds": {
+            "garrison": true
+          }
+        },
+        {
+          "_key": "monk",
+          "_kinds": {
+            "chapter": true
+          }
+        },
+        {
+          "_key": "commoner",
+          "_kinds": {
+            "guild": true,
+            "garrison": true,
+            "chapter": true
+          }
+        }
+      ],
+      "half_orc": [
+        {
+          "_key": "warrior",
+          "_kinds": {
+            "garrison": true,
+            "guild": true
+          }
+        },
+        {
+          "_key": "thief",
+          "_kinds": {
+            "guild": true
+          }
+        },
+        {
+          "_key": "ranger",
+          "_kinds": {
+            "garrison": true
+          }
+        },
+        {
+          "_key": "commoner",
+          "_kinds": {
+            "guild": true,
+            "garrison": true,
+            "chapter": true
+          }
+        }
+      ],
+      "lizardfolk": [
+        {
+          "_key": "warrior",
+          "_kinds": {
+            "garrison": true,
+            "guild": true
+          }
+        },
+        {
+          "_key": "ranger",
+          "_kinds": {
+            "garrison": true
+          }
+        },
+        {
+          "_key": "thief",
+          "_kinds": {
+            "guild": true
+          }
+        },
+        {
+          "_key": "commoner",
+          "_kinds": {
+            "guild": true,
+            "garrison": true,
+            "chapter": true
+          }
+        }
+      ],
+      "catfolk": [
+        {
+          "_key": "warrior",
+          "_kinds": {
+            "garrison": true,
+            "guild": true
+          }
+        },
+        {
+          "_key": "thief",
+          "_kinds": {
+            "guild": true
+          }
+        },
+        {
+          "_key": "ranger",
+          "_kinds": {
+            "garrison": true
+          }
+        },
+        {
+          "_key": "bard",
+          "_kinds": {
+            "guild": true
+          }
+        },
+        {
+          "_key": "mage",
+          "_kinds": {
+            "chapter": true
+          }
+        },
+        {
+          "_key": "cleric",
+          "_kinds": {
+            "chapter": true,
+            "garrison": true
+          }
+        },
+        {
+          "_key": "monk",
+          "_kinds": {
+            "chapter": true
+          }
+        },
+        {
+          "_key": "commoner",
+          "_kinds": {
+            "guild": true,
+            "garrison": true,
+            "chapter": true
+          }
+        }
+      ],
+      "sylph": [
+        {
+          "_key": "mage",
+          "_kinds": {
+            "chapter": true
+          }
+        },
+        {
+          "_key": "cleric",
+          "_kinds": {
+            "chapter": true,
+            "garrison": true
+          }
+        },
+        {
+          "_key": "commoner",
+          "_kinds": {
+            "guild": true,
+            "garrison": true,
+            "chapter": true
+          }
+        }
+      ],
+      "undine": [
+        {
+          "_key": "mage",
+          "_kinds": {
+            "chapter": true
+          }
+        },
+        {
+          "_key": "cleric",
+          "_kinds": {
+            "chapter": true,
+            "garrison": true
+          }
+        },
+        {
+          "_key": "commoner",
+          "_kinds": {
+            "guild": true,
+            "garrison": true,
+            "chapter": true
+          }
+        }
+      ],
+      "birdfolk": [
+        {
+          "_key": "warrior",
+          "_kinds": {
+            "garrison": true,
+            "guild": true
+          }
+        },
+        {
+          "_key": "thief",
+          "_kinds": {
+            "guild": true
+          }
+        },
+        {
+          "_key": "ranger",
+          "_kinds": {
+            "garrison": true
+          }
+        },
+        {
+          "_key": "bard",
+          "_kinds": {
+            "guild": true
+          }
+        },
+        {
+          "_key": "mage",
+          "_kinds": {
+            "chapter": true
+          }
+        },
+        {
+          "_key": "cleric",
+          "_kinds": {
+            "chapter": true,
+            "garrison": true
+          }
+        },
+        {
+          "_key": "monk",
+          "_kinds": {
+            "chapter": true
+          }
+        },
+        {
+          "_key": "commoner",
+          "_kinds": {
+            "guild": true,
+            "garrison": true,
+            "chapter": true
+          }
+        }
+      ],
+      "fae": [
+        {
+          "_key": "cleric",
+          "_kinds": {
+            "chapter": true,
+            "garrison": true
+          }
+        },
+        {
+          "_key": "thief",
+          "_kinds": {
+            "guild": true
+          }
+        },
+        {
+          "_key": "bard",
+          "_kinds": {
+            "guild": true
+          }
+        },
+        {
+          "_key": "mage",
+          "_kinds": {
+            "chapter": true
+          }
+        },
+        {
+          "_key": "commoner",
+          "_kinds": {
+            "guild": true,
+            "garrison": true,
+            "chapter": true
+          }
+        }
+      ]
+    }
+  }
+}
