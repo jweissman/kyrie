@@ -30,7 +30,7 @@
       ]
     }
   },
-  "captainCalling": {
+  "foremanCalling": {
     "discriminator": "ancestry",
     "groups": {
       "human": [
@@ -122,6 +122,24 @@
         "flute_low",
         "flute_mid",
         "flute_high"
+      ]
+    }
+  },
+  "rivalCalling": {
+    "about": "What the Lantern Company's captain is, by ancestry: a patron's agent who can lead hands and read a lock.",
+    "discriminator": "ancestry",
+    "groups": {
+      "human": [
+        "warrior",
+        "thief",
+        "ranger"
+      ],
+      "elf": [
+        "ranger",
+        "thief"
+      ],
+      "dwarf": [
+        "warrior"
       ]
     }
   }

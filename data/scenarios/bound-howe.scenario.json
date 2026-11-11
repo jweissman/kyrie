@@ -33,7 +33,8 @@
         "keeper": "@town.innkeeper",
         "priest": "@town.priest",
         "first_taproom": "@first.taproom",
-        "first_keeper": "@first.innkeeper"
+        "first_keeper": "@first.innkeeper",
+        "first_green": "@first.green"
       }
     }
   ],
@@ -66,6 +67,15 @@
       "topic": "the old woman who keeps the hearth on the ridge",
       "channels": [
         "temple"
+      ],
+      "opens": false
+    },
+    {
+      "fact": "howe.rival_told",
+      "topic": "the second company that has gone up to {howe}, with lanterns for its sign",
+      "channels": [
+        "road",
+        "tavern"
       ],
       "opens": false
     }

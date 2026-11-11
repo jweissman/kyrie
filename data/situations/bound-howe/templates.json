@@ -10,7 +10,7 @@
     },
     "casting": "=gen(howe_casting)",
     "facts": "=concat(gen(howe_fate), gen(howe_air), gen(howe_flute))",
-    "initial": [],
+    "initial": "=concat(gen(howe_breach), gen(howe_rival))",
     "outcomes": [
       {
         "id": "sealed",
@@ -19,27 +19,35 @@
       {
         "id": "broken",
         "predicate": "bound_broken(party)"
+      },
+      {
+        "id": "overrun",
+        "predicate": "howe_overrun(party)"
       }
     ]
   },
   "howe_casting": {
     "__no_id": true,
     "king": "=gen(howe_king)",
-    "captain": "=gen(howe_captain)",
+    "foreman": "=gen(howe_foreman)",
     "warden": "=gen(howe_warden)",
     "clerk": "=gen(howe_clerk)",
-    "surgeon": "=gen(howe_surgeon)"
+    "surgeon": "=gen(howe_surgeon)",
+    "rcaptain": "=gen(howe_rcaptain)",
+    "rscholar": "=gen(howe_rscholar)",
+    "hirer": "=gen(howe_hirer)",
+    "tam": "=gen(howe_tam)"
   },
   "howe_king": {
     "__no_id": true,
     ">name": "=lookup(kinKing, #terrain)"
   },
-  "howe_captain": {
+  "howe_foreman": {
     "__no_id": true,
     "_drawn": "=lookup(townsfolkName, #ancestry)",
-    ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, #ancestry, 'she:howe_captain')",
+    ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, #ancestry, 'she:howe_foreman')",
     ">raceId": "=#ancestry",
-    ">classId": "=lookup(captainCalling, #ancestry)"
+    ">classId": "=lookup(foremanCalling, #ancestry)"
   },
   "howe_warden": {
     "__no_id": true,
@@ -73,5 +81,46 @@
     "__no_id": true,
     ">name": "kinflute",
     "args": "=concat(lookup(howeFlute, #terrain))"
+  },
+  "howe_rcaptain": {
+    "__no_id": true,
+    "_drawn": "=lookup(townsfolkName, #ancestry)",
+    ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, #ancestry, 'she:howe_rcaptain')",
+    ">raceId": "=#ancestry",
+    ">classId": "=lookup(rivalCalling, #ancestry)"
+  },
+  "howe_rscholar": {
+    "__no_id": true,
+    "_drawn": "=lookup(townsfolkName, #ancestry)",
+    ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, #ancestry, 'he:howe_rscholar')",
+    ">raceId": "=#ancestry"
+  },
+  "howe_hirer": {
+    "__no_id": true,
+    "_drawn": "=lookup(townsfolkName, #ancestry)",
+    ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, #ancestry, 'he:howe_hirer')",
+    ">raceId": "=#ancestry"
+  },
+  "howe_tam": {
+    "__no_id": true,
+    "_drawn": "=lookup(townsfolkName, #ancestry)",
+    ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, #ancestry, 'he:howe_tam')",
+    ">raceId": "=#ancestry"
+  },
+  "howe_breach": {
+    "__no_id": true,
+    ">name": "breachDay",
+    "args": [
+      "crew"
+    ],
+    "value": "=6 + oneOf(0, 1, 2)"
+  },
+  "howe_rival": {
+    "__no_id": true,
+    ">name": "rivalDay",
+    "args": [
+      "crew"
+    ],
+    "value": "=4 + oneOf(0, 1, 2)"
   }
 }

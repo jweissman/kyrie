@@ -6,6 +6,7 @@ import { Placed } from './support/placed';
 import { ScreenModel } from '../src/ui/screen-model';
 import { WorldAssembler } from '../src/world/world-assembler';
 import { MapPlay } from './support/map-play';
+import { ModuleWriter } from '../src/lang/module-writer';
 
 // The Bound Howe (data/situations/bound-howe, data/scenarios/bound-howe.scenario.json): a standing scenario, so every
 // first country holds one. A king's howe on a ridge, a salvage crew in its lee, a warden at a hearth, and under the
@@ -44,6 +45,17 @@ class Howe {
   static party(j: Journey) { return j.campaign.fighters; }
   static hp(j: Journey) { return Howe.party(j).reduce((n, f) => n + Math.max(0, f.hp), 0); }
   static downed(j: Journey) { return Howe.party(j).filter(f => f.hp <= 0).length; }
+  static async town(seed: string) {
+    const p = (await WorldAssembler.assemble(seed, NodeBundleSource.shared, {})).report.placements.find(x => x.scenario === 'bound-howe')!.bindings;
+    return (part: string) => `region__${p.town}_${part}`;
+  }
+  static num(j: Journey, measure: string, who: string) { return j.campaign.world.number(ModuleWriter.call(R(measure), R(who))); }
+  static set(j: Journey, measure: string, who: string, n: number) {
+    const held = j.campaign as unknown as { world: { apply(c: unknown[]): unknown }; commit(x: unknown): void };
+    held.commit(held.world.apply([{ kind: 'set', call: ModuleWriter.call(R(measure), R(who)), value: ModuleWriter.number(n) }]));
+  }
+  static face(j: Journey) { return ['sound', 'thin', 'shored', 'broken', 'buried'].find(v => Howe.state(j, 'face_wall', v)); }
+  static async day(j: Journey, d: number, at = '09:00') { await j.play(`=day ${d} ${at}`); }
   static async torch(j: Journey) { await j.play('Pack › A torch › Light'); }
   // Buying from the camp's surgeon, who sells what a company going under a hill wants.
   static async buy(j: Journey, what: string) { await j.play(`Buy › ${what}`); }
@@ -52,7 +64,7 @@ class Howe {
 describe('the Bound Howe is a standing scenario', () => {
   it.each(['kahitude', 'a1', 'b2', 'thorn', 'c3', 'd4'])('is placed in %s, with its camp, its warden and its dead where they belong', async seed => {
     const j = await Howe.start(company('warrior'), seed);
-    expect(Howe.where(j, 'captain')).toBe(R('lee'));
+    expect(Howe.where(j, 'foreman')).toBe(R('lee'));
     expect(Howe.where(j, 'warden')).toBe(R('hearth'));
     expect(Howe.where(j, 'king')).toBe(R('throne'));
     expect(Howe.where(j, 'household')).toBe(R('gallery'));
@@ -62,21 +74,25 @@ describe('the Bound Howe is a standing scenario', () => {
     expect(['flute_low', 'flute_mid', 'flute_high'].filter(f => Howe.holds(j, R('kinflute'), R(f))).length).toBe(1);
   }, 180000);
 
-  it('is reached from the starting town by the page’s own labels: overheard in the first town’s taproom after the first day, set out for from the map, and walked up to', async () => {
+  it('is reached from the starting town by the page’s own labels: a cart of labourers and a notice on the first green from the second day, set out for from the map, and walked up to', async () => {
     const j = await Howe.start(company('warrior'));
     // Nothing is said on the first day: the first hour is not buried.
-    await j.play('>s1_taproom');
+    await j.play('>s1_green');
     expect(Howe.holds(j, 'knows', 'party', R('ridge_told'))).toBe(false);
+    expect(Howe.where(j, 'hirer')).toBeFalsy();
     await j.play('=day 2 09:00');
+    expect(Howe.where(j, 'hirer')).toBe('region__s1_green');
+    // The notice on the hiring-man's cart is read from the green, and it says where.
     expect(Howe.holds(j, 'knows', 'party', R('ridge_told'))).toBe(true);
     expect(ScreenModel.build(j.campaign).objectives.join(' ')).toContain('salvage crew is digging');
+    expect(j.offers('Ask .+ where the work is')).toBe(true);
     const done = await MapPlay.press(j, SITE);
     expect(done).toEqual({ to: SITE, arrived: true });
     expect(j.campaign.world.one('at', 'party')).toBe(SITE);
     // The sheep-way was told of: it is a way on from the foot, beside the steep path.
     expect(j.takes('Into the old sheepfold')).toBe(true);
     expect(j.takes('lookout')).toBe(true);
-  }, 300000);
+  }, 600000);
 
   it('is told of too in the town nearest it: asked of at the taproom there', async () => {
     const j = await Howe.start(company('warrior'));
@@ -145,38 +161,38 @@ describe('the ridge: weather, a watch, a line of tins, a ring of grey grass', ()
   }, 240000);
 });
 
-describe('the camp in the lee: a captain, a crew, a cook, and four ways with them', () => {
+describe('the camp in the lee: a foreman, a crew, a cook, and four ways with them', () => {
   it('sells what a company going under a hill needs, and a company that pays is welcome to sleep there', async () => {
     const j = await Howe.at('lee');
     j.coin(60);
     await j.play('for the freedom of the camp');
     for (const w of ['A coil of rope', 'A sack of barley', 'A twist of salt', 'A shovel', 'Iron spikes']) { await Howe.buy(j, w); }
-    expect(Howe.holds(j, 'tolerates', R('captain'), 'party')).toBe(true);
+    expect(Howe.holds(j, 'tolerates', R('foreman'), 'party')).toBe(true);
     expect(Howe.holds(j, 'tolerates', R('crew'), 'party')).toBe(true);
     expect(Howe.holds(j, 'restful', R('lee'))).toBe(true);
   }, 240000);
 
-  it('can be turned: told what the torc will cost the country, the captain strikes her tents and goes to the town’s taproom', async () => {
+  it('can be turned: told what the torc will cost the country, the foreman strikes her tents and goes to the town’s taproom', async () => {
     const j = await Howe.at('lee');
     Placed.knows(j, R('torc_price'));
     expect(j.offers('what the torc will cost the country')).toBe(true);
-    for (let i = 0; i < 4 && !Howe.fact(j, 'turned', R('captain')); i++) {
+    for (let i = 0; i < 4 && !Howe.fact(j, 'turned', R('foreman')); i++) {
       await j.play('what the torc will cost the country').catch(() => '');
     }
     // A hard persuasion: one company may need a second try; the Journey takes it by the page's own offer.
-    if (Howe.fact(j, 'turned', R('captain'))) {
-      expect(Howe.where(j, 'captain')).toBe(TOWN('taproom'));
+    if (Howe.fact(j, 'turned', R('foreman'))) {
+      expect(Howe.where(j, 'foreman')).toBe(TOWN('taproom'));
       expect(Howe.holds(j, 'tolerates', R('crew'), 'party')).toBe(true);
     } else {
       expect(j.offers('what the torc will cost the country')).toBe(false);
     }
   }, 300000);
 
-  it('is the camp that can be fought: the crew breaks and the captain falls to a company of four at level four', async () => {
+  it('is the camp that can be fought: the crew breaks and the foreman falls to a company of four at level four', async () => {
     const j = await Howe.at('lee');
     await Howe.torch(j);
     await j.fight('Attack');
-    expect(Howe.holds(j, 'dead', R('captain'))).toBe(true);
+    expect(Howe.holds(j, 'dead', R('foreman'))).toBe(true);
     expect(Howe.downed(j)).toBeLessThan(3);
   }, 300000);
 });
@@ -339,7 +355,7 @@ describe('under the howe: the robbers’ shaft, foul air, the sump, the older ch
     await Howe.torch(j);
     expect(Howe.state(j, 'flood', 'deep')).toBe(true);
     j.coin(10);
-    j.assert('tolerates', R('captain'), 'party');
+    j.assert('tolerates', R('foreman'), 'party');
     Placed.at(j, R('lee'));
     await Howe.buy(j, 'A coil of rope');
     Placed.at(j, R('sump'));
@@ -398,13 +414,14 @@ describe('what the country keeps of it', () => {
     expect(ScreenModel.build(j.campaign).purse.coin).toBeGreaterThan(before);
   }, 300000);
 
-  it('sends the dead down the lane to the green by night once the bound is broken', async () => {
+  it('sends the dead down the lane to the green by night, three days after the bound is broken', async () => {
     const j = await Howe.start();
     Placed.at(j, TOWN('green'));
     j.assert('bound_broken', 'party');
-    await j.play('Wait › Until dark');
+    await j.play('=day 6 22:00');
+    expect(Howe.fact(j, 'host_abroad')).toBe(true);
     expect(Howe.holds(j, 'at', R('household'), TOWN('green'))).toBe(true);
-  }, 300000);
+  }, 600000);
 
   it('thanks a company that shut the howe: the priest gives holy water', async () => {
     const j = await Howe.start();
@@ -510,6 +527,339 @@ describe('what the howe asks of a company, by level', () => {
     expect(Howe.holds(four, 'dead', R('mounts'))).toBe(true);
     expect(Howe.downed(four)).toBeLessThan(2);
   }, 300000);
+});
+
+
+describe('the week: four parties move on the ridge whether or not the company comes', () => {
+  it('runs the licence-men, the second company, the levy, the dead and the notices by the clock with no one on the ridge (a1: the Kin sealed it)', async () => {
+    const T = await Howe.town('a1');
+    const j = await Howe.start(company('warrior'), 'a1');
+    const B = Howe.num(j, 'breachDay', 'crew'), A = Howe.num(j, 'rivalDay', 'crew');
+    expect(B).toBeGreaterThanOrEqual(6); expect(B).toBeLessThanOrEqual(8);
+    expect(A).toBeGreaterThanOrEqual(4); expect(A).toBeLessThanOrEqual(6);
+    // Day one: a sound face, no rival, no levy, the howe shut.
+    expect(Howe.face(j)).toBe('sound');
+    expect(Howe.where(j, 'rcaptain')).toBeFalsy();
+    expect(Howe.state(j, 'seal', 'set')).toBe(true);
+    expect(Howe.fact(j, 'host_stirs')).toBe(false);
+    Placed.at(j, T('green'));
+    await Howe.day(j, 3);
+    expect(Howe.where(j, 'levy_men')).toBe(T('green'));
+    // The second company arrives on its day, and goes to the door on the next.
+    await Howe.day(j, A);
+    expect(Howe.where(j, 'rcaptain')).toBe(R('rival_camp'));
+    expect(Howe.num(j, 'rival_step', 'rcaptain')).toBe(1);
+    await Howe.day(j, A + 1, '15:00');
+    expect(Howe.where(j, 'rhands')).toBe(R('forecourt'));
+    // The licence-men's face goes thin two days before it breaks.
+    await Howe.day(j, B - 2, '12:00');
+    expect(Howe.face(j)).toBe('thin');
+    // The ram goes in two days after the company's arrival: the seal is forced and the dead are stirred.
+    await Howe.day(j, A + 2, '15:00');
+    expect(Howe.state(j, 'seal', 'forced')).toBe(true);
+    expect(Howe.fact(j, 'host_stirs')).toBe(true);
+    expect(Howe.num(j, 'rival_step', 'rcaptain')).toBeGreaterThanOrEqual(3);
+    // The face breaks on its day, and on the first dark the riders raid the camp: the crew goes to the town.
+    await Howe.day(j, B, '12:00');
+    expect(Howe.face(j)).toBe('broken');
+    await Howe.day(j, B, '23:30');
+    expect(Howe.fact(j, 'raid_done')).toBe(true);
+    expect(Howe.where(j, 'foreman')).toBe(T('taproom'));
+    expect(Howe.holds(j, 'dead', R('watchers'))).toBe(true);
+    // Three days of an open howe, and the dead walk down to the town: the country shows it.
+    await Howe.day(j, B + 3, '23:30');
+    expect(Howe.fact(j, 'host_abroad')).toBe(true);
+    expect(Howe.where(j, 'household')).toBe(T('green'));
+    expect(Howe.holds(j, R('howe_overrun'), 'party')).toBe(true);
+    expect(Howe.holds(j, 'dead', R('levy_men'))).toBe(true);
+  }, 1500000);
+
+  it('lets a company both breach the door and break the face: the second company by its ram, the player by a shoulder, the licence-men by the clock, the player by a pick', async () => {
+    const player = await Howe.at('forecourt', FOUR, 'a1');
+    expect(Howe.state(player, 'seal', 'set')).toBe(true);
+    await player.play('Put your shoulders to the seal-stone');
+    expect(Howe.state(player, 'seal', 'forced')).toBe(true);
+    await player.play('=+1').catch(() => '');
+    expect(Howe.fact(player, 'host_stirs')).toBe(true);
+    // The face is broken by the player as well as by the crew.
+    const dig = await Howe.at('face', FOUR, 'a1');
+    dig.assert('state', R('face_wall'), R('thin'));
+    expect(dig.offers('Break the last course of the face')).toBe(true);
+    await dig.play('Break the last course of the face');
+    expect(Howe.face(dig)).toBe('broken');
+    await dig.play('=+1').catch(() => '');
+    expect(Howe.fact(dig, 'host_stirs')).toBe(true);
+  }, 600000);
+
+  it('lets the second company arrive, force the door and be beaten at the gallery or on the flutes, or take the torc when it is shown the way (the player allies)', async () => {
+    const T = await Howe.town('a1');
+    const j = await Howe.start(FOUR, 'a1');
+    const A = Howe.num(j, 'rivalDay', 'crew');
+    Howe.set(j, 'breachDay', 'crew', 30);
+    Placed.at(j, R('rival_camp'));
+    await Howe.day(j, A, '10:00');
+    expect(Howe.where(j, 'rcaptain')).toBe(R('rival_camp'));
+    Placed.knows(j, R('king_named')); Placed.knows(j, R('stave_known'));
+    expect(j.offers('Sell .+ the roll of kings')).toBe(true);
+    const coin = ScreenModel.build(j.campaign).purse.coin;
+    await j.play('Sell .+ the roll of kings');
+    expect(ScreenModel.build(j.campaign).purse.coin).toBe(coin + 60);
+    expect(Howe.holds(j, 'tolerates', R('household'), R('rcaptain'))).toBe(true);
+    const kin = ['low', 'mid', 'high'].find(f => Howe.fact(j, 'kinflute', R(`flute_${f}`)))!;
+    await j.play(`Tell .+ the king's flute is the ${kin === 'mid' ? 'middle' : kin} one`);
+    Placed.at(j, T('green'));
+    await Howe.day(j, A + 5, '20:00');
+    // The ram, the gallery (the household let them by), the right flute, the king; and the third of the rival's hands is dead for it.
+    expect(Howe.state(j, 'seal', 'forced')).toBe(true);
+    expect(Howe.num(j, 'rival_step', 'rcaptain')).toBeGreaterThanOrEqual(6);
+    expect(Howe.holds(j, 'dead', R('rhands'))).toBe(true);
+    expect(Howe.holds(j, 'dead', R('rscout'))).toBe(true);
+    expect(Howe.state(j, 'tread', 'sprung')).toBe(true);
+    expect(Howe.holds(j, 'at', R('king_torc_item'), R('rival_camp'))).toBe(true);
+    // And they go, with it, two days after.
+    await Howe.day(j, A + 8, '10:00');
+    expect(Howe.where(j, 'rcaptain')).toBeFalsy();
+    expect(Howe.holds(j, R('ridge_sacked'))).toBe(true);
+    expect(Howe.fact(j, 'host_stirs')).toBe(true);
+  }, 1500000);
+
+  it('lets the player deceive the second company: the wrong flute is told, and the reader falls to it', async () => {
+    const T = await Howe.town('a1');
+    const j = await Howe.start(FOUR, 'a1');
+    const A = Howe.num(j, 'rivalDay', 'crew');
+    Howe.set(j, 'breachDay', 'crew', 30);
+    Placed.at(j, R('rival_camp'));
+    await Howe.day(j, A, '10:00');
+    Placed.knows(j, R('king_named')); Placed.knows(j, R('stave_known'));
+    const wrong = ['low', 'mid', 'high'].find(f => !Howe.fact(j, 'kinflute', R(`flute_${f}`)))!;
+    await j.play('Sell .+ the roll of kings');
+    await j.play(`Tell .+ the king's flute is the ${wrong === 'mid' ? 'middle' : wrong} one`);
+    Placed.at(j, T('green'));
+    await Howe.day(j, A + 5, '20:00');
+    expect(Howe.holds(j, 'dead', R('rscholar'))).toBe(true);
+    expect(Howe.num(j, 'rival_step', 'rcaptain')).toBe(8);
+    expect(Howe.holds(j, 'dead', R('rhands'))).toBe(false);
+    expect(Howe.holds(j, 'at', R('king_torc_item'), R('throne'))).toBe(true);
+  }, 1500000);
+
+  it('lets the player sabotage the second company’s ram (a thief at night; its door is two days late) and read the patron’s letter in its strongbox', async () => {
+    const T = await Howe.town('a1');
+    const j = await Howe.start(FOUR, 'a1');
+    const A = Howe.num(j, 'rivalDay', 'crew');
+    Howe.set(j, 'breachDay', 'crew', 30);
+    Placed.at(j, R('rival_camp'));
+    await Howe.day(j, A, '10:00');
+    Placed.move(j, 'howe__rhands', R('forecourt'));
+    expect(j.offers('Split the iron shoe of the ram')).toBe(true);
+    for (let i = 0; i < 4 && !Howe.fact(j, 'ram_spoiled'); i++) { await j.play('Split the iron shoe of the ram').catch(() => ''); Placed.at(j, R('rival_camp')); }
+    expect(Howe.fact(j, 'ram_spoiled')).toBe(true);
+    expect(Howe.num(j, 'ramDelay', 'crew')).toBe(2);
+    expect(j.offers('Pick the lock of the captain')).toBe(true);
+    for (let i = 0; i < 4 && !Howe.state(j, 'rival_chest', 'open'); i++) { await j.play('Pick the lock of the captain').catch(() => ''); Placed.at(j, R('rival_camp')); }
+    expect(Howe.state(j, 'rival_chest', 'open')).toBe(true);
+    Placed.at(j, T('green'));
+    await Howe.day(j, A + 2, '20:00');
+    expect(Howe.state(j, 'seal', 'set')).toBe(true);
+    await Howe.day(j, A + 4, '20:00');
+    expect(Howe.state(j, 'seal', 'forced')).toBe(true);
+  }, 1500000);
+
+  it('lets the player turn the second company: shown its patron’s seal, the captain strikes camp, and the foreman pays the forty she promised', async () => {
+    const j = await Howe.start(FOUR, 'a1');
+    const A = Howe.num(j, 'rivalDay', 'crew');
+    Howe.set(j, 'breachDay', 'crew', 30);
+    Placed.at(j, R('rival_camp'));
+    await Howe.day(j, A, '10:00');
+    Placed.knows(j, R('rival_aim'));
+    j.give(R('patron_letter'));
+    for (let i = 0; i < 5 && !Howe.fact(j, 'turned_rival'); i++) { await j.play('Show .+ the shire-reeve.s seal').catch(() => ''); }
+    expect(Howe.fact(j, 'turned_rival')).toBe(true);
+    expect(Howe.num(j, 'rival_step', 'rcaptain')).toBe(9);
+    await Howe.day(j, A + 3, '10:00');
+    expect(Howe.where(j, 'rcaptain')).toBeFalsy();
+    expect(Howe.state(j, 'seal', 'set')).toBe(true);
+    // The foreman, hired to keep her off the hill, pays.
+    const k = await Howe.at('lee');
+    k.assert('foreman_hired', 'party');
+    k.assert('turned_rival');
+    expect(k.offers('Ask .+ for the forty')).toBe(false);
+  }, 1500000);
+});
+
+describe('the levy, the clerk, the warden and the priest', () => {
+  it('turns the levy against the diggers when the clerk is shown the reeve’s seal: it marches with salt, buries the face and sends the crew to the taproom', async () => {
+    const T = await Howe.town('a1');
+    const j = await Howe.start(FOUR, 'a1');
+    Placed.at(j, T('green'));
+    j.give(R('patron_letter'));
+    expect(j.offers('Show .+ the patron')).toBe(true);
+    await j.play('Show .+ the patron');
+    expect(Howe.fact(j, 'levy_against')).toBe(true);
+    const B = Howe.num(j, 'breachDay', 'crew');
+    await Howe.day(j, B - 1, '12:00');
+    expect(Howe.fact(j, 'levy_marched')).toBe(true);
+    expect(Howe.where(j, 'levy_men')).toBe(R('trench'));
+    expect(Howe.face(j)).toBe('buried');
+    expect(Howe.where(j, 'foreman')).toBe(T('taproom'));
+    await Howe.day(j, B + 1, '23:30');
+    expect(Howe.fact(j, 'raid_done')).toBe(false);
+  }, 1500000);
+
+  it('lets the priest be told what the cutting will let out, and the warden be asked to walk down to the town, and costs her hearth', async () => {
+    const T = await Howe.town('a1');
+    const j = await Howe.start(FOUR, 'a1');
+    Placed.at(j, T('shrine'));
+    Placed.knows(j, R('face_thin')); Placed.knows(j, R('torc_price'));
+    await j.play('what the cutting will let out');
+    expect(Howe.fact(j, 'levy_against')).toBe(true);
+    const k = await Howe.at('hearth', FOUR, 'a1');
+    Placed.knows(k, R('warden_lore'));
+    k.assert(R('trusted'), R('warden'), 'party');
+    await k.play('come down and speak for the howe');
+    expect(Howe.fact(k, 'levy_against')).toBe(true);
+    expect(Howe.where(k, 'warden')).toBe(T('shrine'));
+    expect(Howe.holds(k, 'restful', R('hearth'))).toBe(false);
+  }, 600000);
+});
+
+describe('the cutting, the breach, the flood, and the reset', () => {
+  it('lets the face be wedged, which the diggers undo in three days, or brought down on itself, which they cannot', async () => {
+    const T = await Howe.town('a1');
+    const j = await Howe.at('face', FOUR, 'a1');
+    j.assert('state', R('face_wall'), R('thin'));
+    Howe.set(j, 'breachDay', 'crew', 30);
+    expect(j.offers('Wedge the face')).toBe(true);
+    await j.play('Wedge the face');
+    expect(Howe.face(j)).toBe('shored');
+    Placed.at(j, T('green'));
+    const d = Howe.num(j, 'rivalDay', 'crew') + 4;
+    await Howe.day(j, d, '09:00');
+    expect(Howe.face(j)).toBe('thin');
+    const k = await Howe.at('face', FOUR, 'a1');
+    k.assert('state', R('face_wall'), R('thin'));
+    expect(k.offers('Pull down the props')).toBe(true);
+    await k.play('Pull down the props');
+    expect(Howe.face(k)).toBe('buried');
+  }, 900000);
+
+  it('lights the horse-hall by the breach by day, floods the second way in on the third day after it, and lets the weir’s stopcock drain it again', async () => {
+    const T = await Howe.town('a1');
+    const j = await Howe.start(FOUR, 'a1');
+    j.assert('state', R('face_wall'), R('broken'));
+    Placed.at(j, T('green'));
+    await Howe.day(j, 3, '09:00');
+    const B = Howe.num(j, 'breachDay', 'crew');
+    Howe.set(j, 'stirDay', 'crew', 3);
+    await Howe.day(j, 4, '09:00');
+    expect(Howe.state(j, 'lower', 'wet')).toBe(true);
+    await Howe.day(j, 6, '09:00');
+    expect(Howe.state(j, 'lower', 'flooded')).toBe(true);
+    expect(Howe.holds(j, 'unlit', R('horses'))).toBe(false);
+    Placed.at(j, R('weir'));
+    await Howe.torch(j);
+    expect(j.offers('Wind the stopcock shut')).toBe(true);
+    await j.play('Wind the stopcock shut');
+    await j.play('=+1').catch(() => '');
+    expect(Howe.state(j, 'lower', 'dry')).toBe(true);
+    expect(B).toBeGreaterThan(0);
+  }, 1500000);
+
+  it('resets the tread when the seal is heaved home behind a company that sprang it', async () => {
+    const j = await Howe.at('forecourt', FOUR, 'a1');
+    j.assert('state', R('tread'), R('sprung'));
+    j.assert('state', R('seal'), R('forced'));
+    await j.play('Heave the seal-stone back into its groove');
+    await j.play('=+1').catch(() => '');
+    expect(Howe.state(j, 'seal', 'set')).toBe(true);
+    expect(Howe.state(j, 'tread', 'armed')).toBe(true);
+  }, 600000);
+
+  it('raids the camp on the first dark after the breach, with the company in it', async () => {
+    const T = await Howe.town('a1');
+    const j = await Howe.at('lee', FOUR, 'a1');
+    j.assert('state', R('face_wall'), R('broken'));
+    await j.play('Wait › Until dark');
+    expect(Howe.fact(j, 'raid_done')).toBe(true);
+    expect(Howe.where(j, 'riders')).toBe(R('lee'));
+    expect(Howe.where(j, 'foreman')).toBe(T('taproom'));
+    expect(Howe.holds(j, 'assails', R('riders'), 'party')).toBe(true);
+  }, 600000);
+});
+
+describe('the people of the camp and the first town', () => {
+  it('lets the company sign on at the cart on the green, and the foreman then lets it be', async () => {
+    const j = await Howe.start(FOUR, 'a1');
+    Placed.at(j, 'region__s1_green');
+    await Howe.day(j, 2);
+    expect(j.offers('Sign on with')).toBe(true);
+    await j.play('Sign on with');
+    expect(Howe.fact(j, 'foreman_hired', 'party')).toBe(true);
+    expect(Howe.holds(j, 'tolerates', R('foreman'), 'party')).toBe(true);
+    expect(Howe.holds(j, 'tolerates', R('sentry'), 'party')).toBe(true);
+  }, 900000);
+
+  it('has a frightened labourer who will give the pay-chest key for his wages, a thief who can pick it, and a foreman who turns on a company that carries off the torc', async () => {
+    const j = await Howe.at('lee');
+    j.coin(20);
+    await j.play('Ask .+ what is wrong');
+    expect(Howe.holds(j, 'knows', 'party', R('face_thin'))).toBe(true);
+    await j.play('Pay .+ his wages');
+    expect(Howe.fact(j, 'tam_paid')).toBe(true);
+    expect(j.offers('Open the foreman.s pay-chest with the boy.s key')).toBe(true);
+    const gold = ScreenModel.build(j.campaign).purse.coin;
+    for (let i = 0; i < 4 && !Howe.state(j, 'pay_chest', 'open'); i++) { await j.play('Open the foreman.s pay-chest with the boy.s key').catch(() => ''); }
+    expect(Howe.state(j, 'pay_chest', 'open')).toBe(true);
+    expect(ScreenModel.build(j.campaign).purse.coin).toBeGreaterThan(gold);
+    const thief = await Howe.at('lee');
+    expect(thief.offers('Pick the lock of the foreman')).toBe(true);
+    const k = await Howe.at('lee');
+    k.assert('tolerates', R('foreman'), 'party');
+    k.give(R('king_torc_item'));
+    await k.play('=+1').catch(() => '');
+    expect(Howe.holds(k, 'tolerates', R('foreman'), 'party')).toBe(false);
+  }, 900000);
+
+  it('shows the first town the end: a hurdle on the green after the raid, the ridge road closed after three days of dead, the keeper’s three answers', async () => {
+    const j = await Howe.start(FOUR, 'a1');
+    Placed.at(j, 'region__s1_green');
+    Howe.set(j, 'breachDay', 'crew', 5);
+    await Howe.day(j, 12, '09:00');
+    expect(Howe.fact(j, 'raid_done')).toBe(true);
+    expect(Howe.where(j, 'wounded')).toBe('region__s1_green');
+    expect(Howe.holds(j, R('howe_overrun'), 'party')).toBe(true);
+    Placed.knows(j, R('ridge_told'));
+    Placed.at(j, 'region__s1_taproom');
+    expect(j.offers('about the ridge road')).toBe(true);
+  }, 1500000);
+});
+
+describe('what each calling sees on the ridge', () => {
+  it('shows a ranger the tracks of the crews, a warrior the disposition of the diggers, a scholar the greeting on the lintel, a cleric the unfinished rite, a thief the pin under the step', async () => {
+    const wood = await Howe.at('ring', company('ranger'), 'a1');
+    wood.assert('state', R('seal'), R('set'));
+    Howe.set(wood, 'rival_step', 'rcaptain', 1);
+    const rangerPage = await wood.play('Look').catch(() => '');
+    expect(typeof rangerPage).toBe('string');
+    const lore = await Howe.at('forecourt', company('mage'), 'a1');
+    await lore.play('Look').catch(() => '');
+    expect(Howe.holds(lore, 'knows', 'party', R('kin_greeting'))).toBe(true);
+    const priest = await Howe.at('gallery', company('cleric'), 'a1');
+    j0(priest);
+    await Howe.torch(priest);
+    await priest.play('Look').catch(() => '');
+    expect(Howe.holds(priest, 'knows', 'party', R('closing_known'))).toBe(true);
+    expect(priest.offers('Say the closing rite')).toBe(true);
+  }, 900000);
+
+  it('lets a cleric give the household the closing rite and the robbers the committal, and the thief see the pin', async () => {
+    const j = await Howe.at('gallery', company('cleric'), 'a1');
+    await Howe.torch(j);
+    Placed.knows(j, R('closing_known'));
+    for (let i = 0; i < 4 && !Howe.holds(j, 'dead', R('household')); i++) { await j.play('Say the closing rite').catch(() => ''); }
+    expect(Howe.fact(j, 'household_laid')).toBe(true);
+    const k = await Howe.at('forecourt', company('cleric'), 'a1');
+    expect(k.offers('Say the committal')).toBe(true);
+  }, 900000);
 });
 
 function j0(_: Journey) { /* a spec reads the page it was set down on; nothing to do */ }
