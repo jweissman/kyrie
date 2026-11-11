@@ -199,7 +199,11 @@
   max-height: calc(100dvh - clamp(84px, 12vh, 120px) - clamp(14px, 3vh, 36px));
   border: 1px solid var(--edge-strong); background: rgba(14, 15, 19, .80); backdrop-filter: blur(6px);
   box-shadow: 0 18px 50px rgba(0, 0, 0, .55); }
+/* Who is here stands on the painting left of the panel, a danger at its right end (hostile right), not under it. */
+.shell.scene-full .world-page.scale-scene .surface .portraits {
+  right: calc(min(31rem, 38vw) + clamp(14px, 2.4vw, 36px) + 24px); }
 @media (max-width: 899px), (orientation: portrait) {
+  .shell.scene-full .world-page.scale-scene .surface .portraits { right: 18px; }
   .shell.scene-full .world-page.scale-scene .world-body > .focus { top: auto; left: 0; right: 0; bottom: 0; width: auto;
     max-height: 52dvh; border-width: 1px 0 0; }
   /* Who is here, over the painting under the place's name, not under the sheet. */
