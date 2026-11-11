@@ -46,6 +46,18 @@ Reproduce headlessly with `bun /var/tmp/kyrie/m20/tools/leads.ts <origin> <race/
    monster-by-monster inflation; (5) gendered professions and titles from one meaning (no male abbess), creation's
    glitches and order, the Encyclopedia inside the game; (6) the larger ideas recorded as design opportunities, not
    built. Excludes new openings, adventures and world-generation redesign in this pass.
+6. **11 November — an illustrated, responsive RPG ([amendment-6.md](amendment-6.md)).** Supersedes the overlapping UX
+   notes of amendments 2 (5), 5 (2) and 5 (3) with one direction: (A) the scene is the primary surface, the painting to
+   the viewport and narration, talk, portraits and actions in restrained overlays; the top rail removed or reduced to a
+   compact toolbar; Character and Book one temporary dossier; the map a distinct spatial tool; (B) two to four salient,
+   genuinely different opportunities, each a legal visible action or an explained approach, never filler or a
+   heuristic invention; (C) a semantic atlas: gold the followed undertaking's next step, silver promising exploration,
+   green payoff, blue knowledge, red danger, violet wonder, neutral controls, with non-colour cues and no secret told by
+   styling; (D) a playable thread whether or not an aim is followed; (E) combat a mode of the scene, with real pressure
+   in the first hour; (F) map, scene and travel one geography; (G) the interface an honest integration test; (H) a
+   silver-path walker over headless sessions. In two phases: A, composition and information architecture with the
+   action semantics kept; B, the opportunity foreground, the colours and the encounter flow. Excludes new adventures, a
+   narrative grammar, world-generation refactors and an unbounded rewrite.
 
 ## Rounds of cold play
 
