@@ -112,4 +112,66 @@ These are from the log, with the owner's material concerns first.
   pristine one), a painting that follows a place's state (the brood burned), and evening or night in a painting's
   light.
 
-## 4. Round 7 (to be filled after the cold play on the deployed build)
+## 4. Round 7: two cold players (11 November night)
+
+The build was main at fa374a83. It was served locally, because GitHub Pages was queued behind an Actions backlog; it
+is the same commit.
+
+- **K** started as the public does: no world named, a catfolk thief.
+- **L** started in kahitude, as a birdfolk bard asked not to fight.
+
+Reports are in `cold/round-7/`, and the log rows are E134–E143.
+
+**What worked.** Both players found their own plans from what people told them, and named those the best moments:
+
+- K: the bell against the hobs;
+- L: the firebomb for the spiders' brood.
+
+Both praised:
+
+- the conversations;
+- creation;
+- the Notes;
+- the paintings (where they matched);
+- the clear danger boxes with their odds of getting away.
+
+The world was made in under ten seconds for K. L's first request took more than two minutes to answer, but the page
+was ready behind it.
+
+**What broke, and its state now:**
+
+| Finding | Now |
+|---|---|
+| Gold pointed past the buck rat to the drain, and nothing led back up to be paid | Fixed (E135, test/nest-aim) |
+| Gold sat on "Give healing herbs", which did nothing | Fixed (E141, test/fever-nursing) |
+| Ways were only under Go…: a just-opened corn-store; a scene with nothing in it | Fixed (E136) |
+| The rail's marks moved under the finger | Fixed (E136) |
+| A centipede called "should be won" took 5 of 7 hit points | Fixed in the rule, not replayed (E139) |
+| An antidote did nothing in a fight, and could be bought for 3 and sold for 5 | Fixed (E137) |
+| The wagoner's deed was told five times | Fixed (E137) |
+| A bard's only crossbow was sold at one key | Fixed (E138) |
+| The dead man's map ended in an empty box | Fixed for this origin (E142) |
+| The bell read as refused, and the bands it routed stayed "by the fire" | Fixed (E143) |
+| Paintings against the text | One fixed; the rest are listed for the owner (E140, §3) |
+
+**Still open from round 7:**
+
+- torches dying mid-act, unsaid;
+- fights trivial for a party with a warrior (L: "I barely played my bard");
+- the bard's lore, Charm Person and birdfolk gliding never coming up;
+- the castellan speaking with no way to answer him;
+- Go… lists everything as "20 minutes";
+- the conversation log growing without end;
+- K's journey drawn east past Heahheald and back, with no route line before setting out.
+
+**Ratings:**
+
+| | K | L |
+|---|---|---|
+| Clarity | 3 | 3 |
+| Beauty | 4 | 5 |
+| Interest | 4 | 4 |
+| Challenge | 3 | 3 |
+| Wish to continue | 3 | 3.5 |
+
+These are cold agents, not people. The first good hour has not been accepted by anyone.
