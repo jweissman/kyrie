@@ -60,7 +60,8 @@ export class Wayfinder {
     return <button type="button" className={`wf-row${chosen ? ' chosen' : ''}${w.c.disabled ? ' shut' : ''}`
       + `${w.aim === 'followed' ? ' aimed' : ''}`} data-pick={w.c.id}
       data-pick-index={draw.index.get(w.way.id) ?? draw.index.get(w.c.id) ?? -1} data-holds={w.holds?.join(' ')}
-      onMouseEnter={() => Wayfinder.pick(app, w)} onFocus={() => Wayfinder.pick(app, w)}
+      onMouseEnter={() => Wayfinder.linger(app, w)} onMouseLeave={() => Wayfinder.passed()}
+      onFocus={() => Wayfinder.pick(app, w)}
       onClick={() => Wayfinder.go(app, w)}>
       <span className={`glyph whither-${w.whither.toLowerCase()}`} aria-hidden="true">
         {w.c.disabled ? '⊘' : SceneSurface.glyph(w.whither)}</span>
@@ -223,7 +224,16 @@ export class Wayfinder {
   static aimed(ways: Way[]): Way | undefined {
     return ways.filter(w => w.aim === 'followed').sort((a, b) => (a.rank ?? 0) - (b.rank ?? 0))[0];
   }
+  // The pointer resting on a way shows it; only passing over one, on the way to the shown way's Go, does not (round 5:
+  // the pointer crossed the next column to reach Go there, and the preview had turned to another place).
+  private static lingering?: ReturnType<typeof setTimeout>;
+  static linger(app: ReaderApp, w: Way) {
+    Wayfinder.passed();
+    Wayfinder.lingering = setTimeout(() => Wayfinder.pick(app, w), 160);
+  }
+  static passed() { clearTimeout(Wayfinder.lingering); Wayfinder.lingering = undefined; }
   static pick(app: ReaderApp, w: Way) {
+    Wayfinder.passed();
     const i = app.menu.choices.findIndex(c => c.id === w.c.id);
     app.setState({ hovered: w.c.id, keyed: false, cursor: i >= 0 ? i : app.state.cursor });
   }
