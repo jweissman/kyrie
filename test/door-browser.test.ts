@@ -71,4 +71,29 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a thing on a way', () => {
     expect(left === -1 || struck < left).toBe(true);
     expect(errors).toEqual([]);
   }, 120000);
+  // Asleep after a trap, the one thing to do is drawn, and said why; woken, the ways are back (the owner's play of 11
+  // November: a rune went off, the company lived, and the page offered nothing at all). Here a rune that puts to sleep.
+  it('leads a company a trap has put to sleep with lying as it is, until it wakes', async () => {
+    const { page, errors, driver } = await MonoBrowser.page(browser, { width: 1280, height: 800 },
+      { site, pointer: true, query: '?campaign=test/fixtures/probes/sleep-rune/probe.campaign.json' });
+    await page.waitForSelector('[data-action="start"]');
+    await page.click('[data-action="start"]');
+    await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
+    const way = page.locator('.act.opens-go');
+    await way.click();
+    await driver.settle();
+    await way.click();
+    await driver.settle();
+    const lie = page.locator('.act', { hasText: 'Lie as you are' });
+    expect(await lie.count()).toBe(1);
+    expect(await page.locator('[data-id="need"]').textContent()).toContain('Hild: asleep');
+    for (let i = 0; i < 12 && await lie.count(); i++) { await lie.first().click(); await driver.settle(); }
+    expect(await page.locator('.act', { hasText: 'Lie as you are' }).count()).toBe(0);
+    const back = page.locator('.act.opens-go', { hasText: /to the hall/i });
+    expect(await back.count()).toBe(1);
+    await back.click();
+    await driver.settle();
+    expect(await page.locator('h1, h2').first().innerText()).toMatch(/the hall/i);
+    expect(errors).toEqual([]);
+  }, 180000);
 });

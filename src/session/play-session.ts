@@ -90,7 +90,10 @@ export class PlaySession {
     if (command.startsWith('travel:')) {
       const done = await Travel.go({ campaign: this.campaign, perform: this.travelled.bind(this) },
         command.slice('travel:'.length));
-      return done.legs.at(-1)?.event ?? this.perform('wait', controller);
+      // None taken: a wait, where the company can wait; else what was last told (one held where it lies cannot).
+      const held = !PlayerView.choices(this.campaign).some(c => c.choice.id === 'wait');
+      const last = done.legs.at(-1)?.event ?? (held ? this.campaign.history.at(-1) : undefined);
+      return last ?? this.perform('wait', controller);
     }
     const to = this.whither(command);
     return to ? this.campaign.crossing.travelling(to, () => this.perform(command, controller))

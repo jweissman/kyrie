@@ -36,8 +36,14 @@ export class Travel {
         if (!done.arrived) { done.stopped = `You know no way ${name ? `on to ${name}` : 'there'}`; }
         break;
       }
-      const leg = plan.legs[0]!, choice = PlayerView.choices(t.campaign)
-        .find(c => /^go\(/.test(c.choice.id) && c.choice.id.startsWith(`go(${leg.passage},`));
+      const offered = PlayerView.choices(t.campaign), leg = plan.legs[0]!;
+      const choice = offered.find(c => /^go\(/.test(c.choice.id) && c.choice.id.startsWith(`go(${leg.passage},`));
+      // A company held where it lies (asleep, stunned) goes nowhere until it can: the map had set out from beside a
+      // trap and come back to where the company lay, saying that the way would not let it by (the owner, 11 November).
+      if (offered.some(c => c.choice.id === 'lie_still')) {
+        done.stopped = 'You cannot move until what holds you passes';
+        break;
+      }
       if (!choice) { done.stopped = this.barred(t.campaign, leg); break; }
       // A way that goes one way only is the player's to take, asked about, not the journey's (PT-17).
       if (this.oneWay(t.campaign, leg)) { done.stopped = `There is no coming back by ${leg.way}`; break; }

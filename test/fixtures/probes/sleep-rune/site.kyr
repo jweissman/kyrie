@@ -1,0 +1,16 @@
+Module sleeprune "A passage with a sleeping rune" {
+  Place field "a field" is wilderness.
+  Place hall "the hall" is room within field at 0, 0 outdoors.
+  Place gallery "the gallery" is room within field at 1, 0 outdoors.
+  Passage gate "the passage" is path between hall and gallery taking 2 minutes.
+  Company party "You" of 1 at hall.
+  Hazard hall_trap "the sleeping rune" means "Deal (1d2) psychic damage to ally unless dexterity save against (40). Apply asleep to ally for 1 hour unless dexterity save against (40).".
+  Thing hall_snare "the sleeping rune" on gate {
+    State primed dangerous "A rune is laid in the floor across the way, its lines lit with a dull glow that comes and goes.".
+    State sprung "The rune has gone dark, and is spent.".
+    Hurts with hall_trap when primed then sprung.
+  }
+  Event hall_snare_goes beside gate when state(hall_snare, sprung) "The rune flares, and a heaviness comes down over you like a blanket.".
+  Observe hall_scene at hall when true "A hall of plain stone.".
+  Goal false.
+}

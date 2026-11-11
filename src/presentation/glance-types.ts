@@ -16,9 +16,9 @@ export type Facet = 'here' | 'aimed' | 'urgent' | 'new' | 'known';
 export type Aspect = 'undertaking' | 'exploration' | 'payoff' | 'knowledge' | 'danger' | 'wonder';
 // Why a choice was led with, best first by tier (Promotion.tiers).
 export type Why =
-  // Must: an answer to a question just put, a danger here, a way back from it, someone warning the company off, the
-  // dark with no light.
-  | 'answer' | 'danger' | 'retreat' | 'warned' | 'dark'
+  // Must: the company held where it is (asleep, stunned) with nothing to do but lie as it is, an answer to a question
+  // just put, a danger here, a way back from it, someone warning the company off, the dark with no light.
+  | 'helpless' | 'answer' | 'danger' | 'retreat' | 'warned' | 'dark'
   // The aim: the journey set out on, kin, what the aim names, a way the aim names, a way toward it, another aim held.
   | 'bound' | 'kin' | 'about' | 'named' | 'toward' | 'held'
   // In a site, a way further into it not yet taken: whatever aim is followed, a site is gone into, not out of.

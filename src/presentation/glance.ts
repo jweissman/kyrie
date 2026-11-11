@@ -105,11 +105,15 @@ export class Glance {
       : travel.stopped ?? `On the way to ${travel.to}: ${at}.`;
     return { ...glance, came };
   }
-  // The company's state, said only when something is wrong.
+  // The company's state, said only when something is wrong: who is low or down, and what holds anyone (asleep,
+  // stunned), which had been said nowhere while lying as you are was all there was to do (the owner's trap, 11
+  // November).
   private static need(screen: Screen): string[] {
     const e = screen.expedition;
     return [...e.hungry ? ['Hungry'] : [], ...e.weary ? ['Weary'] : [], ...screen.dark ? ['No light'] : [],
-      ...screen.party.filter(m => m.hp < m.maxHp / 2).map(m => m.hp > 0 ? `${m.name}: ${m.hp} of ${m.maxHp}` : `${m.name}: down`)];
+      ...screen.party.filter(m => m.hp < m.maxHp / 2 || m.conditions.length).map(m => `${m.name}: ${[
+        ...m.hp <= 0 ? ['down'] : m.hp < m.maxHp / 2 ? [`${m.hp} of ${m.maxHp}`] : [],
+        ...m.conditions.map(c => c.toLowerCase())].join(', ')}`)];
   }
   // Every choice that goes where the aims name: the ways, the walks about the town, the journeys known; those of the
   // aim followed first, and said apart (following), so that the page's "your aim" is that aim's and no other's. In
