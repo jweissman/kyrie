@@ -35,10 +35,10 @@ Three places, one dramatic geography. The Hall (a lived-in great house, a walk f
 | Room | Dramatic function | Visual | Ways to engage | State |
 |---|---|---|---|---|
 | Hill-path, judgement hall, tree | Orientation, the view (the nearest of the country's works, shown from the hill), the dais letters, the rag-tree and its bronze bracelet | `scene-ruins-hill`, `scene-ruins-tribunal`, `scene-ancient-tree` | look, read (lore), tie a rag, search the roots | built before this work, drawn |
-| Dome | The folk's story: pale lights after dark (or only owls; drawn per country). Where Tam went | `scene-ruins-cenotaph` | go by day; go by night; search the graves and find the moved slab | built, drawn |
+| Dome | The folk's story: pale lights after dark (or only owls; drawn per country). Where Wimble went | `scene-ruins-cenotaph` | go by day; go by night; search the graves and find the moved slab | built, drawn |
 | **Undercroft** | What the dome was the roof of: a ring of niches, a bronze chime with its tongue tied, and a ring of dust where the least of the dead's offerings stood | `scene-undercroft-dark` | enter by the slab stair (strength or a crowbar), by the tunnel from the Hall cellar, or not at all; meet what lives there (one of three, drawn: a keeper of the bounds, bats, or nothing); take the cup, or strike the chime, or both; put the cup back | built, drawn |
 
-**Three ways to meet the undercroft, and two things you can do with the cup.** The *keeper of the bounds* (a revenant) guards the room as a courtesy to the dead; the *bats* are only a nuisance the first time; *nothing* is a different story: the room is silent and the print of one small foot is in the dust, and the boy's tale is the only account of what happened. In every case the cup is gone from its niche; setting it back mends Tam (his humming stops and the cook's face changes). Taking it away leaves the boy as he is and lets someone else be the thief.
+**Three ways to meet the undercroft, and two things you can do with the cup.** The *keeper of the bounds* (a revenant) guards the room as a courtesy to the dead; the *bats* are only a nuisance the first time; *nothing* is a different story: the room is silent and the print of one small foot is in the dust, and the boy's tale is the only account of what happened. In every case the cup is gone from its niche; setting it back mends Wimble (his humming stops and the cook's face changes). Taking it away leaves the boy as he is and lets someone else be the thief.
 
 ## 3. The Empire's posting-house — `roadstation.kyrt`
 

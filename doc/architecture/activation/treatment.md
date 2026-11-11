@@ -41,7 +41,7 @@ One in every country (`arts.json`, `imperial`; the `e1` id; drawn last against c
 
 ### 2.2 The Hall, below stairs, and its papers (implemented): `outskirts-deep.kyrt`
 
-Three rooms (kitchen, cellar, muniment room) and four people attached to the Hall that already stood; a tunnel from the cellar to a new undercroft below the old stones' dome. **Wystan Hale, the gamekeeper** stands at a chain across the road-wood; **Orla Pennick**, the cook, rules the kitchen and has the old press key on a nail; **Tam**, the kitchen boy, went up the hill on a dare and hums four notes; **Aldous Fenn**, reeve of the wood-wardens at the green, wants his dead father's name cleared. A quarrel over who owns the timber along the old road is settled — or not — by a grant of the Empire that nobody has been able to read for a thousand years.
+Three rooms (kitchen, cellar, muniment room) and four people attached to the Hall that already stood; a tunnel from the cellar to a new undercroft below the old stones' dome. **Wystan Hale, the gamekeeper** stands at a chain across the road-wood; **Orla Pennick**, the cook, rules the kitchen and has the old press key on a nail; **Wimble**, the kitchen boy, went up the hill on a dare and hums four notes; **Aldous Fenn**, reeve of the wood-wardens at the green, wants his dead father's name cleared. A quarrel over who owns the timber along the old road is settled — or not — by a grant of the Empire that nobody has been able to read for a thousand years.
 
 **Small / medium / long, all independent:**
 - *Small:* the cook's rats; a boy's stolen cup; a chain.
@@ -56,8 +56,8 @@ Three rooms (kitchen, cellar, muniment room) and four people attached to the Hal
 
 | Person | Where | Wants | Relationships | Contradiction |
 |---|---|---|---|---|
-| **Orla Pennick**, cook | Hall kitchen | the boy well; the steward humbled by being thanked | feud with the steward (spoons); fond of Tam; Wystan is the one man who wipes his boots | gruff; has hidden the key's whereabouts for years out of pure spite |
-| **Tam**, kitchen boy | kitchen | to not be found out (he took the cup) | the cook's; afraid of the steward | the only one who knows what happened, and the only one who cannot say it |
+| **Orla Pennick**, cook | Hall kitchen | the boy well; the steward humbled by being thanked | feud with the steward (spoons); fond of Wimble; Wystan is the one man who wipes his boots | gruff; has hidden the key's whereabouts for years out of pure spite |
+| **Wimble**, kitchen boy | kitchen | to not be found out (he took the cup) | the cook's; afraid of the steward | the only one who knows what happened, and the only one who cannot say it |
 | **Wystan Hale**, gamekeeper | forecourt → *joins the company* | to be told the chain is not his job | the reeve's old friend (his father was Wystan's corporal); sworn to the Hall | loves the woods more than the family he serves |
 | **Aldous Fenn**, reeve | green | the paper that clears his father | friend of Wystan, enemy of the steward | proud, and *wrong in one detail* |
 | The steward | Hall (existing) | order; the family back | cook (feud); keeper (loyal); reeve (guilt) | never says she is sorry; will |
@@ -80,7 +80,7 @@ Both use the engine's own `willing` / `hire` / `Joins` / `Remarks` / `Leaves` �
         │  └── road-wood quarrel (reeve, steward,   │   └─ painted road teaches the nearest other place
         │      keeper, cook's key)                  │       (a keep, tower, barrow, ruin: any work)
         │                                           └─ the map's grey blank: "THE WORKS" ··► (arcology: designed)
-   the Hall cellar ◄──tunnel──► the old stones' undercroft ──► cup, chime, boy (Tam) ── the cook
+   the Hall cellar ◄──tunnel──► the old stones' undercroft ──► cup, chime, boy (Wimble) ── the cook
         └─ the keeper joins the company; remarks at the stones, the kitchen, the yard, the shrine
 
    designed, not wired:  oldcoin scholar ··► the late coin in the fisc-chest   (needs request R5)
@@ -108,7 +108,7 @@ All by the page's own labels from a fresh character (`test/outskirts-deep.test.t
 | …→ steward reads the grant → reeve is told → steward is shown → keeper offered ("Ask Wystan Hale to join the company") → joins | road-wood shared; green changes; Wystan travels with the party | `settles the road-wood by the Empire's grant…` |
 | A thief picks the press-door instead (no cook) | door `broken`, the page says the steward will not like it; she reads the grant all the same | `lets a thief in without the cook…` |
 | …but the grant is given to the Hall *alone* | reeve sour at the green; Wystan *not offered* | `leaves the keeper at his chain…` |
-| Cellar → search (tunnel) → undercroft → cup → set it in the niche | Tam mended | `has an undercroft whose cup…` |
+| Cellar → search (tunnel) → undercroft → cup → set it in the niche | Wimble mended | `has an undercroft whose cup…` |
 | Hall steward → "ask about the old road" → set out → pay the deserters' toll → posting-house → search (the culvert) → cistern → yard → hall → painted road → tariff → office → day-book → last page (a mage, by the page's labels) | the way is learned in the Hall, walked on the map, and read at the end | **transcript** `transcripts/posting-house.txt` (`bin/kyrie play`); not asserted in a spec (a travel meeting is brittle) |
 | Posting-house in `h8` (a copyist is drawn there): a warrior who cannot read hears the day-book read aloud and the copyist joins | knows the Posts; the copyist travels with the company | `has, in one country in four, a copyist…` |
 | Posting-house: read tariff (mage reads, warrior is not offered); follow the painted road (teaches the next place); weigh, take the seal, press it, open the chest; drain the cistern and flood the void | each of the above | `roadstation.test.ts` |
@@ -119,6 +119,7 @@ All by the page's own labels from a fresh character (`test/outskirts-deep.test.t
 
 - A second hall person with a *relationship across towns* (Orla's sister keeps the inn in the neighbouring village).
 - Persistent reaction of the *town* beyond the green's observation (the reeve's licence-stick: an actual gold-for-wood trade).
+- **A way to make amends after theft.** A company that carries the Hall's silver past the steward is shown out and both doors are shut to it (the existing rule, `outskirts.kyrt`); this branch keeps that, and the kitchen door, which stays open, shows the cook's contempt for the steward but cannot undo it. The natural cure is the cook taking the box back by the kitchen; it needs an item-handing effect in a topic that this branch did not find in the language (see R12 in the requests).
 - The arcology expedition (`arcology.md`).
 - A hedge-priest *variant* of the lamp-keeper whose faith is "challenged without being refuted".
 - A different first-town job whose reward is "a letter from the Hall".

@@ -273,7 +273,9 @@ export class RegionWriter {
       .map(id => ['landmark', id]);
     const commitments = [['terrain', 'region', region.terrain], ...ways.map(w => ['onRoad', w]), ...held, ...known,
       ...region.settlements.map(s => ['keeper', `${s.id}_innkeeper`, `${s.id}_green`]),
-      ...region.sites.map(w => ['siteKind', w.id, w.kind]), ...Object.entries(taken).map(([w, by]) => ['taken', w, by])];
+      ...region.sites.map(w => ['siteKind', w.id, w.kind]), ...Object.entries(taken).map(([w, by]) => ['taken', w, by]),
+      // The Empire's posting-house is no band's hold: a kit may not take it, as no scenario may.
+      ...region.sites.filter(w => w.work?.imperial && !taken[w.id]).map(w => ['taken', w.id, 'empire'])];
     return { version: 1, source: sources, rules: ['world', 'elements', 'devotion'], globals: ['party'],
       canon: [ModuleCanon.imbar, ...region.settlements.flatMap(s => s.seat ? [s.seat] : [])], ...beyond ? { imports: ['party'], roles: { party: { type: 'group' } } } : {},
       exports: Object.fromEntries([...ids.map(id => [id, id]), ...lands]), assembly: { commitments },
