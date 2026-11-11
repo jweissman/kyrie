@@ -7,6 +7,7 @@ import { CreatureStore } from '../creature-store';
 import { Tactics } from '../tactics';
 import { Effects } from '../effects';
 import { Environment } from '../campaign/environment';
+import { ConditionSense } from './condition-sense';
 import type { Campaign } from '../campaign/campaign';
 import type { Creature } from '../creature';
 import type { CombatEvent, Fighter, Moment } from '../model';
@@ -24,9 +25,10 @@ type Place = ReturnType<typeof Environment.encounter> & { moment?: Moment };
 // company's blows that landed on the foes, and how many of them the foes mostly shrugged off, and what the foes are
 // hurt by, tell a fight that will be a grind before it is begun (PT-23).
 interface Trial { won: boolean; fell: string[]; hurt: number; held?: string; blows: number; blunted: number;
-  hurtBy: string[] }
+  hurtBy: string[]; harmed?: boolean }
+// worst: the most any fight won took; harmed: whether any left someone poisoned, or otherwise hurt past its end.
 interface Fight { odds: number; fallen: number; hurt: number; frail?: string; held?: string; blunted: number;
-  hurtBy: string[] }
+  hurtBy: string[]; worst: number; harmed: boolean }
 export class DangerSense {
   static readonly trials = 6;
   // How a foe is kept from fighting back, by what keeps it so; anything else, from fighting back.
@@ -133,6 +135,7 @@ export class DangerSense {
     return { odds: won.length / played.length,
       fallen: won.length ? won.reduce((n, t) => n + t.fell.length, 0) / won.length : ours.length,
       hurt: won.length ? DangerSense.worse(won.map(t => t.hurt)) : 1, ...frail ? { frail } : {},
+      worst: Math.max(0, ...won.map(t => t.hurt)), harmed: won.some(t => t.harmed),
       ...held ? { held } : {}, ...this.bite(played) };
   }
   // How hurt the company could come out of a fight it wins: as it does one time in four, not on average (two great
@@ -181,6 +184,7 @@ export class DangerSense {
     if (battle.state.outcome !== 'fighters' && !routed) { return { won: false, fell: [], hurt: 1, ...bite }; }
     const company = battle.state.combatants.filter(f => f.team === 'fighters');
     return { won: true, fell: company.filter(f => f.hp === 0).map(f => f.id),
+      harmed: company.some(f => f.statuses.some(c => ConditionSense.tone(c.id) === 'hurt')),
       hurt: 1 - company.reduce((sum, f) => sum + f.hp, 0) / ours.reduce((sum, c) => sum + c.state.hp, 0),
       ...this.held(battle.events, new Set(foes.map(f => f.id))), ...bite };
   }
@@ -205,8 +209,12 @@ export class DangerSense {
     // Alone, a fight lost is the end of the game, so "likely" is three in four, not three in five (a lone warrior told
     // she would likely beat the quarry's spiders died to them: the builder's descent of 8 November, M19-122).
     const grave = ours.length === 1 ? 0.75 : 0.6;
+    // No match for you only where no fight played went badly and none left anyone poisoned or otherwise hurt past its
+    // end: a great centipede told "no match" bit a thief from eight to four and poisoned her (Mission 20's sixth round,
+    // J 46–47), its venom a save, round the armour the fights played had mostly kept it from.
     const danger: Danger = fight.odds < 0.25 ? 'deadly' : fight.odds < grave ? 'grave'
-      : fight.odds < 0.9 || fight.fallen > 0 ? 'hard' : fight.hurt > 0.25 ? 'fair' : 'slight';
+      : fight.odds < 0.9 || fight.fallen > 0 ? 'hard'
+        : fight.hurt > 0.25 || fight.worst > 0.4 || fight.harmed ? 'fair' : 'slight';
     // The most seasoned says it; of one who would fall, someone else does.
     const judge = [...ours].sort((a, b) => Number(a.id === fight.frail) - Number(b.id === fight.frail)
       || b.base.level - a.base.level || b.state.experience - a.state.experience)[0]!;

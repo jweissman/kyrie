@@ -13,7 +13,8 @@ describe('a forecast', () => {
     // come out "hard" (M19-122: the reckoning's few trials, open).
     expect(ForecastTool.beyond.has(of('world__owlbear').by.mage!)).toBe(true);
     expect(['hard', ...ForecastTool.beyond] as string[]).toContain(of('world__owlbear').by.warrior!);
-    expect(Object.values(of('world__brock').by)).toEqual(['slight', 'slight']);
+    // An easy fight, if not always unhurt: "no match" only where no fight played went badly (Mission 20, round 6).
+    expect(Object.values(of('world__brock').by).every(d => ['slight', 'fair'].includes(d!))).toBe(true);
     expect(of('world__owlbear').temperament).toBe('territorial');
   }, 60000);
 });
