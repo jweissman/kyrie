@@ -7234,6 +7234,126 @@
    "form": "exterior",
    "shows": "a palazzo courtyard with loggias, cypresses, stair and statues, a fountain basin, city towers beyond",
    "era": "late"
+  },
+  "scene-secret-passage": {
+   "form": "interior",
+   "shows": "a vaulted stone passage lit by one candle in a wall niche beside a folded red cloth, steps climbing to a lit arch beyond",
+   "era": "late"
+  },
+  "scene-alley": {
+   "form": "exterior",
+   "shows": "a narrow stone alley at dusk: lit lattice windows, a covered bridge across it, wet cobbles, a red cloth over a sill",
+   "era": "late"
+  },
+  "scene-ruins-gates": {
+   "form": "exterior",
+   "shows": "a pair of tall brass doors in an ivy-grown stone wall, one a hand open, on a wet flagged terrace with a balustrade, terraced ruins and waterfalls beyond",
+   "era": "late"
+  },
+  "scene-auditorium": {
+   "form": "interior",
+   "shows": "an empty candlelit concert stage: gilt chairs and music stands before a red curtain, a large painting on the wall, rows of red seats in the foreground",
+   "era": "late"
+  },
+  "scene-fortune-teller": {
+   "form": "interior",
+   "shows": "a fortune-teller's table under a window: a crystal ball, tarot cards, a candle, an armillary sphere, scrolls and an hourglass on shelves, a crescent-moon hanging",
+   "era": "late"
+  },
+  "scene-ruins-garden": {
+   "form": "interior",
+   "shows": "terraced gardens grown wild inside a vaulted ruin: stepped beds, a stair, a green pool with lilies and small falls, an iron pipe with a valve wheel, light through broken vaults",
+   "era": "late"
+  },
+  "scene-ruins-elevator-base": {
+   "form": "landscape",
+   "shows": "the foot of an enormous ruined tower braced with cables, a broken skybridge arching from it, rusted machinery in the foreground, cloud and hills beyond",
+   "era": "late"
+  },
+  "scene-ruins-flooded": {
+   "form": "interior",
+   "shows": "a flooded vaulted hall: pillars standing in still black water, an iron pipe with a valve wheel, shafts of light from a ruined glass roof far above",
+   "era": "late"
+  },
+  "scene-drill-yard": {
+   "form": "exterior",
+   "shows": "a cobbled drill-yard behind a town wall: a rope-wound post, a rack of spears, shields and barrels, a bench, half-timbered houses and a castle tower beyond",
+   "era": "late"
+  },
+  "scene-well": {
+   "form": "exterior",
+   "shows": "a stone well with a windlass and bucket in a sunny cobbled courtyard, an arcade, roses, flowering pots, a barrel",
+   "era": "late"
+  },
+  "scene-cathedral": {
+   "form": "interior",
+   "shows": "the nave of a Gothic cathedral: sunlight through stained glass in shafts, choir stalls, candles, a red-carpeted way to a distant high altar",
+   "era": "late"
+  },
+  "scene-vintner": {
+   "form": "interior",
+   "shows": "a vintner's arbour: barrels, a wine-press, a rack of bottles, baskets of grapes, a table with wine, bread and cheese, vines overhead and a hanging sign of grapes",
+   "era": "late"
+  },
+  "scene-cafe": {
+   "form": "interior",
+   "shows": "a coffee-house: tables and chairs in a vaulted room, a copper pot and cups, lemons, candles, a tall window and an arch on to a sunny square",
+   "era": "late"
+  },
+  "scene-salon": {
+   "form": "interior",
+   "shows": "a salon: a round table with an open book, armchairs, a fire with a marble bust above it, a bookcase, a telescope and globe, tall window, gilt-framed paintings",
+   "era": "late"
+  },
+  "scene-ruins-terrace": {
+   "form": "interior",
+   "shows": "a vast glass-roofed hall of tiers: a lamplit gallery with a balustrade beside a stone bridge, waterfalls down the far walls, ivy, people small in the distance",
+   "era": "late"
+  },
+  "scene-ruins-citadel": {
+   "form": "landscape",
+   "shows": "a terraced citadel of arcades built into a cliff above a misty river valley, a waterfall pouring down it, ivy, golden evening light",
+   "era": "late"
+  },
+  "scene-ruins-elevator": {
+   "form": "landscape",
+   "shows": "a broken viaduct and a slender ruined spire in the distance over a green valley, stormy gold clouds, a ruined arch and a red cloth in the foreground",
+   "era": "late"
+  },
+  "scene-ruins-elevator-station": {
+   "form": "exterior",
+   "shows": "a balcony stop on the flank of a huge cabled tower: a rail, crates and a barrel, a lantern and a red banner by a lit doorway, a valley and a river far below at sunset",
+   "era": "late"
+  },
+  "scene-shipwright": {
+   "form": "interior",
+   "shows": "a shipwright's open shed: the ribs of a boat on a slip, trestles, shavings, plans and tools on a bench, an anchor and rope, a harbour beyond the arches",
+   "era": "late"
+  },
+  "scene-floating-isle-overlook": {
+   "form": "landscape",
+   "shows": "a cliff edge under an oak looking over cloud at a rocky island floating in the sky",
+   "era": "late"
+  },
+  "scene-overlook": {
+   "form": "landscape",
+   "shows": "a rocky outcrop under an oak on a high ridge above a river valley and distant hills, stormy evening light",
+   "era": "late"
+  },
+  "scene-ruins-bridge": {
+   "form": "interior",
+   "shows": "a stone bridge on one great arch with a balustrade, crossing a glass-roofed hall of tiers, light in shafts, ivy",
+   "era": "late"
+  },
+  "scene-overlook-city": {
+   "form": "interior",
+   "shows": "a vaulted stone passage lit by one candle in a wall niche beside a folded red cloth, steps climbing to a lit arch beyond (the same image, byte for byte, as secret-passage: not a city)",
+   "era": "late"
+  },
+  "scene-ruins-hall": {
+   "form": "interior",
+   "shows": "a long vaulted colonnaded gallery with lit lanterns and a polished floor, a balustrade opening on a glass-roofed hall of tiers with a bridge and a waterfall",
+   "era": "late"
   }
  }
 }
