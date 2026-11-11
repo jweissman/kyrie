@@ -57,6 +57,7 @@ Module walk "The Walk of the Milestones" {
   Rule raid_barred_d heard at green_d when flashpoint(f_d) and day(clock) >= 9 and hour(clock) >= 22 and hask_here(walk) and not raid_off(walk) and not raid_done(walk) and state(gate_bar_d, dropped)
     says "Horses in the dark on the green, many, and torches. The camp gate is barred from inside; the walkers behind it are singing, not loudly. The sergeant sits his horse before the bar until the lamps go out, and does not give the word." { Assert gate_held(walk). Assert raid_done(walk). }
   Rule lads_bar_d when flashpoint(f_d) and lads_allied(walk) and day(clock) >= 9 and hour(clock) >= 21 and not state(gate_bar_d, dropped) and not raid_done(walk) and not decided(walk) says "Rhys comes tearing across the camp with his shirt out. 'Horses! On the common! Lots of them! Cal says they are the Bench's, and Cal is wrong about everything, but I thought I would bar the gate anyway, just in case. It is barred.' It is, with an ash pole and a bucket of stones against it, and an expression of great pride." teaches riders_known { Assert state(gate_bar_d, dropped). }
+  Rule bench_holds_hask when raid_off(walk) and not tolerates(hask, party) { Assert tolerates(hask, party). Assert tolerates(riders, party). }
   Relation gaunt_here(group). Relation hask_here(group). Relation raid_done(group). Relation raid_counted(group). Relation gaunt_counted(group). Relation interdict_counted(group). Relation flash_said(group).
 
   // ---- The ranger's tracks, the cause of the raid, and the drove-way round it.

@@ -21,8 +21,9 @@ export class Walking {
   }
   static k(id: string) { return `walk__${id}`; }
   static holds(j: Journey, relation: string, ...args: string[]) {
-    return Placed.holds(j, this.k(relation), ...args.map(a => a.includes('__') ? a : this.k(a)));
+    return Placed.holds(j, this.k(relation), ...args.map(a => a.includes('__') || a === 'party' ? a : this.k(a)));
   }
+  static knows(j: Journey, fact: string) { return Placed.holds(j, 'knows', 'party', this.k(fact)); }
   static state(j: Journey, thing: string) { return j.campaign.world.one('state', this.k(thing)); }
   static drawn(j: Journey, relation: string) { return j.campaign.world.related(this.k(relation)).map(r => r.args.join('|').replaceAll('walk__', '')); }
   static flash(j: Journey): string { return this.drawn(j, 'flashpoint')[0]!.replace('f_', ''); }
@@ -34,7 +35,7 @@ export class Walking {
   static retract(j: Journey, relation: string, ...args: string[]) { this.apply(j, 'retract', relation, args); }
   private static apply(j: Journey, kind: string, relation: string, args: string[]) {
     const held = j.campaign as unknown as { world: { apply(c: unknown[]): unknown }; commit(x: unknown): void };
-    held.commit(held.world.apply([{ kind, call: ModuleWriter.call(`walk__${relation}`, ...args.map(a => a.includes('__') ? a : `walk__${a}`)) }]));
+    held.commit(held.world.apply([{ kind, call: ModuleWriter.call(`walk__${relation}`, ...args.map(a => a.includes('__') || a === 'party' ? a : `walk__${a}`)) }]));
   }
   // The same world again from a checkpoint of the first, so that each ending is played from the same morning.
   static fork(j: Journey): Journey {

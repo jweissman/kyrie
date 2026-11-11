@@ -42,11 +42,11 @@ Module walk "The Walk of the Milestones" {
   Entity gathering_known: fact "The Walk is to meet at the Station of one town on the tenth day, to speak the names of the road's dead.".
   Entity riders_known: fact "A troop of heavy-shod horse has come in from the north by night and gone round the Gathering town, not through it.".
   Entity stone_true: fact "The first milestone's inscription gives the road to whoever keeps it: the Office's own grant to the wayfarer.".
-  Entity ledger_found: fact "The steward's ledger shows a purse to Pettifer Gule at every camp, and a note on the Bailiff's debt.".
+  Entity ledger_found: fact "The steward's ledger shows a purse to the chalk-seller at every camp, and a note on the Bailiff's debt.".
   Entity hal_named: fact "Hal Dray, the Bailiff's brother, is on Annet's roll of the road's dead.".
   Entity bound_seen: fact "What moves the Bailiff.".
-  Entity skim_known: fact "Pettifer Gule skims the Walk's tithe-box.".
-  Entity orme_seen: fact "A grey steward in a good plain coat brings the Walk a purse by night, through Pettifer Gule.".
+  Entity skim_known: fact "the chalk-seller skims the Walk's tithe-box.".
+  Entity orme_seen: fact "A grey steward in a good plain coat brings the Walk a purse by night, through the chalk-seller.".
   Entity cough_known: fact "The Mile-Keeper is coughing blood, and will not say.".
 
   // ---- Things carried. A chalk stub, the roll of the names, the Mile-Keeper's staff.
