@@ -256,10 +256,11 @@
   Rule {t}_u_dead_cleared when not able({t}_u_dead) and not {t}_u_done({t}_u_dead_job) { Assert {t}_u_done({t}_u_dead_job). }
   Rule {t}_u_raiser_ended when not able({t}_u_raiser) and not {t}_u_done({t}_u_raiser) { Assert {t}_u_done({t}_u_raiser). }
   Objective {t}_u_dead_job_sought when knows(party, {t}_u_notice) and not {t}_u_given({t}_u_dead_job) and not {t}_u_done({t}_u_dead_job) toward {t}_priest "Ask {{t}_priest} about what has come up under the churchyard at {town}: the crypt is locked.".
-  // Toward the dead themselves, by the churchyard: the crypt is where the priest said they came up, but they are in the
+  // Toward the dead themselves and whoever raised them (its own words: "and find out who raised them"), by the
+  // churchyard: the crypt is where the priest said they came up, but they are in the
   // ossuary beyond it, and an aim that pointed at the crypt left a company that had been through the ossuary standing
   // in the crypt led only to search it (the owner's play of 11 November: led to the threshold and abandoned there).
-  Objective {t}_u_dead_job_aim when {t}_u_given({t}_u_dead_job) and not {t}_u_done({t}_u_dead_job) toward {t}_u_dead by {t}_u_yard "Lay the dead in {{t}_u_crypt} under {{t}_u_yard} at {town}, and find out who raised them.".
+  Objective {t}_u_dead_job_aim when {t}_u_given({t}_u_dead_job) and not {t}_u_done({t}_u_dead_job) toward {t}_u_dead, {t}_u_raiser by {t}_u_yard "Lay the dead in {{t}_u_crypt} under {{t}_u_yard} at {town}, and find out who raised them.".
   Topic {t}_u_dead_job_paid with {t}_priest "Tell {{t}_priest} the dead under the churchyard are laid, and who raised them" when {t}_u_done({t}_u_dead_job) and {t}_u_done({t}_u_raiser) and not {t}_u_halved({t}_u_dead_job) and not {t}_u_paid({t}_u_dead_job) once {
     Says "{{t}_priest} hears it all with eyes shut, and at the end says the names of the three in the opened graves, one after another. Then 15 coin, and from the shrine's own chest a charm of ashwood and bronze wire, and two small stoppered bottles. 'The charm was made for those who go among the dead,' {{t}_priest} says. 'The bottles are for after.'".
     On discuss { Increase quantity(actor, gold) by 15. Give ashwood_charm to actor. Give 2 minor_healing_potion to actor. Assert {t}_u_paid({t}_u_dead_job). Retract knows(actor, {t}_u_dead_job). }

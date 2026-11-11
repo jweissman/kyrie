@@ -1,4 +1,8 @@
+import type { CSSProperties } from 'react';
 import { Glyphs } from '../creation/glyphs';
+import type { Aspect } from '../../../src/presentation/glance-types';
+import { Emphasis, type Tone } from '../emphasis';
+import { Guidance } from '../guidance';
 import type { Screen } from '../../../src/ui/screen-types';
 import type { Frame } from '../../engine/protocol';
 import type { Choice } from '../../../src/ui/choice-list';
@@ -88,10 +92,11 @@ export class WorldStage {
     if (!many) { return null; }
     return (
       <ul className={`portraits${many > WorldStage.crowd ? ' crowd' : ''}`} aria-label="Who is here">
-        {[...company, ...shown].map(x => <li key={x.id} data-subject={x.id}
-          className={`${x.kind}${x.danger ? ' danger' : ''}${WorldStage.aimed(app, x) ? ' led' : ''}`
-            + `${x.stake ? ' stake' : ''}${x.owed ? ' owed' : ''}`}>
-          <WorldStage.Portrait subject={x} draw={draw} /></li>)}
+        {[...company, ...shown].map(x => { const seen = WorldStage.seen(app, x); return <li key={x.id} data-subject={x.id}
+          className={`${x.kind}${x.danger ? ' danger' : ''}${seen.gilded ? ' led' : ''}`
+            + `${x.stake ? ' stake' : ''}${x.owed ? ' owed' : ''}${seen.tone ? ` toned tone-${seen.tone}` : ''}`}
+          data-aspects={seen.aspects.join(' ') || undefined}>
+          <WorldStage.Portrait subject={x} draw={draw} ring={seen.prism} /></li>; })}
       </ul>
     );
   }
@@ -117,13 +122,20 @@ export class WorldStage {
     const g = app.state.frame?.leaf.glance;
     return (app.menu.leads ?? g?.acts ?? []).some(a => a.subject === x.id);
   }
-  // Whether the glance leads with them for the aim followed: only those are ringed in gold (the owner, 7 November:
-  // gold for the aim the company follows and nothing else; a brother ringed for being kin had read as a quest).
-  static aimed(app: ReaderApp, x: SceneSubject): boolean {
-    const g = app.state.frame?.leaf.glance;
-    return (app.menu.leads ?? g?.acts ?? []).some(a => a.subject === x.id && GlanceStage.aiming.has(a.why));
+  // What someone here is to the company, from what the glance leads with that is about them (and something owed): the
+  // aspects of those, together, never a claim that each thing to be done with them has them all. Gold only where they
+  // are the aim's next step and the way is shown (see Guidance); several, a ring through their tones (the owner, 11
+  // November: a person aggregates the known aspects of what can be done with them).
+  static seen(app: ReaderApp, x: SceneSubject): { aspects: Aspect[]; gilded: boolean; tone?: Tone; prism?: string } {
+    const acts = (app.state.frame?.leaf.glance?.acts ?? []).filter(a => a.subject === x.id);
+    const gilded = acts.some(a => a.continues) && Guidance.shown(app);
+    const all = [...acts.flatMap(a => a.aspects), ...x.owed ? ['payoff' as const] : []];
+    const aspects = all.filter((a, i) => all.indexOf(a) === i).sort((a, b) => Number(b === 'undertaking') - Number(a === 'undertaking'));
+    const { tone } = Emphasis.of(aspects, gilded);
+    const prism = Emphasis.prism(aspects, gilded)?.replace('linear-gradient(in oklab 180deg,', 'conic-gradient(in oklab,');
+    return { aspects, gilded, ...tone ? { tone } : {}, ...prism ? { prism } : {} };
   }
-  static Portrait({ subject: x, draw }: { subject: SceneSubject; draw: Draw }) {
+  static Portrait({ subject: x, draw, ring }: { subject: SceneSubject; draw: Draw; ring?: string }) {
     // One with nothing to say or do now is a likeness, not a way into a conversation with nothing in it.
     const into = x.live || x.kind === 'animal' || x.kind === 'creature' ? WorldStage.into(x) : undefined, face = x.portrait
       ? /(^|\/)(animals|monsters)\//.test(x.portrait.src)
@@ -131,7 +143,8 @@ export class WorldStage {
         : <img src={x.portrait.src} alt="" decoding="async" style={{ objectPosition: `50% ${x.portrait.focus}%` }} />
       : <Glyphs.View id={Glyphs.met(x)} className="emblem" />;
     const name = Typography.curl(Words.upper(x.name));
-    const body = <><span className="face" aria-hidden="true">{face}</span>
+    const body = <>{ring && <span className="aspect-ring" aria-hidden="true" style={{ '--ring': ring } as CSSProperties} />}
+      <span className="face" aria-hidden="true">{face}</span>
       {x.owed && <span className="owed-mark" role="img" aria-label="Has something for you" title="Has something for you" />}
       <span className="pn" title={name}>{name}</span>
       {x.state && <span className="fell">{x.state === 'dead' ? 'Dead' : 'Down'}</span>}</>;

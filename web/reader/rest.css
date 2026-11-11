@@ -298,3 +298,14 @@
 .shell.scene-full .focus > .explorer .wf-list { display: block; overflow: visible; }
 .shell.scene-full .focus > .explorer .wf-group { margin: 0 0 10px; }
 .shell.scene-full .focus > .explorer .wf-where { display: none; }
+/* Someone here by what can be done with them now (see WorldStage.seen): their ring in that tone, or, where it is
+   several things, a ring turning slowly through their tones (still where less motion is asked). */
+.portraits li.toned:not(.led):not(.danger) .portrait .face { border-color: var(--tone); }
+.portrait { position: relative; }
+.portrait .aspect-ring { position: absolute; z-index: 1; left: 50%; top: -3px; width: 60px; aspect-ratio: 1;
+  transform: translateX(-50%); border-radius: 50%; pointer-events: none; background: var(--ring);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2.5px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2.5px));
+  animation: ring-turn 14s linear infinite; }
+@keyframes ring-turn { to { transform: translateX(-50%) rotate(1turn); } }
+@media (prefers-reduced-motion: reduce) { .portrait .aspect-ring { animation: none; } }
