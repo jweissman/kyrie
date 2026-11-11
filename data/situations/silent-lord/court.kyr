@@ -119,7 +119,7 @@ Module silent_lord "The silent lord" {
   }
   Topic cast_price with castellan "Say you will keep quiet, for a price" answering cast_confront when true {
     Says "{castellan} does not look surprised. 'Thirty,' she says, and counts it from her own purse. 'And you will have forgotten the way down to the crypt. I would not like to find you on it twice.' She holds your eye. 'You were never here.'".
-    On discuss { Decrease quantity(castellan, gold) by 30. Increase quantity(actor, gold) by 30. Assert bought(castellan). }
+    On discuss { Increase quantity(actor, gold) by 30. Assert bought(castellan). }
   }
   Topic cast_hall with castellan "Say the hall must be told" answering cast_confront when true {
     Says "{castellan} stands. 'Then you are a danger to the household,' she says, without heat, and calls a name, and the doorward is there before she has finished. 'You will be shown out.'".

@@ -43,6 +43,8 @@ Module silent_lord "The silent lord" {
   Rule proclaims heard at hall when now(p_feast) and hour(clock) >= 21 and not proclaimed(house) and (chaplain_ready(house) or castellan_ready(house))
     says "The chaplain stands with a folded vellum in her hand, and the castellan stands beside her. 'The lord of this keep died eleven days ago at his own table,' says the chaplain, 'and lies in the crypt, and his will names his ward, and I have not been able to say it until now.' Nobody speaks. The marshal takes off his cap." { Assert proclaimed(house). }
 
+  // A feast is a feast: for its hours the door-ward lets the whole hall pass, strangers included.
+  Rule doorward_feasts when now(p_feast) and not tolerates(doorward, party) { Assert tolerates(doorward, party). }
   // ---- The reckoning, at the feast's height. What the keep is after it, it stays.
   Relation decided(group). Relation aftermath(group).
   Rule reckoning heard at hall when day(clock) == feastDay(house) and hour(clock) >= 22 and not reckoned(house)

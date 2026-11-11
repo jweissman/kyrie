@@ -55,16 +55,16 @@ Module silent_lord "The silent lord" {
   }
   Rule hounds_slain when dead(hounds) and not grudge(houndsman) says "From the dark by the kennels a woman's voice says, quite quietly, a single word, and then nothing." { Assert grudge(houndsman). Retract warms_to(houndsman, party). }
   Relation grudge(group). Relation cross(group).
-  Topic porter_regency with porter "Ask {porter} how the keep stands" when state(banner, regency) once {
+  Topic porter_regency with porter "Ask {porter} how the keep stands, with the banner low" when state(banner, regency) once {
     Says "'Half-mast till the burial,' says {porter}, 'and the chaplain tolls from dawn. I am to say that the household keeps open house for the lord's funeral, and that the castellan is regent for the lord's ward, who is on her way.' He lowers his voice. 'There was a day I thought we were done. I would not like to say what held it, but I have my guesses, and they are not far from where you are standing.'".
   }
-  Topic porter_hushed with porter "Ask {porter} how the keep stands" when state(banner, hushed) once {
+  Topic porter_hushed with porter "Ask {porter} how the keep stands, with the herald gone" when state(banner, hushed) once {
     Says "'The same as ever,' says {porter}, not quite meeting your eye. 'The herald left and the lord is indisposed. The castellan signs for him. I am to say all is well, and so I say it.' A pause. 'It will not keep, you know. A thing like this does not. But it will keep until the next court.'".
   }
-  Topic porter_usurped with porter "Ask {porter} how the keep stands" when state(banner, usurped) once {
+  Topic porter_usurped with porter "Ask {porter} whose keep it is now" when state(banner, usurped) once {
     Says "'It is {patron}'s now,' says {porter}, 'by the king's writ, they say. The castellan is in her solar with two of his men outside. I have kept my post, and my post has kept me.' He glances over his shoulder. 'If you are the sort who finds a way in, there is more than one. I did not say so.'".
   }
-  Topic porter_mutinous with porter "Ask {porter} how the keep stands" when state(banner, mutinous) once {
+  Topic porter_mutinous with porter "Ask {porter} who sits in the lord's chair" when state(banner, mutinous) once {
     Says "'The marshal sits in the lord's chair,' says {porter}, 'and the castellan is in the oubliette with her own bar over her. There was no killing. They only ... stopped, and then began something else.' He shakes his head. 'I let you in. I will let you out. That is all the gate can promise.'".
   }
 

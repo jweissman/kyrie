@@ -32,8 +32,9 @@ Module silent_lord "The silent lord" {
   Rule deserters_come when state(banner, mutinous) and aftermath(house) and day(clock) >= feastDay(house) + 2 and not at(deserters, gossip)
     says "Three men in the keep's old colours come into the town by the north road, spears on their shoulders, and stop at the green, where they stand about as if they had arrived somewhere they had been told of." { Assert at(deserters, gossip). }
   Initially Set tribute(deserters) to 6.
-  Rule cools_by_dawn when hunted(house) and not blood(house) and untilLight(clock) == 1 { Increase coolness(house) by 1. }
-  Rule thaws when hunted(house) and not blood(house) and coolness(house) >= 3 { Retract hunted(house). Set coolness(house) to 0. }
+  Measure huntedOn(group).
+  Rule hunt_marked when hunted(house) and huntedOn(house) == 0 { Set huntedOn(house) to day(clock). }
+  Rule thaws when hunted(house) and not blood(house) and huntedOn(house) > 0 and day(clock) >= huntedOn(house) + 3 { Retract hunted(house). Set huntedOn(house) to 0. }
   Rule blood_shed when (dead(porter) or dead(castellan) or dead(steward) or dead(chaplain) or dead(marshal) or dead(clerk) or dead(cook) or dead(groom)) and not blood(house) { Assert blood(house). Assert hunted(house). }
   Thing gate_refusal "the shut gate" on gate from outside {
     State admits "".
@@ -53,18 +54,18 @@ Module silent_lord "The silent lord" {
   Topic trader_levy with trader "Ask {trader} what the levy will cost the town" when state(levy_post, called) or state(levy_post, postponed) once {
     Says "'A hundred bushels at the keep's price, which is a third under the market's,' says {trader}, 'and twenty men who will not be in the fields at harvest. We shall get the straw. I do not say it is not the king's right. I say it is a good deal of rights to carry in one year.'".
   }
-  Topic keeper_after_regency with keeper "Ask {keeper} how the muster went" when state(levy_post, commuted) and not paid_keeper(house) once {
+  Topic keeper_after_regency with keeper "Ask {keeper} how the muster went, now the regent has signed" when state(levy_post, commuted) and not paid_keeper(house) once {
     Says "'Ten spears, volunteers, and the rest in coin,' says {keeper}. 'The castellan wrote it in her own name this time, and the chaplain has been tolling the bell for the lord, who is to be buried on Sunday. We had not known.' {keeper} takes a purse from under the bar. 'The town had a collection. For whoever it was that told the keep the truth.'".
-    On discuss { Increase quantity(actor, gold) by 30. Decrease quantity(keeper, gold) by 30. Assert paid_keeper(house). }
+    On discuss { Increase quantity(actor, gold) by 30. Assert paid_keeper(house). }
   }
-  Topic keeper_after_hushed with keeper "Ask {keeper} how the muster went" when state(levy_post, quashed) and not paid_keeper(house) once {
+  Topic keeper_after_hushed with keeper "Ask {keeper} what the remission has done for the town" when state(levy_post, quashed) and not paid_keeper(house) once {
     Says "'No men,' says {keeper}. 'The lord remits it, on account of the winter. A fine hand it was, too. I never saw a remission that had so little wrong with it.' {keeper} looks at you a moment longer than the matter needs. 'A cup, on the house. Somebody should be thanked and I do not know who.'".
-    On discuss { Increase quantity(actor, gold) by 8. Decrease quantity(keeper, gold) by 8. Assert paid_keeper(house). }
+    On discuss { Increase quantity(actor, gold) by 8. Assert paid_keeper(house). }
   }
-  Topic keeper_after_usurped with keeper "Ask {keeper} how the muster went" when state(levy_post, raised) once {
+  Topic keeper_after_usurped with keeper "Ask {keeper} who reads the levy now" when state(levy_post, raised) once {
     Says "'The eldest son of every hearth, and half the corn,' says {keeper}, 'and the crier tells us the lord has been dead a fortnight and the keep is {patron}'s, by the king's writ. Some of the boys are glad to go. The rest are being sent.' {keeper} wipes the bar with a cloth that does not need it. 'If you were there, I would not say so in the street.'".
   }
-  Topic keeper_after_mutiny with keeper "Ask {keeper} how the muster went" when state(levy_post, abandoned) once {
+  Topic keeper_after_mutiny with keeper "Ask {keeper} what became of the muster" when state(levy_post, abandoned) once {
     Says "'There was no muster,' says {keeper}. 'The keep has gone sour. We have three of its spearmen on the green, who say they have not been paid, and the castellan in her own oubliette, and the marshal in the chair. I do not know which of them is the worst.' {keeper} looks at the door. 'The three on the green want a toll for the king's roads. Pay it, or pay for the door.'".
   }
   Relation paid_keeper(group). Relation quash_forged(group).
