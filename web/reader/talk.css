@@ -51,7 +51,8 @@
   border-top: 1px solid var(--edge-strong); padding: 14px 0 18px; }
 .dialogue .answer > .choosing { flex: 0 1 auto; min-height: 0; overflow-y: auto; padding-bottom: 18px;
   mask-image: linear-gradient(to bottom, #000 calc(100% - 18px), transparent); }
-.dialogue .answer > .leave { flex: none; margin: 8px 0 0; }
+.dialogue .answer > .leave { flex: none; margin: 8px 0 0; display: flex; gap: 10px; }
+.dialogue .leave > .option { flex: none; }
 .replies { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
 .replies .act, .dialogue .leave .act { display: flex; align-items: baseline; gap: 12px; width: 100%; min-height: 46px;
   padding: 11px 16px 11px 14px; font: 500 15.5px/1.35 var(--do); }

@@ -77,7 +77,10 @@ export class TalkStage {
                     ? ' aimed' : ''}`} data-action="trade" onClick={() => app.trade(true)}>Trade</button></p>}
               </>}
             </div>
-            <p className="leave"><Act.View choice={talk.leave} draw={draw}>
+            {/* Back from trading stands by the leave, always in view: at the foot of a long counter it had been
+                under the fade, half there (round 5). */}
+            <p className="leave">{s.trading && <button type="button" className="option quiet" data-action="trade-back"
+              onClick={() => app.trade(false)}>Back</button>}<Act.View choice={talk.leave} draw={draw}>
               <i>{(draw.index.get(talk.leave.id) ?? 0) + 1}</i>{talk.leave.label}</Act.View></p>
           </div>
         </div>
@@ -195,8 +198,8 @@ export class TalkStage {
     );
   }
   // What is had of someone for coin or work, apart from what is said: their wares, what they will buy, and their
-  // services (a bed, care, a lesson), with the company's purse once; Back returns to the conversation (the owner, 5
-  // November: goods had stood among the topics as if they were something to discuss).
+  // services (a bed, care, a lesson), with the company's purse once; Back, by the leave, returns to the conversation
+  // (the owner, 5 November: goods had stood among the topics as if they were something to discuss).
   static Trading({ app, wares, services, buys, draw }: { app: ReaderApp; wares: Ware[]; services: Choice[];
     buys: Counter['buys']; draw: Draw }) {
     const coin = app.state.frame!.screen.purse.coin;
@@ -205,8 +208,6 @@ export class TalkStage {
       {services.length > 0 && <><p className="label">Services{wares.length ? '' : <span className="purse">{`you have ${coin} coin`}</span>}</p>
         <ol className="replies">{services.map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw} />)}</ol></>}
       {!wares.length && !services.length && <p className="label">You have {coin} coin</p>}
-      <p className="to-trade"><button type="button" className="option quiet" data-action="trade-back"
-        onClick={() => app.trade(false)}>Back</button></p>
     </section>;
   }
   // A question already put stays to be put again, quieter, and says so; one the last answer opened is marked new.
