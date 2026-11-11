@@ -13,6 +13,9 @@ describe('the aim\'s continuation', () => {
     const marked = Promotion.continued([act('a', ['exploration']), act('b', ['undertaking']), act('c', ['undertaking'])]);
     expect(marked.filter(a => a.continues).map(a => a.choice)).toEqual(['b']);
     expect(Promotion.continued([act('a', ['exploration'])]).some(a => a.continues)).toBe(false);
+    // What the aim names (the priest to ask) before what merely stands where the aim is (the shrine's tower).
+    const tower = { ...act('tower', ['undertaking']), why: 'about' as const }, priest = { ...act('priest', ['undertaking']), why: 'named' as const };
+    expect(Promotion.continued([tower, priest]).filter(a => a.continues).map(a => a.choice)).toEqual(['priest']);
   });
   it('stands among the rest where the place puts it, the same each time, after what will not wait', () => {
     const acts = Promotion.continued([act('urgent', [], 0), act('x', ['undertaking']), act('y', ['knowledge']),

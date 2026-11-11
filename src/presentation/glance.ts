@@ -328,7 +328,10 @@ export class Glance {
         && !direct.has(id))
       // A room to stand in before the area round it: an aim at Gaudumport's far end names the site too, and the way
       // in, once the speaking door was open, had not been led with (OWN-57's play).
-      .sort((a, b) => Number(byId.get(b[0])?.space?.kind === 'room') - Number(byId.get(a[0])?.space?.kind === 'room'))
+      // The aim followed's before another's: two at most are walked toward, and a held aim's room had crowded out the
+      // churchyard the followed aim is gone to by (the owner's play of 11 November).
+      .sort((a, b) => Number(a[1] === 'held') - Number(b[1] === 'held')
+        || Number(byId.get(b[0])?.space?.kind === 'room') - Number(byId.get(a[0])?.space?.kind === 'room'))
       .slice(0, 2);
     const graph = places.length ? Itineraries.graph(campaign) : new Map<string, WayInfo[]>();
     for (const [id, why] of places) {
@@ -364,6 +367,7 @@ export class Glance {
     aims: { named: Set<string>; held: Set<string>; idle: Set<string> }):
     Pick<Reading, 'toward' | 'inward'> {
     const inward = this.inward(campaign, screen), toward = this.toward(campaign, screen, aims);
+    for (const id of AimRoute.onward(campaign, screen)) { toward.set(id, 'toward'); }
     if (inward.size) {
       for (const [id] of toward) { if (screen.exits.find(e => e.id === id)?.bearing) { toward.delete(id); } }
     }

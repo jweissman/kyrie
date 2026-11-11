@@ -228,9 +228,16 @@ export class GlanceStage {
   // four at most (amendment 6, B: two to four genuinely different opportunities, never filler). Whoever is here is on
   // the picture, a journey on the map, and what the place's own touches open (a notice, a find) is drawn by them.
   static foreground(app: ReaderApp, acts: Promoted[]): Promoted[] {
-    const pressing = GlanceStage.pressing(acts), person = (a: Promoted) => !!a.subject
+    // Talking to someone here is their likeness's; what else is done with them (asked to stand aside, fought) is not.
+    const pressing = GlanceStage.pressing(acts), person = (a: Promoted) => !!a.subject && a.choice.endsWith('#talk')
       && (app.menu.scene?.subjects ?? []).some(x => x.id === a.subject && ['person', 'companion'].includes(x.kind));
-    const rest = acts.filter(a => !pressing.includes(a) && !a.choice.startsWith('travel:') && !person(a));
+    // Whoever is the aim's next step stands among them too, not only on the picture: the prior to be asked about the
+    // churchyard had been only a likeness in the corner, and the foreground empty (the owner, 11 November).
+    // A walk about the town is a way like any other here; a journey out over the country is the map's, unless it is
+    // the aim's next step (the chapel had led to the churchyard by a walk, and the foreground had been empty).
+    const walks = new Set((app.state.frame?.screen.around ?? []).map(d => `travel:${d.id}`));
+    const rest = acts.filter(a => !pressing.includes(a) && (!a.choice.startsWith('travel:') || walks.has(a.choice)
+      || a.continues) && (!person(a) || a.continues));
     const aim = app.state.frame?.screen.aims?.find(x => x.followed)?.id ?? '';
     return Guidance.placed([...pressing, ...rest].slice(0, 4), pressing.length, `${app.state.frame?.screen.place.id}:${aim}`);
   }

@@ -69,8 +69,16 @@ export class Promotion {
   // Of what is led with, the one that carries the followed aim on, where any does: the first of the aim's, as ranked
   // (the owner's play of 11 November: exactly one prominent choice is the truthful continuation of the aim followed,
   // where a next step is known; none is invented where none is).
+  // What the aim names comes before a way toward it, the journey set out on, kin, and what merely stands where the aim
+  // is (the shrine's tower had been marked, and the priest the aim says to ask had not: the owner, 11 November).
+  static readonly continuing: Why[] = ['named', 'toward', 'bound', 'kin', 'about'];
+  private static continuance(a: Promoted): number {
+    const i = this.continuing.indexOf(a.why);
+    return i < 0 ? this.continuing.length : i;
+  }
   static continued(acts: Promoted[]): Promoted[] {
-    const next = acts.find(a => a.aspects.includes('undertaking'));
+    const next = acts.filter(a => a.aspects.includes('undertaking'))
+      .sort((a, b) => this.continuance(a) - this.continuance(b))[0];
     return acts.map(a => a === next ? { ...a, continues: true as const }
       : a.continues ? Object.fromEntries(Object.entries(a).filter(([k]) => k !== 'continues')) as Promoted : a);
   }

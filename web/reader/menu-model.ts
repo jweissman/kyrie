@@ -94,7 +94,8 @@ export class MenuModel {
       far: kept.far.filter(c => MenuModel.stays(c, screen)) } : kept;
     const talked = new Set(scene.subjects.filter(x => x.kind === 'person' && !x.danger)
       .flatMap(x => x.choices.filter(c => /#talk$/.test(c.id)).map(c => c.id)));
-    const leads = glance?.acts.filter(a => !talked.has(a.choice)) ?? [];
+    // But the aim's next step stays among them, whoever it is (see Promotion.continued).
+    const leads = glance?.acts.filter(a => !talked.has(a.choice) || a.continues) ?? [];
     const leading = new Set(glance?.acts.filter(a => talked.has(a.choice)).map(a => a.choice) ?? []);
     // Underground, the world map is not a way out (a cellar under a corn-store had offered it beside the rat-runs).
     const going = inside ? [] : journeys, country = !screen.place.underground
