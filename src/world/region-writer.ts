@@ -140,11 +140,14 @@ export class RegionWriter {
   static files(region: Region, company: Company | null, taken: Record<string, string> = {}): Record<string, string> {
     const head = `Module ${this.id} ${JSON.stringify(region.name)} {`, parts: string[][] = [[]];
     const body = this.body(region, taken), own = body.filter(l => RegionWriter.ownKind.test(l));
-    let depth = 0, size = 0;
+    // A file ends only where a statement does: a rule whose words come on the line after its condition had been cut
+    // between them (a rover's coming, 11 November: the drowned stair's country failed to parse).
+    let depth = 0, size = 0, ended = true;
     for (const line of [...own, ...body.filter(l => !RegionWriter.ownKind.test(l))]) {
-      if (depth === 0 && size > 40000) { parts.push([]); size = 0; }
+      if (depth === 0 && ended && size > 40000) { parts.push([]); size = 0; }
       parts.at(-1)!.push(line); size += line.length;
       depth += RegionWriter.braces(line);
+      ended = /[.}]$/.test(line.trim()) || line.trim().startsWith('//');
     }
     return Object.fromEntries([...parts.map((lines, i) => [i ? `region-${i + 1}.kyr` : 'region.kyr',
       [head, ...lines, '}'].join('\n')]), ['company.kyr', [head, ...this.company(region, company), '}'].join('\n')]]);
