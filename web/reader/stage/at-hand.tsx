@@ -101,7 +101,7 @@ export class AtHand {
   // wood had offered ten plants, each its own pane, before anything else (the owner's play of 10 November). Named
   // together; what each gives, gathered from the one pane.
   static grown(held: Held[]): Held[] {
-    const plants = held.filter(h => h.choices.length > 0 && h.choices.every(c => /^Gather /.test(c.label)));
+    const plants = held.filter(h => h.choices.length > 0 && h.choices.every(c => c.does === 'gather'));
     if (plants.length < 3) { return held; }
     const names = plants.map(p => p.name.replace(/^the /i, ''));
     const group: Held = { id: 'grown', name: 'What grows here', seen: [`${Words.upper(Words.listed(names))}.`],

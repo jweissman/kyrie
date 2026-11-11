@@ -295,7 +295,8 @@ export class GlanceStage {
     return [...GlanceStage.people(app)].sort((a, b) => rank(a) - rank(b)).slice(0, GlanceStage.most);
   }
   private static sells(choices: Choice[]): boolean {
-    return choices.some(c => /^Buy\b/.test(c.label) || GlanceStage.sells(c.children ?? []));
+    // By what is done (buy_item, buy_goods), not by the words (the headless investigation: meaning from typed data).
+    return choices.some(c => !!c.does?.startsWith('buy_') || GlanceStage.sells(c.children ?? []));
   }
   // The aim followed, on every page, with the way to it where the way is known (the owner, 3 November: a clearer
   // quest followed); with none followed, the aim this place is about, when it wants saying.

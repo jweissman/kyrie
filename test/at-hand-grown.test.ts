@@ -5,7 +5,7 @@ import { AtHand, type Held } from '../web/reader/stage/at-hand';
 // its own pane, before anything else at the edge of a wood).
 describe('what grows at hand', () => {
   const plant = (name: string): Held => ({ id: name, name: `the ${name}`, seen: [], opens: [],
-    choices: [{ id: `${name}:g`, label: `Gather some ${name}`, tone: 'item' }] });
+    choices: [{ id: `${name}:g`, label: `Gather some ${name}`, tone: 'item', does: 'gather' }] });
   const cart: Held = { id: 'cart', name: 'the cart', seen: [], opens: [], choices: [{ id: 'c', label: 'Push', tone: 'item' }] };
   it('is one pane, named together, holding every gathering', () => {
     const held = AtHand.grown([cart, plant('willow'), plant('comfrey'), plant('hazel')]);
