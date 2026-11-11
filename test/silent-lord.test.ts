@@ -108,7 +108,9 @@ describe('the silent lord: where it stands in the world', () => {
     expect(holds(j, 'reckoned', k('house'))).toBe(true);
     expect(state(j, 'banner')).toBe(k('regency'));
     // The first town: the levy commuted, and the town’s collection for whoever told the truth.
-    await j.play('=day 13 12:00', '>region__s1_green');
+    // The road home crosses the Fishwater by Elmham, which is in spate the morning after rain (and is then only to be
+    // risked, not walked): the company waits at Elmham's green for the river to fall, as a player would.
+    await j.play('=day 13 12:00', '>region__s2_green', '=until not state(region__s3_s2_way_water, region__spate)', '>region__s1_green');
     expect(state(j, 'levy_post')).toBe(k('commuted'));
   }, 900000);
 });
