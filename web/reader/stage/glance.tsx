@@ -211,8 +211,12 @@ export class GlanceStage {
   // shows its name, its picture, a few words of it, who is here and Explore…, and nothing of where to go or what is
   // ranked next (the owner, 5 November: a settled contract; the ways, the aim's next step and the rest are in the
   // explorer).
+  // In the dark, a light the company can light comes first and is never one too many: two dangers had left it off the
+  // page under "No light", and a player with a candle in the pack met the bats blind (round 5).
   static pressing(acts: Promoted[]): Promoted[] {
-    return acts.filter(a => a.tier === 0 && !a.exit && !a.choice.startsWith('travel:')).slice(0, 2);
+    const urgent = acts.filter(a => a.tier === 0 && !a.exit && !a.choice.startsWith('travel:'));
+    const light = urgent.find(a => a.why === 'dark');
+    return [...light ? [light] : [], ...urgent.filter(a => a !== light).slice(0, 2)];
   }
   // What a place at rest draws that can be chosen: whoever is here, on the picture, and what is pressing.
   static atRest(app: ReaderApp): Set<string> {
