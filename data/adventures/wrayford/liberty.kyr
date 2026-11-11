@@ -18,6 +18,7 @@ Module wrayford "The Third Night" {
   Person corbin "Corbin" at wades_acre {
     Role "the sexton of Saint Wade's, old as his spade". Ancestry human. Peaceable. Pronouns he. Manner acerbic.
     Greets "Corbin sits on the Acre wall with a spade across his knees and the look of a man who has dug for this parish for fifty years and been told, this week, to stop. 'Not dead, are you,' he says. 'No business of mine, then.'".
+    Greets again "Corbin has taken the spade off his knees and laid it on the wall beside him, where he can see it. 'You again,' he says. 'Not dead. It is becoming a habit with you, and I do not hold with habits in the living.'".
   }
   Rule corbin_wall when hour(clock) >= 7 and hour(clock) < 21 and not at(corbin, wades_acre) { Assert at(corbin, wades_acre). }
   Rule corbin_bed when (hour(clock) >= 21 or hour(clock) < 7) and not at(corbin, nave) { Assert at(corbin, nave). }
@@ -80,6 +81,7 @@ Module wrayford "The Third Night" {
   Person abbess "Dame Isobel Crane" at abbess_court {
     Role "the Lady Abbess of Saint Wade's, who holds the Liberty of Overbridge". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
     Greets "The Abbess has a pair of spectacles on her nose and another pair pushed up into her wimple, and takes up a pen in your honour, as if you were a charter. 'Sit,' she says. 'Or stand. Only be brief, and be accurate: I am keeping two records of today, and one of them is for the Bishop.'".
+    Greets again "The Abbess has put one pair of spectacles up and brought the other down, which means you have been entered in the second record. 'Be brief,' she says. 'I have already forgiven you for the first visit. I should like not to have to forgive the second.'".
   }
   Measure abbessRegard(group). Initially Set abbessRegard(abbess) to 0.
   Relation abbessClaims(group). Relation sanctuary(group). Relation ritesOffered(group).
@@ -146,6 +148,7 @@ Module wrayford "The Third Night" {
   Person crouch "Barnaby Crouch" at tanyards {
     Role "a tanner, stained to the elbow". Ancestry human. Peaceable. Pronouns he. Manner acerbic.
     Greets "Barnaby Crouch wipes his hands, which makes them worse. 'If it's about the hide,' he says, 'it's mine.'".
+    Greets again "Barnaby Crouch rubs his hands on his apron, which makes them worse. 'It is about the hide,' he says. 'I told you. I tell everybody. It is the one thing in Wrayford I am certain of.'".
   }
   Rule crouch_court when courtHours() and not at(crouch, abbess_court) { Assert at(crouch, abbess_court). }
   Rule kemp_court when courtHours() and not at(kemp, abbess_court) { Assert at(kemp, abbess_court). }
@@ -197,10 +200,12 @@ Module wrayford "The Third Night" {
   Person robin "Robin Tull" at bear_garden {
     Role "a cutler's boy of twelve, with bear-hair on his sleeves". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
     Greets "The boy looks up from the bear's coat. 'She's called Margery,' he says, before you can ask anything else.".
+    Greets again "The bear's head is in the boy's lap this time, and he is combing a burr out of her ear with a cutler's pick. 'Margery likes you,' he says. 'She likes anybody who does not come with a rope.'".
   }
   Person clout "Sim Clout" at bear_garden {
     Role "the bear-ward, with a strap at his belt". Ancestry human. Peaceable. Pronouns he. Manner grim.
     Greets "Sim Clout sits on a bucket outside the bear's pen with a strap across his knees and the chain looped three times round his wrist. 'Show's at four,' he says. 'Penny. Not before, whatever the boy tells you. She has her mornings.'".
+    Greets again "Sim Clout has put the strap through his belt and is mending the chain's third link with a pair of pliers and a great deal of breath. 'It is not four yet,' he says. 'But you are very welcome to wait with us until it is.'".
   }
   Person margery "Margery" at bear_garden {
     Role "an old brown she-bear on a chain". Species bear. Peaceable. Pronouns she.

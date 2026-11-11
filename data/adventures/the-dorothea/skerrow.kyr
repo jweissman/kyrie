@@ -6,15 +6,18 @@ Module dorothea "The Dorothea" {
     Sells rations for 2 coin from 6.
     Sells rag_paper for 1 coin from 4.
     Greets "Hester Gull has kept the Gull for thirty years and the debts of the island for thirty-one, and she keeps both with the same flat hand. 'You came on the Dorothea,' she says. 'Then you'll want to know who owes what. Everybody owes everything. It's how an island holds together.'".
+    Greets again "Hester Gull has added a line to the slate behind her. You do not see what it says, and she does not offer. 'Everybody owes everything,' she says. 'You are on the slate now. It is no insult; it is where I keep the people I mean to remember.'".
   }
   Person kestle_jory "Jory Kestle" at green {
     Role "fisherman, the keeper's brother". Ancestry human. Peaceable. Pronouns he. Manner stoic.
     Greets "A big man mending a net on the green, with three children under it and a fourth on his shoulders. He does not stop mending. 'You'll have been told about the Pharos,' he says. 'You'll have been told my sister keeps it. You'll not have been told what a family eats on in a winter when the cod don't come.'".
+    Greets again "Jory Kestle has a different child on his shoulders. 'The cod have not come,' he says, mending. 'You have the look of a person who might know why. I have the look of a person who does not want to be told.'".
   }
   Person marl "Silas Quillon" at gull_room {
     Role "agent of the Orsett factor". Ancestry human. Calling bard. Level 3. Pronouns he. Manner jovial.
     Likeness "merchant".
     Greets "A neat man in a neat coat, with a ledger open before him on the Gull's long table and a cup of the Gull's tea untouched at his elbow. He rises for you, which nobody else has. 'Silas Quillon, of Orsett. Agent. I'm here for the lease, and a matter of old metal. I'm told I'm not liked. I find it never matters.'".
+    Greets again "Silas Quillon rises again, and is again the only one in the room who has. 'Back,' he says. 'And I am no more liked, I find, though I take comfort that it never matters. The lease is not signed, the old metal is not sold, and I am enjoying the island more than I expected. How are you getting on with it?'".
   }
   Person islanders "the people of Skerrow" at green {
     Role "islanders". Ancestry human. Numbers 5. Peaceable.

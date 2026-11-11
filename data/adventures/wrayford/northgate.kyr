@@ -16,6 +16,7 @@ Module wrayford "The Third Night" {
   Person pell "Pell Saxby" at wheels_taproom {
     Role "who keeps the Nine Wheels". Ancestry human. Profession innkeeper. Peaceable. Pronouns she. Manner compassionate.
     Greets "Pell Saxby wipes her hands on her apron and looks you over. 'Bed, beer or bread,' she says, and then, because she is honest: 'The bread's Maudie Pardoe's. She's sent us forty loaves since Tuesday. I can't sell it and I can't stop her.'".
+    Greets again "Pell Saxby has set a cup down before you before you have sat, and it is not the one you would have had. 'Eat,' she says. 'Bed or beer or bread, you have not had the bread. Maudie's sent another forty. I have started putting them in the cellar for the dead.'".
     Sells rations for 2 coin from 8.
     Sells rope for 1 coin from 2.
   }
@@ -82,6 +83,7 @@ Module wrayford "The Third Night" {
   Person win "Win Fenner" at fenner_copper {
     Role "a laundress, Dunstan Fenner's widow". Ancestry human. Peaceable. Pronouns she. Manner stoic.
     Greets "Win Fenner does not turn round from the copper. 'If it's washing, leave it. If it's pity, you can take it with you.'".
+    Greets again "Win Fenner does not turn round, but she slides a stool along the floor behind her with her foot. 'Sit, if you must,' she says. 'Wring something. It is the only thing that has ever helped.'".
   }
   Discovery win_proud "Win Fenner, Dunstan's widow, has four children and will take no charity from anyone who can be seen giving it: not the parish's bread, not her neighbours'. She takes in washing, and the Hill has stopped sending any." {
     Known by win, pell.
@@ -144,6 +146,7 @@ Module wrayford "The Third Night" {
   Person farrant "Jos Farrant" at carters_yards {
     Role "the Northgate farrier, leather-aproned". Ancestry human. Peaceable. Pronouns he. Manner stoic.
     Greets "Jos Farrant does not stop working the bellows. 'Mind the sparks.'".
+    Greets again "Jos Farrant raises one hand from the bellows, the way a man lifts his hat, and lowers it. The shoe on the anvil is for a horse that has not been brought yet; he is making it anyway.".
   }
   Topic farrant_night with farrant "Ask the farrier where he was on the night of the rising" when true once {
     Says "'At the gate end. Shoeing Ham Ostler's leader, as it happens, because Ham wouldn't pay the toll on her and was going to swim her round by the ford.' The hammer comes down. 'I saw the chain go. I saw the toll-board go in the river. Best thing I've seen this year.' The hammer comes down. 'I saw the fire start. I didn't see who started it. I saw the carts come back off the gate in the press.' He does not look up. 'That's all I saw.'".
@@ -169,6 +172,7 @@ Module wrayford "The Third Night" {
   Person carters "the young carters" at carters_yards {
     Role "half a dozen carters' sons, sitting on a dray". Ancestry human. Calling warrior. Level 1. Numbers 5. Peaceable. Pronouns they. Manner grim.
     Greets "Six carters' sons sit on a dray with its shafts in the air, passing one pipe, and fall quiet by halves as you come into the yard, the nearest first. The biggest is whittling a peg for no cart in the yard. 'Whose are you?' he says. 'Company's? Lord's? Nobody's?'".
+    Greets again "The carters' sons shift along the dray to make a space, then think better of it and shift back. 'You're about again,' says the biggest, 'for somebody who isn't ours.'".
   }
   Rule carters_evening when hour(clock) >= 18 and hour(clock) < 23 and not at(carters, wheels_taproom) and not cartersOut(carters) and not cartersTaken(carters) { Assert at(carters, wheels_taproom). }
   Rule carters_day when (hour(clock) >= 6 and hour(clock) < 18) and not at(carters, carters_yards) and not cartersOut(carters) and not cartersTaken(carters) { Assert at(carters, carters_yards). }

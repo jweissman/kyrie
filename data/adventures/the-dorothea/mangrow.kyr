@@ -41,16 +41,19 @@ Module dorothea "The Dorothea" {
     Role "ferrywoman of the Mangrow creek". Ancestry human. Level 2. Peaceable. Pronouns she. Manner acerbic.
     Likeness "sailor".
     Greets "A woman as thin and dark as a pole leans on the pier's last good bollard, a cheroot unlit in one hand and a slapping-cloth in the other. She slaps her neck and looks at the palm before she speaks. 'I pole the creek. Sula Weir, in case you want it for the complaint. You will have come about the Agent, or the bark, or because Bascom said it was an adventure.' She wipes the palm on her skirt. 'Three coin and I take you up it. Walk and you pay the cane instead.'".
+    Greets again "Sula Weir slaps her neck, looks at her palm, and shows it to you in evidence. 'Dead,' she says. 'That's four hundred this morning, and I have not yet had breakfast. If you are staying in Mangrow, grow a thicker skin, or a thinner reason.'".
   }
   Person ennis_vail "Ennis Vail" at mangrow_hide {
     Role "naturalist, struck off the rolls of the Collegium of Measures, and counting". Ancestry human. Level 2. Peaceable. Pronouns he. Manner stoic.
     Likeness "scholar".
     Greets "A man so brown and so thin that he seems made of the same stuff as the hide stands up from the trestle with a pin in his teeth and does not take it out until he has put the moth down. 'Vail,' he says. 'You are not the Collegium. The Collegium would have sent a boat with a flag. You are not the House either, because the House has sent nothing for eleven months, and I have a very good ear for the absence of the House.'".
+    Greets again "Ennis Vail has pinned another moth, and does not look to see whether you have admired it. 'You are not the Collegium yet,' he says. 'I have started to like that about you. It is the only reason I am talking.'".
   }
   Person osk "Perrin Osk" at mangrow_hide {
     Role "the House's Agent at Mangrow, who went up the creek eleven months ago and has been ill since". Ancestry human. Level 1. Peaceable. Pronouns he. Manner jovial.
     Likeness "merchant".
     Greets "Behind the cloth a man in a once-good waistcoat lies with his boots on and a sheet to the chin, yellow as a candle, and turns his head with great care. 'You will forgive the waistcoat,' he says. 'Osk, Perrin, the House of Marchbank's Agent at Mangrow, at your service, and you may see how I am serving.' He tries a laugh and thinks better of it.".
+    Greets again "Perrin Osk has propped himself on one elbow, which has cost him the sheet. 'You have not gone,' he says, and the yellow face works. 'People go. The ones that come twice are always on a mission. What is yours? Is it mercy, or is it the bark?'".
   }
 
   // ── Getting there and what the green does ───────────────────────────────────────────────────────────────────────

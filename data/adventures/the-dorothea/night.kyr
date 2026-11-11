@@ -85,6 +85,7 @@ Module dorothea "The Dorothea" {
   Person wen "Wen Kestle" at kestle_house {
     Role "Jory Kestle's eldest, fourteen". Ancestry human. Peaceable. Pronouns he. Manner jovial.
     Greets "A long boy, all wrists, with his father's shoulders not yet arrived. 'You came on the Dorothea,' he says. 'Is it true she's got a gun? Da says no, but Da says no about most things.'".
+    Greets again "Wen Kestle has been practising a very grown-up expression and drops it when he sees you. 'Is it true she's got a gun?' he says. 'You said you'd tell me. You didn't. Da said you wouldn't. Da is usually right and I am sick of it.'".
   }
   Place kestle_house "Jory Kestle's house" is room within hamlet at 2, 1.
   // Wen is a boy with a boat and a grievance, and he says so a day before it matters.

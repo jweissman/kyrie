@@ -66,6 +66,7 @@ Module dorothea "The Dorothea" {
     Role "Principal of the House of Marchbank". Ancestry human. Level 4. Peaceable. Pronouns he. Manner stoic.
     Likeness "merchant".
     Greets "A tall old man in a black coat stands at the foot of the notice board, reading it as one reads a bill one has already paid. He has no ledger in his hand: only a seal on a chain, a key and a ring. 'Josselin Marchbank,' he says. 'You have been reading my books, in pieces. It is the usual way people read them.'".
+    Greets again "Josselin Marchbank has read the notice board again, and gives the impression of being very slightly disappointed in it. 'You have read more,' he says. 'You will have found that my books are a story. I have never denied it. I only dispute the ending.'".
   }
   Relation principalMet(group).
   Rule principal_comes when reckoned(party) and at(party, quay) and not principalMet(party)

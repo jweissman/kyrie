@@ -44,6 +44,7 @@ Module tessary "What Tessary Owes" {
   Person notary "the Notary" at notary_desk {
     Role "a figure at a white desk, made of fine ruled lines of light, as a drawing of a clerk is made of lines". Ancestry human. Peaceable. Pronouns it. Manner stoic.
     Greets "The figure at the desk looks up. It has no face, only the lines where a face would be drawn, very close together, and when it speaks the lines move. 'Weighed,' it says, in a voice like a page turning. 'Come in. Everything here is accounted for.'".
+    Greets again "The Notary's lines draw closer together, which is its way of attending. 'Weighed,' it says again, and on the white desk a page you did not see it write lies face down. 'What you owe is smaller than when you left. It will be larger when you return. That is not a threat. It is interest.'".
   }
   Topic notary_place with notary "Ask the Notary what this place is" when true once {
     Says "'The Holding,' says the Notary. 'Where what is pledged is kept against the promise it was pledged for, until the promise is kept or released, and where what is forfeit is kept for ever.' Its lines move. 'A harvest. A lake. A singer's voice, in a jar, over there; she pledged it against her lover's return, and he came home, and she has never come for it. I do not know why. People are not always in a hurry for what is theirs.'".
@@ -75,7 +76,8 @@ Module tessary "What Tessary Owes" {
   Initially Assert asleep(held_files).
   Person davy "Davy Teazle" at ranks {
     Role "a private of the Long Muster, nineteen, the youngest of the Third". Ancestry human. Calling warrior. Level 1. Peaceable. Pronouns he. Manner stoic.
-    Greets "Davy Teazle looks at you as if you might be someone he dreamed.".
+    Greets "Davy Teazle is standing very straight with his boots wet to the ankle and his eyes on the middle distance, and it takes him the length of a breath to bring them to you. He seems to be trying to remember whether you are someone he dreamed.".
+    Greets again "Davy Teazle has turned his face to the sea, and it takes a hand on his shoulder to bring it round. 'It is you,' he says, relieved, like a man finding his own door in the dark. 'Don't leave me alone with the tide. It talks when it thinks I am asleep.'".
   }
   Initially Assert asleep(davy). Initially Assert heldNow(davy).
   Relation davyWoke(place).

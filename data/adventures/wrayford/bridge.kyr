@@ -28,6 +28,7 @@ Module wrayford "The Third Night" {
   Person pinch "Amos Pinch" at gate_road {
     Role "the Bridge Company's collector, in a new black coat". Ancestry human. Peaceable. Pronouns he. Manner acerbic.
     Greets "Amos Pinch has chalked the new rate on the gatehouse door and stands under it with his tally-stick, guarding a very small treasure. 'A farthing, foot-passengers,' he says, before you have put your hand to a purse. 'Since the riot.' He does not say whose riot it was, or why it should cost the foot-passenger.".
+    Greets again "Amos Pinch has already got the farthing out of his own pocket, to save you the trouble of producing yours. 'Lower on the way back,' he says. 'No, it is not. But I always say so.'".
   }
   // The farthing, taken at the chain from everyone who goes on to the bridge while Pinch keeps the booth: once a day,
   // since he gives a tally-stick for it, and nobody but the Bench's freemen goes free.
@@ -116,10 +117,12 @@ Module wrayford "The Third Night" {
   Person gault "Sergeant Gault" at gate_leads {
     Role "the riders' sergeant, a square man with a broken nose". Ancestry human. Calling warrior. Level 4. Peaceable. Pronouns he. Manner stoic.
     Greets "Sergeant Gault is oiling a stirrup-leather six feet from the rail, and goes on oiling it. 'They stay where they are till the captain says,' he tells the leather. 'If it is the dead you have business with, it is her you wait for. If it is the living, mind the chain.'".
+    Greets again "Sergeant Gault has moved his stool two feet to put the rail out of the corner of his eye, and sits there as if it were somebody else's idea. 'Captain's not in,' he says. 'Nor tonight. Ask again tomorrow, and I will say the same, but later.'".
   }
   Person riders "the lord's riders on the gate" at gate_leads {
     Role "four of the lord's riders, in buff coats, with the lord's badge". Ancestry human. Calling warrior. Level 2. Numbers 4. Peaceable. Pronouns they.
     Greets "Four buff coats have dealt a hand of cards on a drum-head under the rail. One lays down a knave and says something low, and the others laugh a little too long. None of them looks up at what hangs over the cards, and none of them would sit with his back to it.".
+    Greets again "The cards are on the drum-head still, the same hand, the pot a little bigger. 'Another round of questions?' says the knave-layer. 'We have answers. They are all the same one.'".
   }
   Initially Assert takesPrisoners(gault). Initially Assert takesPrisoners(riders). Initially Assert serves(riders, gault).
   // They sleep in the small hours, on the nights before the captain comes; after, her own riders keep the bridge too,
@@ -190,6 +193,7 @@ Module wrayford "The Third Night" {
   Person jennet "Jennet Hobday" at hobday_room {
     Role "the toll-keeper's widow". Ancestry human. Peaceable. Pronouns she. Manner proud.
     Greets "Jennet Hobday does not look up from the bed.".
+    Greets again "Jennet Hobday has not moved the chair, and has not moved her hands. 'You came back,' she says, to the boy on the bed, and then, to you, correcting it without hurry, 'You came back.'".
   }
   Thing hobday_shut "Jennet Hobday's door" on hobday_door {
     State kept_shut blocking "The toll-keeper's door is shut. Knock, and a woman's voice inside says, 'Go away,' without anger, the way you would say it to the rain.".

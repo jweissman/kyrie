@@ -9,6 +9,7 @@ Module wrayford "The Third Night" {
   Person hulme "Simon Hulme" at guild_hall {
     Role "the Reeve of Wrayford, grey and careful". Ancestry human. Peaceable. Pronouns he. Manner stoic.
     Greets "Simon Hulme stops signing, caps the ink, and you watch him decide, in the space of a breath, to be the reeve and not anything else. 'You have come about Tuesday,' he says. 'Everyone has. I will tell you what I tell everyone, and you may judge what it costs me.'".
+    Greets again "Simon Hulme puts the pen down at once this time, which costs him something. 'You will have heard more by now than I have,' he says. 'Sit, and tell me the worst of it first. I would rather not be surprised on the stairs.'".
   }
   Rule hulme_court when hour(clock) >= 9 and hour(clock) < 17 and not at(hulme, guild_hall) and not hulmeAway(hulme) { Assert at(hulme, guild_hall). }
   Rule hulme_home when (hour(clock) >= 17 or hour(clock) < 9) and not at(hulme, hulme_study) and not hulmeAway(hulme) { Assert at(hulme, hulme_study). }
@@ -54,6 +55,7 @@ Module wrayford "The Third Night" {
   Person hal "Hal Hulme" at guild_hall {
     Role "the reeve's son, who writes his father's papers". Ancestry human. Peaceable. Pronouns he. Manner compassionate.
     Greets "Hal Hulme is copying a fair hand out of his father's rough one, and has a second sheet at his elbow that he lays face down, unhurriedly, before he stands. For a moment he is twelve years old and caught at it; then he is not. 'Father's papers,' he says. 'I write them. I do not decide them.'".
+    Greets again "Hal Hulme has the second sheet face up this time, and does not trouble to cover it. 'I decided,' he says, 'that if you were going to tell my father, you would have done it by now.'".
   }
   // His father's clerk by day; at dusk he goes down to the starling under the middle arch, where he always went; home.
   Relation halAway(group).
@@ -116,6 +118,7 @@ Module wrayford "The Third Night" {
   Person gidley "Alderman Prosper Gidley" at gidley_parlour {
     Role "the Master of the Worshipful Company of the Bridge, in a blue gown". Ancestry human. Peaceable. Pronouns he. Manner jovial.
     Greets "Alderman Gidley takes your hand in both of his, which are warm and soft, and holds it. 'Terrible days,' he says. 'Terrible. Sit down.'".
+    Greets again "Alderman Gidley takes your hand in both of his, again, and the grip is a little less warm than before and a little longer. 'Friend,' he says. 'You are in Wrayford yet. How very good of you. How very kind.'".
   }
   // Breakfast at home; at nine to the gatehouse, where he weeps; the Guildhall; home to dine.
   Rule gidley_weeps when hour(clock) >= 9 and hour(clock) < 10 and stillHanging() and not at(gidley, gate_road) { Assert at(gidley, gate_road). }
@@ -162,6 +165,7 @@ Module wrayford "The Third Night" {
   Person honoria "Honoria Gidley" at gidley_parlour {
     Role "the Alderman's wife, in black for the aunt". Ancestry human. Peaceable. Pronouns she. Manner compassionate.
     Greets "Mistress Gidley is working a sampler of the Bridge in black silk on black linen, which can be read only by tilting it to the window. She takes the needle from her mouth. 'Oh,' she says. 'Visitors. Prosper will be so glad. He has been so low.'".
+    Greets again "Mistress Gidley has finished a leaf of the black bridge and started on another, and cannot tell you which arch it is. 'Prosper is out,' she says, 'being low somewhere. He will be so sorry.'".
   }
   Relation honoriaLobbies(group). Relation iceGiven(group).
   Topic honoria_aunt with honoria "Ask Mistress Gidley about her aunt" when true once {
@@ -183,6 +187,7 @@ Module wrayford "The Third Night" {
   Person tobias "Tobias Wren" at ice_house {
     Role "the Alderman's ice-man, in a sacking cape". Ancestry human. Peaceable. Pronouns he. Manner stoic.
     Greets "Tobias Wren straightens up from the straw with a pair of tongs. 'Hill houses only,' he says. 'Alderman's orders.'".
+    Greets again "Tobias Wren has put the straw back over the block by the time you are through the door. 'Hill houses only,' he says, with less conviction. 'I will not say what the ice is for, and you will not ask, and we will both have a cooler evening.'".
   }
   Topic tobias_blue_room with tobias "Ask Tobias Wren who the ice is for" when true once {
     Says "'The blue room, mostly.' Tobias leans on the tongs. 'Four blocks a day up the back stairs since Tuesday, and lilies, and the window kept shut.' He looks at the straw. 'Ninety-one, she was. And the old man at the Acre won't dig.' He turns a block over to its cold side. 'There's ice in here for a fortnight, if the weather holds. After that I'd not want to be the one carrying it up.'".
