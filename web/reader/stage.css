@@ -50,9 +50,9 @@
 .happened.tone-fail p { color: var(--dim); }
 .happened.tone-fight { padding-left: 14px; border-left: 2px solid var(--ember); }
 .happened .notes, .lines .notes { list-style: none; padding: 0; margin: 10px 0 0; font: 400 14px/1.5 var(--do); color: var(--dim); }
-.happened .notes li.learned { border-left: 2px solid var(--verdigris); padding: 4px 0 4px 12px; color: var(--ivory); margin: 6px 0;
-  background: linear-gradient(90deg, rgba(95, 211, 182, .08), transparent 60%); }
-.happened .notes .label { margin: 0 8px 0 0; display: inline; color: var(--verdigris); }
+.happened .notes li.learned { border-left: 2px solid var(--azure); padding: 4px 0 4px 12px; color: var(--ivory); margin: 6px 0;
+  background: linear-gradient(90deg, rgba(121, 174, 247, .08), transparent 60%); }
+.happened .notes .label { margin: 0 8px 0 0; display: inline; color: var(--azure); }
 .scene .happened:not(.working) { padding-bottom: 18px; border-bottom: 1px solid var(--edge); }
 .working .you::after { content: ' …'; }
 .working { animation: breathe 1.4s var(--ease) infinite; }

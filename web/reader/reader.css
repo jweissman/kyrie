@@ -1,8 +1,10 @@
 /* Kyrie. A lantern in a dark room: a near-black ground, one bounded stage lit within it, luminous colour only where it
    means something. Newsreader tells and speaks; Jost, a geometric face, names what can be done and where one is; both
-   under the SIL Open Font License, served from fonts/. Gold is where attention is (your choice, your aim, your turn);
-   ember is harm and what cannot be undone; verdigris is something learned or found; azure is water and what is only
-   heard; violet is magic and wonder; rose is kin and affection. Never colour alone: each has its words beside it. */
+   under the SIL Open Font License, served from fonts/. The colours are the opportunity atlas (amendment 6, C; see
+   web/reader/emphasis.ts): gold is the aim followed and nothing else; silver what is worth exploring; verdigris what
+   is to be gained or is owed you; azure what is learned or heard; ember danger, harm and what cannot be undone;
+   violet the uncanny; rose kin and affection; a warm neutral accent for what is chosen or focused. Never colour
+   alone: each has its words beside it. */
 /* The faces, colours, type scale, surfaces and shared controls are the foundations' (foundations.css), read first. */
 
 * { box-sizing: border-box; }

@@ -41,14 +41,15 @@
 .lines .line.speech { font-size: 20.5px; line-height: 1.55; }
 .lines .line.telling, .lines .line.change { color: var(--ivory); }
 .lines .line.event, .lines .line.tally { font: 400 14.5px/1.45 var(--do); color: var(--dim); }
-.lines .line.learned { border-left: 2px solid var(--verdigris); padding: 4px 0 4px 12px; font: 400 15px/1.45 var(--do);
-  background: linear-gradient(90deg, rgba(95, 211, 182, .08), transparent 60%); }
+.lines .line.learned { border-left: 2px solid var(--azure); padding: 4px 0 4px 12px; font: 400 15px/1.45 var(--do);
+  background: linear-gradient(90deg, rgba(121, 174, 247, .08), transparent 60%); }
 .lines .line.learned b { display: block; font: 500 10.5px var(--do); letter-spacing: .2em; text-transform: uppercase;
-  color: var(--verdigris); margin-bottom: 2px; }
+  color: var(--azure); margin-bottom: 2px; }
 /* The next of things learned together goes on in the same block, under the one label. */
 .lines .line.learned.more { margin-top: -.8em; padding-top: 2px; }
-.lines .line.learned.aim { border-left-color: var(--gold); background: linear-gradient(90deg, var(--gold-glow), transparent 60%); }
-.lines .line.learned.aim b { color: var(--gold); }
+/* A new aim, not yet followed, is a lead worth exploring: silver, not the followed aim's gold (amendment 6, C). */
+.lines .line.learned.aim { border-left-color: #D7DBE4; background: linear-gradient(90deg, rgba(215, 219, 228, .1), transparent 60%); }
+.lines .line.learned.aim b { color: #D7DBE4; }
 /* What can be chosen gives way and scrolls within itself, fading at its foot when there is more; the leave stays. */
 .dialogue .answer { flex: 0 1 auto; min-height: 0; display: flex; flex-direction: column; overflow: hidden;
   border-top: 1px solid var(--edge-strong); padding: 14px 0 18px; }
@@ -138,7 +139,7 @@
 .more-talk > summary::-webkit-details-marker { display: none; }
 .more-talk > summary:hover, .more-talk > summary:focus-visible { color: var(--accent); outline: none; }
 .more-talk[open] > summary { color: var(--ivory); }
-.replies .fresh .act { border-left: 2px solid var(--verdigris); }
+.replies .fresh .act { border-left: 2px solid var(--azure); }
 .to-trade { margin: 14px 0 0; display: flex; gap: 10px; }
 .trading .label { margin: 14px 0 8px; color: var(--accent); display: flex; justify-content: space-between; gap: 12px; }
 .trading .label:first-child { margin-top: 0; }
