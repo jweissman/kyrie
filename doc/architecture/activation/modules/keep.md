@@ -177,3 +177,27 @@ One defect found: "Ask <keeper> about the crier" and "Ask <trader> what the levy
 first day, before the crier had come, so they are now gated `day(clock) >= 2`. The three modules' tellers are distinct: the
 crier on the green (day 2, official, in the castellan's colours), the drovers in the taproom (day 2, gossip), the carter in
 the taproom (day 3, a road-lore).
+
+## 17. Depth pass (`adventure/p3-depth`): malice, voices and a clock that runs without the company
+
+**Malice, with a signal first (`malice.kyr`).** *Thole and the Hands*, the old lord's quiet watch (three of the garrison, a
+krypteia-like institution: night errands in the ditch, impunity, a tally with fewer notches than names), were kept by an
+unpaid garrison and an unasked marshal; they have the stables (the weak room, now a barrack with a reason). They turn on a
+company that has begun to count trays and has not been spoken for: a warning in the ward ("a guest who counts its trays"), then,
+if it goes unsettled, an assault in the dark at the dead watch (the latch lifts: *Don't get up*), unless the door is barred
+(the latch is tried and the steps go) or it was settled: toll, a talked-round, the marshal called on (the garrison read, or the
+rider's tracks, or the arrears paid, which retires the whole thing). Left unsettled and the keep fallen, they come and sit on the
+first green with an apple. *Ansel Verrick*, the castellan's nephew, has been told a man of the king's is coming and has been
+practising his speech since Tuesday: told the truth he laughs and becomes a friend (whose word turns the Hands aside, and who
+rides to the first green with a ballad and ten crowns); played along he is a duel to the first fall; and at the feast, if not
+won, he takes a smile for an insult. *The cup*: at supper, to a company that has learned too much, a bitter cup, with the old dog,
+the cook's head-shake and a cleric's nose as signals; drunk, it is poison; traced, it names the leaguer by a hand that is not a
+forged page.
+**Background reads:** thief (the wicket's wire: the gate opened with no bribe), cleric (the oath dispute: a household bound to a
+lord living cannot say him dead; the office of release lets the castellan speak at the feast with no will in hand), warrior (the
+garrison's twenty, eight and three, and the marshal who has not said it), ranger (the rider was taken in the ditch by soft boots).
+**Voices rewritten aloud:** the castellan (clipped, ironic, formal), the marshal (numbers and verbs), the chaplain (a liturgical
+cadence, "child"), the groom (halting, half-said), Ansel (run-on, oath-heavy, melting).
+**Momentum.** The feast was already set for the twelfth; it now has a face on the first green without the company: the levy
+is pressed on the eighth day, the garrison drinks in coppers from the ninth, and on the twelfth the keep makes up its mind and,
+unattended, falls to the herald's master (the crier changes colours, the levy is raised).

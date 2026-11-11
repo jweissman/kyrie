@@ -2,7 +2,7 @@ Module silent_lord "The silent lord" {
   // The household, and the guests it did not ask for. Names are drawn for the country (tables.json); roles and wants are not.
   Person castellan "Someone" at solar {
     Role "the castellan, who signs for the lord". Calling warrior. Level 4. Peaceable. Manner proud. Pronouns she.
-    Greets "A tall woman in a plain grey gown, a sword-belt over it, looks up from a letter and does not put it down at once. 'The porter said travellers,' says {castellan}. 'The keep keeps open house for three nights, and I would take it kindly if none of you needed the fourth.'".
+    Greets "A tall woman in plain grey, a sword-belt over the gown, finishes the line she is writing before she looks up. It is a small discourtesy, and meant. 'The porter says travellers,' says {castellan}. 'This house keeps three nights. I should take it kindly if none of you required a fourth.' The pen goes down, parallel to the edge of the table. 'You will not go into the lord's rooms. You will not ask the servants what they have not been told. In every other respect, you are at home.'".
     Greets again "{castellan} knows your face, and says so by saying nothing about it.".
   }
   Person steward "Someone" at granary {
@@ -11,11 +11,11 @@ Module silent_lord "The silent lord" {
   }
   Person chaplain "Someone" at chapel {
     Role "the chaplain, who is also the keep's physician". Level 2. Peaceable. Manner compassionate. Pronouns she.
-    Greets "A broad, tired woman in a stained habit sets down a snuffer and turns. 'Peace on you,' says {chaplain}, and means it, and looks at you a moment too long, as people do who have not slept. 'The chapel is open at every hour. I would ask you to be quiet in it.'".
+    Greets "A broad, tired woman in a stained habit sets down a snuffer and turns, and for a moment her whole face is only listening. 'Peace to you,' says {chaplain}, and means it, and looks a moment longer than is polite, as people do who have not slept. 'The chapel is open at every hour, child. All I ask is quiet in it. There is a great deal of grief in this house, and not one of us has said so.'".
   }
   Person marshal "Someone" at ward {
     Role "the marshal, master-at-arms of the garrison". Calling warrior. Level 3. Peaceable. Manner stoic. Pronouns he.
-    Greets "A square grey man with a stick under his arm looks you over as he would a recruit. 'Thirty-one men,' says {marshal}, 'and you are the first strangers to walk in since the herald. State your business to the porter, and your trade to me.'".
+    Greets "A square grey man, stick under one arm, looks you up and down as he would a recruit. 'Thirty-one,' says {marshal}. 'You make thirty-four, while you stay. State your business to the porter. State your trade to me.'".
   }
   Person clerk "Someone" at chancery {
     Role "the castellan's clerk, who keeps the keep's papers". Calling commoner. Level 2. Peaceable. Manner acerbic. Pronouns he.
@@ -35,7 +35,7 @@ Module silent_lord "The silent lord" {
   }
   Person groom "Someone" at stables {
     Role "the groom". Calling commoner. Level 1. Peaceable. Manner cheerful. Pronouns she.
-    Greets "A girl with straw in her hair and a currycomb in her fist looks round from the stall she is working. 'Mind the grey,' says {groom}, 'he bites strangers,' and goes on with her work as if you were furniture.'".
+    Greets "A girl with straw in her hair and a curry-comb in her fist whirls round from the stall as though you had shouted. 'I d-didn't,' she says, and then sees you are only strangers, and goes red, and laughs at herself in a small cracked way. 'Mind the grey. He bites. Not hard. He doesn't like... surprises.' She looks at the loft ladder, and back. 'Nobody does, here. Lately.'".
   }
   Person herald "Someone" at guest {
     Role "a herald in the livery of the court, guest of the keep". Ancestry human. Calling bard. Level 3. Peaceable. Manner jovial. Pronouns he.

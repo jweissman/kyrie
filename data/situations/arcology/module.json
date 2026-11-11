@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "source": ["house.kyr", "entry.kyr", "tiers.kyr", "halls.kyr", "deeps.kyr", "kept.kyr", "world.kyr"],
+  "source": ["house.kyr", "entry.kyr", "tiers.kyr", "halls.kyr", "deeps.kyr", "kept.kyr", "world.kyr", "rivals.kyr"],
   "rules": ["world"],
   "globals": ["party"],
   "imports": ["party", "land", "outside", "gossip", "shrine", "keeper", "first_taproom", "first_keeper"],
@@ -32,5 +32,5 @@
     "tables": "tables.json"
   },
   "experience": 2400,
-  "unclocked": "the House counts on without anyone: the hum lets fall by the hour, and the town's spring does not mend of itself"
+  "unclocked": "the Collegium goes down the House on its own clock from the third day: the stair wedged, the capstans wound, the drawer prised and the governor carried out, the Roll written in chalk, and a counting figure at the town green by night; the hum lets fall by the hour, and the town's spring does not mend of itself"
 }

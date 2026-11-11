@@ -1,0 +1,293 @@
+Module arcology "The Numbered House" {
+  // The company is not the first this season. The Collegium of the Measured Road, which calls itself the Office of the
+  // Road's heir and holds a charter that lapses at midwinter unless it brings home a survey, went in before the
+  // company came: Prior-Surveyor Quill, who wants the House recorded and left standing, and the crew of Merrow and Son,
+  // brass-factors, who paid the cartage and want the House carried out by the pound. Brannock, their foreman, takes
+  // his orders from the second. The two have different ideas of what the Prior is for, and neither has said so.
+  //
+  // The expedition has its own clock, whether or not the company is anywhere near. It goes in on the third day and goes
+  // down the House a stage at a time (ten hours a stage): the stair wedged, the capstans wound, the tablets asked, the drawer prised and
+  // the governor taken, the disc ridden, the camp struck. What it does stays done, for the company and for the town.
+  // A company that never comes finds, from the ninth day, a House the Collegium has been through.
+  Measure rivalStage(entity). Measure rivalAt(entity).
+  Relation wedged(thing). Relation crewHasGov(thing). Relation crewRolled(thing). Relation quillHushed(thing).
+  Relation crewSuspects(thing).
+  Relation quillAlly(group). Relation crewAlly(group). Relation cowed(group). Relation crewRead(group).
+  Relation toldQuill(group). Relation paidShare(group). Relation paidFee(group).
+
+  Kind pass_kind "the Collegium's pass" is document worth 6 weighing 0 described "A half-sheet of good paper in a scribe's round hand, sealed with a wheel inside a milestone: THE BEARER TRAVELS WITH THE COLLEGIUM OF THE MEASURED ROAD AND IS TO BE COUNTED AMONG ITS NUMBER, ASSES EXCEPTED. Below it, in another hand, quick and cross: Mind the stair.".
+
+  // --- who they are -------------------------------------------------------------------------------------------------
+  Person quill "Prior-Surveyor Quill" at landing {
+    Role "the prior-surveyor of the Collegium of the Measured Road". Ancestry human. Calling mage. Level 2. Peaceable. Manner proud. Pronouns she.
+    Greets "A woman in a travelling coat with ink to the cuffs is standing in front of the doors with a slate, saying 'No, wait, wait,' to nobody. She turns. 'Forgive me. I was counting. Hesper Quill, Prior-Surveyor of the Collegium of the Measured Road, which does exist, though the Empire that founded it has been unavailable for comment since before my grandmother. You are not Merrow's. Good. Are you counted? I am. I should like to talk to somebody who is not on my payroll.'" when rivalStage(house) <= 1.
+    Greets "A woman in a travelling coat with ink to the cuffs looks up from a notebook propped on her knee, and her face does what faces do when a stranger turns out to be a person. 'You came down the stair,' says Quill. 'It stands quiet. That was us, I am sorry to say, and I would give a good deal to have it back as it was. Hesper Quill. Sit, if you can find a place that is not sitting on a tablet.'" when rivalStage(house) >= 2.
+    Greets again "{quill} lifts the pencil from the page and does not put it down.".
+  }
+  Person crew "Brannock's hands" at landing {
+    Role "a salvage foreman and four hands of Merrow and Son, brass-factors". Ancestry human. Calling warrior. Numbers 4. Level 2. Peaceable. Pronouns they.
+    Greets "A broad man with a short iron bar over one shoulder looks you over as a man looks over a cart he is thinking of buying. Behind him four hands sit on bales and do not get up. 'Dobb Brannock,' he says. 'Foreman. Merrow and Son, brass-factors of the town, that has the cartage. If you want the Prior she is inside counting things, and if you want me you have found me. We are not hiring.'".
+    Warns "Brannock's hands have put themselves across the way, two to the rail and two behind, with the foreman in the middle with the short bar across his knees. 'That's a toll,' says Brannock, not unkindly, 'and I'll say it the once. We wound this and we wedged that and we have the right of it. Pay, or turn round, or we find out together what a long drop is for.'".
+    Comes "Brannock says nothing at all. He gets up, and the four get up with him, and the bar comes off his knee.".
+    State working "The hands keep to their own end of any room, and the bales go where they go.".
+  }
+  Initially Set encounterXp(crew) to 90.
+  Person ass "the Collegium's ass" at landing {
+    Role "a grey ass with the Collegium's cipher burnt on its rump". Species pony. Peaceable. Pronouns it.
+    Greets "The ass is hobbled to the cairn with a hundred yards of good rope, and watches the brass doors with the expression of one who was counted, once, and has had to be told since that it was not.".
+  }
+
+  // --- the clock ----------------------------------------------------------------------------------------------------
+  Rule rv_start when day(clock) >= 3 and rivalStage(house) == 0 { Set rivalStage(house) to 1. Set rivalAt(house) to watch(clock). }
+  // 1 to 2: the stair. The hands wedge the discs with a bar, and one note rings wrong on the way.
+  Rule rv_wedge when rivalStage(house) == 1 and rivalAt(house) + 60 <= watch(clock) and at(quill, ?q) and at(crew, ?c) {
+    Assert state(treads, stilled). Assert wedged(house). Increase hum(house) by 2. Set humAt(house) to watch(clock).
+    Retract at(quill, ?q). Assert at(quill, terrace). Retract at(crew, ?c). Assert at(crew, terrace).
+    Set rivalStage(house) to 2. Set rivalAt(house) to watch(clock).
+  }
+  // 2 to 3: the capstans, wound by bar and back. The hands go out on the span and sit down on it.
+  Rule rv_wind when rivalStage(house) == 2 and rivalAt(house) + 60 <= watch(clock) and at(quill, ?q) and at(crew, ?c) {
+    Assert state(winch_a, wound). Assert state(winch_b, wound).
+    Retract at(quill, ?q). Assert at(quill, bridge_near). Retract at(crew, ?c). Assert at(crew, bridge_mid).
+    Set rivalStage(house) to 3. Set rivalAt(house) to watch(clock).
+  }
+  // 3 to 4: the Hall. The Prior asks the tablets, one after another, and the hum stays up while she does.
+  Rule rv_ask when rivalStage(house) == 3 and rivalAt(house) + 60 <= watch(clock) and at(quill, ?q) and at(crew, ?c) {
+    Retract at(quill, ?q). Assert at(quill, hall). Retract at(crew, ?c). Assert at(crew, hall).
+    Set rivalStage(house) to 4. Set rivalAt(house) to watch(clock).
+    Set hum(house) to max(hum(house), 4). Set humAt(house) to watch(clock).
+  }
+  Rule rv_asking when rivalStage(house) == 4 and not quillHushed(house) and hum(house) < 4 and able(quill) {
+    Set hum(house) to 4. Set humAt(house) to watch(clock).
+  }
+  // 4 to 5: the drawer. Brannock does not turn a ring: he prises, and what is in the drawer goes into a pack; and the
+  // hands write themselves in the Roll in chalk, because it is the cheap way past the keepers, and because he was told.
+  Rule rv_prise when rivalStage(house) == 4 and rivalAt(house) + 60 <= watch(clock) and at(crew, ?c) {
+    Assert state(drawer, open). Retract at(crew, ?c). Assert at(crew, drawers).
+    Assert crewRolled(house). Assert rolled(house). Increase hum(house) by 1. Set humAt(house) to watch(clock).
+    Set rivalStage(house) to 5. Set rivalAt(house) to watch(clock).
+  }
+  Rule rv_take_governor when rivalStage(house) == 5 and inside(governor, drawer) and not crewHasGov(house) and at(crew, drawers) and able(crew) {
+    Retract inside(governor, drawer). Assert crewHasGov(house).
+  }
+  Rule rv_empty_drawer when rivalStage(house) == 5 and not inside(governor, drawer) and not crewHasGov(house) and not crewSuspects(house) {
+    Assert crewSuspects(house).
+  }
+  // 5 to 6: the disc. The Prior rides it down, counted, to a floor that has been waiting; the hands bring the brass up.
+  Rule rv_disc when rivalStage(house) == 5 and rivalAt(house) + 60 <= watch(clock) and at(quill, ?q) and at(crew, ?c) {
+    Assert state(bronze_ring, set). Retract at(quill, ?q). Assert at(quill, quiet). Retract at(crew, ?c). Assert at(crew, terrace).
+    Set rivalStage(house) to 6. Set rivalAt(house) to watch(clock).
+  }
+  // 6 to 7: the camp struck at the Landing. 7 to 8: gone.
+  Rule rv_pack when rivalStage(house) == 6 and rivalAt(house) + 60 <= watch(clock) and at(quill, ?q) and at(crew, ?c) {
+    Retract at(quill, ?q). Assert at(quill, landing). Retract at(crew, ?c). Assert at(crew, landing).
+    Set rivalStage(house) to 7. Set rivalAt(house) to watch(clock).
+  }
+  Rule rv_gone when rivalStage(house) == 7 and rivalAt(house) + 60 <= watch(clock) and at(quill, ?q) and at(crew, ?c) and at(ass, ?a) {
+    Retract at(quill, ?q). Retract at(crew, ?c). Retract at(ass, ?a).
+    Set rivalStage(house) to 8. Set rivalAt(house) to watch(clock).
+  }
+  // --- what the company sees of it: progress, in the places it has been -------------------------------------------
+  Observe rv_camp at landing as sign when rivalStage(house) == 1 "A camp has been made against the foot of the terrace: three tents, a fire-pit with warm ashes, a rope line with washing on it, bales roped under a tarpaulin. Someone has chalked a second line under the survey's, in a rounder hand, and a third under that. A grey ass is hobbled to the cairn.".
+  Observe rv_camp_cold at landing as sign when rivalStage(house) >= 2 and rivalStage(house) < 7 "The camp at the foot of the doors has been left: three tents, a rope line, a fire-pit gone cold. Whoever made it is in the House, and meant to come back to it.".
+  Observe rv_camp_struck at landing as sign when rivalStage(house) == 7 "The camp is down and half on a cart, with bales roped on top, and a surveyor's assistant is counting them aloud to the ass.".
+  Observe rv_camp_gone at landing as sign when rivalStage(house) >= 8 "Flat grass and a ring of black where the fire was. A cartwheel's rut runs out across the shelf to the road, deep, and going the way brass goes.".
+  Observe rv_chalk at landing as sign noticed by lore when rivalStage(house) >= 1 "The Collegium's chalk beside the survey's has the Empire's numerals right and the Empire's grammar wrong, as a copy does: NINE ENTERED has become NINE ENTER, and someone has crossed out ENTER, and written ARE, and underlined it. They are very sure of the numerals. They are not sure of the verb.".
+  Observe rv_tracks at landing as sign noticed by woodcraft when rivalStage(house) >= 1 "Five men and an ass, and one cart that was left at the road. The foreman walks last, with the weight on his heels; one of the hands favours his left knee and has bound it with a tent-cord; the ass was led in on a short rope and led back out. Nobody has been through the doors twice.".
+  Observe rv_wedge_marks at lodge as sign when wedged(house) "Bright new scars on the three bronze discs, each the width of a bar's edge, and a wedge of green timber knocked home in the crack of each. The stair has been sounded and silenced, roughly, by somebody who wanted it to stop and did not mind how.".
+  Observe rv_wedge_noted at lodge as sign noticed by perception when wedged(house) "One of the discs has been struck three times and wrongly: there are three dents, each in a different place, as there would be if a man had hammered what a clerk should have been learning. The timber wedges are Merrow's, and they are good timber.".
+  Observe rv_gantry at gantry as sign when wedged(house) and rivalStage(house) >= 3 "Both capstans are wound to the last notch and have been greased: a rag lies by the near one, black with it, and a tally of chalk strokes on the wall counts the turns, five to the gate, in a clerk's hand. Somebody has been working this gantry who knew how long a chain is.".
+  Observe rv_bridge_camp at bridge_mid as sign when rivalStage(house) == 3 "Packs on the deck, a kettle on a spirit-lamp hung from the rail by its handle, a bar laid across two bales for a table. Somebody has made a camp in the middle of a bridge, and made it a toll.".
+  Observe rv_hall_voice at hall as sound when rivalStage(house) == 4 and not quillHushed(house) "A woman's voice, patient and level, is asking the tablets questions in order. Each answer comes up out of the floor; each question is followed by the scratch of a pencil. The hum under all of it is steady and rising, and she does not seem to hear it.".
+  Observe rv_drawer_prised at drawers as sign when crewRolled(house) "The drawer has been prised, not turned: a crowbar's bite beside the ring, a splinter of bronze on the floor, the ring itself scored and hanging at a notch it was never meant to be left on. And the Roll has been written in: eleven names in a round bad hand, and an ass, and under them a single bright line gone down the column, as if the book had drunk it.".
+  Observe rv_roll_read at drawers of roll as reading when crewRolled(house) "The new names are chalked as a man chalks a tally: MERROW'S, SEVEN, THE FOREMAN'S, ONE, and one more in a hand that tried at neatness, QUILL. The line the Collegium was counted under, by the Usher, is not this one. This one is the cheap one.".
+  Observe rv_quiet at quiet as sign when rivalStage(house) >= 6 "A boot-print in the pale wood by the table-room door, and a smear of pencil on the wall at the height of a woman's hand, where she leaned to write something down and could not. The Host stands in the doorway of the laid room and does not look at it.".
+  Observe rv_ring_walk at ring_walk as sign when rivalStage(house) >= 6 "A brass tripod stands on the parapet where nothing was, its legs spiked into the lead, a sighting-tube in its head aimed at the drowned city. A lens-cap is tied to it with a bootlace. Somebody left this here meaning to come back, and then left in the sort of hurry that is polite about it.".
+
+  // --- what Quill is, and what she wants of the company -----------------------------------------------------------
+  Topic quill_who with quill "Ask {quill} who the Collegium of the Measured Road is" when true once {
+    Says "'The heirs of an office,' says {quill}, 'which is to say eleven people and a charter. The Office of the Road laid the road you walked in on. When it was closed nobody wrote down who owned what it had laid, so the Collegium owns, in law, the pavement, the milestones and, by a clause I can recite, the right to number anything the Office would have been asked to number.' She taps the slate. 'That is a great deal of right and no money. The charter lapses at midwinter unless I come home with a survey. So I am here, with a slate, and the syndicate's men, who are not here for the survey.'".
+  }
+  Topic quill_house with quill "Ask {quill} what she makes of the House" when true once {
+    Says "'It is three things,' she says, 'and I will not be told which. A dwelling: the doors are numbered like a street. An engine of answers: the Hall. And a vessel, if you go out on the Ledge and look at what the Empire could not decide to call a hull or a hill.' She laughs, short, at herself. 'I wake at night with the answer, and in the morning it is a different one. Do not tell me what you think. I should hold it against you.'".
+  }
+  Topic quill_ass with quill "Ask {quill} how the Collegium came to be counted" when true once {
+    Says "{quill} puts down the pencil. 'We did it by the book. Nine entered, one led, ten at the post, and the post said no.' She closes her eyes. 'The post said, THE ASS IS NOT A HEAD. I had it in the Empire's own chalk that the ass was counted. It was the ass who was wrong. I stood in front of a brass post and was told by a clock that my ass was not a person.' A pause. 'Nine entered. One led. We left the ass in the road, and it is, I tell you, the only one of us who has not been counted at all, and it is the only one who is not worried.'".
+  }
+  Topic quill_crew with quill "Ask {quill} about the hands" when true once {
+    Says "'Merrow's,' says {quill}, low, with a look over her shoulder as though the walls had ears, which they have. 'The syndicate paid the cartage and sent a crew to see I was not robbed. I will say Dobb Brannock is not a bad man. I will say that a man who is paid by the pound of brass and sees a House that is mostly brass has a difficulty.' She looks at her hands. 'They are owed three weeks. I have written to the factors. I am afraid of what Brannock thinks I am for.'".
+    On discuss { Assert knows(actor, crew_owed). }
+  }
+  Discovery crew_owed "Brannock's hands are owed three weeks' wages by the syndicate that sent them, and the Prior is afraid of what the foreman thinks she is for.".
+
+  // To be allies: what the Prior wants is a thing to be sure of, a reading, and someone who is not Merrow's.
+  Topic quill_tablet with quill "Show {quill} the Prefect's tablet" when holding(party, prefect_kind) and not quillAlly(party) once {
+    Says "{quill} takes it in both hands. She reads it, and reads it again, with her lips moving, and sits down on the nearest bale. 'NO OFFICER OF THE POSTS ENTER OR NUMBER WHAT IS WITHIN,' she says. 'And I am not an officer of the Posts. I am a prior of the Collegium. I am not, in the Empire's grammar, anything at all.' She is crying, a little, and laughing at it. 'That is the first line of law that has ever been in my favour. Take this. Please. It will get you past the foreman. Do not lose it. I have only four.'".
+    On discuss { Assert quillAlly(party). Give pass_kind to actor. }
+  }
+  Topic quill_plate with quill "Lend {quill} the surveyors' signal-plate" when holding(party, arcology_mirror_kind) and not quillAlly(party) once {
+    Says "'A Posts plate,' says {quill}, and her voice goes very small. 'Complete. With the slot.' She holds it to the light. 'The Collegium has not had one since the second founder pawned theirs. If you will lend it me for an hour I will copy the numerals on its rim and give you my name as surety.' She does, quickly, in a clean hand, and gives it back, and her thanks, and a pass sealed with a wheel inside a milestone. 'You are the first person to give me something I did not have to bargain for. I shall try not to be embarrassing about it.'".
+    On discuss { Assert quillAlly(party). Give pass_kind to actor. }
+  }
+  Topic quill_stair with quill "Tell {quill} what the discs of the stair are struck in" when (progress(treads) >= 3 or heard(tab_steps)) and not quillAlly(party) and rivalStage(house) <= 1 once {
+    Says "'You have read the wear,' she says, with the look of a woman who has been beaten to it and does not mind. 'Of course. The wear is the oldest clerk in the building.' She does not take out her slate. 'Do not tell Brannock. He wants it stopped, not understood. If I tell him that it is the order that matters he will hit the order.' She gives you a pass and a sheet torn from the notebook with the Collegium's cipher at its head. 'It is not a bribe. It is a letter of introduction to a man who does not exist yet.'".
+    On discuss { Assert quillAlly(party). Give pass_kind to actor. }
+  }
+  Topic quill_hush with quill "Ask {quill} to stop asking the tablets: the keepers are rising" when quillAlly(party) and rivalStage(house) == 4 and not quillHushed(house) once {
+    Says "{quill} stops with the pencil lifted. 'I count five answers,' she says, 'and the hum at five. I thought it was the House being appreciative.' She listens, and her face changes. 'It is not the House being appreciative.' She shuts the notebook. 'Five is enough to be going on with. I shall copy the rest from the plates when it has gone quiet. Thank you for telling me the building was upset.'".
+    On discuss { Assert quillHushed(house). }
+  }
+  Topic quill_copy with quill "Ask {quill} to read you her notes on the Hall" when quillAlly(party) and rivalStage(house) >= 4 and not knows(party, purpose_known) once {
+    Says "She turns the notebook round. 'Five tablets, five answers, each one marked with the device it was under. The doors tablet is the one I cannot stop reading. It says the House is a dwelling, and in the same breath that it is an engine of answers, and then it says, which I cannot get round, that which came first is not recorded.' She looks up. 'A house that does not know why it was built. Do you know how many people I could tell that to?'".
+    On discuss { Assert knows(actor, purpose_known). }
+  }
+  Topic quill_fee with quill "Ask {quill} for the Collegium's fee" when quillAlly(party) and rivalStage(house) >= 6 and not paidFee(party) once {
+    Says "'The fee,' says {quill}, as one says a word in a language one is trying to learn. 'Yes. The Collegium owes you thirty crowns, a pass and the thanks of eleven people. The crowns are mine. I had been saving them for a boat.' She counts them out onto the slate, a little too carefully. 'I shall publish a name beside the Roll, in the margin, in my own hand, and it will say that a company came behind us and was counted and left it better. It is the only honour I have to give.'".
+    On discuss { Increase quantity(actor, gold) by 30. Assert paidFee(party). }
+  }
+  Rule pass_held when holding(party, pass_kind) and not tolerates(crew, party) { Assert tolerates(crew, party). Assert tolerates(quill, party). }
+
+  // --- what Brannock is, and what he will take --------------------------------------------------------------------
+  Topic bran_who with crew "Ask {crew} who they work for" when true once {
+    Says "'Merrow and Son,' says Brannock. 'Brass-factors. Pay by the pound, weighed at the cart, and if you want to know who weighs it, it is Merrow's boy, who has never seen a mine.' He spits, neatly, out of the way of the House. 'The Prior wants the place written down. Merrow wants it taken apart. I am a man who has to explain to the one why the other is in his boots.'".
+  }
+  Topic bran_owed with crew "Tell {crew} you know the syndicate owes them three weeks" when knows(actor, crew_owed) and not crewAlly(party) once {
+    Says "The hands stop talking. Brannock looks at you for the length of a slow breath. 'Who told you that?' he says, and then, because nobody has said, 'No. It does not matter. It is true.' He rubs the back of his neck with a hand like a plank. 'I will tell you what I tell the lads: Merrow pays when the brass is on the cart. That is why we are in a House with a stair that bites. If the brass is a little less on the cart, nobody pays at all.' A silence. 'You've a mind to buy me a drink and tell me how else this might end?'".
+    On discuss { Assert crewAlly(party). Assert tolerates(crew, party). Retract warned(crew, party). Retract halts(crew, party). }
+  }
+  Topic bran_share with crew "Offer {crew} your steel for a share of what comes off the House" when not crewAlly(party) and rivalStage(house) <= 5 and able(crew) once {
+    Says "Brannock laughs, once, through his nose. 'A share,' he says. 'Of what? I have not got it yet.' But he has looked at your swords, and looked at the stair behind you, and made up his mind. 'There's a drawer in the gallery that will want a bar and a back. Go in front. When it comes out of the ground it is yours and mine in two, and the Prior need not be told what the House cost. That suit?'".
+    On discuss { Assert crewAlly(party). Assert tolerates(crew, party). Retract warned(crew, party). Retract halts(crew, party). }
+  }
+  Topic bran_toll_pay with crew "Give {crew} your pass instead of coin" when holding(party, pass_kind) and not crewAlly(party) once {
+    Says "He reads it, and turns it over, and reads the back. 'The Prior's hand,' he says. 'She has never written me a pass. She's written me a note.' He hands it back, like a man handing back a dish. 'You will not do for the toll. You will do for the Prior's company. It is the other end of the bridge that has the trouble.'".
+    On discuss { Assert tolerates(crew, party). Retract warned(crew, party). Retract halts(crew, party). }
+  }
+  Topic bran_gov with crew "Buy the lift's governor from {crew}: twenty-five crowns" when crewHasGov(house) and quantity(party, gold) >= 25 and not holding(party, governor_kind) once {
+    Says "'The drum,' says Brannock. 'The one the Prior wants to put back where it came from, and Merrow wants to melt.' He weighs it in his hand, looks at the coins, looks at the drum. 'Twenty-five. I put it down as dropped in the Void.' He does not smile. 'There is a man at the bottom of a lift somewhere who will be sorry it cost so much.'".
+    On discuss { Decrease quantity(actor, gold) by 25. Increase quantity(crew, gold) by 25. Give governor_kind to actor. Retract crewHasGov(house). }
+  }
+  Action shame_brannock(actor: group, site: place) "Tell {crew} there is a man nine days in the lift-cage for want of the governor" {
+    Speaker crew.
+    Description "He is not a gentle man. He is not that kind of man either.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(crew, site) and able(crew) and crewHasGov(house) and state(salvager, trapped) and knows(actor, lift_cage_known)
+      and not holding(actor, governor_kind).
+    Time 3 minutes.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Give governor_kind to actor. Retract crewHasGov(house). Assert tolerates(crew, actor). Retract warned(crew, actor). }
+    On failure { Assert warned(crew, actor). Set patience(crew) to watch(clock) + 2. }
+    Result "Brannock goes quiet. Then he takes the drum out of his pack and puts it in your hands as though it burned. 'Nine days,' he says. 'In a box.' He looks at his boots. 'I have left a man in a box. In the war. I do not leave men in boxes.' He turns his back. 'Merrow can deduct it from my wages. Go on.'".
+    Otherwise "Brannock listens to it all, and nods, and says, 'That's a hard thing.' He puts the drum back in the pack. 'But the factor does not take hard things for a receipt.' The hands have stood up.".
+  }
+  Discovery lift_cage_known "A man is trapped in the stalled lift, and the lift wants a governor that is somewhere else in the House.".
+  Topic bran_give_up with crew "Hand {crew} the lift's governor, to keep the peace" when holding(party, governor_kind) and warned(crew, party) once {
+    Says "'Wise,' says Brannock, and means it, and takes the drum with both hands, so that it does not ring. 'You will have a cut of it from me at the cart, if you are still here. If not, you were never here, and I was never paid.'".
+    On discuss { Spend governor_kind from actor. Assert crewHasGov(house). Assert tolerates(crew, party). Retract warned(crew, party). Retract halts(crew, party). }
+  }
+  Topic bran_cut with crew "Ask {crew} for the share he promised" when crewAlly(party) and rivalStage(house) >= 6 and not paidShare(party) once {
+    Says "He counts it out on a bale, and it is thirty-two crowns, and it is the lightest thirty-two you have ever held. 'The House paid,' says Brannock, 'and the Prior paid, and I'd not ask which of us is the poorer for it.' He looks past you, into the dark of the doors. 'The Roll is written in, you know. I did that. I was told it was the way past the keepers. I was told a lot of things.' He does not meet your eye. 'If something comes down to the town in the night, I would stand in the door of the shrine with a lamp, myself.'".
+    On discuss { Increase quantity(actor, gold) by 32. Assert paidShare(party). Assert knows(actor, roll_confessed). }
+  }
+  Discovery roll_confessed "Brannock wrote his hands' names in the Roll in chalk to get past the keepers, and knows it has reopened the count.".
+  Rule crew_sours_gov when holding(party, governor_kind) and rivalStage(house) >= 5 and rivalStage(house) <= 7 and able(crew) and peaceable(crew) and not tolerates(crew, party) {
+    Retract peaceable(crew). Assert temperament(crew, temper_proud). Set tribute(crew) to 12.
+  }
+  Rule crew_sours_bridge when rivalStage(house) == 3 and able(crew) and peaceable(crew) and not tolerates(crew, party) and not cowed(crew) {
+    Retract peaceable(crew). Assert temperament(crew, temper_proud). Set tribute(crew) to 5.
+  }
+  Rule crew_calms when rivalStage(house) >= 7 and temperament(crew, temper_proud) and not warned(crew, party) {
+    Assert peaceable(crew). Retract temperament(crew, temper_proud). Retract halts(crew, party).
+  }
+
+  // --- the five who read it differently: what each calling sees ---------------------------------------------------
+  Relation crewTracked(group). Relation heardShift(group).
+  // The scholar reads the numbering. The doors of the Row are numbered round a ring of six; one is painted over; the
+  // House notes a thing by what it will not say, and the ring in the Drawer Gallery is turned to the number it skips.
+  Observe numbering_row at row as sign noticed by lore when true "The doors of Tenants' Row are numbered in sixes, and the sixes begin again at each ring, as a clock's hours do. In the third ring a door is numbered {target(ring) in words} twice, and the second has been painted over, three coats, by a tenant who could not bear it or a House that could not allow it. A clock that repeats an hour is a clock that is keeping something." teaches ring_read.
+  Discovery ring_read "The numbering of Tenants' Row repeats one figure and paints it out; the Drawer Gallery's ring is turned to the figure the House will not say twice.".
+  Observe numbering_ring at drawers as reading noticed by lore when knows(party, ring_read) "The ring has six notches, and the Row's numbering has six rings of six. The figure painted over in the third ring is the figure at which the ring would stand if you turned it to {target(ring) in words} and pressed. The House keeps the answer where a clerk would look for the question.".
+  // The thief reads the mechanism: the pawl, and the tumblers of the ring.
+  Observe pawl_tell at gantry as sign noticed by trapwork when state(winch_a, wound) "A thin wire runs from the near capstan's pawl down through a slot in the floor, to a counterweight on the span: if the pawl is knocked out, the weight lets go and the deck goes over, and whoever is on it. It was there to stop a crowd of tenants crossing at once. It would stop anyone." teaches pawl_seen.
+  Discovery pawl_seen "The near capstan's pawl is wired to the deck of the Bridge: knocked out, the span tips.".
+  Observe ring_tumbler at drawers as sign noticed by lockwork when true "The ring is a combination, not a lock; a thief's ear is for the stiffness, not the click. It is stiffest, by a hair, at {target(ring) in words}, as a latch is where it is meant to catch. The monks wore the other notches smooth with their guessing." teaches ring_heard.
+  Discovery ring_heard "Under the thumb, the ring is stiffest at one notch, as a latch is where it catches.".
+  Action spring_pawl(actor: group, site: place) "Knock the near capstan's pawl out, and let the span go" {
+    Description "It is a long drop, and a thing the House was built to do to a crowd.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gantry) and capable(actor, trapwork) and knows(actor, pawl_seen)
+      and state(winch_a, wound) and at(crew, bridge_mid) and able(crew).
+    Time 2 minutes.
+    On success {
+      Assert state(deck, canted). Set cantedAt(deck) to watch(clock). Retract at(crew, bridge_mid). Assert at(crew, bridge_near).
+      Assert strikes(slide, crew). Assert cowed(crew). Assert tolerates(crew, actor). Retract warned(crew, actor). Retract halts(crew, actor).
+      Retract temperament(crew, temper_proud). Assert peaceable(crew).
+    }
+    Result "The pawl goes with a flat clang and the wire sings. Out in the gulf something heavy lets go. The deck goes over like a table with one leg kicked, and Brannock's hands go down it in a heap of bales and language. They fetch up at the near end, hurt and furious and perfectly alive. Nobody has ever been so quiet after being so loud. 'That,' says Brannock, from the floor, 'was well done. I will not say it twice.'".
+  }
+  // The ranger reads the creature runs: the owlbear's feeding-run is a line in the ferns, and its sleep is at noon.
+  Observe owl_runs at foot as sign noticed by woodcraft when able(owlbear) "The owlbear's run goes pool to carrion in a line you could lay a rule along: it comes up out of the ferns at the east side for the rim's leavings, and goes back to the south wall at noon to sleep in the dry. In between, the ground by the south wall is trodden by nothing but its own belly. There is a way round the beast that keeps to the ferns and takes an hour." teaches owl_runs.
+  Discovery owl_runs "The owlbear feeds along a line in the ferns and sleeps at noon on the south wall; a person who keeps to the ferns can go round it.".
+  Action slip_the_run(actor: group, site: place) "Take the owlbear's line through the ferns, and go round it" {
+    Description "A beast that keeps a road is a beast that can be walked round, if you keep to what it does not.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, foot) and at(owlbear, foot) and able(owlbear) and capable(actor, woodcraft)
+      and knows(actor, owl_runs) and not tolerates(owlbear, actor).
+    Time 60 minutes.
+    On success { Assert tolerates(owlbear, actor). Retract warned(owlbear, actor). Retract halts(owlbear, actor). }
+    Result "It takes an hour, an inch at a time, always with the ferns between you and the south wall. The owlbear's head comes up once, at the sound of a leaf, and goes down again. You are on the other side of the pool before you let yourself breathe.".
+  }
+  // The warrior reads the rival's formation: two spears in front and two behind a foreman who hires his own, and the
+  // right of the line is a man who is thinking about his knee.
+  Rule read_the_line when memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and together(crew, party) and able(crew) and not crewRead(party)
+    says "{?m} does not look at the foreman. {?m} looks at the hands, and counts them, and counts them again. 'Two up, two back,' {?m} says, very low. 'The two in front are paid, and stand wide, to stay out of each other's way, and the foreman is behind the left of them, where he can reach both. The man on the right is thinking about his knee.' A breath. 'None of them is thinking about the person behind him. That line breaks at the right. It is a hired line. A man who is afraid of the foreman is not afraid of you.'" teaches crew_read {
+    Assert crewRead(party).
+  }
+  Discovery crew_read "Brannock's line is a hired one: two paid spears up and two back, a foreman behind the left, and the man on the right thinking about his knee.".
+  Action break_the_line(actor: group, site: place, m: member) "Have {m} step out and face Brannock's line, at the right" {
+    Description "A hired line holds while the man behind it does. It does not hold against somebody who has noticed.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(crew, site) and able(crew) and memberOf(m, actor) and hasCalling(m, calling_warrior) and awake(m)
+      and knows(actor, crew_read) and not peaceable(crew) and not tolerates(crew, actor) and not assails(crew, actor).
+    Time 3 minutes.
+    Resolve check(actor, intimidation, dc_easy).
+    On success { Assert cowed(crew). Assert tolerates(crew, actor). Retract warned(crew, actor). Retract halts(crew, actor). }
+    On failure { Assert assails(crew, actor). }
+    Result "{m} walks to the right of the line, stops a pace short of the man with the bad knee, and looks at the foreman over his head. Nobody says anything for a long while. The man with the knee shifts his weight, and the line is not there. 'Let them by,' says Brannock, to no one in particular, and the bar comes off his shoulder and goes down. 'I have been in the rank,' he says. 'I know the look.'".
+    Otherwise "{m} steps out. Brannock does not even turn his head. 'Not the right,' he says. 'The right is mine.' The line has not moved; the man with the knee has put his hand on his belt. It was a good guess. It was one guess.".
+  }
+  // The cleric understands the dead who still work shifts: at dusk the tenants come out of the doors of the Row and walk
+  // the Terrace to their work, and the work is the capstans.
+  Observe shift_walk at terrace as sign noticed by rites when dark() "At the turn of the dusk, doors on Tenants' Row open of themselves, and figures of grey light file out of them in single file, quite silent, each carrying a lamp that gives no light. They walk the Terrace with the tired good manners of people on their way to work, and turn in at the gantry door. There are eleven of them. Nobody has told them it is over.".
+  Observe shift_gantry at gantry as sign noticed by rites when dark() and not state(winch_a, wound) "Grey figures stand at the capstans in the dim, leaning on the spokes, and the pawl is not in its rack. They have been winding the weights at every dusk for a thousand years, and nothing has been added to the chain, because the chain has been seized. They work on, and nothing moves, and they are courteous about it." teaches shift_known.
+  Discovery shift_known "The dead tenants of the Row still keep their shift at dusk, at the capstans of the gantry, and the work does not go because the pawl is seized.".
+  Action keep_the_shift(actor: group, site: place, m: member) "Have {m} say the office for the tenants, and ask the shift to wind the weights" {
+    Description "The dead do what they did. They have not been told they may stop; they have not been asked to do something that they can.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gantry) and dark() and memberOf(m, actor) and hasCalling(m, calling_cleric) and awake(m)
+      and knows(actor, shift_known) and not state(winch_a, wound).
+    Time 20 minutes.
+    On success { Assert state(winch_a, wound). Assert state(winch_b, wound). Assert heardShift(actor). }
+    Result "{m} kneels at the foot of the capstans and says the office for the tenants of the third ring in the plain voice of someone who has said it for strangers, and the shift stops its leaning. Eleven grey heads turn. Then, together, as a man lifts a long-forgotten tool, the figures put their shoulders to the spokes, and the pawl clicks into the first notch, and the second, and the capstans turn, as they have not turned for a thousand years, easily, without a sound. At the last notch they all stop at once, and look at {m}, and the foremost of them bows from the waist, and goes out, and the rest after it, one by one, until the gantry is only a gantry. The chains are tight. Nobody has been hurt, and nothing has been broken, and the hum has not moved.".
+  }
+
+  // --- the Ring-walk, worth the climb ------------------------------------------------------------------------------
+  // The drowned city under the ring: the Posts' plate, held to the sun from the parapet, is answered.
+  Thing ring_sight "the sighting-slot in the parapet" at ring_walk {
+    State unaimed "A slot of bronze is let into the parapet, the width of a hand, with a scale on its edge, and the lens of a long sighting-tube has been left in it, cracked. Whoever set it there was aiming at the tallest of the spires beneath the ring.".
+    State answered "The sighting-slot stands aimed. Down in the drowned plain, on the tallest spire, a pinprick of light has come and gone three times, long, long, short, and is waiting.".
+  }
+  Action flash_the_tower(actor: group, site: place) "Flash the surveyors' plate at the tallest spire in the drowned city" {
+    Description "The Posts signalled down the road by sunlight. The plate was made for it. Nobody has said what is at the other end of the road.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, ring_walk) and holding(actor, arcology_mirror_kind) and not dark() and state(ring_sight, unaimed).
+    Time 10 minutes.
+    On success { Assert state(ring_sight, answered). Assert knows(actor, tower_answers). }
+    Result "You find the spire in the slot, and hold the plate to the sun, and make the Posts' call, the one every carter's child knew in the Empire's day: THE ROAD IS OPEN. For a long time nothing happens. Then, on the tallest spire, in the drowned plain, under the ring, a light comes and goes: long, long, short. Three times. It is the Posts' answer, the oldest word on the roads: WAIT. Somebody, or something in the shape of somebody's purpose, has been waiting a very long while to be asked.".
+  }
+  Discovery tower_answers "From the Ring-walk, a surveyors' plate flashed at the spire of a drowned city is answered: three flashes, the Posts' word, WAIT.".
+  Topic quill_tower with quill "Tell {quill} the drowned city answered the plate: WAIT" when knows(party, tower_answers) and not toldQuill(party) once {
+    Says "{quill} sits straight down on the floor. She says nothing for what is a long time to be saying nothing. 'WAIT,' she says. 'It is not in the Collegium's code book. It is in the Posts'. It is the word for a rider who has been told to hold at the next stage and has not been told since.' She looks up. Her eyes are bright, and she has stopped being the Prior-Surveyor. 'It is two days away. I shall never get the funds for two days. I shall go anyway. Will you tell me what it looked like?' You tell her. She writes it down, as it was said, without adding a word.".
+    On discuss { Assert toldQuill(party). Increase quantity(actor, gold) by 20. }
+  }
+
+  // --- what the town below hears ----------------------------------------------------------------------------------
+  Observe bill_first at first_taproom as hearsay when rivalStage(house) >= 8 and day(clock) >= 3 "A bill is pinned beside the shuttered hatch: THE COLLEGIUM OF THE MEASURED ROAD WILL PUBLISH, BY SUBSCRIPTION, A SURVEY OF THE NUMBERED HOUSE, WITH A PLATE OF THE GREAT VOID. A second hand has written under it, quite small: AND THE BRASS IS ON THE CART.".
+  Topic first_collegium with first_keeper "Ask {first_keeper} about the bill on the wall" when rivalStage(house) >= 8 and day(clock) >= 3 once {
+    Says "'The Collegium,' says {first_keeper}. 'Surveyors. They went by in a cart with a very contented ass and a crew who did not look at each other. Merrow's, from the brass-yard.' {first_keeper} lowers a glass. 'The crew were the ones with the brass on the cart. The surveyors were the ones with the look.' A pause. 'There is a priest in the next town, by the spring, who has been sitting up nights. I should ask.'".
+  }
+}

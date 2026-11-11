@@ -459,3 +459,16 @@ Numbered after R46. The integrator renumbers if a sibling branch also continued 
 
 *Problem.* `DeepGroup` (`src/world/deep/deep-purposes.ts`) is species, count, label, role, temperament and variations, and `DeepRooms.dwellers` writes only those; the keeper alone takes `words`. So the most-trodden fights, the rooms of a generated deep site, have the plain words of their temperament and no alternative (the placed troubles have them: smoke, rites, a thrown bone, a ewe).
 *Request.* `DeepGroup.words: { Warns, Comes, Flinches }`, passed through as the keeper's are, and `DeepGroup.ways: [{ label, needs, effect }]` for one authored alternative a group may be given (a lure of the kind's food, the rites for the dead), written as the situations' `Change ... needing <skill>` is, so a purpose can say how its ghouls are laid and its hounds thrown a bone.
+
+## F. Requests from `adventure/p3-depth` (R85 to R87)
+
+### R85. A person's movement is a rule per stage
+A rival company that goes down a ruin on a clock (arcology `rivals.kyr`) is eight rules, each retracting and asserting `at`
+for each person it moves, each repeating the clock test. *Proposal:* a `Route` line on a Person (`Route landing 0h, terrace 10h, hall 30h.`) read against `watch(clock)` and suspended while the person is `occupied`. Reproduce: `rv_wedge`..`rv_gone`.
+
+### R86. `noticed by` reads capabilities, not callings, so a calling-specific perception is a rule that speaks once
+A warrior reading armed men, a cleric reading an oath, a thief reading a gate are `Rule … hasCalling(?m, …) … says "{?m} …"` with a
+`heard…` relation (the Liberty of the Ice's pattern). *Proposal:* `Observe … noticed by calling warrior …`, with the member named in the text.
+
+### R87. A hazard struck on a company other than the party is unverified
+`Assert strikes(slide, crew)` is written for a rival group's fall; the Bridge spec checks where they land, not that they were hurt. *Proposal:* a spec helper to read a group's hit points, and a line in the guide saying hazards strike any group.

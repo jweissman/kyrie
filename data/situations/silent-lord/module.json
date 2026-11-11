@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "source": ["keep.kyr", "people.kyr", "papers.kyr", "talk.kyr", "court.kyr", "below.kyr", "feast.kyr", "town.kyr"],
+  "source": ["keep.kyr", "people.kyr", "papers.kyr", "talk.kyr", "court.kyr", "below.kyr", "feast.kyr", "town.kyr", "malice.kyr"],
   "rules": ["world"],
   "globals": ["party"],
   "imports": ["party", "land", "outside", "gossip", "taproom", "shrine", "keeper", "priest", "trader", "far_green"],
@@ -26,5 +26,5 @@
     "tables": "tables.json"
   },
   "experience": 1200,
-  "unclocked": "the muster day passes, the notice on the green is amended to say the lord is indisposed, and the levy stays called; the household keeps its silence"
+  "unclocked": "the levy is pressed on the eighth day; on the twelfth the keep makes up its mind without the company, and by default falls to the herald's master, unless the garrison is paid or the herald unmasked: the crier changes colours on the green and the levy is raised"
 }
