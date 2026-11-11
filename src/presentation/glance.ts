@@ -15,6 +15,7 @@ import { SceneModel, type Scene } from '../ui/scene';
 import type { Act, Screen } from '../ui/screen-types';
 import { Stakes } from '../ui/stakes';
 import { Undertakings } from './undertakings';
+import { AimRoute } from './aim-route';
 import { CompanyRecall } from './company-recall';
 import { DecisionFrame } from './decision-frame';
 import { GlanceLines } from './glance-lines';
@@ -137,7 +138,7 @@ export class Glance {
       .filter(([k]) => !['actor', 'site'].includes(k)).map(([, v]) => v)]));
     const touches = new Map(rows.map(r => [r.choice.id,
       new Set((r.action.success ?? []).flatMap(c => c.call?.args ?? []))]));
-    const named = this.routed(campaign, screen, this.inside(campaign, screen, this.whereabouts(campaign, screen,
+    const named = AimRoute.routed(campaign, screen, this.inside(campaign, screen, this.whereabouts(campaign, screen,
       this.named(campaign), this.addressed(campaign))));
     const held = this.inside(campaign, screen,
       new Set([...screen.aimed ?? []].filter(id => !named.has(id) && id !== campaign.playerActor)));
@@ -290,15 +291,6 @@ export class Glance {
   }
   private static reads(p: Predicate, into: Call[]) {
     ModuleWriter.conditionCalls(p, call => { into.push(call); return call; });
-  }
-  // Where its author says the aim is gone to by (toward crypt by yard), that place too, until the company is in it or
-  // at what the aim is toward: the churchyard lit from the shrine, and nothing lit back out of the crypt.
-  private static routed(campaign: Campaign, screen: Screen, named: Set<string>): Set<string> {
-    const def = Undertakings.followed(campaign), t = def && Stakes.target(campaign, def);
-    if (!t?.routeTo || t.routeTo === t.actionAt) { return named; }
-    const byId = EntityIndex.of(campaign.module.entities).byId, line = Spatial.ancestry(byId, screen.place.id);
-    const there = line.some(e => e.id === t.routeTo || e.id === t.actionAt);
-    return there ? named : new Set([...named, t.routeTo]);
   }
   private static addressed(campaign: Campaign): Set<string> {
     const def = Undertakings.followed(campaign);
