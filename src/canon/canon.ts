@@ -29,7 +29,8 @@ import orsinoTraits from '../../data/catalog/orsino/traits.json';
 import orsinoBlessings from '../../data/catalog/orsino/blessings.json';
 import orsinoBackgrounds from '../../data/catalog/orsino/backgrounds.json';
 import professions from '../../data/catalog/professions.json';
-import { BackgroundCatalog, type BackgroundTables, type CompiledBackground, type KyrProfession } from './background-catalog';
+import forms from '../../data/catalog/forms.json';
+import { BackgroundCatalog, type BackgroundTables, type CompiledBackground, type Forms, type KyrProfession } from './background-catalog';
 import type {
   Ability, Ancestry, CharacterClass, Combat, Condition, Deity, Domain, Habitat, ItemKind, Plant, Procedure, Skill,
   Material, Overlay, Source, Species, Trait,
@@ -170,7 +171,8 @@ export class Canon {
   static readonly backgrounds: Record<string, CompiledBackground> = BackgroundCatalog.compile(
     orsinoBackgrounds.backgrounds,
     backgrounds as unknown as BackgroundTables, id => Object.hasOwn(Canon.items, Canon.resolve('items', id)),
-    professions.professions as unknown as Record<string, KyrProfession>);
+    { kyr: professions.professions as unknown as Record<string, KyrProfession>,
+      forms: forms.forms as Record<string, Forms> });
   static readonly backgroundKinds = (backgrounds as unknown as BackgroundTables).backgroundKindMeaning.groups;
   // A body's record (a species', a device's), by its id or an old name for it (aliases.json: fire_elemental is
   // elemental/fire_element), or a kind composed of a base and what varies it (golem/glass): the base, called by the

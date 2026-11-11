@@ -1,3 +1,4 @@
+import { BackgroundCatalog } from '../../../src/canon/background-catalog';
 import type { ReactNode } from 'react';
 import type { ReaderApp } from '../reader-app';
 import type { Catalog } from '../../engine/protocol';
@@ -16,21 +17,21 @@ export class OriginStep {
     return (
       <Card.Deck kind="origins" onward={onward} details={origin && { title: origin.title,
         head: { kind: 'Why you came', glyph: origin.id, summary: origin.choice },
-        body: <Card.Particulars title="In play" facts={[OriginStep.makes(origin.background, catalog)]} /> }}>
-        {origins.map(o => <Card.View key={o.id} name={o.title} line={OriginStep.rule(o.background, catalog)}
+        body: <Card.Particulars title="In play" facts={[OriginStep.makes(origin.background, catalog, s.party[0]?.pronouns)]} /> }}>
+        {origins.map(o => <Card.View key={o.id} name={o.title} line={OriginStep.rule(o.background, catalog, s.party[0]?.pronouns)}
           text={o.choice} glyph={o.id} chosen={s.origin === o.id} data={{ action: 'origin', id: o.id }}
           onChoose={() => app.opening.origin(o.id)} />)}
       </Card.Deck>
     );
   }
-  private static rule(background: string | undefined, catalog: Catalog): string {
+  private static rule(background: string | undefined, catalog: Catalog, pronouns?: string): string {
     const b = background && catalog.backgrounds.find(x => x.id === background);
-    return b ? `Once ${Words.article(b.name.toLowerCase())}` : 'Your own trade';
+    return b ? `Once ${Words.article(BackgroundCatalog.called(b, pronouns).toLowerCase())}` : 'Your own trade';
   }
   // What an origin makes you: a background of its story, or your trade as you choose it.
-  static makes(background: string | undefined, catalog: Catalog): string {
+  static makes(background: string | undefined, catalog: Catalog, pronouns?: string): string {
     const b = background && catalog.backgrounds.find(x => x.id === background);
-    return b ? `Makes you ${Words.article(b.name.toLowerCase())}${b.text ? `, who ${b.text.replace('; ', ' and ')}` : ''}.`
+    return b ? `Makes you ${Words.article(BackgroundCatalog.called(b, pronouns).toLowerCase())}${b.text ? `, who ${b.text.replace('; ', ' and ')}` : ''}.`
       : 'You bring your own trade: one your calling knows, until you choose another under Details when you are named.';
   }
   // A trade by the rules: what it adds to the qualities, the coin it starts with, and what it carries. Not the coin

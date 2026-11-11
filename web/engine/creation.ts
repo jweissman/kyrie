@@ -45,7 +45,8 @@ export class Creation {
         text: this.brings(id), qualities: { ...Canon.backgrounds[id]?.attributes ?? {} } as Record<string, number>,
         coin: Canon.backgrounds[id]?.gold ?? 0,
         gear: (Canon.backgrounds[id]?.gear ?? []).map(g => Canon.items[g]?.name.toLowerCase() ?? g),
-        ...Canon.backgrounds[id]?.requiredClass ? { calling: Canon.backgrounds[id].requiredClass } : {} }))
+        ...Canon.backgrounds[id]?.requiredClass ? { calling: Canon.backgrounds[id].requiredClass } : {},
+        ...Canon.backgrounds[id]?.forms ? { forms: Canon.backgrounds[id].forms } : {} }))
         .sort((a, b) => a.name.localeCompare(b.name)),
       // Each kind of background, and what the skill its people know is for.
       kinds: Object.entries(Canon.backgroundKinds).map(([id, k]) => ({ id, name: k.name,

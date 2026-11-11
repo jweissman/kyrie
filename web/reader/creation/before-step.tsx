@@ -1,3 +1,4 @@
+import { BackgroundCatalog } from '../../../src/canon/background-catalog';
 import { useState, type ReactNode } from 'react';
 import type { ReaderApp } from '../reader-app';
 import type { Catalog } from '../../engine/protocol';
@@ -25,7 +26,7 @@ export class BeforeStep {
         {catalog.kinds.filter(k => open.some(b => b.kind === k.id)).map(k => {
           const trade = mine?.kind === k.id ? mine : BeforeStep.first(open, k.id, wants);
           return <Card.View key={k.id} name={k.name} glyph={`life_${k.id}`} line={Words.upper(trade.name)}
-            text={BeforeStep.said(trade, k.does)} chosen={mine?.kind === k.id} data={{ choice: `backgroundId:${trade.id}` }}
+            text={BeforeStep.said(trade, k.does, m.pronouns)} chosen={mine?.kind === k.id} data={{ choice: `backgroundId:${trade.id}` }}
             onChoose={() => app.opening.edit(0, 'backgroundId', trade.id)} />;
         })}
       </Card.Deck>
@@ -43,7 +44,8 @@ export class BeforeStep {
     return (
       <div className="trades" aria-label="Trades of this kind">{shown.map(t => <button key={t.id} type="button"
         className="trade" data-nav aria-pressed={t.id === mine} data-choice={`backgroundId:${t.id}`}
-        onClick={() => app.opening.edit(0, 'backgroundId', t.id)}>{Words.upper(t.name)}</button>)}
+        onClick={() => app.opening.edit(0, 'backgroundId', t.id)}>
+          {Words.upper(BackgroundCatalog.called(t, app.state.party[0]?.pronouns))}</button>)}
       {!all && trades.length > shown.length && <button type="button" className="trade more" data-nav
         onClick={() => more(true)}>{`${trades.length - shown.length} more…`}</button>}</div>
     );
@@ -54,7 +56,7 @@ export class BeforeStep {
     const of = open.filter(b => b.kind === kind);
     return of.find(b => b.calling) ?? [...of].sort((a, b) => TradeStep.fit(b, wants) - TradeStep.fit(a, wants))[0]!;
   }
-  private static said(trade: Trade, does: string): string {
-    return [trade.text && `${Words.upper(trade.name)}: ${trade.text.replace('; ', ', and ')}.`, does].filter(Boolean).join(' ');
+  private static said(trade: Trade, does: string, pronouns?: string): string {
+    return [trade.text && `${Words.upper(BackgroundCatalog.called(trade, pronouns))}: ${trade.text.replace('; ', ', and ')}.`, does].filter(Boolean).join(' ');
   }
 }

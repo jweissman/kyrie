@@ -1,3 +1,4 @@
+import { BackgroundCatalog } from '../../../src/canon/background-catalog';
 import type { ReaderApp } from '../reader-app';
 import { Typography } from '../../../src/presentation/typography';
 import { Words } from '../words';
@@ -18,7 +19,7 @@ export class TradeStep {
     const kinds = catalog.kinds.filter(k => open.some(b => b.kind === k.id)), mine = open.find(b => b.id === m.backgroundId);
     const wants = catalog.callings.find(c => c.id === m.classId)?.qualities;
     return <>
-      {mine && <Card.Particulars title={Words.upper(mine.name)} facts={OriginStep.facts(mine, catalog, s.origin)} />}
+      {mine && <Card.Particulars title={Words.upper(BackgroundCatalog.called(mine, m.pronouns))} facts={OriginStep.facts(mine, catalog, s.origin)} />}
       {kinds.map(k => {
         const rows = open.filter(b => b.kind === k.id), most = TradeStep.most(rows.map(b => b.text)), held = m.backgroundId;
         const alike = TradeStep.alike(rows, most, { held, wants: wants ?? {} });
@@ -42,7 +43,7 @@ export class TradeStep {
     const m = app.state.party[0]!;
     return <li><button type="button" className="kit-row" data-nav aria-pressed={m.backgroundId === b.id}
       data-choice={`backgroundId:${b.id}`} onClick={() => app.opening.edit(0, 'backgroundId', b.id)}>
-      <span className="name">{Words.upper(b.name)}</span>
+      <span className="name">{Words.upper(BackgroundCatalog.called(b, m.pronouns))}</span>
       <span className="what">{Typography.curl(b.text && b.text !== most ? `${Words.upper(b.text.replace('; ', ', and '))}.` : '')}</span>
       {!app.state.origin && <span className="tag">{b.coin} coin</span>}
     </button></li>;

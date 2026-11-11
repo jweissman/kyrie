@@ -8,7 +8,7 @@ import { EntityIndex } from '../lang/entity-index';
 import { ItemNames } from '../item-names';
 import { MechanicsText } from '../presentation/mechanics-text';
 import { AbilityRows } from './ability-rows';
-import { Portraits } from './portraits'; import { Treasure } from './treasure'; import { Owed } from './owed';
+import { Portraits } from './portraits'; import { Treasure } from './treasure'; import { Owed } from './owed'; import { BackgroundCatalog } from '../canon/background-catalog';
 import { ConditionSense } from '../presentation/condition-sense';
 import { Advancement } from '../rules/advancement';
 import { Canon } from '../canon/canon'; import { Content } from '../content';
@@ -369,9 +369,9 @@ export class ScreenModel {
     return view.party.map(m => {
       const ref = entities.find(e => e.creatureId === m.id)?.id, race = Content.race(m.raceId)?.name ?? m.raceId;
       const klass = Content.classes[m.classId as keyof typeof Content.classes]?.name ?? m.classId;
-      const background = m.backgroundId ? Canon.backgrounds[m.backgroundId]?.name : undefined;
       const likeness = campaign.readout.creatures.find(c => c.id === m.id)?.likeness ?? Portraits.met(campaign, ref);
-      const pronoun = ref ? CompanyPortraits.said(campaign.world, ref) : undefined;
+      const pronoun = ref ? CompanyPortraits.said(campaign.world, ref) : undefined, trade = Canon.backgrounds[m.backgroundId ?? ''];
+      const background = trade && BackgroundCatalog.called(trade, pronoun);
       const face = CompanyPortraits.member(m, { ...pronoun ? { pronoun } : {}, ...likeness ? { likeness } : {} },
         taken);
       const emblems = [m.raceId, m.classId].filter((x): x is string => !!x && Emblems.has(x));

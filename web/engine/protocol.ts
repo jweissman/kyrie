@@ -74,7 +74,7 @@ export interface Catalog {
   // Each background: what it knows and carries, in a phrase; what it adds to the qualities; the coin it starts with;
   // and the calling it is kept for, if any. Each kind, and what its skill is for.
   backgrounds: { id: string; name: string; kind: string; text: string; qualities: Record<string, number>; coin: number;
-    gear: string[]; calling?: string }[];
+    gear: string[]; calling?: string; forms?: { man?: string; woman?: string; neither?: string } }[];
   kinds: { id: string; name: string; does: string }[];
   presets: { id: string; label: string; note: string; members: Member[] }[];
   campaigns: CampaignChoice[];

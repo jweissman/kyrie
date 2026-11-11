@@ -12,6 +12,9 @@ export interface BackgroundChange {
   name?: string; use?: Background['use']; skills?: string[]; gear?: string[]; channel?: Channel; contact?: string;
   offers?: Background['offers']; routine?: string;
 }
+// What one of the trade is called, by who they are: an abbot or an abbess, a priest or a priestess, one word or the
+// other for one who is neither (the owner's play of 10 November: a man could be made an abbess).
+export interface Forms { man?: string; woman?: string; neither?: string }
 export interface BackgroundTables {
   backgroundKind: Table<string[]>; backgroundKindMeaning: Table<KindMeaning>;
   backgroundOverlay: Table<BackgroundChange>;
@@ -19,7 +22,7 @@ export interface BackgroundTables {
 export interface OrsinoBackground {
   attributes: Record<string, number>; gold: number; requiredClass?: string; gear?: string[]; source: { orsino: string };
 }
-export type CompiledBackground = Background & { kind: string; omits?: Omissions; painting?: string };
+export type CompiledBackground = Background & { kind: string; omits?: Omissions; painting?: string; forms?: Forms };
 // A profession the portraits show that Orsino's backgrounds do not (data/catalog/professions.json, written by
 // scripts/professions.ts): of a kind, with scores and purse derived from its kind's Orsino rows.
 export interface KyrProfession {
@@ -31,8 +34,16 @@ export interface KyrProfession {
 // gear) and Kyr's Deem tables, which put each background in a kind and say what the kind means. Nothing is copied by
 // hand: a background differs from its kind only where an overlay says so.
 export class BackgroundCatalog {
+  // What one of a trade is called by the pronouns they go by: she a woman's word, he a man's, they the word for one
+  // who is neither; the trade's own name where it has no other.
+  static called(b: { name: string; forms?: Forms }, pronouns?: string): string {
+    const who = ({ she: 'woman', he: 'man', they: 'neither' } as const)[pronouns as 'she' | 'he' | 'they'];
+    return (who && b.forms?.[who]) ?? b.name;
+  }
   static compile(orsino: Record<string, OrsinoBackground>, tables: BackgroundTables,
-    has: (item: string) => boolean, kyr: Record<string, KyrProfession> = {}): Record<string, CompiledBackground> {
+    has: (item: string) => boolean, more: { kyr?: Record<string, KyrProfession>; forms?: Record<string, Forms> } = {}):
+    Record<string, CompiledBackground> {
+    const { kyr = {}, forms = {} } = more;
     const kinds = this.kinds(orsino, tables);
     const overlays = tables.backgroundOverlay.groups;
     for (const id of Object.keys(overlays).filter(id => !kinds.has(id))) { throw new Error(`Overlay for unknown background ${id}`); }
@@ -40,7 +51,9 @@ export class BackgroundCatalog {
       const { kind, index } = kinds.get(id)!, meaning = tables.backgroundKindMeaning.groups[kind]!;
       return [id, this.one(id, row, { kind, index, meaning, change: overlays[id] ?? {} }, has)];
     }));
-    return { ...compiled, ...this.professions(kyr, tables, compiled, has) };
+    const all = { ...compiled, ...this.professions(kyr, tables, compiled, has) };
+    for (const id of Object.keys(forms).filter(id => !all[id])) { throw new Error(`Forms for unknown background ${id}`); }
+    return Object.fromEntries(Object.entries(all).map(([id, b]) => [id, forms[id] ? { ...b, forms: forms[id] } : b]));
   }
   // The portraits' professions, each after its kind's Orsino rows: what its kind means, as an Orsino row of the kind
   // would have it, and the likeness it was drawn from.

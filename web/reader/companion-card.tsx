@@ -1,3 +1,4 @@
+import { BackgroundCatalog } from '../../src/canon/background-catalog';
 import type { ChangeEvent, MouseEvent } from 'react';
 import type { CompanyView, Member } from '../engine/protocol';
 import type { ReaderApp } from './reader-app';
@@ -19,7 +20,7 @@ export class CompanionCard {
         <p className="who">
           <b>{member.name || `Companion ${index + 1}`}</b>, {CompanionCard.a(ancestry)} {ancestry}{' '}
           {calling?.name.toLowerCase()}{member.level && member.level > 1 ? ` of level ${member.level}` : ''}
-          {background ? `, once a ${background.name.toLowerCase()}` : ''}.{' '}
+          {background ? `, once a ${BackgroundCatalog.called(background, member.pronouns).toLowerCase()}` : ''}.{' '}
           <button type="button" className="change" data-index={index} aria-expanded={editing}
             onClick={CompanionCard.toggle.bind(null, app)}>{editing ? 'done' : 'change'}</button>
         </p>

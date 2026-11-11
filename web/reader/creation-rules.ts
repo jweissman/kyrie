@@ -1,3 +1,4 @@
+import { BackgroundCatalog } from '../../src/canon/background-catalog';
 import type { Catalog, Member } from '../engine/protocol';
 
 type Calling = Catalog['callings'][number];
@@ -26,7 +27,8 @@ export class CreationRules {
     const before = catalog.backgrounds.find(b => b.id === member.backgroundId);
     const from = [catalog.ancestries.find(a => a.id === member.raceId),
       catalog.callings.find(c => c.id === member.classId),
-      before && { ...before, name: `once ${/^[aeiou]/i.test(before.name) ? 'an' : 'a'} ${before.name}` }];
+      before && { ...before, name: ((n: string) => `once ${/^[aeiou]/i.test(n) ? 'an' : 'a'} ${n}`)(
+        BackgroundCatalog.called(before, member.pronouns)) }];
     return from.flatMap(x => x?.qualities[quality] ? [`${this.signed(x.qualities[quality]!)} ${x.name.toLowerCase()}`]
       : []).join(', ');
   }

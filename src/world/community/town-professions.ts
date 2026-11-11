@@ -1,3 +1,5 @@
+import { BackgroundCatalog } from '../../canon/background-catalog';
+import { Likeness } from '../../paintings/likeness';
 import { Draw } from '../land/draw';
 import { Canon } from '../../canon/canon';
 import type { Region, Settlement } from '../region-writer';
@@ -24,10 +26,14 @@ export class TownProfessions {
       && !taken.has(id) && this.lines[b.kind] && (!b.requiredClass || !classes || classes.includes(b.requiredClass)));
     return draw.shuffle(open).slice(0, this.extra[s.size] ?? 1).map(([id, b]) => [id, this.occupation(id, b)]);
   }
+  // Whoever does it is of the sex of the one in its painting, and called by it: the abbess in her portrait is a woman
+  // and an abbess, never a man called an abbess under a woman's likeness (the owner's play of 10 November).
   private static occupation(id: string, b: (typeof Canon.backgrounds)[string]): Occupation {
-    const trade = b.name.toLowerCase(), lines = this.lines[b.kind]!;
-    return { name: trade, background: id, painting: b.painting!, seen: lines.seen.map(t => this.fill(t, trade)),
-      talk: lines.talk.map(t => this.fill(t, trade)) };
+    const sex = Likeness.sitters.get(b.painting!)?.sex;
+    const pronoun = sex === 'woman' ? 'she' : sex === 'man' ? 'he' : undefined;
+    const trade = BackgroundCatalog.called(b, pronoun).toLowerCase(), lines = this.lines[b.kind]!;
+    return { name: trade, background: id, painting: b.painting!, ...pronoun ? { sitter: pronoun } : {},
+      seen: lines.seen.map(t => this.fill(t, trade)), talk: lines.talk.map(t => this.fill(t, trade)) };
   }
   private static fill(text: string, trade: string): string { return text.replace(/\{trade\}/g, trade); }
 }

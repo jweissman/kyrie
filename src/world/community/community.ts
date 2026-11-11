@@ -11,6 +11,8 @@ import trades from '../../../data/generation/scenes/occupations.json';
 
 export interface Occupation {
   name: string; background: string; painting: string; everywhere?: boolean; trades?: string[]; terrains?: string[];
+  // The sex of the one in its painting, for whoever does it (see TownProfessions).
+  sitter?: 'he' | 'she';
   // The foundings whose settlements take this work first (see Foundings).
   foundings?: string[];
   water?: boolean; sizes?: string[]; pronoun?: string; wanders?: boolean; animal?: string; knows?: string[];
@@ -188,7 +190,10 @@ export class Communities {
     used: Set<string>; reserved: readonly string[] }): Resident {
     const { key, work, ancestry, i, draw, used } = at;
     const names = this.folk.given[ancestry] ?? this.folk.given.human!;
-    const pronoun = (work.pronoun ?? (draw.chance(0.06) ? 'they' : draw.chance(0.5) ? 'she' : 'he')) as Resident['pronoun'];
+    // One whose work is painted (see TownProfessions) is of its sitter's sex, drawn for all the same so that the rest
+    // of the town is drawn as it was.
+    const drawn = work.pronoun ?? (draw.chance(0.06) ? 'they' : draw.chance(0.5) ? 'she' : 'he');
+    const pronoun = (work.sitter ?? drawn) as Resident['pronoun'];
     const pool = (names[pronoun] ?? names.she!).filter(n => !used.has(n));
     const given = this.pick(pool, draw, at.reserved) ?? draw.pick(names[pronoun] ?? names.she!);
     const families = this.folk.family[ancestry] ?? this.folk.family.human!, family = draw.pick(families);

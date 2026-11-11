@@ -1,3 +1,4 @@
+import { BackgroundCatalog } from '../../../src/canon/background-catalog';
 import { useState, type ChangeEvent, type CSSProperties } from 'react';
 import type { ReaderApp } from '../reader-app';
 import { Typography } from '../../../src/presentation/typography';
@@ -70,7 +71,7 @@ export class NameStep {
     const who = [people?.name.toLowerCase(), special?.who ?? calling?.name.toLowerCase()].filter(Boolean).join(' ');
     return [`${Words.upper(who ? Words.article(who) : 'someone')}.`,
       ...origin ? [`${Words.upper(origin.title.replace(/\.$/, ''))}.`] : [],
-      ...was ? [`Once ${Words.article(was.name.toLowerCase())}.`] : [],
+      ...was ? [`Once ${Words.article(BackgroundCatalog.called(was, m.pronouns).toLowerCase())}.`] : [],
       weapon ? `${Words.upper(Words.article(weapon.name.toLowerCase()))} in hand.` : 'Bare hands.'];
   }
 }
