@@ -104,3 +104,9 @@ The honest summary: the *prose* of generated places is mostly already data (`.ky
 *Problem.* `FantasyRules.another` chooses a kin's given name as `free[hash % free.length]`, where `free` is the pool minus every name already in the country. Adding or removing *one* name from the pool's side changes `free.length` and so re-picks the name of everyone drawn this way: authoring a kitchen boy called "Tam" in the first town turned the drover's son in seed `kite` from Nicol into Hamo (the raiders' chief's name), and would have changed the reference world's brother and mother the same way. Content authors cannot name a person without risking the country's cast.
 *Request.* Pick by rendezvous (highest-random-weight) hashing over the pool, so that removing a name changes only the person who held it; or have authors' bare names checked against the pool (the lint can say "Tam is a given name of the folk: choose another or accept a re-cast").
 *Reproduce.* In `outskirts-deep.kyrt` rename the kitchen boy "Wimble" to "Tam" and run `bun test test/decision-frame.test.ts`: the spec fails with Hamo for Nicol.
+
+### R14. A feat that a companion's regard can open
+
+*Problem.* `take_feat` offers a companion a feat at levels five, ten and fifteen, from `featOpen(member, feat)`, which the engine derives (`creature-facts.ts`, `Advancement.feats`); no Kyr effect grants a trait or opens a feat. A paragon quest that should end in a feat can only end in a keepsake granting a capability (`bond.kyrt`).
+*Request.* `Assert featOpen(member, feat)` accepted from authored rules for feats the author declares, or `Grant trait <id> to <member>` as an effect, with the feat's own prerequisites checked.
+*Reproduce.* Add `Assert featOpen(actor, veteran)` to any topic's `On discuss`: the engine rejects it as engine-written.

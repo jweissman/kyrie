@@ -16,6 +16,7 @@
   Relation {t}_iv_asked(group). Relation {t}_iv_stays(group). Relation {t}_an_insists(group).
   Relation {t}_hesper_told(group). Relation {t}_bell_cast(group). Relation {t}_fenn_truth(group). Relation {t}_fenn_kind(group).
   Relation {t}_spoon_told(group).
+  Entity {t}_rubbed_word: fact "The word scored out on the judgement-seat's dais is the Empire's own, IUDICIUM, in a surveyor's hand: the Aeneans named the hall a judgement-seat, and the first makers' figures hold rods, not scales.".
   // ---- Isaure Venn
   // ---- the people the generated town already had, and what they have been doing
   Topic {t}_keeper_debts with {t}_innkeeper "Ask {{t}_innkeeper} who owes the house most" when true once {

@@ -2,6 +2,7 @@ import text from '../../data/generation/town/outskirts.kyrt' with { type: 'text'
 import deep from '../../data/generation/town/outskirts-deep.kyrt' with { type: 'text' };
 import neighbours from '../../data/generation/town/neighbours.kyrt' with { type: 'text' };
 import { KyrTemplates } from './kyr-template';
+import { RegionBonds } from './region-bonds';
 import { SettlementWriter } from './settlement-writer';
 import { RegionGeography } from './region-geography';
 import { RegionSites } from './region-sites';
@@ -29,8 +30,8 @@ export class RegionOutskirts {
     return [...KyrTemplates.choose(this.template, `${region.name}:${s.id}:outskirts`, all),
       ...KyrTemplates.choose(this.deepened, `${region.name}:${s.id}:outskirts-deep`, all),
       ...this.neighbourly.sections.length && this.peopled(region, s)
-        ? KyrTemplates.choose(this.neighbourly, `${region.name}:${s.id}:neighbours`, all) : []]
-      .flatMap(x => KyrTemplates.fill(x.lines, all));
+        ? [...KyrTemplates.choose(this.neighbourly, `${region.name}:${s.id}:neighbours`, all)] : []]
+      .flatMap(x => KyrTemplates.fill(x.lines, all)).concat(this.peopled(region, s) ? RegionBonds.lines(s.id) : []);
   }
   // Whether the town has an inn, a shrine and a shop, whose people the neighbours' talk is of.
   private static peopled(region: Region, s: Settlement): boolean {
