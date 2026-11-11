@@ -56,7 +56,12 @@ export class BeforeStep {
     const of = open.filter(b => b.kind === kind);
     return of.find(b => b.calling) ?? [...of].sort((a, b) => TradeStep.fit(b, wants) - TradeStep.fit(a, wants))[0]!;
   }
+  // What the trade gives, said whole: its skills and what each is for, what it carries, what it adds to the qualities,
+  // and the coin it starts with; then what the kind's own skill is for.
   private static said(trade: Trade, does: string, pronouns?: string): string {
-    return [trade.text && `${Words.upper(BackgroundCatalog.called(trade, pronouns))}: ${trade.text.replace('; ', ', and ')}.`, does].filter(Boolean).join(' ');
+    const adds = Object.entries(trade.qualities).filter(([, n]) => n).map(([q, n]) => `${n > 0 ? '+' : ''}${n} ${Words.upper(q)}`);
+    const plus = [...adds, ...trade.coin ? [`${trade.coin} coin`] : []].join(', ');
+    return [trade.text && `${Words.upper(BackgroundCatalog.called(trade, pronouns))}: ${trade.text.replace('; ', ', and ')}.`,
+      plus && `${plus}.`, does].filter(Boolean).join(' ');
   }
 }

@@ -124,7 +124,12 @@ export class Creation {
   // A background in a phrase: the skills it brings and what it carries.
   private static brings(id: string): string {
     const b = Canon.backgrounds[id];
-    const skills = (b?.skills ?? []).map(s => Canon.skills[s]?.name.toLowerCase() ?? s);
+    // Each skill with what it is for in play, its description's last clause ("lore: reading what others only see"):
+    // "knows lore" alone had said nothing of what a scribe could do that another could not (amendment 7, 2).
+    const skills = (b?.skills ?? []).map(s => {
+      const name = Canon.skills[s]?.name.toLowerCase() ?? s, gloss = Canon.skills[s]?.description?.split(': ').at(-1);
+      return gloss && gloss !== Canon.skills[s]?.description ? `${name} (${gloss.replace(/\.$/, '')})` : name;
+    });
     const gear = (b?.gear ?? []).map(g => Canon.items[g]?.name.toLowerCase() ?? g);
     return [skills.length ? `knows ${skills.join(' and ')}` : '', gear.length ? `carries ${gear.join(', ')}` : '']
       .filter(Boolean).join('; ');

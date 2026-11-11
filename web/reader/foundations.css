@@ -90,8 +90,8 @@
 .option:hover, .option:focus-visible { border-color: var(--accent-line); background: var(--lift); outline: none; }
 .option:active { transform: translateY(1px); background: var(--accent-glow); }
 .option.go { background: var(--accent); color: var(--deep); border-color: var(--accent); font-weight: 600; }
-.option.go:hover, .option.go:focus-visible { background: var(--gold-bright); box-shadow: var(--glow-go); }
-.option.go:active { background: var(--gold-deep); }
+.option.go:hover, .option.go:focus-visible { background: #FFF8E8; box-shadow: var(--glow-go); }
+.option.go:active { background: #D9CFB8; }
 .option[disabled], .option[aria-disabled="true"] { opacity: .4; cursor: default; transform: none; }
 /* A quiet word: Back, Set out now, Details, Roll again, Close. */
 .quiet-word { all: unset; box-sizing: border-box; cursor: pointer; font: var(--type-word); letter-spacing: var(--track-word);
