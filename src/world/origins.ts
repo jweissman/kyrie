@@ -21,6 +21,9 @@ import { SettlementWriter } from './settlement-writer';
 export interface OriginManifest {
   id: string; title: string; binder: string; source: string; choice: string;
   background?: string; coin?: number; gear?: string[];
+  // What is carried in place of the background's trade when another is chosen, so that what the story says the
+  // protagonist can do is so (a scribe reads the old script; one who is not carries the brothers' glossary).
+  otherwise?: string[];
   // What seeing it through is worth (the debt paid, the copy shown): it was nothing (the play-structure
   // investigation's PT-04).
   experience?: number;
@@ -60,9 +63,10 @@ export class Origins {
   // The origin's trade is the one set out with unless another was chosen (the owner, 3 November: an aphorist chosen
   // at creation set out a trader, the origin's).
   static member(origin: OriginManifest, member: CreatureGenerationContext, chosen = false): CreatureGenerationContext {
-    const own = chosen && member.backgroundId;
+    const own = chosen && member.backgroundId, other = !!own && own !== origin.background;
+    const gear = [...origin.gear ?? [], ...other ? origin.otherwise ?? [] : []];
     return { ...member, ...origin.background && !own ? { backgroundId: origin.background } : {},
-      ...origin.gear ? { gear: [...member.gear ?? [], ...origin.gear] } : {} };
+      ...gear.length ? { gear: [...member.gear ?? [], ...gear] } : {} };
   }
   // The origin's module, written against this world, for the campaign to install after the region.
   static write(o: Loaded, at: { region: Region; placements: Placement[]; protagonist: string; root: string;
