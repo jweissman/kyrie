@@ -201,7 +201,7 @@ export class Board implements BoardApi {
   private lay(): void {
     const bound = this.cellOf(this.bound), chosen = this.cellOf(this.chosen);
     // The way a journey would go where the page knows it (its stops), else the shortest over the land known.
-    this.places.way('bound', this.courses.bound ?? this.route(bound), (x, z) => this.drawnAt(x, z));
+    this.places.way('bound', this.courses.bound ?? this.route(bound), (x, z) => this.drawnAt(x, z), !!this.courses.aimed);
     this.places.way('chosen', chosen === bound ? [] : this.courses.chosen ?? this.route(chosen), (x, z) => this.drawnAt(x, z));
     // The pennant moved, its shadow cast where it now stands and taken from where it stood.
     this.shade(true); this.dirty = true;

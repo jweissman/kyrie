@@ -75,7 +75,8 @@ export class BoardTiles {
       this.risen(new MeshStandardMaterial({ vertexColors: true, roughness: 1, flatShading: true })));
     const waters = this.laid(grid.cells.filter(c => ground.wet(c)).map(c => this.cap(c)), this.risenWater(water));
     this.pick = [land, waters].filter((m): m is Mesh => m !== undefined);
-    for (const [k, color, opacity, band] of [['here', '#f2bd4c', 0.7, [0.86, 0.95]],
+    // Where you stand, a cool pale ring, not the aim's gold (the owner, 11 November).
+    for (const [k, color, opacity, band] of [['here', '#c9d3e3', 0.7, [0.86, 0.95]],
       ['chosen', '#ece6d9', 0.85, [0.7, 0.79]],
       ['hover', '#ece6d9', 0.5, [0.84, 0.95]]] as const) {
       this.rims.set(k, this.rim(color, opacity, band));

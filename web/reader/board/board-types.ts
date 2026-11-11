@@ -32,4 +32,6 @@ export interface BoardApi {
 }
 export interface BoardModule { mount(host: HTMLElement, land: BoardLand, hooks: BoardHooks, still: boolean): BoardApi }
 // The ways a journey would go, hex by hex: to what is chosen, and to where the company is bound.
-export interface Courses { chosen?: number[]; bound?: number[] }
+// aimed: where the company is bound is the followed aim's, and the way is shown (see Guidance): only then is its way
+// gold; any other journey's is drawn as a choice's is, paler (the owner, 11 November: gold is the aim's alone).
+export interface Courses { chosen?: number[]; bound?: number[]; aimed?: boolean }

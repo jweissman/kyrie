@@ -20,6 +20,7 @@ export class BoardPlaces {
   private readonly timber = new MeshStandardMaterial({ color: '#4a3826', roughness: 0.9 });
   private readonly gold = new MeshBasicMaterial({ color: '#f2bd4c', side: DoubleSide });
   private readonly pale = new MeshBasicMaterial({ color: '#ece6d9', transparent: true, opacity: 0.6 });
+  private readonly ivory = new MeshBasicMaterial({ color: '#ece6d9', side: DoubleSide });
   private readonly ways: Record<'bound' | 'chosen', Object3D[]> = { bound: [], chosen: [] };
   constructor(private readonly scene: Scene, private readonly ground: BoardGround, private readonly look: BoardLook) {}
   place(m: BoardMark): Group {
@@ -99,7 +100,7 @@ export class BoardPlaces {
   lantern(cell: number, aside: number): Group {
     const g = new Group(),
       gem = this.put(new CylinderGeometry(0, 0.045, 0.06, 4), [0, 0.26, 0],
-        new MeshBasicMaterial({ color: '#ffd27a' }));
+        new MeshBasicMaterial({ color: '#fff1d0' }));
     g.add(gem, this.put(new CylinderGeometry(0.006, 0.006, 0.24, 6), [0, 0.12, 0], this.timber),
       this.look.glow(new Vector3(0, 0.25, 0), 0.7, 0.85));
     this.stand(g, cell).position.z += aside;
@@ -107,7 +108,7 @@ export class BoardPlaces {
   }
   // A way over the land as it is drawn (at): where you are bound, or to what is chosen. The way shown before is taken
   // away, and its shapes given back (what they are made of is kept for the next).
-  way(which: 'bound' | 'chosen', cells: number[], at: (x: number, z: number) => number): void {
+  way(which: 'bound' | 'chosen', cells: number[], at: (x: number, z: number) => number, aimed = false): void {
     this.scene.remove(...this.ways[which]);
     for (const o of this.ways[which]) { o.traverse(x => BoardPlaces.free(x)); }
     this.ways[which] = [];
@@ -116,7 +117,7 @@ export class BoardPlaces {
     const curve = new CatmullRomCurve3(cells.map(c => new Vector3(grid.centres[c]!.x, 0, grid.centres[c]!.y)), false,
       'centripetal');
     const n = Math.round(curve.getLength() / 0.15), o = new Object3D(),
-      dots = new InstancedMesh(new CircleGeometry(0.028, 10), which === 'bound' ? this.gold : this.pale, n);
+      dots = new InstancedMesh(new CircleGeometry(0.028, 10), which === 'bound' ? aimed ? this.gold : this.ivory : this.pale, n);
     for (let i = 0; i < n; i++) {
       const p = curve.getPointAt((i + 0.5) / n);
       o.position.set(p.x, at(p.x, p.z) + 0.02, p.z); o.rotation.set(-Math.PI / 2, 0, 0);
@@ -126,7 +127,7 @@ export class BoardPlaces {
     if (which === 'bound') {
       const flag = new Group();
       flag.add(this.put(new CylinderGeometry(0.006, 0.006, 0.5, 6), [0, 0.25, 0], this.timber),
-        this.put(new PlaneGeometry(0.15, 0.09), [0.075, 0.45, 0], this.gold));
+        this.put(new PlaneGeometry(0.15, 0.09), [0.075, 0.45, 0], aimed ? this.gold : this.ivory));
       flag.position.set(end.x, at(end.x, end.y), end.y); this.ways.bound.push(flag);
     }
     this.scene.add(...this.ways[which]);
