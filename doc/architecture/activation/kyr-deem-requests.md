@@ -278,3 +278,33 @@ The honest summary: the *prose* of generated places is mostly already data (`.ky
 ### R46. Passive hearsay has no once-only line (integration)
 
 *Problem.* An overheard line (`Observe ... as hearsay ... teaches fact`) is shown whenever the company is in the room and the condition holds, so a wait spanning days shows two modules' lines together (`=day 3` from the taproom). *Request.* `Observe ... once`, or a hearsay kind that is told at the first entry after its condition holds and not on waits.
+
+## E. Requests from `adventure/p2-encounters` (encounter audit; R47 to R51)
+
+*Measurements are in [encounters.md](encounters.md); `bun scripts/encounter-audit.ts` reproduces them. Each request is an engine or driver cause that authored data cannot cure.*
+
+### R47. One scripted step is a whole fight, and the company's fall leaves nothing offered (the "one Attack" of the blind playtests)
+
+*Problem.* `PlaySession.perform` runs a battle to its end with `PlaySession.auto` (`Tactics.choose`) for the player's side unless a controller is given, and `bin/kyrie play` and `Journey` give none. A blind player who drives the CLI gets "Attack" and the whole fight in one step, bosses included. After the company falls, `Journey.choices()` is empty and the campaign records no ending.
+*Reproduce.* World `a1`, warrior, `room = region__<site>_grave_heart` (the barrow king's room, as in `test/deep-barrow.test.ts`'s `Barrow.enter`), light a torch, take "Attack": the king hits, "Wenna takes 5 piercing damage (0 HP left). Wenna falls. The fight is lost." Then `choices()` is `[]`. With a controller printing the state each command: round 2, Wenna 1/14, king 48/48; round 3, 5/14; the flee at 1 hit point is not legal.
+*Request (narrow).* `kyrie play`/`Journey` step form that gives the fight one round at a time: `Attack` plays until the company next has to choose, prints each side's hit points as the page shows them, and the next step (`Attack`, `Defend`, `Flee`, an ability by its label) is the next command; `--auto-fights` keeps today's behaviour. And an ending screen (a "the company is lost" choice to begin again or load) in place of an empty page when `partyIds` all stand at 0 hit points.
+
+### R48. The damage line says the clipped amount, so a long fight's last blow reads as a one-hit kill
+
+*Problem.* `Effects.hp` pushes `{ rolled: amount, amount: applied }` with `applied = Math.min(remaining, target.hp)`; `Narration` drops `(roll N)`. A blow of 9 against 1 hit point reads "takes 1 fire damage (0 HP left)". Transcripts all over `doc/adventures/*/playtest` have the form ("takes 3 slashing damage (0 HP left)").
+*Request.* Tell the amount rolled (and the foe's wound, R49) in the line, or say a killing blow as one ("finishes it") rather than as small damage.
+
+### R49. Wounds are not told, and the `hurt` lines are never said
+
+*Problem.* `data/voice/combat.json` has eight `hurt` lines; `Barks.moment` emits only kill, fall, crit, flee and miss, so they cannot be said. Nothing in the narration says how hurt a member of the company or a foe is, so a level-1 company can be taken down by attrition without a sign (the playtest that lost one).
+*Request.* `Barks.moment` yields `['hurt', target]` once each time an exchange takes a fighter across half and across a quarter of their maximum hit points, and `when` takes `wound: "half" | "quarter"`; and the same words are used for a foe. Authors can then write the lines (drafts, for the company, by manner: "{Actor} is bleeding through the sleeve and has stopped talking."; "{Actor} is white, and holds the wall."; for a foe: "It has slowed, and one arm hangs."; "It is hardly standing."), with no new rule.
+
+### R50. A creature's damage does not grow with its level
+
+*Problem.* `growth` in `data/catalog/monsters.json` has only `hitPoints`; natural weapons are 1d3 to 1d8 with one action. A level-12 mummy deals 1d4 a round, so level makes a keeper long, not dangerous (the barrow king before this branch: four level-3 characters won in four rounds, scratched). Worked round by giving the mummy two actions and a slam.
+*Request.* `growth.damage: { perLevel: n }` (flat bonus per level, or extra dice) in `Creation.grown`; kinds then re-measured with `bin/kyrie bestiary challenge`.
+
+### R51. A deep site's dwellers cannot carry their own warning, lure or way round
+
+*Problem.* `DeepGroup` (`src/world/deep/deep-purposes.ts`) is species, count, label, role, temperament and variations, and `DeepRooms.dwellers` writes only those; the keeper alone takes `words`. So the most-trodden fights, the rooms of a generated deep site, have the plain words of their temperament and no alternative (the placed troubles have them: smoke, rites, a thrown bone, a ewe).
+*Request.* `DeepGroup.words: { Warns, Comes, Flinches }`, passed through as the keeper's are, and `DeepGroup.ways: [{ label, needs, effect }]` for one authored alternative a group may be given (a lure of the kind's food, the rites for the dead), written as the situations' `Change ... needing <skill>` is, so a purpose can say how its ghouls are laid and its hounds thrown a bone.
