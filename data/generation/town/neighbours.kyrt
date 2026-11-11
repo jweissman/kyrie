@@ -159,6 +159,16 @@
     On discuss { Assert knows(actor, {t}_court_invite). }
   }
   Entity {t}_court_invite: fact "The Hall's family, at court, has asked who read the Empire's grant of the road, and would like to know the names: a door at court, left open for whoever can read what no one else can.".
+  // ---- What the company has heard in several towns: the companions notice a pattern, and none says what it is.
+  Topic {t}_iv_pattern with {t}_iv "Ask Isaure Venn whether the things you have heard belong together" when travelsWith({t}_iv, party) and heard_threads(party) >= 3 once {
+    Says "Isaure Venn counts on her fingers and runs out. 'A coin that is too bright. A wheel with a wing on a standard, a tablet, a preacher's sermon. A grey blank on a painted road called the Works. A prefecture over the water that no clerk can place. I should like very much,' she says, 'to be the scholar who says these are one thing. I should be a fool to say it. Each has a perfectly good reason to be here. It is only that there are so *many* of them, and they all have the same shape.' She puts her pen down. 'I shall write them down and say nothing. That is what one does with a pattern before it is a theory.'".
+  }
+  Topic {t}_an_pattern with {t}_anselm "Ask Brother Anselm what he makes of what you have heard" when travelsWith({t}_anselm, party) and heard_threads(party) >= 3 once {
+    Says "'The house has a word for this,' says Brother Anselm Tarr. 'A *sign*. It is a word one uses when one wants a thing to mean something. I have been careful with it all my life.' He is quiet. 'But a road that is kept without being told to, and people who walk it with their hats in their hands, and a coin, and a standard, and a preacher: if I were a different man I should say somebody is *keeping* something, and has been for a very long while. I am not that man. I am told I am becoming him.'".
+  }
+  Topic {t}_wystan_pattern with {t}_manor_keeper "Ask Wystan Hale what he makes of what you have heard" when travelsWith({t}_manor_keeper, party) and heard_threads(party) >= 3 once {
+    Says "'In the castellan's company,' says Wystan Hale, 'when a dozen rumours all went the same way, it was because somebody had decided what the rumour should be. Or because it was true.' He rubs his jaw. 'I have never been able to tell those apart from the ranks. I have been told it takes an officer.' A shrug. 'The kingdom is short of something. A man can smell that. Salt, or men, or luck. And there is a road, and a king, and none of them have been named to me, and I find I should like to know who is going to be.'".
+  }
   // ---- Isaure Venn, the scholar
   Topic {t}_iv_talk with {t}_iv "Ask Isaure Venn what she is reading" when true once {
     Says "'The country,' says Isaure Venn, looking up from a page so full of marginal notes that the text has retreated into the gutter. 'Everything cut in the old script between here and the sea, before the frost lifts it. There is more than anyone knows. It was written by people who wrote *everything* down. Rents, distances, who owed what. They governed with ink. I find that more moving than I can say, and I would like a person to say it to who will not change the subject to dragons.'".
