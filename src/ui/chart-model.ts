@@ -1,6 +1,7 @@
 import { AuthoredLand } from '../world/authored-land';
 import { Spatial } from '../spatial';
 import { ModuleWriter } from '../lang/module-writer';
+import { ActionTime } from '../campaign/action-time';
 import { ObservationText } from '../lang/observation-text';
 import type { Entity } from '../lang/module';
 import type { World } from '../lang/world';
@@ -95,8 +96,8 @@ export class ChartModel {
       .flatMap(c => model.ways(c.args[1]!).filter(x => x.passage === c.args[0] && x.to === c.args[2]));
   }
   duration(passage: string): string {
-    const ticks = Math.max(1, this.world.number(ModuleWriter.call('travelTime', passage)));
-    return ticks >= 6 ? `${Math.floor(ticks / 6)}h${ticks % 6 ? ` ${(ticks % 6) * 10}m` : ''}` : `${ticks * 10}m`;
+    const m = ActionTime.passage(this.world, passage);
+    return m >= 60 ? `${Math.floor(m / 60)}h${m % 60 ? ` ${m % 60}m` : ''}` : `${m}m`;
   }
   build(visited: Set<string>, here: string): { chart?: Chart; region?: RegionChart } {
     if (!this.world.module.relations.some(r => r.name === 'connects')) { return {}; }

@@ -23,6 +23,14 @@ export class ActionTime {
     }
     return Math.round(pace * 10 * this.of(action, world));
   }
+  // A passage's own minutes, walked at a member's own pace, as going by it spends them: its minutes where it says them
+  // (a step into a shop, one), else its watches, ten minutes each. The town's walks and the map had counted every step
+  // as ten, and said twenty minutes to the place next door (round 7, the register's NM-09).
+  static passage(world: World, passage: string): number {
+    const minutes = world.module.measures.some(m => m.name === 'travelMinutes')
+      ? world.number(ModuleWriter.call('travelMinutes', passage)) : 0;
+    return minutes > 0 ? minutes : 10 * Math.max(1, world.number(ModuleWriter.call('travelTime', passage)));
+  }
   // How many times as long its slowest member takes (speed, in hundredths of their own; unset is their own).
   private static slowest(action: Operator, world: World): number {
     if (!action.actor || !world.module.measures.some(m => m.name === 'speed')) { return 1; }

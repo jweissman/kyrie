@@ -1,6 +1,7 @@
 import type { Campaign } from '../campaign/campaign';
 import type { Call, Entity } from '../lang/module';
 import { ModuleWriter } from '../lang/module-writer';
+import { ActionTime } from '../campaign/action-time';
 import { ObservationText } from '../lang/observation-text';
 import { LandModel } from './land-model';
 import { ChartModel } from './chart-model';
@@ -119,7 +120,7 @@ export class Itineraries {
     return id === place || Spatial.ancestry(entities, id).some(e => e.id === place);
   }
   static minutes(campaign: Campaign, passage: string): number {
-    return Math.max(1, campaign.world.number(ModuleWriter.call('travelTime', passage))) * 10;
+    return ActionTime.passage(campaign.world, passage);
   }
   // The places worth setting out for that the company knows the way to and that are more than a step away: the
   // settlements and sites it has been to or been told of, and the edges of the country where a road goes on. These
