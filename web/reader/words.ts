@@ -72,7 +72,9 @@ export class Words {
     return lines.filter(l => !all.includes(Typography.curl(l.text)));
   }
   // What the player chose, as the last of the labels it was chosen by ("Speak with Eamon › Ask about the road").
-  static lastSaid(said: string): string { return said.split(' › ').at(-1)!; }
+  // The last of what was said, without what the choice said of it ("· likely", "· an even chance"): the odds had been
+  // told back as the act ("You read the ring of letters on the flag · likely.": round 5).
+  static lastSaid(said: string): string { return said.split(' › ').at(-1)!.split(' · ')[0]!; }
   // "a hunter", "an eel-catcher".
   static article(noun: string): string { return /^(a|an|the) /i.test(noun) ? noun : `${/^[aeiou]/i.test(noun) ? 'an' : 'a'} ${noun}`; }
   // A span of the world's time, as a traveller reckons it: "40 minutes", "about 2 hours", "about 6½ hours".
