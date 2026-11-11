@@ -4,6 +4,9 @@ import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { Journey } from '../src/session/journey';
 import { JourneyCourse } from '../web/reader/journey-course';
 import { Glanced } from './support/glanced';
+import { Travel } from '../src/session/travel';
+import { ScreenModel } from '../src/ui/screen-model';
+import type { Frame } from '../web/engine/protocol';
 
 // The way the map draws before setting out is the way the journey goes (the owner, 10 November: the journey had not
 // followed the route shown): the map had drawn its own shortest way over the hexes, and the journey went by the
@@ -26,4 +29,30 @@ describe('a way drawn on the map', () => {
     expect(at).toEqual([...at].sort((a, b) => a - b));
     expect(course.at(-1)).toBe(cell(plan!.stops!.at(-1)!));
   }, 120000);
+  // And the journey made goes by those same stops, the walk drawn after it over the very hexes drawn before it (the
+  // owner, 11 November, again: travel had not seemed to follow the way shown). Stopped short, it says why.
+  it('is the way the journey goes, leg by leg and hex by hex, or says why it stopped short', async () => {
+    const start = () => DrawnWorld.start('kahitude', { origin: 'debt', party: [{ name: 'Ralf', raceId: 'human',
+      classId: 'warrior' }] }, NodeBundleSource.shared);
+    const first = ScreenModel.build((await start()).campaign);
+    const plans = [...first.destinations ?? [], ...first.roads ?? []].filter(d => (d.stops?.length ?? 0) >= 2)
+      .slice(0, 6);
+    let arrived = 0;
+    for (const d of plans) {
+      const s = await start(), before = { screen: ScreenModel.build(s.campaign) } as Frame;
+      const made = await Travel.go({ campaign: s.campaign, perform: c => s.perform(c) }, d.id);
+      const went = made.legs.map(l => /,([^,)]+)\)$/.exec(l.command)?.[1] ?? l.command);
+      if (!made.arrived) {
+        expect(made.stopped).toBeTruthy();
+        expect(d.stops!.slice(0, went.length)).toEqual(went);
+        continue;
+      }
+      arrived++;
+      expect(went).toEqual(d.stops!);
+      const after = { screen: ScreenModel.build(s.campaign), travel: { legs: went.map(id => ({ id })) } } as
+        unknown as Frame;
+      expect(JourneyCourse.of(before, after)).toEqual(JourneyCourse.planned(before.screen, d.id));
+    }
+    expect(arrived).toBeGreaterThan(0);
+  }, 400000);
 });

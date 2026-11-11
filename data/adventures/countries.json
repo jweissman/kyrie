@@ -658,7 +658,7 @@
    "id": "sallowfield",
    "province": true,
    "bundle": "sallowfield/placed.json",
-   "entry": "east_road",
+   "entry": "road",
    "marker": "wyre",
    "side": "west",
    "beside": [
