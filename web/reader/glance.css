@@ -15,7 +15,7 @@
 .glance .came { font: italic 400 15.5px/1.5 var(--told); color: var(--dim); margin: 0 0 14px; padding-left: 14px;
   border-left: 1px solid var(--edge-strong); }
 /* A journey stopped says why where the eye goes first; a journey's legs open from its line. */
-.glance .came.stopped { font: 500 15px/1.5 var(--do); font-style: normal; color: var(--gold); border-left-color: var(--gold); }
+.glance .came.stopped { font: 500 15px/1.5 var(--do); font-style: normal; color: var(--accent); border-left-color: var(--accent); }
 .glance details.came > summary { cursor: pointer; list-style: none; }
 .glance details.came > summary::-webkit-details-marker { display: none; }
 .glance details.came > summary::after { content: ' ›'; color: var(--faint, var(--dim)); }
@@ -73,7 +73,7 @@
   grid-template-columns: repeat(auto-fill, minmax(11.5rem, 1fr)); gap: 6px; }
 .glance-row .act.tile { min-height: 48px; background: transparent; }
 .glance-row .act.tile .n { font-size: 14px; }
-.glance-row li.step .act.tile .n { font: 600 10.5px/1.3 var(--do); letter-spacing: .14em; text-transform: uppercase; color: var(--gold); }
+.glance-row li.step .act.tile .n { font: 600 10.5px/1.3 var(--do); letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
 .glance-row li.step .act.tile .r { max-width: 100%; font: 400 13px/1.3 var(--do); color: var(--ivory); overflow: hidden;
   text-overflow: ellipsis; white-space: nowrap; }
 .glance-row .act.tile.aimed { box-shadow: inset 2px 0 0 var(--gold); }
@@ -91,8 +91,8 @@
   width: auto; min-height: 44px; padding: 10px 16px; border: 1px solid var(--edge-strong); background: var(--surface);
   font: 500 12px/1 var(--do); letter-spacing: .16em; text-transform: uppercase; color: var(--ivory); }
 .glance-keys > button:hover, .glance-keys > button:focus-visible, .glance-keys > button[aria-expanded="true"] {
-  border-color: var(--gold-line); color: var(--gold); outline: none; }
-.glance-keys .count { font-variant-numeric: tabular-nums; color: var(--gold); letter-spacing: 0; }
+  border-color: var(--accent-line); color: var(--accent); outline: none; }
+.glance-keys .count { font-variant-numeric: tabular-nums; color: var(--accent); letter-spacing: 0; }
 .glance-keys kbd, .act.led-act .key { letter-spacing: 0; }
 .glance .need { margin: 16px 0 0; display: flex; flex-wrap: wrap; gap: 4px 16px; font: 500 12.5px/1.4 var(--do);
   letter-spacing: .08em; text-transform: uppercase; color: var(--ember); }
@@ -131,7 +131,7 @@
   animation: shade-in var(--settle) var(--ease) both; }
 @keyframes shade-in { from { opacity: 0; } }
 .drawer { position: absolute; z-index: 6; top: 0; right: 0; bottom: 0; width: min(38rem, 100%); display: flex; flex-direction: column;
-  background: var(--surface); border-left: 1px solid var(--gold-line); box-shadow: -24px 0 60px rgba(0, 0, 0, .55);
+  background: var(--surface); border-left: 1px solid var(--accent-line); box-shadow: -24px 0 60px rgba(0, 0, 0, .55);
   animation: drawer-in var(--settle) var(--ease) both; }
 @keyframes drawer-in { from { transform: translateX(24px); opacity: 0; } }
 .drawer > .sheet-head { flex: none; position: static; padding: 14px clamp(18px, 3vw, 32px) 10px; border-bottom: 1px solid var(--edge); }
@@ -147,7 +147,7 @@
 .drawer .aim { display: block; }
 .drawer .aim .label { display: block; margin-bottom: 6px; }
 @media (max-width: 699px), (orientation: portrait) {
-  .drawer { top: auto; left: 0; width: auto; max-height: 86%; border-left: 0; border-top: 1px solid var(--gold-line);
+  .drawer { top: auto; left: 0; width: auto; max-height: 86%; border-left: 0; border-top: 1px solid var(--accent-line);
     box-shadow: 0 -20px 60px rgba(0, 0, 0, .6); animation-name: drawer-up; }
   @keyframes drawer-up { from { transform: translateY(24px); opacity: 0; } }
 }
@@ -163,9 +163,9 @@
 /* A fight reckoned easy or fair is not drawn in the colour of a deadly one (the rats' "Easily won" had been ember). */
 .led-mark.mark-fight:is(.danger-slight, .danger-fair), .mark-tag.mark-fight:is(.danger-slight, .danger-fair) { color: var(--dim); }
 /* Someone's plate, when talking to them is what the glance ranks first: marked as a first lead is (see GlanceStage). */
-.act.plate.first { border-color: var(--gold-line); box-shadow: inset 3px 0 0 var(--gold);
-  background: linear-gradient(90deg, var(--gold-glow), transparent 80%), var(--raised); }
-.plate.first .why-said { display: block; font: 400 13px/1.35 var(--do); color: var(--gold); }
+.act.plate.first { border-color: var(--accent-line); box-shadow: inset 3px 0 0 var(--accent);
+  background: linear-gradient(90deg, var(--accent-glow), transparent 80%), var(--raised); }
+.plate.first .why-said { display: block; font: 400 13px/1.35 var(--do); color: var(--accent); }
 
 /* ---- The glance in two (the owner, 4 November: "you shouldn't have to scroll to see all the things you can do
    somewhere"). What is told scrolls in its own column; what can be done is held in view beside it, in a rail of its
@@ -209,7 +209,7 @@
 .glance-page .place-head .title-block { max-width: none; margin: 0; padding-left: clamp(0px, .6vw, 8px); }
 @media (max-width: 899px), (orientation: portrait) {
   .glance { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(84px, 1fr) auto; }
-  .glance > .do-col { max-height: calc(var(--frame-h) * .6); border-left: 0; border-top: 1px solid var(--gold-line);
+  .glance > .do-col { max-height: calc(var(--frame-h) * .6); border-left: 0; border-top: 1px solid var(--accent-line);
     box-shadow: 0 -18px 40px rgba(0, 0, 0, .45); }
   .glance > .told-col { padding-bottom: 18px; }
 }

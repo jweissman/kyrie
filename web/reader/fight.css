@@ -43,7 +43,7 @@
 .fight .fighter { position: relative; margin: 0; padding: 12px 14px 12px; background: var(--raised); border: 1px solid var(--edge);
   transition: border-color var(--quick), box-shadow var(--settle) var(--ease); }
 .fight .foes .fighter { border-color: rgba(255, 107, 69, .28); background: linear-gradient(270deg, rgba(255, 107, 69, .06), transparent 70%), var(--raised); }
-.fight .fighter.acting { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold), 0 0 26px rgba(242, 189, 76, .16); }
+.fight .fighter.acting { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), 0 0 26px rgba(239, 230, 209, .16); }
 .fight .fighter.down { opacity: .45; }
 .fight .fighter.down .n b { text-decoration: line-through; text-decoration-color: var(--ember); }
 .fight .fighter .n { display: flex; align-items: baseline; gap: 8px; font: 500 16px/1.25 var(--do); margin: 0 0 8px; }
@@ -82,7 +82,7 @@
 .fight .fighter .face.whole { background: var(--lift); }
 .fight .fighter .face.whole img { object-fit: contain; object-position: 50% 50%; }
 .fight .fighter .face.plate { display: grid; place-items: center; font: 300 34px/1 var(--told); color: var(--dim); }
-.fight .fighter.acting .face { border-right-color: var(--gold); }
+.fight .fighter.acting .face { border-right-color: var(--accent); }
 .fight .fighter.down .face { filter: grayscale(1); }
 .fight .fighter.struck { animation: struck .7s var(--ease); }
 @keyframes struck { 0% { background: rgba(255, 107, 69, .3); transform: translateX(-3px); } 18% { transform: translateX(2px); }
@@ -90,8 +90,8 @@
 /* Between the sides: what has just passed, the latest large. */
 .fight .beat { align-self: start; padding: 4px 0; }
 .fight .beat .began { font-size: 18px; color: var(--ivory); }
-.fight .beat .moment { font: 500 14px/1.5 var(--do); color: var(--gold); padding: 10px 12px; border: 1px solid var(--gold-line);
-  background: var(--gold-glow); }
+.fight .beat .moment { font: 500 14px/1.5 var(--do); color: var(--accent); padding: 10px 12px; border: 1px solid var(--accent-line);
+  background: var(--accent-glow); }
 .fight .beat .what { font-size: 19px; line-height: 1.5; margin: 0 0 .6em; animation: arrive var(--settle) var(--ease) both; }
 .fight .beat .what p { margin: 0; }
 .fight .beat .what .how { font: 400 12.5px/1.45 var(--do); color: var(--faint); margin-top: 2px; }
@@ -102,12 +102,12 @@
 /* Whose turn, and who follows. */
 .fight > .turn { flex: none; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px;
   padding: 12px clamp(20px, 3.4vw, 44px) 0; border-top: 1px solid var(--edge); }
-.fight .turn .now { margin: 0; font: 500 12px var(--do); letter-spacing: .2em; text-transform: uppercase; color: var(--gold); }
+.fight .turn .now { margin: 0; font: 500 12px var(--do); letter-spacing: .2em; text-transform: uppercase; color: var(--accent); }
 .fight .turn .working { color: var(--dim); letter-spacing: .04em; text-transform: none; }
 .fight .order { list-style: none; margin: 0 0 0 auto; padding: 0; display: flex; flex-wrap: wrap; gap: 4px; }
 .fight .order li { font: 500 11.5px/1 var(--do); letter-spacing: .06em; color: var(--dim); padding: 6px 9px;
   border: 1px solid var(--edge); }
-.fight .order li.next { color: var(--deep); background: var(--gold); border-color: var(--gold); }
+.fight .order li.next { color: var(--deep); background: var(--accent); border-color: var(--accent); }
 /* The hand: what the one whose turn it is can do, a card each, each kind's name beside its cards, not over them, and a
    card no wider than a long note wraps to (the firebomb's saves had made it a row of its own). */
 .fight > .moves { flex: 0 1 auto; min-height: 0; overflow-y: auto; padding: 12px clamp(20px, 3.4vw, 44px) 4px; }
@@ -131,7 +131,7 @@
 .fight .moves .act.opens { position: relative; padding-right: 30px; }
 .fight .moves .act.opens::after { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); }
 .fight .moves .act:hover, .fight .moves .act.sel, .fight .moves .act:focus-visible { transform: translateY(-2px);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, .4), inset 0 -2px 0 var(--gold); }
+  box-shadow: 0 10px 24px rgba(0, 0, 0, .4), inset 0 -2px 0 var(--accent); }
 .fight .moves .act:active { transform: translateY(0); }
 .fight .auto { margin: 8px 0 0; font: 400 12.5px var(--do); color: var(--faint); }
 .fight > .fight-log-toggle { flex: none; margin: 0; padding: 8px clamp(20px, 3.4vw, 44px) max(14px, env(safe-area-inset-bottom)); }
@@ -184,10 +184,10 @@
   transition: border-color var(--quick), transform var(--quick); }
 /* A move is a card, not a line with a choice's diamond: the diamond had stood over "Go on" as a stray "<" (round 5). */
 .fight .moves .move.act::before { display: none; }
-.fight .moves .move:hover, .fight .moves .move:focus-visible { border-color: var(--gold); transform: translateY(-2px); }
+.fight .moves .move:hover, .fight .moves .move:focus-visible { border-color: var(--accent); transform: translateY(-2px); }
 .fight .moves .move.main { border-color: rgba(255, 107, 69, .55);
   background: linear-gradient(180deg, rgba(255, 107, 69, .12), transparent), var(--raised); }
-.fight .moves .move.opened { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold); }
+.fight .moves .move.opened { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
 .fight .moves .move small { font: 400 12.5px/1.25 var(--do); color: var(--dim); }
 .fight .moves .move.quiet { min-width: 0; min-height: 40px; padding: 8px 14px; background: transparent; font-size: 13px; }
 .fight .moves .panel { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 0; padding: 10px 0 0;
@@ -197,6 +197,6 @@
 /* One who can be chosen: lit, and the whole card the button; the rest dimmed while aiming. */
 .fight .fighter.target { cursor: pointer; border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold), 0 0 22px rgba(242, 189, 76, .18); }
 .fight .fighter .pick { position: absolute; inset: 0; z-index: 2; background: transparent; border: 0; cursor: pointer; }
-.fight .fighter .chance { display: block; margin-top: 6px; font: 600 12.5px var(--do); color: var(--gold); }
+.fight .fighter .chance { display: block; margin-top: 6px; font: 600 12.5px var(--do); color: var(--accent); }
 .fight.aiming .fighter:not(.target) { opacity: .55; }
 @media (max-width: 600px) { .fight .moves .move { min-width: 7.5rem; min-height: 48px; padding: 8px 12px; font-size: 14px; } }

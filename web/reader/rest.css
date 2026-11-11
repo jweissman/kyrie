@@ -22,7 +22,7 @@
 .told-col .life { font-size: 15px; }
 .told-col .first-goal { margin: .2em 0 .8em; font: 400 15.5px/1.5 var(--told); color: var(--ivory); }
 .told-col .first-goal .label { display: block; margin-bottom: 2px; font: 500 11px/1.4 var(--do); letter-spacing: .2em;
-  text-transform: uppercase; color: var(--gold); }
+  text-transform: uppercase; color: var(--accent); }
 .told-col .came { margin: 0 0 .7em; font: italic 400 15px/1.5 var(--told); color: var(--dim); }
 
 .openers { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 22px; margin: 6px 0 0; padding-top: 12px;
@@ -40,9 +40,9 @@
 .openers .opener-glyph { width: 22px; height: 22px; fill: none; stroke: var(--ivory); stroke-width: 1.6;
   stroke-linecap: round; stroke-linejoin: round; transition: stroke var(--quick); }
 .openers .by-glyph:hover .opener-glyph, .openers .by-glyph:focus-visible .opener-glyph,
-.openers .act.by-glyph.sel .opener-glyph { stroke: var(--gold); }
+.openers .act.by-glyph.sel .opener-glyph { stroke: var(--accent); }
 .openers .opener:hover, .openers .opener:focus-visible, .openers .act.opener.sel,
-.openers .opener[aria-expanded="true"] { border-bottom-color: var(--gold); }
+.openers .opener[aria-expanded="true"] { border-bottom-color: var(--accent); }
 /* The one way on offered as itself (see GlanceStage.only) keeps what it risks on it, a tag beside its name, and once
    chosen asks again on a line of its own in the line's plain hand (the opener's capitals had run the question on from
    the name: "To the still water…There is no coming back"); the tag goes once the question says it. */
@@ -135,7 +135,7 @@
 .wf-preview .wf-been, .wf-preview .wf-keeps { font: italic 400 15px/1.45 var(--told); color: var(--dim); }
 .wf-preview .wf-holds { font: 400 16px/1.5 var(--told); color: var(--ivory); margin: 0 0 6px; }
 .wf-preview .wf-shut { font: 400 15px/1.45 var(--told); color: var(--ember, #c4552e); }
-.wf-preview .wf-risk { font: 400 14px/1.45 var(--told); color: var(--gold); }
+.wf-preview .wf-risk { font: 400 14px/1.45 var(--told); color: var(--accent); }
 .wf-preview .act.wf-go { margin: 12px 0 0; align-self: flex-start; min-width: 11rem; justify-content: center; }
 .wf-preview .act.wf-go::before { display: none; }
 
@@ -148,7 +148,7 @@
 .ah-row { all: unset; box-sizing: border-box; width: 100%; padding: 7px 10px; cursor: pointer; border-left: 2px solid transparent;
   font: 400 16px/1.35 var(--told); color: var(--ivory); }
 .ah-row:hover, .ah-row:focus-visible { background: rgba(236, 230, 217, .05); }
-.ah-row.chosen { border-left-color: var(--gold); background: rgba(236, 230, 217, .07); }
+.ah-row.chosen { border-left-color: var(--accent); background: rgba(236, 230, 217, .07); }
 .ah-pane { min-height: 0; overflow-y: auto; padding: 8px 0 0; max-width: 40rem; }
 .ah-pane h3 { margin: 0 0 6px; font: 400 clamp(22px, 2.2vw, 28px)/1.2 var(--told); color: var(--ivory); }
 .ah-pane .ah-note { margin: 0 0 8px; font: 500 12.5px/1.5 var(--do); letter-spacing: .06em; color: var(--dim); }
@@ -165,7 +165,7 @@
 @media (max-width: 899px), (orientation: portrait) {
   .wayfinder { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr) auto; }
   .wf-list { display: block; }
-  .wf-preview { border-top: 1px solid var(--gold-line); padding: 10px 0 0; max-height: 40vh; }
+  .wf-preview { border-top: 1px solid var(--accent-line); padding: 10px 0 0; max-height: 40vh; }
   .at-hand { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); }
   .ah-list { border-right: 0; border-bottom: 1px solid var(--edge); max-height: 30vh; }
 }

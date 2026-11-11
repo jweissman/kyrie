@@ -47,11 +47,11 @@
 .focus > .plan .unchoose { all: unset; position: absolute; right: 6px; top: 6px; width: 32px; height: 32px; display: grid;
   place-items: center; cursor: pointer; color: var(--dim); }
 .focus > .plan .unchoose svg { width: 12px; height: 12px; stroke: currentColor; stroke-width: 1.8; fill: none; }
-.focus > .plan .unchoose:hover, .focus > .plan .unchoose:focus-visible { color: var(--gold); outline: 1px solid var(--gold-line); }
+.focus > .plan .unchoose:hover, .focus > .plan .unchoose:focus-visible { color: var(--accent); outline: 1px solid var(--accent-line); }
 
 @media (max-width: 899px), (orientation: portrait) {
   .world-body { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, .44fr) minmax(0, .56fr); }
-  .world-page .focus { border-left: 0; border-top: 1px solid var(--gold-line); }
+  .world-page .focus { border-left: 0; border-top: 1px solid var(--accent-line); }
   .world-bar { padding-top: max(52px, env(safe-area-inset-top)); }
 }
 /* A town come to from the country: seen whole before it is walked into. */
@@ -94,7 +94,7 @@
   font-size: 10.5px; color: rgba(236, 230, 217, .55); }
 .scene-surface .scene-words { max-width: 30rem; margin: 0 clamp(24px, 6vw, 72px) 6vh; text-align: center;
   font: italic 400 clamp(19px, 1.7vw, 24px)/1.6 var(--told); color: rgba(236, 230, 217, .86);
-  text-shadow: 0 0 30px rgba(242, 189, 76, .22); text-wrap: balance; }
+  text-shadow: 0 0 30px rgba(239, 230, 209, .22); text-wrap: balance; }
 .scene-surface .openings { position: relative; z-index: 1; display: flex; flex-wrap: wrap; gap: 6px; align-items: end;
   padding: 0 clamp(14px, 2.4vw, 32px) clamp(14px, 2.6vh, 26px); }
 .scene-surface .opening { all: unset; box-sizing: border-box; cursor: pointer; display: grid; grid-template-columns: auto 1fr;
@@ -152,7 +152,7 @@
 .enter-card .label, .enter-card .how { margin: 0; }
 .enter-card .enter { all: unset; box-sizing: border-box; cursor: pointer; text-align: center; padding: 16px 20px;
   font: 600 15px/1 var(--do); letter-spacing: .28em; text-transform: uppercase; color: var(--deep);
-  background: var(--gold); border: 1px solid var(--gold); }
+  background: var(--accent); border: 1px solid var(--accent); }
 .enter-card .enter:hover, .enter-card .enter:focus-visible { filter: brightness(1.08); outline: 2px solid var(--ivory); }
 @media (max-width: 899px), (orientation: portrait) {
   .world-page.scale-board .focus { justify-self: center; align-self: end; width: min(34rem, calc(100% - 32px));
@@ -196,7 +196,7 @@
 .hex-card .about.danger { color: var(--ember); }
 .hex-card .enter, .enter-card .enter { all: unset; box-sizing: border-box; cursor: pointer; text-align: center;
   padding: 16px 20px; font: 600 15px/1 var(--do); letter-spacing: .28em; text-transform: uppercase; color: var(--deep);
-  background: var(--gold); border: 1px solid var(--gold); }
+  background: var(--accent); border: 1px solid var(--accent); }
 .hex-card .enter:hover, .hex-card .enter:focus-visible { filter: brightness(1.08); outline: 2px solid var(--ivory); }
 .focus > .back-to-map { align-self: flex-start; margin: 12px clamp(16px, 2vw, 24px) 0; }
 
@@ -244,15 +244,15 @@
 .portraits .animal .portrait .face { width: 44px; height: 44px; }
 .portraits .danger .portrait .face { border-color: var(--ember, #c4552e); }
 .portraits .portrait:hover .face, .portraits .portrait.sel .face, .portraits .portrait:focus-visible .face {
-  transform: translateY(-2px); border-color: var(--gold); }
+  transform: translateY(-2px); border-color: var(--accent); }
 .focus .explore-keys { display: flex; gap: 8px; margin: 14px 0 0; }
-.focus .explore-open { flex: 1; min-height: 40px; border: 1px solid var(--gold-line); background: rgba(236, 230, 217, .04);
+.focus .explore-open { flex: 1; min-height: 40px; border: 1px solid var(--accent-line); background: rgba(236, 230, 217, .04);
   color: var(--ivory); font: 500 14px/1 var(--do); letter-spacing: .08em; text-transform: uppercase; cursor: pointer; }
-.focus .explore-open:hover, .focus .explore-open:focus-visible { background: rgba(236, 230, 217, .1); border-color: var(--gold); }
+.focus .explore-open:hover, .focus .explore-open:focus-visible { background: rgba(236, 230, 217, .1); border-color: var(--accent); }
 .world-body { position: relative; }
 .world-page .explorer { position: absolute; inset: 0; z-index: 5;
   display: grid; grid-template-rows: auto minmax(0, 1fr); background: rgba(14, 15, 19, .94);
-  backdrop-filter: blur(6px); border-top: 1px solid var(--gold-line); }
+  backdrop-filter: blur(6px); border-top: 1px solid var(--accent-line); }
 .explorer-head { display: flex; align-items: center; justify-content: space-between;
   padding: 12px clamp(18px, 3vw, 36px) 8px; }
 .explorer-head .explorer-shut { margin-left: auto; }
@@ -282,7 +282,7 @@
 .world-page.threatened .board-you::after { background: var(--ember, #c4552e); color: var(--ivory); }
 @keyframes stopped-pulse { 50% { transform: scale(1.35); } }
 @media (prefers-reduced-motion: reduce) { .world-page .board-you::after { animation: none; } }
-.hex-card .stopped { color: var(--gold); }
+.hex-card .stopped { color: var(--accent); }
 .hex-card .go { margin: 0; }
 .world-page .surface .portraits li.danger:not(.danger ~ .danger) { margin-left: auto; }
 .portraits .danger .portrait .face { border-width: 3px; box-shadow: 0 0 0 2px rgba(196, 85, 46, .35), 0 4px 14px rgba(0, 0, 0, .55); }

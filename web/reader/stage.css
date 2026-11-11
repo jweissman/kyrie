@@ -17,7 +17,7 @@
 .when.light-afternoon::before { background: var(--gold); box-shadow: 0 0 8px var(--gold); }
 .when.light-evening::before { background: linear-gradient(90deg, var(--ember), var(--violet)); }
 .when.light-night::before { background: var(--azure); opacity: .7; }
-.chapter { font: var(--type-kicker); letter-spacing: var(--track-kicker); text-transform: uppercase; color: var(--gold); margin: 0 0 8px; }
+.chapter { font: var(--type-kicker); letter-spacing: var(--track-kicker); text-transform: uppercase; color: var(--accent); margin: 0 0 8px; }
 .place { font: 300 clamp(30px, 3.4vw, 46px)/1.08 var(--do); letter-spacing: .01em; margin: 0 0 10px; text-wrap: balance;
   color: var(--ivory); }
 .dark-note { font: italic 400 19px/1.5 var(--told); color: var(--dim); }
@@ -26,25 +26,25 @@
 .recall { color: var(--dim); font-size: 16.5px; }
 .presence p { color: var(--ivory); }
 .presence.quiet p { color: var(--dim); font-size: 16.5px; }
-.inline { all: unset; cursor: pointer; color: var(--ivory); background: linear-gradient(var(--gold-line), var(--gold-line))
+.inline { all: unset; cursor: pointer; color: var(--ivory); background: linear-gradient(var(--accent-line), var(--accent-line))
   0 100% / 100% 1px no-repeat; transition: color var(--quick); }
-.inline:hover { color: var(--gold); }
+.inline:hover { color: var(--accent); }
 .changed { margin: 22px 0; padding-left: 14px; border-left: 2px solid var(--violet); }
 .changed .label { color: var(--violet); }
 .changed p { font-style: italic; }
-.recap { margin: 0 0 22px; padding: 12px 16px; background: var(--raised); border-left: 2px solid var(--gold-line); }
+.recap { margin: 0 0 22px; padding: 12px 16px; background: var(--raised); border-left: 2px solid var(--accent-line); }
 .recap .last .at { color: var(--dim); font: 400 13px var(--do); margin-right: 6px; }
 .journey p, .travelled p { font-style: italic; color: var(--dim); }
 /* What has just happened, in its own words, under what the company did. */
 .happened { margin: 0 0 24px; }
-.happened .you { font: 500 12.5px/1.4 var(--do); letter-spacing: .08em; color: var(--gold); margin: 0 0 8px; }
+.happened .you { font: 500 12.5px/1.4 var(--do); letter-spacing: .08em; color: var(--accent); margin: 0 0 8px; }
 .happened .you::before { content: ''; display: inline-block; width: 6px; height: 6px; margin: 0 9px 1px 1px;
-  background: var(--gold); transform: rotate(45deg); }
+  background: var(--accent); transform: rotate(45deg); }
 .happened .speech { font-size: 20px; line-height: 1.55; }
 .happened .change { font-style: italic; }
 .happened .opening { font-size: 19px; }
 /* A revelation (NAR-14): what an author marked as deserving the page to itself, set apart from the run of it. */
-.happened .revelation, .lines .line.revelation { margin: 20px 0; padding: 4px 0 4px 18px; border-left: 2px solid var(--gold);
+.happened .revelation, .lines .line.revelation { margin: 20px 0; padding: 4px 0 4px 18px; border-left: 2px solid var(--accent);
   font-size: 19px; font-style: italic; }
 .happened .fight { font: 400 15.5px/1.45 var(--do); color: var(--dim); }
 .happened.tone-fail p { color: var(--dim); }
@@ -59,11 +59,11 @@
 @keyframes breathe { 50% { opacity: .55; } }
 /* Something seen through, or a level gained: a moment set apart in the light. */
 :is(.happened, .lines) .seen-through { margin: 28px 0 10px; padding: 22px 22px 20px; text-align: center;
-  border: 1px solid var(--gold-line); background: radial-gradient(ellipse at 50% 0%, rgba(242, 189, 76, .14), transparent 70%);
+  border: 1px solid var(--accent-line); background: radial-gradient(ellipse at 50% 0%, rgba(239, 230, 209, .14), transparent 70%);
   animation: moment .9s var(--ease) both; }
-@keyframes moment { from { opacity: 0; transform: scale(.98); box-shadow: 0 0 0 0 var(--gold-glow); } }
+@keyframes moment { from { opacity: 0; transform: scale(.98); box-shadow: 0 0 0 0 var(--accent-glow); } }
 :is(.happened, .lines) .seen-through .kicker { font: 500 11px var(--do); letter-spacing: .26em; text-transform: uppercase;
-  color: var(--gold); margin: 0 0 10px; }
+  color: var(--accent); margin: 0 0 10px; }
 :is(.happened, .lines) .seen-through .what { font: 300 30px/1.15 var(--do); margin: 0 0 12px; }
 :is(.happened, .lines) .seen-through .gain { font: 500 14px/1.45 var(--do); color: var(--verdigris); margin: 0; }
 :is(.happened, .lines) .seen-through .next { font: italic 400 15.5px/1.45 var(--told); color: var(--dim); margin: 6px 0 0; }
@@ -94,7 +94,7 @@
 .travelled .leg { margin: 0 0 10px; }
 .travelled .leg .at { display: block; font: 500 11px/1.4 var(--do); letter-spacing: .16em; text-transform: uppercase;
   color: var(--dim); font-style: normal; }
-.travelled .stopped { font: 500 14px/1.45 var(--do); color: var(--gold); font-style: normal; }
+.travelled .stopped { font: 500 14px/1.45 var(--do); color: var(--accent); font-style: normal; }
 .scenery { margin: 0; }
 .scenery img { display: block; width: 100%; object-fit: cover; }
 .scenery figcaption { font: 400 11px/1.4 var(--do); color: var(--faint); }
@@ -144,7 +144,7 @@
   animation: rise 1s .2s var(--ease) both; }
 .prologue-page .met .portrait-ring { width: clamp(84px, 9vw, 112px); aspect-ratio: 1; display: grid; place-items: center;
   background: var(--raised); }
-.prologue-page .met .glyph { width: 56%; height: 56%; fill: none; stroke: var(--gold); stroke-width: 1.5; }
+.prologue-page .met .glyph { width: 56%; height: 56%; fill: none; stroke: var(--accent); stroke-width: 1.5; }
 .prologue-page .met .kicker { margin: 0; }
 .prologue-page .beat.meeting { margin-bottom: 22px; }
 .prologue-page .answers { width: min(32rem, 100%); margin: 0 auto; text-align: left; gap: 6px;
@@ -152,7 +152,7 @@
 .prologue-page .answers .act { width: 100%; background: rgba(25, 27, 33, .82); backdrop-filter: blur(6px); }
 .prologue-page .answers kbd { margin-left: auto; }
 .prologue-page .said { margin: 0 0 14px; font: var(--type-control); letter-spacing: .04em; color: var(--dim); }
-.prologue-page .said::before { content: '\25C6'; margin-right: 10px; color: var(--gold); font-size: 9px; vertical-align: 2px; }
+.prologue-page .said::before { content: '\25C6'; margin-right: 10px; color: var(--accent); font-size: 9px; vertical-align: 2px; }
 .prologue-page .said.waiting { animation: breathe 1.6s var(--ease) infinite; }
 .prologue-page .beat.outcome { margin-bottom: 18px; }
 /* A roll is told as play tells it, small, beside the words it decided. */
@@ -193,14 +193,14 @@
 .place-head .scenery figcaption { position: absolute; right: 16px; bottom: 10px; z-index: 1; }
 .place-head .title-block { position: relative; z-index: 1; max-width: 46rem; }
 .place-head .place { margin: 0 0 8px; text-shadow: 0 2px 18px rgba(0, 0, 0, .6); }
-.scene-page.dark .place-head { background: radial-gradient(ellipse at 20% 120%, rgba(242, 189, 76, .08), transparent 60%); }
+.scene-page.dark .place-head { background: radial-gradient(ellipse at 20% 120%, rgba(239, 230, 209, .08), transparent 60%); }
 .scene-page > .scene { grid-area: scene; min-height: 0; overflow-y: auto; overscroll-behavior: contain;
   padding: 24px clamp(22px, 3.4vw, 48px) 32px; }
 .scene-page > .scene .measure { max-width: 38rem; }
 .scene-page > .on-pane { grid-area: on; min-height: 0; overflow-y: auto; overscroll-behavior: contain;
   padding: 24px clamp(18px, 2.6vw, 36px) 28px; border-left: 1px solid var(--edge);
   background: linear-gradient(180deg, rgba(25, 27, 33, .7), rgba(18, 19, 24, 0) 70%); }
-.scene-page.dark > .scene { background: radial-gradient(ellipse 60% 70% at 30% 20%, rgba(242, 189, 76, .045), transparent 70%); }
+.scene-page.dark > .scene { background: radial-gradient(ellipse 60% 70% at 30% 20%, rgba(239, 230, 209, .045), transparent 70%); }
 .scene-page.dark .establish > p, .scene-page.dark .presence p { color: var(--dim); }
 
 /* Who and what is here: danger first; whoever the company has a stake in, large; the rest as plates, or in a busy
@@ -260,7 +260,7 @@
 .act.chip .verb { font: 400 12.5px var(--do); color: var(--faint); margin-left: 4px; }
 .along .act.chip { border-color: rgba(239, 159, 174, .35); }
 .hurt { color: var(--ember); }
-.opened-list, .acts.unfolded { list-style: none; margin: 6px 0 10px; padding: 2px 0 2px 14px; border-left: 1px solid var(--gold-line);
+.opened-list, .acts.unfolded { list-style: none; margin: 6px 0 10px; padding: 2px 0 2px 14px; border-left: 1px solid var(--accent-line);
   display: grid; gap: 6px; }
 .acts.small .act { min-height: 38px; font-size: 14px; padding: 7px 12px 7px 30px; }
 .acts.small .act::before { left: 12px; }
@@ -308,8 +308,8 @@
 .all-ways { all: unset; box-sizing: border-box; cursor: pointer; display: flex; align-items: center; justify-content: space-between;
   width: 100%; min-height: 46px; padding: 10px 16px; border: 1px solid var(--edge-strong); font: 500 12.5px/1 var(--do);
   letter-spacing: .16em; text-transform: uppercase; color: var(--ivory); }
-.all-ways:hover, .all-ways:focus-visible { border-color: var(--gold-line); outline: none; }
-.all-ways .count { font-variant-numeric: tabular-nums; color: var(--gold); letter-spacing: 0; }
+.all-ways:hover, .all-ways:focus-visible { border-color: var(--accent-line); outline: none; }
+.all-ways .count { font-variant-numeric: tabular-nums; color: var(--accent); letter-spacing: 0; }
 .sheet-head { position: sticky; top: 0; z-index: 1; display: flex; align-items: center; justify-content: space-between;
   padding: 14px 0 10px; background: var(--surface); }
 .sheet-title { margin: 0; font: 500 12px/1.2 var(--do); letter-spacing: .2em; text-transform: uppercase; color: var(--gold); }
@@ -330,7 +330,7 @@
 .you .me > * + *::before { content: '·'; margin: 0 8px; color: var(--faint); }
 .you .me b { color: var(--ivory); font-weight: 600; }
 .you .me .face { display: none; }
-.you .me .light { color: var(--gold); }
+.you .me .light { color: var(--accent); }
 .you .yours { margin: 0; gap: 6px; }
 .you .yours .act { min-height: 38px; padding: 7px 12px 7px 28px; font-size: 13.5px; }
 .you .yours .act::before { left: 11px; width: 6px; height: 6px; margin-top: -3px; }
@@ -342,7 +342,7 @@
   letter-spacing: .18em; text-transform: uppercase; color: var(--ivory); background: rgba(10, 11, 14, .55);
   border: 1px solid var(--edge-strong); backdrop-filter: blur(6px); }
 .corner svg { width: 18px; height: 18px; fill: currentColor; }
-.corner:hover, .corner:focus-visible { border-color: var(--gold-line); color: var(--gold); outline: none; }
+.corner:hover, .corner:focus-visible { border-color: var(--accent-line); color: var(--accent); outline: none; }
 
 /* Beside the telling, at the head of the ways (Mission 18, the owner's review): who is here, a line each; what there
    is to do here, of the place's own; and in a settlement, where food, light, gear and remedies are found. */
@@ -362,7 +362,7 @@
 .across-country .act.stride { display: flex; flex-direction: column; align-items: flex-start; gap: 1px; width: 100%;
   min-height: 0; padding: 7px 10px 8px 30px; }
 .across-country .act.stride::before { top: 15px; }
-.across-country .act.stride .n { font: 600 10.5px/1.3 var(--do); letter-spacing: .14em; text-transform: uppercase; color: var(--gold); }
+.across-country .act.stride .n { font: 600 10.5px/1.3 var(--do); letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
 .across-country .act.stride .r { flex-basis: auto; max-width: 100%; font: 400 13px/1.3 var(--do); color: var(--ivory);
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .across-country .act.stride .t { font: 400 12px/1.3 var(--do); color: var(--dim); }
@@ -380,7 +380,7 @@
   .on.busy .nearest { display: block; }
   .on.busy > .ways-all:not(.raised) { display: none; }
   .on.busy > .ways-all.raised { position: absolute; z-index: 6; left: 0; right: 0; bottom: 0; max-height: calc(var(--frame-h) * .86);
-    overflow-y: auto; padding: 0 clamp(18px, 4vw, 36px) 24px; background: var(--surface); border-top: 1px solid var(--gold-line);
+    overflow-y: auto; padding: 0 clamp(18px, 4vw, 36px) 24px; background: var(--surface); border-top: 1px solid var(--accent-line);
     box-shadow: 0 -20px 60px rgba(0, 0, 0, .6); animation: sheet-up var(--settle) var(--ease) both; }
   @keyframes sheet-up { from { transform: translateY(24px); opacity: 0; } }
   .ways-all.raised .sheet-head { display: flex; }
@@ -439,8 +439,8 @@
    its parts are keys in a row under what they share. ---- */
 .thing { height: var(--frame-h); display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(300px, 1fr); position: relative; }
 .thing .face { min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: clamp(28px, 6vh, 64px) clamp(24px, 4vw, 56px) 32px;
-  background: radial-gradient(ellipse 70% 55% at 40% 30%, rgba(242, 189, 76, .07), transparent 70%); }
-.thing .face .kicker { font: 500 11px/1.2 var(--do); letter-spacing: .24em; text-transform: uppercase; color: var(--gold);
+  background: radial-gradient(ellipse 70% 55% at 40% 30%, rgba(239, 230, 209, .07), transparent 70%); }
+.thing .face .kicker { font: 500 11px/1.2 var(--do); letter-spacing: .24em; text-transform: uppercase; color: var(--accent);
   margin: 0 0 10px; }
 .thing .face .n { font: 300 clamp(32px, 3.8vw, 52px)/1.08 var(--do); margin: 0 0 12px; text-wrap: balance; }
 .thing .face .when { margin: 0 0 24px; }
@@ -474,8 +474,8 @@
 .strip .band.c-heath { background: #352530; } .strip .band.c-fell { background: #36301F; }
 .strip .band.c-peak { background: #34333F; } .strip .band.c-open { background: #262922; }
 .strip .band.c-shore, .strip .band.c-lake, .strip .band.c-ford { background: #17324C; }
-.strip .you { position: absolute; top: -7px; width: 12px; height: 12px; margin-left: -6px; background: var(--gold);
-  transform: rotate(45deg); box-shadow: 0 0 12px var(--gold); }
+.strip .you { position: absolute; top: -7px; width: 12px; height: 12px; margin-left: -6px; background: var(--accent);
+  transform: rotate(45deg); box-shadow: 0 0 12px var(--accent); }
 .strip .branches { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
 .strip .act.branch { min-height: 38px; font-size: 13.5px; }
 .onward { display: grid; gap: 8px; }
@@ -499,12 +499,12 @@
 .throw .track { grid-area: track; position: relative; display: grid; grid-template-columns: repeat(20, minmax(0, 1fr));
   gap: 2px; height: 14px; align-items: center; min-width: 120px; }
 .throw .track i { display: block; height: 3px; background: var(--edge-strong); }
-.throw .track i.lit { background: rgba(242, 189, 76, .38); }
-.throw .die { position: absolute; top: 50%; width: 9px; height: 9px; margin: -4.5px 0 0 -4.5px; background: var(--gold);
-  transform: rotate(45deg); box-shadow: 0 0 10px var(--gold); animation: thrown 600ms var(--ease) both; }
+.throw .track i.lit { background: rgba(239, 230, 209, .38); }
+.throw .die { position: absolute; top: 50%; width: 9px; height: 9px; margin: -4.5px 0 0 -4.5px; background: var(--accent);
+  transform: rotate(45deg); box-shadow: 0 0 10px var(--accent); animation: thrown 600ms var(--ease) both; }
 .throw.missed .die { background: var(--ember); box-shadow: 0 0 10px var(--ember); }
 .throw.missed .words { color: var(--ember); }
-.throw.sure .track i.lit { background: rgba(242, 189, 76, .55); }
+.throw.sure .track i.lit { background: rgba(239, 230, 209, .55); }
 @keyframes thrown { from { left: 0; opacity: 0; } 30% { opacity: 1; } }
 @media (max-width: 519px) {
   .throw { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "who words" "track track"; }
