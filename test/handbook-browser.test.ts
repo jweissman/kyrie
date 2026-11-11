@@ -8,7 +8,8 @@ import { MonoBrowser } from './support/mono-browser';
 
 // The handbooks in the built site: reached from the options (the title opens the Encyclopedia), searchable,
 // filtered by status, and readable on a phone.
-// Opt in with KYRIE_BROWSER=1.
+// Opt in with KYRIE_BROWSER=1. Each is given a minute: under bun's five seconds, a loaded CI runner had timed the first
+// out as the page came up, and its browser closed under the two after it (CI on 7f392f0b and 13441a49).
 describe.skipIf(!process.env.KYRIE_BROWSER)('the handbooks in the browser', () => {
   let site = '', browser: Awaited<ReturnType<typeof MonoBrowser.launch>>;
   beforeAll(async () => {
@@ -26,7 +27,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the handbooks in the browser', () =
     expect(await page.locator('.cards .card').count()).toBe(3);
     expect(errors).toEqual([]);
     await page.close();
-  });
+  }, 60_000);
   it('find an entry as you type, and hide what a status filter leaves out', async () => {
     const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
     await page.goto(`file://${join(site, 'handbook/phb.html')}`);
@@ -38,7 +39,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the handbooks in the browser', () =
     await page.waitForFunction(() => document.querySelector('#ability-fireball')!.hasAttribute('hidden'));
     expect(await page.locator('article[data-status=unreachable]:not([hidden])').count()).toBeGreaterThan(0);
     await page.close();
-  });
+  }, 60_000);
   it('read on a phone without sideways scrolling', async () => {
     const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
     for (const book of ['phb', 'dmg', 'mm']) {
@@ -47,5 +48,5 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the handbooks in the browser', () =
       expect(wide).toBe(false);
     }
     await page.close();
-  });
+  }, 60_000);
 });

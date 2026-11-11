@@ -343,7 +343,7 @@ claims nothing beyond what the sources say.
 | TC-09 | Adversarial-order quest tests across adventures; acceptance tests for urgency, journey density and restraint | REV-21, IND-07 | Partial, unverified since 8 Nov | P3 | M21 |
 | TC-10 | Tests teleport rather than journey | COR-18 | Open risk, unverified since 8 Nov | P3 | M21 |
 | TC-11 | Long-horizon verification with trace minimisation; boredom and pull measured | BRF-63, BRF-64 | Disappeared / superficial, unverified since 6 Nov | P3 | later |
-| TC-12 | CI on 7f392f0b failed only a handbook-browser crash that passes locally; no record that it was resolved | mem:m20-state-nov12 | Unrecorded (11 Nov) | P3 | M20 close |
+| TC-12 | CI on 7f392f0b (and 13441a49) failed only the handbook browser spec, which passes locally | **fixed**: its cases had bun's five-second default; a loaded runner timed the first out and the browser closed under the rest; each now has a minute | P3 | — |
 
 ## 15. Docs
 
