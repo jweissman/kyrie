@@ -103,8 +103,11 @@ export class Affordances {
   // A danger: its gentlest act (one of its own first, then any that is neither a risk nor a blow), and the attack.
   private static threat(s: SceneSubject, r: Reading): Candidate[] {
     const gentle = this.gentle(s.choices, r), attack = s.choices.find(c => this.kind(c, r) === 'attack');
+    // At the place the aim followed is about, the gentle way past what holds it (a parley with the hobs at the gate
+    // of the old place the debt is to be paid from) is the aim's next step: the gold had gone, and a company led only
+    // by it went off and was led back, again and again (the gold walk, 11 November).
     return [...gentle ? [this.candidate(gentle, { subject: s.id, kind: 'act', r,
-      whys: ['danger', ...this.about([gentle], r) ? ['about' as const] : []] })] : [],
+      whys: ['danger', ...this.about([gentle], r) || r.named.has(r.here) ? ['about' as const] : []] })] : [],
 
     // A danger the aim followed is about (the old buck rat its nest is kept by) is gone at for the aim, red and gold:
     // the page had led past it, to the drain beyond, as "toward your aim" (round 7, both players).

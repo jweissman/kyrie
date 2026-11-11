@@ -139,7 +139,7 @@ claims nothing beyond what the sources say.
 
 | id | item (one line) | sources | status (as recorded, with date) | severity | home |
 |---|---|---|---|---|---|
-| AP-01 | R9's gate not built: a false-promise corpus from the cold rounds, and tests that styled opportunities map only to legal visible actions or explained states | E133, R9, H §2.10 | To build; R9 homed in M20 (11 Nov) | P1 | M20 close |
+| AP-01 | R9's gate not built: a false-promise corpus from the cold rounds, and tests that styled opportunities map only to legal visible actions or explained states | E133, R9, H §2.10 | To build; R9 homed in M20 (11 Nov) | P1 | — | **Built: test/gold-walk (E146).**
 | AP-02 | Atlas states (full, faint, dim, silver) as projected engine data, not CSS; exhaustion as one projected state so repeatable useful acts never go dim | H §2.5, H §2.9, mem:m20-owner-atlas-synthesis | Open (11 Nov) | P1 | M21 |
 | AP-03 | Facets from Kyr: no way to mark an act, thing or person uncanny, knowledge or payoff; violet never drawn; a sign has no aspect of its own; rare facets | H §2.2, opportunities gaps 1–2, design-opp 13 | Open (11 Nov) | P1 | M21 |
 | AP-04 | Distance-sensitive perception: reach only for companionship, and the reach table is code; per-facet reach, provenance, confidence, specificity by distance; perception by calling, not only capability | H §2.3, opportunities gaps 3–4 and M21 1–3, mem:m20-owner-companions-perception §3, mem:m20-owner-atlas-synthesis | Open (11 Nov) | P2 | M21 |
