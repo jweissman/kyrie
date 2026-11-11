@@ -57,6 +57,20 @@ describe('the odds of a blow, and what a fight says', () => {
     ];
     expect(CombatTelling.exchanges(events, state)[0]!.text).toContain('shrugs off the armor shred');
   });
+  // A save held against a condition the same blow then lays on by another way is not told: "shrugs off the poison" had
+  // come a breath before "is poisoned" (Mission 20's sixth round, J 47).
+  it('does not tell a save held against what the same blow then lays on', () => {
+    const state = { combatants: [{ id: 'c', name: 'the great centipede' }, { id: 'o', name: 'Onyx' }] } as unknown as BattleState;
+    const events: CombatEvent[] = [
+      { type: 'action', turn: 1, command: { actor: 'c', ability: 'venomous_bite', target: 'o' } },
+      { type: 'save', turn: 1, actor: 'c', target: 'o', rolled: 18, difficulty: 12, success: true, against: 'poison' },
+      { type: 'save', turn: 1, actor: 'c', target: 'o', rolled: 4, difficulty: 12, success: false },
+      { type: 'status', turn: 1, actor: 'c', target: 'o', detail: 'poison', amount: 3 },
+    ];
+    const told = CombatTelling.exchanges(events, state)[0]!.text;
+    expect(told).not.toContain('shrugs off the poison');
+    expect(told).toMatch(/Onyx is poisoned|poison/i);
+  });
   // A wound bleeds at its own turn's end, after whatever it did: what it comes to is said of the wound, not read as
   // the blow just told (play 8: "The second of the risen dead is not infected", after its claws caught Maren).
   it('tells a wound bleeding, and festering or not, as the wound\'s', () => {

@@ -28,7 +28,15 @@ export class CombatTelling {
     const fighters = [...state.combatants, ...(state.departed ?? []) as Fighter[]];
     const barks = new Barks(fighters, fighters.map(f => f.id).join(','));
     const told = new CombatTelling(state, CombatTelling.unlasted(events));
-    return groups.map((g, n) => this.tell(g.events, g.round, told, barks.of(g.events, n))).filter(t => t.text);
+    return groups.map((g, n) => this.tell(CombatTelling.unheld(g.events), g.round, told, barks.of(g.events, n)))
+      .filter(t => t.text);
+  }
+  // A save held against a condition is not told where the same blow then lays that condition on the same fighter by
+  // another way (a venomous bite: its poison's own trigger held, its applied poison not): "shrugs off the poison. …
+  // is poisoned" had been told a breath apart (Mission 20's sixth round, J 47).
+  private static unheld(events: CombatEvent[]): CombatEvent[] {
+    return events.filter((e, i) => e.type !== 'save' || !e.success || !e.against || !events.slice(i + 1)
+      .some(f => f.type === 'status' && f.target === e.target && Canon.resolve('conditions', f.detail) === e.against));
   }
   private static tell(group: CombatEvent[], round: number, told: CombatTelling, bark?: string): Telling {
     const [first, ...rest] = group;
@@ -151,7 +159,6 @@ export class CombatTelling {
     if (e.against === 'infected') { return `${CombatTelling.whose(who, 'wound')} stays clean.`; }
     // Not "is not bleeding", which reads as news of how they are (the cold evaluation).
     if (e.against === 'bleed') { return `${who} does not bleed from it.`; }
-    // A save against the harm itself turns the worst of it, not all of it: what it sets going still goes.
     return !what ? `${who} turns the worst of it aside.` : state ? `${who} is not ${what}.` : `${who} shrugs off the ${what}.`;
   }
   // Whose a blow or a wound is: "Naivara's dagger", "the wolves' bite", and of one of a band, "the bite of the second
