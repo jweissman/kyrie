@@ -52,4 +52,6 @@
 
 Rebased on `main` at `ee737c0f` (60 commits, including M20's aims, opportunities and scene-first page); only the generated files and the first-town kept trace conflicted, and both were regenerated (`bun scripts/redigest-trace.ts wren-tower-climbed`; `AssetCatalog.write`). The focused specs (45), the kept traces and lint pass. The full suite is left to CI.
 
+**Done (item 7, first part): the road-wood quarrel, the bailiff and Hesper missing now each carry `Objective` lines (`test/troubles.test.ts` asserts Hesper's reaches the page). Still to do: the theft, the escort, the animals, the ties and threads, and a browser check of which aim leads.**
+
 **New for Phase Two, from main's design:** the page now shows only two to four opportunities per place, each justified by a reason the author writes (`doc/authoring/trail/10-scenes-and-opportunities.md`). The first town's green offers some forty ways at once; the foreground sorts them, but our threads, ties and troubles carry **no `Objective`**, so none of them can lead the page as an aim. Phase Two item 7 is therefore: give each arc (the road-wood quarrel, Hesper missing, the bailiff, one thread per tie) one `Objective … toward <place or person>`, and check in `site/index.html?world=kahitude` that the gold lead is the arc a player would want next.

@@ -72,6 +72,8 @@
     Says "'Half,' says Maudlin Rooke. She looks at you the way you look at a good coin. 'You are the first person who has understood the arrangement. I like that.' A purse. 'Twenty now, and a share each quarter. I shall remember you, and so will my men.'".
     On discuss { Assert {t}_rooke_bought(party). Give 20 gold to actor. }
   }
+  Objective {t}_rooke_aim_seal when (knows(party, {t}_rec_a) or knows(party, {t}_rec_b) or knows(party, {t}_rec_c)) and not knows(party, {t}_forged) and not {t}_rooke_end(party) toward {t}_manor_muniments "Hold the bailiff's receipt up against the seal on the Hall's old grant: a wheel, or a wheel with a wing.".
+  Objective {t}_rooke_aim_act when knows(party, {t}_forged) and not {t}_rooke_end(party) toward {t}_reeve "The bailiff's seal is a forgery: tell {{t}_reeve}, or face her before the queue, or take her price.".
   Topic {t}_rooke_report with {t}_reeve "Tell {{t}_reeve} the bailiff's seal is a forgery" when knows(party, {t}_forged) and not {t}_rooke_reported(party) and not {t}_rooke_end(party) once {
     Says "{{t}_reeve} hears it with his hat in his hand. 'A wheel,' he says. 'And no wing.' He puts the receipt in his coat. 'I cannot raise the wardens on a seal. But I can take it to the castellan, who has a clerk, who has a quarrel with the bailiff over a horse.' A slow breath. 'It will take days. It will not be pleasant. But it is not a thing that can be hidden once it is said to the right clerk.'".
     On discuss { Assert {t}_rooke_reported(party). }

@@ -4,6 +4,7 @@ import { WorldAssembler } from '../src/world/world-assembler';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { Journey } from '../src/session/journey';
 import { Placed } from './support/placed';
+import { ScreenModel } from '../src/ui/screen-model';
 
 const start = async (seed = 'kahitude') => Journey.of(await DrawnWorld.start(seed, { origin: 'debt',
   party: [{ name: 'Ralf', raceId: 'human', classId: 'warrior' }] }, NodeBundleSource.shared));
@@ -18,6 +19,9 @@ describe('the first town’s troubles', () => {
     const j = await start();
     await j.play('>s1_green', 'Ask Hesper Lowe about the drawing', '=+45');
     expect(Placed.holds(j, 'region__s1_hesper_gone', 'party')).toBe(true);
+    // The arc leads the page as an aim, so the new foreground can show the way to the one who knows.
+    expect(ScreenModel.build(j.campaign).objectives)
+      .toContainEqual(expect.stringMatching(/^Hesper Lowe's apron was found/));
     await j.play('Ask');
     Placed.at(j, r('s1_stones_under'));
     await j.play('=+1');

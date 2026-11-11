@@ -10,6 +10,7 @@
   Rule {t}_hesper_goes when {t}_hesper_told(party) and not {t}_bell_cast(party) and watch(clock) >= 40 and not {t}_hesper_gone(party) says "The apprentice's apron is found on the well-curb, soot-side out, and nobody has seen her since the forenoon." { Assert {t}_hesper_gone(party). }
   Rule {t}_hesper_moves when {t}_hesper_gone(party) and not {t}_hesper_found(party) and at({t}_hesper, {t}_green) { Retract at({t}_hesper, {t}_green). Assert at({t}_hesper, {t}_stones_under). }
   Observe {t}_hesper_missed at {t}_green when {t}_hesper_gone(party) and not {t}_hesper_found(party) "The merchant keeps looking toward the hill. The apprentice's apron hangs on the well-curb, soot-side out, and the sheds have not heard the hammer since yesterday.".
+  Objective {t}_hesper_aim when {t}_hesper_gone(party) and not {t}_hesper_found(party) toward {t}_merchant "Hesper Lowe's apron was found on the well-curb and she has not been seen since: ask {{t}_merchant}, who has not slept.".
   Topic {t}_hesper_lead with {t}_merchant "Ask {{t}_merchant} where Hesper Lowe has gone" when {t}_hesper_gone(party) and not {t}_hesper_found(party) once {
     Says "{{t}_merchant} has not slept. 'She asked me yesterday,' they say, 'which way the wind blew from the quarry, and whether I had ever heard of a way in under the Hall. I said no. She said she had a rope.' A breath. 'She is nineteen, she is clever, and she has never been afraid of anything that was not a person. Go. I will give you what I have.'".
     On discuss { Give 10 gold to actor. }
