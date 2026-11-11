@@ -16,6 +16,7 @@ Module walk "The Walk of the Milestones" {
   Initially Set encounterXp(gaunt) to 400.
   Initially Set encounterXp(staves) to 150.
   Person hask "Someone" nowhere {
+    Likeness "halberdier".
     Role "a sergeant of the Marcher's horse, who has been asked to see the Hundred quiet". Calling warrior. Level 5. Temperament territorial. Manner stoic. Pronouns he.
     Warns "The sergeant sits his horse as if it were furniture. 'We have been asked to see the Hundred quiet,' says {hask}, courteously. 'I have a price for that, and it is not money. It is that you are not here when the courtesy stops.' He looks past you at what is behind you. 'I do not like what I count.' The three behind him have not drawn, and the way they sit says it is a matter of time and not of intention.".
     Comes "{hask} says one word, and it is not loud. The horsemen come on at a walk, which is worse.".
