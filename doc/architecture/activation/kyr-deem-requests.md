@@ -321,7 +321,7 @@ The honest summary: the *prose* of generated places is mostly already data (`.ky
 ### R53. A Deem fact cannot name a module's own nested room in a relation of its own
 
 *Problem.* `Relation hushed(entity).` and a template fact `hushed(hall_b)`, where `Place hall_b "The hall" is room within town_b at 3, 1.`, loads as `Invalid argument hall_b in hushed(hall_b)`; the same fact on an own top-level `Place` loads, and `at(treasurer, hall_b)` loads. The relation takes a module's own entity, not a nested one.
-*Reproduce.* `Relation hushed(entity).` added to `data/situations/fellowship/situation.kyr` and `{ ">name": "hushed", "args": "=concat('hall_' + #_silent)" }` to its facts (the first form of the fellowship, `git show a57b9b94^:…` is not it; the failing form is in the scratch of the author: reproduced by adding the two lines above).
+*Reproduce.* Copy `data/situations/fellowship/` and its scenario, add `Relation hushed(entity).` to the copy's `situation.kyr`, `gen(fl_hush)` to the `facts` of its `fellowship` template and `"fl_hush": { "__no_id": true, ">name": "hushed", "args": "=concat('hall_' + #_silent)" }`; assembling `a1` with `library` set to a library of the copy (`WorldAssembler.assemble('a1', source, { library, scenarios: 0, towns: 1 })`) gives the error above (done).
 *Request.* Find why `ModuleCompiler.type` (`src/lang/module-compiler.ts:232`) has no type for the id on this path (the lookup is `this.lookup.types`, built from `module.entities`), and either type it or say so. Unknown size; diagnosis first. Worked round: the fact is on the persons (`at(keeper, hall_b)`).
 
 ### R54. A rule's or event's `says` is told before the topic's own text
