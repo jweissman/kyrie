@@ -58,11 +58,11 @@
   font-size: 19px; font-style: italic; }
 .happened .fight { font: 400 15.5px/1.45 var(--do); color: var(--dim); }
 .happened.tone-fail p { color: var(--dim); }
-.happened.tone-fight { padding-left: 14px; border-left: 2px solid var(--ember); }
+/* A fight ended and what came to be known are told plainly: red is for danger still to come, blue for no notice in
+   general (the owner, 11 November late: a fight's end in a red edge, its new aims in a blue one inside it). */
 .happened .notes, .lines .notes { list-style: none; padding: 0; margin: 10px 0 0; font: 400 14px/1.5 var(--do); color: var(--dim); }
-.happened .notes li.learned { border-left: 2px solid var(--azure); padding: 4px 0 4px 12px; color: var(--ivory); margin: 6px 0;
-  background: linear-gradient(90deg, rgba(121, 174, 247, .08), transparent 60%); }
-.happened .notes .label { margin: 0 8px 0 0; display: inline; color: var(--azure); }
+.happened .notes li.learned { padding: 2px 0; color: var(--ivory); margin: 6px 0; }
+.happened .notes .label { margin: 0 8px 0 0; display: inline; color: var(--dim); }
 .scene .happened:not(.working) { padding-bottom: 18px; border-bottom: 1px solid var(--edge); }
 .working .you::after { content: ' …'; }
 .working { animation: breathe 1.4s var(--ease) infinite; }

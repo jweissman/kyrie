@@ -181,19 +181,29 @@ export class Told {
   }
   // Said where the company stands (said), it is brought into view in the column that holds it, the aims and levels it
   // gave with it (see Scrolled): they had lain under the foot of the column.
+  // A fight was told on its own page, blow by blow, to how it ended: back at the place, it is not told again, nor what
+  // was done to begin it; what else came of it is (the owner, 11 November late: the rats killed, "You attack the rats",
+  // "The fight is won" and "The rats lie dead" had said one outcome three times). Its blows are the fight's log and
+  // the Story's.
   static Happened({ exchange, said, ready, app }: { exchange: Exchange; said?: boolean; ready?: string; app?: ReaderApp }) {
-    const echo = said && exchange.said ? Words.echo(Words.lastSaid(exchange.said)) : undefined;
-    const { plain, rest, sights, ended, levels } = Moments.of(exchange.lines);
-    const notes = Told.few(Told.folded(app, Panorama.unsaid(exchange.notes, sights))), at = useRef<HTMLElement>(null);
+    const fought = exchange.tone === 'fight', at = useRef<HTMLElement>(null);
+    const echo = said && exchange.said && !fought ? Words.echo(Words.lastSaid(exchange.said)) : undefined;
+    const moments = Moments.of(exchange.lines), { sights, ended, levels } = moments;
+    const [plain, rest] = [moments.plain, moments.rest].map(ls => fought
+      ? ls.filter(l => l.kind !== 'fight' && !Narration.ends.test(l.text)) : ls);
+    const notes = Told.few(Told.folded(app, Panorama.unsaid(exchange.notes, sights)));
     Scrolled.useNewest(at, exchange, !!said);
+    if (fought && !plain!.length && !rest!.length && !sights.length && !ended && !levels.length && !notes.length) {
+      return null;
+    }
     return (
       <section ref={at} className={`happened tone-${exchange.tone}`} data-id="response" aria-live="polite">
         {echo && !Words.restates(echo, exchange.lines[0]?.text) && <p className="you">{Typography.curl(echo)}</p>}
-        {plain.map((l, i) => Check.of(l, i)
+        {plain!.map((l, i) => Check.of(l, i)
           ?? <p key={i} className={l.kind}>{Typography.curl(l.text)}</p>)}
         {sights.length > 0 && <Panorama.View sights={sights} going={Told.going(app)} choose={app && (c => app.choose(c))}
           onMap={!!app?.state.frame && MenuModel.inside(app.state.frame.screen)} />}
-        {rest.map((l, i) => Check.of(l, `r${i}`)
+        {rest!.map((l, i) => Check.of(l, `r${i}`)
           ?? <p key={`r${i}`} className={l.kind}>{Typography.curl(l.text)}</p>)}
         {ended && <Moments.SeenThrough ended={ended} ready={ready} />}
         {levels.length > 0 && <Moments.Levelled levels={levels} />}
@@ -230,9 +240,16 @@ export class Told {
     const near = plain.filter(a => !screen || AimNear.near(screen, a)), far = plain.length - near.length;
     return <li className="learned aims-many"><span className="label">{near.length === 1 ? 'A new aim'
       : near.length ? `${near.length} new aims` : 'Noted'}</span>
-      <ul>{near.map(aim => <li key={aim}>{Typography.curl(aim)}{app && <Told.Follow app={app} aim={aim} />}</li>)}
+      <ul>{near.map(aim => <li key={aim}>{Typography.curl(Told.title(aim))}{app && <Told.Follow app={app} aim={aim} />}
+      </li>)}
         {far > 0 && <li className="far">{far === 1 ? 'One thing further off, in your notes.'
           : `${far} things further off, in your notes.`}</li>}</ul></li>;
+  }
+  // Several aims come at once are each said by their first words, to the first pause ("Clear the rats' nest"; "The
+  // old ways under Millholm go on past the corn-store's cellar"); each is whole in the Book (the owner, 11 November
+  // late: two aims had come as a block of their whole paragraphs over the place).
+  static title(aim: string): string {
+    return /^[^,;:.!?]+/.exec(aim)?.[0]?.trim() ?? aim;
   }
   // A new aim not followed (the company's own errand is, or another the player chose), to follow instead: as an
   // RPG's journal offers to track a quest just taken up (see Undertakings).

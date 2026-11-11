@@ -37,7 +37,8 @@ export class FightStage {
     // The blows before, quieter, above the last: the middle of the page had been white under one line (Mission 17).
     const earlier = combat.exchanges.filter(e => e.n < seen).slice(-FightStage.kept);
     const first = mark?.first ?? true, after = combat.after ?? [];
-    const turn = combat.outcome ? 'The fight is over.' : combat.ours ? `${combat.actorName}’s turn` : `${combat.actorName} acts`;
+    // Ended, the fight says how, once, above (the owner, 11 November late: "The fight is won" over "The fight is over").
+    const turn = combat.outcome ? '' : combat.ours ? `${combat.actorName}’s turn` : `${combat.actorName} acts`;
     Scrolled.useCue(moves, combat); Scrolled.useCue(sides, combat); Scrolled.useHeld(sides, '.ours', combat);
     return (
       <div className={`fight${aiming ? ' aiming' : ''}`} id="page">

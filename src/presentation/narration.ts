@@ -9,6 +9,9 @@ export class Narration {
   static placeFirst(moved: boolean | undefined, lines: { text: string }[]): boolean {
     return !!moved && !lines.some(l => this.harm.test(l.text));
   }
+  // How a fight ended, as the fight says it.
+  static readonly ends = new RegExp('^(The fight is (won|lost)|You are clear of the fight|You are beaten, and yield'
+    + '|The fight ends with neither side the better)\\.$');
   // A fight is told by its turning points; what is kept besides (what a rule said as it ended) is kept whole.
   static tidy(lines: string[], blows = 0, kept: ReadonlySet<string> = new Set()): string[] {
     // One of the company's blows told with what they have left; a foe's with nothing counted (its dice are the
@@ -17,9 +20,7 @@ export class Narration {
       .replace(/(passes|fails) the (\w+) save \([^)]*\)/, (_m, verb: string, stat: string) =>
         `${verb === 'passes' ? 'resists' : 'fails to resist'} (${stat})`)));
     // How the fight ended is said once, by the fight; who is down after it is still said.
-    const ends = new RegExp('^(The fight is (won|lost)|You are clear of the fight|You are beaten, and yield'
-      + '|The fight ends with neither side the better)\\.$');
-    const end = clean.find(l => ends.test(l));
+    const end = clean.find(l => this.ends.test(l));
     if (end) {
       clean = clean.map(l => l !== end && l.startsWith(end) ? l.slice(end.length).trim() : l).filter(Boolean);
     }

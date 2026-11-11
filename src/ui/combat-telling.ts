@@ -38,6 +38,8 @@ export class CombatTelling {
     return events.filter((e, i) => e.type !== 'save' || !e.success || !e.against || !events.slice(i + 1)
       .some(f => f.type === 'status' && f.target === e.target && Canon.resolve('conditions', f.detail) === e.against));
   }
+  // What is rolled for, whose numbers say how a blow fell.
+  private static readonly rolled = new Set<CombatEvent['type']>(['attack', 'damage', 'save', 'check']);
   private static tell(group: CombatEvent[], round: number, told: CombatTelling, bark?: string): Telling {
     const [first, ...rest] = group;
     const sentences = [...first?.type === 'action' ? [told.act(first, rest), ...told.after(rest)] : told.after(group),
@@ -45,7 +47,10 @@ export class CombatTelling {
     // Two conditions that come to the same thing ("cannot act") are said once.
     return { text: [...new Set(sentences.filter(Boolean).map(s => s.charAt(0).toUpperCase() + s.slice(1)))].join(' '),
       // Each sentence begun as one ("The fourth bat misses Ralf", not "the fourth bat misses Ralf").
-      detail: group.map(e => CombatPresenter.format(e, told.state)).filter(l => l && !l.startsWith('Initiative'))
+      // How it fell is the dice, not the blow again: the last blow of the rats' fight was told, then told again
+      // with its rolls, its rat falling and the fight won (the owner, 11 November late).
+      detail: group.filter(e => CombatTelling.rolled.has(e.type)).map(e => CombatPresenter.format(e, told.state))
+        .filter(Boolean)
         .map(l => `${l.charAt(0).toUpperCase()}${l.slice(1)}`).join(' '),
       round, ...first?.type === 'action' ? { actor: first.command.actor } : {} };
   }
