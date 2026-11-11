@@ -23,8 +23,11 @@ export class GeneratedWorld {
     const flee = (battle: Battle) => Promise.resolve(battle.legalCommands().find(c => c.ability === 'flee')
       ?? Tactics.choose(battle.state, battle.plain(battle.legalCommands())));
     for (const [passage, to] of this.path(s, place)) {
-      const command = `go(${passage},${to})`;
-      if (PlayerView.choices(s.campaign).some(c => c.choice.id === command)) { await s.leg(command, flee); }
+      // Tried, not asked after first: every leg lists the choices already, and a third listing a step had run every
+      // province in one world past its twenty-five minutes (CI on 13441a49).
+      try { await s.leg(`go(${passage},${to})`, flee); } catch (e) {
+        if (!(e as Error).message.startsWith('Unavailable command')) { throw e; }
+      }
       if (s.campaign.world.one('at', 'party') !== to) { this.put(s, to.replace(/^region__/, '')); }
     }
   }
