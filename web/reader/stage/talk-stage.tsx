@@ -54,6 +54,7 @@ export class TalkStage {
           <div className="answer">
             <div className="choosing">
               {s.trading ? <TalkStage.Trading app={app} wares={wares} services={focus.services} buys={counter?.buys ?? []}
+                short={counter?.short ?? []} who={counter?.name ?? ''}
                 draw={draw} /> : <>
                 {who.recruit && <TalkStage.Recruit recruit={who.recruit} coin={frame.screen.purse.coin} />}
                 {/* A question put to the company is answered first, by its answers (Low Water's 5, the Liberty of the
@@ -207,14 +208,19 @@ export class TalkStage {
   // What is had of someone for coin or work, apart from what is said: their wares, what they will buy, and their
   // services (a bed, care, a lesson), with the company's purse once; Back, by the leave, returns to the conversation
   // (the owner, 5 November: goods had stood among the topics as if they were something to discuss).
-  static Trading({ app, wares, services, buys, draw }: { app: ReaderApp; wares: Ware[]; services: Choice[];
-    buys: Counter['buys']; draw: Draw }) {
+  static Trading({ app, wares, services, buys, short, who, draw }: { app: ReaderApp; wares: Ware[]; services: Choice[];
+    buys: Counter['buys']; short: NonNullable<Counter['short']>; who: string; draw: Draw }) {
     const coin = app.state.frame!.screen.purse.coin;
     // What the company carries that they would buy, first (see TalkFocus.parted).
     const { sales, rest } = TalkFocus.parted(services);
     return <section className="trading" aria-label="Trade">
-      {sales.length > 0 && <><p className="label">Yours to sell{wares.length ? '' : <span className="purse">{`you have ${coin} coin`}</span>}</p>
-        <ol className="replies">{sales.map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw} />)}</ol></>}
+      {(sales.length > 0 || short.length > 0) && <><p className="label">Yours to sell{wares.length ? ''
+        : <span className="purse">{`you have ${coin} coin`}</span>}</p>
+        <ol className="replies">{sales.map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw} />)}
+          {/* What they would buy and cannot pay for now: shut, and why (see TradeModel.short). */}
+          {short.map(x => <li key={x.name}><button type="button" className="act" disabled>
+            {Typography.curl(`Sell ${x.name.charAt(0).toLowerCase()}${x.name.slice(1)}`)}<span className="note">
+              {Typography.curl(` · ${Words.short(who)} has not the coin for it today (${x.pays})`)}</span></button></li>)}</ol></>}
       <TalkStage.Counter wares={wares} buys={buys} coin={coin} draw={draw} />
       {rest.length > 0 && <><p className="label">Services{wares.length || sales.length ? '' : <span className="purse">{`you have ${coin} coin`}</span>}</p>
         <ol className="replies">{rest.map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw} />)}</ol></>}

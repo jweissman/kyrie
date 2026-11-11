@@ -8,6 +8,10 @@ export interface Counter {
   sells: { name: string; price: number; stock: number; kind: string; good?: true }[];
   buys: { name: string; price: number }[];
   coin: number;
+  // What the company carries that they would buy, by the sale's own terms, but have not the coin for now: said, not
+  // left out (round 6: a dead man's box, a string of rings and thieves' tools dropped off a trader's list after four
+  // sales, still in the pack, and nothing said why).
+  short?: { name: string; pays: number }[];
 }
 
 // Read by the world's own indexes, never by copying it (the screen had copied every fact the world held for each room
@@ -35,7 +39,26 @@ export class TradeModel {
     });
     const buys = world.measured('pays').filter(m => m.call.args[0] === id && m.value > 0)
       .map(m => ({ name: this.name(m.call.args[1]!, names), price: m.value })).sort((a, b) => b.price - a.price);
-    return { id, name: this.name(id, names), sells: [...goods, ...things], buys, coin: this.value(world, 'quantity', id, 'gold') };
+    const coin = this.value(world, 'quantity', id, 'gold'), short = this.short(world, id, coin, names);
+    return { id, name: this.name(id, names), sells: [...goods, ...things], buys, coin,
+      ...short.length ? { short } : {} };
+  }
+  // The company's things a dealer would take (sell_valuable, sell_ware: in valuables, or of their trade; not one they
+  // pay for already) but cannot pay for with what they have.
+  private static short(world: World, id: string, coin: number,
+    names: Map<string, string>): { name: string; pays: number }[] {
+    if (!world.relates('ownedItem') || !world.relates('memberOf')) { return []; }
+    const ours = new Set(world.related('memberOf').filter(r => r.args[1] === 'party').map(r => r.args[0]!));
+    const trades = new Set(world.relates('dealsIn') ? world.related('dealsIn', id).map(r => r.args[1]!) : []);
+    const valuables = world.relates('buysValuables') && world.related('buysValuables', id).length > 0;
+    return world.related('ownedItem').filter(r => ours.has(r.args[1]!)).map(r => r.args[0]!).flatMap(item => {
+      const form = this.kind(world, item), pays = this.value(world, 'dealerPays', form);
+      const valuable = world.relates('valuable') && world.related('valuable', form).length > 0;
+      const takes = valuable ? valuables
+        : world.relates('tradeOf') && world.related('tradeOf', form).some(t => trades.has(t.args[1]!));
+      return takes && pays >= 1 && coin < pays && this.value(world, 'pays', id, form) < 1
+        ? [{ name: this.name(item, names), pays }] : [];
+    });
   }
   private static kind(world: World, item: string): string {
     return world.one('itemKind', item) ?? item;
