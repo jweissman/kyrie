@@ -1,0 +1,64 @@
+# roving: who and what moves about the open country of a country, and comes upon a company crossing it.
+// A Kyr template (see src/world/kyr-template.ts), written for a few rovers in each generated country (see
+// src/world/region-rovers.ts, which chooses them and the stretches each ranges over). The meetings (meetings.kyrt) and
+// the animals (animals.kyrt) stay where they are; a rover goes about, and comes to the stretch the company is in, by
+// day, once, on the die of whatever the company does there (a leg of a journey is one, so about one leg in seven over
+// its ground): so that a long walk over open country meets someone or something now and then, and
+// is not a crossing of empty hexes (the owner's blocking report of 11 November: "ordinary exploration still feels
+// empty"; most stretches hold nothing, by design, and nothing came to them). Not more monsters: of the options, one is
+// a danger, written only for a rover that keeps away from the roads and the towns, and it warns first.
+//
+// {r} is the rover's id; {home} the stretch it starts in; {folk} the country's people; {town} the nearest town's
+// name; {he}, {his}, {him} whoever it is. An option with a ">> lead" line names a site beyond, as a meeting's does:
+// {site}, {seen}, {toward}. The stretches it ranges over are written as roams({r}, stretch) by the code. Add an option
+// to add a rover; nothing in the engine needs to change.
+--- country
+  // Where each rover goes about, and which have come upon the company already.
+  Relation roams(group, place). Relation roved(group). Relation roverDone(entity).
+--- any pedlar 3
+  // A pedlar on the drove-ways, with a pack and the news: asked, tells of a place off the roads, and the way to it.
+  Person {r} "a pedlar" at {home} {
+    Role "a pedlar with a pack on a frame and a staff, walking the drove-ways between the farms". Ancestry {folk}. Background laborer. Peaceable. Pronouns {he}. Manner cheerful.
+  }
+  Rule {r}_comes when at(party, ?p) and roams({r}, ?p) and not roved({r}) and not dark() and dice(clock) <= 15 and able({r})
+    says "Someone is coming the other way along the sheep-track: a pedlar, bent under a pack on a frame, who lifts {his} staff to you from a long way off." {
+    Assert at({r}, ?p). Assert roved({r}).
+  }
+  Topic {r}_news with {r} "Ask the pedlar what news there is off the roads" when not knows(actor, {site}_found) once {
+    Says "'News?' The pedlar eases the frame off {his} shoulders. 'There's {seen} off to the {toward}. I don't go near it, and nor do the farms. But you look like you might.' And you are told the way, as a pedlar knows a way: by gates and stiles and the lone thorn.".
+    On discuss { Assert knows(actor, {site}_named). Assert knows(actor, {site}_found). }
+  }
+>> lead
+--- any shepherd 3
+  // A shepherd after a ewe gone astray: found by searching where {he} says, she is worth a cheese and a coin or two.
+  Person {r} "a shepherd" at {home} {
+    Role "a shepherd with a crook and a young dog at heel, looking about as if for something lost". Ancestry {folk}. Background herdsman. Peaceable. Pronouns {he}. Manner stoic.
+  }
+  Rule {r}_comes when at(party, ?p) and roams({r}, ?p) and not roved({r}) and not dark() and dice(clock) <= 15 and able({r})
+    says "A whistle, and a young dog comes bounding at you through the grass and stops short, and behind it a shepherd, crook in hand, who calls it off and looks you over." {
+    Assert at({r}, ?p). Assert roved({r}).
+  }
+  Entity {r}_ewe: fact "A ewe astray in the bracken, caught by her fleece.".
+  Topic {r}_ask with {r} "Ask the shepherd what is lost" when not knows(actor, {r}_lost) once {
+    Says "'A ewe,' says the shepherd. 'Old Blackface. She goes off every lambing and I spend a day after her. She'll be in the bracken somewhere hereabouts, caught by the fleece as like as not. If you come on her, I'd thank you.'".
+    On discuss { Assert knows(actor, {r}_lost). }
+  }
+  Entity {r}_lost: fact "A shepherd's ewe is astray hereabouts.".
+  Action {r}_find(actor: group, site: place) "Look through the bracken for the shepherd's ewe" {
+    Requires able(actor) and company(actor) and at(actor, site) and at({r}, site) and knows(actor, {r}_lost) and not roverDone({r}_ewe).
+    Time 2.
+    On success { Assert roverDone({r}_ewe). Increase quantity(actor, gold) by 3. Give 1 rations to actor. }
+    Result "You find her a stone's throw off, hung up in a bramble by her fleece and complaining of it. The shepherd has her loose in a moment. 'There,' {he} says, and gives you three coin and a heel of cheese out of {his} bag. 'That's a day saved.'".
+  }
+--- any wolves 1
+  // Wolves following the company at a distance: their sign first, then their warning; they keep off from the roads.
+  Person {r} "a pair of grey wolves" at {home} {
+    Role "two lean grey wolves, keeping pace a long stone's throw off". Species wolf. Numbers 2. Level 1. Temperament territorial. Lair {home}.
+    Warns "The two wolves stop on a rise and watch you, heads low. The nearer lifts its lip. They will not come closer if you go on your way.".
+  }
+  Initially Set encounterXp({r}) to 40.
+  Rule {r}_comes when at(party, ?p) and roams({r}, ?p) and not roved({r}) and not dark() and dice(clock) <= 10 and able({r})
+    says "Something grey moves at the edge of sight, and is gone, and comes again: two wolves, keeping pace with you a long stone's throw off." {
+    Assert at({r}, ?p). Assert roved({r}).
+  }
+>> danger

@@ -26,6 +26,7 @@ import { SettlementWriter } from './settlement-writer';
 import { RegionTraffic } from './region-traffic';
 import { RegionTracts } from './region-tracts';
 import { RegionAnimals } from './region-animals';
+import { RegionRovers } from './region-rovers';
 import { RegionQuarters } from './region-quarters';
 import { GeneralStores } from './general-stores';
 import { StoryPeople } from './story-people';
@@ -180,7 +181,7 @@ export class RegionWriter {
         + ` when been(party, ${w.id}).`),
       ...region.calendar ? RegionWeather.lines(region, region.calendar) : [], ...RegionTracts.lines(region),
       // What is met with in the open country, a stretch here and there (the owner's OWN-27).
-      ...RegionMeetings.lines(region), ...RegionAnimals.lines(region));
+      ...RegionMeetings.lines(region), ...RegionAnimals.lines(region), ...RegionRovers.lines(region));
     region.settlements.forEach(s => lines.push(...this.economy(s, region)));
     // Where its ordinary gear and clothing are bought, kept by people named apart from everyone the country has.
     lines.push(...GeneralStores.lines(region, new Set(StoryPeople.country(region))));
