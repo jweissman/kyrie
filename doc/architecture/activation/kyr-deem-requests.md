@@ -484,3 +484,16 @@ Numbered after R46. The integrator renumbers if a sibling branch also continued 
 
 *Problem.* `WorldAssembler.standing` is a `static readonly` path; a spec of a scenario that its integrator has not yet listed has to write over it by a cast (`test/support/walking.ts`). And `test/fellowship.test.ts` fails on the base: with `library` set to its fixture and `towns: 1` the fellowship is placed twice (`Module already installed`), since the fellowship is now standing.
 *Request.* `options.standing?: string` in `WorldAssembler.assemble`; and have `fellowship.test.ts` pass `scenarios: 0, towns: 0`.
+
+## G. Requests from `adventure/p3-depth` (R89 to R91)
+
+### R89. A person's movement is a rule per stage
+A rival company that goes down a ruin on a clock (arcology `rivals.kyr`) is eight rules, each retracting and asserting `at`
+for each person it moves, each repeating the clock test. *Proposal:* a `Route` line on a Person (`Route landing 0h, terrace 10h, hall 30h.`) read against `watch(clock)` and suspended while the person is `occupied`. Reproduce: `rv_wedge`..`rv_gone`.
+
+### R90. `noticed by` reads capabilities, not callings, so a calling-specific perception is a rule that speaks once
+A warrior reading armed men, a cleric reading an oath, a thief reading a gate are `Rule … hasCalling(?m, …) … says "{?m} …"` with a
+`heard…` relation (the Liberty of the Ice's pattern). *Proposal:* `Observe … noticed by calling warrior …`, with the member named in the text.
+
+### R91. A hazard struck on a company other than the party is unverified
+`Assert strikes(slide, crew)` is written for a rival group's fall; the Bridge spec checks where they land, not that they were hurt. *Proposal:* a spec helper to read a group's hit points, and a line in the guide saying hazards strike any group.

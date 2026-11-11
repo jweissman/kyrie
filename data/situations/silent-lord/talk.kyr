@@ -134,37 +134,37 @@ Module silent_lord "The silent lord" {
 
   // ---- The chaplain. The lord's death is hers to have written, and the Empire's end is a judgement.
   Topic chaplain_reading with chaplain "Ask {chaplain} what became of the Empire" when true once {
-    Says "'It was told to stop,' says {chaplain}, 'and it was too proud to hear it, and then it had stopped.' She looks at the altar step. 'You will say that is not a reason. I think it is the only kind of reason there is. Ask the marshal; he has another. Ask the clerk; he has a third. They are all of them sure, and they have never once sat at one table about it.'".
+    Says "'It was told to stop,' says {chaplain}. 'It was too proud to hear. And then it had stopped.' She looks at the altar step. 'You will say that is not a reason. I think it is the only kind of reason there is, child. Ask the marshal; he has another. Ask the clerk; he has a third. They are each of them sure, and they have never once sat at one table to say so.'".
     On discuss { Assert knows(actor, reading_chapel). Assert heard_out(chaplain, actor). }
   }
   Topic chaplain_sleep with chaplain "Ask {chaplain} how she is" when not knows(actor, lord_dead) once {
-    Says "'Tired,' says {chaplain}. 'We keep vigil in this house for a good many things.' She picks a candle-end off the floor and puts it in her pocket. 'If you want the crypt, you will need to ask me properly. Not today.'".
+    Says "'Tired,' says {chaplain}. 'We keep vigil in this house for a good many things.' She picks a candle-end off the floor and puts it, absently, in her sleeve. 'If you want the crypt, you must ask me properly, and not today. I have not the strength to be told no by the dead.'".
   }
   Topic chaplain_suspect with chaplain "Ask {chaplain} about the lord's cup, and the old dog, and why the trays come back" when knows(actor, lord_trays) and knows(actor, dog_howls) and not knows(actor, lord_dead) once {
-    Says "{chaplain} looks at you for a long moment. 'You have counted what a household does not say aloud,' she says. 'Then I will say it. He is in the crypt, and has been eleven days, and I have kept the candles.' Her voice shakes, and steadies. 'I would sooner you heard it from me than found it with a crowbar.'".
+    Says "{chaplain} looks at you, and looks, and the looking goes on. 'You have counted what a household does not say aloud,' she says. 'Then I shall say it. He is in the crypt. Eleven days. I have kept the candles.' Her voice shakes, and steadies, and shakes. 'I would rather you heard it from me, child, than found it with a crowbar.'".
     On discuss { Assert knows(actor, lord_dead). Assert befriended(chaplain, actor). Assert knows(actor, heir_sought). }
   }
   Topic chaplain_told with chaplain "Tell {chaplain} you have seen the lord on his bier" when knows(actor, lord_dead) and not befriended(chaplain, actor) once {
-    Says "{chaplain} sits down on the altar step, slowly, like a woman setting something down. 'Eleven days,' she says. 'He died at table, and the castellan said: not before the herald has gone. Then the herald stayed.' She presses the heel of her hand to her eyes. 'His will is in the press in the chancery. He made it the day before. His ward {heir} is at the abbey and I have written, in my own hand, and not said why. If you mean to do anything, do it so that he is buried.'".
+    Says "{chaplain} sits down on the altar step, slowly, like a woman setting something heavy down. 'Eleven days,' she says. 'He died at table. The castellan said: not before the herald has gone. Then the herald stayed.' She presses the heel of her hand to her eyes. 'His will is in the press in the chancery. He made it the day before. His ward, {heir}, is at the abbey; I have written, in my own hand, and not said why. Whatever you mean to do, do it so that he is buried. Let him be buried. Let the bell be rung.'".
     On discuss { Assert befriended(chaplain, actor). Assert knows(actor, heir_sought). }
   }
   Topic chaplain_key with chaplain "Ask {chaplain} for the key to the chapel lock on the strong-room" when befriended(chaplain, actor) and not holding(actor, chaplain_key_kind) once {
-    Says "She takes a small brass key from her girdle. 'The crypt, and the third lock below. Bring it back, or do not; I will not be needing it for what it was for.'".
+    Says "She takes a small brass key from her girdle and puts it in your hand and closes your fingers over it. 'The crypt. And the third lock below. Bring it back, or do not. I shall not be needing it for what it was for.'".
     On discuss { Give chaplain_key_kind to actor. }
   }
   Topic chaplain_speak with chaplain "Ask {chaplain} to tell the hall the truth at the feast" when befriended(chaplain, actor) and knows(actor, will_read) and not chaplain_ready(house) once {
-    Says "'In front of the herald, and the marshal, and the castellan?' She is quiet. 'With the will in my hand, and someone beside me who will not run. Yes. I will do it when the cups are filled.'".
+    Says "'Before the herald,' says {chaplain}. 'Before the marshal. Before the castellan.' She is quiet. Then, steadily: 'With the will in my hand, and someone beside me who will not run. Yes. I shall do it when the cups are filled. God forgive me for waiting.'".
     On discuss { Assert chaplain_ready(house). }
   }
   Relation chaplain_ready(group). Relation castellan_ready(group).
 
   // ---- The marshal. Thirty-one men, eighty crowns, and a long memory of being not asked.
   Topic marshal_garrison with marshal "Ask {marshal} how the garrison stands" when true once {
-    Says "'Thirty-one men and not a mutiny among them,' says {marshal}, 'and the pay-roll in the armoury says why. It is the nearest thing to a miracle I have seen in the service. Eighty crowns is what they are owed since midsummer, and I have not asked, and I will not, and you can write that down.'".
+    Says "'Thirty-one,' says {marshal}. 'No mutiny. Eighty crowns owed since midsummer. I have not asked. I will not.' He taps the stick against his boot, once. 'Write it down if you like. It is the nearest thing to a miracle I have seen in the service. It will not keep.'".
     On discuss { Assert knows(actor, arrears). }
   }
   Topic marshal_reading with marshal "Ask {marshal} what became of the Empire" when true once {
-    Says "'Pay,' says {marshal}. 'They stopped being paid and went home. Nobody gave the order to break up an army; nobody had to. I have seen it in miniature.' He taps the stick against his boot. 'When the herald talks about the king's muster I think of that. A muster is a promise to pay, and I know what I have heard.'".
+    Says "'Pay,' says {marshal}. 'They stopped being paid. They went home. Nobody ordered the army broken. Nobody had to.' The stick taps. 'I have seen it in small. The herald says muster. A muster is a promise to pay. I know what I have heard.'".
     On discuss { Assert knows(actor, reading_garrison). Assert heard_out(marshal, actor). }
   }
   Action pay_garrison(actor: group, site: place) "Put eighty crowns into the marshal's hand for the garrison" {
@@ -185,11 +185,11 @@ Module silent_lord "The silent lord" {
     Otherwise "{marshal} reads it through twice. 'A good hand,' he says. 'A very good hand. I have not seen the steward given an order by it before.' He folds it small and gives it back. 'I think we will wait for the castellan.'".
   }
   Topic marshal_key with marshal "Ask {marshal} for the key to the oubliette hatch" when paid_off(house) and not holding(actor, hatch_key_kind) once {
-    Says "{marshal} takes a heavy key from his belt. 'I put him there on her word,' he says. 'He is not a thief. I have known thieves.' He weighs the key in his hand. 'Bring him out through the front, and I will not have seen it.'".
+    Says "{marshal} unhooks a heavy key from his belt and weighs it. 'I put him in there on her word,' he says. 'He is not a thief. I have known thieves.' A pause. 'Bring him out the front. I did not see.'".
     On discuss { Give hatch_key_kind to actor. }
   }
   Topic marshal_armoury with marshal "Ask {marshal} for the armoury key" when befriended(marshal, actor) and not holding(actor, armoury_key_kind) once {
-    Says "'To look at the roll, or the boss, or to take a spear? Look. Do not take.' The flat key is warm from his belt.".
+    Says "'Look at the roll,' says {marshal}. 'Look at the boss. Do not take a spear.' The key is warm from his belt. 'I count them.'".
     On discuss { Give armoury_key_kind to actor. }
   }
   Relation cross_marshal(group).

@@ -12,6 +12,7 @@ Module silent_lord "The silent lord" {
   Observe crier_cries at gossip as sign when at(crier, gossip) and not knows(party, levy_called) "The crier's paper names the lord's keep, {outside}, in {land}, a day or so along the roads from here, and the tower and star on his breast are the keep's." teaches levy_called.
   Thing levy_post "the levy notice on the post" nowhere {
     State called "A paper is nailed to the post under the crier's bell-rope: THE LORD OF THE KEEP CALLS HIS MARCH TO THE KING'S MUSTER. TWENTY SPEARS AND A HUNDRED BUSHELS TO THE KEEP ON THE TWELFTH DAY. Underneath, in another hand, scratched with a nail: AND WHO IS TO SOW?".
+    State pressed "Two papers hang on the post now, the crier's and a second under it: THE LEVY STANDS AND IS PRESSED. A MAN OF THE HERALD'S MASTER WILL COUNT THE CORN. The first has been torn at one corner by somebody who was not careful, and nobody has been asked to answer for it.".
     State postponed "A second paper is nailed over the first: THE MUSTER IS POSTPONED, THE LORD BEING INDISPOSED. THE LEVY STANDS. Nobody has taken the paper down, and nobody has taken the levy off.".
     State commuted "A new paper is nailed over the old: THE LEVY OF MEN IS COMMUTED TO COIN AND GRAIN, BY THE CASTELLAN AS REGENT FOR THE LORD'S WARD. TEN SPEARS, WHO MAY BE VOLUNTEERS. Under it the chaplain's bell tolls once an hour from the shrine.".
     State raised "The levy notice has a red line drawn under it and a new heading: BY ORDER OF {patron}. EVERY HEARTH TO SEND ITS ELDEST SON AND HALF ITS CORN. The crier at the post wears a different colour.".
@@ -19,7 +20,7 @@ Module silent_lord "The silent lord" {
     State abandoned "The levy notice hangs by one nail. Somebody has taken the other three for firewood, and nobody has come to put them back.".
   }
   Rule levy_called_up when day(clock) >= 2 and not at(levy_post, gossip) { Assert at(levy_post, gossip). }
-  Rule muster_passes when day(clock) > 12 and not entered(house) and state(levy_post, called)
+  Rule muster_passes when day(clock) > 12 and not entered(house) and not decided(house) and (state(levy_post, called) or state(levy_post, pressed))
     says "The twelfth day passes with no muster. A second paper goes up over the first on the post by the well: POSTPONED, THE LORD BEING INDISPOSED. The levy stands." { Assert state(levy_post, postponed). }
   Rule levy_regency when decided(house) and state(banner, regency) and day(clock) >= feastDay(house) + 1 and not state(levy_post, commuted) and not quash_forged(house)
     says "By noon the crier is back at the well with a new paper and a new tune: ten spears, volunteers if possible, and the rest in coin and grain. The shrine bell begins to toll." { Assert state(levy_post, commuted). }
@@ -44,14 +45,14 @@ Module silent_lord "The silent lord" {
   Rule gate_admits when not hunted(house) and state(gate_refusal, refuses) { Assert state(gate_refusal, admits). }
 
   // ---- What the first town's people say of it.
-  Topic keeper_crier with keeper "Ask {keeper} about the crier" when day(clock) >= 2 and (state(levy_post, called) or state(levy_post, postponed)) once {
+  Topic keeper_crier with keeper "Ask {keeper} about the crier" when day(clock) >= 2 and (state(levy_post, called) or state(levy_post, pressed) or state(levy_post, postponed)) once {
     Says "'Twenty spears out of this town and the two nearest,' says {keeper}, 'and a hundred bushels, and he reads it off like the price of eggs. The lord used to ride through at Michaelmas and have one cup at this bar and pay for two. He has not come. The castellan signs for him.' A pause. 'The castellan has a name for being careful. I would like to see what she is being careful of.' {keeper} jerks a thumb at the road. 'It is {outside}, in {land}: a day or so along the roads from here, out over the ford and on through the villages beyond.'".
     On discuss { Assert knows(actor, levy_called). Assert knows(actor, lord_unseen). }
   }
   Topic priest_candle with priest "Ask {priest} whether the lord has been to the shrine" when knows(actor, lord_unseen) and not decided(house) once {
     Says "'He keeps a candle on the anniversary of his wife's death,' says {priest}, 'and has done for twenty-two years, and sends his man a day ahead with the oil. This year no man came.' {priest} looks at the candle on the altar. 'I lit it myself. I do not know what for.'".
   }
-  Topic trader_levy with trader "Ask {trader} what the levy will cost the town" when day(clock) >= 2 and (state(levy_post, called) or state(levy_post, postponed)) once {
+  Topic trader_levy with trader "Ask {trader} what the levy will cost the town" when day(clock) >= 2 and (state(levy_post, called) or state(levy_post, pressed) or state(levy_post, postponed)) once {
     Says "'A hundred bushels at the keep's price, which is a third under the market's,' says {trader}, 'and twenty men who will not be in the fields at harvest. We shall get the straw. I do not say it is not the king's right. I say it is a good deal of rights to carry in one year.'".
   }
   Topic keeper_after_regency with keeper "Ask {keeper} how the muster went, now the regent has signed" when state(levy_post, commuted) and not paid_keeper(house) once {
@@ -71,7 +72,7 @@ Module silent_lord "The silent lord" {
   Relation paid_keeper(group). Relation quash_forged(group).
   Action show_remission(actor: group, site: place) "Show {crier} the lord's remission of the levy, in the lord's hand" {
     Speaker crier.
-    Requires able(actor) and company(actor) and at(actor, site) and at(crier, site) and holding(actor, remission_kind) and state(levy_post, called)
+    Requires able(actor) and company(actor) and at(actor, site) and at(crier, site) and holding(actor, remission_kind) and (state(levy_post, called) or state(levy_post, pressed))
       and not decided(house).
     Time 2 minutes.
     Resolve check(actor, deception, dc_fair).

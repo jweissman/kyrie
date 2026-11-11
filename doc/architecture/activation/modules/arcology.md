@@ -203,3 +203,30 @@ Where a spec sets the company down with `Placed.at` it is to skip a walk, never 
 - The paintings were mapped and the painting specs pass; the pages were not looked at in the browser.
 - The drawn variation was exercised in seven seeds (forest, marsh, mountain). Frost and desert load and place the House (`bin/kyrie world kahitude --terrain frost` and `--terrain desert`) but their draws were not played.
 - The oldcoin scholar is not tied in (see "What is not built").
+
+## 11. Depth pass (`adventure/p3-depth`): the Collegium, and what each calling reads
+
+**The House now has an opponent who acts.** `rivals.kyr` puts the Collegium of the Measured Road in the House on its own
+clock: from the third day, with or without the company, a stage every ten hours. The Prior-Surveyor (Quill: wants the House
+recorded and left) and Merrow and Son's crew under Brannock (want it carried out by the pound, and are owed three weeks)
+are one company with two aims. Stages: the stair wedged (hum up, a level opened for whoever follows); the capstans wound
+(the deck bears twenty, and the crew sit on the span and take a toll); the tablets asked (the hum held at four, the keepers
+posted across the arches); the drawer prised, the governor taken and the Roll chalked (the counting figure walks to the town
+green, and the lift stays dead); the disc ridden; the camp struck; gone. A company that never comes finds all of that done,
+and the first town reads a Collegium bill in its taproom.
+**Ways to meet them:** ally with Quill (the Prefect's tablet, the surveyors' plate, or the stair's order given her: a pass
+that makes the hands tolerate you; she hushes the tablets on request, shares her notes, pays thirty crowns, and pays for
+the news that the drowned city answers WAIT); ally with Brannock (name the owed wages, or sell your steel: a share, and his
+confession of the Roll); race them (the drawer, the governor); be robbed (hold the governor in their sight and they ask a
+toll of twelve, or the drum); buy it back (twenty-five), shame it out of him (the man in the cage, persuasion, hard) or fight.
+**Background reads, by ordinary acts:** a scholar reads the numbering of Tenants' Row (the repeated figure is the drawer ring's
+target); a thief reads the pawl wired to the deck and knocks it out under the toll-takers, or hears the ring's stiffest notch;
+a ranger reads the owlbear's feeding line and walks round it, and the crew's tracks at the Landing; a warrior reads the hired
+line and steps out at its right; a cleric sees the dead tenants' shift at dusk and asks them to wind the weights (no hum, no
+crowbar, and the Collegium's forcing of the same capstans is seen for what it was).
+**Wonders made worth the climb:** the Ring-walk (the surveyors' plate flashed at the drowned city is answered, WAIT, the Posts'
+word: something has not been told to stop waiting; Quill pays for it), and the Reckoning/disc (now wanted by three parties for
+three reasons: the Prior's charter, the crew's brass, and the House's own count).
+**Painting audit.** Earn their painting: the Bridge (a toll, a tipped deck, a mechanism on the gantry), the Ring-walk (an
+operable sight and an answer), the Reckoning Room (the rival goes down it), the Ledge's hull (the Collegium's chalk argues
+the verb). Left as scenery: the rim and Terrace (large, but they only carry the clock); not changed, and said so.

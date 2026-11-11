@@ -103,26 +103,26 @@ Module silent_lord "The silent lord" {
 
   // ---- The castellan. She is a good soldier who has been lying for eleven days.
   Topic cast_lord with castellan "Ask {castellan} when the lord will receive you" when not knows(actor, lord_dead) once {
-    Says "'His lordship is unwell,' says {castellan}, 'and sees no one but his physician.' She says it very smoothly, and has plainly said it a good many times, to a good many people, and each time a little more of the skin has come off her voice. 'I sign what he cannot. The keep is in good hands.'".
+    Says "'His lordship is indisposed,' says {castellan}. 'He sees his physician. He signs what he is able.' She says it as she has said it to the herald and the marshal and to a mirror, by the sound: smoothly, without a single place for a question to catch. 'The keep is in hand. You may take that to whoever sent you.'".
   }
   Topic cast_levy with castellan "Ask {castellan} what the king's levy means for the keep" when true once {
-    Says "'Twenty spears,' says {castellan}, 'of thirty-one. A hundred bushels, of what the steward tells me is a good deal more than a hundred. And the lord at court for the feast, or his heir, which I am told the herald does not think a joke.' She is looking at the window. 'I will raise what I can. I will not strip the march to fill the king's ditch in a war he cannot name.'".
+    Says "'Twenty spears,' says {castellan}, 'of thirty-one. A hundred bushels of a granary that my steward assures me is fuller than it is. And the lord at court by the twelfth, or his heir.' She does not turn from the window. 'I shall raise what can be raised. I shall not empty a march to fill a ditch in a war the king cannot name. You may find that unpatriotic. I find it arithmetic.'".
   }
   Topic cast_confront with castellan "Tell {castellan} you have seen the lord on his bier" when knows(actor, lord_dead) and not heard_out(castellan, actor) and not hunted(house) once {
     Grave "What you say now, the household hears. There is no unsaying it.".
-    Says "{castellan} sets her letter down and looks at you for a long time. 'Eleven days,' she says. 'The herald arrived the morning after. I thought: if I say it, the keep is his. The king's writ says the lord or the heir, and the heir is a child at an abbey, and the will has not been read by anyone with the right to read it.' Her voice is level. 'I have thirty-one men, and a steward who cannot add, and a clerk who writes better than I do. What do you want?'".
+    Says "{castellan} sets her letter down, square to the table, and looks at you for the length of a long breath. 'Eleven days,' she says. 'The herald arrived on the twelfth morning. One could say it, and the keep is the king's. The heir is a child at an abbey; the will is unread; the writ says the lord or the heir.' Her voice does not alter. 'I have thirty-one men, a steward who cannot add, and a clerk who writes better than I do. I am aware of what it looks like. What, precisely, do you want?'".
     On discuss { Assert heard_out(castellan, actor). }
   }
   Topic cast_help with castellan "Offer to help her hold the keep until the heir comes" answering cast_confront when true {
-    Says "'Help,' says {castellan}, trying the word. 'No one has said it in this house for eleven days.' She takes a slender steel key from her belt and puts it in your hand. 'The second lock of the strong-room. The doorward will let you up to the solar, when you wish. Tell me what you find. I have been alone with this for a long time.'".
+    Says "'Help,' says {castellan}, as one tries a word in a foreign language. 'Nobody has used it in this house for eleven days.' She takes a narrow steel key from her belt and lays it in your palm, with a small, correct, unconscious motion, as she would pass a cup. 'The second lock of the strong-room. The doorward will let you up to the solar. Tell me what you find. I have been alone with this a very long time, and I should like, before it ends, not to have been.'".
     On discuss { Assert befriended(castellan, actor). Give castellan_key_kind to actor. Assert tolerates(doorward, actor). }
   }
   Topic cast_price with castellan "Say you will keep quiet, for a price" answering cast_confront when true {
-    Says "{castellan} does not look surprised. 'Thirty,' she says, and counts it from her own purse. 'And you will have forgotten the way down to the crypt. I would not like to find you on it twice.' She holds your eye. 'You were never here.'".
+    Says "{castellan} does not look surprised; it is a point against you that she does not. 'Thirty,' she says, and counts it from her own purse, coin by coin, on the table. 'And you will forget the way down to the crypt. If I find you upon that stair a second time, I shall not be civil.' Her eyes are quite level. 'You were never here.'".
     On discuss { Increase quantity(actor, gold) by 30. Assert bought(castellan). }
   }
   Topic cast_hall with castellan "Say the hall must be told" answering cast_confront when true {
-    Says "{castellan} stands. 'Then you are a danger to the household,' she says, without heat, and calls a name, and the doorward is there before she has finished. 'You will be shown out.'".
+    Says "{castellan} stands. 'Then you are a danger to this household,' she says, without heat, as one reports the weather. She names a man, once, and the doorward is there before the name has finished. 'You will be shown out. I should not come back. The next courtesy is not so well-bred.'".
     On discuss { Assert hunted(house). Retract peaceable(doorward). Assert assails(doorward, actor). }
   }
   Relation bought(group).
