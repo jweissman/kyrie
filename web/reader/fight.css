@@ -134,7 +134,10 @@
   box-shadow: 0 10px 24px rgba(0, 0, 0, .4), inset 0 -2px 0 var(--accent); }
 .fight .moves .act:active { transform: translateY(0); }
 .fight .auto { margin: 8px 0 0; font: 400 12.5px var(--do); color: var(--faint); }
-.fight > .fight-log-toggle { flex: none; margin: 0; padding: 8px clamp(20px, 3.4vw, 44px) max(14px, env(safe-area-inset-bottom)); }
+/* Clear of the screen's edge, and of a tablet's home bar: 14px had left "The fight so far" inside the 16px margin at
+   every size (the scene's safe-zone walk, 11 November late). */
+.fight > .fight-log-toggle { flex: none; margin: 0;
+  padding: 8px clamp(20px, 3.4vw, 44px) max(20px, calc(env(safe-area-inset-bottom) + 8px)); }
 .fight-log-toggle .option { min-height: 36px; padding: 8px 14px; font-size: 11.5px; }
 /* A key to press means nothing to a finger. */
 @media (hover: none) { .fight .auto kbd { display: none; } }
