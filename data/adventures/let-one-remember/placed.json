@@ -29,7 +29,9 @@
     "word_one",
     "word_given",
     "word_none",
-    "word_followed"
+    "word_followed",
+    "word_lost",
+    "word_home"
   ],
   "roles": {
     "party": {
@@ -50,6 +52,8 @@
     "word_one",
     "word_given",
     "word_none",
-    "word_followed"
+    "word_followed",
+    "word_lost",
+    "word_home"
   ]
 }

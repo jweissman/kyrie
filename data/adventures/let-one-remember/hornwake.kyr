@@ -131,12 +131,12 @@ Module corrow "Let One Remember" {
   }
   Relation filing(group). Measure linkDue(place). Relation paying(group).
   Initially Assert filing(ruth). Initially Assert paying(esk). Initially Set linkDue(hightown) to 2016.
-  Rule link_falls when filing(ruth) and watch(clock) >= linkDue(hightown) and not lost(hightown) and not crashed(hightown)
+  Rule link_falls when (filing(ruth) or hartmarkFiling(esk)) and watch(clock) >= linkDue(hightown) and not lost(hightown) and not crashed(hightown)
     says "Up on the plateau a sound goes through the ground like a dropped bell: the runners have filed through a link of the tail, and it has fallen away from the Chain." {
     Decrease tailLinks(hightown) by 1. Assert linkCut(hightown). Assert cutWatched(hightown).
   }
   Relation linkCut(place). Relation cutWatched(place).
-  Rule next_link_paid when linkCut(hightown) and paying(esk) { Retract linkCut(hightown). Set linkDue(hightown) to watch(clock) + 1440. }
+  Rule next_link_paid when linkCut(hightown) and paying(esk) and not hastening(esk) { Retract linkCut(hightown). Set linkDue(hightown) to watch(clock) + 1440. }
   Rule next_link_unpaid when linkCut(hightown) and not paying(esk) { Retract linkCut(hightown). Set linkDue(hightown) to watch(clock) + 4320. }
   // A runner's apprentice told, the Esk bonus withdrawn: the next link takes the full thirty days.
   Rule bonus_withdrawn when filing(ruth) and not paying(esk) and linkDue(hightown) < watch(clock) + 2880 and withdrawnFrom(esk) {
@@ -152,7 +152,7 @@ Module corrow "Let One Remember" {
     Says "Ruth listens with her arms folded. When you say two, she unfolds them. 'Not twenty,' she says. 'Two.' She looks at the shed on the last link, where the files are going. 'That's what Sixty-two said. I thought he was mad.' She puts two fingers in her mouth and whistles, and the filing stops, and the silence on the tail is like a held breath. 'Downtools,' she says. 'Till I say.' Then, to you, quietly: 'Who's going to tell the Hartmark man?'".
     On discuss { Retract filing(ruth). }
   }
-  Observe tail_quiet at tail when not filing(ruth) and not lost(hightown) and not crashed(hightown) "The runners' shed on the last link is shut. Their files hang on a nail.".
+  Observe tail_quiet at tail when not filing(ruth) and not hartmarkFiling(esk) and not lost(hightown) and not crashed(hightown) "The runners' shed on the last link is shut. Their files hang on a nail.".
 
   // Esk of Harrow, the Hartmark's envoy.
   Person esk "Esk of Harrow" at pavilion {
@@ -165,6 +165,26 @@ Module corrow "Let One Remember" {
     Says "Esk sets the cup down very carefully. 'Into the sky,' he says. 'Not north. Up.' For a moment he is only a tired man with two daughters at home. 'Then I stop. Of course I stop. I'll send to Ruth Teake tonight.' He looks at the red-inked maps on his wall a long time. 'And you are the only ones who know this?' It is a courteous question, and he is already thinking about what else the answer is worth.".
     On discuss { Retract paying(esk). Assert withdrawnFrom(esk). }
   }
+
+  // The Hartmark does not stop because Ruth does. Esk pays for a result and not for a person: if the runners put down their
+  // files and he is still paying, he waits ten days for the grievance to cool and then sends hands of his own, in hired
+  // coats, to the same link. Only Esk himself, told what the Registry reckons, stops them. And a company that takes his
+  // money for the winter, and asks the runners to work through it, will find out how much a tail weighs.
+  Relation hartmarkFiling(group). Relation hastening(group). Measure ruthStoppedAt(place).
+  Rule ruth_stopped when not filing(ruth) and ruthStoppedAt(hightown) == 0 and watch(clock) > 0 { Set ruthStoppedAt(hightown) to watch(clock). }
+  Rule esk_hires when not filing(ruth) and paying(esk) and ruthStoppedAt(hightown) > 0 and watch(clock) >= ruthStoppedAt(hightown) + 288
+    and not hartmarkFiling(esk) and not lost(hightown) and not crashed(hightown)
+    says "The files have started again on the last link of the tail, but the sound is wrong: a rasp where Ruth's crew had a rhythm. Hands in grey Hartmark coats, hired at Harrow for the winter, are working the cut by the lantern, and one of them is being sick behind the shed." {
+    Assert hartmarkFiling(esk). Set linkDue(hightown) to watch(clock) + 720. }
+  Rule hartmark_withdrawn when hartmarkFiling(esk) and not paying(esk) { Retract hartmarkFiling(esk). }
+  Observe tail_hired at tail when hartmarkFiling(esk) and not lost(hightown) and not crashed(hightown) "Three strangers in grey coats file on the last link. Ruth Teake's runners sit in a row on the hoist-feet wall with their hands in their armpits, and do not look at the tail. Nobody speaks to the strangers. They have been told what the link will fetch them, and not what it weighs.".
+  Topic esk_winter with esk "Take Esk of Harrow's silver, and ask the runners to work through the winter" when paying(esk) and not hastening(esk) {
+    Says "'Fifty crowns,' says Esk, 'and I shall be your friend in the Hartmark for the rest of your life, which in my country is a long time to be anyone's friend.' He has already counted it out. 'Only ask Ruth Teake to work the tail steadily, instead of a link a month. A link a week. The winds will do the rest and we will all be warm by spring.' It is a pleasant, reasonable speech, and the silver is on the table, and he has not once said where the mountain will go.".
+    On discuss { Assert hastening(esk). Increase quantity(actor, gold) by 50. }
+  }
+  Rule next_link_hastened when linkCut(hightown) and paying(esk) and hastening(esk) { Retract linkCut(hightown). Set linkDue(hightown) to watch(clock) + 288. }
+  Observe tail_hastened at tail when hastening(esk) and filing(ruth) and not lost(hightown) and not crashed(hightown) "The runners have stopped singing at their work. They file with their heads down, and every time a link falls Ruth Teake walks the length of the tail with her hand on the iron, as if feeling for a pulse.".
+  Observe horn_empty_wagons at wagons when lost(hightown) "Half the horseshoe has gone: the wagons with their shafts down, canvas pegged over the empty tables. A woman is selling her chickens by the crate. 'There is nothing to hold the town to the horn,' she says. 'There is no horn.' She does not say it unkindly.".
 
   // ── The plateau ──────────────────────────────────────────────────────────────────────────────────────────────────
   Observe furrow_scene at furrow when true "The furrow: a trench three metres deep and ten wide running north across the plateau, its floor black and turned. Behind Hornwake it is planted in strips, oats and turnips, every strip with a stake and a name on it.".

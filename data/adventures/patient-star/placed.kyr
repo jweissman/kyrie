@@ -17,4 +17,19 @@ Module season "Hold One Season" {
     Assert paid(party). Assert cameUp(garret). Increase quantity(party, gold) by 14. }
   Event crew_brought_him_placed near dagny when at(garret, mutual_hall) and not broughtBy(garret, party) and at(party, mutual_hall) "Garret is by the hall fire with a blanket round him and a bowl in his hands, and the crew who brought him up are drinking. Dagny does not look at you.".
   Objective find_garret_placed when not cameUp(garret) and asleep(garret) "Garret, a cutter of the Mutual, is held in an open granary vault under Quell. Dagny will pay fourteen crowns if you bring him up.".
+
+  // ── What is said of the Uplands in the country behind them, once the plateau's question is settled ───────────────────
+  Entity word: fact "What is said of the Ghessil Uplands in the country behind them.".
+  Entity word_covered: fact "What is said there of the Pit covered.".
+  Entity word_rebound: fact "What is said there of the Pit's light bound tighter.".
+  Entity word_exiled: fact "What is said there of the Corbel gone.".
+  Entity word_seated: fact "What is said there of the Patient's heart seated.".
+  Entity word_unbound: fact "What is said there of the Keeping unbound.".
+  Query plateauSettled(p: place) means covered(ghessil) or rebound(corbel_site) or exiled(corbel_site) or seated(ghessil) or unbound(ghessil).
+  Rule word_old when plateauSettled(ghessil) and not stale(word) { Assert stale(word). }
+  Rule word_covered_old when covered(ghessil) and not stale(word_covered) { Assert stale(word_covered). }
+  Rule word_rebound_old when rebound(corbel_site) and not stale(word_rebound) { Assert stale(word_rebound). }
+  Rule word_exiled_old when exiled(corbel_site) and not stale(word_exiled) { Assert stale(word_exiled). }
+  Rule word_seated_old when seated(ghessil) and not stale(word_seated) { Assert stale(word_seated). }
+  Rule word_unbound_old when unbound(ghessil) and not seated(ghessil) and not stale(word_unbound) { Assert stale(word_unbound). }
 }

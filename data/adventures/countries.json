@@ -127,6 +127,13 @@
     "talk": "The talk of the Corrow has changed: the mountain that hung in the sky on a chain is down, or gone, or was never there, depending whom the carter drinks with.",
     "told": "{keeper} hears you out about the mountain, the well and the Margin, and says nothing for so long that the fire shifts. 'Down the Peleth road they say the Corrow remembered something,' {keeper} says at last. 'Out loud. All at once.' They look at the hearth. 'I have never heard of a place having a memory and wanting it back.'",
     "by": {
+     "lost": {
+      "talk": "The Peleth road has no more to say about the mountain over the Corrow: it is gone up, they say, and the sky has not been the same shape since.",
+      "told": "{keeper} hears you out about the tail cut past the number, and the horn gone from its furrow, and nine hundred people on a star that moves. {keeper} does not pour. 'Up,' {keeper} says. 'Not north. Not down.' They look at the ceiling for a time. 'I had a customer used to say a thing held down by its own weight is the only thing safe. He bought a link of iron from a man in Wendmouth every year, for luck.' {keeper} shakes their head. 'I wonder who bought it this year.'"
+     },
+     "home": {
+      "told": "{keeper} hears you out about the mountain home in the Socket like a stone in its own print, and a ferry from its terraces. 'A ferry,' {keeper} says, delighted. 'To a mountain.' They pour you the good wine, which is not for guests. 'Down the Peleth road they say the Corrow remembered something, all at once, and then had the sense to sit down. I should like to cross on the ferry. Tell me again what they charge.'"
+     },
      "one": {
       "told": "{keeper} hears you out about the one who keeps the jewel, and the town coming down the burnt road a day at a time. 'One a day,' {keeper} says. 'Like a tithe.' They refill your cup. 'I should like to know who remembers the rest. Somebody must. Somebody always does, when it matters.'"
      },
@@ -161,7 +168,33 @@
    "rumour": "'West, up on the Ghessil Uplands,' says {keeper}, 'there is a light lies on the glass that slows whatever drinks it. There are people standing in it, they say, that went in last autumn and are standing there yet, alive.'",
    "heard": "Away in the west of the country lie the Ghessil Uplands, where a light on the glass slows whatever drinks it, and people stand in it alive since last autumn.",
    "skyline": "a light lying on the uplands that does not move when the clouds do",
-   "far": "a light lies on the glass that slows whatever drinks it, and people stand in it alive"
+   "far": "a light lies on the glass that slows whatever drinks it, and people stand in it alive",
+   "after": {
+    "talk": "The talk of the Ghessil Uplands has changed. The light on the glass is the subject of a different argument now, in a different voice, and the carters who have been up the Collar road will tell you which only if you buy.",
+    "told": "{keeper} hears you out about the light, the Pit and the Corbel hanging over it, and does not interrupt even at the Concord. 'It was a long year up there, by what the carters said,' {keeper} says at last. 'A long year, and a long way down.' {keeper} turns a cup over on its saucer. 'I can't tell whether you saved them or only changed what it was that was killing them. I'll pour either way.'",
+    "by": {
+     "covered": {
+      "talk": "The carters say the Pit is under umber to the Collar and the Crown's seal is on it. They say it very quietly, and look at their hands.",
+      "told": "{keeper} hears you out about the carts of umber on the Collar road, and the Pit, and the people standing in the glass. 'Covered,' {keeper} says. 'By seal. Not by vote.' {keeper} sets down the cup without a sound. 'I had a cousin cutting felt up there. I wrote and wrote.' {keeper} does not say anything for some time. 'It will be nice to be told it was necessary,' {keeper} says at last. 'Will you tell me?'"
+     },
+     "rebound": {
+      "talk": "The Ghessil road is easy again: the spire is gone from the sky over the Pit, and the old people are standing in the glass as they were. Honey is going up the ramp. Nobody says why.",
+      "told": "{keeper} hears you out about the stone bound tighter, and the spire drawn up into the cloud, and the held breathing once an hour. 'So it's all as it was,' {keeper} says, and laughs, and stops. 'No. It isn't, is it? It's as it was, and somebody knows what it cost.' {keeper} fills your cup. 'That's a worse thing to be than a hero, I think. A keeper. I'm sorry.'"
+     },
+     "exiled": {
+      "talk": "The carters say the thing that hung over the Ghessil Pit is gone out of the sky, and the sky looks the wrong size without it. Children in the market ask about it and are told it was a cloud.",
+      "told": "{keeper} hears you out about the fall of the citadel out past the planes, and the Corbel pulled up like a bucket. 'Out,' {keeper} says. 'Past.' {keeper} looks at the ceiling as if something might be there. 'I have always rather liked knowing there was a floor to everything. Thank you for telling me. I think.'"
+     },
+     "seated": {
+      "talk": "The Ghessil carters have started to disagree about last week. About a good deal else, once they get going: whose cart it was, whose road, who owed whom. They are not lying; they cannot be.",
+      "told": "{keeper} hears you out about the heart and the seat, and the plateau forgetting last week. 'Last week,' {keeper} says. 'Is it gone from here yet? I had a thing to say to a man yesterday, and I cannot think what.' {keeper} laughs, and then does not. 'You'd better tell me everything again before it goes. In order. From the start.'"
+     },
+     "unbound": {
+      "talk": "The carters coming down from the Ghessil Uplands cannot agree what year it is. They are very polite about it.",
+      "told": "{keeper} hears you out about the Tip, and the jewel, and a plateau forgetting from the newest year back. 'Forgetting,' {keeper} says. 'You might have said before I poured.' {keeper} pushes the cup toward you. 'It is very good. I made it this morning, I think. Eat something.'"
+     }
+    }
+   }
   },
   {
    "id": "lowwater",

@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "name": "The Patient Star, nearly covered",
+  "calendar": { "year": 380, "month": 6, "day": 25 },
+  "modules": [ { "id": "season", "bundle": "module.json" } ],
+  "party": [
+    { "name": "Tamsin", "raceId": "human", "classId": "thief", "backgroundId": "miner", "level": 6 }
+  ]
+}

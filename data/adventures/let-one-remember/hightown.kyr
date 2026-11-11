@@ -94,6 +94,23 @@ Module corrow "Let One Remember" {
     Assert grieved(rimfolk).
   }
 
+  // The cut tail is felt on the rock before it is read of in the ledger: the thin places are touched by the thread that
+  // runs under them. (Thin by design: no one here is asked to act until the lake is under them.)
+  Observe rim_unease at rim_walk when restingWeight(hightown) < 2000 and restingWeight(hightown) > 0 and not bitten(hightown) and not crashed(hightown) and not lost(hightown) and not grounded(hightown) "The fog-nets sway against the wind, which is the wrong way. The net-menders have stopped working in pairs and work in fours, with a rope between them and the stanchion. When the rim lurches nobody falls, and everybody has put a hand on the rope.".
+  Observe chapel_unease at unasked_chapel when cutWatched(hightown) and not crashed(hightown) and not lost(hightown) and not grounded(hightown) "A cup has been moved to the floor of the chapel, and is full. Nobody has said why. When the chapel shifts, the water in it tilts, and steadies, and tilts a little further the next time.".
+  Topic amberly_roster with amberly "Ask Speaker Vane about Aron Fennimore's roster" when roster(aron) and not crashed(hightown) and not lost(hightown) {
+    Says "'One a day,' says the Speaker, as one who has said a thing so often it has worn smooth. 'A girl of fifteen writes it in a book, and every morning the mountain is a hand's breadth lower, and I am to be glad.' She looks at the window. 'The Charge has not forbidden it. The Charge has not decided that it is forbidden. These are different, and I find I am very grateful for the difference.'".
+  }
+  Topic amberly_grief with amberly "Ask Speaker Vane how the Charge bears it" when grieved(amberly) {
+    Says "'It is borne,' says Speaker Vane. 'We are a people who have been built to bear. I did not think, until I held it, how heavy a thing it was we had been told not to carry.' A pause. 'The Charge meets nightly. It disagrees nightly. Nobody has yet proposed we go back.'".
+  }
+  Topic linnet_roster with linnet "Ask Linnet Vane what she writes in the roster" when roster(aron) and at(linnet, grounders_hall) {
+    Says "'The name, and the day, and what they said when they were told,' says Linnet, not looking up. 'Aron says I mustn't write what they said. I write it small.' She turns the book so you can see. Most of it is a single word, and the word is, in different hands and moods, down.".
+  }
+  Topic linnet_lake with linnet "Ask Linnet Vane what she sees from the rim" when overSocket(hightown) and not crashed(hightown) and not lost(hightown) {
+    Says "'The lake,' says Linnet, 'and the mountain's shadow on it, and I'm in the shadow. Mother says a shadow is a figure of speech.' She almost smiles. 'I've been down to Hornwake three times now. They don't say anything is a figure of speech there. They say pass the salt.'".
+  }
+
   // Speaker Vane and the Unasked.
   Topic amberly_unasked with amberly "Ask Speaker Vane about the Unasked" when true once {
     Says "'It is forbidden to ask, say or learn where the mountain came from,' says the Speaker. 'Our elders taught that the ground was a figure of speech. It is not; I have been down the hoist; I have stood on it.' She smiles slightly. 'But the doctrine was never about the ground. It was about the mountain. We have survived two thousand six hundred years by not knowing one thing. I see no reason to start knowing it now, in a hurry, because a merchant is short of iron.'".
