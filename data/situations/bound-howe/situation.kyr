@@ -638,7 +638,7 @@ Module bound_howe "The Bound Howe" {
   Observe taproom_walkers at taproom when host_abroad() and not dark() "Someone has scratched a line of salt across the threshold of the taproom, and nobody will say who.".
 
   // ---- Aims.
-  Objective ridge_aim when knows(party, ridge_told) and not been(party, lee) and not been(party, hearth) toward outside "A salvage crew is digging into a king's howe on the ridge above {outside}; the shire-reeve's clerk wants its torc; and an old woman keeps the dead's rest from a hearth to the north.".
+  Objective ridge_aim when knows(party, ridge_told) and day(clock) >= 3 and not been(party, lee) and not been(party, hearth) toward outside "A salvage crew is digging into a king's howe on the ridge above {outside}; the shire-reeve's clerk wants its torc; and an old woman keeps the dead's rest from a hearth to the north.".
   Objective warden_aim when knows(party, warden_told) and not trusted(warden, party) toward hearth "An old woman keeps a fire on the ridge in sight of the howe. She knows what the dead will bear, and she wants salt.".
   Objective levy_aim when knows(party, levy_told) and not levy_met(party) and not bound_broken(party) toward clerk "The shire-reeve's clerk will pay by the weight for the torc of the king of the howe, or for any torc of the Barrow-Kin.".
   Objective howe_aim when been(party, forecourt) and not been(party, throne) toward forecourt "The king of the Barrow-Kin sits on his seat at the heart of the howe, with his sword across his knees. The way in is the great stone, the gallery, and the steps up.".
