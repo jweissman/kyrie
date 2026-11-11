@@ -78,3 +78,37 @@ colour was implicit in the CSS.
 6. **What the company has seen where.** A way into a room where it saw a deadly band carries no danger of its own:
    the company remembers what it perceived (`CompanyRecall`), not who was where when it left. Proposed: recall a
    band's place as last seen, so a way can carry its danger (red) without telling where the band has since gone.
+
+## Built since (11 November, late): companionship and perception at a distance
+
+- **Companionship** is an aspect of its own (coral rose, "a companion", a companion glyph), given only where a real
+  recruitment reaches someone: they are willing now, or a topic of theirs, answered, makes them willing
+  (`src/presentation/companions.ts`). A friendly person is not a companion.
+- **Perception at a distance** is kept apart from what can be done (`src/presentation/perception.ts`). For each way
+  the company can see from here, it says what kind of thing lies along it within reach, and how many places off the
+  nearest is. It is never a reason to lead with, and it never offers the distant act. The glance carries it as
+  `sensed`; the page draws it **faint** (a dashed outline and a word), which is not **dim** (a way with nothing new).
+- **Reach** is a table by aspect and capability: a possible companion one place off for anyone, three for a
+  Gregarious company. Gregarious is not yet in the game; the test gives it as a capability.
+- **One journey glyph** marks going over into the next stretch of country, on a way in Go… and on a led choice,
+  whatever its colour.
+
+## Wanted for M21: authoring contracts
+
+1. **Reach as data.** The reach table is code. Proposed: perception reaches in the rules' data (by aspect, base, and
+   what extends it: a perk, a feat, a calling's focus, a carried thing), so that an author adds a Gregarious perk or
+   a ranger's long eye without touching the engine.
+2. **More kinds perceived from afar.** Only companionship is perceived at a distance. Danger (a warrior's, a ranger's
+   reach), the arcane and the scholarly (a wizard's), valuables and openings (a thief's) need their own grounding:
+   what in the world makes each real, read as Companions reads recruitment.
+3. **Specificity by distance.** Farther off, less is said. Today: which way, and the kind. Proposed: a scale an author
+   can write (one place: "someone who might join you"; three: "voices, that way").
+4. **Kits** (the owner's note, not M20): skill and spell kits by background, profession, class focus, first feat and
+   perks/burdens; an elemental focus offering starting spell sets and shaping later choices; a scout's focus extending
+   perception. Creation might run: calling, then focus or feat, then perks and burdens, then compatible skills and
+   spells, some background emerging in play. Missing contracts: a focus record (what it grants, what it constrains), a
+   spell or skill tag the constraints read, and perks and burdens as data with their effects on perception and play.
+5. **Structured action properties for a diagnostic view.** Spatial scale (here, a step, across a stretch), novelty,
+   the skills that bear on it, and what may come of it, kept apart from the aspects: the journey glyph is the first;
+   a compact diagnostic view of the rest is wanted.
+

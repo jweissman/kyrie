@@ -25,6 +25,8 @@
   /* Under the finger or the keys: light, not gold, which is the aim's and what is marked first (PD-10). */
   --touch: rgba(236, 230, 217, .62); --touch-glow: rgba(236, 230, 217, .07);
   --ember: #FF6B45; --ember-glow: rgba(255, 107, 69, .14); --verdigris: #5FD3B6; --azure: #79AEF7; --violet: #B49CFF;
+  /* Companionship: a vivid coral rose, apart from the ember of danger (the owner, 11 November). */
+  --coral: oklch(73% 0.15 15);
   --rose: #EF9FAE; --life: #79D58F;
   /* The hour's light, which tints the ground: set on the shell by the time of day. */
   --hour: rgba(242, 189, 76, .10);

@@ -25,7 +25,8 @@ export class SceneRail {
     const search = Pastime.search(app), wait = Pastime.wait(app);
     return (
       <nav className="scene-rail" aria-label="Go, look, wait, search, the map and your book">
-        <SceneRail.Mark app={app} part="go" glyph="go_on" words="Go" standing={SceneRail.go(app)} />
+        <SceneRail.Mark app={app} part="go" glyph="go_on" words="Go" standing={SceneRail.go(app)}
+          faint={SceneRail.sensed(app)} />
         <SceneRail.Mark app={app} part="look" glyph="look_about" words="Look" standing={SceneRail.look(app)} />
         {wait && <SceneRail.Mark app={app} part="wait" glyph="wait" words="Wait" standing={{}} />}
         {search && <Act.View choice={search} draw={draw} quiet className="rail-mark by-glyph">
@@ -53,12 +54,14 @@ export class SceneRail {
     return alone ? <nav className={`scene-rail${onMap ? ' on-map' : ''}`} aria-label="The map and your book">{marks}</nav>
       : marks;
   }
-  static Mark({ app, part, glyph, words, standing }: { app: ReaderApp; part: 'go' | 'look' | 'wait'; glyph: string;
-    words: string; standing: Standing }) {
+  // faint: something perceived off along a way from here (see Perception), drawn as an outline of its tone, apart from
+  // lit (something here) and dim (nothing new).
+  static Mark({ app, part, glyph, words, standing, faint }: { app: ReaderApp; part: 'go' | 'look' | 'wait';
+    glyph: string; words: string; standing: Standing; faint?: Tone }) {
     const shut = 'shut' in standing ? standing.shut : undefined, lit = 'lit' in standing ? standing.lit : undefined;
-    const said = shut ? `${words}: ${shut}` : words;
+    const said = shut ? `${words}: ${shut}` : faint ? `${words}: someone who might join you, that way` : words;
     return <button type="button" className={`rail-mark opens-${part}${lit ? ` lit tone-${lit}` : ''}`
-      + `${'dim' in standing ? ' dim' : ''}`} data-action="explore" data-part={part} aria-haspopup="dialog"
+      + `${'dim' in standing ? ' dim' : ''}${faint && !shut ? ` faint faint-${faint}` : ''}`} data-action="explore" data-part={part} aria-haspopup="dialog"
       aria-expanded={app.state.exploring === part} aria-label={said} title={said} disabled={!!shut}
       onClick={() => Explorer.open(app, app.state.exploring === part ? undefined : part)}>
       <Glyphs.View id={glyph} className="rail-glyph" /></button>;
@@ -84,6 +87,11 @@ export class SceneRail {
     const tone = led && Emphasis.of(led.aspects, false).tone;
     if (tone) { return { lit: tone }; }
     return glance?.idle?.includes(app.state.frame!.screen.place.id) ? { dim: true } : {};
+  }
+  // What is perceived off along the ways from here, by the tone of its kind.
+  static sensed(app: ReaderApp): Tone | undefined {
+    const first = app.state.frame?.leaf.glance?.sensed?.[0];
+    return first && Emphasis.tones[first.aspect];
   }
   // The map, where a journey there is the aim's next step, and the way is shown.
   static mapLit(app: ReaderApp): boolean {

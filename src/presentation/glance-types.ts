@@ -13,7 +13,7 @@ export type Arrival = 'opening' | 'first' | 'return' | 'stay' | 'resume';
 export type Facet = 'here' | 'aimed' | 'urgent' | 'new' | 'known';
 // What an opportunity is to the company that sees it (see Aspects): the aim it follows, somewhere worth exploring,
 // something to gain, something to learn, a danger, a wonder. Meaning, not colour.
-export type Aspect = 'undertaking' | 'exploration' | 'payoff' | 'knowledge' | 'danger' | 'wonder';
+export type Aspect = 'undertaking' | 'exploration' | 'payoff' | 'knowledge' | 'danger' | 'wonder' | 'companionship';
 // Why a choice was led with, best first by tier (Promotion.tiers).
 export type Why =
   // Must: the company held where it is (asleep, stunned) with nothing to do but lie as it is, an answer to a question
@@ -31,6 +31,8 @@ export type Why =
   // What was won, put to use: someone here who buys a treasure the company carries; someone who adds to what it can do
   // (a lesson, a spell) for what it can pay.
   | 'spoils' | 'means'
+  // Someone who could join the company: willing now, or with something to be asked that would make them so.
+  | 'companion'
   // A way about a settlement or site not yet taken.
   | 'unvisited';
 // What a choice risks, or needs said before it is chosen.
@@ -76,6 +78,8 @@ export interface Glance {
   // Places left twice having done nothing there, with nothing new since (see CompanyRecall.idle): a way to one has
   // nothing new to give for now, and is drawn dim, though it can be taken (and is lit again when anything changes).
   idle?: string[];
+  // What the company perceives beyond here, by the way it lies along (see Perception): never a thing to do from here.
+  sensed?: Sensed[];
   // Every choice id (an exit, a travel:) the company's aims name: the page's "your aim", decided here.
   aimed: string[];
   // Of those, the ones that go where the aim followed names, first among them (the rest are other aims held).
@@ -89,3 +93,5 @@ export interface Glance {
   // After an act: what was attempted, what came of it, what it changed, and the act it made relevant (REV-05).
   after?: AfterAct;
 }
+// A kind of opportunity perceived along a way from here, the nearest so many places off (1: where the way comes to).
+export interface Sensed { to: string; aspect: Aspect; far: number }

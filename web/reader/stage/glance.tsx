@@ -243,6 +243,16 @@ export class GlanceStage {
       || a.continues) && (!person(a) || a.continues));
     return [...pressing, ...rest].slice(0, 4);
   }
+  // What a choice's own glyphs say apart from its colour: someone who could join you, and going over into the next
+  // stretch of country (not a walk about the town), whatever else it is (the owner, 11 November).
+  static Icons({ app, a, c }: { app: ReaderApp; a: Promoted; c: Choice }) {
+    const screen = app.state.frame!.screen, walk = (screen.around ?? []).some(d => `travel:${d.id}` === c.id);
+    const crosses = (c.id.startsWith('travel:') && !walk) || !!screen.exits.find(e => e.id === c.id)?.crosses;
+    return <>
+      {a.aspects.includes('companionship') && <Glyphs.View id="companion" className="led-icon" label="could join you" />}
+      {crosses && <Glyphs.View id="journey" className="led-icon" label="into the next stretch of country" />}
+    </>;
+  }
   // What a place at rest draws that can be chosen: whoever is here, on the picture, and what is pressing.
   static atRest(app: ReaderApp): Set<string> {
     const g = app.state.frame?.leaf.glance, subjects = app.menu.scene?.subjects ?? [];
@@ -344,7 +354,7 @@ export class GlanceStage {
           <Act.View choice={c} draw={draw}
             className={`led-act${c.id === top ? ' first' : ''}${tone ? ` tone-${tone}` : ''}${prism ? ' prism' : ''}`}>
             {prism && <i className="prism-bar" aria-hidden="true" style={{ '--prism': prism } as CSSProperties} />}
-            <span className="n">{Typography.curl(label)}</span>
+            <span className="n">{Typography.curl(label)}<GlanceStage.Icons app={app} a={a} c={c} /></span>
             {note && <span className="why-said">{Typography.curl(note)}
               {also.map(t => <i key={t} className={`also tone-${t}`} aria-hidden="true" />)}</span>}
             <kbd className="key" aria-hidden="true">{i + 1}</kbd>

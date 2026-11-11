@@ -42,7 +42,7 @@ describe('the frame after an act, in kite', () => {
     await g.perform('talk_to(drover__son)');
     const v = await g.perform('drover__son_plan');
     expect(v.after).toMatchObject({ attempt: 'Ask Gamel what he means to do', result: '\'Go after him,\' says Gamel.' });
-    expect(v.after!.next).toMatchObject({ choice: 'drover__son#talk', command: 'recruit(drover__son)', why: 'means' });
+    expect(v.after!.next).toMatchObject({ choice: 'drover__son#talk', command: 'recruit(drover__son)', why: 'companion' });
     expect(v.acts.find(a => a.choice === 'drover__son#talk')).toMatchObject({ for: 'recruit(drover__son)',
       note: 'would join you' });
   });

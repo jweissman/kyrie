@@ -50,6 +50,7 @@
 .tone-blue { --tone: var(--azure); --tone-glow: rgba(121, 174, 247, .12); }
 .tone-red { --tone: var(--ember); --tone-glow: var(--ember-glow); }
 .tone-violet { --tone: var(--violet); --tone-glow: rgba(180, 156, 255, .12); }
+.tone-rose { --tone: var(--coral); --tone-glow: rgba(255, 128, 140, .12); }
 .act.led-act[class*="tone-"] .why-said { color: var(--tone); }
 .act.led-act[class*="tone-"]::before { border-color: var(--tone); }
 .act.led-act .why-said .also { display: inline-block; width: 5px; height: 5px; margin: 0 0 2px 8px; border-radius: 50%;
@@ -232,7 +233,7 @@
 .glance-row .act.tile.opens::after { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); }
 /* The tones by name, for a gradient through several (see Emphasis.prism). */
 :root { --tone-gold: var(--gold); --tone-silver: #D7DBE4; --tone-green: var(--verdigris); --tone-blue: var(--azure);
-  --tone-red: var(--ember); --tone-violet: var(--violet); }
+  --tone-red: var(--ember); --tone-violet: var(--violet); --tone-rose: var(--coral); }
 /* What is truly several things at once: its edge a slow gradient through its tones, mixed in OKLab; still where the
    reader asks for less motion. */
 .act.led-act.prism { position: relative; }
@@ -241,3 +242,8 @@
 .act.led-act.prism.first { box-shadow: none; }
 @keyframes prism-drift { from { background-position: 50% 0%; } to { background-position: 50% 100%; } }
 @media (prefers-reduced-motion: reduce) { .act.led-act .prism-bar { animation: none; background-size: 100% 100%; } }
+/* A led choice's own glyphs (see GlanceStage.Icons): who could join you, in the companion's tone; going over into the
+   next stretch of country, quiet. Beside the words, never instead of them. */
+.led-act .led-icon { width: 15px; height: 15px; margin-left: 8px; vertical-align: -2px; fill: none; stroke: var(--dim);
+  stroke-width: 1.6; }
+.led-act.tone-rose .led-icon:first-of-type, .led-act[data-aspects~="companionship"] .led-icon:first-of-type { stroke: var(--coral); }

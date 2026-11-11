@@ -11,7 +11,7 @@ export class Aspects {
     // The aim the player follows: what it names, a way toward it, the journey set out on it, its own people.
     named: 'undertaking', toward: 'undertaking', about: 'undertaking', bound: 'undertaking', kin: 'undertaking',
     danger: 'danger', warned: 'danger',
-    spoils: 'payoff', means: 'payoff',
+    spoils: 'payoff', means: 'payoff', companion: 'companionship',
     sign: 'knowledge', unlooked: 'knowledge', asked: 'knowledge',
     // What is worth going to see: a way not taken, further in, the place's own doings, an aim heard of and not
     // followed, whoever is the life of the place.

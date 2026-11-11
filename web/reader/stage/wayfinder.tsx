@@ -7,6 +7,8 @@ import { Words } from '../words';
 import { Act, type Draw } from './act';
 import { GlanceStage } from './glance';
 import { SceneSurface } from './scene-surface';
+import { Glyphs } from '../creation/glyphs';
+import { Emphasis } from '../emphasis';
 
 // A way: what goes by it (c), and the way's own choice where that is a group of its acts (a door to listen at); whether
 // it goes where the aim followed names, or another aim held, and its place among the ways the aims name (see
@@ -68,8 +70,25 @@ export class Wayfinder {
       <span className={`glyph whither-${w.whither.toLowerCase()}`} aria-hidden="true">
         {w.c.disabled ? '⊘' : SceneSurface.glyph(w.whither)}</span>
       <span className="n">{GlanceStage.short(w.name)}</span>
+      <Wayfinder.Marks app={app} way={w} />
       {(w.c.minutes ?? 0) > 5 && <span className="t">{Words.span(w.c.minutes!)}</span>}
     </button>;
+  }
+  // What a way's own marks say apart from its colour (the owner, 11 November: a grammar of icons and intensity): one
+  // glyph for going over into the next stretch of country, whatever else the way is; and, faint, what the company
+  // perceives along it (see Perception), never a thing to be done from here. Faint is not dim: dim is a way with
+  // nothing new for now, faint something sensed off along it.
+  static Marks({ app, way: w }: { app: ReaderApp; way: Way }) {
+    const to = Wayfinder.to(w), sensed = app.state.frame?.leaf.glance?.sensed?.find(x => x.to === to
+      || w.holds?.includes(x.to));
+    const crosses = !!w.exit?.crosses || (w.c.id.startsWith('travel:') && !w.exit);
+    const said = sensed && (sensed.far === 1 ? 'someone who might join you' : 'perhaps someone, farther on');
+    if (!crosses && !sensed) { return <span className="wf-marks" />; }
+    return <span className="wf-marks">
+      {sensed && <span className={`wf-mark sensed tone-${Emphasis.tones[sensed.aspect]}`} title={said}>
+        <Glyphs.View id="companion" className="wf-glyph" /><span className="said">{said}</span></span>}
+      {crosses && <Glyphs.View id="journey" className="wf-mark journey" label="into the next stretch of country" />}
+    </span>;
   }
   // A way touched: gone by, unless it is shut (its reason is said) or asks first who goes (each is a button beside it).
   static go(app: ReaderApp, w: Way) {

@@ -32,6 +32,8 @@ export interface Reading {
   // A sign perceived here and not seen before, by whom or what it is of ('' for the place's own).
   signs: Map<string, string>;
   life?: string; pointed: Set<string>; done: Set<string>; talked: Set<string>;
+  // Who could join the company (see Companions).
+  companions?: Set<string>;
   // Places about the company it left having done nothing there, with nothing done since: no aim leads back to them.
   idle?: Set<string>;
   needs: { hungry: boolean; rations: number; hurt: Set<string>; night: boolean; weary: boolean; settled: boolean;
@@ -151,14 +153,15 @@ export class Affordances {
       ...this.about(fresh, r) || this.there(s, leaves, r) ? ['about' as const] : [],
       ...person && r.life === s.id && !talked ? ['life' as const] : [],
       ...this.ownWhy(leaves, r), ...r.signs.has(s.id) ? ['sign' as const] : [],
-      ...person && s.asked && !talked ? ['asked' as const] : [], ...feature && looked ? ['unlooked' as const] : []];
+      ...person && s.asked && !talked ? ['asked' as const] : [], ...feature && looked ? ['unlooked' as const] : [],
+      ...person && r.companions?.has(s.id) ? ['companion' as const] : []];
     const needs = this.served(leaves, r);
     const asked = named ? serving[0] ?? (talked ? undefined : fresh.find(c => !r.done.has(c.command!)))
       : fresh.find(c => !r.done.has(c.command!));
     const base = { subject: s.id, kind: person ? 'talk' as const : 'act' as const, r };
     return [this.candidate(opener, { ...base, whys: [...whys, ...needs.map(n => n.why)], notes: {
       ...answer ? { answer: answer.label } : {}, ...kin || named ? { kin: word?.startsWith('your ') ? word : 'your aim' } : {},
-      ...held ? { held: word?.startsWith('your ') ? word : 'another aim' } : {},
+      ...held ? { held: word?.startsWith('your ') ? word : 'another aim' } : {}, companion: 'might come along',
       ...Object.fromEntries(needs.map(n => [n.why, n.note])) },
     ...answer?.command ? { command: answer.command } : {},
     // Led for an aim that names them, what it is led for is the first new thing to ask them, not their first reply
@@ -184,7 +187,7 @@ export class Affordances {
     return [...bed ? [{ why: 'night' as const, note: `for the night: ${this.priced(bed)}`, choice: bed }] : [],
       // Before the aim: going on with nothing to see by is going on into the dark.
       ...light ? [{ why: 'dark' as const, note: `a light: ${this.priced(light)}`, choice: light }] : [],
-      ...hand ? [{ why: 'means' as const, note: `would join you${this.fee(hand)}`, choice: hand }] : [],
+      ...hand ? [{ why: 'companion' as const, note: `would join you${this.fee(hand)}`, choice: hand }] : [],
       ...cure ? [{ why: 'hurt' as const, note: this.priced(cure) }] : [],
       ...sale ? [{ why: 'spoils' as const, note: this.priced(sale) }] : [],
       ...lesson ? [{ why: 'means' as const, note: `a lesson in ${lesson.label.replace(/^Train (\S+ )?(in )?| — .+$/g, '')}` }]

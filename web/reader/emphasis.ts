@@ -3,14 +3,15 @@ import type { Aspect } from '../../src/presentation/glance-types';
 // How an opportunity's aspects are drawn (amendment 6, C): the page's one table of them. Meaning is the engine's
 // (see Aspects); this is presentation only, and the only place a colour stands for an aspect. Gold is the aim the
 // player follows and nothing else; silver what is worth exploring; green what is to be gained; blue what is to be
-// learned; red a danger seen; violet the uncanny. What has none (a need, the way back, an ordinary control) is
-// neutral. Every tone has its word, so that colour is never the only cue.
-export type Tone = 'gold' | 'silver' | 'green' | 'blue' | 'red' | 'violet';
+// learned; red a danger seen; violet the uncanny; rose someone who could join the company (the owner, 11 November).
+// What has none (a need, the way back, an ordinary control) is neutral. Every tone has its word, so that colour is
+// never the only cue.
+export type Tone = 'gold' | 'silver' | 'green' | 'blue' | 'red' | 'violet' | 'rose';
 export class Emphasis {
   static readonly tones: Record<Aspect, Tone> = { undertaking: 'gold', exploration: 'silver', payoff: 'green',
-    knowledge: 'blue', danger: 'red', wonder: 'violet' };
+    knowledge: 'blue', danger: 'red', wonder: 'violet', companionship: 'rose' };
   static readonly words: Record<Aspect, string> = { undertaking: 'your aim', exploration: 'worth a look',
-    payoff: 'to gain', knowledge: 'to learn', danger: 'danger', wonder: 'uncanny' };
+    payoff: 'to gain', knowledge: 'to learn', danger: 'danger', wonder: 'uncanny', companionship: 'a companion' };
   // The aspects as drawn: the aim's only on the one choice that carries it on, and only where the page shows the way
   // (see Guidance); elsewhere such a choice is drawn as what else it is (somewhere worth exploring), or neutral.
   static drawn(aspects: readonly Aspect[] | undefined, gilded = false): Aspect[] {
