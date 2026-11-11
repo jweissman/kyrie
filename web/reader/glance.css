@@ -230,3 +230,14 @@
 /* What a tile opens is said by its chevron at the tile's edge, not on a line of its own. */
 .glance-row .act.tile.opens { padding-right: 28px; }
 .glance-row .act.tile.opens::after { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); }
+/* The tones by name, for a gradient through several (see Emphasis.prism). */
+:root { --tone-gold: var(--gold); --tone-silver: #D7DBE4; --tone-green: var(--verdigris); --tone-blue: var(--azure);
+  --tone-red: var(--ember); --tone-violet: var(--violet); }
+/* What is truly several things at once: its edge a slow gradient through its tones, mixed in OKLab; still where the
+   reader asks for less motion. */
+.act.led-act.prism { position: relative; }
+.act.led-act .prism-bar { position: absolute; left: -1px; top: -1px; bottom: -1px; width: 3px; background: var(--prism);
+  background-size: 100% 300%; animation: prism-drift 9s ease-in-out infinite alternate; }
+.act.led-act.prism.first { box-shadow: none; }
+@keyframes prism-drift { from { background-position: 50% 0%; } to { background-position: 50% 100%; } }
+@media (prefers-reduced-motion: reduce) { .act.led-act .prism-bar { animation: none; background-size: 100% 100%; } }

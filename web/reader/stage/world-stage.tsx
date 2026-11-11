@@ -13,6 +13,7 @@ import { Words } from '../words';
 import { Act, type Draw } from './act';
 import { GlanceStage } from './glance';
 import { Explorer } from './explorer';
+import { SceneRail } from './scene-rail';
 import { LookAbout } from './look-about';
 import { MorePane } from './more-pane';
 import { PlaceStage } from './place-stage';
@@ -59,11 +60,15 @@ export class WorldStage {
               enter={() => app.outdoor(false)} />
               : <>{WorldStage.wild(screen) && <button type="button" className="option quiet back-to-map"
                 data-action="back-to-map" onClick={() => app.outdoor(true)}>Back out to the map</button>}
-                {frame.leaf.glance ? <GlanceStage.View app={app} draw={draw} apart />
+                {/* Go, Look and Wait open here, in the scene's own panel, the painting kept (the owner, 11 November:
+                    Look a conversation with the place, not a panel of its own). */}
+                {frame.leaf.glance && app.state.exploring && SceneRail.on(app) ? <Explorer.View app={app} draw={draw} />
+                  : frame.leaf.glance ? <GlanceStage.View app={app} draw={draw} apart />
                   : <div className="telling"><Told.Place app={app} headed={false}
                     here={<PlaceStage.Here app={app} draw={draw} />} /></div>}</>}
           </aside>
-          {!overworld && <Explorer.View app={app} draw={draw} />}
+          {!overworld && !SceneRail.on(app) && <Explorer.View app={app} draw={draw} />}
+          {!overworld && frame.leaf.glance && SceneRail.on(app) && <SceneRail.View app={app} draw={draw} />}
         </div>
         {up === 'look' && <LookAbout.Sheet app={app} draw={draw} />}
         {up === 'ways' && <WaysPane.Sheet app={app} draw={draw} />}

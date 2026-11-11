@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, type CSSProperties } from 'react';
 import { Glyphs } from '../creation/glyphs';
 import type { Glance, Promoted } from '../../../src/presentation/glance-types';
 import type { Choice } from '../../../src/ui/choice-list';
@@ -160,6 +160,7 @@ export class GlanceStage {
     const shown = GlanceStage.foreground(app, acts).filter(a => !touched.includes(GlanceStage.choice(app, a.choice)?.id));
     const drawn = shown.map(a => GlanceStage.choice(app, a.choice));
     const found = GlanceStage.found(app, hand), yours = GlanceStage.yours(app, acts, [posted, search, ...drawn]);
+    const railed = app.props.query.get('scene') !== 'split';
     return <>
       {shown.length > 0 && <GlanceStage.Acts app={app} draw={draw} acts={shown} top={top} />}
       <p className="openers">
@@ -170,11 +171,12 @@ export class GlanceStage {
         {only ? <Act.View choice={only.c} draw={draw} quiet
           className={`opener opens-go${only.aim === 'followed' ? ' led' : ''}`}>
           {Typography.curl(`To ${only.name}…`)}</Act.View>
-          : <Explorer.Opener app={app} part="go" label="Go…" led={!!Wayfinder.aimed(ways)} />}
+          : !railed && <Explorer.Opener app={app} part="go" label="Go…" led={!!Wayfinder.aimed(ways)} />}
         {found && <Explorer.Opener app={app} part="look" label={`${found.name}…`} led={GlanceStage.serves(app, [found])} />}
-        {hand.length > 0 && <Explorer.Opener app={app} part="look" label="Look…" led={GlanceStage.serves(app, hand)} />}
-        {Pastime.wait(app) && <Explorer.Opener app={app} part="wait" label="Wait…" glyph="wait" />}
-        {search && <Act.View choice={search} draw={draw} quiet className="opener search by-glyph">
+        {/* Go, Look, Wait and Search are the scene's rail, apart from what is told and led with (see SceneRail). */}
+        {!railed && hand.length > 0 && <Explorer.Opener app={app} part="look" label="Look…" led={GlanceStage.serves(app, hand)} />}
+        {!railed && Pastime.wait(app) && <Explorer.Opener app={app} part="wait" label="Wait…" glyph="wait" />}
+        {!railed && search && <Act.View choice={search} draw={draw} quiet className="opener search by-glyph">
           <Glyphs.View id="search" className="opener-glyph" label="Search" /></Act.View>}
       </p>
     </>;
@@ -334,12 +336,13 @@ export class GlanceStage {
         const gilded = !!a.continues && Guidance.shown(app), label = GlanceStage.label(app, a, c);
         const said = GlanceStage.note(a, c, label), aimed = !!said && GlanceStage.aimWords.test(said);
         const note = (aimed && !gilded ? undefined : said) ?? Emphasis.said(a.aspects, gilded);
-        const { tone, also } = Emphasis.of(a.aspects, gilded);
+        const { tone, also } = Emphasis.of(a.aspects, gilded), prism = Emphasis.prism(a.aspects, gilded);
         return <li key={a.choice} data-promoted={i + 1} data-why={a.why} data-aspects={a.aspects?.join(' ') || undefined}
           data-continues={a.continues || undefined}
           data-next={app.state.frame?.leaf.glance?.after?.next?.choice === a.choice || undefined}>
           <Act.View choice={c} draw={draw}
-            className={`led-act${c.id === top ? ' first' : ''}${tone ? ` tone-${tone}` : ''}`}>
+            className={`led-act${c.id === top ? ' first' : ''}${tone ? ` tone-${tone}` : ''}${prism ? ' prism' : ''}`}>
+            {prism && <i className="prism-bar" aria-hidden="true" style={{ '--prism': prism } as CSSProperties} />}
             <span className="n">{Typography.curl(label)}</span>
             {note && <span className="why-said">{Typography.curl(note)}
               {also.map(t => <i key={t} className={`also tone-${t}`} aria-hidden="true" />)}</span>}

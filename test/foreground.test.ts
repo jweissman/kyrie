@@ -20,4 +20,9 @@ describe('an opportunity, as meant and as drawn', () => {
     expect(Object.entries(Emphasis.tones).filter(([, t]) => t === 'gold').map(([a]) => a)).toEqual(['undertaking']);
     expect(Emphasis.said(['knowledge'])).toBe('to learn');
   });
+  it('draws what is several things at once as a gradient through their tones, and one thing in its one', () => {
+    expect(Emphasis.prism(['undertaking', 'danger'])).toBe('linear-gradient(in oklab 180deg, var(--tone-gold), var(--tone-red))');
+    expect(Emphasis.prism(['undertaking', 'danger'], false)).toBeUndefined();
+    expect(Emphasis.prism(['exploration'])).toBeUndefined();
+  });
 });

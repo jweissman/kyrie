@@ -21,6 +21,13 @@ export class Emphasis {
     const [first, ...rest] = this.drawn(aspects, gilded);
     return { ...first ? { tone: this.tones[first] } : {}, also: rest.map(a => this.tones[a]) };
   }
+  // Several aspects at once (a fight that is the aim's, a find that teaches): a gradient through their tones, mixed in
+  // OKLab so that it passes through no muddy middle; none for one. Only the aspects the choice has, as drawn, never a
+  // colour for its own sake (the owner, 11 November: a restrained prismatic treatment for what is several things).
+  static prism(aspects: readonly Aspect[] | undefined, gilded = true): string | undefined {
+    const tones = this.drawn(aspects, gilded).map(a => `var(--tone-${this.tones[a]})`);
+    return tones.length > 1 ? `linear-gradient(in oklab 180deg, ${tones.join(', ')})` : undefined;
+  }
   // Said beside it where nothing else says why: the chief aspect's word.
   static said(aspects: readonly Aspect[] | undefined, gilded = true): string | undefined {
     const first = this.drawn(aspects, gilded)[0];

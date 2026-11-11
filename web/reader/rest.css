@@ -247,3 +247,54 @@
    asked). Not shut, not another kind of opportunity: it can be chosen, and is lit again when the world changes. */
 .wf-row.dim { opacity: .5; }
 .wf-row.dim:hover, .wf-row.dim:focus-visible { opacity: .85; }
+
+/* ---- The scene's rail and its safe margins (the owner, 11 November: everything that can be touched well inside the
+   screen's edges; one tiny rail of marks at the foot of its right side, apart from what is told). ---- */
+.shell.scene-full { --safe-x: max(28px, 3.2vw, env(safe-area-inset-right)); --safe-y: max(24px, 3.4vh, env(safe-area-inset-bottom)); }
+.shell.scene-full .world-page.scale-scene > .world-bar { padding: var(--safe-y) var(--safe-x) 44px; }
+.shell.scene-full .world-page.scale-scene .world-body > .focus { right: var(--safe-x); top: clamp(96px, 13vh, 128px);
+  max-height: calc(100dvh - clamp(96px, 13vh, 128px) - var(--safe-y) - 64px); }
+.shell.scene-full .world-page.scale-scene .surface .portraits { left: var(--safe-x); bottom: var(--safe-y); }
+.scene-rail { position: absolute; z-index: 6; right: var(--safe-x, 28px); bottom: var(--safe-y, 24px); display: flex;
+  align-items: center; gap: 2px; padding: 4px 6px; border: 1px solid var(--edge); border-radius: 999px;
+  background: rgba(12, 13, 17, .62); backdrop-filter: blur(6px); }
+.scene-rail .rail-gap { width: 1px; height: 22px; margin: 0 6px; background: var(--edge-strong); }
+.rail-mark { all: unset; box-sizing: border-box; position: relative; display: inline-grid; place-items: center; width: 40px;
+  height: 40px; border-radius: 50%; cursor: pointer; color: rgba(236, 230, 217, .82);
+  transition: color var(--quick), background var(--quick), opacity var(--quick); }
+.rail-mark .rail-glyph { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.5;
+  stroke-linecap: round; stroke-linejoin: round; }
+.rail-mark:hover, .rail-mark:focus-visible, .rail-mark[aria-expanded="true"] { color: var(--ivory); background: rgba(236, 230, 217, .1);
+  outline: none; }
+/* Lit: something new in it, or the aim's (where the way is shown), in that tone, with its dot. */
+.rail-mark.lit { color: var(--tone); }
+.rail-mark.lit::after { content: ''; position: absolute; top: 6px; right: 6px; width: 5px; height: 5px; border-radius: 50%;
+  background: var(--tone); }
+/* Dim: nothing new for now; it still opens. Shut: nothing in it to do, and its title says why. */
+.rail-mark.dim { opacity: .42; }
+.rail-mark.dim:hover, .rail-mark.dim:focus-visible { opacity: .8; }
+.rail-mark[disabled] { opacity: .22; cursor: default; }
+/* The explorer is the panel's own, in the scene first: no box of its own over the place. */
+.shell.scene-full .focus > .explorer { position: static; inset: auto; background: none; border: 0; box-shadow: none;
+  backdrop-filter: none; max-height: inherit; }
+@media (max-width: 899px), (orientation: portrait) {
+  .shell.scene-full .world-page.scale-scene .world-body > .focus { top: auto; left: 0; right: 0; max-height: 56dvh;
+    padding-bottom: 64px; }
+  .scene-rail { bottom: max(14px, env(safe-area-inset-bottom)); }
+  /* Who is here, over the painting under the place's name, not under the sheet (as the phone rule above). */
+  .shell.scene-full .world-page.scale-scene .surface .portraits { top: 150px; bottom: auto; }
+}
+/* Nothing of the place's own to touch, in the scene first: no empty row, and no rule over it. */
+.shell.scene-full .openers:empty { display: none; }
+/* In the scene's panel, Look and Go read as talk with the place: one column, what is at hand (or the ways) as things
+   to choose, and what is chosen said under them with what can be done (the owner, 11 November: "a conversation with
+   the place, not a separate modal"). */
+.shell.scene-full .focus > .explorer .explorer-body { overflow-y: auto; max-height: calc(100dvh - clamp(96px, 13vh, 128px) - var(--safe-y) - 150px); }
+.shell.scene-full .focus > .explorer .at-hand, .shell.scene-full .focus > .explorer .wayfinder { display: block; height: auto; }
+.shell.scene-full .focus > .explorer .ah-list { border-right: 0; border-bottom: 1px solid var(--edge); padding: 0 0 8px;
+  overflow: visible; }
+.shell.scene-full .focus > .explorer .ah-pane, .shell.scene-full .focus > .explorer .wf-preview { overflow: visible;
+  padding: 12px 0 0; }
+.shell.scene-full .focus > .explorer .wf-list { display: block; overflow: visible; }
+.shell.scene-full .focus > .explorer .wf-group { margin: 0 0 10px; }
+.shell.scene-full .focus > .explorer .wf-where { display: none; }

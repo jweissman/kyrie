@@ -137,10 +137,14 @@
       }
     },
     "acts": {
-      "about": "What the company does of itself, wherever it is: waiting and searching, shown by their glyphs where words would crowd the scene (the owner, 6 November). Waiting is an hourglass: two bulbs meeting at a narrow neck between its caps, sand settled in the upper and heaped in the lower, its two sides never crossing (the owner, 7 November: the first, its sides drawn across each other, read as a twisted ribbon).",
+      "about": "What the company does of itself, wherever it is: waiting and searching, shown by their glyphs where words would crowd the scene (the owner, 6 November). Waiting is an hourglass: two bulbs meeting at a narrow neck between its caps, sand settled in the upper and heaped in the lower, its two sides never crossing (the owner, 7 November: the first, its sides drawn across each other, read as a twisted ribbon). The rail of the scene (amendment 6): going is a way that bends on into the distance; looking an open eye; the map a sheet folded in four; the book a book lying open.",
       "paths": {
         "wait": "M13 6h22M13 42h22M16 6c0 8 3 13 7 17v2c-4 4-7 9-7 17M32 6c0 8-3 13-7 17v2c4 4 7 9 7 17M19 13h10M24 27v6M19 40c1-3 3-5 5-5s4 2 5 5",
-        "search": "M21 8a12 12 0 1 0 .01 0zM29.5 29.5L40 40M15 18a7 7 0 0 1 6-5"
+        "search": "M21 8a12 12 0 1 0 .01 0zM29.5 29.5L40 40M15 18a7 7 0 0 1 6-5",
+        "go_on": "M8 38c6 0 10-4 12-10s6-10 12-10h6M32 12l6 6-6 6M8 38h2M14 38h2",
+        "look_about": "M5 24c5-8 12-12 19-12s14 4 19 12c-5 8-12 12-19 12S10 32 5 24zM24 18a6 6 0 1 0 .01 0z",
+        "the_map": "M7 12l11-4 12 4 11-4v28l-11 4-12-4-11 4zM18 8v28M30 12v28",
+        "the_book": "M24 13c-5-3-11-4-17-2v27c6-2 12-1 17 2 5-3 11-4 17-2V11c-6-2-12-1-17 2zM24 13v27"
       }
     }
   }

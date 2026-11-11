@@ -28,7 +28,9 @@ export class Stage {
     const s = app.state, menu = app.menu, mode = Stage.mode(app);
     return (
       <div className={`stage mode-${mode}`} data-mode={Stage.inspected(app, mode)} aria-busy={s.pending ? true : undefined}>
-        {['explore', 'talk', 'examine'].includes(mode) && <Stage.Corner app={app} full={mode === 'explore'} />}
+        {/* In the scene first, the map and the book are on its rail (see SceneRail). */}
+        {['explore', 'talk', 'examine'].includes(mode) && !(mode === 'explore' && app.props.query.get('scene') !== 'split'
+          && app.state.frame?.leaf.glance && !app.state.outdoors) && <Stage.Corner app={app} full={mode === 'explore'} />}
         <div className="intentions" data-region="choices">
           {mode === 'prologue' && <PrologueStage.View app={app} />}
           {mode === 'fallen' && <BookStage.Ending app={app} />}
