@@ -160,7 +160,10 @@
     Says "'Dead,' says {{t}_merchant}, 'and the rest of them coming up the same way they came, I don't doubt.' Six coin are counted out. 'Find where they come from and clear it, and you'll have the other four, and the lantern.'".
     On discuss { Increase quantity(actor, gold) by 6. Assert {t}_u_halved({t}_u_rats_job). }
   }
-  Objective {t}_u_rats_job_owed when {t}_u_done({t}_u_rats_job) and {t}_u_nest_cleared({t}_u_rats_job) and not {t}_u_paid({t}_u_rats_job) toward {t}_merchant "Tell {{t}_merchant} the rats and their nest are dealt with, at {{merchantat}}: the rest of the pay, and a lantern.".
+  // Owed only to a company that took the job, and "the rest" only once half was paid: one that had killed the rats
+  // unasked had been told of the rest of a pay it had never been offered (round 6, I 144, J 38).
+  Objective {t}_u_rats_job_owed when {t}_u_given({t}_u_rats_job) and {t}_u_done({t}_u_rats_job) and {t}_u_nest_cleared({t}_u_rats_job) and {t}_u_halved({t}_u_rats_job) and not {t}_u_paid({t}_u_rats_job) toward {t}_merchant "Tell {{t}_merchant} the rats and their nest are dealt with, at {{merchantat}}: the rest of the pay, and a lantern.".
+  Objective {t}_u_rats_job_owed_whole when {t}_u_given({t}_u_rats_job) and {t}_u_done({t}_u_rats_job) and {t}_u_nest_cleared({t}_u_rats_job) and not {t}_u_halved({t}_u_rats_job) and not {t}_u_paid({t}_u_rats_job) toward {t}_merchant "Tell {{t}_merchant} the rats and their nest are dealt with, at {{merchantat}}: ten coin, and a lantern.".
 >> 'RATS in the old corn-store, a nest of them. Ten coin, and a lantern. Ask {{t}_merchant} for the key.'
   Rule {t}_u_rats_onward when {t}_u_done({t}_u_rats_job) and not {t}_u_done({t}_u_onward) { Assert {t}_u_done({t}_u_onward). }
 --- yard dead
@@ -371,7 +374,7 @@
   // old ways go on; the undercroft they meet in is the next place to go, its floor the next thing to try, its vault's
   // keeper the next to face; and below him the deep site (see RegionUndertown).
   Entity {t}_u_onward: fact "".
-  Objective {t}_u_onward_sought when {t}_u_done({t}_u_onward) and not been(party, {t}_u_undercroft) "The old ways under {town} go on past where the job ended: the rat-runs into an old drain, the ossuary down steps behind the bone-heaps, the quarry gallery through a breach in its floor. They meet below, in {{t}_u_undercroft}.".
+  Objective {t}_u_onward_sought when {t}_u_done({t}_u_onward) and not been(party, {t}_u_undercroft) "The old ways under {town} go on past the corn-store's cellar: the rat-runs into an old drain, the ossuary down steps behind the bone-heaps, the quarry gallery through a breach in its floor. They meet below, in {{t}_u_undercroft}.".
   Objective {t}_u_floor_sought when been(party, {t}_u_undercroft) and not knows(party, {t}_u_vault_found) toward {t}_u_undercroft "Something is under the floor of {{t}_u_undercroft}: one flag cut with letters does not sit level. The same ring may be cut somewhere in the ways down to it.".
   Place {t}_u_undercroft "the undercroft" is room within {t} at 1, 5 underground 2 down.
   Passage {t}_u_drain_mouth "the mouth of the drain" is passage between {t}_u_drain and {t}_u_undercroft.
