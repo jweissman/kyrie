@@ -110,7 +110,11 @@ html, body { overflow: hidden; }
    after another; last, the selection and the painter's name. The page (TitlePage.reveal) outlasts the last of it. */
 .beat-ident .title-main, .beat-dark .title-main { visibility: hidden; }
 .beat-ident ~ .ambient, .shell:has(.beat-ident) .ambient, .shell:has(.beat-dark) .ambient { opacity: 0; }
-.beat-dark .credit { opacity: 0; }
+/* In the dark between the ident and the title, nothing yet: the embers and the build's stamp had come up at once as the
+   ident went, and the reveal's own fade then put the embers out and brought them up again, so that the title seemed
+   to begin, go black and begin again (the owner, 11 November). They come up with the reveal, once. */
+.beat-dark .credit, .beat-dark .motes, .beat-dark .build { opacity: 0; }
+.beat-reveal .build { animation: fade-in 1.2s 2.2s var(--ease) both; }
 .shell:has(.beat-reveal) .ambient { animation: plate-up 3s cubic-bezier(.33, 0, .2, 1) both; }
 @keyframes plate-up { from { opacity: 0; transform: scale(1.12); } }
 .beat-reveal .mark span { animation: letter 1.5s var(--ease) both; }
