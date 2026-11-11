@@ -1,0 +1,96 @@
+Module silent_lord "The silent lord" {
+  // ---- The first town. From the second day a crier in the castellan's colours has read the levy on its green, and what
+  // the keep does with its lord's silence is what the town is asked for: men, grain, coin, or nothing.
+  Measure riderDay(group). Measure coolness(group).
+  Relation blood(group).
+  Person crier "Someone" nowhere {
+    Role "a crier in the castellan's colours". Ancestry human. Calling warrior. Level 1. Peaceable. Manner stoic. Pronouns he.
+    Arrives at gossip when day(clock) >= 2.
+    Arrives "A man in green, a tower and a star stitched on his breast, comes up the street ringing a handbell, stops by the well, and unrolls a paper.".
+    Greets "'By the castellan's order,' says {crier}, in the voice of a man who has said it at four hearths since morning. 'Twenty spears and a hundred bushels, from this town and the two nearest, to be at the keep on the twelfth day for the king's muster. The lord regrets the short notice.' He lowers the paper. 'He does not say what the muster is for. Nor do I.'".
+  }
+  Observe crier_cries at gossip as sign when at(crier, gossip) and not knows(party, levy_called) "The crier's paper names the lord's keep, a day or so up the road, and the tower and star on his breast are the keep's." teaches levy_called.
+  Thing levy_post "the levy notice on the post" nowhere {
+    State called "A paper is nailed to the post under the crier's bell-rope: THE LORD OF THE KEEP CALLS HIS MARCH TO THE KING'S MUSTER. TWENTY SPEARS AND A HUNDRED BUSHELS TO THE KEEP ON THE TWELFTH DAY. Underneath, in another hand, scratched with a nail: AND WHO IS TO SOW?".
+    State postponed "A second paper is nailed over the first: THE MUSTER IS POSTPONED, THE LORD BEING INDISPOSED. THE LEVY STANDS. Nobody has taken the paper down, and nobody has taken the levy off.".
+    State commuted "A new paper is nailed over the old: THE LEVY OF MEN IS COMMUTED TO COIN AND GRAIN, BY THE CASTELLAN AS REGENT FOR THE LORD'S WARD. TEN SPEARS, WHO MAY BE VOLUNTEERS. Under it the chaplain's bell tolls once an hour from the shrine.".
+    State raised "The levy notice has a red line drawn under it and a new heading: BY ORDER OF {patron}. EVERY HEARTH TO SEND ITS ELDEST SON AND HALF ITS CORN. The crier at the post wears a different colour.".
+    State quashed "A third notice is nailed over the others, in a clerk's perfect hand: THE LORD, ON ACCOUNT OF THE WINTER, REMITS THE LEVY OF MEN. THE GRAIN STANDS. People walk under it more lightly than they walked before.".
+    State abandoned "The levy notice hangs by one nail. Somebody has taken the other three for firewood, and nobody has come to put them back.".
+  }
+  Rule levy_called_up when day(clock) >= 2 and not at(levy_post, gossip) { Assert at(levy_post, gossip). }
+  Rule muster_passes when day(clock) > 12 and not entered(house) and state(levy_post, called)
+    says "The twelfth day passes with no muster. A second paper goes up over the first on the post by the well: POSTPONED, THE LORD BEING INDISPOSED. The levy stands." { Assert state(levy_post, postponed). }
+  Rule levy_regency when decided(house) and state(banner, regency) and day(clock) >= feastDay(house) + 1 and not state(levy_post, commuted) and not quash_forged(house)
+    says "By noon the crier is back at the well with a new paper and a new tune: ten spears, volunteers if possible, and the rest in coin and grain. The shrine bell begins to toll." { Assert state(levy_post, commuted). }
+  Rule levy_hushed when decided(house) and state(banner, hushed) and day(clock) >= feastDay(house) + 1 and not state(levy_post, quashed)
+    says "The crier reads out a remission in the lord's name: no men this year, on account of the winter, and the grain to stand. There is a pause, and then a good deal of noise." { Assert state(levy_post, quashed). }
+  Rule levy_usurped when decided(house) and state(banner, usurped) and day(clock) >= feastDay(house) + 1 and not state(levy_post, raised)
+    says "A different man reads the levy at the well, in different colours, and he does not read it twice. Every hearth is to send its eldest son, and half its corn." { Assert state(levy_post, raised). }
+  Rule levy_mutiny when decided(house) and state(banner, mutinous) and day(clock) >= feastDay(house) + 1 and not state(levy_post, abandoned) and not quash_forged(house)
+    says "The crier does not come. By evening it is understood that there is no crier, and no muster, and nobody to say so." { Assert state(levy_post, abandoned). }
+  Rule deserters_come when state(banner, mutinous) and aftermath(house) and day(clock) >= feastDay(house) + 2 and not at(deserters, gossip)
+    says "Three men in the keep's old colours come into the town by the north road, spears on their shoulders, and stop at the green, where they stand about as if they had arrived somewhere they had been told of." { Assert at(deserters, gossip). }
+  Initially Set tribute(deserters) to 6.
+  Rule cools_by_dawn when hunted(house) and not blood(house) and untilLight(clock) == 1 { Increase coolness(house) by 1. }
+  Rule thaws when hunted(house) and not blood(house) and coolness(house) >= 3 { Retract hunted(house). Set coolness(house) to 0. }
+  Rule blood_shed when (dead(porter) or dead(castellan) or dead(steward) or dead(chaplain) or dead(marshal) or dead(clerk) or dead(cook) or dead(groom)) and not blood(house) { Assert blood(house). Assert hunted(house). }
+  Thing gate_refusal "the shut gate" on gate from outside {
+    State admits "".
+    State refuses blocking "The porter's face appears at the grating and withdraws. The gate does not open to you.".
+  }
+  Rule gate_refuses when hunted(house) and state(gate_refusal, admits) { Assert state(gate_refusal, refuses). }
+  Rule gate_admits when not hunted(house) and state(gate_refusal, refuses) { Assert state(gate_refusal, admits). }
+
+  // ---- What the first town's people say of it.
+  Topic keeper_crier with keeper "Ask {keeper} about the crier" when state(levy_post, called) or state(levy_post, postponed) once {
+    Says "'Twenty spears out of this town and the two nearest,' says {keeper}, 'and a hundred bushels, and he reads it off like the price of eggs. The lord used to ride through at Michaelmas and have one cup at this bar and pay for two. He has not come. The castellan signs for him.' A pause. 'The castellan has a name for being careful. I would like to see what she is being careful of.'".
+    On discuss { Assert knows(actor, levy_called). Assert knows(actor, lord_unseen). }
+  }
+  Topic priest_candle with priest "Ask {priest} whether the lord has been to the shrine" when knows(actor, lord_unseen) and not decided(house) once {
+    Says "'He keeps a candle on the anniversary of his wife's death,' says {priest}, 'and has done for twenty-two years, and sends his man a day ahead with the oil. This year no man came.' {priest} looks at the candle on the altar. 'I lit it myself. I do not know what for.'".
+  }
+  Topic trader_levy with trader "Ask {trader} what the levy will cost the town" when state(levy_post, called) or state(levy_post, postponed) once {
+    Says "'A hundred bushels at the keep's price, which is a third under the market's,' says {trader}, 'and twenty men who will not be in the fields at harvest. We shall get the straw. I do not say it is not the king's right. I say it is a good deal of rights to carry in one year.'".
+  }
+  Topic keeper_after_regency with keeper "Ask {keeper} how the muster went" when state(levy_post, commuted) and not paid_keeper(house) once {
+    Says "'Ten spears, volunteers, and the rest in coin,' says {keeper}. 'The castellan wrote it in her own name this time, and the chaplain has been tolling the bell for the lord, who is to be buried on Sunday. We had not known.' {keeper} takes a purse from under the bar. 'The town had a collection. For whoever it was that told the keep the truth.'".
+    On discuss { Increase quantity(actor, gold) by 30. Decrease quantity(keeper, gold) by 30. Assert paid_keeper(house). }
+  }
+  Topic keeper_after_hushed with keeper "Ask {keeper} how the muster went" when state(levy_post, quashed) and not paid_keeper(house) once {
+    Says "'No men,' says {keeper}. 'The lord remits it, on account of the winter. A fine hand it was, too. I never saw a remission that had so little wrong with it.' {keeper} looks at you a moment longer than the matter needs. 'A cup, on the house. Somebody should be thanked and I do not know who.'".
+    On discuss { Increase quantity(actor, gold) by 8. Decrease quantity(keeper, gold) by 8. Assert paid_keeper(house). }
+  }
+  Topic keeper_after_usurped with keeper "Ask {keeper} how the muster went" when state(levy_post, raised) once {
+    Says "'The eldest son of every hearth, and half the corn,' says {keeper}, 'and the crier tells us the lord has been dead a fortnight and the keep is {patron}'s, by the king's writ. Some of the boys are glad to go. The rest are being sent.' {keeper} wipes the bar with a cloth that does not need it. 'If you were there, I would not say so in the street.'".
+  }
+  Topic keeper_after_mutiny with keeper "Ask {keeper} how the muster went" when state(levy_post, abandoned) once {
+    Says "'There was no muster,' says {keeper}. 'The keep has gone sour. We have three of its spearmen on the green, who say they have not been paid, and the castellan in her own oubliette, and the marshal in the chair. I do not know which of them is the worst.' {keeper} looks at the door. 'The three on the green want a toll for the king's roads. Pay it, or pay for the door.'".
+  }
+  Relation paid_keeper(group). Relation quash_forged(group).
+  Action show_remission(actor: group, site: place) "Show {crier} the lord's remission of the levy, in the lord's hand" {
+    Speaker crier.
+    Requires able(actor) and company(actor) and at(actor, site) and at(crier, site) and holding(actor, remission_kind) and state(levy_post, called)
+      and not decided(house).
+    Time 2 minutes.
+    Resolve check(actor, deception, dc_fair).
+    On success { Spend remission_kind from actor. Assert state(levy_post, quashed). Assert quash_forged(house). }
+    On failure { Spend remission_kind from actor. }
+    Result "{crier} reads it twice, and then reads the seal, and then reads it a third time with his lips moving. 'The lord's hand,' he says, doubtfully, and then, because the alternative is to go back to the keep and ask, 'it will be read at the next green.' The notice on the post is rewritten before dusk.".
+    Otherwise "{crier} reads it, and looks at you, and does not give it back. 'I will take this to the castellan,' he says. 'She will want to know where a stranger came by the lord's hand.'".
+  }
+
+  // ---- The next green: the clerk's rider and the writ against the bailiff.
+  Person rider "the clerk's rider" nowhere {
+    Role "a boy in the castellan's colours on a lathered pony". Ancestry human. Calling ranger. Level 1. Peaceable. Manner cheerful. Pronouns he.
+    Greets "'From the castellan's clerk,' says the boy, with the ink still wet on his sleeve. 'The writ's up. Don't ask me what it says; I can't read; but the clerk was singing, and he never sings.'".
+  }
+  Thing writ_notice "the castellan's writ against the dues" at far_green {
+    State absent "The green's post has nothing on it today but a bill about a lost cow.".
+    State posted "A new writ is nailed beside the bailiff's table, sealed with a tower and star and, beside it, a bronze impression of a wheel with a wing: NO DUES ARE ASKED OF ANY HEARTH IN THE MARCH FOR THE KEEPING OF ANY ROAD. WHO COLLECTS THEM IN THE KEEP'S NAME DOES SO AGAINST ITS LAW. A queue of villagers stands in front of it, reading, with their lips moving.".
+  }
+  Initially Assert state(writ_notice, absent).
+    Rule rider_comes when rider_sent(house) and riderDay(house) > 0 and day(clock) >= riderDay(house) and not at(rider, far_green)
+    says "A boy in the castellan's colours canters down the road and stops at the well, ties a paper to the post, and is gone again before anyone has quite read it." { Assert at(rider, far_green). Assert state(writ_notice, posted). }
+  Observe writ_after at far_green when state(writ_notice, posted) "The bailiff's table has a bad week ahead of it.".
+}

@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "source": ["keep.kyr", "people.kyr", "papers.kyr", "talk.kyr", "court.kyr", "below.kyr", "feast.kyr", "town.kyr"],
+  "rules": ["world"],
+  "globals": ["party"],
+  "imports": ["party", "land", "outside", "gossip", "taproom", "shrine", "keeper", "priest", "trader", "far_green"],
+  "roles": {
+    "party": {"type": "group"},
+    "land": {"type": "place"},
+    "outside": {"type": "place"},
+    "gossip": {"type": "place"},
+    "taproom": {"type": "place"},
+    "shrine": {"type": "place"},
+    "keeper": {"type": "group"},
+    "priest": {"type": "group"},
+    "trader": {"type": "group"},
+    "far_green": {"type": "place"}
+  },
+  "exports": {
+    "levy_called": "levy_called",
+    "lord_unseen": "lord_unseen"
+  },
+  "generation": {
+    "type": "silent_lord",
+    "templates": "templates.json",
+    "tables": "tables.json"
+  },
+  "experience": 1200,
+  "unclocked": "the muster day passes, the notice on the green is amended to say the lord is indisposed, and the levy stays called; the household keeps its silence"
+}

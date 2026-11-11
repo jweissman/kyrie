@@ -1,0 +1,145 @@
+Module silent_lord "The silent lord" {
+  Description "A keep whose lord has not been seen in eleven days, a herald with a levy-writ, and a man in the oubliette who says he is the king's rider.".
+  Entity party: group "Your company".
+  Place land "The region" is region.
+  Place outside "The road below the keep" is room.
+  Place gossip "The green" is room.
+  Place taproom "The taproom" is room.
+  Place shrine "The shrine" is room.
+  Place far_green "The next green" is room.
+  Entity keeper: group "The innkeeper".
+  Entity priest: group "The priest".
+  Entity trader: group "The merchant".
+  Entity house: group "The household of the keep".
+  Entity patron: group "the herald's master".
+
+  // ---- What the country says of it (the scenario's hooks), and what the household is, as a whole.
+  Entity levy_called: fact "A crier in the castellan's colours has read a levy on the green: spears and grain, to be at the keep on the twelfth day, for the king's muster.".
+  Entity lord_unseen: fact "The lord of {outside} has not been seen in eleven days. His castellan signs for him.".
+  Initially Assert established(levy_called). Initially Assert established(lord_unseen).
+
+  // ---- Vocabulary of the module.
+  Kind period. Kind cause. Kind builder.
+  Entity p_dawn: period "dawn". Entity p_morning: period "morning". Entity p_noon: period "noon".
+  Entity p_afternoon: period "afternoon". Entity p_eve: period "evening". Entity p_night: period "night".
+  Entity p_dead: period "the dead watch". Entity p_feast: period "the feast".
+  Relation now(period) exclusive. Relation duty(group, period, place).
+  Entity fall: cause "a fall". Entity fever: cause "a fever". Entity seizure: cause "a seizure".
+  Relation death(cause).
+  Entity office_made: builder "the Office". Entity founders_made: builder "the warlords". Entity makers_made: builder "the makers".
+  Relation vault_built(builder).
+  Relation leaguer(group).
+  Relation proclaimed(group). Relation unmasked(group). Relation paid_off(group). Relation reckoned(group).
+  Relation hunted(group). Relation night_open(group). Relation entered(group). Relation warms_to(group, group).
+  Relation occupied(group). Relation heard_out(group, group). Relation befriended(group, group). Relation seized(group). Relation rider_sent(group).
+  Measure feastDay(group). Measure crierDay(group).
+  Initially Set feastDay(house) to 12.
+
+  // ---- The keep: three levels, nineteen rooms.
+  Place hold "The keep" is site within land at 2, 1.
+  Place ward_l "The outer ward" is level within hold.
+  Place keep_l "The keep itself" is level within hold.
+  Place below_l "Below the keep" is level within hold.
+
+  Place gatehouse "the gatehouse" is room within ward_l at 1, 2 indoors.
+  Place ward "the ward" is room within ward_l at 1, 1 outdoors.
+  Place kennels "the kennels and mews" is room within ward_l at 0, 0 outdoors.
+  Place walk "the wall-walk" is room within ward_l at 1, 0 outdoors.
+  Place stables "the stables" is room within ward_l at 2, 0 indoors.
+  Place armoury "the armoury" is room within ward_l at 0, 1 indoors.
+  Place granary "the granary" is room within ward_l at 2, 1 indoors.
+
+  Place hall "the great hall" is room within keep_l at 1, 1 indoors.
+  Place kitchen "the kitchen" is room within keep_l at 0, 1 indoors.
+  Place chapel "the chapel" is room within keep_l at 2, 1 indoors.
+  Place chancery "the chancery" is room within keep_l at 2, 0 indoors.
+  Place solar "the lord's solar" is room within keep_l at 1, 0 indoors.
+  Place guest "the guest chamber" is room within keep_l at 0, 0 indoors.
+
+  Place undercroft "the undercroft" is room within below_l at 1, 1 underground.
+  Place strongroom "the strong-room" is room within below_l at 0, 1 underground.
+  Place crypt "the crypt" is room within below_l at 2, 1 underground.
+  Place oubliette "the oubliette" is room within below_l at 1, 0 underground.
+  Place vault "the old vault" is room within below_l at 2, 0 underground.
+  Place drain "the drain" is room within below_l at 3, 0 underground.
+  Initially Assert unlit(undercroft). Initially Assert unlit(strongroom). Initially Assert unlit(crypt).
+  Initially Assert unlit(oubliette). Initially Assert unlit(vault). Initially Assert unlit(drain).
+
+  // ---- Ways. The gate is shut from nine at night until six; a porter can be asked, or paid.
+  Passage gate "the gate" is gate between outside and gatehouse
+    opening when (hour(clock) >= 6 and hour(clock) < 21) or night_open(house) "The gate is shut for the night: oak and iron under a lamp, a wicket in the leaf and a bell-rope hanging beside it.".
+  Passage inner_arch "the inner arch" is arch between gatehouse and ward.
+  Passage kennel_gate "the kennel-yard gate" is doorway between ward and kennels.
+  Passage stable_arch "the stable arch" is arch between ward and stables.
+  Passage armoury_door "the armoury door" is door between ward and armoury.
+  Passage granary_door "the granary door" is door between ward and granary.
+  Passage wall_steps "the steps to the wall-walk" is steps between ward and walk.
+  Passage hall_steps "the hall steps" is steps between ward and hall.
+  Passage screens "the screens passage" is doorway between hall and kitchen.
+  Passage chapel_arch "the chapel arch" is arch between hall and chapel.
+  Passage chancery_door "the chancery door" is door between hall and chancery.
+  Passage solar_stair "the solar stair" is stair between hall and solar.
+  Passage guest_stair "the guest stair" is stair between hall and guest.
+  Passage window "the solar window" is climb between walk and solar needing climbing or rope hidden until window_known.
+  Passage buttery_steps "the buttery steps" is steps between kitchen and undercroft.
+  Passage crypt_stair "the crypt stair" is stair between chapel and crypt.
+  Passage strong_door "the strong-room door" is door between undercroft and strongroom.
+  Passage hatch "the oubliette hatch" is ladder between undercroft and oubliette.
+  Passage old_door "the old door" is door between oubliette and vault hidden until old_door_known needing brawn.
+  Passage vault_crawl "the low crawl" is crawl between vault and drain.
+  Passage culvert "the outfall culvert" is culvert between drain and outside taking 20 minutes hidden until drain_known.
+
+  // ---- How the keep looks from the road, and what its banner says of who holds it.
+  Thing banner "the banner over the gate" at outside {
+    State as_was "A banner hangs over the gate, a tower with a star over it in white on green, and under it, lower, a black cloth the width of a hand that has been there some days.".
+    State regency "The banner hangs at half its staff, tower and star on green, and the black cloth under it is new and wide.".
+    State hushed "The banner hangs at the staff's head as on any day, and the gate-lamp has been left burning in daylight.".
+    State usurped "A banner that is not the keep's hangs over the gate, {patron}'s colours. The tower and star lie folded under a ladder against the wall.".
+    State mutinous "No banner hangs over the gate. A spear is bound upright to the staff with a belt.".
+  }
+  Initially Assert state(banner, as_was).
+  Observe outside_shut at outside as sign when hunted(house) "The gate is shut to you, and a lamp burns in the gatehouse window all through the day. They know your faces.".
+  Observe outside_ditch at outside as sign when not knows(party, drain_known) "Below the north wall the ditch has been scythed clean in one place, and a stone outfall there breathes out a thread of cold air that smells of old water. Nothing else on the wall has been tended.".
+  Discovery drain_known "A stone outfall in the ditch below the north wall carries the keep's old drain out under the wall; a crawl through it comes up beneath the undercroft." {
+    Found by searching outside "Pulling the weed back from the outfall, you find the arch behind it is no drain-mouth but a culvert cut for a man to crawl, and the air coming out of it is cold.".
+  }
+  Discovery window_known "A shuttered window in the lord's solar gives onto the wall-walk, a long step from the parapet." {
+    Found by searching walk "Where the walk runs against the tower's flank, one shutter has a latch you could lift from outside, and a ledge below it that would carry a person.".
+  }
+  Discovery old_door_known "The oubliette's back wall is dry where every other wall weeps, and a slot at shoulder height takes an iron lever." {
+    Found by searching oubliette "Behind the captive's pallet the wall is dry and warm to the hand. A slot is cut in it at shoulder height, and in the slot, a lever.".
+  }
+
+  // ---- The gate's hours, and a word with the porter.
+  Observe gate_bell at outside as feature when hour(clock) >= 21 or hour(clock) < 6 "A bell-rope hangs by the wicket.".
+  Observe gatehouse_scene at gatehouse when true "The gatehouse is a vaulted passage with a guardroom on either side, a murder-hole in the roof over your head and a lamp in a niche. The portcullis is wound up in its slot; below it the porter's stool stands against the wall.".
+  Observe gatehouse_names at gatehouse when true "Names and tallies are scratched into the plaster by men who waited out their watches here, and under the lamp one hand has written, over and over, in a good clerk's letters: not yet.".
+  Observe ward_scene at ward when true "The ward is trodden earth round a well-head, with the stables to the east and the granary to the west, the hall steps going up on the far side and a mounting-block that has been used more than anything else here.".
+  Observe ward_dawn at ward when now(p_dawn) or now(p_morning) "The garrison drills in two ranks by the well, and the marshal walks the line with a stick, saying the step.".
+  Observe ward_noon at ward when now(p_noon) "The yard is nearly empty. Smoke rises from the kitchen, and a dog sleeps in the shade of the mounting-block.".
+  Observe ward_afternoon at ward when now(p_afternoon) "The castellan crosses the ward from the walls to the hall, slowly, and everybody she passes stops what they are doing until she has gone by.".
+  Observe ward_eve at ward when now(p_eve) "The ward is full of men going in to supper, and nobody goes in alone.".
+  Observe ward_night at ward when now(p_night) or now(p_dead) "The ward is dark but for the lamp over the hall steps. Chains are dragged in the yard by the kennels, and a low sound goes with them.".
+  Observe ward_feast at ward when now(p_feast) "Every window in the hall is lit and the doors stand open. The noise comes out into the ward in waves, and the ward is empty of everyone who matters.".
+  Observe kennels_scene at kennels when true "The kennels run along the north wall, a row of pens with straw and chains and a long trough, and at the end of them the mews, where hooded hawks sit in the dark. It smells of dog, tar and old blood.".
+  Observe kennels_pens at kennels when not now(p_night) and not now(p_dead) "A dozen hounds lie in the pens, heavy-headed in the straw, and lift their lips at strangers without troubling to stand. The big mastiffs are chained to the wall. At dusk, the houndsman says, someone has to unchain them.".
+  Observe kennels_howl at kennels as sound when now(p_night) or now(p_dead) "Behind the dogs' noise, one voice goes on: an old dog, howling at the wall toward the chapel, over and over, the way a dog calls for someone who has not come.".
+  Observe stables_scene at stables when true "The stables are warm and dim and smell of horse. Stalls down both sides, a loft over, a row of saddles on a rail. Two horses stand a little apart from the rest: one groomed to a shine, one with a rough dry coat and a sweat-scar.".
+  Observe armoury_scene at armoury when true "The armoury is a long low room with spears racked along one wall and bows in a press along the other, and a bench under the window where someone has been mending mail. A tally is chalked on the door-frame: thirty-one men, and the days since they were paid.".
+  Observe granary_scene at granary when true "The granary is raised on staddles against the damp, floored in planks, and smells of dust and mice. The sacks stand in rows of ten, and a board is nailed to the door with the steward's tally in his square hand.".
+  Observe walk_scene at walk when true "From the wall-walk you can see the road a morning each way, as the keep was built to. The parapet is chest-high and worn smooth by elbows; a brazier burns at the gatehouse end.".
+  Observe walk_view at walk as ambience when true "Smoke from the hamlet beyond the fields. A wagon on the road, small as a toy. The wind is from the south and carries the sound of the bell at the shrine.".
+  Observe hall_scene at hall when true "The great hall is a long room under a black roof, with the high table on a dais at one end and two lower tables running down it. A hearth wide enough to stand in takes up one wall; screens hide the kitchen passage at the other.".
+  Observe hall_seat at hall when true "The high seat is empty. A cup is set before it and filled at every meal, and cleared untouched.".
+  Observe kitchen_scene at kitchen when true "The kitchen is all steam and iron: a hearth you could roast an ox on, a dresser of pewter, a table scarred by a hundred years of knives. Herbs hang from the beams, and a shelf by the door holds jars with paper tied over their necks.".
+  Observe chapel_scene at chapel when true "The chapel is small and cold and kept very clean. The altar is bare stone on a step of paler stone with letters on it, worn nearly smooth by knees. A stair goes down at the back, behind an iron door, and the candles at the foot of it are never allowed to go out.".
+  Observe chancery_scene at chancery when true "The chancery is the keep's memory: a long table under a window, a wall of pigeon-holes tagged with the names of manors, a press of black oak bound in iron, and the smell of ink and of a great deal of vellum kept dry for a long time.".
+  Observe solar_scene at solar when true "The lord's solar has a tall bed, a table, a chair with arms and a window with its shutters closed. The bed has not been slept in. Letters lie in a tray on the table, and every one of them is in the same hand.".
+  Observe guest_scene at guest when true "The guest chamber is the best room on the stair: a bed with hangings, a washstand, a window on the ward. A trunk bound with brass stands at the foot of the bed, and two pallets are laid by the door for men who do not undress.".
+  Observe undercroft_scene at undercroft when true "The undercroft is a long vaulted cellar under the hall, stacked with casks and bins of roots. The air is cold and smells of earth, and the vault rings with your steps. In the far wall, an iron-bound door; in the floor, a square trap with a bar across it.".
+  Observe strongroom_scene at strongroom when true "The strong-room is a stone cell with a low roof, an iron-bound chest, a shelf of plate and a desk with its ledgers stacked. The door has three locks, and the wall beside it has been scratched, by someone with nothing else to do, with tally marks in fives.".
+  Observe crypt_scene at crypt when true "The crypt is a low vault of the keep's first lords, the slabs of their tombs let into the floor under a row of niches. At the nearest, a bier has been set on trestles and a cloth laid over it, and a hundred candle-ends have burned down round it in a ring.".
+  Observe oubliette_scene at oubliette when true "A square pit, stone-lined, a man's height and a half to the hatch. It is damp and cold, and the straw is fresh.".
+  Observe vault_scene at vault when true "The old vault is a long chamber of dressed stone, much older than the keep above it, and dry as bread. Whoever made it made it to last, and to be locked, and to be forgotten.".
+  Observe drain_scene at drain when true "The drain is a round-roofed passage no higher than a kneeling man, a hand of black water in the bottom of it, and the cold air from the outfall moving along it like a hand along a wall.".
+}

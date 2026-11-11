@@ -1,0 +1,102 @@
+Module silent_lord "The silent lord" {
+  // ---- Locks the rest of the module leans on: the armoury, the crypt, and the dead lord himself.
+  Thing armoury_lock "the armoury door's lock" on armoury_door {
+    State locked blocking "The armoury door is locked. The marshal wears the key.".
+    State open "The armoury door stands unlocked.".
+    Change key "Unlock the armoury door" from locked to open needing armoury_key_kind.
+    Change pick "Pick the armoury door's lock" from locked to open needing lockwork.
+    Change force "Force the armoury door with a crowbar" from locked to open needing crowbar.
+  }
+  Initially Assert state(armoury_lock, open).
+  Rule armoury_locked_at_night when state(armoury_lock, open) and (now(p_night) or now(p_dead)) and not at(party, armoury) and at(marshal, armoury) { Assert state(armoury_lock, locked). }
+  Thing crypt_door "the iron door to the crypt stair" on crypt_stair {
+    State locked blocking "An iron door shuts the crypt stair. It has a chapel lock, and the chaplain wears the key.".
+    State open "The iron door stands open on the crypt stair.".
+    Change key "Unlock the crypt door" from locked to open needing chaplain_key_kind.
+    Change pick "Pick the crypt door's lock" from locked to open needing lockwork.
+    Change force "Force the crypt door with a crowbar" from locked to open needing crowbar.
+  }
+  Observe crypt_bier at crypt as feature when true "The cloth over the bier is lifted at one corner, as by someone who comes to look and cannot stay. Under it, a man of sixty, laid out in his good coat, with his hands folded on a sword and a cord of keys across his chest. He has been dead some days, and has been kept cold, and is not at all changed." teaches lord_dead.
+  Observe crypt_fall at crypt as sign when death(fall) "His collar has been undone, and the whole length of his left side is one bruise, from hip to shoulder. A man who went off a horse at a gallop, and was a long while dying of it." teaches lord_dead.
+  Observe crypt_fever at crypt as sign when death(fever) "His face has fallen in, and the lips are cracked and black. There is no mark on him. It was the winter fever that took the last of three households in the march, and it took him in nine days, the way it takes the old." teaches lord_dead.
+  Observe crypt_seizure at crypt as sign when death(seizure) "The mouth is drawn down on one side and the left hand is closed on nothing. He was struck at table, sitting up, and did not speak again." teaches lord_dead.
+  Observe crypt_candles at crypt as sound when true "The candles gutter in a draught that has no source.".
+
+  // ---- The deductions the company makes for itself, once it has the facts to make them with.
+  Rule seals_matched when knows(party, seal_plain) and knows(party, seal_ears) and not knows(party, herald_false)
+    says "The two seals do not agree: a plain crown on the herald's writ, a crown between two ears of wheat on the king's own. The court changed its seal at the coronation. The herald's paper was sealed before it, and he is carrying it as if it were new." teaches herald_false { }
+  Rule hand_s when knows(party, letter_marks_steward) and knows(party, quirk_tally) and not knows(party, hand_steward)
+    says "The bar through the sevens in the herald's letter is the steward's. It is his hand." teaches hand_steward { }
+  Rule hand_m when knows(party, letter_marks_marshal) and knows(party, quirk_roll) and not knows(party, hand_marshal)
+    says "The tens counted in fives and strokes in the herald's letter are the marshal's. It is his hand." teaches hand_marshal { }
+  Rule hand_c when knows(party, letter_marks_clerk) and knows(party, quirk_index) and not knows(party, hand_clerk)
+    says "The blots and the long-tailed d in the herald's letter are the clerk's. It is his hand." teaches hand_clerk { }
+
+  // ---- The muster day: set when the company first comes in at the gate, never earlier than the twelfth day.
+  Rule entering when at(party, gatehouse) and not entered(house) { Assert entered(house). Set feastDay(house) to max(12, day(clock) + 2). }
+  Rule feast_opens heard at hall when now(p_feast) and hour(clock) < 21 and not read_out(house) and not unmasked(house) and not dead(herald)
+    says "The doors of the hall stand open, and the feast is laid: the long tables loaded, the high seat's cup filled, the herald placed at the castellan's right hand, where the lord's heir would sit. The household takes its seats in order of rank and watches the door." { }
+  Rule herald_reads heard at hall when now(p_feast) and hour(clock) >= 21 and not read_out(house) and not unmasked(house) and not dead(herald)
+    says "When the second cup is poured, the herald rises, unrolls his writ, and reads it. The hall listens as men listen to weather. When he has done, the castellan says that the lord is unwell, and the herald says that the king will be sorry to hear it, and the marshal puts down his knife." { Assert read_out(house). }
+  Rule herald_poisoned heard at hall when dosed(house) and now(p_feast) and hour(clock) >= 21 and at(herald, hall) and not dead(herald)
+    says "The herald lifts his cup to the castellan, drinks, and puts his hand to his throat. It is some moments before the hall understands what it is watching, and the marshal is on his feet before it has understood. By the time the chaplain has crossed the dais the herald is dead." { Slay herald. Assert poison_deed(house). }
+  Rule proclaims heard at hall when now(p_feast) and hour(clock) >= 21 and not proclaimed(house) and (chaplain_ready(house) or castellan_ready(house))
+    says "The chaplain stands with a folded vellum in her hand, and the castellan stands beside her. 'The lord of this keep died eleven days ago at his own table,' says the chaplain, 'and lies in the crypt, and his will names his ward, and I have not been able to say it until now.' Nobody speaks. The marshal takes off his cap." { Assert proclaimed(house). }
+
+  // ---- The reckoning, at the feast's height. What the keep is after it, it stays.
+  Relation decided(group). Relation aftermath(group).
+  Rule reckoning heard at hall when day(clock) == feastDay(house) and hour(clock) >= 22 and not reckoned(house)
+    says "At the feast's height the keep makes up its mind, as a household does: without a vote, and all at once." { Assert reckoned(house). }
+  Rule reckon_herald_dead_castellan when reckoned(house) and not decided(house) and dead(castellan) and unmasked(house) { Assert decided(house). Assert state(banner, mutinous). }
+  Rule reckon_castellan_dead when reckoned(house) and not decided(house) and dead(castellan) { Assert decided(house). Assert state(banner, usurped). }
+  Rule reckon_regency when reckoned(house) and not decided(house) and unmasked(house) and proclaimed(house) and paid_off(house) { Assert decided(house). Assert state(banner, regency). }
+  Rule reckon_mutiny_a when reckoned(house) and not decided(house) and unmasked(house) and proclaimed(house) and not paid_off(house) { Assert decided(house). Assert state(banner, mutinous). }
+  Rule reckon_hushed when reckoned(house) and not decided(house) and unmasked(house) and paid_off(house) { Assert decided(house). Assert state(banner, hushed). }
+  Rule reckon_mutiny_b when reckoned(house) and not decided(house) and unmasked(house) { Assert decided(house). Assert state(banner, mutinous). }
+  Rule reckon_usurped when reckoned(house) and not decided(house) { Assert decided(house). Assert state(banner, usurped). }
+
+  // ---- What the keep becomes. The people of it move; the gate keeps the company's memory; the weeks go on.
+  Rule after_regency when decided(house) and state(banner, regency) and not aftermath(house)
+    says "By morning the banner is at half its staff, and the chaplain has begun to toll the bell. The castellan signs her own name at the foot of the lord's last letter." {
+    Assert aftermath(house).
+  }
+  Rule after_hushed when decided(house) and state(banner, hushed) and not aftermath(house)
+    says "The herald is gone, and the household sits down to breakfast as if nothing had been said. The lord's cup is filled at the high seat, and cleared untouched." {
+    Assert aftermath(house).
+  }
+  Rule after_usurped when decided(house) and state(banner, usurped) and not aftermath(house) and at(castellan, ?p)
+    says "In the morning the keep's banner is down. A steward in the herald's master's livery has the castellan's keys, and the castellan is in her own solar with two men outside the door." {
+    Assert aftermath(house). Assert occupied(castellan). Retract at(castellan, ?p). Assert at(castellan, solar). Assert at(patron_man, hall).
+  }
+  Rule after_mutinous when decided(house) and state(banner, mutinous) and not aftermath(house) and at(marshal, ?p) and at(castellan, ?q)
+    says "By morning the garrison has the hall. The marshal sits in the lord's chair, and not one of the thirty-one will look at the castellan, who has been put in the oubliette with her own bar across it." {
+    Assert aftermath(house). Assert occupied(marshal). Retract at(marshal, ?p). Assert at(marshal, hall).
+    Assert occupied(castellan). Retract at(castellan, ?q). Assert at(castellan, oubliette).
+  }
+  Person patron_man "the new steward" nowhere {
+    Role "a steward in the herald's master's colours". Ancestry human. Calling warrior. Level 3. Peaceable. Manner stoic. Pronouns he.
+    Greets "A hard-faced man in unfamiliar livery sits at the high table with the keep's keys in front of him. 'The keep is held for {patron},' he says, 'by the king's writ. Your business?'".
+  }
+  Person deserters "unpaid spearmen" nowhere {
+    Role "men of the garrison who would not stay for the mutiny and have not been paid in three months". Ancestry human. Calling warrior. Numbers 3. Level 1. Temperament territorial.
+    Warns "Three men in the keep's old colours stand across the road with their spears grounded. 'A toll,' says the one in front, and does not look as though he has said it before. 'For the king's roads.'".
+  }
+  Initially Set encounterXp(deserters) to 70.
+  Person heir "the young heiress" nowhere {
+    Role "a girl of fourteen in a travelling cloak, the lord's ward". Ancestry human. Calling commoner. Level 1. Peaceable. Manner cheerful. Pronouns she.
+    Greets "A girl in a travelling cloak, whose hands are red with the cold, looks round the ward as if she had known it all her life and had been told it was smaller. 'I am {heir},' she says. 'Where is my uncle? They said the chaplain wrote.'".
+  }
+  Rule heir_arrives when state(banner, regency) and aftermath(house) and day(clock) >= feastDay(house) + 7 and not at(heir, ward) and not dead(castellan) says "A girl in a travelling cloak rides in at the gate on a borrowed pony, with a nun on a mule behind her." {
+    Assert at(heir, ward).
+  }
+
+  // ---- The aims.
+  Objective keep_rumoured when knows(party, levy_called) and not entered(house) toward outside "A crier in the castellan's colours has read a levy on the green. The keep it comes from is a day or so up the road, and its lord has not been seen in eleven days.".
+  Objective keep_lord when entered(house) and not knows(party, lord_dead) and not reckoned(house) toward chaplain "The lord is unseen, his cup is filled and cleared untouched, and the old dog howls toward the chapel. Find where he is.".
+  Objective keep_writs when entered(house) and knows(party, lord_dead) and not knows(party, herald_false) and not reckoned(house) toward herald "The lord is dead, and a herald with a levy-writ has not been told. His seal is a plain crown; the king's, someone says, is not.".
+  Objective keep_feast when entered(house) and not reckoned(house) toward hall "The feast is in the hall on the evening of the {feastDay(house)}th day. The household will all be there, and so will the herald.".
+  Objective keep_prisoner when knows(party, captive_story) and not freed(captive) and not reckoned(house) toward undercroft "A man in the oubliette says he is the king's rider. The steward's key, the marshal's, or a strong back will lift the bar.".
+  Objective keep_pay when knows(party, arrears) and not paid_off(house) and not reckoned(house) toward marshal "The garrison is owed eighty crowns. A garrison that has not been paid will not stand for anyone.".
+  Objective keep_will when knows(party, heir_sought) and not knows(party, will_read) and not reckoned(house) toward clerk "The lord's will is in the muniment press in the chancery, and the clerk holds the key.".
+  Objective keep_leaguer when knows(party, letter_marks_steward) or knows(party, letter_marks_marshal) or knows(party, letter_marks_clerk) toward chancery "Someone in the household wrote to the herald's master. The hand in the letter has a tell, and the keep's papers have the same tells.".
+}
