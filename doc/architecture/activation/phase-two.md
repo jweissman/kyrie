@@ -47,3 +47,9 @@
 - Do not add a settlement, a quest engine, a companion system or an approval score. Companions use `willing`, `hire`, `Joins`, `Remarks`, `Leaves`; regard is a plain measure in a template.
 - Do not measure success by counts. The census exists to show what is *reachable and discoverable*, not to claim coverage.
 - Prefer deleting to adding. A thread that cannot be described in two readings, a room that does nothing to the player's knowledge or position, or a shape that makes a playtest duller should be cut.
+
+## 6. Re-based onto `main` (branch `adventure/first-steps`)
+
+Rebased on `main` at `ee737c0f` (60 commits, including M20's aims, opportunities and scene-first page); only the generated files and the first-town kept trace conflicted, and both were regenerated (`bun scripts/redigest-trace.ts wren-tower-climbed`; `AssetCatalog.write`). The focused specs (45), the kept traces and lint pass. The full suite is left to CI.
+
+**New for Phase Two, from main's design:** the page now shows only two to four opportunities per place, each justified by a reason the author writes (`doc/authoring/trail/10-scenes-and-opportunities.md`). The first town's green offers some forty ways at once; the foreground sorts them, but our threads, ties and troubles carry **no `Objective`**, so none of them can lead the page as an aim. Phase Two item 7 is therefore: give each arc (the road-wood quarrel, Hesper missing, the bailiff, one thread per tie) one `Objective … toward <place or person>`, and check in `site/index.html?world=kahitude` that the gold lead is the arc a player would want next.
