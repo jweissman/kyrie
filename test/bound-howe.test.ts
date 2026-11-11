@@ -12,10 +12,13 @@ import { ScreenModel } from '../src/ui/screen-model';
 // spec. The company is four of level four (the intended company: levels three to five, level four the middle), created
 // by the ordinary creature context `level`; no advancement is simulated.
 const R = (id: string) => `howe__${id}`;
-// The nearest town to the howe in the reference country is Brockminster (s5): the clerk, the shrine and the taproom are its.
+const company = (...calls: string[]) =>
+  calls.map((classId, i) => ({ name: `Mira${i}`, raceId: 'human', classId, level: 4 }));
+// The nearest town to the howe in the reference country is Brockminster (s5): its clerk, shrine and taproom.
 const TOWN = (part: string) => `region__s5_${part}`;
-const company = (...calls: string[]) => calls.map((classId, i) => ({ name: `Mira${i}`, raceId: 'human', classId, level: 4 }));
 const FOUR = company('warrior', 'cleric', 'thief', 'mage');
+const levelled = (level: number, ...calls: string[]) => company(...calls).map(m => ({ ...m, level }));
+// Countries by what they drew: kahitude, thorn and d4 left the howe broken; a1, b2 and c3 sealed it from within.
 
 class Howe {
   static async start(party = FOUR, seed = 'kahitude') {
@@ -80,7 +83,7 @@ describe('the ridge: weather, a watch, a line of tins, a ring of grey grass', ()
     j.assert('state', R('weather'), R('clear'));
     Placed.at(j, 'region__w13');
     const clear = Howe.hp(j);
-    await j.play('Into the Long Ridge');
+    await j.play('Into the (salvagers|Long Ridge)');
     expect(Howe.hp(j)).toBe(clear);
   }, 240000);
 
@@ -218,10 +221,13 @@ describe('the howe’s three laws: the seal, the roll, the mounts, the flutes, t
     const open = await Howe.at('forecourt');
     open.assert('state', R('seal'), R('forced'));
     expect(Howe.holds(open, 'tolerates', R('household'), 'party')).toBe(false);
-    // The robbers the king's night left on the grass get up when the light comes; they are the forecourt's first welcome.
+    // The robbers the king's night left on the grass lie in ambush: the ring shows them, and the company puts them
+    // down before it waits for dark on the forecourt.
     await Howe.torch(open);
+    await open.fight('Attack');
     expect(Howe.holds(open, 'dead', R('iron_caps'))).toBe(true);
     await open.play('Wait › Until dark');
+    expect(Howe.holds(open, 'dark')).toBe(true);
     expect(Howe.where(open, 'household')).toBe(R('forecourt'));
   }, 300000);
 
@@ -335,6 +341,20 @@ describe('under the howe: the robbers’ shaft, foul air, the sump, the older ch
     expect(Howe.state(j, 'basin', 'alight')).toBe(true);
   }, 300000);
 
+  it('drives the Mouth down with burning oil, and the crown of the first folk can be taken from the well’s lip', async () => {
+    const j = await Howe.at('lee');
+    j.coin(30);
+    await j.play('for the freedom of the camp');
+    await Howe.buy(j, 'A flask of lamp oil');
+    await Howe.buy(j, 'A torch');
+    Placed.at(j, R('well'));
+    expect(Howe.holds(j, 'peaceable', R('mouth'))).toBe(false);
+    await j.play('Pour oil on the black water');
+    expect(Howe.holds(j, 'peaceable', R('mouth'))).toBe(true);
+    await j.play('a crown of the first folk: Take');
+    expect(Placed.carried(j, R('well_crown'))).toBe(true);
+  }, 300000);
+
   it('opens a stair from the older chamber up to the room behind the seat, once the plan is made', async () => {
     const j = await Howe.at('ancient');
     await Howe.torch(j);
@@ -357,12 +377,117 @@ describe('what the country keeps of it', () => {
     expect(ScreenModel.build(j.campaign).purse.coin).toBeGreaterThan(before);
   }, 300000);
 
+  it('sends the dead down the lane to the green by night once the bound is broken', async () => {
+    const j = await Howe.start();
+    Placed.at(j, TOWN('green'));
+    j.assert('bound_broken', 'party');
+    await j.play('Wait › Until dark');
+    expect(Howe.holds(j, 'at', R('household'), TOWN('green'))).toBe(true);
+  }, 300000);
+
   it('thanks a company that shut the howe: the priest gives holy water', async () => {
     const j = await Howe.start();
     Placed.at(j, TOWN('shrine'));
     j.assert('howe_kept', 'party');
     await j.play('the howe is shut');
     expect(Howe.holds(j, R('thanked'), TOWN('priest'), 'party')).toBe(true);
+  }, 300000);
+});
+
+describe('the howe sealed from within (a1) and left broken (kahitude): the laws hold either way', () => {
+  it('opens to rites quietly: the household stays seated, and the stone heaved home again marks the howe kept', async () => {
+    const j = await Howe.at('forecourt', FOUR, 'a1');
+    expect(Howe.state(j, 'seal', 'set')).toBe(true);
+    await j.play('Speak the rites of the dead at the seal-stone');
+    expect(Howe.state(j, 'seal', 'rolled')).toBe(true);
+    expect(Howe.holds(j, 'tolerates', R('household'), 'party')).toBe(true);
+    await Howe.torch(j);
+    await j.play('To the gallery of kings');
+    expect(Howe.holds(j, 'dead', R('household'))).toBe(false);
+    await j.play('To the forecourt of the howe');
+    await j.play('Heave the seal-stone back into its groove');
+    expect(Howe.state(j, 'seal', 'set')).toBe(true);
+    await j.play('=+1').catch(() => '');
+    expect(Howe.fact(j, 'howe_kept', 'party')).toBe(true);
+  }, 300000);
+
+  it('opens to a shoulder loudly: the household rises, and four of level four put it down', async () => {
+    const j = await Howe.at('forecourt', FOUR, 'a1');
+    await j.play('Put your shoulders to the seal-stone');
+    expect(Howe.state(j, 'seal', 'forced')).toBe(true);
+    await Howe.torch(j);
+    await j.play('To the gallery of kings');
+    await j.fight('Attack');
+    expect(Howe.holds(j, 'dead', R('household'))).toBe(true);
+    expect(Howe.downed(j)).toBeLessThan(2);
+  }, 300000);
+
+  it('opens to a greeting a warrior was taught, and to the roll called into a door that is already open', async () => {
+    const warrior = await Howe.at('forecourt', company('warrior'), 'a1');
+    expect(warrior.offers('Speak the rites of the dead')).toBe(false);
+    Placed.knows(warrior, R('kin_greeting'));
+    Placed.knows(warrior, R('king_named'));
+    expect(warrior.offers('Give the king')).toBe(true);
+    await warrior.play('Give the king');
+    expect(Howe.state(warrior, 'seal', 'rolled')).toBe(true);
+    const forced = await Howe.at('forecourt', company('warrior'), 'kahitude');
+    await forced.play('Wait › A while');
+    expect(Howe.state(forced, 'seal', 'forced')).toBe(true);
+    expect(forced.offers('Call the roll of kings')).toBe(true);
+    await forced.play('Call the roll of kings');
+    expect(Howe.holds(forced, 'tolerates', R('household'), 'party')).toBe(true);
+  }, 300000);
+
+  it('keeps the household in by a line of salt across the sill, though the door stands open at night', async () => {
+    const j = await Howe.at('forecourt');
+    await Howe.torch(j);
+    await j.fight('Attack');
+    j.give(R('salt_lick'));
+    expect(j.offers('Lay a line of salt across the howe')).toBe(true);
+    await j.play('Lay a line of salt across the howe');
+    await j.play('Wait › Until dark');
+    expect(Howe.holds(j, 'dark')).toBe(true);
+    expect(Howe.where(j, 'household')).toBe(R('gallery'));
+  }, 300000);
+
+  it('lets the first folk’s stair bring a company up into the room behind the seat, where the last of the Kin lie, and the stone is drawn aside from within', async () => {
+    const j = await Howe.at('ancient', FOUR, 'a1');
+    await Howe.torch(j);
+    Placed.knows(j, R('plan_whole'));
+    await j.play('Up to the room behind the seat');
+    expect(Howe.holds(j, 'dead', R('last'))).toBe(false);
+    expect(Howe.where(j, 'last')).toBe(R('behind'));
+    expect(j.offers('Draw the stone aside')).toBe(true);
+    await j.play('Draw the stone aside');
+    expect(Howe.state(j, 'lastseal', 'open')).toBe(true);
+    expect(Howe.fact(j, 'bound_broken', 'party')).toBe(false);
+  }, 300000);
+
+  it('costs the bound to break the stone from the throne side', async () => {
+    const j = await Howe.at('throne', FOUR, 'a1');
+    await Howe.torch(j);
+    j.assert('tolerates', R('king'), 'party');
+    j.assert('tolerates', R('sworn'), 'party');
+    await j.play('Break through the stone behind the seat');
+    expect(Howe.fact(j, 'bound_broken', 'party')).toBe(true);
+  }, 300000);
+});
+
+describe('what the howe asks of a company, by level', () => {
+  it('kills four of level three in the horse-hall unfed, and is taken by four of level four', async () => {
+    const low = await Howe.at('gallery', levelled(3, 'warrior', 'cleric', 'thief', 'mage'));
+    await Howe.torch(low);
+    low.assert('tolerates', R('household'), 'party');
+    await low.play('To the horse-hall');
+    await low.fight('Attack').catch(() => '');
+    expect(Howe.downed(low)).toBeGreaterThan(1);
+    const four = await Howe.at('gallery');
+    await Howe.torch(four);
+    four.assert('tolerates', R('household'), 'party');
+    await four.play('To the horse-hall');
+    await four.fight('Attack');
+    expect(Howe.holds(four, 'dead', R('mounts'))).toBe(true);
+    expect(Howe.downed(four)).toBeLessThan(2);
   }, 300000);
 });
 

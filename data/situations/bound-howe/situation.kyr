@@ -29,9 +29,10 @@ Module bound_howe "The Bound Howe" {
   Place survey "the survey cairn" is room within ridge at 3, 2 outdoors.
   Place howe "The king-howe" is site within land at 3, 1.
   Place ridge "The Long Ridge" is site within land at 3, 3.
+  Place front "Before the howe" is level within howe.
   Place inner "The howe" is level within howe.
   Place below "Under the howe" is level within howe.
-  Place forecourt "the forecourt of the howe" is room within ridge at 3, 1 outdoors.
+  Place forecourt "the forecourt of the howe" is room within front at 0, 0 outdoors.
   Place gallery "the gallery of kings" is room within inner at 1, 0 underground.
   Place horses "the horse-hall" is room within inner at 1, 1 underground.
   Place harness "the harness-store" is room within inner at 0, 1 underground.
@@ -192,6 +193,9 @@ Module bound_howe "The Bound Howe" {
   }
   Person mouth "the Mouth" at well {
     Role "what lies in the well". Species mouther. Level 7. Temperament ambush. Lair well.
+    State lurking "The water in the well-mouth is black and still, and listens.".
+    State burned "A skin of burning oil lies on the water, and under it something vast turns over and sinks. The voices have stopped.".
+    Change burn "Pour oil on the black water and set it alight" from lurking to burned needing lamp_oil consuming lamp_oil.
     Warns "The black water in the well-mouth shivers and folds, and a voice speaks out of it in a voice you know: your own, a little behind, saying the last thing you said. Then it laughs, in no voice at all.".
   }
   Initially Set encounterXp(mouth) to 500.
@@ -201,7 +205,7 @@ Module bound_howe "The Bound Howe" {
   }
   Initially Set encounterXp(drowned) to 120.
   Person iron_caps "the iron-capped dead" at forecourt {
-    Role "robbers the king's night left on the grass". Species zombie. Numbers 2. Level 2. Lair forecourt.
+    Role "robbers the king's night left on the grass". Species zombie. Numbers 2. Level 2. Temperament ambush. Lair forecourt.
     Warns "Two figures that were lying face down in the grey grass get up without using their hands. They wear iron caps, and picks are still tied to their wrists.".
   }
   Initially Set encounterXp(iron_caps) to 80.
@@ -358,6 +362,7 @@ Module bound_howe "The Bound Howe" {
     Hurts with grey_chill when quiet then quiet.
     Tries looking, pushing.
   }
+  Observe ring_caps at ring as sign when not dead(iron_caps) and not iron_caps_risen() "Beyond the stones, on the paving of the forecourt, two shapes in iron caps lie face down in the pale grass, as men lie who have been there a long time and meant to go on lying.".
   Observe grass_tried at ring as sign when tried(grass, looking) "Looking closely, you see that nothing lives in the grass: no beetle, no spider, no seed. The deer have kept the whole circuit of the stones trodden to dust, and not once put a hoof inside.".
   Observe survey_scene at survey when true "A squared block of dressed stone stands in the howe's flank where the turf has slumped away from it, set deep and level as no shepherd's cairn is. A groove has been chiselled into its top, and a ladder of fine lines runs down one face.".
   Thing cairn "the survey cairn" at survey {
@@ -381,7 +386,7 @@ Module bound_howe "The Bound Howe" {
     State rolled "The seal-stone stands rolled aside in its groove, and the dark of the howe breathes out past it, smelling of cold earth and old oil.".
     State forced "The seal-stone lies half out of its groove where it was heaved, a long white scar on the pavement behind it. The dark beyond smells of cold earth.".
     Change rite "Speak the rites of the dead at the seal-stone and ask, in the king's name, to be let in" from set to rolled needing rites.
-    Change hail "Give the king's greeting to the seal-stone" from set to rolled when knows(party, kin_greeting) and knows(party, king_named).
+    Change hail "Give the king's greeting to the seal-stone" from set to rolled after learning kin_greeting.
     Change roll "Put your shoulders to the seal-stone and heave it aside" from set to forced needing brawn.
     Change shut_rolled "Heave the seal-stone back into its groove" from rolled to set needing brawn.
     Change shut_forced "Heave the seal-stone back into its groove" from forced to set needing brawn.
@@ -395,7 +400,7 @@ Module bound_howe "The Bound Howe" {
   Relation forced_told().
   Relation salted().
   Action salt_door(actor: group, site: place) "Lay a line of salt across the howe's door" {
-    Requires able(actor) and at(actor, site) and holding(actor, salt_kind) and not salted().
+    Requires able(actor) and at(actor, site) and at(actor, forecourt) and holding(actor, salt_kind) and not salted().
     On success { Spend salt_kind from actor. Assert salted(). }
     Result "You kneel and lay a line of salt across the sill, unbroken, thick as a finger, the way the shepherds lay it for the sheep. It shines grey in the light.".
   }
@@ -425,7 +430,7 @@ Module bound_howe "The Bound Howe" {
   Observe store_scene at harness when true "A narrow room off the horse-hall where the harness is kept, hung in rows from pegs: bridles, saddle-trees, breast-collars of studded leather, all of it gone brown and stiff. Sacks are stacked against the far wall.".
   Relation sacks_taken().
   Action take_barley(actor: group, site: place) "Shoulder the old sacks of barley" {
-    Requires able(actor) and at(actor, site) and not sacks_taken().
+    Requires able(actor) and at(actor, site) and at(actor, harness) and not sacks_taken().
     On success { Increase quantity(actor, barley) by 2. Assert sacks_taken(). }
     Result "You lift two of the sacks. They are heavy, and sound, and smell of nothing: the barley has been kept dry for a century in a place where nothing grows. Somebody fed these horses, once, every day, and the last sacks were left against need.".
   }
@@ -562,9 +567,11 @@ Module bound_howe "The Bound Howe" {
   }
   Rule basin_lit when state(basin, alight) and unlit(ancient) { Retract unlit(ancient). Retract unlit(well). }
   Observe well_scene at well when true "The well is a shaft in the floor, rimmed in the same white stone, going down into water that has no bottom. The water is still. Steps run down into it, and under it.".
-  Observe well_voices at well as sound when true "From the water, close, a voice says: 'Hob, drop the rope.' Then, in a different voice, a woman's, 'Mind the step.' Then your own, saying the last thing you said.".
+  Observe well_voices at well as sound when not state(mouth, burned) "From the water, close, a voice says: 'Hob, drop the rope.' Then, in a different voice, a woman's, 'Mind the step.' Then your own, saying the last thing you said.".
   Observe well_lip at well as sign when true "On the white stone round the well's lip, deep scratches run down into the water, from outside, as if things had tried to climb out and been taken back.".
   Rule mouth_voice when at(party, ancient) and dice(clock) <= 12 says "From the well comes a voice you have heard, calling for a rope." { Assert strikes(mouth_pull, party). }
+  Rule mouth_sinks when state(mouth, burned) and not peaceable(mouth) says "The skin of fire on the water goes out. Nothing rises through it." { Assert peaceable(mouth). }
+  Item well_crown "a crown of the first folk" is ancient_crown at well.
   Rule mouth_fed when dead(mouth) and not mouth_down() says "The water in the well goes still for the last time, and stays still." { Assert mouth_down(). }
   Relation mouth_down().
 
