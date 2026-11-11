@@ -87,6 +87,8 @@ export interface AppState {
   // A choice that cannot be undone, chosen once: its cost is said, and it is done if chosen again.
   confirming?: string;
   stage: string; error: string; help: boolean;
+  // How far through the stage the engine has got, where it can say (see the progress message).
+  step?: [number, number];
   // The whole story so far, asked for when the Story is opened (frames carry only its last entries).
   story?: Entry[];
   // Whether the last game the engine kept could not be kept in this browser (see ReaderStore.write).
@@ -160,7 +162,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
       // Not kept (the browser's storage is full, or refused): the player is told, and given the save to take.
       else if (!this.state.unkept) { this.setState({ unkept: true }); }
     } else if (message.kind === 'unkept') { if (!this.state.unkept) { this.setState({ unkept: true }); } }
-    else if (message.kind === 'progress') { this.setState({ stage: message.stage }); }
+    else if (message.kind === 'progress') { this.setState({ stage: message.stage, step: message.step }); }
     else if (message.kind === 'frame') {
       const combat = message.frame.combat, fight = combat ? this.state.frame?.combat ? this.state.fight
         : { seen: 0, hp: {}, first: true, began: Object.fromEntries(combat.allies.map(f => [f.id, f.hp])) } : undefined;

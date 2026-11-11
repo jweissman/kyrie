@@ -17,7 +17,7 @@ import { Projection } from './projection'; import { CampaignGrounding } from './
 import type { Creature } from '../creature';
 import { Membership, type LiveCache } from './membership';
 import { CampaignPlan } from './campaign-plan'; import { Battle } from '../arena';
-import { LoadCache } from './load-cache'; import { CombatProjection } from '../combat-projection';
+import { LoadCache, type Assembly } from './load-cache'; import { CombatProjection } from '../combat-projection';
 import { Content, type CreatureGenerationContext } from '../content';
 import type { CombatEvent, Fighter } from '../model'; import type { Instance, Module } from '../lang/module';
 import { World } from '../lang/world'; import { Beside } from './beside'; import { Checks } from '../rules/checks';
@@ -83,10 +83,12 @@ export class Campaign implements WatchHost {
   }
   // Loading is deterministic in (source, path, seed, party), so later loads fork the first, with its own kinds.
   private static loads = new LoadCache<Campaign>();
-  static load(path: string, seed: string, source: BundleSource,
-    party?: CreatureGenerationContext[]): Promise<Campaign> {
-    return this.loads.take(source, JSON.stringify([path, seed, party ?? null]),
-      () => this.assemble(path, seed, source, party && structuredClone(party)), loaded => loaded.fork());
+  // Who for, as a list, or with what is told as each module is taken in (step: the page's progress while it waits; it
+  // may throw to give the load up, a start made ready for choices since changed: EngineStarts).
+  static load(path: string, seed: string, source: BundleSource, party?: CreatureGenerationContext[] | Assembly) {
+    const at: Assembly = Array.isArray(party) ? { party } : party ?? {};
+    return this.loads.take(source, JSON.stringify([path, seed, at.party ?? null]),
+      () => this.assemble(path, seed, source, { ...at, party: at.party && structuredClone(at.party) }), l => l.fork());
   }
   private static arrays<T extends object>(o: T): T {
     return Object.fromEntries(Object.entries(o).map(([k, v]) => [k, Array.isArray(v) ? [...v as unknown[]] : v])) as T;
@@ -105,14 +107,14 @@ export class Campaign implements WatchHost {
       grounding: new CampaignGrounding() });
     return copy;
   }
-  private static async assemble(path: string, seed: string, source: BundleSource,
-    party?: CreatureGenerationContext[]): Promise<Campaign> {
+  private static async assemble(path: string, seed: string, source: BundleSource, at: Assembly): Promise<Campaign> {
     LocalKinds.reset(); const manifest = await ModuleBundle.campaign(path, source, seed);
-    party ??= manifest.party;
+    const party = at.party ?? manifest.party, step = at.step;
     // The canon first, so that what it names is there before any module names it (see CanonInstall).
     const canon = await CanonInstall.first(seed, source); let campaign: Campaign | undefined;
     // Each module is checked as it is compiled; the joined whole, once, when the last is in.
-    for (const request of manifest.modules) {
+    for (const [i, request] of manifest.modules.entries()) {
+      await step?.(i, manifest.modules.length);
       if (campaign) { await campaign.install(request, source, false); continue; }
       const draft = await ModuleBundle.load(request, { seed, installed: canon?.campaign.installations,
         party: party?.length }, source);

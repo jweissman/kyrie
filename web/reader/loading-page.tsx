@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react';
 import type { ReaderApp } from './reader-app';
 import { Toast } from './toast';
 
@@ -12,7 +13,7 @@ export class LoadingPage {
         <main>
           {!s.leaving && <h1>{heading}</h1>}
           <p className="stage" role="status" aria-live="polite">{s.leaving ? 'Setting out' : s.stage || 'Opening'}…</p>
-          {s.leaving && <LoadingPage.Steps stage={s.stage} />}
+          {s.leaving && <LoadingPage.Steps stage={s.stage} step={s.step} />}
         </main>
         <Toast.View app={app} />
       </div>
@@ -21,10 +22,15 @@ export class LoadingPage {
   // What the engine is doing while the company sets out, step by step as it reports each beginning (M19-49): no
   // share of the whole is guessed at.
   static readonly steps = ['Drawing the world', 'Placing its people', 'Telling where you are'];
-  static Steps({ stage }: { stage: string }) {
+  // The step under way breathes, so that the page is plainly alive while the engine works apart from it, and where
+  // the engine says how far through it is (so many parts of the world of so many), a thin line fills: a twenty-second
+  // wait on an iPad had looked like a page that had stopped (the owner, 11 November).
+  static Steps({ stage, step }: { stage: string; step?: [number, number] }) {
     const at = LoadingPage.steps.indexOf(stage);
     if (at < 0) { return null; }
-    return <ol className="steps" aria-hidden="true">{LoadingPage.steps.map((step, i) =>
-      <li key={step} className={i < at ? 'done' : i === at ? 'now' : ''}>{step}</li>)}</ol>;
+    return <ol className="steps" aria-hidden="true">{LoadingPage.steps.map((name, i) =>
+      <li key={name} className={i < at ? 'done' : i === at ? 'now' : ''}>{name}
+        {i === at && step && <span className="step-of" style={{ '--of': `${Math.round(100 * step[0] / step[1])}%` } as
+          CSSProperties}><i /></span>}</li>)}</ol>;
   }
 }

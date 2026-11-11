@@ -1,4 +1,11 @@
 import type { BundleSource } from './bundle-source';
+import type { CreatureGenerationContext } from '../content';
+
+// Who a campaign is loaded for, and what is told as each of its modules is taken in (see Campaign.load): waited on,
+// so that one that yields lets its host hear what has been asked meanwhile.
+export interface Assembly {
+  party?: CreatureGenerationContext[]; step?: (done: number, of: number) => void | Promise<void>;
+}
 
 // Memoizes deterministic loads per bundle source. Sources are assumed not to change underneath a running process.
 export class LoadCache<T> {

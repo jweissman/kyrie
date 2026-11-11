@@ -1,5 +1,6 @@
 import type { CreatureGenerationContext } from '../content';
 import { Campaign, type CampaignEvent, type CampaignSave } from '../campaign/campaign';
+import type { Assembly } from '../campaign/load-cache';
 import type { BundleSource } from '../campaign/bundle-source';
 import type { Battle } from '../battle';
 import type { Command } from '../model';
@@ -47,9 +48,10 @@ export class PlaySession {
     this.steps = structuredClone(history.steps); this.complete = history.complete;
   }
   static async start(scenario: string, seed: string, source: BundleSource,
-    party?: CreatureGenerationContext[]): Promise<PlaySession> {
-    return new PlaySession(await Campaign.load(scenario, seed, source, party),
-      { scenario, seed, steps: [], complete: true, ...(party ? { party } : {}) });
+    party?: CreatureGenerationContext[] | Assembly): Promise<PlaySession> {
+    const at: Assembly = Array.isArray(party) ? { party } : party ?? {};
+    return new PlaySession(await Campaign.load(scenario, seed, source, at),
+      { scenario, seed, steps: [], complete: true, ...(at.party ? { party: at.party } : {}) });
   }
   // handed: the checkpoint is the session's own from now on (owned), and was kept by this engine (trusted).
   static resume(checkpoint: SessionCheckpoint, handed: { owned?: boolean; trusted?: boolean } = {}): PlaySession {

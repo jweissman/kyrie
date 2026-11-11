@@ -162,4 +162,5 @@ export type Message =
   | { kind: 'saved'; save: string; summary: SaveSummary; key: string; world?: { key: string; text: string } }
   // A game the engine could not keep (it was not kept, and nobody was told: the architecture review's M8).
   | { kind: 'unkept'; reason: string }
-  | { kind: 'progress'; stage: string };
+  // step: how far through the stage, where it can say (so many of so many parts of the world taken in).
+  | { kind: 'progress'; stage: string; step?: [number, number] };

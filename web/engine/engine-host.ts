@@ -11,6 +11,7 @@ import type { Battle } from '../../src/battle';
 import type { Command } from '../../src/model';
 import type { Screen } from '../../src/ui/screen-types';
 import { Creation } from './creation';
+import { EngineStarts, type Starting } from './engine-starts';
 import { Frontier } from '../../src/world/frontier';
 import type { Campaign, CampaignEvent } from '../../src/campaign/campaign';
 import { Scenarios } from '../scenarios';
@@ -34,8 +35,6 @@ import { Glance } from '../../src/presentation/glance';
 
 // A journey as it goes: each leg as it was told, and the frame the last one left.
 interface Trail { legs: NonNullable<Frame['travel']>['legs']; last?: Frame }
-// What setting out asks for: the campaign (or the generated region), and who comes, and why.
-type Starting = Omit<Extract<Request, { kind: 'begin' }>, 'kind'>;
 
 // The engine's side of play. It holds the one PlaySession, carries out what the player chose, and answers with a
 // frame: everything the page draws. A fight pauses on each of the company's turns until the page sends a choice.
@@ -64,6 +63,7 @@ export class EngineHost {
   // The last fight the company chose in, held on its page once it has ended, until the player goes on.
   private fought?: Battle;
   private readonly creation = new Creation();
+  private readonly starts = new EngineStarts(this.creation, m => this.post(m));
   // The command under way, if any, which a checkpoint waits for.
   private working: Promise<unknown> = Promise.resolve();
   // Which game the host plays: one begun or opened is the next. A command that ends after another game has begun
@@ -80,7 +80,7 @@ export class EngineHost {
       case 'world': return this.creation.generate(request.seed, request.terrain);
       case 'preview': return Creation.preview(request.party, request.generated);
       case 'begin': return this.begin(request);
-      case 'ready': this.prepare(request); return null;
+      case 'ready': this.starts.prepare(request); return null;
       case 'resume': return this.resume(request.saved, { world: request.world, apart: request.apart });
       case 'perform': return this.command(() => this.perform(request.command));
       case 'fight': this.pressing = !!request.through; this.fight(request.choice); return null;
@@ -100,45 +100,11 @@ export class EngineHost {
       case 'story': return this.log;
     }
   }
-  // A start made ready while the player reads the page, for the choices as they then stood.
-  private ready?: { key: string; started: Promise<PlaySession> };
-  private prepare(r: Starting) {
-    const key = EngineHost.key(r);
-    if (this.ready?.key === key) { return; }
-    const started = this.start(r);
-    started.catch(() => { if (this.ready?.started === started) { this.ready = undefined; } });
-    this.ready = { key, started };
-  }
-  private static key(r: Starting): string {
-    return JSON.stringify([r.campaign, r.seed, r.party, r.terrain ?? null, r.origin ?? null, r.memorial ?? null]);
-  }
-  // Each step of a start as it begins, said to the page while the player waits (none for one made ready in advance),
-  // and how long each took, kept for the first frame (M19-49: where the wait goes).
-  private phases: { draw?: number; place?: number } = {};
-  private progress(stage: string) { this.post({ kind: 'progress', stage }); }
-  private async start(r: Starting, said?: (stage: string) => void): Promise<PlaySession> {
-    const at = { ...r.terrain ? { terrain: r.terrain } : {}, ...r.origin ? { origin: r.origin } : {},
-      ...r.memorial ? { memorial: r.memorial } : {} };
-    said?.('Drawing the world');
-    const began = performance.now();
-    const origin = await this.creation.origin(r.campaign, r.seed, r.party, at);
-    said?.('Placing its people');
-    const drawn = performance.now();
-    // An origin makes the protagonist what it says (their background, what they carry): the world's telling of them.
-    const session = await PlaySession.start(origin.path, r.seed, origin.source, r.origin ? undefined : r.party);
-    this.phases = { draw: Math.round(drawn - began), place: Math.round(performance.now() - drawn) };
-    // A generated world keeps what it was drawn for, so that its transcript can be replayed (see DrawnWorld).
-    return r.campaign === Creation.generated ? session.drawnFor({ party: r.party, ...at }) : session;
-  }
   private async begin(r: Starting): Promise<Frame> {
     const game = this.abandon();
-    const ready = this.ready?.key === EngineHost.key(r) ? this.ready.started : undefined;
-    this.ready = undefined;
-    const said = this.progress.bind(this);
-    // Made ready while the player read the page: only what is left of it is waited for.
-    if (ready) { said('Almost ready'); }
-    const session = await (ready?.catch(() => this.start(r, said)) ?? this.start(r, said));
-    said('Telling where you are');
+    // Made ready while the player read the page: only what is left of it is waited for, and said as it goes.
+    const session = await this.starts.take(r);
+    this.starts.said('Telling where you are');
     if (game !== this.game) { throw new Error('Another game was begun meanwhile.'); }
     this.session = session;
     this.frontier = r.campaign === Creation.generated
@@ -340,8 +306,8 @@ export class EngineHost {
     const built = performance.now(), frame = this.frame(), told = performance.now();
     this.fought = undefined;
     frame.timing = { engine: Math.round(this.spent), screen: Math.round(built - started),
-      narrative: Math.round(told - built), ...this.phases };
-    this.phases = {};
+      narrative: Math.round(told - built), ...this.starts.phases };
+    this.starts.phases = {};
     this.spent = 0;
     this.saving();
     return frame;
