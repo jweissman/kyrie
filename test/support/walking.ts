@@ -3,6 +3,7 @@ import { NodeBundleSource } from '../../src/campaign/node-bundle-source';
 import { PlaySession } from '../../src/session/play-session';
 import { Journey } from '../../src/session/journey';
 import { Placed } from './placed';
+import { ModuleWriter } from '../../src/lang/module-writer';
 
 // The Walk of the Milestones as a standing scenario (the line its integrator adds to data/scenarios/standing.json): specs
 // set the standing list to test/fixtures/walk/standing.json, which is the five standing scenarios and the Walk.
@@ -27,17 +28,20 @@ export class Walking {
   static flash(j: Journey): string { return this.drawn(j, 'flashpoint')[0]!.replace('f_', ''); }
   static at(j: Journey, who: string) { return j.campaign.world.one('at', this.k(who)); }
   static measure(j: Journey, name: string, who: string): number { const m = j.campaign.world.measured(this.k(name)).find(x => x.call.args[0] === this.k(who)); return m?.value ?? 0; }
-}
-
-import { ModuleWriter } from '../../src/lang/module-writer';
-export class WalkingState {
-  // Assert a relation of the Walk's module outright: for specs that put the world where a long play would have, and say so.
-  static assert(j: Journey, relation: string, ...args: string[]) {
+  // Put a relation of the Walk's module in or out outright: for specs that set the world where a long play would have, and
+  // say so in their name.
+  static assert(j: Journey, relation: string, ...args: string[]) { this.apply(j, 'assert', relation, args); }
+  static retract(j: Journey, relation: string, ...args: string[]) { this.apply(j, 'retract', relation, args); }
+  private static apply(j: Journey, kind: string, relation: string, args: string[]) {
     const held = j.campaign as unknown as { world: { apply(c: unknown[]): unknown }; commit(x: unknown): void };
-    held.commit(held.world.apply([{ kind: 'assert', call: ModuleWriter.call(`walk__${relation}`, ...args.map(a => a.includes('__') ? a : `walk__${a}`)) }]));
+    held.commit(held.world.apply([{ kind, call: ModuleWriter.call(`walk__${relation}`, ...args.map(a => a.includes('__') ? a : `walk__${a}`)) }]));
   }
-  static set(j: Journey, measure: string, who: string, value: number) {
-    const held = j.campaign as unknown as { world: { apply(c: unknown[]): unknown; one(r: string, a: string): string }; commit(x: unknown): void };
-    void value; void held; void measure; void who;
+  // The same world again from a checkpoint of the first, so that each ending is played from the same morning.
+  static fork(j: Journey): Journey {
+    return Journey.of(PlaySession.resume(JSON.parse(JSON.stringify(j.session.checkpoint())), { trusted: true }));
+  }
+  static quantity(j: Journey, who: string, good: string): number {
+    const m = j.campaign.world.measured('quantity').find(x => x.call.args[0] === who && x.call.args[1] === good);
+    return m?.value ?? 0;
   }
 }
