@@ -22,7 +22,10 @@
     "imbar",
     "scarth_kept",
     "scarth_lost",
-    "remainder_kept"
+    "remainder_kept",
+    "pharos_lit",
+    "pharos_dark",
+    "pharos_fed"
   ],
   "exports": {
     "party": "party",

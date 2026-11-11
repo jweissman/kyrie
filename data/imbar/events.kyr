@@ -31,4 +31,10 @@ Module canon "Imbar and the planes" {
   Entity tallow_names: fact "The fourteen names of the Brasiers' Company's dead have been read aloud, in Swallet or over the stacked boots.".
   Entity sallowfield_held: fact "Sallowfield stood through its three nights, and its green is not burned.".
   Entity sallowfield_burned: fact "Sallowfield's green was burned in the night, and the village is a floor of black timbers.".
+
+  // The Dorothea's, at Skerrow (corpus pass, branch adventure/p4-dorothea): what became of the Pharos when the ketch sailed
+  // home. Asserted once, as the ship leaves the island; read by the Scarth light, which is the other end of the same works.
+  Entity pharos_lit: fact "The Pharos on Skerrow was left burning, and its keeper kept it.".
+  Entity pharos_dark: fact "The Pharos on Skerrow went dark: its bronze was sold off the hill, or its engine was stilled and not fed.".
+  Entity pharos_fed: fact "The pilot of the lamp under the Pharos on Skerrow was fed, and a green light shows on the Reach at night.".
 }

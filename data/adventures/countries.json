@@ -669,7 +669,15 @@
    },
    "after": {
     "talk": "Tolleth's board has the Dorothea's sailings in chalk again, and the talk down the coast is of Skerrow and what the lamp is doing, now that somebody has been out to see.",
-    "told": "{keeper} takes in all of it, the Combs and the lamp and the island that nobody goes to, and does not say anything for a full minute. 'The Dorothea has been in and out of Tolleth twice since she brought the news,' {keeper} says. 'Same hour. Always an hour earlier than anyone expects.' {keeper} nods at the window. 'You will have thought it a long way to go for a lamp. I never knew anyone who went for the lamp.'"
+    "told": "{keeper} takes in all of it, the Combs and the lamp and the island that nobody goes to, and does not say anything for a full minute. 'The Dorothea has been in and out of Tolleth twice since she brought the news,' {keeper} says. 'Same hour. Always an hour earlier than anyone expects.' {keeper} nods at the window. 'You will have thought it a long way to go for a lamp. I never knew anyone who went for the lamp.' {keeper} turns the cup on its saucer. 'The cutter men say the same oil burns in another lamp down the coast, on a rock you cross to when the sands let you. I never knew them for liars, only for men who are not asked.'",
+    "by": {
+     "dark": {
+      "told": "{keeper} hears you out about the hill and the barrow and the window with nothing in it, and does not say anything for a good while. 'Orsett has a handsome reflector, then,' {keeper} says. 'And the Reach has a lamp the less, and nobody's name on the account.' {keeper} turns the lamp on the counter down by a quarter. 'There is another down the coast, on the sands. The keepers write, those two. One word, I am told, once a year.' {keeper} looks at the window. 'That will be a short letter this Michaelmas.'"
+     },
+     "fed": {
+      "told": "{keeper} hears you out about the stair and the hall of wheels and the green at the bottom, and puts down the cup. 'It has been showing on the Reach for a week,' {keeper} says. 'Low, and green, on the rim. The pilots call it a star that has lost its way and is steering by them. I had thought that a pretty way to put it.' {keeper} nods. 'Whoever keeps the lamp down on the sands will have felt it. I am told they write each other, those two. I should like to read one of the letters.'"
+     }
+    }
    }
   },
   {
@@ -773,7 +781,7 @@
    "far": "a lighthouse stands at the end of a causeway that the sea closes every day, and people who cross late stay the night",
    "after": {
     "talk": "The coast road has stopped telling people to cross before twelve. It has not started saying why. A carter who has been out to the Scarth light says only that the tea is as good as ever, and puts his hand flat on the table.",
-    "told": "{keeper} hears you out about the light and the sands and the cistern, and does not say a word until you have finished. Then {keeper} gets up and puts the shutters across the window on the sea side, which was not what you expected, and comes back. 'My father used to say the Scarth keepers were the only men in the county who slept with their boots on,' {keeper} says. 'I took it for a joke.' Then, quietly: 'Was there tea?' You say there was. 'Good,' says {keeper}. 'That's something.'",
+    "told": "{keeper} hears you out about the light and the sands and the cistern, and does not say a word until you have finished. Then {keeper} gets up and puts the shutters across the window on the sea side, which was not what you expected, and comes back. 'My father used to say the Scarth keepers were the only men in the county who slept with their boots on,' {keeper} says. 'I took it for a joke.' Then, quietly: 'Was there tea?' You say there was. 'Good,' says {keeper}. 'That's something.' {keeper} sets the shutter right. 'The oil comes down from Tolleth, the carters say, and the ketch that sails from there goes to a lamp like yours. I had thought them two stories.'",
     "by": {
      "dark": {
       "told": "{keeper} hears you out about the light and the sands and the cistern, and sits for a while with both hands round a cup that has gone cold. 'A keeper gone,' {keeper} says, 'or someone who came for the dead. It is a hard rock.' {keeper} looks at the shutter, the one on the sea side. 'They'll not leave the lamp dark. They never do. Somebody walks out at noon with a can of oil and a face like yours.' Then, getting up: 'I'll find you a bed that faces inland.'"

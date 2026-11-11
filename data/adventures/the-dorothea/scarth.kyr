@@ -1,0 +1,31 @@
+Module dorothea "The Dorothea" {
+  // ── The other end of the same works ─────────────────────────────────────────────────────────────────────────────
+  // The Pharos is the chimney of an engine that counts. On the mainland coast, down the road from Tolleth, a lamp on a
+  // causeway rock burns oil of the same make over a cistern that rises and falls with the tide (data/adventures/skerrow,
+  // the Light on Scarth Holm). They are one works from its two ends and not one rock; doc/architecture/activation/
+  // corpus/dorothea-skerrow.md says why. Each tells the other as news, by `befell`. What the Pharos came to is told once,
+  // as the ketch leaves the island.
+  Rule pharos_word_dark when homeward(hull) and bound(hull) == 1 and not pilotLit(party) and (lampOut(party) or brakeThrown(party)) and not befell(pharos_dark) { Assert befell(pharos_dark). }
+  Rule pharos_word_fed when homeward(hull) and bound(hull) == 1 and pilotLit(party) and not befell(pharos_fed) { Assert befell(pharos_fed). }
+  Rule pharos_word_lit when homeward(hull) and bound(hull) == 1 and not pilotLit(party) and not lampOut(party) and not brakeThrown(party) and not befell(pharos_lit) { Assert befell(pharos_lit). }
+
+  // The oil Rune sells is the best on the coast, and it goes to a man who wants clean oil and will not be told its price.
+  // A company that has seen the after hatch can learn where.
+  Topic jago_oil with jago "Ask Jago Pendry who takes the oil at the end of his run" when looked(actor) or knows(actor, rune_sells) once {
+    Says "'Down the coast,' says Jago, 'where the road gives out on a flat with a white tower on it and a Board that has lost interest. A man keeps the lamp there who would not take a penny for it if you pressed one on him. I leave the flasks on the slip, and he pays me in tea.' He looks out at the water with great fondness. 'I have never been so well paid in my life. Do not tell Mr Rune. He has a sentimental idea of where it goes.'".
+  }
+
+  // What a company that has crossed the Scarth causeway can tell Marren Kestle, Quillon and Tarn, each in their own trade.
+  Topic kestle_scarth_kept with kestle "Tell Marren Kestle about the keeper on the Scarth rock" when befell(scarth_kept) once {
+    Says "She puts the rag down, which she does for nothing. 'A keeper, on a rock, with a bell,' she says. 'And the tide comes in under his floor, and he gives people tea.' She looks at the lamp as at someone in the same trade. 'My grandfather's grandfather wrote of a fifth light, down the coast, that was not ours to keep and was kept all the same, by people who did not know what it was for. I did not believe him.' She takes the rag up. 'Tell him-' She stops. 'No. Keepers do not send word. They send oil.'".
+  }
+  Topic kestle_scarth_lost with kestle "Tell Marren Kestle about the Scarth rock, and who did not come off it" when befell(scarth_lost) once {
+    Says "She hears you out and goes on polishing, and it is a moment before you see that she is polishing the same inch. 'Then it will be lit by whoever comes next,' she says. 'It always is. Somebody walks out on the noon tide with a can of oil and a face like yours.' She holds the rag up to the window and looks through it, not at it. 'I used to think the Board was for that. It is a thing the Board forgets, and somebody walks out.'".
+  }
+  Topic marl_scarth with marl "Ask Silas Quillon whether the light on the Scarth sands is in his ledger" when befell(scarth_kept) or befell(scarth_lost) once {
+    Says "'The Scarth?' says Silas Quillon, and for the first time he seems to look for the page. 'No. That is the Board's, not the House's. A Board keeps its lights the way a man keeps a dog he has been told to put down, out of habit and until the paper comes.' He caps the ink. 'I do not buy lamps that someone is still sitting up with. I find I buy fewer, this year, than I did.'".
+  }
+  Topic oswin_scarth with oswin "Tell Oswin Tarn what comes up the cistern on the Scarth rock with the tide" when befell(scarth_kept) or befell(scarth_lost) once {
+    Says "Tarn writes for some time, and underlines, and stops. 'Names,' he says. 'A tank under a tower, in the tide, saying names.' He puts the pencil down very carefully. 'It counts whoever is below. That is all it was built to do. I have always assumed that a count which is never closed goes somewhere, and I have not asked where, because there is no end to the pipe.' He looks at his own hand, where he has written the word. 'You have found the end of the pipe. I should like to see it very much, and I am not going to.'".
+  }
+}
