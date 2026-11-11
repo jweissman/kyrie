@@ -3,6 +3,8 @@ import type { Placement } from '../../src/world/world-assembler';
 import { ModuleWriter } from '../../src/lang/module-writer';
 import { PlayerView } from '../../src/presentation/player-view';
 import { Journey } from '../../src/session/journey';
+import type { Battle } from '../../src/arena';
+import { Tactics } from '../../src/tactics';
 
 // Generated worlds are laid out by their seed, and a new dimension in the generator lays them out differently. A
 // test about what happens in one reads where things are from the world's report instead of walking a fixed route.
@@ -13,8 +15,18 @@ export class GeneratedWorld {
   }
   // Walks the company to a place by the shortest way the world joins them, taking each way as the company can (a
   // place of the first region by its own name; of another, by its id: x0y1__edge_east).
+  // What is met on the way is not what these specs are about: a fight on the road is fled, and a way the world does
+  // not offer the company just now is not waited for; either way the company is put where the way goes, and walks on
+  // from there (thorn's road from its second town came to have a band on it that killed the walking company when the
+  // roads out of the country were redrawn, 11 November).
   static async travel(s: PlaySession, place: string) {
-    for (const [passage, to] of this.path(s, place)) { await s.leg(`go(${passage},${to})`); }
+    const flee = (battle: Battle) => Promise.resolve(battle.legalCommands().find(c => c.ability === 'flee')
+      ?? Tactics.choose(battle.state, battle.plain(battle.legalCommands())));
+    for (const [passage, to] of this.path(s, place)) {
+      const command = `go(${passage},${to})`;
+      if (PlayerView.choices(s.campaign).some(c => c.choice.id === command)) { await s.leg(command, flee); }
+      if (s.campaign.world.one('at', 'party') !== to) { this.put(s, to.replace(/^region__/, '')); }
+    }
   }
   // The ways to take, passage by passage, from where the company stands to a place.
   static path(s: PlaySession, place: string): [string, string][] {

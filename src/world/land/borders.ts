@@ -26,8 +26,8 @@ export class Borders {
           for (const cell of this.edge(land, side, from, slack)) {
             const route = Roads.route(land, from, cell, built).cells;
             if (route.length) {
-              const { seat, cells } = Roads.begun(seats, i, route);
-              return [{ side, seat, cell, road: Roads.road(land, cells[0]!, cell, cells) }];
+              const { cells } = Roads.begun(seats, i, route);
+              return [{ side, seat: i, cell, road: Roads.road(land, cells[0]!, cell, cells) }];
             }
           }
         }

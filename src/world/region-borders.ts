@@ -26,9 +26,14 @@ export class RegionBorders {
     return [...kingdom, ...land].map(m => m.replaceAll('{region}', region.name).replaceAll('{kingdom}', s?.name ?? region.name));
   }
   static room(b: Border): string { return `edge_${b.side}`; }
+  // The town a road out leaves from: where its road begins (see Roads.begun), which is the seat's own unless the road
+  // runs on through another town first; the seat's folk still tell of what lies beyond.
+  static from(region: Region, seat: number, road: { cells: readonly number[] }): Region['settlements'][number] {
+    return region.settlements.find(s => s.cell === road.cells[0]) ?? region.settlements[seat]!;
+  }
   private static border(b: Border, region: Region, mark: string): string[] {
     const q = JSON.stringify, id = this.room(b), [x, y] = RegionGeography.spot(region, b.cell);
-    const from = region.settlements[b.seat]!, beyond = region.beyond?.[b.side];
+    const from = this.from(region, b.seat, b.road), beyond = region.beyond?.[b.side];
     if (beyond?.sea) { return this.shore(b, region, beyond.name); }
     const land = beyond && `${beyond.name}, ${RegionGeography.terrain(beyond.terrain)} country`;
     // An authored country entered from another side: the folk know there is no road over into it from here.
@@ -48,7 +53,7 @@ export class RegionBorders {
   // road over; the sea is crossed by ship, not on foot (the march toward it is not a march: see Frontier.closed).
   private static shore(b: Border, region: Region, sea: string): string[] {
     const q = JSON.stringify, id = this.room(b), [x, y] = RegionGeography.spot(region, b.cell), at = borders.shore;
-    const from = region.settlements[b.seat]!, seen = new Draw(`${region.name}:shore:${b.side}`).pick(at.seen);
+    const from = this.from(region, b.seat, b.road), seen = new Draw(`${region.name}:shore:${b.side}`).pick(at.seen);
     return [`  Place ${id}_land ${q(`the ${b.side}ern shore of ${region.name}`)} is wilderness within region at ${x}, ${y}.`,
       `  Place ${id} ${q(this.said(at.room, region, sea))} is room within ${id}_land at 0, 0.`,
       `  Passage ${id}_road ${q(at.road.replaceAll('{side}', b.side))} is road between ${from.id}_green and ${id} taking ${RegionRoads.time(Math.max(60, b.road.hours * RegionRoads.minutesPerHour))}.`,

@@ -43,8 +43,8 @@ export class Gates {
           const from = at.seats[i]!.cell, route = Roads.route(land, from, cell, at.built).cells;
           // Its road does not run where the firth will be.
           if (route.length && !firth?.some(c => route.includes(c))) {
-            const { seat, cells } = Roads.begun(at.seats, i, route);
-            return { id: w.id, side: w.side, seat, cell, road: Roads.road(land, cells[0]!, cell, cells),
+            const { cells } = Roads.begun(at.seats, i, route);
+            return { id: w.id, side: w.side, seat: i, cell, road: Roads.road(land, cells[0]!, cell, cells),
               ...firth?.length ? { firth } : {} };
           }
         }

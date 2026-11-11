@@ -17,7 +17,7 @@ export class RegionGates {
   }
   private static gate(region: Region, p: Province): string[] {
     const q = JSON.stringify, id = Provinces.room(p.country), [x, y] = RegionGeography.spot(region, p.gate.cell);
-    const from = region.settlements[p.gate.seat]!, country = Provinces.country(p.country);
+    const from = RegionBorders.from(region, p.gate.seat, p.gate.road), country = Provinces.country(p.country);
     const seen = country.skyline ? ` Ahead, ${country.skyline}.` : '';
     return [`  Place ${id}_land ${q(`the edge of ${p.name}`)} is wilderness within region at ${x}, ${y}.`,
       `  Place ${id} ${q(`the way into ${p.name}`)} is room within ${id}_land at 0, 0.`,

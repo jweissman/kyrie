@@ -19,6 +19,9 @@ describe('what the givers give', () => {
     const gift = async (place: string, facts: [string, ...string[]][], ask: string, kind: string) => {
       j.put('party', place);
       for (const f of facts) { j.assert(...f); }
+      // The giver in, whatever hour the walks out to the gates came to (they keep hours: the roads redrawn on 11
+      // November brought the company to the nave at night).
+      for (let watch = 0; watch < 24 && !j.offers(ask); watch++) { await j.play('^Wait$'); }
       await j.play(ask);
       expect(j.holds('holding', 'party', kind)).toBe(true);
     };

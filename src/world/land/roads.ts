@@ -87,7 +87,9 @@ export class Roads {
   }
   // A road out from one town that runs through another on its way begins at the last it runs through: begun at the
   // first, the way out of the country had gone from one town to the next and back through the first (wren: the road
-  // to Strewnfield from the town past Thornwick ran back through Thornwick's own hex, and the journey with it).
+  // to Strewnfield from the town past Thornwick ran back through Thornwick's own hex, and the journey with it). The
+  // seat, whose folk tell of the country beyond, is still the town nearest it; the road leaves from where it begins
+  // (see RegionBorders.from).
   static begun(seats: readonly { cell: number }[], seat: number, cells: number[]): { seat: number; cells: number[] } {
     for (let k = cells.length - 2; k > 0; k--) {
       const at = seats.findIndex(s => s.cell === cells[k]);
