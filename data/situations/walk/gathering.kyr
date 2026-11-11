@@ -206,7 +206,7 @@ Module walk "The Walk of the Milestones" {
     Time 30 minutes.
     Resolve check(actor, persuasion, dc_fair).
     On success { Assert duel_settled(walk). Assert lads_allied(walk). Assert kept(actor). }
-    Result "{teague} is silent so long you think you have gone too far. 'Barefoot,' he says. 'On the hard road.' He looks at his boots, which are good boots. 'A mile.' By afternoon half the town has turned out, and the corporal runs, in his stockings, with great dignity and a stitch, and finishes four yards behind Rhys, who is sick behind a hedge from joy. Nobody is hurt. The ale is bought. By evening the corporal has a stave in his hand and has been very heard to say that his door will wash.".
+    Result "{teague} is silent so long you think you have gone too far. 'Barefoot,' he says. 'On the hard road.' He looks at his boots, which are good boots. 'A mile.' By afternoon half the town has turned out, and the corporal runs, in his stockings, with great dignity and a stitch, and finishes four yards behind Rhys, who is sick behind a hedge from joy. Nobody is hurt. The ale is bought. By evening the corporal has a stave in his hand and has been heard to say that his door will wash.".
     Otherwise "{teague} says that a corporal of the Bench does not race, and the matter goes back to where it was, with a little more air in it.".
   }
   Action take_duel(actor: group, site: place) "Stand as the lads' second, and take the corporal's challenge yourself" {

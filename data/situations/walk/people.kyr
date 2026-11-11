@@ -9,7 +9,7 @@ Module walk "The Walk of the Milestones" {
     Greets again "{leader} looks up, counts you with the eyes, and nods once. 'Mile and mile,' {leader} says, quieter. The cough comes after, and is put away in a sleeve.".
   }
   Person pettifer "Someone" nowhere {
-    Role "a chalk-seller who has attached himself to the Walk". Calling thief. Level 2. Peaceable. Manner jovial. Pronouns he.
+    Role "a chalk-seller who has attached himself to the Walk". Calling commoner. Level 2. Peaceable. Manner jovial. Pronouns he.
     Sells chalk_kind for 1 coin from 30.
     Sells staff_kind for 3 coin from 12.
     Greets "A round man in a coat with too many pockets has stood a barrel on end by the well and laid out on it, in a row, fifteen stubs of chalk. 'My friend, my friend,' says {pettifer}. 'You have the face of someone who has been wondering where to put a mile. Here. A stub of the true chalk, one penny, from the very hand of the Mile-Keeper's first mile, or near enough, and if it is not near enough I have another, and that one is nearer.'".

@@ -25,11 +25,11 @@ describe('the Walk: danger, and a way round it for every kind of company', () =>
 
   it('a warrior meets a sergeant who names his price; paying it, or arguing it, turns the night away', async () => {
     const j = await park('warrior');
-    await j.play('>region__s3_green', '=day 9 12:30');
+    j.coin(40);
+    await j.play('>region__s3_green', '=day 9 11:50', '=+1');
     expect(Walking.at(j, 'hask')).toBe('region__s3_green');
     expect(j.offers('Pay .* thirty crowns')).toBe(true);
     expect(j.offers('Ask .* to put his orders in writing')).toBe(true);
-    j.coin(40);
     await j.play('Pay .* thirty crowns');
     expect(Walking.holds(j, 'raid_off', 'walk')).toBe(true);
     await j.play('>walk__camp_d', '=day 10 06:00');
