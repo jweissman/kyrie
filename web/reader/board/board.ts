@@ -16,7 +16,7 @@ import { BoardPresses } from './board-presses';
 import { BoardTiles } from './board-tiles';
 import { BoardTowns } from './board-towns';
 import { BoardUnder } from './board-under';
-import type { BoardApi, BoardHooks, BoardLand } from './board-types';
+import type { BoardApi, BoardHooks, BoardLand, Courses } from './board-types';
 import { HexGrid } from './hex-grid';
 import { Scatter } from './scatter';
 
@@ -65,6 +65,7 @@ export class Board implements BoardApi {
   private frame = 0;
   private chosen?: string;
   private bound?: string;
+  private courses: Courses = {};
   private pointed?: number;
   static mount(host: HTMLElement, land: BoardLand, hooks: BoardHooks,
     still: boolean): Board { return new Board(host, land, hooks, still); }
@@ -187,9 +188,9 @@ export class Board implements BoardApi {
   }
   // What is chosen, and where you are bound: each marked, the ways to them laid, and what is newly chosen brought into
   // view if it is out of it, with you (the view is not taken away from you to it).
-  show(chosen?: string, bound?: string): void {
+  show(chosen?: string, bound?: string, courses: Courses = {}): void {
     const cell = this.cellOf(chosen), glide = chosen !== this.chosen && cell !== undefined;
-    this.chosen = chosen; this.bound = bound;
+    this.chosen = chosen; this.bound = bound; this.courses = courses;
     this.lay(); this.rims();
     if (glide) { this.view.show(this.grid.centres[cell]!, this.hereAt()); }
     this.dirty = true;
@@ -199,8 +200,9 @@ export class Board implements BoardApi {
   // all of it already stands, and where any of it is still arriving, only once it has come.
   private lay(): void {
     const bound = this.cellOf(this.bound), chosen = this.cellOf(this.chosen);
-    this.places.way('bound', this.route(bound), (x, z) => this.drawnAt(x, z));
-    this.places.way('chosen', chosen === bound ? [] : this.route(chosen), (x, z) => this.drawnAt(x, z));
+    // The way a journey would go where the page knows it (its stops), else the shortest over the land known.
+    this.places.way('bound', this.courses.bound ?? this.route(bound), (x, z) => this.drawnAt(x, z));
+    this.places.way('chosen', chosen === bound ? [] : this.courses.chosen ?? this.route(chosen), (x, z) => this.drawnAt(x, z));
     // The pennant moved, its shadow cast where it now stands and taken from where it stood.
     this.shade(true); this.dirty = true;
   }

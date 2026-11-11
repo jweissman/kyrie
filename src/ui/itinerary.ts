@@ -220,7 +220,8 @@ export class Itineraries {
   }
   private static named(d: Itinerary, names: Map<string, Entity>): NonNullable<Screen['destinations']>[number] {
     return { id: d.id, name: names.get(d.id)?.name ?? d.name, minutes: d.minutes,
-      ...d.toward ? { toward: d.toward } : {}, legs: this.told(d.legs, id => names.get(id)?.name ?? id) };
+      ...d.toward ? { toward: d.toward } : {}, legs: this.told(d.legs, id => names.get(id)?.name ?? id),
+      stops: d.legs.map(l => l.to) };
   }
   // The legs of a journey as the page tells them: by each way, to the place it comes to by its name, and one stretch
   // of wild country after another by the same way one leg, their times together (a plan across Beorquudu had said

@@ -1,3 +1,4 @@
+import type { Courses } from './board/board-types';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type { RegionChart } from '../../src/ui/screen-types';
 import type { BoardApi, BoardLand, BoardModule } from './board/board-types';
@@ -84,9 +85,9 @@ export class BoardField {
   }
   // The board, given where the company is bound as the maps know it (see whither), and the way a journey went, that
   // your mark walk it, and the page be told when it has.
-  static View({ region, chosen, choose, bound, face, walking, walked, point }: { region: RegionChart; chosen?: string;
-    choose: (id: string, keyed?: boolean) => void; bound?: string; face?: string; walking?: number[];
-    walked?: () => void; point?: (id?: string) => void }) {
+  static View({ region, chosen, choose, bound, face, walking, walked, point, courses }: { region: RegionChart;
+    chosen?: string; choose: (id: string, keyed?: boolean) => void; bound?: string; face?: string; walking?: number[];
+    walked?: () => void; point?: (id?: string) => void; courses?: Courses }) {
     const host = useRef<HTMLDivElement>(null), board = useRef<BoardApi | undefined>(undefined), pick = useRef(choose);
     // The board as it stood before the land changed under it, kept drawn until the new one is (it had gone black for
     // half a second at a journey's end: M19-58), each in a layer of its own.
@@ -97,8 +98,8 @@ export class BoardField {
     const [tries, retry] = useState(0), [ready, readied] = useState(false), able = BoardField.able();
     const fail = useCallback(() => { setTimeout(() => retry(n => n + 1), 400); }, []);
     const [land, same] = useMemo(() => BoardField.drawn(region, face), [region, face]);
-    const now = useRef({ land, chosen, bound });
-    pick.current = choose; now.current = { land, chosen, bound };
+    const now = useRef({ land, chosen, bound, courses });
+    pick.current = choose; now.current = { land, chosen, bound, courses };
     useEffect(() => {
       if (!able) { return; }
       let live = true;
@@ -115,7 +116,7 @@ export class BoardField {
             lost: () => fail(), point: id => over.current?.(id) }, still);
           // A board made again (the land changed under it) shows at once what is chosen and where you are bound,
           // and the one it replaces is let go.
-          board.current.show(at.chosen, at.bound); readied(true);
+          board.current.show(at.chosen, at.bound, at.courses); readied(true);
           BoardField.release(old.current.splice(0));
         } catch (e) {
           // Made again, and why told where it can be read (a land the board could not be made of).
@@ -133,7 +134,8 @@ export class BoardField {
     useLayoutEffect(() => () => {
       board.current?.dispose(); board.current = undefined; BoardField.release(old.current.splice(0));
     }, []);
-    useEffect(() => { board.current?.show(chosen, bound); }, [chosen, bound, ready]);
+    const laid = JSON.stringify(courses ?? {});
+    useEffect(() => { board.current?.show(chosen, bound, courses); }, [chosen, bound, ready, laid]);
     const done = useRef(walked); done.current = walked;
     useEffect(() => {
       if (!walking || able && !ready) { return; }

@@ -22,7 +22,8 @@ export interface BoardLand {
 // And what the pointer is over, a hex or a place, or nothing.
 export interface BoardHooks { choose(id: string, keyed?: boolean): void; lost?(): void; point?(id?: string): void }
 export interface BoardApi {
-  show(chosen?: string, bound?: string): void;
+  // courses: the ways a journey to each would go, hex by hex, where the page knows them (see JourneyCourse.planned).
+  show(chosen?: string, bound?: string, courses?: Courses): void;
   // Your mark walked along the way a journey went, hex by hex; how long it takes.
   walk(way: number[]): number;
   zoom(by: number): void;
@@ -30,3 +31,5 @@ export interface BoardApi {
   dispose(): void;
 }
 export interface BoardModule { mount(host: HTMLElement, land: BoardLand, hooks: BoardHooks, still: boolean): BoardApi }
+// The ways a journey would go, hex by hex: to what is chosen, and to where the company is bound.
+export interface Courses { chosen?: number[]; bound?: number[] }

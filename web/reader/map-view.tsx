@@ -1,3 +1,4 @@
+import { JourneyCourse } from './journey-course';
 import { Aims } from './aims';
 import { Followed } from './followed';
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent } from 'react';
@@ -54,7 +55,7 @@ export class MapView {
         tabIndex={-1} ref={dialog} onKeyDown={e => MapView.escape(e, app, chosen ? forget : undefined)}>
         {region?.land ? <BoardField.View region={region} chosen={chosen} choose={pick} bound={bound}
           face={screen.party[0]?.face?.src} walking={app.state.walking?.way} walked={app.state.walking?.done}
-          point={point} />
+          point={point} courses={{ chosen: JourneyCourse.planned(screen, chosen), bound: JourneyCourse.planned(screen, bound) }} />
           : <p className="none">You have no map of this country yet.</p>}
         <header className="field-head"><p className="where"><span className="title">{app.state.frame!.title}</span>
           <span>The map</span></p><h1 className="place">{Typography.curl(Words.upper(screen.place.name))}</h1></header>
