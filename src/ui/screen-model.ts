@@ -231,7 +231,7 @@ export class ScreenModel {
       rations: world.module.measures.some(m => m.name === 'quantity') ? world.number(ModuleWriter.call('quantity', actor, 'rations')) : 0,
       hungry: world.module.relations.some(r => r.name === 'hungry') && world.test(ModuleWriter.call('hungry', actor)),
       weary: world.relates('weary') && world.test(ModuleWriter.call('weary', actor)),
-      ...(meal ? { nextMeal: FictionalTime.clock(meal) } : {}) };
+      ...(meal ? { nextMeal: FictionalTime.clock(meal), mealAt: meal } : {}) };
   }
   // What gives the company light: a flame, or a light conjured (the cold playtest read "Nothing lit" under its Light).
   static readonly burning: Record<string, string> = { torchlit: 'torch', lamplit: 'lantern', candlelit: 'candle',

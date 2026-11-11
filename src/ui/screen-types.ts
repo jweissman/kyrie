@@ -191,7 +191,9 @@ export interface Screen {
   paying?: string[];
   // Whom and what the company's aims and family name (people, places, ways): met and gone to first (see Stakes).
   aimed?: string[];
+  // mealAt: the watch the next ration is eaten at (a day apart after it), for what a journey would cost of them.
   expedition: { time: string; daylight: string; rations: number; hungry: boolean; weary?: boolean; nextMeal?: string;
+    mealAt?: number;
     // The company's light, where it matters (somewhere unlit, or a light burning): who carries what is lit and how
     // long it has left, and what there is to spare. "Rharash's torch, 40 minutes left · 2 torches to spare".
     light?: string;

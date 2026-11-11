@@ -31,7 +31,7 @@ describe('back in town with what was won', () => {
     expect((await Back.at('region__s1_shop', { rings: true }))[0]).toBe('spoils: Talk to Falkor — sell a cord of grave rings, 7 coin');
   }, 120000);
   it('leads with a lesson the company has earned and can pay for, and not one it cannot', async () => {
-    expect((await Back.at('region__s1_drill', { gold: 80, experience: 60 }))[0]).toBe('means: Talk to Saer — a lesson in Dirty Trick');
+    expect((await Back.at('region__s1_drill', { gold: 80, experience: 60 }))[0]).toBe('means: Talk to Randal — a lesson in Dirty Trick');
     expect((await Back.at('region__s1_drill', { gold: 5, experience: 60 })).some(a => a.startsWith('means'))).toBe(false);
   }, 180000);
   // Told where something is, the company is led toward it: an aim names a work's rooms, not the place it is set out

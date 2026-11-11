@@ -125,8 +125,20 @@ export class MapView {
     const [day, time] = FictionalTime.at(screen.elapsed, minutes).split(', '), today = FictionalTime.at(screen.elapsed).split(', ')[0];
     const dark = Marks.journey(screen.elapsed, minutes) ? ', after dark' : '';
     const said = `${time}${day === today ? '' : ` on ${day!.toLowerCase()}`}${dark}`;
-    return `You would come there about ${said.replace(/\.$/, '')}.`;
+    return [`You would come there about ${said.replace(/\.$/, '')}.`, MapView.provision(screen, minutes)]
+      .filter(Boolean).join(' ');
   }
+  // What the way would cost of the company's food and rest, as the rules have it: a ration at each mealtime it
+  // passes (a day apart), and going on weary (the owner's play of 10 November: travel said nothing of either).
+  static provision(screen: Screen, minutes: number): string {
+    const e = screen.expedition, arrive = screen.elapsed + minutes / FictionalTime.minutesPerTick;
+    const meals = e.mealAt === undefined || arrive < e.mealAt ? 0 : 1 + Math.floor((arrive - e.mealAt) / MapView.day);
+    const eat = !meals ? '' : e.rations >= meals
+      ? `You would eat ${meals === 1 ? 'a ration' : `${meals} rations`} on the way, of the ${e.rations} you carry.`
+      : `You would need ${meals === 1 ? 'a ration' : `${meals} rations`} on the way, and carry ${e.rations || 'none'}: you would go hungry.`;
+    return [eat, e.weary ? 'You are weary, and would go on without sleep.' : ''].filter(Boolean).join(' ');
+  }
+  static readonly day = 144;
   // Whether a place chosen is only heard of, its country not yet seen.
   private static heard(screen: Screen, chosen: string): boolean {
     return screen.region?.land?.marks.some(m => m.id === chosen && m.state === 'heard') ?? false;
@@ -190,10 +202,17 @@ export class MapView {
     // A place the page plans no way to is not set out for (a journey that knows no way leaves nothing to go on with),
     // unless its hex is country the company can see: then across it, to the place's hex (a barrow heard of, beside
     // the wood the company stands in, had been "no way there yet": Mission 19's play).
-    const go: Choice | undefined = d ? MenuModel.journey(d) : here ? undefined : MapView.step(screen, id, cell)
+    const go: Choice | undefined = d ? MapView.leaving(screen, MenuModel.journey(d)) : here ? undefined : MapView.step(screen, id, cell)
       ?? (mark ? MapView.across(land, land.known.includes(mark.cell) ? mark.cell : undefined, name)
         : MapView.across(land, cell, name));
     return { cell, name, d, here, go };
+  }
+  // Set out from inside a town or a site, the map says the company leaves where it is: consulted from a room of a
+  // town, the map had set out from it as if from the open road (the owner's play of 10 November).
+  static leaving(screen: Screen, go: Choice): Choice {
+    const inside = screen.place.kind === 'room' && screen.path.some(p => ['settlement', 'site'].includes(p.kind));
+    return inside ? { ...go, label: `Leave ${screen.place.name} and ${go.label.charAt(0).toLowerCase()}${go.label.slice(1)}` }
+      : go;
   }
   // A way from where the company stands into the hex chosen, or to the place chosen, which the page leaves to the
   // map (see Passages.crosses): every such way is the map's to take, so none is lost with the page's (the owner, 9
