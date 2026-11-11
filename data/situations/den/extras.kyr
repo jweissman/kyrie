@@ -1,0 +1,59 @@
+Module den "A den in the wild" {
+  // What else a den holds besides the beasts and the coin they dragged in: drawn for each den (templates.json,
+  // tables.json: denLair, denFindCommon, denFindFine, denMarvel). Everything here lies in "Nowhere" until Deem puts it
+  // in the den, so a den holds one or two of these things, not all, and a different one each time.
+  Place gone "Nowhere" is room.
+  Relation lairkind(group, entity). Relation marvelled(group, entity).
+  Relation drank(group). Relation deciphered(group). Relation gathered(group).
+  Entity l_none: fact "". Entity l_lead: fact "".
+  Entity m_none: fact "". Entity m_spring: fact "". Entity m_script: fact "". Entity m_moss: fact "".
+
+  // The one the others follow. Deem puts it in the den or leaves it nowhere; where it is, smoke will not move the pack.
+  Person leader "the leader" at gone { Role "the one the rest follow". Creature terrain any. }
+  Observe leader_seen near leader when at(leader, den) and not dead(leader) "One of them stands apart from the rest, larger and stiller, and does not look at you so much as at what you carry. The others keep an eye on it before they move.".
+
+  // What lies about: one thing the beasts or the outlaws dragged home, sometimes a better one.
+  Item find_broken_dagger "a dagger snapped at the hilt" is broken_dagger at gone.
+  Item find_cloth_pouch "a gnawed pouch" is cloth_pouch at gone.
+  Item find_tattered_map "a map chewed to lace" is tattered_map at gone.
+  Item find_bronze_bracelet "a bronze bracelet, bent" is bronze_bracelet at gone.
+  Item find_faded_tome "a swollen book" is faded_tome at gone.
+  Item find_dagger "a traveller's dagger" is dagger at gone.
+  Item find_lantern "a lantern with the glass gone" is lantern at gone.
+  Item find_oil_flask "a flask of lamp-oil" is oil_flask at gone.
+  Item find_agate "a banded stone" is agate at gone.
+  Item find_carnelian "a red stone" is carnelian at gone.
+  Item find_minor_healing_potion "a small stoppered phial" is minor_healing_potion at gone.
+  Item find_healing_potion "a stoppered flask, still full" is healing_potion at gone.
+  Item find_scroll_of_cure_disease "a scroll in an oiled case" is scroll_of_cure_disease at gone.
+  Item find_wand_of_magic_missile "a short wand, bound at the grip" is wand_of_magic_missile at gone.
+
+  // A marvel of the place.
+  Observe marvel_spring at den when marvelled(beasts, m_spring) "Water comes out of the back wall of {den} warm, and runs down a channel worn in the rock to a basin no larger than a bucket. The air round it smells of iron and, faintly, of eggs.".
+  Action drink_spring(actor: group, spot: place) "Bathe the hurt in the warm water of {den}, and drink" {
+    Requires able(actor) and at(actor, spot) and at(actor, den) and marvelled(beasts, m_spring) and not drank(actor)
+      and (dead(beasts) or driven(beasts) or laid(beasts)).
+    Time 40 minutes.
+    On success { Assert drank(actor). Restore party. }
+    Result "The water is warmer than blood and tastes of coins. You sit in the channel with your boots off and your sleeves up for the better part of an hour, and when you stand, the aches have gone where they were put.".
+  }
+  Observe marvel_script at den when marvelled(beasts, m_script) "On the inner wall, high enough to be out of reach of a dog on its hind legs, the rock is cut with small deliberate marks in rows: a hand, not a claw, and a patient one.".
+  Action read_script(actor: group, spot: place) "Read the marks cut in the wall of {den}" {
+    Requires able(actor) and at(actor, spot) and at(actor, den) and marvelled(beasts, m_script) and not deciphered(actor)
+      and (dead(beasts) or driven(beasts) or laid(beasts)).
+    Time 30 minutes.
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert deciphered(actor). Increase quantity(actor, gold) by 12. }
+    On failure { Assert deciphered(actor). }
+    Result "A hermit lived here, and counted his days on the wall; and on the last row, in a hand that has begun to shake, he writes where he put what he had saved. Behind a flat stone at the foot of the wall: twelve coin in a twist of leather, and a line that says only that he hopes they will do someone good.".
+    Otherwise "You trace the rows for an hour and they stay rows: tallies, you think, or prayers, and the same few signs again and again. Whoever cut them is long past minding that you could not read them.".
+  }
+  Observe marvel_moss at den when marvelled(beasts, m_moss) "A bed of pale moss covers the back of {den} from the floor to the height of a man, and gives off a green light you only see once your eyes have stopped looking for another.".
+  Action gather_moss(actor: group, spot: place) "Cut the lamp-moss from the wall of {den}, and bind it for the road" {
+    Requires able(actor) and at(actor, spot) and at(actor, den) and marvelled(beasts, m_moss) and not gathered(actor)
+      and (dead(beasts) or driven(beasts) or laid(beasts)).
+    Time 20 minutes.
+    On success { Assert gathered(actor). Give 2 torch to actor. }
+    Result "It cuts like wet felt, and each handful glows greener as you bind it to a stick. Two torches of it, which burn as torches do, but with a green flame that gives the light a cold edge.".
+  }
+}

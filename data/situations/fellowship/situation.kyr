@@ -1,0 +1,196 @@
+Module fellowship "The fellowship and its halls" {
+  Description "A fellowship keeps a hall in each of four towns, and its head sits in one of them. Once a quarter every hall sends its mark and its dues to the head. This quarter one has not, and nobody will say why.".
+  Entity party: group "Your company".
+  Place town_a "The seat's town" is settlement. Place town_b "The second town" is settlement.
+  Place town_c "The third town" is settlement. Place town_d "The fourth town" is settlement.
+  Place green_a "The seat's green" is room. Place green_b "The second town's green" is room.
+  Place green_c "The third town's green" is room. Place green_d "The fourth town's green" is room.
+  Place hall_a "The hall" is room within town_a at 3, 1. Place hall_b "The hall" is room within town_b at 3, 1.
+  Place hall_c "The hall" is room within town_c at 3, 1. Place hall_d "The hall" is room within town_d at 3, 1.
+  Place gone "Nowhere" is room.
+  Passage door_a "the hall's door" is door between green_a and hall_a. Passage door_b "the hall's door" is door between green_b and hall_b.
+  Passage door_c "the hall's door" is door between green_c and hall_c. Passage door_d "the hall's door" is door between green_d and hall_d.
+
+  // What the country makes it: a guild, a garrison or a chapter. The nouns are drawn with the kind (labels), so that
+  // one telling serves all three; what differs in play is the kind's cause (tables.json) and who is where (the facts).
+  Entity order: fact "the fellowship". Entity brethren: fact "the brethren". Entity chief: fact "the head".
+  Entity guild: fact "". Entity garrison: fact "". Entity chapter: fact "".
+  Entity c_proud: fact "". Entity c_sold: fact "". Entity c_lapsed: fact "". Entity c_fallen: fact "".
+  Relation styled(entity, entity). Relation lapse(group, entity). Relation buyer(group).
+  Measure tally_price(entity).
+  Relation charged(group). Relation leafed(group). Relation asked(group). Relation answered(group).
+  Relation mended(entity). Relation hinted(group). Relation tended(group).
+
+  Kind summons_kind "the head's summons" is document described "A sheet folded in three and sealed with the fellowship's mark. It bids a keeper answer the roll.".
+  Kind token_kind "a hall-token" is treasure worth 0 weighing 0 described "A flat disc of horn, notched along one edge. Every hall holds one notch of the pattern, and the warden keeps the template.".
+  Kind tally_kind "the hall's split tally" is treasure worth 0 weighing 0 described "A hazel rod split down its length. One half stays with the hall, the other with the head, and the notches cut across both are the quarter's dues.".
+
+  Entity rumour: fact "The head of {order} has had no word from one of its halls since the quarter-day, and has sent no one, for want of anyone who can be spared.".
+  Initially Assert established(rumour).
+
+  // ---- The head, at the seat.
+  Person head "The head" at hall_a { Role "the head of the fellowship". Peaceable. }
+  Observe seat_hall at hall_a when true "A long low room with a table down the middle and benches either side. On the end wall hangs the roll: {brethren} in four columns, one to a hall, each column in its keeper's hand and each hand different. The table has been cleared at one end and a single sheet squared up on it.".
+  Observe seat_roll at hall_a as feature when true "Three columns of the roll are ticked to the quarter-day in a thin brown ink. The fourth is ticked as far as the last quarter, and after that there is only the white of the wall.".
+  Topic head_what with head "Ask {head} what is wrong with the roll" when true once {
+    Says "'Every quarter-day each hall sends its mark and its dues by whoever is going that way,' says {head}. 'This quarter one has sent neither, and nobody has sent word why. I cannot leave the seat; if I do, the other three will think the roll is in doubt.' {head} puts a finger on the sheet. 'I have written a summons. It wants carrying, and it wants someone who will hear the answer and not only deliver it.'".
+    On discuss { Assert charged(party). }
+  }
+  Event told_b near head when whichasked(party) and (at(keeper, hall_b) or at(heir, hall_b)) and not hushtold(party) "{head} gives the name without looking up from the roll: {town_b}." then { Assert hushtold(party). }
+  Event told_c near head when whichasked(party) and (at(keeper, hall_c) or at(heir, hall_c)) and not hushtold(party) "{head} gives the name without looking up from the roll: {town_c}." then { Assert hushtold(party). }
+  Event told_d near head when whichasked(party) and (at(keeper, hall_d) or at(heir, hall_d)) and not hushtold(party) "{head} gives the name without looking up from the roll: {town_d}." then { Assert hushtold(party). }
+  Relation hushtold(group). Relation whichasked(group).
+  Topic head_which with head "Ask {head} which hall has gone quiet" when charged(actor) once {
+    Says "'It has always been the steadiest of the four,' says {head}, and then, as if it were the worse part: 'That is what troubles me.'".
+    On discuss { Assert whichasked(actor). }
+  }
+  Topic head_summons with head "Take {head}'s summons" when charged(actor) and hushtold(actor) once {
+    Says "{head} hands over the sheet. 'It says nothing a keeper could object to. What it will not do is make anyone answer. If it does not serve, the roll has other leaves, and the others of the fellowship hold keys I do not.'".
+    On discuss { Give summons_kind to actor. }
+  }
+  Action read_leaf(actor: group, site: place) "Study the head's copy of the roll's last leaf" {
+    Requires able(actor) and at(actor, site) and at(head, site) and charged(actor) and not leafed(actor).
+    Time 30 minutes.
+    Resolve check(actor, lore, dc_hard).
+    On success { Assert leafed(actor). Assert hinted(actor). Assert asked(actor). Assert knows(actor, page_known). }
+    On failure { Assert leafed(actor). }
+    Result "You read the leaf twice, and then once more with the light behind it. The column ends where the head says, and then you see what the head has not: the hall's own page was copied here, in a smaller hand, and has been misread. {page_text}".
+    Otherwise "You read the leaf until the light goes yellow, and it will not tell you more than the head has.".
+  }
+
+  // ---- The three offices, held in three halls. Which is where is drawn for each country.
+  Person treasurer "The treasurer" at hall_b { Role "the treasurer of the fellowship". Peaceable. }
+  Person recorder "The recorder" at hall_c { Role "the recorder of the fellowship". Peaceable. }
+  Person warden "The warden" at hall_d { Role "the warden of the fellowship". Peaceable. }
+  Observe officers_hall at hall_b when true "A narrower room than the seat's, and warmer: a stove, a shelf of the hall's cups, a copy of the roll pinned crooked beside the door.".
+  Observe officers_hall_c at hall_c when true "A room with one long window and a great many bound papers. The roll hangs where the light falls on it, and someone has been at its corners with a knife to stop them curling.".
+  Observe officers_hall_d at hall_d when true "The hall is mostly one wall of pegs and a bench under it. Nothing hangs on the pegs but a ring of keys, and a roll nobody has leaned a hand on in years.".
+  Topic treasurer_road with treasurer "Ask {treasurer} what the road is worth" when charged(actor) once {
+    Says "{treasurer} opens a chest that is mostly ledgers and takes out a purse. 'The fellowship does not send its people on its business for nothing. Here.' Eight coin go into your hand. 'For the road, and not for the ale.'".
+    On discuss { Increase quantity(actor, gold) by 8. }
+  }
+  Topic treasurer_buy with treasurer "Ask {treasurer} to stand the price of a tally" when knows(actor, bought_known) and quantity(actor, gold) < tally_price(order) once {
+    Says "{treasurer} reads the sum you name and sets his mouth. 'It is an old fellowship rule that the dues of a hall are the hall's own risk. But a tally on a stranger's shelf is the fellowship's.' The purse comes out again, and is lighter by the sum.".
+    On discuss { Increase quantity(actor, gold) by tally_price(order). }
+  }
+  Topic recorder_turn with recorder "Ask {recorder} to turn up the silent hall's page in the roll" when charged(actor) and not asked(actor) once {
+    Says "{recorder} takes down a bound leaf with a calfskin back and opens it on the nearest flat surface. It is the silent hall's own page, and it is not the page it ought to be. {page_text}".
+    On discuss { Assert asked(actor). Assert hinted(actor). Assert knows(actor, page_known). }
+  }
+  Topic warden_token with warden "Ask {warden} for a hall-token" when charged(actor) once {
+    Says "{warden} unhooks the ring of keys from the wall and does not use any of them. From a pocket comes a notched disc of horn. 'Show it at any hall and they must at least let you in at the door. What they do after that is their own affair.'".
+    On discuss { Give token_kind to actor. }
+  }
+
+  // ---- The silent hall: its keeper, and what has happened to it.
+  Person keeper "The keeper" at hall_b { Role "the keeper of the silent hall". Peaceable. }
+  Person heir "The apprentice" at gone { Role "the old keeper's apprentice". Peaceable. }
+  Observe keeper_proud near keeper when lapse(keeper, c_proud) "The keeper sits at the head of the table with the hall's roll shut in front of them, one hand flat on the cover, and does not rise. The hall is neat. It looks like a place where a decision has been made.".
+  Observe keeper_sold near keeper when lapse(keeper, c_sold) "The keeper is mending a harness that does not need mending. On the wall behind them, where the tally should hang, there is a pale hazel-coloured rod's length of clean plaster and two pegs, and the keeper has put a chair in front of it.".
+  Observe keeper_fallen near keeper when lapse(keeper, c_fallen) "The keeper lies on a pallet by a cold hearth with a leg bound up in a rag gone dark at the knee. Someone has put a cup of water within reach, and the cup has been there some while.".
+  Observe heir_lapsed near heir when lapse(keeper, c_lapsed) "The hall is cold. There is dust on the benches, except at one end of the table, where someone has been sitting: an apprentice, very young for what they are doing, with the hall's cashbox open and sums on a slate that will not come out.".
+  Topic keeper_why with keeper "Ask {keeper} why the hall has not answered the roll" when lapse(keeper, c_proud) once {
+    Says "'Because I decided it had no need to,' says {keeper}. 'We have held this hall thirty years. We pay our share, and the share is spent on a seat that sends us a clerk with a sealed letter. If the head wants to know why, the head can come and sit where I sit.'".
+  }
+  Topic keeper_who with keeper "Ask {keeper} who has the hall's tally" when lapse(keeper, c_sold) once {
+    Says "{keeper} looks at the plaster behind the chair. 'I was a quarter behind,' says {keeper}. 'I did not want to tell the head. A factor came through who buys a thing outright and asks nothing, and I thought I would have it back before the quarter-day.' The hands go slack on the harness. 'I did not have it back.'".
+    On discuss { Assert asked(actor). Assert hinted(actor). }
+  }
+  Entity bought_known: fact "The hall's tally was sold to a factor, and is in some shop on the roads between the halls.".
+  Rule bought_told when lapse(keeper, c_sold) and asked(party) and not knows(party, bought_known) says "Whoever the factor was, they did not stay to be asked. A stranger's coin has changed hands for a rod of hazel, and the shopkeepers of four towns have seen a good many strangers." teaches bought_known { }
+  Topic heir_what with heir "Ask {heir} what became of the keeper" when lapse(keeper, c_lapsed) once {
+    Says "'They died in the winter,' says {heir}. 'There was nobody to send word. I do not know the form. I have been paying what I could out of the box and I do not know whether it is the hall's to pay.' The slate has a column of figures, and at the bottom of it, underlined twice, the word: ought.".
+  }
+  Topic heir_show with heir "Show {heir} the page in the roll" when knows(actor, page_known) and lapse(keeper, c_lapsed) once {
+    Says "{heir} reads one line and then looks up as if the table had spoken. 'Entered,' says {heir}. 'It was entered. I thought it had only been said.' A rod of hazel comes down off its peg, split along its length, and is put into your hand. 'Take it to the head. Tell them the hall has a keeper, if they will have one so young.'".
+    On discuss { Give tally_kind to actor. Assert answered(actor). }
+  }
+  Action press_keeper(actor: group, site: place) "Put the summons to {keeper}, and do not leave the room until it is answered" {
+    Requires able(actor) and at(actor, site) and at(keeper, site) and lapse(keeper, c_proud) and holding(actor, summons_kind) and not holding(actor, token_kind) and not answered(actor).
+    Time 20 minutes.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert answered(actor). Give tally_kind to actor. }
+    Result "{keeper} reads the summons to the end, which takes some time, and then puts it down. 'Tell the head it is the same hall it ever was,' says {keeper}, and hands you the rod: one half of a hazel tally, to be carried back with the hall's answer.".
+    Otherwise "{keeper} listens with the courtesy of someone who has already decided, and says that the summons has been read. That is all it says.".
+  }
+  Action press_keeper_token(actor: group, site: place) "Lay the hall-token on the table beside the summons" {
+    Requires able(actor) and at(actor, site) and at(keeper, site) and lapse(keeper, c_proud) and holding(actor, summons_kind) and holding(actor, token_kind) and not answered(actor).
+    Time 20 minutes.
+    Resolve check(actor, persuasion, dc_easy).
+    On success { Assert answered(actor). Give tally_kind to actor. }
+    Result "The horn disc sits on the table next to the sheet, and {keeper} looks at it a long moment, because it is the only thing in the room that cannot be argued with. 'Very well,' says {keeper}. 'Take it. It was always theirs to ask for.' The half-tally is put into your hand.".
+    Otherwise "{keeper} turns the disc over once, and puts it back in front of you. 'It means I may not bar the door,' says {keeper}. 'It does not mean I must be moved.'".
+  }
+  Action tend_keeper(actor: group, site: place) "Clean and bind the keeper's leg with what the woods give" {
+    Requires able(actor) and at(actor, site) and at(keeper, site) and lapse(keeper, c_fallen) and capable(actor, woodcraft) and not tended(actor).
+    Time 60 minutes.
+    On success { Assert tended(actor). Assert answered(actor). Give tally_kind to actor. }
+    Result "It takes the best part of an hour, and the keeper does not make a sound until the end of it. 'There was a fall on the stair,' says {keeper}, 'and nobody to send, and I would not be the keeper who sent the dues late.' The tally comes out from under the pallet, wrapped in a shirt, and is put into your hand.".
+  }
+  Action tend_keeper_sit(actor: group, site: place) "Sit up with the keeper through the night, with water and clean cloth" {
+    Requires able(actor) and at(actor, site) and at(keeper, site) and lapse(keeper, c_fallen) and not tended(actor).
+    Time 480 minutes.
+    On success { Assert tended(actor). Assert answered(actor). Give tally_kind to actor. }
+    Result "You do what can be done, which is little: water, a clean cloth, the leg straightened and bound, someone awake to hear the breathing change. By morning it has. 'There was a fall on the stair,' says {keeper}, 'and nobody to send, and I would not be the keeper who sent the dues late.' The tally comes out from under the pallet, wrapped in a shirt, and is put into your hand.".
+  }
+  Action tend_keeper_draught(actor: group, site: place) "Give the keeper a draught for the fever" {
+    Requires able(actor) and at(actor, site) and at(keeper, site) and lapse(keeper, c_fallen) and holding(actor, minor_healing_potion) and not tended(actor).
+    Time 10 minutes.
+    On success { Spend minor_healing_potion from actor. Assert tended(actor). Assert answered(actor). Give tally_kind to actor. }
+    Result "The colour comes back into the keeper's face while you watch. 'There was a fall on the stair,' says {keeper}, 'and nobody to send.' The tally comes out from under the pallet, wrapped in a shirt, and is put into your hand.".
+  }
+
+  // ---- A tally on a stranger's shelf: one of four shops, drawn for each country.
+  Entity merchant_a: group "Someone". Entity merchant_b: group "Someone". Entity merchant_c: group "Someone". Entity merchant_d: group "Someone".
+  Relation sought(group).
+  Entity page_known: fact "The roll says what became of the silent hall.". Entity page_text: fact "the page". Entity reply_a: fact "". Entity reply_b: fact "". Entity reply_c: fact "". Entity reply_d: fact "".
+  Topic seek_a with merchant_a "Ask {merchant_a} whether a split hazel tally has come into the shop" when knows(actor, bought_known) once {
+    Says "{reply_a}".
+    On discuss { Assert sought(merchant_a). }
+  }
+  Topic seek_b with merchant_b "Ask {merchant_b} whether a split hazel tally has come into the shop" when knows(actor, bought_known) once {
+    Says "{reply_b}".
+    On discuss { Assert sought(merchant_b). }
+  }
+  Topic seek_c with merchant_c "Ask {merchant_c} whether a split hazel tally has come into the shop" when knows(actor, bought_known) once {
+    Says "{reply_c}".
+    On discuss { Assert sought(merchant_c). }
+  }
+  Topic seek_d with merchant_d "Ask {merchant_d} whether a split hazel tally has come into the shop" when knows(actor, bought_known) once {
+    Says "{reply_d}".
+    On discuss { Assert sought(merchant_d). }
+  }
+  Action redeem_a(actor: group, site: place) "Pay {merchant_a} for the tally" {
+    Requires able(actor) and at(actor, site) and at(merchant_a, site) and buyer(merchant_a) and sought(merchant_a) and quantity(actor, gold) >= tally_price(order) and not answered(actor).
+    Time 5 minutes.
+    On success { Decrease quantity(actor, gold) by tally_price(order). Assert answered(actor). Give tally_kind to actor. }
+    Result "The coin is counted out and counted back, and the rod comes across the counter wrapped in a scrap of sacking.".
+  }
+  Action redeem_b(actor: group, site: place) "Pay {merchant_b} for the tally" {
+    Requires able(actor) and at(actor, site) and at(merchant_b, site) and buyer(merchant_b) and sought(merchant_b) and quantity(actor, gold) >= tally_price(order) and not answered(actor).
+    Time 5 minutes.
+    On success { Decrease quantity(actor, gold) by tally_price(order). Assert answered(actor). Give tally_kind to actor. }
+    Result "The coin is counted out and counted back, and the rod comes across the counter wrapped in a scrap of sacking.".
+  }
+  Action redeem_c(actor: group, site: place) "Pay {merchant_c} for the tally" {
+    Requires able(actor) and at(actor, site) and at(merchant_c, site) and buyer(merchant_c) and sought(merchant_c) and quantity(actor, gold) >= tally_price(order) and not answered(actor).
+    Time 5 minutes.
+    On success { Decrease quantity(actor, gold) by tally_price(order). Assert answered(actor). Give tally_kind to actor. }
+    Result "The coin is counted out and counted back, and the rod comes across the counter wrapped in a scrap of sacking.".
+  }
+  Action redeem_d(actor: group, site: place) "Pay {merchant_d} for the tally" {
+    Requires able(actor) and at(actor, site) and at(merchant_d, site) and buyer(merchant_d) and sought(merchant_d) and quantity(actor, gold) >= tally_price(order) and not answered(actor).
+    Time 5 minutes.
+    On success { Decrease quantity(actor, gold) by tally_price(order). Assert answered(actor). Give tally_kind to actor. }
+    Result "The coin is counted out and counted back, and the rod comes across the counter wrapped in a scrap of sacking.".
+  }
+
+  // ---- Home again: the half-tally is laid against the head's half, and the roll is whole.
+  Topic head_report with head "Give {head} the hall's half of the tally" when holding(actor, tally_kind) once {
+    Says "{head} lays the rod against the other half on the table and the notches run across the join without a break. 'So,' says {head}. 'Whatever else it is, it is a hall again.' A purse comes out of the table's drawer, and a line goes into the roll in the fourth column, and for the first time that day {head} sits down.".
+    On discuss { Assert mended(order). Increase quantity(actor, gold) by 24. Spend tally_kind from actor. }
+  }
+  Observe seat_mended at hall_a when mended(order) "The fourth column of the roll is ticked in the head's thin brown ink, all the way to the foot, and the sheet that was squared up on the table has gone.".
+  Objective carry when knows(party, rumour) and not mended(order) "{order} has a hall that will not answer the roll.".
+  Goal mended(order).
+}

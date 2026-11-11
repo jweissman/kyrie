@@ -370,3 +370,58 @@ Numbered after R46. The integrator renumbers if a sibling branch also continued 
 - **R56. The Leavers' Market (Half the Hive).** Crispin Polglaze's rows are "chests, chairs, a cradle, a loom in pieces". A table of household goods, each with an owner family and a price, drawn per world, gives the Drewes' table company and lets the Chandlers' Company buy different lives each time.
 - **R57. A first-region tie that points in.** `ties.kyrt` shapes tell what a town wants of its nearest site. A shape `traveller` whose text is the `far` line of the next country the world holds (and that flips on `stale`, as `after` already does) would let every first-region town carry one named rumour of a province without touching `countries.json`. Today the six provinces' rumours are the same sentence for every innkeeper.
 - **R58. A template that invokes Kyr.** A Kyr template section `--- almanack` that takes a hole `{route}` (the Cattermole route above) and writes both the `Discovery` and the `Topic` from one place would end the ten hand-written copies.
+
+### Deem variation (`adventure/p2-deem`, 11 November)
+
+*Numbered R47… to follow R46. Each was met while making the fellowship (`data/scenarios/fellowship.scenario.json`, `data/situations/fellowship/`) and the richer den (`data/situations/den/`); each has a worked-round form in the data now, and the analysis, the table of what a template can and cannot do, and sample draws are in [deem-variation.md](deem-variation.md). Estimates are lines of TypeScript, plus the spec.*
+
+### R47. Two instances of one scenario draw identically
+
+*Problem.* `WorldAssembler.requests` builds each module's `BundleRequest` without `randomIdentity`, and `ModuleBundle.load` seeds a module's Deem as `RandomStreams.key(seed, 'module', <the module's own id>, request.randomIdentity ?? '')` (`module-bundle.ts:317`). The second den (`den2`) and the first draw the same hoard, lair, marvel and finds; only the site's ecology (which is drawn per site) can tell them apart.
+*Reproduce.* `LIB=<a library holding only den.scenario.json> bun <script> a1` (assemble with `scenarios: 2`, read each den's `lairkind`, `marvelled` and `at(find_…)`): a1 `w9` and `w10`, e5 `w10` and `w11`, k11 `w9` and `w10` hold the same lair, marvel and finds in all twelve seeds tried (see the doc's table).
+*Request.* `randomIdentity: placement.instance` for an instance after the first (so that every existing first instance keeps its draws). `src/world/world-assembler.ts` (`requests`), nothing else. About 3 lines and a spec that two dens differ. The second instance of every scenario in every country will then draw anew; no kept trace of a first instance moves.
+
+### R48. A scenario's modules are told the folk and town name of one of its towns only
+
+*Problem.* `WorldAssembler.folk` gives a module `folk` and `townName` for the first settlement, in the region's order, that any of the placement's bindings names. A scenario with halls in four towns of different peoples casts every person of the fellowship as the people of the first, and cannot name the other towns in a Deem draw. In `a1` the halls are at Lowmouth (human), Mistshaw (halfling), Millholm (halfling) and Sedgebrook (lizardfolk), and all six people are human (`context folk given to the module: {"folk":"human","townName":"Lowmouth"…}`).
+*Reproduce.* `bun <facts script> a1` against `data/scenarios/fellowship.scenario.json`: towns' folk differ, `WorldAssembler.folk(placement, region)` gives one.
+*Request.* `folk_<role>` and `townName_<role>` for every settlement role of the placement (`folk_b`, `townName_c`). `src/world/world-assembler.ts` (`folk`). About 8 lines and a spec. It would also let the head name the silent hall's town from a drawn label rather than by an `Event` per town (R54).
+
+### R49. A hook is told in two towns and no others
+
+*Problem.* A hook's tellers are the nearest settlement to the scenario's first place and the first road out of it (`ScenarioWord.of`), whatever the scenario's other roles are. An institution with a hall in each of four towns is talked of at its seat and one neighbour, and not at the hall that is silent. (`hook fellowship.rumour: told by s1_…, s4_…`, and the contact `s2_merchant`; towns `c` and `d` never hear.) The same limit as R31, with the same remedy for a different reason.
+*Request.* A hook field `"from": ["a", "c"]` (roles), adding those settlements' carriers. `src/world/scenario-word.ts` (`of`, where `towns` is built) and the `ScenarioManifest` hook type in `src/world/world-assembler.ts`. About 12 lines and a spec.
+
+### R50. A scenario cannot have a member in the next country
+
+*Problem.* `WorldAssembler.settle` is run once for each country, with the placements of that country only (`links` and `along:` reach nothing outside it), and a country beyond a march is drawn when the company first crosses (`Frontier`/`WorldAssembler.beyond`), with the scenarios already placed excluded (`exclude`). A fellowship "across the world" (a chapter whose mother house is a march away) cannot be written; the only thing that goes ahead of a country is a herald, which `Countries.heralds` reads for authored countries on the first ring only.
+*Request.* Generalize the herald: a manifest field `"sends": [{ "side": "west", "scenario": "fellowship-hall" }]` which the first country's `settle` records on the placement, and which `Frontier` installs as a module of the country on that side when it is drawn, importing the exports the placement names (as `Frontier.herald` does for authored countries today). `src/world/world-assembler.ts` (manifest type, `place`), `src/world/frontier.ts` (`herald`), `src/world/countries.ts` (`heralds`). About 120 lines and two specs; the largest of these.
+*Reproduce.* There is no manifest field to try: read `settle`'s signature (`exclude`, no foreign placements) and `Frontier.herald`.
+
+### R51. A Deem template cannot invoke a Kyr template (a `.kyrt`)
+
+*Problem.* `generation.templates` is parsed as JSON; a `.kyrt` (`data/generation/town/*.kyrt`, `works/`, `wild/`) is read only by TypeScript (`KyrTemplates.parse/choose/fill`, in `src/world/region-*.ts`). So a Deem draw can choose among authored Kyr already in the module (it does, by facts and by `at`) but cannot pull in a section that is not there: an institution's hall with a different set of rooms, topics and actions per kind needs three hundred lines of Kyr all present and all but a third dormant.
+*Reproduce.* `"generation": { "templates": "x.kyrt" }` → `JSON Parse error: Unrecognized token '#'`.
+*Request.* A generated manifest field `sections`: `[{ "template": "halls.kyrt", "key": "b", "values": { "town": "…" } }]`, which `ModuleBundle.load` (already async, and already holding `source.read`) reads, chooses and fills with `KyrTemplates.choose/fill` and appends to the module's own files before it is parsed. `src/campaign/module-bundle.ts` (`load`, after `generated`), `src/campaign/module-assembly.ts` (`SituationManifest`), `src/world/kyr-template.ts` (no change; `choose` is already pure). About 50 lines and a spec. Kyr invoked from the other side (a Kyr rule calling Deem mid-play) is a different, larger request and is not made: generation is complete before the world runs.
+
+### R52. A manifest's `items` cannot bind any item the author declares
+
+*Problem.* `ModuleAssembly.generatedItems` lets generation decide an item's kind, but an `Item` is declared with `is <kind>`, which asserts `itemKind` itself, and the function refuses an item that has one ("needs a declared item, kind and no duplicate authored binding"). Nothing reaches it; no spec or template uses `items`. A treasure table that names the item (`data/generation/tables/treasure.json` has the tiers) cannot be drawn into a hoard; the den parks every candidate in a room called Nowhere and moves the drawn one by an `at` fact.
+*Reproduce.* `Item prize "a prize" is torch at ga.` with `"items": { "prize": "torch" }` in the template: `Generated item prize needs a declared item, kind and no duplicate authored binding`. (As an `itemKind(prize, torch)` fact instead, the item has two kinds.)
+*Request.* In `generatedItems`, replace the authored kind rather than refuse it. `src/campaign/module-assembly.ts` (`generatedItems`). About 6 lines and a spec.
+
+### R53. A Deem fact cannot name a module's own nested room in a relation of its own
+
+*Problem.* `Relation hushed(entity).` and a template fact `hushed(hall_b)`, where `Place hall_b "The hall" is room within town_b at 3, 1.`, loads as `Invalid argument hall_b in hushed(hall_b)`; the same fact on an own top-level `Place` loads, and `at(treasurer, hall_b)` loads. The relation takes a module's own entity, not a nested one.
+*Reproduce.* Copy `data/situations/fellowship/` and its scenario, add `Relation hushed(entity).` to the copy's `situation.kyr`, `gen(fl_hush)` to the `facts` of its `fellowship` template and `"fl_hush": { "__no_id": true, ">name": "hushed", "args": "=concat('hall_' + #_silent)" }`; assembling `a1` with `library` set to a library of the copy (`WorldAssembler.assemble('a1', source, { library, scenarios: 0, towns: 1 })`) gives the error above (done).
+*Request.* Find why `ModuleCompiler.type` (`src/lang/module-compiler.ts:232`) has no type for the id on this path (the lookup is `this.lookup.types`, built from `module.entities`), and either type it or say so. Unknown size; diagnosis first. Worked round: the fact is on the persons (`at(keeper, hall_b)`).
+
+### R54. A rule's or event's `says` is told before the topic's own text
+
+*Problem.* A topic's answer that depends on a Deem fact has to be a rule or an event with a condition on the fact (Kyr has no way to take the text from the fact; R29). The page tells the rule's line first, then the room's description, then the topic's `Says`: "'It is Mistshaw,' [the hall] Piers says it without looking up". The cure that works is not to use a rule: a Deem label (`{page_text}`) names an entity and the topic's `Says` includes it (§ "Drawn prose by label" of the doc), but a label is one string for the whole country, and cannot hold a town's name until R48. An `Event … then { Assert knows(…) }` is also refused ("a rule teaches what it says").
+*Request.* Tell a rule or event that fires on a topic's effect after that topic's `Says`, or let an event `teach`. Where it lies is for the owner to say (it is in the presentation of a turn, not in `src/lang`). Size unknown.
+
+### R55. A settlement role is always bound
+
+*Problem.* `ScenarioTowns.town` falls back to `region.settlements[0]` and every country has exactly five settlements (40 of 40 seeds drawn), so a scenario cannot have "two to four halls": a role it cannot bind is bound anyway, to a town already used, and a module's `when` on the role never fails. The fellowship's four halls are fixed; the vacancy it needs (a hall with nobody) is a person parked at Nowhere.
+*Request.* A trailing `?` on a settlement need (`"along:c?"`) which leaves the role unbound when no unbound town is left, so that `modules[].when` and Kyr `when` can drop it. `src/world/scenario-towns.ts` (`town`, `along`), `src/world/world-assembler.ts` (`place`). About 10 lines and a spec.

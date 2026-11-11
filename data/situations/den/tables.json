@@ -113,5 +113,180 @@
     "ranger"
    ]
   }
+ },
+ "denLair": {
+  "about": "What else is in the den besides the beasts: a leader the rest follow (the smoke will not move them; rites and blades must), or nothing more.",
+  "discriminator": "family",
+  "groups": {
+   "animal": [
+    "l_none",
+    "l_none",
+    "l_lead"
+   ],
+   "humanoid": [
+    "l_none",
+    "l_lead"
+   ]
+  }
+ },
+ "denFindCommon": {
+  "about": "What the beasts dragged home, or the outlaws took off travellers: one thing lying in the den, each a kind of the catalog (data/situations/den/extras.kyr declares them).",
+  "discriminator": "family",
+  "groups": {
+   "animal": [
+    "broken_dagger",
+    "cloth_pouch",
+    "tattered_map",
+    "bronze_bracelet",
+    "faded_tome",
+    "dagger"
+   ],
+   "humanoid": [
+    "lantern",
+    "dagger",
+    "oil_flask",
+    "bronze_bracelet",
+    "faded_tome",
+    "cloth_pouch"
+   ]
+  }
+ },
+ "denFindFine": {
+  "about": "One time in three, something better: a stone, a draught, a scroll; the finest rarely.",
+  "discriminator": "family",
+  "groups": {
+   "animal": [
+    "agate",
+    "minor_healing_potion",
+    "carnelian",
+    "healing_potion"
+   ],
+   "humanoid": [
+    "carnelian",
+    "minor_healing_potion",
+    "healing_potion",
+    "scroll_of_cure_disease",
+    {
+     "__weight": 1,
+     "__value": "wand_of_magic_missile"
+    }
+   ]
+  }
+ },
+ "denMarvel": {
+  "about": "A marvel in the den, by the country it is in: a warm spring, an old inscription, a bed of lamp-moss; most dens have none.",
+  "discriminator": "terrain",
+  "groups": {
+   "forest": [
+    {
+     "__weight": 4,
+     "__value": "m_none"
+    },
+    "m_moss",
+    "m_script"
+   ],
+   "mountain": [
+    {
+     "__weight": 4,
+     "__value": "m_none"
+    },
+    "m_spring",
+    "m_script"
+   ],
+   "marsh": [
+    {
+     "__weight": 4,
+     "__value": "m_none"
+    },
+    "m_moss",
+    "m_spring"
+   ],
+   "frost": [
+    {
+     "__weight": 4,
+     "__value": "m_none"
+    },
+    "m_spring",
+    "m_script"
+   ],
+   "desert": [
+    {
+     "__weight": 4,
+     "__value": "m_none"
+    },
+    "m_script",
+    "m_spring"
+   ]
+  }
+ },
+ "denLeaderBeast": {
+  "about": "The beasts that can have a pack leader (a variation of the catalog's that fits animals, not the undead or monsters): a den of any other kind has its leader as it has its beasts.",
+  "discriminator": "any",
+  "groups": {
+   "default": [
+    "badger",
+    "bat",
+    "bear",
+    "beetle",
+    "boar",
+    "butterfly",
+    "cat",
+    "hound",
+    "centipede",
+    "cow",
+    "crocodile",
+    "crow",
+    "deer",
+    "dragonfly",
+    "eagle",
+    "eel",
+    "falcon",
+    "ferret",
+    "fox",
+    "frog",
+    "goat",
+    "pike",
+    "hawk",
+    "hedgehog",
+    "hen",
+    "horse",
+    "hummingbird",
+    "hyena",
+    "lion",
+    "lizard",
+    "mole",
+    "moth",
+    "otter",
+    "owl",
+    "panther",
+    "pig",
+    "pony",
+    "pseudodragon",
+    "rabbit",
+    "ram",
+    "rat",
+    "raven",
+    "sheep",
+    "snake",
+    "spider",
+    "squirrel",
+    "stoat",
+    "tiger",
+    "turtle",
+    "wolf",
+    "dog",
+    "grouse",
+    "curlew",
+    "lark",
+    "rhino",
+    "zebra",
+    "elephant",
+    "leopard",
+    "monkey",
+    "dolphin",
+    "whale",
+    "dromedary"
+   ]
+  }
  }
 }
