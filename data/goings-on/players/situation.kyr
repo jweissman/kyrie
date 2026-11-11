@@ -82,6 +82,8 @@ Module players "The players on the green" {
   }
   Kind players_hat "the players' hat" is gear worth 0 weighing 1
     described "A tall black hat with a ribbon round it gone green, heavy with coins at the bottom. Somebody has written GOSSE inside the band.".
+  // Let go of, the hat is in the company's hands, as Lem's giving it says (round 6: "holds it out to you", and no hat
+  // in the pack; it had been left on the ground at the kiln to be picked up).
   Item hat "the players' hat" is players_hat at kiln hidden until hat_loose.
   Discovery hat_loose "Lem Coyle has let go of the players' hat.".
   Topic lem_why with lem "Ask Lem why he took the hat" when not lemSent(lem) and not hatHome(gosse) once {
@@ -92,7 +94,7 @@ Module players "The players on the green" {
     Requires able(actor) and company(actor) and at(actor, site) and at(lem, site) and quantity(actor, gold) >= 4
       and not lemSent(lem) and not hatHome(gosse) and not knows(actor, hat_loose).
     On success { Decrease quantity(actor, gold) by 4. Increase quantity(lem, gold) by 4. Assert lemPaid(lem). Assert lemSent(lem).
-      Assert knows(actor, hat_loose). Assert knows(actor, lem_kept). Retract at(lem, kiln). }
+      Assert knows(actor, hat_loose). Give hat to actor. Assert knows(actor, lem_kept). Retract at(lem, kiln). }
     Result "Lem looks at the four coins in your hand a long time before he takes them. Then he gets up, and dusts off the hat, and holds it out to you with both hands like a deacon with the plate. 'Tell him I'll see the Trial,' he says. 'From the yard, with the fishwives. Tell Patience I said goodbye.' He goes off along the common, west, not looking back.".
   }
   Action talk_lem_back(actor: group, site: place) "Talk Lem into taking his four coin from the hat and giving the rest back" {
@@ -100,7 +102,7 @@ Module players "The players on the green" {
     Requires able(actor) and company(actor) and at(actor, site) and at(lem, site) and not lemSent(lem) and not hatHome(gosse)
       and not knows(actor, hat_loose).
     Resolve check(actor, persuasion, dc_fair).
-    On success { Assert lemSent(lem). Assert knows(actor, hat_loose). Assert knows(actor, lem_kept). Retract at(lem, kiln). }
+    On success { Assert lemSent(lem). Assert knows(actor, hat_loose). Give hat to actor. Assert knows(actor, lem_kept). Retract at(lem, kiln). }
     Result "You tell him what Hepzibah said: that it is written down, that he is owed it, that nobody thinks him a thief who matters. He counts four coins out of the hat into his own pocket, slowly, so you can see it is four. Then he gives you the hat. 'Tell Patience I said goodbye,' he says, and goes off west along the common, toward the march.".
     Otherwise "He holds the hat tighter. 'You're his,' he says. 'You talk like him.'".
   }
@@ -109,7 +111,7 @@ Module players "The players on the green" {
     Requires able(actor) and company(actor) and at(actor, site) and at(lem, site) and not lemSent(lem) and not hatHome(gosse)
       and not knows(actor, hat_loose).
     Resolve check(actor, intimidation, dc_easy).
-    On success { Assert lemSent(lem). Assert knows(actor, hat_loose). Retract at(lem, kiln). }
+    On success { Assert lemSent(lem). Assert knows(actor, hat_loose). Give hat to actor. Retract at(lem, kiln). }
     Result "He does not fight you for it. He lets you take it out of his arms, and gets up, and goes off across the common the other way with his bottle, toward nowhere in particular.".
     Otherwise "He gets his back against the kiln wall and the hat behind him, and you see he would rather be hit than give it up.".
   }
