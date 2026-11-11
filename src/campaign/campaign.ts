@@ -134,7 +134,10 @@ export class Campaign implements WatchHost {
     await CanonInstall.before(this, request, source); const startedAt = this.current.elapsed;
     const draft = await ModuleBundle.load(request, { seed: this.current.seed, elapsed: this.current.elapsed,
       installed: this.definition.installations, people: this.compiled.entities }, source);
-    this.installBoundary();
+    // The catalogs are the process's, and whatever ran while the module was read (another game saving, or reading a
+    // country ahead) may have put its own kinds in them: this campaign's go back, and the module's own with them,
+    // before anyone it brings is made (a game begun after another lost the players' bear: Mission 20).
+    this.installBoundary(); LocalKinds.reclaim(this, this.module.catalog, draft.instance.module.catalog);
     if (this.current.elapsed !== startedAt) { throw new Error('Campaign advanced while loading module; retry installation'); }
     EngineDeclarations.declare(draft);
     const next = ModuleInstallations.prepare({ module: this.module, world: this.current.world, live: this.world,

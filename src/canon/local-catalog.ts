@@ -131,6 +131,10 @@ export class LocalKinds {
   static claim(owner: object, catalog: LocalCatalog | undefined) {
     if (owner !== this.owner) { this.activate(catalog, owner); }
   }
+  // And with a module being installed into it, whose kinds are not yet the campaign's own (see Campaign.install).
+  static reclaim(owner: object, catalog: LocalCatalog | undefined, installing: LocalCatalog | undefined) {
+    this.claim(owner, catalog); this.install(installing);
+  }
   // Two modules' own kinds together, when modules are joined.
   static merge(...catalogs: (LocalCatalog | undefined)[]): { catalog?: LocalCatalog } {
     // Two modules that give one kind two meanings cannot be joined, whatever they are called (the audit, F1: two
