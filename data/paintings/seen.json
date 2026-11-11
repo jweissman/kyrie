@@ -6984,6 +6984,256 @@
    "form": "interior",
    "shows": "a town stable: two horses looking over their stalls, harness and saddles, straw, an arch onto a yard",
    "era": "late"
+  },
+  "scene-ruins": {
+   "form": "landscape",
+   "shows": "a ruined arcade of arches and a broken square tower on a rise over a wide valley, a track winding up past an old oak",
+   "era": "late"
+  },
+  "scene-waterworks": {
+   "form": "interior",
+   "shows": "a vaulted stone waterworks: pipes, a valve-wheel, iron-bound doors, a stair and a bridge over falling water, shafts of light from above",
+   "era": "late"
+  },
+  "scene-crossroads": {
+   "form": "landscape",
+   "shows": "a signpost on a cairn where two tracks fork under an oak, sheep behind a wall, a river valley beyond",
+   "era": "late"
+  },
+  "scene-lone-tower": {
+   "form": "landscape",
+   "shows": "a round crenellated tower and a ruined arch on a heathery hill, a path up to it, a river valley and an oak in the foreground",
+   "era": "late"
+  },
+  "scene-ruins-arcology": {
+   "form": "interior",
+   "shows": "a vast ruined hall of tiers and bridges grown over with ivy, a glazed roof broken open to the sky, a waterfall beyond a balustrade",
+   "era": "late"
+  },
+  "scene-ruins-installation": {
+   "form": "landscape",
+   "shows": "a drowned city of spires and domes under a great curved ring in the sky, broken viaducts over waterfalls, ivy on the foreground slabs",
+   "era": "late"
+  },
+  "scene-parchmentry": {
+   "form": "interior",
+   "shows": "a parchment-maker’s open workshop: a skin stretched on a frame, hides drying, a vat, scrolls on a table and shelves, a sunlit cloister beyond",
+   "era": "late"
+  },
+  "scene-pool": {
+   "form": "landscape",
+   "shows": "a still pool at a villa terrace by night: moon over a distant lit town and a river, a pillar and flowers at the pool's edge",
+   "era": "late"
+  },
+  "scene-chandelry": {
+   "form": "interior",
+   "shows": "a chandler's workshop: dipped candles hanging in bunches, cheese and wax on the counter, a copper pot, shelves of candles and lanterns, a sunlit arcade beyond",
+   "era": "late"
+  },
+  "scene-mint-house": {
+   "form": "interior",
+   "shows": "a mint: a screw-press, a furnace glowing, ingots and coin-blanks on a bench, sacks, a copper cauldron, scales",
+   "era": "late"
+  },
+  "scene-enchanted-grove": {
+   "form": "landscape",
+   "shows": "a birch grove in low gold light, a flat stone ring in a clearing, sunbeams through the leaves",
+   "era": "late"
+  },
+  "scene-glowing-pool": {
+   "form": "landscape",
+   "shows": "a rock pool glowing green from beneath in a ruined grotto, broken columns and steps, ivy, sunbeams through the trees",
+   "era": "late"
+  },
+  "scene-lake": {
+   "form": "landscape",
+   "shows": "a mountain lake at the foot of snow peaks, a wooded shore, an oak in the foreground",
+   "era": "late"
+  },
+  "scene-ruins-starship": {
+   "form": "landscape",
+   "shows": "the rusted hull of an enormous cylindrical vessel half buried in a green valley, a stream, mountains beyond",
+   "era": "late"
+  },
+  "scene-crystallarium": {
+   "form": "interior",
+   "shows": "a crystal-cutter's library: shelves of blue and white crystals, a great crystal on a stone stand, a candle, a map on the table, a domed window",
+   "era": "late"
+  },
+  "scene-shimmering-veil": {
+   "form": "landscape",
+   "shows": "a curtain of shimmering light hung across a rock opening in a wood, a distant glimmering city seen through it",
+   "era": "late"
+  },
+  "scene-infinite-library": {
+   "form": "interior",
+   "shows": "a vaulted library of endless corridors of shelves receding in lamplight, a spiral stair, a reading desk with an open book and a lamp, a carpet",
+   "era": "late"
+  },
+  "scene-campfire": {
+   "form": "landscape",
+   "shows": "a fire under a lean-to of poles and hides on a hillside at night, stars and a milky way, mountains beyond",
+   "era": "late"
+  },
+  "scene-ecumenopolis": {
+   "form": "landscape",
+   "shows": "a vast terraced city of lights and smoke to the horizon seen from a balcony with a curtain, arches and viaducts",
+   "era": "late"
+  },
+  "scene-log-cabin": {
+   "form": "landscape",
+   "shows": "a log cabin with a stone chimney and a woodpile under an oak, a track, hills in a golden evening",
+   "era": "late"
+  },
+  "scene-meadow-lane": {
+   "form": "landscape",
+   "shows": "a grassy lane through a meadow with sheep, a gate, hills and an oak at the left, afternoon light",
+   "era": "late"
+  },
+  "scene-peak": {
+   "form": "landscape",
+   "shows": "a snow-capped alpine peak above pine slopes, a stream tumbling past rocks and an oak in the foreground",
+   "era": "late"
+  },
+  "scene-clockmaker": {
+   "form": "interior",
+   "shows": "a clockmaker's workshop: a grandfather clock, shelves of clocks and instruments, a bench with vice and gears, a lens, a sunlit arcade",
+   "era": "late"
+  },
+  "scene-city-shambles": {
+   "form": "exterior",
+   "shows": "a covered city butchery lane: carcasses hung in an arcade, a chopping block, a fountain, towers beyond",
+   "era": "late"
+  },
+  "scene-tallowhouse": {
+   "form": "interior",
+   "shows": "a tallow-chandler's: a cauldron over a fire, a candle-mould on the table, cheese and wax, hanging cloths, a lamp",
+   "era": "late"
+  },
+  "scene-pass": {
+   "form": "landscape",
+   "shows": "a stony track winding up a mountain pass between two rock slopes, sun on the far side, an oak at the left",
+   "era": "late"
+  },
+  "scene-jungle-falls": {
+   "form": "landscape",
+   "shows": "a waterfall dropping into a pool in dense jungle, vines and ferns, mist in sunbeams",
+   "era": "late"
+  },
+  "scene-celestial-observatory": {
+   "form": "interior",
+   "shows": "an observatory: a great brass telescope on a stair through a round opening to the stars, globes, books, frescoed domed walls, a candle",
+   "era": "late"
+  },
+  "scene-floating-disk": {
+   "form": "interior",
+   "shows": "a vaulted frescoed hall with a stone disc as wide as a table floating a hand above the floor, shafts of light, an armillary at the left",
+   "era": "late"
+  },
+  "scene-fullery": {
+   "form": "interior",
+   "shows": "a fulling mill: a water-wheel and mallets over a stone trough, cloth drying, vats, an arcade",
+   "era": "late"
+  },
+  "scene-river-vale": {
+   "form": "landscape",
+   "shows": "a river vale at sunset with a village and church tower, a footpath and fence in the foreground, an oak at the left",
+   "era": "late"
+  },
+  "scene-farmhouse": {
+   "form": "exterior",
+   "shows": "a stone farmhouse with a pantile roof and vine, a courtyard with a hay-cart, a lantern, white flowers in a pot",
+   "era": "late"
+  },
+  "scene-cartographers-guild": {
+   "form": "interior",
+   "shows": "a cartographers' hall: a great map on a table, a painted world map on the wall, globes, a ladder on rails, tall windows, a lamp",
+   "era": "late"
+  },
+  "scene-toymaker-workshop": {
+   "form": "interior",
+   "shows": "a toymaker's shop: wooden horses, ships, castles and dolls on shelves, a bench with tools, a leaded window",
+   "era": "late"
+  },
+  "scene-celestial-map": {
+   "form": "interior",
+   "shows": "a domed room painted with constellations, an armillary, a globe, a candle, an open book and a quill on a table, an arched window",
+   "era": "late"
+  },
+  "scene-wheat-field": {
+   "form": "landscape",
+   "shows": "a field of ripe wheat under an oak with a hillside farmhouse and cypresses beyond, poppies at the edge",
+   "era": "late"
+  },
+  "scene-tannery": {
+   "form": "interior",
+   "shows": "a tannery workshop: hides hanging, a barrel, a bench with knives and curved blades, leather in rolls, a sunlit window",
+   "era": "late"
+  },
+  "scene-eyrie": {
+   "form": "landscape",
+   "shows": "a cliff ledge with a cave mouth over a misty river valley, a bird of prey in the sky",
+   "era": "late"
+  },
+  "scene-cliffside-villa": {
+   "form": "exterior",
+   "shows": "a villa on a cliff over a waterfall, loggias and balconies, ivy, a river valley and mountains beyond",
+   "era": "late"
+  },
+  "scene-gaming-hall": {
+   "form": "interior",
+   "shows": "a gaming room: a chess table, a backgammon board, a card-table with dice, a hearth with fire, a tapestry, an arcade",
+   "era": "late"
+  },
+  "scene-ruins-installation-bridge": {
+   "form": "landscape",
+   "shows": "a drowned city of domes and arches seen along a broken curved viaduct over waterfalls, ivy, mist and golden clouds",
+   "era": "late"
+  },
+  "scene-cave-falls": {
+   "form": "landscape",
+   "shows": "a cavern with a waterfall from a skylight into a dark pool, a lantern at the left, cavern mouths beyond",
+   "era": "late"
+  },
+  "scene-river-vale-night": {
+   "form": "landscape",
+   "shows": "a river vale at night under a milky way, a lit cottage and a gate in the foreground, hills beyond",
+   "era": "late"
+  },
+  "scene-river-gorge": {
+   "form": "landscape",
+   "shows": "a rocky river gorge with cascades, mossy boulders, cliffs and a snowy peak, an oak at the top left",
+   "era": "late"
+  },
+  "scene-city-neighborhood": {
+   "form": "exterior",
+   "shows": "a city street of timber-framed houses with a tall arch, a shop sign, barrels, towers in the distance",
+   "era": "late"
+  },
+  "scene-glowing-crystal": {
+   "form": "interior",
+   "shows": "a scholar's nook in a cave wall: an armillary, a quill and an open book on a table, a single crystal glowing in the rock, a candle",
+   "era": "late"
+  },
+  "scene-firth": {
+   "form": "landscape",
+   "shows": "a wide tidal firth at sunset, channels of shining water between mudflats, dramatic clouds, a headland, an oak at the left",
+   "era": "late"
+  },
+  "scene-city-market": {
+   "form": "exterior",
+   "shows": "a city market square: awnings with fruit, a fountain with a lion-head basin, statues, an arcaded palazzo, towers beyond",
+   "era": "late"
+  },
+  "scene-city-harbor": {
+   "form": "exterior",
+   "shows": "a city harbour: a ship moored at a quay, bollards and rope, barrels and sacks and chests under arches, towers beyond",
+   "era": "late"
+  },
+  "scene-city-compound": {
+   "form": "exterior",
+   "shows": "a palazzo courtyard with loggias, cypresses, stair and statues, a fountain basin, city towers beyond",
+   "era": "late"
   }
  }
 }
