@@ -1,7 +1,7 @@
+import { Canon } from '../src/canon/canon';
 import { describe, expect, it } from 'bun:test';
 import { Content } from '../src/content';
 import { CreatureSchema } from '../src/creature';
-import { Creation } from '../src/rules/creation';
 import { WorldAssembler } from '../src/world/world-assembler';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlaySession } from '../src/session/play-session';
@@ -15,9 +15,12 @@ import type { CreatureStore } from '../src/creature-store';
 // people and calling add: the cold playtest saw its rolled qualities and could not place them (CMB-03).
 describe('qualities placed at creation', () => {
   const rolled = { strength: 8, dexterity: 17, constitution: 12, intelligence: 9, wisdom: 14, charisma: 11 };
-  it('are the rolls as placed, with what the people and the calling add', () => {
+  // The calling places the dice and adds nothing again (Mission 20's combat diagnostic: counted twice, with the
+  // people's and the trade's, a first-level warrior had come to strength 19 and every first fight was a walkover).
+  const people = Canon.ancestries.human!.attributes as Partial<Record<string, number>>;
+  it('are the rolls as placed, with what the people add', () => {
     const wenna = new Content('placed').createCreature('wenna', { raceId: 'human', classId: 'warrior', rolled });
-    const adds = Creation.chassis('human', 'warrior').attributes;
+    const adds = people;
     expect(CreatureSchema.attributes.map(q => wenna.base[q]))
       .toEqual(CreatureSchema.attributes.map(q => rolled[q] + (adds[q] ?? 0)));
   });
@@ -32,7 +35,7 @@ describe('qualities placed at creation', () => {
       { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior', rolled }] });
     const s = await PlaySession.start(w.path, 'wren', w.source);
     const wenna = s.campaign.readout.creatures.find(c => c.id === s.campaign.state.partyIds[0])!;
-    const adds = Creation.chassis('human', 'warrior').attributes;
+    const adds = people;
     expect([wenna.base.strength, wenna.base.dexterity]).toEqual([rolled.strength + (adds.strength ?? 0),
       rolled.dexterity + (adds.dexterity ?? 0)]);
   }, 120000);

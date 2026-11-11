@@ -26,6 +26,12 @@ export class CallingStep {
     );
   }
   // A calling by the rules, in a few lines.
+  // What the calling wants of the qualities: the dice placed there first (it adds nothing on top: see
+  // Content.createCreature).
+  static places(qualities: Record<string, number>, catalog: Catalog): string {
+    const wanted = catalog.qualities.filter(q => (qualities[q.id] ?? 0) > 0).map(q => q.name.toLowerCase());
+    return wanted.length ? `Your best rolls go to ${Words.listed(wanted)}.` : 'Takes your rolls as they fall.';
+  }
   static facts(c: Calling, catalog: Catalog): string[] {
     const kinds = [...new Set(c.weapons.map(w => CreationRules.group(w.kind).toLowerCase()))];
     const worn = c.armour.split(', ').filter(a => a !== 'clothing');
@@ -33,6 +39,6 @@ export class CallingStep {
       worn.length ? `Wears ${worn.join(', ')}.` : 'Wears no armour.',
       c.weapons.length ? `Fights with ${c.weapons.length > 30 ? 'any weapon' : kinds.join(', ')}.` : 'Fights with bare hands.',
       ...c.skills.length ? [`Knows ${c.skills.map(k => k.toLowerCase()).join(', ')}.`] : [],
-      ...c.casts ? [`Its spells rest on ${Words.upper(c.casts)}.`] : [], PeopleStep.adds(c.qualities, catalog)];
+      ...c.casts ? [`Its spells rest on ${Words.upper(c.casts)}.`] : [], CallingStep.places(c.qualities, catalog)];
   }
 }

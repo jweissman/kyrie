@@ -12,13 +12,13 @@ export class CreationRules {
   static fight(score: number): number { return Math.round((score - 10) / 2) || 0; }
   static check(score: number): number { return Math.floor((score - 10) / 2); }
   static signed(n: number): string { return n > 0 ? `+${n}` : n < 0 ? `−${-n}` : '+0'; }
-  // A quality's score with what the people, the calling and the background add to the roll.
+  // A quality's score with what the people and the background add to the roll; the calling places the dice (its
+  // best where it wants them) and adds nothing again (see Content.createCreature).
   static score(member: Member, catalog: Catalog, quality: string): number {
     const rolled = (member.rolled as Record<string, number> | undefined)?.[quality] ?? 10;
     const people = catalog.ancestries.find(a => a.id === member.raceId)?.qualities[quality] ?? 0;
-    const calling = catalog.callings.find(c => c.id === member.classId)?.qualities[quality] ?? 0;
     const background = catalog.backgrounds.find(b => b.id === member.backgroundId)?.qualities[quality] ?? 0;
-    return Math.max(1, rolled + people + calling + background);
+    return Math.max(1, rolled + people + background);
   }
   // Where what is added to a roll comes from: "+1 elf, +2 warrior, +2 forester".
   // What adds to a quality, by whom: your people, your calling, and what you were before you came, said as that ("+2
@@ -26,7 +26,6 @@ export class CreationRules {
   static sources(member: Member, catalog: Catalog, quality: string): string {
     const before = catalog.backgrounds.find(b => b.id === member.backgroundId);
     const from = [catalog.ancestries.find(a => a.id === member.raceId),
-      catalog.callings.find(c => c.id === member.classId),
       before && { ...before, name: ((n: string) => `once ${/^[aeiou]/i.test(n) ? 'an' : 'a'} ${n}`)(
         BackgroundCatalog.called(before, member.pronouns)) }];
     return from.flatMap(x => x?.qualities[quality] ? [`${this.signed(x.qualities[quality]!)} ${x.name.toLowerCase()}`]

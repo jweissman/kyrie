@@ -47,6 +47,7 @@ describe('creation, by the rules', () => {
     expect(CreationRules.best(ranger, member('ranger', { strength: 17, dexterity: 8 }), catalog)?.missile).toBe(false);
     const forester = catalog.backgrounds.find(b => b.id === 'forester')!;
     expect(forester.qualities).toEqual({ wisdom: 2, dexterity: 1 });
-    expect(CreationRules.score(member('ranger', { wisdom: 10 }, 'forester'), catalog, 'wisdom')).toBe(10 + 1 + 2 + 2);
+    // The roll, the people's one and the trade's two: the calling places the dice and adds nothing again.
+    expect(CreationRules.score(member('ranger', { wisdom: 10 }, 'forester'), catalog, 'wisdom')).toBe(10 + 1 + 2);
   });
 });

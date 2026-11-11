@@ -147,9 +147,13 @@ export class Content {
       name: String(stream('name').generate('creature_name', { kind }).name) };
     const level = context.level ?? (species ? Canon.creature(raceId).statistics?.level : undefined) ?? 1;
     const chassis = Creation.chassis(raceId, classId, level);
+    // Dice placed at creation are already placed where the calling wants them (Rolls.suited): its bonus is not added
+    // on top as well. Counted twice, with the people's and the trade's, a first-level warrior had come to strength 19
+    // and constitution 16, and every fight of the first hour was a walkover (Mission 20's combat diagnostic).
+    const placed = context.rolled && classId ? Canon.classes[classId]?.attributes ?? {} : {};
     const scores = Object.fromEntries(CreatureSchema.attributes.map(key => [key, Math.max(1,
       (chassis.fixed?.[key] ?? context.rolled?.[key] ?? Content.score(generated, key))
-        + (chassis.attributes[key] ?? 0))]));
+        + (chassis.attributes[key] ?? 0) - ((placed as Partial<Record<Attribute, number>>)[key] ?? 0))]));
     const creature: Creature = { id, name: context.name ?? String(generated.name), raceId,
       ...classId ? { classId } : {},
       base: { ...scores as Record<Attribute, number>, level, abilities: [], maxHp: 1, maxMana: 0, speed: 0 },
