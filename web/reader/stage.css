@@ -106,8 +106,9 @@
 .shell.prologue { --frame-w: 100vw; --frame-h: 100dvh; }
 .shell.prologue .frame { background: var(--ground); border: 0; box-shadow: none; }
 .shell.prologue .frame::after { display: none; }
-.prologue-page { position: relative; height: var(--frame-h); display: grid; align-items: end; justify-items: center;
-  padding: 0 max(20px, env(safe-area-inset-left)) max(clamp(56px, 13vh, 132px), env(safe-area-inset-bottom));
+/* The words in the middle of the picture, a little above it, not at its foot (the owner's play of 10 November). */
+.prologue-page { position: relative; height: var(--frame-h); display: grid; align-items: center; justify-items: center;
+  padding: clamp(40px, 8vh, 96px) max(20px, env(safe-area-inset-left)) clamp(56px, 12vh, 132px);
   cursor: pointer; overflow: hidden; -webkit-tap-highlight-color: transparent; }
 .prologue-page.last { cursor: default; }
 .prologue-page .scenery { position: absolute; inset: 0; overflow: hidden; }
@@ -118,7 +119,8 @@
 .prologue-page .scenery::before { content: ''; position: absolute; inset: 0; z-index: 1; opacity: .09; mix-blend-mode: overlay;
   background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
 .prologue-page .scenery::after { content: ''; position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(10, 11, 14, .05) 0%, rgba(10, 11, 14, .3) 42%, rgba(10, 11, 14, .9) 82%),
+  background: radial-gradient(ellipse 52% 42% at 50% 47%, rgba(10, 11, 14, .55), transparent 78%),
+    linear-gradient(180deg, rgba(10, 11, 14, .2) 0%, rgba(10, 11, 14, .35) 50%, rgba(10, 11, 14, .75) 100%),
     radial-gradient(ellipse 90% 80% at 50% 40%, transparent 50%, rgba(10, 11, 14, .55) 100%); }
 .prologue-body { position: relative; z-index: 1; width: min(35rem, 100%); text-align: center; max-height: 100%;
   overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none; padding: 24px 0 12px; }

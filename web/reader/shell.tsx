@@ -2,7 +2,6 @@ import type { CSSProperties, ReactNode } from 'react';
 import type { ReaderApp } from './reader-app';
 import { Scenery } from '../../src/ui/scenery';
 import { FictionalTime } from '../../src/campaign/fictional-time';
-import { TitlePage } from './title-page';
 import { Stage } from './stage/stage';
 import { Flame } from './stage/flame';
 
@@ -27,14 +26,13 @@ export class Shell {
   }
   // What lies behind the stage: where the company is, as the place's own scenery would paint it; before a country is
   // entered, its land, while the life is chosen and as the company sets out from the choice (it had gone to black for
-  // seconds between the choice and the opening: the opening's critique); on the title, the day's view.
+  // seconds between the choice and the opening: the opening's critique); on the title, none (see TitlePage.motes).
   static plate(app: ReaderApp): string | undefined {
     const s = app.state;
     if (s.phase === 'play' && s.frame) { return Scenery.of(s.frame.screen); }
     if ((s.phase === 'company' || (s.phase === 'loading' && s.leaving)) && s.setting) {
       return Scenery.country(s.setting.terrain, s.seed);
     }
-    if (s.phase === 'title' || s.phase === 'options') { return TitlePage.view(); }
     return undefined;
   }
   // The hour, for the ground's tint: morning, afternoon, evening or night; none before play.

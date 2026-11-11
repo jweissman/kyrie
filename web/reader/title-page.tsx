@@ -2,7 +2,6 @@ import { useEffect, useLayoutEffect, useRef, useState, type ChangeEvent, type CS
   type RefObject } from 'react';
 import type { ReaderApp } from './reader-app';
 import { Toast } from './toast';
-import { Likeness } from '../../src/paintings/likeness';
 import { Identity } from '../../src/presentation/identity';
 import { Ident } from './ident';
 import { Build } from './build';
@@ -12,7 +11,7 @@ type Beat = 'ident' | 'dark' | 'reveal' | 'ready';
 type Place = { x: number; y: number; w: number };
 
 // The title. Once a session, the studio's mark draws itself and goes out; a moment of black; then the game's name is
-// lit from its middle letter outward while the country's painting comes up slowly out of the dark behind it, a gold
+// lit from its middle letter outward over embers going up out of the dark, a gold
 // horizon is drawn under it and its diamond kindled (the mark's star again), and the few ways in arrive one after
 // another, centred: carry on, a new game, the encyclopedia, options. Any key or touch skips straight to them, and is
 // only that, save a touch on a way in already there, which is that way at once (New game in one click). One who asks for less motion is shown them at once, and so is
@@ -21,13 +20,10 @@ type Place = { x: number; y: number; w: number };
 // country is made; a save file brought from elsewhere is opened from Options, and the ways in for testing (a named
 // campaign) appear only when the address asks (?dev). The names shown are the game's and the studio's (src/presentation/identity.ts).
 export class TitlePage {
-  // The country behind the title: wide country with a way into it, a different one each day.
-  static readonly views = ['indolence', 'idyll', 'bridge', 'wintre', 'fair', 'herd', 'city', 'harvest'];
-  static view(day = Math.floor(Date.now() / 86400000)): string { return TitlePage.views[day % TitlePage.views.length]!; }
   static View({ app }: { app: ReaderApp }) {
-    const s = app.state, saved = s.saved, query = app.props.query, dev = query.has('dev'), view = TitlePage.view();
+    const s = app.state, saved = s.saved, query = app.props.query, dev = query.has('dev');
     const named = Identity.named(query), beat = TitlePage.useBeat(query.has('ident') || query.has('studio'));
-    const [active, activate] = useState(0), credit = Likeness.credits[view];
+    const [active, activate] = useState(0);
     const menu = useRef<HTMLElement>(null), items = useRef<(HTMLElement | null)[]>([]);
     const at = TitlePage.useIndicator(menu, items, active, `${beat}:${saved ? 1 : 0}`);
     const item = (i: number) => ({ ref: (el: HTMLElement | null) => { items.current[i] = el; },
@@ -58,7 +54,6 @@ export class TitlePage {
           {dev && <TitlePage.Dev app={app} />}
         </main>
         {beat !== 'ident' && <TitlePage.Motes />}
-        {beat !== 'ident' && credit && <p className="credit" aria-hidden="true">{credit}</p>}
         {beat !== 'ident' && <p className="build" data-id="build">{`build ${Build.commit}`}</p>}
         <Toast.View app={app} />
       </div>
@@ -113,7 +108,9 @@ export class TitlePage {
       </div>
     );
   }
-  static readonly motes = 18;
+  // The title stands in the dark with the embers going up through it, and no painting (the owner's play of 10
+  // November: the painting behind it was blurred, and its slow drift added nothing).
+  static readonly motes = 34;
   // When the name's middle letter begins to be lit, after the black; and how long the whole title takes to come up.
   static readonly lit = 120;
   static readonly reveal = 3200;
