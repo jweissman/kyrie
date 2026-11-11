@@ -27,12 +27,12 @@ Module walk "The Walk of the Milestones" {
     Role "the bailiff's corporal". Calling warrior. Level 3. Peaceable. Manner proud. Pronouns he.
     Greets "A broad corporal in a leather jerkin stands with his thumbs in his belt and a look as if the day had been got up to annoy him. On his door, if you look, there is a great deal of chalk. 'Do not,' says {teague}, 'ask me about my door.'".
   }
-  Rule dray_sits when day(clock) >= 4 and at(dray, green_a) and at(bench_men, ?v) { Retract at(dray, green_a). Assert at(dray, moot_a). Retract at(bench_men, ?v). Assert at(bench_men, moot_a). }
+  Rule dray_sits when day(clock) >= 4 and at(dray, green_a) { Retract at(dray, green_a). Assert at(dray, moot_a). Assert at(bench_men, moot_a). }
   Rule teague_posts when day(clock) >= 5 and not teague_sent(walk) { Assert at(teague, green_c). Assert teague_sent(walk). }
   Relation teague_sent(group).
-  Rule dray_rides_b when flashpoint(f_b) and day(clock) >= 9 and not decided(walk) and not dray_rode(walk) and at(dray, ?w) and at(bench_men, ?v) and at(teague, ?t) { Retract at(dray, ?w). Assert at(dray, green_b). Retract at(bench_men, ?v). Assert at(bench_men, green_b). Retract at(teague, ?t). Assert at(teague, green_b). Assert dray_rode(walk). }
-  Rule dray_rides_c when flashpoint(f_c) and day(clock) >= 9 and not decided(walk) and not dray_rode(walk) and at(dray, ?w) and at(bench_men, ?v) and at(teague, ?t) { Retract at(dray, ?w). Assert at(dray, green_c). Retract at(bench_men, ?v). Assert at(bench_men, green_c). Retract at(teague, ?t). Assert at(teague, green_c). Assert dray_rode(walk). }
-  Rule dray_rides_d when flashpoint(f_d) and day(clock) >= 9 and not decided(walk) and not dray_rode(walk) and at(dray, ?w) and at(bench_men, ?v) and at(teague, ?t) { Retract at(dray, ?w). Assert at(dray, green_d). Retract at(bench_men, ?v). Assert at(bench_men, green_d). Retract at(teague, ?t). Assert at(teague, green_d). Assert dray_rode(walk). }
+  Rule dray_rides_b when flashpoint(f_b) and day(clock) >= 9 and not decided(walk) and not dray_rode(walk) { Assert at(dray, green_b). Assert at(bench_men, green_b). Assert at(teague, green_b). Assert dray_rode(walk). }
+  Rule dray_rides_c when flashpoint(f_c) and day(clock) >= 9 and not decided(walk) and not dray_rode(walk) { Assert at(dray, green_c). Assert at(bench_men, green_c). Assert at(teague, green_c). Assert dray_rode(walk). }
+  Rule dray_rides_d when flashpoint(f_d) and day(clock) >= 9 and not decided(walk) and not dray_rode(walk) { Assert at(dray, green_d). Assert at(bench_men, green_d). Assert at(teague, green_d). Assert dray_rode(walk). }
   Relation dray_rode(group).
   Rule dray_rides_said heard at green_a when day(clock) >= 9 and dray_rode(walk) and not dray_said(walk) says "The moot-house is shut, and a clerk is nailing a card to its door: THE BAILIFF IS ABROAD IN THE HUNDRED. Somebody has already written under it, 'Where the Walk is.'" { Assert dray_said(walk). }
   Relation dray_said(group).
@@ -119,13 +119,13 @@ Module walk "The Walk of the Milestones" {
     On success { Assert exposed(walk). }
     Result "{orme} holds the ledger as one holds something that has been returned from the dead. 'You have been,' he says, with some courtesy, 'thorough.' He turns the ring on his finger once. 'My employer will be disappointed in me. I shall not be disappointed in you. It is rare, in this line, to be bested by someone who then does not do a worse thing.' He gets on his horse. 'Tell the Mile-Keeper the bread will stop. And that I am sorry about it, which is true.'".
   }
-  Rule chest_a when day(clock) >= 3 and at_leg(orme) == 1 and not chest_a_at(walk) and at(orme, green_a) and at(orme_chest, ?c) { Retract at(orme_chest, ?c). Assert at(orme_chest, green_a). Assert chest_a_at(walk). }
+  Rule chest_a when day(clock) >= 3 and at_leg(orme) == 1 and not chest_a_at(walk) and at(orme, green_a) { Assert at(orme_chest, green_a). Assert chest_a_at(walk). }
   Relation chest_a_at(group).
-  Rule chest_b when day(clock) >= 4 and at_leg(orme) == 2 and not chest_b_at(walk) and at(orme, green_b) and at(orme_chest, ?c) { Retract at(orme_chest, ?c). Assert at(orme_chest, green_b). Assert chest_b_at(walk). }
+  Rule chest_b when day(clock) >= 4 and at_leg(orme) == 2 and not chest_b_at(walk) and at(orme, green_b) { Assert at(orme_chest, green_b). Assert chest_b_at(walk). }
   Relation chest_b_at(group).
-  Rule chest_c when day(clock) >= 6 and at_leg(orme) == 3 and not chest_c_at(walk) and at(orme, green_c) and at(orme_chest, ?c) { Retract at(orme_chest, ?c). Assert at(orme_chest, green_c). Assert chest_c_at(walk). }
+  Rule chest_c when day(clock) >= 6 and at_leg(orme) == 3 and not chest_c_at(walk) and at(orme, green_c) { Assert at(orme_chest, green_c). Assert chest_c_at(walk). }
   Relation chest_c_at(group).
-  Rule chest_d when day(clock) >= 8 and at_leg(orme) == 4 and not chest_d_at(walk) and at(orme, green_d) and at(orme_chest, ?c) { Retract at(orme_chest, ?c). Assert at(orme_chest, green_d). Assert chest_d_at(walk). }
+  Rule chest_d when day(clock) >= 8 and at_leg(orme) == 4 and not chest_d_at(walk) and at(orme, green_d) { Assert at(orme_chest, green_d). Assert chest_d_at(walk). }
   Relation chest_d_at(group).
   Topic priest_walk_a with priest_a "Ask {priest_a} what the church makes of the Walk" when day(clock) >= 2 once {
     Says "'The Walk is not a heresy,' says {priest_a}, with the care of a man laying a plank across a ditch. 'It is a custom. I have no canon against customs. But the road is not holy, and a priest who says it is has the order of things wrong. The altar is holy. I should like it understood.' A pause. 'My curate says I am a hard man. I have been a priest forty years. I may be.' If the door is chained, it is on his word.".

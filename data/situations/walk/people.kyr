@@ -37,52 +37,55 @@ Module walk "The Walk of the Milestones" {
     Change force "Force the steward's chest with a crowbar" from locked to open needing crowbar.
   }
   Initially Assert state(orme_chest, locked).
-  Person wenna "Someone" at green_a {
+  Person wenna "Someone" nowhere {
+    Arrives at green_a when day(clock) >= 2.
+    Arrives "A girl in a curate's grey comes out of the shrine on the first town's green and stands on the step with her hands wrapped in her stole, looking at the singing walkers as one looks at a feast through a window.".
+
     Role "the first town's curate, a girl in grey with her stole on crooked". Calling cleric. Level 1. Peaceable. Manner compassionate. Pronouns she.
     Greets "A girl in a curate's grey comes at you with both hands out before you have finished stopping. 'You are from the town? Oh, good, someone from the town, I have been wanting to ask someone. Is it true that Father says the chain is for our own good? Because he said it to me, quite kindly, and I said, Father, there is nothing in the canons about a chain, and he said there did not need to be, and I thought, well, that is the sort of thing one says —' She stops for air. 'I am Wenna. I am not supposed to be talking to you. Is that all right?'".
   }
-  Rule leg_leader_1 when day(clock) >= 2 and at_leg(leader) == 0 and not dead(leader) and at(leader, ?w) { Retract at(leader, ?w). Assert at(leader, camp_a). Set at_leg(leader) to 1. }
-  Rule leg_leader_2 when day(clock) >= 4 and at_leg(leader) == 1 and not dead(leader) and at(leader, ?w) { Retract at(leader, ?w). Assert at(leader, camp_b). Set at_leg(leader) to 2. }
-  Rule leg_leader_3 when day(clock) >= 6 and at_leg(leader) == 2 and not dead(leader) and at(leader, ?w) { Retract at(leader, ?w). Assert at(leader, camp_c). Set at_leg(leader) to 3. }
-  Rule leg_leader_4 when day(clock) >= 8 and at_leg(leader) == 3 and not dead(leader) and at(leader, ?w) { Retract at(leader, ?w). Assert at(leader, camp_d). Set at_leg(leader) to 4. }
-  Rule leg_leader_5b when flashpoint(f_b) and day(clock) >= 9 and at_leg(leader) == 4 and not dead(leader) and at(leader, ?w) { Retract at(leader, ?w). Assert at(leader, camp_b). Set at_leg(leader) to 5. }
-  Rule leg_leader_5c when flashpoint(f_c) and day(clock) >= 9 and at_leg(leader) == 4 and not dead(leader) and at(leader, ?w) { Retract at(leader, ?w). Assert at(leader, camp_c). Set at_leg(leader) to 5. }
-  Rule leg_leader_5d when flashpoint(f_d) and day(clock) >= 9 and at_leg(leader) == 4 and not dead(leader) and at(leader, ?w) { Retract at(leader, ?w). Assert at(leader, camp_d). Set at_leg(leader) to 5. }
-  Rule leg_annet_1 when day(clock) >= 2 and at_leg(annet) == 0 and not dead(annet) and at(annet, ?w) { Retract at(annet, ?w). Assert at(annet, camp_a). Set at_leg(annet) to 1. }
-  Rule leg_annet_2 when day(clock) >= 4 and at_leg(annet) == 1 and not dead(annet) and at(annet, ?w) { Retract at(annet, ?w). Assert at(annet, camp_b). Set at_leg(annet) to 2. }
-  Rule leg_annet_3 when day(clock) >= 6 and at_leg(annet) == 2 and not dead(annet) and at(annet, ?w) { Retract at(annet, ?w). Assert at(annet, camp_c). Set at_leg(annet) to 3. }
-  Rule leg_annet_4 when day(clock) >= 8 and at_leg(annet) == 3 and not dead(annet) and at(annet, ?w) { Retract at(annet, ?w). Assert at(annet, camp_d). Set at_leg(annet) to 4. }
-  Rule leg_annet_5b when flashpoint(f_b) and day(clock) >= 9 and at_leg(annet) == 4 and not dead(annet) and at(annet, ?w) { Retract at(annet, ?w). Assert at(annet, camp_b). Set at_leg(annet) to 5. }
-  Rule leg_annet_5c when flashpoint(f_c) and day(clock) >= 9 and at_leg(annet) == 4 and not dead(annet) and at(annet, ?w) { Retract at(annet, ?w). Assert at(annet, camp_c). Set at_leg(annet) to 5. }
-  Rule leg_annet_5d when flashpoint(f_d) and day(clock) >= 9 and at_leg(annet) == 4 and not dead(annet) and at(annet, ?w) { Retract at(annet, ?w). Assert at(annet, camp_d). Set at_leg(annet) to 5. }
-  Rule leg_pettifer_1 when day(clock) >= 2 and at_leg(pettifer) == 0 and not dead(pettifer) and at(pettifer, ?w) { Retract at(pettifer, ?w). Assert at(pettifer, green_a). Set at_leg(pettifer) to 1. }
-  Rule leg_pettifer_2 when day(clock) >= 4 and at_leg(pettifer) == 1 and not dead(pettifer) and at(pettifer, ?w) { Retract at(pettifer, ?w). Assert at(pettifer, green_b). Set at_leg(pettifer) to 2. }
-  Rule leg_pettifer_3 when day(clock) >= 6 and at_leg(pettifer) == 2 and not dead(pettifer) and at(pettifer, ?w) { Retract at(pettifer, ?w). Assert at(pettifer, green_c). Set at_leg(pettifer) to 3. }
-  Rule leg_pettifer_4 when day(clock) >= 8 and at_leg(pettifer) == 3 and not dead(pettifer) and at(pettifer, ?w) { Retract at(pettifer, ?w). Assert at(pettifer, green_d). Set at_leg(pettifer) to 4. }
-  Rule leg_pettifer_5b when flashpoint(f_b) and day(clock) >= 9 and at_leg(pettifer) == 4 and not dead(pettifer) and at(pettifer, ?w) { Retract at(pettifer, ?w). Assert at(pettifer, green_b). Set at_leg(pettifer) to 5. }
-  Rule leg_pettifer_5c when flashpoint(f_c) and day(clock) >= 9 and at_leg(pettifer) == 4 and not dead(pettifer) and at(pettifer, ?w) { Retract at(pettifer, ?w). Assert at(pettifer, green_c). Set at_leg(pettifer) to 5. }
-  Rule leg_pettifer_5d when flashpoint(f_d) and day(clock) >= 9 and at_leg(pettifer) == 4 and not dead(pettifer) and at(pettifer, ?w) { Retract at(pettifer, ?w). Assert at(pettifer, green_d). Set at_leg(pettifer) to 5. }
-  Rule leg_lads_1 when day(clock) >= 2 and at_leg(lads) == 0 and not dead(lads) and at(lads, ?w) { Retract at(lads, ?w). Assert at(lads, green_a). Set at_leg(lads) to 1. }
-  Rule leg_lads_2 when day(clock) >= 4 and at_leg(lads) == 1 and not dead(lads) and at(lads, ?w) { Retract at(lads, ?w). Assert at(lads, green_b). Set at_leg(lads) to 2. }
-  Rule leg_lads_3 when day(clock) >= 6 and at_leg(lads) == 2 and not dead(lads) and at(lads, ?w) { Retract at(lads, ?w). Assert at(lads, green_c). Set at_leg(lads) to 3. }
-  Rule leg_lads_4 when day(clock) >= 8 and at_leg(lads) == 3 and not dead(lads) and at(lads, ?w) { Retract at(lads, ?w). Assert at(lads, green_d). Set at_leg(lads) to 4. }
-  Rule leg_lads_5b when flashpoint(f_b) and day(clock) >= 9 and at_leg(lads) == 4 and not dead(lads) and at(lads, ?w) { Retract at(lads, ?w). Assert at(lads, green_b). Set at_leg(lads) to 5. }
-  Rule leg_lads_5c when flashpoint(f_c) and day(clock) >= 9 and at_leg(lads) == 4 and not dead(lads) and at(lads, ?w) { Retract at(lads, ?w). Assert at(lads, green_c). Set at_leg(lads) to 5. }
-  Rule leg_lads_5d when flashpoint(f_d) and day(clock) >= 9 and at_leg(lads) == 4 and not dead(lads) and at(lads, ?w) { Retract at(lads, ?w). Assert at(lads, green_d). Set at_leg(lads) to 5. }
-  Rule leg_orme_1 when day(clock) >= 3 and at_leg(orme) == 0 and not dead(orme) and at(orme, ?w) { Retract at(orme, ?w). Assert at(orme, green_a). Set at_leg(orme) to 1. }
-  Rule leg_orme_2 when day(clock) >= 4 and at_leg(orme) == 1 and not dead(orme) and at(orme, ?w) { Retract at(orme, ?w). Assert at(orme, green_b). Set at_leg(orme) to 2. }
-  Rule leg_orme_3 when day(clock) >= 6 and at_leg(orme) == 2 and not dead(orme) and at(orme, ?w) { Retract at(orme, ?w). Assert at(orme, green_c). Set at_leg(orme) to 3. }
-  Rule leg_orme_4 when day(clock) >= 8 and at_leg(orme) == 3 and not dead(orme) and at(orme, ?w) { Retract at(orme, ?w). Assert at(orme, green_d). Set at_leg(orme) to 4. }
-  Rule leg_orme_5b when flashpoint(f_b) and day(clock) >= 9 and at_leg(orme) == 4 and not dead(orme) and at(orme, ?w) { Retract at(orme, ?w). Assert at(orme, green_b). Set at_leg(orme) to 5. }
-  Rule leg_orme_5c when flashpoint(f_c) and day(clock) >= 9 and at_leg(orme) == 4 and not dead(orme) and at(orme, ?w) { Retract at(orme, ?w). Assert at(orme, green_c). Set at_leg(orme) to 5. }
-  Rule leg_orme_5d when flashpoint(f_d) and day(clock) >= 9 and at_leg(orme) == 4 and not dead(orme) and at(orme, ?w) { Retract at(orme, ?w). Assert at(orme, green_d). Set at_leg(orme) to 5. }
+  Rule leg_leader_1 when day(clock) >= 2 and at_leg(leader) == 0 and not dead(leader) { Assert at(leader, camp_a). Set at_leg(leader) to 1. }
+  Rule leg_leader_2 when day(clock) >= 4 and at_leg(leader) == 1 and not dead(leader) { Assert at(leader, camp_b). Set at_leg(leader) to 2. }
+  Rule leg_leader_3 when day(clock) >= 6 and at_leg(leader) == 2 and not dead(leader) { Assert at(leader, camp_c). Set at_leg(leader) to 3. }
+  Rule leg_leader_4 when day(clock) >= 8 and at_leg(leader) == 3 and not dead(leader) { Assert at(leader, camp_d). Set at_leg(leader) to 4. }
+  Rule leg_leader_5b when flashpoint(f_b) and day(clock) >= 9 and at_leg(leader) == 4 and not dead(leader) { Assert at(leader, camp_b). Set at_leg(leader) to 5. }
+  Rule leg_leader_5c when flashpoint(f_c) and day(clock) >= 9 and at_leg(leader) == 4 and not dead(leader) { Assert at(leader, camp_c). Set at_leg(leader) to 5. }
+  Rule leg_leader_5d when flashpoint(f_d) and day(clock) >= 9 and at_leg(leader) == 4 and not dead(leader) { Assert at(leader, camp_d). Set at_leg(leader) to 5. }
+  Rule leg_annet_1 when day(clock) >= 2 and at_leg(annet) == 0 and not dead(annet) { Assert at(annet, camp_a). Set at_leg(annet) to 1. }
+  Rule leg_annet_2 when day(clock) >= 4 and at_leg(annet) == 1 and not dead(annet) { Assert at(annet, camp_b). Set at_leg(annet) to 2. }
+  Rule leg_annet_3 when day(clock) >= 6 and at_leg(annet) == 2 and not dead(annet) { Assert at(annet, camp_c). Set at_leg(annet) to 3. }
+  Rule leg_annet_4 when day(clock) >= 8 and at_leg(annet) == 3 and not dead(annet) { Assert at(annet, camp_d). Set at_leg(annet) to 4. }
+  Rule leg_annet_5b when flashpoint(f_b) and day(clock) >= 9 and at_leg(annet) == 4 and not dead(annet) { Assert at(annet, camp_b). Set at_leg(annet) to 5. }
+  Rule leg_annet_5c when flashpoint(f_c) and day(clock) >= 9 and at_leg(annet) == 4 and not dead(annet) { Assert at(annet, camp_c). Set at_leg(annet) to 5. }
+  Rule leg_annet_5d when flashpoint(f_d) and day(clock) >= 9 and at_leg(annet) == 4 and not dead(annet) { Assert at(annet, camp_d). Set at_leg(annet) to 5. }
+  Rule leg_pettifer_1 when day(clock) >= 2 and at_leg(pettifer) == 0 and not dead(pettifer) { Assert at(pettifer, green_a). Set at_leg(pettifer) to 1. }
+  Rule leg_pettifer_2 when day(clock) >= 4 and at_leg(pettifer) == 1 and not dead(pettifer) { Assert at(pettifer, green_b). Set at_leg(pettifer) to 2. }
+  Rule leg_pettifer_3 when day(clock) >= 6 and at_leg(pettifer) == 2 and not dead(pettifer) { Assert at(pettifer, green_c). Set at_leg(pettifer) to 3. }
+  Rule leg_pettifer_4 when day(clock) >= 8 and at_leg(pettifer) == 3 and not dead(pettifer) { Assert at(pettifer, green_d). Set at_leg(pettifer) to 4. }
+  Rule leg_pettifer_5b when flashpoint(f_b) and day(clock) >= 9 and at_leg(pettifer) == 4 and not dead(pettifer) { Assert at(pettifer, green_b). Set at_leg(pettifer) to 5. }
+  Rule leg_pettifer_5c when flashpoint(f_c) and day(clock) >= 9 and at_leg(pettifer) == 4 and not dead(pettifer) { Assert at(pettifer, green_c). Set at_leg(pettifer) to 5. }
+  Rule leg_pettifer_5d when flashpoint(f_d) and day(clock) >= 9 and at_leg(pettifer) == 4 and not dead(pettifer) { Assert at(pettifer, green_d). Set at_leg(pettifer) to 5. }
+  Rule leg_lads_1 when day(clock) >= 2 and at_leg(lads) == 0 and not dead(lads) { Assert at(lads, green_a). Set at_leg(lads) to 1. }
+  Rule leg_lads_2 when day(clock) >= 4 and at_leg(lads) == 1 and not dead(lads) { Assert at(lads, green_b). Set at_leg(lads) to 2. }
+  Rule leg_lads_3 when day(clock) >= 6 and at_leg(lads) == 2 and not dead(lads) { Assert at(lads, green_c). Set at_leg(lads) to 3. }
+  Rule leg_lads_4 when day(clock) >= 8 and at_leg(lads) == 3 and not dead(lads) { Assert at(lads, green_d). Set at_leg(lads) to 4. }
+  Rule leg_lads_5b when flashpoint(f_b) and day(clock) >= 9 and at_leg(lads) == 4 and not dead(lads) { Assert at(lads, green_b). Set at_leg(lads) to 5. }
+  Rule leg_lads_5c when flashpoint(f_c) and day(clock) >= 9 and at_leg(lads) == 4 and not dead(lads) { Assert at(lads, green_c). Set at_leg(lads) to 5. }
+  Rule leg_lads_5d when flashpoint(f_d) and day(clock) >= 9 and at_leg(lads) == 4 and not dead(lads) { Assert at(lads, green_d). Set at_leg(lads) to 5. }
+  Rule leg_orme_1 when day(clock) >= 3 and at_leg(orme) == 0 and not dead(orme) { Assert at(orme, green_a). Set at_leg(orme) to 1. }
+  Rule leg_orme_2 when day(clock) >= 4 and at_leg(orme) == 1 and not dead(orme) { Assert at(orme, green_b). Set at_leg(orme) to 2. }
+  Rule leg_orme_3 when day(clock) >= 6 and at_leg(orme) == 2 and not dead(orme) { Assert at(orme, green_c). Set at_leg(orme) to 3. }
+  Rule leg_orme_4 when day(clock) >= 8 and at_leg(orme) == 3 and not dead(orme) { Assert at(orme, green_d). Set at_leg(orme) to 4. }
+  Rule leg_orme_5b when flashpoint(f_b) and day(clock) >= 9 and at_leg(orme) == 4 and not dead(orme) { Assert at(orme, green_b). Set at_leg(orme) to 5. }
+  Rule leg_orme_5c when flashpoint(f_c) and day(clock) >= 9 and at_leg(orme) == 4 and not dead(orme) { Assert at(orme, green_c). Set at_leg(orme) to 5. }
+  Rule leg_orme_5d when flashpoint(f_d) and day(clock) >= 9 and at_leg(orme) == 4 and not dead(orme) { Assert at(orme, green_d). Set at_leg(orme) to 5. }
   Rule wenna_goes when day(clock) >= 6 and not curate_gone(walk) and not dead(wenna) and at(wenna, ?w) {
-    Retract at(wenna, ?w). Assert at(wenna, camp_c). Assert curate_gone(walk). Assert interdict(walk_a). Assert state(shrine_door_a, chained). Set at_leg(wenna) to 3.
+    Assert at(wenna, camp_c). Assert curate_gone(walk). Assert interdict(walk_a). Assert state(shrine_door_a, chained). Set at_leg(wenna) to 3.
   }
-  Rule wenna_leg4 when day(clock) >= 8 and at_leg(wenna) == 3 and not dead(wenna) and at(wenna, ?w) { Retract at(wenna, ?w). Assert at(wenna, camp_d). Set at_leg(wenna) to 4. }
-  Rule wenna_leg5b when flashpoint(f_b) and day(clock) >= 9 and at_leg(wenna) == 4 and not dead(wenna) and at(wenna, ?w) { Retract at(wenna, ?w). Assert at(wenna, camp_b). Set at_leg(wenna) to 5. }
-  Rule wenna_leg5c when flashpoint(f_c) and day(clock) >= 9 and at_leg(wenna) == 4 and not dead(wenna) and at(wenna, ?w) { Retract at(wenna, ?w). Assert at(wenna, camp_c). Set at_leg(wenna) to 5. }
-  Rule wenna_leg5d when flashpoint(f_d) and day(clock) >= 9 and at_leg(wenna) == 4 and not dead(wenna) and at(wenna, ?w) { Retract at(wenna, ?w). Assert at(wenna, camp_d). Set at_leg(wenna) to 5. }
+  Rule wenna_leg4 when day(clock) >= 8 and at_leg(wenna) == 3 and not dead(wenna) { Assert at(wenna, camp_d). Set at_leg(wenna) to 4. }
+  Rule wenna_leg5b when flashpoint(f_b) and day(clock) >= 9 and at_leg(wenna) == 4 and not dead(wenna) { Assert at(wenna, camp_b). Set at_leg(wenna) to 5. }
+  Rule wenna_leg5c when flashpoint(f_c) and day(clock) >= 9 and at_leg(wenna) == 4 and not dead(wenna) { Assert at(wenna, camp_c). Set at_leg(wenna) to 5. }
+  Rule wenna_leg5d when flashpoint(f_d) and day(clock) >= 9 and at_leg(wenna) == 4 and not dead(wenna) { Assert at(wenna, camp_d). Set at_leg(wenna) to 5. }
   Rule curate_gone_said heard at green_a when curate_gone(walk) and not wenna_said(walk)
     says "The shrine door has a chain on it this morning, and a card. The curate's grey cloak is gone from its peg, and the old priest is standing on the step with his arms folded, looking at the road the way a man looks at a thing he has done and is not sure of." { Assert wenna_said(walk). }
   Relation wenna_said(group).
