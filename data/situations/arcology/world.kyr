@@ -9,6 +9,9 @@ Module arcology "The Numbered House" {
   Relation paid_counter(group). Relation doubting(group).
 
   // --- what is said --------------------------------------------------------------------------------------------
+  Topic carters_ask with first_keeper "Ask {first_keeper} about the carters' talk of the humming hill" when knows(actor, rumour) once {
+    Says "'Carters,' says {first_keeper}, and wipes the bar. 'They will tell you the same tale for a pint. The bend is at {outside}, in {land}: the old paved road goes round a hill there, and the ground is said to hum. It is some days along the roads from here, out of town by the ford and on. The drivers leave a coin at the bend. I would leave one too.'".
+  }
   Entity rumour: fact "The old paved road bends once at {outside}, eight miles round a hill that has nothing in it to bend for. Carters leave a coin at the bend and do not stop. Some say the hill hums.".
   Entity culvert_talk: fact "At {outside}, where the brook goes under the road-wall, the arch is wide enough to crawl in, and the water that comes out of it is warmer than brook water has any right to be.".
   Entity hum_talk: fact "Dogs will not go into the hollow beyond {outside}, and an old priest said the ground there hummed on feast days, a long low note that the monks of the old order tried to sing against, and could not.".

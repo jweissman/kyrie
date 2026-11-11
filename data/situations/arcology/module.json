@@ -3,7 +3,7 @@
   "source": ["house.kyr", "entry.kyr", "tiers.kyr", "halls.kyr", "deeps.kyr", "kept.kyr", "world.kyr"],
   "rules": ["world"],
   "globals": ["party"],
-  "imports": ["party", "land", "outside", "gossip", "shrine", "keeper", "first_taproom"],
+  "imports": ["party", "land", "outside", "gossip", "shrine", "keeper", "first_taproom", "first_keeper"],
   "roles": {
     "party": { "type": "group" },
     "land": { "type": "place" },
@@ -11,7 +11,8 @@
     "gossip": { "type": "place" },
     "shrine": { "type": "place" },
     "keeper": { "type": "group" },
-    "first_taproom": { "type": "place" }
+    "first_taproom": { "type": "place" },
+    "first_keeper": { "type": "group" }
   },
   "exports": {
     "rumour": "rumour",

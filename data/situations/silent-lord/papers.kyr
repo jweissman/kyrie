@@ -185,7 +185,7 @@ Module silent_lord "The silent lord" {
   Kind die_kind "a bronze die" is treasure worth 40 weighing 1 described "A bronze die as long as a thumb with a handle, cut for pressing into wax. The face is worn but clear.".
   Kind remission_kind "a remission in the lord's hand" is document described "A paper, sealed with the keep's tower and star, in the lord's own writing: the lord remits the levy of men to the towns of his march this year, 'on account of the winter', and asks the king's indulgence.".
   Kind order_kind "a pay-order in the lord's hand" is document described "A paper, sealed with the keep's tower and star, in the lord's own writing: the steward is to pay the garrison its arrears from the strongbox, forthwith.".
-  Kind writ_kind "a writ against the bailiff" is document described "A paper in the castellan's name, sealed with the keep's tower and star: no dues are asked of any hearth in the march for the keeping of any road, and any who collect them in the keep's name do so against its law.".
+  Kind keep_writ_kind "a writ against the bailiff" is document described "A paper in the castellan's name, sealed with the keep's tower and star: no dues are asked of any hearth in the march for the keeping of any road, and any who collect them in the keep's name do so against its law.".
   Item will_item "the lord's will" is will_kind in muniment_press.
   Item spring_item "the court's letter of spring" is spring_kind in muniment_press.
   Item vault_die "a bronze die" is die_kind at vault.

@@ -180,7 +180,7 @@ Module arcology "The Numbered House" {
     State unset "The bronze ring lies flat in the floor, its single mark pointing at the north pillar. A scale runs round its rim.".
     State set "The bronze ring has been turned till its mark lies where the light falls. Beneath it, something in the floor has started to hum on a single note.".
     Change set_noon "Turn the ring until its mark meets the shaft of light" from unset to set when hour(clock) >= 11 and hour(clock) < 14 "The light does not lie on the mark. There is nothing for the ring to meet.".
-    Change set_mirror "Throw lamplight onto the ring's mark with the surveyors' plate" from unset to set needing mirror_kind when capable(party, light) "The plate has nothing to throw without a light.".
+    Change set_mirror "Throw lamplight onto the ring's mark with the surveyors' plate" from unset to set needing arcology_mirror_kind when capable(party, light) "The plate has nothing to throw without a light.".
   }
   Thing disc "the floating disc" on disc_way {
     State resting blocking "A disc of pale stone as wide as a table lies on the floor of a round well in the middle of the room, level with it, like a lid.".

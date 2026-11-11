@@ -32,7 +32,8 @@
         "shrine": "@town.shrine",
         "keeper": "@town.innkeeper",
         "priest": "@town.priest",
-        "first_taproom": "@first.taproom"
+        "first_taproom": "@first.taproom",
+        "first_keeper": "@first.innkeeper"
       }
     }
   ],

@@ -8,15 +8,16 @@ Module bound_howe "The Bound Howe" {
   Place taproom "The taproom" is room.
   Place shrine "The shrine" is room.
   Place first_taproom "The first town's taproom" is room.
+  Entity first_keeper: group "The first town's innkeeper".
   Entity keeper: group "The innkeeper".
   Entity priest: group "The priest".
 
   // ---- What Deem draws for the country (templates.json): how the howe was left, what the ridge's weather is, and which
   // of the three flutes is the king's. The king, the captain, the warden, the clerk and the surgeon are named from it.
   Kind fatekind. Entity fate_sealed: fatekind "sealed". Entity fate_broken: fatekind "broken".
-  Kind airkind. Entity air_mist: airkind "mist". Entity air_rain: airkind "rain". Entity air_wind: airkind "wind".
-  Entity air_snow: airkind "snow". Entity air_dust: airkind "dust".
-  Relation fate(place, fatekind). Relation airs(place, airkind). Relation kinflute(entity).
+  Kind howe_airkind. Entity air_mist: howe_airkind "mist". Entity air_rain: howe_airkind "rain". Entity air_wind: howe_airkind "wind".
+  Entity air_snow: howe_airkind "snow". Entity air_dust: howe_airkind "dust".
+  Relation fate(place, fatekind). Relation airs(place, howe_airkind). Relation kinflute(entity).
 
   // ---- The ridge, the howe and what lies under it.
   Place hearth "the warden's hearth" is room within ridge at 0, 0 outdoors.
@@ -90,24 +91,24 @@ Module bound_howe "The Bound Howe" {
   Hazard mouth_pull "The voice from the well" means "Deal (1d6) physical damage to ally unless wisdom save against (13).".
 
   // ---- Things that are carried, and the plan that is put together from three finds.
-  Kind salt_kind "a twist of salt" is gear worth 1 weighing 1 described "Coarse grey salt in a twist of cloth. Shepherds lay it down for the sheep; the Barrow-Kin's dead, it is said, will not cross it.".
+  Kind howe_salt_kind "a twist of salt" is gear worth 1 weighing 1 described "Coarse grey salt in a twist of cloth. Shepherds lay it down for the sheep; the Barrow-Kin's dead, it is said, will not cross it.".
   Entity barley: good "sack of barley".
   Kind kin_torc "a torc of the Barrow-Kin" is treasure worth 120 weighing 5 described "A twisted collar of iron and bronze as thick as a wrist. The Kin buried their lesser kings in them.".
   Kind king_torc "the king's torc" is treasure worth 600 weighing 14 described "A torc of braided gold and iron wire, heavy as a child. Cut into its terminal is a line of the Kin's marks: WHILE THIS IS WORN THE BOUND IS KEPT.".
   Kind sketch_kind "a salvager's sketch of the workings" is document teaching sketch_read described "A scrap of hide scratched with a nail: a shaft, a low drift, a drowned working, and a line of dots that goes in under the howe.".
-  Kind tally_kind "the warden's tally-stick" is document teaching tally_read described "An ash stick notched in threes down its length, with three signs burnt into the head and one ringed.".
+  Kind howe_tally_kind "the warden's tally-stick" is document teaching tally_read described "An ash stick notched in threes down its length, with three signs burnt into the head and one ringed.".
   Kind plate_kind "a bronze plate from the survey cairn" is document teaching plate_read described "A thumb-thick plate of bronze, squared and flat, cut with a wheel and a wing and a ladder of fine lines. It fits no measure you know.".
   Kind banner_kind "a bound-banner of horsehair" is treasure worth 40 weighing 1 described "A bunch of plaited horsehair on an ash staff, the Kin's sign of a mount fed and a rider at rest.".
   Discovery sketch_read "The diggers' sketch: a shaft down from the trench, a robbers' hole up into the harness-store, a low drift beyond the dig-camp with foul air in it, and a sump beyond that, drowned.".
   Discovery tally_read "The warden's tally-stick: three signs for the three flutes in the chamber of flutes, and the ringed one is the king's.".
   Discovery plate_read "The bronze plate's ladder of lines, laid against the howe, gives the depth of a chamber far below the Kin's floor, and a stair that goes up from it.".
-  Item salt_lick "a twist of salt" is salt_kind at fold.
+  Item salt_lick "a twist of salt" is howe_salt_kind at fold.
   Item lesser_a "a torc of the Barrow-Kin" is kin_torc at harness.
   Item lesser_b "a torc of the Barrow-Kin" is kin_torc at gallery.
   Item bronze_bits "a bridle of green bronze" is bronze_bearing at harness.
   Item king_torc_item "the king's torc" is king_torc at throne.
   Item sketch "a salvager's sketch of the workings" is sketch_kind at dig.
-  Item tally "the warden's tally-stick" is tally_kind nowhere.
+  Item tally "the warden's tally-stick" is howe_tally_kind nowhere.
   Item plate "a bronze plate from the survey cairn" is plate_kind nowhere.
   Item crew_rope "a coil of robbers' rope" is rope at shaft_head.
 
@@ -169,7 +170,7 @@ Module bound_howe "The Bound Howe" {
     Sells lamp_oil for 2 coin from 4.
     Sells rope for 2 coin from 3.
     Sells barley for 3 coin from 3.
-    Sells salt_kind for 1 coin from 4.
+    Sells howe_salt_kind for 1 coin from 4.
     Sells bandages for 1 coin from 4.
     Sells candle for 1 coin from 6.
     Sells shovel for 3 coin from 2.
@@ -300,12 +301,12 @@ Module bound_howe "The Bound Howe" {
   }
   Discovery kin_greeting "At the king's door, to ask in his name for the bound's sake, and not for gold, is the greeting the Kin's stone was made to hear.".
   Action give_salt(actor: group, site: place) "Give {warden} a twist of salt for her ring" {
-    Requires able(actor) and at(actor, site) and at(warden, site) and holding(actor, salt_kind) and not trusted(warden, actor).
-    On success { Spend salt_kind from actor. Assert trusted(warden, actor). Give tally to actor. }
+    Requires able(actor) and at(actor, site) and at(warden, site) and holding(actor, howe_salt_kind) and not trusted(warden, actor).
+    On success { Spend howe_salt_kind from actor. Assert trusted(warden, actor). Give tally to actor. }
     Result "{warden} takes the twist in two fingers, smells it, and for the first time looks at you. 'Somebody has taught you something,' she says. She goes into the hut and comes back with an ash stick notched in threes. 'My mother's, and her mother's. Do not lose it. It is the only map there is.'".
   }
   Relation trusted(group, group).
-  Topic warden_tally with warden "Ask {warden} what the tally-stick says" when trusted(warden, actor) and holding(actor, tally_kind) once {
+  Topic warden_tally with warden "Ask {warden} what the tally-stick says" when trusted(warden, actor) and holding(actor, howe_tally_kind) once {
     Says "{warden} runs a thumbnail down the notches. 'It is the way down to the flutes, and what is in them. Three signs, and the one that is ringed. That is the flute the king played: the others are for the household and the horses, and if you play them the howe will answer you in the wrong voice. I cannot say which sign is the low and which the high. I never went in. But one of the three flutes is worn smooth by hands, and a hand knows.'".
   }
   Topic warden_mind with warden "Ask {warden} what she would have you do" when knows(actor, warden_lore) once {
@@ -401,8 +402,8 @@ Module bound_howe "The Bound Howe" {
   Relation forced_told().
   Relation salted().
   Action salt_door(actor: group, site: place) "Lay a line of salt across the howe's door" {
-    Requires able(actor) and at(actor, site) and at(actor, forecourt) and holding(actor, salt_kind) and not salted().
-    On success { Spend salt_kind from actor. Assert salted(). }
+    Requires able(actor) and at(actor, site) and at(actor, forecourt) and holding(actor, howe_salt_kind) and not salted().
+    On success { Spend howe_salt_kind from actor. Assert salted(). }
     Result "You kneel and lay a line of salt across the sill, unbroken, thick as a finger, the way the shepherds lay it for the sheep. It shines grey in the light.".
   }
   Rule household_out when dark() and not state(seal, set) and not salted() and at(household, gallery) and able(household) and not tolerates(household, party) { Retract at(household, gallery). Assert at(household, forecourt). }
@@ -621,6 +622,9 @@ Module bound_howe "The Bound Howe" {
   // second day, once, and gone when it is known. (The scenario's own word reaches only the town nearest the howe and
   // its neighbour on the road, which a company beginning elsewhere has never visited.)
   Observe drovers_tell at first_taproom as hearsay when day(clock) >= 2 and not knows(party, ridge_told) "Two drovers at the end of the bench are comparing the ridge road. One says there are two columns of smoke on the skyline above the old mound where last year there was one, and that the second is no shepherd's. The other says it is the shire-reeve's licence-men digging into the barrow, that they keep a watch on the steep path now, and that they have been burying men." teaches ridge_told.
+  Topic drovers_ask with first_keeper "Ask {first_keeper} about the drovers' talk of the ridge road" when knows(actor, ridge_told) once {
+    Says "'Drovers,' says {first_keeper}, and shrugs. 'They use the ridge road, and what they say of it is mostly weather. But they have the digging right, I think. The shire-reeve's licence-men have camped at {outside}, in {land}, and you will see their smoke from the road. It is some days along the roads from here, out of town by the ford and on towards the hills. Keep to the road, and if they ask your business, have an answer ready.'".
+  }
   Entity ridge_told: fact "A salvage crew, the Spade-Company, has made a camp on the ridge above {outside} and is digging into the flank of a great howe, under the shire-reeve's licence. They keep a watch on the steep path, and they have lost men under the hill.".
   Entity levy_told: fact "The shire-reeve's clerk is raising a levy and is short of iron and gold. He will pay by the weight for the torc of the king of the great howe on the ridge, or for any torc of the Barrow-Kin.".
   Entity warden_told: fact "An old woman keeps a fire on the ridge above {outside}, in sight of the king's howe. The priest says she is the last who still keeps the dead's rest.".

@@ -9,7 +9,7 @@ Module silent_lord "The silent lord" {
     Arrives "A man in green, a tower and a star stitched on his breast, comes up the street ringing a handbell, stops by the well, and unrolls a paper.".
     Greets "'By the castellan's order,' says {crier}, in the voice of a man who has said it at four hearths since morning. 'Twenty spears and a hundred bushels, from this town and the two nearest, to be at the keep on the twelfth day for the king's muster. The lord regrets the short notice.' He lowers the paper. 'He does not say what the muster is for. Nor do I.'".
   }
-  Observe crier_cries at gossip as sign when at(crier, gossip) and not knows(party, levy_called) "The crier's paper names the lord's keep, a day or so up the road, and the tower and star on his breast are the keep's." teaches levy_called.
+  Observe crier_cries at gossip as sign when at(crier, gossip) and not knows(party, levy_called) "The crier's paper names the lord's keep, {outside}, in {land}, a day or so along the roads from here, and the tower and star on his breast are the keep's." teaches levy_called.
   Thing levy_post "the levy notice on the post" nowhere {
     State called "A paper is nailed to the post under the crier's bell-rope: THE LORD OF THE KEEP CALLS HIS MARCH TO THE KING'S MUSTER. TWENTY SPEARS AND A HUNDRED BUSHELS TO THE KEEP ON THE TWELFTH DAY. Underneath, in another hand, scratched with a nail: AND WHO IS TO SOW?".
     State postponed "A second paper is nailed over the first: THE MUSTER IS POSTPONED, THE LORD BEING INDISPOSED. THE LEVY STANDS. Nobody has taken the paper down, and nobody has taken the levy off.".
@@ -45,7 +45,7 @@ Module silent_lord "The silent lord" {
 
   // ---- What the first town's people say of it.
   Topic keeper_crier with keeper "Ask {keeper} about the crier" when day(clock) >= 2 and (state(levy_post, called) or state(levy_post, postponed)) once {
-    Says "'Twenty spears out of this town and the two nearest,' says {keeper}, 'and a hundred bushels, and he reads it off like the price of eggs. The lord used to ride through at Michaelmas and have one cup at this bar and pay for two. He has not come. The castellan signs for him.' A pause. 'The castellan has a name for being careful. I would like to see what she is being careful of.'".
+    Says "'Twenty spears out of this town and the two nearest,' says {keeper}, 'and a hundred bushels, and he reads it off like the price of eggs. The lord used to ride through at Michaelmas and have one cup at this bar and pay for two. He has not come. The castellan signs for him.' A pause. 'The castellan has a name for being careful. I would like to see what she is being careful of.' {keeper} jerks a thumb at the road. 'It is {outside}, in {land}: a day or so along the roads from here, out over the ford and on through the villages beyond.'".
     On discuss { Assert knows(actor, levy_called). Assert knows(actor, lord_unseen). }
   }
   Topic priest_candle with priest "Ask {priest} whether the lord has been to the shrine" when knows(actor, lord_unseen) and not decided(house) once {

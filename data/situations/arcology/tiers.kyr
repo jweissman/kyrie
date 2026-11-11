@@ -30,7 +30,7 @@ Module arcology "The Numbered House" {
     State folded "The bell-lilies have closed their mouths for the dark, and hang like a hundred thousand small shut fists.".
     State veiled "The bell-lilies hang over the walk with their mouths open, but the company walk behind wet cloths, and the sweetness reaches them only as a smell.".
     State wilting "The bell-lilies hang over the walk, brown and withered, and no dust comes out of them.".
-    Change veil "Tie wet cloth over your mouths and go through" from open to veiled needing veil_kind or waterskin or bandages.
+    Change veil "Tie wet cloth over your mouths and go through" from open to veiled needing arcology_veil_kind or waterskin or bandages.
     Hurts with sleep_dust when open then open.
   }
   Hazard sleep_dust "The gold dust of the bell-lilies" means "Apply asleep to ally for 1 hour unless constitution save against (12).".
@@ -56,9 +56,9 @@ Module arcology "The Numbered House" {
   Discovery bells_known "The bell-lilies breathe sleep by day and shut at dark; wet cloth over the mouth will stop it.".
   Topic gardener_cloth with gardener "Ask the Gardener for something to tie over your faces" when state(gardener, tending) and knows(party, bells_known) once {
     Says "She goes to a trough by the first bed and soaks a handful of grey linen strips in it, and wrings them out into the soil, and gives them to you with a little bow, as one gives a guest a napkin. 'Over the mouth and nose. Wet again at the channel, halfway, if you are slow.'".
-    On discuss { Give veil_kind to actor. }
+    On discuss { Give arcology_veil_kind to actor. }
   }
-  Kind veil_kind "wet strips of linen" is gear worth 0 weighing 0 described "Strips of grey linen, wrung out in the Gardener's trough, cool and smelling of green things. Tied over the mouth and nose, they will filter the air of the fourth ring.".
+  Kind arcology_veil_kind "wet strips of linen" is gear worth 0 weighing 0 described "Strips of grey linen, wrung out in the Gardener's trough, cool and smelling of green things. Tied over the mouth and nose, they will filter the air of the fourth ring.".
   Topic gardener_house with gardener "Ask the Gardener what the House is for" when state(gardener, tending) once {
     Says "'To keep a number alive,' she says, without hesitating. 'Everything in it was made to be counted and so was kept. I tend what is mine, and the count tends me.' She looks at you for a long moment. 'Ask the tablets what it is for, if you want a different answer. They have one too.'".
   }

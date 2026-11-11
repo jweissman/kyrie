@@ -30,11 +30,11 @@ Module arcology "The Numbered House" {
   }
   Discovery cairn_here "The survey party left things under the cairn by the doors." { Found by searching landing "Under the top stone of the survey's cairn there is a bronze tablet, and a plate of polished metal on a hinge.". }
   Item prefect_tablet "the Prefect's tablet" is prefect_kind at landing hidden until cairn_here.
-  Item mirror "the surveyors' signal-plate" is mirror_kind at landing hidden until cairn_here.
+  Item mirror "the surveyors' signal-plate" is arcology_mirror_kind at landing hidden until cairn_here.
   Item chalk_stub "a stub of the survey's chalk" is chalk at landing hidden until cairn_here.
   Kind prefect_kind "the Prefect's tablet" is document teaching detour_order worth 30 weighing 2 described "A bronze tablet the size of a hand, closed with a seal of lead stamped with a wheel and a wing. It orders the road round the Works, forbids a stage to be built within nine miles, and enjoins that no officer of the Posts enter or number what is within. It is signed with the Office of the Road's mark and no name.".
   Discovery detour_order "The Office of the Road ordered the Posts to carry the road round the Works and to build no stage near it; whether to keep people out, or something in, the tablet does not say.".
-  Kind mirror_kind "the surveyors' signal-plate" is gear worth 4 weighing 1 described "A hinged plate of polished bronze, bright still, with a sighting-slot cut through its middle. The Posts used them to send a word down the road by sunlight; held to a lantern, one throws a hard small spot a long way.".
+  Kind arcology_mirror_kind "the surveyors' signal-plate" is gear worth 4 weighing 1 described "A hinged plate of polished bronze, bright still, with a sighting-slot cut through its middle. The Posts used them to send a word down the road by sunlight; held to a lantern, one throws a hard small spot a long way.".
 
   Thing ledge_way "the goat-path" on ledge_up {
     State plain "A goat-path zigzags up the face from the shelf: ledges the width of a boot, and a few iron staples hammered into the rock by someone who wanted to get up without passing under the doors.".

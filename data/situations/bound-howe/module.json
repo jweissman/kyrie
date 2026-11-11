@@ -17,7 +17,8 @@
     "shrine",
     "keeper",
     "priest",
-    "first_taproom"
+    "first_taproom",
+    "first_keeper"
   ],
   "roles": {
     "party": {
@@ -49,6 +50,9 @@
     },
     "first_taproom": {
       "type": "place"
+    },
+    "first_keeper": {
+      "type": "group"
     }
   },
   "exports": {

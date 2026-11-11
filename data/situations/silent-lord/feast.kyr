@@ -93,7 +93,7 @@ Module silent_lord "The silent lord" {
   }
 
   // ---- The aims.
-  Objective keep_rumoured when knows(party, levy_called) and not entered(house) toward outside "A crier in the castellan's colours has read a levy on the green. The keep it comes from is a day or so up the road, and its lord has not been seen in eleven days.".
+  Objective keep_rumoured when knows(party, levy_called) and not entered(house) toward outside "A crier in the castellan's colours has read a levy on the green. The keep it comes from is {outside}, in {land}, a day or so along the roads from here, and its lord has not been seen in eleven days.".
   Objective keep_lord when entered(house) and not knows(party, lord_dead) and not reckoned(house) toward chaplain "The lord is unseen, his cup is filled and cleared untouched, and the old dog howls toward the chapel. Find where he is.".
   Objective keep_writs when entered(house) and knows(party, lord_dead) and not knows(party, herald_false) and not reckoned(house) toward herald "The lord is dead, and a herald with a levy-writ has not been told. His seal is a plain crown; the king's, someone says, is not.".
   Objective keep_feast when entered(house) and not reckoned(house) toward hall "The feast is in the hall on the evening of the {feastDay(house)}th day. The household will all be there, and so will the herald.".
