@@ -119,9 +119,10 @@
     On success { Spend oil_firebomb from actor. Slay {t}_u_buck. }
     Result "The flask bursts on the shelf and the straw goes up at once. Something big comes out of it screaming and goes into the water, and does not come up again.".
   }
-  // A magician's way with the rats themselves: a spell of sleep laid over the run, and the rats done for where they lie
-  // (Mission 19's Priority Three), for one who would not be bitten.
-  Action {t}_u_rats_slept(actor: group, site: place) "Lay a spell of sleep over the rats in the run, and do for them where they lie" {
+  // A magician's way with the rats themselves: a sleep laid over the run, and the rats done for where they lie
+  // (Mission 19's Priority Three), for one who would not be bitten. A mage's charm, not the Sleep spell, which a mage
+  // need not have (round 5's evoker was offered "a spell of sleep" she had never learned).
+  Action {t}_u_rats_slept(actor: group, site: place) "Put the rats in the run to sleep with a mage's charm, and do for them where they lie" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_u_warren) and able({t}_u_rats) and memberOf(?m, actor) and awake(?m) and (hasCalling(?m, calling_mage) or learned(?m, sleep)).
     Time 1 minutes.
     On success { Slay {t}_u_rats. }
@@ -410,7 +411,7 @@
   Observe {t}_u_drain_scene at {t}_u_drain as fixture when true "An old drain of fitted stone, tall enough to stoop along, with a black trickle down the middle of it and the walls furred with something pale that moves when the light touches it.".
   Observe {t}_u_undercroft_scene at {t}_u_undercroft as fixture when true "A long room of round pillars, older than anything above it: the corn-store, the church and the quarry were all dug down into it, from three sides, by people who did not know it was here.".
   // The flag is a sign of its own, so the page says it apart and searching is the act it leads with.
-  Observe {t}_u_undercroft_flag at {t}_u_undercroft as sign when not knows(party, {t}_u_vault_found) "One flag in the middle of the floor is cut with a ring of letters nobody here can read, and it does not sit quite level with the rest".
+  Observe {t}_u_undercroft_flag at {t}_u_undercroft as sign when not knows(party, {t}_u_vault_found) "One flag in the middle of the floor is cut with a ring of letters nobody here can read, and it does not sit quite level with the rest.".
   Person {t}_u_crawler "a great centipede" at {t}_u_drain {
     Role "a centipede as long as a man, living in the old drain". Species great_centipede. Numbers 1. Level 2. Lair {t}_u_drain.
   }
