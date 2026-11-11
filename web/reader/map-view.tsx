@@ -9,6 +9,7 @@ import type { Choice } from '../../src/ui/choice-list';
 import type { ReaderApp } from './reader-app';
 import { HexLand } from './hex-land';
 import { BoardField } from './board-field';
+import type { Courses } from './board/board-types';
 import { MenuModel } from './menu-model';
 import { Notices } from './notices';
 import { Typography } from '../../src/presentation/typography';
@@ -31,7 +32,8 @@ export class MapView {
     // the aim, the next thing to do is go: the owner, 31 October).
     const [aim] = useState(() => MapView.aim(app, screen));
     const [chosen, choose] = useState<string | undefined>(aim), [keyed, key] = useState(aim ? 1 : 0), region = screen.region;
-    const [pointed, point] = useState<string>();
+    const [pointed, point] = useState<string>(), [planned, plan] = useState<Record<string, string[] | null>>({});
+    useEffect(() => { MapView.ask(app, screen, { chosen, planned, plan }); }, [app, screen, chosen, planned]);
     const dialog = useRef<HTMLElement>(null), bound = region && BoardField.whither(region, app.state.frame?.bound?.id);
     // A place chosen by the keys: the way there is the next thing they reach, not the rest of the places on the map.
     // Touched, a hex or a place is chosen, and its way, how long and when the company would come there are shown with
@@ -56,8 +58,7 @@ export class MapView {
         tabIndex={-1} ref={dialog} onKeyDown={e => MapView.escape(e, app, chosen ? forget : undefined)}>
         {region?.land ? <BoardField.View region={region} chosen={chosen} choose={pick} bound={bound}
           face={screen.party[0]?.face?.src} walking={app.state.walking?.way} walked={app.state.walking?.done}
-          point={point} courses={{ chosen: JourneyCourse.planned(screen, chosen), bound: JourneyCourse.planned(screen, bound),
-            aimed: !!bound && Guidance.shown(app) && bound === MapView.aimed(app, screen) }} />
+          point={point} courses={MapView.courses(app, screen, { chosen, bound, planned })} />
           : <p className="none">You have no map of this country yet.</p>}
         <header className="field-head"><p className="where"><span className="title">{app.state.frame!.title}</span>
           <span>The map</span></p><h1 className="place">{Typography.curl(Words.upper(screen.place.name))}</h1></header>
@@ -69,6 +70,39 @@ export class MapView {
     );
     return typeof document === 'undefined' ? map : createPortal(map, document.body);
   }
+  // The ways laid on the map: each the itinerary its set-out would go by (see way), as the journey goes it, never the
+  // board's own shortest way where there is one. A hex or a mark chosen had been looked up as itself, found no plan, and
+  // had the board's way laid, while the journey went by the itinerary's ways (the owner, 11 November: "the route
+  // preview and executed travel still disagree").
+  // A hex chosen, which no itinerary of the screen's is for, is laid by the engine's own plan once it is had, and
+  // nothing until then (see ask); so is a journey held to one.
+  static courses(app: ReaderApp, screen: Screen, at: { chosen?: string; bound?: string;
+    planned: Record<string, string[] | null> }): Courses {
+    const along = (id?: string) => id === undefined ? undefined : JourneyCourse.planned(screen, id)
+      ?? JourneyCourse.along(screen, at.planned[MapView.asked(screen, id)] ?? undefined) ?? [];
+    return { chosen: at.chosen === undefined ? undefined : along(MapView.whither(screen, at.chosen)),
+      bound: along(app.state.frame?.bound?.id),
+      aimed: !!at.bound && Guidance.shown(app) && at.bound === MapView.aimed(app, screen) };
+  }
+  // Where a choice on the map would set out for: the itinerary's place, else the journey its set-out makes.
+  private static whither(screen: Screen, chosen: string): string | undefined {
+    if (!screen.region?.land) { return undefined; }
+    const way = MapView.way(screen, chosen);
+    return way.d?.id ?? (way.go?.command?.startsWith('travel:') ? way.go.command.slice('travel:'.length) : undefined);
+  }
+  // The engine's plan for where the map would set out for that the screen has none of, asked once for each.
+  static ask(app: ReaderApp, screen: Screen, at: { chosen?: string; planned: Record<string, string[] | null>;
+    plan: (f: (p: Record<string, string[] | null>) => Record<string, string[] | null>) => void }): void {
+    for (const id of [at.chosen && MapView.whither(screen, at.chosen), app.state.frame?.bound?.id]) {
+      const key = id && MapView.asked(screen, id);
+      if (!id || !key || key in at.planned || JourneyCourse.planned(screen, id)) { continue; }
+      at.plan(p => ({ ...p, [key]: null }));
+      void app.engine.request<string[] | null>({ kind: 'plan', destination: id })
+        .then(stops => { at.plan(p => ({ ...p, [key]: stops })); }).catch(() => undefined);
+    }
+  }
+  // A plan is from where the company stands when it is asked.
+  private static asked(screen: Screen, id: string): string { return `${screen.place.id}>${id}`; }
   // The place the aim shown is set out for, where the way to it is known and the map has it.
   // The aim followed, when the map cannot show where it is and it names someone who might know.
   static unplaced(app: ReaderApp, screen: Screen): { aim: string; who: string } | undefined {

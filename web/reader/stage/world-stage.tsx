@@ -73,6 +73,7 @@ export class WorldStage {
           </aside>
           {!overworld && !SceneRail.on(app) && <Explorer.View app={app} draw={draw} />}
           {!overworld && frame.leaf.glance && SceneRail.on(app) && <SceneRail.View app={app} draw={draw} />}
+          {(overworld || !frame.leaf.glance) && SceneRail.on(app) && <SceneRail.Books app={app} alone onMap={overworld} />}
         </div>
         {up === 'look' && <LookAbout.Sheet app={app} draw={draw} />}
         {up === 'ways' && <WaysPane.Sheet app={app} draw={draw} />}

@@ -31,13 +31,27 @@ export class SceneRail {
         {search && <Act.View choice={search} draw={draw} quiet className="rail-mark by-glyph">
           <Glyphs.View id="search" className="rail-glyph" label="Search" /></Act.View>}
         <span className="rail-gap" aria-hidden="true" />
-        <button type="button" className={`rail-mark${SceneRail.mapLit(app) ? ' lit tone-gold' : ''}`} data-action="mode"
-          data-view="map" data-key="m" aria-label="The map" title="The map" onClick={() => app.show('map')}>
-          <Glyphs.View id="the_map" className="rail-glyph" /></button>
-        <button type="button" className="rail-mark" data-action="book" aria-label="Your book" title="Your book"
-          onClick={() => app.show('journal')}><Glyphs.View id="the_book" className="rail-glyph" /></button>
+        <SceneRail.Books app={app} />
       </nav>
     );
+  }
+  // The map and the book, where they stand on every page of the scene: in talk, and over a thing looked at, as at
+  // rest (the owner, 11 November: no bar of them across the top of the page).
+  // On the map, its mark is pressed, and touched goes back to where the company is (the owner, 11 November: the map
+  // had its own bar of Map and Book across its top).
+  static Books({ app, alone, onMap }: { app: ReaderApp; alone?: boolean; onMap?: boolean }) {
+    const marks = <>
+      {onMap ? <button type="button" className="rail-mark pressed" data-action="back-to-place" aria-pressed="true"
+        aria-label="The map: back to where you are" title="Back to where you are" onClick={() => app.outdoor(false)}>
+        <Glyphs.View id="the_map" className="rail-glyph" /></button>
+        : <button type="button" className={`rail-mark${SceneRail.mapLit(app) ? ' lit tone-gold' : ''}`}
+          data-action="mode" data-view="map" data-key="m" aria-label="The map" title="The map"
+          onClick={() => app.show('map')}><Glyphs.View id="the_map" className="rail-glyph" /></button>}
+      <button type="button" className="rail-mark" data-action="book" aria-label="Your book" title="Your book"
+        onClick={() => app.show('journal')}><Glyphs.View id="the_book" className="rail-glyph" /></button>
+    </>;
+    return alone ? <nav className={`scene-rail${onMap ? ' on-map' : ''}`} aria-label="The map and your book">{marks}</nav>
+      : marks;
   }
   static Mark({ app, part, glyph, words, standing }: { app: ReaderApp; part: 'go' | 'look' | 'wait'; glyph: string;
     words: string; standing: Standing }) {

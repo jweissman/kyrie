@@ -137,6 +137,9 @@ export type Request =
   // Travel along known ways to a place the company knows (see Travel): leg after leg, until it arrives or something
   // wants a decision.
   | { kind: 'travel'; destination: string }
+  // The stops a journey set out for now would go by (see Itineraries.plan), as Travel goes them: what the map lays for
+  // a hex chosen, which no itinerary of the screen's is for (none, where no way there is known).
+  | { kind: 'plan'; destination: string }
   // A journey given up.
   | { kind: 'unbind' }
   // An aim followed by the player's choice, by its id; none, and the game follows for them (see Undertakings).

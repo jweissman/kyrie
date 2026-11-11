@@ -1,3 +1,4 @@
+import { SceneRail } from './scene-rail';
 import type { Frame } from '../../engine/protocol';
 import type { Screen } from '../../../src/ui/screen-types';
 import type { ReaderApp } from '../reader-app';
@@ -29,8 +30,9 @@ export class Stage {
     return (
       <div className={`stage mode-${mode}`} data-mode={Stage.inspected(app, mode)} aria-busy={s.pending ? true : undefined}>
         {/* In the scene first, the map and the book are on its rail (see SceneRail). */}
-        {['explore', 'talk', 'examine'].includes(mode) && !(mode === 'explore' && app.props.query.get('scene') !== 'split'
-          && app.state.frame?.leaf.glance && !app.state.outdoors) && <Stage.Corner app={app} full={mode === 'explore'} />}
+        {['explore', 'talk', 'examine'].includes(mode) && !SceneRail.on(app) && <Stage.Corner app={app}
+          full={mode === 'explore'} />}
+        {['talk', 'examine'].includes(mode) && SceneRail.on(app) && <SceneRail.Books app={app} alone />}
         <div className="intentions" data-region="choices">
           {mode === 'prologue' && <PrologueStage.View app={app} />}
           {mode === 'fallen' && <BookStage.Ending app={app} />}

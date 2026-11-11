@@ -37,7 +37,6 @@ interface Trail { legs: NonNullable<Frame['travel']>['legs']; last?: Frame }
 // What setting out asks for: the campaign (or the generated region), and who comes, and why.
 type Starting = Omit<Extract<Request, { kind: 'begin' }>, 'kind'>;
 
-
 // The engine's side of play. It holds the one PlaySession, carries out what the player chose, and answers with a
 // frame: everything the page draws. A fight pauses on each of the company's turns until the page sends a choice.
 export class EngineHost {
@@ -83,10 +82,10 @@ export class EngineHost {
       case 'begin': return this.begin(request);
       case 'ready': this.prepare(request); return null;
       case 'resume': return this.resume(request.saved, { world: request.world, apart: request.apart });
-      case 'perform':
-        return this.command(() => this.perform(request.command));
+      case 'perform': return this.command(() => this.perform(request.command));
       case 'fight': this.pressing = !!request.through; this.fight(request.choice); return null;
       case 'travel': return this.command(() => this.travel(request.destination));
+      case 'plan': return Itineraries.plan(this.session!.campaign, request.destination)?.legs.map(l => l.to) ?? null;
       // A journey given up: it is no longer held, nor shown.
       case 'unbind': this.bound = undefined; return this.frame();
       case 'follow': return this.followed(request.aim);

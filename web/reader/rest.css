@@ -258,6 +258,15 @@
 .scene-rail { position: absolute; z-index: 6; right: var(--safe-x, 28px); bottom: var(--safe-y, 24px); display: flex;
   align-items: center; gap: 2px; padding: 4px 6px; border: 1px solid var(--edge); border-radius: 999px;
   background: rgba(12, 13, 17, .62); backdrop-filter: blur(6px); }
+/* Over the map, its panel stands clear above the rail. */
+.shell.scene-full .world-page.scale-board .focus { margin: var(--safe-y, 24px) var(--safe-x, 28px)
+  calc(var(--safe-y, 24px) + 60px); }
+@media (max-width: 899px), (orientation: portrait) {
+  .shell.scene-full .world-page.scale-board .focus { width: min(34rem, calc(100% - 2 * var(--safe-x, 16px))); }
+  .shell.scene-full .world-page.scale-board .board-surface .field-tools { top: 150px; bottom: auto; left: auto;
+    right: var(--safe-x, 16px); transform: none; }
+}
+.rail-mark.pressed { color: var(--ivory); background: rgba(255, 255, 255, .08); }
 .scene-rail .rail-gap { width: 1px; height: 22px; margin: 0 6px; background: var(--edge-strong); }
 .rail-mark { all: unset; box-sizing: border-box; position: relative; display: inline-grid; place-items: center; width: 40px;
   height: 40px; border-radius: 50%; cursor: pointer; color: rgba(236, 230, 217, .82);

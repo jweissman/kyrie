@@ -78,7 +78,7 @@ describe.skipIf(!process.env.KYRIE_TOUR)('the reference hour, through the page',
       if (!lead) { break; }
       // A journey is the map's: the Map key is lit, and the map opens with the way chosen (see Stage.mapLed).
       if (lead.choice.startsWith('travel:') && !st.choices.some(c => c.id === lead.choice)) {
-        log.push(`  the Map key${await page.locator('.corner.icon.led, .sheet-key.led').count() ? ' is lit' : ' is not lit'}`);
+        log.push(`  the Map key${await page.locator('.corner.icon.led, .rail-mark.lit[data-view="map"]').count() ? ' is lit' : ' is not lit'}`);
         await d.key('m'); await shot('map');
         continue;
       }

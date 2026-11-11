@@ -234,6 +234,8 @@ export class MonoDriver {
     const shut = '.field-map [data-action="close"]';
     if (key === 'm' && await this.page.locator(shut).count()) { await this.click(shut); return; }
     const tab = `[data-action="mode"][data-key="${key}"]`;
+    // The map is no page of the book: from the book, back to the scene and its rail (the owner, 11 November).
+    if (key === 'm' && !await this.page.locator(tab).count()) { await this.click('[data-action="back"]'); }
     if (!await this.page.locator(tab).count()) {
       await this.click('[data-action="book"]');
       const opened = { j: 'journal', c: 'party', i: 'pack', m: 'map', h: 'story' }[key];

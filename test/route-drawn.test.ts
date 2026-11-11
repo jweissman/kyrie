@@ -6,6 +6,7 @@ import { JourneyCourse } from '../web/reader/journey-course';
 import { Glanced } from './support/glanced';
 import { Travel } from '../src/session/travel';
 import { ScreenModel } from '../src/ui/screen-model';
+import { Itineraries } from '../src/ui/itinerary';
 import type { Frame } from '../web/engine/protocol';
 
 // The way the map draws before setting out is the way the journey goes (the owner, 10 November: the journey had not
@@ -55,4 +56,20 @@ describe('a way drawn on the map', () => {
     }
     expect(arrived).toBeGreaterThan(0);
   }, 400000);
+  // A hex chosen on the map, which no itinerary of the screen's is for, is laid by the engine's own plan (the plan
+  // request), and walked hex by hex over open country: next door north of Thornhaven had been laid by the board's own
+  // way and walked 221, 140, 90, 201, by the middle of the wood the hex lies in (the owner, 11 November).
+  it('lays a hex chosen by the plan the journey goes by, and walks it a hex at a time', async () => {
+    const s = await DrawnWorld.start('kahitude', { origin: 'debt', party: [{ name: 'Ralf', raceId: 'human',
+      classId: 'warrior' }] }, NodeBundleSource.shared);
+    const before = { screen: ScreenModel.build(s.campaign) } as Frame, land = before.screen.region!.land!;
+    const north = land.here! - land.width, to = land.goes![north]!;
+    const laid = JourneyCourse.along(before.screen, Itineraries.plan(s.campaign, to)!.legs.map(l => l.to));
+    expect(laid).toEqual([land.here!, north]);
+    const made = await Travel.go({ campaign: s.campaign, perform: c => s.perform(c) }, to);
+    expect(made.arrived).toBe(true);
+    const went = made.legs.map(l => ({ id: /,([^,)]+)\)$/.exec(l.command)?.[1] }));
+    const after = { screen: ScreenModel.build(s.campaign), travel: { legs: went } } as unknown as Frame;
+    expect(JourneyCourse.of(before, after)).toEqual(laid);
+  }, 120000);
 });

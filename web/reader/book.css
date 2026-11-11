@@ -242,10 +242,11 @@
   display: grid; place-items: center; background: #14151a; border: calc(var(--you) / 14) solid var(--ivory);
   box-shadow: 0 0 0 2px rgba(239, 230, 209, .7), 0 0 14px 2px rgba(239, 230, 209, .4), 0 3px 8px rgba(0, 0, 0, .8); }
 .board-you svg { width: 56%; height: 56%; fill: var(--accent); }
-/* Your face on the plate where there is one, ringed in the plate's gold: the portrait's square whole, never drawn in
-   closer (each is already cut close about the face, the crown often at its top edge: drawn in half as close again,
-   the plate had cut the top of the head; the owner, 7 November). */
-.board-you .you-plate.faced { overflow: hidden; border-color: var(--gold); background: #14151a; }
+/* Your face on the plate where there is one, ringed in the plate's own ivory, never gold, which is the aim's alone
+   (the owner, 11 November): the portrait's square whole, never drawn in closer (each is already cut close about the
+   face, the crown often at its top edge: drawn in half as close again, the plate had cut the top of the head; the
+   owner, 7 November). */
+.board-you .you-plate.faced { overflow: hidden; background: #14151a; }
 .board-you .you-plate.faced img { width: 100%; height: 100%; display: block; object-fit: cover; object-position: 50% 0; }
 .board-you .you-staff { position: absolute; left: calc(50% - 1px); top: var(--you); width: 2px;
   height: calc(var(--you) * .6);
