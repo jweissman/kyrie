@@ -22,7 +22,10 @@
   "fiend": "an Orsino template composed for summoning (level-1 'wildtype'); its danger is a scene's to place, not a table's",
   "ifrit": "an Orsino template composed for summoning (level-1 'wildtype'); its danger is a scene's to place, not a table's",
   "titan": "an Orsino template composed for summoning (level-1 'wildtype'); its danger is a scene's to place, not a table's",
-  "yuanti": "a speaking people with no habitat or faction in the world yet; needs a serpent-folk faction and a danger measure before it can be met"
+  "yuanti": "a speaking people with no habitat or faction in the world yet; needs a serpent-folk faction and a danger measure before it can be met",
+  "hen": "a farm animal: kept by people and placed with them by the town and farm templates, never met wild; no encounter table is wanted",
+  "pig": "a farm animal: kept by people and placed with them by the town and farm templates, never met wild; no encounter table is wanted",
+  "sheep": "a farm animal: kept by people and placed with them by the town and farm templates, never met wild; no encounter table is wanted"
  },
  "paintings": {
   "asylum": "an old master's painting filed as a place, with figures or a scene no generated place is: kept for a plane or an authored city",

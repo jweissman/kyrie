@@ -128,6 +128,9 @@ class Census {
       }
     }
     const known = { ...byRecord, ...dormant.creatures ?? {} };
+    // Where an authored-only kind is actually written into a scene: the module that names it (a standing scenario's
+    // situation is placed in every first country; an adventure is a country of its own).
+    const homes = this.homes(authoredOnly);
     return ['## Creatures', '',
       'Measured: authored (a species record) → eligible (a generation path can choose it: den, open country, deep site; '
       + `from the record's habitats and abundance, as \`bin/kyrie bestiary report\` decides) → instantiated (met in `
@@ -138,8 +141,19 @@ class Census {
       `| authored scenes only | ${authoredOnly.length} |`, `| summoned only | ${summoned.length} |`,
       `| **no path at all** | **${stranded.length}** |`, '',
       this.bullets('No path at all', stranded.map(k => `${k}: ${BestiaryReport.why(k)}`), {}),
-      this.bullets('Authored in scenes only', authoredOnly, known), this.bullets('Summoned only', summoned, known),
+      this.bullets('Authored in scenes only', authoredOnly, known),
+      ...homes.length ? ['**Where those scenes live** (a module that names the kind): '
+        + homes.map(([k, m]) => `${k} in ${m.join(', ')}`).join('; '), ''] : [],
+      this.bullets('Summoned only', summoned, known),
       this.bullets('Eligible, not met in the sample', eligible, known)];
+  }
+  private static homes(kinds: string[]): [string, string[]][] {
+    const files = [...new Bun.Glob('data/{situations,adventures,goings-on}/**/*.{kyr,kyrt}').scanSync({ cwd: this.root })];
+    const text = files.map(f => [f.split('/')[2]!, readFileSync(join(this.root, f), 'utf8')] as const);
+    return kinds.map(k => {
+      const word = new RegExp(`\\b${k}\\b`);
+      return [k, [...new Set(text.filter(([, t]) => word.test(t)).map(([m]) => m))]] as [string, string[]];
+    }).filter(([, m]) => m.length > 0);
   }
   // ---- works, items, scenarios, goings-on and situations
   static works(worlds: World[]): string[] {
