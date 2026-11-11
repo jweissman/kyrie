@@ -25,4 +25,11 @@ Module lowwater "Low Water" {
   Topic halm_bare_ask with halm "Ask Halm about the empty cloth" when routed(ring) and not exchangeLot() once {
     Says "'The lots have stopped,' says Halm, in the voice of a man at a funeral. 'The Exchange's carter came down every month for three years. Bell-metal, a tooth, a face. It was never much, and it was never the same twice, and it was the only reason the Collegium knew anything was still being found in the north.' He puts the tag down. 'Somebody did something. I don't know what. I don't know whether to thank them.'".
   }
+  // What is said of the Bowl in the country behind it: once the company has gone up out of it, the rumour of a falling lake and a hired stranger is old news there, told by what the Office decided.
+  Entity word: fact "What is said of the Bowl of Ammerlin in the country behind it.".
+  Entity word_accord: fact "What is said there of the Office's verdict.".
+  Entity word_false: fact "What is said there of the count.".
+  Rule word_old when departed(party) and not stale(word) { Assert stale(word). }
+  Rule word_accord_old when verdictAccord(ammerlin) and not stale(word_accord) { Assert stale(word_accord). }
+  Rule word_false_old when countFalsified(reckoner) and not stale(word_false) { Assert stale(word_false). }
 }

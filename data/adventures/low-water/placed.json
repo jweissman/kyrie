@@ -35,7 +35,10 @@
     "party",
     "carter",
     "south_road",
-    "ring"
+    "ring",
+    "word",
+    "word_accord",
+    "word_false"
   ],
   "roles": {
     "party": {
@@ -52,7 +55,10 @@
   "optional": [
     "carter",
     "south_road",
-    "ring"
+    "ring",
+    "word",
+    "word_accord",
+    "word_false"
   ],
   "canon": [
     "imbar",
