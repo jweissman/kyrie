@@ -6,6 +6,7 @@ The commission asked, in three phases, for a deeper starting region (Phase One),
 
 | Page | What it is |
 |---|---|
+| [final-report.md](final-report.md) | **Start here for the outcome.** What is implemented, what is automatically verified, what was actually experienced (three blind playtests), M20 notes, and what remains unintegrated. |
 | [phase-two.md](phase-two.md) | **Phase Two guidance:** which of its seven parts are already met, the final coherence and economy pass, generic balance observations for M20, and what a small independent Phase Two pass should do next, in order. |
 | [handoff.md](handoff.md) | **Start here for merging.** What is implemented and exercised vs designed; every shared file touched and why; how to merge without duplicating people, places or quest systems; blockers. |
 | [treatment.md](treatment.md) | Phase One: the diagnosis, the new places and people, the quest interconnection map, Aenean sites and clues, tested routes, and what is designed-only. |

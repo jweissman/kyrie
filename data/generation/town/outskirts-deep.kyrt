@@ -78,7 +78,7 @@
   Initially Assert unlit({t}_stones_under).
   Observe {t}_stones_under_scene at {t}_stones_under when true "A round chamber under the dome, cut in the living rock. A ring of niches in the wall, each the length of a body, each with a lamp-hollow at its head. The air is stale but quite clean; the dead were not left to rot here. A bronze chime hangs from the roof by a chain, as long as a man's arm, and sways in the draught from the tunnel.".
   Discovery {t}_slab_found "One slab among the low graves of the dome has been moved, and moved back: its edge is rubbed pale, and a thumb's width of black shows." {
-    Found by searching {t}_stones_dome "One slab among the graves has a bright edge where hands have shifted it. Under it, a stair goes down, steep and narrow.".
+    Found by searching {t}_stones_dome "One slab among the graves has a bright edge where hands have shifted it. Under it, a stair goes down, steep and narrow; the slab is too heavy for hands that are not used to labour, and wants a strong back or a bar.".
   }
   Passage {t}_stones_slabstair "the stair under the slab" is stair between {t}_stones_dome and {t}_stones_under hidden until {t}_slab_found needing brawn or crowbar.
   Thing {t}_stones_chime "the bronze chime" at {t}_stones_under {
