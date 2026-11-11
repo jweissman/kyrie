@@ -34,7 +34,10 @@ export type Why =
   // Someone who could join the company: willing now, or with something to be asked that would make them so.
   | 'companion'
   // A way about a settlement or site not yet taken.
-  | 'unvisited';
+  | 'unvisited'
+  // A way into a settlement from its own country, the company outside it (the owner, 11 November late: in the hex of
+  // Elmham the page had led toward a far aim and to look out over the country, and the town was only under Go…).
+  | 'entry';
 // What a choice risks, or needs said before it is chosen.
 export type MarkKind = 'one-way' | 'grave' | 'fight' | 'trap' | 'unlooked' | 'heard' | 'exposed' | 'warned' | 'night';
 // ask: the page asks again before it is done.
@@ -57,6 +60,8 @@ export interface Promoted {
   // The one led act that is the followed aim's known next step, where one is known (see Promotion.continued): the
   // foreground's recommended continuation, whether or not the page shows it as such.
   continues?: true;
+  // A way into a town from its own country (see Affordances, entry): the map's card for the hex offers it.
+  enters?: true;
   // What the reason is, in words beside it: "your brother", "your aim", "the way you came", how a fight would go.
   note?: string;
   marks: Mark[];

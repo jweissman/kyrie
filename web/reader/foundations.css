@@ -13,6 +13,11 @@
   unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
 @font-face { font-family: 'Newsreader'; font-style: italic; src: url(fonts/newsreader-italic-latin.woff2) format('woff2'); font-weight: 300 700; font-display: swap; }
 :root {
+  /* The safe zone: nothing that can be touched or must be read stands nearer the screen's edge than this, nor nearer a
+     notch or a home bar than 8px past its inset (the owner, 11 November late). The scene's margins are taken from it,
+     ?safe draws it (see Shell.Safe), and the checks measure against what it draws. A painting goes to the edge. */
+  --safe-t: max(16px, calc(env(safe-area-inset-top) + 8px)); --safe-r: max(16px, calc(env(safe-area-inset-right) + 8px));
+  --safe-b: max(16px, calc(env(safe-area-inset-bottom) + 8px)); --safe-l: max(16px, calc(env(safe-area-inset-left) + 8px));
   /* Ground and surfaces, darkest to lightest: the room, the stage, a raised control, one lifted under the hand. */
   --ground: #0A0B0E; --surface: #121318; --raised: #191B21; --lift: #22252D; --deep: #07080A;
   --ivory: #ECE6D9; --dim: #A59F94; --faint: #6E6A62; --edge: rgba(236, 230, 217, .10); --edge-strong: rgba(236, 230, 217, .24);

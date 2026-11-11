@@ -246,7 +246,10 @@
 
 /* ---- The scene's rail and its safe margins (the owner, 11 November: everything that can be touched well inside the
    screen's edges; one tiny rail of marks at the foot of its right side, apart from what is told). ---- */
-.shell.scene-full { --safe-x: max(28px, 3.2vw, env(safe-area-inset-right)); --safe-y: max(24px, 3.4vh, env(safe-area-inset-bottom)); }
+.shell.scene-full { --safe-x: max(28px, 3.2vw, var(--safe-r), var(--safe-l)); --safe-y: max(24px, 3.4vh, var(--safe-b)); }
+/* The safe zone drawn, for development and acceptance (?safe): a thin light line where it runs. */
+.safe-zone { position: fixed; inset: var(--safe-t) var(--safe-r) var(--safe-b) var(--safe-l); z-index: 2147483000;
+  border: 1px solid rgba(214, 214, 214, .6); pointer-events: none; }
 .shell.scene-full .world-page.scale-scene > .world-bar { padding: var(--safe-y) var(--safe-x) 44px; }
 .shell.scene-full .world-page.scale-scene .world-body > .focus { right: var(--safe-x); top: clamp(96px, 13vh, 128px);
   max-height: calc(100dvh - clamp(96px, 13vh, 128px) - var(--safe-y) - 64px); }
@@ -285,9 +288,11 @@
   /* A card inside the safe margins, standing clear above the rail: what is told and chosen never runs under the rail
      or to the screen's edge (the owner, 11 November). */
   .shell.scene-full .world-page.scale-scene .world-body > .focus { top: auto; left: var(--safe-x); right: var(--safe-x);
-    bottom: calc(max(14px, env(safe-area-inset-bottom)) + 60px); max-height: calc(100dvh - 300px);
+    bottom: calc(var(--safe-b) + 64px); max-height: calc(100dvh - 300px);
     padding-bottom: 14px; border-width: 1px; }
-  .scene-rail { bottom: max(14px, env(safe-area-inset-bottom)); }
+  /* Inside the safe zone, with room for a pip standing off its marks (14px had put it past the zone on an upright
+     iPad: the five-size walk, 11 November). */
+  .scene-rail { bottom: calc(var(--safe-b) + 4px); }
   /* Who is here, over the painting under the place's name, not under the sheet (as the phone rule above). */
   .shell.scene-full .world-page.scale-scene .surface .portraits { top: 150px; bottom: auto; }
 }

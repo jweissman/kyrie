@@ -32,8 +32,9 @@ export interface Reading {
   // A sign perceived here and not seen before, by whom or what it is of ('' for the place's own).
   signs: Map<string, string>;
   life?: string; pointed: Set<string>; done: Set<string>; talked: Set<string>;
-  // Who could join the company (see Companions).
-  companions?: Set<string>;
+  // Who could join the company (see Companions); the places one way off where the company perceives someone who might
+  // (see Perception).
+  companions?: Set<string>; sensed?: Set<string>;
   // Places about the company it left having done nothing there, with nothing done since: no aim leads back to them.
   idle?: Set<string>;
   needs: { hungry: boolean; rations: number; hurt: Set<string>; night: boolean; weary: boolean; settled: boolean;
@@ -248,16 +249,26 @@ export class Affordances {
     // A try on a way barred (look at the portcullis) is something done there, not a way. Slipping past who keeps it is
     // that danger's own gentle way, led with it: a thief had found it only under Look… (Mission 20, round 2, B 88).
     const kind = tried ? 'act' as const : exit.bearing ? 'step' as const : 'way' as const;
+    // Into a town from its own country: said as entering it, and with what the company perceives of it from here
+    // (someone who might join), never what it has not (who is within, what they would ask).
+    const town = !tried && !exit.crosses ? this.entered(screen, dest) : undefined;
+    if (town) { whys.push('entry', ...r.sensed?.has(dest) ? ['companion' as const] : [], ...this.fresh(exit, whys)); }
     const slip = tried && !c.disabled && r.schema.get(c.command ?? '') === 'slip_past' ? r.args.get(c.command!)?.[3] : undefined;
     if (slip) { whys.unshift('danger'); }
     // A way into the next hex is set out on from the map, as a journey there (see HexBoundary): led with, it is that
     // journey, never the way's own command, which the campaign refuses (the travel-contract review, 9 November).
-    return [this.candidate(c, { exit: exit.id, kind, whys, r, ...slip ? { subject: slip } : {}, ...exit.crosses && !tried ? { command: `travel:${dest}` } : {},
+    return [this.candidate(town ? { ...c, label: `Enter ${town}` } : c, { exit: exit.id, kind, whys, r, ...slip ? { subject: slip } : {}, ...exit.crosses && !tried ? { command: `travel:${dest}` } : {},
       notes: { retreat: dest === r.back ? 'the way you came' : 'up, toward the light', named: 'your aim', toward: 'toward your aim', held: 'another aim',
         deeper: 'further in', onward: r.inward.has(`^${exit.id}`) ? 'back out' : 'toward the rest of it',
         night: 'a bed for the night', unlooked: exit.blocked ?? '' }, visited: exit.visited,
       pointed: r.pointed.has(dest) })];
   }
+  // The town a way goes into, by name, where the company is not in it already; new, until it has been.
+  private static entered(screen: Screen, dest: string): string | undefined {
+    const region = screen.region, area = region?.areas.find(a => a.id === (region.within[dest] ?? dest));
+    return area?.kind === 'settlement' && !screen.path.some(p => p.id === area.id) ? area.name : undefined;
+  }
+  private static fresh(exit: ExitRow, whys: Why[]): Why[] { return exit.visited || whys.includes('unvisited') ? [] : ['unvisited']; }
   // Into a site, or further in: the way itself, never a risk taken to get through (a trap's switch); back from a dead
   // end toward the rest of it, after what the room has to do (see Glance.inward).
   private static inward(c: Choice, exit: string, r: Reading): Why[] {

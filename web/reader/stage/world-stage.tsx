@@ -1,6 +1,6 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { Glyphs } from '../creation/glyphs';
-import type { Aspect } from '../../../src/presentation/glance-types';
+import type { Aspect, Promoted } from '../../../src/presentation/glance-types';
 import { Emphasis, type Tone } from '../emphasis';
 import { Guidance } from '../guidance';
 import type { Screen } from '../../../src/ui/screen-types';
@@ -216,6 +216,7 @@ export class WorldStage {
     const g = app.state.frame!.leaf.glance, land = screen.region!.land!, name = within?.name ?? screen.place.name;
     const people = (app.menu.scene?.subjects ?? []).filter(x => x.kind === 'person').length;
     const danger = (app.menu.scene?.subjects ?? []).some(x => x.danger), unplaced = MapView.unplaced(app, screen);
+    const entry = WorldStage.entry(app);
     return (
       <section className="hex-card" data-id={screen.place.id} aria-live="polite">
         <p className="label">Where you are</p>
@@ -227,9 +228,27 @@ export class WorldStage {
         {unplaced && <><p className="label">Your aim</p><p className="aim-unplaced">{Typography.curl(unplaced.aim)}</p>
           <p className="how">{Typography.curl(unplaced.who)}</p></>}
         {people > 0 && <p className="about">{people === 1 ? 'Someone is here.' : 'There are people here.'}</p>}
-        <button type="button" className="enter" data-action="enter-hex" onClick={enter}>Enter</button>
+        <WorldStage.Entrance app={app} />
+        <button type="button" className={entry ? 'option quiet' : 'enter'} data-action="enter-hex" onClick={enter}>
+          {entry ? 'Stay out here' : 'Enter'}</button>
       </section>
     );
+  }
+  // In a town's own country, the way into the town, as the scene leads with it: named, and with the one pip of what
+  // the company perceives of it (the owner, 11 November late: in the hex of a town the card had said only "Enter", the
+  // map's gold led to a far town, and the town at hand was found only under Go…).
+  static entry(app: ReaderApp): { a: Promoted; c: Choice } | undefined {
+    const a = app.state.frame?.leaf.glance?.acts.find(x => x.enters), c = a && GlanceStage.choice(app, a.choice);
+    return a && c && !c.disabled ? { a, c } : undefined;
+  }
+  static Entrance({ app }: { app: ReaderApp }) {
+    const entry = WorldStage.entry(app);
+    if (!entry) { return null; }
+    const { a, c } = entry, gilded = !!a.continues && Guidance.shown(app);
+    return <button type="button" className="enter entrance" data-action="choice" data-choice={c.id}
+      onClick={() => { app.choose(c); }}>
+      <Pip.View fill={Pip.fill(a.aspects, gilded)} label={Pip.words(a.aspects, gilded)} />
+      {Typography.curl(a.label)}</button>;
   }
   // Why the journey stopped here, and what going on from here risks: the way on's own marks (a band that will not let
   // the company by unanswered, nightfall), else that something here is dangerous; never a chance the game does not

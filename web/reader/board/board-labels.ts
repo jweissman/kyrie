@@ -112,6 +112,7 @@ export class BoardLabels {
   place(camera: Camera, size: [number, number], [chosen, pointed, bound]: (string | number | undefined)[]): void {
     const taken: DOMRect[] = [...document.querySelectorAll(BoardCamera.covers)].map(e => e.getBoundingClientRect());
     const box = this.layer.getBoundingClientRect(), focused = document.activeElement, half = BoardLabels.HALF;
+    const safe = BoardLabels.zone();
     this.placeYou(camera, size, box, taken);
     const named: [Label, DOMRect, boolean][] = [], held = new Set(this.labels.filter(l => l.id === chosen
       || l.id === bound || l.el === focused));
@@ -123,10 +124,14 @@ export class BoardLabels {
       if (l.el.getAttribute('aria-pressed') !== pressed) { l.el.setAttribute('aria-pressed', pressed); }
       if (!p) { continue; }
       if (l.name) { l.name.hidden = !on && l.cell !== pointed && !l.told; }
-      l.el.style.transform = `translate(${l.town ? '-50%, -100%' : `-${half}px, -50%`}) `
-        + `translate3d(${p[0].toFixed(1)}px, ${p[1].toFixed(1)}px, 0)`;
-      const r = l.town ? new DOMRect(box.left + p[0] - l.w / 2 - 3, box.top + p[1] - l.h - 2, l.w + 6, l.h + 4)
+      // Within the safe zone: a label at the edge of the view is drawn just inside it, beside its hex, still to be
+      // chosen (the owner, 11 November late: never a place made hard to reach by the edge of the screen).
+      const drawn = l.town ? new DOMRect(box.left + p[0] - l.w / 2 - 3, box.top + p[1] - l.h - 2, l.w + 6, l.h + 4)
         : new DOMRect(box.left + p[0] - half, box.top + p[1] - l.h / 2, l.h, l.h);
+      const at = BoardLabels.inside(drawn, safe);
+      const r = at.r, q = [p[0] + at.dx, p[1] + at.dy];
+      l.el.style.transform = `translate(${l.town ? '-50%, -100%' : `-${half}px, -50%`}) `
+        + `translate3d(${q[0]!.toFixed(1)}px, ${q[1]!.toFixed(1)}px, 0)`;
       // A sign only heard of keeps its plate wherever it falls, being all the map shows of it (the owner: heard of
       // is a marker); a lone tower heard of had been given up beside the town's card (the playtest of 7 November).
       const clash = BoardLabels.clash(r, taken), kept = on || !!l.told;
@@ -135,10 +140,30 @@ export class BoardLabels {
       taken.push(r);
       if (l.name && !l.name.hidden && !l.town) { named.push([l, new DOMRect(r.right, r.y, l.w - l.h, l.h), on]); }
     }
-    // The names beside the signs after every sign: a name that would cover a sign or another label gives way to it.
+    // The names beside the signs after every sign: a name that would cover a sign or another label gives way to it,
+    // and one that would run past the safe zone, its sign still there to choose (and named on its card when chosen).
     for (const [l, r, on] of named) {
-      if (!on && BoardLabels.clash(r, taken)) { l.name!.hidden = true; } else { taken.push(r); }
+      const past = r.left + l.name!.offsetWidth + 6 > safe.right;
+      if (past || (!on && BoardLabels.clash(r, taken))) { l.name!.hidden = true; } else { taken.push(r); }
     }
+  }
+  // The safe zone as the page lays it out (--safe-* in foundations.css), measured from an element set by it.
+  private static measure?: HTMLElement;
+  private static zone(): DOMRect {
+    if (!BoardLabels.measure) {
+      const m = BoardLabels.measure = document.createElement('div');
+      m.setAttribute('aria-hidden', 'true');
+      m.style.cssText = 'position:fixed;inset:var(--safe-t) var(--safe-r) var(--safe-b) var(--safe-l);visibility:hidden;'
+        + 'pointer-events:none';
+      document.body.appendChild(m);
+    }
+    return BoardLabels.measure.getBoundingClientRect();
+  }
+  // A label's place moved just inside the zone, where it would cross it (and fits in it at all).
+  private static inside(r: DOMRect, z: DOMRect): { r: DOMRect; dx: number; dy: number } {
+    const dx = r.width > z.width ? 0 : Math.max(z.left - r.left, 0) - Math.max(r.right - z.right, 0);
+    const dy = r.height > z.height ? 0 : Math.max(z.top - r.top, 0) - Math.max(r.bottom - z.bottom, 0);
+    return { r: new DOMRect(r.x + dx, r.y + dy, r.width, r.height), dx, dy };
   }
   // Which labels are placed first: towns' names, what is chosen, bound for or has the keys' focus, what is only heard
   // of, then the rest.

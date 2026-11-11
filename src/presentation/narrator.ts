@@ -324,7 +324,10 @@ export class Narrator {
       : feedback.result ? [{ text: feedback.result, kind: 'telling' as const }] : [];
     // How a fight ended is told after the blows that ended it: What Tessary Owes' cold playtest read "Your company is
     // defeated" before "Bettany Slake hits Ivo" (W23).
-    const result = feedback.ended ? [] : telling, outcome = feedback.ended ? telling : [];
+    // Its lines are the fight's, as the fight's end event says, for the page to know them by (the owner, 11 November:
+    // a fight's completion from the game's state, not its sentence).
+    const result = feedback.ended ? [] : telling;
+    const outcome = feedback.ended ? telling.map(l => ({ ...l, kind: 'fight' as const })) : [];
     // A chapter opened is told first of all, in its own paragraph, under its title (see Chapters and leaf).
     const chapter = Chapters.opened(campaign.module, event.perceptions);
     const events = feedback.events.filter(t => t !== chapter?.text).map(text => ({ text, kind: 'event' as const }));

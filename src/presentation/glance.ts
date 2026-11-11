@@ -21,7 +21,7 @@ import { Companions } from './companions';
 import { CompanyRecall } from './company-recall';
 import { DecisionFrame } from './decision-frame';
 import { GlanceLines } from './glance-lines';
-import type { Arrival, Glance as View, Promoted } from './glance-types';
+import type { Arrival, Glance as View, Promoted, Sensed } from './glance-types';
 import { PlayerView } from './player-view';
 import type { Told } from './narrator';
 
@@ -45,7 +45,8 @@ export class Glance {
       : recall.been(here) || telling.known ? 'return' : 'first';
     const lines = GlanceLines.of(campaign, screen, { arrival, recall, kept: telling.kept, changed: telling.changed });
     const scene = Attending.place(SceneModel.build(screen));
-    const reading = this.reading(campaign, screen, { recall, life: lines.life?.subject, pointed: lines.pointed });
+    const sensed = Perception.sensed(campaign, screen), life = lines.life?.subject;
+    const reading = this.reading(campaign, screen, { recall, life, pointed: lines.pointed, sensed });
     const s: Situation = { threat: scene.subjects.some(x => SceneModel.threat(x)), warned: !!screen.warned,
       dark: !!screen.dark, settled: reading.needs.settled, open: reading.needs.open };
     const cands = Affordances.of(scene, screen, reading), acts = Promotion.pick(cands, s);
@@ -64,7 +65,7 @@ export class Glance {
     const goal = arrival === 'opening' ? screen.aims?.find(a => a.followed && a.own)?.text : undefined;
     return { arrival, ...lines.sight ? { sight: lines.sight } : {}, ...lines.life ? { life: lines.life } : {},
       changed: lines.changed, acts, ways: Promotion.ways(cands, acts, s), ...this.aimed(campaign, screen, reading),
-      ...reading.idle?.size ? { idle: [...reading.idle] } : {}, ...Perception.shown(campaign, screen),
+      ...reading.idle?.size ? { idle: [...reading.idle] } : {}, ...sensed.length ? { sensed } : {},
       ...said ? { aim } : {}, ...goal ? { goal } : {}, ...need.length ? { need } : {}, ...after ? { after } : {} };
   }
   // What came of the act just done, and what it made relevant (REV-05; see DecisionFrame).
@@ -138,7 +139,7 @@ export class Glance {
         .map(d => `travel:${d.id}`)];
   }
   private static reading(campaign: Campaign, screen: Screen,
-    at: { recall: CompanyRecall; life?: string; pointed: Set<string> }): Reading {
+    at: { recall: CompanyRecall; life?: string; pointed: Set<string>; sensed: Sensed[] }): Reading {
     const here = screen.place.id, recall = at.recall, rows = PlayerView.choices(campaign);
     const schema = new Map(rows.map(r => [r.choice.id, r.action.searchPlace ? 'search' : r.action.schema ?? r.action.id]));
     const args = new Map(rows.map(r => [r.choice.id, Object.entries(r.action.bindings ?? {})
@@ -159,12 +160,12 @@ export class Glance {
     return { ...aim ? { aim } : {}, ...advances.size ? { advances } : {}, holding, schema, args, touches, authored,
       speakers: new Set(rows.filter(r => r.action.speaker).map(r => r.choice.id)),
       named, held, companions: Companions.possible(campaign),
+      sensed: new Set(at.sensed.filter(x => x.far === 1).map(x => x.to)),
       ...this.ways(campaign, screen, { named, held, idle }),
       ...back ? { back } : {}, here, signs: this.signs(campaign,
         screen, recall), ...at.life ? { life: at.life } : {}, pointed: at.pointed,
       done: new Set(commands.filter(c => recall.did(here, c))),
-      talked: new Set(screen.people.map(p => p.id).filter(id => recall.talkedTo(id))),
-      idle,
+      talked: new Set(screen.people.map(p => p.id).filter(id => recall.talkedTo(id))), idle,
       needs: { hungry: screen.expedition.hungry, rations: screen.purse.rations, weary: !!screen.expedition.weary,
         hurt: new Set(screen.party.filter(m => m.hp < m.maxHp / 2).map(m => m.id)),
         night: screen.expedition.daylight === 'night',

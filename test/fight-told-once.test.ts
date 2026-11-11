@@ -1,6 +1,12 @@
 import { describe, expect, it } from 'bun:test';
 import { CombatTelling } from '../src/ui/combat-telling';
-import { Narration } from '../src/presentation/narration';
+import { DrawnWorld } from '../src/world/drawn-world';
+import { NodeBundleSource } from '../src/campaign/node-bundle-source';
+import { ModuleWriter } from '../src/lang/module-writer';
+import { PlayerView } from '../src/presentation/player-view';
+import { Narrator } from '../src/presentation/narrator';
+import { ActionFeedbackView } from '../src/presentation/action-feedback';
+import { ScreenModel } from '../src/ui/screen-model';
 import type { BattleState, CombatEvent } from '../src/model';
 
 // A fight's end is told once (the owner, 11 November late: the rats' last blow was told, then told again with its
@@ -21,10 +27,19 @@ describe('a fight ended', () => {
     expect(told!.detail).toContain('rolled 17, needed 9');
     expect(told!.detail).not.toMatch(/falls|fight is won/);
   });
-  it('knows the sentence a fight ends with', () => {
-    for (const end of ['The fight is won.', 'The fight is lost.', 'You are clear of the fight.']) {
-      expect(Narration.ends.test(end)).toBe(true);
-    }
-    expect(Narration.ends.test('The rats under the corn-store lie dead.')).toBe(false);
-  });
+  // The fight's end is known as the fight's by what the game says happened (its end event), not by its sentence: the
+  // scene after a fight leaves every line of that kind to the fight's own page.
+  it('marks how a fight ended as the fight\'s', async () => {
+    const s = await DrawnWorld.start('kahitude', { origin: 'debt', party: [{ name: 'Ralf', raceId: 'human',
+      classId: 'warrior' }] }, NodeBundleSource.shared);
+    const c = s.campaign, warren = 'region__s1_u_warren';
+    c.commitWorld(c.world.apply([{ kind: 'retract', call: ModuleWriter.call('at', 'party', c.world.one('at', 'party')!) },
+      { kind: 'assert', call: ModuleWriter.call('at', 'party', warren) }]));
+    const before = PlayerView.observe(c), event = await s.leg('attack(region__s1_u_rats)');
+    const leaf = Narrator.leaf(c, ScreenModel.build(c), { event, feedback: ActionFeedbackView.read(c, event, before),
+      said: 'Attack the rats', moved: false });
+    const won = leaf.exchange!.lines.find(l => l.text === 'The fight is won.');
+    expect(leaf.exchange!.tone).toBe('fight');
+    expect(won?.kind).toBe('fight');
+  }, 120000);
 });

@@ -193,6 +193,8 @@
 .hex-card .label, .hex-card .how, .hex-card .about { margin: 0; }
 .hex-card .sight { margin: 0; font: italic 400 16.5px/1.55 var(--told); color: var(--ivory); }
 .hex-card .about { font: 400 14.5px/1.4 var(--do); color: var(--ivory); }
+/* The way into the town at hand, its one pip before its name. */
+.hex-card .enter.entrance { display: flex; align-items: center; justify-content: center; gap: 10px; }
 .hex-card .about.danger { color: var(--ember); }
 .hex-card .enter, .enter-card .enter { all: unset; box-sizing: border-box; cursor: pointer; text-align: center;
   padding: 16px 20px; font: 600 15px/1 var(--do); letter-spacing: .28em; text-transform: uppercase; color: var(--deep);

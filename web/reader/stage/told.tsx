@@ -189,8 +189,7 @@ export class Told {
     const fought = exchange.tone === 'fight', at = useRef<HTMLElement>(null);
     const echo = said && exchange.said && !fought ? Words.echo(Words.lastSaid(exchange.said)) : undefined;
     const moments = Moments.of(exchange.lines), { sights, ended, levels } = moments;
-    const [plain, rest] = [moments.plain, moments.rest].map(ls => fought
-      ? ls.filter(l => l.kind !== 'fight' && !Narration.ends.test(l.text)) : ls);
+    const [plain, rest] = [moments.plain, moments.rest].map(ls => fought ? ls.filter(l => l.kind !== 'fight') : ls);
     const notes = Told.few(Told.folded(app, Panorama.unsaid(exchange.notes, sights)));
     Scrolled.useNewest(at, exchange, !!said);
     if (fought && !plain!.length && !rest!.length && !sights.length && !ended && !levels.length && !notes.length) {

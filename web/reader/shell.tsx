@@ -28,6 +28,7 @@ export class Shell {
         <div className="ambient" aria-hidden="true" />
         <div className="frame"><Flame.View app={app} />{children}</div>
         <EncyclopediaOverlay.View app={app} />
+        {app.props.query.has('safe') && <div className="safe-zone" data-region="safe-zone" aria-hidden="true" />}
       </div>
     );
   }

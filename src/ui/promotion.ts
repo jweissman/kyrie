@@ -38,7 +38,7 @@ export class Promotion {
     hungry: [2, 0], hurt: [2, 1], night: [2, 2], exposed: [2, 3],
     companion: [3, -3], spoils: [3, -2], means: [3, -1], life: [3, 0], own: [3, 1], sign: [3, 2], asked: [3, 3],
     unlooked: [3, 4],
-    onward: [3, 5],
+    onward: [3, 5], entry: [3, -4],
     unvisited: [4, 0],
   };
   static pick(cands: Candidate[], s: Situation): Promoted[] {
@@ -112,7 +112,9 @@ export class Promotion {
     if (c.kind === 'step') { return c.whys.filter(w => w === 'toward'); }
     // Something done already is not led with again because another aim names whom it is done with: the page had led a
     // follower to lodge and to work for its keep at the same inn, turn and turn about, for days (the follower's 160).
-    const whys = c.whys.filter(w => (w !== 'unvisited' || (s.settled && !s.threat && !s.warned)) && !(c.known && w === 'held'));
+    // A town not yet been to, entered from its own country, is new though the company is not in a settlement.
+    const whys = c.whys.filter(w => (w !== 'unvisited' || (s.settled || c.whys.includes('entry')) && !s.threat && !s.warned)
+      && !(c.known && w === 'held'));
     if (c.kind === 'wait') { return whys.filter(w => w === 'dark'); }
     if (c.kind === 'search') { return whys.filter(w => w === 'sign' || w === 'named'); }
     if (c.kind === 'camp' || c.kind === 'rest') { return whys.filter(w => this.tiers[w][0] === 2); }
@@ -138,7 +140,8 @@ export class Promotion {
     return { choice: c.choice, ...c.command ? { command: c.command } : {}, ...c.for ? { for: c.for } : {},
       ...c.subject ? { subject: c.subject } : {},
       ...c.exit ? { exit: c.exit } : {}, label: c.label, why, facets, tier: this.tiers[why][0],
-      aspects: Aspects.of([why, ...whys.filter(w => w !== why)], c.marks), ...note ? { note } : {}, marks: c.marks };
+      aspects: Aspects.of([why, ...whys.filter(w => w !== why)], c.marks), ...note ? { note } : {}, marks: c.marks,
+      ...whys.includes('entry') ? { enters: true as const } : {} };
   }
   // The quiet row of ways under the acts, none of them led with already: those the aims name, those the lines told now
   // name, those not yet taken (nearest first), then the rest; three at most. In the open country, the compass.
