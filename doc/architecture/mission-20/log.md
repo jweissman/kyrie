@@ -76,6 +76,17 @@ Reproduce headlessly with `bun /var/tmp/kyrie/m20/tools/leads.ts <origin> <race/
    thread is not a dependency. (6) One app on main; no competing preview. (7) An honest handoff: what the deployed build
    offers, rendered and independent evidence, remaining defects, register resolved or deferred, authoritative docs, a
    short M21 list grounded in what was observed.
+8. **11 November, night — sustained progress.** Adds: land the scene-first and opportunity work on main and verify
+   the deployment, fixing any real failure; round 6 of cold play, attentive to the first fifteen minutes, scene
+   continuity, discoverability, guidance, talk, the pack, travel and combat, and the redesign not accepted on tests
+   alone; the silver walker's near-absence of danger investigated (scarcity, placement, inaccessible sites, cues, or the
+   walker's policy), encounter frequency told apart from combat balance, and bounded first-hour danger added where
+   right (safe places safe, no indiscriminate random encounters, but not a danger-free exploration); the walkers kept
+   as a recurring diagnostic, recording places, sites, interactions, discoveries, rewards, encounters, stalls, repeats
+   and false promises, over a few characters and seeds; the whole first hour, not only the resting scene; then the
+   register reconciled against the implementation, high-value obligations resolved, the rest planned or deferred with
+   a reason; then cleanup and a small authoritative authoring path. Handoff distinguishes implemented, automated,
+   agent-experienced and human-accepted.
 
 ## Rounds of cold play
 
