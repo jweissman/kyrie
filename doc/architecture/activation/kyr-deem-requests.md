@@ -278,3 +278,36 @@ The honest summary: the *prose* of generated places is mostly already data (`.ky
 ### R46. Passive hearsay has no once-only line (integration)
 
 *Problem.* An overheard line (`Observe ... as hearsay ... teaches fact`) is shown whenever the company is in the room and the condition holds, so a wait spanning days shows two modules' lines together (`=day 3` from the taproom). *Request.* `Observe ... once`, or a hearsay kind that is told at the first entry after its condition holds and not on waits.
+
+## Branch `adventure/p2-corpus-a` (corpus review, adventures A)
+
+*Found while reviewing nine adventures. R-numbers continue after R46. The first four are Kyr/Deem engine requests; the rest are concrete Deem and template proposals where generation would add real variation. None is implemented here.*
+
+### R47. A module with places and endings but no milestones is invisible to the lint
+
+*Problem.* `let-one-remember` has 151 places and 54 people and no `Milestone`, no `Ending` and no `experience`; `low-water` has twenty endings and no milestones. Nothing says so; a company that resolves everything gains nothing. *Reproduce.* `grep -c "^ *Milestone" data/adventures/*/*.kyr` per adventure, against `grep -c "^ *Place"`. *Request.* A lint warning when an adventure of more than N places holds no milestone and no manifest `experience`; it is a design decision, so a warning, not an error. (This branch added nine milestones to `let-one-remember`; Low Water is left to the owner.)
+
+### R48. A topic cannot vary by how many times it has been asked
+
+*Problem.* Return visits are authored as chains of `once` topics with differing `when`s (`hanu_sitting`, `hanu_tobu`, the new `hanu_door`). That is fine for events that change the world, but a person asked the same thing three days later has only one answer. *Request.* `Says first "..." again "..." thereafter "...".` (or a list that advances), so a repeated question can be answered differently without three topics and three labels (cf. R44, where same-label topics already break).
+
+### R49. An itinerant is hand-placed in every adventure that mentions her
+
+*Problem.* Jessamy Cattermole has a `Discovery` and a `Topic` in each of ten `lore.kyr` files; none of them knows where she is, and a company meets her only as hearsay. *Request.* A scenario herald with a route (a list of countries in order, visited by the clock) that is placed in a first-region taproom today and says the next stop from the countries the world actually holds (`Countries.plan`), so she can be met and followed. The same shape would serve the surveyor Orlando Pym.
+
+### R50. `after` has one condition per way, but no way to read the company's own part
+
+*Problem.* The first region's innkeeper tells what the road brought down of a country, and the company tells its own part, but the two cannot be compared: the strewnfield `by` words (`free`, `chair`, `sold`) are marked stale by the *country's* facts, so if two ways hold, the first in the list wins. *Request.* An optional `when:` on each `by` entry, in Kyr, so priority is the author's and the lint can check that every ending has a word.
+
+### Deem and template proposals
+
+*Each names the place in the corpus, the table or template that would vary it, and what a player would see.*
+
+- **R51. Cobble Ring's council arcs.** `sellVotes` starts at 5 for the reeve, always. A Deem table of the nine arcs' leanings (two firm, two firm against, five who follow the last to speak) drawn at install, with the arcs named in the reeve's account, would make each world's vote a different argument. The topics that move the vote (`tessa_house`, `tessa_well`, `tessa_sell`) already change it by 2 or 1.
+- **R52. What an unwatched sleeper wakes holding.** `sleep_dreg` is always "your father's leather knife, nick and all". A table of loved small things drawn from the sleeper's background (the company's calling and ancestry) in `data/generation/tables` would make the dreg a portrait; `Kezu's ox` and `Quill's cart` are authored one-offs for the same idea.
+- **R53. Hessel's gossip.** Mrs Scrope's news is one fixed sentence ("a colonel's gout, a bishop's niece..."). A Deem table of fifteen items (a name, an ailment, a match) drawn on each visit, with the same four-day clock, would let the Pump Room feel inhabited on a second walk; the Season is the one place in the set where return visits should differ.
+- **R54. The Frost Fair's booths.** `fair.kyr` places a chandler, a gingerbread-wife, three butchers. A table of stalls with a price and a line each, three drawn per day from twelve, gives the Fair a second morning that is not the first.
+- **R55. Halm's finds at the dig (Low Water).** The day's finds on his tray are fixed text; a find table by stratum, drawn by day, with the bell-teeth lot the factor carts down as one entry, would connect the first region's scenario to the dig as an *event* rather than a single line.
+- **R56. The Leavers' Market (Half the Hive).** Crispin Polglaze's rows are "chests, chairs, a cradle, a loom in pieces". A table of household goods, each with an owner family and a price, drawn per world, gives the Drewes' table company and lets the Chandlers' Company buy different lives each time.
+- **R57. A first-region tie that points in.** `ties.kyrt` shapes tell what a town wants of its nearest site. A shape `traveller` whose text is the `far` line of the next country the world holds (and that flips on `stale`, as `after` already does) would let every first-region town carry one named rumour of a province without touching `countries.json`. Today the six provinces' rumours are the same sentence for every innkeeper.
+- **R58. A template that invokes Kyr.** A Kyr template section `--- almanack` that takes a hole `{route}` (the Cattermole route above) and writes both the `Discovery` and the `Topic` from one place would end the ten hand-written copies.
