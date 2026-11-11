@@ -52,7 +52,7 @@ Module tallow "Tallow Deep" {
     Buys zoological_manual for 20 coin.
     Buys lensing_crystal for 30 coin.
     Buys antique_compass for 90 coin.
-    Greets "Mistress Orpe does not look up from a grey lump she is scoring with a nail. 'If it is black, I'll buy it. If it is not black, I will tell you what it is, for a penny. If you have a brass instrument, I will buy that, and ask no questions, because they are the only things from down there that are worth anything.'".
+    Greets "Mistress Orpe is scoring a grey lump with a nail, and goes on scoring. 'If it is black, I'll buy it. If it is not black, I will tell you what it is, for a penny. If you have a brass instrument, I will buy that, and ask no questions, because they are the only things from down there that are worth anything.'".
   }
   Topic orpe_black with orpe "Ask Mistress Orpe what the black ore is" when true {
     Says "'Ironglass,' says Mistress Orpe. 'The Company was after lead, and the lead was sitting on a seam of this. It takes an edge like nothing else in the country and it will not smelt, so every ounce was broken out by hand, and the seam runs down toward the cap. The last fortnight they did nothing else. Carr kept the best of it back in a box in his office, and I would pay well for the box.'".

@@ -1,4 +1,10 @@
 Module calamy "A Parliament of Books" {
   // Calamy as a country beyond a march: the company that comes over the saltings is the world's own.
   Entity party: group "Your company".
+  // What is said of Calamy in the country behind it: once the morning after the Kindling has come, it is old news.
+  Entity word: fact "What is said of Calamy and its books in the country behind it.".
+  Rule word_old when kindlingDone(ashpit) and day(clock) >= 10 and hour(clock) >= 8 and not stale(word) { Assert stale(word). }
+  // And which way the Kindling went.
+  Entity word_ash: fact "That Calamy burned its almanacks and the books were not asked.".
+  Rule word_ash_old when kindlingDone(ashpit) and day(clock) >= 10 and hour(clock) >= 8 and ashYear() and not stale(word_ash) { Assert stale(word_ash). }
 }

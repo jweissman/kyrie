@@ -49,4 +49,10 @@ Module skeel "Fair Weather" {
     Says "Jago reads the strip at arm's length and then holds it to the lamp. 'Answers for the keeping named,' she says, 'and where none is named, for all.' She puts a thumb on the last words. 'I put my name to the Patience's new planking, the spring Skeel was short. Nobody wrote what I was standing for. I thought I was standing for a plank.' She hands it back, and goes to see to a pot that does not need seeing to, and for a while the taproom hears her thinking about the whole ship.".
     On discuss { Assert knows(actor, lore_surety_jago). }
   }
+
+  // ── The Scarth light, down the coast ────────────────────────────────────────────────────────────────────────────
+  // Lamp-keepers read each other's lights. Loveday Kitto has never seen the Scarth rock, but she knows its character
+  // from eleven miles of sea, and puts down what she sees of it in the same hand as the weather.
+  Observe lore_log_scarth_kept at lamp_room when befell(scarth_kept) and not befell(scarth_lost) "Under the night log, in Loveday Kitto's round hand, a line that is not about weather: THE SCARTH LIGHT WAS LIT AT DUSK AND STOOD ALL NIGHT AND WAS LIT AT DAWN. She has underlined ALL NIGHT. 'You'd think that the rule,' she says, 'not the news. But I have been keeping a light thirty years and I have seen it go out on a rock with a keeper in it. I put it down when one doesn't.'".
+  Observe lore_log_scarth_lost at lamp_room when befell(scarth_lost) "Under the night log, in Loveday Kitto's round hand, a line that is not about weather: THE SCARTH LIGHT WAS LIT, AND THE KEEPER'S WINDOW WAS NOT. She has not underlined it. She has turned the log a quarter on the table, as one turns a slate, so that the next page is the one that faces her. 'It is a long way to be sorry from,' she says, 'but I find I am.'".
 }

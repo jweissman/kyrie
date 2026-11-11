@@ -44,6 +44,7 @@ Module season "The Patient Star" {
   Observe platform_scene_w at counter_platform when true "A platform on poles above the reeds, with a bench, a slate and a long view east over the water to where the cranes come in.".
   Person coombe "Coombe" at counter_platform {
     Role "the Counter, who counts the cranes". Ancestry human. Peaceable. Pronouns he. Manner stoic.
+    Greets "On the counter platform a man is speaking to the air in a flat singsong, twelve words and twelve again, and cutting a notch in a slate at the end of each round. He finishes the round before he looks at you. 'Do not wait for the notch,' he says. 'It will not come sooner.'".
   }
   Topic coombe_rhyme with coombe "Ask Coombe how the cranes are counted" when true once {
     Says "'By the rhyme,' says Coombe, and says it: twelve words, round and round, a word to a bird, and a notch on the slate at every twelfth. They are not Tovashi words. 'My grandmother counted by it. Nobody knows what the words are.'".

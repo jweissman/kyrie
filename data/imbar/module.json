@@ -128,7 +128,13 @@
     "remainder_harboured",
     "remainder_kept",
     "mechanus_seen",
-    "remainder_steadied"
+    "remainder_steadied",
+    "scarth_kept",
+    "scarth_lost",
+    "calx_opened",
+    "tallow_names",
+    "sallowfield_held",
+    "sallowfield_burned"
   ],
   "exports": {
     "imbar": "imbar",
@@ -247,6 +253,12 @@
     "remainder_harboured": "remainder_harboured",
     "remainder_kept": "remainder_kept",
     "mechanus_seen": "mechanus_seen",
-    "remainder_steadied": "remainder_steadied"
+    "remainder_steadied": "remainder_steadied",
+    "scarth_kept": "scarth_kept",
+    "scarth_lost": "scarth_lost",
+    "calx_opened": "calx_opened",
+    "tallow_names": "tallow_names",
+    "sallowfield_held": "sallowfield_held",
+    "sallowfield_burned": "sallowfield_burned"
   }
 }

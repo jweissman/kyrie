@@ -278,3 +278,35 @@ The honest summary: the *prose* of generated places is mostly already data (`.ky
 ### R46. Passive hearsay has no once-only line (integration)
 
 *Problem.* An overheard line (`Observe ... as hearsay ... teaches fact`) is shown whenever the company is in the room and the condition holds, so a wait spanning days shows two modules' lines together (`=day 3` from the taproom). *Request.* `Observe ... once`, or a hearsay kind that is told at the first entry after its condition holds and not on waits.
+
+## E. Requests from the corpus pass B (branch `adventure/p2-corpus-b`; nine adventures reviewed in `corpus/*.md`)
+
+Numbered after R46. The integrator renumbers if a sibling branch also continued from R46. Each is a place where Deem generation or a template that invokes Kyr would add variation the hand-written files cannot.
+
+### R47. A Greets that is drawn, not written, for the large casts
+
+*Problem.* 75 of Quittance's 86 Greets, 20 of Muster's 24, 34 of the Parliament's 66 open with "A [adjective] [person] [doing a thing]" and share the glance beat ("looks at you for a long ...", "does not look up"). Patient Star had 47 Persons and one Greets (the other first meetings were generated from Role and Manner and read as a label). *Request.* A `Greets` that is a Deem expression: `Greets draw gesture(calling, manner) + line "..."`, where the gesture comes from a per-adventure pool an author fills and the engine picks per seed without repeating the shape in one room. Authors keep the line (the dialogue) and give the pool; the stock "A man with a ledger who looks up" becomes a pool entry among twelve, not a template. *Reproduce.* `bin/kyrie voice repeats data/adventures/quittance` (top of the list), `grep -c 'Greets "A' data/adventures/quittance/*.kyr`.
+
+### R48. A day-two pass: Observes that vary by what the night did, from a cast table
+
+*Problem.* A kitchen that holds seven people for a night and a day reads the same at nine in the evening and nine in the morning; Skerrow now has six hand-written `d2_*` Observes, one per person, with the survivors' names tested one at a time. *Request.* A template `aftermath` that takes a roster (person, gesture pool for "a night survived", gesture pool for "a night not survived") and a condition, and emits the Observes with a seed-drawn variant per person. The same shape would give Sallowfield's coach passengers a different morning in each world, and the Tallow village (below) its aftermaths. *Reproduce.* `data/adventures/skerrow/lore.kyr` `d2_*`.
+
+### R49. A rumour as a list, drawn by town and keeper
+
+*Problem.* `countries.json` carries one `rumour` per country, spoken by `{keeper}` in every town of the first region. Two towns tell it word for word. The Aenean road (Muster's Kell Ford, Tallow's Calx Way, the posting-house every country carries) is three tellings of one empire and the first region never says so. *Request.* `rumour` may be a list of lines, each with an optional `by` (a keeper manner, a terrain of the town, whether the company has been told of another country), drawn per town; and an optional `echo` that names a second country whose rumour this one points to ("the same road that comes out at Kell Ford"). *Reproduce.* `bin/kyrie countries` and read the keeper lines for two towns of one seed.
+
+### R50. An `after` that an adventure with no Ending can raise
+
+*Problem.* The Patient Star ends on a state (the hold is made or broken) with no `Ending` entity; `after` is raised by hand-writing a `Rule word_old when ...` that restates a condition the module already knows. Tallow has no Ending at all; its `word_old` repeats `state(calx_gate, raised) or namesRead or ticked or laid` from the keeping file. *Request.* `Told when <condition>` as a module line (one condition, one place) that raises `stale(word)` and `befell(<event>)` together; today they are two Rules and two canon edits.
+
+### R51. A Rule over a set of rooms with per-room text
+
+*Problem.* Skerrow's eight `caller_takes_*` rules differ only in the room and a sentence; changing the pacing needs eight edits and the variation among them stays a matter of the author's patience. *Request.* `Rule caller_takes for each r in rooms (...) says table(r)` where the table gives text and verb-shape per room and the engine rotates the skeleton. Tallow's Dial-shelf `restore_*` actions are another such set.
+
+### R52. A world event declared once
+
+*Problem.* A new `befell(x)` is three edits in shared files before any adventure may read it: `data/imbar/events.kyr`, `data/imbar/module.json` canon and exports, and each reading manifest's `canon`. This pass added six events (`scarth_kept`, `scarth_lost`, `calx_opened`, `tallow_names`, `sallowfield_held`, `sallowfield_burned`) and five readers; all six declarations are one block at the end of `events.kyr` and `module.json` so the integrator can resolve a conflict mechanically. *Request.* An event declared where it is first asserted (`Event name "fact text".` in the emitting adventure), and read by a `Reads` line that needs no manifest `canon`; and an `Ending ... emits name` so the Rule that restates the ending's condition goes away (Skerrow, Sallowfield).
+
+### R53. A crowd the company can meet
+
+*Problem.* Sallowfield's Teasdale feeds eleven passengers for three nights; none was a Person. They can only be present as Observes. *Request.* `Crowd 11 "the coach's passengers" at east_road` with a Deem cast (names, a one-line identity each, one in five with a want), listed under Look... and addressable by a topic. The same generator would cast the Fair at Skeel, the Waiting of Patient Star and the Hall of the Five in Quittance with the variation the hand-written casts give a tenth of the people.

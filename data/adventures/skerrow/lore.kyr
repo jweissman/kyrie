@@ -1,0 +1,26 @@
+Module skerrow "The Light on Scarth Holm" {
+  // ── The morning after, and the world's word ───────────────────────────────────────────────────────────────────────
+  // The kitchen was the same room at nine at night and at nine in the morning. A person who lived through the dark
+  // is not the person who sat down to tea: what is left on the rock says so, and says it differently to each.
+  Query dayTwo() means reachedAt(tide) > 0 and watch(clock) >= reachedAt(tide) + 90 and watch(clock) < reachedAt(tide) + 180 and not crossed(party).
+
+  Observe d2_seddon at lamp_room when dayTwo() and not orrinTaken(party) and at(orrin, lamp_room) "Seddon has not sat down since the bell. He has a tide-table open in his hand, upside down, and has read it that way twice, and the tea he has made is in the pot he uses for the lamp-glass.".
+  Observe d2_hettie near hettie when dayTwo() and not hettieTaken(party) and at(hettie, kitchen) "Hettie has cut the loaf again and it is the same loaf. She has put out cups for seven. She counts the cups, and takes the extra ones back to the shelf, one at a time, without remark.".
+  Observe d2_gaff near gaff when dayTwo() and not gaffTaken(party) and at(gaff, kitchen) "Gaff Mullen is sitting very straight in the chair he sprawled in. The mug is empty, and he is holding it as one holds something that might be needed. He says good morning in an ordinary voice, and the dog looks at him.".
+  Observe d2_corrie near corrie when dayTwo() and not corrieLost(party) and at(corrie, kitchen) "Corrie Fenwether has laid out her stock on the bench in length order, shortest to longest, and is pricing it a penny lower than last night. She does not look at the cistern door. She has put her ledger in her boot.".
+  Observe d2_dib near dib when dayTwo() and not dibTaken(party) and at(dib, kitchen) "Dib has asked nothing since you came down. He is sitting on the store door with his back against the hatch, as if it were a small animal, and he is not going to let it get up.".
+  Observe d2_piers near piers when dayTwo() and not piersLost(party) and at(piers, kitchen) "Piers Tolland has the Board's notice out of the satchel and flat on his knee, and has been smoothing it so long that the crease has gone soft as cloth. He has not yet decided which of two sentences to begin with.".
+
+  // Gaff's road. The cheeses are bound inland: the people who keep the roads and the inns know the cart.
+  Topic gaff_road with gaff "Ask Gaff what he is doing on a causeway with forty-two cheeses" when true once {
+    Says "'Selling 'em where nobody else will,' says Gaff, loudly, and lowers it. 'Coast road's a long road and a cheese ages on it. I take them up from the dairies in the hills to the market in the first town off the main road, where the innkeeper has a contract, and I come back the long way round with whatever the fishing villages will pay in salt.' He taps the side of his nose. 'This rock I do for love. The keeper's tea is the best on four counties, and nobody else will buy a cheese off me with a straight face.'".
+  }
+
+  // ── What leaves the rock ─────────────────────────────────────────────────────────────────────────────────────────
+  // Told by the lamp-keepers and the pilots of other coasts (Skeel's Loveday Kitto reads both in her night log).
+  Rule scarth_kept_word when crossed(party) and not hettieTaken(party) and not orrinTaken(party) and not befell(scarth_kept) { Assert befell(scarth_kept). }
+  Rule scarth_lost_word when crossed(party) and (hettieTaken(party) or orrinTaken(party)) and not befell(scarth_lost) { Assert befell(scarth_lost). }
+
+  // And what the rock hears. The Board's clerk is the only man on it with a list of the coast's other business.
+  Observe lore_piers_list at kitchen when befell(remainder_kept) and not piersLost(party) and at(piers, kitchen) "Piers has a second paper under the Board's notice, a printed list of vessels reported overdue, and one entry on it is ruled through in red with a note in the margin in a clerk's hand: LEFT, NOT LOST. 'Which is not a column the Board has,' he says. 'Someone has added one. I should like very much to know who is allowed to do that.'".
+}

@@ -207,7 +207,16 @@
    "heard": "Away in the east of the country lies Calamy, at the mouth of the Calam, where every house keeps a book that knows it, and the books have begun to talk, and the Kindling is near.",
    "skyline": "the sails of tide-mills turning along a coast of reeds",
    "far": "the books of a city of paper have begun to talk, and the Kindling is near",
-   "among": "independent"
+   "among": "independent",
+   "after": {
+    "talk": "A barge-man up from the east says Calamy has had its Kindling, and that the books were in the room for it, and will say no more than that he did not stop to see.",
+    "told": "{keeper} hears you out about the Kindling, and the Bound, and the Quick Sewn, and listens as one listens to a language one half understands. 'Books,' {keeper} says. 'That talked.' {keeper} lifts the account-book from under the bar, a plain one, and puts it down again, and then, more gently, back in the drawer. 'I've been writing in that for twenty years,' {keeper} says. 'It has never once answered.' A pause. 'I should not like to find out it has been listening.'",
+    "by": {
+     "ash": {
+      "told": "{keeper} hears you out about the Kindling and the almanacks and the year of ash, and gets up to put another log on, which is not necessary. 'Three thousand,' {keeper} says. 'On a fire. After they had learned to speak.' {keeper} stands with the poker in one hand. 'I burned my father's letters when he died, and I have not stopped being sorry,' {keeper} says. 'It never occurred to me to ask them first.'"
+     }
+    }
+   }
   },
   {
    "id": "pentrice",
@@ -587,10 +596,19 @@
    "name": "Tallow Edge",
    "topic": "the pale ridge that swallows a river",
    "terrain": "hills",
-   "rumour": "'West of here there is a long white ridge called Tallow Edge,' says {keeper}, 'and a river that goes into it at one end and comes out the other. There was a mine in it once. The village will not talk of it, and there is a smugglers' road underneath, they say, and something older than that.'",
+   "rumour": "'West of here there is a long white ridge called Tallow Edge,' says {keeper}, 'and a river that goes into it at one end and comes out the other. There was a mine in it once. The village at the foot of it, Swallet, will not talk of it, except Lowen Pook at the Chandler's Arms, who will tell you the half she can bear. There is a smugglers' road underneath, they say, and something older than that.'",
    "heard": "West of here lies Tallow Edge, a long pale ridge that swallows a river, with an abandoned mine in it, a smugglers' road under it, and something older than either.",
    "skyline": "a long bare ridge, white as tallow, with a thread of mist coming out of its foot",
-   "far": "a river goes in at one end of a white ridge and comes out the other, and nobody in the village will talk about what is between"
+   "far": "a river goes in at one end of a white ridge and comes out the other, and nobody in the village will talk about what is between",
+   "after": {
+    "talk": "There is talk along the carters' road of a village under a white ridge that has put a page up on a beam. Nobody can say what is on it. A drover swears the brandy that came through the ridge last year does not come through any more.",
+    "told": "{keeper} hears you out about the ridge and the dead and the hill under the hill, and takes the names from you one at a time, as you give them, saying each over under {keeper}'s breath. 'Fourteen,' {keeper} says at the end. 'My mother's cousin was in the Company's shaft the winter they broke the wall. We were told Porthwen. We were told he had gone for work.' {keeper} writes something on the back of a bill and puts it in a drawer with the keys. 'I'll not say anything to her,' {keeper} says. 'But I'll go and look at that page myself, in spring.'",
+    "by": {
+     "road": {
+      "told": "{keeper} hears you out about the white ridge and the road under it, and laughs aloud at the end of it, once, in disbelief. 'Two miles of Aenean pavement under the hill the excise never walked,' {keeper} says. 'There's a toll-house on the downs that will want to know about that. Then again, there isn't, is there? Not now.' {keeper} turns the matter over. 'You've been very free,' {keeper} says, 'with other people's secrets.' And then, because you look it: 'Sit down. I only mean it as an observation.'"
+     }
+    }
+   }
   },
   {
    "id": "muster",
@@ -607,10 +625,14 @@
    "name": "the Hesper Fells",
    "topic": "the old road over the Hesper Fells",
    "terrain": "mountain",
-   "rumour": "'East of here, up in the Hesper Fells, there is a village called Kell Ford,' says {keeper}, 'where a paved road begins that nobody has finished walking. The soldiers built it. They say it goes sixty miles over the fells to a place where somebody still lights the lamps. Every spring somebody in Kell puts a lamp in the window, and nobody will say for whom.'",
+   "rumour": "'East of here, up in the Hesper Fells, there is a village called Kell Ford,' says {keeper}, 'where a paved road begins that nobody has finished walking, and a reeve, Greta Hennick, who keeps the road-book and will let you read it. The soldiers built it. They say it goes sixty miles over the fells to a place where somebody still lights the lamps. Every spring somebody in Kell puts a lamp in the window, and nobody will say for whom.'",
    "heard": "East of here, in the Hesper Fells, lies Kell Ford, where an old soldiers' road begins that goes sixty miles over the mountains to a place where, they say, someone still lights the lamps.",
    "skyline": "a pale paved road climbing out of a huddle of grey houses into the fells and being lost",
-   "far": "an old soldiers road goes sixty miles over the fells, and at the far end someone is said to still light the lamps"
+   "far": "an old soldiers road goes sixty miles over the fells, and at the far end someone is said to still light the lamps",
+   "after": {
+    "talk": "The talk from the fells this season is of the paved road, and of whether the lamps at the far end are still lit, and of a reeve called Hennick who has had something to say about it to everyone who passes. Nobody has said what.",
+    "told": "{keeper} hears you out about the road and the Cohort and what was said in the forum, and for a while does not speak. 'Sixty miles,' {keeper} says, 'and every mile paved by somebody who thought it would be walked.' {keeper} stands, and goes to the window, and looks out at the road that goes east, which is not paved. 'Do you know,' {keeper} says, 'I have never once asked where it went.' And then, without turning: 'I think I will light the lamp tonight. You needn't tell me for whom.'"
+   }
   },
   {
    "id": "wrongboat",
@@ -649,10 +671,19 @@
    "name": "Scarth Holm",
    "topic": "the lighthouse at the end of the Scarth causeway",
    "terrain": "marsh",
-   "rumour": "'There is a light at the end of the Scarth sands,' says {keeper}, 'and a causeway that dries for three hours at noon. Cross after twelve and you sleep out there. People do, and are glad of the tea, and do not much talk of the night.'",
+   "rumour": "'There is a light at the end of the Scarth sands,' says {keeper}, 'and a causeway that dries for three hours at noon, and a keeper called Seddon who has never once turned a traveller from his kitchen door. Cross after twelve and you sleep out there. People do, and are glad of the tea, and do not much talk of the night.'",
    "heard": "East of here, a lighthouse stands on a rock at the end of a tidal causeway, and the road to it is only dry for three hours.",
    "skyline": "a white tower on a grey flat, with posts going out to it",
-   "far": "a lighthouse stands at the end of a causeway that the sea closes every day, and people who cross late stay the night"
+   "far": "a lighthouse stands at the end of a causeway that the sea closes every day, and people who cross late stay the night",
+   "after": {
+    "talk": "The coast road has stopped telling people to cross before twelve. It has not started saying why. A carter who has been out to the Scarth light says only that the tea is as good as ever, and puts his hand flat on the table.",
+    "told": "{keeper} hears you out about the light and the sands and the cistern, and does not say a word until you have finished. Then {keeper} gets up and puts the shutters across the window on the sea side, which was not what you expected, and comes back. 'My father used to say the Scarth keepers were the only men in the county who slept with their boots on,' {keeper} says. 'I took it for a joke.' Then, quietly: 'Was there tea?' You say there was. 'Good,' says {keeper}. 'That's something.'",
+    "by": {
+     "dark": {
+      "told": "{keeper} hears you out about the light and the sands and the cistern, and sits for a while with both hands round a cup that has gone cold. 'A keeper gone,' {keeper} says, 'or someone who came for the dead. It is a hard rock.' {keeper} looks at the shutter, the one on the sea side. 'They'll not leave the lamp dark. They never do. Somebody walks out at noon with a can of oil and a face like yours.' Then, getting up: 'I'll find you a bed that faces inland.'"
+     }
+    }
+   }
   },
   {
    "id": "sallowfield",
@@ -669,10 +700,19 @@
    "name": "the vale of the Brimble",
    "topic": "the ford at Sallowfield, where a coach has cracked its axle",
    "terrain": "hills",
-   "rumour": "'There's a village on the Brimble called Sallowfield,' says {keeper}, 'a ford, a mill, sixty souls. A coach broke its axle there this week, and I'm told there's a company of the Margrave's unpaid soldiers coming down the east road behind it with nothing in their bellies. Whoever's passing would do well to be passing quickly.' {keeper} wipes a mug. 'The smith will tell you three days for the axle. I'd say the soldiers will be quicker.'",
+   "rumour": "'There's a village on the Brimble called Sallowfield,' says {keeper}, 'a ford, a mill, sixty souls, and Nan Ashworth at the Ploughshare, who gives a bed to anyone and an opinion to everyone. A coach broke its axle there this week, and I'm told there's a company of the Margrave's unpaid soldiers coming down the east road behind it with nothing in their bellies. Whoever's passing would do well to be passing quickly.' {keeper} wipes a mug. 'The smith will tell you three days for the axle. I'd say the soldiers will be quicker.'",
    "heard": "West of here, on the Brimble, lies Sallowfield: a ford, a mill, sixty people, and a coach with a cracked axle, with a company of the Margrave's unpaid soldiers coming down the east road behind it.",
    "skyline": "a river valley with a mill-race and a chapel tower, and smoke going straight up from every chimney",
-   "far": "a village at a ford is waiting, and nobody in it knows yet what to do about the soldiers on the road"
+   "far": "a village at a ford is waiting, and nobody in it knows yet what to do about the soldiers on the road",
+   "after": {
+    "talk": "The talk this week is of Sallowfield on the Brimble, and of the Margrave's unpaid company, and of which of the two is still standing. Nobody here has been there. Everyone has a cousin who has.",
+    "told": "{keeper} hears you out about the ford and the green and the three nights, and does not interrupt, which for {keeper} is a kind of tribute. 'Sixty souls,' {keeper} says at the end, 'and a coach.' {keeper} turns the mug on the bar. 'The coach went on, I suppose. They always do.' And then, setting it down: 'Nan Ashworth sent me a letter at Michaelmas, last year, about a cheese. I've never answered it. I think I'll answer it.'",
+    "by": {
+     "burned": {
+      "told": "{keeper} hears you out about the ford and the three nights and the green, and goes quiet at the word green. 'Black timbers,' {keeper} says. 'And the chapel standing.' {keeper} looks for a long time at nothing. 'Nan Ashworth had a cellar she said had never in its life been lent to an army,' {keeper} says. 'I hope that is still true. I should like it to be the last true thing.' {keeper} pours, and does not put the price on the slate."
+     }
+    }
+   }
   }
  ]
 }

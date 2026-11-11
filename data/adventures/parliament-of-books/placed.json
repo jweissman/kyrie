@@ -42,7 +42,9 @@
     "slack_opened"
   ],
   "imports": [
-    "party"
+    "party",
+    "word",
+    "word_ash"
   ],
   "roles": {
     "party": {
@@ -53,5 +55,9 @@
     "party": "party",
     "region": "calam",
     "causey": "causey"
-  }
+  },
+  "optional": [
+    "word",
+    "word_ash"
+  ]
 }

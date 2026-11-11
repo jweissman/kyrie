@@ -1,4 +1,10 @@
 Module tallow "Tallow Deep" {
   // The country beyond a march of a generated world: the company that comes in by the road is the world's own.
   Entity party: group "Your company".
+  // What is said of Tallow Edge in the country behind it: once the Calx Gate is raised, or the fourteen are counted, it is old news.
+  Entity word: fact "What is said of Tallow Edge in the country behind it.".
+  Rule word_old when (state(calx_gate, raised) or namesRead(party) or ticked(party) or laid(party)) and not stale(word) { Assert stale(word). }
+  // And which: the old road open under the ridge, which the village hears of at once.
+  Entity word_road: fact "That the old road under Tallow Edge is open.".
+  Rule word_road_old when state(calx_gate, raised) and not stale(word_road) { Assert stale(word_road). }
 }

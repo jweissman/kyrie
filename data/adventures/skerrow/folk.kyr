@@ -29,7 +29,7 @@ Module skerrow "The Light on Scarth Holm" {
 
   Person hettie "Hettie Marram" at kitchen {
     Role "a widow in black, with a basket". Ancestry human. Peaceable. Pronouns she. Manner compassionate.
-    Greets "A round woman in a black straw bonnet is cutting a loaf into slices thicker than the loaf can spare. 'Sit,' she says. 'Tea. I always bring tea. Tam said it was the only part of the journey that was properly planned.'".
+    Greets "The loaf is being cut into slices thicker than it can spare, by a round woman in a black straw bonnet who does not stop for you. 'Sit,' she says. 'Tea. I always bring tea. Tam said it was the only part of the journey that was properly planned.'".
   }
   Topic hettie_ask with hettie "Hear what Hettie asks you over the tea" when true once {
     Says "Hettie pours. 'May I ask you a thing?' she says. 'It's tonight, you see. Eleven years. I come every year and bring the loaf. Do you think the drowned can be spoken to?'".
@@ -77,7 +77,7 @@ Module skerrow "The Light on Scarth Holm" {
 
   Person piers "Piers Tolland" at kitchen {
     Role "a clerk of the Tide Board, with a satchel on his knees". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
-    Greets "A thin young man in a brown coat that fits him in the sleeves and nowhere else is sitting on a stool with a satchel held on his knees in both arms. 'Tolland,' he says. 'Piers. Tide Board. Which is to say, I think, that I am the Tide Board, as far as this rock is concerned, though of course there are others. I do apologise for the satchel. It is not that I do not trust you.'".
+    Greets "The satchel is held on the stool in both arms, and the thin young man in the brown coat that fits him in the sleeves and nowhere else is held on behind it. 'Tolland,' he says. 'Piers. Tide Board. Which is to say, I think, that I am the Tide Board, as far as this rock is concerned, though of course there are others. I do apologise for the satchel. It is not that I do not trust you.'".
   }
   Topic piers_asks with piers "Hear what Piers has to say in confidence" when true once {
     Says "Piers looks round the kitchen twice. 'In confidence,' he says. 'I am to give notice, you see. I have it here. The Board has resolved to discontinue the Scarth light on the first of next month, as the traffic no longer warrants it, and I am to hand it to the keeper personally and I have been here two hours and I have not.' He swallows. 'What would you do?'".
@@ -94,7 +94,7 @@ Module skerrow "The Light on Scarth Holm" {
 
   Person corrie "Corrie Fenwether" at kitchen {
     Role "a rope-seller, with a coil on her shoulder and a ledger in her sleeve". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
-    Greets "A square woman in a man's waxed coat sits at the end of the bench with a coil of tarred line across her knees, counting the strands of it with her thumb. 'Fenwether,' she says. 'Cordage. Four pence the fathom, three if you take the lot, and I am not to be haggled with on a rock.' She does not look up from the coil. 'I was at the slipway at twelve and I am on the wrong side of the tide for it. That is a day's trade gone.'".
+    Greets "'Four pence the fathom,' says a square woman at the end of the bench, in a man's waxed coat, counting the strands of a tarred coil with her thumb. 'Three if you take the lot. Fenwether, cordage, and I am not to be haggled with on a rock.' She does not look up. 'I was at the slipway at twelve and I am on the wrong side of the tide for it. That is a day's trade gone.'".
   }
   Topic corrie_asks with corrie "Ask Corrie Fenwether what she is doing on a rock in the fog" when true once {
     Says "'Selling,' says Corrie. 'Nothing sells like a rope on a day the tide's in.' She winds a turn of line round her thumb. 'I was here last year. I heard my sister in that cistern. She is alive, and keeps a stall at the fair. I was out of this place quickly.'".
@@ -109,7 +109,7 @@ Module skerrow "The Light on Scarth Holm" {
 
   Person dib "Dib Wyke" at kitchen {
     Role "the keeper's boy, taken in off a wreck last winter". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
-    Greets "A boy of twelve with a face scrubbed raw and a sleeve out of one elbow comes at you at once. 'Have you been in the sea? Have you seen the sea at night? Does your dog bite? You haven't a dog. Why haven't you? Can I see that?'".
+    Greets "'Have you been in the sea? Have you seen the sea at night? Does your dog bite?' A boy of twelve with a face scrubbed raw and a sleeve out of one elbow is on you before you are through the door. 'You haven't a dog. Why haven't you? Can I see that?'".
   }
   Topic dib_asks with dib "Let Dib show you what he found" when true once {
     Says "Dib drags you to the store and hauls up the hatch by its iron ring. Black water, a ladder going down, the smell of an old cellar. 'Cistern,' he says. 'Mr Seddon says never. But you can hear the sea in it. And sometimes you hear my dad.' He says it as he says everything. 'Would you? If it was your dad?'".

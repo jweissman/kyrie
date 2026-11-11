@@ -9,6 +9,7 @@
     "night.kyr",
     "morning.kyr",
     "wake.kyr",
+    "lore.kyr",
     "company.kyr"
   ],
   "rules": [
@@ -18,7 +19,10 @@
     "party"
   ],
   "canon": [
-    "imbar"
+    "imbar",
+    "scarth_kept",
+    "scarth_lost",
+    "remainder_kept"
   ],
   "exports": {
     "party": "party",
