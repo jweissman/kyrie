@@ -26,7 +26,8 @@ const SITE = `region__${PLACED.howe}`;
 const TOWN = (part: string) => `region__${PLACED.town}_${part}`;
 const FOUR = company('warrior', 'cleric', 'thief', 'mage');
 const levelled = (level: number, ...calls: string[]) => company(...calls).map(m => ({ ...m, level }));
-// Countries by what they drew: kahitude, thorn and d4 left the howe broken; a1, b2 and c3 sealed it from within.
+// Countries by what they drew (the draw moves when the template does; read it from the world if in doubt): b2 and d4 left the howe
+// broken; kahitude, a1, thorn and c3 sealed it from within.
 
 class Howe {
   static async start(party = FOUR, seed = 'kahitude') {
@@ -422,6 +423,7 @@ describe('what the country keeps of it', () => {
     const j = await Howe.start();
     Placed.at(j, TOWN('green'));
     j.assert('bound_broken', 'party');
+    Placed.move(j, R('king_torc_item'), R('rival_camp'));
     await j.play('=day 6 22:00');
     expect(Howe.fact(j, 'host_abroad')).toBe(true);
     expect(Howe.holds(j, 'at', R('household'), TOWN('green'))).toBe(true);
@@ -436,7 +438,7 @@ describe('what the country keeps of it', () => {
   }, 300000);
 });
 
-describe('the howe sealed from within (a1) and left broken (kahitude): the laws hold either way', () => {
+describe('the howe sealed from within (a1) and left broken (d4): the laws hold either way', () => {
   it('opens to rites quietly: the household stays seated, and the stone heaved home again marks the howe kept', async () => {
     const j = await Howe.at('forecourt', FOUR, 'a1');
     expect(Howe.state(j, 'seal', 'set')).toBe(true);
@@ -472,7 +474,7 @@ describe('the howe sealed from within (a1) and left broken (kahitude): the laws 
     expect(warrior.offers('Give the king')).toBe(true);
     await warrior.play('Give the king');
     expect(Howe.state(warrior, 'seal', 'rolled')).toBe(true);
-    const forced = await Howe.at('forecourt', company('warrior'), 'kahitude');
+    const forced = await Howe.at('forecourt', company('warrior'), 'd4');
     await forced.play('Wait › A while');
     expect(Howe.state(forced, 'seal', 'forced')).toBe(true);
     expect(forced.offers('Call the roll of kings')).toBe(true);
