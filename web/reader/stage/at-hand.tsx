@@ -135,7 +135,9 @@ export class AtHand {
     const ids = new Set([...h.choices.map(c => c.id), ...h.opens]);
     const led = app.state.frame?.leaf.glance?.acts.find(a => ids.has(GlanceStage.choice(app, a.choice)?.id ?? '')
       && a.aspects.length);
-    return led ? Emphasis.of(led.aspects, false).tone : undefined;
+    // In the aim's gold where it is the aim's next step, as the scene draws it (the speaking door had been gold on the
+    // scene and blue in Look…: round 11, T 33–34).
+    return led ? Emphasis.of(led.aspects, !!led.continues && Guidance.shown(app)).tone : undefined;
   }
   // The one the glance leads with, where it leads with something at hand.
   static led(app: ReaderApp, held: Held[]): Held | undefined {
