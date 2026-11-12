@@ -568,6 +568,48 @@ is not.
 - the effect list completed for `Give`, `Bring` and checks;
 - a typed "known" mark for relations, tried on one person with a secret.
 
+### Prototype 2, a game served a line at a time: what it found (12 November, early)
+
+`bin/kyrie serve` (src/cli/serve.ts, test/serve.test.ts) keeps one game in a long-lived process.
+
+- **Protocol:** one JSON object a line each way, with the ops `start`, `view`, `act`, `card`, `checkpoint` and
+  `resume`.
+- **The view:** the page's own data, made small: where the company is, the clock, the aims (the followed one marked),
+  the acts the page leads with (choice id, command, why, aspects, `continues`), and every choice by id and words.
+- **An act** answers with its result and what was told, plus the next view.
+- **No new engine.** It is about seventy lines over `PlaySession`, `ScreenModel`, `Narrator.leaf` and `PlayerView`, the
+  same path as the browser and the terminal.
+
+Measured on 12 November, early, in kahitude's debt start: a driver took the page's first led act twenty times
+(/var/tmp/kyrie/m20/tools/serve-drive.ts).
+
+| | |
+|---|---|
+| Start, once | 5.9 s (the server's own 5.5 s) |
+| Each act, view included | median 366 ms, mean about 4 KB, at most 1.9 s (a journey) |
+| A card | 0.2 s, 0.2 KB |
+
+The one-shot CLI starts a session and replays its steps on every call, so the start is the cost a persistent process
+saves.
+
+**Concept validation.**
+- A walker needs nothing but ids: it played twenty steps (Tuck, the landing, the taproom, Seolforfyrd, the parley, the
+  hold, a torch, the bell, the pit) without reading a word.
+- The card comes over the same line.
+
+**Feasibility, and what it showed.**
+- **Most of each step is the view.** The glance and the choice list are rebuilt whole, and every leg lists the choices
+  more than once (see C). A view that lists them once would cut it.
+- **Context.** The full choice list (31 to 90 on a green) is most of the bytes. An agent's frame could carry the led
+  acts and the choice count, with the list on request.
+- **Untested here:**
+  - `resume` from a checkpoint of a generated world;
+  - more than one session in a process (`LocalKinds`);
+  - forking;
+  - fights (they run on the session's automatic controller).
+- **Loops.** The first-led walker said "Ring the bell" and "Talk to the shepherd's boy" twice each. test/gold-walk
+  catches circles for the gold only, not for the first led act.
+
 Preliminary research only, notes not systems: general counterfactual planning, the evolving Book, elaborate
 perception profiles, dramatic memory, institutional plans, literate authoring, careers and companies.
 
