@@ -85,11 +85,19 @@ export class Promotion {
     const i = this.continuing.indexOf(a.why);
     return i < 0 ? this.continuing.length : i;
   }
+  // The followed aim's next step is the one act in its gold: any other it bears on is led for what else it is, or as
+  // something worth going to see (the owner, 12 November: gold on the ways and the looking at once had named no next
+  // step, and the thread was lost).
   static continued(acts: Promoted[]): Promoted[] {
     const next = acts.filter(a => a.aspects.includes('undertaking'))
       .sort((a, b) => this.continuance(a) - this.continuance(b))[0];
-    return acts.map(a => a === next ? { ...a, continues: true as const }
-      : a.continues ? Object.fromEntries(Object.entries(a).filter(([k]) => k !== 'continues')) as Promoted : a);
+    return acts.map(a => {
+      if (a === next) { return { ...a, continues: true as const }; }
+      const rest = Object.fromEntries(Object.entries(a).filter(([k]) => k !== 'continues')) as Promoted;
+      if (!a.aspects.includes('undertaking')) { return a.continues ? rest : a; }
+      const aspects = a.aspects.filter(x => x !== 'undertaking');
+      return { ...rest, aspects: aspects.length ? aspects : ['exploration'] };
+    });
   }
   // Whether there is room for one more of its kind: never twice the same choice; one for each subject (a danger two,
   // and so may a place with nothing else); two ways; one of the place's own; a way not yet taken only while fewer than

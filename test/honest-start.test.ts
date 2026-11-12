@@ -4,6 +4,7 @@ import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlaySession } from '../src/session/play-session';
 import { Undertakings } from '../src/presentation/undertakings';
 import { HonestPlayer } from './support/honest-player';
+import { Glanced } from './support/glanced';
 
 // The opening, played as a player who knows only what the page shows (see HonestPlayer), from the normal start of a
 // fixed world by an ordinary character: the reviews of 9 November asked for one honest-start journey that proves the
@@ -11,7 +12,9 @@ import { HonestPlayer } from './support/honest-player';
 const start = async (origin: string) => {
   const w = await WorldAssembler.assemble('kahitude', NodeBundleSource.shared, { origin,
     party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
-  return new HonestPlayer(await PlaySession.start(w.path, 'kahitude', w.source));
+  // The reason the company came followed, as the page offers it (Follow this): nothing is followed for the player
+  // until they choose (the owner, 12 November).
+  return new HonestPlayer(Glanced.following(await PlaySession.start(w.path, 'kahitude', w.source)));
 };
 const held = (p: HonestPlayer, id: string) => Undertakings.held(p.s.campaign).some(o => o.id.endsWith(id));
 describe('the opening, as the page leads it', () => {

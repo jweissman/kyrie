@@ -29,6 +29,9 @@ describe.skipIf(!process.env.KYRIE_TOUR)('the reference hour, through the page',
     await page.click('[data-action="origin"][data-id="debt"]');
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 120000 });
+    // The reason the company came, followed as the page offers it: nothing is followed for the player, and gold comes
+    // only with Follow this (the owner, 12 November).
+    await page.click('[data-id="aim"] [data-action="follow"]', { timeout: 10000 }).catch(() => log.push('no aim to follow'));
     await shot('start');
     for (let step = 0; step < 40; step++) {
       const st = await d.inspect();
