@@ -4,7 +4,10 @@ Module dorothea "The Dorothea" {
   // is left with: a lamp lit and unasked about, a lamp kept against the factor, a bronze sold, a boy lost, an engine
   // fed or stilled. Every one of these is made by an action a player can see. The more particular is written first.
   // The other calls (Port Ness, the Antlers, Ashkeld, the Mangrow) end nothing: she is turned round for the next.
-  Query fromSkerrow() means safeHome(hull) and bound(hull) == 1.
+  // Not while the company carries the Pharos's oil for the other lights: Marren Kestle gave it to be taken to Port
+  // Ness and the Holm on the voyages after, and a passage home with it was told "Nobody asked you anything" and the
+  // story closed (the integration of the adventure branch, against the Pharos oil's own journey).
+  Query fromSkerrow() means safeHome(hull) and bound(hull) == 1 and not holding(party, dorothea_oil_keg).
 
   Ending end_green "The Green Light" when fromSkerrow() and pilotLit(party) and not lampOut(party)
     "On the second night out, with the Combs a day astern, a green light comes up on the rim of the sea and stays. Bascom is at the wheel. She has steered by one dead star and the memory of a reef for twenty years, and she says nothing at all; she corrects the helm by a point and takes the pipe out of her mouth. Nipper wants to know what it is. 'A thing somebody fed,' says Rune, and for once nobody tells him to hold his tongue. By the end of the week the Tolleth boats are setting their courses by it, and not one of them could say who they thank.".
