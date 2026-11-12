@@ -54,15 +54,15 @@ export class WorldStage {
     return (
       <article className={`world-page scale-${overworld ? 'board' : 'scene'} kind-${PlaceStage.kind(screen)}`
         + `${screen.dark ? ' dark' : ''}${up ? ` raised-${up}` : ''}`
-        + `${stopped ? ' interrupted' : ''}${threat ? ' threatened' : ''}`} id="page">
+        + `${stopped ? ' interrupted' : ''}${threat ? ' threatened' : ''}${!overworld && SceneRail.talking(app) ? ' talking' : ''}`}
+        id="page">
         <header className="world-bar"><div className="title-block"><Told.Heading frame={frame} app={app} /></div></header>
         <div className="world-body">
           <section className="surface" aria-label="Where you are">
             {overworld ? <WorldStage.Board app={app} screen={screen} chosen={focus} choose={pick} />
               : <><SceneSurface.View screen={screen} />
-                {frame.leaf.glance && (!SceneRail.cinematic(app) || app.state.talking)
-                  && <WorldStage.Portraits app={app} draw={draw} />}
-                {SceneRail.cinematic(app) && <Lenses.Strip app={app} />}</>}
+                {frame.leaf.glance && SceneRail.talking(app) && <WorldStage.Portraits app={app} draw={draw} />}
+                <Lenses.Strip app={app} /></>}
           </section>
           <aside className="focus" aria-label={overworld ? 'On the map' : 'What you are attending to'}>
             {overworld && (app.state.walking || app.state.pending?.going) ? <WorldStage.Going app={app} />
@@ -154,12 +154,13 @@ export class WorldStage {
       {told && <span className="still-why" role="status">{why}</span>}</button>;
   }
   // One of the company down is said as the Company page says it (round 8, N: "down", and nothing said what it meant);
-  // someone never spoken to has nothing to say, not "nothing more" (round 8, M).
+  // someone never spoken to has nothing to say, not "nothing more" (round 8, M). One at their own business is seen at
+  // it, as the place tells it (round 10, S: the poacher's boy stood at the causeway with "nothing to say to you now").
   static why(x: SceneSubject): string {
     if (x.state) {
       return x.state === 'dead' ? 'Dead.' : x.kind === 'companion' ? Standing.senseless : 'Down, and not getting up yet.';
     }
-    return x.danger ? 'Means you harm: what can be done is in the scene.' : 'Nothing to say to you now.';
+    return x.danger ? 'Means you harm: what can be done is in the scene.' : x.says?.[0] ?? 'Nothing to say to you now.';
   }
   static Portrait({ subject: x, draw, pip }: { subject: SceneSubject; draw: Draw; pip?: { fill?: string; label: string } }) {
     // One with nothing to say or do now is a likeness, not a way into a conversation with nothing in it.

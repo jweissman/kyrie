@@ -60,12 +60,13 @@ class Glancing {
     for (const hop of p.route('freezeland')) { await p.play(hop); }
     return p.j.session.campaign.history.map(e => e.action);
   }
-  // A place at rest (the owner, 4 November, late, and 5 November, late): the picture with whoever is here over its
-  // foot, the place told whole and never folded away, and a few quiet touches; no ways, no list of what can be done.
+  // A place at rest (the owner, 4 November, late, and 5 November, late): the picture, with whoever is here a touch away
+  // under Talk (12 November), the place told whole and never folded away, and a few quiet touches; no ways, no list of
+  // what can be done.
   // Go… opens the ways and nothing else (no one to talk to, no acts on things, no waiting); Wait… opens waiting.
   static async atRest(page: Page) {
     const at = (s: string) => page.locator(`.world-page ${s}`).count();
-    const rest = { portraits: await at('.surface .portraits .portrait') > 0, go: await at('.opens-go'),
+    const rest = { talk: await at('.opens-talk'), go: await at('.opens-go'),
       told: await at('.focus .setting p') > 0, folds: await at('details'), listed: await at('.focus .ways-here'),
       keys: await page.locator('.glance-keys').count() };
     await page.click('.opens-go');
@@ -101,7 +102,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a place at a glance', () => {
       expect((await d.inspect()).glance?.arrival).toBe('first');
       await Glancing.shot(page, 'first-arrival');
       // Go… is for going, and only for going (the owner, 5 November, late).
-      expect(await Glancing.atRest(page)).toEqual({ portraits: true, go: 1, told: true, folds: 0, listed: 0, keys: 0,
+      expect(await Glancing.atRest(page)).toEqual({ talk: 1, go: 1, told: true, folds: 0, listed: 0, keys: 0,
         ways: true, others: 0, waits: true });
       // A digit beyond what it leads with does nothing out of sight.
       if (!pointer) {
@@ -112,6 +113,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a place at a glance', () => {
       }
       // Your brother, by his likeness on the picture: someone in sight is talked to by touching them (the owner,
       // 4 November, late).
+      await d.talk();
       await d.click('.surface .portraits [data-subject="drover__son"] .portrait');
       expect((await d.inspect()).mode).toBe('talk');
       expect(await page.locator('.dialogue').count()).toBe(1);

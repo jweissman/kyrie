@@ -13,7 +13,7 @@
   background: linear-gradient(180deg, transparent 50%, rgba(7, 8, 10, .82) 100%), linear-gradient(270deg, rgba(18, 19, 24, .5), transparent 22%); }
 .sitter .credit { position: absolute; top: 14px; left: 18px; z-index: 1; margin: 0; font: 400 11px var(--do);
   color: rgba(236, 230, 217, .7); text-shadow: 0 1px 3px rgba(0, 0, 0, .7); }
-.sitter .cap { position: absolute; z-index: 1; left: clamp(20px, 3vw, 44px); bottom: clamp(22px, 4vh, 44px); right: 20px;
+.sitter .cap { position: absolute; z-index: 1; left: var(--safe-l); bottom: var(--safe-b); right: 20px;
   color: var(--ivory); text-shadow: 0 2px 18px rgba(0, 0, 0, .7); }
 .sitter .cap .n { font: 300 clamp(44px, 5.2vw, 72px)/1 var(--do); letter-spacing: .02em; margin: 0 0 8px; }
 .sitter .cap .r { font: 500 12px var(--do); letter-spacing: .2em; text-transform: uppercase; color: var(--accent); margin: 0; }
@@ -25,7 +25,7 @@
 .sitter.unpainted .cap .n { font-size: clamp(46px, 6vw, 80px); }
 
 .dialogue { height: var(--frame-h); display: flex; flex-direction: column; max-width: 50rem;
-  padding: max(30px, env(safe-area-inset-top)) clamp(24px, 4vw, 56px) env(safe-area-inset-bottom); }
+  padding: var(--safe-t) var(--safe-r) var(--safe-b) clamp(24px, 4vw, 56px); }
 .lines { flex: 0 0 auto; max-height: 44%; min-height: 0; overflow-y: auto; overscroll-behavior: contain; margin: 0;
   padding: 0 64px 14px 0; }
 /* Trading, the lines hold their room from the first: each purchase told above had pushed the counter down, and the
@@ -101,13 +101,13 @@
 .recruit .summary { margin: 0 0 4px; font: 500 15px var(--do); color: var(--ivory); }
 .recruit .bearing, .recruit .qualities-line, .recruit .skills-line { margin: 4px 0; color: var(--dim); font: 400 14px/1.45 var(--do); }
 
-.close { all: unset; cursor: pointer; position: absolute; top: var(--safe-y, max(16px, env(safe-area-inset-top)));
-  right: var(--safe-x, max(16px, env(safe-area-inset-right))); width: 44px; height: 44px; display: grid; place-items: center;
+.close { all: unset; cursor: pointer; position: absolute; top: var(--safe-y, var(--safe-t));
+  right: var(--safe-x, var(--safe-r)); width: 44px; height: 44px; display: grid; place-items: center;
   font: 300 28px/1 var(--do); color: var(--dim); z-index: 6; }
 .close:hover, .close:focus-visible { color: var(--accent); outline: none; }
 /* In a conversation, or with one thing looked at, the book is a quiet mark beside the close. */
-.mode-talk .corner, .mode-examine .corner { right: calc(max(12px, env(safe-area-inset-right)) + 48px);
-  top: max(10px, env(safe-area-inset-top)); width: 44px; min-height: 44px; padding: 0; justify-content: center;
+.mode-talk .corner, .mode-examine .corner { right: calc(var(--safe-x, var(--safe-r)) + 48px);
+  top: var(--safe-y, var(--safe-t)); width: 44px; min-height: 44px; padding: 0; justify-content: center;
   background: transparent; border-color: transparent; color: var(--dim); backdrop-filter: none; }
 .mode-talk .corner .corner-label, .mode-examine .corner .corner-label { display: none; }
 .mode-talk .corner:hover, .mode-examine .corner:hover { color: var(--accent); }
@@ -124,8 +124,7 @@
   .talk .dialogue .lines { max-height: calc(var(--frame-h) * .4); padding-right: 0; }
   .sitter.unpainted .cap { padding: max(64px, env(safe-area-inset-top)) 22px 22px; }
   .sitter.unpainted .cap .n { font-size: clamp(40px, 9vw, 72px); }
-  .dialogue { width: 100%; max-width: 46rem; margin: 0 auto; padding: 16px max(20px, env(safe-area-inset-right))
-    max(14px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left)); }
+  .dialogue { width: 100%; max-width: 46rem; margin: 0 auto; padding: 16px var(--safe-r) var(--safe-b) var(--safe-l); }
 }
 /* What else could be said, a touch away under the few things that are salient; trading apart from it. */
 .more-talk { margin: 10px 0 0; }

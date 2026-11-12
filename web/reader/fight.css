@@ -7,7 +7,7 @@
 .fight { height: var(--frame-h); display: flex; flex-direction: column; padding: 0;
   background: radial-gradient(ellipse 80% 50% at 50% 40%, rgba(255, 107, 69, .05), transparent 70%); }
 .fight > .status { flex: none; display: flex; gap: 10px 18px; flex-wrap: wrap; align-items: center; margin: 0;
-  padding: 18px clamp(20px, 3.4vw, 44px) 14px; border-bottom: 1px solid var(--edge); font: 500 11px var(--do);
+  padding: var(--safe-t) var(--safe-r) 14px var(--safe-l); border-bottom: 1px solid var(--edge); font: 500 11px var(--do);
   letter-spacing: .2em; text-transform: uppercase; color: var(--dim); }
 .fight > .status span:first-child { color: var(--ember); }
 /* How the fight stands now, in a word of its danger's colour (M19-78). */
@@ -21,7 +21,7 @@
 
 .fight > .status span:first-child::before { content: ''; display: inline-block; width: 7px; height: 7px; margin-right: 10px;
   background: var(--ember); transform: rotate(45deg); box-shadow: 0 0 10px var(--ember); }
-.fight > .law { flex: none; margin: 10px clamp(20px, 3.4vw, 44px) 0; font: 400 14px/1.45 var(--do); color: var(--dim); }
+.fight > .law { flex: none; margin: 10px var(--safe-r) 0 var(--safe-l); font: 400 14px/1.45 var(--do); color: var(--dim); }
 .fight > .law b { color: var(--violet); font-weight: 600; }
 /* The sides take what the hand of acts leaves them, and never less than a fifth of the stage: every act is in view
    at a laptop's 1280 by 800 and a tablet's (the fresh playtest of 7 November: Defend, Flee and the firebomb had lain
@@ -31,7 +31,7 @@
 .fight > .sides { flex: 1 1 0; overflow-y: auto; display: grid; align-content: start;
   min-height: max(calc(var(--frame-h) * .2), min(var(--held, 0px), calc(var(--frame-h) * .62)));
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr) minmax(0, 1fr); gap: 0 clamp(16px, 2.6vw, 36px);
-  padding: 20px clamp(20px, 3.4vw, 44px) 12px; }
+  padding: 20px var(--safe-r) 12px var(--safe-l); }
 /* A side's cards are its width and no wider: a name cut short is cut, not let push the card over the foes'. */
 .fight .side { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px;
   align-content: start; container-type: inline-size; }
@@ -101,7 +101,7 @@
 .fight-log p { font-size: 15px; color: var(--dim); }
 /* Whose turn, and who follows. */
 .fight > .turn { flex: none; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px;
-  padding: 12px clamp(20px, 3.4vw, 44px) 0; border-top: 1px solid var(--edge); }
+  padding: 12px var(--safe-r) 0 var(--safe-l); border-top: 1px solid var(--edge); }
 .fight .turn .now { margin: 0; font: 500 12px var(--do); letter-spacing: .2em; text-transform: uppercase; color: var(--accent); }
 .fight .turn .working { color: var(--dim); letter-spacing: .04em; text-transform: none; }
 .fight .order { list-style: none; margin: 0 0 0 auto; padding: 0; display: flex; flex-wrap: wrap; gap: 4px; }
@@ -110,7 +110,7 @@
 .fight .order li.next { color: var(--deep); background: var(--accent); border-color: var(--accent); }
 /* The hand: what the one whose turn it is can do, a card each, each kind's name beside its cards, not over them, and a
    card no wider than a long note wraps to (the firebomb's saves had made it a row of its own). */
-.fight > .moves { flex: 0 1 auto; min-height: 0; overflow-y: auto; padding: 12px clamp(20px, 3.4vw, 44px) 4px; }
+.fight > .moves { flex: 0 1 auto; min-height: 0; overflow-y: auto; padding: 12px var(--safe-r) 4px var(--safe-l); }
 .fight .moves section + section { margin-top: 8px; }
 .fight .moves .label { margin: 0 0 8px; }
 @media (orientation: landscape) and (min-width: 561px) {
@@ -134,10 +134,10 @@
   box-shadow: 0 10px 24px rgba(0, 0, 0, .4), inset 0 -2px 0 var(--accent); }
 .fight .moves .act:active { transform: translateY(0); }
 .fight .auto { margin: 8px 0 0; font: 400 12.5px var(--do); color: var(--faint); }
-/* Clear of the screen's edge, and of a tablet's home bar: 14px had left "The fight so far" inside the 16px margin at
-   every size (the scene's safe-zone walk, 11 November late). */
+/* Clear of the screen's edge, and of a tablet's home bar: inside the safe zone, as every margin of the fight is (the
+   scene's safe-zone walk, 11 November late; and 12 November, the zone the outer tenth). */
 .fight > .fight-log-toggle { flex: none; margin: 0;
-  padding: 8px clamp(20px, 3.4vw, 44px) max(20px, calc(env(safe-area-inset-bottom) + 8px)); }
+  padding: 8px var(--safe-r) var(--safe-b) var(--safe-l); }
 .fight-log-toggle .option { min-height: 36px; padding: 8px 14px; font-size: 11.5px; }
 /* A key to press means nothing to a finger. */
 @media (hover: none) { .fight .auto kbd { display: none; } }

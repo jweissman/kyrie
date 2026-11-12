@@ -63,6 +63,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('play held to the screen', () => {
       // Who is here is on the picture, each a likeness, each the one way to them (those whose work is the heart's and
       // your brother: the rest of the town work in its lanes and fields since Mission 18's commons), and the page still
       // does not scroll.
+      await driver.talk();
       expect(await page.locator('.surface .portraits .portrait').count()).toBeGreaterThan(1);
       await driver.lookAbout();
       const people = await Frame.people(page);

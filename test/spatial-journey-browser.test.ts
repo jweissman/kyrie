@@ -64,6 +64,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a journey through the world, laid o
     expect(await page.locator('.scene-surface button, .scene-surface nav, .focus .ways-here').count()).toBe(0);
     await w.to('region__s2_green');
     // Bask, at his house door, by his likeness on the picture: the rats job, and the key.
+    await driver.talk();
     await page.click('.surface .portraits [data-subject="region__s2_merchant"] .portrait');
     await driver.settle();
     await driver.pick(c => /^Ask about the rats in the corn-store/.test(c.label), 'the rats');

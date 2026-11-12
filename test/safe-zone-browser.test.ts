@@ -63,6 +63,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the safe zone', () => {
       await p.to('region__s2_green');
       await p.check('town');
       await page.click('.opens-go'); await p.check('go-open'); await driver.key('Escape');
+      await driver.talk(); await p.check('talk-lens');
       await page.click('.surface .portraits [data-subject="region__s2_merchant"] .portrait');
       await p.check('talk');
       await driver.pick(c => /^Ask about the rats in the corn-store/.test(c.label), 'the rats');

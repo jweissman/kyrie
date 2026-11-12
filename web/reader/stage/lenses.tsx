@@ -9,10 +9,10 @@ import { SceneSurface } from './scene-surface';
 import { Wayfinder, type Way } from './wayfinder';
 import { Emphasis } from '../emphasis';
 
-// The cinematic view's lenses (an experiment, ?view=cinematic; the owner, 12 November): Go and Look turned on show
-// what they hold across the foot of the painting, as the talk lens shows who is here: a small tile for each way (its
-// direction and name) or each thing at hand (its picture where it has one), with the one pip of what it is. A tile
-// touched is chosen in the lens's own panel, where what it is and what can be done with it are said. The forward
+// The scene's lenses (the owner, 12 November: the cinematic study, made the one resting scene). Go and Look turned on
+// show what they hold across the foot of the painting, as the talk lens shows who is here: a small tile for each way
+// (its direction and name) or each thing at hand (its picture where it has one), with the one pip of what it is. A
+// tile touched is chosen in the lens's own panel, where what it is and what can be done with it are said. The forward
 // design's "attention lenses over one scene" (2026-11-11-forward-design.md, §G), tried on the page as it is.
 // faint: what is only perceived off along a way (someone who might join you, that way), its pip soft (see Perception).
 interface Tile { id: string; name: string; glyph?: string; picture?: string; tone?: string; faint?: boolean; dim?: boolean;
@@ -36,16 +36,22 @@ export class Lenses {
       </ul>
     );
   }
+  // At most this many tiles: those with something to them first (the aim's, a tone, someone perceived), then the rest
+  // in the place's order, never the idle; the list in the panel holds every way (the first render had three rows of
+  // eighteen tiles over the painting, saying again what the panel said).
+  static readonly most = 6;
   // The ways from here, by the direction each goes and its short name; the aim's in its gold, as its row is.
   private static ways(app: ReaderApp): Tile[] {
     const glance = app.state.frame?.leaf.glance, idle = new Set(glance?.idle ?? []);
     const sensed = (w: Way) => glance?.sensed?.find(x => x.to === Wayfinder.to(w) || w.holds?.includes(x.to));
-    return Wayfinder.ways(app).map(w => ({ id: w.c.id, name: GlanceStage.short(w.name),
+    return Wayfinder.ways(app).map((w): Tile => ({ id: w.c.id, name: GlanceStage.short(w.name),
       glyph: w.c.disabled ? '⊘' : SceneSurface.glyph(w.whither),
       ...(w.aim === 'followed' ? { tone: 'gold' } : Wayfinder.tone(app, w) ? { tone: Wayfinder.tone(app, w)! }
         : sensed(w) ? { tone: Emphasis.tones[sensed(w)!.aspect], faint: true } : {}),
       ...idle.has(Wayfinder.to(w)) ? { dim: true } : {}, chosen: app.state.hovered === w.c.id,
-      pick: () => Wayfinder.pick(app, w) }));
+      pick: () => Wayfinder.pick(app, w) })).filter(t => !t.dim)
+      .sort((a, b) => Number(!a.tone) - Number(!b.tone) || Number(b.tone === 'gold') - Number(a.tone === 'gold'))
+      .slice(0, Lenses.most);
   }
   // The things at hand, by their pictures where the place's people or things have one.
   private static things(app: ReaderApp): Tile[] {

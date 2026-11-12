@@ -39,6 +39,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a place at rest, and the pack', () 
     await d.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
     await d.enter();
+    await d.talk();
     const carter = '.surface .portraits li[data-subject="origin__carter"]';
     expect([await Rest.count(page, carter), await Rest.count(page, `${carter}.owed`)]).toEqual([1, 0]);
     await d.click('.opens-look');
@@ -58,7 +59,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a place at rest, and the pack', () 
     await d.away();
     expect(await Rest.count(page, `${carter}.owed`)).toBe(0);
     await d.click('.opens-go');
-    // Everyone in the market-place on the picture (Kite's has seven), none folded away; no likeness in the telling.
+    // Everyone in the market-place on the picture under Talk (Kite's has seven), none folded away; no likeness in the
+    // telling. Turned on, Talk puts Go's ways away.
+    await d.talk();
     expect(await Rest.count(page, '.surface .portraits > li')).toBeGreaterThan(5);
     expect([await Rest.count(page, '.portrait.more'), await Rest.count(page, '.told-col img')]).toEqual([0, 0]);
     await d.mode('i');
