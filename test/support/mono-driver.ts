@@ -65,7 +65,9 @@ export class MonoDriver {
   // the hex the company stands in is entered first (nothing is done in a hex from the map).
   async tap(index: number) {
     const choice = `[data-action="choice"][data-index="${index}"]`, sheet = '.intentions :is([aria-modal="true"], .explorer)';
-    const raised = `${sheet} ${choice} >> visible=true`, shown = `.intentions ${choice} >> visible=true`;
+    // The first of them on show: someone led with is offered by their likeness and among the acts both (the owner, 12
+    // November), one choice in two places.
+    const raised = `${sheet} ${choice} >> visible=true >> nth=0`, shown = `.intentions ${choice} >> visible=true >> nth=0`;
     const has = async (s: string) => (await this.page.locator(s).count()) > 0;
     if (await has(raised)) { await this.click(raised); return; }
     // In a conversation, what is not among the few things salient is under Something else.

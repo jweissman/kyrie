@@ -22,7 +22,11 @@ export class CombatPresenter {
       m.resistance ? m.resistance > 0 ? m.resistance >= 1 ? 'no harm to it' : `${Math.round(m.resistance * 100)}% resisted`
         : m.resistance <= -1 ? 'double, it is vulnerable' : `${Math.round(-m.resistance * 100)}% more, it is vulnerable` : '', m.reduction ? `reduction ${m.reduction}` : '',
       m.absorbed ? `${m.absorbed} absorbed` : ''].filter(Boolean) : [];
-    const calculation = [`roll ${event.rolled}`, ...parts].join(', ');
+    // A killing blow is told by its weight ("for 13"); what it took beyond what was left is said, so that the two agree
+    // (round 10, both players: "for 13" over "takes 1 slashing damage (roll 13)").
+    const spent = event.type === 'damage' && event.hp === 0 && event.amount < event.rolled + (m?.bonus ?? 0)
+      && !m?.resistance && !m?.reduction && !m?.absorbed;
+    const calculation = [`roll ${event.rolled}`, ...parts, ...spent ? [`${event.amount} was all it had left`] : []].join(', ');
     return `${target} takes ${event.amount} ${event.damageType ?? ''} damage (${foe ? '' : `${event.hp} HP; `}${calculation}).`;
   }
   // Two or more of a thing given are said as many ("2 flasks of lamp oil"), a thing's name being capitalised as the

@@ -28,7 +28,8 @@ class Glancing {
   static led(page: Page) { return page.locator('[data-region="glance"] [data-promoted]').count(); }
   static async quiet(page: Page) {
     const m = await MonoBrowser.metrics(page);
-    return { scroll: m.scroll, panes: await page.locator('.place-foot, .on-pane').count(), led: await this.led(page) <= 3 };
+    // Four at most: three, and someone to talk to (Promotion.all).
+    return { scroll: m.scroll, panes: await page.locator('.place-foot, .on-pane').count(), led: await this.led(page) <= 4 };
   }
   // A command done as automation does it (kyrieMono.act), and nothing gone wrong.
   static async act(page: Page, d: MonoDriver, command: string) {

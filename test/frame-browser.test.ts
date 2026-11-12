@@ -15,7 +15,8 @@ import { MonoBrowser } from './support/mono-browser';
 // keeps its leave-taking in view however long it runs (an instrumented session spent four of its ten scrolls reaching
 // it: PT-42). Opt in with KYRIE_BROWSER=1.
 class Frame {
-  // Each person turned to by their own likeness on the picture, and how many controls on the page offer it.
+  // Each person turned to by their own likeness on the picture, and how many controls on the page offer it (the
+  // likeness, and a lead where they are led with).
   static async people(page: Page): Promise<Record<string, number>> {
     return page.evaluate(() => {
       const ids = Array.from(document.querySelectorAll('.surface .portraits .portrait[data-choice$="#talk"]'),
@@ -46,7 +47,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('play held to the screen', () => {
   }, 300000);
   afterAll(async () => { await browser?.close(); await rm(site, { recursive: true, force: true }); });
 
-  it.each([[1440, 900], [390, 844]])('at %i by %i: never scrolls the page, names each person once, keeps leave in view',
+  it.each([[1440, 900], [390, 844]])('at %i by %i: never scrolls the page, names each person by their likeness, keeps leave in view',
     async (width, height) => {
       const { page, errors, driver } = await MonoBrowser.page(browser, { width, height },
         { site, pointer: width < 500, query: '?world=kite' });
@@ -56,9 +57,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('play held to the screen', () => {
       expect((await MonoBrowser.metrics(page)).scroll).toBe(false);
       await driver.pick(c => /^To the bridge-foot/.test(c.label), 'the bridge-foot');
       expect((await MonoBrowser.metrics(page)).scroll).toBe(false);
-      // At a glance: the place told whole, then your brother on the rail, then at most three things worth doing.
+      // At a glance: the place told whole, then your brother on the rail, then at most four things worth doing.
       expect(await Frame.above(page, '[data-region="glance"] .setting', '[data-region="glance"] .life')).toBe(true);
-      expect(await page.locator('[data-region="glance"] [data-promoted]').count()).toBeLessThanOrEqual(3);
+      expect(await page.locator('[data-region="glance"] [data-promoted]').count()).toBeLessThanOrEqual(4);
       // Who is here is on the picture, each a likeness, each the one way to them (those whose work is the heart's and
       // your brother: the rest of the town work in its lanes and fields since Mission 18's commons), and the page still
       // does not scroll.
@@ -66,7 +67,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('play held to the screen', () => {
       await driver.lookAbout();
       const people = await Frame.people(page);
       expect(Object.keys(people).length).toBeGreaterThan(1);
-      expect(Object.values(people).every(n => n === 1)).toBe(true);
+      // Each by their likeness, and one led with for something also among the acts (the owner, 12 November), no more.
+      expect(Object.values(people).every(n => n <= 2)).toBe(true);
       expect((await MonoBrowser.metrics(page)).scroll).toBe(false);
       // Turned to someone: the conversation's leave-taking is on the screen, and still is after a question.
       await driver.pick(c => /#talk$/.test(c.id) && /brother|drover__son/i.test(c.label + c.id), 'your brother');
