@@ -25,11 +25,12 @@
 @font-face { font-family: 'Play'; src: url(fonts/play-400-latin.woff2) format('woff2'); font-weight: 400; font-display: swap; }
 @font-face { font-family: 'Play'; src: url(fonts/play-700-latin.woff2) format('woff2'); font-weight: 700; font-display: swap; }
 :root {
-  /* The safe zone: nothing that can be touched or must be read stands nearer the screen's edge than this, nor nearer a
-     notch or a home bar than 8px past its inset (the owner, 11 November late). The scene's margins are taken from it,
-     ?safe draws it (see Shell.Safe), and the checks measure against what it draws. A painting goes to the edge. */
-  --safe-t: max(16px, calc(env(safe-area-inset-top) + 8px)); --safe-r: max(16px, calc(env(safe-area-inset-right) + 8px));
-  --safe-b: max(16px, calc(env(safe-area-inset-bottom) + 8px)); --safe-l: max(16px, calc(env(safe-area-inset-left) + 8px));
+  /* The safe zone: nothing that can be touched or must be read stands in the outer tenth of the screen on any side, nor
+     nearer a notch or a home bar than 8px past its inset (the owner, 11 November late; and 12 November: the tool-rail
+     and the likenesses had stood in that outer tenth, which counts). The scene's margins are taken from it, ?safe draws
+     it (see Shell.Safe), and the checks measure against what it draws. A painting goes to the edge. */
+  --safe-t: max(10vh, calc(env(safe-area-inset-top) + 8px)); --safe-r: max(10vw, calc(env(safe-area-inset-right) + 8px));
+  --safe-b: max(10vh, calc(env(safe-area-inset-bottom) + 8px)); --safe-l: max(10vw, calc(env(safe-area-inset-left) + 8px));
   /* Ground and surfaces, darkest to lightest: the room, the stage, a raised control, one lifted under the hand. */
   --ground: #0A0B0E; --surface: #121318; --raised: #191B21; --lift: #22252D; --deep: #07080A;
   --ivory: #ECE6D9; --dim: #A59F94; --faint: #6E6A62; --edge: rgba(236, 230, 217, .10); --edge-strong: rgba(236, 230, 217, .24);

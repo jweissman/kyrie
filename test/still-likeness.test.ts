@@ -18,4 +18,8 @@ describe('a still likeness', () => {
     expect(WorldStage.why(subject({ danger: 'grave' } as Partial<SceneSubject>))).toMatch(/Means you harm/);
     expect(WorldStage.why(subject({ state: 'dead' } as Partial<SceneSubject>))).toBe('Dead.');
   });
+  it('says one at their own business as they are seen at it (round 10, S)', () => {
+    expect(WorldStage.why(subject({ says: ['The boy is coiling a snare-line by the causeway.'] })))
+      .toBe('The boy is coiling a snare-line by the causeway.');
+  });
 });

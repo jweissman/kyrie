@@ -90,6 +90,10 @@ export class MonoDriver {
     else if (!await has(shown) && await has('.all-ways')) { await this.click('.all-ways'); }
     await this.click(await has(raised) ? raised : shown);
   }
+  // Who is here, shown: the talk lens turned on where it is off (see SceneRail.Talk).
+  async talk() {
+    if (await this.page.locator('.opens-talk[aria-pressed="false"]').count()) { await this.click('.opens-talk'); }
+  }
   // A choice found in what a place at rest opens: the way chosen in Go… and gone by; the thing whose pane holds it in
   // Look…; or Wait….
   private async opened(index: number, raised: string): Promise<boolean> {
@@ -98,6 +102,7 @@ export class MonoDriver {
     // What is done about someone or something on the picture is done from its own page, opened by its likeness.
     const id = (await this.inspect()).choices[index]?.id ?? '', subject = id.split(/[/#]/)[0] ?? '';
     const likeness = `.surface .portraits [data-subject="${subject}"] .portrait`;
+    if (subject) { await this.talk(); }
     if (subject && await has(likeness)) {
       await this.click(likeness);
       // Its page is a menu of its own: the choice is found there by what it is, not where it was.

@@ -201,7 +201,7 @@
   box-shadow: 0 18px 50px rgba(0, 0, 0, .55); }
 /* Who is here stands on the painting left of the panel, a danger at its right end (hostile right), not under it. */
 .shell.scene-full .world-page.scale-scene .surface .portraits {
-  right: calc(min(31rem, 38vw) + clamp(14px, 2.4vw, 36px) + 24px); }
+  right: calc(min(31rem, 38vw) + var(--safe-x, 28px) + 24px); }
 @media (max-width: 899px), (orientation: portrait) {
   .shell.scene-full .world-page.scale-scene .surface .portraits { right: 18px; }
   .shell.scene-full .world-page.scale-scene .world-body > .focus { top: auto; left: 0; right: 0; bottom: 0; width: auto;
@@ -248,8 +248,9 @@
 .wf-row.dim:hover, .wf-row.dim:focus-visible { opacity: .85; }
 
 /* ---- The scene's rail and its safe margins (the owner, 11 November: everything that can be touched well inside the
-   screen's edges; one tiny rail of marks at the foot of its right side, apart from what is told). ---- */
-.shell.scene-full { --safe-x: max(28px, 3.2vw, var(--safe-r), var(--safe-l)); --safe-y: max(24px, 3.4vh, var(--safe-b)); }
+   screen's edges; one tiny rail of marks at the foot of its right side, apart from what is told). The margins are the
+   safe zone's own (see foundations.css). ---- */
+.shell.scene-full { --safe-x: max(var(--safe-r), var(--safe-l)); --safe-y: max(var(--safe-t), var(--safe-b)); }
 /* The safe zone drawn, for development and acceptance (?safe): a thin light line where it runs. */
 .safe-zone { position: fixed; inset: var(--safe-t) var(--safe-r) var(--safe-b) var(--safe-l); z-index: 2147483000;
   border: 1px solid rgba(214, 214, 214, .6); pointer-events: none; }
@@ -260,7 +261,10 @@
 .scene-rail { position: absolute; z-index: 6; right: var(--safe-x, 28px); bottom: var(--safe-y, 24px); display: flex;
   align-items: center; gap: 2px; padding: 4px 6px; border: 1px solid var(--edge); border-radius: 999px;
   background: rgba(12, 13, 17, .62); backdrop-filter: blur(6px); }
-/* Over the map, its panel stands clear above the rail. */
+/* Over the map, its name and its own controls inside the safe zone, and its panel clear above the rail. */
+.shell.scene-full .world-page.scale-board > .world-bar { padding-top: var(--safe-y); padding-left: var(--safe-x);
+  padding-right: var(--safe-x); }
+.shell.scene-full .world-page.scale-board .board-surface .field-tools { left: var(--safe-x); bottom: var(--safe-y); }
 .shell.scene-full .world-page.scale-board .focus { margin: var(--safe-y, 24px) var(--safe-x, 28px)
   calc(var(--safe-y, 24px) + 60px); }
 @media (max-width: 899px), (orientation: portrait) {
@@ -296,8 +300,16 @@
   /* Inside the safe zone, with room for a pip standing off its marks (14px had put it past the zone on an upright
      iPad: the five-size walk, 11 November). */
   .scene-rail { bottom: calc(var(--safe-b) + 4px); }
-  /* Who is here, over the painting under the place's name, not under the sheet (as the phone rule above). */
-  .shell.scene-full .world-page.scale-scene .surface .portraits { top: 150px; bottom: auto; }
+  /* Who is here over the painting under the place's name, not under the sheet (as the phone rule above), inside the
+     safe zone on either side; with Talk on, the place's telling gives them its room (the panel had covered a second
+     row of them). Go's and Look's tiles give way to their lists in the panel, which a phone has room for alone. */
+  .shell.scene-full .world-page.scale-scene.talking .focus .told-col { display: none; }
+  .shell.scene-full .world-page.scale-scene .surface .portraits { z-index: 5; }
+  .shell.scene-full .world-page .surface .lens-strip { display: none; }
+  /* Seven marks inside a phone's zone. */
+  .scene-rail .rail-mark { width: 36px; height: 36px; }
+  .shell.scene-full .world-page.scale-scene .surface :is(.portraits, .lens-strip) { top: max(150px, calc(var(--safe-t) + 66px));
+    bottom: auto; left: var(--safe-x); right: var(--safe-x); }
 }
 /* Nothing of the place's own to touch, in the scene first: no empty row, and no rule over it. */
 .shell.scene-full .openers:empty { display: none; }
@@ -338,40 +350,39 @@
 .scene-surface.at-night .scene-view { filter: brightness(.45) saturate(.4) contrast(1.05); transition: filter 1.2s ease; }
 @media (prefers-reduced-motion: reduce) { .scene-surface .scene-view { transition: none; } }
 
-/* ---- An experiment, by the address (?view=cinematic; the owner, 12 November): the scene stripped to the painting,
-   the telling with no panel round it, and the few things to do each marked only by a rounded line at its left, in the
-   colour of what it is (neutral where it is nothing in particular). A soft shade over the painting's right keeps the
-   words readable on any painting. Nothing here changes the page as it is played; it is drawn this way only when
-   asked for. ---- */
-/* On a wide screen held level, the telling on the painting itself; on a phone the panel stays (the likenesses wrap
-   to a second row there, which the panel's ground keeps from showing through the words). */
+/* ---- The scene at rest, stripped to the painting (the owner, 12 November: the cinematic study, made the one resting
+   scene rather than a second way of drawing it): the telling with no panel round it, and the few things to do each
+   marked only by a rounded line at its left, in the colour of what it is (neutral where it is nothing in particular).
+   A soft shade over the painting's right keeps the words readable on any painting. Who is here, the ways and the
+   things at hand are lenses (see Lenses, SceneRail.Talk), shown across the foot of the painting when one is on. ---- */
+/* On a wide screen held level, the telling on the painting itself; on a phone the panel stays. */
 @media (min-width: 900px) and (orientation: landscape) {
-  :root.view-cinematic .shell.scene-full .world-page.scale-scene .world-body > .focus {
+  .shell.scene-full .world-page.scale-scene .world-body > .focus {
     border: 0; background: none; backdrop-filter: none; box-shadow: none; }
-  :root.view-cinematic .shell.scene-full .world-page.scale-scene .world-body > .surface::after {
+  .shell.scene-full .world-page.scale-scene .world-body > .surface::after {
     content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 2;
     background: linear-gradient(270deg, rgba(8, 9, 12, .86) 0%, rgba(8, 9, 12, .62) 30%, rgba(8, 9, 12, 0) 58%); }
-  :root.view-cinematic .world-page.scale-scene .focus .told-col p,
-  :root.view-cinematic .world-page.scale-scene .focus .glance p { text-shadow: 0 1px 3px rgba(0, 0, 0, .85); }
+  .world-page.scale-scene .focus .told-col p,
+  .world-page.scale-scene .focus .glance p { text-shadow: 0 1px 3px rgba(0, 0, 0, .85); }
 }
-:root.view-cinematic .world-page.scale-scene .glance .led { gap: 4px; }
-:root.view-cinematic .world-page.scale-scene .act.led-act { position: relative; background: none; border: 0;
+.world-page.scale-scene .glance .led { gap: 4px; }
+.world-page.scale-scene .act.led-act { position: relative; background: none; border: 0;
   box-shadow: none; padding-left: 20px; }
-:root.view-cinematic .world-page.scale-scene .act.led-act::before { display: none; }
-:root.view-cinematic .world-page.scale-scene .act.led-act .prism-bar { left: 2px; top: 9px; bottom: 9px; width: 4px;
+.world-page.scale-scene .act.led-act::before { display: none; }
+.world-page.scale-scene .act.led-act .prism-bar { left: 2px; top: 9px; bottom: 9px; width: 4px;
   border-radius: 4px; }
-:root.view-cinematic .world-page.scale-scene .act.led-act:not(:has(> .prism-bar))::after { content: '';
+.world-page.scale-scene .act.led-act:not(:has(> .prism-bar))::after { content: '';
   position: absolute; left: 2px; top: 9px; bottom: 9px; width: 4px; border-radius: 4px;
   background: rgba(236, 230, 217, .28); }
-:root.view-cinematic .world-page.scale-scene .act.led-act:hover,
-:root.view-cinematic .world-page.scale-scene .act.led-act.sel { background: rgba(236, 230, 217, .06); }
-:root.view-cinematic .world-page.scale-scene .act.led-act .key { opacity: .45; border-color: transparent; }
-:root.view-cinematic .world-page.scale-scene .glance .openers { border-top: 0; }
-/* The cinematic view's lens strip (see Lenses): Go's ways or Look's things across the foot of the painting, where the
-   likenesses stand when the talk lens is on; each a small tile, its one pip of what it is. */
-.world-page .surface .lens-strip { position: absolute; left: 18px; bottom: 16px; z-index: 3; margin: 0; padding: 0;
+.world-page.scale-scene .act.led-act:hover,
+.world-page.scale-scene .act.led-act.sel { background: rgba(236, 230, 217, .06); }
+.world-page.scale-scene .act.led-act .key { opacity: .45; border-color: transparent; }
+.world-page.scale-scene .glance .openers { border-top: 0; }
+/* The lens strip (see Lenses): Go's ways or Look's things across the foot of the painting, where the likenesses stand
+   when the talk lens is on; each a small tile, its one pip of what it is, inside the safe zone. */
+.world-page .surface .lens-strip { position: absolute; left: var(--safe-x, 28px); bottom: var(--safe-y, 24px); z-index: 3; margin: 0; padding: 0;
   list-style: none; display: flex; flex-wrap: wrap; gap: 8px; align-items: flex-end;
-  right: calc(min(31rem, 38vw) + clamp(14px, 2.4vw, 36px) + 24px); }
+  right: calc(min(31rem, 38vw) + var(--safe-x, 28px) + 24px); }
 .lens-tile { all: unset; box-sizing: border-box; position: relative; display: grid; justify-items: center; gap: 4px;
   width: 78px; padding: 6px 4px 4px; border-radius: 8px; cursor: pointer; color: var(--ivory);
   background: rgba(10, 11, 14, .55); backdrop-filter: blur(3px); }

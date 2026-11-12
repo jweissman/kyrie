@@ -176,11 +176,11 @@ html, body { overflow: hidden; }
 .shell.creating .ambient { filter: var(--plate-near); }
 .creation { position: relative; height: var(--frame-h); }
 .creation-body { height: 100%; overflow-y: auto; overscroll-behavior: contain; display: flex; flex-direction: column;
-  align-items: center; padding: 0 16px; }
+  align-items: center; padding: 0 var(--safe-r) 0 var(--safe-l); }
 /* Centred in the frame both ways while it fits (the owner: the cards stood high, centred only across), and scrolled
    from its top when it does not; clear of the quiet words above it. */
 .creation-inner { width: min(100%, 1280px); display: flex; flex-direction: column; align-items: center;
-  margin-block: auto; padding: 64px 0 40px; }
+  margin-block: auto; padding: calc(var(--safe-t) + 40px) 0 var(--safe-b); }
 /* Each page comes up into the light as the last goes (CreationPage keys it by its step), its question first, then its
    cards one after another; the chosen card's emblem draws itself in gold. Still for one who asks for less motion. */
 .creation-inner { animation: rise .5s var(--ease) both; }
@@ -193,15 +193,15 @@ html, body { overflow: hidden; }
 @keyframes glyph-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
 @media (prefers-reduced-motion: reduce) { .creation-inner, .creation .cards .card, .creation .card.chosen .glyph path {
   animation: none !important; } }
-/* Inside the safe margins, as the scene's controls are (the owner, 11 November: creation's Back and Set out now had
-   stood 14px from the top). */
+/* Inside the safe zone, as the scene's controls are (the owner, 11 November: creation's Back and Set out now had
+   stood 14px from the top; and 12 November: the zone is the outer tenth). */
 .creation-edge { position: absolute; top: 0; left: 0; right: 0; display: flex; justify-content: space-between;
-  padding: max(24px, calc(env(safe-area-inset-top) + 8px)) max(20px, 3vw, calc(env(safe-area-inset-right) + 8px)) 0;
+  padding: var(--safe-t) var(--safe-r) 0 var(--safe-l);
   pointer-events: none; }
 .creation-edge > .quiet-word { pointer-events: auto; }
 .creation-edge .set-out-now { margin-left: auto; }
 /* The life chosen so far, its emblems in a small row in the corner, the likeness last once it is settled. */
-.signature { position: absolute; right: clamp(16px, 3vw, 40px); bottom: max(16px, env(safe-area-inset-bottom)); margin: 0;
+.signature { position: absolute; right: var(--safe-r); bottom: var(--safe-b); margin: 0;
   padding: 0; list-style: none; display: flex; align-items: center; gap: 10px; pointer-events: none; z-index: 2; }
 .signature li { width: 26px; height: 26px; display: grid; place-items: center; animation: arrive 400ms var(--ease) both; }
 .signature svg { width: 26px; height: 26px; fill: none; stroke: var(--accent); stroke-width: 1.4; stroke-linecap: round;
@@ -221,9 +221,11 @@ html, body { overflow: hidden; }
    smaller cards, less tall, not two rows of tall ones under which the page ran on past the screen (the owner, 11
    November: school selection on an iPad scrolled within itself; a choosing page should fit). */
 @media (max-width: 1279px) and (min-width: 900px) and (orientation: landscape) {
-  .deck-many { --card: calc((min(100vw, 1180px) - 64px - 7 * 12px) / 8); }
+  .deck-many { --card: calc((min(100vw - var(--safe-l) - var(--safe-r), 1180px) - 7 * 12px) / 8); }
   .creation .deck-many .cards { --row: inherit; --gap: 12px; }
-  .creation .deck-many .card { aspect-ratio: 5 / 6; padding: 8px 6px; }
+  /* At least five to six, and as tall as its words: inside the safe zone the cards are narrower, and a name of three
+     lines had pushed its line out of the card (12 November). */
+  .creation .deck-many .card { aspect-ratio: auto; min-height: calc(var(--card) * 6 / 5); padding: 8px 6px; }
   .deck-many .card-name { letter-spacing: .07em; padding-left: .07em; }
 }
 /* On a wide screen of no great height: the many in square cards, so that two rows of them, what the chosen one gives

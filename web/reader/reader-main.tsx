@@ -7,17 +7,15 @@ import { Identity } from '../../src/presentation/identity';
 class ReaderMain {
   static readonly app = createRef<ReaderApp>();
   static readonly faces = ['jost', 'lato', 'play'];
-  static readonly views = ['cinematic'];
   static start() {
     const root = document.getElementById('mono');
     if (!root) { return; }
     // The tab's name is the game's (the build writes it into the page too), or the one the address asks for.
     const query = new URLSearchParams(location.search);
     document.title = Identity.spoken(Identity.named(query).game);
-    // Design experiments, by the address: another face for the controls, or another composition of the scene.
-    const face = query.get('face'), view = query.get('view');
+    // A design experiment, by the address: another face for the controls.
+    const face = query.get('face');
     if (face && ReaderMain.faces.includes(face)) { document.documentElement.classList.add(`face-${face}`); }
-    if (view && ReaderMain.views.includes(view)) { document.documentElement.classList.add(`view-${view}`); }
     createRoot(root).render(<ReaderApp ref={ReaderMain.app} query={query} />);
     // What automation may do besides look (scripts/journey-browser.ts): set out with a given company, do a command by
     // its id, let a fight go on, and go back from a fight that has ended.

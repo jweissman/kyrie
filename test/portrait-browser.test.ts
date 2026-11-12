@@ -68,6 +68,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the portraits as drawn', () => {
     await d.enter();
     await Measure.act(d, '^To the head of the Stair', '^Talk to Isaura', 'waiting for you', 'join the company');
     await d.away();
+    await d.talk();
     const row = await Measure.row(page);
     // The company first; every likeness bare of any box of its own; faces of a size on one line.
     expect(row[0]?.kind).toBe('companion');

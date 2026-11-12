@@ -27,7 +27,7 @@ export class SceneRail {
     const search = Pastime.search(app), wait = Pastime.wait(app);
     return (
       <nav className="scene-rail" aria-label="Go, look, wait, search, the map and your book">
-        {SceneRail.cinematic(app) && <SceneRail.Talk app={app} />}
+        <SceneRail.Talk app={app} />
         <SceneRail.Mark app={app} part="go" glyph="go_on" words="Go" standing={SceneRail.go(app)}
           faint={SceneRail.sensed(app)} />
         <SceneRail.Mark app={app} part="look" glyph="look_about" words="Look" standing={SceneRail.look(app)} />
@@ -44,18 +44,21 @@ export class SceneRail {
       </nav>
     );
   }
-  // The cinematic view (an experiment, ?view=cinematic): the scene's layers behind lenses (the owner, 12 November).
-  static cinematic(app: ReaderApp): boolean { return app.props?.query?.get('view') === 'cinematic'; }
-  // The talk lens: who is here, their likenesses shown or put away; its pip, the tone of the first of them the place
-  // has something with (see WorldStage.seen).
+  // Whether who is here is shown: the talk lens on, or someone here who means the company harm (a foe is never put
+  // away), and neither Go nor Look open over it.
+  static talking(app: ReaderApp): boolean {
+    return (!!app.state.talking || WorldStage.present(app).some(x => x.danger && !x.state)) && !app.state.exploring;
+  }
+  // The talk lens: who is here, the company with them, their likenesses shown or put away; its pip, the tone of the
+  // first of those not of the company the place has something with (see WorldStage.seen).
   static Talk({ app }: { app: ReaderApp }) {
-    const on = !!app.state.talking, people = WorldStage.present(app).filter(x => x.kind !== 'companion');
+    const on = SceneRail.talking(app), people = WorldStage.present(app);
     if (!people.length) { return null; }
-    const tone = people.map(x => WorldStage.seen(app, x).tone).find(Boolean);
+    const tone = people.filter(x => x.kind !== 'companion').map(x => WorldStage.seen(app, x).tone).find(Boolean);
     const said = on ? 'Talk: put away who is here' : 'Talk: who is here';
     return <button type="button" className={`rail-mark opens-talk${on ? ' pressed' : ''}${tone ? ' lit' : ''}`}
       data-action="lens" data-part="talk" aria-pressed={on} aria-label={said} title={said}
-      onClick={() => app.setState({ talking: !on })}>
+      onClick={() => app.setState({ talking: !on, exploring: undefined })}>
       <Glyphs.View id="companion" className="rail-glyph" />
       {tone && <Pip.View fill={`var(--tone-${tone})`} />}
     </button>;
