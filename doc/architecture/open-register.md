@@ -623,6 +623,6 @@ Open:
 | R11-06 | Prose templated across places: Lunwigil and Neblalac described word for word alike; a fountain and a statue with the same history; "then the road, then the road, then the road" (T 30, 123) | open | P2 | M21 |
 | R11-07 | Text and timing: "By morning the factor's chair is bare" told at once, in the morning, of the wrong inn; Gosse doffing his hat outside, told inside (U 66, 176) | open: with R9-07 | P2 | M21 |
 | R11-08 | Dannel Hobb's "what he saw in the old quarry" offered only after the quarry was done, then gone; Rolen's "talk to the boy first" could not be followed (U 140–142) | open | P2 | M21 |
-| R11-09 | Paintings and portraits against the text: the big top as a kitchen; two inns one hall; a lizardfolk companion painted as a human woman (T 113; U 78, 160) | open: recurring with R9-12, R10-08 | P1 | M21 |
+| R11-09 | Paintings and portraits against the text: the big top as a kitchen; two inns one hall; a lizardfolk companion painted as a human woman (T 113; U 78, 160) | **partly** (E207): out of doors the painting goes the way of the day (dimmed at night, warmed toward evening); the wrong subjects (ruin painted whole, big top as a kitchen, a lizardfolk as a woman) are data, open with R9-12 | P1 | M21 |
 | R11-10 | No bed at Mossminster's guest-hall, though Wait says to get one of an innkeeper or a priest (T 87–93) | open | P3 | M21 |
 | R11-11 | The domain screen's Continue overlaps the "Later:" spell line (T 08; R 08) | **fixed** (E202): many cards on a wide, short screen are square; rendered at 1280 by 800 | P2 | M21 |

@@ -331,3 +331,9 @@
 .portrait .still-why { position: absolute; top: calc(100% + 4px); left: 50%; transform: translateX(-50%); width: max-content;
   max-width: 14rem; padding: 4px 8px; font: italic 400 12.5px/1.35 var(--told); color: var(--ivory); text-align: center;
   background: rgba(12, 13, 17, .88); border: 1px solid var(--edge); z-index: 3; }
+
+/* The painting of a place out of doors goes the way of the day (see SceneSurface.View): a sunny canvas under "night"
+   in the heading had contradicted it in every round since the ninth. Indoors and under the ground keep their own. */
+.scene-surface.at-evening .scene-view { filter: brightness(.82) saturate(.85) sepia(.18); transition: filter 1.2s ease; }
+.scene-surface.at-night .scene-view { filter: brightness(.45) saturate(.4) contrast(1.05); transition: filter 1.2s ease; }
+@media (prefers-reduced-motion: reduce) { .scene-surface .scene-view { transition: none; } }
