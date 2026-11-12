@@ -54,7 +54,9 @@
   Place {t}_u_crypt "the crypt" is room within {t} at 1, 3 underground 1 down.
   Passage {t}_u_crypt_stair "the stone stair under the churchyard" is stair between {t}_u_yard and {t}_u_crypt.
   Thing {t}_u_crypt_lock "the lock of the stone door" on {t}_u_crypt_stair {
-    State locked blocking "The stone door into the ground is locked, an old lock in an iron plate.".
+    // Locked, said when the door is tried or the lock looked at, as the corn-store's padlock is: told in the room,
+    // it said the crypt's door was locked to a company come through it with the key (round 9, Q 74).
+    State locked blocking "".
     State open "The stone door into the ground stands unlocked.".
     Change pick "Pick the old lock of the stone door" from locked to open needing lockwork.
     // And forced, as any door may be by one strong enough (the owner's evidence session, 7 November: a warrior of
@@ -66,7 +68,7 @@
   Place {t}_u_adit "the quarry adit" is room within {t} at 2, 3 underground 1 down.
   Passage {t}_u_adit_mouth "the gated adit" is passage between {t}_u_pit and {t}_u_adit.
   Thing {t}_u_adit_lock "the padlock on the adit gate" on {t}_u_adit_mouth {
-    State locked blocking "A gate of iron bars closes the adit, with a brass padlock on its chain.".
+    State locked blocking "".
     State open "The adit gate's padlock hangs open on its chain.".
     Change pick "Pick the brass padlock" from locked to open needing lockwork.
     Change force "Wrench the adit gate's padlock off its staple" from locked to open needing brawn.
