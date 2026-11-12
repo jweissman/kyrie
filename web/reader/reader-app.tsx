@@ -86,6 +86,8 @@ export interface AppState {
   // What the place led with about whoever was turned to, as it was when they were turned to: turning to someone tells
   // the world they were talked to, and what there was to ask them is no longer led with after (see TalkStage.drawn).
   turned?: Promoted[];
+  // In the cinematic view (?view=cinematic), whether the likenesses of who is here are shown (the talk lens).
+  talking?: boolean;
   fight?: FightMark;
   // A choice that cannot be undone, chosen once: its cost is said, and it is done if chosen again.
   confirming?: string;

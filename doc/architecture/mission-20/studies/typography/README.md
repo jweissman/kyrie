@@ -54,6 +54,26 @@ At the owner's ask, the scene is stripped down:
 On a phone the panel stays (`h_cinematic_phone.jpg`): the likenesses wrap to a second row there and would show through
 the words. That second row is hidden under the panel in the ordinary view too, which is a fault of its own.
 
+### Lenses (the owner, 12 November: who is here, where to go and what is at hand as layers of the one scene)
+
+In the cinematic view the scene's layers are behind lenses on the rail, as the forward design's §G proposes:
+- **Quiet** (`i_lens_quiet.jpg`): the painting, the telling, the few things to do; no likenesses.
+- **Talk** (`i_lens_talk.jpg`): a new mark at the head of the rail, with the pip of whoever has something for the
+  company, shows the likenesses.
+- **Go** (`i_lens_go.jpg`) shows a tile for each way, by its direction and name, with the one pip of what it is (gold
+  for the aim's, a soft rose where someone who might join is sensed), beside the Go panel.
+- **Look** (`i_lens_look.jpg`) shows a tile for each thing at hand, by its picture where it has one.
+
+A tile touched is chosen in the lens's panel.
+
+What it lacks:
+- **Pictures for places.** The tiles are a direction and a name: no painting is chosen for a place the company is not
+  in.
+- **Two layers at once.** It does not yet say which of the lenses has something (only Talk's and Go's marks carry a
+  pip).
+
+The next experiment would give each way the painting its place would have (`Scenery` for that place).
+
 ## If taken up (Mission 21)
 
 1. Self-host the chosen face as Jost and Newsreader are (`web/reader/fonts`, `@font-face` in `foundations.css`). Its

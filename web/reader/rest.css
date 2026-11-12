@@ -367,3 +367,23 @@
 :root.view-cinematic .world-page.scale-scene .act.led-act.sel { background: rgba(236, 230, 217, .06); }
 :root.view-cinematic .world-page.scale-scene .act.led-act .key { opacity: .45; border-color: transparent; }
 :root.view-cinematic .world-page.scale-scene .glance .openers { border-top: 0; }
+/* The cinematic view's lens strip (see Lenses): Go's ways or Look's things across the foot of the painting, where the
+   likenesses stand when the talk lens is on; each a small tile, its one pip of what it is. */
+.world-page .surface .lens-strip { position: absolute; left: 18px; bottom: 16px; z-index: 3; margin: 0; padding: 0;
+  list-style: none; display: flex; flex-wrap: wrap; gap: 8px; align-items: flex-end;
+  right: calc(min(31rem, 38vw) + clamp(14px, 2.4vw, 36px) + 24px); }
+.lens-tile { all: unset; box-sizing: border-box; position: relative; display: grid; justify-items: center; gap: 4px;
+  width: 78px; padding: 6px 4px 4px; border-radius: 8px; cursor: pointer; color: var(--ivory);
+  background: rgba(10, 11, 14, .55); backdrop-filter: blur(3px); }
+.lens-tile:hover, .lens-tile:focus-visible { background: rgba(236, 230, 217, .12); }
+.lens-tile.chosen { background: rgba(236, 230, 217, .18); }
+.lens-tile.dim { opacity: .5; }
+.lens-face { width: 52px; height: 52px; border-radius: 50%; overflow: hidden; display: grid; place-items: center;
+  border: 1px solid rgba(236, 230, 217, .35); background: rgba(14, 15, 19, .7); }
+.lens-face img { width: 100%; height: 100%; object-fit: cover; }
+.lens-face .lens-glyph { font: 400 22px/1 var(--do); color: var(--ivory); }
+.lens-face .emblem { width: 28px; height: 28px; fill: none; stroke: var(--ivory); stroke-width: 1.4; }
+.lens-tile > .pip { position: absolute; top: 6px; right: 12px; }
+.lens-name { font: 500 11.5px/1.2 var(--do); text-align: center; max-width: 100%; overflow: hidden;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; text-shadow: 0 1px 2px rgba(0, 0, 0, .8); }
+.opens-talk.pressed { background: rgba(236, 230, 217, .14); }

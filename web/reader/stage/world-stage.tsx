@@ -20,6 +20,7 @@ import { GlanceStage } from './glance';
 import { Explorer } from './explorer';
 import { SceneRail } from './scene-rail';
 import { Pip } from './pip';
+import { Lenses } from './lenses';
 import { Standing } from '../../../src/ui/standing';
 import { LookAbout } from './look-about';
 import { MorePane } from './more-pane';
@@ -59,7 +60,9 @@ export class WorldStage {
           <section className="surface" aria-label="Where you are">
             {overworld ? <WorldStage.Board app={app} screen={screen} chosen={focus} choose={pick} />
               : <><SceneSurface.View screen={screen} />
-                {frame.leaf.glance && <WorldStage.Portraits app={app} draw={draw} />}</>}
+                {frame.leaf.glance && (!SceneRail.cinematic(app) || app.state.talking)
+                  && <WorldStage.Portraits app={app} draw={draw} />}
+                {SceneRail.cinematic(app) && <Lenses.Strip app={app} />}</>}
           </section>
           <aside className="focus" aria-label={overworld ? 'On the map' : 'What you are attending to'}>
             {overworld && (app.state.walking || app.state.pending?.going) ? <WorldStage.Going app={app} />
