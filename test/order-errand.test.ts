@@ -50,7 +50,7 @@ describe('the brothers\' errand', () => {
     await GeneratedWorld.travel(s, `${work.replace(/^region__/, '')}_undercroft`);
     await Errand.act(s, /^Light a torch/);
     await Errand.act(s, /^Read the tablets/);
-    expect(ScreenModel.build(s.campaign).objectives.join(' ')).toMatch(/You have copied the old writing at .+ should see it\./);
+    expect(ScreenModel.build(s.campaign).objectives.join(' ')).toMatch(/You have read and set down the old writing at .+ should see it\./);
     GeneratedWorld.put(s, shrine.replace(/^region__/, ''));
     const before = s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'));
     await Errand.act(s, /^Show .+ what you copied at /);
