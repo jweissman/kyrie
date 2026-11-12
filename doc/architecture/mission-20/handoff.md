@@ -308,8 +308,9 @@ carried in the register's §16 (R7-01 to R7-04).
   descents and the reference hour through the page.
 - **f49d858e** (round 9's fixes, E177–E181, the register's §20, the bundle rebuilt): every job green but suite 1/6, where
   one test of Wapshott's Act IV passed its 290-second limit on a slow runner; it takes two minutes here, as it did
-  before tonight's changes. Split into its five nights (E182) and pushed; that push's CI is the last word, and is
-  recorded in the log when it reports.
+  before tonight's changes. Split into its five nights (E182) and pushed.
+- **d0c279cb** (the last push, 12 November about 2:30 a.m.): **every job green**: the six suite shards, both browser
+  jobs, the player contracts, the long descents, the reference hour through the page, lint and types.
 - **505b002a** had been cancelled by the next push, not passed; and **81fedaac** failed one spec on the errand's old
   words (E176). Both are covered by the runs above.
 
