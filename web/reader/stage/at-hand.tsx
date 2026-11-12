@@ -4,6 +4,8 @@ import { SceneModel, type SceneSubject } from '../../../src/ui/scene';
 import { Typography } from '../../../src/presentation/typography';
 import { Words } from '../words';
 import { Act, type Draw } from './act';
+import { Pip } from './pip';
+import { Emphasis } from '../emphasis';
 import { GlanceStage } from './glance';
 import { PlaceStage } from './place-stage';
 import { SceneSurface } from './scene-surface';
@@ -34,7 +36,8 @@ export class AtHand {
           <ul>{held.map(h => <li key={h.id}>
             <button type="button" className={`ah-row${h === chosen ? ' chosen' : ''}`} data-pick={h.id}
               aria-pressed={h === chosen} onClick={() => AtHand.pick(app, h)}>
-              {Typography.curl(Words.upper(h.name))}</button></li>)}</ul>
+              {Typography.curl(Words.upper(h.name))}
+              {AtHand.tone(app, h) && <Pip.View fill={`var(--tone-${AtHand.tone(app, h)})`} />}</button></li>)}</ul>
         </nav>
         <AtHand.Pane app={app} draw={draw} held={chosen ?? done} />
       </div>
@@ -115,6 +118,14 @@ export class AtHand {
   // says of it, or what was just told of it, is not offered.
   static real(x: SceneSubject, told: string): boolean {
     return x.choices.some(c => !/#look$/.test(c.id) || !!c.children?.length) || (!!x.about && !told.includes(x.about));
+  }
+  // The tone of what the glance leads with in it, as the Look mark on the rail is lit by it: the mark had been green,
+  // and nothing in the list said which thing (the owner's player report, 12 November).
+  static tone(app: ReaderApp, h: Held): string | undefined {
+    const ids = new Set([...h.choices.map(c => c.id), ...h.opens]);
+    const led = app.state.frame?.leaf.glance?.acts.find(a => ids.has(GlanceStage.choice(app, a.choice)?.id ?? '')
+      && a.aspects.length);
+    return led ? Emphasis.of(led.aspects, false).tone : undefined;
   }
   // The one the glance leads with, where it leads with something at hand.
   static led(app: ReaderApp, held: Held[]): Held | undefined {
