@@ -505,6 +505,69 @@ beautiful, knowledge-safe card for any entity can be made of it").
 2. **A structured headless decision and session interface** (C, D).
 3. **Derived opportunities in one small scenario**, with a bounded two- or three-step causal chain (A, B).
 
+### Prototype 1, the entity card: what it found (12 November, early)
+
+`EntityCard.of(campaign, id, 'player' | 'author')` (src/presentation/entity-card.ts, test/entity-card.test.ts) is
+about a hundred lines. It is not drawn on any page and not served headless. It reads:
+
+- the module's entity;
+- the company's knowledge (`PlayerView.observe(...).knowledge`);
+- the company's own relations to it;
+- the offered actions bound to it (`PlayerView.choices` rows), with the glance's reasons where the page leads with one.
+
+Probed in kahitude's debt start on four kinds of thing: Tuck the creditor, the mound Dolorechies, the dandelion on the
+green, and the ring's lieutenant.
+
+**Concept validation: what the engine can already expose.**
+
+- **One path for three features.**
+  - The card's acts are the same typed rows the page's promoted acts come from. The spec asserts that the card's *why*
+    for Tuck is the glance's *why*.
+  - In author mode, each act lists its success changes. That is a headless tester's "what would this change": asking
+    Tuck about the old well is `+ knows(party, tower__old_well)`.
+  - That fact `leadsTo` a place. So act → knowledge → place, a two-step story-distance chain, reads from typed data
+    with no simulation.
+
+  The card, the promoted act and the tester do **not** need three unrelated paths. They share the entity, knowledge,
+  action and effect records. This is the most promising finding.
+- **Identity apart from appearance, gated by knowledge, already in Kyr.**
+  - An entity's `alias` names it as it looks until a fact is known. The mound is "a long mound north of Thornhaven"
+    until the company knows its name, then Dolorechies; the spec checks both.
+  - Its `roles` say who someone is now, by condition. Tan is "a man in a good coat behind the chandler's back-table"
+    to the company and "Tan, the ring's man on the coast" to the author.
+
+  A polymorphed knight could be authored the same way, as a role ("a raven") while a condition holds, though no
+  runtime shape change exists.
+- **Knowledge references entities by id.** A fact's words name entities as `{id}` references (`ObservationText.map`),
+  and facts `leadsTo` places and are `revealedBy` things. The card finds what is known of an entity without searching
+  any words. This is also the seam for typed references in prose (inventory item 4).
+- **The author view is free:** every fact and measure the entity is in, its alias and roles, and its module.
+
+**Feature feasibility: what a useful, beautiful, knowledge-safe card still needs.** The record is there; the feature
+is not.
+
+1. **No relation is typed as known or unknown.** Beyond presence, `knows(company, fact)` and observations, nothing says
+   which facts about an entity the company may see. The prototype shows only facts whose subject is the company
+   (`inDebtTo(party, Tuck)`): a stopgap, not a contract.
+2. **An act's effects are only partly typed.** `Give`, `Bring`, `Slay` and resolved checks are not plain calls.
+   Gathering the dandelion lists the crop taken but not the herb given. A tester's "what changes" needs every
+   effect, with checks marked as uncertain (possibility against likelihood, item 13).
+3. **When something was learned** is still found by a pattern over the log's change strings (`CompanyKnowledge`).
+4. **What makes a card worth opening is elsewhere.**
+   - A kind's illustration (data/paintings/plants.json, animals, monsters) and its natural history (the
+     Encyclopedia) are not reached from an instance. The dandelion's card has only its line in the scene.
+   - People have portraits; houses have emblems in places (TargetRow's `emblem`).
+   - A person's history and loyalties are scattered over facts no one has typed as history.
+5. **Provenance per fact is missing.** The module is read off the id prefix. Which module or rule asserted a fact is
+   not kept.
+6. **Cost.** A card builds the screen and the glance (milliseconds). That is fine on demand, but not for every name in
+   a page of prose.
+
+**Next, if the owner wants it:**
+- a card drawn from a tap on a portrait or a scene name, in the player mode only;
+- the effect list completed for `Give`, `Bring` and checks;
+- a typed "known" mark for relations, tried on one person with a secret.
+
 Preliminary research only, notes not systems: general counterfactual planning, the evolving Book, elaborate
 perception profiles, dramatic memory, institutional plans, literate authoring, careers and companies.
 
