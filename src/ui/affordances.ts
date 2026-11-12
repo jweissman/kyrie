@@ -295,7 +295,7 @@ export class Affordances {
       // Into a site the aim names, through what bars the way further in, it is the aim's way on (the portcullis at the
       // gate of the keep the debt is to be paid from: the owner, 12 November).
       ...tried && !c.disabled && c.command && r.authored.has(c.command) && !r.done.has(c.command)
-        ? [r.named.has(dest) || r.held.has(dest) ? 'own' as const : inSite ? 'toward' as const : 'unlooked' as const] : []];
+        ? [r.named.has(dest) || inSite ? 'toward' as const : r.held.has(dest) ? 'own' as const : 'unlooked' as const] : []];
     // A try on a way barred (look at the portcullis) is something done there, not a way. Slipping past who keeps it is
     // that danger's own gentle way, led with it: a thief had found it only under Look… (Mission 20, round 2, B 88).
     const kind = tried ? 'act' as const : exit.bearing ? 'step' as const : 'way' as const;

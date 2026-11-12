@@ -596,7 +596,7 @@ Open:
 | R10-15 | Most townsfolk have one line; the main aim (a lost sister) cannot be asked about except of one person, at item 13 of his topics, and his clue ("just inside, where the light gives out") is not in the Notes (R) | open: content and Notes | P2 | M21 |
 | R10-16 | "The followed aim switched by itself" (S 128) | **not reproduced**: S's own note 127 says S pressed Follow this; the followed aim is set only by the player (`Undertakings.follow`) | — | — |
 | R10-17 | a1, the debt: once the nearest old place (Ísencepan) is spent, the aim goes on to "the next old place", Marsh Howe (region__w10). It is on the company's map, but `Itineraries.destinations` gives no plan to it, so no act sets out for it and the gold is lost at Mik's (gold survey, a1/debt, step 10; also LOST before tonight) | **fixed** (E208): a way told is a journey over the open country as told | P1 | M21 |
-| R10-18 | a1, the order's errand: at the head of the steps the gold stops before the speaking door (gold survey a1/order, step 5; LOST before tonight too) | open | P2 | M21 |
+| R10-18 | a1, the order's errand: at the head of the steps the gold stops before the speaking door (gold survey a1/order, step 5; LOST before tonight too) | **partly fixed** (E209): the door is the aim's step; past it the gold stops before the riddle by design, and pointing at its clue is M21 | P2 | M21 |
 
 ## 23. Round 11's cold play (12 November, early)
 

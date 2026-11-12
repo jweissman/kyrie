@@ -94,6 +94,18 @@ describe('the gold\'s thread', () => {
     expect(next?.subject).toBe('region__w2_marks');
     expect(next?.inside?.[0]?.command).toBe('change_thing(region__w2_marks_read)');
   }, 180000);
+  // At the door of the place the aim names, the way in barred by it, the door is the aim's step (round 11, T at
+  // Neblalac: "the gate entry wasn't marked as my aim"; R10-18).
+  it('leads to the barred door of the place the aim names', async () => {
+    const s = await DrawnWorld.start('a1', { origin: 'order',
+      party: [{ name: 'B', raceId: 'dwarf', classId: 'cleric' }] }, NodeBundleSource.shared);
+    const c = s.campaign;
+    await s.leg(PlayerView.choices(c).find(x => /the brothers' letter/.test(x.choice.name))!.choice.id);
+    Undertakings.follow(c, Undertakings.held(c).find(o => Undertakings.errand(c, o))!.id);
+    GeneratedWorld.put(s, 'w2');
+    const next = Narrator.leaf(c, ScreenModel.build(c)).glance!.acts.find(a => a.continues);
+    expect(next?.choice).toMatch(/^exit:region__w2_stair\//);
+  }, 180000);
   it('leads to the one who has the aim\'s next step, and to what they ask: the fever nursed', async () => {
     expect((await Thread.walk('kahitude', 'herbs')).end).toBe('done');
   }, 120000);
