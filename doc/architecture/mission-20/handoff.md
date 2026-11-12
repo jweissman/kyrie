@@ -640,5 +640,5 @@ with the reason recorded. Two specs were loosened, both to the owner's 12 Novemb
 ## Closing note: the landing (12 November, evening)
 
 Main fast-forwarded from b4f567df to 74de47a2 (`integrate/first-steps`): the adventure branch integrated, M20's work
-after the cutoff, and the retrospective. CI on 74de47a2: __MAINCI__. The owner's checkout was fast-forwarded; the
+after the cutoff, and the retrospective. CI on 74de47a2: every suite shard (ten), the long descents (with every province in one world), lint, types, the player contracts and the reference hour green; one browser shard failed on the scene rail standing 1 px past the safe zone at 1180×820 (rounding), fixed after it (the rail 2 px inside). After the landing, E224 (the storage-full P0: the world kept in IndexedDB) and E225 (actions not links; creation legible) were pushed on top. The owner's checkout was fast-forwarded; the
 owner's two untracked post-cutoff reviews were left in place.
