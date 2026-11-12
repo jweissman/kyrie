@@ -157,7 +157,12 @@ export class GlanceStage {
   static Resting({ app, draw, acts, top }: { app: ReaderApp; draw: Draw; acts: Promoted[]; top?: string }) {
     const search = Pastime.search(app), hand = AtHand.of(app), posted = GlanceStage.posted(app);
     // What a touch of its own draws (a notice, the one way on) is not drawn again among what is led with.
-    const ways = Wayfinder.ways(app), only = GlanceStage.only(app), touched = [posted?.id, only?.c.id, search?.id];
+    // But the aim's next step is drawn as such where it is, whatever touch would draw it too: at Murkweard's door the
+    // gold was the search for the cross, drawn only as the rail's glass with nothing on it (round 10, S; R at
+    // Ísencepan), and the gold seen was on Go… and Look…, into the keep.
+    const next = GlanceStage.next(app);
+    const ways = Wayfinder.ways(app), only = GlanceStage.only(app), touched = [posted?.id, only?.c.id, search?.id]
+      .filter(id => !id || id !== next);
     const shown = GlanceStage.foreground(app, acts).filter(a => !touched.includes(GlanceStage.choice(app, a.choice)?.id));
     const drawn = shown.map(a => GlanceStage.choice(app, a.choice));
     const found = GlanceStage.found(app, hand), yours = GlanceStage.yours(app, acts, [posted, search, ...drawn]);
@@ -172,7 +177,7 @@ export class GlanceStage {
         {only ? <Act.View choice={only.c} draw={draw} quiet
           className={`opener opens-go${only.aim === 'followed' ? ' led' : ''}`}>
           {Typography.curl(`To ${only.name}…`)}</Act.View>
-          : !railed && <Explorer.Opener app={app} part="go" label="Go…" led={!!Wayfinder.aimed(ways)} />}
+          : !railed && <Explorer.Opener app={app} part="go" label="Go…" led={SceneRail.goes(app, ways)} />}
         {found && <Explorer.Opener app={app} part="look" label={`${found.name}…`} led={GlanceStage.serves(app, [found])} />}
         {/* Go, Look, Wait and Search are the scene's rail, apart from what is told and led with (see SceneRail). */}
         {!railed && hand.length > 0 && <Explorer.Opener app={app} part="look" label="Look…" led={GlanceStage.serves(app, hand)} />}
@@ -204,9 +209,16 @@ export class GlanceStage {
   }
   // Whether a thing at hand is led with for the aim followed: what that aim names, or is about (see Affordances).
   static serves(app: ReaderApp, hand: ReturnType<typeof AtHand.of>): boolean {
-    const g = app.state.frame?.leaf.glance, ids = new Set((app.menu.leads ?? g?.acts ?? [])
-      .filter(a => GlanceStage.aiming.has(a.why)).flatMap(a => GlanceStage.choice(app, a.choice)?.id ?? []));
+    // The aim's one next step, where one is known: else whatever bears on the aim (see GlanceStage.next).
+    const g = app.state.frame?.leaf.glance, next = GlanceStage.next(app), ids = new Set(next ? [next]
+      : (app.menu.leads ?? g?.acts ?? []).filter(a => GlanceStage.aiming.has(a.why))
+        .flatMap(a => GlanceStage.choice(app, a.choice)?.id ?? []));
     return hand.some(h => h.choices.some(c => ids.has(c.id)) || h.opens.some(id => ids.has(id)));
+  }
+  // The choice that is the followed aim's one next step (Promoted.continues), as the page draws it.
+  static next(app: ReaderApp): string | undefined {
+    const a = app.state.frame?.leaf.glance?.acts.find(x => x.continues);
+    return a && GlanceStage.choice(app, a.choice)?.id;
   }
   // The reasons a lead is the aim followed's: what it names, a way toward it, what it is about here.
   static readonly aiming = new Set(['advance', 'named', 'toward', 'about']);

@@ -65,9 +65,12 @@ export class Wayfinder {
     const dim = !!app.state.frame?.leaf.glance?.idle?.includes(Wayfinder.to(w));
     // What the place leads with that goes by this way, in its tone at the row's edge, as the mark on Go… is lit by it
     // (the owner, 12 November: a mark lit, and nothing inside it said which).
-    const tone = w.aim === 'followed' ? undefined : Wayfinder.tone(app, w);
+    // The aim's gold on the way that is its next step, or, where none is known, on the way it goes by: never on a way
+    // on while the step is here (see SceneRail.goes).
+    const next = GlanceStage.next(app), aimed = w.aim === 'followed' && (!next || next === w.c.id || next === w.way.id);
+    const tone = aimed ? undefined : Wayfinder.tone(app, w);
     return <button type="button" className={`wf-row${chosen ? ' chosen' : ''}${w.c.disabled ? ' shut' : ''}`
-      + `${w.aim === 'followed' ? ' aimed' : ''}${dim ? ' dim' : ''}${tone ? ` toned tone-${tone}` : ''}`} data-pick={w.c.id}
+      + `${aimed ? ' aimed' : ''}${dim ? ' dim' : ''}${tone ? ` toned tone-${tone}` : ''}`} data-pick={w.c.id}
       style={tone ? { '--wf-tone': `var(--tone-${tone})` } as CSSProperties : undefined}
       // Dim says what it means, once, where it is: never shut, nor far, but nothing new there for now.
       title={dim ? Wayfinder.idle : undefined}

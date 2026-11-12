@@ -81,12 +81,19 @@ export class SceneRail {
   static go(app: ReaderApp): Standing {
     const ways = Wayfinder.ways(app), idle = new Set(app.state.frame?.leaf.glance?.idle ?? []);
     if (!ways.length) { return { shut: 'no way on from here' }; }
-    if (Wayfinder.aimed(ways) && Guidance.shown(app)) { return { lit: 'gold' }; }
+    if (SceneRail.goes(app, ways) && Guidance.shown(app)) { return { lit: 'gold' }; }
     // Lit by what the place leads with that goes by one of them, in its tone, and that way marked so inside: not by
     // there being somewhere not yet been, which early on is everywhere, and named no way in the list.
     const tone = ways.map(w => Wayfinder.tone(app, w)).find(Boolean);
     if (tone) { return { lit: tone }; }
     return ways.every(w => idle.has(Wayfinder.to(w))) ? { dim: true } : {};
+  }
+  // Whether the aim's way is among them: the aim's next step, where it is known and is a way; where none is known, a
+  // way the aim followed goes by. Never Go… in gold while the next step is here (round 10: Go… gold into the keep
+  // while the search at its door was the step).
+  static goes(app: ReaderApp, ways: ReturnType<typeof Wayfinder.ways>): boolean {
+    const next = GlanceStage.next(app);
+    return next ? ways.some(w => w.c.id === next || w.way.id === next) : !!Wayfinder.aimed(ways);
   }
   // Look: shut with nothing at hand to do anything with; lit by what the glance leads with that is at hand (its tone);
   // dim where the place itself has nothing new (left twice, nothing done, nothing since).
