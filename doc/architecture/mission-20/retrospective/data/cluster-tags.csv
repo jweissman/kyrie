@@ -1,0 +1,546 @@
+kind,id,pri,state,tags,text
+log,E1,P0,**fixed** 306e9a0e (amendment 1: the pla,navigation/transition,"After the prologue the first screen is the world map (""You stand at its gate — Enter Thornhaven"") under a header naming Tuck's yard; two dozen far labels in the"
+log,E2,P0,**fixed** 3e09b5e9,,"Lapisrecs led from the landing as ""further in"" (M19-233)"
+log,E3,P0,**fixed** bf62b137,gold/guidance,After a parley the hobs' store led with the Gaffer's rings; taking them raises the hold (M19-233)
+log,E9,P0,**fixed** 84f6a444,navigation/transition,"After a successful parley, no way into the hold: its rooms counted as another hex, left to the map"
+log,E10,P0,**fixed** b4e39e0a,navigation/transition,"The bell routed the raiders, and they were put straight back by the fire, ""beyond you"""
+log,E11,P1,**fixed** a8d4e689 (`talk-focus`),,"The decisive acts hidden under ""Something else…"": pay what you owe, hire Xyn, pay the players' reckoning"
+log,E12,P1,partly fixed: 78c9b45c (the debt follows,gold/guidance;aims continuity,The followed aim does not follow the player (pointed at Seolforfyrd with the debt's coin in hand); aims pile to 9–10 on day 1; done things linger as leads
+log,E13,P1,partly fixed 11c27557: the way toward th,navigation/transition,"Go… from the first place lists five places, not the town; the inn and corn-store appear only from the landing"
+log,E5,P1,partly fixed 3c81f363: the place and thr,,The landing tells eight threads in one paragraph at one weight
+log,E4,P1,partly fixed bf62b137 (the bell's line n,,The town's threads not tied (the inn names Seolforfyrd without the hobs)
+log,E7,P1,**fixed** b4e39e0a,gold/guidance,"The stolen bell, which an aim says is in the hold, was not led to where it lies"
+log,E14,P1,partly fixed c2582c9f (hurt and healed i,,"Fight forecasts and summaries wrong (""Easily won"" at 9/16 poisoned; ""unhurt"" after 10 HP lost); ""shrugs off the poison… is poisoned""; ""true damage"", ""magic save"
+log,E15,P1,open,text vs state/time,"Words and pictures contradict the place: hillside and daylight underground, lit lanterns in sealed rooms, stags for a toll-house, a sunny card at midnight"
+log,E16,P2,partly fixed 3c81f363 (the naming line; ,narration volume/repetition,"Prose repeated: the cart twice (the opening skipped); a creature's name five times in a danger box; a sentence in two rooms; ""Hereabouts the place has a name…"""
+log,E17,P2,open,,"Controls move under the pointer (Attack under ""Press on""; the Go list under ""Following""; the bottom-left control turns into a way)"
+log,E18,P2,open,combat balance/recovery,The pack omits lit lights and oil; waiting does not heal and nothing says so; herbs unexplained
+log,E19,P2,open — measure first,combat balance/recovery,Fights mostly trivial (one in six with tension in A; none in B)
+log,E20,P2,open,navigation/transition,The dead man's map ends in an empty box with no word of who emptied it (B's origin)
+log,E6,P2,open,gold/guidance,"A warrior led to ""wrench the padlock's hasp"" off the town corn-store, whose key the notice says Tuck has"
+log,E22,P1,"**fixed** 78c9b45c (`owing_laden`, sales",,"After the hold the debt's coin is in finds (a music box worth 50, the Gaffer's chalice, rings) that must be sold, but nothing leads a company carrying treasure "
+log,E23,P1,**fixed** e989a704,gold/guidance;navigation/transition,"In the hobs' hold the page led with ""Attack (beyond you)""; the bell routed once and rung again did nothing; the bell was led in every room; the exhausted hold l"
+log,E24,P2,**fixed** 11c27557,,Look… had no word of the stolen bell lying in the plunder: a led find was not named on the scene
+log,E25,P3,deferred (no obstacle to play measured),,"Save size (M19-236): measured in the browser after a reload, the world is kept once (1.9 MB) and a state is a diff (61 KB after a few commands); both cold playe"
+log,E26,—,not reproduced: the log is kept and rest,,Story after a reload seemed to show only what happened since
+log,E27,P1,partly fixed be12fc54 (the way in named),navigation/transition,"After the parley a player searched the toll-house for the hobs (the gate-hobs ""just inside the way in""); the Gaffer asks for ""a pretty"" but nothing can be given"
+log,E28,P1,"**fixed** eecbd346 (the parish's purse),",,"The bell hung back: nobody acknowledged it; Tuck, paid, pointed to Seolforfyrd ""nobody has been inside it"""
+log,E29,P1,open — measure before tuning,combat balance/recovery,"No challenge: every fight a free win, the debt paid on Day 1, the deadline never mattered"
+log,E30,P2,"partly: the order is fixed (reason, ance",,"Creation: screen order differs between runs, BACK from ancestry jumps to the reason, a chosen calling once did not stick (""An elf thief"")"
+log,E31,P2,partly fixed 5a6618a0 (no two of the com,paintings vs text;narration volume/repetition,"Paintings repeated in one site (one cellar image three times), a cathedral for the toll-hall, a barred cell for a muck pit; a painting's credit caption on the s"
+log,E32,P1,**fixed** 63aa9ed5 (thrown and spoken ac,,"An act that brings on a fight is told as an attack: ""Throw an oil firebomb through the crack into the brood-chamber"" began a fight narrated ""You attack the spid"
+log,E33,P2,**fixed** d8d23ffb (a keyed way says so ,navigation/transition,"A lock whose key the company carries offers ""pick"" and ""wrench"" and never says the key opens it, though Go… lets it through (PassageModel lets a keyholder by vi"
+log,E34,P1,partly fixed 87f1c799 (the frame waits f,text vs state/time,"The world does not notice what was done: the bell carried home under ""Nobody has gone after it""; a second shepherd's boy telling of Silkholme beside the rescued"
+log,E35,P1,partly fixed: cc5f84e3 (a thief led to s,,"A calling's own ways are buried: slipping past the gate-hobs was in Look… under the brambles, the main list only Parley and Attack; nobody reacts to ancestry (a"
+log,E36,P2,the bed **fixed** ec2ceecc (the thanks g,,"Aiden's antidote on a poisoned hireling: ""to no effect""; Aiden ""will not take your money tonight"", then charges for the bed"
+log,E37,P3,needs art,navigation/transition;paintings vs text,"Paintings the first hour lacks (for the owner's art, not code): a toll-house's hall and counting-house interior (now a church narthex, a still life); a warehous"
+log,E38,P1,**fixed** 7bad3a4d (the player's own cha,,Loot and purchases went to the hireling's pack unasked
+log,E39,P1,**fixed** 6311003e,navigation/transition,Escape did not put the map away; a player lost minutes on it
+log,E40,P1,**fixed** f89d80d0 (6–8 coin: a real cho,,A sellsword for 3 coin made every fight of the first hour free
+log,E41,P2,**fixed** with E44 (d492f02d),,"Two old mounds north of Thornhaven, told apart only by ""great"" and ""a door of stone""; a player went to Dolorechies for the king-barrow's crown"
+log,E42,P3,by design; noted,paintings vs text,"Tuck, the debt's creditor, is a halfling in kahitude, drawn by his people's emblem (an acorn): likenesses are only of peoples who look like the paintings' folk,"
+log,E43,P0,**fixed** dc3e70b0 (filling and lighting,gold/guidance;text vs state/time,"A lantern with oil could not be lit in the dark: the fill-and-light act was only among the company's acts (under Wait…), never offered or led with the lights"
+log,E44,P1,**fixed** d492f02d (the rumour teaches t,navigation/transition,"Tuck names Lapisrecs in his rumour of the crown, but the map keeps the mound by its look (""a great long mound with a door of stone""): the merchant's rumour teac"
+log,E45,P1,"partly: d492f02d (the torn hasp is torn,",,No consequence for dishonesty: the corn-store padlock wrenched off and Tuck paid all the same; graves robbed under the dead who keep the bounds
+log,E46,P1,partly: c47435cd (a hedger at the inn sa,navigation/transition;narration volume/repetition;conversation depth,"Nobody but family can be asked about the main story (the father, the cart): not the wagoner who knows the road, not the pilgrim on it; greetings copied word for"
+log,E47,P2,**fixed** 283d4bee (in the dark: −2 to s,,"Darkness stops nothing: walking and fighting go on in pitch dark with no penalty, and the dark still says ""easily won"" of what cannot be seen"
+log,E48,P2,"**fixed** 9aed0b7d, 9ed50e33, b5cc7908, ",paintings vs text,"Paintings against the place: a cathedral for a barrow's chamber, a scholar's room for its passage, candles in a forgotten undercroft, a castle for a village gat"
+log,E49,—,**fixed** 397022c2 (pushes of `assets/bg,paintings vs text;test/CI speed,Every CI run on main was cancelled by the next push of a painting before it finished
+log,E50,P2,the Hall and the old stones (`outskirts.,navigation/transition;aims continuity,The start town had nothing to walk out to that was not an errand (amendment 4)
+log,E51,P0,**fixed** in the worktree (Press On held,,"Fights resolve without the fight screen: the same Attack sometimes opens the fight, sometimes ends it in the scene; walking onto the ledge killed the Gaffer wit"
+log,E52,P1,partly: the man with the black candle fi,combat balance/recovery,"Still no challenge for a fighter: eight fights, no hit point lost; the necromancer and the Gaffer died in a round or without a choice; ""Easily won"" every time, "
+log,E53,P1,**fixed** (his own greeting once the whe,conversation depth,"The wagoner, just pulled out of the ditch, greets ""If it's trouble, I have enough of my own"""
+log,E54,P1,**fixed** (any aim's place in another qu,navigation/transition;aims continuity,A place given a key or an errand is not in Go… or on the map until its aim is followed from Notes
+log,E55,P1,**fixed** in the worktree (the aim leads,,A talker gathers three accounts of the moved boundary stones and can do nothing with them; the aim names no place
+log,E56,P2,**fixed** (unhurt only at full strength;,,"""What it cost: Xyn unhurt"" while Xyn is at 10/14, bleeding"
+log,E57,P2,partly: the players' and the quarrel's w,narration volume/repetition,The world forgets: Fenwick still says the players are stuck hours after the reckoning is paid; they leave without a line; the sergeant's speech word for word th
+log,E58,P2,open; the followed aim falling back to t,gold/guidance;aims continuity,"The aims the game hands out are all kill or loot; peaceful errands (Gosse's offer, the circus larder) are not kept in Notes; the followed aim switches to a dung"
+log,E59,P2,**fixed** (where an origin begins the ga,signal->act,"A trade promises coin it does not give (monster hunter: ""100 coin to start with"", began with 22)"
+log,E60,P2,**fixed** (a way shut is shown in Go… wi,navigation/transition,The crypt's way to the churchyard greyed in Go… with no reason; the way out only under Look…
+log,E61,P2,**fixed** (a danger is told before the p,safe zone/layout,"Clipped boxes in the picture: the danger box cuts off the sergeant's words; ""You know now"" an empty label"
+log,E62,P3,**in part** (11 Nov night): the inn name,navigation/transition;paintings vs text;conversation depth,"Small: Escape does not close talk; ""Nowhere to sleep here"" in an inn whose bed is under Trade; the inn's back garden one-way in one town; the circus gone from t"
+log,E63,P0,**fixed** (the engine names what pays; t,paintings vs text;conversation depth;safe zone/layout,"A likeness marked green as having something for you had nothing in its talk to answer it: the paying reply could lie folded under Something else, and nothing in"
+log,E64,P0,**fixed** (a work's own aim is folded in,,"One search shown as two quests for one place: ""Your sister went into Albustagn"" beside ""The springs … under Albustagn"" (a work's own somewhere-to-go aim), neith"
+log,E65,P1,**fixed** (gold: your aim and the way to,gold/guidance,"Gold and green meant different things in different places: the Notes' aim card was edged in green, the colour of what is for you and what you learn"
+log,E66,P1,**fixed** (the deed is seen when it is d,,"The company's own deed (the wagoner's cart) filed in Notes as hearsay: ""told you, not yet seen for yourself"""
+log,E67,P2,**fixed** (the title in the dark with em,paintings vs text,The title stood over a blurred painting drifting slowly closer; the opening's words sat at the foot of the screen
+log,E68,P1,"**fixed** (one table of forms, data/cata",paintings vs text,A trade's name fixed whatever its holder is: a man could be made an abbess; a townsman drawn under a gentlewoman's portrait was called an abbess
+log,E69,P1,**fixed** (in play an entry opens over t,,"The encyclopedia, opened from a game, took the player out of it to another page with nothing to say so"
+log,E70,P2,**fixed** (the mark walks about two thir,navigation/transition,"Travel on the map went too fast to read as a journey, said nothing of food or rest, and set out from inside a building as from the open road"
+log,E71,P1,**fixed** (the map lays the itinerary's ,navigation/transition,"Travel did not follow the route shown: the map drew its own shortest way over the known hexes, while the journey went by the itinerary's known ways (time, legs "
+log,E72,P2,**fixed** (drawn by their plant's painti,,Herbs gathered had no image in the pack: 42 of 54
+log,E73,P2,**fixed** (three or more plants that can,,A place listed every plant as its own thing to look at (ten at the edge of Asholt)
+log,E74,P1,**fixed** (the calling places the dice a,narration volume/repetition;combat balance/recovery,Every first-hour fight a walkover: the challenge table measured kinds against a warrior with the dice as they fell (strength about 13); creation's warrior had t
+log,E75,P3,explained: the first country is a 20×14-,navigation/transition,The map seemed to stop short in the west
+log,E76,P1,"**fixed** (where a hidden way starts, th",gold/guidance;navigation/transition,"A site led to stood closed with no way in and nothing said of one: a scenario's hidden way in (Silkholme sink) could be found by searching where it starts, but "
+log,E77,P2,experiment: `?scene=full` puts the paint,paintings vs text,The scene split an already bounded stage: painting and controls side by side inside margins
+log,E78,P1,**fixed** (one sent who is not the order,aims continuity,"The brothers' letter said the protagonist reads the old script; with the scribe swapped for another trade, the king's door said ""Needs lore"" at the errand's end"
+log,E79,P1,**fixed** (a light the company can light,text vs state/time,"In the dark with a candle in the pack, two dangers took both places on the page and ""No light"" stood over two attacks"
+log,E80,P1,"**fixed** (it is a mage's charm, and say",gold/guidance,"A gold-highlighted ""Lay a spell of sleep over the rats"" for a mage with no Sleep spell"
+log,E81,P1,**fixed** (Map over a town or building p,navigation/transition,Map pressed again over a town did not put the map away; the next click set out on a 3-hour journey
+log,E82,P2,**fixed** (shown where the pointer rests,navigation/transition,"Go…'s preview turned to whatever the pointer crossed on its way to ""Go there"""
+log,E83,P2,**fixed** (only a warner able and not ro,,"A warning outlived its giver: ""The robbers' captain will give you 7 minutes"" with the captain dead"
+log,E84,P2,**fixed** (test/said-back),,"The odds of a choice told back as the act (""You read the ring of letters on the flag · likely."")"
+log,E85,P2,**fixed** (whoever goes with the company,,"A boy untied and following was ""since you were last here"" at every place"
+log,E86,P2,**fixed** (a global .aim rule had made t,gold/guidance;conversation depth,A new aim's label in talk stood in a column three words high; Follow this wrapped
+log,E87,P2,**fixed** (Back stands by Take your leav,,"Back from trading lay under the counter's fade, half there"
+log,E88,P2,**fixed** (forms.json applied to a town',,"""Indira, priest of Cernunnos"": a generated priest's title ignored her pronouns"
+log,E89,P3,**fixed**,,"Wording: ""may cause fatigued"", ""cannot be bleeding"", a kill standing ""over the body"" of a jar, ""a explorer"", a ring described as a string of rings, an unstopped"
+log,E90,P1,**fixed** (a module's kinds are put back,,A second game begun in the same process (New game) could lose its own modules' kinds: the players' bear could not be made
+log,E91,P2,"**fixed** (""The aim now: …"": test/aim-re",gold/guidance;aims continuity,"When the aim followed ended and the errand was followed again, nothing said so"
+log,E92,P1,"open (design opportunity 5, 10, 12)",,"Still no threat: neither player lost a hit point; a ranger in chain mail needed 20–22 to be hit, a 4-hp mage behind a hired soldier was never touched"
+log,E93,P2,"**fixed** in part: trading, what the com",safe zone/layout,"Selling, and the inn's bed, are under Trade › Services, below the fold; a caster could not find how to get spells back"
+log,E94,P2,open (design opportunity 7),navigation/transition;text vs state/time,Travel back and forth for a pole and a crowbar was dead time; harmless bats broke into a journey
+log,E95,P3,open (commission list),paintings vs text,"Paintings that contradict their text (a cathedral for a toll-hall, a flooded ""dry"" cave, a woman for the boy); the bone flute, bronze mirror and cloak have no p"
+log,E96,P2,**fixed** (the talk above the counter ho,,"Trading, each purchase told above pushed the counter down, and the next touch bought what moved under it"
+log,E97,P2,**fixed** (a new aim from the last answe,conversation depth,"In talk, ""A new aim"" fell below the room for talk when the answer ran long, and was seen only in the notes; three ""You know now"" each under its own label"
+log,E98,P3,open (DeepPacing.trap draws from every t,,"Orsino's traps drawn without regard to the makers: ""an electrified floor"" and ""a lightning bolt"" in a Barrow-Kin passage-grave"
+log,E99,P1,**fixed** (buying advances no aim; wares,gold/guidance;conversation depth,"The gold walker (the autoplay lab following the page, preferring the aim) bought Tuck's shop out a pole at a time: ""Talk to Tuck"" for the debt was led *for* a t"
+log,E100,P2,"the page is honest there (light first, t",gold/guidance;signal->act;combat balance/recovery;text vs state/time,"Walkers, 120 steps, kahitude, debt, warrior and mage: the silver walker reaches 38–43 places but meets one fight in 13 hours; the gold walker stalls (11–20 plac"
+log,E103,P0,**fixed** fb622d59 (a stretch is its own,navigation/transition,The way the map laid and the way travel went still disagreed: a stretch of open country was walked by the middle of the wood or country it lies in (next door no
+log,E104,P1,**fixed** fb622d59 (the book is the doss,gold/guidance;navigation/transition;conversation depth,"The map was in the book as a tab as well as on the rail and its key; over the map, and in talk, a bar of Map and Book stood across the top; the marker of the co"
+log,E105,P1,**improved** (rovers: a few to a country,navigation/transition,"Ordinary exploration felt empty. Told apart: seventy of eighty stretches round Thornhaven held nothing installed (content: a meeting in one stretch in ten, an a"
+log,E106,P1,**fixed** 1deb7d59,text vs state/time,"The title seemed to begin, go black and begin again after the ident: the embers and the build's stamp came up at once in the dark between, and the reveal's fade"
+log,E107,P0,**improved** (each part of the world tak,safe zone/layout,"Setting out looked frozen for about twenty seconds on an iPad. Measured in Chromium: 13–22 s from Set out to the first decision, the page's own thread free thro"
+log,E108,P1,**done**: a companion reason and aspect ,paintings vs text,"Companionship was drawn as payoff (""means""), only for a company of one, and nothing was perceived beyond where the company stood"
+log,E109,P1,"**done**: one indicator, a pip by a like",gold/guidance;signal->act;navigation/transition;paintings vs text;conversation depth;safe zone/layout,"The semantic colours had spread over whole components: an act's tone in a left bar, a diamond, its subtitle and a trailing pip; a portrait's in a full ring (gol"
+log,E110,P1,"**in part**: ""no match for you"" only whe",combat balance/recovery,"The company's reckoning of a fight was wrong both ways: ""Easily won: it is no match for you"" on a great centipede whose venom (a save, not a blow against armour"
+log,E111,P1,**in part**: the rats' pay is owed only ,signal->act,"Threads that promise what is not there, or end silently: Lem's hat to take back to the players (no hat, no hand-in); ""Tell Tuck … the rest of the pay"" for a job"
+log,E112,P2,**in part**: the scene's foreground of o,navigation/transition,"Key actions only under Look… or Go…: slipping past the hobs, the Gaffer's ledge, a chest's contents, a found box, the nest and the rat-runs; an opened chest loo"
+log,E113,P2,**fixed**: the counter keeps what the tr,,"After four sales, the dead man's box (75 coin), a string of rings and the thieves' tools dropped off the trader's list, still in the pack, with no reason given"
+log,E114,P2,**in part**: a save held against a condi,text vs state/time,"Prose against the moment: daylight at midnight; a dead Gaffer still cackling; a wolf in a sealed room; a captive child with a shopkeeper's banter; ""shrugs off t"
+log,E115,P3,open,conversation depth,"Machine-made topic labels (""the silk from the sink at the south-western cave in the hillside on Stonecrag""); ""Another aim"" under ways, meaning nothing to a play"
+log,E116,P2,**in part**: the icons are on the rail a,navigation/transition;paintings vs text;safe zone/layout,"On a phone: taps on a Go… row by its text did nothing or took the next row; portraits that did nothing when tapped, with no reason (the factor's hands, an enemy"
+log,E117,P2,**fixed**: the page beneath a Details sh,,"Creation: Continue behind the Details window advanced though its request failed (an ancestry skipped); clicks on spells reached text behind; ""Choose first spell"
+log,E118,P3,**in part**: the dead man's map's box is,navigation/transition,"Treasure's payoff flat: two identical ""empty"" jewelled boxes for a dead man's map and the princes' tolls; no hoard described"
+log,E119,P1,**done**: a try carries the words it sta,,"The foreground exposed the engine's machinery: ""Look at the corn-store padlock"" opening onto ""Push and pull at it"" and ""Listen at it"" (one does not listen at a "
+log,E120,P2,"**assessed**, mechanics unchanged. Propo",,"The Eye's role. Measured against the rules: a thorough search is its own action already (Search here: twenty minutes, once, ""what it does not find is not there "
+log,E121,P0,**in part**: a generated country's files,,"Setting out is an engine cost, not a page's (the headless investigation, 11 November: session composition ~11.5 s against 1.1 s of world assembly, 130,826 facts"
+log,E122,P1,**done in part**: test/client-parity sta,,No test held the two clients to one kernel
+log,E123,P2,"**in part**: what is bought, sold and ga",,"The page read some meanings off the words of a choice (the headless investigation §1: AtHand, GlanceStage, TalkStage)"
+log,E124,P0,**fixed**: an aim followed that ends goe,gold/guidance;aims continuity,"The rats chosen and killed, the page fell back to the errand (the father), and no way was gold; two aims arose, the nest and the old ways beyond"
+log,E125,P1,**fixed**: the gradient was the way on's,gold/guidance;safe zone/layout,"School selection scrolled within itself on an iPad and, at its end, showed a black gradient; creation's Back and Set out now stood 14px from the top"
+log,E126,P0,"**fixed, in what was planned, not in the",navigation/transition,World-map routes zigzagged and doubled back
+log,E127,P0,**fixed**: how a blow fell is its dice a,signal->act;narration volume/repetition,"After the rats: the fight's page told its last blow twice (once again with its rolls, the rat falling and the fight won) and then ""The fight is over""; back at t"
+log,E128,P1,"**checked, one fixed**: a browser walk f",paintings vs text;conversation depth;safe zone/layout,"Safe zones on the scene, as the owner asked for creation (E125): iPad landscape and portrait, desktop, phone, with talk and a fight"
+log,E129,P0,**fixed**: a way not yet taken was led w,gold/guidance;navigation/transition,"In a town's own country, on the road, the page led toward a far aim (gold) and to look out over the country; the town at hand was only under Go…, unemphasised, "
+log,E130,P0,**fixed and checked at five sizes**: one,safe zone/layout,Controls escaped the safe zone; the owner asked for a drawn diagnostic boundary from the layout's own geometry
+log,E131,P1,**fixed**: the exchange carries the aims,gold/guidance;aims continuity,"Undertaking identity and a fight's end were read from narrated text (""Follow this"" found its aim by its words; the scene after a fight dropped its end by its se"
+log,E132,P0,"**fixed in part, measured**: a road out ",navigation/transition,Routes still doubled back where roads met (the owner: a shortest way in the graph is not a sensible road journey)
+log,E133,P1,"**open, homed**: R9 is M20's (the atlas ",,The architecture risk review (architecture-risk-mediation-2026-11-11.md): R1 campaign orchestration in one class; R2 process-global catalog kinds and a serial l
+log,E134,P0,**recorded**: both played about 150 acti,,"Round 7, two cold players on main at fa374a83 (served locally: Pages was queued behind GitHub's Actions backlog); K started as the public does (a catfolk thief,"
+log,E135,P0,**fixed**: the nest's aim names the buck,gold/guidance,"In the rats' nest, with its aim followed, gold went past the buck rat to the drain; after it fell, nothing led back up to the merchant owed word of it; no gold "
+log,E136,P0,**fixed**: what the last act opened (`Ac,navigation/transition,"Ways only under Go…: the corn-store, its padlock just picked, not offered (K); a gallery with nothing more to do showing nothing at all (L); the rail's marks mo"
+log,E137,P1,**fixed**: the herb-wife no longer buys ,narration volume/repetition,"Small trust-breakers from round 7: an antidote bought for 3 and sold back for 5, over and over (K); an antidote given in a fight ""to no effect"", the poison left"
+log,E138,P1,**fixed**: selling what someone of the c,,"A bard's only crossbow sold at one keypress, with nothing asked; a companion's armour and weapons on the counter with the rest"
+log,E139,P1,"**fixed in the rule, not replayed**: alo",,"A great centipede reckoned ""should be won: you should beat it, though not unhurt"" took five of a lone thief's seven at its first bite and poisoned her (K fled a"
+log,E140,P2,**in part**: a keep's rooms no longer dr,paintings vs text;text vs state/time,Paintings against the text (both players' top five): a candle-lit palace banquet hall for a ruined keep's gate-passage; a steampunk sewer for the old drain unde
+log,E141,P1,**fixed**: an act advances the aim follo,gold/guidance;combat balance/recovery,"""Give healing herbs"" in the aim's gold, after the feverwort was given; it did nothing (""You give healing herbs to Aldith."")"
+log,E142,P1,"**fixed for this origin**: taken up, the",navigation/transition,"The dead man's map, the climax of K's own origin: the cross dug up gave ""a small empty box encrusted with jewels"", no word, no experience, and the aim silently "
+log,E143,P2,**in part**: the bell is a moment's act ,,"""Ring the bell — Not with the raiding party here"": the very thing the shepherd's boy said to do read as refused, and worked when pressed; a second ring brought "
+log,E144,P1,"**fixed, two verified locally, two left ",navigation/transition;test/CI speed,"CI on b6780a94: the typecheck of a new spec's cast (fixed in 2805487c), and three generated-world specs (gifts, the Remainder, every province in one world) brok"
+log,E145,P2,**fixed**: a lasting condition run out w,,"Torches died in the middle of a search, silently (L: 50 minutes shown the night before)"
+log,E146,P1,"**built, and it found one**: test/gold-w",gold/guidance,"The risk review's R9 gate (the register's AP-01): no test that the gold leads only to what can be done, and never round in circles"
+log,E147,P1,**fixed**: a company that cannot act (as,,"A trap that put the company to sleep in the room of those who warn it off was certain death, with nothing to choose but ""Lie as you are"" (the barrow-dead's eigh"
+log,E148,P2,**in part**: the few things salient are ,conversation depth,"Topics reorder after every question; ""Something else…"" often holds only what was asked before (round 6, I §6; the register's FH-16)"
+log,E149,P2,**fixed**: a town walk's minutes and the,navigation/transition,"Go… in town said ""20 minutes"" to nearly everything, the place next door included (round 7, L 50, 78; the register's NM-09)"
+log,E150,P2,"**fixed**: two answers within his grace,",,"The last castellan asks ""Who comes to the lord's hall?"" and nothing answers him but a blade or the door (round 7, L 147, L top 4)"
+log,E151,P3,**fixed**: what was said before the last,conversation depth;safe zone/layout,"Each conversation scrolls into an ever-growing log (round 7, L)"
+log,E152,P2,**fixed**: a credit says the painter by ,paintings vs text,"Portraits carry a museum's raw caption: ""Pezous, Jean [d.1885-04-18], LE MIME CHARLES DEBUREAU…"" over Lem (round 6, I; the register's NP-17)"
+log,E153,P0,**fixed in the rules of gold**: nothing ,gold/guidance,"Gold lost its thread: on the ways and the looking at once, on an aim the player had not chosen, and with no single next step (the owner's player report, 12 Nove"
+log,E154,P0,"**fixed, by what acts make so**: what an",gold/guidance,The gold's thread lost while an aim is followed: walked from each of eight origins in kahitude and a1 taking only the gold (/var/tmp/kyrie/m20/tools/gold-survey
+log,E155,P0,**fixed**: a mark with no planned way wa,navigation/transition,"Choosing another place in the company's own hex on the map walked it out of the town into the country about it (owner's player report, 12 Nov)"
+log,E156,P1,**fixed for talk**: an act is typed as t,signal->act,"A person drawn with knowledge's blue had no blue reply to ask (owner's player report, 12 Nov)"
+log,E157,P0,**fixed**: a take advances an aim short ,gold/guidance;navigation/transition;test/CI speed,"E154's rules taken too far in the hobs' hold: the gold on taking the hobs' own bell and rings (theirs, not spoils) for a debt short of coin, and then a journey "
+log,E158,—,**recorded**. Both followed their reason,aims continuity,"Round 8: two cold players on da99bf2c, contrasting (M: public start, cautious, a birdfolk bard-apothecary, Feverwort; N: kahitude, social, a birdfolk bard-scrib"
+log,E159,P0,**fixed**: the bed led to at night is on,gold/guidance,"""A bed for the night"" led to a hamlet's yard where no bed could be taken, and the wait panel said nowhere to sleep (round 8, M)"
+log,E160,P1,**in part**: the errand's aims say what ,aims continuity,"The brothers' errand asked for the old writing ""copied"", and nothing could be done called copying: N read an inscription and could not tell what was left (round"
+log,E161,P1,**fixed**: while anyone of the company i,gold/guidance,"With the bard senseless after a fight, the gold went on into the next room (round 8, N 91)"
+log,E162,P1,**fixed**: the aim card's bar is gold on,gold/guidance,"In the Notes the first aim always had a gold bar, followed or not (round 8, M)"
+log,E163,P0,"**fixed in the content**: the debt's ""ou",gold/guidance;test/CI speed,"The gold walk circled (CI on e792a581): the debt's first trip now completes (the music box sold to Tuck), and the debt, still short, sent the company back to Se"
+log,E164,P3,"**fixed**: ""Nothing to say to you now""; ",paintings vs text,"A likeness with nothing to open said ""Nothing more to say to you now"" of someone never spoken to (round 8, M); one of the company down said only ""down"" (round 8"
+log,E165,P3,"**fixed**: a skill withheld is one ""no o",,"""Sing for your supper: Needs persuasion, no one in the company has it"" of a company whose bard was senseless (round 8, N)"
+log,E166,P3,**fixed**: the calling's facts and Const,combat balance/recovery,"Creation said a level adds half the calling's die in hit points; the sheet said 1d6, and the engine rolls the die with the Constitution modifier (round 8, N)"
+log,E167,P3,**fixed**: one minute is singular in a s,,"""1 minutes"" on a way (round 8, N)"
+log,E168,P3,**fixed**: a calling's wear lists ordina,,"The bard ""wears robe of elvenkind, robe of the archmagi"" at creation (round 8, N): every wearable item, wonders included"
+log,E169,P3,**fixed**: the telling keeps a killing b,,"""Xyn hits the dark vessel, for 10"" and then ""takes 8 slashing damage (roll 10)"" (round 8, N)"
+log,E170,P1,**fixed**: inside a site in wild country,navigation/transition,"Underground in Lapisrecs the map put the company nowhere, and its own hex read ""Journey to Lapisrecs, 22 minutes"": the way out, by another name (round 8, N 99)"
+log,E171,P1,**fixed**: a work's own aim is folded un,,"In the Notes, under the followed crypt aim, stood ""Ask Peren about the old quarry: its gate is locked"", the spiders' job (round 9, Q 78)"
+log,E172,—,"filed; P rates clarity 2, beauty 4, inte",navigation/transition,"Round 9: two cold players on 505b002a, contrasting (P: a dwarf warrior, the dead man's map, a fighter's brief; Q: a catfolk illusionist, the same origin, an exp"
+log,E173,P0,**fixed**: a thing the aim waits on that,gold/guidance;navigation/transition,"At a keep's door, the dead man's map followed, the gold went in at the open gate-passage and room by room through the keep; the cross was under the door-stone o"
+log,E174,P3,**fixed**: one of a thing is singular wh,navigation/transition,"""FOOD: one rations of 2"" on a route (round 9, P 140); ""one places"" under Explore nearby"
+log,E175,P2,**fixed**: a fight's barks speak of each,,"""Gunnvor swears under their breath"", of a dwarf woman (round 9, P 85b): a fight's barks always said ""they"""
+log,E176,—,"**fixed**: the spec reads ""read and set ",aims continuity;test/CI speed,"CI on 81fedaac: every job green but suite 4/6, cancelled at its 45-minute limit on a slow runner (its specs ran about 1.66 times their time on e792a581, other s"
+log,E177,P2,**fixed**: the small faces (creation's c,navigation/transition;paintings vs text,"A catfolk illusionist's likeness in creation's corner and on the map read as a human woman (round 9, Q 16, 137): the right painting, drawn whole into a 34-pixel"
+log,E178,P3,"**fixed**: the danger box says ""A fight:",,"""beyond you"" stood alone in the danger box, like a stray fragment (round 9, Q 69)"
+log,E179,P2,**fixed in the rules**: a failed parley ,,"After a failed parley (""there will be no more patience for you here"") the man's deadline went from 8 minutes to 15 (round 9, Q 71)"
+log,E180,P2,**fixed**: the talk page draws gold only,gold/guidance;conversation depth,"""Ask Jassin to join the company"" in the aim's gold on the talk page, while the aim was the crypt (round 9, Q 54b)"
+log,E181,P2,**fixed in the content**: the crypt's an,,"In the crypt, come through with the key, the room said ""The stone door into the ground is locked"" (round 9, Q 66, 74)"
+log,E182,—,**mended in the spec**: each of the five,test/CI speed,"CI on f49d858e: every job green but suite 1/6, where Wapshott's Act IV's night on the quay (five nights in one test) passed its 290-second limit. It ran 187 s o"
+log,E183,P0,**fixed in shared logic**: a led act tha,signal->act,Human play: people drawn with blue (to learn) pips and no blue question to ask; someone drawn rose (could join) whose asking to join was unmarked; Look… lit gre
+log,E184,P1,**fixed**: whoever is led with for talk ,gold/guidance;paintings vs text,"A taproom led with two things while several people there had something for the company, found only by their likenesses (the owner, 12 November)"
+log,E185,P0,**fixed**: the reader keeps what the pla,signal->act;paintings vs text;conversation depth,"The root of E183 in the browser: turning to someone is itself an act (`talk_to`) that tells the world they were talked to, and ""someone with something to ask"" i"
+log,E186,P1,**fixed**: a person led with is among th,conversation depth,"The resting scene filtered talk out of the led acts itself (`GlanceStage.foreground`), so E184 had not reached the page"
+log,E187,P2,**fixed**: a dim way and a dim rail mark,,Dim (a way or mark with nothing new) was drawn but never said
+log,E188,P1,**fixed**: Go… is lit by what the place ,signal->act;navigation/transition,"The same promise on Go…: its mark was lit silver whenever any way had not been taken (early on, every way), and no row inside said which; the way chosen was edg"
+log,E189,—,**mended in the spec**: a reply the glan,signal->act;test/CI speed,"CI on 42459547: every job green but suite 5/6, where test/teaches-marked still held the rule E185 replaced (every reply that teaches drawn blue)"
+log,E190,P0,**fixed**: the aim's next step is drawn ,gold/guidance;navigation/transition;paintings vs text,"**Round 10, both players** (S at Murkweard, R at Ísencepan, the map's and the lost sister's origins): the keep the aim names was gone into and its rooms walked "
+log,E191,P1,**fixed**: the chronicle's dice line say,,"**Round 10, both players**: a fight's headline and its dice line disagreed: ""hits … for 13"" over ""takes 1 slashing damage (roll 13)""; ""for 5"" over ""takes 1 pier"
+log,E192,—,"**mended in the harness and the specs, t",gold/guidance;paintings vs text;test/CI speed,"CI on b257c494: every suite green; both browser shards failed on E186: someone led with is a likeness and a led act both, one choice in two places (the driver's"
+log,E193,P2,**fixed in the content**: whoever tells ,,"**Round 10, both players**: ""Ask Hepzibah about Lem"" was offered, and answered ""If you find him, don't hurt him"", before anyone had said who Lem was or that he "
+log,E194,P1,**fixed**: a fact the aim waits on that ,gold/guidance;aims continuity,"**Round 11, T** (the brothers' errand, seen through): at Neblalac's water-stair the gold was ""To the sluice-niche — toward your aim"", an empty room; reading the"
+log,E195,P1,"**fixed**: inside a site, the company is",navigation/transition,"**Round 11, T** (again after E170): underground in Neblalac the map put the company by Mossminster and offered ""Journey to Neblalac, 1 minute"""
+log,E196,P3,**fixed**: the learned ability by name (,gold/guidance;conversation depth,"""Krex learns true_sight"" (an id); ""Talk to Eogan — another aim"" with no aim followed"
+log,E197,P1,**fixed in the content**: the spiders jo,gold/guidance,"**Rounds 10 and 11** (R, U): in the spiders' gallery, the spiders there, the gold was ""To the quarry adit — the way you came"""
+log,E198,P1,**fixed**: the likenesses keep the place,gold/guidance;paintings vs text;conversation depth,"**Rounds 10 and 11** (R, U): the likenesses reordered after each conversation (whoever was led with drawn first), and a touch where someone had stood opened som"
+log,E199,P2,**fixed**: a way the company holds the k,,"**Rounds 10 and 11** (S, R, U): Look… listed a lock's pry, push, wrench and pick under ""It is locked, and you have the key"""
+log,E200,P2,**fixed in the content**: what is known ,safe zone/layout,"**Rounds 10 and 11** (R, U): ""The ring of letters on the undercroft's flag is cut here too"", learned in the brood-chamber, of an undercroft never seen"
+log,E201,—,**mended**: its digests rewritten (`bun ,test/CI speed,"CI on c848f2fc: every job green but suite 6/6, where the kept trace wren-tower-climbed no longer replayed at step 1: E193's new fact (Lem gone with the hat) cha"
+log,E202,P2,"**fixed**: many cards on a wide, short s",safe zone/layout,"**Rounds 10 and 11** (R, T): at 1280 by 800 the domain step's Continue covered the ""Later:"" spells and Details, and ""Choose first spells"" was cut off"
+log,E203,P3,**fixed**: a thing's row in Look… is gil,gold/guidance;signal->act,"**Round 11, T**: the speaking door gold on the scene and blue in Look…'s list"
+log,E204,—,"**mended in the specs** (""You learn Hide",test/CI speed,"CI on 06391bfc: every job green but suites 2/6 and 4/6, where two specs still read a learned ability's id (""You learn hide"", ""learn mirror_image"") that E196 say"
+log,E205,P1,**fixed**: a reply keeps the number it w,conversation depth,"**Recurring, rounds 10–11** (R, T, U; R11-01): talk replies renumbered after every answer, so a number pressed from what was read did something else (U informed"
+log,E206,P1,"**addressed, quietly** (the owner's 12 N",gold/guidance;navigation/transition,"**Recurring, rounds 8–11** (PR-08, R10-09; five cold players): with an aim followed the scene led with its one way in, and the way back or up was only under Go…"
+log,E207,P1,**partly**: a place out of doors has its,paintings vs text,"**Recurring, rounds 9–11** (R9-12, R10-08, R11-09; every round's players): sunny paintings under ""night"" and ""evening"" in the heading"
+log,E208,P1,**fixed**: a place the company was told ,gold/guidance;navigation/transition,"**a1's debt** (R10-17; the gold survey's loss since before Mission 20's close): once the first old place was spent, the aim went on to Marsh Howe, known by name"
+log,E209,P2,**fixed**: a try on a barred way whose f,gold/guidance,"**R10-18; round 11, T**: at Neblalac's door the gold stopped. A try on the way barred into the place the aim names was led as the place's own act (exploration),"
+log,E210,—,**done**: a drawing may say which standi,,**The authors' R88** (AB-13): a spec of something else could not keep the scenarios every first country holds from moving under it; the adventure branch's integ
+log,E211,P1,**fixed in the content**: a company told,,"**R9-02; round 9, Q**: the innkeeper's lodger, ""out after dark with grave-dirt on his boots"", was never found, and a night watching the churchyard said ""Nothing"
+log,E212,P2,**fixed in the content**: with the mothe,aims continuity,"**R10-13; round 10, R**: ""Still to do: deal with the spiders' mother"" under the fight that killed her"
+log,E213,P2,**done**: the page's one dark note adds ,,"**The authors' AB-05**: a dark room said only ""It is dark here. You have no light to see by."", never that a light is cheap or where it is had"
+log,E214,P1,**fixed**: Kyr's own adaptations of the ,combat balance/recovery,"**Recurring, rounds 10–11** (R10-12, R11-05): Love's at-will Kindle healed 1d3+10, and four more spells (Rejuvenate, Greater and Mass Rejuvenate, Holy) added th"
+log,E215,P2,**fixed**: a notice the place leads with,,"**The owner, 12 November**: ""Read the notice on the well-post"" was a bare link under the choices, not a thing to do like the rest, though it ""clearly gives you "
+log,E216,—,**done**; studies/typography/README.md; ,,"**The owner's call on a warmer face**: Source Sans 3 (humanist, variable) names what can be done; Newsreader still tells. Jost, Lato and Play are kept for compa"
+log,E217,P1,**done**: it is the one resting scene; `,conversation depth,"**The owner, 12 November**: ""let's try to avoid splitting the universe"": the cinematic study (borderless telling, rounded-cap lines, Talk, Go and Look as lenses"
+log,E218,P1,**fixed**: the safe zone is the outer te,signal->act;paintings vs text;safe zone/layout,"**The owner, 12 November**: ""we haven't really internalized the idea about safe zones"": the rail's marks and the likenesses stood in the outer tenth of the scre"
+log,E219,P2,**fixed**: it says what can be seen of t,paintings vs text;conversation depth,"**Round 10, S; the owner, 12 November (""avoiding empty talk"")**: a likeness with nothing to open said ""Nothing to say to you now"" of a boy plainly at his own wo"
+log,E220,P2,"**fixed**: a beast watches and comes on,",conversation depth,"**Round 10, S; the owner, 12 November (""avoiding empty talk"")**: ""will give you N minutes, no more"" of every monster, the one line a narration audit found said "
+log,E221,P2,"**fixed**: the origin gives it (`gear`),",navigation/transition,"**R10-10; round 10, S**: ""the dead man's map, the origin's whole point, is not in the pack"""
+log,E222,P1,**fixed**: the fight's moves keep their ,paintings vs text;safe zone/layout,"**The owner, 12 November (""weird borders around combatants … portraits not fitted cleanly to the card … requiring scrolling to see all actions""), and the contac"
+log,E223,P1,**done (the first three items)**: `test:,test/CI speed,"**The owner, 12 November (""down payments against test performance"")**: the routine loop was ≈ 86 s before touched specs (typecheck 28 s, lint 24 s, quick suite "
+log,E8,—,**fixed** bf62b137 (`map:<place>`),navigation/transition,Headless scripts could not take a map journey
+log,E21,—,noted (harness),,Cold agents under automation skip the prologue; next rounds use `&opening`
+reg,FH-01,P0,open,,No person has accepted the first hour: PD-14's five cold players have never been run
+reg,FH-02,P0,partial,,Round 7 cold play on the deployed build not run; handoff §4 empty
+reg,FH-03,P1,deferred,aims continuity,Opening thin on replay: origin errands lose momentum. Owner directs a dense in-medias-res opening and wants the rats job dropped as the required first mission
+reg,FH-04,P2,open,gold/guidance,"With no aim followed, the page never points to the town's notice of jobs; the closure fix was reverted"
+reg,FH-05,P1,partial,aims continuity,"Aims pile up (9–10 on day 1), a 27-rumour list, finished things linger as leads"
+reg,FH-06,P1,partial,navigation/transition,Go… from the first place lists five places and not the town; Go… itself unchanged
+reg,FH-07,P1,partial,narration volume/repetition;safe zone/layout,The landing's column still runs past the fold with the new aims
+reg,FH-08,P1,partial,,The town's threads not tied (the inn names Seolforfyrd without the hobs)
+reg,FH-09,P2,open,gold/guidance,Warrior led to wrench off the corn-store hasp whose key Tuck holds; who unlocks the corn-store is hard to find
+reg,FH-10,P2,partial,,Creation: the weapon screen's labels are still open
+reg,FH-11,P2,partial,,Bless picked at creation was not among the prepared spells; Mage Armor could not be cast before a fight
+reg,FH-12,P2,open,,"Creation's skills, background and spell choices to be made clear and useful early (amendment 7(2)); a trade's gear and skills never come up (prospector's shovel"
+reg,FH-13,P2,partial,,A caster cannot find how to get spells back; the inn's bed still sits under Trade › Services
+reg,FH-14,P2,open,combat balance/recovery,The pack omits lit lights and oil; waiting does not heal and nothing says so; herbs unexplained; rest and food opaque
+reg,FH-15,P1,partial,conversation depth,"Talk is topics, not an exchange: the first hour's three or four people should hold an exchange with progression; a substantial NPC verified"
+reg,FH-16,P2,partial,conversation depth,"Topics reorder after every question; key threads hidden under ""Something else…"", which often holds only ""ask again"""
+reg,FH-17,P1,partial,narration volume/repetition;conversation depth,Nobody but family can be asked about the main story; greetings copied word for word between people
+reg,FH-18,P2,deferred,conversation depth,"Generated talk does not know a calling (no fence for a thief, the same priest for every calling)"
+reg,FH-19,P2,partial,,Ancestry and background barely register; no per-member ancestry or background fact; perception by background
+reg,FH-20,P2,open,,"Nothing can be given: the Gaffer's ""pretty"", the necromancer's book to Indira, grave rings back"
+reg,FH-21,P2,open,conversation depth,"A talker's gifts (Charm Person, Charisma 21) never matter in talk; no bargaining with hirelings"
+reg,FH-22,P3,partial,,Inn bed and ranger specialty remainder (inn bed taken in the morning slept to evening; Set Spear; specialty)
+reg,FH-23,P3,deferred,,Automation skips the prologue; cold rounds must use `&opening`
+reg,CB-01,P1,open,combat balance/recovery,"First-hour fights trivial: challenge rated 1–2 in every round, most players lost no hit point, high-armour characters never hit, bosses dead in a round"
+reg,CB-02,P1,partial,,"The fight's reckoning is unreliable: hobs reckoned ""hard"" never hit (level-one trial variance); the forecast's words still open"
+reg,CB-03,P1,open,combat balance/recovery,A lone first-level mage meets 11 of the 14 first-hour bands as grave or deadly; lone casters and thieves lose standing fights out of town
+reg,CB-04,P1,open,navigation/transition,"Placed road troubles kill any lone novice who stands and fights, a warrior included (deserters 0.00 / 93%)"
+reg,CB-05,P1,deferred,conversation depth,A failed check is free to retry; there is no `Resolve … once` or `tries N`; a final check is not said to be final; a Topic cannot carry a check; a check's diffi
+reg,CB-06,P2,open,,The Gaffer alone on his ledge dies in a round or without a choice
+reg,CB-07,P1,closed,,"Sleep/stun traps drop the company into the warned barrow-dead's room: lying still is certain death, no agency"
+reg,CB-08,P1,open,signal->act;combat balance/recovery,Danger thin in ordinary exploration: the silver walker meets one fight in 13 hours; dangers met are mostly grave or deadly; frequency to be told apart from bala
+reg,CB-09,P3,open,,"A bare Take in a warned room can start the fight, and the label does not say the watchers will not wait"
+reg,CB-10,P2,closed,,"Antidote on a poisoned hireling ""to no effect"""
+reg,CB-11,P3,open,paintings vs text,A persuaded foe's portrait moves to the company's side (allies or not?)
+reg,CB-12,P2,partial,safe zone/layout;test/CI speed,"Fight bar seen only in the CI tour; the target-chips row did nothing on a phone; ""telling blow … for 1""; a fight legible at a glance"
+reg,CB-13,P2,open,,Odds hidden until after committing; techniques (Second Wind) say nothing
+reg,CB-14,P3,deferred,combat balance/recovery,A venomous bite has two chances to poison (the damage-triggered save plus the applied poison): a balance question
+reg,CB-15,P2,open,,"Clues the game sets up (mirror, noonlight jar, torch against the undead) have no use offered in a fight"
+reg,CB-16,P3,open,,Locks open with no visible roll or tension
+reg,CB-17,P3,open,,Long fights with nothing to settle them; no morale or surrender
+reg,CB-18,P2,open,,"A won fight kills and never routs, so Pleads never fires"
+reg,CB-19,P2,partial,,"Climax without weight: XP comes fast, traps are named before found and all answered by the pole, the bier exists only in words, the crown can be taken while the"
+reg,CB-20,P2,deferred,combat balance/recovery,"Balance instruments: an arena, ability ""pawn"" tournaments, party gauntlets, combat from a few constants (perhaps in Deem); the bands diagnostic made a spec"
+reg,CB-21,P3,deferred,combat balance/recovery,"Challenge table measured against a warrior with the dice as they fell; against creation's, 144 of 183 kinds read weaker"
+reg,CB-22,P2,partial,combat balance/recovery,"Economy: one delve's coin makes every field cost trivial; no field, expedition or domain tiers; HP growth flattened; treasure with several destinations"
+reg,CB-23,P2,deferred,,"OSR mechanics beyond breath and saves (regeneration, monster spells); spell resistance; hit dice as expressions; 24 statuses not applicable"
+reg,CB-24,P3,open,combat balance/recovery,Party scale: a hazard meant for a company kills a party of one; two Persons in a room are two fights; Level barely moves a flat-challenge species
+reg,CB-25,P3,open,,"Incapacitated/dead states, carrying the fallen; a six-second round shared with the world clock"
+reg,CB-26,P3,deferred,,Combat has exactly two teams
+reg,NM-01,P1,deferred,navigation/transition,"No road junctions: a road out goes into a town and back out (16–23 ways a seed, at most 2 hexes); tracks are straight lines"
+reg,NM-02,P1,closed,navigation/transition;safe zone/layout,"Map panel hierarchy: eyebrow, short title from real data, quiet context, particulars, short action; ""Explore nearby"" only where the hex holds something; panel h"
+reg,NM-03,P2,open,navigation/transition;safe zone/layout,"Map labels at the view's edge: drawn just inside the safe zone and still selectable (E130, 4b5173ec, checked at five sizes); left: ""way into…"" labels pile up on"
+reg,NM-04,P2,open,navigation/transition,A site in the company's own hex: the town-entry and facet case is not handled
+reg,NM-05,P3,deferred,navigation/transition,"Hex crossing as a structured action property (scale, novelty, skills, consequences) in a diagnostic view; the journey glyph exists, the rest does not"
+reg,NM-06,P2,open,navigation/transition,"Travel as passage: a meeting chance at each hex, what is passed seen, round trips dead time, harmless bats break journeys; no route, camp or supplies decisions"
+reg,NM-07,P3,closed-nofix,navigation/transition,The map does not say where the drawn atlas ends (nothing west of Thornhaven); geography beyond the first atlas; what a march-stone means on one map
+reg,NM-08,P2,open,navigation/transition,"Map: zoom barely changes the view; ""You know no way there yet""; the marker under its card; an empty image in the route card; Go there → Market reads as a square"
+reg,NM-09,P2,partial,text vs state/time,"Next-door shops said to be twenty minutes away; inside the corn-store every place in town ""about 1½ hours"" until the padlock was wrenched"
+reg,NM-10,P2,open,navigation/transition,Authored countries exempt from the hex rule; to decide country by country which authored walks are journeys
+reg,NM-11,P2,partial,,"Plans: below-ground and town plans partial; inside a site, ways named as edges not places; PD-03's crown-aim page"
+reg,NM-12,P1,partial,,"Play as a world moved through, not a command page"
+reg,NM-13,P3,deferred,,"Five new terrains never looked at; frost, desert and steppe terrain kinds"
+reg,NM-14,P2,deferred,,"The sea: the harbour inland in most worlds, no vessel or sea passage, the Dorothea's calls not islands, voyage as survival"
+reg,NM-15,P3,deferred,,"Interior maps: no vertical convention, no room kinds"
+reg,NM-16,P3,open,,"Transport services (carter, ferry, paid passage)"
+reg,AP-01,P1,open,signal->act;navigation/transition,"R9's gate not built: a false-promise corpus from the cold rounds, and tests that styled opportunities map only to legal visible actions or explained states"
+reg,AP-02,P1,open,signal->act;narration volume/repetition,"Atlas states (full, faint, dim, silver) as projected engine data, not CSS; exhaustion as one projected state so repeatable useful acts never go dim"
+reg,AP-03,P1,open,signal->act,"Facets from Kyr: no way to mark an act, thing or person uncanny, knowledge or payoff; violet never drawn; a sign has no aspect of its own; rare facets"
+reg,AP-04,P2,open,,"Distance-sensitive perception: reach only for companionship, and the reach table is code; per-facet reach, provenance, confidence, specificity by distance; perc"
+reg,AP-05,P2,open,aims continuity,Story-node propagation: a followed undertaking perceived along known places and people; a destination's facets on approaches beyond the town case
+reg,AP-06,P3,open,,Gregarious (and the Bard's reach) not in the game; the test grants it as a capability
+reg,AP-07,P1,partial,navigation/transition,"Key actions one menu deep (slip past the hobs, the Gaffer's ledge, chest contents, a found box, nest, rat-runs, hanging the bell, the crowbar); places only in G"
+reg,AP-08,P2,partial,narration volume/repetition,"An opened chest looks empty from the scene; Look… repeats text or lists actions already refused; ""Look closely"" says nothing in place"
+reg,AP-09,P2,open,,"The Eye as a deliberate, sustained search with a risk of interruption; perception in three tiers"
+reg,AP-10,P3,open,,"""Offer the heel of a loaf"" lost its horse's name somewhere in presentation; the cause not found"
+reg,AP-11,P3,open,signal->act,"Colour surprises: persuasion red at the ossuary; ""You would come there after dark"" blue at midnight; a blue action read as knowledge; ""Ring the bell"" offered in"
+reg,AP-12,P2,open,,"Verify the existing character-specific perception in real play (owner's ""M20 now"" item 5)"
+reg,AP-13,P2,open,navigation/transition;combat balance/recovery,A way into a room where a deadly band was seen carries no danger (no last-seen record)
+reg,AP-14,P3,open,,"Compound opportunities: one subject, several approaches; no authored opportunity naming its approaches"
+reg,AP-15,P2,open,text vs state/time,Presentation reads omniscient truth: a foe's exact HP shown in the dark; perception decided in presentation code
+reg,AP-16,P3,open,,What each member of the company knows; claims two sources tell differently
+reg,AP-17,P1,partial,,Ordinary exploration empty: 70 of 80 stretches round Thornhaven hold nothing; meetings sparse away from the start; the first-steps thread's content; half an hou
+reg,NP-01,P1,open,text vs state/time,"Prose against the moment: daylight underground or at midnight, lit lanterns in sealed rooms, a wolf in a sealed room, a dead Gaffer cackling, a door ""locked"" af"
+reg,NP-02,P1,deferred,,Narration not bound to what the company can perceive (parade seen from indoors); unanchored rule words heard anywhere
+reg,NP-03,P1,deferred,,"Notes and Story as two projections over different records; own deeds filed as ""told you""; note times mismatched"
+reg,NP-04,P2,open,conversation depth,"Generic voices in the wrong mouths: a tied, crying captive greets with shopkeeper banter and uses Baldric's farewell; a rescued boy says ""Now then!"""
+reg,NP-05,P2,partial,narration volume/repetition,"Prose repeated: the cart twice, a creature named five times, the wagoner's resolution three times, lighting a lantern in three near-identical lines, ""the dead …"
+reg,NP-06,P3,open,conversation depth,"Machine-made topic labels; ""Another aim"" under ways means nothing; ""Something else…"" holds only ""ask again"""
+reg,NP-07,P2,partial,,"Engine words left in the fight's telling (""(roll 10)"", ""Tatterlip""); keys held offering no unlock"
+reg,NP-08,P2,open,,Exceptional events met on arriving told in the ordinary register; exceptional moments do not take the page
+reg,NP-09,P3,open,,Prose arrives already interpreted (a suggestive object followed by a Discovery stating its meaning)
+reg,NP-10,P2,open,narration volume/repetition,"Sameness: a third of narrated sentences repeat across countries; never measured; no rotation by causal role; dead ""Ask again"" copies"
+reg,NP-11,P3,open,,"Generated text tonally varied (ordinary life, humour, hospitality); vivid sensory prose, not bland drollery"
+reg,NP-12,P3,deferred,,Names: old-tongue names transparently Latin; Common names from a true common tongue; languages authorable in the project
+reg,NP-13,P2,open,,"Engine names and masks leak into text: ""The raiding party: Fall on You""; masked names replaced by string; `seen as` and Known-as leaks"
+reg,NP-14,P3,open,,"A companion ""binds the hurt"" when nobody is hurt"
+reg,NP-15,P3,open,narration volume/repetition,A wait in a room repeats the room's description every hour
+reg,NP-16,P3,partial,narration volume/repetition;safe zone/layout,"Text slips (a lintel's spelling, a sentence twice, ""their breath"" of a man, a card clipped, a file name as a caption)"
+reg,NP-17,P2,closed,paintings vs text,Raw museum captions and credits on portraits (Lem)
+reg,NP-18,P3,open,conversation depth,Ordering slips: a milestone told on the next step; a greeting after a scripted reaction; a tame bear greets while asleep
+reg,UI-01,P2,open,,"Controls move under the pointer (Attack under Press on, the Go list, the bottom-left control); the Look panel toggles and closes after each act; clicks land els"
+reg,UI-02,P2,partial,paintings vs text;safe zone/layout,On a phone: inert portraits; the title over the icons; the trade grid under Continue; eleven portraits in a row; the shop's portrait order shifts under a tap
+reg,UI-03,P2,open,navigation/transition,"Text clicks on visible words hit hidden page text; Go… rows by text do nothing or take the next row; some rows preview, others walk at once"
+reg,UI-04,P3,partial,navigation/transition;conversation depth,"Small items: Escape does not close talk; ""Nowhere to sleep here"" in an inn; a one-way back garden; the circus gone from the map"
+reg,UI-05,P2,open,safe zone/layout,"Buttons: icon and text overlap, jagged wraps; a screen of plain buttons and link-like controls reads as a wiki"
+reg,UI-06,P3,closed-nofix,safe zone/layout,A place's telling scrolls inside its column (the opening's causeway at 1180×820; always on a phone)
+reg,UI-07,P2,partial,safe zone/layout,Results below the fold of the fixed column; number keys dead on the scene
+reg,UI-08,P2,partial,,The resting scene: an independent look at whether it reads as a place
+reg,UI-09,P3,partial,,The interface explains itself (generic instructions under controls)
+reg,UI-10,P2,deferred,navigation/transition;conversation depth,"One design language across scene, travel, fight, talk, notes and pack; a specimen page of components with several fillings"
+reg,UI-11,P2,open,navigation/transition,"Access: no screen-reader pass; no map path without the canvas; title and creation ignore the keyboard; no clock shown except while moving; no ""wait until""; free"
+reg,UI-12,P2,open,,"A refused purchase still does not say why; commerce and inventory (stock fits the shop, no undifferentiated lists)"
+reg,UI-13,P3,open,,"A treasure's appraisal (""Show … to …"") is not among the sales"
+reg,UI-14,P3,open,,Buying ignores what the company already carries
+reg,UI-15,P3,deferred,,Pack: named and plain items of one kind are two rows; nothing weighs; lantern and oil in different packs are dead weight (they went to Xyn unasked)
+reg,UI-16,P3,deferred,,"A living interface: real time passing, motion and reaction"
+reg,UI-17,P2,open,,"A Company page in the Book, and the same in the terminal"
+reg,UI-18,P3,open,,The `?scene=full` experiment was never made default by row; scene-first landed later (79c26bdf)
+reg,US-01,P1,closed,,"The ""Gone under"" origin's sister is silent at Seolforfyrd, with no one to ask: the hook goes quiet when followed"
+reg,US-02,P2,partial,,"Treasure payoff flat: two identical ""empty"" jewelled boxes; no hoard; a three-locked toll-chest holds one box"
+reg,US-03,P2,closed,navigation/transition,"The dead man's map ends in an empty box, with no word of who emptied it"
+reg,US-04,P2,open,signal->act;aims continuity,"Handed-out aims are all kill or loot; peaceful errands (Gosse's offer, the circus larder) not kept in Notes; promises with terms, decline and defer"
+reg,US-05,P2,open,,"No successor threads after a resolution (""Nothing more is asked of you""); a lone company following the page earns no level in 200 steps"
+reg,US-06,P3,open,gold/guidance,Gosse and Hepzibah lead nowhere after their first line
+reg,US-07,P1,open,navigation/transition;aims continuity,"PD-08: heard, lead, undertaking, route knowledge and immediate action are not separate records; an aim's places not typed for ""on the map""; who keeps a building"
+reg,US-08,P2,partial,,No knowledge-boundary test: an aim's target can appear in the journal or local choices before it is learned
+reg,US-09,P1,partial,navigation/transition,"A dungeon to find and the full rendered route; journeys A–D, and journeys 2, 5 and 6 through the page; the builder's descent never played by a person"
+reg,US-10,P1,partial,,Depth and reward: missions deeper than one fight; the loop distended; an expedition that opens another; two linked expeditions; old-school kit made useful
+reg,US-11,P3,partial,,"After a fight, the aftermath: what was recovered"
+reg,US-12,P2,open,aims continuity,Offstage agency: independent undertakings leave traces; a rival expedition visible; situations with initiative; strategic antagonists; institutions acting
+reg,US-13,P2,deferred,,"Semantic enrichment: history transitions, structural constructs, notes as evidence, dramatic roles, tonal variety, endings as events"
+reg,US-14,P2,open,safe zone/layout,"From adventure to career: backgrounds unfold in play, early companions, formations (Synod), careers, kits; one substantial companion; advancement options"
+reg,WM-01,P1,partial,narration volume/repetition,"The world forgets: the Gaffer ""comes off his fleeces"" after death; the sergeant's speech word for word; the players never react or leave without a line"
+reg,WM-02,P2,partial,,"Dishonesty has no consequence: graves robbed under the dead who keep the bounds, for free"
+reg,WM-03,P3,closed,,"""Look at the cart / take the horse's head"" still offered after robbing the wagoner"
+reg,WM-04,P3,open,aims continuity,Scenario word that never goes stale (the den's directions after it is cleared)
+reg,WM-05,P2,open,,Return told through people: what others did reaches the company by witnesses and news; news heard late if away
+reg,WM-06,P2,deferred,,One metropolis many adventures add to: Dun Rìerdan only an identity; the King's Players builds its own; several adventures interleaved in one region; institutio
+reg,WM-07,P3,open,,Weather: not readable by a module; a module's rain against the world's FAIR; yesterday's weather read at 04:00; dark nine to six in every season
+reg,WM-08,P3,open,,"History the player can investigate, misunderstand and alter"
+reg,CP-01,P2,open,paintings vs text,"Paintings that contradict their text (cathedral for a toll-hall, flooded ""dry"" cave, temple for a slab altar, oast house for a kiln, window in a windowless vaul"
+reg,CP-02,P3,open,paintings vs text,"Paintings the first hour lacks (toll-house hall and counting-house, a warehouse, a muck pit, cave interiors); rooms of one kind share one painting; scenery kind"
+reg,CP-03,P3,open,,"Missing plates: bone flute, bronze mirror, cloak, betony; new kinds show an empty square"
+reg,CP-04,P2,deferred,paintings vs text,Likenesses: Xyn's two faces; a dwarf cleric drawn as a red-haired human woman; a dwarf family painted human; a drowned girl with a revenant's face; Tuck by an a
+reg,CP-05,P3,open,,Orsino traps drawn without regard to the makers (an electrified floor in a Barrow-Kin grave)
+reg,CP-06,P3,deferred,,"Orsino room and shop tables not drawn; dungeon and room generation from Orsino; Orsino's companions, deities and dungeons; generated planes and cities"
+reg,CP-07,P3,deferred,,"Items: per-item depth; most magic items, charges, treasure by tier; content inventory with operational coverage"
+reg,CP-08,P2,open,,Generated people thin; settlements texture before drama; two settlements should differ; operational professions
+reg,CP-09,P3,deferred,,"Natural history: geology beyond formations; herb-lore or woodcraft telling plants apart (""What grows here"" known/unknown); plants and animals with ecology"
+reg,CP-10,P3,deferred,,Unplayed content: the anthology's endings; Low Water never played Begin to ending; the circus played only by its author; the library tour (every adventure enter
+reg,CP-11,P3,deferred,,"Grand Tour and planes: the Rose, canonical locations, a premise for any protagonist, two adventures on one plane, the Door of Doors, daily rounds, an accusation"
+reg,CP-12,P3,open,,A stately-home murder mystery as a systems test
+reg,CP-13,P3,deferred,,"Five notices at the inn on the first evening, each read on its own"
+reg,CP-14,P3,deferred,navigation/transition;conversation depth,"The wagoner's ask answerable from the talk, not only from the cart under Look… (every road meeting)"
+reg,CP-15,P2,open,signal->act,"Prose promises that cannot be met: things named in a place cannot be taken (a candle-end, a rope); a den's mouth with no inside (29 of 29 dens one room); interi"
+reg,CP-16,P3,open,,"Long aspirations: the Star-Readers' sky, a world that changes on its own, physical interaction from properties, a material world, rare Manuals, reinterpretation"
+reg,CP-17,P3,deferred,,"Encyclopedia: modules cannot add entries; geography, histories and institutions thin; kept apart from the journal, with spoiler protection"
+reg,SP-01,P1,partial,,"A fresh country starts in 10.1 s headless and 13–20 s in a browser; 5.5 s is parsing ~1.2 MB of generated Kyr, then compiling, checking and structuredClone. Can"
+reg,SP-02,P1,open,,"Eager instantiation of distant content (130,826 facts, 30 modules, 23.8 MB checkpoint, ~500 MB RSS): deterministic lazy materialization, proven against eager"
+reg,SP-03,P2,open,,Reuse compiled module and operator definitions across sessions; cache one player frame per response
+reg,SP-04,P2,open,,"One three-country run stalled past five minutes, once; not explained"
+reg,SP-05,P1,open,safe zone/layout,No measurement on a real iPad or under Safari/WebKit; play never verified on a real tablet
+reg,SP-06,P2,open,,"Planner scaling under denser agency: per-actor budgets, adaptive horizons, benchmarks on high-agency worlds"
+reg,SP-07,P3,open,,The glance's 8 ms budget (glance-kite) against wider per-facet perception
+reg,SP-08,P3,open,,Choices grounded afresh in every new world (22 ms in the frontier): never carried after M16
+reg,AR-01,P2,open,gold/guidance,R1: campaign orchestration in one class; explicit command phases; lifecycle assertions around command and rollback; golden lifecycle traces
+reg,AR-02,P2,open,,R2: process-global catalog kinds and a serial load queue; per-campaign catalog state; two campaigns sharing a module break each other
+reg,AR-03,P2,open,,R3: cache invalidation by convention across memo layers; cache and load telemetry; cache-on/cache-off differential tests
+reg,AR-04,P3,open,,R4: shared operator and schema structures mutable by convention; deep-freeze in development
+reg,AR-05,P1,open,conversation depth,"Remaining text inference in the page: talk roles, reading acts, ""too dear"", seen-through and level moments, panorama, harm on arrival, the fight's turning point"
+reg,AR-06,P2,open,,"One exported PlayerHost/PlayerFrame facade; nested PlayerSnapshot vs Screen/Leaf/Glance; PublicChoice lacks availability, exhaustion, restriction reasons and pr"
+reg,AR-07,P2,open,,Opportunity semantics live under src/ui and src/presentation; move them to compiled authored metadata plus runtime facts; a situation projection from the legal 
+reg,AR-08,P2,open,,"ModuleShadow renames by rewriting source text (the parser must mark authored calls first); Kyr manipulated by parsed syntax, never text"
+reg,AR-09,P2,partial,navigation/transition,"Plots and prose in TypeScript: settlement, road, deep-site, market and fellows writers; the undertown's structure in engine code; deep-argument.ts; Deem should "
+reg,AR-10,P2,open,,"Party membership has no public lifecycle; two companion systems; preset-party defaults (a trio in WorldAssembler); ""Go alone"" only in a drawn country; the compa"
+reg,AR-11,P3,partial,,"Identity carried in id strings (march-stones, provinces, stretches)"
+reg,AR-12,P3,open,,"Hidden registries and central edit points (origins, region generators, title list)"
+reg,AR-13,P3,open,,Five composition mechanisms; unfilled placeholders pass silently; .kyrt values unescaped
+reg,AR-14,P3,partial,,Compiler binding-check holes (partial); ability text not equal to execution across the catalog
+reg,AR-15,P2,open,,"Waits are atomic: they do not stop at a warning, arrival or chapter, so a fight is lost inside one wait"
+reg,AR-16,P3,open,,"The setting is coupled into the engine (Imbar's planes, calendar, world shape, encyclopedia)"
+reg,AR-17,P2,deferred,,Adding a province re-seeds every generated world
+reg,AR-18,P3,open,,"Lowering discards declared intent (a trace sees generated rules, not event transitions)"
+reg,AR-19,P2,partial,signal->act,"One creature pipeline: aliases, corpus verification, variation apart from species, wards and turrets out of species"
+reg,AU-01,P2,open,,"A bounded, current authoring trail: entry points, examples, the path to play, ownership, superseded guides marked, scene and opportunity conventions as built"
+reg,AU-02,P3,open,,"The Kyr/Deem shells review, as M21 input"
+reg,AU-03,P2,open,navigation/transition,"R8: authoring cost drift; cost lint for unbound parameters, weak conjunctions and broad queries; complexity notes for new constructs"
+reg,AU-04,P2,deferred,,Kyr time and state forms: State … when / Retract; a die rolled once; Reset; named clocks and table draws; cycles; computed measures; schedules; tick order and t
+reg,AU-05,P2,deferred,conversation depth,Kyr talk forms: Says again (120 `_again` topics in Quittance); a Topic through a party member; questions with parameters; several-exchange topics; speaking thro
+reg,AU-06,P2,open,conversation depth,Kyr rule and ending forms: endings fire before the step's Observes; chapter order and text by what is carried; rules at time 0 (Wren's greeting); a rule cutting
+reg,AU-07,P2,deferred,navigation/transition,"People, pursuit and inhabitants: pursuit re-planned each watch; hidden ways; a lasting rout; per-person patience; bargains against warned patience; temperament "
+reg,AU-08,P2,deferred,,Things and kinds: a lend lint; flame and chart kinds; `_gathered` naming; scenery initial state; abilities in the catalog not all loaded; a module kind cannot b
+reg,AU-09,P2,open,,"Structure, namespaces and diagnostics: state names share the module namespace; a module's kinds and techniques share the catalog's; no Exports; clause order; ne"
+reg,AU-10,P2,open,signal->act,"Deem: module-local tables, weighted and conditional choice, generated families; draw order re-rolls worlds (undocumented); the Deem dossier → composition kit → "
+reg,AU-11,P3,open,safe zone/layout,"Missing authoring tools: `kyrie new table` and `new generator`, `kyrie stats` and `info`, a placement report, a backgrounds lister, a simulate readout, author s"
+reg,AU-12,P3,deferred,,"The IF review's holistic Kyr remedies (why/trace, typed transformations, affording observations, occasions, rule phases, one knowledge model, dynamic identity, "
+reg,AU-13,P3,deferred,,"Wapshott's Circus needs: a moving place, a shared town, rooms named for their town, a contest of words, places beyond its towns"
+reg,AU-14,P3,deferred,,"Authorable effects and spell construction (Kyr can teach a spell, not define one)"
+reg,AU-15,P2,open,,About 200 legacy objectives without `toward` still rely on inference from their words
+reg,AU-16,P3,partial,,Calling and ancestry data: a dwarf thief refused only after load; halflings not playable; the Wrong Boat's coin tuned to its shipped party
+reg,AU-17,P3,closed-nofix,conversation depth,"Not reproduced, kept for re-check: a catalog kind in an Observe; two `says` in one turn; herald aliasing; encyclopedia links; empty conversational leads"
+reg,PR-01,P2,open,,R5: the save schema is `version: 1` with no migration path; a compatibility policy and a fixture bank of historical saves
+reg,PR-02,P2,open,,"R6: transcripts tied to the choices of the day; a historical-transcript replay lane, durable command aliases; whole-world digests break kept transcripts"
+reg,PR-03,P3,deferred,,Save size: the downloadable whole game is 22 MB and the raw checkpoint 23.8 MB; one save format and autosave path; a compact save for the terminal
+reg,PR-04,P2,open,,"Determinism asserted, not verified: locale-dependent combat AI, one combat stream, unchecked resume"
+reg,PR-05,P2,open,,Client parity covers no fight
+reg,PR-06,P3,open,,Saving during a fight
+reg,PR-07,P3,closed-nofix,,"""Story after a reload shows only what happened since"""
+reg,TC-01,P2,closed,combat balance/recovery;test/CI speed,CI shards unbalanced (shard 4 at 45 minutes against 24); timings refreshed by hand; no scheduled corpus gate
+reg,TC-02,P2,open,test/CI speed,Full CI about 40 minutes; every push to every branch runs it
+reg,TC-03,P2,open,test/CI speed,"Test architecture: content-addressed fixtures, changed-test selection by recorded dependencies, checkpoints for long specs, simulation checks moved out of the b"
+reg,TC-04,P2,open,safe zone/layout;test/CI speed,The safe-zone walk at five sizes in CI; atlas states tested as projected data
+reg,TC-05,P2,open,,"The census proves structure, not play: no seven-stage report, no per-world invariants; no per-adventure integration manifests"
+reg,TC-06,P2,open,safe zone/layout,"Consolidation: overlapping tests, obsolete UI paths and heuristics, the verification loop measured"
+reg,TC-07,P2,open,signal->act;narration volume/repetition,"Walkers as a recurring diagnostic (places, sites, interactions, encounters, stalls, repeats, false promises; a few characters and seeds); a cheap public-action "
+reg,TC-08,P3,deferred,navigation/transition,"Spec harness affordances: group positions, forced dice, `Journey.reached`, party size in a test, fixture module paths, the `>` router's reasons, the spec clock,"
+reg,TC-09,P3,partial,navigation/transition,"Adversarial-order quest tests across adventures; acceptance tests for urgency, journey density and restraint"
+reg,TC-10,P3,open,navigation/transition,Tests teleport rather than journey
+reg,TC-11,P3,open,,Long-horizon verification with trace minimisation; boredom and pull measured
+reg,TC-12,—,open,test/CI speed,"CI on 7f392f0b (and 13441a49) failed only the handbook browser spec, which passes locally"
+reg,DC-01,P1,closed,,"The handoff is a draft: §4 is empty, and the register is to be reconciled against the implementation, with each row resolved or deferred with a reason"
+reg,DC-02,P2,open,,"The 74 UNT gap rows were never entered into any mission register, as gaps.md asked; no M19 or M20 document cites them"
+reg,DC-03,P3,open,,R10: a drift review at each closure; a current-invariants appendix; doc freshness checks
+reg,DC-04,P3,open,conversation depth,Undocumented facts: the country marker is unique across provinces; a topic can charge the purse; Guards; Deem draw order; plant `_gathered` naming
+reg,DC-05,P3,open,,"Fixed rows never re-proved after redesigns (PT-09, PRE-03, PT-42, NAV-12, M17's UI rows)"
+reg,DC-06,P3,open,,The builder edited twelve authors' adventures with no notice in their own documents; the Parliament of Books' friction never registered
+reg,DC-07,P3,open,gold/guidance,"The Living Design Atlas reconciled with the Aesthetic Doctrine, superseded design documents marked; the M15–M17 briefs missing from the repository"
+reg,DC-08,P3,open,,inherited.md cannot be regenerated from its sources (the closure table is not written by the generator); an uncommitted owner change was said to cure it
+reg,AB-01,P1,closed,,"A killing blow told by the 1 its mark had left, not its weight"
+reg,AB-02,P2,closed,,"Wounds never told; the written ""hurt"" lines never said"
+reg,AB-03,P2,open,,A creature's damage does not grow with its level (a level-12 mummy's 1d4)
+reg,AB-04,P2,open,navigation/transition,The CLI and journeys fight a whole fight in one step; a fallen company is left with nothing offered and no ending
+reg,AB-05,P2,closed,,A dark room does not say that a light is cheap or where it is sold
+reg,AB-06,P2,open,navigation/transition,People and bands that move on a clock (Route/Pursuit on a person)
+reg,AB-07,P2,open,,A scenario reading and moving the first town's own people
+reg,AB-08,P2,open,,Band against band; bands that lose members
+reg,AB-09,P2,open,,A calling-specific read of a scene; a check against a crowd
+reg,AB-10,P2,open,narration volume/repetition;conversation depth,Topics that change on repeat (98% of the first town's are `once`)
+reg,AB-11,P3,open,,A scenario's reach beyond its seat (members in other towns and countries)
+reg,AB-12,P2,open,,A Deem template that invokes Kyr (a drawn fact selecting an authored section)
+reg,AB-13,P2,closed,,Specs that choose which standing scenarios a world holds
+reg,AB-14,P2,open,,"Declarations that fail late: shared relation names, a new site kind needing three edits, a module without milestones"
+reg,R7-01,P2,closed,,"Torches die in the middle of an act, and nothing says so"
+reg,R7-02,P1,partial,combat balance/recovery,"Fights trivial with a warrior in the company; a bard ""barely played"" (lore, Charm Person, gliding never came up); a speaking castellan with no way to answer"
+reg,R7-03,P3,closed,navigation/transition;conversation depth,"Go… lists every place in town as ""20 minutes""; the conversation log grows without end"
+reg,R7-04,P3,closed-nofix,navigation/transition,A town known only by report has no route line before setting out (the owner's rule of 29 October: heard of is a marker only); both players missed one
+reg,AI-01,P2,closed,,The thorn long descent fails at choice 62: the first town's shop stock was redrawn when the standing scenarios came in
+reg,AI-02,P3,open,navigation/transition,"`silent-lord-turns`' ""forged remission"" fails when rain puts a ford in spate (`Journey.way` ignores `hazardous`)"
+reg,AI-03,P1,partial,test/CI speed,The new specs have no time in test/timings.json (several take 5 to 15 minutes)
+reg,AI-04,P1,partial,narration volume/repetition,"The first green is busier: 3 to 4 more people and about 170 to 190 more words on arrival (four seeds measured), the Walk's unchanged well, post, shrine and gate"
+reg,AI-05,P3,closed-nofix,,The Bound Howe's lead is held to day 3 so the honest start still goes under the town
+reg,AI-06,P3,open,,"R96 (rotating the altered-law provinces per world) and R97 (retiring `oldcoin` and `quarrel`, which the wanderer origin's arrivals name)"
+reg,AI-07,P1,open,,Cold play on the branch: one of three blind players entered a new module; none played one to an ending or fought its dangerous opponents
+reg,PR-01,P0,closed,gold/guidance,"Gold loses its thread: on the ways and the looking at once, on aims not chosen, out of a place and back"
+reg,PR-02,P0,closed,navigation/transition,Choosing a place in the company's own hex walked it out of the town
+reg,PR-03,P1,closed-nofix,navigation/transition,The route preview no longer shows before setting out
+reg,PR-04,P1,closed,signal->act,A blue pip with no blue reply; a green Look with no clear collectible
+reg,PR-05,P2,closed,gold/guidance,Follow this too heavy
+reg,PR-06,P2,closed-nofix,,Names of the opening from mixed tongues
+reg,PR-07,P2,deferred,,Creation's order unchanged; the pack has no physical model
+reg,PR-08,"**P1, recurring**",partial,gold/guidance;navigation/transition,"Following an aim, the scene leads with its one gold way, and the way up or back is only under Go…, a step at a time (round 8, M; N: ""a different single exit eac"
+reg,PR-09,P2,open,aims continuity,"Aims that end without ""seen through"": the vault's aim, the rats job paid (round 8, M)"
+reg,R9-01,P1,closed-nofix,,"The crypt aim dead-ends at the man with the black candle: one persuasion try, then ""beyond you""; what the company learned (the dead held only while the candle b"
+reg,R9-02,P1,closed,,"Peren's lodger, ""out after dark with grave-dirt on his boots"", is never found; a night watching the churchyard says ""Nothing comes"" (Q 61, 131)"
+reg,R9-03,P2,partial,signal->act,"Blue pips on people the company has not met promise something; talking gives a quip, and the pips walk on to the next unmet face (Q 29, 39, 41)"
+reg,R9-04,P1,open,navigation/transition,"The travelling circus's ring of wagons is drawn with houses on the map, beside the company, and read as a town; ""Enter Lowmouth"" set the company down in Wapshot"
+reg,R9-05,P2,open,combat balance/recovery,Several rounds pass on one press while the company cannot act (knocked prone again and again): 14 to 2 hit points unseen (P 167–171)
+reg,R9-06,P2,open,,"A fight's status against its log: ""shrugs off the armor shred"" while Armor Shred shows; ""Vigorous for 5 turns"" gone after one; a bite for 0 leaves Bleeding (P 7"
+reg,R9-07,P2,open,text vs state/time,"Text against state: the crypt's stone door ""is locked"" after the company came through it with the key; ""Since you were last here: the portcullis is wedged up"" o"
+reg,R9-08,P2,open,,"""Something is going on here"" over a milestone and asters, the event behind a small link (P 142)"
+reg,R9-09,P2,partial,gold/guidance;navigation/transition,"Gold on hiring (Q 54b) and on the way back out (Q 87, 104); two gold at once in the Go list and on the two glyph tries (P 29, 62)"
+reg,R9-10,P2,open,gold/guidance;navigation/transition;conversation depth,"The widow's aim (Sir Hamo) never had gold or a route (P 113–154); Sir Hamo has no talk at all, only Attack, Call out, Leave"
+reg,R9-11,P3,open,paintings vs text,"""Take your leave"" after hiring reopened the hireling (the portraits re-ordered); number keys silent while the Look panel is open; a spell's name not clickable i"
+reg,R9-12,P2,open,signal->act;paintings vs text;text vs state/time,"Paintings against the text: an intact sunny castle for a ruined bailey, a sunny churchyard at night, iron pipes in a medieval drain, the keep's star banner at t"
+reg,R9-13,P3,partial,,"Sleeping ""long, under a roof"" at 11 a.m. ends the same evening; the wait panel offers to sleep until 3 p.m. at night (P 149; Q 128)"
+reg,R9-14,—,closed-nofix,,The toolbar has no hover hints (Q 30)
+reg,R10-01,P1,open,,"Combat as a mode of the scene (amendment 6 E, amendment 7 (1)): the fight is still its own page; no tactical foreground (attack, the abilities and spells that a"
+reg,R10-02,P2,open,signal->act;navigation/transition,"Silver leads on the map (amendment 6 F, the atlas synthesis): the map does not offer exploration's silver leads"
+reg,R10-03,P2,open,signal->act,"The atlas's restraint has no test: silver, neutral and dim are told apart only by the builder's renders (E187, E188); silver (#D7DBE4) is close to the neutral g"
+reg,R10-04,P3,closed,gold/guidance;signal->act;safe zone/layout,"Evidence lived in scratch (/var/tmp/kyrie/m20): the gold survey, the signal census, the browser render of the signals, the safe-zone probe, the parley and camp "
+reg,R10-05,P2,open,,"Acceptance defect B6 (11 November): one combined replay through the headless projection and the rendered screen, at narrow sizes"
+reg,R10-06,P2,open,,The deployed build (Pages) was never played by an agent: every cold round was served locally (FH-02 corrected)
+reg,R10-07,P1,open,,"Flee labelled ""sure, now"" failed at round 5 of a fight the company chose (S 105). The battle's odds (`Battle.flight`) and the roll agree in the engine and its s"
+reg,R10-08,P1,open,paintings vs text;text vs state/time,"Paintings against the text, again: a sunny portico for a broken keep in a stormy evening, a cosy candle-lit gatehouse, a flag flying on a ruin, egg sacs after b"
+reg,R10-09,P1,partial,navigation/transition,"The way back, and some features (the spring, the tripwire), only under Go… and Look…; walking out of a mine was Go… in every room (S 96–97, 115–119)"
+reg,R10-10,P2,partial,navigation/transition,The origin's thing is not an object: the dead man's map is not in the pack; light is not shown (S found the candle running out only in Wait)
+reg,R10-11,P2,partial,,"Text of what could not be seen: a new aim describing a flag in pitch dark (S 62); ""You know now: the wire runs…"" of a wire never mentioned (S 86); a clue to an "
+reg,R10-12,P2,open,combat balance/recovery,"The fights are too easy, and an at-will heal (Love's Kindle, 1d3+10, under Wait → Tend) makes hit points meaningless; warned dangers (wolves ""will not wait"") do"
+reg,R10-13,P2,partial,aims continuity;text vs state/time,"Stale offers: the adit's padlock offered from inside the adit; ""Still to do: deal with the spiders' mother"" after she was dead; the crypt door's force-and-pick "
+reg,R10-14,P3,partial,paintings vs text;conversation depth,"Portraits reorder when someone joins, and a tap lands on the wrong person (R 61, 134); ""Take your leave"" by its number empties the talk (R 31)"
+reg,R10-15,P2,open,conversation depth,"Most townsfolk have one line; the main aim (a lost sister) cannot be asked about except of one person, at item 13 of his topics, and his clue (""just inside, whe"
+reg,R10-16,—,closed-nofix,gold/guidance;aims continuity,"""The followed aim switched by itself"" (S 128)"
+reg,R10-17,P1,closed,gold/guidance;navigation/transition,"a1, the debt: once the nearest old place (Ísencepan) is spent, the aim goes on to ""the next old place"", Marsh Howe (region__w10). It is on the company's map, bu"
+reg,R10-18,P2,partial,gold/guidance;aims continuity,"a1, the order's errand: at the head of the steps the gold stops before the speaking door (gold survey a1/order, step 5; LOST before tonight too)"
+reg,R11-01,P1,closed,conversation depth,"Talk topics renumber after each answer: a number pressed for what had been there did something else, once informing on Heian by accident (U 66; R 64; T)"
+reg,R11-02,P1,open,navigation/transition;conversation depth,"Conversation cannot be steered: villagers have one stock topic; ""ask me which, go on"" with nothing to ask; no asking about one's own aim (the map, a missing man"
+reg,R11-03,P2,open,,"A calling barely matters: a bard has no performing or persuading choices where they fit; ""Sing for your supper"" is under Trade and rolls persuasion, not Perform"
+reg,R11-04,P2,open,gold/guidance;aims continuity,An aim waiting only on coin (the players' reckoning) draws no gold and says nothing of how to come by it (U 104)
+reg,R11-05,P2,open,combat balance/recovery,"Healing between fights is Wait → Tend → cast, again and again; a level-1 cleric alone loses to a dog; a free bite before the fight opens; ""What it cost"" under-c"
+reg,R11-06,P2,open,navigation/transition;narration volume/repetition,"Prose templated across places: Lunwigil and Neblalac described word for word alike; a fountain and a statue with the same history; ""then the road, then the road"
+reg,R11-07,P2,open,text vs state/time,"Text and timing: ""By morning the factor's chair is bare"" told at once, in the morning, of the wrong inn; Gosse doffing his hat outside, told inside (U 66, 176)"
+reg,R11-08,P2,open,conversation depth,"Dannel Hobb's ""what he saw in the old quarry"" offered only after the quarry was done, then gone; Rolen's ""talk to the boy first"" could not be followed (U 140–14"
+reg,R11-09,P1,partial,paintings vs text;text vs state/time,"Paintings and portraits against the text: the big top as a kitchen; two inns one hall; a lizardfolk companion painted as a human woman (T 113; U 78, 160)"
+reg,R11-10,P3,open,,"No bed at Mossminster's guest-hall, though Wait says to get one of an innkeeper or a priest (T 87–93)"
+reg,R11-11,P2,closed,safe zone/layout,"The domain screen's Continue overlaps the ""Later:"" spell line (T 08; R 08)"
+reg,T24-01,P1,closed,combat balance/recovery;test/CI speed,"Two of ten suite shards run to the job limit (45, then 60 minutes) on the integration branch, in every run since the standing scenarios came in; their files' ti"
+reg,T24-02,P1,open,test/CI speed,The test loop is ≈ 86 s before touched specs; its quick suite spends 321 CPU-s on 38 CPU-s of work
+reg,T24-03,P1,open,safe zone/layout,Go and Look are still pages in the panel beside their lens tiles; Look's list scrolls
+reg,T24-04,P2,open,conversation depth,"Three menu styles (led acts, conversation questions, fight tiles)"
+reg,T24-05,P1,open,narration volume/repetition;safe zone/layout,The telling overflows the resting panel (badly on a phone: 666 px in 269)
+reg,T24-06,P2,open,safe zone/layout,"The fight on a phone: foes' names cut, the third foe below the fold"
+reg,T24-07,—,closed,paintings vs text;safe zone/layout,The fight's actions scrolled at every size; a beast's portrait did not fill its panel; the acting fighter wore a double ring
+reg,T24-08,—,closed,,The standing modules' people written human in a dwarf or elf country; the reader a mage among dwarves; the curate a cleric among elves
+reg,T24-09,P3,open,paintings vs text;conversation depth,Talk persists between places (a dead foe's likeness shown in the next room)
+reg,T24-10,P2,open,test/CI speed,The CI never keeps the parse store; every job parses every text
+reg,T24-11,P2,open,,`Campaign.install` of a province costs more the more are installed (quadratic over a world's provinces)
+reg,T24-12,—,closed,,"The terminal's numpad shortcuts (7/9/1/3) shadowed the numbers 1 and 3 of its four choices: ""1"" did the third"
+reg,T24-14,—,closed,,"Cold review A (headless, integrated build, a1 kin warrior, 94 commands): the terminal's foreground left out the question an aim waits on (only under `all`, eigh"
+reg,T24-15,P2,closed,navigation/transition;text vs state/time,"Review A: time said against time spent: the 8-minute road took about 90 minutes; ""Bury him · 1 min"" took two hours; 1-minute moves cost 10"
+reg,T24-16,P2,open,,"Review A: contradictions: Odo ""has said nothing since the ditch"" just after a story; the aim says ""the dead are laid"" with more dead in the next room; a key hel"
+reg,T24-17,P2,open,narration volume/repetition,"Review A: grammar of groups (""a cave spiders… is here"", ""a dead things raised""); the lantern filled twice; a nest searched says nothing; the antidote handed ove"
+reg,T24-18,P1,open,,"Review A: every notice job is a small dungeon of 2–4 rooms; after each the game moves to the next notice and never makes a larger adventure (the mound, the gree"
+reg,T24-19,P1,open,navigation/transition;aims continuity;conversation depth,"Cold review B (headless, pine, elf thief): a stated option (""Creep round … pinch out the black candle"") could not be taken by its label; empty talk (""waits to b"
+reg,T24-13,—,closed,navigation/transition;narration volume/repetition,"The road in described the ditched cart twice, nearly word for word (the meeting and the cart's own state)"
