@@ -63,6 +63,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the safe zone', () => {
       await p.to('region__s2_green');
       await p.check('town');
       await page.click('.opens-go'); await p.check('go-open'); await driver.key('Escape');
+      // The book, which the zone had never been checked on: its Back stood 14px from the top (the contact sheet).
+      await driver.mode('i'); await p.check('pack'); await driver.mode('c'); await p.check('character');
+      await page.keyboard.press('e'); await driver.settle();
       await driver.talk(); await p.check('talk-lens');
       await page.click('.surface .portraits [data-subject="region__s2_merchant"] .portrait');
       await p.check('talk');

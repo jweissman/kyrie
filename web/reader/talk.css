@@ -122,7 +122,10 @@
   .talk .dialogue { height: auto; max-height: calc(var(--frame-h) * .76); min-height: 0; overflow: hidden; }
   .talk:has(.sitter.unpainted) .dialogue { max-height: none; }
   .talk .dialogue .lines { max-height: calc(var(--frame-h) * .4); padding-right: 0; }
-  .sitter.unpainted .cap { padding: max(64px, env(safe-area-inset-top)) 22px 22px; }
+  /* Inside the safe zone, and without the stand-in emblem, which a short band drew through the name and its lines (the
+     contact sheet, 12 November). */
+  .sitter.unpainted .cap { padding: var(--safe-t) var(--safe-r) 22px var(--safe-l); }
+  .sitter.unpainted .sitter-emblem { display: none; }
   .sitter.unpainted .cap .n { font-size: clamp(40px, 9vw, 72px); }
   .dialogue { width: 100%; max-width: 46rem; margin: 0 auto; padding: 16px var(--safe-r) var(--safe-b) var(--safe-l); }
 }

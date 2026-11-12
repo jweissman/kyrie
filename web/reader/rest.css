@@ -198,13 +198,13 @@
 .shell.scene-full .world-page.scale-scene .world-body { position: absolute; inset: 0; display: block; }
 .shell.scene-full .world-page.scale-scene .world-body > .surface { position: absolute; inset: 0; }
 .shell.scene-full .world-page.scale-scene .world-body > .focus { position: absolute; z-index: 4;
-  top: clamp(84px, 12vh, 120px); right: clamp(14px, 2.4vw, 36px); bottom: auto; width: min(31rem, 38vw);
+  top: clamp(84px, 12vh, 120px); right: clamp(14px, 2.4vw, 36px); bottom: auto; width: var(--panel-w);
   max-height: calc(100dvh - clamp(84px, 12vh, 120px) - clamp(14px, 3vh, 36px));
   border: 1px solid var(--edge-strong); background: rgba(14, 15, 19, .80); backdrop-filter: blur(6px);
   box-shadow: 0 18px 50px rgba(0, 0, 0, .55); }
 /* Who is here stands on the painting left of the panel, a danger at its right end (hostile right), not under it. */
 .shell.scene-full .world-page.scale-scene .surface .portraits {
-  right: calc(min(31rem, 38vw) + var(--safe-x, 28px) + 24px); }
+  right: calc(var(--panel-w) + var(--safe-x, 28px) + 24px); }
 @media (max-width: 899px), (orientation: portrait) {
   .shell.scene-full .world-page.scale-scene .surface .portraits { right: 18px; }
   .shell.scene-full .world-page.scale-scene .world-body > .focus { top: auto; left: 0; right: 0; bottom: 0; width: auto;
@@ -236,7 +236,13 @@
 /* The dossier (the book: yourself, notes, pack, story) is opened over the place, a leaf held up in it, the place still
    there at its sides; put away, the place is as it was (amendment 6, A). */
 .shell.scene-full .book-frame { width: min(1120px, 100vw); margin: 0 auto; background: rgba(12, 13, 17, .9);
-  backdrop-filter: blur(8px); border-inline: 1px solid var(--edge-strong); box-shadow: 0 0 80px rgba(0, 0, 0, .6); }
+  backdrop-filter: blur(8px); border-inline: 1px solid var(--edge-strong); box-shadow: 0 0 80px rgba(0, 0, 0, .6);
+  /* Its tabs and pages inside the safe zone, as every page's are (the contact sheet, 12 November: Back stood 14px from
+     the top): the leaf's own inset at the sides, the zone's at the top and foot. */
+  --book-in: calc((100vw - min(1120px, 100vw)) / 2); box-sizing: border-box; padding-bottom: var(--safe-b); }
+.shell.scene-full .book-head { padding: var(--safe-t) max(16px, calc(var(--safe-r) - var(--book-in))) 14px
+  max(16px, calc(var(--safe-l) - var(--book-in))); }
+.shell.scene-full .book-frame > .book { padding-inline: max(0px, calc(var(--safe-l) - var(--book-in) - 16px)); }
 /* The way not shown (?guide=quiet, a company without a cleric: see Guidance): the aim's marks elsewhere on the page
    are drawn as anything else is, so that nothing tells the one right answer. */
 .shell.guide-quiet .openers .opener.led::after { content: none; }
@@ -253,13 +259,19 @@
 /* ---- The scene's rail and its safe margins (the owner, 11 November: everything that can be touched well inside the
    screen's edges; one tiny rail of marks at the foot of its right side, apart from what is told). The margins are the
    safe zone's own (see foundations.css). ---- */
-.shell.scene-full { --safe-x: max(var(--safe-r), var(--safe-l)); --safe-y: max(var(--safe-t), var(--safe-b)); }
+.shell.scene-full { --safe-x: max(var(--safe-r), var(--safe-l)); --safe-y: max(var(--safe-t), var(--safe-b));
+  --panel-w: min(34rem, 42vw); }
 /* The safe zone drawn, for development and acceptance (?safe): a thin light line where it runs. */
 .safe-zone { position: fixed; inset: var(--safe-t) var(--safe-r) var(--safe-b) var(--safe-l); z-index: 2147483000;
   border: 1px solid rgba(214, 214, 214, .6); pointer-events: none; }
 .shell.scene-full .world-page.scale-scene > .world-bar { padding: var(--safe-y) var(--safe-x) 44px; }
-.shell.scene-full .world-page.scale-scene .world-body > .focus { right: var(--safe-x); top: clamp(96px, 13vh, 128px);
-  max-height: calc(100dvh - clamp(96px, 13vh, 128px) - var(--safe-y) - 64px); }
+/* The place's name and its line keep to the painting's side of the panel, which starts at the same height: "25 Haysel"
+   had run into the telling's first line (the contact sheet, 12 November). */
+@media (min-width: 900px) and (orientation: landscape) {
+  .shell.scene-full .world-page.scale-scene > .world-bar .title-block { max-width: calc(100% - var(--panel-w) - 32px); }
+}
+.shell.scene-full .world-page.scale-scene .world-body > .focus { right: var(--safe-x); top: var(--safe-t);
+  max-height: calc(100dvh - var(--safe-t) - var(--safe-y) - 64px); }
 .shell.scene-full .world-page.scale-scene .surface .portraits { left: var(--safe-x); bottom: var(--safe-y); }
 .scene-rail { position: absolute; z-index: 6; right: var(--safe-x, 28px); bottom: var(--safe-y, 24px); display: flex;
   align-items: center; gap: 2px; padding: 4px 6px; border: 1px solid var(--edge); border-radius: 999px;
@@ -298,7 +310,9 @@
   /* A card inside the safe margins, standing clear above the rail: what is told and chosen never runs under the rail
      or to the screen's edge (the owner, 11 November). */
   .shell.scene-full .world-page.scale-scene .world-body > .focus { top: auto; left: var(--safe-x); right: var(--safe-x);
-    bottom: calc(var(--safe-b) + 64px); max-height: calc(100dvh - 300px);
+    bottom: calc(var(--safe-b) + 64px);
+    /* Below the place's name and line, never over them (the contact sheet, 12 November: the panel had cut the line). */
+    max-height: calc(100dvh - var(--safe-t) - 96px - var(--safe-b) - 64px);
     padding-bottom: 14px; border-width: 1px; }
   /* Inside the safe zone, with room for a pip standing off its marks (14px had put it past the zone on an upright
      iPad: the five-size walk, 11 November). */
@@ -312,7 +326,7 @@
   .shell.scene-full .world-page .surface .lens-strip { display: none; }
   /* Seven marks inside a phone's zone. */
   .scene-rail .rail-mark { width: 36px; height: 36px; }
-  .shell.scene-full .world-page.scale-scene .surface :is(.portraits, .lens-strip) { top: max(150px, calc(var(--safe-t) + 66px));
+  .shell.scene-full .world-page.scale-scene .surface :is(.portraits, .lens-strip) { top: calc(var(--safe-t) + 96px);
     bottom: auto; left: var(--safe-x); right: var(--safe-x); }
 }
 /* Nothing of the place's own to touch, in the scene first: no empty row, and no rule over it. */
@@ -320,7 +334,7 @@
 /* In the scene's panel, Look and Go read as talk with the place: one column, what is at hand (or the ways) as things
    to choose, and what is chosen said under them with what can be done (the owner, 11 November: "a conversation with
    the place, not a separate modal"). */
-.shell.scene-full .focus > .explorer .explorer-body { overflow-y: auto; max-height: calc(100dvh - clamp(96px, 13vh, 128px) - var(--safe-y) - 150px); }
+.shell.scene-full .focus > .explorer .explorer-body { overflow-y: auto; max-height: calc(100dvh - var(--safe-t) - var(--safe-y) - 150px); }
 .shell.scene-full .focus > .explorer .at-hand, .shell.scene-full .focus > .explorer .wayfinder { display: block; height: auto; }
 .shell.scene-full .focus > .explorer .ah-list { border-right: 0; border-bottom: 1px solid var(--edge); padding: 0 0 8px;
   overflow: visible; }
@@ -386,19 +400,26 @@
    when the talk lens is on; each a small tile, its one pip of what it is, inside the safe zone. */
 .world-page .surface .lens-strip { position: absolute; left: var(--safe-x, 28px); bottom: var(--safe-y, 24px); z-index: 3; margin: 0; padding: 0;
   list-style: none; display: flex; flex-wrap: wrap; gap: 8px; align-items: flex-end;
-  right: calc(min(31rem, 38vw) + var(--safe-x, 28px) + 24px); }
+  right: calc(var(--panel-w) + var(--safe-x, 28px) + 24px); }
 .lens-tile { all: unset; box-sizing: border-box; position: relative; display: grid; justify-items: center; gap: 4px;
   width: 78px; padding: 6px 4px 4px; border-radius: 8px; cursor: pointer; color: var(--ivory);
   background: rgba(10, 11, 14, .55); backdrop-filter: blur(3px); }
 .lens-tile:hover, .lens-tile:focus-visible { background: rgba(236, 230, 217, .12); }
 .lens-tile.chosen { background: rgba(236, 230, 217, .18); }
 .lens-tile.dim { opacity: .5; }
+/* A tile with nothing to picture is its name and its pip, a chip: a row of empty circles had said nothing (the
+   contact sheet, 12 November: Go's dots, Look's six eyes). */
+.lens-tile.bare { width: auto; max-width: 14rem; display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px;
+  border-radius: 999px; }
+.lens-tile.bare .lens-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lens-tile.bare .lens-glyph { font-size: 13px; color: var(--dim); }
 .lens-face { width: 52px; height: 52px; border-radius: 50%; overflow: hidden; display: grid; place-items: center;
   border: 1px solid rgba(236, 230, 217, .35); background: rgba(14, 15, 19, .7); }
 .lens-face img { width: 100%; height: 100%; object-fit: cover; }
 .lens-face .lens-glyph { font: 400 22px/1 var(--do); color: var(--ivory); }
 .lens-face .emblem { width: 28px; height: 28px; fill: none; stroke: var(--ivory); stroke-width: 1.4; }
 .lens-tile > .pip { position: absolute; top: 6px; right: 12px; }
+.lens-tile.bare > .pip { position: static; }
 .lens-name { font: 500 11.5px/1.2 var(--do); text-align: center; max-width: 100%; overflow: hidden;
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; text-shadow: 0 1px 2px rgba(0, 0, 0, .8); }
 .opens-talk.pressed { background: rgba(236, 230, 217, .14); }

@@ -122,6 +122,19 @@ Parsing itself is mostly cached on disk already (`ParseStore`, since Mission 18:
 - `ModuleBundle.parsed`'s own map is cleared whole at 400 entries, and `ParseCache` keeps 96: neither is the cost
   now, but a profile that shows Ohm should first check the store was open.
 
+### 3a. The single worst spec: twenty-five minutes for one test
+
+`test/all-in-one-world.test.ts` ("every province in one world") installs every province a mountain thorn holds (25 or
+more) into one running world, one after another, travelling to each gate first. On CI (integration run 43280749973) it
+**ran into its own 25-minute timeout** (`1500000` ms) and is why one suite shard runs to the job limit in every run:
+the shard can never finish, so its other files' times are never kept and the shards never rebalance (register T24-01).
+What it proves (no two modules declare the same thing differently) is a property of the modules' declarations, not of
+a session that has walked to every gate. **Proposal:** a declaration-conflict check over all provinces' bundles (load
+each, merge the declarations, report conflicts: seconds), plus one live install of two or three provinces that are
+known to share kinds (Sennet and Tessary's congers), and the walking version moved to the long-descents job if it is
+kept at all. `evidence-tools/test-loop/provinces-cost.ts` times each province's travel and install, to show whether
+the cost is the walking or an install that grows with the world.
+
 ## 4. The route to a quick loop ten times faster
 
 Target: the routine loop from **≈ 86 s** to **≈ 9 s**, and a quick suite that covers more of the engine's invariants
@@ -131,7 +144,7 @@ Ranked by measured or estimated gain per unit of risk. "Avoid" is setup not done
 
 | # | Change | Kind | Measured / estimated gain | Risk | First experiment |
 |---|---|---|---|---|---|
-| 1 | **Run the quick set as N plain `bun test` processes over chunks balanced by kept time**, not `--parallel` workers | avoid | quick 34.4 → **10.6 s measured** (CPU 321 → 75 s) | specs sharing module state in one process (static caches: `NodeBundleSource.shared`, `LocalKinds`, `ParseCache`); all 663 pass now | change `scripts/test-quick.ts` to spawn 6 chunk processes (the measuring script is `evidence-tools/test-loop/run6.sh`); run it 20 times with shuffled chunk order to flush order dependence |
+| 1 | **Run the quick set as N plain `bun test` processes over chunks balanced by kept time**, not `--parallel` workers — or this bun's own **`--no-isolate`** ("let each worker keep one global and module registry across the files it runs"), which is the same thing inside `--parallel` and was not measured yet | avoid | quick 34.4 → **10.6 s measured** (CPU 321 → 75 s) | specs sharing module state in one process (static caches: `NodeBundleSource.shared`, `LocalKinds`, `ParseCache`); all 663 pass now | change `scripts/test-quick.ts` to spawn 6 chunk processes (the measuring script is `evidence-tools/test-loop/run6.sh`); run it 20 times with shuffled chunk order to flush order dependence |
 | 2 | **Incremental typecheck** (`tsc --incremental --tsBuildInfoFile node_modules/.cache/tsc-*`) for both projects | avoid | root 19 → **4.0 s measured** warm; web 10.6 → est. 3 s | none for correctness (tsc's own); stale buildinfo after a branch switch is self-correcting | add `typecheck:fast`; time ten edit/check cycles |
 | 3 | **ESLint's cache** (`--cache --cache-location node_modules/.cache/eslint`) | avoid | 24 → **1.7 s measured** warm | type-aware rules can miss a cross-file type change for an unchanged file; CI keeps the full uncached lint | add `lint:fast`; compare its findings with `lint` on ten real commits |
 | 4 | **Keep started worlds**: a content-addressed store of started sessions (seed + options + hash of `src/` and `data/`), as `ParseStore` keeps parses; specs ask for a started world and get a resumed copy | avoid | generated-world start 8.9 → **1.1 s measured** (cold process); 258 files, 37 % of CI time | a stale snapshot if the key misses an input (the assembler reads `data/` widely: key on all of it); specs that assert the start itself must still start | a helper `Worlds.started('a1', opts)` in `test/support`; move the six specs pinned to `standing: []` today (vantage, weary-fights, voice, deep-rivals, wild-meetings, companion-sensed) to it and compare their time and results |

@@ -1,7 +1,6 @@
 import type { ReaderApp } from '../reader-app';
 import { Typography } from '../../../src/presentation/typography';
 import { Words } from '../words';
-import { Glyphs } from '../creation/glyphs';
 import { Pip } from './pip';
 import { AtHand } from './at-hand';
 import { GlanceStage } from './glance';
@@ -24,12 +23,12 @@ export class Lenses {
     return (
       <ul className={`lens-strip lens-${part}`} aria-label={part === 'go' ? 'Where you could go' : 'What is at hand'}>
         {tiles.map(t => <li key={t.id}>
-          <button type="button" className={`lens-tile${t.chosen ? ' chosen' : ''}${t.dim ? ' dim' : ''}`}
-            data-tile={t.id} aria-pressed={t.chosen} onClick={t.pick}>
-            <span className="lens-face" aria-hidden="true">
-              {t.picture ? <img src={t.picture} alt="" decoding="async" />
-                : t.glyph ? <span className="lens-glyph">{t.glyph}</span> : <Glyphs.View id="look_about" className="emblem" />}
-            </span>
+          {/* One with a picture is its face and name; one without, its name and pip alone (a chip), with the way's
+              direction where it goes out of the place. */}
+          <button type="button" className={`lens-tile${t.picture ? '' : ' bare'}${t.chosen ? ' chosen' : ''}`
+            + `${t.dim ? ' dim' : ''}`} data-tile={t.id} aria-pressed={t.chosen} onClick={t.pick}>
+            {t.picture ? <span className="lens-face" aria-hidden="true"><img src={t.picture} alt="" decoding="async" /></span>
+              : t.glyph && t.glyph !== '·' && <span className="lens-glyph" aria-hidden="true">{t.glyph}</span>}
             {t.tone && <Pip.View fill={`var(--tone-${t.tone})`} faint={t.faint} />}
             <span className="lens-name">{Typography.curl(Words.upper(t.name))}</span>
           </button></li>)}
