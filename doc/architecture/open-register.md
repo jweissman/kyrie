@@ -177,7 +177,7 @@ claims nothing beyond what the sources say.
 | NP-14 | A companion "binds the hurt" when nobody is hurt | UNT-107 | Open risk, unverified since 6 Nov | P3 | M21 |
 | NP-15 | A wait in a room repeats the room's description every hour | M19-263 | Open, not verified (10 Nov) | P3 | M21 |
 | NP-16 | Text slips (a lintel's spelling, a sentence twice, "their breath" of a man, a card clipped, a file name as a caption) | M19-283 (rest) | Partial, the rest not verified (10 Nov) | P3 | M20 close |
-| NP-17 | Raw museum captions and credits on portraits (Lem) | R6-I top3, E31, UNT-111 | Round 6 still saw them (11 Nov) | P2 | M20 close |
+| NP-17 | Raw museum captions and credits on portraits (Lem) | R6-I top3, E31, UNT-111, E152 | **Fixed** (11 Nov night, E152): credits name the painter and do not shout the title (test/paintings); not seen rendered | P2 | M20 close |
 | NP-18 | Ordering slips: a milestone told on the next step; a greeting after a scripted reaction; a tame bear greets while asleep | UNT-219, UNT-220, UNT-221 | Open risk, unverified since 6 Nov | P3 | later |
 
 ## 6. UI & safe zones
