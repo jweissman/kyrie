@@ -111,7 +111,7 @@ Module arcology "The Numbered House" {
     Assert strikes(slide, party).
   }
   Hazard slide "The deck throws you down the span" means "Deal (1d6) physical damage to ally unless dexterity save against (12).".
-  Rule deck_rights when state(deck, canted) and cantedAt(deck) + 6 <= watch(clock) says "Somewhere in the gulf, a catch drops, and the deck comes back to level with a long groan of chains." { Assert state(deck, level). }
+  Rule deck_rights heard at bridge_near when state(deck, canted) and cantedAt(deck) + 6 <= watch(clock) says "Somewhere in the gulf, a catch drops, and the deck comes back to level with a long groan of chains." { Assert state(deck, level). }
   Observe bridge_canted at bridge_near when state(deck, canted) "The deck lies tilted, slanting down to the left, and the chains are quivering. Whatever happened out there, the Bridge will not hold anyone until it rights itself.".
 
   // --- the Great Void: the rim, the stalled lift, and the foot -------------------------------------------------

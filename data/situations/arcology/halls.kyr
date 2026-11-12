@@ -124,7 +124,7 @@ Module arcology "The Numbered House" {
     Assert state(drawer, jammed). Retract pressed(drawer). Increase hum(house) by 1. Set humAt(house) to watch(clock). Set jamAt(drawer) to watch(clock).
   }
   Measure jamAt(entity).
-  Rule ring_unjams when state(drawer, jammed) and jamAt(drawer) + 6 <= watch(clock) says "The drawer's jam lets go with a click, and the ring stands free again." { Assert state(drawer, locked). }
+  Rule ring_unjams heard at drawers when state(drawer, jammed) and jamAt(drawer) + 6 <= watch(clock) says "The drawer's jam lets go with a click, and the ring stands free again." { Assert state(drawer, locked). }
   Observe monks_2 at drawers as sign when target(ring) == 2 "Scratched on the brass beside the ring, in a rough hand, a column of figures with a line through each: THREE, FOUR, SIX. They tried them in order, and the drawer jammed, and a monk wrote the next beside it.".
   Observe monks_3 at drawers as sign when target(ring) == 3 "Scratched on the brass beside the ring, in a rough hand, a column of figures with a line through each: TWO, FIVE, SIX. They tried them in order, and the drawer jammed, and a monk wrote the next beside it.".
   Observe monks_4 at drawers as sign when target(ring) == 4 "Scratched on the brass beside the ring, in a rough hand, a column of figures with a line through each: TWO, THREE, SIX. They tried them in order, and the drawer jammed, and a monk wrote the next beside it.".

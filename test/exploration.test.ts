@@ -26,7 +26,9 @@ describe('exploring the open country', () => {
     }
     const before = j.screen().region!.land!;
     await j.step('^Look out over the country from here');
-    const after = j.screen().region!.land!, tower = after.marks.find(m => /tower/.test(m.name));
+    // What stands up from the land a long way off, seen from here on land not known before (a walled keep on its rise:
+    // "the gate-tower" of the town, a room the standing scenarios keep, is no landmark of the country).
+    const after = j.screen().region!.land!, tower = after.marks.find(m => m.state === 'seen' && !before.known.includes(m.cell));
     // The country as far as the eye goes from the fells, three hexes every way, is known (counted by the hexes in
     // sight, not by how many more are known: the land under every place named and every road to it had come with
     // what was seen, and had made the count, until OWN-23).

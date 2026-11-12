@@ -1,3 +1,4 @@
+import { ModuleWriter } from '../src/lang/module-writer';
 import { describe, expect, it } from 'bun:test';
 import { DrawnWorld } from '../src/world/drawn-world';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
@@ -52,6 +53,11 @@ describe('the three forms of a tie', () => {
       const s = await found(seed, form), [role, ask] = asks[form], j = await start(seed);
       // (Walking through a town can already teach the place's name, in which case the ask is not offered: it is `?`.)
       await j.play(`>${at(j, s.t, role)}`, `?${ask}`);
+      // What the way there stirred up is not the tie's: a toll run past on a road the standing scenarios now cross had
+      // the lord's riders take the company in the middle of the wait.
+      const c = j.campaign;
+      c.commitWorld(c.world.apply(c.world.related('hostile').filter(r => r.args[1] === c.playerActor)
+        .map(r => ({ kind: 'retract' as const, call: ModuleWriter.call('hostile', ...r.args) }))));
       expect(holds(j, 'tie_lost', s.t)).toBe(false);
       const told = await j.play(`=+${wait}`);
       expect(holds(j, 'tie_lost', s.t)).toBe(true);

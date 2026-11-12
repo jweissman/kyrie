@@ -88,7 +88,7 @@ Module silent_lord "The silent lord" {
     Role "a girl of fourteen in a travelling cloak, the lord's ward". Ancestry human. Calling commoner. Level 1. Peaceable. Manner cheerful. Pronouns she.
     Greets "A girl in a travelling cloak, whose hands are red with the cold, looks round the ward as if she had known it all her life and had been told it was smaller. 'I am {heir},' she says. 'Where is my uncle? They said the chaplain wrote.'".
   }
-  Rule heir_arrives when state(banner, regency) and aftermath(house) and day(clock) >= feastDay(house) + 7 and not at(heir, ward) and not dead(castellan) says "A girl in a travelling cloak rides in at the gate on a borrowed pony, with a nun on a mule behind her." {
+  Rule heir_arrives heard at ward when state(banner, regency) and aftermath(house) and day(clock) >= feastDay(house) + 7 and not at(heir, ward) and not dead(castellan) says "A girl in a travelling cloak rides in at the gate on a borrowed pony, with a nun on a mule behind her." {
     Assert at(heir, ward).
   }
 

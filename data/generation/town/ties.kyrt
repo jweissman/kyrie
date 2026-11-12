@@ -26,6 +26,9 @@
   Relation {t}_tie_nan_first(group). Relation {t}_tie_hope(group).
   Kind {t}_tie_kind "a hand-sewn pouch" is treasure worth 3 weighing 1 described "A small pouch of grey linen, sewn by someone who took care, with two letters stitched on the flap in red thread: the way a mother marks what her child will carry.".
   Item {t}_tie_token "a hand-sewn pouch" is {t}_tie_kind at {site}.
+  // Whose it is, so that it is taken as hers to give back, never as spoils for a debt (the integration of the
+  // adventure branch: a debtor's gold had led to the tie's measure as coin, and lost the debt).
+  Initially Assert owns({t}_tie_nan, {t}_tie_token).
   Person {t}_tie_nan "the old woman in the doorway" at {t}_green {
     Role "the innkeeper's mother, who has not been out of her chair since the harvest and who asks, every morning, whether the lamp has been lit". Ancestry human. Peaceable. Manner stoic. Pronouns she.
     Seen when not {t}_tie_lost(party).
@@ -66,6 +69,7 @@
   Relation {t}_tie_gone(group). Relation {t}_tie_back(group).
   Kind {t}_tie_kind "a brass-bound measure" is treasure worth 6 weighing 2 described "A brass-bound dry measure with the merchant's pierced mark struck in the rim and a dent on the side: lent to somebody who needed to know how much a thing was worth, and not brought back.".
   Item {t}_tie_token "a brass-bound measure" is {t}_tie_kind at {site}.
+  Initially Assert owns({t}_merchant, {t}_tie_token).
   Person {t}_tie_heir "the surveyor's son" at {t}_green {
     Role "a young man in a good coat, who says the measure was his father's by gift and means to bring it home before anyone makes a fuss". Ancestry human. Peaceable. Manner proud. Pronouns he.
     Seen when not {t}_tie_gone(party) or {t}_tie_back(party).

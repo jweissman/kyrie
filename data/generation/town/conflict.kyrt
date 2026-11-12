@@ -14,8 +14,11 @@
     Role "the Road's bailiff, who collects dues for the keeping of the old road in the name of the Office of the Road, over a seal that is nearly right". Ancestry human. Calling thief. Level 3. Peaceable. Manner proud. Pronouns she.
     Greets "A woman in a good grey riding-coat looks up from a ledger at a trestle table under the well, a lead seal on a cord at her neck. 'Dues,' says Maudlin Rooke, pleasantly. 'For the keeping of the road. Or are you a guest?'".
   }
+  // Wary: they do nothing until the bailiff is challenged and they are set upon, as their role says ("have not been
+  // asked to do anything yet"). Territorial, they fell on any company that stayed on the green, and killed one
+  // waiting there for the town to change (the integration of the adventure branch, ties-forms in thorn).
   Person {t}_rooke_men "the bailiff's men" at {b}_green {
-    Role "deserters out of work, who stand behind the bailiff's table and have not been asked to do anything yet". Ancestry human. Calling warrior. Numbers 2. Level 1. Temperament territorial. Lair {b}_green.
+    Role "deserters out of work, who stand behind the bailiff's table and have not been asked to do anything yet". Ancestry human. Calling warrior. Numbers 2. Level 1. Temperament wary. Lair {b}_green.
     Seen when {t}_rooke_challenged(party).
     Warns "Two men who have been leaning on the wall come off it together, and the one in front puts his hand on the pommel of a sword he has not used in some time.".
   }
