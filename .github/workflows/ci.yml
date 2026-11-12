@@ -50,11 +50,13 @@ jobs:
   # Six since 10 November: the first of five had run to its forty-five minutes and been cancelled in every run seen
   # (the throughput review's, and the three of the contracts branch), so that its specs were never seen to pass.
   suite:
-    name: suite ${{ matrix.shard }}/6
+    name: suite ${{ matrix.shard }}/8
     runs-on: ubuntu-latest
     # Forty-five while the Book of Faces' specs are balanced by estimates, not kept timings (a shard ran past thirty).
+    # Eight shards since the adventure branch's standing scenarios joined every country: its worlds are larger, and four
+    # of six shards ran past their forty-five minutes (CI on integrate/first-steps, 12 November).
     timeout-minutes: 45
-    strategy: { fail-fast: false, matrix: { shard: [1, 2, 3, 4, 5, 6] } }
+    strategy: { fail-fast: false, matrix: { shard: [1, 2, 3, 4, 5, 6, 7, 8] } }
     steps:
       - uses: actions/checkout@v4
         with: { path: kyrie }
@@ -65,9 +67,9 @@ jobs:
       - uses: oven-sh/setup-bun@v2
         with: { bun-version: 1.4.3 }
       - run: bun install --frozen-lockfile
-      - run: bun test --parallel --shard=${{ matrix.shard }}/6 --timings=test/timings.json --reporter=junit --reporter-outfile=junit.xml
+      - run: bun test --parallel --shard=${{ matrix.shard }}/8 --timings=test/timings.json --reporter=junit --reporter-outfile=junit.xml
       - if: always()
-        run: bun scripts/test-summary.ts junit.xml --title "Suite, shard ${{ matrix.shard }} of 6"
+        run: bun scripts/test-summary.ts junit.xml --title "Suite, shard ${{ matrix.shard }} of 8"
       # Kept, so that the files' times can be read back into test/timings.json (scripts/timings-from-ci.ts).
       - if: always()
         uses: actions/upload-artifact@v4
