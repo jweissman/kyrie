@@ -41,7 +41,7 @@ Module walk "The Walk of the Milestones" {
     Arrives at green_a when day(clock) >= 2.
     Arrives "A girl in a curate's grey comes out of the shrine on the first town's green and stands on the step with her hands wrapped in her stole, looking at the singing walkers as one looks at a feast through a window.".
 
-    Role "the first town's curate, a girl in grey with her stole on crooked". Calling cleric. Level 1. Peaceable. Manner compassionate. Pronouns she.
+    Role "the first town's curate, a girl in grey with her stole on crooked". Ancestry human. Calling cleric. Level 1. Peaceable. Manner compassionate. Pronouns she.
     Greets "A girl in a curate's grey comes at you with both hands out before you have finished stopping. 'You are from the town? Oh, good, someone from the town, I have been wanting to ask someone. Is it true that Father says the chain is for our own good? Because he said it to me, quite kindly, and I said, Father, there is nothing in the canons about a chain, and he said there did not need to be, and I thought, well, that is the sort of thing one says —' She stops for air. 'I am Wenna. I am not supposed to be talking to you. Is that all right?'".
   }
   Rule leg_leader_1 when day(clock) >= 2 and at_leg(leader) == 0 and not dead(leader) { Assert at(leader, camp_a). Set at_leg(leader) to 1. }
