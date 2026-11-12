@@ -176,15 +176,18 @@ export class GlanceStage {
       <p className="openers">
         {back && <Act.View choice={back} draw={draw} quiet className="opener opens-back">
           {Typography.curl(`Back: ${back.label.charAt(0).toLowerCase()}${back.label.slice(1)}`)}</Act.View>}
-        {posted && !drawn.some(d => d?.id === posted.id) && <Act.View choice={posted} draw={draw} quiet className="opener opens-posted">
+        {/* What can change the world is drawn as a thing to do, a row with its line at the left, not a bare link (the
+            owner, 12 November: "The dues-receipt nailed to the post…" as a link); only the ways on stay quiet words. */}
+        {posted && !drawn.some(d => d?.id === posted.id) && <Act.View choice={posted} draw={draw} quiet className="opener opens-posted as-act">
           {Typography.curl(posted.label)}</Act.View>}
-        {yours && <Act.View choice={yours} draw={draw} quiet className="opener opens-yours led">
+        {yours && <Act.View choice={yours} draw={draw} quiet className="opener opens-yours led as-act">
           {Typography.curl(yours.label)}</Act.View>}
         {only ? <Act.View choice={only.c} draw={draw} quiet
           className={`opener opens-go${only.aim === 'followed' ? ' led' : ''}`}>
           {Typography.curl(`To ${only.name}…`)}</Act.View>
           : !railed && <Explorer.Opener app={app} part="go" label="Go…" led={SceneRail.goes(app, ways)} />}
-        {found && <Explorer.Opener app={app} part="look" label={`${found.name}…`} led={GlanceStage.serves(app, [found])} />}
+        {found && <Explorer.Opener app={app} part="look" label={`${found.name}…`} led={GlanceStage.serves(app, [found])}
+          act />}
         {/* Go, Look, Wait and Search are the scene's rail, apart from what is told and led with (see SceneRail). */}
         {!railed && hand.length > 0 && <Explorer.Opener app={app} part="look" label="Look…" led={GlanceStage.serves(app, hand)} />}
         {!railed && Pastime.wait(app) && <Explorer.Opener app={app} part="wait" label="Wait…" glyph="wait" />}

@@ -70,7 +70,7 @@ html, body { overflow: hidden; }
   justify-content: center; width: 100%; min-height: 54px; padding: 8px 40px; color: var(--dim); text-decoration: none;
   -webkit-tap-highlight-color: transparent; transition: color var(--quick); }
 .way-in .n { font: 500 15px/1.2 var(--do); letter-spacing: .26em; text-transform: uppercase; padding-left: .26em; }
-.way-in .why { font: italic 400 14.5px/1.35 var(--told); color: var(--faint); margin-top: 4px; letter-spacing: 0; }
+.way-in .why { font: italic 400 14.5px/1.35 var(--told); color: var(--dim); margin-top: 4px; letter-spacing: 0; }
 .way-in[aria-current="true"], .way-in:hover, .way-in:focus-visible { color: var(--ivory); outline: none; }
 .way-in[aria-current="true"] .why { color: var(--dim); }
 .way-in:active .n { transform: translateY(1px); color: var(--accent); }
@@ -84,12 +84,12 @@ html, body { overflow: hidden; }
 .title-menu .indicator::before { left: 1px; }
 .title-menu .indicator::after { right: 1px; }
 .title-page .credit { position: absolute; left: max(20px, env(safe-area-inset-left)); bottom: max(16px, env(safe-area-inset-bottom));
-  margin: 0; font: 400 11.5px var(--do); color: var(--faint); letter-spacing: .04em; }
+  margin: 0; font: 400 11.5px var(--do); color: var(--dim); letter-spacing: .04em; }
 /* The light the title stands in: a warm glow behind the name, low and wide, as off a hearth; the painting drifting
    very slowly closer once the title is up; and sparks going up through it (TitlePage.Motes). Still for one who asks
    for less motion. */
 .title-page .build { position: absolute; right: max(20px, env(safe-area-inset-right)); bottom: max(16px, env(safe-area-inset-bottom));
-  margin: 0; font: 400 11px var(--do); letter-spacing: .06em; color: var(--faint); }
+  margin: 0; font: 400 11px var(--do); letter-spacing: .06em; color: var(--dim); }
 .title-page::before { content: ''; position: absolute; inset: 0; pointer-events: none;
   background: radial-gradient(ellipse 46% 30% at 50% 40%, rgba(242, 189, 76, .10), transparent 70%),
     linear-gradient(180deg, transparent 55%, rgba(10, 11, 14, .65)); }
@@ -173,7 +173,9 @@ html, body { overflow: hidden; }
 .shell.creating { --frame-w: 100vw; --frame-h: 100dvh; }
 .shell.creating .frame { background: transparent; border: 0; box-shadow: none; }
 .shell.creating .frame::after { display: none; }
-.shell.creating .ambient { filter: var(--plate-near); }
+/* Creation's painting is atmosphere, far and dark, not a picture behind words to be read (the owner, 12 November:
+   the character pages need no full painterly ground; their explanations had stood in grey over the raw image). */
+.shell.creating .ambient { filter: var(--plate-far); }
 .creation { position: relative; height: var(--frame-h); }
 .creation-body { height: 100%; overflow-y: auto; overscroll-behavior: contain; display: flex; flex-direction: column;
   align-items: center; padding: 0 var(--safe-r) 0 var(--safe-l); }
@@ -320,9 +322,11 @@ html, body { overflow: hidden; }
 /* What is behind Details: a dark veil over the page, the title centred as the page's question is, the words beneath
    scrolling downward, Close a quiet word in the corner. */
 .creation-sheet { position: fixed; inset: 0; z-index: 40; display: flex; justify-content: center;
-  padding: clamp(56px, 9vh, 104px) 16px 0; background: var(--veil); backdrop-filter: blur(8px);
+  /* Opaque: what a choice means is read on a ground of its own, not over the page and its painting (the owner,
+     12 November: explanations in grey over raw images). */
+  padding: clamp(56px, 9vh, 104px) 16px 0; background: var(--ground);
   animation: arrive var(--settle) var(--ease) both; }
-.sheet-close { position: absolute; top: max(14px, env(safe-area-inset-top)); right: clamp(16px, 3vw, 40px); }
+.sheet-close { position: absolute; top: var(--safe-t); right: var(--safe-r); }
 .sheet-panel { min-width: min(100%, 24rem); max-width: min(100%, 44rem); max-height: 100%; display: flex;
   flex-direction: column; }
 .sheet-panel h2 { margin: 0 0 clamp(14px, 2.6vh, 26px); font: italic 400 clamp(28px, 3vw, 38px)/1.15 var(--told);

@@ -27,6 +27,14 @@ needs more content.
 7. **The parse store on CI** (T24-10) and `--no-isolate` for CI's suite shards once the quick suite has run it for a
    week without a leak.
 
+8. **Focus as an engine concept** (the owner, 12 November): attending to a thing (a notice, a door, a body) is today
+   the browser's own machinery (`AtHand`, `Explorer`, the Look panel in `web/reader`); the terminal and `serve` cannot
+   express it, which is why round 12's headless reviewers found steps only under `all`. Make focus runtime state, with
+   its acts and narration, rendered alike by every client (it is also the ground for the lenses and the promise
+   contract).
+9. **CI's suite with `--no-isolate`** (one module registry a worker), as the quick suite already runs (34 → 10 s): one
+   run on a side branch, compared spec by spec with main; adopt if no state leaks.
+
 Not first: a REPL, an MCP server or a new command language (the kernel already compiles, plays, inspects and replays a
 small Kyr situation in under a second; what is missing is tests that use it); a general lazy world.
 
