@@ -40,7 +40,7 @@ describe('Half the Hive: smaller stories', () => {
     const before = g.gold();
     await g.fixture('living');
     expect(g.measure('combsCut', 'honey_oak')).toBe(1);
-    expect(g.page).toMatch(/You learn hide/);
+    expect(g.page).toMatch(/You learn Hide\b/);
     expect(g.holds('breckPierced', 'brenna')).toBe(true);
     expect(g.gold()).toBeGreaterThan(before - 3);
     await g.until();

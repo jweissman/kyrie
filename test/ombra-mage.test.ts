@@ -140,7 +140,7 @@ describe('The Fit', () => {
     expect(g.j.choices().some(c => /prepare spells.*› Blur/i.test(c.full))).toBe(true);
     // The second-level lesson is real, but cannot be prepared by a first-level mage.
     await g.play('Train.{1,3}Mirror Image');
-    expect(g.page).toMatch(/learn mirror_image/);
+    expect(g.page).toMatch(/learn Mirror Image/);
     expect(g.j.choices().some(c => /prepare spells.*› Mirror Image/i.test(c.full))).toBe(false);
     // On the ninth night, at the Urn, it is cast on the Offices.
     await drawing(g);
