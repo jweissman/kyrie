@@ -91,6 +91,8 @@ export interface Glance {
   acts: Promoted[];
   // At most three choice ids for the quiet row of ways, none of them among the acts.
   ways: string[];
+  // Inside a site or underground, the way the company came, open to it (an exit id): kept in sight on the scene.
+  back?: string;
   // Places left twice having done nothing there, with nothing new since (see CompanyRecall.idle): a way to one has
   // nothing new to give for now, and is drawn dim, though it can be taken (and is lit again when anything changes).
   idle?: string[];

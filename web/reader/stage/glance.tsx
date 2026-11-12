@@ -167,9 +167,13 @@ export class GlanceStage {
     const drawn = shown.map(a => GlanceStage.choice(app, a.choice));
     const found = GlanceStage.found(app, hand), yours = GlanceStage.yours(app, acts, [posted, search, ...drawn]);
     const railed = SceneRail.on(app);
+    // In a site or underground, the way back stays in sight, quietly, beside Go… (see CompanyRecall.back).
+    const back = GlanceStage.back(app, [only?.c, ...drawn]);
     return <>
       {shown.length > 0 && <GlanceStage.Acts app={app} draw={draw} acts={shown} top={top} />}
       <p className="openers">
+        {back && <Act.View choice={back} draw={draw} quiet className="opener opens-back">
+          {Typography.curl(`Back: ${back.label.charAt(0).toLowerCase()}${back.label.slice(1)}`)}</Act.View>}
         {posted && <Act.View choice={posted} draw={draw} quiet className="opener opens-posted">
           {Typography.curl(posted.label)}</Act.View>}
         {yours && <Act.View choice={yours} draw={draw} quiet className="opener opens-yours led">
@@ -214,6 +218,11 @@ export class GlanceStage {
       : (app.menu.leads ?? g?.acts ?? []).filter(a => GlanceStage.aiming.has(a.why))
         .flatMap(a => GlanceStage.choice(app, a.choice)?.id ?? []));
     return hand.some(h => h.choices.some(c => ids.has(c.id)) || h.opens.some(id => ids.has(id)));
+  }
+  // The way back from a site or from under the ground, where it is not drawn already (see CompanyRecall.back).
+  static back(app: ReaderApp, drawn: (Choice | undefined)[]): Choice | undefined {
+    const id = app.state.frame?.leaf.glance?.back, c = id ? GlanceStage.choice(app, id) : undefined;
+    return c && !c.disabled && !drawn.some(d => d?.id === c.id) ? c : undefined;
   }
   // The choice that is the followed aim's one next step (Promoted.continues), as the page draws it.
   static next(app: ReaderApp): string | undefined {
