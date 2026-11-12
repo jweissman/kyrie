@@ -108,6 +108,9 @@
   align-items: baseline; gap: 8px; padding: 5px 8px 5px 6px; cursor: pointer; border-left: 2px solid transparent;
   font: 400 15.5px/1.3 var(--told); color: var(--ivory); }
 .wf-row .n { display: block; min-width: 0; }
+/* On a phone, inside the safe zone, what is perceived along a way is said under its name, not beside it: beside it, a
+   taproom's name had been squeezed to a third of its row (the world browser spec, 12 November). */
+@media (max-width: 899px) { .wf-row .wf-marks:not(:empty) { grid-column: 2 / -1; grid-row: 2; } }
 .wf-row .glyph { font: 400 12px/1 var(--do); color: var(--faint); text-align: center; }
 .wf-row .t { font: 400 12px/1 var(--do); color: var(--faint); letter-spacing: .04em; }
 /* A way's own marks (see Wayfinder.Marks): going over into the next stretch of country, in one quiet glyph; and what is
@@ -301,9 +304,10 @@
      iPad: the five-size walk, 11 November). */
   .scene-rail { bottom: calc(var(--safe-b) + 4px); }
   /* Who is here over the painting under the place's name, not under the sheet (as the phone rule above), inside the
-     safe zone on either side; with Talk on, the place's telling gives them its room (the panel had covered a second
-     row of them). Go's and Look's tiles give way to their lists in the panel, which a phone has room for alone. */
-  .shell.scene-full .world-page.scale-scene.talking .focus .told-col { display: none; }
+     safe zone on either side; with Talk on, the place's standing telling gives them its room (the panel had covered
+     a second row of them); what was just done is still told. Go's and Look's tiles give way to their lists in the panel, which a phone has room for alone. */
+  .shell.scene-full .world-page.scale-scene.talking .focus .told-col :is(.setting, .life, .changed, .first-goal, .sight) {
+    display: none; }
   .shell.scene-full .world-page.scale-scene .surface .portraits { z-index: 5; }
   .shell.scene-full .world-page .surface .lens-strip { display: none; }
   /* Seven marks inside a phone's zone. */

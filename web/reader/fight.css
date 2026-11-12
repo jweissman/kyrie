@@ -159,7 +159,8 @@
   .fight .beat .what.earlier { display: none; }
   .fight .moves .act { min-width: 7.5rem; min-height: 50px; padding: 8px 12px 8px 30px; font-size: 14px; }
   .fight .fighter { padding: 10px 11px; }
-  .fight .fighter.faced { --panel: clamp(56px, 34cqw, 72px); padding: 10px 9px 10px calc(var(--panel) + 9px); }
+  /* 48px at least: inside the safe zone a card is narrower, and 56 had been more than a third of it (12 November). */
+  .fight .fighter.faced { --panel: clamp(48px, 34cqw, 72px); padding: 10px 9px 10px calc(var(--panel) + 9px); }
   .fight .fighter .face.plate { font-size: 24px; }
   /* A phone's narrow card: the name whole beside what is left of them where both fit ("Bran" had been "Br…" beside
      "15 of 15"), what is left under it where they do not; only a name longer than the card is cut short. */
