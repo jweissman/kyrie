@@ -35,7 +35,7 @@ export class CallingStep {
   static facts(c: Calling, catalog: Catalog): string[] {
     const kinds = [...new Set(c.weapons.map(w => CreationRules.group(w.kind).toLowerCase()))];
     const worn = c.armour.split(', ').filter(a => a !== 'clothing');
-    return [c.text, `Hit points: ${c.hitDie} at first level, ${c.hitDie / 2} more at each level after.`,
+    return [c.text, `Hit points: ${c.hitDie} at first level, a roll of 1d${c.hitDie} more at each level after.`,
       worn.length ? `Wears ${worn.join(', ')}.` : 'Wears no armour.',
       c.weapons.length ? `Fights with ${c.weapons.length > 30 ? 'any weapon' : kinds.join(', ')}.` : 'Fights with bare hands.',
       ...c.skills.length ? [`Knows ${c.skills.map(k => k.toLowerCase()).join(', ')}.`] : [],

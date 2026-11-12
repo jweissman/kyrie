@@ -49,7 +49,7 @@ export class CreationRules {
         `A shot with a bow, a sling or a dart: ${f} to hit, ${harm} to the harm it does.`,
         `Going unseen, locks and traps: ${k} to the roll. Getting out of the way of a blast: ${save}.`];
       case 'constitution': return [`Hit points: your calling's die${calling ? ` (${calling.hitDie})` : ''} at first level`
-        + `${this.fight(score) > 0 ? `, and ${this.fight(score)} more` : ''}; half the die again at each level after, ${f}.`,
+        + `${this.fight(score) > 0 ? `, and ${this.fight(score)} more` : ''}; a roll of the die at each level after, ${f}.`,
       `Against poison, disease, bleeding, stunning, breath and the cold: ${save}. Digging: ${k} to the roll.`];
       case 'intelligence': return [`Old histories, scripts and the workings of magic: ${k} to the roll. Against`
         + ` madness: ${save}.`, ...spells];
