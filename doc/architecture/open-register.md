@@ -451,6 +451,22 @@ on 11 November. The branch itself is not merged: the owner is not ready to integ
 | AB-13 | Specs that choose which standing scenarios a world holds | R88 | open | P2 | M21 (testing) |
 | AB-14 | Declarations that fail late: shared relation names, a new site kind needing three edits, a module without milestones | R42, R39, R59 | open | P2 | M21 (authoring) |
 | R7-01 | Torches die in the middle of an act, and nothing says so | round 7, L 84, 96 | **fixed** (E145) | P2 | — |
-| R7-02 | Fights trivial with a warrior in the company; a bard "barely played" (lore, Charm Person, gliding never came up); a speaking castellan with no way to answer | round 7, L | open | P1 | M21 (with CB-01) |
-| R7-03 | Go… lists every place in town as "20 minutes"; the conversation log grows without end | round 7, L | open | P3 | M21 |
+| R7-02 | Fights trivial with a warrior in the company; a bard "barely played" (lore, Charm Person, gliding never came up); a speaking castellan with no way to answer | round 7, L | **in part** (11 Nov night): the castellan can be answered (E150); fights and a bard's other gifts open | P1 | M21 (with CB-01) |
+| R7-03 | Go… lists every place in town as "20 minutes"; the conversation log grows without end | round 7, L | **fixed** (11 Nov night): true minutes (E149), the log folded (E151); the list still flat | P3 | M21 |
 | R7-04 | A town known only by report has no route line before setting out (the owner's rule of 29 October: heard of is a marker only); both players missed one | round 7, K, L | by design; worth the owner's look | P3 | owner |
+
+## 17. Integrating the adventure branch (12 November, early)
+
+The branch's own integration notes (`activation/integration-notes.md`, at 98ad43eb) and what the scratch merge on
+`review/first-steps` found. Its rows are open until the merge is on main.
+
+| Id | What | Source | Status | Pri | When |
+|---|---|---|---|---|---|
+| AI-01 | The thorn long descent fails at choice 62: the first town's shop stock was redrawn when the standing scenarios came in | integration notes §1 | open: re-record `test/fixtures/descent/thorn.choices` once the draws settle (CI's long descents) | P2 | M20 |
+| AI-02 | `silent-lord-turns`' "forged remission" fails when rain puts a ford in spate (`Journey.way` ignores `hazardous`) | integration notes §1 | open | P3 | M20 |
+| AI-03 | The new specs have no time in test/timings.json (several take 5 to 15 minutes) | integration notes §1 | open: `scripts/timings-from-ci.ts` after the first CI run with them | P2 | M20 |
+| AI-04 | The first green is busier: 3 to 4 more people and about 170 to 190 more words on arrival (four seeds measured), the Walk's unchanged well, post, shrine and gate told as "as it was" (now silent), and a newcomer who reads everything takes 46 commands to an adventure in mere (24 before) | the scratch merge | in part: the Walk's baseline lines silenced; portraits stay capped at ten; the newcomer's bounds widened with the reason | P1 | M20 (judge in cold play) |
+| AI-05 | The Bound Howe's lead is held to day 3 so the honest start still goes under the town | integration notes §1 | the branch's decision, kept; the owner's to move | P3 | — |
+| AI-06 | R96 (rotating the altered-law provinces per world) and R97 (retiring `oldcoin` and `quarrel`, which the wanderer origin's arrivals name) | integration notes §5 | open, M20's first hour is touched by R97 | P3 | M21 |
+| AI-07 | Cold play on the branch: one of three blind players entered a new module; none played one to an ending or fought its dangerous opponents | final report §3 | open: the round after the merge should try one | P1 | M20 close |
+
