@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "name": "The Patient Star, late: mage, warrior",
+  "calendar": { "year": 380, "month": 6, "day": 25 },
+  "modules": [ { "id": "season", "bundle": "module.json" } ],
+  "party": [
+    { "name": "Mira", "raceId": "human", "classId": "mage", "backgroundId": "miner", "level": 6 },
+    { "name": "Bran", "raceId": "human", "classId": "warrior", "backgroundId": "locksmith", "traits": ["toughness"], "level": 6 }
+  ]
+}

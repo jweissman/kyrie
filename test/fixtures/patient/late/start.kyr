@@ -1,0 +1,9 @@
+Module season "The Patient Star, late" {
+  // The Corbel is eighteen hundred and ten metres above the Pit, the Concord has been called and has chosen nothing, the
+  // company has seen the held fed and has some money by it (a fixture's facts; the decree, the train and what follows
+  // are the module's own).
+  Initially Set corbelHeight(corbel_site) to 1810.
+  Initially Assert convened(chapter).
+  Initially Assert knows(party, held_feed).
+  Initially Set quantity(party, gold) to 90.
+}

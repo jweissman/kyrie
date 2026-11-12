@@ -30,7 +30,13 @@
     "cloudgate_fell"
   ],
   "imports": [
-    "party"
+    "party",
+    "word",
+    "word_covered",
+    "word_rebound",
+    "word_exiled",
+    "word_seated",
+    "word_unbound"
   ],
   "roles": {
     "party": {
@@ -41,5 +47,13 @@
     "party": "party",
     "region": "ghessil",
     "square": "square"
-  }
+  },
+  "optional": [
+    "word",
+    "word_covered",
+    "word_rebound",
+    "word_exiled",
+    "word_seated",
+    "word_unbound"
+  ]
 }

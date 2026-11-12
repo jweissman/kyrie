@@ -547,3 +547,28 @@ Every authored province is placed in every generated world (the census: 27 of 27
 
 ### R97. Retiring a scenario that an origin's arrival names
 The assessment proposed folding the two thinnest goings-on, `oldcoin` and `quarrel`, into a larger shared-state conflict. They are named by `data/origins/wanderer/arrivals.json` (the wanderer origin's arrival facts `quarrel.feud` and `oldcoin.coin_talk`), by `data/situations/brood-hollow/module.json` and by four specs, so retiring them is a change to M20's first hour. *Not done.* *Proposal:* when M20 next touches the wanderer origin, point those two arrival facts at the Walk of the Milestones' hooks (`walk_heard`) and the Fellowship's, then remove both from `library.json`; the files can stay as fixtures.
+
+## Branch `adventure/p4-second-pass` (Let One Remember and the Patient Star; R105 to R108)
+
+*Met while giving the two modules real `Ending`s, an opposition that acts, and a wait that shows what the world does (`doc/architecture/activation/corpus/second-pass.md`). Each was worked round in Kyr and Deem alone.*
+
+### R105. An `Ending` closes the book, so the places "afterwards" can never be seen in a game played alone
+
+*Problem.* The second pass asks that each ending leave a persistent consequence in the module's own places (the Shift Market, the Mutual's hall, Hornwake's wagons, Keld's green). In a generated world the chapter closes and the world goes on, so `Observe … when covered(ghessil)` is read there; played on its own, the page closes on the epilogue and the same observations are unreachable. The only evidence of them is therefore the world test, not a play.
+*Reproduce.* `test/patient-star-ends.test.ts`, "lets the covering finish": after `The Pit Covered` is reached, `choices()` is empty; `after_covered_square` (clock.kyr) cannot be stood in.
+*Request.* Either `Ending … continues.` (the epilogue is told, the chapter closes, and a game played alone also goes on, as a placed one does), or a one-line probe that walks a placed fixture after an ending without a host module. `src/lang/endings.ts`, a spec.
+
+### R106. A long clock cannot be waited out in a spec
+
+*Problem.* A wait is simulated hour by hour with the page built at each step: thirty days of the Patient Star cost 146 s (`test/zz` timing, 11 Nov), so the Corbel's own descent (3000 m at 2 m a day, the Crown's decree at day 720) cannot be waited to by any spec. The two new specs start the descent at 1810 m with `Initially Set corbelHeight(...)`, a fixture's asserted fact, and say so.
+*Request.* `Journey.fast('=N')` (or `PlaySession.advance(watches)`) that runs the rules without building the page or the choices, stopping at the first thing that would interrupt a company (an arrival, a warning, an ending). The loop is already in the Journey; the page build is the cost.
+
+### R107. `after.by` takes one word, so two things that happened cannot both be told
+
+*Problem.* The Corrow's news depends on how the road ended (one, given, none, followed) and on what became of the mountain (home on the shore, lost). `after.by` is the first stale word in key order, so the pair is flattened into six ways (`lost`, `home`, then the road's four) and `home` hides the road it came by. The same holds for the Ghessil Uplands' five ways.
+*Request.* `after.by` entries may name two words (`"home+one"`) and the more particular wins; the afters list in `src/world/region-borders.ts` already orders ways, so the change is a join in `afters`.
+
+### R108. A calling's action needs a `who: member` parameter and a label naming the member, and nothing says so
+
+*Problem.* `Requires … memberOf(m, actor) and hasCalling(m, calling_thief)` fails to load with `Invalid argument m in memberOf(m, actor)` (and the same for `who`) unless the action declares `who: member`; the error is attributed to an unrelated file and line (`tamaun.kyr:265`, `quell.kyr:2` for a rule in `clock.kyr`). The guide (`doc/authoring/guide.md`, callings) does not show an action with the parameter.
+*Request.* Name the action and line in the error, and add a three-line example to the guide's "Callings" section.
