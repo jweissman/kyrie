@@ -3,6 +3,7 @@ import { writeFile } from 'node:fs/promises';
 import { Content } from '../content';
 import { Campaign } from '../campaign/campaign';
 import { Battle } from '../battle';
+import { ActionTime } from '../campaign/action-time';
 import type { BattleState, Command } from '../model';
 import { Tactics } from '../tactics';
 import { CombatPresenter } from '../ui/combat-presenter';
@@ -85,7 +86,13 @@ export class Terminal {
     return { screen, leaf };
   }
   private static foreground(session: PlaySession, glance: ReturnType<typeof Narrator.leaf>['glance'], screen: Screen) {
-    const all = [...PlayerView.observe(session.campaign).choices];
+    // Each choice's minutes, as the page says them (ActionTime.minutes), not its ticks: "Bury him · 1 min" had taken
+    // two hours, a way into the next stretch of country listed in minutes took ninety (cold review A, 12 November).
+    const world = session.campaign.world;
+    const minutes = new Map(PlayerView.choices(session.campaign)
+      .map(r => [r.choice.id, ActionTime.minutes(r.action, world)]));
+    const all = PlayerView.observe(session.campaign).choices
+      .map(c => ({ ...c, time: minutes.get(c.id) ?? c.time * 10 }));
     for (const d of [...screen.destinations ?? [], ...screen.around ?? [], ...screen.roads ?? []]) {
       const id = `travel:${d.id}`;
       if (!all.some(c => c.id === id)) {
