@@ -81,10 +81,13 @@
   }
   Observe {t}_tie_seen at {site} when not holding(party, {t}_tie_kind) and not {t}_tie_done(party) and not {t}_tie_gone(party) "Under a flat stone by the way in lies something brass-bound and dented, put down carefully by someone who meant to come back for it with company.".
   Observe {t}_tie_beaten at {site} when {t}_tie_gone(party) and not holding(party, {t}_tie_kind) and not {t}_tie_done(party) "The flat stone by the way in has been turned over, not long ago: the grass beneath it is still pressed in the shape of something round, and there are the prints of good boots, going back the way they came.".
-  Rule {t}_tie_goes heard at {t}_green when not holding(party, {t}_tie_kind) and not {t}_tie_done(party) and not {t}_tie_gone(party) and watch(clock) >= 60 says "The surveyor's son has gone: his mule is not at the rail, and the boy at the stable says he was gone before light, with a spade." { Assert {t}_tie_gone(party). }
+  // News of what was done before light, seen on the green once it is so (the tie's emptiness below), not an event that
+  // breaks off whatever the company is doing there: heard, it had cut a wait for dark on the green (the integration of
+  // the adventure branch, glance-kite).
+  Rule {t}_tie_goes when not holding(party, {t}_tie_kind) and not {t}_tie_done(party) and not {t}_tie_gone(party) and watch(clock) >= 60 { Assert {t}_tie_gone(party). }
   Rule {t}_tie_takes when {t}_tie_gone(party) and at({t}_tie_token, {site}) { Retract at({t}_tie_token, {site}). }
   Rule {t}_tie_returns when {t}_tie_gone(party) and not {t}_tie_back(party) and watch(clock) >= 130 { Assert {t}_tie_back(party). }
-  Observe {t}_tie_empty at {t}_green when {t}_tie_gone(party) and not {t}_tie_back(party) "The surveyor's son is not at the well-curb. The merchant keeps looking up the road with the face of a person doing sums.".
+  Observe {t}_tie_empty at {t}_green when {t}_tie_gone(party) and not {t}_tie_back(party) "The surveyor's son has gone: his mule is not at the rail, and the boy at the stable says he was gone before light, with a spade. The merchant keeps looking up the road with the face of a person doing sums.".
   Observe {t}_tie_weights at {t}_green when {t}_tie_back(party) and not {t}_tie_done(party) and not {t}_tie_lost(party) "The surveyor's son has set out a table at the head of the market with a brass-bound measure on it, filled with water, and a small crowd in front, and a notice in a clerk's hand: HONEST BY THE TOWN'S OWN MEASURE.".
   Topic {t}_tie_buy with {t}_tie_heir "Buy the measure from the surveyor's son" when {t}_tie_back(party) and not {t}_tie_lost(party) and not {t}_tie_done(party) and quantity(party, gold) >= 12 once {
     Says "'Twelve,' says the surveyor's son, and takes it from you as if the coins were a courtesy. 'I shall tell people I sold it at a fair price to a gentleman who understood. It is only a measure, after all.' He sets it into your hands. The dent has been rubbed bright with a thumb. 'Tell the merchant it was the merchant's all along, if you like. I shall say it was handsome of me.'".

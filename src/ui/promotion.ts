@@ -55,8 +55,10 @@ export class Promotion {
     // A risk of the place's own (skittles) is led with only when there is nothing else.
     const choices = new Set(eligible.map(x => x.c.choice));
     const fit = eligible.filter(x => !(x.c.own && x.c.risk && x.best === 'own' && choices.size > 1));
+    // Of the place's own acts, its own (the notice of jobs on the well-post) before a thing's found in it (a forged
+    // seal's receipt): the town's offer to everyone first (the integration of the adventure branch).
     fit.sort((a, b) => this.ranked(a) - this.ranked(b) || Number(a.c.kind === 'attack') - Number(b.c.kind === 'attack')
-      || a.c.order - b.c.order);
+      || this.found(a) - this.found(b) || a.c.order - b.c.order);
     const subjects = new Set(fit.map(x => x.c.subject ?? x.c.choice)), picked: Promoted[] = [];
     // Someone to talk to is led with as well, two at most, and they take none of the three places (after the notice at
     // Millholm the three job-givers had taken them all, and only the map was led: M19-24); four in all, never padded
@@ -159,6 +161,7 @@ export class Promotion {
   private static ranked(x: { c: Candidate; best: Why }): number {
     return this.rank(x.best) + (x.c.kind === 'attack' && x.c.marks.some(m => m.danger === 'deadly') ? 5 : 0);
   }
+  private static found(x: { c: Candidate; best: Why }): number { return Number(x.best === 'own' && !!x.c.subject); }
   private static best(whys: Why[]): Why { return [...whys].sort((a, b) => this.rank(a) - this.rank(b))[0]!; }
   private static rank(w: Why): number { const [tier, n] = this.tiers[w]; return tier * 10 + n; }
   private static way(c: Candidate): boolean { return ['way', 'travel', 'step'].includes(c.kind); }

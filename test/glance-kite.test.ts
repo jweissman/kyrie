@@ -104,13 +104,15 @@ describe('kite at a glance', () => {
   it('meets the den with what can be done about it, and the attack weighed', async () => {
     const glance = await Kite.g.to('region__w11');
     expect(glance.life).toMatchObject({ subject: 'den__beasts', danger: true });
+    // Kite's den is led (Deem's richer dens: a leader among the beasts), and a led den is not smoked out: its pack and
+    // its leader are each met, a fight weighed for each.
     expect(glance.acts.slice(0, 2).map(a => [a.why, a.subject ?? a.exit])).toEqual([['danger', 'den__beasts'],
-      ['danger', 'den__beasts']]);
-    const [gentle, attack] = glance.acts;
-    expect(gentle!.command).toMatch(/^den__smoke_out\(/);
-    // Won, if not unhurt: fair, or hard where the trials found a fall (a lone warrior's fall ends the game).
-    expect(attack!.marks).toEqual([expect.objectContaining({ kind: 'fight' })]);
-    expect(['fair', 'hard']).toContain((attack!.marks[0] as { danger: string }).danger);
+      ['danger', 'den__leader']]);
+    for (const attack of glance.acts.slice(0, 2)) {
+      // Won, if not unhurt: fair, or hard where the trials found a fall (a lone warrior's fall ends the game).
+      expect(attack.marks).toEqual([expect.objectContaining({ kind: 'fight' })]);
+      expect(['fair', 'hard']).toContain((attack.marks[0] as { danger: string }).danger);
+    }
     expect(glance.acts.some(a => a.why === 'retreat')).toBe(false);
     Kite.drawn(Kite.g, glance);
   });
@@ -125,11 +127,11 @@ describe('kite at a glance', () => {
     expect(glance.ways.length).toBeGreaterThan(1);
     expect(Kite.g.screen.exits.filter(e => glance.ways.includes(e.id)).every(e => !!e.bearing)).toBe(true);
   });
-  it('offers the den\'s plunder at the den, not on the fells beside it, once its beasts are gone', async () => {
+  it('offers the den\'s plunder at the den, not on the fells beside it, once its beasts and their leader are gone', async () => {
     const c = Kite.g.campaign as unknown as { world: { apply(x: unknown[]): unknown }; commit(w: unknown): void };
-    c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('den__driven', 'den__beasts') },
-      { kind: 'assert', call: ModuleWriter.call('peaceable', 'den__beasts') },
-      { kind: 'retract', call: ModuleWriter.call('at', 'den__beasts', 'region__w11') }]));
+    c.commit(c.world.apply(['den__beasts', 'den__leader'].flatMap(who => [
+      { kind: 'assert', call: ModuleWriter.call('den__driven', who) }, { kind: 'assert', call: ModuleWriter.call('peaceable', who) },
+      { kind: 'retract', call: ModuleWriter.call('at', who, 'region__w11') }])));
     await Kite.g.choose(/^wait(\(|$)/);
     expect(Kite.g.legal().filter(id => id.includes('plunder'))).toEqual([]);
     const den = await Kite.g.to('region__w11');
