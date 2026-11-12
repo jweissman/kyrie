@@ -71,6 +71,12 @@ memory); the cross-mission reconciliation (`findings/briefs.md`) has no rows for
   are open and were never entered in a register; of the adventure branch's 14 author requests, 4 were done.
 - **Growth:** spec files 175 → 844; test lines 15k → 67k (4.4×) against src 28.6k → 49.4k (1.7×); CI from one job to
   ten shards; serial CI file-minutes ≈130 (M17) → ≈1 088 (integration branch).
+- **The register reconciled** (324 rows of `open-register.md`, classed by the words of each status cell: approximate,
+  method in `data/register-rows.csv`): **29 verified complete** (by spec or agent play; none by a person), **64
+  implemented but not adequately verified** (fixed in part, "addressed", or done only locally), **165 open** (many also
+  "unverified since" a date before 10 November), **52 deliberately deferred** (homed M21), **8 superseded or
+  consolidated**, **6 blocked on an owner decision**, **0 rejected**. Duplicates had been consolidated into problem
+  rows at M20's audit; the earlier mission registers are summarised, not merged, in `debt.md`.
 - **Systemic causes** (hypotheses unless marked): (1) **one promise/projection boundary**: the presentation infers what
   an act will do from words and partial state, so gold, pips that lead nowhere, stale offers, text against state and
   aim switches are one fault met through many channels, fixed one channel at a time (the keep-door P0 fixed in round 9

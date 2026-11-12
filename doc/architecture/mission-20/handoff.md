@@ -10,8 +10,12 @@ part was checked, what is still wrong, and, apart from both, what was registered
 
 ## Part 0. The landing (12 November, evening): read this first
 
-**Where things are.** Main is `__MAIN__`. It holds Mission 20's work, the adventure branch integrated (all its standing
-modules in every first country), and the after-cutoff fixes E205–E222 and T24-07…13. __CI__
+**Where things are.** Main is `74de47a2` (12 November, about 6 p.m. EST), landed from `integrate/first-steps`. It holds
+Mission 20's work, the adventure branch integrated (all its standing modules in every first country), the after-cutoff
+fixes E205–E223 and T24-07…19, and the retrospective (`retrospective/README.md`). **CI:** the integration branch's
+last full run (9e5643d6) was green but for two specs since fixed (set-out-page's route note; glance-kite's timing on
+CI's shared runners); main's own run on 74de47a2 is recorded in the closing note at the end of this file. One spec is
+skipped with its reason (AI-02); the narration budget spec is marked failing until the telling meets it.
 
 ### What Mission 20 achieved
 
@@ -631,3 +635,10 @@ Every failure tonight was a spec or a trace lagging a deliberate change, not a g
 with the reason recorded. Two specs were loosened, both to the owner's 12 November ruling and no further:
 - at most four led acts, not three;
 - a person offered by their likeness and at most one lead, not once.
+
+
+## Closing note: the landing (12 November, evening)
+
+Main fast-forwarded from b4f567df to 74de47a2 (`integrate/first-steps`): the adventure branch integrated, M20's work
+after the cutoff, and the retrospective. CI on 74de47a2: __MAINCI__. The owner's checkout was fast-forwarded; the
+owner's two untracked post-cutoff reviews were left in place.
