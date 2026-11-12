@@ -151,6 +151,24 @@ describe('the turning points of a fight', () => {
     expect(said.length).toBeLessThan(40);
     expect(new Set(said).size).toBe(said.length);
   });
+  // "Gunnvor swears under their breath and sets their feet again", of a dwarf woman (round 9, P).
+  it('speak of one of the company in the words the world says of her', async () => {
+    const { Barks } = await import('../src/narrative/barks');
+    // Each of a dozen, by their id a different manner (see Barks.context).
+    const said: string[] = [];
+    for (let k = 0; k < 12; k++) {
+      const fighters = [{ id: `a${k}`, name: 'Gunnvor', team: 'fighters', raceId: 'dwarf' },
+        { id: 'b', name: 'a wolf', team: 'beasts', raceId: 'wolf' }] as never[];
+      const barks = new Barks(fighters, 'k', new Map([[`a${k}`, 'she']]));
+      for (let n = 0; n < 40; n++) {
+        const b = barks.of([{ type: 'attack', turn: n, actor: `a${k}`, target: 'b', die: 2, need: 10, toHit: 0,
+          armorClass: 10, weapon: 'x', success: false }] as never[], n);
+        if (b) { said.push(b); }
+      }
+    }
+    expect(said.join(' ')).toMatch(/\bher\b/);
+    expect(said.join(' ')).not.toMatch(/\btheir\b|\bthem\b|\bthey\b/);
+  });
 });
 
 // Under the ground there is no hour to speak of: Tessary's clerks in a hall under the sea said "Mind how you go in the

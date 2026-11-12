@@ -1,4 +1,5 @@
 import { Portraits } from '../../src/ui/portraits';
+import { CompanyPortraits } from '../../src/paintings/company-portraits';
 import { PlaySession, type SessionCheckpoint } from '../../src/session/play-session';
 import { PlayerView } from '../../src/presentation/player-view';
 import { ActionFeedbackView, type ActionFeedback } from '../../src/presentation/action-feedback';
@@ -410,6 +411,11 @@ export class EngineHost {
     // A foe who is someone by their own likeness, as the company is (M19-78).
     const faces = new Map([...this.turn || this.fought ? Portraits.foes(campaign) : [],
       ...this.screen.party.flatMap(m => m.face ? [[m.id, m.face] as const] : [])]);
+    // The words each of the company is spoken of in, for what they say and do in a fight (see Barks).
+    const said = new Map(this.screen.party.flatMap(m => {
+      const words = m.ref ? /pron_(he|she|they)$/.exec(CompanyPortraits.said(campaign.world, m.ref) ?? '')?.[1] : undefined;
+      return words ? [[m.id, words] as const] : [];
+    }));
     // Told before the story is sent: the opening is the story's first entry (see leaf). The journey held is read after
     // the page is told (coming to it lets it go), and goes on first of what the glance leads with.
     const leaf = this.leaf(), going = this.journeying();
@@ -419,9 +425,10 @@ export class EngineHost {
       leaf,
       // A fight that ended the story is held too, ahead of the end: the last act chosen in it had gone unseen, the
       // page turning to the end as it was struck (the cold playtest's "my last strike's result never shown": CMB-02).
-      ...this.turn ? { combat: CombatModel.build(this.turn.battle, BandNames.of(campaign), faces) }
+      ...this.turn ? { combat: CombatModel.build(this.turn.battle, BandNames.of(campaign), faces, said) }
         : this.fought && this.told
-          ? { combat: CombatModel.ended(this.fought, this.told.event.combat, BandNames.of(campaign), faces) } : {},
+          ? { combat: CombatModel.ended(this.fought, this.told.event.combat,
+            { called: BandNames.of(campaign), faces, said }) } : {},
       opening: this.opening.filter(Boolean),
       ...this.screen.running ? {} : { ending: Endings.reached(campaign.world, campaign.installations)
         ?? Obituary.of(campaign) },

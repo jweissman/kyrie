@@ -25,7 +25,9 @@ import type { Face } from '../paintings/company-portraits';
 // place and the account afterwards call it, never "Knitted bone hound 2". The company's own are shown by their
 // portraits (faces, by id: see CompanyPortraits), where they have one.
 export class CombatModel {
-  static build(battle: Battle, called?: ReadonlyMap<string, string>, faces?: ReadonlyMap<string, Face>): CombatScreen {
+  // said: the words each of the company is spoken of in (he, she, they), where the world says them (see Barks).
+  static build(battle: Battle, called?: ReadonlyMap<string, string>, faces?: ReadonlyMap<string, Face>,
+    said?: ReadonlyMap<string, string>): CombatScreen {
     const state = this.called(battle.state, called), actor = state.combatants.find(f => f.id === state.actor);
     const ours = !!actor && battle.playerControls(actor.id);
     const choices = ours && !state.outcome ? CombatChoices.actions(battle.legalCommands(), battle.repertoire) : [];
@@ -56,7 +58,7 @@ export class CombatModel {
         .map(id => ({ name: ConditionSense.name(id), text: Canon.conditions[id]!.description })),
       log: battle.events.map(e => this.line(e, state)).filter(line => !!line).slice(-40),
       round: battle.events.filter(e => e.type === 'initiative').length,
-      exchanges: CombatTelling.exchanges(battle.events, state).map((t, n) => ({ n, ...t })),
+      exchanges: CombatTelling.exchanges(battle.events, state, said).map((t, n) => ({ n, ...t })),
     };
   }
   // What a technique does besides a blow, for its card; a spell is told by its own preview, and running by its odds.
@@ -72,8 +74,8 @@ export class CombatModel {
   }
   // A fight that has ended, as its page holds it until the player goes on: how each side stands, and what the
   // command told after each of its fights ended, before another began (the end, and the experience gained).
-  static ended(battle: Battle, told: CombatEvent[], called?: ReadonlyMap<string, string>,
-    faces?: ReadonlyMap<string, Face>): CombatScreen {
+  static ended(battle: Battle, told: CombatEvent[], { called, faces, said }: { called?: ReadonlyMap<string, string>;
+    faces?: ReadonlyMap<string, Face>; said?: ReadonlyMap<string, string> } = {}): CombatScreen {
     const lines: string[] = [], state = this.called(battle.state, called);
     let over = false;
     for (const e of told) {
@@ -81,7 +83,7 @@ export class CombatModel {
       const line = over && e.type !== 'action' ? CombatPresenter.format(e, state) : '';
       if (line) { lines.push(line); }
     }
-    return { ...this.build(battle, called, faces), after: [...new Set(Narration.tidy(lines.filter(Boolean)))] };
+    return { ...this.build(battle, called, faces, said), after: [...new Set(Narration.tidy(lines.filter(Boolean)))] };
   }
   private static row(f: BattleState['combatants'][number], state: BattleState, face?: Face): CombatantRow {
     const race = Content.race(f.raceId)?.name ?? f.raceId;

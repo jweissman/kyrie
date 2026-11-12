@@ -99,7 +99,7 @@ export class RouteCard {
   private static food(screen: Screen, minutes: number): Fact[] {
     const e = screen.expedition, arrive = screen.elapsed + minutes / FictionalTime.minutesPerTick;
     const meals = e.mealAt === undefined || arrive < e.mealAt ? 0 : 1 + Math.floor((arrive - e.mealAt) / MapView.day);
-    return meals ? [['Food', `${Words.many(meals, 'ration')} of ${e.rations}`]] : [];
+    return meals ? [['Food', `${Words.many(meals, 'ration')} of the ${e.rations} you carry`]] : [];
   }
   // What would go wrong on the way, said apart: dark, hunger, weariness.
   static warnings(screen: Screen, way: Way): string[] {

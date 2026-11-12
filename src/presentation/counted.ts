@@ -4,7 +4,7 @@
 export class Counted {
   static readonly words = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven',
     'twelve'];
-  static many(n: number, noun: string): string { return `${this.words[n] ?? n} ${this.plural(noun)}`; }
+  static many(n: number, noun: string): string { return `${this.words[n] ?? n} ${n === 1 ? noun : this.plural(noun)}`; }
   // More than one of a thing: "sacks of bell-teeth", "torches", "thieves" ("what thiefs carry": play 11).
   static plural(noun: string): string {
     const [head, ...of] = noun.split(' of '), last = /\w+$/.exec(head!)?.[0] ?? '', odd = this.irregular[last];

@@ -16,7 +16,7 @@ type Harm = Extract<CombatEvent, { type: 'damage' | 'heal' }>;
 // "Elen hits the boar with the spear, for 4. The boar is knocked flat." The dice stay with the exchange, for whoever
 // looks closer, and nothing is said that a watcher could not see.
 export class CombatTelling {
-  static exchanges(events: CombatEvent[], state: BattleState): Telling[] {
+  static exchanges(events: CombatEvent[], state: BattleState, said?: ReadonlyMap<string, string>): Telling[] {
     const groups: { round: number; events: CombatEvent[] }[] = [];
     let round = 0;
     for (const e of events) {
@@ -26,7 +26,7 @@ export class CombatTelling {
     }
     // What fighters say at the turning points, now and then (see Barks).
     const fighters = [...state.combatants, ...(state.departed ?? []) as Fighter[]];
-    const barks = new Barks(fighters, fighters.map(f => f.id).join(','));
+    const barks = new Barks(fighters, fighters.map(f => f.id).join(','), said);
     const told = new CombatTelling(state, CombatTelling.unlasted(events));
     return groups.map((g, n) => this.tell(CombatTelling.unheld(g.events), g.round, told, barks.of(g.events, n)))
       .filter(t => t.text);

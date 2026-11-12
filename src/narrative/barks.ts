@@ -15,7 +15,10 @@ export class Barks {
   static readonly chance: Record<string, number> = { fall: 100, kill: 55, crit: 45, flee: 60, engage: 40, miss: 12,
     hurt: 70 };
   private readonly used = new Set<string>();
-  constructor(private readonly fighters: Fighter[], private readonly seed: string) {}
+  // said: the words each fighter is spoken of in, where known; else they ("swears under their breath" of a dwarf
+  // woman: round 9, P).
+  constructor(private readonly fighters: Fighter[], private readonly seed: string,
+    private readonly said?: ReadonlyMap<string, string>) {}
   // The bark for one exchange, if it has a turning point worth one.
   of(events: CombatEvent[], n: number): string | undefined {
     const moment = this.moment(events);
@@ -27,7 +30,7 @@ export class Barks {
     const line = Editor.choose(fit, `${this.seed}:${n}:${kind}`, this.used);
     if (!line || this.used.has(line.id)) { return undefined; }
     Editor.said(this.used, line.id);
-    return Voice.render(line.text, { actor: fighter.name.replace(/^an? /, 'the '), pronoun: 'they' });
+    return Voice.render(line.text, { actor: fighter.name.replace(/^an? /, 'the '), pronoun: this.said?.get(fighter.id) ?? 'they' });
   }
   // The turning point of an exchange: someone falling, a kill, a blow that tells, a flight, a miss.
   private moment(events: CombatEvent[]): [string, string] | undefined {
