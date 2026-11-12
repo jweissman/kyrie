@@ -1,11 +1,11 @@
 # Mission 20 → Mission 21 handoff (the cutoff, 12 November 2026)
 
-**Status: implementation work, not acceptance.** No human has accepted the first hour. Eight rounds of cold play by
+**Status: implementation work, not acceptance.** No human has accepted the first hour. Nine rounds of cold play by
 agents were run; their ratings are an agent's, not a player's. This page says what Mission 20 delivered and how each
 part was checked, what is still wrong, and, apart from both, what was registered for later.
 
-- 270 commits since Mission 19 closed (7302392c).
-- The log (`log.md`) runs to E162.
+- 287 commits since Mission 19 closed (7302392c), at this writing.
+- The log (`log.md`) runs to E179.
 - The register (`../open-register.md`) holds every open item, with its source.
 
 ## Part 1. Mission 20 delivered and verified
@@ -40,6 +40,19 @@ A new player makes a character in about two minutes. The shape of the opening:
 | E148–E151 | Topics in their written order; true walking minutes; the castellan answered; the conversation log folded | specs named in the log |
 | US-01, WM-03, UI-04, NM-09 | The sister asked after; a robbed wagoner not helped; an inn's bed named; walk minutes | specs named in the register |
 
+### After round 8, and round 9 (12 November, small hours)
+
+| Row | What | Checked by |
+|---|---|---|
+| E173 | **P0 (round 9, P):** at a keep's door the gold went in at the open gate-passage while the dead man's cross was under the door-stone. A thing the aim waits on that lies hidden is now searched for where it is found, as the aim's next step, before any way on | test/gold-thread; the gold survey over the map origin in ten countries |
+| E163 | The debt's gold walk circled back to a spent Seolforfyrd; the debt now points on to the next place the innkeeper told of | test/gold-walk; the honest start |
+| E170 | Underground in a site the map put the company nowhere and offered "Journey to Lapisrecs" (the way out by another name); now at the site's hex, never set out for where it is | test/map-in-site |
+| E171 | A town job ("Ask Peren about the old quarry") had been folded under the crypt's aim in the Notes | test/aims-apart |
+| E179 | A failed parley lengthened the deadline it said had run out; it now keeps a deadline already given | probed both ways; deep-expedition |
+| E166–E169, E174, E175, E177, E178 | Hit points at a level as the engine rolls them; "1 minutes"; a bard's armour without the wonders; a killing blow's dice line; "one ration"; a fight's barks in the character's pronouns; small faces by the painting's head crop (a catfolk had read as human); "A fight: beyond you." | specs named in the log |
+| E164, E165 | "Nothing to say to you now"; a withheld skill "no one in the company can use now" | test/still-likeness |
+| E176 | CI on 81fedaac: one spec still expecting the errand's old words; a shard over its time on a slow runner | the spec mended |
+
 ### Earlier in Mission 20 (11 November and before; see the log)
 
 - Routes: no doubling back, landmark by landmark.
@@ -68,7 +81,7 @@ Everything is in `integration-first-steps.md`. Main was kept stable; nothing of 
 
 The rest are triaged in the register's §16 (AB-03 to AB-14) for Mission 21.
 
-### Cold play: eight rounds, agents only
+### Cold play: nine rounds, agents only
 
 | Round | Players | Clarity | Beauty | Interest | Challenge | Continue |
 |---|---|---|---|---|---|---|
@@ -76,6 +89,8 @@ The rest are triaged in the register's §16 (AB-03 to AB-14) for Mission 21.
 | | L: birdfolk bard, kahitude | 3 | 5 | 4 | 3 | 3.5 |
 | 8 (da99bf2c) | M: birdfolk bard-apothecary, public start, cautious | 3 | 5 | 4 | 2 | 4 |
 | | N: birdfolk bard-scribe, kahitude, social | 3 | 5 | 4 | 3 | 4 |
+| 9 (505b002a) | P: dwarf warrior, the dead man's map, a fighter | 2 | 4 | 4 | 3 | 3 |
+| | Q: catfolk illusionist, the dead man's map, an explorer | 3 | 4 | 4 | 3 | 3.5 |
 
 Round 8's reports are in `cold/round-8/` (E158). Both players followed their reason, and both saw it through or nearly
 (the fever nursed; Lapisrecs read). What round 8 found again, and where it stands:
@@ -89,6 +104,17 @@ Round 8's reports are in `cold/round-8/` (E158). Both players followed their rea
 - **A bard's gifts unused in fights:** open.
 - **Text against state:** NP-01, open.
 
+Round 9's reports are in `cold/round-9/` (E172). P followed the dead man's map into a keep and was led room by room
+while the cross was outside (E173, fixed); then took a widow's bounty on an outlaw knight, fought him though warned, and
+ended penned in his fort. Q found the crypt job dead-ended at a foe no lore could pass, and turned to the rats, which led
+three storeys down an undertown opened by Q's own lore: the session's best part. What round 9 found again:
+
+- **The way back missing from the scene** (Q's crypt; P's bailey and fort): now three players in two rounds. Recurring,
+  and the owner's to decide, since the settled contract keeps ways under Go… (register PR-08).
+- **Gold off the aim** (on a hire, on the way back out, two at once): R9-09, open.
+- **Text and paintings against state:** R9-07, R9-12, open.
+- **Promises the world does not keep** (Peren's lodger; the crypt's lore): R9-01, R9-02, open.
+
 Not one round has been clean, and no gate of successive clean reviews was reached.
 
 ### Tests at the cutoff
@@ -99,7 +125,8 @@ Not one round has been clean, and no gate of successive clean reviews was reache
 - Specs added tonight:
   - test/gold-follow, test/gold-thread, test/teaches-marked;
   - test/entity-card, test/serve, test/prospects (prototypes);
-  - test/castellan-answered, test/sister-asked, test/walk-minutes.
+  - test/castellan-answered, test/sister-asked, test/walk-minutes;
+  - test/map-in-site, test/aims-apart, and new cases in test/gold-thread, test/voice and test/deep-expedition.
 
 ### Reproducible worlds and traces
 
@@ -108,6 +135,7 @@ Not one round has been clean, and no gate of successive clean reviews was reache
   test/gold-thread made broad.
 - **The kept traces:** test/fixtures/traces/ (wren-tower-climbed, wren-turf-hut, hessel-into-the-two-poles).
 - **Round 8's worlds:** M's was a random seed (not kept); N's was kahitude.
+- **Round 9's worlds:** both random seeds, not kept (the play server's save went with its browser).
 
 ### Performance
 
@@ -133,26 +161,27 @@ Not one round has been clean, and no gate of successive clean reviews was reache
    - trivial with a warrior, and over-warned in places (CB-02, CB-08, R7-02);
    - a bard's gifts and spells rarely matter;
    - creature damage does not grow with level (AB-03).
-2. **Scene navigation:**
+2. **Scene navigation (recurring; the owner's decision):**
    - with an aim followed, the scene leads with its one gold way, and the way up or back is only under Go…, one step
-     at a time (round 8, M);
+     at a time (round 8, M; round 9, P and Q: penned in, no "Up");
    - the first green offers 31–37 ways;
    - inner rooms are dead ends to the page.
 3. **The gold's thread is not yet everywhere:**
    - the order past the riddle door (no gold on the right word);
-   - a debt's second trip back to the keep;
+   - gold on a hire or the way back out, or two at once (round 9, R9-09);
    - gold past the keeper an aim is about, or into a signposted ambush (round 8, M);
    - aims ended silently, with no "seen through".
 4. **The map:**
    - a touch, then another on a hex near the card, lands on another hex because the camera moves it out from under
      the card;
    - the route line was missed by one player; its data is present and was drawn in our screenshots.
-5. **Names** of the opening's works and countries come from mixed tongues (register PR-06, with a proposed rule).
-6. **Paintings and text against state:**
+5. **Promises unkept:** the crypt's lore cannot be acted on; a lodger told of is never found (R9-01, R9-02).
+6. **Names** of the opening's works and countries come from mixed tongues (register PR-06, with a proposed rule).
+7. **Paintings and text against state:**
    - sunsets at noon, hillsides underground, prose that contradicts what happened;
    - the owner's painting list (handoff §3 of the draft, kept in the register).
-7. **The adventure branch** waits on the owner's decisions (above).
-8. **Acceptance:** no human has played the first hour for acceptance (FH-01).
+8. **The adventure branch** waits on the owner's decisions (above).
+9. **Acceptance:** no human has played the first hour for acceptance (FH-01).
 
 ## Part 3. Architectural follow-ups for Mission 21 (the owner's atlas synthesis, 11 November night)
 
