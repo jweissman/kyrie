@@ -93,15 +93,16 @@ export class MenuModel {
     const overland = inside ? [...kept.near, ...kept.far].filter(c => !MenuModel.stays(c, screen)) : [];
     const scene = inside ? { ...kept, near: kept.near.filter(c => MenuModel.stays(c, screen)),
       far: kept.far.filter(c => MenuModel.stays(c, screen)) } : kept;
-    const talked = new Set(scene.subjects.filter(x => x.kind === 'person' && !x.danger)
-      .flatMap(x => x.choices.filter(c => /#talk$/.test(c.id)).map(c => c.id)));
-    // But the aim's next step stays among them, whoever it is (see Promotion.continued).
-    // Where the aim's next step stands among them is settled here, once, so that the page and the keys agree (see
-    // Guidance.placed): the keys had followed the glance's order while the page drew another.
-    const shown = glance?.acts.filter(a => !talked.has(a.choice) || a.continues) ?? [];
+    // Whoever there is to talk to for something is led with among the rest, as well as being on the picture (the owner,
+    // 12 November: a taproom had led with two things, and the several with something for the company were only their
+    // likenesses). Where the aim's next step stands among them is settled here, once, so that the page and the keys
+    // agree (see Guidance.placed): the keys had followed the glance's order while the page drew another.
+    const shown = glance?.acts ?? [];
     const leads = Guidance.placed(shown, shown.filter(a => a.tier === 0).length,
       `${screen.place.id}:${screen.aims?.find(a => a.followed)?.id ?? ''}`);
-    const leading = new Set(glance?.acts.filter(a => talked.has(a.choice)).map(a => a.choice) ?? []);
+    const talked = new Set(scene.subjects.filter(x => x.kind === 'person' && !x.danger)
+      .flatMap(x => x.choices.filter(c => /#talk$/.test(c.id)).map(c => c.id)));
+    const leading = new Set(shown.filter(a => talked.has(a.choice)).map(a => a.choice));
     // Underground, the world map is not a way out (a cellar under a corn-store had offered it beside the rat-runs).
     const going = inside ? [] : journeys, country = !screen.place.underground
       && (overland.length || (inside && journeys.length)) ? MenuModel.country : undefined;

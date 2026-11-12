@@ -62,10 +62,7 @@
 .replies .act::before, .dialogue .leave .act::before { display: none; }
 .replies .act > .said { flex: 1 1 0; min-width: 0; }
 /* What the aim followed asks of them, in the aim's gold (see TalkStage.Reply). */
-.replies li.aimed > .act { box-shadow: inset 2px 0 0 var(--gold); }
 /* Green, as the likeness marked as having something for you: what pays you to say (see Owed). */
-.replies li.pays > .act { border-color: rgba(95, 211, 182, .5); box-shadow: inset 2px 0 0 var(--verdigris); }
-.replies li.pays > .act i, .replies li.pays .for-you { color: var(--verdigris); }
 .replies .act i, .dialogue .leave .act i { font: 500 12px/1 var(--do); font-style: normal; color: var(--dim); flex: none;
   width: 22px; height: 22px; display: inline-grid; place-items: center; border: 1px solid var(--edge-strong);
   transform: translateY(-1px); transition: color var(--quick), border-color var(--quick), background var(--quick); }
@@ -141,9 +138,12 @@
 .more-talk > summary:hover, .more-talk > summary:focus-visible, .said-before > summary:hover,
 .said-before > summary:focus-visible { color: var(--accent); outline: none; }
 .more-talk[open] > summary { color: var(--ivory); }
-/* New since the last answer, or what would tell the company something: knowledge's blue, as their likeness is marked
-   (the owner's player report, 12 November: a blue pip, and no blue reply to ask). */
-.replies .fresh .act { border-left: 2px solid var(--azure); }
+/* What a reply is to the company: the one indicator at its left, as on a led act (see Emphasis.within), of the tone
+   its speaker's likeness was drawn in for it (the owner, 12 November: a blue pip, and no blue reply to ask; a rose
+   pip, and the asking to join unmarked). Everything else about it neutral. */
+.replies .act:has(> .prism-bar), .to-trade .option:has(> .prism-bar), .ah-pane .act:has(> .prism-bar) { position: relative; }
+.replies .act > .prism-bar, .to-trade .option > .prism-bar, .ah-pane .act > .prism-bar { position: absolute; left: -1px;
+  top: -1px; bottom: -1px; width: 3px; background: var(--prism); border-radius: 2px 0 0 2px; }
 .to-trade { margin: 14px 0 0; display: flex; gap: 10px; }
 .trading .label { margin: 14px 0 8px; color: var(--accent); display: flex; justify-content: space-between; gap: 12px; }
 .trading .label:first-child { margin-top: 0; }

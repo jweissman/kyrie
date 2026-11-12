@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState, type ReactNode } from 'react';
+import { useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import { Glyphs } from '../creation/glyphs';
 import type { Talk } from '../../../src/ui/attention';
 import type { Choice } from '../../../src/ui/choice-list';
@@ -14,6 +14,10 @@ import { Told } from './told';
 import { Wares, type Ware } from '../wares';
 import { TalkFocus } from '../talk-focus';
 import { AimNear } from '../aim-near';
+import { Emphasis } from '../emphasis';
+import { Guidance } from '../guidance';
+import { Pip } from './pip';
+import type { Aspect } from '../../../src/presentation/glance-types';
 
 // Speaking with someone. Their painting, large, with their name on it; beside it the conversation: what they were
 // doing when you came over, what they said to you and you to them, in order, and what you came to know, which scrolls
@@ -29,10 +33,6 @@ export class TalkStage {
       : screen?.aims?.some(a => a.about?.includes(line.text))) { return 'Of your aim'; }
     return !screen || AimNear.near(screen, line.aim ? { id: line.aim } : line.text) ? 'A new aim' : 'Noted, further off';
   }
-  // Whether the reply the page leads them with is one had in trade.
-  static traded(services: Choice[], led?: string): boolean {
-    return !!led && services.some(c => c.command === led || !!c.children?.some(k => k.command === led));
-  }
   static View({ app, talk }: { app: ReaderApp; talk: Talk }) {
     const s = app.state, frame = s.frame!, who = talk.subject, draw = Act.draw(app);
     // A name begins with a capital where it heads the page ("The wagoner", not "the wagoner": the owner, 7 November).
@@ -40,16 +40,25 @@ export class TalkStage {
       .filter(Boolean) as string[];
     const counter = frame.screen.trade.find(c => c.id === who.id), { wares, rest } = Wares.of(counter, talk.replies);
     const led = frame.leaf.glance?.acts.find(a => a.subject === who.id)?.for;
-    const focus = TalkFocus.of(rest, { ...led ? { led } : {}, ...s.heard ? { heard: s.heard } : {}, asked: s.asked,
+    const inside = (frame.leaf.glance?.acts ?? []).filter(a => a.subject === who.id)
+      .flatMap(a => (a.inside ?? []).map(x => x.command));
+    const focus = TalkFocus.of(rest, { ...led ? { led } : {}, marked: inside, ...s.heard ? { heard: s.heard } : {}, asked: s.asked,
       aims: (frame.screen.aims ?? []).map(a => a.text), paying: frame.screen.paying ?? [] });
     // What the aim followed asks of them is drawn in its gold, as their likeness is (the owner, 8 November: the
     // merchant the rats job sent the company to, and the question to ask her, had been drawn like any other).
     const followed = (frame.screen.aims ?? []).filter(a => a.followed).map(a => a.text);
     // Gold only on what carries the aim on, not whatever the page leads with for them: "Ask Jassin to join the
     // company", led as a recruit, had been drawn in the aim's gold (round 9, Q 54b).
-    const gold = frame.leaf.glance?.acts.find(a => a.subject === who.id && a.continues)?.for;
-    const aimed = (c: Choice) => (!!gold && c.command === gold) || TalkFocus.aimed(c, followed);
+    // And each reply is drawn as what the glance found in it, so that a likeness drawn blue, or rose, has its blue
+    // question, or its asking to come along, drawn so here (see Emphasis.within): what teaches, what pays the company,
+    // whoever's asking to join.
+    const acts = frame.leaf.glance?.acts, gilded = Guidance.shown(app);
     const spent = (c: Choice) => s.asked.includes(c.id) || /_again(\(|$)/.test(c.command ?? '');
+    const drawn = (c: Choice): Aspect[] => spent(c) ? [] : Emphasis.within(acts, c, [
+      ...TalkFocus.aimed(c, followed) ? ['undertaking' as const] : [],
+      ...TalkFocus.pays(c, frame.screen.paying) ? ['payoff' as const] : [], ...c.teaches ? ['knowledge' as const] : [],
+      ...c.does === 'recruit' ? ['companionship' as const] : []]);
+
     return (
       <div className="talk" id="page">
         <TalkStage.Sitter app={app} name={name!} role={role.join(' · ')}>
@@ -66,22 +75,22 @@ export class TalkStage {
                     Ice's 10: three answers to Callow's question had stood among the rest, as topics). */}
                 {focus.answers.length > 0 && <><p className="answering">Your answer</p>
                   <ol className="replies answers" aria-label="Your answer">{focus.answers
-                    .map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw} />)}</ol></>}
+                    .map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw} aspects={drawn(c)} gilded={gilded} />)}</ol></>}
                 <ol className="replies" aria-label={`What you might say to ${name}`}>
                   {focus.salient.map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw}
-                    fresh={focus.opened.has(c.id)} aimed={aimed(c)} pays={TalkFocus.pays(c, frame.screen.paying)} />)}
+                    fresh={focus.opened.has(c.id)} aspects={drawn(c)} gilded={gilded}
+                    pays={TalkFocus.pays(c, frame.screen.paying)} />)}
                 </ol>
                 {focus.more.length > 0 && <details className="more-talk">
                   {/* Only what was asked before is not "something else" (round 6, the register's FH-16). */}
                   <summary>{focus.more.every(spent) ? 'Ask again…' : 'Something else…'}</summary>
                   <ol className="replies">{focus.more.map(c => <TalkStage.Reply key={c.id} choice={c} draw={draw}
-                    asked={spent(c)} />)}</ol>
+                    asked={spent(c)} aspects={drawn(c)} gilded={gilded} />)}</ol>
                 </details>}
                 {/* In the aim's gold where what the aim asks of them is had in trade (a sale, to the debtor home with
                     what would fetch coin: Mission 20). */}
                 {(wares.length > 0 || focus.services.length > 0 || (counter?.buys.length ?? 0) > 0)
-                  && <p className="to-trade"><button type="button" className={`option${TalkStage.traded(focus.services, led)
-                    ? ' aimed' : ''}`} data-action="trade" onClick={() => app.trade(true)}>Trade</button></p>}
+                  && <TalkStage.ToTrade app={app} aspects={[...new Set(focus.services.flatMap(drawn))]} gilded={gilded} />}
               </>}
             </div>
             {/* Back from trading stands by the leave, always in view: at the foot of a long counter it had been
@@ -94,6 +103,15 @@ export class TalkStage {
         <button type="button" className="close" data-action="back" aria-label="Take your leave" onClick={app.back}>×</button>
       </div>
     );
+  }
+  // Trade, drawn as what the glance found among what is had of them for coin (a bed for the night, what the aim waits
+  // on to be sold: Mission 20).
+  static ToTrade({ app, aspects, gilded }: { app: ReaderApp; aspects: Aspect[]; gilded: boolean }) {
+    const bar = Emphasis.bar(aspects, gilded);
+    return <p className="to-trade"><button type="button" className={`option${gilded && aspects.includes('undertaking')
+      ? ' aimed' : ''}`} data-action="trade" data-aspects={aspects.join(' ') || undefined} onClick={() => app.trade(true)}>
+      {bar && <i className="prism-bar" role="img" aria-label={Pip.words(aspects, gilded)}
+        style={{ '--prism': bar } as CSSProperties} />}Trade</button></p>;
   }
   // The painting: someone who could be them, as large as the page allows, cropped to the face, with who painted it
   // as far as the painting itself says. Where no painting fits them, the page is theirs in type: their name, large,
@@ -241,13 +259,16 @@ export class TalkStage {
   }
   // A question already put stays to be put again, quieter, and says so; one the last answer opened is marked new.
   // What pays the company is marked green, as the likeness that has something for it is (see Owed).
-  static Reply({ choice: c, draw, asked, fresh, aimed, pays }: { choice: Choice; draw: Draw; asked?: boolean;
-    fresh?: boolean; aimed?: boolean; pays?: boolean }) {
+  // What it is to the company is the one indicator at its left, as a led act's is (see Emphasis.bar).
+  static Reply({ choice: c, draw, asked, fresh, aspects, gilded = true, pays }: { choice: Choice; draw: Draw;
+    asked?: boolean; fresh?: boolean; aspects?: Aspect[]; gilded?: boolean; pays?: boolean }) {
+    const bar = Emphasis.bar(aspects, gilded), aimed = gilded && !!aspects?.includes('undertaking');
     return (
-      <li className={[asked ? 'asked' : fresh || c.teaches ? 'fresh' : '', aimed ? 'aimed' : '', pays ? 'pays' : '']
-        .filter(Boolean).join(' ') || undefined}>
+      <li className={[asked ? 'asked' : fresh ? 'fresh' : '', aimed ? 'aimed' : '', pays ? 'pays' : '',
+        bar ? 'marked' : ''].filter(Boolean).join(' ') || undefined} data-aspects={aspects?.join(' ') || undefined}>
         {/* What is said beside its number, wrapping beside it: on a phone a long one had gone under its number. */}
-        <Act.View choice={c} draw={draw}><i>{(draw.index.get(c.id) ?? 0) + 1}</i><span className="said">
+        <Act.View choice={c} draw={draw}>{bar && <i className="prism-bar" role="img" aria-label={Pip.words(aspects!, gilded)}
+          style={{ '--prism': bar } as CSSProperties} />}<i>{(draw.index.get(c.id) ?? 0) + 1}</i><span className="said">
           {Typography.curl(c.label)}{c.note && <small> · {c.note}</small>}{asked && <small> · asked</small>}
           {pays && <small className="for-you"> · for you</small>}</span></Act.View>
         {c.children && draw.open.has(c.id) && <ol className="opened-list">{c.children.map(k => <TalkStage.Reply key={k.id}

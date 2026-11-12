@@ -1,4 +1,4 @@
-import type { Facet, Mark, Promoted, Tier, Why } from '../presentation/glance-types';
+import type { Aspect, Facet, Mark, Promoted, Tier, Why } from '../presentation/glance-types';
 import { Aspects } from '../presentation/aspects';
 
 // What a choice is, as far as leading with it goes: talking to someone, an act on someone or something, an attack, a
@@ -13,6 +13,8 @@ export interface Candidate {
   kind: Kind; whys: Why[];
   // The reason's words, by reason ("your brother", "the way you came").
   notes?: Partial<Record<Why, string>>;
+  // For an opener, the act within it each reason is for, by reason (the topic that teaches, the asking to come along).
+  leaves?: Partial<Record<Why, string>>;
   // Where it is drawn among the rest (the authored order: people in the module's order, ways in the headings').
   order: number; marks: Mark[];
   minutes?: number; risk?: boolean; own?: boolean;
@@ -29,10 +31,13 @@ export interface Situation { threat: boolean; warned: boolean; dark: boolean; se
 
 // Chooses the few choices a place leads with (OWN-18, OWN-19; the cold review's affordance facets): urgent first (an
 // answer owed, a danger, a warning, the dark), then what the aim names, then what the company needs, then what the
-// place itself offers that is new, and a way not yet taken. At most three, never padded; at most one for each subject
+// place itself offers that is new, and a way not yet taken. At most four, three of them besides talk, never padded;
+// at most one for each subject
 // (a danger may take two and the way back), two ways, and one of the place's own acts. Pure and deterministic.
 export class Promotion {
   static readonly cap = 3;
+  // With whoever there is to talk to.
+  static readonly all = 4;
   // Each reason's tier and its place in it.
   static readonly tiers: Record<Why, [Tier, number]> = {
     helpless: [0, -1], answer: [0, 0], danger: [0, 1], warned: [0, 2], dark: [0, 3], retreat: [0, 4], opened: [0, 5],
@@ -53,12 +58,13 @@ export class Promotion {
     fit.sort((a, b) => this.ranked(a) - this.ranked(b) || Number(a.c.kind === 'attack') - Number(b.c.kind === 'attack')
       || a.c.order - b.c.order);
     const subjects = new Set(fit.map(x => x.c.subject ?? x.c.choice)), picked: Promoted[] = [];
-    // Someone to talk to is drawn on their own plate, edged (see the reader's MenuModel.leads), not among the three:
-    // two at most, and they take none of the three places (after the notice at Millholm the three job-givers had
-    // taken them all, and only the map was led: M19-24).
+    // Someone to talk to is led with as well, two at most, and they take none of the three places (after the notice at
+    // Millholm the three job-givers had taken them all, and only the map was led: M19-24); four in all, never padded
+    // (the owner, 12 November: a taproom had led with two things, though several there had something for the company).
     const taken = { ways: 0, own: 0, plates: 0, by: new Map<string, number>() };
     for (const x of fit) {
-      if (picked.length - taken.plates >= this.cap) { break; }
+      if (picked.length >= this.all) { break; }
+      if (x.c.kind !== 'talk' && picked.length - taken.plates >= this.cap) { continue; }
       if (x.c.kind === 'talk' && taken.plates >= 2) { continue; }
       if (!this.room(x, picked, { taken, s, lone: subjects.size === 1 })) { continue; }
       if (x.c.kind === 'talk') { taken.plates++; }
@@ -101,7 +107,9 @@ export class Promotion {
       const rest = Object.fromEntries(Object.entries(a).filter(([k]) => k !== 'continues')) as Promoted;
       if (!a.aspects.includes('undertaking')) { return a.continues ? rest : a; }
       const aspects = a.aspects.filter(x => x !== 'undertaking');
-      return { ...rest, aspects: aspects.length ? aspects : ['exploration'] };
+      const inside = rest.inside?.map(x => ({ ...x, aspects: x.aspects.filter(y => y !== 'undertaking') }))
+        .filter(x => x.aspects.length);
+      return { ...rest, aspects: aspects.length ? aspects : ['exploration'], ...inside ? { inside } : {} };
     });
   }
   // Whether there is room for one more of its kind: never twice the same choice; one for each subject (a danger two,
@@ -162,12 +170,26 @@ export class Promotion {
     const facets: Facet[] = ['here', ...aimed ? ['aimed' as const] : [],
       ...tiers.has(0) || tiers.has(2) ? ['urgent' as const] : [], ...tiers.has(3) || tiers.has(4) ? ['new' as const] : [],
       ...c.known ? ['known' as const] : []];
-    const note = c.notes?.[why];
-    return { choice: c.choice, ...c.command ? { command: c.command } : {}, ...c.for ? { for: c.for } : {},
+    const note = c.notes?.[why], inside = this.inside(c, [why, ...whys.filter(w => w !== why)]);
+    return { choice: c.choice, ...inside.length ? { inside } : {}, ...c.command ? { command: c.command } : {},
+      ...c.for ? { for: c.for } : {},
       ...c.subject ? { subject: c.subject } : {},
       ...c.exit ? { exit: c.exit } : {}, label: c.label, why, facets, tier: this.tiers[why][0],
       aspects: Aspects.of([why, ...whys.filter(w => w !== why)], c.marks), ...note ? { note } : {}, marks: c.marks,
       ...whys.includes('entry') ? { enters: true as const, afar: true as const } : {} };
+  }
+  // Of an opener, each act within it a reason is for, with the aspects those reasons give it, best first: so that what
+  // its likeness is drawn as is found again within it (the owner, 12 November: a blue pip, and no blue question).
+  private static inside(c: Candidate, whys: Why[]): { command: string; aspects: Aspect[] }[] {
+    const out: { command: string; aspects: Aspect[] }[] = [];
+    for (const w of whys) {
+      const command = c.leaves?.[w], aspect = Aspects.by[w];
+      if (!command || !aspect) { continue; }
+      const at = out.find(x => x.command === command);
+      if (!at) { out.push({ command, aspects: [aspect] }); continue; }
+      if (!at.aspects.includes(aspect)) { at.aspects.push(aspect); }
+    }
+    return out;
   }
   // The quiet row of ways under the acts, none of them led with already: those the aims name, those the lines told now
   // name, those not yet taken (nearest first), then the rest; three at most. In the open country, the compass.

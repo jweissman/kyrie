@@ -161,6 +161,8 @@ export class Glance {
     return { ...aim ? { aim } : {}, ...advances.size ? { advances } : {}, ...coin ? { coin } : {}, holding, schema,
       args, touches, authored,
       speakers: new Set(rows.filter(r => r.action.speaker).map(r => r.choice.id)),
+      willing: new Set(rows.filter(r => r.action.speaker && (r.action.success ?? []).some(c => c.kind === 'assert'
+        && c.call?.name.replace(/^.*__/, '') === 'willing' && c.call.args[0] === r.action.speaker)).map(r => r.choice.id)),
       named, held, companions: Companions.possible(campaign),
       sensed: new Set(at.sensed.filter(x => x.far === 1).map(x => x.to)), opened: new Set(at.told?.feedback.opened),
       ...this.ways(campaign, screen, { named, held, idle }),

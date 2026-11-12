@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react';
 import type { Choice } from '../../../src/ui/choice-list';
 import type { ReaderApp } from '../reader-app';
 import { SceneModel, type SceneSubject } from '../../../src/ui/scene';
@@ -6,6 +7,7 @@ import { Words } from '../words';
 import { Act, type Draw } from './act';
 import { Pip } from './pip';
 import { Emphasis } from '../emphasis';
+import { Guidance } from '../guidance';
 import { GlanceStage } from './glance';
 import { PlaceStage } from './place-stage';
 import { SceneSurface } from './scene-surface';
@@ -46,7 +48,11 @@ export class AtHand {
   static Pane({ app, draw, held: h }: { app: ReaderApp; draw: Draw; held: Held }) {
     const s = app.state, exchange = s.frame!.leaf.exchange, told = s.kept && !s.pending && exchange
       && (exchange.lines.length || exchange.notes.length) ? exchange : undefined;
-    const shown = h.choices.filter(c => draw.index.has(c.id));
+    const shown = h.choices.filter(c => draw.index.has(c.id)), acts = s.frame!.leaf.glance?.acts, gilded = Guidance.shown(app);
+    // Each act drawn as what the glance found in it, so that the mark on Look… and on the thing's row is found again on
+    // the act it is for (the owner, 12 November: green on the rail, and nothing inside said which).
+    const bar = (c: Choice) => Emphasis.bar(Emphasis.within(acts, c, (acts ?? []).filter(a => a.choice === c.id)
+      .flatMap(a => a.aspects.filter(x => x !== 'undertaking' || a.continues))), gilded);
     return (
       <section className="ah-pane" aria-live="polite" data-held={h.id}>
         <h3>{Typography.curl(Words.upper(h.name))}</h3>
@@ -54,7 +60,8 @@ export class AtHand {
         {h.seen.map((p, i) => <p key={i} className="ah-seen">{Typography.curl(p)}</p>)}
         {s.pending ? <Told.Working pending={s.pending} /> : told && <Told.Happened exchange={told} said app={app} />}
         {shown.length > 0 && <ul className="acts column">{shown.map(c => <li key={c.id}>
-          <Act.View choice={c} draw={draw} marked>{Typography.curl(c.alone ?? Words.upper(PlaceStage.also(c.label)))}</Act.View>
+          <Act.View choice={c} draw={draw} marked>{bar(c) && <i className="prism-bar" aria-hidden="true"
+            style={{ '--prism': bar(c) } as CSSProperties} />}{Typography.curl(c.alone ?? Words.upper(PlaceStage.also(c.label)))}</Act.View>
           <PlaceStage.Opened choice={c} draw={draw} />
         </li>)}</ul>}
       </section>

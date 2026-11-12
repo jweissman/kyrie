@@ -13,7 +13,7 @@ export class TalkFocus {
   static readonly services = new Set(['take_lodging', 'take_lodging_guest', 'take_healing', 'work_keep', 'sing_supper',
     'sell', 'sell_valuable', 'sell_ware', 'buy_goods', 'train_member', 'learn_skill', 'learn_spell', 'learn_reward']);
   static of(replies: Choice[],
-    at: { led?: string; heard?: string[]; asked: string[]; aims?: string[]; paying?: string[] }) {
+    at: { led?: string; marked?: string[]; heard?: string[]; asked: string[]; aims?: string[]; paying?: string[] }) {
     const answers = replies.filter(c => c.answer);
     const services = replies.filter(c => !c.answer && TalkFocus.service(c));
     const said = TalkFocus.beyond(replies.filter(c => !c.answer && !services.includes(c)));
@@ -23,6 +23,8 @@ export class TalkFocus {
     const led = [...fresh.filter(c => TalkFocus.pays(c, at.paying)), ...at.led ? fresh.filter(c => c.command === at.led
       || c.id === at.led || !!c.children?.some(k => k.command === at.led)) : [],
     ...fresh.filter(c => TalkFocus.aimed(c, at.aims ?? [])),
+    // What the glance found in them, that their likeness is drawn for (see Promoted.inside): never under the fold.
+    ...fresh.filter(c => !!at.marked?.some(m => c.command === m || !!c.children?.some(k => k.command === m))),
     ...fresh.filter(c => TalkFocus.weighty(c))].filter((c, i, all) => all.indexOf(c) === i);
     // New since the last thing said: not offered then (a group, if none of what it holds was).
     const opened = at.heard ? fresh.filter(c => !heard.has(c.id) && !c.children?.some(k => heard.has(k.id))

@@ -27,7 +27,7 @@ export class HonestPlayer {
       const sub = Attending.place(SceneModel.build(g.screen)).subjects.find(x => x.id === person.id);
       const replies = Attending.all(sub?.choices ?? []).filter(c => c.command && !/^(buy|sell)_/.test(c.command));
       const aims = (g.screen.aims ?? []).filter(a => a.followed).map(a => a.text);
-      // A sale led for the aim is in Trade, drawn in the aim's gold: opened, and the sale made (see TalkStage.traded).
+      // A sale led for the aim is in Trade, drawn in the aim's gold: opened, and the sale made (see TalkStage.ToTrade).
       if (lead.for && /^sell_/.test(lead.for)) { this.log.push(`  trades: ${lead.for}`); await g.perform(lead.for); return true; }
       const gold = replies.filter(c => c.command === lead.for || TalkFocus.aimed(c, aims));
       const shown = TalkFocus.of(replies, { ...lead.for ? { led: lead.for } : {}, asked: [], aims }).salient;

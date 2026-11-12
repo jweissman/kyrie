@@ -35,6 +35,8 @@ export interface Reading {
   // Who could join the company (see Companions); the places one way off where the company perceives someone who might
   // (see Perception).
   companions?: Set<string>; sensed?: Set<string>;
+  // The topics whose answer has the one asked willing to come along (Assert willing(them, …)), by choice id.
+  willing?: Set<string>;
   // What the company's last act opened, by command (see ActionFeedback.opened): led first, as what came of it.
   opened?: Set<string>;
   // Places about the company it left having done nothing there, with nothing done since: no aim leads back to them.
@@ -160,6 +162,12 @@ export class Affordances {
     // under Look about once its keeper fell: OWN-57's play).
     const spoils = screen.things.find(t => t.id === s.id)?.valuable
       && leaves.some(c => /^(take_item|take_out)\(/.test(c.command!));
+    // What there is to learn of someone with something to ask, and the asking that would have them come along: a
+    // likeness is drawn blue, or rose, only for something within it that is (the owner, 12 November: blue pips with no
+    // blue question, a rose pip and the recruiting unmarked).
+    const learned = fresh.find(c => c.teaches && !r.done.has(c.command!)) ?? fresh.find(c => !r.done.has(c.command!));
+    const joining = leaves.find(c => r.schema.get(c.command!) === 'recruit')
+      ?? leaves.find(c => r.willing?.has(c.command!) && !r.done.has(c.command!));
     const whys: Why[] = [...answer ? ['answer' as const] : [], ...named ? ['named' as const] : [], ...kin ? ['kin' as const] : [],
       ...held ? ['held' as const] : [],
       // What the aim followed waits on, done here (the dead man's box, found, taken up): the aim's own next step,
@@ -172,13 +180,22 @@ export class Affordances {
       ...this.about(fresh, r) || this.there(s, leaves, r) ? ['about' as const] : [],
       ...person && r.life === s.id && !talked ? ['life' as const] : [],
       ...this.ownWhy(leaves, r), ...r.signs.has(s.id) ? ['sign' as const] : [],
-      ...person && s.asked && !talked ? ['asked' as const] : [], ...feature && looked ? ['unlooked' as const] : [],
-      ...person && r.companions?.has(s.id) ? ['companion' as const] : []];
+      ...person && s.asked && !talked && learned ? ['asked' as const] : [], ...feature && looked ? ['unlooked' as const] : [],
+      ...person && r.companions?.has(s.id) && joining ? ['companion' as const] : []];
     const needs = this.served(leaves, r);
     const asked = named ? serving[0] ?? (talked ? undefined : fresh.find(c => !r.done.has(c.command!)))
       : fresh.find(c => !r.done.has(c.command!));
+    // The act within that each reason is for, so that the page finds it again inside (see Promotion.inside).
+    const kept = (kin || named || held) && asked?.command, take = spoils
+      ? leaves.find(c => /^(take_item|take_out)\(/.test(c.command!))?.command : undefined;
+    const within: Partial<Record<Why, string>> = { ...answer?.command ? { answer: answer.command } : {},
+      ...kept ? { named: kept, kin: kept, held: kept } : {}, ...moving[0] ? { advance: moving[0].command! } : {},
+      ...take ? { spoils: take, ...!moving[0] ? { advance: take } : {} } : {},
+      ...learned ? { asked: learned.command! } : {}, ...joining ? { companion: joining.command! } : {},
+      ...looked ? { unlooked: looked.command! } : {},
+      ...Object.fromEntries(needs.flatMap(n => n.choice?.command ? [[n.why, n.choice.command]] : [])) };
     const base = { subject: s.id, kind: person ? 'talk' as const : 'act' as const, r };
-    return [this.candidate(opener, { ...base, whys: [...whys, ...needs.map(n => n.why)], notes: {
+    return [this.candidate(opener, { ...base, whys: [...whys, ...needs.map(n => n.why)], leaves: within, notes: {
       ...answer ? { answer: answer.label } : {}, ...kin || named ? { kin: word?.startsWith('your ') ? word : 'your aim' } : {},
       ...held ? { held: word?.startsWith('your ') ? word : 'another aim' } : {}, companion: 'might come along',
       ...Object.fromEntries(needs.map(n => [n.why, n.note])) },
@@ -411,7 +428,8 @@ export class Affordances {
     return !!c.risk || (!!c.children?.length && c.children.every(k => this.risky(k)));
   }
   private static candidate(c: Choice, at: { kind: Kind; whys: Why[]; r: Reading; subject?: string; exit?: string;
-    notes?: Candidate['notes']; command?: string; for?: string; visited?: boolean; pointed?: boolean }): Candidate {
+    notes?: Candidate['notes']; leaves?: Candidate['leaves']; command?: string; for?: string; visited?: boolean;
+    pointed?: boolean }): Candidate {
     const command = at.command ?? this.command(c);
     // Done here already, and going nowhere, it is not the way toward the aim: the speaking door listened at, and
     // listened at again, had kept the gold (the owner, 12 November: never round a loop that advances nothing).
@@ -420,6 +438,7 @@ export class Affordances {
     const whys = again || this.risky(c) || !command ? at.whys.filter(w => w !== 'toward') : at.whys;
     return { choice: c.id, label: c.label, ...command ? { command } : {}, ...at.for ? { for: at.for } : {},
       ...at.subject ? { subject: at.subject } : {},
+      ...at.leaves && Object.keys(at.leaves).length ? { leaves: at.leaves } : {},
       ...at.exit ? { exit: at.exit } : {}, kind: at.kind, whys, ...at.notes ? { notes: at.notes } : {},
       order: 0, marks: c.marks ?? [], ...c.minutes ? { minutes: c.minutes } : {},
       ...this.risky(c) ? { risk: true } : {},

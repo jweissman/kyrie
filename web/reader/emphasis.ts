@@ -1,4 +1,5 @@
-import type { Aspect } from '../../src/presentation/glance-types';
+import type { Aspect, Promoted } from '../../src/presentation/glance-types';
+import type { Choice } from '../../src/ui/choice-list';
 
 // How an opportunity's aspects are drawn (amendment 6, C): the page's one table of them. Meaning is the engine's
 // (see Aspects); this is presentation only, and the only place a colour stands for an aspect. Gold is the aim the
@@ -28,6 +29,26 @@ export class Emphasis {
   static prism(aspects: readonly Aspect[] | undefined, gilded = true): string | undefined {
     const tones = this.drawn(aspects, gilded).map(a => `var(--tone-${this.tones[a]})`);
     return tones.length > 1 ? `linear-gradient(in oklab 180deg, ${tones.join(', ')})` : undefined;
+  }
+  // What an act within an opener (a topic in a talk, a taking up in Look…) is, from what the glance leads with that
+  // opens it (see Promoted.inside), and what it says of itself (that it teaches); the aim's only where it is the aim's
+  // next step: so that whatever the likeness or the mark outside was drawn as is found again on the act it is for (the
+  // owner, 12 November: blue pips with no blue question, a rose pip and the recruiting unmarked).
+  static within(acts: readonly Promoted[] | undefined, c: Choice, also: Aspect[] = []): Aspect[] {
+    const next = (acts ?? []).some(a => a.continues && this.is(c, a.for));
+    const all = [...next ? ['undertaking' as const] : [],
+      ...(acts ?? []).flatMap(a => (a.inside ?? []).filter(x => this.is(c, x.command)).flatMap(x => x.aspects)),
+      ...also];
+    return all.filter((a, i) => all.indexOf(a) === i);
+  }
+  // Whether a choice does a command, or holds one that does (a group of questions).
+  private static is(c: Choice, command?: string): boolean {
+    return !!command && (c.command === command || !!c.children?.some(k => k.command === command));
+  }
+  // The fill of the one indicator at a choice's left edge: through its tones where several meet, else its tone.
+  static bar(aspects: readonly Aspect[] | undefined, gilded = true): string | undefined {
+    const tone = this.of(aspects, gilded).tone;
+    return this.prism(aspects, gilded) ?? (tone ? `var(--tone-${tone})` : undefined);
   }
   // Said beside it where nothing else says why: the chief aspect's word.
   static said(aspects: readonly Aspect[] | undefined, gilded = true): string | undefined {
