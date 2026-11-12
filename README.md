@@ -93,11 +93,15 @@ bun run web:build              # after any .kyr or data change: the browser bund
 ## Develop
 
 ```sh
-bun run check            # lint (zero warnings), typecheck, then the full suite
-bun run test:quick       # the specs that take under two seconds each: about half a minute
-bun run test:changed     # the specs a change touches, by its code and by the data it names
+bun run check:fast       # the routine check: incremental typecheck, cached lint, the quick suite (about 30 s warm)
+bun run test:changed     # then the specs a change touches, by its code and by the data it names
+bun run test:quick       # the specs under two seconds each (about 10 s, one module registry a worker)
 KYRIE_BROWSER=1 bun test ./test/opening-browser.test.ts   # real-browser journeys (Playwright Chromium; one heavy job at a time)
 ```
+
+The whole suite (some 840 spec files, over 800 CI file-minutes), the browser specs and the long descents
+(`KYRIE_LONG=1`) are CI's: push a branch and read its run. `bun run check` runs everything locally and takes hours;
+it is not the routine check. Why, and the route to a faster loop: `doc/architecture/mission-20/test-loop.md`.
 
 `test/march-journey.test.ts` plays the March's three expeditions end to end; `test/conflict.test.ts` the necromancer's
 operations and what disrupts them; `test/holt-keep.test.ts` the keep; `test/encounters.test.ts` declared intents,
