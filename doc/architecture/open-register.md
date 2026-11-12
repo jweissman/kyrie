@@ -362,6 +362,8 @@ claims nothing beyond what the sources say.
 
 ## Owner directives possibly unmet
 
+> **Superseded (12 November, early):** this list dates from 11 November. Take the current account, brief by brief, from `mission-20/briefs-audit.md`; its omissions are §21 here (R10-01..06). The list is kept below unchanged for the record.
+
 From the memory notes and the log's amendments. "Possibly" means no source records them done; this is not proof
 they were not done.
 
@@ -587,10 +589,10 @@ Open:
 | R10-08 | Paintings against the text, again: a sunny portico for a broken keep in a stormy evening, a cosy candle-lit gatehouse, a flag flying on a ruin, egg sacs after burning, Hepzibah young and with a lute for "a small grey woman in spectacles", a hillside "four storeys down" (R, S) | open: recurring with R9-12 | P1 | M21 |
 | R10-09 | The way back, and some features (the spring, the tripwire), only under Go… and Look…; walking out of a mine was Go… in every room (S 96–97, 115–119) | open: recurring with PR-08 (the owner's decision) | P1 | owner |
 | R10-10 | The origin's thing is not an object: the dead man's map is not in the pack; light is not shown (S found the candle running out only in Wait) | open | P2 | M21 |
-| R10-11 | Text of what could not be seen: a new aim describing a flag in pitch dark (S 62); "You know now: the wire runs…" of a wire never mentioned (S 86); a clue to an undercroft never seen (R 107) | open: with R9-07 and NM-01 | P2 | M21 |
+| R10-11 | Text of what could not be seen: a new aim describing a flag in pitch dark (S 62); "You know now: the wire runs…" of a wire never mentioned (S 86); a clue to an undercroft never seen (R 107) | **partly fixed**: the undercroft's letters said as seen (E200); the flag described in the dark, and the wire, open (with R9-07, NM-01) | P2 | M21 |
 | R10-12 | The fights are too easy, and an at-will heal (Love's Kindle, 1d3+10, under Wait → Tend) makes hit points meaningless; warned dangers (wolves "will not wait") do nothing when walked past (R, S) | open: balance | P2 | M21 |
-| R10-13 | Stale offers: the adit's padlock offered from inside the adit; "Still to do: deal with the spiders' mother" after she was dead; the crypt door's force-and-pick beside "you have the key" (R 80, 100, 129; S 33–37) | open | P2 | M21 |
-| R10-14 | Portraits reorder when someone joins, and a tap lands on the wrong person (R 61, 134); "Take your leave" by its number empties the talk (R 31) | open: with R9-11 | P3 | M21 |
+| R10-13 | Stale offers: the adit's padlock offered from inside the adit; "Still to do: deal with the spiders' mother" after she was dead; the crypt door's force-and-pick beside "you have the key" (R 80, 100, 129; S 33–37) | **partly fixed**: a lock the company holds the key to is no longer offered to be forced in Look… (E199); the adit's padlock from inside and the mother's "still to do" open | P2 | M21 |
+| R10-14 | Portraits reorder when someone joins, and a tap lands on the wrong person (R 61, 134); "Take your leave" by its number empties the talk (R 31) | **partly fixed**: the likenesses keep their places (E198); the leave by its number, open with R11-01 | P3 | M21 |
 | R10-15 | Most townsfolk have one line; the main aim (a lost sister) cannot be asked about except of one person, at item 13 of his topics, and his clue ("just inside, where the light gives out") is not in the Notes (R) | open: content and Notes | P2 | M21 |
 | R10-16 | "The followed aim switched by itself" (S 128) | **not reproduced**: S's own note 127 says S pressed Follow this; the followed aim is set only by the player (`Undertakings.follow`) | — | — |
 | R10-17 | a1, the debt: once the nearest old place (Ísencepan) is spent, the aim goes on to "the next old place", Marsh Howe (region__w10). It is on the company's map, but `Itineraries.destinations` gives no plan to it, so no act sets out for it and the gold is lost at Mik's (gold survey, a1/debt, step 10; also LOST before tonight) | open: the company knows it (`region__w10_named`, `region__w10_found` both held) but `Itineraries.plan` returns nothing (no known route, nor a wild area to go toward); with E163 and OWN-43 (the map that knows no way). Probe: tools/gold-survey.ts with V=1 | P1 | M21 |
@@ -623,4 +625,4 @@ Open:
 | R11-08 | Dannel Hobb's "what he saw in the old quarry" offered only after the quarry was done, then gone; Rolen's "talk to the boy first" could not be followed (U 140–142) | open | P2 | M21 |
 | R11-09 | Paintings and portraits against the text: the big top as a kitchen; two inns one hall; a lizardfolk companion painted as a human woman (T 113; U 78, 160) | open: recurring with R9-12, R10-08 | P1 | M21 |
 | R11-10 | No bed at Mossminster's guest-hall, though Wait says to get one of an innkeeper or a priest (T 87–93) | open | P3 | M21 |
-| R11-11 | The domain screen's Continue overlaps the "Later:" spell line (T 08; R 08) | open: recurring, a creation safe-zone fault | P2 | M21 |
+| R11-11 | The domain screen's Continue overlaps the "Later:" spell line (T 08; R 08) | **fixed** (E202): many cards on a wide, short screen are square; rendered at 1280 by 800 | P2 | M21 |

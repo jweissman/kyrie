@@ -90,6 +90,8 @@ Reproduce headlessly with `bun /var/tmp/kyrie/m20/tools/leads.ts <origin> <race/
 
 ## Open queue (11 November, late)
 
+> **Superseded:** the open items now live in the register (`../open-register.md`, §19–§23) and the handoff's Part 2. This queue is kept unchanged for the record.
+
 Kept here so that nothing asked is lost between sessions; taken in this order. Done since the night's list: the rail,
 explorer and prism (79c26bdf); gold on the map (1b4cd55d, fb622d59); portraits ringed by their aspects (bc2d9436);
 the owner's blocking report: the trap (E101, 62cd387c), the route (E103) and the navigation (E104, fb622d59).
