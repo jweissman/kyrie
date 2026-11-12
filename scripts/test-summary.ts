@@ -5,7 +5,7 @@
 //   bun test --reporter=junit --reporter-outfile=junit.xml; bun scripts/test-summary.ts junit.xml [--none-skipped]
 import { appendFileSync, existsSync, readFileSync } from 'node:fs';
 
-interface Case { name: string; file: string; line: string; outcome: 'passed' | 'failed' | 'skipped' }
+interface Case { name: string; file: string; line: string; outcome: 'passed' | 'failed' | 'skipped'; seconds: number }
 export class TestSummary {
   static cases(xml: string): Case[] {
     const cases: Case[] = [];
@@ -14,7 +14,7 @@ export class TestSummary {
       // bun reports a skipped block's hooks (beforeAll, afterAll) as cases with no name: they are named by their block.
       const name = this.attribute(attributes, 'name'), block = this.attribute(attributes, 'classname');
       cases.push({ name: name === '(unnamed)' ? `(a hook of "${block}")` : name, file: this.attribute(attributes, 'file'),
-        line: this.attribute(attributes, 'line'),
+        line: this.attribute(attributes, 'line'), seconds: Number(this.attribute(attributes, 'time')) || 0,
         outcome: /<(failure|error)\b/.test(body) ? 'failed' : /<skipped\b/.test(body) ? 'skipped' : 'passed' });
     }
     return cases;
@@ -33,8 +33,24 @@ export class TestSummary {
       if (!these.length) { continue; }
       lines.push('', `**${outcome}**`, '', ...these.map(c => `- \`${c.file}${c.line ? `:${c.line}` : ''}\` ${c.name}`));
     }
+    lines.push(...this.overBudget(cases));
     return `${lines.join('\n')}\n`;
   }
+  // What is over the budget a spec should keep to, said and not yet failed (Mission 20's landing: one spec file had
+  // taken 53 CI-minutes; mission-20/test-loop.md §5b): a test over three minutes, a file over ten.
+  static readonly budget = { test: 180, file: 600 };
+  private static overBudget(cases: Case[]): string[] {
+    const files = new Map<string, number>();
+    for (const c of cases) { files.set(c.file, (files.get(c.file) ?? 0) + c.seconds); }
+    const tests = cases.filter(c => c.seconds > TestSummary.budget.test).sort((a, b) => b.seconds - a.seconds);
+    const long = [...files].filter(([, s]) => s > TestSummary.budget.file).sort((a, b) => b[1] - a[1]);
+    if (!tests.length && !long.length) { return []; }
+    const m = TestSummary.min;
+    return ['', `**over budget** (a test over ${m(TestSummary.budget.test)}, a file over ${m(TestSummary.budget.file)}:`
+      + ' reported, not yet failed)', '', ...long.map(([f, s]) => `- \`${f}\` ${m(s)} in all`),
+    ...tests.map(c => `- \`${c.file}${c.line ? `:${c.line}` : ''}\` ${m(c.seconds)}: ${c.name}`)];
+  }
+  private static min(seconds: number): string { return `${Math.round(seconds / 60)} min`; }
   static main(args: string[]): number {
     const file = args[0];
     if (!file) { console.error('usage: bun scripts/test-summary.ts junit.xml [--none-skipped] [--title t]'); return 2; }
