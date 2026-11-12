@@ -81,13 +81,9 @@ export class CompanyRecall {
   }
   // Whether the company has left this place twice having done nothing there, with no news since: once is passing
   // through, or not yet getting to what is there (the ruts at the bridge, still to be looked at).
-  // Nor a place within which something was done but going (a coin taken in a keep's gate-passage: the keep had been
-  // idle, and the debt's way back to it never led: the owner, 12 November); within is the world's nesting.
-  idle(place: string, within?: (at: string) => boolean): boolean {
+  idle(place: string): boolean {
     const times = CompanyRecall.times(this.r, place) + (this.lastly.left === place ? 1 : 0);
-    if (this.lastly.acted || times < 2) { return false; }
-    return !within || ![...this.r.done].some(([at, acts]) => at !== place && within(at)
-      && [...acts].some(a => !/^go\(/.test(a)));
+    return !this.lastly.acted && times >= 2;
   }
   private static times(r: Read, place: string): number {
     const was = r.idle.get(place);

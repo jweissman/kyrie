@@ -161,10 +161,19 @@ export class Origins {
     const after = this.after(region, s), inn = !!SettlementWriter.rooms(region, s).taproom;
     const near = inn ? this.near(region, s) : {};
     // Told at the inn of the old places round about, the aim is the nearest of them, where there may be what pays.
-    const out = near.near ? '  Place near "the old place" is site.\n  Objective owing_out when owed(loan) > 0 and not '
-      + 'called(party) and (spoke(party) or not at(party, shop)) and quantity(party, gold) < owed(loan) and not laden(party) and knows(party, '
-      + 'told) toward near "You owe {creditor} {owed(loan)} coin by market day. {keeper} told of {near}, nearest of the '
-      + 'old places round about: what is in such places could pay it.".\n' : '';
+    // Been to the nearest and still short, the next the innkeeper told of: the gold had led back to the first, spent,
+    // again and again (the gold walk, 12 November).
+    const owing = 'owed(loan) > 0 and not called(party) and (spoke(party) or not at(party, shop)) and quantity(party, '
+      + 'gold) < owed(loan) and not laden(party) and knows(party, told)';
+    const out = near.near ? `  Place near "the old place" is site.\n  Objective owing_out when ${owing}${near.further
+      ? ' and not nearSpent(party)' : ''} toward near "You owe {creditor} {owed(loan)} coin by market day. {keeper} `
+      + 'told of {near}, nearest of the old places round about: what is in such places could pay it.".\n'
+      + (near.further ? '  Place further "the next old place" is site.\n  Relation nearSpent(group).\n'
+        + '  Rule near_spent when been(party, near) and at(party, shop) and owed(loan) > 0 and not nearSpent(party) '
+        + '{ Assert nearSpent(party). }\n'
+        + `  Objective owing_further when ${owing} and nearSpent(party) toward further "You owe {creditor} `
+        + '{owed(loan)} coin by market day, and {near} is spent. {keeper} told of {further} as well: what is in such '
+        + 'places could pay it.".\n' : '') : '';
     return { values: { ...this.approach(region, s), merchant: s.merchant, after: after.said, out,
       lost: (tables.lost as Record<string, string>)[s.trade] ?? 'a cartload of goods' },
     start: { place: `${s.id}_shop` }, imports: { shop: [`region.${s.id}_shop`, 'place'],
@@ -176,9 +185,10 @@ export class Origins {
       creditor: [`region.${s.id}_merchant`, 'group'], ...after.imports } };
   }
   // The nearest of the old places the innkeeper tells of, for the debt's aim once told (see RegionRumours).
-  private static near(region: Region, s: Settlement): { near?: [string, string] } {
-    const site = RegionRumours.nearest(region, s, RegionRumours.told(region))[0]?.site;
-    return site ? { near: [`region.${site.id}`, 'place'] } : {};
+  private static near(region: Region, s: Settlement): { near?: [string, string]; further?: [string, string] } {
+    const [site, next] = RegionRumours.nearest(region, s, RegionRumours.told(region)).map(x => x.site);
+    return site ? { near: [`region.${site.id}`, 'place'], ...next ? { further: [`region.${next.id}`, 'place'] } : {} }
+      : {};
   }
   // What a debt paid leaves (the play-structure investigation's PT-01: a resolution had ended in "Nothing more is
   // asked of you"): the merchant, square, says where there is work for someone with nothing to lose, the makers' work

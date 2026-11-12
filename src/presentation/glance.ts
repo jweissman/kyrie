@@ -150,10 +150,8 @@ export class Glance {
       this.named(campaign), this.addressed(campaign))));
     const held = this.inside(campaign, screen,
       new Set([...screen.aimed ?? []].filter(id => !named.has(id) && id !== campaign.playerActor)));
-    const byId = EntityIndex.of(campaign.module.entities).byId;
     const idle = new Set([...screen.around ?? [], ...screen.destinations ?? []].map(d => d.id)
-      .concat(screen.exits.map(e => e.destination.id), [...named], [...held])
-      .filter(id => recall.idle(id, at => Spatial.ancestry(byId, at).some(e => e.id === id))));
+      .concat(screen.exits.map(e => e.destination.id), [...named], [...held]).filter(id => recall.idle(id)));
     const back = recall.came && screen.exits.find(e => e.destination.id === recall.came)?.destination.id;
     const commands = this.commands(screen);
     const authored = new Set(rows.filter(r => this.changes.includes(r.action.schema ?? '')).map(r => r.choice.id));
