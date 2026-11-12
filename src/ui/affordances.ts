@@ -195,6 +195,9 @@ export class Affordances {
       ...take ? { spoils: take, ...!moving[0] ? { advance: take } : {} } : {},
       ...learned ? { asked: learned.command! } : {}, ...joining ? { companion: joining.command! } : {},
       ...looked ? { unlooked: looked.command! } : {},
+      // A sign seen in them is had by looking closer, or by what is led with them (making much of the grey dog).
+      ...r.signs.has(s.id) && (looked?.command ?? this.command(opener))
+        ? { sign: looked?.command ?? this.command(opener)! } : {},
       ...Object.fromEntries(needs.flatMap(n => n.choice?.command ? [[n.why, n.choice.command]] : [])) };
     const base = { subject: s.id, kind: person ? 'talk' as const : 'act' as const, r };
     return [this.candidate(opener, { ...base, whys: [...whys, ...needs.map(n => n.why)], leaves: within, notes: {
