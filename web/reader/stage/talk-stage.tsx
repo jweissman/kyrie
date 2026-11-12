@@ -62,8 +62,10 @@ export class TalkStage {
       ...TalkFocus.aimed(c, followed) ? ['undertaking' as const] : [],
       ...TalkFocus.pays(c, frame.screen.paying) ? ['payoff' as const] : []]);
 
-    // Numbered in the order they are drawn, the leave last, before anything is drawn (see TalkStage.n).
-    for (const c of [...focus.answers, ...focus.salient, ...focus.more, talk.leave]) { TalkStage.n(app, TalkStage.key(c)); }
+    // Numbered in the order they are drawn, before anything is drawn (see TalkStage.n): taking your leave before what
+    // is folded away, so that the numbers shown run without a gap (Bask's 1, 2, 3 and
+    // then 5: the contact sheet, 12 November); each keeps its number as before (R11-01).
+    for (const c of [...focus.answers, ...focus.salient, talk.leave, ...focus.more]) { TalkStage.n(app, TalkStage.key(c)); }
     return (
       <div className="talk" id="page">
         <TalkStage.Sitter app={app} name={name!} role={role.join(' · ')}>

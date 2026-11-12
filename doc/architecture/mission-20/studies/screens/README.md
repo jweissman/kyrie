@@ -104,5 +104,23 @@ conversation on a phone and the fight broke it until mended one by one on 12 Nov
 
 This is the foundation A and B are best built on, and M21's first aesthetic task in the builder's judgment.
 
+**Discovery for A and C (12 November, evening), measured on the tree:**
+
+- `Act.View` (the shared atom) is rendered from 13 files: `place-stage` 11 times, `glance` 7, `talk-stage` 4,
+  `thing-stage` 2, `character-page` 2, and once each from `world-stage`, `wayfinder`, `scene-rail`, `pastime`,
+  `fight-moves`, `at-hand`, `pack-grid`. Each lays out its own list.
+- Eleven files render choosable buttons **without** `Act.View` (their own `data-choice`, `data-pick` or `data-action`):
+  `fight-moves` (the move bar and its panel), `fight-stage`, `wayfinder`'s rows, `at-hand`'s rows, `world-stage`
+  (likenesses, the map's card), `prologue-stage`, `pack-grid`, and four creation steps. These are what `Menu` would
+  absorb; creation's cards are a separate grammar (a deck) and need not be.
+- The stylesheets are eleven files, 3 323 lines. Only `rest.css` (28), `talk.css` (8), `fight.css` (6) and `frame.css`
+  (5) read the safe zone's variables; `stage.css` (53), `reader.css` (45), `glance.css` (36), `book.css` (34),
+  `world.css` (22) and others position against fixed pixel edges (an upper bound: some are a pip's place in its
+  likeness, not a page's edge). One element's place is often set in three files (the likenesses: `world.css`, then
+  `rest.css` three times by media query). `SafeFrame` would replace the page-level ones; the rest stay.
+- Scope, in the builder's estimate: `Menu` replacing the led list, the conversation's replies and the fight's bar is
+  a week of careful work with the browser specs (the driver finds choices by `data-choice` and must follow); `SafeFrame`
+  is smaller if done page by page behind the contract test.
+
 None is begun here: the owner's brief of 12 November evening asks M20 to land, and M21 to take the aesthetic
 investigation separately.
