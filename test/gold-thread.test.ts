@@ -4,6 +4,9 @@ import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { Undertakings } from '../src/presentation/undertakings';
 import { ScreenModel } from '../src/ui/screen-model';
 import { Narrator } from '../src/presentation/narrator';
+import { PlayerView } from '../src/presentation/player-view';
+import { AimAdvances } from '../src/presentation/aim-advances';
+import { ModuleWriter } from '../src/lang/module-writer';
 
 // The thread of the gold, followed from the reason the company came (the owner's player report, 12 November: led
 // out of a place and back to it, and nothing there to advance the aim). A company that follows its errand and takes
@@ -40,6 +43,20 @@ describe('the gold\'s thread', () => {
       expect(walked.trail.at(-1)).toMatch(/box|pin/);
     }
   }, 240000);
+  // At a keep's door with its gate-passage open and not yet gone into, "Search here" had not been the aim's, and the
+  // gold had gone in, room by room, while the cross on the map was under the door-stone (round 9, P).
+  it('searches where the thing the aim waits on is hidden, before any way on', async () => {
+    const s = await DrawnWorld.start('kahitude', { origin: 'map', party: [{ name: 'Ralf', raceId: 'human', classId: 'warrior' }] },
+      NodeBundleSource.shared);
+    const c = s.campaign, aim = Undertakings.held(c).find(o => Undertakings.errand(c, o))!;
+    Undertakings.follow(c, aim.id);
+    const door = c.world.related('revealedBy').find(r => r.args[0] === 'origin__cache')!;
+    const place = c.module.observations!.find(o => o.teaches === door.args[1])!.place!;
+    c.commitWorld(c.world.apply([{ kind: 'retract', call: ModuleWriter.call('at', 'party', c.world.one('at', 'party')!) },
+      { kind: 'assert', call: ModuleWriter.call('at', 'party', place) }]));
+    const rows = PlayerView.choices(c), lead = AimAdvances.of(c, rows);
+    expect([...lead].map(id => rows.find(r => r.choice.id === id)?.action.schema)).toContain('search');
+  }, 120000);
   it('leads to the one who has the aim\'s next step, and to what they ask: the fever nursed', async () => {
     expect((await Thread.walk('kahitude', 'herbs')).end).toBe('done');
   }, 120000);

@@ -18,7 +18,8 @@ export class AimAdvances {
     // An assert advances what does not hold yet, a retract what does: the letter given to the priest is the brothers'
     // expecting no longer, and the filter on what holds had lost the order's thread at the shrine (the owner, 12
     // November).
-    const calls = this.waits(campaign.module, def), coin = this.short(def);
+    const waited = this.waits(campaign.module, def), calls = [...waited, ...this.hidden(campaign, waited)];
+    const coin = this.short(def);
     if (!calls.length && !coin) { return new Set(); }
     // An aim short of coin is advanced by selling (the debtor home with the hold's music box, at Tuck's, who buys such
     // things, had been led to ask him every question he knew: Mission 20); the purse is otherwise never waited on.
@@ -26,6 +27,17 @@ export class AimAdvances {
     return new Set(rows.filter(r => !r.action.movement && !/^buy_/.test(r.action.schema ?? '')
       && (this.brings(r.action).some(c => calls.some(x => this.match(c, x) && this.held(campaign, x) === (c.kind === 'retract')))
         || (coin && /^sell_/.test(r.action.schema ?? '')))).map(r => r.choice.id));
+  }
+  // A thing the aim waits on that is hidden until something is found is first searched for where it is found: the
+  // dead man's box, under the stone at the keep's door, had left the gold to go on into the keep and be lost there
+  // (round 9, P).
+  private static hidden(campaign: Campaign, calls: Call[]): Call[] {
+    const w = campaign.world, things = calls.filter(c => c.name === 'carries' && !c.args.at(-1)!.startsWith('?'))
+      .map(c => c.args.at(-1)!);
+    const facts = w.related('revealedBy').filter(r => things.includes(r.args[0]!)).map(r => r.args[1]!)
+      .filter(f => !w.test(ModuleWriter.call('knows', 'party', f)));
+    return (campaign.module.observations ?? []).filter(o => o.teaches && facts.includes(o.teaches) && o.place)
+      .map(o => ModuleWriter.call('searched', '?g', o.place!));
   }
   // A thing taken is what the aim waits on only where it names that thing: an aim that reads whatever is carried (the
   // debt, laden or not) was advanced by every flower gathered on a green.
