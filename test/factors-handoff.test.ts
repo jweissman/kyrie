@@ -93,7 +93,11 @@ describe('the factor who buys old bronze', () => {
     await GeneratedWorld.travel(s, `${town}_taproom`);
     await World.choose(s, /back from .* at fourteen to the pound/);
     expect(World.holds(s, 'keeps', 'party', 'plongman__teeth')).toBe(true);
+    // The eight days sat out at the march-stone, out of the way of the town's own troubles (the Bound Howe's
+    // Spade-Company, standing in the country since the adventure branch, had come at a company waiting in the taproom).
+    await GeneratedWorld.travel(s, 'gate_longman');
     await j.play(`=${t0 + 330 + 8 * 144}`);
+    expect(s.campaign.running).toBe(true);
     expect(World.holds(s, 'factors__carterGone', 'factors__carter')).toBe(false);
     await GeneratedWorld.travel(s, 'gate_lowwater');
     await frontier.expand(s.campaign);
