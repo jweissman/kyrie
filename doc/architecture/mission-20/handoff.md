@@ -373,7 +373,16 @@ Kept apart from what was delivered, as the owner asked.
 - **`../2026-11-11-adventure-to-career.md`**: the owner's direction from adventure to career.
 - **`../architecture-risk-mediation-2026-11-11.md`**: the risk review (R1–R10).
 
-## Part 5. Houseclean: noted, nothing deleted
+## Part 5. Houseclean
+
+> **Done at the close (12 November, after the cutoff, at the owner's word):** see `housekeeping.md`.
+> - 34 clean worktrees whose commits were already in main are removed.
+> - 34 merged local branches are deleted, each recorded with its commit.
+> - The 26 merged remote branches are listed with their commits and a one-line command. Deleting them needs the
+>   owner's permission in this environment.
+>
+> The adventure branch is being integrated (`integrate/first-steps`). The lists below are as they stood at the cutoff.
+
 
 **Remote branches already contained in main (26),** which can be deleted when the owner wishes:
 
