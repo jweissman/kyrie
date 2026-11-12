@@ -109,7 +109,7 @@ export class Narrator {
     const presence = this.presence(screen).filter(p => !echoed.has(Narration.sentence(p)) && !placed.includes(p)
       && !familiar.has(p));
     // How long a warning will wait follows what was told, the warning first (play 9 read the wait before the warning).
-    const wait = screen.warned && exchange ? this.waits(screen.warned) : undefined;
+    const wait = screen.warned && exchange ? this.waits(screen.warned, screen) : undefined;
     if (wait) { exchange!.lines.push({ text: wait, kind: 'event' }); }
     if (wait && presence.includes(wait)) { presence.splice(presence.indexOf(wait), 1); }
     // What has changed is told once: not again when the exchange told it, nor when it is who is here and doing what.
@@ -276,12 +276,20 @@ export class Narrator {
     else if (named.length) { lines.push(`Here are ${named.slice(0, -1).join('; ')}; and ${named.at(-1)}.`); }
     // How long whoever warns the company off will wait (the Banns at Hessel's friction 23: the rest of a watch, and
     // nothing on the page said so).
-    if (screen.warned) { lines.push(this.waits(screen.warned)); }
+    if (screen.warned) { lines.push(this.waits(screen.warned, screen)); }
     // Two of a kind doing the same (two goats at one hedge) are told once.
     return lines.filter((l, i) => lines.indexOf(l) === i);
   }
-  static waits(w: { by: string; left: number }): string {
-    return `${this.upper(w.by)} will give you ${w.left <= 5 ? 'a few minutes' : `${w.left} minutes`}, no more.`;
+  // A beast does not bargain: it watches, and comes on when the time is up (round 10, S: "will give you N minutes, no
+  // more" of every monster). Whoever can speak gives the company its minutes.
+  static waits(w: { by: string; left: number; id?: string }, screen?: Pick<Screen, 'people'>): string {
+    const time = w.left <= 5 ? 'a few minutes' : `${w.left} minutes`;
+    const who = screen?.people.find(p => p.id === w.id);
+    if (who?.kind === 'creature' || who?.kind === 'animal') {
+      return who.many ? `${this.upper(w.by)} are watching you. In ${time} they will be on you.`
+        : `${this.upper(w.by)} is watching you. In ${time} it will be on you.`;
+    }
+    return `${this.upper(w.by)} will give you ${time}, no more.`;
   }
   static readonly bare = new RegExp(`^(${['the', 'a', 'an', 'his', 'her', 'their', 'your', 'my', 'our', 'who', 'whose',
     'of', 'in', 'at', 'on', 'from', 'with', 'by', 'under', 'out', 'off', 'back', 'home', 'newly', 'lately'].join('|')}) `, 'i');

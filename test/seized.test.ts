@@ -10,10 +10,10 @@ describe('a seizing temperament', () => {
     const j = await Journey.start('test/fixtures/probes/seized/probe.campaign.json', 'k');
     await j.play('To the black wall');
     expect(j.taken.at(-1)!.page).toContain('hold out their hands, palm up. Not yet.');
-    expect(j.taken.at(-1)!.page).toContain('The Weights will give you 10 minutes, no more.');
+    expect(j.taken.at(-1)!.page).toContain('The Weights are watching you. In 10 minutes they will be on you.');
     // The wait is told after the warning it belongs to (play 9 read it before).
     const page = j.taken.at(-1)!.page;
-    expect(page.indexOf('Not yet.')).toBeLessThan(page.indexOf('will give you 10 minutes'));
+    expect(page.indexOf('Not yet.')).toBeLessThan(page.indexOf('In 10 minutes'));
     await j.play('Wait › A while');
     expect(j.taken.at(-1)!.page).toContain('The Weights take you by the arms');
     expect(j.taken.at(-1)!.event.combat).toEqual([]);

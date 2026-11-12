@@ -271,8 +271,10 @@ describe('a warning', () => {
     const toward = (c: { command?: string }) => c.command!.includes(warned.id!);
     expect(choices.every(c => marked.includes(c) === ((c.minutes ?? 0) >= warned.left && !toward(c)))).toBe(true);
     expect(choices.some(c => /^attack\(/.test(c.command!) && toward(c) && !marked.includes(c))).toBe(true);
-    // And the page says how long they will wait (the Banns at Hessel's friction 23).
-    expect(Narrator.leaf(s.campaign, screen).presence).toContain(`The wolves will give you ${warned.left} minutes, no more.`);
+    // And the page says how long they will wait (the Banns at Hessel's friction 23), as beasts do: watching, then on
+    // the company (round 10, S).
+    expect(Narrator.leaf(s.campaign, screen).presence)
+      .toContain(`The wolves are watching you. In ${warned.left} minutes they will be on you.`);
   }, 60000);
 });
 
