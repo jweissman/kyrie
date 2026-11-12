@@ -34,7 +34,9 @@ Module arcology "The Numbered House" {
     Hurts with sleep_dust when open then open.
   }
   Hazard sleep_dust "The gold dust of the bell-lilies" means "Apply asleep to ally for 1 hour unless constitution save against (12).".
-  Rule lilies_close when dark() and state(blossoms, open) says "As the light goes, the bell-lilies close, one after another, like a held breath let out in the dark." { Assert state(blossoms, folded). }
+  // Heard where the lilies are, not wherever the company is when night falls (a journey across the country had
+  // stopped at nightfall on the lilies closing: the integration of the adventure branch, map-set-out).
+  Rule lilies_close heard at garden when dark() and state(blossoms, open) says "As the light goes, the bell-lilies close, one after another, like a held breath let out in the dark." { Assert state(blossoms, folded). }
   Rule lilies_open when not dark() and state(blossoms, folded) { Assert state(blossoms, open). }
   Rule lilies_wilt_town when state(wheel_town, open) and not state(blossoms, wilting) says "Far below the Void, a great wheel has been turned, and the water that fed the fourth ring has gone somewhere else. The waterfall thins to a thread, and the bell-lilies lean." { Assert state(blossoms, wilting). }
   Rule lilies_wilt_dry when state(wheel_garden, stopped) and not state(blossoms, wilting) says "The waterfall stops as if a hand had closed on it." { Assert state(blossoms, wilting). }

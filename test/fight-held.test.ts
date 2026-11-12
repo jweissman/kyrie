@@ -63,7 +63,10 @@ describe('a fight that has ended', () => {
     expect(frame.combat!.after!.some(l => /^Wenna gains \d+ experience\.$/.test(l))).toBe(true);
     expect(frame.combat!.foes.every(f => f.down)).toBe(true);
     // Its page calls the hounds as the place did, and the account afterwards does: never by their number in the fight.
-    expect(frame.combat!.foes.map(f => f.name)).toEqual(['the first skeletal hound', 'the second skeletal hound']);
+    // (How many the den draws is the den's: two before the standing scenarios, three since.)
+    const names = frame.combat!.foes.map(f => f.name), nth = ['first', 'second', 'third', 'fourth', 'fifth'];
+    expect(names.length).toBeGreaterThan(1);
+    expect(names).toEqual(names.map((_, i) => `the ${nth[i]} skeletal hound`));
     expect(frame.combat!.exchanges.filter(e => /hound \d/.test(e.text))).toEqual([]);
     // Going on is all there is to do; the place it goes on to does not tell the blows over again.
     expect(ChoiceList.all(ChoiceList.combat(frame.combat!)).map(c => c.label)).toEqual(['Go on']);

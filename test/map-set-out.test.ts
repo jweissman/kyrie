@@ -98,11 +98,14 @@ describe('a journey at nightfall', () => {
     await j.step('^To the ');
     await j.step('=19:00');
     const far = j.screen().roads!.at(-1)!;
+    // Gone on until it stops in the dark: for the night, or for what met it on the road as night fell (two men off
+    // a wall, on a road the standing scenarios now keep), which is said first. Never stopped for the night by day.
     let done = await MapPlay.go(j, far.id);
-    for (let k = 0; k < 4 && done.stopped !== 'Night has come on' && !done.arrived && done.legs.length; k++) {
+    for (let k = 0; k < 4 && !FictionalTime.dark(c.readout.elapsed) && !done.arrived && done.legs.length; k++) {
+      expect(done.stopped).not.toBe('Night has come on');
       done = await MapPlay.go(j, far.id);
     }
-    expect(done.stopped).toBe('Night has come on');
+    expect(done.stopped).toBeDefined();
     expect([c.world.test(ModuleWriter.call('dark')), FictionalTime.dark(c.readout.elapsed)]).toEqual([true, true]);
     // An hour's journey set out on at seven ends before dark.
     expect(Hours.dark((19 - 8) * 6, 60)).toBe('');
