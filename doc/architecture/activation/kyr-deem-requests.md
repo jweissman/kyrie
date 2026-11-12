@@ -539,3 +539,11 @@ A warrior reading armed men, a cleric reading an oath, a thief reading a gate ar
 
 *Problem.* `Observe … noticed by <skill>` needs a catalogue skill; the warrior's are `brawn` and `intimidation`, and the Bound Howe borrows `intimidation` for "the diggers watch the hill, not the road" (`crew.kyr`, `lee_warrior`, `rv_camp_warrior`). A ranger's `woodcraft` does the same job for tracks, a scholar's `lore` for inscriptions, a cleric's `rites` and `insight`; the warrior has no `arms`-sense that is *noticed by*.
 *Request.* A skill `tactics` (or `arms`) granted to warrior, and to the ranger and the monk at half weight, in `data/catalog/skills.json` and `classes.json`; no engine change.
+
+## P4 (ties) requests, R110 onward
+
+### R110. A third party that moves, not only appears
+
+*Problem.* The ties' third parties (a dying mother, a rival claimant, a blamed boy) can only be hidden or shown with `Seen when`, because a settlement may lack a taproom or a shrine and a template cannot ask whether a room exists. A rival who walks to the site, is met on the road, and comes back, would be a better scene than a person who is absent and then present.
+*Request.* A template condition for a room's existence in the section header (`--- shape debt 3 if taproom`, as `if station` works today), and a person who may be written with a `Route` between a settlement's green and a site.
+*Reproduce.* `data/generation/town/ties.kyrt`, shape `debt`: `Seen when not {t}_tie_gone(party) or {t}_tie_back(party)`. Run `bun scripts/dump-region.ts thorn s2 | grep tie_heir` and compare it with the Hesper rule in `troubles.kyrt`, which moves a person between two rooms.
