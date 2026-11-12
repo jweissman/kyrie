@@ -1,4 +1,4 @@
-# Integrating `adventure/first-steps`: where it stands (12 November, early)
+# Integrating `adventure/first-steps` (12 November)
 
 **Verdict: verified, not merged.** The branch was merged onto main in review (`review/first-steps`), repaired where
 the faults were clear, and run through CI twice. It does not pass, and the faults that remain need decisions, not
@@ -73,3 +73,29 @@ Two failures in that run were main's own and are fixed on main: the map's second
 Once these are decided, the specs above can be judged one by one: re-recorded where the new content is right, and
 mended in the content where it is not. Nothing of the branch is lost: it stays on `adventure/first-steps`, and the
 review merge with its repairs on `review/first-steps`.
+
+## Integrated (12 November, after the cutoff, at the owner's word)
+
+The owner asked for the branch to be integrated. `integrate/first-steps` is current main with `review/first-steps`
+merged in. The only conflicts were generated files (the bundle and the wren trace), regenerated.
+
+**The open decisions, taken as ordinary design (the owner's ruling of 7 November):**
+1. **The four standing modules stay in every country, as the branch has them.** Their lines are mended to fit every
+   town's heart, so no town is told of a green or an inn it lacks.
+2. **The notice of jobs leads before the forged seal's receipt.** A place's own act comes before a thing found in it
+   (`Promotion.found`): the town's offer to everyone first.
+3. **R96 and R97 are left as the branch has them, for Mission 21.**
+
+**What the merge's failures were, and what was done:**
+
+| Spec | Cause | Done |
+|---|---|---|
+| prose-fit (every world) | the standing lines said "the green" or "the inn" where a town has neither | the lines reworded to fit any town |
+| goings-on-clocks | four manifests said "unclocked" of modules that keep a clock | the stray key removed |
+| glance-kite | the receipt led over the notice; a tie's going, heard on the green, cut a wait for dark; kite's den is now led (beasts and a leader) | the notice first; the tie's going told as what is seen there; the den's spec to the led den |
+| map-set-out (nightfall) | the arcology's lilies closed aloud on every road at nightfall; two men on the road met as night fell | the lilies heard where they are; the spec checks a night stop never comes by day |
+| land-knowing, natural-history, fight-held | the walk showed a cell more; the open country's chance meetings moved; a den drew three hounds | the specs measure what they are about, not the draw |
+| dorothea-oil | the branch's Skerrow endings closed the story while the company carried the Pharos oil for the other lights | the endings wait while the oil is carried |
+| factors-handoff | the Bound Howe's Spade-Company killed a company sitting out eight days in the town | the days sat out at the march-stone (open: should the howe's raid fall on a company in a taproom?) |
+| loot-in-reach (the crown) | the branch's mummy strikes twice, and a lone warrior loses to the king | the king felled in the spec (open: is the king now beyond a first-level company? balance) |
+| safe-zone at 390×844 | **a real fault:** worlds with the standing scenarios are 3.2 MB packed against 2.0, and a new world written beside the old filled the browser's storage, so nothing more was kept | `ReaderStore` keeps a new world in place of the old where the two do not fit, and puts the old back if even then it does not (spec reader-store) |
