@@ -516,3 +516,15 @@ first) is consistent with the adventure-to-career direction and the forward-desi
 | T13 | Authoring legibility lint | risk review R8; AB-14 | — | M21 |
 | T14 | Typed art query with provenance | CP-01 | — | M21 |
 | T15 | A contract corpus as the constitutional suite | M19 verification loop; forward design | the thread and gold specs are its first entries | M21 |
+
+## 19. The owner's player report (12 November)
+
+| Id | What | Status | Pri | When |
+|---|---|---|---|---|
+| PR-01 | Gold loses its thread: on the ways and the looking at once, on aims not chosen, out of a place and back | **fixed in the rules** (E153, E154): gold only after Follow this, on the one next step; what an act makes so is typed by its effects and resolution; surveyed over eight origins in two worlds (10 of 13 see the aim through or pause at a danger). Open: the order past the riddle door, a1's debt sent back to the keep (the keep counted idle), the wanderer with no errand to follow | P0 | M20 / M21 |
+| PR-02 | Choosing a place in the company's own hex walked it out of the town | **fixed** (E155): never across the country to a place in its own hex; not seen rendered | P0 | M20 |
+| PR-03 | The route preview no longer shows before setting out | **not reproduced headlessly**: every destination offered from the debt's opening has a course (/var/tmp/kyrie/m20/tools/preview.ts); a rendered check is round 8's | P1 | M20 (verify) |
+| PR-04 | A blue pip with no blue reply; a green Look with no clear collectible | **fixed** (E156): replies that teach are typed and marked; the Look list marks the thing it is lit for; not seen rendered | P1 | M20 |
+| PR-05 | Follow this too heavy | **fixed** (E153): a quiet word, gold only on hover | P2 | M20 |
+| PR-06 | Names of the opening from mixed tongues | **finding, not changed**: towns are Common (dwarvish in a dwarf country: right); countries are Old English (Merscfaenn, Faennmeós, Muntecg) over Common towns; the makers' works are pseudo-Latin compounds (Dolorechies, Umidusspira, Tenebraetumulo, Nocscustod) and reach the first fifteen minutes as places to set out for (/var/tmp/kyrie/m20/tools/names.ts, five seeds). Proposed rule: a work is known first by the townsfolk's Common name, its makers' name learned (the alias mechanism already does this for a place's look), and a human country's name is Common. Renames places dozens of specs walk to: not tonight | P2 | M21 |
+| PR-07 | Creation's order unchanged; the pack has no physical model | deferred, as the owner asked; an equipment model kept as a requirement (body positions, containers, transfer) | P2 | M21 |
