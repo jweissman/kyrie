@@ -71,6 +71,7 @@ Module wrongboat "The Wrong Boat" {
     Role "a toll-clerk, owed three months' wages". Ancestry human. Calling commoner. Level 1. Peaceable. Pronouns she. Manner stoic.
     Uses go. Plans 80 steps.
     Greets "A broad woman of forty-odd in a clerk's black sleeves, with a coin-scale in one hand and nothing in the other, turns from a barge-list and looks you over like a column of figures. 'You are not who I'm looking for,' she says. 'Or you are, and you are better at it than he was.'".
+    Greets again "Bess Lowther has the coin-scale in one hand and a torn corner of the barge-list in the other. 'Not him,' she says. 'Not the fool. You again. I am beginning to think you are the only person on this river who has seen what I came for.'".
   }
   Pursuit bess_fen for bess "going by the old fen road" priority 1 when not bessAlly(party) and not together(bess, party) and since(14) and aboard() seeks at(bess, fen_landing).
   Pursuit bess_dealer for bess "gone to the horse lines" priority 9 when soldHonest(party) and not bessMet(party) seeks at(bess, horse_lines).

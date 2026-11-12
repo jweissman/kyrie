@@ -43,6 +43,11 @@
       "seen": "a pit in the ground",
       "look": "Grass runs to the edge of a round pit in the ground.",
       "said": "Sheep go in. They do not come out."
+    },
+    "hold": {
+      "seen": "a walled keep on its rise",
+      "look": "A walled keep stands on a rise above the fields, smoke at its chimneys and a banner over its gate.",
+      "said": "A good gate, and a shut one after dark. Ask for the clerk before you ask for the castellan."
     }
   },
   "gloss": {

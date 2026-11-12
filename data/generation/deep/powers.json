@@ -19,7 +19,7 @@
       "fate": "'Two came back,' says {head}, 'and one of them will not speak. The other says it was waiting for them at the bottom, in the dark, and that the lamps were no use to them.' {head} looks at you for a long moment. 'I will not send more. Bring it to me and it is {price} coin.'",
       "won": "{prize} stands in {seat} now, under guard: the castellan's men brought it up out of {name}, and word has gone to the lord.",
       "sold": "{head} has {prize} carried off under guard, and sends word to the lord that the house of {kingdom} holds the country's oldest claim again.",
-      "gone": "'My men have gone up to {name},' says {head}. 'Six of them, with a mule for what they bring back. If you are going after it as well, you will find my mark on the walls, and you will know you are behind them.'"
+      "gone": "'My men have gone up to {name},' says {head}. 'Six of them, with a mule for what they bring back. If you are going after it as well, you will be behind them, and they will have had the first of what is there.'"
     },
     "abbots": {
       "founding": ["monastery"],

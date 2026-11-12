@@ -1,0 +1,82 @@
+{
+  "version": 1,
+  "source": [
+    "situation.kyr",
+    "crisis.kyr",
+    "rival.kyr",
+    "crew.kyr",
+    "town.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "imports": [
+    "party",
+    "land",
+    "outside",
+    "town",
+    "green",
+    "taproom",
+    "shrine",
+    "keeper",
+    "priest",
+    "first_green",
+    "first_taproom",
+    "first_keeper"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    },
+    "land": {
+      "type": "place"
+    },
+    "outside": {
+      "type": "place"
+    },
+    "town": {
+      "type": "place"
+    },
+    "green": {
+      "type": "place"
+    },
+    "taproom": {
+      "type": "place"
+    },
+    "shrine": {
+      "type": "place"
+    },
+    "keeper": {
+      "type": "group"
+    },
+    "priest": {
+      "type": "group"
+    },
+    "first_taproom": {
+      "type": "place"
+    },
+    "first_keeper": {
+      "type": "group"
+    },
+    "first_green": {
+      "type": "place"
+    }
+  },
+  "exports": {
+    "sheepway": "sheepway",
+    "ridge_told": "ridge_told",
+    "levy_told": "levy_told",
+    "warden_told": "warden_told",
+    "rival_told": "rival_told"
+  },
+  "generation": {
+    "type": "bound_howe",
+    "templates": "templates.json",
+    "tables": "tables.json"
+  },
+  "experience": 2400,
+  "unclocked": "the howe does not wait: the licence-men break the face by about the seventh day, a second company forces the door two days after it arrives, the dead raid the camp on the first dark after a breach and walk down to the town three days after that, and by the fourteenth day the country has the ridge open, robbed or overrun unless someone shut it"
+}

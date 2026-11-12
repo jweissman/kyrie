@@ -10,6 +10,7 @@
     "parley.kyr",
     "battle.kyr",
     "wake.kyr",
+    "lore.kyr",
     "company.kyr"
   ],
   "rules": [
@@ -19,7 +20,10 @@
     "party"
   ],
   "canon": [
-    "imbar"
+    "imbar",
+    "sallowfield_held",
+    "sallowfield_burned",
+    "cloudgate_fell"
   ],
   "exports": {
     "party": "party",

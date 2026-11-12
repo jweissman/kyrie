@@ -10,7 +10,7 @@ Module gaunt "A Winter in Carth" {
   Person bess "Bess Ackroyd" at barefoot_hall {
     Role "the Prior of the Barefoot, a square grey woman with her feet in a bowl and a ledger on her knee, who looks at everyone's feet first". Ancestry human. Peaceable. Pronouns she. Manner grim.
     Greets "The woman with her feet in the bowl looks at your feet, and then at your face. 'Not a proxy,' she says. 'Not a burgess. A stranger with boots.' She turns a page of her ledger. 'If you've come to look at the poor, the pegs are along that wall. Forty-one. Everybody looks at the pegs.'".
-    Greets again "Bess Ackroyd looks at your feet, and nods.".
+    Greets again "Bess Ackroyd looks at your feet, and nods, and moves the bowl an inch so that the water does not splash them. 'You are still shod,' she says. 'It is a condition, not a fault. In the Row we have a long list of conditions that are not faults. It is what keeps us.'".
     Wants gaunt_sledge.
   }
   Discovery strike_threat "Bess Ackroyd, Prior of the Barefoot, has threatened to call the Row out on Ash Day, the year's best day for proxies' wages, unless the Wood Exchange opens the Row's old right to the dead wood in the Bishop's Wood; but the Row cannot afford to lose Ash Day's wage, and will not come out for her.".
@@ -105,7 +105,7 @@ Module gaunt "A Winter in Carth" {
   Person tib "Tib Ackroyd" at row_ditch {
     Role "a boy of twelve with his feet in rags, sitting on the ditch bank watching the others slide". Ancestry human. Peaceable. Pronouns he. Manner grim.
     Greets "The boy on the bank does not look round. 'They're under the ice,' he says. 'By the grating. My skates. They went through yesterday where it's black.' He looks at the slide. 'Dad cut them. Out of a cow.'".
-    Greets again "Tib Ackroyd looks round, and back at the ice.".
+    Greets again "Tib Ackroyd looks round, and back at the ice, and says that his skates have not come up. 'Dad says they will in the thaw. He says that about most things. He has been right about two of them.'".
     Wants gaunt_skates.
     Seen when not tibBears(party).
   }
@@ -128,7 +128,7 @@ Module gaunt "A Winter in Carth" {
   Person tunstall "Mother Sugden" at bakehouse {
     Role "a baker as round and floury as her own loaves, with her arms crossed, glaring at her oven". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
     Greets "'Two days,' says Mother Sugden, 'two days to Ash Day, three hundred shrove-cakes risen, a pig's worth of crackling, and the oven stone cold, because the Wood-reeve wants thirty shillings the cord for oak and I'd as soon put my own feet in it.' She glares at you. 'If you've wood, I'll love you. If you haven't, mind the dough.'".
-    Greets again "Mother Sugden glares at you with great warmth.".
+    Greets again "Mother Sugden glares at you with great warmth, and it is a warmth she has not got to spare, because the oven is cold and the dough is rising regardless. 'Have you seen the Wood-reeve?' she says. 'No. You would have said. It is the first thing a sensible person tells me.'".
     Wants gaunt_faggot. Wants gaunt_sledge.
   }
   Thing oven "Mother Sugden's oven" at bakehouse is scenery {

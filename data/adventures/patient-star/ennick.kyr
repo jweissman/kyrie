@@ -62,6 +62,7 @@ Module season "Hold One Season" {
   }
   Person kerra "Kerra Lowe" at taproom {
     Role "keeper of the Lower Inn". Profession innkeeper. Ancestry human. Peaceable. Pronouns she.
+    Greets "Kerra Lowe is wiping a walnut bar in long slow strokes, and is a long way into it. 'There's a book to sign,' she says, 'and a bed in the loft, and soup if you want it. The book is the Office's. The soup is mine. I would not mix them up.'".
     Sells rations for 1 coin from 6.
   }
   Topic kerra_notice with kerra "Ask Kerra Lowe about the notice by the door" when true once {

@@ -3,6 +3,12 @@ Module dorothea "The Dorothea" {
   Entity party: group "Your company".
   Entity word: fact "What is said of Tolleth and the Skerrow passage in the country behind it.".
   Rule word_old when arrived(hull) and not stale(word) { Assert stale(word). }
+  // And how it went with the lamp, as the country behind tells it once the ketch has left the island: the Pharos dark
+  // (the bronze sold, or the engine stilled and left), or a green light showing on the Reach. A lamp left lit says nothing new.
+  Entity word_dark: fact "That the Pharos on Skerrow went dark.".
+  Entity word_fed: fact "That a green light shows on the Reach at night.".
+  Rule word_dark_old when befell(pharos_dark) and not stale(word_dark) { Assert stale(word_dark). }
+  Rule word_fed_old when befell(pharos_fed) and not stale(word_fed) { Assert stale(word_fed). }
   // The Founders' Exchange of the country this passage is in, when the world holds one: Quillon's buyer.
   Entity ring: group "The Founders' Exchange.".
   Entity ring_coast: group "The ring's man on the coast.".

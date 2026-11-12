@@ -10,6 +10,7 @@
     "wake.kyr",
     "keeping.kyr",
     "quests.kyr",
+    "lore.kyr",
     "company.kyr"
   ],
   "rules": [
@@ -19,7 +20,11 @@
     "party"
   ],
   "canon": [
-    "imbar"
+    "imbar",
+    "cloudgate_fell",
+    "slack_opened",
+    "calx_opened",
+    "tallow_names"
   ],
   "exports": {
     "party": "party",

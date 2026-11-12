@@ -58,6 +58,8 @@ Module thrume "Thrume" {
   // The Margravine's envoy, and the price on the thane.
   Person varne "Sir Odo Varne" at inn_room {
     Role "the Margravine's envoy". Ancestry human. Calling warrior. Level 6. Peaceable.
+    Greets "Sir Odo Varne has the Margravine's notice in a leather tube on the table and his sword across his knees, and has evidently decided that a visitor is either a witness or a rival. 'Varne,' he says. 'Envoy. Sit, and tell me if you are going up the fell. I should like to know whether to be sorry for you.'".
+    Greets again "Sir Odo Varne has not moved the sword, but he has moved the notice, so that you can read it upside down. 'Harrowby is a good lordship,' he says. 'Eighteen hundred acres and a mill. I should like to be a man who had earned it with a better thing than a head.'".
   }
   Discovery bounty_known "The Margravine's notice: FOR THE HEAD OF THE GIANT MÓRRACH, THAT CALLS HIMSELF THANE, THE LORDSHIP OF HARROWBY AND ITS RENTS. SIR O. VARNE, FOR IDONY VASK, MARGRAVINE OF EBB." {
     Source notice "the notice on the market post" at market readable by party.
@@ -79,6 +81,8 @@ Module thrume "Thrume" {
   // The provost and his ledger.
   Person hauk "Provost Lisle Hauk" at provost_room {
     Role "provost of the Salt Office". Ancestry human. Peaceable.
+    Greets "Provost Lisle Hauk rises behind a desk so tidy it looks swept, and takes a half-step to keep the ledger between you and the door. 'The Salt Office is open,' he says, though the board outside says closed. 'For you, it is open. I have always held that a visitor is a matter of principle.'".
+    Greets again "Provost Hauk has shut the ledger before you are through the door, and laid a paperweight of red salt on it. 'You have been in the town,' he says, 'and in the town things are said. I would ask you to remember that the Office does not say them. The Office only weighs.'".
     Objects "Hauk sees {?i} in your hands and goes the colour of tallow. 'That is the Office's,' he says. 'I will have the watch on you.'".
   }
   Discovery ledger_known "The Salt Office ledger: every week since spring, forty crowns in salt-silver from 'the Lantern, for quiet', in the provost's own hand. Beside the last three entries, a tally of carts: four, six, nine." {
@@ -157,6 +161,8 @@ Module thrume "Thrume" {
   // Hesper Dunmore and her son.
   Person hesper "Hesper Dunmore" at chandlery_shop {
     Role "chandler, whose son has not come home". Ancestry human. Peaceable.
+    Greets "Hesper Dunmore is trimming a candle that does not need trimming, one wick after another along the shelf, working steadily from left to right, and has to start again at the left when you speak. 'Rope, torches, rations,' she says. 'The boy used to keep the counter. Forgive me. I have been three nights at this shelf.'".
+    Greets again "Hesper Dunmore has trimmed the whole shelf and begun again from the left. 'You have been to the Lantern,' she says, not as a question. 'I can tell by how you stand. People who have been there stand as if they were listening for something they have not got.'".
     Sells rations for 2 coin from 8. Sells torch for 1 coin from 12. Sells rope for 1 coin from 4.
   }
   Discovery col_gone "Col Dunmore, sixteen, started sleeping at the Red Lantern after his father died in the Number Four, and has not come home in three nights.".
@@ -172,6 +178,8 @@ Module thrume "Thrume" {
   // The shrine: rest, healing, and a priest who knows the old stories.
   Person agathe "Sister Agathe" at shrine_room {
     Role "keeper of the Hearth-Mother's fire". Ancestry human. Calling cleric. Level 4. Peaceable.
+    Greets "Sister Agathe is on her knees at the hearth-shrine with a brush and a pan, taking up the ash as carefully as another woman would take up a baby. 'The fire has not gone out in two hundred years,' she says. 'I mean to keep that true another night. Mind where you put your feet.'".
+    Greets again "Sister Agathe sets down the brush and rubs the ash into the lines of her palms, which is her way of putting on a clean face. 'Another prayer for sleep,' she says. 'You are not asking, I see. You are the first this week who is not asking. Sit.'".
     Offers healing "the Hearth-Mother's blessing and clean linen" for 2 coin.
   }
   Topic agathe_fells with agathe "Ask Sister Agathe about the fells" when true once {
@@ -181,6 +189,8 @@ Module thrume "Thrume" {
   // The Saltcellar.
   Person landlord "Gil Sorrow" at inn_room {
     Role "landlord of the Saltcellar". Profession innkeeper. Peaceable.
+    Greets "Gil Sorrow is wiping a tankard with a cloth that has not been white since the old Margrave, and holding it to the light for a flaw that is in the cloth. 'The Saltcellar,' he says. 'Beds, beer, bread, and an opinion if you want one. The opinion is free, which is why nobody does.'".
+    Greets again "Gil Sorrow has put your name on the slate behind the bar, and rubbed it out, and put it on again. 'I never know,' he says, 'whether it is bad luck to write a traveller down. The last three who were written down went up the fell.'".
     Sells rations for 2 coin from 8. Sells torch for 1 coin from 6.
   }
 

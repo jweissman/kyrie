@@ -266,7 +266,8 @@ Module tessary "What Tessary Owes" {
   // Haverick's goose, home.
   Person haverick "Lucius Haverick" at terraces {
     Role "who sits for the Paper Moiety on the Board". Ancestry human. Peaceable. Pronouns he. Manner compassionate.
-    Greets "Councillor Haverick turns to you with red eyes and a printed bill in each hand, as if you might be about to tell him something.".
+    Greets "Councillor Haverick has been weeping at a window for some minutes and does not hide it. He turns to you with a printed bill in each hand, the one ruled in red, the other in black, and holds them both out as if you might be about to tell him which was the true one.".
+    Greets again "Councillor Haverick has dried his eyes and wept anew in the time it took you to cross the room. He holds out both bills again, the red and the black. 'Which one,' he says, 'did you say was true? I have written it down, and I have written it down both ways.'".
   }
   Topic haverick_goose with haverick "Ask Councillor Haverick what the matter is" when not plumHome(ossel) once {
     Says "'Plum,' says Councillor Haverick. 'Mistress Plum. A goose, sir, a white goose of the old Paper strain, the last of her line. Taken off my lawn on the night of the Muster's homecoming, by persons. I have posted a reward. I have posted three.' He wipes his eyes. 'People think it absurd. A goose. I have no children, sir. I have a goose.'".

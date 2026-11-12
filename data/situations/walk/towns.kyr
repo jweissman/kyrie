@@ -1,0 +1,256 @@
+Module walk "The Walk of the Milestones" {
+
+  // ---- The first town: the camp, the Station, the green's chalk and notice, and the band that comes on its day.
+  // Each is told only once the Walk has changed it: as it always was, a line said nothing on the first green, and the
+  // post's stray cow had stood under a notice nailed to the same post (M20's integration of this branch).
+  Place camp_a "The Walkers' camp" is room within town_a at 3, 1.
+  Place station_a "The Station" is room within town_a at 4, 1.
+  Passage gate_a "the camp gate" is door between green_a and camp_a.
+  Passage arch_a "the Station arch" is door between camp_a and station_a.
+  Thing gate_bar_a "the camp gate's bar" on gate_a {
+    State open "".
+    State dropped blocking "The camp gate is barred from within with a length of ash, and somebody has chalked a number on the bar.".
+    Change bar "Drop the bar across the camp gate" from open to dropped needing brawn.
+    Change lift "Lift the bar from the camp gate" from dropped to open needing brawn.
+  }
+  Initially Assert state(gate_bar_a, open).
+  Measure fed_a(group). Measure mass_a(group).
+  Person band_a "the walkers" nowhere {
+    Role "a band of the Walk, barefoot, with ash staves". Calling commoner. Numbers 8. Level 1. Peaceable. Manner cheerful.
+    Arrives at green_a when day(clock) >= 2.
+    Arrives "A string of barefoot people comes up the road from the next town in step, singing one line over and over, and takes the green as if it had been told it was theirs. Their feet are grey with chalk and road. The one in front is calling a number, and the rest answer: '{creed_cry}.'".
+    Greets "'Mile and mile,' says the nearest of the walkers, a broad woman with a staff notched like a tally-stick. When you do not answer she is not offended. 'And mile,' she says, helpfully. 'You say that back. It is the whole of the secret and the rest is walking.'".
+    Greets again "'Mile and mile,' says the broad woman, as to an old friend, and goes on with what she was doing, which is rubbing tallow into her heels.".
+  }
+  Thing chalk_a "the chalk on the well-stone" at green_a {
+    State bare "".
+    State l1 "Somebody has chalked a number on the well-stone, large and fresh, and under it a small neat wheel with a wing on it. A few barefoot prints go in and out of the inn's door.".
+    State l2 "The well-stone is chalked from rim to flags: numbers, forty hands' worth of them, and the wheel with the wing drawn as many ways. Barefoot prints, grey with dust, go and come between the well and the camp's gate. It is a Walk now and not a gathering of cranks.".
+    State l3 "The well-stone, the post, the inn's lintel and a good stretch of wall are white with numbers. The green is a camp. Staves are stacked like spears; fires of ash-wood burn in rings; some forty people sit barefoot on the grass, mending feet. When a horn sounds on the road the whole green stands up and says the number back.".
+    State l4 "There is more chalk than wall. The green has been given over: it is hard to cross it without being asked your mile, and nobody here is not barefoot. A hundred and more, and more still on the road. Babies are carried in staves-slings. You could not get a cart through; nobody has tried since morning.".
+    State after_licensed "The chalk has been left. Under the last number a clerk has written, in ink: KEPT BY LEAVE OF THE BENCH. Somebody has added a small wheel with a wing, and nobody has rubbed it out.".
+    State after_suppressed "The chalk has been scrubbed with sand and a brush; the stone is wet and paler in the patches. A bench-man stands by it with his arms folded, not looking at anything.".
+    State after_schism "Two marks are chalked on the stone, side by side and argued over: the wheel with a wing, and beside it a bare staff crossed. Somebody has rubbed out the one and somebody else has put it back, in turn, for days.".
+    State after_usurped "The chalk is boxed in a frame of new wood with a little gate and a slot in it for coin: THE PILGRIM'S MILE, KEPT BY ORDER. The numbers inside are very neat.".
+    State after_riot "The well-stone is black with smoke and cracked across; the chalk has gone to soot and somebody has pulled the rope-post out and thrown it down the well.".
+    State after_fades "The rain has taken most of the chalk. A faint '61' stays in the pitted stone, and a child is tracing it with a finger, on purpose, for nobody.".
+  }
+  Initially Assert state(chalk_a, bare).
+  Thing notice_a "the notice on the post" at green_a {
+    State none "".
+    State notice "A paper is nailed to the post, over the cow: BY THE BAILIFF OF THE HUNDRED. NO ASSEMBLY OF MORE THAN TWELVE WITHOUT LEAVE OF THE BENCH. NO STAVES CARRIED. NO FIRE AFTER CURFEW WITHIN THE WALLS. Underneath, in a boy's chalk: AND WHO IS TO COUNT THE MILES?".
+    State ultimatum "A second paper is nailed over the first, in a stiffer hand: THE HOST AT THE STATION IS TO DISPERSE BY NOON ON THE TENTH DAY OR BE DISPERSED. BY THE BENCH. Nobody has scratched anything under it.".
+    State end_licensed "A new paper, written in a round clerk's hand and sealed with the Hundred's ash-and-keys: THE WALK IS KEPT BY LEAVE OF THE BENCH, ONCE A YEAR, ON THE ROAD AND NOT ON THE GREEN. THE BAILIFF WALKS THE FIRST MILE. Somebody has stuck a sprig of rosemary in the nail.".
+    State end_suppressed "The notice has been nailed up again with four nails and a bar of tin across it: NO ASSEMBLY. NO STAVES. NO CHALK. A FINE OF TWO CROWNS A HEAD. It has already been torn at one corner by someone with nothing left to lose.".
+    State end_schism "Two papers, side by side: the Bench's old notice with its corner curled, and a sheet in a different hand: THE STATION IS HELD BY THE BRETHREN. THE ROAD IS FREE TO THE FAITHFUL. THE BENCH IS NOT FAITHFUL. A clerk has been round and taken a copy.".
+    State end_usurped "A paper in an unfamiliar hand, sealed with an unfamiliar seal: BY THE BAILIFF OF THE HUNDRED, ON THE ADVICE OF HIS PATRON. THE WALK IS KEPT. A STONE-PENNY IS ASKED OF EVERY WALKER. Somebody has scratched under it: AND WHO IS TO COUNT THE PENNIES?".
+    State end_riot "The notice has been burnt off the post and the post scorched. A new one says, in the Bench's hand and in capitals: CURFEW AT DUSK. ALL STAVES TO THE BENCH. THE ROAD IS CLOSED TO ASSEMBLY UNTIL FURTHER NOTICE.".
+    State end_fades "The notice has curled in the rain and nobody has taken it down. Under it, in no hand at all: the number, small, in pencil.".
+  }
+  Initially Assert state(notice_a, none).
+  Thing shrine_door_a "the shrine door" at green_a {
+    State open "".
+    State chained "A length of chain has been looped through the shrine door's rings and padlocked. Someone has hung a card on it, in a priest's careful capitals: CLOSED FOR THE PRESERVATION OF ORDER.".
+  }
+  Initially Assert state(shrine_door_a, open).
+  Observe camp_view_a at camp_a as feature when true "A yard behind the inn's stable, given over to the Walk: straw on the ground in rows, fire-rings of ash-wood, staves stacked in threes against the wall, and a line of washed heel-cloths drying on a rope. Whoever is in charge sits where the draught is least. A number is chalked above every door.".
+  Observe stone_view_a at station_a as feature when true "The Station is a roofed rest beside an old milestone: three posts and a slate roof, a stone bench, and the milestone itself, a squat grey column with the Office's wheel cut in the top and a number cut below it that was recut, in a newer hand, over an older number. Ash from a hundred small fires lies in the bench's corners.".
+
+  // ---- The second town: the camp, the Station, the green's chalk and notice, and the band that comes on its day.
+  Place camp_b "The Walkers' camp" is room within town_b at 3, 1.
+  Place station_b "The Station" is room within town_b at 4, 1.
+  Passage gate_b "the camp gate" is door between green_b and camp_b.
+  Passage arch_b "the Station arch" is door between camp_b and station_b.
+  Thing gate_bar_b "the camp gate's bar" on gate_b {
+    State open "".
+    State dropped blocking "The camp gate is barred from within with a length of ash, and somebody has chalked a number on the bar.".
+    Change bar "Drop the bar across the camp gate" from open to dropped needing brawn.
+    Change lift "Lift the bar from the camp gate" from dropped to open needing brawn.
+  }
+  Initially Assert state(gate_bar_b, open).
+  Measure fed_b(group). Measure mass_b(group).
+  Person band_b "the walkers" nowhere {
+    Role "a band of the Walk, barefoot, with ash staves". Calling commoner. Numbers 10. Level 1. Peaceable. Manner cheerful.
+    Arrives at green_b when day(clock) >= 4.
+    Arrives "A string of barefoot people comes up the road from the next town in step, singing one line over and over, and takes the green as if it had been told it was theirs. Their feet are grey with chalk and road. The one in front is calling a number, and the rest answer: '{creed_cry}.'".
+    Greets "'Mile and mile,' says the nearest of the walkers, a broad woman with a staff notched like a tally-stick. When you do not answer she is not offended. 'And mile,' she says, helpfully. 'You say that back. It is the whole of the secret and the rest is walking.'".
+    Greets again "'Mile and mile,' says the broad woman, as to an old friend, and goes on with what she was doing, which is rubbing tallow into her heels.".
+  }
+  Thing chalk_b "the chalk on the well-stone" at green_b {
+    State bare "".
+    State l1 "Somebody has chalked a number on the well-stone, large and fresh, and under it a small neat wheel with a wing on it. A few barefoot prints go in and out of the inn's door.".
+    State l2 "The well-stone is chalked from rim to flags: numbers, forty hands' worth of them, and the wheel with the wing drawn as many ways. Barefoot prints, grey with dust, go and come between the well and the camp's gate. It is a Walk now and not a gathering of cranks.".
+    State l3 "The well-stone, the post, the inn's lintel and a good stretch of wall are white with numbers. The green is a camp. Staves are stacked like spears; fires of ash-wood burn in rings; some forty people sit barefoot on the grass, mending feet. When a horn sounds on the road the whole green stands up and says the number back.".
+    State l4 "There is more chalk than wall. The green has been given over: it is hard to cross it without being asked your mile, and nobody here is not barefoot. A hundred and more, and more still on the road. Babies are carried in staves-slings. You could not get a cart through; nobody has tried since morning.".
+    State after_licensed "The chalk has been left. Under the last number a clerk has written, in ink: KEPT BY LEAVE OF THE BENCH. Somebody has added a small wheel with a wing, and nobody has rubbed it out.".
+    State after_suppressed "The chalk has been scrubbed with sand and a brush; the stone is wet and paler in the patches. A bench-man stands by it with his arms folded, not looking at anything.".
+    State after_schism "Two marks are chalked on the stone, side by side and argued over: the wheel with a wing, and beside it a bare staff crossed. Somebody has rubbed out the one and somebody else has put it back, in turn, for days.".
+    State after_usurped "The chalk is boxed in a frame of new wood with a little gate and a slot in it for coin: THE PILGRIM'S MILE, KEPT BY ORDER. The numbers inside are very neat.".
+    State after_riot "The well-stone is black with smoke and cracked across; the chalk has gone to soot and somebody has pulled the rope-post out and thrown it down the well.".
+    State after_fades "The rain has taken most of the chalk. A faint '61' stays in the pitted stone, and a child is tracing it with a finger, on purpose, for nobody.".
+  }
+  Initially Assert state(chalk_b, bare).
+  Thing notice_b "the notice on the post" at green_b {
+    State none "".
+    State notice "A paper is nailed to the post, over the cow: BY THE BAILIFF OF THE HUNDRED. NO ASSEMBLY OF MORE THAN TWELVE WITHOUT LEAVE OF THE BENCH. NO STAVES CARRIED. NO FIRE AFTER CURFEW WITHIN THE WALLS. Underneath, in a boy's chalk: AND WHO IS TO COUNT THE MILES?".
+    State ultimatum "A second paper is nailed over the first, in a stiffer hand: THE HOST AT THE STATION IS TO DISPERSE BY NOON ON THE TENTH DAY OR BE DISPERSED. BY THE BENCH. Nobody has scratched anything under it.".
+    State end_licensed "A new paper, written in a round clerk's hand and sealed with the Hundred's ash-and-keys: THE WALK IS KEPT BY LEAVE OF THE BENCH, ONCE A YEAR, ON THE ROAD AND NOT ON THE GREEN. THE BAILIFF WALKS THE FIRST MILE. Somebody has stuck a sprig of rosemary in the nail.".
+    State end_suppressed "The notice has been nailed up again with four nails and a bar of tin across it: NO ASSEMBLY. NO STAVES. NO CHALK. A FINE OF TWO CROWNS A HEAD. It has already been torn at one corner by someone with nothing left to lose.".
+    State end_schism "Two papers, side by side: the Bench's old notice with its corner curled, and a sheet in a different hand: THE STATION IS HELD BY THE BRETHREN. THE ROAD IS FREE TO THE FAITHFUL. THE BENCH IS NOT FAITHFUL. A clerk has been round and taken a copy.".
+    State end_usurped "A paper in an unfamiliar hand, sealed with an unfamiliar seal: BY THE BAILIFF OF THE HUNDRED, ON THE ADVICE OF HIS PATRON. THE WALK IS KEPT. A STONE-PENNY IS ASKED OF EVERY WALKER. Somebody has scratched under it: AND WHO IS TO COUNT THE PENNIES?".
+    State end_riot "The notice has been burnt off the post and the post scorched. A new one says, in the Bench's hand and in capitals: CURFEW AT DUSK. ALL STAVES TO THE BENCH. THE ROAD IS CLOSED TO ASSEMBLY UNTIL FURTHER NOTICE.".
+    State end_fades "The notice has curled in the rain and nobody has taken it down. Under it, in no hand at all: the number, small, in pencil.".
+  }
+  Initially Assert state(notice_b, none).
+  Thing shrine_door_b "the shrine door" at green_b {
+    State open "".
+    State chained "A length of chain has been looped through the shrine door's rings and padlocked. Someone has hung a card on it, in a priest's careful capitals: CLOSED FOR THE PRESERVATION OF ORDER.".
+  }
+  Initially Assert state(shrine_door_b, open).
+  Observe camp_view_b at camp_b as feature when true "A yard behind the inn's stable, given over to the Walk: straw on the ground in rows, fire-rings of ash-wood, staves stacked in threes against the wall, and a line of washed heel-cloths drying on a rope. Whoever is in charge sits where the draught is least. A number is chalked above every door.".
+  Observe stone_view_b at station_b as feature when true "The Station is a roofed rest beside an old milestone: three posts and a slate roof, a stone bench, and the milestone itself, a squat grey column with the Office's wheel cut in the top and a number cut below it that was recut, in a newer hand, over an older number. Ash from a hundred small fires lies in the bench's corners.".
+
+  // ---- The third town: the camp, the Station, the green's chalk and notice, and the band that comes on its day.
+  Place camp_c "The Walkers' camp" is room within town_c at 3, 1.
+  Place station_c "The Station" is room within town_c at 4, 1.
+  Passage gate_c "the camp gate" is door between green_c and camp_c.
+  Passage arch_c "the Station arch" is door between camp_c and station_c.
+  Thing gate_bar_c "the camp gate's bar" on gate_c {
+    State open "".
+    State dropped blocking "The camp gate is barred from within with a length of ash, and somebody has chalked a number on the bar.".
+    Change bar "Drop the bar across the camp gate" from open to dropped needing brawn.
+    Change lift "Lift the bar from the camp gate" from dropped to open needing brawn.
+  }
+  Initially Assert state(gate_bar_c, open).
+  Measure fed_c(group). Measure mass_c(group).
+  Person band_c "the walkers" nowhere {
+    Role "a band of the Walk, barefoot, with ash staves". Calling commoner. Numbers 10. Level 1. Peaceable. Manner cheerful.
+    Arrives at green_c when day(clock) >= 6.
+    Arrives "A string of barefoot people comes up the road from the next town in step, singing one line over and over, and takes the green as if it had been told it was theirs. Their feet are grey with chalk and road. The one in front is calling a number, and the rest answer: '{creed_cry}.'".
+    Greets "'Mile and mile,' says the nearest of the walkers, a broad woman with a staff notched like a tally-stick. When you do not answer she is not offended. 'And mile,' she says, helpfully. 'You say that back. It is the whole of the secret and the rest is walking.'".
+    Greets again "'Mile and mile,' says the broad woman, as to an old friend, and goes on with what she was doing, which is rubbing tallow into her heels.".
+  }
+  Thing chalk_c "the chalk on the well-stone" at green_c {
+    State bare "".
+    State l1 "Somebody has chalked a number on the well-stone, large and fresh, and under it a small neat wheel with a wing on it. A few barefoot prints go in and out of the inn's door.".
+    State l2 "The well-stone is chalked from rim to flags: numbers, forty hands' worth of them, and the wheel with the wing drawn as many ways. Barefoot prints, grey with dust, go and come between the well and the camp's gate. It is a Walk now and not a gathering of cranks.".
+    State l3 "The well-stone, the post, the inn's lintel and a good stretch of wall are white with numbers. The green is a camp. Staves are stacked like spears; fires of ash-wood burn in rings; some forty people sit barefoot on the grass, mending feet. When a horn sounds on the road the whole green stands up and says the number back.".
+    State l4 "There is more chalk than wall. The green has been given over: it is hard to cross it without being asked your mile, and nobody here is not barefoot. A hundred and more, and more still on the road. Babies are carried in staves-slings. You could not get a cart through; nobody has tried since morning.".
+    State after_licensed "The chalk has been left. Under the last number a clerk has written, in ink: KEPT BY LEAVE OF THE BENCH. Somebody has added a small wheel with a wing, and nobody has rubbed it out.".
+    State after_suppressed "The chalk has been scrubbed with sand and a brush; the stone is wet and paler in the patches. A bench-man stands by it with his arms folded, not looking at anything.".
+    State after_schism "Two marks are chalked on the stone, side by side and argued over: the wheel with a wing, and beside it a bare staff crossed. Somebody has rubbed out the one and somebody else has put it back, in turn, for days.".
+    State after_usurped "The chalk is boxed in a frame of new wood with a little gate and a slot in it for coin: THE PILGRIM'S MILE, KEPT BY ORDER. The numbers inside are very neat.".
+    State after_riot "The well-stone is black with smoke and cracked across; the chalk has gone to soot and somebody has pulled the rope-post out and thrown it down the well.".
+    State after_fades "The rain has taken most of the chalk. A faint '61' stays in the pitted stone, and a child is tracing it with a finger, on purpose, for nobody.".
+  }
+  Initially Assert state(chalk_c, bare).
+  Thing notice_c "the notice on the post" at green_c {
+    State none "".
+    State notice "A paper is nailed to the post, over the cow: BY THE BAILIFF OF THE HUNDRED. NO ASSEMBLY OF MORE THAN TWELVE WITHOUT LEAVE OF THE BENCH. NO STAVES CARRIED. NO FIRE AFTER CURFEW WITHIN THE WALLS. Underneath, in a boy's chalk: AND WHO IS TO COUNT THE MILES?".
+    State ultimatum "A second paper is nailed over the first, in a stiffer hand: THE HOST AT THE STATION IS TO DISPERSE BY NOON ON THE TENTH DAY OR BE DISPERSED. BY THE BENCH. Nobody has scratched anything under it.".
+    State end_licensed "A new paper, written in a round clerk's hand and sealed with the Hundred's ash-and-keys: THE WALK IS KEPT BY LEAVE OF THE BENCH, ONCE A YEAR, ON THE ROAD AND NOT ON THE GREEN. THE BAILIFF WALKS THE FIRST MILE. Somebody has stuck a sprig of rosemary in the nail.".
+    State end_suppressed "The notice has been nailed up again with four nails and a bar of tin across it: NO ASSEMBLY. NO STAVES. NO CHALK. A FINE OF TWO CROWNS A HEAD. It has already been torn at one corner by someone with nothing left to lose.".
+    State end_schism "Two papers, side by side: the Bench's old notice with its corner curled, and a sheet in a different hand: THE STATION IS HELD BY THE BRETHREN. THE ROAD IS FREE TO THE FAITHFUL. THE BENCH IS NOT FAITHFUL. A clerk has been round and taken a copy.".
+    State end_usurped "A paper in an unfamiliar hand, sealed with an unfamiliar seal: BY THE BAILIFF OF THE HUNDRED, ON THE ADVICE OF HIS PATRON. THE WALK IS KEPT. A STONE-PENNY IS ASKED OF EVERY WALKER. Somebody has scratched under it: AND WHO IS TO COUNT THE PENNIES?".
+    State end_riot "The notice has been burnt off the post and the post scorched. A new one says, in the Bench's hand and in capitals: CURFEW AT DUSK. ALL STAVES TO THE BENCH. THE ROAD IS CLOSED TO ASSEMBLY UNTIL FURTHER NOTICE.".
+    State end_fades "The notice has curled in the rain and nobody has taken it down. Under it, in no hand at all: the number, small, in pencil.".
+  }
+  Initially Assert state(notice_c, none).
+  Thing shrine_door_c "the shrine door" at green_c {
+    State open "".
+    State chained "A length of chain has been looped through the shrine door's rings and padlocked. Someone has hung a card on it, in a priest's careful capitals: CLOSED FOR THE PRESERVATION OF ORDER.".
+  }
+  Initially Assert state(shrine_door_c, open).
+  Observe camp_view_c at camp_c as feature when true "A yard behind the inn's stable, given over to the Walk: straw on the ground in rows, fire-rings of ash-wood, staves stacked in threes against the wall, and a line of washed heel-cloths drying on a rope. Whoever is in charge sits where the draught is least. A number is chalked above every door.".
+  Observe stone_view_c at station_c as feature when true "The Station is a roofed rest beside an old milestone: three posts and a slate roof, a stone bench, and the milestone itself, a squat grey column with the Office's wheel cut in the top and a number cut below it that was recut, in a newer hand, over an older number. Ash from a hundred small fires lies in the bench's corners.".
+
+  // ---- The fourth town: the camp, the Station, the green's chalk and notice, and the band that comes on its day.
+  Place camp_d "The Walkers' camp" is room within town_d at 3, 1.
+  Place station_d "The Station" is room within town_d at 4, 1.
+  Passage gate_d "the camp gate" is door between green_d and camp_d.
+  Passage arch_d "the Station arch" is door between camp_d and station_d.
+  Thing gate_bar_d "the camp gate's bar" on gate_d {
+    State open "".
+    State dropped blocking "The camp gate is barred from within with a length of ash, and somebody has chalked a number on the bar.".
+    Change bar "Drop the bar across the camp gate" from open to dropped needing brawn.
+    Change lift "Lift the bar from the camp gate" from dropped to open needing brawn.
+  }
+  Initially Assert state(gate_bar_d, open).
+  Measure fed_d(group). Measure mass_d(group).
+  Person band_d "the walkers" nowhere {
+    Role "a band of the Walk, barefoot, with ash staves". Calling commoner. Numbers 10. Level 1. Peaceable. Manner cheerful.
+    Arrives at green_d when day(clock) >= 8.
+    Arrives "A string of barefoot people comes up the road from the next town in step, singing one line over and over, and takes the green as if it had been told it was theirs. Their feet are grey with chalk and road. The one in front is calling a number, and the rest answer: '{creed_cry}.'".
+    Greets "'Mile and mile,' says the nearest of the walkers, a broad woman with a staff notched like a tally-stick. When you do not answer she is not offended. 'And mile,' she says, helpfully. 'You say that back. It is the whole of the secret and the rest is walking.'".
+    Greets again "'Mile and mile,' says the broad woman, as to an old friend, and goes on with what she was doing, which is rubbing tallow into her heels.".
+  }
+  Thing chalk_d "the chalk on the well-stone" at green_d {
+    State bare "".
+    State l1 "Somebody has chalked a number on the well-stone, large and fresh, and under it a small neat wheel with a wing on it. A few barefoot prints go in and out of the inn's door.".
+    State l2 "The well-stone is chalked from rim to flags: numbers, forty hands' worth of them, and the wheel with the wing drawn as many ways. Barefoot prints, grey with dust, go and come between the well and the camp's gate. It is a Walk now and not a gathering of cranks.".
+    State l3 "The well-stone, the post, the inn's lintel and a good stretch of wall are white with numbers. The green is a camp. Staves are stacked like spears; fires of ash-wood burn in rings; some forty people sit barefoot on the grass, mending feet. When a horn sounds on the road the whole green stands up and says the number back.".
+    State l4 "There is more chalk than wall. The green has been given over: it is hard to cross it without being asked your mile, and nobody here is not barefoot. A hundred and more, and more still on the road. Babies are carried in staves-slings. You could not get a cart through; nobody has tried since morning.".
+    State after_licensed "The chalk has been left. Under the last number a clerk has written, in ink: KEPT BY LEAVE OF THE BENCH. Somebody has added a small wheel with a wing, and nobody has rubbed it out.".
+    State after_suppressed "The chalk has been scrubbed with sand and a brush; the stone is wet and paler in the patches. A bench-man stands by it with his arms folded, not looking at anything.".
+    State after_schism "Two marks are chalked on the stone, side by side and argued over: the wheel with a wing, and beside it a bare staff crossed. Somebody has rubbed out the one and somebody else has put it back, in turn, for days.".
+    State after_usurped "The chalk is boxed in a frame of new wood with a little gate and a slot in it for coin: THE PILGRIM'S MILE, KEPT BY ORDER. The numbers inside are very neat.".
+    State after_riot "The well-stone is black with smoke and cracked across; the chalk has gone to soot and somebody has pulled the rope-post out and thrown it down the well.".
+    State after_fades "The rain has taken most of the chalk. A faint '61' stays in the pitted stone, and a child is tracing it with a finger, on purpose, for nobody.".
+  }
+  Initially Assert state(chalk_d, bare).
+  Thing notice_d "the notice on the post" at green_d {
+    State none "".
+    State notice "A paper is nailed to the post, over the cow: BY THE BAILIFF OF THE HUNDRED. NO ASSEMBLY OF MORE THAN TWELVE WITHOUT LEAVE OF THE BENCH. NO STAVES CARRIED. NO FIRE AFTER CURFEW WITHIN THE WALLS. Underneath, in a boy's chalk: AND WHO IS TO COUNT THE MILES?".
+    State ultimatum "A second paper is nailed over the first, in a stiffer hand: THE HOST AT THE STATION IS TO DISPERSE BY NOON ON THE TENTH DAY OR BE DISPERSED. BY THE BENCH. Nobody has scratched anything under it.".
+    State end_licensed "A new paper, written in a round clerk's hand and sealed with the Hundred's ash-and-keys: THE WALK IS KEPT BY LEAVE OF THE BENCH, ONCE A YEAR, ON THE ROAD AND NOT ON THE GREEN. THE BAILIFF WALKS THE FIRST MILE. Somebody has stuck a sprig of rosemary in the nail.".
+    State end_suppressed "The notice has been nailed up again with four nails and a bar of tin across it: NO ASSEMBLY. NO STAVES. NO CHALK. A FINE OF TWO CROWNS A HEAD. It has already been torn at one corner by someone with nothing left to lose.".
+    State end_schism "Two papers, side by side: the Bench's old notice with its corner curled, and a sheet in a different hand: THE STATION IS HELD BY THE BRETHREN. THE ROAD IS FREE TO THE FAITHFUL. THE BENCH IS NOT FAITHFUL. A clerk has been round and taken a copy.".
+    State end_usurped "A paper in an unfamiliar hand, sealed with an unfamiliar seal: BY THE BAILIFF OF THE HUNDRED, ON THE ADVICE OF HIS PATRON. THE WALK IS KEPT. A STONE-PENNY IS ASKED OF EVERY WALKER. Somebody has scratched under it: AND WHO IS TO COUNT THE PENNIES?".
+    State end_riot "The notice has been burnt off the post and the post scorched. A new one says, in the Bench's hand and in capitals: CURFEW AT DUSK. ALL STAVES TO THE BENCH. THE ROAD IS CLOSED TO ASSEMBLY UNTIL FURTHER NOTICE.".
+    State end_fades "The notice has curled in the rain and nobody has taken it down. Under it, in no hand at all: the number, small, in pencil.".
+  }
+  Initially Assert state(notice_d, none).
+  Thing shrine_door_d "the shrine door" at green_d {
+    State open "".
+    State chained "A length of chain has been looped through the shrine door's rings and padlocked. Someone has hung a card on it, in a priest's careful capitals: CLOSED FOR THE PRESERVATION OF ORDER.".
+  }
+  Initially Assert state(shrine_door_d, open).
+  Observe camp_view_d at camp_d as feature when true "A yard behind the inn's stable, given over to the Walk: straw on the ground in rows, fire-rings of ash-wood, staves stacked in threes against the wall, and a line of washed heel-cloths drying on a rope. Whoever is in charge sits where the draught is least. A number is chalked above every door.".
+  Observe stone_view_d at station_d as feature when true "The Station is a roofed rest beside an old milestone: three posts and a slate roof, a stone bench, and the milestone itself, a squat grey column with the Office's wheel cut in the top and a number cut below it that was recut, in a newer hand, over an older number. Ash from a hundred small fires lies in the bench's corners.".
+  Rule host_a when day(clock) >= 2 and host(walk_a) != min(4, (day(clock) - 2) / 2 + 1 + boost(walk_a)) { Set host(walk_a) to min(4, (day(clock) - 2) / 2 + 1 + boost(walk_a)). }
+  Rule chalk_a_1 when host(walk_a) == 1 and not decided(walk) and not state(chalk_a, l1) { Assert state(chalk_a, l1). }
+  Rule chalk_a_2 when host(walk_a) == 2 and not decided(walk) and not state(chalk_a, l2) { Assert state(chalk_a, l2). }
+  Rule chalk_a_3 when host(walk_a) == 3 and not decided(walk) and not state(chalk_a, l3) { Assert state(chalk_a, l3). }
+  Rule chalk_a_4 when host(walk_a) == 4 and not decided(walk) and not state(chalk_a, l4) { Assert state(chalk_a, l4). }
+  Rule host_b when day(clock) >= 4 and host(walk_b) != min(4, (day(clock) - 4) / 2 + 1 + boost(walk_b)) { Set host(walk_b) to min(4, (day(clock) - 4) / 2 + 1 + boost(walk_b)). }
+  Rule chalk_b_1 when host(walk_b) == 1 and not decided(walk) and not state(chalk_b, l1) { Assert state(chalk_b, l1). }
+  Rule chalk_b_2 when host(walk_b) == 2 and not decided(walk) and not state(chalk_b, l2) { Assert state(chalk_b, l2). }
+  Rule chalk_b_3 when host(walk_b) == 3 and not decided(walk) and not state(chalk_b, l3) { Assert state(chalk_b, l3). }
+  Rule chalk_b_4 when host(walk_b) == 4 and not decided(walk) and not state(chalk_b, l4) { Assert state(chalk_b, l4). }
+  Rule host_c when day(clock) >= 6 and host(walk_c) != min(4, (day(clock) - 6) / 2 + 1 + boost(walk_c)) { Set host(walk_c) to min(4, (day(clock) - 6) / 2 + 1 + boost(walk_c)). }
+  Rule chalk_c_1 when host(walk_c) == 1 and not decided(walk) and not state(chalk_c, l1) { Assert state(chalk_c, l1). }
+  Rule chalk_c_2 when host(walk_c) == 2 and not decided(walk) and not state(chalk_c, l2) { Assert state(chalk_c, l2). }
+  Rule chalk_c_3 when host(walk_c) == 3 and not decided(walk) and not state(chalk_c, l3) { Assert state(chalk_c, l3). }
+  Rule chalk_c_4 when host(walk_c) == 4 and not decided(walk) and not state(chalk_c, l4) { Assert state(chalk_c, l4). }
+  Rule host_d when day(clock) >= 8 and host(walk_d) != min(4, (day(clock) - 8) / 2 + 1 + boost(walk_d)) { Set host(walk_d) to min(4, (day(clock) - 8) / 2 + 1 + boost(walk_d)). }
+  Rule chalk_d_1 when host(walk_d) == 1 and not decided(walk) and not state(chalk_d, l1) { Assert state(chalk_d, l1). }
+  Rule chalk_d_2 when host(walk_d) == 2 and not decided(walk) and not state(chalk_d, l2) { Assert state(chalk_d, l2). }
+  Rule chalk_d_3 when host(walk_d) == 3 and not decided(walk) and not state(chalk_d, l3) { Assert state(chalk_d, l3). }
+  Rule chalk_d_4 when host(walk_d) == 4 and not decided(walk) and not state(chalk_d, l4) { Assert state(chalk_d, l4). }
+
+  // ---- The Bench's notice goes up on the road's greens in its own order: the bailiff's riders are always a day ahead of the Walk.
+  Rule notice_a when day(clock) >= 3 and state(notice_a, none) and not decided(walk) { Assert state(notice_a, notice). }
+  Rule notice_b when day(clock) >= 5 and state(notice_b, none) and not decided(walk) { Assert state(notice_b, notice). }
+  Rule notice_c when day(clock) >= 6 and state(notice_c, none) and not decided(walk) { Assert state(notice_c, notice). }
+  Rule notice_d when day(clock) >= 7 and state(notice_d, none) and not decided(walk) { Assert state(notice_d, notice). }
+  Rule ultimatum_b when flashpoint(f_b) and day(clock) >= 9 and not decided(walk) and not licensed(walk) and not state(notice_b, ultimatum) { Assert state(notice_b, ultimatum). }
+  Rule ultimatum_c when flashpoint(f_c) and day(clock) >= 9 and not decided(walk) and not licensed(walk) and not state(notice_c, ultimatum) { Assert state(notice_c, ultimatum). }
+  Rule ultimatum_d when flashpoint(f_d) and day(clock) >= 9 and not decided(walk) and not licensed(walk) and not state(notice_d, ultimatum) { Assert state(notice_d, ultimatum). }
+
+  // ---- What a stranger on the first green sees from the second day: a walk, and a stall, and a notice.
+  Observe walk_arrives at green_a as sign when at(band_a, green_a) "A string of barefoot strangers has taken the well-steps and is chalking the stone: a number, and a little wheel with a wing. They are singing something with no tune to speak of and a great deal of will." teaches walk_heard.
+  Observe walk_chalking at green_a as sound when at(band_a, green_a) "Somewhere behind the singing a man is selling something, with the voice of a man who has sold it before.".
+  Observe walk_travel_b at green_b as sign when host(walk_b) >= 1 and not at(band_b, green_b) "Chalked numbers on the stone, a day old: the Walk has been, or is coming.".
+  Objective find_walk when knows(party, walk_heard) and not decided(walk) toward leader "A barefoot company is chalking the old road's milestones; find out who leads them, and what the Bailiff means to do about it.".
+  Goal decided(walk).
+}

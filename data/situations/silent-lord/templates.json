@@ -1,0 +1,163 @@
+{
+  "silent_lord": {
+    "__no_id": true,
+    "terrain": "forest",
+    "ancestry": "human",
+    "name": "The silent lord",
+    "creatures": [],
+    "actors": {
+      "order": []
+    },
+    "casting": "=gen(keep_casting)",
+    "labels": "=gen(keep_labels)",
+    "facts": "=concat(gen(keep_leaguer), gen(keep_death), gen(keep_vault))",
+    "initial": [],
+    "outcomes": [
+      {
+        "id": "regency",
+        "predicate": "state(banner, regency)"
+      },
+      {
+        "id": "hushed",
+        "predicate": "state(banner, hushed)"
+      },
+      {
+        "id": "usurped",
+        "predicate": "state(banner, usurped)"
+      },
+      {
+        "id": "mutinous",
+        "predicate": "state(banner, mutinous)"
+      }
+    ]
+  },
+  "keep_casting": {
+    "__no_id": true,
+    "castellan": "=gen(keep_castellan)",
+    "steward": "=gen(keep_steward)",
+    "chaplain": "=gen(keep_chaplain)",
+    "marshal": "=gen(keep_marshal)",
+    "clerk": "=gen(keep_clerk)",
+    "houndsman": "=gen(keep_houndsman)",
+    "cook": "=gen(keep_cook)",
+    "porter": "=gen(keep_porter)",
+    "groom": "=gen(keep_groom)",
+    "herald": "=gen(keep_herald)",
+    "captive": "=gen(keep_captive)",
+    "crier": "=gen(keep_crier)",
+    "rider": "=gen(keep_rider)",
+    "patron_man": "=gen(keep_patron_man)",
+    "heir": "=gen(keep_heir)"
+  },
+  "keep_castellan": {
+    "__no_id": true,
+    "_drawn": "=lookup(townsfolkName, #ancestry)",
+    ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, #ancestry, 'she:keep_castellan')",
+    ">raceId": "=#ancestry"
+  },
+  "keep_steward": {
+    "__no_id": true,
+    "_drawn": "=lookup(townsfolkName, #ancestry)",
+    ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, #ancestry, 'he:keep_steward')",
+    ">raceId": "=#ancestry"
+  },
+  "keep_chaplain": {
+    "__no_id": true,
+    "_drawn": "=lookup(townsfolkName, #ancestry)",
+    ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, #ancestry, 'she:keep_chaplain')",
+    ">raceId": "=#ancestry",
+    ">classId": "=lookup(keepChaplainCalling, #ancestry)"
+  },
+  "keep_marshal": {
+    "__no_id": true,
+    "_drawn": "=lookup(townsfolkName, #ancestry)",
+    ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, #ancestry, 'he:keep_marshal')",
+    ">raceId": "=#ancestry"
+  },
+  "keep_clerk": {
+    "__no_id": true,
+    "_drawn": "=lookup(townsfolkName, #ancestry)",
+    ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, #ancestry, 'he:keep_clerk')",
+    ">raceId": "=#ancestry"
+  },
+  "keep_houndsman": {
+    "__no_id": true,
+    "_drawn": "=lookup(townsfolkName, #ancestry)",
+    ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, #ancestry, 'she:keep_houndsman')",
+    ">raceId": "=#ancestry",
+    ">classId": "=lookup(keepHoundCalling, #ancestry)"
+  },
+  "keep_cook": {
+    "__no_id": true,
+    "_drawn": "=lookup(townsfolkName, #ancestry)",
+    ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, #ancestry, 'she:keep_cook')",
+    ">raceId": "=#ancestry"
+  },
+  "keep_porter": {
+    "__no_id": true,
+    "_drawn": "=lookup(townsfolkName, #ancestry)",
+    ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, #ancestry, 'he:keep_porter')",
+    ">raceId": "=#ancestry"
+  },
+  "keep_groom": {
+    "__no_id": true,
+    "_drawn": "=lookup(townsfolkName, #ancestry)",
+    ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, #ancestry, 'she:keep_groom')",
+    ">raceId": "=#ancestry"
+  },
+  "keep_herald": {
+    "__no_id": true,
+    "_drawn": "=lookup(townsfolkName, 'human')",
+    ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, 'human', 'he:keep_herald')",
+    ">raceId": "human"
+  },
+  "keep_captive": {
+    "__no_id": true,
+    "_drawn": "=lookup(townsfolkName, 'human')",
+    ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, 'human', 'he:keep_captive')",
+    ">raceId": "human"
+  },
+  "keep_labels": {
+    "__no_id": true,
+    "patron": "=lookup(keepPatron, #terrain)"
+  },
+  "keep_leaguer": {
+    "__no_id": true,
+    ">name": "leaguer",
+    "args": "=concat(lookup(keepLeaguer, #terrain))"
+  },
+  "keep_death": {
+    "__no_id": true,
+    ">name": "death",
+    "args": "=concat(lookup(keepDeath, #terrain))"
+  },
+  "keep_vault": {
+    "__no_id": true,
+    ">name": "vault_built",
+    "args": "=concat(lookup(keepVault, #terrain))"
+  },
+  "keep_crier": {
+    "__no_id": true,
+    "_drawn": "=lookup(townsfolkName, #ancestry)",
+    ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, #ancestry, 'he:keep_crier')",
+    ">raceId": "=#ancestry"
+  },
+  "keep_rider": {
+    "__no_id": true,
+    "_drawn": "=lookup(townsfolkName, #ancestry)",
+    ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, #ancestry, 'he:keep_rider')",
+    ">raceId": "=#ancestry"
+  },
+  "keep_patron_man": {
+    "__no_id": true,
+    "_drawn": "=lookup(townsfolkName, #ancestry)",
+    ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, #ancestry, 'he:keep_patron_man')",
+    ">raceId": "=#ancestry"
+  },
+  "keep_heir": {
+    "__no_id": true,
+    "_drawn": "=lookup(townsfolkName, #ancestry)",
+    ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, #ancestry, 'she:keep_heir')",
+    ">raceId": "=#ancestry"
+  }
+}

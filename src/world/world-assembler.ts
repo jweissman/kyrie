@@ -240,7 +240,8 @@ export class WorldAssembler {
     region.history = history;
     region.sites = history.works.map(w => ({ id: w.id, kind: Histories.plan(w.plan).kind, name: w.worn, hours: 1,
       gloss: w.old.gloss, tongue: w.old.tongue, cell: w.cell, ...w.zone ? { zone: w.zone, part: w.part } : {},
-      work: { plan: w.plan, art: w.art, ...w.great ? { great: true } : {}, ...w.deep ? { deep: true } : {} } }));
+      work: { plan: w.plan, art: w.art, ...w.great ? { great: true } : {}, ...w.deep ? { deep: true } : {},
+        ...w.imperial ? { imperial: true } : {} } }));
     return region;
   }
   // A site's cell in the region's land, by what kind of site it is; one that can stand nowhere is left out.
@@ -347,7 +348,7 @@ export class WorldAssembler {
     if (!kinds.some(k => k._key === kind)) { return undefined; }
     try {
       const site = new Content(seed).generate('site', { terrain: region.terrain, kind }) as unknown as Site;
-      return { ...site, id: `w${region.sites.length + 1}` };
+      return { ...site, id: `w${region.sites.filter(s => !/^e\d+$/.test(s.id)).length + 1}` };
     } catch (error) { return WorldAssembler.none(error); }
   }
   // Binds each place a scenario needs: a free region site of a kind it accepts (or a newly generated one), or the

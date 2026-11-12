@@ -85,6 +85,8 @@ Module thrume "Thrume" {
   // Brannoc and his crew.
   Person brannoc "Overseer Brannoc" at brannoc_camp {
     Role "the Margravine's overseer, with a quota". Ancestry human. Calling warrior. Level 7. Peaceable.
+    Greets "Overseer Brannoc stands at the lip of the cut with a tally-board in one hand and a lantern in the other, and looks at the lantern more than at you. 'Quota,' he says. 'You will want to ask about the quota. Everyone asks about the quota. It is the Margravine's, not mine. I have never met anyone who thought it was his.'".
+    Greets again "Overseer Brannoc has marked the board since you left; there are more strokes in the fourth column than there were. 'The Wound gives what it gives,' he says. 'The Margravine asks for what she asks for. I am the man between, and the hole in the middle of the sum is getting wider.'".
     Wants margrave_seal.
     Objects "'Put that down,' says Brannoc, without raising his voice. He does not need to.".
   }

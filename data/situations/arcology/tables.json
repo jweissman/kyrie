@@ -1,0 +1,115 @@
+{
+  "housePattern": {
+    "about": "What differs between countries in the Numbered House, and what never does: the Usher's voice, which of three orders the stair's plates are struck in (each of the three parties that came before wrote one down; only one wrote the true one), how the water stands by the country's terrain, and the lantern-tin man's people. The layout, the grammar of the House (count, hum, weight, noon, wheels) and its dangers do not change.",
+    "discriminator": "any",
+    "groups": {
+      "default": [
+        "pat_a",
+        "pat_b",
+        "pat_c"
+      ]
+    }
+  },
+  "houseVoice": {
+    "discriminator": "any",
+    "groups": {
+      "default": [
+        "voice_chime",
+        "voice_rasp",
+        "voice_hush"
+      ]
+    }
+  },
+  "houseWater": {
+    "discriminator": "terrain",
+    "groups": {
+      "marsh": [
+        "wet_high"
+      ],
+      "forest": [
+        {
+          "__weight": 2,
+          "__value": "wet_high"
+        },
+        "wet_low"
+      ],
+      "mountain": [
+        "wet_high",
+        "wet_low"
+      ],
+      "frost": [
+        "wet_low"
+      ],
+      "desert": [
+        "wet_low"
+      ]
+    }
+  },
+  "houseGrowth": {
+    "discriminator": "terrain",
+    "groups": {
+      "marsh": [
+        "growth_heavy"
+      ],
+      "forest": [
+        "growth_heavy"
+      ],
+      "mountain": [
+        "growth_light"
+      ],
+      "frost": [
+        "growth_light"
+      ],
+      "desert": [
+        "growth_light"
+      ]
+    }
+  },
+  "salvagerCalling": {
+    "discriminator": "ancestry",
+    "groups": {
+      "human": [
+        "thief",
+        "ranger"
+      ],
+      "elf": [
+        "ranger",
+        "thief"
+      ],
+      "dwarf": [
+        "warrior"
+      ],
+      "halfling": [
+        "thief"
+      ],
+      "gnome": [
+        "thief"
+      ],
+      "half_elf": [
+        "thief",
+        "ranger"
+      ],
+      "half_orc": [
+        "ranger"
+      ],
+      "lizardfolk": [
+        "ranger"
+      ],
+      "catfolk": [
+        "thief"
+      ],
+      "sylph": [
+        "commoner"
+      ],
+      "undine": [
+        "commoner"
+      ],
+      "birdfolk": [
+        "thief"
+      ],
+      "fae": [
+        "thief"
+      ]
+    }
+  }
+}

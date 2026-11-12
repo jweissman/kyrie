@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "id": "silent-lord",
+  "name": "The silent lord",
+  "instances": 1,
+  "places": {
+    "keep": {
+      "site": [
+        "hold"
+      ]
+    },
+    "home": {
+      "settlement": "largest"
+    },
+    "far": {
+      "settlement": "along:home"
+    }
+  },
+  "modules": [
+    {
+      "id": "keep",
+      "bundle": "../situations/silent-lord/module.json",
+      "imports": {
+        "party": "@party",
+        "land": "@keep.land",
+        "outside": "@keep",
+        "gossip": "@home.green",
+        "taproom": "@home.taproom",
+        "shrine": "@home.shrine",
+        "keeper": "@home.innkeeper",
+        "priest": "@home.priest",
+        "trader": "@home.merchant",
+        "far_green": "@far.green"
+      }
+    }
+  ],
+  "hooks": [
+    {
+      "fact": "keep.levy_called",
+      "topic": "the castellan's levy",
+      "channels": [
+        "tavern",
+        "market"
+      ],
+      "opens": false
+    },
+    {
+      "fact": "keep.lord_unseen",
+      "topic": "the lord of {keep}, who has not been seen",
+      "channels": [
+        "road",
+        "temple"
+      ],
+      "opens": false
+    }
+  ]
+}

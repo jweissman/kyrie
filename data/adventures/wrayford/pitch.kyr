@@ -5,6 +5,7 @@ Module wrayford "The Third Night" {
   Person annis "Annis Pye" at gate_road {
     Role "a pie-seller at the Bridge End, with a tray on a strap". Ancestry human. Peaceable. Pronouns she. Manner cheerful.
     Greets "'Pies,' says Annis Pye, very brightly. 'Mutton or eel. A penny.' She does not look up at the rail, carefully, the way you do not look at a bad tooth.".
+    Greets again "Annis Pye holds up a pie before you are in earshot. 'Mutton or eel,' she says brightly, and her eyes go to the rail and come back faster this time. 'I am selling a great many pies. I do not know who keeps buying them.'".
     Sells rations for 1 coin from 12.
   }
   Relation annisRing(group). Relation annisLeft(group). Relation annisWinPies(group).

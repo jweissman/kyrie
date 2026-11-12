@@ -12,8 +12,8 @@ Module gaunt "A Winter in Carth" {
     Role "a barefoot old man in a warm cell, in a new grey coat of the Penitentiary's kersey, sitting on the end of the bed with his feet to the fire" when hernGaoled(hern) and not at(hern, chapter_house).
     Role "a barefoot old man in a new grey coat, standing on a square of different stone with his hands behind his back" when at(hern, chapter_house).
     Ancestry human. Calling commoner. Level 3. Peaceable. Pronouns he. Manner jovial.
-    Greets "Hern looks at you with enormous interest, as he looks at everything, as if you were a new kind of weather. 'Ninian Hern,' he says, as he says to everybody every time, in case they have forgotten, and holds out a hand like a root. 'Heretic. I'm expected.'".
-    Greets again "Hern looks up at you as if you were the one thing in the day he had been waiting for, which, he would be the first to tell you, is not saying much.".
+    Greets "Hern is interested in you enormously, as he is interested in everything, as if you were a new kind of weather. 'Ninian Hern,' he says, as he says to everybody every time, in case they have forgotten, and holds out a hand like a root. 'Heretic. I'm expected.'".
+    Greets again "Hern is pleased to see you, in the unspecific way he is pleased by doors and weather, which he would be the first to tell you is not saying much. 'Ninian Hern,' he says again, in case you have forgotten. 'Heretic. Still expected.'".
     Joins "Hern picks up his stick and falls in at your shoulder, barefoot, as if he had been waiting all morning to be asked.".
     Leaves "For now, that is the last of Hern.".
   }
@@ -25,7 +25,7 @@ Module gaunt "A Winter in Carth" {
   Person beadle "Beadle Clem Sutcliffe" at cross_road {
     Role "a beadle of the Penitentiary in a black gown, sitting on the ledge of the Cross with one boot off and his foot in his hat". Ancestry human. Peaceable. Pronouns he. Manner grim.
     Greets "The man in the beadle's gown does not get up. 'You'll be going north,' he says. 'Everybody's going north. It's the Fast.' He looks at his foot, which is the colour of a candle. 'I'm not. I've a commission for whoever is.'".
-    Greets again "Beadle Sutcliffe nods at you over his foot.".
+    Greets again "Beadle Sutcliffe nods at you over his foot, which is no better, and has gone from the colour of a candle to the colour of a church window. 'The commission still stands,' he says. 'I will not trouble you with it again. I will merely say that the offer remains, and so does the foot.'".
   }
   Discovery beadle_offer "Beadle Sutcliffe was sent from the Penitentiary to bring Ninian Hern in to the Consistory at Gaunt, which sits on him on Ash Day; he has frozen his foot on the march and cannot walk. He will pay two shillings now and promise eight more at the Fell Gate to whoever takes Hern in.".
   Topic beadle_why with beadle "Ask the beadle what the commission is" when not custody(actor) and not refusedCustody(actor) once {
@@ -63,8 +63,8 @@ Module gaunt "A Winter in Carth" {
   // Raistrick, met by day at the Cross: the vigils' warden, in his own house, polite.
   Person raistrick "Raistrick" at reeve_hut {
     Role "the Ash-reeve, a long quiet man in a sheepskin, the Penitentiary's warden of vigils". Ancestry human. Calling warrior. Level 3. Peaceable. Pronouns he. Manner stoic.
-    Greets "The man at the table looks up from his book, and closes it on his finger, and waits. He is perfectly polite. 'Raistrick,' he says. 'I keep the vigils on this side of the Levels.'".
-    Greets again "Raistrick looks up from his book and waits.".
+    Greets "The man at the table closes his book on one finger, and waits. He is perfectly polite. 'Raistrick,' he says. 'I keep the vigils on this side of the Levels.'".
+    Greets again "Raistrick has not opened the book, and waits, as he waited the first time, with a courtesy that gives away nothing at all. 'You have come again to the vigil,' he says. 'You will find nothing has altered, Mistress. It is our principal merit.'".
   }
   Topic raistrick_warm with raistrick "Ask Raistrick whether he has ever found a hearth warm" when knows(actor, ash_test) once {
     Says "Raistrick considers the question as if it were a hearth. 'Often,' he says. 'Most vigils break. The cold is longer than people think.' He turns his book round on the table, and back. 'The first I found warm was my mother's. Forty nights, for a miller's lie, on a farm the other side of the Levels. I was nine. My sister had the croup on the twentieth night, and I lit it. The reeve that year came at three and put his hand in it and said Broken, and we were off the farm by Lady Day.' He opens the book. 'I took the post when he died. I thought the hand in the ash should be a hand that knows.' He finds his place, and makes a small neat mark. 'It doesn't change what the ash says.'".

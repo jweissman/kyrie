@@ -81,9 +81,11 @@ Module season "Hold One Season" {
   // The Mutual: Dagny Ferrow, its Master, and Garret's crew.
   Person dagny "Dagny Ferrow" at mutual_hall {
     Role "Master of the Cutters' Mutual". Ancestry human. Peaceable. Pronouns she. Manner grim.
+    Greets "The board in the hall is chalked with names and the sums against them, and Dagny Ferrow is rubbing one out with the side of her fist. She does not turn round. 'If you have come about Garret,' she says, 'wipe your feet. If you are the Office, you may wait in the yard with the dog.'".
   }
   Person ness "Ness Oakum" at mutual_yard {
     Role "a cutter of Garret's old crew". Ancestry human. Peaceable. Plans 14 steps. Uses go, change_thing. Pronouns she. Manner acerbic.
+    Greets "Ness Oakum is oiling a pole that is already oiled, long end across her knees, and talks to it. 'You have the look of folk who will want to go and look,' she says. 'Everyone does. Looking is free. It is the second step that is dear.'".
   }
   Person crew "Dagny's crew" at mutual_yard {
     Role "two cutters of the Mutual, felted, with poles and a sledge". Ancestry human. Numbers 2. Peaceable. Plans 14 steps. Uses go, change_thing.
@@ -120,6 +122,7 @@ Module season "Hold One Season" {
   // Saro and Sister Wenda, at the lazar house.
   Person wenda "Sister Wenda" at ward {
     Role "an Arbitral sister, who keeps the lazar house". Ancestry human. Peaceable. Pronouns she. Manner compassionate.
+    Greets "Sister Wenda has a pot of broth on the ward stove and is stirring it against the grain, which she says keeps it from catching. 'You are not a patient,' she says, taking in your hands, 'and you are not Office. Then you are a visitor, and I must find you something to do.'".
     Wants night_honey.
   }
   Person saro "Saro" at ward {
@@ -149,9 +152,11 @@ Module season "Hold One Season" {
   // The Glass Office: Halloran Pike, the licence lottery, and Hal Brewin at the chain.
   Person pike "Halloran Pike" at weighing {
     Role "the Glass Office licencer". Ancestry human. Peaceable. Pronouns he. Manner stoic.
+    Greets "Halloran Pike sits behind a slate set into a trestle with a stamp, a blotter and a ribbon of numbered tokens. He does not look up. 'Name,' he says, 'trade, and the quarter you are asking for.' He blots. 'Whatever you were going to say about the weather, I have heard it.'".
   }
   Person hal "Hal Brewin" at well_head {
     Role "the Office's man at the North Well chain". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Greets "Hal Brewin has a cudgel across his knees and a cheerful face, which is the wrong way round, and nods you in to the well-head as though it were his own parlour. 'Lovely morning for a licence,' he says. 'You'll have one? No? Then we shall be having a conversation.'".
     Guards well_stair.
     State watching blocking "Hal Brewin sits on a stool by the chain-gate with a cudgel across his knees.".
     State drunk "Hal Brewin is asleep on his stool with his mouth open.".

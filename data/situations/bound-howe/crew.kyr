@@ -1,0 +1,94 @@
+Module bound_howe "The Bound Howe" {
+  // ---- The Spade-Company's foreman, and the things a thief, a scholar, a cleric, a ranger and a warrior see in the howe's week.
+  Relation foreman_paid(). Relation household_laid(). Relation iron_caps_laid().
+
+  Place rival_camp "the Lantern Company's camp" is room within ridge at 1, 2 outdoors.
+  Passage rival_way "the path to the Lantern Company's camp" is path between ring and rival_camp taking 15 minutes.
+
+  // ---- The foreman: tired, funny, in debt. She counts everything, because it is the only thing in the camp that stays the same.
+  Topic foreman_face with foreman "Ask {foreman} how long the face has to go" when crew_digging() and not state(face_wall, broken) once {
+    Says "'Two days, three,' says {foreman}. 'Depends on the rock. It has been hollow since Monday. I know what that is. It is a treasury with a door in it, and when I have the door I shall have the money, and the licence, and the reeve will have what he needs, and somebody else can stand in the draught and be afraid.' She looks at you for an honest moment. 'The lad says it rings. It rings. A rock rings. That is all that has ever been said about rocks.'".
+  }
+  Topic foreman_rival with foreman "Ask {foreman} about the company on the high ground" when rival_step(rcaptain) >= 1 and rival_step(rcaptain) < 7 and able(foreman) once {
+    Says "'{rcaptain},' says {foreman}, as if it had a taste. 'Lanterns. They hang lanterns on poles so that people will see them coming and say how well-organised. She and I kept a company eleven years. We split it. There was a chest.' The ledger comes down on the table. 'It was a perfectly ordinary chest. I kept the key. She says it was hers. It was half of mine. Now she has a letter, and I have a licence, and between us we have a hill.' She takes a breath. 'She will go in by the door. I know her. She likes a door. She will make a speech first.'".
+    On discuss { Assert knows(actor, chest_quarrel). }
+  }
+  Topic foreman_job with foreman "Offer to keep the Lantern Company off the licence" when knows(actor, rival_aim) and able(foreman) and not foreman_hired(actor) and not turned(foreman) once {
+    Says "{foreman} looks you up and down, slowly, the way she looks at timber. 'You?' she says. 'Forty coin, from the chest, if she is off my hill by the time we break through. Not dead. I do not need her dead. I need her *elsewhere*.' She turns a page. 'If you are clever, don't tell me. I am afraid of clever.'".
+    On discuss { Assert foreman_hired(actor). Assert tolerates(foreman, actor). Assert tolerates(crew, actor). Assert tolerates(watchers, actor). Assert tolerates(sentry, actor). }
+  }
+  Topic foreman_pay with foreman "Ask {foreman} for the forty she promised" when foreman_hired(actor) and not foreman_paid() and (turned_rival() or dead(rcaptain) or rival_step(rcaptain) == 8 or rival_step(rcaptain) == 9 or rival_step(rcaptain) == 7) and able(foreman) and at(foreman, lee) once {
+    Says "{foreman} counts it out of the chest without looking up, and then looks up. 'She's gone? She's *gone*?' she says, and sits on the cot with the coin in her lap. 'Well. That is a thing I had not planned for,' and for a moment she is eleven years younger. 'Tell nobody I was sorry.'".
+    On discuss { Increase quantity(actor, gold) by 40. Assert foreman_paid(). }
+  }
+  Rule foreman_betrays heard at lee when at(party, lee) and holding(party, king_torc) and not turned(foreman) and able(foreman) and tolerates(foreman, party)
+    says "The foreman has stopped smiling. 'The licence,' she says, 'covers what comes out of the hill. It covers the king's torc. I have eight dead hands, and a clerk, and an obligation, and I am sorry, I am sorry, I like you.' Behind her, four spades come up level." {
+    Retract tolerates(foreman, party). Retract tolerates(crew, party). Retract tolerates(watchers, party). Retract tolerates(sentry, party). }
+
+  // ---- The foreman's pay-chest: the crew's security. A thief picks it; a frightened labourer gives the key.
+  Kind howe_ledger_kind "the foreman's ledger" is document teaching reeve_double described "A long ledger in a careful square hand. Down one page, in the left column, go the Spade-Company's costs. Down the right go the sums paid by the shire-reeve's hand. At the foot, struck through twice: 'And to the Lantern Co., by the same hand, the same, for the same.'".
+  Item ledger_item "the foreman's ledger" is howe_ledger_kind nowhere.
+  Thing pay_chest "the foreman's pay-chest" at lee {
+    State locked closed "A pay-chest bound in brass stands under the foreman's cot, with a hasp and a good lock.".
+    State open "The pay-chest under the foreman's cot stands open and light.".
+    Tries looking.
+  }
+  Action pick_paychest(actor: group, site: place) "Pick the lock of the foreman's pay-chest" {
+    Requires able(actor) and at(actor, site) and at(actor, lee) and state(pay_chest, locked) and capable(actor, lockwork).
+    Resolve check(actor, lockwork, dc_fair).
+    On success { Assert state(pay_chest, open). Increase quantity(actor, gold) by 30. Give ledger_item to actor. Assert chest_robbed(). }
+    On failure { Retract tolerates(foreman, actor). Retract tolerates(crew, actor). Retract tolerates(watchers, actor). Retract tolerates(sentry, actor). }
+    Result "The lock comes round with the small private sound of a good lie. Thirty coin in a bag, and under it the foreman's ledger, with a page marked.".
+    Otherwise "The pick slips and rings on the brass, and across the camp a spade stops.".
+  }
+  Action key_paychest(actor: group, site: place) "Open the foreman's pay-chest with the boy's key" {
+    Requires able(actor) and at(actor, site) and at(actor, lee) and state(pay_chest, locked) and holding(actor, paykey_kind).
+    Resolve check(actor, stealth, dc_easy).
+    On success { Assert state(pay_chest, open). Increase quantity(actor, gold) by 30. Give ledger_item to actor. Assert chest_robbed(). }
+    On failure { Retract tolerates(foreman, actor). Retract tolerates(crew, actor). Retract tolerates(watchers, actor). Retract tolerates(sentry, actor). }
+    Result "The boy's key turns as if it had been made for the lock, which it was. Thirty coin, a ledger, and a smell of someone's hair-oil.".
+    Otherwise "The lid goes up with a squeal. Somebody says, quite quietly, 'Oi.'".
+  }
+  Rule foreman_finds_chest heard at lee when state(pay_chest, open) and at(party, lee) and able(foreman) and not turned(foreman) and tolerates(foreman, party)
+    says "The foreman has found the chest. She has not said a word. She has been sitting on the cot for some time with the lid in her hands, and now she looks up, and you can see she is trying to remember if she liked you." {
+    Retract tolerates(foreman, party). Retract tolerates(crew, party). Retract tolerates(watchers, party). Retract tolerates(sentry, party). }
+
+  // ---- What the camp shows of the week.
+  Observe lee_dig at lee as sound when crew_digging() and not state(face_wall, broken) "From the trench, the ring of picks, in time. It stops when the foreman looks at it, and goes on when she looks away.".
+  Observe lee_warrior at lee as sign noticed by intimidation when crew_digging() "The hands stand at the camp's edges, not its middle, and every face is turned to the hill or the high ground. Nobody is watching the road you came by. They are a crew that has been afraid for so long it has forgotten to be careful of anything else. Only the foreman sleeps in her boots.".
+  Observe lee_ranger at rise as sign noticed by woodcraft when true "Twelve pairs of hobnails go down to the trench every morning and come back by dusk. Two lighter pairs go north to the hearth and stop at the salt. A third kind, newer and better-shod, goes along the ring and does not come near the camp at all.".
+  Observe lee_lore at trench as reading noticed by lore when true "The timber of the trench has been marked with the foreman's tally; under the plank of the cutting-path, cut by someone long before the licence, is a single Kin-mark half-erased by spades. The mark is a ring, and the licence-men have been walking on it for a month.".
+
+  // ---- The scholar: what the lintel says. The cleric: what the dead are owed. The thief: what the step is hung on.
+  Observe lintel_rite at forecourt as feature noticed by lore when true "Under the line that names the king, in a smaller and later hand, the lintel gives a form of words, and the mason has cut over it, in the Kin's own plain marks: SAY THIS AT THE STONE. FOR THE BOUND AND NOT THE GOLD. LET IT BE." teaches kin_greeting.
+  Observe gallery_rites at gallery as sign noticed by rites when able(household) and not household_laid() "The niches are laid out for the dead's rites, and the rites were never finished. The third rite, the closing, was meant for the king's last household when the king was laid, and no one was left alive to say it. They have been waiting to be told that it is done." teaches closing_known.
+  Discovery closing_known "The king's household was never given the closing rite; it can be given still.".
+  Action close_rites(actor: group, site: place) "Say the closing rite over the king's household" {
+    Requires able(actor) and at(actor, site) and at(actor, gallery) and knows(actor, closing_known) and able(household) and not household_laid() and capable(actor, rites).
+    Resolve check(actor, rites, dc_hard).
+    On success { Slay household. Assert household_laid(). }
+    On failure { Assert assails(household, actor). }
+    Result "You say it as it is said, once through, and then again, slower. Along the gallery the seated dead lift their faces, and, one after another, let them fall. There is no sound. It is the sound of a household being told it may stop.".
+    Otherwise "The rite catches in your mouth like a stone, and down the gallery heads begin to turn.".
+  }
+  Action lay_iron_caps(actor: group, site: place) "Say the committal over the robbers on the grass" {
+    Requires able(actor) and at(actor, site) and at(actor, forecourt) and able(iron_caps) and not iron_caps_laid() and capable(actor, rites).
+    Resolve check(actor, rites, dc_fair).
+    On success { Slay iron_caps. Assert iron_caps_laid(). }
+    On failure { Assert assails(iron_caps, actor). }
+    Result "You kneel on the paving and say, over each in turn, the things that are said. The two shapes in the iron caps go on lying where they are, and are, for the first time, lying down.".
+    Otherwise "The words go wrong. Two shapes in iron caps lift their faces off the grass.".
+  }
+  Observe tread_thief at flutes as sign noticed by trapwork when state(tread, armed) "The bright edge is a lie told by one pin. Press the third stair and the middle one goes. The pin is iron, and the Kin's, and it can be wedged from below.".
+  Observe flutes_ranger at flutes as sign noticed by woodcraft when true "Under the dust of the floor, one track runs to each of the three large flutes and back. It is the same boots every time, small and flat, and it ends at one of them. The man who wore those boots knew which.".
+  Observe forecourt_ranger at forecourt as sign noticed by woodcraft when state(seal, set) "The grass in the forecourt has been mown by feet, and dew-wet on the long way round the stones. Nobody has crossed the pavement to the stone for a hundred years. The grey grass behind you is crossed by two dozen tracks, all going the long way.".
+
+  // ---- The seal as the rival and the crew meet it.
+  Rule torc_lifted_elsewhere when rival_step(rcaptain) >= 6 and not torc_home() { Assert torc_taken_elsewhere(). }
+  Relation torc_taken_elsewhere().
+  Action restore_torc(actor: group, site: place) "Lay the king's torc back on his neck" {
+    Requires able(actor) and at(actor, site) and at(actor, throne) and holding(actor, king_torc) and able(king) and not bound_broken(actor) and not torc_restored().
+    On success { Spend king_torc from actor. Assert torc_restored(). Assert tolerates(king, actor). }
+    Result "The torc goes back on the king's neck with a small sound like a latch. The sword, which had begun to rise, goes down across his knees. 'Who keeps the bound?' he says, very quietly, to nobody. The cold goes out of the room.".
+  }
+}

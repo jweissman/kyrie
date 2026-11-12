@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "id": "walking",
+  "name": "The Walk of the Milestones, through four towns",
+  "kind": "town",
+  "instances": 1,
+  "weight": 2,
+  "places": {
+    "a": { "settlement": "largest" },
+    "b": { "settlement": "along:a" },
+    "c": { "settlement": "along:b" },
+    "d": { "settlement": "along:c" }
+  },
+  "modules": [
+    {
+      "id": "walk",
+      "bundle": "../situations/walk/module.json",
+      "imports": {
+        "party": "@party",
+        "town_a": "@a", "town_b": "@b", "town_c": "@c", "town_d": "@d",
+        "green_a": "@a.green", "green_b": "@b.green", "green_c": "@c.green", "green_d": "@d.green",
+        "innkeeper_a": "@a.innkeeper", "innkeeper_b": "@b.innkeeper", "innkeeper_c": "@c.innkeeper", "innkeeper_d": "@d.innkeeper",
+        "priest_a": "@a.priest", "priest_b": "@b.priest", "priest_c": "@c.priest", "priest_d": "@d.priest",
+        "merchant_a": "@a.merchant", "merchant_b": "@b.merchant", "merchant_c": "@c.merchant", "merchant_d": "@d.merchant"
+      }
+    }
+  ],
+  "hooks": [
+    { "fact": "walk.rumour", "topic": "the Walk, the barefoot company who are chalking the milestones", "channels": ["tavern", "road", "market"], "opens": false }
+  ]
+}

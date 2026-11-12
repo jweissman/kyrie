@@ -1,3 +1,6 @@
 Module muster "The Long Muster's Road" {
   Entity party: group "Your company".
+  // What is said of the Hesper Fells in the country behind it: once the company is back at the Ford, it is old news.
+  Entity word: fact "What is said of Kell Ford and the road in the country behind it.".
+  Rule word_old when (backAtFord() or plainReturn()) and not stale(word) { Assert stale(word). }
 }

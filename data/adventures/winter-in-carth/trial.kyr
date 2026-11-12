@@ -6,12 +6,12 @@ Module gaunt "A Winter in Carth" {
   Person ploughwright "Doctor Ploughwright" at schools {
     Role "the Irrefragable Doctor, a tall grey scholar in a fur hood, who has never been refuted because he has never been understood". Ancestry human. Calling mage. Level 4. Peaceable. Pronouns he. Manner proud.
     Greets "The tall doctor inclines his head a quarter of an inch. 'If you have come to dispute,' he says, 'the fee is a shilling, and you will lose. If you have come to purchase, the list is on the wall.'".
-    Greets again "Doctor Ploughwright inclines his head a quarter of an inch.".
+    Greets again "Doctor Ploughwright inclines his head a quarter of an inch, which, from him, is a bow. 'The fee for a dispute is a shilling,' he says, 'and I should tell you I have not lost since the Feast of the Holy Cross. I am confident you have it in you to end the streak.'".
   }
   Person quist "Doctor Quist" at schools {
     Role "the Seraphic Doctor, a small round woman in an inky gown who argues with her hands and her feet and her whole small body". Ancestry human. Calling bard. Level 4. Peaceable. Pronouns she. Manner cheerful.
     Greets "The small round doctor bounces up from a bench. 'A stranger! Do you want a Determination? I've some very good ones going cheap: whether the Fast includes eels; whether a penance done in a dream counts; whether Saint Oswy was tall.' She leans in. 'Or are you here about Barefoot Hern? Everybody's here about Barefoot Hern. Ploughwright's sold his. Mine's still on the shelf.'".
-    Greets again "Doctor Quist waves at you with both hands.".
+    Greets again "Doctor Quist waves at you with both hands, and a pamphlet in each. 'More!' she says. 'I've more! Whether the Fast includes eels is settled, but there is a rider, and the rider is whether the rider is in the Fast. Will you hear it?'".
   }
   Relation quistBought(group). Relation crossed(group).
   Topic ploughwright_hern with ploughwright "Ask Doctor Ploughwright what he has determined about Ninian Hern" when true once {

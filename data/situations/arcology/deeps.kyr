@@ -1,0 +1,103 @@
+Module arcology "The Numbered House" {
+  // The deeps: the Drowned Level, the valve gallery and its three wheels, the sluice-race, the Roots, the pool, and the
+  // seed-vault. Water is a wheel here, and each wheel is one thing with a consequence outside the walls.
+
+  // --- the Drowned Level ---------------------------------------------------------------------------------------
+  Observe drowned_scene at drowned when state(waterlevel, full) "Pillars stand in clear black water to their shoulders, row on row into the dark, each with a numeral at the height of a man's eye. Shafts of light come down through gratings in the vault from the Great Void above, and the water takes them and turns them green. A walkway on iron brackets runs out along the pillars to a gallery. There is no sound but dripping, and the occasional soft collision of something under the surface with the wall.".
+  Observe drowned_dry at drowned when state(waterlevel, low) "The pillars stand in a floor of black silt, drying to a cracked crust. Shafts of light come down through gratings from the Great Void, and shine on the silt, and on the things that have been under the water for a thousand years: a boat of reeds, a row of buckets, the white curve of a bone. A walkway on iron brackets still runs out along the pillars to a gallery.".
+  Thing waterlevel "the water in the Drowned Level" at drowned {
+    State full "The water stands to the shoulders of the pillars, black and perfectly clear.".
+    State low "The water has drained to a skin on the silt.".
+  }
+  Rule dry_country when water(house, wet_low) and state(waterlevel, full) once { Assert state(waterlevel, low). }
+  Person eels "the eels" at drowned {
+    Role "long pale eels, thick as a leg". Species eel. Numbers 3. Level 3. Temperament territorial.
+    Warns "The water shivers about your legs, and then there are three long pale shapes in it, circling, thick as a leg and as quiet as thought. They have no eyes you can see. They know exactly where you are.".
+    Comes "The eels come in all at once from three sides.".
+    State circling "Something long and pale turns in the clear black water between the pillars.".
+    State stranded "The eels lie in the silt among the pillars, thrashing weakly, out of their element. They have lost interest in you.".
+  }
+  Rule eels_stranded when state(waterlevel, low) and state(eels, circling) says "As the last of the water goes, the eels are left on the silt in the shafts of light, rolling and gasping. They will not trouble anyone now." { Assert state(eels, stranded). Assert peaceable(eels). }
+  Rule eels_gone when water(house, wet_low) and state(eels, circling) { Assert state(eels, stranded). Assert peaceable(eels). }
+  Thing roots_lock "the garden door" on roots_door {
+    State under blocking "The garden door is a green-bronze valve in the wall, under water to its lintel; it will not be opened while the Level stands full.".
+    State clear "The garden door stands above the water, a green-bronze leaf with a bar across it that lifts.".
+  }
+  Rule garden_door_clear when state(waterlevel, low) and state(roots_lock, under) { Assert state(roots_lock, clear). }
+  Observe drowned_numbers at drowned as feature when true "The numerals on the pillars count down from the entrance end, so that each pillar names how many more there are before the gallery. Someone has counted them all before you, on the lowest pillar's foot, in a scratched tally that stops at the last and then says, in a different hand, YES.".
+
+  // --- the valve gallery, and its wheels -----------------------------------------------------------------------
+  Observe valves_scene at valves when true "A gallery of iron grating hung over the water, hot with the smell of oil, and on it three great wheels as tall as a man, set in the wall above a bank of pipes as thick as a rib-cage. Each has a plate beside it with a picture. The pipes run away into the rock, and one of them hums.".
+  Observe valves_plan at valves as feature when true "The plates beside the wheels have no words, only pictures: a bell-lily; a small roofed house with a lamp in it and a road going out of it a very long way; a bucket tipped over.".
+  Thing wheel_garden "the wheel with the bell-lily" at valves {
+    State open "The wheel with the bell-lily is turned wide. Water goes up the pipe above it with a sound like a held breath, toward the fourth ring.".
+    State stopped "The wheel with the bell-lily is shut tight, and the pipe above it is cold.".
+    Change shut_garden "Shut the wheel with the bell-lily" from open to stopped needing brawn.
+    Change open_garden "Open the wheel with the bell-lily" from stopped to open needing brawn.
+  }
+  Thing wheel_town "the wheel with the roofed house" at valves {
+    State stopped "The wheel with the little roofed house and the long road is shut. The pipe beside it is silent, and the other end of it must be a very long way off.".
+    State open "The wheel with the roofed house is wide, and the pipe beside it is humming with water, going away under the hills.".
+    Change open_town "Open the wheel with the roofed house" from stopped to open needing brawn.
+    Change shut_town "Shut the wheel with the roofed house" from open to stopped needing brawn.
+  }
+  Thing wheel_drain "the wheel with the tipped bucket" at valves {
+    State stopped "The wheel with the tipped bucket is shut.".
+    State open "The wheel with the tipped bucket is open, and a deep, throaty gurgle goes down the pipe beside it.".
+    Change open_drain "Open the wheel with the tipped bucket" from stopped to open needing brawn.
+    Change shut_drain "Shut the wheel with the tipped bucket" from open to stopped needing brawn.
+  }
+  Initially Assert state(wheel_garden, open). Initially Assert state(wheel_town, stopped). Initially Assert state(wheel_drain, stopped).
+  Rule drain_runs when state(wheel_drain, open) and state(waterlevel, full) says "Under the grating, the black water begins to move. It runs down between the pillars with a long sound like the world breathing out, and the numerals on the pillars stand up out of it one after another." { Assert state(waterlevel, low). }
+  Observe wheels_read at valves of wheel_town as reading when capable(party, lore) "The plate beside the wheel names the pipe: THE HOUSE'S EXCESS GOES TO THE SHRINE, WHICH WAS BUILT OVER THE WELL. A later hand has scratched under it: THE HOUSE'S EXCESS IS ALL THE HOUSE'S WATER.".
+  Rule spring_runs when state(wheel_town, open) and state(spring, failing) says "Under the hills, a very long way off, there is a sound like a drawn breath, and then a sound like a river." { Assert state(spring, running). }
+  Rule spring_fails when state(wheel_town, stopped) and state(spring, running) says "Under the hills, a very long way off, a sound that had begun stops." { Assert state(spring, failing). }
+  Thing culvert_water "the water in the culvert" on culvert {
+    State shallow "The brook runs ankle-deep under the road-wall, clear and cold, and the culvert is a crawl through silt.".
+    State flowing dangerous "The brook is running full and fast through the culvert, brown with silt, and it will take anyone that goes in.".
+    Hurts with race_cold when flowing then flowing.
+  }
+  Hazard race_cold "The cold fast water of the race" means "Deal (1d6) physical damage to ally unless constitution save against (12).".
+  Rule race_floods when state(wheel_drain, open) and state(culvert_water, shallow) says "Far below, the drain roars, and the water that was in the Drowned Level comes out into the race, and into the brook." { Assert state(culvert_water, flowing). }
+  Rule race_ebbs when state(wheel_drain, stopped) and state(culvert_water, flowing) { Assert state(culvert_water, shallow). }
+
+  // --- the sluice-race ------------------------------------------------------------------------------------------
+  Observe race_scene at race when true "A brick channel the width of a cart-track, roofed, running along a slope; the brook runs in from the daylight at one end and a grating takes it into the Drowned Level at the other. The air is cold, the sound of the water filling the whole length of it. In the roof, at intervals, a lamp-niche is cut, with the stub of something in it.".
+  Observe race_wheel at race as sign when true "On the wall beside the grating, a small iron plate: the figure of a roofed house with a lamp in it, and an arrow going away. Under it, in the survey's chalk, a drawing of a bucket, with a question-mark.".
+
+  // --- the Roots ---------------------------------------------------------------------------------------------------
+  Observe roots_scene at roots when true "Terraced beds go down in tiers as far as the light does, black with the soil of a thousand harvests and run to green wilderness: wheat gone tall as a man, vines through the rafters, fruit-trees lying where they fell with new trees standing up out of them. A pale light comes from below, from a pool the colour of milk, and in it everything that grows throws a shadow upward.".
+  Observe roots_air at roots as sign when true "The air is warm and wet and smells of leaf-mould, and a faint high note comes from everywhere at once: a thousand insects tuning. Overhead, a vent in the vault turns slowly in a draught.".
+  Discovery stair_found "Behind a bed of tall wheat, a narrow stair of worn brick climbs into the wall." { Found by searching roots "Behind a bed of tall wheat, where the stalks lean away from the wall in a pattern that is not wind, there is a low arch, and inside it a narrow stair going up.". }
+  Person beetles "the beetles" at roots {
+    Role "great black beetles, as long as a dog". Species beetle. Variant great. Numbers 3. Level 4. Temperament territorial.
+    Warns "The wheat rustles, and three great beetles come out of it on slow glittering legs: each as long as a dog, each with a pair of mandibles that can be heard opening. They have been fed here a long time, on what the beds let fall, and they do not know you from what the beds let fall.".
+    Comes "The beetles come all at once, clicking.".
+  }
+  Thing vent_wheel "the vent-wheel by the vault door" at roots {
+    State stopped "A bronze wheel on a spindle stands by the vault door, linked by a rod to the vent in the vault above. It is shut.".
+    State open "The vent-wheel is turned wide; overhead the vent stands open and the draught runs past you, into the vault.".
+    Change turn_vent "Turn the vent-wheel" from stopped to open needing brawn.
+  }
+  Thing vault_air "the air in the vault door" on vault_door {
+    State foul dangerous "The air behind the vault door is dead; there is a smell of old fruit and of nothing, and the lamp flame leans away from it.".
+    State clean "The air behind the vault door moves, and smells only of dry seed.".
+    Hurts with dead_air when foul then foul.
+  }
+  Hazard dead_air "Air with nothing in it" means "Deal (1d8) physical damage to ally unless constitution save against (13).".
+  Rule vault_vents when state(vent_wheel, open) and state(vault_air, foul) says "The draught from the vent runs into the vault; there is a sigh, a long rush, as the air in it changes." { Assert state(vault_air, clean). }
+  Observe vault_scene at vault when true "A dry vault of iron shelves, each with a hundred cells, and each cell with a screw-top jar of green glass in it, and each jar with a numeral and a leaf pressed behind its glass. A sealed room, kept cool and dry for something to come back to.".
+  Item seed_a "a jar of seed" is seed_kind at vault.
+  Item seed_b "a jar of seed" is seed_kind at vault.
+  Kind seed_kind "a jar of the House's seed" is treasure worth 35 weighing 1 described "A jar of green glass with a screw top, a leaf pressed behind the glass, and a numeral. The seed inside is dry, grey, and heavier than it ought to be. The numeral is a count of how many years it has been kept; the number is not one the Empire could have written.".
+
+  // --- the pool ------------------------------------------------------------------------------------------------------
+  Observe pool_scene at pool when true "A round pool, twenty paces across, lit from within, white as milk, and the light that comes out of it lays the shadow of everything that grows upward on the walls. Crystals as thick as a thigh stand round its rim, glowing faintly. The surface is perfectly still, and there is a sweetness in the air that has nothing to do with the bell-lilies.".
+  Item shard "a shard of living crystal" is shard_kind at pool.
+  Kind shard_kind "a shard of living crystal" like lantern described "A shaft of clear crystal the length of a hand, that gives a soft steady light without flame or oil, and is cool to the touch. In the dark it casts a shadow upward.".
+  Person slump "the slump" at pool {
+    Role "a pale mass, drifting in the pool's shallows". Species slump. Level 4. Temperament territorial.
+    Warns "Something in the shallows of the pool shifts. It is the colour of the pool and almost its shape, and it draws itself up out of the water in a slow glistening column, and leans toward you.".
+    Comes "The slump comes out of the pool at you, in a rush like a wave.".
+  }
+}

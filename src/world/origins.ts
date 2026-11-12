@@ -198,7 +198,7 @@ export class Origins {
     // Not the one the inn tells of first, which the debt has sent the company to already: paid, Tuck had said of
     // Seolforfyrd, just come back from, that nobody had been inside it in living memory (Mission 20's second round).
     const first = RegionRumours.nearest(region, s, RegionRumours.told(region))[0]?.site;
-    const works = region.sites.filter(w => w.work && !w.work.great && !w.work.deep && w !== first);
+    const works = region.sites.filter(w => w.work && !w.work.imperial && !w.work.great && !w.work.deep && w !== first);
     const work = this.nearest(region, s, works);
     const seat = work && RegionGeography.seats(region).find(x => x.site === work);
     if (!work || !seat) { return { said: '', imports: {} }; }
@@ -220,7 +220,7 @@ export class Origins {
   private static order(region: Region): Bound | undefined {
     const s = region.settlements.find(t => t.size === 'town') ?? region.settlements[0];
     const history = region.history, makers = history?.makers[0];
-    const works = region.sites.filter(w => w.work && !w.work.great && w.work.art === makers?.art);
+    const works = region.sites.filter(w => w.work && !w.work.imperial && !w.work.great && w.work.art === makers?.art);
     const work = s && this.nearest(region, s, works);
     if (!s || !makers || !work) { return undefined; }
     const cult = RegionFaith.cults(region)[region.settlements.indexOf(s)]!;
@@ -269,7 +269,8 @@ export class Origins {
   // the work named and its way known from the first, so that the aim is on the map; the work's own place imported, for
   // what lies there to be found by searching.
   private static delve(region: Region, nth: number): Bound | undefined {
-    const s = region.settlements[0], works = region.sites.filter(w => w.work && !w.work.great && !w.work.deep);
+    const s = region.settlements[0];
+    const works = region.sites.filter(w => w.work && !w.work.imperial && !w.work.great && !w.work.deep);
     const near = s ? [...works].sort((a, b) => this.away(region, s, a) - this.away(region, s, b)) : [];
     // Another than the nearest only where it is hardly farther: a sister's barrow nine hours off had made a first
     // goal of a day's walk.

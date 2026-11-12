@@ -5,8 +5,8 @@ Module gaunt "A Winter in Carth" {
   // cousin, and the only person in Gaunt who laughs at him.
   Person joan "Mistress Joan Pickersgill" at pickersgill_parlour {
     Role "a tanner's widow of fifty in plum silk, with a laugh like a dropped tray and a book of devotion on her knee that is not a book of devotion". Ancestry human. Peaceable. Pronouns she. Manner jovial.
-    Greets "Mistress Pickersgill looks at you over the book and closes it on her thumb. 'Oh, good,' she says. 'A stranger. Sit down. Strangers don't count. Have a fig.'".
-    Greets again "'You again!' says Mistress Pickersgill, delighted. 'Have a fig.'".
+    Greets "Mistress Pickersgill peers at you over the top of her book and closes it on her thumb. 'Oh, good,' she says. 'A stranger. Sit down. Strangers don't count. Have a fig.'".
+    Greets again "'You again!' says Mistress Pickersgill, delighted, and has the fig on the table before you have sat. 'Strangers don't count, I said, and you have been twice, and I am beginning to wonder if I have been miscounting strangers. Have another.'".
   }
   Relation joanKnows(group). Relation abelKnows(group). Relation abelBearing(group). Relation joanThinksHarder(group).
   Relation betrothed(group). Relation joanLaughed(group).

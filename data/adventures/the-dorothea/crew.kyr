@@ -5,14 +5,17 @@ Module dorothea "The Dorothea" {
     Role "mate of the Dorothea". Ancestry human. Calling thief. Level 3. Peaceable. Pronouns he. Manner jovial.
     Likeness "sailor".
     Greets "A long man in a patched jersey who looks as if he has been folded up and put away wet. 'Mate,' he says, touching his cap. 'Tobias Rune. Don't mind the Captain, she speaks to the sea and the sea has never answered back. She likes that in a friend.'".
+    Greets again "Tobias Rune touches his cap and then, because he has been caught doing it, touches it again as a joke. 'Mind the Captain's mood,' he says. 'It follows the glass, and the glass has been unreliable all week.'".
   }
   Person mab "Mab Hallam" at forecastle {
     Role "cook". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
     Greets "Mab Hallam stirs a pot the size of a font with a spoon the size of a boat-hook, and has not looked up since you came down the ladder. 'I've fed forty crews on this ship,' she says. 'I've fed three that were hanged and two that were bishops and I couldn't tell you which was which by the manners.'".
+    Greets again "Mab Hallam hands you a ladle to hold and does not say what it is for. 'Stand there,' she says. 'If you are going to be in my galley, you can be useful, and if you are going to be useless, you can be warm.'".
   }
   Person nipper "Nipper" at deck {
     Role "ship's boy". Ancestry human. Peaceable. Pronouns he. Manner jovial.
     Greets "A boy of about eleven, barefoot on the cold deck, looks you up and down with the frank hostility of someone who has been told a landsman is coming and what will be expected of him.".
+    Greets again "The boy has found a spar to lean on and a reason to be on this side of the deck. 'They said landsmen go green by the second day,' he says, unimpressed. 'You're a poor green.'".
   }
   Person quint "Odile Quint" at deck {
     Role "a surveyor of the Collegium of Measures, bound for the Pharos". Ancestry human. Calling mage. Level 2. Peaceable. Pronouns she. Manner stoic.
@@ -21,6 +24,7 @@ Module dorothea "The Dorothea" {
     Leaves "Odile Quint nods once. 'I shall be at the Collegium of Measures at Sennet,' she says. 'Ask for the junior Fellow who is always right.'".
     Carries old_glossary.
     Greets "A narrow woman in a grey coat is seated on a cask with a brass ell-rod across her knees, looking not at the sea but at a pocket-book of figures. She does not look up. 'Odile Quint,' she says. 'Collegium of Measures, Sennet. If you're sick, be sick to leeward. If you're not, I'd like a word about your idea of a straight line.'".
+    Greets again "Odile Quint has put a second pocket-book beside the first, and the two do not agree with each other. 'A word,' she says. 'Not the straight line. The curved one. Do you know how you measure a thing that bends back on itself?'".
   }
   Initially Assert acceptsEscort(quint, party).
 
@@ -49,6 +53,7 @@ Module dorothea "The Dorothea" {
     Role "master of the cutter Kestrel". Ancestry human. Calling thief. Level 4. Pronouns he. Manner jovial.
     Likeness "sailor".
     Greets "Jago Pendry sits on the Dorothea's rail as if the ship were his and he were merely letting her sail. 'Good evening,' he says. 'Don't get up. I'm only passing the time with Mr Rune.'".
+    Greets again "Jago Pendry has moved from the rail to the hatch-cover, which is a different kind of sitting entirely. 'Mr Rune says you are all right,' he says. 'I have always found Mr Rune a poor judge of anyone but himself.'".
   }
   Relation hailed(entity). Relation sold(entity). Relation told(group). Relation bribed(group). Relation shamed(group). Relation looked(group).
   Rule kestrel_hails when at(hull, open_sea) and progress(hull) >= 66 and not hailed(hull) and not troubled(hull)

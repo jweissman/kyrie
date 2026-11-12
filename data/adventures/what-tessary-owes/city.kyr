@@ -126,7 +126,8 @@ Module tessary "What Tessary Owes" {
   Passage muster_door "the hiring hall door" is doorway between saltgate and muster_hall.
   Person hiring_clerk "Sault's hiring clerk" at muster_hall {
     Role "who keeps the book of the Factor's Muster". Ancestry human. Peaceable. Pronouns he. Manner stoic.
-    Greets "The hiring clerk looks up from the book and holds his pen ready over a new line, in case you are a soldier.".
+    Greets "The hiring clerk has the Muster's book open at a clean line and the pen already wet, and holds it a half-inch off the paper for exactly as long as it takes him to decide that you are not a soldier. 'Not enlisting,' he says, and sets the pen down with something like regret. 'Then you are here for the wages. Everyone is here for the wages.'".
+    Greets again "The hiring clerk finds the clean line again without looking, and the pen comes up out of the ink on its own. 'Still not enlisting,' he says, 'I see. There is a second book, for those who have come to ask where the first one went.'".
   }
   Topic clerk_book with hiring_clerk "Ask the hiring clerk who is on the Factor's books" when true once {
     Says "'Forty-one this morning,' says the clerk, and turns the book round so you can see. The names go down in a clear round hand, and six of them have been struck through with a ruler, neatly, each with a date beside it in the margin, each date a spring ebb. 'The Factor says strike them through when they go,' he says. 'Not out. Through. So the name can still be read.'".

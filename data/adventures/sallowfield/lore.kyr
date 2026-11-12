@@ -1,0 +1,17 @@
+Module sallowfield "Three Nights at Sallowfield" {
+  // ── The eleven who came on the coach ───────────────────────────────────────────────────────────────────────────
+  // Teasdale feeds eleven passengers and nobody ever sees one. They are the village's guests and its first extra mouths,
+  // and what becomes of the coach (it is a barricade, if the company chooses) is also what becomes of them.
+  Observe coach_folk at east_road when not coachGone(party) and not battleOn() "Eleven people sit on the bank in the order they got down, which is the order of their tickets. A man in a good coat is explaining to a woman with a hatbox that there are forms for this. The woman with the hatbox is looking at the hills. A child is feeding a hen from the ostler's pocket. Nobody has asked them to leave, and nobody has asked them to stay.".
+  Observe coach_in_chapel at nave when battleOn() and not greenBurns(party) "The coach's passengers have been put among the pews with the old and the very young. The man in the good coat has found something to do with the hymn-boards and is doing it with enormous care. The woman with the hatbox holds it on her knees like a sleeping child, and does not say what is in it.".
+  Observe coach_gone_on at east_road when coachGone(party) "The coach lies on its side across the ford road with its wheels toward the east. Someone has chalked on the boot: TICKETS HONOURED. The passengers are in the chapel, and Teasdale is sitting on the box with his back to what he did.".
+  Observe coach_after at green when morning(party) and not greenBurns(party) "Eleven strangers have taken their places in the bucket line without being asked, and are carrying water to a fire that is out. The man in the good coat has a blackened sleeve and is happier than he has been in years.".
+
+  // ── The world, read ────────────────────────────────────────────────────────────────────────────────────────────
+  Observe lore_ploughshare_sky at taproom when befell(cloudgate_fell) "Hob Wadsworth has a new story, and tells it to the whole room: a slab of the sky came down on a town in the south, with a house on its back, and he knows a man who knows the man who saw it go. Nan Ashworth says that if the sky is coming down she wants it to wait until the Margrave's soldiers have gone by, and puts another log on.".
+
+  // ── What leaves the village ────────────────────────────────────────────────────────────────────────────────────
+  // Told along the east road and the south road, and read by whoever keeps the roads in the countries around.
+  Rule sallowfield_held_word when morning(party) and not greenBurns(party) and not pact(party) and not befell(sallowfield_held) { Assert befell(sallowfield_held). }
+  Rule sallowfield_burned_word when morning(party) and greenBurns(party) and not befell(sallowfield_burned) { Assert befell(sallowfield_burned). }
+}

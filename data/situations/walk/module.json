@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "source": ["walk.kyr", "people.kyr", "towns.kyr", "powers.kyr", "gathering.kyr", "after.kyr"],
+  "rules": ["world"],
+  "globals": ["party"],
+  "imports": [
+    "party",
+    "town_a", "town_b", "town_c", "town_d",
+    "green_a", "green_b", "green_c", "green_d",
+    "innkeeper_a", "innkeeper_b", "innkeeper_c", "innkeeper_d",
+    "priest_a", "priest_b", "priest_c", "priest_d",
+    "merchant_a", "merchant_b", "merchant_c", "merchant_d"
+  ],
+  "roles": {
+    "party": {"type": "group"},
+    "town_a": {"type": "place"}, "town_b": {"type": "place"}, "town_c": {"type": "place"}, "town_d": {"type": "place"},
+    "green_a": {"type": "place"}, "green_b": {"type": "place"}, "green_c": {"type": "place"}, "green_d": {"type": "place"},
+    "innkeeper_a": {"type": "group"}, "innkeeper_b": {"type": "group"}, "innkeeper_c": {"type": "group"}, "innkeeper_d": {"type": "group"},
+    "priest_a": {"type": "group"}, "priest_b": {"type": "group"}, "priest_c": {"type": "group"}, "priest_d": {"type": "group"},
+    "merchant_a": {"type": "group"}, "merchant_b": {"type": "group"}, "merchant_c": {"type": "group"}, "merchant_d": {"type": "group"}
+  },
+  "generation": {
+    "type": "walk",
+    "templates": "templates.json",
+    "tables": "tables.json"
+  },
+  "exports": {
+    "rumour": "rumour"
+  },
+  "experience": 1500,
+  "unclocked": "the host gathers at the Station on the tenth day whether or not anyone is there; the Bench breaks it, or does not, and the towns find themselves with the result"
+}

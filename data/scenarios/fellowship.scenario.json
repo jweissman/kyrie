@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "id": "fellowship",
+  "name": "A fellowship with halls in four towns",
+  "kind": "town",
+  "instances": 1,
+  "weight": 2,
+  "places": {
+    "a": { "settlement": "largest" },
+    "b": { "settlement": "along:a" },
+    "c": { "settlement": "along:b" },
+    "d": { "settlement": "along:c" }
+  },
+  "modules": [
+    {
+      "id": "fellowship",
+      "bundle": "../situations/fellowship/module.json",
+      "imports": {
+        "party": "@party",
+        "town_a": "@a", "town_b": "@b", "town_c": "@c", "town_d": "@d",
+        "green_a": "@a.green", "green_b": "@b.green", "green_c": "@c.green", "green_d": "@d.green",
+        "merchant_a": "@a.merchant", "merchant_b": "@b.merchant", "merchant_c": "@c.merchant", "merchant_d": "@d.merchant"
+      }
+    }
+  ],
+  "hooks": [
+    { "fact": "fellowship.rumour", "topic": "the fellowship whose head sits at {a}, and the hall that will not answer it", "channels": ["tavern", "road", "market"], "opens": false }
+  ]
+}

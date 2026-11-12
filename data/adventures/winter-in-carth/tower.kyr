@@ -8,7 +8,7 @@ Module gaunt "A Winter in Carth" {
   Person joby "Old Joby Thwaite" at fat_lamb {
     Role "a master mason of seventy-one with stone-dust in his eyebrows and hands like two mallets, eating a pie with great concentration". Ancestry human. Peaceable. Pronouns he. Manner jovial.
     Greets "The old man with the stone-dust eyebrows points at the bench opposite with his pie. 'Sit,' he says. 'You've a look of somebody who's seen the north tower. Everybody gets that look.' He chews. 'Fifty-three years I've been setting the last course on it. Fifty-three. I'm the only man alive who's seen it with all four corners level.' He chews. 'Tuesday week, that was.'".
-    Greets again "Joby Thwaite waves his pie at you.".
+    Greets again "Joby Thwaite waves the pie, which is a different pie, but held at the same angle. 'The north tower,' he says. 'Fifty-two years I have been on it, and I've never been up it. That is the sort of thing you can say in a pie shop and be thought modest.'".
   }
   // His day: the tower by day, the Fat Lamb at noon and in the evening.
   Rule joby_tower when daytime() and not (hour(clock) >= 12 and hour(clock) < 13) and not at(joby, tower_foot) and not jobyGuards(joby) { Assert at(joby, tower_foot). }
@@ -58,7 +58,7 @@ Module gaunt "A Winter in Carth" {
   Person pellow "Canon Hamo Laverock" at close_green {
     Role "the Master of the Fabric, in a fur tippet, a pleasant round man with very clean hands". Ancestry human. Peaceable. Pronouns he. Manner jovial.
     Greets "'Welcome to the Close,' says the round canon, warmly. 'You'll have seen the tower. Everybody looks at the tower. Two hundred and eleven years.' He beams up at it. 'A great work of faith is never finished. That is how you know it is a great work of faith.'".
-    Greets again "Canon Laverock beams at you.".
+    Greets again "Canon Laverock beams at you, and at the tower behind you, and cannot decide which to look at. 'It is a joy to see you again,' he says, 'but I must ask: have you a thought on scaffolding? It is the one thing about which the Fabric has no opinion at all.'".
   }
   Rule pellow_day when daytime() and not sitting() and not at(pellow, close_green) and not pellowGone(pellow) { Assert at(pellow, close_green). }
   Rule pellow_night when not daytime() and at(pellow, close_green) { Assert at(pellow, limbo). }

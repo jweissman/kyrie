@@ -1,3 +1,9 @@
 Module skerrow "The Light on Scarth Holm" {
   Entity party: group "Your company".
+  // What is said of the Scarth light in the country behind it: once the company has walked the causeway out, it is old news.
+  Entity word: fact "What is said of the Scarth light in the country behind it.".
+  Rule word_old when crossed(party) and not stale(word) { Assert stale(word). }
+  // And whether the keeper or the widow came out: the light goes dark on the coast road's lips, or it does not.
+  Entity word_dark: fact "That the Scarth light lost its keeper or its widow to the sea.".
+  Rule word_dark_old when crossed(party) and (hettieTaken(party) or orrinTaken(party)) and not stale(word_dark) { Assert stale(word_dark). }
 }

@@ -42,6 +42,7 @@ Module tessary "What Tessary Owes" {
   Person scruples "the Scruples at their desks" at clerks_hall {
     Role "who keep the Balance's books". Ancestry human. Numbers 1. Peaceable. Pronouns they.
     Greets "The nearest of the clerks lifts their pen from the page and waits, without looking up, as if for dictation.".
+    Greets again "The nearest of the clerks does not look up, but the pen has already moved to the line beneath, ready to put you down. 'Name,' says a voice, 'and what you owe. Everyone owes. We are only interested in how much more than they think.'".
   }
   Topic scruples_asked with scruples "Ask the clerks at the desks what they are writing" when true once {
     Says "The nearest clerk finishes the line before looking up. 'Promises,' she says. 'As they are kept. A fishwife in the Withies has paid her rent. A ferryman has sworn to his wife on the Watersteps that he will not drink, and has drunk, and it is a small thing and the Balance has noted it. A great deal of the city stands on the old instruments without knowing it, you see. We write what is kept and what is not.' She dips her pen. 'Mostly it is not.'".
@@ -196,7 +197,8 @@ Module tessary "What Tessary Owes" {
   // since he failed to keep his word. He cannot lie. He can choose what to say.
   Person comptroller "the Comptroller" at comptroller_office {
     Role "eldest of the Scruples, tall and thin as a rule, the ruled lines on his face so close they look like shading". Ancestry human. Calling mage. Level 9. Peaceable. Pronouns he. Manner proud.
-    Greets "The Comptroller looks up from the black glass. His eyes are the colour of old paper. 'You have come down,' he says, 'from the debtor's city. Very well. You may ask.'".
+    Greets "The Comptroller lifts his face from the black glass, slowly, as though out of water. His eyes are the colour of old paper. 'You have come down,' he says, 'from the debtor's city. Very well. You may ask.'".
+    Greets again "The Comptroller does not come up out of the black glass this time, but speaks to it, and the glass speaks to you. 'You have come back,' says his reflection. 'In the debtor's city they would call that a second instalment.'".
   }
   Topic comptroller_note with comptroller "Ask the Comptroller about the War Note" when true once {
     Says "'A loan,' says the Comptroller. 'The city wished to call an oath its predecessors were owed, and could not pay for the calling. We lent it, against security, as is our office.' He touches the black glass. 'When an oath is called, the ledger is drawn down by its weight, and the weight must be restored. That is all the Balance is: a pan that must come level.' He looks at the glass a while longer than the sentence needs. 'It has not been level for some time. I am not concerned with your city's poverty. I am concerned with that.'".

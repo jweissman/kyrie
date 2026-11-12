@@ -16,7 +16,7 @@ Module hollins "Behind the Wainscot" {
   Passage vault_way "the vault steps, across the water" is passage between cistern and vault taking 10 minutes
     opening when annetHelps(annet) or eelGone(eel) "The way to the vault is across the cistern: forty yards of black water with something in it, and the steps on the far side going up to an iron door.".
 
-  Observe garden_scene at kitchen_garden when not dark() "The kitchen garden of Hollins, gone wild in three hundred years: a forest of giant rhubarb with leaves like sails, artichokes as tall as trees going to seed in purple thistles, and everywhere, in drifts as high as your shoulder, grey-green catmint, humming with bees. Against the house wall, an iron grating as big as a barn door lies half open on its hinge over a black hole that breathes cold.".
+  Observe garden_scene at kitchen_garden when not dark() "The kitchen garden of Hollins, gone wild in three hundred years: a forest of giant rhubarb with leaves like sails, artichokes as tall as trees going to seed in purple thistles, and everywhere, in drifts as high as your shoulder, grey-green catmint, humming with bees. Against the house wall, an iron grating the breadth of a barn door lies half open on its hinge over a black hole that breathes cold.".
   Observe garden_night at kitchen_garden when dark() "The kitchen garden at night: the shapes of rhubarb like ships, the smell of catmint, the black hole of the coal-hole under the house wall.".
   Observe garden_grating at kitchen_garden as feature when knows(party, mother_letter) "The grating over the coal-hole stands open on its hinge, as it has, you know now, for three hundred winters, because somebody wanted it so.".
   Relation catmintCarried(group).

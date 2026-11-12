@@ -7,7 +7,7 @@ Module sallowfield "Three Nights at Sallowfield" {
 
   Person teasdale "Amos Teasdale" at east_road {
     Role "the coachman". Ancestry human. Peaceable. Pronouns he. Manner acerbic.
-    Greets "Teasdale does not look up from the axle. 'Cracked clean through,' he says. 'Three days, the smith says, if she's got the iron. Three days on the Company's time, and I have eleven passengers to feed and not one of you has ever once offered to push.'".
+    Greets "The axle is across two barrels, and Teasdale is talking to it, not to you. 'Cracked clean through,' he says. 'Three days, the smith says, if she's got the iron. Three days on the Company's time, and I have eleven passengers to feed and not one of you has ever once offered to push.'".
   }
   Person stansfield "Aldred Stansfield" at green {
     Role "the reeve of Sallowfield". Ancestry human. Peaceable. Pronouns he. Manner proud.
@@ -23,7 +23,7 @@ Module sallowfield "Three Nights at Sallowfield" {
   }
   Person kersey "Peg Kersey" at forge {
     Role "the smith". Ancestry dwarf. Peaceable. Pronouns she. Manner stoic.
-    Greets "Peg Kersey looks at you, and at your boots, and at the door. 'Axle,' she says. 'Strap's in the coals. Iron's short.' She takes a hammer off the wall and puts it back. 'Don't ask what for. I'll be asked enough.'".
+    Greets "Peg Kersey takes in your boots, and then the door, which she keeps an eye on. 'Axle,' she says. 'Strap's in the coals. Iron's short.' She takes a hammer off the wall and puts it back. 'Don't ask what for. I'll be asked enough.'".
   }
   Person cragg "Ellen Cragg" at nave {
     Role "a widow, in the chapel with a bundle of arrows". Ancestry human. Peaceable. Pronouns she. Manner stoic.

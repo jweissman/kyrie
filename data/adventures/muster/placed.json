@@ -30,7 +30,8 @@
     "imbar"
   ],
   "imports": [
-    "party"
+    "party",
+    "word"
   ],
   "roles": {
     "party": {
@@ -41,5 +42,8 @@
     "party": "party",
     "region": "fells",
     "road": "road"
-  }
+  },
+  "optional": [
+    "word"
+  ]
 }

@@ -11,6 +11,8 @@ export interface PlanSection {
 // what lives there now) a choice of sections.
 export interface WorkPlan {
   id: string; about: string; art: string; kind: string; ground: Cover[]; near?: string; seen: string;
+  // How many of its works a country holds, where its makers' art is its own (@count 3; one where it says nothing).
+  count?: number;
   // How it looks from outside in each of its shapes, when that differs (@seen a round tower | a square tower | …).
   looks?: string[];
   // What its makers named works of its kind: a noun to go with the art's own words ("pool"), or a pair ("deep/pool").
@@ -74,6 +76,7 @@ export class WorkPlans {
         break;
       }
       case 'danger': plan.danger = Number(value); break;
+      case 'count': plan.count = Number(value); break;
       case 'great': plan.great = value === 'yes'; break;
       case 'lair': plan.lair = value; break;
       case 'names': plan.names = value.split(',').map(p => p.trim()); break;

@@ -20,6 +20,7 @@ Module wrayford "The Third Night" {
   Person lumley "Tom Lumley" at guild_hall {
     Role "a painter, in a coat with paint on the elbows". Ancestry human. Peaceable. Pronouns he. Manner acerbic.
     Greets "Tom Lumley does not take his eyes off the canvas. 'If you're from the Company, I've not finished. If you're not, have you a shilling?'".
+    Greets again "Tom Lumley has moved the canvas an inch to the left and is calling it composition. 'If you are from the Company,' he says, 'I have found the third hanged man a hat. If not, I have nothing to say that is not in the picture.'".
   }
   Rule lumley_drinks when hour(clock) >= 18 and hour(clock) < 23 and not at(lumley, wheels_taproom) { Assert at(lumley, wheels_taproom). }
   Rule lumley_paints when hour(clock) >= 9 and hour(clock) < 18 and not at(lumley, guild_hall) { Assert at(lumley, guild_hall). }
@@ -77,6 +78,7 @@ Module wrayford "The Third Night" {
   Person inchbold "Lancelot Inchbold" at counting_room {
     Role "the Bridge Company's clerk, with ink to the second knuckle". Ancestry human. Peaceable. Pronouns he. Manner proud.
     Greets "Lancelot Inchbold finishes his line, sands it, and only then looks up, as if you were a sum he had been expecting.".
+    Greets again "Lancelot Inchbold wipes his pen and sands the line he has just finished, and only then acknowledges you, as one acknowledges a sum that has come out the same twice. 'The books are not open,' he says. 'But I will tell you they are balanced. It is the only thing about them I can tell you.'".
   }
   // The clerk keeps the Company's hours, and spends his evenings in the Nine Wheels, where he hears everything.
   Rule inchbold_works when hour(clock) >= 8 and hour(clock) < 18 and not countingBurned(wray) and not at(inchbold, counting_room) { Assert at(inchbold, counting_room). }
@@ -134,6 +136,7 @@ Module wrayford "The Third Night" {
   Person quoin "Ezra Quoin" at quoin_shop {
     Role "a printer, inky to the elbow". Ancestry human. Peaceable. Pronouns he. Manner jovial.
     Greets "Ezra Quoin straightens up from the press with a sheet in each hand. 'Ballads, bills, confessions, almanacs, notices of sale,' he says. 'Three coin the hundred and I'll set it while you wait.'".
+    Greets again "Ezra Quoin has pulled a fresh sheet off the press and holds it out wet by the corners, as a man shows a baby. 'You are in it,' he says. 'Not by name. By description. Whether it is a compliment depends on who reads it.'".
   }
   Topic quoin_lines with quoin "Ask Quoin what is drying on his lines" when not knows(actor, confession_read) once {
     Says "'The True and Last Confession of Wat Pardoe,' says Quoin, with a craftsman's pride. 'Forty on the lines and three hundred posted. Best thing I've sold in years.' He pats a damp sheet as if it were a horse. 'There's one on every post in the Market, if you'd rather read it dry. Everybody else has.'".
@@ -201,7 +204,8 @@ Module wrayford "The Third Night" {
   Observe pawn_scene at pawnshop when true "A dark shop full of other people's things: clocks, Sunday coats, a fiddle, a trayful of rings under glass, a cradle. Each has a ticket on a string.".
   Person pratt "Dorothea Pratt" at pawnshop {
     Role "who keeps the pawnshop, Alderman Gidley's cousin". Ancestry human. Peaceable. Pronouns she. Manner proud.
-    Greets "Mistress Pratt looks at your hands before she looks at your face, to see what you have brought.".
+    Greets "Mistress Pratt reads your hands before she reads your face: what you carry, what you have lately stopped carrying, the pale band where a ring was. 'Pledge or redeem?' she says. 'Either way, the ticket is the thing, not the goods, and I do not discuss the goods.'".
+    Greets again "Mistress Pratt does not read your hands this time. She reads your pockets, and is satisfied that she has not mistaken the trade. 'Nothing today,' she says. 'Then it is a call, and I do not take calls.'".
   }
   Relation ringFreed(group). Relation chiselsBought(group).
   Topic pratt_ring with pratt "Ask Mistress Pratt about Joss Wilder's betrothal ring" when knows(actor, ring_missing) once {
@@ -257,6 +261,7 @@ Module wrayford "The Third Night" {
   Person tull "Goodwife Tull" at tull_shop {
     Role "a cutler's widow, who keeps the shop". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
     Greets "Goodwife Tull does not stop grinding. 'If you've come to tell me where he is, I know where he is.'".
+    Greets again "Goodwife Tull has not stopped the wheel since you were last in, or has started again at precisely the same pitch. 'I know where he is,' she says. 'It is no use to me.'".
   }
   Topic tull_robin with tull "Ask Goodwife Tull who he is, and where" when not robinHome(robin) once {
     Says "'Robin. My boy. Apprenticed to me, articled, sealed, and run off four days ago across the bridge to the bear-garden in Overbridge to be a bear-ward's boy, because a bear is more interesting than knives.' The cleaver shrieks on the stone. 'I can't go and fetch him. It's the Liberty; the reeve's man won't go, and if I go myself I'll take the bear-ward's ears off and then where will I be.' She holds the cleaver up to the light. 'Fetch him home. I'll give you the best knife in the shop.'".
@@ -281,11 +286,13 @@ Module wrayford "The Third Night" {
   Observe shambles_night at shambles when dark() "The Shambles at night: shutters, a smell, cattle shifting in the pens.".
   Person kemp "Saul Kemp" at shambles {
     Role "a butcher, master of the Shambles". Ancestry human. Peaceable. Pronouns he. Manner jovial.
-    Greets "Saul Kemp wipes a cleaver on his apron and looks you up and down, the way he looks at a beast in the pens, for the weight.".
+    Greets "Saul Kemp wipes a cleaver on his apron and sizes you up with it, the way he sizes a beast in the pens, for the weight. 'Not buying,' he says. 'Selling, then? No. You've the wrong hands.' He turns a carcase on its hook. 'If it's news you're after, that's different. The Shambles hears everything that was ever bled.'".
+    Greets again "Saul Kemp has hung a fresh carcase where the old one was, and does not appear to have noticed the difference. 'You've not changed weight,' he says. 'Good sign, in a beast. Not in a man, but I do not trade in men.'".
   }
   Person jack_kemp "Jack Kemp" at shambles {
     Role "the butcher's boy, who drives the offal cart". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
     Greets "The butcher's boy looks up from a pie. 'Seven and three,' he says. 'Tan-yards. Toll-free. Ask anybody.'".
+    Greets again "Jack Kemp is on his second pie of the morning, which is his fourth. 'Seven and three,' he says, through the pastry. 'Tan-yards. Ask anybody. Nobody has asked me anything I could not answer with my mouth full.'".
   }
   Discovery offal_privilege "The Liberty's offal cart goes over the bridge from the Shambles to the tan-yards twice a day, at seven in the morning and three in the afternoon, toll-free by the Liberty's ancient privilege, and nobody at the chain has ever looked in it." {
     Known by kemp, jack_kemp, pinch, abbess.
@@ -335,6 +342,7 @@ Module wrayford "The Third Night" {
   Person ham "Ham Ostler" at shambles {
     Role "a drover from the fells, in a smock and a hat with a curlew feather". Ancestry human. Calling ranger. Level 2. Peaceable. Pronouns he. Manner cheerful.
     Greets "Ham Ostler leans on the hurdles with his chin on his crook. 'Sixty head,' he says. 'Sixty pennies. That's a cow.'".
+    Greets again "Ham Ostler has the curlew feather behind his ear instead of in his hat, and a look of having been told something he does not mean to repeat. 'Sixty head,' he says. 'Sixty pennies. Prices have not moved, but the drovers' tempers have.'".
   }
   Topic ham_toll with ham "Ask Ham Ostler about the toll on his beasts" when true once {
     Says "'A penny a head to put my beasts over a bridge they've been going over since before the Company's grandfathers were breeched.' He spits. 'Sixty head is five shillings. I sell them at the Liberty fair, Michaelmas, over the water, and the Company takes five shillings before I've sold a hoof.' He grins. 'So I'll not pay it. My leader knows the ford, and goes round the Step, where the Bargeman lies, the way her mother did. Small hours of the second night, when Dunch's mills up at Wrayholme have the river penned to fill their ponds, I'll take them down under the arches and over, and Pinch can rule on that.' He looks at you. 'You can come, if you like. It's a sight. Most folk have forgot the ford's there.'".

@@ -13,6 +13,7 @@
     "act4_voyage.kyr",
     "act5_road.kyr",
     "witness.kyr",
+    "growth.kyr",
     "lore.kyr",
     "placed.kyr"
   ],
@@ -23,7 +24,14 @@
     "party"
   ],
   "imports": [
-    "party"
+    "party",
+    "word",
+    "word_one",
+    "word_given",
+    "word_none",
+    "word_followed",
+    "word_lost",
+    "word_home"
   ],
   "roles": {
     "party": {
@@ -38,5 +46,14 @@
   "canon": [
     "imbar",
     "perrin_lives"
+  ],
+  "optional": [
+    "word",
+    "word_one",
+    "word_given",
+    "word_none",
+    "word_followed",
+    "word_lost",
+    "word_home"
   ]
 }

@@ -1,4 +1,7 @@
 Module tessary "What Tessary Owes" {
   // The Ossel delta as a country beyond a march: the company that comes in along the Causeway is the world's own.
   Entity party: group "Your company".
+  // What is said of the Ossel delta in the country behind it: once it is seen through, it is old news there.
+  Entity word: fact "What is said of Tessary and the Ossel in the country behind it.".
+  Rule word_old when (keptPromise(ossel) or released(ossel) or noteVoid(ossel) or noteTorn(ossel) or saultHoldsNote(ossel) or foreclosed(ossel)) and not stale(word) { Assert stale(word). }
 }

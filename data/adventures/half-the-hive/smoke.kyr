@@ -20,7 +20,7 @@ Module hume "Half the Hive" {
     Says "'Every thirty, forty years. The old queen swarms and half of them go with her and never come back. Nobody's made to. They choose.' He looks at the door, at the handcarts going by. 'Families split down the middle. Husbands, wives. I saw the last one, my first year. A man and his wife stood on the Apron with their hands on each other's faces for an hour, and then he walked off after the bees and she went back up the stair.' He sets a cup down. 'It's the best week's trade Smoke End ever has. Make of that what you like. Crispin Polglaze at the Chandlers' yard is making something of it.'".
   }
   Topic martin_mead with martin "Ask Martin about Huw Penry's mead" when true once {
-    Says "His face does something complicated. 'Huw Penry is the finest mead-maker in the Wold and the vainest man in it, and he's going with the Mother, and he's making one last mead for the Calling that'll be drunk at every Calling for thirty years, he says.' A pause. 'I hear it's stuck. Stopped working in the barrel. Won't go.' Another pause. 'I'm not glad,' says Martin, who is a little glad. 'Somebody should tell him what'll start it. It won't be me. He'd sooner pour it in the stream than take a word from Smoke End.'".
+    Says "His face does something complicated. 'Huw Penry is the finest mead-maker in the Wold and the vainest man in it, and he's going with the Mother, and he's making one last mead for the Calling that'll be drunk at every Calling for thirty years, he says.' He turns a cup over, and back. 'I hear it's stuck. Stopped working in the barrel. Won't go.' Another cup turned. 'I'm not glad,' says Martin, who is a little glad. 'Somebody should tell him what'll start it. It won't be me. He'd sooner pour it in the stream than take a word from Smoke End.'".
     On discuss { Assert knows(actor, mead_stuck). }
   }
   Discovery mead_stuck "Huw Penry's mead for the Calling has stuck in the barrel and will not work.".
@@ -66,7 +66,7 @@ Module hume "Half the Hive" {
     On discuss { Increase nellTrust(nell) by 1. }
   }
   Topic nell_aldo with nell "Ask Nell Quarrie why she learned to make it" when nellTrust(nell) >= 1 once {
-    Says "She is quiet so long you think she will not answer. 'My husband was Aldo Quarrie, of the Comb. He came down to Smoke End to buy lavender for his mother and he stayed eleven years. When he was dying he wanted to go home, and I took him up the stair, and Elspet Garnock scented him, and would not scent me.' Her hands are quite still on the counter. 'He's capped in the Gallery. Fourth row from the arch, on the left. I asked to go up and sit with him the way the Humefolk sit with theirs. Three times. Elspet said I was not of the Comb.' She looks at you. 'So I made myself of the Comb. Once a month, for six years, I have gone up the stair smelling of this, and sat with him an hour in the dark, and come down. Nobody has ever stopped me. Nobody has ever noticed.'".
+    Says "She is quiet so long you think she will not answer. 'My husband was Aldo Quarrie, of the Comb. He came down to Smoke End to buy lavender for his mother and he stayed eleven years. When he was dying he wanted to go home, and I took him up the stair, and Elspet Garnock scented him, and would not scent me.' Her hands are quite still on the counter. 'He's capped in the Gallery. Fourth row from the arch, on the left. I asked to go up and sit with him the way the Humefolk sit with theirs. Three times. Elspet said I was not of the Comb.' Her eyes come up to yours, and stay. 'So I made myself of the Comb. Once a month, for six years, I have gone up the stair smelling of this, and sat with him an hour in the dark, and come down. Nobody has ever stopped me. Nobody has ever noticed.'".
     On discuss { Increase nellTrust(nell) by 1. Assert knows(actor, nell_forges). }
   }
   Discovery nell_forges "Nell Quarrie forges the Comb's scent, and has gone up the stair in it once a month for six years to sit with her dead husband Aldo in the Capped Gallery, because Elspet Garnock would not scent her.".
@@ -75,7 +75,7 @@ Module hume "Half the Hive" {
     On discuss { Increase nellTrust(nell) by 1. }
   }
   Topic nell_flask with nell "Ask Nell Quarrie what she made for the squire" when nellTrust(nell) >= 2 and not nellConfessed(nell) once {
-    Says "'A flask.' She takes a breath. 'Not this,' the phials, 'but the thing itself. Strong. Stronger than the Mother smells to her own bees. Lucian Corve came here in the spring with his drawings and his letters and his good manners, and asked me if it could be done, and paid me forty crowns, and I did it, because it could be done, and because the Comb would not have me, and because forty crowns is forty crowns.' She looks at her hands. 'Uncorked on his tower, on the wind, it will call the swarm. It will call it whatever they dance. He means to open it on the fourth morning.' A pause. 'I hoped he would not. I hoped, when I gave it him, that he would turn out to be a man who would not.'".
+    Says "'A flask.' She takes a breath. 'Not this,' the phials, 'but the thing itself. Strong. Stronger than the Mother smells to her own bees. Lucian Corve came here in the spring with his drawings and his letters and his good manners, and asked me if it could be done, and paid me forty crowns, and I did it, because it could be done, and because the Comb would not have me, and because forty crowns is forty crowns.' She looks at her hands. 'Uncorked on his tower, on the wind, it will call the swarm. It will call it whatever they dance. He means to open it on the fourth morning.' She straightens a phial that was straight. 'I hoped he would not. I hoped, when I gave it him, that he would turn out to be a man who would not.'".
     On discuss { Assert nellConfessed(nell). Assert knows(actor, flask_known). }
   }
   Discovery flask_known "Squire Corve of Larkhill has a flask of Nell Quarrie's making, stronger than the Mother's own scent, and means to uncork it on his tower on the fourth morning to call the swarm to his chantry, whatever the Searchers dance.".
@@ -120,5 +120,27 @@ Module hume "Half the Hive" {
     Time 1.
     On success { Decrease quantity(actor, gold) by 6. Give drewe_candles to actor. Assert drewesPaid(actor). }
     Result "The mother looks at the six coins in her hand, and then at you, and then, for the first time, at Crispin Polglaze, who is looking at the sky. 'There,' she says to her daughters, and closes her hand. The younger girl says, 'Now we can have the goat,' and is hushed.".
+  }
+
+  // ── Smoke End, the week after ──────────────────────────────────────────────────────────────────────────────────
+  // The street that sold veils and scent to the Searchers and wax-prices to the Leavers has, once the sky has gone brown
+  // and come back, a good deal to say for itself, and each of its people says a different thing.
+  Topic hild_after with hild "Ask Hild whether the Leaving has been good for trade" when leavingBegun() once {
+    Says "Hild has the veil off her head and is turning it inside out, looking for a hole. 'Best week of my life and the worst,' she says. 'I sold forty smokers to people who will never need one again. Half the Comb has walked off with a smoker in its pack, and I am the one who will be asked for a spare by the half that stayed.' She finds the hole, and puts her thumb through it. 'They come down now and stand in the door and don't buy. They look at the stings in the jar. Then they say, how many, and I know somebody has died of being too fond.'".
+  }
+  Topic nell_after_named with nell "Ask Nell Quarrie how she found the stair by daylight" when leavingBegun() and nellNamed(nell) once {
+    Says "'Cold,' says Nell Quarrie. 'He is colder than I thought, and drier, and the little smile they all have is a bit less than I told myself.' She is arranging bottles that do not need it. 'I sat the whole of the afternoon. With the light coming down the arch.' She turns a bottle to the window, and the light goes through it the colour of weak tea. 'I have stopped making the oil. I find I would rather smell of roses and know it.'".
+  }
+  Topic nell_after_barred with nell "Ask Nell Quarrie how she is, now the Comb is half empty" when leavingBegun() and nellBarred(nell) once {
+    Says "'The mark is still on my door,' says Nell Quarrie. 'Nobody has come to see if I mind it.' She does not look at you. 'Half the Hum-keepers have gone with the Mother, and the half who stayed are the half who do not remember me, and I think Aldo is nearer than he has ever been.' A bottle rolls against another on the shelf, and she stops it with one finger. 'I am not going to climb that stair again. I am not sure that I shall not.'".
+  }
+  Topic nell_after_forger with nell "Ask Nell Quarrie what she makes now" when leavingBegun() and not nellNamed(nell) and not nellBarred(nell) once {
+    Says "'The same.' She puts a finger on the cork of the nearest phial. 'Lavender for the lowland. A little of the Comb for anybody who asks nicely.' The corner of her mouth moves. 'The Leavers took bottles of it with them. They say a new comb smells of nothing at all for a season. They will want to smell of home.' She stoppers the phial. 'I never thought to be anyone's home.'".
+  }
+  Topic polglaze_after with penhallow "Ask Crispin Polglaze what the Company made of the week" when leavingBegun() once {
+    Says "He is counting crocks, and the boy is counting after him, and neither has hurried. 'Eleven carts,' says Crispin Polglaze. 'To the lowland, on the south road, under oilcloth. Brow wax for the chandlers at the fair, honey for the monasteries, and a hundred and forty bundles of fluted candles that burn three nights, which will be in your inns by the first frost at nine times what I paid.' He is not smiling. 'There is a woman at an inn on the south road who will light one at her window and call it a Merrowdale candle, or a Corran candle, or nothing at all, because who would believe it came out of a hill under a cliff?' He straightens a crock. 'I am not a bad man. I have said so. It does not seem to carry.'".
+  }
+  Topic drewes_after with drewes "Ask the mother of the Drewes how the new comb sits" when leavingBegun() and drewesPaid(actor) once {
+    Says "'The goat is in the lee of the wall,' she says, 'and the girls have named it Polglaze, which I have forbidden and shall not enforce.' She looks up at the half-built comb, at the first white sheets. 'We took the moulds, six dozen, wrapped in my mother's shawl. They will want waxing. They will want a year.' She smiles, which she did not do at the table. 'A year is quite a thing to want, after thirty.'".
   }
 }

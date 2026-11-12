@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "name": "The Patient Star, late: thief, ranger, cleric",
+  "calendar": { "year": 380, "month": 6, "day": 25 },
+  "modules": [ { "id": "season", "bundle": "module.json" } ],
+  "party": [
+    { "name": "Tamsin", "raceId": "human", "classId": "thief", "backgroundId": "miner", "level": 6 },
+    { "name": "Elen", "raceId": "elf", "classId": "ranger", "backgroundId": "hunter", "level": 6 },
+    { "name": "Dori", "raceId": "dwarf", "classId": "cleric", "backgroundId": "medic", "traits": ["vitalist"], "level": 6 }
+  ]
+}

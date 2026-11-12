@@ -62,7 +62,8 @@ Module tessary "What Tessary Owes" {
 
   Person pitch "Lemuel Pitch" at chandlery {
     Role "a ship's chandler". Ancestry human. Peaceable. Pronouns he. Manner jovial.
-    Greets "Lemuel Pitch looks up from a line he is splicing, and goes on splicing it. 'If it's rope, it's on the left,' he says. 'If it's the tides, everyone asks. Ask.'".
+    Greets "Lemuel Pitch goes on splicing a line as thick as his wrist. 'If it's rope, it's on the left,' he says. 'If it's the tides, everyone asks. Ask. I have a sheet of them pinned up and nobody reads it.'".
+    Greets again "Lemuel Pitch has moved on to the next fathom of the same line, and the same remark. 'If it's rope,' he says, 'it's on the left. If it's the tide table, I have changed it, because the sea has. Ask me again at slack water.'".
     Sells rations for 2 coin from 8.
     Sells rope for 1 coin from 4.
     Sells torch for 1 coin from 6.
@@ -83,7 +84,8 @@ Module tessary "What Tessary Owes" {
   // ── The Withies: Nan and Wick Teazle ──────────────────────────────────────────────────────────────────────────────
   Person nan "Nan Teazle" at teazle_room {
     Role "an eel-wife of the Withies". Ancestry human. Peaceable. Pronouns she. Manner grim.
-    Greets "Nan Teazle looks up from the trap she is mending and does not get up.".
+    Greets "Nan Teazle does not get up. She is mending an eel-trap on her knee, in withies the colour of old bone, and the needle goes in and out of the same hole three times before she notices. 'If you've news,' she says, 'sit where I can hear it. If you've not, the trap is ready on Thursday.'".
+    Greets again "Nan Teazle has the eel-trap off her knee and a second one on it, begun. 'Davy came by,' she says, to the withies. 'He ate. He did not say where he had been. I'll not ask a boy who is home what he thinks the sea did to him.'".
   }
   Person wick "Wick Teazle" at withies {
     Role "a mudlark, about ten, with a tray on a string". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
@@ -146,7 +148,8 @@ Module tessary "What Tessary Owes" {
   // ── The Muffled Drum: Sergeant Durrance and the Muster ────────────────────────────────────────────────────────────
   Person sedge "Hannelore Rackham" at drum_taproom {
     Role "who keeps the Muffled Drum". Ancestry human. Profession innkeeper. Peaceable. Pronouns she. Manner jovial.
-    Greets "Hannelore Rackham looks at you over the bar, and up at the drum over it, and back at you, the way she has looked at everyone who comes in since the summer.".
+    Greets "Hannelore Rackham has hung a muffled drum over her bar, its skin stuffed with a rag, and she glances at it every time the door goes, the way she has glanced at it for every customer since the summer. 'Drink or news?' she says. 'The drink is paid for. The news is the other way about.'".
+    Greets again "Hannelore Rackham has a cup poured before you reach the bar, as she has for the regulars, and for no one else, since summer. 'You're one of ours now,' she says. 'It's not an honour. It's a tab.'".
     Sells rations for 2 coin from 6.
   }
   Topic sedge_drum with sedge "Ask Hannelore Rackham about the drum over the bar" when true once {
@@ -154,7 +157,8 @@ Module tessary "What Tessary Owes" {
   }
   Person durrance "Thomasin Durrance" at drum_taproom {
     Role "a sergeant of the Long Muster, out of uniform". Ancestry human. Calling warrior. Level 4. Trait brave. Peaceable. Pronouns she. Manner acerbic.
-    Greets "Sergeant Durrance looks at you over her pot the way she has looked at nineteen years of recruits.".
+    Greets "Sergeant Durrance is out of uniform and cannot get her shoulders to know it. She puts her pot down in line with the table's edge before she speaks. 'Nineteen years I have been telling lads what is in front of them,' she says. 'I'm out of practice at telling it to anyone who is not afraid of me.'".
+    Greets again "Sergeant Durrance has moved her pot an inch to the left, out of line, as a test, and watches you notice. 'Good,' she says. 'You see things. I could have used you at Hethra. They told me you were not enlisting. I was told many things at Hethra.'".
     Joins "Durrance finishes her pot and stands, and is suddenly a sergeant again. 'Right,' she says. 'Let's go and look at where I'm going.'".
     Leaves "'I'll be at the Drum,' says Durrance. 'Where else.'".
   }
@@ -181,6 +185,7 @@ Module tessary "What Tessary Owes" {
   Person fisk "Benno Fisk" at drum_taproom {
     Role "a corporal of the Long Muster". Ancestry human. Calling warrior. Level 2. Peaceable. Pronouns he. Manner cheerful.
     Greets "Benno Fisk lifts his pot to you with one hand and smooths the front of a new grey coat with a salt-white collar with the other.".
+    Greets again "Benno Fisk has taken the grey coat off and put it on the back of the bench, where he can see it, and not on him. 'Don't tell the Sergeant,' he says. 'I just wanted to see what I looked like without being in it.'".
   }
   Initially Assert serves(fisk, sault).
   Topic fisk_work with fisk "Ask Fisk where he got the new coat" when true once {
@@ -193,7 +198,8 @@ Module tessary "What Tessary Owes" {
   // ── Panhythe: Factor Sault ────────────────────────────────────────────────────────────────────────────────────────
   Person sault "Imma Sault" at sault_office {
     Role "Factor of the Salt Moiety". Ancestry human. Calling warrior. Level 5. Peaceable. Pronouns she. Manner acerbic.
-    Greets "Factor Sault looks up from her ledgers and wipes her fingers on a cloth and holds out her hand, salt and all.".
+    Greets "Factor Sault wipes her fingers on a cloth, salt and ink together, and holds out her hand across the ledgers before you have crossed the room. It is a dry, short, businesslike grip, and she lets go at the right time. 'You've come about the Muster,' she says. 'Everyone has. I'm the only person in Tessary who is not sorry about it.'".
+    Greets again "Factor Sault finishes the line she was on before she gives you her hand, and the hand is saltier than before. 'You have been to see the Balance,' she says. 'I can smell the ink on you. They never get it off.'".
   }
   Relation hiredBySault(group).
   Topic sault_work with sault "Ask the Factor about the veterans who have gone into the sea" when not hiredBySault(actor) once {
@@ -238,7 +244,8 @@ Module tessary "What Tessary Owes" {
   // ── The Lettered Quarter ──────────────────────────────────────────────────────────────────────────────────────────
   Person quire "Josiah Quire" at exchequer_room {
     Role "Treasurer of Tessary". Ancestry human. Peaceable. Pronouns he. Manner compassionate.
-    Greets "The Treasurer looks up as if he had been expecting someone else, or everyone, and blinks.".
+    Greets "The Treasurer blinks at the door as it opens, as though it had let in someone other than he had been expecting, or everyone. His chain of office has been turned round so that the clasp is at the front, and he has not noticed. 'Yes,' says Josiah Quire. 'Come in. Come in before anyone sees you.'".
+    Greets again "Josiah Quire has turned his chain the right way round, and is looking at it as if someone else had done it. 'Thank you for coming back,' he says. 'No one else has. I have begun to think I am a thing that people only visit once.'".
   }
   Topic quire_vanished with quire "Ask the Treasurer about the soldiers who have gone into the sea" when not knows(actor, council_knows) once {
     Says "'Deserters,' says Quire, too quickly. 'That is the Board's finding. Men who have been away eleven years do not always want to come home to what they left.' He moves a paperweight on his desk from one stack to another and back. 'I'm sorry. I am very tired. Is there anything else?'".
@@ -296,6 +303,7 @@ Module tessary "What Tessary Owes" {
   Person queue "the queue" at seals_hall {
     Role "who have been waiting since breakfast, or Tuesday, or longer, each with a document". Ancestry human. Numbers 1. Peaceable. Pronouns they.
     Greets "Every face in the queue turns to see whether you mean to push in, and, satisfied, turns back.".
+    Greets again "The queue shuffles up one place without turning, as one body, as you pass the end of it. Nobody shouts. A woman at the back says, to nobody, 'They never go to the front,' and nobody answers her.".
   }
   Topic queue_asked with queue "Ask the queue how long they have been waiting" when true once {
     Says "Several people answer at once. A man with a deed: 'Since breakfast.' A woman with a marriage contract: 'Since Tuesday.' An old man near the front, without turning round: 'My father held this place in the queue before me. I am sealing the lease he came to seal. It has run out, but it is the principle.'".
@@ -338,7 +346,8 @@ Module tessary "What Tessary Owes" {
   }
   Person amaury "Amaury of Hethra" at kings_rooms {
     Role "King of Hethra, a hostage in Tessary". Ancestry human. Calling warrior. Level 6. Peaceable. Pronouns he. Manner acerbic.
-    Greets "The King of Hethra looks up from his draughts board. 'A visitor,' he says. 'How unusual. Sit, sit. I am allowed visitors. I am allowed everything except the door.'".
+    Greets "The King of Hethra is playing both sides of a draughts board and winning neither. 'A visitor,' he says. 'How unusual. Sit, sit. I am allowed visitors. I am allowed everything except the door.'".
+    Greets again "The King of Hethra turns the draughts board so that you will be playing the white pieces, which have more men. 'You have been out in the weather,' he says. 'Sit. I am allowed visitors. I am hoping you are the one who is going to disappoint me.'".
   }
   Topic amaury_kneeling with amaury "Ask the King about the Kneeling at Sedge Ford" when true once {
     Says "'Ah,' says the King. 'The famous kneeling.' He moves a draught. 'I had won. You understand that? I had your city's Muster pinned against the river and I rode down to accept its surrender. And in the middle of the ford I felt a hand. Here.' He touches the back of his neck. 'Old. Patient. Quite certain of its rights. Nine hundred years old, I would say, if a hand can be old. And my knees went into the water and my sword went out hilt first and I heard my own voice yielding the kingdom.' He looks at the board. 'Your saint's day for it is the twelfth of Haying. I watch the procession from this window. It is the only day of the year I drink before noon.'".
@@ -371,7 +380,8 @@ Module tessary "What Tessary Owes" {
     Role "a clerk in a grey coat with a ledger, whose skin is faintly ruled like paper". Ancestry human. Calling cleric. Level 3. Peaceable. Pronouns they. Manner stoic.
     Called "Docket".
     Seen when not tallyUnravelled(ossel).
-    Greets "The clerk in grey looks up from the ledger. Close to, the skin of their face and hands is very faintly ruled, like a page, in lines as fine as hairs. 'Good day,' they say. 'You are not on my inventory.'".
+    Greets "The clerk in grey turns a page of the ledger without lifting a hand to it. Close to, the skin of their face and hands is very faintly ruled, like a page, in lines as fine as hairs. 'Good day,' they say. 'You are not on my inventory.'".
+    Greets again "The clerk in grey makes a mark in the ledger, so fine you can scarcely see it. 'You were not on the inventory,' they say. 'You are now. It is not a promotion. It is a form of attention.'".
     Joins "'Our inquiries coincide,' says the Valuer, and closes the ledger on a ribbon. 'I will accompany you. I will note anything you do that bears on the collateral.'".
     Leaves "The Valuer inclines their head, very exactly, and closes the ledger on its ribbon, and goes.".
   }

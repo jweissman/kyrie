@@ -54,7 +54,8 @@ Module wrayford "The Third Night" {
   Observe stage_night at ferry_stage when dark() "The ferry-stage at night: the boat drawn up, a lamp in the hut window.".
   Person dorcas "Dorcas Mudd" at ferry_stage {
     Role "the mistress of the ferrymen's company, broad as her boat". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
-    Greets "Dorcas Mudd looks you up and down from the stern of her boat. 'Over?' she says. 'A penny. Not a farthing. I'm not a bridge.'".
+    Greets "Dorcas Mudd is standing in the stern of her boat with one oar shipped and one hand on the bank-ring, and has been there since before the bridge-bell. 'Over?' she says. 'A penny. Not a farthing. I'm not a bridge.' Behind her, along the stage, six other boatmen are trying to look as though they had not heard her say it.".
+    Greets again "Dorcas Mudd has the oar already shipped and the ring in her hand. 'Over, then,' she says. 'Same penny. I do not do return fares. A return is just two crossings, and I am paid for both.'".
     Sells rope for 1 coin from 3.
   }
   Rule dorcas_sleeps when (hour(clock) >= 23 or hour(clock) < 5) and not asleep(dorcas) and not ferriesAtNight(party) { Assert asleep(dorcas). }

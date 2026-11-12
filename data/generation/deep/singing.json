@@ -82,8 +82,8 @@
     ] },
     { "depth": 1, "groups": [
       { "species": "dust_elemental", "count": 1, "label": "the dust", "role": "the dust of sung stone that has cracked, which moves", "temperament": "territorial" },
-      { "species": "banshee", "count": 1, "label": "the voice", "role": "a voice in the stone that sings back, and will not stop", "temperament": "savage" },
-      { "species": "spirit", "count": 2, "label": "the cantors", "role": "cantors who would not leave their choir", "temperament": "territorial" }
+      { "species": "banshee", "count": 2, "label": "the voices", "role": "voices in the stone that sing back, and will not stop, and rise as you near", "temperament": "territorial" },
+      { "species": "spirit", "count": 3, "label": "the cantors", "role": "cantors who would not leave their choir", "temperament": "territorial" }
     ] },
     { "depth": 2, "groups": [
       { "species": "crystal_elemental", "count": 1, "label": "the hard note", "role": "a singer's note gone hard, as sharp as glass", "temperament": "territorial" },

@@ -23,4 +23,18 @@ Module canon "Imbar and the planes" {
   Entity remainder_kept: fact "The ship Remainder was left in the Slack, and her people sail on in it.".
   Entity mechanus_seen: fact "A company has stood on the threshold of Mechanus, from the deck of a ship out of the Slack.".
   Entity remainder_steadied: fact "The lens of a lamp that was lent to an island has been fitted to the mast of the Remainder, and her pin is still.".
+
+  // Three small countries' consequences (corpus pass, branch adventure/p2-corpus-b): read by their neighbours' lore.
+  Entity scarth_kept: fact "The company crossed the Scarth causeway at noon and left the light burning with its keeper alive in it.".
+  Entity scarth_lost: fact "The Scarth light's keeper or the widow who came to it was taken by the sea in the night, and the company walked out without them.".
+  Entity calx_opened: fact "The Calx Gate under Tallow Edge has been raised, and the Aeneans' road runs open under the ridge.".
+  Entity tallow_names: fact "The fourteen names of the Brasiers' Company's dead have been read aloud, in Swallet or over the stacked boots.".
+  Entity sallowfield_held: fact "Sallowfield stood through its three nights, and its green is not burned.".
+  Entity sallowfield_burned: fact "Sallowfield's green was burned in the night, and the village is a floor of black timbers.".
+
+  // The Dorothea's, at Skerrow (corpus pass, branch adventure/p4-dorothea): what became of the Pharos when the ketch sailed
+  // home. Asserted once, as the ship leaves the island; read by the Scarth light, which is the other end of the same works.
+  Entity pharos_lit: fact "The Pharos on Skerrow was left burning, and its keeper kept it.".
+  Entity pharos_dark: fact "The Pharos on Skerrow went dark: its bronze was sold off the hill, or its engine was stilled and not fed.".
+  Entity pharos_fed: fact "The pilot of the lamp under the Pharos on Skerrow was fed, and a green light shows on the Reach at night.".
 }

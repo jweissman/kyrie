@@ -1,0 +1,33 @@
+Module tallow "Tallow Deep" {
+  // ── Swallet afterwards, and the hill's word abroad ───────────────────────────────────────────────────────────────
+  // The village was static: the same pot wiped on every visit. What the company does under the hill now shows in the
+  // Chandler's Arms and on the green, and what the hill gives up is told elsewhere (befell: calx_opened, tallow_names).
+
+  // What Treve found. The cat's collar goes to Nib; the man in the vault goes to Cador, who sent him up the walk.
+  Relation vaultTold(group).
+  Topic joss_vault with joss "Tell Cador what is hanging in the web-roofed vault" when been(party, spider_vault) and not vaultTold(party) once {
+    Says "Cador takes his hat off, which is a thing he does for the dead and for the excise. 'In the silk,' he says. 'With his baldric on.' He turns the hat round by the brim. 'I sent three of them to the bend that night so I should not have to go up and look. Enys wanted to. I said we had a boy to think of.' He puts the hat on the table between you. 'Whatever you were going to charge me for the news, I'll pay it twice, and you'll not be stopped at my bend again.' He does not smile. 'Tell Nib yourself. He will take it better from someone who is not me.'".
+    On discuss { Assert vaultTold(party). Assert tolerates(bend_watch, party). Increase quantity(actor, gold) by 12. }
+  }
+  Observe bend_quiet at adit when vaultTold(party) and not sold_out(party) "At the bend of the adit a lantern is hung where Treve's tin lamp used to hang, and nobody sits under it. The men who have the watch stand a little apart from the place.".
+
+  // Swallet after the company has been about the hill: each thing it did leaves something on the green or in the taproom.
+  Observe brandy_gone at taproom when sold_out(party) "On the shelf where the Tallymen's tithe-bottles stood, Lowen has propped a card in a careful hand: NOT TO BE ASKED FOR. She waters nothing. She simply serves less.".
+  Observe lads_drinking at taproom when paid_by_joss(party) and not sold_out(party) "Two of Cador's lads are drinking in the Chandler's in the daytime, which they have never done, and Lowen serves them with her face turned to the pots. Nobody on the settle moves up for them.".
+  Observe road_traffic at lane when state(calx_gate, raised) and not sold_out(party) "There is a cart-track in the lime-wash dust that was not on the lane yesterday, going out toward the west road with its tail to the hill. A doorstep coil of wet rope has been taken in.".
+  Observe tokens_laid at taproom when laid(party) and not namesRead(party) "Barrick has taken the Company's tokens down from the beam, one at a time, and set them along the sill in a row, the way one sets plates for a table that is going to be sat at. He is not drinking.".
+  Observe orpe_coat at counter when state(calx_gate, raised) "Mistress Orpe has put her good coat on over her apron and has not explained it. The drawer marked NOT BLACK is standing open, and she is writing something small on the back of a specimen label.".
+
+  // A thing the village knew: the tick that Swallet does not speak of, going late as the hill is robbed (keeping.kyr).
+  Topic hester_tick with hester "Ask Lowen when she last stopped hearing the pipe" when knows(actor, period_known) once {
+    Says "Lowen takes a while to find a cloth that is not the one in her hand. 'The winter they hit the wall it went quiet for a night,' she says. 'Nine hours. My mother sat up in the kitchen with her knitting stopped. In the morning the river came out of the Rising brown, and she said: that is what it does when it has been woken.' She folds the cloth. 'I have the pot on the hob every night in case of it. I do not tell people that. It is a very little thing to keep.'".
+  }
+
+  // ── The wider world, as the hill hears it ───────────────────────────────────────────────────────────────────────
+  Observe lore_orpe_sky at counter when befell(cloudgate_fell) "Mistress Orpe has taken the magnet off its string and is holding it up to the window, which she does not do in daylight. 'A drover says a slab came down out of a sky with nothing in it, into a bay, with a house on its back,' she says. 'If it is grey, and rings, I shall hear of it by Michaelmas. Nothing else has ever fallen that true.' She hangs the magnet back, and it swings, and settles, and points a little to the south of where it did.".
+  Observe lore_cador_slack at tally_room when befell(slack_opened) "Cador has a new line in the ledger under the old tolls, and a name against it that is not a person's: A DOOR UNDER A COLLEGE, SOUTH. 'A man brings me brandy from the coast,' he says, 'and tells me a floor has been opened in a house in the south, and there is a stair under it going a long way down.' He taps the line. 'I have been selling this hill short, Enys says. Everyone has a stair now.'".
+
+  // What the hill lets out. Read by Quittance's Arch (links.kyr there).
+  Rule calx_word when state(calx_gate, raised) and not befell(calx_opened) { Assert befell(calx_opened). }
+  Rule names_word when (namesRead(party) or ticked(party) or laid(party)) and not befell(tallow_names) { Assert befell(tallow_names). }
+}

@@ -35,7 +35,7 @@ Module sennet "The Grand Tour" {
     Sells rations for 1 coin from 6.
     Sells eel_basket_kind for 2 coin from 4.
     Greets "A small old woman in three shawls looks up from a barrow of live eels, and looks at your boots, and says: 'Eel pie. A penny. You'll not get better in Sennet and you'll get worse up there.' She jerks her head at the sky without looking at it.".
-    Greets again "'Eel pie,' says Old Bethan, which is how she says good morning.".
+    Greets again "'Eel pie,' says Old Bethan, which is how she says good morning, and then, because she has had time to think: 'There's a boy been asking after you up the steps. Ate two. Didn't pay for either. I said you'd settle.'".
   }
   Relation bethanAtPeace(group). Relation bethanFriend(group).
   Rule bethan_quay when hour(clock) >= 8 and hour(clock) < 18 and not at(bethan, quay) { Assert at(bethan, quay). }
@@ -111,7 +111,7 @@ Module sennet "The Grand Tour" {
     Role "the landlady of the Sounding Line". Profession innkeeper. Ancestry human. Peaceable. Pronouns she. Manner jovial.
     Sells rations for 2 coin from 8.
     Greets "A broad woman with her sleeves rolled pulls you a pint before you ask for it. 'There. You've the look of the coast road.' She jerks her head at the window and Cloudgate in it. 'Not going up there, are you? Nobody goes up there but the laundry and the Tourists, and the laundry comes back.'".
-    Greets again "'There you are,' says Peg Arklow, and pulls you a pint.".
+    Greets again "'There you are,' says Peg Arklow, and pulls you a pint, and pushes a folded paper along the bar under the glass without looking at it. 'Left by a man in a good coat. He said you would know. I said I did not hold with notes. I held it anyway.'".
   }
   Topic peg_tour with peg "Ask Peg Arklow about the Grand Tour" when true once {
     Says "'Oh, the Tour.' She polishes a glass with great contempt. 'The Rector's proclaimed it. First in two hundred years. Whoever brings her the four petals of the Rose gets to go first through the Door of Doors, up in her tower, which opens on anywhere.' She holds the glass to the light. 'Anywhere. The town's full of rich boys from up there with bear-leaders, and boys from three countries off with fathers' money, buying fire-cloaks off Ollerenshaw.' She puts the glass down. 'You enter at the House, on the headland. She sees you herself, they say. Charming woman. Makes you feel you've been waiting all your life to be talked to.'".
@@ -156,7 +156,7 @@ Module sennet "The Grand Tour" {
   Person pumphrey "Mr. Josiah Pumphrey" at pumphrey_office {
     Role "the Harbourmaster of Sennet, with a brass telescope and the Bylaws under his arm". Ancestry human. Peaceable. Pronouns he. Manner proud.
     Greets "A stout man in a blue coat with brass buttons, a brass telescope and a bound copy of the Harbour Bylaws, looks at you through the telescope from four feet away, and then lowers it. 'Josiah Pumphrey,' he says. 'Harbourmaster. If you have business on the Quay, I am the Quay.'".
-    Greets again "'Ah,' says Mr. Pumphrey, and consults the Bylaws, in case.".
+    Greets again "'Ah,' says Mr. Pumphrey, and consults the Bylaws, in case. 'There is a new bylaw,' he says, with pride and a hint of dread. 'About boats that arrive from nowhere. It was drafted on your account, in a sense. I have not been able to find the clause that says what to do about you.'".
   }
   Rule pumphrey_office_hours when hour(clock) >= 8 and hour(clock) < 12 and not at(pumphrey, pumphrey_office) { Assert at(pumphrey, pumphrey_office). }
   Rule pumphrey_patrol when hour(clock) >= 13 and hour(clock) < 18 and not at(pumphrey, fish_stairs) { Assert at(pumphrey, fish_stairs). }

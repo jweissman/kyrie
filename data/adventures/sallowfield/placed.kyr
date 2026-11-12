@@ -1,4 +1,10 @@
 Module sallowfield "Three Nights at Sallowfield" {
   // The country beyond a march of a generated world: the company that comes in by the road is the world's own.
   Entity party: group "Your company".
+  // What is said of Sallowfield in the country behind it: once the third morning has come, it is old news.
+  Entity word: fact "What is said of Sallowfield in the country behind it.".
+  Rule word_old when morning(party) and not stale(word) { Assert stale(word). }
+  // And whether the green stands.
+  Entity word_burned: fact "That Sallowfield's green was burned.".
+  Rule word_burned_old when morning(party) and greenBurns(party) and not stale(word_burned) { Assert stale(word_burned). }
 }

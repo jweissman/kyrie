@@ -1,0 +1,227 @@
+Module silent_lord "The silent lord" {
+  // The dark side of a household that has agreed to lie: the quiet watch, which the old lord kept for exactly this and
+  // nobody else has the nerve to end; a young man with a sword and a grievance; a cup; and what each calling sees of
+  // them. Nothing here is a plain villain. Thole's Hands are the garrison's hard men, unpaid since midsummer, who were
+  // told long ago that their work was to keep the house's business inside it; Ansel is a boy who wants a war and has
+  // found, in strangers, something to be rude to. The signal comes before the blade each time: a word, a dog, a warning.
+  Relation hands_told(group). Relation ansel_cleared(group). Relation ansel_slighted(group). Relation ansel_mistaken(group).
+  Relation cup_set(group). Relation cup_done(group). Relation cup_traced(group). Relation door_barred(group).
+  Relation oath_loosed(group). Relation hands_balked(group). Relation garrison_known(group). Relation tracks_read(group).
+  Relation wire_read(group). Relation heard_oath(group).
+
+  // --- the quiet watch ----------------------------------------------------------------------------------------------
+  Person hands "Thole and the Hands" at stables {
+    Role "Sergeant Thole and two of the garrison's young hard men, the old lord's quiet watch". Ancestry human. Calling warrior. Numbers 3. Level 2. Peaceable. Manner proud. Pronouns they.
+    Greets "A lean man with a sergeant's knot on his shoulder is sitting on a mounting-block, paring an apple with a knife longer than the apple needs. Two lads lounge against the door-post behind him, young and loose and very still. 'Guests,' he says, pleasantly. 'We like guests. Thole. I keep the quiet watch, which is a manner of speaking. What it means is that I know where people sleep.'".
+    Warns "The three of them are at the well-head as you cross the ward, and none of them is lounging. The one in the middle pares an apple. 'Friend,' says Thole, in the voice of a man ordering a drink, 'there is a thing the house does not like, and that is a guest who counts its trays. You have counted trays. It does a person no good.' The knife stops. 'A fee, for the trouble you have caused, and we say no more. Or you could walk back out, and nobody in the ditch.'".
+    Comes "Thole does not shout. He puts the apple on the well-head, and the lads come off the wall.".
+    State dutiful "The Hands keep to the stables and the ward, and a good many people in the keep find reasons to be elsewhere when they cross it.".
+  }
+  Initially Assert yields(hands). Initially Set encounterXp(hands) to 90.
+  Initially Assert duty(hands, p_dawn, stables). Initially Assert duty(hands, p_morning, stables). Initially Assert duty(hands, p_noon, gatehouse).
+  Initially Assert duty(hands, p_afternoon, ward). Initially Assert duty(hands, p_eve, ward). Initially Assert duty(hands, p_night, ward).
+  Initially Assert duty(hands, p_dead, stables). Initially Assert duty(hands, p_feast, hall).
+  // They turn on a company that has begun to ask what the household is hiding, and have not been paid or spoken for.
+  Rule hands_sour when entered(house) and peaceable(hands) and not tolerates(hands, party) and not paid_off(house) and not befriended(marshal, party)
+    and (knows(party, lord_trays) or knows(party, dog_howls) or knows(party, lord_dead) or knows(party, herald_false)) {
+    Retract peaceable(hands). Assert temperament(hands, temper_proud). Set tribute(hands) to 4.
+  }
+  Rule hands_told_rule when warned(hands, party) and not hands_told(house) { Assert hands_told(house). }
+  // Paid, the garrison is a garrison again: the hard men have nobody to be hard for.
+  Rule hands_calm when paid_off(house) and temperament(hands, temper_proud) {
+    Assert peaceable(hands). Retract temperament(hands, temper_proud). Retract warned(hands, party). Retract halts(hands, party). Assert tolerates(hands, party).
+  }
+  // The assault in the dark: told of, and walked into. A company that has been warned and has not settled it, and sleeps in
+  // the keep at the dead watch with the door unbarred, is fallen on; barred, it hears the latch tried, and the steps go.
+  Rule hands_come when hands_told(house) and now(p_dead) and within(party, hold) and not tolerates(hands, party) and not door_barred(party)
+    and not hands_balked(house) and able(hands) and not routed(hands)
+    says "A latch lifts. Nobody says anything. Three shapes against the lesser dark of the doorway, and the click of a knife coming out of a sleeve, and a voice you know saying quite softly, 'Don't get up.'" {
+    Retract yields(hands). Assert assails(hands, party). Bring hands to party.
+  }
+  Rule hands_try when hands_told(house) and now(p_dead) and within(party, hold) and not tolerates(hands, party) and door_barred(party) and not hands_balked(house) and able(hands)
+    says "In the dead of the night the latch is tried, gently, and then less gently, and the bench you set against the door shifts a finger's breadth. A long breath of silence on the other side. Then someone says, 'Another night,' and the steps go off down the stair." {
+    Assert hands_balked(house).
+  }
+  Action bar_door(actor: group, site: place) "Wedge the door with the bench, and sleep with your boots on" {
+    Description "A cheap precaution, and you will not be sorry to have taken it.".
+    Requires able(actor) and company(actor) and at(actor, site) and within(actor, hold) and not door_barred(actor) and not at(actor, ward) and not at(actor, walk).
+    Time 5 minutes.
+    On success { Assert door_barred(actor). }
+    Result "You drag the bench across the door and kick a wedge under it, and the room feels, a good deal, like a room.".
+  }
+  Rule door_unbarred when door_barred(party) and not now(p_dead) and hands_balked(house) { Retract door_barred(party). Retract hands_balked(house). }
+  Rule hands_balk_clear when not now(p_dead) and not now(p_night) and hands_balked(house) and not door_barred(party) { Retract hands_balked(house). }
+  Rule hands_bout_over when routed(hands) and not tolerates(hands, party)
+    says "Thole sits down on the well-head with a hand to his ribs and says, with a certain wry respect, 'Well. That was not the house's business.' The lads are not looking at you. Nobody is going to say it was Thole who was beaten, in the morning, in the ward, and everybody will know." {
+    Assert tolerates(hands, party). Assert peaceable(hands). Retract temperament(hands, temper_proud).
+  }
+
+  // What the marshal and the frightened say of them; how to settle it without a blade.
+  Topic marshal_hands with marshal "Ask {marshal} about Thole and the quiet watch" when true once {
+    Says "'The lord's,' says {marshal}. 'Not mine.' A silence like a man carrying a bucket across a room. 'Young men with nothing to lose. He sent them out at night, when he was a younger lord and there were poachers, and told them that what they did in the dark was not to be asked in the day.' He looks at his stick. 'I did not make it. I have not ended it. Thole is a good hand held wrong. Pay the men and he will be a sergeant. Leave them unpaid and he will be a problem.'".
+    On discuss { Assert knows(actor, hands_known). }
+  }
+  Discovery hands_known "The garrison's quiet watch, Thole and two lads, was the old lord's; the marshal has not ended it, and the arrears keep it hard.".
+  Topic marshal_call_off with marshal "Ask {marshal} to call Thole off the company" when befriended(marshal, actor) and not tolerates(hands, actor) once {
+    Says "'Done,' says {marshal}, and puts two fingers in his mouth, and the whistle goes across the ward like a thrown stone. Thole looks round, and the apple comes down, and that is all. 'He will not touch you. He will not like it.' A beat. 'Do not use that on him twice.'".
+    On discuss { Assert tolerates(hands, actor). Retract warned(hands, actor). Retract halts(hands, actor). }
+  }
+  Topic groom_loft with groom "Ask {groom} why she keeps looking at the loft" when hands_told(house) or knows(actor, hands_known) once {
+    Says "'N-no,' says {groom}. 'Nothing.' She looks at the loft ladder. 'You... you won't sleep up there? Not tonight. Please.' Her hands are in the horse's mane and the horse is tolerating it. 'They send the new lads out. In the dark. To the ditch. To bring back a thing.' A shudder. 'The rider's boy came back, and he was not right, and he went away. Nobody said. I didn't. I didn't say.'".
+    On discuss { Assert knows(actor, hands_known). }
+  }
+  Topic chaplain_hands with chaplain "Ask {chaplain} what she makes of the quiet watch" when knows(actor, hands_known) once {
+    Says "'A boy of sixteen,' says {chaplain}, slowly, 'is given a knife and told that obedience is courage. That is not a sin that comes from nowhere, child. It was done by a good man, for a reason he thought good.' She folds her hands. 'I would sooner they were paid than punished. Punished, they will be what they have been taught. Paid, they have a choice to be something else, and it is the choice that I have to answer for.'".
+  }
+
+  // --- the boy with the sword ---------------------------------------------------------------------------------------
+  Person ansel "Ansel Verrick" at ward {
+    Role "the castellan's nephew, squire of the garrison". Ancestry human. Calling warrior. Level 2. Peaceable. Manner proud. Pronouns he.
+    Greets "A boy of nineteen in a quilted jack is hacking a post to splinters with a wooden sword, and does not stop until it is quite clear that you are watching. 'Ansel,' he says, between breaths. 'Verrick. The castellan's nephew. I hold the post for my aunt, and when the thing comes I shall not be holding anything else.' He grins. It is a very young grin. 'You can tell me what you've seen of battle. I've seen the inside of a barn.'".
+    Warns "A boy in a quilted jack comes across the ward at a walk that wants to be a run, with his hand on a sword he is perfectly capable of drawing. 'You,' says Ansel. 'You. The king's champion. Do not tell me you are not, I have been told you are coming, and you come with a sword and a face like a man who has never been wrong. My aunt will not say the word, so I will. Name your cause, and your second, and draw.'".
+    Comes "Ansel draws. He is smiling, which is worse.".
+    State eager "Ansel is anywhere there is likely to be a fight and, failing that, somewhere there is likely to be an audience.".
+  }
+  Initially Assert yields(ansel). Initially Set encounterXp(ansel) to 50.
+  Initially Assert duty(ansel, p_dawn, ward). Initially Assert duty(ansel, p_morning, ward). Initially Assert duty(ansel, p_noon, hall).
+  Initially Assert duty(ansel, p_afternoon, stables). Initially Assert duty(ansel, p_eve, hall). Initially Assert duty(ansel, p_feast, hall).
+  // A ridiculous misunderstanding: the porter told him a man of the king's would come, and he has been waiting for his duel.
+  Rule ansel_mistakes when entered(house) and not unmasked(house) and peaceable(ansel) and not ansel_cleared(house) and not befriended(ansel, party) and not tolerates(ansel, party) and together(ansel, party) {
+    Retract peaceable(ansel). Assert temperament(ansel, temper_territorial).
+  }
+  Topic ansel_denies with ansel "Tell {ansel} you are not the king's champion" when warned(ansel, actor) once {
+    Says "Ansel's face goes through three expressions and settles on the one underneath. 'Not,' he says. 'Not... you are not.' He looks at the post he has been hacking, and at his sword, and at you. 'The porter said a man of the king's. With a sword. I have been practising my speech since Tuesday.' And then he laughs, so suddenly and helplessly that he has to hold the post. 'I have challenged a travelling tinker's mate. I shall never be allowed to forget it.' He wipes his eyes. 'Ansel. Truly. Come and drink. If there is a man in this keep who needs a stranger's sword it is not me, it is my aunt, and she'll not ask. Do you know what Thole does at night?'".
+    On discuss { Assert ansel_cleared(house). Assert befriended(ansel, actor). Assert tolerates(ansel, actor). Retract warned(ansel, actor). Retract halts(ansel, actor). Assert peaceable(ansel). Retract temperament(ansel, temper_territorial). Assert knows(actor, hands_known). }
+  }
+  Topic ansel_plays with ansel "Say you are, and ask him what his cause is" when warned(ansel, actor) once {
+    Says "'My cause,' says Ansel, with enormous relief, as a man puts down a heavy parcel. 'The herald called my uncle indisposed. At table. With his mouth full. I have been waiting for somebody to say it back to him.' He draws, with a flourish, and nearly loses the scabbard. 'First fall. We shall not ruin the floor. And then you may tell the king I was civil.'".
+    On discuss { Assert assails(ansel, actor). }
+  }
+  Rule ansel_bested when routed(ansel) and not befriended(ansel, party)
+    says "Ansel sits down in the dirt of the ward with his sword across his knees and looks at you with the wide open face of someone who has just learnt what it is. 'Again,' he says. Then, 'No. Not again. That was... that was a lesson.' He holds up a hand to be pulled up. 'If you are the king's champion the king is better off than I thought, and if you are not, I should like to know what you are.'" {
+    Assert befriended(ansel, party). Assert ansel_cleared(house). Assert peaceable(ansel). Retract temperament(ansel, temper_territorial). Assert tolerates(ansel, party). Assert tolerates(hands, party).
+  }
+  // And if it is the company that falls: a first-fall bout lost to a boy who wanted a champion is the funniest thing that has happened to him.
+  Rule ansel_wins when yielded(party, ansel) and not befriended(ansel, party)
+    says "Ansel stands over you with his sword at the guard and his face is bright. Then it falls, a piece at a time. 'You did not even... you weren't trying,' he says. 'You are not the king's champion. The king's champion would have taken my ears.' He sits down in the dirt of the ward, quite suddenly, and begins to laugh until he is in danger of hiccups. 'I have just beaten a tinker. I shall never be allowed to forget it.' He holds out a hand. 'Get up. I am Ansel. I am so very sorry. Do you know what Thole does at night?'" teaches hands_known {
+    Assert befriended(ansel, party). Assert ansel_cleared(house). Assert peaceable(ansel). Retract temperament(ansel, temper_territorial). Assert tolerates(ansel, party). Assert tolerates(hands, party).
+  }
+  // The feast: an insult is taken from a smile. Ansel, who has not been won, challenges across the hall.
+  Rule ansel_insulted heard at hall when now(p_feast) and hour(clock) >= 21 and at(ansel, hall) and at(party, hall) and not befriended(ansel, party) and not ansel_slighted(house) and not unmasked(house)
+    says "Ansel is on his feet before the second cup is down, and the hall goes quiet in a ring. 'That smile,' he says. 'I saw you smile when the herald said my uncle was unwell. Draw, or take it back. In front of my aunt.' The castellan closes her eyes." {
+    Assert ansel_slighted(house). Assert warned(ansel, party). Assert halts(ansel, party). Retract peaceable(ansel). Assert temperament(ansel, temper_territorial). Set patience(ansel) to watch(clock) + 1.
+  }
+
+  // --- the cup ------------------------------------------------------------------------------------------------------
+  Hazard bitter_cup "The wine in the cup" means "Deal (1d8) poison damage to ally unless constitution save against (13).".
+  Rule cup_comes heard at hall when now(p_eve) and entered(house) and at(party, hall) and not cup_set(house) and not unmasked(house) and not befriended(marshal, party)
+    and (knows(party, herald_false) or knows(party, lord_dead) or hands_told(house))
+    says "At supper a cup is set at your elbow, without being asked for, filled to the brim and carried across the hall very carefully by a scullion who does not look at you. It smells of wine, and of something under the wine." {
+    Assert cup_set(house).
+  }
+  Observe cup_dog at hall as sign when cup_set(house) and not cup_done(house) "The old dog has come in from the kennels, which it has not done in nine nights, and is sitting by your chair with its muzzle on your knee, looking at the cup and not at you.".
+  Observe cup_smell at hall as sign noticed by rites when cup_set(house) and not cup_done(house) "Almonds, and under them a cold green bitterness, as the physic-garden smells in spring. The chaplain's herb, in a dose that was not meant for a headache: monkshood, in the wine." teaches cup_poisoned.
+  Observe cup_cook at hall as sign when cup_set(house) and not cup_done(house) and not cross(cook) "The cook has put her head out of the screens passage, and is looking at the cup, and at you, and shaking it, very slightly, from side to side.".
+  Discovery cup_poisoned "The cup set before you at supper is monkshood in wine, and someone in the keep wished you to drink it.".
+  Action drink_cup(actor: group, site: place) "Drink the wine from the cup you were given" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hall) and cup_set(house) and not cup_done(house).
+    Time 2 minutes.
+    On success { Assert strikes(bitter_cup, actor). Assert cup_done(house). }
+    Result "It is a good wine, and the second mouthful is wrong. Your tongue goes numb and a cold wire runs up the inside of your arm.".
+  }
+  Action pour_cup(actor: group, site: place) "Pour the cup out where nobody will drink it, and say nothing" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hall) and cup_set(house) and not cup_done(house).
+    Time 1 minute.
+    On success { Assert cup_done(house). }
+    Result "You tip it into the rushes with your elbow against your side, and set the empty cup down. Across the hall a scullion watches it empty, and looks at the ceiling, and does not seem to feel better.".
+  }
+  Action trace_cup(actor: group, site: place) "Follow the scullion back to the screens passage, and ask who poured the cup" {
+    Description "A frightened boy knows who gave him his orders; he may say it to somebody who does not look dangerous.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hall) and cup_set(house) and not cup_traced(house) and not unmasked(house).
+    Time 10 minutes.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert cup_traced(house). Assert cup_done(house). Assert knows(actor, cup_poisoned). }
+    On failure { Assert cup_done(house). Assert strikes(bitter_cup, actor). }
+    Result "The scullion is behind the churns, shaking. 'I only carry,' he says. 'It was put in my hand by a man who said it was a kindness. I did not see his face. He had a clerk's ink on his thumb,' or a steward's keys, or a sergeant's knot, it is not quite clear which, because the boy has said it three ways in the telling. But he says, clearly, that it was meant for you, and that he is sorry, and you believe him.".
+    Otherwise "The scullion bolts for the cellar stair, knocking over a churn, and in the noise someone takes the cup from your hand and, as you are looking for it, someone presses another into the hand you have left. You do the polite thing and drink. It is not the polite thing.".
+  }
+  Rule cup_names_steward heard at hall when cup_traced(house) and leaguer(steward) and not knows(party, hand_steward)
+    says "The scullion, over the churns, with a shaking finger: it was the steward's own boy who gave it him, and the steward's keys were on the shelf." teaches hand_steward { }
+  Rule cup_names_marshal heard at hall when cup_traced(house) and leaguer(marshal) and not knows(party, hand_marshal)
+    says "The scullion, over the churns: it was the sergeant's lad who gave it him, with the marshal's own wax thumb-marked on the stopper." teaches hand_marshal { }
+  Rule cup_names_clerk heard at hall when cup_traced(house) and leaguer(clerk) and not knows(party, hand_clerk)
+    says "The scullion, over the churns: it was a thin man with ink on his cuffs who gave it him, and the cup was one of the chancery's, with a blot in the glaze." teaches hand_clerk { }
+
+  // --- what each calling sees of the household ------------------------------------------------------------------
+  // The thief sees the household's security: the wicket is barred by a wire, and the wire is on the inside only for
+  // the length of a latch.
+  Rule thief_security when memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and at(party, gatehouse) and not wire_read(party)
+    says "{?m} spends a long minute looking at the wicket, and not at the porter. 'The bar is lifted from inside with a wire,' {?m} says, very low. 'That plate, there. A hand through the grating and a bent nail. Whoever hung it was thinking of a drunk lord coming home, not a thief.' A sniff. 'And the night sentries change at the dead watch and leave the brazier to go to the gatehouse. It is the loosest-run house I have ever seen, for a house so afraid.'" teaches wire_seen {
+    Assert wire_read(party).
+  }
+  Discovery wire_seen "The gate's wicket is barred by a wire that a hand through the grating can lift; the household keeps its door, and not its habit.".
+  Action lift_the_wire(actor: group, site: place, m: member) "Have {m} lift the wicket's bar with a bent nail, in the dark" {
+    Description "Not a bribe, not a bell, not a word to the porter: a thing done to a lock by someone who has done it before.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, outside) and (hour(clock) >= 21 or hour(clock) < 6) and not night_open(house) and not hunted(house)
+      and memberOf(m, actor) and hasCalling(m, calling_thief) and awake(m) and knows(actor, wire_seen).
+    Time 3 minutes.
+    Resolve check(actor, stealth, dc_easy).
+    On success { Assert night_open(house). }
+    Result "{m} puts an arm through the grating to the shoulder, the nail in two fingers, and the bar lifts as a hand lifts a sleeping cat. The wicket swings in. The porter, inside, goes on snoring.".
+    Otherwise "The nail catches. The porter's snoring stops, and a lamp comes to the grating, and goes away again, and the wicket stays shut.".
+  }
+  // The cleric understands the oath: the household cannot say the lord is dead because it is bound to him living.
+  Rule cleric_oath when memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and at(party, chapel) and entered(house) and not heard_oath(party)
+    says "{?m} stands a while at the altar-rail with a hand on the stone. 'They are not lying,' {?m} says. 'Not as the herald means it. Look: the castellan swore on her sword to hold the keep for the lord and his heirs, and the men swore to the lord living, and neither oath has an end that does not begin with a burial.' A breath. 'To say he is dead is to say they are free of him. That is what they are afraid of. They would rather be bound than be asked who for.' {?m} turns. 'There is an office for it. It lets a household set down an oath without breaking it.'" teaches oath_known {
+    Assert heard_oath(party).
+  }
+  Discovery oath_known "The household's silence is an oath kept: bound to the lord living, they cannot say him dead, and the office of release would let them set the oath down unbroken.".
+  Action loose_the_oath(actor: group, site: place, m: member) "Have {m} say the office of release with the chaplain, for the household's oath to the lord" {
+    Description "It takes an hour, and a household that is ready to hear it.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, chapel) and at(chaplain, chapel) and befriended(chaplain, actor)
+      and memberOf(m, actor) and hasCalling(m, calling_cleric) and awake(m) and knows(actor, oath_known) and not oath_loosed(house) and not reckoned(house).
+    Time 6.
+    On success { Assert oath_loosed(house). Assert castellan_ready(house). }
+    Result "The chaplain holds the book and {m} says the words, and the household is let in one by one, the porter and the cook and the grey marshal with his cap in his hand, and each says aloud, once, the name of the lord. At the end the castellan stands in the chapel door in her plain grey, and does not move for a long time. 'I swore to hold the keep for him living,' she says, to no one. 'I am released. I shall say it. At the feast.' She does not look at you. She takes your hand, briefly, and goes.".
+  }
+  // The warrior reads the disposition of the garrison.
+  Rule warrior_garrison when memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and at(party, ward) and entered(house) and now(p_dawn) and not garrison_known(party)
+    says "{?m} watches the garrison drill by the well for as long as it takes the marshal to walk its length. 'Thirty-one,' {?m} says. 'Twenty of them are the marshal's, and they will do what he says if he says it twice. Eight are the sergeant's, and they stand with their weight on the wrong foot, because they were never taught to stand in a rank.' A nod to the stables. 'And the three who do not drill at all. The marshal does not look at them, and they do not look at him. That is a garrison with a knife in it.'" teaches garrison_read {
+    Assert garrison_known(party).
+  }
+  Discovery garrison_read "The garrison is twenty of the marshal's men, eight of the sergeant's, and three of Thole's who do not drill; the marshal does not look at them.".
+  Topic marshal_disposition with marshal "Tell {marshal} you know his garrison is twenty and eight and three" when knows(actor, garrison_read) and not befriended(marshal, actor) once {
+    Says "{marshal} puts down the stick. He looks at you for a good while, as he looked at recruits who had said something unexpected. 'Twenty and eight and three,' he says. 'Yes.' A short, hard breath through the nose. 'I have not heard it said by a stranger. I have not said it myself.' He holds out a hand, and it is a hand that has done a great deal of holding. 'I will not take your coin for nothing. But I will not forget the man who counted my garrison and did not laugh.'".
+    On discuss { Assert befriended(marshal, actor). Assert knows(actor, hands_known). }
+  }
+  // The ranger reads the tracks of the rider: two boots to every hoof, in the dark of the ditch.
+  Observe rider_tracks at outside as sign noticed by woodcraft when not tracks_read(party) and not unmasked(house) "In the ditch below the north wall, under last week's rain, the print of a lathered horse that was stopped, not ridden to rest; and over it, in the clay, boots: three pairs, and a fourth set dragged, heel-first, to the wall. The rider did not walk into the keep. He was carried in by a back way, by men who walked in step. They were not the gate-watch; the gate-watch wear hobnails, and these wore soft soles." teaches tracks_seen.
+  Discovery tracks_seen "The king's rider was taken in the night in the ditch, not at the gate, by three men in soft boots and carried in by a back way.".
+  Topic marshal_tracks with marshal "Tell {marshal} the rider was taken in the ditch by three men in soft boots" when knows(actor, tracks_seen) and not tolerates(hands, actor) once {
+    Says "{marshal} is silent. Then, very quietly: 'The castellan said: hold him. I said: hold him at the gate. I was not asked how.' His jaw works. 'Soft boots.' He turns without another word and walks across the ward to the stables, and you hear nothing at all. When he comes back his stick is in his left hand and his right is open. 'It will not be done again,' he says. 'Thole will not trouble you. Nor will the lads.'".
+    On discuss { Assert tolerates(hands, actor). Retract warned(hands, actor). Retract halts(hands, actor). Assert befriended(marshal, actor). }
+  }
+  Observe hands_den at stables as sign when true "The loft over the stalls is a barrack within a barrack: a dozen pallets, a rack of short knives with the edges stoned for a different work than the armoury's, and on the wall a tally cut with a nail, a notch for each lad who came back from the ditch with what he had been sent for. There are fewer notches than names. The groom does not go up there.".
+
+  // --- the first town, momentum without the company ---------------------------------------------------------------
+  Relation ansel_paid(group). Relation hands_at_green(group).
+  Rule levy_pressed heard at gossip when day(clock) >= 8 and state(levy_post, called) and not decided(house)
+    says "A second paper has gone up on the post under the first, in a different hand: THE LEVY STANDS AND IS PRESSED. A MAN OF THE HERALD'S MASTER WILL COUNT THE CORN AT THE NEXT FAIR-DAY. Nobody has taken either paper down, and the crier, when he comes, does not ring his bell." {
+    Assert state(levy_post, pressed).
+  }
+  Observe garrison_drink at taproom as sign when day(clock) >= 9 and not paid_off(house) and not decided(house) "Two spearmen in the keep's green are drinking by the door, and paying in coppers counted out one at a time. They are not loud. A third man, who is not drinking, watches the street over their heads, and when a stranger comes in he looks at the stranger's hands.".
+  Observe garrison_paid at taproom as sign when paid_off(house) and day(clock) >= 9 and not decided(house) "Two spearmen in the keep's green are standing a round, and the whole taproom has noticed, and nobody has said so. One of them has bought his sister a new shawl.".
+  // The Hands, left unsettled, follow the keep's trouble down the road: they come to the first green and wait.
+  Rule hands_at_green when decided(house) and day(clock) >= feastDay(house) + 3 and not paid_off(house) and not state(banner, regency) and not tolerates(hands, party) and able(hands)
+    and at(hands, ?p) and not hands_at_green(house) says "Three men in the keep's old green come up the street at the evening hour, one paring an apple, and take the bench by the well without being asked. People find something to do indoors." {
+    Retract at(hands, ?p). Assert at(hands, gossip). Assert occupied(hands). Assert hands_at_green(house). Retract yields(hands).
+  }
+  Rule ansel_rides when befriended(ansel, party) and decided(house) and day(clock) >= feastDay(house) + 2 and able(ansel) and not at(ansel, gossip) and at(ansel, ?p)
+    says "A boy in a quilted jack rides into the green on a borrowed horse, singing. It is a ballad. It has your name in it, twice, in the wrong order, and there is a verse about a post he hacked to splinters. Half the street comes out to see." {
+    Retract at(ansel, ?p). Assert at(ansel, gossip). Assert occupied(ansel).
+  }
+  Topic ansel_ballad with ansel "Ask {ansel} to stop singing, and what he is doing here" when at(ansel, gossip) and befriended(ansel, actor) and not ansel_paid(house) once {
+    Says "'Stop?' says {ansel}. 'It is the first ballad I have ever made and you want me to stop?' He grins, and spreads his hands. 'My aunt sent me with the news, which is that the keep is hers and she will say so. I thought I'd say it with a tune.' He tosses you a purse he plainly meant to spend on something else. 'And that is for the post. I shall never be so rude to a post again.'".
+    On discuss { Increase quantity(actor, gold) by 10. Assert ansel_paid(house). }
+  }
+}

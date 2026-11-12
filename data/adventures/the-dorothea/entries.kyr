@@ -14,6 +14,7 @@ Module dorothea "The Dorothea" {
     Role "clerk of the House of Marchbank, at the Tolleth desk". Ancestry human. Level 1. Peaceable. Pronouns he. Manner jovial.
     Likeness "scholar".
     Greets "A young man with a blue cuff and an inkstand clipped to his belt has taken the best table by the window and spread on it six sheets of the House's paper, none with anything written on it. 'Corwin Latch, Clerk, the Tolleth desk,' he says. 'Do sit. I am waiting for a crate. I have been waiting for a crate since Candlemas. I am told the House is a great deal of money. I find it is mostly waiting.'".
+    Greets again "Corwin Latch has a seventh sheet of the House's paper in front of him, and one word on it. 'Crate,' it says. 'I am told that is progress. It is the first word I have been allowed since Candlemas.'".
   }
   Initially Set quantity(latch, gold) to 80.
   Topic latch_crate with latch "Ask Corwin Latch about the crate" when true once {
@@ -40,6 +41,7 @@ Module dorothea "The Dorothea" {
     Role "a mariner's wife, whose husband is on the Antlers". Ancestry human. Level 1. Peaceable. Pronouns she. Manner proud.
     Likeness "farmer".
     Greets "A woman in a good shawl gone thin at the edges stands at the end of the quay with her back very straight, reading the notice board though she has plainly read it. She has the look of someone who has been polite to a number of people about a boat. 'You're not sailing for the Antlers,' she says. 'No. You look as though you might. I am Dilys Ketteridge.'".
+    Greets again "Dilys Ketteridge has stopped reading the notice board and is reading the water instead, which is worse. 'Any word?' she says, and does not wait for it. 'No. I would have heard. Joss would have made sure of it.'".
   }
   Topic dilys_letter with dilys "Ask Dilys Ketteridge what she is waiting for" when true once {
     Says "'My husband went up the Antlers for the eggs in March,' she says. 'Joss. He's a stack-man; he does a rope that frightens most men. He wrote by the Dorothea at Whitsun. At Lammas, nothing. Since then, nothing.' She takes a folded paper out of the shawl and holds it in both hands. 'I've written him eleven. The House's clerk says the boat is full. Bascom says she will call at the Antlers when she is asked, and nobody has asked, and I am not a woman who asks.' She looks at you. 'I am asking.'".
@@ -53,6 +55,7 @@ Module dorothea "The Dorothea" {
     Role "stack-man at the Antlers". Ancestry human. Level 2. Peaceable. Pronouns he. Manner jovial.
     Likeness "sailor".
     Greets "A lean man with a rope tied round each ankle and a third round his waist is lying on his back in the guano with his boots up on a rock, looking at the sky. 'Ketteridge,' he says. 'Joss. Don't mind me. I'm not hurt. I'm only not going up that.' He tilts his head at the ladder.".
+    Greets again "Joss Ketteridge has turned over, so that the guano is on the other side of him. 'I am not going up that,' he says. 'If you are, you may tell my wife I am a hero. If you are not, you may tell her I am resting.'".
   }
   Topic joss_letter with joss "Give Joss Ketteridge his wife's letter" when holding(actor, dorothea_letter) once {
     Says "He reads it with his lips, slowly, through a face that gets younger by degrees. 'Eleven,' he says. 'She says she has sent me eleven. I've had none.' He sits up. 'They go to the Agent's hammock. I know where.' He writes an answer on a scrap of egg-tray with a pencil end and a great deal of tongue. Then he gets up, and walks to the ladder, and looks at it, and says, 'I'll put the rig back on it. I was told not to. I was told a good many things. Let them write it down.'".
@@ -121,6 +124,7 @@ Module dorothea "The Dorothea" {
     Joins "Pip Vosper takes a coil of rope off the pile, sets it on his shoulder like a man and falls in at your elbow, a pace behind, looking at the sea.".
     Leaves "Pip nods once, to nobody. 'I'll be all right here,' he says, in a voice that does not say so.".
     Greets "Behind the coils of rope at the back of Garrick's, between a keg of tar and the wall, a boy of about eleven in a grey cuff is sitting with his knees up and an unlit candle in his hand, quite still. 'Not a word,' he says. 'Please. I'm bound to the House seven years and I've done three and I want my mother, and they'll send me to the Ness, which is the other way.'".
+    Greets again "Pip Vosper has moved the candle from one hand to the other. 'Not a word,' he says. 'You've not told? I did not think you had. I have begun to think you will not, and I do not know what to do with that.'".
   }
   Initially Assert acceptsEscort(pip, party).
   Topic pip_mother with pip "Ask Pip Vosper where his mother is" when true once {

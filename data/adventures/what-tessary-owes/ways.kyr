@@ -127,6 +127,7 @@ Module tessary "What Tessary Owes" {
   Person eel_seller "Old Gudrun" at tidewall {
     Role "who sells hot eels in paper cones on the Tidewall, from a brazier on a barrow". Ancestry human. Peaceable. Pronouns she. Manner jovial.
     Greets "Old Gudrun holds up a paper cone before you have asked for one. 'Hot,' she says. 'One coin. Mind the vinegar.'".
+    Greets again "Old Gudrun has the cone held out before you can draw breath. 'Hot,' she says. 'One coin. Same as yesterday, and the day before, and the day the soldiers came. The price of an eel is the one honest thing in Tessary.'".
     Sells hot_eels for 1 coin from 6.
     Seen when not dark().
   }

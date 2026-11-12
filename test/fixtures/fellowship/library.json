@@ -1,0 +1,4 @@
+{
+  "about": "An empty library for the spec that draws the fellowship (test/fellowship.test.ts): the fellowship itself is placed by data/scenarios/standing.json, and listing it here too would install it twice.",
+  "scenarios": []
+}
