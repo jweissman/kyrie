@@ -23,11 +23,9 @@ export class AimAdvances {
     // An aim short of coin is advanced by selling (the debtor home with the hold's music box, at Tuck's, who buys such
     // things, had been led to ask him every question he knew: Mission 20); the purse is otherwise never waited on.
     // Nor ever by spending (what the debt carries would sell; a ten-foot pole bought is not that).
-    // And a thing found, taken up, for an aim short of coin: what is in such places could pay it (the keep's steel coin
-    // at its gate, the gold gone: the owner, 12 November).
     return new Set(rows.filter(r => !r.action.movement && !/^buy_/.test(r.action.schema ?? '')
       && (this.brings(r.action).some(c => calls.some(x => this.match(c, x) && this.held(campaign, x) === (c.kind === 'retract')))
-        || (coin && /^(sell_|take_item$|take_out$)/.test(r.action.schema ?? '')))).map(r => r.choice.id));
+        || (coin && /^sell_/.test(r.action.schema ?? '')))).map(r => r.choice.id));
   }
   // A thing taken is what the aim waits on only where it names that thing: an aim that reads whatever is carried (the
   // debt, laden or not) was advanced by every flower gathered on a green.
@@ -46,6 +44,12 @@ export class AimAdvances {
     const find = action.resolve?.name === 'acquire' ? action.resolve.args[0] : undefined;
     return find ? [...made, { kind: 'assert', thing: find,
       call: ModuleWriter.call('carries', action.actor ?? action.bindings?.actor ?? '?a', find) }] : made;
+  }
+  // Whether the aim followed is short of coin: a find that is spoils (valuable, and nobody's) then pays toward it (see
+  // Affordances, opened).
+  static wants(campaign: Campaign): boolean {
+    const def = Undertakings.followed(campaign);
+    return !!def && this.short(def);
   }
   private static short(def: Objective): boolean {
     const read: Call[] = [];

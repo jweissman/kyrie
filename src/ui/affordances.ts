@@ -14,7 +14,7 @@ import type { ExitRow, Screen } from './screen-types';
 export interface Reading {
   // The words of the aim followed, for what it asks to be asked (see AimAsks); the choices whose doing changes what it
   // waits on (see Glance.advances).
-  aim?: string; advances?: Set<string>;
+  aim?: string; advances?: Set<string>; coin?: boolean;
   // The places that hold what the aim followed names (its town, its site): a journey there goes toward it.
   holding?: Set<string>;
   schema: Map<string, string>; args: Map<string, string[]>; speakers: Set<string>;
@@ -165,7 +165,10 @@ export class Affordances {
       // What the aim followed waits on, done here (the dead man's box, found, taken up): the aim's own next step,
       // before what else it is (the box had been led as spoils, and the gold gone on into the cave: the owner, 12
       // November).
-      ...!person && moving.length ? ['advance' as const] : [], ...spoils ? ['spoils' as const] : [],
+      // So with spoils, for an aim short of coin (the keep's steel coin at its gate), never what is someone's (the
+      // hobs' bell and rings in their cache, which taken had the company caught leaving).
+      ...!person && (moving.length || (spoils && r.coin)) ? ['advance' as const] : [],
+      ...spoils ? ['spoils' as const] : [],
       ...this.about(fresh, r) || this.there(s, leaves, r) ? ['about' as const] : [],
       ...person && r.life === s.id && !talked ? ['life' as const] : [],
       ...this.ownWhy(leaves, r), ...r.signs.has(s.id) ? ['sign' as const] : [],
@@ -323,7 +326,11 @@ export class Affordances {
     // (the owner, 9 November: a letter for Elmham, and the page had led into the barrow by the green).
     // But only a site the aim names: done with it, the find taken up and the aim now the creditor's, the company had
     // been held in the keep's gate by its ways not yet taken, and nothing led home (the owner, 12 November).
-    if (r.inward.size && screen.path.some(p => p.kind === 'site' && this.within(p.id, r.named, r))) { return []; }
+    // Or one with an open way further in not yet taken (the hold's cache, the bell still to ring): at the keep's gate
+    // the way in is barred, and the company with the coin may go.
+    if (r.inward.size && screen.path.some(p => p.kind === 'site')
+      && (screen.path.some(p => p.kind === 'site' && this.within(p.id, r.named, r))
+        || screen.exits.some(e => r.inward.has(e.id) && !e.blocked))) { return []; }
     const near = new Set((screen.around ?? []).map(d => d.id)), here = screen.place.name.toLowerCase();
     // Named by the aim is named in anything in it: an aim names a work's rooms and its site, never the place it is
     // set out for by (Lunalac's reading-glass named every room of it, and nothing led toward it: OWN-56).

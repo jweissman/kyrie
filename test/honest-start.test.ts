@@ -53,7 +53,8 @@ describe('the opening, as the page leads it', () => {
   it('takes a debtor out through the hobs’ hold and home to sell what was found to the creditor', async () => {
     const p = await start('debt');
     const sold = () => p.log.some(l => /trades: sell_valuable/.test(l));
-    expect(await p.until(sold, 110)).toBe(true);
+    const ok = await p.until(sold, 110); if (!ok) { console.log(p.log.slice(-40).join("\n")); }
+    expect(ok).toBe(true);
     expect(p.log.join('\n')).toMatch(/Ring the bell[\s\S]*Untie/);
     expect(p.glanced.screen.party.every(m => m.hp > 0)).toBe(true);
   }, 400000);
