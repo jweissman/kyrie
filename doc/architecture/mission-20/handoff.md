@@ -5,7 +5,7 @@ agents were run; their ratings are an agent's, not a player's. This page says wh
 part was checked, what is still wrong, and, apart from both, what was registered for later.
 
 - 287 commits since Mission 19 closed (7302392c), at this writing.
-- The log (`log.md`) runs to E179.
+- The log (`log.md`) runs to E182.
 - The register (`../open-register.md`) holds every open item, with its source.
 
 ## Part 1. Mission 20 delivered and verified
@@ -301,3 +301,15 @@ branches of 25 and 26 October, each one or a few commits ahead.
 
 Two cold players on fa374a83 (11 November night), reports in `cold/round-7/`, log E134–E147. Every finding is fixed or
 carried in the register's §16 (R7-01 to R7-04).
+
+## Closing note: CI at the last pushes (12 November, about 2 a.m.)
+
+- **bba17f90** (round 8's small fixes, E164–E176): every job green, the six suite shards, both browser jobs, the long
+  descents and the reference hour through the page.
+- **f49d858e** (round 9's fixes, E177–E181, the register's §20, the bundle rebuilt): every job green but suite 1/6, where
+  one test of Wapshott's Act IV passed its 290-second limit on a slow runner; it takes two minutes here, as it did
+  before tonight's changes. Split into its five nights (E182) and pushed; that push's CI is the last word, and is
+  recorded in the log when it reports.
+- **505b002a** had been cancelled by the next push, not passed; and **81fedaac** failed one spec on the errand's old
+  words (E176). Both are covered by the runs above.
+

@@ -552,6 +552,6 @@ E171, E174, E175, E177, E178, E179. Open:
 | R9-10 | The widow's aim (Sir Hamo) never had gold or a route (P 113–154); Sir Hamo has no talk at all, only Attack, Call out, Leave | open | P2 | M21 |
 | R9-11 | "Take your leave" after hiring reopened the hireling (the portraits re-ordered); number keys silent while the Look panel is open; a spell's name not clickable in the spell modal, and which spell is prepared not shown (Q 10–11, 56, 65) | open | P3 | M21 |
 | R9-12 | Paintings against the text: an intact sunny castle for a ruined bailey, a sunny churchyard at night, iron pipes in a medieval drain, the keep's star banner at the outlaws' fort (P, Q) | open: with the painting list | P2 | M21 |
-| R9-13 | Sleeping "long, under a roof" at 11 a.m. ends the same evening; the wait panel offers to sleep until 3 p.m. at night (P 149; Q 128) | open | P3 | M21 |
+| R9-13 | Sleeping "long, under a roof" at 11 a.m. ends the same evening; the wait panel offers to sleep until 3 p.m. at night (P 149; Q 128) | **partly by design**: a sleep begun in the small hours lasts eight hours (FictionalTime.untilMorning), so "until 3:00 p.m." was true of a camp made near seven while still dark; whether a sleep then that late reads right is open (/var/tmp/kyrie/m20/tools/camp-night.ts) | P3 | M21 |
 | R9-14 | The toolbar has no hover hints (Q 30) | **not a defect**: every rail button has a title; the agent's harness does not hover | — | — |
 

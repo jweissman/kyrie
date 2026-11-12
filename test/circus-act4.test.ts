@@ -251,8 +251,10 @@ describe("Wapshott's, Act IV: the crate", () => {
     await a.j.play('a green glass bottle in the wrack: Take');
   }, 290000);
 
-  it('has a night on the quay: bare it costs the bosun; the cages alone cost him; cages and fire cost blood; meat costs nothing', async () => {
-    for (const how of ['bare', 'cages', 'fire', 'both', 'meat'] as const) {
+  // Each way of meeting the night its own test: the five together had come to the limit of one on a slow runner
+  // (290 s against 187 s to 292 s on CI, two minutes here: CI on f49d858e).
+  for (const how of ['bare', 'cages', 'fire', 'both', 'meat'] as const) {
+    it(`has a night on the quay (${how}): bare it costs the bosun; the cages alone cost him; cages and fire cost blood; meat costs nothing`, async () => {
       const a = await Act.start();
       await a.toSarn();
       await a.j.play('=+1600', "To the Progress's landing");
@@ -274,8 +276,8 @@ describe("Wapshott's, Act IV: the crate", () => {
       expect(a.j.holds('dead', 'mudge')).toBe(how === 'bare');
       expect(a.holds('crewHurt', 'wapshotts')).toBe(how === 'cages' || how === 'fire');
       expect(a.holds('huntClean', 'wapshotts')).toBe(how === 'both' || how === 'meat');
-    }
-  }, 290000);
+    }, 290000);
+  }
 
   it('has a reef that shuts on a date, a run through it, and endings that differ: home with nothing, a fiasco, the Colonel stays', async () => {
     const a = await Act.start();
