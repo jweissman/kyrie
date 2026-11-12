@@ -357,10 +357,13 @@ export class GlanceStage {
         <p className="label">Danger</p>
         <p className="n">{Typography.curl(Words.upper(c.name))}{c.note && <span className="r"> · {Typography.curl(c.note)}</span>}</p>
         <p className="d">{Typography.curl(text)}</p>
-        {c.danger && !reckoned && <p className="reckoning">{Typography.curl(c.danger)}</p>}
+        {c.danger && !reckoned && <p className="reckoning">{Typography.curl(GlanceStage.fight(c.danger))}</p>}
       </section>
     );
   }
+  // How a fight would go, said as a line of its own: "beyond you", alone in the danger box, had read as a stray
+  // fragment (round 9, Q 69).
+  static fight(chance: string): string { return `A fight: ${chance}.`; }
   // What the glance leads with, best first: each as the player would say it, why beside it (your brother, your aim,
   // the way you came), and under it what it risks, in words; whatever it opens, open under it.
   static Acts({ app, draw, acts, top }: { app: ReaderApp; draw: Draw; acts: Promoted[]; top?: string }) {

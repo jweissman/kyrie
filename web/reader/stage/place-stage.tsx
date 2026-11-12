@@ -159,7 +159,7 @@ export class PlaceStage {
         <p className="label">Danger</p>
         <p className="n">{Typography.curl(Words.upper(c.name))}{c.note && <span className="r"> · {Typography.curl(c.note)}</span>}</p>
         {c.says?.[0] && <p className="d">{Typography.curl(c.says[0])}</p>}
-        {c.danger && <p className="reckoning">{Typography.curl(c.danger)}</p>}
+        {c.danger && <p className="reckoning">{Typography.curl(GlanceStage.fight(c.danger))}</p>}
         <Act.List choices={c.choices} draw={draw} marked={marked} />
       </section>
     );

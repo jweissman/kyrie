@@ -199,7 +199,8 @@ Module inhabitants "How creatures that live somewhere answer those who come into
   // Words instead of blows, for a band that can be spoken to and will hear words (one that warns, or watches from
   // the edge of the light): talked round, it lets the company be; faced down, it gives way. The one of the company best
   // at it speaks, once; it is rolled only when it could go either way. Talked to badly, a band gives you the rest of
-  // the watch to be gone, and then comes at you; warned off badly, it comes at you at once.
+  // the watch to be gone, and then comes at you, never longer than it had given already (a man who had given eight
+  // minutes gave fifteen once he had "no more patience": round 9, Q 71); warned off badly, it comes at you at once.
   Relation hears(temperament). Relation spokenTo(group, group).
   Initially Assert hears(temper_territorial). Initially Assert hears(temper_defensive).
   Initially Assert hears(temper_wary). Initially Assert hears(temper_proud).
@@ -210,7 +211,10 @@ Module inhabitants "How creatures that live somewhere answer those who come into
       and not routed(hearers) and not spokenTo(hearers, actor).
     Resolve check(actor, persuasion, dc_fair).
     On success { Assert spokenTo(hearers, actor). Assert tolerates(hearers, actor). Retract warned(hearers, actor). }
-    On failure { Assert spokenTo(hearers, actor). Assert warned(hearers, actor). Set patience(hearers) to watch(clock) + 2. }
+    // A deadline already given stands as it was (patience past this watch); one never given is the rest of the next.
+    On failure { Assert spokenTo(hearers, actor). Assert warned(hearers, actor).
+      Set patience(hearers) to watch(clock) + 2 - min(max(patience(hearers), watch(clock)) - watch(clock), 1)
+        * (watch(clock) + 2 - patience(hearers)). }
     Result "You talk it over with {hearers}, and in the end you are let be.".
     Otherwise "You talk it over with {hearers}, and get nowhere: there will be no more patience for you here.".
   }
