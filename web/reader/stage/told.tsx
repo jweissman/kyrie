@@ -19,6 +19,9 @@ import { Scrolled } from './scrolled';
 // who is about; doing something where the company stands, what came of it is told first, and the place, already
 // read, steps back to its first sentence.
 export class Told {
+  // In the dark with nothing to see by, said with what a light costs and where it is had: a dark room had not said
+  // that a light is cheap, nor where it is sold (the authors' AB-05).
+  static readonly unlit = 'It is dark here. You have no light to see by. A torch or a candle is a coin at a chandler\u2019s or a general store.';
   // With the journey (journey: false leaves the way here to the facing page, see Told.Travelled), and who and what is
   // here after the place's first paragraph (M17-05: a town's people had been under the whole telling, a scroll away).
   // Its heading (the chapter, the place's name, where and when) is the stage's own head where the stage draws one
@@ -48,7 +51,7 @@ export class Told {
     return <>
       {headed && <Told.Heading frame={frame} app={app} />}
       {recap && (recap.aim || recap.last) && <Told.Recap recap={recap} />}
-      {screen.dark && !Told.says(leaf, /\bdark\b/i) && <p className="dark-note">It is dark here. You have no light to see by.</p>}
+      {screen.dark && !Told.says(leaf, /\bdark\b/i) && <p className="dark-note">{Told.unlit}</p>}
       {s.pending && !whole && <Told.Working pending={{ ...s.pending, stage: s.stage }} />}
       {journey && <Told.Travelled app={app} />}
       {!s.pending && (stayed || struck) && <Told.Happened exchange={told!} said={stayed} ready={Moments.ready(screen)}

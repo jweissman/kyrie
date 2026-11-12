@@ -64,8 +64,10 @@ export class Itineraries {
     if (LandModel.tract.test(destination)) { return true; }
     const been = VisitedPlaces.of(campaign, campaign.playerActor!);
     if (been.has(destination) || been.has(`${destination}_green`)) { return true; }
-    return campaign.world.relates('knows')
-      && campaign.world.test(ModuleWriter.call('knows', campaign.playerActor!, `${destination}_sighted`));
+    // Or told the way to it, over the open country as it is told (the innkeeper "tells you how each is come to"): the
+    // debt's next old place, Marsh Howe, known by its way, had no journey to it, and the gold was lost (R10-17).
+    return campaign.world.relates('knows') && ['sighted', 'found'].some(k =>
+      campaign.world.test(ModuleWriter.call('knows', campaign.playerActor!, `${destination}_${k}`)));
   }
   // The quickest known way from where the company stands to a place, or to anywhere within an area: by ways open
   // now if there are any (mere's march-stone by the bridge, while both fords are in spate), else by those that ask

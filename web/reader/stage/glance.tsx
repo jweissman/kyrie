@@ -62,7 +62,7 @@ export class GlanceStage {
           {s.pending ? <Told.Working pending={{ ...s.pending, stage: s.stage }} />
             : (stayed || struck) && <Told.Happened exchange={told!} said={stayed} ready={ready} app={app} />}
           {g.came && <GlanceStage.Came app={app} came={g.came} />}
-          {screen.dark && !g.sight && <p className="dark-note">It is dark here. You have no light to see by.</p>}
+          {screen.dark && !g.sight && <p className="dark-note">{Told.unlit}</p>}
           {g.sight && <p className="sight" data-id={g.sight.id}>{Typography.curl(g.sight.text)}</p>}
           <GlanceStage.Life app={app} glance={g} />
           {g.changed.length > 0 && <div className="changed">
@@ -133,7 +133,7 @@ export class GlanceStage {
       {s.pending && !s.exploring && <Told.Working pending={{ ...s.pending, stage: s.stage }} />}
       {struck && told && <Told.Happened exchange={told} ready={Moments.ready(screen)} app={app} />}
       {g.came && <GlanceStage.Came app={app} came={g.came} />}
-      {screen.dark && <p className="dark-note">It is dark here. You have no light to see by.</p>}
+      {screen.dark && <p className="dark-note">{Told.unlit}</p>}
       {/* A danger before the place's telling: under it, its words had been below the fold (round 4, E 61). */}
       {g.life?.danger && <GlanceStage.Life app={app} glance={g} />}
       <Told.Setting app={app} />
@@ -161,16 +161,22 @@ export class GlanceStage {
     // gold was the search for the cross, drawn only as the rail's glass with nothing on it (round 10, S; R at
     // Ísencepan), and the gold seen was on Go… and Look…, into the keep.
     const next = GlanceStage.next(app);
-    const ways = Wayfinder.ways(app), only = GlanceStage.only(app), touched = [posted?.id, only?.c.id, search?.id]
+    // A notice the place leads with is one of the things to do, drawn as they are, with what it is at its left (the
+    // owner, 12 November: the bare link to the notice on the well-post, which "clearly gives you a clue").
+    const ways = Wayfinder.ways(app), only = GlanceStage.only(app), touched = [only?.c.id, search?.id]
       .filter(id => !id || id !== next);
     const shown = GlanceStage.foreground(app, acts).filter(a => !touched.includes(GlanceStage.choice(app, a.choice)?.id));
     const drawn = shown.map(a => GlanceStage.choice(app, a.choice));
     const found = GlanceStage.found(app, hand), yours = GlanceStage.yours(app, acts, [posted, search, ...drawn]);
     const railed = SceneRail.on(app);
+    // In a site or underground, the way back stays in sight, quietly, beside Go… (see CompanyRecall.back).
+    const back = GlanceStage.back(app, [only?.c, ...drawn]);
     return <>
       {shown.length > 0 && <GlanceStage.Acts app={app} draw={draw} acts={shown} top={top} />}
       <p className="openers">
-        {posted && <Act.View choice={posted} draw={draw} quiet className="opener opens-posted">
+        {back && <Act.View choice={back} draw={draw} quiet className="opener opens-back">
+          {Typography.curl(`Back: ${back.label.charAt(0).toLowerCase()}${back.label.slice(1)}`)}</Act.View>}
+        {posted && !drawn.some(d => d?.id === posted.id) && <Act.View choice={posted} draw={draw} quiet className="opener opens-posted">
           {Typography.curl(posted.label)}</Act.View>}
         {yours && <Act.View choice={yours} draw={draw} quiet className="opener opens-yours led">
           {Typography.curl(yours.label)}</Act.View>}
@@ -214,6 +220,11 @@ export class GlanceStage {
       : (app.menu.leads ?? g?.acts ?? []).filter(a => GlanceStage.aiming.has(a.why))
         .flatMap(a => GlanceStage.choice(app, a.choice)?.id ?? []));
     return hand.some(h => h.choices.some(c => ids.has(c.id)) || h.opens.some(id => ids.has(id)));
+  }
+  // The way back from a site or from under the ground, where it is not drawn already (see CompanyRecall.back).
+  static back(app: ReaderApp, drawn: (Choice | undefined)[]): Choice | undefined {
+    const id = app.state.frame?.leaf.glance?.back, c = id ? GlanceStage.choice(app, id) : undefined;
+    return c && !c.disabled && !drawn.some(d => d?.id === c.id) ? c : undefined;
   }
   // The choice that is the followed aim's one next step (Promoted.continues), as the page draws it.
   static next(app: ReaderApp): string | undefined {

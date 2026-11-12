@@ -1,5 +1,6 @@
 import type { Campaign, CampaignEvent } from '../campaign/campaign';
 import { VisitedPlaces } from './visited-places';
+import type { Screen } from '../ui/screen-types';
 
 // What the company remembers of its own story, for the glance (see Glance): where it has been, whom it has spoken
 // with, what it has done where, and what it has seen, as of the command before the last (so that what the last one
@@ -25,6 +26,13 @@ export class CompanyRecall {
   private static readonly logs = new WeakMap<readonly CampaignEvent[], Read>();
   private constructor(private readonly r: Read, private readonly lastly: { talked: Set<string>; done: Set<string>;
     from?: string; came?: string; left?: string; acted?: boolean }) {}
+  // In a site or underground, the way the company came, open to it, for the page to keep in sight beside Go… (PR-08:
+  // five cold players in three rounds could not find the way back or up, and walked out step by step through Go…).
+  back(screen: Screen): { back?: string } {
+    const came = this.lastly.came, exit = came && (screen.place.underground || screen.path.some(p => p.kind === 'site'))
+      ? screen.exits.find(e => e.destination.id === came && !e.blocked) : undefined;
+    return exit ? { back: exit.id } : {};
+  }
   static of(campaign: Campaign): CompanyRecall {
     const actor = campaign.playerActor ?? 'party', log = campaign.history;
     let r = this.logs.get(log);

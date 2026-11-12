@@ -17,15 +17,16 @@ export class Act {
   // marked: what it risks said on it, as a tag (see Marks): a fight and how it would go, something heard in a way in,
   // a journey that ends after dark. What cannot be undone and a risk say so already.
   // quiet: its label alone, what more there is to say of it said elsewhere (a way's detail line, see GlanceStage.Row).
-  static View({ choice: c, draw, className, children, marked, quiet }: { choice: Choice; draw: Draw;
-    className?: string; children?: ReactNode; marked?: boolean; quiet?: boolean }) {
+  // number: the number it is pressed by, where that is held apart from its place among the choices (see TalkStage.n).
+  static View({ choice: c, draw, className, children, marked, quiet, number }: { choice: Choice; draw: Draw;
+    className?: string; children?: ReactNode; marked?: boolean; quiet?: boolean; number?: number }) {
     const i = draw.index.get(c.id) ?? -1, s = draw.app.state, selected = !!s.keyed && i === s.cursor;
     const opens = !!c.children && !/#(talk|look)$/.test(c.id), asks = Act.asks(c);
     const classes = ['act', className ?? '', selected ? 'sel' : '', c.risk ? 'risk' : '', c.grave ? 'grave' : '',
       c.disabled ? 'shut' : '', opens ? draw.open.has(c.id) ? 'opened' : 'opens' : ''].filter(Boolean).join(' ');
     const tags = marked && !quiet ? Act.tags(c) : [];
     return (
-      <button type="button" className={classes} data-action="choice" data-choice={c.id} data-index={i}
+      <button type="button" className={classes} data-action="choice" data-choice={c.id} data-index={i} data-number={number}
         aria-current={selected || undefined} aria-disabled={c.disabled ? true : undefined}
         aria-expanded={opens ? draw.open.has(c.id) : undefined} onClick={Act.click.bind(null, draw.app)}>
         {children ?? <>{Typography.curl(c.alone ?? Words.shown(c.label))}{c.note

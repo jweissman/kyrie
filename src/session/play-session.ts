@@ -22,7 +22,10 @@ export interface Transcript {
   // A generated world's: what it was drawn for, so that it can be drawn again to replay the steps (see DrawnWorld).
   drawn?: Drawn;
 }
-export interface Drawn { party: CreatureGenerationContext[]; terrain?: string; origin?: string; memorial?: Memorial }
+// standing: which of the scenarios every first country holds this one holds, by id (all, unless said): for a spec of
+// something else, so that what stands in every country does not move under it (the register's AB-13, R88).
+export interface Drawn { party: CreatureGenerationContext[]; terrain?: string; origin?: string; memorial?: Memorial;
+  standing?: string[] }
 // Chooses the next command for the player's side. Must return one of battle.legalCommands().
 export type CombatController = (battle: Battle) => Promise<Command>;
 export interface SessionCheckpoint { version: 1; transcript: Transcript; save: CampaignSave }

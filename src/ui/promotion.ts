@@ -18,6 +18,8 @@ export interface Candidate {
   // Where it is drawn among the rest (the authored order: people in the module's order, ways in the headings').
   order: number; marks: Mark[];
   minutes?: number; risk?: boolean; own?: boolean;
+  // Doing it teaches the company something (Choice.teaches): the place's own such act (a notice read) is drawn blue.
+  teaches?: boolean;
   // Done before, nothing new about it; a way to somewhere been; a way the lines told now name.
   known?: boolean; visited?: boolean; pointed?: boolean;
   // Not to be led with at all: disabled, on a companion, on the dead.
@@ -178,8 +180,15 @@ export class Promotion {
       ...c.for ? { for: c.for } : {},
       ...c.subject ? { subject: c.subject } : {},
       ...c.exit ? { exit: c.exit } : {}, label: c.label, why, facets, tier: this.tiers[why][0],
-      aspects: Aspects.of([why, ...whys.filter(w => w !== why)], c.marks), ...note ? { note } : {}, marks: c.marks,
+      aspects: this.aspects(c, why, whys), ...note ? { note } : {}, marks: c.marks,
       ...whys.includes('entry') ? { enters: true as const, afar: true as const } : {} };
+  }
+  // What it is to the company. The place's own act that teaches it something (the notice on the well-post, read) is
+  // something to learn, blue, not only something worth a look (the owner, 12 November: a bare link that "clearly gives
+  // you a clue").
+  private static aspects(c: Candidate, why: Why, whys: Why[]): Aspect[] {
+    const all = Aspects.of([why, ...whys.filter(w => w !== why)], c.marks);
+    return why === 'own' && c.teaches ? ['knowledge', ...all.filter(a => a !== 'exploration' && a !== 'knowledge')] : all;
   }
   // Of an opener, each act within it a reason is for, with the aspects those reasons give it, best first: so that what
   // its likeness is drawn as is found again within it (the owner, 12 November: a blue pip, and no blue question).

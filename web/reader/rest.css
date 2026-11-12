@@ -331,3 +331,59 @@
 .portrait .still-why { position: absolute; top: calc(100% + 4px); left: 50%; transform: translateX(-50%); width: max-content;
   max-width: 14rem; padding: 4px 8px; font: italic 400 12.5px/1.35 var(--told); color: var(--ivory); text-align: center;
   background: rgba(12, 13, 17, .88); border: 1px solid var(--edge); z-index: 3; }
+
+/* The painting of a place out of doors goes the way of the day (see SceneSurface.View): a sunny canvas under "night"
+   in the heading had contradicted it in every round since the ninth. Indoors and under the ground keep their own. */
+.scene-surface.at-evening .scene-view { filter: brightness(.82) saturate(.85) sepia(.18); transition: filter 1.2s ease; }
+.scene-surface.at-night .scene-view { filter: brightness(.45) saturate(.4) contrast(1.05); transition: filter 1.2s ease; }
+@media (prefers-reduced-motion: reduce) { .scene-surface .scene-view { transition: none; } }
+
+/* ---- An experiment, by the address (?view=cinematic; the owner, 12 November): the scene stripped to the painting,
+   the telling with no panel round it, and the few things to do each marked only by a rounded line at its left, in the
+   colour of what it is (neutral where it is nothing in particular). A soft shade over the painting's right keeps the
+   words readable on any painting. Nothing here changes the page as it is played; it is drawn this way only when
+   asked for. ---- */
+/* On a wide screen held level, the telling on the painting itself; on a phone the panel stays (the likenesses wrap
+   to a second row there, which the panel's ground keeps from showing through the words). */
+@media (min-width: 900px) and (orientation: landscape) {
+  :root.view-cinematic .shell.scene-full .world-page.scale-scene .world-body > .focus {
+    border: 0; background: none; backdrop-filter: none; box-shadow: none; }
+  :root.view-cinematic .shell.scene-full .world-page.scale-scene .world-body > .surface::after {
+    content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 2;
+    background: linear-gradient(270deg, rgba(8, 9, 12, .86) 0%, rgba(8, 9, 12, .62) 30%, rgba(8, 9, 12, 0) 58%); }
+  :root.view-cinematic .world-page.scale-scene .focus .told-col p,
+  :root.view-cinematic .world-page.scale-scene .focus .glance p { text-shadow: 0 1px 3px rgba(0, 0, 0, .85); }
+}
+:root.view-cinematic .world-page.scale-scene .glance .led { gap: 4px; }
+:root.view-cinematic .world-page.scale-scene .act.led-act { position: relative; background: none; border: 0;
+  box-shadow: none; padding-left: 20px; }
+:root.view-cinematic .world-page.scale-scene .act.led-act::before { display: none; }
+:root.view-cinematic .world-page.scale-scene .act.led-act .prism-bar { left: 2px; top: 9px; bottom: 9px; width: 4px;
+  border-radius: 4px; }
+:root.view-cinematic .world-page.scale-scene .act.led-act:not(:has(> .prism-bar))::after { content: '';
+  position: absolute; left: 2px; top: 9px; bottom: 9px; width: 4px; border-radius: 4px;
+  background: rgba(236, 230, 217, .28); }
+:root.view-cinematic .world-page.scale-scene .act.led-act:hover,
+:root.view-cinematic .world-page.scale-scene .act.led-act.sel { background: rgba(236, 230, 217, .06); }
+:root.view-cinematic .world-page.scale-scene .act.led-act .key { opacity: .45; border-color: transparent; }
+:root.view-cinematic .world-page.scale-scene .glance .openers { border-top: 0; }
+/* The cinematic view's lens strip (see Lenses): Go's ways or Look's things across the foot of the painting, where the
+   likenesses stand when the talk lens is on; each a small tile, its one pip of what it is. */
+.world-page .surface .lens-strip { position: absolute; left: 18px; bottom: 16px; z-index: 3; margin: 0; padding: 0;
+  list-style: none; display: flex; flex-wrap: wrap; gap: 8px; align-items: flex-end;
+  right: calc(min(31rem, 38vw) + clamp(14px, 2.4vw, 36px) + 24px); }
+.lens-tile { all: unset; box-sizing: border-box; position: relative; display: grid; justify-items: center; gap: 4px;
+  width: 78px; padding: 6px 4px 4px; border-radius: 8px; cursor: pointer; color: var(--ivory);
+  background: rgba(10, 11, 14, .55); backdrop-filter: blur(3px); }
+.lens-tile:hover, .lens-tile:focus-visible { background: rgba(236, 230, 217, .12); }
+.lens-tile.chosen { background: rgba(236, 230, 217, .18); }
+.lens-tile.dim { opacity: .5; }
+.lens-face { width: 52px; height: 52px; border-radius: 50%; overflow: hidden; display: grid; place-items: center;
+  border: 1px solid rgba(236, 230, 217, .35); background: rgba(14, 15, 19, .7); }
+.lens-face img { width: 100%; height: 100%; object-fit: cover; }
+.lens-face .lens-glyph { font: 400 22px/1 var(--do); color: var(--ivory); }
+.lens-face .emblem { width: 28px; height: 28px; fill: none; stroke: var(--ivory); stroke-width: 1.4; }
+.lens-tile > .pip { position: absolute; top: 6px; right: 12px; }
+.lens-name { font: 500 11.5px/1.2 var(--do); text-align: center; max-width: 100%; overflow: hidden;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; text-shadow: 0 1px 2px rgba(0, 0, 0, .8); }
+.opens-talk.pressed { background: rgba(236, 230, 217, .14); }

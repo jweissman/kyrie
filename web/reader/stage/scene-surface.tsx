@@ -15,8 +15,12 @@ import { PlaceStage } from './place-stage';
 export class SceneSurface {
   static View({ screen }: { screen: Screen }) {
     const view = Scenery.seen(screen);
+    // Out of doors, the painting goes the way of the day: dimmed at night, warmer and lower toward evening (every round
+    // since the ninth: sunny paintings under "night" and "evening" in the heading).
+    const out = !screen.place.underground && !screen.place.indoors, when = screen.expedition.daylight;
+    const hour = out && when === 'night' ? ' at-night' : out && when === 'evening' ? ' at-evening' : '';
     return (
-      <div className={`scene-surface painted${screen.dark ? ' unlit' : ''}${screen.place.underground ? ' under' : ''}`}
+      <div className={`scene-surface painted${screen.dark ? ' unlit' : ''}${screen.place.underground ? ' under' : ''}${hour}`}
         data-region="scene-surface">
         <div className={`scene-view${view ? '' : ' plain'}`}>{view && <PlaceStage.Country view={view} />}</div>
       </div>

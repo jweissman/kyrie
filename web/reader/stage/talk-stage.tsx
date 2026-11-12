@@ -62,6 +62,8 @@ export class TalkStage {
       ...TalkFocus.aimed(c, followed) ? ['undertaking' as const] : [],
       ...TalkFocus.pays(c, frame.screen.paying) ? ['payoff' as const] : []]);
 
+    // Numbered in the order they are drawn, the leave last, before anything is drawn (see TalkStage.n).
+    for (const c of [...focus.answers, ...focus.salient, ...focus.more, talk.leave]) { TalkStage.n(app, TalkStage.key(c)); }
     return (
       <div className="talk" id="page">
         <TalkStage.Sitter app={app} name={name!} role={role.join(' · ')}>
@@ -99,13 +101,24 @@ export class TalkStage {
             {/* Back from trading stands by the leave, always in view: at the foot of a long counter it had been
                 under the fade, half there (round 5). */}
             <p className="leave">{s.trading && <button type="button" className="option quiet" data-action="trade-back"
-              onClick={() => app.trade(false)}>Back</button>}<Act.View choice={talk.leave} draw={draw}>
-              <i>{(draw.index.get(talk.leave.id) ?? 0) + 1}</i>{talk.leave.label}</Act.View></p>
+              onClick={() => app.trade(false)}>Back</button>}<Act.View choice={talk.leave} draw={draw} number={TalkStage.n(app, TalkStage.key(talk.leave))}>
+              <i>{TalkStage.n(app, TalkStage.key(talk.leave))}</i>{talk.leave.label}</Act.View></p>
           </div>
         </div>
         <button type="button" className="close" data-action="back" aria-label="Take your leave" onClick={app.back}>×</button>
       </div>
     );
+  }
+  // What a reply is known by from one answer to the next: what it does, its id being its place in the list.
+  static key(c: Choice): string { return c.command ?? c.id; }
+  // A reply's number in this conversation: the one it was first shown with, or the next not yet given (see
+  // ReaderApp.numbered).
+  static n(app: ReaderApp, id: string): number {
+    const kept = app.numbered.get(id);
+    if (kept !== undefined) { return kept; }
+    const next = Math.max(0, ...app.numbered.values()) + 1;
+    app.numbered.set(id, next);
+    return next;
   }
   // An act as it was led with, but for the aim's gold, which is the aim's next step as it is now.
   static ungilded(a: Promoted): Promoted {
@@ -220,7 +233,8 @@ export class TalkStage {
       const versus = / · ((?:better|worse|as good) (?:than|as) your .+)$/.exec(w.buy.label)?.[1];
       // Beyond the purse, it is quieter and says nothing more: what the company has is said once, by the label.
       const dear = /^It costs \d+ coin, and you have \d+\.$/.test(w.buy.disabled ?? '');
-      return <Act.View choice={w.buy} draw={draw} className="ware" quiet={dear}><span className="n"><i>{(draw.index.get(w.buy.id) ?? 0) + 1}</i>
+      return <Act.View choice={w.buy} draw={draw} className="ware" quiet={dear} number={TalkStage.n(draw.app, TalkStage.key(w.buy))}>
+        <span className="n"><i>{TalkStage.n(draw.app, TalkStage.key(w.buy))}</i>
         {Typography.curl(Words.upper(w.name))}</span>{price}{versus && <span className="t">{versus}</span>}</Act.View>;
     }
     return <div className="ware several">{name}{price}{w.buy.children.map(k => <Act.View key={k.id} choice={k} draw={draw}
@@ -276,8 +290,8 @@ export class TalkStage {
       <li className={[asked ? 'asked' : fresh ? 'fresh' : '', aimed ? 'aimed' : '', pays ? 'pays' : '',
         bar ? 'marked' : ''].filter(Boolean).join(' ') || undefined} data-aspects={aspects?.join(' ') || undefined}>
         {/* What is said beside its number, wrapping beside it: on a phone a long one had gone under its number. */}
-        <Act.View choice={c} draw={draw}>{bar && <span className="prism-bar" role="img" aria-label={Pip.words(aspects!, gilded)}
-          style={{ '--prism': bar } as CSSProperties} />}<i>{(draw.index.get(c.id) ?? 0) + 1}</i><span className="said">
+        <Act.View choice={c} draw={draw} number={TalkStage.n(draw.app, TalkStage.key(c))}>{bar && <span className="prism-bar" role="img" aria-label={Pip.words(aspects!, gilded)}
+          style={{ '--prism': bar } as CSSProperties} />}<i>{TalkStage.n(draw.app, TalkStage.key(c))}</i><span className="said">
           {Typography.curl(c.label)}{c.note && <small> · {c.note}</small>}{asked && <small> · asked</small>}
           {pays && <small className="for-you"> · for you</small>}</span></Act.View>
         {c.children && draw.open.has(c.id) && <ol className="opened-list">{c.children.map(k => <TalkStage.Reply key={k.id}

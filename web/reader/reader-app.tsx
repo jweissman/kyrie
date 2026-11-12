@@ -86,6 +86,8 @@ export interface AppState {
   // What the place led with about whoever was turned to, as it was when they were turned to: turning to someone tells
   // the world they were talked to, and what there was to ask them is no longer led with after (see TalkStage.drawn).
   turned?: Promoted[];
+  // In the cinematic view (?view=cinematic), whether the likenesses of who is here are shown (the talk lens).
+  talking?: boolean;
   fight?: FightMark;
   // A choice that cannot be undone, chosen once: its cost is said, and it is done if chosen again.
   confirming?: string;
@@ -214,11 +216,16 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   };
   // Attention turned: to someone (saying so to them, when the world has a way to), to a thing, or back to the place
   // (taking leave, when there is leave to take).
+  // Each reply's number in the conversation under way, kept from the first time it is shown to its end, so that a
+  // number pressed is the reply it was beside when read (round 11, U: "2" pressed after an answer renumbered the
+  // list informed on Heian; R and T read the list again after each answer).
+  readonly numbered = new Map<string, number>();
   private attend(choice: Choice, attention: Attention) {
     // A conversation opens on what they were doing when the company came over.
     const doing = attention.kind === 'person' ? this.menu.scene?.subjects.find(x => x.id === attention.id)?.says?.[0] : undefined;
     const turned = attention.kind === 'place' ? []
       : (this.state.frame?.leaf.glance?.acts ?? []).filter(a => a.subject === attention.id);
+    this.numbered.clear();
     this.setState({ attention, open: [], cursor: 0, hovered: undefined, keyed: false, turned,
       talk: attention.kind !== 'person' ? this.state.talk : doing ? [{ kind: 'telling', text: doing }] : [], asked: [] });
     if (choice.command) { void this.perform(choice, choice.label, attention); }
