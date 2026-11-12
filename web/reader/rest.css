@@ -273,7 +273,7 @@
 .shell.scene-full .world-page.scale-scene .world-body > .focus { right: var(--safe-x); top: var(--safe-t);
   max-height: calc(100dvh - var(--safe-t) - var(--safe-y) - 64px); }
 .shell.scene-full .world-page.scale-scene .surface .portraits { left: var(--safe-x); bottom: var(--safe-y); }
-.scene-rail { position: absolute; z-index: 6; right: var(--safe-x, 28px); bottom: var(--safe-y, 24px); display: flex;
+.scene-rail { position: absolute; z-index: 6; right: var(--safe-x, 28px); bottom: calc(var(--safe-y, 24px) + 2px); display: flex;
   align-items: center; gap: 2px; padding: 4px 6px; border: 1px solid var(--edge); border-radius: 999px;
   background: rgba(12, 13, 17, .62); backdrop-filter: blur(6px); }
 /* Over the map, its name and its own controls inside the safe zone, and its panel clear above the rail. */
