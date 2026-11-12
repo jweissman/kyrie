@@ -430,8 +430,8 @@ carried in the register's §16 (R7-01 to R7-04).
   fact (E201, redigested: play comes where it came).
 - **06391bfc** (E194–E202): every job green but suites 2/6 and 4/6, where two specs read a learned ability by its id
   (E204, mended).
-- **bf68db96** (E203–E204, the last code push): running at this writing. Its outcome is in the reply that hands this
-  over. If it is not green, the failure is the first thing to look at.
+- **bf68db96** (E203–E204, the last code push): **every job green**: the six suite shards, both browser jobs, the player
+  contracts, the long descents, the reference hour through the page, lint and types.
 
 Every failure tonight was a spec or a trace lagging a deliberate change, not a game fault. Each was mended in the spec
 with the reason recorded. Two specs were loosened, both to the owner's 12 November ruling and no further:
