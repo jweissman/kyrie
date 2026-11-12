@@ -1,0 +1,148 @@
+place	subject	kind	name
+region__s1_green	region__w9_head	person	the castellan, who holds Thornhaven for the house of Ísenheald
+region__s1_green	players__gosse	person	Absalom Gosse, the actor-manager of Gosse's Company
+region__s1_taproom	region__s1_u_hobb	person	Dannel Hobb, a boy of ten with a white streak in his hair, kept indoors
+region__s1_taproom	factors__factor	person	Erevan, a factor of the Founders' Exchange, who buys old bronze
+region__s1_taproom	factors__hands	person	the factor's hands
+region__s1_shop	region__s1_merchant	person	Tuck, woodwright
+region__s2_green	region__s2_merchant	person	Lyle, smith, selling from the house door
+region__s2_green	circus__granfer	person	Granfer Tull, the oldest digger of the town
+region__s2_taproom	region__s2_traveller	person	Roscoe, charcoal-burner
+region__s3_green	circus__jos	person	Jos Haverhill, a cobbler of the town, and its wit
+region__s3_taproom	region__s3_traveller	person	Corrin, pedlar
+region__s3_shop	region__s3_merchant	person	Naillil, herb-wife
+region__s4_green	region__s4_innkeeper	person	Ander, who speaks for Crowmeet
+region__s4_green	region__s4_priest	person	Errich, keeper of the wayside shrine
+region__s4_green	region__s4_merchant	person	Garret, herb-wife, selling from the house door
+region__s4_green	region__s4_traveller	person	Osborn, minstrel
+region__s4_green	region__s4_r1	person	Merla, the tinker
+region__s4_skeps	region__s4_r2	person	Euphemia, the beekeeper
+region__s4_fields	region__s4_r3	person	Tansy, the cowherd, Euphemia's partner
+region__s4_fields	region__s4_r4	person	Cade, the cowherd
+region__s5_taproom	drover__hedger	person	the hedger, a hedger who drinks his supper at the inn
+region__s1_s3_way	tollKeepers__chief	person	Sergeant Mawr, who keeps the toll
+region__s1_s3_way	tollKeepers__keepers	person	the deserters
+region__w7	raidersFolk__watchers	person	the hobs on the gate
+region__w1_end	region__w1_dead	creature	the barrow-dead
+region__w1_right	region__w1_denned	creature	the ghoul
+region__w2_left	region__w2_denned	creature	the ghoul
+region__w2_end	region__w2_dead	creature	the barrow-dead
+region__w3_left	region__w3_denned	creature	the ghoul
+region__w3_end	region__w3_dead	creature	the barrow-dead
+region__w4_floor	region__w4_lookouts	person	the lookouts
+region__w5_floor	region__w5_lookouts	person	the lookouts
+region__w7_strong	region__w7_denned	creature	the blighted wolf
+region__w8_kings	region__w8_household	creature	the king's household
+region__w8_throne	region__w8_king	creature	the barrow-king
+region__w9_barrow_passage	region__w9_barrow_passage_dwellers	creature	the bats
+region__w9_barrow_passage	region__w9_barrow_passage_device	creature	a dark vessel
+region__w9_halls_gallery	region__w9_halls_gallery_dwellers	creature	the mummy
+region__w9_halls_kings_door	region__w9_halls_kings_door_dwellers	creature	the cruel hound
+region__w9_halls_kings_door	region__w9_halls_kings_door_dwellers_beside	creature	the snakes
+region__w9_halls_kings_door	region__w9_halls_kings_door_device	creature	a dark vessel
+region__w9_halls_embalmers	region__w9_halls_embalmers_dwellers	creature	the alpha great hound
+region__w9_halls_embalmers	region__w9_halls_embalmers_device	creature	a dark vessel
+region__w9_grave_heart	region__w9_keeper	creature	the king under the mound
+region__w9_grave_treasury	region__w9_grave_treasury_dwellers	creature	the cursed king's men
+region__w9_barrow_beyond	region__w9_barrow_newcomers	person	the grave-robbers
+region__s1_u_warren	region__s1_u_rats	creature	the rats under the corn-store
+region__s1_u_nest	region__s1_u_buck	creature	the old buck rat
+region__s1_u_ossuary	region__s1_u_dead	creature	the hungry dead of the ossuary
+region__s1_u_gallery	region__s1_u_spiders	creature	the spiders in the old workings
+region__s1_u_drain	region__s1_u_crawler	creature	a great centipede
+region__s1_u_charnel	region__s1_u_shamblers	creature	the dead in the charnel passage
+region__s1_u_face	region__s1_u_beetles	creature	the beetles in the spoil
+region__s1_u_vault	region__s1_u_keeper	creature	the keeper of the vault
+region__s1_ud_adit_adit	region__s1_ud_adit_adit_dwellers	person	the goblins
+region__s1_ud_adit_race_head	region__s1_ud_adit_race_head_dwellers	creature	the agile rats
+region__s1_ud_adit_vent	region__s1_ud_adit_vent_dwellers	person	the goblin chief
+region__s1_ud_adit_chute_top	region__s1_ud_adit_chute_top_dwellers	person	the goblin chief
+region__s1_ud_haulage_haulage2	region__s1_ud_haulage_haulage2_dwellers	creature	the swift beetles
+region__s1_ud_haulage_chute_foot	region__s1_ud_haulage_chute_foot_dwellers	creature	the slump
+region__s1_ud_haulage_chute_foot	region__s1_ud_haulage_chute_foot_device	creature	a blasting charge
+region__s1_ud_haulage_pump	region__s1_ud_haulage_pump_dwellers	creature	the majestic jewel elemental
+region__s1_ud_drowned_stair_foot	region__s1_ud_drowned_stair_foot_dwellers	creature	the phantasmal jewel elemental
+region__s1_ud_drowned_furnace	region__s1_ud_drowned_furnace_dwellers	creature	the noble beetles
+region__s1_ud_drowned_deep_cut	region__s1_ud_drowned_deep_cut_dwellers	creature	the curious hollow-stalker
+region__s1_ud_drowned_deep_cut	region__s1_ud_drowned_deep_cut_device	creature	a blasting charge
+region__s1_ud_drowned_strongroom	region__s1_ud_drowned_strongroom_dwellers	creature	the sovereign beetles
+region__s1_ud_breach_vault	region__s1_ud_breach_vault_dwellers	creature	the terrifying snakes
+region__s1_ud_breach_vault	region__s1_ud_breach_vault_dwellers_beside	creature	the rats
+region__s1_ud_breach_heart	region__s1_ud_keeper	creature	the thing in the vein
+region__s1_ud_haulage_beyond	region__s1_ud_haulage_newcomers	creature	the bone hounds, the Delvers' dogs, still on their watch
+region__s1_manor_kitchen	region__s1_manor_boy	person	Wimble, the kitchen boy, who went up to the dome and came back not knowing his name
+region__s1_manor_cellar	region__s1_manor_rats	creature	rats in the cellar
+region__s1_stones_under	region__s1_stones_warden	creature	the keeper of the bounds
+factors__cellar	factors__cell	person	the cellar-men, who keep the Exchange's lots
+factors__abroad	factors__lieutenant	person	a man in a good coat behind the chandler's back-table
+factors__abroad	factors__principal	person	a tall man in a black coat, who is not called anything
+factors__abroad	factors__bravos	person	the hired men, hired for the winter by the ring
+tower__ossuary	tower__hound	creature	the knitted hound
+tower__crypt	tower__risen	creature	the risen dead
+tower__crypt	tower__hound	creature	the knitted hound
+tower__cell	tower__maren	person	the drowned girl
+sink__nest	brood__brood	creature	the spider brood
+sink__nest	brood__mother	animal	the brood-mother
+circus__tober_a	circus__wapshott	person	Colonel Florian Wapshott, the proprietor of Wapshott's Grand Peregrine Circus
+circus__tober_a	circus__ada	person	Ada Thripp, the circus's book-keeper
+circus__tober_a	circus__mumchance	person	Mumchance, the circus's old clown
+circus__tober_a	circus__zephyrine	person	a woman in a silver wrap
+circus__tober_a	circus__hal	person	Hal Quincey, a tumbler, one of the Brothers Quincey
+circus__tober_a	circus__dunstan	person	Dunstan Quincey, a tumbler, one of the Brothers Quincey
+circus__tober_a	circus__fipps	person	Signor Cornelius Fipps, the circus's bandmaster
+circus__tober_a	circus__hench	person	Lucius Hench, the circus's wardrobe-master
+circus__tober_a	circus__lusk	person	Gideon Lusk, the circus's boss canvasman
+circus__tober_a	circus__billie	person	Billie Ostrander, the circus's horse-keeper
+circus__tober_a	circus__quirk	person	Sidney Quirk, the circus's advance agent and bill-poster
+circus__tober_a	circus__raiders	person	three men from Dunmere, tober-raiders with knives and cudgels
+circus__tober_a	circus__sallow	person	Madame Cordelia Sallow, the proprietress of Sallow's Imperial Hippodrome
+circus__tober_a	circus__slee	person	a man in a grey hat
+circus__tober_a	circus__bombazine	person	Captain Bombazine, the clown of Sallow's Imperial Hippodrome
+circus__tober_a	circus__tobias	person	Tobias Quarrendon, the Clerk of the Household of the Progress
+circus__tober_a	circus__crewe	person	Tobiah Crewe, mate of the brig Sundial, lately her master
+circus__tripe_lane_c	circus__pruett	person	Mrs Pruett, a tripe-dresser of the town
+circus__orchard_a	circus__tarrant	person	Goody Tarrant, the bee-wife of the orchards
+circus__carrier_c	circus__wiltshaw	person	Joby Wiltshaw, the carrier
+circus__keeper_lodge	circus__jabez	person	Jabez Orme, the hereditary Keeper of the King's Rest
+circus__harrow_camp	circus__harrow	person	Captain Dace Harrow, an animal-dealer, lately of the Imperial Hippodrome
+circus__harrow_camp	circus__harrow_men	person	Captain Harrow's men, four net-men in oilskins, off the Hippodrome
+circus__deck	circus__mudge	person	Mr Mudge, bosun of the Sundial
+arcology__landing	arcology__quill	person	Prior-Surveyor Quill, the prior-surveyor of the Collegium of the Measured Road
+arcology__landing	arcology__crew	person	Brannock's hands, a salvage foreman and four hands of Merrow and Son, brass-factors
+arcology__lodge	arcology__usher	creature	the Usher
+arcology__cage	arcology__salvager	person	Oswy
+arcology__foot	arcology__owlbear	creature	the owlbear
+arcology__hall	arcology__keepers	animal	the keepers
+arcology__bay	arcology__marshal	animal	the Marshal
+arcology__drowned	arcology__eels	creature	the eels
+howe__lookout	howe__watchers	person	the salvagers' watch, two of the Spade-Company, on the hill's knuckle
+howe__lee	howe__crew	person	the Spade-Company's hands
+howe__lee	howe__tam	person	Aldous, a young digger with a barrow
+howe__shaft_head	howe__sentry	person	the pit sentry, a salvager on the shaft winch
+howe__gallery	howe__household	creature	the household of the king
+howe__horses	howe__mounts	creature	the king's dead horses
+howe__bench	howe__riders	creature	the king's riders
+howe__throne	howe__king	creature	Aldwine Long-Sighted
+howe__throne	howe__sworn	creature	the king's sworn
+howe__behind	howe__last	animal	the last of the Barrow-Kin
+howe__sump	howe__drowned	creature	the drowned crew
+howe__well	howe__mouth	creature	the Mouth
+keep__gatehouse	keep__porter	person	Bartle, the porter
+keep__gatehouse	keep__gatewatch	person	the gate-watch
+keep__ward	keep__marshal	person	Simkin, the marshal, master-at-arms of the garrison
+keep__kennels	keep__houndsman	person	Hild the younger, the houndsman, who has the lord's dogs and hawks
+keep__walk	keep__sentries	person	the sentries
+keep__stables	keep__groom	person	Hawise, the groom
+keep__stables	keep__hands	person	Thole and the Hands, Sergeant Thole and two of the garrison's young hard men, the old lord's quiet watch
+keep__hall	keep__doorward	person	the door-ward, a man-at-arms in the castellan's colours, set at the foot of the solar stair
+keep__chapel	keep__chaplain	person	Hild, the chaplain, who is also the keep's physician
+keep__chancery	keep__clerk	person	Leofric the younger, the castellan's clerk, who keeps the keep's papers
+keep__guest	keep__bravos	person	the herald's men
+keep__drain	keep__drain_rats	creature	the drain's rats
+fellowship__hall_a	fellowship__head	person	Elfred, the head of the fellowship
+fellowship__hall_b	fellowship__recorder	person	Robin, the recorder of the fellowship
+fellowship__hall_c	fellowship__treasurer	person	Elfred the younger, the treasurer of the fellowship
+fellowship__hall_d	fellowship__keeper	person	Robin the younger, the keeper of the silent hall
+raidersHold__mouth	raidersFolk__watchers	person	the hobs on the gate
+raidersHold__cavern	raidersFolk__raiders	person	the raiding party
+raidersHold__ledge	raidersFolk__gaffer	person	the Gaffer, chief of the hobs

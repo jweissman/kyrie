@@ -1,0 +1,668 @@
+place	name	kind	how	painting	under	roofed
+inner_fire_threshold	the threshold of Fire		bound	scene-house-of-doors-fire-portal		
+inner_air_threshold	the threshold of Air		bound	scene-house-of-doors-air-portal		
+inner_earth_threshold	the threshold of Earth		bound	scene-house-of-doors-earth-portal		
+inner_water_threshold	the threshold of Water		bound	scene-house-of-doors-water-portal		
+inner_positive_threshold	the threshold of the Positive Plane		generic	arcadia		
+inner_negative_threshold	the threshold of the Negative Plane		generic	grove		
+outer_arcadia_threshold	the threshold of Arcadia		bound	scene-house-of-doors-arcadia-portal		
+outer_cthell_threshold	the threshold of Cthelll		bound	scene-house-of-doors-cthelll-portal		
+outer_gehenna_threshold	the threshold of Gehenna		bound	scene-house-of-doors-gehenna-portal		
+outer_hades_threshold	the threshold of Hades		bound	scene-house-of-doors-hades-portal		
+outer_limbo_threshold	the threshold of Limbo		bound	scene-house-of-doors-limbo-portal		
+outer_mechanus_threshold	the threshold of Mechanus		bound	scene-house-of-doors-mechanus-portal		
+outer_pandemonium_threshold	the threshold of Pandemonium		bound	scene-house-of-doors-pandemonium-portal		
+outer_ysgard_threshold	the threshold of Ysgard		bound	scene-house-of-doors-ysgard-portal		
+outer_zephyrus_threshold	the threshold of Zephyrus		bound	scene-house-of-doors-zephyrus-portal		
+outer_abyss_threshold	the threshold of the Abyss		bound	scene-house-of-doors-abyss-portal		
+outer_nirvana_threshold	the threshold of Nirvana		bound	scene-house-of-doors-nirvana-portal		
+outer_exalted_threshold	the foot of the Mount		bound	scene-house-of-doors-exaltation-portal		
+infinite_library_threshold	the threshold of the Library	library	bound	library		
+house_upper_threshold	the first gallery	passage	bound	scene-house-of-doors-outer		
+region__s1_green	the landing at Rainhaven	landing	kind	scene-landing		
+region__s1_taproom	the taproom of the Lucky Mask	taproom	kind	scene-inn-town		roofed
+region__s1_shrine	the shrine of Taranis	shrine	kind	scene-temple		
+region__s1_shop	Adrik's chandlery	chandlery	kind	scene-chandlery		
+region__s1_exotician	Hankin's house of curiosities	curios	kind	astrolabe		roofed
+region__s1_drill	the drill-yard behind the Lucky Mask	drill-yard	kind	scene-drill-yard		
+region__s1_houses	the houses of Rainhaven	home	kind	food		roofed
+region__s1_sheds	the boat-sheds	boat-sheds	kind	scene-boat-sheds		roofed
+region__s1_tryworks	the try-works		generic	idyll		
+region__s1_fields	the home fields	fields	kind	arcadia		
+region__s1_waterside	the waterside at Rainhaven	waterside	kind	scene-fishmonger		
+region__s1_lanes	the lanes behind Rainhaven	lanes	kind	scene-town-lanes		
+region__s2_green	the drying-frames at Foxfield	furs	kind	scene-fur-post		
+region__s2_taproom	Ruth's alehouse	taproom	kind	scene-inn-town		roofed
+region__s2_shrine	the shrine of Taranis	shrine	kind	chapel		
+region__s2_chandlery	Saer's chandlery	chandlery	kind	scene-tallowhouse		roofed
+region__s2_houses	the houses of Foxfield	home	kind	scene-rustic-home		roofed
+region__s2_yard	the wright's yard	woodwork	kind	scene-wood-wright		
+region__s2_fields	the home fields	fields	kind	arcadia		
+region__s2_waterside	the waterside at Foxfield	waterside	kind	scene-landing		
+region__s3_green	the old stones at Wannstede	stones	kind	trilith		
+region__s3_houses	the houses of Wannstede	home	kind	food		roofed
+region__s3_well	the makers' well	well	kind	scene-well		
+region__s3_well_foot	the foot of the makers' well	well	kind	scene-cistern	under	roofed
+region__s3_fields	the home fields of Wannstede	fields	kind	herd		
+region__s4_green	the camp at Levankhafar	green	kind	chapel		
+region__s4_houses	the houses of Levankhafar	home	kind	scene-rustic-home		roofed
+region__s4_quarry	the quarry	mine	kind	quarrier		
+region__s4_waterside	the waterside at Levankhafar	waterside	kind	scene-estuary		
+region__s5_green	the quarry-yard at Oldgreen	mine	kind	quarrier		
+region__s5_houses	the houses of Oldgreen	home	kind	food		roofed
+region__s5_face	the quarry face	mine	kind	scene-quarry-adit		
+region__s5_lanes	the lanes behind Oldgreen	lanes	kind	scene-town-lane		
+region__s1_s4_way	the road between Rainhaven and Levankhafar	road	kind	arcadia		
+region__s1_s2_way	the road between Rainhaven and Foxfield	road	kind	road		
+region__s2_s5_way	the road between Foxfield and Oldgreen	road	kind	arcadia		
+region__s5_s3_way	the road between Oldgreen and Wannstede	road	kind	arcadia		
+region__s3_s4_way	the road between Wannstede and Levankhafar	road	kind	arcadia		
+region__z1_edge	the foot of Tincrag by Oldgreen		generic	idyll		
+region__z1_edge_2	the crag		generic	trapper		
+region__z1_deep	the high pass		generic	trapper		
+region__z1_deep_2	the herders' summer huts	huts	kind	idyll		
+region__z1_heart	the sheepfold		generic	trapper		
+region__z1_lost	somewhere on Tincrag		generic	idyll		
+region__z2_edge	the foot of Windheath by Oldgreen		generic	trapper		
+region__z2_edge_2	the cairn	barrow	kind	scene-barrow-forecourt		
+region__z2_deep	the dewpond		generic	trapper		
+region__z2_heart	the peat cuttings	peat	kind	scene-peat-banks		
+region__z2_heart_2	the leaning stone		generic	trapper		
+region__z2_water	the ford of the Saltbrook	crossing	kind	bridge		
+region__z2_lost	somewhere on Windheath		generic	idyll		
+region__z3_edge	the foot of Lonemoor by Levankhafar		generic	trapper		
+region__z3_edge_2	the peat cuttings in Lonemoor	peat	kind	scene-peat-banks		
+region__z3_deep	the leaning stone in Lonemoor		generic	trapper		
+region__z3_heart	the dewpond in Lonemoor		generic	trapper		
+region__z3_water	the ford of the Swiftwater	crossing	kind	arcadia		
+region__z3_lost	somewhere on Lonemoor		generic	idyll		
+region__z4_edge	the foot of Bittermoor by Oldgreen		generic	trapper		
+region__z4_deep	the leaning stone in Bittermoor		generic	idyll		
+region__z4_heart	the shepherds' bothy	huts	kind	idyll		
+region__z4_heart_2	the peat cuttings in Bittermoor	peat	kind	scene-peat-banks		
+region__z4_water	the ford of the Swiftwater in Bittermoor	crossing	kind	bridge		
+region__z4_side1	the foot of Bittermoor by Levankhafar		generic	idyll		
+region__z4_lost	somewhere on Bittermoor		generic	idyll		
+region__z5_edge	the edge of Pinehurst by Levankhafar		generic	idyll		
+region__z5_water	the footbridge over the Swiftwater		generic	idyll		
+region__z5_lost	somewhere in Pinehurst		generic	trapper		
+region__z6_edge	the foot of Frostheath by Levankhafar		generic	idyll		
+region__z6_lost	somewhere on Frostheath		generic	idyll		
+region__edge_north	the march-stone of Mosscarr	stones	kind	trilith		
+region__edge_east	the shore of the Eastern Ocean	waterside	kind	scene-fishmonger		
+region__edge_south	the march-stone of Roseweald	stones	kind	trilith		
+region__edge_west	the march-stone of Ramkatzeh	stones	kind	trilith		
+region__gate_longman	the way into Merrowdale	road	kind	road		
+region__gate_thrume	the way into Thrume	road	kind	road		
+region__gate_strewnfield	the way into the Strewnfield	road	kind	arcadia		
+region__gate_corrow	the way into the Corrow	road	kind	arcadia		
+region__gate_ghessil	the way into the Ghessil Uplands	road	kind	road		
+region__gate_lowwater	the way into the Bowl of Ammerlin	road	kind	road		
+region__gate_tessary	the way into the Ossel delta	road	kind	arcadia		
+region__gate_wrayford	the way into the vale of the Wray	road	kind	arcadia		
+region__gate_calamy	the way into Calamy	road	kind	arcadia		
+region__gate_pentrice	the way into the vale of the Arle	road	kind	road		
+region__gate_pellam	the way into Pellam on the Lisk	road	kind	road		
+region__gate_hessel	the way into the Lim valley	road	kind	arcadia		
+region__gate_gaunt	the way into the Levels of Gaunt	road	kind	road		
+region__gate_skeel	the way into the Gannet Reach	road	kind	arcadia		
+region__gate_hume	the way into the Wold of Hume	road	kind	arcadia		
+region__gate_lull	the way into the Lull	road	kind	arcadia		
+region__gate_larum	the way into Larum and the Pass	road	kind	arcadia		
+region__gate_hollins	the way into the Hollins country	road	kind	arcadia		
+region__gate_sennet	the way into Sennet	road	kind	road		
+region__gate_quittance	the way into Quittance	road	kind	road		
+region__gate_ombra	the way into Ombra	road	kind	arcadia		
+region__gate_tolleth	the way into Tolleth and the Skerrow passage	road	kind	road		
+region__gate_tallow	the way into Tallow Edge	road	kind	road		
+region__gate_muster	the way into the Hesper Fells	road	kind	arcadia		
+region__gate_wrongboat	the way into the Aldwater	road	kind	arcadia		
+region__gate_skerrow	the way into Scarth Holm	road	kind	arcadia		
+region__gate_sallowfield	the way into the vale of the Brimble	road	kind	arcadia		
+region__w1	a smooth doorway in a crag on the roof of Tincrag	roof	kind	tower		
+region__w2	a smooth doorway in a crag high on Tincrag		generic	idyll		
+region__w3	a timbered adit north-west of Levankhafar	mine	kind	quarrier		
+region__w4	a timbered adit south of Levankhafar	mine	kind	quarrier		
+region__w5	a broken keep	fort	kind	scene-town-gate		
+region__w6	a toll-house by the water	toll-house	kind	arch		
+region__w7	a cliff cut into a face	mine	kind	quarrier		
+region__w8	a timbered adit in a hillside	mine	kind	scene-quarry-adit		
+region__e1	a long range of roofs behind a gate-arch	fort	kind	redoubt		
+region__w9	a lone tower	tower	kind	bolt		
+region__w10	a cave in the hillside south of Levankhafar	cave	kind	scene-cave-mouth		
+region__w11	a cave in the hillside in Pinehurst	cave	kind	scene-cave-mouth		
+region__w12	the fallen walls north-east of Wannstede	roof	kind	tower		
+region__w13	the fallen walls north-west of Oldgreen	roof	kind	redoubt		
+region__w14	a grassed mound	barrow	kind	scene-barrow-forecourt		
+region__w15	a walled keep on its rise	fort	kind	castle		
+region__elsewhere	somewhere else		generic	grove		
+region__w1_porch	the smooth porch	ruin	kind	rest		
+region__w1_hall	the round hall	hall	kind	narthex	under	roofed
+region__w1_inner	the silent hall	hall	kind	narthex	under	roofed
+region__w2_porch	the smooth porch	ruin	kind	ruin		
+region__w2_hall	the round hall	hall	kind	dissolution	under	roofed
+region__w2_inner	the silent hall	hall	kind	dissolution	under	roofed
+region__w3_adit	the adit gallery	mine	kind	scene-mine-tunnel	under	roofed
+region__w3_head	the lift-head	lift	kind	scene-ruins-elevator-station	under	roofed
+region__w3_fall	the fallen gallery	mine	kind	scene-mine-tunnel	under	roofed
+region__w3_foot	the foot of the shaft	mine	kind	scene-mine-tunnel	under	roofed
+region__w3_dressing	the dressing-hall	mine	kind	scene-mine-tunnel	under	roofed
+region__w3_door_room	the end of the last gallery	mine	kind	scene-mine-tunnel	under	roofed
+region__w3_vein	the pale vein	mine	kind	scene-mine-shaft	under	roofed
+region__w3_beyond	the dark behind the iron door	mine	kind	scene-mine-gallery	under	roofed
+region__w4_adit	the adit gallery	mine	kind	scene-mine-shaft	under	roofed
+region__w4_head	the lift-head	lift	kind	scene-ruins-elevator-station	under	roofed
+region__w4_fall	the fallen gallery	mine	kind	scene-mine-gallery	under	roofed
+region__w4_foot	the foot of the shaft	mine	kind	scene-mine-shaft	under	roofed
+region__w4_dressing	the dressing-hall	mine	kind	scene-mine-shaft	under	roofed
+region__w4_door_room	the end of the last gallery	mine	kind	scene-mine-shaft	under	roofed
+region__w4_vein	the pale vein	mine	kind	scene-mine-gallery	under	roofed
+region__w4_beyond	the dark behind the iron door	mine	kind	scene-mine-tunnel	under	roofed
+region__w5_gate	the gate-passage	fort	kind	scene-keep-gatehouse		roofed
+region__w5_bailey	the bailey	bailey	kind	scene-keep-bailey		
+region__w5_hall	the great hall	hall	kind	narthex		roofed
+region__w5_solar	the lord's chamber	hall	kind	narthex		roofed
+region__w5_walk	the wall-walk	roof	kind	tower		
+region__w5_cellar	the undercroft	undercroft	kind	scene-undercroft-dark	under	roofed
+region__w6_hall	the toll-hall	hall	kind	dissolution		roofed
+region__w6_counting	the counting-room	counting-room	kind	scene-counting-room		roofed
+region__w6_strong	the strongroom	riches	kind	scene-mint-house		roofed
+region__w6_store	the warehouse	warehouse	kind	scene-warehouse		roofed
+region__w6_quay	the water-stair	stair	kind	scene-town-stairs-to-darkness		
+region__w6_cellar	the bonded cellar	cellar	kind	scene-cellar	under	roofed
+region__w7_throat	the throat	passage	kind	perdition	under	roofed
+region__w7_masks	the hall of masks	hall	kind	narthex	under	roofed
+region__w7_choir	the choir	hall	kind	narthex	under	roofed
+region__w7_unfinished	the unfinished hall	hall	kind	narthex	under	roofed
+region__w7_heart	the heart of the hill		generic	perdition	under	roofed
+region__w8_adit_mouth	the adit mouth	mine	kind	scene-mine-gallery	under	roofed
+region__w8_adit_adit	the adit	mine	kind	scene-mine-gallery	under	roofed
+region__w8_adit_crossing	the crossing	crossing	generic	scene-mine-shaft	under	roofed
+region__w8_adit_stope	the old stope	mine	kind	scene-mine-tunnel	under	roofed
+region__w8_adit_shaft_head	the shaft head	mine	kind	scene-mine-gallery	under	roofed
+region__w8_adit_winze_head	the head of the winze	winze	kind	scene-mine-winze	under	roofed
+region__w8_adit_race_head	the spring	mine	kind	scene-mine-tunnel	under	roofed
+region__w8_adit_forge	the smithy	forge	kind	scene-ironmongery	under	roofed
+region__w8_adit_vent	the air shaft	mine	kind	scene-mine-gallery	under	roofed
+region__w8_adit_chute_top	the ore pass	ore	kind	scene-mine-ore-pass	under	roofed
+region__w8_haulage_shaft_bottom	the shaft bottom	mine	kind	scene-mine-gallery	under	roofed
+region__w8_haulage_haulage	the haulage way	road	generic	scene-mine-gallery	under	roofed
+region__w8_haulage_hall	the Delvers' hall	mine	kind	scene-mine-gallery	under	roofed
+region__w8_haulage_haulage2	the long haulage	mine	kind	scene-mine-shaft	under	roofed
+region__w8_haulage_seal	the sealed stair	stair	kind	meditation	under	roofed
+region__w8_haulage_chute_foot	the ore bin	ore	kind	scene-mine-ore-pass	under	roofed
+region__w8_haulage_stores	the stores	mine	kind	scene-mine-tunnel	under	roofed
+region__w8_haulage_pump	the pump-room	pump	kind	scene-mine-pump-room	under	roofed
+region__w8_haulage_winze_foot	the foot of the winze	winze	kind	scene-mine-winze	under	roofed
+region__w8_drowned_stair_foot	the foot of the stair	stair	kind	meditation	under	roofed
+region__w8_drowned_sump_gallery	the sump gallery	sump	kind	scene-mine-sump	under	roofed
+region__w8_drowned_furnace	the furnace hall	furnace	kind	scene-mine-furnace-hall	under	roofed
+region__w8_drowned_deep_cut	the deep cut	mine	kind	scene-mine-shaft	under	roofed
+region__w8_drowned_strongroom	the paymaster's strongroom	riches	kind	cup	under	roofed
+region__w8_drowned_lode	the last face	face	kind	scene-mine-face	under	roofed
+region__w8_breach_breach	the breach	mine	kind	scene-mine-gallery	under	roofed
+region__w8_breach_vault	the hollow vault	vault	kind	scene-ossuary	under	roofed
+region__w8_breach_heart	the heart of the vein	mine	kind	scene-mine-shaft	under	roofed
+region__w8_breach_rift	the rift	mine	kind	scene-mine-gallery	under	roofed
+region__w8_adit_beyond	the workings beyond	mine	kind	scene-mine-tunnel		roofed
+region__w8_haulage_beyond	the workings beyond	mine	kind	scene-mine-tunnel		roofed
+region__w8_drowned_beyond	the workings beyond	mine	kind	scene-mine-tunnel		roofed
+region__w8_breach_beyond	the workings beyond	mine	kind	scene-mine-tunnel		roofed
+region__w8_rivals_packs	where they keep their packs	fort	kind	scene-keep-gatehouse		roofed
+region__e1_gate	the carriage-arch	ruin	kind	scene-ruins		roofed
+region__e1_yard	the yard		generic	arch		
+region__e1_stable	the long stable	stable	kind	scene-town-stable		roofed
+region__e1_granary	the granary	granary	kind	scene-granary-interior		roofed
+region__e1_hall	the posting-hall	posting-hall	kind	scene-great-hall		roofed
+region__e1_office	the stationmaster's office	counting-room	kind	scene-counting-room		roofed
+region__e1_strong	the fisc-room	strongroom	kind	scene-vault-sealed	under	roofed
+region__e1_shrine	the way-shrine	shrine	kind	scene-woodland-shrine		roofed
+region__e1_baths	the bath-house	baths	kind	scene-sudatorium		roofed
+region__e1_stoke	the stokehold	pump	kind	scene-mine-pump-room	under	roofed
+region__e1_cistern	the cistern	cistern	kind	scene-waterworks	under	roofed
+region__e1_roof	the signal-roof	roof	kind	tower		
+region__t20	open fields west of Rainhaven	fields	kind	arcadia		
+region__t21	open fields north-west of Rainhaven	fields	kind	arcadia		
+region__t22	open fields north-west of Rainhaven	fields	kind	herd		
+region__t40	open fields west of Rainhaven	fields	kind	herd		
+region__t41	open fields west of Rainhaven	fields	kind	arcadia		
+region__t42	open fields west of Rainhaven	fields	kind	herd		
+region__t43	the country about Rainhaven		generic	trapper		
+region__t44	woodland east of Rainhaven		generic	trapper		
+region__t45	woodland east of Rainhaven		generic	idyll		
+region__t47	open fields north-west of Foxfield	fields	kind	herd		
+region__t51	open fields north-east of Foxfield	fields	kind	arcadia		
+region__t52	open fields east of Foxfield	fields	kind	herd		
+region__t57	open fields north of Wannstede	fields	kind	herd		
+region__t60	the heath of Frostheath		generic	trapper		
+region__t61	the heath of Frostheath		generic	trapper		
+region__t62	open fields south-west of Rainhaven	fields	kind	arcadia		
+region__t63	open fields south of Rainhaven	fields	kind	arcadia		
+region__t64	woodland south-east of Rainhaven		generic	idyll		
+region__t65	open fields south-east of Rainhaven	fields	kind	herd		
+region__t66	open fields west of Foxfield	fields	kind	herd		
+region__t67	open fields west of Foxfield	fields	kind	arcadia		
+region__t68	open fields west of Foxfield	fields	kind	arcadia		
+region__t69	the country about Foxfield		generic	trapper		
+region__t70	woodland east of Foxfield		generic	idyll		
+region__t71	open fields east of Foxfield	fields	kind	arcadia		
+region__t72	open fields east of Foxfield	fields	kind	arcadia		
+region__t73	wet ground east of Foxfield		generic	trapper		
+region__t74	wet ground north-west of Wannstede		generic	trapper		
+region__t75	wet ground north of Wannstede		generic	idyll		
+region__t76	open fields north of Wannstede	fields	kind	arcadia		
+region__t77	open fields north of Wannstede	fields	kind	herd		
+region__t78	wet ground north-east of Wannstede		generic	trapper		
+region__t79	woodland north-east of Wannstede		generic	idyll		
+region__t80	the fellside north-west of Levankhafar		generic	idyll		
+region__t81	the heath of Frostheath		generic	trapper		
+region__t82	the heath of Frostheath		generic	trapper		
+region__t83	open fields south of Rainhaven	fields	kind	arcadia		
+region__t84	woodland south-east of Rainhaven		generic	trapper		
+region__t85	open fields south-east of Rainhaven	fields	kind	herd		
+region__t86	open fields west of Foxfield	fields	kind	arcadia		
+region__t87	open fields south-west of Foxfield	fields	kind	arcadia		
+region__t88	open fields south-west of Foxfield	fields	kind	herd		
+region__t89	woodland south of Foxfield		generic	trapper		
+region__t90	woodland south-east of Foxfield		generic	trapper		
+region__t91	open fields south-east of Foxfield	fields	kind	herd		
+region__t92	open fields east of Foxfield	fields	kind	arcadia		
+region__t93	woodland north of Oldgreen		generic	idyll		
+region__t94	wet ground north-west of Wannstede		generic	idyll		
+region__t95	wet ground north-west of Wannstede		generic	trapper		
+region__t96	open fields north of Wannstede	fields	kind	herd		
+region__t97	open fields north-east of Wannstede	fields	kind	arcadia		
+region__t98	woodland north-east of Wannstede		generic	idyll		
+region__t99	woodland north-east of Wannstede		generic	trapper		
+region__t100	the fellside north-west of Levankhafar		generic	idyll		
+region__t101	the fellside north-west of Levankhafar		generic	trapper		
+region__t102	the heath of Frostheath		generic	trapper		
+region__t103	open fields north-east of Levankhafar	fields	kind	arcadia		
+region__t104	the heath of Bittermoor		generic	idyll		
+region__t105	the heath of Bittermoor		generic	idyll		
+region__t106	the heath of Bittermoor		generic	trapper		
+region__t107	open fields south-west of Foxfield	fields	kind	herd		
+region__t108	open fields south-west of Foxfield	fields	kind	herd		
+region__t109	woodland south of Foxfield		generic	idyll		
+region__t110	woodland south-east of Foxfield		generic	idyll		
+region__t111	open fields south-east of Foxfield	fields	kind	herd		
+region__t112	open fields north-west of Oldgreen	fields	kind	herd		
+region__t113	woodland north of Oldgreen		generic	idyll		
+region__t114	woodland north-west of Wannstede		generic	idyll		
+region__t115	woodland north-west of Wannstede		generic	trapper		
+region__t116	open fields north of Wannstede	fields	kind	arcadia		
+region__t117	open fields north-east of Wannstede	fields	kind	arcadia		
+region__t118	wet ground north-east of Wannstede		generic	trapper		
+region__t119	woodland east of Wannstede		generic	trapper		
+region__t120	open heath west of Levankhafar		generic	trapper		
+region__t121	open heath west of Levankhafar		generic	trapper		
+region__t122	the country about Levankhafar		generic	idyll		
+region__t123	woodland east of Levankhafar		generic	idyll		
+region__t124	woodland east of Levankhafar		generic	trapper		
+region__t125	the heath of Bittermoor		generic	idyll		
+region__t126	the heath of Bittermoor		generic	idyll		
+region__t127	the heath of Bittermoor		generic	idyll		
+region__t128	the heath of Bittermoor		generic	trapper		
+region__t129	the heath of Bittermoor		generic	idyll		
+region__t130	the heath of Bittermoor		generic	idyll		
+region__t131	the heath of Bittermoor		generic	trapper		
+region__t132	the heath of Bittermoor		generic	trapper		
+region__t133	open fields north of Oldgreen	fields	kind	arcadia		
+region__t134	open fields north-east of Oldgreen	fields	kind	arcadia		
+region__t135	open fields west of Wannstede	fields	kind	herd		
+region__t136	the country about Wannstede		generic	trapper		
+region__t143	woodland south-east of Levankhafar		generic	trapper		
+region__t144	woodland south-east of Levankhafar		generic	trapper		
+region__t145	the heath of Bittermoor		generic	idyll		
+region__t146	the fells of Tincrag		generic	idyll		
+region__t147	the heath of Bittermoor		generic	trapper		
+region__t148	the heath of Bittermoor		generic	idyll		
+region__t149	the heath of Bittermoor		generic	idyll		
+region__t150	the heath of Bittermoor		generic	trapper		
+region__t151	woodland west of Oldgreen		generic	idyll		
+region__t152	woodland west of Oldgreen		generic	idyll		
+region__t153	the country about Oldgreen		generic	trapper		
+region__t154	open fields east of Oldgreen	fields	kind	herd		
+region__t155	open fields south-west of Wannstede	fields	kind	herd		
+region__t156	open fields south of Wannstede	fields	kind	arcadia		
+region__t157	open fields south-east of Wannstede	fields	kind	herd		
+region__t163	woodland south-east of Levankhafar		generic	trapper		
+region__t164	the heath of Bittermoor		generic	idyll		
+region__t165	the heath of Bittermoor		generic	idyll		
+region__t166	the fells of Tincrag		generic	idyll		
+region__t167	the fells of Tincrag		generic	trapper		
+region__t168	the fells of Tincrag		generic	idyll		
+region__t169	the heath of Bittermoor		generic	trapper		
+region__t170	the heath of Bittermoor		generic	trapper		
+region__t171	the heath of Bittermoor		generic	idyll		
+region__t172	woodland south-west of Oldgreen		generic	idyll		
+region__t173	the heath of Windheath		generic	idyll		
+region__t174	the heath of Windheath		generic	trapper		
+region__t175	the heath of Windheath		generic	trapper		
+region__t176	open fields south of Wannstede	fields	kind	arcadia		
+region__t177	open fields south-east of Wannstede	fields	kind	arcadia		
+region__t178	open fields south-east of Wannstede	fields	kind	arcadia		
+region__t179	open fields south-east of Wannstede	fields	kind	arcadia		
+region__t181	open fields south of Levankhafar	fields	kind	herd		
+region__t182	open fields south of Levankhafar	fields	kind	arcadia		
+region__t183	the heath of Lonemoor		generic	idyll		
+region__t184	the woods of Pinehurst		generic	idyll		
+region__t185	the woods of Pinehurst		generic	trapper		
+region__t186	the heath of Lonemoor		generic	trapper		
+region__t187	the heath of Lonemoor		generic	idyll		
+region__t188	the fells of Tincrag		generic	trapper		
+region__t189	the fells of Tincrag		generic	idyll		
+region__t190	the fells of Tincrag		generic	idyll		
+region__t191	the fells of Tincrag		generic	trapper		
+region__t192	the fells of Tincrag		generic	idyll		
+region__t193	the heath of Windheath		generic	idyll		
+region__t194	the heath of Windheath		generic	trapper		
+region__t195	the heath of Windheath		generic	trapper		
+region__t196	open fields south of Wannstede	fields	kind	arcadia		
+region__t197	the heath of Windheath		generic	idyll		
+region__t198	open fields south-east of Wannstede	fields	kind	arcadia		
+region__t199	open fields south-east of Wannstede	fields	kind	arcadia		
+region__t200	the heath of Lonemoor		generic	trapper		
+region__t201	the heath of Lonemoor		generic	trapper		
+region__t202	the heath of Lonemoor		generic	idyll		
+region__t203	the heath of Lonemoor		generic	trapper		
+region__t204	the woods of Pinehurst		generic	trapper		
+region__t205	the woods of Pinehurst		generic	idyll		
+region__t206	the woods of Pinehurst		generic	idyll		
+region__t207	the heath of Lonemoor		generic	trapper		
+region__t208	the heath of Lonemoor		generic	idyll		
+region__t209	the fells of Tincrag		generic	trapper		
+region__t210	the fells of Tincrag		generic	idyll		
+region__t211	the fells of Tincrag		generic	trapper		
+region__t212	the fells of Tincrag		generic	trapper		
+region__t213	the fells of Tincrag		generic	idyll		
+region__t214	the heath of Windheath		generic	idyll		
+region__t215	the heath of Windheath		generic	idyll		
+region__t216	the heath of Windheath		generic	trapper		
+region__t217	the heath of Windheath		generic	idyll		
+region__t218	the heath of Windheath		generic	trapper		
+region__t220	the heath of Lonemoor		generic	trapper		
+region__t221	the heath of Lonemoor		generic	trapper		
+region__t222	the heath of Lonemoor		generic	idyll		
+region__t223	the heath of Lonemoor		generic	idyll		
+region__t224	the heath of Lonemoor		generic	trapper		
+region__t225	the woods of Pinehurst		generic	idyll		
+region__t226	the heath of Lonemoor		generic	idyll		
+region__t227	the heath of Lonemoor		generic	idyll		
+region__t228	the fells of Tincrag		generic	trapper		
+region__t229	the fells of Tincrag		generic	idyll		
+region__t230	the fells of Tincrag		generic	idyll		
+region__t231	the heights of Tincrag		generic	trapper		
+region__t232	the fells of Tincrag		generic	trapper		
+region__t233	the fells of Tincrag		generic	idyll		
+region__t234	the heath of Windheath		generic	idyll		
+region__t235	the heath of Windheath		generic	trapper		
+region__t236	the heath of Windheath		generic	trapper		
+region__t237	the heath of Windheath		generic	idyll		
+region__t238	the heath of Windheath		generic	idyll		
+region__t239	the heath of Windheath		generic	idyll		
+region__t240	the heath of Lonemoor		generic	idyll		
+region__t241	the heath of Lonemoor		generic	idyll		
+region__t242	the heath of Lonemoor		generic	trapper		
+region__t243	the heath of Lonemoor		generic	trapper		
+region__t244	the heath of Lonemoor		generic	trapper		
+region__t245	the heath of Lonemoor		generic	idyll		
+region__t246	the heath of Lonemoor		generic	trapper		
+region__t247	the fells of Tincrag		generic	trapper		
+region__t248	the heights of Tincrag		generic	idyll		
+region__t249	the heights of Tincrag		generic	trapper		
+region__t250	the heights of Tincrag		generic	idyll		
+region__t251	the heights of Tincrag		generic	trapper		
+region__t252	the heights of Tincrag		generic	idyll		
+region__t253	the fells of Tincrag		generic	idyll		
+region__t254	the heath of Windheath		generic	trapper		
+region__t257	the heath of Windheath		generic	idyll		
+region__t258	the heath of Windheath		generic	idyll		
+region__t259	the heath of Windheath		generic	idyll		
+region__t260	the fellside		generic	idyll		
+region__t261	the fellside		generic	idyll		
+region__t262	the fellside		generic	trapper		
+region__t263	the heath of Lonemoor		generic	trapper		
+region__t264	the heath of Lonemoor		generic	idyll		
+region__t265	the fells of Tincrag		generic	idyll		
+region__t266	the fells of Tincrag		generic	idyll		
+region__t267	the fells of Tincrag		generic	trapper		
+region__t268	the fells of Tincrag		generic	trapper		
+region__t269	the heights of Tincrag		generic	idyll		
+region__t270	the heights of Tincrag		generic	trapper		
+region__t271	the heights of Tincrag		generic	idyll		
+region__t272	the fells of Tincrag		generic	idyll		
+region__t273	the fells of Tincrag		generic	trapper		
+region__t274	the heath of Windheath		generic	trapper		
+region__t279	the heath of Windheath		generic	trapper		
+region__s1_general	Roger Bywater's general store	larder	kind	scene-larder		roofed
+region__s1_u_store	the old corn-store	granary	kind	scene-granary-interior		roofed
+region__s1_u_yard	the churchyard	churchyard	kind	scene-churchyard		
+region__s1_u_pit	the old quarry pit	mine	kind	scene-quarry-adit		
+region__s1_u_cellar	the corn-store cellar	cellar	kind	scene-grain-cellar	under	roofed
+region__s1_u_warren	the rat-runs	vermin	kind	scene-burrow	under	roofed
+region__s1_u_nest	the nest	vermin	kind	scene-burrow	under	roofed
+region__s1_u_crypt	the crypt	grave	kind	perdition	under	roofed
+region__s1_u_ossuary	the ossuary	grave	kind	scene-crypt	under	roofed
+region__s1_u_adit	the quarry adit	mine	kind	scene-mine-shaft	under	roofed
+region__s1_u_gallery	the cut gallery	mine	kind	scene-mine-tunnel	under	roofed
+region__s1_u_brood	the brood-chamber	brood	kind	scene-spider-chamber	under	roofed
+region__s1_u_drain	the old drain	drain	kind	scene-sewer-drain	under	roofed
+region__s1_u_undercroft	the undercroft	undercroft	kind	scene-undercroft-dark	under	roofed
+region__s1_u_charnel	the charnel passage	passage	kind	scene-underground-passage	under	roofed
+region__s1_u_face	the old working face	face	kind	scene-mine-face	under	roofed
+region__s1_u_vault	the sealed vault	vault	kind	scene-vault-sealed	under	roofed
+region__s1_ud	the stair below the vault	stair	kind	meditation	under	roofed
+region__s1_ud_barrow_mouth	the forecourt	barrow	kind	scene-barrow-forecourt	under	roofed
+region__s1_ud_barrow_passage	the long passage	barrow	kind	scene-barrow-passage	under	roofed
+region__s1_ud_barrow_chamber	the cross-chamber	barrow	kind	scene-barrow-chamber	under	roofed
+region__s1_ud_barrow_back_stone	the back-stone	barrow	kind	scene-barrow-chamber	under	roofed
+region__s1_ud_barrow_recess	a side recess	barrow	kind	scene-barrow-recess	under	roofed
+region__s1_ud_barrow_recess2	the north recess	barrow	kind	scene-barrow-recess	under	roofed
+region__s1_ud_barrow_vent	the light-box	barrow	kind	scene-barrow-passage	under	roofed
+region__s1_ud_halls_stair_foot	the foot of the stair	stair	kind	meditation	under	roofed
+region__s1_ud_halls_bone_hall	the hall of the bones	grave	kind	scene-crypt	under	roofed
+region__s1_ud_halls_gallery	the long gallery	grave	kind	scene-barrow-interior	under	roofed
+region__s1_ud_halls_kings_door	the king's door	grave	kind	scene-ossuary	under	roofed
+region__s1_ud_halls_mourners	the mourners' hall	grave	kind	scene-barrow-interior	under	roofed
+region__s1_ud_halls_ossuary	the ossuary	grave	kind	scene-barrow-interior	under	roofed
+region__s1_ud_halls_embalmers	the embalmers' room	grave	kind	perdition	under	roofed
+region__s1_ud_grave_antechamber	the antechamber	grave	kind	scene-crypt	under	roofed
+region__s1_ud_grave_heart	the king's hall	grave	kind	scene-barrow-interior	under	roofed
+region__s1_ud_grave_deep_grave	the deep grave	grave	kind	perdition	under	roofed
+region__s1_ud_grave_treasury	the king's treasury	riches	kind	cup	under	roofed
+region__s1_ud_barrow_beyond	the workings beyond	mine	kind	scene-mine-tunnel		roofed
+region__s1_ud_halls_beyond	the workings beyond	mine	kind	scene-mine-tunnel		roofed
+region__s1_ud_grave_beyond	the workings beyond	mine	kind	scene-mine-tunnel		roofed
+region__s1_scriv	the scrivener's	study	kind	scene-scriveners		roofed
+region__s1_scriv_back	the room behind the scrivener's curtain	study	kind	scene-scriveners		roofed
+region__s1_manor_front	the forecourt of Rainhaven Hall	manor	kind	scene-manor		
+region__s1_manor_hall	the great hall	manor	kind	scene-great-hall		roofed
+region__s1_manor_loggia	the loggia	manor	kind	scene-portico		roofed
+region__s1_manor_library	the library	manor	kind	scene-library		roofed
+region__s1_manor_garden	the walled garden	manor	kind	scene-garden		
+region__s1_stones_top	the hill-path to the old stones	stones	kind	scene-ruins-hill		
+region__s1_stones_hall	the judgement hall	stones	kind	scene-ruins-tribunal		
+region__s1_stones_dome	the dome	stones	kind	scene-ruins-cenotaph		roofed
+region__s1_stones_tree	the old tree	stones	kind	scene-ancient-tree		
+region__s1_manor_kitchen	the Hall kitchen	kitchen	kind	scene-kitchen		roofed
+region__s1_manor_cellar	the Hall cellar	cellar	kind	scene-grain-cellar	under	roofed
+region__s1_manor_muniments	the muniment room	manor	kind	scene-library		roofed
+region__s1_stones_under	the undercroft below the dome	undercroft	kind	scene-undercroft-dark	under	roofed
+factors__south_road	The south road, past the Exchange's yard	road	kind	arcadia		
+factors__gone	gone		generic	indolence		
+factors__counting_room	The counting-room over the taproom	counting-room	kind	scene-counting-room		
+factors__cellar	The Exchange's cellar	cellar	kind	scene-grain-cellar		
+factors__abroad	Abroad		generic	grove		
+players__kiln	the old lime-kiln on the common	oast	kind	scene-oast-house		
+tower__chapel	the garrison chapel	shrine	kind	scene-woodland-shrine		roofed
+tower__bailey	the bailey	bailey	kind	scene-keep-bailey		roofed
+tower__stable	the old stable	stable	kind	scene-town-stable		roofed
+tower__hall	the tower hall	tower	kind	meditation		roofed
+tower__library	the library	library	kind	library		roofed
+tower__study	the study at the top	study	kind	scene-scriveners		roofed
+tower__roof	the tower roof	roof	kind	redoubt		roofed
+tower__ossuary	the bone store	grave	kind	perdition		roofed
+tower__crypt	the crypt under the tower	grave	kind	scene-ossuary		roofed
+tower__cell	the sealed cell	cell	kind	scene-cell		roofed
+tower__strongroom	the garrison strongroom	riches	kind	silver		roofed
+tower__cistern	the drowned cellar	cellar	kind	scene-grain-cellar		roofed
+den__gone	Nowhere		generic	indolence		
+den2__gone	Nowhere		generic	indolence		
+circus__tober_a	Wapshott's ground	fair	kind	scene-carnival		
+circus__ring_a	the big top		generic	scene-indoors-plain		roofed
+circus__yard_a	the backyard of the circus	fair	kind	scene-carnival		
+circus__wagons_a	the ring of living-wagons		generic	idyll		
+circus__beasts_a	the menagerie tent	menagerie	kind	scene-menagerie		roofed
+circus__tober_b	Wapshott's ground	fair	kind	scene-carnival		
+circus__ring_b	the big top		generic	scene-indoors-plain		roofed
+circus__yard_b	the backyard of the circus	fair	kind	scene-carnival		
+circus__wagons_b	the ring of living-wagons		generic	trapper		
+circus__beasts_b	the menagerie tent	menagerie	kind	scene-menagerie		roofed
+circus__tober_c	Wapshott's ground	fair	kind	scene-carnival		
+circus__ring_c	the big top		generic	scene-indoors-plain		roofed
+circus__yard_c	the backyard of the circus	fair	kind	scene-carnival		
+circus__wagons_c	the ring of living-wagons		generic	trapper		
+circus__beasts_c	the menagerie tent	menagerie	kind	scene-menagerie		roofed
+circus__tripe_lane_c	the lane behind the green	lanes	kind	scene-town-lane		
+circus__aske_cottage_b	Mrs Aske's cottage	home	kind	scene-rustic-home		roofed
+circus__meadow_c	the water-meadows below the town	fields	kind	herd		
+circus__mill_b	the old fulling-mill	fullery	kind	scene-fullery		
+circus__orchard_a	the bee orchards behind the town	fields	kind	herd		
+circus__carrier_c	the carrier's yard		generic	idyll		
+circus__sallow_ground	Sallow's Imperial Hippodrome		generic	idyll		
+circus__rest_gate	the gatehouse of the King's Rest	fort	kind	castle		
+circus__gate_tower	the top of the gatehouse tower	fort	kind	redoubt		
+circus__beast_yard	the Beast Yard		generic	idyll		
+circus__warm_house	the Warm-House	home	kind	food		roofed
+circus__revels_hall	the Revels Hall	hall	kind	dissolution		
+circus__keeper_lodge	the Keeper's Lodge	home	kind	scene-rustic-home		roofed
+circus__rest_chapel	the chapel of the Rest	shrine	kind	scene-adyton		roofed
+circus__tober_r	the Long Court of the King's Rest	fair	kind	scene-carnival		
+circus__ring_r	the big top		generic	scene-indoors-plain		roofed
+circus__yard_r	the backyard of the circus	fair	kind	scene-carnival		
+circus__wagons_r	the ring of living-wagons		generic	idyll		
+circus__beasts_r	the menagerie tent	menagerie	kind	scene-menagerie		roofed
+circus__marl_lip	the lip of the marl-pit		generic	idyll		
+circus__pit_water	the flooded bottom of the marl-pit		generic	idyll		
+circus__landing	the Progress's landing	landing	kind	scene-landing		
+circus__cage_row	the cage-row		generic	arcadia		
+circus__preserve_hall	the Preserve-house hall	hall	kind	dissolution		roofed
+circus__delta_edge	the edge of the delta		generic	indolence		
+circus__egg_beds	the egg-beds		generic	indolence		
+circus__harrow_camp	Captain Harrow's camp		generic	indolence		
+circus__channels	the black channels		generic	indolence		
+circus__forest_edge	the cycad forest's edge		generic	indolence		
+circus__cycad_aisle	the cycad aisle		generic	arcadia		
+circus__hook_den	the hook-claws' hollow	cave	kind	scene-cave-mouth		
+circus__kingsfoil_hollow	the sheltered hollow		generic	arcadia		
+circus__plain_south	the southern fern plain		generic	arcadia		
+circus__plain_mid	the middle of the fern plain		generic	arcadia		
+circus__lake_shore	the lake shore	waterside	kind	scene-estuary		
+circus__plain_ridge	the ridge above the plain		generic	arcadia		
+circus__tyrant_hollow	the tyrant's hollow		generic	indolence		
+circus__basin_rim	the rim of the steam basin		generic	arcadia		
+circus__bone_beds	the bone-beds	grave	kind	scene-barrow		
+circus__tar_pits	the tar-pits		generic	indolence		
+circus__cliff_foot	the foot of the nesting cliffs		generic	grove		
+circus__ledges	the nesting ledges		generic	indolence		
+circus__cliff_top	the top of the cliffs		generic	arcadia		
+circus__deck	the Sundial's deck	sea	kind	scene-ship-deck		
+circus__hold	the Sundial's hold	cell	kind	scene-cell		
+circus__great_cabin	the great cabin	cabin	kind	scene-log-cabin		
+circus__wreck_camp	the Coldharbour camp		generic	grove		
+arcology__landing	the Landing	landing	bound	scene-ruins-gates		
+arcology__ledge	the Goat Ledge		bound	scene-ruins-starship		
+arcology__lodge	the Lodge	home	kind	food		roofed
+arcology__terrace	the Terrace of Tiers		bound	scene-ruins-citadel		
+arcology__row	Tenants' Row		generic	scene-indoors-plain		roofed
+arcology__dwelling	a dwelling on the third ring		generic	scene-indoors-plain		roofed
+arcology__garden	the Hanging Garden	garden	bound	scene-ruins-garden		
+arcology__gantry	the counterweight gantry		bound	scene-mine-pump-room		roofed
+arcology__bridge_near	the near end of the Bridge of Weights	crossing	bound	scene-ruins-arcology		
+arcology__bridge_mid	the middle of the Bridge of Weights	crossing	bound	scene-ruins-installation-bridge		
+arcology__bridge_far	the far landing of the Bridge	landing	bound	scene-ruins-arcology		
+arcology__rim	the rim of the Great Void	well	bound	scene-ruins-terrace		
+arcology__cage	the stalled lift	lift	kind	scene-ruins-elevator-station		roofed
+arcology__foot	the foot of the Great Void		bound	scene-cave-falls	under	roofed
+arcology__hall	the Question Hall	hall	bound	scene-library		roofed
+arcology__drawers	the Drawer Gallery	passage	bound	scene-archive		roofed
+arcology__bay	the Keepers' Bay		generic	scene-indoors-plain		roofed
+arcology__reckoning	the Reckoning Room		bound	scene-floating-disk		roofed
+arcology__ring_walk	the Ring-walk		bound	scene-ruins-installation		
+arcology__drowned	the Drowned Level	cistern	bound	scene-ruins-flooded	under	roofed
+arcology__valves	the valve gallery	passage	bound	scene-waterworks	under	roofed
+arcology__race	the sluice-race		bound	scene-sewer-drain	under	roofed
+arcology__roots	the Roots		bound	scene-jungle-falls	under	roofed
+arcology__pool	the glowing pool	pool	bound	scene-glowing-pool	under	roofed
+arcology__vault	the seed-vault	vault	kind	scene-crypt	under	roofed
+arcology__quiet	the Quiet Floor		generic	scene-indoors-plain		roofed
+arcology__table_room	the laid room		generic	scene-indoors-plain		roofed
+arcology__serviceway	the Service Way	road	bound	scene-undercroft-dark	under	roofed
+arcology__cliff	the cliff door		bound	scene-undercroft	under	roofed
+howe__hearth	the warden's hearth		bound	scene-rustic-home		
+howe__fold	the old sheepfold		bound	scene-heath		
+howe__lookout	the salvagers' lookout	overlook	bound	scene-overlook		
+howe__rise	the heather rise		bound	scene-peak		
+howe__lee	the camp in the lee		bound	scene-campfire		
+howe__trench	the robbers' trench		bound	scene-quarry-adit		
+howe__shaft_head	the head of the robbers' shaft	mine	bound	scene-mine-shaft		
+howe__ring	the ring of standing stones	stones	bound	scene-ruins-hill		
+howe__survey	the survey cairn	barrow	bound	scene-ruins		
+howe__forecourt	the forecourt of the howe	barrow	bound	scene-barrow-forecourt		
+howe__gallery	the gallery of kings	barrow	bound	scene-barrow-passage	under	roofed
+howe__horses	the horse-hall	barrow	bound	scene-stable	under	roofed
+howe__harness	the harness-store	barrow	bound	scene-barrow-recess	under	roofed
+howe__bench	the riders' bench	barrow	bound	scene-barrow-recess	under	roofed
+howe__flutes	the chamber of flutes	barrow	bound	scene-necromanteion	under	roofed
+howe__throne	the high chamber	barrow	bound	scene-barrow-chamber	under	roofed
+howe__behind	the room behind the seat	barrow	bound	scene-vault-sealed	under	roofed
+howe__shaft_foot	the foot of the robbers' shaft	mine	bound	scene-mine-winze	under	roofed
+howe__dig	the robbers' dig-camp	barrow	bound	scene-mine-face	under	roofed
+howe__sump	the sump	sump	bound	scene-mine-sump	under	roofed
+howe__ancient	the older chamber	barrow	bound	scene-adyton	under	roofed
+howe__well	the listening well	well	bound	scene-cistern	under	roofed
+howe__face	the face of the cutting		bound	scene-quarry-adit		
+howe__weir	the Kin's weir	barrow	bound	scene-cistern	under	roofed
+howe__rival_camp	the Lantern Company's camp		bound	scene-campfire		
+keep__gatehouse	the gatehouse	fort	kind	scene-keep-gatehouse		roofed
+keep__ward	the ward	bailey	kind	scene-keep-bailey		
+keep__kennels	the kennels and mews	mews	kind	scene-falconry-mews		
+keep__walk	the wall-walk	roof	kind	redoubt		
+keep__stables	the stables	stable	kind	scene-stable		roofed
+keep__armoury	the armoury	armoury	kind	folio		roofed
+keep__granary	the granary	granary	kind	scene-granary-interior		roofed
+keep__hall	the great hall	fort	bound	scene-great-hall		roofed
+keep__kitchen	the kitchen	kitchen	kind	scene-kitchen		roofed
+keep__chapel	the chapel	shrine	kind	scene-adyton		roofed
+keep__chancery	the chancery	counting-room	kind	scene-counting-room		roofed
+keep__solar	the lord's solar	fort	bound	scene-great-hall		roofed
+keep__guest	the guest chamber	taproom	kind	scene-inn-hamlet		roofed
+keep__undercroft	the undercroft	undercroft	kind	scene-undercroft-dark	under	roofed
+keep__strongroom	the strong-room	strongroom	kind	scene-vault-sealed	under	roofed
+keep__crypt	the crypt	grave	kind	perdition	under	roofed
+keep__oubliette	the oubliette	fort	kind	scene-keep-gatehouse	under	roofed
+keep__vault	the old vault	vault	kind	scene-vault-sealed	under	roofed
+keep__drain	the drain	drain	kind	scene-sewer-drain	under	roofed
+fellowship__hall_a	the chapter-house	home	kind	scene-town-houses		
+fellowship__hall_b	the chapter-house	home	kind	scene-town-houses		
+fellowship__hall_c	the chapter-house	home	kind	scene-town-houses		
+fellowship__hall_d	the chapter-house	home	kind	scene-town-houses		
+fellowship__gone	Nowhere		generic	indolence		
+walk__camp_a	The Walkers' camp		generic	idyll		
+walk__station_a	The Station		generic	idyll		
+walk__camp_b	The Walkers' camp		generic	idyll		
+walk__station_b	The Station		generic	trapper		
+walk__camp_c	The Walkers' camp		generic	trapper		
+walk__station_c	The Station		generic	trapper		
+walk__camp_d	The Walkers' camp		generic	idyll		
+walk__station_d	The Station		generic	idyll		
+walk__moot_a	The moot-house	home	kind	scene-town-houses		
+walk__nowhere_gone	Elsewhere		generic	grove		
+raidersHold__mouth	the cave mouth	cave	kind	scene-cave-mouth		
+raidersHold__cavern	the smoky cavern	cave	kind	scene-cave	under	roofed
+raidersHold__ledge	the high ledge	cave	kind	scene-cave	under	roofed
+raidersHold__pit	the captives' pit	cell	kind	scene-cell	under	roofed
+raidersHold__cache	a dry side-cave	cave	kind	scene-cave	under	roofed
+raidersHold__crack	the spy-crack	cave	kind	scene-cave	under	roofed
+raidersHold__hillside	the hillside above the cave	cave	kind	scene-cave-mouth		

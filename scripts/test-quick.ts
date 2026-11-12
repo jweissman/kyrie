@@ -19,7 +19,10 @@ class QuickSuite {
     const untimed = specs.filter(s => kept[s] === undefined).length;
     console.log(`${quick.length} spec files under ${limit / 1000} s each`
       + (untimed ? `; ${untimed} not yet timed, left out (bun run test:timings keeps them)` : ''));
-    return Bun.spawnSync(['bun', 'test', `--parallel=${workers}`, ...quick],
+    // --no-isolate: each worker keeps one module registry across the files it runs, so the engine is imported once a
+    // worker, not once a file: 34 s and 321 CPU-s had become 9.6 s, all 663 tests passing in runs at 4, 6 and 10
+    // workers (mission-20/test-loop.md, item 1). A spec that leaks state into another shows here first.
+    return Bun.spawnSync(['bun', 'test', `--parallel=${workers}`, '--no-isolate', ...quick],
       { stdout: 'inherit', stderr: 'inherit' }).exitCode ?? 1;
   }
 }

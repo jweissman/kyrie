@@ -143,6 +143,13 @@ minutes locally; it is out of the suite's shards. **For Mission 21:** why an ins
 installed (a hypothesis, not profiled: `Campaign.install` refreshes projections over the whole world each time).
 
 
+## 4a. Done on 12 November (the owner's "down payments")
+
+Items 1–3 below are in: `test:quick` and `test:changed` pass `--no-isolate` (9.6–11.6 s for the quick set, 663
+passing at 4, 6 and 10 workers; 17.6 s with a game running beside it); `typecheck:fast` and `lint:fast` (6.3 s and
+1.7 s warm); `check:fast` runs the three in **29 s** against ≈ 86 s. The full `typecheck`, `lint` and suite are CI's
+as before. Everything else in §4 and §5–§5b is M21's.
+
 ## 4. The route to a quick loop ten times faster
 
 Target: the routine loop from **≈ 86 s** to **≈ 9 s**, and a quick suite that covers more of the engine's invariants
@@ -195,6 +202,23 @@ the faults those specs were written for (read each spec's comment and its git lo
 
 Keep Westernesse for what only it proves: generated worlds lint, their prose fits, standing scenarios place, the first
 hour's journeys, seeds' censuses, replays of kept traces. Those are CI's.
+
+## 5b. The seventy dearest specs, by kind (the owner, 12 November: "an awful lot of our expensive tests could be reformulated as units or integrations")
+
+`evidence-tools/test-loop/expensive-70.tsv` lists the seventy spec files with the most CI time, each with what it loads,
+its number of tests and its first title. **They are 452 of the suite's 813 CI file-minutes (56 %).**
+
+| Kind | Files | CI-min | What they are | Reformulation |
+|---|---|---|---|---|
+| **Authored playthroughs** (Ombra's 16 stories, Quittance's, the Walk, Low Water, Hessel, the circus, the Repertory, the Parliament, Muster) | 50 | **317** (39 % of the suite) | each `it` starts the adventure and replays a shared prefix of labelled steps (Ombra's `row`: walk to the Row, wait to day 3) before its own few steps and assertions; `ombra-local` is 30 tests, 13.6 CI-min | (1) **kept prefixes**: the checkpoint at the end of a shared prefix, kept by campaign + steps + the content hash as `ParseStore` keeps parses, each test resuming from it (a resume is ~1 s against a replay of tens of steps); (2) **scenes**: `bin/kyrie play scene <id> --in <adventure>` already plays an adventure to one of its scenes in an author's context (`PlayParts`): a spec of what a scene does can start there; (3) the static checks out (below) |
+| **World beds** (ties, the ring, the Exchange, factors, origins, goings-on, community, troubles, road names, page paintings, the Slack) | 20 | 137 | some prove the generator (ties' forms "in more than one seed", road names, page paintings) and need only `WorldAssembler.assemble` or the region it writes, no session; others prove an engine rule on a world because one was at hand | generator properties against the assembler's output alone (no `PlaySession.start`: 0.3 s against 7 s); engine rules on bed fixtures (§5); kept started worlds (§4, item 4) for what is left |
+| **Other** (circus acts, autoplay tempers, the Third Night, Parliament outcomes) | 12 | 70 | mixed: long journeys through one adventure | as the playthroughs |
+| **"Lints clean as a recommended campaign"** | 25 files have such a test | (inside the above) | a static check of one campaign, each in its own file, each parsing its campaign afresh in a fresh worker | one `bin/kyrie lint` over every recommended campaign in one process (shared parses), or a CI step of its own |
+
+**The first experiment for the playthroughs:** `ombra-local` (30 tests): time the shared prefix and the tails; keep the
+prefix's checkpoint once; resume each test from it; compare time and that every assertion still holds. If the prefix
+is most of each test, as the steps suggest, the file falls from minutes to tens of seconds, and the same helper serves
+all fifty.
 
 ## 6. What is a hypothesis and what is measured
 

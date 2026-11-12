@@ -8,6 +8,129 @@ part was checked, what is still wrong, and, apart from both, what was registered
 - The log (`log.md`) runs to E202.
 - The register (`../open-register.md`) holds every open item, with its source.
 
+## Part 0. The landing (12 November, evening): read this first
+
+**Where things are.** Main is `__MAIN__`. It holds Mission 20's work, the adventure branch integrated (all its standing
+modules in every first country), and the after-cutoff fixes E205–E222 and T24-07…13. __CI__
+
+### What Mission 20 achieved
+
+- **A first hour that can be followed.** The aim's gold leads to the next step and only there. A colour on a person
+  or a mark leads to the act it promises. Up to four led acts are drawn across the scene, the posted notice among them.
+  Talk keeps its numbers, the way back is on the scene, and the keep door's P0 is fixed (E163–E216; rounds 9–11 of
+  cold play, agents only).
+- **One resting scene.** The cinematic study is now the only composition: the telling on the painting, rounded-cap
+  lines, and who is here under a Talk lens. Go and Look are tiles over the painting, but their lists are still pages
+  (E217).
+- **A safe zone** of the outer tenth on every page, now checked by spec on the scene, creation, the map, the book, a
+  conversation and a fight (E218, E222).
+- **The adventure branch integrated:**
+  - the Bound Howe, the Silent Lord's keep, the walk, the fellowship, the arcology and the circus, standing in every
+    country;
+  - two rounds of CI failures fixed, two of them real faults: saves overflowing browser storage, and the standing
+    people's ancestry against a country's (`integration-first-steps.md`).
+- **Recurring problems closed:**
+  - Kindle's 1d3+10 healing (E214);
+  - the lodger (E211);
+  - the spiders' eggs (E212);
+  - light in the dark (E213);
+  - the dead man's map in the pack (E221);
+  - a beast's warning (E220);
+  - the still likeness's empty line (E219);
+  - the bed hint (E222).
+
+### What is still broken (ranked)
+
+1. **The suite's balance on CI.** One spec (`all-in-one-world`) had run into its own 25-minute timeout and held a
+   shard to its limit in every run since the integration (T24-01): each province's install costs more the more are
+   installed, quadratically (T24-11, unexplained). It now teleports to each gate and runs with the long descents
+   (2.4 minutes locally). 194 files' CI times are still estimates until a run finishes every shard.
+2. **No human has played Mission 20.** Every cold round was an agent (PD-14). No cold round has been played on the
+   integrated build either (AI-07).
+3. **Go and Look are still pages** beside their lens tiles (T24-03, proposal B). There are three menu styles
+   (T24-04, proposal A), and no structural safe frame (proposal C).
+4. **The telling overflows** the resting panel, badly on a phone (T24-05). It needs shorter narration, not CSS.
+5. **Fights are too easy** at the start and too swingy alone (R10-12, R11-05). The Bound Howe raid can fall on a
+   company sitting in a taproom, and the branch's mummy beats a lone first-level warrior (open balance questions).
+6. **Paintings still contradict the text** (R10-08, R11-09). Out of doors the painting now follows the hour; nothing
+   else has changed.
+
+### Read alongside: two reviews made after the cutoff (owner-supplied, 12 November)
+
+- **`mission-20/review-mitigations-2026-11-12.md`** (external review and mitigations): the recurring risk is a page
+  that makes a promise the state, content or presentation cannot keep. It proposes a *promise contract* (source,
+  offer, preconditions, resolution, account, continuation) with provenance carried through presentation (P1–P3);
+  undertakings as *destination, lead and route* with evidence provenance (U1–U3); an *interaction contract* for
+  foreground people (C1–C2); a scene *attention budget* (A1–A2); *departure reckoning* for travel (T1–T2); combat and
+  recovery *diagnostics* reconciled from events (D1–D3); paintings with typed *compatibility* claims (V1); all proved
+  together in one exemplary expedition (the hobs' toll-house).
+- **`mission-20/srd-adaptation-briefing-2026-11-12.md`** (monsters and spells against the Revised 3.5 SRD): entries
+  classified *retune, compose, extend or reimagine*; fourteen gap classes and six bounded increments (A honest
+  catalog … F world identity and magic); a policy of *recognisable adaptation* with declared provenance ("faithful to
+  Orsino" is not "SRD-accurate"); a bounded first pass (a resolved-canon concordance, then one vertical slice per
+  family).
+
+**What the evening's evidence adds to the first review** (two independent headless cold reviews on the integrated
+build, round 12: T24-14…18, `cold/round-12/`): both met its promise contract's failure from the terminal (the step an
+aim waits on missing from the foreground; talk that says nothing; a stated option that could not be taken; an aim that
+switched without a word), its destination/lead gap (every notice job a two-to-four-room dungeon, and no larger
+adventure ever made the aim: T24-18), its attention budget (22 paragraphs on the first green; the telling overflowing
+the panel, T24-05), and its danger finding (challenge rated 1 and 2). The painting wishlist measured today
+(`doc/paintings/commission-list.md`) counts places drawn by a generic painting, not paintings that *contradict* a
+place's state; the review's V1 is the missing half. The SRD briefing is a separate track (content and combat
+mechanics), not a precondition of M21's engineering or aesthetic work.
+
+### The register, reconciled
+
+The briefs audit (`briefs-audit.md`, 12 November about 5 a.m.) classified every brief and the register's §1–§20 at
+the cutoff. The rows since, §17 and §19–§24, by their status column (12 November, evening): **72 rows: 36 open,
+15 done, 13 partly done, 4 superseded or not reproduced, 1 blocked on the owner** (AI-05, the Howe's lead held to day
+3), **3 that say more than a status** (PR-06, PR-07, R9-14: read them). Recurring player-visible failures and their
+suspected common causes, *hypotheses unless marked*:
+
+- **Narration volume against a fixed viewport** (T24-05, R11-06, S2): one cause behind "the telling scrolls", "the
+  same words in two places" and "too busy": places say everything they hold before their acts. Verified for the
+  first green (four paragraphs and a life line before three acts).
+- **Paintings chosen by kind, not by state** (R10-08, R11-09): a painting knows its place's kind and the hour, not
+  its condition (broken, burning, dark). Hypothesis.
+- **Engine invariants proved only through whole worlds** (test-loop §5, §5b): why a change to the shared rules moves
+  dozens of specs at once, and why CI is slow. Verified for the specs read.
+- **A shared atom without a shared menu or frame** (proposals A, C): why the safe zone and the menu's look broke
+  page by page. Verified by the discovery inventory.
+
+### The test-loop baseline (`test-loop.md`)
+
+| Step | Now | Measured route |
+|---|---|---|
+| typecheck | 28 s | **done**: `typecheck:fast`, 6.3 s warm (E223) |
+| lint | 24 s | **done**: `lint:fast`, 1.7 s warm (E223); `check:fast` runs all three in 29 s |
+| quick suite | 34.4 s wall, **321 CPU-s for 38 CPU-s of work** | **done**: `--no-isolate`, 9.6–11.6 s (E223) |
+| a generated world's start | 7–8 s (14 s cold) | 1.1 s resumed from a kept checkpoint (measured) |
+| the whole suite on CI | 813 file-minutes in ten shards, one shard past 60 minutes | see the 25-minute spec, §3a |
+
+### The first experiments for Mission 21 (ranked in `test-loop.md` §4)
+
+1. (Done: `check:fast`, E223.) Watch `--no-isolate` for order dependence: a spec that leaks state shows in the
+   quick suite first.
+2. Kept playthrough prefixes for the fifty authored playthroughs (test-loop §5b; `ombra-local` first).
+3. (Done: `all-in-one-world` teleports and runs with the long descents.) Then: why a province's install grows with
+   what is installed (T24-11).
+4. Kept started worlds (`Worlds.started`) for the six specs pinned to `standing: []`.
+5. Bed fixtures for engine invariants proved through Westernesse (§5). The first two to port: `weary-fights` and
+   `voice`'s hour.
+
+### Where the evidence is
+
+- `mission-20/log.md`: every fix, E1–E222.
+- `open-register.md`: §21–§24, with §24 the after-cutoff rows (T24-01…10).
+- `mission-20/test-loop.md` and `evidence-tools/test-loop/`: the measurements and the scripts that took them.
+- `mission-20/studies/screens/`: contact sheets at four sizes, components, trouble spots, and the owner's three
+  proposals weighed. The probe that makes them is in `evidence-tools/screens/`.
+- `mission-20/studies/typography/`: the face call and the cinematic study.
+- `mission-20/integration-first-steps.md`: the integration's decisions and both rounds of failures.
+- `mission-20/briefs-audit.md`: the briefs against what was done (as of the cutoff); the register's §21–§24 since.
+- `mission-20/cold/`: rounds 1–11 of cold play.
+
 ## Part 1. Mission 20 delivered and verified
 
 ### The first hour, as it stands
@@ -150,7 +273,7 @@ What this does not settle:
 - Startup 11.8 s → 10.1 s.
 - Round 7's fixes (E135–E147).
 
-### The adventure branch: verified, not merged
+### The adventure branch: verified, not merged (at the cutoff; integrated after it: see Part 0)
 
 `adventure/first-steps` was merged onto main in review (`review/first-steps`) and repaired where the faults were clear:
 a treasurer's pronouns; the Walk's curate, an elf cleric who stopped every country loading; town rules told everywhere

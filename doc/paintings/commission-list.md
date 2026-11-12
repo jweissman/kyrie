@@ -1,6 +1,88 @@
-# Scene paintings to commission
+# Paintings to commission
 
-## Still wanted (10 November, from the first hour)
+## The wishlist (12 November, evening): scenes, likenesses, creatures and plates
+
+Measured, not remembered: every room of three generated countries (a1, kahitude and pine; 2 062 places) set in turn
+under the scene's own choice of painting, with everyone met there shown by a likeness or an emblem
+(`mission-20/evidence-tools/paintings/painting-demand.ts`; the TSVs beside it); item kinds with no plate
+(`missing-plates.ts`, `missing-plates.txt`); and the paintings cold players said contradicted the text (register
+CP-01, CP-02, CP-04, R9-12, R10-08, R11-09). Of the 2 062 places, **198 have their own painting, 1 035 one of their
+kind, and 829 a generic one** (the country's, or a plain room's). Each painting wide (landscape), with no one in the
+foreground, seen as the place is; **light and state matter more than subject** (the 10 November note below still
+holds). Most wanted first, by how many places or meetings one painting would serve.
+
+### A. Scenes
+
+1. **Wild country, by terrain** (the generic paintings stand for 500+ places): one painting each now serves every
+   tract of a terrain (`arcadia` 35 kinds of place, `trapper` 25, `grove` 18, `road` 13, `scene-bog` 12, `herd` 12,
+   `indolence` 11). Wanted, three or four of each for variety and season:
+   - **woodland**: inside a wood (277 places), its edge, a wood south, east, north (one set will do);
+   - **fen and wet ground** (110): reed-beds, a mere, a duck decoy, a broken sluice, wet ground at dusk;
+   - **open heath** (75): heather and gorse, a dewpond, a leaning stone;
+   - **fells and fellside** (31) and **heights** (13): a fellside with a sheep-track, a high bare top;
+   - small features that recur: a holly hollow, a spring under beeches, a windfall, an old bank, a footbridge, a
+     crossing, a haulage way.
+2. **Wapshott's circus** (standing in every country): the **big top inside** (the ring, tiers, canvas: now a plain
+   plastered room), the **ring of living-wagons** (now a trapper's hut or a mill), the carrier's yard, Sallow's
+   Hippodrome, the Beast Yard, the cage-row, the lip and the flooded bottom of a marl-pit.
+3. **Sarn, the circus's old country** (all now pastoral old masters): the edge of the delta, the egg-beds, the black
+   channels, the cycad forest's edge and its aisle, the fern plain, the rim of the steam basin, the tar-pits, the
+   foot, ledges and top of the nesting cliffs, a tyrant's hollow, a sheltered hollow, two camps (Captain Harrow's,
+   Coldharbour).
+4. **The Walk**: the walkers' camp on a green, and **the Station** (now a trapper's hut or a mill); the moot-house.
+5. **The Numbered House** (arcology): Tenants' Row, a dwelling on the third ring, the Keepers' Bay, the Quiet Floor,
+   the laid room (all now one plain room).
+6. **The Silent Lord's keep**: the crypt (now an old master's inferno), the armoury (now a library), the oubliette (now
+   the gatehouse), the wall-walk.
+7. **State and light, from cold play** (each named by a player): a **ruined** keep and bailey (painted whole and
+   sunny), a broken keep in a storm at evening, a churchyard at night, a **charnel passage and ossuary** of bone
+   shelves (now a statue gallery), a stair going down four storeys under the ground (now a hillside), a dark gatehouse
+   (now cosy and candle-lit), a flag on a ruin, the spiders' brood burnt (still from 10 November), a second inn's hall
+   (two inns shared one), a lime-kiln that is not an oast-house.
+8. **Second paintings** where one stands for many: a stable, a shop, a granary, a stair, a guardroom (from 10
+   November), and the mine's tunnel (11 places), a meditation room (11).
+
+### B. Likenesses (people met with an emblem, not a face)
+
+215 different people and creatures were met with only an emblem in three countries (451 meetings). People, most met
+first, by role (a likeness serves everyone of the role):
+
+- **In every town**: the keeper (an inn's or a house's: 6), a carrier (4), the oldest digger, a cowherd, a cobbler, a
+  minstrel, a kitchen boy, a clerk, a miller, a farmer, an alehouse-keeper, a salter, a chandler, a tinker, a pedlar,
+  a fiddler, a guitarist, a standard-bearer, a messenger, a hedger, an eel-catcher, a reed-cutter, a carpenter, a
+  woodcutter, a charcoal-burner, a pilgrim, a convert, a wandering preacher, a priest and a priestess, the keeper of a
+  wayside shrine, customs-men, a drover's wife, a bee-wife, a tripe-dresser;
+- **The circus**: a tumbler (one of the Quincey brothers), the proprietor and proprietress, the book-keeper, the old
+  clown, the bandmaster, the wardrobe-master, the boss canvasman, the horse-keeper, the advance agent and bill-poster,
+  tober-raiders with knives and cudgels, a woman in a silver wrap, net-men in oilskins;
+- **Adventures and troubles**: the actor-manager (Gosse's), a factor of the Founders' Exchange and his hands, the
+  Exchange's lot-keepers, a man in a good coat behind the chandler's back-table, a tall man in a black coat, a man in
+  a grey hat, the Spade-Company's hands, a salvage foreman and four hands, a bosun and a mate, the prior-surveyor, an
+  animal-dealer, a hereditary keeper, a drowned girl, grave-robbers, goblins and a goblin chief, hobs on the gate,
+  the dragonslayer, a boy of ten with a white streak in his hair;
+- **Likenesses that are wrong** (CP-04, R10-08, R11-09): Hepzibah ("a small grey woman in spectacles", painted young
+  with a lute), a lizardfolk companion painted as a human woman, a dwarf cleric and a dwarf family painted human, Xyn's
+  two faces, a drowned girl with a revenant's face.
+
+### C. Creatures and devices met with an emblem
+
+The knitted hound (6), the barrow-dead (5), bats, rats (a nest, the rats under the corn-store, an old buck rat), a
+dark vessel, the king under the mound, the hungry, risen and restless dead, spiders in old workings and alpha spiders,
+a great centipede, beetles in the spoil, the slump, the thing in the vein, an usher, eels, frogs as big as dogs, a
+blighted ghoul, zombies, bone hounds, a cave hound, an owlbear. *Check first*: some of these kinds may have a plate
+that a group of them, or a variant, does not reach (a hypothesis: the census counts what was drawn, not why). And one
+device: **a blasting charge** (8 meetings), drawn by an emblem.
+
+### D. Item plates (`missing-plates.txt`)
+
+- **65 wonders** (magic items): amulets, rings, cloaks, crowns, helms, belts, boots, staves, the named blades and
+  mails (`aegis_of_eternity` … `ring_of_the_firmament` and on).
+- **54 plant yields** (what a herb gives when gathered): amaranth, aster, bay, banewort, bloodroot, celandine,
+  cinquefoil, gentian, hyssop, pennyroyal, poppy, rosemary, rue, tansy, thyme, and the rest; and betony as a
+  medicine.
+- The iron torc (from 10 November).
+
+## Scenes still wanted (10 November, from the first hour)
 
 Drawn from every room a first-hour player can reach in `kahitude` (which painting each gets) and from three rounds of
 cold play. **Light and state matter more than subject**: a pitch-dark room painted lit, or a burnt chamber painted

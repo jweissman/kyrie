@@ -3,6 +3,7 @@ import { writeFile } from 'node:fs/promises';
 import { Content } from '../content';
 import { Campaign } from '../campaign/campaign';
 import { Battle } from '../battle';
+import { ActionTime } from '../campaign/action-time';
 import type { BattleState, Command } from '../model';
 import { Tactics } from '../tactics';
 import { CombatPresenter } from '../ui/combat-presenter';
@@ -20,16 +21,22 @@ const quitPlay = 'The player left the encounter.';
 // PlayerView decides what is legal, ScreenModel/Narrator what the player knows, and PlaySession performs every act.
 export class Terminal {
   static async command(state: BattleState, legal: Command[], input: Interface): Promise<Command | null> {
-    console.table(state.combatants.map(f => ({ id: f.id, name: f.name, hp: `${f.hp}/${f.maxHp}`,
+    // By name, never by id ("region__s2_u_rats_person_2" had stood in the table: the headless review, 12 November).
+    console.table(state.combatants.map(f => ({ name: f.name, hp: `${f.hp}/${f.maxHp}`,
       mana: f.mana, statuses: f.statuses.map(s => s.id).join(', ') })));
     console.log(`Turn ${state.turn}: ${state.combatants.find(f => f.id === state.actor)!.name}`);
-    const choices = CombatChoices.actions(legal, Content.abilities);
+    // In one order from turn to turn, a strike first and the rest by name, and each to be had by its name too: as
+    // drawn, the list had changed its order each turn, and the key that was Cleave became Flee (the same review).
+    const choices = CombatChoices.actions(legal, Content.abilities).sort((x, y) =>
+      Number(!/^(attack|strike)/i.test(x.ability.name)) - Number(!/^(attack|strike)/i.test(y.ability.name))
+      || x.ability.name.localeCompare(y.ability.name));
     for (;;) {
       choices.forEach((choice, i) => console.log(`${i + 1}. ${choice.ability.name} — ${choice.scope} (mana ${choice.ability.cost ?? 0})`));
-      const answer = (await input.question('Action number, auto, or q: ')).trim();
+      const answer = (await input.question('Action number or name, auto, or q: ')).trim();
       if (answer === 'q') { return null; }
       if (answer === 'auto') { return Tactics.choose(state, legal); }
-      const choice = choices[Number(answer) - 1];
+      const choice = choices[Number(answer) - 1]
+        ?? choices.find(c => c.ability.name.toLowerCase() === answer.toLowerCase());
       if (!choice) { console.log('Choose a listed action.'); continue; }
       if (!choice.requiresTarget) { return choice.commands[0]!; }
       const target = await Terminal.target(choice, state, input);
@@ -79,7 +86,13 @@ export class Terminal {
     return { screen, leaf };
   }
   private static foreground(session: PlaySession, glance: ReturnType<typeof Narrator.leaf>['glance'], screen: Screen) {
-    const all = [...PlayerView.observe(session.campaign).choices];
+    // Each choice's minutes, as the page says them (ActionTime.minutes), not its ticks: "Bury him · 1 min" had taken
+    // two hours, a way into the next stretch of country listed in minutes took ninety (cold review A, 12 November).
+    const world = session.campaign.world;
+    const minutes = new Map(PlayerView.choices(session.campaign)
+      .map(r => [r.choice.id, ActionTime.minutes(r.action, world)]));
+    const all = PlayerView.observe(session.campaign).choices
+      .map(c => ({ ...c, time: minutes.get(c.id) ?? c.time * 10 }));
     for (const d of [...screen.destinations ?? [], ...screen.around ?? [], ...screen.roads ?? []]) {
       const id = `travel:${d.id}`;
       if (!all.some(c => c.id === id)) {
@@ -88,7 +101,11 @@ export class Terminal {
       }
     }
     const byId = new Map(all.map(c => [c.id, c]));
-    const ids = [...glance?.acts.map(a => a.command ?? a.choice) ?? [], ...glance?.ways ?? []];
+    // What the page leads with inside a talk (the question the aim waits on, Promoted.inside) is offered as itself:
+    // "Talk to Odo" had led the terminal's foreground, and "Ask Odo about the road your father took" was only under
+    // `all`, eight times in one cold review (12 November); the page shows it as the talk's own line.
+    const ids = [...glance?.acts.flatMap(a => [...a.inside?.map(x => x.command) ?? [], a.command ?? a.choice]) ?? [],
+      ...glance?.ways ?? []];
     const first = [...new Set(ids)].flatMap(id => byId.get(id) ?? []).slice(0, 4);
     return { all, first: first.length ? first : all.slice(0, 4) };
   }
