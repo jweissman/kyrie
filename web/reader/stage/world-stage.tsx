@@ -20,6 +20,7 @@ import { GlanceStage } from './glance';
 import { Explorer } from './explorer';
 import { SceneRail } from './scene-rail';
 import { Pip } from './pip';
+import { Standing } from '../../../src/ui/standing';
 import { LookAbout } from './look-about';
 import { MorePane } from './more-pane';
 import { PlaceStage } from './place-stage';
@@ -148,9 +149,13 @@ export class WorldStage {
       aria-label={`${x.name}: ${why}`} onClick={() => tell(true)}>{children}
       {told && <span className="still-why" role="status">{why}</span>}</button>;
   }
+  // One of the company down is said as the Company page says it (round 8, N: "down", and nothing said what it meant);
+  // someone never spoken to has nothing to say, not "nothing more" (round 8, M).
   static why(x: SceneSubject): string {
-    if (x.state) { return x.state === 'dead' ? 'Dead.' : 'Down, and not getting up yet.'; }
-    return x.danger ? 'Means you harm: what can be done is in the scene.' : 'Nothing more to say to you now.';
+    if (x.state) {
+      return x.state === 'dead' ? 'Dead.' : x.kind === 'companion' ? Standing.senseless : 'Down, and not getting up yet.';
+    }
+    return x.danger ? 'Means you harm: what can be done is in the scene.' : 'Nothing to say to you now.';
   }
   static Portrait({ subject: x, draw, pip }: { subject: SceneSubject; draw: Draw; pip?: { fill?: string; label: string } }) {
     // One with nothing to say or do now is a likeness, not a way into a conversation with nothing in it.

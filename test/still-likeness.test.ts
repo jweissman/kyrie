@@ -12,7 +12,7 @@ describe('a still likeness', () => {
   it('is a button that says why it opens nothing', () => {
     const html = renderToStaticMarkup(createElement(WorldStage.Still, { subject: subject({}), fell: '', children: 'x' }));
     expect(html).toContain('aria-disabled="true"');
-    expect(html).toContain('Nothing more to say to you now.');
+    expect(html).toContain('Nothing to say to you now.');
   });
   it('says a foe is dealt with in the scene, and the fallen as they are', () => {
     expect(WorldStage.why(subject({ danger: 'grave' } as Partial<SceneSubject>))).toMatch(/Means you harm/);
