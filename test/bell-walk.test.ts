@@ -49,7 +49,11 @@ describe('the bell the hobs took, walked in from the bridge-foot', () => {
     for (const who of ['raidersFolk__gaffer', 'raidersFolk__raiders', 'raidersFolk__watchers']) {
       expect(j.campaign.world.related('state', who).map(r => r.args[1])).toEqual(['raidersFolk__fled']);
     }
-    await j.play('>raidersHold__pit', '^Untie the shepherd');
+    // With every hob gone off, the bell is not offered to be rung where nobody would hear it (round 6, J: "Ring the
+    // bell" in every room to no effect; the register's AP-11).
+    await j.step('>raidersHold__pit');
+    expect(j.offers('Ring the bell')).toBe(false);
+    await j.step('^Untie the shepherd');
     expect(Walk.told(j)).toContain('It\'s Brockfield.');
     expect(Walk.aims(j)).toContain('The shepherd\'s boy you untied in the hobs\' pens wants taking home to Brockfield.');
     expect(Walk.aims(j)).toContain('The bell the hobs took belongs back in its frame over the well at Brightbridge.');
