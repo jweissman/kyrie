@@ -457,6 +457,8 @@ on 11 November. The branch itself is not merged: the owner is not ready to integ
 
 ## 17. Integrating the adventure branch (12 November, early)
 
+**Verdict (12 November, early): verified, not merged.** See `mission-20/integration-first-steps.md`. The review merge with its repairs is `review/first-steps`; CI on 1fc62c34 still fails 18 or more specs, several on decisions the owner has to make (whether the standing modules stand in the first town; whether the forged seal's receipt or the notice of jobs leads there).
+
 The branch's own integration notes (`activation/integration-notes.md`, at 98ad43eb) and what the scratch merge on
 `review/first-steps` found. Its rows are open until the merge is on main.
 
