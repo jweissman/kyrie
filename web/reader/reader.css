@@ -87,7 +87,9 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--dim); border: 1px solid var(--e
 .journal .aims .aim-card { margin: 0 0 6px; padding: 10px 14px; border: 1px solid var(--hair);
   background: var(--paper); font: 400 16px/1.45 var(--told); }
 .journal .aims .aim-card { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 14px;
-  border-left: 3px solid var(--gold); }
+  border-left: 3px solid var(--hair); }
+/* Gold only for the aim followed: the first card had been gold whether or not it was followed (round 8, M). */
+.journal .aims .aim-card.followed { border-left-color: var(--gold); }
 .journal .aims .aim-acts { display: flex; flex-wrap: wrap; gap: 8px; }
 /* The rest of what the company could take up, under the aim it follows, smaller and in sight (Mission 20). */
 .book-page:has(.journal) { max-width: 62rem; }
