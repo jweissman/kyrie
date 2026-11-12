@@ -179,7 +179,7 @@ describe('the hour, as the voice tables have it', () => {
     const { VoiceContext } = await import('../src/narrative/voice-context');
     const { GeneratedWorld } = await import('./support/generated');
     const w = await WorldAssembler.assemble('wren', NodeBundleSource.shared,
-      { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
+      { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }], standing: [] });
     const s = await PlaySession.start(w.path, 'wren', w.source);
     await s.leg('wait_for_dark');
     const hour = () => { const v = VoiceContext.of(s.campaign, { kind: 'farewell' } as never, new Set()); return [v.time, v.shelter]; };

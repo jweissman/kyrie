@@ -76,7 +76,7 @@ Module silent_lord "The silent lord" {
     Assert occupied(castellan). Retract at(castellan, ?q). Assert at(castellan, oubliette).
   }
   Person patron_man "the new steward" nowhere {
-    Role "a steward in the herald's master's colours". Ancestry human. Calling warrior. Level 3. Peaceable. Manner stoic. Pronouns he.
+    Role "a steward in the herald's master's colours". Calling warrior. Level 3. Peaceable. Manner stoic. Pronouns he.
     Greets "A hard-faced man in unfamiliar livery sits at the high table with the keep's keys in front of him. 'The keep is held for {patron},' he says, 'by the king's writ. Your business?'".
   }
   Person deserters "unpaid spearmen" nowhere {
@@ -85,7 +85,7 @@ Module silent_lord "The silent lord" {
   }
   Initially Set encounterXp(deserters) to 70.
   Person heir "the young heiress" nowhere {
-    Role "a girl of fourteen in a travelling cloak, the lord's ward". Ancestry human. Calling commoner. Level 1. Peaceable. Manner cheerful. Pronouns she.
+    Role "a girl of fourteen in a travelling cloak, the lord's ward". Calling commoner. Level 1. Peaceable. Manner cheerful. Pronouns she.
     Greets "A girl in a travelling cloak, whose hands are red with the cold, looks round the ward as if she had known it all her life and had been told it was smaller. 'I am {heir},' she says. 'Where is my uncle? They said the chaplain wrote.'".
   }
   Rule heir_arrives heard at ward when state(banner, regency) and aftermath(house) and day(clock) >= feastDay(house) + 7 and not at(heir, ward) and not dead(castellan) says "A girl in a travelling cloak rides in at the gate on a borrowed pony, with a nun on a mule behind her." {

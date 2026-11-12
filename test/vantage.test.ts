@@ -101,7 +101,7 @@ describe('somewhere high', () => {
   // Through a spyglass, bought from the chandler in the first town, what lies past the edge of sight is seen too, on a
   // clear day: the first town's tower shows a cave the eye alone does not.
   it('shows past the edge of sight through a spyglass', async () => {
-    const w = await WorldAssembler.assemble('pine', NodeBundleSource.shared);
+    const w = await WorldAssembler.assemble('pine', NodeBundleSource.shared, { standing: [] });
     const s = await PlaySession.start(w.path, 'pine', w.source), c = s.campaign;
     await GeneratedWorld.travel(s, 's1_shop');
     const buy = PlayerView.choices(c).find(x => x.choice.name === 'Buy a spyglass for Elen · 15 coin')!;

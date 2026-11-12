@@ -24,7 +24,7 @@ class Weary {
   static carried(store: CreatureStore, id: string): string[] { return store.get(id).state.conditions.map(c => c.id); }
   static async start() {
     const w = await WorldAssembler.assemble('wren', NodeBundleSource.shared, { origin: 'wanderer',
-      party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
+      party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }], standing: [] });
     return PlaySession.start(w.path, 'wren', w.source);
   }
   static attack(s: PlaySession): string {

@@ -41,7 +41,7 @@ describe('two modules in one town', () => {
     const party = c.playerActor ?? 'party', town = c.module.entities.find(e => e.name === 'Lowmouth')!;
     const rooms = c.module.entities.filter(e => e.type === 'place' && e.space?.kind === 'room' && e.space.parent === town.id);
     const owners = new Set(rooms.map(r => Offered.module(r.id)));
-    expect([...owners].sort()).toEqual(['circus', 'players', 'quarrel', 'region']);
+    expect([...owners].sort()).toEqual(['circus', 'fellowship', 'players', 'quarrel', 'region', 'walk']);
     const strays: string[] = [];
     for (const r of rooms) {
       const was = c.world.one('at', party)!;

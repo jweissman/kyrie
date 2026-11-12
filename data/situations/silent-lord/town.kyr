@@ -4,7 +4,7 @@ Module silent_lord "The silent lord" {
   Measure riderDay(group). Measure coolness(group).
   Relation blood(group).
   Person crier "Someone" nowhere {
-    Role "a crier in the castellan's colours". Ancestry human. Calling warrior. Level 1. Peaceable. Manner stoic. Pronouns he.
+    Role "a crier in the castellan's colours". Calling warrior. Level 1. Peaceable. Manner stoic. Pronouns he.
     Arrives at gossip when day(clock) >= 2.
     Arrives "A man in green, a tower and a star stitched on his breast, comes up the street ringing a handbell, stops by the well, and unrolls a paper.".
     Greets "'By the castellan's order,' says {crier}, in the voice of a man who has said it at four hearths since morning. 'Twenty spears and a hundred bushels, from this town and the two nearest, to be at the keep on the twelfth day for the king's muster. The lord regrets the short notice.' He lowers the paper. 'He does not say what the muster is for. Nor do I.'".
@@ -84,7 +84,7 @@ Module silent_lord "The silent lord" {
 
   // ---- The next green: the clerk's rider and the writ against the bailiff.
   Person rider "the clerk's rider" nowhere {
-    Role "a boy in the castellan's colours on a lathered pony". Ancestry human. Calling warrior. Level 1. Peaceable. Manner cheerful. Pronouns he.
+    Role "a boy in the castellan's colours on a lathered pony". Calling warrior. Level 1. Peaceable. Manner cheerful. Pronouns he.
     Greets "'From the castellan's clerk,' says the boy, with the ink still wet on his sleeve. 'The writ's up. Don't ask me what it says; I can't read; but the clerk was singing, and he never sings.'".
   }
   Thing writ_notice "the castellan's writ against the dues" at far_green {

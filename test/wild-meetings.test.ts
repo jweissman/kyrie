@@ -21,11 +21,12 @@ import { Glanced } from './support/glanced';
 // for, and a search where nothing is hidden says so (REV-02); and a journey across the country stops at a meeting the
 // first time it comes to it.
 class Wild {
-  static async start(): Promise<{ s: PlaySession; region: Region; meetings: Meeting[] }> {
-    // kite: jade's assembled country no longer draws a cache (7 November), and the test wants one.
-    const w = await WorldAssembler.assemble('kite', NodeBundleSource.shared, { origin: 'wanderer',
+  // kite, or thorn where a cache is wanted: jade's assembled country no longer draws one (7 November), nor kite's
+  // since the adventure branch's integration (12 November).
+  static async start(seed = 'kite'): Promise<{ s: PlaySession; region: Region; meetings: Meeting[] }> {
+    const w = await WorldAssembler.assemble(seed, NodeBundleSource.shared, { origin: 'wanderer', standing: [],
       party: [{ name: 'Wenna', raceId: 'human', classId: 'ranger' }] });
-    const s = await PlaySession.start(w.path, 'kite', w.source);
+    const s = await PlaySession.start(w.path, seed, w.source);
     return { s, region: w.report.region, meetings: RegionMeetings.meetings(w.report.region) };
   }
   static knows(s: PlaySession, fact: string): boolean {
@@ -71,7 +72,7 @@ describe('the open country\'s meetings', () => {
     }
   });
   it('lead on into the wild, keep a cache under its sign, and stop a journey the first time', async () => {
-    const { s, region, meetings } = await Wild.start();
+    const { s, region, meetings } = await Wild.start('thorn');
     // Tracks seen are a way toward the site they go to; followed, the way to it (REV-08).
     const tracks = meetings.find(m => m.section.option === 'tracks')!;
     GeneratedWorld.put(s, RegionTracts.id(tracks.cell));

@@ -99,3 +99,14 @@ merged in. The only conflicts were generated files (the bundle and the wren trac
 | factors-handoff | the Bound Howe's Spade-Company killed a company sitting out eight days in the town | the days sat out at the march-stone (open: should the howe's raid fall on a company in a taproom?) |
 | loot-in-reach (the crown) | the branch's mummy strikes twice, and a lone warrior loses to the king | the king felled in the spec (open: is the king now beyond a first-level company? balance) |
 | safe-zone at 390×844 | **a real fault:** worlds with the standing scenarios are 3.2 MB packed against 2.0, and a new world written beside the old filled the browser's storage, so nothing more was kept | `ReaderStore` keeps a new world in place of the old where the two do not fit, and puts the old back if even then it does not (spec reader-store) |
+
+**The second round (CI on b26e43d9, eight shards), and what was done:**
+
+| Spec | Cause | Done |
+|---|---|---|
+| world-lint (wren) | **a real fault:** thirteen of the standing modules' people (the Bound Howe's eight, the keep's four, the walk's Wenna) were written human while their templates draw them of the country's people, so in a dwarf country the two disagreed; and the Lantern Company's reader, a mage, could not be a dwarf | the written ancestry left to the templates; the reader's calling drawn by ancestry (`readerCalling`: a mage among humans and elves, a cleric among dwarves) |
+| way-in (the arcology's eels) | the stranded eels were told on every road | heard where they are (`heard at drowned`) |
+| vantage, weary-fights, voice, deep-rivals, wild-meetings | the standing scenarios moved what the seed draws | the specs hold no standing scenario (`standing: []`, E210), being about something else; wild-meetings' cache test in thorn, as kite's country no longer draws a cache |
+| companion-sensed | someone at Kahitude's shrine would join, one place off the green, as well as the inn's traveller | the spec expects both: the perception is true |
+| two-modules-one-town | Lowmouth's rooms now include the fellowship's and the walk's | the spec names them; no module's acts stray into another's places |
+| suites 1 and 7 of 8 | cancelled at their forty-five minutes: every world is larger | ten shards, and every file's time kept from the run (`scripts/timings-from-ci.ts --all`) |

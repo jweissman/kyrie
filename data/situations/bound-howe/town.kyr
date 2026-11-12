@@ -7,7 +7,7 @@ Module bound_howe "The Bound Howe" {
 
   // ---- The first town: the Spade-Company's hirer and his cart.
   Person hirer "Someone" nowhere {
-    Role "the Spade-Company's hiring-man, with a cart". Ancestry human. Peaceable. Pronouns he.
+    Role "the Spade-Company's hiring-man, with a cart". Peaceable. Pronouns he.
     Arrives at first_green when day(clock) >= 2.
     Arrives "A cart comes up the street behind a tired mule, with a hurdle across the back for sitting on and a board nailed to the tail-gate. The man on the box has a voice that has been used on markets for thirty years, and he uses it.".
     Sells rope for 3 coin from 4.
@@ -98,7 +98,7 @@ Module bound_howe "The Bound Howe" {
 
   // ---- Tam, a frightened labourer, and what it costs to be afraid in a camp.
   Person tam "Someone" at lee {
-    Role "a young digger with a barrow". Ancestry human. Peaceable. Pronouns he.
+    Role "a young digger with a barrow". Peaceable. Pronouns he.
     Greets "A digger no more than seventeen is pushing a barrow of spoil to the heap, very fast, very straight, and does not stop when you speak. 'I'm only on the barrow,' he says, to the barrow.".
   }
   Topic tam_ask with tam "Ask {tam} what is wrong" when not raid_done() once {

@@ -17,7 +17,7 @@ Module arcology "The Numbered House" {
     State circling "Something long and pale turns in the clear black water between the pillars.".
     State stranded "The eels lie in the silt among the pillars, thrashing weakly, out of their element. They have lost interest in you.".
   }
-  Rule eels_stranded when state(waterlevel, low) and state(eels, circling) says "As the last of the water goes, the eels are left on the silt in the shafts of light, rolling and gasping. They will not trouble anyone now." { Assert state(eels, stranded). Assert peaceable(eels). }
+  Rule eels_stranded heard at drowned when state(waterlevel, low) and state(eels, circling) says "As the last of the water goes, the eels are left on the silt in the shafts of light, rolling and gasping. They will not trouble anyone now." { Assert state(eels, stranded). Assert peaceable(eels). }
   Rule eels_gone when water(house, wet_low) and state(eels, circling) { Assert state(eels, stranded). Assert peaceable(eels). }
   Thing roots_lock "the garden door" on roots_door {
     State under blocking "The garden door is a green-bronze valve in the wall, under water to its lintel; it will not be opened while the Level stands full.".

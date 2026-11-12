@@ -12,7 +12,8 @@ import { Glanced } from './support/glanced';
 // capability); at the inn, she is led with as a companion, with what else she is.
 class Inn {
   static async start() {
-    return DrawnWorld.start('kahitude', { origin: 'debt', party: [{ name: 'Ralf', raceId: 'human', classId: 'warrior' }] },
+    return DrawnWorld.start('kahitude', { origin: 'debt', party: [{ name: 'Ralf', raceId: 'human', classId: 'warrior' }],
+      standing: [] },
       NodeBundleSource.shared);
   }
   static put(c: Campaign, place: string) {
@@ -29,7 +30,9 @@ describe('a companion perceived', () => {
     const s = await Inn.start(), c = s.campaign, world = Inn.facts(c);
     Inn.put(c, 'region__s1_green');
     let g = Glanced.of(s);
-    expect(g.glance.sensed).toEqual([{ to: 'region__s1_taproom', aspect: 'companionship', far: 1 }]);
+    // And someone at the shrine, since the adventure branch's integration (12 November).
+    expect(g.glance.sensed).toEqual([{ to: 'region__s1_shrine', aspect: 'companionship', far: 1 },
+      { to: 'region__s1_taproom', aspect: 'companionship', far: 1 }]);
     expect(g.glance.acts.some(a => a.aspects.includes('companionship'))).toBe(false);
     Inn.put(c, 'region__s1_shop');
     expect(Glanced.of(s).glance.sensed).toBeUndefined();

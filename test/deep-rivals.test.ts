@@ -18,7 +18,7 @@ class Rivals {
   static readonly id = 'region__w9_rivals';
   static async start(seed = 'wren') {
     const w = await WorldAssembler.assemble(seed, NodeBundleSource.shared,
-      { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
+      { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }], standing: [] });
     return PlaySession.start(w.path, seed, w.source);
   }
   static set(s: PlaySession, changes: Change[]) {

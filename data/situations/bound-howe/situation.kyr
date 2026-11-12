@@ -159,13 +159,13 @@ Module bound_howe "The Bound Howe" {
   Initially Set encounterXp(crew) to 200.
   Initially Assert breaks(crew).
   Person foreman "Someone" at lee {
-    Role "the foreman of the Spade-Company". Ancestry human. Level 4. Temperament territorial. Lair lee. Pronouns she.
+    Role "the foreman of the Spade-Company". Level 4. Temperament territorial. Lair lee. Pronouns she.
     Warns "The foreman comes out of the biggest tent with a ledger under her arm and does not put it down. 'State your business,' she says, to your face and to the hands behind her. 'Short. I have a face to get through by Thursday, a clerk to pay by Michaelmas and a woman on the high ground who is trying to steal both. The licence I hold says nobody digs here but us. It says it in the reeve's own hand, and I have read it twice, which is more than he has.'".
   }
   Initially Set encounterXp(foreman) to 250.
   Initially Assert serves(crew, foreman). Initially Assert serves(watchers, foreman). Initially Assert serves(foreman, clerk).
   Person surgeon "Someone" at lee {
-    Role "the camp's cook and surgeon". Ancestry human. Peaceable. Pronouns he.
+    Role "the camp's cook and surgeon". Peaceable. Pronouns he.
     Sells rations for 2 coin from 8.
     Sells torch for 1 coin from 8.
     Sells lamp_oil for 2 coin from 4.
@@ -187,11 +187,11 @@ Module bound_howe "The Bound Howe" {
   Initially Set encounterXp(sentry) to 100.
   Initially Assert serves(sentry, foreman).
   Person warden "Someone" at hearth {
-    Role "the warden of the ridge". Ancestry human. Peaceable. Pronouns she.
+    Role "the warden of the ridge". Peaceable. Pronouns she.
     Greets "The old woman on the stone seat does not rise. 'I know why you have come,' she says. 'Everyone comes for the same reason, and goes away with a different one. Sit by the fire. The fire is the only thing on this ridge that has never lied.'".
   }
   Person clerk "Someone" at green {
-    Role "the shire-reeve's clerk". Ancestry human. Peaceable. Pronouns he.
+    Role "the shire-reeve's clerk". Peaceable. Pronouns he.
     Greets "The shire-reeve's clerk looks up from a writing-board and a stack of tallies. 'You are not here to pay the levy,' he says, 'so you must be here about the torc. Everyone is.'".
   }
   Person mouth "the Mouth" at well {
