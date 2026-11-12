@@ -572,3 +572,11 @@ The assessment proposed folding the two thinnest goings-on, `oldcoin` and `quarr
 
 *Problem.* `Requires … memberOf(m, actor) and hasCalling(m, calling_thief)` fails to load with `Invalid argument m in memberOf(m, actor)` (and the same for `who`) unless the action declares `who: member`; the error is attributed to an unrelated file and line (`tamaun.kyr:265`, `quell.kyr:2` for a rule in `clock.kyr`). The guide (`doc/authoring/guide.md`, callings) does not show an action with the parameter.
 *Request.* Name the action and line in the error, and add a three-line example to the guide's "Callings" section.
+
+## P4 (ties) requests, R110 onward
+
+### R110. A third party that moves, not only appears
+
+*Problem.* The ties' third parties (a dying mother, a rival claimant, a blamed boy) can only be hidden or shown with `Seen when`, because a settlement may lack a taproom or a shrine and a template cannot ask whether a room exists. A rival who walks to the site, is met on the road, and comes back, would be a better scene than a person who is absent and then present.
+*Request.* A template condition for a room's existence in the section header (`--- shape debt 3 if taproom`, as `if station` works today), and a person who may be written with a `Route` between a settlement's green and a site.
+*Reproduce.* `data/generation/town/ties.kyrt`, shape `debt`: `Seen when not {t}_tie_gone(party) or {t}_tie_back(party)`. Run `bun scripts/dump-region.ts thorn s2 | grep tie_heir` and compare it with the Hesper rule in `troubles.kyrt`, which moves a person between two rooms.
