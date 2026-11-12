@@ -241,7 +241,7 @@ export class TalkStage {
   static Reply({ choice: c, draw, asked, fresh, aimed, pays }: { choice: Choice; draw: Draw; asked?: boolean;
     fresh?: boolean; aimed?: boolean; pays?: boolean }) {
     return (
-      <li className={[asked ? 'asked' : fresh ? 'fresh' : '', aimed ? 'aimed' : '', pays ? 'pays' : '']
+      <li className={[asked ? 'asked' : fresh || c.teaches ? 'fresh' : '', aimed ? 'aimed' : '', pays ? 'pays' : '']
         .filter(Boolean).join(' ') || undefined}>
         {/* What is said beside its number, wrapping beside it: on a phone a long one had gone under its number. */}
         <Act.View choice={c} draw={draw}><i>{(draw.index.get(c.id) ?? 0) + 1}</i><span className="said">

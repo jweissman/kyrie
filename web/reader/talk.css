@@ -141,6 +141,8 @@
 .more-talk > summary:hover, .more-talk > summary:focus-visible, .said-before > summary:hover,
 .said-before > summary:focus-visible { color: var(--accent); outline: none; }
 .more-talk[open] > summary { color: var(--ivory); }
+/* New since the last answer, or what would tell the company something: knowledge's blue, as their likeness is marked
+   (the owner's player report, 12 November: a blue pip, and no blue reply to ask). */
 .replies .fresh .act { border-left: 2px solid var(--azure); }
 .to-trade { margin: 14px 0 0; display: flex; gap: 10px; }
 .trading .label { margin: 14px 0 8px; color: var(--accent); display: flex; justify-content: space-between; gap: 12px; }

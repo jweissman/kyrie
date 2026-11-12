@@ -22,6 +22,9 @@ export interface Act {
   targets?: string[];
   // Whether doing it takes the company somewhere (its action moves it), as against what is done at a way.
   moves?: boolean;
+  // Whether doing it teaches the company something (its action's success is that it knows a fact): what is said to
+  // someone that tells, drawn as knowledge where they are marked for it (the owner's player report, 12 November).
+  teaches?: boolean;
   // What the action's author says it means, shown before it is chosen.
   about?: string;
   // Who in the company makes it possible (the one with the skill it needs), or why it cannot be done.

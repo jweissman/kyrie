@@ -266,7 +266,8 @@ export class ChoiceGrouping {
       .map(([, v]) => v);
     return { ...row.wanting ? { disabled: row.wanting } : { command: row.choice.id }, does,
       ...targets.length ? { targets } : {},
-      ...row.action.movement || ChoiceGrouping.rules[does]?.moves ? { moves: true } : {} };
+      ...row.action.movement || ChoiceGrouping.rules[does]?.moves ? { moves: true } : {},
+      ...(row.action.success ?? []).some(c => c.kind === 'assert' && c.call?.name === 'knows') ? { teaches: true } : {} };
   }
   private static place(out: Grouped, row: Row, context: GroupingContext) {
     const { choice, action } = row;

@@ -16,8 +16,8 @@ export interface Choice {
   alone?: string;
   // What kind of act it is, and what it is done to or with (see Act.does, Act.targets).
   does?: string; targets?: string[];
-  // Whether doing it takes the company somewhere (see Act.moves).
-  moves?: boolean;
+  // Whether doing it takes the company somewhere, or teaches it something (see Act.moves, Act.teaches).
+  moves?: boolean; teaches?: boolean;
   // A way about the settlement or site the company is in, however long it takes (see ExitRow).
   local?: boolean;
   // What cannot be undone by it: the page says so, and asks again, before it is done.
@@ -296,7 +296,7 @@ export class ChoiceList {
       ...(a.minutes ? { minutes: a.minutes } : {}), ...(about ? { about } : {}),
       ...(a.risk ? { risk: true } : {}), ...(a.disabled ? { disabled: a.disabled } : {}),
       ...(a.does ? { does: a.does } : {}), ...(a.targets ? { targets: a.targets } : {}),
-      ...(a.moves ? { moves: true } : {}),
+      ...(a.moves ? { moves: true } : {}), ...(a.teaches ? { teaches: true } : {}),
       ...(a.grave ? { grave: a.grave } : {}), ...(a.answer ? { answer: true } : {}), ...(a.own ? { own: true } : {}),
       ...(a.deed ? { deed: true } : {}), ...(a.alone ? { alone: a.alone } : {}) };
   }
