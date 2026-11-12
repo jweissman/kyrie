@@ -1,10 +1,12 @@
 import { FictionalTime } from '../../src/campaign/fictional-time';
 import type { SaveSummary } from '../engine/protocol';
+import { WorldVault } from './world-vault';
 
 // A kept game: its state, and the world it was played in when that is kept apart from it (see KeptGame).
-export interface SavedGame extends SaveSummary { text: string; world?: string }
+// vaulted: the world is kept in IndexedDB by this key (see WorldVault), to be fetched when the game is taken up.
+export interface SavedGame extends SaveSummary { text: string; world?: string; vaulted?: string }
 // Which of two slots holds the kept state, and which the world it names (with that world's key).
-interface Pointer { stateSlot?: Slot; worldSlot?: Slot; worldKey?: string; world?: string }
+interface Pointer { stateSlot?: Slot; worldSlot?: Slot; worldKey?: string; world?: string; vaulted?: boolean }
 type Slot = 'a' | 'b';
 
 // The game kept in this browser as it goes, so a reload continues where the company stands; and a save file to take
@@ -25,7 +27,8 @@ export class ReaderStore {
       if (pointer?.stateSlot) {
         const text = localStorage.getItem(`${this.key}.${pointer.stateSlot}`);
         const world = pointer.worldSlot ? localStorage.getItem(`${this.world}.${pointer.worldSlot}`) : undefined;
-        return text ? { text, ...this.summaryOf(pointer), ...world ? { world } : {} } : undefined;
+        const vaulted = pointer.vaulted && pointer.worldKey ? { vaulted: pointer.worldKey } : {};
+        return text ? { text, ...this.summaryOf(pointer), ...world ? { world } : {}, ...vaulted } : undefined;
       }
       // As kept before slots: the state and the world each in one place, the world's key on its first line.
       const text = localStorage.getItem(this.key);
@@ -36,9 +39,14 @@ export class ReaderStore {
       return { text, ...this.summaryOf(summary), ...world ? { world } : {} };
     } catch { return undefined; }
   }
-  static write(text: string, summary: SaveSummary, world?: { key: string; text: string }): SavedGame | undefined {
+  // vaulted: the key of a world kept in IndexedDB (WorldVault) for this state, whose localStorage slots are let go.
+  static write(text: string, summary: SaveSummary, world?: { key: string; text: string },
+    vaulted?: string): SavedGame | undefined {
     try {
       const was = this.pointer(), state: Slot = was.stateSlot === 'a' ? 'b' : 'a';
+      if (vaulted || (was.vaulted && !world)) {
+        return this.besideVault(text, summary, state, vaulted ?? was.worldKey!);
+      }
       let worldSlot = was.worldSlot, worldKey = was.worldKey, worldText: string | undefined;
       // A world new to this kept game goes into the free slot; one kept before slots is carried into one.
       const fresh = world ?? (!worldSlot ? this.legacyWorld() : undefined);
@@ -54,6 +62,15 @@ export class ReaderStore {
       worldText ??= worldSlot ? localStorage.getItem(`${this.world}.${worldSlot}`) ?? undefined : undefined;
       return { text, ...summary, ...worldText ? { world: worldText } : {} };
     } catch { return undefined; }
+  }
+  // A state kept beside a world in the vault: the summary names the world by its key; any world kept in localStorage
+  // is let go, for the room.
+  private static besideVault(text: string, summary: SaveSummary, state: Slot, key: string): SavedGame {
+    for (const k of [`${this.world}.a`, `${this.world}.b`, this.world]) { localStorage.removeItem(k); }
+    localStorage.setItem(`${this.key}.${state}`, text);
+    localStorage.setItem(this.about, JSON.stringify({ ...summary, stateSlot: state, worldKey: key, vaulted: true }));
+    this.release(state, undefined);
+    return { text, ...summary, vaulted: key };
   }
   // A new world written beside the one kept before it, or, where the two do not fit together, in place of it: a
   // country with its standing scenarios is a world of three megabytes, and two of them had filled the browser's
@@ -96,6 +113,7 @@ export class ReaderStore {
       for (const k of [this.key, this.about, this.world, `${this.key}.a`, `${this.key}.b`, `${this.world}.a`,
         `${this.world}.b`]) { localStorage.removeItem(k); }
     } catch { /* storage may be refused */ }
+    void WorldVault.clear();
   }
   // What a game kept before summaries were kept beside it says about itself: where, when, and who.
   static summary(text: string): SaveSummary {

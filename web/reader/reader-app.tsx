@@ -11,6 +11,7 @@ import { Conversation, type TalkLine } from './conversation';
 import type { Attention } from '../../src/ui/attention';
 import type { Promoted } from '../../src/presentation/glance-types';
 import { ReaderStore, type SavedGame } from './reader-store';
+import { WorldVault } from './world-vault';
 import { ReaderKeys } from './reader-keys';
 import { ReaderOpening } from './reader-opening';
 import { Timings } from './timings';
@@ -156,17 +157,8 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   }
   private listen(message: Message) {
     if (message.kind === 'saved') {
-      const started = performance.now(), size = message.save.length + (message.world?.text.length ?? 0);
-      // A state is kept only beside the world it was kept against; the engine is told whether its world is kept here,
-      // so that one not kept goes again with the next (the architecture review's A3).
-      const beside = !!message.world || ReaderStore.holds(message.key);
-      const saved = beside ? ReaderStore.write(message.save, message.summary, message.world) : undefined;
-      if (message.world || !beside) {
-        void this.engine.request({ kind: 'kept', key: message.key, ok: !!saved }).catch(() => undefined);
-      }
-      if (saved) { this.setState({ saved, unkept: false }, () => Timings.kept(performance.now() - started, size)); }
-      // Not kept (the browser's storage is full, or refused): the player is told, and given the save to take.
-      else if (!this.state.unkept) { this.setState({ unkept: true }); }
+      // Kept in order: a world going into the vault is waited on before the states after it (see WorldVault).
+      this.keeping = this.keeping.then(() => this.keep(message)).catch(() => undefined);
     } else if (message.kind === 'unkept') { if (!this.state.unkept) { this.setState({ unkept: true }); } }
     else if (message.kind === 'progress') { this.setState({ stage: message.stage, step: message.step }); }
     else if (message.kind === 'frame') {
@@ -176,6 +168,24 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
         attention: Conversation.place, talk: [], asked: [], confirming: undefined, charted: undefined,
         outdoors: !!message.frame.screen.region?.land && !combat });
     }
+  }
+  private keeping: Promise<void> = Promise.resolve();
+  private async keep(message: Extract<Message, { kind: 'saved' }>) {
+    const started = performance.now(), size = message.save.length + (message.world?.text.length ?? 0);
+    // A state is kept only beside the world it was kept against; the engine is told whether its world is kept here,
+    // so that one not kept goes again with the next (the architecture review's A3). A new world goes into the
+    // browser's IndexedDB where it has one: three megabytes of it no longer fit in localStorage beside the game.
+    const vaulted = message.world && WorldVault.available()
+      ? await WorldVault.put(message.world.key, message.world.text) ? message.world.key : undefined : undefined;
+    const beside = !!message.world || ReaderStore.holds(message.key);
+    const saved = !beside ? undefined : vaulted ? ReaderStore.write(message.save, message.summary, undefined, vaulted)
+      : ReaderStore.write(message.save, message.summary, message.world);
+    if (message.world || !beside) {
+      void this.engine.request({ kind: 'kept', key: message.key, ok: !!saved }).catch(() => undefined);
+    }
+    if (saved) { this.setState({ saved, unkept: false }, () => Timings.kept(performance.now() - started, size)); }
+    // Not kept (the browser's storage is full, or refused): the player is told, and given the save to take.
+    else if (!this.state.unkept) { this.setState({ unkept: true }); }
   }
   private built?: { frame?: Frame; view: View; open: string[]; attention: Attention; member: string; asked: string[];
     heard?: string[]; trading?: boolean; menu: Menu };

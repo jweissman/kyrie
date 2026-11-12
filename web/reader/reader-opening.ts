@@ -1,3 +1,4 @@
+import { WorldVault } from './world-vault';
 import type { Catalog, CompanyView, Frame, Member, Request, Setting } from '../engine/protocol';
 import type { ReaderApp } from './reader-app';
 import { Rolls } from '../../src/rules/rolls';
@@ -228,6 +229,10 @@ export class ReaderOpening {
   }
   readonly carryOn = () => {
     const saved = this.app.state.saved;
-    if (saved) { void this.resume(saved.text, saved.world); }
+    if (!saved) { return; }
+    // A world kept in the vault is fetched as the game is taken up (see WorldVault).
+    void (async () => {
+      await this.resume(saved.text, saved.world ?? (saved.vaulted ? await WorldVault.get(saved.vaulted) : undefined));
+    })();
   };
 }
