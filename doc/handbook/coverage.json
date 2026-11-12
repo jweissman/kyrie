@@ -801,7 +801,7 @@
     "faithful": 764,
     "adapted": 381,
     "represented": 4,
-    "kyr": 557,
+    "kyr": 558,
     "unsupported": 68,
     "unreachable": 4,
     "data-only": 12
@@ -892,7 +892,7 @@
       "faithful": 241,
       "adapted": 83,
       "represented": 0,
-      "kyr": 103,
+      "kyr": 104,
       "unsupported": 7,
       "unreachable": 0,
       "data-only": 0
@@ -7020,6 +7020,13 @@
    "id": "item:crowbar",
    "title": "Crowbar",
    "status": "adapted",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:dead_mans_map",
+   "title": "Dead man's map",
+   "status": "kyr",
    "book": "phb",
    "section": "equipment/gear"
   },
