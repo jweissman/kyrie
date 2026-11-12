@@ -55,6 +55,24 @@ modules in every first country), and the after-cutoff fixes E205–E222 and T24-
 6. **Paintings still contradict the text** (R10-08, R11-09). Out of doors the painting now follows the hour; nothing
    else has changed.
 
+### The register, reconciled
+
+The briefs audit (`briefs-audit.md`, 12 November about 5 a.m.) classified every brief and the register's §1–§20 at
+the cutoff. The rows since, §17 and §19–§24, by their status column (12 November, evening): **72 rows: 36 open,
+15 done, 13 partly done, 4 superseded or not reproduced, 1 blocked on the owner** (AI-05, the Howe's lead held to day
+3), **3 that say more than a status** (PR-06, PR-07, R9-14: read them). Recurring player-visible failures and their
+suspected common causes, *hypotheses unless marked*:
+
+- **Narration volume against a fixed viewport** (T24-05, R11-06, S2): one cause behind "the telling scrolls", "the
+  same words in two places" and "too busy": places say everything they hold before their acts. Verified for the
+  first green (four paragraphs and a life line before three acts).
+- **Paintings chosen by kind, not by state** (R10-08, R11-09): a painting knows its place's kind and the hour, not
+  its condition (broken, burning, dark). Hypothesis.
+- **Engine invariants proved only through whole worlds** (test-loop §5, §5b): why a change to the shared rules moves
+  dozens of specs at once, and why CI is slow. Verified for the specs read.
+- **A shared atom without a shared menu or frame** (proposals A, C): why the safe zone and the menu's look broke
+  page by page. Verified by the discovery inventory.
+
 ### The test-loop baseline (`test-loop.md`)
 
 | Step | Now | Measured route |
