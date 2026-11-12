@@ -261,7 +261,7 @@ export class Told {
   // Something under way: said at once, in the player's words; a journey says where it goes and how long it is.
   static Working({ pending }: { pending: { said: string; travel?: Travel; stage?: string } }) {
     const t = pending.travel;
-    const span = t ? t.minutes >= 60 ? `${Math.round(t.minutes / 6) / 10} hours` : `${t.minutes} minutes` : '';
+    const span = t ? t.minutes >= 60 ? `${Math.round(t.minutes / 6) / 10} hours` : `${t.minutes} minute${t.minutes === 1 ? '' : 's'}` : '';
     return (
       <section className="happened working" aria-live="polite">
         <p className="you">{Typography.curl(Words.echo(Words.lastSaid(pending.said)))}</p>

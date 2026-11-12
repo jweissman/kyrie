@@ -282,5 +282,7 @@ Sources: the builder's probes (P), cold round 1 player A / B (screenshot numbers
 | E164 | P3 | A likeness with nothing to open said "Nothing more to say to you now" of someone never spoken to (round 8, M); one of the company down said only "down" (round 8, N) | round 8 | **fixed**: "Nothing to say to you now"; one of the company down says what the Company page says (senseless; at the next rest they come round, or die) (test/still-likeness) |
 | E165 | P3 | "Sing for your supper: Needs persuasion, no one in the company has it" of a company whose bard was senseless (round 8, N) | round 8 | **fixed**: a skill withheld is one "no one in the company can use now" |
 | E166 | P3 | Creation said a level adds half the calling's die in hit points; the sheet said 1d6, and the engine rolls the die with the Constitution modifier (round 8, N) | round 8 | **fixed**: the calling's facts and Constitution's line say a roll of the die at each level after the first, as the sheet does |
+| E167 | P3 | "1 minutes" on a way (round 8, N) | round 8 | **fixed**: one minute is singular in a span and in a journey under way |
+| E168 | P3 | The bard "wears robe of elvenkind, robe of the archmagi" at creation (round 8, N): every wearable item, wonders included | round 8 | **fixed**: a calling's wear lists ordinary armour only (a bard: clothing, hide, leather) |
 | E8 | — | Headless scripts could not take a map journey | — | **fixed** bf62b137 (`map:<place>`) |
 | E21 | — | Cold agents under automation skip the prologue; next rounds use `&opening` | P | noted (harness) |

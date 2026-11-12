@@ -117,7 +117,9 @@ export class Creation {
   private static armour(calling: string): string {
     const c = Canon.classes[Canon.resolve('classes', calling)], p = c?.proficiencies.armor;
     if (!p || p.all) { return 'any armour'; }
-    const worn = Object.entries(Canon.items).filter(([id, i]) => i.armor && RulesCreation.canEquip(calling, id))
+    // Ordinary armour: a wonder (a robe of the archmagi) is found, not a calling's wear.
+    const worn = Object.entries(Canon.items).filter(([id, i]) => i.armor && !i.modifiers && !i.hooks
+      && RulesCreation.canEquip(calling, id))
       .map(([, i]) => i.name.toLowerCase());
     return worn.length ? worn.join(', ') : 'no armour';
   }

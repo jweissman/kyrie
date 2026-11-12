@@ -81,7 +81,7 @@ export class Words {
   static article(noun: string): string { return /^(a|an|the) /i.test(noun) ? noun : `${/^[aeiou]/i.test(noun) ? 'an' : 'a'} ${noun}`; }
   // A span of the world's time, as a traveller reckons it: "40 minutes", "about 2 hours", "about 6½ hours".
   static span(minutes: number): string {
-    if (minutes < 60) { return `${minutes} minutes`; }
+    if (minutes < 60) { return `${minutes} minute${minutes === 1 ? '' : 's'}`; }
     const halves = Math.round(minutes / 30), hours = Math.floor(halves / 2), half = halves % 2 ? '½' : '';
     return `about ${hours}${half} hour${hours === 1 && !half ? '' : 's'}`;
   }
