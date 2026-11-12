@@ -140,7 +140,9 @@ describe('kite at a glance', () => {
   });
   // About a millisecond alone; the bound leaves room for a machine running sixteen suites at once (its quickest of
   // nine had still come to six there), and still catches a glance grown slow.
+  // A few milliseconds where they can be measured (6.5 ms here at M20's landing); on CI's shared runners even the
+  // fastest of nine took 102 ms, and the budget only says nothing has gone pathological there.
   it('works the glance out in a few milliseconds', () => {
-    expect(Kite.g.timed()).toBeLessThan(8);
+    expect(Kite.g.timed()).toBeLessThan(process.env.CI ? 250 : 8);
   });
 });
