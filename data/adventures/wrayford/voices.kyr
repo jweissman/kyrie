@@ -109,6 +109,7 @@ Module wrayford "The Third Night" {
   Person tapp "Hannah Tapp" at ferry_taproom {
     Role "landlady of the Ferry Inn, and clerk of the Goose Assize". Ancestry human. Peaceable. Pronouns she. Manner cheerful.
     Greets "A woman built like a barrel on a very small stool is writing in a book with her tongue between her teeth, and does not stop. 'Sit,' says Hannah Tapp. 'You are just in time for the Assize. Everybody is.'".
+    Greets again "Hannah Tapp nods, once, and finishes what she was doing before she says anything, which is the closest Hannah Tapp comes to warmth.".
   }
   Observe goose_dock at ferry_taproom when not gooseTried(party) "On the settle by the fire, in a wicker basket with a ribbon round its neck, a very large white gander looks about it with the cold, level eye of a magistrate. Round the room, with their pots, twelve watermen in their Sunday coats are being sworn on a sheep's skull.".
   Relation gooseTried(group). Relation gooseFreed(group).

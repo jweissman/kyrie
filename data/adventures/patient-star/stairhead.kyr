@@ -40,6 +40,7 @@ Module season "The Patient Star" {
   // Prior Aurel Mance and Brother Tam (Stairhead House).
   Person mance "Prior Aurel Mance" at chapel_sh {
     Role "Prior of Stairhead House". Ancestry human. Calling cleric. Peaceable. Pronouns he. Manner proud.
+    Greets "The Prior of Stairhead is kneeling at the altar rail with his back to the door, his hands folded over a letter he has plainly read many times. He finishes his prayer, which takes a decorous while. 'You find me at my offices,' he says. 'Brother Tam will see you have what you need. The house is open to pilgrims, and closed to explorers; I trust you will tell me which you are.'".
   }
   Person tam "Brother Tam" at chapel_sh {
     Role "the cellarer". Ancestry human. Peaceable. Pronouns he. Manner jovial.

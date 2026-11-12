@@ -9,8 +9,8 @@ Module gaunt "A Winter in Carth" {
     Role "the Lady Penitentiary, a broad handsome woman of sixty in grey, with a pen behind her ear and the Row still in her voice" when not masked(hawise).
     Role "a masked woman in a grey shawl ladling soup at the Barefoot copper, with a voice from the Row" when masked(hawise).
     Ancestry human. Peaceable. Pronouns she. Manner acerbic.
-    Greets "The woman at the desk by the fire looks up, and takes the pen from behind her ear, and points it at the chair. 'Sit. You're the stranger who brought Ninian in, or the one who didn't. Either way you've walked with him, so you'll have opinions. Everybody who walks with Ninian comes away with opinions.' She smiles: a Row smile, all at once and gone, that has not been taught any manners by forty books. 'Mine are on the wall.' The forty books of the Register stand behind her on their lecterns.".
-    Greets again "Dame Hawise looks up from the Register and smiles.".
+    Greets "The woman at the desk by the fire takes the pen from behind her ear, and points it at the chair. 'Sit. You're the stranger who brought Ninian in, or the one who didn't. Either way you've walked with him, so you'll have opinions. Everybody who walks with Ninian comes away with opinions.' She smiles: a Row smile, all at once and gone, that has not been taught any manners by forty books. 'Mine are on the wall.' The forty books of the Register stand behind her on their lecterns.".
+    Greets again "Dame Hawise has a slip of paper in her teeth and the Register open at a page she does not seem to like. She takes the slip out. 'Good,' she says, 'you are back. I have the proofs of Ninian's pardon, and the proofs of his sentence, both fair-copied, and I am not at all sure which of them I shall have to read out.'".
   }
   Relation masked(group). Measure hawiseReasons(group). Query hawiseMoved() means hawiseReasons(hawise) >= 2.
   Relation hawiseHeardCarth(group). Relation hawiseHeardHern(group). Relation hawiseHeardVerse(group).

@@ -1,0 +1,52 @@
+Module skerrow "The Light on Scarth Holm" {
+  // ── The morning after, and the world's word ───────────────────────────────────────────────────────────────────────
+  // The kitchen was the same room at nine at night and at nine in the morning. A person who lived through the dark
+  // is not the person who sat down to tea: what is left on the rock says so, and says it differently to each.
+  Query dayTwo() means reachedAt(tide) > 0 and watch(clock) >= reachedAt(tide) + 90 and watch(clock) < reachedAt(tide) + 180 and not crossed(party).
+
+  Observe d2_seddon at lamp_room when dayTwo() and not orrinTaken(party) and at(orrin, lamp_room) "Seddon has not sat down since the bell. He has a tide-table open in his hand, upside down, and has read it that way twice, and the tea he has made is in the pot he uses for the lamp-glass.".
+  Observe d2_hettie near hettie when dayTwo() and not hettieTaken(party) and at(hettie, kitchen) "Hettie has cut the loaf again and it is the same loaf. She has put out cups for seven. She counts the cups, and takes the extra ones back to the shelf, one at a time, without remark.".
+  Observe d2_gaff near gaff when dayTwo() and not gaffTaken(party) and at(gaff, kitchen) "Gaff Mullen is sitting very straight in the chair he sprawled in. The mug is empty, and he is holding it as one holds something that might be needed. He says good morning in an ordinary voice, and the dog looks at him.".
+  Observe d2_corrie near corrie when dayTwo() and not corrieLost(party) and at(corrie, kitchen) "Corrie Fenwether has laid out her stock on the bench in length order, shortest to longest, and is pricing it a penny lower than last night. She does not look at the cistern door. She has put her ledger in her boot.".
+  Observe d2_dib near dib when dayTwo() and not dibTaken(party) and at(dib, kitchen) "Dib has asked nothing since you came down. He is sitting on the store door with his back against the hatch, as if it were a small animal, and he is not going to let it get up.".
+  Observe d2_piers near piers when dayTwo() and not piersLost(party) and at(piers, kitchen) "Piers Tolland has the Board's notice out of the satchel and flat on his knee, and has been smoothing it so long that the crease has gone soft as cloth. He has not yet decided which of two sentences to begin with.".
+
+  // Gaff's road. The cheeses are bound inland: the people who keep the roads and the inns know the cart.
+  Topic gaff_road with gaff "Ask Gaff what he is doing on a causeway with forty-two cheeses" when true once {
+    Says "'Selling 'em where nobody else will,' says Gaff, loudly, and lowers it. 'Coast road's a long road and a cheese ages on it. I take them up from the dairies in the hills to the market in the first town off the main road, where the innkeeper has a contract, and I come back the long way round with whatever the fishing villages will pay in salt.' He taps the side of his nose. 'This rock I do for love. The keeper's tea is the best on four counties, and nobody else will buy a cheese off me with a straight face.'".
+  }
+
+  // ── What leaves the rock ─────────────────────────────────────────────────────────────────────────────────────────
+  // Told by the lamp-keepers and the pilots of other coasts (Skeel's Loveday Kitto reads both in her night log).
+  Rule scarth_kept_word when crossed(party) and not hettieTaken(party) and not orrinTaken(party) and not befell(scarth_kept) { Assert befell(scarth_kept). }
+  Rule scarth_lost_word when crossed(party) and (hettieTaken(party) or orrinTaken(party)) and not befell(scarth_lost) { Assert befell(scarth_lost). }
+
+  // And what the rock hears. The Board's clerk is the only man on it with a list of the coast's other business.
+  Observe lore_piers_list at kitchen when befell(remainder_kept) and not piersLost(party) and at(piers, kitchen) "Piers has a second paper under the Board's notice, a printed list of vessels reported overdue, and one entry on it is ruled through in red with a note in the margin in a clerk's hand: LEFT, NOT LOST. 'Which is not a column the Board has,' he says. 'Someone has added one. I should like very much to know who is allowed to do that.'".
+
+  // ── The other end of the works ──────────────────────────────────────────────────────────────────────────────────
+  // The Scarth light and the Pharos on Skerrow (data/adventures/the-dorothea) are one works from its two ends: the same
+  // oil, a cistern that keeps the tide, a keeper who counts. A company that has been to the Reach can tell the keeper
+  // what became of the other lamp; a company that has not hears of it as oil and rope. See
+  // doc/architecture/activation/corpus/dorothea-skerrow.md.
+  Topic orrin_oil with orrin "Ask Seddon where the oil in the store comes from" when true once {
+    Says "'Cutter,' says Seddon. 'Kestrel. Out of Tolleth.' He turns the cup. 'Leaves it on the slip in flasks. Clean. No smoke.' He considers whether to say the next thing, and does. 'Burns longer than the Board's. I do not ask that, either.'".
+  }
+  Topic corrie_ketch with corrie "Ask Corrie Fenwether who else she sells line to" when true once {
+    Says "'Tolleth,' says Corrie. 'Ketches. One of them takes forty fathom a voyage and sails to a rock with a lamp on it that none of them will name, and her mate pays cash on the quay and looks pleased about it.' She puts a coil down. 'I have never been paid so quickly by a man who looked so well. I stopped asking the price of a clean conscience when I found I could afford it.'".
+  }
+  Topic orrin_pharos_lit with orrin "Tell Seddon the lamp on Skerrow was left burning" when befell(pharos_lit) once {
+    Says "'Lit,' says Seddon. He looks at the window, which has nothing in it. 'My father wrote to theirs at Michaelmas. One word. Then I did. Their answer was always one word, too.' He takes the pencil from behind his ear and looks at it. 'I have never known whose hand it was in. I have never asked.' He puts it back. 'Boots by the range.'".
+  }
+  Topic orrin_pharos_dark with orrin "Tell Seddon the lamp on Skerrow went dark" when befell(pharos_dark) once {
+    Says "Seddon says nothing for the length of the tea. 'Dark,' he says, when it is cold. 'That is a word.' He puts the pencil away unused. 'There were two on the coast that kept the old hours. Now there is one, and it is on a rock, and it has a bell.' He stands up and checks the wick, which does not need it.".
+  }
+  Topic orrin_pharos_fed with orrin "Tell Seddon a green light shows on the Reach at night" when befell(pharos_fed) once {
+    Says "'Green,' says Seddon. He goes to the window that looks at nothing and stands there. 'The glass has hummed forty years,' he says. 'There is something under the hum I took for the sea.' He does not say what he takes it for now. 'You will want your boots by the range.' It is the kindest thing he has said all night.".
+  }
+  // The gallery rail: a notch for each Michaelmas, and beside it the answer.
+  Observe pharos_rail_lit at gallery when befell(pharos_lit) "Along the top of the rail, seaward, a row of small notches, forty years of them, each with a shorter cut beside it. The newest has its shorter cut, made this autumn, deep and clean.".
+  Observe pharos_rail_dark at gallery when befell(pharos_dark) "Along the top of the rail, seaward, a row of small notches, forty years of them, each with a shorter cut beside it. The newest has none. Somebody has pressed a thumbnail into the place where it would go, and left it.".
+  Observe pharos_rail_fed at gallery when befell(pharos_fed) "Along the top of the rail, seaward, a row of small notches, forty years of them, each with a shorter cut beside it. The newest has its shorter cut, and a third, crossways, that no other year has, as if the answer had been longer than the question.".
+  Observe pharos_tick at lamp_room when befell(pharos_fed) and state(lamp, bright) "Under the hum of the glass, newly heard or newly there, a slow tick, one to a breath.".
+}

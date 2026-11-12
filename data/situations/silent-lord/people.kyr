@@ -1,0 +1,141 @@
+Module silent_lord "The silent lord" {
+  // The household, and the guests it did not ask for. Names are drawn for the country (tables.json); roles and wants are not.
+  Person castellan "Someone" at solar {
+    Role "the castellan, who signs for the lord". Calling warrior. Level 4. Peaceable. Manner proud. Pronouns she.
+    Greets "A tall woman in plain grey, a sword-belt over the gown, finishes the line she is writing before she looks up. It is a small discourtesy, and meant. 'The porter says travellers,' says {castellan}. 'This house keeps three nights. I should take it kindly if none of you required a fourth.' The pen goes down, parallel to the edge of the table. 'You will not go into the lord's rooms. You will not ask the servants what they have not been told. In every other respect, you are at home.'".
+    Greets again "{castellan} knows your face, and says so by saying nothing about it.".
+  }
+  Person steward "Someone" at granary {
+    Role "the steward, who keeps the keys of the undercroft". Calling commoner. Level 2. Peaceable. Manner acerbic. Pronouns he.
+    Greets "A stooped man with a ring of keys at his belt and a board under his arm counts you as you come in, to the nearest loaf. 'Guests,' says {steward}, without joy. 'Eat in the hall, sleep in the loft, and touch nothing that is counted.'".
+  }
+  Person chaplain "Someone" at chapel {
+    Role "the chaplain, who is also the keep's physician". Level 2. Peaceable. Manner compassionate. Pronouns she.
+    Greets "A broad, tired woman in a stained habit sets down a snuffer and turns, and for a moment her whole face is only listening. 'Peace to you,' says {chaplain}, and means it, and looks a moment longer than is polite, as people do who have not slept. 'The chapel is open at every hour, child. All I ask is quiet in it. There is a great deal of grief in this house, and not one of us has said so.'".
+  }
+  Person marshal "Someone" at ward {
+    Role "the marshal, master-at-arms of the garrison". Calling warrior. Level 3. Peaceable. Manner stoic. Pronouns he.
+    Greets "A square grey man, stick under one arm, looks you up and down as he would a recruit. 'Thirty-one,' says {marshal}. 'You make thirty-four, while you stay. State your business to the porter. State your trade to me.'".
+  }
+  Person clerk "Someone" at chancery {
+    Role "the castellan's clerk, who keeps the keep's papers". Calling commoner. Level 2. Peaceable. Manner acerbic. Pronouns he.
+    Greets "A thin young man in ink-stained sleeves does not look up. 'If it is the hay again,' says {clerk}, 'tell him I have written to the bailiff three times and I am about to write a fourth. If it is anything else, stand there and wait.'".
+  }
+  Person houndsman "Someone" at kennels {
+    Role "the houndsman, who has the lord's dogs and hawks". Level 2. Peaceable. Manner grim. Pronouns she.
+    Greets "A weathered woman with a hawk-glove on one hand and a pail of offal in the other nods once. 'Keep your hands where the dogs can see them,' says {houndsman}. 'They do not know you, and neither do I.'".
+  }
+  Person cook "Someone" at kitchen {
+    Role "the cook". Calling commoner. Level 1. Peaceable. Manner jovial. Pronouns she.
+    Greets "A woman built like a barrel, up to the elbows in dough, looks at your boots and then at your face. 'You are not here to tell me how to do my work,' says {cook}. 'Good. Sit down, then, and be useful.'".
+  }
+  Person porter "Someone" at gatehouse {
+    Role "the porter". Calling warrior. Level 1. Peaceable. Manner cheerful. Pronouns he.
+    Greets "A heavy man on a stool, with a bunch of keys he is not using, gets up slowly. 'Business at the keep?' says {porter}. 'Everyone has business at the keep this week. You will want to be in before nine, mind.'".
+  }
+  Person groom "Someone" at stables {
+    Role "the groom". Calling commoner. Level 1. Peaceable. Manner cheerful. Pronouns she.
+    Greets "A girl with straw in her hair and a curry-comb in her fist whirls round from the stall as though you had shouted. 'I d-didn't,' she says, and then sees you are only strangers, and goes red, and laughs at herself in a small cracked way. 'Mind the grey. He bites. Not hard. He doesn't like... surprises.' She looks at the loft ladder, and back. 'Nobody does, here. Lately.'".
+  }
+  Person herald "Someone" at guest {
+    Role "a herald in the livery of the court, guest of the keep". Ancestry human. Calling bard. Level 3. Peaceable. Manner jovial. Pronouns he.
+    Greets "A handsome man in a blue tabard stitched with a crown stands at his ease on the stair, one hand on his belt. 'A good evening, or a good day, as it may be,' says {herald}. 'You will excuse me. I carry the king's writ for the lord of this keep and I cannot be easy until it has been read.'".
+    Greets again "{herald} inclines his head to you as to someone he has already counted.".
+  }
+  Person bravos "the herald's men" at guest {
+    Role "two hired swords in the herald's livery". Ancestry human. Calling warrior. Numbers 2. Level 2. Peaceable. Pronouns they.
+    Greets "The two men by the door look you over without a word. One of them has a scar through his eyebrow, and the other sits on the pallet with a sword across his knees and does not stand up, which is a courtesy of a kind.".
+  }
+  Person doorward "the door-ward" at hall {
+    Role "a man-at-arms in the castellan's colours, set at the foot of the solar stair". Ancestry human. Calling warrior. Level 2. Temperament territorial. Pronouns he. Guards solar_stair.
+    Warns "The man-at-arms at the foot of the solar stair puts his halberd across it. 'The castellan sees no one unsent for,' he says. 'Go back, or be asked to.'".
+  }
+  Person captive "the prisoner" at oubliette {
+    Role "a man in the oubliette, who says he is the king's rider". Ancestry human. Calling ranger. Level 2. Peaceable. Manner grim. Pronouns he.
+    Greets "A man sits against the wall with his arms round his knees, filthy to the eyes, and looks up into your light. 'If you are the herald's,' he says, 'tell him I have been quiet. If you are not, I am the king's rider and I have been here nine days. I have a writ that is not in my coat.'".
+  }
+  Person hounds "the loosed hounds" nowhere {
+    Role "the keep's mastiffs, which are loosed in the ward at night". Species hound. Numbers 3. Level 1. Temperament territorial. Lair ward.
+    Warns "The hounds come out of the dark in a loose arc, low and silent, and the one in front stops a stride short with its lip lifted.".
+  }
+  Initially Set encounterXp(hounds) to 60.
+  Person old_dog "the lord's old dog" at kennels {
+    Role "an old brindled dog with its muzzle white to the eyes". Species dog. Peaceable.
+    Greets "The old dog lifts its head, looks at the door behind you as if you might have brought somebody, and puts its head down again.".
+  }
+  Person sentries "the sentries" at walk {
+    Role "two men of the garrison on the walls". Ancestry human. Calling warrior. Numbers 2. Level 1. Peaceable. Pronouns they.
+    Greets "The nearer of the two looks you over without turning his head. 'You are the travellers,' he says. 'Keep behind the parapet at the corner. The herald's men like to practise at crows.'".
+  }
+  Person night_guard "the night sentries" nowhere {
+    Role "two men of the garrison on the walls after dark". Ancestry human. Calling warrior. Numbers 2. Level 1. Temperament territorial. Pronouns they. Lair walk.
+    Warns "Two sentries on the wall-walk turn together as you come up the steps, spears coming down. 'Halt,' says one, 'and say who sent you up here at this hour.'".
+  }
+  Initially Set encounterXp(night_guard) to 60.
+  Person gatewatch "the gate-watch" at gatehouse {
+    Role "three of the garrison at the gate". Ancestry human. Calling warrior. Numbers 3. Level 1. Peaceable. Pronouns they.
+    Warns "The men from the guardroom come out with their spears levelled and spread across the passage, and one of them is already shouting for the bell.".
+    Greets "Three men of the garrison look up from a game of knucklebones on the guardroom step, and one of them nods, and the other two decide that he has done enough nodding for all of them.".
+  }
+  Initially Set encounterXp(gatewatch) to 70.
+  Initially Set encounterXp(bravos) to 80.
+  Initially Assert tolerates(old_dog, party).
+
+  // ---- The household's day: where each of them is, by the period of it. The sentries leave the walk for the brazier in
+  // the gatehouse for an hour in the small hours; the hounds are loosed at curfew; at the feast everyone is in the hall.
+  Rule p1 when hour(clock) >= 5 and hour(clock) < 8 and not now(p_dawn) { Assert now(p_dawn). }
+  Rule p2 when hour(clock) >= 8 and hour(clock) < 12 and not now(p_morning) { Assert now(p_morning). }
+  Rule p3 when hour(clock) >= 12 and hour(clock) < 14 and not now(p_noon) { Assert now(p_noon). }
+  Rule p4 when hour(clock) >= 14 and hour(clock) < 18 and not now(p_afternoon) { Assert now(p_afternoon). }
+  Rule p5 when hour(clock) >= 18 and hour(clock) < 21 and not now(p_eve) { Assert now(p_eve). }
+  Rule p6 when (hour(clock) >= 21 or hour(clock) < 2 or (hour(clock) >= 3 and hour(clock) < 5)) and not now(p_night) { Assert now(p_night). }
+  Rule p7 when hour(clock) >= 2 and hour(clock) < 3 and not now(p_dead) { Assert now(p_dead). }
+  Rule p8 when day(clock) == feastDay(house) and hour(clock) >= 19 and hour(clock) < 24 and not now(p_feast) { Assert now(p_feast). }
+
+  Initially Assert duty(castellan, p_dawn, solar). Initially Assert duty(castellan, p_morning, chancery).
+  Initially Assert duty(castellan, p_noon, hall). Initially Assert duty(castellan, p_afternoon, ward).
+  Initially Assert duty(castellan, p_eve, hall). Initially Assert duty(castellan, p_night, solar).
+  Initially Assert duty(castellan, p_dead, solar). Initially Assert duty(castellan, p_feast, hall).
+  Initially Assert duty(steward, p_dawn, granary). Initially Assert duty(steward, p_morning, granary).
+  Initially Assert duty(steward, p_noon, hall). Initially Assert duty(steward, p_afternoon, undercroft).
+  Initially Assert duty(steward, p_eve, hall). Initially Assert duty(steward, p_night, undercroft).
+  Initially Assert duty(steward, p_dead, undercroft). Initially Assert duty(steward, p_feast, hall).
+  Initially Assert duty(chaplain, p_dawn, chapel). Initially Assert duty(chaplain, p_morning, chapel).
+  Initially Assert duty(chaplain, p_noon, hall). Initially Assert duty(chaplain, p_afternoon, chapel).
+  Initially Assert duty(chaplain, p_eve, chapel). Initially Assert duty(chaplain, p_night, crypt).
+  Initially Assert duty(chaplain, p_dead, crypt). Initially Assert duty(chaplain, p_feast, hall).
+  Initially Assert duty(marshal, p_dawn, ward). Initially Assert duty(marshal, p_morning, ward).
+  Initially Assert duty(marshal, p_noon, hall). Initially Assert duty(marshal, p_afternoon, armoury).
+  Initially Assert duty(marshal, p_eve, hall). Initially Assert duty(marshal, p_night, armoury).
+  Initially Assert duty(marshal, p_dead, armoury). Initially Assert duty(marshal, p_feast, hall).
+  Initially Assert duty(clerk, p_noon, hall). Initially Assert duty(clerk, p_eve, hall). Initially Assert duty(clerk, p_feast, hall).
+  Initially Assert duty(clerk, p_dawn, chancery). Initially Assert duty(clerk, p_morning, chancery).
+  Initially Assert duty(clerk, p_afternoon, chancery). Initially Assert duty(clerk, p_night, chancery). Initially Assert duty(clerk, p_dead, chancery).
+  Initially Assert duty(herald, p_dawn, guest). Initially Assert duty(herald, p_morning, guest).
+  Initially Assert duty(herald, p_noon, hall). Initially Assert duty(herald, p_afternoon, stables).
+  Initially Assert duty(herald, p_eve, hall). Initially Assert duty(herald, p_night, guest).
+  Initially Assert duty(herald, p_dead, guest). Initially Assert duty(herald, p_feast, hall).
+  Initially Assert duty(bravos, p_dawn, guest). Initially Assert duty(bravos, p_morning, guest).
+  Initially Assert duty(bravos, p_noon, hall). Initially Assert duty(bravos, p_afternoon, stables).
+  Initially Assert duty(bravos, p_eve, hall). Initially Assert duty(bravos, p_night, guest).
+  Initially Assert duty(bravos, p_dead, guest). Initially Assert duty(bravos, p_feast, hall).
+  Initially Assert duty(cook, p_noon, kitchen). Initially Assert duty(cook, p_feast, kitchen).
+  Initially Assert duty(sentries, p_dawn, gatehouse). Initially Assert duty(sentries, p_morning, gatehouse).
+  Initially Assert duty(sentries, p_noon, gatehouse). Initially Assert duty(sentries, p_afternoon, walk).
+  Initially Assert duty(sentries, p_eve, walk). Initially Assert duty(sentries, p_feast, walk).
+  Initially Assert duty(night_guard, p_night, walk). Initially Assert duty(night_guard, p_dead, gatehouse).
+  Rule sentries_off when (now(p_night) or now(p_dead)) and at(sentries, ?p) { Retract at(sentries, ?p). Assert off_watch(house). }
+  Rule sentries_on when not now(p_night) and not now(p_dead) and off_watch(house) { Retract off_watch(house). Assert at(sentries, walk). }
+  Rule guard_on when (now(p_night) or now(p_dead)) and not at(night_guard, ?p) and not guard_up(house) { Assert at(night_guard, walk). Assert guard_up(house). }
+  Rule guard_off when not now(p_night) and not now(p_dead) and guard_up(house) and at(night_guard, ?p) { Retract at(night_guard, ?p). Retract guard_up(house). }
+  Relation off_watch(group). Relation guard_up(group).
+  Rule hounds_out when (now(p_night) or now(p_dead)) and not hounds_loosed(house) and not dead(hounds) { Assert at(hounds, ward). Assert hounds_loosed(house). }
+  Rule hounds_in when not now(p_night) and not now(p_dead) and hounds_loosed(house) and at(hounds, ?p) { Retract at(hounds, ?p). Retract hounds_loosed(house). }
+  Relation hounds_loosed(group).
+  Initially Assert duty(houndsman, p_dawn, kennels). Initially Assert duty(houndsman, p_night, kennels).
+  Initially Assert duty(groom, p_dawn, stables). Initially Assert duty(porter, p_dawn, gatehouse).
+  Rule routine when duty(?p, ?t, ?room) and now(?t) and at(?p, ?old) and distinct(?old, ?room) and able(?p)
+    and not following(?p, party) and not occupied(?p) {
+    Retract at(?p, ?old). Assert at(?p, ?room).
+  }
+}

@@ -18,7 +18,8 @@
     "winders.kyr",
     "endings.kyr",
     "after.kyr",
-    "company.kyr"
+    "company.kyr",
+    "lore.kyr"
   ],
   "rules": [
     "world"

@@ -28,7 +28,7 @@ interface Kind { id: string; were: string; made: string; plans: string[]; modifi
 // One of the makers' works, or the later kingdom's: its plan, where it stands, the name cut over it (the makers' in
 // the old tongue, the kingdom's in the folk's), and the name the folk have worn it down to.
 export interface Work { id: string; plan: string; art: string; cell: number; zone?: string; part?: number;
-  old: Naming; worn: string; later?: boolean; great?: boolean; deep?: boolean }
+  old: Naming; worn: string; later?: boolean; great?: boolean; deep?: boolean; imperial?: boolean }
 export interface History { makers: Makers[]; successors: Successors; works: Work[] }
 
 // A region's past, as far as it shows in the land: the makers whose works stand in it, placed where their art would
@@ -37,8 +37,6 @@ export interface History { makers: Makers[]; successors: Successors; works: Work
 // people left a work or two of their own.
 export class Histories {
   static readonly arts = data.arts as unknown as Record<string, Art>;
-  static readonly counts: Record<string, number> = { cistern: 2, weir: 1, galleries: 2, watchtower: 3, barrow: 3,
-    singing_hall: 2, keep: 2, abbey: 1, tollhouse: 1 };
   static readonly kinds = data.successors.kinds as unknown as Kind[];
   private static readonly plans = new Map<string, WorkPlan>();
   static add(plan: WorkPlan): WorkPlan {
@@ -69,7 +67,7 @@ export class Histories {
     for (const [i, maker] of makers.entries()) {
       const plans = this.arts[maker.art]!.plans.filter(p => this.plans.has(p) && !this.plans.get(p)!.great);
       for (const id of i === 0 ? plans : plans.slice(0, 1)) {
-        for (let n = 0; n < (i === 0 ? this.counts[id] ?? 1 : Math.min(2, this.counts[id] ?? 1)); n++) {
+        for (let n = 0; n < (i === 0 ? this.plan(id).count ?? 1 : Math.min(2, this.plan(id).count ?? 1)); n++) {
           const same = works.filter(w => w.plan === id).map(w => w.cell);
           const work = this.work(atlas, { plan: this.plan(id), key: `${key}:work:${works.length}`, taken, names, same });
           if (work) { works.push({ ...work, id: `w${works.length + 1}` }); }
@@ -96,6 +94,14 @@ export class Histories {
       .map(art => [...this.plans.values()].find(p => p.deep && p.art === art)).find(p => p);
     const deep = deepPlan && this.work(atlas, { plan: deepPlan, key: `${key}:work:deep`, taken, names, same: [] });
     if (deep) { works.push({ ...deep, id: `w${works.length + 1}`, deep: true }); }
+    // What the Empire left in every country (arts.json, imperial): drawn last, so that nothing drawn before moves.
+    // Numbered apart (e1, e2…) so that the ids of what a scenario generates after the works do not move, and drawn
+    // against copies of the cells and names taken so far, so that no town, road or work is named or placed anew.
+    for (const [n, id] of data.imperial.plans.filter(p => this.plans.has(p)).entries()) {
+      const work = this.work(atlas, { plan: this.plan(id), key: `${key}:work:imperial:${id}`, taken: [...taken], names: [...names],
+        same: [] });
+      if (work) { works.push({ ...work, id: `e${n + 1}`, imperial: true }); }
+    }
     return { makers, successors, works };
   }
   // The art of a region's makers, weighed by its terrain; another than one already drawn.

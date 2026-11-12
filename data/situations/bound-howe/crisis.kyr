@@ -1,0 +1,123 @@
+Module bound_howe "The Bound Howe" {
+  // ---- The week. The howe is not a dungeon that waits: three parties are moving on the ridge from the first day, and
+  // what each does changes the rooms the others will find. The clock is the world's day(clock). Deem draws breachDay (the day
+  // the licence-men's cutting meets the howe's flank) and rivalDay (the day a second company reaches the ridge), so a country
+  // is sometimes won by the diggers and sometimes by the door.
+  //
+  //   crew     the Spade-Company cuts a trench toward the flank: the face is sound, then thin (two days before the breach),
+  //            then broken. The foreman's men also undo a wedge in three days.
+  //   rival    the Lantern Company comes on rivalDay, camps, takes its ram to the door on the next day and forces it the day after;
+  //            what follows is in rival.kyr. Its steps are the measure rival_step(rcaptain).
+  //   host     any breach (the face broken, the seal forced in a sealed country, the torc lifted, the stone behind the seat broken
+  //            from outside) stirs the dead. The riders raid the camp on the first dark after the face breaks; three days on, the
+  //            household walks down to the town every night, until the howe is shut again.
+  //   levy     the reeve's levy is called on day 3 and marches on the day before the breach, for the diggers by default, against them
+  //            if the priest or the clerk has been turned (town.kyr).
+  Measure breachDay(group). Measure rivalDay(group). Measure stirDay(group). Measure shoredOn(group). Measure rival_step(group).
+  Relation host_stirs(). Relation host_abroad(). Relation raid_done(). Relation crew_fled(). Relation levy_against(). Relation levy_marched().
+  Relation howe_overrun(group). Relation breach_bells_told(). Relation torc_restored().
+  Query crew_digging() means able(crew) and not turned(foreman) and not crew_fled().
+  Query torc_home() means at(king_torc_item, throne) or torc_restored().
+  Query howe_open() means not state(seal, set) or state(face_wall, broken) or not torc_home().
+
+  // ---- New places: the face of the cutting, and the Kin's weir under the horse-hall.
+  Place face "the face of the cutting" is room within ridge at 5, 0 outdoors.
+  Place weir "the Kin's weir" is room within below at 2, 1 underground.
+  Initially Assert unlit(weir).
+  Passage face_way "the end of the trench" is path between trench and face taking 5 minutes.
+  Passage breach_way "the face of the cutting, into the howe's flank" is crawl between face and horses.
+  Passage drain_hatch "the manger-drain" is crawl between horses and weir hidden until drain_known.
+  Passage weir_stairs "the weir-stair" is steps between weir and sump.
+  Discovery drain_known "A stone grating in the horse-hall's floor, behind the mangers, takes the wash of the hall down to somewhere lower." { Found by searching horses. }
+
+  // ---- The face: where the licence-men are going in.
+  Thing face_wall "the face of the cutting" on breach_way {
+    State sound blocking "The cutting ends against the howe's own flank: dressed stone, cold to the hand, the pick-marks a palm deep and no deeper. Down it someone has chalked a tally in fives, and ringed the last five in red.".
+    State thin blocking "The face rings when it is struck. A draught as cold as a cellar comes through the pick-marks and smells of old oil. Under the red ring the chalk says TOMORROW, and under that, in another hand, DON'T.".
+    State shored blocking "The face has been wedged and propped with iron: a stiff frame of spikes and timber that will take a blow and give nothing. It is a delay and not a wall.".
+    State broken "The face is open: a black mouth the width of a man's shoulders, and the horse-hall's cold breathing out of it. Small bells are ringing somewhere beyond.".
+    State buried blocking "The cutting has come down on its own face, spoil to the roof and a long tongue of it running back down the trench. Nobody will get through it, or out of it, in less than a week.".
+    Change hurry "Break the last course of the face through with picks" from thin to broken needing digging or brawn.
+    Change shore_face "Wedge the face with iron and a prop, to hold it" from thin to shored needing iron_spikes.
+    Change bury_thin "Pull down the props and let the cutting fall across the face" from thin to buried needing pole.
+    Change bury_sound "Pull down the props and let the cutting fall across the face" from sound to buried needing pole.
+    Tries pushing, looking.
+  }
+  Rule face_thins heard at face when state(face_wall, sound) and day(clock) >= breachDay(crew) - 2 and crew_digging()
+    says "The picks change their note. The wall they are working has stopped being rock and become a door." { Assert state(face_wall, thin). }
+  Rule face_breaks heard at face when state(face_wall, thin) and day(clock) >= breachDay(crew) and crew_digging()
+    says "The face gives with a sound like a great dish dropped in another room. Cold comes out of the hill, smelling of old oil, and from somewhere inside it small bells begin to ring." { Assert state(face_wall, broken). }
+  Rule shore_noted when state(face_wall, shored) and shoredOn(crew) == 0 { Set shoredOn(crew) to day(clock). }
+  Rule shore_undone heard at face when state(face_wall, shored) and shoredOn(crew) > 0 and day(clock) >= shoredOn(crew) + 3 and crew_digging()
+    says "The diggers have chiselled out your wedges, one at a time, and thrown them on the spoil. The face is as thin as it was." { Assert state(face_wall, thin). Set shoredOn(crew) to 0. }
+  Rule breach_stirs when state(face_wall, broken) and not host_stirs() { Assert host_stirs(). Set stirDay(crew) to day(clock). }
+  Rule breach_bells heard at horses when state(face_wall, broken) and not breach_bells_told()
+    says "Cold daylight comes in at the far end of the hall through a hole that was not there, and every bell on every picket is ringing." { Assert breach_bells_told(). }
+  Observe face_scene at face when true "The cutting runs out here against the howe's flank: a wall of dressed stone, the shoring stacked beside it, a barrow, a brazier going out. Behind you ten paces of ditch, and a strip of sky.".
+  Observe face_chalk at face as sign when state(face_wall, sound) or state(face_wall, thin) "Tally-marks run down the stone in fives. A day is a stroke. The red ring is the day the foreman has told the reeve the face will open.".
+  Observe face_rings at face as sound when state(face_wall, thin) "Somewhere on the other side of the stone, very small, a bell turns over once and is still." teaches face_thin.
+  Discovery face_thin "The licence-men's cutting is a course or two from breaking into the howe's flank; beyond it the horse-hall, and its bells.".
+  Observe face_ranger at face as sign noticed by woodcraft when crew_digging() "The spoil is a day old at the top and a week at the bottom, and the barrow-tracks have gone a little deeper every morning. Twelve men's boots, no more. They have not been resting.".
+  Observe face_thief at face as sign noticed by trapwork when state(face_wall, thin) "The props at the face are set to take weight from the front. If they are pulled from the side the roof of the cutting will go, and it will go onto the face.".
+  Observe face_buried_seen at face when state(face_wall, buried) "The ditch behind the heap of spoil is already filling with water, as ditches do when the rain has been told to go somewhere else.".
+
+  // ---- The breach is a way in, for them and for the dead. Light and wind enter the horse-hall by it; the mounts and the riders
+  // answer it; the second way in, under the howe, drowns.
+  Rule horses_lit when state(face_wall, broken) and not dark() and unlit(horses) { Retract unlit(horses). }
+  Rule horses_dim when (not state(face_wall, broken) or dark()) and not unlit(horses) and not at(party, horses) { Assert unlit(horses). }
+  Rule camp_raided heard at lee when state(face_wall, broken) and dark() and not raid_done() and not dead(riders)
+    says "The dogs of the camp go quiet one after another. Then the bells, a long way off and coming, and a sound on the cutting-path that is hooves on stone: three horses that are bone, and on them two men who are not alive." {
+    Assert raid_done(). Retract at(riders, bench). Retract at(riders, horses). Assert at(riders, lee). Assert crew_fled(). Retract at(mounts, horses). Assert at(mounts, lee).
+    Retract at(crew, lee). Assert at(crew, taproom). Retract at(foreman, lee). Assert at(foreman, taproom). Retract at(surgeon, lee). Assert at(surgeon, taproom). Retract at(tam, lee). Assert at(tam, green).
+    Slay watchers.
+  }
+  Rule raiders_assail when raid_done() and at(riders, lee) and at(party, lee) and able(riders) and not tolerates(riders, party) { Assert assails(riders, party). }
+  Rule raiders_return when raid_done() and not dark() and at(riders, lee) and not at(party, lee) { Retract at(riders, lee). Assert at(riders, bench). }
+  Rule mounts_assail when raid_done() and at(mounts, lee) and at(party, lee) and able(mounts) and not tolerates(mounts, party) { Assert assails(mounts, party). }
+  Rule mounts_return when raid_done() and not dark() and at(mounts, lee) and not at(party, lee) { Retract at(mounts, lee). Assert at(mounts, horses). }
+  Observe lee_raided at lee as sign when raid_done() "The tents are down or ripped. A salt line has been scuffed across every path, and a dead man in a digger's cap lies across the fire-ring, with his own spade through the ledger.".
+  Observe lookout_dead at lookout as sign when raid_done() and dead(watchers) "Two bodies lie behind the lookout wall. One has a horn under her hand. She did blow it.".
+  Rule lower_wets heard at shaft_foot when state(face_wall, broken) and state(stopcock, open) and stirDay(crew) > 0 and day(clock) >= stirDay(crew) + 1 and state(lower, dry)
+    says "Water has begun to run down the crawl between the foot of the shaft and the dig-camp, a hand deep and cold." { Assert state(lower, wet). }
+  Rule lower_floods heard at shaft_foot when state(face_wall, broken) and state(stopcock, open) and stirDay(crew) > 0 and day(clock) >= stirDay(crew) + 3 and state(lower, wet)
+    says "The crawl to the dig-camp is under water to the roof." { Assert state(lower, flooded). }
+  Rule lower_dries heard at shaft_foot when state(stopcock, wound) and not state(lower, dry)
+    says "The water in the crawl drops, gurgles, and goes, as water goes down a bath." { Assert state(lower, dry). }
+  Thing lower "the water in the lower works" on foot_way {
+    State dry "The crawl between the shaft's foot and the dig-camp is dry, and low, and smells of damp men.".
+    State wet dangerous "Cold water runs down the crawl, ankle-deep, then knee-deep, and the roof is low.".
+    State flooded blocking "The crawl is full to the roof. Black water, and the robbers' line trailing in it.".
+    Hurts with black_water when wet then wet.
+    Tries looking.
+  }
+  Thing stopcock "the Kin's stopcock" at weir {
+    State open "A bronze wheel as wide as a cartwheel stands upright in a niche, green with age. It is half turned. A pipe the width of a man's body runs from it into the floor, and through the pipe water is going somewhere.".
+    State wound "The great wheel stands wound hard home. The pipe under it is quiet.".
+    Change turn_cock "Wind the stopcock shut" from open to wound needing brawn.
+    Tries looking, pushing.
+  }
+  Observe weir_scene at weir when true "A round brick-lined cistern under the horse-hall, where the Kin's wash came and was let go. The floor is dry stone, shaped to a drain. A stair goes down from it to the sump, and a grating lets in the hall's cold from above.".
+  Observe weir_plate at weir as sign noticed by lore when true "A plate on the wall in the Kin's marks: WHEN THE HOWE IS WET, SHUT THE WHEEL. THE DEAD DO NOT LIKE TO BE WET. Under it, a later hand, shaky: THE WATER ALSO GOES DOWN TO THE OTHER PLACE.".
+  Observe weir_flood_known at shaft_foot as sign when state(lower, wet) "The water in the crawl has come from above, and it keeps coming. Somewhere a great pipe is open.".
+
+  // ---- The mechanism resets when the door is shut: a company that sprang the middle tread and heaved the seal home will find it armed
+  // again. The Kin built it to be shut, and kept.
+  Rule tread_resets heard at flutes when state(seal, set) and state(tread, sprung) and not at(party, flutes) and not at(party, throne) and not at(party, behind)
+    says "From somewhere behind the stone there is a click, as of a great latch, and the middle tread comes home." { Assert state(tread, armed). }
+  Rule bells_hush when state(seal, set) and state(bells, ringing) and not at(party, horses) { Assert state(bells, hung). }
+
+  // ---- The host. Any breach stirs it; three days of an open howe sends it down to the town; a shut one settles it.
+  Rule door_stirs when state(seal, forced) and fate(howe, fate_sealed) and not host_stirs() { Assert host_stirs(). Set stirDay(crew) to day(clock). }
+  Rule torc_stirs when bound_broken(party) and not host_stirs() { Assert host_stirs(). Set stirDay(crew) to day(clock). }
+  Rule torc_stirs_other when not torc_home() and not host_stirs() { Assert host_stirs(). Set stirDay(crew) to day(clock). }
+  Rule host_abroads when host_stirs() and not host_abroad() and day(clock) >= stirDay(crew) + 3 and howe_open() { Assert host_abroad(). Assert howe_overrun(party). }
+  Rule host_settles when host_stirs() and not howe_open() says "The cold goes out of the ridge by degrees, like a fever that has broken. The dead are in their niches." {
+    Retract host_stirs(). Retract host_abroad(). Retract at(household, green). Assert at(household, gallery). }
+  Rule host_stays when host_abroad() and not howe_open() { Retract host_abroad(). }
+  Rule unkept_if_face when howe_kept(party) and state(face_wall, broken) { Retract howe_kept(party). }
+
+  // ---- Ending states, for the first town and the specs to read.
+  Query ridge_sealed() means state(seal, set) and not state(face_wall, broken) and torc_home().
+  Query ridge_sacked() means not torc_home().
+  Query ridge_opened() means (not state(seal, set) or state(face_wall, broken)) and torc_home().
+}

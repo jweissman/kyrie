@@ -30,7 +30,9 @@
   "canon": [
     "imbar",
     "slack_opened",
-    "remainder_kept"
+    "remainder_kept",
+    "scarth_kept",
+    "scarth_lost"
   ],
   "imports": [
     "party",

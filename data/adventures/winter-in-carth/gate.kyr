@@ -16,7 +16,7 @@ Module gaunt "A Winter in Carth" {
   Person assessor "the Assessor of the Fell Gate" at fell_gate {
     Role "a canon of the Penitentiary in a black gown, at a table under the arch, with a box of tally-sticks and a knife". Ancestry human. Peaceable. Pronouns he. Manner proud.
     Greets "The Assessor does not look up from the tally he is cutting. 'Faults of the road,' he says. 'Name them. What you do not name, and is known, is assessed double.'".
-    Greets again "The Assessor looks up, and down again. 'Faults?'".
+    Greets again "The Assessor does not stop cutting, but the knife slows. 'Faults,' he says. 'You have had a day in Gaunt since last, and a day in Gaunt is a day of faults. Name them, or I assess you for the ones I find.'".
   }
   Relation assessed(group). Relation assessing(group).
   // The first time the company comes through, it is assessed for the road: what it did, and whom it kept company with.
@@ -136,7 +136,7 @@ Module gaunt "A Winter in Carth" {
   Person heb "Heb" at heb_cellar {
     Role "a small sharp woman with spectacles pushed up into grey hair and a tally-knife, a Penitentiary clerk's widow". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
     Greets "'Shut the door,' says the woman at the table. 'There. Now. You've a tally you don't like the look of.' She holds out her hand for it without looking. 'Everybody has. Show.'".
-    Greets again "Heb pushes her spectacles up. 'Back again.'".
+    Greets again "Heb pushes her spectacles up into her hair, and takes them down again, which is her way of indicating that she has read your face. 'Back again,' she says. 'Whatever the tally says today, do not tell me how it came to say it. I should have to enter it.'".
   }
   Action buy_forgery(actor: group, site: place) "Buy a clean tally of Heb, four shillings" {
     Description "It will look like a clean one. Whether it passes for one depends on who looks.".

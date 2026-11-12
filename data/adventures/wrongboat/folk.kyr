@@ -11,6 +11,7 @@ Module wrongboat "The Wrong Boat" {
   Person cobbold "Mother Cobbold" at quay {
     Role "landlady of the Heron and Pipe". Ancestry human. Profession innkeeper. Peaceable. Pronouns she. Manner jovial.
     Greets "A stout woman in a man's coat comes out of the Heron with a hamper on her hip and her free hand already on your sleeve. 'You,' she says. 'You're going down. Everyone's going down, it's the fair. Which boat?'".
+    Greets again "Mother Cobbold has a second hamper on her hip, this one smaller. 'Which boat?' she says, and then she remembers, and puts her free hand over her mouth. 'Oh, it is you. You went. You came back. Did you open it? Don't tell me.'".
   }
   Topic cobbold_which with cobbold "Say which barge you paid for" when true once {
     Says "'Hurry up,' says Mother Cobbold. 'I've a kitchen on fire and a man who owes me eleven shillings, and he has left me a hamper for a cook who is on the Maud and will not eat it cold.'".
@@ -30,6 +31,7 @@ Module wrongboat "The Wrong Boat" {
   Person parr "Jack Parr" at taproom {
     Role "a bargeman between engagements". Ancestry human. Peaceable. Pronouns he. Manner jovial.
     Greets "A big man with a cork-coloured face, on his fourth pint and his eighth opinion, hits the table with the flat of his hand. 'THIRTY VERSES!' he roars, at you, at the room. 'Tom Lowther wrote thirty and we have added a hundred and nineteen and I wrote the one about the goose! Sit down! Sit! Buy a man a pint and I will sing you the goose!'".
+    Greets again "Jack Parr has reached the goose. He has been at the goose since you left. 'THIRTY VERSES,' he roars, 'AND A HUNDRED AND NINETEEN!' and then, lower, to the pint: 'A hundred and twenty. I did another.'".
   }
   Topic parr_label with parr "Show Jack Parr the label on the hamper" when holding(actor, hamper_kind) once {
     Says "He peers at it, wipes his eyes, peers again. 'DO NOT OPEN,' he reads, with great feeling. 'That is Hob's hand! Hob Garrod's! He writes a D like a roof coming off!' He lowers his voice to a shout. 'Hob has left that with the old girl to be carried somewhere he's not going himself. I'd not want to be the one carrying it.' He drinks. 'Not that I'd say so. I'm a vault.'".
@@ -38,10 +40,16 @@ Module wrongboat "The Wrong Boat" {
     Says "'The toll-clerk? Bess?' roars Parr. 'Gone up the Maud, I'd say, with a face like a bailiff! Mind, she'd have gone up the wrong one! She can't tell a Maud from a Mary at forty paces, it's the eyes!' He is perfectly sure. He is wrong, and he will be wrong again tomorrow.".
   }
 
+  // Barge-talk from other rivers: Jack Parr knows every bargemaster between here and the coast, and what they carry.
+  Topic parr_rivers with parr "Ask Jack Parr what the bargemen say of other rivers" when true once {
+    Says "'Other rivers!' roars Parr, delighted. 'There's a woman called Rowell, master of the Heron, that works a beck in the hills to the north, a steward's beck, wool down and iron up, and for the last year a sack of green bronze that she sells on the coast road to a man in a good coat. She will not sing. Not the goose. Not any verse. I once heard her say the river was not a place for tunes.' He lowers his voice to a shout. 'I think it's the best thing I have ever heard a bargemaster say, and I disagree with every word.'".
+  }
+
   // The Patient Mary: Dolly Prout, her hands, her mate, her cook, and a passenger who should be on the other boat.
   Person dolly "Dolly Prout" at deck {
     Role "skipper of the Patient Mary". Ancestry human. Peaceable. Pronouns she. Manner jovial.
     Greets "A woman built like a cask, with a boatman's pipe in her teeth and a hand on the tiller she has not taken off in nine years, looks you up and down. 'TWO SHILLINGS EACH,' she says, 'OR YOU WORK. I don't ask which. A person who wants the Maud and is standing on the Mary has had a worse morning than I have.'".
+    Greets again "Dolly Prout has not moved her hand from the tiller, but the pipe has moved to the other side of her mouth. 'Two shillings or the galley,' she says. 'Same as before. I don't do discount for sentiment.'".
   }
   Topic dolly_fare with dolly "Ask Dolly what the fare is" when not dollyFare(party) once {
     Says "'Two shillings, to Pelham,' says Dolly. 'Or the galley. Mrs Brabant has had nobody to peel since Whitsun, and the last lad fell in the copper.' She takes the pipe out. 'Well?'".
@@ -66,6 +74,7 @@ Module wrongboat "The Wrong Boat" {
   Person hands "the Mary's hands" at deck {
     Role "three bargemen at cards on a hatch-cover". Ancestry human. Numbers 3. Peaceable. Manner jovial.
     Greets "Three men on a hatch, one of them with his boots on the table, all three shouting. 'RAISE!' 'You can't raise on a pair of onions!' 'He can if he's holding the onions!' One of them looks up and sees you and bellows the news to the others, who bellow it back: PASSENGERS. They make room for a fourth hand at once, which is to say they want your money.".
+    Greets again "The three at cards slide along the hatch to make room, as for a fourth who has played before. 'RAISE,' says one, to you, and puts the onions in front of you as the stake.".
   }
   Topic hands_bet with hands "Take a hand at their cards" when not teagueSaw(party) once {
     Says "You lose four shillings' worth of attention and gain a good deal of news, shouted. 'The toll-clerk's on the old fen road!' 'She's on the Maud!' 'She's NOT on the Maud, you ox, the Maud's at Pelham by now!' 'A bet! A bet! Twopence says she's at the fen before we are!' The bet is never settled. You gather that the Mary's hands have been laying odds on Bess Lowther since Staithe.".
@@ -79,6 +88,7 @@ Module wrongboat "The Wrong Boat" {
   Person teague "Mrs Brabant" at galley {
     Role "cook of the Patient Mary". Ancestry human. Peaceable. Pronouns she. Manner compassionate.
     Greets "The cook turns with the oar-length spoon in one fist and tears down both cheeks. 'It's the onions,' she says. 'It's always the onions. It's not the onions.'".
+    Greets again "Mrs Brabant is crying into the pot again, evenly, as a person does who has found it improves the stock. 'It's the onions,' she says, and then, for the first time: 'It isn't the onions. It's the song. He's written another verse.'".
   }
   Topic teague_lost with teague "Ask Mrs Brabant what is the matter" when true once {
     Says "'Nothing,' says Mrs Brabant, wiping her face with the back of the spoon-hand. 'Have you ever lost a thing you couldn't say you'd lost, because nobody would know what you meant?'".
@@ -103,6 +113,7 @@ Module wrongboat "The Wrong Boat" {
   Person shim "Shim Garrod" at deck {
     Role "mate of the Patient Mary". Ancestry human. Calling commoner. Level 1. Peaceable. Pronouns he. Manner cheerful.
     Greets "A lad of nineteen, all knees and rope-burns, comes down the tiller-deck three planks at a time and shouts the news of every barge on the river at nobody. 'Passengers!' he says. 'Passengers on the Mary! Dolly, they've got a hamper, are we on fire?'".
+    Greets again "Shim Garrod comes down the tiller-deck two planks at a time now, which means he has been thinking. 'Passengers,' he says, quietly for him, 'it's you again. Dolly says I'm not to tell you what I saw on the bank. I'm going to tell you anyway.'".
     Joins "Shim swings his bundle over his shoulder and shouts something to the cook about the dinner. 'I've never been further than Pelham,' he says, delighted. 'I've no idea where we're going. I'm coming.'".
     Leaves "Shim stands on the far bank with his bundle and his hands hanging. 'I'll go back,' he says. 'I'll say you were decent. I don't know what else to say.'".
     Remarks at pelham_inn "Shim stops at the door of the Magpie. On a board by the hatch, among the lost dogs and the quarter-day notices, there is a gaol list. He reads it with his lips. 'He's in,' he says. 'He's in the Pelham lock-up.' It is his uncle.".
@@ -152,6 +163,7 @@ Module wrongboat "The Wrong Boat" {
   Person dally "Mr Peregrine Dally" at cabin {
     Role "a young gentleman, on his way to be married". Ancestry human. Calling commoner. Level 1. Peaceable. Pronouns he. Manner proud.
     Greets "A young man in a good coat sits in the cabin with a bridegroom's flower wilting in his buttonhole and a watch open in his hand. 'Which barge is this?' he says. 'The Maud. They said the Maud. Madam, I am to be married at noon tomorrow, in Pelham, and my future father-in-law has a temper and a shotgun.'".
+    Greets again "Mr Dally has taken the flower from his buttonhole and is holding it in the watch's place. 'The hour,' he says, 'is closer, and the barge no faster. I should like to speak to someone in authority. Is there someone in authority?'".
     Joins "Mr Dally closes his watch and puts it away as if burying it. 'If you are going the way I am,' he says, 'I would be obliged. If you are not, I shall be obliged anyway, and walk.'".
     Leaves "Mr Dally straightens his coat, tugs at the dead flower, and sets off for the church at a half-run. 'If I am not shot,' he says, 'you shall be invited.'".
   }
@@ -193,6 +205,7 @@ Module wrongboat "The Wrong Boat" {
   Person hob "Hob Garrod" at lockup {
     Role "owner of the Patient Mary, in for a debt". Ancestry human. Peaceable. Pronouns he. Manner jovial.
     Greets "The man on the bench lifts the hat off his face and sees you, and the shape of what you are carrying. 'Well,' he says. 'You'll have come about the box. Sit. Sit! I've nothing to offer but the bench.' He is perhaps fifty, with a fine ruined voice. 'It was only against a debt. It was only the one thing she kept. Tom would have wanted her to have a regular income.'".
+    Greets again "Hob Garrod puts his hat back over his face with the dignity of a man closing a door on a quarrel. 'You went and did it,' he says through the felt. 'I can tell by how you walk. People who have done what I asked always walk as if they are being followed.'".
   }
   // The reunion: she said "come and say it to his face". Bess in the cell, and what is said, which is not heard.
   Rule reunion at lockup when at(party, lockup) and bessAlly(party) and following(bess, party) and not bessReunited(party)

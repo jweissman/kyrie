@@ -259,7 +259,7 @@ Module lull "The Lull" {
     Role "a young Glosser in a white apron with no pockets". Ancestry human. Calling cleric. Level 1. Trait vitalist. Peaceable. Pronouns she. Manner compassionate.
     Likeness "scholar".
     Greets "The young woman on the ladder looks down, with paint on her nose. 'Oh! A Sixer. Hello. I'm Aldith Mote, I'm a Glosser, the most junior one, they give me the painting.' She climbs down. 'Could I ask you something? You don't have to answer. Do things come undone outside? At sunset? Ever?'".
-    Greets again "Aldith Mote looks round from her ladder with paint on her nose.".
+    Greets again "Aldith Mote turns on her ladder with paint on her nose and a second colour on her ear. 'The same wall,' she says. 'I painted it blue yesterday, and in the morning it was the colour it was. I am now painting it a colour I do not like, to see if that holds.'".
   }
   Initially Assert lullFolk(aldith). Initially Assert dayAt(aldith, glossary). Initially Assert bedAt(aldith, glossary).
   Topic aldith_doctrine with aldith "Ask Aldith Mote what the Glossers hold the law to be" when lullOpen() once {

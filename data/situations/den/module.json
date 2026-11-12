@@ -1,6 +1,9 @@
 {
   "version": 1,
-  "source": "situation.kyr",
+  "source": [
+    "situation.kyr",
+    "extras.kyr"
+  ],
   "rules": [
     "world"
   ],

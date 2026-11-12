@@ -9,6 +9,7 @@
     "night.kyr",
     "morning.kyr",
     "wake.kyr",
+    "lore.kyr",
     "placed.kyr"
   ],
   "rules": [
@@ -18,10 +19,18 @@
     "party"
   ],
   "canon": [
-    "imbar"
+    "imbar",
+    "scarth_kept",
+    "scarth_lost",
+    "remainder_kept",
+    "pharos_lit",
+    "pharos_dark",
+    "pharos_fed"
   ],
   "imports": [
-    "party"
+    "party",
+    "word",
+    "word_dark"
   ],
   "roles": {
     "party": {
@@ -32,5 +41,9 @@
     "party": "party",
     "region": "coast",
     "road": "shore_road"
-  }
+  },
+  "optional": [
+    "word",
+    "word_dark"
+  ]
 }

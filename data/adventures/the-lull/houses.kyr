@@ -20,13 +20,13 @@ Module lull "The Lull" {
     Role "the Chief Rest-warden of the Lull". Ancestry human. Calling warrior. Level 3. Peaceable. Pronouns he. Manner proud.
     Likeness "constable".
     Greets "A big pink man with a staff and a sash of the grey-gold cloth stops you with a raised hand. 'Slowly,' he says. 'Slowly, friend. You're in the Lull. Nobody here is late for anything.' He looks you up and down. 'Hobday Pryce. Chief Rest-warden. You'll find us very easy to get on with, provided you're easy.'".
-    Greets again "Hobday Pryce raises his staff to you, slowly, as a lesson.".
+    Greets again "Hobday Pryce raises his staff to you, slowly, as a lesson, and holds it there until you have understood that it is the lesson. 'The first time,' he says, 'you came as a guest. This time you have come as a question. Both are welcome, but one of them eats less.'".
   }
   Initially Assert lullFolk(hobday). Initially Assert dayAt(hobday, green). Initially Assert bedAt(hobday, pryce_parlour).
   Person kezia "Kezia Pryce" at gardens {
     Role "the Pryces' daughter, with mud to the elbow". Ancestry human. Peaceable. Pronouns she. Manner cheerful.
     Greets "A girl of seventeen in an expensive dress with mud on it to the elbow looks up from a strip of leeks. 'If Mother sent you, I'm not here,' she says. 'If she didn't, hello. I'm Kezia. Don't tell her you saw me digging. Digging's fine. It's that I'm digging leeks, and leeks are the Gales'.'".
-    Greets again "Kezia Pryce waves a trowel at you.".
+    Greets again "Kezia Pryce waves a trowel at you, and a clod of earth goes with it, and hits the wall. 'Sorry!' she says. 'It was meant. I think. Isn't that odd? I have been meaning things all morning and none of them will stay put.'".
   }
   Initially Assert lullFolk(kezia). Initially Assert dayAt(kezia, gardens). Initially Assert bedAt(kezia, pryce_parlour).
   Person wardens "the Rest-wardens" at tump_shoulder {

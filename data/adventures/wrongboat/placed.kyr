@@ -1,3 +1,6 @@
 Module wrongboat "The Wrong Boat" {
   Entity party: group "Your company".
+  // What is said of the Aldwater in the country behind it: once it is seen through, it is old news there.
+  Entity word: fact "What is said of the Aldwater and the two barges in the country behind it.".
+  Rule word_old when (beatenUp(party) or chainFell(party) or caught(party) or bessTook(party) or gaveHob(party) or boxReturned(party) or tradedDally(party) or soldQuill(party)) and not stale(word) { Assert stale(word). }
 }

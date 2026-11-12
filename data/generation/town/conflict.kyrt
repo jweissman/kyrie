@@ -1,0 +1,92 @@
+# conflict: dues for "the keeping of the road", collected by a bailiff with a forged seal from three settlements at once, and what happens if nobody stops her.
+// A Kyr template (see src/world/kyr-template.ts), written for the company's starting town {t} and the two settlements nearest
+// it ({b}, {c}; {bname}, {cname}), with neighbours.kyrt's people ({t}_reeve, {t}_manor_steward ...). {station} where the country
+// has the Empire's posting-house. Maudlin Rooke is the one person in the first region who means harm and is not a monster:
+// she has read enough of the Keepers of the Road to know how people will pay for a road they half-remember, and she
+// has a seal that is nearly right. Three communities (a town, a village, a hamlet), a Hall, and the wardens each pay or refuse; each has
+// a clock: what Rooke does while the company is elsewhere gets worse, by days, whether or not anyone is watching.
+// What proves the forgery (any one): the Hall's grant, whose lead seal is a wheel WITH A WING; the posting-house's tariff, whose mark is the
+// same. Hers is a wheel only. What the company does with that is its own: expose her, buy her silence, or report her and wait.
+--- base
+  Relation {t}_rooke_asked(group). Relation {t}_rooke_challenged(group). Relation {t}_rooke_bought(group).
+  Relation {t}_rooke_reported(group). Relation {t}_rooke_end(group). Relation {t}_rooke_forged(group).
+  Person {t}_rooke "Maudlin Rooke" at {b}_green {
+    Role "the Road's bailiff, who collects dues for the keeping of the old road in the name of the Office of the Road, over a seal that is nearly right". Ancestry human. Calling thief. Level 3. Peaceable. Manner proud. Pronouns she.
+    Greets "A woman in a good grey riding-coat looks up from a ledger at a trestle table under the well, a lead seal on a cord at her neck. 'Dues,' says Maudlin Rooke, pleasantly. 'For the keeping of the road. Or are you a guest?'".
+  }
+  Person {t}_rooke_men "the bailiff's men" at {b}_green {
+    Role "deserters out of work, who stand behind the bailiff's table and have not been asked to do anything yet". Ancestry human. Calling warrior. Numbers 2. Level 1. Temperament territorial. Lair {b}_green.
+    Seen when {t}_rooke_challenged(party).
+    Warns "Two men who have been leaning on the wall come off it together, and the one in front puts his hand on the pommel of a sword he has not used in some time.".
+  }
+  Initially Set encounterXp({t}_rooke_men) to 80.
+  Observe {t}_rooke_table at {b}_green when not {t}_rooke_end(party) "A trestle table under the well, a ledger open on it, a lead seal on a cord, and, as the light goes, a queue of villagers with their dues in cloth, not speaking.".
+  Topic {t}_rooke_dues with {t}_rooke "Ask Maudlin Rooke what the dues are for" when not {t}_rooke_end(party) once {
+    Says "'The road,' says Maudlin Rooke. 'You walk on it. Somebody keeps it clear. Somebody must be paid. The people before us kept it by the Office; they had a seal; I have the seal. Four crowns a hearth and the road is kept. It has not been kept in two hundred years, and now it will be. I do not see what anyone could object to.' A smile. 'You do not look like a person who has paid.'".
+    On discuss { Assert {t}_rooke_asked(party). }
+  }
+  Thing {t}_receipt_a "the dues-receipt nailed to the post" at {t}_green {
+    State nailed "A strip of vellum is nailed to the post by the well, in a fair clerk's hand, with a lead seal pressed in a blob of wax.".
+    State read "RECEIVED OF THE FOLK OF {town}, FOR THE KEEPING OF THE ROAD, FOUR CROWNS A HEARTH, BY THE OFFICE OF THE ROAD. The seal: a wheel, in lead. Only a wheel.".
+    Change read "Read the dues-receipt on the post" from nailed to read.
+  }
+  Observe {t}_receipt_a_learned at {t}_green of {t}_receipt_a as reading when state({t}_receipt_a, read) "A wheel; no wing." teaches {t}_rec_a.
+  Entity {t}_rec_a: fact "A dues-receipt at {town} is sealed with a wheel and no wing.".
+  Thing {t}_receipt_b "the dues-receipt on the lintel" at {b}_green {
+    State nailed "A strip of vellum is pinned to the lintel of the inn at {bname}, with a lead seal in wax.".
+    State read "RECEIVED OF THE FOLK OF {bname}, FOR THE KEEPING OF THE ROAD, FOUR CROWNS A HEARTH, BY THE OFFICE OF THE ROAD. A wheel in lead, and no wing.".
+    Change read "Read the dues-receipt on the lintel" from nailed to read.
+  }
+  Observe {t}_receipt_b_learned at {b}_green of {t}_receipt_b as reading when state({t}_receipt_b, read) "The same wheel." teaches {t}_rec_b.
+  Entity {t}_rec_b: fact "A dues-receipt at {bname} is sealed with a wheel and no wing.".
+  Thing {t}_receipt_c "the dues-receipt in the window" at {c}_green {
+    State nailed "A strip of vellum is pasted in the window of the inn at {cname}, with a lead seal in wax.".
+    State read "RECEIVED OF THE FOLK OF {cname}, FOR THE KEEPING OF THE ROAD, THREE CROWNS A HEARTH (A HAMLET'S RATE), BY THE OFFICE OF THE ROAD. A wheel in lead, and no wing.".
+    Change read "Read the dues-receipt in the window" from nailed to read.
+  }
+  Observe {t}_receipt_c_learned at {c}_green of {t}_receipt_c as reading when state({t}_receipt_c, read) "The same again." teaches {t}_rec_c.
+  Entity {t}_rec_c: fact "A dues-receipt at {cname} is sealed with a wheel and no wing.".
+  // What proves it, at the Hall or, where there is one, the posting-house.
+  Observe {t}_seal_proof_a at {t}_manor_muniments when state({t}_manor_deed, read) and knows(party, {t}_rec_a) "The grant of the road is sealed with a wheel *and a wing*. The receipts at {town} are a wheel only. The bailiff's seal is a copy of a copy, by someone who had never seen the first." teaches {t}_forged.
+  Observe {t}_seal_proof_b at {t}_manor_muniments when state({t}_manor_deed, read) and knows(party, {t}_rec_b) "The grant's seal has a wing. Hers has not." teaches {t}_forged.
+  Observe {t}_seal_proof_c at {t}_manor_muniments when state({t}_manor_deed, read) and knows(party, {t}_rec_c) "A wheel, and no wing. The grant's has both." teaches {t}_forged.
+  Entity {t}_forged: fact "The Empire's seal on the grant of the road is a wheel with a wing; the seal on the bailiff's receipts is a wheel only: it is forged.".
+  // The clock: what she does when no one stops her.
+  Observe {t}_dues_up at {t}_green when watch(clock) >= 48 and watch(clock) < 120 and not {t}_rooke_end(party) "The bailiff's men have been through again. The price is five crowns a hearth now, and the reeve has been seen reading the receipt by the well and putting it in his pocket.".
+  Observe {t}_dues_burn at {t}_green when watch(clock) >= 120 and not {t}_rooke_end(party) "The wardens have stopped paying. A hayrick at {bname} has burned in the night, and the bailiff has put up a new notice: SIX CROWNS, AND A FINE FOR THE FIRE.".
+  Observe {t}_dues_b at {b}_green when watch(clock) >= 120 and not {t}_rooke_end(party) "A hayrick stands blackened at the edge of the green, and a woman is sweeping the ash from a doorstep into the road without looking up.".
+  Relation {t}_rooke_warned(group). Relation {t}_rooke_backed(group).
+  Topic {t}_rooke_challenge with {t}_rooke "Tell Maudlin Rooke her seal is a forgery, in front of the queue" when knows(party, {t}_forged) and not {t}_rooke_warned(party) and not {t}_rooke_challenged(party) and not {t}_rooke_bought(party) and not {t}_rooke_end(party) once {
+    Says "Maudlin Rooke does not stop smiling, which is how you know. 'A wing,' she says, quite gently, to the queue. 'The gentleman has found a *wing*.' She lets the silence go on a moment. Behind her two men have taken their hands out of their belts, and one of them has a sword, and has not drawn it. 'You have the length of a breath,' she says, 'to say you were mistaken. I do not think you are a person who is often mistaken. It would be a shame.'".
+    On discuss { Assert {t}_rooke_warned(party). }
+  }
+  Topic {t}_rooke_stand with {t}_rooke "Stand by it: the seal is a forgery" when {t}_rooke_warned(party) and not {t}_rooke_backed(party) and not {t}_rooke_challenged(party) and not {t}_rooke_end(party) once {
+    Says "'Boys,' says Maudlin Rooke, very softly. 'Show the gentleman how a road is kept.'".
+    On discuss { Assert {t}_rooke_challenged(party). }
+  }
+  Topic {t}_rooke_back with {t}_rooke "Say you were mistaken, and go" when {t}_rooke_warned(party) and not {t}_rooke_backed(party) and not {t}_rooke_challenged(party) and not {t}_rooke_end(party) once {
+    Says "'There,' says Maudlin Rooke, and the queue breathes out. 'That was not so hard.' She turns a page of her ledger. 'I shall remember it, and so will they. You will find it a smaller country, after.'".
+    On discuss { Assert {t}_rooke_backed(party). }
+  }
+  Topic {t}_rooke_buy with {t}_rooke "Tell Maudlin Rooke you will say nothing, for half" when knows(party, {t}_forged) and not {t}_rooke_challenged(party) and not {t}_rooke_bought(party) and not {t}_rooke_end(party) once {
+    Says "'Half,' says Maudlin Rooke. She looks at you the way you look at a good coin. 'You are the first person who has understood the arrangement. I like that.' A purse. 'Twenty now, and a share each quarter. I shall remember you, and so will my men.'".
+    On discuss { Assert {t}_rooke_bought(party). Give 20 gold to actor. }
+  }
+  Objective {t}_rooke_aim_seal when (knows(party, {t}_rec_a) or knows(party, {t}_rec_b) or knows(party, {t}_rec_c)) and not knows(party, {t}_forged) and not {t}_rooke_end(party) toward {t}_manor_muniments "Hold the bailiff's receipt up against the seal on the Hall's old grant: a wheel, or a wheel with a wing.".
+  Objective {t}_rooke_aim_act when knows(party, {t}_forged) and not {t}_rooke_end(party) toward {t}_reeve "The bailiff's seal is a forgery: tell {{t}_reeve}, or face her before the queue, or take her price.".
+  Topic {t}_rooke_report with {t}_reeve "Tell {{t}_reeve} the bailiff's seal is a forgery" when knows(party, {t}_forged) and not {t}_rooke_reported(party) and not {t}_rooke_end(party) once {
+    Says "{{t}_reeve} hears it with his hat in his hand. 'A wheel,' he says. 'And no wing.' He puts the receipt in his coat. 'I cannot raise the wardens on a seal. But I can take it to the castellan, who has a clerk, who has a quarrel with the bailiff over a horse.' A slow breath. 'It will take days. It will not be pleasant. But it is not a thing that can be hidden once it is said to the right clerk.'".
+    On discuss { Assert {t}_rooke_reported(party). }
+  }
+  Rule {t}_rooke_fall when {t}_rooke_reported(party) and watch(clock) >= 72 and not {t}_rooke_end(party) says "A rider in the castellan's colours comes down the road and stops at the well at {bname}; the bailiff's table is gone by dusk, and her men with it, and nobody says where." { Assert {t}_rooke_end(party). }
+  Rule {t}_rooke_flee when {t}_rooke_challenged(party) and not able({t}_rooke_men) and not {t}_rooke_end(party) says "The bailiff stands a moment with the lead seal in her hand, and then, quite calmly, takes it from her neck and drops it down the well, and walks out of the village without her coat." { Assert {t}_rooke_end(party). }
+  Observe {t}_rooke_after at {t}_green when {t}_rooke_end(party) "The notice about the dues has been taken down, and the reeve has chalked on the post, in a careful hand: A WHEEL HAS A WING.".
+  Observe {t}_rooke_after_b at {b}_green when {t}_rooke_end(party) and not {t}_rooke_bought(party) "The trestle table under the well is gone. The villagers stand about the green rather as if somebody had taken a roof off.".
+  Topic {t}_rooke_thanks with {t}_innkeeper "Ask {{t}_innkeeper} what the town makes of the bailiff's going" when {t}_rooke_end(party) and not {t}_rooke_bought(party) once {
+    Says "'Three crowns a hearth, three weeks,' says {{t}_innkeeper}, 'for nothing. We would have paid longer. People will, for a road. That is the thing about it.' They push a purse across the bar, subscribed by every hearth in the town. 'And that is for whoever made it stop.'".
+    On discuss { Give 25 gold to actor. }
+  }
+--- seal road 1 if station
+  Observe {t}_seal_proof_s at {station}_hall when state({station}_tariff, read) and knows(party, {t}_rec_a) "The tariff of the stage is headed with the Posts' own mark: a wheel with a wing. The receipt in your hand is headed with a wheel. Somebody copied the road's mark without the part that made it a mark." teaches {t}_forged.
+--- seal plain 1 unless station
+  Observe {t}_seal_proof_n at {t}_manor_muniments when knows(party, {t}_rec_a) and state({t}_manor_deed, read) "You hold the receipt's seal up beside the grant's. They are not the same." teaches {t}_forged.

@@ -45,21 +45,25 @@ Module dorothea "The Dorothea" {
     Role "factor of the House of Marchbank (the Orsett factor), come to Port Ness for the pans". Ancestry human. Level 3. Peaceable. Pronouns she. Manner acerbic.
     Likeness "merchant".
     Greets "A woman of fifty in a plain dark dress stands on the step of the counting-house with a red-bound book under one arm, counting lighters as they pull out. She counts them all, and her lips do not move. 'Ysolde Stannard,' she says. 'Factor, of the House of Marchbank. Orsett is my seat; I come to Port Ness for the pans, as a bishop to a bad parish. Is it salt you want, or a signature?' The red of the book is the red of a good cherry, and she holds it the way some women hold a child.".
+    Greets again "Ysolde Stannard is on the step of the counting-house with the red book under the other arm. She has counted the lighters again, and the number has not changed. 'I remember you,' she says. 'You are one of the ones I have not entered.'".
   }
   Person pym "Ewart Pym" at counting_room {
     Role "clerk to the Factor at Port Ness". Ancestry human. Level 1. Peaceable. Pronouns he. Manner stoic.
     Likeness "scholar".
     Greets "A thin young man with ink to the elbow and a blue cuff on his right sleeve sits at the high desk with a blue-bound day-book open before him. He gets down off the stool a good deal too fast. 'Ewart Pym, Clerk,' he says. 'I only copy. If it is anything about the salt, it is the Factor, on the step. If it is anything about anything else, it is also the Factor.'".
+    Greets again "Ewart Pym drops off the stool again, a degree faster than before. 'I only copy,' he says, 'it is all I am for. I copied your name in the blue book yesterday. I have not copied it into the other.'".
   }
   Person auld "Dunstan Auld" at salt_pans {
     Role "reeve of the Port Ness rakers". Ancestry human. Level 2. Peaceable. Pronouns he. Manner stoic.
     Likeness "farmer".
     Greets "A heavy man with salt-cracked hands and the squint of one who has looked at white ground all his life leans on a rake at the end of the nearest dam. 'Auld,' he says. 'Reeve. That means I go and tell the Factor when they are tired, and then I go and tell them she's said no.' He taps a tin disc on its post. 'You'll not be paid in coin on this island, mind. Not unless you're passing through.'".
+    Greets again "Dunstan Auld taps the tin disc on its post as if to be sure it has not been taken. 'Reeve,' he says again, though he has already said it. 'Tired, all of them. She says no. You have caught me between the two.'".
   }
   Person skail "Kit Skail" at ness_lantern {
     Role "keeper of the Ness Light". Ancestry human. Level 2. Peaceable. Pronouns she. Manner proud.
     Likeness "abbess".
     Greets "A very old woman in three cardigans and a man's cap is sitting on the lamp-room floor with a saucer of rush-lights, which she is trimming with a pair of nail-scissors. 'Go careful on the stair,' she says. 'I've swept it. No one comes. It is a thing I do for the look of the thing.' She puts one rush-light in the saucer and watches it as other people watch a sleeping child. 'It isn't much,' she says. 'It's what there is.'".
+    Greets again "Kit Skail looks up from the saucer, and the rush-light in her fingers does not waver. 'The stair is swept,' she says. 'You will have noticed. It is a thing I do. Nobody has noticed in thirty years, so I do it twice as thoroughly.'".
   }
   Initially Set quantity(thane, gold) to 90. Initially Set quantity(pym, gold) to 2.
 

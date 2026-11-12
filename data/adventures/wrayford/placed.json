@@ -39,12 +39,16 @@
     "drove_road": "drove_road"
   },
   "imports": [
-    "party"
+    "party",
+    "word"
   ],
   "roles": {
     "party": {
       "type": "group"
     }
   },
-  "experience": 800
+  "experience": 800,
+  "optional": [
+    "word"
+  ]
 }

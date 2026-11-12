@@ -1,0 +1,44 @@
+Module silent_lord "The silent lord" {
+  // ---- The way under the wall: a culvert with bad air, a crawl, and a vault older than the keep.
+  Hazard bad_air "Foul air" means "Deal (1d6) physical damage to ally unless constitution save against (11).".
+  Thing foul_air "the air in the culvert" on culvert {
+    State foul dangerous "The air in the culvert is thick and sweetish. A flame held up in it burns blue and leans back toward the outfall.".
+    State clear "The air in the culvert moves, cold and clean, from the grating toward the ditch.".
+    Change prop "Prop the old grating open and let the draught through" from foul to clear needing brawn or crowbar.
+    Hurts with bad_air when foul then foul.
+  }
+  Observe culvert_tell at drain as sign when state(foul_air, foul) "A pale stain on the roof marks where the lamp-black has been drawn, and the walls are slick and shining past the second bend. At the far end the old grating hangs half open on one hinge, and a bar would hold it.".
+  Person drain_rats "the drain's rats" at drain {
+    Role "rats the length of a forearm, which live in the black water". Species rat. Numbers 3. Level 1. Variant great. Temperament territorial. Lair drain.
+    Warns "In the black water at the bottom of the drain, something turns over, and then three of them come up the pipe with their teeth bared, in no hurry.".
+  }
+  Initially Set encounterXp(drain_rats) to 40.
+  Observe vault_office at vault when vault_built(office_made) "Shelves of tally-sticks run down the walls in bundles, each tied with a tag, and over the lintel is cut a wheel with a wing. The Empire kept some things below ground, and counted all of them." teaches vault_known.
+  Observe vault_founders at vault when vault_built(founders_made) "Racks of spear-heads rusted solid fill the walls, and at the far end is a stone chair, its arms cut with a tower and a star. The first lords of the keep came down here to be sworn, and to count what they had." teaches vault_known.
+  Observe vault_makers at vault when vault_built(makers_made) "A ring of low niches runs round a floor of pale stone inlaid with a circle of bronze studs, and each stud has a hollow worn in it. Someone sat in each niche a very long time, and moved a counter from stud to stud." teaches vault_known.
+  Observe vault_door at vault as feature when true "Behind you, the old door stands open on its counterweight. It is shut from this side by a ring on a chain.".
+
+  // ---- The solar, the chancery shelf, the sentries.
+  Thing solar_letters "the letters in the tray" at solar {
+    State heaped "Letters lie in a tray on the lord's table, sealed and addressed, waiting to go.".
+    State read "To the court, to an abbey, to a salt-factor: each begins as the lord would begin it, each is dated since the lord was last seen at table, each is in the lord's own hand. The hand is a little better than the lord's. The ink is fresh.".
+    Change read "Read the letters in the tray" from heaped to read.
+  }
+  Observe solar_letters_learned at solar of solar_letters as reading when state(solar_letters, read) "Somebody has been writing the lord's letters with great care, for eleven days." teaches clerk_forges.
+  Thing shelf_letters "the letters on the chancery shelf" at chancery {
+    State filed "A bundle of letters is tied in tape on the shelf above the table, the most recent kept on top.".
+    State read "Three letters. An abbess writes that the lord's ward is well, grown, learning her letters, and eager to see her uncle at Michaelmas. A salt-factor writes that prices in the lord's march have fallen by a third since a certain lord there was liked, and might the lord care to meet him? A captain of the March writes, in a tired hand, that the ford holds and he needs two hundred men by the first frosts, and begs the lord not to ask what for.".
+    Change read "Untie the letters and read them" from filed to read.
+  }
+  Observe shelf_learned at chancery of shelf_letters as reading when state(shelf_letters, read) "The ward is alive and at an abbey, and nobody has told her." teaches heir_sought.
+  Topic sentry_watch with sentries "Ask the sentries when the watch changes" when true once {
+    Says "'Dusk, midnight and dawn,' says the elder, 'and an hour in the small hours when the brazier wants seeing to. Two till three, we go down and warm our hands. The lord has never minded. The castellan has never been told.' He studies you. 'If you are going to ask me what the wall looks like in that hour, I am going to say I do not know.'".
+    On discuss { Assert knows(actor, dead_watch). }
+  }
+  Rule watch_turns when hunted(house) and (at(party, gatehouse) or at(party, ward)) and peaceable(gatewatch)
+    says "A bell begins to ring in the gatehouse. The men of the watch come out of the guardroom with their spears levelled, and they are not smiling." { Retract peaceable(gatewatch). Assert assails(gatewatch, party). Bring gatewatch to party. }
+  Rule herald_catches when (state(trunk, open) or state(purse, taken)) and at(party, guest) and at(herald, guest) and peaceable(bravos)
+    says "The herald comes in from the stair and stops, and looks at the trunk, and then at you. He does not say anything. The two men behind him do not need him to." { Retract peaceable(bravos). Assert assails(bravos, party). Bring bravos to party. }
+  Rule trunk_noticed when state(trunk, open) and at(herald, guest) and not at(party, guest) and not trunk_seen(house) and not unmasked(house) { Assert trunk_seen(house). }
+  Relation trunk_seen(group).
+}

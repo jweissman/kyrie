@@ -153,6 +153,7 @@ Module dorothea "The Dorothea" {
     Role "a surveyor of the Collegium of Measures, nine days below". Ancestry human. Calling mage. Level 2. Peaceable. Pronouns he. Manner proud.
     Likeness "scholar".
     Greets "The man in the surveyor's coat gets to his feet with a great effort at ease, and a pencil falls out of his hair. 'Tarn. Oswin. Measures. I am taking readings. I am entirely well, and the readings are very good, and there is nothing at all to be done about the thing in the well.' He sits down again, rather quickly.".
+    Greets again "Oswin Tarn has found his pencil and written something on the back of his own hand. 'Taking readings,' he says. 'The readings are better. I wish I could tell you why, and I am afraid I can.'".
   }
   Topic oswin_why with oswin "Ask Oswin Tarn how he came down" when true once {
     Says "'By the sea-door,' says Tarn. 'Which is under the cliff, and was a dry cave at low water, and is not now. The House sent me. A survey of the Pharos for the lease, they said. To weigh the bronze.' He lifts a notebook: 'It is not bronze. It is the chimney of a thing. I have been nine days with the readings and I am a happy man and I have not eaten since the tide went.'".

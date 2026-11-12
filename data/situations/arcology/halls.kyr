@@ -1,0 +1,197 @@
+Module arcology "The Numbered House" {
+  // The halls of the answering: the Question Hall and its hum, the Drawer Gallery's ring, the Keepers' Bay and its
+  // Marshal, the Reckoning Room at noon, the Ring-walk, and the disc.
+
+  // --- the Question Hall ---------------------------------------------------------------------------------------
+  Observe hall_scene at hall when true "A long hall lined from floor to vault with niches, hundreds of them, and in each niche a tablet of brass the size of a hand, with a lamp-hollow beside it, a little bowl of stone for oil. Rolling ladders stand at intervals along the walls. The floor is a plain mosaic of black and white squares laid in a pattern you almost recognise.".
+  Observe hall_hum_0 at hall as sound when hum(house) == 0 "The hum is steady and low, the sound a held note makes when it is waiting for the next one.".
+  Observe hall_hum_1 at hall as sound when hum(house) >= 1 and hum(house) <= 2 "The hum has risen a little, and the lamp-hollows ring faintly to it, one after another, like a row of glasses.".
+  Observe hall_hum_3 at hall as sound when hum(house) == 3 "The hum has climbed a step. In the niches along the wall, the oil in the lamp-hollows stands trembling in its bowls.".
+  Observe hall_hum_5 at hall as sound when hum(house) >= 5 and hum(house) <= 7 "The hum is loud enough now to feel in the teeth. Down the hall, beyond the arch, there is the dry rattle of something very large winding itself.".
+  Observe hall_hum_8 at hall as sound when hum(house) >= 8 "A bell with a cracked voice strikes somewhere under the floor, and goes on striking.".
+  Observe hall_tablets at hall as feature when true "Six of the tablets are not like the others. Each stands in its own niche at eye height, and each is engraved with a device: a flight of steps; a disc with a hand held under it; a notched ring; a row of dots; a door with a second door behind it; and a closed eye over a lifted hand.".
+  Thing tab_steps "the tablet engraved with steps" at hall {
+    State silent "The tablet engraved with a flight of steps stands in its niche, the lamp-hollow beside it dry.".
+    State answered_a "The tablet with the steps has given its answer: the stair of the Lodge is struck MIDDLE, HIGH, LOW. The surveyors had it right.".
+    State answered_b "The tablet with the steps has given its answer: the stair of the Lodge is struck LOW, HIGH, MIDDLE. The monks had it right.".
+    State answered_c "The tablet with the steps has given its answer: the stair of the Lodge is struck HIGH, MIDDLE, LOW. The man with the lantern-tin had it right.".
+    Change ask_steps "Ask the tablet marked with steps" from silent to answered_a when pattern(treads, pat_a) "The tablet is silent.".
+    Change ask_steps_b "Ask the tablet marked with steps" from silent to answered_b when pattern(treads, pat_b) "The tablet is silent.".
+    Change ask_steps_c "Ask the tablet marked with steps" from silent to answered_c when pattern(treads, pat_c) "The tablet is silent.".
+  }
+  Thing tab_disc "the tablet engraved with a disc and a hand" at hall {
+    State silent "The tablet engraved with a disc and a hand stands in its niche, dry.".
+    State answered "The tablet with the disc and the hand has answered: THE DISC RISES FOR THE COUNTED, WHEN THE RING IS SET TO THE LIGHT AT NOON, OR TO ANY LIGHT THROWN BY THE SURVEYORS' PLATE.".
+    Change ask_disc "Ask the tablet marked with a disc and a hand" from silent to answered.
+  }
+  Thing tab_ring "the tablet engraved with a notched ring" at hall {
+    State silent "The tablet engraved with a notched ring stands in its niche, dry.".
+    State answered "The tablet with the ring has answered: THE RING OF THE DRAWERS STANDS AT {target(ring) in words}.".
+    Change ask_ring "Ask the tablet marked with a notched ring" from silent to answered.
+  }
+  Thing tab_dots "the tablet engraved with a row of dots" at hall {
+    State silent "The tablet engraved with a row of dots stands in its niche, dry.".
+    State answered "The tablet with the dots has answered: THE COUNTED ARE A NUMBER, AND ONE PLACE MORE IS KEPT THAN THEY.".
+    Change ask_dots "Ask the tablet marked with a row of dots" from silent to answered.
+  }
+  Thing tab_doors "the tablet engraved with a door and a second door" at hall {
+    State silent "The tablet engraved with a door behind a door stands in its niche, dry.".
+    State answered "The tablet with the doors has answered: THE HOUSE IS FOR TWO THINGS. TO HOUSE, AND TO ANSWER. WHICH WAS FIRST IS NOT ON THE ROLL.".
+    Change ask_doors "Ask the tablet marked with a door behind a door" from silent to answered.
+  }
+  Thing tab_eye "the tablet engraved with a closed eye" at hall {
+    State silent "The tablet engraved with a closed eye over a lifted hand stands in its niche. Its lamp-hollow is dry, and the stone under the niche is rubbed smooth by hands that thought better of it.".
+    State answered "The closed eye has opened, a little, on a bright small light, and closed again.".
+    Change ask_eye "Ask the tablet marked with a closed eye" from silent to answered.
+  }
+  Observe eye_read at hall of tab_eye as reading when state(tab_eye, silent) and capable(party, lore) "Under the eye, in the Empire's numerals, a gloss in a later hand: THE QUESTION OF THE LAST COUNT IS NOT TO BE ASKED. THE HOUSE DOES NOT KNOW THE ANSWER AND CANNOT BEAR NOT TO.".
+  Relation heard(thing).
+  Rule steps_a when state(tab_steps, answered_a) and not heard(tab_steps) says "The lamp-hollow beside the tablet fills with a pale oil that was not there, and the brass hums an order of three notes: middle, high, low." { Assert heard(tab_steps). Increase hum(house) by 1. Set humAt(house) to watch(clock). }
+  Rule steps_b when state(tab_steps, answered_b) and not heard(tab_steps) says "The lamp-hollow beside the tablet fills with a pale oil that was not there, and the brass hums an order of three notes: low, high, middle." { Assert heard(tab_steps). Increase hum(house) by 1. Set humAt(house) to watch(clock). }
+  Rule steps_c when state(tab_steps, answered_c) and not heard(tab_steps) says "The lamp-hollow beside the tablet fills with a pale oil that was not there, and the brass hums an order of three notes: high, middle, low." { Assert heard(tab_steps). Increase hum(house) by 1. Set humAt(house) to watch(clock). }
+  Rule disc_heard when state(tab_disc, answered) and not heard(tab_disc) says "The tablet's lamp-hollow brightens, and a pale oil fills it, and the brass says its answer once, in a voice like a bell heard through a wall." { Assert heard(tab_disc). Increase hum(house) by 1. Set humAt(house) to watch(clock). }
+  Rule ring_heard when state(tab_ring, answered) and not heard(tab_ring) says "The tablet's lamp-hollow brightens, and a pale oil fills it; the brass says its answer, and on the last word hums for a moment out of tune, as if the number were an effort." { Assert heard(tab_ring). Increase hum(house) by 1. Set humAt(house) to watch(clock). }
+  Rule dots_heard when state(tab_dots, answered) and not heard(tab_dots) says "The row of dots on the tablet brightens one by one, counting, and stops one dot beyond what you would have said." { Assert heard(tab_dots). Increase hum(house) by 1. Set humAt(house) to watch(clock). }
+  Rule doors_heard when state(tab_doors, answered) and not heard(tab_doors) says "The brass says its answer in two voices, slightly apart, as if two people had been asked and had agreed on nothing else." { Assert heard(tab_doors). Increase hum(house) by 1. Set humAt(house) to watch(clock). }
+  Rule eye_heard when state(tab_eye, answered) and not heard(tab_eye) says "For one moment the whole hall goes still. Then the hum comes up out of the floor all at once, like a held breath let go, and in the niches, every lamp-hollow fills with oil and burns." { Assert heard(tab_eye). Increase hum(house) by 4. Set humAt(house) to watch(clock). }
+  Observe steps_taught at hall as reading when state(tab_steps, answered_a) or state(tab_steps, answered_b) or state(tab_steps, answered_c) "There is no ambiguity in it. The tablet has settled the matter of the stair.".
+  Observe heads_taught at hall of tab_dots as reading when state(tab_dots, answered) "The dots stand in their row, and there is one more than your party and the House together can account for." teaches place_kept.
+  Discovery place_kept "The tablets say that one place more is kept than the counted number.".
+  Observe doors_taught at hall of tab_doors as reading when state(tab_doors, answered) "Two answers, each given as the whole truth: the House is a dwelling, and the House is an engine of answers, and the record does not say which it was made to be first." teaches purpose_known.
+  Discovery purpose_known "The tablets say the House was made to house and to answer, and that which came first is not recorded.".
+
+  // The hum falls an hour at a time; what is asked, and what is rung wrongly, raises it.
+  Rule hum_falls when hum(house) >= 1 and humAt(house) + 6 <= watch(clock) { Decrease hum(house) by 1. Set humAt(house) to watch(clock). }
+
+  Person keepers "the keepers" at hall {
+    Role "bookkeepers who outlived their books". Species automaton. Level 2. Numbers 3. Lair hall. Peaceable.
+    Warns "Three figures of brass plate have stepped out of their niches and stand across the hall, shoulder to shoulder. Their lamp-glass eyes are lit. One of them says, quite gently, in the voice of the Lodge: YOU ARE NOT YET COUNTED, OR YOU HAVE SPOKEN TOO LOUD. LEAVE THE HALL.".
+    Comes "The keepers come at you down the hall in step, as they were made to.".
+    State niched "In the niches along the wall, three tall figures of brass plate stand among the tablets, their lamp-glass eyes dark, so still that you took them for statuary.".
+    State posted "The keepers stand across the arches in a line, their eyes lit, their hands at their sides.".
+  }
+  Rule keepers_post when hum(house) >= 4 and peaceable(keepers) and state(keepers, niched) and not tolerates(keepers, party)
+    says "Down the hall, the lamp-glass of three pairs of eyes comes alight. The figures in the niches step out of them, in step, and take their places across the arches, with their hands at their sides. They have not been told to attack anyone yet." {
+    Assert state(keepers, posted).
+  }
+  Rule keepers_turn when hum(house) >= 6 and peaceable(keepers) and state(keepers, posted) and not tolerates(keepers, party) {
+    Retract peaceable(keepers). Assert temperament(keepers, temper_obedient).
+  }
+  Rule keepers_stand_down when hum(house) <= 2 and state(keepers, posted) and not assails(keepers, party)
+    says "The hum falls, and with it the lights in the keepers' eyes. They turn, one after another, and go back to their niches." {
+    Assert peaceable(keepers). Retract temperament(keepers, temper_obedient). Assert state(keepers, niched). Retract warned(keepers, party).
+  }
+  Rule keepers_key when holding(party, winding_key_kind) and not tolerates(keepers, party) { Assert tolerates(keepers, party). Assert tolerates(usher, party). Assert tolerates(marshal, party). }
+  Rule counted_keepers when counted(party) and not tolerates(keepers, party) { Assert tolerates(keepers, party). Assert tolerates(marshal, party). }
+
+  // --- the Drawer Gallery --------------------------------------------------------------------------------------
+  Observe drawers_scene at drawers when true "A gallery of drawers, floor to roof, each with a brass face and a number, and rolling ladders on rails to reach the high ones. A reading-desk stands in the middle of it with a book chained open on the slope. One bank of drawers has a notched ring fixed in the middle of its face, as big as a dinner-plate.".
+  Observe drawers_wet at drawers when water(house, wet_high) "The lowest rows stand a hand in water, and the brass has gone green; damp has got into the numbering, and a few of the drawers have swelled shut.".
+  Observe drawers_dry at drawers when water(house, wet_low) "The air is as dry as a held breath. The brass faces of the drawers are bright, and the paper in the open ones has gone brittle at the edges, and curled.".
+  Measure notch(entity). Measure target(entity). Relation pressed(thing).
+  Initially Set notch(ring) to 1. Initially Set target(ring) to (1d5+1).
+  Thing ring "the notched ring on the drawer-face" at drawers {
+    State fixed "A ring of bronze is set in the middle of the drawer-face, cut with six notches round its rim and a mark on the face that the notches pass under. It stands at {notch(ring) in words}.".
+  }
+  Thing drawer "the drawer of the ring" at drawers {
+    Holds.
+    State locked closed "The drawer behind the ring is shut. The ring can be turned a notch at a time, and pressed home.".
+    State jammed closed "The ring has been pressed home wrong, and the drawer has jammed with a click like a tongue.".
+    State open "The drawer has slid open on its runners.".
+    Change force_drawer "Prise the jammed drawer" from jammed to open needing crowbar.
+  }
+  Item governor "the lift's governor" is governor_kind in drawer.
+  Kind governor_kind "a brass governor" is gear worth 20 weighing 3 described "A drum of bronze the size of a pumpkin, geared at its rim, with a spindle in its middle and a spring inside. The ring on its housing is stamped with a figure, and the figure is the number of the lift.".
+  Action turn_ring(actor: group, site: place) "Turn the ring one notch" {
+    Description "The ring clicks round a notch at a time.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(drawer, site) and state(drawer, locked).
+    Time 1 minute.
+    On success { Increase notch(ring) by 1. }
+    Result "The ring clicks round one notch.".
+  }
+  Rule ring_wraps when notch(ring) >= 7 { Set notch(ring) to 1. }
+  Action press_ring(actor: group, site: place) "Press the ring home" {
+    Description "Press on the ring at whatever notch it stands.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(drawer, site) and state(drawer, locked).
+    Time 1 minute.
+    On success { Assert pressed(drawer). }
+    Result "You lean on the ring.".
+  }
+  Rule ring_opens when pressed(drawer) and notch(ring) == target(ring)
+    says "The ring goes home with a sound like a latch lifting, and the drawer slides out on its runners, smooth as milk." { Assert state(drawer, open). Retract pressed(drawer). }
+  Rule ring_jams when pressed(drawer) and notch(ring) != target(ring)
+    says "The ring goes home with a flat clank, and every drawer in the gallery shudders in its bank. The one before you jams. The hum climbs." {
+    Assert state(drawer, jammed). Retract pressed(drawer). Increase hum(house) by 1. Set humAt(house) to watch(clock). Set jamAt(drawer) to watch(clock).
+  }
+  Measure jamAt(entity).
+  Rule ring_unjams when state(drawer, jammed) and jamAt(drawer) + 6 <= watch(clock) says "The drawer's jam lets go with a click, and the ring stands free again." { Assert state(drawer, locked). }
+  Observe monks_2 at drawers as sign when target(ring) == 2 "Scratched on the brass beside the ring, in a rough hand, a column of figures with a line through each: THREE, FOUR, SIX. They tried them in order, and the drawer jammed, and a monk wrote the next beside it.".
+  Observe monks_3 at drawers as sign when target(ring) == 3 "Scratched on the brass beside the ring, in a rough hand, a column of figures with a line through each: TWO, FIVE, SIX. They tried them in order, and the drawer jammed, and a monk wrote the next beside it.".
+  Observe monks_4 at drawers as sign when target(ring) == 4 "Scratched on the brass beside the ring, in a rough hand, a column of figures with a line through each: TWO, THREE, SIX. They tried them in order, and the drawer jammed, and a monk wrote the next beside it.".
+  Observe monks_5 at drawers as sign when target(ring) == 5 "Scratched on the brass beside the ring, in a rough hand, a column of figures with a line through each: TWO, THREE, FOUR. They tried them in order, and the drawer jammed, and a monk wrote the next beside it.".
+  Observe monks_6 at drawers as sign when target(ring) == 6 "Scratched on the brass beside the ring, in a rough hand, a column of figures with a line through each: TWO, FOUR, FIVE. They tried them in order, and the drawer jammed, and a monk wrote the next beside it.".
+  Thing roll "the Roll" at drawers {
+    State open "A book as long as a man is tall is chained open on the slope of the desk. Its pages are ruled in columns of names, in a hundred hands, and the last page written is a name in no script and a number. The next line is ruled, and empty, and the chain that holds the book has a loop of chalk-dust at its end, as if chalk had been kept there.".
+    State entered "The Roll has your names in it, in your own hands, in chalk. It is the first thing in the gallery that has changed in a long time, and the ruled line below yours is waiting.".
+    Change enter "Write the company's names in the Roll, in chalk" from open to entered needing chalk.
+  }
+  Rule roll_counts when state(roll, entered) and not counted(party) says "The chalk takes. The page drinks it, and a thin bright line goes down the column and out of the book and into the floor, and somewhere a long way off a catch drops. A bell, so far below that it has to be a thought, strikes once." {
+    Assert counted(party). Assert rolled(house). Assert tolerates(keepers, party). Assert tolerates(marshal, party). Assert tolerates(usher, party). Increase hum(house) by 1. Set humAt(house) to watch(clock).
+  }
+  Observe drawers_ladder at drawers when true "A rolling ladder on its rail stands at the foot of a stair that goes up to the rim of the Great Void, a hundred feet of light and air above, to which it is joined by a long unrailed catwalk.".
+
+  // --- the Keepers' Bay ----------------------------------------------------------------------------------------
+  Observe bay_scene at bay when true "A long low vault, floored in iron plate, with bays along both walls like stalls in a stable. Each is empty but one. In the last, a figure the height of a door and twice as wide stands with a spear at the slope, perfectly still, in a coat of riveted plate. A key the length of an arm projects from its back.".
+  Person marshal "the Marshal" at bay {
+    Role "a soldier of springs". Species clockwork_soldier. Level 1. Lair bay. Peaceable.
+    Warns "The Marshal has turned, and it is wound. The spear comes down from the slope to the guard with a ratcheting sound like a hundred clocks all being struck at once, and the key in its back turns, slowly, once. It stands across the way. Whatever speaks in it speaks with the voice of the Lodge, but very close, like a second breath behind your own: NOT COUNTED. NOT COUNTED. NOT COUNTED.".
+    Comes "The Marshal comes. It does not run, and nothing in the hall is as fast as it.".
+    State dormant "The Marshal stands in the last bay of the vault, unmoving, its spear at the slope, its coat of plate stained red at the joints. A great winding-key projects from its back, a hand's breadth from the plate, and turns, now and then, a few degrees, as if the thing were breathing.".
+    State roused "The Marshal stands in the way with its spear levelled.".
+    State wound_down "The Marshal stands as it did, but the key is out of its back, and the stillness is a different thing: not waiting, only done.".
+  }
+  Action pull_key(actor: group, site: place) "Draw the winding-key out of the Marshal's back" {
+    Description "A slow, quiet, close thing to do; the Marshal is still enough to be mistaken for a statue, and is not.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(marshal, site) and state(marshal, dormant) and capable(actor, stealth).
+    Time 10 minutes.
+    Resolve check(actor, stealth, dc_hard).
+    On success { Assert state(marshal, wound_down). Assert peaceable(marshal). Give winding_key_kind to actor. }
+    On failure { Increase hum(house) by 3. Set humAt(house) to watch(clock). }
+    Result "You draw the key out of the Marshal's back, a quarter-turn at a time, between its breaths. It comes free with a small sound like a tooth, and the thing's spring runs down with a long soft shudder, and then you are only holding a key.".
+    Otherwise "Your hand slips, and the key chatters in its socket. The whole vault answers it. The Marshal does not move, but a long way off the hum comes up another note.".
+  }
+  Kind winding_key_kind "the Marshal's winding-key" is gear worth 30 weighing 4 described "A key as long as your arm, of black iron worn bright along its shank, with a bit like a tiny tower. The bow is a plain ring, worn thin by one hand, and cut on its inner edge with a single numeral that the Lodge's post also uses.".
+  Rule marshal_wakes when hum(house) >= 8 and peaceable(marshal) and not tolerates(marshal, party) and state(marshal, dormant)
+    says "A bell with a cracked voice strikes once, far down the vault, and the key in the Marshal's back begins to turn in a hard, quick, deliberate ratchet. The spear comes down." {
+    Retract peaceable(marshal). Assert temperament(marshal, temper_savage). Assert state(marshal, roused).
+  }
+  Rule marshal_hunts when state(marshal, roused) and able(marshal) and not tolerates(marshal, party)
+    and (at(party, hall) or at(party, drawers) or at(party, bay) or at(party, reckoning)) { Assert assails(marshal, party). Bring marshal to party. }
+  Rule marshal_rests when state(marshal, roused) and hum(house) == 0 and not together(marshal, party)
+    says "Far off, a spring runs down, and the Marshal's key goes still." { Assert peaceable(marshal). Retract temperament(marshal, temper_savage). Retract assails(marshal, party). Assert state(marshal, dormant). Assert at(marshal, bay). }
+
+  // --- the Reckoning Room, and the disc -------------------------------------------------------------------------
+  Observe reckoning_scene at reckoning when true "A dome, a hundred feet across, painted inside with a night sky: seven bright bodies in a belt, and a field of fainter ones, each with its numeral. In the middle of the floor, set into the stone, a ring of bronze as broad as a cart-wheel lies flat, its rim cut with a scale and a single mark. Round it, at the cardinal points, four pillars hold up a lintel on which shafts of light fall from slits in the dome.".
+  Observe reckoning_morning at reckoning when hour(clock) >= 6 and hour(clock) < 11 "The light comes in at a long slant from the east, and lies in bars across the floor, short of the bronze ring by a man's length and creeping toward it.".
+  Observe reckoning_noon at reckoning when hour(clock) >= 11 and hour(clock) < 14 "A single shaft of light has come down from the slit in the crown of the dome, narrow as a sword, and stands upon the bronze ring, exactly on its one mark.".
+  Observe reckoning_late at reckoning when hour(clock) >= 14 and hour(clock) < 21 "The light slants in from the west now, and the bars of it lie across the floor past the bronze ring, creeping away.".
+  Observe reckoning_night at reckoning when dark() "No light comes down the slits. The painted sky overhead is the only sky in the room, and it is lit, faintly, from within.".
+  Thing bronze_ring "the bronze ring in the floor" at reckoning {
+    State unset "The bronze ring lies flat in the floor, its single mark pointing at the north pillar. A scale runs round its rim.".
+    State set "The bronze ring has been turned till its mark lies where the light falls. Beneath it, something in the floor has started to hum on a single note.".
+    Change set_noon "Turn the ring until its mark meets the shaft of light" from unset to set when hour(clock) >= 11 and hour(clock) < 14 "The light does not lie on the mark. There is nothing for the ring to meet.".
+    Change set_mirror "Throw lamplight onto the ring's mark with the surveyors' plate" from unset to set needing arcology_mirror_kind when capable(party, light) "The plate has nothing to throw without a light.".
+  }
+  Thing disc "the floating disc" on disc_way {
+    State resting blocking "A disc of pale stone as wide as a table lies on the floor of a round well in the middle of the room, level with it, like a lid.".
+    State risen "The disc of pale stone floats a hand above the lip of its well, perfectly level, with nothing under it, and the light of the dome slides across its face as across water. Cut round its rim, in the Empire's numerals: TAKE ONLY WHAT WAS COUNTED.".
+  }
+  Rule disc_rises when state(bronze_ring, set) and state(disc, resting) says "The hum under the floor falls into step with the light, and the disc comes up out of its well and hangs a hand above it, quite still." { Assert state(disc, risen). }
+  Observe disc_cut at reckoning of disc as reading when state(disc, risen) and capable(party, lore) "The cut letters round the disc are in the Empire's numerals: TAKE ONLY WHAT WAS COUNTED, and under them, smaller, in the later hand: THE HOUSE LIKES THE NUMBER TO COME OUT.".
+
+  // --- the Ring-walk ------------------------------------------------------------------------------------------
+  Observe ring_scene at ring_walk when true "The roof of the House is a broad flat walk with a parapet, a hundred feet above the road. Above and ahead, so close that it seems to lean on the sky, a great ring stands on edge in the air, broad as a river and the colour of pewter, tilted against the cloud as if it were a coin dropped on a table. It does not turn. It does not seem to have anything to turn on.".
+  Observe ring_city at ring_walk when not dark() "Beneath the ring, in a drowned plain, a city of spires and domes stands in clear water to its windows: broken viaducts over waterfalls, ivy on the slabs, mist, golden cloud. It is perhaps two days away. It is the colour of a place nobody has been to for a long time, and you have a distinct feeling that somebody has looked at you from it." teaches ring_seen.
+  Discovery ring_seen "Beyond the roof of the House, a great ring stands on edge in the sky over a drowned city of spires and domes.".
+  Observe ring_dark at ring_walk when dark() "In the dark the ring has a pale thin light of its own, and a few of the towers beneath it are lit.".
+}

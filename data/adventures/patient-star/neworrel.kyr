@@ -84,6 +84,7 @@ Module season "The Patient Star" {
   // The Warden and the Office in New Orrel.
   Person aske "Ivo Aske" at barracks {
     Role "Warden of the Collar". Ancestry human. Calling warrior. Level 3. Peaceable. Pronouns he. Manner proud.
+    Greets "The Warden of the Collar has an ordinary face and receives you with the whole of it: attentive, courteous, completely shut. 'Warden Aske,' he says. 'You have been seen on the Ramp, and I make a point of knowing who walks on Crown ground. You are welcome to be here. Be welcome briefly.'".
   }
   Person office_guard "the Coverers' Stair guard" at storehouse {
     Role "two Office men and a clerk at the stair". Ancestry human. Numbers 2. Peaceable.
@@ -120,6 +121,7 @@ Module season "The Patient Star" {
   // Annet Sorrel and the Breach widows; Lenna Marsh and the sinking; Ruan Haldane and the Waiting.
   Person coyle "Annet Sorrel" at widows {
     Role "speaker for the Breach widows". Ancestry human. Peaceable. Pronouns she. Manner grim.
+    Greets "Annet Sorrel is pinning a list of names to the waiting-house wall, one pin to a name, in the same order as yesterday. 'Sixty-three,' she says, without being asked. 'You can count them, if you like. I have. Are you here for the Crown, or the Tovash, or the dead?'".
   }
   Topic coyle_breach with coyle "Ask Annet Sorrel about the Breach" when true once {
     Says "'Sixty-three men,' says Annet Sorrel. 'Mine among them. Somebody cut the Collar's drain in the storm of 352 and let the water into the Pit, and the steam came back up the chutes. Nobody was hanged for it.' She looks at you. 'They say the Tovash did it. I want the name. And I want the pensions, which have not been paid since 71.'".
@@ -131,6 +133,7 @@ Module season "The Patient Star" {
   Relation accused(group, group).
   Person lenna "Lenna Marsh" at plumb_tower {
     Role "Glass Office surveyor at the plumb station". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
+    Greets "A woman in a leather apron is standing quite still with a plumb-line in one hand and a stub of chalk in the other, and does not take her eyes off the weight. 'Do not stamp,' she says, quietly. 'Do not breathe on it, if you can help it. In a minute you may tell me what you want.'".
   }
   Discovery sinking "The Late Sun is sinking about a metre a year, twenty-five times the old rate, and the Collar's inner face will slide into the shaft within ten years. Lenna Marsh's logs show it month by month since 372." {
     Source marsh_logs "Lenna Marsh's survey logs" at plumb_tower readable by party.
@@ -147,6 +150,7 @@ Module season "The Patient Star" {
   Observe corbel_dawn at collar_top when hour(clock) >= 5 and hour(clock) <= 6 "Before the sun clears the heath, high in the Standing Cloud over the Pit, something long and dark hangs point-down, like a bracket on a wall with no wall. Then the light comes and it is gone." teaches corbel_seen.
   Person ruan "Ruan Haldane" at waiting_house {
     Role "Elder of the Waiting". Ancestry human. Peaceable. Pronouns he. Manner compassionate.
+    Greets "The Elder of the Waiting sits in the only chair in a room full of people standing, and has a voice that has not been raised in years and does not need to be. 'You are not one of ours,' says Ruan Haldane. 'You may stay. Sit where you like. We are, for the moment, only waiting.'".
   }
   Topic ruan_voice with ruan "Ask Ruan Haldane what the Waiting wait for" when true once {
     Says "'For the answer,' says Ruan, and his voice drops, as in a church. 'Teodar wrote in 71 that the name was finished. What comes after is not more name. It is the thing named.' He spreads his hands. 'The Office has closed the Hour to us. My people go down anyway, and are not sorry.'".

@@ -106,7 +106,8 @@ export class Foundings {
   }
   // The settlement, not the town, nearest one of the makers' works, if it is near.
   private static ancient(region: Region): number | undefined {
-    const land = RegionGeography.atlas(region).land, works = region.sites.filter(w => w.work && w.cell !== undefined);
+    const land = RegionGeography.atlas(region).land;
+    const works = region.sites.filter(w => w.work && !w.work.imperial && w.cell !== undefined);
     const near = region.settlements
       .map((s, i) => ({ i, d: Math.min(99, ...works.map(w => Terrain.distance(land, w.cell!, s.cell ?? 0))) }))
       .filter(x => region.settlements[x.i]!.size !== 'town' && x.d <= 3).sort((a, b) => a.d - b.d);

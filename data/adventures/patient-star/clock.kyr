@@ -36,18 +36,131 @@ Module season "The Patient Star" {
   Objective long_clock when knows(party, corbel_seen) and not docked(corbel_site) and not rebound(corbel_site) and not exiled(corbel_site) "Something is coming down the light toward the Pit, two metres a day. When it docks, the growth beneath will drill for the stone that sings.".
   Objective find_stone when knows(party, tone_below) and not knows(party, way_found) and not carries(party, ithmar) "Under the Pit, something sounds once an hour. Saro wants it; the mother-church wants it; the king says it is his.".
   Objective end_it when carries(party, ithmar) and not rebound(corbel_site) and not exiled(corbel_site) "You carry Ithmar. The Masonry knows it. Bind it tighter, cast out what its heart belongs to, or seat it and let the past go.".
-  // Kyr keeps a world going after any ending; the endings are told, once, wherever the company is.
-  Entity ending_told: fact "How it ended.".
-  Observe end_rebound near party when rebound(corbel_site) and not knows(party, ending_told) "Ithmar is bound tighter than the Virina bound it. Under the Pit the seed has stopped building; over it, by the next dawn, the Corbel has drawn back up into the cloud, and by the next month it is gone. The light still burns, the glass still spreads, the held still breathe once an hour. The plateau's troubles are its own again, and so are its memories." teaches ending_told.
-  Observe end_exiled near party when exiled(corbel_site) and not fellWith(party) and not knows(party, ending_told) "The Patient has fallen out past the planes, and its citadel with it. The Corbel lets go of the light and goes up into the dark as if pulled. The Keeping is still bound; the jewel sings once an hour to nothing at all." teaches ending_told.
-  Observe end_fell near party when fellWith(party) and not knows(party, ending_told) "You did not let go. The Masonry falls, and you fall with it, out past the planes, holding the fall of a thing that was thrown out of the world; and Imbar keeps its past, and will remember you in it." teaches ending_told.
-  Observe end_seated near party when seated(ghessil) and not knows(party, ending_told) "The Patient has its heart again. Far off, in Imbar, last week is already going, and the week before." teaches ending_told.
-  Observe end_unbound near party when unbound(ghessil) and not seated(ghessil) and not knows(party, ending_told) "The Tip reached the Vault, and the jewel was there. Imbar's past has begun to go, from the newest year backward: a season a month, then faster." teaches ending_told.
-  Observe end_bargained near party when bargained(party) and not heldToLine(corbel_site) and not knows(party, ending_told) "The terms are kept, exactly. Some of the dead come back, blinking, into a world that is forgetting them; and the plateau forgets, from last week backward." teaches ending_told.
-  Observe end_line near party when heldToLine(corbel_site) and not knows(party, ending_told) "The Masonry keeps the line you named, and cuts from the beginning, not the face: it will be ten thousand years reaching anything anyone remembers. It is very patient." teaches ending_told.
-  Observe end_covered near party when covered(ghessil) and not knows(party, ending_told) "The Pit is covered. The Corbel hangs where it stopped, a dark spire over the plateau, and does not come down. In the glass, the held are dead." teaches ending_told.
-  Observe end_laid near party when laidIn(party) and not knows(party, ending_told) "You are part of the Masonry now, a moment with a mind in it, bearing weight." teaches ending_told.
-  Observe end_set near party when setInPresent(party) and not knows(party, ending_told) "You are kept in the present, on the shore, while everything goes on past you." teaches ending_told.
+  // ── The endings (second pass) ────────────────────────────────────────────────────────────────────────────────────
+  // Three claimants want the Pit and the stone that sings, and the claims exclude one another. The Crown (Warden Aske,
+  // the Coverers) will cover the Pit: the Corbel stops, the plateau keeps its past, and everyone standing in the
+  // light dies in the glass. The mother-church (Prior Mance) will have a sanctioned descent and the heart seated in
+  // the Patient: the held wake, and Imbar's past goes from the newest year backward. Saro will bind Ithmar tighter and
+  // go on holding it: the light and the held stay, and so does the thing that built the Corbel, unmade but not gone.
+  // Whoever is not served by the ending reached is still in the plateau afterwards: see "After the endings" below.
+  Ending e_laid "Laid in the Course" over e_set when laidIn(party) "You are part of the Masonry now, a moment with a mind in it, bearing weight.".
+  Ending e_set "Kept in the Present" when setInPresent(party) "You are kept in the present, on the shore, while everything goes on past you.".
+  Ending e_fell "The Fall" over e_exiled when fellWith(party) "You did not let go. The Masonry falls, and you fall with it, out past the planes, holding the fall of a thing that was thrown out of the world; and Imbar keeps its past, and will remember you in it.".
+  Ending e_line "The Line Held" over e_bargain when heldToLine(corbel_site) "The Masonry keeps the line you named, and cuts from the beginning, not the face: it will be ten thousand years reaching anything anyone remembers. It is very patient.".
+  Ending e_bargain "The Terms Kept" when bargained(party) and not heldToLine(corbel_site) "The terms are kept, exactly. Some of the dead come back, blinking, into a world that is forgetting them; and the plateau forgets, from last week backward.".
+  Ending e_seated "The Heart Seated" when seated(ghessil) "The Patient has its heart again. Far off, in Imbar, last week is already going, and the week before.".
+  Ending e_rebound "Bound Tighter" when rebound(corbel_site) "Ithmar is bound tighter than the Virina bound it. Under the Pit the seed has stopped building; over it, by the next dawn, the Corbel has drawn back up into the cloud, and by the next month it is gone. The light still burns, the glass still spreads, the held still breathe once an hour. The plateau's troubles are its own again, and so are its memories.".
+  Ending e_exiled "Cast Out" when exiled(corbel_site) and not fellWith(party) "The Patient has fallen out past the planes, and its citadel with it. The Corbel lets go of the light and goes up into the dark as if pulled. The Keeping is still bound; the jewel sings once an hour to nothing at all.".
+  Ending e_covered "The Pit Covered" when covered(ghessil) "The Pit is covered. The Corbel hangs where it stopped, a dark spire over the plateau, and does not come down. In the glass, the held are dead.".
+  Ending e_unbound "The Tip Arrives" when unbound(ghessil) and not seated(ghessil) "The Tip reached the Vault, and the jewel was there. Imbar's past has begun to go, from the newest year backward: a season a month, then faster.".
+  // ── What the descent costs, a step at a time (second pass) ───────────────────────────────────────────────────────
+  // The Corbel comes down two metres a day. A company that does nothing is not spared the plateau's answer to it:
+  // four steps on the way down, each costing the Uplands something that can be read in its places, and, when the
+  // Concord has met and chosen nothing, the Crown acts on its own.
+  Measure strain(place).
+  Relation levied(group).
+  Rule step_levy when corbelHeight(corbel_site) <= 2400 and strain(ghessil) == 0 and not covered(ghessil)
+    says "The first rime of the year comes a month early, and with it the Mutual's levy: every cutter pays four crowns toward the Hall's felt, in the Corbel's name, and Dagny Ferrow chalks it on the board without looking up." {
+    Set strain(ghessil) to 1. }
+  Rule levy_debt when strain(ghessil) >= 1 and inDebtTo(party, dagny) and not levied(party) { Assert levied(party). Increase owes(party, dagny) by 4. }
+  Rule step_stocking when corbelHeight(corbel_site) <= 1800 and strain(ghessil) == 1 and not covered(ghessil)
+    says "The Warden's storehouse at New Orrel begins loading umber it has no order for. Nobody is told what it is for. Everybody can count the sacks." {
+    Set strain(ghessil) to 2. }
+  Rule step_shut when corbelHeight(corbel_site) <= 1200 and strain(ghessil) == 2 and not covered(ghessil)
+    says "The Mutual shuts the Granary Ring to new cutters. A vault that takes a man to the knee in the new light takes the rest of him by noon, and the Hall will not pay the widow's fine again." {
+    Set strain(ghessil) to 3. }
+  Rule step_holders when corbelHeight(corbel_site) <= 600 and strain(ghessil) == 3 and not covered(ghessil)
+    says "Ennick lets its holders go. The old are laid in the glass at the Hour, as they have always been, and nobody comes up the ramp to the cliff houses with honey any more; the honey is wanted for the Corbel's day." {
+    Set strain(ghessil) to 4. }
+  Observe strain_hall at mutual_hall when strain(ghessil) >= 1 and strain(ghessil) < 3 "Dagny Ferrow's board has a new column in her hand: the LEVY, a crown a cutter a month, and under it the names of those who have not paid, which is most of the board.".
+  Observe strain_hall_shut at mutual_hall when strain(ghessil) >= 3 "The board has been wiped. On it, in a hand that has not wiped anything before, is one line: NO ONE TO THE RING. Dagny sits under it with her sleeves rolled and a ledger shut in front of her, and does not look as if she has slept.".
+  Observe strain_store at storehouse when strain(ghessil) >= 2 "The storehouse is stacked to the beams with sacks of dry umber, in rows, and the rows are marked in the Warden's own hand with a day. The day is not this year's.".
+  Observe strain_square at square when strain(ghessil) >= 3 "There are fewer cutters in the Shift Market than there were, and more people standing about with nothing in their hands. Rusk has put up a card: NO FELT ON CREDIT.".
+  Observe strain_holders at holders_room when strain(ghessil) >= 4 "The holder's house is quiet and half the cots are made. Bren has not set a lamp in the window for a week.".
+
+  // The Crown's own answer. The Concord is called to Stairhead (stairhead.kyr); if it has still passed nothing when the Corbel
+  // is within eighteen hundred metres of the Pit, Aske does not wait for it: the Warden's seal is enough for a Warden. He presses the Coverers at double time,
+  // so that the Pit is shut before the Corbel can dock, and the held with it.
+  Relation decreed(place). Relation trainTurned(place).
+  Rule crown_decrees when convened(chapter) and corbelHeight(corbel_site) <= 1800 and not passed(motion_descend) and not passed(motion_bargain)
+    and not decreed(ghessil) and not trainTurned(ghessil) and not covered(ghessil) and not rebound(corbel_site) and not exiled(corbel_site)
+    says "Riders go out from the Warden's room at New Orrel along the Collar road, with a seal. The Concord has been called and has chosen nothing; the Crown, it seems, has chosen for it. The carts come up the Stair again, loaded with umber, and the Coverers are called out of every house in New Orrel." {
+    Assert decreed(ghessil). Set coverWork(ghessil) to 1. }
+  Rule decree_presses when decreed(ghessil) and coverWork(ghessil) >= 1 and hour(clock) == 0 and not covered(ghessil) and not trainTurned(ghessil) { Increase coverWork(ghessil) by 1. }
+  Rule decree_spent when trainTurned(ghessil) and decreed(ghessil) { Retract decreed(ghessil). Set coverWork(ghessil) to 1. }
+
+  // The umber train. Forty Coverers and a dozen carts come up to the top of the Collar on their way to the Pit; the
+  // foreman has an order and a day to keep, and no quarrel with the company. The train can be turned, one way for each
+  // trade, at a price; paid off by anyone; or fought, which is what the Warden would prefer, since a company that has
+  // killed Coverers has no standing at the Concord. Left alone, the carts reach the Pit, and the covering is on.
+  Person cover_train "the Coverers' umber train" nowhere {
+    Role "forty Coverers and a dozen carts of umber, under the Warden's seal". Ancestry human. Calling warrior. Level 3. Numbers 4. Temperament territorial.
+    Arrives at collar_top when decreed(ghessil).
+    Arrives "The first cart comes over the lip of the Collar road with a Coverer at the oxen's heads, and then another, and another, a dozen, all low with umber. The foreman walks ahead with the Warden's seal on a stick.".
+    Warns "The foreman holds up the stick. 'By the Warden's seal, the Pit is to be covered,' he says, in the voice of a man who has said it a dozen times today. 'Stand off the road. I will not move you, but they will.' Behind him the Coverers take their poles off the carts.".
+    Comes "The Coverers come on with their poles down, a line of forty across the Collar road, and the foreman, to his credit, shouts at them to mind the fill.".
+    Pleads "The foreman sits down on a sack of umber with his seal across his knees. 'I'd not have done it,' he says. 'I've a wife in New Orrel who'll want to know why.'".
+  }
+  Topic train_foreman with cover_train "Ask the foreman who ordered the covering" when true once {
+    Says "'The Warden,' says the foreman, 'on the Crown's word and the Crown's umber, and God forgive the lot of us. I'm to put the first course on the floor of the Pit by the new moon.' He scratches under his cap. 'They say there are people standing in the glass down there that breathe. I've a mate says he's seen them. I told him if he'd seen them he'd not be here.' He looks at the carts. 'I've not seen them. That's all I'm saying.'".
+  }
+  // Ways round, each a trade's, each at its own price. The foreman wants a reason he can carry back to Aske.
+  Action turn_train_pay(actor: group, site: place) "Pay the foreman forty crowns to find the Collar road washed out" {
+    Description "Anyone can. The Warden will hear the train was turned, and by whom.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(cover_train, site) and quantity(actor, gold) >= 40 and decreed(ghessil) and not trainTurned(ghessil).
+    Time 1.
+    On success { Decrease quantity(actor, gold) by 40. Retract at(cover_train, collar_top). Assert at(cover_train, no_market). Assert trainTurned(ghessil). Assert tolerates(cover_train, actor). Retract admits(aske, actor). }
+    Result "The foreman counts it behind a cart wheel, twice, and then discovers that the road ahead is out at the fill. The carts go back down the Collar road the way they came, one at a time. 'You'll want to be out of New Orrel by the time the Warden asks,' he says, not unkindly.".
+  }
+  Action turn_train_ranger(actor: group, who: member, site: place) "Have {who} lead the carts off the Collar road by a herd-way, as if it were the shorter" {
+    Description "A ranger knows which of the old herd-ways looks like a road and is not. It costs the day, and no one is blamed.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(cover_train, site) and memberOf(who, actor) and hasCalling(who, calling_ranger) and awake(who) and decreed(ghessil) and not trainTurned(ghessil).
+    Time 12.
+    On success { Retract at(cover_train, collar_top). Assert at(cover_train, no_market). Assert trainTurned(ghessil). Assert tolerates(cover_train, actor). }
+    Result "{who} walks ahead of the oxen with a hand up, and the foreman, who grew up on the plateau and knows a bad road when he sees one, follows because the herd-way looks like a better one. It runs round the Sink and out by the flats, a day's walk. By dusk the carts are a long way from the Pit and the Coverers are angry only with each other.".
+  }
+  Action turn_train_thief(actor: group, who: member, site: place) "Have {who} draw the linchpins of the lead carts in the dark, and be elsewhere" {
+    Description "Quick and clean, and the Warden will know it was done, though not by whom he can swear to. He will not let the Stair to a company he suspects.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(cover_train, site) and memberOf(who, actor) and hasCalling(who, calling_thief) and awake(who) and decreed(ghessil) and not trainTurned(ghessil).
+    Time 1.
+    On success { Retract at(cover_train, collar_top). Assert at(cover_train, no_market). Assert trainTurned(ghessil). Assert tolerates(cover_train, actor). Retract admits(aske, actor). }
+    Result "{who} is among the oxen for the length of a breath, and then is not. The first cart down the Collar road loses a wheel at the lip, the second runs into it, and the third has already been turned round by a foreman who can see the shape of the morning. The linchpins are in a pocket, warm from the pins' own heat. Nobody saw anything.".
+  }
+  Action turn_train_cleric(actor: group, who: member, site: place) "Have {who} ask the Waiting to sit in the road, and kneel in it with them, for the held" {
+    Description "It takes a day for the Waiting to come up, and they will stay however long it is wanted. A cleric asks it; the Waiting's elder owes you after.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(cover_train, site) and memberOf(who, actor) and hasCalling(who, calling_cleric) and awake(who) and knows(actor, held_feed) and decreed(ghessil) and not trainTurned(ghessil).
+    Time 6.
+    On success { Retract at(cover_train, collar_top). Assert at(cover_train, no_market). Assert trainTurned(ghessil). Assert tolerates(cover_train, actor). Assert favours(ruan, motion_descend). }
+    Result "They come up the Stair in the afternoon, sixty of the Waiting in their grey, whose people are standing in the glass: and they sit down in the Collar road in rows, and {who} kneels in the front of them and says the names. The foreman takes his cap off. He does not order the poles lifted. After a long time he says, 'I'll tell the Warden the road was full,' and the carts go back down the way they came. Ruan Haldane takes your hand at the lip of the Collar and does not say anything at all.".
+  }
+  Action turn_train_scholar(actor: group, who: member, site: place) "Have {who} read the foreman the Crown's own charter: no Pit is covered without the Concord's vote" {
+    Description "A reader can find the clause. The foreman can't be made to disobey the Warden; he can be made to wait for a ruling.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(cover_train, site) and memberOf(who, actor) and hasCalling(who, calling_mage) and awake(who) and convened(chapter) and decreed(ghessil) and not trainTurned(ghessil).
+    Time 3.
+    On success { Retract at(cover_train, collar_top). Assert at(cover_train, no_market). Assert trainTurned(ghessil). Assert tolerates(cover_train, actor). }
+    Result "{who} has the clause by heart before the foreman has found his spectacles: no Pit, no Collar, and no light of the Uplands to be covered, closed or shut but by the Concord, in session, by vote. The foreman reads it himself, slowly, with his lips. 'It says the Concord,' he says. 'It does not say the Warden.' The carts stop where they are, and begin, one at a time, to turn. Aske will now have to ask the Concord, and has every seat but one.".
+  }
+  // The warrior's way is the plain one, and is the Warden's. If the train is beaten the carts do not reach the Pit, and
+  // the company has no friends among the Crown.
+  Rule train_broken when decreed(ghessil) and not able(cover_train) and not trainTurned(ghessil)
+    says "The carts stand where they are, with nobody at the oxen's heads. Somebody will have to tell the Warden." {
+    Assert trainTurned(ghessil). Retract admits(aske, party). }
+
+  Milestone m_train_turned "turned the Coverers' umber train from the Pit" worth 100 when trainTurned(ghessil).
+  Milestone m_concord_descent "had the Concord sanction a descent for Ithmar" worth 75 when passed(motion_descend).
+
+  // ── After the endings: the Uplands, afterwards ───────────────────────────────────────────────────────────────────
+  // An ending closes the book in a game played alone; in a generated world it closes the chapter and the plateau goes on
+  // without you, and these are the places that show it.
+  Observe after_covered_square at square when covered(ghessil) "The Shift Market is half-empty on market day. The Pit is under umber to the Collar; the light that lay on the glass is a stain on the Crown's maps. Nobody carries honey up the ramp. The Hour is silent, and the Mutual's hall is hung with grey cloth.".
+  Observe after_covered_hall at mutual_hall when covered(ghessil) "Dagny Ferrow has taken the held off the board with the side of her fist, one stroke each, Garret's among them. The felt is still being cut. There is nothing to sell it to.".
+  Observe after_covered_counter at counter_platform when covered(ghessil) "Coombe has begun a new column in the Counter's book, headed DAYS THE STAR DID NOT HOLD. It is very short, and he looks at it as if it might get longer.".
+  Observe after_rebound_square at square when rebound(corbel_site) "The Shift Market is busy and loud and nobody talks about the Corbel. The spire is gone from the sky over the Pit, and the light still lies on the glass, and the held still stand in it, alive. Rusk says the felt is back to the old price.".
+  Observe after_rebound_hall at mutual_hall when rebound(corbel_site) "The board has been cleaned and written up again, the old way: names, vaults, days. Beside each held man's name someone has chalked a small cross, which is the Mutual's mark for one who is held and counted. Dagny looks ten years older and more at ease.".
+  Observe after_exiled_square at square when exiled(corbel_site) "The Corbel has gone, and people in the Shift Market look at the sky over the Pit, and it is empty, and they look again. A child asks what was hanging there. The old have been telling her all morning.".
+  Observe after_seated_square at square when seated(ghessil) "In the Shift Market two families stand with the same deed. The clerks have given up and are offering to witness whichever they can remember. They cannot remember either.".
+  Observe after_seated_hall at mutual_hall when seated(ghessil) "The board is full of names in different hands, and some of them are crossed out, and some of the crossings-out are crossed out. Dagny sits under it with her chin on her fist, saying the names one by one so that someone will have heard them.".
+  Observe after_unbound_square at square when unbound(ghessil) and not seated(ghessil) "It is the same market, in the same light, and the traders are selling the same things, and no one in it can say what was sold last week.".
   // The module's Goal is a hint to the planner, not an ending (ledger, 28).
   Goal rebound(corbel_site) or exiled(corbel_site).
 }

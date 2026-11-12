@@ -5,6 +5,7 @@
 @seen a round tower | a square tower | a half-fallen tower
 @names watch, tower, view, spire
 @danger 2
+@count 3
 @lair floor
 @declines successor: a tower whose sight-line has fallen sees no other tower; one with a twin points to it
 --- outside

@@ -1,0 +1,7 @@
+Module season "The Patient Star, nearly covered" {
+  // The Crown has decreed and the carts are on the Pit: a thousand and sixty days' work of eleven hundred are done.
+  Initially Set corbelHeight(corbel_site) to 1700.
+  Initially Assert convened(chapter).
+  Initially Assert decreed(ghessil).
+  Initially Set coverWork(ghessil) to 1060.
+}

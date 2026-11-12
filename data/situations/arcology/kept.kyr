@@ -1,0 +1,69 @@
+Module arcology "The Numbered House" {
+  // The kept floor: the one place in the House where nothing is wrong, and the long way home.
+
+  Observe quiet_scene at quiet when true "A long hall with a floor of pale wood, swept. The lamps in their brackets are trimmed and lit, and burn with the steady unflinching light of a flame that has never been moved by a draught. There is no dust. Along both walls are doors with numbers on them, each door painted, each with a mat, and the mats are straight.".
+  Observe quiet_air at quiet as sign when true "It smells of beeswax and bread and clean linen, and of something under them that is very faint and very sweet. Nobody else is here. Everything is ready for somebody.".
+  Observe quiet_doors at quiet as feature when true "The doors are not locked. Behind each is a room with a bed made up, a lamp trimmed, a basin filled and a towel folded over the rail; behind the last, the bed has been slept in once, and made again.".
+  Person steward "the Host" at quiet {
+    Role "the steward of the kept floor". Species automaton. Level 1. Peaceable. Pronouns it.
+    Greets "A figure of white enamel and brass, in a folded apron, comes down the hall to meet you with the unhurried walk of someone who has done it every day. It bows from the middle. 'You are expected,' it says. 'There is a table laid.'" when counted(party).
+    Greets "A figure of white enamel and brass, in a folded apron, comes down the hall to meet you with the unhurried walk of someone who has done it every day. It bows from the middle. 'You are not on the Roll,' it says, without reproach. 'There is a place kept. Come and sit down.'" when not counted(party).
+    Greets again "The Host bows from the middle. 'Welcome back,' it says. 'Your places are as you left them.'".
+    State serving "The Host stands in the hall with its hands folded, waiting to be of use.".
+  }
+  Topic host_what with steward "Ask the Host what this floor is for" when true once {
+    Says "'It is kept,' says the Host, as one would say the sky is up. 'Each one that is counted has a place here, and the place is laid. If they do not come, the place is laid again.' It looks at you with its lamp-glass eyes, mild as milk. 'No one has come for a long time. I am very glad you are here.'".
+  }
+  Topic host_who with steward "Ask the Host who it is keeping the places for" when true once {
+    Says "'For the counted,' it says. And then, after a pause that is the length of a held breath: 'There is one more place than there are counted. I have kept it too. I do not know whose it is.' It folds its hands the other way. 'I have been asked not to ask.'".
+  }
+  Topic host_last with steward "Ask the Host when the last count was made" when true once {
+    Says "The Host does not answer. It stands perfectly still. A lamp in the hall gutters, for no reason, and goes on; then another. 'That question is not permitted,' it says, and its voice has something in it that was not in it before, a kind of fear that has been polished down for a very long time. 'Will you sit down?'".
+    On discuss { Increase hum(house) by 1. Set humAt(house) to watch(clock). }
+  }
+  Observe laid_scene at table_room when true "A round table laid for a meal, in a room with no corners. The cloth is white; the plates are white; the lamps are lit, and the bread on the board is warm, and steam rises from a bowl at the head. Chairs stand round it, each with a folded napkin, and each napkin has a number embroidered on it in thread the colour of the lamp.".
+  Observe laid_extra at table_room as sign when true "One chair stands a little apart from the rest, at the foot, with a napkin folded over its back instead of laid. The plate in front of it is as clean as the others, and has never had a crumb on it.".
+  Thing table "the laid table" at table_room {
+    State laid "The table is laid and the food is hot.".
+    State eaten "You have eaten at the table, and it has not changed. The bread on the board is whole.".
+    Change eat "Sit down and eat what is laid" from laid to eaten when counted(party) "The Host stands at your shoulder. 'You are not on the Roll,' it says, kindly. 'I cannot seat you. Not yet.'".
+  }
+  Rule table_feeds when state(table, eaten) and not tenant(party) says "The food is good. It is the first meal you have eaten in a long while that did not have to be paid for. A warmth goes through you, and an ease you had forgotten you were missing, and when you rise the napkin by your plate has your name on it in thread." {
+    Assert tenant(party). Set seatedFor(party) to count(memberOf(?m, party)). Restore party.
+  }
+  Observe laid_return_same at table_room when tenant(party) and seatedFor(party) == count(memberOf(?m, party)) "The table is laid for exactly as many as you are, and each napkin has a name in it that you know.".
+  Observe laid_return_fewer at table_room when tenant(party) and seatedFor(party) > count(memberOf(?m, party)) "The table is laid for one more than you are. A napkin lies folded at a place no one sits at, with a name in it you know. The Host, in the doorway, does not look at it.".
+  Observe laid_return_more at table_room when tenant(party) and seatedFor(party) < count(memberOf(?m, party)) "A place is missing at the table. As you watch, the Host comes from the doorway and lays another, with a napkin from a drawer, and works a name into it in thread, quickly and exactly.".
+  Item spoons "the laid silver spoons" is spoon_kind at table_room.
+  Kind spoon_kind "a spoon of the House" is treasure worth 15 weighing 1 described "A spoon of dull white metal, light as an eggshell, with a numeral on the handle. It does not tarnish. It has never been used, though it has been washed every day.".
+  Rule spoon_owed when holding(party, spoon_kind) and not owed(party) says "The Host does not say a word. It looks at the spoon in your pack, and then at the bare place in the table where it was, and a lamp in the hall goes out and relights. A small bright coin of dread settles in you. You have taken something that was counted." {
+    Assert owed(party). Increase hum(house) by 1. Set humAt(house) to watch(clock).
+  }
+  Relation squared(group).
+  Rule spoon_squared when squared(party) { Retract owed(party). Retract squared(party). }
+  Topic host_account with steward "Settle the account for the spoon" when owed(party) and holding(party, spoon_kind) once {
+    Says "You put the spoon on the Host's palm. It closes its fingers over it, and bows, and carries it away, and returns with its hands empty, and the table at your back is, somehow, laid again. 'The account is settled,' says the Host. 'Thank you.'".
+    On discuss { Spend spoons from party. Assert squared(party). }
+  }
+
+  // --- the Service Way ----------------------------------------------------------------------------------------
+  Observe service_scene at serviceway when true "A narrow passage of brick, arched, running away into the dark. Lamp-niches are cut in the wall at every ten paces, and in every niche is a lamp trimmed and unlit, in rows, away and away. The floor is worn into a shallow channel down the middle by the feet of people who carried things, and there is a draught from the far end that smells of rain.".
+  Observe service_plan at serviceway as feature when capable(party, lore) "On the wall beside the door, a plan cut into a bronze plate: a line of tunnel, a house at one end, and at the other end a fork. One branch ends at a cliff, and a door. The other goes under hills a very long way to a small square marked with the figure of a roofed house with a lamp in it. The lamp-niches along it are numbered, one to a mile, and the last is eleven." teaches slab_known_plan.
+  Discovery slab_known_plan "The Service Way forks at the cliff door: one branch to the far side of the hill, and one under the hills for eleven miles to a roofed house with a lamp.".
+  Discovery slab_known "At the end of the Service Way, a slab bars the passage to a place with a lamp in it." { Found by searching cliff "At the very end of the passage, behind the cliff door, a second, narrower tunnel goes off under a slab of pale stone, with a barred hatch.". }
+  Observe cliff_scene at cliff when true "The Service Way comes to an end in a broad brick chamber with a bronze door in one wall, barred from the inside with a beam of black oak as thick as a thigh, and in the floor, a slab of pale stone with a bar of its own across it. A thin cold light comes in under the door, and the smell of rain, and of fern. Water runs in a shallow channel along one wall, and goes away under the slab.".
+  Thing far_bar "the beam across the cliff door" at cliff {
+    State fastened "The great beam of black oak lies across the bronze door in its iron brackets, barred from the inside.".
+    State lifted "The beam leans against the wall. The bronze door stands ready to open on the hillside, and the light comes in.".
+    Change lift_far "Lift the beam from the bronze door" from fastened to lifted needing brawn.
+  }
+  Thing slab "the slab in the floor of the cliff chamber" on shrine_way {
+    State fastened blocking "A slab of pale stone with a bar of its own across it lies in the floor of the chamber. Under it, by the cold draught, there is a passage going down.".
+    State open "The bar is drawn and the slab stands on its edge, and a draught comes up from the passage under it, smelling of tallow, and stone, and a very small cold, far-off warmth.".
+    Change lift_slab "Draw the bar and heave the slab on its edge" from fastened to open needing brawn at cliff.
+  }
+  Observe shrine_slab at shrine when state(slab, open) "Behind the altar, a slab in the floor that has lain level for longer than the shrine has stood is on its edge, and a draught comes up from the hole under it, warm, smelling of oil and brass.".
+  Passage far_door "the bronze door onto the far side of the hill" is door between cliff and outside taking 2 hours
+    opening when state(far_bar, lifted) "The bronze door will not move: it is barred from within.".
+  Observe bend_door at outside as sign when true "Round the shoulder of the hill, half hidden by hazel, a door of dark bronze stands in the rock with no handle on this side, and no latch, and no keyhole. Whoever made it did not mean it to be opened from here.".
+}

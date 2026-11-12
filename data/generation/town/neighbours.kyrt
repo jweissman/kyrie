@@ -1,0 +1,254 @@
+# neighbours: the first town's own people, and what the generated ones have been up to: a scholar, an acolyte, an apprentice, and the quarrels between them and the Hall.
+// A Kyr template (see src/world/kyr-template.ts), added to outskirts.kyrt and outskirts-deep.kyrt. {t}, {town}, {old},
+// {craft}, {belief}, {kingdom}; {station}, {stationname}, {stationwhere} where the country has the Empire's posting-house
+// (sections "if station"). The town's generated people keep their generated names and are spoken of by reference
+// ({{t}_innkeeper}, {{t}_priest}, {{t}_merchant}, {{t}_traveller}); what is written for them here is what they have
+// been doing and what they think of each other, so that they are neighbours and not a rank of stalls.
+//
+// New people, each wanting something that is not the company:
+//   Isaure Venn, a scholar at the inn: wants to read every inscription in the country before the frost has them.
+//     A companion; she recognises places, reads what others cannot, disagrees about the crowbar, and may stay behind.
+//   Brother Anselm Tarr, the priest's acolyte at the shrine: wants to know whether the coins left at the old post
+//     are idolatry or only manners. A companion whose belief is tested and not refuted.
+//   Hesper Lowe, a boat-wright's apprentice at the landing: wants to cast a bell. Needs a pattern worth casting.
+// Nothing here is an aim. Everyone is met by walking into the first town's heart or its inn.
+--- base
+  Relation {t}_iv_asked(group). Relation {t}_iv_stays(group). Relation {t}_an_insists(group).
+  Relation {t}_hesper_told(group). Relation {t}_bell_cast(group). Relation {t}_fenn_truth(group). Relation {t}_fenn_kind(group).
+  Relation {t}_spoon_told(group).
+  Entity {t}_rubbed_word: fact "The word scored out on the judgement-seat's dais is the Empire's own, IUDICIUM, in a surveyor's hand: the Aeneans named the hall a judgement-seat, and the first makers' figures hold rods, not scales.".
+  // ---- Isaure Venn
+  // ---- the people the generated town already had, and what they have been doing
+  Topic {t}_keeper_debts with {t}_innkeeper "Ask {{t}_innkeeper} who owes the house most" when true once {
+    Says "{{t}_innkeeper} does not need the slate. 'The wood-wardens,' they say. 'Eleven months of ale, chalked to a reeve who says the Hall will pay it when the road-wood is settled, and to the Hall's steward, who says the wardens must. I have had two sets of boots on that table swearing the other owes. A scholar has the room upstairs and pays in advance, which is a thing I had forgotten could be done.'".
+  }
+  Topic {t}_keeper_isaure with {t}_innkeeper "Ask {{t}_innkeeper} about the scholar upstairs" when true once {
+    Says "'Venn,' says {{t}_innkeeper}. 'Isaure Venn. Reads stones. Came up the river with a trunk of paper and no sense, and has been to the hill twice and been turned back by the dark both times. I would take it as a kindness if somebody went with them. I do not like to think of the trunk with nobody to carry it.'".
+  }
+  Topic {t}_priest_acolyte with {t}_priest "Ask {{t}_priest} about the acolyte" when true once {
+    Says "{{t}_priest} lets a breath out through the nose. 'Anselm Tarr. The best head in the house and the worst temper for a doubt. A boy who asks why the coins are left at the old post, and cannot be told \"because they are\". I am proud of the question and I should like him to go on asking it somewhere else for a while.'".
+  }
+  Topic {t}_priest_coins with {t}_priest "Ask {{t}_priest} about the coins on the old road" when true once {
+    Says "'The faith says nothing of it,' says {{t}_priest}, 'and the folk have done it since before the faith. A coin at the numbered stone, a coin at the Lady's bowl wherever one is found, and nobody can say whose lady. I have forbidden nothing. I have not looked closely. Anselm has looked closely, which is why I have not.'".
+  }
+  Topic {t}_merchant_oak with {t}_merchant "Ask {{t}_merchant} how trade is" when true once {
+    Says "'Dear,' says {{t}_merchant}. 'The wardens cannot cut the good oak, so the sheds buy it from me at a price I am ashamed of. Hesper Lowe at the landing came in last week with a handful of copper and a drawing of a bell, and I could not sell them what they wanted for anything the sheds would pay. There is a girl who will either be a great founder or drown in her own furnace.'".
+  }
+  Topic {t}_traveller_rival with {t}_traveller "Ask {{t}_traveller} what they think of the scholar" when true once {
+    Says "{{t}_traveller} laughs without malice. 'Venn? Pays well, reads aloud, and will walk you into a bog to see a wall. If you want somebody who knows where the road goes, take her. If you want somebody who knows where to stand when it comes, take me, and take her as well, and pay us both.'".
+  }
+  Person {t}_anselm "Brother Anselm Tarr" at {t}_shrine {
+    Role "the priest's acolyte, who has read everything the shrine owns and wants to know what it leaves out". Ancestry human. Calling cleric. Level 1. Peaceable. Manner compassionate. Pronouns he.
+    Greets "A lean young man in the shrine's grey looks up from the lamp he is trimming and does not smile, quite. 'You are not here to pray,' says Brother Anselm Tarr. 'Good. I have run out of things to say to people who are.'".
+    Remarks at {t}_stones_tree "Brother Anselm Tarr touches one of the rags on the old tree, very gently, with two fingers. 'They are not asking for anything,' he says. 'That is what I cannot get over. Every other offering I know of is a bargain.'".
+    Remarks at {t}_stones_under "Brother Anselm Tarr stops at the foot of the slab stair and takes his hand from the wall. 'These were somebody's dead,' he says. 'Whoever they were, I will not have it said that I walked through them like a street.'".
+    Remarks at {t}_manor_kitchen "Brother Anselm Tarr is given a bowl by the cook before he has said a word, and looks at it as if it were a miracle. 'Mistress Pennick,' he says. 'I have been told you are a heretic.' 'Eat,' says Orla Pennick.".
+    Joins "Brother Anselm Tarr banks the lamp, takes the grey cloak off its nail and does not look back at the shrine. 'I shall be back before the oil is,' he says. 'Or I shall write to say why.'".
+    Leaves "Brother Anselm Tarr stands a moment with his eyes shut. 'I have to go and be wrong at somebody who can correct me,' he says. 'The shrine. I will keep your coin in it.'" to {t}_shrine.
+  }
+  Observe {t}_anselm_seen at {t}_shrine when at({t}_anselm, {t}_shrine) "At the back of the shrine, under the lamp, a young man in the grey of the house is copying a column of figures out of the offering-book with a ruler, tutting.".
+  Topic {t}_anselm_post with {t}_anselm "Ask Brother Anselm what he is counting" when true once {
+    Says "'The offerings,' says {{t}_anselm}. 'By the year. For two hundred years there has been a coin left at the numbered stone on the old road, at the same place and in the same dish, and the number has never once fallen, in plague, in famine, in the war of the heirs. That is not piety. Piety has fashions. It is a *habit*, and I should like to know who taught it.'".
+    On discuss { Assert knows(actor, {t}_coin_habit). }
+  }
+  Entity {t}_coin_habit: fact "The shrine's offering-book shows a coin left at the old numbered post on the road every year for two hundred years, through plague, famine and war: a habit, not a fashion of piety.".
+  Person {t}_hesper "Hesper Lowe" at {t}_green {
+    Role "a boat-wright's apprentice with a drawing of a bell, who has never cast one". Ancestry human. Calling thief. Background locksmith. Level 1. Peaceable. Manner stoic. Pronouns she.
+    Greets "A girl in a leather apron, with soot to the elbows and a roll of paper under her arm, looks at you the way a carpenter looks at timber. 'Can you carry? Can you keep quiet? Can you stand still while somebody takes a measurement?'".
+  }
+  Topic {t}_hesper_bell with {t}_hesper "Ask Hesper Lowe about the drawing" when true once {
+    Says "'A bell,' says Hesper Lowe. 'The town had one over the well and the hobs took it, and the wright I am bound to says a bell is a lump of metal and a good one is luck. It is not luck. It is the shape of the lip and the thickness of the shoulder, and the old people knew it, and I have a sixth of the knowledge and no pattern. If I could put my hands on one good bell, or on anything that rings true and was made by somebody who meant it. They say the Hall's boy comes home humming four notes from the hill, three down and one up, and that something up there rings them. If I had the shape of it...' She stops. 'Do not laugh. Everyone does.'".
+    On discuss { Assert {t}_hesper_told(party). }
+  }
+  Thing {t}_chime_wax "the wax for a bell-maker" at {t}_stones_under {
+    State plain "At the lip of the bronze chime the dust is smooth, as if a thing had been set against it and taken away: nobody has ever pressed anything to it. A bell-wright, you think, would give a good deal to know the shape of that lip.".
+    State taken "A thumb-thick strip of wax lies in your hands, pressed to the lip of the chime and drawn away, with the shape of the bronze in it, as true as a bell-wright could ask. The girl at the landing who wants to cast a bell, Hesper Lowe, has been asking everyone for exactly this.".
+    Change take "Press a strip of soft wax to the chime's lip, and draw it away" from plain to taken.
+  }
+  Topic {t}_hesper_wax with {t}_hesper "Show Hesper Lowe the wax from the chime" when state({t}_chime_wax, taken) and not {t}_bell_cast(party) once {
+    Says "Hesper Lowe takes the wax in both hands and holds it to the light for a long time without breathing. 'Somebody *meant* this,' she says. 'Look at the shoulder. Look at the lip. It has been ringing for longer than my town has had a name.' She gives you what coin she has, which is twenty-five, and then the apron. 'I will cast it tonight. Tell nobody where it came from. Tell Anselm if you must, and watch his face.'".
+    On discuss { Give 25 gold to actor. Assert {t}_bell_cast(party). }
+  }
+  // The new bell hangs over the well once Hesper has cast it, and is rung from the green; what answers is the way under the hill.
+  Thing {t}_new_bell "the new bell over the well" nowhere {
+    State hung "A small dark bell hangs over the well in the old frame, a little crooked, its rope coiled on the curb.".
+    State rung "The bell over the well has been rung: four notes, three down and one up, and the whole green stopped to listen.".
+    Change ring "Ring the new bell" from hung to rung.
+  }
+  Rule {t}_bell_hung when {t}_bell_cast(party) and not at({t}_new_bell, {t}_green) { Assert at({t}_new_bell, {t}_green). }
+  Rule {t}_bell_answered when state({t}_new_bell, rung) and not knows(party, {t}_tunnel_found) says "The four notes go out over the roofs, and from the direction of the Hall, faint and late, something answers with one: and then, in the Hall's cellar, the sound of a brick falling out of a wall." teaches {t}_tunnel_found { }
+  Observe {t}_bell_new at {t}_green when {t}_bell_cast(party) "A new bell hangs over the well, small and dark and a little crooked in the hanging, and when the wind moves it it does not clang. It says four notes, three down and one up, and the children have started to hum them.".
+  Topic {t}_anselm_wax with {t}_anselm "Tell {{t}_anselm} you took a wax from the chime" when state({t}_chime_wax, taken) once {
+    Says "{{t}_anselm} goes quite still. 'You took a pattern off the dead's own bell,' he says. 'For a girl who means to ring it in a market.' A long breath. 'I do not know if that is theft or the only sort of remembering anyone is going to do. Do not ask me yet.'".
+    On discuss { Assert {t}_an_insists(party). }
+  }
+  // The fifteenth spoon: the Hall's steward has counted fourteen for eleven years.
+  Kind {t}_spoon_kind "a Hall spoon" is treasure worth 2 weighing 1 described "A silver spoon with the arms of the house on the handle, left in a ring of dust before a niche in the dark: somebody paid a fair price for a cup, in the only coin he had.".
+  Item {t}_spoon "a Hall spoon" is {t}_spoon_kind at {t}_stones_under hidden until {t}_spoon_found.
+  Discovery {t}_spoon_found "Under the dust at the foot of the lowest niche, where the cup stood, lies a silver spoon with the Hall's arms on it." { Found by searching {t}_stones_under "In the ring of dust where the cup stood, a thumb's depth down, something silver.". }
+  Topic {t}_steward_spoon with {t}_manor_steward "Show {{t}_manor_steward} the spoon from the undercroft" when holding(party, {t}_spoon_kind) and not {t}_spoon_told(party) once {
+    Says "{{t}_manor_steward} looks at the spoon for a long time, and something happens to her mouth that it has not had occasion to do in eleven years. 'Fifteen,' she says. 'There were *fifteen*.' She laughs, once, and puts a hand over it as if it had got out by mistake. 'Keep it. I find I prefer fourteen. And a boy who pays for what he takes, even to the dead.'".
+    On discuss { Assert {t}_spoon_told(party). }
+  }
+  // Papers in the muniments about the reeve's father: more than one reading.
+  Thing {t}_manor_ledger "the old steward's account-book" at {t}_manor_muniments {
+    State shut "A narrow account-book of the Hall's old steward lies among the papers, open at a page marked with a dead flower.".
+    State read "Under the quarter-day: PAID TO FENN, WOOD-WARDEN, FOR THE LAST QUARTER, NOTHING: DISMISSED FOR SAUCE AT TABLE. And in the margin, in a different ink: HE HAD READ THE OLD PAPER AND WOULD NOT UNREAD IT.".
+    Change read "Read the page marked with a dead flower" from shut to read.
+  }
+  Thing {t}_manor_draft "a draft of a letter, never sent" at {t}_manor_muniments {
+    State folded "A half-sheet, folded small and put in the back of the press, begins in a clerk's good hand and gets worse.".
+    State read "TO THE FAMILY AT COURT. I HAVE FOUND IN YOUR PRESS A GRANT OF THE ROAD THAT MAKES THE CHAIN YOURS ONLY AS FAR AS THE ROAD-WOOD'S EDGE. I DO NOT WISH TO MAKE TROUBLE. I WISH THE WARDENS TO KEEP THEIR OAK. The rest is a long smear, and one word, again and again: PLEASE.".
+    Change read "Unfold the draft that was never sent" from folded to read.
+  }
+  Thing {t}_manor_memo "a note in the old steward's hand" at {t}_manor_muniments {
+    State sealed "Pinned inside the lid of the account-book is a note that was meant for nobody.".
+    State read "I HAVE TOLD FENN IT IS A FORGERY. IT IS NOT. IF THE FAMILY READS IT THEY WILL LOSE THE WOOD AND I MY PLACE. I AM AN OLD MAN. HE WILL FORGIVE ME OR HE WILL NOT, AND THE OAK WILL GROW.".
+    Change read "Read the note pinned in the lid" from sealed to read.
+  }
+  Observe {t}_manor_ledger_learned at {t}_manor_muniments of {t}_manor_ledger as reading when state({t}_manor_ledger, read) "The reeve's father was not put out for his manners." teaches {t}_fenn_dismissed.
+  Observe {t}_manor_draft_learned at {t}_manor_muniments of {t}_manor_draft as reading when state({t}_manor_draft, read) "He had the grant, and meant well." teaches {t}_fenn_wrote.
+  Observe {t}_manor_memo_learned at {t}_manor_muniments of {t}_manor_memo as reading when state({t}_manor_memo, read) "The old steward knew the grant was genuine, and said it was not." teaches {t}_fenn_lied_to.
+  Entity {t}_fenn_dismissed: fact "Aldous Fenn's father was dismissed from the Hall after he read an old paper the family had in its press.".
+  Entity {t}_fenn_wrote: fact "Fenn's father wrote to the family to say the grant made the chain theirs only to the road-wood's edge, and begged them not to be angry.".
+  Entity {t}_fenn_lied_to: fact "The Hall's old steward told Fenn's father the paper was a forgery, knowing it was not, to keep his own place.".
+  Topic {t}_fenn_truth_told with {t}_reeve "Tell {{t}_reeve} what the papers say of his father" when knows(party, {t}_fenn_dismissed) and knows(party, {t}_fenn_lied_to) and not {t}_fenn_truth(party) and not {t}_fenn_kind(party) once {
+    Says "{{t}_reeve} hears the three papers one after another and does not interrupt. At the second he sits down on the well-curb. At the third he puts his hat over his face. 'He was right,' he says through it. 'And they told him he was not. And he believed them, because he was a man who believed paper.' A while. 'Thank you. I did not want to know and I am glad I do.'".
+    On discuss { Assert {t}_fenn_truth(party). Increase quantity(actor, gold) by 10. }
+  }
+  Topic {t}_fenn_kind_told with {t}_reeve "Tell {{t}_reeve} only that his father was an honest man" when knows(party, {t}_fenn_dismissed) and not {t}_fenn_truth(party) and not {t}_fenn_kind(party) once {
+    Says "{{t}_reeve} looks at you a long moment. 'Honest,' he says. 'Yes. That I knew.' He takes a breath that goes in further than he meant. 'You have left something out. I can hear it. I will not ask, today.'".
+    On discuss { Assert {t}_fenn_kind(party). }
+  }
+  Topic {t}_steward_dismissal with {t}_manor_steward "Ask {{t}_manor_steward} about the wood-warden dismissed from the Hall" when knows(party, {t}_fenn_dismissed) once {
+    Says "{{t}_manor_steward} does not look up from the book. 'Before my time,' she says. 'It is in the old steward's hand. I have read it. I have read it a great many times.' The pen stops. 'If you see the reeve before I do, tell him I did not know, and that it is not an excuse.'".
+  }
+  Observe {t}_fenn_after at {t}_green when {t}_fenn_truth(party) and {t}_roadwood_shared(party) "The reeve has had a stone cut for the well-curb, small and plain: FENN, WOOD-WARDEN, WHO READ THE PAPER. Nobody asked him to. Nobody has asked what it means.".
+  // ---- A death at the landing: a wood-warden's scaler laid out in the shrine, and three ways to read it.
+  Relation {t}_death_accident(group). Relation {t}_death_oak(group). Relation {t}_death_told(group).
+  Thing {t}_dead "the laid-out man" at {t}_shrine {
+    State covered "A man lies on the shrine's bier under a grey cloth, his boots still on. A wood-warden's mark is tied at his belt.".
+    State seen "Under the cloth: Joss Hatherly, the wardens' scaler, a bruise the size of a hand over one ear, river-silt in the seams of his boots, and in the boot-heel, hobnails of a pattern the Hall's keeper does not wear.".
+    Change look "Look under the cloth" from covered to seen.
+  }
+  Observe {t}_dead_learned at {t}_shrine of {t}_dead as reading when state({t}_dead, seen) "He was hit, or fell against something hard, before he went in the water; and he had walked a long way on wet ground." teaches {t}_death_bruise.
+  Entity {t}_death_bruise: fact "Joss Hatherly, a wood-warden's scaler, was found drowned at the landing with a bruise over one ear and silt in his boots: he had walked from further up the river than the landing.".
+  Thing {t}_tally "a notched tally-stick" at {t}_taproom {
+    State shut "A hazel tally-stick lies behind the bar where the innkeeper put it, cut with fine notches in rows, marks on the flat in the wardens' hand.".
+    State read "Rows of notches: so many oaks, by girth, felled in the road-wood and carried by night to a buyer. At the head of each row is one mark, a pierced circle: the same on every row. The merchant's trade-mark, as the sheds know it.".
+    Change read "Read the notches on the tally-stick" from shut to read.
+  }
+  Observe {t}_tally_learned at {t}_taproom of {t}_tally as reading when state({t}_tally, read) "The dead man kept the count of oak cut behind the Hall's chain, and who bought it." teaches {t}_death_oak_fact.
+  Entity {t}_death_oak_fact: fact "Joss Hatherly's tally-stick records oak felled by night in the road-wood and sold under the merchant's pierced-circle mark: somebody was cutting behind the chain, and selling.".
+  Topic {t}_keeper_last with {t}_innkeeper "Ask {{t}_innkeeper} about the dead man's last night" when true once {
+    Says "'Hatherly drank two ales and paid for neither,' says {{t}_innkeeper}, 'and put his tally-stick down on the bar and said he would be back for it before the dawn bell. He had a look on him like a man who has done sums and not liked the answer.' A pause. 'He was sober. Whatever else they say, he was sober.'".
+    On discuss { Assert knows(actor, {t}_death_sober). }
+  }
+  Entity {t}_death_sober: fact "The innkeeper says Hatherly was sober the night he died, and meant to come back for his tally-stick before dawn.".
+  Topic {t}_merchant_oak_ask with {t}_merchant "Ask {{t}_merchant} about Hatherly's tally-stick" when knows(party, {t}_death_oak_fact) once {
+    Says "{{t}_merchant} does not look at the stick. 'Anyone can cut a mark,' says {{t}_merchant}. 'It is a circle with a hole in it; the children draw it in the dust.' A long moment. 'I bought oak. I asked where it came from and was told the wardens had a licence. I am a trader. I do not walk the woods.' It is exactly what a guilty man says, and what an honest one does.".
+  }
+  Topic {t}_priest_accident with {t}_priest "Tell {{t}_priest} that it was a drunkard's fall" when state({t}_dead, seen) and not {t}_death_told(party) once {
+    Says "{{t}_priest} closes the book. 'If that is what you say,' they say, 'it is what will be said at the grave, and it will be a mercy to his daughter, who has the tally of his debts and does not need the tally of his sins.' They do not meet your eye. 'I hope you are right.'".
+    On discuss { Assert {t}_death_accident(party). Assert {t}_death_told(party). }
+  }
+  Topic {t}_reeve_oak_told with {t}_reeve "Tell {{t}_reeve} what the dead man's tally-stick says" when knows(party, {t}_death_oak_fact) and not {t}_death_told(party) once {
+    Says "{{t}_reeve} takes the stick as if it were hot. 'The *Hall's* oak,' he says. 'Behind the Hall's own chain, felled by night, and sold under a mark the whole river knows.' He turns it. 'Joss kept the count. Joss was going to bring it to me.' He sits down. 'I will not accuse anyone I cannot prove it of. But I will ask the merchant to my table, and I will not sit on the side of the table nearest the door.'".
+    On discuss { Assert {t}_death_oak(party). Assert {t}_death_told(party). Increase quantity(actor, gold) by 15. }
+  }
+  Observe {t}_death_after_accident at {t}_shrine when {t}_death_accident(party) "The man is buried: a small grey stone in the churchyard, a daughter at the head of it, and nobody saying anything.".
+  Observe {t}_death_after_oak at {t}_green when {t}_death_oak(party) "The merchant's shutters were down at noon, and nobody has been in or out of the back. The reeve sits on the well-curb with a hazel stick across his knees, and does not look at the shop.".
+  // ---- The family answers, some days after a quarrel is settled: a letter, and a door left open in the capital.
+  Measure {t}_settled(group). Relation {t}_stamped(group). Relation {t}_family_wrote(group).
+  Rule {t}_stamp when {t}_roadwood_shared(party) and not {t}_stamped(party) { Set {t}_settled(party) to watch(clock). Assert {t}_stamped(party). }
+  Rule {t}_answer when {t}_stamped(party) and watch(clock) >= {t}_settled(party) + 48 and not {t}_family_wrote(party) says "A rider in the Hall's colours comes up the avenue at a walk and goes in by the front door; and a little after the steward comes out onto the step, reading, and does not go in again until she has finished." { Assert {t}_family_wrote(party). }
+  Topic {t}_steward_letter with {t}_manor_steward "Ask {{t}_manor_steward} what the family wrote" when {t}_family_wrote(party) once {
+    Says "'The family,' says {{t}_manor_steward}, 'agrees to the grant and the licence, and is *pleased*. I have never read that word in their hand.' She folds the letter in four. 'And they ask, in a postscript, who it was that read the old paper. They would like to know the names. They are at court, and a family at court is always looking for somebody who can read what no one else can.' She does not look at you. 'I have told them nothing yet. Say the word, or do not.'".
+    On discuss { Assert knows(actor, {t}_court_invite). }
+  }
+  Entity {t}_court_invite: fact "The Hall's family, at court, has asked who read the Empire's grant of the road, and would like to know the names: a door at court, left open for whoever can read what no one else can.".
+  // ---- What the company has heard in several towns: the companions notice a pattern, and none says what it is.
+  Topic {t}_iv_pattern with {t}_iv "Ask Isaure Venn whether the things you have heard belong together" when travelsWith({t}_iv, party) and heard_threads(party) >= 3 once {
+    Says "Isaure Venn counts on her fingers and runs out. 'A coin that is too bright. A wheel with a wing on a standard, a tablet, a preacher's sermon. A grey blank on a painted road called the Works. A prefecture over the water that no clerk can place. I should like very much,' she says, 'to be the scholar who says these are one thing. I should be a fool to say it. Each has a perfectly good reason to be here. It is only that there are so *many* of them, and they all have the same shape.' She puts her pen down. 'I shall write them down and say nothing. That is what one does with a pattern before it is a theory.'".
+  }
+  Topic {t}_an_pattern with {t}_anselm "Ask Brother Anselm what he makes of what you have heard" when travelsWith({t}_anselm, party) and heard_threads(party) >= 3 once {
+    Says "'The house has a word for this,' says Brother Anselm Tarr. 'A *sign*. It is a word one uses when one wants a thing to mean something. I have been careful with it all my life.' He is quiet. 'But a road that is kept without being told to, and people who walk it with their hats in their hands, and a coin, and a standard, and a preacher: if I were a different man I should say somebody is *keeping* something, and has been for a very long while. I am not that man. I am told I am becoming him.'".
+  }
+  Topic {t}_wystan_pattern with {t}_manor_keeper "Ask Wystan Hale what he makes of what you have heard" when travelsWith({t}_manor_keeper, party) and heard_threads(party) >= 3 once {
+    Says "'In the castellan's company,' says Wystan Hale, 'when a dozen rumours all went the same way, it was because somebody had decided what the rumour should be. Or because it was true.' He rubs his jaw. 'I have never been able to tell those apart from the ranks. I have been told it takes an officer.' A shrug. 'The kingdom is short of something. A man can smell that. Salt, or men, or luck. And there is a road, and a king, and none of them have been named to me, and I find I should like to know who is going to be.'".
+  }
+  // ---- Isaure Venn, the scholar
+  Topic {t}_iv_talk with {t}_iv "Ask Isaure Venn what she is reading" when true once {
+    Says "'The country,' says Isaure Venn, looking up from a page so full of marginal notes that the text has retreated into the gutter. 'Everything cut in the old script between here and the sea, before the frost lifts it. There is more than anyone knows. It was written by people who wrote *everything* down. Rents, distances, who owed what. They governed with ink. I find that more moving than I can say, and I would like a person to say it to who will not change the subject to dragons.'".
+    On discuss { Assert {t}_iv_asked(party). }
+  }
+  Topic {t}_iv_hill with {t}_iv "Ask Isaure Venn about the old stones on the hill" when {t}_iv_asked(party) once {
+    Says "'Twice,' she says. 'And turned back twice by the dark and once by a boy who said the lights had faces. The dais has letters along it that I can read from the foot of the steps and cannot reach. The hall is the first makers', and the *letters* are cut over something earlier, rubbed out. I want to know what was rubbed out. Will you come? I will pay what I have. It is not much and it is mostly paper.'".
+  }
+  Topic {t}_iv_join with {t}_iv "Agree to take Isaure Venn up the hill, and see what comes of it" when {t}_iv_asked(party) once {
+    Says "Isaure Venn is on her feet before you have finished, tying a scarf round a satchel that is already tied. 'Now,' she says. 'Before I think better of it.'".
+    On discuss { Assert willing({t}_iv, actor). Set hire({t}_iv) to 0. }
+  }
+  Topic {t}_iv_grant with {t}_iv "Ask Isaure Venn what she makes of the grant" when travelsWith({t}_iv, party) and knows(party, {t}_roadwood_grant) once {
+    Says "'It is a *writ of keeping*,' says Isaure Venn, and has to sit down on the nearest thing. 'Do you see? They did not own the road. They *kept* it. The Emperor's own phrase for a thing that must be maintained for whoever comes next. If the Hall were to read it that way, they would be proud of the chain coming down.' She stops. 'And that clause, as far as the Works. I have been told the Works are a story. I would rather it were not.'".
+  }
+  Topic {t}_iv_crowbar with {t}_iv "Ask Isaure Venn what she thinks of forcing the press" when travelsWith({t}_iv, party) and state({t}_manor_press, broken) once {
+    Says "Isaure Venn has the face of a person offered a cake with a hair in it. 'It is a thing,' she says carefully, 'that can be done. I would rather it had not been, and I would rather you did not do it twice. The paper is older than the door.'".
+  }
+--- isaure road 1 if station
+  Person {t}_iv "Isaure Venn" at {t}_taproom {
+    Role "a scholar of the old script, who has been turned back from the hill twice". Ancestry human. Calling mage. Background scholar. Level 1. Peaceable. Manner cheerful. Pronouns she.
+    Greets "A young woman with ink on both cuffs rises from a table covered with paper, knocks over a candle, catches it, and says, 'You look as if you can read or, failing that, walk. Which?'".
+    Joins "Isaure Venn gathers her papers, looks at them, puts back half, picks up the other half and says, to nobody, 'Bring the whole trunk to the shrine; I shall send for it.' Then, to you: 'Where first?'".
+    Leaves "Isaure Venn smiles, a little crookedly. 'I shall be at the table by the window,' she says. 'It has an excellent light for being wrong in.'" to {t}_taproom.
+    Remarks at {station}_hall "Isaure Venn stops in the doorway of the posting-hall and does not breathe for a moment. 'A *map*,' she says. 'A painted road, on a wall. Of the kind I have only read about in a footnote that said they did not survive.' She walks the length of it with a finger an inch from the plaster. 'There is a grey blank here. Written beside it, THE WORKS. I want it more than I have ever wanted anything.'".
+    Remarks at {station}_office "Isaure Venn makes a sound that is not a word and sits down on the floor of the stationmaster's office with her back against the pigeonholes. 'Somebody *filed* it,' she says. 'Somebody filed it all. Do you know how rare that is? Do you know how long I have been reading the leavings of people who filed nothing?'".
+    Remarks at {station}_roof "Isaure Venn looks along the ruled line of the road and then at the place where it bends. 'Nine miles,' she says. 'Somebody ordered a road that straight to bend, and someone obeyed, and then nobody wrote down why, and *that* is what I came into the world to find out.'".
+    Remarks at {t}_stones_hall "Isaure Venn stands at the foot of the dais and does not climb it, and reads the letters aloud to the wind, softly, as if not to wake anyone: the judgement-seat, the names of the judges, and, beneath, scored out hard, a word she cannot read. 'Somebody did not want this remembered,' she says. 'Or somebody wanted it remembered so much they could not bear to leave it as it was.'".
+    Remarks at {t}_manor_muniments "Isaure Venn does not touch anything. She walks the length of the room with her hands behind her back, reading the tags on the chests. 'Forty years,' she says, 'and the damp has not got in. Somebody was very good at keeping this house dry. I should like to know whom to thank.'".
+    Remarks at {t}_stones_under "Isaure Venn takes a breath, and then another. 'The chime,' she says. 'That is four notes. I have seen four notes. In my teacher's notebook, in a margin, not a word beside it. He said it was the oldest thing he had ever copied and that he could not tell me where.'".
+    Remarks at {t}_manor_kitchen "Isaure Venn is given a heel of bread by Orla Pennick, and a look that goes through her. 'You,' says Orla Pennick, 'read.' 'Yes,' says Isaure Venn. 'Good. The steward does not. She counts.'".
+  }
+  Topic {t}_iv_stay with {t}_iv "Ask Isaure Venn if she would rather stay and copy the stage" when travelsWith({t}_iv, party) and at(party, {station}_office) once {
+    Says "'Stay,' says Isaure Venn. She says it again. 'Here? With the day-book, and the map, and nobody to tell me it is time for supper?' She has gone pale. 'I should like to. I have never wanted to do anything so much, and I know it is a thing I ought to be ashamed of, wanting to be left alone with the dead. But I will not let it be the last of me. Come back. Bring me the Works.'".
+    On discuss { Retract travelsWith({t}_iv, party). Assert {t}_iv_stays(party). }
+  }
+  Rule {t}_iv_settles when {t}_iv_stays(party) and at({t}_iv, {t}_taproom) {
+    Retract at({t}_iv, {t}_taproom). Assert at({t}_iv, {station}_office).
+  }
+  Topic {t}_iv_again with {t}_iv "Ask Isaure Venn if she will come on, now that you have brought news" when {t}_iv_stays(party) and at({t}_iv, {station}_office) once {
+    Says "Isaure Venn puts the pen down, with a visible effort. 'I have read the day-book twice and the map nine times,' she says. 'The Works are not in either. I think the Works are not in a *room*.' She is already tying the satchel. 'Take me where the paper stops.'".
+    On discuss { Assert willing({t}_iv, actor). Set hire({t}_iv) to 0. Retract {t}_iv_stays(party). }
+  }
+  Observe {t}_iv_stay_seen at {station}_office when {t}_iv_stays(party) and at({t}_iv, {station}_office) "Isaure Venn sits at the stationmaster's desk with her back to the door, copying, in a hand that gets smaller by the hour, with a lantern, three pots of ink, and the look of a person who has been given the key to the house she was born in.".
+  Observe {t}_iv_letter at {t}_taproom when {t}_iv_stays(party) "A letter in a good, small, hurried hand is pinned to the taproom's board, addressed to no one in particular and everyone who went with her: IT IS ALL HERE. DO NOT COME BACK WITHOUT THE WORKS. P.S. SEND PAPER.".
+--- isaure plain 1 unless station
+  Person {t}_iv "Isaure Venn" at {t}_taproom {
+    Role "a scholar of the old script, who has been turned back from the hill twice". Ancestry human. Calling mage. Background scholar. Level 1. Peaceable. Manner cheerful. Pronouns she.
+    Greets "A young woman with ink on both cuffs rises from a table covered with paper, knocks over a candle, catches it, and says, 'You look as if you can read or, failing that, walk. Which?'".
+    Joins "Isaure Venn gathers her papers, looks at them, puts back half, picks up the other half and says, to nobody, 'Bring the whole trunk to the shrine; I shall send for it.' Then, to you: 'Where first?'".
+    Leaves "Isaure Venn smiles, a little crookedly. 'I shall be at the table by the window,' she says. 'It has an excellent light for being wrong in.'" to {t}_taproom.
+    Remarks at {t}_stones_hall "Isaure Venn stands at the foot of the dais and does not climb it, and reads the letters aloud to the wind, softly, as if not to wake anyone: the judgement-seat, the names of the judges, and, beneath, scored out hard, a word she cannot read. 'Somebody did not want this remembered,' she says. 'Or somebody wanted it remembered so much they could not bear to leave it as it was.'".
+    Remarks at {t}_manor_muniments "Isaure Venn does not touch anything. She walks the length of the room with her hands behind her back, reading the tags on the chests. 'Forty years,' she says, 'and the damp has not got in. Somebody was very good at keeping this house dry. I should like to know whom to thank.'".
+    Remarks at {t}_stones_under "Isaure Venn takes a breath, and then another. 'The chime,' she says. 'That is four notes. I have seen four notes. In my teacher's notebook, in a margin, not a word beside it. He said it was the oldest thing he had ever copied and that he could not tell me where.'".
+    Remarks at {t}_manor_kitchen "Isaure Venn is given a heel of bread by Orla Pennick, and a look that goes through her. 'You,' says Orla Pennick, 'read.' 'Yes,' says Isaure Venn. 'Good. The steward does not. She counts.'".
+  }
+--- anselm road 1 if station
+  Topic {t}_anselm_lady with {t}_anselm "Tell {{t}_anselm} about the Lady of Wayfarers at the posting-house" when knows(party, {station}_wayfarer) once {
+    Says "{{t}_anselm} listens with his hands folded, and when you have done he says nothing for so long that you begin to wonder. 'Waved on,' he says. 'Not worshipped. Asked only that the road be kind.' He looks at the lamp. 'If that is the oldest thing the people of this country do, and nobody ever told them to, and it asks for nothing, then I have a very large question about what the rest of what we do is *for*.' A breath. 'I shall go and see her. I shall go and see whether she waves at me.'".
+    On discuss { Assert willing({t}_anselm, actor). Set hire({t}_anselm) to 0. }
+  }
+  Topic {t}_anselm_bowl with {t}_anselm "Ask {{t}_anselm} what he made of the Lady's bowl" when travelsWith({t}_anselm, party) and been(party, {station}_shrine) once {
+    Says "'I left a coin,' says {{t}_anselm}. 'I told myself it was courtesy. And then the lamp steadied, and the draught went by the back of my neck, and I am a man who has read twelve treatises on the self-deception of the devout and I stood there and it did not feel like self-deception.' He is not smiling. 'It does not refute me. It does not refute *her* either. I have decided that is a good place to have got to by a Tuesday.'".
+  }
+--- anselm plain 1 unless station
+  Topic {t}_anselm_join with {t}_anselm "Ask {{t}_anselm} to come and see where the coins come from" when been(party, {t}_stones_under) once {
+    Says "'Under the hill,' says {{t}_anselm}, very quietly. 'The dead and their niches, and somebody's cup put back. You have been, and I have only read.' He looks at the shrine's lamp. 'The faith says the dead are in the keeping of the god. I should like to see what the dead keep. I will come, if you will have a clerk who prays badly when he is frightened.'".
+    On discuss { Assert willing({t}_anselm, actor). Set hire({t}_anselm) to 0. }
+  }
+--- friction
+  Topic {t}_anselm_cup with {t}_anselm "Ask {{t}_anselm} about the bronze cup" when travelsWith({t}_anselm, party) and holding(party, {t}_stones_cup_kind) once {
+    Says "{{t}_anselm} has not taken his eyes from your pack since the undercroft. 'You will put it back,' he says. It is not quite a question. 'I will not argue the theology of it. There are things you do not carry out of a room because it would be easier. I would like to think we are the sort of company that knows which.'".
+    On discuss { Assert {t}_an_insists(party). }
+  }
+  Observe {t}_anselm_relief at {t}_stones_under when state({t}_stones_niche, restored) and travelsWith({t}_anselm, party) "Brother Anselm Tarr lets out a breath you did not know he was holding. He does not say anything. He sets his hand flat on the stone beside the niche, once, and takes it away.".

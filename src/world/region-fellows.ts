@@ -47,7 +47,9 @@ export class RegionFellows {
     return RegionGeography.atlas(region).zones.flatMap(z => RegionZones.landmarks(region, z))
       .filter(l => l.kind && said.has(l.kind));
   }
-  private static doors(region: Region) { return RegionGeography.seats(region).filter(x => !x.site.work?.great); }
+  private static doors(region: Region) {
+    return RegionGeography.seats(region).filter(x => !x.site.work?.great && !x.site.work?.imperial);
+  }
   private static fellow(region: Region, s: Settlement): Fellow[] {
     const calling = this.table.callings[s.calling];
     if (!calling) { return []; }
@@ -129,7 +131,7 @@ export class RegionFellows {
   // would know (a holy place, a fort), if there is one; else the nearest.
   private static site(region: Region, s: Settlement, of: string): Seat | undefined {
     const land = RegionGeography.atlas(region).land;
-    const seats = RegionGeography.seats(region).filter(x => !x.site.work?.great);
+    const seats = RegionGeography.seats(region).filter(x => !x.site.work?.great && !x.site.work?.imperial);
     const fitting = seats.filter(x => this.fits(of, x)), pool = fitting.length ? fitting : seats;
     return [...pool].sort((a, b) => Terrain.distance(land, a.site.cell!, s.cell!)
       - Terrain.distance(land, b.site.cell!, s.cell!))[0];

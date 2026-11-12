@@ -81,6 +81,7 @@ Module hhg "The House That Grows" {
     On discuss { Assert told(tobu, night). Assert knows(actor, door_opened). }
   }
   Relation told(group, entity). Entity night: fact "the night in the barley".
+  Entity door: fact "the new door in Kezu's wall". Entity ox: fact "the dreg ox at Kezu's throat".
   Discovery door_opened "Kezu held the room in Haddo's barley all night, then shut her eyes on purpose so that its small door could open. A girl's voice had asked her to. Something light went out through the barley; the room has grown since.".
   Topic tobu_come with tobu "Ask Tobu to come with you into the house" when knows(actor, door_opened) and not acceptsEscort(tobu, actor) and not following(tobu, actor) {
     Says "'Into it?' Tobu looks at the curtain again, and then at you. 'She'd skin me.' He gets his coat off the peg. 'I'm coming. Somebody has to look at the doors while you don't.'".
@@ -203,4 +204,35 @@ Module hhg "The House That Grows" {
   }
   Observe vote_kept at reeve_room as event when voted(tessa) and not sold(annex) "The council's slates are stacked on the table. The house stays Cobble Ring's to watch, and Haddo has been voted a mark a week for his barley.".
   Observe vote_sold at reeve_room as event when sold(annex) "The council's slates are stacked on the table, and on top of them a Company draft for two thousand marks.".
+
+  // ---- Return visits: the hall's customs, the loft after the door, the town after the vote ----
+  Topic wenu_dregs with wenu "Ask Wenu about the small glassy things people wake holding" when true once {
+    Says "'Dregs,' says Wenu, and tucks a blanket tighter than it needs. 'Sleep where nobody's sat up with you and you may wake with one in your fist: weak-tea glass, warm, shaped like something you loved when you were small. A ladle. A horse.' She does not say what hers was. 'The reed-growers bury them under the beds, they say it keeps the reeds sweet. The polishers pay by the weight. I say that is selling somebody's childhood by the pound, and I take their money for the bed all the same.'".
+    On discuss { Assert knows(actor, dreg_custom). }
+  }
+  Discovery dreg_custom "In Cobble Ring a dreg is what an unwatched sleeper may wake holding, shaped like something loved: the reed-growers bury them under the reeds, and the lens-polishers buy them by the weight.".
+  Topic wenu_north with wenu "Tell Wenu how the towns you come from keep their sleepers" when true once {
+    Says "Wenu stops with a blanket half folded. 'Nobody sits up?' She waits for you to say you are joking. 'In a bed, alone, with the door on a bar, and the whole night going by with nobody counting it?' She shakes the blanket out harder than it needs. 'Don't say that in the hall, or thirty of them will walk north to try it and I will have a hall of empty beds and a mouth full of I-told-you.' But she pushes the stool with the wax plugs on it an inch toward you, as a woman does who has been told something dreadful and wants to be of use.".
+  }
+  Topic hanu_door with hanu "Tell Hanu about the green door in the wall beside her sister's bed" when knows(actor, kezu_door_known) and not told(hanu, door) once {
+    Says "Hanu looks at the shutter, and then, for the first time since you came in, not at the shutter. She leans over the rail of the loft until she can see the whitewash by the bed, and the green that is not whitewash. The hand-bell is still in her fist. 'It was not there at supper,' she says. 'I have not looked away. I have not.' She sits back. 'It does not open while I am looking at it. So I will look at it. And Tobu can look at her.'".
+    On discuss { Assert told(hanu, door). }
+  }
+  Observe hanu_door_after at kezu_loft as ambience when told(hanu, door) and doorIn(kezu_bed) "Hanu has moved her stool a hand's breadth along the loft, so that the shutter shows her the bed and the green door both. She does not look at either as one looks at a child; she looks as one looks at a pot about to boil.".
+  Topic kezu_ox with kezu "Ask Kezu about the little ox at her throat" when state(kezu, waking) and not told(kezu, ox) once {
+    Says "Kezu's hand closes round it. 'It is a dreg,' she says, as if you had called it something else. 'It was in my fist the morning after my girl went. I had slept the first night in nineteen years with nobody sitting up, because there was nobody left to sit.' She holds it out on the cord for you to see: a glassy ox the colour of weak tea, one horn broken short. 'She had one in wood. It lost its horn on the pond stair. This is what I did with the not watching.' She puts it back inside her collar. 'So when I tell you what happens to what nobody watches, I am not repeating a saying.'".
+    On discuss { Assert told(kezu, ox). }
+  }
+  Observe lofts_hour at pond_side as ambience when dark() and untilLight(clock) > 6 "Somewhere round the rim a hand-bell rings the hour, and the next loft takes it up, and the next, house to house all round the crater, until the sound has come back to where it began. Nobody on the causeway hurries. Nobody on it is alone, either.".
+  Observe market_morning at pond_side as ambience when not dark() and not voted(tessa) "At the anchor-stone the market is half set out, and every stall has a stool beside it with someone on it who is not selling: a boy, a widow, a man with a goose under his arm. They are the stall-sitters, and they sit with their backs to their own goods, facing the rim, so that nothing in Cobble Ring is ever watched by only one pair of eyes.".
+  Observe market_after at pond_side as ambience when voted(tessa) and not dark() "At the anchor-stone the talk is of the vote, and nobody will say how they voted, though everybody knows how everybody else did. A child has chalked a tally on the stone: four, then three, then two more with a question mark.".
+  Topic haddo_vote_kept with haddo "Ask Haddo how he voted" when voted(tessa) and not sold(annex) once {
+    Says "'Against myself,' says Haddo, and looks astonished to hear it. 'The reeve asked me to say what a field is for, and I said barley, and then I could not say it with a straight face.' He leans on the fence. 'A mark a week. For the barley that will not come up. I have decided to take it as pity and not as wages.'".
+  }
+  Topic haddo_vote_sold with haddo "Ask Haddo what the sale has left him" when sold(annex) once {
+    Says "'A fence,' says Haddo. 'Mended, with the town's money, round a field I cannot cross without a clerk's leave.' He nods toward the stools, where blue coats sit. 'I wanted it gone. It is gone, and I find I know where it is every minute of the day.'".
+  }
+  Topic wenu_vote with wenu "Ask Wenu what the hall says of the council's vote" when voted(tessa) once {
+    Says "'The hall,' says Wenu, 'has said nothing, which is a thing to hear from thirty people.' She squares the blankets. 'Six slept sound last night. They always do after a vote. It is the ones who lie awake who voted the way they wanted.'".
+  }
 }

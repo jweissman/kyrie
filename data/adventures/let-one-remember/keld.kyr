@@ -128,4 +128,13 @@ Module corrow "Let One Remember" {
     Says "'Grandmother's chair,' says Teshen. 'The second one, by the fire. Everyone at home has started calling it Rab's chair, as if Rab had always sat there.' Her voice is very steady. 'There's no Rab. I'd remember. I remember everyone.' She looks toward the west field. 'One of them's come in.'".
   }
   Rule settler_named when namedStrays(keld) and settling(saska_hearth) { Retract settling(saska_hearth). }
+
+  // After Teshen has gone, and what the settled chair says to a house that cannot forget anyone.
+  Topic saska_teshen_gone with saska "Tell Mother Saska that Teshen is travelling with you" when travelsWith(teshen, actor) once {
+    Says "'I know,' says Mother Saska. 'The dogs told me; they had gone to the gate before she said a word.' The chair-arms creak. 'I gave her the book. It has nothing in it. She will fill it, and write down every face, and bring it back, and I shall read it by this fire and it will not be a stranger's.' She turns her head toward the empty hearthstone. 'You are to keep her from being forgotten, you know. No. The other thing. You are to let her.'".
+  }
+  Topic bede_apprentice with bede "Ask Bede Orrisk whether he ever took anyone on" when true once {
+    Says "'Nine came,' says Bede Orrisk, 'and I sent nine home. One of them I did not mean to.' He opens one hand on his knee and shuts it. 'A girl. Not a Keld girl; nobody would know her face, which was why she came. I told her it would take a life. She said, whose, and I had no answer, because it was hers.' His eyes go to the hammer on its hook. 'She did not come back. I have not minded the forge as I did.'".
+  }
+  Observe keld_dogs at keld_green as ambience when settling(saska_hearth) "The Keld dogs lie across the mouth of Saska's door, all of them, with their chins on their paws. They do not growl at anything. They watch the second chair.".
 }

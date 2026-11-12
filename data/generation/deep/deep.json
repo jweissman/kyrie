@@ -553,14 +553,14 @@
       "groups": [
         {
           "species": "ghoul",
-          "count": 2,
+          "count": 3,
           "label": "the ghouls",
           "role": "things that were miners once, and still go down to work",
           "temperament": "savage"
         },
         {
           "species": "bone_hound",
-          "count": 2,
+          "count": 3,
           "label": "the bone hounds",
           "role": "the Delvers' dogs, still on their watch",
           "temperament": "territorial"
@@ -574,7 +574,7 @@
         },
         {
           "species": "mud_elemental",
-          "count": 1,
+          "count": 2,
           "label": "the mud",
           "role": "mud that moves where the pump-shaft overflows",
           "temperament": "savage"

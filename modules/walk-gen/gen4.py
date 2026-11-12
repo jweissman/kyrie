@@ -1,0 +1,206 @@
+OUT='/home/user/p3e-ws/data/situations/walk/'
+H='Module walk "The Walk of the Milestones" {\n'
+FL='bcd'; X='abcd'
+o=H
+o+='''
+  // ---- The Brethren: the Walk's hard edge. Brother Gaunt and his three staves come to the host on the eighth day and take the
+  // Station of the Gathering town for a sanctuary; they let pass whoever speaks the names, and fight whoever comes armed.
+  Person gaunt "Someone" nowhere {
+    Role "the Stave-Master of the Brethren, who holds the Station". Calling warrior. Level 4. Temperament defensive. Manner grim. Pronouns he.
+    Warns "The man at the Station arch has not moved since you came in sight; his staff is planted like a pole in a flag-bearer's hand. 'Names,' says {gaunt}. 'Not yours. The road's. Say one and pass. Say none and turn.' The three behind him have lowered their staves an inch, each, as one.".
+    Comes "{gaunt} does not shout. He says a word, which is a number, and the staves come down in a row.".
+    Pleads "{gaunt} sits down on the Station step with his staff across his knees, and breathes, and looks at the stone. 'The road is not held,' he says, 'by this arm. Remember that I said it.'".
+    Lair station_b.
+  }
+  Person staves "the Stave-Brethren" nowhere {
+    Role "three of the Brethren, in sacking, with staves of ash shod in iron". Calling warrior. Numbers 3. Level 2. Temperament defensive. Manner grim.
+    Lair station_b.
+  }
+  Initially Set encounterXp(gaunt) to 400.
+  Initially Set encounterXp(staves) to 150.
+  Person hask "Someone" nowhere {
+    Role "a sergeant of the Marcher's horse, who has been asked to see the Hundred quiet". Calling warrior. Level 5. Temperament territorial. Manner stoic. Pronouns he.
+    Warns "The sergeant sits his horse as if it were furniture. 'We have been asked to see the Hundred quiet,' says {hask}, courteously. 'I have a price for that, and it is not money. It is that you are not here when the courtesy stops.' He looks past you at what is behind you. 'I do not like what I count.' The three behind him have not drawn, and the way they sit says it is a matter of time and not of intention.".
+    Comes "{hask} says one word, and it is not loud. The horsemen come on at a walk, which is worse.".
+    Pleads "{hask} puts up a hand, and his men stop. 'That will do,' he says. 'I was not told there would be anyone.'".
+    Lair green_b.
+  }
+  Person riders "the Marcher's riders" nowhere {
+    Role "three riders in dark leather, mounted, with short spears". Calling warrior. Numbers 3. Level 3. Temperament territorial. Manner stoic.
+    Lair green_b.
+  }
+  Initially Set encounterXp(hask) to 500.
+  Initially Set encounterXp(riders) to 250.
+  Person mob "the crowd" nowhere {
+    Role "a crowd in the green's dust, that was a Walk at breakfast". Calling commoner. Numbers 6. Level 1. Temperament savage. Manner grim.
+    Comes "The crowd turns, all at once, with the single face a crowd has: staves, stones, the dull light in the eyes. It is not that they know you. It is that you are in the way.".
+  }
+  Initially Set encounterXp(mob) to 120.
+'''
+# placement per F
+for f in FL:
+    o+=f'''  Rule gaunt_comes_{f} when flashpoint(f_{f}) and day(clock) >= 8 and not gaunt_here(walk) {{ Assert at(gaunt, station_{f}). Assert at(staves, station_{f}). Assert lair(gaunt, station_{f}). Assert lair(staves, station_{f}). Assert gaunt_here(walk). }}
+  Rule hask_comes_{f} when flashpoint(f_{f}) and day(clock) >= 9 and hour(clock) >= 12 and not hask_here(walk) {{ Assert at(hask, green_{f}). Assert at(riders, green_{f}). Assert lair(hask, green_{f}). Assert lair(riders, green_{f}). Assert hask_here(walk). }}
+  Rule hask_goes_{f} when flashpoint(f_{f}) and hask_here(walk) and raid_off(walk) and not raid_done(walk) and day(clock) >= 9 and hour(clock) >= 22 and not decided(walk) {{ Assert raid_done(walk). Assert tolerates(hask, party). Assert tolerates(riders, party). }}
+  Rule raid_{f} heard at camp_{f} when flashpoint(f_{f}) and day(clock) >= 9 and hour(clock) >= 22 and hask_here(walk) and not raid_off(walk) and not raid_done(walk) and not state(gate_bar_{f}, dropped) and at(hask, ?a) and at(riders, ?b)
+    says "Horses on the road in the dark, many, walking. The camp's fires go down one by one as people see them; somebody tries to rouse the lads, who have fallen asleep in a heap. Then the gate-posts are lit from behind by torches, and a man's voice says, quite quietly, 'In the Bench's name.'" {{ Assert at(hask, camp_{f}). Assert at(riders, camp_{f}). Assert raided(walk). Assert raid_done(walk). }}
+  Rule raid_barred_{f} heard at green_{f} when flashpoint(f_{f}) and day(clock) >= 9 and hour(clock) >= 22 and hask_here(walk) and not raid_off(walk) and not raid_done(walk) and state(gate_bar_{f}, dropped)
+    says "Horses in the dark on the green, many, and torches. The camp gate is barred from inside; the walkers behind it are singing, not loudly. The sergeant sits his horse before the bar until the lamps go out, and does not give the word." {{ Assert gate_held(walk). Assert raid_done(walk). }}
+  Rule lads_bar_{f} when flashpoint(f_{f}) and lads_allied(walk) and day(clock) >= 9 and hour(clock) >= 21 and not state(gate_bar_{f}, dropped) and not raid_done(walk) and not decided(walk) says "Rhys comes tearing across the camp with his shirt out. 'Horses! On the common! Lots of them! Cal says they are the Bench's, and Cal is wrong about everything, but I thought I would bar the gate anyway, just in case. It is barred.' It is, with an ash pole and a bucket of stones against it, and an expression of great pride." teaches riders_known {{ Assert state(gate_bar_{f}, dropped). }}
+'''
+# deliberately place persons for raid_off retreat: mob and others
+o+='''  Rule bench_holds_hask when raid_off(walk) and not tolerates(hask, party) { Assert tolerates(hask, party). Assert tolerates(riders, party). }
+  Relation gaunt_here(group). Relation hask_here(group). Relation raid_done(group). Relation raid_counted(group). Relation gaunt_counted(group). Relation interdict_counted(group). Relation flash_said(group).
+
+  // ---- The ranger's tracks, the cause of the raid, and the drove-way round it.
+'''
+for f in FL:
+    o+=f'''  Observe riders_sign_{f} at green_{f} as sign noticed by woodcraft when flashpoint(f_{f}) and day(clock) >= 7 and day(clock) < 11 "In the dust beyond the last house: hoofmarks, heavy-shod, eight horses or nine, in from the north at night. They did not come into the town; they went round it by the common, and two of them waited at the old milestone, and one dismounted and stood a long time looking at the camp's ground. A troop, and not a market-party." teaches riders_known.
+  Observe riders_horse_{f} at green_{f} as sign when flashpoint(f_{f}) and day(clock) >= 9 and hour(clock) >= 12 and at(riders, green_{f}) "A string of dark horses stands on the common, hobbled, with dark leather over the saddle-bows, and a sergeant sitting his own as though it were a chair. Nobody on the green is looking at them, with the intensity of people who are not looking at them." teaches riders_known.
+  Observe drove_{f} at green_{f} as sign noticed by woodcraft when flashpoint(f_{f}) and day(clock) >= 7 and day(clock) < 11 "A drove-way runs off the back of the green and round the hill, wide enough for sheep and a cart, and dry. It comes out on the high ground above the town a quarter-mile from the Station, where there is a spring and a wind-break of old oaks. A camp there could be seen from the Station and could not be got at in the dark.".
+  Action drove_way_{f}(actor: group, site: place) "Lead the Walkers by the drove-way to the high ground, and camp them there" {{
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, camp_{f}) and flashpoint(f_{f}) and capable(actor, woodcraft) and knows(actor, riders_known) and day(clock) == 9 and not round_led(walk) and not raid_done(walk).
+    Time 120 minutes.
+    Resolve check(actor, woodcraft, dc_fair).
+    On success {{ Assert round_led(walk). Assert raid_off(walk). }}
+    Result "It takes two hours and the Mile-Keeper's agreement, which is the harder of the two. By the time the sun is behind the hill the host is on the high ground with its fires lit behind the oaks, and the camp below is an empty square of trodden grass with a wheel with a wing on the gatepost. In the night, from above, you watch eleven torches go into the empty camp, and stay there, and come out again, slowly.".
+    Otherwise "The drove-way is longer than it looked and the walkers are tired. Half of them are on it, and the rest are in the camp, and you have succeeded in making a division where there was none.".
+  }}
+  Action bar_gate_hint_{f}(actor: group, site: place) "Show the walkers how to drop the camp gate's bar, and hold it" {{
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, camp_{f}) and flashpoint(f_{f}) and knows(actor, riders_known) and state(gate_bar_{f}, open) and day(clock) >= 9.
+    Time 15 minutes.
+    On success {{ Assert state(gate_bar_{f}, dropped). }}
+    Result "A pole of ash, two men, a notch in each post: the bar goes down and the gate is a wall. Nobody says what it is for, and everyone knows.".
+  }}
+  Action pay_hask_{f}(actor: group, site: place) "Pay {{hask}} thirty crowns to be somewhere else tonight" {{
+    Speaker hask.
+    Requires able(actor) and company(actor) and at(actor, site) and at(hask, site) and flashpoint(f_{f}) and quantity(actor, gold) >= 30 and not raid_off(walk).
+    Time 5 minutes.
+    On success {{ Decrease quantity(actor, gold) by 30. Assert raid_off(walk). Assert tolerates(hask, actor). Assert tolerates(riders, actor). }}
+    Result "'The Marcher's horse,' says {{hask}}, counting it with his thumb, 'is not for sale.' He pockets it. 'But my time is mine, and I find that tonight I have a great deal of it at the other end of the town. You will understand that I shall hear nothing, and that I do not know you.' He turns his horse. 'It is a pity. I should have liked to see what they were.'".
+  }}
+  Action parley_hask_{f}(actor: group, site: place) "Ask {{hask}} to put his orders in writing before he carries them out" {{
+    Speaker hask.
+    Requires able(actor) and company(actor) and at(actor, site) and at(hask, site) and flashpoint(f_{f}) and not raid_off(walk).
+    Time 15 minutes.
+    Resolve check(actor, persuasion, dc_hard).
+    On success {{ Assert raid_off(walk). Assert tolerates(hask, actor). Assert tolerates(riders, actor). }}
+    Result "{{hask}} considers this for some time, with courtesy. 'There is no writing,' he says. 'There is the bailiff's word, which he has not given me yet, and a sergeant who has been told to wait for it.' A very small smile. 'I will wait for it until noon of the tenth. That is a thing I can do without any writing at all.'".
+    Otherwise "{{hask}} hears you with the whole of his attention and then says, 'No,' with great kindness.".
+  }}
+'''
+# gaunt passes
+o+='''
+  Action speak_names_gaunt(actor: group, site: place) "Say the names of the road at the Station arch, as the Brethren require" {
+    Speaker gaunt.
+    Requires able(actor) and company(actor) and at(actor, site) and at(gaunt, ?s) and within(actor, ?s) and (holding(actor, roll_kind) or knows(actor, hal_named)) and not tolerates(gaunt, actor).
+    Time 20 minutes.
+    On success { Assert tolerates(gaunt, actor). Assert tolerates(staves, actor). Assert gaunt_parleyed(walk). }
+    Result "You say the names: the ones from the roll, a carter at a ford, a child at the third stone, a bench-man's brother. At each one {gaunt} lowers his head, as a man does at a grave he has not seen. When you finish there is a silence in which the three behind him look at each other. 'That will serve,' says {gaunt}. 'Pass. Touch nothing that is cut.' He does not smile; it is the nearest he comes to it.".
+  }
+  Action swear_gaunt(actor: group, site: place) "Say the road-dead's office before {gaunt}, in the form" {
+    Speaker gaunt.
+    Requires able(actor) and company(actor) and at(actor, site) and at(gaunt, ?s) and within(actor, ?s) and capable(actor, rites) and not tolerates(gaunt, actor).
+    Time 20 minutes.
+    Resolve check(actor, rites, dc_fair).
+    On success { Assert tolerates(gaunt, actor). Assert tolerates(staves, actor). Assert gaunt_parleyed(walk). }
+    Result "You say it as it is in the third book. {gaunt} says the responses, a half-beat late, as a man says what he learned by ear. 'The office,' he says. 'Not the Mile-Keeper's. The real one.' His whole face changes, and then goes back. 'Pass.'".
+    Otherwise "{gaunt} listens, and finds you out in the third line. 'It is a priest's trick,' he says, without heat. 'Names. Or turn.'".
+  }
+  Action slip_gaunt(actor: group, site: place) "Wait for the staves to change places at the arch, and slip by" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(gaunt, ?s) and within(actor, ?s) and capable(actor, stealth) and not tolerates(gaunt, actor).
+    Time 30 minutes.
+    Resolve check(actor, stealth, dc_hard).
+    On success { Assert tolerates(gaunt, actor). Assert tolerates(staves, actor). }
+    Result "They change places on the count of forty, with a moment between when two of them are looking at each other. It is long enough.".
+    Otherwise "A stave comes down across the arch, an inch from your face, with no more noise than a door. 'Names,' says Gaunt.".
+  }
+  Action read_stone(actor: group, site: place) "Read the milestone's old inscription, under the newer number" {
+    Requires able(actor) and company(actor) and at(actor, site) and (at(actor, station_b) or at(actor, station_c) or at(actor, station_d)) and capable(actor, lore) and not knows(actor, stone_true).
+    Time 60 minutes.
+    Resolve check(actor, lore, dc_hard).
+    On success { Assert knows(actor, stone_true). }
+    Result "You rub the recut number with the ash from the bench, and under it the older number comes up, and under that, in the Office's square letters, four lines. It is not a milestone. It is a grant: THE OFFICE TO THE WAYFARER WHO KEEPS THE ROAD, THE ROAD. Whoever walks and clears it, holds it for the Office until the Office comes. It is the very thing the Walk has been saying without knowing, and the very thing a woman with a lead seal has been saying without meaning. The first line is in a hand you have seen on the Bailiff's seal: an old wheel, with a wing.".
+    Otherwise "The old inscription is under the new one. It is in a script you do not read well enough. You make out 'wayfarer' and 'keeps', and then the ash gives out.".
+  }
+  Observe stone_hint at station_b as sign noticed by lore when flashpoint(f_b) "The newer number on the stone has been cut over an older inscription; the rim of the older letters shows around it. It is not the Office's mile-mark. It is a line of text.".
+  Observe stone_hint_c at station_c as sign noticed by lore when flashpoint(f_c) "The newer number on the stone has been cut over an older inscription; the rim of the older letters shows around it. It is not the Office's mile-mark. It is a line of text.".
+  Observe stone_hint_d at station_d as sign noticed by lore when flashpoint(f_d) "The newer number on the stone has been cut over an older inscription; the rim of the older letters shows around it. It is not the Office's mile-mark. It is a line of text.".
+
+  // ---- The duel at the third town, on the sixth day: three lads, a corporal, a chalked door.
+  Rule duel_calls heard at green_c when day(clock) >= 6 and at(teague, green_c) and not duel_called(walk)
+    says "The corporal has found out who chalked his door. He walks up to the lads with his thumbs in his belt, and says, in front of the whole green: 'Which of you is the one who called me that?' 'Called you what?' says Rhys, with great innocence. 'I only wrote your name.' The silence is very long. 'Name your second,' says {teague}. Rhys swallows, and looks round for someone to be his second, and sees you." { Assert duel_called(walk). }
+  Action race_instead(actor: group, site: place) "Propose that the corporal and the lads run a mile instead, barefoot, and the loser buys the ale" {
+    Speaker teague.
+    Requires able(actor) and company(actor) and at(actor, site) and at(teague, site) and duel_called(walk) and not duel_settled(walk).
+    Time 30 minutes.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert duel_settled(walk). Assert lads_allied(walk). Assert kept(actor). }
+    Result "{teague} is silent so long you think you have gone too far. 'Barefoot,' he says. 'On the hard road.' He looks at his boots, which are good boots. 'A mile.' By afternoon half the town has turned out, and the corporal runs, in his stockings, with great dignity and a stitch, and finishes four yards behind Rhys, who is sick behind a hedge from joy. Nobody is hurt. The ale is bought. By evening the corporal has a stave in his hand and has been heard to say that his door will wash.".
+    Otherwise "{teague} says that a corporal of the Bench does not race, and the matter goes back to where it was, with a little more air in it.".
+  }
+  Action take_duel(actor: group, site: place) "Stand as the lads' second, and take the corporal's challenge yourself" {
+    Speaker teague.
+    Requires able(actor) and company(actor) and at(actor, site) and at(teague, site) and duel_called(walk) and not duel_settled(walk) and memberOf(?m, actor) and awake(?m) and hasCalling(?m, calling_warrior).
+    Time 2 minutes.
+    On success { Retract peaceable(teague). Assert assails(teague, actor). Assert duel_settled(walk). Assert bench_blooded(walk). }
+    Result "'Very well,' says {teague}, and takes off his jerkin, and hands it to a lad, which is a courtesy and a threat.".
+  }
+  Action talk_down_lads(actor: group, site: place) "Take the lads aside and tell them what a corporal's life is worth to a bailiff" {
+    Speaker lads.
+    Requires able(actor) and company(actor) and at(actor, site) and at(lads, site) and duel_called(walk) and not duel_settled(walk).
+    Time 20 minutes.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert duel_settled(walk). }
+    Result "It takes twenty minutes and the word 'pig', used about all of them. By the end the three of them have agreed that the door was a bit much, and Rhys goes to say so to Teague with his ears red.".
+    Otherwise "'Who asked you?' says Rhys. He is not wrong.".
+  }
+  Rule duel_sours when day(clock) >= 7 and duel_called(walk) and not duel_settled(walk) and not duel_counted(walk)
+    says "In the night the corporal and Rhys settled it behind the barn, without seconds. Rhys is walking this morning in a way that tells everyone. The Bench's men will not look at the Walk's, and the Walk's will not look away." { Increase strife(walk) by 1. Assert duel_counted(walk). }
+  Rule duel_won when duel_called(walk) and bench_blooded(walk) and not able(teague) and not duel_counted(walk)
+    says "The corporal goes down, and the green does not cheer. It is a thing you did for the lads and it is a thing the Bench will remember." { Assert duel_counted(walk). }
+  Rule bench_blood when (dead(teague) or dead(hask) or dead(dray)) and not bench_blooded(walk) { Assert bench_blooded(walk). Increase strife(walk) by 1. }
+
+  // ---- The warrior reads the Bench, and puts stewards on the line.
+  Action read_bench(actor: group, site: place) "Watch how the Bench's men stand, and who among them has a hand on a pommel" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(bench_men, site) and memberOf(?m, actor) and awake(?m) and hasCalling(?m, calling_warrior) and not bench_read(walk).
+    Time 10 minutes.
+    On success { Assert bench_read(walk). }
+    Result "You do not look at any of them. You look at their hands, and at the wall behind them, and who is standing where the corporal would not want them. Two of the three stand slack at the knee, with the weight on the heel: they will not strike a pilgrim. They are looking at the walkers the way you look at a street you grew up in. The third keeps his hand on his pommel and is not sure he has a reason. He is the one who will go first, if anyone does, and everyone else will go where he goes.".
+  }
+  Action muster_stewards(actor: group, site: place) "Pick stewards from among the walkers, put them on the gate and the line, and drill them to hold" {
+    Requires able(actor) and company(actor) and at(actor, site) and (at(actor, green_b) or at(actor, green_c) or at(actor, green_d) or at(actor, camp_b) or at(actor, camp_c) or at(actor, camp_d)) and memberOf(?m, actor) and awake(?m) and hasCalling(?m, calling_warrior) and day(clock) >= 8 and not stewards_set(walk).
+    Time 120 minutes.
+    Resolve check(actor, intimidation, dc_fair).
+    On success { Assert stewards_set(walk). Decrease strife(walk) by 1 or to nothing. }
+    Result "You pick twelve, the heaviest and the least keen, and stand them in two lines, and tell them what a crowd does when the first stone is thrown. By dusk they hold a line and know what it is for. They are not soldiers. They are twelve people who will not run, and who will make forty others not run, and that is a different and better thing.".
+    Otherwise "They do not take to it. A stave is dropped; a man who is a baker says he did not walk two hundred miles to be shouted at by a stranger.".
+  }
+
+  // ---- The counting. What each unprevented thing adds to the strife, at its time; the Reckoning reads the sum.
+  Rule raid_counts when day(clock) >= 10 and raided(walk) and not raid_counted(walk) and able(riders) {
+    Increase strife(walk) by 2. Assert raid_counted(walk).
+  }
+  Rule raid_repelled when day(clock) >= 10 and raided(walk) and not raid_counted(walk) and not able(riders)
+    says "It is understood by morning that the Marcher's riders were met in the camp and did not hold it. It is not understood by anyone whether that is good." { Increase strife(walk) by 1. Assert raid_counted(walk). Assert bench_blooded(walk). }
+  Rule gate_counts when day(clock) >= 10 and gate_held(walk) and not raid_counted(walk) { Increase strife(walk) by 1. Assert raid_counted(walk). }
+  Rule gaunt_counts when day(clock) >= 10 and hour(clock) >= 12 and not gaunt_counted(walk) and not gaunt_down(walk) and not gaunt_parleyed(walk) and gaunt_here(walk)
+    says "At noon the Brethren set their staves across the Station arch, shoulder to shoulder, and say a word together. Whoever was going to the Station is not going. It is a thing that was always going to be said, and has been." { Increase strife(walk) by 2. Assert gaunt_counted(walk). }
+  Rule gaunt_down_rule when gaunt_here(walk) and not gaunt_down(walk) and not able(gaunt) and not able(staves) { Assert gaunt_down(walk). }
+  Rule interdict_counts when day(clock) >= 10 and hour(clock) >= 12 and not interdict_counted(walk) and (interdict(walk_a) or interdict(walk_b) or interdict(walk_c) or interdict(walk_d)) { Increase strife(walk) by 1. Assert interdict_counted(walk). }
+  Rule riot_breaks when day(clock) >= 10 and hour(clock) >= 14 and strife(walk) >= 5 and not mob_loosed(walk) and not decided(walk) and flashpoint(f_b) and at(mob, ?m)
+    says "At two in the afternoon the Gathering turns. Nobody sees the first stone. A stall goes over, and then another, and the crowd that was a Walk this morning is, between one breath and the next, a thing with a great many arms." { Assert mob_loosed(walk). Assert at(mob, green_b). }
+  Rule riot_breaks_c when day(clock) >= 10 and hour(clock) >= 14 and strife(walk) >= 5 and not mob_loosed(walk) and not decided(walk) and flashpoint(f_c) and at(mob, ?m)
+    says "At two in the afternoon the Gathering turns. Nobody sees the first stone. A stall goes over, and then another, and the crowd that was a Walk this morning is, between one breath and the next, a thing with a great many arms." { Assert mob_loosed(walk). Assert at(mob, green_c). }
+  Rule riot_breaks_d when day(clock) >= 10 and hour(clock) >= 14 and strife(walk) >= 5 and not mob_loosed(walk) and not decided(walk) and flashpoint(f_d) and at(mob, ?m)
+    says "At two in the afternoon the Gathering turns. Nobody sees the first stone. A stall goes over, and then another, and the crowd that was a Walk this morning is, between one breath and the next, a thing with a great many arms." { Assert mob_loosed(walk). Assert at(mob, green_d). }
+
+  // ---- The Reckoning: at four in the afternoon on the tenth day. Exclusive, in order of what the strife makes of it.
+  Rule reckon_riot when day(clock) >= 10 and hour(clock) >= 16 and not decided(walk) and strife(walk) >= 5 { Assert decided(walk). Assert ending(e_riot). }
+  Rule reckon_suppressed when day(clock) >= 10 and hour(clock) >= 16 and not decided(walk) and strife(walk) >= 3 and strife(walk) < 5 { Assert decided(walk). Assert ending(e_suppressed). }
+  Rule reckon_licensed when day(clock) >= 10 and hour(clock) >= 16 and not decided(walk) and strife(walk) < 3 and licensed(walk) { Assert decided(walk). Assert ending(e_licensed). }
+  Rule reckon_schism when day(clock) >= 10 and hour(clock) >= 16 and not decided(walk) and strife(walk) < 3 and not licensed(walk) and not gaunt_down(walk) { Assert decided(walk). Assert ending(e_schism). }
+  Rule reckon_usurped when day(clock) >= 10 and hour(clock) >= 16 and not decided(walk) and strife(walk) < 3 and not licensed(walk) and gaunt_down(walk) and patron_ready(walk) { Assert decided(walk). Assert ending(e_usurped). }
+  Rule reckon_fades when day(clock) >= 10 and hour(clock) >= 16 and not decided(walk) and strife(walk) < 3 and not licensed(walk) and gaunt_down(walk) and not patron_ready(walk) { Assert decided(walk). Assert ending(e_fades). }
+'''
+open(OUT+'gathering.kyr','w').write(o+'}\n')

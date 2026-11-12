@@ -45,7 +45,7 @@ Module gaunt "A Winter in Carth" {
   Person hodge "Hodge Peasegood" at shambles {
     Role "a man with a brazier of chestnuts in one hand and a stack of printed indulgences under the other arm". Ancestry human. Peaceable. Pronouns he. Manner jovial.
     Greets "'Hot!' cries Hodge Peasegood, to nobody, to everybody. 'Hot chestnuts! Hot indulgences! A penny the pair!' He lowers his voice to the pitch of a confidence. 'You'll be wanting both. Everybody wants both. It is the Shambles. We have a feeling for it.'".
-    Greets again "Hodge Peasegood waves a chestnut at you like a man blessing a crowd.".
+    Greets again "Hodge Peasegood waves a chestnut at you like a man blessing a crowd, and then, seeing who you are, hides the indulgences under his arm and offers you only the chestnut. 'The other business is a two-time price,' he says. 'First sin, full rate. Second sin, loyalty discount.'".
   }
   Kind gaunt_chestnuts "a paper of hot chestnuts" is gear worth 0 weighing 0 described "Twelve chestnuts in a twist of printed paper, hot enough to hold in a pocket against the cold.".
   Item chestnuts "a paper of hot chestnuts" is gaunt_chestnuts at limbo.

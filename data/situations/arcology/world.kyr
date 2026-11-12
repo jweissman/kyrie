@@ -1,0 +1,119 @@
+Module arcology "The Numbered House" {
+  // What leaves the walls: the rumours that bring a company here, the lantern-tin man in the lift, and what the House
+  // has done to the town below, and what the company may do about it.
+
+  Kind condkind. Entity wet_high: condkind "high water". Entity wet_low: condkind "low water".
+  Entity growth_heavy: condkind "heavy growth". Entity growth_light: condkind "light growth".
+  Relation water(thing, condkind). Relation growth(thing, condkind).
+  Relation rolled(thing). Relation paid_spring(group). Relation paid_chain(group). Relation paid_slab(group).
+  Relation paid_counter(group). Relation doubting(group).
+
+  // --- what is said --------------------------------------------------------------------------------------------
+  Topic carters_ask with first_keeper "Ask {first_keeper} about the carters' talk of the humming hill" when knows(actor, rumour) once {
+    Says "'Carters,' says {first_keeper}, and wipes the bar. 'They will tell you the same tale for a pint. The bend is at {outside}, in {land}: the old paved road goes round a hill there, and the ground is said to hum. It is some days along the roads from here, out of town by the ford and on. The drivers leave a coin at the bend. I would leave one too.'".
+  }
+  Entity rumour: fact "The old paved road bends once at {outside}, eight miles round a hill that has nothing in it to bend for. Carters leave a coin at the bend and do not stop. Some say the hill hums.".
+  Entity culvert_talk: fact "At {outside}, where the brook goes under the road-wall, the arch is wide enough to crawl in, and the water that comes out of it is warmer than brook water has any right to be.".
+  Entity hum_talk: fact "Dogs will not go into the hollow beyond {outside}, and an old priest said the ground there hummed on feast days, a long low note that the monks of the old order tried to sing against, and could not.".
+  // The first town hears it too, from the carters: a line in the taproom from the third day, once, and gone when it is known.
+  // (The scenario's own word is told only in the town nearest the House and its neighbour on the road; a company that
+  // began elsewhere would never have been told of a House eight miles round a hill.)
+  Observe carters_tell at first_taproom as hearsay when day(clock) >= 3 and not knows(party, rumour) "A carter with the road to his knees is telling the long table that the old paved road runs dead straight for forty miles and then bends once, round a hill with nothing in it, and that every carter leaves a coin at the bend and drives past without turning his head. 'Some say the hill hums,' he says. 'I never stopped to hear.'" teaches rumour.
+  Initially Assert established(rumour). Initially Assert established(culvert_talk). Initially Assert established(hum_talk).
+  Objective heard when (knows(party, rumour) or knows(party, hum_talk)) and not been(party, landing) toward outside "The old road bends round a hill with nothing in it at {outside}, and the ground there is said to hum.".
+  Objective doors when been(party, landing) and not counted(party) and not been(party, terrace) toward lodge "The brass doors of the House stand a hand's breadth open, and something inside it is counting.".
+  Objective tiers when been(party, terrace) and not been(party, hall) toward bridge_near "The tiers climb above the road; a bridge crosses the dark to a hall that hums.".
+  Objective answering when been(party, hall) and not been(party, reckoning) toward hall "The Question Hall answers, at a price in noise. Learn what it can tell you before the keepers wake.".
+  Objective kept when counted(party) and been(party, reckoning) and not been(party, quiet) toward reckoning "The disc in the Reckoning Room rises for the counted, at noon.".
+  Objective water when knows(party, wheels_known) and state(spring, failing) toward valves "Three wheels below the Void send the water; one of them sends it to the town's shrine, and the spring there has been failing.".
+
+  // --- the town's spring ----------------------------------------------------------------------------------------
+  Entity alms: thing "the shrine's alms box".
+  Initially Set quantity(alms, gold) to 24.
+  Thing spring "the spring-head by the green" at gossip {
+    State failing "The spring-head by the green has been running low for a year. The rope comes up with a hand's depth of brown water in the bucket and a smell of wet stone, and the women who draw it do so in silence, to save breath.".
+    State running "The spring-head by the green is brimming. The rope comes up streaming, the water so cold that it hurts to hold, and a child has drawn a boat on the lip with a piece of chalk.".
+  }
+  Observe spring_talk at gossip as sign when state(spring, failing) and knows(party, wheels_known) "The women at the spring-head look up, and look away. The well has been low a year. Nobody in the town has any notion why.".
+  Topic keeper_spring with keeper "Tell {keeper} the spring will run again" when state(spring, running) and not paid_spring(party) once {
+    Says "{keeper} goes out to the green without a word, and comes back after a long time, and sits down. 'It was dry on Sunday,' {keeper} says. 'I did not know where it went. Do not tell me. Not today.' {keeper} opens the alms box and puts what is in it into your hand.".
+    On discuss { Decrease quantity(alms, gold) by 10. Increase quantity(party, gold) by 10. Assert paid_spring(party). }
+  }
+
+  // --- the man in the cage -------------------------------------------------------------------------------------
+  Person salvager "Someone" at cage {
+    Role "salvager". Level 2. Peaceable. Pronouns he.
+    Greets "A man sits in the corner of the cage with one leg stuck out stiff before him, bound in a strip of tent-cloth and a splint made from a tent-pole. He lifts his head, and does not seem to believe what he sees. 'I am very glad,' he says, 'that you are not the Usher.'".
+    State trapped "The man in the cage has a splint on his leg and a face the colour of dough. A tin lantern with its wick burned down sits by his hand.".
+    State freed "The salvager leans on your shoulder, grey, grateful and talkative.".
+    State safe_home "The salvager is home, and has been given a bowl of broth, and is explaining.".
+  }
+  Kind chain_kind "the shrine's lamp-chain" is treasure worth 12 weighing 2 described "A chain of bronze links as long as a man's arm, with a hook at one end and a ring at the other, black with age and soot where a lamp has hung from it for generations. A tag of lead on the ring has the shrine's mark.".
+  Item chain "the shrine's lamp-chain" is chain_kind at cage hidden until chain_seen.
+  Entity chain_seen: fact "The salvager has the shrine's bronze lamp-chain in his pack.".
+  Topic sal_who with salvager "Ask {salvager} how he came to be in the cage" when state(salvager, trapped) once {
+    Says "'Stripped brass,' he says, 'for the founder in the town, who does not ask. I went up the stair on the monks' order and it let go under me; I got in the lift and the lift let go under me.' He lets his head fall back on the lattice. 'That was nine days ago. I have been counting.'".
+  }
+  Topic sal_stair with salvager "Ask {salvager} about the stair at the Lodge" when state(salvager, trapped) once {
+    Says "'I wrote what I was told on the lid of my tin,' he says. 'It was wrong. They are all wrong, near enough: the chalk, the monk, my lid. If you want the truth of that stair, look at where the wear is on the discs. The treads know. Or the tablets, in the Hall, if you can bear the noise.'".
+  }
+  Topic sal_lift with salvager "Ask {salvager} what stopped the lift" when state(salvager, trapped) once {
+    Says "'The governor,' he says. 'Somebody took it out, an age ago, and put it in a drawer in the gallery where they keep the Roll. There's a ring on the drawer. I got three numbers wrong, and the monks got three wrong before me, and I could not make myself try the next.'".
+  }
+  Topic sal_chain with salvager "Ask {salvager} about the brass in his pack" when state(salvager, trapped) once {
+    Says "He is silent for a moment. 'I took a lamp-chain off a shrine,' he says. 'Bronze. The shrine of the town, by the green, when the priest was at a burying. It is in my pack. I do not want it. Take it back. Say I'm sorry. Say I'm in a cage.'".
+    On discuss { Assert knows(actor, chain_seen). }
+  }
+  Topic sal_haul with salvager "Haul {salvager} up the shaft on your rope" when state(salvager, trapped) and holding(party, rope) once {
+    Says "It takes the three of you, and a great deal of swearing, and the cage gives a long dreadful creak as the weight leaves it. At the top he sits on the terrace and shakes. 'I am counted,' he says, and laughs, with his face wet. 'Take me home.'".
+    On discuss { Assert state(salvager, freed). Assert following(salvager, actor). }
+  }
+  Topic sal_ride with salvager "Ride the mended lift up with {salvager}" when state(salvager, trapped) and state(cage_gear, running) once {
+    Says "The cage rises at an easy, patient pace, like something that has been waiting a long time to be asked. At the top he gets out on the terrace on your arm and looks back at it as at an old enemy. 'Take me home,' he says.".
+    On discuss { Assert state(salvager, freed). Assert following(salvager, actor). }
+  }
+  Rule salvager_home when state(salvager, freed) and following(salvager, party) and at(party, outside)
+    says "The salvager limps off down the road toward the town, one hand on the milestone, and does not look back at the hill." {
+    Retract following(salvager, party). Assert state(salvager, safe_home). Assert at(salvager, gossip).
+  }
+  Topic keeper_chain with keeper "Give {keeper} the shrine's lamp-chain" when holding(party, chain_kind) and not paid_chain(party) once {
+    Says "{keeper} takes the chain in both hands, as one takes a child, and runs a thumb over the lead tag. 'I thought the sexton,' {keeper} says, and sits down on the nearest thing. 'I was going to accuse the sexton.' {keeper} looks at you. 'Where?' You tell {keeper}. {keeper} is quiet a long time. 'A man in a cage,' {keeper} says. 'Well. That is a kind of penance.' The alms box is opened, and its contents pressed into your hands.".
+    On discuss { Decrease quantity(alms, gold) by 8. Increase quantity(party, gold) by 8. Assert paid_chain(party). Spend chain from party. }
+  }
+  Topic keeper_home with keeper "Tell {keeper} the salvager is home" when state(salvager, safe_home) once {
+    Says "{keeper} nods slowly. 'He will want feeding,' {keeper} says. 'And a hard word. And then feeding.'".
+  }
+
+  // --- the Service Way, and what the shrine is told ------------------------------------------------------------
+  Topic keeper_slab with keeper "Tell {keeper} what lies under the slab behind the altar" when state(slab, open) and not paid_slab(party) once {
+    Says "{keeper} goes behind the altar with a lamp, and kneels, and for a long time says nothing at all. 'There was a well under this shrine,' {keeper} says at last. 'The founders sealed it, and cut it from the book, and put a rule in its place. I was taught the rule. I was not taught why.' {keeper} touches the edge of the slab as one touches a sleeping animal. 'Leave it open,' {keeper} says. 'It wants to be.'".
+    On discuss { Decrease quantity(alms, gold) by 6. Increase quantity(party, gold) by 6. Assert paid_slab(party). }
+  }
+  Topic keeper_doubt with keeper "Tell {keeper} what the tablets say the House is for" when knows(party, purpose_known) and not doubting(keeper) once {
+    Says "{keeper} listens with a perfectly attentive face, and when you have finished says a single word, gently, and it is the faith's word for a thing offered that should not be taken. 'You are not wrong to think it,' {keeper} says. 'You are wrong, perhaps, to be answered.' {keeper} lights the lamp over the altar and watches it for some time. 'I will think on it,' {keeper} says. 'It is a very good lamp.'".
+    On discuss { Assert doubting(keeper). }
+  }
+
+  // --- the night count -------------------------------------------------------------------------------------------
+  // Whoever writes the company's names in the Roll in chalk has reopened it: the House counts again, and a figure of
+  // brass comes to the town green by night to count the sleepers, which frightens them, until it is wound down with the
+  // Marshal's key.
+  Person counter "the counting figure" nowhere {
+    Species automaton. Level 2. Peaceable. Pronouns it.
+    Arrives at gossip when dark() and rolled(house).
+    Arrives "A figure of riveted brass plates comes down the road in the dark, in step, at the pace of a clock, and stops in the middle of the green.".
+    State counting "The figure stands in the middle of the green and turns its lamp-glass eyes along the windows, slowly, one house at a time, and as each is passed a faint chime goes through the street. Behind the shutters, children are being held.".
+    State stilled "The figure stands in the middle of the green, its eyes dark, its key gone from its back. Someone has put a cloak round its shoulders against the rain, as one does for a scarecrow.".
+    Change wind_down "Wind the counting figure down with the Marshal's key" from counting to stilled needing winding_key_kind.
+  }
+  Rule counter_dawn when not dark() and at(counter, gossip) and state(counter, counting)
+    says "At first light the figure turns, and goes back up the road toward the hill in step, as it came. The street breathes out." { Retract at(counter, gossip). }
+  Observe counter_green at gossip when rolled(house) and not dark() and state(counter, counting) "The mud of the green is printed with the round flat marks of a heavy tread, in a line from the road to the well and back again, as regular as a ruled line.".
+  Topic keeper_counter with keeper "Tell {keeper} the counting at the green is stilled" when state(counter, stilled) and not paid_counter(party) once {
+    Says "{keeper} sits for a while with {keeper}'s eyes shut. 'Four nights I sat in the window,' {keeper} says, 'and counted back, so that it should not be counting alone.' {keeper} opens the alms box and does not look at what is in it.".
+    On discuss { Decrease quantity(alms, gold) by 10. Increase quantity(party, gold) by 10. Assert paid_counter(party). }
+  }
+
+  // --- the people who came before ------------------------------------------------------------------------------
+  Observe bend_tracks at outside as sign when rolled(house) and not dark() "A line of broad flat prints in the mud runs from the House along the kerb toward the town, as straight as if ruled, and comes back the same way.".
+}

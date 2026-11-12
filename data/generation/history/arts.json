@@ -342,6 +342,53 @@
           "titan_statue"
         ]
       }
+    },
+    "empire": {
+      "epithet": "the Empire",
+      "self": [
+        [
+          "road",
+          "gate"
+        ],
+        [
+          "high",
+          "road"
+        ]
+      ],
+      "terrains": {},
+      "plans": [
+        "roadstation"
+      ],
+      "craft": "They laid a straight, kerbed road across the country and set a stage on it every day's ride, each with a stable, a bath, a clerk and a lamp, and kept a register of everything that used it.",
+      "belief": "They held that a thing written down is a thing that exists, and that a road kept is a country kept.",
+      "fates": [
+        "The riders stopped coming, and no one wrote down why."
+      ],
+      "said": [
+        "Folk say the old paved road was laid by the Emperor's own people, and that some of them kept the houses on it till the end."
+      ],
+      "modifiers": [
+        "high",
+        "river",
+        "stone",
+        "salt",
+        "wide",
+        "gold"
+      ],
+      "treasure": {
+        "common": [
+          "steel_coin",
+          "hand_mirror",
+          "bronze_statue",
+          "faded_tome",
+          "smoking_pipe"
+        ],
+        "rich": [
+          "jeweled_box",
+          "ancient_tome",
+          "golden_idol"
+        ]
+      }
     }
   },
   "successors": {
@@ -485,6 +532,12 @@
         "id": "raiders",
         "text": "raiders from over the sea, who came every summer until there was no one left to raid"
       }
+    ]
+  },
+  "imperial": {
+    "about": "Works the Empire left in every country whatever its makers, after all the others are drawn so that nothing drawn before moves. The Empire is not one of the makers a terrain draws (no terrain weights), and its end is left unexplained.",
+    "plans": [
+      "roadstation"
     ]
   }
 }

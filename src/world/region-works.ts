@@ -6,6 +6,7 @@ import singing from '../../data/generation/works/singing_hall.kyrt' with { type:
 import keep from '../../data/generation/works/keep.kyrt' with { type: 'text' };
 import abbey from '../../data/generation/works/abbey.kyrt' with { type: 'text' };
 import tollhouse from '../../data/generation/works/tollhouse.kyrt' with { type: 'text' };
+import roadstation from '../../data/generation/works/roadstation.kyrt' with { type: 'text' };
 import greatBarrow from '../../data/generation/works/great_barrow.kyrt' with { type: 'text' };
 import greatCistern from '../../data/generation/works/great_cistern.kyrt' with { type: 'text' };
 import greatGalleries from '../../data/generation/works/great_galleries.kyrt' with { type: 'text' };
@@ -33,8 +34,8 @@ import type { Region, Settlement, Site } from './region-writer';
 // it; one a scenario has taken is the scenario's to fill. The region's history is a set of facts the works teach to
 // whoever can read them.
 export class RegionWorks {
-  static readonly texts = [cistern, galleries, watchtower, barrow, singing, keep, abbey, tollhouse, greatBarrow,
-    greatCistern, greatGalleries, greatHall, greatTower];
+  static readonly texts = [cistern, galleries, watchtower, barrow, singing, keep, abbey, tollhouse, roadstation,
+    greatBarrow, greatCistern, greatGalleries, greatHall, greatTower];
   static {
     for (const text of this.texts) { Histories.register(text); }
     for (const purpose of Object.values(DeepPurposes.all)) { Histories.add(DeepPurposes.plan(purpose)); }
@@ -93,7 +94,8 @@ export class RegionWorks {
   // The nearest other site, as it looks from a height before its name is known, and which way it lies.
   private static sight(region: Region, site: Site): Record<string, string> {
     const seats = RegionGeography.seats(region), from = RegionGeography.spot(region, site.cell!);
-    const near = seats.filter(s => s.site !== site && s.site.cell !== undefined).map(s => ({ s,
+    const near = seats.filter(s => s.site !== site && s.site.cell !== undefined
+      && (site.work?.imperial || !s.site.work?.imperial)).map(s => ({ s,
       d: Math.hypot(...RegionGeography.spot(region, s.site.cell!).map((v, i) => v - from[i]!)) }))
       .sort((a, b) => a.d - b.d)[0]?.s;
     return near ? { sight: near.site.id, sightseen: RegionSites.seenAs(near, region),

@@ -1,0 +1,332 @@
+# roadstation: a posting-house of the Empire's Posts on the old road: a stage where riders changed horses, the road's tolls were counted, and the district's papers were kept.
+@art empire
+@kind ruin
+@ground meadow heath wood fell
+@near road
+@seen a walled yard of dressed stone beside the old road | a long range of roofs behind a gate-arch | a sunken yard with the road running through it
+@names rest, ford, road, gate
+@danger 2
+@lair stable
+@declines successor: only the posting-house's painted road leads on, to the nearest other work; a dispatch that names a far station is a future adventure's, not this one's
+// The Empire's own work, not the first makers': it is drawn in every country (arts.json, "imperial") and written in
+// the Empire's voice, whatever the country's makers were. It governed actual people: it carried letters, counted tolls,
+// stabled the horses of officers, and kept a register of everything on its road, including the stones it found there
+// that were older than itself. Nothing here says why the Posts stopped; each stationmaster's last page says only what
+// one person at one desk knew (the owner's mandate: the Empire's end is a problem left open).
+--- outside
+  Observe {w}_road_seen at {w} when true "The road comes out of {{land}} as a strip of kerbed stone, straighter than anything the folk have built, and runs through a gate-arch into a walled yard. Thirty paces short of the arch a squat stone post stands at the roadside with a number cut in it, and a worn dish on top.".
+  Observe {w}_cut at {w} when true "Over the arch, in letters a hand high, the name and the office: {oldup}, and under it the mark of the Posts: a wheel with a wing." teaches {w}_named.
+  Thing {w}_milestone "the numbered post by the road" at {w} {
+    State unread "A squat stone post stands by the kerb with a count cut in it in the old numerals. The dish worn into its top holds rainwater, and in the water, three small coins.".
+    State read "The numerals count the miles from the sea-port the road starts from, and under the count: a stage's distance to the next post, and the next, down the road in both directions. The Posts counted every mile they laid, and told you the count at every one. In the dish are three coins, left by whoever last passed: the folk of {townname} still pay the stone before they go on.".
+    Change read "Read the numbers cut in the post" from unread to read needing lore.
+  }
+  Thing {w}_dish "the dish on the post" at {w} {
+    State full "Three small coins lie in the dish on top of the post, green with weather, left by someone who did not want to be robbed on the road.".
+    State paid "Your coin lies in the dish with the others, and the stone says nothing.".
+    Change pay "Leave a coin in the dish on the post, as the carters do" from full to paid.
+  }
+--- base
+  Place {w}_site "{name}" is site within {land} at {x}, {y}.
+  Place {w}_gate "the carriage-arch" is room within {w}_site at 0, 1 indoors.
+  Place {w}_yard "the yard" is room within {w}_site at 1, 1 outdoors.
+  Place {w}_stable "the long stable" is room within {w}_site at 0, 2 indoors.
+  Place {w}_granary "the granary" is room within {w}_site at 1, 2 indoors.
+  Place {w}_hall "the posting-hall" is room within {w}_site at 2, 1 indoors.
+  Place {w}_office "the stationmaster's office" is room within {w}_site at 2, 0 indoors.
+  Place {w}_strong "the fisc-room" is room within {w}_site at 3, 0 underground.
+  Place {w}_shrine "the way-shrine" is room within {w}_site at 3, 1 indoors.
+  Place {w}_baths "the bath-house" is room within {w}_site at 2, 2 indoors.
+  Place {w}_stoke "the stokehold" is room within {w}_site at 3, 2 underground.
+  Place {w}_cistern "the cistern" is room within {w}_site at 1, 3 underground.
+  Place {w}_roof "the signal-roof" is room within {w}_site at 1, 0 outdoors.
+  Passage {w}_arch "the inner arch" is arch between {w}_gate and {w}_yard.
+  Passage {w}_stable_door "the stable doors" is doorway between {w}_yard and {w}_stable.
+  Passage {w}_granary_door "the granary door" is door between {w}_yard and {w}_granary.
+  Passage {w}_hall_door "the posting-hall doors" is door between {w}_yard and {w}_hall.
+  Passage {w}_office_door "the office door" is door between {w}_hall and {w}_office.
+  Passage {w}_shrine_arch "the arch of the way-shrine" is arch between {w}_hall and {w}_shrine.
+  Passage {w}_bath_door "the door to the bath-house" is door between {w}_hall and {w}_baths.
+  Passage {w}_service "the service door" is door between {w}_baths and {w}_stoke.
+  Passage {w}_well_stair "the stair beside the well" is steps between {w}_yard and {w}_cistern.
+  Passage {w}_roof_stair "the stair to the signal-roof" is stair between {w}_office and {w}_roof needing climbing or rope.
+  Passage {w}_strong_door "the fisc-room door" is door between {w}_office and {w}_strong.
+  Passage {w}_hypocaust "the heating-void under the bath floor" is crawl between {w}_stoke and {w}_strong hidden until {w}_void_found.
+  Passage {w}_outfall "the outfall culvert" is crawl between {w} and {w}_cistern hidden until {w}_outfall_found.
+  Initially Assert unlit({w}_strong). Initially Assert unlit({w}_stoke). Initially Assert unlit({w}_cistern).
+  Discovery {w}_void_found "Under the bath-house floor the Empire's engineers left a void to carry the furnace's heat; a thin person could crawl it from the stokehold to the strong-room wall, where a vent opens." {
+    Found by searching {w}_stoke "Behind the furnace-mouth a square flue goes back under the floor, big enough to crawl. Soot has silted it to half its height, and someone has been up it, long ago, and left the print of a hand.".
+    Found by searching {w}_strong "High in the wall of the fisc-room a bronze vent-grille hangs by one screw, and warm air once came through it from somewhere to the south.".
+  }
+  Discovery {w}_outfall_found "The cistern's overflow runs out by a culvert under the road-wall to the brook: a way in that keeps clear of the gate." {
+    Found by searching {w} "Where the brook goes under the road-wall there is an arch half choked with silt, and the water coming out of it is clear, as water is that has stood in a cistern.".
+    Found by searching {w}_cistern "The overflow runs out at the far end of the cistern through a low arch, and a faint daylight comes in at its end.".
+  }
+  Observe {w}_gate_scene at {w}_gate when true "A vaulted passage wide enough for a post-wagon, its floor paved in stone and grooved by two hundred years of wheels. A guard's niche on either side. Chalked in the plaster of one, in a crowd of hands, are the distances to places that have no names now.".
+  Observe {w}_yard_scene at {w}_yard when true "A cobbled yard ringed by a single range of low buildings, all with their doors to the middle: the stables, the granary, the hall. A stone trough, a well-head with a carved lip, a mounting-block at each door. The surface is lifting wherever a root has found it.".
+  Observe {w}_stable_scene at {w}_stable when true "Forty stalls in two rows, each with a manger of stone and a ring for a halter, and above them a hay-loft running the length of the roof. On the lintel of every stall a number is cut. The stable at Posts' stages was the most numerous thing on the road, the most expensive, and the first to be stripped.".
+  Observe {w}_granary_scene at {w}_granary when true "A long store with a floor raised on rows of stone piers to keep the damp and the vermin out. The vermin, long since, have been in. Bins of stone, a measure cut in the lip of each, run down both sides.".
+  Observe {w}_hall_scene at {w}_hall when true "The posting-hall: a long room with a hearth at each end, benches round the walls, a low platform for the clerk, and on the wall facing the door a painted strip of plaster as long as the room, a road running across it between towns and rivers and hills, each marked with a name and a number.".
+  Observe {w}_office_scene at {w}_office when true "A small square room, shelved from floor to ceiling in pigeonholes, each with a lead tag stamped with a number; a desk with a sloped top; a balance with two bronze pans; a stair going up. A smell of old wax and dry dust.".
+  Observe {w}_strong_scene at {w}_strong when true "A vault under the office, the walls three courses of dressed stone, the door iron. There is a floor-drain, a shelf, and a chest bolted to the floor. A thin draught stirs the dust from a vent high in the wall.".
+  Observe {w}_shrine_scene at {w}_shrine when true "A niche under an arch, the shape of every house-shrine you have ever seen, but big, and plain: a bench, a bronze lamp in a bracket, a bowl of offerings, and at the back a figure no taller than a child, worn smooth by hands. Its face is a woman's, tired, one hand lifted as if to wave someone on.".
+  Observe {w}_baths_scene at {w}_baths when true "A plunge-bath with a floor of small coloured stones, a bench along three sides, and a niche for oil. The floor rings hollow under your feet: there is a space beneath it. There is a furnace-door in the south wall.".
+  Observe {w}_stoke_scene at {w}_stoke when true "A low cellar, black with the soot of centuries, a furnace-mouth big enough to crawl into, a pile of charcoal turned to dust, a stack of bronze pipes, and a wheel on the wall that would have turned a valve.".
+  Observe {w}_cistern_scene at {w}_cistern when true "Below the yard, a vaulted tank, lined in red plaster, the water in it black and very still. Steps go down into it at one end. A low arch at the far end takes the overflow out under the road-wall.".
+  Observe {w}_roof_scene at {w}_roof when true "A flat roof of stone slabs with a brazier-basin of bronze at one end, set on a swivelling stand: the Posts' signal-fire, for words that could not wait for a rider. The road is a ruler-straight line both ways, as far as the eye goes, with the wild country shouldering in on either side.".
+  Observe {w}_road_view at {w}_roof when not dark() "From up here the road runs a long way to the {sightside}, and at the end of its line there is {sightseen}. The Posts built it to see that." teaches {sight}_found.
+  Thing {w}_map "the painted road on the hall wall" at {w}_hall {
+    State bare "Along one wall a road runs from end to end of the room, painted on the plaster, with towns and rivers and the little pictures of posts along it: a wheel with a wing at every stage. Names are lettered beside each, in the old script, and a number.".
+    State studied "You have traced the painted road along the wall with a finger: the stage you stand in is the fourth from the sea-port; the nearest place marked on it that is not a stage is set down in a different hand, with a note: OLDER THAN THE ROAD. Farther along, the ruled line of the painted road bends once, sharply, round a grey blank on the plaster, with no stage and no toll drawn, and one word in the margin in the old script: THE WORKS.".
+    Change study "Follow the painted road along the wall" from bare to studied.
+  }
+  Observe {w}_map_learned at {w}_hall of {w}_map as reading when state({w}_map, studied) "On the painted road the Posts also marked, in red, places beside it that they had found and had not made: the Empire's surveyors set them down and gave them names in their own tongue, as they did everything. One lies {sightside} of here, where the road ends: {sightseen}." teaches {sight}_named.
+  Observe {w}_map_found at {w}_hall of {w}_map as reading when state({w}_map, studied) "A line in the plaster's margin gives its distance from this stage, and the turning off the road." teaches {sight}_found.
+  Thing {w}_tariff "the notice on the hall door" at {w}_hall {
+    State unread "A tall panel of plaster by the door is painted with a notice in the old script, in columns, with figures. The red of the headings is still red.".
+    State read "The tariff of the stage: so much for a horse, so much for a cart, so much for a letter, so much for a head of cattle; letters of the Emperor's service carried free; no beast changed without the stationmaster's seal; no traveller housed more than three nights without a pass. At the foot, smaller, in a different paint: DISPUTES OF THE ROAD TO THE PREFECT OF THE DISTRICT, AND NOT TO THE COUNTRYMEN.".
+    Change read "Read the notice on the door" from unread to read needing lore.
+  }
+  Discovery {w}_posts "What the Posts were: the Empire's carriers, whose stages on the road gave horses, beds and a clerk to anyone with the right paper, and counted every mile and coin on the way. A traveller on the Posts was the Emperor's business or nobody's.".
+  Observe {w}_tariff_learned at {w}_hall of {w}_tariff as reading when state({w}_tariff, read) "A road that was kept: its toll counted, its stages a day apart, its disputes sent upward to an officer who was not a local. People were governed by paper here, and the paper was good." teaches {w}_posts.
+  Thing {w}_pigeonholes "the pigeonholes" at {w}_office {
+    State sealed "Hundreds of little wooden cells, each with a lead tag, each stuffed with tablets of wax gone grey or slips of thin wood, tied in threes.".
+    State rifled "You have gone through the pigeonholes cell by cell: bills of lading, passes, a tally of the hay, a petition against a neighbour's pig. Ordinary paper. Whoever kept it kept all of it, down to the pig.".
+    Change rifle "Go through the pigeonholes" from sealed to rifled.
+  }
+  Thing {w}_balance "the stationmaster's balance" at {w}_office {
+    State tilted "A balance with two bronze pans stands on the desk. One pan is down; the other, empty, is up. In the lower lies a stack of small bronze weights, graded in size, with a mark on each.".
+    State true "The balance hangs level: the standard weights are set in the pan, one on another, exactly.".
+    Change set "Set the standard weights in the pan, in order" from tilted to true.
+  }
+  Observe {w}_balance_learned at {w}_office of {w}_balance as reading when state({w}_balance, true) "A drawer in the desk's side has slid out on its own as the beam came level: the strong-room key is kept so, behind a lock that wants true weight to release it." teaches {w}_key_known.
+  Entity {w}_key_known: fact "The stationmaster's strong-room key was kept in a drawer in the desk that opens only when the standard weights are true.".
+  Item {w}_seal "the stationmaster's seal-ring" is {w}_seal_kind at {w}_office hidden until {w}_key_known.
+  Kind {w}_seal_kind "the stationmaster's seal-ring" is treasure worth 40 weighing 1 described "A heavy bronze ring with a flat face cut in reverse: a wheel with a wing, and a number. It was pressed into wax on every pass, bill and bond the stage ever issued. Its holder was the Emperor's person for nine miles each way.".
+  Thing {w}_strong_lock "the fisc-room door" on {w}_strong_door {
+    State shut blocking "The fisc-room door is iron, with a plate of bronze over the keyhole stamped with the wheel and the wing. A seal-ring is cut for it; there is a keyhole as well.".
+    State open "The fisc-room door is open.".
+    Change seal "Press the stationmaster's seal-ring to the plate" from shut to open needing {w}_seal_kind.
+    Change pick "Pick the fisc-room door's lock" from shut to open needing lockwork.
+    Change force "Force the fisc-room door with a crowbar" from shut to open needing crowbar.
+  }
+  Thing {w}_fisc "the fisc-chest" at {w}_strong {
+    Holds.
+    State locked closed "An iron chest is bolted to the floor, its lid sealed with a cake of lead stamped with the wheel and the wing. The lead is whole.".
+    State open "The fisc-chest stands open.".
+    Change open "Break the lead seal and open the chest" from locked to open.
+  }
+  Item {w}_takings "{richname}" is {rich} in {w}_fisc.
+  Item {w}_late_coin "a late coin of the Empire" is {w}_late_coin_kind in {w}_fisc.
+  Kind {w}_late_coin_kind "a late coin of the Empire" is treasure worth 25 weighing 1 described "A thin bright coin of the Emperor's mint, crisp as if struck yesterday, though the chest it lay in was sealed for centuries. The portrait is of the reigning house, and the legend names a regnal year that is higher than any the stationmaster's own list reaches. Either the chest was topped up after the last entry in the day-book, or somebody counted wrongly. Nothing else in the chest is as bright.".
+  Item {w}_left "{commonname}" is {common} at {w}_yard.
+  Thing {w}_wheel "the valve-wheel on the wall" at {w}_stoke {
+    State shut "A bronze wheel on a spindle is set in the wall above the pipes. It has not been turned in a thousand years, and the pipes below it are cold.".
+    State open "The valve-wheel has been turned wide: somewhere in the walls, water begins to run.".
+    Change turn "Turn the valve-wheel" from shut to open needing brawn or crowbar.
+  }
+  Rule {w}_drains when state({w}_wheel, open) and state({w}_water, full) says "Deep in the walls a gate grinds, and the cistern's black water begins to run down out of the yard and into the bath-house pipes, and on, with a sound like a long breath let go." teaches {w}_cistern_found { Assert state({w}_water, low). }
+  Thing {w}_water "the water in the cistern" at {w}_cistern {
+    State full "The water in the cistern stands to the third step, black and very still.".
+    State low "The cistern has run down to a skin of water on the floor, and the plaster of the walls is shown whole to the bottom, red and unbroken.".
+  }
+  Thing {w}_flue "the heating-void" on {w}_hypocaust {
+    State dry "The heating-void under the bath floor is dry and black with soot.".
+    State wet blocking "The heating-void is knee-deep in black water that came down the pipes, and silted to the roof a little way in.".
+  }
+  Rule {w}_floods when state({w}_water, low) and state({w}_flue, dry) says "Somewhere under the floors, water is running down the old pipes; you hear it find every low place." { Retract state({w}_flue, dry). Assert state({w}_flue, wet). }
+  Item {w}_dropped_pouch "{cachename}" is {cache} at {w}_cistern hidden until {w}_cistern_found.
+  Discovery {w}_cistern_found "At the bottom of the cistern, where the water has gone down, lie the things the Posts' people dropped in it over centuries: coins mostly, and a lamp.".
+  Thing {w}_shrine_bowl "the bowl of offerings" at {w}_shrine {
+    State full "In the bowl before the figure lie small things people have left: a button, a horseshoe nail, a tooth, a dried flower, a few coins of three or four different reigns.".
+    State given "Your offering lies among the others in the bowl.".
+    Change give "Leave a coin in the bowl before the figure" from full to given.
+  }
+  Observe {w}_shrine_learned at {w}_shrine of {w}_shrine_bowl as reading when state({w}_shrine_bowl, given) "The offering seems to settle something; the lamp in its bracket gutters and steadies. A cold finger of air touches the back of your neck and goes. Nothing else happens, and you find that you are glad of it." teaches {w}_wayfarer.
+  Entity {w}_wayfarer: fact "The way-shrine's figure is of the Lady of Wayfarers, who is waved on, not worshipped: she is every traveller's tired friend, asked only that the road be kind. The folk who leave a coin at the numbered post do so in her name, though few remember it.".
+  Objective {w}_sought when knows(party, {w}_named) and not been(party, {w}_office) "The Posts kept their papers at {{w}}, in a house of stone beside the old road, and the door of their office has not been opened since the last clerk shut it.".
+--- entry gated 2 if shape0
+  Passage {w}_front "the great gate" is gate between {w} and {w}_gate.
+  Thing {w}_gate_leaves "the gate leaves" on {w}_front {
+    State shut blocking "The great gate across the carriage-arch is closed, two leaves of oak and iron a post-wagon wide, held by a bar from within. The wood is hard as stone; the iron is rust.".
+    State open "The gate leaves are open, forced back against the arch-wall.".
+    Change heave "Heave the gate leaves back on their hinges" from shut to open needing brawn.
+    Change prise "Prise the gate leaves apart with a crowbar" from shut to open needing crowbar.
+  }
+  Passage {w}_loft "the loft window above the stable" is climb between {w} and {w}_stable needing climbing or rope.
+--- entry fallen 2 if shape1
+  Thing {w}_arch_bar "the gate-bar" on {w}_arch {
+    State barred blocking "A beam of oak as thick as a man's thigh, black with age and bound in iron, sits across the inner arch in its brackets.".
+    State lifted "The gate-bar has been lifted out of its brackets and leans against the wall.".
+    Change lift "Lift the gate-bar out of its brackets" from barred to lifted needing brawn.
+    Change chop "Cut the gate-bar through with a crowbar and a day's work" from barred to lifted needing crowbar.
+  }
+  Passage {w}_front "the fallen gate" is arch between {w} and {w}_gate.
+  Observe {w}_fallen at {w} when true "The gate leaves lie flat on the cobbles inside the arch, long since fallen outward, and moss has grown over them. The road runs in over them as it ran in under them.".
+  Passage {w}_loft "the loft window above the stable" is climb between {w} and {w}_stable needing climbing or rope.
+--- entry cart 1 if shape2
+  Thing {w}_arch_bar "the gate-bar" on {w}_arch {
+    State barred blocking "A beam of oak as thick as a man's thigh, black with age and bound in iron, sits across the inner arch in its brackets.".
+    State lifted "The gate-bar has been lifted out of its brackets and leans against the wall.".
+    Change lift "Lift the gate-bar out of its brackets" from barred to lifted needing brawn.
+    Change chop "Cut the gate-bar through with a crowbar and a day's work" from barred to lifted needing crowbar.
+  }
+  Passage {w}_front "the road under the arch" is arch between {w} and {w}_gate.
+  Observe {w}_cart at {w}_gate when true "A post-wagon stands in the arch, abandoned in the middle of being unharnessed: a horse-collar still on the pole, a sack half off the tail. Nobody took it away.".
+  Passage {w}_loft "the loft window above the stable" is climb between {w} and {w}_stable needing climbing or rope.
+--- last recalled 2
+  // The stationmaster's last page: an orderly leaving, as if recalled, with the stage left in good order.
+  Thing {w}_lastpage "the last page of the day-book" at {w}_office {
+    State shut "The day-book lies open on the desk at its last used page. The entries run right down to the foot, in a hand that gets neater, not worse, toward the end.".
+    State read "The last entry: ORDERS RECEIVED FROM THE PREFECT'S OFFICE, TO CLOSE THE STAGE AND REPORT TO THE DISTRICT. FISC SEALED. HORSES SENT DOWN THE ROAD IN THREE TRAINS. KEYS GIVEN TO THE LADY. WILL RETURN WHEN THE ROAD IS OPEN. There is no date. Under it, in a different pen, someone has added: GOOD LUCK TO WHOEVER COMES NEXT, AND PLEASE DO NOT STEAL THE HAY.".
+    Change read "Read the last page of the day-book" from shut to read needing lore.
+  }
+  Observe {w}_last_learned at {w}_office of {w}_lastpage as reading when state({w}_lastpage, read) "Whatever happened to the Empire, it did not reach this stage in the shape of a disaster. A message came, and the people obeyed it, carefully, and left the place in order for their return." teaches {w}_last.
+  Discovery {w}_last "The last page of the day-book at the posting-house records an orderly closing on the Prefect's orders. The keys were left with the shrine's figure. It does not say why the stage was closed, or whether anyone came back.".
+  Observe {w}_last_scene at {w}_office when true "The stools are drawn square to the desk. The ink has dried in the well. Everything is put away, everything is clean, and the dust lies on all of it as evenly as snow.".
+  Observe {w}_last_keys at {w}_shrine when true "A ring of keys hangs on a hook at the figure's raised hand, as one hangs a coat on a friend, with a tag: FOR THE NEXT. The tag is in the day-book's hand.".
+--- last stayed 2
+  // The stationmaster stayed to the end at the desk, and the others did not.
+  Thing {w}_lastpage "the last page of the day-book" at {w}_office {
+    State shut "The day-book lies open on the desk at its last used page. The entries run to the foot, and the last lines are not in the clerk's hand.".
+    State read "The last entry, in a shaking hand: NO ONE HAS COME FOR EIGHT DAYS. THE ROAD IS EMPTY BOTH WAYS AND I HAVE SENT THE GROOMS HOME. I WILL KEEP THE LAMP. IF THE POSTS COME AGAIN THERE WILL BE A STAGE AT FOURTH FROM THE SEA, AND THE LAMP LIT. I HAVE NOT BEEN AFRAID, UNTIL NOW OF THE QUIET.".
+    Change read "Read the last page of the day-book" from shut to read needing lore.
+  }
+  Observe {w}_last_learned at {w}_office of {w}_lastpage as reading when state({w}_lastpage, read) "The people of the stage went home when the riders stopped. The stationmaster did not. There is a person's whole faithfulness in the last line, and nothing in it of an enemy, a plague, or a command: the road simply emptied." teaches {w}_last.
+  Discovery {w}_last "The posting-house's stationmaster stayed at the desk after the road emptied, waiting for riders who did not come; the day-book gives no cause. Nothing in it speaks of an enemy.".
+  Observe {w}_last_scene at {w}_office when true "In the chair at the desk the stationmaster still sits, in a robe that has gone the colour of the dust, with the head on the breast and one hand flat on the day-book. A cup is by the other hand. The finger where a ring was worn is bare.".
+  Observe {w}_last_lamp at {w}_shrine when true "The bronze lamp in its bracket is trimmed, its wick fresh, its oil sweet, as if for a night that has not yet come. The stationmaster who sat down at the desk meant it to be lit.".
+--- last unanswered 2
+  // The last dispatch was never answered, and never stopped being sent.
+  Thing {w}_lastpage "the last pages of the day-book" at {w}_office {
+    State shut "The day-book lies open on the desk, and the last dozen entries, in the clerk's hand, are all the same entry, a day apart.".
+    State read "DISPATCH SENT TO THE NEXT STAGE DOWN, FOR THE PREFECT. NO RIDER RETURNED. DISPATCH SENT. NO RIDER RETURNED. DISPATCH SENT. And then, the last: I HAVE NOW SENT TO THE NEXT STAGE UP AS WELL. IF THE NEXT STAGE UP DOES NOT ANSWER THEN I SHALL KNOW THAT THE LAST WAS NOT MY ERROR.".
+    Change read "Read the last pages of the day-book" from shut to read needing lore.
+  }
+  Observe {w}_last_learned at {w}_office of {w}_lastpage as reading when state({w}_lastpage, read) "A stage that sent and sent, up and down the road, and heard nothing from either end. Either the road had been cut, or the world beyond it had stopped answering. The stationmaster, of all things, worried that it was his own fault." teaches {w}_last.
+  Discovery {w}_last "The last pages of the posting-house's day-book repeat a single dispatch, sent up and down the road, that no rider answered. The stationmaster feared it was his own mistake.".
+  Observe {w}_last_scene at {w}_office when true "A dozen dispatch tubes lie on the desk, sealed, addressed, never sent, in a neat row. The thirteenth is empty and its lid is off.".
+  Observe {w}_last_yard at {w}_yard when true "In the middle of the yard, where the post-riders turned, the cobbles are worn into a shallow ring by a horse led round and round. The ring is much fresher than the stone around it. Someone waited here, walking a horse, for a very long time.".
+--- last empty 1
+  // Cups on the table, lamps trimmed, nobody; no explanation.
+  Thing {w}_lastpage "the last page of the day-book" at {w}_office {
+    State shut "The day-book lies open on the desk at the last page. It has been written to the middle of a line.".
+    State read "The last entry is an ordinary one: FOUR HORSES CHANGED FOR A CART OF OIL. CLERK AT HIS MEAL. WIND IN THE EAST. and then, in the same hand, in the middle of a stroke, the pen leaves the page in a long line, as if lifted. There is nothing more.".
+    Change read "Read the last page of the day-book" from shut to read needing lore.
+  }
+  Observe {w}_last_learned at {w}_office of {w}_lastpage as reading when state({w}_lastpage, read) "An ordinary hour, then nothing. There is no struggle, no letter, no hurry. Whoever was in the hall at their meal did not finish it; and there are no bones anywhere in the stage, though there are forty stalls and a hall for sixty." teaches {w}_last.
+  Discovery {w}_last "The posting-house's day-book stops in the middle of an ordinary line on an ordinary day. The meals in the hall were left uneaten; there are no bones anywhere in the stage.".
+  Observe {w}_last_scene at {w}_hall when true "Cups stand on the benches, set down, and bowls with a skin of dust. One bowl has a spoon laid carefully across it, as though to say: I'm not done.".
+--- master pedant 1
+  Thing {w}_daybook "the stationmaster's day-book" at {w}_office {
+    State unread "A thick ledger of grey wooden leaves, tied with a cord, lies on the sloped desk. Every page is ruled and every line used, in a tiny, regular hand.".
+    State read "The stationmaster complains of everything, with relish: the grooms' wages, the mules, the state of the privy, the visiting inspector who was sick on the stair, a post-rider who 'thought himself a poet' and left verses in the stable; a prefect who asks for a return of straw, and then a return of the return. Between the complaints is a tender thing: The Prefect's detour round the Works costs him nine miles of paving and he has views on it, at length. THE ROAD HAS BEEN KEPT, he writes, with a hundred neat marks beneath, one for every day. THE ROAD WAS KEPT, AND NO ONE CAN SAY I DID NOT KEEP IT.".
+    Change read "Read the stationmaster's day-book" from unread to read needing lore.
+  }
+  Observe {w}_daybook_learned at {w}_office of {w}_daybook as reading when state({w}_daybook, read) "A fussy man with a good heart, who loved the road more than he loved his own comfort, and told it to a ledger. In the margin, one careless day, he draws a little horse." teaches {w}_posts.
+--- master widow 1
+  Thing {w}_daybook "the stationmaster's day-book" at {w}_office {
+    State unread "A narrow ledger of grey wooden leaves lies on the sloped desk, tied with a cord of undyed wool. The hand is small and upright and does not waste a stroke.".
+    State read "The stationmaster is a woman who took the stage on after her husband died in the chair, and ran it for thirty years by never raising her voice. The entries are terse and exact: horses changed, coin counted, letters carried. Once a month, a different entry: THE LAMP FILLED. THE LADY'S BOWL EMPTIED INTO THE POOR-BOX AT THE FOURTH STONE. That is all. That is all, for thirty years. You come away oddly moved.".
+    Change read "Read the stationmaster's day-book" from unread to read needing lore.
+  }
+  Observe {w}_daybook_learned at {w}_office of {w}_daybook as reading when state({w}_daybook, read) "A road kept by quiet people, month on month, entry on entry, with no ambition to be remembered. The coin from the Lady's bowl went to the poor. Nobody told her to." teaches {w}_posts.
+--- master clerk 1
+  Thing {w}_daybook "the clerk's day-book" at {w}_office {
+    State unread "A scruffy ledger of grey wooden leaves lies on the sloped desk with a pen in it. The hand is quick, careless, and amused at its own expense.".
+    State read "The clerk who kept this was not meant for the Posts and knew it. He writes about the horses by temperament; he gives the mules names. He is in love with a baker's daughter in the nearest village, and his love is conducted through the post-bag, and the stationmaster knows and does not interfere. In the margin he draws a map of the road to her door. The last three letters are the shortest: SHE SAYS YES. SHE SAYS YES. WE ARE TO BE MARRIED AT THE FOURTH STONE, ON THE FIRST DAY OF THE NEXT MONTH.".
+    Change read "Read the clerk's day-book" from unread to read needing lore.
+  }
+  Observe {w}_daybook_learned at {w}_office of {w}_daybook as reading when state({w}_daybook, read) "A young man's happiness, written down in the Empire's own ledger, where nobody was ever meant to see it. You hope he got to the Fourth Stone." teaches {w}_posts.
+--- present scholar 3
+  Person {w}_scholar "the copyist" at {w}_hall {
+    Role "a young scholar who has come to copy every inscription on the road, and has been here three weeks, and is not brave". Ancestry human. Calling mage. Background scholar. Level 1. Peaceable. Manner cheerful.
+    Greets "A young person looks up from a board of paper with ink to the elbows. 'Oh,' they say. 'Visitors. Is it the third week already?'".
+    Joins "The copyist rolls the board into a case, ties it, tucks it in a coat that has clearly never been to a battle. 'Right,' they say, with the manner of someone jumping into cold water. 'The next stage. I'll read. You, if you would, do whatever is done about bears.'".
+    Remarks at {w}_office "The copyist stops in the office doorway and puts both hands over their mouth. 'The pigeonholes,' they whisper. 'Every one is tagged. Do you know what that means? It means somebody could find anything.'".
+    Remarks at {w}_shrine "The copyist stands before the figure for a long moment. 'She is waving,' they say. 'Everyone says she is blessing. Look at her hand: she is waving someone on.' They write it down at once, in the margin of their hand.".
+    Remarks at {w}_roof "The copyist looks along the ruled line of the road to its end, and then, slowly, at the place where it bends. 'It goes round something,' they say. 'Nine miles of paving, because someone in an office said so. I should very much like to know who, and why they were not obeyed afterward.'".
+  }
+  Observe {w}_scholar_seen at {w}_hall when able({w}_scholar) "At the end of the hall, wrapped in a blanket, a young person sits cross-legged on the platform with a board across their knees, copying the painted road onto paper with enormous care, tongue between their teeth. A lantern, a pot of ink, a heel of bread.".
+  Topic {w}_scholar_talks with {w}_scholar "Ask {{w}_scholar} what they are doing here" when able({w}_scholar) once {
+    Says "'Copying,' says {{w}_scholar}, without looking up, then looks up. 'Oh. People. Good. I mean, hello. I am copying the road. The Posts put every stage on one painted road, in the same order, so that a rider could tell at a glance where he was. If I can copy all of them, I can tell where the road went, and how far, and where it did not — and then I can ask what the Empire thought it was for.' A breath. 'Do you read the old script? Does anyone? I have been reading it aloud to myself for three weeks and I am starting to enjoy my own voice.'".
+  }
+  Topic {w}_scholar_reads with {w}_scholar "Ask {{w}_scholar} to read the day-book aloud" when able({w}_scholar) and state({w}_daybook, unread) once {
+    Says "'Yes! Oh, yes. Sit.' {{w}_scholar} puts down the board, wipes both hands on the blanket, and reads, in a voice that becomes quite different from the first, firm and light, sentence by sentence, with the stress where a clerk would put it. When {{w}_scholar} reaches the last line there is a pause. 'I should like to know,' {{w}_scholar} says at last, 'who he was writing it for.'".
+    On discuss { Assert knows(actor, {w}_posts). }
+  }
+  Topic {w}_scholar_joins with {w}_scholar "Ask {{w}_scholar} to come with you" when able({w}_scholar) once {
+    Says "{{w}_scholar} stares. 'To another stage? To the next one? With people who can fight?' A breath. 'Yes. Yes, I would. I have copied the same wall for three weeks and I am running out of road. I cannot pay you, and I will faint if anything bites. But I can read anything the Empire cut.'".
+    On discuss { Assert willing({w}_scholar, actor). Set hire({w}_scholar) to 0. }
+  }
+--- present carters 2
+  Person {w}_carters "the carters" at {w}_stable {
+    Role "carters who winter their mules in the long stable, and pay no one for it, and are civil to strangers". Ancestry human. Calling thief. Numbers 3. Level 1. Peaceable.
+  }
+  Observe {w}_carters_seen at {w}_stable when able({w}_carters) "A fire burns in an iron basket in the middle of the stable floor. Mules stand in the stalls. A carter is mending a harness with a bone needle, another is asleep on a pile of sacks, and a third stirs a pot and looks you over, without alarm.".
+  Topic {w}_carters_ask with {w}_carters "Ask the carters about the stage" when able({w}_carters) once {
+    Says "'It's a good stable,' says the one stirring the pot. 'Forty stalls and a roof that holds. We pay the Stone, naturally. Don't touch the Lady in the hall, she's on a good terms with us. As for the rest,' a shrug, 'if there's coin in it, it's in the hall, and the clever ones know that, and haven't found it.'".
+  }
+--- present boars 2
+  Person {w}_boars "the boars" at {w}_granary {
+    Role "a sounder of wild boar that farrow in the bins of the granary". Species boar. Numbers 3. Level 2. Temperament territorial. Lair {w}_granary.
+    Warns "The straw in the grain-bins heaves, and a sow comes out of it low, with her young behind her, and her tusks gleaming.".
+  }
+  Observe {w}_boars_sign at {w} as sign noticed by woodcraft when able({w}_boars) "Boar tracks cross the road at the arch, many, and fresh; the cobbles inside are littered with turned earth.".
+--- present robbers 2
+  Person {w}_robbers "the road-wardens" at {w}_hall {
+    Role "road-robbers who call themselves wardens and charge a toll at the old post, and keep the stage as their hold". Ancestry human. Calling thief. Numbers 4. Level 2. Temperament wary. Lair {w}_hall.
+    Warns "Four men and a woman rise from the hearth with their hands on their belts. 'This is the Warden's road,' says the woman. 'There is a toll. You didn't pay it at the stone.'".
+  }
+  Observe {w}_robbers_sign at {w} as sign noticed by perception when able({w}_robbers) "A rope stretched across the road at ankle height, tied to a branch and to a ring in the stone, is slack and half hidden in the grass. Beyond the arch, smoke.".
+--- present keeper 2
+  Person {w}_keeper "the lamp-keeper" at {w}_shrine {
+    Role "an old woman who keeps the lamp at the way-shrine lit and has done for forty years, and will not say why". Ancestry human. Profession priest. Level 2. Peaceable. Manner stoic.
+  }
+  Observe {w}_keeper_seen at {w}_shrine when able({w}_keeper) "The lamp in its bracket is lit, and an old woman sits on the bench beside it with her hands in her lap, watching the figure, not the door.".
+  Topic {w}_keeper_who with {w}_keeper "Ask {{w}_keeper} who the figure is" when able({w}_keeper) once {
+    Says "'The Lady,' says {{w}_keeper}. 'Of the Way. They waved her on, not down: she doesn't want anything, she only asks you to go well. My grandmother kept her lamp. Her grandmother, I expect. You'll want the office, and the hall, and not the baths, the floor's weak.' A look at your hands. 'You can leave a coin. You don't have to.'".
+    On discuss { Assert knows(actor, {w}_wayfarer). }
+  }
+  Topic {w}_keeper_why with {w}_keeper "Ask {{w}_keeper} why she keeps the lamp" when able({w}_keeper) once {
+    Says "'My grandmother kept it, and hers, and none of them ever said why,' says {{w}_keeper}. 'It is what is done. If the Posts came again I should not like them to find the house dark. Do not tell me they won't.'".
+  }
+--- present wolves 1
+  Person {w}_wolves "the wolves" at {w}_stable {
+    Role "a pack of wolves in the hay-loft of the long stable, that come down at dusk". Species wolf. Numbers 3. Level 2. Temperament territorial. Lair {w}_stable.
+    Warns "Eyes in the dark of the loft, then a low sound from the throat, and three grey shapes slide down the loft-ladder, one by one.".
+  }
+--- successors tollpost 2
+  Observe {w}_toll_seen at {w}_gate when true "A second, rougher board is nailed over the Posts' painted tariff in the arch, in the letters of the kingdom of {successors}: a toll on every cart, every head of cattle, every traveller, and in smaller letters: NO PAPER, NO PASSAGE. Someone has scratched the second part out.".
+  Observe {w}_toll_post at {w}_yard when true "In the middle of the yard a post of black oak has been driven into the cobbles, with a ring on it for a chain. The kingdom used the yard to hold what it took from people on the road.".
+--- successors chapel 2
+  Observe {w}_chapel_seen at {w}_shrine when true "The kingdom of {successors} did not clear out the Lady. They hung the sign of {deity} over her, and a small bell, and called her by another name; but the folk who came to leave their coins went on leaving them, and the bell has gathered dust and the Lady has not.".
+--- successors lodge 1
+  Observe {w}_lodge_seen at {w}_hall when true "The kingdom's lords used the hall as a hunting-lodge: antlers on every beam, the hearth walled up to a smaller size, and a table set where the clerk's platform was. The painted road is still on the wall, with a hound drawn in the margin by someone with time.".
+--- successors forgotten 1
+  Observe {w}_forgot_seen at {w}_yard when true "No one has used the stage since the Posts left. A fig tree is growing out of the well-head. The cobbles are almost all moss.".
+--- hook road 2
+  Topic {w}_hook with {merchant} "Ask {{merchant}} about the old paved road" when not knows(actor, {w}_named) once {
+    Says "'There's a stretch of the old road out in {where},' says {{merchant}}. 'Paved, like nothing you've seen, and straight. A stage-house at the end of it with the roof still on half. My grandfather said nobody ever got the door of the office open, and there was a lamp in the window on certain nights. I would pay well for the road's own paper, if it was there.'".
+    On discuss { Assert knows(actor, {w}_named). Assert knows(actor, {w}_found). }
+  }
+--- hook stone 1
+  Topic {w}_hook with {priest} "Ask {{priest}} about the stone with coins in it" when not knows(actor, {w}_named) once {
+    Says "'The numbered stone?' says {{priest}}. 'Everyone knows it. It is at {name}, in {where}. You leave a coin in the dish and you go on safely. It is no part of the faith of {deity}, but I don't forbid it. They were here a very long time before us, whoever they were; I would not say a word against the road.'".
+    On discuss { Assert knows(actor, {w}_named). Assert knows(actor, {w}_found). }
+  }
+--- hook lamp 1
+  Topic {w}_hook with {keeper} "Ask {{keeper}} about the lamp on the old road" when not knows(actor, {w}_named) once {
+    Says "'There's a lamp,' says {{keeper}}, 'at {name}, in {where}. Lit, some nights, on the old paved road, in a house with nobody in it. I don't hold with it, and the carters swear by it. If you see it, go in by the arch. Never by the loft.'".
+    On discuss { Assert knows(actor, {w}_named). Assert knows(actor, {w}_found). }
+  }
+--- echo carters 1
+  Topic {w}_echo with {teller} "Ask {{teller}} about the road they came by" when not knows(actor, {w}_named) once {
+    Says "'Along the old road?' says {{teller}}. 'There is a paved road, God knows from when, that runs straight for no reason, out in {where}. It goes to a stage-house, empty. Some say a ghost keeps the books. I say if it's a ghost, it keeps them well.'".
+    On discuss { Assert knows(actor, {w}_named). Assert knows(actor, {w}_found). }
+  }
+--- echo toll 1
+  Topic {w}_echo with {teller} "Ask {{teller}} about the road toll" when not knows(actor, {w}_named) once {
+    Says "'I came by a place called {name},' says {{teller}}, 'that has a post with a dish on it. The carters pay the dish. I do not know who it's for. I paid, mind you.'".
+    On discuss { Assert knows(actor, {w}_named). }
+  }

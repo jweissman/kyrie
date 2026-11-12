@@ -84,7 +84,7 @@ Module hollins "Behind the Wainscot" {
   }
   Relation toldPinmen(group).
 
-  Observe pantry_scene at pantry when true "The Pantry is a cave of shelves going up into the dark, and on them the stores of Hollins, three hundred years old: crocks of honey as big as wine-vats, with doors cut in their sides; sacks of flour like grey hills; a ham hanging from a hook, black and hard as wood; jars of salt; a cheese that has turned to stone and been carved into a throne. The Jarmen live on the lowest shelf, among the jars, in rooms cut into the honey-crocks, and the whole place smells of honey, and mice, and men.".
+  Observe pantry_scene at pantry when true "The Pantry is a cave of shelves going up into the dark, and on them the stores of Hollins, three hundred years old: crocks of honey that would swallow a wine-vat, with doors cut in their sides; sacks of flour like grey hills; a ham hanging from a hook, black and hard as wood; jars of salt; a cheese that has turned to stone and been carved into a throne. The Jarmen live on the lowest shelf, among the jars, in rooms cut into the honey-crocks, and the whole place smells of honey, and mice, and men.".
   Observe pantry_poison at pantry as feature when poisonPotFull(pantry) "On a shelf behind the Jarl's throne stands a little pot with a skull scratched on its lid, the kind of skull somebody conscientious scratches, and the paste in it smells of almonds and lard.".
   Person hasp "Hasp Tallowby" at pantry {
     Role "the Jarl of the Jars". Ancestry human. Calling warrior. Level 4. Peaceable. Pronouns he. Manner grim.
@@ -113,7 +113,7 @@ Module hollins "Behind the Wainscot" {
   Discovery rats_job "Hasp Tallowby will pay three coin and honey to have the rats in the back of the Pantry killed; there are eight or nine, some as big as dogs.".
 
   // ── The back of the Pantry: rats, and Mrs Pyecroft's trap ──────────────────────────────────────────────────────────────
-  Observe back_scene at pantry_back when true "The back of the Pantry is dark: sacks gnawed open and bled out into dunes of meal, crocks with their lids off, and the droppings of rats everywhere, each as big as a plum stone, which for a rat is what they are. The honey-crocks the Jarmen live by stand along the back wall, and something has been at the nearest one.".
+  Observe back_scene at pantry_back when true "The back of the Pantry is dark: sacks gnawed open and bled out into dunes of meal, crocks with their lids off, and the droppings of rats everywhere, each the size of a plum stone, which for a rat is what they are. The honey-crocks the Jarmen live by stand along the back wall, and something has been at the nearest one.".
   Species pantry_rat "a pantry rat" like cave_hound temperament ambush described "A brown rat of the back pantry, fat on three hundred years of a giant's stores: as big as a terrier, yellow-toothed, red-eyed, fearless of anything its own size.".
   Person rats "rats" at pantry_back {
     Role "brown, as big as terriers, with eyes red in the dark". Species pantry_rat. Level 1. Numbers 2. Pronouns they.

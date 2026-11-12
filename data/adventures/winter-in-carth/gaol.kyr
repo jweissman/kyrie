@@ -6,7 +6,7 @@ Module gaunt "A Winter in Carth" {
   Person hern_window "Ninian Hern" at gaol_lane {
     Role "a voice and two hands and a bit of a face at the barred window over Gaol Lane, the hands holding the bars". Ancestry human. Peaceable. Pronouns he. Manner jovial.
     Greets "'Is that my custodian?' says the face at the bars. 'Or a stranger? Either is welcome; I've had the precentor in all day, explaining my heresy to me. He's very good at it. I'm thinking of taking it up.' A cough. 'Stand where I can see you. I'm on the bed on tiptoe.'".
-    Greets again "Hern's hands come round the bars.".
+    Greets again "Hern's hands come round the bars, and then his forehead, and then his grin. 'Visitors twice,' he says. 'They'll say I have friends. It will go against me at the Consistory. Tell me what the weather's doing; the precentor won't, he says weather is a distraction from sin.'".
     Seen when hernAtBars().
   }
   Query hernAtBars() means hernGaoled(hern) and at(hern, gaol_cell) and not hernFled(hern) and not hernDead(hern).
@@ -93,13 +93,13 @@ Module gaunt "A Winter in Carth" {
   // the gaol's serjeants.
   Person hal "Hal Metcalfe" at gaol_lane {
     Role "a printer's apprentice of eighteen with ink to the elbow, loitering under the gaol window with his hands in his pockets, very obviously not loitering". Ancestry human. Calling commoner. Level 1. Peaceable. Pronouns he. Manner cheerful.
-    Greets "The young man under the window looks you over. 'You're the one that came down the fell with him,' he says. Everybody in Gaunt has heard. He lowers his voice to a whisper that carries the length of Gaol Lane. 'Fastens' Eve. Eleven. A ladder and a file. Are you with us?'".
-    Greets again "Hal Metcalfe winks at you, enormously.".
+    Greets "The young man under the window peels himself off the wall. 'You're the one that came down the fell with him,' he says. Everybody in Gaunt has heard. He lowers his voice to a whisper that carries the length of Gaol Lane. 'Fastens' Eve. Eleven. A ladder and a file. Are you with us?'".
+    Greets again "Hal Metcalfe winks at you, enormously, with his whole face, and glances at the window above in case anyone has failed to notice that he is being discreet. 'Fastens' Eve,' he whispers, in a whisper that carries to the Minster. 'Eleven. Bring a file, or bring a friend with one.'".
   }
   Person prudence "Prudence Garth" at row_lane {
     Role "a pale serious girl of seventeen with a student's satchel and darned gloves, who does not meet anyone's eye". Ancestry human. Peaceable. Pronouns she. Manner stoic.
     Greets "The girl with the satchel starts when you speak to her. 'I listen to him,' she says, before you have asked anything. 'On the Steps. Everybody knows I do. I believe him.' She looks at her gloves. 'I do believe him.'".
-    Greets again "Prudence Garth looks at her gloves.".
+    Greets again "Prudence Garth looks at her gloves, which have been darned since you saw them, in a thread of a slightly different grey. 'I was on the Steps this morning,' she says. 'Someone else read his sermon, and it was not the same. It was a good sermon. That is what I could not forgive.'".
   }
   Relation informs(group). Relation informed(group). Relation prudenceTurned(group). Relation rescueOff(group). Relation halTaken(group).
   Relation barsOut(group). Relation hernRefusedWindow(group).

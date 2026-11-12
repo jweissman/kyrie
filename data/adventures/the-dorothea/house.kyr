@@ -66,6 +66,7 @@ Module dorothea "The Dorothea" {
     Role "Principal of the House of Marchbank". Ancestry human. Level 4. Peaceable. Pronouns he. Manner stoic.
     Likeness "merchant".
     Greets "A tall old man in a black coat stands at the foot of the notice board, reading it as one reads a bill one has already paid. He has no ledger in his hand: only a seal on a chain, a key and a ring. 'Josselin Marchbank,' he says. 'You have been reading my books, in pieces. It is the usual way people read them.'".
+    Greets again "Josselin Marchbank has read the notice board again, and gives the impression of being very slightly disappointed in it. 'You have read more,' he says. 'You will have found that my books are a story. I have never denied it. I only dispute the ending.'".
   }
   Relation principalMet(group).
   Rule principal_comes when reckoned(party) and at(party, quay) and not principalMet(party)
@@ -91,4 +92,10 @@ Module dorothea "The Dorothea" {
     Result "Marchbank looks at the board, and at the pilots with their hats on, and at the clerk, who has turned the colour of paper. 'Ah,' he says. 'So.' He puts the seal back inside his coat, and for a moment he looks his age. 'The Dorothea is free to sail,' he says. 'You will find the House is not at all as large as it was this morning.' He goes up the Orsett road with his stick, and the clerk after him, carrying nothing.".
   }
   Relation principalLeft(group).
+
+  // ── Aims the page can lead with ───────────────────────────────────────────────────────────────────────────────────
+  Objective dark_light_plan when knows(party, house_plan) and not keptLamp(party) and not marlSold(party) and not lampOut(party)
+    "The House of Marchbank leases the kept lights of the Reach and does not light them. The Pharos is the last big one lit, and is pending.".
+  Objective rune_oil when knows(party, rune_sells) and not keptLamp(party) and not marlSold(party) and not lampOut(party)
+    "The mate of the Dorothea has been selling the Pharos's lamp-oil out of the hold, two casks at a time, to make up the Captain's debt.".
 }

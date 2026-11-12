@@ -75,4 +75,14 @@ Module gaunt "A Winter in Carth" {
   Rule ashing when ashDay() and hour(clock) >= 9 and hour(clock) < 11 and inTown() and not inChapter() and not spread(ashing)
     says "At nine the Minster's west door is opened and the city goes past it in a line that reaches down the Bearer's Steps and into the Shambles, and a canon with a bowl of ash puts his thumb to every forehead, the brewster's and the barefoot man's alike, and says the same four words to each. For an hour everyone in Gaunt has the same mark on them. Then they go and look at the Ladder." { Assert spread(ashing). }
   Entity ashing: fact "the ashing".
+
+  // ── Aims the page can lead with ───────────────────────────────────────────────────────────────────────────────────
+  Objective who_paid_for_carth when knows(party, vigil_kept) and not knows(party, thackray_vigil)
+    "Someone paid the Scaifes of Carth to sit forty nights without a fire. The coin carries a little cut log.".
+  Objective under_the_window when knows(party, hal_plan) and not hernFreed(hern) and not verdictGiven(consistory)
+    "Hal Metcalfe means to be under the gaol window at eleven on Fastens' Eve with a ladder and a file.".
+  Objective ash_day_sitting when knows(party, beadle_offer) and not verdictGiven(consistory)
+    "The Consistory of Gaunt sits on Ninian Hern on Ash Day.".
+  Objective north_tower when knows(party, unbuilding) and not knows(party, lodge_under)
+    "By night Canon Laverock's men take down the course of stone Joby Thwaite's masons set on the north tower by day.".
 }

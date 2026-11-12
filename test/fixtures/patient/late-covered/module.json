@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "source": [
+    "../../../../data/adventures/patient-star/quell.kyr",
+    "../../../../data/adventures/patient-star/tamaun.kyr",
+    "../../../../data/adventures/patient-star/ennick.kyr",
+    "../../../../data/adventures/patient-star/hour.kyr",
+    "../../../../data/adventures/patient-star/neworrel.kyr",
+    "../../../../data/adventures/patient-star/stairhead.kyr",
+    "../../../../data/adventures/patient-star/weirs.kyr",
+    "../../../../data/adventures/patient-star/undersun.kyr",
+    "../../../../data/adventures/patient-star/corbel.kyr",
+    "../../../../data/adventures/patient-star/clock.kyr",
+    "../../../../data/adventures/patient-star/keeping.kyr",
+    "../../../../data/adventures/patient-star/masonry.kyr",
+    "../../../../data/adventures/patient-star/kept_season.kyr",
+    "../../../../data/adventures/patient-star/company.kyr",
+    "start.kyr"
+  ],
+  "rules": [
+    "world",
+    "../../../../data/adventures/patient-star/stilling.kyr",
+    "../../../../data/adventures/patient-star/moments.kyr"
+  ],
+  "globals": [
+    "party"
+  ],
+  "canon": [
+    "imbar"
+  ],
+  "exports": {
+    "party": "party",
+    "region": "ghessil",
+    "square": "square"
+  }
+}

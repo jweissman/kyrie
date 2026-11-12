@@ -7,7 +7,7 @@ Module lull "The Lull" {
     Role "who keeps bees at the tarn". Ancestry human. Peaceable. Pronouns he. Manner stoic.
     Likeness "hermit".
     Greets "The man in the boat sits up with bees in his beard and looks at you without hurry. 'Don't flap,' he says. 'They don't mind you. They mind flapping.' He climbs out. 'Hob Linsey. These are mine, or I'm theirs; it's been argued both ways.'".
-    Greets again "Hob Linsey lifts a hand, slowly, so as not to annoy the bees.".
+    Greets again "Hob Linsey lifts a hand, slowly, so as not to annoy the bees, and the bees, who are annoyed anyway, go on with it. 'They know you,' he says. 'That is a compliment, or a warning. In the Lull, I find, they are generally the same.'".
   }
   Initially Assert lullFolk(hob). Initially Assert dayAt(hob, tarn_shore). Initially Assert bedAt(hob, tarn_shore).
   Topic hob_skep with hob "Ask Hob Linsey to set a skep in the Gardens for one of Aldith Mote's coins" when lullOpen() and aldithTesting(aldith) and at(skep, limbo) and quantity(actor, gold) >= 1 once {

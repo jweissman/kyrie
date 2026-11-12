@@ -21,6 +21,8 @@
     "ring.kyr",
     "lamp.kyr",
     "voices.kyr",
+    "endings.kyr",
+    "scarth.kyr",
     "company.kyr"
   ],
   "rules": [
@@ -30,7 +32,12 @@
     "party"
   ],
   "canon": [
-    "imbar"
+    "imbar",
+    "scarth_kept",
+    "scarth_lost",
+    "pharos_lit",
+    "pharos_dark",
+    "pharos_fed"
   ],
   "exports": {
     "party": "party",

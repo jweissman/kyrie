@@ -1,4 +1,19 @@
 Module corrow "Let One Remember" {
   // The Corrow as a country beyond a march: the company that comes up the Peleth road is the world's own.
   Entity party: group "Your company".
+  // What is said of the Corrow in the country behind it: once the road has ended, the talk of a drifting mountain and a well with no bottom is old news there, told by how it ended.
+  Entity word: fact "What is said of the Corrow in the country behind it.".
+  Entity word_one: fact "What is said there of the one who keeps the jewel.".
+  Entity word_given: fact "What is said there of the heart that went home.".
+  Entity word_none: fact "What is said there of the Hush.".
+  Entity word_followed: fact "What is said there of the one who followed.".
+  Rule word_old when (ended(beyond) or lost(hightown)) and not stale(word) { Assert stale(word). }
+  Rule word_one_old when endedOne(beyond) and not stale(word_one) { Assert stale(word_one). }
+  Rule word_given_old when endedGiven(beyond) and not stale(word_given) { Assert stale(word_given). }
+  Rule word_none_old when endedNone(beyond) and not stale(word_none) { Assert stale(word_none). }
+  Rule word_followed_old when endedFollowed(beyond) and not stale(word_followed) { Assert stale(word_followed). }
+  Entity word_lost: fact "What is said there of the mountain that went up.".
+  Entity word_home: fact "What is said there of the mountain that came home.".
+  Rule word_lost_old when lost(hightown) and not stale(word_lost) { Assert stale(word_lost). }
+  Rule word_home_old when mountainHome(beyond) and not stale(word_home) { Assert stale(word_home). }
 }
