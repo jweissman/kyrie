@@ -140,12 +140,16 @@ export class Affordances {
     // or one about what it names), and for a first word: never for every question they could be asked (the owner, 9
     // November: the innkeeper led fifteen times over, each time for another of the lands beyond). Family on the
     // company's own errand as kin, while there is anything new to say to them.
-    const moving = leaves.filter(c => r.advances?.has(c.command!) && !r.done.has(c.command!));
+    // Among everything done about them, not only what is said (sitting up with the child stands beside the talk).
+    const moving = Attending.all(s.choices).filter(c => c.command && !c.disabled && r.advances?.has(c.command)
+      && !r.done.has(c.command));
     // Not a question for being asked where the aim is: every question in the creditor's shop binds the shop.
     const serving = [...moving, ...fresh.filter(c => !moving.includes(c) && !r.done.has(c.command!)
       && AimAsks.asks(c.label, r.aim ? [r.aim] : []))];
-    const owed = s.stake && (r.named.has(s.id) ? !talked || serving.length > 0
-      : !talked || fresh.some(c => !r.done.has(c.command!)));
+    // Whoever has what the aim followed waits on is owed it, stake or none: the fever's mother, the cup to be kept by
+    // the child's bed, had dropped from the page once asked how the child was (the owner, 12 November).
+    const owed = (moving.length > 0 && r.named.has(s.id)) || (s.stake && (r.named.has(s.id)
+      ? !talked || serving.length > 0 : !talked || fresh.some(c => !r.done.has(c.command!))));
     // Led for that aim, gilded as the aim's (the merchant the rats job sends the company to had been led as kin, and
     // not drawn in the aim's gold: the owner, 8 November).
     const named = owed && r.named.has(s.id);
@@ -157,7 +161,11 @@ export class Affordances {
     const spoils = screen.things.find(t => t.id === s.id)?.valuable
       && leaves.some(c => /^(take_item|take_out)\(/.test(c.command!));
     const whys: Why[] = [...answer ? ['answer' as const] : [], ...named ? ['named' as const] : [], ...kin ? ['kin' as const] : [],
-      ...held ? ['held' as const] : [], ...spoils ? ['spoils' as const] : [],
+      ...held ? ['held' as const] : [],
+      // What the aim followed waits on, done here (the dead man's box, found, taken up): the aim's own next step,
+      // before what else it is (the box had been led as spoils, and the gold gone on into the cave: the owner, 12
+      // November).
+      ...!person && moving.length ? ['advance' as const] : [], ...spoils ? ['spoils' as const] : [],
       ...this.about(fresh, r) || this.there(s, leaves, r) ? ['about' as const] : [],
       ...person && r.life === s.id && !talked ? ['life' as const] : [],
       ...this.ownWhy(leaves, r), ...r.signs.has(s.id) ? ['sign' as const] : [],
@@ -176,7 +184,8 @@ export class Affordances {
     // (the priest led for his job had stood for his care of the wounded, the innkeeper for a bed); else what the
     // company needs of them.
     ...!answer && (kin || named || held) && asked ? { for: asked.command! }
-      : !answer && needs[0]?.choice?.command ? { for: needs[0].choice.command } : {} })];
+      : !answer && !person && moving[0] ? { for: moving[0].command! }
+        : !answer && needs[0]?.choice?.command ? { for: needs[0].choice.command } : {} })];
   }
   // What someone here offers that the company needs now: a bed at night in a settlement, healing for one hurt; and
   // what it has won, put to use: a treasure it carries bought, a lesson or a spell it can pay for (a company back in
@@ -234,8 +243,11 @@ export class Affordances {
     // churchyard, to the crypt the priest's trouble is in), when no known way is pointed off elsewhere.
     // Not while what it is about is here to be dealt with (the rats' run, not the old drain past it).
     const present = [...screen.things, ...screen.people].some(t => r.named.has(t.id));
+    // So with a way further into a site the aim names, from anywhere in it: in the barrow's mouth, the old writing the
+    // brothers want further in, nothing had been gold (the owner, 12 November). Never every lane of a town it names.
+    const inSite = screen.path.some(p => p.kind === 'site' && r.named.has(p.id)) && r.inward.has(exit.id);
     const on = exit.local && !exit.visited && !exit.blocked && dest !== r.back && !present
-      && (r.named.has(r.here) ? 'toward' as const : r.held.has(r.here) ? 'held' as const : undefined);
+      && (r.named.has(r.here) || inSite ? 'toward' as const : r.held.has(r.here) ? 'held' as const : undefined);
     const toward = r.toward.get(exit.id) ?? (on || undefined);
     // A way about the place not yet taken is worth taking by day; at night, the way to a bed.
     const up = at.lightless && ['ascend', 'leave'].includes(exit.transition ?? '');
@@ -244,15 +256,18 @@ export class Affordances {
       // the corn-store the rats are in, the stair up had led as "your aim".
       // Nor to one it left having done nothing there, with nothing done since (see CompanyRecall.idle).
       ...r.named.has(dest) && !(r.named.has(r.here) && exit.visited) && !r.idle?.has(dest) ? ['named' as const] : [],
-      ...toward ? [toward] : [], ...r.held.has(dest) && !r.idle?.has(dest) ? ['held' as const] : [],
+      ...toward ? [toward] : [],
+      ...r.held.has(dest) && !r.idle?.has(dest) ? ['held' as const] : [],
       ...this.inward(c, exit.id, r),
       ...r.needs.night && dest === r.needs.bed ? ['night' as const] : [],
       ...exit.local && !exit.visited && !r.needs.night ? ['unvisited' as const] : [], ...first ? ['unlooked' as const] : [],
       // An author's own way through what bars it, open to this company (a thief's pick of the corn-store padlock had
       // been only under Every way: Mission 19).
       // After the place's own acts (the notice before a padlock), unless an aim is about what lies behind it.
+      // Into a site the aim names, through what bars the way further in, it is the aim's way on (the portcullis at the
+      // gate of the keep the debt is to be paid from: the owner, 12 November).
       ...tried && !c.disabled && c.command && r.authored.has(c.command) && !r.done.has(c.command)
-        ? [r.named.has(dest) || r.held.has(dest) ? 'own' as const : 'unlooked' as const] : []];
+        ? [r.named.has(dest) || r.held.has(dest) ? 'own' as const : inSite ? 'toward' as const : 'unlooked' as const] : []];
     // A try on a way barred (look at the portcullis) is something done there, not a way. Slipping past who keeps it is
     // that danger's own gentle way, led with it: a thief had found it only under Look… (Mission 20, round 2, B 88).
     const kind = tried ? 'act' as const : exit.bearing ? 'step' as const : 'way' as const;
@@ -306,7 +321,9 @@ export class Affordances {
     // November: deep in a barrow the page had led with setting out for town).
     // Only from within a site: from a town, a barrow a step off the green is no reason not to set out where the aim is
     // (the owner, 9 November: a letter for Elmham, and the page had led into the barrow by the green).
-    if (r.inward.size && screen.path.some(p => p.kind === 'site')) { return []; }
+    // But only a site the aim names: done with it, the find taken up and the aim now the creditor's, the company had
+    // been held in the keep's gate by its ways not yet taken, and nothing led home (the owner, 12 November).
+    if (r.inward.size && screen.path.some(p => p.kind === 'site' && this.within(p.id, r.named, r))) { return []; }
     const near = new Set((screen.around ?? []).map(d => d.id)), here = screen.place.name.toLowerCase();
     // Named by the aim is named in anything in it: an aim names a work's rooms and its site, never the place it is
     // set out for by (Lunalac's reading-glass named every room of it, and nothing led toward it: OWN-56).
@@ -334,6 +351,8 @@ export class Affordances {
       ...kind === 'search' && r.signs.has('') ? ['sign' as const] : [],
       ...kind === 'search' && r.named.has(r.here) && !r.done.has(c.command ?? '') && !this.onward(screen)
         && !screen.people.some(p => r.named.has(p.id)) ? ['named' as const] : [],
+      // What the aim waits on, done by the company here (sitting up with the fevered child): its next step.
+      ...c.command && r.advances?.has(c.command) && !r.done.has(c.command) ? ['advance' as const] : [],
       ...this.ownWhy([c], r), ...this.answers(c, at) ? ['danger' as const] : [],
       ...r.schema.get(c.command ?? '') === 'lie_still' ? ['helpless' as const] : []];
     // A light lit in the dark says nothing more: the page says there is no light above it (M19-57).
@@ -375,8 +394,11 @@ export class Affordances {
     return ({ attack: 'attack', search: 'search', camp: 'camp', rest: 'rest', rest_unfed: 'rest', eat: 'eat',
       talk_to: 'talk' } as Record<string, Kind>)[kind] ?? (c.own ? 'act' : 'other');
   }
+  // A way's acts gone by in turn, never one that is grave or a risk: the speaking door's first word had been pressed
+  // at random, as the way's next act (the owner, 12 November).
   private static command(c: Choice): string | undefined {
-    return c.command ?? Attending.all(c.children ?? []).find(k => k.command && !k.disabled)?.command;
+    return c.command ?? Attending.all(c.children ?? []).find(k => k.command && !k.disabled && !k.grave && !k.risk)
+      ?.command;
   }
   private static risky(c: Choice): boolean {
     return !!c.risk || (!!c.children?.length && c.children.every(k => this.risky(k)));
@@ -384,9 +406,14 @@ export class Affordances {
   private static candidate(c: Choice, at: { kind: Kind; whys: Why[]; r: Reading; subject?: string; exit?: string;
     notes?: Candidate['notes']; command?: string; for?: string; visited?: boolean; pointed?: boolean }): Candidate {
     const command = at.command ?? this.command(c);
+    // Done here already, and going nowhere, it is not the way toward the aim: the speaking door listened at, and
+    // listened at again, had kept the gold (the owner, 12 November: never round a loop that advances nothing).
+    // Nor a grave act, which the gold would have the company guess at (see command).
+    const again = !!command && at.r.done.has(command) && at.r.schema.get(command) !== 'go' && !command.startsWith('travel:');
+    const whys = again || this.risky(c) || !command ? at.whys.filter(w => w !== 'toward') : at.whys;
     return { choice: c.id, label: c.label, ...command ? { command } : {}, ...at.for ? { for: at.for } : {},
       ...at.subject ? { subject: at.subject } : {},
-      ...at.exit ? { exit: at.exit } : {}, kind: at.kind, whys: at.whys, ...at.notes ? { notes: at.notes } : {},
+      ...at.exit ? { exit: at.exit } : {}, kind: at.kind, whys, ...at.notes ? { notes: at.notes } : {},
       order: 0, marks: c.marks ?? [], ...c.minutes ? { minutes: c.minutes } : {},
       ...this.risky(c) ? { risk: true } : {},
       ...c.own ? { own: true } : {}, ...command && at.r.done.has(command) ? { known: true } : {},

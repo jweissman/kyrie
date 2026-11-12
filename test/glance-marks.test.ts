@@ -5,6 +5,7 @@ import { OverlayBundleSource } from '../src/campaign/overlay-bundle-source';
 import { ChoiceList } from '../src/ui/choice-list';
 import { Attending } from '../src/ui/attention';
 import { Glanced } from './support/glanced';
+import { Undertakings } from '../src/presentation/undertakings';
 
 // What a choice risks is said on it before it is chosen (the cold review's quick corrections): a way with no coming
 // back, and a fight and how it would go, on the glance and wherever else the page draws the choice; the one that
@@ -26,7 +27,11 @@ class Pipe {
         exports: { party: 'party' } }),
       'gm.campaign.json': JSON.stringify({ version: 1, name: 'gm', modules: [{ id: 'g', bundle: 'gm/module.json' }],
         party: [{ name: 'Ama', raceId: 'human', classId: 'warrior' }, { name: 'Bo', raceId: 'human', classId: 'warrior' }] }) });
-    return PlaySession.start(source.resolve('gm.campaign.json'), 'gm', source);
+    return PlaySession.start(source.resolve('gm.campaign.json'), 'gm', source).then(s => {
+      // The aim followed, as a player would choose it: none is followed for them (the owner, 12 November).
+      Undertakings.follow(s.campaign, 'g__down');
+      return s;
+    });
   }
 }
 describe('marks before a choice is made', () => {

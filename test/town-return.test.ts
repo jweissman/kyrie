@@ -44,7 +44,11 @@ describe('back in town with what was won', () => {
     const w = await WorldAssembler.assemble('kite', NodeBundleSource.shared,
       { party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
     const s = await Session.start(w.path, 'kite', w.source);
+    const { Undertakings } = await import('../src/presentation/undertakings');
+    const before = new Set(Undertakings.held(s.campaign).map(o => o.id));
     await s.leg(PlayerView.choices(s.campaign).find(x => /^Ask .*old cisterns/.test(x.choice.name))!.choice.id);
+    // The aim it gives followed, as the player chooses it (the owner, 12 November: none is followed for them).
+    Undertakings.follow(s.campaign, Undertakings.held(s.campaign).find(o => !before.has(o.id))!.id);
     expect(Glanced.of(s).glance.acts[0]).toMatchObject({ label: 'Set out for Lunalac', why: 'named' });
   }, 120000);
 });

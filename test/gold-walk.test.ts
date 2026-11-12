@@ -6,6 +6,7 @@ import { ScreenModel } from '../src/ui/screen-model';
 import { Narrator } from '../src/presentation/narrator';
 import { PlayerView } from '../src/presentation/player-view';
 import { Itineraries } from '../src/ui/itinerary';
+import { Undertakings } from '../src/presentation/undertakings';
 
 // The gold is honest (the architecture risk review's R9, and its gate: a corpus of the cold rounds' false promises).
 // A company that does only what the gold leads it to, from the debt's start, is led at each step by what the engine
@@ -18,6 +19,9 @@ describe('a walk by the gold', () => {
     const spec = { seed: 'kahitude', origin: 'debt', policy: 'gold' as const, steps: 40,
       protagonist: { name: 'Ralf', raceId: 'human', classId: 'warrior' } };
     const metrics = AutoplayRun.empty(), s = await AutoplayRun.start(spec, metrics), c = s.campaign;
+    // The debt followed, as a player chooses it with Follow this (nothing is followed for them: the owner, 12
+    // November).
+    Undertakings.follow(c, Undertakings.held(c).find(o => Undertakings.errand(c, o))!.id);
     const player = new AutoPlayer('gold', new Draw('kahitude:debt:gold')), led = new Map<string, number>();
     const broken: string[] = [];
     for (let step = 0; step < spec.steps && c.running; step++) {

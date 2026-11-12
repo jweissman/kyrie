@@ -209,7 +209,7 @@ export class GlanceStage {
     return hand.some(h => h.choices.some(c => ids.has(c.id)) || h.opens.some(id => ids.has(id)));
   }
   // The reasons a lead is the aim followed's: what it names, a way toward it, what it is about here.
-  static readonly aiming = new Set(['named', 'toward', 'about']);
+  static readonly aiming = new Set(['advance', 'named', 'toward', 'about']);
   // The one way on, where there is only one and it can be taken: offered as itself, not behind Go… (the owner, 6
   // November: two clicks for no choice).
   static only(app: ReaderApp): ReturnType<typeof Wayfinder.ways>[number] | undefined {
@@ -303,15 +303,19 @@ export class GlanceStage {
   static Aim({ app, said }: { app: ReaderApp; said?: string }) {
     // Not on the first page, before anything is done: the opening has just told it.
     const screen = app.state.frame!.screen, followed = screen.elapsed ? Followed.of(screen) : undefined;
-    const aim = followed ?? said, recap = app.state.frame!.leaf.recap?.aim;
+    // With none followed, the company's own errand (or the first aim held) is offered to follow: nothing is followed
+    // for the player, and gold comes only with Follow this (the owner, 12 November).
+    const offered = Followed.of(screen) ? undefined : screen.aims?.find(a => a.own) ?? screen.aims?.[0];
+    const aim = followed ?? offered?.text ?? said, recap = app.state.frame!.leaf.recap?.aim;
     // Nor again under "Where you left off", which has just said it.
-    if (aim && recap === aim) { return null; }
+    if (aim && recap === aim && !offered) { return null; }
     // Followed, it opens the map on itself (see MapView.aim).
     if (!aim) { return null; }
     const place = followed && Aims.named(screen, screen.destinations ?? [], followed);
     return (
       <p className={`aim${followed ? ' followed' : ''}`} data-id="aim"><span className="label">
-        {followed ? 'Following' : 'An aim'}</span>{Typography.curl(Words.upper(aim))}
+        {followed ? 'Following' : 'An aim'}</span>{Typography.curl(Words.upper(offered ? Told.title(aim) : aim))}
+        {offered && <Told.Follow app={app} id={offered.id} />}
         {place && <button type="button" className="act set-out" data-action="aim-map" data-id={place.id}
           onClick={() => app.choose(MenuModel.country)}>{`${place.name}, on the map`}</button>}</p>
     );

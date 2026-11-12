@@ -30,10 +30,12 @@ import { Frontier } from '../world/frontier';
 import { DrawnWorld } from '../world/drawn-world';
 import { AdventureNames } from './adventure-names';
 import { CheckpointStore } from '../session/checkpoint-store';
+import { Serve } from './serve';
 
 export class KyrieCli {
   static readonly usage = [
     'Play:      bin/kyrie adventure --world <seed> [--origin o] [--as race/calling/Name] | resume <save.json>',
+    '           bin/kyrie serve                    (one game over stdin/stdout, a JSON line each way: see src/cli/serve.ts)',
     '           bin/kyrie campaign <campaign.json> [seed] | replay <transcript.json>',
     'Author:    bin/kyrie new <id> ["Title"] | new scene|item|chapter|character <id> --in <adventure> | new site <id>',
     '           bin/kyrie lint [campaign.json] [--errors] [--inventory] | compile <module.kyr> | names <surname ...>',
@@ -69,6 +71,7 @@ export class KyrieCli {
       case 'bestiary': return BestiaryTool.main(rest);
       case 'playtext': await Playtext.main(rest); return 0;
       case 'play': return PlayTool.main(rest);
+      case 'serve': return Serve.main();
       case 'inspect': return InspectTool.main(rest);
       case 'keep': return this.keep(path, argument);
       case 'verify': return VerifyTool.main(rest);

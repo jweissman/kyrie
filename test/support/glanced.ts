@@ -14,6 +14,7 @@ import { ChoiceList } from '../../src/ui/choice-list';
 import { Journey } from '../../src/session/journey';
 import { MenuModel } from '../../web/reader/menu-model';
 import type { Frame } from '../../web/engine/protocol';
+import { Undertakings } from '../../src/presentation/undertakings';
 
 // A game played for its glance (OWN-18, OWN-19): each command as the page does it, and the page told of it, with
 // what the glance led with and what the page draws to choose among.
@@ -27,7 +28,14 @@ export class Glanced {
   static async country(seed: string) {
     const w = await WorldAssembler.assemble(seed, NodeBundleSource.shared,
       { origin: 'kin', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
-    return new Glanced(await PlaySession.start(w.path, seed, w.source));
+    return new Glanced(Glanced.following(await PlaySession.start(w.path, seed, w.source)));
+  }
+  // The company's own errand followed, as a player chooses it with Follow this: nothing is followed for them (the
+  // owner, 12 November), and a spec of the page with an aim is of a player who has chosen one.
+  static following(s: PlaySession): PlaySession {
+    const errand = Undertakings.held(s.campaign).find(o => Undertakings.errand(s.campaign, o));
+    if (errand) { Undertakings.follow(s.campaign, errand.id); }
+    return s;
   }
   static of(s: PlaySession) { return new Glanced(s); }
   get campaign() { return this.s.campaign; }

@@ -221,8 +221,11 @@ export class MapView {
     // A place the page plans no way to is not set out for (a journey that knows no way leaves nothing to go on with),
     // unless its hex is country the company can see: then across it, to the place's hex (a barrow heard of, beside
     // the wood the company stands in, had been "no way there yet": Mission 19's play).
+    // Never across the country to a place in the company's own hex: that went out of the town into the country about
+    // it, to a circus ground or an orchard behind the houses (the owner's player report, 12 November).
+    const local = !!mark && mark.cell === land.here;
     const go: Choice | undefined = d ? MapView.leaving(screen, MenuModel.journey(d)) : here ? undefined : MapView.step(screen, id, cell)
-      ?? (mark ? MapView.across(land, land.known.includes(mark.cell) ? mark.cell : undefined, name)
+      ?? (local ? undefined : mark ? MapView.across(land, land.known.includes(mark.cell) ? mark.cell : undefined, name)
         : MapView.across(land, cell, name));
     return { cell, name, d, here, go };
   }

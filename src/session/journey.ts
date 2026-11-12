@@ -384,12 +384,20 @@ export class Journey {
   // The ways to take, passage by passage, from one place to another, by the fewest the company can take now: not one
   // it does not know of, nor one that needs what it has not, nor one barred, unopened or kept against it (Liberty of
   // the Ice's 18 and 27: the router each adventure copied walked a thief down a climb, and through a barred door).
+  // A way that crosses nothing in spate first, where there is one: a ford in flood after rain had stopped a walk the
+  // rules would not let through (the adventure branch's silent-lord-turns, its integration notes' AI-02).
   static way(world: World, start: string, target: string, company = 'party'): [string, string][] {
+    try { return Journey.route(world, [start, target], company, true); } catch {
+      return Journey.route(world, [start, target], company, false);
+    }
+  }
+  private static route(world: World, [start, target]: [string, string], company: string,
+    dry: boolean): [string, string][] {
     const links = world.related('connects'), came = new Map<string, [string, string]>([[start, ['', '']]]);
     for (const queue = [start]; queue.length && !came.has(target);) {
       const here = queue.shift()!;
       for (const l of links.filter(r => r.args[1] === here && !came.has(r.args[2]!)
-        && Journey.usable(world, r.args[0]!, company, r.args[2]!))) {
+        && Journey.usable(world, r.args[0]!, company, r.args[2]!) && !(dry && Journey.wet(world, r.args[0]!)))) {
         came.set(l.args[2]!, [here, l.args[0]!]); queue.push(l.args[2]!);
       }
     }
@@ -397,6 +405,9 @@ export class Journey {
     const steps: [string, string][] = [];
     for (let at = target; at !== start; at = came.get(at)![0]) { steps.unshift([came.get(at)![1], at]); }
     return steps;
+  }
+  private static wet(world: World, way: string): boolean {
+    return world.declares('hazardous') && world.test(ModuleWriter.call('hazardous', way));
   }
   private static usable(world: World, way: string, company: string, to: string): boolean {
     const call = ModuleWriter.call, into = !world.declares('equippedInto') || world.test(call('equippedInto', company, way, to));

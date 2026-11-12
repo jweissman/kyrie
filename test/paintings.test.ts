@@ -30,6 +30,16 @@ describe('the painting corpus', () => {
     expect(Object.entries(Likeness.credits).filter(([, c]) => /\p{Cc}/u.test(c))).toEqual([]);
     for (const [id, credit] of Object.entries(Credits.known)) { expect(Likeness.credits[id]).toBe(credit); }
   });
+  // As a person says it, not as a museum files it (round 6: "Pezous, Jean [d.1885-04-18]" over Lem; the register's
+  // NP-17); and the credits the game carries are the ones the generator makes of the registry.
+  it('credits a painter by name and a title not in capitals', () => {
+    expect(Credits.line({ id: 'x', artist: 'Pezous, Jean [d.1885-04-18]', title: 'LE MIME CHARLES DEBUREAU EN COSTUME' }))
+      .toBe('Jean Pezous, Le Mime Charles Debureau en Costume');
+    expect(Credits.painter('Wellcome Library, London')).toBe('Wellcome Library, London');
+    const credited = paintings.filter(x => Likeness.credits[x.id]);
+    expect(credited.filter(p => Likeness.credits[p.id] !== Credits.line(p)).map(p => p.id)).toEqual([]);
+    expect(Object.values(Likeness.credits).filter(c => /\[d\.|\b[A-Z]{3,} [A-Z]{3,} [A-Z]{3,}\b/.test(c))).toEqual([]);
+  });
   it('has a painting for every kind of work a settlement holds', () => {
     for (const o of Object.values((occupations as { occupations: Record<string, { painting: string }> }).occupations)) {
       expect(Likeness.ids.has(o.painting)).toBe(true);

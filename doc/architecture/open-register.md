@@ -177,7 +177,7 @@ claims nothing beyond what the sources say.
 | NP-14 | A companion "binds the hurt" when nobody is hurt | UNT-107 | Open risk, unverified since 6 Nov | P3 | M21 |
 | NP-15 | A wait in a room repeats the room's description every hour | M19-263 | Open, not verified (10 Nov) | P3 | M21 |
 | NP-16 | Text slips (a lintel's spelling, a sentence twice, "their breath" of a man, a card clipped, a file name as a caption) | M19-283 (rest) | Partial, the rest not verified (10 Nov) | P3 | M20 close |
-| NP-17 | Raw museum captions and credits on portraits (Lem) | R6-I top3, E31, UNT-111 | Round 6 still saw them (11 Nov) | P2 | M20 close |
+| NP-17 | Raw museum captions and credits on portraits (Lem) | R6-I top3, E31, UNT-111, E152 | **Fixed** (11 Nov night, E152): credits name the painter and do not shout the title (test/paintings); not seen rendered | P2 | M20 close |
 | NP-18 | Ordering slips: a milestone told on the next step; a greeting after a scripted reaction; a tame bear greets while asleep | UNT-219, UNT-220, UNT-221 | Open risk, unverified since 6 Nov | P3 | later |
 
 ## 6. UI & safe zones
@@ -451,6 +451,68 @@ on 11 November. The branch itself is not merged: the owner is not ready to integ
 | AB-13 | Specs that choose which standing scenarios a world holds | R88 | open | P2 | M21 (testing) |
 | AB-14 | Declarations that fail late: shared relation names, a new site kind needing three edits, a module without milestones | R42, R39, R59 | open | P2 | M21 (authoring) |
 | R7-01 | Torches die in the middle of an act, and nothing says so | round 7, L 84, 96 | **fixed** (E145) | P2 | — |
-| R7-02 | Fights trivial with a warrior in the company; a bard "barely played" (lore, Charm Person, gliding never came up); a speaking castellan with no way to answer | round 7, L | open | P1 | M21 (with CB-01) |
-| R7-03 | Go… lists every place in town as "20 minutes"; the conversation log grows without end | round 7, L | open | P3 | M21 |
+| R7-02 | Fights trivial with a warrior in the company; a bard "barely played" (lore, Charm Person, gliding never came up); a speaking castellan with no way to answer | round 7, L | **in part** (11 Nov night): the castellan can be answered (E150); fights and a bard's other gifts open | P1 | M21 (with CB-01) |
+| R7-03 | Go… lists every place in town as "20 minutes"; the conversation log grows without end | round 7, L | **fixed** (11 Nov night): true minutes (E149), the log folded (E151); the list still flat | P3 | M21 |
 | R7-04 | A town known only by report has no route line before setting out (the owner's rule of 29 October: heard of is a marker only); both players missed one | round 7, K, L | by design; worth the owner's look | P3 | owner |
+
+## 17. Integrating the adventure branch (12 November, early)
+
+The branch's own integration notes (`activation/integration-notes.md`, at 98ad43eb) and what the scratch merge on
+`review/first-steps` found. Its rows are open until the merge is on main.
+
+| Id | What | Source | Status | Pri | When |
+|---|---|---|---|---|---|
+| AI-01 | The thorn long descent fails at choice 62: the first town's shop stock was redrawn when the standing scenarios came in | integration notes §1 | open: re-record `test/fixtures/descent/thorn.choices` once the draws settle (CI's long descents) | P2 | M20 |
+| AI-02 | `silent-lord-turns`' "forged remission" fails when rain puts a ford in spate (`Journey.way` ignores `hazardous`) | integration notes §1 | open | P3 | M20 |
+| AI-03 | The new specs have no time in test/timings.json (several take 5 to 15 minutes) | integration notes §1 | open: `scripts/timings-from-ci.ts` after the first CI run with them | P2 | M20 |
+| AI-04 | The first green is busier: 3 to 4 more people and about 170 to 190 more words on arrival (four seeds measured), the Walk's unchanged well, post, shrine and gate told as "as it was" (now silent), and a newcomer who reads everything takes 46 commands to an adventure in mere (24 before) | the scratch merge | in part: the Walk's baseline lines silenced; portraits stay capped at ten; the newcomer's bounds widened with the reason | P1 | M20 (judge in cold play) |
+| AI-05 | The Bound Howe's lead is held to day 3 so the honest start still goes under the town | integration notes §1 | the branch's decision, kept; the owner's to move | P3 | — |
+| AI-06 | R96 (rotating the altered-law provinces per world) and R97 (retiring `oldcoin` and `quarrel`, which the wanderer origin's arrivals name) | integration notes §5 | open, M20's first hour is touched by R97 | P3 | M21 |
+| AI-07 | Cold play on the branch: one of three blind players entered a new module; none played one to an ending or fought its dangerous opponents | final report §3 | open: the round after the merge should try one | P1 | M20 close |
+
+
+## 18. The creative and technical direction review (11 November, night)
+
+An independent read-only review the owner passed on (`2026-11-11-direction-review.md`, kept whole). Its items are not
+new rows where the register or the forward-design record already holds them: each is linked to where it lives, with
+what Mission 20 did toward it. Its recommended path (one dense opening, one exemplary undertaking, trust contracts
+first) is consistent with the adventure-to-career direction and the forward-design record's sequence.
+
+| Review | What | Lives in | Mission 20 | When |
+|---|---|---|---|---|
+| C1 | One repeatable unit of play (evidence → plan → resistance → consequence → new possibility), proven by three contrasting characters | FH-01; forward design | — | M21 |
+| C2 | The atlas over-classifies: known, suspected, uninterpreted | forward design A; atlas synthesis | — | M21 |
+| C3 | Character perception must not become class-gated content | R7-02; forward design A | the castellan answered two ways (E150) | M21 |
+| C4 | Approaches from ordinary acts, not isolated commands; a situation checklist | AP-07; forward design (situations) | — | M21 |
+| C5 | Origins create obligation before curiosity | adventure-to-career §1 | — | M21 |
+| C6 | Background revelation bounded, triggered, permanent | adventure-to-career §3 | — | Later |
+| C7 | Companions as equipment; the protagonist made irrelevant by a warrior | R7-02, CB-02 | — | M21 |
+| C8 | Combat dramatically thin: objectives, pressure, interruptible intentions | CB-02, CB-06, CB-08, R7-02 | — | M21 |
+| C9 | Forecasts as bounded reasoning with causes, calibrated | CB-02 (E14, E110), E139 | the lone company's forecast (E139) | M21 |
+| C10 | Consequence proportional to prominence | US-02, E111, E118 | the map's box, the sister, the castellan, the wagoner (E142, US-01, E150, WM-03) | M21 |
+| C11 | Rewards that enlarge play: means, access, standing, understanding, attachment | US-02 | — | M21 |
+| C12 | Busy rather than alive: relevant agency only | forward design notes (institutional plans) | the adventure branch's clocks (§17) | Later |
+| C13 | Causal dossiers before generated mysteries | forward design notes | — | Later |
+| C14 | Tonal centres per situation | NP-01, NP-04 | — | M21 |
+| P1 | A promoted choice is a promise: a false-promise corpus | AP-01 (R9) | test/gold-walk, test/gold-follow, test/gold-thread (E153, E154) | M20 started; M21 to complete |
+| P2 | Three-level navigation; never an empty scene with a way out | AP-07, E136 | ways opened led (E136); places in the hex not left across country (E155) | M21 |
+| P3 | Stable control positions | UI-01, E136 | the rail's fixed slots (E136) | M21 (layout test) |
+| P4 | Paintings that contradict the text | CP-01; handoff §3 | the fort's room (E140); the list for the owner | M21 |
+| P5 | Colour vocabulary exceeds comprehension | atlas synthesis | — | M21 |
+| P6 | Too many aims dilute commitment | E153 | gold only for the aim followed (E153) | M21 (leads, curiosities apart) |
+| P7 | Search as an interface tax; decision context before irreversible choices | AP-08 | the riddle door's words never gold (E154) | M21 |
+| T1 | `Affordances` as a parallel semantic engine: a strangler path by provenance | text-inference.md; forward design | what an act advances typed by its effects and resolution (`AimAdvances`, E154) | M21 |
+| T2 | `Why`, aspect and presentation separated | forward design A | — | M21 |
+| T3 | Author semantic claims, not colours | forward design A | — | M21 |
+| T4 | One sign-based perception contract | forward design A, notes | — | M21 |
+| T5 | Durable opportunity identity | forward design D/E | — | M21 |
+| T6 | A meaningful-outcome contract | forward design (prototype 1's effect gap) | — | M21 |
+| T7 | Command lifecycle phases and assertions | risk review R1 | — | M21 |
+| T8 | Projection cache on/off differential | risk review | — | M21 |
+| T9 | Process-global catalogs | risk review R2; forward design C | — | M21 |
+| T10 | Save compatibility policy and migration | risk review R5 | — | M21 (before schema growth) |
+| T11 | Replay identity apart from wording | risk review (replay lane) | — | M21 |
+| T12 | Planner budgets | risk review R7 | — | M21 |
+| T13 | Authoring legibility lint | risk review R8; AB-14 | — | M21 |
+| T14 | Typed art query with provenance | CP-01 | — | M21 |
+| T15 | A contract corpus as the constitutional suite | M19 verification loop; forward design | the thread and gold specs are its first entries | M21 |
