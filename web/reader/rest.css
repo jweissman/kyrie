@@ -289,14 +289,18 @@
   .shell.scene-full .world-page.scale-board .board-surface .field-tools { top: 150px; bottom: auto; left: auto;
     right: var(--safe-x, 16px); transform: none; }
 }
-.rail-mark.pressed { color: var(--ivory); background: rgba(255, 255, 255, .08); }
+/* A lens on: its mark brighter, with a short line under it, not a filled circle (the owner, 12 November: "more
+   subtle at least"). */
+.rail-mark.pressed { color: var(--ivory); background: none; }
+.rail-mark.pressed::after { content: ''; position: absolute; left: 13px; right: 13px; bottom: 5px; height: 1.5px;
+  border-radius: 1px; background: var(--accent-line); }
 .scene-rail .rail-gap { width: 1px; height: 22px; margin: 0 6px; background: var(--edge-strong); }
 .rail-mark { all: unset; box-sizing: border-box; position: relative; display: inline-grid; place-items: center; width: 40px;
   height: 40px; border-radius: 50%; cursor: pointer; color: rgba(236, 230, 217, .82);
   transition: color var(--quick), background var(--quick), opacity var(--quick); }
 .rail-mark .rail-glyph { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.5;
   stroke-linecap: round; stroke-linejoin: round; }
-.rail-mark:hover, .rail-mark:focus-visible, .rail-mark[aria-expanded="true"] { color: var(--ivory); background: rgba(236, 230, 217, .1);
+.rail-mark:hover, .rail-mark:focus-visible, .rail-mark[aria-expanded="true"] { color: var(--ivory); background: rgba(236, 230, 217, .05);
   outline: none; }
 /* Lit: something new in it, or the aim's (where the way is shown), in that tone, with its dot. */
 /* Lit: the icon stays neutral, brighter; its small dot alone carries the tone (one indicator). */

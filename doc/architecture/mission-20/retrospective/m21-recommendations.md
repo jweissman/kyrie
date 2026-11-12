@@ -49,7 +49,14 @@ Questions for an investigator who has not built the current UI, with the evidenc
 2. **One menu, one safe frame** (proposals A and C): a `Menu` component for every choice list (led acts, a
    conversation's questions, a fight's moves with their nested panels), and a `SafeFrame` page template whose content
    box is the zone. Scoped in the screens study (13 + 11 rendering sites; four of eleven stylesheets read the zone).
-3. **Lenses, not pages** (proposal B): Go and Look as tiles over the painting, a tile's detail in the panel, the acts
+3. **Lenses, not pages — the owner's first direction for M21** (12 November, after playing the landed build): "There
+   shouldn't be separate explore/perceive page — they're just lenses, they should leave the scene intact but more
+   highly favor actions of those kinds to be promoted to the top four actions. Otherwise it should be exactly the
+   same." So: Go and Look open no panel; the telling and the led acts stay; the lens shows its tiles over the painting
+   and the promotion rule favours its kind of act into the four; a tile touched acts (a place's tile goes there, as a
+   likeness opens talk: done 12 November); the lens marks quiet (done). The browser driver's `opened()` and about a
+   dozen browser specs are built on the explorer panel and change with it. The owner also "still doesn't really trust
+   the pips": the promise-contract diagnostic (4) is how to earn it. Earlier framing (proposal B): Go and Look as tiles over the painting, a tile's detail in the panel, the acts
    that matter promoted into the four. Requires pictures for places and things (the commission list) and a promotion
    rule for curiosity, not only aims.
 4. **Signals that resolve** (the owner's review's promise contract): every pip and gold names one source, one target

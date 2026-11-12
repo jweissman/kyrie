@@ -48,7 +48,9 @@ export class Lenses {
       ...(w.aim === 'followed' ? { tone: 'gold' } : Wayfinder.tone(app, w) ? { tone: Wayfinder.tone(app, w)! }
         : sensed(w) ? { tone: Emphasis.tones[sensed(w)!.aspect], faint: true } : {}),
       ...idle.has(Wayfinder.to(w)) ? { dim: true } : {}, chosen: app.state.hovered === w.c.id,
-      pick: () => Wayfinder.pick(app, w) })).filter(t => !t.dim)
+      // Touched, a way is gone by, as a likeness touched is spoken to (the owner, 12 November: a place's badge did not
+      // go there); its row in Go's list still says what it is first.
+      pick: () => Wayfinder.go(app, w) })).filter(t => !t.dim)
       .sort((a, b) => Number(!a.tone) - Number(!b.tone) || Number(b.tone === 'gold') - Number(a.tone === 'gold'))
       .slice(0, Lenses.most);
   }
