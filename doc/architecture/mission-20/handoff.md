@@ -418,3 +418,22 @@ carried in the register's §16 (R7-01 to R7-04).
 - **505b002a** had been cancelled by the next push, not passed; and **81fedaac** failed one spec on the errand's old
   words (E176). Both are covered by the runs above.
 
+
+## Closing note, continued: CI after the owner's signal message (12 November, early morning)
+
+- **42459547** (E183–E184): every job green but suite 5/6, where one spec still held the old reply-colouring rule
+  (E189, mended).
+- **b257c494** (E185–E189): every suite green; both browser jobs failed where someone led with is now offered twice, by
+  likeness and lead (E192, harness and specs brought to the ruling).
+- **c3150380** (E190–E192): **every job green.**
+- **c848f2fc** (E193 and docs): every job green but suite 6/6, where the kept wren trace no longer replayed after the Lem
+  fact (E201, redigested: play comes where it came).
+- **06391bfc** (E194–E202): every job green but suites 2/6 and 4/6, where two specs read a learned ability by its id
+  (E204, mended).
+- **bf68db96** (E203–E204, the last code push): running at this writing. Its outcome is in the reply that hands this
+  over. If it is not green, the failure is the first thing to look at.
+
+Every failure tonight was a spec or a trace lagging a deliberate change, not a game fault. Each was mended in the spec
+with the reason recorded. Two specs were loosened, both to the owner's 12 November ruling and no further:
+- at most four led acts, not three;
+- a person offered by their likeness and at most one lead, not once.
