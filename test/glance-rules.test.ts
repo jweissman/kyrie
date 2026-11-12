@@ -32,6 +32,14 @@ describe('the glance ranks', () => {
     expect(Made.ids([Made.c('one', ['life'])])).toEqual(['one']);
     expect(Made.ids([Made.c('known', [], { known: true })])).toEqual([]);
   });
+  // Someone down, no way on or further in is led, only the way back (round 8, N: the gold had gone on into the
+  // embalmers' room with the bard senseless).
+  it('leads no way on while someone of the company is down', () => {
+    const cands = [Made.c('deeper', ['toward'], { kind: 'way', subject: undefined }),
+      Made.c('back', ['retreat'], { kind: 'way', subject: undefined }), Made.c('rest', ['hurt'], { kind: 'rest' })];
+    expect(Made.ids(cands, { ...Made.calm, down: true })).toEqual(['back', 'rest']);
+    expect(Made.ids(cands)).toContain('deeper');
+  });
   it('lets a danger take its gentlest act, the attack, and the way back', () => {
     const s = { ...Made.calm, threat: true };
     const fight = { kind: 'fight' as const, said: 'a hard fight', ask: false };

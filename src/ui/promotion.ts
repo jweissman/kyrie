@@ -23,7 +23,9 @@ export interface Candidate {
 }
 // Where the company stands: a danger here, someone warning it off, in the dark with no light, in a settlement or a
 // site (where a way not yet taken is worth leading with), in the open country (where the ways are the compass).
-export interface Situation { threat: boolean; warned: boolean; dark: boolean; settled: boolean; open: boolean }
+// down: someone of the company is senseless (no hit points).
+export interface Situation { threat: boolean; warned: boolean; dark: boolean; settled: boolean; open: boolean;
+  down?: boolean }
 
 // Chooses the few choices a place leads with (OWN-18, OWN-19; the cold review's affordance facets): urgent first (an
 // answer owed, a danger, a warning, the dark), then what the aim names, then what the company needs, then what the
@@ -128,6 +130,11 @@ export class Promotion {
     // A question asked once more ("Ask Bask again about …") tells only what was told: never led with, whatever aim it
     // is about (a player following the page had asked a merchant the same rumour a hundred and sixty times).
     if (c.command && /_again(\(|$)/.test(c.command)) { return []; }
+    // Someone down, no way on or further in is led, only back, to a light or to a bed: the gold had led on into the
+    // embalmers' room with the bard senseless (round 8, N).
+    if (s.down && ['way', 'travel', 'step'].includes(c.kind)) {
+      return c.whys.filter(w => ['retreat', 'night', 'dark', 'exposed', 'hurt'].includes(w));
+    }
     if (c.kind === 'step') { return c.whys.filter(w => w === 'toward'); }
     // Something done already is not led with again because another aim names whom it is done with: the page had led a
     // follower to lodge and to work for its keep at the same inn, turn and turn about, for days (the follower's 160).

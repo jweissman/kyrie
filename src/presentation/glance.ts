@@ -49,7 +49,8 @@ export class Glance {
     const sensed = Perception.sensed(campaign, screen), life = lines.life?.subject;
     const reading = this.reading(campaign, screen, { recall, life, pointed: lines.pointed, sensed, told });
     const s: Situation = { threat: scene.subjects.some(x => SceneModel.threat(x)), warned: !!screen.warned,
-      dark: !!screen.dark, settled: reading.needs.settled, open: reading.needs.open };
+      dark: !!screen.dark, settled: reading.needs.settled, open: reading.needs.open,
+      down: screen.party.some(m => m.hp <= 0) };
     const cands = Affordances.of(scene, screen, reading), acts = Promotion.pick(cands, s);
     // The aim this place is about, if one is (the priest's trouble in the crypt, not the father's errand); said on
     // coming somewhere new, at the opening and on resuming, and when the aims have changed, not on every page that
