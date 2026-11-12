@@ -32,6 +32,17 @@ describe('the game kept in the browser', () => {
     expect([ReaderStore.read()!.text, ReaderStore.read()!.world]).toEqual(['state four', 'world three']);
     expect([...storage.items.keys()].filter(k => k.startsWith('kyrie.mono.world')).length).toBe(1);
   });
+  // A new world that fits only in place of the old (a country with its standing scenarios, three megabytes, drawn
+  // again as the company went on: two did not fit, and nothing more was kept, at 390 by 844).
+  it('keeps a new world in place of the old where the two do not fit together', () => {
+    const storage = new Quota(5_000);
+    (globalThis as { localStorage?: unknown }).localStorage = storage;
+    expect(ReaderStore.write('state one', summary('the green'), { key: 'W1', text: 'a'.repeat(3_000) })).toBeTruthy();
+    expect(ReaderStore.write('state two', summary('the cellar'), { key: 'W2', text: 'b'.repeat(3_000) })).toBeTruthy();
+    const kept = ReaderStore.read()!;
+    expect([kept.text, kept.world?.charAt(0), kept.where]).toEqual(['state two', 'b', 'the cellar']);
+    expect([...storage.items.keys()].filter(k => k.startsWith('kyrie.mono.world')).length).toBe(1);
+  });
   it('opens a game kept before slots, and carries it into them', () => {
     const storage = new Quota(10_000);
     (globalThis as { localStorage?: unknown }).localStorage = storage;

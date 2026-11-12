@@ -44,7 +44,7 @@ export class ReaderStore {
       const fresh = world ?? (!worldSlot ? this.legacyWorld() : undefined);
       if (fresh) {
         worldSlot = was.worldSlot === 'a' ? 'b' : 'a';
-        localStorage.setItem(`${this.world}.${worldSlot}`, fresh.text);
+        this.room(`${this.world}.${worldSlot}`, fresh.text, was.worldSlot);
         [worldKey, worldText] = [fresh.key, fresh.text];
       }
       localStorage.setItem(`${this.key}.${state}`, text);
@@ -54,6 +54,19 @@ export class ReaderStore {
       worldText ??= worldSlot ? localStorage.getItem(`${this.world}.${worldSlot}`) ?? undefined : undefined;
       return { text, ...summary, ...worldText ? { world: worldText } : {} };
     } catch { return undefined; }
+  }
+  // A new world written beside the one kept before it, or, where the two do not fit together, in place of it: a
+  // country with its standing scenarios is a world of three megabytes, and two of them had filled the browser's
+  // storage, so that nothing more was kept (the integration of the adventure branch, the safe zone at 390 by 844).
+  // The old world goes only when the new would not fit beside it.
+  private static room(key: string, text: string, old: Slot | undefined) {
+    try { localStorage.setItem(key, text); } catch (full) {
+      const was = old && localStorage.getItem(`${this.world}.${old}`);
+      if (!was) { throw full; }
+      localStorage.removeItem(`${this.world}.${old}`);
+      // Not even alone: the old world is put back, and the game stays as it was last kept.
+      try { localStorage.setItem(key, text); } catch (still) { localStorage.setItem(`${this.world}.${old}`, was); throw still; }
+    }
   }
   // Whether the world kept here is this one: a state is kept beside its own world, and no other.
   static holds(key: string): boolean {
