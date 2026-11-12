@@ -26,7 +26,13 @@ for (const seed of seeds) for (const origin of origins) {
     if (!lead && (g?.acts ?? []).some((a: any) => ['danger', 'warned', 'dark', 'retreat'].includes(a.why))) {
       done = `paused at a danger or the dark at step ${i} (${here}: ${(g?.acts ?? []).map((a: any) => a.label).join(' | ').slice(0, 80)})`; break;
     }
-    if (!lead) { lost++; trail.push(`${i}:${here} NO GOLD [${aim}] led=${(g?.acts ?? []).map((a: any) => a.label).join(' | ')}`); break; }
+    if (!lead) { lost++; trail.push(`${i}:${here} NO GOLD [${aim}] led=${(g?.acts ?? []).map((a: any) => a.label).join(' | ')}`);
+      if (verbose) { const def = (c.module.objectives ?? []).find((o: any) => o.id === aim); const t0 = def?.toward?.[0]; console.log('   knows', t0, ['named', 'found'].map(k => `${k}=${c.world.test({ name: 'knows', args: ['party', `${t0}_${k}`] })}`).join(' '), 'map', JSON.stringify(screen.map.find((p: any) => p.id === t0) ?? null).slice(0, 200));
+        { const { Itineraries } = await import(`${W}/src/ui/itinerary`); const { ModuleWriter: MW } = await import(`${W}/src/lang/module-writer`);
+          const pl = Itineraries.plan(c, t0); console.log('   plan', JSON.stringify(pl && { legs: pl.legs.length, toward: pl.toward, minutes: pl.minutes }));
+          console.log('   leadsTo', JSON.stringify(c.world.related('leadsTo').filter((r: any) => r.args[1] === t0).map((r: any) => [r.args[0], c.world.test(MW.call('knows', 'party', r.args[0]))]))); }
+        console.log('   toward', JSON.stringify(def?.toward), 'dest', (screen.destinations ?? []).map((d: any) => d.id).join(' '), 'aimed', JSON.stringify(g?.aimed)); }
+      break; }
     const key = `${aim}|${here}|${lead.choice}`; seen.set(key, (seen.get(key) ?? 0) + 1);
     if (seen.get(key)! > 2) { circles++; trail.push(`${i}:${here} CIRCLE ${lead.label}`); break; }
     trail.push(`${i}:${here} ${lead.why} ${lead.label}`);
