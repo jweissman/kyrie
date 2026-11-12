@@ -96,5 +96,8 @@ describe('a night waited out', () => {
     const sheet = Night.sheet(s);
     expect(sheet).not.toContain(Pastime.sleepless());
     expect(sheet).toMatch(/has a bed, under Trade/);
+    // With nothing in the purse, the bed is there and why it cannot be had is said (round 8, M).
+    Night.apply(s, [{ kind: 'set', call: ModuleWriter.call('quantity', 'party', 'gold'), value: ModuleWriter.number(0) }]);
+    expect(Night.sheet(s)).toMatch(/has a bed, but: /);
   }, 120000);
 });

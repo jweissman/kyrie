@@ -193,7 +193,11 @@ export class Glance {
     const w = campaign.world;
     if (screen.expedition.daylight !== 'night' || !w.relates('offers') || !w.relates('serviceOf')
       || [...schema.values()].some(k => k.startsWith('take_lodging'))) { return {}; }
-    const hosts = w.related('offers').filter(r => w.test(ModuleWriter.call('serviceOf', r.args[1]!, 'lodging')));
+    // Only a bed the company can pay for: one too dear had been led to as "a bed for the night", and nothing there to
+    // take (round 8, M: a hayloft at a hamlet's yard, the purse short).
+    const purse = w.number(ModuleWriter.call('quantity', campaign.playerActor ?? 'party', 'gold'));
+    const hosts = w.related('offers').filter(r => w.test(ModuleWriter.call('serviceOf', r.args[1]!, 'lodging'))
+      && w.number(ModuleWriter.call('fee', r.args[1]!)) <= purse);
     const rooms = new Set(hosts.map(r => w.one('at', r.args[0]!)).filter(Boolean));
     const bed = screen.exits.find(e => e.local && rooms.has(e.destination.id))?.destination.id;
     return bed ? { bed } : {};

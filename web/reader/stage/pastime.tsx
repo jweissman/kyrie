@@ -58,17 +58,23 @@ export class Pastime {
   // find how to have them back, and a bed bought at a shrine was under its keeper's Trade (round 5).
   // Where someone here has a bed, they are named: in an inn, "Nowhere to sleep here" had stood over the innkeeper's bed
   // under Trade (round 4, the register's UI-04).
-  static sleepless(host?: string): string {
-    return host ? `A night waited out is no rest: ${host} has a bed, under Trade.`
+  static sleepless(host?: { name: string; wanting?: string }): string {
+    if (host?.wanting) { return `A night waited out is no rest. ${host.name} has a bed, but: ${host.wanting}.`; }
+    return host ? `A night waited out is no rest: ${host.name} has a bed, under Trade.`
       : 'Nowhere to sleep here: a night waited out is no rest. A bed is had of an innkeeper or a priest (under Trade), '
         + 'or a camp made out in the country.';
   }
   static readonly slept = 'Sleep brings back strength and spells: a bed had of an innkeeper or a priest (under Trade), '
     + 'or a camp made out in the country.';
   // Whoever here would give the company a bed (see TalkFocus.services).
-  static host(app: ReaderApp): string | undefined {
-    const bed = (c: Choice): boolean => /^take_lodging/.test(c.does ?? '') || !!c.children?.some(bed);
-    return app.menu.scene?.subjects.find(x => x.choices.some(bed))?.name;
+  // And, where the bed is withheld, why (too dear for the purse: round 8, M).
+  static host(app: ReaderApp): { name: string; wanting?: string } | undefined {
+    const beds = (cs: Choice[]): Choice[] => cs.flatMap(c => [...(/^take_lodging/.test(c.does ?? '') ? [c] : []),
+      ...beds(c.children ?? [])]);
+    const who = app.menu.scene?.subjects.find(x => beds(x.choices).length);
+    if (!who) { return undefined; }
+    const offered = beds(who.choices);
+    return { name: who.name, ...offered.every(c => c.disabled) ? { wanting: offered[0]!.disabled! } : {} };
   }
   // What else the company does of itself here: not waiting, sleeping or searching, nor what the place offers (see
   // AtHand).
