@@ -53,7 +53,7 @@ Module walk "The Walk of the Milestones" {
     State chained "A length of chain has been looped through the shrine door's rings and padlocked. Someone has hung a card on it, in a priest's careful capitals: CLOSED FOR THE PRESERVATION OF ORDER.".
   }
   Initially Assert state(shrine_door_a, open).
-  Observe camp_view_a at camp_a as feature when true "A yard behind the inn's stable, given over to the Walk: straw on the ground in rows, fire-rings of ash-wood, staves stacked in threes against the wall, and a line of washed heel-cloths drying on a rope. Whoever is in charge sits where the draught is least. A number is chalked above every door.".
+  Observe camp_view_a at camp_a as feature when true "A yard behind a stable, given over to the Walk: straw on the ground in rows, fire-rings of ash-wood, staves stacked in threes against the wall, and a line of washed heel-cloths drying on a rope. Whoever is in charge sits where the draught is least. A number is chalked above every door.".
   Observe stone_view_a at station_a as feature when true "The Station is a roofed rest beside an old milestone: three posts and a slate roof, a stone bench, and the milestone itself, a squat grey column with the Office's wheel cut in the top and a number cut below it that was recut, in a newer hand, over an older number. Ash from a hundred small fires lies in the bench's corners.".
 
   // ---- The second town: the camp, the Station, the green's chalk and notice, and the band that comes on its day.
@@ -107,7 +107,7 @@ Module walk "The Walk of the Milestones" {
     State chained "A length of chain has been looped through the shrine door's rings and padlocked. Someone has hung a card on it, in a priest's careful capitals: CLOSED FOR THE PRESERVATION OF ORDER.".
   }
   Initially Assert state(shrine_door_b, open).
-  Observe camp_view_b at camp_b as feature when true "A yard behind the inn's stable, given over to the Walk: straw on the ground in rows, fire-rings of ash-wood, staves stacked in threes against the wall, and a line of washed heel-cloths drying on a rope. Whoever is in charge sits where the draught is least. A number is chalked above every door.".
+  Observe camp_view_b at camp_b as feature when true "A yard behind a stable, given over to the Walk: straw on the ground in rows, fire-rings of ash-wood, staves stacked in threes against the wall, and a line of washed heel-cloths drying on a rope. Whoever is in charge sits where the draught is least. A number is chalked above every door.".
   Observe stone_view_b at station_b as feature when true "The Station is a roofed rest beside an old milestone: three posts and a slate roof, a stone bench, and the milestone itself, a squat grey column with the Office's wheel cut in the top and a number cut below it that was recut, in a newer hand, over an older number. Ash from a hundred small fires lies in the bench's corners.".
 
   // ---- The third town: the camp, the Station, the green's chalk and notice, and the band that comes on its day.
@@ -161,7 +161,7 @@ Module walk "The Walk of the Milestones" {
     State chained "A length of chain has been looped through the shrine door's rings and padlocked. Someone has hung a card on it, in a priest's careful capitals: CLOSED FOR THE PRESERVATION OF ORDER.".
   }
   Initially Assert state(shrine_door_c, open).
-  Observe camp_view_c at camp_c as feature when true "A yard behind the inn's stable, given over to the Walk: straw on the ground in rows, fire-rings of ash-wood, staves stacked in threes against the wall, and a line of washed heel-cloths drying on a rope. Whoever is in charge sits where the draught is least. A number is chalked above every door.".
+  Observe camp_view_c at camp_c as feature when true "A yard behind a stable, given over to the Walk: straw on the ground in rows, fire-rings of ash-wood, staves stacked in threes against the wall, and a line of washed heel-cloths drying on a rope. Whoever is in charge sits where the draught is least. A number is chalked above every door.".
   Observe stone_view_c at station_c as feature when true "The Station is a roofed rest beside an old milestone: three posts and a slate roof, a stone bench, and the milestone itself, a squat grey column with the Office's wheel cut in the top and a number cut below it that was recut, in a newer hand, over an older number. Ash from a hundred small fires lies in the bench's corners.".
 
   // ---- The fourth town: the camp, the Station, the green's chalk and notice, and the band that comes on its day.
@@ -215,7 +215,7 @@ Module walk "The Walk of the Milestones" {
     State chained "A length of chain has been looped through the shrine door's rings and padlocked. Someone has hung a card on it, in a priest's careful capitals: CLOSED FOR THE PRESERVATION OF ORDER.".
   }
   Initially Assert state(shrine_door_d, open).
-  Observe camp_view_d at camp_d as feature when true "A yard behind the inn's stable, given over to the Walk: straw on the ground in rows, fire-rings of ash-wood, staves stacked in threes against the wall, and a line of washed heel-cloths drying on a rope. Whoever is in charge sits where the draught is least. A number is chalked above every door.".
+  Observe camp_view_d at camp_d as feature when true "A yard behind a stable, given over to the Walk: straw on the ground in rows, fire-rings of ash-wood, staves stacked in threes against the wall, and a line of washed heel-cloths drying on a rope. Whoever is in charge sits where the draught is least. A number is chalked above every door.".
   Observe stone_view_d at station_d as feature when true "The Station is a roofed rest beside an old milestone: three posts and a slate roof, a stone bench, and the milestone itself, a squat grey column with the Office's wheel cut in the top and a number cut below it that was recut, in a newer hand, over an older number. Ash from a hundred small fires lies in the bench's corners.".
   Rule host_a when day(clock) >= 2 and host(walk_a) != min(4, (day(clock) - 2) / 2 + 1 + boost(walk_a)) { Set host(walk_a) to min(4, (day(clock) - 2) / 2 + 1 + boost(walk_a)). }
   Rule chalk_a_1 when host(walk_a) == 1 and not decided(walk) and not state(chalk_a, l1) { Assert state(chalk_a, l1). }

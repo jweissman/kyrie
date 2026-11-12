@@ -26,7 +26,7 @@ Module bound_howe "The Bound Howe" {
     Says "{hirer} makes a mark in a book and gives you a brass tally on a string. 'Four coin in hand,' he says. 'Show it at the lookout and say you are the foreman's. She will say you are not, and then she will say you are. She does that.' He counts out four coin and does not look at your face. 'Don't go in the hill. I mean it kindly.'".
     On discuss { Assert foreman_hired(actor). Assert tolerates(foreman, actor). Assert tolerates(crew, actor). Assert tolerates(watchers, actor). Assert tolerates(sentry, actor). Increase quantity(actor, gold) by 4. Assert knows(actor, ridge_told). }
   }
-  Observe hire_empty at first_green as sign when raid_done() and not dead(hirer) "The hiring-man's cart stands unharnessed on the green with the board face-down on the cobbles. Nobody has picked it up.".
+  Observe hire_empty at first_green as sign when raid_done() and not dead(hirer) "The hiring-man's cart stands unharnessed where it stood, with the board face-down on the cobbles. Nobody has picked it up.".
   Topic hirer_after with hirer "Ask {hirer} what has happened to his hands" when raid_done() once {
     Says "{hirer} has been drinking since the cart came in, and has not stopped to be drunk. 'Twelve,' he says. 'Twelve, I took up. Four a day. I brought down three. One of them is in the back with his leg wrong, and the other two will not say.' He turns the cup on the cobbles. 'I did not lie to them. I never said it was a job. I said it was *work*.'".
     On discuss { Assert knows(actor, raid_told). }
@@ -57,7 +57,7 @@ Module bound_howe "The Bound Howe" {
 
   // ---- The town below the ridge: smoke over the roofs, the levy, and the clerk.
   Observe green_smoke at green as sign when not howe_overrun(party) "Above the roofs, to the east, two columns of smoke stand on the ridge: one thick and black from the digging, one thin and white from the old woman's fire." teaches ridge_told.
-  Observe green_smoke_third at green as sign when rival_step(rcaptain) >= 1 and rival_step(rcaptain) < 7 "There is a third column on the ridge since yesterday, tidy and new, from the high ground by the stones. Nobody on the green has an opinion about it, which is an opinion.".
+  Observe green_smoke_third at green as sign when rival_step(rcaptain) >= 1 and rival_step(rcaptain) < 7 "There is a third column on the ridge since yesterday, tidy and new, from the high ground by the stones. Nobody here has an opinion about it, which is an opinion.".
   Observe green_smoke_none at green as sign when howe_overrun(party) "There is no smoke on the ridge at all. The nearer town has noticed, and has taken to looking at the east road in the evening.".
   Person levy_men "the reeve's levy" nowhere {
     Role "five townsmen called out under the reeve's tally". Ancestry human. Calling warrior. Level 2. Numbers 5. Peaceable.
@@ -75,7 +75,7 @@ Module bound_howe "The Bound Howe" {
     Assert crew_fled(). Retract at(crew, lee). Assert at(crew, taproom). Retract at(foreman, lee). Assert at(foreman, taproom).
     Assert state(face_wall, buried). }
   Rule levy_lost when raid_done() and at(levy_men, lee) and not dark() and not dead(riders) and not at(party, lee) { Slay levy_men. }
-  Observe green_levy_lost at green as sign when dead(levy_men) "Five houses on the green have a shutter closed that was open yesterday. The baker's door is shut, and a loaf lies on the step with a cloth over it.".
+  Observe green_levy_lost at green as sign when dead(levy_men) "Five houses here have a shutter closed that was open yesterday. The baker's door is shut, and a loaf lies on the step with a cloth over it.".
   Observe green_levy_buried at green as sign when levy_marched() and levy_against() and state(face_wall, buried) "The levy came home with its spades clean, and the baker with a look as if he had won an argument with God and was not sure how.".
   Topic levy_ask with levy_men "Ask the levy what it was called out for" when at(levy_men, green) and not levy_marched() once {
     Says "'To hold the camp,' says the baker, 'against the other company. There is another company. The clerk says the reeve says the licence is sound, and we are not to say anything about the dead.' He looks at the spade in his hands as if it had been handed to him by a stranger. 'Nobody has said anything about the dead. I think that is what the dead are.'".

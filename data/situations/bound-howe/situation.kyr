@@ -581,7 +581,7 @@ Module bound_howe "The Bound Howe" {
   // ---- The town: the clerk, the levy, the walking dead, and what the country is told.
   Observe green_levy at green when not levy_met(party) and not bound_broken(party) "A notice is nailed to the clerk's trestle by the well, under the shire-reeve's mark: THE TALLY OF IRON AND GOLD IS TO BE MADE UP BY MIDWINTER. FOR THE WEIGHT OF IRON AND GOLD WANTING, SEE THE CLERK.".
   Observe green_levy_met at green when levy_met(party) "The clerk's notice by the well has been struck through, and the clerk's writing-board stands empty on the trestle.".
-  Observe green_walkers at green when host_abroad() and dark() and able(household) "Down the lane, in the dark, come dead folk in grave-clothes, who stand about the green swaying, with their faces to the north. They are the dead of the ridge, and they have come to see what became of the bound.".
+  Observe green_walkers at green when host_abroad() and dark() and able(household) "Down the lane, in the dark, come dead folk in grave-clothes, who stand about the open ground swaying, with their faces to the north. They are the dead of the ridge, and they have come to see what became of the bound.".
   Rule walk_town when host_abroad() and dark() and not at(household, green) and able(household) { Retract at(household, gallery). Retract at(household, forecourt). Assert at(household, green). }
   Rule walk_back when not dark() and at(household, green) { Retract at(household, green). Assert at(household, gallery). }
   Topic clerk_levy with clerk "Ask {clerk} what iron and gold he is short of" when true once {

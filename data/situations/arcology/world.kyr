@@ -108,7 +108,7 @@ Module arcology "The Numbered House" {
   }
   Rule counter_dawn when not dark() and at(counter, gossip) and state(counter, counting)
     says "At first light the figure turns, and goes back up the road toward the hill in step, as it came. The street breathes out." { Retract at(counter, gossip). }
-  Observe counter_green at gossip when rolled(house) and not dark() and state(counter, counting) "The mud of the green is printed with the round flat marks of a heavy tread, in a line from the road to the well and back again, as regular as a ruled line.".
+  Observe counter_green at gossip when rolled(house) and not dark() and state(counter, counting) "The mud by the well is printed with the round flat marks of a heavy tread, in a line from the road to the well and back again, as regular as a ruled line.".
   Topic keeper_counter with keeper "Tell {keeper} the counting at the green is stilled" when state(counter, stilled) and not paid_counter(party) once {
     Says "{keeper} sits for a while with {keeper}'s eyes shut. 'Four nights I sat in the window,' {keeper} says, 'and counted back, so that it should not be counting alone.' {keeper} opens the alms box and does not look at what is in it.".
     On discuss { Decrease quantity(alms, gold) by 10. Increase quantity(party, gold) by 10. Assert paid_counter(party). }
