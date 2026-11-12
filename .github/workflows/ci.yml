@@ -80,14 +80,14 @@ jobs:
   long:
     name: long descents
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
         with: { path: kyrie }
       - uses: oven-sh/setup-bun@v2
         with: { bun-version: 1.4.3 }
       - run: bun install --frozen-lockfile
-      - run: bun test test/descent.test.ts --reporter=junit --reporter-outfile=junit.xml
+      - run: bun test test/descent.test.ts test/all-in-one-world.test.ts --reporter=junit --reporter-outfile=junit.xml
         env: { KYRIE_LONG: "1" }
       - if: always()
         run: bun scripts/test-summary.ts junit.xml --title "Long descents" --none-skipped
