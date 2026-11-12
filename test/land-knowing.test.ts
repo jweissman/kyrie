@@ -85,6 +85,9 @@ describe('what the map knows of a place', () => {
     // The innkeeper tells of the light in the lone tower, and the way to it: a mark by the name it was told by, still
     // only heard of, but where the question was, on its hex, and the land the way goes over known with it.
     await GeneratedWorld.travel(s, s.campaign.world.one('at', 'region__s1_innkeeper')!.replace(/^region__/, ''));
+    // What walking to the innkeeper showed of the land is the walk's, not the word's (the town's standing goings-on,
+    // seen from its green, show a cell beside it).
+    const walked = Knowing.of(s).land.known.length;
     await Knowing.take(s, /^Ask \S+ about the green light in a lone tower$/);
     const told = Knowing.of(s), tower = told.land.marks.find(m => m.id === 'region__w9')!;
     Knowing.kept(start, told);
@@ -97,7 +100,7 @@ describe('what the map knows of a place', () => {
     // Hearing of it marks it, and reveals none of the land: only where the company has been, or stood beside, is
     // known (the owner, 4 November).
     expect([questions.includes(tower.cell), told.land.known.includes(tower.cell)]).toEqual([false, false]);
-    expect(told.land.known.length).toBe(start.land.known.length);
+    expect(told.land.known.length).toBe(walked);
     Knowing.unmade(told.land);
     // From the top of the shrine's tower, a ruin in the wood is seen: by its look, its name not yet said, on its own
     // hex, with the sign of what it is.

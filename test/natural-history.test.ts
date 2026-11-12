@@ -73,9 +73,14 @@ describe('natural history', () => {
     (Canon.species as Record<string, Species>).marsh_harrier = harrier();
     added.species.push('marsh_harrier');
     expect(RegionEcology.den(await region('a1'), 'meadow')?.species).not.toBe('marsh_harrier');
-    const lines = (await Promise.all(['a1', 'b2', 'kite'].map(region))).flatMap(r => RegionAnimals.lines(r));
+    // Among what open meadow shows of its living things, by its record alone, and wherever it is drawn, as it is
+    // written. Which stretches meet one is chance, and the standing scenarios now keep some of them: no fixed set of
+    // countries is sure to draw it.
+    expect(RegionEcology.seen(new Set(['meadow'])).map(([k]) => k)).toContain('marsh_harrier');
+    const lines = (await Promise.all(['a1', 'b2', 'kite'].map(region))).flatMap(r => RegionAnimals.lines(r))
+      .filter(l => l.includes('marsh_harrier'));
     const met = /Person wa\d+ "a marsh harrier" at t\d+ \{ Role "a brown hawk.*Species marsh_harrier\./;
-    expect(lines.some(l => met.test(l))).toBe(true);
+    expect(lines.every(l => met.test(l))).toBe(true);
   }, 120000);
   it('places every kind whose record says where it lives and how common it is, in a den or in the open', () => {
     const habitats = Object.keys(Canon.habitats);
