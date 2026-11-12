@@ -208,6 +208,11 @@
     Says "{{t}_innkeeper} wipes the same place on the counter twice. 'There's a man in the back room, been here a fortnight, pays in old coin. Goes out after dark and comes in before light, and there's grave-dirt on his boots that I scrub off the step.'".
     On discuss { Assert knows(actor, {t}_u_dead_lodger). }
   }
+  // The lodger the innkeeper tells of is the man with the black candle, and is found: going down the crypt stair by
+  // night, and known for himself in the ossuary (round 9, Q: told of, never found; a night watching the churchyard
+  // had said "Nothing comes").
+  Observe {t}_u_lodger_goes at {t}_u_yard as sign when dark() and knows(party, {t}_u_dead_lodger) and able({t}_u_raiser) and not {t}_u_done({t}_u_raiser) "Late, a man in good boots crosses the churchyard with a lantern shuttered to a slit, and goes down the crypt stair without looking back. The innkeeper's lodger keeps his hours.".
+  Observe {t}_u_lodger_known at {t}_u_ossuary when knows(party, {t}_u_dead_lodger) and at({t}_u_raiser, {t}_u_ossuary) and able({t}_u_raiser) "There is grave-dirt to the ankles of his good boots: the man who lodges at the inn and pays in old coin.".
   Action {t}_u_raiser_talked(actor: group, site: place) "Tell the man with the black candle the town knows what he has done, and that it ends now" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_u_ossuary) and at({t}_u_raiser, {t}_u_ossuary) and able({t}_u_raiser) and knows(actor, {t}_u_dead_raised) and state({t}_u_candle, alight).
     Time 0.
