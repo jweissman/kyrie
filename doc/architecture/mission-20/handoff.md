@@ -77,18 +77,19 @@ suspected common causes, *hypotheses unless marked*:
 
 | Step | Now | Measured route |
 |---|---|---|
-| typecheck | 28 s | 4 s incremental (measured) |
-| lint | 24 s | 1.7 s with ESLint's cache (measured) |
-| quick suite | 34.4 s wall, **321 CPU-s for 38 CPU-s of work** | 10.6 s as six plain `bun test` processes (measured), or bun's `--no-isolate` (not yet measured) |
+| typecheck | 28 s | **done**: `typecheck:fast`, 6.3 s warm (E223) |
+| lint | 24 s | **done**: `lint:fast`, 1.7 s warm (E223); `check:fast` runs all three in 29 s |
+| quick suite | 34.4 s wall, **321 CPU-s for 38 CPU-s of work** | **done**: `--no-isolate`, 9.6–11.6 s (E223) |
 | a generated world's start | 7–8 s (14 s cold) | 1.1 s resumed from a kept checkpoint (measured) |
 | the whole suite on CI | 813 file-minutes in ten shards, one shard past 60 minutes | see the 25-minute spec, §3a |
 
 ### The first experiments for Mission 21 (ranked in `test-loop.md` §4)
 
-1. `test:quick` as balanced single-process chunks, or with `--no-isolate`, run twenty times shuffled for order
-   dependence.
-2. `typecheck:fast` and `lint:fast` (incremental and cached), with CI keeping the full ones.
-3. `all-in-one-world` replaced by a declaration-conflict check plus two live installs.
+1. (Done: `check:fast`, E223.) Watch `--no-isolate` for order dependence: a spec that leaks state shows in the
+   quick suite first.
+2. Kept playthrough prefixes for the fifty authored playthroughs (test-loop §5b; `ombra-local` first).
+3. (Done: `all-in-one-world` teleports and runs with the long descents.) Then: why a province's install grows with
+   what is installed (T24-11).
 4. Kept started worlds (`Worlds.started`) for the six specs pinned to `standing: []`.
 5. Bed fixtures for engine invariants proved through Westernesse (§5). The first two to port: `weary-fights` and
    `voice`'s hour.

@@ -143,6 +143,13 @@ minutes locally; it is out of the suite's shards. **For Mission 21:** why an ins
 installed (a hypothesis, not profiled: `Campaign.install` refreshes projections over the whole world each time).
 
 
+## 4a. Done on 12 November (the owner's "down payments")
+
+Items 1–3 below are in: `test:quick` and `test:changed` pass `--no-isolate` (9.6–11.6 s for the quick set, 663
+passing at 4, 6 and 10 workers; 17.6 s with a game running beside it); `typecheck:fast` and `lint:fast` (6.3 s and
+1.7 s warm); `check:fast` runs the three in **29 s** against ≈ 86 s. The full `typecheck`, `lint` and suite are CI's
+as before. Everything else in §4 and §5–§5b is M21's.
+
 ## 4. The route to a quick loop ten times faster
 
 Target: the routine loop from **≈ 86 s** to **≈ 9 s**, and a quick suite that covers more of the engine's invariants

@@ -18,10 +18,10 @@ class ChangedSpecs {
     if (changed.some(f => /^data\/rules\//.test(f))) {
       console.log('the shared rules changed: what they move is CI\'s to find (or bun run test, alone)');
     }
-    const code = Bun.spawnSync(['bun', 'test', `--parallel=${workers}`, `--changed=${since}`],
+    const code = Bun.spawnSync(['bun', 'test', `--parallel=${workers}`, '--no-isolate', `--changed=${since}`],
       { stdout: 'inherit', stderr: 'inherit' }).exitCode ?? 1;
     if (!named.length) { return code; }
-    const data = Bun.spawnSync(['bun', 'test', `--parallel=${workers}`, ...named.map(s => `./${s}`)],
+    const data = Bun.spawnSync(['bun', 'test', `--parallel=${workers}`, '--no-isolate', ...named.map(s => `./${s}`)],
       { stdout: 'inherit', stderr: 'inherit' }).exitCode ?? 1;
     return code || data;
   }
