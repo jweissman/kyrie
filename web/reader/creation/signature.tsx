@@ -23,7 +23,7 @@ export class Signature {
     return (
       <ol className="signature" aria-label="Your life so far">
         {marks.map(x => <li key={x.id} title={x.name} data-id={x.id}><Glyphs.View id={x.id} label={x.name} /></li>)}
-        {face && <li className="face" key={face.id}><img src={face.src} alt="" decoding="async" /></li>}
+        {face && <li className="face" key={face.id}><img src={face.medium} alt="" decoding="async" /></li>}
       </ol>
     );
   }

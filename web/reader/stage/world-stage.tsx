@@ -203,7 +203,7 @@ export class WorldStage {
     };
     const walking = app.state.walking, bound = BoardField.whither(screen.region!, app.state.frame?.bound?.id);
     return <div className="board-surface"><BoardField.View region={screen.region!} chosen={chosen} choose={pick}
-      bound={bound} face={screen.party[0]?.face?.src} walking={walking?.way} walked={walking?.done} /></div>;
+      bound={bound} face={screen.party[0]?.face?.medium} walking={walking?.way} walked={walking?.done} /></div>;
   }
   // What the map says of a hex: the one the company stands in (what it is, whether anyone is about, and entering it);
   // a town (entered from here); or anywhere else, as the map's own card says it (what is known of it, the way there).
