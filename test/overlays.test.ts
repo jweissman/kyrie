@@ -102,7 +102,7 @@ describe('authored identity is never overwritten by generation', () => {
       authored: ['classId', 'level'] } as unknown as Person;
     const cast = Cast.person(curate, { raceId: 'elf' });
     expect(cast.context).toMatchObject({ raceId: 'human', classId: 'cleric' });
-    expect(cast.provenance.raceId).toBe('default');
+    expect(cast.provenance?.raceId).toBe('default');
     expect(Cast.person(curate, { raceId: 'dwarf' }).context.raceId).toBe('dwarf');
   });
 });
