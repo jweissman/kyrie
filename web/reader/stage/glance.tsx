@@ -161,7 +161,9 @@ export class GlanceStage {
     // gold was the search for the cross, drawn only as the rail's glass with nothing on it (round 10, S; R at
     // Ísencepan), and the gold seen was on Go… and Look…, into the keep.
     const next = GlanceStage.next(app);
-    const ways = Wayfinder.ways(app), only = GlanceStage.only(app), touched = [posted?.id, only?.c.id, search?.id]
+    // A notice the place leads with is one of the things to do, drawn as they are, with what it is at its left (the
+    // owner, 12 November: the bare link to the notice on the well-post, which "clearly gives you a clue").
+    const ways = Wayfinder.ways(app), only = GlanceStage.only(app), touched = [only?.c.id, search?.id]
       .filter(id => !id || id !== next);
     const shown = GlanceStage.foreground(app, acts).filter(a => !touched.includes(GlanceStage.choice(app, a.choice)?.id));
     const drawn = shown.map(a => GlanceStage.choice(app, a.choice));
@@ -174,7 +176,7 @@ export class GlanceStage {
       <p className="openers">
         {back && <Act.View choice={back} draw={draw} quiet className="opener opens-back">
           {Typography.curl(`Back: ${back.label.charAt(0).toLowerCase()}${back.label.slice(1)}`)}</Act.View>}
-        {posted && <Act.View choice={posted} draw={draw} quiet className="opener opens-posted">
+        {posted && !drawn.some(d => d?.id === posted.id) && <Act.View choice={posted} draw={draw} quiet className="opener opens-posted">
           {Typography.curl(posted.label)}</Act.View>}
         {yours && <Act.View choice={yours} draw={draw} quiet className="opener opens-yours led">
           {Typography.curl(yours.label)}</Act.View>}

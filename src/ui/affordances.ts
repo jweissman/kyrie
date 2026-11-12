@@ -450,7 +450,8 @@ export class Affordances {
       ...at.exit ? { exit: at.exit } : {}, kind: at.kind, whys, ...at.notes ? { notes: at.notes } : {},
       order: 0, marks: c.marks ?? [], ...c.minutes ? { minutes: c.minutes } : {},
       ...this.risky(c) ? { risk: true } : {},
-      ...c.own ? { own: true } : {}, ...command && at.r.done.has(command) ? { known: true } : {},
+      ...c.own ? { own: true } : {}, ...c.teaches ? { teaches: true } : {},
+      ...command && at.r.done.has(command) ? { known: true } : {},
       ...at.visited !== undefined ? { visited: at.visited } : {}, ...at.pointed ? { pointed: true } : {},
       ...c.disabled ? { barred: true } : {} };
   }
