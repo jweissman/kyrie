@@ -33,6 +33,13 @@ export class Cast {
       } else if (theirs != null) { context[field] = theirs; provenance[field] = 'generated'; }
       else if (mine !== undefined) { context[field] = mine; provenance[field] = 'default'; }
     }
+    // A people drawn for them that cannot follow the calling written for them gives way to it, as an author's field
+    // wins: the walk's curate, drawn of an elf country's people, could not be a cleric (CI on the integration branch).
+    const ancestry = Canon.ancestries[context.raceId as string];
+    if (provenance.raceId === 'generated' && authored.has('classId') && ancestry
+      && !ancestry.classes.includes(context.classId as string)) {
+      context.raceId = (p as unknown as Record<string, unknown>).raceId ?? 'human'; provenance.raceId = 'default';
+    }
     // People of a module are Orsino NPCs: they prepare spells rather than choosing them as a player character does.
     context.prepared = true;
     // Creature constraints: generation may fill them in (a scenario's terrain or body); authored ones win. A species

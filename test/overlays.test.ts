@@ -97,4 +97,12 @@ describe('authored identity is never overwritten by generation', () => {
     expect(conflicts).toEqual(['nera.raceId: generated dwarf ignored; authored human kept']);
     expect(() => Cast.person(p, { hitPoints: 4 })).toThrow('not a field of a person');
   });
+  it('gives way to an authored calling a generated people cannot follow', () => {
+    const curate = { id: 'wenna', name: 'Someone', place: 'green', classId: 'cleric', level: 1, actions: [],
+      authored: ['classId', 'level'] } as unknown as Person;
+    const cast = Cast.person(curate, { raceId: 'elf' });
+    expect(cast.context).toMatchObject({ raceId: 'human', classId: 'cleric' });
+    expect(cast.provenance.raceId).toBe('default');
+    expect(Cast.person(curate, { raceId: 'dwarf' }).context.raceId).toBe('dwarf');
+  });
 });
