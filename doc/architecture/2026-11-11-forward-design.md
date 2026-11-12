@@ -676,8 +676,77 @@ What is missing is the same in all three. Each is the *contract*, not the data.
 These three, and the remaining text inferences, are the architectural work that would let the card, the atlas, story
 distance and the walkers be built on one foundation.
 
-Preliminary research only, notes not systems: general counterfactual planning, the evolving Book, elaborate
-perception profiles, dramatic memory, institutional plans, literate authoring, careers and companies.
+## Preliminary notes (research only, not systems)
+
+Each note is a first look: what exists, where it starts, and the open question. None is a recommendation to build yet.
+
+- **General counterfactual planning.**
+  - *What exists.* Search is already in the engine, three times over:
+    - `Planner.search` over persistent Worlds;
+    - `CampaignPlan` for the player's moves toward a module's goal (2000 nodes);
+    - `Agency` for people with plans (24 authored people say `Plans N steps`).
+  - *What decides it.* Prototype 3 shows the limit is not search but the tick: rules, the clock, creatures, checks.
+  - *Open question.* Can `CampaignTick` run against a forked World and a leased creature store (`CreatureLease`
+    exists) without the campaign as host? That one refactor decides whether general counterfactuals are honest.
+- **The evolving Book.**
+  - *What exists:*
+    - the Notes, with aims, facts and their provenance (`CompanyKnowledge`: seen, found, heard, read, from whom,
+      confirmed);
+    - the engine's `story` request (the told log);
+    - the static Encyclopedia (src/handbook/encyclopedia*.ts), reached only by base species.
+  - *What is missing:*
+    - typed history: who did what to whom, as events rather than log lines;
+    - a typed "learned when";
+    - a link from an instance to its kind's entry and illustration.
+  - *Notes.* Prototype 1's card is the Book's entry seen small; the Book could be the cards of everything known,
+    grouped. Kept apart: established fact (`knows`), uncertain belief (`assumesFalse` exists, as a hidden marker),
+    and remembered encounter (`CompanyRecall`).
+- **Elaborate perception profiles.**
+  - *What exists:*
+    - observations gated by a skill (`Observe … as sign noticed by woodcraft`: woodcraft 6, perception 3, lore 2,
+      insight 2 in the data);
+    - `Perception.reach` (companionship only);
+    - `DangerSense` (the fight forecast);
+    - the `noticed` query (a thing hidden until a fact is known).
+  - *Notes.* So per-skill perception exists for authored signs, but not for the atlas's facets. A profile could be
+    derived from these gates, which skills see which signs, rather than declared, as the owner asks (many-to-many).
+- **Dramatic memory.**
+  - *What exists:*
+    - the campaign's history of events;
+    - `CompanyRecall`;
+    - relations such as `grateful`, `toldBy`, `inDebtTo`;
+    - Kyr `Promise`s, kept and broken (src/lang/promises.ts);
+    - endings;
+    - news across countries (countries.json `after`; the adventure branch's Fellowship news reaches two towns, R73).
+  - *What is missing.* An event as a typed record with participants, witnesses and meaning, readable by other people's
+    lines later. Promises are the nearest typed precedent.
+- **Institutional plans and situation clocks.**
+  - *What exists:*
+    - `Occasion`s (timed sequences, in 7 files);
+    - rules on the clock (the adventure branch's forged-seal bailiff raises her dues by day 2 and burns a rick by day 5);
+    - `dominion.kyr` (powers that admit or turn hostile);
+    - `Agency` planners for people;
+    - the branch's four modules with clocks that run without the player.
+  - *Notes.* The authoring idiom exists; what is missing is the company seeing a clock from outside except as texture.
+    The branch's own cold play found that: players saw the world react but followed nearer leads.
+- **Literate authoring.**
+  - *What exists.*
+    - `.kyrt` templates with `--- section` parts and `if`/`unless`;
+    - Kyr's prose is already in strings with `{id}` references, which are typed (prototype 1 relies on this);
+    - the authoring trail and request register are in the adventure branch (`kyr-deem-requests.md`, about 110
+      requests, a triaged top ten).
+  - *Open question.* Whether a Markdown-like form with fenced declarations can compile through the same parser, as a
+    front end, without a second path.
+- **Careers and companies.**
+  - *What exists:*
+    - party formations (`TraitGrants.formations`: traits of category `party`);
+    - backgrounds and professions as overlays (`Overlays`);
+    - the adventure-to-career direction (2026-11-11-adventure-to-career.md).
+  - *What is missing:*
+    - a role chosen in play that sets durable facts (the background family's slots);
+    - a company identity apart from its members.
+  - *Notes.* Both would be typed facts the card, the Book and the walkers then read, which argues for doing them after
+    the contracts above.
 
 ## Recommended sequence
 
