@@ -1,0 +1,28 @@
+// Scratch: what the suite's common setups cost, in one process, cold then warm.
+const W = process.env.W ?? process.cwd();
+const t0 = performance.now();
+const { PlaySession } = await import(`${W}/src/session/play-session`);
+const { NodeBundleSource } = await import(`${W}/src/campaign/node-bundle-source`);
+const { WorldAssembler } = await import(`${W}/src/world/world-assembler`);
+const { DrawnWorld } = await import(`${W}/src/world/drawn-world`);
+const { ScreenModel } = await import(`${W}/src/ui/screen-model`);
+const { Narrator } = await import(`${W}/src/presentation/narrator`);
+const lap = (() => { let last = performance.now(); return (what: string) => { const n = performance.now(); console.log(`${Math.round(n - last)} ms  ${what}`); last = n; }; })();
+console.log(`${Math.round(performance.now() - t0)} ms  imports`);
+lap('-');
+await PlaySession.start('test/fixtures/household/household.campaign.json', 'h', NodeBundleSource.shared); lap('fixture household, cold');
+await PlaySession.start('test/fixtures/household/household.campaign.json', 'h2', NodeBundleSource.shared); lap('fixture household, warm');
+const party = [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }];
+const w = await WorldAssembler.assemble('a1', NodeBundleSource.shared, { origin: 'wanderer', party }); lap('assemble a1 (generated Westernesse), cold');
+const s = await PlaySession.start(w.path, 'a1', w.source); lap('PlaySession.start a1');
+const sc = ScreenModel.build(s.campaign); lap('ScreenModel.build');
+Narrator.leaf(s.campaign, sc); lap('Narrator.leaf');
+const w2 = await WorldAssembler.assemble('a1', NodeBundleSource.shared, { origin: 'wanderer', party }); lap('assemble a1, warm');
+await PlaySession.start(w2.path, 'a1', w2.source); lap('PlaySession.start a1, warm');
+const w3 = await WorldAssembler.assemble('a1', NodeBundleSource.shared, { origin: 'wanderer', party, standing: [] }); lap('assemble a1 standing: [], warm');
+await PlaySession.start(w3.path, 'a1', w3.source); lap('PlaySession.start a1 standing: [], warm');
+await DrawnWorld.start('kahitude', { origin: 'debt', party }, NodeBundleSource.shared); lap('DrawnWorld.start kahitude (assemble + start)');
+await s.perform('wait'); lap('one command (wait) in a1');
+const cp = s.checkpoint(); lap('checkpoint');
+PlaySession.resume(cp, { trusted: true }); lap('resume');
+console.log(`rss ${Math.round(process.memoryUsage().rss / 1e6)} MB`);

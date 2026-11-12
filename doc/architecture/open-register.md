@@ -459,20 +459,20 @@ on 11 November. The branch itself is not merged: the owner is not ready to integ
 
 ## 17. Integrating the adventure branch (12 November, early)
 
-**Verdict (12 November, early): verified, not merged.** See `mission-20/integration-first-steps.md`. The review merge with its repairs is `review/first-steps`; CI on 1fc62c34 still fails 18 or more specs, several on decisions the owner has to make (whether the standing modules stand in the first town; whether the forged seal's receipt or the notice of jobs leads there).
+**Update (12 November, evening): integrated** on `integrate/first-steps` (main + the branch + M20's work after the cutoff), its failures fixed in two rounds (`mission-20/integration-first-steps.md`); it lands on main when its CI is green. **Earlier verdict (12 November, early): verified, not merged.** See `mission-20/integration-first-steps.md`. The review merge with its repairs is `review/first-steps`; CI on 1fc62c34 still fails 18 or more specs, several on decisions the owner has to make (whether the standing modules stand in the first town; whether the forged seal's receipt or the notice of jobs leads there).
 
 The branch's own integration notes (`activation/integration-notes.md`, at 98ad43eb) and what the scratch merge on
 `review/first-steps` found. Its rows are open until the merge is on main.
 
 | Id | What | Source | Status | Pri | When |
 |---|---|---|---|---|---|
-| AI-01 | The thorn long descent fails at choice 62: the first town's shop stock was redrawn when the standing scenarios came in | integration notes §1 | open: re-record `test/fixtures/descent/thorn.choices` once the draws settle (CI's long descents) | P2 | M20 |
+| AI-01 | The thorn long descent fails at choice 62: the first town's shop stock was redrawn when the standing scenarios came in | integration notes §1 | **passes**: CI's long descents are green on the integration branch (dead69a5) | P2 | — |
 | AI-02 | `silent-lord-turns`' "forged remission" fails when rain puts a ford in spate (`Journey.way` ignores `hazardous`) | integration notes §1 | open | P3 | M20 |
-| AI-03 | The new specs have no time in test/timings.json (several take 5 to 15 minutes) | integration notes §1 | open: `scripts/timings-from-ci.ts` after the first CI run with them | P2 | M20 |
+| AI-03 | The new specs have no time in test/timings.json (several take 5 to 15 minutes) | integration notes §1 | **in part**: times kept from CI on 4ce25b82 (626 files); 194 never kept because their shards never finished (suite shards 1 and 8 ran past 45 then 60 minutes): see §24, T24-01 | P1 | M20 close |
 | AI-04 | The first green is busier: 3 to 4 more people and about 170 to 190 more words on arrival (four seeds measured), the Walk's unchanged well, post, shrine and gate told as "as it was" (now silent), and a newcomer who reads everything takes 46 commands to an adventure in mere (24 before) | the scratch merge | in part: the Walk's baseline lines silenced; portraits stay capped at ten; the newcomer's bounds widened with the reason | P1 | M20 (judge in cold play) |
 | AI-05 | The Bound Howe's lead is held to day 3 so the honest start still goes under the town | integration notes §1 | the branch's decision, kept; the owner's to move | P3 | — |
 | AI-06 | R96 (rotating the altered-law provinces per world) and R97 (retiring `oldcoin` and `quarrel`, which the wanderer origin's arrivals name) | integration notes §5 | open, M20's first hour is touched by R97 | P3 | M21 |
-| AI-07 | Cold play on the branch: one of three blind players entered a new module; none played one to an ending or fought its dangerous opponents | final report §3 | open: the round after the merge should try one | P1 | M20 close |
+| AI-07 | Cold play on the branch: one of three blind players entered a new module; none played one to an ending or fought its dangerous opponents | final report §3 | open: no cold round has been played on the integrated build | P1 | M21 |
 
 
 ## 18. The creative and technical direction review (11 November, night)
@@ -626,3 +626,24 @@ Open:
 | R11-09 | Paintings and portraits against the text: the big top as a kitchen; two inns one hall; a lizardfolk companion painted as a human woman (T 113; U 78, 160) | **partly** (E207): out of doors the painting goes the way of the day (dimmed at night, warmed toward evening); the wrong subjects (ruin painted whole, big top as a kitchen, a lizardfolk as a woman) are data, open with R9-12 | P1 | M21 |
 | R11-10 | No bed at Mossminster's guest-hall, though Wait says to get one of an innkeeper or a priest (T 87–93) | open | P3 | M21 |
 | R11-11 | The domain screen's Continue overlaps the "Later:" spell line (T 08; R 08) | **fixed** (E202): many cards on a wide, short screen are square; rendered at 1280 by 800 | P2 | M21 |
+
+
+## 24. After the cutoff (12 November, afternoon and evening)
+
+The owner's messages after the cutoff: finish the integration, houseclean, recurring problems; then one resting scene
+(no split universe), empty talk, the safe zone as the outer tenth; then land M20 and diagnose M21's test loop; then a
+contact sheet of the screens. Fixes are E210–E221 in `mission-20/log.md`; the screens are `mission-20/studies/screens/`;
+the test loop is `mission-20/test-loop.md`.
+
+| Id | What | Source | Status | Pri | When |
+|---|---|---|---|---|---|
+| T24-01 | Two of ten suite shards run to the job limit (45, then 60 minutes) on the integration branch, in every run since the standing scenarios came in; their files' times are never kept, so the shards never rebalance. A spec that hangs synchronously (no test timeout fires) is not ruled out | CI 43272764782, 43280749973 | open: run the shards' files locally with output per file (test-loop.md §3) | P1 | M20 close |
+| T24-02 | The test loop is ≈ 86 s before touched specs; its quick suite spends 321 CPU-s on 38 CPU-s of work | test-loop.md | diagnosed; M21's first experiments ranked there | P1 | M21 |
+| T24-03 | Go and Look are still pages in the panel beside their lens tiles; Look's list scrolls | the owner, 12 November; screens S1 | open: proposal B in studies/screens | P1 | M21 |
+| T24-04 | Three menu styles (led acts, conversation questions, fight tiles) | the owner, 12 November; screens S4 | open: proposal A | P2 | M21 |
+| T24-05 | The telling overflows the resting panel (badly on a phone: 666 px in 269) | screens S2 | open: narration volume (E219, E220 began it) | P1 | M21 |
+| T24-06 | The fight on a phone: foes' names cut, the third foe below the fold | screens S3 | open | P2 | M21 |
+| T24-07 | The fight's actions scrolled at every size; a beast's portrait did not fill its panel; the acting fighter wore a double ring | the owner, 12 November | **fixed** (screens §"Fixed") | — | — |
+| T24-08 | The standing modules' people written human in a dwarf or elf country; the reader a mage among dwarves; the curate a cleric among elves | CI on the integration branch | **fixed**: ancestry left to the templates; a generated people gives way to an authored calling (`Cast.person`) | — | — |
+| T24-09 | Talk persists between places (a dead foe's likeness shown in the next room) | screens S7 | open: design | P3 | M21 |
+| T24-10 | The CI never keeps the parse store; every job parses every text | test-loop.md §3 | open: item 8 | P2 | M21 |

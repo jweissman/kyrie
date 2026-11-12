@@ -29,7 +29,7 @@
    face with its card, wherever that leaves the hand a third of the stage (--held: see Scrolled.useHeld): where the two
    do not both fit, the hand gives way and its fade says it goes on (the reader spec at 1180 by 820 and 390 by 844). */
 .fight > .sides { flex: 1 1 0; overflow-y: auto; display: grid; align-content: start;
-  min-height: max(calc(var(--frame-h) * .2), min(var(--held, 0px), calc(var(--frame-h) * .62)));
+  min-height: max(calc(var(--frame-h) * .2), min(var(--held, 0px), calc(var(--frame-h) * .55)));
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr) minmax(0, 1fr); gap: 0 clamp(16px, 2.6vw, 36px);
   padding: 20px var(--safe-r) 12px var(--safe-l); }
 /* A side's cards are its width and no wider: a name cut short is cut, not let push the card over the foes'. */
@@ -43,7 +43,9 @@
 .fight .fighter { position: relative; margin: 0; padding: 12px 14px 12px; background: var(--raised); border: 1px solid var(--edge);
   transition: border-color var(--quick), box-shadow var(--settle) var(--ease); }
 .fight .foes .fighter { border-color: rgba(255, 107, 69, .28); background: linear-gradient(270deg, rgba(255, 107, 69, .06), transparent 70%), var(--raised); }
-.fight .fighter.acting { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), 0 0 26px rgba(239, 230, 209, .16); }
+/* Whose turn it is: the card's own edge lit, and a soft glow; no second ring round it (the owner, 12 November: "weird
+   borders around combatants"). */
+.fight .fighter.acting { border-color: var(--accent-line); box-shadow: 0 0 22px rgba(239, 230, 209, .12); }
 .fight .fighter.down { opacity: .45; }
 .fight .fighter.down .n b { text-decoration: line-through; text-decoration-color: var(--ember); }
 .fight .fighter .n { display: flex; align-items: baseline; gap: 8px; font: 500 16px/1.25 var(--do); margin: 0 0 8px; }
@@ -79,10 +81,12 @@
 .fight .fighter .face { position: absolute; top: 0; bottom: 0; left: 0; width: var(--panel); overflow: hidden;
   background: var(--lift); border-right: 1px solid var(--edge); transition: border-color var(--quick); }
 .fight .fighter .face img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 60% 28%; }
-.fight .fighter .face.whole { background: var(--lift); }
+/* A beast's whole figure on its parchment: the panel is the parchment too, so the painting fills it edge to edge (it had
+   stood as a square in a dark band: the contact sheet, 12 November). */
+.fight .fighter .face.whole { background: #e9cf9c; }
 .fight .fighter .face.whole img { object-fit: contain; object-position: 50% 50%; }
 .fight .fighter .face.plate { display: grid; place-items: center; font: 300 34px/1 var(--told); color: var(--dim); }
-.fight .fighter.acting .face { border-right-color: var(--accent); }
+.fight .fighter.acting .face { border-right-color: var(--edge); }
 .fight .fighter.down .face { filter: grayscale(1); }
 .fight .fighter.struck { animation: struck .7s var(--ease); }
 @keyframes struck { 0% { background: rgba(255, 107, 69, .3); transform: translateX(-3px); } 18% { transform: translateX(2px); }
@@ -110,7 +114,9 @@
 .fight .order li.next { color: var(--deep); background: var(--accent); border-color: var(--accent); }
 /* The hand: what the one whose turn it is can do, a card each, each kind's name beside its cards, not over them, and a
    card no wider than a long note wraps to (the firebomb's saves had made it a row of its own). */
-.fight > .moves { flex: 0 1 auto; min-height: 0; overflow-y: auto; padding: 12px var(--safe-r) 4px var(--safe-l); }
+/* What can be done keeps its room; the sides give way and scroll (the moves had been cut to 27px of 176 on a phone, and
+   "Let them fight this turn" cut in half on a desk: the contact sheet, 12 November). */
+.fight > .moves { flex: none; min-height: 0; overflow-y: visible; padding: 12px var(--safe-r) 4px var(--safe-l); }
 .fight .moves section + section { margin-top: 8px; }
 .fight .moves .label { margin: 0 0 8px; }
 @media (orientation: landscape) and (min-width: 561px) {
@@ -151,14 +157,20 @@
    is seen whole, each face with its card (at 1180 by 820 the third of three had been cut at the mouth; at 1440 by
    900 too, once each act carried its marks). */
 @media (max-height: 920px) {
-  .fight > .sides { padding-top: 14px; }
+  .fight > .sides { padding-top: 14px;
+    min-height: max(calc(var(--frame-h) * .2), min(var(--held, 0px), calc(var(--frame-h) * .48))); }
   .fight .moves .act { min-height: 52px; padding-top: 8px; padding-bottom: 8px; }
 }
 @media (max-width: 560px) {
   .fight .beat { grid-row: 1; padding: 0 0 12px; }
   .fight .beat .what.earlier { display: none; }
   .fight .moves .act { min-width: 7.5rem; min-height: 50px; padding: 8px 12px 8px 30px; font-size: 14px; }
+  /* Attack and the kinds beside it in one row, so that the company above is seen whole and every move too (the
+     contact sheet, 12 November: two rows had pushed the company's third card under the fold). */
+  .fight .moves .bar { display: flex; flex-wrap: nowrap; gap: 6px; }
+  .fight .moves .bar .move { flex: 1 1 0; min-width: 0; padding-inline: 10px; }
   .fight .fighter { padding: 10px 11px; }
+  .fight > .sides { min-height: max(calc(var(--frame-h) * .2), min(var(--held, 0px), calc(var(--frame-h) * .36))); }
   /* 48px at least: inside the safe zone a card is narrower, and 56 had been more than a third of it (12 November). */
   .fight .fighter.faced { --panel: clamp(48px, 34cqw, 72px); padding: 10px 9px 10px calc(var(--panel) + 9px); }
   .fight .fighter .face.plate { font-size: 24px; }

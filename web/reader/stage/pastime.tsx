@@ -61,11 +61,13 @@ export class Pastime {
   static sleepless(host?: { name: string; wanting?: string }): string {
     if (host?.wanting) { return `A night waited out is no rest. ${host.name} has a bed, but: ${host.wanting}.`; }
     return host ? `A night waited out is no rest: ${host.name} has a bed, under Trade.`
-      : 'Nowhere to sleep here: a night waited out is no rest. A bed is had of an innkeeper or a priest (under Trade), '
-        + 'or a camp made out in the country.';
+      // Who keeps travellers (an innkeeper, a brothers' guest-master: SettlementWriter.keeper), not the priest, who has no
+      // bed to give (round 11, T at Mossminster: the prior was asked, and the guest-master not found).
+      : 'Nowhere to sleep here: a night waited out is no rest. A bed is had of an innkeeper or a guest-master '
+        + '(under Trade), or a camp made out in the country.';
   }
-  static readonly slept = 'Sleep brings back strength and spells: a bed had of an innkeeper or a priest (under Trade), '
-    + 'or a camp made out in the country.';
+  static readonly slept = 'Sleep brings back strength and spells: a bed had of an innkeeper or a guest-master '
+    + '(under Trade), or a camp made out in the country.';
   // Whoever here would give the company a bed (see TalkFocus.services).
   // And, where the bed is withheld, why (too dear for the purse: round 8, M).
   static host(app: ReaderApp): { name: string; wanting?: string } | undefined {

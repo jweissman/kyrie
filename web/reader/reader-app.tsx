@@ -296,6 +296,9 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
         // owner, 5 November: the inn to the smithy had gone by way of the whole country's map).
         outdoors: walked ? !next.combat : ReaderApp.outdoors(frame, next), walking: undefined,
         exploring: keeps ? this.state.exploring : undefined, kept: keeps,
+        // Talk is a lens on one place: gone on to another, it is put away (the contact sheet, 12 November: the rats
+        // lay dead in the next room's foot, Talk still on).
+        talking: next.screen.place.id === frame.screen.place.id ? this.state.talking : undefined,
         acted: this.state.attention.kind === 'thing' ? this.state.attention.id : undefined }, () => { Explorer.settle(this); });
     } catch (error) { this.failed(error); }
   }
