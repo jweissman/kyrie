@@ -437,7 +437,9 @@
   // oldest thing there: read in any of them, the letters to press are the three cut deeper than the rest. One who
   // knows old writing reads them off the flag itself. A strong arm can lever it up instead, slowly, and loudly.
   Entity {t}_u_vault_found: fact "The lettered flag in the undercroft floor lifts: under it, a stair going down into the dark.".
-  Discovery {t}_u_letters "The ring of letters on the undercroft's flag is cut here too, small, over the oldest stone: three of its letters are cut deeper than the rest, worn smooth by thumbs." {
+  // Said as what is seen where it is found: told "on the undercroft's flag … here too", it had spoken of an undercroft
+  // the company had never seen (rounds 10 and 11, R 107, U 135).
+  Discovery {t}_u_letters "A ring of letters cut small over the oldest stone of the old work, three of them cut deeper than the rest and worn smooth by thumbs, as if they were pressed." {
     Found by searching {t}_u_ossuary "Over the oldest niche, behind the bone-heaps, a ring of letters cut small, three of them deeper than the rest.".
     Found by searching {t}_u_brood "Under the webs, on the one dressed stone in the chamber's wall, a ring of letters cut small, three of them worn deep.".
     Found by searching {t}_u_drain "On the keystone where the drain meets the old work, a ring of letters cut small, three of them worn deep.".
