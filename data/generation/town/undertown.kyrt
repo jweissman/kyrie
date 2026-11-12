@@ -355,7 +355,10 @@
   // Toward where the spiders are, the gallery past the adit: toward the adit, the gold had led back out of the
   // gallery with the spiders in it, "the way you came" (rounds 10 and 11, R and U).
   Objective {t}_u_spiders_job_aim when {t}_u_given({t}_u_spiders_job) and not {t}_u_done({t}_u_spiders_job) toward {t}_u_gallery by {t}_u_pit "Burn the spiders out of {{t}_u_adit} under {{t}_u_pit} at {town}.".
-  Objective {t}_u_spiders_job_eggs when {t}_u_done({t}_u_spiders_job) and knows(party, {t}_u_spiders_eggs) and state({t}_u_eggs, hanging) toward {t}_u_brood "Deal with the spiders' mother in {{t}_u_brood} behind the quarry's gallery, and burn her eggs, or the spiders will come again.".
+  Objective {t}_u_spiders_job_eggs when {t}_u_done({t}_u_spiders_job) and knows(party, {t}_u_spiders_eggs) and state({t}_u_eggs, hanging) and able({t}_u_mother) toward {t}_u_brood "Deal with the spiders' mother in {{t}_u_brood} behind the quarry's gallery, and burn her eggs, or the spiders will come again.".
+  // With her dead, what is left is the eggs: "deal with the spiders' mother" had stood under the fight that killed her
+  // (round 10, R 100).
+  Objective {t}_u_spiders_job_burn when {t}_u_done({t}_u_spiders_job) and knows(party, {t}_u_spiders_eggs) and state({t}_u_eggs, hanging) and not able({t}_u_mother) toward {t}_u_brood "Burn the spiders' eggs in {{t}_u_brood} behind the quarry's gallery, or the spiders will come again.".
   Topic {t}_u_spiders_job_paid with {t}_innkeeper "Tell {{t}_innkeeper} the spiders in the old quarry are dead, and their eggs burned" when {t}_u_done({t}_u_spiders_job) and state({t}_u_eggs, burnt) and not {t}_u_halved({t}_u_spiders_job) and not {t}_u_paid({t}_u_spiders_job) once {
     Says "{{t}_innkeeper} counts out 12 coin, and sets a clay pot and a coil of good rope beside it. 'Fireman's salve, and the rope from the gate, which we'll not want now,' {{t}_innkeeper} says.".
     On discuss { Increase quantity(actor, gold) by 12. Give fireproof_salve to actor. Give rope to actor. Assert {t}_u_paid({t}_u_spiders_job). Retract knows(actor, {t}_u_spiders_job). }
