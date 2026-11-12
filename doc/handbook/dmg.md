@@ -1756,7 +1756,7 @@ Crouch down, hold out a hand, scratch behind its ears.
 
 *Kyr · relation(temperament); relation(group, group)* · `rule:inhabitants.hears`
 
-Words instead of blows, for a band that can be spoken to and will hear words (one that warns, or watches from the edge of the light): talked round, it lets the company be; faced down, it gives way. The one of the company best at it speaks, once; it is rolled only when it could go either way. Talked to badly, a band gives you the rest of the watch to be gone, and then comes at you; warned off badly, it comes at you at once.
+Words instead of blows, for a band that can be spoken to and will hear words (one that warns, or watches from the edge of the light): talked round, it lets the company be; faced down, it gives way. The one of the company best at it speaks, once; it is rolled only when it could go either way. Talked to badly, a band gives you the rest of the watch to be gone, and then comes at you, never longer than it had given already (a man who had given eight minutes gave fifteen once he had "no more patience": round 9, Q 71); warned off badly, it comes at you at once.
 
 #### talk round
 
@@ -1777,6 +1777,8 @@ Words instead of blows, for a band that can be spoken to and will hear words (on
 - Shown as: Warn {hearers} off
 - Takes: 10 minutes
 - Costs: 1
+
+A deadline already given stands as it was (patience past this watch); one never given is the rest of the next.
 
 > Needs: able(actor); company(actor); at(actor, site); at(hearers, site); able(hearers); talks(hearers); temperament(hearers, ?t); hears(?t); not (tolerates(hearers, actor)); not (assails(hearers, actor)); not (routed(hearers)); not (spokenTo(hearers, actor))
 

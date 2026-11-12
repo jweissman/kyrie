@@ -636,6 +636,150 @@
         "kyr": true,
         "notes": "Demonstration content (Mission 19, journey 5, 7 November): a spell added by its record alone, for clerics of nature, and cast in a fight in a generated country."
       }
+    },
+    "kindle": {
+      "name": "Kindle",
+      "kind": "spell",
+      "description": "Heal for a small amount of health.",
+      "effects": [
+        {
+          "kind": "heal",
+          "amount": {
+            "kind": "deem",
+            "expression": "1d3 + statMod(#wisdom)"
+          },
+          "target": "ally"
+        }
+      ],
+      "cost": 1,
+      "spell": {
+        "tradition": "divine",
+        "level": 0,
+        "domain": "love"
+      },
+      "source": {
+        "orsino": "divineSpell:kindle",
+        "fidelity": "adapted",
+        "notes": "Orsino adds the caster's whole wisdom score; Kyr scores run 3 to 18 against a first-level company's 6 to 16 hit points, so the score's modifier is added instead: an at-will Kindle had healed 1d3+10 (rounds 10 and 11, R and T; R10-12, R11-05)."
+      }
+    },
+    "rejuvenate": {
+      "name": "Rejuvenate",
+      "kind": "spell",
+      "description": "Heal a small amount of health for an ally.",
+      "effects": [
+        {
+          "kind": "heal",
+          "amount": {
+            "kind": "deem",
+            "expression": "1d8 + statMod(#wisdom)"
+          },
+          "target": "ally"
+        }
+      ],
+      "cost": 1,
+      "spell": {
+        "tradition": "divine",
+        "level": 1,
+        "domain": "love"
+      },
+      "source": {
+        "orsino": "divineSpell:rejuvenate",
+        "fidelity": "adapted",
+        "notes": "Orsino adds the caster's whole wisdom score; Kyr scores run 3 to 18 against a first-level company's 6 to 16 hit points, so the score's modifier is added instead: an at-will Kindle had healed 1d3+10 (rounds 10 and 11, R and T; R10-12, R11-05)."
+      }
+    },
+    "greater_rejuvenate": {
+      "name": "Greater Rejuvenate",
+      "kind": "spell",
+      "description": "Heal a large amount of health.",
+      "effects": [
+        {
+          "kind": "heal",
+          "amount": {
+            "kind": "deem",
+            "expression": "2d8 + statMod(#wisdom)"
+          },
+          "target": "ally"
+        }
+      ],
+      "cost": 1,
+      "spell": {
+        "tradition": "divine",
+        "level": 5,
+        "domain": "love"
+      },
+      "source": {
+        "orsino": "divineSpell:greater_rejuvenate",
+        "fidelity": "adapted",
+        "notes": "Orsino adds the caster's whole wisdom score; Kyr scores run 3 to 18 against a first-level company's 6 to 16 hit points, so the score's modifier is added instead: an at-will Kindle had healed 1d3+10 (rounds 10 and 11, R and T; R10-12, R11-05)."
+      }
+    },
+    "mass_rejuvenate": {
+      "name": "Mass Rejuvenate",
+      "kind": "spell",
+      "description": "Heal a massive amount of health for all allies.",
+      "effects": [
+        {
+          "kind": "heal",
+          "amount": {
+            "kind": "deem",
+            "expression": "4d8 + statMod(#wisdom)"
+          },
+          "target": "allies"
+        }
+      ],
+      "cost": 1,
+      "spell": {
+        "tradition": "divine",
+        "level": 8,
+        "domain": "love"
+      },
+      "source": {
+        "orsino": "divineSpell:mass_rejuvenate",
+        "fidelity": "adapted",
+        "notes": "Orsino adds the caster's whole wisdom score; Kyr scores run 3 to 18 against a first-level company's 6 to 16 hit points, so the score's modifier is added instead: an at-will Kindle had healed 1d3+10 (rounds 10 and 11, R and T; R10-12, R11-05)."
+      }
+    },
+    "holy": {
+      "name": "Holy",
+      "kind": "spell",
+      "description": "Smite your foes with holy energy.",
+      "effects": [
+        {
+          "kind": "damage",
+          "amount": {
+            "kind": "deem",
+            "expression": "3d6 + statMod(#wisdom)"
+          },
+          "damageType": "radiant",
+          "target": "enemies"
+        },
+        {
+          "kind": "apply",
+          "status": "deafened",
+          "duration": 3,
+          "target": "enemies",
+          "save": {
+            "kind": "fortitude",
+            "difficulty": {
+              "kind": "deem",
+              "expression": "18 + #level + #bonusSpellDC"
+            }
+          }
+        }
+      ],
+      "cost": 1,
+      "spell": {
+        "tradition": "divine",
+        "level": 7,
+        "domain": "law"
+      },
+      "source": {
+        "orsino": "divineSpell:holy",
+        "fidelity": "adapted",
+        "notes": "Orsino adds the caster's whole wisdom score; Kyr scores run 3 to 18 against a first-level company's 6 to 16 hit points, so the score's modifier is added instead: an at-will Kindle had healed 1d3+10 (rounds 10 and 11, R and T; R10-12, R11-05)."
+      }
     }
   }
 }

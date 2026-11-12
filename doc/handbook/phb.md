@@ -6957,11 +6957,13 @@ One enemy is paralyzed for 3 turns (only animal creatures; a Strength save again
 
 ##### Kindle
 
-*Faithful · cantrip divine spell, love domain* · `ability:kindle`
+*Adapted · cantrip divine spell, love domain* · `ability:kindle`
 
-Heal one ally for 1d3 + wisdom. A divine cantrip, cast at will.
+Heal one ally for 1d3 + statMod(wisdom). A divine cantrip, cast at will.
 
 > Heal for a small amount of health.
+
+*Adapted: Orsino adds the caster's whole wisdom score; Kyr scores run 3 to 18 against a first-level company's 6 to 16 hit points, so the score's modifier is added instead: an at-will Kindle had healed 1d3+10 (rounds 10 and 11, R and T; R10-12, R11-05).*
 
 ##### Luminous Blade
 
@@ -7153,11 +7155,13 @@ One ally is protected for 3 turns; that ally gains courage for 3 turns. Protecte
 
 ##### Rejuvenate
 
-*Faithful · level 1 divine spell, love domain* · `ability:rejuvenate`
+*Adapted · level 1 divine spell, love domain* · `ability:rejuvenate`
 
-Heal one ally for 1d8 + wisdom. A divine spell of the first level. Takes a first-level slot.
+Heal one ally for 1d8 + statMod(wisdom). A divine spell of the first level. Takes a first-level slot.
 
 > Heal a small amount of health for an ally.
+
+*Adapted: Orsino adds the caster's whole wisdom score; Kyr scores run 3 to 18 against a first-level company's 6 to 16 hit points, so the score's modifier is added instead: an at-will Kindle had healed 1d3+10 (rounds 10 and 11, R and T; R10-12, R11-05).*
 
 ##### Remove Fear
 
@@ -7667,11 +7671,13 @@ One enemy is fleeing for 2 turns (a Wisdom save against 20 avoids it). Fleeing: 
 
 ##### Greater Rejuvenate
 
-*Faithful · level 5 divine spell, love domain* · `ability:greater_rejuvenate`
+*Adapted · level 5 divine spell, love domain* · `ability:greater_rejuvenate`
 
-Heal one ally for 2d8 + wisdom. A divine spell of the fifth level. Takes a fifth-level slot.
+Heal one ally for 2d8 + statMod(wisdom). A divine spell of the fifth level. Takes a fifth-level slot.
 
 > Heal a large amount of health.
+
+*Adapted: Orsino adds the caster's whole wisdom score; Kyr scores run 3 to 18 against a first-level company's 6 to 16 hit points, so the score's modifier is added instead: an at-will Kindle had healed 1d3+10 (rounds 10 and 11, R and T; R10-12, R11-05).*
 
 ##### Heal Ally
 
@@ -7879,11 +7885,13 @@ You gain wildheart for 3 turns. Wildheart: +2 to hit, +2 damage, Constitution +4
 
 ##### Holy
 
-*Faithful · level 7 divine spell, law domain* · `ability:holy`
+*Adapted · level 7 divine spell, law domain* · `ability:holy`
 
-3d6 + wisdom radiant damage to every enemy (may leave whoever it hurts blinded: a Dexterity save against 15 avoids it); every enemy is deafened for 3 turns (a Constitution save against 18 + level + the caster's spell bonus avoids it). Blinded: −4 to hit, −10 evasion, −2 to every roll. Deafened: −2 to hit, 2 easier to hit, −2 damage, −1 to every save, resists 50% of sonic. A divine spell of the seventh level. Takes a seventh-level slot.
+3d6 + statMod(wisdom) radiant damage to every enemy (may leave whoever it hurts blinded: a Dexterity save against 15 avoids it); every enemy is deafened for 3 turns (a Constitution save against 18 + level + the caster's spell bonus avoids it). Blinded: −4 to hit, −10 evasion, −2 to every roll. Deafened: −2 to hit, 2 easier to hit, −2 damage, −1 to every save, resists 50% of sonic. A divine spell of the seventh level. Takes a seventh-level slot.
 
 > Smite your foes with holy energy.
+
+*Adapted: Orsino adds the caster's whole wisdom score; Kyr scores run 3 to 18 against a first-level company's 6 to 16 hit points, so the score's modifier is added instead: an at-will Kindle had healed 1d3+10 (rounds 10 and 11, R and T; R10-12, R11-05).*
 
 ##### Madness
 
@@ -8001,11 +8009,13 @@ Heal every ally for 3d8 + level; end diseased, poison, cursed, blinded, slow or 
 
 ##### Mass Rejuvenate
 
-*Faithful · level 8 divine spell, love domain* · `ability:mass_rejuvenate`
+*Adapted · level 8 divine spell, love domain* · `ability:mass_rejuvenate`
 
-Heal every ally for 4d8 + wisdom. A divine spell of the eighth level. Takes an eighth-level slot.
+Heal every ally for 4d8 + statMod(wisdom). A divine spell of the eighth level. Takes an eighth-level slot.
 
 > Heal a massive amount of health for all allies.
+
+*Adapted: Orsino adds the caster's whole wisdom score; Kyr scores run 3 to 18 against a first-level company's 6 to 16 hit points, so the score's modifier is added instead: an at-will Kindle had healed 1d3+10 (rounds 10 and 11, R and T; R10-12, R11-05).*
 
 ##### Scaleskin
 

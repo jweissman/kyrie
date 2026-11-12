@@ -798,8 +798,8 @@
   "phb": {
    "title": "Player's Handbook",
    "counts": {
-    "faithful": 769,
-    "adapted": 376,
+    "faithful": 764,
+    "adapted": 381,
     "represented": 4,
     "kyr": 557,
     "unsupported": 68,
@@ -915,8 +915,8 @@
      "id": "magic",
      "title": "Magic",
      "counts": {
-      "faithful": 246,
-      "adapted": 4,
+      "faithful": 241,
+      "adapted": 9,
       "represented": 0,
       "kyr": 4,
       "unsupported": 32,
@@ -10155,7 +10155,7 @@
   {
    "id": "ability:kindle",
    "title": "Kindle",
-   "status": "faithful",
+   "status": "adapted",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-0"
   },
@@ -10323,7 +10323,7 @@
   {
    "id": "ability:rejuvenate",
    "title": "Rejuvenate",
-   "status": "faithful",
+   "status": "adapted",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-1"
   },
@@ -10764,7 +10764,7 @@
   {
    "id": "ability:greater_rejuvenate",
    "title": "Greater Rejuvenate",
-   "status": "faithful",
+   "status": "adapted",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-5"
   },
@@ -10946,7 +10946,7 @@
   {
    "id": "ability:holy",
    "title": "Holy",
-   "status": "faithful",
+   "status": "adapted",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-7"
   },
@@ -11051,7 +11051,7 @@
   {
    "id": "ability:mass_rejuvenate",
    "title": "Mass Rejuvenate",
-   "status": "faithful",
+   "status": "adapted",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-8"
   },

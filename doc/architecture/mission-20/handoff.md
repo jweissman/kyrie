@@ -40,6 +40,51 @@ A new player makes a character in about two minutes. The shape of the opening:
 | E148–E151 | Topics in their written order; true walking minutes; the castellan answered; the conversation log folded | specs named in the log |
 | US-01, WM-03, UI-04, NM-09 | The sister asked after; a robbed wagoner not helped; an inn's bed named; walk minutes | specs named in the register |
 
+### After the cutoff (12 November, morning and midday, at the owner's word)
+
+The owner asked for three things: to finish integrating the adventure branch, to close out the housekeeping, and to
+work the recurring problems.
+
+**The adventure branch** is merged with current main on `integrate/first-steps`. The decisions were taken as ordinary
+design (`integration-first-steps.md`).
+- **Real faults the merge exposed, fixed:**
+  - saves no longer fitting in the browser's storage (the integrated worlds are 60% larger);
+  - the bailiff's men killing a waiting company;
+  - nine standing-scenario lines heard in every place at once;
+  - the Dorothea's endings closing the story with the Pharos oil undelivered;
+  - the debt's gold leading to someone else's measure.
+- **Specs** that depended on draws the branch moved were made to test what they are about; the four loosened ones are
+  named in the integration record.
+- **CI** now runs the suite in eight shards, because the larger worlds made four of six exceed 45 minutes.
+- **Two balance questions are left:**
+  - the branch's mummy now beats a lone first-level warrior;
+  - the Bound Howe's raid falls on a company sitting in a taproom.
+
+**Housekeeping** (`housekeeping.md`):
+- 34 clean worktrees whose commits were already in main are removed, and 34 merged local branches deleted, each
+  recorded with its commit.
+- Deleting the 26 merged remote branches needs the owner's permission in this environment; the command and SHAs are
+  ready.
+
+**Recurring problems and game-breakers:**
+
+| Row | What | Checked by |
+|---|---|---|
+| E205 | A reply keeps its number through a conversation, and a digit presses the reply beside it (R11-01: three players) | talk-numbers; rendered |
+| E206 | In a site or underground, the way back stays in sight beside Go…, quietly (PR-08, R10-09: five players) | way-back; rendered in the cellar |
+| E207 | Out of doors, a painting goes the way of the day: dimmed at night, warmed toward evening (in part, R11-09) | rendered |
+| E208 | A way told is a journey over the open country as told: a1's debt goes on to Marsh Howe (R10-17) | told-way; gold survey |
+| E209 | A barred door into the place the aim names is the aim's step (R10-18) | gold-thread |
+| E210 | Specs may say which standing scenarios a world holds (the authors' R88, AB-13) | standing-chosen |
+| E211 | The innkeeper's lodger is found: by night on the crypt stair, and in the ossuary (R9-02) | probe; undertown specs |
+| E212 | With the spiders' mother dead, the aim is to burn her eggs (R10-13 in part) | the spiders' specs |
+| E213 | In the dark, the page says a light is a coin, and where (the authors' AB-05) | — |
+| E214 | Kindle, Rejuvenate and three more added the caster's whole wisdom score (an at-will heal of 1d3+10); now its modifier (R10-12, R11-05) | canon; the spells' specs |
+
+**A design study:** `studies/typography/` renders a warmer humanist sans (Lato, Ubuntu) and Play, the owner's
+suggestion, against the current faces. The verdict there is Lato for the controls if anything; Play reads technical
+beside the paintings.
+
 ### Round 11 (12 November, early): what was fixed
 
 | Row | What | Checked by |
