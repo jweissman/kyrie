@@ -61,6 +61,14 @@ export class ReaderKeys {
       if (chosen) { app.choose(chosen); }
       return !!chosen;
     }
+    if (/^[1-9]$/.test(key) && Stage.mode(app) === 'talk') {
+      // In a conversation, the reply that number is beside, kept through the conversation (see TalkStage.n).
+      const id = document.querySelector<HTMLElement>(`.talk [data-number="${key}"]`)?.dataset.choice;
+      const at = id ? menu.choices.findIndex(c => c.id === id) : -1;
+      if (at < 0) { return false; }
+      app.setState({ cursor: at }); app.choose(menu.choices[at]!);
+      return true;
+    }
     if (/^[1-9]$/.test(key)) {
       // What is drawn with that key on it, first: the glance numbers what it leads with by their places among
       // themselves, and at a place at rest only what will not wait is led with (the second fresh playtest of 7

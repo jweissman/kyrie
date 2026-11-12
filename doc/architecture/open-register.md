@@ -615,7 +615,7 @@ Open:
 
 | Id | What | Status | Pri | When |
 |---|---|---|---|---|
-| R11-01 | Talk topics renumber after each answer: a number pressed for what had been there did something else, once informing on Heian by accident (U 66; R 64; T) | open: recurring in three players over two rounds. A reply's number should hold for the conversation (`TalkFocus` ranking and `Draw.index`) | P1 | M21 |
+| R11-01 | Talk topics renumber after each answer: a number pressed for what had been there did something else, once informing on Heian by accident (U 66; R 64; T) | **fixed** (E205): a reply keeps its number through the conversation, and a digit presses the reply beside it | P1 | M21 |
 | R11-02 | Conversation cannot be steered: villagers have one stock topic; "ask me which, go on" with nothing to ask; no asking about one's own aim (the map, a missing man) of anyone but its giver (U, R) | open: content and design | P1 | M21 |
 | R11-03 | A calling barely matters: a bard has no performing or persuading choices where they fit; "Sing for your supper" is under Trade and rolls persuasion, not Performance (U) | open | P2 | M21 |
 | R11-04 | An aim waiting only on coin (the players' reckoning) draws no gold and says nothing of how to come by it (U 104) | open: with `AimAdvances.short` | P2 | M21 |
