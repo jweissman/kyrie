@@ -56,6 +56,9 @@ describe('the silent lord: where it stands in the world', () => {
     expect(knows(j, 'levy_called')).toBe(true);
     const done = await MapPlay.reach(j, `region__${id}`);
     expect(done.arrived).toBe(true);
+    // Come to it after dark, its gate is shut and the porter asked at the wicket: the morning opens it (the journey
+    // ends later since the standing modules came into every country).
+    if (!j.offers('Into the keep by the gate')) { await j.play('Wait › Until first light'); }
     expect(j.offers('Into the keep by the gate')).toBe(true);
     await j.play('Into the keep by the gate');
     expect(j.at('party')).toBe(k('gatehouse'));

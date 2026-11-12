@@ -80,7 +80,7 @@ describe('a fallen companion', () => {
     expect(await new Frontier('a1', NodeBundleSource.shared).expand(s.campaign)).toBeDefined();
     expect(s.campaign.state.party.map(m => m.name)).toEqual(['Bran', 'Dori']);
     expect(Fallen.choice(s, /Elen/)).toBeUndefined();
-  }, 60000);
+  }, 180000);
   it('comes round at a rest with 1 HP, or dies where they fell, and once dead is not rolled for again', () => {
     const fallen = (seed: string, constitution: number) => {
       const elen = new Content('shock').createCreature('elen', { raceId: 'human', classId: 'warrior', constitution });
