@@ -83,7 +83,10 @@ export class AtHand {
       return { id: x.id, name: x.name, ...x.note ? { note: x.note } : {}, seen: ThingStage.seen(situation, x.name, x.about),
         choices: opener?.children ?? x.choices, opens: opener ? [opener.id] : [] };
     });
-    const ways = PlaceStage.ways(frame.screen, SceneSurface.choices(app)).filter(w => w.choices.length > 1).map(w => {
+    // Not a lock the company holds the key to: its way is under Go…, and wrenching or picking it is no use (rounds 10
+    // and 11, S, R and U: "you have the key" over pick, pry and push).
+    const ways = PlaceStage.ways(frame.screen, SceneSurface.choices(app)).filter(w => w.choices.length > 1 && !w.exit.keyed)
+      .map(w => {
       const acts = w.choices.slice(1), thing = acts.find(c => c.children?.length);
       return { id: w.exit.id, name: PlaceStage.thing(thing?.label ?? w.exit.way ?? w.exit.destination.name),
         note: Words.upper(`${w.exit.way ?? 'the way'} to ${w.exit.destination.name}`),
