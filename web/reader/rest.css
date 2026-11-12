@@ -119,7 +119,10 @@
 .wf-mark.sensed .wf-glyph { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.6; }
 .wf-row:hover, .wf-row:focus-visible { background: rgba(236, 230, 217, .05); }
 /* The way under the pointer or the keys, said beside the list: lit, not gilded. Gold is the aim followed's way's alone. */
-.wf-row.chosen { border-left-color: var(--ivory); background: rgba(236, 230, 217, .07); }
+.wf-row.chosen { background: rgba(236, 230, 217, .09); }
+/* What the place leads with that goes by a way, at its edge in its tone (see Wayfinder.tone): the row's edge is the one
+   indicator's place, so the way chosen is lit by its ground alone, not an ivory edge that read as silver. */
+.wf-row.toned { border-left-color: var(--wf-tone); }
 /* The aim's way: its gold in the row's leading edge alone. */
 .wf-row.aimed { border-left-color: var(--gold); }
 .wf-row.shut { color: var(--dim); }

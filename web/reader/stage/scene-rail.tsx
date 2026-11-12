@@ -76,14 +76,16 @@ export class SceneRail {
       {!shut && <Pip.View fill={lit ? `var(--tone-${lit})` : faint ? `var(--tone-${faint})` : undefined} faint={!lit} />}
     </button>;
   }
-  // Go: shut with no way from here; lit for the aim's way (where the way is shown) or a way not yet taken; dim where
+  // Go: shut with no way from here; lit for the aim's way (where the way is shown) or a way the place leads with; dim where
   // every way goes somewhere left with nothing done and nothing new since.
   static go(app: ReaderApp): Standing {
     const ways = Wayfinder.ways(app), idle = new Set(app.state.frame?.leaf.glance?.idle ?? []);
     if (!ways.length) { return { shut: 'no way on from here' }; }
     if (Wayfinder.aimed(ways) && Guidance.shown(app)) { return { lit: 'gold' }; }
-    const screen = app.state.frame!.screen;
-    if (ways.some(w => !w.c.disabled && Wayfinder.been(screen, w) === false)) { return { lit: Emphasis.tones.exploration }; }
+    // Lit by what the place leads with that goes by one of them, in its tone, and that way marked so inside: not by
+    // there being somewhere not yet been, which early on is everywhere, and named no way in the list.
+    const tone = ways.map(w => Wayfinder.tone(app, w)).find(Boolean);
+    if (tone) { return { lit: tone }; }
     return ways.every(w => idle.has(Wayfinder.to(w))) ? { dim: true } : {};
   }
   // Look: shut with nothing at hand to do anything with; lit by what the glance leads with that is at hand (its tone);

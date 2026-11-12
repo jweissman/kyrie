@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import type { Choice } from '../../../src/ui/choice-list';
 import type { ExitRow, Screen } from '../../../src/ui/screen-types';
 import type { ReaderApp } from '../reader-app';
@@ -8,7 +8,7 @@ import { Act, type Draw } from './act';
 import { GlanceStage } from './glance';
 import { SceneSurface } from './scene-surface';
 import { Glyphs } from '../creation/glyphs';
-import { Emphasis } from '../emphasis';
+import { Emphasis, type Tone } from '../emphasis';
 import { Pip } from './pip';
 
 // A way: what goes by it (c), and the way's own choice where that is a group of its acts (a door to listen at); whether
@@ -63,8 +63,12 @@ export class Wayfinder {
   static Row({ app, draw, way: w, chosen }: { app: ReaderApp; draw: Draw; way: Way; chosen: boolean }) {
     // Dim where it goes somewhere with nothing new to give for now (see Glance's idle), not shut: it can still be taken.
     const dim = !!app.state.frame?.leaf.glance?.idle?.includes(Wayfinder.to(w));
+    // What the place leads with that goes by this way, in its tone at the row's edge, as the mark on Go… is lit by it
+    // (the owner, 12 November: a mark lit, and nothing inside it said which).
+    const tone = w.aim === 'followed' ? undefined : Wayfinder.tone(app, w);
     return <button type="button" className={`wf-row${chosen ? ' chosen' : ''}${w.c.disabled ? ' shut' : ''}`
-      + `${w.aim === 'followed' ? ' aimed' : ''}${dim ? ' dim' : ''}`} data-pick={w.c.id}
+      + `${w.aim === 'followed' ? ' aimed' : ''}${dim ? ' dim' : ''}${tone ? ` toned tone-${tone}` : ''}`} data-pick={w.c.id}
+      style={tone ? { '--wf-tone': `var(--tone-${tone})` } as CSSProperties : undefined}
       // Dim says what it means, once, where it is: never shut, nor far, but nothing new there for now.
       title={dim ? Wayfinder.idle : undefined}
       data-pick-index={draw.index.get(w.way.id) ?? draw.index.get(w.c.id) ?? -1} data-holds={w.holds?.join(' ')}
@@ -248,6 +252,12 @@ export class Wayfinder {
     return ways.find(w => w.c.id === keyed) ?? ways.find(w => w.c.id === app.state.hovered) ?? Wayfinder.aimed(ways);
   }
   // The way the aim followed goes by first, where one does (see Glance.aimed); another aim's is not offered unasked.
+  // The tone of what the place leads with that goes by a way (its chief aspect, never the aim's: that is Wayfinder.aimed).
+  static tone(app: ReaderApp, w: Way): Tone | undefined {
+    const ids = new Set([w.c.id, w.way.id]), led = app.state.frame?.leaf.glance?.acts.find(a => ids.has(a.choice)
+      || ids.has(GlanceStage.choice(app, a.choice)?.id ?? ''));
+    return led ? Emphasis.of(led.aspects, false).tone : undefined;
+  }
   static aimed(ways: Way[]): Way | undefined {
     return ways.filter(w => w.aim === 'followed').sort((a, b) => (a.rank ?? 0) - (b.rank ?? 0))[0];
   }
