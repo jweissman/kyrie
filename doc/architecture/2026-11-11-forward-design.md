@@ -761,3 +761,103 @@ Each note is a first look: what exists, where it starts, and the open question. 
 
 None of these is a Mission 20 requirement. Mission 20's handoff reports what was delivered and verified, apart from
 what this record registers.
+
+## The owner's further directions (12 November, early)
+
+These are directions for after Mission 20, recorded with their reasons and what they would depend on. None of them is a
+Mission 20 deliverable. What Mission 20 did about the signals and the scene's led acts is in its log (E183, E184).
+
+### G. Attention lenses over one scene
+
+*The idea.* People, Things (Look…) and Places (Go…) are three ways of attending to one scene, not three separate sets
+of interactions. A lens would change both which likenesses, objects or destinations are drawn on the picture and
+which acts are led with. The default scene stays quiet: the painting, the narration, a few relevant choices and
+restrained navigation. Turning a lens on shows its layer; the layers are never all drawn at once.
+
+*Keep apart:* inspecting something at once, which costs no game time, from searching or investigating it on
+purpose, which does.
+
+*What exists.* The three surfaces already read one glance, and since E183 a led opener says which act inside it each
+aspect is for (`Promoted.inside`). The scene's led acts and the likenesses' pips are both derived from it.
+
+*Obstacles found tonight:*
+- The glance's three-plus-two rule (three acts, two talks) is a policy in `Promotion.pick`, not a property of a lens.
+- `MenuModel.place` builds the keys' order from the glance and the sheets separately.
+- Look's at-hand list (`AtHand.of`) and the wayfinder (`Wayfinder.ways`) each work out their own ordering.
+
+A lens would need one ranked, typed list of the scene's possibilities, which each lens filters. The glance is
+the start of that list, not yet the whole of it.
+
+### H. World time apart from presentation
+
+*The idea.* A resting scene should feel inhabited: people waking or leaving, shops opening, the work on offer
+changing, an occasional observation, opportunities becoming accessible as circumstances change. Where such a change
+has consequences, it comes from the world's state and its clock, never from recolouring choices. Quiet motion and
+atmospheric variation can be presentation only, so a player pausing to read spends no game time.
+
+*Depends on:*
+- the schedules and comings and goings the inhabitants already have (`schedule`, the watch);
+- the glance being cheap enough to rework on every watch (glance-kite's budget);
+- a typed "what changed since" (`Glance.changed`), which exists now in a small form.
+
+*Not wanted:* broad real-time simulation, or a scene that animates itself.
+
+### I. Ordinary life
+
+*The idea.* A subdued, mostly neutral way of living in Westernesse through a trade, a workplace, a household or a
+community. Everyday work gives small practical gains and discoveries, and these are not drawn as gold undertakings.
+Now and then an extraordinary opportunity may break in, and the player is free not to take it up.
+
+*Depends on:*
+- the gold rules holding (gold only for what is followed);
+- a neutral presentation for routine work;
+- careers and backgrounds as durable facts (see "Careers and companies" above).
+
+### J. Generated teaching repertoires
+
+*The idea.* Named skill batches and disciplines, addressable in Kyr, from which Deem builds coherent teachers. A
+teacher may offer techniques, feats and, rarely, a singular ability. What study needs can be a small, optional
+progress widget, not a full quest.
+
+*Depends on:*
+- the existing `train_member`, `learn_skill` and `learn_spell` acts;
+- the teacher's "means" reason in the glance;
+- a typed study-progress fact.
+
+### K. Biographical progression
+
+*The idea.* Work, apprenticeship, learning, reputation and relationships leave lasting traces, both in the
+character's history and in the world around them.
+
+*Depends on:* the Book (F) and the character prism (E), and on a typed record of what the company did, which already
+exists in part as `CompanyRecall` and the chronicle.
+
+### L. Observer-relative information
+
+*The idea.* The engine knows the exact time, place, identity and state of everything. The character sees what their
+knowledge and abilities justify. Literacy, profession, expertise and experience can change how precise the visible
+information is: an exact hour or "late afternoon", a name or "a man in a grey coat".
+
+*Depends on:* F's contract, and the perception ranges that exist now (`Perception.range`, the "gregarious" trait), extended
+from opportunities to facts.
+
+### M. A progressive top rail
+
+*The idea.* Start with restrained, essential orientation and controls. Useful widgets appear, or can be pinned, as
+needs, learning and play change. Hiding a widget never abandons or erases the progress under it.
+
+*Depends on:* a typed list of the widgets and when each is relevant, kept with the save. The rail now draws a fixed set
+(`SceneRail`).
+
+### N. Opportunity intensity
+
+*The idea.* Colour (the kind of thing) stays separate from rarity, size, accessibility, distance and confidence.
+Those would be shown by restrained opacity or tone, not by bigger and bigger pips.
+
+*What exists:* faint (perceived from afar), dim (nothing new) and the prism (several kinds at once), all in one table
+(`Emphasis`, `Pip`).
+
+*What it would need:* typed magnitude and confidence on an opportunity, which the glance does not have.
+
+*A design-system aim:* make these rules enforceable in code, through shared semantic components that every surface
+(likeness, reply, way, note, map) must use, so that no surface draws a colour of its own.

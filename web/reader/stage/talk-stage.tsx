@@ -17,7 +17,7 @@ import { AimNear } from '../aim-near';
 import { Emphasis } from '../emphasis';
 import { Guidance } from '../guidance';
 import { Pip } from './pip';
-import type { Aspect } from '../../../src/presentation/glance-types';
+import type { Aspect, Promoted } from '../../../src/presentation/glance-types';
 
 // Speaking with someone. Their painting, large, with their name on it; beside it the conversation: what they were
 // doing when you came over, what they said to you and you to them, in order, and what you came to know, which scrolls
@@ -40,7 +40,7 @@ export class TalkStage {
       .filter(Boolean) as string[];
     const counter = frame.screen.trade.find(c => c.id === who.id), { wares, rest } = Wares.of(counter, talk.replies);
     const led = frame.leaf.glance?.acts.find(a => a.subject === who.id)?.for;
-    const inside = (frame.leaf.glance?.acts ?? []).filter(a => a.subject === who.id)
+    const inside = (s.turned ?? frame.leaf.glance?.acts ?? []).filter(a => a.subject === who.id)
       .flatMap(a => (a.inside ?? []).map(x => x.command));
     const focus = TalkFocus.of(rest, { ...led ? { led } : {}, marked: inside, ...s.heard ? { heard: s.heard } : {}, asked: s.asked,
       aims: (frame.screen.aims ?? []).map(a => a.text), paying: frame.screen.paying ?? [] });
@@ -49,15 +49,18 @@ export class TalkStage {
     const followed = (frame.screen.aims ?? []).filter(a => a.followed).map(a => a.text);
     // Gold only on what carries the aim on, not whatever the page leads with for them: "Ask Jassin to join the
     // company", led as a recruit, had been drawn in the aim's gold (round 9, Q 54b).
-    // And each reply is drawn as what the glance found in it, so that a likeness drawn blue, or rose, has its blue
-    // question, or its asking to come along, drawn so here (see Emphasis.within): what teaches, what pays the company,
-    // whoever's asking to join.
-    const acts = frame.leaf.glance?.acts, gilded = Guidance.shown(app);
+    // And each reply is drawn as what the glance found in it, and only that, so that a likeness drawn blue, or rose,
+    // has its blue question, or its asking to come along, drawn so here, and one drawn plain has nothing drawn (see
+    // Emphasis.within): a salter with no mark had had every question blue, for each told something.
+    // What pays the company is drawn green, as their likeness is (see SceneSubject.owed).
+    // As their likeness was drawn when they were turned to (see ReaderState.turned); the aim's next step as it is now.
+    const now = frame.leaf.glance?.acts ?? [], acts = s.turned ? [...s.turned.map(TalkStage.ungilded),
+      ...now.filter(a => a.continues)] : now;
+    const gilded = Guidance.shown(app);
     const spent = (c: Choice) => s.asked.includes(c.id) || /_again(\(|$)/.test(c.command ?? '');
     const drawn = (c: Choice): Aspect[] => spent(c) ? [] : Emphasis.within(acts, c, [
       ...TalkFocus.aimed(c, followed) ? ['undertaking' as const] : [],
-      ...TalkFocus.pays(c, frame.screen.paying) ? ['payoff' as const] : [], ...c.teaches ? ['knowledge' as const] : [],
-      ...c.does === 'recruit' ? ['companionship' as const] : []]);
+      ...TalkFocus.pays(c, frame.screen.paying) ? ['payoff' as const] : []]);
 
     return (
       <div className="talk" id="page">
@@ -104,13 +107,19 @@ export class TalkStage {
       </div>
     );
   }
+  // An act as it was led with, but for the aim's gold, which is the aim's next step as it is now.
+  static ungilded(a: Promoted): Promoted {
+    const rest = Object.fromEntries(Object.entries(a).filter(([k]) => k !== 'continues')) as Promoted;
+    return { ...rest, ...a.inside
+      ? { inside: a.inside.map(x => ({ ...x, aspects: x.aspects.filter(y => y !== 'undertaking') })) } : {} };
+  }
   // Trade, drawn as what the glance found among what is had of them for coin (a bed for the night, what the aim waits
   // on to be sold: Mission 20).
   static ToTrade({ app, aspects, gilded }: { app: ReaderApp; aspects: Aspect[]; gilded: boolean }) {
     const bar = Emphasis.bar(aspects, gilded);
     return <p className="to-trade"><button type="button" className={`option${gilded && aspects.includes('undertaking')
       ? ' aimed' : ''}`} data-action="trade" data-aspects={aspects.join(' ') || undefined} onClick={() => app.trade(true)}>
-      {bar && <i className="prism-bar" role="img" aria-label={Pip.words(aspects, gilded)}
+      {bar && <span className="prism-bar" role="img" aria-label={Pip.words(aspects, gilded)}
         style={{ '--prism': bar } as CSSProperties} />}Trade</button></p>;
   }
   // The painting: someone who could be them, as large as the page allows, cropped to the face, with who painted it
@@ -267,7 +276,7 @@ export class TalkStage {
       <li className={[asked ? 'asked' : fresh ? 'fresh' : '', aimed ? 'aimed' : '', pays ? 'pays' : '',
         bar ? 'marked' : ''].filter(Boolean).join(' ') || undefined} data-aspects={aspects?.join(' ') || undefined}>
         {/* What is said beside its number, wrapping beside it: on a phone a long one had gone under its number. */}
-        <Act.View choice={c} draw={draw}>{bar && <i className="prism-bar" role="img" aria-label={Pip.words(aspects!, gilded)}
+        <Act.View choice={c} draw={draw}>{bar && <span className="prism-bar" role="img" aria-label={Pip.words(aspects!, gilded)}
           style={{ '--prism': bar } as CSSProperties} />}<i>{(draw.index.get(c.id) ?? 0) + 1}</i><span className="said">
           {Typography.curl(c.label)}{c.note && <small> · {c.note}</small>}{asked && <small> · asked</small>}
           {pays && <small className="for-you"> · for you</small>}</span></Act.View>

@@ -165,7 +165,9 @@ export class Affordances {
     // What there is to learn of someone with something to ask, and the asking that would have them come along: a
     // likeness is drawn blue, or rose, only for something within it that is (the owner, 12 November: blue pips with no
     // blue question, a rose pip and the recruiting unmarked).
-    const learned = fresh.find(c => c.teaches && !r.done.has(c.command!)) ?? fresh.find(c => !r.done.has(c.command!));
+    // Blue is for a question whose answer teaches the company something, not for any word to be had of them (the
+    // wagoner's "Offer him a hand" had drawn him blue).
+    const learned = fresh.find(c => c.teaches && !r.done.has(c.command!));
     const joining = leaves.find(c => r.schema.get(c.command!) === 'recruit')
       ?? leaves.find(c => r.willing?.has(c.command!) && !r.done.has(c.command!));
     const whys: Why[] = [...answer ? ['answer' as const] : [], ...named ? ['named' as const] : [], ...kin ? ['kin' as const] : [],

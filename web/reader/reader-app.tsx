@@ -9,6 +9,7 @@ import { WorldStage } from './stage/world-stage';
 import { Explorer, type Part } from './stage/explorer';
 import { Conversation, type TalkLine } from './conversation';
 import type { Attention } from '../../src/ui/attention';
+import type { Promoted } from '../../src/presentation/glance-types';
 import { ReaderStore, type SavedGame } from './reader-store';
 import { ReaderKeys } from './reader-keys';
 import { ReaderOpening } from './reader-opening';
@@ -82,6 +83,9 @@ export interface AppState {
   // In a conversation: what could be said before the last thing said (what is new since stands out: see TalkFocus),
   // and whether the trading is open (wares and services, apart from what is said).
   heard?: string[]; trading?: boolean;
+  // What the place led with about whoever was turned to, as it was when they were turned to: turning to someone tells
+  // the world they were talked to, and what there was to ask them is no longer led with after (see TalkStage.drawn).
+  turned?: Promoted[];
   fight?: FightMark;
   // A choice that cannot be undone, chosen once: its cost is said, and it is done if chosen again.
   confirming?: string;
@@ -213,7 +217,9 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   private attend(choice: Choice, attention: Attention) {
     // A conversation opens on what they were doing when the company came over.
     const doing = attention.kind === 'person' ? this.menu.scene?.subjects.find(x => x.id === attention.id)?.says?.[0] : undefined;
-    this.setState({ attention, open: [], cursor: 0, hovered: undefined, keyed: false,
+    const turned = attention.kind === 'place' ? []
+      : (this.state.frame?.leaf.glance?.acts ?? []).filter(a => a.subject === attention.id);
+    this.setState({ attention, open: [], cursor: 0, hovered: undefined, keyed: false, turned,
       talk: attention.kind !== 'person' ? this.state.talk : doing ? [{ kind: 'telling', text: doing }] : [], asked: [] });
     if (choice.command) { void this.perform(choice, choice.label, attention); }
   }

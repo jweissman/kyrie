@@ -41,8 +41,8 @@ export class GlanceStage {
     // Hurt on the way in (a trap's blade), what happened comes before the place (see Told.Place).
     const stayed = !leaf.moved && !!told, struck = !stayed && !!told && told.lines.some(l => Told.harm.test(l.text));
     const ready = Moments.ready(screen);
-    // Someone here is talked to by their own plate, not by a lead above it as well (the owner, 4 November: "Talk to
-    // Lambert" over a plate of Lambert that did nothing): the menu leaves the lead out and the plate is edged.
+    // Someone here with something for the company is led with as well as by their likeness (the owner, 12 November,
+    // superseding 4 November's "talked to by their own plate"), and the lead says what it is for.
     // Opening the map is the rail's MAP, not a lead beside what is here (the owner, 4 November evening).
     // Opening the map is the rail's MAP, and going by a way is the ways' below: the leads are what else is worth doing
     // (the owner, 4 November evening: the ways had been said twice).
@@ -231,16 +231,16 @@ export class GlanceStage {
   // four at most (amendment 6, B: two to four genuinely different opportunities, never filler). Whoever is here is on
   // the picture, a journey on the map, and what the place's own touches open (a notice, a find) is drawn by them.
   static foreground(app: ReaderApp, acts: Promoted[]): Promoted[] {
-    // Talking to someone here is their likeness's; what else is done with them (asked to stand aside, fought) is not.
-    const pressing = GlanceStage.pressing(acts), person = (a: Promoted) => !!a.subject && a.choice.endsWith('#talk')
-      && (app.menu.scene?.subjects ?? []).some(x => x.id === a.subject && ['person', 'companion'].includes(x.kind));
+    // Whoever there is to talk to for something stands among them as well as on the picture (the owner, 12 November:
+    // a taproom had led with two things, and the several there with something for the company were only likenesses).
+    const pressing = GlanceStage.pressing(acts);
     // Whoever is the aim's next step stands among them too, not only on the picture: the prior to be asked about the
     // churchyard had been only a likeness in the corner, and the foreground empty (the owner, 11 November).
     // A walk about the town is a way like any other here; a journey out over the country is the map's, unless it is
     // the aim's next step (the chapel had led to the churchyard by a walk, and the foreground had been empty).
     const walks = new Set((app.state.frame?.screen.around ?? []).map(d => `travel:${d.id}`));
     const rest = acts.filter(a => !pressing.includes(a) && (!a.choice.startsWith('travel:') || walks.has(a.choice)
-      || a.continues) && (!person(a) || a.continues));
+      || a.continues));
     return [...pressing, ...rest].flatMap(a => GlanceStage.flat(app, a)).slice(0, 4);
   }
   // A choice that only gathers a few things to do, all of them to hand and each able to stand alone, is those things
@@ -415,8 +415,10 @@ export class GlanceStage {
   // Why, unless it is said already ("Talk to your brother" is not "your brother" again, nor a fight's reckoning that its
   // mark says whole); for what is found by turning to someone or something, what it is (the ruts, to follow).
   static note(a: Promoted, c: Choice, label: string): string | undefined {
-    const inside = a.command && a.command !== c.command
-      ? Attending.all(c.children ?? []).find(k => k.command === a.command)?.label : undefined;
+    // Within a talk, what it is led for first (the question that teaches, the asking to come along: Promoted.inside).
+    const within = a.for ?? a.inside?.[0]?.command ?? a.command;
+    const inside = within && within !== c.command
+      ? Attending.all(c.children ?? []).find(k => k.command === within)?.label : undefined;
     const note = a.note ?? inside?.toLowerCase(), said = [label, ...a.marks.map(m => m.said)].join(' ').toLowerCase();
     return note && !said.includes(note.toLowerCase()) ? note : undefined;
   }
