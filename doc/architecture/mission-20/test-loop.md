@@ -6,6 +6,56 @@ scratch scripts that took them are in `evidence-tools/test-loop/`; each says wha
 
 **Nothing here is implemented.** It is a diagnosis and a proposal, with a first experiment for each item.
 
+## Summary (M20 closing): baseline, the five biggest costs, layers, first experiment
+
+**Baseline** (this machine; reproducible with `bun run check:fast` and the scripts in `evidence-tools/test-loop/`):
+
+| | Cold | Warm |
+|---|---|---|
+| `check:fast` (typecheck:fast + lint:fast + test:quick) | ≈ 60 s (caches empty) | **≈ 29 s** |
+| before E223 (typecheck + lint + test:quick) | ≈ 86 s | ≈ 86 s |
+| quick suite alone | 34.4 s before; 9.6–11.6 s now (17.6 s with a game running beside it) | |
+| a process importing the engine | 0.34–0.6 s | |
+| a fixture campaign's start | 0.15 s | 0.07 s |
+| a generated world's start (parse store on) | 7–8 s (14 s with first imports) | 6.6–7 s |
+| a started world resumed from a kept checkpoint | 1.1 s | |
+| one command in a1 / `ScreenModel.build` | 52 ms / 176 ms | 63 ms |
+| the whole suite on CI | 813 + file-minutes in ten shards; the slowest single files 20–53 CI-minutes until split | |
+
+**The five highest-leverage costs:**
+1. **Specs that start a whole generated world to test one rule**: 301 files, **62 % of CI time** (layers below);
+   each start is 7–8 s, and their tests replay walks.
+2. **Authored playthroughs that replay the same prefix in every test**: 50 of the 70 dearest files, 317 CI-minutes
+   (§5b; `bound-howe` alone 53).
+3. **A fresh module registry per spec file** (fixed for the quick suite by `--no-isolate`, E223; CI's suite still
+   isolates).
+4. **The presentation's per-step cost** (`ScreenModel.build` 3–15× the engine step; `Itinerary.shown` 36 % of it),
+   paid by every walking spec.
+5. **No parse store on CI and quadratic province installs** (T24-10, T24-11): CI parses every text in every job; a
+   world's twentieth install costs ten times its first.
+
+**Where the tests live, and where their guarantees belong** (`evidence-tools/retrospective/layers.tsv`, by what each
+file loads, helpers resolved):
+
+| Layer | Files | CI time | In the quick suite |
+|---|---|---|---|
+| pure unit | 166 | 3.5 % | 130 |
+| small integration (a tiny Kyr situation) | **22** | 0.2 % | 14 |
+| headless adventure (an authored campaign) | 327 | 34 % | 126 |
+| full Westernesse (a generated world) | 301 | **62 %** | 6 |
+| browser E2E | 28 | own jobs (two shards, ≈ 30 min) | — |
+
+The middle layer barely exists, though the kernel runs a small Kyr situation in 0.15 s (`retrospective/architecture.md`).
+Candidates to move down a layer, each read: `weary-fights`, `voice` (the hour), `companion-sensed`, `vantage`'s rule,
+`deep-rivals`, `wild-meetings`' cache (§5); the generator properties of `ties-forms`, `road-names`, `page-paintings`
+(assembler output, no session); the 25 "lints clean" tests (one lint run).
+
+**The smallest credible first experiment toward 10×:** a `Tiny.campaign(kyr)` helper (a one-module campaign from a
+string, 0.15 s) and two specs ported to it (`weary-fights`, `voice`'s hour), with their old versions kept until the
+new ones are shown to catch the faults those specs were written for. Second: kept playthrough prefixes for
+`ombra-local`. The quick suite's 30-second budget is already met for the quick set (≈ 10 s); the 10× ambition is now
+about **moving guarantees into the quick set**, not making the current quick set faster.
+
 ## 1. What the loop is now
 
 The routine loop (memory: "fast inner loop"; `CLAUDE`-style practice in this repository) is:
