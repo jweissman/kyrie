@@ -226,6 +226,12 @@ html, body { overflow: hidden; }
   .creation .deck-many .card { aspect-ratio: 5 / 6; padding: 8px 6px; }
   .deck-many .card-name { letter-spacing: .07em; padding-left: .07em; }
 }
+/* On a wide screen of no great height: the many in square cards, so that two rows of them, what the chosen one gives
+   and Continue all fit (at 1280 by 800 the twelve domains' Continue had covered the "Later:" spells and Details, and
+   "Choose first spells" was cut off at the foot: rounds 10 and 11, R and T). */
+@media (min-width: 1280px) and (max-height: 880px) {
+  .creation .deck-many .card { aspect-ratio: 1; padding: 8px 6px; }
+}
 /* On a tablet held upright: the many in rows of square cards, not tall ones (fourteen backgrounds had run past the foot
    of an iPad's screen). */
 @media (min-width: 600px) and (orientation: portrait) {

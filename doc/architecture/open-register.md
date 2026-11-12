@@ -595,3 +595,32 @@ Open:
 | R10-16 | "The followed aim switched by itself" (S 128) | **not reproduced**: S's own note 127 says S pressed Follow this; the followed aim is set only by the player (`Undertakings.follow`) | — | — |
 | R10-17 | a1, the debt: once the nearest old place (Ísencepan) is spent, the aim goes on to "the next old place", Marsh Howe (region__w10). It is on the company's map, but `Itineraries.destinations` gives no plan to it, so no act sets out for it and the gold is lost at Mik's (gold survey, a1/debt, step 10; also LOST before tonight) | open: the company knows it (`region__w10_named`, `region__w10_found` both held) but `Itineraries.plan` returns nothing (no known route, nor a wild area to go toward); with E163 and OWN-43 (the map that knows no way). Probe: tools/gold-survey.ts with V=1 | P1 | M21 |
 | R10-18 | a1, the order's errand: at the head of the steps the gold stops before the speaking door (gold survey a1/order, step 5; LOST before tonight too) | open | P2 | M21 |
+
+## 23. Round 11's cold play (12 November, early)
+
+Two agents played 0b04fa40 (with E190–E193): T, a dutiful cleric in a1 who followed the brothers' errand and saw it
+through; and U, a wandering bard in a random world who gathered company and followed the players' trouble. Their
+reports are in `mission-20/cold/round-11/`. These were fixed in the log:
+- E194: gold past the pillar that teaches;
+- E195: the map inside Neblalac;
+- E196;
+- E197: gold on the way back from the spiders, recurring;
+- E198: likenesses reordering, recurring;
+- E199: forcing a keyed lock, recurring;
+- E200: the undercroft's letters, recurring.
+
+Open:
+
+| Id | What | Status | Pri | When |
+|---|---|---|---|---|
+| R11-01 | Talk topics renumber after each answer: a number pressed for what had been there did something else, once informing on Heian by accident (U 66; R 64; T) | open: recurring in three players over two rounds. A reply's number should hold for the conversation (`TalkFocus` ranking and `Draw.index`) | P1 | M21 |
+| R11-02 | Conversation cannot be steered: villagers have one stock topic; "ask me which, go on" with nothing to ask; no asking about one's own aim (the map, a missing man) of anyone but its giver (U, R) | open: content and design | P1 | M21 |
+| R11-03 | A calling barely matters: a bard has no performing or persuading choices where they fit; "Sing for your supper" is under Trade and rolls persuasion, not Performance (U) | open | P2 | M21 |
+| R11-04 | An aim waiting only on coin (the players' reckoning) draws no gold and says nothing of how to come by it (U 104) | open: with `AimAdvances.short` | P2 | M21 |
+| R11-05 | Healing between fights is Wait → Tend → cast, again and again; a level-1 cleric alone loses to a dog; a free bite before the fight opens; "What it cost" under-counts it (T 54, 113, 114) | open: with R10-12 | P2 | M21 |
+| R11-06 | Prose templated across places: Lunwigil and Neblalac described word for word alike; a fountain and a statue with the same history; "then the road, then the road, then the road" (T 30, 123) | open | P2 | M21 |
+| R11-07 | Text and timing: "By morning the factor's chair is bare" told at once, in the morning, of the wrong inn; Gosse doffing his hat outside, told inside (U 66, 176) | open: with R9-07 | P2 | M21 |
+| R11-08 | Dannel Hobb's "what he saw in the old quarry" offered only after the quarry was done, then gone; Rolen's "talk to the boy first" could not be followed (U 140–142) | open | P2 | M21 |
+| R11-09 | Paintings and portraits against the text: the big top as a kitchen; two inns one hall; a lizardfolk companion painted as a human woman (T 113; U 78, 160) | open: recurring with R9-12, R10-08 | P1 | M21 |
+| R11-10 | No bed at Mossminster's guest-hall, though Wait says to get one of an innkeeper or a priest (T 87–93) | open | P3 | M21 |
+| R11-11 | The domain screen's Continue overlaps the "Later:" spell line (T 08; R 08) | open: recurring, a creation safe-zone fault | P2 | M21 |
