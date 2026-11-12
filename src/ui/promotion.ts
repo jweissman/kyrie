@@ -34,7 +34,8 @@ export class Promotion {
   // Each reason's tier and its place in it.
   static readonly tiers: Record<Why, [Tier, number]> = {
     helpless: [0, -1], answer: [0, 0], danger: [0, 1], warned: [0, 2], dark: [0, 3], retreat: [0, 4], opened: [0, 5],
-    bound: [1, 0], kin: [1, 1], about: [1, 2], named: [1, 3], toward: [1, 4], held: [1, 5], deeper: [1, 6],
+    advance: [1, -1], bound: [1, 0], kin: [1, 1], about: [1, 2], named: [1, 3], toward: [1, 4], held: [1, 5],
+    deeper: [1, 6],
     hungry: [2, 0], hurt: [2, 1], night: [2, 2], exposed: [2, 3],
     companion: [3, -3], spoils: [3, -2], means: [3, -1], life: [3, 0], own: [3, 1], sign: [3, 2], asked: [3, 3],
     unlooked: [3, 4],
@@ -80,7 +81,9 @@ export class Promotion {
   // where a next step is known; none is invented where none is).
   // What the aim names comes before a way toward it, the journey set out on, kin, and what merely stands where the aim
   // is (the shrine's tower had been marked, and the priest the aim says to ask had not: the owner, 11 November).
-  static readonly continuing: Why[] = ['named', 'toward', 'bound', 'kin', 'about'];
+  // What the aim waits on, done here, before any way toward it: a reached waypoint is never left for one further on
+  // (the owner, 12 November: the dead man's box found, the gold had gone on into the cave).
+  static readonly continuing: Why[] = ['advance', 'named', 'toward', 'bound', 'kin', 'about'];
   private static continuance(a: Promoted): number {
     const i = this.continuing.indexOf(a.why);
     return i < 0 ? this.continuing.length : i;

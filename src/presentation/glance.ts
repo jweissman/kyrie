@@ -1,5 +1,6 @@
 import type { Campaign } from '../campaign/campaign';
 import type { Call, Entity, Module, Objective, Predicate } from '../lang/module';
+import { AimAdvances } from './aim-advances';
 import type { WayInfo } from '../ui/passage-model';
 import { Spatial } from '../spatial';
 import { ModuleWriter } from '../lang/module-writer';
@@ -153,7 +154,7 @@ export class Glance {
     const back = recall.came && screen.exits.find(e => e.destination.id === recall.came)?.destination.id;
     const commands = this.commands(screen);
     const authored = new Set(rows.filter(r => this.changes.includes(r.action.schema ?? '')).map(r => r.choice.id));
-    const aim = screen.aims?.find(a => a.followed)?.text, advances = this.advances(campaign, rows);
+    const aim = screen.aims?.find(a => a.followed)?.text, advances = AimAdvances.of(campaign, rows);
     const holding = this.holding(campaign, named);
     return { ...aim ? { aim } : {}, ...advances.size ? { advances } : {}, holding, schema, args, touches, authored,
       speakers: new Set(rows.filter(r => r.action.speaker).map(r => r.choice.id)),
@@ -231,50 +232,6 @@ export class Glance {
       }
     }
     return fronts.size ? new Set([...[...ids].filter(id => !fronts.has(id)), site]) : ids;
-  }
-  // What, done, changes what the aim followed waits on: its effects assert or retract, or change a measure, of a
-  // relation its condition reads (telling the drover's wife what was found, told(wife); giving the brothers' letter,
-  // expects(priest, party)). Where the company goes is not it: every way asserts at.
-  // Matched call by call, not by a relation's name: knows(party, told) is made so by being told what is out in the
-  // country round, not by everything that teaches the company anything (a bed at the inn, its talk overheard, had
-  // been drawn as the debt's); a rule's own unknowns (?i) stand for anything.
-  private static advances(campaign: Campaign, rows: ReturnType<typeof PlayerView.choices>): Set<string> {
-    const def = Undertakings.followed(campaign); if (!def) { return new Set(); }
-    // Not what the world holds already (more herbs for a mother keeping feverwort, led as the aim's: round 7, L 25).
-    const w = campaign.world, calls = this.waits(campaign.module, def)
-      .filter(c => !w.relates(c.name) || !w.related(c.name).some(r => this.meets(r, c))), coin = this.short(def);
-    if (!calls.length && !coin) { return new Set(); }
-    // An aim short of coin is advanced by selling (the debtor home with the hold's music box, at Tuck's, who buys such
-    // things, had been led to ask him every question he knew: Mission 20); the purse is otherwise never waited on.
-    // Nor ever by spending (what the debt carries would sell; a ten-foot pole bought is not that).
-    return new Set(rows.filter(r => !r.action.movement && !/^buy_/.test(r.action.schema ?? '')
-      && ((r.action.success ?? []).some(c => !!c.call && calls.some(w => this.meets(c.call!, w)))
-        || (coin && /^sell_/.test(r.action.schema ?? '')))).map(r => r.choice.id));
-  }
-  private static short(def: Objective): boolean {
-    const read: Call[] = [];
-    this.reads(def.when, read);
-    return read.some(c => c.name === 'quantity' && c.args[1] === 'gold');
-  }
-  // What an aim waits on, call by call, and a rule away what makes it so (the herbs given the fever's mother are
-  // kept, and a rule doses the child); never where the company is, nor what is in the purse, which every way and
-  // every torch changes. Read once for each aim of a module.
-  private static readonly waiting = new WeakMap<Module, Map<string, Call[]>>();
-  private static waits(module: Module, def: Objective): Call[] {
-    const kept = this.waiting.get(module) ?? this.waiting.set(module, new Map()).get(module)!;
-    if (kept.has(def.id)) { return kept.get(def.id)!; }
-    const wanted: Call[] = [], made: Call[] = [];
-    this.reads(def.when, wanted);
-    for (const rule of module.rules ?? []) {
-      if (rule.effects.some(c => !!c.call && wanted.some(w => this.meets(c.call!, w)))) { this.reads(rule.when, made); }
-    }
-    const calls = [...wanted, ...made].filter(c => !['at', 'quantity'].includes(c.name));
-    kept.set(def.id, calls);
-    return calls;
-  }
-  private static meets(a: Call, b: Call): boolean {
-    return a.name === b.name && a.args.length === b.args.length
-      && a.args.every((x, i) => x === b.args[i] || x.startsWith('?') || b.args[i]!.startsWith('?'));
   }
   // The places that hold what the aim names (its town, its site), and the outside a site it names is entered from (the
   // ground before Lunalac's door, set out for to bring its reading-glass up): a journey to any of them is toward it.

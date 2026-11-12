@@ -9,7 +9,7 @@ export class Aspects {
   // By reason. A need (food, light, mending, a bed) and the way back have no aspect: they are urgent, not opportune.
   static readonly by: Partial<Record<Why, Aspect>> = {
     // The aim the player follows: what it names, a way toward it, the journey set out on it, its own people.
-    named: 'undertaking', toward: 'undertaking', about: 'undertaking', bound: 'undertaking', kin: 'undertaking',
+    advance: 'undertaking', named: 'undertaking', toward: 'undertaking', about: 'undertaking', bound: 'undertaking', kin: 'undertaking',
     danger: 'danger', warned: 'danger',
     spoils: 'payoff', means: 'payoff', companion: 'companionship',
     sign: 'knowledge', unlooked: 'knowledge', asked: 'knowledge',

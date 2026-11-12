@@ -209,7 +209,7 @@ export class GlanceStage {
     return hand.some(h => h.choices.some(c => ids.has(c.id)) || h.opens.some(id => ids.has(id)));
   }
   // The reasons a lead is the aim followed's: what it names, a way toward it, what it is about here.
-  static readonly aiming = new Set(['named', 'toward', 'about']);
+  static readonly aiming = new Set(['advance', 'named', 'toward', 'about']);
   // The one way on, where there is only one and it can be taken: offered as itself, not behind Go… (the owner, 6
   // November: two clicks for no choice).
   static only(app: ReaderApp): ReturnType<typeof Wayfinder.ways>[number] | undefined {
