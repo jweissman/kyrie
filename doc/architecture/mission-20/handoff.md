@@ -161,7 +161,7 @@ was ready behind it.
 - the bard's lore, Charm Person and birdfolk gliding never coming up;
 - the castellan speaking with no way to answer him (now answered, E150);
 - Go… lists everything as "20 minutes" (the times are now true, E149; the list is still flat);
-- the conversation log growing without end;
+- the conversation log growing without end (now folded, E151);
 - K's journey drawn east past Heahheald and back, with no route line before setting out.
 
 **Ratings:**

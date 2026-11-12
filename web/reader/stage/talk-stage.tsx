@@ -131,26 +131,32 @@ export class TalkStage {
       const below = box && aim.current ? aim.current.getBoundingClientRect().bottom - box.getBoundingClientRect().bottom : 0;
       if (box && below > 0) { box.scrollTop += below; }
     }, [lines.length, pending]);
+    // What was said before the last three things said is folded away: a conversation had scrolled into an
+    // ever-growing log (round 7, L).
+    const yours = lines.flatMap((l, i) => l.kind === 'you' ? [i] : []), cut = yours.length > 3 ? yours.at(-3)! : 0;
+    const line = (l: TalkLine, i: number) => {
+      // Something seen through, or a level gained, is set apart here as on the place's page.
+      const ended = Moments.ending.exec(l.text), levelled = Moments.levelled.exec(l.text);
+      // Things learned together are one "You know now", a line each: four of them, each under its own label, had
+      // filled the room for talk, and only the first label was in view (Mission 20's fourth round, E 34).
+      // By what the label says, given or not: notes from the engine carry "You know now" as theirs (round 5's three).
+      const prior = lines[i - 1], said = (x: TalkLine) => x.label ?? 'You know now';
+      const more = l.kind === 'learned' && prior?.kind === 'learned' && said(l) === said(prior);
+      return ended ? <Moments.SeenThrough key={i} ended={ended} ready={ready} />
+        : levelled ? <Moments.Levelled key={i} levels={[levelled]} />
+        : l.kind === 'learned' || l.kind === 'aim'
+          ? <p key={i} ref={i === from ? newest : i === last && last > from ? aim : undefined}
+            className={`line learned ${l.kind}${more ? ' more' : ''}`}>
+            {!more && <b>{l.label ?? (l.kind === 'aim' ? TalkStage.aimed(app, l) : 'You know now')}</b>}
+            {Typography.curl(l.text)}
+            {app && l.aim && <Told.Follow app={app} id={l.aim} />}</p>
+          : <p key={i} ref={i === from ? newest : undefined} className={`line ${l.kind}`}>{Typography.curl(l.text)}</p>;
+    };
     return (
       <div className="lines" aria-live="polite">
-        {lines.map((l, i) => {
-          // Something seen through, or a level gained, is set apart here as on the place's page.
-          const ended = Moments.ending.exec(l.text), levelled = Moments.levelled.exec(l.text);
-          // Things learned together are one "You know now", a line each: four of them, each under its own label, had
-          // filled the room for talk, and only the first label was in view (Mission 20's fourth round, E 34).
-          // By what the label says, given or not: notes from the engine carry "You know now" as theirs (round 5's three).
-          const prior = lines[i - 1], said = (x: TalkLine) => x.label ?? 'You know now';
-          const more = l.kind === 'learned' && prior?.kind === 'learned' && said(l) === said(prior);
-          return ended ? <Moments.SeenThrough key={i} ended={ended} ready={ready} />
-            : levelled ? <Moments.Levelled key={i} levels={[levelled]} />
-            : l.kind === 'learned' || l.kind === 'aim'
-              ? <p key={i} ref={i === from ? newest : i === last && last > from ? aim : undefined}
-                className={`line learned ${l.kind}${more ? ' more' : ''}`}>
-                {!more && <b>{l.label ?? (l.kind === 'aim' ? TalkStage.aimed(app, l) : 'You know now')}</b>}
-                {Typography.curl(l.text)}
-                {app && l.aim && <Told.Follow app={app} id={l.aim} />}</p>
-              : <p key={i} ref={i === from ? newest : undefined} className={`line ${l.kind}`}>{Typography.curl(l.text)}</p>;
-        })}
+        {cut > 0 && <details className="said-before"><summary>Said before…</summary>
+          {lines.slice(0, cut).map((l, i) => line(l, i))}</details>}
+        {lines.slice(cut).map((l, k) => line(l, cut + k))}
         {pending && <p className="line you waiting">{Typography.curl(Words.lastSaid(pending))}</p>}
         <div ref={end} />
       </div>

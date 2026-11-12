@@ -132,10 +132,14 @@
 }
 /* What else could be said, a touch away under the few things that are salient; trading apart from it. */
 .more-talk { margin: 10px 0 0; }
-.more-talk > summary { cursor: pointer; list-style: none; font: 500 12px/1 var(--do); letter-spacing: .18em;
-  text-transform: uppercase; color: var(--dim); padding: 10px 0; }
-.more-talk > summary::-webkit-details-marker { display: none; }
-.more-talk > summary:hover, .more-talk > summary:focus-visible { color: var(--accent); outline: none; }
+/* What was said before the last three things, folded away above them (round 7: an ever-growing log). */
+.said-before { margin: 0 0 10px; }
+.said-before[open] { opacity: .7; }
+.more-talk > summary, .said-before > summary { cursor: pointer; list-style: none; font: 500 12px/1 var(--do);
+  letter-spacing: .18em; text-transform: uppercase; color: var(--dim); padding: 10px 0; }
+.more-talk > summary::-webkit-details-marker, .said-before > summary::-webkit-details-marker { display: none; }
+.more-talk > summary:hover, .more-talk > summary:focus-visible, .said-before > summary:hover,
+.said-before > summary:focus-visible { color: var(--accent); outline: none; }
 .more-talk[open] > summary { color: var(--ivory); }
 .replies .fresh .act { border-left: 2px solid var(--azure); }
 .to-trade { margin: 14px 0 0; display: flex; gap: 10px; }

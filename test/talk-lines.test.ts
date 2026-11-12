@@ -3,6 +3,10 @@ import { Conversation } from '../web/reader/conversation';
 import { Words } from '../web/reader/words';
 import type { Frame } from '../web/engine/protocol';
 import type { Choice } from '../src/ui/choice-list';
+import { createElement } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+import { TalkStage } from '../web/reader/stage/talk-stage';
+import type { TalkLine } from '../web/reader/conversation';
 
 // What a conversation keeps of each thing said or done in it: the company's words, then what came of them. An act
 // whose telling says it again is said once (the Bushweald play read "Give healing herbs to Erevan" over "Aldith
@@ -23,6 +27,17 @@ describe('a conversation\'s lines', () => {
     // Told in another verb, it is the same act ("You collect the dyke-reeve's rod for Aldith." over "Aldith takes").
     expect(Conversation.lines(frame('Collect the dyke-reeve’s rod for Aldith', 'Aldith takes the dyke-reeve’s rod.'),
       choice('take'), '').map(l => l.kind)).toEqual(['telling']);
+  });
+  // What was said before the last three things said is folded away (round 7, L: "each conversation scrolls into an
+  // ever-growing log").
+  it('folds away what was said before the last three things said', () => {
+    const lines: TalkLine[] = [1, 2, 3, 4, 5].flatMap(n => [{ kind: 'you', text: `Question ${n}` },
+      { kind: 'speech', text: `Answer ${n}` }]);
+    const html = renderToStaticMarkup(createElement(TalkStage.Lines, { lines }));
+    const [before, after] = html.split('</details>');
+    expect([/Answer 2/.test(before!), /Question 3/.test(before!), /Question 3/.test(after!)])
+      .toEqual([true, false, true]);
+    expect(renderToStaticMarkup(createElement(TalkStage.Lines, { lines: lines.slice(0, 6) }))).not.toContain('details');
   });
 });
 
