@@ -116,10 +116,11 @@ export class WorldStage {
     return (app.menu.scene?.subjects ?? []).filter(x => ['companion', 'person', 'animal', 'creature'].includes(x.kind))
       .sort((a, b) => Number(!!a.danger) - Number(!!b.danger));
   }
-  // As they are drawn: whoever the glance leads with first, so that they are on the picture however many are here.
+  // As they are drawn: in the place's own order, the same from one look to the next, whoever is led with (everyone is on
+  // the picture however many are here). Put first when led, the likenesses had moved after each conversation, and a
+  // touch where someone had been opened someone else (round 10, R 61, 134; round 11, U 97, 148).
   static ordered(app: ReaderApp): SceneSubject[] {
-    const all = WorldStage.present(app);
-    return [...all.filter(x => WorldStage.led(app, x)), ...all.filter(x => !WorldStage.led(app, x))];
+    return WorldStage.present(app);
   }
   // Whether what the glance leads with is about them.
   static led(app: ReaderApp, x: SceneSubject): boolean {
