@@ -470,3 +470,49 @@ The branch's own integration notes (`activation/integration-notes.md`, at 98ad43
 | AI-06 | R96 (rotating the altered-law provinces per world) and R97 (retiring `oldcoin` and `quarrel`, which the wanderer origin's arrivals name) | integration notes §5 | open, M20's first hour is touched by R97 | P3 | M21 |
 | AI-07 | Cold play on the branch: one of three blind players entered a new module; none played one to an ending or fought its dangerous opponents | final report §3 | open: the round after the merge should try one | P1 | M20 close |
 
+
+## 18. The creative and technical direction review (11 November, night)
+
+An independent read-only review the owner passed on (`2026-11-11-direction-review.md`, kept whole). Its items are not
+new rows where the register or the forward-design record already holds them: each is linked to where it lives, with
+what Mission 20 did toward it. Its recommended path (one dense opening, one exemplary undertaking, trust contracts
+first) is consistent with the adventure-to-career direction and the forward-design record's sequence.
+
+| Review | What | Lives in | Mission 20 | When |
+|---|---|---|---|---|
+| C1 | One repeatable unit of play (evidence → plan → resistance → consequence → new possibility), proven by three contrasting characters | FH-01; forward design | — | M21 |
+| C2 | The atlas over-classifies: known, suspected, uninterpreted | forward design A; atlas synthesis | — | M21 |
+| C3 | Character perception must not become class-gated content | R7-02; forward design A | the castellan answered two ways (E150) | M21 |
+| C4 | Approaches from ordinary acts, not isolated commands; a situation checklist | AP-07; forward design (situations) | — | M21 |
+| C5 | Origins create obligation before curiosity | adventure-to-career §1 | — | M21 |
+| C6 | Background revelation bounded, triggered, permanent | adventure-to-career §3 | — | Later |
+| C7 | Companions as equipment; the protagonist made irrelevant by a warrior | R7-02, CB-02 | — | M21 |
+| C8 | Combat dramatically thin: objectives, pressure, interruptible intentions | CB-02, CB-06, CB-08, R7-02 | — | M21 |
+| C9 | Forecasts as bounded reasoning with causes, calibrated | CB-02 (E14, E110), E139 | the lone company's forecast (E139) | M21 |
+| C10 | Consequence proportional to prominence | US-02, E111, E118 | the map's box, the sister, the castellan, the wagoner (E142, US-01, E150, WM-03) | M21 |
+| C11 | Rewards that enlarge play: means, access, standing, understanding, attachment | US-02 | — | M21 |
+| C12 | Busy rather than alive: relevant agency only | forward design notes (institutional plans) | the adventure branch's clocks (§17) | Later |
+| C13 | Causal dossiers before generated mysteries | forward design notes | — | Later |
+| C14 | Tonal centres per situation | NP-01, NP-04 | — | M21 |
+| P1 | A promoted choice is a promise: a false-promise corpus | AP-01 (R9) | test/gold-walk, test/gold-follow, test/gold-thread (E153, E154) | M20 started; M21 to complete |
+| P2 | Three-level navigation; never an empty scene with a way out | AP-07, E136 | ways opened led (E136); places in the hex not left across country (E155) | M21 |
+| P3 | Stable control positions | UI-01, E136 | the rail's fixed slots (E136) | M21 (layout test) |
+| P4 | Paintings that contradict the text | CP-01; handoff §3 | the fort's room (E140); the list for the owner | M21 |
+| P5 | Colour vocabulary exceeds comprehension | atlas synthesis | — | M21 |
+| P6 | Too many aims dilute commitment | E153 | gold only for the aim followed (E153) | M21 (leads, curiosities apart) |
+| P7 | Search as an interface tax; decision context before irreversible choices | AP-08 | the riddle door's words never gold (E154) | M21 |
+| T1 | `Affordances` as a parallel semantic engine: a strangler path by provenance | text-inference.md; forward design | what an act advances typed by its effects and resolution (`AimAdvances`, E154) | M21 |
+| T2 | `Why`, aspect and presentation separated | forward design A | — | M21 |
+| T3 | Author semantic claims, not colours | forward design A | — | M21 |
+| T4 | One sign-based perception contract | forward design A, notes | — | M21 |
+| T5 | Durable opportunity identity | forward design D/E | — | M21 |
+| T6 | A meaningful-outcome contract | forward design (prototype 1's effect gap) | — | M21 |
+| T7 | Command lifecycle phases and assertions | risk review R1 | — | M21 |
+| T8 | Projection cache on/off differential | risk review | — | M21 |
+| T9 | Process-global catalogs | risk review R2; forward design C | — | M21 |
+| T10 | Save compatibility policy and migration | risk review R5 | — | M21 (before schema growth) |
+| T11 | Replay identity apart from wording | risk review (replay lane) | — | M21 |
+| T12 | Planner budgets | risk review R7 | — | M21 |
+| T13 | Authoring legibility lint | risk review R8; AB-14 | — | M21 |
+| T14 | Typed art query with provenance | CP-01 | — | M21 |
+| T15 | A contract corpus as the constitutional suite | M19 verification loop; forward design | the thread and gold specs are its first entries | M21 |
