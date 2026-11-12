@@ -2,7 +2,7 @@ import { beforeAll, describe, expect, it } from 'bun:test';
 import { WorldAssembler } from '../src/world/world-assembler';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlaySession } from '../src/session/play-session';
-import { PlayerView } from '../src/presentation/player-view';
+import type { CreatureStore } from '../src/creature-store';
 import { ModuleWriter } from '../src/lang/module-writer';
 import type { Change } from '../src/lang/module';
 import { Glanced } from './support/glanced';
@@ -80,9 +80,13 @@ describe('what lies in a deep site, with a brother of one\'s own name in the com
   }, 30000);
   it('offers the king\'s crown once the king has fallen', async () => {
     Reach.enter(s, 'region__w8_grave_heart', false);
-    const attack = PlayerView.choices(s.campaign).find(c => c.choice.id.startsWith('attack(region__w8_keeper'))!;
-    await s.leg(attack.choice.id);
-    expect(s.campaign.world.test(ModuleWriter.call('able', 'region__w8_keeper'))).toBe(false);
+    // The king fallen (whether this company can bring him down is the fights' to say: since the standing scenarios
+    // joined the country a lone warrior no longer does), and the place looked at again.
+    const keeper = () => s.campaign.world.test(ModuleWriter.call('able', 'region__w8_keeper'));
+    const lease = (s.campaign as unknown as { creatures: CreatureStore }).creatures.acquire(['region__w8_keeper_person']);
+    try { lease.creatures[0]!.state.hp = 0; lease.commit(lease.creatures); } finally { lease.release(); }
+    await s.leg('wait');
+    expect(keeper()).toBe(false);
     expect(Reach.hand(s).get('the crown of the first king')?.[0]).toStartWith('take_item(region__w8_heart,');
   }, 30000);
 });
