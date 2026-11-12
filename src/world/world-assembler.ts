@@ -86,8 +86,7 @@ export class WorldAssembler {
       spells: ['cure', 'bless', 'anoint', 'prayer', 'minor_restoration', 'cure_moderate'] }];
   static async assemble(seed: string, base: BundleSource, options: {
     library?: string; scenarios?: number; towns?: number; region?: Record<string, DeemValue>;
-    party?: CreatureGenerationContext[]; origin?: string;
-    framework?: string | null;
+    party?: CreatureGenerationContext[]; origin?: string; framework?: string | null;
     // Someone who died in this country before: where they lie, and how they died, which the country remembers.
     // And which standing scenarios it holds, by id (all, unless said): see Drawn.standing.
     memorial?: Memorial; standing?: string[];
