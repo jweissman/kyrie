@@ -12,6 +12,7 @@ over the page. The fonts used are the ones installed on the build machine.
 | `c_lato_all.jpg` | Lato | Lato |
 | `d_ubuntu_ui.jpg` | Ubuntu (humanist) | Newsreader |
 | `e_play_ui.jpg`, `e_play_ui_phone.jpg`, `e_play_ui_creation.jpg` | Play (Jonas Hecksher; the owner's suggestion) | Newsreader |
+| `g_source_ui.jpg` | Source Sans 3 (humanist, variable) | Newsreader |
 
 ## What the renders show
 
@@ -31,6 +32,27 @@ over the page. The fonts used are the ones installed on the build machine.
   - It may suit the smallest machine-like text (key numbers, the rail, the date line) better than headings and
     choices.
   - (Loaded for the render from Google Fonts' latin subset, OFL. Not added to the site.)
+
+## The call (12 November, midday)
+
+**Source Sans 3 for the controls; Newsreader stays for the telling.**
+- It is humanist and warm, like Lato, but variable (200 to 900).
+- Every weight the sheets ask for (300, 500, 600) is its own, not faked from 400 and 700 as Lato's would be.
+- Its letters stay quiet beside the paintings, where Play's do not.
+- The safe-zone, frame, glance and opening browser specs pass with it.
+
+The other faces stay one query away, to keep looking: `?face=jost` (the old one), `?face=lato`, `?face=play`. All are
+self-hosted under the OFL in `web/reader/fonts`, and none is loaded unless asked for.
+
+## The cinematic view (an experiment: `?view=cinematic`)
+
+At the owner's ask, the scene is stripped down:
+- the telling stands on the painting with no panel round it, over a soft shade at the right (`h_cinematic.jpg`);
+- the few things to do are each marked only by a rounded line at the left, in the colour of what it is, or a faint
+  neutral line.
+
+On a phone the panel stays (`h_cinematic_phone.jpg`): the likenesses wrap to a second row there and would show through
+the words. That second row is hidden under the panel in the ordinary view too, which is a fault of its own.
 
 ## If taken up (Mission 21)
 

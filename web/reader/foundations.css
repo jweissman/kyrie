@@ -12,6 +12,18 @@
 @font-face { font-family: 'Newsreader'; src: url(fonts/newsreader-normal-latin-ext.woff2) format('woff2'); font-weight: 300 700; font-display: swap;
   unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
 @font-face { font-family: 'Newsreader'; font-style: italic; src: url(fonts/newsreader-italic-latin.woff2) format('woff2'); font-weight: 300 700; font-display: swap; }
+/* The controls' face since 12 November (the owner: a warmer, clean humanist sans; studies/typography): Source Sans 3,
+   variable, so every weight the sheets ask for is its own and none is faked. Jost, Lato and Play stay for comparison,
+   one query away (?face=jost|lato|play: see ReaderMain.start); none of them is loaded unless asked for. */
+@font-face { font-family: 'Source Sans 3'; src: url(fonts/source-sans-3-normal-latin.woff2) format('woff2'); font-weight: 200 900; font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'Source Sans 3'; src: url(fonts/source-sans-3-normal-latin-ext.woff2) format('woff2'); font-weight: 200 900; font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: 'Source Sans 3'; font-style: italic; src: url(fonts/source-sans-3-italic-latin.woff2) format('woff2'); font-weight: 200 900; font-display: swap; }
+@font-face { font-family: 'Lato'; src: url(fonts/lato-400-latin.woff2) format('woff2'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Lato'; src: url(fonts/lato-700-latin.woff2) format('woff2'); font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Play'; src: url(fonts/play-400-latin.woff2) format('woff2'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Play'; src: url(fonts/play-700-latin.woff2) format('woff2'); font-weight: 700; font-display: swap; }
 :root {
   /* The safe zone: nothing that can be touched or must be read stands nearer the screen's edge than this, nor nearer a
      notch or a home bar than 8px past its inset (the owner, 11 November late). The scene's margins are taken from it,
@@ -40,8 +52,8 @@
   --blue: var(--gold); --red: var(--ember); --yellow: var(--verdigris); --river: var(--azure);
   --land: #15171C; --known: #1B1E24; --wood: #17221D; --fell: #221F1A; --heath: #241C1F; --fen: #16211F;
   --peak: #24232A; --water: #142235;
-  /* Two faces: Newsreader tells and speaks; Jost names what can be done and where one is. */
-  --do: 'Jost', 'Futura', 'Avenir Next', 'Helvetica Neue', Arial, sans-serif;
+  /* Two faces: Newsreader tells and speaks; Source Sans 3 names what can be done and where one is. */
+  --do: 'Source Sans 3', 'Source Sans Pro', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
   --told: 'Newsreader', 'Iowan Old Style', 'Charter', Georgia, serif;
   --display: var(--do); --text: var(--told);
   /* The type scale, as font shorthands, largest first: the game's name; a place's or a page's heading; the question a
@@ -132,3 +144,7 @@
 /* ---- A portrait in its ring: round, gold-edged, the same at creation's corner, on the road and in a scene. ---- */
 .portrait-ring { border-radius: 50%; overflow: hidden; border: var(--ring); box-shadow: 0 8px 22px rgba(0, 0, 0, .5); }
 .portrait-ring img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* The faces kept for comparison (?face=…). */
+:root.face-jost { --do: 'Jost', 'Futura', 'Avenir Next', 'Helvetica Neue', Arial, sans-serif; }
+:root.face-lato { --do: 'Lato', 'Helvetica Neue', Arial, sans-serif; }
+:root.face-play { --do: 'Play', 'Helvetica Neue', Arial, sans-serif; }

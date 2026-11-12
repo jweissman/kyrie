@@ -337,3 +337,33 @@
 .scene-surface.at-evening .scene-view { filter: brightness(.82) saturate(.85) sepia(.18); transition: filter 1.2s ease; }
 .scene-surface.at-night .scene-view { filter: brightness(.45) saturate(.4) contrast(1.05); transition: filter 1.2s ease; }
 @media (prefers-reduced-motion: reduce) { .scene-surface .scene-view { transition: none; } }
+
+/* ---- An experiment, by the address (?view=cinematic; the owner, 12 November): the scene stripped to the painting,
+   the telling with no panel round it, and the few things to do each marked only by a rounded line at its left, in the
+   colour of what it is (neutral where it is nothing in particular). A soft shade over the painting's right keeps the
+   words readable on any painting. Nothing here changes the page as it is played; it is drawn this way only when
+   asked for. ---- */
+/* On a wide screen held level, the telling on the painting itself; on a phone the panel stays (the likenesses wrap
+   to a second row there, which the panel's ground keeps from showing through the words). */
+@media (min-width: 900px) and (orientation: landscape) {
+  :root.view-cinematic .shell.scene-full .world-page.scale-scene .world-body > .focus {
+    border: 0; background: none; backdrop-filter: none; box-shadow: none; }
+  :root.view-cinematic .shell.scene-full .world-page.scale-scene .world-body > .surface::after {
+    content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 2;
+    background: linear-gradient(270deg, rgba(8, 9, 12, .86) 0%, rgba(8, 9, 12, .62) 30%, rgba(8, 9, 12, 0) 58%); }
+  :root.view-cinematic .world-page.scale-scene .focus .told-col p,
+  :root.view-cinematic .world-page.scale-scene .focus .glance p { text-shadow: 0 1px 3px rgba(0, 0, 0, .85); }
+}
+:root.view-cinematic .world-page.scale-scene .glance .led { gap: 4px; }
+:root.view-cinematic .world-page.scale-scene .act.led-act { position: relative; background: none; border: 0;
+  box-shadow: none; padding-left: 20px; }
+:root.view-cinematic .world-page.scale-scene .act.led-act::before { display: none; }
+:root.view-cinematic .world-page.scale-scene .act.led-act .prism-bar { left: 2px; top: 9px; bottom: 9px; width: 4px;
+  border-radius: 4px; }
+:root.view-cinematic .world-page.scale-scene .act.led-act:not(:has(> .prism-bar))::after { content: '';
+  position: absolute; left: 2px; top: 9px; bottom: 9px; width: 4px; border-radius: 4px;
+  background: rgba(236, 230, 217, .28); }
+:root.view-cinematic .world-page.scale-scene .act.led-act:hover,
+:root.view-cinematic .world-page.scale-scene .act.led-act.sel { background: rgba(236, 230, 217, .06); }
+:root.view-cinematic .world-page.scale-scene .act.led-act .key { opacity: .45; border-color: transparent; }
+:root.view-cinematic .world-page.scale-scene .glance .openers { border-top: 0; }
