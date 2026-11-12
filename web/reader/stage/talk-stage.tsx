@@ -45,7 +45,10 @@ export class TalkStage {
     // What the aim followed asks of them is drawn in its gold, as their likeness is (the owner, 8 November: the
     // merchant the rats job sent the company to, and the question to ask her, had been drawn like any other).
     const followed = (frame.screen.aims ?? []).filter(a => a.followed).map(a => a.text);
-    const aimed = (c: Choice) => c.command === led || TalkFocus.aimed(c, followed);
+    // Gold only on what carries the aim on, not whatever the page leads with for them: "Ask Jassin to join the
+    // company", led as a recruit, had been drawn in the aim's gold (round 9, Q 54b).
+    const gold = frame.leaf.glance?.acts.find(a => a.subject === who.id && a.continues)?.for;
+    const aimed = (c: Choice) => (!!gold && c.command === gold) || TalkFocus.aimed(c, followed);
     const spent = (c: Choice) => s.asked.includes(c.id) || /_again(\(|$)/.test(c.command ?? '');
     return (
       <div className="talk" id="page">
