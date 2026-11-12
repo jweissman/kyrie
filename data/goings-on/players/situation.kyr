@@ -50,25 +50,32 @@ Module players "The players on the green" {
   // The town's own people on the players.
   Topic keeper_players with keeper "Ask {keeper} about the players stuck here" when stuck(gosse) and not gone(gosse) once {
     Says "'Four nights' bed and board for seven and a bear,' says {keeper}, 'and the bear eats for three. Eight coin. They had it, too, in the hat, Tuesday night: the whole town went to see them. And then their man who leads the bear went off with the hat.' {keeper} folds the cloth. 'I don't doubt the old man means to pay. He means a great many things. The wagon stays chained till someone does.'".
+    On discuss { Assert knows(actor, lem_gone). }
   }
   Topic priest_players with priest "Ask {priest} about the players" when not gone(gosse) once {
     Says "{priest} smiles, and then tries not to. 'They played the Shepherd's Revenge here on Tuesday, and the clown sat in my place at the front and gave a sermon, and I am still not sure whether I should have minded.' Then, more soberly: 'The man who went off with the hat was Lem Coyle, who leads their bear. He was not a bad man at the shrine. I saw him go out along the common toward the old lime-kiln, with the hat under his coat like a hen.'".
-    On discuss { Assert knows(actor, lem_where). }
+    On discuss { Assert knows(actor, lem_where). Assert knows(actor, lem_gone). }
   }
   Topic trader_players with trader "Ask {trader} about the players" when not gone(gosse) once {
     Says "'They owe me for candles and a pot of honey,' says {trader}, 'and I would give them the candles again for the bear's dance alone. Lem Coyle bought a bottle off me Tuesday with a coin out of the hat. Said it was his wages.' {trader} shrugs. 'Maybe it was.'".
+    On discuss { Assert knows(actor, lem_gone). }
   }
 
   Topic gosse_trouble with gosse "Ask Gosse what has happened" when stuck(gosse) and not gone(gosse) once {
     Says "'A small reverse,' says Gosse. 'A tragedy in the classical sense: brought about by a flaw in the hero, who failed to pay his chain-man for four months.' He spreads his hands. 'Lem has gone off with the hat, and the hat had the reckoning in it, and our host has chained the wagon, and this week the Trial of the Wheel opens at Pentrice over the march and we must be there or die in a ditch.' He looks at you sidelong. 'I do not ask for money. I never ask for money. I mention that it exists.'".
+    On discuss { Assert knows(actor, lem_gone). }
   }
-  Topic hepzibah_lem with hepzibah "Ask Hepzibah about Lem" when stuck(gosse) and not gone(gosse) once {
+  Topic hepzibah_lem with hepzibah "Ask Hepzibah about Lem" when stuck(gosse) and not gone(gosse)
+    and (knows(party, lem_gone) or knows(party, lem_where)) once {
     Says "'He's owed four months,' says Hepzibah, biting off a thread. 'Four coin, since he will ask for it. I have it written down.' She turns a page of the book on her knee, a fat book of cues and accounts. 'Absalom pays his players in compliments, and most of us have learned to eat them. Lem has a mother.' She looks at you over her spectacles. 'If you find him, don't hurt him. He's a good hand with the bear.'".
     On discuss { Assert knows(actor, lem_owed). }
   }
   Topic pudding_patience with pudding "Ask Pudding about the bear" when not gone(gosse) once {
     Says "'Patience,' says Pudding, without lifting his head. 'Thirty-one, which is old for a bear and young for a duchess. She dances if you hum, and eats honey if you have it, and she has never in her life hurt anyone but a goose, and that was a misunderstanding.' He scratches her ear. 'Lem led her round the crowd with the hat on her head. Twice what any of us take. Nobody refuses a bear.'".
   }
+  // Who Lem is, and that he has gone off with the hat, told by whoever speaks of the players' trouble: Hepzibah is not
+  // asked about him before (round 10, both players: "If you find him", of a Lem never met).
+  Discovery lem_gone "Lem Coyle, who leads the players' bear, has gone off with the hat that held their takings." { Known by gosse. }
   Discovery lem_where "Lem Coyle, who led the players' bear, went out along the common toward the old lime-kiln with the hat under his coat." { Known by priest. }
   Discovery lem_owed "Lem Coyle is owed four months' wages, four coin, and Hepzibah Dimmock has it written down." { Known by hepzibah. }
 
