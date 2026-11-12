@@ -1,11 +1,11 @@
 # Mission 20 → Mission 21 handoff (the cutoff, 12 November 2026)
 
-**Status: implementation work, not acceptance.** No human has accepted the first hour. Ten rounds of cold play by
+**Status: implementation work, not acceptance.** No human has accepted the first hour. Eleven rounds of cold play by
 agents were run; their ratings are an agent's, not a player's. This page says what Mission 20 delivered and how each
 part was checked, what is still wrong, and, apart from both, what was registered for later.
 
-- 287 commits since Mission 19 closed (7302392c), at this writing.
-- The log (`log.md`) runs to E193.
+- 313 commits since Mission 19 closed (7302392c), at this writing.
+- The log (`log.md`) runs to E202.
 - The register (`../open-register.md`) holds every open item, with its source.
 
 ## Part 1. Mission 20 delivered and verified
@@ -39,6 +39,18 @@ A new player makes a character in about two minutes. The shape of the opening:
 | E152 | A portrait's credit names its painter and does not shout | test/paintings |
 | E148–E151 | Topics in their written order; true walking minutes; the castellan answered; the conversation log folded | specs named in the log |
 | US-01, WM-03, UI-04, NM-09 | The sister asked after; a robbed wagoner not helped; an inn's bed named; walk minutes | specs named in the register |
+
+### Round 11 (12 November, early): what was fixed
+
+| Row | What | Checked by |
+|---|---|---|
+| E194 | The fact an aim waits on that an observation teaches (the marks read, the history known) makes what brings the observation about the aim's step: the pillar gold, not the empty niche | test/gold-thread "leads to what teaches" |
+| E195 | Inside a site in wild country the map puts the company at its door's hex (Neblalac, not by Mossminster) | test/map-in-site |
+| E197 | The spiders job's aim goes toward the gallery they are in, so the gold goes on (to the brood-chamber), not back out | probe tools/spiders.ts; the job's specs |
+| E198 | The likenesses keep their places from one look to the next | the browser specs on CI |
+| E199 | Look… does not offer forcing a lock the company holds the key to | probe tools/pitkey.ts; door-browser |
+| E196, E200, E202 | Learned abilities by name; "an aim" when none is followed; the ring of letters as seen; the domain step at 1280 by 800 | specs and a render |
+| E201 | CI: the wren trace's digests rewritten for the Lem fact | traces spec |
 
 ### Round 10's P0, and what else both its players met (12 November, early)
 
@@ -109,7 +121,7 @@ Everything is in `integration-first-steps.md`. Main was kept stable; nothing of 
 
 The rest are triaged in the register's §16 (AB-03 to AB-14) for Mission 21.
 
-### Cold play: ten rounds, agents only
+### Cold play: eleven rounds, agents only
 
 | Round | Players | Clarity | Beauty | Interest | Challenge | Continue |
 |---|---|---|---|---|---|---|
@@ -121,6 +133,8 @@ The rest are triaged in the register's §16 (AB-03 to AB-14) for Mission 21.
 | | Q: catfolk illusionist, the dead man's map, an explorer | 3 | 4 | 4 | 3 | 3.5 |
 | 10 (daa96430) | R: dwarf cleric of Love, a lost sister, a1, sociable | 3 | 4 | 4 | 2 | 3 |
 | | S: dwarf warrior, the dead man's map, a random world, a fighter | 3 | 4 | 4 | 2 | 3 |
+| 11 (0b04fa40) | T: dwarf cleric of Light, the brothers' errand, a1, dutiful (aim seen through) | 4 | 4 | 4 | 3 | 3 |
+| | U: catfolk bard, the dead man's map, a random world, a wanderer | 3 | 4 | 4 | 3 | 3 |
 
 Round 8's reports are in `cold/round-8/` (E158). Both players followed their reason, and both saw it through or nearly
 (the fever nursed; Lapisrecs read). What round 8 found again, and where it stands:
@@ -161,8 +175,35 @@ Round 10's reports are in `cold/round-10/`. It was played on the build with the 
   - fights too easy, with a free heal (R10-12).
 - **New and open:** Flee's "sure, now" failed once (R10-07, not reproduced).
 
-Not one round has been clean, and no gate of successive clean reviews was reached. Round 11 (T and U, on 0b04fa40, the
-build with E190–E193) was under way at this writing.
+Round 11's reports are in `cold/round-11/`.
+- **T, dutiful, followed the brothers' errand and saw it through** (+300 xp, 40 coin). That is the first agent in two
+  rounds to finish an origin's aim by following the page. T rated clarity 4.
+- **U wandered by choice**, hired a scholar, paid the players' reckoning, and spent an evening at the circus ("the best
+  part").
+- **Fixed after the round:**
+  - E194: gold on an empty niche, past the pillar that completed the aim;
+  - E195: the map inside Neblalac, recurring after E170;
+  - E196;
+  - E197: gold on the way back out of the spiders' gallery, recurring with R;
+  - E198: the likenesses reordering, recurring with R;
+  - E199: forcing a keyed lock, recurring in three players;
+  - E200: the undercroft's letters before the undercroft, recurring with R;
+  - E202: the domain step at 1280 by 800, recurring with R.
+- **Recurring and open:**
+  - R11-01: talk topics renumbering after each answer (three players, two rounds). U pressed a number and informed on
+    someone by accident;
+  - R11-02: conversation that cannot be steered;
+  - R11-09: paintings against the text, in every round since 9.
+- **The signals held** in both reports:
+  - rose on those who would join;
+  - blue on those with something to tell;
+  - green on what was for the company;
+  - the map's gold on the next destination.
+
+  One exception was reported: the speaking door, blue in Look… and gold on the panel (T 33–34).
+
+Not one round has been clean: every round has found something fixed afterwards. No gate of successive clean reviews was
+reached.
 
 ### Tests at the cutoff
 
@@ -204,31 +245,38 @@ build with E190–E193) was under way at this writing.
 
 ## Part 2. What is still wrong (ranked; the register has the rest)
 
-1. **Fights:**
-   - trivial with a warrior, and over-warned in places (CB-02, CB-08, R7-02);
-   - a bard's gifts and spells rarely matter;
-   - creature damage does not grow with level (AB-03).
-2. **Scene navigation (recurring; the owner's decision):**
-   - with an aim followed, the scene leads with its one gold way, and the way up or back is only under Go…, one step
-     at a time (round 8, M; round 9, P and Q: penned in, no "Up");
-   - the first green offers 31–37 ways;
-   - inner rooms are dead ends to the page.
-3. **The gold's thread is not yet everywhere:**
-   - the order past the riddle door (no gold on the right word);
-   - gold on a hire or the way back out, or two at once (round 9, R9-09);
-   - gold past the keeper an aim is about, or into a signposted ambush (round 8, M);
-   - aims ended silently, with no "seen through".
-4. **The map:**
-   - a touch, then another on a hex near the card, lands on another hex because the camera moves it out from under
-     the card;
-   - the route line was missed by one player; its data is present and was drawn in our screenshots.
-5. **Promises unkept:** the crypt's lore cannot be acted on; a lodger told of is never found (R9-01, R9-02).
-6. **Names** of the opening's works and countries come from mixed tongues (register PR-06, with a proposed rule).
-7. **Paintings and text against state:**
-   - sunsets at noon, hillsides underground, prose that contradicts what happened;
-   - the owner's painting list (handoff §3 of the draft, kept in the register).
-8. **The adventure branch** waits on the owner's decisions (above).
-9. **Acceptance:** no human has played the first hour for acceptance (FH-01).
+1. **Paintings and text against state: recurring in every round since 9.**
+   - A ruin painted whole, sunny scenes for a stormy evening, a big top shown as a kitchen, a lizardfolk companion
+     painted as a human woman.
+   - Text of what could not be seen.
+   - Players say they "stopped trusting what I saw" (R9-12, R10-08, R11-09, R11-07).
+2. **Conversation (recurring):**
+   - Topics renumber after each answer, so a number pressed does something else. One player informed on someone by
+     accident (R11-01; three players).
+   - Villagers have one stock line, and no one but its giver can be asked about the company's own aim (R11-02,
+     R10-15).
+3. **Scene navigation (recurring; the owner's decision, PR-08 and R10-09):** the way back and some features are only
+   under Go… or Look…, one step at a time; five players in three rounds. The first green offers 31–37 ways.
+4. **Fights:**
+   - Mostly too easy: an at-will heal makes hit points meaningless, and warned dangers can be walked past (R10-12,
+     R11-05).
+   - Level 1 alone is swingy.
+   - Flee's "sure, now" failed once (R10-07, not reproduced).
+   - A calling's gifts rarely matter (R11-03).
+5. **The gold's thread is not yet everywhere:**
+   - a1's debt after the first place is spent: the next is known but has no route (R10-17);
+   - a1's order before the speaking door, in the survey (R10-18);
+   - an aim waiting only on coin (R11-04);
+   - aims ended silently.
+
+   Fixed tonight: the keep's door (E190), the pillar (E194), the spiders' gallery (E197).
+6. **The map:**
+   - the camera moves a touched hex out from under the card;
+   - a crowd of far labels in the fog (U).
+7. **Promises unkept:** the crypt's lore, the lodger, Lem's whereabouts (R9-01, R9-02, U).
+8. **Names** come from mixed tongues (PR-06).
+9. **The adventure branch** waits on the owner's decisions (above).
+10. **Acceptance:** no human has played the first hour for acceptance (FH-01).
 
 ## Part 3. Architectural follow-ups for Mission 21 (the owner's atlas synthesis, 11 November night)
 
