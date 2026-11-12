@@ -121,6 +121,8 @@ export class RouteCard {
     const land = screen.region!.land!;
     if (way.go) { return 'Across the country you can see, the quickest way.'; }
     if (way.cell !== undefined && !MapView.walkable(land, Number(way.cell))) { return 'There is no going there on foot.'; }
+    // In the company's own hex, by the ways about where it stands, not across the country.
+    if (land.marks.some(m => m.id === chosen && m.cell === land.here)) { return 'Close by: its way is from where you are, under Go….'; }
     return land.marks.some(m => m.id === chosen && m.state === 'heard')
       ? 'You know no way there yet: go into the country beside it, and the way will show.' : 'You know no way there yet.';
   }
