@@ -7,7 +7,7 @@
   Relation {t}_hesper_gone(group). Relation {t}_hesper_found(group). Relation {t}_theft_solved(group). Relation {t}_theft_wrong(group).
   Relation {t}_animals_known(group). Relation {t}_pilgrim_asked(group).
   // ---- Missing: Hesper Lowe goes to take her own pattern, and does not come back.
-  Rule {t}_hesper_goes when {t}_hesper_told(party) and not {t}_bell_cast(party) and watch(clock) >= 40 and not {t}_hesper_gone(party) says "The apprentice's apron is found on the well-curb, soot-side out, and nobody has seen her since the forenoon." { Assert {t}_hesper_gone(party). }
+  Rule {t}_hesper_goes heard at {t}_green when {t}_hesper_told(party) and not {t}_bell_cast(party) and watch(clock) >= 40 and not {t}_hesper_gone(party) says "The apprentice's apron is found on the well-curb, soot-side out, and nobody has seen her since the forenoon." { Assert {t}_hesper_gone(party). }
   Rule {t}_hesper_moves when {t}_hesper_gone(party) and not {t}_hesper_found(party) and at({t}_hesper, {t}_green) { Retract at({t}_hesper, {t}_green). Assert at({t}_hesper, {t}_stones_under). }
   Observe {t}_hesper_missed at {t}_green when {t}_hesper_gone(party) and not {t}_hesper_found(party) "The merchant keeps looking toward the hill. The apprentice's apron hangs on the well-curb, soot-side out, and the sheds have not heard the hammer since yesterday.".
   Objective {t}_hesper_aim when {t}_hesper_gone(party) and not {t}_hesper_found(party) toward {t}_merchant "Hesper Lowe's apron was found on the well-curb and she has not been seen since: ask {{t}_merchant}, who has not slept.".

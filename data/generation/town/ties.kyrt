@@ -17,6 +17,8 @@
 //          answer for it if the company does not.
 // Add a shape by adding a section; nothing in the engine needs to change. A watch is ten minutes: 144 to a day.
 --- base
+  // What happens in a town on its clock is heard on its green, not wherever the company is: three towns' tie had
+  // been told at once, over and over, and cut a wait for dark in the first town (M20's integration).
   Relation {t}_tie_done(group). Relation {t}_tie_lost(group). Relation {t}_tie_asked(group). Relation {t}_tie_noted(group).
   Measure {t}_tie_at(group).
   Rule {t}_tie_note when {t}_tie_asked(party) and not {t}_tie_noted(party) { Set {t}_tie_at(party) to watch(clock). Assert {t}_tie_noted(party). }
@@ -52,8 +54,8 @@
     Says "{{t}_innkeeper} takes the pouch and holds it as if it were still warm. 'Two days,' they say. 'She asked about the lamp the morning she went. I lied; I said it was lit. It was.' They do not look at you. 'I will put it in with her. Take this. Do not say it was not enough; I know.'".
     On discuss { Assert {t}_tie_done(party). Give 4 gold to actor. }
   }
-  Rule {t}_tie_dies_unasked when not {t}_tie_asked(party) and not {t}_tie_done(party) and not {t}_tie_lost(party) and watch(clock) >= 288 says "Somewhere in {town} a door is shut softly, and a cloth is tied round the lamp in the window of the inn." { Assert {t}_tie_lost(party). }
-  Rule {t}_tie_dies_asked when {t}_tie_asked(party) and not {t}_tie_done(party) and not {t}_tie_lost(party) and watch(clock) >= {t}_tie_at(party) + 144 says "Somewhere in {town} a door is shut softly, and a cloth is tied round the lamp in the window of the inn." { Assert {t}_tie_lost(party). }
+  Rule {t}_tie_dies_unasked heard at {t}_green when not {t}_tie_asked(party) and not {t}_tie_done(party) and not {t}_tie_lost(party) and watch(clock) >= 288 says "Somewhere in {town} a door is shut softly, and a cloth is tied round the lamp in the window of the inn." { Assert {t}_tie_lost(party). }
+  Rule {t}_tie_dies_asked heard at {t}_green when {t}_tie_asked(party) and not {t}_tie_done(party) and not {t}_tie_lost(party) and watch(clock) >= {t}_tie_at(party) + 144 says "Somewhere in {town} a door is shut softly, and a cloth is tied round the lamp in the window of the inn." { Assert {t}_tie_lost(party). }
   Observe {t}_tie_waning at {t}_green when watch(clock) >= 200 and not {t}_tie_lost(party) and not {t}_tie_done(party) "The herb-wife's pony stands tied at the inn door, and the shutters upstairs are half closed in the middle of the day. Nobody is talking above a murmur.".
   Observe {t}_tie_gone at {t}_green when {t}_tie_lost(party) and not {t}_tie_done(party) "A grey cloth is tied round the lamp in the window. The chair in the lee of the door is empty, with a rosary of dried peas still on the arm of it, and the innkeeper is sitting on the step beside it, as people sit who do not know what to do with their hands.".
   Observe {t}_tie_late_after at {t}_green when {t}_tie_lost(party) and {t}_tie_done(party) "The cloth has been taken off the lamp in the window and it burns again, low and steady, and a small grey pouch with red letters on it has been nailed up beside it on the lintel, where a man would have to look.".
@@ -79,7 +81,7 @@
   }
   Observe {t}_tie_seen at {site} when not holding(party, {t}_tie_kind) and not {t}_tie_done(party) and not {t}_tie_gone(party) "Under a flat stone by the way in lies something brass-bound and dented, put down carefully by someone who meant to come back for it with company.".
   Observe {t}_tie_beaten at {site} when {t}_tie_gone(party) and not holding(party, {t}_tie_kind) and not {t}_tie_done(party) "The flat stone by the way in has been turned over, not long ago: the grass beneath it is still pressed in the shape of something round, and there are the prints of good boots, going back the way they came.".
-  Rule {t}_tie_goes when not holding(party, {t}_tie_kind) and not {t}_tie_done(party) and not {t}_tie_gone(party) and watch(clock) >= 60 says "The surveyor's son has gone: his mule is not at the rail, and the boy at the stable says he was gone before light, with a spade." { Assert {t}_tie_gone(party). }
+  Rule {t}_tie_goes heard at {t}_green when not holding(party, {t}_tie_kind) and not {t}_tie_done(party) and not {t}_tie_gone(party) and watch(clock) >= 60 says "The surveyor's son has gone: his mule is not at the rail, and the boy at the stable says he was gone before light, with a spade." { Assert {t}_tie_gone(party). }
   Rule {t}_tie_takes when {t}_tie_gone(party) and at({t}_tie_token, {site}) { Retract at({t}_tie_token, {site}). }
   Rule {t}_tie_returns when {t}_tie_gone(party) and not {t}_tie_back(party) and watch(clock) >= 130 { Assert {t}_tie_back(party). }
   Observe {t}_tie_empty at {t}_green when {t}_tie_gone(party) and not {t}_tie_back(party) "The surveyor's son is not at the well-curb. The merchant keeps looking up the road with the face of a person doing sums.".
@@ -104,7 +106,7 @@
     Says "{{t}_merchant} takes the measure and does not fill it. 'Four days he has stood there,' they say. 'And a good half of this market has been told a false weight was honest, and has taken it home, and will not be told. I may have it back. I may not have back what it was for.' They count out what they have. 'It is a poor payment. I should not call it a payment.'".
     On discuss { Assert {t}_tie_done(party). Give 5 gold to actor. }
   }
-  Rule {t}_tie_turns when {t}_tie_back(party) and not {t}_tie_done(party) and not {t}_tie_lost(party) and watch(clock) >= 260 says "In the market the merchant's weights are being weighed against the other measure by a woman with a basket and a hard face, and are found to be short, as they are, by a thimble; and nobody is laughing, but nobody is looking at the merchant either." { Assert {t}_tie_lost(party). }
+  Rule {t}_tie_turns heard at {t}_green when {t}_tie_back(party) and not {t}_tie_done(party) and not {t}_tie_lost(party) and watch(clock) >= 260 says "In the market the merchant's weights are being weighed against the other measure by a woman with a basket and a hard face, and are found to be short, as they are, by a thimble; and nobody is laughing, but nobody is looking at the merchant either." { Assert {t}_tie_lost(party). }
   Observe {t}_tie_lost_after at {t}_green when {t}_tie_lost(party) and not {t}_tie_done(party) "The merchant's stall is shuttered at midday. The surveyor's son has the head of the market, and the brass-bound measure, and a following, and a way of saying 'mine' that has gone from a claim to a custom.".
   Observe {t}_tie_after at {t}_green when {t}_tie_done(party) and not {t}_tie_lost(party) "At the stalls the weights are being set out again, matched by eye to a brass-bound measure on the merchant's counter, and people are checking them with the faces of folk who have been given something back. A young man in a good coat has been seen leaving by the east road, rather earlier than he meant to.".
   Observe {t}_tie_late_after at {t}_green when {t}_tie_done(party) and {t}_tie_lost(party) "The brass-bound measure is back on the merchant's counter, and the weights are matched to it again, and customers weigh them twice, quietly, and say nothing. It will take a season to be believed.".
@@ -129,7 +131,7 @@
     Says "'The cattle got out of the drove,' says the drover's boy, 'and went across the old stones, I ran, I did not kick anything. I do not know what is under a heap of bread. Nobody asked me; they asked what I had in my bundle.' He scowls at his boots. 'It is just a pile of stones. It is just a pile of stones that I am going to sit on the curb for.'".
     On discuss { Assert knows(actor, {site}_named). }
   }
-  Rule {t}_tie_blamed when state({t}_tie_cairn, fallen) and not {t}_tie_done(party) and not {t}_tie_lost(party) and watch(clock) >= 216 says "The bell at the shrine is rung once, for no service, and the town goes to the green as a town does that has decided something; and the drover's boy is set on the well-curb with his hands in front of him." { Assert {t}_tie_lost(party). }
+  Rule {t}_tie_blamed heard at {t}_green when state({t}_tie_cairn, fallen) and not {t}_tie_done(party) and not {t}_tie_lost(party) and watch(clock) >= 216 says "The bell at the shrine is rung once, for no service, and the town goes to the green as a town does that has decided something; and the drover's boy is set on the well-curb with his hands in front of him." { Assert {t}_tie_lost(party). }
   Observe {t}_tie_vigil at {t}_green when watch(clock) >= 100 and state({t}_tie_cairn, fallen) and not {t}_tie_lost(party) and not {t}_tie_done(party) "Knots of people stand at their doors with their arms folded, looking up the hill road. A child asks her mother who has spoiled the bread, and is not answered.".
   Observe {t}_tie_stocks at {t}_green when {t}_tie_lost(party) and not {t}_tie_done(party) and not {t}_tie_cleared(party) "The drover's boy sits on the well-curb with a loaf tied to his wrist, which he is to carry until the spring, and the town files past, one by one, and looks at him, and says nothing, which is the whole of the custom. Nobody has spoken to the drover.".
   Topic {t}_tie_back with {t}_priest "Tell {{t}_priest} the cairn at {sitename} stands again" when state({t}_tie_cairn, mended) and not {t}_tie_done(party) once {
