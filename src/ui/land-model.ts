@@ -170,9 +170,19 @@ export class LandModel {
   // country (a place there with no cell of its own).
   private at(here: string): { here?: number } {
     // An authored region's land knows each stretch of it whole (see AuthoredLand): nobody is lost on it.
-    const lost = !this.chart.blocks && this.chart.places[here] === undefined && this.marked(here)?.space?.kind === 'wilderness';
-    const road = this.chart.roads[here], c = lost ? undefined : this.cell(here) ?? road?.[Math.floor(road.length / 2)];
+    // Inside a site there is not lost: its rooms are at the site's cell (in Lapisrecs's long gallery the map had put
+    // the company nowhere, and offered a journey to Lapisrecs: round 8, N).
+    const site = Spatial.ancestry(this.entities, here).find(e => e.space?.kind === 'site');
+    const lost = !this.chart.blocks && this.chart.places[here] === undefined && !site
+      && this.marked(here)?.space?.kind === 'wilderness';
+    const road = this.chart.roads[here], c = lost ? undefined
+      : this.cell(here) ?? road?.[Math.floor(road.length / 2)] ?? (site ? this.ground(site) : undefined);
     return c === undefined ? {} : { here: c };
+  }
+  // The cell of the country a site stands in: the place on the land beside it, in the same stretch of country.
+  private ground(site: Entity): number | undefined {
+    const id = Object.keys(this.chart.places).find(p => this.entities.get(p)?.space?.parent === site.space?.parent);
+    return id === undefined ? undefined : this.chart.places[id];
   }
   // Each place on the land the company knows of that is not a settlement or a stretch of wild country (a landmark in
   // a wood, a site, a march-stone), by how much it knows of it: been to, seen, or only heard of. A site is one mark,

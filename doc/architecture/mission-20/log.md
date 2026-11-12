@@ -285,5 +285,6 @@ Sources: the builder's probes (P), cold round 1 player A / B (screenshot numbers
 | E167 | P3 | "1 minutes" on a way (round 8, N) | round 8 | **fixed**: one minute is singular in a span and in a journey under way |
 | E168 | P3 | The bard "wears robe of elvenkind, robe of the archmagi" at creation (round 8, N): every wearable item, wonders included | round 8 | **fixed**: a calling's wear lists ordinary armour only (a bard: clothing, hide, leather) |
 | E169 | P3 | "Xyn hits the dark vessel, for 10" and then "takes 8 slashing damage (roll 10)" (round 8, N) | round 8 | **fixed**: the telling keeps a killing blow's weight (R81); the dice line now says why less was taken ("8 was all it had left") |
+| E170 | P1 | Underground in Lapisrecs the map put the company nowhere, and its own hex read "Journey to Lapisrecs, 22 minutes": the way out, by another name (round 8, N 99) | round 8 | **fixed**: inside a site in wild country the company is at the site's hex; a place it is inside is never set out for; its own hex says "Where you are" and, where there is a way, "Leave Lapisrecs" (test/map-in-site) |
 | E8 | — | Headless scripts could not take a map journey | — | **fixed** bf62b137 (`map:<place>`) |
 | E21 | — | Cold agents under automation skip the prologue; next rounds use `&opening` | P | noted (harness) |

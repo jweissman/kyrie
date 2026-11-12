@@ -217,22 +217,28 @@ export class MapView {
     const plans = [...screen.destinations ?? [], ...screen.roads ?? [], ...screen.around ?? [], ...screen.mapped ?? []];
     const d = plans.find(x => x.id === id) ?? plans.find(x => x.id === area);
     const mark = land.marks.find(m => m.id === chosen), within = region.areas.find(a => a.here)?.id === area;
-    const here = cell !== undefined ? land.here === Number(cell) || (!land.tracts && within) : mark ? mark.here : within;
+    // A place the company is inside is where it is, never set out for (round 8, N).
+    const inside = screen.path.some(p => p.id === id);
+    const here = inside || (cell !== undefined ? land.here === Number(cell) || (!land.tracts && within) : mark ? mark.here : within);
     // A place the page plans no way to is not set out for (a journey that knows no way leaves nothing to go on with),
     // unless its hex is country the company can see: then across it, to the place's hex (a barrow heard of, beside
     // the wood the company stands in, had been "no way there yet": Mission 19's play).
     // Never across the country to a place in the company's own hex: that went out of the town into the country about
     // it, to a circus ground or an orchard behind the houses (the owner's player report, 12 November).
     const local = !!mark && mark.cell === land.here;
-    const go: Choice | undefined = d ? MapView.leaving(screen, MenuModel.journey(d)) : here ? undefined : MapView.step(screen, id, cell)
+    const go: Choice | undefined = inside ? undefined : d ? MapView.leaving(screen, MenuModel.journey(d), here) : here ? undefined : MapView.step(screen, id, cell)
       ?? (local ? undefined : mark ? MapView.across(land, land.known.includes(mark.cell) ? mark.cell : undefined, name)
         : MapView.across(land, cell, name));
     return { cell, name, d, here, go };
   }
   // Set out from inside a town or a site, the map says the company leaves where it is: consulted from a room of a
   // town, the map had set out from it as if from the open road (the owner's play of 10 November).
-  static leaving(screen: Screen, go: Choice): Choice {
+  // Set out for the ground a site stands on, from within it, is leaving it: underground in Lapisrecs, its own hex had
+  // been "Journey to Lapisrecs" (round 8, N).
+  static leaving(screen: Screen, go: Choice, here = false): Choice {
     const inside = screen.place.kind === 'room' && screen.path.some(p => ['settlement', 'site'].includes(p.kind));
+    const site = here ? screen.path.findLast(p => p.kind === 'site') : undefined;
+    if (site) { return { ...go, label: `Leave ${site.name}` }; }
     return inside ? { ...go, label: `Leave ${screen.place.name} and ${go.label.charAt(0).toLowerCase()}${go.label.slice(1)}` }
       : go;
   }
