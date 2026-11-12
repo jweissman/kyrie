@@ -2297,6 +2297,16 @@ Used for climbing: whoever carries it can do what needs it, and does a little be
 
 *Adapted: Orsino gives a description and price; Kyr gives the tool meaning through world rules.*
 
+#### Dead man's map
+
+*Kyr · gear* · `item:dead_mans_map`
+
+<img src="../../web/reader/paintings/valuables/tattered_map.webp" alt="" width="128">
+
+- Worth: 1
+
+> A square of greased hide, the hills drawn on it in soot, a work marked out in them, and a cross at its door: won at dice off a drover who was dead by morning.
+
 #### Dice
 
 *Faithful · tool* · `item:dice`
