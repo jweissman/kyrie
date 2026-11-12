@@ -1,12 +1,14 @@
 Module walk "The Walk of the Milestones" {
 
   // ---- The first town: the camp, the Station, the green's chalk and notice, and the band that comes on its day.
+  // Each is told only once the Walk has changed it: as it always was, a line said nothing on the first green, and the
+  // post's stray cow had stood under a notice nailed to the same post (M20's integration of this branch).
   Place camp_a "The Walkers' camp" is room within town_a at 3, 1.
   Place station_a "The Station" is room within town_a at 4, 1.
   Passage gate_a "the camp gate" is door between green_a and camp_a.
   Passage arch_a "the Station arch" is door between camp_a and station_a.
   Thing gate_bar_a "the camp gate's bar" on gate_a {
-    State open "The camp gate stands open on its worn hinge, and the bar leans beside it.".
+    State open "".
     State dropped blocking "The camp gate is barred from within with a length of ash, and somebody has chalked a number on the bar.".
     Change bar "Drop the bar across the camp gate" from open to dropped needing brawn.
     Change lift "Lift the bar from the camp gate" from dropped to open needing brawn.
@@ -21,7 +23,7 @@ Module walk "The Walk of the Milestones" {
     Greets again "'Mile and mile,' says the broad woman, as to an old friend, and goes on with what she was doing, which is rubbing tallow into her heels.".
   }
   Thing chalk_a "the chalk on the well-stone" at green_a {
-    State bare "The well-stone is as it was: grey, mossed on the north side, with a rope-groove worn in the rim.".
+    State bare "".
     State l1 "Somebody has chalked a number on the well-stone, large and fresh, and under it a small neat wheel with a wing on it. A few barefoot prints go in and out of the inn's door.".
     State l2 "The well-stone is chalked from rim to flags: numbers, forty hands' worth of them, and the wheel with the wing drawn as many ways. Barefoot prints, grey with dust, go and come between the well and the camp's gate. It is a Walk now and not a gathering of cranks.".
     State l3 "The well-stone, the post, the inn's lintel and a good stretch of wall are white with numbers. The green is a camp. Staves are stacked like spears; fires of ash-wood burn in rings; some forty people sit barefoot on the grass, mending feet. When a horn sounds on the road the whole green stands up and says the number back.".
@@ -35,7 +37,7 @@ Module walk "The Walk of the Milestones" {
   }
   Initially Assert state(chalk_a, bare).
   Thing notice_a "the notice on the post" at green_a {
-    State none "The post by the well has nothing on it but a bill about a stray cow, curling in the damp.".
+    State none "".
     State notice "A paper is nailed to the post, over the cow: BY THE BAILIFF OF THE HUNDRED. NO ASSEMBLY OF MORE THAN TWELVE WITHOUT LEAVE OF THE BENCH. NO STAVES CARRIED. NO FIRE AFTER CURFEW WITHIN THE WALLS. Underneath, in a boy's chalk: AND WHO IS TO COUNT THE MILES?".
     State ultimatum "A second paper is nailed over the first, in a stiffer hand: THE HOST AT THE STATION IS TO DISPERSE BY NOON ON THE TENTH DAY OR BE DISPERSED. BY THE BENCH. Nobody has scratched anything under it.".
     State end_licensed "A new paper, written in a round clerk's hand and sealed with the Hundred's ash-and-keys: THE WALK IS KEPT BY LEAVE OF THE BENCH, ONCE A YEAR, ON THE ROAD AND NOT ON THE GREEN. THE BAILIFF WALKS THE FIRST MILE. Somebody has stuck a sprig of rosemary in the nail.".
@@ -47,7 +49,7 @@ Module walk "The Walk of the Milestones" {
   }
   Initially Assert state(notice_a, none).
   Thing shrine_door_a "the shrine door" at green_a {
-    State open "The shrine door stands ajar on its dim candle, as it has always stood.".
+    State open "".
     State chained "A length of chain has been looped through the shrine door's rings and padlocked. Someone has hung a card on it, in a priest's careful capitals: CLOSED FOR THE PRESERVATION OF ORDER.".
   }
   Initially Assert state(shrine_door_a, open).
@@ -60,7 +62,7 @@ Module walk "The Walk of the Milestones" {
   Passage gate_b "the camp gate" is door between green_b and camp_b.
   Passage arch_b "the Station arch" is door between camp_b and station_b.
   Thing gate_bar_b "the camp gate's bar" on gate_b {
-    State open "The camp gate stands open on its worn hinge, and the bar leans beside it.".
+    State open "".
     State dropped blocking "The camp gate is barred from within with a length of ash, and somebody has chalked a number on the bar.".
     Change bar "Drop the bar across the camp gate" from open to dropped needing brawn.
     Change lift "Lift the bar from the camp gate" from dropped to open needing brawn.
@@ -75,7 +77,7 @@ Module walk "The Walk of the Milestones" {
     Greets again "'Mile and mile,' says the broad woman, as to an old friend, and goes on with what she was doing, which is rubbing tallow into her heels.".
   }
   Thing chalk_b "the chalk on the well-stone" at green_b {
-    State bare "The well-stone is as it was: grey, mossed on the north side, with a rope-groove worn in the rim.".
+    State bare "".
     State l1 "Somebody has chalked a number on the well-stone, large and fresh, and under it a small neat wheel with a wing on it. A few barefoot prints go in and out of the inn's door.".
     State l2 "The well-stone is chalked from rim to flags: numbers, forty hands' worth of them, and the wheel with the wing drawn as many ways. Barefoot prints, grey with dust, go and come between the well and the camp's gate. It is a Walk now and not a gathering of cranks.".
     State l3 "The well-stone, the post, the inn's lintel and a good stretch of wall are white with numbers. The green is a camp. Staves are stacked like spears; fires of ash-wood burn in rings; some forty people sit barefoot on the grass, mending feet. When a horn sounds on the road the whole green stands up and says the number back.".
@@ -89,7 +91,7 @@ Module walk "The Walk of the Milestones" {
   }
   Initially Assert state(chalk_b, bare).
   Thing notice_b "the notice on the post" at green_b {
-    State none "The post by the well has nothing on it but a bill about a stray cow, curling in the damp.".
+    State none "".
     State notice "A paper is nailed to the post, over the cow: BY THE BAILIFF OF THE HUNDRED. NO ASSEMBLY OF MORE THAN TWELVE WITHOUT LEAVE OF THE BENCH. NO STAVES CARRIED. NO FIRE AFTER CURFEW WITHIN THE WALLS. Underneath, in a boy's chalk: AND WHO IS TO COUNT THE MILES?".
     State ultimatum "A second paper is nailed over the first, in a stiffer hand: THE HOST AT THE STATION IS TO DISPERSE BY NOON ON THE TENTH DAY OR BE DISPERSED. BY THE BENCH. Nobody has scratched anything under it.".
     State end_licensed "A new paper, written in a round clerk's hand and sealed with the Hundred's ash-and-keys: THE WALK IS KEPT BY LEAVE OF THE BENCH, ONCE A YEAR, ON THE ROAD AND NOT ON THE GREEN. THE BAILIFF WALKS THE FIRST MILE. Somebody has stuck a sprig of rosemary in the nail.".
@@ -101,7 +103,7 @@ Module walk "The Walk of the Milestones" {
   }
   Initially Assert state(notice_b, none).
   Thing shrine_door_b "the shrine door" at green_b {
-    State open "The shrine door stands ajar on its dim candle, as it has always stood.".
+    State open "".
     State chained "A length of chain has been looped through the shrine door's rings and padlocked. Someone has hung a card on it, in a priest's careful capitals: CLOSED FOR THE PRESERVATION OF ORDER.".
   }
   Initially Assert state(shrine_door_b, open).
@@ -114,7 +116,7 @@ Module walk "The Walk of the Milestones" {
   Passage gate_c "the camp gate" is door between green_c and camp_c.
   Passage arch_c "the Station arch" is door between camp_c and station_c.
   Thing gate_bar_c "the camp gate's bar" on gate_c {
-    State open "The camp gate stands open on its worn hinge, and the bar leans beside it.".
+    State open "".
     State dropped blocking "The camp gate is barred from within with a length of ash, and somebody has chalked a number on the bar.".
     Change bar "Drop the bar across the camp gate" from open to dropped needing brawn.
     Change lift "Lift the bar from the camp gate" from dropped to open needing brawn.
@@ -129,7 +131,7 @@ Module walk "The Walk of the Milestones" {
     Greets again "'Mile and mile,' says the broad woman, as to an old friend, and goes on with what she was doing, which is rubbing tallow into her heels.".
   }
   Thing chalk_c "the chalk on the well-stone" at green_c {
-    State bare "The well-stone is as it was: grey, mossed on the north side, with a rope-groove worn in the rim.".
+    State bare "".
     State l1 "Somebody has chalked a number on the well-stone, large and fresh, and under it a small neat wheel with a wing on it. A few barefoot prints go in and out of the inn's door.".
     State l2 "The well-stone is chalked from rim to flags: numbers, forty hands' worth of them, and the wheel with the wing drawn as many ways. Barefoot prints, grey with dust, go and come between the well and the camp's gate. It is a Walk now and not a gathering of cranks.".
     State l3 "The well-stone, the post, the inn's lintel and a good stretch of wall are white with numbers. The green is a camp. Staves are stacked like spears; fires of ash-wood burn in rings; some forty people sit barefoot on the grass, mending feet. When a horn sounds on the road the whole green stands up and says the number back.".
@@ -143,7 +145,7 @@ Module walk "The Walk of the Milestones" {
   }
   Initially Assert state(chalk_c, bare).
   Thing notice_c "the notice on the post" at green_c {
-    State none "The post by the well has nothing on it but a bill about a stray cow, curling in the damp.".
+    State none "".
     State notice "A paper is nailed to the post, over the cow: BY THE BAILIFF OF THE HUNDRED. NO ASSEMBLY OF MORE THAN TWELVE WITHOUT LEAVE OF THE BENCH. NO STAVES CARRIED. NO FIRE AFTER CURFEW WITHIN THE WALLS. Underneath, in a boy's chalk: AND WHO IS TO COUNT THE MILES?".
     State ultimatum "A second paper is nailed over the first, in a stiffer hand: THE HOST AT THE STATION IS TO DISPERSE BY NOON ON THE TENTH DAY OR BE DISPERSED. BY THE BENCH. Nobody has scratched anything under it.".
     State end_licensed "A new paper, written in a round clerk's hand and sealed with the Hundred's ash-and-keys: THE WALK IS KEPT BY LEAVE OF THE BENCH, ONCE A YEAR, ON THE ROAD AND NOT ON THE GREEN. THE BAILIFF WALKS THE FIRST MILE. Somebody has stuck a sprig of rosemary in the nail.".
@@ -155,7 +157,7 @@ Module walk "The Walk of the Milestones" {
   }
   Initially Assert state(notice_c, none).
   Thing shrine_door_c "the shrine door" at green_c {
-    State open "The shrine door stands ajar on its dim candle, as it has always stood.".
+    State open "".
     State chained "A length of chain has been looped through the shrine door's rings and padlocked. Someone has hung a card on it, in a priest's careful capitals: CLOSED FOR THE PRESERVATION OF ORDER.".
   }
   Initially Assert state(shrine_door_c, open).
@@ -168,7 +170,7 @@ Module walk "The Walk of the Milestones" {
   Passage gate_d "the camp gate" is door between green_d and camp_d.
   Passage arch_d "the Station arch" is door between camp_d and station_d.
   Thing gate_bar_d "the camp gate's bar" on gate_d {
-    State open "The camp gate stands open on its worn hinge, and the bar leans beside it.".
+    State open "".
     State dropped blocking "The camp gate is barred from within with a length of ash, and somebody has chalked a number on the bar.".
     Change bar "Drop the bar across the camp gate" from open to dropped needing brawn.
     Change lift "Lift the bar from the camp gate" from dropped to open needing brawn.
@@ -183,7 +185,7 @@ Module walk "The Walk of the Milestones" {
     Greets again "'Mile and mile,' says the broad woman, as to an old friend, and goes on with what she was doing, which is rubbing tallow into her heels.".
   }
   Thing chalk_d "the chalk on the well-stone" at green_d {
-    State bare "The well-stone is as it was: grey, mossed on the north side, with a rope-groove worn in the rim.".
+    State bare "".
     State l1 "Somebody has chalked a number on the well-stone, large and fresh, and under it a small neat wheel with a wing on it. A few barefoot prints go in and out of the inn's door.".
     State l2 "The well-stone is chalked from rim to flags: numbers, forty hands' worth of them, and the wheel with the wing drawn as many ways. Barefoot prints, grey with dust, go and come between the well and the camp's gate. It is a Walk now and not a gathering of cranks.".
     State l3 "The well-stone, the post, the inn's lintel and a good stretch of wall are white with numbers. The green is a camp. Staves are stacked like spears; fires of ash-wood burn in rings; some forty people sit barefoot on the grass, mending feet. When a horn sounds on the road the whole green stands up and says the number back.".
@@ -197,7 +199,7 @@ Module walk "The Walk of the Milestones" {
   }
   Initially Assert state(chalk_d, bare).
   Thing notice_d "the notice on the post" at green_d {
-    State none "The post by the well has nothing on it but a bill about a stray cow, curling in the damp.".
+    State none "".
     State notice "A paper is nailed to the post, over the cow: BY THE BAILIFF OF THE HUNDRED. NO ASSEMBLY OF MORE THAN TWELVE WITHOUT LEAVE OF THE BENCH. NO STAVES CARRIED. NO FIRE AFTER CURFEW WITHIN THE WALLS. Underneath, in a boy's chalk: AND WHO IS TO COUNT THE MILES?".
     State ultimatum "A second paper is nailed over the first, in a stiffer hand: THE HOST AT THE STATION IS TO DISPERSE BY NOON ON THE TENTH DAY OR BE DISPERSED. BY THE BENCH. Nobody has scratched anything under it.".
     State end_licensed "A new paper, written in a round clerk's hand and sealed with the Hundred's ash-and-keys: THE WALK IS KEPT BY LEAVE OF THE BENCH, ONCE A YEAR, ON THE ROAD AND NOT ON THE GREEN. THE BAILIFF WALKS THE FIRST MILE. Somebody has stuck a sprig of rosemary in the nail.".
@@ -209,7 +211,7 @@ Module walk "The Walk of the Milestones" {
   }
   Initially Assert state(notice_d, none).
   Thing shrine_door_d "the shrine door" at green_d {
-    State open "The shrine door stands ajar on its dim candle, as it has always stood.".
+    State open "".
     State chained "A length of chain has been looped through the shrine door's rings and padlocked. Someone has hung a card on it, in a priest's careful capitals: CLOSED FOR THE PRESERVATION OF ORDER.".
   }
   Initially Assert state(shrine_door_d, open).
