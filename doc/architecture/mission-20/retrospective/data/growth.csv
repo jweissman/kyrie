@@ -1,0 +1,8 @@
+commit,date,milestone,spec_files,src_ts_files,src_lines,test_lines,data_files,kyr_files,ci_suite_shards,ci_suite_timeout_min,timings_files,timings_file_minutes
+0e066e5,2026-10-25,M15 end,175,307,28629,14959,250,104,1,30,,
+0b22190,2026-10-27,M16 end,264,332,31618,21322,352,192,,,,
+28b306c,2026-10-28,M17 end,386,366,35035,27512,442,266,3,30,264,129.7
+5dd451af,2026-11-03,M18 end,582,430,42432,47585,701,486,5,45,582,390.5
+7302392c,2026-11-10,M19 end,741,478,47808,63902,927,655,6 (+2 browser),45,742,570.9
+a2587989,2026-11-12,M20 main (wt),809,488,49422,66563,930,657,6 (+2 browser),45,791,587.7
+origin/integrate/first-steps,2026-11-12,M20 integration,844,,,,,,10 (+2 browser),60,847,1087.5 (194 files untimed)

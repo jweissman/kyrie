@@ -1,0 +1,6 @@
+mission,dates,inherited_open,new_rows,closed_in_mission,carried_out,source,grain_note
+M16,10-26..10-27,(M15 reconciliation),203 total,98,105,mission-17/register.md accounting,fine (one symptom per row)
+M17,10-27..10-28,105,184 (114 own + 70 adventure authors),216 (52 inherited + 164 new),73,mission-17/register.md + mission-18/register.md,fine
+M18,10-28..11-03,73,495,383 fixed + 12 NR + 3 superseded + 25 held elsewhere,145 (138 wishlist + 7 partial restored),mission-18/register.md accounting; mission-19/inherited.md,fine; 'none open' at close because open rows were renamed Wishlist
+M19,11-04..11-10,145,297 (252 own + 45 closing audit) + 74 UNT gaps found unregistered,192 (33 inherited + 158 own + 1 audit),~250 + 74 UNT,mission-19/closure.md §2; inherited.md header; findings/gaps.md,fine
+M20,11-10..11-12,~250 + 74 UNT + 109 BRF (consolidated),221 log rows (E1-E223) + ~96 register rows §16-24 + M20-origin rows in §1-15,log: 155 fixed + 39 partial; register: 43 closed of 324,281 register rows open/partial/deferred,open-register.md; mission-20/log.md,COARSE: one row per problem citing many sources (CB-01 cites ~20)
