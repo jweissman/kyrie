@@ -93,8 +93,7 @@
     "__no_id": true,
     "_drawn": "=lookup(townsfolkName, #ancestry)",
     ">name": "=another(#_drawn, defined('taken') ? #taken : nihil, #ancestry, 'he:howe_rscholar')",
-    ">raceId": "=#ancestry",
-    ">classId": "=lookup(readerCalling, #ancestry)"
+    ">raceId": "=#ancestry"
   },
   "howe_hirer": {
     "__no_id": true,

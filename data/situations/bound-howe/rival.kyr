@@ -29,7 +29,7 @@ Module bound_howe "The Bound Howe" {
   }
   Person rscholar "Someone" nowhere {
     Likeness "algebraist".
-    Role "the Lantern Company's reader, the captain's nephew". Level 3. Temperament territorial. Lair rival_camp. Pronouns he.
+    Role "the Lantern Company's reader, the captain's nephew". Calling mage. Level 3. Temperament territorial. Lair rival_camp. Pronouns he.
     Arrives at rival_camp when day(clock) >= rivalDay(crew).
     Warns "A young man with ink to his elbows looks up from a rubbing of stone and says, much too quickly, 'It's Kinmark, you know, the whole lintel, you can read it, they say what they *are*,' and then sees what you are carrying and puts the rubbing behind his back.".
   }

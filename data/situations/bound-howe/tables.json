@@ -142,20 +142,5 @@
         "warrior"
       ]
     }
-  },
-  "readerCalling": {
-    "about": "What the Lantern Company's reader is, by ancestry: one who reads what is written on a door, by the learning a people keeps (a dwarf's in its temples).",
-    "discriminator": "ancestry",
-    "groups": {
-      "human": [
-        "mage"
-      ],
-      "elf": [
-        "mage"
-      ],
-      "dwarf": [
-        "cleric"
-      ]
-    }
   }
 }
