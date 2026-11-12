@@ -610,6 +610,72 @@ saves.
 - **Loops.** The first-led walker said "Ring the bell" and "Talk to the shepherd's boy" twice each. test/gold-walk
   catches circles for the gold only, not for the first led act.
 
+### Prototype 3, a prospect three decisions off: what it found (12 November, early)
+
+The owner's example, as a fixture (test/fixtures/probes/knight):
+
+1. A thrown knight on a road. Helping him makes the company `obliged`.
+2. That opens his gate, by the gate's own opening rule.
+3. In his hall is the family plate.
+4. A pedlar can tell of the plate.
+
+`Prospects.of(campaign, depth)` (src/presentation/prospects.ts, test/prospects.test.ts) searches breadth-first over the
+company's own moves (`campaign.operators.applicable(world, actor)`, as `CampaignPlan` does), through forked worlds.
+It keeps every chain that comes to a thing to take that cannot be taken now.
+
+**Concept validation.**
+- **Found.** The search finds the one chain (help the knight → the lane → the gate → take the plate) in 147 ms at
+  depth 4, and nothing else. The world is untouched afterwards (its key is unchanged).
+- **Knowledge-safe.** For a company that has not asked the pedlar, the prospect exists but `told` is empty. Once told
+  of the plate, which `leadsTo` the hall, the first act carries it.
+- **True under the real rules.** The chain, played through `PlaySession`, ends with the plate in the pack. The
+  hypothetical and the real agree here.
+- **The causal explanation is the chain itself:** action ids, the same ones the page and `serve` send.
+
+**Feasibility, and what it showed.**
+- **The act's own changes are not enough.** With only `world.apply(action.success)`, the gate never opened. Its
+  opening is an upkeep *rule*, run by the campaign's tick (`CampaignTick`), not part of the act. The prototype fires
+  the rules a move sets off, twice over, but only those that need no binding of their own.
+  - This is the exact boundary between the World and the campaign that B's risks named.
+  - A faithful version needs the tick as a function of a World (rules with bindings, the clock, the creature store's
+    effects) or a cheap way to run it on a fork.
+- **Not modelled:**
+  - checks (a persuasion that may fail): possibility, not likelihood;
+  - fights;
+  - time and warners' patience;
+  - items given by `Give`;
+  - perception rules beyond the `noticed` query.
+
+  The prospect is optimistic in exactly those ways.
+- **Cost.** A bare fixture is 0.1 s. A first town offers 30 to 90 acts at a step, so depth 3 or 4 there would need
+  pruning: by aim, by the acts the page leads with, and by what the company knows. That is unmeasured.
+- **"Known" is a stopgap.** The company sees the thing, or a fact it holds leads to where it lies. As with the card,
+  Kyr does not type what the company may know.
+
+## The shared interface: the finding
+
+The three prototypes answer the owner's question, so far, in the hopeful direction:
+
+- the card (what this character knows of an entity);
+- the promoted act (what it could do and why);
+- the tester (what an act might change and what it leads to).
+
+All three read the same few records:
+
+- **the entity**, with its alias and roles, the knowledge-gated name and the current description;
+- **the company's knowledge**: `knows` facts, with references by id and `leadsTo`/`revealedBy`;
+- **the offered action rows**, with their bindings, typed success changes and the glance's reasons;
+- **the persistent World**, forked for "what if".
+
+What is missing is the same in all three. Each is the *contract*, not the data.
+
+1. Which facts about an entity the company may know.
+2. Every effect of an act typed, `Give` and checks included.
+3. The campaign's tick as a function of a World.
+
+These three, and the remaining text inferences, are the architectural work that would let the card, the atlas, story
+distance and the walkers be built on one foundation.
+
 Preliminary research only, notes not systems: general counterfactual planning, the evolving Book, elaborate
 perception profiles, dramatic memory, institutional plans, literate authoring, careers and companies.
 

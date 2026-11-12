@@ -1,0 +1,36 @@
+Module knight "A good turn that opens a door" {
+  // The forward-design record's third prototype: a reward three decisions off, by obligation, not by distance. A knight
+  // thrown on the road; helped, he is in the company's debt, and his gate opens to it; in his hall, the family plate.
+  // A pedlar on the road tells of the plate, so the same chain can be seen by a company that knows and one that does not.
+  Place road "the manor road" is settlement.
+  Place verge "the verge of the road" is room within road at 0, 0.
+  Place gatehouse "the manor gate" is room within road at 1, 0.
+  Place hall "the manor hall" is room within road at 2, 0.
+  Company party "You" of 1 at verge.
+  Passage lane "the lane" is path between verge and gatehouse.
+  Relation obliged(group).
+  Passage gate "the manor gate" is gate between gatehouse and hall
+    opening when obliged(party) "The manor gate is shut, and the porter does not know you.".
+  Person knight "a thrown knight" at verge {
+    Role "a knight thrown from his horse on the road, his leg under him". Ancestry human. Calling warrior. Level 2. Peaceable. Pronouns he.
+  }
+  Action help_knight(actor: group, site: place) "Bind the knight's leg and get him back onto his horse" {
+    Requires able(actor) and at(actor, site) and at(knight, site) and not obliged(actor).
+    Time 1.
+    On success { Assert obliged(actor). }
+    Result "'I am in your debt,' he says, white about the mouth. 'Ask at my gate, and say I sent you.'".
+  }
+  Person pedlar "a pedlar" at verge {
+    Role "a pedlar resting his pack on the verge". Ancestry human. Calling commoner. Level 1. Peaceable. Pronouns he.
+  }
+  Discovery plate_told "The knight's manor keeps the family plate in its hall.".
+  Topic plate_ask with pedlar "Ask the pedlar about the manor" when not knows(actor, plate_told) {
+    Says "'Old family,' says the pedlar. 'The plate's still in the hall, they say, whatever else they've sold.'".
+    On discuss { Assert knows(actor, plate_told). }
+  }
+  Item plate "the family plate" is chapel_plate at hall.
+  Initially Assert leadsTo(plate_told, hall).
+  Observe verge_scene at verge when true "The road runs on between hedges to a manor gate.".
+  Observe gate_scene at gatehouse when true "A gate in a high wall, and a porter's window.".
+  Observe hall_scene at hall when true "A long hall, its silver on the board.".
+}
