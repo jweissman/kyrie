@@ -5,7 +5,7 @@ agents were run; their ratings are an agent's, not a player's. This page says wh
 part was checked, what is still wrong, and, apart from both, what was registered for later.
 
 - 287 commits since Mission 19 closed (7302392c), at this writing.
-- The log (`log.md`) runs to E182.
+- The log (`log.md`) runs to E188.
 - The register (`../open-register.md`) holds every open item, with its source.
 
 ## Part 1. Mission 20 delivered and verified
@@ -39,6 +39,25 @@ A new player makes a character in about two minutes. The shape of the opening:
 | E152 | A portrait's credit names its painter and does not shout | test/paintings |
 | E148–E151 | Topics in their written order; true walking minutes; the castellan answered; the conversation log folded | specs named in the log |
 | US-01, WM-03, UI-04, NM-09 | The sister asked after; a robbed wagoner not helped; an inn's bed named; walk minutes | specs named in the register |
+
+### The owner's signal message (12 November, early): a colour leads to its act
+
+The owner's human play had found blue (to learn) and rose (a companion) pips on people with no matching reply, and a
+green Look… with nothing inside saying which thing. Both are now handled in the shared derivation, not by colouring
+replies one by one.
+
+| Row | What | Checked by |
+|---|---|---|
+| E183 | Every led act that opens something carries, for each aspect, the act inside it that justifies it (`Promoted.inside`, from `Affordances.opened`). Blue and rose are given only where such an act exists. The talk page, Look…'s pane and the Trade button draw those acts with the same left indicator as a led act (`Emphasis.within`, `Emphasis.bar`), and a marked topic stays above the talk's fold | test/signal-inside; a census over 4 worlds × 3 origins (59 led acts, 49 people, 37 blue, 3 rose: every one has its act, drawn and in view; census-2026-11-12.md) |
+| E185 | **The root cause in the browser.** Turning to someone is itself an act (`talk_to`), and "someone with something to ask" is led only until it is done. So the blue was gone from the glance by the time the talk opened. The reader now keeps what was led about whoever is turned to (`ReaderState.turned`) and draws the talk from that alone; the aim's gold comes from the glance as it is now. Blue needs a topic that teaches (`Choice.teaches`). A likeness with no pip has no coloured reply | browser render at Millholm (a1): the wagoner, Osbert, Bask (scratch /var/tmp/kyrie/m20/tools/zz-signal-shot.test.ts.txt) |
+| E184, E186 | Whoever is led with for talk stands among the scene's led acts, said with what it is for ("Talk to the wagoner · offer him a hand…"), up to four in all and never padded (`Promotion.all`, `GlanceStage.foreground`). The full action space stays under People, Look… and Go… | test/glance-menu (updated to the ruling); CI's browser specs on 42459547 |
+| E187, E188 | Dim says what it means ("nothing new for now"). Go… is lit by a way the place leads with, and that row carries the tone; it is no longer lit for any untaken way, and the chosen row is no longer edged in an ivory that read as silver | browser render |
+
+What this does not settle:
+- People led with are still capped (two talks among four acts). Someone with a teaching topic who is not led with has
+  no pip, and their replies are plain.
+- A coloured reply says only that the glance found it; whether what it teaches is worth asking is the content's.
+- The attention-lens direction (forward design §G) would replace the cap with a lens. M20 did not attempt it.
 
 ### After round 8, and round 9 (12 November, small hours)
 
@@ -264,6 +283,15 @@ Kept apart from what was delivered, as the owner asked.
     3. the campaign's tick as a function of a World.
   - **Preliminary notes** on counterfactual planning, the Book, perception, dramatic memory, institutional plans,
     literate authoring and careers.
+  - **The owner's further directions of 12 November (§G–N)**, with what each depends on and the obstacles found:
+    - attention lenses over one scene;
+    - world time apart from presentation;
+    - ordinary life;
+    - generated teaching repertoires;
+    - biographical progression;
+    - observer-relative information;
+    - a progressive top rail;
+    - opportunity intensity, with the aim of enforcing the colour rules through shared components.
 - **`../2026-11-11-direction-review.md`**: the independent creative and technical direction review, kept whole. Its
   items are linked in the register's §18 to where they live.
 - **`../2026-11-11-adventure-to-career.md`**: the owner's direction from adventure to career.
