@@ -30,7 +30,7 @@ describe('different companies, different ways through', () => {
     const read = "Read a reedbank boar's warning posture", slip = 'To Drain mouth — slip past';
     expect(Companies.find(fellowship, read)).toMatchObject({ note: 'Elen' });
     expect(Companies.find(fellowship, slip)?.note).toContain('Bran');
-    expect(Companies.find(delvers, read)?.disabled).toBe('Needs woodcraft: no one in the company has it.');
+    expect(Companies.find(delvers, read)?.disabled).toBe('Needs woodcraft: no one in the company can use it now.');
     expect(Companies.find(delvers, slip)?.note).toContain('Nell');
     expect(Companies.find(delvers, slip)?.command).toBeDefined();
   }, 60000);

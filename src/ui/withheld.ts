@@ -20,9 +20,10 @@ export class Withheld {
     ...RefusalReading.read(campaign).map(r => ({ choice: { ...r.choice, time: r.choice.time ?? 1 }, action: r.action,
       wanting: RefusalReading.why(campaign, r) }))];
   }
+  // "Can use it now", not "has": a bard senseless after a fight had been said not to have persuasion (round 8, N).
   static wanting(w: Wanting): string {
     if (w.thing) { return `Needs ${[w.name, ...w.or].join(' or ')}, and the company has none.`; }
     return w.or.length ? `Needs ${w.name.toLowerCase()} or ${w.or.join(' or ')}, and the company has neither.`
-      : `Needs ${w.name.toLowerCase()}: no one in the company has it.${w.had ? ` ${w.had}` : ''}`;
+      : `Needs ${w.name.toLowerCase()}: no one in the company can use it now.${w.had ? ` ${w.had}` : ''}`;
   }
 }
