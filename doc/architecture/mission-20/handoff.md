@@ -1,39 +1,160 @@
-# Mission 20 → Mission 21 handoff (draft, 11 November night)
+# Mission 20 → Mission 21 handoff (the cutoff, 12 November 2026)
 
-**Status: implementation work, not acceptance.** No human has accepted the first hour. The last independent cold play
-was round 6, on 11 November. Round 7, on the deployed build, comes before closure, and its findings go in §4.
+**Status: implementation work, not acceptance.** No human has accepted the first hour. Eight rounds of cold play by
+agents were run; their ratings are an agent's, not a player's. This page says what Mission 20 delivered and how each
+part was checked, what is still wrong, and, apart from both, what was registered for later.
 
-## 1. What M20 delivered and verified
+- 270 commits since Mission 19 closed (7302392c).
+- The log (`log.md`) runs to E162.
+- The register (`../open-register.md`) holds every open item, with its source.
 
-Each item is listed with how it was verified. Rows refer to `log.md`.
+## Part 1. Mission 20 delivered and verified
 
-- **Routes (E126, E132).**
-  - Cause: a road's time had been halved evenly, so the wild beside it was a shortcut. Fixed.
-  - A crossing of wild country is now drawn landmark by landmark.
-  - A road out of the country begins at the last town it runs through.
-  - Evidence: test/route-weave; laid routes match walked routes in the route-map tool; a rendered journey from
-    Millholm toward Mistshaw.
-- **Town entrances (E129).** A way into a town from its own country is led with, typed (`entry`, `Promoted.enters`).
-  The map's card offers it. It carries the town's known facets faint (`afar`).
-- **Safe zones (E125, E128, E130).**
-  - One zone, `--safe-*`, drawn by `?safe`.
-  - test/safe-zone-browser walks the first hour's pages at five sizes; creation is checked page by page.
-- **Undertakings (E124, E131).**
-  - A followed aim goes on into its own next part.
-  - Aims are followed by id; the exchange carries typed aims.
-  - A fight's end is typed.
-- **Telling (E127).** A fight is told once. Several new aims come by short titles.
-- **Atlas.**
-  - One indicator per element: the left bar on led choices; pips on portraits, rail and places.
-  - The place's name line aggregates what is led there.
-  - Companionship is perceived one place off (three for Gregarious).
-  - The danger block is neutral.
-- **Headless.** The CLI and terminal client; a parity test (a save made by one client reloads in the other); typed
-  `does` for buy, sell and gather.
-- **Startup.** A fresh country starts in 10.1 s headless, down from 11.8 s, with no double parse. Progress steps and
-  yielding are in.
+### The first hour, as it stands
 
-## 2. Architectural follow-ups for M21 (the owner's atlas synthesis, 11 November night)
+A new player makes a character in about two minutes. The shape of the opening:
+
+1. **A reason, then a road.** They choose one of eight reasons for coming, are met on the road by someone with a
+   decision to make, and come into a town whose trouble is in front of them.
+2. **They choose what to follow.** Nothing is followed for them: the aim line offers their reason with a quiet "Follow
+   this".
+3. **Gold is one next step.** Once followed, one act at a time is gold: the aim's next step, recomputed after every act.
+4. **People are the strongest part.** The conversations, the Notes (who told what, and when), the danger boxes with
+   their odds, and the paintings and portraits are what every cold player praised.
+5. **Plans are their own.** Cold players found their own plans from what people told them: the bell against the hobs,
+   the firebomb in the brood, the players' hat, the jar of noonlight.
+
+### Work since the draft of 11 November (the owner's player report, round 8, the gold)
+
+| Row | What | Checked by |
+|---|---|---|
+| E153 | Gold only after Follow this; nothing followed for the player; one act gold; Follow this a quiet word | test/gold-follow; the specs of a player with an aim now follow explicitly |
+| E154, E157 | The gold's thread from every origin. What an act makes so is typed by its effects and resolution: a thing taken is carried, a letter given ends an expectation. The aim's step here comes before any way on. A site the aim names is gone further into; a door is never guessed at; spoils, not anyone's goods, pay a debt; a journey waits while a site has an open way in | test/gold-thread; /var/tmp/kyrie/m20/tools/gold-survey.ts over eight origins in kahitude and a1: 10 of 13 runs see the aim through or pause at a danger the page leads with (from 2 of 13 before); the honest start's four journeys |
+| E155 | A place in the company's own hex is never gone to across country (it had walked the company out of the town) | probed headlessly; not seen rendered |
+| E156 | A reply that teaches is drawn as knowledge; the Look list marks what the Look control is lit for | test/teaches-marked |
+| E159 | A bed for the night is led to only where it can be paid for; the wait panel says whose bed is here and why it cannot be had | test/sitting-out-the-night |
+| E160 | The brothers' errand says what "copied" asks (the makers' history or fate, read) | order specs |
+| E161 | No way on is led while someone of the company is down | test/glance-rules |
+| E162 | In the Notes only the followed aim has a gold bar | — |
+| E152 | A portrait's credit names its painter and does not shout | test/paintings |
+| E148–E151 | Topics in their written order; true walking minutes; the castellan answered; the conversation log folded | specs named in the log |
+| US-01, WM-03, UI-04, NM-09 | The sister asked after; a robbed wagoner not helped; an inn's bed named; walk minutes | specs named in the register |
+
+### Earlier in Mission 20 (11 November and before; see the log)
+
+- Routes: no doubling back, landmark by landmark.
+- Town entrances.
+- One safe zone, walked at five sizes.
+- Undertakings followed into their next part.
+- A fight told once.
+- The atlas's one indicator.
+- Headless CLI and terminal parity.
+- Startup 11.8 s → 10.1 s.
+- Round 7's fixes (E135–E147).
+
+### The adventure branch: verified, not merged
+
+`adventure/first-steps` was merged onto main in review (`review/first-steps`) and repaired where the faults were clear:
+a treasurer's pronouns; the Walk's curate, an elf cleric who stopped every country loading; town rules told everywhere
+at once; the Walk's silent baselines. Its CI still fails 18 or more specs, several of them on decisions only the owner
+can make. Chief among those: whether its four standing modules belong in the first town, which they make markedly
+busier (four more people, about 170–190 more words on the first green) and change what leads there.
+
+Everything is in `integration-first-steps.md`. Main was kept stable; nothing of the branch was lost.
+
+**Authors' requests satisfied in Mission 20:**
+- R81: a killing blow told by its weight.
+- R82: wounds said.
+
+The rest are triaged in the register's §16 (AB-03 to AB-14) for Mission 21.
+
+### Cold play: eight rounds, agents only
+
+| Round | Players | Clarity | Beauty | Interest | Challenge | Continue |
+|---|---|---|---|---|---|---|
+| 7 (fa374a83) | K: catfolk thief, public start | 3 | 4 | 4 | 3 | 3 |
+| | L: birdfolk bard, kahitude | 3 | 5 | 4 | 3 | 3.5 |
+| 8 (da99bf2c) | M: birdfolk bard-apothecary, public start, cautious | 3 | 5 | 4 | 2 | 4 |
+| | N: birdfolk bard-scribe, kahitude, social | 3 | 5 | 4 | 3 | 4 |
+
+Round 8's reports are in `cold/round-8/` (E158). Both players followed their reason, and both saw it through or nearly
+(the fever nursed; Lapisrecs read). What round 8 found again, and where it stands:
+
+- **No bed found:** E159.
+- **Scene choices that hide the way up, or a trapdoor:** open, by the quiet scene's design. See Part 2.
+- **Gold on the wrong gift:** by the fever's own rules any herbs serve; not changed.
+- **Gold past a keeper or into an ambush, and on while a character is down:** E161 for the latter; the former is open.
+- **Aims gone from the Notes without "seen through":** open.
+- **Forecasts over-warned** (M) or fair (N): CB-02, open.
+- **A bard's gifts unused in fights:** open.
+- **Text against state:** NP-01, open.
+
+Not one round has been clean, and no gate of successive clean reviews was reached.
+
+### Tests at the cutoff
+
+- The quick suite: 612 pass, 0 fail.
+- Typecheck and lint clean.
+- The full suite and browser specs on CI: see the closing note at the foot of this page, written at the last push.
+- Specs added tonight:
+  - test/gold-follow, test/gold-thread, test/teaches-marked;
+  - test/entity-card, test/serve, test/prospects (prototypes);
+  - test/castellan-answered, test/sister-asked, test/walk-minutes.
+
+### Reproducible worlds and traces
+
+- **The reference:** kahitude, the debt, a human warrior; the honest start's four journeys (`bun run test:honest`).
+- **The gold's thread:** `bun /var/tmp/kyrie/m20/tools/gold-survey.ts` (SEEDS, ORIGINS, STEPS, V=1), which is
+  test/gold-thread made broad.
+- **The kept traces:** test/fixtures/traces/ (wren-tower-climbed, wren-turf-hut, hessel-into-the-two-poles).
+- **Round 8's worlds:** M's was a random seed (not kept); N's was kahitude.
+
+### Performance
+
+- **A fresh country, headless:** 10.1 s (parse 5.5 s), 550–620 MB resident.
+- **In the browser:** world creation about 4 s for M, near-instant for N; a reload about 5–6 s.
+- **One game served a line at a time** (`bin/kyrie serve`): a 5.9 s start, then a median of 366 ms an act, the view
+  included.
+- **The glance:** within its 8 ms budget (test/glance-kite).
+- **The gold survey:** 0.1–0.2 s for a prospect search on a small fixture.
+
+### World quality (`census-2026-11-12.md`)
+
+- Every room reached from the start (565 in kahitude, 531 in a1).
+- The first green has 31–37 ways.
+- 35–36 rooms are entered and never left by an offered way: the works' inner rooms.
+- About 30 shared place names.
+- 90 paintings mapped to kinds no sampled place names.
+- Some scenarios fit everywhere and are placed in one world of four.
+
+## Part 2. What is still wrong (ranked; the register has the rest)
+
+1. **Fights:**
+   - trivial with a warrior, and over-warned in places (CB-02, CB-08, R7-02);
+   - a bard's gifts and spells rarely matter;
+   - creature damage does not grow with level (AB-03).
+2. **Scene navigation:**
+   - with an aim followed, the scene leads with its one gold way, and the way up or back is only under Go…, one step
+     at a time (round 8, M);
+   - the first green offers 31–37 ways;
+   - inner rooms are dead ends to the page.
+3. **The gold's thread is not yet everywhere:**
+   - the order past the riddle door (no gold on the right word);
+   - a debt's second trip back to the keep;
+   - gold past the keeper an aim is about, or into a signposted ambush (round 8, M);
+   - aims ended silently, with no "seen through".
+4. **The map:**
+   - a touch, then another on a hex near the card, lands on another hex because the camera moves it out from under
+     the card;
+   - the route line was missed by one player; its data is present and was drawn in our screenshots.
+5. **Names** of the opening's works and countries come from mixed tongues (register PR-06, with a proposed rule).
+6. **Paintings and text against state:**
+   - sunsets at noon, hillsides underground, prose that contradicts what happened;
+   - the owner's painting list (handoff §3 of the draft, kept in the register).
+7. **The adventure branch** waits on the owner's decisions (above).
+8. **Acceptance:** no human has played the first hour for acceptance (FH-01).
+
+## Part 3. Architectural follow-ups for Mission 21 (the owner's atlas synthesis, 11 November night)
 
 1. **Semantic typing.** Replace each remaining text inference in `text-inference.md`, each with its named typed source:
    - talk roles;
@@ -93,85 +214,61 @@ Each item is listed with how it was verified. Rows refer to `log.md`.
     - frozen shared structures in development (R4);
     - a drift review at each closure (R10).
 
-    R9, the atlas's honesty, was M20's. Its proposed gate, a corpus of false promises from the cold rounds, is still
-    to build.
+    R9, the atlas's honesty, was M20's. Its proposed gate, a corpus of false promises from the cold rounds, was begun
+    (test/gold-walk, test/gold-follow, test/gold-thread) and is still to complete.
 
-## 3. Content and play still open
 
-These are from the log, with the owner's material concerns first.
+## Part 4. Future design registered (not built; for Mission 21 and after)
 
-- **The opening is thin on replay.** The owner's direction is a dense opening in medias res (see the
-  adventure-to-career document).
-- **Fights are trivial at first level** (E19, E29, E52, E92).
-- **Payoffs are flat:** treasure, and threads that end silently (E118, E111: the sister at Seolforfyrd, E20).
-- **The world forgets** what was done (E34, E57).
-- **Dishonesty has no consequence** (E45).
-- **Prose against the moment** (E15, E114).
-- **Paintings for the owner's review** (E140, round 7): the old drain (a steampunk sewer), a broken keep's face (a
-  classical portico), the hobs' muck pit (a prison cell), a webbed adit (a working mine), a castle in nettles (a
-  pristine one), a painting that follows a place's state (the brood burned), and evening or night in a painting's
-  light.
+Kept apart from what was delivered, as the owner asked.
 
-## 4. Round 7: two cold players (11 November night)
+- **`../2026-11-11-forward-design.md`**: the owner's six research directions and the 39-item feature inventory.
+  - **Three narrow prototypes**, each with its findings, concept kept apart from feature:
+    - an entity card in player and debug projections;
+    - one game served a line at a time;
+    - a prospect three decisions off, by a bounded search through hypothetical worlds.
+  - **The finding:** the card, the promoted act and a tester's "what would this change" share one set of records: the
+    entity, the company's knowledge, the typed action rows and the persistent World. They lack the same three
+    contracts:
+    1. which facts the company may know;
+    2. every effect of an act typed;
+    3. the campaign's tick as a function of a World.
+  - **Preliminary notes** on counterfactual planning, the Book, perception, dramatic memory, institutional plans,
+    literate authoring and careers.
+- **`../2026-11-11-direction-review.md`**: the independent creative and technical direction review, kept whole. Its
+  items are linked in the register's §18 to where they live.
+- **`../2026-11-11-adventure-to-career.md`**: the owner's direction from adventure to career.
+- **`../architecture-risk-mediation-2026-11-11.md`**: the risk review (R1–R10).
 
-The build was main at fa374a83. It was served locally, because GitHub Pages was queued behind an Actions backlog; it
-is the same commit.
+## Part 5. Houseclean: noted, nothing deleted
 
-- **K** started as the public does: no world named, a catfolk thief.
-- **L** started in kahitude, as a birdfolk bard asked not to fight.
+**Remote branches already contained in main (26),** which can be deleted when the owner wishes:
 
-Reports are in `cold/round-7/`, and the log rows are E134–E143.
+- **review/:** architecture-2026-10-26-d79cbbd, playtesting-2026-10-26.
+- **adventure/:** winter-in-carth, grand-tour, fair-weather, half-the-hive, the-lull, behind-the-wainscot,
+  quiet-in-the-sky, book-of-faces, quittance, quittance-grand-tour, anthology, imbar-deep-time.
+- **claude/:** eloquent-bohr-8pyot3, exciting-keller-wig7bg, eager-volta-59xzw3, blissful-cray-3tt8ai,
+  kyrie-metro-adventure-region-q496ij, westernesse-adventure-anthology-ji7zau.
+- **Others:** art/bestiary, art/menagerie, fix/journey-steps, integrate/imbar, m19-close, m19-contracts.
 
-**What worked.** Both players found their own plans from what people told them, and named those the best moments:
+**Superseded:**
+- `claude/great-hamilton-xr4iyo`: its nine commits are in `adventure/first-steps` as rebased copies.
+- `adventure/fs-expedition`, `fs-wonder`, `fs-social` and `fs-integrate`: all four are in `adventure/first-steps`.
+- `review/fs-integrate`: the first scratch merge, replaced by `review/first-steps`.
 
-- K: the bell against the hobs;
-- L: the firebomb for the spiders' brood.
+**Unmerged and to decide:** `adventure/first-steps` and `review/first-steps` (above). `adventure/big-tent`
+(preview-only, by the owner's earlier word). `wip/art-scenery`, `wip/journeys`, `wip/ux-opening` and the old `review/`
+branches of 25 and 26 October, each one or a few commits ahead.
 
-Both praised:
+**Worktrees and scratch** (all outside the repository):
+- `/var/tmp/kyrie/wt-m20`: Mission 20's worktree, branch m20-work.
+- `/var/tmp/kyrie/wt-review`: the review merge.
+- `/var/tmp/kyrie/wt-cold8`: round 8's build.
+- `/var/tmp/kyrie/wt-base`: a baseline, detached.
+- `/var/tmp/kyrie/m20/tools`: the scratch probes this page names.
+- `/var/tmp/kyrie/m20/cold8`: round 8's notes and screenshots.
 
-- the conversations;
-- creation;
-- the Notes;
-- the paintings (where they matched);
-- the clear danger boxes with their odds of getting away.
+## Part 6. Round 7, for the record
 
-The world was made in under ten seconds for K. L's first request took more than two minutes to answer, but the page
-was ready behind it.
-
-**What broke, and its state now:**
-
-| Finding | Now |
-|---|---|
-| Gold pointed past the buck rat to the drain, and nothing led back up to be paid | Fixed (E135, test/nest-aim) |
-| Gold sat on "Give healing herbs", which did nothing | Fixed (E141, test/fever-nursing) |
-| Ways were only under Go…: a just-opened corn-store; a scene with nothing in it | Fixed (E136) |
-| The rail's marks moved under the finger | Fixed (E136) |
-| A centipede called "should be won" took 5 of 7 hit points | Fixed in the rule, not replayed (E139) |
-| An antidote did nothing in a fight, and could be bought for 3 and sold for 5 | Fixed (E137) |
-| The wagoner's deed was told five times | Fixed (E137) |
-| A bard's only crossbow was sold at one key | Fixed (E138) |
-| The dead man's map ended in an empty box | Fixed for this origin (E142) |
-| The bell read as refused, and the bands it routed stayed "by the fire" | Fixed (E143) |
-| Paintings against the text | One fixed; the rest are listed for the owner (E140, §3) |
-
-**Still open from round 7:**
-
-- torches dying mid-act, unsaid;
-- fights trivial for a party with a warrior (L: "I barely played my bard");
-- the bard's lore, Charm Person and birdfolk gliding never coming up;
-- the castellan speaking with no way to answer him (now answered, E150);
-- Go… lists everything as "20 minutes" (the times are now true, E149; the list is still flat);
-- the conversation log growing without end (now folded, E151);
-- K's journey drawn east past Heahheald and back, with no route line before setting out.
-
-**Ratings:**
-
-| | K | L |
-|---|---|---|
-| Clarity | 3 | 3 |
-| Beauty | 4 | 5 |
-| Interest | 4 | 4 |
-| Challenge | 3 | 3 |
-| Wish to continue | 3 | 3.5 |
-
-These are cold agents, not people. The first good hour has not been accepted by anyone.
+Two cold players on fa374a83 (11 November night), reports in `cold/round-7/`, log E134–E147. Every finding is fixed or
+carried in the register's §16 (R7-01 to R7-04).
