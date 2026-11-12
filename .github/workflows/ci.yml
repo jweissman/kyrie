@@ -55,8 +55,10 @@ jobs:
     # Forty-five while the Book of Faces' specs are balanced by estimates, not kept timings (a shard ran past thirty).
     # Ten shards since the adventure branch's standing scenarios joined every country: its worlds are larger; four of
     # six shards, then two of eight, ran past their forty-five minutes (CI on integrate/first-steps, 12 November), with
-    # the times then kept from the eight.
-    timeout-minutes: 45
+    # the times then kept from the eight. Sixty since two of ten ran past forty-five on the files whose times were
+    # never kept (their shards never finished): a run to the end keeps them, and the shards balance again (M21's
+    # test-loop diagnosis, doc/architecture/mission-20/test-loop.md, is the remedy, not the limit).
+    timeout-minutes: 60
     strategy: { fail-fast: false, matrix: { shard: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] } }
     steps:
       - uses: actions/checkout@v4
