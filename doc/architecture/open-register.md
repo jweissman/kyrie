@@ -442,7 +442,7 @@ on 11 November. The branch itself is not merged: the owner is not ready to integ
 | AB-02 | Wounds never told; the written "hurt" lines never said | R82 | **fixed** 5d55fbad (Barks.wounded) | P2 | — |
 | AB-03 | A creature's damage does not grow with its level (a level-12 mummy's 1d4) | R83 | open | P2 | M21 |
 | AB-04 | The CLI and journeys fight a whole fight in one step; a fallen company is left with nothing offered and no ending | R80 | open | P2 | M21 |
-| AB-05 | A dark room does not say that a light is cheap or where it is sold | the branch's handoff §5 | open | P2 | M21 |
+| AB-05 | A dark room does not say that a light is cheap or where it is sold | the branch's handoff §5 | **done** (E213): the dark note says a light is a coin, and where | P2 | M21 |
 | AB-06 | People and bands that move on a clock (Route/Pursuit on a person) | R41, R54, R89, R32 | open | P2 | M21 (authoring) |
 | AB-07 | A scenario reading and moving the first town's own people | R37, R38, R85 | open | P2 | M21 (authoring) |
 | AB-08 | Band against band; bands that lose members | R92, R93, R94 | open | P2 | M21 |
