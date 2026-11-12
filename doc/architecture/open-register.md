@@ -349,7 +349,7 @@ claims nothing beyond what the sources say.
 
 | id | item (one line) | sources | status (as recorded, with date) | severity | home |
 |---|---|---|---|---|---|
-| DC-01 | The handoff is a draft: §4 is empty, and the register is to be reconciled against the implementation, with each row resolved or deferred with a reason | H, amendment 7(4), amendment 7(7), amendment 8 | Draft (11 Nov) | P1 | M20 close |
+| DC-01 | The handoff is a draft: §4 is empty, and the register is to be reconciled against the implementation, with each row resolved or deferred with a reason | H, amendment 7(4), amendment 7(7), amendment 8 | **Done** (12 Nov): the handoff is whole (Parts 1–6, rounds 7–11, the closing CI notes); the register is reconciled through §23, and `briefs-audit.md` checks every brief against it | P1 | M20 close |
 | DC-02 | The 74 UNT gap rows were never entered into any mission register, as gaps.md asked; no M19 or M20 document cites them | findings/gaps.md, findings/index.md | Not carried (checked 11 Nov) | P2 | M20 close |
 | DC-03 | R10: a drift review at each closure; a current-invariants appendix; doc freshness checks | R10, H §2.10 | Open, homed M21 (11 Nov) | P3 | M21 |
 | DC-04 | Undocumented facts: the country marker is unique across provinces; a topic can charge the purse; Guards; Deem draw order; plant `_gathered` naming | M19-264, M19-202, M19-255 | Open (10 Nov) | P3 | M21 |
@@ -595,7 +595,7 @@ Open:
 | R10-14 | Portraits reorder when someone joins, and a tap lands on the wrong person (R 61, 134); "Take your leave" by its number empties the talk (R 31) | **partly fixed**: the likenesses keep their places (E198); the leave by its number, open with R11-01 | P3 | M21 |
 | R10-15 | Most townsfolk have one line; the main aim (a lost sister) cannot be asked about except of one person, at item 13 of his topics, and his clue ("just inside, where the light gives out") is not in the Notes (R) | open: content and Notes | P2 | M21 |
 | R10-16 | "The followed aim switched by itself" (S 128) | **not reproduced**: S's own note 127 says S pressed Follow this; the followed aim is set only by the player (`Undertakings.follow`) | — | — |
-| R10-17 | a1, the debt: once the nearest old place (Ísencepan) is spent, the aim goes on to "the next old place", Marsh Howe (region__w10). It is on the company's map, but `Itineraries.destinations` gives no plan to it, so no act sets out for it and the gold is lost at Mik's (gold survey, a1/debt, step 10; also LOST before tonight) | open: the company knows it (`region__w10_named`, `region__w10_found` both held) but `Itineraries.plan` returns nothing (no known route, nor a wild area to go toward); with E163 and OWN-43 (the map that knows no way). Probe: tools/gold-survey.ts with V=1 | P1 | M21 |
+| R10-17 | a1, the debt: once the nearest old place (Ísencepan) is spent, the aim goes on to "the next old place", Marsh Howe (region__w10). It is on the company's map, but `Itineraries.destinations` gives no plan to it, so no act sets out for it and the gold is lost at Mik's (gold survey, a1/debt, step 10; also LOST before tonight) | **fixed** (E208): a way told is a journey over the open country as told | P1 | M21 |
 | R10-18 | a1, the order's errand: at the head of the steps the gold stops before the speaking door (gold survey a1/order, step 5; LOST before tonight too) | open | P2 | M21 |
 
 ## 23. Round 11's cold play (12 November, early)
