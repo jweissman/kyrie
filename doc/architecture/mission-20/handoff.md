@@ -119,6 +119,23 @@ suspected common causes, *hypotheses unless marked*:
 5. Bed fixtures for engine invariants proved through Westernesse (§5). The first two to port: `weary-fights` and
    `voice`'s hour.
 
+### Houseclean after the landing (nothing deleted; for the owner)
+
+- **Worktrees that can go once main holds the integration:** `/var/tmp/kyrie/wt-int` (`integrate/first-steps`, merged
+  into main at the landing), `/var/tmp/kyrie/wt-review` (`review/first-steps`, the review merge, superseded),
+  `/var/tmp/kyrie/wt-headless` and `/var/tmp/kyrie/wt-cold8` (detached, review and cold-play builds),
+  `/tmp/kyrie-headless` (`investigate/headless-rpg`, folded in during M20). `/var/tmp/kyrie/wt-m20` (`m20-work`) is
+  M20's working tree; it can go once M21 starts its own.
+- **Local branches merged or superseded:** `integrate/first-steps`, `review/first-steps`, `review/fs-integrate`,
+  `investigate/headless-rpg`, `m20-work`; `docs/consolidation` (its worktree under `.claude/worktrees`) and
+  `gen-prose` to check before deleting.
+- **Remote branches:** the command for the merged ones is in `housekeeping.md` (the permission to delete remote
+  branches was refused to the builder); add `integrate/first-steps` and `review/first-steps` to it after the landing.
+- **Scratch** (`/var/tmp/kyrie/m20`): tools, saves and renders; what mattered is copied into `evidence-tools/`,
+  `studies/` and `cold/round-12/`.
+- **The owner's two post-cutoff reviews** are untracked in the owner's checkout (`mission-20/review-mitigations-…`,
+  `srd-adaptation-briefing-…`); Part 0 links them in place.
+
 ### Where the evidence is
 
 - `mission-20/log.md`: every fix, E1–E222.
