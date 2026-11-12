@@ -45,7 +45,8 @@ describe('the page of the first town', () => {
       // Each says how it goes: by the roads, or by the ways it names (a site's: "by the quarry-yard at Brockfield and
       // the road between Brockfield and Windscar", since the standing modules came into every country).
       expect(going.every(c => /^Set out for /.test(c.label) && /\bby (the roads|\w)/.test(c.note ?? ''))).toBe(true);
-      const roads = frame.screen.roads ?? [];
+      // By the roads, or as a site is gone to (the screen's destinations), never a single way off.
+      const roads = [...frame.screen.roads ?? [], ...frame.screen.destinations ?? []];
       expect(going.every(c => (roads.find(d => `travel:${d.id}` === c.command)?.legs.length ?? 0) > 1)).toBe(true);
     }
   }, 180000);
