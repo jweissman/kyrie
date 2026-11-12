@@ -6,6 +6,7 @@ The commission asked, in three phases, for a deeper starting region (Phase One),
 
 | Page | What it is |
 |---|---|
+| [integration-notes.md](integration-notes.md) | **Read before merging into `main`:** failing and stale gates, the three known merge conflicts, what this branch touches that M20 owns, known fragilities. |
 | [final-report.md](final-report.md) | **Start here for the outcome.** What is implemented, what is automatically verified, what was actually experienced (three blind playtests), M20 notes, and what remains unintegrated. |
 | [phase-two.md](phase-two.md) | **Phase Two guidance:** which of its seven parts are already met, the final coherence and economy pass, generic balance observations for M20, and what a small independent Phase Two pass should do next, in order. |
 | [handoff.md](handoff.md) | **Start here for merging.** What is implemented and exercised vs designed; every shared file touched and why; how to merge without duplicating people, places or quest systems; blockers. |
