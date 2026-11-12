@@ -158,7 +158,9 @@ export class CombatModel {
       const defense = resistance > 0 ? `; resists ${Math.round(resistance * 100)}%`
         : resistance < 0 ? `; vulnerable +${Math.round(-resistance * 100)}%` : '';
       const adjustment = `${e.modifiers?.critical ? `; critical ×${e.modifiers.critical}` : ''}`
-        + `${e.modifiers?.halfSave ? '; save halves' : ''}`;
+        + `${e.modifiers?.halfSave ? '; save halves' : ''}`
+        // A killing blow is told by its weight; the roll beyond what was left is said, not lost.
+        + `${e.hp === 0 && !resistance && e.rolled > e.amount ? `; ${e.amount} was all it had left` : ''}`;
       return `${this.name(state, e.target)} takes ${e.amount}${kind} damage (roll ${e.rolled}${adjustment}${defense}) → ${e.hp} HP.`;
     }
     if (e.type === 'heal') { return `${this.name(state, e.target)} recovers ${e.amount} → ${e.hp} HP.`; }
