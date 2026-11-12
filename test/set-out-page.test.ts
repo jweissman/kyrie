@@ -42,7 +42,9 @@ describe('the page of the first town', () => {
         : menu.destinations ?? [];
       expect(going.length).toBeGreaterThan(0);
       expect(going.length).toBeLessThanOrEqual(MenuModel.near);
-      expect(going.every(c => /^Set out for /.test(c.label) && / by the roads/.test(c.note ?? ''))).toBe(true);
+      // Each says how it goes: by the roads, or by the ways it names (a site's: "by the quarry-yard at Brockfield and
+      // the road between Brockfield and Windscar", since the standing modules came into every country).
+      expect(going.every(c => /^Set out for /.test(c.label) && /\bby (the roads|\w)/.test(c.note ?? ''))).toBe(true);
       const roads = frame.screen.roads ?? [];
       expect(going.every(c => (roads.find(d => `travel:${d.id}` === c.command)?.legs.length ?? 0) > 1)).toBe(true);
     }
