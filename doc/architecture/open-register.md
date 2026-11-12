@@ -637,7 +637,7 @@ the test loop is `mission-20/test-loop.md`.
 
 | Id | What | Source | Status | Pri | When |
 |---|---|---|---|---|---|
-| T24-01 | Two of ten suite shards run to the job limit (45, then 60 minutes) on the integration branch, in every run since the standing scenarios came in; their files' times are never kept, so the shards never rebalance. A spec that hangs synchronously (no test timeout fires) is not ruled out | CI 43272764782, 43280749973 | open: run the shards' files locally with output per file (test-loop.md §3) | P1 | M20 close |
+| T24-01 | Two of ten suite shards run to the job limit (45, then 60 minutes) on the integration branch, in every run since the standing scenarios came in; their files' times are never kept, so the shards never rebalance. A spec that hangs synchronously (no test timeout fires) is not ruled out | CI 43272764782, 43280749973 | **found and mended**: `all-in-one-world` ran into its own 25-minute timeout; each province's install costs more the more are installed (1.4 s to 14.6 s, quadratic in all); now teleported to each gate and run with the long descents (test-loop.md §3a). Why installs grow is M21's | P1 | — |
 | T24-02 | The test loop is ≈ 86 s before touched specs; its quick suite spends 321 CPU-s on 38 CPU-s of work | test-loop.md | diagnosed; M21's first experiments ranked there | P1 | M21 |
 | T24-03 | Go and Look are still pages in the panel beside their lens tiles; Look's list scrolls | the owner, 12 November; screens S1 | open: proposal B in studies/screens | P1 | M21 |
 | T24-04 | Three menu styles (led acts, conversation questions, fight tiles) | the owner, 12 November; screens S4 | open: proposal A | P2 | M21 |
@@ -647,3 +647,6 @@ the test loop is `mission-20/test-loop.md`.
 | T24-08 | The standing modules' people written human in a dwarf or elf country; the reader a mage among dwarves; the curate a cleric among elves | CI on the integration branch | **fixed**: ancestry left to the templates; a generated people gives way to an authored calling (`Cast.person`) | — | — |
 | T24-09 | Talk persists between places (a dead foe's likeness shown in the next room) | screens S7 | open: design | P3 | M21 |
 | T24-10 | The CI never keeps the parse store; every job parses every text | test-loop.md §3 | open: item 8 | P2 | M21 |
+| T24-11 | `Campaign.install` of a province costs more the more are installed (quadratic over a world's provinces) | test-loop.md §3a | open: a hypothesis to profile | P2 | M21 |
+| T24-12 | The terminal's numpad shortcuts (7/9/1/3) shadowed the numbers 1 and 3 of its four choices: "1" did the third | headless terminal, 12 November | **fixed**: numbers alone | — | — |
+| T24-13 | The road in described the ditched cart twice, nearly word for word (the meeting and the cart's own state) | headless terminal | **fixed**: the cart's state says only the sacks | — | — |

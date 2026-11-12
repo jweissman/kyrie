@@ -132,8 +132,16 @@ What it proves (no two modules declare the same thing differently) is a property
 a session that has walked to every gate. **Proposal:** a declaration-conflict check over all provinces' bundles (load
 each, merge the declarations, report conflicts: seconds), plus one live install of two or three provinces that are
 known to share kinds (Sennet and Tessary's congers), and the walking version moved to the long-descents job if it is
-kept at all. `evidence-tools/test-loop/provinces-cost.ts` times each province's travel and install, to show whether
-the cost is the walking or an install that grows with the world.
+kept at all.
+
+**Measured** (`evidence-tools/test-loop/provinces-cost.ts`, thorn in the mountains, 25 provinces, this machine): the
+walk to each gate cost 1.5–7 s; **each install costs more the more are installed**, 1.4 s for the first, 2.5 s by the
+sixth, 5–7 s by the tenth, 10–14.6 s from the twentieth (Quittance 10.7, Ombra 14.6): installing all 25 without walking
+took **2 min 45 s**, so the whole is quadratic in the provinces. **Done on 12 November:** the spec sets the company at
+each gate instead of walking it there and runs with the long descents (`KYRIE_LONG`, CI's long-descents job), 2.4
+minutes locally; it is out of the suite's shards. **For Mission 21:** why an install's cost grows with what is already
+installed (a hypothesis, not profiled: `Campaign.install` refreshes projections over the whole world each time).
+
 
 ## 4. The route to a quick loop ten times faster
 

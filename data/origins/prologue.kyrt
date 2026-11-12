@@ -24,7 +24,9 @@
   }
   Observe meeting near carter when not answered(party) "A cart stands canted at the side of the road, one wheel down in the ditch to the hub, the horse blowing in the shafts, a sack of meal burst on the bed. The wagoner is up to his knees in the ditch with his shoulder to the wheel. He looks round at the sound of you and does not ask. He has asked enough people today.".
   Thing cart "the cart" at {approach} {
-    State ditched "A cart stands canted at the side of the road, one wheel down in the ditch to the hub, the horse in the shafts blowing and stamping. Sacks of meal are roped on the bed; one has burst.".
+    // Only what the meeting does not say: the cart was told twice, word for word nearly, on the road in (the headless
+    // terminal, 12 November).
+    State ditched "Sacks of meal are roped on the cart's bed; one has burst, and the meal is running into the ditch.".
     State righted "The cart stands square on the road again, its load roped down, the horse quiet.".
     Change heave "Put your shoulder to the wheel with him" from ditched to righted needing brawn or crowbar.
     }
