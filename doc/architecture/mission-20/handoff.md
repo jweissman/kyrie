@@ -55,6 +55,31 @@ modules in every first country), and the after-cutoff fixes E205–E222 and T24-
 6. **Paintings still contradict the text** (R10-08, R11-09). Out of doors the painting now follows the hour; nothing
    else has changed.
 
+### Read alongside: two reviews made after the cutoff (owner-supplied, 12 November)
+
+- **`mission-20/review-mitigations-2026-11-12.md`** (external review and mitigations): the recurring risk is a page
+  that makes a promise the state, content or presentation cannot keep. It proposes a *promise contract* (source,
+  offer, preconditions, resolution, account, continuation) with provenance carried through presentation (P1–P3);
+  undertakings as *destination, lead and route* with evidence provenance (U1–U3); an *interaction contract* for
+  foreground people (C1–C2); a scene *attention budget* (A1–A2); *departure reckoning* for travel (T1–T2); combat and
+  recovery *diagnostics* reconciled from events (D1–D3); paintings with typed *compatibility* claims (V1); all proved
+  together in one exemplary expedition (the hobs' toll-house).
+- **`mission-20/srd-adaptation-briefing-2026-11-12.md`** (monsters and spells against the Revised 3.5 SRD): entries
+  classified *retune, compose, extend or reimagine*; fourteen gap classes and six bounded increments (A honest
+  catalog … F world identity and magic); a policy of *recognisable adaptation* with declared provenance ("faithful to
+  Orsino" is not "SRD-accurate"); a bounded first pass (a resolved-canon concordance, then one vertical slice per
+  family).
+
+**What the evening's evidence adds to the first review** (two independent headless cold reviews on the integrated
+build, round 12: T24-14…18, `cold/round-12/`): both met its promise contract's failure from the terminal (the step an
+aim waits on missing from the foreground; talk that says nothing; a stated option that could not be taken; an aim that
+switched without a word), its destination/lead gap (every notice job a two-to-four-room dungeon, and no larger
+adventure ever made the aim: T24-18), its attention budget (22 paragraphs on the first green; the telling overflowing
+the panel, T24-05), and its danger finding (challenge rated 1 and 2). The painting wishlist measured today
+(`doc/paintings/commission-list.md`) counts places drawn by a generic painting, not paintings that *contradict* a
+place's state; the review's V1 is the missing half. The SRD briefing is a separate track (content and combat
+mechanics), not a precondition of M21's engineering or aesthetic work.
+
 ### The register, reconciled
 
 The briefs audit (`briefs-audit.md`, 12 November about 5 a.m.) classified every brief and the register's §1–§20 at
