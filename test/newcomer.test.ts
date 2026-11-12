@@ -87,8 +87,11 @@ describe('a newcomer who sees only the page', () => {
         party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
       const newcomer = new Newcomer(await PlaySession.start(w.path, seed, w.source));
       let there = false;
-      while (!there && newcomer.commands < 45) { there = await newcomer.step(); }
-      expect([there, newcomer.lead! <= 20, newcomer.commands <= 40]).toEqual([true, true, true]);
+      // With the adventure branch's first region (12 November), mere's newcomer finds the lead in 22 and stands there
+      // in 46 (17 and 24 before): three more on the first green to ask, and on the way out a bailiff's dues-receipt in
+      // each town, the clues of the forged seal, which it reads as it reads everything. Thorn's is as it was (7, 22).
+      while (!there && newcomer.commands < 55) { there = await newcomer.step(); }
+      expect([there, newcomer.lead! <= 25, newcomer.commands <= 50]).toEqual([true, true, true]);
     }, 180000);
   }
 });
