@@ -60,7 +60,7 @@ claims nothing beyond what the sources say.
 | id | item (one line) | sources | status (as recorded, with date) | severity | home |
 |---|---|---|---|---|---|
 | FH-01 | No person has accepted the first hour: PD-14's five cold players have never been run | PD-14, BRF-01, BRF-14, BRF-40, opening-brief §5, opening-design.md, H status, M19 closure §1, mem:m20-owner-before-closure §6 | Open (11 Nov) | P0 | M20 close (gate) |
-| FH-02 | Round 7 cold play on the deployed build not run; handoff §4 empty | H §4, log amendment 8, mem:m20-state-nov12, mem:m20-owner-before-closure §6 | **Done** (11 Nov night): two cold players, K and L, on fa374a83; reports in cold/round-7/, handoff §4, log E134–E143. Agents' ratings, not acceptance (FH-01 stays open) | P0 | M20 close |
+| FH-02 | Round 7 cold play on the deployed build not run; handoff §4 empty | H §4, log amendment 8, mem:m20-state-nov12, mem:m20-owner-before-closure §6 | **Done, but served locally, not on the deployed build** (11 Nov night; E134): two cold players, K and L, on fa374a83; the deployed build itself was never played by an agent (see R10-06); reports in cold/round-7/, handoff §4, log E134–E143. Agents' ratings, not acceptance (FH-01 stays open) | P0 | M20 close |
 | FH-03 | Opening thin on replay: origin errands lose momentum. Owner directs a dense in-medias-res opening and wants the rats job dropped as the required first mission | H §3, adventure-to-career §1, user-notes, design-opp 1–2, M17-21 (feverwort errand ends in three actions) | Direction recorded, not built (11 Nov) | P1 | M21 |
 | FH-04 | With no aim followed, the page never points to the town's notice of jobs; the closure fix was reverted | M19-234, opening-brief §1, M19 closure §1 | **Checked 11 Nov**: with no errand (kahitude, the wanderer), the green leads "Read the notice on the well-post" among its few acts; from the town's other rooms nothing points to it in particular (its unvisited ways are led). Kept open at P2 for the case of an errand finished elsewhere in town | P2 | M21 |
 | FH-05 | Aims pile up (9–10 on day 1), a 27-rumour list, finished things linger as leads | E12, R1-A top3, R1-B top4, R2-A top2, R2-B top4, R3-C top3, amendment 2(2) | Partly fixed (11 Nov) | P1 | M20 close (see in round 7) |
@@ -119,7 +119,7 @@ claims nothing beyond what the sources say.
 | id | item (one line) | sources | status (as recorded, with date) | severity | home |
 |---|---|---|---|---|---|
 | NM-01 | No road junctions: a road out goes into a town and back out (16–23 ways a seed, at most 2 hexes); tracks are straight lines | E126 (left), E132 (left), H §2.7, mem:m20-owner-before-closure §1 | Left for M21 (11 Nov) | P1 | M21 |
-| NM-02 | Map panel hierarchy: eyebrow, short title from real data, quiet context, particulars, short action; "Explore nearby" only where the hex holds something; panel heading against button; panel covers half the phone | log open queue 1, mem:m20-owner-map-panel-hex-kits, R6-J §4 (164), R6-J §6, M19-280 (header vs card) | Open (11 Nov) | P1 | M20 close |
+| NM-02 | Map panel hierarchy: eyebrow, short title from real data, quiet context, particulars, short action; "Explore nearby" only where the hex holds something; panel heading against button; panel covers half the phone | log open queue 1, mem:m20-owner-map-panel-hex-kits, R6-J §4 (164), R6-J §6, M19-280 (header vs card) | **Done** (30d497f8): eyebrow, short title from real data, context, particulars, short Set out, Explore nearby only where the hex holds known places (test/map-browser); the panel's share of a phone screen not re-measured since | P1 | M20 close |
 | NM-03 | Map labels at the view's edge: drawn just inside the safe zone and still selectable (E130, 4b5173ec, checked at five sizes); left: "way into…" labels pile up on a phone; "way into…" labels pile up on a phone | E130, commit 4b5173ec, mem:m20-owner-before-closure §2, R6-J §6, R6-J top5 | Open part (11 Nov) | P2 | M20 close |
 | NM-04 | A site in the company's own hex: the town-entry and facet case is not handled | E129 ("not looked at"), H §2.4 | Open (11 Nov) | P2 | M21 |
 | NM-05 | Hex crossing as a structured action property (scale, novelty, skills, consequences) in a diagnostic view; the journey glyph exists, the rest does not | log open queue 1, opportunities M21 #5, mem:m20-owner-map-panel-hex-kits | Journey glyph only (11 Nov) | P3 | M21 |
@@ -332,7 +332,7 @@ claims nothing beyond what the sources say.
 
 | id | item (one line) | sources | status (as recorded, with date) | severity | home |
 |---|---|---|---|---|---|
-| TC-01 | CI shards unbalanced (shard 4 at 45 minutes against 24); timings refreshed by hand; no scheduled corpus gate | log open queue 6, opening-brief §4, M19-276, mem:m20-state-nov11 #9 | Open (11 Nov) | P2 | M20 close |
+| TC-01 | CI shards unbalanced (shard 4 at 45 minutes against 24); timings refreshed by hand; no scheduled corpus gate | log open queue 6, opening-brief §4, M19-276, mem:m20-state-nov11 #9 | **Done** for the balance (f33df419: the 49 untimed files timed; shards green on 42459547); no scheduled corpus gate, which stays open | P2 | M20 close |
 | TC-02 | Full CI about 40 minutes; every push to every branch runs it | M19-268, M19 closure §1 | Open (10 Nov) | P2 | M21 |
 | TC-03 | Test architecture: content-addressed fixtures, changed-test selection by recorded dependencies, checkpoints for long specs, simulation checks moved out of the browser, a fixture command, phase timings, a trend suite, `kyrie bench` by phase | M19-273, M19-274, M19-275, M19-277, M19-278, BRF-59, opening-brief backlog, throughput review §9, mem:specs-fast-page-objects | Open (10 Nov) | P2 | M21 |
 | TC-04 | The safe-zone walk at five sizes in CI; atlas states tested as projected data | H §2.9 | Open (11 Nov) | P2 | M21 |
@@ -554,4 +554,19 @@ E171, E174, E175, E177, E178, E179. Open:
 | R9-12 | Paintings against the text: an intact sunny castle for a ruined bailey, a sunny churchyard at night, iron pipes in a medieval drain, the keep's star banner at the outlaws' fort (P, Q) | open: with the painting list | P2 | M21 |
 | R9-13 | Sleeping "long, under a roof" at 11 a.m. ends the same evening; the wait panel offers to sleep until 3 p.m. at night (P 149; Q 128) | **partly by design**: a sleep begun in the small hours lasts eight hours (FictionalTime.untilMorning), so "until 3:00 p.m." was true of a camp made near seven while still dark; whether a sleep then that late reads right is open (/var/tmp/kyrie/m20/tools/camp-night.ts) | P3 | M21 |
 | R9-14 | The toolbar has no hover hints (Q 30) | **not a defect**: every rail button has a title; the agent's harness does not hover | — | — |
+
+## 21. The briefs audit's omissions (12 November, early)
+
+From `mission-20/briefs-audit.md` (an agent's audit of every M20 brief against the log, the register and the tree).
+These were neither done nor recorded anywhere. Note also that the ids PR-01 to PR-09 are used in both §13 and §19;
+§19's are meant where round 8 or 9 is cited.
+
+| Id | What | Status | Pri | When |
+|---|---|---|---|---|
+| R10-01 | Combat as a mode of the scene (amendment 6 E, amendment 7 (1)): the fight is still its own page; no tactical foreground (attack, the abilities and spells that apply, a manoeuvre, a retreat), no passage from exploration to threat, parley, fight and aftermath within the scene | open | P1 | M21 |
+| R10-02 | Silver leads on the map (amendment 6 F, the atlas synthesis): the map does not offer exploration's silver leads | open | P2 | M21 |
+| R10-03 | The atlas's restraint has no test: silver, neutral and dim are told apart only by the builder's renders (E187, E188); silver (#D7DBE4) is close to the neutral greys; no screenshot set or spec | open: a rendered check of the tones' contrast, and a spec that every coloured mark names its act (test/signal-inside is the start) | P2 | M21 |
+| R10-04 | Evidence lived in scratch (/var/tmp/kyrie/m20): the gold survey, the signal census, the browser render of the signals, the safe-zone probe, the parley and camp probes | **mended**: copied into `mission-20/evidence-tools/` (they read the worktree path at their head; change `W` to run them) | P3 | — |
+| R10-05 | Acceptance defect B6 (11 November): one combined replay through the headless projection and the rendered screen, at narrow sizes | open: no home before this row | P2 | M21 |
+| R10-06 | The deployed build (Pages) was never played by an agent: every cold round was served locally (FH-02 corrected) | open | P2 | M21 |
 

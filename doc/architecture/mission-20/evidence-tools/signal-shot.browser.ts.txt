@@ -1,0 +1,55 @@
+/// <reference lib="dom" />
+// SCRATCH (not to commit): the scene's led acts and a talk with someone pipped, rendered.
+import { afterAll, beforeAll, describe, it } from 'bun:test';
+import { mkdtemp, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { SiteBuild } from '../src/cli/site-build';
+import { MonoBrowser } from './support/mono-browser';
+
+const OUT = '/var/tmp/kyrie/m20/sig';
+describe.skipIf(!process.env.KYRIE_BROWSER)('scratch signals', () => {
+  let site = '', browser: Awaited<ReturnType<typeof MonoBrowser.launch>>;
+  beforeAll(async () => {
+    site = process.env.SITE ?? await mkdtemp(join(tmpdir(), 'kyrie-sig-'));
+    if (!process.env.SITE) { await SiteBuild.site(site, {}); }
+    browser = await MonoBrowser.launch();
+  }, 300000);
+  afterAll(async () => { await browser?.close(); });
+  it('walks', async () => {
+    const size = (process.env.SIZE ?? '1180x820').split('x').map(Number);
+    const { page, driver } = await MonoBrowser.page(browser, { width: size[0]!, height: size[1]! },
+      { site, pointer: false, query: '?world=a1' });
+    const dump = async (name: string) => {
+      await page.screenshot({ path: `${OUT}/${name}.png` });
+      const info = await page.evaluate(() => ({
+        led: [...document.querySelectorAll('ol.led > li')].map(li => `${li.getAttribute('data-aspects') ?? '-'} | ${(li as HTMLElement).innerText.replace(/\s+/g, ' ')}`),
+        pips: [...document.querySelectorAll('.portraits li')].map(li => `${li.getAttribute('data-subject')} ${li.getAttribute('data-aspects') ?? '-'}`),
+        replies: [...document.querySelectorAll('.replies li')].map(li => `${li.getAttribute('data-aspects') ?? '-'} | ${(li as HTMLElement).innerText.replace(/\s+/g, ' ')}`),
+      }));
+      await Bun.write(`${OUT}/${name}.json`, JSON.stringify(info, null, 1));
+      return info;
+    };
+    await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
+    await page.click('[data-action="start"]');
+    await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
+    const at = [await dump('0-start')];
+    await page.locator('ol.led .act').filter({ hasText: /^Talk/ }).first().click(); await driver.settle();
+    await dump('1-talk');
+    await driver.away();
+    await page.locator('[data-choice="exit:region__s2_green"], [data-pick="exit:region__s2_green"]').first().click();
+    await driver.settle();
+    await dump('2-green');
+    const rail = await page.evaluate(() => [...document.querySelectorAll('.rail-mark')].map(b => `${b.getAttribute('aria-label')} ${b.className}`));
+    await page.click('.opens-go'); await driver.settle();
+    const rows = await page.evaluate(() => [...document.querySelectorAll('.wf-row')].map(b => `${b.className} | ${(b as HTMLElement).innerText.replace(/\s+/g, ' ')}`));
+    await Bun.write(`${OUT}/2-go.txt`, [...rail, ...rows].join('\n'));
+    await page.screenshot({ path: `${OUT}/2-go.png` });
+    await driver.away();
+    for (const [i, x] of (await page.locator('.portraits li[data-aspects] .portrait').all()).slice(0, 3).entries()) {
+      const pips = await page.evaluate(() => [...document.querySelectorAll('.portraits li[data-aspects]')].map(li => `${li.getAttribute('data-subject')} ${li.getAttribute('data-aspects')}`));
+      await Bun.write(`${OUT}/3-before-${i}.txt`, pips.join('\n'));
+      await x.click(); await driver.settle(); await dump(`3-talk-${i}`); await driver.away();
+    }
+  }, 600000);
+});

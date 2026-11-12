@@ -10,7 +10,8 @@ import { TalkStage } from '../web/reader/stage/talk-stage';
 
 // A likeness marked for knowledge has a reply drawn so (the owner's player report, 12 November: a blue pip on a
 // person, and no blue reply among what could be said): what would tell the company something is typed by what its
-// action makes so, that the company knows a fact, and its reply carries knowledge's mark.
+// action makes so, that the company knows a fact; the reply the glance found it in carries knowledge's mark, and one
+// it did not is plain (E185: a salter with no pip had had every reply blue). test/signal-inside holds the chain.
 describe('what someone would tell', () => {
   it('is typed by what it teaches, and drawn so among the replies', async () => {
     const s = await DrawnWorld.start('kahitude', { origin: 'debt', party: [{ name: 'Ralf', raceId: 'human',
@@ -22,6 +23,9 @@ describe('what someone would tell', () => {
     expect(asks.every(c => c.teaches)).toBe(true);
     expect(all.find(c => /^buy_item\(/.test(c.command ?? ''))?.teaches).toBeUndefined();
     const draw = { index: new Map(), open: new Set(), app: { state: {} } } as unknown as Parameters<typeof TalkStage.Reply>[0]['draw'];
-    expect(renderToStaticMarkup(createElement(TalkStage.Reply, { choice: asks[0]!, draw }))).toContain('class="fresh"');
+    const marked = renderToStaticMarkup(createElement(TalkStage.Reply, { choice: asks[0]!, draw, aspects: ['knowledge'] }));
+    expect(marked).toContain('data-aspects="knowledge"');
+    expect(marked).toContain('var(--tone-blue)');
+    expect(renderToStaticMarkup(createElement(TalkStage.Reply, { choice: asks[0]!, draw }))).not.toContain('prism-bar');
   }, 120000);
 });
