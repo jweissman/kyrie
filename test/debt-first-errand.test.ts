@@ -4,8 +4,9 @@ import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { Journey } from '../src/session/journey';
 import { Glanced } from './support/glanced';
 
-const debtor = async () => Journey.of(await DrawnWorld.start('kahitude', { origin: 'debt',
-  party: [{ name: 'Ralf', raceId: 'human', classId: 'warrior' }] }, NodeBundleSource.shared));
+// The debt followed, as the player chooses it (nothing is followed for them: the owner, 12 November).
+const debtor = async () => Journey.of(Glanced.following(await DrawnWorld.start('kahitude', { origin: 'debt',
+  party: [{ name: 'Ralf', raceId: 'human', classId: 'warrior' }] }, NodeBundleSource.shared)));
 
 // The landing at Thornhaven, the debt's way to the inn: the page had led with Lapisrecs' mound beside it, "further
 // in", where the mummy that kills a newcomer waits; the inn no longer told of deep halls, but the town led there. A

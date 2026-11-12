@@ -138,9 +138,12 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the map and the notes, to plan with
     await page.waitForSelector('.field-land.board[data-board="ready"]', { timeout: 180000 });
     await page.waitForTimeout(6000);
     const you = (await page.locator('.board-you').boundingBox())!;
-    await page.mouse.click(you.x + you.width * 2.5, you.y + you.height - 4);
+    // West of the company, clear of the card that comes up at the right: a hex the card would cover is brought out
+    // from under it, and a second touch at the same point is then on another hex.
+    const at = { x: you.x - you.width * 1.5, y: you.y + you.height - 4 };
+    await page.mouse.click(at.x, at.y);
     await page.waitForSelector('.plan [data-action="set-out"]', { timeout: 30000 });
-    await page.mouse.click(you.x + you.width * 2.5, you.y + you.height - 4);
+    await page.mouse.click(at.x, at.y);
     await page.waitForFunction(was => (window as unknown as { kyrieMono: { inspect(): { place?: { id: string } } } })
       .kyrieMono.inspect().place?.id !== was, from, { timeout: 60000 });
     await driver.settle();
