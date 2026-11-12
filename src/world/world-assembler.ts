@@ -89,13 +89,15 @@ export class WorldAssembler {
     party?: CreatureGenerationContext[]; origin?: string;
     framework?: string | null;
     // Someone who died in this country before: where they lie, and how they died, which the country remembers.
-    memorial?: Memorial;
+    // And which standing scenarios it holds, by id (all, unless said): see Drawn.standing.
+    memorial?: Memorial; standing?: string[];
   } = {}): Promise<{ path: string; source: BundleSource; report: WorldReport }> {
     const region = this.region(seed, [0, 0], options.region), days = new Expressions(RandomStreams.key(seed, 'world', 'calendar'));
     region.further = Countries.further(region, seed);
     region.calendar = { year: 1290 + days.number('1d40'), month: days.number('1d12'), day: days.number('1d30') };
     const library = await this.library(base, options.library ?? 'data/scenarios/library.json');
-    const heralds = await this.heralds(base, region, seed), standing = await this.library(base, this.standing);
+    const heralds = await this.heralds(base, region, seed), standing = (await this.library(base, this.standing))
+      .filter(e => !options.standing || options.standing.includes(e.manifest.id));
     const { context, eligibility, placements } = this.settle(region, library, { seed, rid: RegionWriter.id,
       rounds: [options.scenarios ?? 3, options.towns ?? 2], exclude: [], heralds, standing });
     // The country's provinces: its authored adventures that are parts of it, each with a way in on its land (a

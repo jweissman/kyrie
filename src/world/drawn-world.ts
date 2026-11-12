@@ -9,7 +9,8 @@ import { Frontier } from './frontier';
 export class DrawnWorld {
   static options(drawn: Drawn): Parameters<typeof WorldAssembler.assemble>[2] {
     return { ...drawn.terrain ? { region: { terrain: drawn.terrain } } : {}, party: drawn.party,
-      ...drawn.origin ? { origin: drawn.origin } : {}, ...drawn.memorial ? { memorial: drawn.memorial } : {} };
+      ...drawn.origin ? { origin: drawn.origin } : {}, ...drawn.memorial ? { memorial: drawn.memorial } : {},
+      ...drawn.standing ? { standing: drawn.standing } : {} };
   }
   static async start(seed: string, drawn: Drawn, source: BundleSource): Promise<PlaySession> {
     const world = await WorldAssembler.assemble(seed, source, this.options(drawn));

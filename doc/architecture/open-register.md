@@ -450,7 +450,7 @@ on 11 November. The branch itself is not merged: the owner is not ready to integ
 | AB-10 | Topics that change on repeat (98% of the first town's are `once`) | R60, R46, R57 | open | P2 | M21 |
 | AB-11 | A scenario's reach beyond its seat (members in other towns and countries) | R72, R73, R74, R31 | open | P3 | M21 |
 | AB-12 | A Deem template that invokes Kyr (a drawn fact selecting an authored section) | R75, R29, R55 | open | P2 | M21 (authoring) |
-| AB-13 | Specs that choose which standing scenarios a world holds | R88 | open | P2 | M21 (testing) |
+| AB-13 | Specs that choose which standing scenarios a world holds | R88 | **done** (E210): `Drawn.standing` names the standing scenarios a world holds | P2 | M21 (testing) |
 | AB-14 | Declarations that fail late: shared relation names, a new site kind needing three edits, a module without milestones | R42, R39, R59 | open | P2 | M21 (authoring) |
 | R7-01 | Torches die in the middle of an act, and nothing says so | round 7, L 84, 96 | **fixed** (E145) | P2 | — |
 | R7-02 | Fights trivial with a warrior in the company; a bard "barely played" (lore, Charm Person, gliding never came up); a speaking castellan with no way to answer | round 7, L | **in part** (11 Nov night): the castellan can be answered (E150); fights and a bard's other gifts open | P1 | M21 (with CB-01) |
