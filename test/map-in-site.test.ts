@@ -28,4 +28,15 @@ describe('the map from inside a site', () => {
     // Its own hex is left for, if at all: the way out, not a journey to where the company is.
     expect(hex.go === undefined || /^Leave /.test(hex.go.label)).toBe(true);
   }, 120000);
+  // A site in wild country is at the hex of the door outside it, not at the wild's own cell: underground in Neblalac
+  // the map had put the company by Mossminster and offered a journey of a minute to Neblalac (round 11, T).
+  it('puts the company at the door of a site in wild country, not at the middle of the wild', async () => {
+    const s = await DrawnWorld.start('a1', { origin: 'order', party: [{ name: 'B', raceId: 'dwarf', classId: 'cleric' }] },
+      NodeBundleSource.shared);
+    GeneratedWorld.put(s, 'w2_hall');
+    const land = ScreenModel.build(s.campaign).region!.land!;
+    const door = land.marks.find(m => m.id === 'region__w2');
+    expect(door).toBeDefined();
+    expect(land.here).toBe(door!.cell);
+  }, 120000);
 });

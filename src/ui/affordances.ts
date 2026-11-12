@@ -202,7 +202,7 @@ export class Affordances {
     const base = { subject: s.id, kind: person ? 'talk' as const : 'act' as const, r };
     return [this.candidate(opener, { ...base, whys: [...whys, ...needs.map(n => n.why)], leaves: within, notes: {
       ...answer ? { answer: answer.label } : {}, ...kin || named ? { kin: word?.startsWith('your ') ? word : 'your aim' } : {},
-      ...held ? { held: word?.startsWith('your ') ? word : 'another aim' } : {}, companion: 'might come along',
+      ...held ? { held: word?.startsWith('your ') ? word : this.held(r) } : {}, companion: 'might come along',
       ...Object.fromEntries(needs.map(n => [n.why, n.note])) },
     ...answer?.command ? { command: answer.command } : {},
     // Led for an aim that names them, what it is led for is the first new thing to ask them, not their first reply
@@ -246,6 +246,9 @@ export class Affordances {
   private static onward(screen: Screen): boolean {
     return screen.exits.some(e => !e.visited && e.local && !e.blocked);
   }
+  // An aim held and not followed: "another aim" beside one followed, else only an aim (with nothing followed yet, the
+  // priest the brothers' letter is for had been "another aim": round 11, T).
+  private static held(r: Reading): string { return r.aim ? 'another aim' : 'an aim'; }
   private static offered(leaves: Choice[], r: Reading, schemas: string[]): Choice | undefined {
     return leaves.find(c => schemas.includes(r.schema.get(c.command!) ?? ''));
   }
@@ -306,7 +309,7 @@ export class Affordances {
     // A way into the next hex is set out on from the map, as a journey there (see HexBoundary): led with, it is that
     // journey, never the way's own command, which the campaign refuses (the travel-contract review, 9 November).
     return [this.candidate(town ? { ...c, label: `Enter ${town}` } : c, { exit: exit.id, kind, whys, r, ...slip ? { subject: slip } : {}, ...exit.crosses && !tried ? { command: `travel:${dest}` } : {},
-      notes: { retreat: dest === r.back ? 'the way you came' : 'up, toward the light', named: 'your aim', toward: 'toward your aim', held: 'another aim',
+      notes: { retreat: dest === r.back ? 'the way you came' : 'up, toward the light', named: 'your aim', toward: 'toward your aim', held: this.held(r),
         deeper: 'further in', onward: r.inward.has(`^${exit.id}`) ? 'back out' : 'toward the rest of it',
         night: 'a bed for the night', unlooked: exit.blocked ?? '' }, visited: exit.visited,
       pointed: r.pointed.has(dest) })];
@@ -335,7 +338,7 @@ export class Affordances {
       pointed: r.pointed.has(d.id), whys: [...r.named.has(d.id) && !r.idle?.has(d.id) ? ['named' as const] : [],
         ...r.toward.has(`travel:${d.id}`) ? [r.toward.get(`travel:${d.id}`)!] : [],
         ...r.held.has(d.id) && !r.idle?.has(d.id) ? ['held' as const] : [], ...visited.has(d.id) ? [] : ['unvisited' as const]],
-      notes: { named: 'your aim', held: 'another aim', toward: 'toward your aim' } }));
+      notes: { named: 'your aim', held: this.held(r), toward: 'toward your aim' } }));
   }
   // A journey to where the aim shown is, further than the ways from here, by the way the company knows (as far as it
   // is known), unless it goes only as far as here: a far aim had been set out for from the map alone (the owner, 31

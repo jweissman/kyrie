@@ -80,6 +80,20 @@ describe('the gold\'s thread', () => {
     // The way it leads is the first step of the shortest way back to the door.
     expect(GeneratedWorld.path(s, place)[0]?.[1]).toBe(exit!.destination.id);
   }, 180000);
+  // What the aim waits on is learned by seeing something come about: Neblalac's marks read, the Water-Wardens' history
+  // known. The pillar is the step, not the sluice-niche past it (round 11, T).
+  it('leads to what teaches what the aim waits on, where its teaching is seen', async () => {
+    const s = await DrawnWorld.start('a1', { origin: 'order',
+      party: [{ name: 'B', raceId: 'dwarf', classId: 'cleric' }] }, NodeBundleSource.shared);
+    const c = s.campaign;
+    await s.leg(PlayerView.choices(c).find(x => /the brothers' letter/.test(x.choice.name))!.choice.id);
+    Undertakings.follow(c, Undertakings.held(c).find(o => Undertakings.errand(c, o))!.id);
+    GeneratedWorld.put(s, 'w2_hall');
+    await s.leg(PlayerView.choices(c).find(x => /light a candle|light a torch/i.test(x.choice.name))!.choice.id);
+    const next = Narrator.leaf(c, ScreenModel.build(c)).glance!.acts.find(a => a.continues);
+    expect(next?.subject).toBe('region__w2_marks');
+    expect(next?.inside?.[0]?.command).toBe('change_thing(region__w2_marks_read)');
+  }, 180000);
   it('leads to the one who has the aim\'s next step, and to what they ask: the fever nursed', async () => {
     expect((await Thread.walk('kahitude', 'herbs')).end).toBe('done');
   }, 120000);

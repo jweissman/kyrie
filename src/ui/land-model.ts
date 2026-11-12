@@ -171,17 +171,20 @@ export class LandModel {
   private at(here: string): { here?: number } {
     // An authored region's land knows each stretch of it whole (see AuthoredLand): nobody is lost on it.
     // Inside a site there is not lost: its rooms are at the site's cell (in Lapisrecs's long gallery the map had put
-    // the company nowhere, and offered a journey to Lapisrecs: round 8, N).
+    // the company nowhere, and offered a journey to Lapisrecs: round 8, N), its ground before the wild it stands in.
     const site = Spatial.ancestry(this.entities, here).find(e => e.space?.kind === 'site');
     const lost = !this.chart.blocks && this.chart.places[here] === undefined && !site
       && this.marked(here)?.space?.kind === 'wilderness';
     const road = this.chart.roads[here], c = lost ? undefined
-      : this.cell(here) ?? road?.[Math.floor(road.length / 2)] ?? (site ? this.ground(site) : undefined);
+      : (site ? this.ground(site) : undefined) ?? this.cell(here) ?? road?.[Math.floor(road.length / 2)];
     return c === undefined ? {} : { here: c };
   }
-  // The cell of the country a site stands in: the place on the land beside it, in the same stretch of country.
+  // The cell of the country a site stands in: the place on the land outside its door, which bears its name, in the same
+  // stretch of country; else any place of that stretch. Underground in Neblalac the map had put the company by
+  // Mossminster, the first place of the wild it stands in, and offered "Journey to Neblalac, 1 minute" (round 11, T).
   private ground(site: Entity): number | undefined {
-    const id = Object.keys(this.chart.places).find(p => this.entities.get(p)?.space?.parent === site.space?.parent);
+    const near = Object.keys(this.chart.places).filter(p => this.entities.get(p)?.space?.parent === site.space?.parent);
+    const id = near.find(p => this.entities.get(p)?.name === site.name) ?? near[0];
     return id === undefined ? undefined : this.chart.places[id];
   }
   // Each place on the land the company knows of that is not a settlement or a stretch of wild country (a landmark in

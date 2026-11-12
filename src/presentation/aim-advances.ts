@@ -18,7 +18,8 @@ export class AimAdvances {
     // An assert advances what does not hold yet, a retract what does: the letter given to the priest is the brothers'
     // expecting no longer, and the filter on what holds had lost the order's thread at the shrine (the owner, 12
     // November).
-    const waited = this.waits(campaign.module, def), calls = [...waited, ...this.hidden(campaign, waited)];
+    const waited = this.waits(campaign.module, def);
+    const calls = [...waited, ...this.hidden(campaign, waited), ...this.taught(campaign, waited)];
     const coin = this.short(def);
     if (!calls.length && !coin) { return new Set(); }
     // An aim short of coin is advanced by selling (the debtor home with the hold's music box, at Tuck's, who buys such
@@ -46,6 +47,22 @@ export class AimAdvances {
       .filter(f => !w.test(ModuleWriter.call('knows', 'party', f)));
     return (campaign.module.observations ?? []).filter(o => o.teaches && facts.includes(o.teaches) && o.place)
       .map(o => ModuleWriter.call('searched', '?g', o.place!));
+  }
+  // A fact the aim waits on that is learned by seeing something come about (the marks on Neblalac's pillar read, and
+  // so the Water-Wardens' history known: an observation whose condition is the pillar's state) is waited on through
+  // what brings that about: reading the marks had been left unmarked, and the gold gone on to an empty sluice-niche
+  // (round 11, T).
+  private static taught(campaign: Campaign, calls: Call[]): Call[] {
+    const w = campaign.world, facts = calls.filter(c => c.name === 'knows' && !c.args.at(-1)!.startsWith('?'))
+      .map(c => c.args.at(-1)!).filter(f => !w.test(ModuleWriter.call('knows', 'party', f)));
+    return (campaign.module.observations ?? []).filter(o => o.teaches && facts.includes(o.teaches) && o.when)
+      .flatMap(o => this.atoms(o.when!)).filter(c => c.name !== 'knows' && !w.test(c));
+  }
+  // The calls a condition needs to hold, not under a "not".
+  private static atoms(e: Predicate): Call[] {
+    if (e.kind === 'call') { return [e]; }
+    if (e.kind === 'and') { return [...this.atoms(e.left), ...this.atoms(e.right)]; }
+    return [];
   }
   // A thing taken is what the aim waits on only where it names that thing: an aim that reads whatever is carried (the
   // debt, laden or not) was advanced by every flower gathered on a green.

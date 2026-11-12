@@ -106,7 +106,8 @@ export class CombatPresenter {
           // thing taken, not a count gained.
           : event.amount === 1 && event.detail !== 'experience' && /^(the|a|an) |\w['’]s /i.test(event.detail ?? '')
             ? `${target} takes ${event.detail}.` : `${target} gains ${event.amount} ${this.counted(event)}.`;
-      case 'learn': return `${target} learns ${event.detail}.`;
+      // By the ability's name, never its id ("Krex learns true_sight": round 11, T).
+      case 'learn': return `${target} learns ${Content.abilities.find(a => a.id === event.detail)?.name ?? event.detail}.`;
       case 'summon': return `${actor} calls ${event.detail}.`;
       case 'dismiss': return `${event.detail} goes back whence it came.`;
       case 'react': return `${actor} answers ${target}.`;
