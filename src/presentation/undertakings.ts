@@ -86,6 +86,9 @@ export class Undertakings {
     for (const b of aims.filter(x => /_sought$/.test(x.id) && !x.followed)) {
       // The work itself: the first, most particular place its aim names (its outside, or its site).
       const work = b.places?.[0], site = work && (this.site(byId, work) ?? work);
+      // Not a job asked after in a town ("Ask Peren about the old quarry"), which had been told under the crypt's aim
+      // for naming the same town (round 9, Q).
+      if (work && !this.site(byId, work) && Spatial.ancestry(byId, work).some(e => e.space?.kind === 'settlement')) { continue; }
       const host = work && aims.find(a => a !== b && !/_sought$/.test(a.id)
         && (a.places ?? []).some(p => p === work || p === site || this.site(byId, p) === site));
       if (host) { into.set(b.id, host.id); }

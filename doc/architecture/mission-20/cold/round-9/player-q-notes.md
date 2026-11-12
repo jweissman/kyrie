@@ -1,0 +1,66 @@
+# Notes (cold9 q)
+- 00 goto opening: title screen, NEW GAME / Encyclopedia / Options. Text dump empty.
+- 01 New Game: "Why have you come to Greenweald?" 8 origin cards over a painting. Nice.
+- 02-03 Chose A Dead Man's Map (drifter, wayfinding). Details: map marks Týrcnyll in Thontaure, a cross at its door. Good hook.
+- 04-05 Ancestry: Catfolk.
+- 06-07 Calling: Mage (details clear: 4 hp, robes, lore, Int).
+- 08-09 School: Illusion. Odd: Illusion's first-level list shows Firebolt and Drench (not illusions).
+- 10-13 Choose first spells modal: text-click on spell names hit the cards behind the modal (no effect); used taps. Picked Spark (first => prepared?), Blur, Charm Person. No sign in the list of which one is "prepared".
+- 14-16 Background "What did you do before this": kept The Roads/Drifter. Name: Linnet, woman. Summary: "A catfolk illusionist... A sling in hand." Portrait bottom-right looks like a human woman, not catfolk.
+- 17 Details: Dex 20, sling 1d4 +5. Clear enough.
+- 18 SET OUT clicked at t=878 -> intro prose immediately (dim painting); "Enter to go on" appeared by ~t=897 (<=18s). Unclear if world was being made behind it; no progress shown, but prose to read so not frozen-feeling.
+- 20-21 Enter: Lassëlëa in its clearing. 22 Enter: THE PEDLAR road scene, 4 choices. Portrait of 'pedlar' is a smart gent in a hat — doesn't match a bleeding man in a ditch.
+- 23 Chose "tell them to put it back": intimidation d20 11+2=13 vs 13 success. Got a Lantern. First goal: search Týrcnyll in Thontaure.
+- 24 GO ON -> first playable scene "The road into Lassëlëa", t=950 (72s after SET OUT, but most of that was me reading; the 'Enter to go on' on the first card showed up within ~15s). Choices: market-place, old quarry pit. Toolbar of 6 icons bottom-right. Pedlar portrait bottom-left.
+- 25 Tapped pedlar: "Nothing more to say to you now." (fine)
+- 26-27 Map: 3D hex island in fog; many "way into X" labels floating in fog around it, can't tell which are near. Týrcnyll in the text dump but not visible on screen. Panel: "You are at Lassëlëa. You stand at its gate. ENTER LASSËLËA". Clear.
+- 28 ENTER LASSËLËA from map: back to road scene (not into town). Mild.
+- 29 Market-place: lovely painting, 11 portraits (people + dog, cat, bear 'Patience'). Blue pips on Laucian, Riardon and the Eye toolbar icon; blue left border on both corn-store choices. Absalom Gosse has a glyph (no portrait).
+- 30 Hovering toolbar icons: no tooltips at all.
+- 31 Notice: rats (Erevan, key), catacombs under churchyard (Niamh), spiders in quarry (Peren). "3 NEW AIMS" with "Follow this". New choice: To Erevan's herb-shop.
+- 32-35 Laucian (blue pip): carter; 2 topics, flat quips. Nothing in the talk explained the blue pip. 
+- 36-38 Riardon (blue pip) tinker: has TRADE. Maybe blue = trade? Bought crowbar 2c (9->7). No confirmation line on buying; item just vanished from list.
+- 39 After leaving Riardon: new choice "Pry at the padlock with the bar" (crowbar mattered!). Blue pips moved to Adrie & Ivellios.
+- 40-41 Adrie "the pusher, Riardon's daughter": one topic. Blue pips then moved on to Ivellios & Carric -> blue on people seems to just mean 'not yet spoken to', not anything findable.
+- 42 Eye = Look panel: blue pip on "The corn-store padlock" (the rat aim). Lock options show needs lockwork/brawn (nobody has). 43 Wapshott's bill: charming.
+- 44 Route icon = Go list: ~25 places in town, with minutes. Taproom of the Stormy Star has rose pip 'someone who might join you'. Old corn-store greyed (⊘).
+- 45 Shrine of Gwyn ap Nudd (classical temple painting; text talks of a painted mural wall - mismatch). 46-48 Niamh: asked about noises -> got crypt key, NEW AIM: lay the dead in the crypt, find who raised them. Follow this. Niamh trade: glossary 80c; shrine care 2c.
+- 50 After leaving: "To the churchyard — your aim" with gold left border; gold pip on Go icon. Gold = aim, clear.
+- 51 Churchyard: graves dug, stone door locked; "Down to the crypt — toward your aim" (gold). Taproom choice has a blue-ish border.
+- 52 Taproom of Stormy Star: 9 portraits, several are glyphs not pictures. Jassin has a rose/lilac pip. Peren blue.
+- 53-55 Jassin: shows a full stat card (elf ranger L1, 12hp, 6 coin). "Ask Jassin to join" had a GOLD border though it isn't my aim (?). Hired him: 7->1 coin. Real decision - nearly all my money.
+- 56-57 Pressing '3' (Take your leave) after hiring didn't seem to leave; my next tap reopened Jassin (portraits re-ordered: Jassin now first). Closed with ×.
+- 58-61 Peren innkeeper: 12 topics (long list). TRADE: bed and supper 3 coin, or work for keep 3h. Sleep is findable. 'Who goes out at night' -> a lodger with grave-dirt on his boots, back room. But no way offered to go to the back room or meet him.
+- 64 Look in taproom: notices from other lands, playbill; nothing about the lodger.
+- 65 Keypresses ignored while the Look panel was open (no feedback). Closed it.
+- 66 The crypt: "ONE STOREY DOWN" depth label, pitch dark, NO LIGHT in red-orange. Options: light a candle, cast Light, To the ossuary (aim). Lantern from the pedlar not offered (no oil?).
+- 67 Cast Light: my mage LORE read the chalk ring - warding line left out. Creation choice mattered, nice. Text still says "The stone door into the ground is locked" and offers pry/push at it, though I just came through it with the key. Scene choices have no "back up" option.
+- 68 Go list in crypt: CLOSE BY Ossuary; ABOUT LASSËLËA ↑ Churchyard. So the way up exists only in the Go list. Aim panel: "The ossuary - by an arch stacked round with skulls - Go there".
+- 69 Ossuary: DANGER box (red), "The man with the black candle · a grave-robber who has read a book he should not have". Odd line "beyond you" under it. He gives me 8 minutes. Only ONE choice: ask him to let me by (even chance, one try). Orange/red border. No option to use what my lore learned (missing warding line), no fight option, no retreat option in the scene.
+- 70 Tapping him: hint "Means you harm: what can be done is in the scene." Fine.
+- 71 Persuasion failed (8 vs 11). Odd: after failing, "will give you 15 minutes" (was 8). Only choice left: "To the crypt, the way you came". The ghoul portrait moved to MY side of the screen (left, beside Jassin) - confusing, looked like it joined me.
+- 72 Tapping the man: "Beyond you: Jassin reckons they are more than the company can take. Choose it again to do it." Nice warning.
+- 73 Ghoul card: "level 1, 13HP, unhurt · LETTING YOU BY", Attack option "A RISK", Encyclopedia link. Decided to retreat.
+- 74 Back in crypt: the only scene choice is "To the ossuary (your aim)". No "up/out" in the scene at all. 
+- 75-77 Go list: "↑ Churchyard" under ABOUT LASSËLËA. text-click on it did nothing; a tap on the row took me straight up. So the way out exists but only in the Go panel, not the scene.
+- 78 Journal (book icon): Notes tab is good: aims, told-you vs what-you-know with sources & times. BUT under the followed crypt aim the next-step line reads "Ask Peren about the old quarry at Lassëlëa: its gate is locked" - that's the spider aim's step, not the crypt's. Aim lost track. Also learned "dead are held only while the candle burns" -> I want to put the candle out, but the ossuary offered no such action.
+- 79 Company tab: catfolk portrait (good - creation preview had shown a human woman). 5 hp. Spells listed with slots; Light shows as "1st-level slot" - did casting Light burn my one slot? Unclear. Prepared today: Spark.
+- 80-83 Erevan's herb-shop. Erevan's rats topic hidden under SOMETHING ELSE… though the notice said "Ask Erevan for the key". Got corn-store key + NEW AIM rats (or ratsbane overnight). King-barrow: Umbrarechies ~6h off, crown of first king - nice hook.
+- 84-87 Corn-store -> cellar (ONE STOREY DOWN, again no 'up' in scene) -> rat-runs: DANGER rats. Options: put them to sleep with a mage's charm (calling matters!), Attack ("Easily won"), back to cellar - the RETREAT option has the GOLD (aim) border, which is odd: gold on the way back out, not toward the rats.
+- 88 Sleep charm worked: rats dead, no fight. Then "To the corn-store cellar - your aim" gold and "To the nest" plain.
+- 89 Nest: TWO STOREYS DOWN, same painting as rat-runs. DANGER old buck rat. 2 new aims (clear the nest; old ways go on past the cellar). Attack "Easily won".
+- 90-94 FIGHT screen: clean, company left, foe right with its intent ("→ Jassin · gnawing bite"). Turn order Jassin then me. Spark (1 ready - so Light hadn't used my slot) did 5 (save halved) + paralysed. Sling finished it. Inconsistency: "shoots... for 6" then "takes 3 bludgeoning damage (roll 6)". Won, 120xp each. STILL TO DO: tell Erevan (10 coin + lantern). Clear.
+- 95-96 Old drain (two storeys down): great centipede DANGER. Here the scene DOES list "To the nest - the way you came" and "To the rat-runs - toward your aim" (gold). Each says "will not wait for it". Getting back is clear in danger scenes.
+- 97-99 Centipede fight: Dancing Lights blinded/distracted it (fun tactical choice), Jassin speared it. It still bit Jassin (2 poison) while blinded. Log noisy with saves ("fails the magic save" for poison bite). Won, 60xp.
+- 100 Drain after: "To the undercroft - another aim" (silver/white border) vs "rat-runs - toward your aim" (gold). Drain painting has industrial iron pipes - anachronistic.
+- 101-103 Undercroft: older than everything above (corn-store, church, quarry dug into it) - lovely idea, ties the town's three dungeons. Lettered flag "nobody here can read" -> READ (LIKELY) -> my lore 15 vs 7 -> press three letters -> stair down to a sealed vault. Most satisfying moment: my mage's lore opened a secret. Text a bit muddled ("cut here too, small... as the ring below has them" while standing on that ring). "To the charnel passage" option vanished after pressing.
+- 104 Sealed vault THREE STOREYS DOWN: keeper of the vault (ghoul, same picture as ossuary ghoul). 25xp for finding the vault. Options: attack / back to undercroft (gold!) / stair below the vault (another aim).
+- 105-111 Fight: keeper tore Jassin's armour (7/12). Dancing Lights again -> blind; Jassin crit; sling stunned it; won. The 'T' let-them-fight key is handy. Estimate shifted mid-fight ("Jassin could fall" -> "no match"). 
+- 113-116 "A CORD OF OLD RINGS…" opened Look with green (treasure) pip; text-click "Take" did nothing, tapping Take worked: moonstone + cord of rings, 3xp each. Green = loot, consistent.
+- 117-118 Reload: title shows CONTINUE "The sealed vault · Day 1, 10:20 a.m."; Continue loaded within ~5s, same place, keeper dead. Progress kept.
+- 119-121 Leaving: Light faded in the undercroft (NO LIGHT again; lit a candle). Following gold 'toward your aim' led me drain -> rat-runs -> cellar -> "Up to the old corn-store" -> "To Erevan's herb-shop (your aim)". Getting out from 3 storeys down was easy via gold. (The earlier crypt had no 'up' in the scene; here the cellar did.)
+- 122-126 Erevan: hand-in option at top ("· for you"), 10 coin + lantern + 2 oil. Trade: "YOURS TO SELL" rings 7, moonstone 7 -> 25 coin. Satisfying loop: notice -> key -> dungeon -> loot -> sell.
+- 127-128 Inn: Peren > Trade > Take a bed and supper (3c). "sleep long, under a roof", Jassin healed, 2 spell slots back. But clock went 11:14 a.m. -> EVENING same day (26 Wolfmoon) - a "long sleep" that ends at evening is odd. Evening crowd in the taproom (more people). No sign of the lodger with grave-dirt.
+- 129-133 Churchyard in evening/night: "Down to the crypt" no longer in the scene choices (only shown while following the aim); scene offers "To Thamior's chandlery / Thia's weapon-shop" - unrelated places, from a churchyard. Crypt is in the Go panel. Waited "and watch, until something changes" 9h at night: "Nothing comes, and nothing changes." The lodger with grave-dirt never appears - a lead I couldn't act on. Night churchyard still shows the sunny spring painting with blossom.
+- 134-136 Crypt at night: scene choices only pry/push/listen at the stone door (none down to the ossuary); used Go panel. Ossuary: man still "beyond you"; my one persuasion try spent; no way to use Charm Person/lore/put out the candle. Retreated.
+- 137 Map at the end: unchanged fog island; my marker on the map is still a human woman's face, not my catfolk. Týrcnyll, Umbrarechies not visible as marks. I never set out across the country (ran out of budget). ~142 actions.
