@@ -12,14 +12,15 @@ import type { Change } from '../src/lang/module';
 // the game cannot yet run (it gives spell slots too), and would have failed when touched. Such a wonder is met, and
 // gives nothing.
 describe('a generated world', () => {
-  it('lints without an error', async () => {
-    for (const seed of ['a1', 'thorn', 'd4', 'wren', 'cov2']) {
+  // One seed a test: the five together ran past eight minutes on CI's contended runners (12 November).
+  for (const seed of ['a1', 'thorn', 'd4', 'wren', 'cov2']) {
+    it(`lints ${seed} without an error`, async () => {
       const w = await WorldAssembler.assemble(seed, NodeBundleSource.shared,
         { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
       const errors = (await KyrLint.campaign(w.path, w.source)).filter(f => f.level === 'error');
       expect([seed, errors.map(f => f.message)]).toEqual([seed, []]);
-    }
-  }, 480000);
+    }, 300000);
+  }
   it('has a wonder whose power cannot be run met without failing', async () => {
     const w = await WorldAssembler.assemble('a1', NodeBundleSource.shared,
       { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
@@ -32,5 +33,5 @@ describe('a generated world', () => {
       { kind: 'retract', call: ModuleWriter.call('unlit', room) }]));
     const meet = PlayerView.choices(s.campaign).find(x => /the glowing symbols$/.test(x.choice.name))!;
     expect((await s.leg(meet.choice.id)).result).toBe('success');
-  }, 180000);
+  }, 360000);
 });

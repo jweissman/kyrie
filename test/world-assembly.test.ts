@@ -90,7 +90,7 @@ describe('a generated region with situated scenarios', () => {
       const s = await PlaySession.start(world.path, seed, world.source);
       expect([seed, PlayerView.observe(s.campaign).location?.id]).toEqual([seed, 'region__s1_green']);
     }
-  }, 180000);
+  }, 420000);
 });
 
 describe('backgrounds in a generated region', () => {
