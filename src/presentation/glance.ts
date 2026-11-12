@@ -342,12 +342,37 @@ export class Glance {
   private static ways(campaign: Campaign, screen: Screen,
     aims: { named: Set<string>; held: Set<string>; idle: Set<string> }):
     Pick<Reading, 'toward' | 'inward'> {
-    const inward = this.inward(campaign, screen), toward = this.toward(campaign, screen, aims);
-    for (const id of AimRoute.onward(campaign, screen)) { toward.set(id, 'toward'); }
+    const inward = this.inward(campaign, screen), sought = this.sought(campaign, screen);
+    // Where what the aim waits on is hidden elsewhere and the way there is known, that way is the aim's, and no other.
+    const toward = sought ? new Map([[sought, 'toward' as const]]) : this.toward(campaign, screen, aims);
+    for (const id of sought ? [] : AimRoute.onward(campaign, screen)) { toward.set(id, 'toward'); }
     if (inward.size) {
       for (const [id] of toward) { if (screen.exits.find(e => e.id === id)?.bearing) { toward.delete(id); } }
     }
     return { toward, inward };
+  }
+  // The first way toward the nearest place where something the aim waits on lies hidden (see AimAdvances.sought), from
+  // anywhere but there, by the ways the world joins: a site's way back out included, which is otherwise never led.
+  private static sought(campaign: Campaign, screen: Screen): string | undefined {
+    const here = screen.place.id, places = AimAdvances.sought(campaign).filter(p => p !== here);
+    if (!places.length || AimAdvances.sought(campaign).includes(here)) { return undefined; }
+    // Breadth first by the known ways, so the nearest is found first.
+    const graph = Itineraries.graph(campaign), firsts = new Map<string, string>([[here, '']]);
+    const open = new Map(screen.exits.filter(e => !e.blocked).map(e => [e.destination.id, e.id]));
+    for (let frontier = [here]; frontier.length;) {
+      const next: string[] = [];
+      for (const from of frontier) {
+        for (const w of graph.get(from) ?? []) {
+          // The first step by a way open now (the bailey's breach down to the door is barred).
+          if (firsts.has(w.to) || (from === here && !open.has(w.to))) { continue; }
+          const first = firsts.get(from) || w.to;
+          if (places.includes(w.to)) { return open.get(first); }
+          firsts.set(w.to, first); next.push(w.to);
+        }
+      }
+      frontier = next;
+    }
+    return undefined;
   }
   // The ways into a site (a barrow, a cave, a ruin) not yet taken, or further into the one the company is in, by the
   // world's own nesting of its places, never by their names: from its outside its way in, from each room the rooms

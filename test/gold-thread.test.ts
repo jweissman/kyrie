@@ -7,6 +7,7 @@ import { Narrator } from '../src/presentation/narrator';
 import { PlayerView } from '../src/presentation/player-view';
 import { AimAdvances } from '../src/presentation/aim-advances';
 import { ModuleWriter } from '../src/lang/module-writer';
+import { GeneratedWorld } from './support/generated';
 
 // The thread of the gold, followed from the reason the company came (the owner's player report, 12 November: led
 // out of a place and back to it, and nothing there to advance the aim). A company that follows its errand and takes
@@ -57,6 +58,28 @@ describe('the gold\'s thread', () => {
     const rows = PlayerView.choices(c), lead = AimAdvances.of(c, rows);
     expect([...lead].map(id => rows.find(r => r.choice.id === id)?.action.schema)).toContain('search');
   }, 120000);
+  // Gone on in past the door, the cross not yet found, the gold leads back out to it, not on up the wall-walk
+  // (round 10, S at Murkweard; R at Ísencepan, the sister's pin under its door).
+  it('leads back out to where the thing is hidden, from inside the place past it', async () => {
+    const s = await DrawnWorld.start('a1', { origin: 'map',
+      party: [{ name: 'Ralf', raceId: 'human', classId: 'warrior' }] }, NodeBundleSource.shared);
+    const c = s.campaign, aim = Undertakings.held(c).find(o => Undertakings.errand(c, o))!;
+    Undertakings.follow(c, aim.id);
+    const door = c.world.related('revealedBy').find(r => r.args[0] === 'origin__cache')!;
+    const place = c.module.observations!.find(o => o.teaches === door.args[1])!.place!;
+    await GeneratedWorld.travel(s, place);
+    // Past the door (shut here, the riddle's), and a room further in by a way the company takes.
+    const gate = ScreenModel.build(c).exits.find(e => e.destination.id.startsWith(`${place}_`))!;
+    GeneratedWorld.put(s, gate.destination.id.replace(/^region__/, ''));
+    const on = ScreenModel.build(c).exits.find(e => e.local && !e.blocked && !e.visited && e.destination.id !== place);
+    if (on) { await GeneratedWorld.travel(s, on.destination.id); }
+    expect(c.world.one('at', 'party')).not.toBe(place);
+    const screen = ScreenModel.build(c), next = Narrator.leaf(c, screen).glance!.acts.find(a => a.continues);
+    const exit = screen.exits.find(e => e.id === next?.choice || next?.choice.startsWith(`${e.id}/`));
+    expect(exit).toBeDefined();
+    // The way it leads is the first step of the shortest way back to the door.
+    expect(GeneratedWorld.path(s, place)[0]?.[1]).toBe(exit!.destination.id);
+  }, 180000);
   it('leads to the one who has the aim\'s next step, and to what they ask: the fever nursed', async () => {
     expect((await Thread.walk('kahitude', 'herbs')).end).toBe('done');
   }, 120000);

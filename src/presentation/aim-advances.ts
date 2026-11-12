@@ -28,6 +28,14 @@ export class AimAdvances {
       && (this.brings(r.action).some(c => calls.some(x => this.match(c, x) && this.held(campaign, x) === (c.kind === 'retract')))
         || (coin && /^sell_/.test(r.action.schema ?? '')))).map(r => r.choice.id));
   }
+  // Where what the aim followed waits on lies hidden, to be searched for: the places, while it is still to be found.
+  // From anywhere else the way there is the aim's (see Glance.ways): inside Murkweard, the cross at its door still to
+  // be found outside, the gold had gone up onto the wall-walk (round 10, S).
+  static sought(campaign: Campaign): string[] {
+    const def = Undertakings.followed(campaign);
+    if (!def) { return []; }
+    return this.hidden(campaign, this.waits(campaign.module, def)).map(c => c.args[1]!);
+  }
   // A thing the aim waits on that is hidden until something is found is first searched for where it is found: the
   // dead man's box, under the stone at the keep's door, had left the gold to go on into the keep and be lost there
   // (round 9, P).
