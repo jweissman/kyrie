@@ -30,8 +30,10 @@ Module origin "The brothers' errand" {
   // Whatever the makers cut there of themselves is the old writing: how they lived, or how they ended.
   // Until the letter is given, the first thing to do is here, and said so: the priest, who will show the way (the owner,
   // 7 November: every origin's first goal names a place the company can go to).
-  Objective errand_letter when expects(priest, party) and not copied(party) toward priest "The brothers want the old writing at {delving} copied. Their letter is for {priest}, who will show you the way.".
-  Objective errand when not expects(priest, party) and not copied(party) and not knows(party, history) and not knows(party, fate) toward delving "The brothers want the old writing at {delving} copied.".
-  Objective errand_home when not copied(party) and (knows(party, history) or knows(party, fate)) toward priest "You have copied the old writing at {delving}. {priest} at {homename} should see it.".
+  // What "copied" asks, said: the old writing read, who made the place or how its makers ended (round 8, N: the
+  // inscription read at the king's door, and no way to tell what copying the writing would take).
+  Objective errand_letter when expects(priest, party) and not copied(party) toward priest "The brothers want the old writing at {delving} read and set down: who made the place, or how its makers ended. Their letter is for {priest}, who will show you the way.".
+  Objective errand when not expects(priest, party) and not copied(party) and not knows(party, history) and not knows(party, fate) toward delving "The brothers want the old writing at {delving} read and set down: find what is written there of who made the place, or how its makers ended, and read it.".
+  Objective errand_home when not copied(party) and (knows(party, history) or knows(party, fate)) toward priest "You have read and set down the old writing at {delving}. {priest} at {homename} should see it.".
   Goal copied(party).
 }
