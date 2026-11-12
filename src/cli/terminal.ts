@@ -92,9 +92,10 @@ export class Terminal {
     const first = [...new Set(ids)].flatMap(id => byId.get(id) ?? []).slice(0, 4);
     return { all, first: first.length ? first : all.slice(0, 4) };
   }
-  private static choices(rows: { id: string; name: string; time: number }[], shortcuts = false) {
-    const keys = ['7', '9', '1', '3'];
-    rows.forEach((c, i) => console.log(`${i + 1}${shortcuts && keys[i] ? ` [${keys[i]}]` : ''}. ${c.name}${c.time ? ` · ${c.time} min` : ''}`));
+  // Each by its number alone: the numpad's 7/9/1/3 beside them had made "1" the third choice, not the first (the
+  // headless review, 12 November).
+  private static choices(rows: { id: string; name: string; time: number }[]) {
+    rows.forEach((c, i) => console.log(`${i + 1}. ${c.name}${c.time ? ` · ${c.time} min` : ''}`));
   }
   private static map(session: PlaySession) {
     const screen = ScreenModel.build(session.campaign);
@@ -123,8 +124,8 @@ export class Terminal {
         current ??= this.scene(session, told);
         const { screen, leaf } = current;
         const offered = this.foreground(session, leaf.glance, screen);
-        console.log('\nForeground'); this.choices(offered.first, true);
-        console.log('Commands: 1-4 or 7/9/1/3 · all · map · character · look · save <path> · q');
+        console.log('\nForeground'); this.choices(offered.first);
+        console.log('Commands: 1-4 · all · map · character · look · save <path> · q');
         const answer = (await input.question('> ')).trim();
         if (answer === 'q' || answer === 'quit') { return; }
         if (answer === 'look') { told = undefined; current = undefined; continue; }
@@ -139,9 +140,8 @@ export class Terminal {
           await writeFile(path, JSON.stringify(session.checkpoint(), null, 2));
           console.log(`Saved ${path}.`); continue;
         }
-        const keys: Record<string, number> = { '7': 0, '9': 1, '1': 2, '3': 3 };
         const numbered = Number(answer) - 1;
-        const foreground = keys[answer] ?? (numbered >= 0 && numbered < 4 ? numbered : -1);
+        const foreground = numbered >= 0 && numbered < 4 ? numbered : -1;
         const choice = foreground >= 0 ? offered.first[foreground] : offered.all.find(c =>
           c.id === answer || c.name.toLowerCase() === answer.toLowerCase());
         if (!choice) {
