@@ -102,9 +102,14 @@ export class MonoDriver {
     // What is done about someone or something on the picture is done from its own page, opened by its likeness.
     const id = (await this.inspect()).choices[index]?.id ?? '', subject = id.split(/[/#]/)[0] ?? '';
     const likeness = `.surface .portraits [data-subject="${subject}"] .portrait`;
-    if (subject) { await this.talk(); }
-    if (subject && await has(likeness)) {
+    // At a place at rest only: in a conversation the likeness is the one already turned to.
+    const resting = (await this.inspect()).mode === 'explore';
+    if (subject && resting) { await this.talk(); }
+    if (subject && resting && await has(likeness)) {
       await this.click(likeness);
+      // Turning to someone is the whole of a choice to talk to them: the same id inside the conversation is its first
+      // question (see Promoted.inside), which is not asked for them.
+      if (/#talk$/.test(id) && (await this.inspect()).mode === 'talk') { return true; }
       // Its page is a menu of its own: the choice is found there by what it is, not where it was.
       const shown = `.intentions [data-action="choice"][data-choice="${id}"] >> visible=true`;
       if (await has(shown)) { await this.click(shown); return true; }
