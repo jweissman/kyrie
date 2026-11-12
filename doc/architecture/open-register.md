@@ -570,3 +570,26 @@ These were neither done nor recorded anywhere. Note also that the ids PR-01 to P
 | R10-05 | Acceptance defect B6 (11 November): one combined replay through the headless projection and the rendered screen, at narrow sizes | open: no home before this row | P2 | M21 |
 | R10-06 | The deployed build (Pages) was never played by an agent: every cold round was served locally (FH-02 corrected) | open | P2 | M21 |
 
+
+## 22. Round 10's cold play (12 November, early)
+
+Two agents played daa96430, with contrasting temperaments: R, a sociable cleric in a1, and S, a fighter in a random
+world. Their reports are in `mission-20/cold/round-10/`. These were fixed in the log:
+- E190: the P0 both players met, the gold lost at the door of the keep their aim names;
+- E191: the dice line against the headline;
+- E193: Lem before Lem.
+
+Open:
+
+| Id | What | Status | Pri | When |
+|---|---|---|---|---|
+| R10-07 | Flee labelled "sure, now" failed at round 5 of a fight the company chose (S 105). The battle's odds (`Battle.flight`) and the roll agree in the engine and its spec (the-moment), so the label was read in some other state | open: not reproduced; the next step is to replay S's fight from the save (/var/tmp/kyrie/m20/s-save) | P1 | M21 |
+| R10-08 | Paintings against the text, again: a sunny portico for a broken keep in a stormy evening, a cosy candle-lit gatehouse, a flag flying on a ruin, egg sacs after burning, Hepzibah young and with a lute for "a small grey woman in spectacles", a hillside "four storeys down" (R, S) | open: recurring with R9-12 | P1 | M21 |
+| R10-09 | The way back, and some features (the spring, the tripwire), only under Go… and Look…; walking out of a mine was Go… in every room (S 96–97, 115–119) | open: recurring with PR-08 (the owner's decision) | P1 | owner |
+| R10-10 | The origin's thing is not an object: the dead man's map is not in the pack; light is not shown (S found the candle running out only in Wait) | open | P2 | M21 |
+| R10-11 | Text of what could not be seen: a new aim describing a flag in pitch dark (S 62); "You know now: the wire runs…" of a wire never mentioned (S 86); a clue to an undercroft never seen (R 107) | open: with R9-07 and NM-01 | P2 | M21 |
+| R10-12 | The fights are too easy, and an at-will heal (Love's Kindle, 1d3+10, under Wait → Tend) makes hit points meaningless; warned dangers (wolves "will not wait") do nothing when walked past (R, S) | open: balance | P2 | M21 |
+| R10-13 | Stale offers: the adit's padlock offered from inside the adit; "Still to do: deal with the spiders' mother" after she was dead; the crypt door's force-and-pick beside "you have the key" (R 80, 100, 129; S 33–37) | open | P2 | M21 |
+| R10-14 | Portraits reorder when someone joins, and a tap lands on the wrong person (R 61, 134); "Take your leave" by its number empties the talk (R 31) | open: with R9-11 | P3 | M21 |
+| R10-15 | Most townsfolk have one line; the main aim (a lost sister) cannot be asked about except of one person, at item 13 of his topics, and his clue ("just inside, where the light gives out") is not in the Notes (R) | open: content and Notes | P2 | M21 |
+| R10-16 | "The followed aim switched by itself" (S 128) | **not reproduced**: S's own note 127 says S pressed Follow this; the followed aim is set only by the player (`Undertakings.follow`) | — | — |

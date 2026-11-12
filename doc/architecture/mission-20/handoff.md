@@ -1,11 +1,11 @@
 # Mission 20 → Mission 21 handoff (the cutoff, 12 November 2026)
 
-**Status: implementation work, not acceptance.** No human has accepted the first hour. Nine rounds of cold play by
+**Status: implementation work, not acceptance.** No human has accepted the first hour. Ten rounds of cold play by
 agents were run; their ratings are an agent's, not a player's. This page says what Mission 20 delivered and how each
 part was checked, what is still wrong, and, apart from both, what was registered for later.
 
 - 287 commits since Mission 19 closed (7302392c), at this writing.
-- The log (`log.md`) runs to E188.
+- The log (`log.md`) runs to E193.
 - The register (`../open-register.md`) holds every open item, with its source.
 
 ## Part 1. Mission 20 delivered and verified
@@ -39,6 +39,15 @@ A new player makes a character in about two minutes. The shape of the opening:
 | E152 | A portrait's credit names its painter and does not shout | test/paintings |
 | E148–E151 | Topics in their written order; true walking minutes; the castellan answered; the conversation log folded | specs named in the log |
 | US-01, WM-03, UI-04, NM-09 | The sister asked after; a robbed wagoner not helped; an inn's bed named; walk minutes | specs named in the register |
+
+### Round 10's P0, and what else both its players met (12 November, early)
+
+| Row | What | Checked by |
+|---|---|---|
+| E190 | **P0, both players.** At the keep the aim names, the gold went in and room by room while what the aim waits on lay hidden at the door. Now: the aim's next step is drawn among the led acts even when it is the search; Go…, Look… and their rows are gilded only when that step is in them; from inside, the way back out to the hidden thing is the aim's way (`AimAdvances.sought`) | S's save resumed headless, solar to door; test/gold-thread "leads back out" (fails on 7c851b45); gold survey 11 of 13 |
+| E191 | "for 13" over "takes 1 … (roll 13)": the dice line says what was left | test/killing-blow-said |
+| E193 | "Ask Hepzibah about Lem" before Lem was named | the players' specs |
+| E192, E189 | CI's specs brought to the owner's 12 November ruling (a person led with is offered by likeness and lead; blue only for what the glance found) | CI |
 
 ### The owner's signal message (12 November, early): a colour leads to its act
 
@@ -100,7 +109,7 @@ Everything is in `integration-first-steps.md`. Main was kept stable; nothing of 
 
 The rest are triaged in the register's §16 (AB-03 to AB-14) for Mission 21.
 
-### Cold play: nine rounds, agents only
+### Cold play: ten rounds, agents only
 
 | Round | Players | Clarity | Beauty | Interest | Challenge | Continue |
 |---|---|---|---|---|---|---|
@@ -110,6 +119,8 @@ The rest are triaged in the register's §16 (AB-03 to AB-14) for Mission 21.
 | | N: birdfolk bard-scribe, kahitude, social | 3 | 5 | 4 | 3 | 4 |
 | 9 (505b002a) | P: dwarf warrior, the dead man's map, a fighter | 2 | 4 | 4 | 3 | 3 |
 | | Q: catfolk illusionist, the dead man's map, an explorer | 3 | 4 | 4 | 3 | 3.5 |
+| 10 (daa96430) | R: dwarf cleric of Love, a lost sister, a1, sociable | 3 | 4 | 4 | 2 | 3 |
+| | S: dwarf warrior, the dead man's map, a random world, a fighter | 3 | 4 | 4 | 2 | 3 |
 
 Round 8's reports are in `cold/round-8/` (E158). Both players followed their reason, and both saw it through or nearly
 (the fever nursed; Lapisrecs read). What round 8 found again, and where it stands:
@@ -134,7 +145,24 @@ three storeys down an undertown opened by Q's own lore: the session's best part.
 - **Text and paintings against state:** R9-07, R9-12, open.
 - **Promises the world does not keep** (Peren's lodger; the crypt's lore): R9-01, R9-02, open.
 
-Not one round has been clean, and no gate of successive clean reviews was reached.
+Round 10's reports are in `cold/round-10/`. It was played on the build with the signal fixes (E183–E188).
+- **The signals held where they were checked.**
+  - R: "Cyril, rose dot and 'might come along': kept"; "Hepzibah, blue dot: kept, but out of order"; the wagoner's
+    reward kept.
+  - S: "Eye (Look) dots … kept their promise"; "Go… gold: consistently the aim's next step".
+- **Both players met the same P0** at the keep their aim names: S's cross at Murkweard's door, R's sister at Ísencepan.
+  The gold went in and room by room. The step, a search at the door, was drawn only as the rail's glass, and Go… and
+  Look… bore gold dots into the keep. **Fixed (E190)** and verified in S's own save resumed headless: from the solar,
+  each gold leads back out to the door, then "Search here".
+- **Both met** fight headlines against the dice (E191, fixed) and a Lem never introduced (E193, fixed).
+- **Recurring and open:**
+  - paintings against the text (R10-08 with R9-12);
+  - the way back only under Go… (R10-09, PR-08, the owner's to decide: now five players in three rounds);
+  - fights too easy, with a free heal (R10-12).
+- **New and open:** Flee's "sure, now" failed once (R10-07, not reproduced).
+
+Not one round has been clean, and no gate of successive clean reviews was reached. Round 11 (T and U, on 0b04fa40, the
+build with E190–E193) was under way at this writing.
 
 ### Tests at the cutoff
 
