@@ -11,6 +11,7 @@ over the page. The fonts used are the ones installed on the build machine.
 | `b_lato_ui.jpg` | Lato (humanist) | Newsreader |
 | `c_lato_all.jpg` | Lato | Lato |
 | `d_ubuntu_ui.jpg` | Ubuntu (humanist) | Newsreader |
+| `e_play_ui.jpg`, `e_play_ui_phone.jpg`, `e_play_ui_creation.jpg` | Play (Jonas Hecksher; the owner's suggestion) | Newsreader |
 
 ## What the renders show
 
@@ -22,6 +23,14 @@ over the page. The fonts used are the ones installed on the build machine.
   and the safe-zone specs should run against it.
 - **Ubuntu (d)** is warmer still, but more mannered. Its distinctive letterforms compete with the painting more than
   Lato's do.
+
+- **Play (e)**, at the owner's suggestion, is crisp, compact and legible at phone width, and nothing overflows.
+  - Its squared, engineered letterforms give the page a technical game-interface voice.
+  - The place's title ("The camp at Millholm") and the spaced capitals of the openers ("READ THE NOTICE ON THE
+    WELL-POST", "SET OUT NOW") read as a console beside the painted scenes and Newsreader's serif narration.
+  - It may suit the smallest machine-like text (key numbers, the rail, the date line) better than headings and
+    choices.
+  - (Loaded for the render from Google Fonts' latin subset, OFL. Not added to the site.)
 
 ## If taken up (Mission 21)
 
