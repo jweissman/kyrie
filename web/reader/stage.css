@@ -36,9 +36,6 @@
 .recall { color: var(--dim); font-size: 16.5px; }
 .presence p { color: var(--ivory); }
 .presence.quiet p { color: var(--dim); font-size: 16.5px; }
-.inline { all: unset; cursor: pointer; color: var(--ivory); background: linear-gradient(var(--accent-line), var(--accent-line))
-  0 100% / 100% 1px no-repeat; transition: color var(--quick); }
-.inline:hover { color: var(--accent); }
 .changed { margin: 22px 0; padding-left: 14px; border-left: 2px solid var(--violet); }
 .changed .label { color: var(--violet); }
 .changed p { font-style: italic; }

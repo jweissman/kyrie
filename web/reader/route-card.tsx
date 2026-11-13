@@ -37,7 +37,7 @@ export class RouteCard {
           {title !== way.name && <p className="rc-formal">{Typography.curl(Words.upper(way.name))}</p>}
         </details>}
         {!over && (way.go || nearby.length > 0) && <div className="rc-acts">
-          {way.go && <button type="button" className="act go rc-go" data-action="set-out" aria-label={way.go.label}
+          {way.go && <button type="button" className="act go rc-go" data-action="set-out" data-act={way.go.id} aria-label={way.go.label}
             title={way.go.label} onClick={() => app.choose(way.go!)}>Set out</button>}
           {nearby.length > 0 && <button type="button" className="option rc-near" data-action="explore-nearby"
             onClick={() => RouteCard.explore(app)}>Explore nearby<span className="rc-span">

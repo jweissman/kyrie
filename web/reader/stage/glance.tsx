@@ -199,7 +199,7 @@ export class GlanceStage {
         {/* Go, Look, Wait and Search are the scene's rail, apart from what is told and led with (see SceneRail). */}
         {!railed && hand.length > 0 && <Explorer.Opener app={app} part="look" label="Look…" led={GlanceStage.serves(app, hand)} />}
         {!railed && Pastime.wait(app) && <Explorer.Opener app={app} part="wait" label="Wait…" glyph="wait" />}
-        {!railed && search && <Act.View choice={search} draw={draw} quiet className="opener search by-glyph">
+        {!railed && search && <Act.View choice={search} draw={draw} quiet variant="glyph" className="opener search by-glyph">
           <Glyphs.View id="search" className="opener-glyph" label="Search" /></Act.View>}
       </p>
     </>;
@@ -477,7 +477,7 @@ export class GlanceStage {
       <p className="label">{label}</p>
       <ul>{list.map(w => <li key={w.c.id} onMouseEnter={() => app.hover(w.c.id)} onFocus={() => app.hover(w.c.id)}
         onClickCapture={() => { if (w.c.disabled) { app.hover(w.c.id); } }}>
-        <Act.View choice={w.c} draw={draw} quiet className={`way-tile${w.aim ? ' aimed' : ''}`}>
+        <Act.View choice={w.c} draw={draw} quiet variant="glyph" className={`way-tile${w.aim ? ' aimed' : ''}`}>
           <span className={`glyph whither-${w.whither.toLowerCase()}`} aria-hidden="true">
             {w.c.disabled ? '⊘' : SceneSurface.glyph(w.whither)}</span>
           <span className="n">{GlanceStage.short(w.exit?.destination.name ?? w.c.label.replace(/^To /, ''))}</span>
