@@ -89,6 +89,11 @@ export interface LensAct { choice: string; label: string; command?: string; subj
 // A lens's promoted acts (at most four, ranked as the resting scene's are; gold only on the glance's own next step) and
 // the rest of its acts, in the scene's order.
 export interface Lensed { promoted: Promoted[]; rest: LensAct[] }
+// A route the compass gives (see Compass): where it comes to, the ways in order, the time, the command that walks it
+// (travel:<place>, leg by leg; or the one way's own), and what bars it, if anything.
+export interface Route { to: string; name: string; ways: string[]; minutes: number; command?: string; barred?: string }
+// Inside an enclosed place, the way out, the next known place worth going, and whether nothing known is left inside.
+export interface Compass { out?: Route; next?: Route; exhausted: boolean }
 export interface Glance {
   arrival: Arrival;
   // Coming here after a journey: one line of it (the legs stay in Look about).
@@ -118,6 +123,9 @@ export interface Glance {
   aim?: string;
   // Each lens's acts (see Lens).
   lenses: Record<Lens, Lensed>;
+  // Inside a building, a site, under the ground or aboard (see Compass): no overland act is offered from here.
+  enclosed?: true;
+  compass?: Compass;
   // On the game's first page, the first goal the company's own errand gives it, said once in so many words.
   goal?: string;
   // As the aim followed is seen through, the one thing that pulls next (see Succession): offered, never followed.

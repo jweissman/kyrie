@@ -178,11 +178,22 @@ export class Itineraries {
   static shown(campaign: Campaign, names: Map<string, Entity>,
     region?: RegionChart): Pick<Screen, 'destinations' | 'roads' | 'around' | 'mapped'> {
     if (!campaign.running) { return { destinations: [], roads: [], around: [], mapped: [] }; }
-    const leads = this.destinations(campaign), roads = this.roads(campaign, leads), around = this.around(campaign);
+    // From an enclosed place, nothing overland: the way out is walked first (CN-02; see Compass). Inside a building
+    // the world map had opened, and set out across the country past the site's own ways.
+    const inside = this.enclosed(campaign, campaign.world.one('at', campaign.playerActor!) ?? '');
+    const leads = inside ? [] : this.destinations(campaign), roads = inside ? [] : this.roads(campaign, leads);
+    const around = this.around(campaign);
     const listed = new Set([...leads, ...roads, ...around].map(d => d.id));
     return { destinations: leads.map(d => this.scaled(campaign, d, names)), roads: roads.map(d => this.named(d, names)),
       around: around.map(d => this.named(d, names)),
-      mapped: this.mapped(campaign, region, listed).map(d => this.named(d, names)) };
+      mapped: inside ? [] : this.mapped(campaign, region, listed).map(d => this.named(d, names)) };
+  }
+  // Whether a place is enclosed: indoors or under the ground, or within a building or a site (a keep, a ship, a
+  // dungeon). The country is not crossed from one; the way out is.
+  static enclosed(campaign: Campaign, place: string): boolean {
+    const byId = this.byId(campaign), space = byId.get(place)?.space;
+    return !!space && (['indoors', 'underground'].includes(space.shelter ?? '') || (space.depth ?? 0) > 0
+      || Spatial.ancestry(byId, place).some(e => e.id !== place && ['building', 'site'].includes(e.space?.kind ?? '')));
   }
   // Every other place the map draws that the company knows a way to, in whatever country it is in: each area and
   // mark on its land not set out for already, a single way off too, so that a place chosen on the map is set out for
