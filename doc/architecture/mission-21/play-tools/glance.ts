@@ -14,4 +14,10 @@ for (const a of g.acts) console.log(' act', a.label, '|', a.why, a.tier, a.aspec
 console.log(' ways', g.ways);
 const { PlayerView } = await import(`${W}/presentation/player-view.ts`);
 for (const ch of PlayerView.observe(c).choices) if (/Mistshaw and Millholm|much of/.test(ch.name)) console.log(' choice', ch.id, ch.name);
-for (const r of PlayerView.choices(c)) if (/cairn/.test(r.choice.name)) console.log(' row', r.choice.id, JSON.stringify(r.action.bindings), r.action.schema);
+for (const r of PlayerView.choices(c)) if (/zzz/.test(r.choice.name)) console.log(' row', r.choice.id, JSON.stringify(r.action.bindings), r.action.schema);
+const { AimAdvances } = await import(`${W}/presentation/aim-advances.ts`);
+const { Stakes } = await import(`${W}/ui/stakes.ts`);
+const def = Undertakings.followed(c);
+console.log('aim when:', JSON.stringify(def?.when), 'toward:', def?.toward);
+console.log('named:', def && [...Stakes.named(c, def)]);
+console.log('advances:', [...AimAdvances.of(c, PlayerView.choices(c))]);
