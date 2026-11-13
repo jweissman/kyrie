@@ -11,6 +11,7 @@ import { EndingOrder } from '../lang/ending-order';
 import type { World } from '../lang/world';
 import type { Finding } from './kyr-lint';
 import { CommitmentLint } from './commitment-lint';
+import { Narrator } from '../presentation/narrator';
 
 // One campaign's findings, gathered by named checks over its loaded world.
 export class CampaignLint {
@@ -63,6 +64,18 @@ export class CampaignLint {
       this.add('advice', 'anchor', `${r.id} is heard at ${r.place}, but what it does to the company happens wherever`
         + ` the company is: put at(${company}, ${r.place}) in its condition, anchor it within an area, or write it`
         + ` heard at ${r.place} if that is meant`);
+    }
+  }
+  // What tells the sky (the weather, the sun, daylight, the moon and the stars) under the ground, where there is none,
+  // is to look at: daylight in old workings had been prose against the moment (NP-01). Advice, not a warning: light
+  // through a gap at a cave's mouth, and stars in a glass floor, are meant.
+  skies() {
+    const sky = /\b(sun|sunlight|sunshine|sunlit|daylight|blue sky|moonlight|starlight|the stars)\b/i;
+    for (const o of this.module.observations ?? []) {
+      if (!o.place || Narrator.shelter(this.session.campaign, o.place) !== 'underground') { continue; }
+      if (o.aspect === 'weather' || sky.test(o.text)) {
+        this.add('advice', 'sky', `${o.id} tells the sky at ${o.place}, under the ground: "${o.text.slice(0, 60)}"`);
+      }
     }
   }
   // Whether a condition asks where the company is (at(party, …)), or anything of the place itself.
