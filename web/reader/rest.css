@@ -23,6 +23,8 @@
 .told-col .first-goal { margin: .2em 0 .8em; font: 400 15.5px/1.5 var(--told); color: var(--ivory); }
 .told-col .first-goal .label { display: block; margin-bottom: 2px; font: 500 11px/1.4 var(--do); letter-spacing: .2em;
   text-transform: uppercase; color: var(--accent); }
+.told-col .next-pull { margin: .6em 0 .8em; font: 400 15px/1.5 var(--told); color: var(--ivory); }
+.told-col .next-pull .at { color: var(--dim); }
 .told-col .came { margin: 0 0 .7em; font: italic 400 15px/1.5 var(--told); color: var(--dim); }
 
 .openers { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 22px; margin: 6px 0 0; padding-top: 12px;

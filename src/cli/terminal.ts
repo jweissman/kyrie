@@ -20,7 +20,7 @@ import { SceneModel } from '../ui/scene';
 import { Attending } from '../ui/attention';
 import { LandCrossing } from '../ui/land-crossing';
 import type { Choice } from '../ui/choice-list';
-import type { Aspect, Promoted } from '../presentation/glance-types';
+import type { Aspect, Promoted, Successor } from '../presentation/glance-types';
 
 const quitPlay = 'The player left the encounter.';
 // A choice as the terminal lists it, and what the page draws on it in words.
@@ -130,7 +130,8 @@ export class Terminal {
     // A way into the next stretch of country led with is set out on as a journey there (travel:, see HexBoundary),
     // as the page's map does: the gold "To the road between Mistshaw and Millholm" had been dropped from the
     // terminal's foreground, which knew no such id (M21's playability investigation).
-    for (const a of glance?.acts ?? []) {
+    const next = glance?.next?.command ? [{ command: glance.next.command, label: glance.next.label ?? '' }] : [];
+    for (const a of [...glance?.acts ?? [], ...next]) {
       if (a.command?.startsWith('travel:') && !all.some(c => c.id === a.command)) {
         all.push({ id: a.command, name: a.label, time: 0, encounter: false, category: 'travel',
           targets: [a.command.slice('travel:'.length)] });
@@ -154,6 +155,15 @@ export class Terminal {
     }
     const first = [...new Set(ids)].flatMap(id => byId.get(id) ?? []).slice(0, 4);
     return { all, first: (first.length ? first : all.slice(0, 4)).map(c => this.drawn(acts, c)) };
+  }
+  // As an aim is seen through, what pulls next (see Succession, PL-06): offered, as the choice to type or the aim to
+  // follow, never followed for the player.
+  private static next(next: Successor | undefined, screen: Screen, all: Listed[]) {
+    if (!next) { return; }
+    const n = (screen.aims ?? []).findIndex(a => a.id === next.aim) + 1;
+    const typed = all.find(c => c.id === next.command)?.name ?? next.label;
+    console.log(`\nNext: ${Typography.plain(next.text)}${next.at ? ` (${next.at})` : ''}`
+      + `${next.aim ? ` · follow ${n}` : typed ? ` · ${Typography.plain(typed)}` : ''}`);
   }
   private static drawn<T extends { id: string }>(acts: Promoted[], c: T): T & { said?: string } {
     const said = this.said(acts, c.id);
@@ -239,6 +249,7 @@ export class Terminal {
         const { screen, leaf } = turn.current;
         const offered = this.foreground(session, leaf.glance, screen, turn.talking);
         if (turn.talking && !offered.talk) { turn.talking = undefined; }
+        this.next(leaf.glance?.next, screen, offered.all);
         console.log(offered.talk ? '\nSaid to them' : '\nForeground'); this.choices(offered.first);
         console.log('Commands: 1-4 · all · map · character · aims · follow <n> · look · save <path> · q');
         const answer = await input.ask('> ');

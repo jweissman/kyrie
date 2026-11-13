@@ -18,6 +18,7 @@ import { Journey } from './journey';
 import { Moments } from './moments';
 import { PlaceStage } from './place-stage';
 import { Told } from './told';
+import { NextPull } from './next-pull';
 import { SceneSurface } from './scene-surface';
 import { SceneModel } from '../../../src/ui/scene';
 import { AtHand } from './at-hand';
@@ -152,6 +153,7 @@ export class GlanceStage {
       </div>}
       {!s.pending && told && !struck && <Told.Happened exchange={told} said={!leaf.moved} ready={Moments.ready(screen)}
         app={app} {...leaf.moved && leaf.glanced ? { unsaid: leaf.glanced.unsaid ?? [] } : {}} />}
+      {!s.pending && g.next && <NextPull.View app={app} next={g.next} />}
     </div>;
   }
   // And what can be done from it: only what will not wait (a danger, an answer owed, a warning, the dark), each one

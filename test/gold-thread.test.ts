@@ -5,6 +5,8 @@ import { Undertakings } from '../src/presentation/undertakings';
 import { ScreenModel } from '../src/ui/screen-model';
 import { Narrator } from '../src/presentation/narrator';
 import { PlayerView } from '../src/presentation/player-view';
+import { ActionFeedbackView } from '../src/presentation/action-feedback';
+import type { Successor } from '../src/presentation/glance-types';
 import { AimAdvances } from '../src/presentation/aim-advances';
 import { ModuleWriter } from '../src/lang/module-writer';
 import { GeneratedWorld } from './support/generated';
@@ -19,9 +21,10 @@ class Thread {
       NodeBundleSource.shared);
     const c = s.campaign, trail: string[] = [], seen = new Map<string, number>();
     Undertakings.follow(c, Undertakings.held(c).find(o => Undertakings.errand(c, o))!.id);
+    let next: Successor | undefined;
     for (let i = 0; i < most && c.running; i++) {
       const aim = Undertakings.followed(c)?.id;
-      if (!aim) { return { end: 'done', trail }; }
+      if (!aim) { return { end: 'done', trail, next }; }
       const screen = ScreenModel.build(c), acts = Narrator.leaf(c, screen).glance?.acts ?? [];
       const lead = acts.find(a => a.continues);
       if (!lead) {
@@ -31,7 +34,13 @@ class Thread {
       seen.set(key, (seen.get(key) ?? 0) + 1);
       if (seen.get(key)! > 2) { return { end: 'circle', trail }; }
       trail.push(`${screen.place.id}: ${lead.label}`);
-      await s.leg(lead.command?.startsWith('travel:') ? lead.command : lead.for ?? lead.command!);
+      const command = lead.command?.startsWith('travel:') ? lead.command : lead.for ?? lead.command!;
+      const before = PlayerView.observe(c), at = before.location?.id, event = await s.leg(command);
+      // What the page offers as the aim is seen through (PL-06), told as the page tells the act.
+      if (!Undertakings.followed(c)) {
+        next = Narrator.leaf(c, ScreenModel.build(c), { event, feedback: ActionFeedbackView.read(c, event, before),
+          said: command, moved: at !== c.world.one('at', 'party') }).glance?.next;
+      }
     }
     return { end: 'going', trail };
   }
@@ -41,6 +50,8 @@ describe('the gold\'s thread', () => {
     for (const origin of ['map', 'lost']) {
       const walked = await Thread.walk('kahitude', origin);
       expect([origin, walked.end]).toEqual([origin, 'done']);
+      // And as it is seen through, the strongest lead not followed is offered, not followed (PL-06): the bell's aim.
+      expect([origin, walked.next?.kind, walked.next?.aim]).toEqual([origin, 'lead', 'raidersFolk__bell_within']);
       expect(walked.trail.at(-1)).toMatch(/box|pin/);
     }
   }, 240000);
