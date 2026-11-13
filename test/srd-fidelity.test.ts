@@ -26,7 +26,9 @@ describe('the SRD fidelity census', () => {
     const ghoul = CreatureFidelity.row('ghoul/barrow');
     expect(ghoul.hitDice).toEqual({ verdict: 'exact', ours: '2d12', theirs: '2d12' });
     expect(ghoul.attacks).toEqual({ verdict: 'differs', ours: '1d4 1d4 1d6', theirs: '1d3 1d3 1d6' });
-    expect(CreatureFidelity.row('rat').hitDice.verdict).toBe('orsino');
+    expect(CreatureFidelity.row('wolf').hitDice.verdict).toBe('orsino');
+    expect(Object.values(CreatureFidelity.row('rat')).filter(c => typeof c === 'object').every(c => c.verdict !== 'differs'))
+      .toBe(true);
     expect(CreatureFidelity.row('golem/flesh').defences.verdict).toBe('exact');
   });
   it('reads a spell field by field, and a fault put back is seen', () => {

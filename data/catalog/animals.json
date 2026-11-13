@@ -1607,17 +1607,22 @@
       "portrait": "animals/rat",
       "statistics": {
         "attributes": {
-          "strength": 4,
-          "dexterity": 10,
-          "constitution": 6,
-          "intelligence": 3,
-          "wisdom": 10,
-          "charisma": 3
+          "strength": 2,
+          "dexterity": 15,
+          "constitution": 10,
+          "intelligence": 2,
+          "wisdom": 12,
+          "charisma": 2
         },
-        "hitDie": 2,
-        "primary": "strength",
+        "hitDice": "1d8 / 4",
+        "primary": "dexterity",
         "weapon": "gnaw",
-        "armor": "fur"
+        "armor": "fur",
+        "saves": {
+          "fortitude": 2,
+          "reflex": 4,
+          "will": 1
+        }
       },
       "abilities": [
         "defend",
@@ -1631,8 +1636,10 @@
       ],
       "source": {
         "orsino": "animal:rat",
+        "srd35": "monster:rat",
+        "conversion": "srd35-westernesse-v1",
         "fidelity": "adapted",
-        "notes": "Orsino's rat (bite and fur), with its two hit points at the first level, and a hit die, so that it grows with its level: Orsino's fixed two had made a rat of any level one blow (M19-60). A swarm of rats at the first level is a nuisance, as every adventure that has them was written for."
+        "notes": "The SRD's rat: its 1/4 d8 Hit Dice (one hit point, at any level), its scores (2, 15, 10, 2, 12, 2), its bite of 1d3 (the catalog's gnawing bite) led by its Dexterity, AC 14 as Westernesse 7 (its fur and its quickness), and its saves (+2, +4, +1). Adapted: a Tiny creature's reach and space, low-light vision and scent are not modelled. Before, Orsino's rat with two hit points and a hit die to grow by (M19-60): a swarm of rats is a nuisance, as every adventure that has them was written for, the more so now."
       }
     },
     "raven": {

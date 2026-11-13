@@ -60,8 +60,9 @@ describe('a creature of its kind, varied', () => {
     const buck = m.people![0]!;
     expect(buck.variations).toEqual(['elder', 'great']);
     expect(ModuleWriter.person(buck)).toContain('Variant elder. Variant great.');
-    const plain = new Content('x').createCreature('r', { raceId: 'rat', level: 2 }, 'r');
-    const old = new Content('x').createCreature('r', { raceId: 'rat', level: 2, variations: ['elder', 'great'] }, 'r');
+    // A wolf, which grows as Orsino's do (the rat is the SRD's fixed block, which an age does not grow).
+    const plain = new Content('x').createCreature('r', { raceId: 'wolf', level: 2 }, 'r');
+    const old = new Content('x').createCreature('r', { raceId: 'wolf', level: 2, variations: ['elder', 'great'] }, 'r');
     expect(old.base.strength).toBe(plain.base.strength + 4);
     expect(old.base.maxHp).toBe(plain.base.maxHp + 6);
     expect(old.traits).toContain('sturdy');
