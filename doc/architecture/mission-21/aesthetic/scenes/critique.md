@@ -47,10 +47,14 @@ web-app idioms, and stable geometry. The spec checks that every scene holds stil
   when the lens is put away.
 - The waits are the column's rows, held to be done (the hold).
 
+- On a tablet held upright, the telling and the acts stand on the painting itself, which darkens up from its foot,
+  as on a wide screen held level. The panel's hard rectangle, a web panel's, had cut the painting in two at 820×1180.
+  This holds for every resting scene there.
+
 **What it still needs:**
-- The painting's upper half is now clear, as it should be.
-- The panel's frame (its border and ground) is still a web panel's. A softer ground, without the hard rectangle,
-  would let the painting carry the scene.
+- The painting's upper half is clear now, as it should be.
+- The acts' rows are still the one boxed row. Over the painting, a lighter row (a hairline and the indicator alone)
+  might sit better.
 
 ## Dialogue (Bask, the salter)
 
