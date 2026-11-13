@@ -95,7 +95,10 @@ describe('the time lens', () => {
   it('holds the company\'s own acts, the light first in the dark, the waits before the rest of them', async () => {
     const t = await Tiny.start(cellar), time = t.glance.lenses.time, all = [...time.promoted, ...time.rest];
     expect(time.promoted[0]!.command).toMatch(/^light_item\(/);
-    expect(all.every(a => a.subject === 'yourself')).toBe(true);
+    // The company's own acts are its own; the waits are no one's ("Until dark" had been 'yourself' in the rest).
+    expect(all.filter(a => /^light_item/.test(a.command ?? '')).every(a => a.subject === 'yourself')).toBe(true);
+    expect(all.filter(a => /^wait/.test(a.command ?? '')).map(a => a.subject)).toEqual(
+      all.filter(a => /^wait/.test(a.command ?? '')).map(() => undefined));
     const rest = time.rest.map(a => /^wait/.test(a.command ?? '') ? 'wait' : 'own');
     expect(rest.lastIndexOf('wait')).toBeLessThan(rest.includes('own') ? rest.indexOf('own') : Infinity);
     expect(all.map(a => a.command)).toEqual(expect.arrayContaining(['wait', 'light_item(t__party_1__candle)']));
@@ -126,5 +129,63 @@ describe('the things lens', () => {
     const chest = [...things.promoted, ...things.rest].find(a => a.subject === 't__chest')!;
     expect(things.leaves?.[chest.choice]?.map(a => a.command)).toEqual(expect.arrayContaining(['change_thing(t__chest_open)',
       'change_thing(t__chest_kick)']));
+  });
+});
+
+// A thing on a way the scene draws no one for is named, and what is seen of it said, by the lens (the aesthetic line's
+// riddle-door probe: the stone was in none of the page's lists, and its riddle, the blocking state's words, in no
+// field of the lens); its promoted acts can say whom they are at by the same field.
+const riddle = `
+  Place lane "the lane" is room at 0, 0 outdoors.
+  Place hall "the hall" is room at 1, 0 indoors.
+  Passage way_in "the way in" is path between lane and hall.
+  Company party "You" of 1 at lane.
+  Relation speaking(thing).
+  Initially Assert speaking(stone).
+  Thing stone "the speaking door" on way_in {
+    State sealed blocking "A door of one grey stone fills the way in. Cut across it: 'What has keys but cannot open locks?'".
+    State open "The stone door stands open.".
+  }
+  Action word(actor: group, door: thing) "Press the word Piano" {
+    Requires able(actor) and at(actor, lane) and speaking(door) and state(door, sealed).
+    On success { Retract state(door, sealed). Assert state(door, open). }
+  }
+  Goal false.`;
+describe('a lens\'s subjects the scene does not draw', () => {
+  it('names the speaking door and says its riddle', async () => {
+    const t = await Tiny.start(riddle), things = t.glance.lenses.things;
+    const word = [...things.promoted, ...things.rest].find(a => /Piano/.test(a.label))!;
+    expect(word.subject).toBe('t__stone');
+    expect(things.subjects?.t__stone?.name).toBe('the speaking door');
+    expect(things.subjects?.t__stone?.seen?.join(' ')).toMatch(/What has keys/);
+    // Every act at it is about it, the look from the way too.
+    expect(things.promoted.filter(a => /speaking door|Piano/.test(a.label)).every(a => a.subject === 't__stone')).toBe(true);
+  });
+});
+// An opener among the company's own acts stays one act, its acts in the leaves (Dori's spells to prepare had come
+// through as their bare names); and an act of no one here that is not time is among things (a look at Wren's ferry had
+// been led first in time at Reedwake quay).
+describe('the time lens\'s openers and its bounds', () => {
+  it('keeps the march\'s Dori: prepare as one act with its spells inside', async () => {
+    const { PlaySession } = await import('../../src/session/play-session');
+    const { NodeBundleSource } = await import('../../src/campaign/node-bundle-source');
+    const { Narrator } = await import('../../src/presentation/narrator');
+    const { ScreenModel } = await import('../../src/ui/screen-model');
+    const s = await PlaySession.start('test/fixtures/march/serewater-march.campaign.json', 'march',
+      NodeBundleSource.shared);
+    const g = Narrator.leaf(s.campaign, ScreenModel.build(s.campaign)).glance!, time = g.lenses.time;
+    const prepare = [...time.promoted, ...time.rest].find(a => /prepare/i.test(a.label))!;
+    expect(prepare.subject).toBe('yourself');
+    expect((time.leaves?.[prepare.choice] ?? []).length).toBeGreaterThan(0);
+    expect([...time.promoted, ...time.rest].some(a => /^(Anoint|Cure Light Wounds)$/.test(a.label))).toBe(false);
+  }, 60000);
+  it('puts a look at something of no one here among things, never time', async () => {
+    const { Promotion } = await import('../../src/ui/promotion');
+    const look = { choice: 'look:ferry', label: 'Look at Wren\'s ferry', command: 'look_closely(ferry)',
+      kind: 'other' as const, whys: ['own' as const], order: 0, marks: [] };
+    const scene = { subjects: [], near: [], far: [], you: [] };
+    const calm = { threat: false, warned: false, dark: false, settled: true, open: false };
+    const l = Promotion.lenses([look], scene, calm, []);
+    expect([l.things.promoted.map(a => a.choice), l.time.promoted.map(a => a.choice)]).toEqual([['look:ferry'], []]);
   });
 });

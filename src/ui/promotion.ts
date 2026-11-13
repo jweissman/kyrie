@@ -94,22 +94,33 @@ export class Promotion {
   // glance's own next step (acts), wherever it falls: a lens never makes another act the aim's.
   static lenses(cands: Candidate[], scene: Scene, s: Situation, acts: Promoted[]): Record<Lens, Lensed> {
     const at = { cands, scene, s, next: acts.find(a => a.continues)?.choice,
-      kinds: new Map(scene.subjects.map(x => [x.id, x.kind])) };
+      kinds: new Map(scene.subjects.map(x => [x.id, x.kind])),
+      // The company's own acts, as the scene has them: not the place's own (a notice read, a word put to someone).
+      company: new Set(scene.you.filter(c => !c.own).map(c => c.id)) };
     return { things: this.lensed('things', at), people: this.lensed('people', at), places: this.lensed('places', at),
       time: this.lensed('time', at) };
   }
   private static lensed(lens: Lens, at: { cands: Candidate[]; scene: Scene; s: Situation; next?: string;
-    kinds: Map<string, string> }): Lensed {
-    const mine = at.cands.filter(c => this.lens(c, at.kinds) === lens && !c.barred);
+    kinds: Map<string, string>; company: Set<string> }): Lensed {
+    const mine = at.cands.filter(c => this.lens(c, at) === lens && !c.barred);
     const ranked = mine.map(c => ({ c, whys: this.allowed(c, at.s) })).filter(x => x.whys.length)
       .map(x => ({ ...x, best: this.best(x.whys) }))
       .sort((a, b) => this.ranked(a) - this.ranked(b) || a.c.order - b.c.order).slice(0, this.all);
-    // The time lens's acts are the company's own.
-    const promoted = ranked.map(x => this.gilded(this.promoted(x.c, x.best, x.whys), at.next))
-      .map(p => lens === 'time' && !p.subject ? { ...p, subject: 'yourself' } : p);
+    // The company's own acts in the time lens are its own (subject yourself); the waits are no one's.
+    // What is done at a thing on a way is about that thing, wherever else it was found.
+    const ways = new Map((lens === 'things' ? this.onWays(at.scene) : []).map(a => [a.choice, a]));
+    // And a look at it from the way ("To the hall — look at the speaking door"), by the way it is on.
+    const onWay = new Map([...ways.values()].map(a => [a.choice.split('/')[0]!, a.subject]));
+    const promoted = ranked.map(x => {
+      const p = this.gilded(this.promoted(x.c, x.best, x.whys), at.next);
+      const on = ways.get(p.choice)?.subject ?? onWay.get(p.choice.split('/')[0]!);
+      return on && !p.subject ? { ...p, subject: on }
+        : lens === 'time' && !p.subject && !this.waits.includes(x.c.kind) ? { ...p, subject: 'yourself' } : p;
+    });
     const led = new Set(promoted.map(p => p.choice));
-    const all = [...this.rest(lens, mine.filter(c => !led.has(c.choice)), at.scene),
-      ...lens === 'things' ? this.onWays(at.scene) : []];
+    const listed = this.rest(lens, mine.filter(c => !led.has(c.choice)), at.scene).map(a => ways.get(a.choice) ?? a);
+    const all = [...listed, ...[...ways.values()]
+      .filter(a => !led.has(a.choice) && !listed.some(x => x.choice === a.choice))];
     // Then the lens's own acts in its own order, up to four in all, never one that cannot be done now: a kitchen's
     // Wat, with a topic and no aim, had left the people lens empty, his talk only in the rest (14 November).
     // Each with its own marks, as any act is drawn (the drop at the ledge had lost its "no coming back").
@@ -140,7 +151,7 @@ export class Promotion {
   // Of an opener among them (a talk, a look, whose own command is only its first), the acts within it, each to be
   // done by its own: "Kick the chest" had been reachable only from the page's own look.
   private static opened(acts: { choice: string; command?: string }[], scene: Scene): Pick<Lensed, 'leaves'> {
-    const choices = new Map(scene.subjects.flatMap(x => x.choices).map(c => [c.id, c]));
+    const choices = new Map([...scene.subjects.flatMap(x => x.choices), ...scene.you].map(c => [c.id, c]));
     const leaves = Object.fromEntries(acts.filter(a => choices.get(a.choice)?.children?.length)
       .map(a => [a.choice, Attending.all(choices.get(a.choice)!.children!).filter(c => c.command)
         .map(c => ({ choice: c.id, label: c.alone ?? c.label, command: c.command!,
@@ -152,14 +163,17 @@ export class Promotion {
       label: a.label, why: 'present', facets: ['here'], tier: 4, aspects: [], marks };
   }
   // Which lens an act is in: the ways, the waiting acts, and what is done about a thing or about someone.
-  private static lens(c: Candidate, kinds: Map<string, string>): Lens | undefined {
+  private static lens(c: Candidate, at: { kinds: Map<string, string>; company: Set<string> }): Lens | undefined {
     if (['way', 'step', 'travel'].includes(c.kind)) { return 'places'; }
-    if (['wait', 'rest', 'camp'].includes(c.kind)) { return 'time'; }
-    // The company's own acts, of no one and nothing here: a search is among things; the rest (a light lit or put out,
-    // a spell prepared, a hurt tended) take time, and are the time lens's after the waits (the coordinator's ruling,
-    // 14 November: they had been in no lens, only on the old Wait page).
-    if (!c.subject) { return c.kind === 'search' ? 'things' : c.kind === 'attack' ? undefined : 'time'; }
-    const kind = kinds.get(c.subject);
+    // The waits, and the company's own acts (a light lit or put out, spells prepared, a hurt tended, a meal): they take
+    // time, and are the time lens's after the waits (the coordinator's ruling, 14 November: they had been in no lens,
+    // only on the old Wait page). Anything else of no one here is among things: a search, the place's own acts (a
+    // look at Wren's ferry had been led first in time at Reedwake quay).
+    if ([...this.waits, ...this.owns].includes(c.kind)) { return 'time'; }
+    if (!c.subject) {
+      return c.kind === 'attack' ? undefined : at.company.has(c.choice) && c.kind !== 'search' ? 'time' : 'things';
+    }
+    const kind = at.kinds.get(c.subject);
     return !kind || kind === 'companion' ? undefined : kind === 'thing' ? 'things' : 'people';
   }
   // The rest, in the scene's order; for time, each waiting act itself (a while, an hour, until dark, and watch).
@@ -169,15 +183,22 @@ export class Promotion {
     return sorted.map(c => ({ choice: c.choice, label: c.label, ...c.command ? { command: c.command } : {},
       ...c.subject ? { subject: c.subject } : {} }));
   }
-  // Each waiting act itself, the shorter first; then the company's own acts, as the scene has them.
+  private static readonly waits: Kind[] = ['wait', 'rest', 'camp'];
+  private static readonly owns: Kind[] = ['light', 'tend', 'study', 'eat'];
+  // Each waiting act itself, the shorter first, no one's; then the company's own acts as the scene has them, each one
+  // act (an opener among them, Dori's spells to prepare, keeps its acts in the lens's leaves), the company's own.
   private static timed(cands: Candidate[], scene: Scene): LensAct[] {
     const mine = scene.you.filter(c => cands.some(x => x.choice === c.id));
-    const waiting = new Set(cands.filter(x => ['wait', 'rest', 'camp'].includes(x.kind)).map(x => x.choice));
+    const waiting = new Set(cands.filter(x => this.waits.includes(x.kind)).map(x => x.choice));
     const waits = Attending.all(mine.filter(c => waiting.has(c.id))).filter(c => c.command)
-      .toSorted((a, b) => (a.minutes ?? 0) - (b.minutes ?? 0));
-    const own = Attending.all(mine.filter(c => !waiting.has(c.id))).filter(c => c.command);
-    return [...waits, ...own].map(c => ({ choice: c.id, label: c.alone ?? c.label, command: c.command!,
-      subject: 'yourself', ...c.disabled ? { disabled: c.disabled } : {} }));
+      .toSorted((a, b) => (a.minutes ?? 0) - (b.minutes ?? 0)).map(c => this.act(c));
+    const own = mine.filter(c => !waiting.has(c.id) && (c.command || c.children?.length))
+      .map(c => ({ ...this.act(c), subject: 'yourself' }));
+    return [...waits, ...own];
+  }
+  private static act(c: Choice): LensAct {
+    return { choice: c.id, label: c.alone ?? c.label, ...c.command ? { command: c.command } : {},
+      ...c.disabled ? { disabled: c.disabled } : {} };
   }
   // Each lens's own order: talk first among people; looking and searching first among things; a fight last.
   private static readonly firsts: Record<Lens, Kind[]> = { people: ['talk'], things: ['study', 'search'],
