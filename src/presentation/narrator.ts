@@ -235,7 +235,7 @@ export class Narrator {
   }
   // Where the company stands, as the place says it, or as its kind and setting imply: a room of a building is under
   // a roof; a green, a road and wild country are open to the sky.
-  static shelter(campaign: Campaign, place: string): Shelter | undefined {
+  static shelter(campaign: Pick<Campaign, 'module'>, place: string): Shelter | undefined {
     const entities = new Map(campaign.module.entities.map(e => [e.id, e]));
     let at: Entity | undefined = entities.get(place);
     if (at?.space?.shelter) { return at.space.shelter; }
