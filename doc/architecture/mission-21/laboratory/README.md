@@ -51,9 +51,13 @@ what was said.
   ossuary's raiser, the gallery's web).
 - **Attention.** Repaid attention far outnumbers empty attention: looks, questions and searches mostly told
   something new. The empty ones are a second "Talk to …" with nothing left to say.
-- **Lethality.** On two seeds of three, a lone mage, bard, thief or ranger at level one dies to the three rats in its
-  first fight. A warrior, cleric or monk sees the rats, the nest, Mik paid, Mother Agnes's crypt and the raiser
-  within 25 to 40 turns.
+- **Lethality.** The first matrix ran each fight whole inside the act that began it, so no walk could flee. Fights
+  now go through the runner turn by turn (`src/cli/runner-fight.ts`), with the terminal's hand plus Flee, "Let …
+  fight this turn" and "Press on to the end". A walk flees when whoever's turn it is falls below half.
+  - Even so, a lone mage at level one can fall before its first turn: the rats act first.
+  - Of 63 walks, 23 end in a death or the game's end. Every calling dies somewhere, the mage most often.
+  - There are 29 retreats.
+  - Passed to the rules line as BP-07 evidence, not tuned here.
 
 ## The literary review, by the doctrine's questions
 

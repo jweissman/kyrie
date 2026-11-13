@@ -11,108 +11,112 @@ repaid when what came of it told something new.
 
 | seed | calling / background | origin | policy | arrivals | mean | worst | in budget | places | revisits | attention repaid / empty | fights | loops | dead ends | ended |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| lab1 | warrior / blacksmith | laboratory | straight | 15 | 1.9 | 5 4 4 | yes | 11 | 4 | 5 / 0 | 2 | 2 | 0 | yes |
-| lab1 | warrior / blacksmith | laboratory | curious | 11 | 1.5 | 5 2 2 | yes | 9 | 2 | 6 / 0 | 0 | 2 | 0 | yes |
-| lab1 | warrior / blacksmith | laboratory | seeded | 18 | 1.5 | 6 2 2 | yes | 8 | 10 | 4 / 1 | 0 | 11 | 0 | no |
-| lab1 | mage / apothecary | laboratory | straight | 27 | 1.7 | 5 4 4 | yes | 18 | 9 | 6 / 0 | 3 | 3 | 0 | no |
-| lab1 | mage / apothecary | laboratory | curious | 9 | 1.6 | 5 2 1 | yes | 8 | 1 | 4 / 0 | 0 | 1 | 0 | yes |
-| lab1 | mage / apothecary | laboratory | seeded | 16 | 1.0 | 1 1 1 | yes | 9 | 7 | 8 / 0 | 0 | 7 | 0 | no |
-| lab1 | thief / burglar | laboratory | straight | 27 | 1.8 | 5 5 4 | yes | 18 | 9 | 6 / 0 | 4 | 4 | 0 | no |
-| lab1 | thief / burglar | laboratory | curious | 11 | 1.5 | 5 2 2 | yes | 9 | 2 | 6 / 0 | 0 | 2 | 0 | yes |
-| lab1 | thief / burglar | laboratory | seeded | 18 | 1.2 | 2 2 2 | yes | 8 | 10 | 5 / 1 | 0 | 8 | 0 | no |
-| lab1 | cleric / doctor | laboratory | straight | 26 | 1.8 | 5 5 4 | yes | 17 | 9 | 6 / 0 | 5 | 4 | 0 | no |
-| lab1 | cleric / doctor | laboratory | curious | 9 | 1.6 | 5 2 1 | yes | 8 | 1 | 6 / 0 | 0 | 2 | 0 | yes |
-| lab1 | cleric / doctor | laboratory | seeded | 16 | 1.0 | 1 1 1 | yes | 9 | 7 | 9 / 1 | 0 | 7 | 0 | no |
-| lab1 | bard / entertainer | laboratory | straight | 27 | 1.8 | 5 4 4 | yes | 18 | 9 | 6 / 0 | 3 | 3 | 0 | no |
-| lab1 | bard / entertainer | laboratory | curious | 9 | 1.6 | 5 2 1 | yes | 8 | 1 | 6 / 0 | 0 | 2 | 0 | yes |
-| lab1 | bard / entertainer | laboratory | seeded | 16 | 1.0 | 1 1 1 | yes | 9 | 7 | 9 / 1 | 0 | 7 | 0 | no |
-| lab1 | ranger / archer | laboratory | straight | 24 | 1.7 | 5 4 4 | yes | 16 | 8 | 6 / 0 | 4 | 3 | 0 | yes |
-| lab1 | ranger / archer | laboratory | curious | 9 | 1.6 | 5 2 1 | yes | 8 | 1 | 5 / 0 | 0 | 1 | 0 | yes |
+| lab1 | warrior / blacksmith | laboratory | straight | 21 | 1.7 | 5 4 4 | yes | 13 | 8 | 6 / 1 | 9 | 0 | 0 | no |
+| lab1 | warrior / blacksmith | laboratory | curious | 17 | 2.2 | 8 5 5 | yes | 13 | 4 | 6 / 3 | 5 | 3 | 0 | yes |
+| lab1 | warrior / blacksmith | laboratory | seeded | 20 | 1.5 | 6 2 2 | yes | 8 | 12 | 4 / 0 | 0 | 10 | 0 | no |
+| lab1 | mage / apothecary | laboratory | straight | 23 | 1.6 | 5 4 4 | yes | 15 | 8 | 6 / 0 | 9 | 0 | 0 | no |
+| lab1 | mage / apothecary | laboratory | curious | 9 | 1.6 | 5 2 1 | yes | 8 | 1 | 3 / 1 | 1 | 1 | 0 | yes |
+| lab1 | mage / apothecary | laboratory | seeded | 19 | 1.0 | 1 1 1 | yes | 8 | 11 | 7 / 0 | 0 | 7 | 0 | no |
+| lab1 | thief / burglar | laboratory | straight | 23 | 1.6 | 5 4 4 | yes | 15 | 8 | 6 / 0 | 9 | 0 | 0 | no |
+| lab1 | thief / burglar | laboratory | curious | 17 | 1.9 | 5 4 4 | yes | 13 | 4 | 6 / 3 | 4 | 3 | 0 | yes |
+| lab1 | thief / burglar | laboratory | seeded | 19 | 1.2 | 2 2 2 | yes | 8 | 11 | 5 / 1 | 0 | 7 | 0 | no |
+| lab1 | cleric / doctor | laboratory | straight | 23 | 1.6 | 5 4 4 | yes | 15 | 8 | 6 / 0 | 9 | 0 | 0 | no |
+| lab1 | cleric / doctor | laboratory | curious | 17 | 1.5 | 5 4 2 | yes | 9 | 8 | 7 / 2 | 2 | 2 | 0 | no |
+| lab1 | cleric / doctor | laboratory | seeded | 16 | 1.0 | 1 1 1 | yes | 8 | 8 | 9 / 1 | 0 | 7 | 0 | no |
+| lab1 | bard / entertainer | laboratory | straight | 23 | 1.6 | 5 4 4 | yes | 15 | 8 | 6 / 0 | 9 | 0 | 0 | no |
+| lab1 | bard / entertainer | laboratory | curious | 9 | 1.6 | 5 2 1 | yes | 8 | 1 | 5 / 1 | 2 | 2 | 0 | yes |
+| lab1 | bard / entertainer | laboratory | seeded | 18 | 1.0 | 1 1 1 | yes | 8 | 10 | 9 / 0 | 0 | 4 | 0 | no |
+| lab1 | ranger / archer | laboratory | straight | 24 | 1.7 | 5 4 4 | yes | 16 | 8 | 6 / 0 | 8 | 0 | 0 | no |
+| lab1 | ranger / archer | laboratory | curious | 17 | 1.5 | 5 4 2 | yes | 9 | 8 | 6 / 1 | 2 | 1 | 0 | no |
 | lab1 | ranger / archer | laboratory | seeded | 17 | 1.0 | 1 1 1 | yes | 8 | 9 | 8 / 0 | 0 | 7 | 0 | no |
-| lab1 | monk / gardener | laboratory | straight | 15 | 1.7 | 5 4 4 | yes | 11 | 4 | 5 / 0 | 2 | 2 | 0 | yes |
-| lab1 | monk / gardener | laboratory | curious | 9 | 1.6 | 5 2 1 | yes | 8 | 1 | 5 / 0 | 0 | 1 | 0 | yes |
+| lab1 | monk / gardener | laboratory | straight | 15 | 1.7 | 5 4 4 | yes | 11 | 4 | 4 / 1 | 8 | 0 | 0 | yes |
+| lab1 | monk / gardener | laboratory | curious | 9 | 1.6 | 5 2 1 | yes | 8 | 1 | 4 / 1 | 1 | 1 | 0 | yes |
 | lab1 | monk / gardener | laboratory | seeded | 17 | 1.0 | 1 1 1 | yes | 8 | 9 | 8 / 0 | 0 | 7 | 0 | no |
-| lab2 | warrior / blacksmith | laboratory | straight | 27 | 1.9 | 5 4 4 | yes | 18 | 9 | 6 / 0 | 4 | 3 | 0 | no |
-| lab2 | warrior / blacksmith | laboratory | curious | 22 | 2.1 | 5 5 5 | yes | 17 | 5 | 8 / 0 | 1 | 4 | 0 | no |
-| lab2 | warrior / blacksmith | laboratory | seeded | 18 | 1.5 | 6 2 2 | yes | 8 | 10 | 4 / 1 | 0 | 12 | 0 | no |
+| lab2 | warrior / blacksmith | laboratory | straight | 23 | 1.7 | 5 4 4 | yes | 15 | 8 | 6 / 0 | 9 | 0 | 0 | no |
+| lab2 | warrior / blacksmith | laboratory | curious | 18 | 2.3 | 5 5 5 | yes | 15 | 3 | 5 / 4 | 10 | 5 | 0 | no |
+| lab2 | warrior / blacksmith | laboratory | seeded | 20 | 1.5 | 6 2 2 | yes | 8 | 12 | 4 / 0 | 0 | 10 | 0 | no |
 | lab2 | mage / apothecary | laboratory | straight | 5 | 1.8 | 4 2 1 | yes | 5 | 0 | 2 / 0 | 1 | 0 | 0 | yes |
 | lab2 | mage / apothecary | laboratory | curious | 9 | 1.6 | 5 2 1 | yes | 8 | 1 | 4 / 0 | 0 | 1 | 0 | yes |
-| lab2 | mage / apothecary | laboratory | seeded | 16 | 1.0 | 1 1 1 | yes | 8 | 8 | 9 / 0 | 0 | 7 | 0 | no |
-| lab2 | thief / burglar | laboratory | straight | 27 | 1.8 | 5 4 4 | yes | 18 | 9 | 6 / 0 | 3 | 3 | 0 | no |
-| lab2 | thief / burglar | laboratory | curious | 11 | 1.5 | 5 2 2 | yes | 9 | 2 | 6 / 0 | 0 | 2 | 0 | yes |
-| lab2 | thief / burglar | laboratory | seeded | 18 | 1.2 | 2 2 2 | yes | 8 | 10 | 5 / 1 | 0 | 8 | 0 | no |
-| lab2 | cleric / doctor | laboratory | straight | 24 | 1.7 | 5 4 4 | yes | 16 | 8 | 6 / 0 | 4 | 3 | 0 | yes |
-| lab2 | cleric / doctor | laboratory | curious | 9 | 1.6 | 5 2 1 | yes | 8 | 1 | 6 / 0 | 0 | 2 | 0 | yes |
+| lab2 | mage / apothecary | laboratory | seeded | 19 | 1.0 | 1 1 1 | yes | 8 | 11 | 7 / 1 | 0 | 8 | 0 | no |
+| lab2 | thief / burglar | laboratory | straight | 23 | 1.6 | 5 4 4 | yes | 15 | 8 | 6 / 0 | 10 | 0 | 0 | no |
+| lab2 | thief / burglar | laboratory | curious | 21 | 2.0 | 6 5 4 | yes | 13 | 8 | 8 / 2 | 3 | 4 | 0 | no |
+| lab2 | thief / burglar | laboratory | seeded | 19 | 1.2 | 2 2 2 | yes | 8 | 11 | 5 / 1 | 0 | 7 | 0 | no |
+| lab2 | cleric / doctor | laboratory | straight | 23 | 1.6 | 5 4 4 | yes | 15 | 8 | 6 / 0 | 10 | 0 | 0 | no |
+| lab2 | cleric / doctor | laboratory | curious | 17 | 1.5 | 5 4 2 | yes | 9 | 8 | 7 / 2 | 2 | 2 | 0 | no |
 | lab2 | cleric / doctor | laboratory | seeded | 16 | 1.0 | 1 1 1 | yes | 8 | 8 | 9 / 2 | 0 | 7 | 0 | no |
-| lab2 | bard / entertainer | laboratory | straight | 5 | 1.8 | 4 2 1 | yes | 5 | 0 | 2 / 0 | 1 | 0 | 0 | yes |
-| lab2 | bard / entertainer | laboratory | curious | 9 | 1.6 | 5 2 1 | yes | 8 | 1 | 6 / 0 | 0 | 2 | 0 | yes |
-| lab2 | bard / entertainer | laboratory | seeded | 16 | 1.0 | 1 1 1 | yes | 8 | 8 | 9 / 2 | 0 | 7 | 0 | no |
-| lab2 | ranger / archer | laboratory | straight | 23 | 1.6 | 5 4 4 | yes | 15 | 8 | 6 / 0 | 3 | 2 | 0 | yes |
-| lab2 | ranger / archer | laboratory | curious | 9 | 1.6 | 5 2 1 | yes | 8 | 1 | 5 / 0 | 0 | 1 | 0 | yes |
-| lab2 | ranger / archer | laboratory | seeded | 17 | 1.0 | 1 1 1 | yes | 8 | 9 | 8 / 0 | 0 | 7 | 0 | no |
-| lab2 | monk / gardener | laboratory | straight | 23 | 1.6 | 5 4 4 | yes | 15 | 8 | 6 / 0 | 3 | 2 | 0 | yes |
-| lab2 | monk / gardener | laboratory | curious | 9 | 1.6 | 5 2 1 | yes | 8 | 1 | 5 / 0 | 0 | 1 | 0 | yes |
-| lab2 | monk / gardener | laboratory | seeded | 17 | 1.0 | 1 1 1 | yes | 8 | 9 | 8 / 0 | 0 | 7 | 0 | no |
-| lab3 | warrior / blacksmith | laboratory | straight | 24 | 1.8 | 5 4 4 | yes | 16 | 8 | 6 / 0 | 4 | 3 | 0 | yes |
-| lab3 | warrior / blacksmith | laboratory | curious | 18 | 2.2 | 5 5 4 | yes | 15 | 3 | 10 / 0 | 0 | 5 | 0 | yes |
-| lab3 | warrior / blacksmith | laboratory | seeded | 20 | 1.6 | 6 2 2 | yes | 8 | 12 | 4 / 0 | 0 | 12 | 0 | no |
-| lab3 | mage / apothecary | laboratory | straight | 5 | 1.8 | 4 2 1 | yes | 5 | 0 | 2 / 0 | 1 | 0 | 0 | yes |
-| lab3 | mage / apothecary | laboratory | curious | 14 | 2.1 | 5 5 4 | yes | 12 | 2 | 6 / 0 | 0 | 2 | 0 | yes |
+| lab2 | bard / entertainer | laboratory | straight | 9 | 2.6 | 4 4 4 | yes | 5 | 4 | 2 / 0 | 6 | 2 | 0 | yes |
+| lab2 | bard / entertainer | laboratory | curious | 17 | 1.5 | 5 4 2 | yes | 9 | 8 | 7 / 1 | 1 | 2 | 0 | no |
+| lab2 | bard / entertainer | laboratory | seeded | 18 | 1.0 | 1 1 1 | yes | 8 | 10 | 9 / 1 | 0 | 4 | 0 | no |
+| lab2 | ranger / archer | laboratory | straight | 23 | 1.6 | 5 4 4 | yes | 15 | 8 | 6 / 0 | 10 | 0 | 0 | no |
+| lab2 | ranger / archer | laboratory | curious | 17 | 1.5 | 5 4 2 | yes | 9 | 8 | 6 / 1 | 2 | 1 | 0 | no |
+| lab2 | ranger / archer | laboratory | seeded | 17 | 1.0 | 1 1 1 | yes | 9 | 8 | 8 / 0 | 0 | 7 | 0 | no |
+| lab2 | monk / gardener | laboratory | straight | 5 | 1.8 | 4 2 1 | yes | 5 | 0 | 2 / 0 | 3 | 0 | 0 | yes |
+| lab2 | monk / gardener | laboratory | curious | 17 | 1.5 | 5 4 2 | yes | 9 | 8 | 6 / 1 | 1 | 1 | 0 | no |
+| lab2 | monk / gardener | laboratory | seeded | 17 | 1.0 | 1 1 1 | yes | 9 | 8 | 8 / 0 | 0 | 7 | 0 | no |
+| lab3 | warrior / blacksmith | laboratory | straight | 14 | 3.2 | 6 4 4 | **no** | 7 | 7 | 2 / 0 | 21 | 2 | 0 | yes |
+| lab3 | warrior / blacksmith | laboratory | curious | 21 | 2.6 | 11 5 5 | yes | 14 | 7 | 8 / 1 | 7 | 3 | 0 | no |
+| lab3 | warrior / blacksmith | laboratory | seeded | 21 | 1.6 | 6 2 2 | yes | 8 | 13 | 4 / 0 | 0 | 12 | 0 | no |
+| lab3 | mage / apothecary | laboratory | straight | 8 | 2.9 | 6 4 4 | yes | 6 | 2 | 2 / 0 | 10 | 0 | 0 | yes |
+| lab3 | mage / apothecary | laboratory | curious | 14 | 2.1 | 5 5 4 | yes | 12 | 2 | 5 / 1 | 2 | 2 | 0 | yes |
 | lab3 | mage / apothecary | laboratory | seeded | 9 | 1.9 | 5 4 2 | yes | 8 | 1 | 3 / 0 | 1 | 3 | 0 | yes |
-| lab3 | thief / burglar | laboratory | straight | 5 | 1.8 | 4 2 1 | yes | 5 | 0 | 2 / 0 | 1 | 0 | 0 | yes |
-| lab3 | thief / burglar | laboratory | curious | 16 | 2.0 | 5 5 4 | yes | 13 | 3 | 8 / 0 | 0 | 3 | 0 | yes |
-| lab3 | thief / burglar | laboratory | seeded | 19 | 1.3 | 2 2 2 | yes | 8 | 11 | 5 / 1 | 0 | 8 | 0 | no |
-| lab3 | cleric / doctor | laboratory | straight | 23 | 1.6 | 5 4 4 | yes | 15 | 8 | 6 / 0 | 3 | 2 | 0 | yes |
-| lab3 | cleric / doctor | laboratory | curious | 15 | 2.2 | 5 5 4 | yes | 13 | 2 | 9 / 0 | 0 | 4 | 0 | yes |
-| lab3 | cleric / doctor | laboratory | seeded | 9 | 2.0 | 5 5 2 | yes | 8 | 1 | 4 / 1 | 2 | 5 | 0 | yes |
-| lab3 | bard / entertainer | laboratory | straight | 5 | 1.8 | 4 2 1 | yes | 5 | 0 | 2 / 0 | 1 | 0 | 0 | yes |
-| lab3 | bard / entertainer | laboratory | curious | 14 | 2.1 | 5 5 4 | yes | 12 | 2 | 8 / 0 | 0 | 3 | 0 | yes |
-| lab3 | bard / entertainer | laboratory | seeded | 8 | 1.6 | 5 2 1 | yes | 7 | 1 | 5 / 0 | 0 | 2 | 0 | yes |
-| lab3 | ranger / archer | laboratory | straight | 5 | 1.8 | 4 2 1 | yes | 5 | 0 | 2 / 0 | 1 | 0 | 0 | yes |
-| lab3 | ranger / archer | laboratory | curious | 15 | 2.2 | 5 5 4 | yes | 13 | 2 | 8 / 0 | 0 | 3 | 0 | yes |
+| lab3 | thief / burglar | laboratory | straight | 5 | 1.8 | 4 2 1 | yes | 5 | 0 | 2 / 0 | 3 | 0 | 0 | yes |
+| lab3 | thief / burglar | laboratory | curious | 16 | 2.0 | 5 5 4 | yes | 13 | 3 | 7 / 1 | 2 | 3 | 0 | yes |
+| lab3 | thief / burglar | laboratory | seeded | 20 | 1.3 | 2 2 2 | yes | 8 | 12 | 5 / 1 | 0 | 10 | 0 | no |
+| lab3 | cleric / doctor | laboratory | straight | 5 | 1.8 | 4 2 1 | yes | 5 | 0 | 2 / 0 | 3 | 0 | 0 | yes |
+| lab3 | cleric / doctor | laboratory | curious | 14 | 2.1 | 5 5 4 | yes | 12 | 2 | 7 / 1 | 3 | 3 | 0 | yes |
+| lab3 | cleric / doctor | laboratory | seeded | 17 | 2.2 | 7 7 5 | yes | 10 | 7 | 6 / 2 | 5 | 7 | 0 | no |
+| lab3 | bard / entertainer | laboratory | straight | 5 | 1.8 | 4 2 1 | yes | 5 | 0 | 2 / 0 | 3 | 0 | 0 | yes |
+| lab3 | bard / entertainer | laboratory | curious | 14 | 2.1 | 5 5 4 | yes | 12 | 2 | 7 / 1 | 2 | 3 | 0 | yes |
+| lab3 | bard / entertainer | laboratory | seeded | 8 | 1.6 | 5 2 1 | yes | 7 | 1 | 4 / 1 | 2 | 2 | 0 | yes |
+| lab3 | ranger / archer | laboratory | straight | 17 | 3.4 | 7 6 6 | **no** | 5 | 12 | 2 / 0 | 20 | 8 | 0 | no |
+| lab3 | ranger / archer | laboratory | curious | 17 | 2.8 | 10 5 5 | yes | 12 | 5 | 6 / 1 | 7 | 3 | 0 | no |
 | lab3 | ranger / archer | laboratory | seeded | 19 | 1.3 | 2 2 2 | yes | 6 | 13 | 2 / 0 | 0 | 23 | 0 | no |
-| lab3 | monk / gardener | laboratory | straight | 23 | 1.6 | 5 4 4 | yes | 15 | 8 | 6 / 0 | 3 | 2 | 0 | yes |
-| lab3 | monk / gardener | laboratory | curious | 15 | 2.2 | 5 5 4 | yes | 13 | 2 | 8 / 0 | 0 | 3 | 0 | yes |
+| lab3 | monk / gardener | laboratory | straight | 5 | 1.8 | 4 2 1 | yes | 5 | 0 | 2 / 0 | 3 | 0 | 0 | yes |
+| lab3 | monk / gardener | laboratory | curious | 14 | 2.1 | 5 5 4 | yes | 12 | 2 | 6 / 1 | 2 | 2 | 0 | yes |
 | lab3 | monk / gardener | laboratory | seeded | 19 | 1.3 | 2 2 2 | yes | 6 | 13 | 2 / 0 | 0 | 23 | 0 | no |
 
 ## By calling
 
 | calling | can do (types offered) | chose (types) | led with (types) | atlas led | atlas chosen | atlas realized | attention repaid / empty |
 |---|---|---|---|---|---|---|---|
-| warrior | act, care, fight, go, journey, light, other, search, talk, wait | go 125, journey 39, act 31, talk 31, wait 28, light 20, search 14, fight 11, other 10, care 1 | go 375, wait 267, journey 186, act 129, talk 79, light 74, search 67, other 44, fight 28, care 10 | none 732, exploration 310, undertaking 166, knowledge 93, danger 42 | none 126, exploration 119, undertaking 96, knowledge 20, danger 15 | exploration 111, undertaking 64, knowledge 20, danger 15 | 53 / 2 |
-| mage | act, fight, go, journey, light, other, search, study, talk, wait | go 75, act 36, journey 26, wait 24, talk 20, search 9, light 7, fight 6, other 5, study 3 | go 247, wait 177, journey 127, act 107, talk 47, other 41, study 38, search 34, light 22, fight 11 | none 467, exploration 277, undertaking 90, knowledge 75, danger 31 | exploration 97, none 75, undertaking 53, knowledge 26, danger 10 | exploration 92, undertaking 40, knowledge 26, danger 10 | 44 / 0 |
-| thief | act, care, fight, go, journey, light, other, search, talk, wait | go 103, journey 40, talk 33, wait 26, act 25, light 17, search 10, fight 8, other 7, care 1 | go 313, wait 229, journey 181, act 122, talk 82, light 51, search 49, other 43, care 15, fight 14 | none 652, exploration 282, undertaking 127, knowledge 84, danger 32 | none 115, exploration 102, undertaking 82, knowledge 19, danger 11 | exploration 98, undertaking 57, knowledge 19, danger 11 | 49 / 3 |
-| cleric | act, care, fight, go, journey, light, other, search, study, talk, wait | go 104, act 36, journey 34, talk 28, wait 24, study 16, fight 14, search 9, light 6 | go 315, wait 227, journey 169, act 112, study 80, talk 59, search 58, other 27, fight 18, light 16, care 10 | none 604, exploration 338, undertaking 146, knowledge 78, danger 39 | exploration 118, undertaking 101, none 82, knowledge 28, danger 17 | exploration 114, undertaking 70, knowledge 28, danger 17 | 61 / 4 |
-| bard | act, care, fight, go, journey, light, other, search, study, talk, wait | go 74, act 34, journey 26, wait 23, talk 20, study 15, search 9, light 8, fight 5 | go 247, wait 179, journey 133, act 103, study 77, talk 47, search 34, light 14, fight 12, other 11, care 6 | none 475, exploration 277, undertaking 97, knowledge 77, danger 27 | exploration 95, none 82, undertaking 53, knowledge 26, danger 8 | exploration 91, undertaking 40, knowledge 26, danger 8 | 53 / 3 |
-| ranger | act, fight, go, journey, light, other, search, talk, wait | go 99, wait 34, act 33, journey 30, talk 29, light 10, search 9, fight 8, other 3 | go 310, wait 219, journey 177, act 133, talk 64, search 47, other 36, light 31, fight 12 | none 564, exploration 342, undertaking 120, knowledge 76, danger 30 | exploration 109, none 94, undertaking 78, knowledge 27, danger 11 | exploration 99, undertaking 56, knowledge 27, danger 11 | 50 / 0 |
-| monk | act, care, fight, go, journey, light, other, search, talk, wait | go 106, act 34, wait 34, journey 32, talk 31, light 10, search 9, fight 8, other 3 | go 326, wait 221, journey 187, act 129, talk 67, search 50, other 35, light 31, fight 17, care 14 | none 588, exploration 357, undertaking 133, knowledge 76, danger 31 | exploration 113, none 94, undertaking 90, knowledge 27, danger 12 | exploration 103, undertaking 63, knowledge 27, danger 12 | 53 / 0 |
+| warrior | act, care, fight, go, journey, light, other, search, talk, wait | go 118, fight 61, journey 41, act 29, talk 27, wait 27, light 21, search 17, other 7 | go 355, wait 257, fight 231, journey 177, act 140, talk 76, light 73, search 63, other 42, care 5 | none 854, exploration 289, undertaking 159, knowledge 109, danger 93, payoff 1 | none 139, exploration 108, undertaking 86, danger 52, knowledge 21 | exploration 101, undertaking 48, knowledge 21, danger 11 | 45 / 9 |
+| mage | act, care, fight, go, journey, light, other, search, study, talk, wait | go 79, act 32, journey 28, fight 24, wait 20, talk 18, light 7, search 7, other 5, study 5, care 1 | go 251, wait 173, journey 121, act 108, fight 80, talk 51, study 40, other 38, search 32, light 18, care 1 | none 517, exploration 269, undertaking 91, knowledge 73, danger 50 | exploration 90, none 80, undertaking 54, danger 26, knowledge 24 | exploration 86, undertaking 35, knowledge 24, danger 10 | 39 / 3 |
+| thief | act, care, fight, go, journey, light, other, search, talk, wait | go 106, journey 45, talk 33, act 31, fight 31, wait 27, search 17, light 13, other 7 | go 335, wait 241, journey 195, act 142, fight 113, talk 86, search 54, light 46, other 43, care 8 | none 761, exploration 277, undertaking 152, knowledge 101, danger 56 | none 129, exploration 102, undertaking 82, danger 30, knowledge 23 | exploration 98, undertaking 47, knowledge 23, danger 9 | 50 / 9 |
+| cleric | act, care, fight, go, journey, light, other, search, study, talk, wait | go 100, act 45, wait 36, journey 35, fight 34, talk 24, study 17, search 16, light 7, other 3, care 1 | go 337, wait 253, journey 189, act 132, fight 125, study 107, talk 54, search 53, other 32, light 10, care 3 | none 757, exploration 334, undertaking 163, knowledge 93, danger 59 | none 132, exploration 109, undertaking 78, knowledge 34, danger 29 | exploration 104, undertaking 47, knowledge 34, danger 7 | 59 / 10 |
+| bard | act, care, fight, go, journey, light, other, search, study, talk, wait | go 81, act 35, journey 30, fight 25, wait 24, talk 22, study 13, light 9, search 9, other 3, care 2 | go 268, wait 199, journey 152, act 107, study 87, fight 84, talk 53, search 38, other 16, light 14, care 5 | none 590, exploration 281, undertaking 119, knowledge 78, danger 45 | none 108, exploration 92, undertaking 54, knowledge 27, danger 21 | exploration 88, undertaking 34, knowledge 27, danger 6 | 51 / 5 |
+| ranger | act, fight, go, journey, light, other, search, talk, wait | go 115, wait 57, act 49, fight 49, journey 34, talk 29, search 12, light 10, other 5 | go 407, wait 290, journey 216, act 186, fight 165, search 68, talk 66, other 44, light 31 | none 887, exploration 359, undertaking 180, knowledge 89, danger 72 | none 165, exploration 112, undertaking 85, knowledge 34, danger 34 | exploration 102, undertaking 48, knowledge 34, danger 6 | 50 / 3 |
+| monk | act, fight, go, journey, light, other, search, talk, wait | go 82, act 40, wait 39, journey 26, talk 23, fight 18, light 10, search 10, other 4 | go 288, wait 206, journey 168, act 143, fight 68, talk 56, search 32, light 31, other 29 | none 585, exploration 302, undertaking 105, knowledge 78, danger 36 | none 113, exploration 93, undertaking 41, knowledge 28, danger 20 | exploration 83, knowledge 28, undertaking 26, danger 7 | 42 / 4 |
 
 ## Totals
 
-- walks: 63; within the budget: 63; outlier arrivals: 0
-- attention repaid 363, empty 12
-- fights 60, retreats 0, loops 273, dead ends 0, ended 38, errors 0
-- mean time per walk: 1799 ms
+- walks: 63; within the budget: 61; outlier arrivals: 6
+- attention repaid 336, empty 43
+- fights 242, retreats 29, loops 239, dead ends 0, ended 23, errors 0
+- mean time per walk: 1085 ms
 
 ## Lines said again (in most walks first)
 
-- 57× Boats lie drawn up keel to keel on the shingle at Lowmouth, and the houses come right down to them, nets hung on every fence.
-- 52× Salt in sacks stacked to the rafters, barrels of fish in brine along the wall, and a smell of tar and the sea that gets into everything.
+- 53× Boats lie drawn up keel to keel on the shingle at Lowmouth, and the houses come right down to them, nets hung on every fence.
+- 48× Salt in sacks stacked to the rafters, barrels of fish in brine along the wall, and a smell of tar and the sea that gets into everything.
 - 23× A low stone chapel, whitewashed, with a saint painted over the altar whose face has been touched so often it is gone.
-- 21× Sacks stacked to the rafters, and the smell of mice; a trapdoor in the floor with a sack of grain weighting it down, and gnawed holes along the foot of every wall.
+- 22× Sacks stacked to the rafters, and the smell of mice; a trapdoor in the floor with a sack of grain weighting it down, and gnawed holes along the foot of every wall.
 - 21× Time passes.
-- 17× The fight is won.
-- 15× A crawlway of earth and old brick behind the cellar wall, gnawed wider than any rat should need, littered with husks, bones and the stink of a nest.
-- 15× It is pitch dark. Without a light you can see nothing here, and do nothing that needs seeing.
-- 13× A vaulted crypt under the churchyard, its shelves of coffins pushed askew; the dust on the floor is scuffed through in a dozen places by feet that dragged.
-- 13× Old stones leaning in the grass, and in the corner by the wall a low stone door into the ground, its iron ring bright where someone has pulled at it lately.
-- 12× A low brick cellar under the corn-store, damp to the touch, with spilled grain trodden black on the floor and the droppings of something bigger than mice.
-- 11× Wynn gains 60 experience.
+- 19× A vaulted crypt under the churchyard, its shelves of coffins pushed askew; the dust on the floor is scuffed through in a dozen places by feet that dragged.
+- 19× Old stones leaning in the grass, and in the corner by the wall a low stone door into the ground, its iron ring bright where someone has pulled at it lately.
+- 16× A crawlway of earth and old brick behind the cellar wall, gnawed wider than any rat should need, littered with husks, bones and the stink of a nest.
+- 13× It is pitch dark. Without a light you can see nothing here, and do nothing that needs seeing.
+- 13× A low brick cellar under the corn-store, damp to the touch, with spilled grain trodden black on the floor and the droppings of something bigger than mice.
+- 12× The fight is won.
+- 10× A busy room in two parts with a counter between them, and a stair going up to the bedrooms.
 - 8× A long room of round pillars, older than anything above it: the corn-store, the church and the quarry were all dug down into it, from three sides, by people who did not know it was here.
-- 7× A gallery cut square out of the rock, wider than it is high, where the stone was taken out in blocks; the roof here is thick with web, and the web is thick with husks.
-- 6× The hasp hangs out of the corn-store door by one bolt, the oak split round it.
+- 7× A bowl of grey stone cut out of the hill long ago, ivy over its faces; at the bottom, a square adit goes back into the rock behind a barred gate, and a board on the gate says KEEP OUT in three hands.
+- 7× Wynn gets away.
 
 ## Attention repaid with nothing (the first of each label)
 
+- Ask the man with the black candle to let you by · unlikely · one try: (nothing said)
+- Search here: (nothing said)
+- Ask the man with the black candle to let you by · an even chance · one try: (nothing said)
 - Buy a torch for Wynn · 1 coin: Mik is paid, and you take a torch.
-- Wynn: prepare spells: You spend an hour over Confuse. Wynn: Confuse is ready.
+- Wynn: prepare spells: You spend an hour over Cure Light Wounds. Wynn: Cure Light Wounds is ready.
+- Ask the man with the black candle to let you by · likely · one try: (nothing said)

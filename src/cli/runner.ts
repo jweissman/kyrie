@@ -14,6 +14,8 @@ import { Undertakings } from '../presentation/undertakings';
 import { TerminalScene, type Turned } from './terminal-scene';
 import { PlayTool } from './play-tool';
 import { TerminalWalk, type Presented } from './terminal-walk';
+import { RunnerFight } from './runner-fight';
+import type { CampaignEvent } from '../campaign/campaign-types';
 
 // One choice as the runner offers it: its id is the command that does it, the real choice id (PlayerView), so that an
 // agent acts on what the page and the terminal would have it act on.
@@ -23,7 +25,7 @@ export interface Offered { id: string; label: string; aspects: string[]; type: A
 // purpose), the scene's lines as the terminal tells them, the four led with and the rest, the aim and what is needed.
 // scene.prose: of its lines, the narration alone (not the heading nor the aim and what is needed), as the scene
 // budget counts it (TerminalWalk).
-export interface Said { turn: number; moment: 'arrive' | 'outcome' | 'inspect';
+export interface Said { turn: number; moment: 'arrive' | 'outcome' | 'inspect' | 'fight';
   scene: { lines: string[]; prose: string[] };
   offer: { primary: Offered[]; rest: Offered[] }; aim?: string; aims?: Aim[]; need?: string[]; next?: Next; end?: true }
 // What pulls once an aim is seen through (Succession): its words, and the act that takes it up, or the aim to follow.
@@ -43,6 +45,8 @@ export class Runner {
   private n = 0;
   private told?: Told;
   private readonly scene = new TerminalScene();
+  private readonly fight = new RunnerFight();
+  private doing?: { act: string; before: ReturnType<typeof PlayerView.observe>; leg: Promise<CampaignEvent> };
   constructor(readonly session: PlaySession) {}
   // Every presentation said so far, as a terminal walk keeps them, for the scene budget (TerminalWalk.budget).
   get scenes(): Presented[] { return this.scene.told.map(t => ({ ...t, sentences: TerminalWalk.count(t.lines) })); }
@@ -127,17 +131,34 @@ export class Runner {
     if ('more' in asked) { return this.said(); }
     if ('follow' in asked) { return this.follow(asked.follow); }
     if (!('act' in asked) || typeof asked.act !== 'string') { return { error: `nothing asked: ${line}` }; }
+    if (this.fight.fighting) {
+      return this.fight.choose(asked.act) ? this.went() : { error: `not offered in the fight: ${asked.act}` };
+    }
     const screen = ScreenModel.build(this.campaign);
     const g = Narrator.leaf(this.campaign, screen, this.told).glance, o = this.offer(screen, g?.offer);
     // What pulls next is offered too, by its own act.
     const offered = [...o.primary, ...o.rest].map(x => x.id).concat(g?.next?.command ?? []);
     if (!offered.includes(asked.act)) { return { error: `not offered: ${asked.act}` }; }
-    const before = PlayerView.observe(this.campaign);
-    let event: Awaited<ReturnType<PlaySession['leg']>>;
-    try { event = await this.session.leg(asked.act); }
-    catch (e) { return { error: `could not be done: ${asked.act}: ${e instanceof Error ? e.message : String(e)}` }; }
+    this.doing = { act: asked.act, before: PlayerView.observe(this.campaign),
+      leg: this.session.leg(asked.act, this.fight.controller) };
+    return this.went();
+  }
+  // The act going on: its next turn of a fight, if one began, else what came of it.
+  private async went(): Promise<Said | { error: string }> {
+    const doing = this.doing!;
+    let out: Awaited<ReturnType<RunnerFight['next']>>;
+    try { out = await this.fight.next(doing.leg); }
+    catch (e) {
+      this.doing = undefined;
+      return { error: `could not be done: ${doing.act}: ${e instanceof Error ? e.message : String(e)}` };
+    }
+    if ('turn' in out) {
+      return { turn: this.n, moment: 'fight', scene: { lines: this.fight.lines(), prose: [] }, offer: this.fight.offer() };
+    }
+    const event = out.done as CampaignEvent, before = doing.before;
+    this.doing = undefined;
     const moved = before.location?.id !== this.campaign.world.one('at', this.campaign.playerActor ?? 'party');
-    this.told = { event, feedback: ActionFeedbackView.read(this.campaign, event, before), said: asked.act, moved };
+    this.told = { event, feedback: ActionFeedbackView.read(this.campaign, event, before), said: doing.act, moved };
     this.n++;
     return this.said();
   }

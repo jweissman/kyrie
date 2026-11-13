@@ -53,6 +53,9 @@ export class RunnerWalk {
   }
   static choose(policy: Policy, s: Said, chosen: Offered[], seed: number): Offered | undefined {
     const led = s.offer.primary, all = [...led, ...s.offer.rest];
+    // In a fight, whoever's turn it is gets out when brought below half, as a careful player would.
+    const flee = s.moment === 'fight' ? this.flee(s) : undefined;
+    if (flee) { return flee; }
     // Straight at the aim; else at what pulls next, where it is an act.
     const next: Offered | undefined = s.next?.act ? { id: s.next.act, label: s.next.label ?? s.next.text, aspects: [],
       type: 'other', marks: [] } : undefined;
@@ -64,6 +67,11 @@ export class RunnerWalk {
         ?? led[0];
     }
     return led.length ? led[(seed * 7919) % led.length] : all[0];
+  }
+  private static flee(s: Said): Offered | undefined {
+    const who = /^Let (.+) fight this turn$/.exec(s.offer.primary.find(o => /^Let /.test(o.label))?.label ?? '')?.[1];
+    const hp = who && new RegExp(`(?:^| · )${who} (\\d+)/(\\d+)`).exec(s.scene.lines.at(-1) ?? '');
+    return hp && Number(hp[1]) * 2 < Number(hp[2]) ? s.offer.primary.find(o => o.label === 'Flee') : undefined;
   }
   // What is attention rather than doing: talking, searching, studying, looking at something.
   static attending(o: Offered): boolean {
@@ -110,7 +118,8 @@ export class RunnerWalk {
   }
   // Acts chosen again, by their words, within a few turns of the first time: going round.
   private static loops(chosen: Offered[]): number {
-    return chosen.filter((o, i) => chosen.slice(Math.max(0, i - 4), i).some(c => c.label === o.label)).length;
+    return chosen.filter((o, i) => o.type !== 'fight'
+      && chosen.slice(Math.max(0, i - 4), i).some(c => c.label === o.label)).length;
   }
   private static tally(xs: string[]): Record<string, number> {
     return xs.reduce<Record<string, number>>((m, x) => ({ ...m, [x]: (m[x] ?? 0) + 1 }), {});
