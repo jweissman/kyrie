@@ -1,17 +1,20 @@
 import { describe, expect, it } from 'bun:test';
 import { Placed } from './support/placed';
+import { HoweAlone } from './support/howe-alone';
 import { ScreenModel } from '../src/ui/screen-model';
-import { Howe, R, FOUR, company } from './support/howe';
+import { HoweReading as Howe, R, FOUR, company } from './support/howe-reading';
 
 // The Bound Howe's week (data/situations/bound-howe: crisis, rival, crew and town .kyr): what moves on the ridge,
 // in the towns and in the howe whether or not the company comes, and what a company can do to it. The company is four
 // of level four unless said. A company is set down (Placed.at) only to skip a walk; the days are the page's own waits
-// (`=day 5 09:00`), taken from a green so that no band meets a company that is not there. Seed a1: the Kin sealed it.
+// (`=day 5 09:00`), taken from a green so that no band meets a company that is not there. The situation alone (see
+// HoweAlone: its own module on a host of a few lines, about 0.2 s a start where each case drew a1's country), on a
+// seed whose draw sealed the howe from within, as a1's did; the town is the host's (`T`).
 
 describe('the week: four parties move on the ridge whether or not the company comes', () => {
   it('runs the licence-men, the second company, the levy, the dead and the notices by the clock with no one on the ridge (a1: the Kin sealed it)', async () => {
-    const T = await Howe.town('a1');
-    const j = await Howe.start(company('warrior'), 'a1');
+    const T = HoweAlone.town;
+    const j = await HoweAlone.start(company('warrior'));
     const B = Howe.num(j, 'breachDay', 'crew'), A = Howe.num(j, 'rivalDay', 'crew');
     expect(B).toBeGreaterThanOrEqual(6); expect(B).toBeLessThanOrEqual(8);
     expect(A).toBeGreaterThanOrEqual(4); expect(A).toBeLessThanOrEqual(6);
@@ -53,14 +56,14 @@ describe('the week: four parties move on the ridge whether or not the company co
   }, 1500000);
 
   it('lets a company both breach the door and break the face: the second company by its ram, the player by a shoulder, the licence-men by the clock, the player by a pick', async () => {
-    const player = await Howe.at('forecourt', FOUR, 'a1');
+    const player = await HoweAlone.at('forecourt', FOUR);
     expect(Howe.state(player, 'seal', 'set')).toBe(true);
     await player.play('Put your shoulders to the seal-stone');
     expect(Howe.state(player, 'seal', 'forced')).toBe(true);
     await player.play('=+1').catch(() => '');
     expect(Howe.fact(player, 'host_stirs')).toBe(true);
     // The face is broken by the player as well as by the crew.
-    const dig = await Howe.at('face', FOUR, 'a1');
+    const dig = await HoweAlone.at('face', FOUR);
     dig.assert('state', R('face_wall'), R('thin'));
     expect(dig.offers('Break the last course of the face')).toBe(true);
     await dig.play('Break the last course of the face');
@@ -70,8 +73,8 @@ describe('the week: four parties move on the ridge whether or not the company co
   }, 600000);
 
   it('lets the second company arrive, force the door and be beaten at the gallery or on the flutes, or take the torc when it is shown the way (the player allies)', async () => {
-    const T = await Howe.town('a1');
-    const j = await Howe.start(FOUR, 'a1');
+    const T = HoweAlone.town;
+    const j = await HoweAlone.start(FOUR);
     const A = Howe.num(j, 'rivalDay', 'crew');
     Howe.set(j, 'breachDay', 'crew', 30);
     Placed.at(j, T('green'));
@@ -103,8 +106,8 @@ describe('the week: four parties move on the ridge whether or not the company co
   }, 1500000);
 
   it('lets the player deceive the second company: the wrong flute is told, and the reader falls to it', async () => {
-    const T = await Howe.town('a1');
-    const j = await Howe.start(FOUR, 'a1');
+    const T = HoweAlone.town;
+    const j = await HoweAlone.start(FOUR);
     const A = Howe.num(j, 'rivalDay', 'crew');
     Howe.set(j, 'breachDay', 'crew', 30);
     Placed.at(j, T('green'));
@@ -123,8 +126,8 @@ describe('the week: four parties move on the ridge whether or not the company co
   }, 1500000);
 
   it('lets the player sabotage the second company’s ram (a thief at night; its door is two days late) and read the patron’s letter in its strongbox', async () => {
-    const T = await Howe.town('a1');
-    const j = await Howe.start(FOUR, 'a1');
+    const T = HoweAlone.town;
+    const j = await HoweAlone.start(FOUR);
     const A = Howe.num(j, 'rivalDay', 'crew');
     Howe.set(j, 'breachDay', 'crew', 30);
     Placed.at(j, T('green'));
@@ -146,8 +149,8 @@ describe('the week: four parties move on the ridge whether or not the company co
   }, 1500000);
 
   it('lets the player turn the second company: shown its patron’s seal, the captain strikes camp, and the foreman pays the forty she promised', async () => {
-    const T = await Howe.town('a1');
-    const j = await Howe.start(FOUR, 'a1');
+    const T = HoweAlone.town;
+    const j = await HoweAlone.start(FOUR);
     const A = Howe.num(j, 'rivalDay', 'crew');
     Howe.set(j, 'breachDay', 'crew', 30);
     Placed.at(j, T('green'));
@@ -163,7 +166,7 @@ describe('the week: four parties move on the ridge whether or not the company co
     expect(Howe.where(j, 'rcaptain')).toBeFalsy();
     expect(Howe.state(j, 'seal', 'set')).toBe(true);
     // The foreman, hired to keep her off the hill, pays.
-    const k = await Howe.at('lee');
+    const k = await HoweAlone.at('lee');
     k.assert('foreman_hired', 'party');
     k.assert('turned_rival');
     expect(k.offers('Ask .+ for the forty')).toBe(true);
