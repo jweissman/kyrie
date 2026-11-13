@@ -101,3 +101,10 @@ Kept as the mission goes. The brief is [brief.md](brief.md); Phase 0's record is
   re-measured moves 92 of 185 kinds: not written in M21 (noise, and every world's dens), decided for M22 at 48 fights
   a level. The owner's guide to the first hour: `acceptance-guide.md`. Rules investigator on T24-20 (Common names
   first).
+- **14 Nov, afternoon.** The owner's continuity report (§26, CN-01..08) and terminal ideas (§27, TM-01..06) taken
+  up. Landed: CI keeps the parse store (cold parses were charged to every shard) and every lane has a 30 s default;
+  playability's Lens, Compass and enclosed contracts, person aspects, fight pace; aesthetic's census and one action
+  atom, the fight's stable composition, no person pip, pace rows, the hold (behind ?hold, to become the default); the
+  terminal as the page's glance and emphasis, in colour, without repeated context, with lenses, timed start-up and
+  `--profile`, a measured walker and four kept walks, and creation from one engine flow (CreationFlow). An honest
+  account of where M21 stands against its four outcomes: `state.md` (none yet met; outcome 1 partly).
