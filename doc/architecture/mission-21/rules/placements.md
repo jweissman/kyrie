@@ -289,6 +289,14 @@ The undertown's spider and its mother come a little easier (a lone warrior 85 �
 three spiders stay lethal, a pair's 25 → 40 %, a lone warrior's within the noise of twenty fights (5 → 0 %). Told at the
 door either way (the husks at the adit; the ambush's sign at every way to the ossuary).
 
+## Batch 7: the recovery rule where it bites (13 November)
+
+A healing cantrip now mends each member once between rests (recovery.md, rule 1). Fought as expeditions, not single
+fights (it is what happens between them that changed): the undertown's nine groups in the order of the way in [one],
+and a1's seven dens, a company of two of the first level, no rest between. With a Love cleric: the undertown cleared
+whole in 11 → 10 runs of 20, the dens 18 → 17, with half the heals (5 → 3, 6 → 3); with two warriors, unchanged (13
+and 19). Table in recovery.md.
+
 ## M22 notes
 
 - **The undertown for a company that grows.** It is written once, for the company as it arrives (one). Two ways it

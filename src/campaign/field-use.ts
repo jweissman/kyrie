@@ -1,3 +1,4 @@
+import { Tended } from '../rules/tended';
 import { Advancement } from '../rules/advancement';
 import { LevelDrain } from '../rules/level-drain';
 import { Canon } from '../canon/canon';
@@ -217,6 +218,10 @@ export class FieldUse {
         retreat: false, location: null };
       AbilityUse.perform(ability, options.target, new Expressions(options.seed), context);
       const committed = lease.creatures.map(c => CombatProjection.creature(fighters.find(f => f.id === c.id)!, c));
+      // Mended in the field by a healing cantrip, they are tended until the company rests (see Tended).
+      if (!options.service && Tended.cantripHeal(ability)) {
+        for (const c of committed.filter(x => x.id === options.target)) { Tended.mark(c); }
+      }
       lease.commit(committed);
       return context.events;
     } finally { lease.release(); }
