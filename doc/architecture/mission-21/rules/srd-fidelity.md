@@ -5,7 +5,7 @@ concordance (data/sources/srd35); test/srd-fidelity holds it current. Do not edi
 
 **0 of 88 placed encounters in a1 SRD-faithful** (a hostile group whose every
 kind is exact in all six fields); 57 of them have an SRD counterpart for every kind. **Spells
-69 of 119** with an SRD counterpart faithful in level, school, harm and save (of
+72 of 119** with an SRD counterpart faithful in level, school, harm and save (of
 286 catalog spells); 14 in all seven fields, their reach and duration too.
 
 In six generated countries' dens (kite, thorn, wren, kahitude, mere, ember), 55 % of meetings are with a
@@ -13,7 +13,7 @@ kind that has an SRD counterpart and 0 % with a faithful one (547 groups).
 
 | creatures, field exact or converted | hitDice 3 | armour 3 | attacks 17 | defences 1 | specials 0 | saves 0 | of 70 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| spells, field exact or converted | level 113 | school 118 | dice 23 | type 12 | save 32 | reach 78 | duration 29 | of 119 |
+| spells, field exact or converted | level 119 | school 119 | dice 23 | type 12 | save 32 | reach 78 | duration 29 | of 119 |
 
 ## Creatures, most met first
 
@@ -104,7 +104,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | barkskin | barkskin | ✓ | ✓ | – | – | – | ✗ self → one | ✗ 3 rounds → long |
 | blade_barrier | blade-barrier | ✓ | ✓ | ✗ · → 3.5/17.5/35/52.5 | ✗ · → force | ✗ · → dexterity half | ✗ self → many | ✗ 3 rounds → long |
 | bless | bless | ✓ | ✓ | – | – | – | ✗ one → many | ✗ 3 rounds → long |
-| blur | blur | ✗ 1 → 2 | ✓ | – | – | ✗ · → wisdom negates | ✗ self → one | ✗ 3 rounds → long |
+| blur | blur | ✓ | ✓ | – | – | ✗ · → wisdom negates | ✗ self → one | ✗ 3 rounds → long |
 | burning_hands | burning-hands | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | calm_emotions | calm-emotions | ✓ | ✓ | – | – | ✓ | ✓ | ✗ 3 rounds → long |
 | cause_blindness | blindness-deafness | ✓ | ✓ | – | – | ✓ | ✓ | ✗ 5 rounds → long |
@@ -155,10 +155,10 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | hold_person | hold-person | ✓ | ✓ | – | – | ≈ paralyze negates | ✓ | ✗ 3 rounds → 5 rounds |
 | holy_wrath | holy-smite | ✓ | ✓ | ✓ | – | ✓ | ✓ | ✗ 3 rounds → instant |
 | ice_storm | ice-storm | ✓ | ✓ | ✓ | ✓ | – | ✓ | ✗ instant → long |
-| image | major-image | ✗ 4 → 3 | ✓ | – | – | – | ✗ · → one | ✗ instant → long |
+| image | major-image | ✓ | ✓ | – | – | – | ✗ · → one | ✗ instant → long |
 | implosion | implosion | ✓ | ✓ | ✗ 35/35/35/35 → · | – | ✓ | ✓ | ✗ instant → long |
 | insanity | insanity | ✓ | ✓ | – | – | ✓ | ✓ | ✗ 3 rounds → instant |
-| invisibility | invisibility | ✗ 6 → 2 | ✓ | – | – | ✗ · → wisdom negates | ✗ one → self | ✗ 3 rounds → long |
+| invisibility | invisibility | ✓ | ✓ | – | – | ✗ · → wisdom negates | ✗ one → self | ✗ 3 rounds → long |
 | invulnerability | globe-of-invulnerability | ✓ | ✓ | – | – | – | ✗ self → one | ✗ 5 rounds → long |
 | knock | knock | ✓ | ✓ | – | – | – | ✗ · → many | ✓ |
 | life_drain | vampiric-touch | ✓ | ✓ | ✓ | – | – | ✓ | ✓ |
@@ -172,10 +172,10 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | meteor_swarm | meteor-swarm | ✓ | ✓ | ✓ | ✓ | – | ✓ | ✓ |
 | mind_blank | mind-blank | ✓ | ✓ | – | – | ✗ · → wisdom negates | ✓ | ✗ 10 rounds → long |
 | mind_reading | detect-thoughts | ✓ | ✓ | – | – | ✗ · → wisdom negates | ✗ self → many | ✗ 3 rounds → long |
-| minor_image | minor-image | ✗ 0 → 2 | ✓ | – | – | – | ✗ · → one | ✗ instant → long |
+| minor_image | minor-image | ✓ | ✓ | – | – | – | ✗ · → one | ✗ instant → long |
 | minor_restoration | restoration-lesser | ✓ | ✓ | – | – | ✗ · → wisdom negates | ✓ | ✓ |
 | mirror_image | mirror-image | ✓ | ✓ | – | – | – | ✓ | ✗ 3 rounds → long |
-| nightmare | nightmare | ✗ 4 → 5 | ✗ · → illusion | ✗ · → 5.5/5.5/5.5/5.5 | – | ✓ | ✓ | ✗ 3 rounds → instant |
+| nightmare | nightmare | ✓ | ✓ | ✗ · → 5.5/5.5/5.5/5.5 | – | ✓ | ✓ | ✗ 3 rounds → instant |
 | obscuring_mist | obscuring-mist | ✓ | ✓ | – | – | – | ✗ self → many | ✗ 5 rounds → long |
 | paralyzing_touch | ghoul-touch | ✓ | ✓ | – | – | ≈ paralyze negates | ✓ | ✗ 3 rounds → long |
 | plane_shift | plane-shift | ✓ | ✓ | – | – | ✗ · → wisdom negates | ✗ · → many | ✓ |
@@ -194,7 +194,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | shapechange | shapechange | ✓ | ✓ | – | – | – | ✓ | ✗ 3 rounds → long |
 | shield | shield-of-faith | ✓ | ✓ | – | – | ✗ · → wisdom negates | ✓ | ✗ 10 rounds → long |
 | shocking_grasp | shocking-grasp | ✓ | ✓ | ✓ | ✓ | – | ✓ | ✓ |
-| silence | silence | ✗ 3 → 2 | ✓ | – | – | ✓ | ✓ | ✗ 3 rounds → long |
+| silence | silence | ✓ | ✓ | – | – | ✓ | ✓ | ✗ 3 rounds → long |
 | sleep | sleep | ✓ | ✓ | – | – | ✓ | ✓ | ✗ 3 rounds → long |
 | slow | slow | ✓ | ✓ | – | – | ✓ | ✗ many → one | ✗ 4 rounds → 5 rounds |
 | spellturning | spell-turning | ✓ | ✓ | – | – | – | ✓ | ✗ 3 rounds → long |

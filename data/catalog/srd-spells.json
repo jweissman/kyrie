@@ -573,6 +573,56 @@
    "harm": "6d6",
    "save": "reflex negates"
   },
+  "blur": {
+   "srd35": "spell:blur",
+   "level": 2,
+   "school": "illusion",
+   "notes": "The SRD's Blur: level 2 (Sor/Wiz), illusion. Its reach and how long it lasts are Orsino's."
+  },
+  "image": {
+   "srd35": "spell:major-image",
+   "level": 3,
+   "school": "illusion",
+   "notes": "The SRD's Major Image: level 3 (Sor/Wiz), illusion. Its reach and how long it lasts are Orsino's."
+  },
+  "invisibility": {
+   "srd35": "spell:invisibility",
+   "level": 2,
+   "school": "illusion",
+   "notes": "The SRD's Invisibility: level 2 (Sor/Wiz), illusion. Its reach and how long it lasts are Orsino's."
+  },
+  "minor_image": {
+   "srd35": "spell:minor-image",
+   "level": 2,
+   "school": "illusion",
+   "notes": "The SRD's Minor Image: level 2 (Sor/Wiz), illusion. Its reach and how long it lasts are Orsino's."
+  },
+  "mirror_image": {
+   "srd35": "spell:mirror-image",
+   "level": 2,
+   "school": "illusion",
+   "notes": "The SRD's Mirror Image: level 2 (Sor/Wiz), illusion. Its reach and how long it lasts are Orsino's."
+  },
+  "nightmare": {
+   "srd35": "spell:nightmare",
+   "level": 5,
+   "school": "illusion",
+   "notes": "The SRD's Nightmare: level 5 (Brd), illusion; Will negates. Its reach and how long it lasts are Orsino's.",
+   "save": "will negates"
+  },
+  "silence": {
+   "srd35": "spell:silence",
+   "level": 2,
+   "school": "illusion",
+   "notes": "The SRD's Silence: level 2 (Brd), illusion; Will negates. Its reach and how long it lasts are Orsino's.",
+   "save": "will negates"
+  },
+  "weird": {
+   "srd35": "spell:weird",
+   "level": 9,
+   "school": "illusion",
+   "notes": "The SRD's Weird: level 9 (Sor/Wiz), illusion. Its reach and how long it lasts are Orsino's."
+  },
   "animate_dead": {
    "srd35": "spell:animate-dead",
    "level": 4,

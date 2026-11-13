@@ -103,7 +103,10 @@ describe('a mage in the king-barrow', () => {
     expect(event.voiced?.map(v => v.text)).toContain('The elders break off talking among themselves to hear what you want.');
   }, 60000);
   it('says where one fell, and what struck them, when no one is left', async () => {
-    const s = await Barrow.start([Barrow.mage]);
+    // A diviner, who has no fire for beetles: alone, the back-stone's three beat her 87 times in 100 (12 before the
+    // SRD's levels). The case is what the page says of a fall; Wenna of no school now knows Burning Hands, the
+    // illusions of the first level being of the second in the SRD, and had won this draw.
+    const s = await Barrow.start([{ ...Barrow.mage, traits: ['diviner'] }]);
     GeneratedWorld.put(s, 'w9_barrow_back_stone');
     await Barrow.take(s, /^Attack the beetles$/);
     expect(s.campaign.running).toBe(false);

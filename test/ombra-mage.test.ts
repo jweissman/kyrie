@@ -128,8 +128,8 @@ describe('The Fit', () => {
     expect(g.holds('mg_thole_agrees', 'party')).toBe(true);
     expect(g.knows('mg_held_by_whom')).toBe(true);
     expect(g.page).toMatch(/HELD BY WHOM/);
-    // The lessons are Thole's to teach: a first-level one that is new to this mage is prepared at once; the
-    // second-level one is learned and waits for slots the company will not have.
+    // The lessons are Thole's to teach, both of the second level since the SRD's (Blur was of the first): each is
+    // learned, and waits for slots a first-level mage does not have.
     const lessons = g.j.choices().filter(c => /Train/.test(c.label));
     expect(lessons.length).toBeGreaterThan(0);
     const before = g.gold();
@@ -137,8 +137,7 @@ describe('The Fit', () => {
     expect(g.gold()).toBe(before - 3);
     expect(g.holds('mg_taught', 'party')).toBe(true);
     expect(g.holds('handReady', 'party', 'hand_likeness')).toBe(true);
-    expect(g.j.choices().some(c => /prepare spells.*› Blur/i.test(c.full))).toBe(true);
-    // The second-level lesson is real, but cannot be prepared by a first-level mage.
+    expect(g.j.choices().some(c => /prepare spells.*› Blur/i.test(c.full))).toBe(false);
     await g.play('Train.{1,3}Mirror Image');
     expect(g.page).toMatch(/learn Mirror Image/);
     expect(g.j.choices().some(c => /prepare spells.*› Mirror Image/i.test(c.full))).toBe(false);
