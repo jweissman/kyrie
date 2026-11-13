@@ -291,6 +291,9 @@
   // mother at the back and dropped his father's knife; the spiders dead and their egg-sacs burned, the inn pays in what
   // a company going on needs, and the knife given back is the Hobbs' to repay.
   Observe {t}_u_pit_scene at {t}_u_pit as fixture when true "A bowl of grey stone cut out of the hill long ago, ivy over its faces; at the bottom, a square adit goes back into the rock behind a barred gate, and a board on the gate says KEEP OUT in three hands.".
+  // Told at the door (PL-07: two great cave spiders killed a first-level warrior in two fights of three, placements.md):
+  // what they leave in the web across the adit, seen by anyone with a light, before the gallery.
+  Observe {t}_u_husks at {t}_u_adit when able({t}_u_spiders) "Things hang in the web across the cutting ahead, wrapped grey and sucked dry: a fox, a dog, something the size of a calf. Whatever strung it takes prey that big.".
   Person {t}_u_spiders "{spiders} in the old workings" at {t}_u_gallery {
     Role "{webbed} strung the old workings with web". Species cave_spider. Numbers {brood}. Level 1. Temperament territorial. Lair {t}_u_gallery.
   }
@@ -478,8 +481,11 @@
   Passage {t}_u_vault_stair "the stair under the lettered flag" is stair between {t}_u_undercroft and {t}_u_vault hidden until {t}_u_vault_found.
   Initially Assert unlit({t}_u_vault).
   Observe {t}_u_vault_scene at {t}_u_vault as fixture when true "A small square vault, dry as an oven, with a stone chair at the far end and niches in the walls where something was kept, and a smell of old spice.".
+  // The barrow ghoul (the SRD's, ghoul/barrow), alone, at the bottom of what the town's fights bring a company to the
+  // second level for: the deepest room had been the easiest (a first-level warrior won 95 % against Orsino's ghoul
+  // here); never in the ossuary's brood, where the SRD ghoul killed what had been won (placements.md, PL-07).
   Person {t}_u_keeper "the keeper of the vault" at {t}_u_vault {
-    Role "the last of whoever built the undercroft, long dead and still at its post". Species ghoul. Numbers 1. Level 2. Temperament territorial. Lair {t}_u_vault.
+    Role "the last of whoever built the undercroft, long dead and still at its post". Species ghoul. Variant barrow. Numbers 1. Level 2. Temperament territorial. Lair {t}_u_vault.
     Warns "Something stands up from a stone chair at the far end of the vault, slowly, as if it had been waiting a long time.".
   }
   Initially Set encounterXp({t}_u_keeper) to 300.
