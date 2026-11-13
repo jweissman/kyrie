@@ -112,10 +112,14 @@ export class AimAdvances {
     this.reads(def.when, wanted);
     // A rule makes so what it asserts, and what it teaches: the ruts followed, a rule tells the cart found (what the
     // father's aim waits on), and following them had been the aim's only by being a thing at the road it names.
+    // Not a rule for what it does to the purse or where anyone is, which every way and every reward changes: every rule
+    // that pays a coin had been the debt's (the old man brought home pays one), and asking him along had been the
+    // debt's gold at the inn (M21's playability list, PL-21).
+    const read = wanted.filter(w => !['at', 'quantity'].includes(w.name));
     for (const rule of module.rules ?? []) {
       const taught = rule.teaches ? [ModuleWriter.call('knows', '?k', rule.teaches)] : [];
       const brought = [...rule.effects.flatMap(c => c.call ? [c.call] : []), ...taught];
-      if (brought.some(c => wanted.some(w => this.meets(c, w)))) { this.reads(rule.when, made); }
+      if (brought.some(c => read.some(w => this.meets(c, w)))) { this.reads(rule.when, made); }
     }
     const calls = [...wanted, ...made].filter(c => !['at', 'quantity'].includes(c.name));
     kept.set(def.id, calls);

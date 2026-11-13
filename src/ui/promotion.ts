@@ -65,10 +65,15 @@ export class Promotion {
     // Someone to talk to is led with as well, two at most, and they take none of the three places (after the notice at
     // Millholm the three job-givers had taken them all, and only the map was led: M19-24); four in all, never padded
     // (the owner, 12 November: a taproom had led with two things, though several there had something for the company).
+    // And the aim's own next step, by type (see AimAdvances), has a place though the three are taken: at
+    // Gefeohtgaet's door the hobs' two acts and the way back had filled them, the search under the door-stone the
+    // dead man's map marks was only under `all`, and the gold went to the parley (M21's playability list, PL-19).
     const taken = { ways: 0, own: 0, plates: 0, by: new Map<string, number>() };
+    let stepped = false;
     for (const x of fit) {
       if (picked.length >= this.all) { break; }
-      if (x.c.kind !== 'talk' && picked.length - taken.plates >= this.cap) { continue; }
+      const step = !stepped && x.whys.includes('advance');
+      if (x.c.kind !== 'talk' && picked.length - taken.plates >= this.cap && !step) { continue; }
       if (x.c.kind === 'talk' && taken.plates >= 2) { continue; }
       if (!this.room(x, picked, { taken, s, lone: subjects.size === 1 })) { continue; }
       if (x.c.kind === 'talk') { taken.plates++; }
@@ -76,6 +81,7 @@ export class Promotion {
       taken.by.set(subject, (taken.by.get(subject) ?? 0) + 1);
       if (this.way(x.c)) { taken.ways++; }
       if (x.best === 'own') { taken.own++; }
+      stepped ||= x.whys.includes('advance');
       picked.push(this.promoted(x.c, x.best, x.whys));
     }
     return this.continued(picked.length ? picked : this.bare(cands));

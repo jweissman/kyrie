@@ -38,6 +38,11 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
 | PL-16 | P1 | An authored adventure's hook not led: Tessary's eel-wife's notice on the Landgate board was only under `all`; reading a witness had stopped counting as learning (a regression of PL-03's rule), and a thing's teaching acts were never reckoned | fixed in this branch |
 | PL-17 | P2 | What Tessary Owes gives the company Davy's coat on its first step ("You take Davy Teazle's red coat" at the Landgate), though Nan is to hand it over later | fixed in this branch (data) |
 | PL-18 | P1 | The own-hex guard (E155: never across the country to a place in the company's own hex) lived only in the browser's map; the terminal and `serve` could not see the map's moves at all | fixed in this branch |
+| PL-19 | **P0** | At the dead man's map's keep the search the map marks is not led, and the gold goes to parleying with the hobs: dangers and the way back fill the three places | fixed in this branch |
+| PL-20 | P1 | A danger led "Talk to" onto nothing to say: the hobs' Gaffer, whose terms wait on a parley, offered only Attack and leave | fixed in this branch |
+| PL-21 | **P0** | The debt's gold at the inn was "Ask Osmund Pyle to come with you": every rule that pays a coin had made its condition the debt's | fixed in this branch |
+| PL-22 | P2 | A chest picked open says only "stands open": the stolen chalice in it is only under `all` | open |
+| PL-23 | P1 | Inside the site a coin aim names, the gold walks every room not yet entered, into a spy-crack with nothing in it | open (a decision: U1 against `gold-thread`'s "goes on into the site") |
 | PL-06 | P1 | After an aim is seen through, nothing pulls: no aim held, the prize in hand and no way home led (T24-18) | open (design) |
 | PL-07 | P1 | Fights at the first places are trivial: the den's two zombies never land a blow; its leader falls to one hit | open (balance) |
 | PL-04 | P2 | A journey of five and a half hours arrives with nothing of the way told, and the arrival tells a fight's end before its start | the order fixed in this branch; the untold journey open (design, NM-06) |
@@ -224,7 +229,8 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
   `gold-walk`/`gold-thread`'s walks into Seolforfyrd and the keeps, and the corn-store cellar's hole, which is why it
   is this narrow. It is still a location rule; a typed "what lies beyond this way bears on the aim" would replace it:
   `AimLeads.there` already answers it for one place (grounding the company's acts there), but asked of every door
-  off a town's green it would ground once per door per glance; worth measuring before it is made the rule. On the bailey there is now no
+  off a town's green it would ground once per door per glance; worth measuring before it is made the rule.
+  **Deferred by the lead (13 November):** the location rule stands; the typed form is a cost question for later. On the bailey there is now no
   gold: nothing there brings herbs, and the aim line says what it needs. Regression: `test/small/gold-doors.test.ts`
   (the bailey case fails on main and on either half alone; the churchyard case holds on both).
 
@@ -339,6 +345,73 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
   …", and under `map`), and `serve`'s view carries it as `across`. Regressions: `test/small/own-hex` (the page's
   side, unchanged) and `test/small/own-hex-engine` (the engine's offer is the map's, and `serve`'s view the same).
 
+### PL-19: the aim's step crowded out at the door
+
+- **Repro:** `bin/kyrie adventure --world pine --origin map --as elf/thief/Sefa`, `follow 1`, "Set out for
+  Gefeohtgaet" (gold; stopped by the deserters' toll, paid four coin), set out again: at the keep the foreground is
+  "Call to the hobs for a parley [gold: your aim, red: danger]", "Slip past the hobs … [red, blue]", the heath. "Search
+  Gefeohtgaet" (what the map's cross asks) is only under `all`. Save `pn-gate.json`.
+- **Cause (verified, `tools/glance.ts`):** `AimAdvances` has `search(region__w5)` as the aim's step, but
+  `Promotion.pick` fills three places by rank (the two danger acts and the way back, all tier 0) and the search,
+  tier 1, is cut; `continued` then gilds the parley, which is the aim's only by `about` (a danger's gentle act at a
+  place the aim names).
+- **Status:** fixed in this branch: the aim's own next step by type (`advance`) always has a place, a fourth if the
+  three are taken; it is then the one gold act. At Gefeohtgaet: "Search here [gold]" beside the two dangers and the
+  way back. Regression: `test/small/gold-step-room.test.ts` (three dangers at a door, the box under its stone; fails
+  on main).
+
+### PL-20: talk to someone with nothing to say now
+
+- **Repro:** pine as PL-19, the box taken, `follow 1` (the stolen bell), "Slip past the hobs on the gate", the
+  smoky cavern, "Take a notched log to the high ledge": "Talk to the Gaffer [red: danger]" leads; taken, "‘Say it,
+  then.’" and the talk holds only "Attack the Gaffer" and "Take your leave".
+- **Corroborates:** the owner, 9 November ("a person with only 'Take your leave' must not be advertised as
+  conversable"); R11-02, T24-19 (empty talk, recurring).
+- **Cause (verified):** `ScreenModel.marks` set `asked` (someone with something to be asked) from any action written
+  with them as speaker, `campaign.module.actions`, so a danger whose topics all wait on something
+  (`gaffer_terms … when tolerates(gaffer, party)`) kept its talk opener (`Attending.opener`).
+- **Status:** fixed in this branch: `asked` from what can be asked of them now (`campaign.offered()`). On the ledge
+  the chest now leads, and the Gaffer is the danger he is. Regression: `test/small/talk-when-asked.test.ts`.
+- **Found with it (the PL-18 follow-up):** in the hold the terminal listed "Go across country to the taproom of the
+  Lucky Mask" and eight more beside the journeys to them; `LandCrossing.offers` now offers only where no journey is
+  planned, as the map sets out on a planned one first.
+
+### PL-21: every reward the debt's
+
+- **Repro:** `bin/kyrie adventure --world kahitude --origin debt --as human/mage/Isolde` (a talker who will not
+  fight: Charisma 17, 4 HP), `follow 1`, the gold to Aiden, "Ask Aiden what is out in the country round": the gold is
+  then "Ask Osmund Pyle to come with you" (the old man with a bad hip) and "Talk to Osmund Pyle", not the journey to
+  Seolforfyrd Aiden has just told of. Save `kt-inn.json`.
+- **Cause (verified, `tools/leads.ts`):** `AimAdvances.waits` adds the condition of any rule whose effects meet what
+  the aim reads; the debt reads the purse, so every rule that pays a coin (the generic `brought_home`, a coin for
+  seeing someone home) made its condition (`following(?person, ?company)`) the debt's, 133 calls in all; asking Osmund
+  along asserts `following`. Since batch 4 a person with such an act is led for it (PL-13), so it became gold.
+- **Status:** fixed in this branch: a rule is read for what the aim waits on except the purse and where anyone is,
+  which every reward and every way changes (the purse is waited on by selling, as before). Regression:
+  `test/small/debt-purse.test.ts` (fails before). Seen in the mage's play: the gold goes to Seolforfyrd again.
+
+### PL-22: an opened chest says nothing of what is in it
+
+- **Repro:** pine as PL-20, "Pick the chest's lock": "The chest on the ledge stands open." Only `all` has "Take a
+  stolen chalice out of a chest on the ledge". Corroborates AP-08 ("An opened chest looks empty from the scene").
+- **Status:** open (a stolen thing is not the company's spoils, so not led; but it is not even told).
+
+### PL-23: the gold walks a site room by room
+
+- **Repro:** kahitude debt, the mage (PL-21), "Set out for Seolforfyrd", "Call to the hobs for a parley" (it works:
+  "Gaffer says come in and wipe your feet"): the gold then goes cave mouth → smoky cavern → a dry side-cave (a heap of
+  the hobs' plunder, nobody's spoils) → back → the captives' pit, the spy-crack ("A cleft in the rock that looks
+  straight down on the road below", nothing else) → back. Save `kt-crack.json`.
+- **Corroborates:** review-mitigations U1 ("no deeper way becomes gold merely because it is deeper or lies inside the
+  destination"; "an honest 'No further lead is known' preserves mystery"); round 9–11 ("gold to an empty niche").
+- **Cause (verified by reading):** inside a site the aim names, every way further in not yet taken is `toward`
+  (`Affordances`, `inSite`; `AimRoute.onward`): a location rule. A debt waits on coin; what lies in an unentered room
+  is not the company's to know, so nothing typed can say a room bears on it, and `AimLeads.there` must not be asked
+  there (it would read what the company has not seen).
+- **Status:** open, **a decision for the lead:** either gold stops at a site's door for an aim that waits on coin (or
+  on anything not known to be inside), and the rooms are silver, worth exploring, until a lead names one; or the
+  walk stays, as `test/gold-thread`'s "goes on into the site the aim names" holds it.
+
 ### PL-06: after the aim, nothing pulls
 
 - **Repro:** a1 kin, the oxen's aim seen through at Tenebraetumulo ("a den in the wild, seen through"), the yoke
@@ -359,6 +432,34 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
 **Not taken here (the lead's):** T24-19's round-12 player B items (pine): `q` with piped stdin, the hare not in the
 pack, "is here" above "is gone into the bracken", doubled way labels, raw markdown, the empty foreground after
 Anselm's speech; and the lone person spoken of in a band's words (fixed on main).
+
+## Cold plays: verdicts
+
+- **a1 kin (Wynn, warrior), ~35 commands:** the opening is the best of the game (the ruts, the body, "I knew. The dog
+  knew."); followed, the gold held through the father, the oxen's den and the rats job to Bask's pay. It broke on the
+  cairn's gold (PL-05), the lit torch "binding the hurt" (PL-09), the gold back out of the rat-runs (PL-11), the fights
+  (PL-07: nothing touched Wynn). Coherent for fifteen minutes now; after the oxen, nothing pulls (PL-06).
+- **kahitude debt (Ralf, warrior), ~10:** the debt's chain to Seolforfyrd is clear; broke on the cairn and the empty
+  search (PL-05, PL-08).
+- **wren wanderer (Hild), ~12:** the fever is a good small story, but the gold walked shop doors (PL-12) and then back
+  to the bailey with nothing to give (PL-13); fixed, the waterman's willow lead is gold. Without the fixes, not
+  coherent.
+- **The Lull and What Tessary Owes (authored), ~4 and ~10:** both opened with nothing a player could follow (PL-14,
+  PL-16); the prose is the richest in the game. Fixed for their first aims; the lint lists the rest.
+- **pine map (Sefa, elf thief), ~18 commands (13 November):** the strongest fifteen minutes so far. The deserters'
+  toll on the road (a real choice, paid), the map's cross found under the door-stone in six commands once the search
+  was led (PL-19, the one gamebreaker: before the fix the gold was on parleying with the hobs and the search was
+  under `all`), then the stolen bell followed into the hold: slipping past the hobs as a thief, the ledge, the chest
+  picked. Broke on the empty talk with the Gaffer (PL-20) and the chest that says nothing of the chalice (PL-22).
+  Recurrences of the lead's T24-19 items: the sheet says "Drifter" for an elf thief; way labels such as "Take the
+  road, half an hour out of Rainhaven to open fields south of Rainhaven". Worth going on: yes, the hold has shape.
+
+- **kahitude debt as a mage who will not fight (Isolde, Int 17, Cha 17, 4 HP), ~15 commands (13 November):**
+  coherent for its first ten minutes once PL-21 was fixed: the debt's chain (Tuck, Aiden, Seolforfyrd) is clear, and a
+  talker gets in without a blow (the parley works, and the hobs invite her in). Then the gold walks the hold room by
+  room into an empty spy-crack (PL-23), and nothing pays the debt that a talker can reach: the plunder is the hobs',
+  the sheet says "Trader" for a mage (the T24-19 "Drifter" kind recurs). Worth going on: as far as the hold; the
+  debt's pull fades inside it.
 
 ## The human reports, and where each stands
 
