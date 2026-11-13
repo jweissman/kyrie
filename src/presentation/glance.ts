@@ -61,7 +61,8 @@ export class Glance {
     // Not again beneath "A new aim" that has just said it.
     const said = aim && !(arrival === 'opening' && telling.opened) && !told?.feedback.aims?.includes(aim)
       && (['opening', 'first', 'resume'].includes(arrival) || turned);
-    const need = this.need(screen), after = told && this.after(campaign, told, { screen, acts, scene });
+    const need = this.need(screen, cands.some(c => c.kind === 'light' && !c.barred)), after = told
+      && this.after(campaign, told, { screen, acts, scene });
     // The game's first page says the company's own errand as its first goal, once (the owner's play of 7 November),
     // followed or not: nothing is followed until chosen, and the page had said no goal at all (round 13, PL-30).
     const goal = arrival === 'opening' ? screen.aims?.find(a => a.own)?.text : undefined;
@@ -114,10 +115,11 @@ export class Glance {
   // The company's state, said only when something is wrong: who is low or down, and what holds anyone (asleep,
   // stunned), which had been said nowhere while lying as you are was all there was to do (the owner's trap, 11
   // November).
-  private static need(screen: Screen): string[] {
-    const e = screen.expedition;
-    return [...e.hungry ? ['Hungry'] : [], ...e.weary ? ['Weary'] : [], ...screen.dark ? ['No light'] : [],
-      ...screen.party.filter(m => m.hp < m.maxHp / 2 || m.conditions.length).map(m => `${m.name}: ${[
+  // Dark with a light to hand is said as it is, not as a want: "No light" beside "Haze: light a candle" had the player
+  // arbitrate between the two (the blind playtest, 13 November).
+  private static need({ expedition: e, dark, party }: Screen, lightable: boolean): string[] {
+    return [...e.hungry ? ['Hungry'] : [], ...e.weary ? ['Weary'] : [], ...dark ? [lightable ? 'Dark' : 'No light'] : [],
+      ...party.filter(m => m.hp < m.maxHp / 2 || m.conditions.length).map(m => `${m.name}: ${[
         ...m.hp <= 0 ? ['down'] : m.hp < m.maxHp / 2 ? [`${m.hp} of ${m.maxHp}`] : [],
         ...m.conditions.map(c => c.toLowerCase())].join(', ')}`)];
   }
