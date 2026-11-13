@@ -91,7 +91,8 @@ export type Lens = 'things' | 'people' | 'places' | 'time';
 export interface LensAct { choice: string; label: string; command?: string; subject?: string; disabled?: string }
 // A lens's promoted acts (at most four, ranked as the resting scene's are; gold only on the glance's own next step) and
 // the rest of its acts, in the scene's order.
-export interface Lensed { promoted: Promoted[]; rest: LensAct[] }
+// leaves: of each opener among them (a talk, a look, with no command of its own), the acts within it.
+export interface Lensed { promoted: Promoted[]; rest: LensAct[]; leaves?: Record<string, LensAct[]> }
 // A route the compass gives (see Compass): where it comes to, the ways in order, the time, the command that walks it
 // (travel:<place>, leg by leg; or the one way's own), and what bars it, if anything.
 export interface Route { to: string; name: string; ways: string[]; minutes: number; command?: string; barred?: string }

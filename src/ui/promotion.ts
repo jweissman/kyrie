@@ -1,5 +1,6 @@
 import type { Aspect, Facet, Lens, LensAct, Lensed, Mark, Promoted, Tier, Why } from '../presentation/glance-types';
 import type { Scene } from './scene';
+import type { Choice } from './choice-list';
 import { Attending } from './attention';
 import { Aspects } from '../presentation/aspects';
 
@@ -107,13 +108,42 @@ export class Promotion {
     const promoted = ranked.map(x => this.gilded(this.promoted(x.c, x.best, x.whys), at.next))
       .map(p => lens === 'time' && !p.subject ? { ...p, subject: 'yourself' } : p);
     const led = new Set(promoted.map(p => p.choice));
-    const all = this.rest(lens, mine.filter(c => !led.has(c.choice)), at.scene);
+    const all = [...this.rest(lens, mine.filter(c => !led.has(c.choice)), at.scene),
+      ...lens === 'things' ? this.onWays(at.scene) : []];
     // Then the lens's own acts in its own order, up to four in all, never one that cannot be done now: a kitchen's
     // Wat, with a topic and no aim, had left the people lens empty, his talk only in the rest (14 November).
     const fill = all.filter(a => !a.disabled).slice(0, Math.max(0, this.all - promoted.length))
       .map(a => this.gilded(this.present(a), at.next));
     const shown = new Set([...led, ...fill.map(a => a.choice)]);
-    return { promoted: [...promoted, ...fill], rest: all.filter(a => !shown.has(a.choice)) };
+    const out = [...promoted, ...fill], rest = all.filter(a => !shown.has(a.choice));
+    return { promoted: out, rest, ...this.opened([...out, ...rest], at.scene) };
+  }
+  // What is done at a thing on a way (a tripwire, a portcullis, a riddle door's words), not going by it: the things
+  // lens's, with the thing as its subject, or the way where it names none (round 13's lens gap, the aesthetic line's
+  // AtHand.onWays until this held it).
+  private static onWays(scene: Scene): LensAct[] {
+    const acts = Attending.all([...scene.near, ...scene.far]).filter(c => c.command && !c.moves
+      && !/^(go|enter|travel)\(|^travel:/.test(c.command));
+    // Each by the way it is on (its id's head), the thing on it as a look or a try there names it (an authored change
+    // names its change, not the thing).
+    const things = new Map(acts.flatMap(c => c.targets?.[0] && !/^change_thing/.test(c.does ?? '')
+      ? [[this.wayOf(c), c.targets[0]] as const] : []));
+    return acts.map(c => ({ choice: c.id, label: c.alone ?? c.label, command: c.command!,
+      subject: things.get(this.wayOf(c)) ?? c.targets?.[0] ?? this.wayOf(c),
+      ...c.disabled ? { disabled: c.disabled } : {} }));
+  }
+  private static wayOf(c: Choice): string {
+    return c.id.split('/')[0]!;
+  }
+  // Of an opener among them (a talk, a look, whose own command is only its first), the acts within it, each to be
+  // done by its own: "Kick the chest" had been reachable only from the page's own look.
+  private static opened(acts: { choice: string; command?: string }[], scene: Scene): Pick<Lensed, 'leaves'> {
+    const choices = new Map(scene.subjects.flatMap(x => x.choices).map(c => [c.id, c]));
+    const leaves = Object.fromEntries(acts.filter(a => choices.get(a.choice)?.children?.length)
+      .map(a => [a.choice, Attending.all(choices.get(a.choice)!.children!).filter(c => c.command)
+        .map(c => ({ choice: c.id, label: c.alone ?? c.label, command: c.command!,
+          ...c.disabled ? { disabled: c.disabled } : {} }))]));
+    return Object.keys(leaves).length ? { leaves } : {};
   }
   private static present(a: LensAct): Promoted {
     return { choice: a.choice, ...a.command ? { command: a.command } : {}, ...a.subject ? { subject: a.subject } : {},

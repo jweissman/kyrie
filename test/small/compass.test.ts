@@ -31,6 +31,8 @@ describe('the compass inside', () => {
   it('says the place is enclosed and offers nothing overland from it, as it does outside', async () => {
     const t = await Tiny.start(keep);
     expect(t.glance.enclosed).toBe(true);
+    // The way out of the site, to another area, stays offered from inside: only the country's journeys are not.
+    expect(t.journey.choices().some(c => c.command === 'go(t__gateway,t__door)')).toBe(true);
     await t.play('the keep\'s door', 'the road', 'the keep\'s door');
     expect(t.glance.enclosed).toBeUndefined();
     expect((t.screen.destinations ?? []).map(d => d.id)).toContain('t__lane');
