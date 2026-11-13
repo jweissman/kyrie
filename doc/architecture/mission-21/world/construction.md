@@ -240,13 +240,13 @@ the world (§2). Steps 1–3 below come first; without them progressive commitme
    and goal predicate. Measured: **905 → 97 ms of a1's start, 1,431 → 101 ms of kahitude's** (about 11 % of a start;
    every generated start and every install), both worlds' keys identical. Spec: `test/compiler-goals.test.ts` (an
    ill-formed goal still refused); six specs around assembly, provinces and the small lane pass.
-2. **Calling and ancestry kinds canonical** (`ModuleNamespace.canonical` gains `callingkind`, `ancestrykind`; medium
+2. **Done (§6a): calling and ancestry kinds canonical** (`ModuleNamespace.canonical` gains `callingkind`, `ancestrykind`; medium
    risk: ids in saves). Removes the per-installation copies, so a new module stops changing every creature's facts;
    `hasCalling`/`hasAncestry` fall from ~40 per creature to one, and the road's projection from ~1 write per creature
    to none. A save from before holds the namespaced copies in its own module, which it keeps; its `hasCalling` and
    `hasAncestry` facts would be stale, and main's `CreatureFacts.revised` (PL-09: a save differing only in a revised
    projection is brought up to date, not refused) is the path for them.
-3. **`proficient` for the company only** (medium risk: saves again). 76 % of a world's facts, read by one action of
+3. **Done (§6a): `proficient` for the company only** (medium risk: saves again). 76 % of a world's facts, read by one action of
    the company's. Gain: facts 230,474 → ~55,000 at start, most of the projection's per-member work, a kept start well
    under half its 29–39 MB; and the per-install growth by item kinds goes. Old saves: `proficient` joins
    `CreatureFacts.revised`, so their others' facts are retracted on opening rather than refused.
@@ -262,6 +262,52 @@ the world (§2). Steps 1–3 below come first; without them progressive commitme
 
 Then, and only then, the standing scenarios installed at their gates (1.6 s of a start) and the region split by
 settlement.
+
+## 6a. Steps 2 and 3, done (13 November)
+
+Measured on main 76fa804f and after each step, same scripts and machine (`tools/measure.ts`, `tools/t24-11.ts`,
+`tools/old-save.ts`); a1 is origin kin, a party of one; the provinces are thorn's, the company set at each gate.
+
+| | Before | Step 2 (callings canonical) | Step 3 (`proficient` for the company) |
+|---|---|---|---|
+| a1's start, cold / warm | 14.5 s (under load; 7.2–7.8 s in §1) / 6.1 s | 6.4 / 5.9 s | 5.6 / 4.7 s |
+| facts | 230,408 | 208,406 | **32,671** |
+| `hasCalling` / `hasAncestry` | 12,168 / 10,413 | 312 / 267 | 312 / 267 |
+| `proficient` | 176,026 | 176,026 | 291 |
+| entities | 11,671 | 11,177 | 11,177 |
+| a kept start, JSON / v8 | 38.1 / 28.5 MB | 35.7 / 26.9 MB | **19.0 / 14.2 MB** |
+| one command (wait): first, then two more | 649, 53, 47 ms | 594, 60, 48 ms | 352, 64, 48 ms |
+| the tenth province's install, and the next refresh | 6.38 s, 1.03 s | 3.76 s, 0.88 s | **2.62 s, 0.33 s** |
+| ten provinces' installs | 31.6 s | 21.5 s | **14.2 s** |
+
+A command's steady cost does not change: it was never the facts' number that a wait paid for. An install still costs
+more the more is installed (0.7 s for the first, 2.6 s for the tenth): every actor is still projected at every install
+and the whole world checked at every crossing; that is step 5's.
+
+**Step 2** (`ModuleNamespace.canonical` gains `callingkind`, `ancestrykind`; commit 9752d12c). No module has a copy of
+its own; a member is of their calling and people once. Calling-keyed voices still speak in every shipped campaign and
+in drawn worlds (`calling-portability`, 29 tests; its mechanism tests now say *once, under `calling_*`*). Pinned on the
+small lane: a country installed on arrival changes no one's calling or people (`small/lazy-neighbours`; fails with
+the change put back). **Old saves:** a1-cellar (kept by main on 12 November, 88 MB) opens and plays on unchanged (its
+module keeps its copies, and the projection reads them); installing a province into it then joins the one canonical
+copy, one more fact a creature, once.
+
+**Step 3** (commit 7de426a7; `CreatureFacts.member` says what a member could wield only for the company's, and `proficient` joins
+`CreatureFacts.revised`). Its only reader is `equip_item`, which only the company may take (`tools/equip-readers.ts`:
+no other action, rule, query, observation or goal reads it, and no other actor has the action). One who joins is said
+to be able to wield what they can (`small/wield`; fails with the change put back); one who leaves goes back to their
+own group, whose members are said to wield nothing, so it is unsaid (read from the code, not tested).
+**Old saves:** a1-cellar opens (a save differing only in revised projections is brought up to date: 232,570 facts
+kept, 56,560 after) and plays on, and installs a province.
+
+**Kept traces re-digested:** `wren-tower-climbed`, once after each step (every world holds fewer facts, so every
+digest differs; `redigest-trace` says it comes where it came, both times). The other two kept traces carry no
+digests.
+
+**Next, as ranked:** step 4 (allocate the world's limited things by seed and cell, so a country is the same in every
+order of crossing; `crossing-order`'s inverted test passes when it is done) and step 5 (incremental projection and
+grounding: the projection told what changed, not "a new module, everyone dirty", and `World` stamps per relation and
+argument).
 
 ## 7. What I could not establish
 
@@ -282,4 +328,7 @@ there).
 | `prof-sum.ts`, `prof-callers.ts` | a `.cpuprofile`'s self and inclusive time; the callers of a frame |
 | `provinces-deep.ts` | each province's install by part (`N`), and the facts each relation holds after it |
 | `t24-11.ts` | each province's install and the next refresh (`N`); `PROBE=1`: what the road's projection writes |
+| `measure.ts` | a1's start cold and warm, its facts, a kept start's size, three waits |
+| `old-save.ts` | a game kept by an earlier build (`FILE`) opened as `bin/kyrie resume` opens it, played on; `INSTALL=1` installs a province into it |
+| `equip-readers.ts` | who may take `equip_item`, and what reads `proficient` |
 | `orders.ts` | a1's countries beyond west and north in three orders, the differences listed (it tries a recruit at home first; a1's start has no one willing, so the spec buys something instead) |
