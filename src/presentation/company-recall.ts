@@ -26,10 +26,12 @@ export class CompanyRecall {
   private static readonly logs = new WeakMap<readonly CampaignEvent[], Read>();
   private constructor(private readonly r: Read, private readonly lastly: { talked: Set<string>; done: Set<string>;
     from?: string; came?: string; left?: string; acted?: boolean }) {}
-  // In a site or underground, the way the company came, open to it, for the page to keep in sight beside Go… (PR-08:
-  // five cold players in three rounds could not find the way back or up, and walked out step by step through Go…).
-  back(screen: Screen): { back?: string } {
-    const came = this.lastly.came, exit = came && (screen.place.underground || screen.path.some(p => p.kind === 'site'))
+  // In an enclosed place (indoors, under the ground, in a building or a site: one rule with the compass, see
+  // Itineraries.enclosed), the way the company came, open to it, for the page to keep in sight beside Go… (PR-08: five
+  // cold players in three rounds could not find the way back or up, and walked out step by step through Go…; inside a
+  // building there had been none, the site's rule apart from the compass's).
+  back(screen: Screen, enclosed: boolean): { back?: string } {
+    const came = this.lastly.came, exit = came && enclosed
       ? screen.exits.find(e => e.destination.id === came && !e.blocked) : undefined;
     return exit ? { back: exit.id } : {};
   }

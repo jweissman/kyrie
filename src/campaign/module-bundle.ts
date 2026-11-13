@@ -1,4 +1,5 @@
 import type { DeemValue } from 'deem';
+import { Costs } from '../costs';
 import { RoleRequirements, type RoleContract } from './role-requirements';
 import { WorldConstructs } from '../lang/world-constructs';
 import { LocalKinds } from '../canon/local-catalog';
@@ -295,7 +296,10 @@ export class ModuleBundle {
   }
   // people: who is in the world already, whose names a story's generated people are drawn apart from as the country's
   // folk's are (two stories in b2 each gave one of their people Rurik).
-  static async load(request: BundleRequest, options: {
+  static load(...a: Parameters<typeof ModuleBundle.loading>): Promise<ModuleDraft> {
+    return Costs.timed('install', () => ModuleBundle.loading(...a), { id: a[0].id });
+  }
+  private static async loading(request: BundleRequest, options: {
     seed: string; installed?: InstalledModule[]; elapsed?: number; people?: readonly Entity[]; party?: number;
   }, source: BundleSource): Promise<ModuleDraft> {
     if (!/^[A-Za-z][A-Za-z0-9-]*$/.test(request.id)) { throw new Error('Invalid module installation ID'); }

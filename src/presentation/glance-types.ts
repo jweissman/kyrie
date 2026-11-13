@@ -146,6 +146,8 @@ export interface Glance {
   need?: string[];
   // After an act: what was attempted, what came of it, what it changed, and the act it made relevant (REV-05).
   after?: AfterAct;
+  // The scene's four, and every other choice of it, for every client (see Offers).
+  offer?: import('./offer').Offer;
 }
 // What pulls once an aim is seen through (PL-06): the deed's own consequence (the yoke, to be hung over the drover's
 // hearth: at, where) or a lead not followed (an aim held, to follow; or a place something known leads to). Its words

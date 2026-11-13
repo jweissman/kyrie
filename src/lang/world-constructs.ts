@@ -1,6 +1,6 @@
 import { ItemNames } from '../item-names';
 import type { Anchor, Call, Change, Module, Predicate } from './module';
-import { ItemCatalog } from '../item-catalog';
+import { Vocabularies } from './vocabulary';
 
 export interface StateSpec { id: string; flags: string[]; text: string }
 export interface ChangeSpec {
@@ -58,7 +58,7 @@ export class WorldConstructs {
       c.call.args.forEach((arg, i) => { if (typed.get(c.call.name)?.[i] === 'itemkind') { held.add(arg); } });
     }
     for (const kind of [...kinds, ...held]) {
-      const known = ItemCatalog.definitions[kind]?.name;
+      const known = Vocabularies.kind(kind)?.name;
       if (known && !module.entities.some(e => e.id === kind)) { this.entity(module, kind, 'itemkind', known); }
     }
   }
@@ -192,7 +192,7 @@ export class WorldConstructs {
       }
       this.entity(module, s.what, 'itemkind', kindName);
       module.initial.push({ kind: 'set', call: { kind: 'call', name: 'shelf', args: [p.id, s.what] }, value: { kind: 'number', value: s.stock } });
-      if (ItemCatalog.definitions[s.what]?.use && p.place) {
+      if (Vocabularies.kind(s.what)?.use && p.place) {
         this.restock(module, { id: p.id, place: p.place }, s.what, s.stock);
       }
       for (let n = 1; n <= s.stock; n++) {
@@ -258,7 +258,7 @@ export class WorldConstructs {
       if (c.at) { this.assert(module, 'changeAt', id, c.at); }
       if (c.when) { this.withheld(module, t, id, c); }
       // Consuming a good spends some of the company's stock; consuming a kind of item uses one up.
-      const spent = c.consumes ? ItemCatalog.definitions[c.consumes]?.name : undefined;
+      const spent = c.consumes ? Vocabularies.kind(c.consumes)?.name : undefined;
       if (spent) { this.entity(module, c.consumes!, 'itemkind', spent); this.assert(module, 'spends', id, c.consumes!); }
       else if (c.consumes) { this.assert(module, 'consumes', id, c.consumes); }
     }
