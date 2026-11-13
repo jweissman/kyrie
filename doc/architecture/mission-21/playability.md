@@ -30,6 +30,7 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
 | PL-08 | **P0** | Gold on "Search" wherever the aim names the place, though nothing is hidden there (Seolforfyrd: "nothing is hidden here") | fixed in this branch |
 | PL-09 | P2 | A companion "binds the hurt" of a company with nothing wrong but a lit torch: needing care held of any condition | fixed in this branch |
 | PL-10 | P2 | In the pitch-dark cellar the way through the gnawed hole is offered, and gold, before any light | open |
+| PL-11 | **P0** | In the rat-runs, the rats the followed aim is to clear in front of the company, the gold is on the way back out to the empty cellar | open |
 | PL-06 | P1 | After an aim is seen through, nothing pulls: no aim held, the prize in hand and no way home led (T24-18) | open (design) |
 | PL-07 | P1 | Fights at the first places are trivial: the den's two zombies never land a blow; its leader falls to one hit | open (balance) |
 | PL-04 | P2 | A journey of five and a half hours arrives with nothing of the way told, and the arrival tells a fight's end before its start | open |
@@ -127,7 +128,8 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
   a search's `advance` (the dead man's box under Seolforfyrd's door-stone, `AimAdvances.sought`) counted only because
   the heuristic happened to fire too. With the heuristic gone the map origin's gold walked every room of the
   toll-house and was lost (`test/gold-thread.test.ts`, kahitude/map), which is how this was found.
-- **Status:** fixed in this branch (the heuristic removed; a search may be led for `advance`). Regressions:
+- **Status:** fixed in this branch (the heuristic removed). The lead reached the same `Promotion.allowed` rule
+  independently on main (42d32a15, `test/small/gold-thread.test.ts`); this branch keeps main's and adds the removal. Regressions:
   `test/small/gold-at-the-place.test.ts`: the debt's case, indoors so that a search is offered, and the hidden
   thing's case (each fails on the code before its half of the change).
 
@@ -158,6 +160,23 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
   company perceives; the gold rides on it as the aim's way deeper.
 - **Status:** open.
 
+### PL-11: gold back out of the place where the aim's work is
+
+- **Repro:** a1 kin as PL-09, the torch lit, "Take a hole gnawed through the cellar wall to the rat-runs" (gold):
+  "The rats under the corn-store … are here … In 9 minutes they will be on you." The foreground is "Attack the rats
+  under the corn-store [red: danger]" and **"Take a hole gnawed through the cellar wall to the corn-store cellar
+  [gold: your aim]"**: back to the cellar the company has just searched by torchlight and found empty. Save
+  `/var/tmp/kyrie/play21/a1-runs.json`.
+- **Corroborates:** the owner's play of 6 November (the corn-store: "the ways pointed the company back out rather
+  than deeper in"); the owner's 11 November crawlway report (followed aim lost around the rats); round 12, A, T46;
+  PR-01 ("out of a place and back").
+- **Cause (hypothesis, from the labels; the glance probe on the save was not finished before the crash):** the aim's
+  words name "the corn-store cellar", so the way to the cellar is `toward`/`named`, while the fight the aim actually
+  waits on is never gold (gold is never on a risky act), so the only gold left is the place-name. The same inference
+  from location as PL-05 and PL-08: the aim's typed wait (the rats' group dead) is what should decide, and with the
+  fight the only advance, the honest page leads with the fight in red and no gold, or says the aim waits on it.
+- **Status:** open: the next to fix.
+
 ### PL-06: after the aim, nothing pulls
 
 - **Repro:** a1 kin, the oxen's aim seen through at Tenebraetumulo ("a den in the wild, seen through"), the yoke
@@ -174,6 +193,10 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
 - **Corroborates:** the owner's 10 November note (the hollow stalker "absurdly easy"); R10-12, R11-05; round 12, A
   ("Challenge 1").
 - **Status:** open: balance (an instrument first, as the owner proposed), not a defect to patch per creature.
+
+**Not taken here (the lead's):** T24-19's round-12 player B items (pine): `q` with piped stdin, the hare not in the
+pack, "is here" above "is gone into the bracken", doubled way labels, raw markdown, the empty foreground after
+Anselm's speech; and the lone person spoken of in a band's words (fixed on main).
 
 ## The human reports, and where each stands
 
@@ -199,7 +222,8 @@ The owner's own play first; then the agents' rounds where they corroborate it.
 1. **The promise/projection boundary: presentation infers what an act will do** (the retrospective's first
    candidate). Verified three times so far: PL-05 and PL-08 (gold for an act's *location*: `Affordances.there`, and a search
    "where your aim is", where the typed `AimAdvances` had a gap or already had the answer) and PL-03 (blue for any `knows(…)` assertion, where the fact was the company's own deed).
-   In both the engine had the typed answer, or nearly; a nearby heuristic answered instead. The fix that held was to
+   PL-11 (gold on the way to a place the aim's words name, while the aim's real wait, a fight, stands here) is the
+   same fault, still open. In each the engine had the typed answer, or nearly; a nearby heuristic answered instead. The fix that held was to
    make the typed reading complete (a rule's `teaches`; a fact the act itself makes so) and delete the heuristic. Still
    standing on the same boundary: `TalkFocus.weighty` ranks replies by their words (`/^(Tell|Pay) /`, "would come
    along"); `Passages`/`Affordances` notes ("further in", "back out"); E155's own-hex navigation guard lives in the
@@ -209,7 +233,10 @@ The owner's own play first; then the agents' rounds where they corroborate it.
    foreground, the conversation and the journey from `PlaySession`, and the terminal's copy had drifted (no talk, no
    travel: ids, the automatic fighter). Round 12's top findings were half the terminal's own. The headless instrument
    is only as faithful as its least-shared code path.
-3. **Narration by accumulation** (PL-04): the arrival is the state after everything, with the log appended; a fight
+3. **Projections that read a broad relation for a narrow meaning** (PL-09): `needsCare` held of any condition, so a
+   torch was a wound; and a save's facts are checked against the projection, so correcting one breaks old saves unless
+   the correction is declared (`CreatureFacts.revised`). Any later projection fix needs the same care.
+4. **Narration by accumulation** (PL-04): the arrival is the state after everything, with the log appended; a fight
    told dead before it starts, a five-hour journey told by nothing.
-4. **Nothing composes a larger undertaking** (PL-06) and **danger has no economy** (PL-07): design, not defects, but
+5. **Nothing composes a larger undertaking** (PL-06) and **danger has no economy** (PL-07): design, not defects, but
    they decide whether the first hour is worth playing.
