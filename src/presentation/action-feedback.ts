@@ -240,8 +240,7 @@ export class ActionFeedbackView {
     const action = campaign.operator(event.action)!;
     // A fight told after it names a band's members by the band (see BandNames), not by their numbers in it.
     const called = BandNames.of(campaign);
-    const names = { combatants: campaign.readout.creatures.map(c => ({ ...CombatProjection.fighter(c, 'fighters'),
-      name: called.get(c.id) ?? c.name })), turn: 0, actor: '', outcome: null };
+    const names = CombatProjection.told(campaign.readout.creatures, campaign.readout.partyIds, called);
     const combat = this.fights(event, before, names), split = event.prelude?.fought;
     const rolls = event.combat.filter(e => e.type === 'check' || (e.type === 'save' && !event.combat.some(x => x.type === 'initiative')))
       .map(e => CombatPresenter.format(e, names));

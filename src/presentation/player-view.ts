@@ -387,8 +387,7 @@ export class PlayerView {
     for (const c of campaign.module.initial) {
       if (c.kind === 'assert' && c.call.name === 'at') { at.set(c.call.args[0]!, c.call.args[1]!); }
     }
-    const names = { combatants: campaign.readout.creatures.map(c => CombatProjection.fighter(c, 'fighters')),
-      turn: 0, actor: '', outcome: null };
+    const names = CombatProjection.told(campaign.readout.creatures, campaign.readout.partyIds);
     const deadlines = campaign.installations.filter(m => m.deadline !== undefined);
     let previous = 0;
     const perceived = new Set<string>();

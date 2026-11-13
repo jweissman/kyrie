@@ -2,7 +2,7 @@ import { Canon } from './canon/canon';
 import { ItemCatalog } from './item-catalog';
 import { LevelDrain } from './rules/level-drain';
 import type { Creature } from './creature';
-import type { EncounterParticipant, Fighter, Team } from './model';
+import type { BattleState, EncounterParticipant, Fighter, Team } from './model';
 
 export class CombatProjection {
   static creature(fighter: Fighter, original?: Creature): Creature {
@@ -39,6 +39,15 @@ export class CombatProjection {
         ...(original?.state.advances ? { advances: structuredClone(original.state.advances) } : {}),
         ...(original?.state.skills ? { skills: [...original.state.skills] } : {}),
         ...fighter.daily ? { daily: structuredClone(fighter.daily) } : {} } };
+  }
+  // Every creature as a fight told after it names them, each on its own side: the company's as fighters, and the rest
+  // as what they were fought as. Each creature had been drawn as of the company, and a foe's hit points told as it fell
+  // ("takes 6 slashing damage (0 HP left)"), where a foe's are never told (the owner, 7 November).
+  static told(creatures: readonly Creature[], party: readonly string[], called?: ReadonlyMap<string, string>):
+    BattleState {
+    const ours = new Set(party);
+    return { combatants: creatures.map(c => ({ ...this.fighter(c, ours.has(c.id) ? 'fighters' : 'goblins'),
+      ...called?.get(c.id) ? { name: called.get(c.id)! } : {} })), turn: 0, actor: '', outcome: null };
   }
   // One of the company carries into a fight what it can use up there (see ItemCatalog.stock), each kind an ability
   // whose source is the first of that kind it has not used.
