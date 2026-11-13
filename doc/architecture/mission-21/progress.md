@@ -72,3 +72,9 @@ Kept as the mission goes. The brief is [brief.md](brief.md); Phase 0's record is
   start (an origin keeps the first member), so the earlier rows were fought at a fixture's numbers and are re-fought.
   Lead rulings: the vault keeps the barrow ghoul (deep, optional, told, escapable); no generation change for the brood
   in M21 (the company's size read on the way down is M22's). Rows held: 29 of 47.
+- **14 Nov, small hours.** Register reconciled: §19's ids are OPR-01..07 (no id now names two rows); the PL list carried
+  in as §25; `scripts/register-state.ts` counts the register by its own columns at any revision (since M20 landed:
+  fixed 42 → 62, open 146 → 141, P1 open 19 → 15); `mission-21/debt.md` is M21's row of M20's inflow table and what
+  M21's own work shows. Held rows 53 of the game's 67 fixed. AR-05 in part: the roll of who is here said apart
+  (`Leaf.roll`), the page's word-match gone (`small/roll-apart`). The full run on 14594d9d failed only
+  `wren-tower-climbed` (re-digested: it comes where it came); a full run dispatched on c610ca2d.
