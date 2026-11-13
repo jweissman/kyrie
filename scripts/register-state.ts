@@ -33,8 +33,11 @@ export class RegisterState {
     console.log(`ids used twice (${twice.length}): ${twice.join(', ')}`);
     return 0;
   }
+  // A status leads with its state ("open: … never held", "partly fixed", "no record of it done"): the state word
+  // placed first decides, and of two at one place the kinds' order.
   static kind(status: string): string {
-    return this.kinds.find(([, re]) => re.test(status))?.[0] ?? 'unstated';
+    const at = this.kinds.map(([kind, re]) => ({ kind, i: status.search(re) })).filter(k => k.i >= 0);
+    return at.sort((a, b) => a.i - b.i)[0]?.kind ?? 'unstated';
   }
   // Each table's rows, by its header's own columns: the status, and the severity or pri.
   static rows(text: string): Row[] {

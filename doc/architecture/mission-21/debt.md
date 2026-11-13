@@ -13,29 +13,31 @@ November 2026, main at 311e21b0 and after.
 
 ## 1. M21's row
 
-Same script, both revisions:
+Same script, both revisions. A row is classed by the state word placed first in its status ("open: … never held" is
+open; "partly fixed" is partly):
 
-| | M20 landed (74de47a2) | M21, 13 Nov night |
+| | M20 landed (74de47a2) | M21, 14 Nov small hours |
 |---|---|---|
 | Rows | 324 | 349 (the 24 PL rows carried in, §25) |
-| Open | 146 | 140 |
-| Partly | 67 | 77 |
-| Fixed | 42 | 64 |
-| Deferred | 42 | 44 |
+| Open | 161 | 159 |
+| Partly | 59 | 65 |
+| Fixed | 40 | 63 |
+| Deferred | 39 | 39 |
 | P0 open | 1 (FH-01) | 1 (FH-01) |
-| P1 open | 19 | 14 |
-| P1 fixed | 13 | 25 |
+| P1 open | 22 | 21 |
+| P1 fixed | 12 | 24 |
 | Ids used by two rows | 7 (PR-01..07) | 0 (§19's are OPR-01..07) |
-| Fixed rows held by a spec | 5 of 46 at M21's start (a looser reading) | 42 of the game's 62 |
+| Fixed rows held by a spec | 5 of 46 at M21's start (a looser reading) | 43 of the game's 61 |
 
-M21 found 24 playability rows (PL-01..24, nine of them P0) and fixed 19 of them in full or in part. It closed or
-advanced about 20 inherited rows. It carries out more rows than it inherited only because the PL list was carried
-in. The open count fell by six. M21 is the first mission whose new rows were mostly fixed inside it.
+M21 found 24 playability rows (PL-01..24, nine of them P0) and fixed 19 of them in full or in part. Most of the rise
+in fixed rows is that list. The inherited rows moved little. M21's notes on them (the fast loop, Experiment B's
+measures, the placements) mostly leave a row "Open, in part": P1 open went only from 22 to 21. M21 is the first
+mission whose new rows were mostly fixed inside it. It has not yet paid down the inherited P1s.
 
-Most of the change is in the last line of the table. Of the rows whose status column says fixed, a spec now holds 42
-of 62. (An earlier count of 53 of 67 read "fixed" anywhere in a row, so it took in rows fixed only in part and notes
-that say "held by". `register-held` now reads the status column as `register-state` does.) Each spec added in M21 was
-checked against its fault: the fault put back, and the spec seen to fail.
+Most of the change is in the last line of the table. Of the rows whose status says fixed, a spec now holds 43 of 61.
+(An earlier count of 53 of 67 read "fixed" anywhere in a row, so it took in rows fixed only in part and notes that
+say "held by". `register-held` now reads the status as `register-state` does.) Each spec added in M21 was checked
+against its fault: the fault put back, and the spec seen to fail.
 
 ## 2. What M21's own work shows
 
