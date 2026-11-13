@@ -78,18 +78,7 @@
 /* ---- How pages lay rows out: in a column, a few pixels apart. ---- */
 :root .glance .led, :root .glance .openers, :root .talk .replies { gap: 6px; }
 :root .world-page.scale-scene .glance .openers > .choice-row { align-self: stretch; }
-/* A fight's moves: Attack and the kinds that open, side by side where there is room; what a kind holds, beneath. */
-:root .fight .moves .bar { display: grid; grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr)); gap: 6px; max-width: 40rem; }
-:root .fight .moves .panel { display: grid; grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr)); gap: 6px; }
-:root .fight .moves .panel > li { margin: 0; }
 
-/* On a phone the hand is one row of three, so the company above it is seen whole (the reader spec at 390 by 844). */
-@media (max-width: 600px) {
-  :root .fight .moves .bar { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  :root .fight .moves .bar .choice-row.choice-row { min-height: 44px; padding: 6px 5px 6px 13px; column-gap: 2px;
-    font-size: 14px; line-height: 1.2; }
-  :root .fight .moves .bar .choice-row.choice-row > .row-mark { left: 5px; top: 9px; bottom: 9px; }
-}
 
 /* ---- The telling's budget (SceneBudget, Narrator's glanced): what more the place has to tell, unfolded in place by a
    quiet word. ---- */

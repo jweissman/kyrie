@@ -7,7 +7,7 @@
 .fight { height: var(--frame-h); display: flex; flex-direction: column; padding: 0;
   background: radial-gradient(ellipse 80% 50% at 50% 40%, rgba(255, 107, 69, .05), transparent 70%); }
 .fight > .status { flex: none; display: flex; gap: 10px 18px; flex-wrap: wrap; align-items: center; margin: 0;
-  padding: var(--safe-t) var(--safe-r) 14px var(--safe-l); border-bottom: 1px solid var(--edge); font: 500 11px var(--do);
+  padding: var(--safe-t) var(--safe-r) 14px var(--safe-l); font: 500 11px var(--do);
   letter-spacing: .2em; text-transform: uppercase; color: var(--dim); }
 .fight > .status span:first-child { color: var(--ember); }
 /* How the fight stands now, in a word of its danger's colour (M19-78). */
@@ -105,7 +105,7 @@
 .fight-log p { font-size: 15px; color: var(--dim); }
 /* Whose turn, and who follows. */
 .fight > .turn { flex: none; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px;
-  padding: 12px var(--safe-r) 0 var(--safe-l); border-top: 1px solid var(--edge); }
+  padding: 12px var(--safe-r) 0 var(--safe-l); }
 .fight .turn .now { margin: 0; font: 500 12px var(--do); letter-spacing: .2em; text-transform: uppercase; color: var(--accent); }
 .fight .turn .working { color: var(--dim); letter-spacing: .04em; text-transform: none; }
 .fight .order { list-style: none; margin: 0 0 0 auto; padding: 0; display: flex; flex-wrap: wrap; gap: 4px; }
@@ -116,7 +116,7 @@
    card no wider than a long note wraps to (the firebomb's saves had made it a row of its own). */
 /* What can be done keeps its room; the sides give way and scroll (the moves had been cut to 27px of 176 on a phone, and
    "Let them fight this turn" cut in half on a desk: the contact sheet, 12 November). */
-.fight > .moves { flex: none; min-height: 0; overflow-y: visible; padding: 12px var(--safe-r) 4px var(--safe-l); }
+.fight > .moves { flex: none; min-height: 0; overflow-y: visible; padding: 12px var(--safe-r) var(--safe-b) var(--safe-l); }
 .fight .moves section + section { margin-top: 8px; }
 .fight .moves .label { margin: 0 0 8px; }
 @media (orientation: landscape) and (min-width: 561px) {
@@ -127,12 +127,6 @@
 /* More below than is in view: the foot of it fades, so that it is seen to go on (see Scrolled). */
 .fight > :is(.sides, .moves)[data-more] { mask-image: linear-gradient(180deg, #000 calc(100% - 36px), transparent); }
 .fight .moves .cards { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; }
-.fight .auto { margin: 8px 0 0; font: 400 12.5px var(--do); color: var(--faint); }
-/* Clear of the screen's edge, and of a tablet's home bar: inside the safe zone, as every margin of the fight is (the
-   scene's safe-zone walk, 11 November late; and 12 November, the zone the outer tenth). */
-.fight > .fight-log-toggle { flex: none; margin: 0;
-  padding: 8px var(--safe-r) var(--safe-b) var(--safe-l); }
-.fight-log-toggle .option { min-height: 36px; padding: 8px 14px; font-size: 11.5px; }
 /* A key to press means nothing to a finger. */
 @media (hover: none) { .fight .auto kbd { display: none; } }
 /* An upright screen: the two sides side by side over what has passed, the hand at the foot. */
@@ -178,13 +172,7 @@
 .fight .moves .move.quiet { cursor: pointer; min-height: 40px; padding: 8px 14px; background: transparent; color: var(--ivory);
   border: 1px solid var(--edge); font: var(--t-aside); }
 .fight .moves .move.quiet:hover, .fight .moves .move.quiet:focus-visible { border-color: var(--accent-line); outline: none; }
-.fight .moves .panel { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 0; padding: 10px 0 0;
-  border-top: 1px solid var(--edge); }
-.fight .moves .aiming { display: flex; align-items: center; gap: 14px; margin: 0; font: 500 15px var(--do); color: var(--gold); }
-/* One who can be chosen: lit, and the whole card the button; the rest dimmed while aiming. */
-.fight .fighter.target { cursor: pointer; border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold), 0 0 22px rgba(242, 189, 76, .18); }
 .fight .fighter .pick { position: absolute; inset: 0; z-index: 2; background: transparent; border: 0; cursor: pointer; }
-.fight .fighter .chance { display: block; margin-top: 6px; font: 600 12.5px var(--do); color: var(--accent); }
 .fight.aiming .fighter:not(.target) { opacity: .55; }
 
 
@@ -192,27 +180,59 @@
 /* How it stands, told in the beat at the start (see FightStage.View), in its danger's colour only where it is grave. */
 .fight .beat .reckoning { font: italic 400 19px/1.5 var(--told); color: var(--ivory); }
 .fight .beat .reckoning:is(.grave, .deadly) { color: color-mix(in oklab, var(--ember) 45%, var(--ivory)); }
-/* A kind opened, the hand is that kind's moves and Attack, nothing else: letting the fight go on by itself and the fight
-   so far stand aside until it is put away (ten things had been in the hand, against eight), and the hand keeps the
-   safe zone's foot that the fight so far had kept for it (on a phone Guard had stood 80 px past it). */
-.fight:has(.moves > .panel) .moves > :is(.auto, .through), .fight:has(.moves > .panel) > .fight-log-toggle { display: none; }
-.fight:has(.moves > .panel) > .moves { padding-bottom: var(--safe-b); }
-/* A kind opened (Abilities, Spells, Items, Other): its moves across the hand's width, two rows at most, and the field
-   above gives way to them; under the hand they had run past the foot of a laptop, five of eight outside the safe zone
-   (the capture walk, 12 November). */
-.fight:has(.moves > .panel) > .sides { min-height: calc(var(--frame-h) * .18); }
-:root .fight .moves > .panel { grid-template-columns: repeat(auto-fill, minmax(12.5rem, 1fr)); margin: 8px 0 0; padding: 8px 0 0; }
-.fight .moves > .panel .choice-row.choice-row { min-height: 40px; padding-top: 6px; padding-bottom: 6px; }
-.fight .moves > .panel .choice-row.choice-row > .row-aside { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 /* On a phone a foe's name is said whole, over two lines if need be, its painting still the card's left panel (the
    owner, 30 October and 6 November): "The seco…" had been all of the second rat. */
 @media (max-width: 600px) {
   .fight .foes .fighter.faced .n b { white-space: normal; overflow: visible; overflow-wrap: anywhere; }
   /* Its reckoning is the moment's before the fight closes on a phone, as the head's is (above): the company first. */
   .fight .beat .reckoning { display: none; }
-  /* A kind opened on a phone: its moves two by two, by name (what each does is said where there is room). */
-  :root .fight .moves > .panel { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  :root .fight .moves > .panel .choice-row.choice-row { min-height: 38px; padding: 5px 8px 5px 14px; font-size: 14px; }
-  :root .fight .moves > .panel .choice-row.choice-row > .row-aside { display: none; }
-  .fight:has(.moves > .panel) > .sides { min-height: calc(var(--frame-h) * .12); }
+}
+
+/* ---- The fight's one composition (CN-06, the owner, 14 November: stable geometry, the menu never a row by accident,
+   target focus that moves nothing, nothing put into a button once drawn, no bars over the painting). The hand: the
+   menu a column at the left, which sets the hand's height and never changes it; beside it a details region of that
+   height, which holds the kind opened (scrolling inside it when long), whom to choose, or what the move under the hand
+   does. Opening a kind, aiming and changing target change only what that region holds. ---- */
+.fight .hand { display: grid; grid-template-columns: minmax(13rem, 19rem) minmax(0, 1fr); column-gap: var(--s5); }
+.fight .hand-menu { display: grid; grid-auto-rows: min-content; align-content: start; gap: 6px; }
+.fight .hand-detail { contain: size; min-height: 0; overflow-y: auto; overscroll-behavior: contain; display: grid;
+  grid-template-rows: minmax(0, 1fr) auto; }
+.fight .hand-detail .panel { list-style: none; margin: 0; padding: 0; display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr)); gap: 6px; align-content: start; }
+.fight .hand-detail .panel > li { margin: 0; min-width: 0; }
+:root .fight .hand-detail .panel .choice-row.choice-row { min-height: 40px; padding-top: 6px; padding-bottom: 6px; }
+.fight .hand-note { margin: 6px 0 0; min-height: 1.4em; font: var(--t-aside); color: var(--dim); }
+.fight .hand-detail .aiming { display: grid; align-content: start; justify-items: start; gap: var(--s3); }
+.fight .hand-say { margin: 0; font: var(--t-choice); color: var(--ivory); }
+/* The quieter rows at the menu's foot: letting the fight go on, pressing on to its end. */
+:root .fight .hand-menu .quiet-row.choice-row.choice-row { min-height: 38px; padding-top: 6px; padding-bottom: 6px;
+  color: var(--dim); background: none; }
+.fight .hand-menu .row-opens { grid-column: 2; grid-row: 1; color: var(--dim); }
+:root .fight .hand-menu .move.opened.choice-row.choice-row { background: var(--choice-ground-hot); border-color: var(--choice-edge-hot); }
+/* The fight so far, read from the fight's head. */
+.fight > .status .fight-log-toggle { margin-left: auto; padding: 4px 0; }
+.fight > .status .standing + .fight-log-toggle { margin-left: var(--s4); }
+/* Whom to choose: a reticle (an outline, which takes no room) on each who can be, its chance pinned over the card's
+   corner, not a line added to it; the rest lowered. Neither gold (the aim's) nor a card made taller. */
+.fight .fighter.target { cursor: pointer; outline: 2px solid var(--accent); outline-offset: 3px; }
+.fight .fighter.target:hover, .fight .fighter.target:focus-within { outline-color: var(--ivory); }
+.fight .fighter .chance { position: absolute; top: 6px; right: 8px; z-index: 3; padding: 2px 6px; font: var(--t-key);
+  color: var(--deep); background: var(--accent); border-radius: 3px; pointer-events: none; }
+@media (max-width: 600px) {
+  .fight .hand { grid-template-columns: minmax(0, 11rem) minmax(0, 1fr); column-gap: var(--s3); }
+  :root .fight .hand-menu .choice-row.choice-row { min-height: 38px; padding: 5px 8px 5px 14px; font-size: 14px; }
+  :root .fight .hand-detail .panel { grid-template-columns: minmax(0, 1fr); }
+  :root .fight .hand-detail .panel .choice-row.choice-row { min-height: 36px; font-size: 14px; }
+  .fight .hand-note { display: none; }
+  /* Who acts in turn is the acting ring's to say on a phone: the chips had taken two rows above the hand. */
+  .fight .turn .order { display: none; }
+}
+.fight .fighter .intent-held { visibility: hidden; margin: 8px 0 0; padding-top: 8px; border-top: 1px solid transparent;
+  font: 400 13px/1.4 var(--do); }
+/* A short screen (an iPad held level, a small laptop): the hand's rows a little shorter, so its foot (letting the fight
+   go on) stays inside the safe zone (1180 by 820: 21 px past it with the rows at their full height). */
+@media (max-height: 920px) and (min-width: 601px) {
+  .fight .hand-menu { gap: 4px; }
+  :root .fight .hand-menu .choice-row.choice-row { min-height: 40px; padding-top: 6px; padding-bottom: 6px; }
+  :root .fight .hand-menu .quiet-row.choice-row.choice-row { min-height: 34px; padding-top: 4px; padding-bottom: 4px; }
 }

@@ -59,9 +59,10 @@ Columns:
 | Pack: the tiles | `PackGrid.Tile` | tiles (select; with acts, `Act.View`) | glyph + mark where it acts | engine | — |
 | Character / Company page | `CharacterPage` (`Act.View`, `Act.List`) | old buttons | rows | engine | — |
 | A place in the split scene (`?scene=split`, `here-pane`, `more-pane`) | `PlaceStage` | old buttons | rows | engine | legacy composition, kept behind its flag |
-| The fight: Attack, kinds, a kind's moves | `FightMoves` (`ChoiceRow.Button`) | rows (step 1) | rows + mark | engine (sections) | one composition, stable geometry: CN-06 |
-| The fight: a target on the field | `FightStage.Card` `pick` | invisible overlay button | marked | engine (the move's targets) | reticle, no reflow: CN-06 |
-| The fight: Let … fight this turn, Press on, The fight so far | `.option` | **old option buttons beside the rows** | sentence case (leftover 3) | view (`app.auto`, `app.through`): no act id | into the hand as rows with the engine's own act: CN-06 (needs the contract to name them) |
+| The fight: Attack, kinds, a kind's moves | `FightMoves` (`ChoiceRow.Button`) | rows that flowed into a horizontal row; a kind's moves appended under the hand | the hand's menu, a column of rows; a kind opens into the details region beside it (CN-06) | engine (sections) | — |
+| The fight: a target on the field | `FightStage.Card` `pick` | gold ring, a chance line added to the card (it grew) | a reticle (an outline, no room taken), the chance pinned over the card's corner; marked | engine (the move's targets) | — |
+| The fight: Let … fight this turn, Press on | `ChoiceRow.Button` (quiet rows at the menu's foot) | **old option buttons beside the rows** | rows of the one menu, quieter | view (`app.auto`, `app.through`): no act id | the act ids, from the contract (asked of the playability line), then `data-act` |
+| The fight: the fight so far | quiet word in the fight's head | an option bar across the foot | a quiet word (a view of the fight, not an act) | view | — |
 | The map: Set out, Enter, Travel, the way in, Go on to | `RouteCard`, `WorldStage.Hex` | option/enter buttons | marked | engine (`MapView.way`) | enclosed: no map inside (CN-02) |
 | A town's plan | `TownPlanView` (SVG) | clickable shapes | marked | engine | — |
 | Creation | `creation/*` cards | a deck | unchanged (choosing who you are, not an act in the world) | engine (creation rules) | — |
