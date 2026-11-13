@@ -1,0 +1,209 @@
+{
+ "about": "What a condition's beginning and ending are told as, where the condition says nothing of its own (data/catalog/conditions.json's own `begins` and `ends` come first): one short sentence each, an image or a fact, never the mechanic's name and duration ('Hild gains inspired for 3h', 'is under migraine': the cold playtest, CO-10). {target} is who it falls on. Read by CombatPresenter.told.",
+ "conditions": {
+  "inspired": {
+   "begins": "{target}'s blood is up.",
+   "ends": "{target}'s fire cools."
+  },
+  "major_inspired": {
+   "begins": "{target}'s blood is up.",
+   "ends": "{target}'s fire cools."
+  },
+  "migraine": {
+   "begins": "A splitting pain takes {target} behind the eyes.",
+   "ends": "{target}'s head clears."
+  },
+  "blessed": {
+   "begins": "{target} stands blessed.",
+   "ends": "The blessing on {target} lifts."
+  },
+  "bleed": {
+   "begins": "{target} is bleeding.",
+   "ends": "{target}'s bleeding stops."
+  },
+  "bleeding": {
+   "begins": "{target} is bleeding.",
+   "ends": "{target}'s bleeding stops."
+  },
+  "poison": {
+   "begins": "Poison is in {target}'s blood.",
+   "ends": "The poison passes out of {target}."
+  },
+  "poisoned": {
+   "begins": "Poison is in {target}'s blood.",
+   "ends": "The poison passes out of {target}."
+  },
+  "prone": {
+   "begins": "{target} goes down.",
+   "ends": "{target} gets up."
+  },
+  "fear": {
+   "begins": "{target} is afraid.",
+   "ends": "{target}'s fear passes."
+  },
+  "asleep": {
+   "begins": "{target} falls asleep.",
+   "ends": "{target} wakes."
+  },
+  "charmed": {
+   "begins": "{target} is charmed.",
+   "ends": "The charm on {target} breaks."
+  },
+  "blinded": {
+   "begins": "{target} cannot see.",
+   "ends": "{target} can see again."
+  },
+  "deafened": {
+   "begins": "{target} cannot hear.",
+   "ends": "{target} can hear again."
+  },
+  "burning": {
+   "begins": "{target} is on fire.",
+   "ends": "The flames on {target} go out."
+  },
+  "frozen": {
+   "begins": "{target} is frozen stiff.",
+   "ends": "{target} thaws."
+  },
+  "entangled": {
+   "begins": "{target} is caught fast.",
+   "ends": "{target} pulls free."
+  },
+  "stun": {
+   "begins": "{target} is stunned.",
+   "ends": "{target} shakes it off."
+  },
+  "paralyzed": {
+   "begins": "{target} cannot move.",
+   "ends": "{target} can move again."
+  },
+  "rage": {
+   "begins": "{target} flies into a rage.",
+   "ends": "{target}'s rage is spent."
+  },
+  "defending": {
+   "begins": "{target} stands on guard.",
+   "ends": "{target} stands down."
+  },
+  "hidden": {
+   "begins": "{target} is hidden.",
+   "ends": "{target} is seen."
+  },
+  "invisible": {
+   "begins": "{target} vanishes.",
+   "ends": "{target} can be seen again."
+  },
+  "weakened": {
+   "begins": "{target} is weakened.",
+   "ends": "{target}'s strength comes back."
+  },
+  "fatigue": {
+   "begins": "{target} is tired.",
+   "ends": "{target} is rested."
+  },
+  "weary": {
+   "begins": "{target} is weary.",
+   "ends": "{target} is rested."
+  },
+  "slimed": {
+   "begins": "{target} is covered in slime.",
+   "ends": "{target} is clean of the slime."
+  },
+  "drenched": {
+   "begins": "{target} is soaked through.",
+   "ends": "{target} is dry."
+  },
+  "courage": {
+   "begins": "{target} takes heart.",
+   "ends": "{target}'s courage fades."
+  },
+  "shielded": {
+   "begins": "A shield of force stands before {target}.",
+   "ends": "The shield before {target} fades."
+  },
+  "mage_armored": {
+   "begins": "A ward of force closes round {target}.",
+   "ends": "The ward round {target} fades."
+  },
+  "barkskin": {
+   "begins": "{target}'s skin hardens like bark.",
+   "ends": "{target}'s skin softens."
+  },
+  "haste": {
+   "begins": "{target} moves twice as fast.",
+   "ends": "The haste leaves {target}."
+  },
+  "slow": {
+   "begins": "{target} slows, as if wading.",
+   "ends": "{target} moves freely again."
+  },
+  "taunted": {
+   "begins": "{target} is goaded.",
+   "ends": "{target} is no longer goaded."
+  },
+  "distracted": {
+   "begins": "{target} is distracted.",
+   "ends": "{target} attends again."
+  },
+  "confused": {
+   "begins": "{target} is confused.",
+   "ends": "{target}'s head clears."
+  },
+  "protected": {
+   "begins": "{target} is protected.",
+   "ends": "The protection on {target} lifts."
+  },
+  "rallied": {
+   "begins": "{target} rallies.",
+   "ends": "{target}'s second wind is spent."
+  },
+  "dodge": {
+   "begins": "{target} is ready to dodge.",
+   "ends": "{target} is no longer dodging."
+  },
+  "cursed": {
+   "begins": "A curse settles on {target}.",
+   "ends": "The curse on {target} lifts."
+  },
+  "hexed": {
+   "begins": "{target} is hexed.",
+   "ends": "The hex on {target} lifts."
+  },
+  "infected": {
+   "begins": "{target}'s wound festers.",
+   "ends": "{target}'s wound is clean."
+  },
+  "disease": {
+   "begins": "{target} is sick.",
+   "ends": "{target} is well again."
+  },
+  "thirst": {
+   "begins": "{target} is parched.",
+   "ends": "{target}'s thirst is slaked."
+  },
+  "agony": {
+   "begins": "{target} is in agony.",
+   "ends": "{target}'s agony eases."
+  },
+  "scalded": {
+   "begins": "{target} is scalded.",
+   "ends": "{target}'s scalds cool."
+  },
+  "acid_burn": {
+   "begins": "Acid eats at {target}.",
+   "ends": "The acid on {target} is spent."
+  },
+  "in_the_dark": {
+   "begins": "{target} is in the dark.",
+   "ends": "{target} can see again."
+  },
+  "battlecry": {
+   "begins": "{target} roars a war-cry.",
+   "ends": "{target}'s war-cry dies away."
+  },
+  "dominated": {
+   "begins": "{target} is mastered.",
+   "ends": "{target} is free of the mastery."
+  }
+ }
+}

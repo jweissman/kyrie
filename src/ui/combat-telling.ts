@@ -164,7 +164,7 @@ export class CombatTelling {
       case 'damage': if (!e.amount && e.modifiers?.resistance !== 1) { return undefined; }
         return e.modifiers?.resistance === 1 ? `${this.name(e.target)} is not harmed by it.`
         : e.damageType === 'bleed' ? `${this.name(e.target)} bleeds, for ${e.amount}.`
-        : e.damageType && e.damageType !== 'physical' ? `${this.name(e.target)} takes ${CombatTelling.blow(e)} ${e.damageType} damage.`
+        : e.damageType && e.damageType !== 'physical' && e.damageType !== 'true' ? `${this.name(e.target)} takes ${CombatTelling.blow(e)} ${e.damageType} damage.`
           : `${this.name(e.target)} is hurt, for ${CombatTelling.blow(e)}.`;
       case 'heal': return e.amount ? `${this.name(e.target)} recovers ${e.amount}.` : undefined;
       case 'save': return this.saved(e);
