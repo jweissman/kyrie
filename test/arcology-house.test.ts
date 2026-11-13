@@ -129,7 +129,7 @@ describe('the ring in the drawers, the governor, and the lift', () => {
     for (let i = have; i !== target; i = i % 6 + 1) { await j.play('Turn the ring one notch'); }
     await j.play('Press the ring home');
     expect(House.is(j, 'state', 'drawer', 'open')).toBe(true);
-    await j.play('Take from the drawer of the ring');
+    await j.play('Take the lift\'s governor from the drawer of the ring');
     Placed.at(j, 'arcology__cage');
     expect(House.is(j, 'state', 'cage_gear', 'stalled')).toBe(true);
     await j.play('Fit the governor and free the cage');

@@ -23,7 +23,7 @@ const book = async (w: World) => {
   j.coin(80);
   await j.play("To the Exchange's cellar", 'Pay the cellar-men six', 'Look through the cellar', 'Pack › A cellar waybill › Read', '^To the taproom');
   j.roll('pass');
-  await j.play('Put the cellar waybill to', '^To the counting-room', 'Open the strongbox', "Take from the factor's strongbox",
+  await j.play('Put the cellar waybill to', '^To the counting-room', 'Open the strongbox', "Take a leaf of the Exchange's day-book from the factor's strongbox",
     "Pack › A leaf of the Exchange's day-book › Read");
   j.roll(undefined);
 };

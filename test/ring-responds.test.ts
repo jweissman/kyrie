@@ -67,7 +67,7 @@ describe('the ring answers', () => {
     await cellar(w);
     await j.play('Pack › A cellar waybill › Read', '^To the taproom');
     j.roll('pass');
-    await j.play('Put the cellar waybill to', '^To the counting-room', 'Open the strongbox', "Take from the factor's strongbox");
+    await j.play('Put the cellar waybill to', '^To the counting-room', 'Open the strongbox', "Take a leaf of the Exchange's day-book from the factor's strongbox");
     j.roll(undefined);
     // Out of the town, where the hired men are not: they stand on the stair to the book.
     await GeneratedWorld.travel(w.s, 'gate_tolleth');

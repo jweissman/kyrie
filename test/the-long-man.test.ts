@@ -59,7 +59,7 @@ describe('The Long Man', () => {
     const s = await Dale.start();
     await Dale.act(s, '^To Merrow green', '^To the Hall yard');
     await Dale.until(s, 100);
-    await Dale.act(s, '^Into the Hall cellar', '^Take from', '^Out to the Hall yard');
+    await Dale.act(s, '^Into the Hall cellar', '^Take a sack of bell-teeth from', '^Out to the Hall yard');
     expect(Dale.said(await Dale.act(s, '^Give a sack of bell-teeth'))).toContain('every dog in Merrow lifts its head');
     expect(Dale.holds(s, 'state', 'longman__leak_gate', 'longman__mended')).toBe(true);
     expect(Dale.holds(s, 'at', 'longman__wet', 'longman__core')).toBe(true);
@@ -87,7 +87,7 @@ describe('The Long Man', () => {
   it('gets Merrow up the hill when Mother Ysolt has been shown what the notches on her font are', async () => {
     const s = await Dale.start();
     await Dale.act(s, '^To Merrow green', '^Into the Drowned Ox', '^Buy › A torch', '^Out to Merrow green', '^To the Hall yard',
-      '^Into the steward', 'Ask Aldous Venn about the Mower', '^Take from the hook', '^Out to the Hall yard', '^To the crest',
+      '^Into the steward', 'Ask Aldous Venn about the Mower', "^Take the steward's iron key from the hook", '^Out to the Hall yard', '^To the crest',
       '^To the gauge stone', '^Into the galleries', 'light', '^Read the notches', '^To the grey gallery', '^To the sluice',
       'unlock the grate', '^To the Hollow Door$', '^To the Weeping Springs', '^To the low field', '^To Merrow green',
       '^Into the Chapel', 'Tell Mother Ysolt');
@@ -152,12 +152,12 @@ describe('The Long Man, its people unprompted', () => {
   }, 120000);
   it('has Dunnet tell the steward of the bronze he sees the company carry, unless his wages were paid', async () => {
     const told = await Dale.start();
-    expect(Dale.said(await Dale.act(told, '^To Merrow green', '^To the Hall yard', 'Untie the tarpaulin', '^Take from')))
+    expect(Dale.said(await Dale.act(told, '^To Merrow green', '^To the Hall yard', 'Untie the tarpaulin', '^Take a sack of bell-teeth from')))
       .toContain('goes in to the steward');
     expect(Dale.holds(told, 'hostile', 'longman__venn', 'party')).toBe(true);
     const paid = await Dale.start();
     expect(Dale.said(await Dale.act(paid, '^To Merrow green', '^To the Hall yard', 'Give Dunnet three coin',
-      'Untie the tarpaulin', '^Take from'))).not.toContain('goes in to the steward');
+      'Untie the tarpaulin', '^Take a sack of bell-teeth from'))).not.toContain('goes in to the steward');
     expect(Dale.holds(paid, 'hostile', 'longman__venn', 'party')).toBe(false);
   }, 120000);
   it('lets the key be lifted off its hook while the steward sleeps, and has his foreman see it go', async () => {
@@ -165,7 +165,7 @@ describe('The Long Man, its people unprompted', () => {
     await Dale.act(s, '^To Merrow green', '^To the Hall yard');
     await Dale.until(s, 90);
     expect(Dale.holds(s, 'at', 'longman__venn', 'longman__chamber')).toBe(true);
-    expect(Dale.said(await Dale.act(s, '^Into the steward', '^Take from the hook'))).not.toContain('Give it here');
+    expect(Dale.said(await Dale.act(s, '^Into the steward', "^Take the steward's iron key from the hook"))).not.toContain('Give it here');
     expect(Dale.holds(s, 'state', 'longman__key_hook', 'longman__empty')).toBe(true);
     expect(Dale.said(await Dale.act(s, '^Out to the Hall yard'))).toContain('goes in to the steward');
   }, 180000);

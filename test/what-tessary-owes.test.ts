@@ -270,7 +270,7 @@ describe('What Tessary Owes: more than one key', () => {
     const g = await Tessary.start();
     await g.play('To the Landgate', 'To Scriveners', 'Into the Exchequer', 'Read a list', 'Out to Scriveners', 'To the Landgate',
       'To the Withies', 'Ask the Valuer whether the city pledged', ...lowtide, 'To the Street of Scales', 'To the ebb-runners',
-      'Pay Bettany', 'Ask Bettany Slake what she carried', 'Tell Bettany Slake what the Factor', 'Take from the ebb-runners');
+      'Pay Bettany', 'Ask Bettany Slake what she carried', 'Tell Bettany Slake what the Factor', "Take a letter in the Factor's hand from the ebb-runners");
     expect(g.j.holds('carries', 'party', t('sault_letter'))).toBe(true);
     expect(g.j.holds('hostile', t('slake'), 'party')).toBe(false);
   }, 240000);
