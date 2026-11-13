@@ -87,6 +87,9 @@ describe('finding the House', () => {
     expect(heard).toMatch(/Some say the hill hums/);
     expect(House.is(j, 'knows', 'party', 'rumour')).toBe(true);
     expect(ScreenModel.build(j.campaign).objectives.join(' ')).toMatch(/bends round a hill with nothing in it/);
+    // Out of doors first: from inside a building nothing is set out for across the country (the owner, 14 November:
+    // CN-02, no overland travel that bypasses the place's own ways).
+    await j.play('>s1_green');
     const done = await MapPlay.press(j, `region__${site}`);
     expect(done).toEqual({ to: `region__${site}`, arrived: true });
     expect(j.at('party')).toMatch(new RegExp(`${site}$`));

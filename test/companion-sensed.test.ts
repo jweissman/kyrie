@@ -41,7 +41,9 @@ describe('a companion perceived', () => {
     const her = g.glance.acts.find(a => a.subject === 'region__s1_traveller');
     expect(her?.why).toBe('companion');
     expect(her?.aspects).toContain('companionship');
-    expect(her!.aspects.length).toBeGreaterThan(1);
+    // Companionship alone: being someone about the place is no aspect of its own (the owner, 14 November: no pip for
+    // personhood), where it had been drawn as companionship and exploration at once.
+    expect(her!.aspects).toEqual(['companionship']);
     expect(Inn.facts(c)).toBe(world);
   }, 120000);
   it('three places off for a Gregarious company, in the same world', async () => {
