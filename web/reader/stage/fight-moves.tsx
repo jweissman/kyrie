@@ -1,3 +1,4 @@
+import { useState, type ReactNode } from 'react';
 import type { Choice, Section } from '../../../src/ui/choice-list';
 import type { ReaderApp } from '../reader-app';
 import { Typography } from '../../../src/presentation/typography';
@@ -14,41 +15,47 @@ export interface Aiming { choice: Choice; targets: Map<string, Choice> }
 export class FightMoves {
   static readonly kinds: [string, string][] = [['abilities', 'Abilities'], ['spells', 'Spells'], ['carried', 'Items'],
     ['other', 'Other']];
-  static View({ app, aiming, aim, panel, open }: { app: ReaderApp; aiming?: Aiming; aim: (a?: Aiming) => void;
-    panel?: string; open: (p?: string) => void }) {
+  // One composition for the hand (CN-06, the owner, 14 November): the menu a column that never becomes a row, and
+  // beside it a details region of the same height that holds what the moment needs: the kind opened, whom to choose,
+  // or what the move under the hand does. Nothing is put into a row once drawn, and nothing changes the hand's size:
+  // opening a kind, aiming and changing target change what the details region holds, never its box.
+  // also: what the hand can do besides its moves, as quiet rows at the menu's foot (letting the fight go on, pressing on).
+  static View({ app, aiming, aim, panel, open, also }: { app: ReaderApp; aiming?: Aiming; aim: (a?: Aiming) => void;
+    panel?: string; open: (p?: string) => void; also?: ReactNode }) {
     const sections = app.menu.sections, strike = sections.find(s => s.id === 'strike')?.choices ?? [];
-    const onward = sections.find(s => s.id === 'onward')?.choices[0];
-    // Going on from a fight that has ended is the page's own choice, as anywhere (keys and taps find it by its place).
+    const onward = sections.find(s => s.id === 'onward')?.choices[0], [under, hover] = useState<Choice>();
     if (onward) {
-      return <div className="bar"><ChoiceRow.Act choice={onward} draw={Act.draw(app)} className="move main"
-        label={Typography.curl(onward.alone ?? Words.shown(onward.label))} /></div>;
+      return <div className="hand ended"><div className="hand-menu" role="toolbar" aria-label="What you can do">
+        <ChoiceRow.Act choice={onward} draw={Act.draw(app)} className="move main"
+          label={Typography.curl(onward.alone ?? Words.shown(onward.label))} /></div></div>;
     }
     const attack = strike[0], shown = FightMoves.section(sections, strike, panel);
     const take = (c: Choice) => FightMoves.take(app, c, aim, open);
-    if (aiming) {
-      return <p className="aiming" role="status">{Typography.curl(`${Words.upper(FightMoves.verb(aiming.choice))}: `
-        + 'choose whom, on the field.')}<button type="button" className="move quiet" data-action="unaim"
-        onClick={() => aim()}>Not now <kbd>Esc</kbd></button></p>;
-    }
-    return <>
-      {/* Each move a row, as every choice is (see ChoiceRow): Attack with the line of what it is (harm), the kinds
-          that open marked so, and what a kind holds, opened, rows of their own. */}
-      <div className="bar" role="toolbar" aria-label="What you can do">
-        {attack && <ChoiceRow.Button className="move main" data={{ action: 'attack', choice: attack.id }} act={attack.id}
-          onClick={() => take(attack)} mark="var(--ember)" label={FightMoves.attack(attack)} />}
+    const note = (c: Choice) => ({ onMouseEnter: () => hover(c), onFocus: () => hover(c), onMouseLeave: () => hover(undefined) });
+    return <div className={`hand${aiming ? ' aiming' : shown ? ' opened' : ''}`}>
+      <div className="hand-menu" role="toolbar" aria-label="What you can do">
+        {attack && <ChoiceRow.Button className={`move main${aiming?.choice.id === attack.id ? ' opened' : ''}`}
+          data={{ action: 'attack', choice: attack.id }} act={attack.id} onClick={() => take(attack)} mark="var(--ember)"
+          label={FightMoves.attack(attack)} />}
         {FightMoves.kinds.filter(([id]) => FightMoves.section(sections, strike, id)?.choices.length).map(([id, label]) =>
           <ChoiceRow.Button key={id} className={`move kind${panel === id ? ' opened' : ''}`} data={{ action: 'panel', panel: id }}
-            expanded={panel === id} onClick={() => open(panel === id ? undefined : id)} label={label}
-            extra={<span className="row-opens" aria-hidden="true">{panel === id ? '‹' : '›'}</span>} />)}
+            expanded={panel === id} onClick={() => { aim(); open(panel === id ? undefined : id); }} label={label}
+            extra={<span className="row-opens" aria-hidden="true">›</span>} />)}
+        {also}
       </div>
-      {shown && <ul className="panel" aria-label={FightMoves.kinds.find(k => k[0] === panel)?.[1]}>
-        {FightMoves.flat(shown.choices).map(c => <li key={c.id}><ChoiceRow.Button className="move" data={{ choice: c.id }} act={c.id}
-          onClick={() => take(c)} label={Typography.curl(Words.shown(c.label))}
-          aside={c.note && Typography.curl(c.note)} /></li>)}
-      </ul>}
-    </>;
+      <div className="hand-detail" aria-live="polite">
+        {aiming ? <div className="aiming" role="status">
+          <p className="hand-say">{Typography.curl(`${Words.upper(FightMoves.verb(aiming.choice))}: choose whom, on the field.`)}</p>
+          <button type="button" className="move quiet" data-action="unaim" onClick={() => aim()}>Not now <kbd>Esc</kbd></button>
+        </div> : shown ? <ul className="panel" aria-label={FightMoves.kinds.find(k => k[0] === panel)?.[1]}>
+          {FightMoves.flat(shown.choices).map(c => <li key={c.id}><ChoiceRow.Button className="move" data={{ choice: c.id }}
+            act={c.id} onClick={() => take(c)} label={Typography.curl(Words.shown(c.label))} events={note(c)} /></li>)}
+        </ul> : null}
+        {/* What the move under the hand does, in the one place it is said: never inside its row. */}
+        <p className="hand-note">{under?.note ? Typography.curl(`${Words.shown(under.label)}: ${under.note}`) : ''}</p>
+      </div>
+    </div>;
   }
-  // Attack is the first way of striking (the blade to hand), said with the one it would strike where there is one.
   private static attack(c: Choice): string {
     return c.command && !c.children ? Words.shown(c.label).replace(/^Strike/, 'Attack') : 'Attack';
   }

@@ -8,6 +8,7 @@ import { Followed } from '../followed';
 import { FightLog } from '../fight-log';
 import { Scrolled } from './scrolled';
 import { FightMoves, type Aiming } from './fight-moves';
+import { ChoiceRow } from './choice-row';
 
 // A fight. The company on one side and what it fights on the other, each with how hurt they are, what they are under
 // and (for a foe) what it means to do; between them what has just happened, large, the latest last, the blows just
@@ -45,7 +46,10 @@ export class FightStage {
         <p className="status"><span>A fight</span><span>Round {Math.max(1, combat.round)}</span>
           <span data-id="place">{Typography.curl(frame.screen.place.name)}</span>
           {combat.standing && <span className={`standing ${combat.standing.danger}`} data-region="standing">
-            {Typography.curl(combat.standing.text.split(/(?<=\.) /)[0]!)}</span>}</p>
+            {Typography.curl(combat.standing.text.split(/(?<=\.) /)[0]!)}</span>}
+          {/* The fight so far, a page of the fight's own, read from its head: not a bar across its foot. */}
+          <button type="button" className="quiet-word fight-log-toggle" data-action="fight-log" aria-pressed={log}
+            onClick={() => show(!log)}>{log ? 'What just happened' : 'The fight so far'}</button></p>
         {(combat.laws ?? []).map(l => <p key={l.name} className="law"><b>{l.name}.</b> {l.text}</p>)}
         <div className="sides" ref={sides}>
           <ul className="side ours" aria-label="The company">{combat.allies.map(f => <FightStage.Card key={`${f.id}:${f.hp}`} fighter={f}
@@ -77,16 +81,16 @@ export class FightStage {
             {combat.order.map((n, i) => <li key={`${i}:${n}`} className={i ? undefined : 'next'}>
               {Typography.curl(Words.upper(n))}</li>)}</ol>}</div>
         <div className="moves" ref={moves}>
-          <FightMoves.View app={app} aiming={aiming} aim={aim} panel={panel} open={open} />
-          {combat.ours && !combat.outcome && app.menu.sections.length > 0 && !aiming && <p className="auto">
-            <button type="button" className="option quiet" data-action="auto" onClick={app.auto}>
-              Let {combat.actorName} fight this turn <kbd>T</kbd></button></p>}
-          {combat.ours && !combat.outcome && FightStage.decided(combat) && <p className="through">
-            <button type="button" className="option" data-action="press-on" onClick={app.through}>Press on to the end</button>
-            <span className="why">As good as won.</span></p>}
+          {/* Letting the fight go on and pressing on to its end are rows of the one menu, quieter, at its foot: they had
+              been option buttons beside it (the owner, 14 November: "legacy combat controls remain alongside"). */}
+          <FightMoves.View app={app} aiming={aiming} aim={aim} panel={panel} open={open} also={<>
+            {combat.ours && !combat.outcome && app.menu.sections.length > 0 && <ChoiceRow.Button className="move quiet-row auto"
+              data={{ action: 'auto' }} onClick={app.auto} label={`Let ${combat.actorName} fight this turn`}
+              extra={<kbd className="row-key">T</kbd>} />}
+            {combat.ours && !combat.outcome && FightStage.decided(combat) && <ChoiceRow.Button className="move quiet-row through"
+              data={{ action: 'press-on' }} onClick={app.through} label="Press on to the end" aside="As good as won." />}
+          </>} />
         </div>
-        <p className="fight-log-toggle"><button type="button" className="option quiet" data-action="fight-log"
-          aria-pressed={log} onClick={() => show(!log)}>{log ? 'Back to what just happened' : 'The fight so far'}</button></p>
       </div>
     );
   }
@@ -138,7 +142,10 @@ export class FightStage {
         <p className="tags"><span className="parts">{FightStage.parts(f, hurt).map(([key, part]) =>
           <span key={key} className="part">
             <span className="sep" aria-hidden="true"> · </span>{part}</span>)}</span></p>
-        {foe && !f.down && f.intent && <FightStage.Intent intent={f.intent} />}
+        {/* A foe's intent keeps its line when it has none (after it has acted, or fallen): the card had shrunk under the
+            hand as it struck (CN-06: no reflow). */}
+        {foe && (!f.down && f.intent ? <FightStage.Intent intent={f.intent} />
+          : <p className="intent-held" aria-hidden="true">{'\u00a0'}</p>)}
         {foe && !f.down && f.defenses && <p className="defenses">{Words.upper(f.defenses)}.</p>}
         {target && <span className="chance">{Typography.curl(target.note?.split(' · ')[0] ?? '')}</span>}
         {target && app && <button type="button" className="pick" data-action="target" data-choice={target.id} data-act={target.id}

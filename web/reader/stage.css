@@ -254,7 +254,7 @@
   stroke-linecap: round; stroke-linejoin: round; }
 /* Led with, but not first: edged only; the first is barred and lit as the first lead is (see glance.css). */
 .act.plate.leading { border-color: var(--edge-strong); }
-.plates > li.lead .plate .face { width: 64px; height: 78px; box-shadow: 0 0 0 1px var(--rose); }
+.plates > li.lead .plate .face { width: 64px; height: 78px; box-shadow: 0 0 0 1px var(--edge-strong); }
 .plates > li.lead .plate .who .n { font-size: 19px; }
 /* A busy place's people, a line each, two to a row. */
 .cast.busy .plates { grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); }

@@ -54,13 +54,14 @@ export class SceneRail {
   static Talk({ app }: { app: ReaderApp }) {
     const on = SceneRail.talking(app), people = WorldStage.present(app);
     if (!people.length) { return null; }
-    const tone = people.filter(x => x.kind !== 'companion').map(x => WorldStage.seen(app, x).tone).find(Boolean);
     const said = on ? 'Talk: put away who is here' : 'Talk: who is here';
-    return <button type="button" className={`rail-mark opens-talk${on ? ' pressed' : ''}${tone ? ' lit' : ''}`}
+    // No pip on the People mark (CN-07, the owner, 14 November: "Simply having a person nearby need not receive a
+    // semantic opportunity color"): what someone here is to the company is the one pip by their own likeness, from
+    // the glance's aspects; the mark that shows them is a neutral icon.
+    return <button type="button" className={`rail-mark opens-talk${on ? ' pressed' : ''}`}
       data-action="lens" data-part="talk" aria-pressed={on} aria-label={said} title={said}
       onClick={() => app.setState({ talking: !on, exploring: undefined })}>
       <Glyphs.View id="companion" className="rail-glyph" />
-      {tone && <Pip.View fill={`var(--tone-${tone})`} />}
     </button>;
   }
   // The map and the book, where they stand on every page of the scene: in talk, and over a thing looked at, as at
