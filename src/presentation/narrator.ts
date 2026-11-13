@@ -106,7 +106,8 @@ export class Narrator {
     const gone = told?.moved ? told.feedback.observations.filter(t => !placed.includes(t)
       && !screen.observed.some(o => FictionalTime.prose(o.text) === t) && !renamed.has(t)) : [];
     const familiar = this.familiar(campaign, screen);
-    const presence = this.presence(screen).filter(p => !echoed.has(Narration.sentence(p)) && !placed.includes(p)
+    const presence = this.presence(screen, this.fought(campaign, told))
+      .filter(p => !echoed.has(Narration.sentence(p)) && !placed.includes(p)
       && !familiar.has(p));
     // How long a warning will wait follows what was told, the warning first (play 9 read the wait before the warning).
     const wait = screen.warned && exchange ? this.waits(screen.warned, screen) : undefined;
@@ -248,10 +249,17 @@ export class Narrator {
     return undefined;
   }
   // Who and what is here: as they can be seen now, or simply who they are.
-  private static presence(screen: Screen): string[] {
+  // Whoever fell in the fight just told: told dead by it, not again as lying dead above its telling ("The rats lie
+  // dead." before "Wynn hits the first rat": M21's PL-04; the owner, 11 November, the rats' end said three ways).
+  private static fought(campaign: Campaign, told?: Told): Set<string> {
+    const fell = new Set((told?.event.combat ?? []).filter(e => e.type === 'death').map(e => 'actor' in e ? e.actor : ''));
+    if (!fell.size) { return new Set(); }
+    return new Set(campaign.tickState.definition.actors.filter(a => a.members.some(m => fell.has(m))).map(a => a.id));
+  }
+  private static presence(screen: Screen, fought = new Set<string>()): string[] {
     const lines: string[] = [], named: string[] = [];
     let many = false;
-    for (const t of [...screen.people.filter(p => !p.companion), ...screen.things]) {
+    for (const t of [...screen.people.filter(p => !p.companion && !(p.state && fought.has(p.id))), ...screen.things]) {
       // Their own line said, someone is still said to be here unless it names them (the Grand Tour's X02: a line near
       // them, of what they keep, had left them unsaid).
       const own = t.says?.length ? t.says : undefined, name = this.short(t.name).toLowerCase();

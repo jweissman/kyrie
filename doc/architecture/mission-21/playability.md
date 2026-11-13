@@ -29,11 +29,14 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
 | PL-05 | **P0** | Gold on whatever has its own act at the place the aim names, though it does nothing for the aim (the cairn at Seolforfyrd took the debt's gold; at Tenebraetumulo the oxen's) | fixed in this branch |
 | PL-08 | **P0** | Gold on "Search" wherever the aim names the place, though nothing is hidden there (Seolforfyrd: "nothing is hidden here") | fixed in this branch |
 | PL-09 | P2 | A companion "binds the hurt" of a company with nothing wrong but a lit torch: needing care held of any condition | fixed in this branch |
-| PL-10 | P2 | In the pitch-dark cellar the way through the gnawed hole is offered, and gold, before any light | fixed in this branch (the page); the rule open |
+| PL-10 | P2 | In the pitch-dark cellar the way through the gnawed hole is offered, and gold, before any light | fixed (73cac481); the rule kept, decided by the lead |
 | PL-11 | **P0** | In the rat-runs, the rats the followed aim is to clear in front of the company, the gold is on the way back out to the empty cellar | fixed in this branch |
+| PL-12 | **P0** | At the place an aim is about, the gold goes through every door not yet taken: on Gothgiba's bailey (wren, wanderer) the fevered child's aim walked the store, the chandlery and back, none with herbs | fixed in this branch |
+| PL-13 | P1 | Gold leads back to the aim's place, already visited, where nothing can yet be done, while the lead at hand (blue: where willow grows) is not gold | open (design: destination against lead) |
+| PL-14 | P1 | In an authored adventure, Follow this leads nowhere: The Lull's first aim names the inn and the stone in words only, and Sixways had no gold with the inn's door beside the company; 134 of 139 authored objectives have no `toward` | the Lull's fixed in this branch; the rest open (authoring) |
 | PL-06 | P1 | After an aim is seen through, nothing pulls: no aim held, the prize in hand and no way home led (T24-18) | open (design) |
 | PL-07 | P1 | Fights at the first places are trivial: the den's two zombies never land a blow; its leader falls to one hit | open (balance) |
-| PL-04 | P2 | A journey of five and a half hours arrives with nothing of the way told, and the arrival tells a fight's end before its start | open |
+| PL-04 | P2 | A journey of five and a half hours arrives with nothing of the way told, and the arrival tells a fight's end before its start | the order fixed in this branch; the untold journey open (design, NM-06) |
 
 ### PL-01: the headless terminal could not show what the page promises
 
@@ -90,7 +93,13 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
 - **Cause (hypothesis):** the terminal prints only the last leg's telling (now each leg's way, PL-01); the arrival's
   standing description is composed from the state after the fight, the fight's log appended after it (narration by
   accumulation). The per-hex encounter is a design ambition (NM-06), not this defect.
-- **Status:** open.
+- **Cause of the order (verified):** `Narrator.presence` told every dead foe here as "lies dead" in the place's
+  telling, which the terminal prints above the exchange; the foe just killed was told dead, then told falling. The
+  rats' end in the corn-store's runs was the same ("The rats under the corn-store lie dead." above "Wynn hits the
+  first rat").
+- **Status:** the order fixed in this branch: whoever fell in the fight just told (its `death` events, by the actors
+  whose members they are) is not told again as lying dead; on the next page they lie where they fell. Regression:
+  `test/small/fight-told.test.ts` (fails on main). The untold five-hour journey is the design half (NM-06), open.
 
 ### PL-05: gold for standing at the aim's place
 
@@ -160,9 +169,9 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
   `Promotion.allowed` never read `Situation.dark`, so the way was led as the aim's like any other.
 - **Status:** fixed in this branch for the page: in the dark a way the company has not taken is led only as the way
   back, never for anything else; "Light a torch" leads, and the hole is gold once there is light. Regression:
-  `test/small/gold-fight.test.ts`, the dark case (fails without it). **Open, a rules decision:** whether a way not
-  yet seen may be taken in the dark at all (feeling along a wall is an OSR choice with its own risk), which is the
-  rules' and the owner's, not a presentation fix.
+  `test/small/gold-fight.test.ts`, the dark case (fails without it). **Decided by the lead (13 November):** `go` stays
+  legal in the dark (feeling one's way is a fair old-school choice); the page not leading with unseen ways is the
+  fix.
 
 ### PL-11: gold back out of the place where the aim's work is
 
@@ -187,6 +196,63 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
   stripped of the aim's aspect had fallen back to "worth a look" (checked on the a1 save: `Attack [danger,
   undertaking] CONTINUES`, `To the corn-store cellar | retreat []`). Regression: `test/small/gold-fight.test.ts`
   (fails on main with "To the corn-store cellar" gold, the exact a1 state).
+
+### PL-12: the gold through every door of the aim's place
+
+- **Repro:** `bin/kyrie adventure --world wren --origin wanderer --as human/warrior/Hild`, `follow 1` (the fevered
+  child: "it needs herbs, or willow bark from where willows grow by water"), the gold "Take the road to the bailey of
+  Gothgiba": gold on "Take Baern Gorunn's door to Baern Gorunn's general store"; in the store (no herbs among its
+  wares) the gold is the door back to the bailey; on the bailey it is then "Take Eberk Holderhek's door to Eberk
+  Holderhek's chandlery". Saves `wr-bailey.json`, `wr-store.json`.
+- **Corroborates:** the owner's 7 November notes ("gold on the place you already are, random gold places"); PR-01
+  ("out of a place and back to it, nothing advances"); the golden-thread rules ("never guide round a loop").
+- **Cause (verified, `tools/glance.ts`, `tools/why.ts`):** two location heuristics, both reading only that the aim
+  names the place the company stands in. `Affordances` made every local way not yet taken from a named place
+  `toward`; and `AimRoute.onward` made every unvisited way down *or in* `toward` where the aim's route place is here,
+  though for an aim whose target was read from its words the route place is the aim's own place (`routeTo ===
+  actionAt`), so every building's door qualified. What the aim waits on (the mother keeping herbs, `keeps(mother,
+  ?i)`) is nothing any door brings about.
+- **Status:** fixed in this branch, for the doors of a town's houses: in a settlement (not a site), from a place the
+  aim is about itself, a way into the next building is no longer the aim's (`AimRoute.onward`, `Affordances`); a way
+  down or underground still is (the gnawed hole down from the corn-store cellar to the rats), and so is the way on
+  from a place an aim is gone to by (`toward … by …`: the churchyard's stair to the crypt), and a site's front door (an
+  aim at a hold is gone into by it). The first cut, applied to every way everywhere, broke four of
+  `gold-walk`/`gold-thread`'s walks into Seolforfyrd and the keeps, and the corn-store cellar's hole, which is why it
+  is this narrow. It is still a location rule; a typed "what lies beyond this way bears on the aim" would replace it. On the bailey there is now no
+  gold: nothing there brings herbs, and the aim line says what it needs. Regression: `test/small/gold-doors.test.ts`
+  (the bailey case fails on main and on either half alone; the churchyard case holds on both).
+
+### PL-13: back to the aim's place with nothing new
+
+- **Repro:** wren wanderer as PL-12, "Talk to Hulda Torunn" (the child's mother: "Willow bark would do it. There were
+  willows out on the road, by the water"), "Take the way to the waterside at Gothgiba": the foreground is "Take the
+  way to the bailey of Gothgiba [gold: your aim]" beside "Ask Harbek where willow grows [blue: to learn]". Going back
+  to the bailey with no herbs does nothing for the aim. Save `wr-water.json`.
+- **Corroborates:** the owner's report of 12 November (PR-01: "travel out of a place then back to it; on return
+  nothing advances"); review-mitigations U1 (destination, lead and route: "gold should belong to the lead").
+- **Cause (verified):** the way to the bailey is `named` (`Affordances`: a way to a place the aim names, visited or
+  not, unless idle); the aim's own place is a *destination*, and nothing typed says whether anything there can now be
+  done (what the aim waits on is the mother keeping herbs the company does not carry). The lead (asking where willow
+  grows) teaches a fact the aim does not wait on, so it is blue and never gold.
+- **Status:** open. Not patched: telling a destination from a lead needs the aim to say what evidence or thing it
+  waits on and where it may be had (U1/U2), or a rule that a visited destination is gold only while something there
+  can advance the aim with what the company now has. A decision for the lead.
+
+### PL-14: authored aims with nowhere to lead
+
+- **Repro:** `bin/kyrie adventure data/campaigns/the-lull.campaign.json`, `follow 1` ("Ask at the Waiting Woman what it
+  is like inside, then sit by the stone until the road changes"), "Take Sixways street": no gold anywhere, though
+  "Take the Waiting Woman's door" is among the ways. `tools/glance.ts` on `ad-street.json`: the aim's `named` is
+  only `party`, read from its condition (`not cameIn(party) and not lullday()`); its words name the inn and the stone
+  in plain text, which `Stakes` does not read.
+- **Corroborates:** the owner's "followed + known next step → gold recognisable; unknown → say so honestly" (11 and
+  12 November); the brief's "credible next-step guidance".
+- **Census (grep, not a played census):** 134 of the 139 `Objective`s under `data/adventures/` have no `toward` and
+  no `{place}` in their words; some may still resolve a target from their condition, as the generated worlds' do.
+- **Status:** The Lull's first aim fixed in this branch (`toward sx_taproom, fold_stone`; gold is now "Into the
+  Waiting Woman" from the street; the Lull's three specs pass; the page's bundle written again). The rest is
+  authoring: proposed, an authoring lint that an objective's target resolves to something a player can be led to
+  (run per campaign, as `campaign-lint` does), then the adventures' aims given their places. Not done here.
 
 ### PL-06: after the aim, nothing pulls
 
@@ -220,7 +286,7 @@ The owner's own play first; then the agents' rounds where they corroborate it.
 | A blue pip with no blue reply; a green Look with no clear collectible (owner, 12 Nov, PR-04) | **yes**, the blue half: the opening's wagoner | PL-03 |
 | Green circle and dot on someone with no green option and nothing to say (owner, 10 Nov notes) | not yet reproduced (no green on a person met so far) | — |
 | Two quests for one place, Albustagn (owner, 10 Nov notes) | not tried (`Undertakings.folded` claims it) | — |
-| Rat crawlway: followed aim lost, narration three ways, nested aims block (owner, 11 Nov) | not tried yet | — |
+| Rat crawlway: followed aim lost, narration three ways, nested aims block (owner, 11 Nov) | **followed aim: not reproduced** on main 73cac481, headless: following the rats job from Bask, cellar → runs → nest → back to Bask, the followed aim went on into the nest aim and then "Tell Bask …" each time, gold one act throughout, paid (about fifteen commands, save `a1-ratsdead.json`). Not tried in the page. **The telling:** reproduced in part ("lie dead" before the fight's blows) | PL-04, PL-11 |
 | "Listen at it" on a padlock; targets unnamed (owner, 11 Nov, action projection) | **yes**: "Listen at the corn-store padlock" in a1's `all` | P2, open |
 | Travelling must reveal the landscape; encounter chance per hex (owner, 10 Nov) | **yes**: five hours through Mistshaw green told by nothing | PL-04 |
 | A battle in the caves absurdly easy (owner, 10 Nov) | **yes**: the den's zombies never touch the company | PL-07 |
@@ -231,8 +297,9 @@ The owner's own play first; then the agents' rounds where they corroborate it.
 ## Common root causes
 
 1. **The promise/projection boundary: presentation infers what an act will do** (the retrospective's first
-   candidate). Verified three times so far: PL-05 and PL-08 (gold for an act's *location*: `Affordances.there`, and a search
-   "where your aim is", where the typed `AimAdvances` had a gap or already had the answer) and PL-03 (blue for any `knows(…)` assertion, where the fact was the company's own deed).
+   candidate). Verified four times so far: PL-05, PL-08 and PL-12 (gold for an act's *location*: `Affordances.there`, a search
+   "where your aim is", every door off the aim's place, where the typed `AimAdvances` had a gap or already had the
+   answer) and PL-03 (blue for any `knows(…)` assertion, where the fact was the company's own deed).
    PL-11 (gold on the way to a place the aim's words name, while the aim's real wait, a fight, stood here) was the
    same fault: the typed wait was read, but a fight's end was not counted as anything an act brings about. In each the engine had the typed answer, or nearly; a nearby heuristic answered instead. The fix that held was to
    make the typed reading complete (a rule's `teaches`; a fact the act itself makes so) and delete the heuristic. Still

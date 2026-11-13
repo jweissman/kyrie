@@ -1,5 +1,5 @@
 import type { Campaign } from '../campaign/campaign';
-import type { Screen } from '../ui/screen-types';
+import type { ExitRow, Screen } from '../ui/screen-types';
 import { Undertakings } from './undertakings';
 import { Stakes } from '../ui/stakes';
 import { EntityIndex } from '../lang/entity-index';
@@ -23,11 +23,21 @@ export class AimRoute {
   // At the place the aim is gone to by, the ways on from it not yet taken that go down or in: what its author meant by
   // it ("toward the dead by the churchyard": the churchyard gone to, and the crypt under it found from there). The
   // churchyard had led only back to the gate-yard, "another aim", and down to the crypt as one way among others.
+  // Not into the houses round a place in a town the aim is about itself: a fevered child on Gothgiba's bailey has no
+  // way on through a door, and every door off the green had been gold (M21's PL-12). A site's front is another thing:
+  // an aim at a hold is gone into by it.
   static onward(campaign: Campaign, screen: Screen): string[] {
     const def = Undertakings.followed(campaign), t = def && Stakes.target(campaign, def);
     if (!t?.routeTo || t.routeTo !== screen.place.id) { return []; }
-    return screen.exits.filter(e => !e.visited && (e.destination.underground || e.transition === 'descend'
-      || e.transition === 'enter')).map(e => e.id);
+    const own = t.routeTo === t.actionAt && AimRoute.town(screen);
+    return screen.exits.filter(e => !e.visited && (AimRoute.down(e) || (e.transition === 'enter' && !own)))
+      .map(e => e.id);
+  }
+  // A way down, or under the ground.
+  static down(e: ExitRow): boolean { return !!e.destination.underground || e.transition === 'descend'; }
+  // Whether the company stands in a town, and not in a site.
+  static town(screen: Screen): boolean {
+    return screen.path.some(p => p.kind === 'settlement') && !screen.path.some(p => p.kind === 'site');
   }
   // The places on the shortest way from one place to another, as the world joins them.
   private static between(campaign: Campaign, from: string, to: string): Set<string> {

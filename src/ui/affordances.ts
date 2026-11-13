@@ -2,6 +2,7 @@ import { AimAsks } from './aim-asks';
 import type { Why } from '../presentation/glance-types';
 import { Attending } from './attention';
 import type { Choice } from './choice-list';
+import { AimRoute } from '../presentation/aim-route';
 import type { Candidate, Kind } from './promotion';
 import { Marks } from './marks';
 import { SceneModel, type Scene, type SceneSubject } from './scene';
@@ -263,15 +264,18 @@ export class Affordances {
     if (!exit) { return []; }
     const dest = exit.destination.id, tried = c.id !== exit.id && !!exit.blocked;
     const first = tried && this.firstTry(c, exit);
-    // A way not yet taken from a place an aim names is the way on into what it is about (the stair down from the
-    // churchyard, to the crypt the priest's trouble is in), when no known way is pointed off elsewhere.
+    // A way not yet taken from a place an aim names is the way on into what it is about (out of doors at the front of a
+    // hold; the gnawed hole down from the corn-store cellar), but in a town not a door into the next house: at
+    // Gothgiba's bailey, where the fevered child is, the gold had gone through every door on the green in turn, the
+    // general store, the chandlery and back, and none sold herbs (M21's playability list, PL-12).
     // Not while what it is about is here to be dealt with (the rats' run, not the old drain past it).
     const present = [...screen.things, ...screen.people].some(t => r.named.has(t.id));
     // So with a way further into a site the aim names, from anywhere in it: in the barrow's mouth, the old writing the
     // brothers want further in, nothing had been gold (the owner, 12 November). Never every lane of a town it names.
     const inSite = screen.path.some(p => p.kind === 'site' && r.named.has(p.id)) && r.inward.has(exit.id);
     const on = exit.local && !exit.visited && !exit.blocked && dest !== r.back && !present
-      && (r.named.has(r.here) || inSite ? 'toward' as const : r.held.has(r.here) ? 'held' as const : undefined);
+      && (inSite || (r.named.has(r.here) && (!AimRoute.town(screen) || AimRoute.down(exit))) ? 'toward' as const
+        : r.held.has(r.here) ? 'held' as const : undefined);
     const toward = r.toward.get(exit.id) ?? (on || undefined);
     // A way about the place not yet taken is worth taking by day; at night, the way to a bed.
     const up = at.lightless && ['ascend', 'leave'].includes(exit.transition ?? '');
