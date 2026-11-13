@@ -69,6 +69,35 @@ t.gold; t.glance; t.screen;             // what the page leads with, and what it
 A world that fails to compile says so with file and line in under 0.1 s. The forms to copy are the probes in
 `test/fixtures/probes/` (125 of them), each a small world for one rule.
 
+### Rules ported down from Westernesse specs
+
+| From (CI-seconds) | To | Time | The fault restored |
+|---|---|---|---|
+| `gold-thread` (190) | `small/gold-thread`: the thread walked, one gold a step, inn → door → search → box | 0.3 s ×2 | search led only for a sign or a naming: fails |
+| `companion-sensed` (31) | `small/companion-sensed`: a lane of three | 0.3 s ×2 | perception reach 2: fails |
+| `voice` (the hour, 16) | `small/hour`: a green and an adit | 0.2 s | night underground: fails |
+| `weary-fights` (18) | `small/weary-fights`: two galleries, kept and replayed | 0.6 s | the fight's weariness written back: fails |
+
+The Westernesse specs stay for their generators' part until the suites are split (below).
+
+**A defect found by porting** (fixed, 42d32a15): at the door of a keep with the dead man's box under its stone, the
+gold went into the gate-passage and back out before it searched. `Promotion.allowed` led a search only for a sign or
+for the aim's naming, and the naming is withheld while a way on is untaken; the `advance` that `AimAdvances` gave the
+search was dropped. `gold-thread`'s Westernesse test asserted that `AimAdvances.of` contained the search, an
+intermediate value, and stayed green while the page never led with it. **A small spec that walks the page's own gold
+catches what an assertion on an intermediate does not**; this is the pattern for the rest of the ports.
+
+## The suites, by what they are for
+
+| Suite | Command | What | Where |
+|---|---|---|---|
+| small | `bun run test:small` | rules on tiny Kyr worlds | local; CI's "player contracts" job (minutes) |
+| quick | `bun run test:quick` (in `check:fast`) | small + units + specs under 2 s | local, ≈ 11 s |
+| near a change | `bun run test:changed` | the quick specs a change reaches; says what it leaves to CI | local, ≈ 9 s for an edit to the gold |
+| confidence | `bun test` (CI's ten shards) | everything else: adventures, generated worlds | CI, every push |
+| long | `KYRIE_LONG` specs (CI's long descents) | descents, every province in one world | CI, every push |
+| browser | `*-browser.test.ts` (`KYRIE_BROWSER=1`) | the page in Chromium at four sizes | CI, two shards |
+
 ## What is next in Phase 0
 
 See the progress section of [progress.md](progress.md).

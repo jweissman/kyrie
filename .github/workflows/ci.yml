@@ -44,6 +44,8 @@ jobs:
       - run: bun install --frozen-lockfile
       - run: bun run test:intent
       - run: bun run test:honest
+      # The rules on small worlds (test/small, Mission 21's fast loop): seconds, and the first to say a rule broke.
+      - run: bun run test:small
   # The suite in five shards, balanced by the time each spec file took when the timings were last kept
   # (test/timings.json): in three, a shard had come to 27 of its 30 minutes, and past them once the Book of Faces'
   # hour of journeys came in (3 November).
