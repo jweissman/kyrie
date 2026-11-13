@@ -42,6 +42,7 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
 | PL-20 | P1 | A danger led "Talk to" onto nothing to say: the hobs' Gaffer, whose terms wait on a parley, offered only Attack and leave | fixed in this branch |
 | PL-21 | **P0** | The debt's gold at the inn was "Ask Osmund Pyle to come with you": every rule that pays a coin had made its condition the debt's | fixed in this branch |
 | PL-22 | P2 | A chest picked open says only "stands open": the stolen chalice in it is only under `all` | open |
+| PL-23 | P1 | Inside the site a coin aim names, the gold walks every room not yet entered, into a spy-crack with nothing in it | open (a decision: U1 against `gold-thread`'s "goes on into the site") |
 | PL-06 | P1 | After an aim is seen through, nothing pulls: no aim held, the prize in hand and no way home led (T24-18) | open (design) |
 | PL-07 | P1 | Fights at the first places are trivial: the den's two zombies never land a blow; its leader falls to one hit | open (balance) |
 | PL-04 | P2 | A journey of five and a half hours arrives with nothing of the way told, and the arrival tells a fight's end before its start | the order fixed in this branch; the untold journey open (design, NM-06) |
@@ -395,6 +396,22 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
   stolen chalice out of a chest on the ledge". Corroborates AP-08 ("An opened chest looks empty from the scene").
 - **Status:** open (a stolen thing is not the company's spoils, so not led; but it is not even told).
 
+### PL-23: the gold walks a site room by room
+
+- **Repro:** kahitude debt, the mage (PL-21), "Set out for Seolforfyrd", "Call to the hobs for a parley" (it works:
+  "Gaffer says come in and wipe your feet"): the gold then goes cave mouth → smoky cavern → a dry side-cave (a heap of
+  the hobs' plunder, nobody's spoils) → back → the captives' pit, the spy-crack ("A cleft in the rock that looks
+  straight down on the road below", nothing else) → back. Save `kt-crack.json`.
+- **Corroborates:** review-mitigations U1 ("no deeper way becomes gold merely because it is deeper or lies inside the
+  destination"; "an honest 'No further lead is known' preserves mystery"); round 9–11 ("gold to an empty niche").
+- **Cause (verified by reading):** inside a site the aim names, every way further in not yet taken is `toward`
+  (`Affordances`, `inSite`; `AimRoute.onward`): a location rule. A debt waits on coin; what lies in an unentered room
+  is not the company's to know, so nothing typed can say a room bears on it, and `AimLeads.there` must not be asked
+  there (it would read what the company has not seen).
+- **Status:** open, **a decision for the lead:** either gold stops at a site's door for an aim that waits on coin (or
+  on anything not known to be inside), and the rooms are silver, worth exploring, until a lead names one; or the
+  walk stays, as `test/gold-thread`'s "goes on into the site the aim names" holds it.
+
 ### PL-06: after the aim, nothing pulls
 
 - **Repro:** a1 kin, the oxen's aim seen through at Tenebraetumulo ("a den in the wild, seen through"), the yoke
@@ -436,6 +453,13 @@ Anselm's speech; and the lone person spoken of in a band's words (fixed on main)
   picked. Broke on the empty talk with the Gaffer (PL-20) and the chest that says nothing of the chalice (PL-22).
   Recurrences of the lead's T24-19 items: the sheet says "Drifter" for an elf thief; way labels such as "Take the
   road, half an hour out of Rainhaven to open fields south of Rainhaven". Worth going on: yes, the hold has shape.
+
+- **kahitude debt as a mage who will not fight (Isolde, Int 17, Cha 17, 4 HP), ~15 commands (13 November):**
+  coherent for its first ten minutes once PL-21 was fixed: the debt's chain (Tuck, Aiden, Seolforfyrd) is clear, and a
+  talker gets in without a blow (the parley works, and the hobs invite her in). Then the gold walks the hold room by
+  room into an empty spy-crack (PL-23), and nothing pays the debt that a talker can reach: the plunder is the hobs',
+  the sheet says "Trader" for a mage (the T24-19 "Drifter" kind recurs). Worth going on: as far as the hold; the
+  debt's pull fades inside it.
 
 ## The human reports, and where each stands
 
