@@ -4,6 +4,7 @@ import { Typography } from '../../../src/presentation/typography';
 import { PeopleStep } from './people-step';
 import { CallingStep } from './calling-step';
 import { OriginStep } from './origin-step';
+import { SignStep } from './sign-step';
 import { NameStep } from './name-step';
 import { BeforeStep } from './before-step';
 import { Signature } from './signature';
@@ -22,6 +23,7 @@ export class CreationPage {
   // Each page of the flow by its step (the engine's CreationFlow: its question, its cards, which is chosen); how you
   // present is asked on the name's page, above it, as the three words the world will speak of you in (OWN-16).
   static readonly views: Partial<Record<CreationStepId, StepView>> = { why: OriginStep.View, you: PeopleStep.View,
+    sign: SignStep.View,
     calling: CallingStep.View, before: BeforeStep.View, name: NameStep.View };
   static steps(app: ReaderApp): (CreationStep & { View: StepView })[] {
     return (app.opening.flow()?.steps() ?? []).flatMap(step => {

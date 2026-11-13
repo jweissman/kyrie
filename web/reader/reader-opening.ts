@@ -79,7 +79,7 @@ export class ReaderOpening {
       if (flow?.member.backgroundId) { this.edit(0, 'backgroundId', flow.member.backgroundId); }
       return;
     }
-    const field = ({ you: 'raceId', calling: 'classId', presenting: 'pronouns', specialty: 'specialization',
+    const field = ({ you: 'raceId', sign: 'sign', calling: 'classId', presenting: 'pronouns', specialty: 'specialization',
       name: 'name' } as const)[step];
     this.edit(0, field, id);
   }
