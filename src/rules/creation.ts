@@ -1,11 +1,14 @@
 import { Canon } from '../canon/canon';
 import type { Attribute, CharacterClass, Proficiencies } from '../canon/schema';
 import { Fighting } from './fighting';
+import { Amounts } from './amounts';
 
 export interface Chassis {
   hitDie: number; attributes: Partial<Record<Attribute, number>>; abilities: string[]; traits: string[];
   weapons: string[]; armor: string[]; fixed?: Record<Attribute, number>; hitPoints?: number;
   growth?: { hitPoints?: { base: number; perLevel: number } };
+  // A fixed stat block's Hit Dice (see Statistics.hitDice): its hit points, whatever level it is met at.
+  hitDice?: string;
 }
 // Orsino's character creation (CharacterRecord and the pc template) and its NPC hit points, as rules over the canon.
 export class Creation {
@@ -25,12 +28,14 @@ export class Creation {
   static chassis(raceId: string, classId?: string, level = 1): Chassis {
     if (Canon.isBody(raceId)) {
       const s = Canon.creature(raceId), st = s.statistics!;
-      const grow = st.growth ? Math.round(level / 8) : 0;
+      // A kind with Hit Dice is a fixed stat block: met at any level, its qualities and hit points are its own.
+      const grow = st.growth && !st.hitDice ? Math.round(level / 8) : 0;
       return { hitDie: st.hitDie ?? 0, attributes: {}, abilities: s.abilities ?? [], traits: s.traits ?? [],
         weapons: [st.weapon], armor: st.armor ? [st.armor] : [],
         ...typeof st.attributes === 'object' ? { fixed: Object.fromEntries(Object.entries(st.attributes)
           .map(([k, v]) => [k, v + grow])) as Record<Attribute, number> } : {},
-        ...st.hitPoints ? { hitPoints: st.hitPoints } : {}, ...st.growth ? { growth: st.growth } : {} };
+        ...st.hitPoints ? { hitPoints: st.hitPoints } : {}, ...st.growth ? { growth: st.growth } : {},
+        ...st.hitDice ? { hitDice: st.hitDice } : {} };
     }
     const a = Canon.ancestries[raceId], c = this.classOf(classId);
     if (!a || !c) { throw new Error(`A person needs an ancestry and a class: ${raceId}/${classId ?? '-'}`); }
@@ -44,8 +49,10 @@ export class Creation {
   }
   // A level-1 character has its hit die plus its positive CON modifier (the pc template). A creature made above level 1
   // uses Orsino's NPC formula: max(2, round(hitDie + (level − 1) × hitDie / 2 + statMod(con))).
-  // A creature's hit points: fixed, grown by Orsino's monster template, or rolled from its hit die.
-  static health(chassis: Chassis, level: number, constitution: number): number {
+  // A creature's hit points: its Hit Dice's listed average (or the throw given for them), fixed, grown by Orsino's
+  // monster template, or rolled from its hit die. Hit Dice come first, so no growth can reach a fixed stat block.
+  static health(chassis: Chassis, level: number, constitution: number, thrown?: number): number {
+    if (chassis.hitDice) { return Math.max(1, thrown ?? Amounts.listed(chassis.hitDice)); }
     return chassis.hitPoints ?? (chassis.growth?.hitPoints ? this.grown(chassis.growth.hitPoints, level, constitution)
       : this.hitPoints(chassis.hitDie, level, constitution));
   }

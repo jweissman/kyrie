@@ -9,7 +9,8 @@ import armourPaintings from '../../data/paintings/armour.json';
 import consumablePaintings from '../../data/paintings/consumables.json';
 import geology from '../../data/catalog/geology.json';
 import { Canon } from './canon';
-import type { Modifiers } from './schema';
+import type { Modifiers, Species } from './schema';
+import { Amounts } from '../rules/amounts';
 import { ModifierSet } from '../rules/modifiers';
 import { LocalKinds } from './local-catalog';
 import { CreatureVariants } from '../creature-variants';
@@ -116,6 +117,7 @@ export class CanonValidation {
       if (!s.type || !types.includes(s.type)) { this.fail(where, `has unknown type ${s.type}`); }
       if (!Canon.items[s.statistics.weapon]?.weapon) { this.fail(where, `natural weapon ${s.statistics.weapon} is not a weapon`); }
       if (s.statistics.armor && !Canon.items[s.statistics.armor]?.armor) { this.fail(where, `natural armour ${s.statistics.armor} is not armour`); }
+      this.hitDice(where, s.statistics);
       (s.abilities ?? []).forEach(a => this.ability(where, a, ['natural', 'technique', 'spell']));
       for (const t of s.traits ?? []) {
         if (!['nature', 'affinity', 'character'].includes(Canon.traits[t]?.category ?? '')) {
@@ -278,6 +280,16 @@ export class CanonValidation {
         if (!e.source || (!e.source.orsino && !e.source.kyr)) { this.fail(`${family} ${id}`, 'has no source'); }
       }
     }
+  }
+  // Hit Dice are dice the grammar reads with a mean, and a stat block that has them is not also grown or fixed another
+  // way (the SRD adaptation briefing, §1: two conversions of one creature's hit points would disagree).
+  private hitDice(where: string, st: NonNullable<Species['statistics']>) {
+    if (st.hitDice === undefined) { return; }
+    if (!Amounts.valid(st.hitDice) || !Amounts.dice(st.hitDice).length) {
+      this.fail(where, `hit dice ${st.hitDice} are not dice`); return;
+    }
+    try { Amounts.mean(st.hitDice); } catch (error) { this.fail(where, `hit dice ${st.hitDice}: ${(error as Error).message}`); }
+    if (st.growth?.hitPoints || st.hitPoints !== undefined) { this.fail(where, 'has hit dice and hit points grown or fixed besides'); }
   }
   private resistances(where: string, r: Record<string, number> | undefined) {
     for (const [type, amount] of Object.entries(r ?? {})) {

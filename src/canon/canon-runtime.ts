@@ -1,5 +1,6 @@
 import { parseAbility, type Amount, type ArenaAbility } from '../lang/parse';
 import { Canon, type Family } from './canon';
+import { Amounts } from '../rules/amounts';
 import type { Ability, Condition, Hooks, ItemKind, Modifiers, Perk, WeaponStats } from './schema';
 
 // Where a perk is asked about: the holder's environment, and the weapon it wields.
@@ -21,8 +22,12 @@ export class CanonRuntime {
     }
     return out;
   }
-  private static amount(text: string): Amount {
-    return /^\d+$/.test(text.trim()) ? { kind: 'literal', value: Number(text) } : { kind: 'deem', expression: text };
+  private static amount(text: string): Amount { return Amounts.of(text); }
+  // How many Hit Dice a creature has, for an effect that reads them (#hitDice: Sleep's pool, a save's difficulty):
+  // a fixed stat block's own count (2d12+3 is two), else one a level, never reconstructed from its hit points.
+  static hitDice({ raceId, level }: { raceId: string; level: number }): number {
+    const hd = Canon.isBody(raceId) ? Canon.creature(raceId).statistics?.hitDice : undefined;
+    return hd ? Amounts.dice(hd).reduce((n, d) => n + d.count, 0) || level : level;
   }
   static ability(id: string, a: Ability): ArenaAbility {
     const common = { cost: a.cost ?? 0, cooldown: this.recharge(id, a), ...a.spell ? { spell: a.spell } : {},

@@ -1,3 +1,4 @@
+import { Amounts } from '../rules/amounts';
 import { Canon } from '../canon/canon';
 import { CanonValidation } from '../canon/canon-validation';
 import { Advancement } from '../rules/advancement';
@@ -50,6 +51,7 @@ export class MonsterManual {
     entries: Object.keys(Canon.devices).sort().map(id => this.creature(id)) };
   }
   static hitPoints(st: NonNullable<ReturnType<typeof Canon.creature>['statistics']>): string {
+    if (st.hitDice) { return `${Amounts.listed(st.hitDice)} (${st.hitDice}), whatever level it is met at`; }
     if (st.hitPoints) { return `${st.hitPoints}`; }
     const g = st.growth?.hitPoints;
     return g ? `${g.base} + Constitution modifier + ${g.perLevel} a level` : `d${st.hitDie ?? 0} a level`;

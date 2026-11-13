@@ -106,6 +106,10 @@ export interface Statistics {
   // Orsino's template growth for a creature made above first level: every fixed attribute rises by round(level / 8),
   // and a monster's hit points are base + Constitution modifier + perLevel × level (an animal's stay fixed).
   growth?: { hitPoints?: { base: number; perLevel: number } };
+  // Its Hit Dice as the source gives them, a number or dice ("2d12", "3d8+4"): its hit points are their listed
+  // average (or a throw of them, rolled), and they are not grown with the level it is met at (the SRD adaptation
+  // briefing, §1: a fixed stat block has procedural growth disabled).
+  hitDice?: string;
 }
 // What a variation says of itself in the canon (data/catalog/variations.json; CreatureVariants reads the rest): its
 // axis, its word, what is seen of it, the kinds and types it is for, and where a kind made with it lives and how

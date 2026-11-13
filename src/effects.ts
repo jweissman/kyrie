@@ -102,8 +102,8 @@ export class Effects {
   // Deem values for an actor's expressions: Orsino's #str, #wis are the record's scores; #level and #bonusSpellDC too.
   static context(actor: Fighter): Record<string, number> {
     return { strength: actor.strength, dexterity: actor.dexterity, intelligence: actor.intelligence,
-      wisdom: actor.wisdom, constitution: actor.constitution, charisma: actor.charisma,
-      hp: actor.hp, maxHp: actor.maxHp, mana: actor.mana, level: actor.level,
+      wisdom: actor.wisdom, constitution: actor.constitution, charisma: actor.charisma, hp: actor.hp,
+      maxHp: actor.maxHp, mana: actor.mana, level: actor.level, hitDice: CanonRuntime.hitDice(actor),
       bonusSpellDC: Effects.modifiers(actor).bonusSpellDC ?? 0 };
   }
   static dice(value: Dice | undefined, context: EffectContext, actor?: Fighter): number {

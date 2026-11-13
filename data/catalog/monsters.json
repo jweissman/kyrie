@@ -861,12 +861,7 @@
         "armor": "cloth",
         "primary": "strength",
         "actions": 1,
-        "growth": {
-          "hitPoints": {
-            "base": 10,
-            "perLevel": 3
-          }
-        }
+        "hitDice": "2d12"
       },
       "abilities": [
         "curse",
