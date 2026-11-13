@@ -3,7 +3,7 @@ import { useState, type ChangeEvent, type CSSProperties } from 'react';
 import type { ReaderApp } from '../reader-app';
 import { Typography } from '../../../src/presentation/typography';
 import { CreationRules } from '../creation-rules';
-import { CreationDefaults } from '../creation-defaults';
+import { CreationDefaults } from '../../engine/creation-defaults';
 import { Words } from '../words';
 import { CreationSheet } from './creation-sheet';
 import { KitSheet } from './kit-sheet';

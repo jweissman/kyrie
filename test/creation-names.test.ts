@@ -7,7 +7,7 @@ import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { ProtagonistNames } from '../src/world/protagonist-names';
 import { Outfitters } from '../src/world/outfitters';
 import { ReaderOpening } from '../web/reader/reader-opening';
-import { CreationDefaults } from '../web/reader/creation-defaults';
+import { CreationDefaults } from '../web/engine/creation-defaults';
 import type { AppState, ReaderApp } from '../web/reader/reader-app';
 import type { Member, Request, Setting } from '../web/engine/protocol';
 import folk from '../data/generation/scenes/folk.json';

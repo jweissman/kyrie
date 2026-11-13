@@ -1,5 +1,7 @@
 // The Kyrie command line (bin/kyrie): play a campaign in the terminal, and the authoring and checking tools.
 import { readFile } from 'node:fs/promises';
+import { TerminalCreation } from './terminal-creation';
+import { TerminalInput } from './terminal-input';
 import { Stopwatch } from '../stopwatch';
 import { Content } from '../content';
 import { Campaign } from '../campaign/campaign';
@@ -92,10 +94,15 @@ export class KyrieCli {
   private static async adventure(args: string[]): Promise<number> {
     const options = PlayTool.parse(args);
     if (!options.world && !options.campaign) { console.error(PlayTool.usage); return 1; }
-    // Said as it is made, phase by phase, and how long it took (with --profile, each phase, and each command after).
-    const watch = Stopwatch.forTerminal(options.profile), started = await PlayTool.start(options, watch);
+    // Who you are, chosen as the page chooses, where someone is at the keyboard and has not said (--as); then the
+    // world, said as it is made, phase by phase, and how long it took (with --profile, each phase, and each command).
+    const input = TerminalInput.open(), asked = !!process.stdin.isTTY && !options.as && !!options.world;
+    const made = asked ? await new TerminalCreation(input).choose(options.world!) : undefined;
+    const watch = Stopwatch.forTerminal(options.profile);
+    const started = await PlayTool.start({ ...options, ...made?.origin ? { origin: made.origin } : {} }, watch,
+      made?.member);
     watch.done();
-    await Terminal.play(started.journey.session, { profile: options.profile });
+    await Terminal.play(started.journey.session, { input, profile: options.profile });
     return 0;
   }
   private static async resume(path: string): Promise<number> {

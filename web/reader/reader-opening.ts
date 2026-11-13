@@ -3,7 +3,7 @@ import type { Catalog, CompanyView, Frame, Member, Request, Setting } from '../e
 import type { ReaderApp } from './reader-app';
 import { Rolls } from '../../src/rules/rolls';
 import { CreationRules } from './creation-rules';
-import { CreationDefaults } from './creation-defaults';
+import { CreationDefaults } from '../engine/creation-defaults';
 import { WorldStage } from './stage/world-stage';
 
 // Before play: the title, the choice of campaign, forming the company, and setting out (or carrying on).

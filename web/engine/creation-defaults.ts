@@ -1,4 +1,4 @@
-import type { Catalog, Member, Setting } from '../engine/protocol';
+import type { Catalog, Member, Setting } from './protocol';
 
 // What a protagonist is until the player says otherwise, each taken in the open (OWN-14: creation asks only why, the
 // people, the calling and its way, and the name): the first way of the calling the people may take, and for one that

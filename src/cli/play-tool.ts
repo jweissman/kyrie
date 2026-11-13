@@ -11,6 +11,7 @@
 // --keep <name> keeps the play as a regression test (see Traces): the command it was, and where it came to.
 // --roll pass|fail has every check come out so, as a journey's roll() does (Quittance's friction 7, QTC-07).
 import { readFile } from 'node:fs/promises';
+import type { CreatureGenerationContext } from '../content';
 import type { Stopwatch } from '../stopwatch';
 import { Journey } from '../session/journey';
 import { SingleModule } from '../campaign/single-module';
@@ -43,7 +44,8 @@ export class PlayTool {
   }
   // The game the options name (a campaign, or a generated world drawn for one protagonist), and the steps that lead
   // into what is to be played (to a scene, or into talk with someone).
-  static async start(o: ReturnType<typeof PlayTool.parse>, watch?: Stopwatch)
+  // made: who the player chose to be, where they were asked (see TerminalCreation), in place of --as.
+  static async start(o: ReturnType<typeof PlayTool.parse>, watch?: Stopwatch, made?: CreatureGenerationContext)
     : Promise<{ journey: Journey; lead: string[] }> {
     if (o.part) { return PlayParts.start(o.part.kind, o.part.id, o.part.into, o.part.context); }
     const [raceId = 'human', classId = 'ranger', name = 'Aud', backgroundId] =
@@ -58,7 +60,7 @@ export class PlayTool {
       }
       return { journey: await Journey.start(o.campaign!, o.seed, party), lead: [] };
     }
-    const drawn = { party: [{ name, raceId, classId }], origin: o.origin };
+    const drawn = { party: [made ?? { name, raceId, classId }], origin: o.origin };
     return { journey: Journey.of(await DrawnWorld.start(o.world, drawn, NodeBundleSource.shared, watch)), lead: [] };
   }
   // A kept play's command played again, to where it comes (see Traces).

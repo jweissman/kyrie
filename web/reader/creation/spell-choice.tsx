@@ -3,7 +3,7 @@ import type { ReaderApp } from '../reader-app';
 import type { Catalog } from '../../engine/protocol';
 import { Typography } from '../../../src/presentation/typography';
 import { Words } from '../words';
-import { CreationDefaults } from '../creation-defaults';
+import { CreationDefaults } from '../../engine/creation-defaults';
 import { CreationSheet } from './creation-sheet';
 
 type Way = Catalog['callings'][number]['specializations'][number];

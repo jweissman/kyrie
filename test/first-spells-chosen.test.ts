@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { Creation } from '../web/engine/creation';
-import { CreationDefaults } from '../web/reader/creation-defaults';
+import { CreationDefaults } from '../web/engine/creation-defaults';
 import { SpellSelection } from '../src/rules/spell-selection';
 import { Canon } from '../src/canon/canon';
 
