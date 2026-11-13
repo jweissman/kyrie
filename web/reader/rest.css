@@ -428,3 +428,8 @@
 .world-page.scale-scene .glance .openers { display: flex; flex-direction: column; align-items: stretch; gap: 4px; }
 .world-page.scale-scene .glance .openers > :not(.as-act) { align-self: flex-start; }
 
+/* A crowd (more than a row holds): only those with something for the company (their pip), and the company, are named
+   under their likenesses; anyone else's name comes up under them at a touch or the keys, in the same place (Mission 21's
+   scenes: fifteen names cut short, "Aldous F…", "Thessal…", had made the picture's foot a list). */
+.world-page .surface .portraits.crowd li:not(.toned, .stake, .companion, .danger) .portrait .pn { visibility: hidden; }
+.world-page .surface .portraits.crowd li:is(:hover, :focus-within) .portrait .pn { visibility: visible; }
