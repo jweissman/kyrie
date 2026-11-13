@@ -1,4 +1,3 @@
-import { AimAsks } from './aim-asks';
 import type { Why } from '../presentation/glance-types';
 import { Attending } from './attention';
 import type { Choice } from './choice-list';
@@ -13,8 +12,8 @@ import type { ExitRow, Screen } from './screen-types';
 // it came, the signs and the life it has just seen, what it has done here and whom it has spoken with, and its needs.
 // All of it from what the company has perceived and the module declares, never from a choice's words.
 export interface Reading {
-  // The words of the aim followed, for what it asks to be asked (see AimAsks); the choices whose doing changes what it
-  // waits on (see Glance.advances).
+  // The words of the aim followed (whether one is); the choices whose doing changes what it waits on, or leads to
+  // where what it waits on is (see Glance.advances, AimLeads).
   aim?: string; advances?: Set<string>; coin?: boolean;
   // The places that hold what the aim followed names (its town, its site): a journey there goes toward it.
   holding?: Set<string>;
@@ -148,9 +147,9 @@ export class Affordances {
     // Among everything done about them, not only what is said (sitting up with the child stands beside the talk).
     const moving = Attending.all(s.choices).filter(c => c.command && !c.disabled && r.advances?.has(c.command)
       && !r.done.has(c.command));
-    // Not a question for being asked where the aim is: every question in the creditor's shop binds the shop.
-    const serving = [...moving, ...fresh.filter(c => !moving.includes(c) && !r.done.has(c.command!)
-      && AimAsks.asks(c.label, r.aim ? [r.aim] : []))];
+    // What brings it about, by what it does (AimAdvances, AimLeads), not a question whose words echo the aim's: every
+    // question in the creditor's shop binds the shop (M21's PL-15).
+    const serving = moving;
     // Whoever has what the aim followed waits on is owed it, stake or none: the fever's mother, the cup to be kept by
     // the child's bed, had dropped from the page once asked how the child was (the owner, 12 November).
     const owed = (moving.length > 0 && r.named.has(s.id)) || (s.stake && (r.named.has(s.id)

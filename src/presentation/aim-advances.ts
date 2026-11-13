@@ -12,8 +12,10 @@ export class AimAdvances {
   // Matched call by call, not by a relation's name: knows(party, told) is made so by being told what is out in the
   // country round, not by everything that teaches the company anything (a bed at the inn, its talk overheard, had
   // been drawn as the debt's); a rule's own unknowns (?i) stand for anything.
-  static of(campaign: Campaign, rows: ReturnType<typeof PlayerView.choices>): Set<string> {
-    const def = Undertakings.followed(campaign); if (!def) { return new Set(); }
+  // (Of another aim held, where one is given: what the talk sets apart as weighty, see TalkWeight.)
+  static of(campaign: Campaign, rows: ReturnType<typeof PlayerView.choices>,
+    def = Undertakings.followed(campaign)): Set<string> {
+    if (!def) { return new Set(); }
     // Not what the world holds already (more herbs for a mother keeping feverwort, led as the aim's: round 7, L 25).
     // An assert advances what does not hold yet, a retract what does: the letter given to the priest is the brothers'
     // expecting no longer, and the filter on what holds had lost the order's thread at the shrine (the owner, 12

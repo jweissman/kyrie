@@ -34,6 +34,7 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
 | PL-12 | **P0** | At the place an aim is about, the gold goes through every door not yet taken: on Gothgiba's bailey (wren, wanderer) the fevered child's aim walked the store, the chandlery and back, none with herbs | fixed in this branch |
 | PL-13 | P1 | Gold leads back to the aim's place, already visited, where nothing can yet be done, while the lead at hand (blue: where willow grows) is not gold | fixed in this branch (the lead's ruling, U1) |
 | PL-14 | P1 | In an authored adventure, Follow this leads nowhere: The Lull's first aim names the inn and the stone in words only, and Sixways had no gold with the inn's door beside the company | the Lull's fixed (765a3b29); the lint in this branch: 57 aims flagged, 2 more fixed; the rest open (authoring) |
+| PL-15 | P1 | The talk ranked and gilded replies by their words: "Tell …"/"Pay …"/"would come along" led, and a reply whose words echoed the aim's was drawn gold beside the glance's own next step | fixed in this branch |
 | PL-06 | P1 | After an aim is seen through, nothing pulls: no aim held, the prize in hand and no way home led (T24-18) | open (design) |
 | PL-07 | P1 | Fights at the first places are trivial: the den's two zombies never land a blow; its leader falls to one hit | open (balance) |
 | PL-04 | P2 | A journey of five and a half hours arrives with nothing of the way told, and the arrival tells a fight's end before its start | the order fixed in this branch; the untold journey open (design, NM-06) |
@@ -278,6 +279,24 @@ not worthwhile or recurs across reports; P2 is listed only where it corroborates
   about a fact ("who paid for Carth's vigil") has a person or a place in mind that only the adventure knows, and a
   wrong `toward` would be a false promise worse than none.
 
+### PL-15: the talk read its replies' words
+
+- **Found by reading, after root cause 1 named it** (the lead's next item): `web/reader/talk-focus.ts` led with any
+  reply whose label began `Tell ` or `Pay `, or ended "would come along?" or "what is out in the country round";
+  `AimAsks` matched a reply's label against the followed aim's words, and that match was used three ways: to lead the
+  reply in the talk, to make it the aim's in `Affordances` (`serving`), and, in `TalkStage`, to draw it in the aim's
+  **gold** beside whatever the glance's one next step was. A label that happened to echo the aim's sentence was gold.
+- **Corroborates:** the owner's golden-thread rules ("gold = next actionable step … one primary recommendation";
+  "no presentation role derived from its label", review-mitigations P1); R9-09 ("two gold at once").
+- **Status:** fixed in this branch. The engine says what is weighty (`src/presentation/talk-weight.ts`, as
+  `Screen.weighty`): a reply that brings about what an aim the company holds waits on (`AimAdvances` over each held
+  aim), asks the speaker along (`willing`), or tells a fact that leads somewhere not yet known (`leadsTo`); a recruit
+  by its kind. `TalkFocus` reads that, `AimAsks` is deleted, `Affordances` serves the aim by `advances` alone, and the
+  talk's gold is only the glance's next step (`Emphasis.within`). The id convention for "the lands beyond"
+  (`_beyond_told_`) stays: it reads an engine id, not words. Regressions: `test/small/talk-weight.test.ts` (a "Tell"
+  joke is not weighty; the job's report, the asking along and the cache's whereabouts are), and `test/talk-focus` now
+  states the rule by `weighty`, with a "Pay" label that settles nothing left in its place.
+
 ### PL-06: after the aim, nothing pulls
 
 - **Repro:** a1 kin, the oxen's aim seen through at Tenebraetumulo ("a den in the wild, seen through"), the yoke
@@ -326,9 +345,9 @@ The owner's own play first; then the agents' rounds where they corroborate it.
    answer) and PL-03 (blue for any `knows(…)` assertion, where the fact was the company's own deed).
    PL-11 (gold on the way to a place the aim's words name, while the aim's real wait, a fight, stood here) was the
    same fault: the typed wait was read, but a fight's end was not counted as anything an act brings about. In each the engine had the typed answer, or nearly; a nearby heuristic answered instead. The fix that held was to
-   make the typed reading complete (a rule's `teaches`; a fact the act itself makes so) and delete the heuristic. Still
-   standing on the same boundary: `TalkFocus.weighty` ranks replies by their words (`/^(Tell|Pay) /`, "would come
-   along"); `Passages`/`Affordances` notes ("further in", "back out"); E155's own-hex navigation guard lives in the
+   make the typed reading complete (a rule's `teaches`; a fact the act itself makes so) and delete the heuristic. PL-15 took
+   the talk's wording rules out (`TalkFocus.weighty`, `AimAsks`). Still standing on the same boundary:
+   `Passages`/`Affordances` notes ("further in", "back out"); E155's own-hex navigation guard lives in the
    browser (`web/reader/map-view.tsx`), so the engine would still walk a `travel:` to a place in the company's own hex
    out across the country if any client asked (the lead's finding).
 2. **Two clients over one runtime, not one contract.** PL-01 and PL-02: the terminal and the page each re-derive the

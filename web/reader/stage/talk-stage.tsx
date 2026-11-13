@@ -43,10 +43,10 @@ export class TalkStage {
     const inside = (s.turned ?? frame.leaf.glance?.acts ?? []).filter(a => a.subject === who.id)
       .flatMap(a => (a.inside ?? []).map(x => x.command));
     const focus = TalkFocus.of(rest, { ...led ? { led } : {}, marked: inside, ...s.heard ? { heard: s.heard } : {}, asked: s.asked,
-      aims: (frame.screen.aims ?? []).map(a => a.text), paying: frame.screen.paying ?? [] });
+      weighty: frame.screen.weighty ?? [], paying: frame.screen.paying ?? [] });
     // What the aim followed asks of them is drawn in its gold, as their likeness is (the owner, 8 November: the
-    // merchant the rats job sent the company to, and the question to ask her, had been drawn like any other).
-    const followed = (frame.screen.aims ?? []).filter(a => a.followed).map(a => a.text);
+    // merchant the rats job sent the company to, and the question to ask her, had been drawn like any other): the
+    // glance's own next step (Emphasis.within), never a reply whose words echo the aim's (M21's PL-15).
     // Gold only on what carries the aim on, not whatever the page leads with for them: "Ask Jassin to join the
     // company", led as a recruit, had been drawn in the aim's gold (round 9, Q 54b).
     // And each reply is drawn as what the glance found in it, and only that, so that a likeness drawn blue, or rose,
@@ -59,7 +59,6 @@ export class TalkStage {
     const gilded = Guidance.shown(app);
     const spent = (c: Choice) => s.asked.includes(c.id) || /_again(\(|$)/.test(c.command ?? '');
     const drawn = (c: Choice): Aspect[] => spent(c) ? [] : Emphasis.within(acts, c, [
-      ...TalkFocus.aimed(c, followed) ? ['undertaking' as const] : [],
       ...TalkFocus.pays(c, frame.screen.paying) ? ['payoff' as const] : []]);
 
     // Numbered in the order they are drawn, before anything is drawn (see TalkStage.n): taking your leave before what
